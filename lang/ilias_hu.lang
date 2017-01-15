@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.2.x 2017-01-01
+* @version	5.2.x 2017-01-15
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -1701,12 +1701,12 @@ certificate#:#certificate_short_name#:#Igazolásfájl rövid címe
 certificate#:#certificate_text#:#Igazolásszöveg
 certificate#:#certificate_unit_description#:#Adja meg értékként a mérték egységeit [cm|mm|in|pt|pc|px|em], pl. 10 mm vagy 3 in!
 certificate#:#certificate_usage#:#Az igazoláskezelés csak akkor érhető el, ha fut az ILIAS Java-szerver. A Java-szerver konfigurálása a Rendszerbeállítások » Általános beállítások » Szerver menü Java Szerver almenüjében érhető el.
-certificate#:#certificate_var_max_points#:#0
+certificate#:#certificate_var_max_points#:#46
 certificate#:#certificate_var_result_mark_long#:#Jó
 certificate#:#certificate_var_result_mark_short#:#B
 certificate#:#certificate_var_result_passed#:#sikeresen teljesítette
 certificate#:#certificate_var_result_percent#:#83%
-certificate#:#certificate_var_result_points#:#0
+certificate#:#certificate_var_result_points#:#38
 certificate#:#certificate_var_user_birthday#:#1977-05-08
 certificate#:#certificate_var_user_city#:#Budapest
 certificate#:#certificate_var_user_country#:#Magyarország
@@ -1718,7 +1718,7 @@ certificate#:#certificate_var_user_lastname#:#Jakab
 certificate#:#certificate_var_user_salutation#:#Mrs.
 certificate#:#certificate_var_user_street#:#Fő utca 100.
 certificate#:#certificate_var_user_title#:#Dr.
-certificate#:#certificate_var_user_zipcode#:#0
+certificate#:#certificate_var_user_zipcode#:#12345
 certificate#:#certificate_visibility_always#:#Mindig látható
 certificate#:#certificate_visibility_introduction#:#A résztvevőknek fel lesz ajánlva az igazolás letöltése a teszteredmények oldalon.
 certificate#:#certificate_visibility_never#:#Nem látható
@@ -15401,7 +15401,7 @@ prg#:#prg_view#:#Megtekintés
 prg#:#prg_update_from_current_plan#:#Frissítés a jelenlegi terv alapján
 prg#:#prg_update_successful#:#Módosításokat sikeresen mentette.
 prg#:#prg_update_from_plan_successful#:#Sikeresen frissítette a jelenlegi terv alapján.
-prg#:#prg_warning_img_alt#:#Figyelem!
+prg#:#warning#:#Figyelem!
 prg#:#prg_successful_img_alt#:#sikeres
 prg#:#prg_in_progress_img_alt#:#folyamatban
 prg#:#prg_progress_info#:#%1$d pontja van. A Tanulmányi programot %2$d ponttal tudja teljesíteni.
@@ -15750,7 +15750,7 @@ assessment#:#save_on_navigation_confirmation#:#Módosításait automatikusan men
 assessment#:#save_on_navigation_locked_confirmation#:#Módosított válaszait automatikusan mentjük és zároljuk navigáláskor.
 assessment#:#save_on_navigation_forced_feedback_hint#:#Mielőtt visszajelzést kap válaszára.
 assessment#:#save_on_navigation_prevent_confirmation#:#Többször ne jelenjen meg ez az üzenet.
-assessment#:#tst_answer_status_editing#:# (módosítás ... )
+assessment#:#tst_answer_status_editing#:# (módosítás)
 assessment#:#tst_answer_status_answered#:#Megválaszolt
 assessment#:#tst_answer_status_not_answered#:#Meg nem válaszolt
 assessment#:#tst_unchanged_answer_is_correct#:#A jelenlegi válasz helyes.
@@ -16047,7 +16047,7 @@ common#:#obj_iass#:#Személyes értékelés
 common#:#objs_iass#:#Személyes értékelések
 common#:#obj_iass_duplicate#:#Személyes értékelés másolása
 common#:#obj_iass_select#:#-- Válasszon egy személyes értékelést --
-trac#:#trac_mode_individual_assessment_info#:#A felhasználó bejegyzését véglegesített egy tutor, hogy teljesítse a személyes értékelést.
+trac#:#trac_mode_individual_assessment_info#:#A felhasználó bejegyzését véglegesítette egy tutor, evvel befejezte a személyes értékelést.
 common#:#il_iass_member#:#Személyes értékeléssel értékelendők
 common#:#iass_new#:#Személyes értékelés létrehozása
 common#:#iass_import#:#Személyes értékelés importálása
@@ -16075,8 +16075,8 @@ iass#:#grading#:#Értékelés
 iass#:#grading_info#:#Értékelésinformáció
 iass#:#grading_record#:#Értékelésfeljegyzés
 iass#:#iass_content_explanation#:#Értékelés tartalma, például a kapcsolódó témakörök felsorolása.
-iass#:#iass_record_template_explanation#:#Értékelési sablon, melyet automatikusan alkalmazzuk minden új értékelésnél.
-iass#:#iass_notify_explanation#:#A véglegesítésről levélben értesítjük az értekeltet, tovább hozzáférést biztosítunk számára a saját bejegyzéséhez az információs fülön.
+iass#:#iass_record_template_explanation#:#Értékelési sablon, melyet automatikusan alkalmazunk minden új értékelésnél.
+iass#:#iass_notify_explanation#:#A véglegesítésről levélben értesítjük az értékeltet, továbbá hozzáférést biztosítunk számára az információs fülön lévő saját bejegyzéséhez.
 iass#:#iass_contact#:#Név
 iass#:#iass_responsibility#:#Felelősségi kör
 iass#:#iass_phone#:#Telefonszám
@@ -16132,8 +16132,8 @@ copg#:#copg_confirm_el_deletion#:#Biztos, hogy törli a kijelölt elemeket?
 survey#:#msg_input_only_positive_numbers#:#Pozitív számokat adjon meg a skálaértékekhez.
 crs#:#crs_loc_err_stat_tst_offline#:#Nem az összes teszt online.
 itgr#:#itgr_desc_info#:#Az objektumcsoport leírása nem jelenik meg az objektumcsoport tárolójában.
-iass#:#iass_record_info#:#Az értékelendők értékelésük véglegesítése után megtekinthetik bejegyzésükhöz rögzített megjegyzést. Ha alább az értesítés be van kapcsolva, az értesítést az értékelendőnek e-mailben is elküldjük.
-iass#:#iass_internal_note_info#:#Belső megjegyzéseket a tutrok láthatják, de az értékeltek nem.
+iass#:#iass_record_info#:#Az értékelendők értékelésük véglegesítése után megtekinthetik a bejegyzésükhöz rögzített megjegyzést. Ha alább az értesítés be van kapcsolva, az értesítést az értékelendőnek e-mailben is elküldjük.
+iass#:#iass_internal_note_info#:#A belső megjegyzéseket a tutorok láthatják, de az értékeltek nem.
 common#:#sahs_export_file#:#ILIAS exportált SCORM archív fájl
 content#:#lm_only_one_download_per_type#:#Kérjük, vegye figyelembe, hogy típusonként (XML, HTML, SCORM) csak egy fájlt tehet nyilvánosan elérhetővé.
 survey#:#error_save_code#:#Az értéket nem sikerült megfelelően menteni. <b>'%s' e-mail cím nem valós</b>. Családnév: '%s', utónév: '%s'.<br>
@@ -16152,3 +16152,4 @@ wsp#:#search_no_match#:#Keresése nem adott eredményt.
 wsp#:#element_shared#:#Objekumot sikeresen megosztotta.
 wsp#:#share#:#Megosztás
 copg#:#copg_questions_not_supported_here#:#Ebben a kontektusban a kérdéseket nem támogatjuk.
+auth#:#auth_err_login_attempts_deactivation#:#Sikertelen bejelentkezési próbálkozások miatt fiókját inaktiváltuk.
