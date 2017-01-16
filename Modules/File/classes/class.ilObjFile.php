@@ -685,10 +685,6 @@ class ilObjFile extends ilObject2 {
 			$ilFileDelivery->setMimeType($this->guessFileType($file));
 			$ilFileDelivery->setConvertFileNameToAsci(true);
 
-			if ($ilClientIniFile->readVariable('file_access', 'disable_ascii')) {
-				$ilFileDelivery->setConvertFileNameToAsci(false);
-				$ilFileDelivery->setUrlencodeFilename(false);
-			}
 			// also returning the 'real' filename if a history file is delivered
 			if ($ilClientIniFile->readVariable('file_access', 'download_with_uploaded_filename') != '1' && is_null($a_hist_entry_id)) {
 				$ilFileDelivery->setDownloadFileName($this->getTitle());

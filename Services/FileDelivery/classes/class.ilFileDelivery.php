@@ -68,7 +68,7 @@ class ilFileDelivery {
 	/**
 	 * @var bool
 	 */
-	protected $convert_file_name_to_asci = false;
+	protected $convert_file_name_to_asci = true;
 	/**
 	 * @var string
 	 */
@@ -757,6 +757,16 @@ class ilFileDelivery {
 
 
 	public function cleanDownloadFileName() {
+		global $DIC;
+		/**
+		 * @var $ilClientIniFile ilIniFile
+		 */
+		$ilClientIniFile = $DIC['ilClientIniFile'];
+
+		if ($ilClientIniFile->readVariable('file_access', 'disable_ascii')) {
+			$this->setConvertFileNameToAsci(false);
+			$this->setUrlencodeFilename(false);
+		}
 		$download_file_name = $this->getDownloadFileName();
 		if ($this->isConvertFileNameToAsci()) {
 			$download_file_name = self::returnASCIIFileName($download_file_name);
