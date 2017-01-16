@@ -122,4 +122,4 @@ ILIAS uses two types of ini-files to write some installation-depending settings 
 | tpl_variables | "1" | temnplate-variables |
 | events | "1" | events |
 | **[file_access]** | | |
-| disable_ascii | "0" | set to 1 to disable the convertion of filenames to ASCII |
+| disable_ascii | "0" | set to 1 to disable the convertion of filenames to ASCII. Setting this to 1 can lead to problems with mobile devices and is not recommended |
