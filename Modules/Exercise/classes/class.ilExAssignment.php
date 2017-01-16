@@ -1120,30 +1120,6 @@ class ilExAssignment
 	}
 
 	/**
-	 * Save ordering of instruction files for an assignment
-	 * TO DO: centralize all the methods which orders tables
-	 */
-	static function saveInstructionFilesOrderOfAssignment($a_ass_id, $a_order)
-	{
-
-		global $ilDB;
-
-		$result_order = array();
-		asort($a_order);
-		$nr = 10;
-		foreach ($a_order as $k => $v)
-		{
-			// the check for exc_id is for security reasons. ass ids are unique.
-			$ilDB->manipulate($t = "UPDATE exc_ass_file_order SET ".
-				" order_nr = ".$ilDB->quote($nr, "integer").
-				" WHERE id = ".$ilDB->quote((int) $k, "integer").
-				" AND assignment_id = ".$ilDB->quote((int) $a_ass_id, "integer")
-			);
-			$nr+=10;
-		}
-	}
-
-	/**
 	 * Order assignments by deadline date
 	 */
 	function orderAssByDeadline($a_ex_id)
@@ -1932,6 +1908,80 @@ class ilExAssignment
 		
 		return false;		
 	}
+
+	/**
+	 * Save ordering of instruction files for an assignment
+	 * TO DO: centralize all the methods which orders tables
+	 */
+	static function saveInstructionFilesOrderOfAssignment($a_ass_id, $a_order)
+	{
+
+		global $ilDB;
+
+		asort($a_order);
+		$nr = 10;
+		foreach ($a_order as $k => $v)
+		{
+			// the check for exc_id is for security reasons. ass ids are unique.
+			$ilDB->manipulate($t = "UPDATE exc_ass_file_order SET ".
+				" order_nr = ".$ilDB->quote($nr, "integer").
+				" WHERE id = ".$ilDB->quote((int) $k, "integer").
+				" AND assignment_id = ".$ilDB->quote((int) $a_ass_id, "integer")
+			);
+			$nr+=10;
+		}
+	}
+
+	/**
+	 * Store the file order in the database
+	 */
+	static function insertOrder()
+	{
+		$order = 0;
+		$order_val = 0;
+		//if we have ass_id it means that we are saving instruction files for an exc. assignment
+		if($_GET["ass_id"])
+		{
+			global $ilDB;
+
+			//get max order number
+			$result = $ilDB->queryF("SELECT max(order_nr) as max_order FROM exc_ass_file_order WHERE assignment_id = %s",
+				array('integer'),
+				array($ilDB->quote($_GET["ass_id"], 'integer'))
+			);
+
+			while($row = $ilDB->fetchAssoc($result))
+			{
+				$order_val = (int)$row['max_order'];
+			}
+
+			$order = $order_val + 10;
+
+			$id = $ilDB->nextID('exc_ass_file_order');
+			$ilDB->manipulate("INSERT INTO exc_ass_file_order " .
+				"(id, assignment_id, filename, order_nr) VALUES (" .
+				$ilDB->quote($id, "integer") . "," .
+				$ilDB->quote($_GET["ass_id"], "integer") . "," .
+				$ilDB->quote($_FILES["new_file"]['name'], "text") . "," .
+				$ilDB->quote($order, "integer") .
+				")");
+		}
+	}
+
+	static function deleteOrder($a_ass_id, $a_file)
+	{
+		global $ilDB;
+		die("Stop deleteOrder in db... working here");
+		foreach ($a_file as $k => $v)
+		{
+			ilLoggerFactory::getLogger("svy")->write("k= $k, and filename= $v");
+			$ilDB->manipulate("DELETE FROM exc_ass_file_order " .
+				"WHERE id = " . $ilDB->quote((int)$k, "integer") .
+				" AND assignment_id = " . $ilDB->quote($a_ass_id, 'integer')
+			);
+		}
+	}
+
 }
 
 ?>

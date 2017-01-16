@@ -44,45 +44,9 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 	 */
 	public function uploadFile($a_ctr_redirect = "filesListView")
 	{
-		$this->insertOrder();
+		ilExAssignment::insertOrder();
 		parent::uploadFile($a_ctr_redirect);
 
-	}
-
-	/**
-	 * Store the file order in the database
-	 */
-	public function insertOrder()
-	{
-		$order = 0;
-		$order_val = 0;
-		//if we have ass_id it means that we are saving instruction files for an exc. assignment
-		if($_GET["ass_id"])
-		{
-			global $ilDB;
-
-			//get max order number
-			$result = $ilDB->queryF("SELECT max(order_nr) as max_order FROM exc_ass_file_order WHERE assignment_id = %s",
-				array('integer'),
-				array($ilDB->quote($_GET["ass_id"], 'integer'))
-			);
-
-			while($row = $ilDB->fetchAssoc($result))
-			{
-				$order_val = (int)$row['max_order'];
-			}
-
-			$order = $order_val + 10;
-
-			$id = $ilDB->nextID('exc_ass_file_order');
-			$ilDB->manipulate("INSERT INTO exc_ass_file_order " .
-				"(id, assignment_id, filename, order_nr) VALUES (" .
-				$ilDB->quote($id, "integer") . "," .
-				$ilDB->quote($_GET["ass_id"], "integer") . "," .
-				$ilDB->quote($_FILES["new_file"]['name'], "text") . "," .
-				$ilDB->quote($order, "integer") .
-				")");
-		}
 	}
 
 	/**
@@ -107,21 +71,12 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 	 */
 	function deleteFile($a_redirect_view = "filesListView")
 	{
-		die("working here");
-		/*  I'M WORKING HERE
-		global $ilDB;
-
-		if($_POST['file'] && $_GET['ass_id'])
+		if($_GET["ass_id"])
 		{
-			foreach ($_POST['file'] as $filename)
-			{
-				$ilDB->manipulate("DELETE FROM exc_ass_file_order " .
-					"WHERE filename = " . $ilDB->quote($filename, 'string') .
-					" AND assignment_id = " . $ilDB->quote($_GET['ass_id'], 'integer')
-				);
-			}
-		}
+			ilExAssignment::deleteOrder($_GET['ass_id'], $_POST["file"]);
+
+			//TODO this redirection must be improved and this param deleted
 			parent::deleteFile($a_redirect_view);
-		*/
+		}
 	}
 }
