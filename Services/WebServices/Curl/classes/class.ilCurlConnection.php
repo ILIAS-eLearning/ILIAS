@@ -37,11 +37,6 @@ include_once('Services/WebServices/Curl/classes/class.ilCurlConnectionException.
 
 class ilCurlConnection
 {
-	/**
-	 * @var ilLogger
-	 */
-	protected $log = null;
-	
 	protected $url = '';
 	protected $ch = null;
 
@@ -58,7 +53,6 @@ class ilCurlConnection
 	 */
 	public function __construct($a_url = '')
 	{
-		$this->log = $GLOBALS['DIC']->logger()->wsrv();
 		$this->url = $a_url;
 
 		if(!self::_isCurlExtensionLoaded())
