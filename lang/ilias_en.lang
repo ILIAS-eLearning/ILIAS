@@ -5691,6 +5691,7 @@ crs#:#crs_member_unblocked#:#Member (unblocked)###deprecated
 crs#:#crs_member_updated#:#The member has been updated###deprecated 
 crs#:#crs_member#:#Member
 crs#:#crs_members_deleted#:#Deleted members
+grp#:#grp_members_deleted#:#Deleted members
 crs#:#crs_members_footer_passed#:#passed###deprecated 
 crs#:#crs_members_footer#:#course member(s)###deprecated 
 crs#:#crs_members_map#:#Course Members Map

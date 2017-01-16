@@ -6676,7 +6676,8 @@ crs#:#crs_member_of#:#Mitglied des Kurses:
 crs#:#crs_member_unblocked#:#Mitglied (freigeschaltet)
 crs#:#crs_member_updated#:#Die Mitgliedsdaten wurden aktualisiert
 crs#:#crs_members#:#Mitglieder
-crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus der Gruppe ausgetragen
+crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen
+grp#:#grp_members_deleted#:#Das/die Mitglied(er) wurde(n) aus der Gruppe ausgetragen
 crs#:#crs_members_footer#:#Kursmitglied(er)
 crs#:#crs_members_footer_passed#:#bestanden
 crs#:#crs_members_groups#:#Gruppenmitgliedschaften
