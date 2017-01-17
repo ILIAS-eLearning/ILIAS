@@ -285,39 +285,19 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		$this->data = $this->lng->txt("selected_languages_updated");
 		$lng->loadLanguageModule("meta");
 
+		$refreshed = array();
 		foreach ($_POST["id"] as $id)
 		{
 			$langObj = new ilObjLanguage($id, false);
-
-			if ($langObj->isInstalled() == true)
+			if ($langObj->refresh())
 			{
-				if ($langObj->check())
-				{
-					$langObj->flush('keep_local');
-					$langObj->insert();
-					$langObj->setTitle($langObj->getKey());
-					$langObj->setDescription($langObj->getStatus());
-					$langObj->update();
-					$langObj->optimizeData();
-
-					if ($langObj->isLocal() == true)
-					{
-						if ($langObj->check('local'))
-						{
-							$langObj->insert('local');
-							$langObj->setTitle($langObj->getKey());
-							$langObj->setDescription($langObj->getStatus());
-							$langObj->update();
-							$langObj->optimizeData();
-						}
-					}
-				}
+				$refreshed[] = $langObj->getKey();
 				$this->data .= "<br />". $lng->txt("meta_l_".$langObj->getKey());
 			}
-
 			unset($langObj);
 		}
 
+		ilObjLanguage::refreshPlugins($refreshed);
 		$this->out();
 	}
 
