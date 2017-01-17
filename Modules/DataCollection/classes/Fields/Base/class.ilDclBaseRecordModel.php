@@ -184,8 +184,9 @@ class ilDclBaseRecordModel {
 		$this->loadRecordFields();
 		foreach ($this->getRecordFields() as $recordField) {
 			$recordField->doCreate();
-
 		}
+
+		$this->getTable()->loadRecords();
 	}
 
 

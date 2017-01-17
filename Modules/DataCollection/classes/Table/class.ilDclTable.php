@@ -363,26 +363,26 @@ class ilDclTable {
 	 * @return ilDclBaseRecordModel[]
 	 */
 	public function getRecords() {
-		$this->loadRecords();
+		if ($this->records == NULL) {
+			$this->loadRecords();
+		}
 
 		return $this->records;
 	}
 
-	protected function loadRecords() {
-		if ($this->records == NULL) {
-			global $DIC;
-			$ilDB = $DIC['ilDB'];
+	public function loadRecords() {
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
-			$records = array();
-			$query = "SELECT id FROM il_dcl_record WHERE table_id = " . $ilDB->quote($this->id, "integer");
-			$set = $ilDB->query($query);
+		$records = array();
+		$query = "SELECT id FROM il_dcl_record WHERE table_id = " . $ilDB->quote($this->id, "integer");
+		$set = $ilDB->query($query);
 
-			while ($rec = $ilDB->fetchAssoc($set)) {
-				$records[$rec['id']] = ilDclCache::getRecordCache($rec['id']);
-			}
-
-			$this->records = $records;
+		while ($rec = $ilDB->fetchAssoc($set)) {
+			$records[$rec['id']] = ilDclCache::getRecordCache($rec['id']);
 		}
+
+		$this->records = $records;
 	}
 
 	/**

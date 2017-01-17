@@ -122,6 +122,7 @@ class ilDclContentImporter
 			}
 			$fields = $this->getImportFieldsFromTitles($table, $field_names);
 
+			$records_failed = 0;
 			for ($i = 2; $i <= count($sheet_data); $i ++) {
 				$record = new ilDclBaseRecordModel();
 				$record->setOwner($ilUser->getId());
@@ -131,6 +132,7 @@ class ilDclContentImporter
 				if (!$simulate) {
 					$record->doCreate();
 				}
+				$fields_failed = 0;
 				foreach ($fields as $col => $field) {
 					try {
 						$value = $record->getRecordFieldValueFromExcel($excel, $i, $col, $field);
@@ -145,15 +147,27 @@ class ilDclContentImporter
 							$record->setRecordFieldValue($field->getId(), $value);
 						}
 					} catch (ilDclInputException $e) {
+						$fields_failed++;
 						$this->warnings[] = "(" . $i . ", " . ilDataCollectionImporter::getExcelCharForInteger($col + 1) . ") " . $e;
 					}
 				}
 
-				if (!$simulate) {
-					$record->doUpdate();
+				if ($fields_failed < count($fields)) {
+					$record_imported = true;
+				} else {
+					$records_failed++;
+					$record_imported = false;
 				}
-				if ($i - 1 > $this->max_imports) {
-					$this->warnings[] = $this->lng->txt("dcl_max_import") . ($excel->rowcount() - 1) . " > " . $this->max_imports;
+
+				if (!$simulate) {
+					if (!$record_imported) { // if no fields have been filled, delete the record again
+						$record->doDelete();
+					} else {
+						$record->doUpdate();
+					}
+				}
+				if (($i - 1) - $records_failed > $this->max_imports) {
+					$this->warnings[] = $this->lng->txt("dcl_max_import") . (count($sheet_data) - 1) . " > " . $this->max_imports;
 					break;
 				}
 			}
