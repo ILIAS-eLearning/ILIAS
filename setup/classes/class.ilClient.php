@@ -705,6 +705,9 @@ class ilClient
 		$req->setOpt(CURLOPT_FOLLOWLOCATION, 1);
 		$req->setOpt(CURLOPT_MAXREDIRS, $max_redirects);
 		$response = $req->exec();
+		
+		$req->parseResponse($response);
+		$response_body = $req->getResponseBody();
 
 		$info = $req->getInfo();
 		if ($info["http_code"] != "200") {
@@ -712,8 +715,9 @@ class ilClient
 			return false;
 		}
 
-		$response = explode("\n", $response);
-		$this->nic_status = $response;
+		$this->nic_status = explode("\n", $response_body);
+		
+		ilLoggerFactory::getLogger('setup')->dump($nic_status);
 
 		return true;
 	}
