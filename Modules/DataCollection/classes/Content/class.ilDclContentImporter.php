@@ -161,7 +161,7 @@ class ilDclContentImporter
 
 				if (!$simulate) {
 					if (!$record_imported) { // if no fields have been filled, delete the record again
-						$record->doDelete();
+						$record->doDelete(true); // omit notification
 					} else {
 						$record->doUpdate();
 					}
