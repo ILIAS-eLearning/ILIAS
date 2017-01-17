@@ -68,7 +68,7 @@ class ilFileDelivery {
 	/**
 	 * @var bool
 	 */
-	protected $convert_file_name_to_asci = false;
+	protected $convert_file_name_to_asci = true;
 	/**
 	 * @var string
 	 */
@@ -93,6 +93,10 @@ class ilFileDelivery {
 	 * @var bool
 	 */
 	protected $delete_file = false;
+	/**
+	 * @var bool
+	 */
+	protected $urlencode_filename = false;
 	/**
 	 * @var bool
 	 */
@@ -258,7 +262,7 @@ class ilFileDelivery {
 		}
 		$download_file_name = $this->getDownloadFileName();
 		if ($this->isConvertFileNameToAsci()) {
-			$download_file_name = ilUtil::getASCIIFilename($download_file_name);
+			$download_file_name = self::returnASCIIFileName($download_file_name);
 		}
 		if ($this->hasHashFilename()) {
 			$download_file_name = md5($download_file_name);
@@ -753,7 +757,23 @@ class ilFileDelivery {
 
 
 	public function cleanDownloadFileName() {
-		$download_file_name = self::returnASCIIFileName($this->getDownloadFileName());
+		global $DIC;
+		/**
+		 * @var $ilClientIniFile ilIniFile
+		 */
+		$ilClientIniFile = $DIC['ilClientIniFile'];
+
+		if ($ilClientIniFile->readVariable('file_access', 'disable_ascii')) {
+			$this->setConvertFileNameToAsci(false);
+			$this->setUrlencodeFilename(false);
+		}
+		$download_file_name = $this->getDownloadFileName();
+		if ($this->isConvertFileNameToAsci()) {
+			$download_file_name = self::returnASCIIFileName($download_file_name);
+		}
+		if ($this->isUrlencodeFilename()) {
+			$download_file_name = urlencode($download_file_name);
+		}
 		$this->setDownloadFileName($download_file_name);
 	}
 
@@ -782,6 +802,20 @@ class ilFileDelivery {
 	public function setDeleteFile($delete_file) {
 		$this->delete_file = $delete_file;
 	}
-}
 
-?>
+
+	/**
+	 * @return bool
+	 */
+	public function isUrlencodeFilename() {
+		return $this->urlencode_filename;
+	}
+
+
+	/**
+	 * @param bool $urlencode_filename
+	 */
+	public function setUrlencodeFilename($urlencode_filename) {
+		$this->urlencode_filename = $urlencode_filename;
+	}
+}

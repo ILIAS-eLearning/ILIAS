@@ -362,7 +362,8 @@ class ilLOUserResults
 		global $ilDB;
 		
 		$res = array();
-		
+
+		include_once("./Modules/Course/classes/Objectives/class.ilLOSettings.php");
 		$settings = ilLOSettings::getInstanceByObjId($this->course_obj_id);
 
 		$set = $ilDB->query("SELECT *".

@@ -184,8 +184,9 @@ class ilDclBaseRecordModel {
 		$this->loadRecordFields();
 		foreach ($this->getRecordFields() as $recordField) {
 			$recordField->doCreate();
-
 		}
+
+		$this->getTable()->loadRecords();
 	}
 
 
@@ -654,8 +655,10 @@ class ilDclBaseRecordModel {
 
 	/**
 	 * Delete
+	 *
+	 * @param bool $omit_notification
 	 */
-	public function doDelete() {
+	public function doDelete($omit_notification = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
@@ -677,7 +680,9 @@ class ilDclBaseRecordModel {
 		$query = "DELETE FROM il_dcl_record WHERE id = " . $ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 
-		ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
+		if (!$omit_notification) {
+			ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
+		}
 
 		$ilAppEventHandler->raise('Modules/DataCollection',
 			'deleteRecord',

@@ -14,14 +14,38 @@ require_once("./Services/Preview/classes/class.ilPreview.php");
  */
 class ilPreviewGUI
 {
+
+	/**
+	 * @var int|null
+	 */
 	private $node_id = null;
+	/**
+	 * @var int|null
+	 */
 	private $obj_id = null;
+	/**
+	 * @var \ilPreview|null
+	 */
 	private $preview = null;
+	/**
+	 * @var \ilWorkspaceAccessHandler|null|object
+	 */
 	private $access_handler = null;
+	/**
+	 * @var int|null
+	 */
 	private $context = null;
+	/**
+	 * @var ilCtrl
+	 */
 	private $ctrl = null;
+	/**
+	 * @var \ilLanguage
+	 */
 	private $lng = null;
-	
+	/**
+	 * @var bool
+	 */
 	private static $initialized = false;
 
 	const CONTEXT_REPOSITORY = 1;
@@ -257,7 +281,7 @@ class ilPreviewGUI
 		$tmpl->setCurrentBlock("preview_action");
 		$tmpl->setVariable("CLICK_ACTION", "il.Preview.$a_cmd($script_args);");
 		$tmpl->setVariable("ACTION_CLASS", "$action_class");
-		$tmpl->setVariable("ACTION_ID", "preview_{$a_cmd}_" . $this->node_id);
+		$tmpl->setVariable("ACTION_ID", "preview_{$a_cmd}_" . $preview_html_id);
 		$tmpl->setVariable("TXT_ACTION", $this->lng->txt($btn_topic));
 		$tmpl->parseCurrentBlock();
 	}
