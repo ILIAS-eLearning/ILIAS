@@ -2065,7 +2065,7 @@ class ilExAssignment
 			$item = $v;
 			$item['order_val'] = $ord_const;
 			unset($a_items[$k]);
-			$items[$ord_const] = $item;
+			$a_items[$ord_const] = $item;
 			$ord_const = $ord_const + 10;
 		}
 		return $a_items;
