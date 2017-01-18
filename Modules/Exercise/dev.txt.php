@@ -17,6 +17,7 @@ New function InstructionFileExistsInDb (db query)
 New function instructionFileAddOrder(db query and add the order to an array previous to setData in the view rows)
 New function instructionFileOrderGetMax (db query, max order)
 New function instructionFileRearrangeOrder rebuild the order after deletion. example: 10,30,50 will show 10,20,30
+New function renameExecutables (names with extensions like php,php3,inc,lang... will be renamed (.sec) after store it in db) //have we another method that renames the extension files in db?
 
 
 

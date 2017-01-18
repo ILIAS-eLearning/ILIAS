@@ -91,7 +91,45 @@ class ilExAssignment
 		
 		return $data;
 	}
-	
+
+	/**
+	 * @param string $a_filename
+	 * @return mixed|string
+	 */
+	public static function renameExecutables($a_filename)
+	{
+		$file_peaces = explode('.', $a_filename);
+
+		$file_extension = array_pop($file_peaces);
+
+		if(SUFFIX_REPL_ADDITIONAL)
+		{
+			$string_extensions = SUFFIX_REPL_DEFAULT.",".SUFFIX_REPL_ADDITIONAL;
+		}
+		else
+		{
+			$string_extensions = SUFFIX_REPL_DEFAULT;
+		}
+
+		$sufixes = explode(",", $string_extensions);
+
+		if (in_array($file_extension, $sufixes)) {
+			$file_extension = "sec";
+		}
+
+		array_push($file_peaces, $file_extension);
+
+		$new_name = "";
+		foreach ($file_peaces as $piece) {
+			$new_name .= "$piece";
+			if ($piece != end($file_peaces)) {
+				$new_name .= ".";
+			}
+		}
+
+		return $new_name;
+	}
+
 	public function hasTeam()
 	{
 		return $this->type == self::TYPE_UPLOAD_TEAM;
@@ -1939,12 +1977,17 @@ class ilExAssignment
 	{
 		$order = 0;
 		$order_val = 0;
-		//if we have ass_id it means that we are saving instruction files for an exc. assignment
+
 		if($_GET["ass_id"])
 		{
 			global $ilDB;
 
-			if(!self::instructionFileExistsInDb(ilUtil::stripSlashes($_FILES["new_file"]["name"])))
+			$filename = ilUtil::stripSlashes($_FILES["new_file"]["name"]);
+
+			//first of all check the suffix and change if necessary
+			$filename = self::renameExecutables($filename);
+
+			if(!self::instructionFileExistsInDb($filename))
 			{
 				$order_val = self::instructionFileOrderGetMax();
 
@@ -1955,7 +1998,7 @@ class ilExAssignment
 					"(id, assignment_id, filename, order_nr) VALUES (" .
 					$ilDB->quote($id, "integer") . "," .
 					$ilDB->quote($_GET["ass_id"], "integer") . "," .
-					$ilDB->quote($_FILES["new_file"]['name'], "text") . "," .
+					$ilDB->quote($filename, "text") . "," .
 					$ilDB->quote($order, "integer") .
 					")");
 			}
