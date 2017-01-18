@@ -16153,3 +16153,5 @@ wsp#:#element_shared#:#Objekumot sikeresen megosztotta.
 wsp#:#share#:#Megosztás
 copg#:#copg_questions_not_supported_here#:#Ebben a kontektusban a kérdéseket nem támogatjuk.
 auth#:#auth_err_login_attempts_deactivation#:#Sikertelen bejelentkezési próbálkozások miatt fiókját inaktiváltuk.
+grp#:#grp_members_deleted#:#Deleted members###18 01 2017 new variable
+crs#:#crs_edit_lo_introduction#:#Edit Introduction###18 01 2017 new variable
