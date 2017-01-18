@@ -253,3 +253,11 @@ $ilCtrlStructureReader->getStructure();
 	}
 	
 ?>
+<#20>
+<?php
+$ilDB->modifyTableColumn('exc_returned', 'mimetype', array(
+										'type'	=> 'text',
+										'length'=> 150,
+										'notnull' => false)
+);
+?>
