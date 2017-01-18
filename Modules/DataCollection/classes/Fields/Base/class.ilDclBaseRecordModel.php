@@ -680,6 +680,8 @@ class ilDclBaseRecordModel {
 		$query = "DELETE FROM il_dcl_record WHERE id = " . $ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 
+		$this->table->loadRecords();
+
 		if (!$omit_notification) {
 			ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
 		}
