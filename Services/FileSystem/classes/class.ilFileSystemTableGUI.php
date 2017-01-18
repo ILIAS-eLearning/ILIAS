@@ -87,6 +87,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
 		//Option B: just call getEntries as always and this method checks if exists the child property "$add_order_column"
 		// then do the sql/order stuff.
 		$entries = $this->getEntries();
+		//check for child method
 		if(method_exists($this,'addOrderValues'))
 		{
 			$entries = $this->addOrderValues($entries);
@@ -148,10 +149,19 @@ class ilFileSystemTableGUI extends ilTable2GUI
 		//option B: we can remove this check child property and override the complete method in the child class
 		//         and add this addColumns in the child class ( but then IMO too much copy/paste code, bad scalability )
 		if ($this->add_order_column) {
-			$this->addColumn($this->lng->txt("order"), "order_val");
+
+			if($this->child_class_name)
+			{
+				$this->addColumn($this->lng->txt("order"), "order_val", "", false, $this->child_class_name);
+			}
+			else
+			{
+				$this->addColumn($this->lng->txt("order"), "order_val");
+			}
 		}
 
 		$this->addColumn("", "", "1", true); // icon
+
 		$this->addColumn($this->lng->txt("cont_dir_file"), "name");
 		$this->addColumn($this->lng->txt("cont_size"), "size");
 
@@ -159,7 +169,6 @@ class ilFileSystemTableGUI extends ilTable2GUI
 			$this->addColumn($this->label_header, "label");
 		}
 
-		//this include_once???? why here?
 		if (sizeof($this->row_commands)) {
 			$this->addColumn($this->lng->txt("actions"));
 			include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";

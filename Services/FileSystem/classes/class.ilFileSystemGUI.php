@@ -25,37 +25,8 @@ class ilFileSystemGUI
 		$this->tpl = $tpl;
 		$this->main_dir = $a_main_directory;
 		$this->post_dir_path = false;
-		$this->commands = array(
-			0 => array(
-				"object" => $this,
-				"method" => "downloadFile",
-				"name" => $lng->txt("download"),
-				"int" => true,
-				"single" => true
-			),
-			1 => array(
-				"object" => $this,
-				"method" => "confirmDeleteFile",
-				"name" => $lng->txt("delete"),
-				"allow_dir" => true,
-				"int" => true				
-			),
-			2 => array(
-				"object" => $this,
-				"method" => "unzipFile",
-				"name" => $lng->txt("unzip"),
-				"int" => true,
-				"single" => true
-			),
-			3 => array(
-				"object" => $this,
-				"method" => "renameFileForm",
-				"name" => $lng->txt("rename"),
-				"allow_dir" => true,
-				"int" => true,
-				"single" => true
-			),
-		);
+
+		$this->defineCommands();
 
 		$this->file_labels = array();
 		$this->label_enable = false;
@@ -453,10 +424,13 @@ class ilFileSystemGUI
 	{
 		return $this->file_creation;
 	}
-	
+
 	/**
-	* list files
-	*/
+	 * List files
+	 *
+	 * @param string $a_class_table_gui if we are here from a child class
+	 *
+	 */
 	function listFiles($a_class_table_gui = "")
 	{
 		global $ilToolbar, $lng, $ilCtrl;
@@ -649,15 +623,14 @@ class ilFileSystemGUI
 			ilUtil::sendFailure($lng->txt("cont_enter_a_dir_name"), true);
 		}
 		$this->ctrl->saveParameter($this, "cdir");
-		$this->ctrl->redirect($this, "listFiles");
+		$this->ctrl->redirect($this, 'listFiles');
 	}
 
 	/**
 	 * Upload file
 	 *
-	 * @param string $a_ctrl_redirect
 	 */
-	function uploadFile($a_ctrl_redirect = "listFiles")
+	function uploadFile()
 	{
 		global $lng;
 		
@@ -723,7 +696,7 @@ class ilFileSystemGUI
 
 		ilUtil::renameExecutables($this->main_dir);
 
-		$this->ctrl->redirect($this, $a_ctrl_redirect);
+		$this->ctrl->redirect($this, 'listFiles');
 	}
 
 	/**
@@ -751,7 +724,7 @@ class ilFileSystemGUI
 	/**
 	 * delete object file
 	 */
-	function deleteFile($a_ctrl_redirect = "listFiles")
+	function deleteFile()
 	{
 		global $lng;
 
@@ -800,7 +773,7 @@ class ilFileSystemGUI
 			$this->setPerformedCommand("delete_file",
 				array("name" => ilUtil::stripSlashes($post_file)));
 		}
-		$this->ctrl->redirect($this, $a_ctrl_redirect);
+		$this->ctrl->redirect($this, 'listFiles');
 	}
 
 	/**
@@ -913,6 +886,44 @@ class ilFileSystemGUI
 	function getActionCommands()
 	{
 		return $this->commands;
+	}
+
+	/**
+	 * Define commands available
+	 */
+	public function defineCommands()
+	{
+		$this->commands = array(
+			0 => array(
+				"object" => $this,
+				"method" => "downloadFile",
+				"name" => $this->lng->txt("download"),
+				"int" => true,
+				"single" => true
+			),
+			1 => array(
+				"object" => $this,
+				"method" => "confirmDeleteFile",
+				"name" => $this->lng->txt("delete"),
+				"allow_dir" => true,
+				"int" => true
+			),
+			2 => array(
+				"object" => $this,
+				"method" => "unzipFile",
+				"name" => $this->lng->txt("unzip"),
+				"int" => true,
+				"single" => true
+			),
+			3 => array(
+				"object" => $this,
+				"method" => "renameFileForm",
+				"name" => $this->lng->txt("rename"),
+				"allow_dir" => true,
+				"int" => true,
+				"single" => true
+			),
+		);
 	}
 
 }

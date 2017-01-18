@@ -19,22 +19,9 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 
 	}
 
-	/**
-	 * main view
-	 */
-	public function filesListView()
+	public function listFiles($a_class_table_gui = "")
 	{
-		$this->getListFiles("ilExAssignmentFileSystemTableGUI");
-	}
-
-	/**
-	 * Getting the list of the files that belongs to an assignment
-	 *
-	 * @param string $a_class_table_gui
-	 */
-	public function getListFiles($a_class_table_gui = "")
-	{
-		parent::listFiles($a_class_table_gui);
+		parent::listFiles('ilExAssignmentFileSystemTableGUI');
 	}
 
 	/**
@@ -42,10 +29,10 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 	 *
 	 * @param string view to redirect
 	 */
-	public function uploadFile($a_ctr_redirect = "filesListView")
+	public function uploadFile()
 	{
 		ilExAssignment::insertOrder();
-		parent::uploadFile($a_ctr_redirect);
+		parent::uploadFile();
 
 	}
 
@@ -59,24 +46,42 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 		if($_GET["ass_id"])
 		{
 			ilExAssignment::saveInstructionFilesOrderOfAssignment($_GET['ass_id'], $_POST["order"]);
-			$ilCtrl->redirect($this, "filesListView");
+			$ilCtrl->redirect($this, "listFiles");
 		}
 	}
-
 
 	/**
 	 * delete object file
 	 * we can pass one parameter to deleteFile in fileSystemGUI, that contains the name of the class to redirect.
 	 * @param string view to redirect
 	 */
-	function deleteFile($a_redirect_view = "filesListView")
+	function deleteFile()
 	{
 		if($_GET["ass_id"])
 		{
 			ilExAssignment::deleteOrder($_GET['ass_id'], $_POST["file"]);
 
 			//TODO this redirection must be improved and this param deleted
-			parent::deleteFile($a_redirect_view);
+			parent::deleteFile();
 		}
 	}
+
+	/**
+	 * Rename File name
+	 */
+	function renameFile()
+	{
+		if($_GET["ass_id"])
+		{
+			$new_name = str_replace("..", "", ilUtil::stripSlashes($_POST["new_name"]));
+			$old_name = str_replace("/", "", $_GET["old_name"]);
+
+			if($new_name != $old_name)
+			{
+				ilExAssignment::renameInstructionFile($old_name, $new_name);
+			}
+		}
+		parent::renameFile();
+	}
+
 }

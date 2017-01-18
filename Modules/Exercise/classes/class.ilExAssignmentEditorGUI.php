@@ -856,7 +856,7 @@ class ilExAssignmentEditorGUI
 		
 		$ilTabs->addTab("ass_files",
 			$lng->txt("exc_instruction_files"),
-			$ilCtrl->getLinkTargetByClass(array("ilexassignmenteditorgui", "ilexassignmentfilesystemgui"), "filesListView"));
+			$ilCtrl->getLinkTargetByClass(array("ilexassignmenteditorgui", "ilexassignmentfilesystemgui"), "listFiles"));
 	}
 	
 	public function downloadGlobalFeedbackFileObject()

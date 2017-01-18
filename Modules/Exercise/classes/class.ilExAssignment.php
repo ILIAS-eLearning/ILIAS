@@ -1944,44 +1944,112 @@ class ilExAssignment
 		{
 			global $ilDB;
 
-			//get max order number
-			$result = $ilDB->queryF("SELECT max(order_nr) as max_order FROM exc_ass_file_order WHERE assignment_id = %s",
-				array('integer'),
-				array($ilDB->quote($_GET["ass_id"], 'integer'))
-			);
-
-			while($row = $ilDB->fetchAssoc($result))
+			if(!self::InstructionFileExistsInDb(ilUtil::stripSlashes($_FILES["new_file"]["name"])))
 			{
-				$order_val = (int)$row['max_order'];
+
+				//get max order number
+				$result = $ilDB->queryF("SELECT max(order_nr) as max_order FROM exc_ass_file_order WHERE assignment_id = %s",
+					array('integer'),
+					array($ilDB->quote($_GET["ass_id"], 'integer'))
+				);
+
+				while($row = $ilDB->fetchAssoc($result))
+				{
+					$order_val = (int)$row['max_order'];
+				}
+
+				$order = $order_val + 10;
+
+				$id = $ilDB->nextID('exc_ass_file_order');
+				$ilDB->manipulate("INSERT INTO exc_ass_file_order " .
+					"(id, assignment_id, filename, order_nr) VALUES (" .
+					$ilDB->quote($id, "integer") . "," .
+					$ilDB->quote($_GET["ass_id"], "integer") . "," .
+					$ilDB->quote($_FILES["new_file"]['name'], "text") . "," .
+					$ilDB->quote($order, "integer") .
+					")");
 			}
-
-			$order = $order_val + 10;
-
-			$id = $ilDB->nextID('exc_ass_file_order');
-			$ilDB->manipulate("INSERT INTO exc_ass_file_order " .
-				"(id, assignment_id, filename, order_nr) VALUES (" .
-				$ilDB->quote($id, "integer") . "," .
-				$ilDB->quote($_GET["ass_id"], "integer") . "," .
-				$ilDB->quote($_FILES["new_file"]['name'], "text") . "," .
-				$ilDB->quote($order, "integer") .
-				")");
 		}
 	}
 
 	static function deleteOrder($a_ass_id, $a_file)
 	{
 		global $ilDB;
-		die("Stop deleteOrder in db... working here");
+
+		//now its done by filename. We need to figure how to get the order id in the confirmdelete method
 		foreach ($a_file as $k => $v)
 		{
-			ilLoggerFactory::getLogger("svy")->write("k= $k, and filename= $v");
 			$ilDB->manipulate("DELETE FROM exc_ass_file_order " .
-				"WHERE id = " . $ilDB->quote((int)$k, "integer") .
+				//"WHERE id = " . $ilDB->quote((int)$k, "integer") .
+				"WHERE filename = " . $ilDB->quote($v, "string") .
 				" AND assignment_id = " . $ilDB->quote($a_ass_id, 'integer')
 			);
 		}
 	}
 
+	static function renameInstructionFile($a_old_name, $a_new_name)
+	{
+		global $ilDB;
+
+		if($_GET['ass_id'])
+		{
+			$ilDB->manipulate("DELETE FROM exc_ass_file_order".
+				" WHERE assignment_id = ".$ilDB->quote((int)$_GET['ass_id'], 'integer').
+				" AND filename = ".$ilDB->quote($a_new_name, 'string')
+			);
+
+			$ilDB->manipulate("UPDATE exc_ass_file_order SET".
+				" filename = ".$ilDB->quote($a_new_name, 'string').
+				" WHERE assignment_id = ".$ilDB->quote((int)$_GET['ass_id'], 'integer').
+				" AND filename = ".$ilDB->quote($a_old_name, 'string')
+			);
+		}
+	}
+
+	static function InstructionFileExistsInDb($a_filename)
+	{
+		global $ilDB;
+
+		if($_GET['ass_id'])
+		{
+			$result = $ilDB->query("SELECT id FROM exc_ass_file_order" .
+				" WHERE assignment_id = " . $ilDB->quote((int)$_GET['ass_id'], 'integer') .
+				" AND filename = " . $ilDB->quote($a_filename, 'string')
+			);
+
+			return $ilDB->numRows($result);
+		}
+	}
+
+	static function addOrderValues($a_entries = array())
+	{
+		global $ilDB;
+
+		$ilDB->setLimit(1,0);
+		$items = array();
+
+		foreach ($a_entries as $e)
+		{
+			$result_order_val = $ilDB->query("
+			SELECT id, order_nr
+			FROM exc_ass_file_order
+			WHERE assignment_id = {$ilDB->quote($_GET['ass_id'], 'integer')}
+			AND filename = '".$e['entry']."'
+		");
+
+			while($row = $ilDB->fetchAssoc($result_order_val))
+			{
+				$order_val = (int)$row['order_nr'];
+				$order_id = (int)$row['id'];
+			}
+
+			$items[$order_val] = array("file" => $e["file"], "entry" => $e["entry"],
+				"type" => $e["type"], "label" => $e["label"], "size" => $e["size"],
+				"name" => $e["name"], "order_id"=>$order_id, "order_val"=>$order_val);
+		}
+
+		return $items;
+	}
 }
 
 ?>
