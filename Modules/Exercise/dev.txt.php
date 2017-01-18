@@ -63,14 +63,8 @@ Extends Services/FileSystem/classes/class.ilFileSystemTableGUI.php
 ## Things to take care.
 
 If an assignment is deleted, we should delete the filenames from exc_ass_file_order table.
-In the documentation at (ilFileSystemGUI prepareOutput) there is a comment with a suggerstion from where the code should be placed.
 Unzip doesn't work properly yet. Do we maintain this feature for this kind of files?
-After deletion, the items needs to be reordered (Check when renaming with the same other file name.
 We are working with this files in the DB with "filename" instead of "id"
 files php and py. How are they being uploading. And stored as .sec in the db.
-without extension doesn't store the file in the directory but stored in the database. ( probably I should delete all the records for this assignment id and then store it again)
-so delete and insert instead of update.
-
-
 
 

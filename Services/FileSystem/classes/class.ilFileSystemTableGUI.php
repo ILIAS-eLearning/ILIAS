@@ -190,10 +190,10 @@ class ilFileSystemTableGUI extends ilTable2GUI
 		if($this->has_multi)
 		{			
 			$this->tpl->setVariable("CHECKBOX_ID", $hash);
-			if ($this->add_order_column)
-			{
-				$this->tpl->setVariable("CHECKBOX_ORDER_ID", $a_set['order_id']);
-			}
+			//if ($this->add_order_column)
+			//{
+			//	$this->tpl->setVariable("CHECKBOX_ORDER_ID", $a_set['order_id']);
+			//}
 		}
 
 		//if child class property "add_order_column" is defined and true, order fields are allowed.
