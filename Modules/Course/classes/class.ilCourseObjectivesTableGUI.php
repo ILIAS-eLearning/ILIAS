@@ -87,7 +87,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 		{
 			$this->addColumn($this->lng->txt('crs_objective_final_test'),'final');
 		}
-	 	$this->addColumn($this->lng->txt(''),'5em');
+	 	$this->addColumn($this->lng->txt('actions'),'5em');
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.crs_objectives_table_row.html","Modules/Course");
@@ -320,7 +320,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$alist = new ilAdvancedSelectionListGUI();
 		$alist->setId($a_set['id']);
-		$alist->setListTitle($this->lng->txt("actions"));
+		//$alist->setListTitle($this->lng->txt("actions"));
 		
 		$alist->addItem(
 				$this->lng->txt('edit'), 
@@ -363,7 +363,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 		
 		$this->ctrl->setParameterByClass('illopagegui','objective_id',$a_set['id']);
 		$alist->addItem(
-				$this->lng->txt('edit_page'),
+				$this->lng->txt('crs_edit_lo_introduction'),
 				'', 
 				$this->ctrl->getLinkTargetByClass('illopagegui', 'edit')
 		);
