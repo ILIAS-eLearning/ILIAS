@@ -66,6 +66,4 @@ Extends Services/FileSystem/classes/class.ilFileSystemTableGUI.php
 If an assignment is deleted, we should delete the filenames from exc_ass_file_order table.
 Unzip doesn't work properly yet. Do we maintain this feature for this kind of files?
 We are working with this files in the DB with "filename" instead of "id"
-files php and py. How are they being uploading. And stored as .sec in the db.
-
 
