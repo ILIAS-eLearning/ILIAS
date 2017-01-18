@@ -13369,7 +13369,6 @@ $set1 = $ilDB->query("SELECT DISTINCT usr_id, lm_id FROM lo_access ORDER BY usr_
 
 while ($r1 = $ilDB->fetchAssoc($set1))
 {
-	echo "<br>-".$r1["usr_id"].":".$r1["lm_id"];
 	$set2 = $ilDB->query("SELECT * FROM lo_access WHERE usr_id = ".$ilDB->quote($r1["usr_id"], "integer").
 		" AND lm_id = ".$ilDB->quote($r1["lm_id"], "integer")." ORDER BY timestamp ASC");
 	$new_recs = array();
