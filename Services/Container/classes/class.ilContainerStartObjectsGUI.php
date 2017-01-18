@@ -54,14 +54,22 @@ class ilContainerStartObjectsGUI
 					$new_page_object->createFromXML();
 					unset($new_page_object);
 				}
-				
+
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(ilObjStyleSheet::getEffectiveContentStyleId(
+						$this->object->getStyleSheetId(), $this->object->getType())));
+
 				$this->ctrl->setReturnByClass("ilcontainerstartobjectspagegui", "edit");				
 				include_once "Services/Container/classes/class.ilContainerStartObjectsPageGUI.php";
-				$pgui = new ilContainerStartObjectsPageGUI($this->object->getId());			
-				
-				// needed for editor?
+				$pgui = new ilContainerStartObjectsPageGUI($this->object->getId());
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-				$pgui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));		
+				$pgui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+					$this->object->getStyleSheetId(), $this->object->getType()));
+
+
+				// needed for editor?
+				//include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				//$pgui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));
 				
 				$ret = $this->ctrl->forwardCommand($pgui);
 				if($ret)
@@ -236,7 +244,7 @@ class ilContainerStartObjectsGUI
 			ilUtil::sendFailure($this->lng->txt('crs_starters_already_assigned'), true);
 			$this->ctrl->redirect($this, "selectStarter");		
 		}
-	}	
+	}
 }
 
 ?>
