@@ -883,6 +883,9 @@ class ilFileSystemGUI
 		$ilCtrl->setParameter($this, "resetoffset", "");
 	}
 
+	/**
+	 * @return array of commands
+	 */
 	function getActionCommands()
 	{
 		return $this->commands;

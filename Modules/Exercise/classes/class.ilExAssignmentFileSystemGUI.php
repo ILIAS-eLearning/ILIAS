@@ -61,7 +61,6 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 		{
 			ilExAssignment::deleteOrder($_GET['ass_id'], $_POST["file"]);
 
-			//TODO this redirection must be improved and this param deleted
 			parent::deleteFile();
 		}
 	}
