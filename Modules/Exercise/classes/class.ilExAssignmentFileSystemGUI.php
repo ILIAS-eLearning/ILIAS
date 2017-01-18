@@ -31,7 +31,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 	 */
 	public function uploadFile()
 	{
-		ilExAssignment::insertOrder();
+		ilExAssignment::instructionFileInsertOrder();
 		parent::uploadFile();
 
 	}
@@ -59,7 +59,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 	{
 		if($_GET["ass_id"])
 		{
-			ilExAssignment::deleteOrder($_GET['ass_id'], $_POST["file"]);
+			ilExAssignment::instructionFileDeleteOrder($_GET['ass_id'], $_POST["file"]);
 
 			parent::deleteFile();
 		}

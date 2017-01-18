@@ -1935,7 +1935,7 @@ class ilExAssignment
 	/**
 	 * Store the file order in the database
 	 */
-	static function insertOrder()
+	static function instructionFileInsertOrder()
 	{
 		$order = 0;
 		$order_val = 0;
@@ -1944,19 +1944,9 @@ class ilExAssignment
 		{
 			global $ilDB;
 
-			if(!self::InstructionFileExistsInDb(ilUtil::stripSlashes($_FILES["new_file"]["name"])))
+			if(!self::instructionFileExistsInDb(ilUtil::stripSlashes($_FILES["new_file"]["name"])))
 			{
-
-				//get max order number
-				$result = $ilDB->queryF("SELECT max(order_nr) as max_order FROM exc_ass_file_order WHERE assignment_id = %s",
-					array('integer'),
-					array($ilDB->quote($_GET["ass_id"], 'integer'))
-				);
-
-				while($row = $ilDB->fetchAssoc($result))
-				{
-					$order_val = (int)$row['max_order'];
-				}
+				$order_val = self::instructionFileOrderGetMax();
 
 				$order = $order_val + 10;
 
@@ -1972,7 +1962,7 @@ class ilExAssignment
 		}
 	}
 
-	static function deleteOrder($a_ass_id, $a_file)
+	static function instructionFileDeleteOrder($a_ass_id, $a_file)
 	{
 		global $ilDB;
 
@@ -1987,6 +1977,10 @@ class ilExAssignment
 		}
 	}
 
+	/**
+	 * @param $a_old_name
+	 * @param $a_new_name
+	 */
 	static function renameInstructionFile($a_old_name, $a_new_name)
 	{
 		global $ilDB;
@@ -2006,7 +2000,11 @@ class ilExAssignment
 		}
 	}
 
-	static function InstructionFileExistsInDb($a_filename)
+	/**
+	 * @param $a_filename
+	 * @return int if the file exists or not in the DB
+	 */
+	static function instructionFileExistsInDb($a_filename)
 	{
 		global $ilDB;
 
@@ -2021,7 +2019,11 @@ class ilExAssignment
 		}
 	}
 
-	static function addOrderValues($a_entries = array())
+	/**
+	 * @param array $a_entries
+	 * @return array data items
+	 */
+	static function instructionFileAddOrder($a_entries = array())
 	{
 		global $ilDB;
 
@@ -2047,9 +2049,48 @@ class ilExAssignment
 				"type" => $e["type"], "label" => $e["label"], "size" => $e["size"],
 				"name" => $e["name"], "order_id"=>$order_id, "order_val"=>$order_val);
 		}
-
+		ksort($items);
+		$items = self::instructionFileRearrangeOrder($items);
 		return $items;
 	}
+
+	/**
+	 * @param $a_items
+	 * @return mixed
+	 */
+	public static function instructionFileRearrangeOrder($a_items)
+	{
+		$ord_const = 10;
+		foreach ($a_items as $k => $v) {
+			$item = $v;
+			$item['order_val'] = $ord_const;
+			unset($a_items[$k]);
+			$items[$ord_const] = $item;
+			$ord_const = $ord_const + 10;
+		}
+		return $a_items;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public static function instructionFileOrderGetMax()
+	{
+		global $ilDB;
+
+		//get max order number
+		$result = $ilDB->queryF("SELECT max(order_nr) as max_order FROM exc_ass_file_order WHERE assignment_id = %s",
+			array('integer'),
+			array($ilDB->quote($_GET["ass_id"], 'integer'))
+		);
+
+		while ($row = $ilDB->fetchAssoc($result)) {
+			$order_val = (int)$row['max_order'];
+		}
+		return $order_val;
+	}
+
 }
 
 ?>

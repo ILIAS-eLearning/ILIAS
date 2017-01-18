@@ -7,14 +7,18 @@ New DB table exc_ass_file_order with tables id,assignment_id,filename,order_nr
 working with ilExAssignmentFileSystemGUI instead of ilFileSystemGUI
 
 
-- Modules/Exercise/classes/class.ilExAssignment.php
+- Modules/Exercise/classes/class.ilExAssignment.php (create another class for this stuff could be fine)
 Edit function saveAssOrderOfExercise -- now is static ( fixing another bug )
 New function saveInstructionFilesOrderOfAssignment (db update)
-New function insertOrder (db store)
-New function deleteOrder (db delete)
+New function instructionFileInsertOrder (db store)
+New function instructionFileDeleteOrder (db delete)
 New function renameInstructionFile (db delete/update)
 New function InstructionFileExistsInDb (db query)
-New function addOrderValues(db query and add the order to an array previous to setData in the view rows)
+New function instructionFileAddOrder(db query and add the order to an array previous to setData in the view rows)
+New function instructionFileOrderGetMax (db query, max order)
+New function instructionFileRearrangeOrder rebuild the order after deletion. example: 10,30,50 will show 10,20,30
+
+
 
 
 - Services/FileSystem/classes/class.ilFileSystemGUI.php
@@ -26,7 +30,7 @@ New function getActionCommands  returns the commands array.
 
 - Services/FileSystem/classes/class.ilFileSystemTableGUI.php
 Edit contructor using the new method addColumns.
-Edit function prepareOutput, take an array from getEntries and if the method addOrderValues exists then
+Edit function prepareOutput, take an array from getEntries and if the method instructionFileAddOrder exists then
 the order values are added to the array.
 Edit function getEntries, now doesn't setData, only returns the array to work with.
 New function addColumns, check if the property add_order_column from a child class exists and add the proper columns.
