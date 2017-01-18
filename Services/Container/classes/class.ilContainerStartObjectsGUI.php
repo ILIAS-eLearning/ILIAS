@@ -65,7 +65,7 @@ class ilContainerStartObjectsGUI
 				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$pgui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->object->getStyleSheetId(), $this->object->getType()));
-				
+
 				$ret = $this->ctrl->forwardCommand($pgui);
 				if($ret)
 				{
