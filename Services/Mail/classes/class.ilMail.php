@@ -1105,7 +1105,7 @@ class ilMail
 			$rcp_ids = $this->getUserIds(trim($a_rcp_to).','.trim($a_rcp_cc).','.trim($a_rcp_bcc));
 
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				"Parsed TO/CC/BCC user ids from given recipients: " . implode(', ', $rcp_ids)
+				"Parsed TO/CC/BCC user ids from given recipients: %s", implode(', ', $rcp_ids)
 			));
 
 			$as_email = array();
@@ -1186,10 +1186,10 @@ class ilMail
 			$rcp_ids_no_replace = $this->getUserIds(trim($a_rcp_cc).','.trim($a_rcp_bcc));
 
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				"Parsed TO user ids from given recipients for serial letter notification: " . implode(', ', $rcp_ids_replace)
+				"Parsed TO user ids from given recipients for serial letter notification: %s", implode(', ', $rcp_ids_replace)
 			));
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				"Parsed CC/BCC user ids from given recipients for serial letter notification: " . implode(', ', $rcp_ids_no_replace)
+				"Parsed CC/BCC user ids from given recipients for serial letter notification: %s", implode(', ', $rcp_ids_no_replace)
 			));
 
 			$as_email = array();
@@ -1879,13 +1879,13 @@ class ilMail
 	{
 		global $lng,$rbacsystem;
 
-		ilLoggerFactory::getLogger('mail')->debug(sprintf(
+		ilLoggerFactory::getLogger('mail')->debug(
 			"New mail system task:" .
 			" To: " . $a_rcp_to .
 			" | CC: " . $a_rcp_cc .
 			" | BCC: " . $a_rcp_bc .
 			" | Subject: " . $a_m_subject
-		));
+		);
 
 		$this->mail_to_global_roles = true;
 		if($this->user_id != ANONYMOUS_USER_ID)
@@ -2051,13 +2051,13 @@ class ilMail
 			$externalMailRecipientsCc = $this->__getEmailRecipients($rcp_cc);
 			$externalMailRecipientsBcc = $this->__getEmailRecipients($rcp_bc);
 
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+			ilLoggerFactory::getLogger('mail')->debug(
 				"Parsed external mail addresses from given recipients:" .
 				" To: " . $externalMailRecipientsTo .
 				" | CC: " . $externalMailRecipientsCc .
 				" | BCC: " . $externalMailRecipientsBcc .
 				" | Subject: " . $a_m_subject
-			));
+			);
 
 			$this->sendMimeMail(
 				$externalMailRecipientsTo,
@@ -2071,9 +2071,7 @@ class ilMail
 		}
 		else
 		{
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				"No external mail addresses given in recipient string"
-			));
+			ilLoggerFactory::getLogger('mail')->debug("No external mail addresses given in recipient string");
 		}
 
 		if (in_array('system',$a_type))
