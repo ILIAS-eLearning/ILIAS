@@ -17426,8 +17426,8 @@ if($mass_type_id) {
 			ilDBUpdateNewObjectType::addRBACOperation($mass_type_id, $new_ops_id);
 		}
 	}
-	require_once 'Modules/ManualAssessment/classes/AccessControl/class.ilManualAssessmentAccessHandler.php';
-	$rolt_title = ilManualAssessmentAccessHandler::DEFAULT_ROLE;
+	require_once 'Modules/IndividualAssessment/classes/AccessControl/class.ilIndividualAssessmentAccessHandler.php';
+	$rolt_title = ilIndividualAssessmentAccessHandler::DEFAULT_ROLE;
 	$rec = $ilDB->fetchAssoc(
 		$ilDB->query("SELECT obj_id FROM object_data "
 						."	WHERE type = 'rolt' AND title = ".$ilDB->quote($rolt_title,'text')));
