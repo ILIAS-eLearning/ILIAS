@@ -374,12 +374,16 @@ class ilStyleDataSet extends ilDataSet
 	 */
 	protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
 	{
+		$this->ds_log->debug("entity: ".$a_entity.", rec: ".print_r($a_rec, true));
 		switch ($a_entity)
 		{
 			case "object_style":
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				$this->ds_log->debug("object id: ".$a_rec["ObjectId"]);
 				$style_id = ilObjStyleSheet::lookupObjectStyle($a_rec["ObjectId"]);
-				if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
+				$this->ds_log->debug("style id: ".$style_id);
+				//if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
+				if ($style_id > 0 && ilObject::_lookupType($style_id) == "sty")			// #0019337 always export style, if valid
 				{
 					return array (
 						"sty" => array("ids" => $style_id));
