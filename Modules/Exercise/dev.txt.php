@@ -15,7 +15,7 @@ New function instructionFileDeleteOrder (db delete)
 New function renameInstructionFile (db delete/update)
 New function instructionFileExistsInDb (db query)
 New function instructionFileAddOrder: DB query and add order to an array previous to setData in the view rows. If the files doesn't have any previous order in the database
-	this method will create it and we don't need any patch for the current installations. See instructionFileGetFileOrderData method )
+	this method will create it so we don't need any patch for the current installations and for the unziping files neither. See instructionFileGetFileOrderData method.
 
 New function instructionFileOrderGetMax (db query, max order)
 New function instructionFileRearrangeOrder rebuild the order after deletion. example: 10,30,50 will show 10,20,30
@@ -51,8 +51,6 @@ Extends Services/FileSystem/classes/class.ilFileSystemTableGUI.php
 
 
 ## Things to take care.
-
 If an assignment is deleted, we should delete the filenames from exc_ass_file_order table.
-Unzip doesn't work properly yet. Do we maintain this feature for this kind of files?
 We are working with this files in the DB with "filename" instead of "id"
 
