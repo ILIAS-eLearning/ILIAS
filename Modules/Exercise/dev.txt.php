@@ -1,7 +1,7 @@
 <?php exit; ?>
 ## Main changes
 
-New DB table exc_ass_file_order with tables id,assignment_id,filename,order_nr
+New DB table exc_ass_file_order with columns id,assignment_id,filename,order_nr
 
 - Modules/Exercise/classes/class.ilExAssignmentEditorGUI.php
 working with ilExAssignmentFileSystemGUI instead of ilFileSystemGUI
@@ -13,12 +13,14 @@ New function saveInstructionFilesOrderOfAssignment (db update)
 New function instructionFileInsertOrder (db store)
 New function instructionFileDeleteOrder (db delete)
 New function renameInstructionFile (db delete/update)
-New function InstructionFileExistsInDb (db query)
-New function instructionFileAddOrder(db query and add the order to an array previous to setData in the view rows)
+New function instructionFileExistsInDb (db query)
+New function instructionFileAddOrder: DB query and add order to an array previous to setData in the view rows. If the files doesn't have any previous order in the database
+	this method will create it and we don't need any patch for the current installations. See instructionFileGetFileOrderData method )
+
 New function instructionFileOrderGetMax (db query, max order)
 New function instructionFileRearrangeOrder rebuild the order after deletion. example: 10,30,50 will show 10,20,30
 New function renameExecutables (names with extensions like php,php3,inc,lang... will be renamed (.sec) after store it in db) //have we another method that renames the extension files in db?
-
+New function instructionFileGetFileOrderData (db query returns order values.)
 
 
 
@@ -46,19 +48,6 @@ New block: Order
 Extends Services/FileSystem/classes/class.ilFileSystemGUI.php
 - (NEW FILE) Modules/Exercise/classes/class.ilExAssignmentFileSystemTableGUI.php
 Extends Services/FileSystem/classes/class.ilFileSystemTableGUI.php
-
-
-
-
-## Last commit changes:
-
-- No new params in the contructors
-
-- No new params in the methods to define the redirected view.
-
-- No new table row template.
-
-- Methods which works with DB are not in the GUI files.
 
 
 ## Things to take care.

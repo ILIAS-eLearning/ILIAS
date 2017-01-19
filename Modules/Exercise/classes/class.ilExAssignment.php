@@ -130,6 +130,30 @@ class ilExAssignment
 		return $new_name;
 	}
 
+	/**
+	 * @param array $a_file_data
+	 * @return array
+	 */
+	public static function instructionFileGetFileOrderData($a_file_data)
+	{
+		global $ilDB;
+
+		$result_order_val = $ilDB->query("
+				SELECT id, order_nr
+				FROM exc_ass_file_order
+				WHERE assignment_id = {$ilDB->quote($_GET['ass_id'], 'integer')}
+				AND filename = '" . $a_file_data['entry'] . "'
+			");
+
+		$order_val = 0;
+		$order_id = 0;
+		while ($row = $ilDB->fetchAssoc($result_order_val)) {
+			$order_val = (int)$row['order_nr'];
+			$order_id = (int)$row['id'];
+		}
+		return array($order_val, $order_id);
+	}
+
 	public function hasTeam()
 	{
 		return $this->type == self::TYPE_UPLOAD_TEAM;
@@ -1972,8 +1996,9 @@ class ilExAssignment
 
 	/**
 	 * Store the file order in the database
+	 * @param string $a_filename  previously sanitized.
 	 */
-	static function instructionFileInsertOrder()
+	static function instructionFileInsertOrder($a_filename)
 	{
 		$order = 0;
 		$order_val = 0;
@@ -1982,10 +2007,8 @@ class ilExAssignment
 		{
 			global $ilDB;
 
-			$filename = ilUtil::stripSlashes($_FILES["new_file"]["name"]);
-
 			//first of all check the suffix and change if necessary
-			$filename = self::renameExecutables($filename);
+			$filename = self::renameExecutables($a_filename);
 
 			if(!self::instructionFileExistsInDb($filename))
 			{
@@ -2075,25 +2098,24 @@ class ilExAssignment
 
 		foreach ($a_entries as $e)
 		{
-			$result_order_val = $ilDB->query("
-			SELECT id, order_nr
-			FROM exc_ass_file_order
-			WHERE assignment_id = {$ilDB->quote($_GET['ass_id'], 'integer')}
-			AND filename = '".$e['entry']."'
-		");
+			$order_id = 0;
+			$order_val = 0;
+			list($order_val, $order_id) = self::instructionFileGetFileOrderData($e);
 
-			while($row = $ilDB->fetchAssoc($result_order_val))
+			if(!$order_val)
 			{
-				$order_val = (int)$row['order_nr'];
-				$order_id = (int)$row['id'];
+				self::instructionFileInsertOrder($e['entry']);
+				list($order_val, $order_id) = self::instructionFileGetFileOrderData($e);
 			}
 
 			$items[$order_val] = array("file" => $e["file"], "entry" => $e["entry"],
 				"type" => $e["type"], "label" => $e["label"], "size" => $e["size"],
 				"name" => $e["name"], "order_id"=>$order_id, "order_val"=>$order_val);
 		}
+
 		ksort($items);
 		$items = self::instructionFileRearrangeOrder($items);
+
 		return $items;
 	}
 

@@ -31,7 +31,9 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 	 */
 	public function uploadFile()
 	{
-		ilExAssignment::instructionFileInsertOrder();
+		$filename = ilUtil::stripSlashes($_FILES["new_file"]["name"]);
+
+		ilExAssignment::instructionFileInsertOrder($filename);
 		parent::uploadFile();
 
 	}
