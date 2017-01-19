@@ -93,61 +93,27 @@ class ilExAssignment
 	}
 
 	/**
-	 * @param string $a_filename
-	 * @return mixed|string
-	 */
-	public static function renameExecutables($a_filename)
-	{
-		$file_peaces = explode('.', $a_filename);
-
-		$file_extension = array_pop($file_peaces);
-
-		if(SUFFIX_REPL_ADDITIONAL)
-		{
-			$string_extensions = SUFFIX_REPL_DEFAULT.",".SUFFIX_REPL_ADDITIONAL;
-		}
-		else
-		{
-			$string_extensions = SUFFIX_REPL_DEFAULT;
-		}
-
-		$sufixes = explode(",", $string_extensions);
-
-		if (in_array($file_extension, $sufixes)) {
-			$file_extension = "sec";
-		}
-
-		array_push($file_peaces, $file_extension);
-
-		$new_name = "";
-		foreach ($file_peaces as $piece) {
-			$new_name .= "$piece";
-			if ($piece != end($file_peaces)) {
-				$new_name .= ".";
-			}
-		}
-
-		return $new_name;
-	}
-
-	/**
 	 * @param array $a_file_data
+	 * @param integer $a_ass_id assignment id.
 	 * @return array
 	 */
-	public static function instructionFileGetFileOrderData($a_file_data)
+	public static function instructionFileGetFileOrderData($a_file_data, $a_ass_id)
 	{
-		global $ilDB;
+		global $DIC;
 
-		$result_order_val = $ilDB->query("
+		$db = $DIC->database();
+		$db->setLimit(1,0);
+
+		$result_order_val = $db->query("
 				SELECT id, order_nr
 				FROM exc_ass_file_order
-				WHERE assignment_id = {$ilDB->quote($_GET['ass_id'], 'integer')}
-				AND filename = '" . $a_file_data['entry'] . "'
+				WHERE assignment_id = {$db->quote($a_ass_id, 'integer')}
+				AND filename = {$db->quote($a_file_data['entry'], 'string')}
 			");
 
 		$order_val = 0;
 		$order_id = 0;
-		while ($row = $ilDB->fetchAssoc($result_order_val)) {
+		while ($row = $db->fetchAssoc($result_order_val)) {
 			$order_val = (int)$row['order_nr'];
 			$order_id = (int)$row['id'];
 		}
@@ -1973,22 +1939,24 @@ class ilExAssignment
 
 	/**
 	 * Save ordering of instruction files for an assignment
-	 * TO DO: centralize all the methods which orders tables
+	 * @param int $a_ass_id assignment id
+	 * @param int $a_order order
 	 */
 	static function saveInstructionFilesOrderOfAssignment($a_ass_id, $a_order)
 	{
+		global $DIC;
 
-		global $ilDB;
+		$db = $DIC->database();
 
 		asort($a_order);
 		$nr = 10;
 		foreach ($a_order as $k => $v)
 		{
 			// the check for exc_id is for security reasons. ass ids are unique.
-			$ilDB->manipulate($t = "UPDATE exc_ass_file_order SET ".
-				" order_nr = ".$ilDB->quote($nr, "integer").
-				" WHERE id = ".$ilDB->quote((int) $k, "integer").
-				" AND assignment_id = ".$ilDB->quote((int) $a_ass_id, "integer")
+			$db->manipulate($t = "UPDATE exc_ass_file_order SET ".
+				" order_nr = ".$db->quote($nr, "integer").
+				" WHERE id = ".$db->quote((int) $k, "integer").
+				" AND assignment_id = ".$db->quote((int) $a_ass_id, "integer")
 			);
 			$nr+=10;
 		}
@@ -1997,32 +1965,35 @@ class ilExAssignment
 	/**
 	 * Store the file order in the database
 	 * @param string $a_filename  previously sanitized.
+	 * @param int $a_ass_id assignment id.
 	 */
-	static function instructionFileInsertOrder($a_filename)
+	static function instructionFileInsertOrder($a_filename, $a_ass_id)
 	{
+		global $DIC;
+
+		$db = $DIC->database();
+
 		$order = 0;
 		$order_val = 0;
 
-		if($_GET["ass_id"])
+		if($a_ass_id)
 		{
-			global $ilDB;
-
 			//first of all check the suffix and change if necessary
-			$filename = self::renameExecutables($a_filename);
+			$filename = ilUtil::getSafeFilename($a_filename);
 
-			if(!self::instructionFileExistsInDb($filename))
+			if(!self::instructionFileExistsInDb($filename, $a_ass_id))
 			{
-				$order_val = self::instructionFileOrderGetMax();
+				$order_val = self::instructionFileOrderGetMax($a_ass_id);
 
 				$order = $order_val + 10;
 
-				$id = $ilDB->nextID('exc_ass_file_order');
-				$ilDB->manipulate("INSERT INTO exc_ass_file_order " .
+				$id = $db->nextID('exc_ass_file_order');
+				$db->manipulate("INSERT INTO exc_ass_file_order " .
 					"(id, assignment_id, filename, order_nr) VALUES (" .
-					$ilDB->quote($id, "integer") . "," .
-					$ilDB->quote($_GET["ass_id"], "integer") . "," .
-					$ilDB->quote($filename, "text") . "," .
-					$ilDB->quote($order, "integer") .
+					$db->quote($id, "integer") . "," .
+					$db->quote($a_ass_id, "integer") . "," .
+					$db->quote($filename, "text") . "," .
+					$db->quote($order, "integer") .
 					")");
 			}
 		}
@@ -2030,82 +2001,88 @@ class ilExAssignment
 
 	static function instructionFileDeleteOrder($a_ass_id, $a_file)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$db = $DIC->database();
 
 		//now its done by filename. We need to figure how to get the order id in the confirmdelete method
 		foreach ($a_file as $k => $v)
 		{
-			$ilDB->manipulate("DELETE FROM exc_ass_file_order " .
+			$db->manipulate("DELETE FROM exc_ass_file_order " .
 				//"WHERE id = " . $ilDB->quote((int)$k, "integer") .
-				"WHERE filename = " . $ilDB->quote($v, "string") .
-				" AND assignment_id = " . $ilDB->quote($a_ass_id, 'integer')
+				"WHERE filename = " . $db->quote($v, "string") .
+				" AND assignment_id = " . $db->quote($a_ass_id, 'integer')
 			);
 		}
 	}
 
 	/**
-	 * @param $a_old_name
-	 * @param $a_new_name
+	 * @param string $a_old_name
+	 * @param string $a_new_name
+	 * @param int $a_ass_id assignment id
 	 */
-	static function renameInstructionFile($a_old_name, $a_new_name)
+	static function renameInstructionFile($a_old_name, $a_new_name, $a_ass_id)
 	{
-		global $ilDB;
+		global $DIC;
 
-		if($_GET['ass_id'])
+		$db = $DIC->database();
+
+		if($a_ass_id)
 		{
-			$ilDB->manipulate("DELETE FROM exc_ass_file_order".
-				" WHERE assignment_id = ".$ilDB->quote((int)$_GET['ass_id'], 'integer').
-				" AND filename = ".$ilDB->quote($a_new_name, 'string')
+			$db->manipulate("DELETE FROM exc_ass_file_order".
+				" WHERE assignment_id = ".$db->quote((int)$a_ass_id, 'integer').
+				" AND filename = ".$db->quote($a_new_name, 'string')
 			);
 
-			$ilDB->manipulate("UPDATE exc_ass_file_order SET".
-				" filename = ".$ilDB->quote($a_new_name, 'string').
-				" WHERE assignment_id = ".$ilDB->quote((int)$_GET['ass_id'], 'integer').
-				" AND filename = ".$ilDB->quote($a_old_name, 'string')
+			$db->manipulate("UPDATE exc_ass_file_order SET".
+				" filename = ".$db->quote($a_new_name, 'string').
+				" WHERE assignment_id = ".$db->quote((int)$a_ass_id, 'integer').
+				" AND filename = ".$db->quote($a_old_name, 'string')
 			);
 		}
 	}
 
 	/**
 	 * @param $a_filename
+	 * @param $a_ass_id assignment id
 	 * @return int if the file exists or not in the DB
 	 */
-	static function instructionFileExistsInDb($a_filename)
+	static function instructionFileExistsInDb($a_filename, $a_ass_id)
 	{
-		global $ilDB;
+		global $DIC;
 
-		if($_GET['ass_id'])
+		$db = $DIC->database();
+
+		if($a_ass_id)
 		{
-			$result = $ilDB->query("SELECT id FROM exc_ass_file_order" .
-				" WHERE assignment_id = " . $ilDB->quote((int)$_GET['ass_id'], 'integer') .
-				" AND filename = " . $ilDB->quote($a_filename, 'string')
+			$result = $db->query("SELECT id FROM exc_ass_file_order" .
+				" WHERE assignment_id = " . $db->quote((int)$a_ass_id, 'integer') .
+				" AND filename = " . $db->quote($a_filename, 'string')
 			);
 
-			return $ilDB->numRows($result);
+			return $db->numRows($result);
 		}
 	}
 
 	/**
 	 * @param array $a_entries
+	 * @param integer $a_ass_id assignment id
 	 * @return array data items
 	 */
-	static function instructionFileAddOrder($a_entries = array())
+	static function instructionFileAddOrder($a_entries = array(), $a_ass_id)
 	{
-		global $ilDB;
-
-		$ilDB->setLimit(1,0);
 		$items = array();
 
 		foreach ($a_entries as $e)
 		{
 			$order_id = 0;
 			$order_val = 0;
-			list($order_val, $order_id) = self::instructionFileGetFileOrderData($e);
+			list($order_val, $order_id) = self::instructionFileGetFileOrderData($e, $a_ass_id);
 
 			if(!$order_val)
 			{
-				self::instructionFileInsertOrder($e['entry']);
-				list($order_val, $order_id) = self::instructionFileGetFileOrderData($e);
+				self::instructionFileInsertOrder($e['entry'], $a_ass_id);
+				list($order_val, $order_id) = self::instructionFileGetFileOrderData($e, $a_ass_id);
 			}
 
 			$items[$order_val] = array("file" => $e["file"], "entry" => $e["entry"],
@@ -2138,19 +2115,22 @@ class ilExAssignment
 
 
 	/**
+	 * @param int $a_ass_id assignment id
 	 * @return int
 	 */
-	public static function instructionFileOrderGetMax()
+	public static function instructionFileOrderGetMax($a_ass_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$db = $DIC->database();
 
 		//get max order number
-		$result = $ilDB->queryF("SELECT max(order_nr) as max_order FROM exc_ass_file_order WHERE assignment_id = %s",
+		$result = $db->queryF("SELECT max(order_nr) as max_order FROM exc_ass_file_order WHERE assignment_id = %s",
 			array('integer'),
-			array($ilDB->quote($_GET["ass_id"], 'integer'))
+			array($db->quote($a_ass_id, 'integer'))
 		);
 
-		while ($row = $ilDB->fetchAssoc($result)) {
+		while ($row = $db->fetchAssoc($result)) {
 			$order_val = (int)$row['max_order'];
 		}
 		return $order_val;

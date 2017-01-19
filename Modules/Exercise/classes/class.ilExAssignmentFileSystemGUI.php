@@ -33,7 +33,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 	{
 		$filename = ilUtil::stripSlashes($_FILES["new_file"]["name"]);
 
-		ilExAssignment::instructionFileInsertOrder($filename);
+		ilExAssignment::instructionFileInsertOrder($filename, $_GET['ass_id']);
 		parent::uploadFile();
 
 	}
@@ -79,7 +79,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 
 			if($new_name != $old_name)
 			{
-				ilExAssignment::renameInstructionFile($old_name, $new_name);
+				ilExAssignment::renameInstructionFile($old_name, $new_name, $_GET['ass_id']);
 			}
 		}
 		parent::renameFile();

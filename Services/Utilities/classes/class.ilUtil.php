@@ -3782,6 +3782,44 @@ class ilUtil
 	}
 
 	/**
+	 * @param string $a_initial_filename
+	 * @return mixed|string
+	 */
+	public static function getSafeFilename($a_initial_filename)
+	{
+		$file_peaces = explode('.', $a_initial_filename);
+
+		$file_extension = array_pop($file_peaces);
+
+		if(SUFFIX_REPL_ADDITIONAL)
+		{
+			$string_extensions = SUFFIX_REPL_DEFAULT.",".SUFFIX_REPL_ADDITIONAL;
+		}
+		else
+		{
+			$string_extensions = SUFFIX_REPL_DEFAULT;
+		}
+
+		$sufixes = explode(",", $string_extensions);
+
+		if (in_array($file_extension, $sufixes)) {
+			$file_extension = "sec";
+		}
+
+		array_push($file_peaces, $file_extension);
+
+		$safe_filename = "";
+		foreach ($file_peaces as $piece) {
+			$safe_filename .= "$piece";
+			if ($piece != end($file_peaces)) {
+				$safe_filename .= ".";
+			}
+		}
+
+		return $safe_filename;
+	}
+
+	/**
 	* Renames all files with certain suffix and gives them a new suffix.
 	* This words recursively through a directory.
 	*
