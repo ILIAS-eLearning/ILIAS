@@ -160,26 +160,12 @@ class ilDBPdoReverse implements ilDBReverse {
 
 			$key_name = $row['key_name'];
 
-			if ($this->db_instance->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
-				if ($this->db_instance->options['field_case'] == CASE_LOWER) {
-					$key_name = strtolower($key_name);
-				} else {
-					$key_name = strtoupper($key_name);
-				}
-			}
 
 			if ($index_name == $key_name) {
 				if (!$row['non_unique']) {
 					throw new ilDatabaseException('it was not specified an existing table index');
 				}
 				$column_name = $row['column_name'];
-				if ($this->db_instance->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
-					if ($this->db_instance->options['field_case'] == CASE_LOWER) {
-						$column_name = strtolower($column_name);
-					} else {
-						$column_name = strtoupper($column_name);
-					}
-				}
 				$definition['fields'][$column_name] = array(
 					'position' => $colpos ++,
 				);
