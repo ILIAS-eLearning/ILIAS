@@ -125,7 +125,7 @@ class ilApc extends ilGlobalCacheService {
 
 
 	protected function getActive() {
-		return function_exists('apc_store');
+		return (function_exists('apc_store') || function_exists('apcu_store'));
 	}
 
 
@@ -133,7 +133,7 @@ class ilApc extends ilGlobalCacheService {
 	 * @return bool
 	 */
 	protected function getInstallable() {
-		return function_exists('apc_store');
+		return (function_exists('apc_store') || function_exists('apcu_store'));
 	}
 
 
