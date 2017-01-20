@@ -1836,6 +1836,118 @@ auth#:#login_page_activate#:#Inschakelen Editor voor de geslecteerde talen
 auth#:#login_page_editor_switched#:#De actieve pagina editor is gewijzigd
 auth#:#login_page_switch_ipe#:#Gebruik ILIAS Pagina Editor
 auth#:#login_page_switch_rte#:#Gebruik Rich-Text-Editor
+barometer#:#anonymous#:#Anonieme
+barometer#:#barometer_add#:#Voeg nieuwe Feedback toe
+barometer#:#barometer_conflict_anon_req#:#Anonymisatie kan niet gecombineerd worden met 'Vereist'. Kies één van deze opties.
+barometer#:#barometer_title#:#Feedback
+barometer#:#bar_create#:#Aanmaken van nieuwe feedback
+barometer#:#best#:#Beste
+barometer#:#change_course#:#Verander cursus
+barometer#:#chart_type#:#Chart type
+barometer#:#chart_users#:#Chart gebruiker
+barometer#:#chart_votes#:#Chart stemmen
+barometer#:#day#:#Dag
+barometer#:#days#:#Dagen
+barometer#:#delete#:#Verwijder
+barometer#:#duration#:#Tijdsduur
+barometer#:#edit#:#Aanpassen
+barometer#:#edit_barometer#:#Barometer aanpassen
+barometer#:#every#:#elk
+barometer#:#feedb_edit_feedback#:#Feedback aanpassen
+barometer#:#feedb_feedback_list#:#Lijst feedback
+barometer#:#feedb_feedback_settings#:#Feedback Instellingen
+barometer#:#feedb_time#:#Tijd
+barometer#:#first_vote#:#1. De stem is
+barometer#:#from#:#van
+barometer#:#hours#:#Uren
+barometer#:#lines#:#Lijnen
+barometer#:#login#:#Login
+barometer#:#missing_fields#:#Gelieve alle velden in te vullen
+barometer#:#month#:#Maand
+barometer#:#months#:#Maanden
+barometer#:#new_vote#:#Nieuwe stemming
+barometer#:#note#:#Commentaar
+barometer#:#optional#:#Optioneel
+barometer#:#options#:#Opties
+barometer#:#pie#:#Deel
+barometer#:#repeat#:#Herhaal
+barometer#:#required#:#Verplicht
+barometer#:#save#:#Opslaan
+barometer#:#save_vote#:#Verzend stem
+barometer#:#skip#:#OVerslaan
+barometer#:#statistics#:#Statistieken
+barometer#:#status#:#Status
+barometer#:#table#:#Tabel
+barometer#:#text#:#Tekst
+barometer#:#text_answer#:#open tekst
+barometer#:#time#:#Bezig
+barometer#:#title#:#Titel
+barometer#:#type#:#Type
+barometer#:#until#:#Tot
+barometer#:#user#:#Gebruiker
+barometer#:#vote#:#Stem
+barometer#:#votes#:#Stemmen
+barometer#:#weeks#:#Weken
+barometer#:#worst#:#Ergst
+barometer#:#year#:#Jaar
+bibitem#:#bibitem_add#:#Toevoegen
+bibitem#:#bibitem_author#:#Auteur
+bibitem#:#bibitem_av#:#AV
+bibitem#:#bibitem_bibitem#:#Bibliografische informatie
+bibitem#:#bibitem_book#:#Boek
+bibitem#:#bibitem_booktitle#:#Boektitel
+bibitem#:#bibitem_catalog#:#Catalogus
+bibitem#:#bibitem_choose_index#:#Selecteer een bibliografisch gegeven:
+bibitem#:#bibitem_cross_reference#:#Verwijzing
+bibitem#:#bibitem_delete#:#Verwijderen
+bibitem#:#bibitem_dissertation#:#Verhandeling
+bibitem#:#bibitem_edition#:#Editie
+bibitem#:#bibitem_editor#:#Redacteur
+bibitem#:#bibitem_entry#:#Post
+bibitem#:#bibitem_first_name#:#Voornaam
+bibitem#:#bibitem_grey_literature#:#Grijze literatuur
+bibitem#:#bibitem_how_published#:#Hoe gepubliceerd
+bibitem#:#bibitem_identifier#:#Kenmerk
+bibitem#:#bibitem_inbook#:#In boek
+bibitem#:#bibitem_inproceedings#:#In publicaties
+bibitem#:#bibitem_institution#:#Organisatie
+bibitem#:#bibitem_internet#:#Internet
+bibitem#:#bibitem_isbn#:#ISBN
+bibitem#:#bibitem_issn#:#ISSN
+bibitem#:#bibitem_journal#:#Journaal
+bibitem#:#bibitem_journal_article#:#Journaal artikel
+bibitem#:#bibitem_keyword#:#Sleutelwoord
+bibitem#:#bibitem_label#:#Label
+bibitem#:#bibitem_language#:#Taal
+bibitem#:#bibitem_last_name#:#Achternaam
+bibitem#:#bibitem_manual#:#Handboek
+bibitem#:#bibitem_master_thesis#:#Master thesis
+bibitem#:#bibitem_middle_name#:#Tussenvoegsel naam
+bibitem#:#bibitem_month#:#Maand
+bibitem#:#bibitem_newspaper_article#:#Krantenartikel
+bibitem#:#bibitem_new_element#:#Nieuw element
+bibitem#:#bibitem_note#:#Notitie
+bibitem#:#bibitem_not_found#:#Geen bibliografische informatie beschikbaar.
+bibitem#:#bibitem_number#:#Nummer
+bibitem#:#bibitem_organization#:#Organisatie
+bibitem#:#bibitem_pages#:#Pagina's
+bibitem#:#bibitem_phd_thesis#:#PhD thesis
+bibitem#:#bibitem_please_select#:#Selecteren
+bibitem#:#bibitem_print#:#Afdrukken
+bibitem#:#bibitem_proceedings#:#Notulen
+bibitem#:#bibitem_publisher#:#Uitgeverd
+bibitem#:#bibitem_save#:#Opslaan
+bibitem#:#bibitem_school#:#School
+bibitem#:#bibitem_series#:#Series
+bibitem#:#bibitem_series_editor#:#Redacteur
+bibitem#:#bibitem_series_title#:#Titel van de serie
+bibitem#:#bibitem_series_volume#:#Volume
+bibitem#:#bibitem_technical_report#:#Technisch rapport
+bibitem#:#bibitem_type#:#Type
+bibitem#:#bibitem_unpublished#:#ongepubliceerd
+bibitem#:#bibitem_url#:#URL
+bibitem#:#bibitem_where_published#:#Waar gepubliceerd
+bibitem#:#bibitem_year#:#Jaar
 bibl#:#attr_order#:#Kenmerk volgorde
 bibl#:#attr_order_bibtex#:#Kenmerk volgorde (Bibtex)
 bibl#:#attr_order_bibtex_info#:#standaard: isbn,issn,titel
@@ -2167,8 +2279,10 @@ certificate#:#certificate_a4_landscape#:#A4 Liggend (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 Liggend (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Achtergrondafbeelding
+certificate#:#certificate_bottom#:#Onderaan
 certificate#:#certificate_confirm_deletion_text#:#Wil je werkelijk het certificaat en al zijn verwante gegevens verwijderen?
 certificate#:#certificate_custom#:#Normaal...
+certificate#:#certificate_delete#:#Verwijder certificaatgegevens
 certificate#:#certificate_edit#:#Maak/wijzig een certificaat sjabloon
 certificate#:#certificate_enabled_scorm#:#Beschikbaar
 certificate#:#certificate_enabled_scorm_introduction#:#Indien aangevinkt, krijgt iedere gebruiker die de SCORM leermodule heeft beëindigd het certificaat.
@@ -2177,10 +2291,12 @@ certificate#:#certificate_error_upload_bgimage#:#Een fout is opgetreden tijdens 
 certificate#:#certificate_export#:#Certificaat exporteren
 certificate#:#certificate_failed#:#niet geslaagd
 certificate#:#certificate_file_basename#:#Certificaat
+certificate#:#certificate_left#:#Links
 certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
 certificate#:#certificate_letter_landscape#:#Letter Liggend (8.5 inch x 11 inch)
 certificate#:#certificate_margin_body#:#Body Marge
 certificate#:#certificate_not_well_formed#:#De certificaattekst is niet goed opgemaakt. Gelieve een geldige XHTML-formaat in te geven voor de certificaattekst!
+certificate#:#certificate_padding_top#:#Top vulling
 certificate#:#certificate_pageheight#:#Paginahoogte
 certificate#:#certificate_pagewidth#:#Paginabreedte
 certificate#:#certificate_page_format#:#Paginaformaat
@@ -2228,10 +2344,16 @@ certificate#:#certificate_ph_title_sco#:#titel
 certificate#:#certificate_ph_zipcode#:#Postcode van het adres van de gebruiker
 certificate#:#certificate_points_notavailable#:#Deze waarde kan niet worden berekend.
 certificate#:#certificate_preview#:#Toon voorbeeld van het certificaat
+certificate#:#certificate_right#:#Rechts
 certificate#:#certificate_settings#:#Certificaat instellingen
 certificate#:#certificate_short_name#:#Korte titel certificaatsbestand
 certificate#:#certificate_short_name_description#:#Voer een korte titel in voor de naam van het certificaat. De korte titel wordt deel van de naam van het certificaat: YYMMDD_[achternaam]_[SHORT_TITLE]_certificaat.pdf.
+certificate#:#certificate_show#:#Toon certificaat
+certificate#:#certificate_status#:#Status
+certificate#:#certificate_status_complete#:#Het certificaat is volledig en kan worden gebruikt
+certificate#:#certificate_status_incomplete#:#Het certificaat is niet volledig
 certificate#:#certificate_text#:#Certificaat tekst
+certificate#:#certificate_top#:#Top
 certificate#:#certificate_unit_description#:#Geef meeteenheden in als WAARDE [cm|mm|in|pt|pc|px|em], vb. 10mm of 3in
 certificate#:#certificate_usage#:#Let op: het gebruik van certificaten is alleen beschikbaar als  de ILIAS Java-Server draait. De configuratie van Java-Server is beschikbaar op de hoofdpagina van ILIAS Beheer in de sectie Webservices.
 certificate#:#certificate_var_max_points#:#46
@@ -2259,10 +2381,13 @@ certificate#:#certificate_visibility_introduction#:#Gebruikers kunnen het certif
 certificate#:#certificate_visibility_never#:#Niet zichtbaar
 certificate#:#certificate_visibility_passed#:#Alleen zichtbaar als de gebruiker slaagt voor zijn toets
 certificate#:#certificate_visibility_passed_exercise#:#Alleen zichtbaar indien de deelnemer de oefening met succes heeft afgerond
+certificate#:#certificate_wrong_unit#:#U hebt een verkeerde eenheid ingegeven
+certificate#:#certificate_wrong_units#:#U hebt een verkeerde reeks eenheden ingeveven
 certificate#:#default_background_info#:#Deze achtergrondafbeelding wordt gekozen als de standaard achtergrond voor al de certificaten. Als je een andere achtergrond wilt op een certificaat moet je het uploaden in de certificaateditor.
 certificate#:#download_certificate#:#Downloaden Certificaat
 chatroom#:#allow_anonymous#:#Allow Anonymous Login
 chatroom#:#allow_custom_usernames#:#Allow Custom Usernames
+chatroom#:#allow_private_rooms#:#Allow Private Rooms
 chatroom#:#anonymous_hint#:#"Zet de juiste rechten in het ""Rechten"" tabblad om anonieme gebruikers toegang te geven tot dit item."
 chatroom#:#autogen_usernames#:#Auto gegenereerde gebruikersnaam
 chatroom#:#autogen_usernames_info#:#Pattern for auto generated usernames that is assigned to anonymous user accounts. '#' will be automatically replaced by a number.
@@ -2278,30 +2403,42 @@ chatroom#:#chat_address#:#Adres
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chatroom ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chatroom +++
+chatroom#:#chat_create_new_private_room#:#Create new Private Room
 chatroom#:#chat_create_private_room_button#:#Create Private Room
+chatroom#:#chat_delete#:#Verwijder
 chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 chatroom#:#chat_invitation#:#Uitnodiging  ##inviter_name## voor chatroom
 chatroom#:#chat_invitation_long#:###salutation##\n\nJe bent uitgenodigd in een chatroom:\nChatroom Title: ##room_name##\nUitgenodigs door: ##inviter_name##\nURL: ##link##\n\nAls je op deze uitnodiging wilt ingaan, volg dan de opgegeven URL.
 chatroom#:#chat_invitation_short#:#Klik op de titel om de chatroom in te gaan.
 chatroom#:#chat_invite#:#Nodig uit
+chatroom#:#chat_invite_users#:#Invite Users
 chatroom#:#chat_join#:#Aanmelden
 chatroom#:#chat_kick#:#Kick
+chatroom#:#chat_leave#:#Leave
 chatroom#:#chat_mainroom#:#Main Room
 chatroom#:#chat_message#:#Bericht
 chatroom#:#chat_message_display#:#Opties
+chatroom#:#chat_message_notify_activate#:#Activate Message Notify
 chatroom#:#chat_message_options#:#Toon
 chatroom#:#chat_message_to_all#:#To All
+chatroom#:#chat_new_invitation_sound_status#:#Play a sound if a user receives a new chat invitation
+chatroom#:#chat_new_message_sound_status#:#Play a sound if a new Message is received
+chatroom#:#chat_private_room#:#Private Room
+chatroom#:#chat_right_box_user#:#Gebruiker
 chatroom#:#chat_select_room#:#Select Chat Room
 chatroom#:#chat_settings#:#Chat Settings
 chatroom#:#chat_to_mainroom#:#To Main Room
 chatroom#:#chat_whisper#:#Fluister
 chatroom#:#chtr_add#:#Voeg Chatroom toe
+chatroom#:#chtr_moderate#:#Modereer
 chatroom#:#chtr_new#:#Nieuwe Chatroom
 chatroom#:#clear_room_history#:#Verwijder berichten historie
 chatroom#:#clear_room_history_question#:#Wil je al de berichten uit de huidige chatroom verwijderen?
+chatroom#:#connected#:#Connection Established
 chatroom#:#create_private_room_text#:#Privé chatroom naam
 chatroom#:#custom_username#:#Custom Username
 chatroom#:#delete_private_room#:#Verwijder privé chatroom
+chatroom#:#disconnected#:#Connection Closed
 chatroom#:#display_past_msgs#:#Aantal oude berichten
 chatroom#:#duration_from#:#Van
 chatroom#:#duration_to#:#Aan
@@ -2318,6 +2455,7 @@ chatroom#:#hint_display_past_msgs#:#"Aantal te tonen berichten, als men de chatr
 chatroom#:#hint_enable_smilies#:#Indien actief worden de geconfigureer de tekst volgordes vervangen door een icon. Zie Smilies tablad voor configuratie.
 chatroom#:#hint_osd#:#Indien actief, worden gebruikers bericht door een popup over nieuwe uitnodigingen.
 chatroom#:#hint_osd_interval#:#Polling interval voor controle op nieuwe berichtne. een lager nummer zal de gebruiker sneller informeren maar verhoogd  het aantal verzoeken die de webserver moet afhandelen.
+chatroom#:#hint_unique_name#:#Een naam wordt gebruikt door ILIAS en de chatserver om ILIAS te identificeren. Als er meer dan één pc is per chat server, dan moet deze uniek zijn voor ILIAS.
 chatroom#:#history_byday_title#:#Show Conversation per Day
 chatroom#:#history_bysession_title#:#Toon conversatie per sessie
 chatroom#:#history_by_day#:#Daily History
@@ -2325,6 +2463,8 @@ chatroom#:#history_by_session#:#Sessie geschiedenis
 chatroom#:#history_cleared#:#De berichtenhistorie is verwijderd door een moderator.
 chatroom#:#history_title_general#:#"Conversatie in Chat Room ""%s"""
 chatroom#:#history_title_private_room#:#"Conversatie in Privé chatroom ""%s"""
+chatroom#:#ilias_url#:#Base-URL van je ILIAS Installatie
+chatroom#:#instance_name#:#Unieke sleutel
 chatroom#:#invite_to_private_room#:#Nodig uit voor de huidige chatroom
 chatroom#:#invite_username#:#Gebruikersnaam
 chatroom#:#italic#:#Italic
@@ -2335,6 +2475,7 @@ chatroom#:#layout#:#Layout
 chatroom#:#leave_private_room#:#Verlaat privé chatroom
 chatroom#:#lost_connection#:#The connection to the Chatserver was interrupted.
 chatroom#:#main#:#Main Room
+chatroom#:#moderate#:#Moderate
 chatroom#:#no_further_users#:#Geen andere gebruikers aanwezig
 chatroom#:#no_messages#:#Er zijn geen opgeslagen bericht voor de opgegeven periode.
 chatroom#:#no_username_given#:#Kies een gebruikersnaam.
@@ -2348,19 +2489,27 @@ chatroom#:#private_room_entered#:#Welcome to the private room <b>#title#</b>.
 chatroom#:#private_room_entered_user#:#The user <b>#user#</b> has entered the private room <b>#title#</b>.
 chatroom#:#private_room_left#:#The user <b>#user#</b> has left the private room <b>#title#</b>.
 chatroom#:#public_chat_created#:#The public chatroom has been added to the repository.
+chatroom#:#remark#:#Remark
+chatroom#:#restrict_history#:#Restrict History
+chatroom#:#restrict_history_info#:#Geen bezoeken gegenereerd tijdens afwezigheid uit chat
 chatroom#:#room_in_container#:#%s (in: %s)
 chatroom#:#scope#:#Room/Private Room
 chatroom#:#select_custom_username#:#Select Custom Username
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#session#:#Sessie
 chatroom#:#settings_general#:#General
+chatroom#:#settings_privacy#:#Privacy
 chatroom#:#settings_title#:#Settings
 chatroom#:#show_settings#:#Show Settings
 chatroom#:#small#:#Small
+chatroom#:#soap_must_be_enabled#:#You must active SOAP support in the general settings to enable the chat.
+chatroom#:#soap_user#:#Name of the SOAP-User
+chatroom#:#soap_user_password#:#Wachtwoord van de SOAP gebruiker
 chatroom#:#speak_to#:#Speak to <b>#user#</b>
 chatroom#:#unable_to_connect#:#The connection to the chatserver could not be established.
 chatroom#:#unban#:#Unban
 chatroom#:#underlined#:#Underlined
+chatroom#:#unkown_private_room#:#Unknown private room
 chatroom#:#users#:#Users
 chatroom#:#user_invited#:#The user has been invited.
 chatroom#:#user_invited_self#:#<b>#user#</b> invited you to the chatroom <b>#room#</b>.
@@ -2390,16 +2539,23 @@ chatroom_adm#:#chat_smilies_initialized#:#Chat smilies initialized
 chatroom_adm#:#client_settings#:#General Settings
 chatroom_adm#:#enable_osd#:#Enable On-Screen Notifications
 chatroom_adm#:#general_settings_title#:#General Chat Settings
+chatroom_adm#:#hash#:#Hash
 chatroom_adm#:#https#:#HTTPS
+chatroom_adm#:#instance#:#Instance
+chatroom_adm#:#keypass#:#Keypass
+chatroom_adm#:#keystore#:#Keystore
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)
 chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation
 chatroom_adm#:#port_info#:#Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked.
+chatroom_adm#:#priv_hosts#:#Privileged Hosts
 chatroom_adm#:#protocol#:#Protocol
 chatroom_adm#:#public_chat_permissions#:#Publieke Chatroon Permissies
 chatroom_adm#:#public_chat_settings#:#Publieke Chatroom Instellingen
 chatroom_adm#:#server_settings#:#Chatserver Settings
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
 chatroom_adm#:#smiley#:#Smilies
+chatroom_adm#:#soap_user_hint#:#This user is used to send information from the chatserver to the ilias installation. No special permissions are required.<br/>If you create a new accout, please make sure that you are able to login with this user (e.g. accept licence aggreement).
+chatroom_adm#:#storepass#:#Storepass
 classification#:#clsfct_block_info#:#Je selectie filtreert de objecten
 classification#:#clsfct_block_title#:#Selectie per onderwerp
 classification#:#clsfct_content_no_match#:#Geen overeenkomsten
@@ -3996,6 +4152,7 @@ common#:#mails_pl#:#E-mail(s)
 common#:#mail_addressbook#:#Adresboek
 common#:#mail_allow_smtp#:#SMTP toestaan
 common#:#mail_attachment#:#E-mail attachment
+common#:#mail_attachments#:#E-mail attachments
 common#:#mail_at_the_ilias_installation#:#Je hebt %1$s nieuwe e-mails ontvangen op de ILIAS installatie %2$s
 common#:#mail_a_root#:#Mailbox
 common#:#mail_b_inbox#:#Inbox
@@ -8808,7 +8965,9 @@ forum#:#forums_all_threads_marked_read#:#Alle onderwerpen zijn gemarkeerd als ge
 forum#:#forums_attachments#:#Bijlagen
 forum#:#forums_attachments_add#:#Bijlage toevoegen
 forum#:#forums_censor_comment#:#Commentaar van de moderator
+forum#:#forums_count#:#Aantal forums
 forum#:#forums_count_art#:#Aantal artikelen
+forum#:#forums_count_thr#:#Aantal onderwerpen
 forum#:#forums_created_by#:#Gemaakt door
 forum#:#forums_delete_file#:#Bijlage verwijderen
 forum#:#forums_disable_notification#:#Laat geen berichten toe voor dit onderwerp
@@ -8821,14 +8980,17 @@ forum#:#forums_info_censor_post#:#Ben je zeker dat je dit bericht wilt verbergen
 forum#:#forums_info_delete_post#:#Ben je zeker dat je dit bericht wilt verwijderen  inclusief alle antwoorden
 forum#:#forums_mark_read#:#Alles als gelezen markeren
 forum#:#forums_new_thread#:#Nieuw onderwerp
+forum#:#forums_notification#:#Berichtgeving
 forum#:#forums_notification_disabled#:#Kennisgeving uitgeschakeld
 forum#:#forums_notification_enabled#:#Laat berichtgeving toe
 forum#:#forums_notification_intro#:#Deze e-mail werd automatisch verstuurd vanuit ILIAS
 forum#:#forums_notification_show_post#:#Toon bericht:
+forum#:#forums_notification_subject#:#Nieuw bericht in een onderwerp
 forum#:#forums_no_posts_available#:#This topic has no posts yet or the moderator deactivated the first post.
 forum#:#forums_posts#:#Alle artikelen
 forum#:#forums_posts_not_available#:#Artikelen niet beschikbaar
 forum#:#forums_post_activation_mail#:#Zolang onderstaande bericht niet is ingeschakeld, zal het niet zichtbaar zijn voor andere forum gebruikers. Je ontvangt deze mail omdat je moderator bent en permissie heeft om dit bericht te activeren.
+forum#:#forums_post_and_children_were_activated#:#The post and all its child posts were activated.
 forum#:#forums_post_deleted#:#Artikel verwijderd
 forum#:#forums_post_modified#:#Een nieuw artikel werd gewijzigd
 forum#:#forums_post_needs_to_be_activated#:#Een nieuwe artikel is aangemaakt maar het moet eerst worden ingeschakeld door de moderator
@@ -8838,6 +9000,7 @@ forum#:#forums_print_thread#:#Onderwerp afdrukken
 forum#:#forums_subject#:#Onderwerp
 forum#:#forums_the_post#:#Artikel
 forum#:#forums_thread#:#Onderwerp
+forum#:#forums_thread_create_date#:#Gecreëerd op
 forum#:#forums_thread_create_from#:#Gecreëerd door
 forum#:#forums_thread_marked#:#Dit thema werd gemarkeerd als gelezen.
 forum#:#forums_thread_new_entry#:#Nieuw thema werd toegevoegd
@@ -8867,6 +9030,8 @@ forum#:#frm_pseudonym#:#Pseudony
 forum#:#frm_purifier_not_implemented_for_type_x#:#Purifier for type %s not implemented yet.
 forum#:#frm_rating#:#Beoordeling
 forum#:#frm_selected_merge_src#:#Selected Thread to Merge: %s
+forum#:#frm_sorting_posts#:#Sorteren van onderwerpen
+forum#:#frm_sorting_threads#:#Sorteren van berichten binnen onderwerp
 forum#:#frm_statistics#:#Statistieken
 forum#:#frm_statistics_disabled_for_participants#:#Statistieken zijn niet beschikbaar voor forumdeelnemers.
 forum#:#frm_statistics_enabled#:#Laat statistieken toe
@@ -9296,11 +9461,16 @@ link#:#link_mobs#:#Media Objecten
 link#:#link_terms#:#Vakterm
 link#:#link_wpages#:#Wiki Pagina's
 mail#:#activate_serial_letter_placeholders#:#Inschakelen samenvoegen (mail-merge)
+mail#:#advice_mail_body_secured#:#Vanwege veiligheidsaspecten heeft ILIAS enkele elementen uit je bericht verwijderd. Controleer het beveiligde bericht en verstuur de e-mail opnieuw.
+mail#:#also_as_email#:#Ook als e-mail
+mail#:#auto_update#:#Wijzigen
 mail#:#back_to_folder#:#Terug naar Map
 mail#:#bc#:#BCC
 mail#:#chat_users_have_been_invited#:#The Users have been invited.
 mail#:#chat_users_without_login#:#The following Users don't have an ILIAS Account and can't be invited to a Chat Room
 mail#:#chat_users_without_permission#:#The following Users don't have access to the selected Chat Room.
+mail#:#cron_update_addressbook#:#Synchroniseer adressenboek automatisch
+mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cronjob. Only data that was released by the User, will be updated.
 mail#:#current_folder#:#Huidige map:
 mail#:#forward#:#Doorsturen
 mail#:#goto_invitation_chat#:#Open Chat Room
@@ -9312,25 +9482,44 @@ mail#:#link_check_introduction#:#de volgende hyperlinks zijn ongeldig
 mail#:#link_check_perma_link#:#Permanente Links
 mail#:#link_check_reason#:#Je ontvangt deze e-mail omdat je de berichtgeving voor inactieve links hebt ingeschakeld.
 mail#:#mail_account_mail#:#Account E-mail
+mail#:#mail_account_mail_check#:#Verzend Account E-mail
+mail#:#mail_addr_entries#:#Ingave
 mail#:#mail_add_folder#:#Add New Subfolder
 mail#:#mail_add_recipient#:#Voer een ontvanger in
 mail#:#mail_add_subfolder#:#Toevoegen submap
 mail#:#mail_add_subject#:#Voer een onderwerp in
+mail#:#mail_add_to_addressbook#:#Aan adresboek toevoegen
+mail#:#mail_add_type#:#Voeg het type e-mail toe dat je wilt verzenden
 mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Address Book to Mailing List
 mail#:#mail_attachments#:#Bijlagen
 mail#:#mail_auto_generated_info#:#Deze e-mail werd automatisch verstuurd vanuit ILIAS%s, %s
+mail#:#mail_bc_not_valid#:#De BCC-ontvanger is niet geldig
+mail#:#mail_bc_search#:#BCC-ontvanger zoeken
+mail#:#mail_byte#:#Byte
+mail#:#mail_cc_not_valid#:#CC-ontvanger niet geldig
+mail#:#mail_cc_search#:#CC-ontvanger zoeken
 mail#:#mail_change_to_folder#:#Ga naar map:
+mail#:#mail_check_your_email_addr#:#Je emailadres is niet geldig
+mail#:#mail_compose#:#Nieuw Bericht
 mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.
 mail#:#mail_crs_list_members_not_available#:#Het is niet mogelijk om de leden van de gemarkeerde cursussen te tonen.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.
 mail#:#mail_deleted#:#De e-mail is verwijderd
 mail#:#mail_deleted_entry#:#De inhoud is verwijderd
+mail#:#mail_edit_entry#:#Wijzig invoer
+mail#:#mail_email_forbidden#:#U bent niet gemachtigd om e-mails te verzenden
 mail#:#mail_empty_trash#:#Prullenbak leegmaken
 mail#:#mail_empty_trash_confirmation#:#Bent je zeker dat je alle e-mails in de prullenbak wilt verwijderen
 mail#:#mail_enable_crs_member_notification#:#Cursusbericht
 mail#:#mail_enable_crs_member_notification_info#:#Indien actief krijgen cursusdeelnemers automatisch bericht als er wijzigingen zijn.
 mail#:#mail_enable_grp_member_notification#:#Groepsbericht
 mail#:#mail_enable_grp_member_notification_info#:#Indien actief krijgen groepdeelnemers automatisch bericht als er wijzigingen zijn.
+mail#:#mail_enter_login_or_email_addr#:#Gelieve een geldige gebruikersnaam of e-mailadres in te geven.
+mail#:#mail_enter_valid_email_addr#:#Gelieve een geldig e-mailadres in te geven.
+mail#:#mail_enter_valid_login#:#Gelieve een geldige gebruikersnaam in te geven.
+mail#:#mail_entry_added#:#Voeg een nieuwe post toe
+mail#:#mail_entry_changed#:#De bijdrage is gewijzigd
+mail#:#mail_entry_exists#:#De ingegeven gebruikersnaam bestaat al.
 mail#:#mail_external_sender_noreply#:#noreply-Adresse
 mail#:#mail_files_deleted#:#De bestanden worden gewist
 mail#:#mail_file_name#:#Bestandsnaam
@@ -9345,9 +9534,14 @@ mail#:#mail_filter_subject#:#Onderwerp
 mail#:#mail_filter_txt#:#Filtreer berichten door
 mail#:#mail_folder_created#:#Een nieuwe map wordt aangemaakt
 mail#:#mail_folder_deleted#:#De map wordt verwijderd
+mail#:#mail_folder_edit#:#Wijzig map
 mail#:#mail_folder_exists#:#Een map met deze naam bestaat al
+mail#:#mail_folder_name#:#Mapnaam
 mail#:#mail_folder_name_changed#:#De map-naam is gewijzigd
+mail#:#mail_folder_options#:#Map opties
 mail#:#mail_following_rcp_not_valid#:#De volgende ontvangers zijn niet geldig:
+mail#:#mail_global_options#:#Globale opties
+mail#:#mail_group_members#:#Groepsdeelnemers
 mail#:#mail_incoming#:#Inkomende e-mail
 mail#:#mail_incoming_both#:#Lokaal en versturen
 mail#:#mail_incoming_local#:#Alleen lokaal
@@ -9355,7 +9549,10 @@ mail#:#mail_incoming_mail#:#Ingekomen e-mail
 mail#:#mail_incoming_smtp#:#verzenden naar e-mailadres
 mail#:#mail_insert_folder_name#:#Voeg een mapnaam in
 mail#:#mail_insert_query#:#Voeg een rij in
+mail#:#mail_intern#:#Intern
+mail#:#mail_into_addressbook#:#Toevoegen aan adresboek
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
+mail#:#mail_in_addressbook#:#Bestaat reeds in adresboek
 mail#:#mail_list_members#:#Deelnemerslijst
 mail#:#mail_mailing_list#:#Maillijst
 mail#:#mail_mailing_lists#:#Maillijsten
@@ -9364,6 +9561,7 @@ mail#:#mail_mark_unread#:#E-mail als ongelezen markeren
 mail#:#mail_maxsize_attachment_error#:#De limit voor upload is:
 mail#:#mail_max_size_attachments_total#:#Selecteer de maximum bestandsgrootte die is toegestaan voor e-mailbijlagen. Deze instelling is niet gerelateerd aan andere beperkingen zoals upload_max_filesize en dergelijke.
 mail#:#mail_max_size_attachments_total_error#:#De toegestane grootte van bijlagen is:
+mail#:#mail_members_added_addressbook#:#Deelnemers toegevoegd aan adresboek
 mail#:#mail_members_of_mailing_list#:#Leden van maillijst
 mail#:#mail_member_notification#:#Participant Notification
 mail#:#mail_message_send#:#Bericht verzonden
@@ -9373,6 +9571,7 @@ mail#:#mail_move_error#:#Fout verplaatsen e-mail
 mail#:#mail_move_to#:#Verplaatsen naar:
 mail#:#mail_multiple_recipients_found#:#Geef een specifieker e-mailadres. ILIAS heeft meerdere ontvangers gevonden voor dit adres: %s
 mail#:#mail_my_courses#:#Mijn Cursussen
+mail#:#mail_my_entries#:#Mijn Contacten
 mail#:#mail_my_groups#:#Mijn Groepen
 mail#:#mail_my_mailing_lists#:#Mijn maillijsten
 mail#:#mail_nacc_admin_mail#:#E-mailadres van de beheerder.
@@ -9389,12 +9588,19 @@ mail#:#mail_nacc_target_title#:#Titel van het doel, vb. cursustitel
 mail#:#mail_nacc_target_type#:#Type van het doel.
 mail#:#mail_nacc_timelimit#:#Periode van gebruikerstoegangs
 mail#:#mail_nacc_use_placeholder#:#Volgende placeholders kunnen worden gebruikt
+mail#:#mail_new_entry#:#Nieuwe invoer
+mail#:#mail_new_file#:#Voeg nieuw bestand toe:
 mail#:#mail_notification_subject#:#Nieuwe e-mail in je inbox
+mail#:#mail_no_attachments_found#:#Geen bijlagen gevonden
+mail#:#mail_no_attach_allowed#:#Systeem berichten mogen geen bijlagen bevatten.
 mail#:#mail_no_permissions_write_smtp#:#Je hebt geen rechten om externe e-mails te schrijven!
 mail#:#mail_no_recipient_found#:#Geef een ander e-mailadres. ILIAS kon geen ontvangers vinden.
 mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List
+mail#:#mail_options_of#:#Opties
 mail#:#mail_options_saved#:#Opties opgeslagen
 mail#:#mail_prevent_smtp_globally#:#Globaal verhinderen van het zenden van externe e-mail (via SMTP)
+mail#:#mail_received_x_new_mails#:#You received %s new mails.
+mail#:#mail_recipient_not_valid#:#De ontvanger is niet geldig
 mail#:#mail_rename_folder#:#Hernoem Map
 mail#:#mail_s#:#E-mail(s)
 mail#:#mail_salutation_anonymous#:#Beste
@@ -9410,6 +9616,9 @@ mail#:#mail_select_course#:#Selecteer minstens 1 cursus
 mail#:#mail_select_group#:#Gelieve minsten 1 groep te selecteren
 mail#:#mail_select_one_entry#:#U moet een één ingave selecteren!
 mail#:#mail_select_one_file#:#U moet één bestand selecteren.
+mail#:#mail_select_only_one_entry#:#Selecteer maximum 1 ingave
+mail#:#mail_select_recipients#:#Selecteer e-mailontvangers:
+mail#:#mail_send_with_system_address#:#Verzend met systeemadres
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>
 mail#:#mail_subject_prefix#:#E-mail Subject
 mail#:#mail_subject_prefix_info#:#Deze tekst wordt getoond in de onderwerp lijn van de automatische mails, voor het feitelijk onderwerp.
@@ -9417,12 +9626,17 @@ mail#:#mail_sure_delete#:#Ben je zeker dat je de gemarkeerde e-mail wilt verwijd
 mail#:#mail_sure_delete_entry#:#Ben je zeker dat je de volgende bijdragen wilt verwijderen?
 mail#:#mail_sure_delete_file#:#Het bestand zal verwijderd worden
 mail#:#mail_sure_delete_folder#:#De map en de inhoud zullen verwijderd worden
+mail#:#mail_s_unread#:#Ongelezen e-mail(s)
 mail#:#mail_to#:#Naar
+mail#:#mail_user_addr_n_valid#:#De volgende gebruikers hebben geen geldig emailadres
 mail#:#placeholders_advise#:#PLaatsaanduidingen worden alleen opgelost voor ontvangers in het "Naar"  veld. Ontvangers in de CC en BCC velden worden niet opgelost.
+mail#:#search_bc_recipient#:#Zoek BCC-ontvanger
+mail#:#search_cc_recipient#:#Zoek CC-ontvanger
 mail#:#search_content#:#Zoekresultaten
 mail#:#search_recipients#:#Zoek in ontvangers
 mail#:#send_mail_to#:#Aanmaken e-mail
 mail#:#system_notification_installation_changed_by#:#Gewijzigd door
+mail#:#system_notification_installation_signature#:#Deze e-mail is automatisch verzonden door de ILIAS installatie
 maps#:#maps_enable_maps#:#Inschakelen landkaarten
 maps#:#maps_enable_maps_info#:#Inschakelen landkaarten in gebruikersprofielen, groepen en cursussen.
 maps#:#maps_extt_maps#:#Landkaarten
@@ -15150,6 +15364,7 @@ prg#:#prg_view#:#View###30 08 2015 new variable
 prg#:#prg_update_from_current_plan#:#Update from current Plan###30 08 2015 new variable
 prg#:#prg_update_successful#:#Saved changes successfully!###30 08 2015 new variable
 prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!###30 08 2015 new variable
+prg#:#prg_warning_img_alt#:#Warning!###30 08 2015 new variable
 prg#:#prg_successful_img_alt#:#successful###30 08 2015 new variable
 prg#:#prg_in_progress_img_alt#:#in progress###30 08 2015 new variable
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.###30 08 2015 new variable
@@ -15333,10 +15548,13 @@ forum#:#restore#:#Restore###25 10 2016 new variable
 forum#:#restore_draft_from_autosave#:#Restore draft###25 10 2016 new variable
 forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>###25 10 2016 new variable
 forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>###25 10 2016 new variable
+forum#:#publishThreadDrafts#:#Publish Thread Draft###25 10 2016 new variable
+forum#:#deleteThreadDrafts#:#Delete Thread Draft###25 10 2016 new variable
 forum#:#edit_thread_draft#:#Edit thread draft###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.###25 10 2016 new variable
 pd#:#block_show_pdfrmpostdraft#:#Show 'My Posting Drafts'###25 10 2016 new variable
+forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#save_draft_successfully#:#The draft was saved successfully.###25 10 2016 new variable
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?###25 10 2016 new variable
@@ -16034,10 +16252,24 @@ iass#:#iass_status_pending#:#Status pending###25 10 2016 new variable
 iass#:#iass_notify#:#Notify user after finalization###25 10 2016 new variable
 iass#:#iass_finalize#:#Finalize###25 10 2016 new variable
 iass#:#il_iass_member#:#Individual Assessment examinee###25 10 2016 new variable
+iass#:#edit_members#:#Edit examinees###25 10 2016 new variable
+iass#:#iass_edit_members#:#Edit examinees###25 10 2016 new variable
+iass#:#iass_visible#:#Visible###25 10 2016 new variable
+iass#:#iass_read#:#Read###25 10 2016 new variable
+iass#:#iass_copy#:#Copy###25 10 2016 new variable
+iass#:#iass_write#:#Edit Settings###25 10 2016 new variable
+iass#:#iass_delete#:#Delete###25 10 2016 new variable
+iass#:#iass_read_learning_progress#:#View learning progress of other users###25 10 2016 new variable
+iass#:#iass_edit_permissions#:#Change Permissions###25 10 2016 new variable
+iass#:#iass_edit_learning_progress#:#Edit learning progress###25 10 2016 new variable
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised.###25 10 2016 new variable
 iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.###25 10 2016 new variable
 iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer###25 10 2016 new variable
+common#:##obj_iass#:#Individual Assessment###25 10 2016 new variable
+common#:##objs_iass#:#Individual Assessments###25 10 2016 new variable
+common#:##obj_iass_duplicate#:#Copy Individual Assessment###25 10 2016 new variable
+common#:##obj_iass_select#:#-- Please select one individual assessment --###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.###25 10 2016 new variable
 common#:#il_iass_member#:#Individual Assessment Examinee###25 10 2016 new variable
 common#:#iass_new#:#Create Individual Assessment###25 10 2016 new variable
@@ -16123,35 +16355,3 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###25 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###25 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
-grp#:#grp_members_deleted#:#Deleted members###18 01 2017 new variable
-cron#:#cro_job_rc_job_no_result#:#NO RESULT###deprecated 
-cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY###18 01 2017 new variable
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED###18 01 2017 new variable
-prg#:#warning#:#Warning!###18 01 2017 new variable
-iass#:#il_iass_members#:#Participants###18 01 2017 new variable
-common#:#obj_iass#:#Individual Assessment###18 01 2017 new variable
-common#:#objs_iass#:#Individual Assessments###18 01 2017 new variable
-common#:#obj_iass_duplicate#:#Copy Individual Assessment###18 01 2017 new variable
-common#:#obj_iass_select#:#-- Please select one individual assessment --###18 01 2017 new variable
-iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.###18 01 2017 new variable
-iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.###18 01 2017 new variable
-common#:#sahs_export_file#:#ILIAS exported SCORM archive file###18 01 2017 new variable
-content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.###18 01 2017 new variable
-survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>###18 01 2017 new variable
-content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.###18 01 2017 new variable
-grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration###18 01 2017 new variable
-auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###18 01 2017 new variable
-lng#:#lng_download_deprecated#:#Download Deprecated List###18 01 2017 new variable
-rbac#:#edit_members#:#Manage members###18 01 2017 new variable
-rbac#:#prg_manage_members#:#Manage members of Study Programme###18 01 2017 new variable
-rbac#:#rbac_create_iass#:#Create Individual Assessment###18 01 2017 new variable
-survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###deprecated 
-wsp#:#share_content#:#Share Object###18 01 2017 new variable
-wsp#:#share_with#:#Username###18 01 2017 new variable
-wsp#:#element_already_shared#:#This object is already shared with this user.###18 01 2017 new variable
-wsp#:#search_no_match#:#Your search did not match any results.###18 01 2017 new variable
-wsp#:#element_shared#:#Object shared.###18 01 2017 new variable
-wsp#:#share#:#Share###18 01 2017 new variable
-copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###18 01 2017 new variable
-auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.###18 01 2017 new variable
-crs#:#crs_edit_lo_introduction#:#Edit Introduction###18 01 2017 new variable

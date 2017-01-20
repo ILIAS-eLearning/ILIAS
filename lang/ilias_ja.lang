@@ -1910,6 +1910,118 @@ auth#:#login_page_activate#:#選択した言語用のエディタを起動する
 auth#:#login_page_editor_switched#:#アクティブのページエディタが変更されました
 auth#:#login_page_switch_ipe#:#ILIASページエディタを使用
 auth#:#login_page_switch_rte#:#Rich-Text-Editorを使用
+barometer#:#anonymous#:#匿名
+barometer#:#bar_create#:#新規フィードバックを作成
+barometer#:#barometer_add#:#新規フィードバックを追加
+barometer#:#barometer_conflict_anon_req#:#匿名利用は'必須'タイプと結合できません。このどれかのオプションを選択してください。
+barometer#:#barometer_title#:#フィードバック
+barometer#:#best#:#ベスト
+barometer#:#change_course#:#コースを変更
+barometer#:#chart_type#:#図のタイプ
+barometer#:#chart_users#:#図のユーザ
+barometer#:#chart_votes#:#グラフの投票
+barometer#:#day#:#日
+barometer#:#days#:#日間
+barometer#:#delete#:#削除
+barometer#:#duration#:#時間
+barometer#:#edit#:#編集
+barometer#:#edit_barometer#:#フィードバックを編集
+barometer#:#every#:#全て
+barometer#:#feedb_edit_feedback#:#フィードバックを編集
+barometer#:#feedb_feedback_list#:#フィードバック一覧
+barometer#:#feedb_feedback_settings#:#フィードバック設定
+barometer#:#feedb_time#:#時間
+barometer#:#first_vote#:#1. 投票は
+barometer#:#from#:#開始
+barometer#:#hours#:#時間
+barometer#:#lines#:#行
+barometer#:#login#:#ログイン
+barometer#:#missing_fields#:#全ての必須情報を記入してください。
+barometer#:#month#:#ヶ月
+barometer#:#months#:#ヶ月
+barometer#:#new_vote#:#新規投票
+barometer#:#note#:#コメント
+barometer#:#optional#:#オプション
+barometer#:#options#:#オプション
+barometer#:#pie#:#パイ
+barometer#:#repeat#:#繰返し間隔
+barometer#:#required#:#必須
+barometer#:#save#:#保存
+barometer#:#save_vote#:#投票提出
+barometer#:#skip#:#スキップ
+barometer#:#statistics#:#統計
+barometer#:#status#:#ステータス
+barometer#:#table#:#表
+barometer#:#text#:#テキスト
+barometer#:#text_answer#:#テキスト答案
+barometer#:#time#:#実行中
+barometer#:#title#:#タイトル
+barometer#:#type#:#タイプ
+barometer#:#until#:#～
+barometer#:#user#:#ユーザ
+barometer#:#vote#:#票
+barometer#:#votes#:#投票
+barometer#:#weeks#:#週間
+barometer#:#worst#:#最低
+barometer#:#year#:#年
+bibitem#:#bibitem_add#:#追加
+bibitem#:#bibitem_author#:#作成者
+bibitem#:#bibitem_av#:#AV
+bibitem#:#bibitem_bibitem#:#図書目録情報
+bibitem#:#bibitem_book#:#本
+bibitem#:#bibitem_booktitle#:#本の題名
+bibitem#:#bibitem_catalog#:#カタログ
+bibitem#:#bibitem_choose_index#:#図書目録情報を選択してください：
+bibitem#:#bibitem_cross_reference#:#相互参照
+bibitem#:#bibitem_delete#:#削除
+bibitem#:#bibitem_dissertation#:#論文
+bibitem#:#bibitem_edition#:#エディション
+bibitem#:#bibitem_editor#:#エディター
+bibitem#:#bibitem_entry#:#エントリー
+bibitem#:#bibitem_first_name#:#名
+bibitem#:#bibitem_grey_literature#:#灰色の文献
+bibitem#:#bibitem_how_published#:#出版方法
+bibitem#:#bibitem_identifier#:#識別子
+bibitem#:#bibitem_inbook#:#本の中で
+bibitem#:#bibitem_inproceedings#:#議事中
+bibitem#:#bibitem_institution#:#教育機関
+bibitem#:#bibitem_internet#:#インターネット
+bibitem#:#bibitem_isbn#:#ISBN
+bibitem#:#bibitem_issn#:#ISSN
+bibitem#:#bibitem_journal#:#雑誌
+bibitem#:#bibitem_journal_article#:#雑誌の記事
+bibitem#:#bibitem_keyword#:#キーワード
+bibitem#:#bibitem_label#:#レベル
+bibitem#:#bibitem_language#:#言語
+bibitem#:#bibitem_last_name#:#姓
+bibitem#:#bibitem_manual#:#マニュアル
+bibitem#:#bibitem_master_thesis#:#修士論文
+bibitem#:#bibitem_middle_name#:#ミドル ネーム
+bibitem#:#bibitem_month#:#月
+bibitem#:#bibitem_new_element#:#新規要素
+bibitem#:#bibitem_newspaper_article#:#新聞記事
+bibitem#:#bibitem_not_found#:#図書目録情報がありません。
+bibitem#:#bibitem_note#:#ノート
+bibitem#:#bibitem_number#:#番号
+bibitem#:#bibitem_organization#:#組織
+bibitem#:#bibitem_pages#:#ページ
+bibitem#:#bibitem_phd_thesis#:#PhD論文
+bibitem#:#bibitem_please_select#:#選択
+bibitem#:#bibitem_print#:#印刷
+bibitem#:#bibitem_proceedings#:#実行中
+bibitem#:#bibitem_publisher#:#出版社
+bibitem#:#bibitem_save#:#保存
+bibitem#:#bibitem_school#:#学校
+bibitem#:#bibitem_series#:#シリーズ
+bibitem#:#bibitem_series_editor#:#エディター
+bibitem#:#bibitem_series_title#:#シリーズタイトル
+bibitem#:#bibitem_series_volume#:#ボリューム
+bibitem#:#bibitem_technical_report#:#テクニカルレポート
+bibitem#:#bibitem_type#:#タイプ
+bibitem#:#bibitem_unpublished#:#未発表
+bibitem#:#bibitem_url#:#URL
+bibitem#:#bibitem_where_published#:#発表場所
+bibitem#:#bibitem_year#:#年
 bibl#:#attr_order#:#属性順
 bibl#:#attr_order_bibtex#:#属性順(Bibtex)
 bibl#:#attr_order_bibtex_info#:#初期値: isbn,issn,title
@@ -2250,8 +2362,10 @@ certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#バックグラウンドイメージ
+certificate#:#certificate_bottom#:#最低
 certificate#:#certificate_confirm_deletion_text#:#本当に証明書と関係するデータを削除しますか?
 certificate#:#certificate_custom#:#カスタム...
+certificate#:#certificate_delete#:#証明書データを削除
 certificate#:#certificate_edit#:#証明書テンプレートを作成/編集
 certificate#:#certificate_enabled_scorm#:#有効
 certificate#:#certificate_enabled_scorm_introduction#:#チェックすると証明書はSCORMラーニングモジュールを終了した全てのユーザに提供されます。
@@ -2260,10 +2374,12 @@ certificate#:#certificate_error_upload_bgimage#:#バックグラウンドイメ�
 certificate#:#certificate_export#:#証明書をエクスポート
 certificate#:#certificate_failed#:#失敗
 certificate#:#certificate_file_basename#:#証書
+certificate#:#certificate_left#:#左
 certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
 certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
 certificate#:#certificate_margin_body#:#Body Margin
 certificate#:#certificate_not_well_formed#:#証明書のテキストは適切に書式化されていません。証明テキスト用の有効なXHTMLを入力してください!
+certificate#:#certificate_padding_top#:#Top Padding
 certificate#:#certificate_page_format#:#ページ形式
 certificate#:#certificate_page_format_info#:#新しい証明書用の初期設定ページ形式を選択してください。
 certificate#:#certificate_pageheight#:#ページ高さ
@@ -2311,10 +2427,16 @@ certificate#:#certificate_ph_title_sco#:#タイトル
 certificate#:#certificate_ph_zipcode#:#ユーザの郵便番号
 certificate#:#certificate_points_notavailable#:#この値は計算できません
 certificate#:#certificate_preview#:#証明書プレビューを表示
+certificate#:#certificate_right#:#右
 certificate#:#certificate_settings#:#証明書設定
 certificate#:#certificate_short_name#:#短いタイトルの証明書ファイル
 certificate#:#certificate_short_name_description#:#証明書の名前用の短いタイトルを入力してください。短いタイトルは証明書名 YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdfの一部になります。
+certificate#:#certificate_show#:#証明書を表示
+certificate#:#certificate_status#:#ステータス
+certificate#:#certificate_status_complete#:#証明書は完了し使用可能です
+certificate#:#certificate_status_incomplete#:#証明書が不完全です
 certificate#:#certificate_text#:#証明書テキスト
+certificate#:#certificate_top#:#Top
 certificate#:#certificate_unit_description#:#10mm又は3inの例のように値[cm|mm|in|pt|pc|px|em]の単位を入力
 certificate#:#certificate_usage#:#ILIASJavaサーバーが稼働中の場合は、証明書の使用法のみ利用可能である事に注意願います。Javaサーバーの設定はILIASWebサービスの管理メインページにあります。
 certificate#:#certificate_var_max_points#:#46
@@ -2342,10 +2464,13 @@ certificate#:#certificate_visibility_introduction#:#証明書をユーザへ提�
 certificate#:#certificate_visibility_never#:#表示しない
 certificate#:#certificate_visibility_passed#:#テスト合格者のみに表示する
 certificate#:#certificate_visibility_passed_exercise#:#演習問題に合格したユーザのみ表示
+certificate#:#certificate_wrong_unit#:#ユニット入力が間違っています
+certificate#:#certificate_wrong_units#:#単位入力が間違っています
 certificate#:#default_background_info#:#この背景イメージは全ての証明書の背景として選択されます。証明書に別の背景イメージが必要な場合は証明書エディターで一つにしてアップロードしなければなりません。
 certificate#:#download_certificate#:#証明書をダウンロード
 chatroom#:#allow_anonymous#:#匿名ログインを許可
 chatroom#:#allow_custom_usernames#:#カスタムユーザ名を許可
+chatroom#:#allow_private_rooms#:#プライベートルームを許可
 chatroom#:#anonymous_hint#:#アクセス許可タブに対して匿名ユーザをこのリポジトリ項目へアクセス許可するための適切な設定がされている事を確認します。
 chatroom#:#auto_scroll#:#ページの最後までスクロール
 chatroom#:#autogen_usernames#:#自動ユーザ名の作成A
@@ -2358,19 +2483,28 @@ chatroom#:#chat_address#:#アドレス
 chatroom#:#chat_ban#:#禁止する
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b>は チャットルームを退室 ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> はチャットルームへ参加 +++
+chatroom#:#chat_create_new_private_room#:#新規プライベートルームを作成
 chatroom#:#chat_create_private_room_button#:#プライベートルームを作成
+chatroom#:#chat_delete#:#削除
 chatroom#:#chat_enable_autoscroll#:#オートスクロールON
 chatroom#:#chat_invitation#:#タイトルをクリックしてチャットルーム入り口へリンクしてください。##inviter_name## to chatroom ##room_name
 chatroom#:#chat_invitation_long#:#チャットルームへ参加するには次のURLをフォローしてください。##salutation##\n\n チャットルーム:\nChatroom　タイトル：##room_name##\n　招待者: ##inviter_name##\n　URL: ##link##\n\n
 chatroom#:#chat_invitation_short#:#タイトルリンクをクリックしてチャットルームへ入室してください。
 chatroom#:#chat_invite#:#招待
+chatroom#:#chat_invite_users#:#ユーザ招待
 chatroom#:#chat_join#:#参加
 chatroom#:#chat_kick#:#キック
+chatroom#:#chat_leave#:#退室
 chatroom#:#chat_mainroom#:#メインルーム
 chatroom#:#chat_message#:#メッセージ
 chatroom#:#chat_message_display#:#オプション
+chatroom#:#chat_message_notify_activate#:#チャット通知
 chatroom#:#chat_message_options#:#表示
 chatroom#:#chat_message_to_all#:#全員へ
+chatroom#:#chat_new_invitation_sound_status#:#ユーザがチャットへの招待受信時に音を鳴らす
+chatroom#:#chat_new_message_sound_status#:#新規メッセージがチャットへ投稿されたら音を鳴らす
+chatroom#:#chat_private_room#:#プライベートルーム
+chatroom#:#chat_right_box_user#:#ユーザ
 chatroom#:#chat_select_room#:#チャットルームを選択
 chatroom#:#chat_settings#:#チャット設定
 chatroom#:#chat_to_mainroom#:#メインルームへ
@@ -2379,12 +2513,15 @@ chatroom#:#chatroom_smiley_keyword#:#キーワード
 chatroom#:#chatserver_address#:#チャットサーバーのIPアドレス
 chatroom#:#chatserver_port#:#チャットサーバーのポート
 chatroom#:#chtr_add#:#チャットルームを追加
+chatroom#:#chtr_moderate#:#司会
 chatroom#:#chtr_new#:#新規チャットルーム
 chatroom#:#clear_room_history#:#メッセージ履歴を削除
 chatroom#:#clear_room_history_question#:#現在の部屋の全メッセージを本当に削除しますか?
+chatroom#:#connected#:#コネクション確立
 chatroom#:#create_private_room_text#:#プライベートのルームメイト
 chatroom#:#custom_username#:#カスタムユーザ名
 chatroom#:#delete_private_room#:#プライベートルームを削除
+chatroom#:#disconnected#:#コネクションを閉じる
 chatroom#:#display_past_msgs#:#過去のメッセージ数
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
@@ -2401,6 +2538,7 @@ chatroom#:#hint_display_past_msgs#:#ルーム入場した際に表示する過�
 chatroom#:#hint_enable_smilies#:#有効にすると構成したテキストシーケンスはアイコンに置き換わります。構成用のスマイルタグを参照。
 chatroom#:#hint_osd#:#有効にするとユーザは新しい招待に関してポップアップで通知されます。
 chatroom#:#hint_osd_interval#:#新規通知確認用のポーリングインターバル。低い数値にするとユーザへより頻繁に通知されますが、Webサーバーが処理しなければならないリクセスト数が増加します。
+chatroom#:#hint_unique_name#:#ILIASとILIAS認識用のチャットサーバーが使用する名前。一つのチャットサーバーあたり複数のクライアントが使用する場合は、この名前はILIAS例あたりユニークにする必要があります。
 chatroom#:#history_by_day#:#1日の履歴
 chatroom#:#history_by_session#:#セッション履歴
 chatroom#:#history_byday_title#:#日ごとの履歴
@@ -2408,6 +2546,8 @@ chatroom#:#history_bysession_title#:#セッションごとの履歴
 chatroom#:#history_cleared#:#メッセージ履歴がモデレータによって削除されました。
 chatroom#:#history_title_general#:#チャットルーム"%s"の会話
 chatroom#:#history_title_private_room#:#プライベートルーム "%s"の会話
+chatroom#:#ilias_url#:#インストールされているILIASのベースURL
+chatroom#:#instance_name#:#ユニーク識別子
 chatroom#:#invite_to_private_room#:#現在の部屋へ招待
 chatroom#:#invite_username#:#ユーザ名
 chatroom#:#italic#:#Italic
@@ -2418,6 +2558,7 @@ chatroom#:#layout#:#レイアウト
 chatroom#:#leave_private_room#:#プライベートルームを退室
 chatroom#:#lost_connection#:#チャットサーバーへのコネクションは中断されました。
 chatroom#:#main#:#メインルーム
+chatroom#:#moderate#:#司会する
 chatroom#:#no_further_users#:#他にユーザはいません
 chatroom#:#no_messages#:#特定期間内に何もメッセージは保存されていません。
 chatroom#:#no_username_given#:#ユーザ名を選択してください
@@ -2431,19 +2572,27 @@ chatroom#:#private_room_left#:#ユーザ<b>#user#</b>はプライベートルー
 chatroom#:#private_rooms_enabled#:#プライベートルームを許可
 chatroom#:#private_rooms_enabled_info#:#起動するとユーザはプライベートルームを作成できます。招待ユーザのみがこの部屋へアクセスします。
 chatroom#:#public_chat_created#:#パブリックチャットルームがリポジトリへ追加されました。
+chatroom#:#remark#:#備考
+chatroom#:#restrict_history#:#履歴を制限
+chatroom#:#restrict_history_info#:#チャットルーム不在の間はエントリー発行をしない
 chatroom#:#room_in_container#:#%s (%s:中)
 chatroom#:#scope#:#部屋/プライベートルーム
 chatroom#:#select_custom_username#:#カスタムユーザ名を選択
 chatroom#:#server_further_information#:#<a href="%1$s" target="_blank">readmeファイル</a>を参照してサーバー設定に関する追加情報を見る事ができます。
 chatroom#:#session#:#セッション
 chatroom#:#settings_general#:#全般
+chatroom#:#settings_privacy#:#プライバシー
 chatroom#:#settings_title#:#設定
 chatroom#:#show_settings#:#設定を表示
 chatroom#:#small#:#Small
+chatroom#:#soap_must_be_enabled#:#チャットを有効にするには全般設定にあるSOAPサポートをオンする必要があります。
+chatroom#:#soap_user#:#SOAPユーザ名
+chatroom#:#soap_user_password#:#SOAPユーザのパスワード
 chatroom#:#speak_to#:#<b>#user#</b>へささやく
 chatroom#:#unable_to_connect#:#チャットサーバーへのコネクションは確立されませんでした。
 chatroom#:#unban#:#禁止を外す
 chatroom#:#underlined#:#下線部
+chatroom#:#unkown_private_room#:#不明なプライベートルーム
 chatroom#:#user_in_ilias#:#検索してILIASからユーザを招待
 chatroom#:#user_in_room#:#現在のチャットルームからユーザを招待
 chatroom#:#user_invited#:#ユーザ<b>#user#</b>は招待されています。
@@ -2473,16 +2622,23 @@ chatroom_adm#:#chatserver_settings_title#:#チャットサーバー設定
 chatroom_adm#:#client_settings#:#クライアント設定
 chatroom_adm#:#enable_osd#:#画面通知を有効にする
 chatroom_adm#:#general_settings_title#:#全般チャット設定
+chatroom_adm#:#hash#:#Hash
 chatroom_adm#:#https#:#HTTPS
+chatroom_adm#:#instance#:#事例
+chatroom_adm#:#keypass#:#キーパス
+chatroom_adm#:#keystore#:#キーストア
 chatroom_adm#:#osd_intervall#:#リフレッシュ間隔(秒)
 chatroom_adm#:#play_invitation_sound#:#新規招待を受領時に音を鳴らす
 chatroom_adm#:#port_info#:#使用中のポートがファイヤーウォールやプロキシーサーバーによりブロックされ事があります。設定したポートがブロックされるとユーザのブラウザはチャットサーバーとの接続を確立する事ができなくなります。
+chatroom_adm#:#priv_hosts#:#特権ホスト
 chatroom_adm#:#protocol#:#プロトコル
 chatroom_adm#:#public_chat_permissions#:#パブリックチャットルームのアクセス権
 chatroom_adm#:#public_chat_settings#:#パブリックチャットルーム設定
 chatroom_adm#:#server_settings#:#サーバー設定
 chatroom_adm#:#settings_has_been_saved#:#設定を保存しました
 chatroom_adm#:#smiley#:#スマイル
+chatroom_adm#:#soap_user_hint#:#このユーザはチャットサーバーからiliasに対して情報送信のために使用されています。特別なアクセス権は必要ありません。<br/>新規アカウント作成する場合はこのユーザでログインできる事(例、使用許諾書の承諾）を確認してください。
+chatroom_adm#:#storepass#:#ストアパス
 classification#:#clsfct_block_info#:#選択がオブジェクトをフィルターします。
 classification#:#clsfct_block_title#:#トピックで選択
 classification#:#clsfct_content_no_match#:#ヒットなし
@@ -4083,6 +4239,7 @@ common#:#mail_addressbook#:#連絡先
 common#:#mail_allow_smtp#:#SMTPを許可
 common#:#mail_at_the_ilias_installation#:#ILIASインストレーション%2$sに%1$sの新規メールがあります。
 common#:#mail_attachment#:#メール添付
+common#:#mail_attachments#:#メール添付
 common#:#mail_b_inbox#:#受信トレイ
 common#:#mail_c_trash#:#ごみ箱
 common#:#mail_d_drafts#:#下書き
@@ -8965,7 +9122,9 @@ forum#:#forums_all_threads_marked_read#:#全てのトピックスは既読とし
 forum#:#forums_attachments#:#添付ファイル
 forum#:#forums_attachments_add#:#添付ファイルを追加
 forum#:#forums_censor_comment#:#検閲者のコメント
+forum#:#forums_count#:#フォーラムの数
 forum#:#forums_count_art#:#記事の数
+forum#:#forums_count_thr#:#トピックスの数
 forum#:#forums_created_by#:#作成者
 forum#:#forums_delete_file#:#添付を削除
 forum#:#forums_disable_notification#:#このトピックの通知を無効
@@ -8979,11 +9138,14 @@ forum#:#forums_info_delete_post#:#本当に応答を含むこの記事を削除�
 forum#:#forums_mark_read#:#既読として全てマーク
 forum#:#forums_new_thread#:#新しいトピック
 forum#:#forums_no_posts_available#:#このトピックにはまだ未投稿かモデレータが最初の投稿をアクティブ解除しています。
+forum#:#forums_notification#:#通知
 forum#:#forums_notification_disabled#:#通知しない
 forum#:#forums_notification_enabled#:#通知する
 forum#:#forums_notification_intro#:#このメールはILIASシステム%sから自動的に送信されたものです。
 forum#:#forums_notification_show_post#:#投稿:%sを表示
+forum#:#forums_notification_subject#:#フォーラムの新しい投稿
 forum#:#forums_post_activation_mail#:#次の投稿がアクティブにならないとフォーラムのユーザは表示されません。モデレータ役なので投稿を有効にする役割としてemailを受信します。
+forum#:#forums_post_and_children_were_activated#:#ポストと全てのその子ポストは使用可能になりました。
 forum#:#forums_post_deleted#:#記事が削除されました。
 forum#:#forums_post_modified#:#記事が修正されました。
 forum#:#forums_post_needs_to_be_activated#:#新しい投稿が作成されましたが、モデレータによるアクティブ化が必要です。
@@ -8995,6 +9157,7 @@ forum#:#forums_print_thread#:#トピックを印刷
 forum#:#forums_subject#:#件名
 forum#:#forums_the_post#:#記事
 forum#:#forums_thread#:#トピック
+forum#:#forums_thread_create_date#:#作成時間
 forum#:#forums_thread_create_from#:#作成者
 forum#:#forums_thread_deleted#:#全ての投稿を含む選択されたスレッドは削除されました。
 forum#:#forums_thread_marked#:#トピックは既読としてマークされました。
@@ -9034,6 +9197,8 @@ forum#:#frm_purifier_not_implemented_for_type_x#:#タイプ %の検証ツール�
 forum#:#frm_rating#:#レート
 forum#:#frm_revoke_censorship#:#検閲権破棄
 forum#:#frm_selected_merge_src#:#マージする選択したスレッド: %s
+forum#:#frm_sorting_posts#:#並び替えを投稿
+forum#:#frm_sorting_threads#:#スレッド並び替え
 forum#:#frm_statistics#:#統計
 forum#:#frm_statistics_disabled_for_participants#:#フォーラム メンバーには統計は機能しません。
 forum#:#frm_statistics_enabled#:#統計を可能にする
@@ -9477,11 +9642,16 @@ link#:#link_terms#:#用語
 link#:#link_wpages#:#Wiki Pages
 lm#:#lm_copy#:#ラーニングモジュールをコピー
 mail#:#activate_serial_letter_placeholders#:#定型文のプレースフォルダを利用
+mail#:#advice_mail_body_secured#:#セキュリティ上の理由のため ILIASはメッセージ要素の一部を削除する事があります。 セキュリティで保護されたメッセージを確認してメールを再送信してください。
+mail#:#also_as_email#:#emailも同様
+mail#:#auto_update#:#更新
 mail#:#back_to_folder#:#フォルダへ戻る
 mail#:#bc#:#BCC
 mail#:#chat_users_have_been_invited#:#ユーザは招待されています。
 mail#:#chat_users_without_login#:#次のユーザはILIAS アカウントがなく、チャットルームへ招待することはできません。
 mail#:#chat_users_without_permission#:#次のユーザは選択したチャットルームへアクセスできません。
+mail#:#cron_update_addressbook#:#自動的にアドレス帳エントリを同期
+mail#:#cron_update_addressbook_desc#:#この選択肢を有効にするとユーザはクローンjobで同期されるユーザアカウントに関係するアドレス帳エントリかどうかを指定できます。ユーザによりリリースされた日付のみが更新されます。
 mail#:#current_folder#:#現在のフォルダ: %s
 mail#:#forward#:#転送
 mail#:#goto_invitation_chat#:#チャットルームを開く
@@ -9493,25 +9663,44 @@ mail#:#link_check_introduction#:#次のweblinkは無効です:
 mail#:#link_check_perma_link#:#Permanent Link
 mail#:#link_check_reason#:#無効なリンクの通知を有効にしているのでメールを受信します。
 mail#:#mail_account_mail#:#メールアカウント
+mail#:#mail_account_mail_check#:#メールアカウントを送信
 mail#:#mail_add_folder#:#新規サブフォルダを追加
 mail#:#mail_add_recipient#:#宛先を入力してください
 mail#:#mail_add_subfolder#:#サブフォルダを追加
 mail#:#mail_add_subject#:#件名を入力してください。
+mail#:#mail_add_to_addressbook#:#連絡先を追加
+mail#:#mail_add_type#:#送信したいメールのタイプを追加してください
+mail#:#mail_addr_entries#:#エントリー
 mail#:#mail_assign_entry_to_mailing_list#:#メーリングリストに連絡先のエントリーを割当てます
 mail#:#mail_attachments#:#添付
 mail#:#mail_auto_generated_info#:#このメールはIIASシステム%s,%sが自動送信したものです。
+mail#:#mail_bc_not_valid#:#BCC宛先が正しくありません
+mail#:#mail_bc_search#:#BCC検索
+mail#:#mail_byte#:#バイト
+mail#:#mail_cc_not_valid#:#CC宛先が無効です
+mail#:#mail_cc_search#:#CC検索
 mail#:#mail_change_to_folder#:#フォルダ切替
+mail#:#mail_check_your_email_addr#:#emailアドレスが正しくありません
+mail#:#mail_compose#:#メッセージを作成
 mail#:#mail_cronjob_notification_info#:#ここで新しいメールに関する定期的な通知を有効にできます。
 mail#:#mail_crs_list_members_not_available#:#マーク付きのコースのメンバーを一覧表示することはできません。
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#最低 1つ選択したコースのメンバーを一覧表示できます。
 mail#:#mail_deleted#:#メールは削除されました
 mail#:#mail_deleted_entry#:#エントリーは削除されました
+mail#:#mail_edit_entry#:#エントリーを編集します
+mail#:#mail_email_forbidden#:#emailの送信はできません
 mail#:#mail_empty_trash#:#ごみ箱を空にする
 mail#:#mail_empty_trash_confirmation#:#本当にごみ箱の中の全てのメールを削除しますか?
 mail#:#mail_enable_crs_member_notification#:#コース通知
 mail#:#mail_enable_crs_member_notification_info#:#有効にするとコース受講者はメンバーシップ変更に関して自動的に通知されます。
 mail#:#mail_enable_grp_member_notification#:#グループ通知
 mail#:#mail_enable_grp_member_notification_info#:#有効にするとグループ受講者はメンバーシップ変更に関して自動的に通知されます。
+mail#:#mail_enter_login_or_email_addr#:#有効なログイン名もしくはemailアドレスを入力してください。
+mail#:#mail_enter_valid_email_addr#:#有効なemailアドレスを入力してください。
+mail#:#mail_enter_valid_login#:#有効なログイン名を入力してください。
+mail#:#mail_entry_added#:#新しいエントリーが追加されました
+mail#:#mail_entry_changed#:#エントリーを変更します
+mail#:#mail_entry_exists#:#指定されたログインのエントリーが既に使用されています。
 mail#:#mail_external_sender_noreply#:#no-reply address
 mail#:#mail_file_name#:#ファイル名
 mail#:#mail_file_size#:#ファイルサイズ
@@ -9526,9 +9715,15 @@ mail#:#mail_filter_subject#:#件名
 mail#:#mail_filter_txt#:#メッセージでフィルタ
 mail#:#mail_folder_created#:#新規フォルダが作成されました
 mail#:#mail_folder_deleted#:#フォルダは削除されました
+mail#:#mail_folder_edit#:#フォルダを編集します
 mail#:#mail_folder_exists#:#この名前のフォルダは既に使用されています
+mail#:#mail_folder_name#:#フォルダ名
 mail#:#mail_folder_name_changed#:#フォルダは名前変更されました
+mail#:#mail_folder_options#:#フォルダオプション
 mail#:#mail_following_rcp_not_valid#:#次の受信者は正しくありません
+mail#:#mail_global_options#:#グローバルオプション
+mail#:#mail_group_members#:#グループ メンバー
+mail#:#mail_in_addressbook#:#連絡先に登録済
 mail#:#mail_incoming#:#受信メール
 mail#:#mail_incoming_both#:#ローカル受信と転送
 mail#:#mail_incoming_local#:#ローカル受信のみ
@@ -9536,6 +9731,8 @@ mail#:#mail_incoming_mail#:#受信メール
 mail#:#mail_incoming_smtp#:#emailアドレスへ転送
 mail#:#mail_insert_folder_name#:#フォルダ名を挿入してください
 mail#:#mail_insert_query#:#質問を挿入してください
+mail#:#mail_intern#:#内部
+mail#:#mail_into_addressbook#:#連絡先を追加します
 mail#:#mail_invite_users_to_chat#:#ユーザをチャットへ招待します
 mail#:#mail_list_members#:#メンバー一覧表示
 mail#:#mail_mailing_list#:#メーリングリスト
@@ -9546,6 +9743,7 @@ mail#:#mail_max_size_attachments_total#:#メール1通に添付可能な最大�
 mail#:#mail_max_size_attachments_total_error#:#添付できるサイズ:
 mail#:#mail_maxsize_attachment_error#:#アップロード制限:
 mail#:#mail_member_notification#:#受講者通知
+mail#:#mail_members_added_addressbook#:#連絡先へ追加するメンバー
 mail#:#mail_members_of_mailing_list#:#メーリングリストのメンバー
 mail#:#mail_message_send#:#メッセージ送信
 mail#:#mail_move_error#:#メール移動中エラー
@@ -9554,6 +9752,7 @@ mail#:#mail_moved#:#メールは移動されました
 mail#:#mail_moved_to_trash#:#メールはごみ箱へ移動されました
 mail#:#mail_multiple_recipients_found#:#より確実なアドレスを入力してください。ILIASシステムにはこのアドレスに対して複数の可能性のある受信者:%sが存在します。
 mail#:#mail_my_courses#:#マイコース
+mail#:#mail_my_entries#:#マイコンタクト
 mail#:#mail_my_groups#:#マイグループ
 mail#:#mail_my_mailing_lists#:#マイメーリングリスト
 mail#:#mail_nacc_admin_mail#:#管理者のメールアドレス
@@ -9570,14 +9769,22 @@ mail#:#mail_nacc_target_title#:#コースタイトルのような対象アイテ
 mail#:#mail_nacc_target_type#:#コースアイテムの"コース"のような対象アイテムのタイプ。
 mail#:#mail_nacc_timelimit#:#ユーザアクセス期限
 mail#:#mail_nacc_use_placeholder#:#次のプレースフォルダを使用できます
+mail#:#mail_new_entry#:#新しいエントリー
+mail#:#mail_new_file#:#新しいファイルを追加:
+mail#:#mail_no_attach_allowed#:#システムメッセージには添付ファイルを付ける事はできません
+mail#:#mail_no_attachments_found#:#添付が見つかりません
 mail#:#mail_no_permissions_write_smtp#:#外部emailに対する書込みアクセス権限がありません
 mail#:#mail_no_recipient_found#:#別のメールアドレスを入力します。このメールアドレスの受信者がILIASに見つかりません。
 mail#:#mail_no_valid_mailing_list#:#メーリングリストが正しくありません
 mail#:#mail_notification_subject#:# 受信トレイの新しいメール
+mail#:#mail_options_of#:#オプション
 mail#:#mail_options_saved#:#オプションが保存されました
 mail#:#mail_prevent_smtp_globally#:#(SMTP)経由でグローバルに外部へメールを送るようにする
+mail#:#mail_received_x_new_mails#:#新しいメールを %s件受信しました。
+mail#:#mail_recipient_not_valid#:#受信者が正しくありません
 mail#:#mail_rename_folder#:#フォルダ名を変更
 mail#:#mail_s#:#メール
+mail#:#mail_s_unread#:#未読メール
 mail#:#mail_salutation_anonymous#:#Hello
 mail#:#mail_salutation_f#:#Hello
 mail#:#mail_salutation_female#:#女性向けの挨拶文
@@ -9591,6 +9798,9 @@ mail#:#mail_select_course#:#コースを一つは選択してください。
 mail#:#mail_select_group#:#グループを一つは選んでください。
 mail#:#mail_select_one_entry#:#エントリーを一つ選択しなければなりません
 mail#:#mail_select_one_file#:#ファイルを一つ選択しなければなりません
+mail#:#mail_select_only_one_entry#:#エントリーを一つだけ選択してください。
+mail#:#mail_select_recipients#:#メールの受取人を選択してください
+mail#:#mail_send_with_system_address#:#システムアドレスと一緒に送ってください
 mail#:#mail_settings_incoming_type_see_also#:#<a href="%s">ここ</a>でユーザの受信emaiタイプを修正可能です。
 mail#:#mail_subject_prefix#:#メール件名
 mail#:#mail_subject_prefix_info#:#自動生成される発信メール件名の行の部分へ挿入するテキストを入力します。
@@ -9599,11 +9809,15 @@ mail#:#mail_sure_delete_entry#:#本当に次のエントリーを削除します
 mail#:#mail_sure_delete_file#:#ファイルは完全に削除されます
 mail#:#mail_sure_delete_folder#:#フォルダとそのコンテンツは完全に削除されます
 mail#:#mail_to#:#To
+mail#:#mail_user_addr_n_valid#:#次のユーザには正しいemailアドレスがありません
 mail#:#placeholders_advise#:#プレースフォルダはTo欄にある宛先のみ解決します。CCとBCC欄の宛先 %s は未解決のプレースフォルダとなります。
+mail#:#search_bc_recipient#:#BCC受信者を検索
+mail#:#search_cc_recipient#:#CC受信者を検索
 mail#:#search_content#:#結果を検索
 mail#:#search_recipients#:#宛先を検索
 mail#:#send_mail_to#:#Mail to
 mail#:#system_notification_installation_changed_by#:#変更者
+mail#:#system_notification_installation_signature#:#このメールはILIASから自動的に送信されたものです。
 maps#:#maps_enable_maps#:#マップを利用可能にする
 maps#:#maps_enable_maps_info#:#ユーザプロファイル、グループ、コースのマップを有効化urses.
 maps#:#maps_extt_maps#:#マップを利用可能にする
@@ -15216,6 +15430,7 @@ prg#:#prg_view#:#View###23 12 2015 new variable
 prg#:#prg_update_from_current_plan#:#Update from current Plan###23 12 2015 new variable
 prg#:#prg_update_successful#:#Saved changes successfully!###23 12 2015 new variable
 prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!###23 12 2015 new variable
+prg#:#prg_warning_img_alt#:#Warning!###23 12 2015 new variable
 prg#:#prg_successful_img_alt#:#successful###23 12 2015 new variable
 prg#:#prg_in_progress_img_alt#:#in progress###23 12 2015 new variable
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.###23 12 2015 new variable
@@ -15333,10 +15548,13 @@ forum#:#restore#:#Restore###25 10 2016 new variable
 forum#:#restore_draft_from_autosave#:#Restore draft###25 10 2016 new variable
 forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>###25 10 2016 new variable
 forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>###25 10 2016 new variable
+forum#:#publishThreadDrafts#:#Publish Thread Draft###25 10 2016 new variable
+forum#:#deleteThreadDrafts#:#Delete Thread Draft###25 10 2016 new variable
 forum#:#edit_thread_draft#:#Edit thread draft###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.###25 10 2016 new variable
 pd#:#block_show_pdfrmpostdraft#:#Show 'My Posting Drafts'###25 10 2016 new variable
+forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#save_draft_successfully#:#The draft was saved successfully.###25 10 2016 new variable
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?###25 10 2016 new variable
@@ -16034,10 +16252,24 @@ iass#:#iass_status_pending#:#Status pending###25 10 2016 new variable
 iass#:#iass_notify#:#Notify user after finalization###25 10 2016 new variable
 iass#:#iass_finalize#:#Finalize###25 10 2016 new variable
 iass#:#il_iass_member#:#Individual Assessment examinee###25 10 2016 new variable
+iass#:#edit_members#:#Edit examinees###25 10 2016 new variable
+iass#:#iass_edit_members#:#Edit examinees###25 10 2016 new variable
+iass#:#iass_visible#:#Visible###25 10 2016 new variable
+iass#:#iass_read#:#Read###25 10 2016 new variable
+iass#:#iass_copy#:#Copy###25 10 2016 new variable
+iass#:#iass_write#:#Edit Settings###25 10 2016 new variable
+iass#:#iass_delete#:#Delete###25 10 2016 new variable
+iass#:#iass_read_learning_progress#:#View learning progress of other users###25 10 2016 new variable
+iass#:#iass_edit_permissions#:#Change Permissions###25 10 2016 new variable
+iass#:#iass_edit_learning_progress#:#Edit learning progress###25 10 2016 new variable
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised.###25 10 2016 new variable
 iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.###25 10 2016 new variable
 iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer###25 10 2016 new variable
+common#:##obj_iass#:#Individual Assessment###25 10 2016 new variable
+common#:##objs_iass#:#Individual Assessments###25 10 2016 new variable
+common#:##obj_iass_duplicate#:#Copy Individual Assessment###25 10 2016 new variable
+common#:##obj_iass_select#:#-- Please select one individual assessment --###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.###25 10 2016 new variable
 common#:#il_iass_member#:#Individual Assessment Examinee###25 10 2016 new variable
 common#:#iass_new#:#Create Individual Assessment###25 10 2016 new variable
@@ -16123,35 +16355,3 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###25 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###25 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
-grp#:#grp_members_deleted#:#Deleted members###18 01 2017 new variable
-cron#:#cro_job_rc_job_no_result#:#NO RESULT###deprecated 
-cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY###18 01 2017 new variable
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED###18 01 2017 new variable
-prg#:#warning#:#Warning!###18 01 2017 new variable
-iass#:#il_iass_members#:#Participants###18 01 2017 new variable
-common#:#obj_iass#:#Individual Assessment###18 01 2017 new variable
-common#:#objs_iass#:#Individual Assessments###18 01 2017 new variable
-common#:#obj_iass_duplicate#:#Copy Individual Assessment###18 01 2017 new variable
-common#:#obj_iass_select#:#-- Please select one individual assessment --###18 01 2017 new variable
-iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.###18 01 2017 new variable
-iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.###18 01 2017 new variable
-common#:#sahs_export_file#:#ILIAS exported SCORM archive file###18 01 2017 new variable
-content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.###18 01 2017 new variable
-survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>###18 01 2017 new variable
-content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.###18 01 2017 new variable
-grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration###18 01 2017 new variable
-auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###18 01 2017 new variable
-lng#:#lng_download_deprecated#:#Download Deprecated List###18 01 2017 new variable
-rbac#:#edit_members#:#Manage members###18 01 2017 new variable
-rbac#:#prg_manage_members#:#Manage members of Study Programme###18 01 2017 new variable
-rbac#:#rbac_create_iass#:#Create Individual Assessment###18 01 2017 new variable
-survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###deprecated 
-wsp#:#share_content#:#Share Object###18 01 2017 new variable
-wsp#:#share_with#:#Username###18 01 2017 new variable
-wsp#:#element_already_shared#:#This object is already shared with this user.###18 01 2017 new variable
-wsp#:#search_no_match#:#Your search did not match any results.###18 01 2017 new variable
-wsp#:#element_shared#:#Object shared.###18 01 2017 new variable
-wsp#:#share#:#Share###18 01 2017 new variable
-copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###18 01 2017 new variable
-auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.###18 01 2017 new variable
-crs#:#crs_edit_lo_introduction#:#Edit Introduction###18 01 2017 new variable
