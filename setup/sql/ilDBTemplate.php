@@ -18973,7 +18973,7 @@ $in_fields = array("pos_date");
 $ilDB->addIndex("frm_posts", $in_fields, "i3", false);
 
 $in_fields = array("pos_subject");
-$ilDB->addIndex("frm_posts", $in_fields, "i4", false);
+$ilDB->addIndex("frm_posts", $in_fields, "i4", true);
 
 $ilDB->createSequence("frm_posts", 1);
 
@@ -19547,7 +19547,7 @@ $in_fields = array("thr_top_fk");
 $ilDB->addIndex("frm_threads", $in_fields, "i2", false);
 
 $in_fields = array("thr_subject");
-$ilDB->addIndex("frm_threads", $in_fields, "i1", false);
+$ilDB->addIndex("frm_threads", $in_fields, "i1", true);
 
 $ilDB->createSequence("frm_threads", 1);
 
@@ -19850,7 +19850,7 @@ $in_fields = array("glo_id");
 $ilDB->addIndex("glossary_term", $in_fields, "i1", false);
 
 $in_fields = array("term");
-$ilDB->addIndex("glossary_term", $in_fields, "i2", false);
+$ilDB->addIndex("glossary_term", $in_fields, "i2", true);
 
 $ilDB->createSequence("glossary_term", 1);
 
@@ -23132,7 +23132,7 @@ $in_fields = array("rbac_id","obj_id");
 $ilDB->addIndex("il_meta_entity", $in_fields, "i1", false);
 
 $in_fields = array("entity");
-$ilDB->addIndex("il_meta_entity", $in_fields, "i2", false);
+$ilDB->addIndex("il_meta_entity", $in_fields, "i2", true);
 
 $ilDB->createSequence("il_meta_entity", 1);
 
@@ -23454,7 +23454,7 @@ $in_fields = array("rbac_id","obj_id");
 $ilDB->addIndex("il_meta_keyword", $in_fields, "i1", false);
 
 $in_fields = array("keyword");
-$ilDB->addIndex("il_meta_keyword", $in_fields, "i2", false);
+$ilDB->addIndex("il_meta_keyword", $in_fields, "i2", true);
 
 $ilDB->createSequence("il_meta_keyword", 1);
 
@@ -31934,7 +31934,7 @@ $in_fields = array("import_id");
 $ilDB->addIndex("object_data", $in_fields, "i4", false);
 
 $in_fields = array("title","description");
-$ilDB->addIndex("object_data", $in_fields, "i3", false);
+$ilDB->addIndex("object_data", $in_fields, "i3", true);
 
 $ilDB->createSequence("object_data", 268);
 
@@ -50768,7 +50768,7 @@ $in_fields = array("owner_fi");
 $ilDB->addIndex("svy_question", $in_fields, "i2", false);
 
 $in_fields = array("title","description");
-$ilDB->addIndex("svy_question", $in_fields, "i3", false);
+$ilDB->addIndex("svy_question", $in_fields, "i3", true);
 
 $ilDB->createSequence("svy_question", 1);
 
@@ -54711,7 +54711,7 @@ $in_fields = array("obj_fi");
 $ilDB->addIndex("tst_tests", $in_fields, "i1", false);
 
 $in_fields = array("introduction");
-$ilDB->addIndex("tst_tests", $in_fields, "i2", false);
+$ilDB->addIndex("tst_tests", $in_fields, "i2", true);
 
 $ilDB->createSequence("tst_tests", 1);
 
@@ -56613,7 +56613,7 @@ $in_fields = array("link_id","webr_id");
 $ilDB->addIndex("webr_items", $in_fields, "i1", false);
 
 $in_fields = array("title");
-$ilDB->addIndex("webr_items", $in_fields, "i2", false);
+$ilDB->addIndex("webr_items", $in_fields, "i2", true);
 
 $ilDB->createSequence("webr_items", 1);
 
