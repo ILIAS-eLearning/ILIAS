@@ -1346,6 +1346,118 @@ auth#:#login_page_activate#:#Seçilmiş Dilleri Etkinleştir Editör
 auth#:#login_page_editor_switched#:#Etkin sayfa editörü değişti
 auth#:#login_page_switch_ipe#:#kullanımlar ILIAS Sayfası Editörü
 auth#:#login_page_switch_rte#:#Kullanım Zengin Metin Editör
+barometer#:#anonymous#:#Anonim
+barometer#:#bar_create#:#Yeni Görüşleri Oluştur
+barometer#:#barometer_add#:#Yeni Geribildirim ekle
+barometer#:#barometer_conflict_anon_req#:#Kriptolojitabanlı türü 'Gerekli' ile kombine edilemez. Bu seçeneklerden birini seçiniz.
+barometer#:#barometer_title#:#Geri Bildirim
+barometer#:#best#:#En İyi
+barometer#:#change_course#:#Değişim Ders
+barometer#:#chart_type#:#Grafik türü
+barometer#:#chart_users#:#Grafik Kullanıcı
+barometer#:#chart_votes#:#Grafik oy
+barometer#:#day#:#Gün
+barometer#:#days#:#gün
+barometer#:#delete#:#Sil
+barometer#:#duration#:#Süre
+barometer#:#edit#:#Edit
+barometer#:#edit_barometer#:#Edit geribildirim
+barometer#:#every#:#her
+barometer#:#feedb_edit_feedback#:#Edit Görüşleri
+barometer#:#feedb_feedback_list#:#Geri Bildirim Listesi
+barometer#:#feedb_feedback_settings#:#Geri Bildirim Ayarları
+barometer#:#feedb_time#:#Zaman
+barometer#:#first_vote#:#1. Oy olduğunu
+barometer#:#from#:#Gönderen
+barometer#:#hours#:#Saat
+barometer#:#lines#:#Hatları
+barometer#:#login#:#Giriş
+barometer#:#missing_fields#:#tüm gerekli bilgileri doldurunuz
+barometer#:#month#:#Ay
+barometer#:#months#:#Aylar
+barometer#:#new_vote#:#Yeni oy
+barometer#:#note#:#Yorum
+barometer#:#optional#:#Opsiyonel
+barometer#:#options#:#Seçenekleri
+barometer#:#pie#:#Pasta
+barometer#:#repeat#:#Her tekrarlayın
+barometer#:#required#:#Gerekli
+barometer#:#save#:#Kaydet
+barometer#:#save_vote#:#oy Gönder
+barometer#:#skip#:#Skip
+barometer#:#statistics#:#İstatistikleri
+barometer#:#status#:#Durumu
+barometer#:#table#:#Tablo
+barometer#:#text#:#Yazı
+barometer#:#text_answer#:#Metin cevap
+barometer#:#time#:#Çalışıyor
+barometer#:#title#:#Başlık
+barometer#:#type#:#Tip
+barometer#:#until#:#Kadar
+barometer#:#user#:#Kullanıcı
+barometer#:#vote#:#Oy
+barometer#:#votes#:#Oylar
+barometer#:#weeks#:#Haftalar
+barometer#:#worst#:#Worst
+barometer#:#year#:#Yılı
+bibitem#:#bibitem_add#:#ekle
+bibitem#:#bibitem_author#:#Yazar
+bibitem#:#bibitem_av#:#AV
+bibitem#:#bibitem_bibitem#:#Bibliyografik bilgiler
+bibitem#:#bibitem_book#:#Kitap
+bibitem#:#bibitem_booktitle#:#Kitap adı
+bibitem#:#bibitem_catalog#:#Katalog
+bibitem#:#bibitem_choose_index#:#bir bibliyografik bilgiler seçiniz:
+bibitem#:#bibitem_cross_reference#:#Çapraz Referans
+bibitem#:#bibitem_delete#:#Sil
+bibitem#:#bibitem_dissertation#:#Tez
+bibitem#:#bibitem_edition#:#Sürümü
+bibitem#:#bibitem_editor#:#Editör
+bibitem#:#bibitem_entry#:#Girdi
+bibitem#:#bibitem_first_name#:#Soyadı
+bibitem#:#bibitem_grey_literature#:#Gri edebiyatı
+bibitem#:#bibitem_how_published#:#Yayınlanan Nasıl
+bibitem#:#bibitem_identifier#:#Tanımlayıcı
+bibitem#:#bibitem_inbook#:#Kitapta
+bibitem#:#bibitem_inproceedings#:#Takibatta
+bibitem#:#bibitem_institution#:#Kurum
+bibitem#:#bibitem_internet#:#İnternet
+bibitem#:#bibitem_isbn#:#ISBN
+bibitem#:#bibitem_issn#:#ISSN
+bibitem#:#bibitem_journal#:#Dergisi
+bibitem#:#bibitem_journal_article#:#Dergisi makale
+bibitem#:#bibitem_keyword#:#Kelime
+bibitem#:#bibitem_label#:#Etiket
+bibitem#:#bibitem_language#:#Dil
+bibitem#:#bibitem_last_name#:#Soyadı
+bibitem#:#bibitem_manual#:#Manuel
+bibitem#:#bibitem_master_thesis#:#Yüksek Lisans tezi
+bibitem#:#bibitem_middle_name#:#Orta adı
+bibitem#:#bibitem_month#:#Ay
+bibitem#:#bibitem_new_element#:#Yeni eleman
+bibitem#:#bibitem_newspaper_article#:#Gazete makalesi
+bibitem#:#bibitem_not_found#:#Mevcut Resim bibliyografik bilgiler.
+bibitem#:#bibitem_note#:#Not
+bibitem#:#bibitem_number#:#sayısı
+bibitem#:#bibitem_organization#:#Organizasyon
+bibitem#:#bibitem_pages#:#Sayfalar
+bibitem#:#bibitem_phd_thesis#:#Doktora tezi
+bibitem#:#bibitem_please_select#:#Lütfen seçin
+bibitem#:#bibitem_print#:#Baskı
+bibitem#:#bibitem_proceedings#:#Bildiriler
+bibitem#:#bibitem_publisher#:#Yayınevi
+bibitem#:#bibitem_save#:#Kaydet
+bibitem#:#bibitem_school#:#Okul
+bibitem#:#bibitem_series#:#Serisi
+bibitem#:#bibitem_series_editor#:#Editör
+bibitem#:#bibitem_series_title#:#Serisi başlığı
+bibitem#:#bibitem_series_volume#:#Hacim
+bibitem#:#bibitem_technical_report#:#Teknik rapor
+bibitem#:#bibitem_type#:#Tip
+bibitem#:#bibitem_unpublished#:#Yayınlanmamış
+bibitem#:#bibitem_url#:#URL
+bibitem#:#bibitem_where_published#:#Yayınlanan
+bibitem#:#bibitem_year#:#Yılı
 block_html#:#block_html_block_content#:#İçerik
 block_html#:#block_html_block_head#:#HTML Blok
 block_html#:#block_html_block_title#:#Başlık
@@ -1516,8 +1628,10 @@ certificate#:#certificate_a4_landscape#:#A4 Yatay (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 Manzara (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Arka Plan Resmi
+certificate#:#certificate_bottom#:#Taban
 certificate#:#certificate_confirm_deletion_text#:#gerçekten sertifika ve tüm ilgili verileri silmek istediğinize emin misiniz?
 certificate#:#certificate_custom#:#Özel ...
+certificate#:#certificate_delete#:#Sil Sertifika Verileri
 certificate#:#certificate_edit#:#Sertifika Şablonu Oluştur / Düzenle
 certificate#:#certificate_enabled_scorm#:#Etkin
 certificate#:#certificate_enabled_scorm_introduction#:#Eğer işaretli ise sertifika SCORM öğrenme modülü bitmiş tüm kullanıcılar için sunulacak.
@@ -1526,10 +1640,12 @@ certificate#:#certificate_error_upload_bgimage#:#arka plan görüntü yükleme s
 certificate#:#certificate_export#:#Sertifika Dışa Aktar
 certificate#:#certificate_failed#:#başarısız
 certificate#:#certificate_file_basename#:#Sertifika
+certificate#:#certificate_left#:#Sol
 certificate#:#certificate_letter#:#Letter (11 inç x 8,5 inç)
 certificate#:#certificate_letter_landscape#:#Letter Manzarası (8,5 inç x 11 inç)
 certificate#:#certificate_margin_body#:#Vücut Marjı
 certificate#:#certificate_not_well_formed#:#Sertifika metin de oluşmuş değildir. Sertifika metin için geçerli XHTML giriniz!
+certificate#:#certificate_padding_top#:#En Dolgu
 certificate#:#certificate_page_format#:#Sayfa Biçimi
 certificate#:#certificate_page_format_info#:#yeni sertifikalar için varsayılan sayfa biçimi seçin.
 certificate#:#certificate_pageheight#:#Sayfa Yükseklik
@@ -1576,10 +1692,16 @@ certificate#:#certificate_ph_title_sco#:#Başlık
 certificate#:#certificate_ph_zipcode#:#Kullanıcı adresinin Posta kodu
 certificate#:#certificate_points_notavailable#:#Bu değeri hesaplanan olamaz
 certificate#:#certificate_preview#:#Göster Sertifika Öncesi
+certificate#:#certificate_right#:#Sağ
 certificate#:#certificate_settings#:#Sertifika Ayarları
 certificate#:#certificate_short_name#:#Sertifika dosyası kısa bir başlık
 certificate#:#certificate_short_name_description#:#Sertifika adı için kısa bir başlık giriniz. Kısa başlık sertifika adının bir parçası olacaktır: YYMMDD_ [soyadı] _ [SHORT_TITLE] _certificate.pdf.
+certificate#:#certificate_show#:#Göster Sertifika
+certificate#:#certificate_status#:#Durumu
+certificate#:#certificate_status_complete#:#belgesi tamamlandığında ve kullanılan olabilir
+certificate#:#certificate_status_incomplete#:#belgesi eksik
 certificate#:#certificate_text#:#Sertifika Metin
+certificate#:#certificate_top#:#Top
 certificate#:#certificate_unit_description#:#ölçü birimleri girin DEĞER olarak [cm | aa | Giriş | pt | pc | px | em], örneğin 10mm veya 3in
 certificate#:#certificate_usage#:#ILIAS Java Server çalıştırıyorsa, sertifikaların kullanımı mevcut olduğunu lütfen unutmayınız. Java Server için yapılandırma bölümünde Webservices yılında ILIAS yönetiminin ana sayfasında mevcuttur.
 certificate#:#certificate_var_max_points#:#46
@@ -1607,10 +1729,13 @@ certificate#:#certificate_visibility_introduction#:#Katılımcılar test sonuçl
 certificate#:#certificate_visibility_never#:#Görünmez
 certificate#:#certificate_visibility_passed#:#Sadece Görünür Kullanıcı Testi Geçti eğer
 certificate#:#certificate_visibility_passed_exercise#:#Sadece Görünür Kullanıcı Egzersiz Geçti eğer
+certificate#:#certificate_wrong_unit#:#Yanlış bir birim girdiniz
+certificate#:#certificate_wrong_units#:#Sen birimlerinin yanlış bir dizi girdiniz
 certificate#:#default_background_info#:#Bu arka plan görüntüsü tüm sertifikalar için varsayılan arka plan olarak seçilecektir. Bir certficiate başka bir arka plan görüntüsü gerekiyorsa, sertifika editörü birini yüklemek zorunda.
 certificate#:#download_certificate#:#İndir Belgesi
 chatroom#:#allow_anonymous#:#Oturum aç Anonim izin ver
 chatroom#:#allow_custom_usernames#:#Özel adları İzin
+chatroom#:#allow_private_rooms#:#Özel Odalar İzin
 chatroom#:#anonymous_hint#:#Bu depo öğeyi anonim kullanıcı erişimi sağlamak için "İzinler" sekmesini doğru izinlerini ayarlamak için emin olun.
 chatroom#:#auto_scroll#:#Yukardan ilerleyin
 chatroom#:#autogen_usernames#:#Otomatik Oluşturulmuş adları
@@ -1623,19 +1748,28 @@ chatroom#:#chat_address#:#Adres
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_connection_disconnected#:#--- <b> # username # </ b> chatroom bıraktı ---
 chatroom#:#chat_connection_established#:#+ + + <b> # username # </ b> girmiştir chatroom + + +
+chatroom#:#chat_create_new_private_room#:#Yeni Özel Oda Oluştur
 chatroom#:#chat_create_private_room_button#:#Özel Oda Oluştur
+chatroom#:#chat_delete#:#Sil
 chatroom#:#chat_enable_autoscroll#:#Etkinleştir Oto
 chatroom#:#chat_invitation#:#[INVITER_NAME] den kişiye davetiye Chatroom [ROOM_NAME]
 chatroom#:#chat_invitation_long#:#[SALUTATION] \ n \ nBu bir sohbet için davet edildiniz: \ nChatroom Başlığı: [ROOM_NAME] tarafından \ nInvited: [INVITER_NAME] \ nURL: [LINK] Eğer sohbet odası katılmak istiyorsanız \ n \ nBu takip edin verilen URL'ye .
 chatroom#:#chat_invitation_short#:#Chat'e girmek için başlık bağlantısına tıklayınız.
 chatroom#:#chat_invite#:#Davet
+chatroom#:#chat_invite_users#:#Davet Kullanıcıları
 chatroom#:#chat_join#:#Üyelik
 chatroom#:#chat_kick#:#Kick
+chatroom#:#chat_leave#:#bırak
 chatroom#:#chat_mainroom#:#Main Room
 chatroom#:#chat_message#:#Mesaj
 chatroom#:#chat_message_display#:#Seçenekleri
+chatroom#:#chat_message_notify_activate#:#Sohbet Bildirimleri
 chatroom#:#chat_message_options#:#Görüntü
 chatroom#:#chat_message_to_all#:#Tüm
+chatroom#:#chat_new_invitation_sound_status#:#Kullanıcı sohbet davetini aldığında ses çal
+chatroom#:#chat_new_message_sound_status#:#sohbet yeni bir mesaj gönderdi edilmiş bir ses çal
+chatroom#:#chat_private_room#:#Özel Oda
+chatroom#:#chat_right_box_user#:#Kullanıcı
 chatroom#:#chat_select_room#:#Select Sohbet Odası
 chatroom#:#chat_settings#:#Chat Ayarlar
 chatroom#:#chat_to_mainroom#:#Ana oda
@@ -1644,12 +1778,15 @@ chatroom#:#chatroom_smiley_keyword#:#Kelime
 chatroom#:#chatserver_address#:#Chatservers IP-Adresi
 chatroom#:#chatserver_port#:#Chatservers Port
 chatroom#:#chtr_add#:#Ekleme Chatroom
+chatroom#:#chtr_moderate#:#Kullanıcı Chatroom tartışma ılımlı olabilir
 chatroom#:#chtr_new#:#Yeni Chatroom
 chatroom#:#clear_room_history#:#Sil Mesaj Geçmişi
 chatroom#:#clear_room_history_question#:#gerçekten mevcut oda tüm mesajları silmek istiyor musunuz?
+chatroom#:#connected#:#Bağlantı kurulan
 chatroom#:#create_private_room_text#:#Özel oda adı
 chatroom#:#custom_username#:#Özel Adı
 chatroom#:#delete_private_room#:#Sil Özel Oda
+chatroom#:#disconnected#:#Bağlantı Kapalı
 chatroom#:#display_past_msgs#:#Geçmiş Mesajlarının sayısı
 chatroom#:#duration_from#:#Gönderen
 chatroom#:#duration_to#:#Giden
@@ -1666,6 +1803,7 @@ chatroom#:#hint_display_past_msgs#:#Geçmiş mesajların sayısı oda girildiği
 chatroom#:#hint_enable_smilies#:#Aktifse yapılandırılmış metin dizileri bir simge ile değiştirilir. Yapılandırma için İfadeler sekmesine bakın.
 chatroom#:#hint_osd#:#Etkinse kullanıcılara yeni davetleri hakkında bir popup ile bildirilir.
 chatroom#:#hint_osd_interval#:#Yeni bildirimleri kontrol için Yoklama aralığı. Daha düşük bir sayı daha hızlı kullanıcıya bildirmek ama webserver işlemesi gerekir isteklerinin sayısını yükseltir.
+chatroom#:#hint_unique_name#:#sizin ILIAS tanımlamak için ILIAS ve chatserver tarafından kullanılan bir isim. Sohbet sunucu başına birden fazla istemci kullanıyorsanız, bu ad ILIAS örnek başına benzersiz olmalıdır adı harfler (AZ / az), sayısal (0-9) ve karakterler içerebilir <br/>. "-" Ve "_" .
 chatroom#:#history_by_day#:#Günlük Planları
 chatroom#:#history_by_session#:#Oturum Geçmişi
 chatroom#:#history_byday_title#:#Günlük Göster Konuşma
@@ -1673,6 +1811,8 @@ chatroom#:#history_bysession_title#:#Oturum başına Göster Konuşma
 chatroom#:#history_cleared#:#Mesaj geçmişini bir moderatör tarafından silindi.
 chatroom#:#history_title_general#:#Sohbet Odası "% s" Konuşma
 chatroom#:#history_title_private_room#:#Özel Oda "% s" Konuşma
+chatroom#:#ilias_url#:#sizin ILIAS Kurulum Base-URL
+chatroom#:#instance_name#:#Benzersiz Tanımlayıcı
 chatroom#:#invite_to_private_room#:#Güncel Odası davet
 chatroom#:#invite_username#:#Kullanıcı Adı
 chatroom#:#italic#:#İtalik
@@ -1683,6 +1823,7 @@ chatroom#:#layout#:#Düzen
 chatroom#:#leave_private_room#:#bırak Özel Oda
 chatroom#:#lost_connection#:#Chatserver bağlantısı kesildi.
 chatroom#:#main#:#Main Room
+chatroom#:#moderate#:#Ilımlı
 chatroom#:#no_further_users#:#başka kullanıcılara sunmak
 chatroom#:#no_messages#:#Verilen süre içerisinde herhangi bir kaydedilmiş mesajları vardır.
 chatroom#:#obj_chtr#:#Chatroom
@@ -1695,18 +1836,26 @@ chatroom#:#private_room_left#:#Kullanıcı <b> # Kullanıcı # </ b> özel oda <
 chatroom#:#private_rooms_enabled#:#Özel Odalar İzin
 chatroom#:#private_rooms_enabled_info#:#Aktifse kullanıcıların özel odalar oluşturabilirsiniz. Sadece davet kullanıcıların bu odalar erişimi vardır.
 chatroom#:#public_chat_created#:#Herkese açık sohbet depoya eklendi.
+chatroom#:#remark#:#Açıklama
+chatroom#:#restrict_history#:#Tarih sınırla
+chatroom#:#restrict_history_info#:#Sohbet gelen yokluğu sırasında oluşturulan Resim girdiler.
 chatroom#:#scope#:#Oda / Özel Oda
 chatroom#:#select_custom_username#:#Select Custom adı
 chatroom#:#server_further_information#:#Sen href="%1$s" target="_blank"> readme dosyasında <a sunucusu yapılandırma hakkında daha fazla bilgi bulabilirsiniz </ a>.
 chatroom#:#session#:#Oturum
 chatroom#:#settings_general#:#Genel
+chatroom#:#settings_privacy#:#Gizlilik
 chatroom#:#settings_title#:#Ayarları
 chatroom#:#show_settings#:#Ayarları Göster
 chatroom#:#small#:#Küçük
+chatroom#:#soap_must_be_enabled#:#Sen sohbeti etkinleştirmek üzere genel ayarları aktif SOAP desteği olmazsa bakın.
+chatroom#:#soap_user#:#SOAP Kullanıcı Adı
+chatroom#:#soap_user_password#:#SOAP Kullanıcı Parola
 chatroom#:#speak_to#:#<b> # Kullanıcı # konuşun </ b>
 chatroom#:#unable_to_connect#:#Chatserver bağlantı kurulamadı.
 chatroom#:#unban#:#Unban
 chatroom#:#underlined#:#Altı çizili
+chatroom#:#unkown_private_room#:#Bilinmeyen özel oda
 chatroom#:#user_in_ilias#:#Arama ve ILIAS gelen davet kullanıcı
 chatroom#:#user_in_room#:#Geçerli sohbet Davet kullanıcı
 chatroom#:#user_invited#:#kullanıcı davet edildi.
@@ -1736,16 +1885,23 @@ chatroom_adm#:#chatserver_settings_title#:#Chatserver Ayarları
 chatroom_adm#:#client_settings#:#Genel Ayarlar
 chatroom_adm#:#enable_osd#:#tarihinde Ekran Bildirimleri Etkinleştir
 chatroom_adm#:#general_settings_title#:#Genel Sohbet Ayarları
+chatroom_adm#:#hash#:#Hash
 chatroom_adm#:#https#:#HTTPS
+chatroom_adm#:#instance#:#Derece
+chatroom_adm#:#keypass#:#keypass
+chatroom_adm#:#keystore#:#Keystore
 chatroom_adm#:#osd_intervall#:#Refreshınterval (saniye)
 chatroom_adm#:#play_invitation_sound#:#Yeni bir davet alırken ses çal
 chatroom_adm#:#port_info#:#Nadiren kullanılan bağlantı noktaları genellikle güvenlik duvarı veya proxy sunucuları tarafından engellenir. Kullanıcının tarayıcısı tanımlanan port bloke olursa sohbet sunucusuna bir bağlantı kurmak mümkün olmayacaktır.
+chatroom_adm#:#priv_hosts#:#Ayrıcalıklı Sunucular
 chatroom_adm#:#protocol#:#Protokolü
 chatroom_adm#:#public_chat_permissions#:#Herkese Açık Chatroom İzinleri
 chatroom_adm#:#public_chat_settings#:#Genel Sohbet Ayarları
 chatroom_adm#:#server_settings#:#Chatserver Ayarları
 chatroom_adm#:#settings_has_been_saved#:#Ayarlar kaydedildi
 chatroom_adm#:#smiley#:#İfadeler
+chatroom_adm#:#soap_user_hint#:#Bu kullanıcı ilias yükleme chatserver bilgi göndermek için kullanılır. Hiçbir özel izin gerekmez. Eğer yeni bir accout oluşturursanız <br/>, bu kullanıcı (örn. lisans sözleşmesinin kabul) ile giriş yapmanız mümkün olduğundan emin olun.
+chatroom_adm#:#storepass#:#storepass
 cmps#:#cmps_activate#:#Etkinleştir
 cmps#:#cmps_active#:#Aktif
 cmps#:#cmps_add_new_rank#:#Yeni Nesne Listesi Pozisyonu
@@ -3226,6 +3382,7 @@ common#:#mail_addressbook#:#Rehber
 common#:#mail_allow_smtp#:#SMTP İzin
 common#:#mail_at_the_ilias_installation#:#Sen ILIAS-Montaj% 2 $ s $ s yeni posta% 1 alındı
 common#:#mail_attachment#:#Posta eki
+common#:#mail_attachments#:#E-posta ekleri
 common#:#mail_b_inbox#:#Gelen Kutusu
 common#:#mail_c_trash#:#Çöp
 common#:#mail_d_drafts#:#Taslaklar
@@ -7422,7 +7579,9 @@ forum#:#forums_all_threads_marked_read#:#Tüm mesajları okunmuş olarak işaret
 forum#:#forums_attachments#:#Eklentiler
 forum#:#forums_attachments_add#:#Ek ekle
 forum#:#forums_censor_comment#:#Censor ve Yorum
+forum#:#forums_count#:#Forumlar sayısı
 forum#:#forums_count_art#:#Makaleler sayısı
+forum#:#forums_count_thr#:#Konular sayısı
 forum#:#forums_created_by#:#tarafından oluşturulmuş
 forum#:#forums_delete_file#:#Sil eki
 forum#:#forums_disable_notification#:#Bu Konu için bildirim devre dışı bırakma
@@ -7436,11 +7595,14 @@ forum#:#forums_info_delete_post#:#Eğer herhangi bir yanıt da dahil olmak üzer
 forum#:#forums_mark_read#:#Tüm olarak okuyun İşaretle
 forum#:#forums_new_thread#:#Yeni Konu
 forum#:#forums_no_posts_available#:#Bu konu henüz hiç mesaj varsa veya moderatör sonrası ilk devre.
+forum#:#forums_notification#:#Bildirim
 forum#:#forums_notification_disabled#:#Bildirim devre dışı
 forum#:#forums_notification_enabled#:#Bildirim etkin
 forum#:#forums_notification_intro#:#Bu mail otomatik ILIAS kurulum% s,% s tarafından size gönderilen
 forum#:#forums_notification_show_post#:#göster gönderme:% s
+forum#:#forums_notification_subject#:#Yeni foruma gönderi
 forum#:#forums_post_activation_mail#:#Gönderme aşağıdaki aktif değil sürece , diğer forumda kullanıcılar için görünmez. Sen moderatör olarak atanır, çünkü bu e-posta gönderilecektir ve bu nakil etkinleştirmek için izniniz yok.
+forum#:#forums_post_and_children_were_activated#:#nakil ve tüm alt ilanları aktive edildi.
 forum#:#forums_post_deleted#:#silinmiş Gönderme
 forum#:#forums_post_modified#:#Yetkileriniz modifiye edilmiştir
 forum#:#forums_post_needs_to_be_activated#:#nakil yeni oluşturulmuş, fakat bir yönetici tarafından aktive edilmesi gerekir edilmiştir.
@@ -7452,6 +7614,7 @@ forum#:#forums_print_thread#:#Yazdır Konu
 forum#:#forums_subject#:#Konu
 forum#:#forums_the_post#:#Gönderme
 forum#:#forums_thread#:#Konu
+forum#:#forums_thread_create_date#:#Oluşturuldu
 forum#:#forums_thread_create_from#:#Oluşturuldu
 forum#:#forums_thread_marked#:#konuyu okundu olarak işaretlendi.
 forum#:#forums_thread_new_entry#:#Yeni konu oluşturuldu
@@ -7872,6 +8035,8 @@ license#:#used_licenses#:#Tüketilen lisansları
 license#:#used_licenses_explanation#:#Bir kullanıcının Her ilk erişim lisansı tüketir.
 license#:#zero_licenses_explanation#:#lisans devre dışı bırakmak için bir 0 girin.
 mail#:#activate_serial_letter_placeholders#:#Yer Tutucuları Etkinleştir.
+mail#:#advice_mail_body_secured#:#Güvenlik nedenlerinden dolayı sizin mesaj bazı unsurları kaldırıldı Ilias. Güvenlikli mesaj kontrol edin ve tekrar mail gönderiniz.
+mail#:#also_as_email#:#olarak da E-Posta
 mail#:#bc#:#BCC
 mail#:#chat_users_have_been_invited#:#Kullanıcıları davet edilmiştir.
 mail#:#chat_users_without_login#:#Aşağıdaki kullanıcılar bir ILIAS Hesabınız yoksa ve Sohbet Odası davet edilemez
@@ -7882,33 +8047,58 @@ mail#:#info_mail_external_sender_noreply#:#e-mail yoluyla gönderebilirsiniz oto
 mail#:#invite_to_chat#:#Sohbete Davet Et
 mail#:#linebreak#:#Satır sonu
 mail#:#mail_account_mail#:#Hesap Posta
+mail#:#mail_account_mail_check#:#Gönder Hesap Posta
 mail#:#mail_add_recipient#:#Alıcı giriniz
 mail#:#mail_add_subfolder#:#Ekleme Subfolder
 mail#:#mail_add_subject#:#Lütfen bir konu girin
+mail#:#mail_add_to_addressbook#:#Rehbere Ekle
+mail#:#mail_add_type#:#Göndermek istediğiniz e-posta tipine ekleyin
+mail#:#mail_addr_entries#:#Girişler
 mail#:#mail_assign_entry_to_mailing_list#:#Girdiğiniz adresleri bir e-posta listesine atayın
 mail#:#mail_attachments#:#Eklemeler
 mail#:#mail_auto_generated_info#:#Bu mail, ILIAS kurulumu tarafından size otomatik gönderildi %s,%s
+mail#:#mail_bc_not_valid#:#BCC alıcı geçerli değil
+mail#:#mail_bc_search#:#BCC arama
+mail#:#mail_byte#:#Byte
+mail#:#mail_cc_not_valid#:#CC Alıcının geçerli değildir
+mail#:#mail_cc_search#:#CC arama
 mail#:#mail_change_to_folder#:#Klasör Değiştir:
+mail#:#mail_check_your_email_addr#:#E-posta adresi geçerli değil
+mail#:#mail_compose#:#Mesaj Yaz
 mail#:#mail_cronjob_notification_info#:#Burada yeni posta hakkında bir periyodik bildirim etkinleştirebilirsiniz.
 mail#:#mail_crs_list_members_not_available#:#İşaretli derslerin üyelerini listelemek mümkün değildir.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Seçilmiş derslerden en az bir tanesinin üyeleri listelenemiyor.
 mail#:#mail_deleted#:#Posta silindi
 mail#:#mail_deleted_entry#:#Kayıtlar silindi
+mail#:#mail_edit_entry#:#Girişi düzenle
+mail#:#mail_email_forbidden#:#E-posta gönderme yetkiniz yok
 mail#:#mail_empty_trash#:#Çöp kutusunu boşalt
 mail#:#mail_empty_trash_confirmation#:#Çöp kutusundaki tüm postaları silmek istediğinize emin misiniz ?
 mail#:#mail_enable_crs_member_notification#:#Ders Bildirimi
 mail#:#mail_enable_crs_member_notification_info#:#Etkinse , kursiyerler üyeliği değişiklikler hakkında otomatik olarak haberdar edileceksiniz.
 mail#:#mail_enable_grp_member_notification#:#Grup Bildirimi
 mail#:#mail_enable_grp_member_notification_info#:#Etkinse , grup Katılımcıların üyelik değişiklikler hakkında otomatik olarak haberdar edileceksiniz.
+mail#:#mail_enter_login_or_email_addr#:#geçerli bir kullanıcı adı veya e-posta adresinizi girin.
+mail#:#mail_enter_valid_email_addr#:#geçerli bir e-posta adresinizi girin.
+mail#:#mail_enter_valid_login#:#geçerli bir kullanıcı adı giriniz.
+mail#:#mail_entry_added#:#Yeni Yazısı Eklendi
+mail#:#mail_entry_changed#:#giriş değiştirilir
+mail#:#mail_entry_exists#:#Verilen oturum açma adı ile bir girdi zaten var.
 mail#:#mail_external_sender_noreply#:#no-cevap Adresi
 mail#:#mail_file_name#:#Dosya Adı
 mail#:#mail_file_size#:#Dosya Boyutu
 mail#:#mail_files_deleted#:#dosya (lar) silinir
 mail#:#mail_folder_created#:#yeni bir klasör oluşturuldu
 mail#:#mail_folder_deleted#:#klasörü silinmişse
+mail#:#mail_folder_edit#:#Düzenleme Klasör
 mail#:#mail_folder_exists#:#bir klasör zaten bu isimde var
+mail#:#mail_folder_name#:#Klasör adı
 mail#:#mail_folder_name_changed#:#klasörü yeniden adlandırıldı
+mail#:#mail_folder_options#:#Klasör Seçenekleri
 mail#:#mail_following_rcp_not_valid#:#Aşağıdaki alıcıları geçerli değildir:
+mail#:#mail_global_options#:#Genel seçenekler
+mail#:#mail_group_members#:#Grubu Üyeleri
+mail#:#mail_in_addressbook#:#Zaten Rehber
 mail#:#mail_incoming#:#Gelen posta
 mail#:#mail_incoming_both#:#yerel ve yönlendirme
 mail#:#mail_incoming_local#:#Sadece yerel
@@ -7916,6 +8106,8 @@ mail#:#mail_incoming_mail#:#Gelen posta
 mail#:#mail_incoming_smtp#:#E-posta adresine yönlendir
 mail#:#mail_insert_folder_name#:#bir klasör adı giriniz
 mail#:#mail_insert_query#:#bir sorgu giriniz
+mail#:#mail_intern#:#Dahili
+mail#:#mail_into_addressbook#:#Rehbere Ekle
 mail#:#mail_invite_users_to_chat#:#Kullanıcıları Sohbete Davet Et
 mail#:#mail_list_members#:#Üyeleri listele
 mail#:#mail_mailing_list#:#Posta Listesi
@@ -7924,6 +8116,7 @@ mail#:#mail_mark_read#:#Postayı okundu işaretle
 mail#:#mail_mark_unread#:#Postayı okunmadı işaretle
 mail#:#mail_maxsize_attachment_error#:#Yükleme sınırı:
 mail#:#mail_member_notification#:#Katılımcı Bildirimi
+mail#:#mail_members_added_addressbook#:#Üyeler Kişilere Eklendi
 mail#:#mail_members_of_mailing_list#:#Posta Listesi Üyeleri
 mail#:#mail_message_send#:#Mesaj gönderildi
 mail#:#mail_move_error#:#Postası taşıma hatası
@@ -7932,6 +8125,7 @@ mail#:#mail_moved#:#Posta taşındı
 mail#:#mail_moved_to_trash#:#Posta çöp kutusuna taşındı
 mail#:#mail_multiple_recipients_found#:#Daha spesifik posta adresi girin. ILIAS Bu adres için birden çok olası alıcı buldu: %s
 mail#:#mail_my_courses#:#Derslerim
+mail#:#mail_my_entries#:#Kişilerim
 mail#:#mail_my_groups#:#Gruplarım
 mail#:#mail_my_mailing_lists#:#E-Posta Adres Listelerim
 mail#:#mail_nacc_admin_mail#:#Administrator Mail adresi
@@ -7946,13 +8140,21 @@ mail#:#mail_nacc_target_block#:#Bir hedef öğeye sağlanması durumunda Bu meti
 mail#:#mail_nacc_target_title#:#Hedef öğenin Başlık, örneğin ders başlığı.
 mail#:#mail_nacc_target_type#:#Hedef öğenin türü, örneğin ders öğesi için "Ders"
 mail#:#mail_nacc_use_placeholder#:#Aşağıdaki yer tutucular kullanılabilir
+mail#:#mail_new_entry#:#Yeni Kayıt
+mail#:#mail_new_file#:#yeni bir dosya ekleyin:
+mail#:#mail_no_attach_allowed#:#Sistem iletileri eklerini içermesine izin verilmez
+mail#:#mail_no_attachments_found#:#Ek bulunamadı
 mail#:#mail_no_permissions_write_smtp#:#Harici e-posta yazmak için izniniz yoktur
 mail#:#mail_no_recipient_found#:#farklı bir mail adresi girin. ILIAS bu mail adresine sahip bir alıcı bulamadı.
 mail#:#mail_no_valid_mailing_list#:#Hayır Geçerli Postalama Listesi
 mail#:#mail_notification_subject#:#Gelen kutunuzda Yeni posta
+mail#:#mail_options_of#:#Seçenekleri
 mail#:#mail_options_saved#:#Seçenekler kaydedildi
 mail#:#mail_prevent_smtp_globally#:#Küresel (SMTP aracılığıyla) dış postalar göndermenize engel
+mail#:#mail_received_x_new_mails#:#%s yeni postalar aldı.
+mail#:#mail_recipient_not_valid#:#Alıcı geçerli değil
 mail#:#mail_s#:#Posta
+mail#:#mail_s_unread#:#Okunmamış Postalar
 mail#:#mail_salutation_anonymous#:#Merhaba
 mail#:#mail_salutation_f#:#Merhaba
 mail#:#mail_salutation_female#:#Selamlama, kadın
@@ -7966,6 +8168,9 @@ mail#:#mail_select_course#:#en az bir ders seçiniz.
 mail#:#mail_select_group#:#en az bir grup seçiniz.
 mail#:#mail_select_one_entry#:#Sen bir giriş seçmelisiniz
 mail#:#mail_select_one_file#:#Bir dosya seçmeniz gerekir
+mail#:#mail_select_only_one_entry#:#sadece bir girdi seçin.
+mail#:#mail_select_recipients#:#posta alıcılarını seçin:
+mail#:#mail_send_with_system_address#:#Sistem Adres ile gönder
 mail#:#mail_settings_incoming_type_see_also#:#Kullanıcıların <a için e-postaların gelen türünü değiştirmek için bir diğer olasılık bulabilirsiniz href="%s"> burada </ a>.
 mail#:#mail_subject_prefix#:#Posta Konusu
 mail#:#mail_subject_prefix_info#:#e-postalar oluşturulan giden oto konu satırına önüne alınacağı, bir metin girin.
@@ -7974,7 +8179,10 @@ mail#:#mail_sure_delete_entry#:#Aşağıdaki girdileri silmek istediğinizden em
 mail#:#mail_sure_delete_file#:#Seçilen dosyaları silmek istediğinizden emin misiniz?
 mail#:#mail_sure_delete_folder#:#klasörü ve içindekileri kalıcı olarak silinecek
 mail#:#mail_to#:#Kime
+mail#:#mail_user_addr_n_valid#:#Aşağıdaki kullanıcıların geçerli bir e-posta adresi yok
 mail#:#placeholders_advise#:#Yer tutucuları sadece "Kime:" alanındaki alıcılar için kullanılır. CC ve BCC alanları için kullanılmaz
+mail#:#search_bc_recipient#:#BCC Alıcı Ara
+mail#:#search_cc_recipient#:#CC Alıcı Ara
 mail#:#search_recipients#:#Alıcıları Ara
 mail#:#send_mail_to#:#Mail to
 mathjax#:#mathjax_enable_mathjax#:#Etkinleştir MathJax
@@ -12078,7 +12286,12 @@ tos#:#tos_period_from#:#From###24 10 2013 new variable
 tos#:#tos_period_until#:#Until###24 10 2013 new variable
 tos#:#tos_acceptance_datetime#:#Date###24 10 2013 new variable
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads ###24 10 2013 new variable
+forum#:#frm_sorting_threads#:#Thread Sorting###24 10 2013 new variable
+forum#:#frm_sorting_posts#:#Posts Sorting###24 10 2013 new variable
 forum#:#sticky_threads_always_on_top#:#"Sticky Threads" are always listed at the top of the list of threads. Within the "Sticky Threads" you are able to sort the threads manually, if you have chosen this option.###24 10 2013 new variable
+mail#:#cron_update_addressbook#:#Synchronize address book entries automatically###24 10 2013 new variable
+mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cronjob. Only data that was released by the User, will be updated.###24 10 2013 new variable
+mail#:#auto_update#:#Update###24 10 2013 new variable
 forum#:#merge#:#Merge###24 10 2013 new variable
 forum#:#please_choose_target#:#Please choose a thread as merge target.###24 10 2013 new variable
 forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone! Eventually ILIAS swaps source and target thread if the first posting of the source thread is created earlier than the first posting of the target thread.###24 10 2013 new variable
@@ -12552,6 +12765,7 @@ exc#:#exc_feedback_notification_subject#:#Feedback is available for assignment o
 exc#:#exc_feedback_notification_salutation#:#Hello %s,###24 10 2013 new variable
 exc#:#exc_feedback_notification_body#:#Feedback is now available for the following assignment.###24 10 2013 new variable
 exc#:#exc_feedback_notification_link#:#Link to exercise###24 10 2013 new variable
+mail#:#system_notification_installation_signature#:#This email has been sent automatically by the ILIAS installation###24 10 2013 new variable
 mail#:#system_notification_installation_changed_by#:#Changed By###24 10 2013 new variable
 exc#:#exc_feedback_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.###24 10 2013 new variable
 exc#:#exc_team_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.###24 10 2013 new variable
@@ -15150,6 +15364,7 @@ prg#:#prg_view#:#View###30 08 2015 new variable
 prg#:#prg_update_from_current_plan#:#Update from current Plan###30 08 2015 new variable
 prg#:#prg_update_successful#:#Saved changes successfully!###30 08 2015 new variable
 prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!###30 08 2015 new variable
+prg#:#prg_warning_img_alt#:#Warning!###30 08 2015 new variable
 prg#:#prg_successful_img_alt#:#successful###30 08 2015 new variable
 prg#:#prg_in_progress_img_alt#:#in progress###30 08 2015 new variable
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.###30 08 2015 new variable
@@ -15333,10 +15548,13 @@ forum#:#restore#:#Restore###25 10 2016 new variable
 forum#:#restore_draft_from_autosave#:#Restore draft###25 10 2016 new variable
 forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>###25 10 2016 new variable
 forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>###25 10 2016 new variable
+forum#:#publishThreadDrafts#:#Publish Thread Draft###25 10 2016 new variable
+forum#:#deleteThreadDrafts#:#Delete Thread Draft###25 10 2016 new variable
 forum#:#edit_thread_draft#:#Edit thread draft###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.###25 10 2016 new variable
 pd#:#block_show_pdfrmpostdraft#:#Show 'My Posting Drafts'###25 10 2016 new variable
+forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#save_draft_successfully#:#The draft was saved successfully.###25 10 2016 new variable
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?###25 10 2016 new variable
@@ -16034,10 +16252,24 @@ iass#:#iass_status_pending#:#Status pending###25 10 2016 new variable
 iass#:#iass_notify#:#Notify user after finalization###25 10 2016 new variable
 iass#:#iass_finalize#:#Finalize###25 10 2016 new variable
 iass#:#il_iass_member#:#Individual Assessment examinee###25 10 2016 new variable
+iass#:#edit_members#:#Edit examinees###25 10 2016 new variable
+iass#:#iass_edit_members#:#Edit examinees###25 10 2016 new variable
+iass#:#iass_visible#:#Visible###25 10 2016 new variable
+iass#:#iass_read#:#Read###25 10 2016 new variable
+iass#:#iass_copy#:#Copy###25 10 2016 new variable
+iass#:#iass_write#:#Edit Settings###25 10 2016 new variable
+iass#:#iass_delete#:#Delete###25 10 2016 new variable
+iass#:#iass_read_learning_progress#:#View learning progress of other users###25 10 2016 new variable
+iass#:#iass_edit_permissions#:#Change Permissions###25 10 2016 new variable
+iass#:#iass_edit_learning_progress#:#Edit learning progress###25 10 2016 new variable
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised.###25 10 2016 new variable
 iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.###25 10 2016 new variable
 iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer###25 10 2016 new variable
+common#:##obj_iass#:#Individual Assessment###25 10 2016 new variable
+common#:##objs_iass#:#Individual Assessments###25 10 2016 new variable
+common#:##obj_iass_duplicate#:#Copy Individual Assessment###25 10 2016 new variable
+common#:##obj_iass_select#:#-- Please select one individual assessment --###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.###25 10 2016 new variable
 common#:#il_iass_member#:#Individual Assessment Examinee###25 10 2016 new variable
 common#:#iass_new#:#Create Individual Assessment###25 10 2016 new variable
@@ -16123,35 +16355,3 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###25 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###25 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
-grp#:#grp_members_deleted#:#Deleted members###18 01 2017 new variable
-cron#:#cro_job_rc_job_no_result#:#NO RESULT###deprecated 
-cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY###18 01 2017 new variable
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED###18 01 2017 new variable
-prg#:#warning#:#Warning!###18 01 2017 new variable
-iass#:#il_iass_members#:#Participants###18 01 2017 new variable
-common#:#obj_iass#:#Individual Assessment###18 01 2017 new variable
-common#:#objs_iass#:#Individual Assessments###18 01 2017 new variable
-common#:#obj_iass_duplicate#:#Copy Individual Assessment###18 01 2017 new variable
-common#:#obj_iass_select#:#-- Please select one individual assessment --###18 01 2017 new variable
-iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.###18 01 2017 new variable
-iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.###18 01 2017 new variable
-common#:#sahs_export_file#:#ILIAS exported SCORM archive file###18 01 2017 new variable
-content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.###18 01 2017 new variable
-survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>###18 01 2017 new variable
-content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.###18 01 2017 new variable
-grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration###18 01 2017 new variable
-auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###18 01 2017 new variable
-lng#:#lng_download_deprecated#:#Download Deprecated List###18 01 2017 new variable
-rbac#:#edit_members#:#Manage members###18 01 2017 new variable
-rbac#:#prg_manage_members#:#Manage members of Study Programme###18 01 2017 new variable
-rbac#:#rbac_create_iass#:#Create Individual Assessment###18 01 2017 new variable
-survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###deprecated 
-wsp#:#share_content#:#Share Object###18 01 2017 new variable
-wsp#:#share_with#:#Username###18 01 2017 new variable
-wsp#:#element_already_shared#:#This object is already shared with this user.###18 01 2017 new variable
-wsp#:#search_no_match#:#Your search did not match any results.###18 01 2017 new variable
-wsp#:#element_shared#:#Object shared.###18 01 2017 new variable
-wsp#:#share#:#Share###18 01 2017 new variable
-copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###18 01 2017 new variable
-auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.###18 01 2017 new variable
-crs#:#crs_edit_lo_introduction#:#Edit Introduction###18 01 2017 new variable

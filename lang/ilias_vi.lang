@@ -585,6 +585,64 @@ assessment#:#width#:#Độ rộng
 assessment#:#with_order#:#với thứ tự
 assessment#:#working_time#:#Thời gian làm
 assessment#:#you_received_a_of_b_points#:#Bạn đạt %s trong số %s điểm có thể
+bibitem#:#bibitem_add#:#Thêm
+bibitem#:#bibitem_author#:#Tác giả
+bibitem#:#bibitem_av#:#AV
+bibitem#:#bibitem_bibitem#:#Thông tin về thư viện
+bibitem#:#bibitem_book#:#Sách
+bibitem#:#bibitem_booktitle#:#Tên sách
+bibitem#:#bibitem_catalog#:#Danh mục liệt kê
+bibitem#:#bibitem_choose_index#:#Hãy chọn một thông tin mục sách:
+bibitem#:#bibitem_cross_reference#:#Tham khảo chéo
+bibitem#:#bibitem_delete#:#Xóa
+bibitem#:#bibitem_dissertation#:#Luận án
+bibitem#:#bibitem_edition#:#Ấn bản
+bibitem#:#bibitem_editor#:#Người soạn thảo
+bibitem#:#bibitem_entry#:#Mục
+bibitem#:#bibitem_first_name#:#Họ
+bibitem#:#bibitem_grey_literature#:#Grey Văn học///
+bibitem#:#bibitem_how_published#:#Xuất bản như thế nào
+bibitem#:#bibitem_identifier#:#Định danh
+bibitem#:#bibitem_inbook#:#Trong sách
+bibitem#:#bibitem_inproceedings#:#Trong biên bản lưu nghi thức
+bibitem#:#bibitem_institution#:#Viện
+bibitem#:#bibitem_internet#:#Internet
+bibitem#:#bibitem_isbn#:#ISBN
+bibitem#:#bibitem_issn#:#ISSN
+bibitem#:#bibitem_journal#:#Tạp chí
+bibitem#:#bibitem_journal_article#:#Bài báo trong tạp chí
+bibitem#:#bibitem_keyword#:#Từ khóa
+bibitem#:#bibitem_label#:#Nhãn
+bibitem#:#bibitem_language#:#Ngôn ngữ
+bibitem#:#bibitem_last_name#:#Tên
+bibitem#:#bibitem_manual#:#Thực hành
+bibitem#:#bibitem_master_thesis#:#Luận văn thạc sĩ
+bibitem#:#bibitem_middle_name#:#Tên đệm
+bibitem#:#bibitem_month#:#Tháng
+bibitem#:#bibitem_new_element#:#Yếu tố mới
+bibitem#:#bibitem_newspaper_article#:#Bài báo
+bibitem#:#bibitem_not_found#:#Không có thông tin mục sách nào sử dụng được.
+bibitem#:#bibitem_note#:#Chú ý
+bibitem#:#bibitem_number#:#Số
+bibitem#:#bibitem_organization#:#Tổ chức
+bibitem#:#bibitem_pages#:#Trang
+bibitem#:#bibitem_phd_thesis#:#Luận án tiến sĩ
+bibitem#:#bibitem_please_select#:#Hãy chọn
+bibitem#:#bibitem_print#:#In
+bibitem#:#bibitem_proceedings#:#Biên bản lưu nghi thức
+bibitem#:#bibitem_publisher#:#Nhà xuất bản
+bibitem#:#bibitem_save#:#Ghi
+bibitem#:#bibitem_school#:#Trường
+bibitem#:#bibitem_series#:#Lần xuất bản
+bibitem#:#bibitem_series_editor#:#Người soạn thảo
+bibitem#:#bibitem_series_title#:#Tiêu đề lần xuất bản
+bibitem#:#bibitem_series_volume#:#Tập
+bibitem#:#bibitem_technical_report#:#Báo cáo kỹ thuật
+bibitem#:#bibitem_type#:#Kiểu
+bibitem#:#bibitem_unpublished#:#Chưa công bố
+bibitem#:#bibitem_url#:#Liên kết
+bibitem#:#bibitem_where_published#:#Xuất bản ở đâu
+bibitem#:#bibitem_year#:#Năm
 common#:#3rd_party_software#:#Phần mềm bên thứ ba
 common#:#absolute_path#:#Đường dẫn tuyệt đối
 common#:#accept_usr_agreement#:#Chấp nhận thỏa thuận sử dụng?
@@ -3560,7 +3618,9 @@ forum#:#forums_all_threads_marked_read#:#Tất cả chủ đề đã được đ
 forum#:#forums_attachments#:#Đính kèm
 forum#:#forums_attachments_add#:#Thêm đính kèm
 forum#:#forums_censor_comment#:#Chú thích kiểm duyệt
+forum#:#forums_count#:#Số diễn đàn
 forum#:#forums_count_art#:#Số bài
+forum#:#forums_count_thr#:#Số chủ đề
 forum#:#forums_created_by#:#Người tạo
 forum#:#forums_delete_file#:#Xóa đính kèm
 forum#:#forums_disable_notification#:#Tắt thông báo
@@ -3572,9 +3632,11 @@ forum#:#forums_info_censor_post#:#Bạn có chắc bạn muốn ẩn bài này?
 forum#:#forums_info_delete_post#:#Bạn có chắc bạn muốn xóa bài này bao gồm cả các phản hồi?
 forum#:#forums_mark_read#:#Đánh dấu tất cả là đã đọc
 forum#:#forums_new_thread#:#Chủ đề mới
+forum#:#forums_notification#:#Thông báo
 forum#:#forums_notification_enabled#:#Đã bật thông báo
 forum#:#forums_notification_intro#:#E-mail này được gửi tự động từ bản cài đặt ILIAS %s, %s
 forum#:#forums_notification_show_post#:#Hiện bài: %s
+forum#:#forums_notification_subject#:#Bài mới trong chủ đề diễn đàn
 forum#:#forums_post_deleted#:#Đã xóa bài
 forum#:#forums_post_modified#:#Đã sửa bài
 forum#:#forums_post_new_entry#:#Đã tạo bài mới
@@ -3584,6 +3646,7 @@ forum#:#forums_print_thread#:#In chùm bài
 forum#:#forums_subject#:#Chủ đề
 forum#:#forums_the_post#:#Bài
 forum#:#forums_thread#:#Đề tài
+forum#:#forums_thread_create_date#:#Tạo ra vào
 forum#:#forums_thread_create_from#:#Tạo từ
 forum#:#forums_thread_marked#:#Chủ đề đã đánh dấu là đã đọc.
 forum#:#forums_thread_new_entry#:#Đã tạo đề tài mới
@@ -3653,30 +3716,52 @@ jscalendar#:#time_part#:#Nhấn giữ Shift và kích chuột hoặc kéo để 
 jscalendar#:#today#:#Hôm nay
 jscalendar#:#tt_date_format#:#%a, %e %b
 jscalendar#:#wk#:#Tuần
+mail#:#also_as_email#:#Also as Email
 mail#:#bc#:#Người đồng nhận ẩn
 mail#:#forward#:#Chuyển tiếp
 mail#:#linebreak#:#Xuống dòng
 mail#:#mail_add_recipient#:#Hãy nhập người nhận
 mail#:#mail_add_subfolder#:#Thêm thư mục con
 mail#:#mail_add_subject#:#Hãy nhập tiêu đề
+mail#:#mail_add_to_addressbook#:#Thêm vào sổ địa chỉ
+mail#:#mail_add_type#:#Hãy thêm kiểu thư bạn muốn gửi
+mail#:#mail_addr_entries#:#Mục nhập
 mail#:#mail_attachments#:#Đính kèm
+mail#:#mail_bc_not_valid#:#Người đồng nhận không hợp lệ
+mail#:#mail_bc_search#:#Tìm kiếm người đồng nhận ẩn
+mail#:#mail_byte#:#Byte
+mail#:#mail_cc_not_valid#:#Người đồng nhận không hợp lệ
+mail#:#mail_cc_search#:#Tìm kiếm người đồng nhận
 mail#:#mail_change_to_folder#:#Chuyển sang thư mục:
+mail#:#mail_check_your_email_addr#:#Địa chỉ email của bạn không đúng
+mail#:#mail_compose#:#Soạn thư
 mail#:#mail_deleted#:#Thư đã xóa
 mail#:#mail_deleted_entry#:#Mục nhập đã xóa
+mail#:#mail_email_forbidden#:#Bạn không được phép gửi thư
+mail#:#mail_enter_login_or_email_addr#:#Hãy nhập một tên đăng nhập hoặc địa chỉ email hợp lệ.
+mail#:#mail_enter_valid_email_addr#:#Hãy nhập một địa chỉ email hợp lệ.
+mail#:#mail_enter_valid_login#:#Hãy nhập tên đăng nhập hợp lệ.
+mail#:#mail_entry_added#:#Đã thêm mục nhập mới
+mail#:#mail_entry_changed#:#Mục nhập đã thay đổi
+mail#:#mail_entry_exists#:#Một mục nhập với tên đăng nhập đã cho hoặc địa chỉ email đang tồn tại.
 mail#:#mail_file_name#:#Tên file
 mail#:#mail_file_size#:#Kích thước file
 mail#:#mail_files_deleted#:#Đã xóa (các) file
 mail#:#mail_folder_created#:#Đã tạo thư mục mới
 mail#:#mail_folder_deleted#:#Đã xóa thư mục
 mail#:#mail_folder_exists#:#Đã có thư mục khác trùng tên
+mail#:#mail_folder_name#:#Tên thư mục
 mail#:#mail_folder_name_changed#:#Thư mục đã được đổi tên
+mail#:#mail_folder_options#:#Tùy chọn thư mục
 mail#:#mail_following_rcp_not_valid#:#Những người nhận sau không hợp lệ:
+mail#:#mail_global_options#:#Tùy chọn toàn cục
 mail#:#mail_incoming#:#Thư đến
 mail#:#mail_incoming_both#:#nội bộ và chuyển tiếp
 mail#:#mail_incoming_local#:#chỉ nội bộ
 mail#:#mail_incoming_smtp#:#chuyển tiếp tới địa chỉ email
 mail#:#mail_insert_folder_name#:#Hãy nhập tên thư mục
 mail#:#mail_insert_query#:#Hãy nhập một truy vấn
+mail#:#mail_intern#:#Nội bộ
 mail#:#mail_mark_read#:#Đánh dấu thư đã đọc
 mail#:#mail_mark_unread#:#Đánh dấu thư chưa đọc
 mail#:#mail_maxsize_attachment_error#:#Kích thước giới hạn tải lên đính kèm là:
@@ -3685,9 +3770,15 @@ mail#:#mail_move_error#:#Lỗi khi chuyển thư
 mail#:#mail_move_to#:#Di chuyển sang:
 mail#:#mail_moved#:#Thư đã được chuyển
 mail#:#mail_moved_to_trash#:#Thư đã chuyển vào thùng rác
+mail#:#mail_new_file#:#Thêm file mới:
+mail#:#mail_no_attach_allowed#:#Thư hệ thống không được phép sử dụng đính kèm
+mail#:#mail_no_attachments_found#:#Không tìm thấy đính kèm nào
 mail#:#mail_no_permissions_write_smtp#:#Bạn không có quyền viết thư ra ngoài
+mail#:#mail_options_of#:#Tùy chọn
 mail#:#mail_options_saved#:#Đã ghi tùy chọn
+mail#:#mail_recipient_not_valid#:#Người nhận không đúng
 mail#:#mail_s#:#Thư
+mail#:#mail_s_unread#:#Thư chưa đọc
 mail#:#mail_saved#:#Thư đã được ghi
 mail#:#mail_select_one_entry#:#Bạn phải chọn một mục
 mail#:#mail_select_one_file#:#Bạn phải chọn một file
@@ -3696,6 +3787,9 @@ mail#:#mail_sure_delete_entry#:#Bạn có chắc chắn xóa (các) mục sau kh
 mail#:#mail_sure_delete_file#:#File sẽ bị xóa vĩnh viễn
 mail#:#mail_sure_delete_folder#:#Thư mục và nội dung bên trong sẽ bị xóa vĩnh viễn
 mail#:#mail_to#:#Người nhận
+mail#:#mail_user_addr_n_valid#:#Những người sử dụng sau không có địa chỉ email hợp lệ
+mail#:#search_bc_recipient#:#Tìm kiếm người đồng nhận ẩn
+mail#:#search_cc_recipient#:#Tìm kiếm người đồng nhận
 meta#:#md_days#:#Days:###19 Apr 2006 new variable
 meta#:#md_months#:#Month:###19 Apr 2006 new variable
 meta#:#md_time#:#Time:###19 Apr 2006 new variable
@@ -5008,6 +5102,58 @@ assessment#:#upload_image#:#Upload Image###25 02 2007 new variable
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s###25 02 2007 new variable
 assessment#:#worked_through#:#Answered###25 02 2007 new variable
 assessment#:#working_time_avg#:#Avg. Working Time###25 02 2007 new variable
+barometer#:#anonymous#:#Anonymous###25 02 2007 new variable
+barometer#:#barometer_title#:#Feedback###25 02 2007 new variable
+barometer#:#best#:#Best###25 02 2007 new variable
+barometer#:#change_course#:#Change Course###25 02 2007 new variable
+barometer#:#chart_type#:#Chart type###25 02 2007 new variable
+barometer#:#chart_users#:#Chart user###25 02 2007 new variable
+barometer#:#chart_votes#:#Chart votes###25 02 2007 new variable
+barometer#:#bar_create#:#Create New Feedback###25 02 2007 new variable
+barometer#:#day#:#Day###25 02 2007 new variable
+barometer#:#days#:#Days###25 02 2007 new variable
+barometer#:#delete#:#Delete###25 02 2007 new variable
+barometer#:#duration#:#Duration###25 02 2007 new variable
+barometer#:#edit#:#Edit###25 02 2007 new variable
+barometer#:#edit_barometer#:#Edit feedback###25 02 2007 new variable
+barometer#:#every#:#every###25 02 2007 new variable
+barometer#:#feedb_edit_feedback#:#Edit Feedback###25 02 2007 new variable
+barometer#:#feedb_feedback_list#:#Feedback List###25 02 2007 new variable
+barometer#:#feedb_feedback_settings#:#Feedback Settings###25 02 2007 new variable
+barometer#:#feedb_time#:#Time###25 02 2007 new variable
+barometer#:#first_vote#:#1. Vote is the###25 02 2007 new variable
+barometer#:#from#:#From###25 02 2007 new variable
+barometer#:#hours#:#Hours###25 02 2007 new variable
+barometer#:#lines#:#Lines###25 02 2007 new variable
+barometer#:#login#:#Login###25 02 2007 new variable
+barometer#:#missing_fields#:#Please fill in all required information###25 02 2007 new variable
+barometer#:#month#:#Month###25 02 2007 new variable
+barometer#:#months#:#Months###25 02 2007 new variable
+barometer#:#new_vote#:#New vote###25 02 2007 new variable
+barometer#:#note#:#Comment###25 02 2007 new variable
+barometer#:#optional#:#Optional###25 02 2007 new variable
+barometer#:#options#:#Options###25 02 2007 new variable
+barometer#:#pie#:#Pie###25 02 2007 new variable
+barometer#:#repeat#:#Repeat Every###25 02 2007 new variable
+barometer#:#required#:#Required###25 02 2007 new variable
+barometer#:#save#:#Save###25 02 2007 new variable
+barometer#:#save_vote#:#Submit vote###25 02 2007 new variable
+barometer#:#skip#:#Skip###25 02 2007 new variable
+barometer#:#statistics#:#Statistics###25 02 2007 new variable
+barometer#:#status#:#Status###25 02 2007 new variable
+barometer#:#table#:#Table###25 02 2007 new variable
+barometer#:#text#:#Text###25 02 2007 new variable
+barometer#:#text_answer#:#Text answer###25 02 2007 new variable
+barometer#:#time#:#Running###25 02 2007 new variable
+barometer#:#title#:#Title###25 02 2007 new variable
+barometer#:#type#:#Type###25 02 2007 new variable
+barometer#:#until#:#Until###25 02 2007 new variable
+barometer#:#user#:#User###25 02 2007 new variable
+barometer#:#vote#:#Vote###25 02 2007 new variable
+barometer#:#votes#:#Votes###25 02 2007 new variable
+barometer#:#weeks#:#Weeks###25 02 2007 new variable
+barometer#:#worst#:#Worst###25 02 2007 new variable
+barometer#:#year#:#Year###25 02 2007 new variable
 common#:#HH#:#HH:MM###25 02 2007 new variable
 common#:#add_comments#:#Edit comments###25 02 2007 new variable
 common#:#add_new_user_defined_field#:#Add New User-defined Field###25 02 2007 new variable
@@ -5520,6 +5666,7 @@ forum#:#frm_statistics_enabled#:#Enable Statistics###25 02 2007 new variable
 forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants###25 02 2007 new variable
 forum#:#frm_statistics_ranking#:#Ranking###25 02 2007 new variable
 mail#:#mail_account_mail#:#Account Mail###25 02 2007 new variable
+mail#:#mail_account_mail_check#:#Send Account Mail###25 02 2007 new variable
 mail#:#mail_nacc_admin_mail#:#E-Mail address of Administrator.###25 02 2007 new variable
 mail#:#mail_nacc_client_name#:#Client Name.###25 02 2007 new variable
 mail#:#mail_nacc_ilias_url#:#URL of ILIAS system.###25 02 2007 new variable
@@ -5535,6 +5682,7 @@ mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used###25 0
 mail#:#mail_salutation_female#:#Salutation, female###25 02 2007 new variable
 mail#:#mail_salutation_general#:#Salutation, general###25 02 2007 new variable
 mail#:#mail_salutation_male#:#Salutation, male###25 02 2007 new variable
+mail#:#mail_send_with_system_address#:#Send With System Address###25 02 2007 new variable
 pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.###25 02 2007 new variable
 registration#:#reg_add_assignment#:#New Assignment###25 02 2007 new variable
 registration#:#reg_added_assignment#:#Added new assignment.###25 02 2007 new variable
@@ -5837,11 +5985,14 @@ grp#:#crs_grp_assign_crs#:#Assignment of Groups###25 02 2007 new variable
 grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned###25 02 2007 new variable
 grp#:#crs_grouping_select_one#:#Please select one membership limitation.###25 02 2007 new variable
 trac#:#trac_anonymized_info_short#:#(Anonymized)###25 02 2007 new variable
+barometer#:#barometer_add#:#Add new Feedback###25 02 2007 new variable
 crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'.###25 02 2007 new variable
 exercise#:#exc_crs_add_members#:#Add students of this course###25 02 2007 new variable
 common#:#mail_settings#:#Mail Settings###25 02 2007 new variable
 common#:#my_courses#:#My Courses###25 02 2007 new variable
 mail#:#mail_list_members#:#List members###25 02 2007 new variable
+mail#:#mail_members_added_addressbook#:#Members added to addressbook###25 02 2007 new variable
+mail#:#mail_in_addressbook#:#Already in addressbook###25 02 2007 new variable
 ldap#:#ldap_server_name#:#Name of LDAP Configuration###25 02 2007 new variable
 ldap#:#ldap_referrals#:#Referrals###25 02 2007 new variable
 ldap#:#ldap_server_security_settings#:#Security Settings###25 02 2007 new variable
@@ -5963,6 +6114,7 @@ ps#:#ps_new_text_field#:#Add new Text Field###25 02 2007 new variable
 ps#:#ps_name_field#:#Name###25 02 2007 new variable
 ps#:#ps_type_text#:#Text Field###25 02 2007 new variable
 ps#:#ps_type_select#:#Select Field###25 02 2007 new variable
+mail#:#mail_select_only_one_entry#:#Please select only one entry.###25 02 2007 new variable
 mail#:#mail_select_course#:#Please select at least one course.###25 02 2007 new variable
 administration#:#course_export#:#Course Export###25 02 2007 new variable
 administration#:#confirm_message_course_export#:#You added the course export functionality for one or more fields. Please confirm your changes.###25 02 2007 new variable
@@ -5986,8 +6138,11 @@ ps#:#ps_cdf_warning_modify#:#Attention: Minimum one user has accepted the user a
 crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators###25 02 2007 new variable
 ps#:#ps_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these settings will reset all user agreements.###25 02 2007 new variable
 mail#:#mail_select_group#:#Please select at least one group.###25 02 2007 new variable
+mail#:#mail_my_entries#:#My Entries###25 02 2007 new variable
 mail#:#mail_my_courses#:#My Courses###25 02 2007 new variable
 mail#:#mail_my_groups#:#My Groups###25 02 2007 new variable
+mail#:#mail_into_addressbook#:#Take into Addressbook###25 02 2007 new variable
+mail#:#mail_group_members#:#Group Members###25 02 2007 new variable
 ps#:#ps_error_message_https_header_missing#:#If you enable the automatic https detection you have to provide a header name and header value.###25 02 2007 new variable
 ps#:#ps_auto_https#:#Autodetect HTTPS###25 02 2007 new variable
 ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.###25 02 2007 new variable
@@ -6015,6 +6170,8 @@ common#:#obj_frm_select#:#-- Please select one Forum --###25 02 2007 new variabl
 forum#:#frm_wizard_page#:#Copy Forum (Step 2/2)###25 02 2007 new variable
 forum#:#fmr_copy_threads_info#:#You have the possibility to copy single threads. Only the beginning of the chosen threads will be duplicated.###25 02 2007 new variable
 common#:#btn_back#:#Back###25 02 2007 new variable
+mail#:#mail_new_entry#:#New Entry###25 02 2007 new variable
+mail#:#mail_edit_entry#:#Edit Entry###25 02 2007 new variable
 mail#:#mail_select_attachment#:#Please select an attachment for download.###25 02 2007 new variable
 common#:#obj_tst_duplicate#:#Copy Test###25 02 2007 new variable
 common#:#obj_tst_select#:#-- Please select one Test --###25 02 2007 new variable
@@ -6263,6 +6420,7 @@ search#:#search_users#:#Search User###19 06 2007 new variable
 common#:#wizard_title_info#:#Please enter the title of the object you want to duplicate.###20 06 2007 new variable
 common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them###20 06 2007 new variable
 forum#:#forum_add_quote#:#Add Quotation###20 06 2007 new variable
+mail#:#mail_folder_edit#:#Edit Folder###09 07 2007 new variable
 mail#:#mail_empty_trash#:#Empty Trash###09 07 2007 new variable
 mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?###09 07 2007 new variable
 common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###09 07 2007 new variable
@@ -6288,6 +6446,7 @@ common#:#buy#:#Buy###16 08 2007 new variable
 mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Address Book to Mailing List###16 08 2007 new variable
 mail#:#mail_notification_subject#:#New mail in your inbox###16 08 2007 new variable
 mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.###16 08 2007 new variable
+mail#:#mail_received_x_new_mails#:#You received %s new mails.###16 08 2007 new variable
 mail#:#send_mail_to#:#Mail to###16 08 2007 new variable
 mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List###16 08 2007 new variable
 mail#:#mail_my_mailing_lists#:#My Mailing Lists###16 08 2007 new variable
@@ -6323,6 +6482,7 @@ meta#:#md_adv_delete_fields_sure#:#Do you really want to delete the following fi
 meta#:#md_adv_added_new_record#:#Added new Dataset###16 08 2007 new variable
 meta#:#md_adv_create_record#:#Add new Dataset###16 08 2007 new variable
 meta#:#md_adv_delete_record_sure#:#Do really want to delete the following datasets?###16 08 2007 new variable
+barometer#:#barometer_conflict_anon_req#:#Anonymization can not be combined with type 'Required'. Please choose one of these options.###16 08 2007 new variable
 meta#:#md_adv_active#:#Active###16 08 2007 new variable
 common#:#default_auth_mode#:#Default Authentication Method###16 08 2007 new variable
 common#:#default_auth_mode_info#:#Please choose the authentication method that is preselected on the login page.###16 08 2007 new variable
@@ -6490,6 +6650,7 @@ news#:#news_1_file_created#:#1 File has been added.###23 10 2007 new variable
 news#:#news_1_file_updated#:#1 File has been updated.###23 10 2007 new variable
 news#:#news_x_postings#:#%s Postings have been added.###23 10 2007 new variable
 news#:#news_1_postings#:#1 Posting has been added.###23 10 2007 new variable
+forum#:#forums_post_and_children_were_activated#:#The post and all its child posts were activated.###23 10 2007 new variable
 forum#:#forums_post_was_activated#:#The post was activated.###23 10 2007 new variable
 forum#:#forums_post_needs_to_be_activated#:#A new article has been created, but it needs to be activated by a moderator.###23 10 2007 new variable
 forum#:#forums_no_posts_available#:#This topic has no posts yet or the moderator deactivated the first post.###23 10 2007 new variable
@@ -6689,6 +6850,7 @@ rbac#:#cals_write#:#Edit Calendar settings###11 03 2008 new variable
 common#:#obj_cat_duplicate#:#Copy Category###11 03 2008 new variable
 common#:#obj_cat_select#:#-- Please select one Category --###11 03 2008 new variable
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)###11 03 2008 new variable
+mail#:#advice_mail_body_secured#:#Because of security reasons ILIAS removed some elements of your message. Please check the secured message and send the mail again.###11 03 2008 new variable
 common#:#webfolder#:#Webfolder###11 03 2008 new variable
 common#:#mount_webfolder#:#Open as webfolder###11 03 2008 new variable
 common#:#obj_file_inline#:#Learning Module File###11 03 2008 new variable
@@ -6982,6 +7144,7 @@ common#:#mem_waiting_list#:#Users on Waiting List:###02 06 2008 new variable
 common#:#mem_alert_no_places#:#There are no free places available.###02 06 2008 new variable
 common#:#mem_reg_expired#:#The registration time is expired.###02 06 2008 new variable
 common#:#mem_unlimited#:#Unlimited###02 06 2008 new variable
+common#:#mail_attachments#:#Mail attachments###02 06 2008 new variable
 common#:#forum_attachments#:#Forum attachments###02 06 2008 new variable
 grp#:#grp_set_on_waiting_list#:#You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###02 06 2008 new variable
 grp#:#grp_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.###02 06 2008 new variable
@@ -7378,6 +7541,7 @@ crs#:#crs_suggested_sections#:#Suggested Sections###15 09 2008 new variable
 forum#:#frm_statistics#:#Statistics###15 09 2008 new variable
 mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.###15 09 2008 new variable
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.###15 09 2008 new variable
+chatroom#:#chat_new_invitation_sound_status#:#Play a sound if a user receives a new chat invitation###15 09 2008 new variable
 assessment#:#reset_pictures#:#Reset Picture Positions###15 09 2008 new variable
 assessment#:#reset_definitions#:#Reset Definition Position###15 09 2008 new variable
 administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed ILIAS version to the folder of local language files. The current language file is automatically copied when you save your local language file on the 'Maintain' tab. ###19 09 2008 new variable
@@ -7565,6 +7729,10 @@ content#:#cont_choose_characteristic#:#Choose Characteristic###24 02 2009 new va
 content#:#cont_choose_characteristic_text#:#Text Elements###24 02 2009 new variable
 content#:#cont_choose_characteristic_section#:#Sections###24 02 2009 new variable
 common#:#certificate#:#Certificate###24 02 2009 new variable
+certificate#:#certificate_top#:#Top###24 02 2009 new variable
+certificate#:#certificate_right#:#Right###24 02 2009 new variable
+certificate#:#certificate_bottom#:#Bottom###24 02 2009 new variable
+certificate#:#certificate_left#:#Left###24 02 2009 new variable
 certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)###24 02 2009 new variable
 certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)###24 02 2009 new variable
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)###24 02 2009 new variable
@@ -7577,8 +7745,14 @@ certificate#:#certificate_export#:#Export Certificate###24 02 2009 new variable
 certificate#:#certificate_page_format#:#Page Format###24 02 2009 new variable
 certificate#:#certificate_page_format_info#:#Please select the default page format for new certificates.###24 02 2009 new variable
 certificate#:#certificate_background_image#:#Background Image###24 02 2009 new variable
+certificate#:#certificate_padding_top#:#Top Padding###24 02 2009 new variable
 certificate#:#certificate_margin_body#:#Body Margin###24 02 2009 new variable
 certificate#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!###24 02 2009 new variable
+certificate#:#certificate_show#:#Show Certificate###24 02 2009 new variable
+certificate#:#certificate_status#:#Status###24 02 2009 new variable
+certificate#:#certificate_status_complete#:#The certificate is complete and could be used###24 02 2009 new variable
+certificate#:#certificate_status_incomplete#:#The certificate is incomplete###24 02 2009 new variable
+certificate#:#certificate_delete#:#Delete Certificate Data###24 02 2009 new variable
 certificate#:#certificate_preview#:#Show Certificate Preview###24 02 2009 new variable
 certificate#:#certificate_text#:#Certificate Text###24 02 2009 new variable
 certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe###24 02 2009 new variable
@@ -7601,6 +7775,8 @@ certificate#:#certificate_passed#:#passed###24 02 2009 new variable
 certificate#:#certificate_failed#:#failed###24 02 2009 new variable
 certificate#:#certificate_pageheight#:#Page Height###24 02 2009 new variable
 certificate#:#certificate_pagewidth#:#Page Width###24 02 2009 new variable
+certificate#:#certificate_wrong_unit#:#You have entered a wrong unit###24 02 2009 new variable
+certificate#:#certificate_wrong_units#:#You have entered a wrong set of units###24 02 2009 new variable
 certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?###24 02 2009 new variable
 certificate#:#certificate_enabled_scorm#:#Enabled###24 02 2009 new variable
 certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certificate will be offered for all users who finished the SCORM learning module.###24 02 2009 new variable
@@ -7911,6 +8087,8 @@ mail#:#chat_users_without_permission#:#The following Users don't have access to 
 mail#:#chat_users_have_been_invited#:#The Users have been invited.###30 04 2009 new variable
 mail#:#goto_invitation_chat#:#Open Chat Room###30 04 2009 new variable
 mail#:#chat_users_without_login#:#The following Users don't have an ILIAS Account and can't be invited to a Chat Room###30 04 2009 new variable
+chatroom#:#chat_new_message_sound_status#:#Play a sound if a new Message is received###30 04 2009 new variable
+chatroom#:#chat_message_notify_activate#:#Activate Message Notify###30 04 2009 new variable
 chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll###30 04 2009 new variable
 common#:#content_frame#:#Content Frame###30 04 2009 new variable
 common#:#side_frame#:#Side Frame###30 04 2009 new variable
@@ -9519,6 +9697,7 @@ common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the IL
 common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s###10 09 2010 new variable
 trac#:#trac_learning_progress_settings_info#:#Activate the display of the following values inside the Learning Progress tables:###10 09 2010 new variable
 fold#:#fold_import#:#Import Folder###10 09 2010 new variable
+mail#:#mail_select_recipients#:#Please select mail recipients:###10 09 2010 new variable
 grp#:#grp_import#:#Import Group###10 09 2010 new variable
 crs#:#crs_grp_assignments#:#Assignments of Course Members to Groups###10 09 2010 new variable
 assessment#:#ordering_answer_sequence_info#:#The answer sequence you define here will be taken as the correct solution sequence.###10 09 2010 new variable
@@ -10332,15 +10511,22 @@ common#:#objs_chtr#:#Chats###06 08 2011 new variable
 common#:#obj_chta#:#Chatrooms###06 08 2011 new variable
 chatroom#:#history_by_day#:#Daily history###06 08 2011 new variable
 chatroom#:#history_by_session#:#Session history###06 08 2011 new variable
+chatroom#:#connected#:#Connection established###06 08 2011 new variable
 chatroom#:#period#:#Period###06 08 2011 new variable
+chatroom#:#disconnected#:#Connection closed###06 08 2011 new variable
 chatroom#:#allow_anonymous#:#Allow anonymous login###06 08 2011 new variable
 chatroom#:#autogen_usernames#:#Auto generated usernames###06 08 2011 new variable
 chatroom#:#allow_custom_usernames#:#Allow custom usernames###06 08 2011 new variable
 chatroom#:#enable_history#:#Enable history###06 08 2011 new variable
+chatroom#:#restrict_history#:#Restrict history###06 08 2011 new variable
+chatroom#:#restrict_history_info#:#No entries generated during absence from chatroom###06 08 2011 new variable
+chatroom#:#allow_private_rooms#:#Allow private rooms###06 08 2011 new variable
 chatroom#:#settings_general#:#General###06 08 2011 new variable
+chatroom#:#settings_privacy#:#Privacy###06 08 2011 new variable
 chatroom#:#autogen_usernames_info#:#Pattern for auto generated usernames. '#' will be automatically replaced by a number###06 08 2011 new variable
 chatroom#:#bans#:#Bans###06 08 2011 new variable
 chatroom#:#permissions#:#Permissions###06 08 2011 new variable
+chatroom#:#remark#:#Remark###06 08 2011 new variable
 chatroom#:#session#:#Session###06 08 2011 new variable
 chatroom#:#fontcolor#:#Font color###06 08 2011 new variable
 chatroom#:#fontstyle#:#Font style###06 08 2011 new variable
@@ -10361,7 +10547,9 @@ chatroom#:#chat_message_to_all#:#to all###06 08 2011 new variable
 chatroom#:#chat_message_options#:#Display###06 08 2011 new variable
 chatroom#:#chat_message_display#:#Options###06 08 2011 new variable
 chatroom#:#chat_mainroom#:#Main room###06 08 2011 new variable
+chatroom#:#chat_leave#:#Leave###06 08 2011 new variable
 chatroom#:#chat_join#:#Join###06 08 2011 new variable
+chatroom#:#chat_delete#:#Delete###06 08 2011 new variable
 chatroom#:#chat_invite#:#Invite###06 08 2011 new variable
 chatroom#:#chat_kick#:#Kick###06 08 2011 new variable
 chatroom#:#chat_ban#:#Ban###06 08 2011 new variable
@@ -10369,8 +10557,13 @@ chatroom#:#chat_address#:#Address###06 08 2011 new variable
 chatroom#:#chat_whisper#:#Whisper###06 08 2011 new variable
 chatroom#:#chat_connection_established#:#Connection established###06 08 2011 new variable
 chatroom#:#chat_connection_disconnected#:#Disconnected###06 08 2011 new variable
+chatroom#:#chat_invite_users#:#Invite users###06 08 2011 new variable
+chatroom#:#chat_right_box_user#:#User###06 08 2011 new variable
+chatroom#:#chat_create_new_private_room#:#Create new private room###06 08 2011 new variable
+chatroom#:#chat_private_room#:#Private room###06 08 2011 new variable
 chatroom#:#chat_to_mainroom#:#To main room###06 08 2011 new variable
 chatroom#:#chat_create_private_room_button#:#Create private room###06 08 2011 new variable
+chatroom#:#moderate#:#Moderate###06 08 2011 new variable
 chatroom#:#chatroom_smiley_keyword#:#Keyword###06 08 2011 new variable
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name#####06 08 2011 new variable
 chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.###06 08 2011 new variable
@@ -10389,6 +10582,7 @@ chatroom_adm#:#chatroom_smiley_keywords#:#Keywords###06 08 2011 new variable
 chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#One keyword per line###06 08 2011 new variable
 chatroom_adm#:#chatroom_upload_smiley#:#Upload smiley###06 08 2011 new variable
 chatroom_adm#:#protocol#:#Protocol###06 08 2011 new variable
+chatroom_adm#:#instance#:#Instance###06 08 2011 new variable
 chatroom_adm#:#smiley#:#Smilies###06 08 2011 new variable
 chatroom_adm#:#chatroom_edit_smiley#:#Edit smiley###06 08 2011 new variable
 chatroom_adm#:#chatroom_current_smiley_image_path#:#Current smiley###06 08 2011 new variable
@@ -10396,18 +10590,24 @@ chatroom_adm#:#chatroom_current_smiley_image#:#Current smiley icon###06 08 2011 
 chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Choose a new smiley icon only if the current one is to be replaced.###06 08 2011 new variable
 chatroom_adm#:#server_settings#:#Server settings###06 08 2011 new variable
 chatroom_adm#:#client_settings#:#Client settings###06 08 2011 new variable
+chatroom_adm#:#priv_hosts#:#Privileged hosts###06 08 2011 new variable
 chatroom_adm#:#https#:#HTTPS###06 08 2011 new variable
 chatroom_adm#:#chat_enabled#:#Enable chat###06 08 2011 new variable
 chatroom_adm#:#enable_osd#:#Enable On-Screen notifications###06 08 2011 new variable
+chatroom_adm#:#hash#:#Hash###06 08 2011 new variable
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)###06 08 2011 new variable
 chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete the selected smiley?###06 08 2011 new variable
 chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.###06 08 2011 new variable
 chatroom_adm#:#chat_smilies_initialized#:#Chat smilies initialized###06 08 2011 new variable
+chatroom#:#soap_must_be_enabled#:#You must active SOAP support in the general settings to enable the chat.###06 08 2011 new variable
 chatroom#:#auto_scroll#:#Scroll to bottom###06 08 2011 new variable
 chatroom#:#public_chat_created#:#The public chat room has been added to the repository###06 08 2011 new variable
 chatroom#:#lost_connection#:#The connection to the chatserver was interrupted.###06 08 2011 new variable
 chatroom#:#banned#:#You have been banned from this chat###06 08 2011 new variable
 chatroom#:#unban#:#Unban###06 08 2011 new variable
+chatroom_adm#:#keystore#:#Keystore###06 08 2011 new variable
+chatroom_adm#:#keypass#:#Keypass###06 08 2011 new variable
+chatroom_adm#:#storepass#:#Storepass###06 08 2011 new variable
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved###06 08 2011 new variable
 common#:#obj_chtr#:#Chatroom###06 08 2011 new variable
 chatroom#:#unable_to_connect#:#The connection to the chatserver could not be established.###06 08 2011 new variable
@@ -10627,6 +10827,8 @@ skmg#:#skmg_create_skill_template_reference#:#Create Skill Template Reference###
 skmg#:#skmg_create_skill_category#:#Create Skill Category###02 09 2011 new variable
 common#:#notice#:#Notice###02 09 2011 new variable
 common#:#public_room#:#Public room###02 09 2011 new variable
+chatroom#:#chtr_moderate#:#Moderate###02 09 2011 new variable
+chatroom#:#unkown_private_room#:#Unknown private room###02 09 2011 new variable
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.###02 09 2011 new variable
 chatroom#:#chtr_new#:#New Chatroom###02 09 2011 new variable
 chatroom#:#chtr_add#:#Add Chatroom###02 09 2011 new variable
@@ -10727,8 +10929,13 @@ didactic#:#didactic_template_applied#:#Applied didactic template.###14 09 2011 n
 didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the chosen didactic template? All current permission settings will get lost!###14 09 2011 new variable
 chatroom#:#chatserver_address#:#IP-Adress of the Chatservers###14 09 2011 new variable
 chatroom#:#chatserver_port#:#Port of the Chatservers###14 09 2011 new variable
+chatroom#:#instance_name#:#Unique Identifier###14 09 2011 new variable
+chatroom#:#ilias_url#:#Base-URL of your ILIAS Installation###14 09 2011 new variable
+chatroom#:#soap_user#:#Name of the SOAP-User###14 09 2011 new variable
+chatroom#:#soap_user_password#:#Password of the SOAP-User###14 09 2011 new variable
 chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.###14 09 2011 new variable
 chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the webserver must handle.###14 09 2011 new variable
+chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chatserver to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.###14 09 2011 new variable
 chatroom#:#enable_smilies#:#Enable Smilies###14 09 2011 new variable
 chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smilies tab for configuration.###14 09 2011 new variable
 chatroom#:#display_past_msgs#:#Number of Past Messages###14 09 2011 new variable
@@ -10761,6 +10968,7 @@ notes#:#comments_feature_currently_not_activated_for_object#:#The public comment
 chatroom#:#layout#:#Layout###01 10 2011 new variable
 chatroom#:#show_settings#:#Show Settings###01 10 2011 new variable
 chatroom#:#hide_settings#:#Hide Settings###01 10 2011 new variable
+chatroom_adm#:#soap_user_hint#:#This user is used to send information from the chatserver to the ilias installation. No special permissions are required.<br/>If you create a new accout, please make sure that you are able to login with this user (e.g. accept licence aggreement).###01 10 2011 new variable
 chatroom#:#private_rooms_enabled#:#Allow Private Rooms###01 10 2011 new variable
 chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.###01 10 2011 new variable
 chatroom#:#no_further_users#:#No other users present###01 10 2011 new variable
@@ -12110,7 +12318,12 @@ tos#:#tos_period_from#:#From###24 10 2013 new variable
 tos#:#tos_period_until#:#Until###24 10 2013 new variable
 tos#:#tos_acceptance_datetime#:#Date###24 10 2013 new variable
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads ###24 10 2013 new variable
+forum#:#frm_sorting_threads#:#Thread Sorting###24 10 2013 new variable
+forum#:#frm_sorting_posts#:#Posts Sorting###24 10 2013 new variable
 forum#:#sticky_threads_always_on_top#:#"Sticky Threads" are always listed at the top of the list of threads. Within the "Sticky Threads" you are able to sort the threads manually, if you have chosen this option.###24 10 2013 new variable
+mail#:#cron_update_addressbook#:#Synchronize address book entries automatically###24 10 2013 new variable
+mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cronjob. Only data that was released by the User, will be updated.###24 10 2013 new variable
+mail#:#auto_update#:#Update###24 10 2013 new variable
 forum#:#merge#:#Merge###24 10 2013 new variable
 forum#:#please_choose_target#:#Please choose a thread as merge target.###24 10 2013 new variable
 forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone! Eventually ILIAS swaps source and target thread if the first posting of the source thread is created earlier than the first posting of the target thread.###24 10 2013 new variable
@@ -12584,6 +12797,7 @@ exc#:#exc_feedback_notification_subject#:#Feedback is available for assignment o
 exc#:#exc_feedback_notification_salutation#:#Hello %s,###24 10 2013 new variable
 exc#:#exc_feedback_notification_body#:#Feedback is now available for the following assignment.###24 10 2013 new variable
 exc#:#exc_feedback_notification_link#:#Link to exercise###24 10 2013 new variable
+mail#:#system_notification_installation_signature#:#This email has been sent automatically by the ILIAS installation###24 10 2013 new variable
 mail#:#system_notification_installation_changed_by#:#Changed By###24 10 2013 new variable
 exc#:#exc_feedback_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.###24 10 2013 new variable
 exc#:#exc_team_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.###24 10 2013 new variable
@@ -15152,6 +15366,7 @@ prg#:#prg_view#:#View###30 08 2015 new variable
 prg#:#prg_update_from_current_plan#:#Update from current Plan###30 08 2015 new variable
 prg#:#prg_update_successful#:#Saved changes successfully!###30 08 2015 new variable
 prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!###30 08 2015 new variable
+prg#:#prg_warning_img_alt#:#Warning!###30 08 2015 new variable
 prg#:#prg_successful_img_alt#:#successful###30 08 2015 new variable
 prg#:#prg_in_progress_img_alt#:#in progress###30 08 2015 new variable
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.###30 08 2015 new variable
@@ -15335,10 +15550,13 @@ forum#:#restore#:#Restore###25 10 2016 new variable
 forum#:#restore_draft_from_autosave#:#Restore draft###25 10 2016 new variable
 forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>###25 10 2016 new variable
 forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>###25 10 2016 new variable
+forum#:#publishThreadDrafts#:#Publish Thread Draft###25 10 2016 new variable
+forum#:#deleteThreadDrafts#:#Delete Thread Draft###25 10 2016 new variable
 forum#:#edit_thread_draft#:#Edit thread draft###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.###25 10 2016 new variable
 pd#:#block_show_pdfrmpostdraft#:#Show 'My Posting Drafts'###25 10 2016 new variable
+forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#save_draft_successfully#:#The draft was saved successfully.###25 10 2016 new variable
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?###25 10 2016 new variable
@@ -16036,10 +16254,24 @@ iass#:#iass_status_pending#:#Status pending###25 10 2016 new variable
 iass#:#iass_notify#:#Notify user after finalization###25 10 2016 new variable
 iass#:#iass_finalize#:#Finalize###25 10 2016 new variable
 iass#:#il_iass_member#:#Individual Assessment examinee###25 10 2016 new variable
+iass#:#edit_members#:#Edit examinees###25 10 2016 new variable
+iass#:#iass_edit_members#:#Edit examinees###25 10 2016 new variable
+iass#:#iass_visible#:#Visible###25 10 2016 new variable
+iass#:#iass_read#:#Read###25 10 2016 new variable
+iass#:#iass_copy#:#Copy###25 10 2016 new variable
+iass#:#iass_write#:#Edit Settings###25 10 2016 new variable
+iass#:#iass_delete#:#Delete###25 10 2016 new variable
+iass#:#iass_read_learning_progress#:#View learning progress of other users###25 10 2016 new variable
+iass#:#iass_edit_permissions#:#Change Permissions###25 10 2016 new variable
+iass#:#iass_edit_learning_progress#:#Edit learning progress###25 10 2016 new variable
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised.###25 10 2016 new variable
 iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.###25 10 2016 new variable
 iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer###25 10 2016 new variable
+common#:##obj_iass#:#Individual Assessment###25 10 2016 new variable
+common#:##objs_iass#:#Individual Assessments###25 10 2016 new variable
+common#:##obj_iass_duplicate#:#Copy Individual Assessment###25 10 2016 new variable
+common#:##obj_iass_select#:#-- Please select one individual assessment --###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.###25 10 2016 new variable
 common#:#il_iass_member#:#Individual Assessment Examinee###25 10 2016 new variable
 common#:#iass_new#:#Create Individual Assessment###25 10 2016 new variable
@@ -16125,35 +16357,3 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###25 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###25 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
-grp#:#grp_members_deleted#:#Deleted members###18 01 2017 new variable
-cron#:#cro_job_rc_job_no_result#:#NO RESULT###deprecated 
-cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY###18 01 2017 new variable
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED###18 01 2017 new variable
-prg#:#warning#:#Warning!###18 01 2017 new variable
-iass#:#il_iass_members#:#Participants###18 01 2017 new variable
-common#:#obj_iass#:#Individual Assessment###18 01 2017 new variable
-common#:#objs_iass#:#Individual Assessments###18 01 2017 new variable
-common#:#obj_iass_duplicate#:#Copy Individual Assessment###18 01 2017 new variable
-common#:#obj_iass_select#:#-- Please select one individual assessment --###18 01 2017 new variable
-iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.###18 01 2017 new variable
-iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.###18 01 2017 new variable
-common#:#sahs_export_file#:#ILIAS exported SCORM archive file###18 01 2017 new variable
-content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.###18 01 2017 new variable
-survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>###18 01 2017 new variable
-content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.###18 01 2017 new variable
-grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration###18 01 2017 new variable
-auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###18 01 2017 new variable
-lng#:#lng_download_deprecated#:#Download Deprecated List###18 01 2017 new variable
-rbac#:#edit_members#:#Manage members###18 01 2017 new variable
-rbac#:#prg_manage_members#:#Manage members of Study Programme###18 01 2017 new variable
-rbac#:#rbac_create_iass#:#Create Individual Assessment###18 01 2017 new variable
-survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###deprecated 
-wsp#:#share_content#:#Share Object###18 01 2017 new variable
-wsp#:#share_with#:#Username###18 01 2017 new variable
-wsp#:#element_already_shared#:#This object is already shared with this user.###18 01 2017 new variable
-wsp#:#search_no_match#:#Your search did not match any results.###18 01 2017 new variable
-wsp#:#element_shared#:#Object shared.###18 01 2017 new variable
-wsp#:#share#:#Share###18 01 2017 new variable
-copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###18 01 2017 new variable
-auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.###18 01 2017 new variable
-crs#:#crs_edit_lo_introduction#:#Edit Introduction###18 01 2017 new variable
