@@ -18051,7 +18051,7 @@ $pk_fields = array("obj_id");
 $ilDB->addPrimaryKey("exc_data", $pk_fields);
 
 $in_fields = array("instruction");
-$ilDB->addIndex("exc_data", $in_fields, "i1", false);
+$ilDB->addIndex("exc_data", $in_fields, "i1", true);
 
 
 //
@@ -22981,7 +22981,7 @@ $in_fields = array("rbac_id","obj_id");
 $ilDB->addIndex("il_meta_description", $in_fields, "i1", false);
 
 $in_fields = array("description");
-$ilDB->addIndex("il_meta_description", $in_fields, "i2", false);
+$ilDB->addIndex("il_meta_description", $in_fields, "i2", true);
 
 $ilDB->createSequence("il_meta_description", 1);
 
@@ -23256,7 +23256,7 @@ $in_fields = array("rbac_id","obj_id");
 $ilDB->addIndex("il_meta_general", $in_fields, "i1", false);
 
 $in_fields = array("title","coverage");
-$ilDB->addIndex("il_meta_general", $in_fields, "i2", false);
+$ilDB->addIndex("il_meta_general", $in_fields, "i2", true);
 
 $ilDB->createSequence("il_meta_general", 1);
 
@@ -33638,7 +33638,7 @@ $in_fields = array("parent_id","parent_type","last_change");
 $ilDB->addIndex("page_object", $in_fields, "i3", false);
 
 $in_fields = array("content");
-$ilDB->addIndex("page_object", $in_fields, "i1", false);
+$ilDB->addIndex("page_object", $in_fields, "i1", true);
 
 $ilDB->insert("page_object", array(
 'page_id' => array('integer', '1'), 'parent_id' => array('integer', ''), 'content' => array('clob', '<PageObject><PageContent PCID="9f77db1d8a478497d69b99d938faa8ff"><Paragraph Language="en" Characteristic="Headline1">Headline 1</Paragraph></PageContent><PageContent PCID="134d24457cbc90ea1bf1a1323d7c3a89"><Table Language="en" Border="0px" CellPadding="2px" CellSpacing="0px" HorizontalAlign="Left" Width="100%"><TableRow PCID="ccade07caf9fd13e8c7012f29c9510be"><TableData PCID="a4e417c08feebeafb1487e60a2e245a4" Width="66%"><PageContent PCID="1f77eb1d8a478497d69b99d938fda8f"><PlaceHolder ContentClass="Text" Height="500px"/></PageContent></TableData><TableData PCID="46ac4936082485f457c7041278b5c5f5"><PageContent PCID="2e77eb1d8a478497d69b99d938fda8e"><PlaceHolder ContentClass="Media" Height="300px"/></PageContent></TableData> </TableRow></Table></PageContent></PageObject>'), 'parent_type' => array('text', 'stys'), 'last_change_user' => array('integer', ''), 'view_cnt' => array('integer', '0'), 'last_change' => array('timestamp', ''), 'created' => array('timestamp', ''), 'create_user' => array('integer', ''), 'render_md5' => array('text', ''), 'rendered_content' => array('clob', ''), 'rendered_time' => array('timestamp', ''), 'activation_start' => array('timestamp', ''), 'activation_end' => array('timestamp', ''), 'active' => array('integer', '1'), 'is_empty' => array('integer', '0'), 'inactive_elements' => array('integer', '0'), 'int_links' => array('integer', '0'), 'show_activation_info' => array('integer', '0'), 'lang' => array('text', '-'), 'edit_lock_user' => array('integer', ''), 'edit_lock_ts' => array('integer', '0')));
@@ -51198,7 +51198,7 @@ $in_fields = array("obj_fi");
 $ilDB->addIndex("svy_svy", $in_fields, "i1", false);
 
 $in_fields = array("introduction");
-$ilDB->addIndex("svy_svy", $in_fields, "i2", false);
+$ilDB->addIndex("svy_svy", $in_fields, "i2", true);
 
 $ilDB->createSequence("svy_svy", 1);
 
@@ -57671,7 +57671,7 @@ $in_fields = array("tag_fk");
 $ilDB->addIndex("xmlvalue", $in_fields, "i1", false);
 
 $in_fields = array("tag_value");
-$ilDB->addIndex("xmlvalue", $in_fields, "i2", false);
+$ilDB->addIndex("xmlvalue", $in_fields, "i2", true);
 
 $ilDB->createSequence("xmlvalue", 1);
 
