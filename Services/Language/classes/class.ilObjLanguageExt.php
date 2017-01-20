@@ -310,6 +310,7 @@ class ilObjLanguageExt extends ilObjLanguage
 			" lang_key = ".$ilDB->quote($a_lang_key, "text")." order by module";
 		$set = $ilDB->query($q);
 
+		$modules = array();
 		while ($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$modules[] = $rec["module"];
