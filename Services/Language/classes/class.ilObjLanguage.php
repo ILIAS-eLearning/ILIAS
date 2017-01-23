@@ -56,6 +56,30 @@ class ilObjLanguage extends ilObject
 	}
 
 	/**
+	 * Get the language objects of the installed languages
+	 * @return self[]
+	 */
+	public static function getInstalledLanguages()
+	{
+		$objects = array();
+		$languages = ilObject::_getObjectsByType("lng");
+		foreach ($languages as $lang)
+		{
+			$langObj = new ilObjLanguage($lang["obj_id"], false);
+			if ($langObj->isInstalled())
+			{
+				$objects[] = $langObj;
+			}
+			else
+			{
+				unset($langObj);
+			}
+		}
+		return $objects;
+	}
+
+
+	/**
 	 * get language key
 	 *
 	 * @return	string		language key
@@ -209,47 +233,72 @@ class ilObjLanguage extends ilObject
 		}
 		return "";
 	}
-	
+
+
+	/**
+	 * refresh current language
+	 * @return bool
+	 */
+	function refresh()
+	{
+		if ($this->isInstalled() == true)
+		{
+			if ($this->check())
+			{
+				$this->flush('keep_local');
+				$this->insert();
+				$this->setTitle($this->getKey());
+				$this->setDescription($this->getStatus());
+				$this->update();
+				$this->optimizeData();
+
+				if ($this->isLocal() == true)
+				{
+					if ($this->check('local'))
+					{
+						$this->insert('local');
+						$this->setTitle($this->getKey());
+						$this->setDescription($this->getStatus());
+						$this->update();
+						$this->optimizeData();
+					}
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	* Refresh all installed languages
 	*/
 	static function refreshAll()
 	{
-		global $ilPluginAdmin;
-		
 		$languages = ilObject::_getObjectsByType("lng");
+		$refreshed = array();
 
 		foreach ($languages as $lang)
 		{
 			$langObj = new ilObjLanguage($lang["obj_id"],false);
-
-			if ($langObj->isInstalled() == true)
+			if ($langObj->refresh())
 			{
-				if ($langObj->check())
-				{
-					$langObj->flush('keep_local');
-					$langObj->insert();
-					$langObj->setTitle($langObj->getKey());
-					$langObj->setDescription($langObj->getStatus());
-					$langObj->update();
-					$langObj->optimizeData();
-
-					if ($langObj->isLocal() == true)
-					{
-						if ($langObj->check('local'))
-						{
-							$langObj->insert('local');
-							$langObj->setTitle($langObj->getKey());
-							$langObj->setDescription($langObj->getStatus());
-							$langObj->update();
-							$langObj->optimizeData();
-						}
-					}
-				}
+				$refreshed[] = $langObj->getKey();
 			}
-
 			unset($langObj);
 		}
+
+		self::refreshPlugins($refreshed);
+	}
+
+
+	/**
+	 * Refresh languages of activated plugins
+	 * @var array|null	keys of languages to be refreshed (not yet supported, all available will be refreshed)
+	 * @todo: provide $a_lang_keys for ilPlugin::updateLanguages() when it is supported there
+	 */
+	public static function refreshPlugins($a_lang_keys = null)
+	{
+		global $ilPluginAdmin;
 
 		// refresh languages of activated plugins
 		include_once("./Services/Component/classes/class.ilPluginSlot.php");
@@ -270,14 +319,14 @@ class ilObjLanguage extends ilObject
 			}
 		}
 	}
-	
+
 
 	/**
 	* Delete languge data
 	*
 	* @param	string		lang key
 	*/
-	static function _deleteLangData($a_lang_key, $a_keep_local_change)
+	static function _deleteLangData($a_lang_key, $a_keep_local_change = false)
 	{
 		global $ilDB;
 		if (!$a_keep_local_change)
@@ -367,6 +416,31 @@ class ilObjLanguage extends ilObject
 		{
 			return "";
 		}
+	}
+
+
+	/**
+	 * Get the local changes of a language module
+	 * @param string	$a_key		Language key
+	 * @param string	$a_module 	Module key
+	 * @return array	identifier => value
+	 */
+	static function _getLocalChangesByModule($a_key, $a_module)
+	{
+		/** @var ilDB $ilDB */
+		global $ilDB;
+
+		$changes = array();
+		$result = $ilDB->queryF("SELECT * FROM lng_data WHERE lang_key = %s AND module = %s AND local_change IS NOT NULL",
+
+			array('text', 'text'),
+			array($a_key, $a_module));
+
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$changes[$row['identifier']] = $row['value'];
+		}
+		return $changes;
 	}
 
 
