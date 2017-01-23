@@ -16152,3 +16152,10 @@ wsp#:#search_no_match#:#Your search did not match any results.
 wsp#:#element_shared#:#Object shared.
 wsp#:#share#:#Share
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
+exc#:#exc_work_instructions#:#Work instructions
+exc#:#exc_after_submission#:#After submission
+exc#:#exc_schedule#:#Schedule
+exc#:#exc_submit_convenience_no_deadline#:#Submit your at your convenience. There is no  specific  deadline.
+exc#:#exc_select_portfolio_unlink#:#Remove Portfolio
+exc#:#exc_sure_unlink_portfolio#:#Are you sure to remove the this portfolio form this assignment?
+exc#:#exc_portfolio_unlinked_from_assignment#:#Portfolio removed from this assignment

@@ -125,16 +125,16 @@ class ilExAssignmentGUI
 		$info->setTableClass("");
 		
 		$this->addInstructions($info, $a_ass);
-		$this->addSchedule($info, $a_ass);
-		
-		if ($this->exc->getShowSubmissions())
-		{
-			$this->addPublicSubmissions($info, $a_ass);
-		}
-		
+
 		if (!$a_ass->notStartedYet())
 		{
 			$this->addFiles($info, $a_ass);
+		}
+
+		$this->addSchedule($info, $a_ass);
+		
+		if (!$a_ass->notStartedYet())
+		{
 			$this->addSubmission($info, $a_ass);			
 		}
 
@@ -263,7 +263,12 @@ class ilExAssignmentGUI
 	{		
 		global $lng, $ilCtrl, $ilUser;
 
-		$a_info->addSection($lng->txt("exc_your_submission"));
+		if ($this->exc->getShowSubmissions())
+		{
+			$this->addPublicSubmissions($a_info, $a_ass);
+		}
+
+		$a_info->addSection($lng->txt("exc_submission"));
 
 		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 		$submission = new ilExSubmission($a_ass, $ilUser->getId());
@@ -379,7 +384,7 @@ class ilExAssignmentGUI
 		
 		if ($a_deadline == 0)
 		{
-			return $lng->txt("exc_no_deadline_specified");
+			return $lng->txt("exc_submit_convenience_no_deadline");
 		}
 		
 		if ($a_deadline - time() <= 0)

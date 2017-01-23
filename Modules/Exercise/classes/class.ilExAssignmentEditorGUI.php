@@ -170,19 +170,48 @@ class ilExAssignmentEditorGUI
 			$form->setTitle($lng->txt("exc_new_assignment"));
 		}
 		$form->setFormAction($ilCtrl->getFormAction($this));
-		
-		// type
-		$ty = $this->getTypeDropdown();
-		$ty->setValue($a_type);
-		$ty->setDisabled(true);
-		$form->addItem($ty);
-		
+
 		// title
 		$ti = new ilTextInputGUI($lng->txt("title"), "title");
 		$ti->setMaxLength(200);
 		$ti->setRequired(true);
 		$form->addItem($ti);
-		
+
+		// type
+		$ty = $this->getTypeDropdown();
+		$ty->setValue($a_type);
+		$ty->setDisabled(true);
+		$form->addItem($ty);
+
+		// mandatory
+		$cb = new ilCheckboxInputGUI($lng->txt("exc_mandatory"), "mandatory");
+		$cb->setInfo($lng->txt("exc_mandatory_info"));
+		$cb->setChecked(true);
+		$form->addItem($cb);
+
+		// Work Instructions
+		$sub_header = new ilFormSectionHeaderGUI();
+		$sub_header->setTitle($lng->txt("exc_work_instructions"), "work_instructions");
+		$form->addItem($sub_header);
+
+		$desc_input = new ilTextAreaInputGUI($lng->txt("exc_instruction"), "instruction");
+		$desc_input->setRows(20);
+		$desc_input->setUseRte(true);
+		$desc_input->setRteTagSet("mini");
+		$form->addItem($desc_input);
+
+		// files
+		if ($a_mode == "create")
+		{
+			$files = new ilFileWizardInputGUI($lng->txt('objs_file'),'files');
+			$files->setFilenames(array(0 => ''));
+			$form->addItem($files);
+		}
+
+		// Schedule
+		$sub_header = new ilFormSectionHeaderGUI();
+		$sub_header->setTitle($lng->txt("exc_schedule"), "schedule");
+		$form->addItem($sub_header);
 		// start time
 		$start_date = new ilDateTimeInputGUI($lng->txt("exc_start_time"), "start_time");
 		$start_date->setShowTime(true);
@@ -199,42 +228,35 @@ class ilExAssignmentEditorGUI
 		$deadline2->setShowTime(true);
 		$deadline->addSubItem($deadline2);
 
-		// mandatory
-		$cb = new ilCheckboxInputGUI($lng->txt("exc_mandatory"), "mandatory");
-		$cb->setInfo($lng->txt("exc_mandatory_info"));
-		$cb->setChecked(true);
-		$form->addItem($cb);
 
-		// Work Instructions
-		$desc_input = new ilTextAreaInputGUI($lng->txt("exc_instruction"), "instruction");
-		$desc_input->setRows(20);
-		$desc_input->setUseRte(true);				
-		$desc_input->setRteTagSet("mini");		
-		$form->addItem($desc_input);		
-				
-		// files		
-		if ($a_mode == "create")
-		{
-			$files = new ilFileWizardInputGUI($lng->txt('objs_file'),'files');
-			$files->setFilenames(array(0 => ''));
-			$form->addItem($files);						
-		}
-		
 		// max number of files
 		if($a_type == ilExAssignment::TYPE_UPLOAD ||
 			$a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
+			if($a_type == ilExAssignment::TYPE_UPLOAD)
+			{
+				$type_name = $lng->txt("exc_type_upload");
+			}
+			if($a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
+			{
+				$type_name = $lng->txt("exc_type_upload_team");
+			}
+
+			// custom section depending of assignment type
+			$sub_header = new ilFormSectionHeaderGUI();
+			$sub_header->setTitle($type_name);
+			$form->addItem($sub_header);
 			$max_file_tgl = new ilCheckboxInputGUI($lng->txt("exc_max_file_tgl"), "max_file_tgl");
 			$form->addItem($max_file_tgl);
-		
-				$max_file = new ilNumberInputGUI($lng->txt("exc_max_file"), "max_file");
-				$max_file->setInfo($lng->txt("exc_max_file_info"));
-				$max_file->setRequired(true);
-				$max_file->setSize(3);
-				$max_file->setMinValue(1);
-				$max_file_tgl->addSubItem($max_file);			
-		}		
-				
+
+			$max_file = new ilNumberInputGUI($lng->txt("exc_max_file"), "max_file");
+			$max_file->setInfo($lng->txt("exc_max_file_info"));
+			$max_file->setRequired(true);
+			$max_file->setSize(3);
+			$max_file->setMinValue(1);
+			$max_file_tgl->addSubItem($max_file);
+		}
+
 		if($a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
 			$cbtut = new ilCheckboxInputGUI($lng->txt("exc_team_management_tutor"), "team_tutor");
@@ -242,7 +264,11 @@ class ilExAssignmentEditorGUI
 			$cbtut->setChecked(false);
 			$form->addItem($cbtut);
 		}
-		else 	
+		// after submission
+		$sub_header = new ilFormSectionHeaderGUI();
+		$sub_header->setTitle($lng->txt("exc_after_submission"), "after_submission");
+		$form->addItem($sub_header);
+		if($a_type != ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
 			// peer review
 			$peer = new ilCheckboxInputGUI($lng->txt("exc_peer_review"), "peer");		
