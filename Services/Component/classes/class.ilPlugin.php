@@ -394,13 +394,26 @@ abstract class ilPlugin
 	}
 
 	/**
-	 * Update all languages
+	 * Update all or selected languages
+	 * @var array|null	$a_lang_keys	keys of languages to be updated (null for all)
 	 */
-	public function updateLanguages()
+	public function updateLanguages($a_lang_keys = null)
 	{
-		global $ilCtrl;
 		ilGlobalCache::flushAll();
 		include_once("./Services/Language/classes/class.ilObjLanguage.php");
+
+		// get the keys of all installed languages if keys are not provided
+		if(!isset($a_lang_keys))
+		{
+			$a_lang_keys = array();
+			foreach (ilObjLanguage::getInstalledLanguages() as $langObj)
+			{
+				if ($langObj->isInstalled())
+				{
+					$a_lang_keys[] = $langObj->getKey();
+				}
+			}
+		}
 
 		$langs = $this->getAvailableLangFiles($this->getLanguageDirectory());
 
@@ -408,8 +421,17 @@ abstract class ilPlugin
 
 		foreach($langs as $lang)
 		{
+			// check if the language should be updated, otherwise skip it
+			if (!in_array($lang['key'], $a_lang_keys) )
+			{
+				continue;
+			}
+
 			$txt = file($this->getLanguageDirectory()."/".$lang["file"]);
 			$lang_array = array();
+
+			// get locally changed variables of the module (these should be kept)
+			$local_changes = ilObjLanguage::_getLocalChangesByModule($lang['key'], $prefix);
 
 			// get language data
 			if (is_array($txt))
@@ -419,16 +441,24 @@ abstract class ilPlugin
 					if ($row[0] != "#" && strpos($row, "#:#") > 0)
 					{
 						$a = explode("#:#",trim($row));
-						$lang_array[$prefix."_".trim($a[0])] = trim($a[1]);
-						ilObjLanguage::replaceLangEntry($prefix, $prefix."_".trim($a[0]),
-							$lang["key"], trim($a[1]));
+						$identifier = $prefix."_".trim($a[0]);
+						$value = trim($a[1]);
+
+						if (isset($local_changes[$identifier]))
+						{
+							$lang_array[$identifier] = $local_changes[$identifier];
+						}
+						else
+						{
+							$lang_array[$identifier] = $value;
+							ilObjLanguage::replaceLangEntry($prefix, $identifier, $lang["key"], $value);
+						}
 						//echo "<br>-$prefix-".$prefix."_".trim($a[0])."-".$lang["key"]."-";
 					}
 				}
 			}
 
-			ilObjLanguage::replaceLangModule($lang["key"], $prefix,
-				$lang_array);
+			ilObjLanguage::replaceLangModule($lang["key"], $prefix, $lang_array);
 		}
 	}
 
