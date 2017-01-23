@@ -1584,13 +1584,7 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 		if(content.trim() != '')
 		{
 			var message = {
-				content: content,
-				format:  {
-					color:  $('#colorpicker').val(),
-					style:  $('#fontstyle').val(),
-					size:   $('#fontsize').val(),
-					family: $('#fontfamily').val()
-				}
+				content: content
 			};
 
 			if(messageOptions['recipient'] != undefined && messageOptions['recipient'] != false) {

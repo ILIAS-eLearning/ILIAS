@@ -267,7 +267,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
 		$roomTpl->setVariable('INITIAL_USERS', json_encode($room->getConnectedUsers()));
 
-		$this->renderFontSettings($roomTpl, array());
 		$this->renderFileUploadForm($roomTpl);
 		$this->renderSendMessageBox($roomTpl);
 		$this->renderLanguageVariables($roomTpl);
@@ -296,106 +295,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 	private function cancelJoin($message)
 	{
 		ilUtil::sendFailure($message);
-	}
-
-	/**
-	 * Prepares given $roomTpl with font settings using given $defaultSettings
-	 * among other things.
-	 * @param ilTemplate $roomTpl
-	 * @param array      $defaultSettings
-	 */
-	private function renderFontSettings(ilTemplate $roomTpl, array $defaultSettings)
-	{
-		/**
-		 * @var $lng    ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $lng, $ilCtrl;
-
-		$font_family = array(
-			'sans'      => 'Sans Serif',
-			'times'     => 'Times',
-			'monospace' => 'Monospace',
-		);
-
-		$font_style = array(
-			'italic'     => $lng->txt('italic'),
-			'bold'       => $lng->txt('bold'),
-			'normal'     => $lng->txt('normal'),
-			'underlined' => $lng->txt('underlined'),
-		);
-
-		$font_size = array(
-			'small'  => $lng->txt('small'),
-			'normal' => $lng->txt('normal'),
-			'large'  => $lng->txt('large')
-		);
-
-		$default_font_color = '#000000';
-
-		$default_font_family = (
-		isset($defaultSettings['font_family']) &&
-		isset($font_family[$defaultSettings['font_family']]) ?
-			$defaultSettings['font_family'] : 'sans'
-		);
-
-		$default_font_style = (
-		isset($defaultSettings['font_style']) &&
-		isset($font_family[$defaultSettings['font_style']]) ?
-			$defaultSettings['font_style'] : 'normal'
-		);
-
-		$default_font_size = (
-		isset($defaultSettings['font_size']) &&
-		isset($font_family[$defaultSettings['font_size']]) ?
-			$defaultSettings['font_size'] : 'normal'
-		);
-
-		$roomTpl->setVariable('VAL_FONTCOLOR', $default_font_color);
-
-		foreach($font_family as $font => $label)
-		{
-			$roomTpl->setCurrentBlock('chat_fontfamily');
-			$roomTpl->setVariable('VAL_FONTFAMILY', $font);
-			$roomTpl->setVariable('LBL_FONTFAMILY', $label);
-			$roomTpl->setVariable(
-				'SELECTED_FONTFAMILY', $font == $default_font_family ?
-				'selected="selected"' : ''
-			);
-			$roomTpl->parseCurrentBlock();
-		}
-
-		foreach($font_style as $font => $label)
-		{
-			$roomTpl->setCurrentBlock('chat_fontstyle');
-			$roomTpl->setVariable('VAL_FONTSTYLE', $font);
-			$roomTpl->setVariable('LBL_FONTSTYLE', $label);
-			$roomTpl->setVariable(
-				'SELECTED_FONTSTYLE', $font == $default_font_style ?
-				'selected="selected"' : ''
-			);
-			$roomTpl->parseCurrentBlock();
-		}
-
-		foreach($font_size as $font => $label)
-		{
-			$roomTpl->setCurrentBlock('chat_fontsize');
-			$roomTpl->setVariable('VAL_FONTSIZE', $font);
-			$roomTpl->setVariable('LBL_FONTSIZE', $label);
-			$roomTpl->setVariable(
-				'SELECTED_FONTSIZE',
-				$font == $default_font_size ? 'selected="selected"' : ''
-			);
-			$roomTpl->parseCurrentBlock();
-		}
-
-		$roomTpl->setVariable('LBL_FONTCOLOR', $lng->txt('fontcolor'));
-		$roomTpl->setVariable('LBL_FONTFAMILY', $lng->txt('fontfamily'));
-		$roomTpl->setVariable('LBL_FONTSTYLE', $lng->txt('fontstyle'));
-		$roomTpl->setVariable('LBL_FONTSIZE', $lng->txt('fontsize'));
-
-		$logoutLink = $ilCtrl->getLinkTarget($this->gui, 'view-logout');
-		$roomTpl->setVariable('LOGOUT_LINK', $logoutLink);
 	}
 
 	/**
@@ -477,8 +376,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 			'LBL_CLEAR_ROOM_HISTORY'           => 'clear_room_history',
 			'LBL_CLEAR_ROOM_HISTORY_QUESTION'  => 'clear_room_history_question',
 			'LBL_END_WHISPER'                  => 'end_whisper',
-			'LBL_SHOW_SETTINGS_JS'             => 'show_settings',
-			'LBL_HIDE_SETTINGS'                => 'hide_settings',
 			'LBL_TIMEFORMAT'                   => 'lang_timeformat_no_sec',
 			'LBL_DATEFORMAT'                   => 'lang_dateformat'
 		);

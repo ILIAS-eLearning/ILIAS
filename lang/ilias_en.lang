@@ -11060,17 +11060,9 @@ chatroom#:#autogen_usernames_info#:#Pattern for auto generated user names that i
 chatroom#:#bans#:#Bans
 chatroom#:#permissions#:#Permissions
 chatroom#:#session#:#Session
-chatroom#:#fontcolor#:#Font Color
-chatroom#:#fontstyle#:#Font Style
-chatroom#:#fontsize#:#Font Size
-chatroom#:#italic#:#Italic
-chatroom#:#underlined#:#Underlined
 chatroom#:#select_custom_username#:#Select Custom Username
 chatroom#:#custom_username#:#Custom Username
 chatroom#:#enter#:#Enter Chat Room
-chatroom#:#fontfamily#:#Font Family
-chatroom#:#small#:#Small
-chatroom#:#large#:#Large
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
 chatroom#:#obj_chtr#:#Chat Room
@@ -11480,9 +11472,6 @@ chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitat
 chatroom#:#create_private_room_text#:#Private room name
 chatroom#:#invite_username#:#Username
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
-chatroom#:#layout#:#Layout
-chatroom#:#show_settings#:#Show Settings
-chatroom#:#hide_settings#:#Hide Settings
 chatroom#:#private_rooms_enabled#:#Allow Private Rooms
 chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.
 chatroom#:#no_further_users#:#No other users present

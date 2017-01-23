@@ -37,8 +37,6 @@
 			history_has_been_cleared   :{LBL_HISTORY_CLEARED},
 			clear_room_history         :{LBL_CLEAR_ROOM_HISTORY},
 			clear_room_history_question:{LBL_CLEAR_ROOM_HISTORY_QUESTION},
-			show_settings              :{LBL_SHOW_SETTINGS_JS},
-			hide_settings              :{LBL_HIDE_SETTINGS},
 			end_whisper                :{LBL_END_WHISPER},
 			timeformat                 :{LBL_TIMEFORMAT},
 			dateformat                 :{LBL_DATEFORMAT}
@@ -186,50 +184,6 @@
 					<div id="iosChatInputContainer" class="col-sm-9">
 						<input class="form-control" type="text" name="message" id="submit_message_text"/>
 						<input type="button" class="btn btn-default btn-sm" value="{LBL_SEND}" id="submit_message"/>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label" onclick="$('#show_options').click()">{LBL_LAYOUT}</label>
-					<div class="col-sm-9">
-						<div class="ilSubForm">
-							<a id="show_options" href="javascript:;">{LBL_SHOW_SETTINGS}</a>
-							<div class="chat optionlist form-group">
-								<label class="col-sm-3 control-label" for="colorpicker">{LBL_FONTCOLOR}:</label>
-								<div class="col-sm-9">
-									<input class="form-control" type="text" id="colorpicker" value="{VAL_FONTCOLOR}" />
-								</div>
-							</div>
-							<div class="chat optionlist form-group">
-								<label class="col-sm-3 control-label" for="fontfamily">{LBL_FONTFAMILY}:</label>
-								<div class="col-sm-9">
-									<select class="form-control" id="fontfamily">
-										<!-- BEGIN chat_fontfamily -->
-										<option value="{VAL_FONTFAMILY}" {SELECTED_FONTFAMILY}>{LBL_FONTFAMILY}</option>
-										<!-- END chat_fontfamily -->
-									</select>
-								</div>
-							</div>
-							<div class="chat optionlist form-group">
-								<label class="col-sm-3 control-label" for="fontstyle">{LBL_FONTSTYLE}:</label>
-								<div class="col-sm-9">
-									<select class="form-control" id="fontstyle">
-										<!-- BEGIN chat_fontstyle -->
-										<option value="{VAL_FONTSTYLE}" {SELECTED_FONTSTYLE}>{LBL_FONTSTYLE}</option>
-										<!-- END chat_fontstyle -->
-									</select>
-								</div>
-							</div>
-							<div class="chat optionlist form-group">
-								<label class="col-sm-3 control-label" for="fontsize">{LBL_FONTSIZE}:</label>
-								<div class="col-sm-9">
-									<select class="form-control" id="fontsize">
-										<!-- BEGIN chat_fontsize -->
-										<option value="{VAL_FONTSIZE}" {SELECTED_FONTSIZE}>{LBL_FONTSIZE}</option>
-										<!-- END chat_fontsize -->
-									</select>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</form>
