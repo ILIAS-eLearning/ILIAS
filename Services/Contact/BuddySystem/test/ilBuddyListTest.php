@@ -495,7 +495,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 	/**
 	 * @expectedException ilBuddySystemRelationStateAlreadyGivenException
 	 */
-	public function testCanBeLinkedOnPriorLinkedState()
+	public function testAlreadyGivenStateExceptionIsThrownWhenALinkedRelationShouldBeMarkedAsLinked()
 	{
 		$this->assertException(ilBuddySystemRelationStateAlreadyGivenException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
@@ -515,7 +515,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 	/**
 	 * @expectedException ilBuddySystemRelationStateAlreadyGivenException
 	 */
-	public function testCanBeIgnoredOnPriorIgnoredState()
+	public function testAlreadyGivenStateExceptionIsThrownWhenAnIgnoredRelationShouldBeMarkedAsIgnored()
 	{
 		$this->assertException(ilBuddySystemRelationStateAlreadyGivenException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
@@ -535,7 +535,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 	/**
 	 * @expectedException ilBuddySystemRelationStateAlreadyGivenException
 	 */
-	public function testCanBeUnlinkedOnPriorUnlinkedState()
+	public function testAlreadyGivenStateExceptionIsThrownWhenAnUnlinkedRelationShouldBeMarkedAsUnlinked()
 	{
 		$this->assertException(ilBuddySystemRelationStateAlreadyGivenException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
@@ -555,7 +555,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 	/**
 	 * @expectedException ilBuddySystemRelationStateAlreadyGivenException
 	 */
-	public function testCanBeRequestedOnPriorRequestedState()
+	public function testAlreadyGivenStateExceptionIsThrownWhenARequestedRelationShouldBeMarkedAsRequested()
 	{
 		$this->assertException(ilBuddySystemRelationStateAlreadyGivenException::class);
 		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
@@ -576,5 +576,25 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 		$this->setGlobalVariable('ilDB', $db);
 
 		$buddylist->request($relation);
+	}
+
+	/**
+	 * @expectedException ilBuddySystemRelationStateTransitionException
+	 */
+	public function testStateTransitionExceptionIsThrownWhenALinkedRelationShouldBeMarkedAsIgnored()
+	{
+		$this->assertException(ilBuddySystemRelationStateTransitionException::class);
+		$buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
+		$buddylist->reset();
+
+		$state = new ilBuddySystemLinkedRelationState();
+
+		$relation = new ilBuddySystemRelation($state);
+		$relation->setUserId(self::BUDDY_LIST_OWNER_ID);
+		$relation->setBuddyUserId(self::BUDDY_LIST_BUDDY_ID);
+
+		$this->setPriorRelationState($relation, $state);
+
+		$buddylist->ignore($relation);
 	}
 }
