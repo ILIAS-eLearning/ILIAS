@@ -330,12 +330,6 @@ class ilBuddyList
 		}
 		catch(ilBuddySystemRelationStateException $e)
 		{
-			if($relation->isIgnored())
-			{
-				require_once 'Services/Contact/BuddySystem/exceptions/class.ilBuddySystemRelationStateTransitionException.php';
-				throw new ilBuddySystemRelationStateTransitionException('buddy_bs_action_already_ignored');
-			}
-
 			throw $e;
 		}
 
