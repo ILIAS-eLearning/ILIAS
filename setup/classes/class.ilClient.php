@@ -678,28 +678,46 @@ class ilClient
 	*/
 	function updateNIC($a_nic_url)
 	{
+		$max_redirects = 5;
+		$socket_timeout = 5;
+
+		require_once(__DIR__."/../../Services/WebServices/Curl/classes/class.ilCurlConnection.php");
+		if (!ilCurlConnection::_isCurlExtensionLoaded()) {
+			$this->setError("CURL-extension not loaded.");
+			return false;
+		}
+
+		$url = $this->getURLStringForNIC($a_nic_url);
+		$req = new ilCurlConnection($url);
+		$req->init();
+
 		$settings = $this->getAllSettings();
 		if((bool)$settings['proxy_status'] && strlen($settings['proxy_host']) && strlen($settings['proxy_port']))
 		{
-			$proxy_options = array(
-				'proxy_host' => $settings['proxy_host'],
-				'proxy_port' => $settings['proxy_port']
-			);
-		}
-		else
-		{
-			$proxy_options = array();
+			$req->setOpt(CURLOPT_HTTPPROXYTUNNEL, true);
+			$req->setOpt(CURLOPT_PROXY, $settings["proxy_host"]);
+			$req->setOpt(CURLOPT_PROXYPORT, $settings["proxy_port"]);
 		}
 
-		include_once('HTTP/Request.php');
-		$url = $this->getURLStringForNIC($a_nic_url);
-		$req = new HTTP_Request($url, $proxy_options);
+		$req->setOpt(CURLOPT_HEADER, 1);
+		$req->setOpt(CURLOPT_RETURNTRANSFER, 1);
+		$req->setOpt(CURLOPT_CONNECTTIMEOUT, $socket_timeout);
+		$req->setOpt(CURLOPT_FOLLOWLOCATION, 1);
+		$req->setOpt(CURLOPT_MAXREDIRS, $max_redirects);
+		$response = $req->exec();
+		
+		$req->parseResponse($response);
+		$response_body = $req->getResponseBody();
 
-		$req->sendRequest();
-		$response = $req->getResponseBody();
-		$response = explode("\n", $response);
+		$info = $req->getInfo();
+		if ($info["http_code"] != "200") {
+			$this->setError("Could not connect to NIC-Server at '".$url."'");
+			return false;
+		}
 
-		$this->nic_status = $response;
+		$this->nic_status = explode("\n", $response_body);
+		
+		ilLoggerFactory::getLogger('setup')->dump($nic_status);
 
 		return true;
 	}

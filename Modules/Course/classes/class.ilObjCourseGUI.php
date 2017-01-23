@@ -472,17 +472,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			));
 		}
 		
-		// archive
-		if($this->object->getViewMode() == IL_CRS_VIEW_ARCHIVE)
-		{		
-			if($this->object->getArchiveType() != IL_CRS_ARCHIVE_NONE)
-			{
-				$info->addProperty($this->lng->txt("crs_archive"),
-					ilDatePresentation::formatPeriod(
-						new ilDateTime($this->object->getArchiveStart(),IL_CAL_UNIX),
-						new ilDateTime($this->object->getArchiveStart(),IL_CAL_UNIX)));
-			}
-		}
 		// Confirmation
 		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$privacy = ilPrivacySettings::_getInstance();
@@ -1700,43 +1689,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
 		ilUtil::redirect($this->getReturnLocation("save",
 			$this->ctrl->getLinkTarget($this, "edit", "", false, false)));
-	}
-	
-	function downloadArchivesObject()
-	{
-		global $rbacsystem;
-
-		$_POST["archives"] = $_POST["archives"] ? $_POST["archives"] : array();
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		$this->checkPermission('read');
-		/*
-		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-		*/
-		if(!count($_POST['archives']))
-		{
-			ilUtil::sendFailure($this->lng->txt('crs_no_archive_selected'));
-			$this->archiveObject();
-
-			return false;
-		}
-		if(count($_POST['archives']) > 1)
-		{
-			ilUtil::sendFailure($this->lng->txt('crs_select_one_archive'));
-			$this->archiveObject();
-
-			return false;
-		}
-
-		$this->object->initCourseArchiveObject();
-		
-		$abs_path = $this->object->archives_obj->getArchiveFile((int) $_POST['archives'][0]);
-		$basename = basename($abs_path);
-
-		ilUtil::deliverFile($abs_path,$basename);
 	}
 	
 	/**

@@ -117,7 +117,7 @@ If you would like to implement a new component to the framework you should perfo
     * ---
     * description:
     *   purpose: What is to be done by this control
-    *   composition: What happens if the control is operated
+    *   composition: What is this control composed of
     *   effect: What happens if the control is operated
     *   rivals:
     *     Rival 1: What other controls are similar, what is their distinction

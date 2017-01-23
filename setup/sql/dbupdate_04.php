@@ -13300,7 +13300,7 @@ if($ilDB->tableExists('il_wiki_missing_page'))
 <#4833>
 <?php
 //step 1/2 lo_access search for dublicates and remove them
-
+/*
 if ($ilDB->tableExists('lo_access'))
 {
 	$res = $ilDB->query("
@@ -13358,9 +13358,40 @@ if ($ilDB->tableExists('lo_access'))
 		);
 	}
 }
+*/
 ?>
 <#4834>
 <?php
+
+// fixes step 4833
+
+$set1 = $ilDB->query("SELECT DISTINCT usr_id, lm_id FROM lo_access ORDER BY usr_id");
+
+while ($r1 = $ilDB->fetchAssoc($set1))
+{
+	$set2 = $ilDB->query("SELECT * FROM lo_access WHERE usr_id = ".$ilDB->quote($r1["usr_id"], "integer").
+		" AND lm_id = ".$ilDB->quote($r1["lm_id"], "integer")." ORDER BY timestamp ASC");
+	$new_recs = array();
+	while ($r2 = $ilDB->fetchAssoc($set2))
+	{
+		$new_recs[$r2["usr_id"].":".$r2["lm_id"]] = $r2;
+	}
+	$ilDB->manipulate("DELETE FROM lo_access WHERE usr_id = ".$ilDB->quote($r1["usr_id"], "integer").
+		" AND lm_id = ".$ilDB->quote($r1["lm_id"], "integer"));
+	foreach ($new_recs as $r)
+	{
+		$ilDB->manipulate("INSERT INTO lo_access ".
+			"(timestamp, usr_id, lm_id, obj_id, lm_title) VALUES (".
+			$ilDB->quote($r["timestamp"], "timestamp").",".
+			$ilDB->quote($r["usr_id"], "integer").",".
+			$ilDB->quote($r["lm_id"], "integer").",".
+			$ilDB->quote($r["obj_id"], "integer").",".
+			$ilDB->quote($r["lm_title"], "text").
+			")");
+	}
+}
+
+
 //step 2/2 lo_access adding primary key and removing indexes
 
 if( $ilDB->indexExistsByFields('lo_access', array('usr_id')) )
@@ -17395,8 +17426,7 @@ if($mass_type_id) {
 			ilDBUpdateNewObjectType::addRBACOperation($mass_type_id, $new_ops_id);
 		}
 	}
-	require_once 'Modules/ManualAssessment/classes/AccessControl/class.ilManualAssessmentAccessHandler.php';
-	$rolt_title = ilManualAssessmentAccessHandler::DEFAULT_ROLE;
+	$rolt_title = 'il_mass_member';
 	$rec = $ilDB->fetchAssoc(
 		$ilDB->query("SELECT obj_id FROM object_data "
 						."	WHERE type = 'rolt' AND title = ".$ilDB->quote($rolt_title,'text')));
@@ -18053,5 +18083,11 @@ $ilDB->modifyTableColumn(
 	}
 	
 ?>
-
-
+<#5068>
+<?php
+$ilDB->modifyTableColumn('exc_returned', 'mimetype', array(
+										'type'	=> 'text',
+										'length'=> 150,
+										'notnull' => false)
+);
+?>

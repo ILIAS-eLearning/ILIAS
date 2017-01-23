@@ -686,15 +686,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$this->message .= $a_message;
 	}
 
-	function isActivated($a_check_archive = false)
+	function isActivated()
 	{
-		if($a_check_archive)
-		{
-			if($this->isArchived())
-			{
-				return true;
-			}
-		}
 		if($this->getOfflineStatus())
 		{
 			return false;
@@ -735,18 +728,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return ilObjCourseAccess::_registrationEnabled($a_obj_id);
 	}
 
-	function isArchived()
-	{
-		if($this->getViewMode() != IL_CRS_VIEW_ARCHIVE)
-		{
-			return false;
-		}
-		if(time() < $this->getArchiveStart() or time() > $this->getArchiveEnd())
-		{
-			return false;
-		}
-		return true;
-	}
 
 	function allowAbo()
 	{
@@ -1118,11 +1099,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 				$this->appendMessage($this->lng->txt("crs_max_and_min_members_invalid"));
 			}
 		}
-		if(($this->getViewMode() == IL_CRS_VIEW_ARCHIVE) and
-		   $this->getArchiveStart() > $this->getArchiveEnd())
-		{
-			$this->appendMessage($this->lng->txt("archive_times_not_valid"));
-		}
 		if(!$this->getTitle() || !$this->getStatusDetermination())
 		{
 			$this->appendMessage($this->lng->txt('err_check_input'));
@@ -1193,9 +1169,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
 		include_once('Modules/Course/classes/class.ilCourseParticipants.php');
 		ilCourseParticipants::_deleteAllEntries($this->getId());
-
-		$this->initCourseArchiveObject();
-		$this->archives_obj->deleteAll();
 
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 		ilCourseObjective::_deleteAll($this->getId());
@@ -1276,9 +1249,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			"sub_max_members = ".$ilDB->quote($this->getSubscriptionMaxMembers() ,'integer').", ".
 			"sub_notify = ".$ilDB->quote($this->getSubscriptionNotify() ,'integer').", ".
 			"view_mode = ".$ilDB->quote($this->getViewMode() ,'integer').", ".
-			"archive_start = ".$ilDB->quote($this->getArchiveStart() ,'integer').", ".
-			"archive_end = ".$ilDB->quote($this->getArchiveEnd() ,'integer').", ".
-			"archive_type = ".$ilDB->quote($this->getArchiveType() ,'integer').", ".
 			"abo = ".$ilDB->quote($this->getAboStatus() ,'integer').", ".
 			"waiting_list = ".$ilDB->quote($this->enabledWaitingList() ,'integer').", ".
 			"important = ".$ilDB->quote($this->getImportantInformation() ,'text').", ".
@@ -1357,9 +1327,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->setSubscriptionNotify($this->getSubscriptionNotify());
 		$new_obj->setViewMode($this->getViewMode());
 		$new_obj->setOrderType($this->getOrderType());
-		$new_obj->setArchiveStart($this->getArchiveStart());
-		$new_obj->setArchiveEnd($this->getArchiveEnd());
-		$new_obj->setArchiveType($this->getArchiveType());
 		$new_obj->setAboStatus($this->getAboStatus());
 		$new_obj->enableWaitingList($this->enabledWaitingList());
 		$new_obj->setImportantInformation($this->getImportantInformation());
@@ -1398,7 +1365,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$query = "INSERT INTO crs_settings (obj_id,syllabus,contact_name,contact_responsibility,".
 			"contact_phone,contact_email,contact_consultation,activation_type,activation_start,".
 			"activation_end,sub_limitation_type,sub_start,sub_end,sub_type,sub_password,sub_mem_limit,".
-			"sub_max_members,sub_notify,view_mode,archive_start,archive_end,archive_type,abo," .
+			"sub_max_members,sub_notify,view_mode,abo," .
 			"latitude,longitude,location_zoom,enable_course_map,waiting_list,show_members, ".
 			"session_limit,session_prev,session_next, reg_ac_enabled, reg_ac, auto_notification, status_dt,mail_members_type) ".
 			"VALUES( ".
@@ -1421,9 +1388,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->getSubscriptionMaxMembers() ,'integer').", ".
 			"1, ".
 			"0, ".
-			$ilDB->quote($this->getArchiveStart() ,'integer').", ".
-			$ilDB->quote($this->getArchiveEnd() ,'integer').", ".
-			$ilDB->quote(IL_CRS_ARCHIVE_NONE ,'integer').", ".
 			$ilDB->quote($this->ABO_ENABLED ,'integer').", ".
 			$ilDB->quote($this->getLatitude() ,'text').", ".
 			$ilDB->quote($this->getLongitude() ,'text').", ".
@@ -1477,9 +1441,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->setSubscriptionMaxMembers($row->sub_max_members);
 			$this->setSubscriptionNotify($row->sub_notify);
 			$this->setViewMode($row->view_mode);
-			$this->setArchiveStart($row->archive_start);
-			$this->setArchiveEnd($row->archive_end);
-			$this->setArchiveType($row->archive_type);
 			$this->setAboStatus($row->abo);
 			$this->enableWaitingList($row->waiting_list);
 			$this->setImportantInformation($row->important);
@@ -1596,17 +1557,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return $this->members_obj;
 	}
 
-	function initCourseArchiveObject()
-	{
-		include_once "./Modules/Course/classes/class.ilCourseArchives.php";
-
-		if(!is_object($this->archives_obj))
-		{
-			$this->archives_obj = new ilCourseArchives($this);
-		}
-		return true;
-	}
-		
 
 
 	// RBAC METHODS

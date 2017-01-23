@@ -898,6 +898,29 @@ class ilConditionHandler
 		}
 		return $opt;
 	}
+	
+	/**
+	 * Lookup obligatory conditions of target
+	 * @param type $a_target_ref_id
+	 * @param type $a_target_obj_id
+	 */
+	public static function lookupObligatoryConditionsOfTarget($a_target_ref_id, $a_target_obj_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT max(num_obligatory) obl from conditions WHERE '.
+			'target_ref_id = '.$ilDB->quote($a_target_ref_id,'integer').' '.
+			'AND target_obj_id = '.$ilDB->quote($a_target_obj_id,'integer').' '.
+			'GROUP BY (num_obligatory)';
+		$res = $ilDB->query($query);
+		
+		$obl = 0;
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$obl = $row->obl;
+		}
+		return $obl;
+	}
 
 	/**
 	 * calculate number of obligatory items

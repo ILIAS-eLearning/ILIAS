@@ -1809,7 +1809,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @return bool
 	 */
 	public function uniqueConstraintExists($table, array $fields) {
-		require_once('../Services/Database/classes/class.ilDBAnalyzer.php');
+		require_once('./Services/Database/classes/class.ilDBAnalyzer.php');
 		$analyzer = new ilDBAnalyzer();
 		$cons = $analyzer->getConstraintsInformation($table);
 		foreach ($cons as $c) {

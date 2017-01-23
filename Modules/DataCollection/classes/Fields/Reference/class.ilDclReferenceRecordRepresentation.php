@@ -50,7 +50,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 			$html .= '<br>';
 		}
 
-		$html = rtrim($html, '<br>');
+		$html = substr($html, 0, -4); // cut away last <br>
 
 		return $html;
 	}
