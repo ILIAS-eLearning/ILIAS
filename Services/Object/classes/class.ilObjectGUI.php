@@ -1564,10 +1564,6 @@ class ilObjectGUI
 						unset($tmp_obj);
 						$visible = false;
 					}
-					if(($crs_id != $a_ref_id) and $tmp_obj->isArchived())
-					{
-						$visible = false;
-					}					
 				}
 			}
 		}

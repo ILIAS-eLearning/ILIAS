@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.2.x 2017-01-15
+* @version	5.2.x 2017-01-22
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -5691,6 +5691,7 @@ crs#:#crs_member_unblocked#:#Tag (nem blokkolt)###deprecated
 crs#:#crs_member_updated#:#A tagot sikeresen módosította.###deprecated 
 crs#:#crs_member#:#Tag
 crs#:#crs_members_deleted#:#Tago(ka)t sikeresen törölte
+grp#:#grp_members_deleted#:#ago(ka)t sikeresen törölte
 crs#:#crs_members_footer_passed#:#sikeresen teljesítette###deprecated 
 crs#:#crs_members_footer#:#kurzustag(ok)###deprecated 
 crs#:#crs_members_map#:#Kurzustagok térképe
@@ -16153,5 +16154,4 @@ wsp#:#element_shared#:#Objekumot sikeresen megosztotta.
 wsp#:#share#:#Megosztás
 copg#:#copg_questions_not_supported_here#:#Ebben a kontektusban a kérdéseket nem támogatjuk.
 auth#:#auth_err_login_attempts_deactivation#:#Sikertelen bejelentkezési próbálkozások miatt fiókját inaktiváltuk.
-grp#:#grp_members_deleted#:#Deleted members###18 01 2017 new variable
-crs#:#crs_edit_lo_introduction#:#Edit Introduction###18 01 2017 new variable
+crs#:#crs_edit_lo_introduction#:#Bevezető szöveg módosítása

@@ -1014,6 +1014,118 @@ auth#:#auth_rad_migration#:#账号迁移：
 auth#:#auth_rad_migration_info#:#激活此选项让新用户有可能迁移他们已存在的ILIAS账号为Radius认证账号。
 auth#:#auth_radius_charset#:#字符编码
 auth#:#auth_radius_charset_info#:#请为radius服务器选择字符编码。如果不确定，请选择UTF-8。
+barometer#:#anonymous#:#匿名的
+barometer#:#bar_create#:#创建新的反馈
+barometer#:#barometer_add#:#添加新的反馈
+barometer#:#barometer_conflict_anon_req#:#匿名不能与类型“Required”组合。请选择这其中的一项。
+barometer#:#barometer_title#:#反馈
+barometer#:#best#:#最好的
+barometer#:#change_course#:#变换课程
+barometer#:#chart_type#:#Chart type
+barometer#:#chart_users#:#Chart user
+barometer#:#chart_votes#:#Chart votes
+barometer#:#day#:#Day日
+barometer#:#days#:#Days日
+barometer#:#delete#:#的删除
+barometer#:#duration#:#Duration为期
+barometer#:#edit#:#编辑
+barometer#:#edit_barometer#:#编辑反馈
+barometer#:#every#:#每一个
+barometer#:#feedb_edit_feedback#:#编辑反馈
+barometer#:#feedb_feedback_list#:#反馈列表
+barometer#:#feedb_feedback_settings#:#反馈设置
+barometer#:#feedb_time#:#时间
+barometer#:#first_vote#:#1. Vote is the
+barometer#:#from#:#从
+barometer#:#hours#:#小时
+barometer#:#lines#:#Lines
+barometer#:#login#:#登录账号
+barometer#:#missing_fields#:#请填写所有必填信息
+barometer#:#month#:#月
+barometer#:#months#:#月
+barometer#:#new_vote#:#新投票
+barometer#:#note#:#Comment评论（注解）
+barometer#:#optional#:#Optional可选项
+barometer#:#options#:#Options选项
+barometer#:#pie#:#Pie
+barometer#:#repeat#:#重复每一个
+barometer#:#required#:#Required
+barometer#:#save#:#存档
+barometer#:#save_vote#:#提交选票
+barometer#:#skip#:#跳过
+barometer#:#statistics#:#统计
+barometer#:#status#:#状态
+barometer#:#table#:#表格
+barometer#:#text#:#文本
+barometer#:#text_answer#:#文本答案
+barometer#:#time#:#运转
+barometer#:#title#:#头衔
+barometer#:#type#:#类型
+barometer#:#until#:#直到
+barometer#:#user#:#用户
+barometer#:#vote#:#投票
+barometer#:#votes#:#投票
+barometer#:#weeks#:#星期
+barometer#:#worst#:#最差
+barometer#:#year#:#年
+bibitem#:#bibitem_add#:#加入
+bibitem#:#bibitem_author#:#作者
+bibitem#:#bibitem_av#:#AV
+bibitem#:#bibitem_bibitem#:#书目信息
+bibitem#:#bibitem_book#:#书
+bibitem#:#bibitem_booktitle#:#Booktitle
+bibitem#:#bibitem_catalog#:#目录
+bibitem#:#bibitem_choose_index#:#请选择一个书目信息：
+bibitem#:#bibitem_cross_reference#:#交叉引用
+bibitem#:#bibitem_delete#:#的
+bibitem#:#bibitem_dissertation#:#论文
+bibitem#:#bibitem_edition#:#编辑
+bibitem#:#bibitem_editor#:#编辑
+bibitem#:#bibitem_entry#:#Entry
+bibitem#:#bibitem_first_name#:#名
+bibitem#:#bibitem_grey_literature#:#灰色文献
+bibitem#:#bibitem_how_published#:#How published
+bibitem#:#bibitem_identifier#:#Identifier
+bibitem#:#bibitem_inbook#:#Inbook
+bibitem#:#bibitem_inproceedings#:#Inproceedings在审理中
+bibitem#:#bibitem_institution#:#机构
+bibitem#:#bibitem_internet#:#互联网
+bibitem#:#bibitem_isbn#:#ISBN出版号
+bibitem#:#bibitem_issn#:#ISSN出版号
+bibitem#:#bibitem_journal#:#Journal(日志)
+bibitem#:#bibitem_journal_article#:#期刊文章
+bibitem#:#bibitem_keyword#:#关键字
+bibitem#:#bibitem_label#:#标签
+bibitem#:#bibitem_language#:#语言
+bibitem#:#bibitem_last_name#:#姓
+bibitem#:#bibitem_manual#:#手工
+bibitem#:#bibitem_master_thesis#:#硕士论文
+bibitem#:#bibitem_middle_name#:#Middle name
+bibitem#:#bibitem_month#:#月份
+bibitem#:#bibitem_new_element#:#新元素
+bibitem#:#bibitem_newspaper_article#:#报纸文章
+bibitem#:#bibitem_not_found#:#没有可用的书目信息。
+bibitem#:#bibitem_note#:#笔记
+bibitem#:#bibitem_number#:#数字
+bibitem#:#bibitem_organization#:#组织
+bibitem#:#bibitem_pages#:#页面
+bibitem#:#bibitem_phd_thesis#:#博士论文
+bibitem#:#bibitem_please_select#:#请选择
+bibitem#:#bibitem_print#:#打印
+bibitem#:#bibitem_proceedings#:#Proceedings诉讼
+bibitem#:#bibitem_publisher#:#发行人
+bibitem#:#bibitem_save#:#保存
+bibitem#:#bibitem_school#:#中学
+bibitem#:#bibitem_series#:#系列
+bibitem#:#bibitem_series_editor#:#编辑
+bibitem#:#bibitem_series_title#:#系列标题
+bibitem#:#bibitem_series_volume#:#音量
+bibitem#:#bibitem_technical_report#:#教育的
+bibitem#:#bibitem_type#:#类型
+bibitem#:#bibitem_unpublished#:#没被发行
+bibitem#:#bibitem_url#:#URL
+bibitem#:#bibitem_where_published#:#哪里出版的
+bibitem#:#bibitem_year#:#年份
 block_html#:#block_html_block_content#:#内容
 block_html#:#block_html_block_head#:#HTML 块
 block_html#:#block_html_block_title#:#头衔
@@ -1022,8 +1134,10 @@ certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#背景图片
+certificate#:#certificate_bottom#:#底部
 certificate#:#certificate_confirm_deletion_text#:#您真的要删除证书及其所有相关数据吗？
 certificate#:#certificate_custom#:#客户...
+certificate#:#certificate_delete#:#删除证书数据
 certificate#:#certificate_edit#:#创建/编辑一个证书模板
 certificate#:#certificate_enabled_scorm#:#启用
 certificate#:#certificate_enabled_scorm_introduction#:#如果勾选，证书将为所有已完成SCORM学习模块的用户提供证书。
@@ -1031,10 +1145,12 @@ certificate#:#certificate_error_import#:#在导入证书时发生了一个错误
 certificate#:#certificate_error_upload_bgimage#:#在背景图片上传的过程中发生了一个错误！
 certificate#:#certificate_export#:#导出证书
 certificate#:#certificate_failed#:#失败
+certificate#:#certificate_left#:#Left
 certificate#:#certificate_letter#:#信件 (11 英寸 x 8.5 英寸)
 certificate#:#certificate_letter_landscape#:#信件 Landscape (8.5 英寸 x 11 英寸)
 certificate#:#certificate_margin_body#:#正文留边余量
 certificate#:#certificate_not_well_formed#:#证书文本没有漂亮的格式。请为证书文本输入有效的XHTML文件
+certificate#:#certificate_padding_top#:#顶部填充
 certificate#:#certificate_page_format#:#页面格式
 certificate#:#certificate_page_format_info#:#请为新证书选择默认的页面格式。
 certificate#:#certificate_pageheight#:#页面高度
@@ -1063,8 +1179,14 @@ certificate#:#certificate_ph_testtitle#:#测试的标题
 certificate#:#certificate_ph_title#:#用户的头衔（title）
 certificate#:#certificate_ph_zipcode#:#用户住址的邮政编码
 certificate#:#certificate_preview#:#显示证书预览
+certificate#:#certificate_right#:#Right
 certificate#:#certificate_settings#:#证书设置
+certificate#:#certificate_show#:#显示证书
+certificate#:#certificate_status#:#状态
+certificate#:#certificate_status_complete#:#证书已完成，可以使用
+certificate#:#certificate_status_incomplete#:#这个证书不完整
 certificate#:#certificate_text#:#证书文本 
+certificate#:#certificate_top#:#Top
 certificate#:#certificate_unit_description#:#输入计量单位的值[cm|mm|in|pt|pc|px|em],例如，10mm或3in
 certificate#:#certificate_usage#:#请注意，证书的使用仅在ILIAS Java服务器正在运行中才有效。要使Java服务器有效，请在Webservices章节中的ILIAS管理的主页面中配置。
 certificate#:#certificate_var_max_points#:#46
@@ -1088,9 +1210,14 @@ certificate#:#certificate_visibility_always#:#总是可见
 certificate#:#certificate_visibility_introduction#:#The button in the test results to offer users this certificate is
 certificate#:#certificate_visibility_never#:#不可见的 
 certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test
+certificate#:#certificate_wrong_unit#:#您输入了一个错误的单位
+certificate#:#certificate_wrong_units#:#您输入了一批错误的单位
 certificate#:#default_background_info#:#这个背景图片将被选做所有证书的默认背景。如果您需要在这个证书中使用其它背景图片，可以在这个证书编辑器中上传一个图片。
 certificate#:#download_certificate#:#下载证书
 chatroom#:#chat_enable_autoscroll#:#启用自动滚屏 
+chatroom#:#chat_message_notify_activate#:#激活消息通知
+chatroom#:#chat_new_invitation_sound_status#:#如果用户收到一个新的聊天邀请，就播放一段声音
+chatroom#:#chat_new_message_sound_status#:#如果接收到一个新消息，就播放一段声音
 cmps#:#cmps_activate#:#激活
 cmps#:#cmps_active#:#激活
 cmps#:#cmps_add_new_rank#:#在“添加新对象”列表中的位置
@@ -2579,6 +2706,7 @@ common#:#mail_a_root#:#邮箱
 common#:#mail_addressbook#:#地址簿
 common#:#mail_allow_smtp#:#允许SMTP
 common#:#mail_attachment#:#邮件附件
+common#:#mail_attachments#:#邮件附件
 common#:#mail_b_inbox#:#收件箱
 common#:#mail_c_trash#:#垃圾箱
 common#:#mail_d_drafts#:#草稿
@@ -5866,7 +5994,9 @@ forum#:#forums_all_threads_marked_read#:#所有线程被标记为已读
 forum#:#forums_attachments#:#附件
 forum#:#forums_attachments_add#:#增加附件
 forum#:#forums_censor_comment#:#审查评论
+forum#:#forums_count#:#论坛数
 forum#:#forums_count_art#:#文章数
+forum#:#forums_count_thr#:#论题数
 forum#:#forums_created_by#:#Created by
 forum#:#forums_delete_file#:#删除附件
 forum#:#forums_disable_notification#:#禁用通知
@@ -5879,10 +6009,13 @@ forum#:#forums_info_delete_post#:#您确定要删除这篇文章及其回复吗�
 forum#:#forums_mark_read#:#全部标记为已读
 forum#:#forums_new_thread#:#新主题
 forum#:#forums_no_posts_available#:#这个主题还没有贴子，或者版主关闭了首贴。
+forum#:#forums_notification#:#通知
 forum#:#forums_notification_disabled#:#通知禁用
 forum#:#forums_notification_enabled#:#已启用通知
 forum#:#forums_notification_intro#:#这封邮件是由ILIAS安装程序 %s 自动发送给您的。
 forum#:#forums_notification_show_post#:#显示贴子： %s
+forum#:#forums_notification_subject#:#一个论坛主题中的新贴子
+forum#:#forums_post_and_children_were_activated#:#此贴及其所有子贴子都被激活。
 forum#:#forums_post_deleted#:#文章已删除
 forum#:#forums_post_modified#:#文章已修改
 forum#:#forums_post_needs_to_be_activated#:#一篇新文章已创建，但它需要由一个版主去激活。
@@ -5894,6 +6027,7 @@ forum#:#forums_print_thread#:#打印线索
 forum#:#forums_subject#:#主题(subject)
 forum#:#forums_the_post#:#文章
 forum#:#forums_thread#:#主题
+forum#:#forums_thread_create_date#:#创建于
 forum#:#forums_thread_create_from#:#创建于
 forum#:#forums_thread_marked#:#线程被标记为已读。
 forum#:#forums_thread_new_entry#:#新主题已创建
@@ -6208,6 +6342,8 @@ license#:#used_licenses#:#消耗的许可证
 license#:#used_licenses_explanation#:#每一个第一次访问的用户消耗一个许可证。
 license#:#zero_licenses_explanation#:#输入一个“0”去停用许可证。
 mail#:#activate_serial_letter_placeholders#:#激活系列符号
+mail#:#advice_mail_body_secured#:#因为安全的原因，ILIAS移除了您的信息中的一些元素。请检查信息，确保安全了再发送邮件。
+mail#:#also_as_email#:#Also as E-Mail
 mail#:#bc#:#秘密抄送（BCC）
 mail#:#chat_users_have_been_invited#:#用户已被邀请
 mail#:#chat_users_without_login#:#以下用户还没有ILIAS账号，不能被邀请加入到一个聊天室。
@@ -6218,29 +6354,54 @@ mail#:#info_mail_external_sender_noreply#:#请输入将被用作发送者的地�
 mail#:#invite_to_chat#:#邀请聊天
 mail#:#linebreak#:#断行
 mail#:#mail_account_mail#:#账号邮件
+mail#:#mail_account_mail_check#:#发送账号邮件
 mail#:#mail_add_recipient#:#请输入收件人
 mail#:#mail_add_subfolder#:#增加子文件夹
 mail#:#mail_add_subject#:#请输入标题
+mail#:#mail_add_to_addressbook#:#加到地址簿
+mail#:#mail_add_type#:#请增加您要发送的邮件类型
+mail#:#mail_addr_entries#:#条目
 mail#:#mail_assign_entry_to_mailing_list#:#指派您的地址簿中的一条记录到邮件列表
 mail#:#mail_attachments#:#附件
 mail#:#mail_auto_generated_info#:#这封邮件已通过ILIAS安装 %s 自动发送给您。
+mail#:#mail_bc_not_valid#:#秘密抄送收件人无效
+mail#:#mail_bc_search#:#秘密抄送搜索
+mail#:#mail_byte#:#字节
+mail#:#mail_cc_not_valid#:#抄送收件人无效
+mail#:#mail_cc_search#:#抄送搜索
 mail#:#mail_change_to_folder#:#转换到文件夹
+mail#:#mail_check_your_email_addr#:#您的电子邮件地址无效
+mail#:#mail_compose#:#写作消息
 mail#:#mail_cronjob_notification_info#:#在这里，您能激活一个有关新邮件的定期通知。
 mail#:#mail_crs_list_members_not_available#:#列出已标记的课程成员是不可能的。(It is not possible to list the members of the marked courses.)
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#至少一位选定课程的成员不在名单上。
 mail#:#mail_deleted#:#邮件已删除
 mail#:#mail_deleted_entry#:#条目已删除
+mail#:#mail_edit_entry#:#编辑条目 
+mail#:#mail_email_forbidden#:#不允许您发送邮件
 mail#:#mail_empty_trash#:#清空回收站 
 mail#:#mail_empty_trash_confirmation#:#您确定要删除垃圾箱中的所有邮件吗？
+mail#:#mail_enter_login_or_email_addr#:#请输入一个有效的登录名或电子邮件地址。
+mail#:#mail_enter_valid_email_addr#:#请输入一个有效的电子邮件地址。
+mail#:#mail_enter_valid_login#:#请输入一个有效的登录名。
+mail#:#mail_entry_added#:#已加入新条目
+mail#:#mail_entry_changed#:#条目已更改
+mail#:#mail_entry_exists#:#给定的登录名或电子邮件地址已经存在。
 mail#:#mail_external_sender_noreply#:#不回复地址(noreply-Addresse)
 mail#:#mail_file_name#:#文件名
 mail#:#mail_file_size#:#文件大小
 mail#:#mail_files_deleted#:#文件已删除
 mail#:#mail_folder_created#:#新文件夹已创建
 mail#:#mail_folder_deleted#:#文件夹已删除
+mail#:#mail_folder_edit#:#编辑文件夹
 mail#:#mail_folder_exists#:#文件夹名已存在
+mail#:#mail_folder_name#:#文件夹名已存在
 mail#:#mail_folder_name_changed#:#文件夹已改名
+mail#:#mail_folder_options#:#文件夹选项
 mail#:#mail_following_rcp_not_valid#:#下列收件人无效
+mail#:#mail_global_options#:#全局选项
+mail#:#mail_group_members#:#组成员
+mail#:#mail_in_addressbook#:#已经在地址簿中
 mail#:#mail_incoming#:#进入的邮件
 mail#:#mail_incoming_both#:#本地的和转发的
 mail#:#mail_incoming_local#:#只是本地的
@@ -6248,6 +6409,8 @@ mail#:#mail_incoming_mail#:#接收邮件
 mail#:#mail_incoming_smtp#:#转发到邮件地址
 mail#:#mail_insert_folder_name#:#请插入文件夹名
 mail#:#mail_insert_query#:#请插入询问
+mail#:#mail_intern#:#内部的
+mail#:#mail_into_addressbook#:#Take into Addressbook
 mail#:#mail_invite_users_to_chat#:#邀请用户聊天
 mail#:#mail_list_members#:#成员列表 
 mail#:#mail_mailing_list#:#邮件列表
@@ -6255,6 +6418,7 @@ mail#:#mail_mailing_lists#:#邮件列表
 mail#:#mail_mark_read#:#标记邮件为已读
 mail#:#mail_mark_unread#:#标记邮件为未读
 mail#:#mail_maxsize_attachment_error#:#上载限制为
+mail#:#mail_members_added_addressbook#:#成员已添加到地址簿
 mail#:#mail_members_of_mailing_list#:#邮件列表的成员
 mail#:#mail_message_send#:#消息已发
 mail#:#mail_move_error#:#移动邮件出错
@@ -6263,6 +6427,7 @@ mail#:#mail_moved#:#邮件已移动
 mail#:#mail_moved_to_trash#:#邮件已移到拉圾箱
 mail#:#mail_multiple_recipients_found#:#请输入一个更具体的邮件地址。ILIAS发现这个地址：%s 有多个可能的接收者。
 mail#:#mail_my_courses#:#我的课程
+mail#:#mail_my_entries#:#我的条目
 mail#:#mail_my_groups#:#我的小组
 mail#:#mail_my_mailing_lists#:#我的邮件清单
 mail#:#mail_nacc_admin_mail#:#管理员的电子邮件地址
@@ -6277,12 +6442,20 @@ mail#:#mail_nacc_target_block#:#如果一个目标项被提供，则仅包含这
 mail#:#mail_nacc_target_title#:#目标项的标题，例如，课程标题。
 mail#:#mail_nacc_target_type#:#目标项的类型，例如，一个课程项类型为“课程”。
 mail#:#mail_nacc_use_placeholder#:#符号使用：
+mail#:#mail_new_entry#:#新条目
+mail#:#mail_new_file#:#增加新文件
+mail#:#mail_no_attach_allowed#:#系统消息不允许包含附件
+mail#:#mail_no_attachments_found#:#未找到附件
 mail#:#mail_no_permissions_write_smtp#:#您具有写外部邮件的许可
 mail#:#mail_no_recipient_found#:#输入一个不同的邮件地址。ILIAS找不到这个邮件地址的接收人。
 mail#:#mail_no_valid_mailing_list#:#没有有效的邮件列表
 mail#:#mail_notification_subject#:#您的收件箱中有新邮件
+mail#:#mail_options_of#:#选项
 mail#:#mail_options_saved#:#选项已存
+mail#:#mail_received_x_new_mails#:#您已接收 %s 新邮件
+mail#:#mail_recipient_not_valid#:#收件人无效
 mail#:#mail_s#:#邮件
+mail#:#mail_s_unread#:#未读邮件
 mail#:#mail_salutation_female#:#称谓，女
 mail#:#mail_salutation_general#:#称谓，一般
 mail#:#mail_salutation_male#:#称谓，男
@@ -6292,13 +6465,18 @@ mail#:#mail_select_course#:#请至少选择一个课程。
 mail#:#mail_select_group#:#请至少选择一个组。
 mail#:#mail_select_one_entry#:#您必须选择一个条目
 mail#:#mail_select_one_file#:#您必须选择一个文件
+mail#:#mail_select_only_one_entry#:#请只选择一个条目。
+mail#:#mail_send_with_system_address#:#以系统地址发送
 mail#:#mail_settings_incoming_type_see_also#:#在<a href="%s">这里</a>，您能发现更多的修改用户电子邮件的收件类型的可能。
 mail#:#mail_sure_delete#:#您确定要删除已标记的邮件吗？
 mail#:#mail_sure_delete_entry#:#您确定要删除下列条目吗？
 mail#:#mail_sure_delete_file#:#文件将永久删除
 mail#:#mail_sure_delete_folder#:#文件夹及其内容将永久删除
 mail#:#mail_to#:#To
+mail#:#mail_user_addr_n_valid#:#下列用户无有效的邮件地址
 mail#:#placeholders_advise#:#这些符号仅在直接收件人栏里使用，抄送和密送无法辨识这些符号。
+mail#:#search_bc_recipient#:#搜索秘密抄送收件人
+mail#:#search_cc_recipient#:#搜索抄送收件人
 mail#:#search_recipients#:#搜索收件人
 mail#:#send_mail_to#:#发送邮件到
 mcst#:#mcst_add_new_item#:#添加新媒体广播项
@@ -9512,6 +9690,7 @@ common#:#mails_at_the_ilias_installation#:#您在ILIAS安装过程中已收到 %
 common#:#mail_at_the_ilias_installation#:#您在ILIAS安装过程中已收到 %1$s 封新邮件
 trac#:#trac_learning_progress_settings_info#:#激活显示以下学习进程表中的值：
 fold#:#fold_import#:#导入文件夹 
+mail#:#mail_select_recipients#:#请选择邮件收件人：
 grp#:#grp_import#:#导入组
 crs#:#crs_grp_assignments#:#课程成员分配到组
 assessment#:#ordering_answer_sequence_info#:#您定义在这里的答案序列将被视为正确的方案序列。
@@ -10325,15 +10504,22 @@ common#:#objs_chtr#:#聊天
 common#:#obj_chta#:#聊天室 
 chatroom#:#history_by_day#:#每日历史
 chatroom#:#history_by_session#:#会话历史
+chatroom#:#connected#:#连接已建立 
 chatroom#:#period#:#周期
+chatroom#:#disconnected#:#连接已关闭
 chatroom#:#allow_anonymous#:#允许匿名登录
 chatroom#:#autogen_usernames#:#自动生成用户名
 chatroom#:#allow_custom_usernames#:#允许自定义用户名
 chatroom#:#enable_history#:#启用历史 
+chatroom#:#restrict_history#:#限制历史
+chatroom#:#restrict_history_info#:#不在聊天室期间，没有条目生成。
+chatroom#:#allow_private_rooms#:#允许私人房间
 chatroom#:#settings_general#:#常规
+chatroom#:#settings_privacy#:#隐私
 chatroom#:#autogen_usernames_info#:#自动生成用户名的模式。'#'将被一个数字自动替换。
 chatroom#:#bans#:#禁令
 chatroom#:#permissions#:#权限 
+chatroom#:#remark#:#备注
 chatroom#:#session#:#会话 
 chatroom#:#fontcolor#:#字体颜色 
 chatroom#:#fontstyle#:#字形
@@ -10354,7 +10540,9 @@ chatroom#:#chat_message_to_all#:#给所有人
 chatroom#:#chat_message_options#:#显示
 chatroom#:#chat_message_display#:#选项 
 chatroom#:#chat_mainroom#:#主房间
+chatroom#:#chat_leave#:#离开 
 chatroom#:#chat_join#:#加入
+chatroom#:#chat_delete#:#删除
 chatroom#:#chat_invite#:#邀请
 chatroom#:#chat_kick#:#踢
 chatroom#:#chat_ban#:#禁令
@@ -10362,8 +10550,13 @@ chatroom#:#chat_address#:#地址
 chatroom#:#chat_whisper#:#耳语(悄悄话)
 chatroom#:#chat_connection_established#:#连接已建立 
 chatroom#:#chat_connection_disconnected#:#连接已断开 
+chatroom#:#chat_invite_users#:#邀请用户
+chatroom#:#chat_right_box_user#:#用户 
+chatroom#:#chat_create_new_private_room#:#创建新的私人房间
+chatroom#:#chat_private_room#:#私人房间 
 chatroom#:#chat_to_mainroom#:#到主房间
 chatroom#:#chat_create_private_room_button#:#创建私人房间
+chatroom#:#moderate#:#版主
 chatroom#:#chatroom_smiley_keyword#:#关键字
 chatroom#:#chat_invitation#:#邀请来处 ##inviter_name## 到聊天室 ##room_name
 chatroom#:#chat_invitation_long#:#您已被##inviter_name## 邀请到聊天室 ##room_name##。\n\n点击这个链接##link##直接加入聊天室。
@@ -10382,6 +10575,7 @@ chatroom_adm#:#chatroom_smiley_keywords#:#K关键字
 chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#每行一个关键字
 chatroom_adm#:#chatroom_upload_smiley#:#上传表情符号
 chatroom_adm#:#protocol#:#协议 
+chatroom_adm#:#instance#:#实例 
 chatroom_adm#:#smiley#:#表情符号
 chatroom_adm#:#chatroom_edit_smiley#:#编辑表情符号
 chatroom_adm#:#chatroom_current_smiley_image_path#:#当前表情符号
@@ -10389,18 +10583,24 @@ chatroom_adm#:#chatroom_current_smiley_image#:#当前表情符号图标
 chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#如果当前一个被替换，只选择一个新的表情符号图标。
 chatroom_adm#:#server_settings#:#服务器设置
 chatroom_adm#:#client_settings#:#客户端设置
+chatroom_adm#:#priv_hosts#:#特权主机
 chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#chat_enabled#:#启用聊天
 chatroom_adm#:#enable_osd#:#启用屏幕通知
+chatroom_adm#:#hash#:#Hash
 chatroom_adm#:#osd_intervall#:#刷新间隔 
 chatroom_adm#:#chatroom_confirm_delete_smiley#:#您真的想删除选定的表情符号？
 chatroom_adm#:#chat_smilies_dir_not_exists#:#表情符号目录不存在。
 chatroom_adm#:#chat_smilies_initialized#:#聊天表情符号已初始化
+chatroom#:#soap_must_be_enabled#:#您必需在常规设置中激活SOAP支持来启用聊天。
 chatroom#:#auto_scroll#:#滚动到底部
 chatroom#:#public_chat_created#:#公共聊天室已添加到知识库
 chatroom#:#lost_connection#:#聊天服务器连接已中断。
 chatroom#:#banned#:#您已被禁止聊天
 chatroom#:#unban#:#禁止解除
+chatroom_adm#:#keystore#:#密钥库
+chatroom_adm#:#keypass#:#Keypass
+chatroom_adm#:#storepass#:#Storepass
 chatroom_adm#:#settings_has_been_saved#:#设置已保存
 common#:#obj_chtr#:#聊天室 
 chatroom#:#unable_to_connect#:#聊天服务器连接没有建立。
@@ -10620,6 +10820,8 @@ skmg#:#skmg_create_skill_template_reference#:#创建技能模板参考
 skmg#:#skmg_create_skill_category#:#创建技能类目
 common#:#notice#:#通知
 common#:#public_room#:#公共房间
+chatroom#:#chtr_moderate#:#Moderate
+chatroom#:#unkown_private_room#:#未知私人房间
 chatroom#:#server_further_information#:#您可以在<a href="%1$s" target="_blank">readme文件</a>找到更多有关服务器配置的信息。
 chatroom#:#chtr_new#:#新聊天室
 chatroom#:#chtr_add#:#添加聊天室
@@ -10720,8 +10922,13 @@ didactic#:#didactic_template_applied#:#已应用的教学模板。
 didactic#:#didactic_confirm_apply_new_template#:#您真的想应用已选择的教学模板吗？所有当前的权限设置将丢失！
 chatroom#:#chatserver_address#:#聊天服务器的IP地址
 chatroom#:#chatserver_port#:#聊天服务器的端口
+chatroom#:#instance_name#:#唯一标识符
+chatroom#:#ilias_url#:#您的基于URL的ILIAS安装
+chatroom#:#soap_user#:#SOAP用户的名字
+chatroom#:#soap_user_password#:#SOAP用户的密码
 chatroom#:#hint_osd#:#如果启用，一个有关新邀请的弹出窗口将通知给用户。
 chatroom#:#hint_osd_interval#:#新通知的检查轮询时间间隔。一个更小的数字将会更快的通知到用户，但增加了web服务必需处理的请求数。
+chatroom#:#hint_unique_name#:#一个名字被用于ILIAS和聊天服务器，去标识您的ILIAS身份。如果每个聊天服务器连接了多个客户端，这个名字必需在每个ILIAS实例中都是唯一的。.
 chatroom#:#enable_smilies#:#启用表情符号
 chatroom#:#hint_enable_smilies#:#如果激活，配置文本序列被替换为一个图标。请看表情符号选项卡配置。
 chatroom#:#display_past_msgs#:#已往消息的数量
@@ -10754,6 +10961,7 @@ notes#:#comments_feature_currently_not_activated_for_object#:#这个资源的公
 chatroom#:#layout#:#布局 
 chatroom#:#show_settings#:#显示设置
 chatroom#:#hide_settings#:#隐藏设置
+chatroom_adm#:#soap_user_hint#:#这个用户用来从聊天服务器发送信息到ILIAS安装。没有必需指定的权限。<br/>如果您创建一个新账号，新确认您能以这个用户登录(例如，接受许可协议)。
 chatroom#:#private_rooms_enabled#:#允许私人房间
 chatroom#:#private_rooms_enabled_info#:#如果激活，用户能创建私人房间。仅被邀请的用户访问到这个房间。
 chatroom#:#no_further_users#:#目前没有其他用户
@@ -12107,7 +12315,12 @@ tos#:#tos_period_from#:#From###24 10 2013 new variable
 tos#:#tos_period_until#:#Until###24 10 2013 new variable
 tos#:#tos_acceptance_datetime#:#Date###24 10 2013 new variable
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads ###24 10 2013 new variable
+forum#:#frm_sorting_threads#:#Thread Sorting###24 10 2013 new variable
+forum#:#frm_sorting_posts#:#Posts Sorting###24 10 2013 new variable
 forum#:#sticky_threads_always_on_top#:#"Sticky Threads" are always listed at the top of the list of threads. Within the "Sticky Threads" you are able to sort the threads manually, if you have chosen this option.###24 10 2013 new variable
+mail#:#cron_update_addressbook#:#Synchronize address book entries automatically###24 10 2013 new variable
+mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cronjob. Only data that was released by the User, will be updated.###24 10 2013 new variable
+mail#:#auto_update#:#Update###24 10 2013 new variable
 forum#:#merge#:#Merge###24 10 2013 new variable
 forum#:#please_choose_target#:#Please choose a thread as merge target.###24 10 2013 new variable
 forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone! Eventually ILIAS swaps source and target thread if the first posting of the source thread is created earlier than the first posting of the target thread.###24 10 2013 new variable
@@ -12581,6 +12794,7 @@ exc#:#exc_feedback_notification_subject#:#Feedback is available for assignment o
 exc#:#exc_feedback_notification_salutation#:#Hello %s,###24 10 2013 new variable
 exc#:#exc_feedback_notification_body#:#Feedback is now available for the following assignment.###24 10 2013 new variable
 exc#:#exc_feedback_notification_link#:#Link to exercise###24 10 2013 new variable
+mail#:#system_notification_installation_signature#:#This email has been sent automatically by the ILIAS installation###24 10 2013 new variable
 mail#:#system_notification_installation_changed_by#:#Changed By###24 10 2013 new variable
 exc#:#exc_feedback_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.###24 10 2013 new variable
 exc#:#exc_team_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.###24 10 2013 new variable
@@ -15149,6 +15363,7 @@ prg#:#prg_view#:#View###30 08 2015 new variable
 prg#:#prg_update_from_current_plan#:#Update from current Plan###30 08 2015 new variable
 prg#:#prg_update_successful#:#Saved changes successfully!###30 08 2015 new variable
 prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!###30 08 2015 new variable
+prg#:#prg_warning_img_alt#:#Warning!###30 08 2015 new variable
 prg#:#prg_successful_img_alt#:#successful###30 08 2015 new variable
 prg#:#prg_in_progress_img_alt#:#in progress###30 08 2015 new variable
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.###30 08 2015 new variable
@@ -15332,10 +15547,13 @@ forum#:#restore#:#Restore###25 10 2016 new variable
 forum#:#restore_draft_from_autosave#:#Restore draft###25 10 2016 new variable
 forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>###25 10 2016 new variable
 forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>###25 10 2016 new variable
+forum#:#publishThreadDrafts#:#Publish Thread Draft###25 10 2016 new variable
+forum#:#deleteThreadDrafts#:#Delete Thread Draft###25 10 2016 new variable
 forum#:#edit_thread_draft#:#Edit thread draft###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.###25 10 2016 new variable
 pd#:#block_show_pdfrmpostdraft#:#Show 'My Posting Drafts'###25 10 2016 new variable
+forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#save_draft_successfully#:#The draft was saved successfully.###25 10 2016 new variable
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?###25 10 2016 new variable
@@ -16033,10 +16251,24 @@ iass#:#iass_status_pending#:#Status pending###25 10 2016 new variable
 iass#:#iass_notify#:#Notify user after finalization###25 10 2016 new variable
 iass#:#iass_finalize#:#Finalize###25 10 2016 new variable
 iass#:#il_iass_member#:#Individual Assessment examinee###25 10 2016 new variable
+iass#:#edit_members#:#Edit examinees###25 10 2016 new variable
+iass#:#iass_edit_members#:#Edit examinees###25 10 2016 new variable
+iass#:#iass_visible#:#Visible###25 10 2016 new variable
+iass#:#iass_read#:#Read###25 10 2016 new variable
+iass#:#iass_copy#:#Copy###25 10 2016 new variable
+iass#:#iass_write#:#Edit Settings###25 10 2016 new variable
+iass#:#iass_delete#:#Delete###25 10 2016 new variable
+iass#:#iass_read_learning_progress#:#View learning progress of other users###25 10 2016 new variable
+iass#:#iass_edit_permissions#:#Change Permissions###25 10 2016 new variable
+iass#:#iass_edit_learning_progress#:#Edit learning progress###25 10 2016 new variable
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised.###25 10 2016 new variable
 iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.###25 10 2016 new variable
 iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer###25 10 2016 new variable
+common#:##obj_iass#:#Individual Assessment###25 10 2016 new variable
+common#:##objs_iass#:#Individual Assessments###25 10 2016 new variable
+common#:##obj_iass_duplicate#:#Copy Individual Assessment###25 10 2016 new variable
+common#:##obj_iass_select#:#-- Please select one individual assessment --###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.###25 10 2016 new variable
 common#:#il_iass_member#:#Individual Assessment Examinee###25 10 2016 new variable
 common#:#iass_new#:#Create Individual Assessment###25 10 2016 new variable
@@ -16122,35 +16354,3 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###25 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###25 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
-grp#:#grp_members_deleted#:#Deleted members###18 01 2017 new variable
-cron#:#cro_job_rc_job_no_result#:#NO RESULT###deprecated 
-cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY###18 01 2017 new variable
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED###18 01 2017 new variable
-prg#:#warning#:#Warning!###18 01 2017 new variable
-iass#:#il_iass_members#:#Participants###18 01 2017 new variable
-common#:#obj_iass#:#Individual Assessment###18 01 2017 new variable
-common#:#objs_iass#:#Individual Assessments###18 01 2017 new variable
-common#:#obj_iass_duplicate#:#Copy Individual Assessment###18 01 2017 new variable
-common#:#obj_iass_select#:#-- Please select one individual assessment --###18 01 2017 new variable
-iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.###18 01 2017 new variable
-iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.###18 01 2017 new variable
-common#:#sahs_export_file#:#ILIAS exported SCORM archive file###18 01 2017 new variable
-content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.###18 01 2017 new variable
-survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>###18 01 2017 new variable
-content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.###18 01 2017 new variable
-grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration###18 01 2017 new variable
-auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###18 01 2017 new variable
-lng#:#lng_download_deprecated#:#Download Deprecated List###18 01 2017 new variable
-rbac#:#edit_members#:#Manage members###18 01 2017 new variable
-rbac#:#prg_manage_members#:#Manage members of Study Programme###18 01 2017 new variable
-rbac#:#rbac_create_iass#:#Create Individual Assessment###18 01 2017 new variable
-survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###deprecated 
-wsp#:#share_content#:#Share Object###18 01 2017 new variable
-wsp#:#share_with#:#Username###18 01 2017 new variable
-wsp#:#element_already_shared#:#This object is already shared with this user.###18 01 2017 new variable
-wsp#:#search_no_match#:#Your search did not match any results.###18 01 2017 new variable
-wsp#:#element_shared#:#Object shared.###18 01 2017 new variable
-wsp#:#share#:#Share###18 01 2017 new variable
-copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###18 01 2017 new variable
-auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.###18 01 2017 new variable
-crs#:#crs_edit_lo_introduction#:#Edit Introduction###18 01 2017 new variable

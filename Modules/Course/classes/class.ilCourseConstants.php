@@ -38,7 +38,6 @@ define('IL_CRS_SUBSCRIPTION_PASSWORD',4);
 define('IL_CRS_VIEW_SESSIONS', 0);
 define('IL_CRS_VIEW_OBJECTIVE', 1);
 define('IL_CRS_VIEW_TIMING', 2);
-define('IL_CRS_VIEW_ARCHIVE', 3);
 define('IL_CRS_VIEW_SIMPLE', 4);
 define('IL_CRS_VIEW_BY_TYPE', 5);
 

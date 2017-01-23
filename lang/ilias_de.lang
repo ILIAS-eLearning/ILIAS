@@ -1837,6 +1837,118 @@ auth#:#login_page_activate#:#Editor für ausgewählte Sprachen aktivieren
 auth#:#login_page_editor_switched#:#Der aktive Seiteneditor wurde geändert
 auth#:#login_page_switch_ipe#:#ILIAS Seiteneditor verwenden
 auth#:#login_page_switch_rte#:#Rich-Text-Editor verwenden
+barometer#:#anonymous#:#Anonym
+barometer#:#bar_create#:#Neues Barometer
+barometer#:#barometer_add#:#Neues Barometer
+barometer#:#barometer_conflict_anon_req#:#Anonymisierung und Typ: 'Pflicht' sind zusammen nicht möglich. Bitte wählen Sie nur eine dieser Optionen aus.
+barometer#:#barometer_title#:#Stimmungsbarometer
+barometer#:#best#:#beste
+barometer#:#change_course#:#Kurswechsel
+barometer#:#chart_type#:#Auswertungsart
+barometer#:#chart_users#:#Diagramm Benutzer
+barometer#:#chart_votes#:#Diagramm Wertungen
+barometer#:#day#:#Tag
+barometer#:#days#:#Tage
+barometer#:#delete#:#Löschen
+barometer#:#duration#:#Dauer
+barometer#:#edit#:#Bearbeiten
+barometer#:#edit_barometer#:#Barometer bearbeiten
+barometer#:#every#:#alle
+barometer#:#feedb_edit_feedback#:#Barometer bearbeiten
+barometer#:#feedb_feedback_list#:#Liste der Barometer
+barometer#:#feedb_feedback_settings#:#Einstellungen Barometer
+barometer#:#feedb_time#:#Zeit
+barometer#:#first_vote#:#1. Wertung ist die
+barometer#:#from#:#Starttermin
+barometer#:#hours#:#Stunden
+barometer#:#lines#:#Liniendiagramm
+barometer#:#login#:#Benutzername
+barometer#:#missing_fields#:#Bitte füllen Sie alle notwendigen Felder aus
+barometer#:#month#:#Monat
+barometer#:#months#:#Monate
+barometer#:#new_vote#:#Neue Wertung
+barometer#:#note#:#Kommentar
+barometer#:#optional#:#Optional
+barometer#:#options#:#Optionen
+barometer#:#pie#:#Tortendiagramm
+barometer#:#repeat#:#Wiederholungsrhythmus
+barometer#:#required#:#Pflicht
+barometer#:#save#:#Speichern
+barometer#:#save_vote#:#Wertung abgeben
+barometer#:#skip#:#Überspringen
+barometer#:#statistics#:#Statistik
+barometer#:#status#:#Status
+barometer#:#table#:#Tabelle
+barometer#:#text#:#Text
+barometer#:#text_answer#:#Mit Kommentarfeld
+barometer#:#time#:#Laufzeit
+barometer#:#title#:#Titel
+barometer#:#type#:#Beantwortung
+barometer#:#until#:#Endtermin
+barometer#:#user#:#Benutzer
+barometer#:#vote#:#Note
+barometer#:#votes#:#Wertungen
+barometer#:#weeks#:#Wochen
+barometer#:#worst#:#schlechteste
+barometer#:#year#:#Jahr
+bibitem#:#bibitem_add#:#Hinzufügen
+bibitem#:#bibitem_author#:#Autor
+bibitem#:#bibitem_av#:#AV
+bibitem#:#bibitem_bibitem#:#Bibliographische Information
+bibitem#:#bibitem_book#:#Buch
+bibitem#:#bibitem_booktitle#:#Buchtitel
+bibitem#:#bibitem_catalog#:#Katalog
+bibitem#:#bibitem_choose_index#:#Bitte wählen Sie eine bibliographische Information:
+bibitem#:#bibitem_cross_reference#:#Querverweis
+bibitem#:#bibitem_delete#:#Löschen
+bibitem#:#bibitem_dissertation#:#Doktorarbeit
+bibitem#:#bibitem_edition#:#Ausgabe
+bibitem#:#bibitem_editor#:#Verfasser
+bibitem#:#bibitem_entry#:#Eintrag
+bibitem#:#bibitem_first_name#:#Vorname
+bibitem#:#bibitem_grey_literature#:#Graue Literatur
+bibitem#:#bibitem_how_published#:#Wie veröffentlicht
+bibitem#:#bibitem_identifier#:#Bezeichner
+bibitem#:#bibitem_inbook#:#Bucheinlage
+bibitem#:#bibitem_inproceedings#:#In Veröffentlichungen
+bibitem#:#bibitem_institution#:#Institution
+bibitem#:#bibitem_internet#:#Internet
+bibitem#:#bibitem_isbn#:#ISBN
+bibitem#:#bibitem_issn#:#ISSN
+bibitem#:#bibitem_journal#:#Journal
+bibitem#:#bibitem_journal_article#:#Journal Artikel
+bibitem#:#bibitem_keyword#:#Schlagwort
+bibitem#:#bibitem_label#:#Kennzeichen
+bibitem#:#bibitem_language#:#Sprache
+bibitem#:#bibitem_last_name#:#Nachname
+bibitem#:#bibitem_manual#:#Handbuch
+bibitem#:#bibitem_master_thesis#:#Masterarbeit
+bibitem#:#bibitem_middle_name#:#Mittelname
+bibitem#:#bibitem_month#:#Monat
+bibitem#:#bibitem_new_element#:#Neues Element
+bibitem#:#bibitem_newspaper_article#:#Zeitungsartikel
+bibitem#:#bibitem_not_found#:#Es liegen noch keine bibliographischen Informationen vor.
+bibitem#:#bibitem_note#:#Notiz
+bibitem#:#bibitem_number#:#Nummer
+bibitem#:#bibitem_organization#:#Organisation
+bibitem#:#bibitem_pages#:#Seiten
+bibitem#:#bibitem_phd_thesis#:#Promotion
+bibitem#:#bibitem_please_select#:#Bitte wählen Sie
+bibitem#:#bibitem_print#:#Druck
+bibitem#:#bibitem_proceedings#:#Bericht
+bibitem#:#bibitem_publisher#:#Herausgeber
+bibitem#:#bibitem_save#:#Speichern
+bibitem#:#bibitem_school#:#Schule
+bibitem#:#bibitem_series#:#Reihe
+bibitem#:#bibitem_series_editor#:#Verfasser
+bibitem#:#bibitem_series_title#:#Titel der Reihe
+bibitem#:#bibitem_series_volume#:#Band
+bibitem#:#bibitem_technical_report#:#Forschungsbericht
+bibitem#:#bibitem_type#:#Typ
+bibitem#:#bibitem_unpublished#:#Unveröffentlicht
+bibitem#:#bibitem_url#:#URL
+bibitem#:#bibitem_where_published#:#Wo herausgegeben
+bibitem#:#bibitem_year#:#Jahr
 block_html#:#block_html_block_content#:#Inhalt
 block_html#:#block_html_block_head#:#HTML-Block
 block_html#:#block_html_block_title#:#Titel
@@ -16136,6 +16248,15 @@ iass#:#iass_record_info#:#Die Prüfungsnotiz kann nach finaler Bewertung vom Tei
 iass#:#iass_internal_note_info#:#Diese Notiz ist nur für Tutoren sichtbar, die Prüfungsdaten von Teilnehmern einsehen können. Die Teilnehmer selbst sehen die Prüfungsnotiz nicht.
 common#:#sahs_export_file#:#aus ILIAS exportierte SCORM-Archiv-Datei
 content#:#lm_only_one_download_per_type#:#Es kann nur eine Datei je Typ (XML, HTML, SCORM) öffentlich freigeschaltet werden.
+sop#:#sop_msg_your_browser#:#Browser:&nbsp;
+sop#:#sop_msg_firefox_not_portable#:#Da dies allerdings keine speziellen portablen Versionen sind, sollten sie auch nur per Skript mit einem eigenen Profil-Ordner aufgerufen werden, damit das Profil eines parallel installierten aktuelleren Firefox Browsers nicht überschrieben wird.
+sop#:#sop_msg_firefox_version_not_supported#:#Sie verwenden einen Firefox-Browser mit einer Version größer 38.</br>Leider unterstützt Mozilla in neueren Firefox Browsern für den Betrieb des SCORM-Offline-Players notwendige Kernfunktionen nicht mehr.<br/>
+sop#:#sop_msg_firefox_download_win#:#Sie haben die Möglichkeit die Offline-Funktionen des SCORM Lernmoduls mit einem passenden portablen Firefox zu nutzen:<br/>Download: <a href='https://sourceforge.net/projects/portableapps/files/Mozilla%20Firefox,%20Portable%20Ed./Mozilla%20Firefox,%20Portable%20Edition%2038.0.5/' target='_blank'>Firefox Portable 38.0.5/</a><br/>
+sop#:#sop_msg_firefox_download_linux#:#Für Linux lässt sich die Firefox Version 38.0 unter folgender Adresse herunterladen:<br/>64Bit: <a href='http://ftp.mozilla.org/pub/firefox/releases/38.0esr/linux-x86_64/' target='_blank'>http://ftp.mozilla.org/pub/firefox/releases/38.0esr/linux-x86_64/</a><br/>32Bit: <a href='http://ftp.mozilla.org/pub/firefox/releases/38.0esr/linux-x86_64/' target='_blank'>http://ftp.mozilla.org/pub/firefox/releases/38.0esr/linux-i686/</a><br/><a href='./Modules/ScormAicc/sop/firefox_linux_installation.txt' target='_blank'>Installationsanleitung</a><br/>
+sop#:#sop_msg_firefox_download_mac#:#Für Mac OSX lässt sich die Firefox Version 38.0 unter folgender Adresse herunterladen:<br/><a href='http://ftp.mozilla.org/pub/firefox/releases/38.0esr/mac/' target='_blank'>http://ftp.mozilla.org/pub/firefox/releases/38.0esr/mac/</a><br/><a href='./Modules/ScormAicc/sop/firefox_osx_installation.txt' target='_blank'>Installationsanleitung</a><br/>
+sop#:#sop_msg_firefox_after_download#:#Nachdem Sie den Browser heruntergeladen und installiert haben, rufen Sie diese Seite in ILIAS mit dem neuen Browser wiederholt auf.<br/>
+sop#:#sop_msg_firefox_config#:#Um das automatische Update des Browsers zu verhindern, geben Sie in der Adressleiste 'about:config' ein und ändern Sie folgende Einstellungen:<br/><br/><i>app.update.enabled = false</i><br/><i>app.update.auto = false</i><br/><i>app.update.mode = 0</i><br/><i>app.update.service.enabled = 0</i><br/><br/>
+sop#:#sop_msg_firefox_html5#:#Voraussichtlich schon ab ILIAS Version 5.3 werden Sie die Möglichkeit haben, mit den gängigen aktuellen Browsern die Offline-Funktion zu nutzen.
 content#:#cont_permission_object_desc#:#Falls ein Berechtigungsobjekt ausgewählt wird, wird der Block nur Benutzern mit dem gewählten Recht am Berechtigungsobjekt angezeigt.
 grp#:#grp_err_registration_limited#:#Bitte geben Sie ein gültiges Start- und Enddatum der Registrierung ein.
 auth#:#auth_activation_code_success#:#Ihr Zugang wurde aktiviert, sie können sich nun einloggen.
@@ -16152,6 +16273,3 @@ wsp#:#share#:#Freigeben
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Loginversuche deaktiviert. 
 crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten
-prg#:#prg_successful_img_alt#:#successful###deprecated 
-prg#:#prg_in_progress_img_alt#:#in progress###deprecated 
-survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>###18 01 2017 new variable

@@ -1361,6 +1361,118 @@ auth#:#login_page_activate#:#Activate Editor for Selected Languages
 auth#:#login_page_editor_switched#:#The active page editor has been changed
 auth#:#login_page_switch_ipe#:#Use ILIAS Page Editor
 auth#:#login_page_switch_rte#:#Use Rich-Text-Editor
+barometer#:#anonymous#:#Anonimowy
+barometer#:#bar_create#:#Twórz nową reakcję
+barometer#:#barometer_add#:#Dodaj nową reakcję
+barometer#:#barometer_conflict_anon_req#:#Anonymization can not be combined with type 'Required'. Please choose one of these options.
+barometer#:#barometer_title#:#Pomiar kontrolny
+barometer#:#best#:#Najlepszy
+barometer#:#change_course#:#Zmień kurs
+barometer#:#chart_type#:#Typ arkusza
+barometer#:#chart_users#:#Arkusz użytkownika
+barometer#:#chart_votes#:#Arkusz głosów
+barometer#:#day#:#Dzień
+barometer#:#days#:#Dni
+barometer#:#delete#:#Usuń
+barometer#:#duration#:#Czas trwania
+barometer#:#edit#:#Edycja
+barometer#:#edit_barometer#:#Edycja pomiaru
+barometer#:#every#:#każdy
+barometer#:#feedb_edit_feedback#:#Edycja pomiaru
+barometer#:#feedb_feedback_list#:#Lista pomiarów
+barometer#:#feedb_feedback_settings#:#Ustawienia pomiarów
+barometer#:#feedb_time#:#Czas
+barometer#:#first_vote#:#1. Głos jest
+barometer#:#from#:#Od
+barometer#:#hours#:#Godzin
+barometer#:#lines#:#Wierszy
+barometer#:#login#:#Login
+barometer#:#missing_fields#:#Wypełnij wszystkie niezbędne informacje
+barometer#:#month#:#Miesiąc
+barometer#:#months#:#Miesięcy
+barometer#:#new_vote#:#Nowy głos
+barometer#:#note#:#Komentarz
+barometer#:#optional#:#Opcjonalnie
+barometer#:#options#:#Opcje
+barometer#:#pie#:#Kołowy
+barometer#:#repeat#:#Powtarzaj każdy
+barometer#:#required#:#Wymagane
+barometer#:#save#:#Zapisz
+barometer#:#save_vote#:#Potwierdź głos
+barometer#:#skip#:#Przeskocz
+barometer#:#statistics#:#Statystyka
+barometer#:#status#:#Status
+barometer#:#table#:#Tabela
+barometer#:#text#:#Tekst
+barometer#:#text_answer#:#Tekst odpowiedzi
+barometer#:#time#:#Uruchomione
+barometer#:#title#:#Tytuł
+barometer#:#type#:#Typ
+barometer#:#until#:#Do
+barometer#:#user#:#Użytkownik
+barometer#:#vote#:#Głos
+barometer#:#votes#:#Głosy
+barometer#:#weeks#:#Tygodnie
+barometer#:#worst#:#Najgorszy
+barometer#:#year#:#Rok
+bibitem#:#bibitem_add#:#Dodaj
+bibitem#:#bibitem_author#:#Autor
+bibitem#:#bibitem_av#:#ŚR
+bibitem#:#bibitem_bibitem#:#Informacje bibliograficzne
+bibitem#:#bibitem_book#:#Książka
+bibitem#:#bibitem_booktitle#:#Tytuł książki
+bibitem#:#bibitem_catalog#:#Katalog
+bibitem#:#bibitem_choose_index#:#Wybierz informacje bibliograficzne:
+bibitem#:#bibitem_cross_reference#:#Odniesienie
+bibitem#:#bibitem_delete#:#Usuń
+bibitem#:#bibitem_dissertation#:#Rozprawa
+bibitem#:#bibitem_edition#:#Edycja
+bibitem#:#bibitem_editor#:#Edytor
+bibitem#:#bibitem_entry#:#Wstęp
+bibitem#:#bibitem_first_name#:#Imię
+bibitem#:#bibitem_grey_literature#:#Literatura Szara
+bibitem#:#bibitem_how_published#:#Jak opublikowane
+bibitem#:#bibitem_identifier#:#Identyfikator
+bibitem#:#bibitem_inbook#:#Wydawnictwo wewnętrzne
+bibitem#:#bibitem_inproceedings#:#Inproceedings
+bibitem#:#bibitem_institution#:#JW/Komórka organizacyjna/Uczelnia
+bibitem#:#bibitem_internet#:#Internet
+bibitem#:#bibitem_isbn#:#ISBN
+bibitem#:#bibitem_issn#:#ISSN
+bibitem#:#bibitem_journal#:#Pismo
+bibitem#:#bibitem_journal_article#:#Artykuł w piśmie
+bibitem#:#bibitem_keyword#:#Klucz
+bibitem#:#bibitem_label#:#Poziom
+bibitem#:#bibitem_language#:#Język
+bibitem#:#bibitem_last_name#:#Nazwisko
+bibitem#:#bibitem_manual#:#Instrukcja
+bibitem#:#bibitem_master_thesis#:#Główna teza
+bibitem#:#bibitem_middle_name#:#Drugie Imię
+bibitem#:#bibitem_month#:#Miesiąc
+bibitem#:#bibitem_new_element#:#Nowy element
+bibitem#:#bibitem_newspaper_article#:#Artykuł w czasopiśmie
+bibitem#:#bibitem_not_found#:#Brak informacji bibliograficznych.
+bibitem#:#bibitem_note#:#Notatka
+bibitem#:#bibitem_number#:#Numer
+bibitem#:#bibitem_organization#:#Organizacja
+bibitem#:#bibitem_pages#:#Stron
+bibitem#:#bibitem_phd_thesis#:#Praca doktorska
+bibitem#:#bibitem_please_select#:#Wybierz
+bibitem#:#bibitem_print#:#Drukuj
+bibitem#:#bibitem_proceedings#:#Sprawozdanie
+bibitem#:#bibitem_publisher#:#Wydawca
+bibitem#:#bibitem_save#:#Zachowaj
+bibitem#:#bibitem_school#:#Szkoła
+bibitem#:#bibitem_series#:#Seria
+bibitem#:#bibitem_series_editor#:#Edytor
+bibitem#:#bibitem_series_title#:#Tytuł serii
+bibitem#:#bibitem_series_volume#:#Wolumen
+bibitem#:#bibitem_technical_report#:#Raport techniczny
+bibitem#:#bibitem_type#:#Typ
+bibitem#:#bibitem_unpublished#:#Niepublikowany
+bibitem#:#bibitem_url#:#URL
+bibitem#:#bibitem_where_published#:#Gdzie publikowany
+bibitem#:#bibitem_year#:#Rok
 block_html#:#block_html_block_content#:#Zawartość
 block_html#:#block_html_block_head#:#Blok HTML
 block_html#:#block_html_block_title#:#Tytuł
@@ -1537,8 +1649,10 @@ certificate#:#certificate_a4_landscape#:#A4 Pejzaż (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 Pejzaż (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Obraz tła
+certificate#:#certificate_bottom#:#Dół
 certificate#:#certificate_confirm_deletion_text#:#Czy chcesz usunąć certyfikat i wszystkie jego dane?
 certificate#:#certificate_custom#:#Użytkownika...
+certificate#:#certificate_delete#:#Usuń dane certyfikatu
 certificate#:#certificate_edit#:#Twórz/edytuj szablon certyfikatu
 certificate#:#certificate_enabled_scorm#:#Włączone
 certificate#:#certificate_enabled_scorm_introduction#:#Jeśli włączone, certyfikat będzie dostępny dla wszystkich użytkowników, którzy ukończyli moduł nauczania SCORM.
@@ -1547,10 +1661,12 @@ certificate#:#certificate_error_upload_bgimage#:#Wystąpił błąd podczas łado
 certificate#:#certificate_export#:#Eksport certyfikatu
 certificate#:#certificate_failed#:#błędny
 certificate#:#certificate_file_basename#:#Certificate
+certificate#:#certificate_left#:#Lewa
 certificate#:#certificate_letter#:#Letter (11 cali x 8.5 cala)
 certificate#:#certificate_letter_landscape#:#Letter Pejzaż (8.5 cala x 11 cali)
 certificate#:#certificate_margin_body#:#Margines głównej części
 certificate#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!
+certificate#:#certificate_padding_top#:#Górny odstęp
 certificate#:#certificate_page_format#:#Format strony
 certificate#:#certificate_page_format_info#:#Please select the default page format for new certificates.
 certificate#:#certificate_pageheight#:#Wysokość strony
@@ -1597,10 +1713,16 @@ certificate#:#certificate_ph_title_sco#:#title
 certificate#:#certificate_ph_zipcode#:#Kod pocztowy (adres) użytkownika
 certificate#:#certificate_points_notavailable#:#This value cannot be calculated
 certificate#:#certificate_preview#:#Pokaż podgląd certyfikatu
+certificate#:#certificate_right#:#Prawa
 certificate#:#certificate_settings#:#Ustawienia Certyfikatów
 certificate#:#certificate_short_name#:#Krótka nazwa pliku certyfikatu
 certificate#:#certificate_short_name_description#:#Proszę, wprowadź krótki tytuł do nazwy certyfikatu. Będzie on częścią nazwy pliku certyfikatu: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.
+certificate#:#certificate_show#:#Pokaż Certyfikat
+certificate#:#certificate_status#:#Status
+certificate#:#certificate_status_complete#:#Certyfikat jest kompletny i może być użyty
+certificate#:#certificate_status_incomplete#:#Certyfikat nie jest kompletny
 certificate#:#certificate_text#:#Tekst Certyfikatu
+certificate#:#certificate_top#:#Góra
 certificate#:#certificate_unit_description#:#Wprowadź jednostki miar jako wartość[cm|mm|in|pt|pc|px|em], np. 10mm or 3in
 certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available on the main page of the ILIAS administration in section Webservices.
 certificate#:#certificate_var_max_points#:#46
@@ -1628,10 +1750,13 @@ certificate#:#certificate_visibility_introduction#:#Przycisk do zaoferowania uż
 certificate#:#certificate_visibility_never#:#Niewidoczny
 certificate#:#certificate_visibility_passed#:#Widoczny jest tylko użytkownik, który zdał test
 certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise
+certificate#:#certificate_wrong_unit#:#Wprowadziłeś błędną jednostkę
+certificate#:#certificate_wrong_units#:#Wprowadziłeś błędny zestaw jednostek
 certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.
 certificate#:#download_certificate#:#Pobierz Certyfikat
 chatroom#:#allow_anonymous#:#Zezwalaj na anonimowe logowanie
 chatroom#:#allow_custom_usernames#:#Zezwalaj na niestandardowe nazwy użytkowników
+chatroom#:#allow_private_rooms#:#Allow private rooms
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the "Permissions" tab to allow anonymous user access to this repository item.
 chatroom#:#auto_scroll#:#Auto przewijanie do dołu
 chatroom#:#autogen_usernames#:#Automatycznie generowane nazwy użytkowników
@@ -1644,19 +1769,28 @@ chatroom#:#chat_address#:#Adresuj do
 chatroom#:#chat_ban#:#Zablokuj użytkownika
 chatroom#:#chat_connection_disconnected#:#Rozłączono
 chatroom#:#chat_connection_established#:#Połączenie ustanowione
+chatroom#:#chat_create_new_private_room#:#Utwórz nowy pokój prywatny
 chatroom#:#chat_create_private_room_button#:#Utwórz pokój prywatny
+chatroom#:#chat_delete#:#Delete
 chatroom#:#chat_enable_autoscroll#:#Włącz Autoprzewijanie
 chatroom#:#chat_invitation#:#Zaproszenie od ##inviter_name## do czatu ##room_name##
 chatroom#:#chat_invitation_long#:#Zostałeś zaproszony ##inviter_name## do czatu ##room_name##.\n\nKliknij na link ##link## aby bezpośrednio połączyć się na czacie z osobą zapraszającą.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.
 chatroom#:#chat_invite#:#Invite
+chatroom#:#chat_invite_users#:#Zaproś użytkowników
 chatroom#:#chat_join#:#Join
 chatroom#:#chat_kick#:#Wyproś użytkownika
+chatroom#:#chat_leave#:#Leave
 chatroom#:#chat_mainroom#:#Główny pokój
 chatroom#:#chat_message#:#Komunikat
 chatroom#:#chat_message_display#:#Opcje
+chatroom#:#chat_message_notify_activate#:#Aktywowanie Wiadomości Przypomnienia
 chatroom#:#chat_message_options#:#Pokaż
 chatroom#:#chat_message_to_all#:#do wszystkich
+chatroom#:#chat_new_invitation_sound_status#:#Odtwórz dźwięk, gdy użytkownik otrzymuje nowe zaproszenie do czatu.
+chatroom#:#chat_new_message_sound_status#:#Odtwórz dźwięk w trakcie otrzymania nową wiadomości.
+chatroom#:#chat_private_room#:#Prywatny pokój
+chatroom#:#chat_right_box_user#:#Użytkownik
 chatroom#:#chat_select_room#:#Select Chat Room
 chatroom#:#chat_settings#:#Chat Settings
 chatroom#:#chat_to_mainroom#:#Do głównego pokoju
@@ -1665,12 +1799,15 @@ chatroom#:#chatroom_smiley_keyword#:#Keyword
 chatroom#:#chatserver_address#:#IP-Adress of the Chatservers
 chatroom#:#chatserver_port#:#Port of the Chatservers
 chatroom#:#chtr_add#:#Add Chatroom
+chatroom#:#chtr_moderate#:#Moderate
 chatroom#:#chtr_new#:#New Chatroom
 chatroom#:#clear_room_history#:#Skasuj Historię Komunikatów
 chatroom#:#clear_room_history_question#:#Czy naprawdę chcesz usunąć wszystkie komunikaty z tego pokoju?
+chatroom#:#connected#:#Connection established
 chatroom#:#create_private_room_text#:#Nazwa prywatnego pokoju
 chatroom#:#custom_username#:#Niestandardowa nazwa użytkownika
 chatroom#:#delete_private_room#:#Usuń Pokój Prywatny
+chatroom#:#disconnected#:#Connection closed
 chatroom#:#display_past_msgs#:#Number of Past Messages
 chatroom#:#duration_from#:#Od
 chatroom#:#duration_to#:#Do
@@ -1687,6 +1824,7 @@ chatroom#:#hint_display_past_msgs#:#Number of past messages to show, when the ro
 chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smilies tab for configuration.
 chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.
 chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the webserver must handle.
+chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chatserver to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.
 chatroom#:#history_by_day#:#Codzienna historia
 chatroom#:#history_by_session#:#Historia sesji
 chatroom#:#history_byday_title#:#Historia wg. dni
@@ -1694,6 +1832,8 @@ chatroom#:#history_bysession_title#:#Historia wg. sesji
 chatroom#:#history_cleared#:#Historia została usunięta przez moderatora.
 chatroom#:#history_title_general#:#Rozmowa w Pokoju Czat: "%s"
 chatroom#:#history_title_private_room#:#Conversation in Private Room "%s"
+chatroom#:#ilias_url#:#Base-URL of your ILIAS Installation
+chatroom#:#instance_name#:#Unique Identifier
 chatroom#:#invite_to_private_room#:#Zaproś do Aktualnego Pokoju
 chatroom#:#invite_username#:#Nazwa użytkownika
 chatroom#:#italic#:#Italic
@@ -1704,6 +1844,7 @@ chatroom#:#layout#:#Styl
 chatroom#:#leave_private_room#:#Opuść Prywatny Pokój
 chatroom#:#lost_connection#:#Połączenie z czat serwerem zostało przerwane.
 chatroom#:#main#:#Główny pokój
+chatroom#:#moderate#:#Moderate
 chatroom#:#no_further_users#:#Nie ma dostępnych użytkowników
 chatroom#:#no_messages#:#Nie ma zapisanych wiadomości dla danego okresu.
 chatroom#:#no_username_given#:#Please choose a username
@@ -1717,18 +1858,26 @@ chatroom#:#private_room_left#:#Użytkownik <b>#user#</b> opuścił prywatny pok�
 chatroom#:#private_rooms_enabled#:#Zezwól na Prywatne Pokoje
 chatroom#:#private_rooms_enabled_info#:#Jeśli włączona, użytkownicy mogą tworzyć prywatne pokoje. Tylko zaproszeni użytkownicy mają dostęp do tych pokoi.
 chatroom#:#public_chat_created#:#The public chat room has been added to the repository
+chatroom#:#remark#:#Remark
+chatroom#:#restrict_history#:#Restrict history
+chatroom#:#restrict_history_info#:#No entries generated during absence from chatroom
 chatroom#:#scope#:#Room/Private Room
 chatroom#:#select_custom_username#:#Nazwa użytkownika
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#session#:#Swsja
 chatroom#:#settings_general#:#General
+chatroom#:#settings_privacy#:#Privacy
 chatroom#:#settings_title#:#Ustawienia
 chatroom#:#show_settings#:#Pokaż Ustawienia
 chatroom#:#small#:#Small
+chatroom#:#soap_must_be_enabled#:#You must active SOAP support in the general settings to enable the chat.
+chatroom#:#soap_user#:#Name of the SOAP-User
+chatroom#:#soap_user_password#:#Password of the SOAP-User
 chatroom#:#speak_to#:#Rozmawiaj do <b>#user#</b>
 chatroom#:#unable_to_connect#:#The connection to the chatserver could not be established.
 chatroom#:#unban#:#Odblokowany
 chatroom#:#underlined#:#Underlined
+chatroom#:#unkown_private_room#:#Unknown private room
 chatroom#:#user_in_ilias#:#Szukaj i zaproś użytkownika z ILIAS
 chatroom#:#user_in_room#:#Invite user from current chatroom
 chatroom#:#user_invited#:#Użytkownik <b>#user#</b> został zaproszony.
@@ -1758,16 +1907,23 @@ chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
 chatroom_adm#:#client_settings#:#Client settings
 chatroom_adm#:#enable_osd#:#Enable On-Screen notifications
 chatroom_adm#:#general_settings_title#:#General Chat Settings
+chatroom_adm#:#hash#:#Hash
 chatroom_adm#:#https#:#HTTPS
+chatroom_adm#:#instance#:#Instance
+chatroom_adm#:#keypass#:#Keypass
+chatroom_adm#:#keystore#:#Keystore
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)
 chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation
 chatroom_adm#:#port_info#:#Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked.
+chatroom_adm#:#priv_hosts#:#Privileged hosts
 chatroom_adm#:#protocol#:#Protocol
 chatroom_adm#:#public_chat_permissions#:#Public Chatroom Permissions
 chatroom_adm#:#public_chat_settings#:#Public Chatroom Settings
 chatroom_adm#:#server_settings#:#Server settings
 chatroom_adm#:#settings_has_been_saved#:#Ustawienia zostały zapisane
 chatroom_adm#:#smiley#:#Smilies
+chatroom_adm#:#soap_user_hint#:#This user is used to send information from the chatserver to the ilias installation. No special permissions are required.<br/>If you create a new accout, please make sure that you are able to login with this user (e.g. accept licence aggreement).
+chatroom_adm#:#storepass#:#Storepass
 cmps#:#cmps_activate#:#Activate
 cmps#:#cmps_active#:#Active
 cmps#:#cmps_add_new_rank#:#Position in Add-New-Object List
@@ -3249,6 +3405,7 @@ common#:#mail_addressbook#:#Kontakty
 common#:#mail_allow_smtp#:#Zezwolenie na SMTP
 common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s
 common#:#mail_attachment#:#Mail attachment
+common#:#mail_attachments#:#Mail attachments
 common#:#mail_b_inbox#:#Skrzynka odbiorcza
 common#:#mail_c_trash#:#Kosz
 common#:#mail_d_drafts#:#Szkice
@@ -7497,7 +7654,9 @@ forum#:#forums_all_threads_marked_read#:#Wszystkie wątki zostały zaznaczone ja
 forum#:#forums_attachments#:#Załączniki
 forum#:#forums_attachments_add#:#Dodaj załączniki
 forum#:#forums_censor_comment#:#Komentarz cenzora
+forum#:#forums_count#:#Ilość Forów
 forum#:#forums_count_art#:#Ilość artykułów
+forum#:#forums_count_thr#:#Ilość wątków
 forum#:#forums_created_by#:#Utworzony przez
 forum#:#forums_delete_file#:#Usuń załącznik
 forum#:#forums_disable_notification#:#Wyłącz powiadomienia
@@ -7511,11 +7670,14 @@ forum#:#forums_info_delete_post#:#Jesteś pewien, że chcesz usunąć ten artyku
 forum#:#forums_mark_read#:#Zaznacz wszystkie przeczytane
 forum#:#forums_new_thread#:#Nowy temat
 forum#:#forums_no_posts_available#:#This topic has no posts yet or the moderator deactivated the first post.
+forum#:#forums_notification#:#Powiadomienia
 forum#:#forums_notification_disabled#:#Powiadomienia wyłączone
 forum#:#forums_notification_enabled#:#Powiadomienia są włączone
 forum#:#forums_notification_intro#:#Ten e-mail został automatycznie wysłany do Ciebie przez system ILIAS %s, %s
 forum#:#forums_notification_show_post#:#Pokaż post: %s
+forum#:#forums_notification_subject#:#Nowy post na forum
 forum#:#forums_post_activation_mail#:#Unless the following posting is not activated, it is not visible for other forum users. You recieve this email because you are assigned as moderator and have the permission to activate this posting.
+forum#:#forums_post_and_children_were_activated#:#The post and all its child posts were activated.
 forum#:#forums_post_deleted#:#Artykuł został usunięty.
 forum#:#forums_post_modified#:#Artykuł został zmodyfikowany.
 forum#:#forums_post_needs_to_be_activated#:#A new article has been created, but it needs to be activated by a moderator.
@@ -7527,6 +7689,7 @@ forum#:#forums_print_thread#:#Drukuj wątek
 forum#:#forums_subject#:#Przedmiot
 forum#:#forums_the_post#:#Artykuł
 forum#:#forums_thread#:#Temat
+forum#:#forums_thread_create_date#:#Utworzone dnia
 forum#:#forums_thread_create_from#:#Utworzone przez
 forum#:#forums_thread_marked#:#Wątek został zaznaczony jako przeczytany.
 forum#:#forums_thread_new_entry#:#Został zapisany nowy temat.
@@ -7947,6 +8110,8 @@ license#:#used_licenses#:#Wykorzystane licencje
 license#:#used_licenses_explanation#:#Każdy pierwszy dostęp użytkownika jest równoznaczny z pobieraniem licencji.
 license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.
 mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
+mail#:#advice_mail_body_secured#:#Because of security reasons ILIAS removed some elements of your message. Please check the secured message and send the mail again.
+mail#:#also_as_email#:#rownież pocztą
 mail#:#bc#:#BC
 mail#:#chat_users_have_been_invited#:#Użytkownicy zostali zaroszeni.
 mail#:#chat_users_without_login#:#Następujący użytkownicy nie mają konta w ILIAS, w związku z czym nie mogą być zaproszeni do Pokoi Czat.
@@ -7957,34 +8122,59 @@ mail#:#info_mail_external_sender_noreply#:#Please enter the e-mail that shall be
 mail#:#invite_to_chat#:#Invite to Chat
 mail#:#linebreak#:#Linia rozdzielająca
 mail#:#mail_account_mail#:#Konto pocztowe
+mail#:#mail_account_mail_check#:#Sprawdź konto pocztowe
 mail#:#mail_add_folder#:#Add New Subfolder
 mail#:#mail_add_recipient#:#Podaj odbiorcę
 mail#:#mail_add_subfolder#:#Dodaj podfolder
 mail#:#mail_add_subject#:#Podaj temat
+mail#:#mail_add_to_addressbook#:#Dodaj do książki adresowej
+mail#:#mail_add_type#:#Dodaj typ poczty, którą chcesz wysłać.
+mail#:#mail_addr_entries#:#Pozycje
 mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Address Book to Mailing List
 mail#:#mail_attachments#:#Załączniki
 mail#:#mail_auto_generated_info#:#Ten e-mail został automatycznie wysłany do ciebie przez ILIAS %s, %s
+mail#:#mail_bc_not_valid#:#Odbiorca BC nie jest prawidłowy
+mail#:#mail_bc_search#:#Szukaj BC
+mail#:#mail_byte#:#Bajtów
+mail#:#mail_cc_not_valid#:#Odbiorca CC nie jest prawidłowy
+mail#:#mail_cc_search#:#Szukaj CC
 mail#:#mail_change_to_folder#:#Przejdź do folderu:
+mail#:#mail_check_your_email_addr#:#Twój adres e-mail nie jest prawidłowy.
+mail#:#mail_compose#:#Napisz wiadomość
 mail#:#mail_cronjob_notification_info#:#Aktywacja powiadomień o nowej poczcie.
 mail#:#mail_crs_list_members_not_available#:#Nie jest możliwe sporządzenie wykazu członków zaznaczonych kursów.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Nie mogą być wymienieni Członkowie co najmniej jednego wybranego kursu.
 mail#:#mail_deleted#:#Wiadomości zostały usunięte.
 mail#:#mail_deleted_entry#:#Pozycje zostały usunięte.
+mail#:#mail_edit_entry#:#Edycja pozycji
+mail#:#mail_email_forbidden#:#Nie możesz wysyłać poczty.
 mail#:#mail_empty_trash#:#Opóżnij kosz
 mail#:#mail_empty_trash_confirmation#:#Czy na pewno chcesz usunąć wszystkie wiadomości z kosza?
 mail#:#mail_enable_crs_member_notification#:#Course Notification
 mail#:#mail_enable_crs_member_notification_info#:#If enabled, course participants will be notified automatically about membership changes.
 mail#:#mail_enable_grp_member_notification#:#Group Notification
 mail#:#mail_enable_grp_member_notification_info#:#If enabled, group participants will be notified automatically about membership changes.
+mail#:#mail_enter_login_or_email_addr#:#Podaj ważny login lub adres e-mail.
+mail#:#mail_enter_valid_email_addr#:#Podaj ważny adres e-mail.
+mail#:#mail_enter_valid_login#:#Podaj ważny login.
+mail#:#mail_entry_added#:#Dodano nową pozycję.
+mail#:#mail_entry_changed#:#Pozycja została zmieniona.
+mail#:#mail_entry_exists#:#Pozycja z podaną nazwą login lub adresem e-mail już istnieje.
 mail#:#mail_external_sender_noreply#:#noreply-Adresse
 mail#:#mail_file_name#:#Nazwa pliku
 mail#:#mail_file_size#:#Rozmiar pliku
 mail#:#mail_files_deleted#:#Pliki zostały usunięte.
 mail#:#mail_folder_created#:#Nowy folder został utworzony.
 mail#:#mail_folder_deleted#:#Folder został usunięty.
+mail#:#mail_folder_edit#:#Edytuj folder
 mail#:#mail_folder_exists#:#Folder z tą samą nazwą już istnieje.
+mail#:#mail_folder_name#:#Nazwa folderu
 mail#:#mail_folder_name_changed#:#Zmieniono nazwę folderu
+mail#:#mail_folder_options#:#Opcje Folderu
 mail#:#mail_following_rcp_not_valid#:#Następujący odbiorcy nie są prawidłowi:
+mail#:#mail_global_options#:#Opcje globalne
+mail#:#mail_group_members#:#Członkowie grupy
+mail#:#mail_in_addressbook#:#Jest już w książce adresowej
 mail#:#mail_incoming#:#Poczta przychodząca
 mail#:#mail_incoming_both#:#lokalna i przesyłana dalej
 mail#:#mail_incoming_local#:#tylko lokalna
@@ -7992,6 +8182,8 @@ mail#:#mail_incoming_mail#:#Incoming mail
 mail#:#mail_incoming_smtp#:#przesłanie dalej na adres e-mail
 mail#:#mail_insert_folder_name#:#Wstaw nazwę folderu
 mail#:#mail_insert_query#:#Wstaw zapytanie
+mail#:#mail_intern#:#Wewnętrzny
+mail#:#mail_into_addressbook#:#Dodaj do książki adresowej
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_list_members#:#Lista członków
 mail#:#mail_mailing_list#:#Mailing List
@@ -8000,6 +8192,7 @@ mail#:#mail_mark_read#:#Zaznacz wiadomości jako przeczytane
 mail#:#mail_mark_unread#:#Zaznacz wiadomości jako nieprzeczytane
 mail#:#mail_maxsize_attachment_error#:#Limit wysyłania to:
 mail#:#mail_member_notification#:#Participant Notification
+mail#:#mail_members_added_addressbook#:#Członkowie zostali dodani do książki adresowej
 mail#:#mail_members_of_mailing_list#:#Members of Mailing List
 mail#:#mail_message_send#:#Wiadomość została wysłana.
 mail#:#mail_move_error#:#Błąd podczas przesuwania wiadomości
@@ -8008,6 +8201,7 @@ mail#:#mail_moved#:#Wiadomości zostały przesunięte.
 mail#:#mail_moved_to_trash#:#Wiadomości zostały przeniesione do kosza.
 mail#:#mail_multiple_recipients_found#:#Podaj bardziej specyficzny adres poczty elektronicznej. ILIAS znalazł wiele możliwych odbiorców dla tego adresu: %s
 mail#:#mail_my_courses#:#Moje Kursy
+mail#:#mail_my_entries#:#Moje Kontakty
 mail#:#mail_my_groups#:#Moje Grupy
 mail#:#mail_my_mailing_lists#:#Moje Listy Mailowe
 mail#:#mail_nacc_admin_mail#:#Adres E-Mail administratora.
@@ -8022,14 +8216,22 @@ mail#:#mail_nacc_target_block#:#Ten blok tekstu jest wpisany tylko, jeżeli jest
 mail#:#mail_nacc_target_title#:#Tytuł pozycji docelowej, np. tytuł kursu.
 mail#:#mail_nacc_target_type#:#Typ pozycji docelowej, np. "Kurs" dla pozycji kursu.
 mail#:#mail_nacc_use_placeholder#:#Następujące kontenery mogą być użyte
+mail#:#mail_new_entry#:#Nowa pozycja
+mail#:#mail_new_file#:#Dodaj nowy plik:
+mail#:#mail_no_attach_allowed#:#Wiadomości systemowe nie mogą zawierać załączników
+mail#:#mail_no_attachments_found#:#Nie znaleziono załączników
 mail#:#mail_no_permissions_write_smtp#:#Nie masz uprawnień do pisania poczty zewnętrznej
 mail#:#mail_no_recipient_found#:#Podaj inny adres poczty elektronicznej. ILIAS nie może znaleźć odbiorcy z tym adresem.
 mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List
 mail#:#mail_notification_subject#:#W skrzynce odbiorczej znajduje się mail
+mail#:#mail_options_of#:#Opcje
 mail#:#mail_options_saved#:#Opcje zachowane
 mail#:#mail_prevent_smtp_globally#:#Globally prevent sending external mails (via SMTP)
+mail#:#mail_received_x_new_mails#:#Otrzymałeś %s nowe maile.
+mail#:#mail_recipient_not_valid#:#Odbiorca nie jest prawidłowy.
 mail#:#mail_rename_folder#:#Rename Folder
 mail#:#mail_s#:#Poczta elektroniczna
+mail#:#mail_s_unread#:#Nieprzeczytane wiadomości
 mail#:#mail_salutation_anonymous#:#Hello
 mail#:#mail_salutation_f#:#Witaj
 mail#:#mail_salutation_female#:#Powitanie, kobieta
@@ -8043,6 +8245,9 @@ mail#:#mail_select_course#:#Wybierz conajmniej jeden kurs.
 mail#:#mail_select_group#:#Wybierz conajmniej jedną grupę.
 mail#:#mail_select_one_entry#:#Musisz wybrać jedną pozycję
 mail#:#mail_select_one_file#:#Musisz wybrać jeden plik
+mail#:#mail_select_only_one_entry#:#Wybierz tylko jedną pozycję.
+mail#:#mail_select_recipients#:#Please select mail recipients:
+mail#:#mail_send_with_system_address#:#Wyślij z adresem systemu
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>
 mail#:#mail_subject_prefix#:#Temat e-maila
 mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails
@@ -8051,7 +8256,10 @@ mail#:#mail_sure_delete_entry#:#Jesteś pewien, że chcesz usunąć nasępujące
 mail#:#mail_sure_delete_file#:#Plik został ostatecznie usunięty.
 mail#:#mail_sure_delete_folder#:#Folder wraz z całą zawartością został ostatecznie usunięty.
 mail#:#mail_to#:#Do
+mail#:#mail_user_addr_n_valid#:#Następujący użytkownicy nie mają prawidłowych adresów poczty elektronicznej.
 mail#:#placeholders_advise#:#Placeholders are only resolved for recipients in the To field.%sRecipients in the CC and BCC field will get unsolved placeholders.
+mail#:#search_bc_recipient#:#Szukaj odbiorcy BC
+mail#:#search_cc_recipient#:#Szukaj odbiorcy CC
 mail#:#search_recipients#:#Szukaj Odbiorcy
 mail#:#send_mail_to#:#Mail to
 mathjax#:#mathjax_enable_mathjax#:#Enable MathJax
@@ -12104,7 +12312,12 @@ tos#:#tos_period_from#:#From###24 10 2013 new variable
 tos#:#tos_period_until#:#Until###24 10 2013 new variable
 tos#:#tos_acceptance_datetime#:#Date###24 10 2013 new variable
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads ###24 10 2013 new variable
+forum#:#frm_sorting_threads#:#Thread Sorting###24 10 2013 new variable
+forum#:#frm_sorting_posts#:#Posts Sorting###24 10 2013 new variable
 forum#:#sticky_threads_always_on_top#:#"Sticky Threads" are always listed at the top of the list of threads. Within the "Sticky Threads" you are able to sort the threads manually, if you have chosen this option.###24 10 2013 new variable
+mail#:#cron_update_addressbook#:#Synchronize address book entries automatically###24 10 2013 new variable
+mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cronjob. Only data that was released by the User, will be updated.###24 10 2013 new variable
+mail#:#auto_update#:#Update###24 10 2013 new variable
 forum#:#merge#:#Merge###24 10 2013 new variable
 forum#:#please_choose_target#:#Please choose a thread as merge target.###24 10 2013 new variable
 forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone! Eventually ILIAS swaps source and target thread if the first posting of the source thread is created earlier than the first posting of the target thread.###24 10 2013 new variable
@@ -12579,6 +12792,7 @@ exc#:#exc_feedback_notification_subject#:#Feedback is available for assignment o
 exc#:#exc_feedback_notification_salutation#:#Hello %s,###24 10 2013 new variable
 exc#:#exc_feedback_notification_body#:#Feedback is now available for the following assignment.###24 10 2013 new variable
 exc#:#exc_feedback_notification_link#:#Link to exercise###24 10 2013 new variable
+mail#:#system_notification_installation_signature#:#This email has been sent automatically by the ILIAS installation###24 10 2013 new variable
 mail#:#system_notification_installation_changed_by#:#Changed By###24 10 2013 new variable
 exc#:#exc_feedback_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.###24 10 2013 new variable
 exc#:#exc_team_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.###24 10 2013 new variable
@@ -15150,6 +15364,7 @@ prg#:#prg_view#:#View###30 08 2015 new variable
 prg#:#prg_update_from_current_plan#:#Update from current Plan###30 08 2015 new variable
 prg#:#prg_update_successful#:#Saved changes successfully!###30 08 2015 new variable
 prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!###30 08 2015 new variable
+prg#:#prg_warning_img_alt#:#Warning!###30 08 2015 new variable
 prg#:#prg_successful_img_alt#:#successful###30 08 2015 new variable
 prg#:#prg_in_progress_img_alt#:#in progress###30 08 2015 new variable
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.###30 08 2015 new variable
@@ -15333,10 +15548,13 @@ forum#:#restore#:#Restore###25 10 2016 new variable
 forum#:#restore_draft_from_autosave#:#Restore draft###25 10 2016 new variable
 forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>###25 10 2016 new variable
 forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>###25 10 2016 new variable
+forum#:#publishThreadDrafts#:#Publish Thread Draft###25 10 2016 new variable
+forum#:#deleteThreadDrafts#:#Delete Thread Draft###25 10 2016 new variable
 forum#:#edit_thread_draft#:#Edit thread draft###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.###25 10 2016 new variable
 pd#:#block_show_pdfrmpostdraft#:#Show 'My Posting Drafts'###25 10 2016 new variable
+forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#save_draft_successfully#:#The draft was saved successfully.###25 10 2016 new variable
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?###25 10 2016 new variable
@@ -16034,10 +16252,24 @@ iass#:#iass_status_pending#:#Status pending###25 10 2016 new variable
 iass#:#iass_notify#:#Notify user after finalization###25 10 2016 new variable
 iass#:#iass_finalize#:#Finalize###25 10 2016 new variable
 iass#:#il_iass_member#:#Individual Assessment examinee###25 10 2016 new variable
+iass#:#edit_members#:#Edit examinees###25 10 2016 new variable
+iass#:#iass_edit_members#:#Edit examinees###25 10 2016 new variable
+iass#:#iass_visible#:#Visible###25 10 2016 new variable
+iass#:#iass_read#:#Read###25 10 2016 new variable
+iass#:#iass_copy#:#Copy###25 10 2016 new variable
+iass#:#iass_write#:#Edit Settings###25 10 2016 new variable
+iass#:#iass_delete#:#Delete###25 10 2016 new variable
+iass#:#iass_read_learning_progress#:#View learning progress of other users###25 10 2016 new variable
+iass#:#iass_edit_permissions#:#Change Permissions###25 10 2016 new variable
+iass#:#iass_edit_learning_progress#:#Edit learning progress###25 10 2016 new variable
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised.###25 10 2016 new variable
 iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.###25 10 2016 new variable
 iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer###25 10 2016 new variable
+common#:##obj_iass#:#Individual Assessment###25 10 2016 new variable
+common#:##objs_iass#:#Individual Assessments###25 10 2016 new variable
+common#:##obj_iass_duplicate#:#Copy Individual Assessment###25 10 2016 new variable
+common#:##obj_iass_select#:#-- Please select one individual assessment --###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.###25 10 2016 new variable
 common#:#il_iass_member#:#Individual Assessment Examinee###25 10 2016 new variable
 common#:#iass_new#:#Create Individual Assessment###25 10 2016 new variable
@@ -16123,35 +16355,3 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###25 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###25 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
-grp#:#grp_members_deleted#:#Deleted members###18 01 2017 new variable
-cron#:#cro_job_rc_job_no_result#:#NO RESULT###deprecated 
-cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY###18 01 2017 new variable
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED###18 01 2017 new variable
-prg#:#warning#:#Warning!###18 01 2017 new variable
-iass#:#il_iass_members#:#Participants###18 01 2017 new variable
-common#:#obj_iass#:#Individual Assessment###18 01 2017 new variable
-common#:#objs_iass#:#Individual Assessments###18 01 2017 new variable
-common#:#obj_iass_duplicate#:#Copy Individual Assessment###18 01 2017 new variable
-common#:#obj_iass_select#:#-- Please select one individual assessment --###18 01 2017 new variable
-iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.###18 01 2017 new variable
-iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.###18 01 2017 new variable
-common#:#sahs_export_file#:#ILIAS exported SCORM archive file###18 01 2017 new variable
-content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.###18 01 2017 new variable
-survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>###18 01 2017 new variable
-content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.###18 01 2017 new variable
-grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration###18 01 2017 new variable
-auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###18 01 2017 new variable
-lng#:#lng_download_deprecated#:#Download Deprecated List###18 01 2017 new variable
-rbac#:#edit_members#:#Manage members###18 01 2017 new variable
-rbac#:#prg_manage_members#:#Manage members of Study Programme###18 01 2017 new variable
-rbac#:#rbac_create_iass#:#Create Individual Assessment###18 01 2017 new variable
-survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###deprecated 
-wsp#:#share_content#:#Share Object###18 01 2017 new variable
-wsp#:#share_with#:#Username###18 01 2017 new variable
-wsp#:#element_already_shared#:#This object is already shared with this user.###18 01 2017 new variable
-wsp#:#search_no_match#:#Your search did not match any results.###18 01 2017 new variable
-wsp#:#element_shared#:#Object shared.###18 01 2017 new variable
-wsp#:#share#:#Share###18 01 2017 new variable
-copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###18 01 2017 new variable
-auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.###18 01 2017 new variable
-crs#:#crs_edit_lo_introduction#:#Edit Introduction###18 01 2017 new variable

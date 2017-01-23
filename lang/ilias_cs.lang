@@ -1665,6 +1665,118 @@ auth#:#login_page_activate#:#Aktivovat Editor pro vybrané jazyky
 auth#:#login_page_editor_switched#:#Editor aktivní stránky byl změněn
 auth#:#login_page_switch_ipe#:#Použít editor stránky ILIAS
 auth#:#login_page_switch_rte#:#Použít Rich-Text-Editor
+barometer#:#anonymous#:#Anonymní
+barometer#:#bar_create#:#Vytvořit novou odezvu
+barometer#:#barometer_add#:#Přidat novou odezvu
+barometer#:#barometer_conflict_anon_req#:#Anonymizace nemůže být kombinována s typem 'Vyžadováno'. Vyberte prosím jednu z těchto voleb.
+barometer#:#barometer_title#:#Odezva
+barometer#:#best#:#Nejlepší
+barometer#:#change_course#:#Změnit kurz
+barometer#:#chart_type#:#Typ diagramu
+barometer#:#chart_users#:#Diagram uživatele
+barometer#:#chart_votes#:#Diagram hlasů
+barometer#:#day#:#Den
+barometer#:#days#:#Dny
+barometer#:#delete#:#Smazat
+barometer#:#duration#:#Trvání
+barometer#:#edit#:#Upravit
+barometer#:#edit_barometer#:#Upravit odezvu
+barometer#:#every#:#každý
+barometer#:#feedb_edit_feedback#:#Upravit odezvu
+barometer#:#feedb_feedback_list#:#Seznam ohlasů
+barometer#:#feedb_feedback_settings#:#Nastavení odezvy
+barometer#:#feedb_time#:#Čas
+barometer#:#first_vote#:#1. volba je
+barometer#:#from#:#z
+barometer#:#hours#:#Hodiny
+barometer#:#lines#:#Řádky
+barometer#:#login#:#Uživatelské jméno
+barometer#:#missing_fields#:#Vyplňte prosím všechny požadované informace
+barometer#:#month#:#Měsíc
+barometer#:#months#:#Měsíce
+barometer#:#new_vote#:#Nový hlas
+barometer#:#note#:#Komentář
+barometer#:#optional#:#Volitelné
+barometer#:#options#:#Volby
+barometer#:#pie#:#Koláč
+barometer#:#repeat#:#Opakovat všechno
+barometer#:#required#:#Požadováno
+barometer#:#save#:#Uložit
+barometer#:#save_vote#:#Odeslat hlas
+barometer#:#skip#:#Přeskočit
+barometer#:#statistics#:#Statistiky
+barometer#:#status#:#Stav
+barometer#:#table#:#Tabulka
+barometer#:#text#:#Text
+barometer#:#text_answer#:#Textová odpověď
+barometer#:#time#:#Běží
+barometer#:#title#:#Název
+barometer#:#type#:#Typ
+barometer#:#until#:#Do
+barometer#:#user#:#Uživatel
+barometer#:#vote#:#Hlas
+barometer#:#votes#:#Hlasy
+barometer#:#weeks#:#Týdny
+barometer#:#worst#:#Nejhorší
+barometer#:#year#:#Rok
+bibitem#:#bibitem_add#:#Přidat
+bibitem#:#bibitem_author#:#Autor
+bibitem#:#bibitem_av#:#AV
+bibitem#:#bibitem_bibitem#:#Bibliografické informace
+bibitem#:#bibitem_book#:#Kniha
+bibitem#:#bibitem_booktitle#:#Název knihy
+bibitem#:#bibitem_catalog#:#Katalog
+bibitem#:#bibitem_choose_index#:#Vyberte prosím bibliografické informace:
+bibitem#:#bibitem_cross_reference#:#Křížový odkaz
+bibitem#:#bibitem_delete#:#Smazat
+bibitem#:#bibitem_dissertation#:#Disertační práce
+bibitem#:#bibitem_edition#:#Vydání
+bibitem#:#bibitem_editor#:#Vydavatel
+bibitem#:#bibitem_entry#:#Položka
+bibitem#:#bibitem_first_name#:#Jméno
+bibitem#:#bibitem_grey_literature#:#Mimotržní literatura
+bibitem#:#bibitem_how_published#:#Jak publikováno
+bibitem#:#bibitem_identifier#:#Identifikátor
+bibitem#:#bibitem_inbook#:#V knize
+bibitem#:#bibitem_inproceedings#:#Ve sborníku
+bibitem#:#bibitem_institution#:#Instituce
+bibitem#:#bibitem_internet#:#Internet
+bibitem#:#bibitem_isbn#:#ISBN
+bibitem#:#bibitem_issn#:#ISSN
+bibitem#:#bibitem_journal#:#Časopis
+bibitem#:#bibitem_journal_article#:#Článek v časopise
+bibitem#:#bibitem_keyword#:#Klíčové slovo
+bibitem#:#bibitem_label#:#Značka
+bibitem#:#bibitem_language#:#Jazyk
+bibitem#:#bibitem_last_name#:#Příjmení
+bibitem#:#bibitem_manual#:#Manuál
+bibitem#:#bibitem_master_thesis#:#Diplomová práce
+bibitem#:#bibitem_middle_name#:#Druhé jméno
+bibitem#:#bibitem_month#:#Měsíc
+bibitem#:#bibitem_new_element#:#Nový prvek
+bibitem#:#bibitem_newspaper_article#:#Článek v novinách
+bibitem#:#bibitem_not_found#:#Bibliografické informace nedostupné.
+bibitem#:#bibitem_note#:#Poznámka
+bibitem#:#bibitem_number#:#Číslo
+bibitem#:#bibitem_organization#:#Organizace
+bibitem#:#bibitem_pages#:#Strany
+bibitem#:#bibitem_phd_thesis#:#PhD téze
+bibitem#:#bibitem_please_select#:#Vyberte prosím
+bibitem#:#bibitem_print#:#Tisk
+bibitem#:#bibitem_proceedings#:#Sborník
+bibitem#:#bibitem_publisher#:#Vydavatel
+bibitem#:#bibitem_save#:#Uložit
+bibitem#:#bibitem_school#:#Škola
+bibitem#:#bibitem_series#:#Řada
+bibitem#:#bibitem_series_editor#:#Vydavatel
+bibitem#:#bibitem_series_title#:#Název řady
+bibitem#:#bibitem_series_volume#:#Díl
+bibitem#:#bibitem_technical_report#:#Technická zpráva
+bibitem#:#bibitem_type#:#Typ
+bibitem#:#bibitem_unpublished#:#Nepublikováno
+bibitem#:#bibitem_url#:#URL
+bibitem#:#bibitem_where_published#:#Kde vydáno
+bibitem#:#bibitem_year#:#Rok
 bibl#:#bib_default_address#:#Adresa
 bibl#:#bib_default_author#:#Autor
 bibl#:#bib_default_booktitle#:#Název
@@ -1938,8 +2050,10 @@ certificate#:#certificate_a4_landscape#:#A4 horizontálně (210 x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 horizontálně (148 x 210 mm)
 certificate#:#certificate_background_image#:#Obrázek na pozadí
+certificate#:#certificate_bottom#:#Dole
 certificate#:#certificate_confirm_deletion_text#:#Skutečně chcete smazat tento certifikát a všechna k němu vztažená data?
 certificate#:#certificate_custom#:#Vlastní formát...
+certificate#:#certificate_delete#:#Smazat data certifikátu
 certificate#:#certificate_edit#:#Vytvořit/upravit formulář certifikátu
 certificate#:#certificate_enabled_scorm#:#Aktivován
 certificate#:#certificate_enabled_scorm_introduction#:#Je-li zaškrtnuto, certifikát bude nabídnut všem uživatelům, kteří výukový modul SCORM ukončili.
@@ -1948,10 +2062,12 @@ certificate#:#certificate_error_upload_bgimage#:#Během ukládání obrázku poz
 certificate#:#certificate_export#:#Export certifikátu
 certificate#:#certificate_failed#:#selhalo
 certificate#:#certificate_file_basename#:#Certifikát
+certificate#:#certificate_left#:#Vlevo
 certificate#:#certificate_letter#:#Letter (11 x 8,5 palců)
 certificate#:#certificate_letter_landscape#:#Letter horizontálně (8,5 x 11 palců)
 certificate#:#certificate_margin_body#:#Okraje hlavní části
 certificate#:#certificate_not_well_formed#:#Text certifikátu není vhodně zformátován. Vložte prosím platný XHTML pro text certifikátu!
+certificate#:#certificate_padding_top#:#Odsazení nahoře
 certificate#:#certificate_page_format#:#Formát stránky
 certificate#:#certificate_page_format_info#:#Vyberte prosím výchozí formát stránky pro nové certifikáty.
 certificate#:#certificate_pageheight#:#Výška stránky
@@ -1999,10 +2115,16 @@ certificate#:#certificate_ph_title_sco#:#Titul
 certificate#:#certificate_ph_zipcode#:#PSČ adresy uživatele
 certificate#:#certificate_points_notavailable#:#Tato hodnota nemůže být spočítána
 certificate#:#certificate_preview#:#Zobrazit náhled certifikátu
+certificate#:#certificate_right#:#Vpravo
 certificate#:#certificate_settings#:#Nastavení certifikátu
 certificate#:#certificate_short_name#:#Krátký název certifikátu
 certificate#:#certificate_short_name_description#:#Vložte prosím krátký název pro název certifikátu. Tento krátký název bude částí názvu certifikátu: RRMMDD_[příjmení]_[SHORT_TITLE]_certifikat.pdf.
+certificate#:#certificate_show#:#Zobrazit certifikát
+certificate#:#certificate_status#:#Status
+certificate#:#certificate_status_complete#:#Certifikát je kompletní a může být použit
+certificate#:#certificate_status_incomplete#:#Certifikát není hotový
 certificate#:#certificate_text#:#Text certifikátu
+certificate#:#certificate_top#:#Nahoře
 certificate#:#certificate_unit_description#:#Vložte jednotky měřítka jako hodnotu [cm|mm|in|pt|pc|px|em], např. 10mm nebo 3in
 certificate#:#certificate_usage#:#Povšimněte si prosím, že použití certifikátů je možné jen když v ILIAS běží Java-Server. Konfigurace Java-Serveru je dostupná na hlavní stránce správy ILIAS v části Webové služby.
 certificate#:#certificate_var_max_points#:#46
@@ -2030,10 +2152,13 @@ certificate#:#certificate_visibility_introduction#:#Tlačítko ve výsledcích t
 certificate#:#certificate_visibility_never#:#Neviditelné
 certificate#:#certificate_visibility_passed#:#Viditelné pouze účastníkům, kteří prošli testem
 certificate#:#certificate_visibility_passed_exercise#:#Viditelné pouze účastníkům, kteří prošli cvičením
+certificate#:#certificate_wrong_unit#:#Vložil/a jste chybné jednotky
+certificate#:#certificate_wrong_units#:#Vložil/a jste chybnou sadu jednotek
 certificate#:#default_background_info#:#Tento obrázek pozadí bude zvolen jako výchozí pozadí pro všechny certifikáty. Potřebudete-li jiný obrázek pozadí v certifikátu, musíte jej uložit v editoru certifikátu.
 certificate#:#download_certificate#:#Stažení certifikátu
 chatroom#:#allow_anonymous#:#Povolit anonymní přihlášení
 chatroom#:#allow_custom_usernames#:#Povolit volitelné uživatelské jméno
+chatroom#:#allow_private_rooms#:#Povolit soukromé hovorny
 chatroom#:#anonymous_hint#:#Zajistěte nastavení řádného oprávnění v tabulce "Oprávnění" k povolení anonymních uživatelů k položkám úložiště.
 chatroom#:#auto_scroll#:#Rolovat dolů
 chatroom#:#autogen_usernames#:#Automatické generování uživatelských jmen
@@ -2046,19 +2171,28 @@ chatroom#:#chat_address#:#Adresa
 chatroom#:#chat_ban#:#Zákaz
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> opustil hovornu ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> vstoupil do  hovorny +++
+chatroom#:#chat_create_new_private_room#:#Vytvořit novou soukromou hovornu
 chatroom#:#chat_create_private_room_button#:#Vytvořit soukromou hovornu
+chatroom#:#chat_delete#:#Smazat
 chatroom#:#chat_enable_autoscroll#:#Zapnout automatické rolování
 chatroom#:#chat_invitation#:#Pozvání od [INVITER_NAME] do hovorny [ROOM_NAME]
 chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nByl(a) jste pozván(a) do hovorny:\nNázev hovorny: [ROOM_NAME]\nPozvání od: [INVITER_NAME]\nURL: [LINK]\n\nPokud se chcete zapojit do hovorny následujte prosím uvedený URL.
 chatroom#:#chat_invitation_short#:#Ke vstupu do hovorny klepněte prosím na název odkazu.
 chatroom#:#chat_invite#:#Pozvat
+chatroom#:#chat_invite_users#:#Pozvat uživatele
 chatroom#:#chat_join#:#Připojit
 chatroom#:#chat_kick#:#Vyhostit
+chatroom#:#chat_leave#:#Opustit
 chatroom#:#chat_mainroom#:#Hlavní hovorna
 chatroom#:#chat_message#:#Zpráva
 chatroom#:#chat_message_display#:#Volby
+chatroom#:#chat_message_notify_activate#:#Aktivovat oznámení zpráv
 chatroom#:#chat_message_options#:#Zobrazení
 chatroom#:#chat_message_to_all#:#všem
+chatroom#:#chat_new_invitation_sound_status#:#Přehrát zvuk, když uživatel obdrží pozvání k nové diskuzi
+chatroom#:#chat_new_message_sound_status#:#Přehrát zvuk, když do diskuze byla vložena nová zpráva
+chatroom#:#chat_private_room#:#Soukromá hovorna
+chatroom#:#chat_right_box_user#:#Uživatel
 chatroom#:#chat_select_room#:#Vybrat hovornu
 chatroom#:#chat_settings#:#Nastavení diskuze
 chatroom#:#chat_to_mainroom#:#Do hlavní hovorny
@@ -2067,12 +2201,15 @@ chatroom#:#chatroom_smiley_keyword#:#Klíčové slovo
 chatroom#:#chatserver_address#:#IP-Adresa diskuzního serveru
 chatroom#:#chatserver_port#:#Port diskuzního serveru
 chatroom#:#chtr_add#:#Přidat hovornu
+chatroom#:#chtr_moderate#:#Moderovat
 chatroom#:#chtr_new#:#Nová hovorna
 chatroom#:#clear_room_history#:#Smazat historii zpráv
 chatroom#:#clear_room_history_question#:#Skutečně chcete smazat všechny zprávy v aktuální hovorně?
+chatroom#:#connected#:#Spojení nastaveno
 chatroom#:#create_private_room_text#:#Název soukromé hovorny
 chatroom#:#custom_username#:#Volitelné uživatelské jméno
 chatroom#:#delete_private_room#:#Smazat soukromou hovornu
+chatroom#:#disconnected#:#Spojení ukončeno
 chatroom#:#display_past_msgs#:#Počet posledních zpráv
 chatroom#:#duration_from#:#Od
 chatroom#:#duration_to#:#Komu
@@ -2089,6 +2226,7 @@ chatroom#:#hint_display_past_msgs#:#Počet posledních zpráv ke zobrazení, př
 chatroom#:#hint_enable_smilies#:#Je-li aktivováno, konfigurovaná sekvence textu je zaměněna za ikonu. Pro konfiguraci se podívejte na tabulku smajlíků.
 chatroom#:#hint_osd#:#Je-li zapnuto, uživatelé jsou uvědomováni v roletovém menu o nových pozvánkách.
 chatroom#:#hint_osd_interval#:#Interval hlasování pro výběr nových oznamování. Spodní číslo bude informovat uživatele rychleji ale vzrůstá počet požadavků, které musí webserver obsloužit.
+chatroom#:#hint_unique_name#:#Jméno, které používá ILIAS a chatserver k identifikaci Vašeho ILIAS. Používá-li se více, než jeden klient na chat server, toho jméno musí být v ILIAS instanci unikátní.<br/>Toto jméno musí obsahovat jen písmena (A-Z/a-z), číslice (0-9) a znaky "-" a "_".
 chatroom#:#history_by_day#:#Historie dne
 chatroom#:#history_by_session#:#Historie sezení
 chatroom#:#history_byday_title#:#Zobraz konverzaci po dnech
@@ -2096,6 +2234,8 @@ chatroom#:#history_bysession_title#:#Zobrazit konverzaci po sezeních
 chatroom#:#history_cleared#:#Historie zpráv byla smazána moderátorem.
 chatroom#:#history_title_general#:#Konverzace v hovorně "%s"
 chatroom#:#history_title_private_room#:#Konverzace v soukromé hovorně "%s"
+chatroom#:#ilias_url#:#Base-URL Vaší instalace ILIAS
+chatroom#:#instance_name#:#Unikátní idetifikátor
 chatroom#:#invite_to_private_room#:#Pozvat do aktuální hovorny
 chatroom#:#invite_username#:#Uživatelské jméno
 chatroom#:#italic#:#Kurzíva
@@ -2106,6 +2246,7 @@ chatroom#:#layout#:#Rozvržení
 chatroom#:#leave_private_room#:#Opustit soukromou hovornu
 chatroom#:#lost_connection#:#Spojení s diskuzním serverem bylo přerušeno.
 chatroom#:#main#:#Hlavní hovorna
+chatroom#:#moderate#:#Moderovat
 chatroom#:#no_further_users#:#Žádný další uživatel není přítomen
 chatroom#:#no_messages#:#Zde není žádná uložená zpráva po dané období.
 chatroom#:#no_username_given#:#Please choose a username
@@ -2119,19 +2260,27 @@ chatroom#:#private_room_left#:#Uživatel <b>#user#</b> opustil soukromou hovornu
 chatroom#:#private_rooms_enabled#:#Povolit soukromé hovorny
 chatroom#:#private_rooms_enabled_info#:#Je-li aktivováno, uživatelé mohou vytvářet soukromé hovorny. Do této hovorny budou mít přístup jen pozvaní uživatelé.
 chatroom#:#public_chat_created#:#Tato veřejná hovorna byla přidána do úložiště.
+chatroom#:#remark#:#Poznámka
+chatroom#:#restrict_history#:#Omezit historii
+chatroom#:#restrict_history_info#:#Žádné vytvořené příspěvky během nepřítomnosti v hovorně.
 chatroom#:#room_in_container#:#%s (in: %s)
 chatroom#:#scope#:#Hovorna/Soukromá hovorna
 chatroom#:#select_custom_username#:#Vybrat libovolné uživatelské jméno
 chatroom#:#server_further_information#:#Další informace o nastavení serveru můžete najít v <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#session#:#Sezení
 chatroom#:#settings_general#:#Obecné
+chatroom#:#settings_privacy#:#Soukromé
 chatroom#:#settings_title#:#Nastavení
 chatroom#:#show_settings#:#Zobrazit nastavení
 chatroom#:#small#:#Malý
+chatroom#:#soap_must_be_enabled#:#K zapnutí besed musíte aktivovat podporu SOAP v obecném nastavení.
+chatroom#:#soap_user#:#Jméno uživatele SOAP
+chatroom#:#soap_user_password#:#Heslo uživatele SOAP
 chatroom#:#speak_to#:#Mluvit s <b>#user#</b>
 chatroom#:#unable_to_connect#:#Spojení s diskuzním serverem nebylo navázáno.
 chatroom#:#unban#:#Zrušit vyhoštění
 chatroom#:#underlined#:#Podtržené
+chatroom#:#unkown_private_room#:#Neznámá soukromá hovorna
 chatroom#:#user_in_ilias#:#Vyhledat a pozvat uživatele ILIAS
 chatroom#:#user_in_room#:#Pozvat uživatele z aktuální hovorny
 chatroom#:#user_invited#:#Uživatel byl pozván.
@@ -2161,16 +2310,23 @@ chatroom_adm#:#chatserver_settings_title#:#Nastavení diskuzního serveru
 chatroom_adm#:#client_settings#:#Nastavení klienta
 chatroom_adm#:#enable_osd#:#Zapnout upozorňování na obrazovce
 chatroom_adm#:#general_settings_title#:#Obecné nastavení besedy
+chatroom_adm#:#hash#:#Hash
 chatroom_adm#:#https#:#HTTPS
+chatroom_adm#:#instance#:#Instance
+chatroom_adm#:#keypass#:#Keypass
+chatroom_adm#:#keystore#:#Keystore
 chatroom_adm#:#osd_intervall#:#Interval obnovení (sekundy)
 chatroom_adm#:#play_invitation_sound#:#Přehrát zvuk při obdržení nového pozvání
 chatroom_adm#:#port_info#:#Zřídka používané porty jsou často blokovány firewallem nebo proxy servery. Prohlížeč uživatele nebude schopen navázat spojení s diskuzním serverem pokud definovaný port je blokován.
+chatroom_adm#:#priv_hosts#:#Privilegování hosté
 chatroom_adm#:#protocol#:#Protokol
 chatroom_adm#:#public_chat_permissions#:#Oprávnění veřejné diskuze
 chatroom_adm#:#public_chat_settings#:#Nastavení veřejné diskuze
 chatroom_adm#:#server_settings#:#Nastavení serveru
 chatroom_adm#:#settings_has_been_saved#:#Nystavení bylo uloženo
 chatroom_adm#:#smiley#:#Smajlíci
+chatroom_adm#:#soap_user_hint#:#Tento uživatel je použit k zaslání informací z diskuzního serveru do instalace ILIAS. Není vyžadovánoí žádné zvláštní oprávnění.<br/>Pokud vytvoříte nový účet, Zajistěte prosím, aby jste byli schopni se přihlásit s tímto uživatelským jménem (např. akceptování licenčního ujednání apod.).
+chatroom_adm#:#storepass#:#Storepass
 cld#:#cld_add#:#Přidat cloudový objekt
 cld#:#cld_add_download_failed#:#Stažení selhalo
 cld#:#cld_add_file#:#Soubor
@@ -3748,6 +3904,7 @@ common#:#mail_addressbook#:#Kontakty
 common#:#mail_allow_smtp#:#Povolit SMTP
 common#:#mail_at_the_ilias_installation#:#Obdržel(a) jste %1$s nových e-mailů v instalaci  ILIAS  %2$s
 common#:#mail_attachment#:#Připojení pošty
+common#:#mail_attachments#:#Odkazy pošty
 common#:#mail_b_inbox#:#Doručená pošta
 common#:#mail_c_trash#:#Koš
 common#:#mail_d_drafts#:#Koncepty
@@ -8340,7 +8497,9 @@ forum#:#forums_all_threads_marked_read#:#Všechny témata budou označeny jako p
 forum#:#forums_attachments#:#Přílohy
 forum#:#forums_attachments_add#:#Přidat přílohu
 forum#:#forums_censor_comment#:#Komentář cenzora
+forum#:#forums_count#:#Počet fór
 forum#:#forums_count_art#:#Počet článků
+forum#:#forums_count_thr#:#Počet témat
 forum#:#forums_created_by#:#Vytvořeno (kým):
 forum#:#forums_delete_file#:#Odstranit přílohu
 forum#:#forums_disable_notification#:#Vypnout vyrozumění pro toto téma
@@ -8354,11 +8513,14 @@ forum#:#forums_info_delete_post#:#Jste si jist(a), že chcete odstranit tento č
 forum#:#forums_mark_read#:#Označit vše jako přečtené
 forum#:#forums_new_thread#:#Nové téma
 forum#:#forums_no_posts_available#:#Toto téma nemá dosud žádný příspěvek, nebo moderátor první příspěvek deaktivoval.
+forum#:#forums_notification#:#Oznámení
 forum#:#forums_notification_disabled#:#Vyrozumění vypnuto
 forum#:#forums_notification_enabled#:#Vyrozumění zapnuto
 forum#:#forums_notification_intro#:#Tento e-mail byl Vám automaticky zaslán Vaší instalací ILIAS %s, %s
 forum#:#forums_notification_show_post#:#Zobrazit příspěvek: %s
+forum#:#forums_notification_subject#:#Nový příspěvek v tématu fóra
 forum#:#forums_post_activation_mail#:#Jestliže následující příspěvek není aktivován, pak není viditelný pro ostatní uživatele fóra. Tento e-mail jste obdržel(a) jako určený moderátor a máte oprávnění aktivovat tento příspěvek.
+forum#:#forums_post_and_children_were_activated#:#Tento příspěvek a jeho potomci byli aktivováni.
 forum#:#forums_post_deleted#:#Příspěvek byl odstraněn
 forum#:#forums_post_modified#:#Příspěvek byl upraven
 forum#:#forums_post_needs_to_be_activated#:#Nový příspěvek byl vytvořen, avšak musí být aktivován moderátorem.
@@ -8370,6 +8532,7 @@ forum#:#forums_print_thread#:#Tisk tématu
 forum#:#forums_subject#:#Předmět
 forum#:#forums_the_post#:#Příspěvek
 forum#:#forums_thread#:#Téma
+forum#:#forums_thread_create_date#:#Vytvořeno
 forum#:#forums_thread_create_from#:#Vytvořeno od
 forum#:#forums_thread_marked#:#Toto téma bylo označeno jako přečteno.
 forum#:#forums_thread_new_entry#:#Nové téma bylo vytvořeno
@@ -8397,6 +8560,8 @@ forum#:#frm_post_not_activated_yet#:#Doposud neaktivováno.
 forum#:#frm_pseudonym#:#Pseudonym
 forum#:#frm_purifier_not_implemented_for_type_x#:#Čistič typu %s nebyl doposud implementován.
 forum#:#frm_selected_merge_src#:#Selected Thread to Merge: %s
+forum#:#frm_sorting_posts#:#Posts Sorting
+forum#:#frm_sorting_threads#:#Thread Sorting
 forum#:#frm_statistics#:#Statistiky
 forum#:#frm_statistics_disabled_for_participants#:#Statistiky pro fórum členů jsou vypnuty.
 forum#:#frm_statistics_enabled#:#Zapnout statistiky
@@ -8816,35 +8981,59 @@ license#:#used_licenses#:#Spotřebované licence
 license#:#used_licenses_explanation#:#Všechny první přístupy uživatelů spotřebovávají licence.
 license#:#zero_licenses_explanation#:#Vložit "0" k deaktivaci licencování.
 mail#:#activate_serial_letter_placeholders#:#Aktivovat rezervovaná místa hromadného dopisu
+mail#:#advice_mail_body_secured#:#ILIAS odstranil z bezpečnostních důvodů některé prvky Vaší zprávy. Zkontrolujte prosím tuto utajovanou zprávu a zašlete ji znovu.
+mail#:#also_as_email#:#Také jako e-mail
+mail#:#auto_update#:#Update
 mail#:#bc#:#Diskrétní kopie
 mail#:#chat_users_have_been_invited#:#Uživatelé byli pozváni.
 mail#:#chat_users_without_login#:#Následující uživatelé nemají účet v ILIAS a nemohou být do hovorny pozváni.
 mail#:#chat_users_without_permission#:#Následující uživatelé nemají přístup do vybrané hovorny.
+mail#:#cron_update_addressbook#:#Synchronize address book entries automatically
+mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cronjob. Only data that was released by the User, will be updated.
 mail#:#forward#:#Přeposlat
 mail#:#goto_invitation_chat#:#Otevřít hovornu
 mail#:#info_mail_external_sender_noreply#:#Enter an e-mail address which is used as sender for external system- or notification-mails.
 mail#:#invite_to_chat#:#Pozvat do diskuze
 mail#:#linebreak#:#Zalomení řádků
 mail#:#mail_account_mail#:#Zpráva o účtu
+mail#:#mail_account_mail_check#:#Zaslat zprávu o účtu
 mail#:#mail_add_folder#:#Add New Subfolder
 mail#:#mail_add_recipient#:#Prosím zadejte příjemce
 mail#:#mail_add_subfolder#:#Přidat podadresář
 mail#:#mail_add_subject#:#Zadejte prosím předmět
+mail#:#mail_add_to_addressbook#:#Přidat do adresáře kontaktů
+mail#:#mail_add_type#:#Přidejte prosím typ zprávy, kterou chcete poslat
+mail#:#mail_addr_entries#:#Položky
 mail#:#mail_assign_entry_to_mailing_list#:#Přesměrovat položku z Vaší knihy adres do seznamu pošty
 mail#:#mail_attachments#:#Přílohy
 mail#:#mail_auto_generated_info#:#Tento mail byl zaslán automaticky systémem ILIAS %s, %s
+mail#:#mail_bc_not_valid#:#Příjemce záložní kopie je neplatný
+mail#:#mail_bc_search#:#Vyhledat kopii
+mail#:#mail_byte#:#Bajt
+mail#:#mail_cc_not_valid#:#Příjemce kopie je neplatný
+mail#:#mail_cc_search#:#Vyhledat
 mail#:#mail_change_to_folder#:#Přejít do složky:
+mail#:#mail_check_your_email_addr#:#Vaše e-mailová adresa je neplatná
+mail#:#mail_compose#:#Vytvořit zprávu
 mail#:#mail_cronjob_notification_info#:#Zde můžete aktivovat periodické oznamování nových e-mailů.
 mail#:#mail_crs_list_members_not_available#:#Nelze vypsat členy označených kurzů.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed
 mail#:#mail_deleted#:#Zpráva(y) byla(y) vymazána(y)
 mail#:#mail_deleted_entry#:#Položky vymazány
+mail#:#mail_edit_entry#:#Upravit vstup
+mail#:#mail_email_forbidden#:#Nemáte povoleno odesílat e-mail.
 mail#:#mail_empty_trash#:#Vysypat koš
 mail#:#mail_empty_trash_confirmation#:#Určitě chcete smazat všechny e-maily v koši?
 mail#:#mail_enable_crs_member_notification#:#Vyrozumění kurzu
 mail#:#mail_enable_crs_member_notification_info#:#Je-li zapnuto, příslušníci kurzu budou automaticky vyrozuměni o změnách členství.
 mail#:#mail_enable_grp_member_notification#:#Vyrozumění skupiny
 mail#:#mail_enable_grp_member_notification_info#:#Je-li zapnuto, příslušníci skupiny budou automaticky vyrozuměni o změnách členství.
+mail#:#mail_enter_login_or_email_addr#:#Vložte prosím platný login, nebo e-mailovou adresu.
+mail#:#mail_enter_valid_email_addr#:#Vložte prosím platnou e-mailovou adresu.
+mail#:#mail_enter_valid_login#:#Vložte prosím platný login.
+mail#:#mail_entry_added#:#Přidána nová položka
+mail#:#mail_entry_changed#:#Položka je změněna
+mail#:#mail_entry_exists#:#Vstup s daným přihlašovacím jménem, nebo e-mailovou adresou již existuje.
 mail#:#mail_external_sender_noreply#:#Adresa no-reply
 mail#:#mail_file_name#:#Název souboru
 mail#:#mail_file_size#:#Velikost souboru
@@ -8859,9 +9048,15 @@ mail#:#mail_filter_subject#:#Subject
 mail#:#mail_filter_txt#:#Filter messages by
 mail#:#mail_folder_created#:#Nová složka byla vytvořena
 mail#:#mail_folder_deleted#:#Složka byla vymazána
+mail#:#mail_folder_edit#:#Upravit složku
 mail#:#mail_folder_exists#:#Složka s tímto názvem již existuje
+mail#:#mail_folder_name#:#Název složky
 mail#:#mail_folder_name_changed#:#Složka byla přejmenována
+mail#:#mail_folder_options#:#Volby složky
 mail#:#mail_following_rcp_not_valid#:#Následující příjemci jsou neplatní:
+mail#:#mail_global_options#:#Globální volby
+mail#:#mail_group_members#:#Členové skupiny
+mail#:#mail_in_addressbook#:#Už je v adresáři
 mail#:#mail_incoming#:#Příchozí pošta
 mail#:#mail_incoming_both#:#lokální a přeposílaná
 mail#:#mail_incoming_local#:#pouze lokální
@@ -8869,6 +9064,8 @@ mail#:#mail_incoming_mail#:#Příchozí pošta
 mail#:#mail_incoming_smtp#:#přeposílaná na adresu e-mailu
 mail#:#mail_insert_folder_name#:#Vložte prosím název složky
 mail#:#mail_insert_query#:#Zadejte prosím dotaz
+mail#:#mail_intern#:#Interní
+mail#:#mail_into_addressbook#:#Vložit do adresáře
 mail#:#mail_invite_users_to_chat#:#Pozvat uživatele do diskuze
 mail#:#mail_list_members#:#Seznam členů
 mail#:#mail_mailing_list#:#Distribuční seznam
@@ -8877,6 +9074,7 @@ mail#:#mail_mark_read#:#Označit zprávy jako přečtené
 mail#:#mail_mark_unread#:#Označit zprávy jako nepřečtené
 mail#:#mail_maxsize_attachment_error#:#Limit pro ukládání je:
 mail#:#mail_member_notification#:#Vyrozumění účastníka
+mail#:#mail_members_added_addressbook#:#Členové přidáni do adresáře kontaktů
 mail#:#mail_members_of_mailing_list#:#Členové distribučního seznamu
 mail#:#mail_message_send#:#Zpráva odeslána
 mail#:#mail_move_error#:#Chyba při přesouvání pošty
@@ -8885,6 +9083,7 @@ mail#:#mail_moved#:#Zpráva byla přesunuta
 mail#:#mail_moved_to_trash#:#Zpráva byla přesunuta do koše
 mail#:#mail_multiple_recipients_found#:#Vložte více specifických e-mailových adres. ILIAS nalezl více možných příjemců pro tuto adresu: %s
 mail#:#mail_my_courses#:#Mé kurzy
+mail#:#mail_my_entries#:#Mé položky
 mail#:#mail_my_groups#:#Mé skupiny
 mail#:#mail_my_mailing_lists#:#Mé distribuční seznamy
 mail#:#mail_nacc_admin_mail#:#E-mail adresa administrátora.
@@ -8901,14 +9100,22 @@ mail#:#mail_nacc_target_title#:#Název cílové položky, např. název kurzu.
 mail#:#mail_nacc_target_type#:#Typ cílové položky, např. "Kurz" pro položku kurzů.
 mail#:#mail_nacc_timelimit#:#User access period 
 mail#:#mail_nacc_use_placeholder#:#Můžete využít následující rezervovaná místa
+mail#:#mail_new_entry#:#Nová položka
+mail#:#mail_new_file#:#Přidat nový soubor:
+mail#:#mail_no_attach_allowed#:#Systémové zprávy nesmí obsahovat přílohy
+mail#:#mail_no_attachments_found#:#Žádné přílohy nebyly nalezeny
 mail#:#mail_no_permissions_write_smtp#:#Nemáte oprávněná psát externí e-maily.
 mail#:#mail_no_recipient_found#:#Vložte jinou poštovní adresu. ILIAS příjemce s touto poštovní adresou nenalezl.
 mail#:#mail_no_valid_mailing_list#:#Neplatný poštovní seznam
 mail#:#mail_notification_subject#:#Nová pošta ve Vaší schránce.
+mail#:#mail_options_of#:#Volby
 mail#:#mail_options_saved#:#Volby uloženy
 mail#:#mail_prevent_smtp_globally#:#Globálně zabránit zasílání externích e-mailů (via SMTP)
+mail#:#mail_received_x_new_mails#:#Obdržel(a) jste %s novou poštu.
+mail#:#mail_recipient_not_valid#:#Příjemce je neplatný
 mail#:#mail_rename_folder#:#Rename Folder
 mail#:#mail_s#:#zpráv
+mail#:#mail_s_unread#:#Nepřečtená pošta
 mail#:#mail_salutation_anonymous#:#Nazdar!
 mail#:#mail_salutation_f#:#Nazdar
 mail#:#mail_salutation_female#:#Uvítání, ženy
@@ -8922,6 +9129,9 @@ mail#:#mail_select_course#:#Vyberte prosím alespoň jeden kurz.
 mail#:#mail_select_group#:#Vyberte prosím alespoň jednu skupinu.
 mail#:#mail_select_one_entry#:#Musíte vybrat jednu položku
 mail#:#mail_select_one_file#:#Musíte vybrat jeden soubor
+mail#:#mail_select_only_one_entry#:#Vyberte prosím jednu položku.
+mail#:#mail_select_recipients#:#Vyberte prosím příjemce pošty:
+mail#:#mail_send_with_system_address#:#Zasláno se systémovou adresou
 mail#:#mail_settings_incoming_type_see_also#:#Můžete najít další možnosti modifikovat typ příchozích emailů pro uživatele <a href="%s">zde</a>
 mail#:#mail_subject_prefix#:#Předmět e-mailu
 mail#:#mail_subject_prefix_info#:#Vložte text, který bude předřazen do řádku subjektu u odchozích automaticky generovaných e-mailů.
@@ -8930,11 +9140,15 @@ mail#:#mail_sure_delete_entry#:#Určitě chcete odstranit následující položk
 mail#:#mail_sure_delete_file#:#Soubor bude definitivně vymazán
 mail#:#mail_sure_delete_folder#:#Složka a její obsah bude definitivně vymazána
 mail#:#mail_to#:#Komu
+mail#:#mail_user_addr_n_valid#:#Následující uživatelé nemají platnou adresu elektronické pošty
 mail#:#placeholders_advise#:#Rezervované  místo je přiřazeno pouze pro příjemce v poli Komu.%sPříjemce v poli Kopie a Diskrétní kopie zprávu obdrží bez nahrazování rezervovaného místa.
+mail#:#search_bc_recipient#:#Vyhledat příjemce záložní kopie
+mail#:#search_cc_recipient#:#Vyhledat příjemce kopie
 mail#:#search_content#:#Search Result
 mail#:#search_recipients#:#Hledat adresáta
 mail#:#send_mail_to#:#Poslat komu
 mail#:#system_notification_installation_changed_by#:#Changed By
+mail#:#system_notification_installation_signature#:#This email has been sent automatically by the ILIAS installation
 mathjax#:#mathjax_enable_mathjax#:#Enable MathJax
 mathjax#:#mathjax_enable_mathjax_info#:#Aktivuje podporu pro MathJax matematický výstup pro výrazy LaTeX.
 mathjax#:#mathjax_limiter#:#Inline Delimiters
@@ -15150,6 +15364,7 @@ prg#:#prg_view#:#View###30 08 2015 new variable
 prg#:#prg_update_from_current_plan#:#Update from current Plan###30 08 2015 new variable
 prg#:#prg_update_successful#:#Saved changes successfully!###30 08 2015 new variable
 prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!###30 08 2015 new variable
+prg#:#prg_warning_img_alt#:#Warning!###30 08 2015 new variable
 prg#:#prg_successful_img_alt#:#successful###30 08 2015 new variable
 prg#:#prg_in_progress_img_alt#:#in progress###30 08 2015 new variable
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.###30 08 2015 new variable
@@ -15333,10 +15548,13 @@ forum#:#restore#:#Restore###25 10 2016 new variable
 forum#:#restore_draft_from_autosave#:#Restore draft###25 10 2016 new variable
 forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>###25 10 2016 new variable
 forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>###25 10 2016 new variable
+forum#:#publishThreadDrafts#:#Publish Thread Draft###25 10 2016 new variable
+forum#:#deleteThreadDrafts#:#Delete Thread Draft###25 10 2016 new variable
 forum#:#edit_thread_draft#:#Edit thread draft###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.###25 10 2016 new variable
 pd#:#block_show_pdfrmpostdraft#:#Show 'My Posting Drafts'###25 10 2016 new variable
+forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#save_draft_successfully#:#The draft was saved successfully.###25 10 2016 new variable
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?###25 10 2016 new variable
@@ -16034,6 +16252,16 @@ iass#:#iass_status_pending#:#Status pending###25 10 2016 new variable
 iass#:#iass_notify#:#Notify user after finalization###25 10 2016 new variable
 iass#:#iass_finalize#:#Finalize###25 10 2016 new variable
 iass#:#il_iass_member#:#Individual Assessment examinee###25 10 2016 new variable
+iass#:#edit_members#:#Edit examinees###25 10 2016 new variable
+iass#:#iass_edit_members#:#Edit examinees###25 10 2016 new variable
+iass#:#iass_visible#:#Visible###25 10 2016 new variable
+iass#:#iass_read#:#Read###25 10 2016 new variable
+iass#:#iass_copy#:#Copy###25 10 2016 new variable
+iass#:#iass_write#:#Edit Settings###25 10 2016 new variable
+iass#:#iass_delete#:#Delete###25 10 2016 new variable
+iass#:#iass_read_learning_progress#:#View learning progress of other users###25 10 2016 new variable
+iass#:#iass_edit_permissions#:#Change Permissions###25 10 2016 new variable
+iass#:#iass_edit_learning_progress#:#Edit learning progress###25 10 2016 new variable
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised.###25 10 2016 new variable
 iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.###25 10 2016 new variable
 iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.###25 10 2016 new variable
@@ -16127,31 +16355,3 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###25 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###25 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
-grp#:#grp_members_deleted#:#Deleted members###18 01 2017 new variable
-cron#:#cro_job_rc_job_no_result#:#NO RESULT###deprecated 
-cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY###18 01 2017 new variable
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED###18 01 2017 new variable
-prg#:#warning#:#Warning!###18 01 2017 new variable
-iass#:#il_iass_members#:#Participants###18 01 2017 new variable
-iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.###18 01 2017 new variable
-iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.###18 01 2017 new variable
-common#:#sahs_export_file#:#ILIAS exported SCORM archive file###18 01 2017 new variable
-content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.###18 01 2017 new variable
-survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>###18 01 2017 new variable
-content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.###18 01 2017 new variable
-grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration###18 01 2017 new variable
-auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###18 01 2017 new variable
-lng#:#lng_download_deprecated#:#Download Deprecated List###18 01 2017 new variable
-rbac#:#edit_members#:#Manage members###18 01 2017 new variable
-rbac#:#prg_manage_members#:#Manage members of Study Programme###18 01 2017 new variable
-rbac#:#rbac_create_iass#:#Create Individual Assessment###18 01 2017 new variable
-survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###deprecated 
-wsp#:#share_content#:#Share Object###18 01 2017 new variable
-wsp#:#share_with#:#Username###18 01 2017 new variable
-wsp#:#element_already_shared#:#This object is already shared with this user.###18 01 2017 new variable
-wsp#:#search_no_match#:#Your search did not match any results.###18 01 2017 new variable
-wsp#:#element_shared#:#Object shared.###18 01 2017 new variable
-wsp#:#share#:#Share###18 01 2017 new variable
-copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###18 01 2017 new variable
-auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.###18 01 2017 new variable
-crs#:#crs_edit_lo_introduction#:#Edit Introduction###18 01 2017 new variable
