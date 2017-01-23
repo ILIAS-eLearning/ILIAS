@@ -489,86 +489,132 @@ class ilObjGroupGUI extends ilContainerGUI
 	
 	
 	/**
-	* update GroupObject
-	* @param bool update group type
-	* @access public
-	*/
+	 * update group settings
+	 * @param bool update group type
+	 * @access public
+	 */
 	public function updateObject()
 	{
 		global $ilErr;
 
 		$this->checkPermission('write');
 		
-		
 		$form = $this->initForm();
-		$form->checkInput();
+		if($form->checkInput())
+		{
+			// handle group type settings
+			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+			$old_type = ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
+			
+			$modified = false;
+			$new_type_info = $form->getInput('didactic_type');
+			if($new_type_info)
+			{
+				$new_type = explode('_',$form->getInput('didactic_type'));
+				$new_type = $new_type[1];
 
-		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
-		$old_type = ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
+				$modified = ($new_type != $old_type);
+				ilLoggerFactory::getLogger('grp')->info('Switched group type from '. $old_type .' to ' . $new_type);
+
+				$old_autofill = $this->object->hasWaitingListAutoFill();
+				
+				$this->object->setTitle(ilUtil::stripSlashes($form->getInput('title')));
+				$this->object->setDescription(ilUtil::stripSlashes($form->getInput('desc')));
+				$this->object->setGroupType(ilUtil::stripSlashes($form->getInput('grp_type')));
+				$this->object->setRegistrationType(ilUtil::stripSlashes($form->getInput('registration_type')));
+				$this->object->setPassword(ilUtil::stripSlashes($form->getInput('password')));
+				$this->object->enableUnlimitedRegistration((bool) !$form->getInput('reg_limit_time'));
+				$this->object->enableMembershipLimitation((bool) $form->getInput('registration_membership_limited'));
+				$this->object->setMinMembers((int) $form->getInput('registration_min_members'));
+				$this->object->setMaxMembers((int) $form->getInput('registration_max_members'));
+				$this->object->enableRegistrationAccessCode((bool) $form->getInput('reg_code_enabled'));
+				$this->object->setRegistrationAccessCode($form->getInput('reg_code'));
+				$this->object->setViewMode($form->getInput('view_mode'));
+				$this->object->setMailToMembersType((int) $form->getInput('mail_type'));
+				$this->object->setShowMembers((int) $form->getInput('show_members'));
+
+				$reg = $form->getItemByPostVar("reg");
+				if($reg->getStart() instanceof ilDateTime && $reg->getEnd() instanceof ilDateTime)
+				{
+					$this->object->enableUnlimitedRegistration(false);
+				}
+				else
+				{
+					$this->object->enableUnlimitedRegistration(true);
+				}
 		
-		$modified = false;
-		if((string) $_POST['didactic_type'])
-		{
-			$new_type = explode('_',$_POST['didactic_type']);
-			$new_type = $new_type[1];
-			
-			$modified = ($new_type != $old_type);
-			ilLoggerFactory::getLogger('grp')->info('Switched group type from '. $old_type .' to ' . $new_type);
+				$this->object->setRegistrationStart($reg->getStart());
+				$this->object->setRegistrationEnd($reg->getEnd());
+		
+				$cancel_end = $form->getItemByPostVar("cancel_end");
+				$this->object->setCancellationEnd($cancel_end->getDate());		
+		
+				switch((int)$_POST['waiting_list'])
+				{
+					case 2:
+						$this->object->enableWaitingList(true);
+						$this->object->setWaitingListAutoFill(true);
+						break;
+
+					case 1:
+						$this->object->enableWaitingList(true);
+						$this->object->setWaitingListAutoFill(false);
+						break;
+
+					default:
+						$this->object->enableWaitingList(false);
+						$this->object->setWaitingListAutoFill(false);
+						break;
+				}
+				
+				// update object settings
+				$this->object->update();
+
+
+				include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+				ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+					$this->object->getId(),
+					$form,
+					array(
+						ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+						ilObjectServiceSettingsGUI::USE_NEWS,
+						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
+						ilObjectServiceSettingsGUI::TAG_CLOUD,
+						ilObjectServiceSettingsGUI::BADGES
+					)
+				);
+				
+				// Save sorting
+				$this->saveSortingSettings($form);
+				// if autofill has been activated trigger process
+				if(
+					!$old_autofill &&
+					$this->object->hasWaitingListAutoFill())
+				{
+					$this->object->handleAutoFill();
+				}
+				
+				// BEGIN ChangeEvents: Record update Object.
+				require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+				global $ilUser;
+				ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+				ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());		
+				// END PATCH ChangeEvents: Record update Object.
+
+				// Update ecs export settings
+				include_once 'Modules/Group/classes/class.ilECSGroupSettings.php';	
+				$ecs = new ilECSGroupSettings($this->object);			
+				$ecs->handleSettingsUpdate();
+			}
 		}
-		
-		$old_type = $this->object->getGroupType();
-		$old_autofill = $this->object->hasWaitingListAutoFill();
-		
-		$this->load($form);
-		$ilErr->setMessage('');
-		
-		if(!$this->object->validate())
+		else
 		{
-			ilUtil::sendFailure($ilErr->getMessage()); // #16975
+			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('err_check_input')); // #16975
 			
-			// #17144
 			$form->setValuesByPost();
 			$this->editObject($form); 
 			return true;
 		}
-
-		$this->object->update();
-		
-		
-		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
-		ilObjectServiceSettingsGUI::updateServiceSettingsForm(
-			$this->object->getId(),
-			$form,
-			array(
-				ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
-				ilObjectServiceSettingsGUI::USE_NEWS,
-				ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-				ilObjectServiceSettingsGUI::TAG_CLOUD,
-				ilObjectServiceSettingsGUI::BADGES
-			)
-		);
-			
-		// Save sorting
-		$this->saveSortingSettings($form);
-		
-		// if autofill has been activated trigger process
-		if(!$old_autofill &&
-			$this->object->hasWaitingListAutoFill())
-		{
-			$this->object->handleAutoFill();
-		}
-
-		// BEGIN ChangeEvents: Record update Object.
-		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-		global $ilUser;
-		ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
-		ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());		
-		// END PATCH ChangeEvents: Record update Object.
-		
-		// Update ecs export settings
-		include_once 'Modules/Group/classes/class.ilECSGroupSettings.php';	
-		$ecs = new ilECSGroupSettings($this->object);			
-		$ecs->handleSettingsUpdate();
 
 		// group type modified
 		if($modified)
@@ -1641,67 +1687,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		return $form;
 	}
-	
-	/**
-	 * load settings
-	 *
-	 * @access public
-	 * @return
-	 */
-	public function load(ilPropertyFormGUI $a_form)
-	{
-		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST['desc']));
-		$this->object->setGroupType(ilUtil::stripSlashes($_POST['grp_type']));
-		$this->object->setRegistrationType(ilUtil::stripSlashes($_POST['registration_type']));
-		$this->object->setPassword(ilUtil::stripSlashes($_POST['password']));
-		$this->object->enableUnlimitedRegistration((bool) !$_POST['reg_limit_time']);		
-		$this->object->enableMembershipLimitation((bool) $_POST['registration_membership_limited']);
-		$this->object->setMinMembers((int) $_POST['registration_min_members']);
-		$this->object->setMaxMembers((int) $_POST['registration_max_members']);		
-		$this->object->enableRegistrationAccessCode((bool) $_POST['reg_code_enabled']);
-		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
-		$this->object->setViewMode(ilUtil::stripSlashes($_POST['view_mode']));
-		$this->object->setMailToMembersType((int) $_POST['mail_type']);
-		$this->object->setShowMembers((int) $_POST['show_members']);
 
-		$reg = $a_form->getItemByPostVar("reg");
-		if($reg->getStart() instanceof ilDateTime && $reg->getEnd() instanceof ilDateTime)
-		{
-			$this->object->enableUnlimitedRegistration(false);
-		}
-		else
-		{
-			$this->object->enableUnlimitedRegistration(true);
-		}
-		
-		$this->object->setRegistrationStart($reg->getStart());
-		$this->object->setRegistrationEnd($reg->getEnd());
-		
-		$cancel_end = $a_form->getItemByPostVar("cancel_end");
-		$this->object->setCancellationEnd($cancel_end->getDate());		
-		
-		switch((int)$_POST['waiting_list'])
-		{
-			case 2:
-				$this->object->enableWaitingList(true);
-				$this->object->setWaitingListAutoFill(true);
-				break;
-			
-			case 1:
-				$this->object->enableWaitingList(true);
-				$this->object->setWaitingListAutoFill(false);
-				break;
-			
-			default:
-				$this->object->enableWaitingList(false);
-				$this->object->setWaitingListAutoFill(false);
-				break;
-		}
-
-		return true;
-	}
-	
 	/**
 	 * set sub tabs
 	 *
