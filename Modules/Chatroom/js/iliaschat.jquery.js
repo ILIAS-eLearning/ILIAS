@@ -1202,8 +1202,7 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	 *	content: string,
 	 *	roomId: number,
 	 *	subRoomId: number,
-	 *	from: {id: number, name: string},
-	 *	format: {style: string, color: string, family: string, size: string}
+	 *	from: {id: number, name: string}
 	 * }} messageObject
 	 *
 	 * @private

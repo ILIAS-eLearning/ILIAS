@@ -427,7 +427,6 @@
 							if(message.from == undefined) {
 								var legacyMessage = JSON.parse(message.message);
 								content = legacyMessage.content;
-								message.format = legacyMessage.format;
 								message.from = message.user;
 
 								if(message.timestamp.toString().length > 13) { // Max 32-Bit Integer.
@@ -477,13 +476,6 @@
 									.html(smileys.replace(messageSpan.text()));
 							line.append($('<span class="chat content messageseparator">:</span>'))
 								.append(messageSpan);
-
-							for(var i in message.format) {
-								if (i != 'color')
-									messageSpan.addClass( i + '_' + message.format[i]);
-							}
-
-							messageSpan.css('color', message.format.color);
 
 							if (message.subRoomId != subRoomId) {
 								$('.room_' + message.subRoomId).addClass('new_events');
