@@ -375,10 +375,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	protected function populateSolutionBlock($solutionoutput)
 	{
-		$this->tpl->setCurrentBlock( "solution_output" );
-		$this->tpl->setVariable( "CORRECT_SOLUTION", $this->lng->txt( "tst_best_solution_is" ) );
-		$this->tpl->setVariable( "QUESTION_FEEDBACK", $solutionoutput );
-		$this->tpl->parseCurrentBlock();
+		if( strlen($solutionoutput) )
+		{
+			$this->tpl->setCurrentBlock( "solution_output" );
+			$this->tpl->setVariable( "CORRECT_SOLUTION", $this->lng->txt( "tst_best_solution_is" ) );
+			$this->tpl->setVariable( "QUESTION_FEEDBACK", $solutionoutput );
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 	
 	protected function populateSyntaxStyleBlock()
