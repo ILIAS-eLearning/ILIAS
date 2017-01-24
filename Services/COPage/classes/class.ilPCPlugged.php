@@ -261,7 +261,7 @@ class ilPCPlugged extends ilPageContent
 				"COPage", "pgcp", $pl_name);
 			$pl_dir = $plugin->getDirectory();
 			
-			$pl_js_files = $plugin->getJavascriptFiles();
+			$pl_js_files = $plugin->getJavascriptFiles($a_mode);
 			foreach ($pl_js_files as $pl_js_file)
 			{
 				if (!is_int(strpos($pl_js_file, "//")))
@@ -295,7 +295,7 @@ class ilPCPlugged extends ilPageContent
 				"COPage", "pgcp", $pl_name);
 			$pl_dir = $plugin->getDirectory();
 			
-			$pl_css_files = $plugin->getCssFiles();
+			$pl_css_files = $plugin->getCssFiles($a_mode);
 			foreach ($pl_css_files as $pl_css_file)
 			{
 				if (!is_int(strpos($pl_css_file, "//")))
