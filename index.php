@@ -17,9 +17,6 @@ if (!file_exists(getcwd()."/ilias.ini.php"))
 	exit();
 }
 
-echo 123;
-exit;
-
 // BEGIN WebDAV: Block WebDAV Requests from Microsoft WebDAV MiniRedir client.
 // We MUST block WebDAV requests on the root page of the Web-Server
 // in order to make the "Microsoft WebDAV MiniRedir" client work with ILIAS
