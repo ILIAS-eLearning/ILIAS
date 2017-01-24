@@ -295,7 +295,6 @@ class ilObjLanguage extends ilObject
 	/**
 	 * Refresh languages of activated plugins
 	 * @var array|null	keys of languages to be refreshed (not yet supported, all available will be refreshed)
-	 * @todo: provide $a_lang_keys for ilPlugin::updateLanguages() when it is supported there
 	 */
 	public static function refreshPlugins($a_lang_keys = null)
 	{
@@ -315,7 +314,7 @@ class ilObjLanguage extends ilObject
 					$slot["component_name"], $slot["slot_id"], $plugin);
 				if (is_object($pl))
 				{
-					$pl->updateLanguages();
+					$pl->updateLanguages($a_lang_keys);
 				}
 			}
 		}
