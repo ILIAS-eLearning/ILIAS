@@ -16212,6 +16212,8 @@ chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen n
 chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
 chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um der Chatraum für Benutzer verfügbar zumachen.
 chatroom#:#chtr_server_status#:#Server-Status
+chatroom#:#chtr_ban_actor_tbl_head#:#Actor
+chatroom#:#chtr_ban_ts_tbl_head#:#Zeitpunkt
 usr#:#user_actions#:#Benuzteraktionen
 usr#:#user_action#:#Benuzteraktione
 buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage

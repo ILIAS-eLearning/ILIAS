@@ -16092,6 +16092,8 @@ chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to convers
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
 chatroom#:#chtr_activation_online_info#:#Activate this setting to make the chatroom accessible to users.
 chatroom#:#chtr_server_status#:#Server Status
+chatroom#:#chtr_ban_actor_tbl_head#:#Akteur
+chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
 usr#:#user_actions#:#User Actions
 usr#:#user_action#:#User Action
 buddysystem#:#buddy_handle_contact_request#:#Contact Request

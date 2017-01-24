@@ -22,11 +22,12 @@ class ilBannedUsersTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
 	{
+		$this->setId('banned_users');
+
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
 		global $lng;
 
-		$this->setId('banned_users');
 		$this->setTitle($lng->txt('ban_table_title'));
 		$this->setExternalSegmentation(true);
 		$this->setExternalSorting(false);
@@ -35,7 +36,8 @@ class ilBannedUsersTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt('login'), 'login');
 		$this->addColumn($lng->txt('firstname'), 'firstname');
 		$this->addColumn($lng->txt('lastname'), 'lastname');
-		//$this->addColumn($lng->txt('remark'), 'remark');
+		$this->addColumn($lng->txt('chtr_ban_ts_tbl_head'), 'timestamp');
+		$this->addColumn($lng->txt('chtr_ban_actor_tbl_head'), 'actor');
 
 		$this->setSelectAllCheckbox('banned_user_id');
 		$this->setRowTemplate('tpl.banned_user_table_row.html', 'Modules/Chatroom');
@@ -43,6 +45,16 @@ class ilBannedUsersTableGUI extends ilTable2GUI
 		$this->addMultiCommand('ban-delete', $lng->txt('unban'));
 	}
 
-}
+	/**
+	 * @inheritdoc
+	 */
+	protected function fillRow($a_set)
+	{
+		if($a_set['timestamp'] > 0)
+		{
+			$a_set['timestamp'] = ilDatePresentation::formatDate(new ilDateTime($a_set['timestamp'], IL_CAL_UNIX));
+		}
 
-?>
+		parent::fillRow($a_set);
+	}
+}

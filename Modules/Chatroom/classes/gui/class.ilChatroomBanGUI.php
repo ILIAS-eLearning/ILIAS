@@ -50,11 +50,6 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 	 */
 	public function show()
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $ilCtrl;
-
 		include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
 		ilChatroom::checkUserPermissions('read', $this->gui->ref_id);
@@ -64,13 +59,35 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 		require_once 'Modules/Chatroom/classes/class.ilBannedUsersTableGUI.php';
 
 		$table = new ilBannedUsersTableGUI($this->gui, 'ban-show');
-		$table->setFormAction($ilCtrl->getFormAction($this->gui, 'ban-show'));
+		$table->setFormAction($GLOBALS['DIC']->ctrl()->getFormAction($this->gui, 'ban-show'));
 
 		$room = ilChatroom::byObjectId($this->gui->object->getId());
-
 		if($room)
 		{
-			$table->setData($room->getBannedUsers());
+			$data = $room->getBannedUsers();
+
+			$actorIDs = array_filter(array_map(function($row) {
+				return $row['actor_id'];
+			}, $data));
+
+			require_once 'Services/User/classes/class.ilUserUtil.php';
+			$sortable_names = ilUserUtil::getNamePresentation($actorIDs);
+			$names          = ilUserUtil::getNamePresentation($actorIDs, false, false, '', false, false, false);
+
+			array_walk($data, function(&$row) use ($names, $sortable_names) {
+				if($row['actor_id'] > 0 && isset($names[$row['actor_id']]))
+				{
+					$row['actor_display'] = $names[$row['actor_id']];
+					$row['actor']         = $sortable_names[$row['actor_id']];
+				}
+				else
+				{
+					$row['actor_display'] = $GLOBALS['DIC']->language()->txt('unknown');
+					$row['actor']         = $GLOBALS['DIC']->language()->txt('unknown');
+				}
+			});
+
+			$table->setData($data);
 		}
 
 		$this->gui->tpl->setVariable('ADM_CONTENT', $table->getHTML());
@@ -94,7 +111,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 
 		if($this->isSuccessful($response))
 		{
-			$room->banUser($_REQUEST['user']);
+			$room->banUser($_REQUEST['user'], $GLOBALS['DIC']->user()->getId());
 			$room->disconnectUser($_REQUEST['user']);
 		}
 

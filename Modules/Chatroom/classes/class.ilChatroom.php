@@ -749,9 +749,10 @@ class ilChatroom
 	 * Inserts user into banTable, using given $user_id
 	 * @global ilDBInterface $ilDB
 	 * @param integer        $user_id
+	 * @param integer        $actor_id
 	 * @param string         $comment
 	 */
-	public function banUser($user_id, $comment = '')
+	public function banUser($user_id, $actor_id, $comment = '')
 	{
 		global $ilDB;
 
@@ -762,6 +763,7 @@ class ilChatroom
 				'user_id' => array('integer', $user_id)
 			),
 			array(
+				'actor_id'  => array('integer', $actor_id),
 				'timestamp' => array('integer', time()),
 				'remark'    => array('text', $comment)
 			)
@@ -846,6 +848,8 @@ class ilChatroom
 						'firstname' => $user->getFirstname(),
 						'lastname'  => $user->getLastname(),
 						'login'     => $user->getLogin(),
+						'timestamp' => $row['timestamp'],
+						'actor_id'  => $row['actor_id'],
 						'remark'    => $row['remark']
 					);
 

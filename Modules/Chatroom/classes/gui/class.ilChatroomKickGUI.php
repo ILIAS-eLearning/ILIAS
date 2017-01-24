@@ -109,36 +109,6 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
 				$response  = $connector->sendKick($roomId, $subRoomId, $userToKick);
 				$this->sendResponse($response);
 			}
-
-			/*
-			if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
-			{
-			//$room->addHistoryEntry( $message, $recipient, $publicMessage );
-			}
-
-
-
-			$message = json_encode(array(
-										'type'  => 'userjustkicked',
-										'user'  => $params['user'],
-										'sub'   => $params['sub']
-								   ));
-
-			$connector->sendMessage($room->getRoomId(), $message, array(
-																	   'public'  => 1,
-																	   'sub'     => 0
-																  ));
-		}
-		else
-		{
-			$response = json_encode(array(
-										 'success'  => true,
-										 'message'  => 'was not in room'
-									));
-		}
-
-		echo $response;
-		exit;*/
 		}
 	}
 }
