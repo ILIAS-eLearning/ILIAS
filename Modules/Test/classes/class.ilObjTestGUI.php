@@ -898,8 +898,6 @@ class ilObjTestGUI extends ilObjectGUI
 			ilTestPDFGenerator::generatePDF(
 				$template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle()
 			);
-			
-			exit;
 		}
 		else
 		{
