@@ -29,14 +29,14 @@ if (!$ilDB->tableExists('exc_ass_file_order')) {
 }
 
 //query only the feedback with uploaded files.
-$result = $db->query("SELECT exc_assignment.exc_id, exc_assignment.peer_crit_cat, exc_assignment.id, exc_assignment_peer.giver_id, exc_assignment_peer.peer_id".
+$result = $ilDB->query("SELECT exc_assignment.exc_id, exc_assignment.peer_crit_cat, exc_assignment.id, exc_assignment_peer.giver_id, exc_assignment_peer.peer_id".
 	" FROM exc_assignment_peer, exc_assignment".
 	" WHERE exc_assignment.id = exc_assignment_peer.ass_id".
 	" AND (exc_assignment.peer_file = 1 OR exc_assignment.peer_crit_cat > 0)".
 	" AND exc_assignment_peer.tstamp IS NOT null"
 );
 
-while($row = $db->fetchAssoc($result))
+while($row = $ilDB->fetchAssoc($result))
 {
 	include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 	$storage = new ilFSStorageExercise($row['exc_id'], $row['id']);
@@ -45,12 +45,12 @@ while($row = $db->fetchAssoc($result))
 	if($row['peer_crit_cat'])
 	{
 		//get criteria id which is uploader
-		$res_crit = $db->query("SELECT id FROM exc_crit ".
-			" WHERE parent = ".$db->quote($row['peer_crit_cat'],"integer").
-			" AND type = ".$db->quote('file','string')
+		$res_crit = $ilDB->query("SELECT id FROM exc_crit ".
+			" WHERE parent = ".$ilDB->quote($row['peer_crit_cat'],"integer").
+			" AND type = ".$ilDB->quote('file','string')
 		);
 
-		while($row_crit = $db->fetchAssoc($res_crit))
+		while($row_crit = $ilDB->fetchAssoc($res_crit))
 		{
 			$original_path = $storage->getPeerReviewUploadPath($row['peer_id'], $row['giver_id'], $row_crit['id']);
 
