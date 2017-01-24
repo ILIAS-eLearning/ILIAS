@@ -16214,6 +16214,7 @@ chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um der C
 chatroom#:#chtr_server_status#:#Server-Status
 chatroom#:#chtr_ban_actor_tbl_head#:#Actor
 chatroom#:#chtr_ban_ts_tbl_head#:#Zeitpunkt
+common#:#chtr_import#:#Chatraum importieren
 usr#:#user_actions#:#Benuzteraktionen
 usr#:#user_action#:#Benuzteraktione
 buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage

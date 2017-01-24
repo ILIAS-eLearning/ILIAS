@@ -375,6 +375,11 @@ class ilChatroomTabGUIFactory
 					)
 				)
 			),
+			'export'  => array(
+				'lng'        => 'export',
+				'link'       =>  $ilCtrl->getLinkTargetByClass('ilexportgui', ''),
+				'permission' => 'write'
+			),
 			'perm'     => array(
 				'lng'        => 'permissions',
 				'link'       => $ilCtrl->getLinkTargetByClass('ilpermissiongui', 'perm'),

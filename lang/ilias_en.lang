@@ -16094,6 +16094,7 @@ chatroom#:#chtr_activation_online_info#:#Activate this setting to make the chatr
 chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#Akteur
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
+common#:#chtr_import#:#Import Chatroom
 usr#:#user_actions#:#User Actions
 usr#:#user_action#:#User Action
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
