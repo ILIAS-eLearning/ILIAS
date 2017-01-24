@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns = "http://www.w3.org/2001/XMLSchema"
+		targetNamespace = "http://www.ilias.de/Modules/Chatroom/chtr/5_3"
+		xmlns:t = "http://www.ilias.de/Modules/Chatroom/chtr/5_3"
+		elementFormDefault = "qualified">
+
+	<element name="Settings">
+		<complexType>
+			<all>
+				<element name="ObjId" type="int" />
+				<element name="Title" type="string" />
+				<element name="Description" type="string"  />
+			</all>
+		</complexType>
+	</element>
+
+</schema>

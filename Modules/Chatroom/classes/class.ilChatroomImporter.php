@@ -29,11 +29,8 @@ class ilChatroomImporter extends ilXmlImporter
 			$newObj->create();
 		}
 
-		include_once 'Modules/Forum/classes/class.ilForumXMLParser.php';
-		$parser = new ilForumXMLParser($newObj, $a_xml);
-		$parser->setImportDirectory($this->getImportDirectory());
-		$parser->setImportInstallId($this->getInstallId());
-		$parser->setSchemaVersion($this->getSchemaVersion());
+		include_once 'Modules/Chatroom/classes/class.ilChatroomXMLParser.php';
+		$parser = new ilChatroomXMLParser($newObj, $a_xml);
 		$parser->startParsing();
 
 		$a_mapping->addMapping('Modules/Chatroom', 'chtr', $a_id, $newObj->getId());

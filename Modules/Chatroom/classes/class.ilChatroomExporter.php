@@ -13,7 +13,6 @@ class ilChatroomExporter extends ilXmlExporter
 	 */
 	public function init()
 	{
-
 	}
 
 	/**
@@ -21,14 +20,18 @@ class ilChatroomExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
-		$xml = '';
-
-		require_once 'Modules/Forum/classes/class.ilForumXMLWriter.php';
-		if(ilObject::_lookupType($a_id) == 'chtr')
+		$chat = ilObjectFactory::getInstanceByObjId($a_id, false);
+		if(!($chat instanceof ilObjChatroom))
 		{
+			$GLOBALS['DIC']->logger()->root()->warning($a_id .' is not id of chatroom instance. Skipped generation of export XML.');
+			return '';
 		}
 
-		return $xml;
+		require_once 'Modules/Chatroom/classes/class.ilChatroomXMLWriter.php';
+		$writer = new ilChatroomXMLWriter($chat);
+		$writer->start();
+
+		return $writer->getXml();
 	}
 
 	/**
