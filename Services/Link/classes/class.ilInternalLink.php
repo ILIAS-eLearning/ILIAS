@@ -156,6 +156,7 @@ class ilInternalLink
 	 */
 	static function _getIdForImportId($a_type, $a_target)
 	{
+		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 		switch($a_type)
 		{
 			case "PageObject":
