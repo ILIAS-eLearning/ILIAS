@@ -84,7 +84,8 @@ echo "checking ".$original_path.$sub_content."<br>";
 echo "3 copy ".$original_path.$sub_content." to ".$previous_dir_path.$row['giver_id']."/".$row_crit['id']."/".$sub_content."<br>";
 									}
 								}
-								array_map("unlink",glob($previous_dir_path.$content."/*.*"));
+//								array_map("unlink",glob($previous_dir_path.$content."/*.*"));
+echo " 4 unlink ".$previous_dir_path.$content."/*.*";
 //								rmdir($previous_dir_path.$content);
 echo "4 rmdir ".$previous_dir_path.$content."<br>";
 							}
