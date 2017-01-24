@@ -11,7 +11,6 @@
 <div class="col-sm-6 ilFormInnerCol">
 	<div class="form-group form-inline">
 		<!-- BEGIN start_label_bl -->
-		<label class="control-label">{START_LABEL}</label>
 		<!-- END start_label_bl -->
 		<div class="input-group date<!-- BEGIN start_width_bl --> noop<!-- END start_width_bl -->" id="{DATEPICKER_START_ID}">
 			<input type="text" class="form-control" style="min-width:120px" placeholder="{START_PLACEHOLDER}" value="{DATEPICKER_START_VALUE}" name="{DATE_START_ID}"{DATEPICKER_START_DISABLED} {START_REQUIRED}/>
@@ -19,12 +18,12 @@
 				<span class="glyphicon glyphicon-calendar"></span>
 			</span>
 		</div>
+		<br /><label class="control-label">{START_LABEL}</label>
 	</div>
 </div>
 <div class="col-sm-6 ilFormInnerCol">
 	<div class="form-group form-inline">
 		<!-- BEGIN end_label_bl -->
-		<label class="control-label">{END_LABEL}</label>
 		<!-- END end_label_bl -->
 		<div class="input-group date<!-- BEGIN end_width_bl --> noop<!-- END end_width_bl -->" id="{DATEPICKER_END_ID}">
 			<input type="text" class="form-control" style="min-width:120px" placeholder="{END_PLACEHOLDER}" value="{DATEPICKER_END_VALUE}" name="{DATE_END_ID}"{DATEPICKER_END_DISABLED} {END_REQUIRED} />
@@ -32,5 +31,6 @@
 				<span class="glyphicon glyphicon-calendar"></span>
 			</span>
 		</div>
+                <br /><label class="control-label">{END_LABEL}</label>
 	</div>
 </div>

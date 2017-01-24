@@ -356,6 +356,43 @@ class ilObjGroupAccess extends ilObjectAccess
 
 		return $info;
 	}
+	
+	/**
+	 * Lookup course period info
+	 * 
+	 * @param int $a_obj_id
+	 * @return array
+	 */
+	public static function lookupPeriodInfo($a_obj_id)
+	{
+		global $ilDB, $lng;
+		
+		$start = $end = null;
+		
+		$query = 'SELECT grp_start, grp_end FROM grp_settings'.
+			' WHERE obj_id = '.$ilDB->quote($a_obj_id);
+		$set = $ilDB->query($query);		
+		while($row = $ilDB->fetchAssoc($set))
+		{			
+			$start = $row['grp_start'] 
+				? new ilDate($row['grp_start'], IL_CAL_UNIX)
+				: null;
+			$end = $row['grp_end'] 
+				? new ilDate($row['grp_end'], IL_CAL_UNIX)
+				: null;
+		}
+		
+		if($start && $end)
+		{
+			$lng->loadLanguageModule('grp');
+			
+			return array(
+				'property' => $lng->txt('grp_period'),
+				'value' => ilDatePresentation::formatPeriod($start, $end)
+			);
+		}
+	}
+	
 
 	/**
 	 * Using Registration code

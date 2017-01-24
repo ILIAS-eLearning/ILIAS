@@ -70,6 +70,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	protected $show_members;
 	
 	
+	protected $start = null;
+	protected $end = null;
+	
+	
 	// Map
 	private $latitude = '';
 	private $longitude = '';
@@ -574,6 +578,42 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	
 	/**
+	 * Get group start
+	 * @return ilDate
+	 */
+	public function getStart()
+	{
+		return $this->start;
+	}
+	
+	/**
+	 * Set start
+	 * @param ilDate $start
+	 */
+	public function setStart(ilDate $start = null)
+	{
+		$this->start = $start;
+	}
+	
+	/**
+	 * Get end
+	 * @return ilDate
+	 */
+	public function getEnd()
+	{
+		return $this->end;
+	}
+	
+	/**
+	 * Set end
+	 * @param ilDate $end
+	 */
+	public function setEnd(ilDate $end = null)
+	{
+		$this->end = $end;
+	}
+	
+	/**
 	 * validate group settings
 	 *
 	 * @access public
@@ -643,7 +683,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$query = "INSERT INTO grp_settings (obj_id,information,grp_type,registration_type,registration_enabled,".
 			"registration_unlimited,registration_start,registration_end,registration_password,registration_mem_limit,".
 			"registration_max_members,waiting_list,latitude,longitude,location_zoom,enablemap,reg_ac_enabled,reg_ac,view_mode,mail_members_type,".
-			"leave_end,registration_min_members,auto_wait) ".
+			"leave_end,registration_min_members,auto_wait, grp_start, grp_end) ".
 			"VALUES(".
 			$ilDB->quote($this->getId() ,'integer').", ".
 			$ilDB->quote($this->getInformation() ,'text').", ".
@@ -667,7 +707,9 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->getMailToMembersType(),'integer').', '.				
 			$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
 			$ilDB->quote($this->getMinMembers(),'integer').', '.
-			$ilDB->quote($this->hasWaitingListAutoFill(),'integer').' '.
+			$ilDB->quote($this->hasWaitingListAutoFill(),'integer').', '.
+			$ilDB->quote($this->getStart() instanceof ilDate ? $this->getStart()->get(IL_CAL_UNIX) : null, 'integer').', '.
+			$ilDB->quote($this->getEnd() instanceof ilDate ? $this->getEnd()->get(IL_CAL_UNIX) : null, 'integer').' '.
 			")";
 		$res = $ilDB->manipulate($query);
 
@@ -716,7 +758,9 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			'leave_end = '.$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
 			"registration_min_members = ".$ilDB->quote($this->getMinMembers() ,'integer').", ".
 			"auto_wait = ".$ilDB->quote($this->hasWaitingListAutoFill() ,'integer').", ".
-			"show_members = ".$ilDB->quote((int) $this->getShowMembers() ,'integer')." ".
+			"show_members = ".$ilDB->quote((int) $this->getShowMembers() ,'integer').", ".
+			'grp_start = '.$ilDB->quote($this->getStart() instanceof ilDate ? $this->getStart()->get(IL_CAL_UNIX) : null).', '.
+			'grp_end = '.$ilDB->quote($this->getEnd() instanceof ilDate ? $this->getEnd()->get(IL_CAL_UNIX) : null).' '.
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer');
 		$res = $ilDB->manipulate($query);
 		
@@ -801,6 +845,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$this->setMinMembers($row->registration_min_members);
 			$this->setWaitingListAutoFill($row->auto_wait);
 			$this->setShowMembers($row->show_members);
+			$this->setStart($row->grp_start ? new ilDate($row->grp_start, IL_CAL_UNIX) : null);
+			$this->setEnd($row->grp_end ? new ilDate($row->grp_end, IL_CAL_UNIX) : null);
 		}
 		$this->initParticipants();
 		
@@ -854,13 +900,14 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->setMinMembers($this->getMinMembers());
 		$new_obj->setWaitingListAutoFill($this->hasWaitingListAutoFill());
 		
+		$new_obj->setStart($this->getStart());
+		$new_obj->setEnd($this->getEnd());
+		
 		$new_obj->update();
 		
 		// #13008 - Group Defined Fields
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 		ilCourseDefinedFieldDefinition::_clone($this->getId(),$new_obj->getId());
-		
-		ilLoggerFactory::getLogger('grp')->debug('Starting add user');
 		
 		// Assign user as admin
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
