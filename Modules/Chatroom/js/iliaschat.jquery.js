@@ -252,18 +252,6 @@ var GUI = function GUI(_translation) {
 	var _prevSize = {width: 0, height: 0};
 	var _$anchor = $('#chat_messages');
 
-	this.showOptionsBindClick = function() {
-		$('#show_options').click(function () {
-			if ($(this).next().is(':visible')) {
-				$(this).text(_translation.translate('show_settings'));
-			}
-			else {
-				$(this).text(_translation.translate('hide_settings'));
-			}
-			$(this).siblings().toggle();
-		});
-	};
-
 	this.renderHeaderAndActionButton = function() {
 		$('<div id="tttt" style="white-space:nowrap;"></div>')
 				.append($('#chat_actions_wrapper'))
@@ -1202,7 +1190,8 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	 *	content: string,
 	 *	roomId: number,
 	 *	subRoomId: number,
-	 *	from: {id: number, name: string}
+	 *	from: {id: number, name: string},
+	 *	format: {style: string, color: string, family: string, size: string}
 	 * }} messageObject
 	 *
 	 * @private
@@ -1583,7 +1572,8 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 		if(content.trim() != '')
 		{
 			var message = {
-				content: content
+				content: content,
+				format: {}
 			};
 
 			if(messageOptions['recipient'] != undefined && messageOptions['recipient'] != false) {
@@ -1702,8 +1692,6 @@ il.Util.addOnLoad(function () {
 
 			smileys.render();
 
-			// Toggle Options menu
-			gui.showOptionsBindClick();
 			// Insert Chatheader into HTML next to AKTION-Button
 			gui.renderHeaderAndActionButton();
 			// When private rooms are disabled, dont show chat header
