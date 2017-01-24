@@ -16273,3 +16273,5 @@ wsp#:#share#:#Freigeben
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Loginversuche deaktiviert. 
 crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten
+rbac#:#grp_manage_members#:#Mitglieder einer Gruppe verwalten
+rbac#:#crs_manage_members#:#Mitglieder eines Kurses verwalten
