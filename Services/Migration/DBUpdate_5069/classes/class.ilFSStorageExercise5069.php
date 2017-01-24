@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once('Services/Migration/classes/class.ilFileSystemStorage5069.php');
+include_once('Services/Migration/DBUpdate_5069/classes/class.ilFileSystemStorage5069.php');
 /**
  *
  * @author Alex Killing <alex.killing@gmx.de>
@@ -146,7 +146,7 @@ class ilFSStorageExercise5069 extends ilFileSystemStorage5069
 	 */
 	function getPeerReviewUploadPath($a_peer_id, $a_giver_id, $a_crit_id)
 	{
-		$path = $this->peer_review_upload_path."/".$a_peer_id."/".$a_giver_id."/";
+		$path = $this->peer_review_upload_path."/".$a_peer_id."/".$a_giver_id;
 
 		if((int)$a_crit_id)
 		{
