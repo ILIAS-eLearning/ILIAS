@@ -25,27 +25,7 @@ class ilChatroomFormFactory
 	 */
 	public static function applyValues(ilPropertyFormGUI $form, array $values)
 	{
-		foreach($values as $key => $value)
-		{
-			$field = $form->getItemByPostVar($key);
-			if(!$field)
-			{
-				continue;
-			}
-
-			switch(strtolower(get_class($field)))
-			{
-				case 'ilcheckboxinputgui':
-					if($value)
-					{
-						$field->setChecked(true);
-					}
-					break;
-
-				default:
-					$field->setValue($value);
-			}
-		}
+		$form->setValuesByArray($values);
 	}
 
 	/**
@@ -101,6 +81,8 @@ class ilChatroomFormFactory
 		 */
 		global $lng;
 
+		$lng->loadLanguageModule('rep');
+
 		$form  = new ilPropertyFormGUI();
 		$title = new ilTextInputGUI($lng->txt('title'), 'title');
 		$title->setRequired(true);
@@ -133,6 +115,19 @@ class ilChatroomFormFactory
 		$cb = new ilCheckboxInputGUI($lng->txt('private_rooms_enabled'), 'private_rooms_enabled');
 		$cb->setInfo($lng->txt('private_rooms_enabled_info'));
 		$form->addItem($cb);
+
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($lng->txt('rep_activation_availability'));
+		$form->addItem($section);
+
+		$online = new ilCheckboxInputGUI($lng->txt('rep_activation_online'), 'online_status');
+		$online->setInfo($lng->txt('chtr_activation_online_info'));
+		$form->addItem($online);
+
+		require_once 'Services/Form/classes/class.ilDateDurationInputGUI.php';
+		$dur = new ilDateDurationInputGUI($lng->txt('rep_time_period'), 'access_period');
+		$dur->setShowTime(true);
+		$form->addItem($dur);
 
 		return $form;
 	}

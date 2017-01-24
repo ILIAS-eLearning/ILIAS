@@ -27,6 +27,7 @@ class ilChatroom
 	 */
 	private $availableSettings = array(
 		'object_id'              => 'integer',
+		'online_status'          => 'integer',
 		'allow_anonymous'        => 'boolean',
 		'allow_custom_usernames' => 'boolean',
 		'enable_history'         => 'boolean',

@@ -67,8 +67,10 @@ class ilObjChatroomAccess extends ilObjectAccess
 		/**
 		 * @var $ilUser     ilObjUser
 		 * @var $rbacsystem ilRbacSystem
+		 * @var $ilAccess   ilAccessHandler
+		 * @var $lng        ilLanguage
 		 */
-		global $ilUser, $rbacsystem;
+		global $ilUser, $rbacsystem, $ilAccess, $lng;
 
 		if(self::$chat_enabled === null)
 		{
@@ -86,6 +88,26 @@ class ilObjChatroomAccess extends ilObjectAccess
 			return true;
 		}
 
+		if(!self::lookupOnline($a_obj_id))
+		{
+			$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt('offline'));
+			return false;
+		}
+
 		return self::$chat_enabled;
+	}
+
+	/**
+	 * @param int $a_obj_id
+	 * @return bool
+	 */
+	public static function lookupOnline($a_obj_id)
+	{
+		global $DIC;
+
+		$res = $DIC->database()->query("SELECT online_status FROM chatroom_settings WHERE object_id = " . $DIC->database()->quote($a_obj_id, 'integer'));
+		$row = $DIC->database()->fetchAssoc($res);
+
+		return (bool)$row['online_status'];
 	}
 }

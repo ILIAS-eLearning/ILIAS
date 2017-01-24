@@ -16090,6 +16090,8 @@ chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
 chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.
 chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your <a href="%s">'Personal Settings'</a>.
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
+chatroom#:#chtr_activation_online_info#:#Activate this setting to make the chatroom accessible to users.
+chatroom#:#chtr_server_status#:#Server Status
 usr#:#user_actions#:#User Actions
 usr#:#user_action#:#User Action
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
