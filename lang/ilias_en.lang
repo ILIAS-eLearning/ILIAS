@@ -16159,3 +16159,9 @@ exc#:#exc_submit_convenience_no_deadline#:#Submit your at your convenience. Ther
 exc#:#exc_select_portfolio_unlink#:#Remove Portfolio
 exc#:#exc_sure_unlink_portfolio#:#Are you sure to remove the this portfolio form this assignment?
 exc#:#exc_portfolio_unlinked_from_assignment#:#Portfolio removed from this assignment
+exc#:#exc_template#:#Template
+exc#:#exc_portfolio_template#:#Portfolio Template
+exc#:#exc_without_template#:#Without Portfolio - Template
+exc#:#exc_with_template#:#With Portfolio - Template
+exc#:#exc_without_template_info#:#Participants will create their Portfolio from scratch
+exc#:#exc_with_template_info#:#An empty Portfolio will be automatically derived from a specific Portfolio Template.

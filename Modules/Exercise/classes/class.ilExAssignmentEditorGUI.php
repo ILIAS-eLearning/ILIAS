@@ -183,6 +183,36 @@ class ilExAssignmentEditorGUI
 		$ty->setDisabled(true);
 		$form->addItem($ty);
 
+		// portfolio template
+		if($a_type == ilExAssignment::TYPE_PORTFOLIO)
+		{
+			$rd_template = new ilRadioGroupInputGUI($lng->txt("exc_template"), "template");
+			$rd_template->setRequired(true);
+			$radio_no_template = new ilRadioOption($lng->txt("exc_without_template"), 0, $lng->txt("exc_without_template_info", "without_template_info"));
+			$radio_with_template = new ilRadioOption($lng->txt("exc_with_template"), 1 , $lng->txt("exc_with_template_info", "with_template_info"));
+
+			// Template management
+			$sub_template_text = $lng->txt("exc_portfolio_template", "portfolio_template");
+			$template_active = false;
+			if($template_active)
+			{
+				$sub_template_text .= $template_active;
+				$sub_template_text .= " <a href='Reset Template'> Reset</a></p>";
+			}
+			else
+			{
+				$sub_template_text .= " <a href='Select Template'> Select</a></p>";
+			}
+
+			$custom_input = new ilCustomInputGUI("","");
+			$custom_input->setHtml($sub_template_text);
+			$radio_with_template->addSubItem($custom_input);
+
+			$rd_template->addOption($radio_no_template);
+			$rd_template->addOption($radio_with_template);
+			$form->addItem($rd_template);
+		}
+
 		// mandatory
 		$cb = new ilCheckboxInputGUI($lng->txt("exc_mandatory"), "mandatory");
 		$cb->setInfo($lng->txt("exc_mandatory_info"));
@@ -212,6 +242,7 @@ class ilExAssignmentEditorGUI
 		$sub_header = new ilFormSectionHeaderGUI();
 		$sub_header->setTitle($lng->txt("exc_schedule"), "schedule");
 		$form->addItem($sub_header);
+
 		// start time
 		$start_date = new ilDateTimeInputGUI($lng->txt("exc_start_time"), "start_time");
 		$start_date->setShowTime(true);
