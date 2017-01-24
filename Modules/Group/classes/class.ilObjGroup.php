@@ -34,6 +34,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 {
 	const CAL_REG_START = 1;
 	const CAL_REG_END 	= 2;
+	const CAL_START		= 3;
+	const CAL_END		= 4;
 	
 	const GRP_MEMBER = 1;
 	const GRP_ADMIN = 2;
@@ -1901,10 +1903,33 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			case 'create':
 			case 'update':
+				
+				$apps = array();
+				if($this->getStart() && $this->getEnd())
+				{
+					$app = new ilCalendarAppointmentTemplate(self::CAL_START);
+					$app->setTitle($this->getTitle());
+					$app->setSubtitle('grp_start');
+					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+					$app->setDescription($this->getLongDescription());	
+					$app->setStart($this->getStart());
+					$app->setFullday(true);
+					$apps[] = $app;
+
+					$app = new ilCalendarAppointmentTemplate(self::CAL_END);
+					$app->setTitle($this->getTitle());
+					$app->setSubtitle('grp_end');
+					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+					$app->setDescription($this->getLongDescription());	
+					$app->setStart($this->getEnd());
+					$app->setFullday(true);
+					$apps[] = $app;
+				}
 				if($this->isRegistrationUnlimited())
 				{
-					return array();
+					return $apps;
 				}
+				
 				$app = new ilCalendarAppointmentTemplate(self::CAL_REG_START);
 				$app->setTitle($this->getTitle());
 				$app->setSubtitle('grp_cal_reg_start');
@@ -1920,6 +1945,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 				$app->setDescription($this->getLongDescription());
 				$app->setStart($this->getRegistrationEnd());
 				$apps[] = $app;
+				
 				
 				return $apps;
 				
