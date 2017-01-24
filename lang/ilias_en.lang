@@ -16139,3 +16139,5 @@ wsp#:#share#:#Share
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.
 crs#:#crs_edit_lo_introduction#:#Edit Introduction
+rbac#:#grp_manage_members#:#Manage Members of Group
+rbac#:#crs_manage_members#:#Manage Members of Course
