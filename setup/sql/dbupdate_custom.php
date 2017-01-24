@@ -46,8 +46,8 @@ while($row = $db->fetchAssoc($result))
 	{
 		//get criteria id which is uploader
 		$res_crit = $db->query("SELECT id FROM exc_crit ".
-			" WHERE parent = ".$row['peer_crit_cat'].
-			" AND type = 'file'"
+			" WHERE parent = ".$db->quote($row['peer_crit_cat'],"integer").
+			" AND type = ".$db->quote('file','string')
 		);
 
 		while($row_crit = $db->fetchAssoc($res_crit))
