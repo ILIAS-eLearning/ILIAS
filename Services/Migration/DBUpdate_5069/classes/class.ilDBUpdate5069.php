@@ -8,9 +8,6 @@ class ilDBUpdate5069
 {
 	/**
 	 * Migration for bug fix 19795
-	 *
-	 * @param
-	 * @return
 	 */
 	function fix19795()
 	{
@@ -26,23 +23,23 @@ class ilDBUpdate5069
 
 		while($row = $ilDB->fetchAssoc($result))
 		{
-			include_once("./Services/Migration/classes/class.ilFSStorageExercise5069.php");
+			include_once("./Services/Migration/DBUpdate_5069/classes/class.ilFSStorageExercise5069.php");
 			$storage = new ilFSStorageExercise5069($row['exc_id'], $row['id']);
-
+echo "0 -".$row['peer_crit_cat']."<br>";
 			//if the assignment has criteria category
 			if($row['peer_crit_cat'])
 			{
 				//get criteria id which is uploader
-				$res_crit = $ilDB->query("SELECT id FROM exc_crit ".
+				// *** string -> text
+				$res_crit = $ilDB->query($q = "SELECT id FROM exc_crit ".
 					" WHERE parent = ".$ilDB->quote($row['peer_crit_cat'],"integer").
-					" AND type = ".$ilDB->quote('file','string')
+					" AND type = ".$ilDB->quote('file','text')
 				);
-
+echo "#".$q."#<br>";
 				while($row_crit = $ilDB->fetchAssoc($res_crit))
 				{
 					$original_path = $storage->getPeerReviewUploadPath($row['peer_id'], $row['giver_id'], $row_crit['id']);
-
-// defined ?
+echo "a-$original_path-<br>";
 					$path_peaces = explode('/', rtrim($original_path, '/'));
 					array_pop($path_peaces);
 					$previous_dir_path = "";
@@ -50,44 +47,46 @@ class ilDBUpdate5069
 					{
 						$previous_dir_path .= $piece."/";
 					}
-// needed?
-//					$dir = opendir($previous_dir_path);
 					$dir_content = array_diff(scandir($previous_dir_path), array('.', '..'));
-
+echo $previous_dir_path."<br>";
 					//loop the directory content
 					foreach($dir_content as $content)
 					{
+		echo "b";
 						if(is_dir($previous_dir_path.$content))
 						{
+		echo "c-$content-".$row['giver_id'].$row_crit['id']."-";
 							//if the directory name is wrong(giver_id+criteria_id)
 							if($content == $row['giver_id'].$row_crit['id'])
 							{
+		echo "d<br>";
 								if(!is_dir($previous_dir_path.$row['giver_id']))
 								{
 //									mkdir($previous_dir_path.$row['giver_id']);
-echo "make dir ".$previous_dir_path.$row['giver_id']."<br>";
+echo "1 make dir ".$previous_dir_path.$row['giver_id']."<br>";
 								}
 
 								if(!is_dir($previous_dir_path.$row['giver_id']."/".$row_crit['id']))
 								{
 //									mkdir($previous_dir_path.$row['giver_id']."/".$row_crit['id']);
-echo "make dir ".$previous_dir_path.$row['giver_id']."/".$row_crit['id']."<br>";
+echo "2 make dir ".$previous_dir_path.$row['giver_id']."/".$row_crit['id']."<br>";
 								}
 
 								//take the files of the wrong directory and copy them into the proper new directory.
 								$sub_dir_content = array_diff(scandir($original_path), array('.', '..'));
-
+echo "reading ".$original_path."<br>";
 								foreach($sub_dir_content as $sub_content)
 								{
+echo "checking ".$original_path.$sub_content."<br>";
 									if(!is_dir($original_path.$sub_content))
 									{
 //										$copy = copy($original_path.$sub_content, $previous_dir_path.$row['giver_id']."/".$row_crit['id']."/".$sub_content);
-echo " copy ".$original_path.$sub_content." to ".$previous_dir_path.$row['giver_id']."/".$row_crit['id']."/".$sub_content."<br>";
+echo "3 copy ".$original_path.$sub_content." to ".$previous_dir_path.$row['giver_id']."/".$row_crit['id']."/".$sub_content."<br>";
 									}
 								}
 								array_map("unlink",glob($previous_dir_path.$content."/*.*"));
 //								rmdir($previous_dir_path.$content);
-echo " rmdir ".$previous_dir_path.$content."<br>";
+echo "4 rmdir ".$previous_dir_path.$content."<br>";
 							}
 						}
 					}
@@ -98,7 +97,6 @@ echo " rmdir ".$previous_dir_path.$content."<br>";
 			{
 				$original_path = $storage->getPeerReviewUploadPath($row['peer_id'], $row['giver_id'], $row['peer_crit_cat']);
 
-// defined?
 				$path_peaces = explode('/', rtrim($original_path, '/'));
 				array_pop($path_peaces);
 				$previous_dir_path = "";
@@ -106,9 +104,6 @@ echo " rmdir ".$previous_dir_path.$content."<br>";
 				{
 					$previous_dir_path .= $piece."/";
 				}
-
-// needed?
-//				$dir = opendir($previous_dir_path);
 
 				$dir_content = array_diff(scandir($previous_dir_path), array('.', '..'));
 
@@ -119,8 +114,9 @@ echo " rmdir ".$previous_dir_path.$content."<br>";
 						if (substr($content, 0, strlen($row['giver_id'])) === $row['giver_id'])
 						{
 							$new_filename = substr($content, strlen($row['giver_id']));
+							// *** removed "/" before $new_filename
 //							$copy = copy($previous_dir_path.$content, $original_path."/".$new_filename);
-echo "copy ".$previous_dir_path.$content." to ".$original_path."/".$new_filename."<br>";
+echo "5 copy ".$previous_dir_path.$content." to ".$original_path."/".$new_filename."<br>";
 						}
 					}
 				}
@@ -128,6 +124,8 @@ echo "copy ".$previous_dir_path.$content." to ".$original_path."/".$new_filename
 			}
 
 		}
+
+		die("ende");
 	}
 	
 }
