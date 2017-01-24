@@ -508,6 +508,11 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->object->setViewMode($form->getInput('view_mode'));
 				$this->object->setMailToMembersType((int) $form->getInput('mail_type'));
 				$this->object->setShowMembers((int) $form->getInput('show_members'));
+				
+				// group period
+				$period = $form->getItemByPostVar('period');
+				$this->object->setStart($period->getStart());
+				$this->object->setEnd($period->getEnd());
 
 				$reg = $form->getItemByPostVar("reg");
 				if($reg->getStart() instanceof ilDateTime && $reg->getEnd() instanceof ilDateTime)
@@ -1239,6 +1244,16 @@ class ilObjGroupGUI extends ilContainerGUI
 					ilDatePresentation::formatDate( $this->object->getCancellationEnd()));
 			}
 		}
+	
+		if($this->object->getStart())
+		{	
+			$info->addProperty($this->lng->txt('grp_period'),
+				ilDatePresentation::formatPeriod(
+					$this->object->getStart(),
+					$this->object->getEnd()
+			));
+		}
+
 		
 		// Confirmation
 		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
@@ -1400,6 +1415,20 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if($a_mode == 'edit')
 		{
+			// group period
+			include_once 'Services/Form/classes/class.ilDateDurationInputGUI.php';
+			$group_duration = new ilDateDurationInputGUI($this->lng->txt('grp_period'), 'period');			
+			$group_duration->setInfo($this->lng->txt('grp_period_info'));
+			if($this->object->getStart())
+			{
+				$group_duration->setStart($this->object->getStart());
+			}		
+			if($this->object->getEnd())
+			{
+				$group_duration->setEnd($this->object->getEnd());
+			}
+			$form->addItem($group_duration);
+			
 			// Group registration ############################################################
 			$pres = new ilFormSectionHeaderGUI();
 			$pres->setTitle($this->lng->txt('grp_setting_header_registration'));
