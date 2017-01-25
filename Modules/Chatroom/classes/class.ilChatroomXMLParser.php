@@ -295,14 +295,14 @@ class ilChatroomXMLParser extends ilSaxParser
 			case 'Message':
 				if($this->isSameInstallation())
 				{
-					$message = json_decode($this->message);
+					$message = json_decode($this->message, true);
 					if(
 						is_array($message) &&
 						(!$this->exportSubRoomId || array_key_exists($this->exportSubRoomId, $this->subRoomIdMapping))
 					)
 					{
 						$message['roomId']    = $this->room->getRoomId();
-						$message['subRoomId'] = $this->subRoomIdMapping[$this->exportSubRoomId];
+						$message['subRoomId'] = $this->exportSubRoomId ? $this->subRoomIdMapping[$this->exportSubRoomId] : 0;
 						$message['timestamp'] = $this->timestamp;
 
 						$this->room->addHistoryEntry($message);
