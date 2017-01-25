@@ -18091,3 +18091,8 @@ $ilDB->modifyTableColumn('exc_returned', 'mimetype', array(
 										'notnull' => false)
 );
 ?>
+<#5069>
+<?php
+include_once('./Services/Migration/DBUpdate_5069/classes/class.ilDBUpdate5069.php');
+ilDBUpdate5069::fix19795();
+?>

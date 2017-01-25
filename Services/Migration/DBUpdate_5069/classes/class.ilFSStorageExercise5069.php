@@ -21,27 +21,25 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
-/** 
-* 
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* 
-* @ingroup ModulesExercise 
-*/
-class ilFSStorageExercise extends ilFileSystemStorage
+include_once('Services/Migration/DBUpdate_5069/classes/class.ilFileSystemStorage5069.php');
+/**
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ */
+class ilFSStorageExercise5069 extends ilFileSystemStorage5069
 {
 	/**
 	 * Constructor
 	 *
-	 * @param int	exercise id 
+	 * @param int	exercise id
 	 */
 	public function __construct($a_container_id = 0, $a_ass_id = 0)
 	{
 		$this->ass_id = $a_ass_id;
 		parent::__construct(self::STORAGE_DATA,true,$a_container_id);
 	}
-	
+
 	/**
 	 * Append ass_<ass_id> to path (assignment id)
 	 */
@@ -65,30 +63,30 @@ class ilFSStorageExercise extends ilFileSystemStorage
 		}
 		return true;
 	}
-	
-	
+
+
 	/**
 	 * Implementation of abstract method
 	 *
 	 * @access protected
-	 * 
+	 *
 	 */
 	protected function getPathPostfix()
 	{
-	 	return 'exc';
+		return 'exc';
 	}
-	
+
 	/**
 	 * Implementation of abstract method
 	 *
 	 * @access protected
-	 * 
+	 *
 	 */
 	protected function getPathPrefix()
 	{
-	 	return 'ilExercise';
+		return 'ilExercise';
 	}
-	
+
 	/**
 	 * Get submission path
 	 */
@@ -96,7 +94,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
 	{
 		return $this->submission_path;
 	}
-	
+
 	/**
 	 * Get submission path
 	 */
@@ -117,7 +115,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
 		}
 		return $path;
 	}
-	
+
 	function getGlobalFeedbackPath()
 	{
 		$path = $this->feedb_path."/0";
@@ -141,14 +139,14 @@ class ilFSStorageExercise extends ilFileSystemStorage
 		}
 		return $path;
 	}
-	
+
 	/**
 	 * Get pear review upload path
 	 * (each peer handled in a separate path)
 	 */
 	function getPeerReviewUploadPath($a_peer_id, $a_giver_id, $a_crit_id)
 	{
-		$path = $this->peer_review_upload_path."/".$a_peer_id."/".$a_giver_id."/";
+		$path = $this->peer_review_upload_path."/".$a_peer_id."/".$a_giver_id;
 
 		if((int)$a_crit_id)
 		{
@@ -160,12 +158,12 @@ class ilFSStorageExercise extends ilFileSystemStorage
 		}
 		return $path;
 	}
-		
+
 	/**
 	 * Create directory
 	 *
 	 * @access public
-	 * 
+	 *
 	 */
 	public function create()
 	{
@@ -212,23 +210,23 @@ class ilFSStorageExercise extends ilFileSystemStorage
 		$files = ilUtil::sortArray($files, "name", "asc");
 		return $files;
 	}
-	
-	
+
+
 	////
 	//// Handle submitted files
 	////
-	
+
 	/**
-	* store delivered file in filesystem
-	* @param array HTTP_POST_FILES
-	* @param numeric database id of the user who delivered the file
-	* @access	public
-	* @return mixed Returns a result array with filename and mime type of the saved file, otherwise false
-	*/
+	 * store delivered file in filesystem
+	 * @param array HTTP_POST_FILES
+	 * @param numeric database id of the user who delivered the file
+	 * @access	public
+	 * @return mixed Returns a result array with filename and mime type of the saved file, otherwise false
+	 */
 	function uploadFile($a_http_post_file, $user_id, $is_unziped = false)
 	{
 		$this->create();
-		
+
 		// TODO:
 		// CHECK UPLOAD LIMIT
 		//
@@ -258,21 +256,21 @@ class ilFSStorageExercise extends ilFileSystemStorage
 			}
 			$now = getdate();
 			$prefix = sprintf("%04d%02d%02d%02d%02d%02d", $now["year"], $now["mon"], $now["mday"], $now["hours"],
-							  $now["minutes"], $now["seconds"]);
+				$now["minutes"], $now["seconds"]);
 
 			if (!$is_unziped)
 			{
 				//move_uploaded_file($a_http_post_file["tmp_name"], $savepath . $prefix . "_" . $filename);
 				ilUtil::moveUploadedFile($a_http_post_file["tmp_name"], $a_http_post_file["name"],
-				$savepath . "/" . $prefix . "_" . $filename);
+					$savepath . "/" . $prefix . "_" . $filename);
 			}
 			else
 			{
 
 				rename($a_http_post_file['tmp_name'],
-				$savepath . "/" . $prefix . "_" . $filename);
+					$savepath . "/" . $prefix . "_" . $filename);
 			}
-			
+
 			require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 
 			if (is_file($savepath . "/" . $prefix . "_" . $filename))
@@ -293,23 +291,23 @@ class ilFSStorageExercise extends ilFileSystemStorage
 	function getFeedbackFiles($a_user_id)
 	{
 		$files = array();
-	
-		$dir = $this->getFeedbackPath($a_user_id);		
+
+		$dir = $this->getFeedbackPath($a_user_id);
 		if (@is_dir($dir))
 		{
 			$dp = opendir($dir);
 			while($file = readdir($dp))
 			{
 				if(!is_dir($this->path.'/'.$file) && substr($file, 0, 1) != ".")
-				{					
-					$files[] = $file;		
+				{
+					$files[] = $file;
 				}
 			}
 		}
-		
+
 		return $files;
 	}
-	
+
 	/**
 	 * Count number of feedback files for a user
 	 */
@@ -318,7 +316,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
 		$fbf = $this->getFeedbackFiles($a_user_id);
 		return count($fbf);
 	}
-	
+
 	/**
 	 * Get path for assignment file
 	 */
@@ -326,7 +324,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
 	{
 		return $this->getAbsolutePath()."/".$a_file;
 	}
-	
+
 	/**
 	 * Get path for feedback file
 	 */
