@@ -16141,3 +16141,4 @@ auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactiva
 crs#:#crs_edit_lo_introduction#:#Edit Introduction
 rbac#:#grp_manage_members#:#Manage Members of Group
 rbac#:#crs_manage_members#:#Manage Members of Course
+iass#:#iass_copy#:#Copy Individual Assessment
