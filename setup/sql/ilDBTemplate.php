@@ -29723,7 +29723,7 @@ $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '33'), 'type' => array('text', 'typ'), 'title' => array('text', 'root'), 'description' => array('text', 'Root Folder Object'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2002-12-21 00:04:00'), 'last_update' => array('timestamp', '2003-08-15 12:04:20'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
-'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2016-12-21 22:26:16'), 'import_id' => array('text', '')));
+'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2017-01-25 20:42:29'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '14'), 'type' => array('text', 'role'), 'title' => array('text', 'Anonymous'), 'description' => array('text', 'Default role for anonymous users (with no account)'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2003-08-15 12:06:19'), 'last_update' => array('timestamp', '2005-07-20 15:15:06'), 'import_id' => array('text', '')));
@@ -33107,11 +33107,11 @@ $fields = array (
 		,"fixed" => false
 		,"type" => "text"
 	)
-	,"morder" => array (
+	,"ident" => array (
 		"notnull" => true
 		,"length" => 4
 		,"unsigned" => false
-		,"default" => ""
+		,"default" => "0"
 		,"type" => "integer"
 	)
 	,"picture" => array (
@@ -33161,6 +33161,12 @@ $fields = array (
 		,"length" => 1000
 		,"fixed" => false
 		,"type" => "text"
+	)
+	,"ident" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"type" => "integer"
 	)
 );
 $ilDB->createTable("qpl_a_mterm", $fields);
@@ -44424,7 +44430,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'ps_export_scorm'), 'value' => array('clob', '1')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_0'), 'value' => array('clob', '18')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_0'), 'value' => array('clob', '19')));
 
 
 //
