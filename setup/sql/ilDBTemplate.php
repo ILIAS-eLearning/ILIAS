@@ -17833,7 +17833,7 @@ $fields = array (
 	)
 	,"mimetype" => array (
 		"notnull" => false
-		,"length" => 40
+		,"length" => 150
 		,"fixed" => false
 		,"type" => "text"
 	)
@@ -20493,6 +20493,9 @@ $ilDB->insert("il_component", array(
 
 $ilDB->insert("il_component", array(
 'type' => array('text', 'Services'), 'name' => array('text', 'Export'), 'id' => array('text', 'exp')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'DataSet'), 'id' => array('text', 'ds')));
 
 $ilDB->insert("il_component", array(
 'type' => array('text', 'Services'), 'name' => array('text', 'WebServices'), 'id' => array('text', 'wsrv')));
@@ -27959,7 +27962,7 @@ $ilDB->insert("lng_modules", array(
 'module' => array('text', 'membership'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:7:{s:22:"mem_force_notification";s:21:"Notification per Mail";s:32:"mem_force_notification_mode_self";s:46:"Members have to manually activate notification";s:35:"mem_force_notification_mode_blocked";s:38:"Members will be notified automatically";s:31:"mem_force_notification_mode_all";s:51:"Notification activated for all members (changeable)";s:43:"mem_force_notification_mode_all_sub_blocked";s:36:"Members can deactivate notifications";s:34:"mem_force_notification_mode_custom";s:6:"Custom";s:23:"mem_error_preconditions";s:81:"A registration is not possible, since minimum one precondition is not fullfilled.";}')));
 
 $ilDB->insert("lng_modules", array(
-'module' => array('text', 'buddysystem'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:50:{s:27:"buddy_bs_btn_txt_unlinked_a";s:15:"Request Contact";s:27:"buddy_bs_btn_txt_unlinked_p";s:15:"Request Contact";s:25:"buddy_bs_btn_txt_linked_a";s:6:"Linked";s:25:"buddy_bs_btn_txt_linked_p";s:6:"Linked";s:28:"buddy_bs_btn_txt_requested_a";s:17:"Requested Contact";s:28:"buddy_bs_btn_txt_requested_p";s:7:"Request";s:34:"buddy_bs_btn_txt_ignored_request_a";s:17:"Requested Contact";s:34:"buddy_bs_btn_txt_ignored_request_p";s:15:"Request Ignored";s:39:"buddy_bs_act_btn_txt_linked_to_unlinked";s:6:"Unlink";s:49:"buddy_bs_act_btn_txt_requested_to_ignored_request";s:6:"Ignore";s:42:"buddy_bs_act_btn_txt_requested_to_unlinked";s:14:"Cancel Request";s:40:"buddy_bs_act_btn_txt_requested_to_linked";s:7:"Confirm";s:48:"buddy_bs_act_btn_txt_ignored_request_to_unlinked";s:14:"Cancel Request";s:46:"buddy_bs_act_btn_txt_ignored_request_to_linked";s:15:"Confirm Request";s:28:"buddy_bs_action_not_possible";s:19:"Action not possible";s:30:"buddy_bs_action_already_linked";s:52:"Already accepted the contact request from user \'%s\'.";s:33:"buddy_bs_action_already_requested";s:28:"Already requested user \'%s\'.";s:31:"buddy_bs_action_already_ignored";s:26:"Already ignored user \'%s\'.";s:32:"buddy_bs_action_already_unlinked";s:52:"The contact state for user \'%s\' is already unlinked.";s:21:"buddy_bs_state_linked";s:6:"Linked";s:23:"buddy_bs_state_linked_a";s:6:"Linked";s:23:"buddy_bs_state_linked_p";s:6:"Linked";s:23:"buddy_bs_state_unlinked";s:8:"Unlinked";s:25:"buddy_bs_state_unlinked_a";s:8:"Unlinked";s:25:"buddy_bs_state_unlinked_p";s:8:"Unlinked";s:24:"buddy_bs_state_requested";s:9:"Requested";s:26:"buddy_bs_state_requested_a";s:9:"Requested";s:26:"buddy_bs_state_requested_p";s:9:"Requested";s:29:"buddy_bs_state_ignoredrequest";s:7:"Ignored";s:32:"buddy_bs_state_ignored_request_a";s:9:"Requested";s:32:"buddy_bs_state_ignored_request_p";s:7:"Ignored";s:24:"buddy_bs_no_new_requests";s:15:"No new requests";s:18:"buddy_view_gallery";s:7:"Gallery";s:16:"buddy_view_table";s:4:"List";s:25:"buddy_tbl_title_relations";s:24:"Relations to Other Users";s:22:"buddy_tbl_filter_state";s:6:"Status";s:34:"buddy_notification_contact_request";s:15:"Contact Request";s:40:"buddy_notification_contact_request_short";s:111:"The user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]";s:39:"buddy_notification_contact_request_link";s:16:"Approve Request:";s:43:"buddy_notification_contact_request_link_osd";s:15:"Approve Request";s:41:"buddy_notification_contact_request_ignore";s:15:"Ignore Request:";s:45:"buddy_notification_contact_request_ignore_osd";s:14:"Ignore Request";s:39:"buddy_notification_contact_request_long";s:174:"[SALUTATION][BR][BR]the user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]";s:22:"buddy_request_approved";s:38:"You successfully approved the contact.";s:21:"buddy_request_ignored";s:21:"You ignored the user.";s:24:"buddy_relation_requested";s:36:"A request has been sent to the user.";s:12:"buddy_enable";s:23:"Activate ‘Contacts’";s:17:"buddy_enable_info";s:167:"If enabled, users are allowed to contact each other by initiating contact requests. Additionally, there is a personal user setting to allow or prevent being contacted.";s:25:"buddy_allow_to_contact_me";s:19:"Allow to contact me";s:30:"buddy_allow_to_contact_me_info";s:77:"If enabled, other users are able to send me request for getting into contact.";}')));
+'module' => array('text', 'buddysystem'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:50:{s:27:"buddy_bs_btn_txt_unlinked_a";s:15:"Request Contact";s:27:"buddy_bs_btn_txt_unlinked_p";s:15:"Request Contact";s:25:"buddy_bs_btn_txt_linked_a";s:6:"Linked";s:25:"buddy_bs_btn_txt_linked_p";s:6:"Linked";s:28:"buddy_bs_btn_txt_requested_a";s:17:"Requested Contact";s:28:"buddy_bs_btn_txt_requested_p";s:7:"Request";s:34:"buddy_bs_btn_txt_ignored_request_a";s:17:"Requested Contact";s:34:"buddy_bs_btn_txt_ignored_request_p";s:15:"Request Ignored";s:39:"buddy_bs_act_btn_txt_linked_to_unlinked";s:6:"Unlink";s:49:"buddy_bs_act_btn_txt_requested_to_ignored_request";s:6:"Ignore";s:42:"buddy_bs_act_btn_txt_requested_to_unlinked";s:14:"Cancel Request";s:40:"buddy_bs_act_btn_txt_requested_to_linked";s:7:"Confirm";s:48:"buddy_bs_act_btn_txt_ignored_request_to_unlinked";s:14:"Cancel Request";s:46:"buddy_bs_act_btn_txt_ignored_request_to_linked";s:15:"Confirm Request";s:28:"buddy_bs_action_not_possible";s:19:"Action not possible";s:30:"buddy_bs_action_already_linked";s:73:"Action not possible. Already accepted the contact request from user \'%s\'.";s:33:"buddy_bs_action_already_requested";s:49:"Action not possible. Already requested user \'%s\'.";s:31:"buddy_bs_action_already_ignored";s:47:"Action not possible. Already ignored user \'%s\'.";s:32:"buddy_bs_action_already_unlinked";s:73:"Action not possible. The contact state for user \'%s\' is already unlinked.";s:21:"buddy_bs_state_linked";s:6:"Linked";s:23:"buddy_bs_state_linked_a";s:6:"Linked";s:23:"buddy_bs_state_linked_p";s:6:"Linked";s:23:"buddy_bs_state_unlinked";s:8:"Unlinked";s:25:"buddy_bs_state_unlinked_a";s:8:"Unlinked";s:25:"buddy_bs_state_unlinked_p";s:8:"Unlinked";s:24:"buddy_bs_state_requested";s:9:"Requested";s:26:"buddy_bs_state_requested_a";s:9:"Requested";s:26:"buddy_bs_state_requested_p";s:9:"Requested";s:29:"buddy_bs_state_ignoredrequest";s:7:"Ignored";s:32:"buddy_bs_state_ignored_request_a";s:9:"Requested";s:32:"buddy_bs_state_ignored_request_p";s:7:"Ignored";s:24:"buddy_bs_no_new_requests";s:15:"No new requests";s:18:"buddy_view_gallery";s:7:"Gallery";s:16:"buddy_view_table";s:4:"List";s:25:"buddy_tbl_title_relations";s:24:"Relations to Other Users";s:22:"buddy_tbl_filter_state";s:6:"Status";s:34:"buddy_notification_contact_request";s:15:"Contact Request";s:40:"buddy_notification_contact_request_short";s:111:"The user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]";s:39:"buddy_notification_contact_request_link";s:16:"Approve Request:";s:43:"buddy_notification_contact_request_link_osd";s:15:"Approve Request";s:41:"buddy_notification_contact_request_ignore";s:15:"Ignore Request:";s:45:"buddy_notification_contact_request_ignore_osd";s:14:"Ignore Request";s:39:"buddy_notification_contact_request_long";s:174:"[SALUTATION][BR][BR]the user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]";s:22:"buddy_request_approved";s:38:"You successfully approved the contact.";s:21:"buddy_request_ignored";s:21:"You ignored the user.";s:24:"buddy_relation_requested";s:36:"A request has been sent to the user.";s:12:"buddy_enable";s:23:"Activate ‘Contacts’";s:17:"buddy_enable_info";s:167:"If enabled, users are allowed to contact each other by initiating contact requests. Additionally, there is a personal user setting to allow or prevent being contacted.";s:25:"buddy_allow_to_contact_me";s:19:"Allow to contact me";s:30:"buddy_allow_to_contact_me_info";s:77:"If enabled, other users are able to send me request for getting into contact.";}')));
 
 $ilDB->insert("lng_modules", array(
 'module' => array('text', 'awrn'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:17:{s:20:"awareness_now_online";s:10:"Online Now";s:26:"awareness_now_online_users";s:19:"[ONLINE_USER_NAMES]";s:18:"awareness_settings";s:8:"Settings";s:11:"awrn_enable";s:32:"Enable ‘Who is online?’-Tool";s:13:"awrn_inactive";s:10:"Not Listed";s:16:"awrn_online_only";s:11:"Online Only";s:17:"awrn_incl_offline";s:18:"Online and Offline";s:19:"awrn_caching_period";s:14:"Caching Period";s:24:"awrn_caching_period_info";s:109:"Time that is waited before the number of users in the top bar is updated and new online users are determined.";s:12:"awrn_seconds";s:3:"sec";s:19:"awrn_max_nr_entries";s:20:"Max. Number of Items";s:24:"awrn_max_nr_entries_info";s:57:"Maximum number of items in the ‘Who is online?’ list.";s:24:"awrn_hide_from_awareness";s:38:"Hide Me From ‘Who is online?’-Tool";s:29:"awrn_hide_from_awareness_info";s:118:"The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).";s:19:"awrn_max_inactivity";s:25:"Maximum Inactivity Period";s:24:"awrn_max_inactivity_info";s:103:"After this period users are considered being offline. If nothing is set, the session time will be used.";s:12:"awrn_minutes";s:3:"min";}')));
@@ -28453,6 +28456,9 @@ $ilDB->insert("log_components", array(
 
 $ilDB->insert("log_components", array(
 'component_id' => array('text', 'amet'), 'log_level' => array('integer', '')));
+
+$ilDB->insert("log_components", array(
+'component_id' => array('text', 'ds'), 'log_level' => array('integer', '')));
 
 
 //
@@ -30965,7 +30971,7 @@ $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '33'), 'type' => array('text', 'typ'), 'title' => array('text', 'root'), 'description' => array('text', 'Root Folder Object'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2002-12-21 00:04:00'), 'last_update' => array('timestamp', '2003-08-15 12:04:20'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
-'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2016-12-22 19:55:29'), 'import_id' => array('text', '')));
+'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2017-01-25 21:13:01'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '14'), 'type' => array('text', 'role'), 'title' => array('text', 'Anonymous'), 'description' => array('text', 'Default role for anonymous users (with no account)'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2003-08-15 12:06:19'), 'last_update' => array('timestamp', '2005-07-20 15:15:06'), 'import_id' => array('text', '')));
@@ -34797,11 +34803,11 @@ $fields = array (
 		,"fixed" => false
 		,"type" => "text"
 	)
-	,"morder" => array (
+	,"ident" => array (
 		"notnull" => true
 		,"length" => 4
 		,"unsigned" => false
-		,"default" => ""
+		,"default" => "0"
 		,"type" => "integer"
 	)
 	,"picture" => array (
@@ -34851,6 +34857,12 @@ $fields = array (
 		,"length" => 1000
 		,"fixed" => false
 		,"type" => "text"
+	)
+	,"ident" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"type" => "integer"
 	)
 );
 $ilDB->createTable("qpl_a_mterm", $fields);
@@ -47479,7 +47491,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_update_running'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_1'), 'value' => array('clob', '18')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_1'), 'value' => array('clob', '21')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'mail_send_html'), 'value' => array('clob', '1')));

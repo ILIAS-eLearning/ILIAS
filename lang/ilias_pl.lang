@@ -753,7 +753,6 @@ assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_answers#:#Reakcja na każdą odpowiedź na pytanie
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
 assessment#:#feedback_complete_solution#:#Poprawne rozwiązanie
-assessment#:#feedback_correct#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
 assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).
 assessment#:#feedback_correct_sc_mc#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
 assessment#:#feedback_generic#:#Common Solution Feedback
@@ -1388,7 +1387,6 @@ assessment#:#tst_back_to_virtual_pass#:#Back to Questionoverview
 assessment#:#tst_beginning_ending_information#:#Informacja na Początku i na Końcu Testu
 assessment#:#tst_best_solution_is#:#Najlepsze rozwiązanie to
 assessment#:#tst_browse_for_qpl_questions#:#Add from Pool
-assessment#:#tst_browse_for_questions#:#Przegląd pytań
 assessment#:#tst_browse_for_tst_questions#:#Add from Other Test
 assessment#:#tst_btn_hide_best_solutions#:#Hide Best Solutions
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Quesitons from Pool
@@ -2734,7 +2732,6 @@ certificate#:#certificate_text#:#Tekst Certyfikatu
 certificate#:#certificate_top#:#Góra
 certificate#:#certificate_unit_description#:#Wprowadź jednostki miar jako wartość[cm|mm|in|pt|pc|px|em], np. 10mm or 3in
 certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available on the main page of the ILIAS administration in section Webservices.
-certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_var_max_points#:#46
 certificate#:#certificate_var_result_mark_long#:#Dobrze
 certificate#:#certificate_var_result_mark_short#:#B
@@ -4666,7 +4663,6 @@ common#:#message_content#:#Treść wiadomości
 common#:#message_no_delivered_files#:#Nie dostarczyłeś plików!
 common#:#message_to#:#Wiadomość do:
 common#:#meta_data#:#Meta dane
-common#:#mgs_objects_linked_to_the_following_folders#:#Obiekty zostały połączone z: %s
 common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s
 common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s
 common#:#migrate#:#Migracja
@@ -4745,7 +4741,6 @@ common#:#msg_input_is_required#:#To pole jest wymagane. Wprowadź wartość.
 common#:#msg_invalid_filetype#:#Błędny typ pliku
 common#:#msg_is_last_role#:#Pozbawiłeś następujących użytkowników ich ról.
 common#:#msg_last_role_for_registration#:#Conajmniej jedna rola musi być dostępna na formularzu rejestracyjnym dla nowych użytkowników. Ta rola jest teraz jedyną dostępną.
-common#:#msg_link_clipboard#:#Wybrane obiekty zostały zapamiętane w schowku (Akcja: łączenie).
 common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.
 common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.
 common#:#msg_linked#:#Wybrane obiekty zostały połączone.
@@ -5458,7 +5453,6 @@ common#:#reg_account_confirmation_successful#:#Twoje konto w systemie LMS ILIAS 
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.
 common#:#reg_mail_body_2_confirmation#:#Link będzie ważny przez %s, po tym czasie procedurę rejestracji będziesz musiał rozpocząć od nowa.
 common#:#reg_mail_body_3_confirmation#:#Jeżeli treść tego e-maila nic Ci nie mówi, oznacza to, iż ktoś inny celowo lub przypadkowo podał Twój adres e-mail. Prosimy o zignorowanie tej wiadomości.
-common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:
 common#:#reg_mail_body_forgot_password_info#:#Aby zresetować hasło, możesz skorzystać z funkcjonalności « Zapomniałeś hasła? », która jest umieszczona pod panelem logowania do ILIAS.
 common#:#reg_mail_body_salutation#:#Witaj
 common#:#reg_mail_body_text1#:#Witamy w systemie elektronicznego nauczania ILIAS!
@@ -6655,7 +6649,6 @@ content#:#cont_glo_detach#:#Detach Glossary
 content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Właściwości Słownika
 content#:#cont_glossaries#:#Glossaries
-content#:#cont_got_lock#:#This page has been locked for your editing. Please release the page after you have done all your changes.
 content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2
 content#:#cont_header#:#Nagłówek
 content#:#cont_Headline1#:#Nagłówek 1
@@ -8245,7 +8238,6 @@ crs#:#event_location#:#Miejsce
 crs#:#event_materials#:#Materiały Sesji
 crs#:#event_not_participated#:#Nie uczestniczący
 crs#:#event_overview#:#Uczestnicy sesji
-crs#:#event_participant_selection#:#Participant Selection
 crs#:#event_participated#:#Uczestniczący
 crs#:#event_participation#:#Uczestnictwo
 crs#:#event_register#:#Rejestruj
@@ -10546,8 +10538,6 @@ mail#:#mail_system_from_name#:#Sender Name
 mail#:#mail_system_from_name_info#:#Please enter a name. This name (e.g. 'John Doe') will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.
 mail#:#mail_system_return_path#:#Global Return-Path
 mail#:#mail_system_return_path_info#:#Please enter an email address which should be used for the return path (e.g. webmaster@ilias.de). If you leave the field blank, the 'Return-Path' will be the 'From' email address.
-mail#:#mail_system_sender_name#:#Sender Name
-mail#:#mail_system_sender_name_info#:#Please enter a name. This name will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, 'ILIAS' is used as the sender.
 mail#:#mail_template_client#:#Text Template
 mail#:#mail_template_client_info#:#Choose one of the available text templates and make use of it's placeholders. If you choose a text template, body and subject of this form (if defined in the text template) will be replaced.
 mail#:#mail_template_context#:#Context
@@ -10580,7 +10570,6 @@ mail#:#system_notification_installation_changed_by#:#Changed By
 mail#:#system_notification_installation_signature#:#This email has been sent automatically by the ILIAS installation
 maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
 maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.
-maps#:#maps_custom_server_info#:#Activate custom servers to provide tile- and geolocation-data. Multiple inputs should be separated by spaces. Defaults are "%s" for tiles and "%s" for geolocation.
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
@@ -13498,57 +13487,6 @@ rep#:#rep_object_to_delete#:#To Delete
 rep#:#rep_time_period#:#Okres
 rep#:#rep_visibility_limitless#:#Nieograniczony
 rep#:#rep_visibility_until#:#Dostępny Tymczasowo
-rep_robj_xbbb#:#rep_robj_xbbb_BigBlueButton_plugin_configuration#:#Big Blue Button Connection Properties
-rep_robj_xbbb#:#rep_robj_xbbb_cat_create_xbbb#:#Create Big Blue Button Virtual Classroom
-rep_robj_xbbb#:#rep_robj_xbbb_checkbox_record_meeting#:#record next session
-rep_robj_xbbb#:#rep_robj_xbbb_class_ended#:#The class has been ended.
-rep_robj_xbbb#:#rep_robj_xbbb_class_not_started_yet#:#This class has not started yet. Please try again later when the class is running.
-rep_robj_xbbb#:#rep_robj_xbbb_class_running#:#There is a class running,
-rep_robj_xbbb#:#rep_robj_xbbb_click_to_open_class#:#Click here to open your Virtual Classroom in a new window.
-rep_robj_xbbb#:#rep_robj_xbbb_content#:#Content
-rep_robj_xbbb#:#rep_robj_xbbb_crs_create_xbbb#:#Create Big Blue Button Virtual Classroom
-rep_robj_xbbb#:#rep_robj_xbbb_Date_Title#:#date
-rep_robj_xbbb#:#rep_robj_xbbb_DeleteLink_Title#:#delete recording
-rep_robj_xbbb#:#rep_robj_xbbb_description#:#description
-rep_robj_xbbb#:#rep_robj_xbbb_edit#:#Edit
-rep_robj_xbbb#:#rep_robj_xbbb_edit_properties#:#edit properties
-rep_robj_xbbb#:#rep_robj_xbbb_end_class#:#click here to end the class.
-rep_robj_xbbb#:#rep_robj_xbbb_end_class_comment#:#(Note that all participants will be kicked if they are still connected to the class).
-rep_robj_xbbb#:#rep_robj_xbbb_fold_create_xbbb#:#Create Big Blue Button Virtual Classroom
-rep_robj_xbbb#:#rep_robj_xbbb_grp_create_xbbb#:#Create Big Blue Button Virtual Classroom
-rep_robj_xbbb#:#rep_robj_xbbb_Headline_Recordings#:#recordings
-rep_robj_xbbb#:#rep_robj_xbbb_Length_Title#:#length
-rep_robj_xbbb#:#rep_robj_xbbb_Link_Title#:#link
-rep_robj_xbbb#:#rep_robj_xbbb_meetingRecordedMessage#:#The current session will be recorded!
-rep_robj_xbbb#:#rep_robj_xbbb_new_class_created#:#A new Virtual Clasroom has been created and it will be opened automatically in a new window.
-rep_robj_xbbb#:#rep_robj_xbbb_new_class_created_join_manual#:#Click here to join your Virtual Classroom if it did not open automatically.
-rep_robj_xbbb#:#rep_robj_xbbb_new_class_created_warning#:#You MUST join the class before the attendees. No one will be able to join until a moderator does.
-rep_robj_xbbb#:#rep_robj_xbbb_no_class_running#:#There is no class running,
-rep_robj_xbbb#:#rep_robj_xbbb_obj_xbbb#:#Big Blue Button Virtual Classroom
-rep_robj_xbbb#:#rep_robj_xbbb_obj_xbbb_duplicate#:#Copy
-rep_robj_xbbb#:#rep_robj_xbbb_obj_xbbb_select#:#Select Big Blue Button Virtual Classroom
-rep_robj_xbbb#:#rep_robj_xbbb_objs_xbbb#:#Big Blue Button Virtual Classrooms
-rep_robj_xbbb#:#rep_robj_xbbb_objs_xbbb_duplicate#:#Copy Big Blue Button Virtual Classroom
-rep_robj_xbbb#:#rep_robj_xbbb_privateport#:#Private Port (e.g. 8080)
-rep_robj_xbbb#:#rep_robj_xbbb_privateurl#:#Private URL (e.g. http://192.168.1.100)
-rep_robj_xbbb#:#rep_robj_xbbb_properties#:#Properties
-rep_robj_xbbb#:#rep_robj_xbbb_publicport#:#Public Port (e.g. 80)
-rep_robj_xbbb#:#rep_robj_xbbb_publicurl#:#Public URL (e.g. http://mybbbserver.com)
-rep_robj_xbbb#:#rep_robj_xbbb_root_create_xbbb#:#Create Big Blue Button Virtual Classroom
-rep_robj_xbbb#:#rep_robj_xbbb_salt#:#Security Salt
-rep_robj_xbbb#:#rep_robj_xbbb_save#:#Save
-rep_robj_xbbb#:#rep_robj_xbbb_saving_invoked#:#saved
-rep_robj_xbbb#:#rep_robj_xbbb_start_class#:#click here to start the class.
-rep_robj_xbbb#:#rep_robj_xbbb_status#:#status
-rep_robj_xbbb#:#rep_robj_xbbb_title#:#title
-rep_robj_xbbb#:#rep_robj_xbbb_welcometext#:#welcome text
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_add#:#Add Big Blue Button Virtual Classroom
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_delete#:#Delete Big Blue Button Virtual Classroom
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_edit_permission#:#Change permission settings
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_new#:#Add New Big Blue Button Virtual Classroom
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_read#:#Read access to Big Blue Button Virtual Classroom
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_visible#:#Big Blue Button Virtual Classroom is visible
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_write#:#Edit Big Blue Button Virtual Classroom
 rfil#:#rfil_call#:#Call ECS File
 rfil#:#rfil_version_tstamp#:#Upload Date
 rglo#:#rglo_call#:#Call ECS Glossary
@@ -16283,3 +16221,5 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Verification: Test
 wsp#:#wsp_type_webr#:#Zasób web
 wsp#:#wsp_type_wfld#:#Folder
+rbac#:#edit_members#:#Manage members###25 01 2017 new variable
+rbac#:#prg_manage_members#:#Manage members of Study Programme###25 01 2017 new variable
