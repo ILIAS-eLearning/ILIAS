@@ -134,6 +134,11 @@ class FormMailCodesGUI extends ilPropertyFormGUI
 				ilUtil::sendInfo($lng->txt("cant_send_email_smtp_disabled"));
 			}
 		}
+		else
+		{
+			ilUtil::sendInfo($lng->txt("cannot_send_emails"));
+
+		}
 	}
 	
 	public function getSavedMessages()
