@@ -6615,7 +6615,7 @@ exc#:#exc_starting_on#:#Starting On
 exc#:#exc_submissions_and_grades#:#Submissions and Grades
 exc#:#exc_submitted_files_deleted#:#The selected files have been deleted.
 exc#:#exc_total_exc#:#Total Exercise
-exercise#:#exc_comment_for_learner#:#Comment for Learner
+exercise#:#exc_comment_for_learner#:#Feedback for Participant
 exercise#:#exc_comment#:#Comment
 exercise#:#exc_crs_add_members#:#Add Users of Current Course###deprecated 
 exercise#:#exc_failed#:#Failed
@@ -16129,7 +16129,7 @@ lng#:#lng_download_deprecated#:#Download Deprecated List
 rbac#:#edit_members#:#Manage members
 rbac#:#prg_manage_members#:#Manage members of Study Programme
 rbac#:#rbac_create_iass#:#Create Individual Assessment
-survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###deprecated 
+survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.
 wsp#:#share_content#:#Share Object
 wsp#:#share_with#:#Username
 wsp#:#element_already_shared#:#This object is already shared with this user.
@@ -16141,3 +16141,4 @@ auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactiva
 crs#:#crs_edit_lo_introduction#:#Edit Introduction
 rbac#:#grp_manage_members#:#Manage Members of Group
 rbac#:#crs_manage_members#:#Manage Members of Course
+survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.
