@@ -389,14 +389,17 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		$subRoom = 0;
+		$subRoom   = 0;
+		$timestamp = 0;
 		if(is_array($message))
 		{
-			$subRoom = (int)$message['sub'];
+			$subRoom   = (int)$message['sub'];
+			$timestamp = (int)$message['timestamp'];
 		}
 		else if(is_object($message))
 		{
-			$subRoom = (int)$message->sub;
+			$subRoom   = (int)$message->sub;
+			$timestamp = (int)$message->timestamp;
 		}
 
 		$id = $ilDB->nextId(self::$historyTable);
@@ -407,7 +410,7 @@ class ilChatroom
 				'room_id'   => array('integer', $this->roomId),
 				'sub_room'  => array('integer', $subRoom),
 				'message'   => array('text', json_encode($message)),
-				'timestamp' => array('integer', time()),
+				'timestamp' => array('integer', ($timestamp > 0 ? $timestamp : time())),
 			)
 		);
 	}
@@ -941,7 +944,8 @@ class ilChatroom
 				'parent_id' => array('integer', $this->roomId),
 				'title'     => array('text', $title),
 				'owner'     => array('integer', $owner->getUserId()),
-				'created'   => array('integer', time()),
+				'closed'    => array('integer', (isset($settings['closed']) ? $settings['closed'] : 0)),
+				'created'   => array('integer', (isset($settings['created']) ? $settings['created'] : time())),
 				'is_public' => array('integer', $settings['public']),
 			)
 		);
@@ -1129,16 +1133,10 @@ class ilChatroom
 		 */
 		global $ilDB;
 
-		$query  = 'DELETE FROM ' . self::$privateRoomsAccessTable . ' WHERE user_id = %s AND proom_id = %s';
-		$types  = array('integer', 'integer');
-		$values = array($user_id, $proom_id);
-
-		$ilDB->manipulateF($query, $types, $values);
-
-		$ilDB->insert(self::$privateRoomsAccessTable, array(
+		$ilDB->replace(self::$privateRoomsAccessTable, array(
 			'user_id'  => array('integer', $user_id),
 			'proom_id' => array('integer', $proom_id)
-		));
+		), array());
 	}
 
 	public function getActivePrivateRooms($userid)

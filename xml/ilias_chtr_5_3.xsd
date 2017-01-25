@@ -8,6 +8,7 @@
 		<complexType>
 			<sequence>
 				<element name="ObjId" type="int" />
+				<element name="RoomId" type="int" />
 				<element name="Title" type="string" />
 				<element name="Description" type="string"  />
 				<element name="OnlineStatus" type="int" />
@@ -35,11 +36,11 @@
 		<complexType>
 			<all>
 				<element name="SubRoomId" type="integer" minOccurs="1" maxOccurs="1" />
-				<element name="RoomId" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="Title" type="string" minOccurs="1" maxOccurs="1" />
 				<element name="Owner" type="int" minOccurs="1" maxOccurs="1" />
 				<element name="Closed" type="int" minOccurs="1" maxOccurs="1" />
 				<element name="Public" type="int" minOccurs="1" maxOccurs="1" />
+				<element name="CreatedTimestamp" type="int" minOccurs="1" maxOccurs="1" />
 				<element name="PrivilegedUserId" type="int" />
 			</all>
 		</complexType>
@@ -55,9 +56,8 @@
 	<element name="Message">
 		<complexType>
 			<all>
-				<element name="RoomId" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="SubRoomId" type="int" minOccurs="1" maxOccurs="1" />
-				<element name="Message" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="Body" type="string" minOccurs="1" maxOccurs="1" />
 				<element name="CreatedTimestamp" type="int" minOccurs="1" maxOccurs="1" />
 			</all>
 		</complexType>
