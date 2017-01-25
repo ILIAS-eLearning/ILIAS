@@ -62,20 +62,23 @@ echo $previous_dir_path."<br>";
 		echo "d<br>";
 								if(!is_dir($previous_dir_path.$row['giver_id']))
 								{
-//									mkdir($previous_dir_path.$row['giver_id']);
+									mkdir($previous_dir_path.$row['giver_id']);
 echo "1 make dir ".$previous_dir_path.$row['giver_id']."<br>";
 								}
 
 								if(!is_dir($previous_dir_path.$row['giver_id']."/".$row_crit['id']))
 								{
-//									mkdir($previous_dir_path.$row['giver_id']."/".$row_crit['id']);
+									mkdir($previous_dir_path.$row['giver_id']."/".$row_crit['id']);
 echo "2 make dir ".$previous_dir_path.$row['giver_id']."/".$row_crit['id']."<br>";
 								}
 
 
 								$old = substr($original_path, 0, strlen($original_path) - 1);
 								$new = $previous_dir_path.$row['giver_id']."/".$row_crit['id'];
-								//rename($old, $new);
+								if (is_dir($old))
+								{
+									rename($old, $new);
+								}
 echo "rename ".$old." to ".$new."<br>";
 
 								/*
@@ -122,8 +125,7 @@ echo "4 rmdir ".$previous_dir_path.$content."<br>";*/
 						if (substr($content, 0, strlen($row['giver_id'])) === $row['giver_id'])
 						{
 							$new_filename = substr($content, strlen($row['giver_id']));
-							// *** removed "/" before $new_filename
-//							$copy = copy($previous_dir_path.$content, $original_path."/".$new_filename);
+							$copy = copy($previous_dir_path.$content, $original_path."/".$new_filename);
 echo "5 copy ".$previous_dir_path.$content." to ".$original_path."/".$new_filename."<br>";
 						}
 					}
