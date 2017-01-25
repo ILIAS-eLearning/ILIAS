@@ -7,7 +7,7 @@ require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 /**
  * Class ilChatroomXMLWriter
  */
-class ilChatroomXMLParser extends ilXmlWriter
+class ilChatroomXMLWriter extends ilXmlWriter
 {
 	/**
 	 * @var ilObjChatroom
