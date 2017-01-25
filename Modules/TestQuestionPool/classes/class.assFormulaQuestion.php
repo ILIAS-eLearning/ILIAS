@@ -979,6 +979,23 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
 		return $points;
 	}
+	
+	protected function isValidSolutionSubmit($submittedValue)
+	{
+		$submittedValue = str_replace(',', '.', $submittedValue);
+		
+		if( is_numeric($submittedValue) )
+		{
+			return true;
+		}
+		
+		if( preg_match('/^\d+\/\d+$/', $submittedValue) )
+		{
+			return true;
+		}
+		
+		return false;
+	}
 
 	/**
 	 * Saves the learners input of the question to the database
@@ -1005,7 +1022,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		$solutionSubmit = array();
 		foreach($tmp as $key => $val)
 		{
-			if(is_numeric($val) || is_numeric(str_replace(',', '.', $val)) || strlen($val) == 0)
+			if( $this->isValidSolutionSubmit($val) )
 			{
 				$solutionSubmit[$key] = $val;
 			}
