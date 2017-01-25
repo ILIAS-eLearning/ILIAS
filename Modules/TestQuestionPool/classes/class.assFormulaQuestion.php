@@ -980,7 +980,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		return $points;
 	}
 	
-	protected function isValidSolutionSubmit($submittedValue)
+	protected function isValidSolutionResultValue($submittedValue)
 	{
 		$submittedValue = str_replace(',', '.', $submittedValue);
 		
@@ -1017,21 +1017,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
 		$solutionSubmit = $this->getSolutionSubmit();
-
-		$tmp            = $solutionSubmit;
-		$solutionSubmit = array();
-		foreach($tmp as $key => $val)
-		{
-			if( $this->isValidSolutionSubmit($val) )
-			{
-				$solutionSubmit[$key] = $val;
-			}
-			else
-			{
-				$solutionSubmit[$key] = '';
-			}
-		}
-
 		$entered_values = FALSE;
 		foreach($solutionSubmit as $key => $value)
 		{
@@ -1384,8 +1369,16 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		{
 			if(preg_match("/^result_(\\\$r\\d+)$/", $k))
 			{
-				$solutionSubmit[$k] = $v;
-			} elseif(preg_match("/^result_(\\\$r\\d+)_unit$/", $k))
+				if( $this->isValidSolutionResultValue($v) )
+				{
+					$solutionSubmit[$k] = $v;
+				}
+				else
+				{
+					$solutionSubmit[$k] = '';
+				}
+			}
+			elseif(preg_match("/^result_(\\\$r\\d+)_unit$/", $k))
 			{
 				$solutionSubmit[$k] = $v;
 			}
