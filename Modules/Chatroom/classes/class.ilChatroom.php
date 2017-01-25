@@ -465,13 +465,14 @@ class ilChatroom
 	 * Returns an array of user objects containing all users having an entry
 	 * in userTable, matching the roomId.
 	 * @global ilDBInterface $ilDB
+	 * @param bool $only_data
 	 * @return array
 	 */
-	public function getConnectedUsers()
+	public function getConnectedUsers($only_data = true)
 	{
 		global $ilDB;
 
-		$query  = 'SELECT userdata FROM ' . self::$userTable . ' WHERE room_id = %s';
+		$query  = 'SELECT ' . ($only_data ? 'userdata' : '*') . ' FROM ' . self::$userTable . ' WHERE room_id = %s';
 		$types  = array('integer');
 		$values = array($this->roomId);
 		$rset   = $ilDB->queryF($query, $types, $values);
@@ -479,7 +480,7 @@ class ilChatroom
 
 		while($row = $ilDB->fetchAssoc($rset))
 		{
-			$users[] = json_decode($row['userdata']);
+			$users[] = $only_data ? json_decode($row['userdata']) : $row;
 		}
 
 		return $users;
@@ -634,9 +635,10 @@ class ilChatroom
 	 * @param ilDateTime     $from
 	 * @param ilDateTime     $to
 	 * @param integer        $restricted_session_userid
+	 * @param bool           $respect_target
 	 * @return array
 	 */
-	public function getHistory(ilDateTime $from = null, ilDateTime $to = null, $restricted_session_userid = null, $proom_id = 0)
+	public function getHistory(ilDateTime $from = null, ilDateTime $to = null, $restricted_session_userid = null, $proom_id = 0, $respect_target = true)
 	{
 		global $ilDB, $ilUser;
 
@@ -657,7 +659,10 @@ class ilChatroom
 			'FROM ' . self::$historyTable . ' historyTable ' . $join . ' ' .
 			'WHERE historyTable.room_id = ' . $this->getRoomId();
 
-		$query .= ' AND historyTable.sub_room = ' . $ilDB->quote($proom_id, 'integer');
+		if($proom_id !== null)
+		{
+			$query .= ' AND historyTable.sub_room = ' . $ilDB->quote($proom_id, 'integer');
+		}
 
 		$filter = array();
 
@@ -682,7 +687,12 @@ class ilChatroom
 		{
 			$row['message']            = json_decode($row['message']);
 			$row['message']->timestamp = $row['timestamp'];
-			if($row['message']->target !== null && !$row['message']->target->public && !in_array($ilUser->getId(), explode(',', $row['recipients'])))
+			if(
+				$respect_target &&
+				$row['message']->target !== null &&
+				!$row['message']->target->public &&
+				!in_array($ilUser->getId(), explode(',', $row['recipients']))
+			)
 			{
 				continue;
 			}
@@ -1250,6 +1260,44 @@ class ilChatroom
 			return $row['cnt'];
 
 		return 0;
+	}
+
+	public function getPrivateRooms()
+	{
+		global $ilDB;
+
+		$query = 'SELECT * FROM ' . self::$privateRoomsTable . ' WHERE parent_id = %s';
+		$rset  = $ilDB->queryF($query, array('integer'), array($this->roomId));
+
+		$rooms = array();
+
+		while($row = $ilDB->fetchAssoc($rset))
+		{
+			$rooms[] = $row;
+		}
+
+		return $rooms;
+	}
+
+	/**
+	 * @param int $subRoomId
+	 * @return int[]
+	 */
+	public function getPrivilegedUsersForPrivateRoom($subRoomId)
+	{
+		global $ilDB;
+
+		$query = 'SELECT user_id FROM ' . self::$privateRoomsAccessTable . ' WHERE proom_id = %s';
+		$rset  = $ilDB->queryF($query, array('integer'), array($subRoomId));
+
+		$userIds = array();
+
+		while($row = $ilDB->fetchAssoc($rset))
+		{
+			$userIds[] = $row['user_id'];
+		}
+
+		return $userIds;
 	}
 
 	public function getUniquePrivateRoomTitle($title)
