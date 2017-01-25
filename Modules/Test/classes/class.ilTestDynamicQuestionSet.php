@@ -118,7 +118,7 @@ class ilTestDynamicQuestionSet
 			foreach($filterSelection->getTaxonomySelection() as $taxId => $taxNodes)
 			{
 				$questionList->addTaxonomyFilter(
-					$taxId, $taxNodes, $this->testOBJ->getObjId(), $this->testOBJ->getType()
+					$taxId, $taxNodes, $this->testOBJ->getId(), $this->testOBJ->getType()
 				);
 			}
 		}
