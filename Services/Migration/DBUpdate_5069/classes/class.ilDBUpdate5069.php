@@ -72,6 +72,13 @@ echo "1 make dir ".$previous_dir_path.$row['giver_id']."<br>";
 echo "2 make dir ".$previous_dir_path.$row['giver_id']."/".$row_crit['id']."<br>";
 								}
 
+
+								$old = substr($original_path, 0, strlen($original_path) - 1);
+								$new = $previous_dir_path.$row['giver_id']."/".$row_crit['id'];
+								//rename($old, $new);
+echo "rename ".$old." to ".$new."<br>";
+
+								/*
 								//take the files of the wrong directory and copy them into the proper new directory.
 								$sub_dir_content = array_diff(scandir($original_path), array('.', '..'));
 echo "reading ".$original_path."<br>";
@@ -87,7 +94,7 @@ echo "3 copy ".$original_path.$sub_content." to ".$previous_dir_path.$row['giver
 //								array_map("unlink",glob($previous_dir_path.$content."/*.*"));
 echo " 4 unlink ".$previous_dir_path.$content."/*.*";
 //								rmdir($previous_dir_path.$content);
-echo "4 rmdir ".$previous_dir_path.$content."<br>";
+echo "4 rmdir ".$previous_dir_path.$content."<br>";*/
 							}
 						}
 					}
