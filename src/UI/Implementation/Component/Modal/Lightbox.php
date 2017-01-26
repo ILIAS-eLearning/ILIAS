@@ -18,8 +18,10 @@ class Lightbox extends Modal implements Component\Modal\Lightbox {
 
 	/**
 	 * @param LightboxPage|LightboxPage[] $pages
+	 * @param Component\SignalGenerator $signal_generator
 	 */
-	public function __construct($pages) {
+	public function __construct($pages, Component\SignalGenerator $signal_generator) {
+		parent::__construct($signal_generator);
 		$pages = $this->toArray($pages);
 		$types = array( LightboxPage::class );
 		$this->checkArgListElements('pages', $pages, $types);

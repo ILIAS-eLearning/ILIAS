@@ -1,7 +1,4 @@
 <?php
-
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -14,7 +11,7 @@ use ILIAS\UI\Component;
 class Renderer extends AbstractComponentRenderer {
 
 	/**
-	 * @inheritdocs
+	 * @inheritdoc
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
@@ -28,6 +25,17 @@ class Renderer extends AbstractComponentRenderer {
 		}
 	}
 
+	/**
+	 * @param Component\Modal\Modal $modal
+	 * @param string $id
+	 */
+	protected function registerSignals(Component\Modal\Modal $modal, $id) {
+		$show = $modal->getShowSignal();
+		$close = $modal->getCloseSignal();
+		$this->getJavascriptBinding()->addOnLoadCode("$(document).on('{$show}', function() { $('#{$id}').modal('show'); });");
+		$this->getJavascriptBinding()->addOnLoadCode("$(document).on('{$close}', function() { $('#{$id}').modal('close'); });");
+	}
+
 
 	/**
 	 * @param Component\Modal\Interruptive $modal
@@ -37,7 +45,10 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderInterruptive(Component\Modal\Interruptive $modal, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate('tpl.interruptive.html', true, true);
-		$tpl->setVariable('ID', $this->createId($modal));
+		$id = $this->createId($modal);
+		$this->registerSignals($modal, $id);
+		$tpl->setVariable('ID', $id);
+		$tpl->setVariable('FORM_ACTION', $modal->getFormAction());
 		$tpl->setVariable('TITLE', $modal->getTitle());
 		if ($modal->getMessage()) {
 			$tpl->setCurrentBlock('with_message');
@@ -46,10 +57,7 @@ class Renderer extends AbstractComponentRenderer {
 		}
 		if (count($modal->getAffectedItems())) {
 			$tpl->setCurrentBlock('with_items');
-			$titles = array_map(function($interruptive_item) {
-				/** @var Component\Modal\InterruptiveItem $interruptive_item */
-				return $interruptive_item->getTitle();
-			}, $modal->getAffectedItems());
+			$titles = array_map(function($interruptive_item) { return $interruptive_item->getTitle(); }, $modal->getAffectedItems());
 			$list = $this->getUIFactory()->listing()->unordered($titles);
 			$tpl->setVariable('ITEMS', $default_renderer->render($list));
 			foreach ($modal->getAffectedItems() as $item) {
@@ -58,12 +66,10 @@ class Renderer extends AbstractComponentRenderer {
 				$tpl->parseCurrentBlock();
 			}
 		}
-		$action_button = $this->getUIFactory()->button()->primary($this->txt($modal->getActionButtonLabel()), '');
-		$tpl->setVariable('ACTION_BUTTON', $default_renderer->render($action_button));
-		$cancel_button = $this->getCancelButton($modal->getCancelButtonLabel());
-		$connection = $this->getUIFactory()->connector()->onClick($cancel_button, $modal->getCloseAction());
-		$tpl->setVariable('CANCEL_BUTTON', $default_renderer->render($cancel_button, $connection));
-
+//		$action_button = $this->getUIFactory()->button()->primary($this->txt($modal->getActionButtonLabel()), '');
+		$tpl->setVariable('ACTION_BUTTON_LABEL', $this->txt($modal->getActionButtonLabel()));
+//		$cancel_button = $this->getCancelButton($modal->getCancelButtonLabel());
+		$tpl->setVariable('CANCEL_BUTTON_LABEL', $this->txt($modal->getCancelButtonLabel()));
 		return $tpl->get();
 	}
 
@@ -76,7 +82,9 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderRoundTrip(Component\Modal\RoundTrip $modal, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate('tpl.roundtrip.html', true, true);
-		$tpl->setVariable('ID', $this->createId($modal));
+		$id = $this->createId($modal);
+		$this->registerSignals($modal, $id);
+		$tpl->setVariable('ID', $id);
 		$tpl->setVariable('TITLE', $modal->getTitle());
 		foreach ($modal->getContent() as $content) {
 			$tpl->setCurrentBlock('with_content');
@@ -88,11 +96,8 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable('BUTTON', $default_renderer->render($button));
 			$tpl->parseCurrentBlock();
 		}
-		// Cancel Button is always rendered after action buttons at the very end of the footer
-		$cancel_button = $this->getCancelButton($modal->getCancelButtonLabel());
-		$connection = $this->getUIFactory()->connector()->onClick($cancel_button, $modal->getCloseAction());
-		$tpl->setVariable('CANCEL_BUTTON', $default_renderer->render($cancel_button, $connection));
-
+//		$cancel_button = $this->getCancelButton($modal->getCancelButtonLabel());
+		$tpl->setVariable('CANCEL_BUTTON_LABEL', $this->txt($modal->getCancelButtonLabel()));
 		return $tpl->get();
 	}
 
@@ -105,7 +110,9 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderLightbox(Component\Modal\Lightbox $modal, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate('tpl.lightbox.html', true, true);
-		$tpl->setVariable('ID', $this->createId($modal));
+		$id = $this->createId($modal);
+		$this->registerSignals($modal, $id);
+		$tpl->setVariable('ID', $id);
 		foreach ($modal->getPages() as $page) {
 			$tpl->setCurrentBlock('pages');
 			$tpl->setVariable('TITLE', $page->getTitle());
@@ -113,7 +120,6 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable('DESCRIPTION', $page->getDescription());
 			$tpl->parseCurrentBlock();
 		}
-
 		return $tpl->get();
 	}
 
@@ -125,9 +131,9 @@ class Renderer extends AbstractComponentRenderer {
 	 *
 	 * @return Component\Button\Standard
 	 */
-	protected function getCancelButton($txt_key) {
-		return $this->getUIFactory()->button()->standard($this->txt($txt_key), '');
-	}
+//	protected function getCancelButton($txt_key) {
+//		return $this->getUIFactory()->button()->standard($this->txt($txt_key), '');
+//	}
 
 
 	/**

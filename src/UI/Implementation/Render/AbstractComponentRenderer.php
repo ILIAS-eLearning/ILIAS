@@ -37,19 +37,13 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	private $js_binding;
 
 	/**
-	 * @var ComponentIdRegistryInterface
-	 */
-	private $id_registry;
-
-	/**
 	 * Component renderers must only depend on a UI-Factory and a Template Factory.
 	 */
-	final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory, \ilLanguage $lng, JavaScriptBinding $js_binding, ComponentIdRegistryInterface $id_registry) {
+	final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory, \ilLanguage $lng, JavaScriptBinding $js_binding) {
 		$this->ui_factory = $ui_factory;
 		$this->tpl_factory = $tpl_factory;
 		$this->lng = $lng;
 		$this->js_binding = $js_binding;
-		$this->id_registry = $id_registry;
 	}
 
 	/**
@@ -77,6 +71,13 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 */
 	final public function txt($id) {
 		return $this->lng->txt($id);
+	}
+
+	/**
+	 * @return JavaScriptBinding
+	 */
+	final protected function getJavascriptBinding() {
+		return $this->js_binding;
 	}
 
 	/**
@@ -111,8 +112,6 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		if ($binder === null) {
 			return null;
 		}
-//		$id = $this->js_binding->createId();
-//		$this->id_registry->register($component, $id);
 		$id = $this->createId($component);
 		$on_load_code = $binder($id);
 		if (!is_string($on_load_code)) {
@@ -133,8 +132,6 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 */
 	final protected function createId(Component $component) {
 		$id = $this->js_binding->createId();
-		$this->id_registry->register($component, $id);
-
 		return $id;
 	}
 

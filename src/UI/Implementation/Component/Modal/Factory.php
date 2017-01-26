@@ -4,6 +4,7 @@ namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Modal as Modal;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 /**
  * Implementation of factory for modals
@@ -13,10 +14,23 @@ use ILIAS\UI\Component\Modal as Modal;
 class Factory implements Modal\Factory {
 
 	/**
+	 * @var Component\SignalGenerator
+	 */
+	protected $signal_generator;
+
+	/**
+	 * @param Component\SignalGenerator $signal_generator
+	 */
+	public function __construct(Component\SignalGenerator $signal_generator) {
+		$this->signal_generator = $signal_generator;
+	}
+
+
+	/**
 	 * @inheritdoc
 	 */
 	public function interruptive($title, $message, $form_action) {
-		return new Interruptive($title, $message, $form_action);
+		return new Interruptive($title, $message, $form_action, $this->signal_generator);
 	}
 
 
@@ -32,7 +46,7 @@ class Factory implements Modal\Factory {
 	 * @inheritdoc
 	 */
 	public function roundtrip($title, $content) {
-		return new RoundTrip($title, $content);
+		return new RoundTrip($title, $content, $this->signal_generator);
 	}
 
 
@@ -40,7 +54,7 @@ class Factory implements Modal\Factory {
 	 * @inheritdoc
 	 */
 	public function lightbox($pages) {
-		return new Lightbox($pages);
+		return new Lightbox($pages, $this->signal_generator);
 	}
 
 

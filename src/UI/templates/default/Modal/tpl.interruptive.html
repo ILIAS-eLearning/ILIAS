@@ -1,5 +1,6 @@
 <div class="modal fade il-modal-interruptive" tabindex="-1" role="dialog" id="{ID}">
     <div class="modal-dialog" role="document">
+        <form action="{FORM_ACTION}" method="POST">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -14,18 +15,17 @@
                 <!-- BEGIN with_items -->
                 <div class="il-modal-interruptive-items">
                     {ITEMS}
-                    <form action="{FORM_ACTION}">
                     <!-- BEGIN hidden_inputs -->
                         <input type="hidden" name="interruptive_items[]" value="{ITEM_ID}">
                     <!-- END hidden_inputs -->
-                    </form>
                 </div>
                 <!-- END with_items -->
             </div>
             <div class="modal-footer">
-                {ACTION_BUTTON}
-                {CANCEL_BUTTON}
+                <input type="submit" class="btn btn-primary" value="{ACTION_BUTTON_LABEL}">
+                <a class="btn btn-default" data-dismiss="modal" aria-label="Close">{CANCEL_BUTTON_LABEL}</a>
             </div>
         </div>
+        </form>
     </div>
 </div>

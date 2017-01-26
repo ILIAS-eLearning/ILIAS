@@ -31,10 +31,12 @@ class RoundTrip extends Modal implements Component\Modal\RoundTrip {
 
 
 	/**
-	 * @param string                                    $title
+	 * @param string $title
 	 * @param Component\Component|Component\Component[] $content
+	 * @param Component\SignalGenerator $signal_generator
 	 */
-	public function __construct($title, $content) {
+	public function __construct($title, $content, Component\SignalGenerator $signal_generator) {
+		parent::__construct($signal_generator);
 		$this->checkStringArg('title', $title);
 		$content = $this->toArray($content);
 		$types = array( Component\Component::class );

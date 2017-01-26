@@ -5,11 +5,9 @@
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Component\Trigger\Triggerable;
-use ILIAS\UI\Component\Trigger\TriggerAction;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Component\Glyph\Glyph;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
  * This implements commonalities between standard and primary buttons. 
@@ -17,6 +15,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 abstract class Button implements C\Button\Button {
 	use ComponentHelper;
 	use JavaScriptBindable;
+	use Triggerer;
 
 	/**
 	 * @var string
@@ -42,14 +41,14 @@ abstract class Button implements C\Button\Button {
 	} 
 
 	/**
-	 * @inheritdocs 
+	 * @inheritdoc
 	 */
 	public function getLabel() {
 		return $this->label;
 	}
 
 	/**
-	 * @inheritdocs 
+	 * @inheritdoc
 	 */
 	public function withLabel($label) {
 		$this->checkStringArg("label", $label);
@@ -59,25 +58,53 @@ abstract class Button implements C\Button\Button {
 	}
 
 	/**
-	 * @inheritdocs 
+	 * @inheritdoc
 	 */
 	public function getAction() {
 		return $this->action;
 	}
 
 	/**
-	 * @inheritdocs 
+	 * @inheritdoc
 	 */
 	public function isActive() {
 		return $this->active;
 	}
 
 	/**
-	 * @inheritdocs 
+	 * @inheritdoc
 	 */
 	public function withUnavailableAction() {
 		$clone = clone $this;
 		$clone->active = false;
 		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnClick($signal, $options = array()) {
+		return $this->addTriggeredSignal($signal, C\Triggerer::EVENT_CLICK, $options);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnClick($signal, $options = array()) {
+		return $this->appendTriggeredSignal($signal, C\Triggerer::EVENT_CLICK, $options);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnHover($signal, $options = array()) {
+		return $this->addTriggeredSignal($signal, C\Triggerer::EVENT_HOVER, $options);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnHover($signal, $options = array()) {
+		return $this->appendTriggeredSignal($signal, C\Triggerer::EVENT_HOVER, $options);
 	}
 }

@@ -16,9 +16,8 @@ interface Renderer {
 	 * of the rendered components, same index.
 	 *
 	 * @param Component\Component|Component\Component[] $component
-	 * @param Component\Connector\ComponentConnection|Component\Connector\ComponentConnection[] $connection
 	 *
 	 * @return string|array The output of the renderer rendering the component
 	 */
-	public function render($component, $connection = null);
+	public function render($component);
 }

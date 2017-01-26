@@ -69,10 +69,14 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl->get();
 	}
 
-	protected function maybeRenderId($component, $tpl) {
+	protected function maybeRenderId(Component\Button\Button $component, $tpl) {
 		$id = $this->bindJavaScript($component);
 		if ($id === null) {
-			$id = $this->createId($component);
+			// No onload code available, check if the button is acting as triggerer
+			if (count($component->getTriggeredSignals())) {
+				$id = $this->createId($component);
+				$this->registerTriggeredSignals($component, $id);
+			}
 		}
 		if ($id !== null) {
 			$tpl->setCurrentBlock("with_id");
@@ -81,8 +85,17 @@ class Renderer extends AbstractComponentRenderer {
 		}
 	}
 
+	protected function registerTriggeredSignals(Component\Button\Button $button, $id) {
+		foreach ($button->getTriggeredSignals() as $triggered_signal) {
+			$signal = $triggered_signal->getSignal();
+			$options = $triggered_signal->getSignalOptions();
+			$event = $triggered_signal->getEvent();
+			$this->getJavascriptBinding()->addOnLoadCode("$('#{$id}').{$event}( function() { $(document).trigger('{$signal}'); return false; });");
+		}
+	}
+
 	/**
-	 * @inheritdocs
+	 * @inheritdoc
 	 */
 	protected function getComponentInterfaceName() {
 		return array

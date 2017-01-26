@@ -4,14 +4,20 @@ function show_modal_on_button_click()
 	global $DIC;
 	$factory = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
-	$action_buttons = array(
-		$factory->button()->primary('Primary Action', ''),
-		$factory->button()->standard('Secondary Action', ''),
-	);
-	$modal = $factory->modal()->roundtrip('My Modal', $factory->legacy('My Content'))
-		->withActionButtons($action_buttons);
-	$button = $factory->button()->standard('Show Modal', '');
-	$connection = $factory->connector()->onClick($button, $modal->getShowAction());
 
-	return implode('', $renderer->render([$button, $modal], [$connection]));
+	$modal = $factory->modal()->roundtrip('My Modal 1', $factory->legacy('My Content'))
+		->withActionButtons([
+			$factory->button()->primary('Primary Action', ''),
+			$factory->button()->standard('Secondary Action', ''),
+		]);
+
+	$button1 = $factory->button()->standard('Open Modal 1', '#')
+		->withOnClick($modal->getShowSignal());
+
+	$button2 = $button1->withLabel('Also opens modal 1');
+
+	$button3 = $button2->withLabel('Does not open modal 1')
+		->withResetTriggeredSignals();
+
+	return implode(' ', $renderer->render([$button1, $button2, $button3, $modal]));
 }
