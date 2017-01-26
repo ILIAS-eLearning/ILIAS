@@ -1,13 +1,9 @@
 <?php
-
 namespace ILIAS\UI\Component\Modal;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Triggerable;
-use ILIAS\UI\Implementation\Component\Modal\CloseAction;
-use ILIAS\UI\Implementation\Component\Modal\ShowAction;
-use ILIAS\UI\Implementation\Component\Modal\ShowAsyncAction;
 
 /**
  * This describes commonalities between the different modals

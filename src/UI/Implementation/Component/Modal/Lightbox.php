@@ -1,5 +1,4 @@
 <?php
-
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component as Component;

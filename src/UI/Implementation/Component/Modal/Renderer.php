@@ -45,7 +45,7 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderInterruptive(Component\Modal\Interruptive $modal, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate('tpl.interruptive.html', true, true);
-		$id = $this->createId($modal);
+		$id = $this->createId();
 		$this->registerSignals($modal, $id);
 		$tpl->setVariable('ID', $id);
 		$tpl->setVariable('FORM_ACTION', $modal->getFormAction());
@@ -82,7 +82,7 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderRoundTrip(Component\Modal\RoundTrip $modal, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate('tpl.roundtrip.html', true, true);
-		$id = $this->createId($modal);
+		$id = $this->createId();
 		$this->registerSignals($modal, $id);
 		$tpl->setVariable('ID', $id);
 		$tpl->setVariable('TITLE', $modal->getTitle());
@@ -110,16 +110,38 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderLightbox(Component\Modal\Lightbox $modal, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate('tpl.lightbox.html', true, true);
-		$id = $this->createId($modal);
+		$id = $this->createId();
 		$this->registerSignals($modal, $id);
 		$tpl->setVariable('ID', $id);
-		foreach ($modal->getPages() as $page) {
+		$id_carousel = $this->createId();
+		$pages = $modal->getPages();
+		$tpl->setVariable('TITLE', $pages[0]->getTitle());
+		$tpl->setVariable('ID_CAROUSEL', $id_carousel);
+		if (count($pages) > 1) {
+			$tpl->setCurrentBlock('has_indicators');
+			foreach ($pages as $index => $page) {
+				$tpl->setCurrentBlock('indicators');
+				$tpl->setVariable('INDEX', $index);
+				$tpl->setVariable('CLASS_ACTIVE', ($index == 0) ? 'active' : '');
+				$tpl->setVariable('ID_CAROUSEL2', $id_carousel);
+				$tpl->parseCurrentBlock();
+			}
+//			$tpl->touchBlock('has_indicators');
+		}
+		foreach ($pages as $i => $page) {
 			$tpl->setCurrentBlock('pages');
-			$tpl->setVariable('TITLE', $page->getTitle());
+			$tpl->setVariable('CLASS_ACTIVE', ($i == 0) ? ' active' : '');
+			$tpl->setVariable('TITLE2', htmlentities($page->getTitle(), ENT_QUOTES, 'UTF-8'));
 			$tpl->setVariable('CONTENT', $default_renderer->render($page->getComponent()));
 			$tpl->setVariable('DESCRIPTION', $page->getDescription());
 			$tpl->parseCurrentBlock();
 		}
+		if (count($pages) > 1) {
+			$tpl->setCurrentBlock('controls');
+			$tpl->setVariable('ID_CAROUSEL3', $id_carousel);
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->setVariable('ID_CAROUSEL4', $id_carousel);
 		return $tpl->get();
 	}
 

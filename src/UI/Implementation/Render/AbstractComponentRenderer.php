@@ -112,7 +112,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		if ($binder === null) {
 			return null;
 		}
-		$id = $this->createId($component);
+		$id = $this->createId();
 		$on_load_code = $binder($id);
 		if (!is_string($on_load_code)) {
 			throw new \LogicException(
@@ -127,10 +127,9 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	/**
 	 * Create an ID
 	 *
-	 * @param Component $component
 	 * @return string
 	 */
-	final protected function createId(Component $component) {
+	final protected function createId() {
 		$id = $this->js_binding->createId();
 		return $id;
 	}
