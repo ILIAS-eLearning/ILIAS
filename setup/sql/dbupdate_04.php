@@ -18186,3 +18186,14 @@ do
 }
 while(TRUE);
 ?>
+
+<#5071>
+<?php
+
+$ilDB->manipulate('delete from obj_members where admin = '.
+	$ilDB->quote(0,'integer').' and tutor = '.
+	$ilDB->quote(0,'integer').' and member = '.
+	$ilDB->quote(0,'integer')
+);
+?>
+
