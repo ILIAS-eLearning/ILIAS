@@ -19,7 +19,7 @@ interface Hoverable extends Triggerer {
 	 *
 	 * @return $this
 	 */
-	public function withOnHover($signal, $options = array());
+	public function withOnHover($signal, array $options = array());
 
 	/**
 	 * Get a component like this, triggering a signal of another component on hover.
@@ -30,6 +30,6 @@ interface Hoverable extends Triggerer {
 	 *
 	 * @return $this
 	 */
-	public function appendOnHover($signal, $options = array());
+	public function appendOnHover($signal, array $options = array());
 
 }

@@ -4,9 +4,9 @@ namespace ILIAS\UI\Component;
 /**
  * Interface Triggerer
  *
- * Any component that can trigger signals of other components must implement this interface.
- * Example: A button can trigger the show signal of a modal on click (which will open the modal
- * on button click)
+ * Describes a component that can trigger signals of other components on given events, such as click or hover.
+ * All supported events are abstracted with interfaces (see Clickable, Hoverable).
+ * Example: A button can trigger the show signal of a modal on click (which will open the modal on button click).
  *
  * @package ILIAS\UI\Component
  */

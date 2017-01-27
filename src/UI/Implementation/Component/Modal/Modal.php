@@ -67,9 +67,17 @@ abstract class Modal implements Component\Modal\Modal {
 	/**
 	 * @inheritdoc
 	 */
-	public function withOnLoad($signal, $options = array()) {
+	public function withOnLoad($signal, array $options = array()) {
 		return $this->addTriggeredSignal($signal, Component\Triggerer::EVENT_ONLOAD, $options);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnLoad($signal, array $options = array()) {
+		return $this->appendTriggeredSignal($signal, Component\Triggerer::EVENT_ONLOAD, $options);
+	}
+
 
 	/**
 	 * Set the show and close signals for this modal

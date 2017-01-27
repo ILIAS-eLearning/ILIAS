@@ -83,28 +83,28 @@ abstract class Button implements C\Button\Button {
 	/**
 	 * @inheritdoc
 	 */
-	public function withOnClick($signal, $options = array()) {
+	public function withOnClick($signal, array $options = array()) {
 		return $this->addTriggeredSignal($signal, C\Triggerer::EVENT_CLICK, $options);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function appendOnClick($signal, $options = array()) {
+	public function appendOnClick($signal, array $options = array()) {
 		return $this->appendTriggeredSignal($signal, C\Triggerer::EVENT_CLICK, $options);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withOnHover($signal, $options = array()) {
+	public function withOnHover($signal, array $options = array()) {
 		return $this->addTriggeredSignal($signal, C\Triggerer::EVENT_HOVER, $options);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function appendOnHover($signal, $options = array()) {
+	public function appendOnHover($signal, array $options = array()) {
 		return $this->appendTriggeredSignal($signal, C\Triggerer::EVENT_HOVER, $options);
 	}
 }

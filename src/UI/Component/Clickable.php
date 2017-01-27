@@ -19,7 +19,7 @@ interface Clickable extends Triggerer {
 	 *
 	 * @return $this
 	 */
-	public function withOnClick($signal, $options = array());
+	public function withOnClick($signal, array $options = array());
 
 	/**
 	 * Get a component like this, triggering a signal of another component on click.
@@ -30,6 +30,6 @@ interface Clickable extends Triggerer {
 	 *
 	 * @return $this
 	 */
-	public function appendOnClick($signal, $options = array());
+	public function appendOnClick($signal, array $options = array());
 
 }

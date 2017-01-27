@@ -1,5 +1,5 @@
 <?php
-function show_modal_on_button_click()
+function show_the_same_modal_with_different_buttons()
 {
 	global $DIC;
 	$factory = $DIC->ui()->factory();
