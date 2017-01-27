@@ -159,6 +159,14 @@ abstract class ilParticipant
 			
 			$ilDB->manipulate($query);
 		}
+		
+		$query = 'DELETE from obj_members '.
+			'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer').' '.
+			'AND usr_id = '.$ilDB->quote($a_usr_id,'integer').' '.
+			'AND admin = '.$ilDB->quote(0,'integer').' '.
+			'AND tutor = '.$ilDB->quote(0,'integer').' '.
+			'AND member = '.$ilDB->quote(0,'integer');
+		$ilDB->manipulate($query);
 	}
 
 	/**
