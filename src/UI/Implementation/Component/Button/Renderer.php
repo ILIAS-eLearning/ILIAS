@@ -58,8 +58,6 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 
-
-
 	protected function renderClose($component) {
 		$tpl = $this->getTemplate("tpl.close.html", true, true);
 		// This is required as the rendering seems to only create any output at all
@@ -69,11 +67,11 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl->get();
 	}
 
-	protected function maybeRenderId(Component\Button\Button $component, $tpl) {
+	protected function maybeRenderId(Component\Component $component, $tpl) {
 		$id = $this->bindJavaScript($component);
 		if ($id === null) {
 			// No onload code available, check if the button is acting as triggerer
-			if (count($component->getTriggeredSignals())) {
+			if ($component instanceof Component\Triggerer && count($component->getTriggeredSignals())) {
 				$id = $this->createId();
 				$this->triggerRegisteredSignals($component, $id);
 			}

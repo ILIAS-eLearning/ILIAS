@@ -41,8 +41,10 @@ class InterruptiveTest extends ModalBase {
 	}
 
 	public function test_simple_rendering() {
-		$interruptive = $this->getModalFactory()->interruptive('Title', 'Message', '');
-		$this->assertHTMLEquals($this->getExpectedHTML(), $this->getDefaultRenderer()->render($interruptive));
+		$interruptive = $this->getModalFactory()->interruptive('Title', 'Message', 'myAction.php');
+		$expected = $this->normalizeHTML($this->getExpectedHTML());
+		$actual = $this->normalizeHTML($this->getDefaultRenderer()->render($interruptive));
+		$this->assertEquals($expected, $actual);
 	}
 
 	protected function getInterruptiveItem() {
@@ -52,26 +54,24 @@ class InterruptiveTest extends ModalBase {
 	protected function getExpectedHTML() {
 		$expected = <<<EOT
 <div class="modal fade il-modal-interruptive" tabindex="-1" role="dialog" id="id_1">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Title</h4>
-            </div>
-            <div class="modal-body">
-                <div class="il-modal-interruptive-message">
-                    Message
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-default btn-primary" href="" data-action="" id="id_2">delete</a>
-                <a class="btn btn-default" href="" data-action="" id="id_3">cancel</a>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog" role="document">
+		<form action="myAction.php" method="POST">
+			<div class="modal-content">
+				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true"></span></button><h4 class="modal-title">Title</h4>
+				</div>
+				<div class="modal-body">
+					<div class="il-modal-interruptive-message">Message</div>
+				</div>
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-primary" value="delete">
+					<a class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</a>
+				</div>
+			</div>
+		</form>
+	</div>
 </div>
 EOT;
-
 		return $expected;
 	}
 

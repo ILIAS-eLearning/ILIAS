@@ -23,7 +23,9 @@ class LightboxTest extends ModalBase {
 	public function test_simple_rendering() {
 		$image = $this->getUIFactory()->image()->responsive('src/fake/image.jpg', 'description');
 		$lightbox = $this->getModalFactory()->lightbox($this->getUIFactory()->modal()->lightboxImagePage($image, 'title'));
-		$this->assertHTMLEquals($this->getExpectedHTML(), $this->getDefaultRenderer()->render($lightbox));
+		$expected = $this->normalizeHTML($this->getExpectedHTML());
+		$actual = $this->normalizeHTML($this->getDefaultRenderer()->render($lightbox));
+		$this->assertEquals($expected, $actual);
 	}
 
 	protected function getLightboxPage() {
@@ -33,20 +35,50 @@ class LightboxTest extends ModalBase {
 	protected function getExpectedHTML() {
 		$expected = <<<EOT
 <div class="modal fade il-modal-lightbox" tabindex="-1" role="dialog" id="id_1">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content il-modal-lightbox-page">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">title</h4>
-            </div>
-            <div class="modal-body"><img src="src/fake/image.jpg" class="img-responsive" alt="description" /></div>
-            <div class="il-modal-lightbox-description">
-                description
-            </div>
-        </div>
-        
-    </div>
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content il-modal-lightbox-page">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">title</h4>
+			</div>
+			<div class="modal-body">
+				<div id="id_2" class="carousel slide" data-ride="carousel" data-interval="false">
+
+
+
+					<div class="carousel-inner" role="listbox">
+
+						<div class="item active" data-title="title">
+
+
+
+<img src="src/fake/image.jpg" class="img-responsive" alt="description" />
+
+							<div class="carousel-caption">
+								description
+							</div>
+						</div>
+
+					</div>
+
+
+
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+<script>
+	$(function() {
+		$('#id_1').on('shown.bs.modal', function() {
+			$('.modal-backdrop.in').css('opacity', '0.9');
+		});
+		$('#id_2').on('slid.bs.carousel', function() {
+			var title = $(this).find('.carousel-inner .item.active').attr('data-title');
+			$('#id_1').find('.modal-title').text(title);
+		});
+	});
+</script>
 EOT;
 
 		return $expected;

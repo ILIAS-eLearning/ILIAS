@@ -19,7 +19,7 @@ class RoundTripTest extends ModalBase {
 
 	public function test_with_content() {
 		$content = $this->getDummyComponent();
-		$contents = [ $this->getDummyComponent(), $this->getDummyComponent() ];
+		$contents = [$this->getDummyComponent(), $this->getDummyComponent()];
 		$roundtrip = $this->getModalFactory()->roundtrip('myTitle', $content);
 		$roundtrip2 = $roundtrip->withContent($contents);
 		$this->assertEquals([$content], $roundtrip->getContent());
@@ -46,7 +46,9 @@ class RoundTripTest extends ModalBase {
 				$this->getButtonFactory()->primary('Action 1', ''),
 				$this->getButtonFactory()->standard('Action 2', ''),
 			]);
-		$this->assertHTMLEquals($this->getExpectedHTML(), $this->getDefaultRenderer()->render($roundtrip));
+		$expected = $this->normalizeHTML($this->getExpectedHTML());
+		$actual = $this->normalizeHTML($this->getDefaultRenderer()->render($roundtrip));
+		$this->assertEquals($expected, $actual);
 	}
 
 
@@ -54,22 +56,21 @@ class RoundTripTest extends ModalBase {
 		$expected = <<<EOT
 <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
 	<div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Title</h4>
-            </div>
-            <div class="modal-body">                                Content                            </div>
-            <div class="modal-footer">                
-                <a class="btn btn-default btn-primary" href="" data-action="" id="id_2">Action 1</a>                
-                <a class="btn btn-default" href="" data-action="" id="id_3">Action 2</a>                
-                <a class="btn btn-default" href="" data-action="" id="id_4">cancel</a>
-            </div>
-        </div>
-    </div>
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Title</h4>
+			</div>
+			<div class="modal-body">Content</div>
+			<div class="modal-footer">
+				<a class="btn btn-default btn-primary" href="" data-action="">Action 1</a>
+				<a class="btn btn-default" href="" data-action="">Action 2</a>
+				<a class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</a>
+			</div>
+		</div>
+	</div>
 </div>
 EOT;
-
 		return $expected;
 	}
 }

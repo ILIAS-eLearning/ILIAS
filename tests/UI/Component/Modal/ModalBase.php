@@ -17,7 +17,7 @@ class ModalBase extends ILIAS_UI_TestBase {
 	}
 
 	protected function getModalFactory() {
-		return new \ILIAS\UI\Implementation\Component\Modal\Factory();
+		return new \ILIAS\UI\Implementation\Component\Modal\Factory(new SimpleSignalGenerator());
 	}
 
 	protected function getButtonFactory() {
@@ -31,10 +31,21 @@ class ModalBase extends ILIAS_UI_TestBase {
 	public function normalizeHTML($html) {
 		$html = parent::normalizeHTML($html);
 		// The times entity is used for closing the modal and not supported in DomDocument::loadXML()
-		return str_replace('&times;', '', $html);
+		return str_replace(['&times;', "\t"], ['', ''], $html);
 	}
 }
 
 class DummyComponent implements C\Component {
 
+}
+
+class SimpleSignalGenerator implements C\SignalGenerator {
+
+	/**
+	 * @inheritdoc
+	 */
+	public function create() {
+		static $id = 0;
+		return 'signal_' . ++$id;
+	}
 }
