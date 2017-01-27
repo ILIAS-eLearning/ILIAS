@@ -74,23 +74,14 @@ class Renderer extends AbstractComponentRenderer {
 		if ($id === null) {
 			// No onload code available, check if the button is acting as triggerer
 			if (count($component->getTriggeredSignals())) {
-				$id = $this->createId($component);
-				$this->registerTriggeredSignals($component, $id);
+				$id = $this->createId();
+				$this->triggerRegisteredSignals($component, $id);
 			}
 		}
 		if ($id !== null) {
 			$tpl->setCurrentBlock("with_id");
 			$tpl->setVariable("ID", $id);
 			$tpl->parseCurrentBlock();
-		}
-	}
-
-	protected function registerTriggeredSignals(Component\Button\Button $button, $id) {
-		foreach ($button->getTriggeredSignals() as $triggered_signal) {
-			$signal = $triggered_signal->getSignal();
-			$options = $triggered_signal->getSignalOptions();
-			$event = $triggered_signal->getEvent();
-			$this->getJavascriptBinding()->addOnLoadCode("$('#{$id}').{$event}( function() { $(document).trigger('{$signal}'); return false; });");
 		}
 	}
 

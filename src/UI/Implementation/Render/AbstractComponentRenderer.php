@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Triggerer;
 use ILIAS\UI\Factory;
 
 /**
@@ -134,6 +135,22 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		return $id;
 	}
 
+	/**
+	 * Renderers of components acting as triggerer can use this method to trigger the registered signals
+	 *
+	 * @param Triggerer $triggerer
+	 * @param string $id The generated ID for the triggerer component
+	 */
+	protected function triggerRegisteredSignals(Triggerer $triggerer, $id) {
+		foreach ($triggerer->getTriggeredSignals() as $triggered_signal) {
+			$signal = $triggered_signal->getSignal();
+			$options = json_encode($triggered_signal->getSignalOptions());
+			$event = $triggered_signal->getEvent();
+			$this->js_binding->addOnLoadCode("$('#{$id}').{$event}( function(event) { 
+					$(document).trigger('{$signal}', [{$options}]); event.preventDefault(); 
+				});");
+		}
+	}
 
 	/**
 	 * Check if a given component fits this renderer and throw \LogicError if that is not

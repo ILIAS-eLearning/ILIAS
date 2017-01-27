@@ -2,8 +2,10 @@
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component as Component;
+use ILIAS\UI\Component\Onloadable;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
  * Base class for modals
@@ -14,6 +16,7 @@ abstract class Modal implements Component\Modal\Modal {
 
 	use ComponentHelper;
 	use JavaScriptBindable;
+	use Triggerer;
 
 	/**
 	 * @var Component\SignalGenerator
@@ -59,6 +62,13 @@ abstract class Modal implements Component\Modal\Modal {
 		$clone = clone $this;
 		$clone->initSignals();
 		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnLoad($signal, $options = array()) {
+		return $this->addTriggeredSignal($signal, Component\Triggerer::EVENT_ONLOAD, $options);
 	}
 
 	/**

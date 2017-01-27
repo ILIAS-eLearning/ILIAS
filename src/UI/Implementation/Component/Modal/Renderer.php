@@ -2,6 +2,7 @@
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
@@ -25,6 +26,12 @@ class Renderer extends AbstractComponentRenderer {
 		}
 	}
 
+	public function registerResources(ResourceRegistry $registry) {
+		parent::registerResources($registry);
+		$registry->register('./src/UI/templates/js/Modal/modal.js');
+	}
+
+
 	/**
 	 * @param Component\Modal\Modal $modal
 	 * @param string $id
@@ -32,14 +39,14 @@ class Renderer extends AbstractComponentRenderer {
 	protected function registerSignals(Component\Modal\Modal $modal, $id) {
 		$show = $modal->getShowSignal();
 		$close = $modal->getCloseSignal();
-		$this->getJavascriptBinding()->addOnLoadCode("$(document).on('{$show}', function() { $('#{$id}').modal('show'); });");
-		$this->getJavascriptBinding()->addOnLoadCode("$(document).on('{$close}', function() { $('#{$id}').modal('close'); });");
+		$this->getJavascriptBinding()->addOnLoadCode("$(document).on('{$show}', function(event, options) { il.UI.modal.showModal({$id}, options); });");
+		$this->getJavascriptBinding()->addOnLoadCode("$(document).on('{$close}', function(event, options) { il.UI.modal.closeModal({$id}, options); });");
 	}
 
 
 	/**
 	 * @param Component\Modal\Interruptive $modal
-	 * @param RendererInterface            $default_renderer
+	 * @param RendererInterface $default_renderer
 	 *
 	 * @return string
 	 */
@@ -47,6 +54,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate('tpl.interruptive.html', true, true);
 		$id = $this->createId();
 		$this->registerSignals($modal, $id);
+		$this->triggerRegisteredSignals($modal, $id);
 		$tpl->setVariable('ID', $id);
 		$tpl->setVariable('FORM_ACTION', $modal->getFormAction());
 		$tpl->setVariable('TITLE', $modal->getTitle());
@@ -57,7 +65,9 @@ class Renderer extends AbstractComponentRenderer {
 		}
 		if (count($modal->getAffectedItems())) {
 			$tpl->setCurrentBlock('with_items');
-			$titles = array_map(function($interruptive_item) { return $interruptive_item->getTitle(); }, $modal->getAffectedItems());
+			$titles = array_map(function ($interruptive_item) {
+				return $interruptive_item->getTitle();
+			}, $modal->getAffectedItems());
 			$list = $this->getUIFactory()->listing()->unordered($titles);
 			$tpl->setVariable('ITEMS', $default_renderer->render($list));
 			foreach ($modal->getAffectedItems() as $item) {
@@ -76,7 +86,7 @@ class Renderer extends AbstractComponentRenderer {
 
 	/**
 	 * @param Component\Modal\RoundTrip $modal
-	 * @param RendererInterface         $default_renderer
+	 * @param RendererInterface $default_renderer
 	 *
 	 * @return string
 	 */
@@ -84,6 +94,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate('tpl.roundtrip.html', true, true);
 		$id = $this->createId();
 		$this->registerSignals($modal, $id);
+		$this->triggerRegisteredSignals($modal, $id);
 		$tpl->setVariable('ID', $id);
 		$tpl->setVariable('TITLE', $modal->getTitle());
 		foreach ($modal->getContent() as $content) {
@@ -104,7 +115,7 @@ class Renderer extends AbstractComponentRenderer {
 
 	/**
 	 * @param Component\Modal\Lightbox $modal
-	 * @param RendererInterface        $default_renderer
+	 * @param RendererInterface $default_renderer
 	 *
 	 * @return string
 	 */
@@ -112,6 +123,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate('tpl.lightbox.html', true, true);
 		$id = $this->createId();
 		$this->registerSignals($modal, $id);
+		$this->triggerRegisteredSignals($modal, $id);
 		$tpl->setVariable('ID', $id);
 		$id_carousel = $this->createId();
 		$pages = $modal->getPages();
@@ -126,7 +138,6 @@ class Renderer extends AbstractComponentRenderer {
 				$tpl->setVariable('ID_CAROUSEL2', $id_carousel);
 				$tpl->parseCurrentBlock();
 			}
-//			$tpl->touchBlock('has_indicators');
 		}
 		foreach ($pages as $i => $page) {
 			$tpl->setCurrentBlock('pages');
