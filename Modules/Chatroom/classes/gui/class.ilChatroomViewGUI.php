@@ -148,6 +148,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		$initial->users                 = $room->getConnectedUsers();
 		$initial->private_rooms         = array_values($known_private_room);
 		$initial->redirect_url          = $ilCtrl->getLinkTarget($this->gui, 'view-lostConnection', '', false, false);
+		$initial->profile_image_url     = $ilCtrl->getLinkTarget($this->gui, 'view-getUserProfileImages', '', true, false);
+		$initial->no_profile_image_url  = ilUtil::getImagePath('no_photo_xxsmall.jpg');
 		$initial->private_rooms_enabled = (boolean)$room->getSetting('private_rooms_enabled');
 
 		$initial->userinfo = array(
@@ -585,5 +587,57 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		}
 
 		$ilCtrl->redirectByClass('ilinfoscreengui', 'info');
+	}
+
+	public function getUserProfileImages()
+	{
+		global $DIC;
+
+		$response = array();
+
+		if(!$DIC->user())
+		{
+			echo json_encode($response);
+			exit();
+		}
+
+		if(!isset($_GET['usr_ids']) || strlen($_GET['usr_ids']) == 0)
+		{
+			echo json_encode($response);
+			exit();
+		}
+
+		$DIC['lng']->loadLanguageModule('user');
+
+		require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
+		ilWACSignedPath::setTokenMaxLifetimeInSeconds(30);
+
+		$user_ids = array_filter(array_map('intval', array_map('trim', explode(',', $_GET['usr_ids']))));
+		require_once 'Services/User/classes/class.ilUserUtil.php';
+		$public_data  = ilUserUtil::getNamePresentation($user_ids, true, false, '', false, true, false, true);
+		$public_names = ilUserUtil::getNamePresentation($user_ids, false, false, '', false, true, false, false);
+
+		foreach($user_ids as $usr_id)
+		{
+			$public_image = isset($public_data[$usr_id]) && isset($public_data[$usr_id]['img']) ? $public_data[$usr_id]['img'] : '';
+
+			$public_name = '';
+			if(isset($public_names[$usr_id]))
+			{
+				$public_name = $public_names[$usr_id];
+				if('unknown' == $public_name && isset($public_data[$usr_id]) && isset($public_data[$usr_id]['login']))
+				{
+					$public_name = $public_data[$usr_id]['login'];
+				}
+			}
+
+			$response[$usr_id] = array(
+				'public_name'   => $public_name,
+				'profile_image' => $public_image
+			);
+		}
+
+		echo json_encode($response);
+		exit();
 	}
 }

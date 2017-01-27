@@ -26,11 +26,22 @@ module.exports = function(req, res)
 		var notice = Notice.create('user_kicked', roomId, subRoomId, {user: subscriber.getName()});
 		var noticeKicked = Notice.create('kicked_from_private_room', roomId, 0, {title: room.getTitle()});
 
+		var mainRoomUserlistAction = null;
+		if (subRoomId > 0) {
+			mainRoomUserlistAction = UserlistAction.create(
+				roomId, 0, namespace.getRoom(Container.createServerRoomId(roomId, 0)).getJoinedSubscribers()
+			);
+		}
+
 		var socketIds = subscriber.getSocketIds();
 		socketIds.forEach(function(socketId){
 			namespace.getIO().to(socketId).emit('userjustkicked', action);
 			namespace.getIO().to(socketId).emit('notice', noticeKicked);
 			namespace.getIO().connected[socketId].leave(room.getId());
+
+			if (mainRoomUserlistAction != null) {
+				namespace.getIO().to(socketId).emit('userlist', mainRoomUserlistAction);
+			}
 		});
 
 		namespace.getIO().to(serverRoomId).emit('userlist', userlistAction);
