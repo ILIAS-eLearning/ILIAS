@@ -167,6 +167,10 @@ abstract class ilParticipant
 			'AND tutor = '.$ilDB->quote(0,'integer').' '.
 			'AND member = '.$ilDB->quote(0,'integer');
 		$ilDB->manipulate($query);
+		
+		ilLoggerFactory::getLogger('mem')->debug($query);
+			
+		
 	}
 
 	/**
