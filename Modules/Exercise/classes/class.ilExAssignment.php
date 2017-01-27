@@ -49,6 +49,7 @@ class ilExAssignment
 	protected $feedback_date;
 	protected $team_tutor = false;
 	protected $max_file;
+	protected $portfolio_template;
 	
 	protected $member_status = array(); // [array]
 	
@@ -739,6 +740,27 @@ class ilExAssignment
 	}
 
 	/**
+	 * Set portfolio template id
+	 *
+	 * @param	int		portfolio id
+	 */
+	function setPortfolioTemplateId($a_val)
+	{
+		$this->portfolio_template = $a_val;
+	}
+
+	/**
+	 * Get portfolio template id
+	 *
+	 * @return	int	portfolio template id
+	 */
+	function getPortfolioTemplateId()
+	{
+		return $this->portfolio_template;
+	}
+
+
+	/**
 	 * Read from db
 	 */
 	function read()
@@ -790,7 +812,8 @@ class ilExAssignment
 		$this->setFeedbackDate($a_set["fb_date"]);
 		$this->setFeedbackCron($a_set["fb_cron"]);
 		$this->setTeamTutor($a_set["team_tutor"]);
-		$this->setMaxFile($a_set["max_file"]);		
+		$this->setMaxFile($a_set["max_file"]);
+		$this->setPortfolioTemplateId($a_set["portfolio_template"]);
 	}
 	
 	/**
@@ -834,7 +857,8 @@ class ilExAssignment
 			"fb_date" => array("integer", $this->getFeedbackDate()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron()),
 			"team_tutor" => array("integer", $this->getTeamTutor()),
-			"max_file" => array("integer", $this->getMaxFile())
+			"max_file" => array("integer", $this->getMaxFile()),
+			"portfolio_template" => array("integer", $this->getPortFolioTemplateId())
 			));
 		$this->setId($next_id);
 		$exc = new ilObjExercise($this->getExerciseId(), false);
@@ -877,7 +901,8 @@ class ilExAssignment
 			"fb_date" => array("integer", $this->getFeedbackDate()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron()),
 			"team_tutor" => array("integer", $this->getTeamTutor()),
-			"max_file" => array("integer", $this->getMaxFile())
+			"max_file" => array("integer", $this->getMaxFile()),
+			"portfolio_template" => array("integer", $this->getPortFolioTemplateId())
 			),
 			array(
 			"id" => array("integer", $this->getId()),

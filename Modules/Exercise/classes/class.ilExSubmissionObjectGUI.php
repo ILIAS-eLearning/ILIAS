@@ -158,18 +158,14 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		{
 			if(!$valid_prtf)
 			{
-				// if there are portfolio templates available show form first
-				include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
-				$has_prtt = sizeof(ilObjPortfolioTemplate::getAvailablePortfolioTemplates())
-					? "Template"
-					: "";
-
-				$button = ilLinkButton::getInstance();							
+				$button = ilLinkButton::getInstance();
 				$button->setCaption("exc_create_portfolio");
-				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "createPortfolio".$has_prtt));										
-				$files_str .= $button->render();
+				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "createPortfolioFromAssignment"));
+
+				$files_str .= "".$button->render();
 			}
 			// #10462
+			//selectPortfolio ( remove it? )
 			$prtfs = sizeof(ilObjPortfolio::getPortfoliosOfUser($a_submission->getUserId()));		
 			if((!$valid_prtf && $prtfs) 
 				|| ($valid_prtf && $prtfs > 1))
@@ -435,7 +431,35 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		
 		return $form;		
 	}
-	
+	protected function createPortfolioFromAssignmentObject()
+	{
+		global $DIC;
+
+		$ctrl = $DIC->ctrl();
+
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+
+		$templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
+
+		$template_id = $this->assignment->getPortfolioTemplateId();
+
+		if($template_id > 0 && array_key_exists($template_id, $templates))
+		{
+			$title = $this->exercise->getTitle()." - ".$this->assignment->getTitle();
+			$ctrl->setParameterByClass("ilObjPortfolioGUI", "exc_id", $this->exercise->getRefId());
+			$ctrl->setParameterByClass("ilObjPortfolioGUI", "ass_id", $this->assignment->getId());
+			$ctrl->setParameterByClass("ilObjPortfolioGUI", "pt", $title);
+			$ctrl->setParameterByClass("ilObjPortfolioGUI", "prtt", $template_id);
+			$ctrl->redirectByClass(array("ilPersonalDesktopGUI", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromTemplate");
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt("exc_no_portfolio_templates"), true);
+			$this->returnToParentObject();
+		}
+
+	}
+
 	protected function createPortfolioTemplateObject(ilPropertyFormGUI $a_form = null)
 	{
 		if (!$this->submission->canSubmit())
