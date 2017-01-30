@@ -895,21 +895,26 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 			$filename = $answer->getImage();
 			if (strlen($filename))
 			{
-				if (!file_exists($imagepath))
+				if(!file_exists($imagepath))
 				{
 					ilUtil::makeDirParents($imagepath);
 				}
-				if (!@copy($imagepath_original . $filename, $imagepath . $filename))
+
+				if(file_exists($imagepath_original . $filename))
 				{
-					$ilLog->warning(sprintf(
-						"Could not clone source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
-						$imagepath_original . $filename, $imagepath . $filename,
-						$question_id, $this->id, $objectId, $this->obj_id
-					));
+					if(!copy($imagepath_original . $filename, $imagepath . $filename))
+					{
+						$ilLog->warning(sprintf(
+							"Could not clone source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
+							$imagepath_original . $filename, $imagepath . $filename,
+							$question_id, $this->id, $objectId, $this->obj_id
+						));
+					}
 				}
-				if (@file_exists($imagepath_original. $this->getThumbPrefix(). $filename))
+
+				if(file_exists($imagepath_original. $this->getThumbPrefix(). $filename))
 				{
-					if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename))
+					if(!copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename))
 					{
 						$ilLog->warning(sprintf(
 							"Could not clone thumbnail source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
