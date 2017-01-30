@@ -911,23 +911,26 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 			
 			if (strlen($filename))
 			{
-				if (!file_exists($targetPath))
+				if(!file_exists($targetPath))
 				{
 					ilUtil::makeDirParents($targetPath);
 				}
 
-				if(!@copy($sourcePath . $filename, $targetPath . $filename))
+				if(file_exists($sourcePath . $filename))
 				{
-					$ilLog->warning(sprintf(
-						"Could not clone source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
-						$sourcePath . $filename, $targetPath . $filename,
-						$sourceQuestionId, $targetQuestionId, $sourceParentId, $targetParentId
-					));
+					if(!copy($sourcePath . $filename, $targetPath . $filename))
+					{
+						$ilLog->warning(sprintf(
+							"Could not clone source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
+							$sourcePath . $filename, $targetPath . $filename,
+							$sourceQuestionId, $targetQuestionId, $sourceParentId, $targetParentId
+						));
+					}
 				}
 
-				if(@file_exists($sourcePath . $this->getThumbPrefix() . $filename))
+				if(file_exists($sourcePath . $this->getThumbPrefix() . $filename))
 				{
-					if(!@copy($sourcePath . $this->getThumbPrefix() . $filename, $targetPath . $this->getThumbPrefix() . $filename))
+					if(!copy($sourcePath . $this->getThumbPrefix() . $filename, $targetPath . $this->getThumbPrefix() . $filename))
 					{
 						$ilLog->warning(sprintf(
 							"Could not clone thumbnail source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
