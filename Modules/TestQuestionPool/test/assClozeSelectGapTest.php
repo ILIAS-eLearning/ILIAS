@@ -62,7 +62,6 @@ class assClozeSelectGapTest extends PHPUnit_Framework_TestCase
 
 	public function test_getItemswithShuffle_shouldReturnShuffledItems()
 	{
-		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
 		$instance = new assClozeSelectGap(1); // 1 - select gap
 
@@ -96,7 +95,6 @@ class assClozeSelectGapTest extends PHPUnit_Framework_TestCase
 
 	public function test_getItemswithoutShuffle_shouldReturnItemsInOrder()
 	{
-		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
 		$instance = new assClozeSelectGap(1); // 1 - select gap
 
@@ -114,8 +112,7 @@ class assClozeSelectGapTest extends PHPUnit_Framework_TestCase
 		$instance->setType(false);
 
 		$expected = array($item1, $item2, $item3, $item4);
-
-		$actual = $instance->getItems(new ilArrayElementShuffler());
+		$actual   = $instance->getItems(new ilArrayElementOrderKeeper());
 
 		$this->assertNotEquals($expected, $actual);
 	}
