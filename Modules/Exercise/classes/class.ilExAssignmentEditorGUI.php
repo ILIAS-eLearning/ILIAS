@@ -109,13 +109,22 @@ class ilExAssignmentEditorGUI
 		
 		// #16163 - ignore ass id from request
 		$this->assignment = null;
-		
-		if(!(int)$_POST["type"])
+
+		//after close model check the portfolio template param.
+		if(!(int)$_POST["type"] && !(int)$_GET['prtt'])
 		{
 			$ilCtrl->redirect($this, "listAssignments");
 		}
-		
-		$form = $this->initAssignmentForm((int)$_POST["type"], "create");
+
+		if($_POST["type"])
+		{
+			$ass_type = (int)$_POST["type"];
+		}
+		elseif($_GET['prtt'])
+		{
+			$ass_type = ilExAssignment::TYPE_PORTFOLIO;
+		}
+		$form = $this->initAssignmentForm($ass_type, "create");
 		$tpl->setContent($form->getHTML());
 	}
 	
@@ -199,12 +208,34 @@ class ilExAssignmentEditorGUI
 			// Template management
 			$ci_body = $lng->txt("exc_portfolio_template", "portfolio_template");
 
-			if($a_mode != "create") {
+			if($a_mode != "create")
+			{
 				$template_active = $this->assignment->getPortfolioTemplateId();
 			}
+			else if($_GET['prtt'])
+			{
+				$template_active = $_GET["prtt"];
+				$rd_template->setValue(1);
+			}
+			/*else
+			{
+				if($_POST["portfolio_template_id"])
+				{
+					$template_active = $_POST["portfolio_template_id"];
+				}
+				else if($_GET['prtt'])
+				{
+					$template_active = $_GET["prtt"];
+					$rd_template->setValue(1);
+				}
+			}*/
 
 			if($template_active)
 			{
+				$hidden_input_template_id = new ilHiddenInputGUI("template_id");
+				$hidden_input_template_id->setValue($template_active);
+				$form->addItem($hidden_input_template_id);
+
 				$ci_body .= " ".ilObjPortfolioTemplate::_lookupTitle($template_active);
 				$ci_body .= " <a href='".$ilCtrl->getLinkTarget($this, "confirmResetPortfolioTemplate")."'>".$lng->txt("exc_reset", "reset")."</a>";
 			}
@@ -462,12 +493,21 @@ class ilExAssignmentEditorGUI
 		if ($form->checkInput()) {
 			$prtt = $form->getInput("portfolio_template_id");
 
-			if ($prtt > 0) {
-				$this->assignment->setPortfolioTemplateId($prtt);
-				$this->assignment->update();
-				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-				$ctrl->redirect($this,"editAssignment");
+			if ($prtt > 0)
+			{
+				//if($_GET['ass_id'])
+				if($this->assignment)
+				{
+					$this->assignment->setPortfolioTemplateId($prtt);
+					$this->assignment->update();
+					ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+				}
+				$ctrl->setParameter($this,"prtt", $prtt);
+				$ctrl->redirect($this,"addAssignment");
 			}
+
+			$ctrl->redirect($this,"listAssignments");
+
 		}
 	}
 
@@ -545,10 +585,10 @@ class ilExAssignmentEditorGUI
 		
 		if($valid)
 		{
-			if($this->assignment->getType() == ilExAssignment::TYPE_PORTFOLIO && !$a_form->getInput("template"))
-			{
-				$this->assignment->setPortfolioTemplateId(null);
-			}
+			//if($this->assignment && $this->assignment->getType() == ilExAssignment::TYPE_PORTFOLIO && !$a_form->getInput("template"))
+			//{
+				//$this->assignment->setPortfolioTemplateId(null);
+			//}
 			// dates
 			
 			$time_start = $a_form->getItemByPostVar("start_time")->getDate();
@@ -647,7 +687,12 @@ class ilExAssignmentEditorGUI
 						? $a_form->getInput("max_file")
 						: null
 					,"team_tutor" => $a_form->getInput("team_tutor")							
-				);				
+				);
+
+				if($a_form->getInput("template_id"))
+				{
+					$res['template_id'] = $a_form->getInput("template_id");
+				}
 			
 				// peer
 				if($a_form->getInput("peer") ||
@@ -706,7 +751,12 @@ class ilExAssignmentEditorGUI
 		$a_ass->setMaxFile($a_input["max_file"]);		
 		$a_ass->setTeamTutor($a_input["team_tutor"]);			
 		
-		$a_ass->setPeerReview((bool)$a_input["peer"]);		
+		$a_ass->setPeerReview((bool)$a_input["peer"]);
+
+		if($a_input['template_id'])
+		{
+			$a_ass->setPortfolioTemplateId($a_input['template_id']);
+		}
 		
 		// peer review default values (on separate form)
 		if($is_create)
