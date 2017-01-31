@@ -134,7 +134,6 @@ class ilChatroomXMLParser extends ilSaxParser
 	 */
 	private function isSameInstallation()
 	{
-		return true;// TODO REMOVE
 		return defined('IL_INST_ID') && IL_INST_ID > 0 && $this->getImportInstallId() == IL_INST_ID;
 	}
 
