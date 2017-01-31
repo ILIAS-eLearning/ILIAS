@@ -17,15 +17,16 @@ interface UserInteraction extends Task {
 
 	/**
 	 * @param IO $input The input value of this task.
-	 * @return UserInteractionOption[] Options are buttons the user can press on this interaction.
+	 * @return Option[] Options are buttons the user can press on this interaction.
 	 */
 	public function getOptions(IO $input);
 
+
 	/**
 	 * @param \ILIAS\BackgroundTasks\IO $input The input value of this task.
-	 * @param UserInteractionOption $user_selected_option The Option the user chose.
-	 * @param Observer $observer Notify the observer about your progress!
+	 * @param Option $user_selected_option     The Option the user chose.
+	 * @param Observer $observer               Notify the observer about your progress!
 	 * @return IO
 	 */
-	public function interaction(IO $input, UserInteractionOption $user_selected_option, Observer $observer);
+	public function interaction(IO $input, Option $user_selected_option, Observer $observer);
 }
