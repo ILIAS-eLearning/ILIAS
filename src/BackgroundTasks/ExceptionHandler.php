@@ -7,12 +7,14 @@ namespace ILIAS\BackgroundTasks;
  *
  * @package ILIAS\BackgroundTasks
  *
- *          Use custom ExceptionHandlers for your Buckets to handle exceptions in your tasks gracefully
+ *          Use custom ExceptionHandlers for your Buckets to handle exceptions in your tasks
+ *          gracefully
  */
 interface ExceptionHandler {
 
 	/**
-	 * When working on a bucket and an exception occurs the exception handler will try to end the bucket operation gracefully.
+	 * When working on a bucket and an exception occurs the exception handler will try to end the
+	 * bucket operation gracefully.
 	 *
 	 * @param Exceptions\Exception $exception
 	 * @param Bucket $bucket

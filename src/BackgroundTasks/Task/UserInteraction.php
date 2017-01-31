@@ -11,7 +11,8 @@ use ILIAS\BackgroundTasks\Task;
  *
  * @package ILIAS\BackgroundTasks\Task
  *
- *          A Task in the Bucket, which will need some User-Interaction before running the task. A User-Interaction is provided as
+ *          A Task in the Bucket, which will need some User-Interaction before running the task. A
+ *          User-Interaction is provided as
  */
 interface UserInteraction extends Task {
 

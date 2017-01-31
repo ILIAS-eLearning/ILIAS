@@ -7,10 +7,11 @@ namespace ILIAS\BackgroundTasks;
  *
  * @package ILIAS\BackgroundTasks
  *
- *          A Bucket is used to pack several Tasks which have to be done one after the other and is put in the background to avoid hight impact on
- *          the ILIAS system.
+ *          A Bucket is used to pack several Tasks which have to be done one after the other and is
+ *          put in the background to avoid hight impact on the ILIAS system.
  *
- *          Whenever packing a bucket, you start with an Input (IO-interface) wich will be passed to the first task. your task will provide an output
+ *          Whenever packing a bucket, you start with an Input (IO-interface) wich will be passed
+ *          to the first task. your task will provide an output
  *          (IO-interface again) wich will be passed to the next Task, ...
  *
  *          Bucket (IO -> Task -> IO -> Task)
@@ -60,7 +61,8 @@ interface Bucket extends Task {
 
 
 	/**
-	 * @return int Returns the position of the running job in the bucket. Will be between 1 and countJobs()
+	 * @return int Returns the position of the running job in the bucket. Will be between 1 and
+	 *             countJobs()
 	 */
 	public function getRunningTaskPosition();
 
@@ -110,7 +112,8 @@ interface Bucket extends Task {
 
 
 	/**
-	 * @param \ILIAS\BackgroundTasks\Observer $observer when no observer is set, Common observer is used
+	 * @param \ILIAS\BackgroundTasks\Observer $observer when no observer is set, Common observer is
+	 *                                                  used
 	 * @return $this
 	 */
 	public function addObserver(Observer $observer);
