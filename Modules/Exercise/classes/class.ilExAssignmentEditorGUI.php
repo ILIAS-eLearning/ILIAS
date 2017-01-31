@@ -82,7 +82,11 @@ class ilExAssignmentEditorGUI
 	function listAssignmentsObject()
 	{
 		global $tpl, $ilToolbar, $lng, $ilCtrl;
-				
+
+		//clearParameters/clearParametersByClass didn't work.
+		//we need to remove this param, otherwise the edit returns to the wrong assignment.
+		$ilCtrl->setParameter($this,"ass_id", null);
+
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "addAssignment"));		
 		
 		include_once "Services/Form/classes/class.ilSelectInputGUI.php";		
@@ -109,13 +113,22 @@ class ilExAssignmentEditorGUI
 		
 		// #16163 - ignore ass id from request
 		$this->assignment = null;
-		
-		if(!(int)$_POST["type"])
+
+		//after close model check the portfolio template param.
+		if(!(int)$_POST["type"] && !(int)$_GET['prtt'])
 		{
 			$ilCtrl->redirect($this, "listAssignments");
 		}
-		
-		$form = $this->initAssignmentForm((int)$_POST["type"], "create");
+
+		if($_POST["type"])
+		{
+			$ass_type = (int)$_POST["type"];
+		}
+		elseif($_GET['prtt'])
+		{
+			$ass_type = ilExAssignment::TYPE_PORTFOLIO;
+		}
+		$form = $this->initAssignmentForm($ass_type, "create");
 		$tpl->setContent($form->getHTML());
 	}
 	
@@ -170,19 +183,116 @@ class ilExAssignmentEditorGUI
 			$form->setTitle($lng->txt("exc_new_assignment"));
 		}
 		$form->setFormAction($ilCtrl->getFormAction($this));
-		
-		// type
-		$ty = $this->getTypeDropdown();
-		$ty->setValue($a_type);
-		$ty->setDisabled(true);
-		$form->addItem($ty);
-		
+
 		// title
 		$ti = new ilTextInputGUI($lng->txt("title"), "title");
 		$ti->setMaxLength(200);
 		$ti->setRequired(true);
 		$form->addItem($ti);
-		
+
+		// type
+		$ty = $this->getTypeDropdown();
+		$ty->setValue($a_type);
+		$ty->setDisabled(true);
+		$form->addItem($ty);
+
+		// portfolio template
+		if($a_type == ilExAssignment::TYPE_PORTFOLIO)
+		{
+			$rd_template = new ilRadioGroupInputGUI($lng->txt("exc_template"), "template");
+			$rd_template->setRequired(true);
+			$radio_no_template = new ilRadioOption($lng->txt("exc_without_template"), 0, $lng->txt("exc_without_template_info", "without_template_info"));
+			$radio_with_template = new ilRadioOption($lng->txt("exc_with_template"), 1 , $lng->txt("exc_with_template_info", "with_template_info"));
+
+			// add modal with all portfolio templates available
+			$ci_modal = new ilCustomInputGUI();
+			$ci_modal->setHtml($this->getHtmlPortfolioTemplateModal());
+			$form->addItem($ci_modal);
+
+			// Template management
+			$ci_body = $lng->txt("exc_portfolio_template", "portfolio_template");
+
+			if($a_mode != "create")
+			{
+				$template_active = $this->assignment->getPortfolioTemplateId();
+			}
+			else if($_GET['prtt'])
+			{
+				$template_active = $_GET["prtt"];
+				$rd_template->setValue(1);
+			}
+			/*else
+			{
+				if($_POST["portfolio_template_id"])
+				{
+					$template_active = $_POST["portfolio_template_id"];
+				}
+				else if($_GET['prtt'])
+				{
+					$template_active = $_GET["prtt"];
+					$rd_template->setValue(1);
+				}
+			}*/
+
+			if($template_active)
+			{
+				$hidden_input_template_id = new ilHiddenInputGUI("template_id");
+				$hidden_input_template_id->setValue($template_active);
+				$form->addItem($hidden_input_template_id);
+
+				$ci_body .= " ".ilObjPortfolioTemplate::_lookupTitle($template_active);
+				$ci_body .= " <a href='".$ilCtrl->getLinkTarget($this, "confirmResetPortfolioTemplate")."'>".$lng->txt("exc_reset", "reset")."</a>";
+			}
+			else
+			{
+				//$illinkbutton ?? or link
+				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+				$button = ilLinkButton::getInstance();
+				$button->setCaption($lng->txt("exc_select", "select"));
+				$button->setOnClick('$(\'#portfolio_template_modal\').modal(\'show\')');
+				$ci_body .= " ".$button->render();
+
+			}
+
+			$custom_input = new ilCustomInputGUI("","");
+			$custom_input->setHtml($ci_body);
+			$radio_with_template->addSubItem($custom_input);
+
+			$rd_template->addOption($radio_no_template);
+			$rd_template->addOption($radio_with_template);
+			$form->addItem($rd_template);
+		}
+
+		// mandatory
+		$cb = new ilCheckboxInputGUI($lng->txt("exc_mandatory"), "mandatory");
+		$cb->setInfo($lng->txt("exc_mandatory_info"));
+		$cb->setChecked(true);
+		$form->addItem($cb);
+
+		// Work Instructions
+		$sub_header = new ilFormSectionHeaderGUI();
+		$sub_header->setTitle($lng->txt("exc_work_instructions"), "work_instructions");
+		$form->addItem($sub_header);
+
+		$desc_input = new ilTextAreaInputGUI($lng->txt("exc_instruction"), "instruction");
+		$desc_input->setRows(20);
+		$desc_input->setUseRte(true);
+		$desc_input->setRteTagSet("mini");
+		$form->addItem($desc_input);
+
+		// files
+		if ($a_mode == "create")
+		{
+			$files = new ilFileWizardInputGUI($lng->txt('objs_file'),'files');
+			$files->setFilenames(array(0 => ''));
+			$form->addItem($files);
+		}
+
+		// Schedule
+		$sub_header = new ilFormSectionHeaderGUI();
+		$sub_header->setTitle($lng->txt("exc_schedule"), "schedule");
+		$form->addItem($sub_header);
+
 		// start time
 		$start_date = new ilDateTimeInputGUI($lng->txt("exc_start_time"), "start_time");
 		$start_date->setShowTime(true);
@@ -199,42 +309,35 @@ class ilExAssignmentEditorGUI
 		$deadline2->setShowTime(true);
 		$deadline->addSubItem($deadline2);
 
-		// mandatory
-		$cb = new ilCheckboxInputGUI($lng->txt("exc_mandatory"), "mandatory");
-		$cb->setInfo($lng->txt("exc_mandatory_info"));
-		$cb->setChecked(true);
-		$form->addItem($cb);
 
-		// Work Instructions
-		$desc_input = new ilTextAreaInputGUI($lng->txt("exc_instruction"), "instruction");
-		$desc_input->setRows(20);
-		$desc_input->setUseRte(true);				
-		$desc_input->setRteTagSet("mini");		
-		$form->addItem($desc_input);		
-				
-		// files		
-		if ($a_mode == "create")
-		{
-			$files = new ilFileWizardInputGUI($lng->txt('objs_file'),'files');
-			$files->setFilenames(array(0 => ''));
-			$form->addItem($files);						
-		}
-		
 		// max number of files
 		if($a_type == ilExAssignment::TYPE_UPLOAD ||
 			$a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
+			if($a_type == ilExAssignment::TYPE_UPLOAD)
+			{
+				$type_name = $lng->txt("exc_type_upload");
+			}
+			if($a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
+			{
+				$type_name = $lng->txt("exc_type_upload_team");
+			}
+
+			// custom section depending of assignment type
+			$sub_header = new ilFormSectionHeaderGUI();
+			$sub_header->setTitle($type_name);
+			$form->addItem($sub_header);
 			$max_file_tgl = new ilCheckboxInputGUI($lng->txt("exc_max_file_tgl"), "max_file_tgl");
 			$form->addItem($max_file_tgl);
-		
-				$max_file = new ilNumberInputGUI($lng->txt("exc_max_file"), "max_file");
-				$max_file->setInfo($lng->txt("exc_max_file_info"));
-				$max_file->setRequired(true);
-				$max_file->setSize(3);
-				$max_file->setMinValue(1);
-				$max_file_tgl->addSubItem($max_file);			
-		}		
-				
+
+			$max_file = new ilNumberInputGUI($lng->txt("exc_max_file"), "max_file");
+			$max_file->setInfo($lng->txt("exc_max_file_info"));
+			$max_file->setRequired(true);
+			$max_file->setSize(3);
+			$max_file->setMinValue(1);
+			$max_file_tgl->addSubItem($max_file);
+		}
+
 		if($a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
 			$cbtut = new ilCheckboxInputGUI($lng->txt("exc_team_management_tutor"), "team_tutor");
@@ -242,7 +345,11 @@ class ilExAssignmentEditorGUI
 			$cbtut->setChecked(false);
 			$form->addItem($cbtut);
 		}
-		else 	
+		// after submission
+		$sub_header = new ilFormSectionHeaderGUI();
+		$sub_header->setTitle($lng->txt("exc_after_submission"), "after_submission");
+		$form->addItem($sub_header);
+		if($a_type != ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
 			// peer review
 			$peer = new ilCheckboxInputGUI($lng->txt("exc_peer_review"), "peer");		
@@ -285,7 +392,163 @@ class ilExAssignmentEditorGUI
 		
 		return $form;
 	}
-	
+
+	/**
+	 * Returns the modal HTML
+	 * @return string
+	 */
+	protected function getHtmlPortfolioTemplateModal()
+	{
+		global $DIC;
+
+		$lng = $DIC->language();
+
+		include_once "Services/UIComponent/Modal/classes/class.ilModalGUI.php";
+
+		$modal = ilModalGUI::getInstance();
+		$modal->setId('portfolio_template_modal');
+		$modal->setHeading($lng->txt("exc_link","link"));
+		$modal->setBody($this->getPortfolioTemplates());
+
+		return $modal->getHTML();
+	}
+
+	/**
+	 * Returns the HTML form with all the portfolio templates
+	 *
+	 * @return string
+	 */
+	//protected function getPortfolioTemplates(ilPropertyFormGUI $a_form = null)
+	protected function getPortfolioTemplates()
+	{
+		global $DIC;
+
+		$ctrl = $DIC->ctrl();
+
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+
+		$templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
+
+		if(!sizeof($templates))
+		{
+			ilUtil::sendInfo($lng->txt("exc_no_portfolio_templates"), true);
+			$ctrl->redirect($this,"editAssignment");
+
+		}
+
+		$a_form = $this->initPortfolioTemplateForm($templates);
+
+		return $a_form->getHTML();
+	}
+
+	/**
+	 * Form to save the portfolio template
+	 *
+	 * @param array $a_templates
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initPortfolioTemplateForm(array $a_templates)
+	{
+		global $DIC, $tpl;
+
+		$lng = $DIC->language();
+		$ctrl = $DIC->ctrl();
+
+		// hide modal on form submit
+		//$tpl->addOnLoadCode('$("#port_temp_form").submit(function() { $("#portfolio_template_modal").modal("hide"); return false });');
+
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+
+		$form = new ilPropertyFormGUI();
+		$form->setId("port_temp_form");
+		$form->setFormAction($ctrl->getFormAction($this, "setSelectedPortfolioTemplate"));
+
+		$prtt = new ilRadioGroupInputGUI($lng->txt("exc_template"), "portfolio_template_id");
+
+		foreach($a_templates as $id => $title)
+		{
+			$prtt->addOption(new ilRadioOption('"'.$title.'"', $id));
+		}
+
+		$form->addItem($prtt);
+
+		$form->addCommandButton("setSelectedPortfolioTemplate", $lng->txt("save"));
+
+		return $form;
+	}
+
+	protected function setSelectedPortfolioTemplateObject()
+	{
+		global $DIC;
+
+		$ctrl = $DIC->ctrl();
+		$lng = $DIC->language();
+
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+
+		$templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
+
+		if (!sizeof($templates)) {
+			ilUtil::sendInfo($lng->txt("exc_no_portfolio_templates"), true);
+			$ctrl->redirect($this,"editAssignment");
+		}
+		$form = $this->initPortfolioTemplateForm($templates);
+
+		if ($form->checkInput()) {
+			$prtt = $form->getInput("portfolio_template_id");
+
+			if ($prtt > 0)
+			{
+				//if($_GET['ass_id'])
+				if($this->assignment)
+				{
+					$this->assignment->setPortfolioTemplateId($prtt);
+					$this->assignment->update();
+					ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+					$ctrl->redirect($this,"editAssignment");
+				}
+				$ctrl->setParameter($this,"prtt", $prtt);
+				$ctrl->redirect($this,"addAssignment");
+			}
+
+			$ctrl->redirect($this,"listAssignments");
+
+		}
+	}
+
+	protected function confirmResetPortfolioTemplateObject()
+	{
+		global $DIC, $tpl;
+
+		$ctrl = $DIC->ctrl();
+		$lng = $DIC->language();
+
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($ctrl->getFormAction($this));
+		$cgui->setHeaderText($lng->txt("exc_conf_reset_portfolio_temp"));
+		$cgui->setCancel($lng->txt("cancel"), "editAssignment");
+		$cgui->setConfirm($lng->txt("reset"), "resetPortfolioTemplate");
+
+		include_once "./Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+		$template_name = ilObjPortfolioTemplate::_lookupTitle($this->assignment->getPortfolioTemplateId());
+		$cgui->addItem("", "", $template_name);
+
+		$tpl->setContent($cgui->getHTML());
+	}
+
+	protected function resetPortfolioTemplateObject()
+	{
+		global $DIC;
+		$ctrl = $DIC->ctrl();
+		$lng = $DIC->language();
+
+		$this->assignment->setPortfolioTemplateId(null);
+		$this->assignment->update();
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ctrl->redirect($this,"editAssignment");
+	}
+
 	/**
 	 * Custom form validation
 	 * 
@@ -326,7 +589,7 @@ class ilExAssignmentEditorGUI
 		}	
 		
 		if($valid)
-		{									
+		{
 			// dates
 			
 			$time_start = $a_form->getItemByPostVar("start_time")->getDate();
@@ -425,7 +688,12 @@ class ilExAssignmentEditorGUI
 						? $a_form->getInput("max_file")
 						: null
 					,"team_tutor" => $a_form->getInput("team_tutor")							
-				);				
+				);
+
+				if($a_form->getInput("template_id"))
+				{
+					$res['template_id'] = $a_form->getInput("template_id");
+				}
 			
 				// peer
 				if($a_form->getInput("peer") ||
@@ -482,9 +750,14 @@ class ilExAssignmentEditorGUI
 		$a_ass->setExtendedDeadline($a_input["deadline_ext"]);
 									
 		$a_ass->setMaxFile($a_input["max_file"]);		
-		$a_ass->setTeamTutor($a_input["team_tutor"]);			
+		$a_ass->setTeamTutor($a_input["team_tutor"]);
+
+		if($a_input['template_id'])
+		{
+			$a_ass->setPortfolioTemplateId($a_input['template_id']);
+		}
 		
-		$a_ass->setPeerReview((bool)$a_input["peer"]);		
+		$a_ass->setPeerReview((bool)$a_input["peer"]);
 		
 		// peer review default values (on separate form)
 		if($is_create)
@@ -608,8 +881,14 @@ class ilExAssignmentEditorGUI
 		$values["type"] = $this->assignment->getType();
 		$values["title"] = $this->assignment->getTitle();
 		$values["mandatory"] = $this->assignment->getMandatory();
-		$values["instruction"] = $this->assignment->getInstruction();		
-				
+		$values["instruction"] = $this->assignment->getInstruction();
+		$values['template'] = $this->assignment->getPortfolioTemplateId();
+
+		if($this->assignment->getPortfolioTemplateId())
+		{
+			$values["template"] = 1;
+		}
+
 		if ($this->assignment->getStartTime())
 		{			
 			$values["start_time"] = new ilDateTime($this->assignment->getStartTime(), IL_CAL_UNIX);		

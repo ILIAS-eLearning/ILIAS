@@ -16153,3 +16153,22 @@ wsp#:#element_shared#:#Object shared.
 wsp#:#share#:#Share
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 exc#:#instruction_file_order#:#File Order
+exc#:#exc_work_instructions#:#Work instructions
+exc#:#exc_after_submission#:#After submission
+exc#:#exc_schedule#:#Schedule
+exc#:#exc_submit_convenience_no_deadline#:#Submit your at your convenience. There is no  specific  deadline.
+exc#:#exc_select_portfolio_unlink#:#Remove Portfolio
+exc#:#exc_sure_unlink_portfolio#:#Are you sure to remove the this portfolio form this assignment?
+exc#:#exc_portfolio_unlinked_from_assignment#:#Portfolio removed from this assignment
+exc#:#exc_template#:#Template
+exc#:#exc_portfolio_template#:#Portfolio Template
+exc#:#exc_without_template#:#Without Portfolio - Template
+exc#:#exc_with_template#:#With Portfolio - Template
+exc#:#exc_without_template_info#:#Participants will create their Portfolio from scratch
+exc#:#exc_with_template_info#:#An empty Portfolio will be automatically derived from a specific Portfolio Template.
+exc#:#exc_link#:#Link
+exc#:#exc_reset#:#Reset
+exc#:#exc_select#:#Select
+exc#:#exc_conf_reset_portfolio_temp#:#Are you sure to reset the Portfolio Template?
+exc#:#exc_no_portfolio_templates#:#There are no Portfolio Templates available.
+exc#:#exc_template_removed#:#The Template was removed for this Portfolio Assignment.
