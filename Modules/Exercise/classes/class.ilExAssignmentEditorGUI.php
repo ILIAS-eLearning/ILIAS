@@ -82,7 +82,11 @@ class ilExAssignmentEditorGUI
 	function listAssignmentsObject()
 	{
 		global $tpl, $ilToolbar, $lng, $ilCtrl;
-				
+
+		//clearParameters/clearParametersByClass didn't work.
+		//we need to remove this param, otherwise the edit returns to the wrong assignment.
+		$ilCtrl->setParameter($this,"ass_id", null);
+
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "addAssignment"));		
 		
 		include_once "Services/Form/classes/class.ilSelectInputGUI.php";		
@@ -451,7 +455,7 @@ class ilExAssignmentEditorGUI
 		$ctrl = $DIC->ctrl();
 
 		// hide modal on form submit
-		$tpl->addOnLoadCode('$("#port_temp_form").submit(function() { $("#portfolio_template_modal").modal("hide"); return false });');
+		//$tpl->addOnLoadCode('$("#port_temp_form").submit(function() { $("#portfolio_template_modal").modal("hide"); return false });');
 
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 
@@ -501,6 +505,7 @@ class ilExAssignmentEditorGUI
 					$this->assignment->setPortfolioTemplateId($prtt);
 					$this->assignment->update();
 					ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+					$ctrl->redirect($this,"editAssignment");
 				}
 				$ctrl->setParameter($this,"prtt", $prtt);
 				$ctrl->redirect($this,"addAssignment");
@@ -585,10 +590,6 @@ class ilExAssignmentEditorGUI
 		
 		if($valid)
 		{
-			//if($this->assignment && $this->assignment->getType() == ilExAssignment::TYPE_PORTFOLIO && !$a_form->getInput("template"))
-			//{
-				//$this->assignment->setPortfolioTemplateId(null);
-			//}
 			// dates
 			
 			$time_start = $a_form->getItemByPostVar("start_time")->getDate();
@@ -749,14 +750,14 @@ class ilExAssignmentEditorGUI
 		$a_ass->setExtendedDeadline($a_input["deadline_ext"]);
 									
 		$a_ass->setMaxFile($a_input["max_file"]);		
-		$a_ass->setTeamTutor($a_input["team_tutor"]);			
-		
-		$a_ass->setPeerReview((bool)$a_input["peer"]);
+		$a_ass->setTeamTutor($a_input["team_tutor"]);
 
 		if($a_input['template_id'])
 		{
 			$a_ass->setPortfolioTemplateId($a_input['template_id']);
 		}
+		
+		$a_ass->setPeerReview((bool)$a_input["peer"]);
 		
 		// peer review default values (on separate form)
 		if($is_create)
@@ -887,10 +888,6 @@ class ilExAssignmentEditorGUI
 		{
 			$values["template"] = 1;
 		}
-		/*else
-		{
-			$values["template"] = 0;
-		}*/
 
 		if ($this->assignment->getStartTime())
 		{			
