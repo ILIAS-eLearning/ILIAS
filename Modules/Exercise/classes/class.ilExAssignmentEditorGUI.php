@@ -9,7 +9,7 @@ include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * 
-* @ilCtrl_Calls ilExAssignmentEditorGUI: ilFileSystemGUI, ilExPeerReviewGUI
+* @ilCtrl_Calls ilExAssignmentEditorGUI: ilExAssignmentFileSystemGUI, ilExPeerReviewGUI
 * 
 * @ingroup ModulesExercise
 */
@@ -44,16 +44,16 @@ class ilExAssignmentEditorGUI
 		switch($class)
 		{		
 			// instruction files
-			case "ilfilesystemgui":				
+			case "ilexassignmentfilesystemgui":
 				$this->setAssignmentHeader();
 				$ilTabs->activateTab("ass_files");
 				
 				include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 				$fstorage = new ilFSStorageExercise($this->exercise_id, $this->assignment->getId());
 				$fstorage->create();
-				
-				include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
-				$fs_gui = new ilFileSystemGUI($fstorage->getPath());
+
+				include_once("./Modules/Exercise/classes/class.ilExAssignmentFileSystemGUI.php");
+				$fs_gui = new ilExAssignmentFileSystemGUI($fstorage->getPath());
 				$fs_gui->setTitle($lng->txt("exc_instruction_files"));
 				$fs_gui->setTableId("excassfil".$this->assignment->getId());
 				$fs_gui->setAllowDirectories(false);
@@ -1135,7 +1135,7 @@ class ilExAssignmentEditorGUI
 		
 		$ilTabs->addTab("ass_files",
 			$lng->txt("exc_instruction_files"),
-			$ilCtrl->getLinkTargetByClass(array("ilexassignmenteditorgui", "ilfilesystemgui"), "listFiles"));
+			$ilCtrl->getLinkTargetByClass(array("ilexassignmenteditorgui", "ilexassignmentfilesystemgui"), "listFiles"));
 	}
 	
 	public function downloadGlobalFeedbackFileObject()
