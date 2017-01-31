@@ -7800,7 +7800,7 @@ exc#:#exc_type_upload#:#Datei
 excv#:#excv_create#:#Übungszertifikat erstellen
 excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie ein Zertifikat benötigen
 exercise#:#exc_comment#:#Kommentar
-exercise#:#exc_comment_for_learner#:#Kommentar für Lerner
+exercise#:#exc_comment_for_learner#:#Feedback für Teilnehmer
 exercise#:#exc_crs_add_members#:#Mitglieder dieses Kurses hinzufügen
 exercise#:#exc_failed#:#Nicht bestanden
 exercise#:#exc_feedback_from_tutor#:#Feedback des Tutors

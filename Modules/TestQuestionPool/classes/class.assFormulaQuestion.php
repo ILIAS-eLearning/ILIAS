@@ -979,6 +979,23 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
 		return $points;
 	}
+	
+	protected function isValidSolutionResultValue($submittedValue)
+	{
+		$submittedValue = str_replace(',', '.', $submittedValue);
+		
+		if( is_numeric($submittedValue) )
+		{
+			return true;
+		}
+		
+		if( preg_match('/^\d+\/\d+$/', $submittedValue) )
+		{
+			return true;
+		}
+		
+		return false;
+	}
 
 	/**
 	 * Saves the learners input of the question to the database
@@ -998,25 +1015,10 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		}
 
 		$entered_values = false;
-
+		
 		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $ilDB, $active_id, $pass, $authorized) {
-
+			
 			$solutionSubmit = $this->getSolutionSubmit();
-
-			$tmp            = $solutionSubmit;
-			$solutionSubmit = array();
-			foreach($tmp as $key => $val)
-			{
-				if(is_numeric($val) || is_numeric(str_replace(',', '.', $val)) || strlen($val) == 0)
-				{
-					$solutionSubmit[$key] = $val;
-				}
-				else
-				{
-					$solutionSubmit[$key] = '';
-				}
-			}
-
 			foreach($solutionSubmit as $key => $value)
 			{
 				$matches = null;
@@ -1422,8 +1424,16 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		{
 			if(preg_match("/^result_(\\\$r\\d+)$/", $k))
 			{
-				$solutionSubmit[$k] = $v;
-			} elseif(preg_match("/^result_(\\\$r\\d+)_unit$/", $k))
+				if( $this->isValidSolutionResultValue($v) )
+				{
+					$solutionSubmit[$k] = $v;
+				}
+				else
+				{
+					$solutionSubmit[$k] = '';
+				}
+			}
+			elseif(preg_match("/^result_(\\\$r\\d+)_unit$/", $k))
 			{
 				$solutionSubmit[$k] = $v;
 			}

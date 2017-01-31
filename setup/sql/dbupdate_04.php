@@ -18091,3 +18091,109 @@ $ilDB->modifyTableColumn('exc_returned', 'mimetype', array(
 										'notnull' => false)
 );
 ?>
+<#5069>
+<?php
+include_once('./Services/Migration/DBUpdate_5069/classes/class.ilDBUpdate5069.php');
+ilDBUpdate5069::fix19795();
+?>
+
+<#5070>
+<?php
+
+// remove role entries in obj_members
+$query = 'update obj_members set admin = '.$ilDB->quote(0,'integer').', '.
+		'tutor = '.$ilDB->quote(0,'integer').', member = '.$ilDB->quote(0,'integer');
+$ilDB->manipulate($query);
+
+// iterate through all courses
+$offset = 0;
+$limit = 100;
+do
+{
+	$ilDB->setLimit($limit, $offset);
+	$query = 'SELECT obr.ref_id, obr.obj_id FROM object_reference obr '.
+			'join object_data obd on obr.obj_id = obd.obj_id where (type = '.$ilDB->quote('crs','text').' or type = '.$ilDB->quote('grp','text').') ';
+	$res = $ilDB->query($query);
+	
+	if(!$res->numRows())
+	{
+		break;
+	}
+	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+	{
+		// find course members roles
+		$query = 'select rol_id, title from rbac_fa '.
+				'join object_data on rol_id = obj_id '.
+				'where parent = '.$ilDB->quote($row->ref_id,'integer').' '.
+				'and assign = '.$ilDB->quote('y','text');
+		$rol_res = $ilDB->query($query);
+		while($rol_row = $rol_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			// find users which are not assigned to obj_members and create a default entry
+			$query = 'select ua.usr_id from rbac_ua ua '.
+					'left join obj_members om on (ua.usr_id = om.usr_id and om.obj_id = '.$ilDB->quote($row->obj_id,'integer').') '.
+					'where om.usr_id IS NULL '.
+					'and rol_id = '.$ilDB->quote($rol_row->rol_id,'integer');
+			$ua_res = $ilDB->query($query);
+			while($ua_row = $ua_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+			{
+				$query = 'insert into obj_members (obj_id, usr_id) '.
+						'values('.
+						$ilDB->quote($row->obj_id,'integer').', '.
+						$ilDB->quote($ua_row->usr_id,'integer').' '.
+						')';
+				$ilDB->manipulate($query);
+			}
+			
+			// find users which are assigned to obj_members and update their role assignment
+			$query = 'select usr_id from rbac_ua '.
+				'where rol_id = '.$ilDB->quote($rol_row->rol_id,'integer');
+
+			$ua_res = $ilDB->query($query);
+			while($ua_row = $ua_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+			{
+				$admin = $tutor = $member = 0;
+				switch(substr($rol_row->title,0,8))
+				{
+					case 'il_crs_a':
+					case 'il_grp_a':
+						$admin = 1;
+						break;
+					
+					case 'il_crs_t':
+						$tutor = 1;
+						break;
+					
+					default:
+					case 'il_grp_m':
+					case 'il_crs_m':
+						$member = 1;
+						break;
+				}
+				
+				$query = 'update obj_members '.
+						'set admin = admin  + '.$ilDB->quote($admin,'integer').', '.
+						'tutor = tutor + '.$ilDB->quote($tutor,'integer').', '.
+						'member = member + '.$ilDB->quote($member,'integer').' '.
+						'WHERE usr_id = '.$ilDB->quote($ua_row->usr_id,'integer').' '.
+						'AND obj_id = '.$ilDB->quote($row->obj_id,'integer');
+				$ilDB->manipulate($query);
+			}
+		}
+	}
+		// increase offset
+	$offset += $limit;
+}
+while(TRUE);
+?>
+
+<#5071>
+<?php
+
+$ilDB->manipulate('delete from obj_members where admin = '.
+	$ilDB->quote(0,'integer').' and tutor = '.
+	$ilDB->quote(0,'integer').' and member = '.
+	$ilDB->quote(0,'integer')
+);
+?>
+
