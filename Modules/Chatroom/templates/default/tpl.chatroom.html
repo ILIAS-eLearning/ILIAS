@@ -63,38 +63,6 @@
 		}
 	});
 
-	/*var socket = io.connect('http://localhost:7373/'+instance);
-
-	 socket.on('connect', function(){
-	 console.log('connect');
-
-	 socket.emit('login', user, userId, room);
-	 });
-
-	 socket.on('message', function(username, data){
-	 var container = $('<div></div>').addClass('messageLine').addClass('chat').addClass('public');
-
-	 if(username == 'SERVER') {
-	 container.addClass('notice');
-	 }
-	 else
-	 {
-	 var time = formatTime(data.timestamp);
-	 $(container).append(
-	 $('<span></span>').addClass('chat').addClass('content').addClass('date').html(time + " ")
-	 ).append(
-	 $('<span></span>').addClass('chat').addClass('content').addClass('username').html(username)
-	 ).append(
-	 $('<span></span>').addClass('chat').addClass('content').addClass('messageseperator').html(': ')
-	 );
-	 }
-
-	 $(container).append(
-	 $('<span></span>').addClass('chat').html(data.message.content)
-	 );
-	 $('#chat_messages').append(container);
-	 });*/
-
 	var formatTime = function(timestamp) {
 		var date = new Date(timestamp * 1000);
 
@@ -103,26 +71,7 @@
 		var seconds = date.getSeconds();
 
 		return (hours < 10? "0": "") + hours + ":" + (minutes < 10? "0": "") + minutes + ":" + (seconds < 10? "0": "") + seconds;
-	}
-
-	// on load of page
-	/*$(function(){
-	 // when the client clicks SEND
-	 $('#submit_message').click( function() {
-	 var message = $('#submit_message_text').val();
-	 $('#submit_message_text').val('');
-	 // tell server to execute 'sendchat' and send along one parameter
-	 socket.emit('message', message, room);
-	 });
-
-	 // when the client hits ENTER on their keyboard
-	 $('#submit_message_text').keypress(function(e) {
-	 if(e.which == 13) {
-	 $(this).blur();
-	 $('#submit_message').focus().click();
-	 }
-	 });
-	 });*/
+	};
 </script>
 
 <div id="invite_users_container" class="ilNoDisplayChat">

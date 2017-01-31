@@ -26,12 +26,15 @@ module.exports = function(req, res)
 					room.removeSubscriber(subscriberId);
 					room.subscriberLeft(subscriberId);
 
+					var userlistAction = UserlistAction.create(splitted[0], splitted[1], room.getJoinedSubscribers());
+					var notice = Notice.create('user_kicked', splitted[0], splitted[1], {user: subscriber.getName()});
+
 					subscriber.getSocketIds().forEach(function(socketId){
-						namespace.getIO().connected[socketId].leave(room.getId());
 						namespace.getIO().to(socketId).emit('userjustbanned');
+						namespace.getIO().connected[socketId].leave(room.getId());
 					});
 
-					var notice = Notice.create('user_kicked', splitted[0], splitted[1], {user: subscriber.getName()});
+					namespace.getIO().to(room.getId()).emit('userlist', userlistAction);
 					namespace.getIO().to(room.getId()).emit('notice', notice);
 				}
 			}
