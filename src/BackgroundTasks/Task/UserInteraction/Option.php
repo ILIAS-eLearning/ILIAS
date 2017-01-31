@@ -2,6 +2,13 @@
 
 namespace ILIAS\BackgroundTasks\Task;
 
+/**
+ * Interface Option
+ *
+ * @package ILIAS\BackgroundTasks\Task
+ *
+ *          Whenever a user is asked about the further course of his tasks (userinteraction), options will show up
+ */
 interface Option {
 
 	/**
