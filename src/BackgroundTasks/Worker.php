@@ -7,7 +7,8 @@ namespace ILIAS\BackgroundTasks;
  *
  * @package ILIAS\BackgroundTasks
  *
- *                A Worker will go through background tasks and do some work on them. How much it does depends on the implementation.
+ *                A Worker will go through background tasks and do some work on them. How much it
+ *                does depends on the implementation.
  */
 interface Worker {
 
@@ -18,8 +19,8 @@ interface Worker {
 
 
 	/**
-	 * Returns true iff the worker wants to be called within the current HTTP request. A Synchronised worker will in fact not be a background task
-	 * and stop only for user inputs.
+	 * Returns true iff the worker wants to be called within the current HTTP request. A
+	 * Synchronised worker will in fact not be a background task and stop only for user inputs.
 	 *
 	 * @return boolean
 	 */
