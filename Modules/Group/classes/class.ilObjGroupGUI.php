@@ -61,7 +61,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		// if news timeline is landing page, redirect if necessary
-		if ($next_class == "" && $cmd == "" && $this->object->getUseNews() && $this->object->getNewsTimelineLandingPage())
+		if ($next_class == "" && $cmd == "" && $this->object->getUseNews() && $this->object->getNewsTimelineLandingPage()
+			&& $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$this->ctrl->redirectbyclass("ilnewstimelinegui");
 		}
@@ -276,6 +277,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 
 			case "ilnewstimelinegui":
+				$this->checkPermission("read");
 				$this->tabs_gui->setTabActive('news_timeline');
 				include_once("./Services/News/classes/class.ilNewsTimelineGUI.php");
 				$t = ilNewsTimelineGUI::getInstance($this->object->getRefId(), $this->object->getNewsTimelineAutoENtries());

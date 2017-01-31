@@ -1706,7 +1706,7 @@ class ilObject
 	 * @return object new object
 	 *  
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $objDefinition,$ilUser,$rbacadmin, $ilDB;
 		
@@ -1716,7 +1716,7 @@ class ilObject
 		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
 		$options = ilCopyWizardOptions::_getInstance($a_copy_id);
 		
-		if(!$options->isTreeCopyDisabled())
+		if(!$options->isTreeCopyDisabled() && !$a_omit_tree)
 		{
 			$title = $this->appendCopyInfo($a_target_id,$a_copy_id);
 		}
@@ -1735,7 +1735,7 @@ class ilObject
 		// Choose upload mode to avoid creation of additional settings, db entries ...
 		$new_obj->create(true);
 
-		if(!$options->isTreeCopyDisabled())
+		if(!$options->isTreeCopyDisabled() && !$a_omit_tree)
 		{
 			ilLoggerFactory::getLogger('obj')->debug('Tree copy is enabled');
 			$new_obj->createReference();

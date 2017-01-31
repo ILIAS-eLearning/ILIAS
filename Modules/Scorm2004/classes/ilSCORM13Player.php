@@ -500,7 +500,7 @@ class ilSCORM13Player
 	/**
 	 * Get inline css
 	 */
-	function getInlineCSS()
+	static function getInlineCSS()
 	{
 		$is_tpl = new ilTemplate("tpl.scorm2004.inlinecss.html", true, true, "Modules/Scorm2004");
 		$is_tpl->setVariable('IC_ASSET', ilUtil::getImagePath("scorm/asset.svg",false));

@@ -709,6 +709,11 @@ class ilTemplate extends HTML_Template_ITX
 		if (is_object($ilSetting))		// maybe this one can be removed
 		{
 			$vers = "vers=".str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
+			
+			if(DEVMODE)
+			{
+				$vers .= '-'.time();
+			}
 		}
 		if ($this->blockExists("js_file"))
 		{

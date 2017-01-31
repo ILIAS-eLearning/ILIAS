@@ -15,6 +15,11 @@ include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assQuestionE
 class assOrderingQuestionExport extends assQuestionExport
 {
 	/**
+	 * @var assOrderingQuestion
+	 */
+	public $object;
+	
+	/**
 	* Returns a QTI xml representation of the question
 	*
 	* Returns a QTI xml representation of the question and sets the internal
@@ -145,19 +150,12 @@ class assOrderingQuestionExport extends assQuestionExport
 			);
 		}
 		$a_xml_writer->xmlStartTag("render_choice", $attrs);
-		// shuffle
-		$akeys = array_keys($this->object->getAnswers());
-		if ($this->object->getShuffle() && $a_shuffle)
-		{
-			$akeys = $this->object->pcArrayShuffle($akeys);
-		}
 
 		// add answers
-		foreach ($akeys as $index)
+		foreach ($this->object->getOrderingElementList() as $element)
 		{
-			$answer = $this->object->getAnswer($index);
 			$attrs = array(
-				"ident" => $index
+				'ident' => $element->getExportIdent()
 			);
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
 			if ($this->object->getOrderingType() == OQ_PICTURES
@@ -170,14 +168,14 @@ class assOrderingQuestionExport extends assQuestionExport
 				{
 					$attrs = array(
 						"imagtype" => $imagetype,
-						"label" => $answer->getAnswertext(),
-						"uri" => $this->object->getImagePathWeb() . $answer->getAnswertext()
+						"label" => $element->getContent(),
+						"uri" => $this->object->getImagePathWeb() . $element->getContent()
 					);
 					$a_xml_writer->xmlElement("matimage", $attrs);
 				}
 				else
 				{
-					$imagepath = $this->object->getImagePath() . $answer->getAnswertext();
+					$imagepath = $this->object->getImagePath() . $element->getContent();
 					$fh = @fopen($imagepath, "rb");
 					if ($fh != false)
 					{
@@ -185,13 +183,13 @@ class assOrderingQuestionExport extends assQuestionExport
 						fclose($fh);
 						$base64 = base64_encode($imagefile);
 						
-						if (preg_match("/.*\.(png|gif)$/", $answer->getAnswertext(), $matches))
+						if (preg_match("/.*\.(png|gif)$/", $element->getContent(), $matches))
 						{
 							$imagetype = "image/".$matches[1];
 						}
 						$attrs = array(
 							"imagtype" => $imagetype,
-							"label" => $answer->getAnswertext(),
+							"label" => $element->getContent(),
 							"embedded" => "base64"
 						);
 						$a_xml_writer->xmlElement("matimage", $attrs, $base64, FALSE, FALSE);
@@ -203,16 +201,11 @@ class assOrderingQuestionExport extends assQuestionExport
 			|| $this->object->getOrderingType() == OQ_NESTED_TERMS)
 			{
 				$a_xml_writer->xmlStartTag("material");
-				$this->object->addQTIMaterial($a_xml_writer, $answer->getAnswertext(), TRUE, FALSE);
+				$this->object->addQTIMaterial($a_xml_writer, $element->getContent(), TRUE, FALSE);
 				$a_xml_writer->xmlEndTag("material");
 				$a_xml_writer->xmlStartTag("material");
-				if ($this->object->getOldLeveledOrdering())
-				{
-					$attrs = array(
-						"label" => "answerdepth"
-					);
-					$a_xml_writer->xmlElement("mattext", $attrs, $answer->getOrderingDepth());
-				}
+				$attrs = array("label" => "answerdepth");
+				$a_xml_writer->xmlElement("mattext", $attrs, $element->getIndentation());
 				$a_xml_writer->xmlEndTag("material");
 			}
 			$a_xml_writer->xmlEndTag("response_label");
@@ -229,7 +222,7 @@ class assOrderingQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlEndTag("decvar");
 		$a_xml_writer->xmlEndTag("outcomes");
 		// add response conditions
-		foreach ($this->object->getAnswers() as $index => $answer)
+		foreach ($this->object->getOrderingElementList() as $element)
 		{
 			$attrs = array(
 				"continue" => "Yes"
@@ -250,18 +243,19 @@ class assOrderingQuestionExport extends assQuestionExport
 			
 			$attrs = array("respident" => $ordering_type);
 			
-			$attrs["index"] = $index;
-			$a_xml_writer->xmlElement("varequal", $attrs, $index);
+			$attrs["index"] = $element->getPosition();
+			$a_xml_writer->xmlElement("varequal", $attrs, $element->getPosition());
 			$a_xml_writer->xmlEndTag("conditionvar");
 			// qti setvar
 			$attrs = array(
 				"action" => "Add"
 			);
-			$a_xml_writer->xmlElement("setvar", $attrs, $this->object->getPoints() / count($this->object->getAnswers()));
+			$points = $this->object->getPoints() / $this->object->getOrderingElementList()->countElements();
+			$a_xml_writer->xmlElement("setvar", $attrs, $points);
 			// qti displayfeedback
 			$attrs = array(
 				"feedbacktype" => "Response",
-				"linkrefid" => "link_$index"
+				"linkrefid" => "link_".$element->getPosition()
 			);
 			$a_xml_writer->xmlElement("displayfeedback", $attrs);
 			$a_xml_writer->xmlEndTag("respcondition");
@@ -279,7 +273,7 @@ class assOrderingQuestionExport extends assQuestionExport
 			// qti conditionvar
 			$a_xml_writer->xmlStartTag("conditionvar");
 
-			foreach ($this->object->getAnswers() as $index => $answer)
+			foreach ($this->object->getOrderingElementList() as $element)
 			{
 				$attrs = array();
 				
@@ -294,8 +288,8 @@ class assOrderingQuestionExport extends assQuestionExport
 
 				$attrs = array("respident" => $ordering_type);
 
-				$attrs["index"] = $index;
-				$a_xml_writer->xmlElement("varequal", $attrs, $index);
+				$attrs["index"] = $element->getPosition();
+				$a_xml_writer->xmlElement("varequal", $attrs, $element->getPosition());
 			}
 
 			$a_xml_writer->xmlEndTag("conditionvar");
@@ -321,7 +315,7 @@ class assOrderingQuestionExport extends assQuestionExport
 			$a_xml_writer->xmlStartTag("conditionvar");
 			$a_xml_writer->xmlStartTag("not");
 
-			foreach ($this->object->getAnswers() as $index => $answer)
+			foreach ($this->object->getOrderingElementList() as $element)
 			{
 				$attrs = array();
 				if ($this->object->getOrderingType() == OQ_PICTURES)
@@ -335,8 +329,8 @@ class assOrderingQuestionExport extends assQuestionExport
 
 				$attrs = array("respident" => $ordering_type);
 				
-				$attrs["index"] = $index;
-				$a_xml_writer->xmlElement("varequal", $attrs, $index);
+				$attrs["index"] = $element->getPosition();
+				$a_xml_writer->xmlElement("varequal", $attrs, $element->getPosition());
 			}
 
 			$a_xml_writer->xmlEndTag("not");
@@ -353,10 +347,10 @@ class assOrderingQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlEndTag("resprocessing");
 
 		// PART III: qti itemfeedback
-		foreach ($this->object->getAnswers() as $index => $answer)
+		foreach ($this->object->getOrderingElementList() as $element)
 		{
 			$attrs = array(
-				"ident" => "link_$index",
+				"ident" => "link_".$element->getPosition(),
 				"view" => "All"
 			);
 			$a_xml_writer->xmlStartTag("itemfeedback", $attrs);

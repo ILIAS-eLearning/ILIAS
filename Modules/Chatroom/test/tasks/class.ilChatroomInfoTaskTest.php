@@ -10,7 +10,7 @@ class ilChatroomInfoTaskTest extends ilChatroomAbstractTaskTest
 {
 
 	/**
-	 * @var PHPUnit_Framework_MockObject_MockObject|ilChatroomInfoTask;
+	 * @var PHPUnit_Framework_MockObject_MockObject|ilChatroomInfoGUI;
 	 */
 	protected $task;
 
@@ -23,7 +23,7 @@ class ilChatroomInfoTaskTest extends ilChatroomAbstractTaskTest
 			define('DB_FETCHMODE_OBJECT', 'ASSOC');
 		}
 
-		require_once './Modules/Chatroom/classes/tasks/class.ilChatroomInfoTask.php';
+		require_once './Modules/Chatroom/classes/gui/class.ilChatroomInfoGUI.php';
 
 		$this->createGlobalIlCtrlMock();
 		$this->createGlobalIlLanguageMock();
@@ -33,7 +33,7 @@ class ilChatroomInfoTaskTest extends ilChatroomAbstractTaskTest
 		$this->createIlObjChatroomGUIMock($this->object);
 
 		$this->task = $this->getMock(
-			'ilChatroomInfoTask',
+			'ilChatroomInfoGUI',
 			array('sendResponse', 'getRoomByObjectId', 'redirectIfNoPermission', 'createInfoScreenGUI'),
 			array($this->gui)
 		);

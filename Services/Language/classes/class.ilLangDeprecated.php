@@ -35,7 +35,7 @@ class ilLangDeprecated
 	public function getDeprecatedLangVars()
 	{
 		$this->getCandidates();
-		//$this->parseCodeFiles();
+		$this->parseCodeFiles();
 		return $this->candidates;
 	}
 

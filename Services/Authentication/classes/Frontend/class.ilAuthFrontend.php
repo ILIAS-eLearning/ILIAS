@@ -257,7 +257,13 @@ class ilAuthFrontend
 			$this->getLogger()->info('Authentication failed (wrong ip) for user with id: ' . $this->getStatus()->getAuthenticatedUserId());
 			$this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
 			$this->getStatus()->setAuthenticatedUserId(0);
-			$this->getStatus()->setReason('wrong_ip_detected');
+			
+			$this->getStatus()->setTranslatedReason(
+				sprintf(
+					$GLOBALS['DIC']->language()->txt('wrong_ip_detected'),
+					$_SERVER['REMOTE_ADDR']
+				)
+			);
 			return false;
 		}
 		
@@ -276,6 +282,7 @@ class ilAuthFrontend
 		include_once "Services/User/classes/class.ilUserProfile.php";
 		if(ilUserProfile::isProfileIncomplete($user) && ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_ECS)
 		{
+			ilLoggerFactory::getLogger('auth')->info('User profile is incomplete.');
 			$user->setProfileIncomplete(true);
 			$user->update();
 		}
@@ -405,6 +412,26 @@ class ilAuthFrontend
 	protected function handleAuthenticationFail()
 	{
 		$this->getLogger()->debug('Authentication failed for all authentication methods.');
+
+		$user_id = ilObjUser::_lookupId($this->getCredentials()->getUsername());
+		if(!in_array($user_id, array(ANONYMOUS_USER_ID,SYSTEM_USER_ID)))
+		{
+			ilObjUser::_incrementLoginAttempts($user_id);
+			$login_attempts = ilObjUser::_getLoginAttempts($user_id);
+			
+			$this->getLogger()->notice('Increased login attempts for user: ' . $this->getCredentials()->getUsername());
+			
+			include_once './Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
+			$security = ilSecuritySettings::_getInstance();
+			$max_attempts = $security->getLoginMaxAttempts();
+			
+			if((int) $max_attempts && $login_attempts >= $max_attempts)
+			{
+				$this->getStatus()->setReason('auth_err_login_attempts_deactivation');
+				$this->getLogger()->warning('User account set to inactive due to exceeded login attempts.');
+				ilObjUser::_setUserInactive($user_id);
+			}
+		}
 	}
 	
 }

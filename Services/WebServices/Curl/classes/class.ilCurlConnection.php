@@ -37,16 +37,13 @@ include_once('Services/WebServices/Curl/classes/class.ilCurlConnectionException.
 
 class ilCurlConnection
 {
-	/**
-	 * @var ilLogger
-	 */
-	protected $log = null;
-	
 	protected $url = '';
 	protected $ch = null;
 
 	private $header_plain = '';
 	private $header_arr = array();
+	
+	private $response_body = '';
 
 	/**
 	 * Constructor
@@ -58,7 +55,6 @@ class ilCurlConnection
 	 */
 	public function __construct($a_url = '')
 	{
-		$this->log = $GLOBALS['DIC']->logger()->wsrv();
 		$this->url = $a_url;
 
 		if(!self::_isCurlExtensionLoaded())
@@ -173,7 +169,28 @@ class ilCurlConnection
 		}
 		return $res;
 	}
-
+	
+	/**
+	 * parse response body
+	 * @param type $a_response
+	 */
+	public function parseResponse($a_response)
+	{
+		$header_size = $this->getInfo(CURLINFO_HEADER_SIZE);
+		
+		$this->header_plain = substr($a_response, 0, $header_size);
+		$this->response_body = substr($a_response, $header_size);
+	}
+	
+	/**
+	 * Get responce body.
+	 * @return type
+	 */
+	public function getResponseBody()
+	{
+		return $this->response_body;
+	}
+	
 	/**
 	 * Get informations about a specific transfer
 	 *

@@ -31,6 +31,7 @@ class ilLOUserResults
 		$this->course_obj_id = (int)$a_course_obj_id;
 		$this->user_id = (int)$a_user_id;
 	}
+	
 
 	/**
 	 * Lookup user result
@@ -315,13 +316,29 @@ class ilLOUserResults
 			return $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_COMPLETED);
 		}
 		
-		// qualifying initial
-		return array_unique(
-			array_merge(
+		// status of final final test overwrites initial qualified.
+		if(
+			$settings->isInitialTestQualifying() &&
+			$settings->worksWithInitialTest()
+		)
+		{
+			$completed = array();
+			$completed_candidates = array_unique(
+				array_merge(
 					$this->findObjectiveIds(self::TYPE_INITIAL, self::STATUS_COMPLETED),
 					$this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_COMPLETED)
-			)
-		);
+			));
+			$failed_final = (array) $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_FAILED);
+			
+			foreach($completed_candidates as $objective_completed)
+			{
+				if(!in_array($objective_completed, $failed_final))
+				{
+					$completed[] = $objective_completed;
+				}
+			}
+			return $completed;
+		}
 	}
 	
 	/**
@@ -345,13 +362,25 @@ class ilLOUserResults
 		global $ilDB;
 		
 		$res = array();
-		
+
+		include_once("./Modules/Course/classes/Objectives/class.ilLOSettings.php");
+		$settings = ilLOSettings::getInstanceByObjId($this->course_obj_id);
+
 		$set = $ilDB->query("SELECT *".
 			" FROM loc_user_results".
 			" WHERE course_id = ".$ilDB->quote($this->course_obj_id, "integer").
 			" AND user_id = ".$ilDB->quote($this->user_id, "integer"));
 		while($row = $ilDB->fetchAssoc($set))
 		{
+			// do not read initial test results, if disabled.
+			if(
+				$row['type'] == self::TYPE_INITIAL &&
+				!$settings->worksWithInitialTest()
+			)
+			{
+				continue;
+			}
+			
 			$objective_id = $row["objective_id"];
 			$type = $row["type"];
 			unset($row["objective_id"]);
@@ -453,16 +482,26 @@ class ilLOUserResults
 			$sql .= " AND lor.user_id = ".$ilDB->quote($a_user_id, "integer");
 		}		
 		$sql .= " ORDER BY lor.type DESC"; // qualified must come first!
-		$set = $ilDB->query($sql);			
+		$set = $ilDB->query($sql);
+		
+		$has_final_result = array();
 		while($row = $ilDB->fetchAssoc($set))
-		{										
-			$user_id = (int)$row["user_id"];
-			$status = (int)$row["status"];
+		{
+			if($row['type'] == self::TYPE_QUALIFIED)
+			{
+				$has_final_result[$row['objective_id']] = $row['user_id'];
+			}
+			
+			$user_id = (int) $row["user_id"];
+			$status = (int) $row["status"];
 			
 			// initial tests only count if no qualified test
-			if($row["type"] == self::TYPE_INITIAL &&
-				isset($res[$user_id]))
+			if(
+				$row["type"] == self::TYPE_INITIAL &&
+				in_array($row['user_id'], (array) $has_final_result[$row['objective_id']])
+			)
 			{
+				
 				continue;
 			}
 			

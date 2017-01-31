@@ -268,13 +268,16 @@ class ilPageQuestionProcessor
 				break;
 
 			case "assOrderingQuestion":
+				
+				// TODO-LSD: change calculation strategy according to lsd cleanup changes
+				
 				include_once("./Modules/TestQuestionPool/classes/class.assOrderingQuestion.php");
 				$q = new assOrderingQuestion();
 				$q->loadFromDb($a_id);
 				$points = 0;
 				$cnt = 1;
 				$right = true;
-				foreach ($q->getAnswers() as $answer)
+				foreach ( $q->getOrderElements() as $answer)
 				{
 					if ($a_choice[$cnt - 1] != $cnt)
 					{

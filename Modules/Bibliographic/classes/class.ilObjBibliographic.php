@@ -315,7 +315,7 @@ class ilObjBibliographic extends ilObject2 {
 	 *
 	 * @return ilObjPoll
 	 */
-	public function doCloneObject($new_obj, $a_target_id, $a_copy_id = null) {
+	public function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false) {
 		assert($new_obj instanceof ilObjBibliographic);
 		//copy online status if object is not the root copy object
 		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);

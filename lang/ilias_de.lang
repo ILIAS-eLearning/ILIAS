@@ -6676,7 +6676,8 @@ crs#:#crs_member_of#:#Mitglied des Kurses:
 crs#:#crs_member_unblocked#:#Mitglied (freigeschaltet)
 crs#:#crs_member_updated#:#Die Mitgliedsdaten wurden aktualisiert
 crs#:#crs_members#:#Mitglieder
-crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus der Gruppe ausgetragen
+crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen
+grp#:#grp_members_deleted#:#Das/die Mitglied(er) wurde(n) aus der Gruppe ausgetragen
 crs#:#crs_members_footer#:#Kursmitglied(er)
 crs#:#crs_members_footer_passed#:#bestanden
 crs#:#crs_members_groups#:#Gruppenmitgliedschaften
@@ -15522,9 +15523,7 @@ prg#:#prg_view#:#Anzeigen
 prg#:#prg_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren.
 prg#:#prg_update_successful#:#Änderungen erfolgreich gespeichert!
 prg#:#prg_update_from_plan_successful#:#Die Aktualisierung aus dem aktuellen Plan war erfolgreich.
-prg#:#prg_warning_img_alt#:#Warnung!
-prg#:#prg_successful_img_alt#:#erfolgreich
-prg#:#prg_in_progress_img_alt#:#in Bearbeitung
+prg#:#warning#:#Warnung!
 prg#:#prg_progress_info#:#Sie haben %1$d Punkte. Das Studienprogramm ist mit %2$d Punkten bestanden.
 prg#:#prg_progress_status#:# %1$d von %2$d Punkten
 prg#:#prg_progress_status_with_child_sp#:# %1$d von möglichen %2$d Punkten
@@ -15884,8 +15883,8 @@ assessment#:#save_on_navigation#:#Navigation mit Speichern
 assessment#:#save_on_navigation_confirmation#:#Ihre geänderten Antworten werden bei der Navigation automatisch gespeichert.
 assessment#:#save_on_navigation_locked_confirmation#:#Ihre geänderten Antworten werden bei der Navigation automatisch gespeichert und festgeschrieben.
 assessment#:#save_on_navigation_forced_feedback_hint#:#Vorher erhalten Sie Feedback zu Ihrer Antwort.
-assessment#:#save_on_navigation_prevent_confirmation#:#Diese Nachfrage nicht mehr anzeigen.
-assessment#:#tst_answer_status_editing#:#(in Bearbeitung ... )
+assessment#:#save_on_navigation_prevent_confirmation#:#Diese Meldung nicht mehr anzeigen.
+assessment#:#tst_answer_status_editing#:#(in Bearbeitung)
 assessment#:#tst_answer_status_answered#:#Beantwortet
 assessment#:#tst_answer_status_not_answered#:#Nicht beantwortet
 assessment#:#tst_unchanged_answer_is_correct#:#Die vorgegebene Antwort ist korrekt.
@@ -16264,3 +16263,13 @@ auth#:#auth_activation_code_success#:#Ihr Zugang wurde aktiviert, sie können si
 lng#:#lng_download_deprecated#:#Veraltete Einträge herunterladen
 rbac#:#edit_members#:#Teilnehmer bearbeiten
 rbac#:#rbac_create_iass#:#Individuelle Bewertung anlegen
+survey#:#cant_send_email_smtp_disabled#:#Das Versenden von externen E-Mails ist zurzeit global deaktiviert.
+wsp#:#share_content#:#Ressource freigeben
+wsp#:#share_with#:#Benutzername
+wsp#:#element_already_shared#:#Die Ressource ist für diesen Benutzer bereits freigegeben.
+wsp#:#search_no_match#:#Es wurde kein Benutzer mit diesem Benutzernamen gefunden.
+wsp#:#element_shared#:#Die Ressource wurde freigegeben.
+wsp#:#share#:#Freigeben
+copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
+auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Loginversuche deaktiviert. 
+crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten

@@ -3835,14 +3835,14 @@ class ilObjSurvey extends ilObject
 	 * @param int copy id
 	 * @return object new svy object
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $ilDB;
 		
 		$this->loadFromDb();
 		
 		// Copy settings
-		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
+		$newObj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$this->cloneMetaData($newObj);
 		$newObj->updateMetaData();
 	 	

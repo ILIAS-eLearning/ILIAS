@@ -1,12 +1,12 @@
 <?php
 
-require_once './Modules/Chatroom/classes/class.ilChatroomTaskHandler.php';
+require_once './Modules/Chatroom/classes/class.ilChatroomGUIHandler.php';
 
 /**
  * Class ilChatroomTaskHandlerMock
  * @author Thomas Joußen <tjoussen@gmx.de>
  */
-class ilChatroomTaskHandlerMock extends ilChatroomTaskHandler
+class ilChatroomTaskHandlerMock extends ilChatroomGUIHandler
 {
 
 	public function executeDefault($requestedMethod)

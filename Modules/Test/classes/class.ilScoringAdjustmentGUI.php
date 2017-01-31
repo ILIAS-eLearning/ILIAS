@@ -247,6 +247,7 @@ class ilScoringAdjustmentGUI
 
 		/** @var $question assQuestionGUI|ilGuiQuestionScoringAdjustable|ilGuiAnswerScoringAdjustable */
 		$question = assQuestion::instantiateQuestionGUI( $question_id );
+		$question->setEditContext(assQuestionGUI::EDIT_CONTEXT_ADJUSTMENT);
 		$form->setTitle( $question->object->getTitle() . '<br /><small>(' . $question->outQuestionType() . ')</small>' );
 
 		$hidden_question_id = new ilHiddenInputGUI('q_id');
@@ -350,6 +351,7 @@ class ilScoringAdjustmentGUI
 		require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 		/** @var $question assQuestionGUI|ilGuiQuestionScoringAdjustable */
 		$question = assQuestion::instantiateQuestionGUI( $question_id );
+		$question->setEditContext(assQuestionGUI::EDIT_CONTEXT_ADJUSTMENT);
 
 		if ($question instanceof ilGuiQuestionScoringAdjustable)
 		{
@@ -386,24 +388,28 @@ class ilScoringAdjustmentGUI
 	}
 
 	/**
-	 * @param $question
+	 * @param assQuestionGUI $question
 	 * @param $form
 	 */
 	protected function populateScoringAdjustments( $question, $form )
 	{
+		$question->setAdjustmentEditContext();
+		
 		if ( $question instanceof ilGuiQuestionScoringAdjustable )
 		{
-			$question->populateQuestionSpecificFormPart( $form );
-			$this->suppressPostParticipationFormElements( $form,
-														  $question->getAfterParticipationSuppressionQuestionPostVars()
+			$question->populateQuestionSpecificFormPart($form);
+			
+			$this->suppressPostParticipationFormElements(
+				$form, $question->getAfterParticipationSuppressionQuestionPostVars()
 			);
 		}
 
 		if ( $question instanceof ilGuiAnswerScoringAdjustable )
 		{
-			$question->populateAnswerSpecificFormPart( $form );
-			$this->suppressPostParticipationFormElements( $form,
-														  $question->getAfterParticipationSuppressionAnswerPostVars()
+			$question->populateAnswerSpecificFormPart($form);
+			
+			$this->suppressPostParticipationFormElements(
+				$form, $question->getAfterParticipationSuppressionAnswerPostVars()
 			);
 		}
 	}

@@ -72,9 +72,8 @@ class ilChatroomTabGUIFactory
 		/**
 		 * @var $ilTabs ilTabsGUI
 		 * @var $ilCtrl ilCtrl
-		 * @var $ilDB   ilDBInterface
 		 */
-		global $ilTabs, $ilCtrl, $ilDB;
+		global $ilTabs, $ilCtrl;
 
 		$command      = $this->convertLowerCamelCaseToUnderscoreCaseConversion($command);
 		$stopCommands = array('create');
@@ -87,10 +86,10 @@ class ilChatroomTabGUIFactory
 		$settings        = new ilSetting('chatroom');
 		$public_room_ref = $settings->get('public_room_ref');
 
-		$query     = 'SELECT ref_id FROM object_reference INNER JOIN object_data ON object_data.obj_id = object_reference.obj_id WHERE type = ' . $ilDB->quote('chta', 'text');
-		$rset      = $ilDB->query($query);
-		$data      = $ilDB->fetchAssoc($rset);
-		$admin_ref = $data['ref_id'];
+		$objIds     = ilObject::_getObjectsByType('chta');
+		$firstObjId = current(array_keys($objIds));
+		$refIds     = ilObject::_getAllReferences($firstObjId);
+		$admin_ref  = current($refIds);
 
 		$ilCtrl->setParameterByClass('ilObjChatroomAdminGUI', 'ref_id', $admin_ref);
 
