@@ -15,19 +15,22 @@ use ILIAS\BackgroundTasks\Exceptions\NoObserverForUserInteractionException;
 interface BackgroundTaskManager {
 
 	/**
-	 * @param $bucket Bucket
+	 * @param $bucket   Bucket
 	 * @param $user_ids int[]
 	 * @return Bucket
 	 *
-	 * @throws NoObserverForUserInteractionException Is thrown when the user_id(s) cannot be resolved to a user. Thus we would have a user interaction without a user.
+	 * @throws NoObserverForUserInteractionException Is thrown when the user_id(s) cannot be resolved to a user. Thus we would have a user
+	 *                                               interaction without a user.
 	 */
 	public function putInQueueAndObserve(Bucket $bucket, $user_ids);
+
 
 	/**
 	 * @param $bucket
 	 * @return mixed
 	 */
 	public function removeBucket($bucket);
+
 
 	/**
 	 * @param $bucket
@@ -36,6 +39,7 @@ interface BackgroundTaskManager {
 	 */
 	public function addObserver($bucket, $user_id);
 
+
 	/**
 	 * @param $bucket
 	 * @param $user_id
@@ -43,9 +47,9 @@ interface BackgroundTaskManager {
 	 */
 	public function removeObserver($bucket, $user_id);
 
+
 	/**
 	 * @return Worker
 	 */
 	public function getWorker();
-
 }

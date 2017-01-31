@@ -10,7 +10,7 @@ use ILIAS\BackgroundTasks\Task;
  *
  * @package ILIAS\BackgroundTasks\Task
  *
- *          A Task, which can be run without any interaction with the user such as zipping files or just collecting some data
+ *          A Task, which can be run without any interaction with the user, such as zipping files or just collecting some data
  */
 interface Job extends Task {
 
@@ -20,6 +20,7 @@ interface Job extends Task {
 	 * @return IO
 	 */
 	public function run(IO $input, Observer $observer);
+
 
 	/**
 	 * @return bool returns true iff the job's output ONLY depends on the input. Stateless task results may be cached!
