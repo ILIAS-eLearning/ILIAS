@@ -213,7 +213,8 @@ class ilFileDelivery {
 
 
 	protected function deliverXSendfile() {
-		$this->clearHeaders();
+		// $this->clearHeaders(); // FIX: XSendfile seems to need all headers set
+
 		header('X-Sendfile: ' . realpath($this->getPathToFile()));
 	}
 
@@ -262,6 +263,7 @@ class ilFileDelivery {
 			header("Content-Length: " . (string)filesize($this->getPathToFile()));
 		}
 		header("Connection: close");
+		header("X-ILIAS-FileDelivery: " . $this->getDeliveryType());
 	}
 
 
