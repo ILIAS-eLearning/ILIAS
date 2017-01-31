@@ -8,3 +8,39 @@ if($ilDB->tableExists("exc_assignment"))
 	}
 }
 ?>
+<#2>
+<?php
+if(!$ilDB->tableExists("exc_ass_file_order"))
+{
+	$fields = array(
+		"id" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		),
+		"assignment_id" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		),
+		"filename" => array(
+			"type" => "text",
+			"length" => 150,
+			"notnull" => true,
+		),
+		"order_nr" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		),
+	);
+
+	$ilDB->createTable("exc_ass_file_order", $fields);
+	$ilDB->addPrimaryKey('exc_ass_file_order', array('id'));
+
+	$ilDB->createSequence("exc_ass_file_order");
+}
+?>
