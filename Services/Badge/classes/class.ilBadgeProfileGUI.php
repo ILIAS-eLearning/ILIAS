@@ -36,13 +36,13 @@ class ilBadgeProfileGUI
 	protected function setTabs()
 	{
 		global $ilTabs, $lng, $ilCtrl;
-		
-		$ilTabs->addTab("ilias_badges",
-			$lng->txt("badge_personal_badges"),
-			$ilCtrl->getLinkTarget($this, "listBadges"));
-		
+
 		if(ilBadgeHandler::getInstance()->isObiActive())
 		{
+			$ilTabs->addTab("ilias_badges",
+				$lng->txt("badge_personal_badges"),
+				$ilCtrl->getLinkTarget($this, "listBadges"));
+
 			$ilTabs->addTab("backpack_badges",
 				$lng->txt("badge_backpack_list"),
 				$ilCtrl->getLinkTarget($this, "listBackpackGroups"));			
@@ -57,16 +57,29 @@ class ilBadgeProfileGUI
 	protected function getSubTabs($a_active)
 	{
 		global $ilTabs, $lng, $ilCtrl;
+
+		if(ilBadgeHandler::getInstance()->isObiActive())
+		{
+			$ilTabs->addSubTab("list",
+				$lng->txt("badge_profile_view"),
+				$ilCtrl->getLinkTarget($this, "listBadges"));
+			$ilTabs->addSubTab("manage",
+				$lng->txt("badge_profile_manage"),
+				$ilCtrl->getLinkTarget($this, "manageBadges"));
+			$ilTabs->activateTab("ilias_badges");
+			$ilTabs->activateSubTab($a_active);
+		}
+		else
+		{
+			$ilTabs->addTab("list",
+				$lng->txt("badge_profile_view"),
+				$ilCtrl->getLinkTarget($this, "listBadges"));
+			$ilTabs->addTab("manage",
+				$lng->txt("badge_profile_manage"),
+				$ilCtrl->getLinkTarget($this, "manageBadges"));
+			$ilTabs->activateTab($a_active);
+		}
 		
-		$ilTabs->addSubTab("list", 
-			$lng->txt("badge_profile_view"), 
-			$ilCtrl->getLinkTarget($this, "listBadges"));
-		$ilTabs->addSubTab("manage", 
-			$lng->txt("badge_profile_manage"), 
-			$ilCtrl->getLinkTarget($this, "manageBadges"));
-		
-		$ilTabs->activateTab("ilias_badges");
-		$ilTabs->activateSubTab($a_active);				
 	}
 	
 	protected function listBadges()
