@@ -177,6 +177,38 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 	{
 		return $this->getParentGUI()->object->getDefaultMemberRole();
 	}
+	
+	/**
+	 * @param array $a_members
+	 * @return array
+	 */
+	public function getPrintMemberData($a_members)
+	{
+		$member_data = $this->readMemberData($a_members, array());
+		$member_data = $this->getParentGUI()->addCustomData($member_data);
+		
+		$this->logger->dump($member_data);
+		
+		return $member_data;
+	}
+	
+	/**
+	 * Callback from attendance list
+	 * @param int $a_user_id
+	 * @return array
+	 */
+	public function getAttendanceListUserData($a_user_id)
+	{		
+		$data = $this->member_data[$a_user_id];
+		
+		$this->logger->dump($data);
+		
+		$data['access'] = $data['access_time'];
+		$data['progress'] = $this->lng->txt($data['progress']);
+		
+		return $data;
+	}
+	
 
 
 }
