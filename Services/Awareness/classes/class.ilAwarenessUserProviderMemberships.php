@@ -60,7 +60,11 @@ class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
 		$this->log->debug("user: ".$this->getUserId().", courses and groups: ".implode(",", $groups_and_courses_of_user));
 
 		$set = $ilDB->query("SELECT DISTINCT usr_id, obj_id FROM obj_members ".
-			" WHERE ".$ilDB->in("obj_id", $groups_and_courses_of_user, false, "integer"));
+			" WHERE ".$ilDB->in("obj_id", $groups_and_courses_of_user, false, "integer").' '.
+			'AND admin > '.$ilDB->quote(0,'integer').' '.
+			'AND tutor > '.$ilDB->quote(0,'integer').' '.
+			'AND member > '.$ilDB->quote(0,'integer')
+		);
 		$ub = array();
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
