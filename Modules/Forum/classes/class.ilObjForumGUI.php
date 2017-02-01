@@ -4799,7 +4799,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$oParticipants = $this->getParticipantsObject();
 
 		$frm_noti = new ilForumNotification($this->object->getRefId());
-		$moderator_ids = $frm_noti->_getModerators($this->object->getRefId());
+		$moderator_ids = ilForum::_getModerators($this->object->getRefId());
 
 		$admin_ids = $oParticipants->getAdmins();
 		$member_ids = $oParticipants->getMembers();
@@ -4912,7 +4912,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$frm_noti = new ilForumNotification($this->object->getRefId());
 		$oParticipants = $this->getParticipantsObject();
 
-		$moderator_ids = $frm_noti->_getModerators($this->object->getRefId());
+		$moderator_ids = ilForum::_getModerators($this->object->getRefId());
 
 		$admin_ids = $oParticipants->getAdmins();
 		$member_ids = $oParticipants->getMembers();
