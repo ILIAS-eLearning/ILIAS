@@ -48,8 +48,28 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 					$assigned = TRUE;
 					break;
 				
-				default:
+				case $this->getParentObject()->getDefaultMemberRole();
 					$this->getMembersObject()->add($new_member, IL_GRP_MEMBER);
+					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+					$this->getMembersObject()->sendNotification(
+						ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
+						$new_member
+					);
+					$assigned = TRUE;
+					break;
+					
+				default:
+					if(in_array($a_type,$this->getParentObject()->getLocalGroupRoles(true)))
+					{
+						$this->getMembersObject()->add($new_member,IL_GRP_MEMBER);
+						$this->getMembersObject()->updateRoleAssignments($new_member,(array) $a_type);
+					}
+					else
+					{
+						ilLoggerFactory::getLogger('crs')->notice('Can not find role with id .' . $a_type. ' to assign users.');
+						ilUtil::sendFailure($this->lng->txt("crs_cannot_find_role"),true);
+						return false;
+					}
 					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 					$this->getMembersObject()->sendNotification(
 						ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
