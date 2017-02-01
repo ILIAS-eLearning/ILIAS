@@ -456,6 +456,8 @@ class ilLOUserResults
 	{
 		global $ilDB;
 		
+		$GLOBALS['DIC']->logger()->trac()->debug('Get summorized objective status');
+		
 		// change event is NOT parsed here!
 		
 		// are initital test(s) qualifying?
@@ -468,7 +470,7 @@ class ilLOUserResults
 				
 		$res = $tmp_completed = array();		
 		
-		$sql = "SELECT lor.objective_id, lor.user_id, lor.status, lor.type".
+		$sql = "SELECT lor.objective_id, lor.user_id, lor.status, lor.type, lor.is_final".
 			" FROM loc_user_results lor".
 			" JOIN crs_objectives cobj ON (cobj.objective_id = lor.objective_id)".	
 			" WHERE ".$ilDB->in("lor.objective_id", $a_objective_ids, "", "integer").
