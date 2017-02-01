@@ -206,6 +206,8 @@ class ilExAssignmentEditorGUI
 
 			// add modal with all portfolio templates available
 			$ci_modal = new ilCustomInputGUI();
+
+			//repository
 			$ci_modal->setHtml($this->getHtmlPortfolioTemplateModal());
 			$form->addItem($ci_modal);
 
@@ -424,6 +426,7 @@ class ilExAssignmentEditorGUI
 		global $DIC;
 
 		$ctrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
 
