@@ -1470,7 +1470,7 @@ class ilMembershipGUI
 			$this->getMembersObject(), 
 			$waiting_list
 		);		
-		$list->setId($this->getParentObject()->getType().'_memlist');
+		$list->setId($this->getParentObject()->getType().'_memlist_'.$this->getParentObject()->getId());
 	
 		$list->setTitle(
 			$this->lng->txt($this->getParentObject()->getType().'_members_print_title'),
