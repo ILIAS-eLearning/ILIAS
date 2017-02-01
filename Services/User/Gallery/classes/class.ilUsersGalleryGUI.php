@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/User/interfaces/interface.ilGalleryUsers.php';
 require_once 'Services/User/classes/class.ilUserUtil.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
@@ -17,9 +16,9 @@ require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 class ilUsersGalleryGUI
 {
 	/**
-	 * @var ilGalleryUsers
+	 * @var ilUsersGalleryCollectionProvider
 	 */
-	protected $object;
+	protected $collection_provider;
 
 	/**
 	 * @var ilCtrl
@@ -52,9 +51,10 @@ class ilUsersGalleryGUI
 	protected $contact_array;
 
 	/**
-	 * @param ilGalleryUsers $object
+	 * ilUsersGalleryGUI constructor.
+	 * @param ilUsersGalleryCollectionProvider $collection_provider
 	 */
-	public function __construct(ilGalleryUsers $object)
+	public function __construct(ilUsersGalleryCollectionProvider $collection_provider)
 	{
 		/**
 		 * @var $ilCtrl     ilCtrl
@@ -65,12 +65,12 @@ class ilUsersGalleryGUI
 		 */
 		global $ilCtrl, $tpl, $lng, $ilUser, $rbacsystem;
 
-		$this->ctrl       = $ilCtrl;
-		$this->object     = $object;
-		$this->tpl        = $tpl;
-		$this->lng        = $lng;
-		$this->user       = $ilUser;
-		$this->rbacsystem = $rbacsystem;
+		$this->ctrl                = $ilCtrl;
+		$this->collection_provider = $collection_provider;
+		$this->tpl                 = $tpl;
+		$this->lng                 = $lng;
+		$this->user                = $ilUser;
+		$this->rbacsystem          = $rbacsystem;
 	}
 
 	/**
@@ -106,7 +106,7 @@ class ilUsersGalleryGUI
 	 */
 	protected function view()
 	{
-		$template = $this->buildHTML($this->object->getGalleryUsers());
+		$template = $this->populateTemplate($this->collection_provider->getGroupedCollections());
 		$this->tpl->setContent($template->get());
 	}
 
@@ -129,10 +129,10 @@ class ilUsersGalleryGUI
 	}
 
 	/**
-	 * @param array
+	 * @param ilUsersGalleryGroup[] $gallery_groups
 	 * @return ilTemplate
 	 */
-	protected function buildHTML($users)
+	protected function populateTemplate(array $gallery_groups)
 	{
 		$buddylist = ilBuddyList::getInstanceByGlobalUser();
 		$tpl       = new ilTemplate('tpl.users_gallery.html', true, true, 'Services/User');
@@ -142,7 +142,7 @@ class ilUsersGalleryGUI
 		$panel->setBody($this->lng->txt('no_gallery_users_available'));
 		$tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML()));
 
-		if(!count($users))
+		if(!count($gallery_groups))
 		{
 			$tpl->setVariable('NO_GALLERY_USERS', $panel->getHTML());
 			return $tpl;
@@ -153,36 +153,38 @@ class ilUsersGalleryGUI
 		$panel->setBody($this->lng->txt('no_gallery_users_available'));
 		$tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML()));
 
-		foreach($users as $user_data)
+		require_once 'Services/User/Gallery/classes/class.ilUsersGallerySortedUserGroup.php';
+		require_once 'Services/User/Gallery/classes/class.ilUsersGalleryUserCollectionPublicNameSorter.php';
+
+		foreach($gallery_groups as $group)
 		{
-			/**
-			 * @var $user ilObjUser
-			 */
-			$user = $user_data['user'];
+			$group = new ilUsersGallerySortedUserGroup($group, new ilUsersGalleryUserCollectionPublicNameSorter());
 
-			if($user_data['public_profile'])
+			foreach($group as $user)
 			{
-				$tpl->setCurrentBlock('linked_image');
-				$this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user', $user->getId());
-				$profile_target = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
-				$tpl->setVariable('LINK_PROFILE', $profile_target);
-				$tpl->setVariable('PUBLIC_NAME', $user_data['public_name']);
-			}
-			else
-			{
-				$tpl->setCurrentBlock('unlinked_image');
-				$tpl->setVariable('PUBLIC_NAME', $user->getLogin());
-			}
-			$tpl->setVariable('SRC_USR_IMAGE', $user->getPersonalPicturePath('small'));
-			$tpl->parseCurrentBlock();
+				if($user->hasPublicProfile())
+				{
+					$tpl->setCurrentBlock('linked_image');
+					$this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user', $user->getAggregatedUser()->getId());
+					$profile_target = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
+					$tpl->setVariable('LINK_PROFILE', $profile_target);
+					$tpl->setVariable('PUBLIC_NAME', $user->getPublicName());
+				}
+				else
+				{
+					$tpl->setCurrentBlock('unlinked_image');
+					$tpl->setVariable('PUBLIC_NAME', $user->getAggregatedUser()->getLogin());
+				}
+				$tpl->setVariable('SRC_USR_IMAGE', $user->getAggregatedUser()->getPersonalPicturePath('small'));
+				$tpl->parseCurrentBlock();
 
-			$tpl->setCurrentBlock('user');
-
-			$tpl->setVariable('BUDDYLIST_STATUS', get_class($buddylist->getRelationByUserId($user->getId())->getState()));
-			$tpl->setVariable('USER_CC_CLASS', $this->object->getUserCssClass());
-			$tpl->setVariable('USER_ID', $user->getId());
-			$this->renderLinkButton($tpl, $user);
-			$tpl->parseCurrentBlock();
+				$tpl->setCurrentBlock('user');
+				$tpl->setVariable('BUDDYLIST_STATUS', get_class($buddylist->getRelationByUserId($user->getAggregatedUser()->getId())->getState()));
+				$tpl->setVariable('USER_CC_CLASS', $this->collection_provider->getUserCssClass());
+				$tpl->setVariable('USER_ID', $user->getAggregatedUser()->getId());
+				$this->renderLinkButton($tpl, $user->getAggregatedUser());
+				$tpl->parseCurrentBlock();
+			}
 		}
 
 		return $tpl;

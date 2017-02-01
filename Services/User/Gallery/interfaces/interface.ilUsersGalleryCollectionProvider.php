@@ -2,14 +2,14 @@
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Interface ilGalleryUsers
+ * Interface ilUsersGalleryCollectionProvider
  */
-interface ilGalleryUsers
+interface ilUsersGalleryCollectionProvider
 {
 	/**
-	 * @return array
+	 * @return ilUsersGalleryUserCollection[]
 	 */
-	public function getGalleryUsers();
+	public function getGroupedCollections();
 
 	/**
 	 * @return string

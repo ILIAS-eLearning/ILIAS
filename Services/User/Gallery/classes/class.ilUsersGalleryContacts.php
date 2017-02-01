@@ -1,16 +1,17 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once 'Services/User/classes/class.ilAbstractGalleryUsers.php';
+require_once 'Services/User/Gallery/classes/class.ilAbstractUsersGalleryCollectionProvider.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
+
 /**
  * Class ilUsersGalleryUsers
  */
-class ilUsersGalleryUsers extends ilAbstractGalleryUsers
+class ilUsersGalleryContacts extends ilAbstractUsersGalleryCollectionProvider
 {
 	/**
 	 * @return array
 	 */
-	protected function getSortedRelations()
+	protected function getRelationSequence()
 	{
 		$requested_for_me = ilBuddyList::getInstanceByGlobalUser()->getRequestRelationsForOwner()->toArray();
 		$linked           = ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()->toArray();
@@ -21,53 +22,49 @@ class ilUsersGalleryUsers extends ilAbstractGalleryUsers
 		return array($requested_for_me, $linked, $requested_by_me + $me_ignored,  $ignored);
 	}
 
-    /**
-     * @param bool $ignore_myself
-     * @return array
-     */
-    public function getGalleryUsers($ignore_myself = false)
+	/**
+	 * @inheritdoc
+	 */
+	public function getGroupedCollections($ignore_myself = false)
 	{
-        /**
-         * @var $ilUser ilObjUser
-         */
-        global $ilUser;
-		$relations    = $this->getSortedRelations();
-		$ordered_data = array();
+		global $DIC;
+
+		$relations = $this->getRelationSequence();
+		$groups    = array();
+
 		foreach($relations as $sorted_relation)
 		{
 			$user_data = array();
-			foreach($sorted_relation as $key => $users)
+
+			foreach($sorted_relation as $usr_id => $users)
 			{
-				/**
-				 * @var $user ilObjUser
-				 */
-				if(!($user = ilObjectFactory::getInstanceByObjId($key, false)))
+				/** @var $user ilObjUser */
+				if(!($user = ilObjectFactory::getInstanceByObjId($usr_id, false)))
 				{
 					continue;
 				}
+
 				if(!$user->getActive())
 				{
 					continue;
 				}
 
-				if($ignore_myself && $user->getId() == $ilUser->getId())
+				if($ignore_myself && $user->getId() == $DIC->user()->getId())
 				{
 					continue;
 				}
 
-				$user_data[$user->getId()] = array(
-					'id'   => $user->getId(),
-					'user' => $user
-				);
+				$user_data[$user->getId()] = $user;
 			}
-			$user_data    = $this->collectUserDetails($user_data);
-			$ordered_data = array_merge($ordered_data, ilUtil::sortArray($user_data, 'sort', 'asc'));
+
+			$groups[] = $this->getPopulatedGroup($user_data);
 		}
-		return $ordered_data;
+
+		return $groups;
 	}
 
 	/**
-	 * @return string
+	 * @inheritdoc
 	 */
 	public function getUserCssClass()
 	{
