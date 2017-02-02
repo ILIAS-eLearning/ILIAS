@@ -6693,7 +6693,7 @@ crs#:#crs_moved_objective#:#Das Lernziel wurde verschoben.
 crs#:#crs_new_search#:#Neue Suche
 crs#:#crs_new_status#:#Ihr Status:
 crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
-crs#:#crs_new_subscription_body#:#%s ist dem Kurs %s beigetreten.
+crs#:#crs_new_subscription_body#:#%s1 ist dem Kurs %s2 beigetreten.
 crs#:#crs_new_subscription_request#:#Aufnahmeantrag für Kurs "%s"
 crs#:#crs_new_subscription_request_body#:#%s hat einen Aufnahmeantrag für den Kurs "%s" gestellt.
 crs#:#crs_new_subscription_request_body2#:#Um den Benutzer zum Kurs zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung des Kurses aufrufen.\nWählen Sie dazu bitte folgenden Link:
