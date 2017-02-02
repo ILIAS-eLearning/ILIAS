@@ -33,7 +33,7 @@ class Card implements C\Card {
 	/**
 	 * @var string
 	 */
-	protected $title_url;
+	protected $title_url = '';
 
 	/**
 	 * @var boolean
