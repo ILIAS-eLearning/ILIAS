@@ -8338,7 +8338,7 @@ mail#:#mail_account_mail#:#Benutzerkonten-Mail
 mail#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
 mail#:#mail_add_subfolder#:#Unterordner hinzufügen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
-mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Adressbucheintrags zum Verteiler
+mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Kontakts zum Verteiler
 mail#:#mail_attachments#:#Anhänge
 mail#:#mail_auto_generated_info#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
 mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
