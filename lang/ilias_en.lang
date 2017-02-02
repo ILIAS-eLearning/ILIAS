@@ -16166,9 +16166,4 @@ exc#:#exc_without_template#:#Without Portfolio - Template
 exc#:#exc_with_template#:#With Portfolio - Template
 exc#:#exc_without_template_info#:#Participants will create their Portfolio from scratch
 exc#:#exc_with_template_info#:#An empty Portfolio will be automatically derived from a specific Portfolio Template.
-exc#:#exc_link#:#Link
-exc#:#exc_reset#:#Reset
-exc#:#exc_select#:#Select
-exc#:#exc_conf_reset_portfolio_temp#:#Are you sure to reset the Portfolio Template?
 exc#:#exc_no_portfolio_templates#:#There are no Portfolio Templates available.
-exc#:#exc_template_removed#:#The Template was removed for this Portfolio Assignment.

@@ -441,9 +441,12 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
 		$templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
 
+		//template id is stored in the DB with the ref_id.
 		$template_id = $this->assignment->getPortfolioTemplateId();
+		//get the object id to compare with a list of template objects.
+		$template_object_id = ilObject::_lookupObjectId($template_id);
 
-		if($template_id > 0 && array_key_exists($template_id, $templates))
+		if($template_object_id > 0 && array_key_exists($template_object_id, $templates))
 		{
 			$title = $this->exercise->getTitle()." - ".$this->assignment->getTitle();
 			$ctrl->setParameterByClass("ilObjPortfolioGUI", "exc_id", $this->exercise->getRefId());
