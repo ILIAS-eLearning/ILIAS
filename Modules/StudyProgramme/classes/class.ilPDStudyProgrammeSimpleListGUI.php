@@ -5,6 +5,7 @@
 require_once("Services/Block/classes/class.ilBlockGUI.php");
 require_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAdmin.php');
 require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php';
+require_once 'Services/PersonalDesktop/interfaces/interface.ilPDConstants.php';
 
 /**
  * Personal Desktop-Presentation for the Study Programme
@@ -13,7 +14,7 @@ require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.p
  * @author : Stefan Hecken <stefan.hecken@concepts-and-training.de>
  * @ilCtrl_IsCalledBy ilPDStudyProgrammeSimpleListGUI: ilColumnGUI
  */
-class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
+class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI implements ilPDConstants {
 	const BLOCK_TYPE = "prgsimplelist";
 	
 	/**
@@ -167,7 +168,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	}
 
 	protected function readToShowInfoMessage() {
-		$this->show_info_message = ($_GET['view'] == ilPDSelectedItemsBlockGUI::VIEW_MY_STUDYPROGRAMME);
+		$this->show_info_message = ($_GET['view'] == self::VIEW_MY_STUDYPROGRAMME);
 	}
 
 	protected function isVisible(ilStudyProgrammeUserAssignment $assignment) {

@@ -2599,8 +2599,10 @@ common#:#btn_remove_system#:#Aus System entfernen
 common#:#btn_undelete#:#Wiederherstellen
 common#:#buy#:#Kaufen
 common#:#by#:#durch
-common#:#by_location#:#Nach Ort sortieren
-common#:#by_type#:#Nach Typ sortieren
+pd#:#pd_sort_by_location#:#Nach Ort sortieren
+pd#:#pd_sort_by_type#:#Nach Typ sortieren
+pd#:#pd_sort_by_start_date#:#Nach Startdatum sortieren
+pd#:#pd_my_memberships_sort_default#:#Default of Sorting Option
 common#:#bytes#:#Bytes
 common#:#cal_from#:#Von:
 common#:#cal_until#:#Bis:

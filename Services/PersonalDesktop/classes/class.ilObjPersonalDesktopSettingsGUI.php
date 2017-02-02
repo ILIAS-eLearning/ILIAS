@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 include_once("./Services/Object/classes/class.ilObjectGUI.php");
 include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
+require_once 'Services/PersonalDesktop/interfaces/interface.ilPDConstants.php';
 
 /**
 * News Settings.
@@ -13,7 +14,7 @@ include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 *
 * @ingroup ServicesPersonalDesktop
 */
-class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
+class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI implements ilPDConstants
 {
     private static $ERROR_MESSAGE;
 	/**
@@ -228,7 +229,15 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop->setInfo($lng->txt('pd_enable_my_memberships_info'));
 		$cb_prop->setChecked(($ilSetting->get('disable_my_memberships') ? '0' : '1'));
 		$form->addItem($cb_prop);
-		
+
+		$memberships_sort_defaults = new ilRadioGroupInputGUI($lng->txt('pd_my_memberships_sort_default'), 'my_memberships_sort_default');
+		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_location'), self::SORT_BY_LOCATION));
+		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_type'), self::SORT_BY_TYPE));
+		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_start_date'), self::SORT_BY_START_DATE));
+		$memberships_sort_defaults->setRequired(true);
+		$memberships_sort_defaults->setValue($ilSetting->get('my_memberships_def_sort', self::SORT_BY_LOCATION));
+		$cb_prop->addSubItem($memberships_sort_defaults);
+
 		if($ilSetting->get('disable_my_offers') == 0 &&
 		   $ilSetting->get('disable_my_memberships') == 0)
 		{
@@ -312,6 +321,8 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		
 		// Default view of personal items
 		$ilSetting->set('personal_items_default_view', (int)$_POST['personal_items_default_view']);
+
+		$ilSetting->set('my_memberships_def_sort', (int)$_POST['my_memberships_sort_default']);
 	
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);		
 		$ilCtrl->redirect($this, "view");

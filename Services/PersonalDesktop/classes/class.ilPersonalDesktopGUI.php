@@ -31,6 +31,11 @@ class ilPersonalDesktopGUI
 	var $cmdClass = '';
 
 	/**
+	 * @var ilPDSelectedItemsBlockViewSettings
+	 */
+	protected $view;
+
+	/**
 	 * @var ilAdvancedSelectionListGUI
 	 */
 	protected $action_menu;
@@ -65,6 +70,9 @@ class ilPersonalDesktopGUI
 		//$tree->useCache(false);
 
 		$this->action_menu = new ilAdvancedSelectionListGUI();
+
+		require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockViewSettings.php';
+		$this->view = new ilPDSelectedItemsBlockViewSettings((int)$_GET['view']);
 	}
 	
 	/**
@@ -562,17 +570,10 @@ class ilPersonalDesktopGUI
 	 */
 	public function jumpToMemberships()
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
-
-		if(!$ilSetting->get('disable_my_memberships'))
+		if($this->view->enabledMemberships())
 		{
-			require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php';
-			$_GET['view'] = ilPDSelectedItemsBlockGUI::VIEW_MY_MEMBERSHIPS;
+			$_GET['view'] = $this->view->getMembershipsView();
 		}
-
 		$this->show();
 	}
 
@@ -581,17 +582,10 @@ class ilPersonalDesktopGUI
 	 */
 	public function jumpToSelectedItems()
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
-
-		if(!$ilSetting->get('disable_my_offers'))
+		if($this->view->enabledSelectedItems())
 		{
-			require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php';
-			$_GET['view'] = ilPDSelectedItemsBlockGUI::VIEW_SELECTED_ITEMS;
+			$_GET['view'] = $this->view->getSelectedItemsView();
 		}
-
 		$this->show();
 	}
 
