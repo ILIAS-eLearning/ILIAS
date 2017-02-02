@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Object/classes/class.ilObjectAccess.php';
+require_once 'Services/WebAccessChecker/interfaces/interface.ilWACCheckingClass.php';
 
 /**
  * Access class for chatroom objects.
