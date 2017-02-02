@@ -32,7 +32,7 @@ class Image implements C\Image\Image {
 	/**
 	 * @var string
 	 */
-	protected $url;
+	protected $url = '';
 
 	/**
 	 * @var []
