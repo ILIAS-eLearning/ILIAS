@@ -6,7 +6,6 @@ namespace ILIAS\UI\Implementation\Component\Card;
 
 use ILIAS\UI\Component\Card as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\NotImplementedException;
 
 class Card implements C\Card {
 	use ComponentHelper;
@@ -31,6 +30,15 @@ class Card implements C\Card {
 	 */
 	protected $image;
 
+	/**
+	 * @var string
+	 */
+	protected $title_url;
+
+	/**
+	 * @var boolean
+	 */
+	protected $highlight = false;
 
 	/**
 	 * @param $title
@@ -100,28 +108,36 @@ class Card implements C\Card {
 	/**
 	 * @inheritdoc
 	 */
-	public function withTitleAction($url){
-		throw new NotImplementedException();
+	public function withTitleAction($url) {
+		$this->checkStringArg("title_url", $url);
+
+		$clone = clone $this;
+		$clone->title_url = $url;
+
+		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getTitleAction(){
-		throw new NotImplementedException();
+	public function getTitleAction() {
+		return $this->title_url;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withHighlight($status){
-		throw new NotImplementedException();
+	public function withHighlight($status) {
+		$clone = clone $this;
+		$clone->highlight = $status;
+
+		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function isHighlighted(){
-		throw new NotImplementedException();
+	public function isHighlighted() {
+		return $this->highlight;
 	}
 }

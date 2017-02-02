@@ -46,9 +46,14 @@ class ilUsersGalleryGUI
 	protected $rbacsystem;
 
 	/**
-	 * @var array
+	 * @var \ILIAS\UI\Factory
 	 */
-	protected $contact_array;
+	protected $factory;
+
+	/**
+	 * @var \ILIAS\UI\Renderer
+	 */
+	protected $renderer;
 
 	/**
 	 * ilUsersGalleryGUI constructor.
@@ -57,20 +62,19 @@ class ilUsersGalleryGUI
 	public function __construct(ilUsersGalleryCollectionProvider $collection_provider)
 	{
 		/**
-		 * @var $ilCtrl     ilCtrl
-		 * @var $tpl        ilTemplate
-		 * @var $lng        ilLanguage
-		 * @var $ilUser     ilObjUser
-		 * @var $rbacsystem ilRbacSystem
+		 * @var $DIC ILIAS\DI\Container
 		 */
-		global $ilCtrl, $tpl, $lng, $ilUser, $rbacsystem;
+		global $DIC;
 
-		$this->ctrl                = $ilCtrl;
+		$this->ctrl                = $DIC->ctrl();
+		$this->tpl                 = $DIC->ui()->mainTemplate();
+		$this->lng                 = $DIC->language();
+		$this->user                = $DIC->user();
+		$this->rbacsystem          = $DIC->rbac()->system();
+		$this->factory             = $DIC->ui()->factory();
+		$this->renderer            = $DIC->ui()->renderer();
+
 		$this->collection_provider = $collection_provider;
-		$this->tpl                 = $tpl;
-		$this->lng                 = $lng;
-		$this->user                = $ilUser;
-		$this->rbacsystem          = $rbacsystem;
 	}
 
 	/**
@@ -111,10 +115,10 @@ class ilUsersGalleryGUI
 	}
 
 	/**
-	 * @param ilTemplate $tpl
-	 * @param ilObjUser  $user
+	 * @param ilObjUser $user
+	 * @param array     $sections
 	 */
-	protected function renderLinkButton(ilTemplate $tpl, ilObjUser $user)
+	protected function addContactWidgetSection(ilObjUser $user, array &$sections)
 	{
 		if(
 			ilBuddySystem::getInstance()->isEnabled() &&
@@ -123,8 +127,12 @@ class ilUsersGalleryGUI
 			!$user->isAnonymous()
 		)
 		{
-			$button = ilBuddySystemLinkButton::getInstanceByUserId($user->getId());
-			$tpl->setVariable('BUDDY_HTML', $button->getHtml());
+
+			$sections[] = $this->factory->legacy(ilBuddySystemLinkButton::getInstanceByUserId($user->getId())->getHtml());
+		}
+		else
+		{
+			$sections[] = $this->factory->legacy('');
 		}
 	}
 
@@ -142,7 +150,14 @@ class ilUsersGalleryGUI
 		$panel->setBody($this->lng->txt('no_gallery_users_available'));
 		$tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML()));
 
-		if(!count($gallery_groups))
+		$groups_with_users = array_filter($gallery_groups, function(ilUsersGalleryGroup $group) {
+			return count($group) > 0;
+		});
+		$groups_with_highlight = array_filter($groups_with_users, function(ilUsersGalleryGroup $group) {
+			return $group->isHighlighted();
+		});
+
+		if(0 == count($groups_with_users))
 		{
 			$tpl->setVariable('NO_GALLERY_USERS', $panel->getHTML());
 			return $tpl;
@@ -156,35 +171,55 @@ class ilUsersGalleryGUI
 		require_once 'Services/User/Gallery/classes/class.ilUsersGallerySortedUserGroup.php';
 		require_once 'Services/User/Gallery/classes/class.ilUsersGalleryUserCollectionPublicNameSorter.php';
 
+		$cards = [];
+
 		foreach($gallery_groups as $group)
 		{
 			$group = new ilUsersGallerySortedUserGroup($group, new ilUsersGalleryUserCollectionPublicNameSorter());
 
 			foreach($group as $user)
 			{
+				$card   = $this->factory->card($user->getPublicName());
+				$avatar = $this->factory->image()->standard($user->getAggregatedUser()->getPersonalPicturePath('big'), $user->getPublicName());
+
+				$sections = [];
+
+				if(count($groups_with_highlight) > 0)
+				{
+					$card = $card->withHighlight($group->isHighlighted());
+
+					if($group->isHighlighted())
+					{
+						$sections[] = $this->factory->legacy($group->getLabel());
+					}
+					else
+					{
+						$sections[] = $this->factory->legacy('');
+					}
+				}
+
+				$this->addContactWidgetSection($user->getAggregatedUser(), $sections);
+
 				if($user->hasPublicProfile())
 				{
-					$tpl->setCurrentBlock('linked_image');
 					$this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user', $user->getAggregatedUser()->getId());
-					$profile_target = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
-					$tpl->setVariable('LINK_PROFILE', $profile_target);
-					$tpl->setVariable('PUBLIC_NAME', $user->getPublicName());
-				}
-				else
-				{
-					$tpl->setCurrentBlock('unlinked_image');
-					$tpl->setVariable('PUBLIC_NAME', $user->getAggregatedUser()->getLogin());
-				}
-				$tpl->setVariable('SRC_USR_IMAGE', $user->getAggregatedUser()->getPersonalPicturePath('small'));
-				$tpl->parseCurrentBlock();
+					$public_profile_url = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
 
-				$tpl->setCurrentBlock('user');
-				$tpl->setVariable('BUDDYLIST_STATUS', get_class($buddylist->getRelationByUserId($user->getAggregatedUser()->getId())->getState()));
-				$tpl->setVariable('USER_CC_CLASS', $this->collection_provider->getUserCssClass());
-				$tpl->setVariable('USER_ID', $user->getAggregatedUser()->getId());
-				$this->renderLinkButton($tpl, $user->getAggregatedUser());
-				$tpl->parseCurrentBlock();
+					$avatar = $avatar->withAction($public_profile_url);
+					$card   = $card->withTitleAction($public_profile_url);
+				}
+
+				$card = $card->withImage($avatar)->withSections($sections);
+
+				$cards[] = $card;
 			}
+		}
+
+		$tpl->setVariable('GALLERY_HTML', $this->renderer->render($this->factory->deck($cards)));
+
+		if($this->collection_provider->hasRemovableUsers())
+		{
+			$tpl->touchBlock('js_remove_handler');
 		}
 
 		return $tpl;

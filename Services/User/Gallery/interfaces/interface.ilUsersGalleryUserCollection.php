@@ -19,6 +19,16 @@ interface ilUsersGalleryUserCollection extends Iterator, Countable
 	public function isHighlighted();
 
 	/**
+	 * @return string
+	 */
+	public function getLabel();
+
+	/**
+	 * @param $label string
+	 */
+	public function setLabel($label);
+
+	/**
 	 * @param array $items
 	 */
 	public function setItems(array $items);

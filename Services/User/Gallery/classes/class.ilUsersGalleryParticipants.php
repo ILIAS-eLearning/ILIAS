@@ -31,7 +31,7 @@ class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvide
 	 */
 	protected function getUsers(array $usr_ids)
 	{
-		$users = array();
+		$users = [];
 
 		foreach($usr_ids as $usr_id)
 		{
@@ -65,17 +65,23 @@ class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvide
 	 */
 	public function getGroupedCollections()
 	{
-		$groups = array();
+		/**
+		 * @var $DIC ILIAS\DI\Container
+		 */
+		global $DIC;
 
-		foreach(array(
-			array($this->participants->getContacts(), true),
-			array($this->participants->getAdmins()  , false),
-			array($this->participants->getTutors()  , false),
-			array($this->participants->getMembers() , false)
-		) as $users)
+		$groups = [];
+
+		foreach([
+			array($this->participants->getContacts(), true, $DIC->language()->txt('crs_mem_contact')),
+			array($this->participants->getAdmins()  , false, ''),
+			array($this->participants->getTutors()  , false, ''),
+			array($this->participants->getMembers() , false, '')
+		] as $users)
 		{
 			$group = $this->getPopulatedGroup($this->getUsers($users[0]));
 			$group->setHighlighted($users[1]);
+			$group->setLabel($users[2]);
 			$groups[] = $group;
 		}
 

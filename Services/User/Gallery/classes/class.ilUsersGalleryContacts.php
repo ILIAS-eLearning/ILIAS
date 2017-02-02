@@ -19,7 +19,7 @@ class ilUsersGalleryContacts extends ilAbstractUsersGalleryCollectionProvider
 		$me_ignored       = ilBuddyList::getInstanceByGlobalUser()->getIgnoredRelationsByOwner()->toArray();
 		$ignored          = ilBuddyList::getInstanceByGlobalUser()->getIgnoredRelationsForOwner()->toArray();
 
-		return array($requested_for_me, $linked, $requested_by_me + $me_ignored,  $ignored);
+		return [$requested_for_me, $linked, $requested_by_me + $me_ignored,  $ignored];
 	}
 
 	/**
@@ -30,11 +30,11 @@ class ilUsersGalleryContacts extends ilAbstractUsersGalleryCollectionProvider
 		global $DIC;
 
 		$relations = $this->getRelationSequence();
-		$groups    = array();
+		$groups    = [];
 
 		foreach($relations as $sorted_relation)
 		{
-			$user_data = array();
+			$user_data = [];
 
 			foreach($sorted_relation as $usr_id => $users)
 			{
@@ -66,8 +66,8 @@ class ilUsersGalleryContacts extends ilAbstractUsersGalleryCollectionProvider
 	/**
 	 * @inheritdoc
 	 */
-	public function getUserCssClass()
+	public function hasRemovableUsers()
 	{
-		return 'ilBuddySystemRemoveWhenUnlinked';
+		return true;
 	}
 }

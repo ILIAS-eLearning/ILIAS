@@ -47,6 +47,7 @@ class ilUsersGallerySortedUserGroup implements ilUsersGalleryUserCollection
 
 	/**
 	 * @inheritdoc
+	 * @return ilUsersGalleryUser
 	 */
 	public function current()
 	{
@@ -108,5 +109,21 @@ class ilUsersGallerySortedUserGroup implements ilUsersGalleryUserCollection
 	public function isHighlighted()
 	{
 		return $this->collection->isHighlighted();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setLabel($label)
+	{
+		$this->collection->setLabel($label);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getLabel()
+	{
+		return $this->collection->getLabel();
 	}
 }

@@ -28,8 +28,8 @@ abstract class ilAbstractUsersGalleryCollectionProvider implements ilUsersGaller
 	/**
 	 * @inheritdoc
 	 */
-	public function getUserCssClass()
+	public function hasRemovableUsers()
 	{
-		return '';
+		return false;
 	}
 }

@@ -12,7 +12,7 @@ interface ilUsersGalleryCollectionProvider
 	public function getGroupedCollections();
 
 	/**
-	 * @return string
+	 * @return boolean
 	 */
-	public function getUserCssClass();
+	public function hasRemovableUsers();
 }

@@ -6,7 +6,6 @@ namespace ILIAS\UI\Implementation\Component\Image;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\NotImplementedException;
 
 /**
  * Class Image
@@ -29,6 +28,11 @@ class Image implements C\Image\Image {
 	 * @var	string
 	 */
 	private  $alt;
+
+	/**
+	 * @var string
+	 */
+	protected $url;
 
 	/**
 	 * @var []
@@ -98,14 +102,19 @@ class Image implements C\Image\Image {
 	/**
 	 * @inheritdoc
 	 */
-	public function withAction($url){
-		throw new NotImplementedException();
+	public function withAction($url) {
+		$this->checkStringArg("url", $url);
+
+		$clone = clone $this;
+		$clone->url = $url;
+
+		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getAction(){
-		throw new NotImplementedException();
+	public function getAction() {
+		return $this->url;
 	}
 }

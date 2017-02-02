@@ -11,12 +11,17 @@ class ilUsersGalleryGroup implements ilUsersGalleryUserCollection
 	/**
 	 * @var ilUsersGalleryUser[]
 	 */
-	protected $users = array();
+	protected $users = [];
 
 	/**
 	 * @var bool
 	 */
 	protected $highlighted = false;
+
+	/**
+	 * @var string
+	 */
+	protected $label = '';
 
 	/**
 	 * ilUsersGalleryGroupImpl constructor.
@@ -41,6 +46,22 @@ class ilUsersGalleryGroup implements ilUsersGalleryUserCollection
 	public function isHighlighted()
 	{
 		return (bool)$this->highlighted;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setLabel($label)
+	{
+		$this->label = $label;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getLabel()
+	{
+		return $this->label;
 	}
 
 	/**

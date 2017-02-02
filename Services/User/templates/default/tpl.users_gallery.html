@@ -1,39 +1,34 @@
-<div class="ilUsersGalleryContainer">
-	<!-- BEGIN users -->
-	<div class="ilUsersGalleryRow row">
-		<!-- BEGIN user -->
-		<div class="col-xs-6 col-sm-4 col-md-2">
-			<div class="ilUser {USER_CC_CLASS}" data-users-gallery-status="{BUDDYLIST_STATUS}" data-user-id="{USER_ID}">
-				<!-- BEGIN linked_image -->
-				<a href="{LINK_PROFILE}"><img class="img" src="{SRC_USR_IMAGE}" /><h3>{PUBLIC_NAME}</h3></a>
-				<!-- END linked_image -->
-				<!-- BEGIN unlinked_image -->
-				<img class="img" src="{SRC_USR_IMAGE}" /><h3>{PUBLIC_NAME}</h3>
-				<!-- END unlinked_image -->
-				<div class="action">
-					<!-- BEGIN link -->
-					{BUDDY_HTML}
-					<!-- END link -->
-				</div>
-			</div>
-		</div>
-		<!-- END user -->
-	</div>
-	<!-- END users -->
-	<!-- BEGIN no_users -->
-	{NO_GALLERY_USERS}
-	<!-- END no_users -->
-</div>
+<!-- BEGIN no_users -->
+<div>{NO_GALLERY_USERS}</div>
+<!-- END no_users -->
+{GALLERY_HTML}
 <script type="text/javascript">
 (function($, $scope) {
 	var no_entries_html = {NO_ENTRIES_HTML};
 
+	/*var maxHeightSecondCaption = 0, maxHeightThirdCaption = 0;
+	$(".il-card").each(function() {
+		var t = $(this);
+
+		var heightSecond = t.find(".caption:nth-of-type(3)").height();
+		var heightThird  = t.find(".caption:nth-of-type(4)").height();
+
+		maxHeightSecondCaption = Math.max(maxHeightSecondCaption, heightSecond);
+		maxHeightThirdCaption  = Math.max(maxHeightThirdCaption, heightThird);
+	}).each(function() {
+		var t = $(this);
+
+		t.find(".caption:nth-of-type(3)").height(maxHeightSecondCaption);
+		t.find(".caption:nth-of-type(4)").height(maxHeightThirdCaption);
+	});*/
+
+	<!-- BEGIN js_remove_handler -->
 	$(function() {
 		var stateChangedListener = function(event, usr_id, is_state, was_state) {
 			if (is_state == "ilBuddySystemUnlinkedRelationState") {
-				$('.ilUsersGalleryContainer .ilUser.ilBuddySystemRemoveWhenUnlinked[data-user-id="' + usr_id + '"]').parent().remove();
-				if (!$('.ilUsersGalleryContainer .ilUser').size())  {
-					$('.ilUsersGalleryContainer').html(no_entries_html);
+				$('.il-deck [data-buddy-id="' + usr_id + '"]').closest(".il-card").parent().remove();
+				if (!$('.il-card.thumbnail').size())  {
+					$('.il-deck').html(no_entries_html);
 				}
 			}
 			return true;
@@ -41,5 +36,6 @@
 
 		$($scope).on("il.bs.stateChange.afterStateChangePerformed", stateChangedListener);
 	});
+	<!-- END js_remove_handler -->
 })(jQuery, window);
 </script>
