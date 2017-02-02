@@ -431,6 +431,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		
 		return $form;		
 	}
+
 	protected function createPortfolioFromAssignmentObject()
 	{
 		global $DIC;
@@ -452,7 +453,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 			$ctrl->setParameterByClass("ilObjPortfolioGUI", "exc_id", $this->exercise->getRefId());
 			$ctrl->setParameterByClass("ilObjPortfolioGUI", "ass_id", $this->assignment->getId());
 			$ctrl->setParameterByClass("ilObjPortfolioGUI", "pt", $title);
-			$ctrl->setParameterByClass("ilObjPortfolioGUI", "prtt", $template_id);
+			$ctrl->setParameterByClass("ilObjPortfolioGUI", "prtt", $template_object_id);
 			$ctrl->redirectByClass(array("ilPersonalDesktopGUI", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromTemplate");
 		}
 		else

@@ -478,7 +478,7 @@ class ilExAssignmentEditorGUI
 					,"team_tutor" => $a_form->getInput("team_tutor")							
 				);
 				// portfolio template
-				if($a_form->getInput("template_id"))
+				if($a_form->getInput("template_id") && $a_form->getInput("template"))
 				{
 					$res['template_id'] = $a_form->getInput("template_id");
 				}
@@ -540,10 +540,8 @@ class ilExAssignmentEditorGUI
 		$a_ass->setMaxFile($a_input["max_file"]);		
 		$a_ass->setTeamTutor($a_input["team_tutor"]);
 
-		if($a_input['template_id'])
-		{
-			$a_ass->setPortfolioTemplateId($a_input['template_id']);
-		}
+		$a_ass->setPortfolioTemplateId($a_input['template_id']);
+
 		
 		$a_ass->setPeerReview((bool)$a_input["peer"]);
 		
