@@ -4,7 +4,7 @@
 require_once 'Services/User/Gallery/classes/class.ilAbstractUsersGalleryUserCollectionSorter.php';
 
 /**
- * Class ilAbstractUsersGalleryUserCollectionSorter
+ * Class ilUsersGalleryUserCollectionPublicNameSorter
  */
 class ilUsersGalleryUserCollectionPublicNameSorter extends ilAbstractUsersGalleryUserCollectionSorter
 {
