@@ -454,7 +454,8 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 			$ctrl->setParameterByClass("ilObjPortfolioGUI", "ass_id", $this->assignment->getId());
 			$ctrl->setParameterByClass("ilObjPortfolioGUI", "pt", $title);
 			$ctrl->setParameterByClass("ilObjPortfolioGUI", "prtt", $template_object_id);
-			$ctrl->redirectByClass(array("ilPersonalDesktopGUI", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromTemplate");
+			//$ctrl->redirectByClass(array("ilPersonalDesktopGUI", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromTemplate");
+			$ctrl->redirectByClass(array("ilPersonalDesktopGUI", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromAssignment");
 		}
 		else
 		{
@@ -585,6 +586,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
 		$tpl->setContent($conf->getHTML());
 	}
+
 	protected function unlinkPortfolioObject()
 	{
 		global $DIC;
@@ -601,7 +603,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
 		$this->ctrl->redirect($this, "returnToParent");
 	}
-	
 	
 	//
 	// SUBMIT BLOG/PORTFOLIO

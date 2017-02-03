@@ -54,3 +54,69 @@ Extends Services/FileSystem/classes/class.ilFileSystemTableGUI.php
 If an assignment is deleted, we should delete the filenames from exc_ass_file_order table.
 We are working with this files in the DB with "filename" instead of "id"
 
+
+## 2/2/2017
+
+*Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php (User perspective)
+
+	-(change) method "getOverviewContentPortfolio"
+	Button create portfolio in assignment calls now "createPortfolioFromAssignmentObject" instead of getting the templates and createPortfolio.
+	If this assignment has one previous submission, one new button are shown to unlink this portfolio/submission (method askUnlinkPortfolio).
+
+	*** Here imo we should delete the button for portfolio selection. Because the portfolio is not defined here.
+
+-(new) method "askUnlinkPortfolioObject"
+	Confirmation for unlink portfolio/assignment.
+
+-(new) method "unlinkPortfolioObject"
+	Delete the portfolio from the assignment.
+
+-(new) method "createPortfolioFromAssignmentObject"
+	Check portfolio templates available and check if this assignment has port. template.
+	Takes the values from the exercise, assignment, portfolio and portfolio template and set the proper parameters.
+	Redirects to createPortfolioFromAssignment in ilObjPortfolioGUI.
+
+
+*Modules/Portfolio/classes/class.ilObjPortfolioGUI.php  (assignment submission)
+
+-(new) method "createPortfolioFromAssignment" to create portfolios from assignments without cross any form
+	check again the templates
+	getAllPortfolioPages and get blogs as well.
+	create new portfolio and clone pages and blogs from the template.
+	link the portfolio to the assignment.
+
+-(new) method "linkPortfolioToAssignment"
+	Add the portfolio to an assignment
+
+-(change) method "createPortfolioFromTemplateProcess"
+	now the part related with the portfolio assignment is in linkPortfolioToAssignment method.
+
+	*** CARE WITH SKILLS I DON'T KNOW HOW THEY WORK. I DON'T KNOW IF I'M TAKING CARE OF THEM OR NOT.
+
+
+*Modules/Exercise/classes/class.ilExAssignmentEditorGUI.php
+
+-(change) @ilCrl Calls also ilPropertyFormGUI class
+
+-(change) method "executeCommand"
+	new case "ilpropertyformgui" needed for ilRepositorySelector2 when selection of portfolio template is needed.
+
+-(change) method "initAssignmentForm"
+	new portfolio feature. radiobuttons + ilrepositoryselector2 to predefine a default portfolio template for this assignment.
+	improved the order of the form elements + added section headers.
+
+-(change) method "processForm"
+	now gets the template input from the form.
+
+-(change) method "importFormToAssignment"
+	sets the portfolio template id.
+
+-(change) method "getAssignmentValues"
+	takes the portfolio template id
+
+*Modules/Exercise/classes/class.ilExAssignmentGUI.php
+just ordering ui elements
+
+*Modules/Exercise/classes/class.ilExSubmissionFileGUI.
+-(change) method "getOverviewContent"
+list files one below another instead of separated by coma.

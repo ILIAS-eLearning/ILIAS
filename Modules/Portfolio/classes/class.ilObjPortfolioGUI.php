@@ -914,27 +914,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$target_id = $target->getId();
 				
 		$source->clonePagesAndSettings($source, $target, $recipe);
-						
+
 		// link portfolio to exercise assignment
-		$exc_ref_id = (int)$_REQUEST["exc_id"];
-		$ass_id = (int)$_REQUEST["ass_id"];		
-		if($exc_ref_id &&
-			$ass_id && 
-			$ilAccess->checkAccess("read", "", $exc_ref_id))
-		{			
-			include_once "Modules/Exercise/classes/class.ilObjExercise.php";
-			include_once "Modules/Exercise/classes/class.ilExAssignment.php";							
-			$exc = new ilObjExercise($exc_ref_id);						
-			$ass = new ilExAssignment($ass_id);			
-			if($ass->getExerciseId() == $exc->getId() &&
-				$ass->getType() == ilExAssignment::TYPE_PORTFOLIO)
-			{				
-				// #16205
-				include_once "Modules/Exercise/classes/class.ilExSubmission.php";			
-				$sub = new ilExSubmission($ass, $ilUser->getId());
-				$sub->addResourceObject($target_id);
-			}
-		}
+		$this->linkPortfolioToAssignment($target_id);
 		
 		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
 		$this->ctrl->setParameter($this, "prt_id", $target_id);
@@ -955,6 +937,78 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		include("ilias.php");
 		exit;
 	}
-}
 
+	public function createPortfolioFromAssignment()
+	{
+		global $ilAccess, $ilUser, $ilSetting;
+
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+
+		$title = trim($_REQUEST["pt"]);
+		$prtt_id = (int)$_REQUEST["prtt"];
+
+		$templates = array_keys(ilObjPortfolioTemplate::getAvailablePortfolioTemplates());
+		if(!sizeof($templates) || !in_array($prtt_id, $templates))
+		{
+			$this->toRepository();
+		}
+		unset($templates);
+
+		$recipe = array();
+		foreach(ilPortfolioTemplatePage::getAllPortfolioPages($prtt_id) as $page)
+		{
+			if(($page["type"] == ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE) && !$ilSetting->get('disable_wsp_blogs'))
+			{
+				$recipe[$page["id"]] = array("blog", "create", $page['title']);
+			}
+		}
+
+		//IMPORT SKILLS ??
+
+		$source = new ilObjPortfolioTemplate($prtt_id, false);
+
+		// create portfolio
+		$target = new ilObjPortfolio();
+		$target->setTitle($title);
+		$target->create();
+		$target_id = $target->getId();
+
+		$source->clonePagesAndSettings($source, $target,$recipe);
+
+		// link portfolio to exercise assignment
+		$this->linkPortfolioToAssignment($target_id);
+
+		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
+		$this->ctrl->setParameter($this, "prt_id", $target_id);
+		$this->ctrl->redirect($this, "view");
+	}
+
+	function linkPortfolioToAssignment($a_target_id)
+	{
+		global $ilAccess, $ilUser;
+
+		$exc_ref_id = (int)$_REQUEST["exc_id"];
+		$ass_id = (int)$_REQUEST["ass_id"];
+
+		if($exc_ref_id &&
+			$ass_id &&
+			$ilAccess->checkAccess("read", "", $exc_ref_id))
+		{
+			include_once "Modules/Exercise/classes/class.ilObjExercise.php";
+			include_once "Modules/Exercise/classes/class.ilExAssignment.php";
+			$exc = new ilObjExercise($exc_ref_id);
+			$ass = new ilExAssignment($ass_id);
+			if($ass->getExerciseId() == $exc->getId() &&
+				$ass->getType() == ilExAssignment::TYPE_PORTFOLIO)
+			{
+				// #16205
+				include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+				$sub = new ilExSubmission($ass, $ilUser->getId());
+				$sub->addResourceObject($a_target_id);
+			}
+		}
+	}
+}
 ?>
