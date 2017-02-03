@@ -169,7 +169,12 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 				}
 			}
 		}
-		if (strlen($this->object->hasBackgroundImage())) $bgimage->setImage($this->object->getBackgroundImageThumbPathWeb());
+		if (strlen($this->object->hasBackgroundImage()))
+		{
+			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+			ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
+			$bgimage->setImage(ilWACSignedPath::signFile($this->object->getBackgroundImageThumbPathWeb()));
+		}
 		$bgimage->setInfo($this->lng->txt("default_background_info"));
 		$form->addItem($bgimage);
 		$format = new ilSelectInputGUI($this->lng->txt("certificate_page_format"), "pageformat");
