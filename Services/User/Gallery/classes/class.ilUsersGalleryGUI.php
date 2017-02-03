@@ -128,11 +128,11 @@ class ilUsersGalleryGUI
 		)
 		{
 
-			$sections[] = $this->factory->legacy(ilBuddySystemLinkButton::getInstanceByUserId($user->getId())->getHtml());
-		}
-		else
-		{
-			$sections[] = $this->factory->legacy('');
+			$contact_btn_html = ilBuddySystemLinkButton::getInstanceByUserId($user->getId())->getHtml();
+			if($contact_btn_html)
+			{
+				$sections[] = $this->factory->legacy($contact_btn_html);
+			}
 		}
 	}
 
@@ -191,10 +191,6 @@ class ilUsersGalleryGUI
 					if($group->isHighlighted())
 					{
 						$sections[] = $this->factory->legacy($group->getLabel());
-					}
-					else
-					{
-						$sections[] = $this->factory->legacy('');
 					}
 				}
 
