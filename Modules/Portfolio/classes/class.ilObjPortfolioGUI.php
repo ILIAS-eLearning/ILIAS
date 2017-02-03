@@ -940,7 +940,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 	public function createPortfolioFromAssignment()
 	{
-		global $ilAccess, $ilUser, $ilSetting;
+		global $ilUser, $ilSetting;
 
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
@@ -956,12 +956,40 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		}
 		unset($templates);
 
+		//quota manipulation
+		include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";
+		$check_quota = (int)ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive();
+		$quota_sum = 0;
+
 		$recipe = array();
 		foreach(ilPortfolioTemplatePage::getAllPortfolioPages($prtt_id) as $page)
 		{
-			if(($page["type"] == ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE) && !$ilSetting->get('disable_wsp_blogs'))
+			switch($page["type"])
 			{
-				$recipe[$page["id"]] = array("blog", "create", $page['title']);
+				case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
+					if(!$ilSetting->get('disable_wsp_blogs'))
+					{
+						$recipe[$page["id"]] = array("blog", "create", $page['title']);
+					}
+					break;
+				case ilPortfolioTemplatePage::TYPE_PAGE:
+					$source_page = new ilPortfolioTemplatePage($page["id"]);
+					if($check_quota)
+					{
+						$quota_sum += $source_page->getPageDiskSize();
+					}
+					//skills??
+					break;
+			}
+		}
+
+		if($quota_sum)
+		{
+			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+			if(!ilDiskQuotaHandler::isUploadPossible($quota_sum))
+			{
+				ilUtil::sendFailure($this->lng->txt("prtf_template_import_quota_failure"), true);
+				$this->ctrl->redirect($this, "create");
 			}
 		}
 
