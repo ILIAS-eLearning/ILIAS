@@ -31,11 +31,6 @@ class ilPersonalDesktopGUI
 	var $cmdClass = '';
 
 	/**
-	 * @var ilPDSelectedItemsBlockViewSettings
-	 */
-	protected $view;
-
-	/**
 	 * @var ilAdvancedSelectionListGUI
 	 */
 	protected $action_menu;
@@ -70,9 +65,6 @@ class ilPersonalDesktopGUI
 		//$tree->useCache(false);
 
 		$this->action_menu = new ilAdvancedSelectionListGUI();
-
-		require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockViewSettings.php';
-		$this->view = new ilPDSelectedItemsBlockViewSettings((int)$_GET['view']);
 	}
 	
 	/**
@@ -570,9 +562,11 @@ class ilPersonalDesktopGUI
 	 */
 	public function jumpToMemberships()
 	{
-		if($this->view->enabledMemberships())
+		require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockViewSettings.php';
+		$viewSettings = new ilPDSelectedItemsBlockViewSettings((int)$_GET['view']);
+		if($viewSettings->enabledMemberships())
 		{
-			$_GET['view'] = $this->view->getMembershipsView();
+			$_GET['view'] = $viewSettings->getMembershipsView();
 		}
 		$this->show();
 	}
@@ -582,9 +576,11 @@ class ilPersonalDesktopGUI
 	 */
 	public function jumpToSelectedItems()
 	{
-		if($this->view->enabledSelectedItems())
+		require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockViewSettings.php';
+		$viewSettings = new ilPDSelectedItemsBlockViewSettings((int)$_GET['view']);
+		if($viewSettings->enabledSelectedItems())
 		{
-			$_GET['view'] = $this->view->getSelectedItemsView();
+			$_GET['view'] = $viewSettings->getSelectedItemsView();
 		}
 		$this->show();
 	}
