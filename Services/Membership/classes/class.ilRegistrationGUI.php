@@ -507,9 +507,12 @@ abstract class ilRegistrationGUI
 	 * @param
 	 * @return
 	 */
-	public function show()
+	public function show(ilPropertyFormGUI $form = null)
 	{
-		$this->initForm();
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$this->initForm();
+		}
 		
 		if($_SESSION["pending_goto"])
 		{			
@@ -528,12 +531,20 @@ abstract class ilRegistrationGUI
 	 */
 	public function join()
 	{
-		$this->initForm();
+		$form = $this->initForm();
 
-		if(!$this->validate())
+		if(!$form->checkInput() || !$this->validate())
 		{
-			ilUtil::sendFailure($this->join_error);
-			$this->show();
+			$form->setValuesByPost();
+			if($this->join_error)
+			{
+				ilUtil::sendFailure($this->join_error);
+			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt('err_check_input'));
+			}
+			$this->show($form);
 			return false;
 		}
 		
@@ -591,6 +602,7 @@ abstract class ilRegistrationGUI
 			$this->fillAgreement();
 		}
 		$this->addCommandButtons();
+		return $this->form;
 	}
 	
 	/**
