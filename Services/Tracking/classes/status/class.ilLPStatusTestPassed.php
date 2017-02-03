@@ -45,80 +45,51 @@ class ilLPStatusTestPassed extends ilLPStatus
 
 	static function _getInProgress($a_obj_id)
 	{
-		global $ilDB;
-
 		global $ilBench;
+		
 		$ilBench->start('LearningProgress','9182_LPStatusTestPassed_inProgress');
-
-
-		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
-
-		$query = "SELECT DISTINCT(user_fi) FROM tst_active ".
-			"WHERE test_fi = '".ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			$user_ids[] = $row->user_fi;
-		}
-
-		$users = array_diff((array) $user_ids,ilLPStatusWrapper::_getCompleted($a_obj_id));
-		$users = array_diff((array) $users,ilLPStatusWrapper::_getFailed($a_obj_id));
-		$users = array_diff((array) $users,ilLPStatusWrapper::_getNotAttempted($a_obj_id));
-
+		$userIds = self::getUserIdsByResultArrayStatus($a_obj_id, 'in_progress');
 		$ilBench->stop('LearningProgress','9182_LPStatusTestPassed_inProgress');
-		return $users ? $users : array();
+		
+		return $userIds;
 	}
 
 	static function _getCompleted($a_obj_id)
 	{
-		global $ilDB;
-
 		global $ilBench;
+
 		$ilBench->start('LearningProgress','9183_LPStatusTestPassed_completed');
-
-		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
-		
-		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-		foreach($status_info['results'] as $user_data)
-		{
-			if($user_data['passed'])
-			{
-				$user_ids[] = $user_data['user_id'];
-			}
-		}
-
+		$userIds = self::getUserIdsByResultArrayStatus($a_obj_id, 'passed');
 		$ilBench->stop('LearningProgress','9183_LPStatusTestPassed_completed');
-		return $user_ids ? $user_ids : array();
+
+		return $userIds;
 	}
 
 	static function _getNotAttempted($a_obj_id)
 	{
-		$user_ids = array();
-
-		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-
-		foreach($status_info['results'] as $user_data)
-		{
-			if( !$user_data['failed'] && !$user_data['passed'] )
-			{
-				$user_ids[] = $user_data['user_id'];
-			}
-		}
-		return $user_ids;
+		return self::getUserIdsByResultArrayStatus($a_obj_id, 'not_attempted');
 	}
 
 	static function _getFailed($a_obj_id)
 	{
-		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
+		return self::getUserIdsByResultArrayStatus($a_obj_id, 'failed');
+	}
+	
+	private static function getUserIdsByResultArrayStatus($objId, $resultArrayStatus)
+	{
+		$status_info = ilLPStatusWrapper::_getStatusInfo($objId);
+		
+		$user_ids = array();
+		
 		foreach($status_info['results'] as $user_data)
 		{
-			if($user_data['failed'])
+			if($user_data[$resultArrayStatus])
 			{
 				$user_ids[] = $user_data['user_id'];
 			}
 		}
-		return $user_ids ? $user_ids : array();
+		
+		return $user_ids;
 	}
 
 	static function _getStatusInfo($a_obj_id)
@@ -167,10 +138,17 @@ class ilLPStatusTestPassed extends ilLPStatus
 		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
 		$res = $ilDB->query("
-			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) sequences, tst_active.last_finished_pass
+			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) sequences, tst_active.last_finished_pass,
+				CASE WHEN
+					(tst_tests.nr_of_tries - 1) = tst_active.last_finished_pass
+				THEN '1'
+				ELSE '0'
+				END is_last_pass
 			FROM tst_active
 			LEFT JOIN tst_sequence
 			ON tst_sequence.active_fi = tst_active.active_id
+			LEFT JOIN tst_tests
+			ON tst_tests.test_id = tst_active.test_fi
 			WHERE tst_active.user_fi = {$ilDB->quote($a_user_id, "integer")}
 			AND tst_active.test_fi = {$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id))}
 			GROUP BY tst_active.active_id, tst_active.tries
@@ -197,9 +175,15 @@ class ilLPStatusTestPassed extends ilLPStatus
 				else if($test_obj->getPassScoring() == SCORE_BEST_PASS)
 				{
 					$status = self::LP_STATUS_IN_PROGRESS_NUM;
+					
 					if($rec['last_finished_pass'] != null)
 					{
 						$status = $this->determineLpStatus($is_passed);
+					}
+					
+					if( !$rec['is_last_pass'] && $status == self::LP_STATUS_FAILED_NUM )
+					{
+						$status = self::LP_STATUS_IN_PROGRESS_NUM;
 					}
 				}
 			}
