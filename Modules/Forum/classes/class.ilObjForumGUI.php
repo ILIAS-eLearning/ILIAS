@@ -2148,7 +2148,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		   !$frm->isThreadNotificationEnabled($ilUser->getId(), $this->objCurrentPost->getThreadId()) &&
 		   !$this->objProperties->isAnonymized())
 		{
-			$oNotificationGUI = new ilCheckboxInputGUI('', 'notify');
+			$oNotificationGUI = new ilCheckboxInputGUI($this->lng->txt('forum_direct_notification'), 'notify');
 			$oNotificationGUI->setInfo($this->lng->txt('forum_notify_me'));
 			
 			$this->replyEditForm->addItem($oNotificationGUI);
