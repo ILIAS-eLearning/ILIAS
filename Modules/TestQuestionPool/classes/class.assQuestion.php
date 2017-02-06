@@ -334,7 +334,7 @@ abstract class assQuestion
 			$fileExtension, self::$allowedImageMaterialFileExtensionsByMimeType[$mimeType]
 		);
 	}
-git add 
+
 	/**
 	 * @return ilArrayElementShuffler
 	 */
