@@ -2603,6 +2603,10 @@ pd#:#pd_sort_by_location#:#Nach Ort sortieren
 pd#:#pd_sort_by_type#:#Nach Typ sortieren
 pd#:#pd_sort_by_start_date#:#Nach Startdatum sortieren
 pd#:#pd_my_memberships_sort_default#:#Default of Sorting Option
+pd#:#pd_upcoming#:#Bevorstehend
+pd#:#pd_ongoing#:#Aktuell
+pd#:#pd_ended#:#Beendet
+pd#:#pd_not_date#:#Nicht datiert
 common#:#bytes#:#Bytes
 common#:#cal_from#:#Von:
 common#:#cal_until#:#Bis:
