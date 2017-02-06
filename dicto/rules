@@ -11,6 +11,7 @@ assClasses = Classes with name:"ass.*"
 WholeIliasCodebase = {ilClasses, assClasses}
 _GUIClasses = Classes with name:".*GUI.*"
 GUIClasses = {_GUIClasses, Methods in: _GUIClasses}
+GlobalsExceptDIC = {Globals} except {Globals with name:"DIC"}
 triggerError = Functions with name:"trigger_error"
 raiseError = Functions with name:"raiseError"
 exitOrDie = {Exit, Die}
@@ -26,6 +27,7 @@ ilTemplate = {ilTemplateClass, ilTemplateGlobal}
 ilTabsClass = Classes with name:"ilTabsGUI"
 ilTabsGlobal = Globals with name:"ilTabs"
 ilTabs = {ilTabsClass, ilTabsGlobal}
+ilInitialisation = Classes with name:"ilInitialisation"
 SetErrorHandler = Functions with name:"set_error_handler"
 SetExceptionHandler = Functions with name:"set_exception_handler"
 SetErrorOrExceptionHandler = {SetExceptionHandler, SetErrorHandler}
@@ -116,3 +118,19 @@ IliasTemplateFiles cannot contain text "javascript\s*:"
  * Used to detect inline JavaScript events, e.g. <a onclick="alert('HelloWorld');">x</a>
  */
 IliasTemplateFiles cannot contain text "on(blur|change|click|dblclick|focus|keydown|keypress|keyup|load|mousemove|mouseup|mousedown|mouseenter|mouseleave|mouseout|mouseover|mousewheel|resize|select|submit|unload|wheel|scroll)"
+
+/**
+ * ILIAS uses a lot of globals to make system wide services accessible from
+ * everywhere. Examples for those services are logging, RBAC and Control-flow.
+ * It is well known that globals are an obstacle for unit tests and also hide
+ * dependencies of objects somewhere in the methods instead of making them
+ * explicit.
+ *
+ * The use of any global in the ILIAS core besides the global pimple container
+ * object is deprecated with the beginning of the ILIAS 5.2 development. The
+ * migration process should be terminated with the release of ILIAS 5.2..
+ * Afterwards any global besides the pimple container is considered a bug.
+ *
+ * Decision by JF 2015-08-03: http://www.ilias.de/docu/goto.php?target=wiki_1357_JourFixe-2015-08-03#ilPageTocA123
+ */
+WholeIliasCodebase except ilInitialisation cannot depend on GlobalsExceptDIC
