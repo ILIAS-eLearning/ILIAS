@@ -348,12 +348,16 @@ class ilCertificateGUI
 			include_once "./Services/Certificate/classes/class.ilObjCertificateSettingsAccess.php";
 			if (ilObjCertificateSettingsAccess::hasBackgroundImage())
 			{
-				$bgimage->setImage(ilObjCertificateSettingsAccess::getBackgroundImageThumbPathWeb());
+				require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+				ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
+				$bgimage->setImage(ilWACSignedPath::signFile(ilObjCertificateSettingsAccess::getBackgroundImageThumbPathWeb()));
 			}
 		}
 		else
 		{
-			$bgimage->setImage($this->object->getBackgroundImageThumbPathWeb());
+			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+			ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
+			$bgimage->setImage(ilWACSignedPath::signFile($this->object->getBackgroundImageThumbPathWeb()));
 		}
 		$form->addItem($bgimage);
 
