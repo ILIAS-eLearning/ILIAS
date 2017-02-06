@@ -106,9 +106,10 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 	}
 	
 	/**
+	 * @param string $mode
 	 * @return string
 	 */
-	public function render()
+	public function render($a_mode = "")
 	{
 		$tpl = new ilTemplate("tpl.prop_multi_text_inp.html", true, true, "Services/Form");
 		$i = 0;
