@@ -40,9 +40,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDConstants
 			self::SORT_BY_START_DATE
 		),
 		self::VIEW_MY_STUDYPROGRAMME => array(
-			self::SORT_BY_LOCATION,
-			self::SORT_BY_TYPE
-		),
+		)
 	);
 
 	/**
@@ -105,6 +103,30 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDConstants
 	/**
 	 * @return boolean
 	 */
+	public function isMembershipsViewActive()
+	{
+		return $this->currentView == $this->getMembershipsView();
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isSelectedItemViewActive()
+	{
+		return $this->currentView == $this->getSelectedItemsView();
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isStudyProgrammeViewActive()
+	{
+		return $this->currentView == $this->getStudyProgrammeView();
+	}
+
+	/**
+	 * @return boolean
+	 */
 	public function enabledMemberships()
 	{
 		return $this->settings->get('disable_my_memberships', 0) == 0;
@@ -159,9 +181,9 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDConstants
 		$this->validViews = self::$availableViews;
 
 		foreach(array_filter([
-					$this->getMembershipsView()   => !$this->enabledMemberships(),
-					$this->getSelectedItemsView() => !$this->enabledSelectedItems()
-				]) as $viewId => $status)
+			$this->getMembershipsView()   => !$this->enabledMemberships(),
+			$this->getSelectedItemsView() => !$this->enabledSelectedItems()
+		]) as $viewId => $status)
 		{
 			$key = array_search($viewId, $this->validViews);
 			if($key !== false)

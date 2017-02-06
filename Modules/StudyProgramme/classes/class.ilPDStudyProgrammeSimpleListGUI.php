@@ -169,7 +169,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	protected function readToShowInfoMessage() {
 		require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockViewSettings.php';
 		$viewSettings = new ilPDSelectedItemsBlockViewSettings((int)$_GET['view']);
-		$this->show_info_message = ($_GET['view'] == $viewSettings->getStudyProgrammeView());
+		$this->show_info_message = $viewSettings->isStudyProgrammeViewActive();
 	}
 
 	protected function isVisible(ilStudyProgrammeUserAssignment $assignment) {
