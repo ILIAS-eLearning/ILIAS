@@ -737,26 +737,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			{
 				case ilPortfolioTemplatePage::TYPE_PAGE:	
 					// skills
-					$source_page = new ilPortfolioTemplatePage($page["id"]);	
+					$source_page = new ilPortfolioTemplatePage($page["id"]);
 					$source_page->buildDom(true);
-					$dom = $source_page->getDom();					
-					if($dom instanceof php4DOMDocument)
-					{						
-						$dom = $dom->myDOMDocument;
-					}
-					$xpath = new DOMXPath($dom);
-					$nodes = $xpath->query("//PageContent/Skills");
-					foreach($nodes as $node)
-					{
-						$skill_id = $node->getAttribute("Id");
-						if(!in_array($skill_id, $pskills))
-						{
-							$skill_ids[] = $skill_id;
-						}
-					}
-					unset($nodes);
-					unset($xpath);
-					unset($dom);
+					$skill_ids = $this->getSkillsToPortfolioAssignment($pskills, $skill_ids, $source_page);
+
 					if($check_quota)
 					{																									
 						$quota_sum += $source_page->getPageDiskSize();
@@ -961,6 +945,11 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$check_quota = (int)ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive();
 		$quota_sum = 0;
 
+		//skills manipulation
+		include_once "Services/Skill/classes/class.ilPersonalSkill.php";
+		$pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
+		$skill_ids = array();
+
 		$recipe = array();
 		foreach(ilPortfolioTemplatePage::getAllPortfolioPages($prtt_id) as $page)
 		{
@@ -974,11 +963,12 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 					break;
 				case ilPortfolioTemplatePage::TYPE_PAGE:
 					$source_page = new ilPortfolioTemplatePage($page["id"]);
+					$source_page->buildDom(true);
 					if($check_quota)
 					{
 						$quota_sum += $source_page->getPageDiskSize();
 					}
-					//skills??
+					$skill_ids = $this->getSkillsToPortfolioAssignment($pskills, $skill_ids, $source_page);
 					break;
 			}
 		}
@@ -993,7 +983,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			}
 		}
 
-		//IMPORT SKILLS ??
+		if($skill_ids)
+		{
+			$recipe["skills"] = $skill_ids;
+		}
 
 		$source = new ilObjPortfolioTemplate($prtt_id, false);
 
@@ -1037,6 +1030,37 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				$sub->addResourceObject($a_target_id);
 			}
 		}
+	}
+
+	/**
+	 * @param array a_pskills
+	 * @param array a_skill_ids
+	 * @param ilPortfolioTemplatePage $a_source_page
+	 * @return array
+	 */
+	function getSkillsToPortfolioAssignment($a_pskills, $a_skill_ids, $a_source_page)
+	{
+		$dom = $a_source_page->getDom();
+		if($dom instanceof php4DOMDocument)
+		{
+			$dom = $dom->myDOMDocument;
+		}
+		$xpath = new DOMXPath($dom);
+		$nodes = $xpath->query("//PageContent/Skills");
+		foreach($nodes as $node)
+		{
+			$skill_id = $node->getAttribute("Id");
+			if(!in_array($skill_id, $a_pskills))
+			{
+				$a_skill_ids[] = $skill_id;
+			}
+		}
+		unset($nodes);
+		unset($xpath);
+		unset($dom);
+
+		return $a_skill_ids;
+
 	}
 }
 ?>

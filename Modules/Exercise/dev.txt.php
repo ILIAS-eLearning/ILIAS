@@ -91,8 +91,11 @@ We are working with this files in the DB with "filename" instead of "id"
 -(change) method "createPortfolioFromTemplateProcess"
 	now the part related with the portfolio assignment is in linkPortfolioToAssignment method.
 
-	*** CARE WITH SKILLS I DON'T KNOW HOW THEY WORK. I DON'T KNOW IF I'M TAKING CARE OF THEM OR NOT.
+-(change) initCreatePortfolioFormTemplate
+	all the skills stuff moved to getSkillsToPortfolioAssignment method.
 
+-(new) method getSkillsToPortfolioAssignment
+	returns the skills to be added in the assignment.
 
 *Modules/Exercise/classes/class.ilExAssignmentEditorGUI.php
 
