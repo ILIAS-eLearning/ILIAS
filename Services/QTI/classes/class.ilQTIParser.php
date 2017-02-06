@@ -1358,15 +1358,25 @@ class ilQTIParser extends ilSaxParser
 				$this->material = NULL;
 				break;
 			case "matimage";
-				if ($this->material != NULL)
+				
+				if( !$this->isMatImageAvailable() )
 				{
-					if ($this->matimage != NULL)
-					{
-						$this->material->addMatimage($this->matimage);
-					}
+					break;
 				}
+				
+				require_once 'Services/QTI/classes/class.ilQtiMatImageSecurity.php';
+				$matImageSecurity = new ilQtiMatImageSecurity($this->matimage);
+				$matImageSecurity->sanitizeLabel();
+				
+				if( !$matImageSecurity->validate() )
+				{
+					break;
+				}
+				
+				$this->material->addMatimage($this->matimage);
 				$this->matimage = NULL;
 				break;
+			
 			// add support for matbreak element
 			case "matbreak":
 				$this->mattext = new ilQTIMattext();
@@ -1800,6 +1810,21 @@ class ilQTIParser extends ilSaxParser
 		$xmlContent = preg_replace($reg, '', $xmlContent);
 		
 		return $xmlContent;
+	}
+	
+	protected function isMatImageAvailable()
+	{
+		if( !$this->material )
+		{
+			return false;
+		}
+		
+		if( !$this->matimage )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 }
 ?>
