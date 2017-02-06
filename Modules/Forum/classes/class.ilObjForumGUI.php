@@ -4093,7 +4093,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			// direct notification
 			$dir_notification_gui = new ilCheckboxInputGUI($this->lng->txt('forum_direct_notification'), 'notify');
-			$dir_notification_gui->setInfo($this->lng->txt('forum_notify_me_directly'));
+			$dir_notification_gui->setInfo($this->lng->txt('forum_notify_me'));
 			$dir_notification_gui->setValue(1);
 			$this->create_topic_form_gui->addItem($dir_notification_gui);
 		}
