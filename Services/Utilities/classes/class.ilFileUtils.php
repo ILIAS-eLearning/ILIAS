@@ -486,27 +486,38 @@ class ilFileUtils
     
     return true;
 	}
-  
+	
 	/**
-	 * @param string file absolute path to file
+	 * @param string $content
+	 * @return string $mimeType
 	 */
-	public static function _lookupMimeType($a_file)
+	public static function lookupContentMimeType($content)
+	{
+		$finfo = new finfo(FILEINFO_MIME);
+		return $finfo->buffer($content);
+	}
+	
+	/**
+	 * @param string $a_file
+	 * @return string $mimeType
+	 */
+	public static function lookupFileMimeType($a_file)
 	{
 		if(!file_exists($a_file) or !is_readable($a_file))
 		{
 			return false;
 		}
 		
-		if(class_exists('finfo'))
-		{
-			$finfo = new finfo(FILEINFO_MIME);
-			return $finfo->buffer(file_get_contents($a_file));
-		}
-		if(function_exists('mime_content_type'))
-		{
-			return mime_content_type($a_file);
-		}
-		return 'application/octet-stream';
+		return file_get_contents($a_file);
+	}
+  
+	/**
+	 * @param string file absolute path to file
+	 * @return string $mimeType
+	 */
+	public static function _lookupMimeType($a_file)
+	{
+		return self::lookupFileMimeType($a_file);
 	}
 	
 } // END class.ilFileUtils
