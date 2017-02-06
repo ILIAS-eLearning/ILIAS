@@ -206,7 +206,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	// case... Sigh.
 	function getFooterLinks()
 	{
-		if((int)$this->viewSettings->getCurrentView() == $this->viewSettings->getStudyProgrammeView()) {
+		if($this->viewSettings->isStudyProgrammeViewActive()) {
 			return array();
 		}
 		return parent::getFooterLinks();
@@ -336,7 +336,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				);
 //		}
 
-		if($this->viewSettings->getCurrentView() == $this->viewSettings->getMembershipsView())
+		if($this->viewSettings->isMembershipsViewActive())
 		{
 			$this->addFooterLink($lng->txt("pd_sort_by_start_date"),
 				$ilCtrl->getLinkTarget($this, "orderPDItemsByStartDate"),
@@ -346,7 +346,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			);
 		}
 		
-		$this->addFooterLink(($this->viewSettings->getCurrentView() == $this->viewSettings->getSelectedItemsView()) ?
+		$this->addFooterLink($this->viewSettings->isSelectedItemsViewActive() ?
 				$lng->txt("pd_remove_multiple") :
 				$lng->txt("pd_unsubscribe_multiple_memberships"),			
 			$ilCtrl->getLinkTarget($this, "manage"),
@@ -1460,7 +1460,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$top_tb->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), $lng->txt("actions"));
 
 		$button = ilSubmitButton::getInstance();
-		if($this->viewSettings->getCurrentView() == $this->viewSettings->getSelectedItemsView())
+		if($this->viewSettings->isSelectedItemsViewActive())
 		{
 			$button->setCaption("remove");
 		}
@@ -1498,7 +1498,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$ilCtrl->redirect($this, "manage");
 		}
 		
-		if($this->viewSettings->getCurrentView() == $this->viewSettings->getSelectedItemsView())
+		if($this->viewSettings->isSelectedItemsViewActive())
 		{
 			$question = $this->lng->txt("pd_info_delete_sure_remove");
 			$cmd = "confirmedRemove";

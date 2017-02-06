@@ -111,7 +111,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDConstants
 	/**
 	 * @return boolean
 	 */
-	public function isSelectedItemViewActive()
+	public function isSelectedItemsViewActive()
 	{
 		return $this->currentView == $this->getSelectedItemsView();
 	}
