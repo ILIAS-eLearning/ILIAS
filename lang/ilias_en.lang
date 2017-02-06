@@ -2684,13 +2684,13 @@ common#:#forgot_username#:#Forgot your username?
 common#:#form_empty_fields#:#Please complete these fields:###deprecated 
 common#:#form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.
 common#:#forum_attachments#:#Forum attachments###deprecated 
-common#:#forum_direct_notification#:#Direct Notification
-common#:#forum_general_notification#:#General Notification
+common#:#forum_direct_notification#:#Notification
+common#:#forum_general_notification#:#General Notification###deprecated
 common#:#forum_import_file#:#Import file###deprecated 
 common#:#forum_import#:#Forum import###deprecated 
-common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.
-common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my thread.
-common#:#forum_notify_me#:#Notify me when a reply is posted
+common#:#forum_notify_me_directly#:#Notify me when a direct answer has been given to this posting. Notification about any posting in this thread or forum can be enabled in the upper right Actions menu.###deprecated
+common#:#forum_notify_me_generally#:#Please notify me about any new contributions to my thread.###deprecated
+common#:#forum_notify_me#:#Notify me when a direct answer has been given to this posting. Notification about any posting in this thread or forum can be enabled in the upper right Actions menu.
 common#:#forum_post_replied#:#Your forum entry has been replied.
 common#:#forum#:#Forum
 common#:#forums_anonymized#:#Forum anonymized
