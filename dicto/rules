@@ -28,6 +28,7 @@ ilTabsClass = Classes with name:"ilTabsGUI"
 ilTabsGlobal = Globals with name:"ilTabs"
 ilTabs = {ilTabsClass, ilTabsGlobal}
 ilInitialisation = Classes with name:"ilInitialisation"
+WholeIliasCodebaseExceptInitialisation = WholeIliasCodebase except ilInitialisation
 SetErrorHandler = Functions with name:"set_error_handler"
 SetExceptionHandler = Functions with name:"set_exception_handler"
 SetErrorOrExceptionHandler = {SetExceptionHandler, SetErrorHandler}
@@ -133,4 +134,4 @@ IliasTemplateFiles cannot contain text "on(blur|change|click|dblclick|focus|keyd
  *
  * Decision by JF 2015-08-03: http://www.ilias.de/docu/goto.php?target=wiki_1357_JourFixe-2015-08-03#ilPageTocA123
  */
-WholeIliasCodebase except ilInitialisation cannot depend on GlobalsExceptDIC
+WholeIliasCodebaseExceptInitialisation cannot depend on GlobalsExceptDIC
