@@ -23,6 +23,13 @@ class ilSessionReminderCheck
 		global $ilDB, $ilUser, $lng, $ilClientIniFile;
 
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
+		
+		
+		$GLOBALS['DIC']->logger()->auth()->debug('Session reminder call for: ' . $sessionId);
+		
+		// disable session writing and extension of expire time
+		include_once './Services/Authentication/classes/class.ilSession.php';
+		ilSession::enableWebAccessWithoutSession(true);
 
 		$response = array('remind' => false);
 
@@ -55,24 +62,28 @@ class ilSessionReminderCheck
 			return ilJsonUtil::encode($response);
 		}
 
-		$session  = ilUtil::unserializeSession($data['data']);
-		$idletime = null;
-		foreach((array)$session as $key => $entry)
+		/**
+		 * @todo: php7: refactored session data; new implementation for idle time calcluation DONE
+		 * 
+		 */
+		$expiretime = $data['expires'];
+		if($this->isSessionAlreadyExpired($expiretime))
 		{
-			if(strpos($key, '_auth__') === 0)
-			{
-				$idletime = $entry['idle'];
-				break;
-			}
+			$response['message'] = 'The session is already expired. The client should have received a remind command before.';
+			return ilJsonUtil::encode($response);
 		}
-
-		if(null === $idletime)
+		
+		/**
+		 * @var $user ilObjUser
+		 */
+		$ilUser = ilObjectFactory::getInstanceByObjId($data['user_id']);
+		
+		if(null === $expiretime)
 		{
-			$response['message'] = 'ILIAS could not determine the idle time from the session data.';
+			$response['message'] = 'ILIAS could not determine the expire time from the session data.';
 			return ilJsonUtil::encode($response);
 		}
 
-		$expiretime = $idletime + ilSession::getIdleValue();
 		if($this->isSessionAlreadyExpired($expiretime))
 		{
 			$response['message'] = 'The session is already expired. The client should have received a remind command before.';

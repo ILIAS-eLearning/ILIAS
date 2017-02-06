@@ -82,10 +82,10 @@ class ilSessionReminder
 		$this->setLeadTime(max(self::MIN_LEAD_TIME, (float)$this->getUser()->getPref('session_reminder_lead_time')) * 60);
 		
 		/**
-		 * @todo: php7
+		 * @todo: php7: done
 		 */
-		#$this->setExpirationTime($ilAuth->sessionValidThru());
-
+		include_once './Services/Authentication/classes/class.ilSession.php';
+		$this->setExpirationTime(ilSession::getIdleValue(true) + time());
 		$this->setCurrentTime(time());
 
 		$this->calculateSecondsUntilExpiration();
