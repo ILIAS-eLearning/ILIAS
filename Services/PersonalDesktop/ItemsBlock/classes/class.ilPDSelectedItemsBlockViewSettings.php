@@ -213,6 +213,22 @@ class ilPDSelectedItemsBlockSelectedItemsBlockViewSettings implements ilPDSelect
 	}
 
 	/**
+	 * @param $status boolean
+	 */
+	public function enableMemberships($status)
+	{
+		$this->settings->set('disable_my_memberships', (int)!$status);
+	}
+
+	/**
+	 * @param $status boolean
+	 */
+	public function enableSelectedItems($status)
+	{
+		$this->settings->set('disable_my_offers', (int)!$status);
+	}
+
+	/**
 	 * @return boolean
 	 */
 	public function allViewsEnabled()

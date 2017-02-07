@@ -311,13 +311,10 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			ilUtil::sendFailure($this->lng->txt('pd_view_select_at_least_one'), true);
 			$ilCtrl->redirect($this, 'view');
 		}
-		
-		// Enable 'My Offers' (default personal items)
-		$ilSetting->set('disable_my_offers', (int)($_POST['enable_my_offers'] ? 0 : 1));
-		
-		// Enable 'My Memberships'
-		$ilSetting->set('disable_my_memberships', (int)($_POST['enable_my_memberships'] ? 0 : 1));
-		
+
+		$this->viewSettings->enableSelectedItems((int)($_POST['enable_my_offers'] ? 1 : 0));
+		$this->viewSettings->enableMemberships((int)($_POST['enable_my_memberships'] ? 1 : 0));
+
 		if((int)$_POST['enable_my_offers'] && !(int)$_POST['enable_my_memberships'])
 		{
 			$this->viewSettings->storeDefaultView($this->viewSettings->getSelectedItemsView());
