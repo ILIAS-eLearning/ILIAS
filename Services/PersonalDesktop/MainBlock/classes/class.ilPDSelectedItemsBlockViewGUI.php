@@ -285,7 +285,14 @@ abstract class ilPDSelectedItemsBlockViewGUI
 			if(!array_key_exists('grp_' . $item['parent_ref'], $grouped_items))
 			{
 				$group = new ilPDSelectedItemsBlockGroup();
-				$group->setLabel($item['parent_ref']); // @todo: Determine parent title
+				if($this->isRootNode($item['parent_ref']))
+				{
+					$group->setLabel($this->getRepositoryTitle());
+				}
+				else
+				{
+					$group->setLabel(ilObject::_lookupTitle($item['parent_ref']));
+				}
 				$grouped_items['grp_' . $item['parent_ref']] = $group;
 			}
 
