@@ -16,7 +16,7 @@ interface Factory {
 	 *       there is no good reason using another button instance in ILIAS, this
 	 *       is the one that should be used.
 	 *   composition: >
-	 *       The standard button uses the primary bolor as background.
+	 *       The standard button uses the primary color as background.
 	 *
 	 * rules:
 	 *   usage:
