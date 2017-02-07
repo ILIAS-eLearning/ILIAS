@@ -9473,7 +9473,6 @@ rbac#:#cat_administrate_users#:#Lokale Benutzerkonten verwalten
 rbac#:#catr_copy#:#Kategorielinks kopieren
 rbac#:#catr_delete#:#Kategorielinks verschieben oder löschen
 rbac#:#catr_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#catr_read#:#Lesezugriff auf Kategorielinks
 rbac#:#catr_visible#:#Kategorielinks sind sichtbar und können genutzt werden
 rbac#:#catr_write#:#Einstellungen der Kategorielinks bearbeiten
 rbac#:#cmps_edit_permission#:#Rechteeinstellung ändern
@@ -9485,7 +9484,6 @@ rbac#:#crs_edit_event#:#Kalendertermine bearbeiten
 rbac#:#crsr_copy#:#Kurslinks kopieren
 rbac#:#crsr_delete#:#Kurslinks verschieben oder löschen
 rbac#:#crsr_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#crsr_read#:#Lesezugriff auf Kurslinks
 rbac#:#crsr_visible#:#Kurslinks sind sichtbar und können genutzt werden
 rbac#:#crsr_write#:#Einstellungen der Kurslinks bearbeiten
 rbac#:#edit_event#:#Kalender bearbeiten
@@ -15800,7 +15798,6 @@ common#:#objs_grpr#:#Gruppenlinks
 rbac#:#grpr_copy#:#Gruppenlinks kopieren
 rbac#:#grpr_delete#:#Gruppenlinks verschieben oder löschen
 rbac#:#grpr_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#grpr_read#:#Lesezugriff auf Gruppenlinken
 rbac#:#grpr_visible#:#Gruppenlinks sind sichtbar und können genutzt werden
 rbac#:#grpr_write#:#Einstellungen der Gruppenlinks bearbeiten
 rbac#:#rbac_create_grpr#:#Gruppenlink anlegen

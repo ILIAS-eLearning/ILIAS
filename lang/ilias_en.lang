@@ -8047,7 +8047,6 @@ rbac#:#cals_write#:#User can edit settings of Calendar Administration
 rbac#:#catr_copy#:#User can copy category reference
 rbac#:#catr_delete#:#User can move or delete category reference
 rbac#:#catr_edit_permission#:#User can change permission settings
-rbac#:#catr_read#:#Read access to Category Reference
 rbac#:#catr_visible#:#Category reference is visible
 rbac#:#catr_write#:#User can edit settings of category reference
 rbac#:#cmps_edit_permission#:#User can change permission settings of Plugins, Modules and Services administration
@@ -8059,7 +8058,6 @@ rbac#:#crs_edit_event#:#Edit Calendar Events
 rbac#:#crsr_copy#:#User can copy course reference
 rbac#:#crsr_delete#:#User can move or delete course reference
 rbac#:#crsr_edit_permission#:#User can change permission settings
-rbac#:#crsr_read#:#Read access to Course Reference
 rbac#:#crsr_visible#:#Course reference is visible
 rbac#:#crsr_write#:#User can edit settings of course reference
 rbac#:#edit_learning_progress#:#Edit Learning Progress
@@ -15426,7 +15424,6 @@ common#:#objs_grpr#:#Group References
 rbac#:#grpr_copy#:#User can copy group reference
 rbac#:#grpr_delete#:#User can move or delete group reference
 rbac#:#grpr_edit_permission#:#User can change permission settings
-rbac#:#grpr_read#:#Read access to Group Reference
 rbac#:#grpr_visible#:#Group reference is visible
 rbac#:#grpr_write#:#User can edit settings of group reference
 rbac#:#rbac_create_grpr#:#Create Group Reference
