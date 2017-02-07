@@ -32,9 +32,9 @@ class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockV
 	/**
 	 * @inheritdoc
 	 */
-	public function getTitleLanguageVariable()
+	public function getTitle()
 	{
-		return 'pd_my_offers';
+		return $this->lng->txt('pd_my_offers');
 	}
 
 	/**

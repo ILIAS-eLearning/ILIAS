@@ -189,7 +189,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		);
 
 		$DIC['ilHelp']->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, $this->view->getScreenId());
-		$this->setTitle($this->lng->txt($this->view->getTitleLanguageVariable()));
+		$this->setTitle($this->view->getTitle());
 		$this->setContent($this->getViewBlockHtml());
 
 		if($this->getContent() == '')
@@ -346,15 +346,13 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	/**
 	 * @param ilTemplate $tpl
 	 * @param ilPDSelectedItemsBlockGroup[] $grouped_items
-	 * @param bool       $show_header
-	 * @param bool       $show_header_icon
-	 * @param bool       $show_row_icon
+	 * @param bool $show_header
 	 * @return bool
 	 */
-	protected function renderGroupedItems(ilTemplate $tpl, array $grouped_items, $show_header = false, $show_header_icon  = false, $show_row_icon = false)
+	protected function renderGroupedItems(ilTemplate $tpl, array $grouped_items, $show_header = false)
 	{
 		/** @var $rbacsystem ilRbacSystem */
-		global $rbacsystem, $ilSetting;
+		global $rbacsystem;
 
 		if(0 == count($grouped_items))
 		{
@@ -416,7 +414,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 			if($show_header)
 			{
-				$this->addSectionHeader($tpl, $group, $show_header_icon);
+				$this->addSectionHeader($tpl, $group);
 				$this->resetRowType() ;
 			}
 
@@ -424,7 +422,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			{
 				$this->addStandardRow(
 					$tpl,$item['html'], $item['item_ref_id'],$item['item_obj_id'],
-					$show_header_icon ? $item['item_icon_image_type'] : '',
+					$item['item_icon_image_type'],
 					'th_' . md5($group->getLabel())
 				);
 				$output = true;
@@ -443,20 +441,18 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		$this->renderGroupedItems(
 			$tpl, $this->view->getItemsGroups(),
-			true,//$this->view->shouldDisplayHeader(),
-			true,//$this->view->shouldDisplayHeaderIcon(),
-			true//$this->view->shouldDisplayItemIcon()
-		);// @todo: Implement
+			($this->getCurrentDetailLevel() >= $this->view->getMinimumDetailLevelForSection())
+		);
 
 		if($this->manage && $this->view->supportsSelectAll())
 		{
-			// #11355 - see ContainerContentGUI::renderSelectAllBlock()			
-			$tpl->setCurrentBlock("select_all_row");
-			$tpl->setVariable("CHECKBOXNAME", "ilToolbarSelectAll");
-			$tpl->setVariable("SEL_ALL_PARENT", "ilToolbar");
-			$tpl->setVariable("SEL_ALL_CB_NAME", "id");
-			$tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
-			$tpl->parseCurrentBlock();			
+			// #11355 - see ContainerContentGUI::renderSelectAllBlock()
+			$tpl->setCurrentBlock('select_all_row');
+			$tpl->setVariable('CHECKBOXNAME', 'ilToolbarSelectAll');
+			$tpl->setVariable('SEL_ALL_PARENT', 'ilToolbar');
+			$tpl->setVariable('SEL_ALL_CB_NAME', 'id');
+			$tpl->setVariable('TXT_SELECT_ALL', $this->lng->txt('select_all'));
+			$tpl->parseCurrentBlock();
 		}
 
 		return $tpl->get();
@@ -483,11 +479,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	/**
 	 * @param ilTemplate                  $a_tpl
 	 * @param ilPDSelectedItemsBlockGroup $group
-	 * @param boolean                     $a_show_image
 	 */
-	protected function addSectionHeader(ilTemplate $a_tpl, ilPDSelectedItemsBlockGroup $group, $a_show_image = true)
+	protected function addSectionHeader(ilTemplate $a_tpl, ilPDSelectedItemsBlockGroup $group)
 	{
-		if($a_show_image && $group->hasIcon())
+		if($group->hasIcon())
 		{
 			$a_tpl->setCurrentBlock('container_header_row_image');
 			$a_tpl->setVariable('HEADER_IMG', $group->getIconPath());

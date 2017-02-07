@@ -58,7 +58,20 @@ abstract class ilPDSelectedItemsBlockViewGUI
 	/**
 	 * @return string
 	 */
-	abstract public function getTitleLanguageVariable();
+	abstract public function getTitle();
+
+	/**
+	 * @return int
+	 */
+	public function getMinimumDetailLevelForSection()
+	{
+		if($this->viewSettings->isSortedByLocation())
+		{
+			return 1;
+		}
+
+		return 3; 
+	}
 
 	/**
 	 * @return boolean
@@ -167,7 +180,8 @@ abstract class ilPDSelectedItemsBlockViewGUI
 		foreach($object_types_by_container as $container_object_type => $container_data)
 		{
 			$group = new ilPDSelectedItemsBlockGroup();
-			$group->setLabel($this->lng->txt('objs_'. $container_object_type)); // @todo: Determine icon
+			// Icons are currently not determined for section header objects
+			$group->setLabel($this->lng->txt('objs_'. $container_object_type));
 			$group->setItems($this->provider->getItems($container_data['objs']));
 
 			$grouped_items[] = $group;

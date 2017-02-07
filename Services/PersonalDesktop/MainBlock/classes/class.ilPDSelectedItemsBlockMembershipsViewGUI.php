@@ -36,9 +36,9 @@ class ilPDSelectedItemsBlockMembershipsViewGUI extends ilPDSelectedItemsBlockVie
 	/**
 	 * @inheritdoc
 	 */
-	public function getTitleLanguageVariable()
+	public function getTitle()
 	{
-		return 'pd_my_memberships';
+		return $this->lng->txt('pd_my_memberships');
 	}
 
 	/**
