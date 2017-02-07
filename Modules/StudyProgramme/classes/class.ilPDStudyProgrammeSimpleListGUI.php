@@ -4,7 +4,7 @@
 
 require_once("Services/Block/classes/class.ilBlockGUI.php");
 require_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAdmin.php');
-require_once 'Services/PersonalDesktop/MainBlock/classes/class.ilPDSelectedItemsBlockGUI.php';
+require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockGUI.php';
 
 /**
  * Personal Desktop-Presentation for the Study Programme
@@ -167,7 +167,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	}
 
 	protected function readToShowInfoMessage() {
-		require_once 'Services/PersonalDesktop/MainBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
+		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
 		$viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
 		$this->show_info_message = $viewSettings->isStudyProgrammeViewActive();
 	}

@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/PersonalDesktop/MainBlock/classes/class.ilPDSelectedItemsBlockMembershipsViewGUI.php';
+require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockMembershipsViewGUI.php';
 
 /**
  * Class ilPDSelectedItemsBlockMembershipsViewGUI

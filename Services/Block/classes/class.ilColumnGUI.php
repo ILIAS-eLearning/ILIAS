@@ -52,7 +52,7 @@ class ilColumnGUI
 		"ilPDMailBlockGUI" => "Services/Mail/",
 		"ilUsersOnlineBlockGUI" => "Services/PersonalDesktop/",
 		"ilPDSysMessageBlockGUI" => "Services/Mail/",
-		"ilPDSelectedItemsBlockGUI" => "Services/PersonalDesktop/MainBlock/",
+		"ilPDSelectedItemsBlockGUI" => "Services/PersonalDesktop/ItemsBlock/",
 		"ilBookmarkBlockGUI" => "Services/Bookmarks/",
 		"ilPDNewsBlockGUI" => "Services/News/",
 		"ilExternalFeedBlockGUI" => "Services/Block/",

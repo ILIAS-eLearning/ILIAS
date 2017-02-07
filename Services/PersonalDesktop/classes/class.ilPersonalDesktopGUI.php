@@ -562,7 +562,7 @@ class ilPersonalDesktopGUI
 	 */
 	public function jumpToMemberships()
 	{
-		require_once 'Services/PersonalDesktop/MainBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
+		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
 		$viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
 		if($viewSettings->enabledMemberships())
 		{
@@ -576,7 +576,7 @@ class ilPersonalDesktopGUI
 	 */
 	public function jumpToSelectedItems()
 	{
-		require_once 'Services/PersonalDesktop/MainBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
+		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
 		$viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
 		if($viewSettings->enabledSelectedItems())
 		{

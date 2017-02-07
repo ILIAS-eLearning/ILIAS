@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Membership/classes/class.ilParticipants.php';
-require_once 'Services/PersonalDesktop/MainBlock/interfaces/interface.ilPDSelectedItemsBlockProvider.php';
+require_once 'Services/PersonalDesktop/ItemsBlock/interfaces/interface.ilPDSelectedItemsBlockProvider.php';
 
 /**
  * Class ilPDSelectedItemsBlockMembershipsProvider

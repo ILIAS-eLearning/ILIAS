@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/PersonalDesktop/MainBlock/interfaces/interface.ilPDSelectedItemsBlockConstants.php';
+require_once 'Services/PersonalDesktop/ItemsBlock/interfaces/interface.ilPDSelectedItemsBlockConstants.php';
 
 /**
  * Class ilPDSelectedItemsBlockViewSettings
