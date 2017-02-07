@@ -58,7 +58,7 @@ class iljQueryUtil
 	/**
 	 * Get local path of jQuery file
 	 */
-	function getLocaljQueryPath()
+	static function getLocaljQueryPath()
 	{
 		return "./Services/jQuery/js/".self::$ver."/jquery".self::$min.".js";
  	}
