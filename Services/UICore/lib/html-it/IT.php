@@ -357,6 +357,13 @@ class HTML_Template_IT
     );
 
     /**
+     * Property own file content cache to speed up template engine
+     *
+     * @var array   string => string
+     */
+    protected $file_content_cache;
+
+    /**
      * Builds some complex regular expressions and optinally sets the
      * file root directory.
      *
@@ -383,6 +390,8 @@ class HTML_Template_IT
                              ')\s+-->(.*)<!--\s+END\s+\1\s+-->@sm';
 
         $this->setRoot($root);
+
+        $this->file_content_cache = array();
     } // end constructor
 
 
@@ -910,6 +919,10 @@ class HTML_Template_IT
 
         $filename = $this->fileRoot . $filename;
 
+        if(array_key_exists($filename, $this->file_content_cache)) {
+            return $this->getIncludedFiles($this->file_content_cache[$filename]);
+        }
+
         require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
         $this->real_filename = $filename;
         $ilGlobalCache = ilGlobalCache::getInstance(ilGlobalCache::COMP_TEMPLATE);
@@ -927,10 +940,15 @@ class HTML_Template_IT
 
             $content = fread($fh, $fsize);
             $ilGlobalCache->set($filename, $content, 60);
+            $this->file_content_cache[$filename] = $content;
             fclose($fh);
         }
 
 
+        return $this->getIncludedFiles($content);
+    } // end func getFile
+
+    protected function getIncludedFiles($content) {
         return preg_replace_callback(
             "#<!-- INCLUDE (.*) -->#im",
             function ($hit) {
@@ -938,7 +956,7 @@ class HTML_Template_IT
             },
             $content
         );
-    } // end func getFile
+    }
 
     /**
      * Adds delimiters to a string, so it can be used as a pattern
