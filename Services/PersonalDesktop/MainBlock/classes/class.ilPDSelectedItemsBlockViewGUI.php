@@ -188,17 +188,12 @@ abstract class ilPDSelectedItemsBlockViewGUI
 			return array();
 		}
 
-		$upcoming = new ilPDSelectedItemsBlockGroup();
-		$upcoming->setLabel($this->lng->txt('pd_upcoming'));
-
-		$ongoing = new ilPDSelectedItemsBlockGroup();
-		$ongoing->setLabel($this->lng->txt('pd_ongoing'));
-
-		$ended = new ilPDSelectedItemsBlockGroup();
-		$ended->setLabel($this->lng->txt('pd_ended'));
-
-		$not_dated = new ilPDSelectedItemsBlockGroup();
-		$not_dated->setLabel($this->lng->txt('pd_not_date'));
+		$groups = array(
+			'upcoming'  => array(),
+			'ongoing'   => array(),
+			'ended'     => array(),
+			'not_dated' => array()
+		);
 
 		foreach($items as $key => $item)
 		{
@@ -206,25 +201,24 @@ abstract class ilPDSelectedItemsBlockViewGUI
 			{
 				if($item['start']->get(IL_CAL_UNIX) > time())
 				{
-					$upcoming->pushItem($item);
+					$groups['upcoming'][] = $item;
 				}
 				else if($item['end']->get(IL_CAL_UNIX) > time())
 				{
-					$ongoing->pushItem($item);
+					$groups['ongoing'][] = $item;
 				}
 				else
 				{
-					$ended->pushItem($item);
+					$groups['ended'][] = $item;
 				}
 			}
 			else
 			{
-				$groups['not_dated']['items'][$key] = $item;
-				$not_dated->pushItem($item);
+				$groups['not_dated'][] = $item;
 			}
 		}
 
-		/*uasort($groups['upcoming']['items'], function($left, $right) {
+		uasort($groups['upcoming'], function($left, $right) {
 			if($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX))
 			{
 				return -1;
@@ -237,7 +231,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
 			return strcmp($left['title'], $right['title']);
 		});
 
-		uasort($groups['ongoing']['items'], function($left, $right) {
+		uasort($groups['ongoing'], function($left, $right) {
 			if($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX))
 			{
 				return 1;
@@ -250,7 +244,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
 			return strcmp($left['title'], $right['title']);
 		});
 
-		uasort($groups['ended']['items'], function($left, $right) {
+		uasort($groups['ended'], function($left, $right) {
 			if($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX))
 			{
 				return 1;
@@ -263,11 +257,25 @@ abstract class ilPDSelectedItemsBlockViewGUI
 			return strcmp($left['title'], $right['title']);
 		});
 
-		uasort($groups['not_dated']['items'], function($left, $right) {
+		uasort($groups['not_dated'], function($left, $right) {
 			return strcmp($left['title'], $right['title']);
-		});*/
+		});
 
-		// @todo: Sort, Preload (for all modes)
+		$upcoming = new ilPDSelectedItemsBlockGroup();
+		$upcoming->setLabel($this->lng->txt('pd_upcoming'));
+		$upcoming->setItems($groups['upcoming']);
+
+		$ongoing = new ilPDSelectedItemsBlockGroup();
+		$ongoing->setLabel($this->lng->txt('pd_ongoing'));
+		$ongoing->setItems($groups['ongoing']);
+
+		$ended = new ilPDSelectedItemsBlockGroup();
+		$ended->setLabel($this->lng->txt('pd_ended'));
+		$ended->setItems($groups['ended']);
+
+		$not_dated = new ilPDSelectedItemsBlockGroup();
+		$not_dated->setLabel($this->lng->txt('pd_not_date'));
+		$not_dated->setItems($groups['not_dated']);
 
 		return array_filter([
 			$upcoming,
