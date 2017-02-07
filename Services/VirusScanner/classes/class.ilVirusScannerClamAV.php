@@ -12,6 +12,8 @@ require_once "./Services/VirusScanner/classes/class.ilVirusScanner.php";
 
 class ilVirusScannerClamAV extends ilVirusScanner
 {
+	const ADD_SCAN_PARAMS = '--no-summary -i';
+
 	/**
 	 * Constructor
 	 * @access        public
@@ -22,6 +24,23 @@ class ilVirusScannerClamAV extends ilVirusScanner
 		parent::__construct($a_scancommand, $a_cleancommand);
 		$this->type         = "clamav";
 		$this->scanZipFiles = true;
+	}
+
+	/**
+	 * @return string $scanCommand
+	 */
+	protected function buildScanCommand()
+	{
+		return $this->scanCommand.' '.self::ADD_SCAN_PARAMS;
+	}
+
+	/**
+	 * @param string $buffer (any data, binary)
+	 * @return bool $infected
+	 */
+	public function scanBuffer($buffer)
+	{
+		return false;
 	}
 
 	/**
@@ -47,7 +66,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
 		$this->scanFileOrigName = $a_origname;
 
 		// Call of antivir command
-		$cmd = $this->scanCommand . " --no-summary -i " . $a_filepath . " 2>&1";
+		$cmd = $this->buildScanCommand()." ".$a_filepath." 2>&1";
 		exec($cmd, $out, $ret);
 		$this->scanResult = implode("\n", $out);
 
@@ -70,5 +89,4 @@ class ilVirusScannerClamAV extends ilVirusScanner
 			. "; COMMAMD=" . $cmd);
 
 	}
-
 }
