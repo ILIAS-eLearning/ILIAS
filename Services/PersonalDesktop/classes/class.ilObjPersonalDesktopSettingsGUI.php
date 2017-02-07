@@ -227,14 +227,14 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_my_offers'), 'enable_my_offers');
 		$cb_prop->setValue('1');
 		$cb_prop->setInfo($lng->txt('pd_enable_my_offers_info'));
-		$cb_prop->setChecked(($ilSetting->get('disable_my_offers') ? '0' : '1'));
+		$cb_prop->setChecked($this->viewSettings->enabledSelectedItems());
 		$form->addItem($cb_prop);
 		
 		// Enable 'My Memberships'
 		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_my_memberships'), 'enable_my_memberships');
 		$cb_prop->setValue('1');
 		$cb_prop->setInfo($lng->txt('pd_enable_my_memberships_info'));
-		$cb_prop->setChecked(($ilSetting->get('disable_my_memberships') ? '0' : '1'));
+		$cb_prop->setChecked($this->viewSettings->enabledMemberships());
 		$form->addItem($cb_prop);
 
 		$memberships_sort_defaults = new ilRadioGroupInputGUI($lng->txt('pd_my_memberships_sort_default'), 'my_memberships_sort_default');
