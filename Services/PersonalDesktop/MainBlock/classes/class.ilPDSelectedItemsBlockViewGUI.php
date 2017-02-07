@@ -67,7 +67,19 @@ abstract class ilPDSelectedItemsBlockViewGUI
 	/**
 	 * @return ilPDSelectedItemsBlockGroup[]
 	 */
-	abstract public function getItemsGroups();
+	abstract function getGroups();
+
+	/**
+	 * @return ilPDSelectedItemsBlockGroup[]
+	 */
+	public function getItemsGroups()
+	{
+		$items_groups = $this->getGroups();
+
+		$this->preloadItemGroups($items_groups);
+
+		return $items_groups;
+	}
 
 	/**
 	 * @param ilPDSelectedItemsBlockSelectedItemsBlockViewSettings $viewSettings
@@ -117,16 +129,21 @@ abstract class ilPDSelectedItemsBlockViewGUI
 	}
 
 	/**
-	 * @param array $items
+	 * @param ilPDSelectedItemsBlockGroup[] $item_groups
 	 */
-	public function preloadItems(array $items)
+	protected function preloadItemGroups(array $item_groups)
 	{
 		require_once 'Services/Object/classes/class.ilObjectListGUIPreloader.php';
 		$listPreloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
-		foreach($items as $item)
+
+		foreach($item_groups as $item_group)
 		{
-			$listPreloader->addItem($item['obj_id'], $item['type'], $item['ref_id']);
+			foreach($item_group->getItems() as $item)
+			{
+				$listPreloader->addItem($item['obj_id'], $item['type'], $item['ref_id']);
+			}
 		}
+
 		$listPreloader->preload();
 	}
 
@@ -151,6 +168,109 @@ abstract class ilPDSelectedItemsBlockViewGUI
 		}
 
 		return $grouped_items;
+	}
+
+	/**
+	 * @return ilPDSelectedItemsBlockGroup[]
+	 */
+	protected function groupItemsByStartDate()
+	{
+		$items = $this->provider->getItems();
+
+		if(0 == count($items))
+		{
+			return array();
+		}
+
+		$upcoming = new ilPDSelectedItemsBlockGroup();
+		$upcoming->setLabel($this->lng->txt('pd_upcoming'));
+
+		$ongoing = new ilPDSelectedItemsBlockGroup();
+		$ongoing->setLabel($this->lng->txt('pd_ongoing'));
+
+		$ended = new ilPDSelectedItemsBlockGroup();
+		$ended->setLabel($this->lng->txt('pd_ended'));
+
+		$not_dated = new ilPDSelectedItemsBlockGroup();
+		$not_dated->setLabel($this->lng->txt('pd_not_date'));
+
+		foreach($items as $key => $item)
+		{
+			if($item['start'] && $item['start'] && $item['start'] instanceof ilDate)
+			{
+				if($item['start']->get(IL_CAL_UNIX) > time())
+				{
+					$upcoming->pushItem($item);
+				}
+				else if($item['end']->get(IL_CAL_UNIX) > time())
+				{
+					$ongoing->pushItem($item);
+				}
+				else
+				{
+					$ended->pushItem($item);
+				}
+			}
+			else
+			{
+				$groups['not_dated']['items'][$key] = $item;
+				$not_dated->pushItem($item);
+			}
+		}
+
+		/*uasort($groups['upcoming']['items'], function($left, $right) {
+			if($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX))
+			{
+				return -1;
+			}
+			else if($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX))
+			{
+				return 1;
+			}
+
+			return strcmp($left['title'], $right['title']);
+		});
+
+		uasort($groups['ongoing']['items'], function($left, $right) {
+			if($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX))
+			{
+				return 1;
+			}
+			else if($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX))
+			{
+				return -1;
+			}
+
+			return strcmp($left['title'], $right['title']);
+		});
+
+		uasort($groups['ended']['items'], function($left, $right) {
+			if($left['start']->get(IL_CAL_UNIX) < $right['start']->get(IL_CAL_UNIX))
+			{
+				return 1;
+			}
+			else if($left['start']->get(IL_CAL_UNIX) > $right['start']->get(IL_CAL_UNIX))
+			{
+				return -1;
+			}
+
+			return strcmp($left['title'], $right['title']);
+		});
+
+		uasort($groups['not_dated']['items'], function($left, $right) {
+			return strcmp($left['title'], $right['title']);
+		});*/
+
+		// @todo: Sort, Preload (for all modes)
+
+		return array_filter([
+			$upcoming,
+			$ongoing,
+			$ended,
+			$not_dated
+		], function(ilPDSelectedItemsBlockGroup $group) {
+			return count($group->getItems()) > 0;
+		});
 	}
 
 	/**

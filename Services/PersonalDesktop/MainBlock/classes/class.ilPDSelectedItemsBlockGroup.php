@@ -59,19 +59,11 @@ class ilPDSelectedItemsBlockGroup
 	}
 
 	/**
-	 * @param array       $item
-	 * @param string|null $key
+	 * @param array $item
 	 */
-	public function pushItem(array $item, $key = null)
+	public function pushItem(array $item)
 	{
-		if(null === $key)
-		{
-			$this->items[] = $item;
-		}
-		else
-		{
-			$this->items[$key] = $item;
-		}
+		$this->items[] = $item;
 	}
 
 	/**
@@ -104,14 +96,5 @@ class ilPDSelectedItemsBlockGroup
 	public function getItems()
 	{
 		return $this->items;
-	}
-
-	/**
-	 * @param int $ref_id
-	 * @return self
-	 */
-	public static function byRefId($ref_id)
-	{
-		
 	}
 }

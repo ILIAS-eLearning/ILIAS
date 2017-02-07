@@ -314,14 +314,14 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$this->ctrl->getLinkTarget($this, "orderPDItemsByType"),
 			$this->ctrl->getLinkTarget($this, "orderPDItemsByType", "", true),
 			"block_".$this->getBlockType()."_".$this->block_id,
-			false, false, $this->user->getPref("pd_order_items") == $this->viewSettings->getSortByTypeMode()
+			false, false, $this->viewSettings->isSortedByType()
 		);
 
 		$this->addFooterLink($this->lng->txt("pd_sort_by_location"),
 			$this->ctrl->getLinkTarget($this, "orderPDItemsByLocation"),
 			$this->ctrl->getLinkTarget($this, "orderPDItemsByLocation", "", true),
 			"block_".$this->getBlockType()."_".$this->block_id,
-			false, false, ($this->user->getPref("pd_order_items") == $this->viewSettings->getSortByLocationMode())
+			false, false, $this->viewSettings->isSortedByLocation()
 		);
 
 		if($this->viewSettings->isMembershipsViewActive())
@@ -330,7 +330,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				$this->ctrl->getLinkTarget($this, "orderPDItemsByStartDate"),
 				$this->ctrl->getLinkTarget($this, "orderPDItemsByStartDate", "", true),
 				"block_" . $this->getBlockType() . "_" . $this->block_id,
-				false, false, ($this->user->getPref("pd_order_items") == $this->viewSettings->getSortByStartDateMode())
+				false, false, $this->viewSettings->isSortedByStartDate()
 			);
 		}
 
@@ -573,6 +573,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	protected function changeSortMode($sort_type)
 	{
 		$this->user->writePref('pd_order_items', $sort_type);
+		$this->initViewSettings();
 
 		if($this->ctrl->isAsynch())
 		{

@@ -11,7 +11,7 @@ class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockV
 	/**
 	 * @inheritdoc
 	 */
-	public function getItemsGroups()
+	public function getGroups()
 	{
 		if($this->viewSettings->isSortedByLocation())
 		{
