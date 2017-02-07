@@ -306,6 +306,8 @@ abstract class ilPDSelectedItemsBlockViewGUI
 			if(!array_key_exists('grp_' . $item['parent_ref'], $grouped_items))
 			{
 				$group = new ilPDSelectedItemsBlockGroup();
+				/* The parent objects of items grouped by location do not need an image (per current concept), so 
+				   we do not determine images to reduced the runtime/memory */
 				if($this->isRootNode($item['parent_ref']))
 				{
 					$group->setLabel($this->getRepositoryTitle());

@@ -215,7 +215,7 @@ class ilPDSelectedItemsBlockSelectedItemsBlockViewSettings implements ilPDSelect
 	/**
 	 * @return boolean
 	 */
-	protected function allViewsEnabled()
+	public function allViewsEnabled()
 	{
 		return $this->enabledMemberships() && $this->enabledSelectedItems();
 	}

@@ -245,17 +245,16 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$memberships_sort_defaults->setValue($this->viewSettings->getDefaultSortType());
 		$cb_prop->addSubItem($memberships_sort_defaults);
 
-		if($ilSetting->get('disable_my_offers') == 0 &&
-		   $ilSetting->get('disable_my_memberships') == 0)
+		if($this->viewSettings->allViewsEnabled())
 		{
 			// Default view of personal items
 			$sb_prop = new ilSelectInputGUI($lng->txt('pd_personal_items_default_view'), 'personal_items_default_view');
 			$sb_prop->setInfo($lng->txt('pd_personal_items_default_view_info'));
 			$option = array();
-			$option[0] = $lng->txt('pd_my_offers');
-			$option[1] = $lng->txt('my_courses_groups');
+			$option[$this->viewSettings->getSelectedItemsView()] = $lng->txt('pd_my_offers');
+			$option[$this->viewSettings->getMembershipsView()]   = $lng->txt('my_courses_groups');
 			$sb_prop->setOptions($option);
-			$sb_prop->setValue((int)$ilSetting->get('personal_items_default_view'));
+			$sb_prop->setValue($this->viewSettings->getDefaultView());
 			$form->addItem($sb_prop);
 		}
 		
@@ -320,14 +319,17 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ilSetting->set('disable_my_memberships', (int)($_POST['enable_my_memberships'] ? 0 : 1));
 		
 		if((int)$_POST['enable_my_offers'] && !(int)$_POST['enable_my_memberships'])
-			$_POST['personal_items_default_view'] = 0;
+		{
+			$this->viewSettings->storeDefaultView($this->viewSettings->getSelectedItemsView());
+		}
 		else if(!(int)$_POST['enable_my_offers'] && (int)$_POST['enable_my_memberships'])
-			$_POST['personal_items_default_view'] = 1;
-		else if(!isset($_POST['personal_items_default_view']))
-			$_POST['personal_items_default_view'] = $ilSetting->get('personal_items_default_view');
-		
-		// Default view of personal items
-		$ilSetting->set('personal_items_default_view', (int)$_POST['personal_items_default_view']);
+		{
+			$this->viewSettings->storeDefaultView($this->viewSettings->getMembershipsView());
+		}
+		else if(isset($_POST['personal_items_default_view']))
+		{
+			$this->viewSettings->storeDefaultView((int)$_POST['personal_items_default_view']);
+		}
 
 		$this->viewSettings->storeDefaultSortType(ilUtil::stripSlashes($_POST['my_memberships_sort_default']));
 	
