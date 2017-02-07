@@ -8047,7 +8047,6 @@ rbac#:#cals_write#:#A felhasználó módosíthatja a Rendszerbeállítások » N
 rbac#:#catr_copy#:#A felhasználó másolhat kategórialinket
 rbac#:#catr_delete#:#A felhasználó áthelyezhet vagy törölhet kategórialinket
 rbac#:#catr_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
-rbac#:#catr_read#:#Olvasási elérés kategórialinkhez
 rbac#:#catr_visible#:#A kategórialink látható
 rbac#:#catr_write#:#A felhasználó szerkeszthet kategórialinket beállításokat
 rbac#:#cmps_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Bővítmények jogosultsági beállításait
@@ -8059,7 +8058,6 @@ rbac#:#crs_edit_event#:#Naptáresemények módosítása
 rbac#:#crsr_copy#:#A felhasználó másolhat kurzuslinket
 rbac#:#crsr_delete#:#A felhasználó áthelyezhet vagy törölhet kurzuslinket
 rbac#:#crsr_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
-rbac#:#crsr_read#:#Olvasási elérés kurzuslinkhez
 rbac#:#crsr_visible#:#A kurzuslink látható
 rbac#:#crsr_write#:#A felhasználó szerkesztheti kurzuslinket
 rbac#:#edit_learning_progress#:#Tanulási haladás módosítása
@@ -15426,7 +15424,6 @@ common#:#objs_grpr#:#Csoportlinkek
 rbac#:#grpr_copy#:#A felhasználók másolhatnak Csoportlinket
 rbac#:#grpr_delete#:#A felhasználó mozgathat vagy törölhet Csoportlinket
 rbac#:#grpr_edit_permission#:#A felhasználók módosíthatja Csoportlink jogosultságat
-rbac#:#grpr_read#:#A felhasználónak olvasási hozzáférése van a Csoportlinkhez
 rbac#:#grpr_visible#:#A Csoportlink látható
 rbac#:#grpr_write#:#A felhasználók módosíthatja a Csoportlink beállításait
 rbac#:#rbac_create_grpr#:#Csoportlink létrehozása
