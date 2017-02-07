@@ -27,6 +27,11 @@ abstract class ilPDSelectedItemsBlockViewGUI
 	 * @var $tree ilTree
 	 */
 	protected $tree;
+	
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $object_cache;
 
 	/**
 	 * ilPDSelectedItemsBlockViewGUI constructor.
@@ -37,8 +42,9 @@ abstract class ilPDSelectedItemsBlockViewGUI
 	{
 		global $DIC;
 
-		$this->lng  = $DIC->language();
-		$this->tree = $DIC->repositoryTree();
+		$this->lng          = $DIC->language();
+		$this->tree         = $DIC->repositoryTree();
+		$this->object_cache = $DIC['ilObjDataCache'];
 
 		$this->viewSettings = $viewSettings;
 		$this->provider     = $provider;
@@ -280,7 +286,14 @@ abstract class ilPDSelectedItemsBlockViewGUI
 	{
 		$grouped_items = array();
 
-		foreach($this->provider->getItems() as $key => $item)
+		$items = $this->provider->getItems();
+
+		$parent_ref_ids = array_values(array_unique(array_map(function($item) {
+			return $item['parent_ref'];
+		}, $items)));
+		$this->object_cache->preloadReferenceCache($parent_ref_ids);
+
+		foreach($items as $key => $item)
 		{
 			if(!array_key_exists('grp_' . $item['parent_ref'], $grouped_items))
 			{
@@ -291,7 +304,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
 				}
 				else
 				{
-					$group->setLabel(ilObject::_lookupTitle($item['parent_ref']));
+					$group->setLabel($this->object_cache->lookupTitle($this->object_cache->lookupObjId($item['parent_ref'])));
 				}
 				$grouped_items['grp_' . $item['parent_ref']] = $group;
 			}
