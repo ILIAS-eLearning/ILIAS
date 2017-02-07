@@ -1,12 +1,12 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/PersonalDesktop/interfaces/interface.ilPDConstants.php';
+require_once 'Services/PersonalDesktop/MainBlock/interfaces/interface.ilPDSelectedItemsBlockConstants.php';
 
 /**
  * Class ilPDSelectedItemsBlockViewSettings
  */
-class ilPDSelectedItemsBlockViewSettings implements ilPDConstants
+class ilPDSelectedItemsBlockSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConstants
 {
 	/**
 	 * @var array
@@ -49,6 +49,11 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDConstants
 	protected $settings;
 
 	/**
+	 * @var ilObjUser
+	 */
+	protected $actor;
+
+	/**
 	 * @var array
 	 */
 	protected $validViews = array();
@@ -65,14 +70,16 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDConstants
 
 	/**
 	 * ilPDSelectedItemsBlockViewSettings constructor.
-	 * @param $view
+	 * @param ilObjUser $actor
+	 * @param int $view
 	 */
-	public function __construct($view = self::VIEW_SELECTED_ITEMS)
+	public function __construct($actor, $view = self::VIEW_SELECTED_ITEMS)
 	{
 		global $ilSetting;
 
 		$this->settings = $ilSetting;
 
+		$this->actor       = $actor;
 		$this->currentView = $view;
 	}
 
@@ -125,6 +132,71 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDConstants
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getSortByStartDateMode()
+	{
+		return self::SORT_BY_START_DATE;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSortByLocationMode()
+	{
+		return self::SORT_BY_LOCATION;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSortByTypeMode()
+	{
+		return self::SORT_BY_TYPE;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDefaultSortType()
+	{
+		return $this->settings->get('my_memberships_def_sort', $this->getSortByLocationMode());
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isSortedByType()
+	{
+		return $this->currentSortOption == $this->getSortByTypeMode(); 
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isSortedByLocation()
+	{
+		return $this->currentSortOption == $this->getSortByLocationMode();
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isSortedByStartDate()
+	{
+		return $this->currentSortOption == $this->getSortByStartDateMode();
+	}
+
+	/**
+	 * @param string $type
+	 */
+	public function storeDefaultSortType($type)
+	{
+		assert('in_array($type, self::$availableSortOptions)');
+		$this->settings->set('my_memberships_def_sort', $type);
+	}
+
+	/**
 	 * @return boolean
 	 */
 	public function enabledMemberships()
@@ -169,7 +241,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDConstants
 	 */
 	public function storeDefaultView($view)
 	{
-		assert('in_array($view, self::$availableViews');
+		assert('in_array($view, self::$availableViews)');
 		$this->settings->set('personal_items_default_view', $view);
 	}
 
@@ -202,6 +274,27 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDConstants
 		{
 			$this->currentView = $this->getDefaultView();
 		}
+
+		$this->currentSortOption = $this->actor->getPref('pd_order_items');
+		if(!in_array($this->currentSortOption, self::$availableSortOptionsByView[$this->currentView]))
+		{
+			if($this->isSelectedItemsViewActive())
+			{
+				$this->currentSortOption = self::SORT_BY_LOCATION;
+			}
+			else if($this->isStudyProgrammeViewActive())
+			{
+				$this->currentSortOption = $this->getDefaultSortType();
+			}
+		}
+	}
+
+	/**
+	 * @return ilObjUser
+	 */
+	public function getActor()
+	{
+		return $this->actor;
 	}
 
 	/**

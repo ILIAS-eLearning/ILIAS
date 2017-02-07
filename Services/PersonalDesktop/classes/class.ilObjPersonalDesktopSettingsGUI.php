@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 include_once("./Services/Object/classes/class.ilObjectGUI.php");
 include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
-require_once 'Services/PersonalDesktop/interfaces/interface.ilPDConstants.php';
+require_once 'Services/PersonalDesktop/MainBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
 
 /**
 * News Settings.
@@ -14,9 +14,14 @@ require_once 'Services/PersonalDesktop/interfaces/interface.ilPDConstants.php';
 *
 * @ingroup ServicesPersonalDesktop
 */
-class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI implements ilPDConstants
+class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 {
     private static $ERROR_MESSAGE;
+
+	/**
+	 * @var ilPDSelectedItemsBlockSelectedItemsBlockViewSettings
+	 */
+	protected $viewSettings; 
 	/**
 	 * Contructor
 	 *
@@ -30,6 +35,8 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI implements ilPDConstan
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$lng->loadLanguageModule("pd");
+
+		$this->viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user());
 	}
 
 	/**
@@ -231,11 +238,11 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI implements ilPDConstan
 		$form->addItem($cb_prop);
 
 		$memberships_sort_defaults = new ilRadioGroupInputGUI($lng->txt('pd_my_memberships_sort_default'), 'my_memberships_sort_default');
-		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_location'), self::SORT_BY_LOCATION));
-		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_type'), self::SORT_BY_TYPE));
-		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_start_date'), self::SORT_BY_START_DATE));
+		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_location'), $this->viewSettings->getSortByLocationMode()));
+		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_type'), $this->viewSettings->getSortByTypeMode()));
+		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_start_date'), $this->viewSettings->getSortByStartDateMode()));
 		$memberships_sort_defaults->setRequired(true);
-		$memberships_sort_defaults->setValue($ilSetting->get('my_memberships_def_sort', self::SORT_BY_LOCATION));
+		$memberships_sort_defaults->setValue($this->viewSettings->getDefaultSortType());
 		$cb_prop->addSubItem($memberships_sort_defaults);
 
 		if($ilSetting->get('disable_my_offers') == 0 &&
@@ -322,7 +329,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI implements ilPDConstan
 		// Default view of personal items
 		$ilSetting->set('personal_items_default_view', (int)$_POST['personal_items_default_view']);
 
-		$ilSetting->set('my_memberships_def_sort', (int)$_POST['my_memberships_sort_default']);
+		$this->viewSettings->storeDefaultSortType(ilUtil::stripSlashes($_POST['my_memberships_sort_default']));
 	
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);		
 		$ilCtrl->redirect($this, "view");
