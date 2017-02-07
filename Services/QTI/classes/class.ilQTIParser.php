@@ -1823,6 +1823,6 @@ class ilQTIParser extends ilSaxParser
 			return false; // no virus scan, no virus detected
 		}
 		
-		return $vs->scanBuffer($buffer);
+		return (bool)$vs->scanBuffer($buffer);
 	}
 }

@@ -41,6 +41,8 @@ class ilVirusScannerClamAV extends ilVirusScanner
 	 */
 	protected function isBufferScanPossible()
 	{
+		// todo: cli installed?
+
 		$functions = array('proc_open', 'proc_close');
 		
 		foreach($functions as $func)
@@ -85,7 +87,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
 		$pipes = array(); // will look like follows after passing
 		// 0 => writeable handle connected to child stdin
 		// 1 => readable handle connected to child stdout
-		#var_dump($descriptorspec);exit;
+
 		$process = proc_open($this->buildScanCommand(), $descriptorspec, $pipes);
 		
 		if( !is_resource($process) )
@@ -95,10 +97,13 @@ class ilVirusScannerClamAV extends ilVirusScanner
 
 		fwrite($pipes[0], $buffer);
 		fclose($pipes[0]);
-		
+
 		$detectionReport = stream_get_contents($pipes[1]);
 		fclose($pipes[1]);
-		
+
+		$errorReport = stream_get_contents($pipes[2]);
+		fclose($pipes[2]);
+
 		$return = proc_close($process);
 		
 		return $this->hasDetections($detectionReport);
