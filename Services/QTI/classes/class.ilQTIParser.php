@@ -1393,7 +1393,7 @@ class ilQTIParser extends ilSaxParser
 				$this->material = NULL;
 				break;
 			case "matimage";
-				
+
 				if( !$this->isMatImageAvailable() )
 				{
 					break;
@@ -1401,7 +1401,6 @@ class ilQTIParser extends ilSaxParser
 				
 				if( $this->virusDetected($this->matimage->getRawContent()) )
 				{
-					echo "BääM!";exit;
 					break;
 				}
 				

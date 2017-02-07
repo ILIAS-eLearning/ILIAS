@@ -154,7 +154,9 @@ class ilVirusScanner
 	protected function scanFileFromBuffer($buffer)
 	{
 		$bufferFile = $this->createBufferFile($buffer);
-		return $this->scanFile($bufferFile);
+		$isInfected = $this->scanFile($bufferFile);
+		$this->removeBufferFile($bufferFile);
+		return $isInfected;
 	}
 	
 	/**
@@ -166,6 +168,14 @@ class ilVirusScanner
 		$bufferFile = ilUtil::ilTempnam();
 		file_put_contents($bufferFile, $buffer);
 		return $bufferFile;
+	}
+	
+	/**
+	 * @param string $bufferFile
+	 */
+	protected function removeBufferFile($bufferFile)
+	{
+		unlink($bufferFile);
 	}
 	
 	/**
