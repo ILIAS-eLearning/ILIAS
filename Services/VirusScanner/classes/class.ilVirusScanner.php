@@ -141,7 +141,37 @@ class ilVirusScanner
 		$this->type = "simulate";
 		$this->scanZipFiles = false;
 	}
-
+	
+	/**
+	 * @param string $buffer (any data, binary)
+	 * @return bool $infected
+	 */
+	public function scanBuffer($buffer)
+	{
+		return $this->scanFileFromBuffer($buffer);
+	}
+	
+	/**
+	 * @param string $buffer (any data, binary)
+	 * @return bool $infected
+	 */
+	protected function scanFileFromBuffer($buffer)
+	{
+		$bufferFile = $this->createBufferFile($buffer);
+		return $this->scanFile($bufferFile);
+	}
+	
+	/**
+	 * @param string $buffer (any data, binary)
+	 * @return string $bufferFile
+	 */
+	protected function createBufferFile($buffer)
+	{
+		$bufferFile = ilUtil::ilTempnam();
+		file_put_contents($bufferFile, $buffer);
+		return $bufferFile;
+	}
+	
 	/**
 	* scan a file for viruses
 	*
