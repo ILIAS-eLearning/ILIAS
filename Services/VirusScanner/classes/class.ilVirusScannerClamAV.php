@@ -33,14 +33,82 @@ class ilVirusScannerClamAV extends ilVirusScanner
 	{
 		return $this->scanCommand.' '.self::ADD_SCAN_PARAMS;
 	}
-
+	
+	/**
+	 * @return bool $isBufferScanSupported
+	 */
+	protected function isBufferScanPossible()
+	{
+		$functions = array('proc_open', 'proc_close');
+		
+		foreach($functions as $func)
+		{
+			if( function_exists($func) )
+			{
+				continue;
+			}
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * @param string $buffer (any data, binary)
 	 * @return bool $infected
 	 */
 	public function scanBuffer($buffer)
 	{
-		return false;
+		if( !$this->isBufferScanPossible() )
+		{
+			return $this->scanFileFromBuffer($buffer);
+		}
+		
+		return $this->processBufferScan($buffer);
+	}
+	
+	/**
+	 * @param string $buffer (any data, binary)
+	 * @return bool
+	 */
+	protected function processBufferScan($buffer)
+	{
+		$descriptorspec = array(
+			0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
+			1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
+			2 => array("pipe", "w")
+		);
+		
+		$pipes = array(); // will look like follows after passing
+		// 0 => writeable handle connected to child stdin
+		// 1 => readable handle connected to child stdout
+		#var_dump($descriptorspec);exit;
+		$process = proc_open($this->buildScanCommand(), $descriptorspec, $pipes);
+		
+		if( !is_resource($process) )
+		{
+			return false; // no scan, no virus detected
+		}
+
+		fwrite($pipes[0], $buffer);
+		fclose($pipes[0]);
+		
+		$detectionReport = stream_get_contents($pipes[1]);
+		fclose($pipes[1]);
+		
+		$return = proc_close($process);
+		
+		return $this->hasDetections($detectionReport);
+	}
+	
+	/**
+	 * @param $detectionReport
+	 * @return int
+	 */
+	protected function hasDetections($detectionReport)
+	{
+		return preg_match("/FOUND/", $detectionReport);
 	}
 
 	/**
@@ -71,7 +139,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
 		$this->scanResult = implode("\n", $out);
 
 		// sophie could be called
-		if(preg_match("/FOUND/", $this->scanResult))
+		if( $this->hasDetections($this->scanResult) )
 		{
 			$this->scanFileIsInfected = true;
 			$this->logScanResult();

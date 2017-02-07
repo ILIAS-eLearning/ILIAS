@@ -49,7 +49,12 @@ class ilQTIParser extends ilSaxParser
 	var $render_type;
 	var $response_label;
 	var $material;
+	
+	/**
+	 * @var ilQTIMatimage
+	 */
 	var $matimage;
+	
 	var $response;
 	var $resprocessing;
 	var $outcomes;
@@ -1394,11 +1399,15 @@ class ilQTIParser extends ilSaxParser
 					break;
 				}
 				
+				if( $this->virusDetected($this->matimage->getRawContent()) )
+				{
+					echo "BääM!";exit;
+					break;
+				}
+				
 				require_once 'Services/QTI/classes/class.ilQtiMatImageSecurity.php';
 				$matImageSecurity = new ilQtiMatImageSecurity($this->matimage);
 				$matImageSecurity->sanitizeLabel();
-
-				ilUtil::virusHandling()
 				
 				if( !$matImageSecurity->validate() )
 				{
@@ -1933,5 +1942,17 @@ class ilQTIParser extends ilSaxParser
 		
 		return true;
 	}
+	
+	protected function virusDetected($buffer)
+	{
+		require_once 'Services/VirusScanner/classes/class.ilVirusScannerFactory.php';
+		$vs = ilVirusScannerFactory::_getInstance();
+		
+		if( $vs === null )
+		{
+			return false; // no virus scan, no virus detected
+		}
+		
+		return $vs->scanBuffer($buffer);
+	}
 }
-?>
