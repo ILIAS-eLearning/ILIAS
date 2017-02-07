@@ -3367,13 +3367,13 @@ common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#form_input_not_valid#:#Einige Angaben sind unvollständig oder ungültig. Bitte korrigieren Sie Ihre Eingabe.
 common#:#forum#:#Forum
 common#:#forum_attachments#:#Forumanhänge
-common#:#forum_direct_notification#:#Direkte Benachrichtigung
-common#:#forum_general_notification#:#Generelle Benachrichtigung
+common#:#forum_direct_notification#:#Benachrichtigung
+common#:#forum_general_notification#:#Generelle Benachrichtigung###deprecated
 common#:#forum_import#:#Forum importieren
 common#:#forum_import_file#:#Importdatei
-common#:#forum_notify_me#:#Benachrichtigung, wenn ein Beitrag gesendet wurde
-common#:#forum_notify_me_directly#:#Ich möchte benachrichtigt werden, wenn es einen direkten Beitrag auf meinen Beitrag gibt.
-common#:#forum_notify_me_generally#:#Ich möchte benachrichtigt werden, wenn es generell einen neuen Beitrag zu meinem Thema gibt.
+common#:#forum_notify_me#:#Ich möchte benachrichtigt werden, wenn direkt auf diesen Beitrag geantwortet wird. Die Benachrichtigung über alle neuen Beiträge in diesem Thema bzw. in diesem Forum kann oben rechts im Aktionen-Menü aktiviert werden.
+common#:#forum_notify_me_directly#:#Ich möchte benachrichtigt werden, wenn direkt auf diesen Beitrag geantwortet wird. Die Benachrichtigung über alle neuen Beiträge in diesem Thema bzw. in diesem Forum kann oben rechts im Aktionen-Menü aktiviert werden.###deprecated
+common#:#forum_notify_me_generally#:#Ich möchte benachrichtigt werden, wenn es generell einen neuen Beitrag zu meinem Thema gibt.###deprecated
 common#:#forum_post_replied#:#Ihr Forumsbeitrag wurde beantwortet.
 common#:#forums#:#Foren
 common#:#forums_anonymized#:#Forum anonymisiert

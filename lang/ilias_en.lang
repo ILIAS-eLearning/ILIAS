@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2016 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2017 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -2138,9 +2138,9 @@ common#:#cat#:#Category
 common#:#categories_imported#:#Category import complete.
 common#:#categories#:#Categories
 common#:#catr_edit_info#:#Please choose one category, for creating a new reference.
-common#:#catr_edit#:#Edit Category Reference###deprecated 
-common#:#catr_new#:#Create Category Reference
-common#:#catr#:#Category Reference
+common#:#catr_edit#:#Edit Category Link###deprecated
+common#:#catr_new#:#Create Category Link
+common#:#catr#:#Category Link
 common#:#cc#:#CC
 common#:#censorship#:#Censorship###deprecated 
 rbac#:#cert_edit_permission#:#User can change permission settings of Certificates administration
@@ -2331,10 +2331,10 @@ rbac#:#crs_visible#:#Course is visible
 common#:#crs_wizard_page#:#Copy Course (Step 2/2)
 rbac#:#crs_write#:#User can edit course settings and manage content
 common#:#crs#:#Course
-common#:#crsr_edit_info#:#Please choose one course, for creating a new reference.
-common#:#crsr_edit#:#Edit Course Reference###deprecated 
-common#:#crsr_new#:#Create Course Reference
-common#:#crsr#:#Course Reference
+common#:#crsr_edit_info#:#Please choose one course for creating a new link.
+common#:#crsr_edit#:#Edit Course Link###deprecated
+common#:#crsr_new#:#Create Course Link
+common#:#crsr#:#Course Link
 common#:#csv_export#:#CSV-Export
 common#:#cumulative_time#:#Cumulative time###deprecated 
 common#:#cur_number_rec#:#Current number of records###deprecated 
@@ -2684,13 +2684,13 @@ common#:#forgot_username#:#Forgot your username?
 common#:#form_empty_fields#:#Please complete these fields:###deprecated 
 common#:#form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.
 common#:#forum_attachments#:#Forum attachments###deprecated 
-common#:#forum_direct_notification#:#Direct Notification
-common#:#forum_general_notification#:#General Notification
+common#:#forum_direct_notification#:#Notification
+common#:#forum_general_notification#:#General Notification###deprecated
 common#:#forum_import_file#:#Import file###deprecated 
 common#:#forum_import#:#Forum import###deprecated 
-common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.
-common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my thread.
-common#:#forum_notify_me#:#Notify me when a reply is posted
+common#:#forum_notify_me_directly#:#Notify me when a direct answer has been given to this posting. Notification about any posting in this thread or forum can be enabled in the upper right Actions menu.###deprecated
+common#:#forum_notify_me_generally#:#Please notify me about any new contributions to my thread.###deprecated
+common#:#forum_notify_me#:#Notify me when a direct answer has been given to this posting. Notification about any posting in this thread or forum can be enabled in the upper right Actions menu.
 common#:#forum_post_replied#:#Your forum entry has been replied.
 common#:#forum#:#Forum
 common#:#forums_anonymized#:#Forum anonymized
@@ -3466,7 +3466,7 @@ common#:#msg_obj_exists_in_folder#:#The object %s already exists in the folder %
 common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_obj_may_not_contain_objects_of_type#:#The object %s may not contain objects of type: %s.
 common#:#msg_obj_modified#:#Modifications saved.
-common#:#msg_obj_no_link#:#It is not possible to link container objects like categories, courses, groups or folder due to technical reasons. Instead you may link several single objects within such a container to other areas or use a reference object for categories and courses.
+common#:#msg_obj_no_link#:#It is not possible to link container objects like categories, courses, groups or folder due to technical reasons. Instead you may link several single objects within such a container to other areas or create a category link, course link or group link.
 common#:#msg_paste_object_not_in_itself#:#It’s not possible to paste the object %s in itself.
 common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from
@@ -3591,7 +3591,7 @@ common#:#obj_cals#:#Calendar
 common#:#obj_cat_duplicate#:#Copy Category
 common#:#obj_cat_select#:#-- Please select one category --###deprecated 
 common#:#obj_cat#:#Category
-common#:#obj_catr#:#Category Reference
+common#:#obj_catr#:#Category Link
 common#:#obj_cen#:#Centra Event###deprecated 
 common#:#obj_cert_desc#:#Settings for certificates
 common#:#obj_cert#:#Certificates
@@ -3605,7 +3605,7 @@ common#:#obj_cmps#:#Plugins
 common#:#obj_crs_duplicate#:#Copy Course
 common#:#obj_crs_select#:#-- Please select one course --###deprecated 
 common#:#obj_crs#:#Course
-common#:#obj_crsr#:#Course Reference
+common#:#obj_crsr#:#Course Link
 common#:#obj_dbk#:#Digilib Book
 common#:#obj_exc_duplicate#:#Copy Exercise###deprecated 
 common#:#obj_exc_select#:#-- Please select one exercise --###deprecated 
@@ -3731,11 +3731,11 @@ common#:#objf_write#:#Edit Object definitions###deprecated
 common#:#objf#:#Object definitions
 common#:#objs_alm#:#AICC Learning Modules###deprecated 
 common#:#objs_cat#:#Categories
-common#:#objs_catr#:#Category References
+common#:#objs_catr#:#Category Link
 common#:#objs_chat#:#Chats###deprecated 
 common#:#objs_confirm#:#Confirm Action###deprecated 
 common#:#objs_crs#:#Courses
-common#:#objs_crsr#:#Course References
+common#:#objs_crsr#:#Course Link
 common#:#objs_dbk#:#Digilib Books###deprecated 
 common#:#objs_delete#:#Delete objects###deprecated 
 common#:#objs_exc#:#Exercises
@@ -8044,8 +8044,8 @@ rbac#:#cals_edit_permission#:#User can change permission settings for Calendar a
 rbac#:#cals_read#:#User has read access to Calendar Administration
 rbac#:#cals_visible#:#Calendar Administration is visible
 rbac#:#cals_write#:#User can edit settings of Calendar Administration
-rbac#:#catr_copy#:#User can copy category reference
-rbac#:#catr_delete#:#User can move or delete category reference
+rbac#:#catr_copy#:#User can copy category link
+rbac#:#catr_delete#:#User can move or delete category link
 rbac#:#catr_edit_permission#:#User can change permission settings
 rbac#:#catr_visible#:#Category reference is visible
 rbac#:#catr_write#:#User can edit settings of category reference
@@ -8055,8 +8055,8 @@ rbac#:#cmps_visible#:#Administration of Plugins, Modules and Services settings i
 rbac#:#cmps_write#:#User can edit settings of Plugins, Modules and Services
 rbac#:#rbac_create_sess#:#Create Session
 rbac#:#crs_edit_event#:#Edit Calendar Events
-rbac#:#crsr_copy#:#User can copy course reference
-rbac#:#crsr_delete#:#User can move or delete course reference
+rbac#:#crsr_copy#:#User can copy course link
+rbac#:#crsr_delete#:#User can move or delete course link
 rbac#:#crsr_edit_permission#:#User can change permission settings
 rbac#:#crsr_visible#:#Course reference is visible
 rbac#:#crsr_write#:#User can edit settings of course reference
@@ -8120,9 +8120,9 @@ rbac#:#recf_edit_permission#:#User can change permission settings of Restored Ob
 rbac#:#recf_read#:#User has read access to Restored Objects administration
 rbac#:#recf_visible#:#Restored Objects administration is visible
 rbac#:#recf_write#:#Edit Settings and restore objects in Restored Objects administration
-rbac#:#rbac_create_catr#:#Create Category Reference
+rbac#:#rbac_create_catr#:#Create Category Link
 rbac#:#rbac_create_crs#:#Create Course
-rbac#:#rbac_create_crsr#:#Create Course Reference
+rbac#:#rbac_create_crsr#:#Create Course Link
 rbac#:#rbac_create_exc#:#Create Exercise
 rbac#:#rbac_create_feed#:#Create Web Feed
 rbac#:#rbac_create_file#:#Upload File
@@ -15150,10 +15150,10 @@ prg#:#prg_open_node#:#Switch to this node
 prg#:#prg_async_create#:#Add new tree-child
 prg#:#prg_create_new_node#:#Create new node
 prg#:#prg_create_new_leaf#:#Create new leaf
-prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Please select a course for creating a course-reference leaf
+prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Please select a course for creating a course link leaf
 prg#:#prg_deleted_safely#:#Node was deleted safely
 prg#:#prg_not_allowed_node_to_delete#:#You are not allowed to delete this node
-prg#:#prg_added_course_ref_successful#:#New course-reference was added successfully
+prg#:#prg_added_course_ref_successful#:#New course link was added successfully
 prg#:#prg_manage#:#Manage
 prg#:#prg_view#:#View
 prg#:#prg_update_from_current_plan#:#Update from current Plan
@@ -15415,14 +15415,14 @@ survey#:#survey_results_started#:#Survey started
 survey#:#survey_results_not_started#:#Survey not started
 survey#:#svy_mail_own_results_body#:#you participated in the following survey:
 assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.
-common#:#grpr_edit_info#:#Please choose one group, for creating a new reference.
-common#:#grpr_edit#:#Edit Group Reference
-common#:#grpr_new#:#Create Group Reference
-common#:#grpr#:#Group Reference
-common#:#obj_grpr#:#Group Reference
-common#:#objs_grpr#:#Group References
-rbac#:#grpr_copy#:#User can copy group reference
-rbac#:#grpr_delete#:#User can move or delete group reference
+common#:#grpr_edit_info#:#Please choose one group, for creating a new group link.
+common#:#grpr_edit#:#Edit Group Link
+common#:#grpr_new#:#Create Group Link
+common#:#grpr#:#Group Link
+common#:#obj_grpr#:#Group Link
+common#:#objs_grpr#:#Group Links
+rbac#:#grpr_copy#:#User can copy group link
+rbac#:#grpr_delete#:#User can move or delete group link
 rbac#:#grpr_edit_permission#:#User can change permission settings
 rbac#:#grpr_visible#:#Group reference is visible
 rbac#:#grpr_write#:#User can edit settings of group reference

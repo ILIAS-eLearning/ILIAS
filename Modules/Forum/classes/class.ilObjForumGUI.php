@@ -2148,7 +2148,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		   !$frm->isThreadNotificationEnabled($ilUser->getId(), $this->objCurrentPost->getThreadId()) &&
 		   !$this->objProperties->isAnonymized())
 		{
-			$oNotificationGUI = new ilCheckboxInputGUI('', 'notify');
+			$oNotificationGUI = new ilCheckboxInputGUI($this->lng->txt('forum_direct_notification'), 'notify');
 			$oNotificationGUI->setInfo($this->lng->txt('forum_notify_me'));
 			
 			$this->replyEditForm->addItem($oNotificationGUI);
@@ -4093,7 +4093,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			// direct notification
 			$dir_notification_gui = new ilCheckboxInputGUI($this->lng->txt('forum_direct_notification'), 'notify');
-			$dir_notification_gui->setInfo($this->lng->txt('forum_notify_me_directly'));
+			$dir_notification_gui->setInfo($this->lng->txt('forum_notify_me'));
 			$dir_notification_gui->setValue(1);
 			$this->create_topic_form_gui->addItem($dir_notification_gui);
 		}

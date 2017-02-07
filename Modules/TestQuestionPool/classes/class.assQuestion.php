@@ -19,6 +19,16 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
  */
 abstract class assQuestion
 {
+	const IMG_MIME_TYPE_JPG = 'image/jpeg'; 
+	const IMG_MIME_TYPE_PNG = 'image/png'; 
+	const IMG_MIME_TYPE_GIF = 'image/gif';
+	
+	protected static $fileExtensionsByMimeType = array(
+		self::IMG_MIME_TYPE_JPG => array('jpg', 'jpeg'),
+		self::IMG_MIME_TYPE_PNG => array('png'),
+		self::IMG_MIME_TYPE_GIF => array('gif')
+	);
+	
 	/**
 	* Question id
 	*
@@ -252,7 +262,11 @@ abstract class assQuestion
 	 */
 	protected $testQuestionConfig;
 // fau.
-
+	
+	protected static $allowedImageMaterialFileExtensionsByMimeType = array(
+		'image/jpeg' => array('jpg', 'jpeg'), 'image/png' => array('png'), 'image/gif' => array('gif')
+	);
+	
 	/**
 	* assQuestion constructor
 	*
@@ -308,6 +322,23 @@ abstract class assQuestion
 
 		require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
 		$this->shuffler = new ilArrayElementOrderKeeper();
+	}
+	
+	public static function isAllowedImageMimeType($mimeType)
+	{
+		return isset(self::$allowedImageMaterialFileExtensionsByMimeType[$mimeType]);
+	}
+	
+	public static function isAllowedImageFileExtension($mimeType, $fileExtension)
+	{
+		if( !self::isAllowedImageMimeType($mimeType) )
+		{
+			return false;
+		}
+		
+		return in_array(
+			$fileExtension, self::$allowedImageMaterialFileExtensionsByMimeType[$mimeType]
+		);
 	}
 	
 	/**
