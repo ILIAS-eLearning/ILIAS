@@ -1,4 +1,4 @@
-* Copyright (c) 1998-2016 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+* Copyright (c) 1998-2017 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -360,18 +360,18 @@ assessment#:#adm_settings_templates#:#Einstellungsvorlagen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#allow_images#:#Grafikunterstützung für Antworten
 assessment#:#allowedextensions#:#Erlaubte Dateierweiterungen
-assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc,pdf,odt).
+assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. .doc, .pdf, .odt).
 assessment#:#analyze_errortext#:#Text analysieren
 assessment#:#gap_combination#:#Lückentext-Kombination
 assessment#:#answer#:#Antwort
 assessment#:#answer_image#:#Antwort-Grafik
-assessment#:#answer_is_not_correct_but_positive#:#Sie haben Punkte für Ihre Lösung erhalten, allerdings handelt es sich dabei nicht um die beste Lösung
-assessment#:#answer_is_right#:#Ihre Lösung ist korrekt
-assessment#:#answer_is_wrong#:#Ihre Lösung ist falsch
+assessment#:#answer_is_not_correct_but_positive#:#Sie haben Punkte für Ihre Lösung erhalten. Allerdings handelt es sich dabei nicht um die beste Lösung.
+assessment#:#answer_is_right#:#Ihre Lösung ist korrekt.
+assessment#:#answer_is_wrong#:#Ihre Lösung ist falsch.
 assessment#:#answer_characters#:# Zeichen zugelassen, Anzahl der eingegebenen Zeichen:
 assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
-assessment#:#answer_types#:#Antwort-Typen
+assessment#:#answer_types#:#Antwort-Editor
 assessment#:#answers_multiline#:#Mehrzeilige Antworten
 assessment#:#answers_singleline#:#Einzeilige Antworten
 assessment#:#applet_attributes#:#Applet-Attribute
@@ -438,7 +438,7 @@ assessment#:#info_text_upload#:#Wählen Sie eine Textdatei (UTF-8) mit Antworten
 assessment#:#manual_editing#:#Manuelle Editierung
 assessment#:#longmenu_text#:#‘Long Menu’-Text
 assessment#:#correct_answers#:#Richtige Antworten: 
-assessment#:#answer_options#:#Antwortoptionen: 
+assessment#:#answer_options#:#Antwort-Optionen:
 assessment#:#add_answers#:#Antworten hinzufügen 
 assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
@@ -2001,7 +2001,7 @@ blog#:#blog_toggle_draft#:#Veröffentlichung zurücknehmen
 blog#:#blog_toggle_final#:#Beitrag veröffentlichen
 book#:#book_add#:#Buchungspool anlegen
 book#:#book_add_object#:#Objekt hinzufügen
-book#:#book_add_schedule#:#Zeitplan hinzufügen
+book#:#book_add_schedule#:#Zeitraster hinzufügen
 book#:#book_add_type#:#Buchungsobjekt-Typ hinzufügen
 book#:#book_all#:#Alle anzeigen
 book#:#book_back_to_list#:#Zurück zur Liste
@@ -2016,7 +2016,7 @@ book#:#book_current_user#:#Gebucht von
 book#:#book_deadline#:#Zeitspanne
 book#:#book_deadline_info#:#Minimale Zeit zwischen Buchung und Buchungszeitraum
 book#:#book_earlier#:#Früher
-book#:#book_edit#:#Buchungspool bearbeiten
+book#:#book_edit#:#Belegungsplan bearbeiten
 book#:#book_edit_object#:#Objekt ändern
 book#:#book_edit_schedule#:#Zeitplan editieren
 book#:#book_edit_type#:#Typ ändern
@@ -2027,7 +2027,7 @@ book#:#book_hours#:#Stunden
 book#:#book_is_used#:#In Benutzung
 book#:#book_later#:#Später
 book#:#book_list_items#:#Objekte listen
-book#:#book_log#:#Buchungen
+book#:#book_log#:#Reservierungen
 book#:#book_minutes#:#Minuten
 book#:#book_new#:#Neuen Buchungspool anlegen
 book#:#book_no_of_objects#:#Anzahl Objekte
@@ -2038,8 +2038,8 @@ book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
 book#:#book_objects_list#:#Buchungsobjekte
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
-book#:#book_public_log#:#Öffentliche Buchungen
-book#:#book_public_log_info#:#Die Liste der Buchungen kann von allen Benutzern eingesehen werden.
+book#:#book_public_log#:#Benutzer sehen Belegungsplan
+book#:#book_public_log_info#:#Benutzer können auch den Reiter „Belegungsplan“ einsehen.
 book#:#book_reservation_block#:#Blockieren
 book#:#book_reservation_cancel#:#Stornieren
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
@@ -2048,7 +2048,7 @@ book#:#book_reservation_fix_info#:#Die Reservierung kann nur für festgelegte Ze
 book#:#book_reservation_status_2#:#In Benutzung
 book#:#book_reservation_status_5#:#Storniert
 book#:#book_reservation_title#:#Buchungsanfrage für
-book#:#book_reservations_list#:#Buchungen
+book#:#book_reservations_list#:#Reservierungen
 book#:#book_schedule#:#Zeitplan
 book#:#book_schedule_added#:#Ein Zeitplan wurde hinzugefügt.
 book#:#book_schedule_break#:#Pause zwischen Buchungen
@@ -2417,11 +2417,11 @@ common#:#access_restrict_enter#:#Bitte setzen Sie den Zugriffszeitraum.
 common#:#access_restricted#:#Unbeschränkten Zugriff für die ausgewählten Benutzer deaktivieren.
 common#:#access_scope#:#Zugriff
 common#:#access_unlimited#:#unbefristet
-common#:#access_until#:#Zugriff bis
+common#:#access_until#:#Befristeter Zugriff
 common#:#access_users#:#Eingeloggte Benutzer
 common#:#accesscount_registered_users#:#Gelesen von Benutzern (Anzahl)
-common#:#accessFree#:#Zeitliche Begrenzung aufheben
-common#:#accessRestrict#:#Zugriff zeitlich begrenzen
+common#:#accessFree#:#Befristung des Zugriffs aufheben
+common#:#accessRestrict#:#Zugriff befristen
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
 common#:#account_expires_subject#:#Benutzerzugang
 rbac#:#accs_edit_permission#:#Rechteeinstellungen der Einstellungen Barrierefreiheit ändern
@@ -6664,7 +6664,7 @@ crs#:#crs_lm_no_assignments_selected#:#Bitte wählen Sie mindestens eine Zuordnu
 crs#:#crs_lms_already_assigned#:#Diese Lernmaterialien wurde bereits zugeordnet.
 crs#:#crs_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Kursinhalt zuzugreifen:
 crs#:#crs_map_location#:#Ort auf Karte zum Kurs
-crs#:#crs_map_settings#:#Einstellungen Karte
+crs#:#crs_map_settings#:#Karte
 crs#:#crs_materials#:#Materialien
 crs#:#crs_max_members_reached#:#Die maximale Mitgliederanzahl wurde überschritten
 crs#:#crs_mem_change_status#:#Status ändern
@@ -6871,7 +6871,7 @@ crs#:#crs_show_link_or#:#Andere Objekte anzeigen
 crs#:#crs_show_link_session#:#Sitzungen anzeigen
 crs#:#crs_show_link_tst#:#Tests anzeigen
 crs#:#crs_show_members#:#Mitgliedergalerie
-crs#:#crs_show_members_info#:#Alle Mitglieder können im Reiter "Mitglieder" die Mitgliedergalerie einsehen.
+crs#:#crs_show_members_info#:#Alle Mitglieder können in diesem Reiter die Mitgliedergalerie einsehen.
 crs#:#crs_show_objectives_view#:#Lernziel-Ansicht
 crs#:#crs_size#:#Dateigröße
 crs#:#crs_sort_activation#:#Nach Zeitvorgaben
@@ -7074,8 +7074,8 @@ crs#:#sess_gen_comment#:#Erzeuge Spalte für Kommentare
 crs#:#sess_gen_mark_title#:#Erzeuge Spalte für Noten
 crs#:#sess_gen_signature#:#Erzeuge Spalte für Unterschrift
 crs#:#sess_join_info#:#Bitte klicken Sie auf Anmelden, wenn Sie an dieser Sitzung teilnehmen möchten.
-crs#:#sess_limit#:#Sitzungsanzahl begrenzen
-crs#:#sess_limit_info#:#Wählen Sie diese Einstellung, um die Anzahl der dargestellten Sitzungen zu bestimmen. 
+crs#:#sess_limit#:#Anzahl der angezeigten Sitzungen begrenzen
+crs#:#sess_limit_info#:#Teilnehmern werden nicht alle Sitzungen angezeigt, sondern nur eine definierte Anzahl.
 crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen
 crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen
 crs#:#sess_print_attendance_list#:#Liste drucken
@@ -7732,7 +7732,7 @@ exc#:#exc_edit_assignments#:#Übungseinheiten bearbeitn
 exc#:#exc_edit_submission#:#Eingereichte Lösungen ändern
 exc#:#exc_ended_on#:#Beendet am
 exc#:#exc_export_excel#:#Export (Excel)
-exc#:#exc_fb_files#:#Feedback-Dateien
+exc#:#exc_fb_files#:#Dateien vom Tutor
 exc#:#exc_grades#:#Notenübersicht
 exc#:#exc_grades_overview#:#Notenübersicht
 exc#:#exc_hand_in#:#Datei abgeben
@@ -7799,11 +7799,11 @@ exc#:#exc_type_portfolio#:#Portfolio
 exc#:#exc_type_upload#:#Datei
 excv#:#excv_create#:#Übungszertifikat erstellen
 excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie ein Zertifikat benötigen
-exercise#:#exc_comment#:#Kommentar
-exercise#:#exc_comment_for_learner#:#Feedback für Teilnehmer
+exercise#:#exc_comment#:#Stellungnahme
+exercise#:#exc_comment_for_learner#:#Rückmeldung für Teilnehmer
 exercise#:#exc_crs_add_members#:#Mitglieder dieses Kurses hinzufügen
 exercise#:#exc_failed#:#Nicht bestanden
-exercise#:#exc_feedback_from_tutor#:#Feedback des Tutors
+exercise#:#exc_feedback_from_tutor#:#Bewertung des Tutors
 exercise#:#exc_grading#:#Bewertung
 exercise#:#exc_mark#:#Note
 exercise#:#exc_notgraded#:#Nicht bewertet
@@ -9299,7 +9299,7 @@ prtf#:#prtf_create_portfolio#:#Portfolio hinzufügen
 prtf#:#prtf_default_portfolio#:#Mein Profil
 prtf#:#prtf_edit_portfolio#:#Portfolio bearbeiten
 prtf#:#prtf_exercise_info#:#Dieses Portfolio ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
-prtf#:#prtf_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s
+prtf#:#prtf_exercise_submitted_info#:#Sie haben Ihr Portfolio am %s eingereicht. Sie können eine Kopie des eingereichten Portfolios für eigene Zwecke speichern: %s
 prtf#:#prtf_existing_portfolio#:#Vorhandenes Portfolio
 prtf#:#prtf_finalize_portfolio#:#Portfolio abschließen und abgeben
 prtf#:#prtf_finalized#:#Das Portfolio wurde abgegeben.
@@ -10714,7 +10714,7 @@ survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
 survey#:#enter_questionblock_title#:#Bitte geben Sie einen Titel für den Fragenblock an!
 survey#:#enter_valid_number_of_codes#:#Bitte geben Sie eine gültige Zahl ein, um Zugangsschlüssel zu generieren!
 survey#:#enter_value#:#Geben Sie einen Wert an
-survey#:#err_external_rcp_no_email#:#Die Importdaten müssen wenigstens ein 'email'-Feld beinhalten
+survey#:#err_external_rcp_no_email#:#Die Importdaten müssen wenigstens ein 'email'-Spalte beinhalten, d.h. eine Zeile mit dem Titel 'email' und weitere Zeilen mit den jeweiligen E-Mail-Adressen.
 survey#:#err_external_rcp_no_email_column#:#Die Importdaten müssen wenigstens eine 'email'-Spalte beinhalten, d.h. eine Zeile mit dem Titel 'email' und weitere Zeilen mit den jeweiligen E-Mail-Adressen
 survey#:#err_maxvaluegeminvalue#:#Das Maximum muss größer oder gleich dem Minimum sein und höchstens gleich der maximalen Anzahl der Antworten.
 survey#:#err_minvalueganswers#:#Das Minium darf nicht größer als die maximale Anzahl der Antworten sein.
@@ -11034,7 +11034,7 @@ survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das
 survey#:#start_survey#:#Umfrage beginnen
 survey#:#subject_mail_survey_id#:#Ihr Zugangsschlüssel für "%s"
 survey#:#subtype#:#Untertyp
-survey#:#survey_add_new_question#:#Seite erstellen
+survey#:#survey_add_new_question#:#Frage erstellen
 survey#:#survey_at_beginning#:#An den Anfang
 survey#:#survey_auto_block_title#:#Seitenüberschrift
 survey#:#survey_available_question_pools#:#Verfügbare Pools
@@ -12072,9 +12072,9 @@ assessment#:#tst_availability_until_info#:#Wählen Sie diese Einstellung, um den
 assessment#:#tst_activation_online_info#:#Nur wenn der Test online geschaltet ist, können Benutzer am Test teilnehmen.
 assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden.
 book#:#booking_nr_of_items#:#Anzahl
-book#:#book_schedule_type_fixed#:#Fester Zeitplan
+book#:#book_schedule_type_fixed#:#Belegungen zu Terminen
 book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beamer, etc.
-book#:#book_schedule_type_none#:#Kein Zeitplan
+book#:#book_schedule_type_none#:#Ohne Zeitplan verteilen
 book#:#book_schedule_type_none_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc.
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, daß Sie das folgende Objekt buchen wollen?
 forum#:#sort_by_posts#:#Nach Beiträgen sortieren
@@ -13093,9 +13093,9 @@ survey#:#survey_reminder_end#:#Ende
 survey#:#survey_reminder_frequency#:#Häufigkeit der Erinnerung
 survey#:#survey_reminder_frequency_days#:#Tage
 survey#:#survey_notification_target_group#:#Zielgruppe
-survey#:#survey_notification_target_group_parent_course#:#Alle Teilnehmer des übergeordneten Kurses/Gruppe
+survey#:#survey_notification_target_group_parent_course#:#Alle Teilnehmer des übergeordneten Kurses/Gruppe, welche die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_parent_course_inactive#:#Kein übergeordneter Kurs/Gruppe - keine Erinnerung möglich!
-survey#:#survey_notification_target_group_invited#:#Teilnehmer, denen die Umfrage auf den persönlichen Schreibtisch gelegt wurde
+survey#:#survey_notification_target_group_invited#:#Teilnehmer, denen die Umfrage auf den Persönlichen Schreibtisch gelegt wurde und die die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_invited_info#:#Aktuelle Anzahl der Empfänger: %s
 survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Teilnehmer beendet haben
 survey#:#survey_notification_tutor_recipients#:#Tutoren (Benutzername[n])
@@ -13518,7 +13518,7 @@ mcst#:#mcst_download_cnt#:#Heruntergeladen
 mcst#:#mcst_play_cnt#:#Abgespielt
 glo#:#glo_term#:#Glossarbegriff
 content#:#glo_add_term_properties#:#Erweiterte Metadaten von Glossarbegriffen
-exc#:#exc_multi_feedback#:#Multi-Feedback
+exc#:#exc_multi_feedback#:#Rückmeldung an mehrere Teilnehmer
 exc#:#exc_download_zip_structure#:#ZIP-Verzeichnisstruktur herunterladen
 exc#:#exc_multi_feedback_file#:#Multi-Feedback-Datei
 exc#:#exc_multi_feedback_files#:#Multi-Feedback-Dateien
@@ -13793,7 +13793,7 @@ prtf#:#prtf_style#:#Portfolio-Style
 prtt#:#prtt_properties#:#Portfoliovorlagen-Eigenschaften
 prtt#:#prtt_style#:#Portfoliovorlagen-Style
 exc#:#exc_save_all#:#Alle speichern
-exc#:#exc_save_selected#:#Ausgewählte speichern
+exc#:#exc_save_selected#:#Ausgewählte Eingaben speichern
 mail#:#search_content#:#Suchergebnis
 book#:#book_reservation_available#:#%s verfügbar
 form#:#form_retype_email#:#E-Mail nochmals eingeben
@@ -14127,7 +14127,7 @@ rbac#:#orgu_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rbac_create_orgu#:#Organisationseinheiten anlegen
 rbac#:#orgu_copy#:#Organisationseinheit kopieren
 rbac#:#orgu_view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
-book#:#book_post_booking_text_info#:#Verwenden Sie [PERIOD] und [OBJECT], um Buchungsdetails zum Infotext hinzuzufügen.
+book#:#book_post_booking_text_info#:#Die Platzhalter können genutzt werden, um Buchungsdetails zum Infotext hinzuzufügen.<br />Der Platzhalter [OBJECT] wird durch das jeweilige Buchungsobjekt ersetzt.<br />Der Platzhalter [PERIOD] wird durch den gewählten Buchungszeitraum ersetzt.
 blog#:#blog_abstract_shorten#:#Auszug kürzen
 blog#:#blog_abstract_shorten_length#:#Maximale Länge
 blog#:#blog_abstract_shorten_characters#:#Zeichen
@@ -14162,7 +14162,7 @@ exc#:#exc_notification#:#Persönliche Benachrichtigung
 exc#:#exc_passing_exc#:#Bestehen der Übung
 exc#:#exc_publishing#:#Veröffentlichung
 exc#:#exc_min_nr_info#:#Dieser Wert muss mindestens so hoch sein, wie die Anzahl der verpflichtenden Übungseinheiten.
-exc#:#exc_passed_status_determination#:#Bestimmung des Status "Bestanden"
+exc#:#exc_passed_status_determination#:#Bewertung als „Bestanden“
 exc#:#exc_completion_by_tutor#:#Nur manuell durch Tutor
 exc#:#exc_your_text#:#Ihr Text
 content#:#cont_def_feedb_activated#:#Das Standard-Feedback ist zur Zeit in den Einstellungen des Lernmoduls aktiviert.
@@ -14336,7 +14336,7 @@ exc#:#exc_note_for_tutor#:#Notiz für Tutoren
 exc#:#exc_comment_for_learner_edit#:#Als Kommentar in Textfeld eingeben
 common#:#sorting_creation_header#:#Nach Erstellungsdatum
 common#:#sorting_creation_info#:#Die enthaltenen Objekte werden automatisch nach ihrem Erstellungsdatum sortiert.
-exc#:#exc_comment_for_learner_info#:#Es wird eine Benachrichtigung an den Benutzer gesendet und das Feedback wird in dessen Übungseinheiten-Übersicht gelistet.
+exc#:#exc_comment_for_learner_info#:#Es wird eine Benachrichtigung an den Teilnehmer gesendet. <br /><br />Die Rückmeldung wird in seiner persönlichen Übungseinheiten-Übersicht angezeigt.
 common#:#sorting_direction#:#Sortierungsrichtung
 common#:#sorting_desc#:#Absteigend
 common#:#sorting_asc#:#Aufsteigend
@@ -14509,7 +14509,7 @@ crs#:#crs_loc_limited_passes#:#Begrenzte Anzahl von Testdurchläufen
 crs#:#crs_loc_passes#:#Maximale Anzahl von Testdurchläufen
 crs#:#crs_loc_passes_info#:#Maximalanzahl Testdurchläufe:
 crs#:#crs_loc_err_stat_no_materials#:#Keine Materialien verfügbar
-crs#:#crs_loc_err_stat_no_qt#:#Kein Qualifizierender Test angelegt
+crs#:#crs_loc_err_stat_no_qt#:#Kein Abschlusstest angelegt
 crs#:#crs_loc_err_stat_no_it#:#Kein Einstiegstest angelegt
 crs#:#crs_objective_status_objective_creation#:#Lernziele hinzufügen
 content#:#cont_out_of_focus_message#:#Diese Seite ist nicht mehr Teil der Inhalte des aktuellen Lernziels.
@@ -14538,7 +14538,7 @@ crs#:#crs_loc_tab_itest#:#Einstiegstest
 crs#:#crs_loc_tab_qtest#:#Abschlusstest
 crs#:#crs_loc_settings_itest_tbl#:#Einstellungen für Einstiegstest
 crs#:#crs_loc_tab_objectives#:#Lernziele
-crs#:#crs_loc_settings_qtest_tbl#:#Einstellungen für Qualifizierenden Test
+crs#:#crs_loc_settings_qtest_tbl#:#Einstellungen für Abschlusstest
 crs#:#crs_loc_tab_start#:#Startobjekte
 common#:#il_astpl_loc_initial#:#Einstiegstest
 common#:#il_astpl_loc_qualified#:#Qualifizierender Test
@@ -14567,7 +14567,7 @@ crs#:#crs_loc_progress_result_itest#:#Ergebnis Einstiegstest
 crs#:#crs_loc_progress_result_qtest#:#Ergebnis
 crs#:#crs_loc_progress_no_result_do_initial#:#Bearbeiten Sie den Einstiegstest
 crs#:#crs_loc_progress_objective_complete#:#Sie haben das Lernziel erreicht.
-crs#:#crs_loc_progress_do_qualifying#:#Machen Sie den Qualifizierenden Test, um das Lernziel abzuschließen.
+crs#:#crs_loc_progress_do_qualifying#:#Bitte führen Sie den Abschlusstest durch, um das Lernziel abzuschließen.
 crs#:#crs_loc_progress_do_qualifying_again#:#Bitte bearbeiten Sie das Lernziel erneut.
 content#:#cont_out_of_focus_message_last_page#:#Sie befinden sich auf der letzten Seite der Inhalte zum aktuellen Lernziel.
 crs#:#crs_loc_err_nr_tries_exceeded#:#Die Anzahl der Testdurchläufe pro Lernziel übersteigt die Anzahl möglicher Testdurchläufe des Qualifizierenden Tests.
@@ -14715,8 +14715,8 @@ wfe#:#process_started#:#Prozess gestartet
 wfe#:#input_variables_required#:#Eingaben erforderlich
 wfe#:#input_variables_desc#:#Der Prozess benötigt zum Start folgende Angaben:
 wfe#:#input_static_variables_desc#:#Der Prozess benötigt zu seinen Starts folgende Angaben:
-wfe#:#delete_definition#:#Definition l&ouml;schen
-wfe#:#definition_deleted#:#Workflow-Definition gel&ouml;scht.
+wfe#:#delete_definition#:#Definition löschen
+wfe#:#definition_deleted#:#Workflow-Definition gelöscht.
 wfe#:#subject_type#:#Subjekt Typ
 wfe#:#subject_id#:#Subjekt ID
 wfe#:#subject_by_id#:#Subjekt nach ID
@@ -14727,8 +14727,8 @@ wfe#:#context_by_id#:#Kontext nach ID
 wfe#:#context_by_mask#:#Maskierter Kontext
 wfe#:#start_listening#:#Listener aktivieren
 wfe#:#stop_listening#:#Listener deaktivieren
-wfe#:#static_input_form_header#:#Eingabedaten f&uuml;r alle Instanzen des Workflows
-wfe#:#start_event_form_header#:#Relevante Ereignisse f&uuml;r den Start der Workflows
+wfe#:#static_input_form_header#:#Eingabedaten für alle Instanzen des Workflows
+wfe#:#start_event_form_header#:#Relevante Ereignisse für den Start der Workflows
 common#:#ps_export_scorm#:#SCORM-Protokolldaten
 common#:#enable_export_scorm_desc#:#Erlaube den Export von Persönlichen Daten aus SCORM-Lernmodulen
 mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
@@ -14740,7 +14740,7 @@ content#:#cont_table_border_info#:#Werte sind inkl. Einheit anzugeben (z.B. px).
 content#:#cont_table_cellpadding_info#:#Werte sind inkl. Einheit anzugeben (z.B. px). Ist kein Wert eingetragen, werden die Werte aus dem Stylesheet übernommen.
 survey#:#svy_evaluation_access_all_info#:#Alle registrierten Benutzer, welche Zugriff auf die Umfrage haben, können auch deren Ergebnisse einsehen.
 survey#:#svy_evaluation_access_off_info#:#Nur Benutzer, welche die Umfrage bearbeiten können (Recht 'Einstellungen bearbeiten') haben Zugriff auf die Ergebnisse der Umfrage.
-survey#:#svy_evaluation_access_participants_info#:#Alle Benutzer, die an der Umfrage teigenommen haben, können deren Ergebnisse einsehen nachdem sie die Umfrage abgeschlossen haben.
+survey#:#svy_evaluation_access_participants_info#:#Alle Benutzer, die an der Umfrage teilgenommen haben, können deren Ergebnisse einsehen nachdem sie die Umfrage abgeschlossen haben.
 survey#:#svy_results_view_own_info#:#Teilnehmer können sich eine Übersicht mit den eigenen Antworten anzeigen lassen, nachdem sie die Umfrage beendet haben. Sie können die Antworten nicht mehr ändern.
 survey#:#survey_360_self_evaluation_info#:#Feedback-Nehmer können anhand der Fragen eine Selbsteinschätzung vornehmen.
 survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, welche ihnen eine Rückmeldung geben sollen selber aus. Sie laden diese Personen auch selbständig ein. 
@@ -14894,7 +14894,7 @@ notes#:#notes_comment_deleted#:#Der Kommentar wurde gelöscht
 notes#:#notes_comments_deleted#:#Die Kommentare wurden gelöscht.
 orgu#:#ou_id_not_valid#:#Die Import-ID konnte nicht gefunden werden.
 blog#:#blog_profile_picture_repository_info#:#Profilbilder der Autoren werden nur für einzelne Beiträge angezeigt, nicht auf Übersichtsseiten.
-blog#:#blog_confirm_delete_contributors#:#Wollen Sie wirklich die folgenden Autoren löschen?
+blog#:#blog_confirm_delete_contributors#:#Wollen Sie wirklich den folgenden Autoren ihre Rolle entziehen?
 news#:#news_rss#:#RSS
 mob#:#mob_object#:#Objekt
 content#:#cont_qtries_info#:#Standardwert "Anzahl der Versuche" für neu angelegte Fragen.
@@ -15157,9 +15157,9 @@ rbac#:#redact#:#Redigieren
 common#:#il_blog_editor#:#Blog-Redakteur
 rbac#:#blog_redact#:#Benutzer kann auch Beiträge anderer Mitwirkender bearbeiten
 blog#:#blog_contributors#:#Mitwirkende
-meta#:#meta_obj_type_inactive#:#Inaktiv
-meta#:#meta_obj_type_mandatory#:#Verpflichtend
-meta#:#meta_obj_type_optional#:#Optional
+meta#:#meta_obj_type_inactive#:#Datensatz nicht anbieten
+meta#:#meta_obj_type_mandatory#:#Immer zum Ausfüllen anbieten
+meta#:#meta_obj_type_optional#:#Datensatz muss aktiviert werden
 common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
 common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können benutzerdefinierte Metadaten konfiguriert werden.
 meta#:#meta_section#:#Bereich
@@ -15696,9 +15696,9 @@ blog#:#blog_news_title#:#%1$s von %2$s
 blog#:#blog_news_posting_updated#:#Ein Blogbeitrag wurde aktualisiert von %s.
 blog#:#blog_news_posting_published#:#Ein neuer Blogbeitrag wurde veröffentlicht von %s.
 blog#:#blog_news_posting_authors#:#Beteiligte Autoren: %s
-book#:#book_reservation_filter_period#:#Zeitraum für Buchungsübersicht
+book#:#book_reservation_filter_period#:#Filter „Zeitraum“
 book#:#book_reservation_filter_period_info#:#Der Default-Wert für den Zeitraum-Filter in Tagen ab dem aktuellem Datum.
-book#:#book_filter_past_reservations#:#Abgelaufene Buchungen anzeigen
+book#:#book_filter_past_reservations#:#Abgelaufene Reservierungen anzeigen
 book#:#book_deadline_options#:#Spätester Buchungszeitpunkt
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
 book#:#book_deadline_slot_end#:#Bis zum Ende des Zeitfensters
@@ -16045,7 +16045,7 @@ exc#:#exc_tbl_status_time#:#Bewertet am
 exc#:#exc_tbl_mark#:#Note
 exc#:#exc_tbl_comment#:#Text-Feedback
 exc#:#exc_tbl_notice#:#Notiz für Tutoren
-exc#:#exc_tbl_feedback_time#:#Feedback am
+exc#:#exc_tbl_feedback_time#:#Rückmeldung am
 exc#:#exc_tbl_sent_time#:#Übungseinheit verschickt am
 exc#:#exc_tbl_team#:#Team
 exc#:#exc_tbl_individual_deadline#:#Individuelle Frist
@@ -16053,14 +16053,14 @@ exc#:#exc_tbl_action_download_files#:#Abgaben herunterladen
 exc#:#exc_tbl_action_download_all_files#:#Alle Abgaben herunterladen
 exc#:#exc_tbl_action_download_new_files#:#Neue Abgaben herunterladen
 exc#:#exc_tbl_action_text_assignment_show#:#Abgabe anzeigen
-exc#:#exc_tbl_action_feedback_text#:#Feedback per Text geben
-exc#:#exc_tbl_action_feedback_mail#:#Feedback per Mail geben 
-exc#:#exc_tbl_action_feedback_file#:#Feedback per Datei geben 
+exc#:#exc_tbl_action_feedback_text#:#Rückmeldung per Text
+exc#:#exc_tbl_action_feedback_mail#:#Rückmeldung per Mail
+exc#:#exc_tbl_action_feedback_file#:#Rückmeldung per Datei
 exc#:#exc_tbl_action_team_log#:#Team-Log anzeigen
 exc#:#exc_tbl_action_peer_review_given#:#Gegebenes Peer-Feedback anzeigen
 exc#:#exc_tbl_action_peer_review_received#:#Erhaltenes Peer-Feedback anzeigen
 exc#:#exc_feedback#:#Feedback
-exc#:#exc_settings_feedback#:#Tutorenfeedback
+exc#:#exc_settings_feedback#:#Rückmeldung
 exc#:#exc_settings_feedback_text#:#Texteingabe
 exc#:#exc_settings_feedback_mail#:#per Mail
 exc#:#exc_settings_feedback_file#:#Datei
