@@ -31,9 +31,9 @@ class ilVirusScannerClamAV extends ilVirusScanner
 	/**
 	 * @return string $scanCommand
 	 */
-	protected function buildScanCommand()
+	protected function buildScanCommand($file = '-') // default means piping
 	{
-		return $this->scanCommand.' '.self::ADD_SCAN_PARAMS;
+		return $this->scanCommand.' '.self::ADD_SCAN_PARAMS.' '.$file;
 	}
 	
 	/**
@@ -41,8 +41,6 @@ class ilVirusScannerClamAV extends ilVirusScanner
 	 */
 	protected function isBufferScanPossible()
 	{
-		// todo: cli installed?
-
 		$functions = array('proc_open', 'proc_close');
 		
 		foreach($functions as $func)
@@ -81,7 +79,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
 		$descriptorspec = array(
 			0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
 			1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
-			2 => array("pipe", "w")
+			2 => array("pipe", "w")		// stderr for the child
 		);
 		
 		$pipes = array(); // will look like follows after passing
@@ -142,7 +140,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
                 $this->scanFileOrigName = $a_origname;
 
                 // Call of antivir command
-                $cmd = $this->buildScanCommand()." ".$a_filepath." 2>&1";
+                $cmd = $this->buildScanCommand($a_filepath)." 2>&1";
                 exec($cmd, $out, $ret);
                 $this->scanResult = implode("\n", $out);
 
