@@ -400,13 +400,20 @@ class ilMimeMail
 				$this->body  = ' ';
 			}
 
-			$mail->AltBody = $this->body;
-
 			if(strip_tags($this->body, '<b><u><i><a>') == $this->body)
 			{
-				// Let's assume that there is no HTML, so convert "\n" to "<br>" 
+				// Let's assume that there is no HTML, set body as plain text alternative and theb convert "\n" to "<br>"
+				$mail->AltBody = $this->body;
 				$this->body = nl2br($this->body);
 			}
+			else
+			{
+				// if there is HTML, convert "<br>" to "\n" and strip tags for plain text alternative
+				$breaks = array("<br />","<br>","<br/>");
+				$alt_body = strip_tags(str_ireplace($breaks, "\n", $this->body));
+				$mail->AltBody = $alt_body;
+			}
+
 			$mail->Body    = str_replace( '{PLACEHOLDER}', ilUtil::makeClickable( $this->body ), $bracket );
 
 			$directory = './Services/Mail/templates/default/img/';
