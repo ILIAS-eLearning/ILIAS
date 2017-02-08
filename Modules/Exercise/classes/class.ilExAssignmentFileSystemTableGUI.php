@@ -32,7 +32,7 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
 		//$this->setRowTemplate("tpl.exc_ass_instruction_file_row.html", "Modules/Exercise");
 		$this->addCommandButton("saveFilesOrder", $lng->txt("exc_save_order"));
 		$this->setDefaultOrderField("order_val");
-		$this->setDefaultOrderDirection("desc");
+		$this->setDefaultOrderDirection("asc");
 	}
 
 	/**

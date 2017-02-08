@@ -581,10 +581,17 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		$conf = new ilConfirmationGUI();
 		$conf->setFormAction($this->ctrl->getFormAction($this, "unlinkPortfolio"));
 		$conf->setHeaderText($this->lng->txt("exc_sure_unlink_portfolio", "sure_unlink_portfolio"));
-		$conf->setConfirm($this->lng->txt("exc_direct_submit"), "unlinkPortfolio");
+		$conf->setConfirm($this->lng->txt("confirm"), "unlinkPortfolio");
 		$conf->setCancel($this->lng->txt("cancel"), "returnToParent");
 
+		$submission = $this->submission->getSelectedObject();
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+		$port = new ilObjPortfolio($submission["filetitle"], false);
+
+		$conf->addItem("id[]", "", $port->getTitle(), ilObject::_getIcon($submission['obj_id']));
+
 		$tpl->setContent($conf->getHTML());
+
 	}
 
 	protected function unlinkPortfolioObject()
