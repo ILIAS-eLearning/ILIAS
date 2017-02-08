@@ -169,7 +169,15 @@ abstract class ilParticipants
 		if ($a_only_member_role)
 		{
 			$j2 = "JOIN object_data obd2 ON (ua.rol_id = obd2.obj_id) ";
-			$a2 = "AND obd2.title LIKE 'il_".$a_type."_mem%' ";
+			$a2 = 'AND obd2.title = '.$ilDB->concat(
+				array(
+					array($ilDB->quote('il_','text')),
+					array('obd.type'),
+					array($ilDB->quote('_member_','text')),
+					array('obr.ref_id'),
+				),
+				false
+			);
 		}
 
 		// #14290 - no role folder anymore
