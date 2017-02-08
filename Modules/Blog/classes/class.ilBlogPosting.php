@@ -574,6 +574,38 @@ class ilBlogPosting extends ilPageObject
 			$news_item->update(true);
 		}		
 	}
+
+	function afterConstructor()
+	{
+		global $ilUser;
+
+		$blog_id = $this->getBlogId();
+
+		//blogs in all worskspaces, too much data
+		//include_once "Services/Tracking/classes/class.ilTrQuery.php";
+		//$trq = new ilTrQuery();
+		//$array_ids = $trq->getWorkspaceBlogs();
+
+		//blogs in current workspace
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+
+		$tree = new ilWorkspaceTree($ilUser->getId());
+
+		$tree_obj = $tree->getObjectsFromType("blog",true);
+
+		$array_ids = array();
+		foreach($tree_obj as $object)
+		{
+			$array_ids[] = $object["obj_id"];
+		}
+
+		if(in_array($blog_id, $array_ids))
+		{
+			$this->getPageConfig()->setEditLockSupport(false);
+		}
+
+	}
+
 }
 
 ?>

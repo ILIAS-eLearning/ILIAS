@@ -2933,10 +2933,7 @@ return;
 		}
 		else
 		{
-			$aset = new ilSetting("adve");
-
-			$min = (int) $aset->get("block_mode_minutes") ;
-			if ($min > 0)
+			if($this->getPageObject()->getEffectiveEditLockTime() > 0)
 			{
 				include_once("./Services/User/classes/class.ilUserUtil.php");
 				$lock = $this->getPageObject()->getEditLockInfo();

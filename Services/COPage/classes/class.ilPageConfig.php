@@ -36,6 +36,8 @@ abstract class ilPageConfig
 	protected $use_stored_tries = false;
 	protected $enable_user_links = false;
 
+	protected $edit_lock_support = true;
+
 	/**
 	 * @var bool
 	 */
@@ -581,5 +583,22 @@ abstract class ilPageConfig
 	{
 		return $this->enable_permission_checks;
 	}
+
+	/**
+	 * @param $a_val  bool set edit lock support for blogs
+	 */
+	function setEditLockSupport($a_val)
+	{
+		$this->edit_lock_support = $a_val;
+	}
+
+	/**
+	 * @return bool get edit lock support for blogs
+	 */
+	function getEditLockSupport()
+	{
+		return $this->edit_lock_support;
+	}
+
 }
 ?>

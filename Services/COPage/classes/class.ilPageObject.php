@@ -5030,11 +5030,9 @@ abstract class ilPageObject
 	function getEditLock()
 	{
 		global $ilUser, $ilDB;
-		//return false;
-		$aset = new ilSetting("adve");
-		
-		$min = (int) $aset->get("block_mode_minutes") ;
-		if ($min > 0)
+
+		$min = (int)$this->getEffectiveEditLockTime();
+		if($min > 0)
 		{
 			// try to set the lock for the user
 			$ts = time();
@@ -5305,6 +5303,19 @@ abstract class ilPageObject
 		$rec = $ilDB->fetchAssoc($set);
 
 		return $rec["last_change"];
+	}
+
+	public function getEffectiveEditLockTime()
+	{
+		if($this->getPageConfig()->getEditLockSupport() == false)
+		{
+			return 0;
+		}
+		
+		$aset = new ilSetting("adve");
+		$min = (int)$aset->get("block_mode_minutes") ;
+
+		return $min;
 	}
 
 }
