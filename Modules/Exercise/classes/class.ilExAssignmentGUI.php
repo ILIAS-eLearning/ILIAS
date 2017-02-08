@@ -263,11 +263,6 @@ class ilExAssignmentGUI
 	{		
 		global $lng, $ilCtrl, $ilUser;
 
-		if ($this->exc->getShowSubmissions())
-		{
-			$this->addPublicSubmissions($a_info, $a_ass);
-		}
-
 		$a_info->addSection($lng->txt("exc_submission"));
 
 		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
@@ -301,6 +296,11 @@ class ilExAssignmentGUI
 		}
 
 		$this->addSubmissionFeedback($a_info, $a_ass, $submission->getFeedbackId(), $show_global_feedback);
+
+		if ($this->exc->getShowSubmissions())
+		{
+			$this->addPublicSubmissions($a_info, $a_ass);
+		}
 	}
 	
 	protected function addSubmissionFeedback(ilInfoScreenGUI $a_info, ilExAssignment $a_ass, $a_feedback_id, $a_show_global_feedback)
