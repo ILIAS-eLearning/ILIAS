@@ -404,7 +404,7 @@ class ilMimeMail
 			{
 				// Let's assume that there is no HTML, set body as plain text alternative and theb convert "\n" to "<br>"
 				$mail->AltBody = $this->body;
-				$this->body = nl2br($this->body);
+				$this->body = ilUtil::makeClickable(nl2br($this->body));
 			}
 			else
 			{
@@ -414,7 +414,7 @@ class ilMimeMail
 				$mail->AltBody = $alt_body;
 			}
 
-			$mail->Body    = str_replace( '{PLACEHOLDER}', ilUtil::makeClickable( $this->body ), $bracket );
+			$mail->Body    = str_replace( '{PLACEHOLDER}', $this->body, $bracket );
 
 			$directory = './Services/Mail/templates/default/img/';
 			if($style != 'delos')
