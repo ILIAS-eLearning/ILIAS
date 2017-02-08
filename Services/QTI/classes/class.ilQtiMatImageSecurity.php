@@ -86,12 +86,25 @@ class ilQtiMatImageSecurity
 	
 	protected function validateContent()
 	{
-		if( $this->getDetectedMimeType() != $this->getImageMaterial()->getImagetype() )
+		if( !assQuestion::isAllowedImageMimeType($this->getImageMaterial()->getImagetype()) )
+		{
+			return false;
+		}
+
+		if( !assQuestion::isAllowedImageMimeType($this->getDetectedMimeType()) )
+		{
+			return false;
+		}
+
+		$declaredMimeType = assQuestion::fetchMimeTypeIdentifier($this->getImageMaterial()->getImagetype());
+		$detectedMimeType = assQuestion::fetchMimeTypeIdentifier($this->getDetectedMimeType());
+
+		if( $declaredMimeType != $detectedMimeType )
 		{
 			return false;
 		}
 		
-		return assQuestion::isAllowedImageMimeType($this->getDetectedMimeType());
+		return true;
 	}
 	
 	protected function validateLabel()
