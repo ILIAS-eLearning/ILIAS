@@ -1,5 +1,4 @@
 <?php
-
 namespace ILIAS\UI\Component\Modal;
 
 use ILIAS\UI\Component\Button;
@@ -39,24 +38,6 @@ interface RoundTrip extends Modal {
 	 * @return string
 	 */
 	public function getCancelButtonLabel();
-
-
-	/**
-	 * Get a modal like this with another title
-	 *
-	 * @param string $title
-	 * @return RoundTrip
-	 */
-	public function withTitle($title);
-
-
-	/**
-	 * Get a modal like this with another content
-	 *
-	 * @param \ILIAS\UI\Component\Component|\ILIAS\UI\Component\Component[] $content
-	 * @return RoundTrip
-	 */
-	public function withContent($content);
 
 
 	/**

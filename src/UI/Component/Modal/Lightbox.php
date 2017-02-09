@@ -1,5 +1,4 @@
 <?php
-
 namespace ILIAS\UI\Component\Modal;
 
 use ILIAS\UI\Component\Button;
@@ -11,16 +10,6 @@ use ILIAS\UI\Component\Button;
  */
 interface Lightbox extends Modal
 {
-
-	/**
-	 * Get a modal like this with the given lightbox pages.
-	 *
-	 * @param LightboxPage[] $pages
-	 *
-	 * @return Lightbox
-	 */
-	public function withPages(array $pages);
-
 
 	/**
 	 * Get the lightbox pages of this modal

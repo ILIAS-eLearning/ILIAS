@@ -2,6 +2,7 @@
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component as Component;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
@@ -12,22 +13,27 @@ class Interruptive extends Modal implements Component\Modal\Interruptive {
 	 * @var string
 	 */
 	protected $title;
+
 	/**
 	 * @var string
 	 */
 	protected $message;
+
 	/**
 	 * @var string
 	 */
 	protected $action_button_label = 'delete';
+
 	/**
 	 * @var string
 	 */
 	protected $cancel_button_label = 'cancel';
+
 	/**
 	 * @var string
 	 */
 	protected $form_action;
+
 	/**
 	 * @var Component\Modal\InterruptiveItem[]
 	 */
@@ -37,10 +43,10 @@ class Interruptive extends Modal implements Component\Modal\Interruptive {
 	 * @param string $title
 	 * @param string $message
 	 * @param string $form_action
-	 * @param Component\SignalGenerator $signal_generator
+	 * @param SignalGeneratorInterface $signal_generator
 	 * @param string $action_button_label
 	 */
-	public function __construct($title, $message, $form_action, Component\SignalGenerator $signal_generator, $action_button_label = 'delete') {
+	public function __construct($title, $message, $form_action, SignalGeneratorInterface $signal_generator, $action_button_label = 'delete') {
 		parent::__construct($signal_generator);
 		$this->checkStringArg('title', $title);
 		$this->checkStringArg('message', $message);
@@ -72,35 +78,10 @@ class Interruptive extends Modal implements Component\Modal\Interruptive {
 	/**
 	 * @inheritdoc
 	 */
-	public function withTitle($title) {
-		$this->checkStringArg('title', $title);
-		$clone = clone $this;
-		$clone->title = $title;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	public function withMessage($message) {
-		$this->checkStringArg('message', $message);
-		$clone = clone $this;
-		$clone->message = $message;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
 	public function withFormAction($form_action) {
 		$this->checkStringArg('form_action', $form_action);
 		$clone = clone $this;
 		$clone->form_action = $form_action;
-
 		return $clone;
 	}
 
@@ -109,11 +90,10 @@ class Interruptive extends Modal implements Component\Modal\Interruptive {
 	 * @inheritdoc
 	 */
 	public function withAffectedItems(array $items) {
-		$types = array( Component\Modal\InterruptiveItem::class);
+		$types = array(Component\Modal\InterruptiveItem::class);
 		$this->checkArgListElements('items', $items, $types);
 		$clone = clone $this;
 		$clone->items = $items;
-
 		return $clone;
 	}
 

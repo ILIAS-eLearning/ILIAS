@@ -3,6 +3,7 @@ namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component as Component;
 use ILIAS\UI\Component\Button;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
@@ -13,14 +14,17 @@ class RoundTrip extends Modal implements Component\Modal\RoundTrip {
 	 * @var Button\Button[]
 	 */
 	protected $action_buttons = array();
+
 	/**
 	 * @var string
 	 */
 	protected $title;
+
 	/**
 	 * @var Component\Component[]
 	 */
 	protected $content;
+
 	/**
 	 * @var string
 	 */
@@ -30,13 +34,13 @@ class RoundTrip extends Modal implements Component\Modal\RoundTrip {
 	/**
 	 * @param string $title
 	 * @param Component\Component|Component\Component[] $content
-	 * @param Component\SignalGenerator $signal_generator
+	 * @param SignalGeneratorInterface $signal_generator
 	 */
-	public function __construct($title, $content, Component\SignalGenerator $signal_generator) {
+	public function __construct($title, $content, SignalGeneratorInterface $signal_generator) {
 		parent::__construct($signal_generator);
 		$this->checkStringArg('title', $title);
 		$content = $this->toArray($content);
-		$types = array( Component\Component::class );
+		$types = array(Component\Component::class);
 		$this->checkArgListElements('content', $content, $types);
 		$this->title = $title;
 		$this->content = $content;
@@ -70,38 +74,11 @@ class RoundTrip extends Modal implements Component\Modal\RoundTrip {
 	/**
 	 * @inheritdoc
 	 */
-	public function withTitle($title) {
-		$this->checkStringArg('title', $title);
-		$clone = clone $this;
-		$clone->title = $title;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	public function withContent($content) {
-		$content = $this->toArray($content);
-		$types = array( Component\Component::class );
-		$this->checkArgListElements('content', $content, $types);
-		$clone = clone $this;
-		$clone->content = $content;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
 	public function withActionButtons(array $buttons) {
-		$types = array( Button\Button::class );
+		$types = array(Button\Button::class);
 		$this->checkArgListElements('buttons', $buttons, $types);
 		$clone = clone $this;
 		$clone->action_buttons = $buttons;
-
 		return $clone;
 	}
 

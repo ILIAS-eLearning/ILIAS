@@ -26,26 +26,6 @@ interface Interruptive extends Modal {
 
 
 	/**
-	 * Get a modal like this with the given title
-	 *
-	 * @param string $title
-	 *
-	 * @return Interruptive
-	 */
-	public function withTitle($title);
-
-
-	/**
-	 * Get a modal like this with the given message displayed in the content section
-	 *
-	 * @param string $message
-	 *
-	 * @return Interruptive
-	 */
-	public function withMessage($message);
-
-
-	/**
 	 * Get a modal like this submitting the form to the given form action
 	 *
 	 * @param string $form_action
@@ -57,8 +37,7 @@ interface Interruptive extends Modal {
 
 	/**
 	 * Get a modal like this listing the given items in the content section below the message.
-	 * The keys of the passed array should contain a unique identifier for the items, the value a title
-	 * or description. The keys are sent via POST to the form action of the modal.
+	 * The IDs of the interruptive items are sent via POST to the form action of this modal.
 	 *
 	 * @param InterruptiveItem[] $items
 	 *
