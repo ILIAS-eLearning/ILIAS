@@ -98,4 +98,8 @@ class InterruptiveItemMock implements C\Modal\InterruptiveItem {
 	public function getDescription() {
 		return 'description';
 	}
+
+	public function getIcon() {
+		return null;
+	}
 }

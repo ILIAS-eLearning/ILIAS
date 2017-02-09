@@ -2,6 +2,8 @@
 
 namespace ILIAS\UI\Component\Modal;
 
+use ILIAS\UI\Component\Image\Image;
+
 /**
  * Interface InterruptiveItem
  *
@@ -31,4 +33,12 @@ interface InterruptiveItem {
 	 * @return string
 	 */
 	public function getDescription();
+
+
+	/**
+	 * Get the icon of the item
+	 *
+	 * @return Image
+	 */
+	public function getIcon();
 }

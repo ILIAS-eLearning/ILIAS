@@ -3,6 +3,7 @@
 namespace ILIAS\UI\Component\Modal;
 
 use ILIAS\UI\Component;
+use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\Modal\LightboxImagePage;
 
 /**
@@ -64,11 +65,12 @@ interface Factory {
 	 *
 	 * @param string $id
 	 * @param string $title
+	 * @param Image $icon
 	 * @param string $description
 	 *
 	 * @return InterruptiveItem
 	 */
-	public function interruptiveItem($id, $title, $description = '');
+	public function interruptiveItem($id, $title, Image $icon = null, $description = '');
 
 
 	/**
@@ -153,11 +155,11 @@ interface Factory {
 	 * rules:
 	 * ---
 	 *
-	 * @param Component\Image\Image $image
+	 * @param Image $image
 	 * @param string $title
 	 * @param string $description
 	 *
 	 * @return LightboxImagePage
 	 */
-	public function lightboxImagePage(Component\Image\Image $image, $title, $description = '');
+	public function lightboxImagePage(Image $image, $title, $description = '');
 }

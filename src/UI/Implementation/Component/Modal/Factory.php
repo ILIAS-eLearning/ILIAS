@@ -2,6 +2,7 @@
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component;
+use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
@@ -35,8 +36,8 @@ class Factory implements Component\Modal\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function interruptiveItem($id, $title, $description = '') {
-		return new InterruptiveItem($id, $title, $description);
+	public function interruptiveItem($id, $title, Image $icon = null, $description = '') {
+		return new InterruptiveItem($id, $title, $icon, $description);
 	}
 
 
@@ -59,7 +60,7 @@ class Factory implements Component\Modal\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function lightboxImagePage(Component\Image\Image $image, $title, $description = '') {
+	public function lightboxImagePage(Image $image, $title, $description = '') {
 		return new LightboxImagePage($image, $title, $description);
 	}
 }

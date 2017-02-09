@@ -2,6 +2,9 @@
 
 namespace ILIAS\UI\Implementation\Component\Modal;
 
+use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
+
 /**
  * Class InterruptiveItem
  *
@@ -9,28 +12,39 @@ namespace ILIAS\UI\Implementation\Component\Modal;
  */
 class InterruptiveItem implements \ILIAS\UI\Component\Modal\InterruptiveItem {
 
+	use ComponentHelper;
+
 	/**
 	 * @var string
 	 */
 	protected $id;
+
 	/**
 	 * @var string
 	 */
 	protected $title;
+
 	/**
 	 * @var string
 	 */
 	protected $description;
 
+	/**
+	 * @var Image
+	 */
+	protected $icon;
 
 	/**
-	 * @param        $id
-	 * @param        $title
+	 * @param string $id
+	 * @param string $title
+	 * @param Image $icon
 	 * @param string $description
 	 */
-	public function __construct($id, $title, $description = '') {
+	public function __construct($id, $title, Image $icon = null, $description = '') {
+		$this->checkStringArg('title', $title);
 		$this->id = $id;
 		$this->title = $title;
+		$this->icon = $icon;
 		$this->description = $description;
 	}
 
@@ -57,4 +71,13 @@ class InterruptiveItem implements \ILIAS\UI\Component\Modal\InterruptiveItem {
 	public function getDescription() {
 		return $this->description;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getIcon() {
+		return $this->icon;
+	}
+
+
 }
