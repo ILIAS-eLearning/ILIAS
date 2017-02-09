@@ -397,7 +397,9 @@ class ilMainMenuGUI
 		$ui_factory = $DIC->ui()->factory();
 		$ui_renderer = $DIC->ui()->renderer();
 
-		if ($this->mail && ($new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId())) > 0) {
+		if ($this->mail)  {
+			$new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId());
+
 			$a_tpl->setCurrentBlock('status_box');
 
 			$glyph = $ui_factory->glyph()->mail("ilias.php?baseClass=ilMailGUI")
