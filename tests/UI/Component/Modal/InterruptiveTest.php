@@ -11,18 +11,26 @@ use \ILIAS\UI\Component as C;
  */
 class InterruptiveTest extends ModalBase {
 
-	public function test_with_title() {
+	public function test_get_title() {
 		$interruptive = $this->getModalFactory()->interruptive('myTitle', 'myMessage', 'myFormAction');
-		$interruptive2 = $interruptive->withTitle('myTitle2');
 		$this->assertEquals('myTitle', $interruptive->getTitle());
-		$this->assertEquals('myTitle2', $interruptive2->getTitle());
 	}
 
-	public function test_with_message() {
+	public function test_get_message() {
 		$interruptive = $this->getModalFactory()->interruptive('myTitle', 'myMessage', 'myFormAction');
-		$interruptive2 = $interruptive->withMessage('myMessage2');
 		$this->assertEquals('myMessage', $interruptive->getMessage());
-		$this->assertEquals('myMessage2', $interruptive2->getMessage());
+	}
+
+	public function test_get_form_action() {
+		$interruptive = $this->getModalFactory()->interruptive('myTitle', 'myMessage', 'myFormAction');
+		$this->assertEquals('myFormAction', $interruptive->getFormAction());
+	}
+
+	public function test_get_affected_items() {
+		$interruptive = $this->getModalFactory()->interruptive('myTitle', 'myMessage', 'myFormAction');
+		$items = [$this->getInterruptiveItem(), $this->getInterruptiveItem()];
+		$interruptive = $interruptive->withAffectedItems($items);
+		$this->assertEquals($items, $interruptive->getAffectedItems());
 	}
 
 	public function test_with_form_action() {

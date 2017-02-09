@@ -9,23 +9,29 @@ require_once(__DIR__ . '/ModalBase.php');
  */
 class RoundTripTest extends ModalBase {
 
-	public function test_with_title() {
+	public function test_get_title() {
 		$roundtrip = $this->getModalFactory()->roundtrip('myTitle', $this->getDummyComponent());
-		$roundtrip2 = $roundtrip->withTitle('myTitle2');
 		$this->assertEquals('myTitle', $roundtrip->getTitle());
-		$this->assertEquals('myTitle2', $roundtrip2->getTitle());
 	}
 
-
-	public function test_with_content() {
+	public function test_get_content() {
 		$content = $this->getDummyComponent();
-		$contents = [$this->getDummyComponent(), $this->getDummyComponent()];
 		$roundtrip = $this->getModalFactory()->roundtrip('myTitle', $content);
-		$roundtrip2 = $roundtrip->withContent($contents);
 		$this->assertEquals([$content], $roundtrip->getContent());
-		$this->assertEquals($contents, $roundtrip2->getContent());
+		$content = [$this->getDummyComponent(), $this->getDummyComponent()];
+		$roundtrip = $this->getModalFactory()->roundtrip('myTitle', $content);
+		$this->assertEquals($content, $roundtrip->getContent());
 	}
 
+	public function test_get_action_buttons() {
+		$roundtrip = $this->getModalFactory()->roundtrip('myTitle', $this->getDummyComponent());
+		$action_buttons = [
+			$this->getButtonFactory()->primary('Action 1', ''),
+			$this->getButtonFactory()->standard('Action 2', ''),
+		];
+		$roundtrip = $roundtrip->withActionButtons($action_buttons);
+		$this->assertEquals($action_buttons, $roundtrip->getActionButtons());
+	}
 
 	public function test_with_action_buttons() {
 		$roundtrip = $this->getModalFactory()->roundtrip('myTitle', $this->getDummyComponent());

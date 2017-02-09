@@ -1,5 +1,4 @@
 <?php
-
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
@@ -17,7 +16,7 @@ class ModalBase extends ILIAS_UI_TestBase {
 	}
 
 	protected function getModalFactory() {
-		return new \ILIAS\UI\Implementation\Component\Modal\Factory(new SimpleSignalGenerator());
+		return new \ILIAS\UI\Implementation\Component\Modal\Factory(new SignalGeneratorMock());
 	}
 
 	protected function getButtonFactory() {
@@ -39,13 +38,6 @@ class DummyComponent implements C\Component {
 
 }
 
-class SimpleSignalGenerator implements C\SignalGenerator {
+class SignalGeneratorMock extends \ILIAS\UI\Implementation\Component\SignalGenerator {
 
-	/**
-	 * @inheritdoc
-	 */
-	public function create() {
-		static $id = 0;
-		return 'signal_' . ++$id;
-	}
 }
