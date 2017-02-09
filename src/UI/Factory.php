@@ -329,4 +329,28 @@ interface Factory {
 	 **/
 	public function modal();
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Popovers are used to display secondary information to a component
+	 *   composition: >
+	 *     Popovers consist of a short title and text
+	 *   effect: >
+	 *     Popovers are typically shown by clicking or hovering over a component. The position
+	 *     of the Popover is calculated automatically be default. However, it is possible to
+	 *     specify if the popover appears at the top, right, bottom or left of the triggerer component.
+	 * context: >
+	 * rules:
+	 *   usage:
+	 *     1: Popovers MUST contain a title and a text
+	 *     2: The text MUST be plain text (no HTML) and no longer than a paragraph
+	 * ---
+	 * @param string $title
+	 * @param string $text
+	 * @param string $position
+	 * @return \ILIAS\UI\Component\Popover\Popover
+	 */
+	public function popover($title, $text, $position = '');
+
 }
