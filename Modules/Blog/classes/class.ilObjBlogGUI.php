@@ -388,8 +388,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 		}
-		
-		if ($this->checkPermissionBool("read"))
+		if ($this->checkPermissionBool("read") && !$this->prtf_embed)
 		{
 			$this->tabs_gui->addTab("id_info",
 				$lng->txt("info_short"),
@@ -400,31 +399,35 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		{
 			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
-				$this->ctrl->getLinkTarget($this, "edit"));			
-			
-			if($this->id_type == self::REPOSITORY_NODE_ID)
-			{	
-				$this->tabs_gui->addTab("contributors",
-					$lng->txt("blog_contributors"),
-					$this->ctrl->getLinkTarget($this, "contributors"));	
-			}		
-			
-			if($this->id_type == self::REPOSITORY_NODE_ID)
+				$this->ctrl->getLinkTarget($this, "edit"));
+
+			if(!$this->prtf_embed)
 			{
-				$this->tabs_gui->addTab("export",
-					$lng->txt("export"),
-					$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+				if($this->id_type == self::REPOSITORY_NODE_ID)
+				{
+					$this->tabs_gui->addTab("contributors",
+						$lng->txt("blog_contributors"),
+						$this->ctrl->getLinkTarget($this, "contributors"));
+				}
+
+				if($this->id_type == self::REPOSITORY_NODE_ID)
+				{
+					$this->tabs_gui->addTab("export",
+						$lng->txt("export"),
+						$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+				}
 			}
 		}
-		
-		if($this->mayContribute())
-		{
-			$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"), 
-				$this->ctrl->getLinkTarget($this, "preview"));
-		}
 
-		// will add permissions if needed
-		parent::setTabs();
+		if(!$this->prtf_embed)
+		{
+			if($this->mayContribute())
+			{
+				$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"),
+					$this->ctrl->getLinkTarget($this, "preview"));
+			}
+			parent::setTabs();
+		}
 	}
 
 	function executeCommand()
@@ -707,6 +710,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				}
 				else
 				{
+					$this->setTabs();
+
 					if(!$cmd)
 					{
 						$cmd = "render";
