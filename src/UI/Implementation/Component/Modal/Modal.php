@@ -2,9 +2,10 @@
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component as Component;
-use ILIAS\UI\Component\Onloadable;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
@@ -19,27 +20,73 @@ abstract class Modal implements Component\Modal\Modal {
 	use Triggerer;
 
 	/**
-	 * @var Component\SignalGenerator
+	 * @var SignalGeneratorInterface
 	 */
 	protected $signal_generator;
 
 	/**
-	 * @var string
+	 * @var Signal
 	 */
 	protected $show_signal;
 
 	/**
-	 * @var string
+	 * @var Signal
 	 */
 	protected $close_signal;
 
 	/**
-	 * @param Component\SignalGenerator $signal_generator
+	 * @var string
 	 */
-	public function __construct(Component\SignalGenerator $signal_generator) {
+	protected $async_render_url = '';
+
+	/**
+	 * @var bool
+	 */
+	protected $close_with_keyboard = true;
+
+	/**
+	 * @param SignalGeneratorInterface $signal_generator
+	 */
+	public function __construct(SignalGeneratorInterface $signal_generator) {
 		$this->signal_generator = $signal_generator;
 		$this->initSignals();
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAsyncRenderUrl() {
+		return $this->async_render_url;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withAsyncRenderUrl($url) {
+		$this->checkStringArg('url', $url);
+		$clone = clone $this;
+		$clone->async_render_url = $url;
+		$clone->initSignals();
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withCloseWithKeyboard($state) {
+		$clone = clone $this;
+		$clone->close_with_keyboard = (bool) $state;
+		$clone->initSignals();
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getCloseWithKeyboard() {
+		return $this->close_with_keyboard;
+	}
+
 
 	/**
 	 * @inheritdoc
@@ -67,15 +114,15 @@ abstract class Modal implements Component\Modal\Modal {
 	/**
 	 * @inheritdoc
 	 */
-	public function withOnLoad($signal, array $options = array()) {
-		return $this->addTriggeredSignal($signal, Component\Triggerer::EVENT_ONLOAD, $options);
+	public function withOnLoad(Signal $signal) {
+		return $this->addTriggeredSignal($signal, 'ready');
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function appendOnLoad($signal, array $options = array()) {
-		return $this->appendTriggeredSignal($signal, Component\Triggerer::EVENT_ONLOAD, $options);
+	public function appendOnLoad(Signal $signal) {
+		return $this->appendTriggeredSignal($signal, 'ready');
 	}
 
 

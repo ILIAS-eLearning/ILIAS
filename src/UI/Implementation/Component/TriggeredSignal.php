@@ -1,16 +1,18 @@
 <?php
 namespace ILIAS\UI\Implementation\Component;
 
+use ILIAS\UI\Component as C;
+
 /**
  * Class TriggeredSignal
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @package ILIAS\UI\Implementation\Component
  */
-class TriggeredSignal implements  \ILIAS\UI\Component\TriggeredSignal {
+class TriggeredSignal implements TriggeredSignalInterface {
 
 	/**
-	 * @var string
+	 * @var C\Signal
 	 */
 	private $signal;
 
@@ -20,19 +22,12 @@ class TriggeredSignal implements  \ILIAS\UI\Component\TriggeredSignal {
 	private $event;
 
 	/**
-	 * @var array
-	 */
-	private $options = array();
-
-	/**
-	 * @param string $signal
+	 * @param C\Signal $signal
 	 * @param string $event
-	 * @param array $options
 	 */
-	public function __construct($signal, $event, $options = array()) {
+	public function __construct(C\Signal $signal, $event) {
 		$this->signal = $signal;
 		$this->event = $event;
-		$this->options = $options;
 	}
 
 	/**
@@ -47,12 +42,5 @@ class TriggeredSignal implements  \ILIAS\UI\Component\TriggeredSignal {
 	 */
 	public function getEvent() {
 		return $this->event;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getSignalOptions() {
-		return $this->options;
 	}
 }

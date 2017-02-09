@@ -13,22 +13,20 @@ interface Onloadable extends Triggerer {
 	/**
 	 * Trigger a signal of another component on load
 	 *
-	 * @param string $signal A signal of another component
-	 * @param array $options Key/value pair of options passed to the signal when being triggered
+	 * @param Signal $signal A signal of another component
 	 *
 	 * @return $this
 	 */
-	public function withOnLoad($signal, array $options = array());
+	public function withOnLoad(Signal $signal);
 
 	/**
 	 * Get a component like this, triggering a signal of another component on load.
-	 * In contrast to withOnLoad, the signal is appended to existing signals for the on load event
+	 * In contrast to withOnLoad, the signal is appended to existing signals for the on load event.
 	 *
-	 * @param string $signal
-	 * @param array $options
+	 * @param Signal $signal
 	 *
 	 * @return $this
 	 */
-	public function appendOnLoad($signal, array $options = array());
+	public function appendOnLoad(Signal $signal);
 
 }

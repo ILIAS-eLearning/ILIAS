@@ -1,6 +1,8 @@
 <?php
 namespace ILIAS\UI\Implementation\Component;
 
+use ILIAS\UI\Component\Signal;
+
 /**
  * Trait Triggerer
  *
@@ -12,44 +14,42 @@ namespace ILIAS\UI\Implementation\Component;
 trait Triggerer {
 
 	/**
-	 * @var \ILIAS\UI\Component\TriggeredSignal[]
+	 * @var \ILIAS\UI\Implementation\Component\TriggeredSignalInterface[]
 	 */
 	protected $triggered_signals = array();
 
 	/**
 	 * Append a triggered signal to other signals of the same event
 	 *
-	 * @param string $signal
+	 * @param Signal $signal
 	 * @param string $event
-	 * @param array $options
 	 * @return $this
 	 */
-	protected function appendTriggeredSignal($signal, $event, array $options) {
+	protected function appendTriggeredSignal(Signal $signal, $event) {
 		$clone = clone $this;
 		if (!is_array($clone->triggered_signals[$event])) {
 			$clone->triggered_signals[$event] = array();
 		}
-		$clone->triggered_signals[$event][] = new TriggeredSignal($signal, $event, $options);
+		$clone->triggered_signals[$event][] = new TriggeredSignal($signal, $event);
 		return $clone;
 	}
 
 	/**
 	 * Add a triggered signal, replacing any other signals registered on the same event
 	 *
-	 * @param string $signal
+	 * @param Signal $signal
 	 * @param string $event
-	 * @param array $options
-	 * @return $this;
+	 * @return $this
 	 */
-	protected function addTriggeredSignal($signal, $event, array $options) {
+	protected function addTriggeredSignal(Signal $signal, $event) {
 		$clone = clone $this;
 		$clone->triggered_signals[$event] = array();
-		$clone->triggered_signals[$event][] = new TriggeredSignal($signal, $event, $options);
+		$clone->triggered_signals[$event][] = new TriggeredSignal($signal, $event);
 		return $clone;
 	}
 
 	/**
-	 * @return \ILIAS\UI\Component\TriggeredSignal[]
+	 * @return \ILIAS\UI\Implementation\Component\TriggeredSignalInterface[]
 	 */
 	public function getTriggeredSignals() {
 		return $this->flattenArray($this->triggered_signals);

@@ -1,19 +1,21 @@
 <?php
-namespace ILIAS\UI\Component;
+namespace ILIAS\UI\Implementation\Component;
+
+use ILIAS\UI\Component as C;
 
 /**
  * Interface TriggeredSignal
  *
  * Describes a signal that is triggered by a component on an event
  *
- * @package ILIAS\UI\Component
+ * @package namespace ILIAS\UI\Implementation\Component
  */
-interface TriggeredSignal {
+interface TriggeredSignalInterface {
 
 	/**
 	 * Get the signal that will be triggered
 	 *
-	 * @return string
+	 * @return C\Signal
 	 */
 	public function getSignal();
 
@@ -24,10 +26,4 @@ interface TriggeredSignal {
 	 */
 	public function getEvent();
 
-	/**
-	 * Get any options that are passed to the signal (key/value) pair
-	 *
-	 * @return array
-	 */
-	public function getSignalOptions();
 }

@@ -14,22 +14,20 @@ interface Clickable extends Triggerer {
 	 * Get a component like this, triggering a signal of another component on click.
 	 * Note: Any previous signals registered on click are replaced.
 	 *
-	 * @param string $signal A signal of another component
-	 * @param array $options Key/value pair of options passed to the signal when being triggered
+	 * @param Signal $signal A signal of another component
 	 *
 	 * @return $this
 	 */
-	public function withOnClick($signal, array $options = array());
+	public function withOnClick(Signal $signal);
 
 	/**
 	 * Get a component like this, triggering a signal of another component on click.
-	 * In contrast to withOnClick, the signal is appended to existing signals for the click event
+	 * In contrast to withOnClick, the signal is appended to existing signals for the click event.
 	 *
-	 * @param string $signal
-	 * @param array $options
+	 * @param Signal $signal
 	 *
 	 * @return $this
 	 */
-	public function appendOnClick($signal, array $options = array());
+	public function appendOnClick(Signal $signal);
 
 }

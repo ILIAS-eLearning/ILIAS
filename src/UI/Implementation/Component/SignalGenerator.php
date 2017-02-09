@@ -7,7 +7,7 @@ namespace ILIAS\UI\Implementation\Component;
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @package ILIAS\UI\Implementation\Component
  */
-class SignalGenerator implements \ILIAS\UI\Component\SignalGenerator {
+class SignalGenerator implements SignalGeneratorInterface {
 
 	const PREFIX = 'il_signal_';
 
@@ -15,6 +15,13 @@ class SignalGenerator implements \ILIAS\UI\Component\SignalGenerator {
 	 * @inheritdoc
 	 */
 	public function create() {
-		return str_replace(".", "_", uniqid(self::PREFIX, true));
+		return new Signal($this->createId());
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function createId() {
+		return str_replace(".", "_", uniqid(self::PREFIX));
 	}
 }

@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
@@ -83,28 +84,28 @@ abstract class Button implements C\Button\Button {
 	/**
 	 * @inheritdoc
 	 */
-	public function withOnClick($signal, array $options = array()) {
-		return $this->addTriggeredSignal($signal, C\Triggerer::EVENT_CLICK, $options);
+	public function withOnClick(Signal $signal) {
+		return $this->addTriggeredSignal($signal, 'click');
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function appendOnClick($signal, array $options = array()) {
-		return $this->appendTriggeredSignal($signal, C\Triggerer::EVENT_CLICK, $options);
+	public function appendOnClick(Signal $signal) {
+		return $this->appendTriggeredSignal($signal, 'click');
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withOnHover($signal, array $options = array()) {
-		return $this->addTriggeredSignal($signal, C\Triggerer::EVENT_HOVER, $options);
+	public function withOnHover(Signal $signal) {
+		return $this->addTriggeredSignal($signal, 'hover');
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function appendOnHover($signal, array $options = array()) {
-		return $this->appendTriggeredSignal($signal, C\Triggerer::EVENT_HOVER, $options);
+	public function appendOnHover(Signal $signal) {
+		return $this->appendTriggeredSignal($signal, 'hover');
 	}
 }

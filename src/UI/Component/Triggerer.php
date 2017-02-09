@@ -1,5 +1,6 @@
 <?php
 namespace ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Component\TriggeredSignalInterface;
 
 /**
  * Interface Triggerer
@@ -12,10 +13,6 @@ namespace ILIAS\UI\Component;
  */
 interface Triggerer {
 
-	const EVENT_CLICK = 'click';
-	const EVENT_HOVER = 'hover';
-	const EVENT_ONLOAD = 'ready';
-
 	/**
 	 * Get a component like this but reset any triggered signals of other components
 	 *
@@ -26,7 +23,7 @@ interface Triggerer {
 	/**
 	 * Get all triggered signals of this component
 	 *
-	 * @return TriggeredSignal[]
+	 * @return TriggeredSignalInterface[]
 	 */
 	public function getTriggeredSignals();
 

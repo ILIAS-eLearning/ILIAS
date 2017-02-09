@@ -14,22 +14,20 @@ interface Hoverable extends Triggerer {
 	 * Get a component like this, triggering a signal of another component on hover.
 	 * Note: Any previous signals registered on hover are replaced.
 	 *
-	 * @param string $signal A signal of another component
-	 * @param array $options Key/value pair of options passed to the signal when being triggered
+	 * @param Signal $signal A signal of another component
 	 *
 	 * @return $this
 	 */
-	public function withOnHover($signal, array $options = array());
+	public function withOnHover(Signal $signal);
 
 	/**
 	 * Get a component like this, triggering a signal of another component on hover.
-	 * In contrast to withOnHover, the signal is appended to existing signals for the hover event
+	 * In contrast to withOnHover, the signal is appended to existing signals for the hover event.
 	 *
-	 * @param string $signal
-	 * @param array $options
+	 * @param Signal $signal
 	 *
 	 * @return $this
 	 */
-	public function appendOnHover($signal, array $options = array());
+	public function appendOnHover(Signal $signal);
 
 }

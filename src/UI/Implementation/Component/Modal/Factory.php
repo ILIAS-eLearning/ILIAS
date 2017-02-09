@@ -1,27 +1,25 @@
 <?php
-
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component;
-use ILIAS\UI\Component\Modal as Modal;
-use ILIAS\UI\Implementation\Component\SignalGenerator;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
  * Implementation of factory for modals
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class Factory implements Modal\Factory {
+class Factory implements Component\Modal\Factory {
 
 	/**
-	 * @var Component\SignalGenerator
+	 * @var SignalGeneratorInterface
 	 */
 	protected $signal_generator;
 
 	/**
-	 * @param Component\SignalGenerator $signal_generator
+	 * @param SignalGeneratorInterface $signal_generator
 	 */
-	public function __construct(Component\SignalGenerator $signal_generator) {
+	public function __construct(SignalGeneratorInterface $signal_generator) {
 		$this->signal_generator = $signal_generator;
 	}
 
