@@ -10,7 +10,7 @@ namespace ILIAS\UI\Component\Modal;
 interface InterruptiveItem {
 
 	/**
-	 * Return a unique ID of the item
+	 * Return an ID of the item
 	 *
 	 * @return string
 	 */

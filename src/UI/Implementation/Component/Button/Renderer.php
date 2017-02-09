@@ -10,15 +10,14 @@ use ILIAS\UI\Component;
 
 class Renderer extends AbstractComponentRenderer {
 	/**
-	 * @inheritdocs
+	 * @inheritdoc
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
 		if ($component instanceof Component\Button\Close) {
 			return $this->renderClose($component);
-		}
-		else {
+		} else {
 			return $this->renderButton($component, $default_renderer);
 		}
 	}
@@ -34,7 +33,7 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component instanceof Component\Button\Standard) {
 			$tpl_name = "tpl.standard.html";
 		}
-		
+
 		$tpl = $this->getTemplate($tpl_name, true, true);
 		$action = $component->getAction();
 		// The action is always put in the data-action attribute to have it available
@@ -48,13 +47,12 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setCurrentBlock("with_href");
 			$tpl->setVariable("HREF", $action);
 			$tpl->parseCurrentBlock();
-		}
-		else {
+		} else {
 			$tpl->touchBlock("disabled");
 		}
 
 		$this->maybeRenderId($component, $tpl);
-        return $tpl->get();
+		return $tpl->get();
 	}
 
 
@@ -69,12 +67,10 @@ class Renderer extends AbstractComponentRenderer {
 
 	protected function maybeRenderId(Component\Component $component, $tpl) {
 		$id = $this->bindJavaScript($component);
-		if ($id === null) {
-			// No onload code available, check if the button is acting as triggerer
-			if ($component instanceof Component\Triggerer && count($component->getTriggeredSignals())) {
-				$id = $this->createId();
-				$this->triggerRegisteredSignals($component, $id);
-			}
+		// Check if the button is acting as triggerer
+		if ($component instanceof Component\Triggerer && count($component->getTriggeredSignals())) {
+			$id = ($id === null) ? $this->createId() : $id;
+			$this->triggerRegisteredSignals($component, $id);
 		}
 		if ($id !== null) {
 			$tpl->setCurrentBlock("with_id");
@@ -88,9 +84,9 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function getComponentInterfaceName() {
 		return array
-			( Component\Button\Primary::class
-			, Component\Button\Standard::class
-			, Component\Button\Close::class
-			);
+		(Component\Button\Primary::class
+		, Component\Button\Standard::class
+		, Component\Button\Close::class
+		);
 	}
 }

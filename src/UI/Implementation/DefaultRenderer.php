@@ -63,10 +63,10 @@ class DefaultRenderer implements Renderer {
 	 */
 	public function render($component) {
 		if (is_array($component)) {
-			$out = array();
+			$out = '';
 			foreach ($component as $_component) {
 				$renderer = $this->getRendererFor(get_class($_component));
-				$out[] = $renderer->render($_component, $this);
+				$out .= $renderer->render($_component, $this);
 			}
 		} else {
 			$renderer = $this->getRendererFor(get_class($component));

@@ -144,10 +144,9 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	protected function triggerRegisteredSignals(Triggerer $triggerer, $id) {
 		foreach ($triggerer->getTriggeredSignals() as $triggered_signal) {
 			$signal = $triggered_signal->getSignal();
-			$options = json_encode($triggered_signal->getSignalOptions());
 			$event = $triggered_signal->getEvent();
 			$this->js_binding->addOnLoadCode("$('#{$id}').{$event}( function(event) { 
-					$(document).trigger('{$signal}', [{$options}]); event.preventDefault(); 
+					$('#{$id}').trigger('{$signal}'); event.preventDefault();
 				});");
 		}
 	}

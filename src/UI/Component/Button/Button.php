@@ -4,12 +4,15 @@
 
 namespace ILIAS\UI\Component\Button;
 
+use ILIAS\UI\Component\Clickable;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Hoverable;
 use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes commonalities between standard and primary buttons. 
  */
-interface Button extends \ILIAS\UI\Component\Component, JavaScriptBindable, \ILIAS\UI\Component\Clickable, \ILIAS\UI\Component\Hoverable {
+interface Button extends Component, JavaScriptBindable, Clickable, Hoverable {
 	/**
 	 * Get the label on the button.
 	 *

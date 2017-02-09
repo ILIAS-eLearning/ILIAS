@@ -17,7 +17,7 @@ interface Factory {
 	 * description:
 	 *   purpose: >
 	 *      An Interruptive Modal disrupts the user in critical situation,
-     *      forcing him or her to focus on the task at hand.
+	 *      forcing him or her to focus on the task at hand.
 	 *   composition: >
 	 *      The Modal states why this situation needs attention and may point out consequences.
 	 *   effect: >
@@ -30,7 +30,9 @@ interface Factory {
 	 *        Due to the heavily disruptive nature of this type of Modal it MUST be
 	 *        restricted to critical situations (e.g. loss of data).
 	 *     2: >
-	 *        All delete-actions are critical situations and SHOULD be implemented as an Interruptive Modal.
+	 *        All actions where data is deleted from the system are considered to be critical situations and
+	 *        SHOULD be implemented as an Interruptive Modal. Exceptions are possible if items from lists in
+	 *        forms are to be deleted of ir the modal would heavily disrupt the workflow.
 	 *     3: >
 	 *        Interruptive Modals MUST contain a Default Button continuing the action that initiated the Modal
 	 *        (e.g. Delete the Item) on the left side of the footer of the modal and a button canceling
@@ -104,7 +106,7 @@ interface Factory {
 	 *       Round-Trip Modals SHOULD NOT be used to perform complex workflows.
 	 *
 	 * ---
-	 * @param string                                    $title
+	 * @param string $title
 	 * @param Component\Component|Component\Component[] $content
 	 *
 	 * @return \ILIAS\UI\Component\Modal\RoundTrip
@@ -116,12 +118,12 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     The Lightbox Modal displays media data such as documents, images or a movie inside a Lightbox.
+	 *     The Lightbox Modal displays media data such as images or videos inside a Lightbox.
 	 *   composition: >
-	 *     If multiple pages or images are to be displayed in one Lightbox Modal, they can flipped through.
+	 *     If multiple media data are to be displayed in one Lightbox Modal, they can flipped through.
 	 *   effect: >
-	 *      Lightbox Modals are activated by clicking the Full View Glyphicon,
-	 *      the Title of the object or it's Thumbnail.
+	 *      Lightbox Modals are activated by clicking the full view glyphicon,
+	 *      the title of the object or it's thumbnail.
 	 *
 	 * rules:
 	 *   usage:
@@ -130,7 +132,7 @@ interface Factory {
 	 *     2: >
 	 *       Lightbox Modals SHOULD contain a descriptional text below the presented items.
 	 *     3: >
-	 *       Multiple images or pages inside a Lightbox Modals MUST be presented in carousel
+	 *       Multiple media items inside a Lightbox Modals MUST be presented in carousel
 	 *       like manner allowing to flickr through items.
 	 *
 	 * ---
@@ -145,15 +147,15 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Used to display an image component inside a lightbox modal
+	 *     Used to display an image inside a Lightbox modal.
 	 *   composition:
 	 *   effect:
 	 * rules:
 	 * ---
 	 *
 	 * @param Component\Image\Image $image
-	 * @param                       $title
-	 * @param string                $description
+	 * @param string $title
+	 * @param string $description
 	 *
 	 * @return LightboxImagePage
 	 */

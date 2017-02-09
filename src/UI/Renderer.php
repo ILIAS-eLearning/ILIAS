@@ -12,12 +12,12 @@ namespace ILIAS\UI;
 interface Renderer {
 
 	/**
-	 * Render given component. If an array of components is passed, this method returns an array containing the output
-	 * of the rendered components, same index.
+	 * Render given component. If an array of components is passed, this method returns a concatenated output of
+	 * each rendered component, in the same order as given in the array
 	 *
 	 * @param Component\Component|Component\Component[] $component
 	 *
-	 * @return string|array The output of the renderer rendering the component
+	 * @return string
 	 */
 	public function render($component);
 }

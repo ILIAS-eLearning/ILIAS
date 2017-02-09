@@ -24,6 +24,7 @@ class Renderer extends AbstractComponentRenderer {
 		} else if ($component instanceof Component\Modal\Lightbox) {
 			return $this->renderLightbox($component, $default_renderer);
 		}
+		return '';
 	}
 
 	public function registerResources(ResourceRegistry $registry) {
@@ -39,8 +40,13 @@ class Renderer extends AbstractComponentRenderer {
 	protected function registerSignals(Component\Modal\Modal $modal, $id) {
 		$show = $modal->getShowSignal();
 		$close = $modal->getCloseSignal();
-		$this->getJavascriptBinding()->addOnLoadCode("$(document).on('{$show}', function(event, options) { il.UI.modal.showModal({$id}, options); });");
-		$this->getJavascriptBinding()->addOnLoadCode("$(document).on('{$close}', function(event, options) { il.UI.modal.closeModal({$id}, options); });");
+		$js = $this->getJavascriptBinding();
+		$options = json_encode(array(
+			'ajaxUrl' => $modal->getAsyncRenderUrl(),
+			'keyboard' => $modal->getCloseWithKeyboard(),
+		));
+		$js->addOnLoadCode("$(document).on('{$show}', function() { il.UI.modal.showModal({$id}, {$options}); });");
+		$js->addOnLoadCode("$(document).on('{$close}', function() { il.UI.modal.closeModal({$id}); });");
 	}
 
 
@@ -76,9 +82,7 @@ class Renderer extends AbstractComponentRenderer {
 				$tpl->parseCurrentBlock();
 			}
 		}
-//		$action_button = $this->getUIFactory()->button()->primary($this->txt($modal->getActionButtonLabel()), '');
 		$tpl->setVariable('ACTION_BUTTON_LABEL', $this->txt($modal->getActionButtonLabel()));
-//		$cancel_button = $this->getCancelButton($modal->getCancelButtonLabel());
 		$tpl->setVariable('CANCEL_BUTTON_LABEL', $this->txt($modal->getCancelButtonLabel()));
 		return $tpl->get();
 	}
@@ -107,7 +111,6 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable('BUTTON', $default_renderer->render($button));
 			$tpl->parseCurrentBlock();
 		}
-//		$cancel_button = $this->getCancelButton($modal->getCancelButtonLabel());
 		$tpl->setVariable('CANCEL_BUTTON_LABEL', $this->txt($modal->getCancelButtonLabel()));
 		return $tpl->get();
 	}
@@ -155,18 +158,6 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable('ID_CAROUSEL4', $id_carousel);
 		return $tpl->get();
 	}
-
-
-	/**
-	 * Get a cancel button from the UI factory with the desired label by the modal
-	 *
-	 * @param string $txt_key
-	 *
-	 * @return Component\Button\Standard
-	 */
-//	protected function getCancelButton($txt_key) {
-//		return $this->getUIFactory()->button()->standard($this->txt($txt_key), '');
-//	}
 
 
 	/**
