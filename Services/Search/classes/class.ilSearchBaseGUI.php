@@ -30,7 +30,10 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	const SEARCH_FORM_STANDARD = 2;
 	const SEARCH_FORM_USER = 3;
 	
-	var $settings = null;
+	/**
+	 * @var ilSearchSettings
+	 */
+	protected $settings = null;
 
 	protected $ctrl = null;
 	var $ilias = null;
@@ -531,8 +534,18 @@ $this->next_link = $this->ctrl->getLinkTarget($this,'performSearch');
 		return $this->search_cache;
 	}
 	
+	/**
+	 * Load creation date filter
+	 * @return array
+	 */
 	protected function loadCreationFilter()
 	{
+		if(!$this->settings->isDateFilterEnabled())
+		{
+			return array();
+		}
+		
+		
 		$form = $this->getCreationDateForm();
 		$options = array();
 		if($form->checkInput())
