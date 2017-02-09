@@ -13,5 +13,5 @@ function show_multiple_images() {
 	$button = $factory->button()->standard('Show some fancy images', '')
 		->withOnClick($modal->getShowSignal());
 
-	return implode($renderer->render([$button, $modal]));
+	return $renderer->render([$button, $modal]);
 }

@@ -9,5 +9,5 @@ function show_a_single_image() {
 	$button = $factory->button()->standard('Show Image', '')
 		->withOnClick($modal->getShowSignal());
 
-	return implode($renderer->render([$button, $modal]));
+	return $renderer->render([$button, $modal]);
 }

@@ -22,12 +22,13 @@ function show_modal_on_button_click_with_async_loaded_content()
 	$modal = $factory->modal()->interruptive('Delete Item', $message, $form_action);
 
 	// Create a button per item
-	$buttons = [];
+	$out = '';
 	foreach ($items as $i => $item) {
 		$ajax_url = $_SERVER['REQUEST_URI'] . '&item=' . $i;
-		$buttons[] = $factory->button()->standard('Delete ' . $item, '#')
+		$button = $factory->button()->standard('Delete ' . $item, '#')
 			->withOnClick($modal->getShowSignal(), ['ajaxUrl' => $ajax_url]);
+		$out .= ' ' . $renderer->render($button);
 	}
 
-	return implode(' ', $renderer->render(array_merge($buttons, [$modal])));
+	return $out . $renderer->render($modal);
 }

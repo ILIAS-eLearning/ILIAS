@@ -25,5 +25,5 @@ function show_modal_on_button_click()
 		$panel = $renderer->render($panel);
 	}
 
-	return implode('', $renderer->render([$button, $modal])) . $panel;
+	return $renderer->render([$button, $modal]) . $panel;
 }

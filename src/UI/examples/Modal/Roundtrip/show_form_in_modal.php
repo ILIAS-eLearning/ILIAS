@@ -53,5 +53,5 @@ function show_form_in_modal() {
 	$button1 = $factory->button()->standard('Show Form', '#')
 		->withOnClick($modal->getShowSignal());
 
-	return implode(' ', $renderer->render([$button1, $modal])) . $out;
+	return $renderer->render([$button1, $modal]) . $out;
 }
