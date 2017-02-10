@@ -11368,7 +11368,7 @@ chatroom#:#server_further_information#:#You can find further information about t
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
 blog#:#blog_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s
-prtf#:#prtf_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s
+prtf#:#prtf_exercise_submitted_info#:#You submitted your portfolio on %s, Additionally you might want to save a copy for your own files: %s
 exc#:#exc_select_blog#:#Use Existing Blog
 exc#:#exc_select_portfolio#:#Use Existing Portfolio
 exc#:#exc_select_blog_info#:#Please select one of your blogs to use it with this assignment.
@@ -16167,3 +16167,4 @@ exc#:#exc_with_template#:#With Portfolio - Template
 exc#:#exc_without_template_info#:#Participants will create their Portfolio from scratch
 exc#:#exc_with_template_info#:#An empty Portfolio will be automatically derived from a specific Portfolio Template.
 exc#:#exc_no_portfolio_templates#:#There are no Portfolio Templates available.
+exc#:#exc_go_to_exercise#:#Go to Exercise

@@ -139,8 +139,14 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 				{								
 					// #10116 / #12791														
 					$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", $portfolio_id);
+
+					$ref_id = $_REQUEST['ref_id'];
+					$ilCtrl->setParameterByClass("ilobjportfoliogui", "ref_id", $ref_id);
+
 					$prtf_link = $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "view");
 					$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", "");
+					$ilCtrl->setParameterByClass("ilobjportfoliogui", "ref_id", "");
+
 
 					$files_str = '<a href="'.$prtf_link.
 						'">'.$portfolio->getTitle().'</a>';
