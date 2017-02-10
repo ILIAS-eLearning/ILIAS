@@ -40,8 +40,8 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
 	 * @param array $a_entries
 	 * @return array items
 	 */
-	function instructionFileAddOrder($a_entries = array())
+	function fileAddOrder($a_entries = array())
 	{
-		return ilExAssignment::instructionFileAddOrder($a_entries, $_GET['ass_id']);
+		return ilExAssignment::fileAddOrder($a_entries, $_GET['ass_id']);
 	}
 }

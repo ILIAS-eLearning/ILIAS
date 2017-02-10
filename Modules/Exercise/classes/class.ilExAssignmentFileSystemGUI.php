@@ -21,7 +21,12 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 
 	public function listFiles($a_class_table_gui = "")
 	{
-		parent::listFiles('ilExAssignmentFileSystemTableGUI');
+		$class_data = array (
+			"class" => "ilExAssignmentFileSystemTableGUI",
+			"path" => "./Modules/Exercise/classes/class.ilExAssignmentFileSystemTableGUI.php"
+		);
+		parent::listFiles($class_data);
+
 	}
 
 	/**

@@ -2094,7 +2094,7 @@ class ilExAssignment
 	 * @param integer $a_ass_id assignment id
 	 * @return array data items
 	 */
-	static function instructionFileAddOrder($a_entries = array(), $a_ass_id)
+	static function fileAddOrder($a_entries = array(), $a_ass_id)
 	{
 		$items = array();
 

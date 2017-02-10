@@ -16152,7 +16152,7 @@ wsp#:#search_no_match#:#Your search did not match any results.
 wsp#:#element_shared#:#Object shared.
 wsp#:#share#:#Share
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
-exc#:#instruction_file_order#:#File Order
+common#:#file_order#:#File Order
 exc#:#exc_work_instructions#:#Work instructions
 exc#:#exc_after_submission#:#After submission
 exc#:#exc_schedule#:#Schedule

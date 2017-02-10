@@ -428,10 +428,10 @@ class ilFileSystemGUI
 	/**
 	 * List files
 	 *
-	 * @param string $a_class_table_gui if we are here from a child class
+	 * @param array $a_class_table_gui if we are here from a child class
 	 *
 	 */
-	function listFiles($a_class_table_gui = "")
+	function listFiles($a_table_gui = null)
 	{
 		global $ilToolbar, $lng, $ilCtrl;
 		
@@ -482,10 +482,12 @@ class ilFileSystemGUI
 		}
 			
 		// load files templates
-		if($a_class_table_gui != "")
+		if($a_table_gui)
 		{
-			include_once("./Modules/Exercise/classes/class.".$a_class_table_gui.".php");
-			$fs_table = new $a_class_table_gui($this, "listFiles", $dir["dir"], $dir["subdir"],
+			$path = $a_table_gui['path'];
+			$class = $a_table_gui['class'];
+			include_once("$path");
+			$fs_table = new $class($this, "listFiles", $dir["dir"], $dir["subdir"],
 				$this->label_enable, $this->file_labels, $this->label_header, $this->commands,
 				$this->getPostDirPath(), $this->getTableId());
 		}

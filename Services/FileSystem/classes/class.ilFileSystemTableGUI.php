@@ -88,9 +88,9 @@ class ilFileSystemTableGUI extends ilTable2GUI
 		// then do the sql/order stuff.
 		$entries = $this->getEntries();
 		//check for child method
-		if(method_exists($this,'instructionFileAddOrder'))
+		if(method_exists($this,'fileAddOrder'))
 		{
-			$entries = $this->instructionFileAddOrder($entries);
+			$entries = $this->fileAddOrder($entries);
 		}
 		$this->setData($entries);
 	}
@@ -152,11 +152,11 @@ class ilFileSystemTableGUI extends ilTable2GUI
 
 			if($this->child_class_name)
 			{
-				$this->addColumn($this->lng->txt("instruction_file_order"), "order_val", "", false, $this->child_class_name);
+				$this->addColumn($this->lng->txt("file_order"), "order_val", "", false, $this->child_class_name);
 			}
 			else
 			{
-				$this->addColumn($this->lng->txt("instruction_file_order"), "order_val");
+				$this->addColumn($this->lng->txt("file_order"), "order_val");
 			}
 		}
 
