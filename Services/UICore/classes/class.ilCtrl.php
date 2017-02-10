@@ -115,7 +115,6 @@ class ilCtrl
 		$this->save_parameter = array();
 		$this->parameter = array();			// save parameter array
 		$this->return = array();			// return commmands
-		$this->location = array();
 		$this->tab = array();
 		$this->current_node = 0;
 		$this->module_dir = "";
@@ -477,29 +476,6 @@ class ilCtrl
 	function getCmdNode()
 	{
 		return $_GET["cmdNode"];
-	}
-
-	/**
-	 * Add a location to the locator array (@deprecated, use $ilLocator)
-	 *
-	 * @param	string		$a_title	link text
-	 * @param	string		$a_link		link
-	 * @param	string		$a_target	target frame
-	 */
-	function addLocation($a_title, $a_link, $a_target = "", $a_ref_id = 0)
-	{
-		$this->location[] = array("title" => $a_title,
-			"link" => $a_link, "target" => $a_target, "ref_id" => $a_ref_id);
-	}
-
-	/**
-	 * Get locations array (@deprecated, use $ilLocator)
-	 *
-	 * @return	array	array of locations (array("title", "link", "target"))
-	 */
-	function getLocations()
-	{
-		return $this->location;
 	}
 
 	/**
