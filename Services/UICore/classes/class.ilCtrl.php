@@ -112,7 +112,6 @@ class ilCtrl
 	 */
 	protected function initializeMemberVariables()
 	{
-		$this->transit = array();
 		$this->save_parameter = array();
 		$this->parameter = array();			// save parameter array
 		$this->return = array();			// return commmands
