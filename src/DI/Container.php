@@ -117,4 +117,11 @@ class Container extends \Pimple\Container {
 	public function settings() {
 		return $this["ilSetting"];
 	}
+
+	/**
+	 * @return Factory
+	 */
+	public function ilFactory() {
+		return $this["\\ILIAS\\DI\\Factory"];
+	}
 }

@@ -5,14 +5,14 @@ namespace ILIAS\BackgroundTasks;
 use ILIAS\BackgroundTasks\Exceptions\NoObserverForUserInteractionException;
 
 /**
- * Interface BackgroundTaskManager
+ * Interface TaskManager
  *
  * @package ILIAS\BackgroundTasks
  *
  * We add, remove or observe buckets with the background task manager.
  *
  */
-interface BackgroundTaskManager {
+interface TaskManager {
 
 	/**
 	 * @param $bucket   Bucket
@@ -53,4 +53,11 @@ interface BackgroundTaskManager {
 	 * @return Worker
 	 */
 	public function getWorker();
+
+	/**
+	 * @param Task $task
+	 * @param Observer $observer
+	 * @return mixed
+	 */
+	public function executeTask(Task $task, Observer $observer);
 }

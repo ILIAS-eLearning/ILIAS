@@ -24,13 +24,13 @@ interface Task {
 
 
 	/**
-	 * @return string Class-Name of the IO
+	 * @return ValueType[] Class-Name of the IO
 	 */
-	public function getInputType();
+	public function getInputTypes();
 
 
 	/**
-	 * @return string
+	 * @return ValueType
 	 */
 	public function getOutputType();
 
@@ -45,4 +45,20 @@ interface Task {
 	 * @return int Returns 0 if !supportsPercentage and the percentage otherwise.
 	 */
 	public function getPercentage();
+
+	/**
+	 * @return Value
+	 */
+	public function getOutput();
+
+	/**
+	 * @param $values (Value|Task)[]
+	 * @return void
+	 */
+	public function setInput($values);
+
+	/**
+	 * @return Value[]
+	 */
+	public function getInput();
 }

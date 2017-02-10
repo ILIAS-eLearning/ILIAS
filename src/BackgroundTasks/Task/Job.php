@@ -2,7 +2,8 @@
 
 namespace ILIAS\BackgroundTasks\Task;
 
-use ILIAS\BackgroundTasks\IO;
+use ILIAS\BackgroundTasks\Observer;
+use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\Task;
 
 /**
@@ -16,11 +17,11 @@ use ILIAS\BackgroundTasks\Task;
 interface Job extends Task {
 
 	/**
-	 * @param \ILIAS\BackgroundTasks\IO $input
+	 * @param \ILIAS\BackgroundTasks\Value[] $input
 	 * @param Observer $observer Notify the observer about your progress!
-	 * @return IO
+	 * @return Value
 	 */
-	public function run(IO $input, Observer $observer);
+	public function run(Array $input, Observer $observer);
 
 
 	/**

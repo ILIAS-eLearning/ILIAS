@@ -10,7 +10,7 @@ namespace ILIAS\BackgroundTasks;
  *          The IO as a defined format of data passed between two tasks. IO MUST be serialisable
  *          since it will bes stored in the database or somewhere else
  */
-interface IO extends \Serializable {
+interface Value extends \Serializable {
 
 	/**
 	 * @return string Gets a hash for this IO. If two objects are the same the hash must be the
@@ -21,14 +21,24 @@ interface IO extends \Serializable {
 
 
 	/**
-	 * @param \ILIAS\BackgroundTasks\IO $other
+	 * @param \ILIAS\BackgroundTasks\Value $other
 	 * @return mixed
 	 */
-	public function equals(IO $other);
+	public function equals(Value $other);
 
 
 	/**
 	 * @var string get the Type of the
 	 */
 	public function getType();
+
+	/**
+	 * @return Task
+	 */
+	public function getParentTask();
+
+	/**
+	 * @return boolean
+	 */
+	public function hasParentTask();
 }

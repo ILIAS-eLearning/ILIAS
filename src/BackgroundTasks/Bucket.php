@@ -18,41 +18,13 @@ namespace ILIAS\BackgroundTasks;
  *
  *          Please notice that Buckets are mutable!
  */
-interface Bucket extends Task {
-
-	/**
-	 * @param \ILIAS\BackgroundTasks\IO $input
-	 * @return Bucket
-	 */
-	public function setInput(IO $input);
-
+interface Bucket {
 
 	/**
 	 * @param \ILIAS\BackgroundTasks\Task $task
 	 * @return Bucket
 	 */
 	public function addTask(Task $task);
-
-
-	/**
-	 * Returns true iff the input and outputs of the chain match
-	 *
-	 * @return Exception[]
-	 **/
-	public function checkChain();
-
-
-	/**
-	 * @return bool
-	 */
-	public function isRunning();
-
-
-	/**
-	 * @return Task
-	 */
-	public function getRunningTask();
-
 
 	/**
 	 * @return int
@@ -83,20 +55,6 @@ interface Bucket extends Task {
 	 * @return void
 	 */
 	public function runOneTask();
-
-
-	/**
-	 * @param \ILIAS\BackgroundTasks\ExceptionHandler $exception_handler
-	 * @return Bucket
-	 */
-	public function setExceptionHandler(ExceptionHandler $exception_handler);
-
-
-	/**
-	 * @return Bucket Persists the bucket into the database.
-	 */
-	public function putInQueue();
-
 
 	/**
 	 * @return string
