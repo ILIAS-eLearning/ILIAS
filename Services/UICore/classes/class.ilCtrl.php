@@ -47,7 +47,15 @@ class ilCtrl
 	 */
 	protected $return;
 
-	var $call_hist = array();	// calling history
+	/**
+	 * Stores the order in which different GUI classes were called.
+	 *
+	 * TODO: Might better be called call_stack.
+	 *
+	 * This is used in: forwardCommand, getHTML, getCallHistory
+	 */
+	protected $call_hist = array();	// calling history
+
 	var $debug = array();
 	var $calls = array();
 	var $rtoken = false;
@@ -497,12 +505,13 @@ class ilCtrl
 	}
 
 	/**
-	 * Get controller call history. This is used for
-	 * the developer mode and presented in the footer
+	 * Get controller call history.
+	 *
+	 * This is used for the developer mode and presented in the footer
 	 *
 	 * @return	array		array of call history entries
 	 */
-	function getCallHistory()
+	public function getCallHistory()
 	{
 		return $this->call_hist;
 	}
