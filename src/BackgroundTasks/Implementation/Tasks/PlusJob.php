@@ -11,6 +11,13 @@ use ILIAS\BackgroundTasks\ValueType;
 
 class PlusJob extends AbstractJob {
 
+	/**
+	 * PlusJob constructor.
+	 *
+	 * Jobs dependencies will be injected. Type hinting is necessary for that!
+	 *
+	 * @param Observer $mock The mock will be injected by the dependency injection.
+	 */
 	public function __construct(Observer $mock) {
 	}
 

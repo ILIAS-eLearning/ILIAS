@@ -51,6 +51,22 @@ class TaskTest extends TestCase {
 		$this->assertEquals($finalValue->getValue(), 6);
 	}
 
+	public function testValueWrapper() {
+		$dic = new Container();
+		$dic[Observer::class] = function ($c) {
+			return new ObserverMock();
+		};
+		$factory = new Factory($dic);
+
+		$t = $factory->createInstance(PlusJob::class);
+		$t->setInput([1, 4]);
+
+		$taskManager = new BasicTaskManager();
+		/** @var IntegerValue $finalValue */
+		$finalValue = $taskManager->executeTask($t, new ObserverMock());
+		$this->assertEquals($finalValue->getValue(), 5);
+	}
+
 	public function testTypeCheck() {
 		$this->expectException(InvalidArgumentException::class);
 

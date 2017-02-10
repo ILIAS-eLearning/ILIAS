@@ -3,6 +3,7 @@
 namespace ILIAS\BackgroundTasks\Implementation\Tasks;
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
+use ILIAS\BackgroundTasks\Implementation\Values\PrimitiveValueWrapperFactory;
 use ILIAS\BackgroundTasks\Implementation\Values\ThunkValue;
 use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Value;
@@ -24,8 +25,8 @@ abstract class AbstractTask implements Task {
 	 * @return void
 	 */
 	public function setInput($values) {
-		$this->checkTypes($values);
 		$this->input = $this->getValues($values);
+		$this->checkTypes($this->input);
 	}
 
 	protected function checkTypes($values) {
@@ -63,12 +64,17 @@ abstract class AbstractTask implements Task {
 	 * @return Value[]
 	 */
 	private function getValues($values) {
+		$wrapper = PrimitiveValueWrapperFactory::getInstance();
 		$inputs = [];
+
 		foreach($values as $value) {
 			if($value instanceof Task)
 				$inputs[] = $value->getOutput();
-			if($value instanceof Value)
+			elseif($value instanceof Value)
 				$inputs[] = $value;
+			else
+				$inputs[] = $wrapper->wrapValue($value);
+
 		}
 		return $inputs;
 	}
