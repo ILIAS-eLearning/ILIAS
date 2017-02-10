@@ -909,7 +909,6 @@ abstract class ilPlugin
 		$structure_reader = new ilCtrlStructureReader();
 		$structure_reader->readStructure(true, "./".$this->getDirectory(), $this->getPrefix(),
 			$this->getDirectory());
-		//		$ilCtrl->storeCommonStructures();
 
 		// add config gui to the ctrl calls
 		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($this->getPluginName()),
