@@ -63,7 +63,14 @@ class ilCtrl
 	 */
 	protected $calls = array();
 
-	var $rtoken = false;
+	/**
+	 * Request token, prevents XSS.
+	 *
+	 * This is used in: getRequestToken
+	 *
+	 * @var string
+	 */
+	protected $rtoken = false;
 
 	/**
 	 * control class constructor
