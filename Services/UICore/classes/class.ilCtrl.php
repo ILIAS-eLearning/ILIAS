@@ -56,7 +56,6 @@ class ilCtrl
 	 */
 	protected $call_hist = array();	// calling history
 
-	var $debug = array();
 	var $calls = array();
 	var $rtoken = false;
 
