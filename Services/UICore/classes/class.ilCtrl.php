@@ -28,13 +28,26 @@ class ilCtrl
 	protected	$target_script = null;
 
 	/**
-	 * Maps lowercase class names to lists of parameters saved for them.
+	 * Maps lowercase class names to lists of parameter names that saved for them.
 	 *
-	 * This is used in: saveParameterByClass, getParameterArrayByClass
+	 * See saveParameter/setParameter for difference to save_parameter.
+	 *
+	 * This is used in: saveParameter, saveParameterByClass, getParameterArrayByClass
+	 *
+	 * @var	array<string, array<string, mixed>>
+	 */
+	protected $save_parameter;
+
+	/**
+	 * Maps lowercase class names to lists of parameters set for them.
+	 *
+	 * See saveParameter/setParameter for difference to save_parameter.
+	 *
+	 * This is used in: setParameter, setParameterByClass, getParameterArrayByClass
 	 *
 	 * @var	array<string, mixed[]>
 	 */
-	protected $save_parameter;
+	protected $parameter;
 
 	/**
 	 * Return commands per class.
