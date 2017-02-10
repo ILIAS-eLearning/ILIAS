@@ -42,7 +42,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass {
 	public function canBeDelivered(ilWACPath $ilWACPath) {
 		switch ($ilWACPath->getSecurePathId()) {
 			case 'previews':
-				$re = '/\/previews\/[\d]{0,}\/preview_([\d]{0,})\//uU';
+				$re = '/\/previews\/[\d\/]{0,}\/preview_([\d]{0,})\//uU';
 				break;
 		}
 		preg_match($re, $ilWACPath->getPath(), $matches);
