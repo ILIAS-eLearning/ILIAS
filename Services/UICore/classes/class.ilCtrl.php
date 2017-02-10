@@ -56,7 +56,13 @@ class ilCtrl
 	 */
 	protected $call_hist = array();	// calling history
 
-	var $calls = array();
+	/**
+	 * Stores which class calls which other class.
+	 *
+	 * This is used in: getNodeIdForTargetClass, fetchCallsOfClassFromCache, callOfClassNotKnown
+	 */
+	protected $calls = array();
+
 	var $rtoken = false;
 
 	/**
