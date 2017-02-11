@@ -557,7 +557,7 @@ class ilObjExercise extends ilObject
 	 */
 	function updateAllUsersStatus()
 	{
-		if (!is_object($this->members_obj));
+		if (!is_object($this->members_obj))
 		{
 			$this->members_obj = new ilExerciseMembers($this);
 		}

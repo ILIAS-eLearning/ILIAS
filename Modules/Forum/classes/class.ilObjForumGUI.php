@@ -5351,7 +5351,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			return true;
 		}
 		
-		if($this->isParentObjectCrsOrGrp());
+		if($this->isParentObjectCrsOrGrp())
 		{	
 			global $ilUser;
 
