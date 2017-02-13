@@ -6,11 +6,12 @@ function show_modal_on_button_click()
 	$renderer = $DIC->ui()->renderer();
 	$message = 'Are you sure you want to delete the following items?';
 	$form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
+	$icon = $factory->image()->standard('./templates/default/images/icon_crs.svg', '');
 	$modal = $factory->modal()->interruptive('My Title', $message, $form_action)
 		->withAffectedItems(array(
-			$factory->modal()->interruptiveItem(10, 'Item1'),
-			$factory->modal()->interruptiveItem(20, 'Item2'),
-			$factory->modal()->interruptiveItem(30, 'Item3'),
+			$factory->modal()->interruptiveItem(10, 'Course 1', $icon, 'Some description text'),
+			$factory->modal()->interruptiveItem(20, 'Course 2', $icon, 'Another description text'),
+			$factory->modal()->interruptiveItem(30, 'Course 3', $icon, 'Last but not least, a description'),
 		));
 	$button = $factory->button()->standard('Show Modal', '')
 		->withOnClick($modal->getShowSignal());

@@ -1,5 +1,5 @@
 <?php
-function show_modal_on_button_click_with_async_loaded_content()
+function show_modal_on_button_click_async_rendered()
 {
 	global $DIC;
 	$factory = $DIC->ui()->factory();
@@ -18,17 +18,16 @@ function show_modal_on_button_click_with_async_loaded_content()
 		exit();
 	}
 
-	// Note: The modal is only rendered once in the DOM, its content is loaded via ajax
-	$modal = $factory->modal()->interruptive('Delete Item', $message, $form_action);
-
 	// Create a button per item
 	$out = '';
 	foreach ($items as $i => $item) {
 		$ajax_url = $_SERVER['REQUEST_URI'] . '&item=' . $i;
+		$modal = $factory->modal()->interruptive('', '', '')
+			->withAsyncRenderUrl($ajax_url);
 		$button = $factory->button()->standard('Delete ' . $item, '#')
-			->withOnClick($modal->getShowSignal(), ['ajaxUrl' => $ajax_url]);
-		$out .= ' ' . $renderer->render($button);
+			->withOnClick($modal->getShowSignal());
+		$out .= ' ' . $renderer->render([$button, $modal]);
 	}
 
-	return $out . $renderer->render($modal);
+	return $out;
 }

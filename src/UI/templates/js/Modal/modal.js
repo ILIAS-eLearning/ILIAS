@@ -8,17 +8,21 @@ il.UI = il.UI || {};
         var defaultShowOptions = {
             backdrop: true,
             keyboard: true,
-            ajaxUrl: ''
+            ajaxRenderUrl: ''
         };
 
         var showModal = function (id, options) {
             options = $.extend(defaultShowOptions, options);
-            var $modal = $(id);
-            if (options.ajaxUrl) {
-                $modal.load(options.ajaxUrl + ' .modal-dialog', function() {
-                    $modal.modal(options);
+            if (options.ajaxRenderUrl) {
+                var $container = $(id);
+                $container.load(options.ajaxRenderUrl, function() {
+                    var $modal = $(this).find('.modal');
+                    if ($modal.length) {
+                        $modal.modal(options);
+                    }
                 });
             } else {
+                var $modal = $(id);
                 $modal.modal(options);
             }
         };

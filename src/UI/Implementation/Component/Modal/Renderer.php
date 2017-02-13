@@ -17,6 +17,13 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
+		// If the modal is rendered async, we just create a fake container which will be
+		// replaced by the modal upon successful ajax request
+		/** @var Modal $component */
+		if ($component->getAsyncRenderUrl()) {
+			return $this->renderAsync($component);
+		}
+
 		if ($component instanceof Component\Modal\Interruptive) {
 			return $this->renderInterruptive($component, $default_renderer);
 		} else if ($component instanceof Component\Modal\RoundTrip) {
@@ -42,13 +49,24 @@ class Renderer extends AbstractComponentRenderer {
 		$close = $modal->getCloseSignal();
 		$js = $this->getJavascriptBinding();
 		$options = json_encode(array(
-			'ajaxUrl' => $modal->getAsyncRenderUrl(),
+			'ajaxRenderUrl' => $modal->getAsyncRenderUrl(),
 			'keyboard' => $modal->getCloseWithKeyboard(),
 		));
-		$js->addOnLoadCode("$(document).on('{$show}', function() { il.UI.modal.showModal({$id}, {$options}); });");
-		$js->addOnLoadCode("$(document).on('{$close}', function() { il.UI.modal.closeModal({$id}); });");
+		$js->addOnLoadCode("
+			$(document).on('{$show}', function() { il.UI.modal.showModal({$id}, {$options}); return false; });
+			$(document).on('{$close}', function() { il.UI.modal.closeModal({$id}); return false; });"
+		);
 	}
 
+	/**
+	 * @param Component\Modal\Modal $modal
+	 * @return string
+	 */
+	protected function renderAsync(Component\Modal\Modal $modal) {
+		$id = $this->createId();
+		$this->registerSignals($modal, $id);
+		return "<span id='{$id}'></span>";
+	}
 
 	/**
 	 * @param Component\Modal\Interruptive $modal
@@ -64,21 +82,17 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable('ID', $id);
 		$tpl->setVariable('FORM_ACTION', $modal->getFormAction());
 		$tpl->setVariable('TITLE', $modal->getTitle());
-		if ($modal->getMessage()) {
-			$tpl->setCurrentBlock('with_message');
-			$tpl->setVariable('MESSAGE', $modal->getMessage());
-			$tpl->parseCurrentBlock();
-		}
+		$tpl->setVariable('MESSAGE', $modal->getMessage());
 		if (count($modal->getAffectedItems())) {
 			$tpl->setCurrentBlock('with_items');
-			$titles = array_map(function ($interruptive_item) {
-				return $interruptive_item->getTitle();
-			}, $modal->getAffectedItems());
-			$list = $this->getUIFactory()->listing()->unordered($titles);
-			$tpl->setVariable('ITEMS', $default_renderer->render($list));
 			foreach ($modal->getAffectedItems() as $item) {
-				$tpl->setCurrentBlock('hidden_inputs');
+				$tpl->setCurrentBlock('item');
+				$icon = ($item->getIcon()) ? $default_renderer->render($item->getIcon()) : '';
+				$desc = ($item->getDescription()) ? '<br>' . $item->getDescription() : '';
+				$tpl->setVariable('ITEM_ICON', $icon);
 				$tpl->setVariable('ITEM_ID', $item->getId());
+				$tpl->setVariable('ITEM_TITLE', $item->getTitle());
+				$tpl->setVariable('ITEM_DESCRIPTION', $desc);
 				$tpl->parseCurrentBlock();
 			}
 		}

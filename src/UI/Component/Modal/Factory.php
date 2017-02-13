@@ -17,30 +17,30 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      An Interruptive Modal disrupts the user in critical situation,
+	 *      An Interruptive modal disrupts the user in critical situation,
 	 *      forcing him or her to focus on the task at hand.
 	 *   composition: >
-	 *      The Modal states why this situation needs attention and may point out consequences.
+	 *      The modal states why this situation needs attention and may point out consequences.
 	 *   effect: >
-	 *      All controls of the original context are inaccessible until the Modal is completed.
+	 *      All controls of the original context are inaccessible until the modal is completed.
 	 *      Upon completion the user returns to the original context.
 	 *
 	 * rules:
 	 *   usage:
 	 *     1: >
-	 *        Due to the heavily disruptive nature of this type of Modal it MUST be
+	 *        Due to the heavily disruptive nature of this type of modal it MUST be
 	 *        restricted to critical situations (e.g. loss of data).
 	 *     2: >
 	 *        All actions where data is deleted from the system are considered to be critical situations and
-	 *        SHOULD be implemented as an Interruptive Modal. Exceptions are possible if items from lists in
+	 *        SHOULD be implemented as an Interruptive modal. Exceptions are possible if items from lists in
 	 *        forms are to be deleted of ir the modal would heavily disrupt the workflow.
 	 *     3: >
-	 *        Interruptive Modals MUST contain a Default Button continuing the action that initiated the Modal
-	 *        (e.g. Delete the Item) on the left side of the footer of the modal and a button canceling
-	 *        the action on the right side of the footer as Default Button.
+	 *        Interruptive modals MUST contain a primary button continuing the action that initiated the modal
+	 *        (e.g. Delete the item) on the left side of the footer of the modal and a default button canceling
+	 *        the action on the right side of the footer.
 	 *     4: >
-	 *        The Cancel Button in the footer and the Close Button in the header MUST NOT perform
-	 *        any additional action than closing the interruptive modal.
+	 *        The cancel button in the footer and the close button in the header MUST NOT perform
+	 *        any additional action than closing the Interruptive modal.
 	 * ---
 	 *
 	 * @param string $title
@@ -56,11 +56,24 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Interruptive items are displayed in an interruptive modal and represent the object(s) being affected
+	 *     Interruptive items are displayed in an Interruptive modal and represent the object(s) being affected
 	 *     by the critical action, e.g. deleting.
 	 *   composition:
+	 *     An Interruptive item is composed of an Id, title, description and an icon.
 	 *   effect:
 	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       An interruptive item MUST have an ID and title.
+	 *     2: >
+	 *       An interruptive item SHOULD have an icon representing the affected object.
+	 *     3: >
+	 *       An interruptive item MAY have a description which helps to further identify the object.
+	 *       If an Interruptive modal displays multiple items having the the same title,
+	 *       the description MUST be used in order to distinct these objects from each other.
+	 *     4: >
+	 *       If an interruptive item represents an ILIAS object, e.g. a course, then the Id, title, description
+	 *       and icon of the item MUST correspond to the Id, title, description and icon from the ILIAS object.
 	 * ---
 	 *
 	 * @param string $id
@@ -77,35 +90,35 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Round-Trip Modals are to be used if the context would be lost by performing this action otherwise.
-	 *     Round-Trip Modals accommodate sub-workflows within an overriding workflow.
-	 *     The Round-Trip Modal ensures that the users does not leave the trajectory of the
-	 *     overriding workflow. This is typically the case if an ILIAS service is called
-	 *     for while in working in an object.
+	 *     Round-Trip modals are to be used if the context would be lost by performing this action otherwise.
+	 *     Round-Trip modals accommodate sub-workflows within an overriding workflow.
+	 *     The Round-Trip modal ensures that the user does not leave the trajectory of the
+	 *     overriding workflow. This is typically the case if an ILIAS service is being called
+	 *     while working in an object.
 	 *   composition: >
-	 *     Round-Trip Modals are completed by a well defined sequence of only a few steps that might be
-	 *     displayed on a sequence of different modals connected through some "next" Button.
+	 *     Round-Trip modals are completed by a well defined sequence of only a few steps that might be
+	 *     displayed on a sequence of different modals connected through some "next" button.
 	 *   effect: >
-	 *     Round-Trip Modals perform sub-workflow involving some kind of user input. Sub-workflow is completed
+	 *     Round-Trip modals perform sub-workflow involving some kind of user input. Sub-workflow is completed
 	 *     and user is returned to starting point allowing for continuing the overriding workflow.
 	 *
 	 * rules:
 	 *   usage:
 	 *     1: >
-	 *       Round-Trip Modals MUST contain at least two buttons at the bottom of the modals: a button
+	 *       Round-Trip modals MUST contain at least two buttons at the bottom of the modals: a button
 	 *       to cancel (right) the workflow and a button to finish or reach the next step in the workflow (left).
 	 *     2: >
-	 *       Round-Trip Modals SHOULD be used, if the user would lose the context otherwise. If the action
+	 *       Round-Trip modals SHOULD be used, if the user would lose the context otherwise. If the action
 	 *       can be performed within the same context (e.g. add a post in a forum, edit a wiki page),
-	 *       a Round-Trip Modal MUST NOT be used.
+	 *       a Round-Trip modal MUST NOT be used.
 	 *     3: >
-	 *       When the workflow is completed, Round-Trip Modals SHOULD show the same view as
-	 *       was displayed when initiating the Modal.
+	 *       When the workflow is completed, Round-Trip modals SHOULD show the same view that
+	 *       was displayed when initiating the modal.
 	 *     4: >
-	 *       Round-Trip Modals SHOULD NOT be used to add new items of any kind since adding item is a
+	 *       Round-Trip modals SHOULD NOT be used to add new items of any kind since adding item is a
 	 *       linear workflow redirecting to the newly added item setting- or content-tab.
 	 *     5: >
-	 *       Round-Trip Modals SHOULD NOT be used to perform complex workflows.
+	 *       Round-Trip modals SHOULD NOT be used to perform complex workflows.
 	 *
 	 * ---
 	 * @param string $title
@@ -120,21 +133,23 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     The Lightbox Modal displays media data such as images or videos inside a Lightbox.
+	 *     The Lightbox modal displays media data such as images or videos.
 	 *   composition: >
-	 *     If multiple media data are to be displayed in one Lightbox Modal, they can flipped through.
+	 *     A Lightbox modal consists of one or multiple lightbox pages representing the media together
+	 *     with a title and description.
 	 *   effect: >
-	 *      Lightbox Modals are activated by clicking the full view glyphicon,
-	 *      the title of the object or it's thumbnail.
+	 *     Lightbox modals are activated by clicking the full view glyphicon,
+	 *     the title of the object or it's thumbnail.
+	 *     If multiple pages are to be displayed, they can flipped through.
 	 *
 	 * rules:
 	 *   usage:
 	 *     1: >
-	 *       Lightobx Modals MUST contain a title above the presented item.
+	 *       Lightbox modals MUST contain a title above the presented item.
 	 *     2: >
-	 *       Lightbox Modals SHOULD contain a descriptional text below the presented items.
+	 *       Lightbox modals SHOULD contain a descriptional text below the presented items.
 	 *     3: >
-	 *       Multiple media items inside a Lightbox Modals MUST be presented in carousel
+	 *       Multiple media items inside a Lightbox modal MUST be presented in carousel
 	 *       like manner allowing to flickr through items.
 	 *
 	 * ---
@@ -149,10 +164,19 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Used to display an image inside a Lightbox modal.
-	 *   composition:
-	 *   effect:
+	 *     A Lightbox image page represents an image inside a Lightbox modal.
+	 *   composition: >
+	 *     The page consists of the image, a title and optional description.
+	 *   effect: >
+	 *     The image is displayed in the content section of the Lightbox modal and the title is used
+	 *     as modal title. If a description is present, it will be displayed below the image.
 	 * rules:
+	 *   usage:
+	 *     2: >
+	 *       A Lighbox image page MUST have an image and a short title.
+	 *     1: >
+	 *       A Lightbox image page SHOULD have short a description, describing the presented image.
+	 *       If the description is omitted, the Lightbox image page falls back to the alt tag of the image.
 	 * ---
 	 *
 	 * @param Image $image
