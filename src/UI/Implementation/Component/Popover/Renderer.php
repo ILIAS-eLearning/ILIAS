@@ -22,6 +22,8 @@ class Renderer extends AbstractComponentRenderer {
 		/** @var Component\Popover\Popover $component */
 		$show = $component->getShowSignal();
 		$js = $this->getJavascriptBinding();
+		$tpl = $this->getTemplate('tpl.popover.html', true, true);
+		$tpl->setVariable('FORCE_RENDERING', '');
 		$options = json_encode(array(
 			'container' => 'body',
 			'title' => $this->esacpe($component->getTitle()),
@@ -29,9 +31,10 @@ class Renderer extends AbstractComponentRenderer {
 			'placement' => $component->getPosition(),
 			'trigger' => 'manual',
 			'html' => true,
+			'template' => str_replace('"', '\"', $tpl->get()),
 		));
 		$js->addOnLoadCode("
-		$(document).on('{$show}', function(event) { 
+		$(document).on('{$show}', function() { 
 			var \$triggerer = $('#' + event.target.id);
 			il.UI.popover.toggle(\$triggerer, '{$options}');
 		});"
