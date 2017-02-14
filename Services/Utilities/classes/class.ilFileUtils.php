@@ -508,7 +508,7 @@ class ilFileUtils
 			return false;
 		}
 		
-		return file_get_contents($a_file);
+		return self::lookupContentMimeType(file_get_contents($a_file));
 	}
   
 	/**
