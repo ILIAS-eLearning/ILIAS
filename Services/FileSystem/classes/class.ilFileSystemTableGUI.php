@@ -262,11 +262,17 @@ class ilFileSystemTableGUI extends ilTable2GUI
 			{								
 				if($rcom["allow_dir"] || $a_set["type"] != "dir")
 				{
-					$ilCtrl->setParameter($this->parent_obj, "fhsh", $hash);				
-					$url = $ilCtrl->getLinkTarget($this->parent_obj, $rcom["cmd"]);				
-					$ilCtrl->setParameter($this->parent_obj, "fhsh", "");
+					include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
 
-					$advsel->addItem($rcom["caption"], "", $url);			
+					if(($rcom["caption"] == "Unzip" && ilMimeTypeUtil::getMimeType($this->cur_dir.$a_set['entry']) == "application/zip") || $rcom["caption"] != "Unzip")
+					{
+						$ilCtrl->setParameter($this->parent_obj, "fhsh", $hash);
+						$url = $ilCtrl->getLinkTarget($this->parent_obj, $rcom["cmd"]);
+						$ilCtrl->setParameter($this->parent_obj, "fhsh", "");
+
+						$advsel->addItem($rcom["caption"], "", $url);
+					}
+
 				}
 			}			
 			$this->tpl->setVariable("ACTIONS", $advsel->getHTML());			
