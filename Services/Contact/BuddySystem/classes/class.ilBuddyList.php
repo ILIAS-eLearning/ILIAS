@@ -291,6 +291,7 @@ class ilBuddyList
 		{
 			throw new InvalidArgumentException(sprintf("Please pass a numeric owner id, given: %s", var_export($usr_id, 1)));
 		}
+
 		if($this->getRelations()->containsKey($usr_id))
 		{
 			return $this->getRelations()->get($usr_id);
@@ -317,18 +318,24 @@ class ilBuddyList
 	{
 		try
 		{
-			$relation->link();
-			$this->getRepository()->save($relation);
-			$this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
-		}
-		catch(ilBuddySystemException $e)
-		{
 			if($relation->isLinked())
 			{
 				require_once 'Services/Contact/BuddySystem/exceptions/class.ilBuddySystemRelationStateAlreadyGivenException.php';
 				throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_linked');
 			}
 
+			if($this->getOwnerId() == $relation->getUserId())
+			{
+				throw new ilBuddySystemException("You can only accept a request when you are not the initiator");
+			}
+
+			$relation->link();
+
+			$this->getRepository()->save($relation);
+			$this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
+		}
+		catch(ilBuddySystemRelationStateException $e)
+		{
 			throw $e;
 		}
 
@@ -414,14 +421,21 @@ class ilBuddyList
 	 */
 	public function ignore(ilBuddySystemRelation $relation)
 	{
-		if($this->getOwnerId() == $relation->getUserId())
-		{
-			throw new ilBuddySystemException("You can only ignore a request when you are not the initiator %s");
-		}
-
 		try
 		{
+			if($relation->isLinked())
+			{
+				require_once 'Services/Contact/BuddySystem/exceptions/class.ilBuddySystemRelationStateTransitionException.php';
+				throw new ilBuddySystemRelationStateTransitionException('buddy_bs_action_already_linked');
+			}
+
+			if($this->getOwnerId() == $relation->getUserId())
+			{
+				throw new ilBuddySystemException("You can only ignore a request when you are not the initiator");
+			}
+
 			$relation->ignore();
+
 			$this->getRepository()->save($relation);
 			$this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
 		}

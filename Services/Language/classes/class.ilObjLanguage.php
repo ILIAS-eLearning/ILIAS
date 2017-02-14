@@ -55,6 +55,31 @@ class ilObjLanguage extends ilObject
 		$this->comment_separator = $lng->comment_separator;
 	}
 
+
+	/**
+	 * Get the language objects of the installed languages
+	 * @return self[]
+	 */
+	public static function getInstalledLanguages()
+	{
+		$objects = array();
+		$languages = ilObject::_getObjectsByType("lng");
+		foreach ($languages as $lang)
+		{
+			$langObj = new ilObjLanguage($lang["obj_id"], false);
+			if ($langObj->isInstalled())
+			{
+				$objects[] = $langObj;
+			}
+			else
+			{
+				unset($langObj);
+			}
+		}
+		return $objects;
+	}
+
+
 	/**
 	 * get language key
 	 *
@@ -270,7 +295,6 @@ class ilObjLanguage extends ilObject
 	/**
 	 * Refresh languages of activated plugins
 	 * @var array|null	keys of languages to be refreshed (not yet supported, all available will be refreshed)
-	 * @todo: provide $a_lang_keys for ilPlugin::updateLanguages() when it is supported there
 	 */
 	public static function refreshPlugins($a_lang_keys = null)
 	{
@@ -290,7 +314,7 @@ class ilObjLanguage extends ilObject
 					$slot["component_name"], $slot["slot_id"], $plugin);
 				if (is_object($pl))
 				{
-					$pl->updateLanguages();
+					$pl->updateLanguages($a_lang_keys);
 				}
 			}
 		}

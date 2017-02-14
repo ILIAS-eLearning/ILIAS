@@ -2511,7 +2511,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		if ($this->form_gui->checkInput())
 		{
 			if ($this->object->templateExists($_POST["name"]) &&
-				$_POST["name"] != ilObjStyleSheet::lookupTemplateName($_GET["t_id"]))
+				$_POST["name"] != ilObjStyleSheet::_lookupTemplateName($_GET["t_id"]))
 			{
 				$name_input = $this->form_gui->getItemByPostVar("name");
 				$name_input->setAlert($lng->txt("sty_template_already_exists"));

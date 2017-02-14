@@ -17426,8 +17426,7 @@ if($mass_type_id) {
 			ilDBUpdateNewObjectType::addRBACOperation($mass_type_id, $new_ops_id);
 		}
 	}
-	require_once 'Modules/ManualAssessment/classes/AccessControl/class.ilManualAssessmentAccessHandler.php';
-	$rolt_title = ilManualAssessmentAccessHandler::DEFAULT_ROLE;
+	$rolt_title = 'il_mass_member';
 	$rec = $ilDB->fetchAssoc(
 		$ilDB->query("SELECT obj_id FROM object_data "
 						."	WHERE type = 'rolt' AND title = ".$ilDB->quote($rolt_title,'text')));
@@ -18091,4 +18090,9 @@ $ilDB->modifyTableColumn('exc_returned', 'mimetype', array(
 										'length'=> 150,
 										'notnull' => false)
 );
+?>
+<#5069>
+<?php
+include_once('./Services/Migration/DBUpdate_5069/classes/class.ilDBUpdate5069.php');
+ilDBUpdate5069::fix19795();
 ?>

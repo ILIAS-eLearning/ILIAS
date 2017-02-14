@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 include_once("./Services/Export/classes/class.ilXmlExporter.php");
-require_once("Modules/ManualAssessment/classes/class.ilIndividualAssessmentDataSet.php");
+require_once("Modules/IndividualAssessment/classes/class.ilIndividualAssessmentDataSet.php");
 
 /**
  * Manual Assessment exporter class
