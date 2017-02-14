@@ -69,10 +69,17 @@ make sure
 * that you give at least a brief statement why you close a PR if you reject one
 * that you merge the changes in the PR in other branches if required
 
-### I want to Contribute Something else than Commits
+### Want to Contribute Something else than Commits?
 
-**TODO**: Add some links here (Feature-Wiki, Mantis, User Groups, SIGs, Help Group...)
+We are happy to get contributions that are no commits as well. There are many
+other things you could contribute to ILIAS:
 
-
-
-
+* **Ideas for new Features**: The development of ILIAS is driven by requirements
+  from the community. Contribute your ideas via [feature requests](http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA119).
+* **Bug Reports**: We do our best, but ILIAS might contain bugs we do not know
+  yet. Check out how the ILIAS Community handles [bug reports](http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA115).
+* **Information about Security Issues**: Check out how the ILIAS community handles
+  [security issues](http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA112).
+* **Time for Testing or Testcases**: We always need people that contribute testcases
+  and perform them before new releases. Please have a look [here](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html).
+  This part if our development is german only (sorry non-german-speakers).
