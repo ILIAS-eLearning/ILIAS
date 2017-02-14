@@ -4,10 +4,11 @@ The development of the ILIAS source code is coordinated and maintained by a coor
 
 | Function             | Responsible Person                                          |
 |----------------------|-------------------------------------------------------------|
-| Product Management   | Matthias Kunkel: kunkel at ilias.de                         | 
-| Testcase Management  | Fabian Kruse: fabian at ilias.de                            |
-| Documentation        | Florian Suittenpointner: suittenpointner at qualitus.de     |
-| Online Help          | Alexandra Toedt, toedt at ilias.de                          |
+| Product Management   | [Matthias Kunkel]                                             |
+| Technical Board      | [Alexander Killing], [Michael Jansen], [Fabian Schmid], [Timon Amstutz], [Richard Klees] |
+| Testcase Management  | [Fabian Kruse]                                              |
+| Documentation        | [Florian Suittenpointner]                                   |
+| Online Help          | [Alexandra Toedt]                                           |
 
 #Maintainers
 We highly appreciate to get new developers but we have to guarantee the sustainability and the quality of the ILIAS source code. The system is complex for new developers and they need to know the concepts of ILIAS that are described in the development guide.
@@ -33,382 +34,436 @@ ILIAS is currently maintained by two types of Maintainerships:
 The code base is deviced in several components:
 
 
-| Function                             | Responsible Person                                                           |
-|--------------------------------------|------------------------------------------------------------------------------|
-| **Administration**                   |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.de                                      |
-| 2nd Maintainer                       | Stefan Meyer: smeyer at leifos.de                                            |
-| Testcases                            | Matthias Kunkel, ILIAS e.V.                                                  |
-| Tester                               | Matthias Kunkel, ILIAS e.V.                                                  |
-| **Badges**                           |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.de                                      |
-| 2nd Maintainer                       | -                                                                            |
-| Testcases                            | Alexandra Tödt, leifos                                                       |
-| Tester                               | Testing: Thomas Schroeder, FHöV NRW                                          |
-| **Bibliographic List Item**          |                                                                              |
-| 1st Maintainer                       | Fabian Schmid: fs at studer-raimann.ch                                       |
-| 2nd Maintainer                       | -                                                                            |
-| Testcases                            | Martin Studer, studer+raimann                                                |
-| Tester                               | Marko Glaubitz, Uni Freiburg                                                 |
-| **Blog**                             |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.de                                      |
-| 2nd Maintainer                       | -                                                                            |
-| Testcases                            | Klaus Vorkauf, FH Dortmund                                                   |
-| Tester                               | Patrick Bergmann, Uni Düsseldorf                                             |
-| **Booking Tool**                     |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.de                                      |
-| 2nd Maintainer                       | -                                                                            |
-| Testcases                            | Elena Coroian, FAU                                                           |
-| Tester                               | Wolfgang Hübsch, BBS Zeven                                                   |
-| **Bookmarks**                        |                                                                              |
-| 1st Maintainer                       | Stefan Meyer: meyer at leifos.com                                            |
-| 2nd Maintainer                       | Alexander Killing: killing at leifos.de                                      |
-| Testcases                            | Matthias Kunkel, ILIAS e.V                                                   |
-| Tester                               | Miriam Hölscher, FH Münster                                                  |
-| **Calendar**                         |                                                                              |
-| 1st Maintainer                       | Stefan Meyer: meyer at leifos.com                                            |
-| 2nd Maintainer                       | Alexander Killing: killing at leifos.de                                      |
-| Testcases                            | -                                                                            |
-| Tester                               | Christine Berggold, Uni Hohenheim                                            |
-| **Category and Repository**          |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.de                                      |
-| 2nd Maintainer                       | Stefan Meyer: smeyer at leifos.de                                            |
-| Testcases                            | Matthias Kunkel, ILIAS e.V                                                   |
-| Tester                               | Miriam Hölscher, FH Münster                                                  |
-| **Certificate**                      |                                                                              |
-| 1st Maintainer                       | PHP frontend: Michael Jansen, mjansen at databay.de;                         |
-|                                      | ilServer (Java): Stefan Meyer: meyer at leifos.com                           |
-| 2nd Maintainer                       | -                                                                            |
-| Testcases                            | -                                                                            |
-| Tester                               | Christian Hueser, PHYWE                                                      |
-| **Chat**                             |                                                                              |
-| 1st Maintainer                       | Michael Jansen: mjansen at databay.de                                        |
-| 2nd Maintainer                       | Max Becker: mbecker at databay.de                                            |
-| Testcases                            | Matthias Kunkel, ILIAS e.V                                                   |
-| Tester                               | Antonia Weber/Alexander Baulig, Uni Köln                                     |
-| **Cloud Object**                     |                                                                              |
-| 1st Maintainer                       | Fabian Schmid: fs at studer-raimann.ch                                       |
-| 2nd Maintainer                       | -                                                                            |
-| Testcases                            | Theodor Truffer, studer+raimann                                              |
-| Tester                               | Timon Amstutz, Universität Bern                                              |
-| **Competence Management**            |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.de                                      |
-| 2nd Maintainer                       | -                                                                            |
-| Testcases                            | Alexandra Tödt, leifos                                                       |
-| Tester                               | Wolfgang Hübsch, BBS Zeven and Philipp Kröpelin, Kröpelin Projekte           |
-| **Contacts**                         |                                                                              |
-| 1st Maintainer                       | Michael Jansen: mjansen at databay.de                                        |
-| 2nd Maintainer                       | -                                                                            |
-| Testcases                            | Florian Suittenpointner, Qualitus GmbH                                       |
-| Tester                               | Antonia Weber/Alexander Baulig, Uni Köln                                     |
-| **Course Management**                |                                                                              |
-| 1st Maintainer                       | Stefan Meyer: meyer at leifos.com                                            |
-| 2nd Maintainer                       | Alexander Killing: killing at leifos.de                                      |
-| Testcases                            | iLUB Universität Bern                                                        |
-| Tester                               | iLUB Universität Bern                                                        |
-| **CSS / Templates**                  |                                                                              |
-| 1st Maintainer                       | Jean-Luc Braun: braun at qualitus.de                                         |
-| 2nd Maintainer                       | Timon Amstutz: timon.amstutz at ilub.unibern.ch                              |
-| Testcases                            | Fabian Kruse, ILIAS e.V.                                                     |
-| Tester                               | Fabian Schmid: fs at studer-raimann.ch                                             |
-| **Cron Service**                     |                                                                              |
-| 1st Maintainer                       | Michael Jansen: mjansen at databay.de                                        |
-| 2nd Maintainer                       | Björn Heyser: bheyser at databay.de                                          |
-| Testcases                            | Matthias Kunkel, ILIAS e.V.                                                  |
-| Tester                               | Tester needed!                                                               |
-| **Data Collection**                  |                                                                              |
-| 1st Maintainer                       | Fabian Schmid: fs at studer-raimann.ch                                       |
-| 2nd Maintainer                       | -                                                                            |
-| Testcases                            | Martin Studer, studer+rainmann                                               |
-| Tester                               | Kim Herms, Cognos AG                                                         |
-| **ECS Interface**                    |                                                                              |
-| 1st Maintainer                       | Stefan Meyer, meyer at leifos.com                                            |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Christian Bogen, Uni Stuttgart                                               |
-| Tester                               | Christian Bogen, Uni Stuttgart                                               |
-| **Exercise**                         |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.de                                      |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Klaus Vorkauf, FH Dortmund                                                   |
-| Tester                               | Miriam Wegener, HS BRS                                                       |
-| **Export**                           |                                                                              |
-| 1st Maintainer                       | Stefan Meyer, meyer at leifos.com                                            |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Fabian Kruse, ILIAS e.V.                                                     |
-| Tester                               | Fabian Kruse, ILIAS e.V.                                                     |
-| **File**                             |                                                                              |
-| 1st Maintainer                       | Fabian Schmid: fs at studer-raimann.ch                                       |
-| 2nd Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| Testcases                            | Tom Loewen, Concepts and Training GmbH                                       |
-| Tester                               | Tom Loewen, Concepts and Training GmbH                                       |
-| **Forum**                            |                                                                              |
-| 1st Maintainer                       | Michael Jansen: mjansen at databay.de                                        |
-| 2nd Maintainer                       | Nadia Matuschek: nmatuschek at databay.de                                    |
-| Testcases                            | FH Aachen                                                                    |
-| Tester                               | Esther Paulmann, Uni Erlangen                                                |
-| **Glossary**                         |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Alexandra Tödt, Leifos GmbH                                                  |
-| Tester                               | Alexandra Tödt, Leifos GmbH                                                  |
-| **Group**                            |                                                                              |
-| 1st Maintainer                       | Stefan Meyer: meyer at leifos.com                                            |
-| 2nd Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| Testcases                            | iLUB Universität Bern                                                        |
-| Tester                               | iLUB Universität Bern                                                        |
-| **ILIAS Page Editor**                |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Alexandra Tödt, leifos                                                       |
-| Tester                               | FH Aachen                                                                    |
-| **Info Page**                        |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.de                                      |
-| 2nd Maintainer                       | Stefan Meyer: meyer at leifos.de                                             |
-| Testcases                            | Tester needed!                                                               |
-| Tester                               | Author needed!                                                               |
-| **Language Handling**                |                                                                              |
-| 1st Maintainer                       | Matthias Kunkel: kunkel at ilias.de(Organization)                            |
-| 2nd Maintainer                       | Fred Neumann: fred.neumann at fim.uni-erlangen.de (Implementation)           |
-| Testcases                            | Author needed!                                                               |
-| Tester                               | Matthias Kunkel, ILIAS e.V.                                                  |
-| **Learning Module HTML**             |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Florian Suittenpointner, Qualitus GmbH                                       |
-| Tester                               | Florian Suittenpointner, Qualitus GmbH                                       |
-| **Learning Module ILIAS**            |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.de                                      |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Tobias Balliel und Jochen Erkens, FH Aachen                                  |
-| Tester                               | Tobias Balliel und Jochen Erkens, FH Aachen                                  |
-| **Learning Module SCORM**            |                                                                              |
-| 1st Maintainer                       | Uwe Kohnle: kohnle at internetlehrer.de                                      |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Norbert Bromberger and Florian Suittenpointner, Qualitus GmbH                |
-| Tester                               | Florian Suittenpointner, Qualitus GmbH                                       |
-| **Login, Auth & Registration**       |                                                                              |
-| 1st Maintainer                       | Stefan Meyer, meyer at leifos.com                                            |
-| 2nd Maintainer                       | Björn Heyser, bheyser at databay.de                                          |
-| Testcases                            | FH Aachen                                                                    |
-| Tester                               | Antonia Weber, Uni Köln                                                      |
-| **Mail**                             |                                                                              |
-| 1st Maintainer                       | Michael Jansen: mjansen at databay.de                                        |
-| 2nd Maintainer                       | Nadia Matuschek: nmatuschek at databay.de                                    |
-| Testcases                            | André Mersch, HS OWL                                                         |
-| Tester                               | André Mersch, HS OWL                                                         |
-| **Manual Assessment**                |                                                                              |
-| 1st Maintainer                       | Richard Klees: richard.klees at concepts-and-training.de                     |
-| 2nd Maintainer                       | Denis Klöpfer: denis.kloepfer at concepts-and-training.de                    |
-| Testcases                            | Stefan Hecken, CaT                                                           |
-| Tester                               | Matthias Kunkel, ILIAS e.V.                                                  |
-| **Maps (OpenLayers)**                |                                                                              |
-| 1st Maintainer                       | Richard Klees: richard.klees at concepts-and-training.de                     |
-| 2nd Maintainer                       | Denis Klöpfer: denis.kloepfer at concepts-and-training.de                    |
-| Testcases                            | Richard Klees, CAT and Miriam Hölscher, FH Münster                           |
-| Tester                               | Miriam Hölscher, FH Münster                                                  |
-| **Maps (GoogleMaps)**                |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       | Fred Neumann: Fred.Neumann at ili.fau.de                                     |
-| Testcases                            | Richard Klees, CAT and Miriam Hölscher, FH Münster                           |
-| Tester                               | Miriam Hölscher, FH Münster                                                  |
-| **MathJax**                          |                                                                              |
-| 1st Maintainer                       | Fred Neumann: Fred.Neumann at ili.fau.de                                     |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Fred Neumann, FAU                                                            |
-| Tester                               | Claudio Fischer, FAU                                                         |
-| **Media Pools and Media Objects**    |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.de                                      |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Matthias Kunkel, ILIAS e.V.                                                  |
-| Tester                               | Matthias Kunkel, ILIAS e.V.                                                  |
-| **Mediacast**                        |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       | Fabian Schmid: fs at studer-raimann.ch                                      |
-| Testcases                            | Christine Berggold, Uni Hohenheim                                            |
-| Tester                               | Christine Berggold, Uni Hohenheim                                            |
-| **Metadata**                         |                                                                              |
-| 1st Maintainer                       | Stefan Meyer: meyer at leifos.com                                            |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Daniela Weber, FHöV NRW                                                      |
-| Tester                               | Daniela Weber, FHöV NRW                                                      |
-| **My Workspace**                     |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Author needed!                                                               |
-| Tester                               | Tester: Klaus Vorkauf, FH Dortmund                                           |
-| **News**                             |                                                                              |
-| 1st Maintainer                       | Alexander Killing: alex.killing at gmx.de                                    |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Thomas Schroeder, FHöV NRW                                                   |
-| Tester                               | Thomas Schroeder, FHöV NRW                                                   |
-| **Notes and Comments**               |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       | Fabian Schmid: fs at studer-raimann.ch                                       |
-| Testcases                            | Sascha Kaiser, FH Bielefeld                                                  |
-| Tester                               | Sascha Kaiser, FH Bielefeld                                                  |
-| **Online Help**                      |                                                                              |
-| 1st Maintainer                       | Alexandra Tödt (Content and Organzisation)                                   |
-| 2nd Maintainer                       | Alexander Killing: killing at leifos.com(Implementation)                     |
-| Testcases                            | Alexandra Tödt                                                               |
-| Tester                               | Tester: Tester needed!                                                       |
-| **Organisational Units**             |                                                                              |
-| 1st Maintainer                       | Fabian Schmid: fs at studer-raimann.ch                                       |
-| 2nd Maintainer                       | Björn Heyser: bheyser at databay.de                                          |
-| Testcases                            | Stanislav Wischniak, Qualitus                                                |
-| Tester                               | Stanislav Wischniak, Qualitus                                                |
-| **Payment and Shop**                 |                                                                              |
-| 1st Maintainer                       | Nadia Matuschek: nmatuschek at databay.de                                    |
-| 2nd Maintainer                       | Michael Jansen: mjansen at databay.de                                        |
-| Testcases                            | **Feature to be abandoned in ILIAS 5.2**                                         |
-| Tester                               |                                                                              |
-| **Personal Desktop**                 |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Matthias Kunkel, ILIAS e.V.                                                  |
-| Tester                               | Tester needed!                                                               |
-| **Personal Profile**                 |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Fabian Kruse, ILIAS e.V.                                                     |
-| Tester                               | Tester: Fabian Kruse, ILIAS e.V.                                             |
-| **Plugin Slots**                     |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       | Fabian Schmid: fs at studer-raimann.ch                                       |
-| Testcases                            | Author needed!                                                               |
-| Tester                               | Tester: Pascal Grube, Uni Stuttgart                                          |
-| **Poll**                             |                                                                              |
-| 1st Maintainer                       | Stefan Meyer: meyer at leifos.com                                            |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Fabian Wolf, leifos                                                          |
-| Tester                               | Tester: Fabian Wolf, leifos                                                  |
-| **Portfolio**                        |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Klaus Vorkauf, FH Dortmund                                                   |
-| Tester                               | Tester: Klaus Vorkauf, FH Dortmund                                           |
-| **Precondition Handling**            |                                                                              |
-| 1st Maintainer                       | Stefan Meyer: meyer at leifos.com                                            |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Author needed!                                                               |
-| Tester                               | Tester needed!                                                               |
-| **Rating**                           |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Fabian Kruse, ILIAS e.V.                                                     |
-| Tester                               | Tester: Fabian Kruse, ILIAS e.V.                                             |
-| **RBAC**                             |                                                                              |
-| 1st Maintainer                       | Stefan Meyer: meyer at leifos.com                                            |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Matthias Kunkel, ILIAS e.V.                                                  |
-| Tester                               | Tester: Matthias Kunkel, ILIAS e.V.                                          |
-| **SCORM Offline Player**             |                                                                              |
-| 1st Maintainer                       | Uwe Kohnle (ILIAS component): kohnle at internetlehrer.de                    |
-| 2nd Maintainer                       | Stefan Schneider (browser component): schneider at hrz.uni-marburg.de        |
-| Testcases                            | Author needed!                                                               |
-| Tester                               | Tester needed!                                                               |
-| **SCORM Online Editor**              |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Alexandra Tödt, leifos                                                       |
-| Tester                               | Peter Pellemans, Future Learning                                             |
-| **Search**                           |                                                                              |
-| 1st Maintainer                       | Stefan Meyer: meyer at leifos.com                                            |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | FH Aachen                                                                    |
-| Tester                               | Tester needed!                                                               |
-| **Session (Course & Group)**         |                                                                              |
-| 1st Maintainer                       | Stefan Meyer: meyer at leifos.com                                            |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | iLUB Universität Bern                                                        |
-| Tester                               | iLUB Universität Bern                                                        |
-| **Setup**                            |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       | Stefan Meyer: smeyer at leifos.de                                            |
-| Testcases                            | Author needed!                                                               |
-| Tester                               | Tester needed!                                                               |
-| **Shibboleth Authentication**        |                                                                              |
-| 1st Maintainer                       | Fabian Schmid: fs at studer-raimann ch                                       |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | iLUB Universität Bern                                                        |
-| Tester                               | iLUB Universität Bern                                                        |
-| **SOAP & Web Services**              |                                                                              |
-| 1st Maintainer                       | Stefan Meyer: meyer at leifos.com                                            |
-| 2nd Maintainer                       | Martin Studer: ms at studer-raimann.ch                                       |
-| 3rd Maintainer                       | Michael Jansen: mjansen at databay.de                                 |
-| Testcases                            | Author needed!                                                               |
-| Tester                               | Tester needed!                                                               |
-| **Statistics and Learning Progress** |                                                                              |
-| 1st Maintainer                       | Stefan Meyer: meyer at leifos.com                                            |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Norbert Bromberger, Qualitus GmbH                                            |
-| Tester                               | Florian Suittenpointner, Qualitus GmbH                                       |
-| **Study Programme**                  |                                                                              |
-| 1st Maintainer                       | Richard Klees: richard.klees at concepts-and-training.de                     |
-| 2nd Maintainer                       | Stefan Hecken: stefan.hecken at concepts-and-training.de                     |
-| Testcases                            | Richard Klees, CaT                                                           |
-| Tester                               | Martin Studer, studer+raimann                                                |
-| **Survey**                           |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Alexandra Tödt, leifos                                                       |
-| Tester                               | Elena Coroian, FAU                                                           |
-| **System Check (excl. Trash)**       |                                                                              |
-| 1st Maintainer                       | Stefan Meyer: smeyer at leifos.de                                            |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Matthias Kunkel, ILIAS e.V.                                                  |
-| Tester                               | Tester needed!                                                               |
-| **Tagging**                          |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       | Martin Studer: ms at studer-raimann.ch                                       |
-| Testcases                            | Sascha Kaiser, FH Bielefeld                                                  |
-| Tester                               | Sascha Kaiser, FH Bielefeld                                                  |
-| **Taxonomies**                       |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            |                                                                              |
-| Tester                               | Tested separately in each module                                             |
-| **Test & Assessment**                |                                                                              |
-| 1st Maintainer                       | Björn Heyser: bheyser at databay.de                                          |
-| 2nd Maintainer                       | Max Becker: mbecker at databay.de                                            |
-| Testcases                            | Claudia Dehling, Uni Düsseldorf; Fabian Kruse, ILIAS e.V.; members of SIG EA |
-| Tester                               | Cases: Claudia Dehling, Uni Düsseldorf;  members of SIG EA                   |
-| **User Service**                     |                                                                              |
-| 1st Maintainer                       | Stefan Meyer: smeyer at leifos.de                                            |
-| 2nd Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| Testcases                            | Author needed!                                                               |
-| Tester                               | Tester needed!                                                               |
-| **Web Access Checker**               |                                                                              |
-| 1st Maintainer                       | Fabian Schmid: fs at studer-raimann.ch                                       |
-| 2nd Maintainer                       | Uwe Kohnle: kohnle at internetlehrer.de                                      |
-| Testcases                            | Theodor Truffer, studer+raimann                                              |
-| Tester                               | iLUB Universität Bern                                                        |
-| **Web Feeds & RSS**                  |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Matthias Kunkel, ILIAS e.V.                                                  |
-| Tester                               | Matthias Kunkel, ILIAS e.V.                                                  |
-| **WebDAV**                           |                                                                              |
-| 1st Maintainer                       | Stephan Winiker: stephan.winiker at hslu.ch                                  |
-| 2nd Maintainer                       | Stefan Meyer: smeyer at leifos.de                                            |
-| Testcases                            | Author needed!                                                               |
-| Tester                               | Tester: Tom Loewen, CaT                                                      |
-| **Weblink**                          |                                                                              |
-| 1st Maintainer                       | Stefan Meyer: meyer at leifos.com                                            |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Nadine Bauser, HS Albstadt-Sigmaringen                                       |
-| Tester                               | Tester: Nadine Bauser, HS Albstadt-Sigmaringen                               |
-| **Who is online?**                   |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.de                                      |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Alexandra Tödt, leifos                                                       |
-| Tester                               | André Mersch, HS OWL                                                         |
-| **Wiki**                             |                                                                              |
-| 1st Maintainer                       | Alexander Killing: killing at leifos.com                                     |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Alexander Baulig, Uni Köln                                                   |
-| Tester                               | Tester needed!                                                               |
-| **Workflow Engine**                  |                                                                              |
-| 1st Maintainer                       | Max Becker: mbecker at databay.de                                            |
-| 2nd Maintainer                       |                                                                              |
-| Testcases                            | Max Becker, Databay                                                          |
-| Tester                               | Tester needed!                                                               |
+| Function                             | Responsible Person                                        |
+|--------------------------------------|-----------------------------------------------------------|
+| **Administration**                   |                                                           | 
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       | [Stefan Meyer]                                            |
+| Testcases                            | [Matthias Kunkel]                                         |
+| Tester                               | [Matthias Kunkel]                                         |
+| **Badges**                           |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       | -                                                         |
+| Testcases                            | [Alexandra Tödt]                                          |
+| Tester                               | [Thomas Schröder]                                         |
+| **Bibliographic List Item**          |                                                           |
+| 1st Maintainer                       | [Fabian Schmid]                                           |
+| 2nd Maintainer                       | -                                                         |
+| Testcases                            | [Martin Studer]                                           |
+| Tester                               | [Marko Glaubitz]                                          |
+| **Blog**                             |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       | -                                                         |
+| Testcases                            | [Klaus Vorkauf]                                           |
+| Tester                               | [Patrick Bergmann]                                        |
+| **Booking Tool**                     |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       | -                                                         |
+| Testcases                            | [Elena Coroian]                                           |
+| Tester                               | [Wolfgang Hübsch]                                         |
+| **Bookmarks**                        |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       | [Alexander Killing]                                       |
+| Testcases                            | [Matthias Kunkel]                                         |
+| Tester                               | [Miriam Hölscher]                                         |
+| **Calendar**                         |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       | [Alexander Killing]                                       |
+| Testcases                            | -                                                         |
+| Tester                               | [Christine Berggold]                                      |
+| **Category and Repository**          |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       | [Stefan Meyer]                                            |
+| Testcases                            | [Matthias Kunkel]                                         |
+| Tester                               | [Miriam Hölscher]                                         |
+| **Certificate**                      |                                                           |
+| 1st Maintainer                       | frontend: [Michael Jansen], Java-server: [Stefan Meyer]   |
+| 2nd Maintainer                       | -                                                         |
+| Testcases                            | -                                                         |
+| Tester                               | [Christian Hüser]                                         |
+| **Chat**                             |                                                           |
+| 1st Maintainer                       | [Michael Jansen]                                          |
+| 2nd Maintainer                       | [Max Becker]                                              |
+| Testcases                            | [Matthias Kunkel]                                         |
+| Tester                               | [Antonia Weber], [Alexander Baulig]                       |
+| **Cloud Object**                     |                                                           |
+| 1st Maintainer                       | [Fabian Schmid]                                           |
+| 2nd Maintainer                       | -                                                         |
+| Testcases                            | [Theodor Truffer]                                         |
+| Tester                               | [Timon Amstutz]                                           |
+| **Competence Management**            |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       | -                                                         |
+| Testcases                            | [Alexandra Tödt]                                          |
+| Tester                               | [Wolfgang Hübsch], [Philipp Kröpelin]                     |
+| **Contacts**                         |                                                           |
+| 1st Maintainer                       | [Michael Jansen]                                          |
+| 2nd Maintainer                       | -                                                         |
+| Testcases                            | [Florian Suittenpointner]                                 |
+| Tester                               | [Antonia Weber], [Alexander Baulig]                       |
+| **Course Management**                |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       | [Alexander Killing]                                       |
+| Testcases                            | iLUB Universität Bern                                     |
+| Tester                               | iLUB Universität Bern                                     |
+| **CSS / Templates**                  |                                                           |
+| 1st Maintainer                       | [Jean-Luc Braun]                                          |
+| 2nd Maintainer                       | [Timon Amstutz]                                           |
+| Testcases                            | [Fabian Kruse]                                            |
+| Tester                               | [Fabian Schmid]                                           |
+| **Cron Service**                     |                                                           |
+| 1st Maintainer                       | [Michael Jansen]                                          |
+| 2nd Maintainer                       | [Björn Heyser]                                            |
+| Testcases                            | [Matthias Kunkel]                                         |
+| Tester                               | Tester needed!                                            |
+| **Data Collection**                  |                                                           |
+| 1st Maintainer                       | [Fabian Schmid]                                           |
+| 2nd Maintainer                       | -                                                         |
+| Testcases                            | [Martin Studer]                                           |
+| Tester                               | [Kim Herms]                                               |
+| **ECS Interface**                    |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Christian Bogen]                                         |
+| Tester                               | [Christian Bogen]                                         |
+| **Exercise**                         |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Klaus Vorkauf]                                           |
+| Tester                               | [Miriam Wegener]                                          |
+| **Export**                           |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Fabian Kruse]                                            |
+| Tester                               | [Fabian Kruse]                                            |
+| **File**                             |                                                           |
+| 1st Maintainer                       | [Fabian Schmid]                                           |
+| 2nd Maintainer                       | [Alexander Killing]                                       |
+| Testcases                            | [Tom Loewen]                                              |
+| Tester                               | [Tom Loewen]                                              |
+| **Forum**                            |                                                           |
+| 1st Maintainer                       | [Michael Jansen]                                          |
+| 2nd Maintainer                       | [Nadia Matuschek]                                         |
+| Testcases                            | FH Aachen                                                 |
+| Tester                               | [Esther Paulmann]                                         |
+| **Glossary**                         |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Alexandra Tödt]                                          |
+| Tester                               | [Alexandra Tödt]                                          |
+| **Group**                            |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       | [Alexander Killing]                                       |
+| Testcases                            | iLUB Universität Bern                                     |
+| Tester                               | iLUB Universität Bern                                     |
+| **ILIAS Page Editor**                |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Alexandra Tödt]                                          |
+| Tester                               | FH Aachen                                                 |
+| **Info Page**                        |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       | [Stefan Meyer]                                            |
+| Testcases                            | Tester needed!                                            |
+| Tester                               | Author needed!                                            |
+| **Language Handling**                |                                                           |
+| 1st Maintainer                       | Organisation: [Matthias Kunkel]                           |
+| 2nd Maintainer                       | Implementation: [Fred Neumann]                            |
+| Testcases                            | Author needed!                                            |
+| Tester                               | [Matthias Kunkel]                                         |
+| **Learning Module HTML**             |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Florian Suittenpointner]                                 |
+| Tester                               | [Florian Suittenpointner]                                 |
+| **Learning Module ILIAS**            |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Tobias Balliel], [Jochen Erkens]                         |
+| Tester                               | [Tobias Balliel], [Jochen Erkens]                         |
+| **Learning Module SCORM**            |                                                           |
+| 1st Maintainer                       | [Uwe Kohnle]                                              |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Norbert Bromberger], [Florian Suittenpointner]           |
+| Tester                               | [Florian Suittenpointner]                                 |
+| **Login, Auth & Registration**       |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       | [Björn Heyser]                                            |
+| Testcases                            | FH Aachen                                                 |
+| Tester                               | [Antonia Weber]                                           |
+| **Mail**                             |                                                           |
+| 1st Maintainer                       | [Michael Jansen]                                          |
+| 2nd Maintainer                       | [Nadia Matuschek]                                         |
+| Testcases                            | [André Mersch]                                            |
+| Tester                               | [André Mersch]                                            |
+| **Manual Assessment**                |                                                           |
+| 1st Maintainer                       | [Richard Klees]                                           |
+| 2nd Maintainer                       | [Denis Klöpfer]                                           |
+| Testcases                            | [Stefan Hecken]                                           |
+| Tester                               | [Matthias Kunkel]                                         |
+| **Maps (OpenLayers)**                |                                                           |
+| 1st Maintainer                       | [Richard Klees]                                           |
+| 2nd Maintainer                       | [Denis Klöpfer]                                           |
+| Testcases                            | [Richard Klees], [Miriam Hölscher]                        |
+| Tester                               | [Miriam Hölscher]                                         |
+| **Maps (GoogleMaps)**                |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       | [Fred Neumann]                                            |
+| Testcases                            | [Richard Klees], [Miriam Hölscher]                        |
+| Tester                               | [Miriam Hölscher]                                         |
+| **MathJax**                          |                                                           |
+| 1st Maintainer                       | [Fred Neumann]                                            |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Fred Neumann]                                            |
+| Tester                               | [Claudio Fischer]                                         |
+| **Media Pools and Media Objects**    |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Matthias Kunkel]                                         |
+| Tester                               | [Matthias Kunkel]                                         |
+| **Mediacast**                        |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       | [Fabian Schmid]                                           |
+| Testcases                            | [Christine Berggold]                                      |
+| Tester                               | [Christine Berggold]                                      |
+| **Metadata**                         |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Daniela Weber]                                           |
+| Tester                               | [Daniela Weber]                                           |
+| **My Workspace**                     |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | Author needed!                                            |
+| Tester                               | [Klaus Vorkauf]                                           |
+| **News**                             |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Thomas Schröder]                                         |
+| Tester                               | [Thomas Schröder]                                         |
+| **Notes and Comments**               |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       | [Fabian Schmid]                                           |
+| Testcases                            | [Sascha Kaiser]                                           |
+| Tester                               | [Sascha Kaiser]                                           |
+| **Online Help**                      |                                                           |
+| 1st Maintainer                       | Content and Organisation: [Alexandra Tödt]                |
+| 2nd Maintainer                       | Implementation: [Alexander Killing]                       |
+| Testcases                            | [Alexandra Tödt]                                          |
+| Tester                               | Tester: Tester needed!                                    |
+| **Organisational Units**             |                                                           |
+| 1st Maintainer                       | [Fabian Schmid]                                           |
+| 2nd Maintainer                       | [Björn Heyser]                                            |
+| Testcases                            | [Stanislav Wischniak]                                     |
+| Tester                               | [Stanislav Wischniak]                                     |
+| **Payment and Shop**                 |                                                           |
+| 1st Maintainer                       | [Nadia Matuschek]                                         |
+| 2nd Maintainer                       | [Michael Jansen]                                          |
+| Testcases                            | **Feature to be abandoned in ILIAS 5.2**                  |
+| Tester                               |                                                           |
+| **Personal Desktop**                 |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Matthias Kunkel]                                         |
+| Tester                               | Tester needed!                                            |
+| **Personal Profile**                 |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Fabian Kruse]                                            |
+| Tester                               | [Fabian Kruse]                                            |
+| **Plugin Slots**                     |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       | [Fabian Schmid]                                           |
+| Testcases                            | Author needed!                                            |
+| Tester                               | [Pascal Grube]                                            |
+| **Poll**                             |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | Fabian Wolf, leifos                                       |
+| Tester                               | Tester: Fabian Wolf, leifos                               |
+| **Portfolio**                        |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Klaus Vorkauf]                                           |
+| Tester                               | [Klaus Vorkauf]                                           |
+| **Precondition Handling**            |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | Author needed!                                            |
+| Tester                               | Tester needed!                                            |
+| **Rating**                           |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Fabian Kruse]                                            |
+| Tester                               | [Fabian Kruse]                                            |
+| **RBAC**                             |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Matthias Kunkel]                                         |
+| Tester                               | [Matthias Kunkel]                                         |
+| **SCORM Offline Player**             |                                                           |
+| 1st Maintainer                       | ILIAS Component: [Uwe Kohnle]                             |
+| 2nd Maintainer                       | Browser Component: [Stefan Schneider]                     |
+| Testcases                            | Author needed!                                            |
+| Tester                               | Tester needed!                                            |
+| **SCORM Online Editor**              |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Alexandra Tödt]                                          |
+| Tester                               | [Peter Pellemans]                                         |
+| **Search**                           |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | FH Aachen                                                 |
+| Tester                               | Tester needed!                                            |
+| **Session (Course & Group)**         |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | iLUB Universität Bern                                     |
+| Tester                               | iLUB Universität Bern                                     |
+| **Setup**                            |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       | [Stefan Meyer]                                            |
+| Testcases                            | Author needed!                                            |
+| Tester                               | Tester needed!                                            |
+| **Shibboleth Authentication**        |                                                           |
+| 1st Maintainer                       | [Fabian Schmid]                                           |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | iLUB Universität Bern                                     |
+| Tester                               | iLUB Universität Bern                                     |
+| **SOAP & Web Services**              |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       | [Martin Studer]                                           |
+| 3rd Maintainer                       | [Michael Jansen]                                          |
+| Testcases                            | Author needed!                                            |
+| Tester                               | Tester needed!                                            |
+| **Statistics and Learning Progress** |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Norbert Bromberger]                                      |
+| Tester                               | [Florian Suittenpointner]                                 |
+| **Study Programme**                  |                                                           |
+| 1st Maintainer                       | [Richard Klees]                                           |
+| 2nd Maintainer                       | [Stefan Hecken]                                           |
+| Testcases                            | [Richard Klees]                                           |
+| Tester                               | [Martin Studer]                                           |
+| **Survey**                           |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Alexandra Tödt]                                          |
+| Tester                               | [Elena Coroian]                                           |
+| **System Check (excl. Trash)**       |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Matthias Kunkel]                                         |
+| Tester                               | Tester needed!                                            |
+| **Tagging**                          |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       | [Martin Studer]                                           |
+| Testcases                            | [Sascha Kaiser]                                           |
+| Tester                               | [Sascha Kaiser]                                           |
+| **Taxonomies**                       |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            |                                                           |
+| Tester                               | Tested separately in each module                          |
+| **Test & Assessment**                |                                                           |
+| 1st Maintainer                       | [Björn Heyser]                                            |
+| 2nd Maintainer                       | [Max Becker]                                              |
+| Testcases                            | [Claudia Dehling], [Fabian Kruse], SIG EA                 |
+| Tester                               | [Claudia Dehling], SIG EA                                 |
+| **User Service**                     |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       | [Alexander Killing]                                       |
+| Testcases                            | Author needed!                                            |
+| Tester                               | Tester needed!                                            |
+| **Web Access Checker**               |                                                           |
+| 1st Maintainer                       | [Fabian Schmid]                                           |
+| 2nd Maintainer                       | [Uwe Kohnle]                                              |
+| Testcases                            | [Theodor Truffer]                                         |
+| Tester                               | iLUB Universität Bern                                     |
+| **Web Feeds & RSS**                  |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Matthias Kunkel]                                         |
+| Tester                               | [Matthias Kunkel]                                         |
+| **WebDAV**                           |                                                           |
+| 1st Maintainer                       | Stephan Winiker: stephan.winiker at hslu.ch               |
+| 2nd Maintainer                       | [Stefan Meyer]                                            |
+| Testcases                            | Author needed!                                            |
+| Tester                               | Tester needed!                                            |
+| **Weblink**                          |                                                           |
+| 1st Maintainer                       | [Stefan Meyer]                                            |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Nadine Bauser]                                           |
+| Tester                               | [Nadine Bauser]                                           |
+| **Who is online?**                   |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Alexandra Tödt]                                          |
+| Tester                               | [André Mersch]                                            |
+| **Wiki**                             |                                                           |
+| 1st Maintainer                       | [Alexander Killing]                                       |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Alexander Baulig]                                        |
+| Tester                               | Tester needed!                                            |
+| **Workflow Engine**                  |                                                           |
+| 1st Maintainer                       | [Max Becker]                                              |
+| 2nd Maintainer                       |                                                           |
+| Testcases                            | [Max Becker]                                              |
+| Tester                               | Tester needed!                                            |
+
+
+[//]: # This is a reference list of all involved persons, it gets stripped out by the MD-processor.
+
+[Alexander Killing]: <http://www.ilias.de/docu/goto_docu_usr_27631.html>
+[Alexander Baulig]:
+[Alexandra Tödt]: 
+[André Mersch]:
+[Antonia Weber]:
+[Björn Heyser]:
+[Christian Hüser]:
+[Christine Berggold]:
+[Christine Bogen]:
+[Claudia Dehling]:
+[Claudio Fischer]:
+[Daniela Weber]:
+[Denis Klöpfer]:
+[Elena Coroian]:
+[Esther Paulmann]:
+[Fabian Kruse]: <http://www.ilias.de/docu/goto_docu_usr_27631.html>
+[Fabian Schmid]:
+[Florian Suittenpointner]:
+[Fred Neumann]:
+[Jean-Luc Braun]:
+[Jochen Erkens]:
+[Klaus Vorkauf]:
+[Kim Herms]:
+[Matthias Kunkel]:
+[Marko Glaubitz]:
+[Martin Studer]: 
+[Max Becker]: 
+[Michael Jansen]:
+[Miriam Hölscher]:
+[Miriam Wegener]:
+[Nadia Matuschek]:
+[Nadine Bauser]:
+[Norbert Bromberger]:
+[Richard Klees]:
+[Pascal Grube]:
+[Patrick Bergmann]:
+[Peter Pellemans]:
+[Philipp Kröpelin]:
+[Sascha Kaiser]:
+[Stefan Hecken]:
+[Stanislav Wischniak]:
+[Stefan Meyer]:
+[Stefan Schneider]:
+[Stefan Winiker]:
+[Theodor Truffer]:
+[Thomas Schröder]:
+[Timon Amstutz]:
+[Tom Loewen]:
+[Tobias Balliel]:
+[Uwe Kohnle]:
+[Wolfgang Hübsch]:
