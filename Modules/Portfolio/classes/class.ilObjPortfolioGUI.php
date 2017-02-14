@@ -933,62 +933,64 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$title = trim($_REQUEST["pt"]);
 		$prtt_id = (int)$_REQUEST["prtt"];
 
-		$templates = array_keys(ilObjPortfolioTemplate::getAvailablePortfolioTemplates());
-		if(!sizeof($templates) || !in_array($prtt_id, $templates))
+		if($prtt_id > 0)
 		{
-			$this->toRepository();
-		}
-		unset($templates);
-
-		//quota manipulation
-		include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";
-		$check_quota = (int)ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive();
-		$quota_sum = 0;
-
-		//skills manipulation
-		include_once "Services/Skill/classes/class.ilPersonalSkill.php";
-		$pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
-		$skill_ids = array();
-
-		$recipe = array();
-		foreach(ilPortfolioTemplatePage::getAllPortfolioPages($prtt_id) as $page)
-		{
-			switch($page["type"])
+			$templates = array_keys(ilObjPortfolioTemplate::getAvailablePortfolioTemplates());
+			if(!sizeof($templates) || !in_array($prtt_id, $templates))
 			{
-				case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
-					if(!$ilSetting->get('disable_wsp_blogs'))
-					{
-						$recipe[$page["id"]] = array("blog", "create", $page['title']);
-					}
-					break;
-				case ilPortfolioTemplatePage::TYPE_PAGE:
-					$source_page = new ilPortfolioTemplatePage($page["id"]);
-					$source_page->buildDom(true);
-					if($check_quota)
-					{
-						$quota_sum += $source_page->getPageDiskSize();
-					}
-					$skill_ids = $this->getSkillsToPortfolioAssignment($pskills, $skill_ids, $source_page);
-					break;
+				$this->toRepository();
 			}
-		}
+			unset($templates);
 
-		if($quota_sum)
-		{
-			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
-			if(!ilDiskQuotaHandler::isUploadPossible($quota_sum))
+			//quota manipulation
+			include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";
+			$check_quota = (int)ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive();
+			$quota_sum = 0;
+
+			//skills manipulation
+			include_once "Services/Skill/classes/class.ilPersonalSkill.php";
+			$pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
+			$skill_ids = array();
+
+			$recipe = array();
+			foreach(ilPortfolioTemplatePage::getAllPortfolioPages($prtt_id) as $page)
 			{
-				ilUtil::sendFailure($this->lng->txt("prtf_template_import_quota_failure"), true);
-				$this->ctrl->redirect($this, "create");
+				switch($page["type"])
+				{
+					case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
+						if(!$ilSetting->get('disable_wsp_blogs'))
+						{
+							$recipe[$page["id"]] = array("blog", "create", $page['title']);
+						}
+						break;
+					case ilPortfolioTemplatePage::TYPE_PAGE:
+						$source_page = new ilPortfolioTemplatePage($page["id"]);
+						$source_page->buildDom(true);
+						if($check_quota)
+						{
+							$quota_sum += $source_page->getPageDiskSize();
+						}
+						$skill_ids = $this->getSkillsToPortfolioAssignment($pskills, $skill_ids, $source_page);
+						break;
+				}
 			}
-		}
 
-		if($skill_ids)
-		{
-			$recipe["skills"] = $skill_ids;
-		}
+			if($quota_sum)
+			{
+				include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+				if(!ilDiskQuotaHandler::isUploadPossible($quota_sum))
+				{
+					ilUtil::sendFailure($this->lng->txt("prtf_template_import_quota_failure"), true);
+					$this->ctrl->redirect($this, "create");
+				}
+			}
 
-		$source = new ilObjPortfolioTemplate($prtt_id, false);
+			if($skill_ids)
+			{
+				$recipe["skills"] = $skill_ids;
+			}
+
+		}
 
 		// create portfolio
 		$target = new ilObjPortfolio();
@@ -996,7 +998,11 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$target->create();
 		$target_id = $target->getId();
 
-		$source->clonePagesAndSettings($source, $target,$recipe);
+		if($prtt_id)
+		{
+			$source = new ilObjPortfolioTemplate($prtt_id, false);
+			$source->clonePagesAndSettings($source, $target,$recipe);
+		}
 
 		// link portfolio to exercise assignment
 		$this->linkPortfolioToAssignment($target_id);

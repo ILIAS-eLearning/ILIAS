@@ -453,22 +453,17 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		//get the object id to compare with a list of template objects.
 		$template_object_id = ilObject::_lookupObjectId($template_id);
 
+		$title = $this->exercise->getTitle()." - ".$this->assignment->getTitle();
+		$ctrl->setParameterByClass("ilObjPortfolioGUI", "exc_id", $this->exercise->getRefId());
+		$ctrl->setParameterByClass("ilObjPortfolioGUI", "ass_id", $this->assignment->getId());
+		$ctrl->setParameterByClass("ilObjPortfolioGUI", "pt", $title);
+
 		if($template_object_id > 0 && array_key_exists($template_object_id, $templates))
 		{
-			$title = $this->exercise->getTitle()." - ".$this->assignment->getTitle();
-			$ctrl->setParameterByClass("ilObjPortfolioGUI", "exc_id", $this->exercise->getRefId());
-			$ctrl->setParameterByClass("ilObjPortfolioGUI", "ass_id", $this->assignment->getId());
-			$ctrl->setParameterByClass("ilObjPortfolioGUI", "pt", $title);
 			$ctrl->setParameterByClass("ilObjPortfolioGUI", "prtt", $template_object_id);
-			//$ctrl->redirectByClass(array("ilPersonalDesktopGUI", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromTemplate");
-			$ctrl->redirectByClass(array("ilPersonalDesktopGUI", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromAssignment");
-		}
-		else
-		{
-			ilUtil::sendFailure($this->lng->txt("exc_no_portfolio_templates"), true);
-			$this->returnToParentObject();
 		}
 
+		$ctrl->redirectByClass(array("ilPersonalDesktopGUI", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromAssignment");
 	}
 
 	protected function createPortfolioTemplateObject(ilPropertyFormGUI $a_form = null)
