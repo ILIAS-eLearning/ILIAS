@@ -183,6 +183,26 @@ class ilExAssignmentEditorGUI
 		$ty->setDisabled(true);
 		$form->addItem($ty);
 
+		if($a_type == ilExAssignment::TYPE_TEXT)
+		{
+			$rb_limit_chars = new ilCheckboxInputGUI($lng->txt("exc_limit_characters"),"limit_characters");
+
+			$min_char_limit = new ilNumberInputGUI($lng->txt("exc_min_char_limit"), "min_char_limit");
+			$min_char_limit->allowDecimals(false);
+			$min_char_limit->setSize(3);
+
+			$max_char_limit = new ilNumberInputGUI($lng->txt("exc_max_char_limit"), "max_char_limit");
+			$max_char_limit->allowDecimals(false);
+			$max_char_limit->setMinValue($_POST['min_char_limit'] + 1);
+
+			$max_char_limit->setSize(3);
+
+			$rb_limit_chars->addSubItem($min_char_limit);
+			$rb_limit_chars->addSubItem($max_char_limit);
+
+			$form->addItem($rb_limit_chars);
+		}
+
 		// portfolio template
 		if($a_type == ilExAssignment::TYPE_PORTFOLIO)
 		{
@@ -482,6 +502,14 @@ class ilExAssignmentEditorGUI
 				{
 					$res['template_id'] = $a_form->getInput("template_id");
 				}
+
+				// text limitations
+				if($a_form->getInput("limit_characters") && $a_form->getInput("min_char_limit") && $a_form->getInput("max_char_limit"))
+				{
+					$res['limit_characters'] = $a_form->getInput("limit_characters");
+					$res['min_char_limit'] = $a_form->getInput("min_char_limit");
+					$res['max_char_limit'] = $a_form->getInput("max_char_limit");
+				}
 			
 				// peer
 				if($a_form->getInput("peer") ||
@@ -542,7 +570,9 @@ class ilExAssignmentEditorGUI
 
 		$a_ass->setPortfolioTemplateId($a_input['template_id']);
 
-		
+		$a_ass->setMinCharLimit($a_input['min_char_limit']);
+		$a_ass->setMaxCharLimit($a_input['max_char_limit']);
+
 		$a_ass->setPeerReview((bool)$a_input["peer"]);
 		
 		// peer review default values (on separate form)
@@ -673,6 +703,13 @@ class ilExAssignmentEditorGUI
 		if($this->assignment->getPortfolioTemplateId())
 		{
 			$values["template"] = 1;
+		}
+
+		if($this->assignment->getMinCharLimit() && $this->assignment->getMaxCharLimit())
+		{
+			$values['limit_characters'] = 1;
+			$values['min_char_limit'] = $this->assignment->getMinCharLimit();
+			$values['max_char_limit'] = $this->assignment->getMaxCharLimit();
 		}
 
 		if ($this->assignment->getStartTime())

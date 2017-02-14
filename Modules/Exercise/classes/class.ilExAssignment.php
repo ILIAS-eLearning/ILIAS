@@ -50,6 +50,8 @@ class ilExAssignment
 	protected $team_tutor = false;
 	protected $max_file;
 	protected $portfolio_template;
+	protected $min_char_limit;
+	protected $max_char_limit;
 	
 	protected $member_status = array(); // [array]
 	
@@ -842,6 +844,8 @@ class ilExAssignment
 		$this->setTeamTutor($a_set["team_tutor"]);
 		$this->setMaxFile($a_set["max_file"]);
 		$this->setPortfolioTemplateId($a_set["portfolio_template"]);
+		$this->setMinCharLimit($a_set["min_char_limit"]);
+		$this->setMaxCharLimit($a_set["max_char_limit"]);
 	}
 	
 	/**
@@ -886,7 +890,9 @@ class ilExAssignment
 			"fb_cron" => array("integer", $this->hasFeedbackCron()),
 			"team_tutor" => array("integer", $this->getTeamTutor()),
 			"max_file" => array("integer", $this->getMaxFile()),
-			"portfolio_template" => array("integer", $this->getPortFolioTemplateId())
+			"portfolio_template" => array("integer", $this->getPortFolioTemplateId()),
+			"min_char_limit" => array("integer", $this->getMinCharLimit()),
+			"max_char_limit" => array("integer", $this->getMaxCharLimit())
 			));
 		$this->setId($next_id);
 		$exc = new ilObjExercise($this->getExerciseId(), false);
@@ -930,7 +936,9 @@ class ilExAssignment
 			"fb_cron" => array("integer", $this->hasFeedbackCron()),
 			"team_tutor" => array("integer", $this->getTeamTutor()),
 			"max_file" => array("integer", $this->getMaxFile()),
-			"portfolio_template" => array("integer", $this->getPortFolioTemplateId())
+			"portfolio_template" => array("integer", $this->getPortFolioTemplateId()),
+			"min_char_limit" => array("integer", $this->getMinCharLimit()),
+			"max_char_limit" => array("integer", $this->getMaxCharLimit())
 			),
 			array(
 			"id" => array("integer", $this->getId()),
@@ -2159,6 +2167,45 @@ class ilExAssignment
 			$order_val = (int)$row['max_order'];
 		}
 		return $order_val;
+	}
+
+
+	/**
+	 * Set limit minimum characters
+	 *
+	 * @param	int	minim limit
+	 */
+	function setMinCharLimit($a_val)
+	{
+		$this->min_char_limit = $a_val;
+	}
+
+	/**
+	 * Get limit minimum characters
+	 *
+	 * @return	int minimum limit
+	 */
+	function getMinCharLimit()
+	{
+		return $this->min_char_limit;
+	}
+
+	/**
+	 * Set limit maximum characters
+	 * @param int max limit
+	 */
+	function setMaxCharLimit($a_val)
+	{
+		$this->max_char_limit = $a_val;
+	}
+
+	/**
+	 * get limit maximum characters
+	 * return int max limit
+	 */
+	function getMaxCharLimit()
+	{
+		return $this->max_char_limit;
 	}
 
 }

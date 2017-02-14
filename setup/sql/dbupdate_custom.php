@@ -6,6 +6,14 @@ if($ilDB->tableExists("exc_assignment"))
 	{
 		$ilDB->addTableColumn("exc_assignment", "portfolio_template", array("type" => "integer", "length" => 4));
 	}
+	if(!$ilDB->tableColumnExists('exc_assignment','min_char_limit'))
+	{
+		$ilDB->addTableColumn("exc_assignment", "min_char_limit", array("type" => "integer", "length" => 4));
+	}
+	if(!$ilDB->tableColumnExists('exc_assignment','max_char_limit'))
+	{
+		$ilDB->addTableColumn("exc_assignment", "max_char_limit", array("type" => "integer", "length" => 4));
+	}
 }
 ?>
 <#2>

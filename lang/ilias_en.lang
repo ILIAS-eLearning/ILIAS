@@ -16168,3 +16168,6 @@ exc#:#exc_without_template_info#:#Participants will create their Portfolio from 
 exc#:#exc_with_template_info#:#An empty Portfolio will be automatically derived from a specific Portfolio Template.
 exc#:#exc_no_portfolio_templates#:#There are no Portfolio Templates available.
 exc#:#exc_go_to_exercise#:#Go to Exercise
+exc#:#exc_limit_characters#:#Limit of characters
+exc#:#exc_min_char_limit#:#Minimum number of characters
+exc#:#exc_max_char_limit#:#Maximum number of characters
