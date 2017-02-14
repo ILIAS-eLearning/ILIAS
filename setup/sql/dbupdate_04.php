@@ -18196,4 +18196,3 @@ $ilDB->manipulate('delete from obj_members where admin = '.
 	$ilDB->quote(0,'integer')
 );
 ?>
-
