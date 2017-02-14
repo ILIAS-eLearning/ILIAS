@@ -37,13 +37,19 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	private $js_binding;
 
 	/**
+	 * @var ComponentIdRegistryInterface
+	 */
+	private $id_registry;
+
+	/**
 	 * Component renderers must only depend on a UI-Factory and a Template Factory.
 	 */
-	final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory, \ilLanguage $lng, JavaScriptBinding $js_binding) {
+	final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory, \ilLanguage $lng, JavaScriptBinding $js_binding, ComponentIdRegistryInterface $id_registry) {
 		$this->ui_factory = $ui_factory;
 		$this->tpl_factory = $tpl_factory;
 		$this->lng = $lng;
 		$this->js_binding = $js_binding;
+		$this->id_registry = $id_registry;
 	}
 
 	/**
@@ -101,11 +107,13 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 * @return	string|null
 	 */
 	final protected function bindJavaScript(JavaScriptBindable $component) {
-		$binder = $component->getOnLoadCode();
+        $binder = $component->getOnLoadCode();
 		if ($binder === null) {
 			return null;
 		}
-		$id = $this->js_binding->createId();
+//		$id = $this->js_binding->createId();
+//		$this->id_registry->register($component, $id);
+		$id = $this->createId($component);
 		$on_load_code = $binder($id);
 		if (!is_string($on_load_code)) {
 			throw new \LogicException(
@@ -113,6 +121,20 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 				" (used component: ".get_class($component).")");
 		}
 		$this->js_binding->addOnLoadCode($on_load_code);
+        return $id;
+	}
+
+
+	/**
+	 * Create an ID
+	 *
+	 * @param Component $component
+	 * @return string
+	 */
+	final protected function createId(Component $component) {
+		$id = $this->js_binding->createId();
+		$this->id_registry->register($component, $id);
+
 		return $id;
 	}
 

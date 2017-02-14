@@ -451,11 +451,23 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
 		if(!$this->examples_path){
 			$path_componants = str_replace("Component","examples",$this->getPath())
 					."/".str_replace(" ", "", $this->getTitle());
-			$path_array = array_unique(explode ("/",$path_componants));
+			$path_array = self::array_iunique(explode ("/",$path_componants));
 			$this->examples_path = implode("/",$path_array);
 		}
 		return $this->examples_path;
 	}
+
+
+    /**
+     * @param array $array
+     * @return array
+     */
+	private static function array_iunique($array) {
+        return array_intersect_key(
+            $array,
+            array_unique(array_map("StrToLower",$array))
+        );
+    }
 
 
 	/**

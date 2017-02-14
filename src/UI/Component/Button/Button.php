@@ -5,11 +5,12 @@
 namespace ILIAS\UI\Component\Button;
 
 use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Connector\Triggerer;
 
 /**
  * This describes commonalities between standard and primary buttons. 
  */
-interface Button extends \ILIAS\UI\Component\Component, JavaScriptBindable {
+interface Button extends \ILIAS\UI\Component\Component, JavaScriptBindable, Triggerer {
 	/**
 	 * Get the label on the button.
 	 *

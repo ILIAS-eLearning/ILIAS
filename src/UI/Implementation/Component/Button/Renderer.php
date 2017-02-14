@@ -16,14 +16,14 @@ class Renderer extends AbstractComponentRenderer {
 		$this->checkComponent($component);
 
 		if ($component instanceof Component\Button\Close) {
-			return $this->render_close($component);
+			return $this->renderClose($component);
 		}
 		else {
-			return $this->render_button($component, $default_renderer);
+			return $this->renderButton($component, $default_renderer);
 		}
 	}
 
-	protected function render_button(Component\Component $component, RendererInterface $default_renderer) {
+	protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) {
 		// TODO: Tt would be nice if we could use <button> for rendering a button
 		// instead of <a>. This was not done atm, as there is no attribute on a
 		// button to make it open an URL. This would require JS.
@@ -53,22 +53,27 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->touchBlock("disabled");
 		}
 
-		$this->maybe_render_id($component, $tpl);
-
-		return $tpl->get();
+		$this->maybeRenderId($component, $tpl);
+        return $tpl->get();
 	}
 
-	protected function render_close($component) {
+
+
+
+	protected function renderClose($component) {
 		$tpl = $this->getTemplate("tpl.close.html", true, true);
 		// This is required as the rendering seems to only create any output at all
 		// if any var was set or block was touched.
 		$tpl->setVariable("FORCE_RENDERING", "");
-		$this->maybe_render_id($component, $tpl);
+		$this->maybeRenderId($component, $tpl);
 		return $tpl->get();
 	}
 
-	protected function maybe_render_id($component, $tpl) {
+	protected function maybeRenderId($component, $tpl) {
 		$id = $this->bindJavaScript($component);
+		if ($id === null) {
+			$id = $this->createId($component);
+		}
 		if ($id !== null) {
 			$tpl->setCurrentBlock("with_id");
 			$tpl->setVariable("ID", $id);
