@@ -595,7 +595,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		ilLoggerFactory::getLogger('tree')->debug($query);
 		
 		$failures = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$failures[] = $row[$this->getTree()->getTreePk()];
 		}
