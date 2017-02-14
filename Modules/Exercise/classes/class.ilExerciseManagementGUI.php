@@ -432,7 +432,7 @@ class ilExerciseManagementGUI
 			$user_ids[] = $user_id;
 		}
 
-		if(!$this->addMembersObject($user_ids));
+		if(!$this->addMembersObject($user_ids))
 		{
 			$this->membersObject();
 			return false;
