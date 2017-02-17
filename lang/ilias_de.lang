@@ -15437,8 +15437,8 @@ administration#:#adm_missing_entry_add_action#:#Hinzufügen
 administration#:#adm_missing_entry_add#:#Neuen Eintrag erstellen
 trac#:#trac_mode_survey_finished#:#Umfrage beendet
 trac#:#trac_mode_survey_finished_info#:#Die Umfrage muss beendet werden.
-crs#:#crs_usr_agreement#:#Benutzerveinbarung
-grp#:#grp_usr_agreement#:#Benutzerveinbarung
+crs#:#crs_usr_agreement#:#Benutzervereinbarung
+grp#:#grp_usr_agreement#:#Benutzervereinbarung
 meta#:#md_adv_confirm_definition_select_option_all#:#Alle vorhandenen Einträge gleich behandeln
 meta#:#md_adv_confirm_definition_select_option_single#:#Jeden vorhandenen Eintrag einzeln entscheiden
 meta#:#md_adv_confirm_definition_select_option_all_action#:#Neuer Wert
