@@ -1225,7 +1225,7 @@ class ilObjContentObject extends ilObject
 			" progr_icons = ".$ilDB->quote($this->getProgressIcons(), "integer").", ".
 			" store_tries = ".$ilDB->quote($this->getStoreTries(), "integer").", ".
 			" restrict_forw_nav = ".$ilDB->quote($this->getRestrictForwardNavigation(), "integer").", ".
-			" for_translation = ".$ilDB->quote($this->getForTranslation(), "integer")." ".
+			" for_translation = ".$ilDB->quote((int) $this->getForTranslation(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($q);
 		
