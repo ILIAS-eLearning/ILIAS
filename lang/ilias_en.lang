@@ -15914,3 +15914,4 @@ crs#:#crs_edit_lo_introduction#:#Edit Introduction
 rbac#:#grp_manage_members#:#Manage Members of Group
 rbac#:#crs_manage_members#:#Manage Members of Course
 survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.
+rbac#:#book_copy#:#User can copy booking pool

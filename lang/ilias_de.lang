@@ -15914,3 +15914,4 @@ prg#:#prg_successful_img_alt#:#successful###deprecated
 prg#:#prg_in_progress_img_alt#:#in progress###deprecated 
 survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>###07 02 2017 new variable
 survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.###07 02 2017 new variable
+rbac#:#book_copy#:#Buchungspool kopieren
