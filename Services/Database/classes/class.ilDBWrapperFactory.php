@@ -40,8 +40,12 @@ class ilDBWrapperFactory {
 		}
 
 		// For legacy code
-		define("DB_FETCHMODE_ASSOC", ilDBConstants::FETCHMODE_ASSOC);
-		define("DB_FETCHMODE_OBJECT", ilDBConstants::FETCHMODE_OBJECT);
+		if (!defined('DB_FETCHMODE_ASSOC')) {
+			define("DB_FETCHMODE_ASSOC", ilDBConstants::FETCHMODE_ASSOC);
+		}
+		if (!defined('DB_FETCHMODE_OBJECT')) {
+			define("DB_FETCHMODE_OBJECT", ilDBConstants::FETCHMODE_OBJECT);
+		}
 
 		switch ($a_type) {
 			case ilDBConstants::TYPE_POSTGRES:
