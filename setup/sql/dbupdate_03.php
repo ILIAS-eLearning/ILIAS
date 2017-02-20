@@ -12088,7 +12088,7 @@ if(!$ilDB->tableColumnExists('cmi_node', 'additional_tables'))
 if($ilDB->tableColumnExists('cmi_node', 'cp_node_id'))
 {
 	$ilDB->query("DELETE from cmi_node where cp_node_id is null");
-	$reverse = $ilDB->db->loadModule('Reverse');
+	$reverse = $ilDB->loadModule('Reverse');
 	$def = $reverse->getTableFieldDefinition("cmi_node", "cp_node_id");
 	if($def[0]['notnull'] == false)
 	{
@@ -12106,7 +12106,7 @@ if($ilDB->tableColumnExists('cmi_node', 'cp_node_id'))
 if($ilDB->tableColumnExists('cmi_node', 'user_id'))
 {
 	$ilDB->query("DELETE from cmi_node where user_id is null");
-	$reverse = $ilDB->db->loadModule('Reverse');
+	$reverse = $ilDB->loadModule('Reverse');
 	$def = $reverse->getTableFieldDefinition("cmi_node", "user_id");
 	if($def[0]['notnull'] == false)
 	{
