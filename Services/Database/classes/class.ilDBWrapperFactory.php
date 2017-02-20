@@ -39,6 +39,10 @@ class ilDBWrapperFactory {
 			$a_type = ilDBConstants::TYPE_PDO_MYSQL_MYISAM;
 		}
 
+		// For legacy code
+		define("DB_FETCHMODE_ASSOC", ilDBConstants::FETCHMODE_ASSOC);
+		define("DB_FETCHMODE_OBJECT", ilDBConstants::FETCHMODE_OBJECT);
+
 		switch ($a_type) {
 			case ilDBConstants::TYPE_POSTGRES:
 			case ilDBConstants::TYPE_PDO_POSTGRE:
