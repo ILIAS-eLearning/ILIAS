@@ -7349,7 +7349,7 @@ if(!$ilDB->tableExists('chatroom_historytmp'))
 <?php
 require_once 'Services/Migration/DBUpdate_4550/classes/class.ilDBUpdate4550.php';
 ilDBUpdate4550::cleanupOrphanedChatRoomData();
-if($ilDB->getDBType() == 'innodb' || $ilDB->getDBType() == 'mysql')
+if($ilDB->getDBType() == 'innodb' || $ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == '')
 {
 	$query = '
 	SELECT chatroom_history.room_id, chatroom_history.timestamp, chatroom_history.sub_room, chatroom_history.message
