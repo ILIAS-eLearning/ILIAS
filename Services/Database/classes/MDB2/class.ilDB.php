@@ -11,9 +11,6 @@ require_once('./Services/Database/lib/PEAR/MDB2.php');
 require_once 'Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php';
 require_once 'Services/Database/interfaces/interface.ilDBInterface.php';
 
-define("DB_FETCHMODE_ASSOC", MDB2_FETCHMODE_ASSOC);
-define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
-
 //echo "-".ilDBConstants::FETCHMODE_ASSOC."-";
 //echo "+".ilDBConstants::FETCHMODE_OBJECT."+";
 
