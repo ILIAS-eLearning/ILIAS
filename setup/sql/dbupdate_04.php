@@ -456,7 +456,7 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 	$res = $ilDB->query($query);
 	
 	$tree_impl = 'ns';
-	while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$tree_impl = $row->value;
 	}
@@ -4177,7 +4177,7 @@ if(!$ilDB->tableColumnExists('reg_registration_codes','ext_enabled'))
 
 $query = 'SELECT * FROM usr_account_codes ';
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$until = $row->valid_until;
 	if($until === '0')
@@ -5690,7 +5690,7 @@ $query = 'SELECT objective_id, ref_id, question_id FROM crs_objective_qst ';
 $res = $ilDB->query($query);
 
 $questions = array();
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$questions[$row->objective_id.'_'.$row->ref_id][] = $row->question_id;
 }
@@ -5708,7 +5708,7 @@ foreach($questions as $objective_ref_id => $qst_ids)
 	{
 		$query = 'SELECT points FROM qpl_questions WHERE question_id = ' . $ilDB->quote($qst_id,'integer');
 		$res_qst = $ilDB->query($query);
-		while($row = $res_qst->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res_qst->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$sum += $row->points;
 		}
@@ -5720,7 +5720,7 @@ foreach($questions as $objective_ref_id => $qst_ids)
 			$res_limit = $ilDB->query($query);
 			
 			$limit_points = 0;
-			while($row = $res_limit->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res_limit->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$limit_points = $row->tst_limit;
 			}
@@ -10586,7 +10586,7 @@ if(!$ilDB->tableColumnExists("ldap_server_settings", "username_filter"))
 <?php
 $query = "SELECT max(server_id) id FROM ldap_server_settings";
 $res = $ilDB->query($query);
-$set = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$set = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 if(!$set->id)
 {
@@ -10810,7 +10810,7 @@ $ilCtrlStructureReader->getStructure();
 	$res = $ilDB->query($query);
 	
 	$found_dup = FALSE;
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$found_dup = TRUE;
 	}
@@ -12360,7 +12360,7 @@ do
 	{
 		break;
 	}
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		// find course members roles
 		$query = 'select rol_id, title from rbac_fa '.
@@ -12368,7 +12368,7 @@ do
 				'where parent = '.$ilDB->quote($row->ref_id,'integer').' '.
 				'and assign = '.$ilDB->quote('y','text');
 		$rol_res = $ilDB->query($query);
-		while($rol_row = $rol_res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($rol_row = $rol_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			// find users which are not assigned to obj_members and create a default entry
 			$query = 'select ua.usr_id from rbac_ua ua '.
@@ -12377,7 +12377,7 @@ do
 					'and rol_id = '.$ilDB->quote($rol_row->rol_id,'integer').' '.
 					'and om.obj_id = '.$ilDB->quote($row->obj_id,'integer');
 			$ua_res = $ilDB->query($query);
-			while($ua_row = $ua_res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($ua_row = $ua_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$query = 'insert into obj_members (obj_id, usr_id) '.
 						'values('.
@@ -12395,7 +12395,7 @@ do
 					'and rol_id = '.$ilDB->quote($rol_row->rol_id,'integer').' '.
 					'and om.obj_id = '.$ilDB->quote($row->obj_id,'integer');
 			$ua_res = $ilDB->query($query);
-			while($ua_row = $ua_res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($ua_row = $ua_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$admin = $tutor = $member = 0;
 				switch(substr($rol_row->title,0,8))
@@ -12589,7 +12589,7 @@ $ilCtrlStructureReader->getStructure();
 	$res = $ilDB->query($query);
 	
 	$server_id = 0;
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$server_id = $row->server_id;
 	}
