@@ -4576,7 +4576,7 @@ else
 	$indexName = strtoupper($indexName);
 }
 
-$indexDefinition = $ilDB->db->loadModule('Reverse')->getTableConstraintDefinition('tst_dyn_quest_set_cfg', $indexName);
+$indexDefinition = $ilDB->loadModule('Reverse')->getTableConstraintDefinition('tst_dyn_quest_set_cfg', $indexName);
 
 if( $indexDefinition instanceof MDB2_Error )
 {
@@ -12681,7 +12681,7 @@ $indices = array(
 	'il_dcl_table' => array( 'obj_id' ),
 );
 
-$manager = $ilDB->db->loadModule('Manager');
+$manager = $ilDB->loadModule('Manager');
 
 foreach ($indices as $table_name => $field_names) {
 	if ($manager) {
@@ -16367,7 +16367,7 @@ $manager = $ilDB->loadModule('Manager');
 
 if(!$manager)
 {
-	$manager = $ilDB->db->loadModule('Manager');
+	$manager = $ilDB->loadModule('Manager');
 }
 
 $const = $manager->listTableConstraints("bookmark_tree");
