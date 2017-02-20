@@ -7496,6 +7496,10 @@ if($ilDB->tableExists('sysc_groups'))
 {
 	$ilDB->dropTable('sysc_groups');
 }
+if($ilDB->tableExists('sysc_groups_seq'))
+{
+	$ilDB->dropTable('sysc_groups_seq');
+}
 
 if(!$ilDB->tableExists('sysc_groups'))
 {
