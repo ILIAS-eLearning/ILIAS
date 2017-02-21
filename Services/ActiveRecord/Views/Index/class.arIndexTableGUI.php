@@ -1,4 +1,5 @@
 <?php
+require_once('./Services/Table/classes/class.ilTable2GUI.php');
 require_once('./Services/ActiveRecord/class.ActiveRecordList.php');
 require_once('./Services/ActiveRecord/Views/Index/class.arIndexTableField.php');
 require_once('./Services/ActiveRecord/Views/Index/class.arIndexTableFields.php');
