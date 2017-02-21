@@ -67,15 +67,15 @@ activate/deactivate styles, and where you can assign users from one skin to anot
 
 #### Step 2: Create main CSS File
 The id attribute of the style tag defines the name of the corresponding style sheet
-(css) file. This css file must also be added to the skin directory (here:
+(CSS) file. This CSS file must also be added to the skin directory (here:
 Customizing/global/skin/myskin/mystyle.css). You should start with a copy of the
-default css file located at templates/default/delos.css. The best way to see which
+default CSS file located at templates/default/delos.css. The best way to see which
 styles are used on a given ILIAS screen is to open the HTML source of the screen.
 
-If your css file contains references to (background) images, these images must be
-present at their defined locations. If you copied the default css file, the image paths
+If your CSS file contains references to (background) images, these images must be
+present at their defined locations. If you copied the default CSS file, the image paths
  will not be correct anymore. You can either copy them to your skin directory, change
- the css definitions or provide your own image files.
+ the CSS definitions or provide your own image files.
 
 
 #### Step 2: Alternative
@@ -84,12 +84,12 @@ templates/default of your ilias installation to a new folder below
 Customizing/global/skin within that directory, edit the file "template.xml" to have an
 unique Style Name and id. This is needed to identify the new skin in ILIAS'
 administration. Then copy the standard delos.css file to "your-id.css". Take care: the
-main css-File must reflect the id in its name (see above).
+main CSS-File must reflect the id in its name (see above).
 
 #### Step 3: Less (Optional)
 Note: It is usually a good idea to use less an less variables to create Custom Styles.
 A good default is given, by generating a first style through the frontend and then add
-the changes manualy.
+the changes manually.
 
 If you copied delos.less compiling the standard delos.less file would fail due to path
 problems. In the file delos.less at about line 20 the base for some imports is set.
@@ -108,7 +108,7 @@ or
 lessc --clean-css delos.less mystyle.css
 ```
 
-for a minified css version.
+for a minified CSS version.
 
 
 #### Step 4: Add Icons (Optional)
@@ -156,7 +156,7 @@ http://www.ilias.de/docu/goto_docu_pg_68691_367.html
 ## Less Guideline
 Less is a CSS pre-processor, meaning that it extends the CSS language, adding features
 that allow variables, mixins, functions and many other techniques that allow you to
-make CSS that is more maintainable, themable and extendabl
+make CSS that is more maintainable, themable and expendable
 (see: [less.org](http://lesscss.org/)).
 
 Since ILIAS 5.0 Bootstrap 3 is used. With the Design Revision 5.1 the JF decided that
@@ -218,7 +218,7 @@ section.  Later those values can be reassigned to other variables, but the value
  the delos.less file.
 * Also note that in delos, the ilias custom variables are included after all the
 bootstrap includes. This as to do with the way less assignes values from variables to
-less content by compiling the less to css.
+less content by compiling the less to CSS.
 See [lessc](http://lesscss.org/features/#import-options/).
 
 
