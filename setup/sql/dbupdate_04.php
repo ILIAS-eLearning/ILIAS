@@ -18204,3 +18204,29 @@ $ilDB->manipulate('delete from obj_members where admin = '.
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5073>
+<?php
+$ilDB->modifyTableColumn(
+	'wiki_stat_page',
+	'num_ratings',
+	array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	)
+);
+?>
+<#5074>
+<?php
+$ilDB->modifyTableColumn(
+	'wiki_stat_page',
+	'avg_rating',
+	array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	)
+);
+?>
