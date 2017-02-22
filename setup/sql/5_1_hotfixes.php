@@ -273,3 +273,29 @@ $ilCtrlStructureReader->getStructure();
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#24>
+<?php
+$ilDB->modifyTableColumn(
+	'wiki_stat_page',
+	'num_ratings',
+	array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	)
+);
+?>
+<#25>
+<?php
+$ilDB->modifyTableColumn(
+	'wiki_stat_page',
+	'avg_rating',
+	array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	)
+);
+?>
