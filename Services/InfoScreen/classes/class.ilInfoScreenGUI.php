@@ -1016,6 +1016,19 @@ class ilInfoScreenGUI
 		global $ilUser;
 
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+		
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($this->gui_object->object->getId());				
+		if(
+			($olp->getCurrentMode() != ilLPObjSettings::LP_MODE_MANUAL) ||
+			!$GLOBALS['ilAccess']->checkAccess('read','',$this->gui_object->object->getRefId())
+		)
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
+			$this->ctrl->redirect($this, "");
+			return false;
+		}
+		
 
 		$lp_marks = new ilLPMarks($this->gui_object->object->getId(),$ilUser->getId());
 		$lp_marks->setCompleted((bool) $_POST['lp_edit']);
