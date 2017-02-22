@@ -2808,6 +2808,7 @@
 
 		<!-- text/html -->
 		<xsl:when test="$type = 'text/html'">
+		<!-- see #20187
 			<iframe frameborder="0">
 				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 				<xsl:if test="$width != ''">
@@ -2822,7 +2823,7 @@
 					<xsl:with-param name="cmobid" select="$cmobid" />
 				</xsl:call-template>
 				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
-			</iframe>
+			</iframe> -->
 		</xsl:when>
 		
 		<!-- application/pdf -->
