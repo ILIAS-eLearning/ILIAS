@@ -1370,14 +1370,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 				$this->tpl->setTitle($title);
 				$this->tpl->setDescription($q_gui->object->getComment());
-				if($this->object instanceof ilObjectPlugin)
-				{
-					$this->tpl->setTitleIcon($this->object->plugin->getImagePath("icon_".$this->object->getType().".svg"), $this->lng->txt("obj_" . $this->object->getType()));
-				}
-				else
-				{
-					$this->tpl->setTitleIcon(ilObject::_getIcon("", "big", $this->object->getType()));
-				}
+				$this->tpl->setTitleIcon(ilObject2::_getIcon("", "big", $this->object->getType()));
 			}
 			else
 			{
@@ -1390,7 +1383,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->tpl->setTitle($this->object->getTitle());
 			$this->tpl->setDescription($this->object->getLongDescription());
-			$this->tpl->setTitleIcon(ilObject::_getIcon("", "big", $this->object->getType()));
+			$this->tpl->setTitleIcon(ilObject2::_getIcon("", "big", $this->object->getType()));
 		}
 	}
 
