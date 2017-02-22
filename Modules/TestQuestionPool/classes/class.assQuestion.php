@@ -362,6 +362,20 @@ abstract class assQuestion
 	}
 
 	/**
+	 * @return array	all allowed file extensions for image material
+	 */
+	public static function getAllowedImageMaterialFileExtensions()
+	{
+		$extensions = array();
+
+		foreach (self::$allowedImageMaterialFileExtensionsByMimeType as $mimeType => $mimeExtensions)
+		{
+			$extensions = array_merge($extensions, $mimeExtensions);
+		}
+		return array_unique($extensions);
+	}
+
+	/**
 	 * @return ilArrayElementShuffler
 	 */
 	public function getShuffler()
