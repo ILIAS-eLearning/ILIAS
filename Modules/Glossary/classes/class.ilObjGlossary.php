@@ -1216,7 +1216,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		foreach (ilGlossaryTerm::getTermList($this->getId()) as $term)
 		{
 			$new_term_id = ilGlossaryTerm::_copyTerm($term["id"], $new_obj->getId());
-			
+
+			$term_mappings[$term["id"]] = $new_term_id;
+
 			// copy tax node assignments
 			if ($tax_id > 0)
 			{
@@ -1230,6 +1232,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 				}
 			}
 		}
+
+		$cp_options->appendMapping('GloTerms_'.$this->getRefId(), (array) $term_mappings);
 
 		return $new_obj;
 	}
