@@ -16173,4 +16173,4 @@ exc#:#exc_min_char_limit#:#Minimum number of characters
 exc#:#exc_max_char_limit#:#Maximum number of characters
 exc#:#exc_chars_remaining#:#Characters remaining:
 exc#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
-exc#:#msg_input_char_limit_min#:#You have entered more characters than allowed.
+exc#:#msg_input_char_limit_max#:#You have entered more characters than allowed.
