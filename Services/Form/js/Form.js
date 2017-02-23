@@ -401,6 +401,24 @@ il.Form = {
 			$("#" + subform_id).hide();
 		}		
 	},
+
+	//Tiny textarea char. counter
+	//now it's using unique html ids from tpl.prop_area.html
+	showCharCounterTinymce: function(ed) {
+		var content = ed.getContent({ format: 'text' });
+		var text_length = content.length - 1;
+		var max_limit = $('#textarea_feedback').data("maxchars");
+		var text_remaining = max_limit - text_length;
+		$('#textarea_feedback').html(il.Language.txt("exc_chars_remaining") + " " + text_remaining);
+	},
+	//normal textarea char. counter
+	showCharCounterTextarea: function(textarea_id, feedback_id, min_limit, max_limit) {
+		var text_length = $('#'+textarea_id).val().length;
+		var text_remaining = max_limit - text_length;
+		$('#'+feedback_id).html(il.Language.txt("exc_chars_remaining") +" "+ text_remaining);
+		return true;
+	},
+
 };
 
 // init forms

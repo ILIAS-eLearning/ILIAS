@@ -62,9 +62,9 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	// 
 	
 	protected function initAssignmentTextForm($a_read_only = false)
-	{		
-		global $ilCtrl;
-		
+	{
+		global $ilCtrl, $lng;
+
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();		
 		$form->setTitle($this->lng->txt("exc_assignment")." \"".$this->assignment->getTitle()."\"");
@@ -74,6 +74,17 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			$text = new ilTextAreaInputGUI($this->lng->txt("exc_your_text"), "atxt");
 			$text->setRequired((bool)$this->submission->getAssignment()->getMandatory());				
 			$text->setRows(40);
+			$text->setMaxNumOfChars($this->assignment->getMaxCharLimit());
+			$text->setMinNumOfChars($this->assignment->getMinCharLimit());
+
+			if ($text->isCharLimited())
+			{
+				$char_msg = $lng->txt("exc_min_char_limit").": ".$this->assignment->getMinCharLimit().
+					" ".$lng->txt("exc_max_char_limit").": ".$this->assignment->getMaxCharLimit();
+
+				$text->setInfo($char_msg);
+			}
+
 			$form->addItem($text);
 			
 			// custom rte tags

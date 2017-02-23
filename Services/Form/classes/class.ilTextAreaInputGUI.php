@@ -43,6 +43,8 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $buttons;	
 	protected $rtesupport;
 	protected $use_tags_for_rte_only = true;
+	protected $max_num_chars;
+	protected $min_num_chars;
 
 	/**
 	 * @var int
@@ -196,6 +198,42 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	function getRows()
 	{
 		return $this->rows;
+	}
+
+	/**
+	 * Set Maximum number of characters allowed.
+	 *
+	 * @param int $a_number	Characters
+	 */
+	function setMaxNumOfChars($a_number)
+	{
+		$this->max_num_chars = $a_number;
+	}
+
+	/**
+	 * Get Maximum number of characters allowed.
+	 */
+	function getMaxNumOfChars()
+	{
+		return $this->max_num_chars;
+	}
+
+	/**
+	 * Set Minimum number of characters allowed.
+	 *
+	 * @param int $a_number	Characters
+	 */
+	function setMinNumOfChars($a_number)
+	{
+		$this->min_num_chars = $a_number;
+	}
+
+	/**
+	 * Get Minimum number of characters allowed.
+	 */
+	function getMinNumOfChars()
+	{
+		return $this->min_num_chars;
 	}
 
 	/**
@@ -408,6 +446,25 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 
 			return false;
 		}
+
+		if($this->isCharLimited())
+		{
+			$chars_entered = strlen(trim(strip_tags($_POST[$this->getPostVar()])));
+
+			if($chars_entered > $this->getMaxNumOfChars())
+			{
+				$this->setAlert($lng->txt("msg_input_char_limit_max"));
+
+				return false;
+			}
+			elseif($chars_entered < $this->getMinNumOfChars())
+			{
+				$this->setAlert($lng->txt("msg_input_char_limit_min"));
+
+				return false;
+			}
+		}
+
 		return $this->checkSubItemsInput();
 	}
 
@@ -418,6 +475,8 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function insert($a_tpl)
 	{
+		global $lng;
+
 		$ttpl = new ilTemplate("tpl.prop_textarea.html", true, true, "Services/Form");
 		
 		// disabled rte
@@ -530,10 +589,24 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 			{
 				$ttpl->setVariable("REQUIRED", "required=\"required\"");
 			}
-		
+
+			if($this->isCharLimited())
+			{
+				$ttpl->setVariable("MAXCHARS", $this->getMaxNumOfChars());
+				$ttpl->setVariable("MINCHARS", $this->getMinNumOfChars());
+
+				$lng->toJS("exc_chars_remaining");
+			}
+
 			$ttpl->parseCurrentBlock();
 		}
-		
+
+		if($this->isCharLimited())
+		{
+			$ttpl->setVariable("MAX_LIMIT", $this->getMaxNumOfChars());
+			$ttpl->setVariable("CHARS_REMAINING", $lng->txt("exc_chars_remaining"));
+		}
+
 		if ($this->getDisabled())
 		{
 			$ttpl->setVariable("HIDDEN_INPUT",
@@ -667,5 +740,16 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	public function setInitialRteWidth($initial_rte_width)
 	{
 		$this->initial_rte_width = $initial_rte_width;
+	}
+
+	public function isCharLimited()
+	{
+		if ($this->getMaxNumOfChars() && $this->getMinNumOfChars())
+		{
+			return true;
+		}
+
+		return false;
+
 	}
 }
