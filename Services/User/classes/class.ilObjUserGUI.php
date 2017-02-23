@@ -56,7 +56,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array('obj_id', 'letter'));
 		$this->ctrl->setParameterByClass("ilobjuserfoldergui", "letter", $_GET["letter"]);
-		
+		$this->ctrl->setContext($this->object->getId(), 'usr');
 		$lng->loadLanguageModule('user');
 		
 		// for gender selection. don't change this
