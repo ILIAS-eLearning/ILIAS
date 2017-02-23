@@ -9057,14 +9057,16 @@ if (!$ilDB->tableColumnExists('adv_md_record', 'parent_obj'))
 	if($ilDB->tableColumnExists("copg_section_timings", "utc_ts")) {
 		$ilDB->dropTableColumn("copg_section_timings", "utc_ts");		
 	}
-	$ilDB->addTableColumn('copg_section_timings', 'unix_ts',
-		array(
-			"type"    => "integer",
-			"notnull" => true,
-			"length"  => 4,
-			"default" => 0
-		)
-	);
+	if(!$ilDB->tableColumnExists("copg_section_timings", "unix_ts")) {
+		$ilDB->addTableColumn('copg_section_timings', 'unix_ts',
+			array(
+				"type"    => "integer",
+				"notnull" => true,
+				"length"  => 4,
+				"default" => 0
+			)
+		);
+	}
 ?>
 <#4629>
 <?php
