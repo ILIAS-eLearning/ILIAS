@@ -13959,7 +13959,7 @@ if ($ilDB->tableExists('page_style_usage_old'))
 
 if( $ilDB->indexExistsByFields('personal_pc_clipboard', array('user_id')) )
 {
-	$ilDB->dropIndexByFields('obj_stat', array('user_id'));
+	$ilDB->dropIndexByFields('personal_pc_clipboard', array('user_id'));
 }
 
 if($ilDB->tableExists('personal_pc_clipboard'))
