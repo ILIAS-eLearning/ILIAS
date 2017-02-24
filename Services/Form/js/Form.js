@@ -404,11 +404,15 @@ il.Form = {
 
 	//Tiny textarea char. counter
 	showCharCounterTinymce: function(ed) {
-		var content = ed.getContent({ format: 'text' });
-		var text_length = content.length - 1;
+		//var content_raw = ed.getContent({ format: 'raw' }); // whitespaces and br issues. (first whitespace creates br etc.)
+		var content_raw = ed.getContent({ format: 'raw' });
+		var content = content_raw.replace(/<\/?[^>]+(>|$)/g, "");
+		var text_length = content.length;
+
 		var max_limit = $('#textarea_feedback_'+ed.id).data("maxchars");
 		var text_remaining = max_limit - text_length;
 		$('#textarea_feedback_'+ed.id).html(il.Language.txt("exc_chars_remaining") + " " + text_remaining);
+
 	},
 	//normal textarea char. counter
 	showCharCounterTextarea: function(textarea_id, feedback_id, min_limit, max_limit) {
