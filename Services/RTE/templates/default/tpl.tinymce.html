@@ -96,10 +96,14 @@
 		setup: function (ed) {
 			ed.onInit.add(ilTinyMceInitCallback);
 			ed.onInit.add(function(){
-				il.Form.showCharCounterTinymce(ed);
+				if(il.Form) {
+					il.Form.showCharCounterTinymce(ed);
+				}
 			});
 			ed.onKeyUp.add(function(){
-				il.Form.showCharCounterTinymce(ed);
+				if(il.Form) {
+					il.Form.showCharCounterTinymce(ed);
+				}
 			});
 		},
 		oninit: function(){

@@ -79,9 +79,15 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 
 			if ($text->isCharLimited())
 			{
-				$char_msg = $lng->txt("exc_min_char_limit").": ".$this->assignment->getMinCharLimit().
-					" ".$lng->txt("exc_max_char_limit").": ".$this->assignment->getMaxCharLimit();
-
+				$char_msg = "";
+				if($this->assignment->getMinCharLimit())
+				{
+					$char_msg .= $lng->txt("exc_min_char_limit").": ".$this->assignment->getMinCharLimit();
+				}
+				if($this->assignment->getMaxCharLimit())
+				{
+					$char_msg .= " ".$lng->txt("exc_max_char_limit").": ".$this->assignment->getMaxCharLimit();
+				}
 				$text->setInfo($char_msg);
 			}
 

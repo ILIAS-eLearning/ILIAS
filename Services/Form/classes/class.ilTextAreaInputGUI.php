@@ -451,13 +451,13 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 		{
 			$chars_entered = strlen(trim(strip_tags($_POST[$this->getPostVar()])));
 
-			if($chars_entered > $this->getMaxNumOfChars())
+			if($this->getMaxNumOfChars() && ($chars_entered > $this->getMaxNumOfChars()))
 			{
 				$this->setAlert($lng->txt("msg_input_char_limit_max"));
 
 				return false;
 			}
-			elseif($chars_entered < $this->getMinNumOfChars())
+			elseif($this->getMinNumOfChars() && ($chars_entered < $this->getMinNumOfChars()))
 			{
 				$this->setAlert($lng->txt("msg_input_char_limit_min"));
 
@@ -745,7 +745,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 
 	public function isCharLimited()
 	{
-		if ($this->getMaxNumOfChars() && $this->getMinNumOfChars())
+		if ($this->getMaxNumOfChars() || $this->getMinNumOfChars())
 		{
 			return true;
 		}

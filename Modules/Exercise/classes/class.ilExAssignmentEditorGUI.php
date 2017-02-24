@@ -189,12 +189,11 @@ class ilExAssignmentEditorGUI
 
 			$min_char_limit = new ilNumberInputGUI($lng->txt("exc_min_char_limit"), "min_char_limit");
 			$min_char_limit->allowDecimals(false);
-			$min_char_limit->setRequired(true);
+			$min_char_limit->setMinValue(0);
 			$min_char_limit->setSize(3);
 
 			$max_char_limit = new ilNumberInputGUI($lng->txt("exc_max_char_limit"), "max_char_limit");
 			$max_char_limit->allowDecimals(false);
-			$max_char_limit->setRequired(true);
 			$max_char_limit->setMinValue($_POST['min_char_limit'] + 1);
 
 			$max_char_limit->setSize(3);
@@ -506,13 +505,20 @@ class ilExAssignmentEditorGUI
 				}
 
 				// text limitations
-				if($a_form->getInput("limit_characters") && $a_form->getInput("min_char_limit") && $a_form->getInput("max_char_limit"))
+				if($a_form->getInput("limit_characters"))
 				{
 					$res['limit_characters'] = $a_form->getInput("limit_characters");
-					$res['min_char_limit'] = $a_form->getInput("min_char_limit");
+				}
+				if($a_form->getInput("limit_characters") && $a_form->getInput("max_char_limit"))
+				{
 					$res['max_char_limit'] = $a_form->getInput("max_char_limit");
 				}
-			
+				if($a_form->getInput("limit_characters") && $a_form->getInput("min_char_limit"))
+				{
+					$res['min_char_limit'] = $a_form->getInput("min_char_limit");
+
+				}
+
 				// peer
 				if($a_form->getInput("peer") ||
 					$protected_peer_review_groups)
@@ -707,10 +713,14 @@ class ilExAssignmentEditorGUI
 			$values["template"] = 1;
 		}
 
-		if($this->assignment->getMinCharLimit() && $this->assignment->getMaxCharLimit())
+		if($this->assignment->getMinCharLimit())
 		{
 			$values['limit_characters'] = 1;
 			$values['min_char_limit'] = $this->assignment->getMinCharLimit();
+		}
+		if($this->assignment->getMaxCharLimit())
+		{
+			$values['limit_characters'] = 1;
 			$values['max_char_limit'] = $this->assignment->getMaxCharLimit();
 		}
 

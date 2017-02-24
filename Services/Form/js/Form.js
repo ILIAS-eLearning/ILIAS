@@ -410,16 +410,22 @@ il.Form = {
 		var text_length = content.length;
 
 		var max_limit = $('#textarea_feedback_'+ed.id).data("maxchars");
-		var text_remaining = max_limit - text_length;
-		$('#textarea_feedback_'+ed.id).html(il.Language.txt("exc_chars_remaining") + " " + text_remaining);
+		if(max_limit > 0) {
+			var text_remaining = max_limit - text_length;
+			$('#textarea_feedback_'+ed.id).html(il.Language.txt("exc_chars_remaining") + " " + text_remaining);
+		}
 
 	},
 	//normal textarea char. counter
 	showCharCounterTextarea: function(textarea_id, feedback_id, min_limit, max_limit) {
 		var text_length = $('#'+textarea_id).val().length;
-		var text_remaining = max_limit - text_length;
-		$('#'+feedback_id).html(il.Language.txt("exc_chars_remaining") +" "+ text_remaining);
-		return true;
+		if(max_limit > 0)
+		{
+			var text_remaining = max_limit - text_length;
+			$('#'+feedback_id).html(il.Language.txt("exc_chars_remaining") +" "+ text_remaining);
+			return true;
+		}
+
 	},
 
 };
