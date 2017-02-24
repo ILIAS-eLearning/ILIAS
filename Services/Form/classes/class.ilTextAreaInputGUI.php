@@ -603,7 +603,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 
 		if($this->isCharLimited())
 		{
-			$ttpl->setVariable("MAX_LIMIT", $this->getMaxNumOfChars());
+			$ttpl->setVariable("FEEDBACK_MAX_LIMIT", $this->getMaxNumOfChars());
 			$ttpl->setVariable("FEEDBACK_ID", $this->getFieldId());
 			$ttpl->setVariable("CHARS_REMAINING", $lng->txt("exc_chars_remaining"));
 		}
