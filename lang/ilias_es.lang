@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2016 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2017 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -216,7 +216,7 @@ administration#:#nothing_to_restore#:#Nada que restaurar...
 administration#:#obj_blga#:#Blog
 administration#:#obj_blga_desc#:#Configuración general del Blog
 administration#:#obj_chta_desc#:#Administración del chat
-administration#:#obj_mds_desc#:#Configuración de Metadatos y Metadatos avanzados
+administration#:#obj_mds_desc#:#Configuración de Metadatos y Metadatos personalizados
 administration#:#obj_mds#:#Meta Datos
 administration#:#obj_otpl_desc#:#Plantilla para la creación de nuevos objetos
 administration#:#obj_otpl#:#Plantillas de objetos
@@ -429,7 +429,7 @@ assessment#:#delete_area#:#Borrar área
 assessment#:#delete_image#:#Eliminar imagen
 assessment#:#delete_image_header#:#Borrar imagen
 assessment#:#delete_image_question#:#¿Estás seguro de querer eliminar la imagen?
-assessment#:#deleteSuggestedSolution#:#Eliminar esta solución sugerida
+assessment#:#deleteSuggestedSolution#:#Eliminar esta solución recomendada
 assessment#:#delete_user_data#:#Eliminar datos de test de los usuarios seleccionados
 assessment#:#description_maxchars#:#Si no introduce ningun valor, el máximo número de caracteres para esta respuesta es ilimitada.
 assessment#:#detailed_evaluation#:#Evaluación Detallada
@@ -828,7 +828,7 @@ assessment#:#set_filter#:#Activar filtro
 assessment#:#set_manscoring_done#:#Marcar este participante como "Participante puntuado"
 assessment#:#set_manual_feedback#:#Configurar comentario manual
 assessment#:#shape#:#Forma
-assessment#:#show_detailed_results#:#Mostrar datos detallados del usuario (Marked Pass)
+assessment#:#show_detailed_results#:#Mostrar datos detallados del usuario (Ejecución marcada)
 assessment#:#showinfo_desc#:#Si se activa, se mostrará la página de información completa del Test (incluidas sus propiedades). Si no lo está, sólo se mostrarán el texto de introducción (si está disponible) y las propiedades solicitadas
 assessment#:#showinfo#:#Mostrar propiedades del Test
 assessment#:#show_pass_overview#:#Mostrar resumen de la ejecución seleccionada
@@ -1112,7 +1112,7 @@ assessment#:#tst_question_hints_request_confirmation#:#¿Realmente quieres solic
 assessment#:#tst_question_hints_requested_hint_count_header#:#Sugerencias solicitadas
 assessment#:#tst_question_hints_save_order_success_msg#:#El orden de sugerencias ha sido guardado con éxito.
 assessment#:#tst_question_hints_table_column_hint_index#:#Índice
-assessment#:#tst_question_hints_table_column_hint_order#:#Pedido
+assessment#:#tst_question_hints_table_column_hint_order#:#Ordenación
 assessment#:#tst_question_hints_table_column_hint_points#:#Deducción de puntos
 assessment#:#tst_question_hints_table_column_hint_text#:#Sugerencia
 assessment#:#tst_question_hints_table_header#:#Sugerencias para la pregunta: %s
@@ -1129,7 +1129,7 @@ assessment#:#tst_question#:#Pregunta
 assessment#:#tst_question_selection_description#:#Si sólo usa bancos de preguntas en los que todas las preguntas que contienen tienen la misma puntuación máxima, el test tendrá un número igual de puntos máximos para todos los usuarios participantes y por tanto los resultados del test se podrán comparar mejor. Se recomienda escoger este modo de selección.
 assessment#:#tst_question_selection_equal#:#Usar bancos cuyas preguntas tengan todas la misma puntuación máxima
 assessment#:#tst_question_selection#:#Selección de preguntas
-assessment#:#tst_questions_hints_table_cmd_save_order#:#Guardar pedido
+assessment#:#tst_questions_hints_table_cmd_save_order#:#Guardar ordenación
 assessment#:#tst_questions_hints_table_multicmd_cut_hint#:#Cortar sugerencia y enviar al portapapeles
 assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Borrar sugerencia/s
 assessment#:#tst_questions_hints_table_multicmd_paste_hint_after#:#Añadir sugerencia a la seleccionada
@@ -1167,7 +1167,7 @@ assessment#:#tst_results_aggregated#:#Resultados globales
 assessment#:#tst_results_back_evaluation#:#Volver al resumen de la evaluación
 assessment#:#tst_results_back_introduction#:#Volver a la introducción
 assessment#:#tst_results_back_overview#:#Volver al resumen de resultados
-assessment#:#tst_results_overview#:#Pass Resumen de resultados del test
+assessment#:#tst_results_overview#:#Resumen de resultados de la ejecución del test
 assessment#:#tst_results_overview_pass#:#Resumen de resultados para la ejecución %s
 assessment#:#tst_results_print_best_solution_info#:#Si está activado y el participante tiene acceso, la mejor solución aparece en el resumen de los resultados del test.
 assessment#:#tst_results_print_best_solution#:#Mejor solución en los resultados del test
@@ -1985,7 +1985,7 @@ cntr#:#cntr_saved_sorting#:#Guardar ordenación
 cntr#:#cntr_switched_editor#:#Cambiar a los contenidos nuevos.
 cntr#:#cntr_switch_to_new_editor_cmd#:#Cambie a esta página para presentación
 cntr#:#cntr_switch_to_new_editor_message#:#Este es el editor estándar. Por favor, úselo para configurar el contenido de la página. Si hace click en el siguiente enlace, el contenido de la presentación será copiado del antiguo editor de contenidos de esta pagina.
-cntr#:#cntr_text_media_editor#:#Editor Texto/Multimedia
+cntr#:#cntr_text_media_editor#:#Personalizar Página###Sat Nov 26 2016 00:00:00 GMT+0100 (CET)
 cntr#:#cntr_view_by_type#:#Vista de agrupación por tipo
 cntr#:#cntr_view_info_by_type#:#Esta presentación de contenidos agrupa todos los elementos del recurso.
 cntr#:#cntr_view_info_sessions#:#Se muestran primero las sesiones y después el resto de contenidos del curso
@@ -3267,7 +3267,7 @@ common#:#lang_path#:#ruta del idioma
 common#:#lang_refresh_confirm_info#:#El mantenimiento extendido de idiomas está actualmente activado. Actualizar los idiomas carga todos los datos de idioma desde los Archivo de idioma de ILIAS en la base de datos. Los cambios locales (en la base de datos) serán sobreescritos, si no se exportan antes. Esto no afecta a los Archivos "*.lang.local" en el directorio de personalización.
 common#:#lang_refresh_confirm#:#¿Realmente quiere actualizar todos los idiomas?
 common#:#lang_refresh_confirm_selected#:#¿Está seguro que desea actualizar los idiomas seleccionados?
-common#:#lang_sep_decimal#:#.
+common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
 common#:#lang_size_bytes#:#bytes
 common#:#lang_size_gb#:#GB
@@ -3837,7 +3837,7 @@ common#:#obj_lngf_desc#:#Gestione sus idiomas del sistema aquí
 common#:#obj_lng#:#Idioma
 common#:#obj_lo#:#Objeto de Aprendizaje
 common#:#obj_lrss_desc#:#Configurar todos los tipos de módulos de aprendizaje
-common#:#obj_lrss#:#Recursos de aprendizaje
+common#:#obj_lrss#:#Módulos de aprendizaje
 common#:#obj_mail#:#Configuración de correo
 common#:#obj_mail_desc#:#Configure sus opciones globales de correo aquí.
 common#:#obj_mcst_duplicate#:#Copiar Mediacast
@@ -4439,9 +4439,9 @@ common#:#sess_load_dependent_session_handling#:#Manejo de carga de sesión depen
 common#:#sess_mode#:#Modo de sesión
 common#:#sess#:#Sesión
 common#:#set_edit_mode#:#Modo edición
-common#:#set#:#-establecer-
-common#:#set_offline#:#establecer offline
-common#:#set_online#:#establecer online
+common#:#set#:#Establecer
+common#:#set_offline#:#Establecer offline
+common#:#set_online#:#Establecer online
 common#:#setSystemLanguage#:#Establecer Idioma del Sistema
 common#:#settings#:#Configuración
 common#:#settings_for_all_members#:#Configuración global para todos los miembros del curso/grupo
@@ -5068,7 +5068,7 @@ content#:#cont_click_circle#:#Por favor, haga click en un punto de la circunfere
 content#:#cont_click_next_or_save#:#Por favor, haga click en el siguiente punto del polígono o guarde el área. (¡No es necesario hacer click de nuevo en el punto de comienzo de este polígono!)
 content#:#cont_click_next_point#:#Por favor, haga click en el siguiente punto del polígono.
 content#:#cont_click_starting_point#:#Por favor, haga click en el punto de comienzo del polígono.
-content#:#cont_click_tl_corner#:#Por favor, haga click en la esquina inferior derecha del área deseada.
+content#:#cont_click_tl_corner#:#Por favor, haga click en la esquina superior izquierda del área deseada.
 content#:#cont_Code#:#Código
 content#:#cont_colspan#:#Col. Span
 content#:#cont_comments#:#Permitir el almacenamiento de los comentarios
@@ -6245,7 +6245,7 @@ crs#:#crs_objective_assign_question#:#Asignar pregunta
 crs#:#crs_objective_deassign_question#:#Eliminar asignación
 crs#:#crs_objective_delete_lm_assignment#:#Eliminar asignación
 crs#:#crs_objective_err_limit#:#Por favor indique puntos entre %s y %s.
-crs#:#crs_objective_final_test#:#Test final
+crs#:#crs_objective_final_test#:#Test Final
 crs#:#crs_objective_insert_percent#:#Por favor introduzca sólo números entre 0 y 100.
 crs#:#crs_objective_limit_err#:#Los puntos requeridos no deben ser mayores que el total de los puntos.
 crs#:#crs_objective_modified#:#Objetivo de aprendizaje actualizado.
@@ -7373,10 +7373,10 @@ ecs#:#ecs_lm_export_obj_settings#:#Configuración de anuncios de módulo de apre
 ecs#:#ecs_local_information#:#Información adicional
 ecs#:#ecs_local_settings#:#Opciones locales
 ecs#:#ecs_mapping_crs#:#Asignación de cursos
-ecs#:#ecs_mapping_exp_tbl#:#Asignar metadatos avanzados de ILIAS a datos ECS
+ecs#:#ecs_mapping_exp_tbl#:#Asignar metadatos personalizados de ILIAS a datos ECS
 ecs#:#ecs_mapping_rcrs#:#Asignación de cursos externos
 ecs#:#ecs_mappings#:#Mapeando datos ECS
-ecs#:#ecs_mapping_tbl#:#Mapear los Datos ECS a los Meta Datos Avanzados de ILIAS.
+ecs#:#ecs_mapping_tbl#:#Mapear los Datos ECS a los Meta Datos personalizados de ILIAS.
 ecs#:#ecs_meta_data#:#Meta Datos
 ecs#:#ecs_new_approval_subject#:#Un nuevo curso ha sido creado
 ecs#:#ecs_new_category_mapping#:#Nueva asignación de enlaces de cursos a categorías
@@ -8415,7 +8415,7 @@ mep#:#mobs_restrict_file_types#:#Restricción de tipos de archivos
 meta#:#md_adv_active#:#Activo
 meta#:#md_adv_added_new_record#:#Nuevo conjunto de datos añadido
 meta#:#md_adv_add_value#:#Añadir valor
-meta#:#md_advanced#:#Metadatos avanzados
+meta#:#md_advanced#:#Metadatos personalizados
 meta#:#md_adv_create_field#:#Añadir campo
 meta#:#md_adv_create_record#:#Añadir nuevo conjunto de datos
 meta#:#md_adv_deleted_files#:#Archivos de exportación eliminados.
@@ -8462,7 +8462,7 @@ meta#:#md_general_settings#:#Propiedades General
 meta#:#md_months#:#Mes:
 meta#:#md_obj_types#:#Objetos asignados
 meta#:#md_record_export_table#:#Exportar Archivos
-meta#:#md_record_list_table#:#Conjuntos de Metadatos avanzados
+meta#:#md_record_list_table#:#Conjuntos de Metadatos personalizados
 meta#:#md_separated_by#:#Separado por %s
 meta#:#md_time#:#Hora:
 meta#:#md_used#:#Uso
@@ -10164,9 +10164,9 @@ rbac#:#lngf_write#:#Acceso de escritura, necesitado para mantenimiento de idioma
 rbac#:#log#:#Log
 rbac#:#lp_other_users#:#Ver Progreso de Aprendizaje de otros usuarios
 rbac#:#lrss_edit_permission#:#Cambiar la configuración de los permisos
-rbac#:#lrss_read#:#Acceso de lectura a los ajustes de los recursos de aprendizaje
-rbac#:#lrss_visible#:#Los ajustes de los recursos de aprendizaje son visibles
-rbac#:#lrss_write#:#Editar las configuración de los Recursos de Aprendizaje
+rbac#:#lrss_read#:#Acceso de lectura a los ajustes de los módulos de aprendizaje
+rbac#:#lrss_visible#:#Los ajustes de los módulos de aprendizaje son visibles
+rbac#:#lrss_write#:#Editar las configuración de los módulos de aprendizaje
 rbac#:#mail_internal_mail#:#El usuario puede usar el sistema de correo interno (ILIAS)
 rbac#:#mail_mail_to_global_roles#:#El usuario debe enviar Emails a los roles globales
 rbac#:#mail_read#:#Acceso de lectura a la configuración del correo
@@ -11676,7 +11676,7 @@ survey#:#mailnotification#:#Notificación por Correo Electrónico
 survey#:#mailparticipantdata#:#Datos adicionales de los participantes
 survey#:#mailparticipantdata_info#:#Añade una introducción para el correo de aviso. Debe usar variables para los datos referentes a los participantes como [matriculation], [email], [firstname]. Las variables serán reemplazadas con datos reales de los usuarios de forma personalizada.
 survey#:#mail_sent_short#:#Enviado
-survey#:#mail_survey_codes#:#Códigos de acceso al Correo
+survey#:#mail_survey_codes#:#Enviar códigos de acceso por correo
 survey#:#maintenance#:#Participantes
 survey#:#manage_phrases#:#Gestionar conjuntos
 survey#:#material_added_successfully#:#Ha añadido con éxito un enlace a contenido relacionado
@@ -12820,12 +12820,12 @@ assessment#:#tst_question_set_type_fixed#:#Test con conjunto fijo de preguntas##
 assessment#:#tst_question_set_type_fixed_desc#:#Con este modo se selecciona un conjunto fijo de preguntas que usan todos los participantes. Dependiendo de la configuración del test realizada, los participantes pueden hacer una o varias pasadas al test o incluso les pueden aparecer las mismas preguntas pero con diferente orden.###24 10 2013 new variable
 assessment#:#tst_question_set_type_random#:#Test con conjunto aleatorio de preguntas###24 10 2013 new variable
 assessment#:#tst_question_set_type_random_desc#:#Con este modo se seleccionan uno o más bancos de preguntas de los que se eligen un conjunto de preguntas aleatorio específico para cada participante. Dependiendo de la configuración del test realizada, los participantes pueden hacer una o varias pasadas al test.###24 10 2013 new variable
-assessment#:#tst_question_set_type_dynamic#:#Tests de selección continua###24 10 2013 new variable
-assessment#:#tst_question_set_type_dynamic_desc#:#En este modo solo se selecciona un banco de preguntas. El test se realiza en una pasada que nunca termina para los participantes y las preguntas las selecciona de forma individual cada participante.###24 10 2013 new variable
+assessment#:#tst_question_set_type_dynamic#:#Tests de entrenamiento###24 10 2013 new variable
+assessment#:#tst_question_set_type_dynamic_desc#:#En este modo solo se selecciona un banco de preguntas. El test se realiza en una pasada que nunca acaba hasta responder correctamente a todas las preguntas o suspenderlo. En cada ejecución las preguntas se pueden filtrar de forma individual en cada ejecución. Se pueden incorporar preguntas al banco dinámicamente.###24 10 2013 new variable
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Está a punto de cambiar el modo del test de <b>%s</b> a <b>%s</b>, a pesar de que ya existe una configuración para las preguntas/banco de preguntas usadas en este test. <br> La configuración actual se perderá.###24 10 2013 new variable
-assessment#:#tst_msg_dynamic_question_set_config_modified#:#La configuración de la selección continua de preguntas ha sido modificada###24 10 2013 new variable
-assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#La configuración de la selección continua de preguntas no puede ser modificada debido a la existencia de datos de los participantes###24 10 2013 new variable
-assessment#:#tst_form_dynamic_question_set_config#:#Selección continua de preguntas###24 10 2013 new variable
+assessment#:#tst_msg_dynamic_question_set_config_modified#:#La configuración de las preguntas del Test de entrenamiento ha sido modificada###24 10 2013 new variable
+assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#La configuración de las preguntas del Test de entrenamiento no puede ser modificada debido a la existencia de datos de los participantes###24 10 2013 new variable
+assessment#:#tst_form_dynamic_question_set_config#:#Preguntas de Test de entrenamiento###24 10 2013 new variable
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Banco de preguntas fuente###24 10 2013 new variable
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Ruta: %s) [%s Preguntas]###24 10 2013 new variable
 assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Borrado) [%s Preguntas]###24 10 2013 new variable
@@ -14375,8 +14375,8 @@ orgu#:#orgu_orgu_type#:#Tipo de Unidad Organizativa###26 09 2014 new variable
 orgu#:#orgu_type_custom_icon#:#Icono personalizado para este tipo de Unidad Organizativa###26 09 2014 new variable
 orgu#:#orgu_adv_settings#:#Ajustes avanzados###26 09 2014 new variable
 orgu#:#orgu_type_msg_error_custom_icon#:#No se puede guardar el icono personalizado###26 09 2014 new variable
-orgu#:#orgu_type_available_amd_sets#:#Conjuntos avanzados de metadados disponibles###26 09 2014 new variable
-orgu#:#orgu_type_assign_amd_sets#:#Asignar conjuntos avanzados de metadados###26 09 2014 new variable
+orgu#:#orgu_type_available_amd_sets#:#Conjuntos de metadatos personalizados disponibles###26 09 2014 new variable
+orgu#:#orgu_type_assign_amd_sets#:#Asignar conjuntos de metadatos personalizados###26 09 2014 new variable
 crs#:#crs_loc_subtab_creation#:#Crear###26 09 2014 new variable
 poll#:#poll_max_number_of_answers#:#Número máximo de opciones que puede señalar un participante###26 09 2014 new variable
 poll#:#poll_vote_error_single#:#Por favor, seleccione una opción.###26 09 2014 new variable
@@ -14418,7 +14418,7 @@ user#:#interests#:#Intereses###26 09 2014 new variable
 user#:#interests_general#:#Intereses generales###26 09 2014 new variable
 user#:#interests_help_offered#:#Ofrecimiento de ayuda###26 09 2014 new variable
 user#:#interests_help_looking#:#Buscando ayuda###26 09 2014 new variable
-ecs#:#ecs_no_adv_md#:#No hay metadatos avanzados disponibles.###26 09 2014 new variable
+ecs#:#ecs_no_adv_md#:#No hay metadatos personalizados disponibles.###26 09 2014 new variable
 poll#:#poll_comments#:#Comentarios###26 09 2014 new variable
 poll#:#poll_show_results_as#:#Mostrar resultados como###26 09 2014 new variable
 poll#:#poll_barchart#:#Diagrama de barras###26 09 2014 new variable
@@ -14473,7 +14473,7 @@ survey#:#svy_results_mail_own#:#Los participantes pueden enviarse por correo sus
 exercise#:#exc_to_desktop_info#:#Añadir ejercicio al escritorio personal de los participantes después de asignarlo###26 09 2014 new variable
 wiki#:#wiki_wpg#:#Página de Wiki###26 09 2014 new variable
 wiki#:#wiki_add_page_properties#:#Activar propiedades adicionales en página de wiki###26 09 2014 new variable
-wiki#:#wiki_advmd_block_title#:#Metadatos avanzados de página###26 09 2014 new variable
+wiki#:#wiki_advmd_block_title#:#Metadatos personalizados de página###26 09 2014 new variable
 content#:#cont_ed_insert_amd_page_list#:#Insertar lista de páginas###26 09 2014 new variable
 content#:#cont_insert_amd_page_list#:#Insertar lista de páginas###26 09 2014 new variable
 content#:#cont_update_amd_page_list#:#Editar lista de páginas###26 09 2014 new variable
@@ -14722,7 +14722,7 @@ crs#:#crs_objective_status_start#:#Definir objetos iniciales###26 09 2014 new va
 crs#:#crs_objective_status_fullfilled#:#OK###26 09 2014 new variable
 crs#:#crs_objective_action_materials#:#Asignar materiales###26 09 2014 new variable
 crs#:#crs_objective_action_qtest#:#Asignar preguntas del Test de calificación###26 09 2014 new variable
-crs#:#crs_objective_action_itest#:#Asignar de preguntas del Test inicial###26 09 2014 new variable
+crs#:#crs_objective_action_itest#:#Asignar preguntas del Test inicial###26 09 2014 new variable
 crs#:#crs_loc_qt_visibility#:#Visibilidad del Test de calificación###26 09 2014 new variable
 crs#:#crs_loc_qt_visibility_all#:#Mostrar Test de calificación para todos los objetivos###26 09 2014 new variable
 crs#:#crs_loc_qt_visibility_lo#:#Mostrar Test de calificación para cada objetivo###26 09 2014 new variable
@@ -14788,7 +14788,7 @@ crs#:#crs_loc_tst_new_run#:#Iniciar una nueva ejecución del Test###26 09 2014 n
 crs#:#crs_loc_tst_resume#:#Continuar ejecución del test###26 09 2014 new variable
 crs#:#crs_loc_settings_reset#:#Resultados del Test###26 09 2014 new variable
 crs#:#crs_loc_settings_reset_enable#:#Permitir Eliminar los resultados del Test.###26 09 2014 new variable
-crs#:#crs_loc_settings_reset_enable_info#:#Cuando está activado, todos los usuarios tienen la capacidad de eliminar sus resultados del test.###26 09 2014 new variable
+crs#:#crs_loc_settings_reset_enable_info#:#Cuando está activado, todos los usuarios tienen la capacidad de eliminar sus resultados del test y comenzar el curso de nuevo###26 09 2014 new variable
 crs#:#crs_loc_progress_no_result_no_initial#:#Por favor, trabajar con los siguientes materiales de aprendizaje y después ejecutar el Test de calificación.###26 09 2014 new variable
 crs#:#crs_loc_qst_resume_tst_itest#:#Los test iniciales de diferentes objetivos de aprendizaje no pueden ejecutarse en paralelo. Ya ha comenzado un test inicial de un objetivo de aprendizaje. Continúe la ejecución del test iniciado antes de empezar la ejecución de otro test nuevo.###26 09 2014 new variable
 crs#:#crs_loc_qst_resume_tst_qtest#:#Los test de calificación de diferentes objetivos de aprendizaje no pueden ejecutarse en paralelo. Ya ha comenzado un test de calificación de un objetivo de aprendizaje. Continúe la ejecución del test iniciado antes de empezar la ejecución de otro test nuevo.###26 09 2014 new variable
@@ -15311,7 +15311,7 @@ assessment#:#qpl_qst_skl_selection_for_question_header#:#Asignación de competen
 assessment#:#tst_skl_level_thresholds_missing#:#Faltan umbrales para competencias relevantes!###30 08 2015 new variable
 assessment#:#tst_skl_level_thresholds_link#:#Configurar umbrales de competencia###30 08 2015 new variable
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Por favor, considere que los resultados de competencia de un único test tienen una significación limitada. Cuanto más información se recolecte por competencia, mejor será la significación. En caso de que hubiera competencias individuales sin ninguna entrada, hay menos información recopilada.###30 08 2015 new variable
-assessment#:#tst_results_presentation_description#:#Si se selecciona "Show Pass Details for running tests-Mostrar Detalles de ejecución para los tests que se están ejecutando", estarán disponibles los títulos de las preguntas y los puntos alcanzados en cada una en la ejecución del test si el test no ha finalizado. Si se selecciona ""Show Solutions in Test Results-Mostrar soluciones en los resultados del test", los participantes del test tendrán disponibles las soluciones detalladas de las preguntas en la presentación de resultados del test. Esto incluye la puntuación exacta para cada respuesta, en otro caso sólo se mostrará un resumen con los títulos de las preguntas y los puntos obtenidos. Si se selecciona la lista de respuestas, se genera un visión general de todas las preguntas con las respuestas del participante. Esta vista estará disponible en la pestaña "Info" y al terminar de responder un test antes del envío final.Si se selecciona "Show Answer-Specific Feedback in Test Results-Mostrar comentario específico de respuesta en los resultados del test", se mostrará el comentario específico de cada respuesta en los resultados del test junto a las preguntas (para ello deben haber sido configurados los comentarios en la pestaña "Comentarios del tutor" al editar la pregunta). Si se selecciona "Results print view (answers only)-Vista de impresión de resultados (sólo respuestas)", la edición de contenido que se puede configurar antes y después de la pregunta al editarla usando la pestaña "Editar Contenido" no será visible en una impresión. Si quieres ahorrar papel selecciona esta opción. Si se selecciona "Show Signature Placeholder-Mostrar espacio para la firma" se mostrará una zona para que el alumno pueda firmar su test en la impresión de resultados. Si se selecciona "Show Suggested Solution-Mostrar solución recomendada" se mostrará las solución recomendada de las preguntas en la visión general de resultados del test (para ello al editar las preguntas deben haber sido configuradas las soluciones recomendadas en la pestaña "Solución Recomendada").###30 08 2015 new variable
+assessment#:#tst_results_presentation_description#:#Si se selecciona "Mostrar Detalles para los tests en ejecución", estarán disponibles los títulos de las preguntas y los puntos alcanzados en cada una en la ejecución del test si el test no ha finalizado. Si se selecciona ""Show Solutions in Test Results-Mostrar soluciones en los resultados del test", los participantes del test tendrán disponibles las soluciones detalladas de las preguntas en la presentación de resultados del test. Esto incluye la puntuación exacta para cada respuesta, en otro caso sólo se mostrará un resumen con los títulos de las preguntas y los puntos obtenidos. Si se selecciona la lista de respuestas, se genera un visión general de todas las preguntas con las respuestas del participante. Esta vista estará disponible en la pestaña "Info" y al terminar de responder un test antes del envío final.Si se selecciona "Show Answer-Specific Feedback in Test Results-Mostrar comentario específico de respuesta en los resultados del test", se mostrará el comentario específico de cada respuesta en los resultados del test junto a las preguntas (para ello deben haber sido configurados los comentarios en la pestaña "Comentarios del tutor" al editar la pregunta). Si se selecciona "Results print view (answers only)-Vista de impresión de resultados (sólo respuestas)", la edición de contenido que se puede configurar antes y después de la pregunta al editarla usando la pestaña "Editar Contenido" no será visible en una impresión. Si quieres ahorrar papel selecciona esta opción. Si se selecciona "Show Signature Placeholder-Mostrar espacio para la firma" se mostrará una zona para que el alumno pueda firmar su test en la impresión de resultados. Si se selecciona "Show Suggested Solution-Mostrar solución recomendada" se mostrará las solución recomendada de las preguntas en la visión general de resultados del test (para ello al editar las preguntas deben haber sido configuradas las soluciones recomendadas en la pestaña "Solución Recomendada").###30 08 2015 new variable
 assessment#:#tst_wf_info_optional_question#:#Esta pregunta está relacionada con un objetvo de aprendizaje ya alcanzado.###30 08 2015 new variable
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Se ha utilizado una respuesta tuya de un intento previo.###30 08 2015 new variable
 assessment#:#tst_wf_info_answer_not_adopted#:#No hay una respuesta de ningún intento previo, por lo que debes realizarla. En otro caso, el resultado de tu objetivo de aprendizaje se verá disminuido.###30 08 2015 new variable
@@ -15321,20 +15321,20 @@ assessment#:#tst_tab_results_pass_oriented#:#Resultados por intentos###30 08 201
 assessment#:#tst_tab_results_objective_oriented#:#Resultados por objetivos de aprendizaje###30 08 2015 new variable
 assessment#:#tst_attempt#:#Intento###30 08 2015 new variable
 assessment#:#tst_back_to_virtual_pass#:#Volver a resumen de pregunta###30 08 2015 new variable
-assessment#:#question_summary_btn#:#Estado de procesamiento###30 08 2015 new variable
+assessment#:#question_summary_btn#:#Acceder al Sumario de Preguntas###30 08 2015 new variable
 assessment#:#submit_answer#:#Graba respuesta y pasa a siguiente###30 08 2015 new variable
 assessment#:#discard_answer#:#Descartar respuesta###30 08 2015 new variable
-assessment#:#discard_answer_confirmation#:#Tu respuesta será descartada. La pregunta constará como no contestada hasta que envíes otra respuesta.<br /><br />Realmente quieres descartar la respuesta?###30 08 2015 new variable
+assessment#:#discard_answer_confirmation#:#Tu respuesta será descartada. La pregunta constará como no contestada hasta que envíes otra respuesta.<br /><br />Indica si realmente quieres descartar la respuesta###30 08 2015 new variable
 assessment#:#edit_answer#:#Editar respuesta###30 08 2015 new variable
 assessment#:#answer_question#:#Responder pregunta###30 08 2015 new variable
 assessment#:#back_to_objective_container#:#Ir al curso###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling#:#Gestión de comentarios instantáneos###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling_none#:#No gestionar ningún comentario instantáneo###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling_none_desc#:#tst_instant_feedback_handling_desc###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling_freeze#:#tst_instant_feedback_handling_freeze###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#tst_instant_feedback_handling_freeze_desc###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling_force_and_freeze#:#tst_instant_feedback_handling_force_and_freeze###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#tst_instant_feedback_handling_force_and_freeze_desc###30 08 2015 new variable
+assessment#:#tst_instant_feedback_handling#:#Gestión de comentarios instantáneos, Bloquear respuestas###30 08 2015 new variable
+assessment#:#tst_instant_feedback_handling_none#:#No se permite ningún comentario instantáneo (comprobaciones o sugerencias)###30 08 2015 new variable
+assessment#:#tst_instant_feedback_handling_none_desc#:#Los participantes pueden cambiar sus respuestas en todos los test que tiene###30 08 2015 new variable
+assessment#:#tst_instant_feedback_handling_freeze#:#Se puede comprobar la pregunta pero se bloquean las respuestas dadas###30 08 2015 new variable
+assessment#:#tst_instant_feedback_handling_freeze_desc#:#Cuando los participantes pulsan "Responder", ya no podrán cambiar su respuesta. Pueden solicitar comprobación pulsando "Comprobar". Por favor, configure la retroalimentación pulsando en "Retroalimentación instantánea"###30 08 2015 new variable
+assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Bloquear respuestas y forzar comprobación###30 08 2015 new variable
+assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#Cuando los participantes pulsen "Responder", no podrán cambiar su respuesta. Se presentará automáticamente a los participantes los mensajes editados en las preguntas (si se crearon) con la configuración realizada en "Retroalimentación instantánea"###30 08 2015 new variable
 assessment#:#tst_eval_results_by_pass_lo#:#Lista de respuestas por intento %s###30 08 2015 new variable
 assessment#:#tst_eval_results_lo#:#Lista de respuestas###30 08 2015 new variable
 assessment#:#tst_instant_feedback_forced#:#Forzar comentario instantáneo###30 08 2015 new variable
@@ -15412,15 +15412,15 @@ dcl#:#dcl_visible_desc#:#Los usuarios pueden acceder a esta tabla desde el menú
 dcl#:#dcl_ILIAS_reference_link_desc#:#Se puede acceder al objeto utilizando un enlace si está disponible para acceso de lectura###30 08 2015 new variable
 dcl#:#dcl_learning_progress_desc#:#Si está disponible, se mostrará el progreso de aprendizaje del usuario###30 08 2015 new variable
 dcl#:#dcl_display_action_menu_desc#:#Los objetos pueden ser copiados o enlazados si el usuario tiene los permisos adecuados###30 08 2015 new variable
-dcl#:#dcl_export_enabled_desc#:#Todos los usuarios pueden exportar los datos de la tabla. Éstos deben ser seleccionados individualmente en la vista "campos seleccionados de la tabla"###30 08 2015 new variable
+dcl#:#dcl_export_enabled_desc#:#Todos los usuarios pueden exportar los datos de la tabla. Debe seleccionar en la vista qué campos serán exportados###30 08 2015 new variable
 dcl#:#dcl_add_perm_desc#:#Los usuarios pueden crear nuevos registros en la entrada###30 08 2015 new variable
-dcl#:#dcl_limited_desc#:#Los usuarios pueden añadir elementos solo en la fecha seleccionada, editar y borrar###30 08 2015 new variable
+dcl#:#dcl_limited_desc#:#Los usuarios solo pueden editar elementos en la fecha seleccionada###30 08 2015 new variable
 dcl#:#dcl_unique_desc#:#En este campo sólo pueden introducirse valore únicos###30 08 2015 new variable
 dcl#:#dcl_formula_detail_desc#:#Las entradas son generadas automáticamente y no puedes editarlas.###30 08 2015 new variable
 dcl#:#dcl_text_email_detail_desc#:#Por favor, introduzca una URL o dirección de correo válida.###30 08 2015 new variable
 dcl#:#dcl_text_email_title#:#Título###30 08 2015 new variable
 dcl#:#dcl_text_email_title_info#:#Un título para la URL o dirección de correo electrónico superior (opcional)###30 08 2015 new variable
-adve#:#adve_auto_url_linking#:#Auto enlazado de URL###30 08 2015 new variable
+adve#:#adve_auto_url_linking#:#Detección automática de URLs###30 08 2015 new variable
 adve#:#adve_auto_url_linking_info#:#Intenta identificar URLs como "http://.." en párrafos de texto y convertirlas en hiperenlaces###30 08 2015 new variable
 content#:#cont_auto_time#:#Tiempo de espera para auto animación###30 08 2015 new variable
 content#:#cont_rand_start#:#Inicio aleatorio###30 08 2015 new variable
@@ -15750,10 +15750,10 @@ rbac#:#wiki_edit_wiki_navigation#:#Editar navegación Wiki###30 08 2015 new vari
 rbac#:#wiki_delete_wiki_pages#:#Borrar páginas de Wiki###30 08 2015 new variable
 rbac#:#wiki_activate_wiki_protection#:#Establecer páginas de Wiki como Solo-lectura###30 08 2015 new variable
 rbac#:#wiki_wiki_html_export#:#Exportar Wiki como HTML###30 08 2015 new variable
-crs#:#crs_loc_settings_it_type#:#Prueba de acceso###30 08 2015 new variable
-crs#:#crs_loc_settings_type_it_placement_all#:#Prueba de acceso en todos los objetivos de aprendizaje###30 08 2015 new variable
-crs#:#crs_loc_settings_it_start_object#:#Prueba de acceso en el objeto inicial###30 08 2015 new variable
-crs#:#crs_loc_settings_type_it_placement_sel#:#Una prueba de diagnóstico por objetivo###30 08 2015 new variable
+crs#:#crs_loc_settings_it_type#:#Test inicial###30 08 2015 new variable
+crs#:#crs_loc_settings_type_it_placement_all#:#Un test de diagnóstico inicial para todos los objetivos de aprendizaje###30 08 2015 new variable
+crs#:#crs_loc_settings_it_start_object#:#El test de diagnóstico es el objeto inicial###30 08 2015 new variable
+crs#:#crs_loc_settings_type_it_placement_sel#:#Un test de diagnóstico inicial por objetivo###30 08 2015 new variable
 crs#:#crs_loc_settings_type_it_qualifying_all#:#Un test de evaluación para todos los objetivos de aprendizaje###30 08 2015 new variable
 crs#:#crs_loc_settings_type_it_qualifying_sel#:#Un test de evaluación por objetivo###30 08 2015 new variable
 crs#:#crs_loc_settings_type_it_none#:#No hay test inicial###30 08 2015 new variable
@@ -15761,22 +15761,22 @@ crs#:#crs_loc_settings_qt_all#:#Test final###30 08 2015 new variable
 crs#:#crs_loc_settings_type_q_all#:#Test final para todos los objetivos de aprendizaje###30 08 2015 new variable
 crs#:#crs_loc_settings_qt_start_object#:#Test final como objeto inicial###30 08 2015 new variable
 crs#:#crs_loc_settings_type_q_selected#:#Test final por objetivo###30 08 2015 new variable
-crs#:#crs_loc_settings_err_qstart#:#La opción "test final como objeto inicial" ha sido desactivada puesto que solo puede utilizarse para cursos sin test de entrada.        ###30 08 2015 new variable
+crs#:#crs_loc_settings_err_qstart#:#La opción "test final como objeto inicial" ha sido desactivada ya que no puede utilizarse en cursos donde no se ha configurado un test como objeto inicial        ###30 08 2015 new variable
 crs#:#crs_loc_tab_qtests#:#Tests finales###30 08 2015 new variable
 crs#:#crs_loc_tab_itests#:#Tests de inicio###30 08 2015 new variable
 crs#:#crs_loc_btn_new_assignment#:#Nueva asignación de test###30 08 2015 new variable
 crs#:#crs_objective_tbl_col_final_tsts#:#Tests finales###30 08 2015 new variable
 crs#:#crs_objective_action_qtest_sep#:#Asignar test final###30 08 2015 new variable
 crs#:#crs_loc_settings_tbl_its_q_all#:#Test inicial de calificación para todos los objetivos de aprendizaje###30 08 2015 new variable
-crs#:#crs_loc_settings_tbl_its_nq_all#:#Test de diagnóstico para todos los objetivos de aprendizaje###30 08 2015 new variable
+crs#:#crs_loc_settings_tbl_its_nq_all#:#Test inicial de diagnóstico para todos los objetivos de aprendizaje###30 08 2015 new variable
 crs#:#crs_loc_settings_tbl_it_q#:#Test inicial de calificación por objetivo###30 08 2015 new variable
-crs#:#crs_loc_settings_tbl_it_nq#:#Test de diagnóstico por objetivo de entrada###30 08 2015 new variable
+crs#:#crs_loc_settings_tbl_it_nq#:#Test inicial de diagnóstico por objetivo de entrada###30 08 2015 new variable
 crs#:#crs_loc_settings_tbl_qts_all#:#Test final para todos los objetivos de aprendizaje###30 08 2015 new variable
-crs#:#crs_loc_settings_tbl_qt#:#Tests finales por objetivo###30 08 2015 new variable
+crs#:#crs_loc_settings_tbl_qt#:#Test final para cada objetivo###30 08 2015 new variable
 crs#:#crs_loc_objective_passed_confirmation#:#Ya han superado el objetivo de aprendizaje. Si se reinicia el test se perderán los resultados. ¿Quieres comenzar el test otra vez?###30 08 2015 new variable
-crs#:#crs_loc_objectives_passed_confirmation#:#Ya has superado todos los objetivos. Si reinicias el test perderás los resultados. ¿Quieres comenzar el test otra vez?###30 08 2015 new variable
+crs#:#crs_loc_objectives_passed_confirmation#:#Ya has superado todos los objetivos. Si reinicias el test perderás todos los resultados. ¿Quieres comenzar el test otra vez?###30 08 2015 new variable
 crs#:#crs_loc_tst_start#:#Comenzar test###30 08 2015 new variable
-crs#:#crs_loc_mem_show_res#:#Ver resultados del test###30 08 2015 new variable
+crs#:#crs_loc_mem_show_res#:#Mostrar resultados del test###30 08 2015 new variable
 crs#:#crs_loc_test_results_of#:#Resultados de test de:###30 08 2015 new variable
 buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Solicitar contacto###30 08 2015 new variable
 buddysystem#:#buddy_bs_btn_txt_unlinked_p#:#Solicitar contacto###30 08 2015 new variable
@@ -15786,7 +15786,7 @@ buddysystem#:#buddy_bs_btn_txt_requested_a#:#Contacto solicitado###30 08 2015 ne
 buddysystem#:#buddy_bs_btn_txt_requested_p#:#Solicitud###30 08 2015 new variable
 buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Contacto solicitado###30 08 2015 new variable
 buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Solicitud ignorada###30 08 2015 new variable
-buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Desenlazar###30 08 2015 new variable
+buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Quitar enlace###30 08 2015 new variable
 buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignorar###30 08 2015 new variable
 buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Cancelar solicitud###30 08 2015 new variable
 buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Confirmar###30 08 2015 new variable
@@ -15944,8 +15944,8 @@ prg#:#prg_adv_settings#:#Configuración avanzada###30 08 2015 new variable
 prg#:#prg_type_custom_icon#:#Iconos personalizados###30 08 2015 new variable
 prg#:#prg_type_custom_icon_info#:#Información de icono personalizado###30 08 2015 new variable
 prg#:#prg_type_msg_error_custom_icon#:#Error al almacenar icono###30 08 2015 new variable
-prg#:#prg_type_assign_amd_sets#:#Asignar conjuntos de metadatos avanzados###30 08 2015 new variable
-prg#:#prg_type_available_amd_sets#:#Conjuntos de metadados avanzados disponibles###30 08 2015 new variable
+prg#:#prg_type_assign_amd_sets#:#Asignar conjuntos de metadatos personalizados###30 08 2015 new variable
+prg#:#prg_type_available_amd_sets#:#Conjuntos de metadatos personalizados disponibles###30 08 2015 new variable
 prg#:#prg_type_edit#:#Editar subtipo###30 08 2015 new variable
 prg#:#prg_type_msg_deleted#:#Subtipo borrado###30 08 2015 new variable
 prg#:#prg_type_msg_unable_delete#:#No es posible borrar el tipo porque está todavía asignado a los siguientes programas de estudio: %s###30 08 2015 new variable
@@ -15984,11 +15984,11 @@ trac#:#trac_mode_study_programme_info#:#El programa de estudio debe ser completa
 assessment#:#grading_obligations_listlabel#:#Preguntas obligatorias###08 10 2015 new variable
 assessment#:#grading_obligations_answered_listentry#:#Contestado###08 10 2015 new variable
 assessment#:#grading_obligations_missing_listentry#:#Abierto###08 10 2015 new variable
-assessment#:#tst_pass_finished_on#:#Realización del test finalizada###08 10 2015 new variable
+assessment#:#tst_pass_finished_on#:#Test Final###08 10 2015 new variable
 assessment#:#passed_status#:#Estado de superación###08 10 2015 new variable
 assessment#:#skip_question#:#No responder y Siguiente###08 10 2015 new variable
 assessment#:#tst_instant_feedback_handling_force#:#No bloquear respuestas pero forzar sugerencias###08 10 2015 new variable
-assessment#:#tst_instant_feedback_handling_force_desc#:#tst_instant_feedback_handling_force_desc###08 10 2015 new variable
+assessment#:#tst_instant_feedback_handling_force_desc#:#Cuando los participantes pulsen "Responder", se les presentará automáticamente la comprobación tal y como esté configurada en "Retroalimentación instantánea". No obstante, ellos pueden cambiar sus respuestas después.###08 10 2015 new variable
 dcl#:#dcl_locked_tooltip#:#Desactivar este campo para que los usuarios puedan editar. No incluye a los roles con permisos de "Editar configuración"###08 10 2015 new variable
 forum#:#forums_thread_deleted#:#El tema seleccionado y todos sus envíos han sido borrados.###08 10 2015 new variable
 forum#:#forums_threads_deleted#:#Los temas seleccionados y todos sus envíos han sido borrados.###08 10 2015 new variable
@@ -16049,15 +16049,15 @@ grp#:#grp_subscription_min_members_info#:#Define el número mínimo de usuarios 
 grp#:#grp_max_and_min_members_invalid#:#El número mínimo debe ser menor que el número máximo de miembros.###25 10 2015 new variable
 crs#:#mem_cron_min_members_reason#:#Has recibido este mensaje porque has activado la notificación en la pestaña 'Miembros'.###25 10 2015 new variable
 crs#:#mem_cron_min_members_task#:#Por favor, informe a los participantes si el curso no se impartirá porque no hay suficientes matriculados. Ajuste la configuración después.###25 10 2015 new variable
-crs#:#crs_loc_settings_passed_mode#:#Éxito de resultados de aprendizaje###25 10 2015 new variable
-crs#:#crs_loc_settings_passed_mode_hide#:#La actividad de los resultados de aprendizaje superados está oculta###25 10 2015 new variable
-crs#:#crs_loc_settings_passed_mode_mark#:#La actividad de los resultados de aprendizaje superados está visible###25 10 2015 new variable
+crs#:#crs_loc_settings_passed_mode#:#Objetivos de aprendizaje superados###25 10 2015 new variable
+crs#:#crs_loc_settings_passed_mode_hide#:#No se muestran las preguntas del test para los objetivos de aprendizaje superados###25 10 2015 new variable
+crs#:#crs_loc_settings_passed_mode_mark#:#Se marcan las preguntas del test para los objetivos de aprendizaje superados###25 10 2015 new variable
 assessment#:#correct_answers#:#Respuetas correctas: ###23 12 2015 new variable
 assessment#:#answer_options#:#Opciones de respuesta: ###23 12 2015 new variable
 assessment#:#add_answers#:#Añadir respuetas###23 12 2015 new variable
 assessment#:#log_wrong_test_password_entered#:#El participante introdujo un clave para el test incorrecta. Entrada: '%s'###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_header#:#Decisión sobre respuestas###23 12 2015 new variable
-assessment#:#tst_nav_while_edit_modal_text#:#Qué hacer con las respuestas que posiblemente introdujiste para esta pregunta?###23 12 2015 new variable
+assessment#:#tst_nav_while_edit_modal_text#:#Indica lo que quieres hacer con las respuestas que has podido responder en esta pregunta###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_save_btn#:#Guardar###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_nosave_btn#:#No guardar###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_cancel_btn#:#Cancelar###23 12 2015 new variable
@@ -16223,5 +16223,4 @@ survey#:#msg_input_only_positive_numbers#:#Por favor, introduzca sólo valores p
 crs#:#crs_loc_err_stat_tst_offline#:#Algunos tests no están on-line###12 10 2016 new variable
 itgr#:#itgr_desc_info#:#La descripción no formará parte de la presentación del grupo de objetos en este contenedor###12 10 2016 new variable
 dcl#:#dcl_std_field_not_importable#:# - Los campos estándar no se pueden importar###25 10 2016 new variable
-rbac#:#edit_members#:#Manage members###22 12 2016 new variable
-rbac#:#prg_manage_members#:#Manage members of Study Programme###22 12 2016 new variable
+rbac#:#edit_members#:#Gestinonar miembros###22 12 2016 new variable
