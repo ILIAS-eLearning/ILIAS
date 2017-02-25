@@ -1870,8 +1870,8 @@ blog#:#blog_toggle_draft#:#Veröffentlichung zurücknehmen
 blog#:#blog_toggle_final#:#Beitrag veröffentlichen
 book#:#book_add#:#Buchungspool anlegen
 book#:#book_add_object#:#Objekt hinzufügen
-book#:#book_add_schedule#:#Zeit hinzufügen
-book#:#book_add_type#:#Buchungsobjekt-Typ hinzufügen
+book#:#book_add_schedule#:#Zeitplan hinzufügen
+book#:#book_add_type#:#Buchungsobjekttyp hinzufügen
 book#:#book_all#:#Alle anzeigen
 book#:#book_back_to_list#:#Zurück zur Liste
 book#:#book_book#:#Buchen
