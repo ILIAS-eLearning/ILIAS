@@ -1012,7 +1012,7 @@ class ilPersonalSettingsGUI
 			$user_settings->setTimeFormat((int)$this->form->getInput("time_format"));
 			$user_settings->save();
 						
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			ilUtil::sendSuccess($lng->txtlng("common", "msg_obj_modified", $ilUser->getLanguage()), true);
 			$ilCtrl->redirect($this, "showGeneralSettings");
 		}
 
