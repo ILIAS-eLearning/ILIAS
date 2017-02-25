@@ -8108,12 +8108,15 @@ ilDBUpdate3136::addStyleClass("Sub", "sub", "sub",
 ?>
 <#4588>
 <?php
-$ilDB->addTableColumn("il_wiki_data", "link_md_values",array (
-	"type" => "integer",
-	"length" => 1,
-	"notnull" => false,
-	"default" => 0,
-));
+if (!$ilDB->tableColumnExists("il_wiki_data", "link_md_values"))
+{
+	$ilDB->addTableColumn("il_wiki_data", "link_md_values",array (
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => false,
+		"default" => 0,
+	));
+}
 ?>
 <#4589>
 <?php
