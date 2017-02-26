@@ -626,6 +626,7 @@ class ilLMPresentationGUI
 			if ($this->fill_on_load_code)
 			{
 				$this->tpl->fillOnLoadCode();
+				$this->tpl->fillViewAppendInlineCss();
 			}
 			$content =  $this->tpl->get();
 			$content = str_replace("&#123;", "{", $content);
@@ -638,6 +639,7 @@ class ilLMPresentationGUI
 		{
 			$this->tpl->fillLeftNav();
 			$this->tpl->fillOnLoadCode();
+			$this->tpl->fillViewAppendInlineCss();
 			$content =  $this->tpl->get();
 		}
 
@@ -730,7 +732,8 @@ class ilLMPresentationGUI
 		{
 			$this->tpl->touchBlock("pg_intro");
 			$this->tpl->touchBlock("pg_outro");
-			//$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
+			$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
+			$this->tpl->setVariable("MAINMENU_SPACER", $ilMainMenu->getSpacerClass());
 			return;
 		}
 
@@ -746,6 +749,7 @@ class ilLMPresentationGUI
 		$this->tpl->touchBlock("pg_outro");
 		$this->tpl->setBodyClass("std");
 		$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
+		$this->tpl->setVariable("MAINMENU_SPACER", $ilMainMenu->getSpacerClass());
 	}
 
 	/**
@@ -1062,7 +1066,7 @@ class ilLMPresentationGUI
 	*/
 	function ilLocator($a_std_templ_loaded = false)
 	{
-		global $ilLocator, $tree, $ilCtrl;
+		global $ilLocator, $tree, $ilCtrl, $DIC;
 
 		require_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
 
@@ -1098,15 +1102,24 @@ class ilLMPresentationGUI
 
 		if (!$this->offlineMode())
 		{
-			$ilLocator->addItem("...", "");
+			/* NEW CODE! EXPERIMENTAL SHOWCASE
+			* If the default ilFullViewGUI is supported, this condition will be dropped out 
+			*/
+		
+			if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== 'ilFullViewGUI') {
+				// Do nothing, its complicated...
+			}
+			else {
+				$ilLocator->addItem("...", "");
 
-			$par_id = $tree->getParentId($_GET["ref_id"]);
-			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $par_id);
-			$ilLocator->addItem(
-				ilObject::_lookupTitle(ilObject::_lookupObjId($par_id)),
-				$ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset"),
-				ilFrameTargetInfo::_getFrame("MainContent"), $par_id);
-			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+				$par_id = $tree->getParentId($_GET["ref_id"]);
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $par_id);
+				$ilLocator->addItem(
+					ilObject::_lookupTitle(ilObject::_lookupObjId($par_id)),
+					$ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset"),
+					ilFrameTargetInfo::_getFrame("MainContent"), $par_id);
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+			}
 		}
 		else
 		{

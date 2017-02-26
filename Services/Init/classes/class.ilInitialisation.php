@@ -519,7 +519,17 @@ class ilInitialisation
 			self::buildHTTPPath();
 		}
 	}
-
+	
+	/**
+	 * provide $ilView object
+	 */
+	protected static function initViews()
+	{
+		global $DIC;
+		include_once './Services/View/classes/class.ilViewFactory.php';
+		ilViewFactory::initViews();
+	}
+	
 	/**
 	 * provide $styleDefinition object
 	 */
@@ -1205,6 +1215,8 @@ class ilInitialisation
 		
 		if(ilContext::hasUser())
 		{
+			// init ilView for kiosk view modes (LTI, Safe-Exam-Browser, ...)
+			self::initViews();
 			// load style definitions
 			// use the init function with plugin hook here, too
 			self::initStyle();

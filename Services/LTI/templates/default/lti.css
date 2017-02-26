@@ -1,0 +1,48 @@
+body {
+	visibility: visible;
+}
+body.ltiExit {
+	background-color: #f0f0f0;
+}
+
+a.ilTreeView {
+	top : 40px;
+}
+
+.ilLeftNav {
+	height: 100%;
+	top : 40px;
+}
+
+footer {
+	display:none;
+}
+
+.ltiHeader {
+	padding: 0;
+	height: 40px;
+	top: 0;
+	z-index: 1040;
+	background-color: #444;
+	color: white;
+	position: fixed;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+}
+
+.ltiHeaderTitle {
+	float: left;
+	font-weight: 600;
+	padding: 0 0 0 15px;
+	white-space: nowrap;
+	line-height: 40px;
+}
+
+.ilLtiExited {
+	margin-top: 116px;
+	text-align: center;
+	font-style: italic;
+	padding: 20px;
+}

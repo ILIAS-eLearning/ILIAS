@@ -367,13 +367,28 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	
 	function showTreeFlatIcon()
 	{
-		global $tpl;
+		global $tpl, $DIC;
 		
 		// dont show icon, if role (permission gui->rolegui) is edited
 		if ($_GET["obj_id"] != "")
 		{
 			return;
 		}
+		
+		/* NEW CODE! EXPERIMENTAL SHOWCASE
+		 * If the default ilFullViewGUI is supported, this condition will be dropped out 
+		 */
+		
+		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== 'ilFullViewGUI') 
+		{
+			$view = $DIC[$_SESSION['il_view_mode']];
+			// hide TreeIcon only in flat mode, otherwise tree mode maybe freezed!
+			if (!$view->showTreeIcon() && $_SESSION["il_rep_mode"] == "flat") 
+			{
+				return;
+			}
+		} 
+		
 		// hide for member view
 		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
 		if(ilMemberViewSettings::getInstance()->isActive())

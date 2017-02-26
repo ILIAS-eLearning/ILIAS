@@ -24,7 +24,6 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjRemoteTestGUI, ilObjCloudGUI, ilObjPortfolioTemplateGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjStudyProgrammeGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjManualAssessmentGUI
-*
 */
 class ilRepositoryGUI
 {
@@ -369,8 +368,8 @@ class ilRepositoryGUI
 	*/
 	function showTree()
 	{
-		global $ilCtrl, $tree, $ilSetting, $lng;
-
+		global $ilCtrl, $tree, $ilSetting, $lng, $DIC; 
+		
 		$ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
 
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
@@ -441,7 +440,8 @@ class ilRepositoryGUI
 			$head_tpl = new ilTemplate("tpl.cont_tree_head.html", true, true,
 				"Services/Repository");
 			$path = ilObject::_getIcon(ROOT_FOLDER_ID, "tiny", "root");
-			$nd = $tree->getNodeData(ROOT_FOLDER_ID);
+			//$nd = $tree->getNodeData(ROOT_FOLDER_ID);
+			$nd = $tree->getNodeData(71);
 			$title = $nd["title"];
 			if ($title == "ILIAS")
 			{
@@ -462,7 +462,7 @@ class ilRepositoryGUI
 		}
 		else
 		{
-			$exp->setOutput(0);
+			$exp->setOutput(71);
 		}
 		$output = $exp->getOutput(false);
 

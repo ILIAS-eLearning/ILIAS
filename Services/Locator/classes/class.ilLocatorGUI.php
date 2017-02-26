@@ -69,7 +69,7 @@ class ilLocatorGUI
 	*/
 	function addRepositoryItems($a_ref_id = 0)
 	{
-		global $tree, $ilCtrl;
+		global $tree, $ilCtrl, $DIC;
 
 		if ($a_ref_id == 0)
 		{
@@ -84,6 +84,21 @@ class ilLocatorGUI
 		else
 		{
 			$a_start = ROOT_FOLDER_ID;
+		}
+		
+		/* NEW CODE! EXPERIMENTAL SHOWCASE
+		 * If the default ilFullViewGUI is supported, this condition will be dropped out 
+		 */
+		
+		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== 'ilFullViewGUI') {
+			$view = $DIC[$_SESSION['il_view_mode']];
+			if ($view->tree_root_id > 0) 
+			{
+				$a_start = $view->tree_root_id;
+			}
+			else {
+				$a_start = ROOT_FOLDER_ID;
+			} 
 		}
 		
 		if ($a_ref_id > 0)

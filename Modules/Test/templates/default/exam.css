@@ -1,0 +1,305 @@
+body {
+	background-color: #FFF;
+}
+
+body.std {
+	background-color: #FFF;
+}
+
+
+/* hide TopBar */
+#ilTopBar {
+	display:none;
+}
+
+/* hide MainMenu */
+div.ilMainMenu {
+	display: none;
+}
+
+/* hide StartupSection */
+p.ilStartupSection {
+	display:none;
+}
+
+/* hide languageselection  */
+form[name="languageselection"] {
+	display:none;
+}
+
+/* hide Footer */
+footer {
+	display:none;
+}
+
+
+div#minheight {
+	display:none;
+}
+
+/* hide TreeView */
+.ilTreeView {
+	display: none;
+}
+
+/* hide Block buttons */
+.il_Block button {
+	display: none;
+}
+
+#ilPDIntro {
+	display:none;
+}
+
+div.ilBlockHeader {
+	display: none;
+}
+
+.ilContainerBlockHeader {
+	display: none;
+}
+
+
+#ilTab {
+	display: none;
+}
+
+.ilContentFixed button {
+	display: none;
+}
+
+form[name="formInfoScreen"] * {
+	background-color: #FFF;
+}
+
+.ilInfoScreenSec .il_InfoScreenPropertyValue a[href="#"] {
+	display: none;
+}
+
+.ilInfoScreenSec.form-horizontal .form-group {
+	background-color: white;
+}
+
+.ilToolbar.navbar {
+	background-color: white;
+}
+
+.ilMainHeader.ilTopFixed {
+	top: 0px;
+}
+
+.navbar-collapse {
+	padding-left: 2px;
+}
+
+div.ilStartupSection p,  div.ilStartupSection p a {
+	font-size: 120% !important;
+}
+
+/* using a fixed MainHeader and in kioskmode a kioskOption header */
+div#kioskOptions, div.ilMainHeader, div.ilMainheader.ilTopFixed {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	height: 52px;
+	width: 100%;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-top: 0px;
+	border-top: 0px;
+	border-bottom: 1px solid #000;
+	font-weight: bold;
+	font-size: 1.2em;
+	background-color: #FFF;
+	z-index: 1000;
+}
+
+header.container, header.container-fluid {
+	width: 100%;
+}
+
+header.container, header.container-fluid, header.container-fluid div.row, header.container div.row,  header.container-fluid div.row a.navbar-brand, header.container div.row a.navbar-brand {
+	height: 52px;
+	padding: 0;
+	margin:0px;
+}
+
+#ilAll {
+	min-height: 0px !important;
+	background-color: #FFF;
+}
+
+div#il_startup_logo.row {
+	height: 52px;
+	padding: 0;
+	margin-right:0;
+	margin-left:0;
+}
+
+div#il_startup_logo img,  a.navbar-brand img {
+	width:0;
+	height:0;
+	padding-left: 0px;
+	padding-right: 52px;
+	padding-top: 0px;
+	padding-bottom: 50px;
+	background-image: url(templates/default/images/HeaderExamIcon.png);
+	background-repeat: no-repeat;
+	margin: 0px;
+}
+
+/* Login Section */
+
+div#mainspacekeeper.container {
+	margin-top: 0px;
+	padding-top: 70px;
+}
+
+/* sebObject */
+.sebObject {
+	float: right;
+	padding-top: 15px;
+	padding-right: 15px;
+}
+
+/* kiosk */
+.kiosk {
+	background-color: #FFF;
+}
+
+.kioskWithCharSelector {
+	background-color: #FFF;
+}
+
+td.submit {
+	background-color: #FFF;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+/*
+.btn-default {
+	background-color: #EEE !important;
+	border-color: #444; !important;
+	color: #444 !important;
+	border-radius: 5px !important;
+}
+
+.btn-default:hover {
+	background-color: #DDD !important;
+	border-color: #444; !important;
+}
+*/
+
+#kioskExamID {
+	float: left;
+	width: 33%;
+	text-align: left;
+	padding-top: 10px;
+}
+
+#kioskTestTitle {
+	width: 33%;
+	text-align: center;
+	padding-top: 10px;
+}
+
+#kioskParticipant {
+	float: right;
+	width: 33%;
+	text-align: right;
+	padding-top: 10px;
+}
+
+/* test */
+form[name="listofquestions"], #tst_output {
+	position: absolute;
+	top: 60px;
+	width: 100%;
+}
+
+#ilAll > div.alert {
+	position: absolute;
+	top: 32px;
+	border: 1px solid transparent;
+	border-radius: 0px;
+	left: 2px;
+	padding-top: 2px;
+	padding-left: 4px;
+	padding-bottom: 1px;
+	width: 100%;
+}
+
+div.ilTstQuestionSummaryBlock_WorkingTime, div.ilTstWorkingFormBlock_WorkingTime {
+	width: 100%;
+	position: fixed;
+	margin-left: 0px;
+	padding-left: 30px;
+	top: 52px;
+	left: 0px;
+	background-color: #FFF;
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+span.ilTstWorkingFormInfo_ProcessTimeLeft {
+	font-size: 100%;
+	font-weight: normal;
+	text-align: left;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	display: block;
+}
+
+body.kioskWithCharSelector #ilCharSelectorPanel, body.kiosk #ilCharSelectorPanel {
+	top: 85px;
+}
+
+/*
+input[type="image"] {
+	padding-right: 10px;
+}
+*/
+
+input.ilTstMarkQuestionButton {
+	margin-left: 10px;
+}
+
+div.ilc_question_Standard {
+    margin: 20px 0px;
+    padding: 10px 100px 60px 40px;
+    background-color: #FFF !important;
+    border-width: 0px !important;
+    border-color: #BCD;
+    border-style: solid;
+    background-image: url('') !important;
+}
+
+/* Forbidden Message */
+div.sebForbiddenContent {
+	margin-top : 10%;
+	text-align : center;
+}
+
+div.sebForbiddenLogo {
+	display: block;
+	background-image : url(templates/default/images/HeaderExamIcon.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	padding : 64px;
+}
+
+div.sebForbiddenHeader {
+	font-size: 120%;
+}
+
+div.sebForbiddenMessage {
+	font-size: 100%;
+	margin-top: 20pt;
+}
+
+
+div.sebForbiddenLogin {
+	font-size: 100%;
+	margin-top: 20pt;
+}
