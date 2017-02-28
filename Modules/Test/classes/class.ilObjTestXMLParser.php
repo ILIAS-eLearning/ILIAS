@@ -209,6 +209,7 @@ class ilObjTestXMLParser extends ilSaxParser
 
 		if( !$questionSetConfig->isValidQuestionAmountConfigurationMode($attr['amountMode']) )
 		{
+			require_once 'Modules/Test/exceptions/class.ilTestException.php';
 			throw new ilTestException(
 				'invalid random test question set config amount mode given: "'.$attr['amountMode'].'"'
 			);

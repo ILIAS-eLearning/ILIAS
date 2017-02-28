@@ -1865,25 +1865,6 @@ auth#:#auth_auth_settings#:#Settings
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.
 auth#:#auth_info_migrate#:#If you have already an ILIAS account enter username and password to migrate your personal data (Mail, Test results...).
 auth#:#auth_login_editor#:#Loginscreen Editor
-auth#:#auth_openid#:#OpenId
-auth#:#auth_openid_configure#:#Configure OpenId-Authentication
-auth#:#auth_openid_deleted_provider#:#Deleted selected OpenID provider
-auth#:#auth_openid_enable#:#Enable OpenId Support
-auth#:#auth_openid_login#:#Your OpenID
-auth#:#auth_openid_login_info_a#:#Please enter your OpenID username and choose a provider
-auth#:#auth_openid_migration#:#Account Migration:
-auth#:#auth_openid_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to OpenId authentication.
-auth#:#auth_openid_provider#:#Provider Selection
-auth#:#auth_openid_provider_add#:#Add Provider
-auth#:#auth_openid_provider_edit#:#Edit Provider
-auth#:#auth_openid_provider_tbl#:#OpenID Provider
-auth#:#auth_openid_role_select#:#Role:
-auth#:#auth_openid_settings#:#OpenId Settings
-auth#:#auth_openid_sync#:#User Synchronization
-auth#:#auth_openid_sync_info#:#If enabled new user accounts will be created automatically after successful authentication.
-auth#:#auth_openid_uncontrolled_selection#:#Uncontrolled Provider Selection
-auth#:#auth_openid_uncontrolled_selection_info#:#Kui võimaldatud, saab autentimisel kasutada iga OpenID pakkujat. Vastasel juhul tuleb pakkuja valida etteantud nimestikust.
-auth#:#auth_openid_url_info#:#Enter an OpenID url and replace the username with "%s". For example: http://%s.myopenid.com
 auth#:#auth_rad_migration#:#Account Migration:
 auth#:#auth_rad_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to Radius authentication.
 auth#:#auth_radius_charset#:#Character Encoding
@@ -1899,118 +1880,6 @@ auth#:#login_page_activate#:#Activate Editor for Selected Languages
 auth#:#login_page_editor_switched#:#The active page editor has been changed
 auth#:#login_page_switch_ipe#:#Kasuta ILIAS lehe toimetajat
 auth#:#login_page_switch_rte#:#Use Rich-Text-Editor
-barometer#:#anonymous#:#Anonüümne
-barometer#:#bar_create#:#Loo uus tagasiside
-barometer#:#barometer_add#:#Lisa uus kiirhääletus
-barometer#:#barometer_conflict_anon_req#:#Anonüümsust ei saa kombineerida tüübiga 'Nõutud'. Palun vali üks võimalustest.
-barometer#:#barometer_title#:#Kiirhääletus
-barometer#:#best#:#parim
-barometer#:#change_course#:#Muuda kursust
-barometer#:#chart_type#:#Diagrammi tüüp
-barometer#:#chart_users#:#Kasutajate diagramm
-barometer#:#chart_votes#:#Hääletused
-barometer#:#day#:#Päev
-barometer#:#days#:#päev
-barometer#:#delete#:#Kustuta
-barometer#:#duration#:#Kestvus
-barometer#:#edit#:#Muuda
-barometer#:#edit_barometer#:#Muuda tagasisidet
-barometer#:#every#:#iga
-barometer#:#feedb_edit_feedback#:#Muuda tagasisidet
-barometer#:#feedb_feedback_list#:#Kiirhääletuse nimestik
-barometer#:#feedb_feedback_settings#:#Tagasiside seaded
-barometer#:#feedb_time#:#Aeg
-barometer#:#first_vote#:#1. hääletus on
-barometer#:#from#:#Alates
-barometer#:#hours#:#tund
-barometer#:#lines#:#Lines
-barometer#:#login#:#Kasutajanimi
-barometer#:#missing_fields#:#Palun täida kõik nõutud väljad
-barometer#:#month#:#kuu
-barometer#:#months#:#kuu
-barometer#:#new_vote#:#Uus hääl
-barometer#:#note#:#Kommentaar
-barometer#:#optional#:#Valikuline
-barometer#:#options#:#Valikud
-barometer#:#pie#:#Sektordiagramm
-barometer#:#repeat#:#Korda iga
-barometer#:#required#:#Nõutud
-barometer#:#save#:#Salvesta
-barometer#:#save_vote#:#Saada hääl
-barometer#:#skip#:#Jäta vahele
-barometer#:#statistics#:#Statistika
-barometer#:#status#:#Staatus
-barometer#:#table#:#Tabel
-barometer#:#text#:#Tekst
-barometer#:#text_answer#:#Testi vastus
-barometer#:#time#:#Toimub
-barometer#:#title#:#Nimetus
-barometer#:#type#:#Tüüp
-barometer#:#until#:#Kuni
-barometer#:#user#:#Kasutaja
-barometer#:#vote#:#hääletus
-barometer#:#votes#:#Hääled
-barometer#:#weeks#:#nädal
-barometer#:#worst#:#halvim
-barometer#:#year#:#Aasta
-bibitem#:#bibitem_add#:#Lisa
-bibitem#:#bibitem_author#:#Autor
-bibitem#:#bibitem_av#:#AV
-bibitem#:#bibitem_bibitem#:#Bibliograafiline informatsioon
-bibitem#:#bibitem_book#:#Raamat
-bibitem#:#bibitem_booktitle#:#Raamatu pealkiri
-bibitem#:#bibitem_catalog#:#Kataloog
-bibitem#:#bibitem_choose_index#:#Vali bibliograafiline informatsioon:
-bibitem#:#bibitem_cross_reference#:#Ristviide
-bibitem#:#bibitem_delete#:#Kustuta
-bibitem#:#bibitem_dissertation#:#Väitekiri
-bibitem#:#bibitem_edition#:#Väljaanne
-bibitem#:#bibitem_editor#:#Toimetaja
-bibitem#:#bibitem_entry#:#Kirje
-bibitem#:#bibitem_first_name#:#Eesnimi
-bibitem#:#bibitem_grey_literature#:#Grey literature
-bibitem#:#bibitem_how_published#:#Kirjastamise viis
-bibitem#:#bibitem_identifier#:#Identifikaator
-bibitem#:#bibitem_inbook#:#Raamatus
-bibitem#:#bibitem_inproceedings#:#Menetluses
-bibitem#:#bibitem_institution#:#Asutus
-bibitem#:#bibitem_internet#:#internet
-bibitem#:#bibitem_isbn#:#ISBN
-bibitem#:#bibitem_issn#:#ISSN
-bibitem#:#bibitem_journal#:#Ajakiri
-bibitem#:#bibitem_journal_article#:#Ajakirja artikkel
-bibitem#:#bibitem_keyword#:#Võtmesõna
-bibitem#:#bibitem_label#:#Silt
-bibitem#:#bibitem_language#:#Keel
-bibitem#:#bibitem_last_name#:#Perenimi
-bibitem#:#bibitem_manual#:#Käsitsi
-bibitem#:#bibitem_master_thesis#:#Magistritöö
-bibitem#:#bibitem_middle_name#:#Keskmine nimi
-bibitem#:#bibitem_month#:#Kuu
-bibitem#:#bibitem_new_element#:#Uus element
-bibitem#:#bibitem_newspaper_article#:#Ajalehe artikkel
-bibitem#:#bibitem_not_found#:#Puudub bibliograafiline info.
-bibitem#:#bibitem_note#:#Märkus
-bibitem#:#bibitem_number#:#Number
-bibitem#:#bibitem_organization#:#Sisu struktuur
-bibitem#:#bibitem_pages#:#Lehed
-bibitem#:#bibitem_phd_thesis#:#PhD väitekiri
-bibitem#:#bibitem_please_select#:#Palun vali
-bibitem#:#bibitem_print#:#Väljatrükk
-bibitem#:#bibitem_proceedings#:#Menetlused
-bibitem#:#bibitem_publisher#:#Kirjastaja
-bibitem#:#bibitem_save#:#Salvestatud
-bibitem#:#bibitem_school#:#Kool
-bibitem#:#bibitem_series#:#Sari
-bibitem#:#bibitem_series_editor#:#Toimetaja
-bibitem#:#bibitem_series_title#:#Seeria pealkiri
-bibitem#:#bibitem_series_volume#:#Köide
-bibitem#:#bibitem_technical_report#:#Tehniline raport
-bibitem#:#bibitem_type#:#Tüüp
-bibitem#:#bibitem_unpublished#:#Avaldamata
-bibitem#:#bibitem_url#:#URL
-bibitem#:#bibitem_where_published#:#Kirjastuskoht
-bibitem#:#bibitem_year#:#Aasta
 bibl#:#attr_order#:#Attribute-Order
 bibl#:#attr_order_bibtex#:#Attribute Order (Bibtex)
 bibl#:#attr_order_bibtex_info#:#default: isbn,issn,title
@@ -2345,10 +2214,8 @@ certificate#:#certificate_a4_landscape#:#A4 rõhtpaigutus (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 rõhtpaigutus (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Taustapilt
-certificate#:#certificate_bottom#:#Jalus
 certificate#:#certificate_confirm_deletion_text#:#Kas oled kindel, et soovid kustutada tunnistuse ja kõik sellega seotud andmed?
 certificate#:#certificate_custom#:#Kohandatud...
-certificate#:#certificate_delete#:#Tunnistuse andmete kustutamine
 certificate#:#certificate_edit#:#Tunnistuse malli loomine/muutmine
 certificate#:#certificate_enabled_scorm#:#Võimaldatud
 certificate#:#certificate_enabled_scorm_introduction#:#Kui märgistatud, saavad sertifikaadi kõik kasutajad, kes läbisid SCORMi õppemooduli.
@@ -2357,12 +2224,10 @@ certificate#:#certificate_error_upload_bgimage#:#Taustapildi üleslaadimisel tek
 certificate#:#certificate_export#:#Ekspordi sertifikaat
 certificate#:#certificate_failed#:#ebaõnnestunud
 certificate#:#certificate_file_basename#:#Certificate
-certificate#:#certificate_left#:#Vasak
 certificate#:#certificate_letter#:#Leht (11 inch x 8.5 inch)
 certificate#:#certificate_letter_landscape#:#Lehe rõhtpaigutus (8.5 inch x 11 inch)
 certificate#:#certificate_margin_body#:#Põhiosa veeris
 certificate#:#certificate_not_well_formed#:#Tunnistuse tekst pole õigesti koostatud. Palun sisesta tunnistuse jaoks kehtiv XHTML!
-certificate#:#certificate_padding_top#:#Ülemine vooderdus
 certificate#:#certificate_page_format#:#Lehe formaat
 certificate#:#certificate_page_format_info#:#Palun vali uute sertifikaatide jaoks lehe vaikeformaat.
 certificate#:#certificate_pageheight#:#Lehe kõrgus
@@ -2410,16 +2275,10 @@ certificate#:#certificate_ph_title_sco#:#pealkiri
 certificate#:#certificate_ph_zipcode#:#Indeks (kasutaja aadressis)
 certificate#:#certificate_points_notavailable#:#Seda väärtust ei saa arvutada
 certificate#:#certificate_preview#:#Näita sertifikaadi eelvaadet
-certificate#:#certificate_right#:#Parem
 certificate#:#certificate_settings#:#Tunnistuse seaded
 certificate#:#certificate_short_name#:#Tunnistuse faili lühinimi
 certificate#:#certificate_short_name_description#:#Sisesta lühike pealkiri tunnistuse failinime jaoks. Lühike pealkiri hakkab olema osa tunnistuse failinimest:  YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.
-certificate#:#certificate_show#:#Näita sertifikaati
-certificate#:#certificate_status#:#Staatus
-certificate#:#certificate_status_complete#:#Tunnistus on valmis kasutamiseks
-certificate#:#certificate_status_incomplete#:#Tunnistus pole täielik
 certificate#:#certificate_text#:#Tunnistuse tekst
-certificate#:#certificate_top#:#Päis
 certificate#:#certificate_unit_description#:#Sisesta mõõduühikud kui VÄÄRTUS[cm|mm|in|pt|pc|px|em], NT. 10mm või 3in
 certificate#:#certificate_usage#:#Pane tähele, et sertifikaatide kasutamine on võimalik ainult siis, kui ILIASe Java-server töötab. Java-serveri konfigureerimine on võimalik ILIASe administreerimise pealehel veebiteenuste sektsioonis.
 certificate#:#certificate_var_max_points#:#46
@@ -2447,13 +2306,10 @@ certificate#:#certificate_visibility_introduction#:#Nupp testitulemustes, mis v�
 certificate#:#certificate_visibility_never#:#Mittenähtav
 certificate#:#certificate_visibility_passed#:#Nähtav vaid testi (positiivse) läbimise korral
 certificate#:#certificate_visibility_passed_exercise#:#Nähtav ainult siis kui kasutaja läbis eksami positiivselt
-certificate#:#certificate_wrong_unit#:#Sa sisestasid vale üksuse
-certificate#:#certificate_wrong_units#:#Sa oled sisetanud vale üksuste kogumi
 certificate#:#default_background_info#:#See taustapilt valitakse kõikide tunnistuste taustapildiks. Kui soovid tunnistusele teist taustapilti, pead selle tunnistusemootoris üles laadima.
 certificate#:#download_certificate#:#Lae tunnistus alla
 chatroom#:#allow_anonymous#:#Allow anonymous login
 chatroom#:#allow_custom_usernames#:#Allow custom usernames
-chatroom#:#allow_private_rooms#:#Allow private rooms
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the "Permissions" tab to allow anonymous user access to this repository item.
 chatroom#:#auto_scroll#:#Scroll to bottom
 chatroom#:#autogen_usernames#:#Auto generated usernames
@@ -2466,28 +2322,19 @@ chatroom#:#chat_address#:#Aadress
 chatroom#:#chat_ban#:#Blokeering
 chatroom#:#chat_connection_disconnected#:#Disconnected
 chatroom#:#chat_connection_established#:#Connection established
-chatroom#:#chat_create_new_private_room#:#Create new private room
 chatroom#:#chat_create_private_room_button#:#Create private room
-chatroom#:#chat_delete#:#Kustuta
 chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name
 chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.
 chatroom#:#chat_invite#:#Kutsu
-chatroom#:#chat_invite_users#:#Invite users
 chatroom#:#chat_join#:#Join
 chatroom#:#chat_kick#:#Kick
-chatroom#:#chat_leave#:#Lahku
 chatroom#:#chat_mainroom#:#Main room
 chatroom#:#chat_message#:#Sõnum
 chatroom#:#chat_message_display#:#Valikud
-chatroom#:#chat_message_notify_activate#:#Activate Message Notify
 chatroom#:#chat_message_options#:#Kuva
 chatroom#:#chat_message_to_all#:#to all
-chatroom#:#chat_new_invitation_sound_status#:#Play a sound if a user receives a new chat invitation
-chatroom#:#chat_new_message_sound_status#:#Play a sound if a new Message is received
-chatroom#:#chat_private_room#:#Private room
-chatroom#:#chat_right_box_user#:#User
 chatroom#:#chat_select_room#:#Select Chat Room
 chatroom#:#chat_settings#:#Chat Settings
 chatroom#:#chat_to_mainroom#:#To main room
@@ -2496,15 +2343,12 @@ chatroom#:#chatroom_smiley_keyword#:#Võtmesõna
 chatroom#:#chatserver_address#:#IP-Adress of the Chatservers
 chatroom#:#chatserver_port#:#Port of the Chatservers
 chatroom#:#chtr_add#:#Lisa jututuba
-chatroom#:#chtr_moderate#:#Modereeri
 chatroom#:#chtr_new#:#Uus jututuba
 chatroom#:#clear_room_history#:#Kustuta sõnumite ajalugu
 chatroom#:#clear_room_history_question#:#Do you really want to delete all messages of the current room?
-chatroom#:#connected#:#Connection established
 chatroom#:#create_private_room_text#:#Private room name
 chatroom#:#custom_username#:#Custom username
 chatroom#:#delete_private_room#:#Kustuta privaatne jututuba
-chatroom#:#disconnected#:#Connection closed
 chatroom#:#display_past_msgs#:#Number of Past Messages
 chatroom#:#duration_from#:#Kellelt
 chatroom#:#duration_to#:#To
@@ -2521,7 +2365,6 @@ chatroom#:#hint_display_past_msgs#:#Number of past messages to show, when the ro
 chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smilies tab for configuration.
 chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.
 chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the webserver must handle.
-chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chatserver to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.
 chatroom#:#history_by_day#:#Daily history
 chatroom#:#history_by_session#:#Session history
 chatroom#:#history_byday_title#:#History by day
@@ -2529,8 +2372,6 @@ chatroom#:#history_bysession_title#:#History by session
 chatroom#:#history_cleared#:#The message history was deleted by a moderator.
 chatroom#:#history_title_general#:#Conversation in Chat Room "%s"
 chatroom#:#history_title_private_room#:#Conversation in Private Room "%s"
-chatroom#:#ilias_url#:#Base-URL of your ILIAS Installation
-chatroom#:#instance_name#:#Unique Identifier
 chatroom#:#invite_to_private_room#:#Kutsu sellesse jututuppa
 chatroom#:#invite_username#:#Username
 chatroom#:#italic#:#Italic
@@ -2541,7 +2382,6 @@ chatroom#:#layout#:#Küljendus
 chatroom#:#leave_private_room#:#Lahku privaatsest jututoast
 chatroom#:#lost_connection#:#The connection to the chatserver was interrupted.
 chatroom#:#main#:#Main room
-chatroom#:#moderate#:#Modereeri
 chatroom#:#no_further_users#:#Teisi kasutajaid pole
 chatroom#:#no_messages#:#There are no saved messages for the given period.
 chatroom#:#no_username_given#:#Please choose a username
@@ -2555,27 +2395,19 @@ chatroom#:#private_room_left#:#The user <b>#user#</b> has left the private room 
 chatroom#:#private_rooms_enabled#:#Võimalda privaatseid jututube
 chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.
 chatroom#:#public_chat_created#:#The public chat room has been added to the repository
-chatroom#:#remark#:#Remark
-chatroom#:#restrict_history#:#Restrict history
-chatroom#:#restrict_history_info#:#No entries generated during absence from chatroom
 chatroom#:#room_in_container#:#%s (in: %s)
 chatroom#:#scope#:#Room/Private Room
 chatroom#:#select_custom_username#:#Select custom username
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#session#:#Session
 chatroom#:#settings_general#:#Üldine
-chatroom#:#settings_privacy#:#Privacy
 chatroom#:#settings_title#:#Seaded
 chatroom#:#show_settings#:#Näita seadeid
 chatroom#:#small#:#Small
-chatroom#:#soap_must_be_enabled#:#You must active SOAP support in the general settings to enable the chat.
-chatroom#:#soap_user#:#Name of the SOAP-User
-chatroom#:#soap_user_password#:#Password of the SOAP-User
 chatroom#:#speak_to#:#Whisper to <b>#user#</b>
 chatroom#:#unable_to_connect#:#The connection to the chatserver could not be established.
 chatroom#:#unban#:#Unban
 chatroom#:#underlined#:#Underlined
-chatroom#:#unkown_private_room#:#Unknown private room
 chatroom#:#user_in_ilias#:#Search and invite user from ILIAS
 chatroom#:#user_in_room#:#Kutsu kasutaja sellest jututoast
 chatroom#:#user_invited#:#The user <b>#user#</b> has been invited.
@@ -2605,23 +2437,16 @@ chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
 chatroom_adm#:#client_settings#:#Üldised seaded
 chatroom_adm#:#enable_osd#:#Enable On-Screen notifications
 chatroom_adm#:#general_settings_title#:#Üldised jututoa seaded
-chatroom_adm#:#hash#:#Hash
 chatroom_adm#:#https#:#HTTPS
-chatroom_adm#:#instance#:#Instance
-chatroom_adm#:#keypass#:#Keypass
-chatroom_adm#:#keystore#:#Keystore
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)
 chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation
 chatroom_adm#:#port_info#:#Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked.
-chatroom_adm#:#priv_hosts#:#Privileged hosts
 chatroom_adm#:#protocol#:#Protokoll
 chatroom_adm#:#public_chat_permissions#:#Avaliku jututoa õigused
 chatroom_adm#:#public_chat_settings#:#Avaliku jututoa seaded
 chatroom_adm#:#server_settings#:#Server settings
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
 chatroom_adm#:#smiley#:#Emotikonid
-chatroom_adm#:#soap_user_hint#:#This user is used to send information from the chatserver to the ilias installation. No special permissions are required.<br/>If you create a new accout, please make sure that you are able to login with this user (e.g. accept licence aggreement).
-chatroom_adm#:#storepass#:#Storepass
 classification#:#clsfct_block_info#:#Your Selection filters the objects.
 classification#:#clsfct_block_title#:#Selection by Topics
 classification#:#clsfct_content_no_match#:#No hits
@@ -4220,7 +4045,6 @@ common#:#mail_addressbook#:#Kontaktid
 common#:#mail_allow_smtp#:#Luba SMTP
 common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s
 common#:#mail_attachment#:#Manus
-common#:#mail_attachments#:#Kirja manused
 common#:#mail_b_inbox#:#Sissetulnud kirjad
 common#:#mail_c_trash#:#Prügi
 common#:#mail_d_drafts#:#Mustandid
@@ -5384,7 +5208,6 @@ common#:#soap_user_administration#:#External user administration (SOAP)
 common#:#soap_user_administration_desc#:#If enabled, all user accounts can be administrated by an external SOAP-Client.
 common#:#soap_wsdl_path#:#WSDL teekond
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s
-common#:#sort_activation_header#:#Nach Zeitvorgaben
 common#:#sort_by_this_column#:#Sordi selle veeru järgi
 common#:#sort_inherit_prefix#:#Vaikimisi
 common#:#sorting_asc#:#Ascending
@@ -7050,7 +6873,6 @@ crs#:#crs_add_objective#:#Lisa eesmärk
 crs#:#crs_add_remove_from_desktop#:#Lisa/eemalda töölaualt
 crs#:#crs_add_remove_from_desktop_info#:#Luba liikmetel lisada kursuse üksusi personaalsele töölauale.
 crs#:#crs_add_starter#:#Lisa algusobjekt
-crs#:#crs_add_subscribers#:#Lisa kasutaja
 crs#:#crs_add_to_group#:#Lisa grupp
 crs#:#crs_added#:#uus kursus lisatud
 crs#:#crs_added_member#:#Liikmelisus kursusel "%s"
@@ -7060,8 +6882,6 @@ crs#:#crs_added_objective#:#Uus õpieesmärk on loodud
 crs#:#crs_added_starters#:#Algusobjekt(id) määratud
 crs#:#crs_added_to_list#:#Olete lisatud ootejärjekorda  %s-ndana.
 crs#:#crs_admin#:#Administraator
-crs#:#crs_admin_no_notify#:#Administraator (märguandeta)
-crs#:#crs_admin_notify#:#Administraator (märguandega)
 crs#:#crs_administrators#:#Administraatorid
 crs#:#crs_admission_link_failure_membership_limited#:#Can't registrate: Course membership is limited.
 crs#:#crs_admission_link_failure_registration_period#:#Can't registrate: Course is out of registration period.
@@ -7069,19 +6889,6 @@ crs#:#crs_admission_link_success_registration#:#Successfully registrated to cour
 crs#:#crs_agree#:#Nõustumine
 crs#:#crs_agreement_header#:#Kasutajatingimused
 crs#:#crs_agreement_required#:#Kursusele registreerumiseks peate nõustuma kasutajatingimustega.
-crs#:#crs_allow_abo#:#Võimaldage kursuse ühikute tellimist
-crs#:#crs_already_assigned_to_list#:#Olete juba ootejärjekorda lisatud.
-crs#:#crs_archive#:#Arhiiv
-crs#:#crs_archive_disabled#:#Deaktiveeritud
-crs#:#crs_archive_download#:#Võimalda kursuse arhiivi allalaadimist
-crs#:#crs_archive_info#:#Kui võimaldatud, pakitakse kogu kursuse sisu kokku. Kursuse liikmete jaoks on võimalikud vaid HTML arhiivid.
-crs#:#crs_archive_lang#:#Keel
-crs#:#crs_archive_language_selection#:#Keele valik
-crs#:#crs_archive_read#:#Lugemispääs
-crs#:#crs_archive_select_type#:#Arhiivivaade
-crs#:#crs_archive_type#:#Arhiivi yüüp
-crs#:#crs_archive_type_disabled#:#Pole kättesaadav
-crs#:#crs_archives_deleted#:#Arhiiv(id) on lisatud
 crs#:#crs_auto_fill#:#Auto fill
 crs#:#crs_auto_notification#:#Notification For New Member
 crs#:#crs_auto_notification_info#:#New members get a mail notification when added to the course.
@@ -7179,11 +6986,6 @@ crs#:#crs_header_edit_members#:#Muuda liikmeid
 crs#:#crs_header_members#:#Kursuse liikmed
 crs#:#crs_header_remove_from_waiting_list#:#Ootejärjekord: eemalda kasutajad
 crs#:#crs_hide_all_obj#:#Collapse All
-crs#:#crs_hide_link_lms#:#Peida õppematerjalid
-crs#:#crs_hide_link_objectives#:#Peida õpieesmärgid
-crs#:#crs_hide_link_or#:#Peida teised ressursid
-crs#:#crs_hide_link_session#:#Peida kohtumised
-crs#:#crs_hide_link_tst#:#Peida testid
 crs#:#crs_html#:#HTML
 crs#:#crs_import#:#Kursuse importimine
 crs#:#crs_important_info#:#Tähtis info
@@ -7238,9 +7040,7 @@ crs#:#crs_loc_form_tst_new_qualified_info#:#--
 crs#:#crs_loc_itest_info#:#Initial Test
 crs#:#crs_loc_itst_for_objective#:#Initial Test "%1$s"
 crs#:#crs_loc_learning_objective#:#Learning Objective
-crs#:#crs_loc_limited_passes#:#Limited Test Passes
 crs#:#crs_loc_num_qst#:#Number of Questions
-crs#:#crs_loc_passes#:#Number of Passes
 crs#:#crs_loc_passes_info#:#Maximum Number of test passes
 crs#:#crs_loc_passes_left#:#Remaining number of test passes
 crs#:#crs_loc_passes_reached#:#No further test pases possible
@@ -7286,9 +7086,6 @@ crs#:#crs_loc_tt_info#:#You have reached %1$d%%. The test is passed with %2$d%%.
 crs#:#crs_loc_type_initial_all#:#Kurs startet mit Einstiegstest zu allen Lernzielen
 crs#:#crs_loc_type_initial_all_info#:#todo
 crs#:#crs_loc_type_initial_sel#:#Kurs startet mit Einstiegstest zu ausgewähltem Lernziel
-crs#:#crs_loc_type_practise#:#Kurs startet mit Lern- und Übungsteil
-crs#:#crs_loc_type_practise_info#:#todo
-crs#:#crs_loc_type_qualified#:#Kurs startet mit qualifizierendem Test
 crs#:#crs_loc_type_qualified_info#:#todo
 crs#:#crs_mail_all#:#For all Participants
 crs#:#crs_mail_all_info#:#Members, administrators and tutors can use the feature "Mail to Members" in the "Members" tab.
@@ -7319,9 +7116,6 @@ crs#:#crs_members_print_title#:#Kursuse liikmed
 crs#:#crs_members_table#:#Kursuslased
 crs#:#crs_members_title#:#Kursuse liikmed
 crs#:#crs_min_one_admin#:#Kursusele peab olema määratud vähemalt üks haldur.
-crs#:#crs_move_down#:#Liiguta alla!
-crs#:#crs_move_up#:#Liiguta üles!
-crs#:#crs_moved_item#:#Kursuse objekt ümber tõstetud!
 crs#:#crs_moved_objective#:#Õpiobjekt ümber tõstetud!
 crs#:#crs_new_search#:#Uus otsing
 crs#:#crs_new_status#:#Uus staatus on:
@@ -7414,7 +7208,6 @@ crs#:#crs_objective_status_objective_creation#:#Create Learning Objective
 crs#:#crs_objective_status_objectives#:#Configure Learning Objectives
 crs#:#crs_objective_status_qtest#:#Configure Qualifying Test
 crs#:#crs_objective_status_settings#:#Course Settings
-crs#:#crs_objective_status_start#:#Define Start Objects
 crs#:#crs_objective_step#:#Samm
 crs#:#crs_objective_updated_test#:#Uuendatud muudatused
 crs#:#crs_objective_wiz_final#:#Lõputesti küsimused
@@ -7885,7 +7678,6 @@ dateplaner#:#cal_ch_target_object_info#:#Restrict appointments to given reposito
 dateplaner#:#cal_ch_unknown_repository_object#:#The given repository object ref-id is not valid.
 dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.
 dateplaner#:#cal_ch_user_assignment_failed_info#:#The following users could not be assigned to appointments, since the maximum number of bookings is exceeded.
-dateplaner#:#cal_ch_user_assignment_success#:#The users have been assigned to the chosen appointments.
 dateplaner#:#cal_change_responsible_users#:#Muuda vastutavad kasutajad
 dateplaner#:#cal_changed_events_header#:#Muudetud kohtumised
 dateplaner#:#cal_confirm_booking#:#Kinnita broneering
@@ -8087,52 +7879,10 @@ dateplaner#:#del_all#:#Kustuta kõik sündmused
 dateplaner#:#del_one#:#Kustuta üks sündmus
 dateplaner#:#deletedDates#:#Kustuta sündmused
 dateplaner#:#discard#:#Loobu
-dateplaner#:#dv_button_cancel#:#Katkesta
-dateplaner#:#dv_button_delete#:#Kustuta
-dateplaner#:#dv_button_insert#:#Lisa
-dateplaner#:#dv_button_update#:#Uuenda
-dateplaner#:#dv_date_begin#:#Alguskuupäev:
-dateplaner#:#dv_date_end#:#Lõppkuupäev:
-dateplaner#:#dv_date_hm#:#Hour:Minute
-dateplaner#:#dv_enddate#:#Lõppkuupäev:
-dateplaner#:#dv_groupselect#:#Grupi valik:
-dateplaner#:#dv_Grouptime#:#Vaba aeg
-dateplaner#:#dv_groupview#:#Grupi sündmus:
-dateplaner#:#dv_groupview_text#:#Group:<br />
-dateplaner#:#dv_keywords#:#Võtmesõnad:
-dateplaner#:#dv_keywordselect#:#Keyword select:
-dateplaner#:#dv_message#:#Sõnum:
-dateplaner#:#dv_noGroup#:#gruppe pole
-dateplaner#:#dv_noKey#:#võtmesõnu pole
-dateplaner#:#dv_preview#:#<b>! Vaade! </b>
-dateplaner#:#dv_rotation#:#Kordub:
-dateplaner#:#dv_rotation_date#:#Recurrence date:
-dateplaner#:#dv_rotation_end#:#Korduvus lõpeb:
-dateplaner#:#dv_shorttext#:#Lühike tekst:
-dateplaner#:#dv_startdate#:#Alguskuupäev:
-dateplaner#:#dv_text#:#Tekst:
-dateplaner#:#dv_whole_day#:#Kogu päev:
-dateplaner#:#dv_whole_rotation#:#Soovite kustutada kõik korduvad seeriad? (klikk valikukastil)
 dateplaner#:#end_date#:#Lõppkuupäev
 dateplaner#:#endtime_for_view#:#Lõpuaeg vaate jaoks:
 dateplaner#:#err_end_before_start#:#Kohtumine peab algama varem kui lõpeb.
 dateplaner#:#err_missing_title#:#Please enter an appointment title.
-dateplaner#:#ERROR_DATE_EXISTS#:#Nimetatud sündmus juba esineb.
-dateplaner#:#ERROR_DB#:#Andmebaasi kirjutamise viga!
-dateplaner#:#ERROR_DB_CONNECT#:#The database is disconnected.
-dateplaner#:#ERROR_DEL_MSG#:#See on korduv üritus. Kas soovid kustutada ühe sündmuse või seeria?
-dateplaner#:#ERROR_END_START#:#Sisestatud lõpudaatum on vale. Lõpu daatum on enne algusdaatumit.
-dateplaner#:#ERROR_ENDDATE#:#Vale lõpudaatum. Formaat: pp/kk/aaaa
-dateplaner#:#ERROR_ENDTIME#:#Vale lõpuaeg. Vorming: tt:mm
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid CSV File.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>teie brauser ei toeta javaskripti.<br />Sulge see aken pärast käsitsi sisestamist.<br />Aitäh!</CENTER></B>
-dateplaner#:#error_minical_img#:#Cannot create GD-picture-stream
-dateplaner#:#ERROR_ROT_END_START#:#Sisestatud lõpudaatum on vale. Lõpu daatum on enne algusdaatumit.
-dateplaner#:#ERROR_ROTATIONEND#:#Vale lõpudaatum. Formaat: pp/kk/aaaa
-dateplaner#:#ERROR_SHORTTEXT#:#Wrong short text input. Short text is required.
-dateplaner#:#ERROR_STARTDATE#:#Vale algusdaatum. Formaat: dd/mm/yyyy
-dateplaner#:#ERROR_STARTTIME#:#Vale algusaeg. Formaat: tt:mm
-dateplaner#:#ERROR_TS#:#Vale kuupäeva formaat
 dateplaner#:#execute#:#Täida valikud
 dateplaner#:#extra_dates#:#One Day Events
 dateplaner#:#Fr_long#:#reede
@@ -8142,52 +7892,6 @@ dateplaner#:#freetime#:#Vaba aeg gruppides
 dateplaner#:#group#:#Grupp
 dateplaner#:#grp_cal_reg_end#:#Registration End
 dateplaner#:#grp_cal_reg_start#:#Registreerimine algab
-dateplaner#:#help_day#:#Kalendri päevavaade
-dateplaner#:#help_day_l#:#In the day view all events of a chosen day are displayed.
-dateplaner#:#help_enddate#:#Lõpudaatum - süntaks[dd/mm/yyyy]
-dateplaner#:#help_enddate_l#:#Contains the end time of the event.<br />The symbol opens a small calendar for choosing the appropriate date.
-dateplaner#:#help_endrotation#:#Lõpuaja süntaks[pp/kk/aaaa]
-dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br />The symbol opens a small calendar for choosing the appropriate date
-dateplaner#:#help_endtime#:#Lõpetamise aeg - syntax[hh/mm] 24-hour format
-dateplaner#:#help_endtime_l#:#Contains the end time of the appointment using 24-hour format.
-dateplaner#:#help_filename#:#dp_help_en.html
-dateplaner#:#help_fullday#:#Kogu päeva üritus - süntaks[sees/väljas]
-dateplaner#:#help_fullday_l#:#If the event stretches over a whole day, please choose this option.<br />This will hide the start time, end time, and end date.
-dateplaner#:#help_further#:#<br /><b>loe edasi.</b>
-dateplaner#:#help_group#:#Grupi sündmuste valik
-dateplaner#:#help_group_l#:#Sisaldab gruppe, kelle suhtes omab sisseloginud kasutaja admin-õigusi ja kelle jaoks daatum/tähtaeg võidakse luua.<br />Pärast selle valimist on võimalik näha grupi planeerimata aega.
-dateplaner#:#help_inbox#:#Kalendri postkast
-dateplaner#:#help_inbox_l#:#Here all new, changed, and deleted group events are displayed.
-dateplaner#:#help_keyword#:#Võtmesõna valik
-dateplaner#:#help_keyword_l#:#Sisaldab võtmesõnu, mida kasutaja saab kuupäevadega ühendada.
-dateplaner#:#help_keywordUse#:#Võtmesõna valik
-dateplaner#:#help_keywordUse_l#:#Vali dialoogilahtrist üks või rohkem võtmesõna.<br />NIPP: mitme valiku tegemiseks kasuta CTRL klahvi.
-dateplaner#:#help_list#:#Sündmuste loetelu kalendris
-dateplaner#:#help_list_l#:#Sündmuste vaates kuvatakse kõik etteantud perioodil toimuvad sündmused.
-dateplaner#:#help_month#:#Kalendri kuu vaade
-dateplaner#:#help_month_l#:#Kuu vaates kuvatakse kõik selle kuu sündmused.
-dateplaner#:#help_properties_alt#:#Võtmesõna muudetud
-dateplaner#:#help_properties_alt_l#:#Vali võtmesõna dialoogiaknast.<br />Muuda väljal võtmesõna. Oluline: kuni 20 tähemärki.
-dateplaner#:#help_properties_del#:#Kustutab võtmesõna
-dateplaner#:#help_properties_del_l#:#Vali dialoogiaknast võtmesõna. Kliki võtmesõna kustutamiseks nupul
-dateplaner#:#help_properties_import#:#Import of Outlook-CSV-Files
-dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Events. These events will be imported into the calendar.
-dateplaner#:#help_properties_new#:#Lisa võtmesõna (kuni 20 tähemärki)
-dateplaner#:#help_properties_new_l#:#Lisa väljale \"new\" uus võtmesõna. Tähtis: max. 20 tähemärki.
-dateplaner#:#help_properties_time#:#Näita aega päeva/nädala vaates
-dateplaner#:#help_properties_time_l#:#Päeva ja nädala jaoks kuvatavat standardset aega on võimalik muuta. Kui tärminid on antud päevadest või nädalast väljaspool, muudetakse selleks ajavahemikuks kuvatavat aega. Standard on 8 t -18 t.
-dateplaner#:#help_rotation#:#Korduvus
-dateplaner#:#help_rotation_l#:#Sisaldab korduvuse tüüpe.
-dateplaner#:#help_shorttext#:#Lühike tekst, kuni 50 tähemärki
-dateplaner#:#help_shorttext_l#:#Siia saab sisestada lühikirjelduse etteantud kuupäeva kohta.
-dateplaner#:#help_startdate#:#Algus - süntaks[pp/kk/aaaa]
-dateplaner#:#help_startdate_l#:#Sisaldab sündmuse algusaega.<br />Sümbol avab väikese kalendri sobiva kuupäeva valikuks.
-dateplaner#:#help_starttime#:#Algusaeg - süntaks[tt/mm] 24-tunnine vorming
-dateplaner#:#help_starttime_l#:#Sisaldab sündmuse algusaega kasutades 24-tunni formaati.
-dateplaner#:#help_text#:#Tekst
-dateplaner#:#help_text_l#:#Siia saab sisestada teksti ürituse kohta.
-dateplaner#:#help_week#:#Kalendri nädala vaade
-dateplaner#:#help_week_l#:#Selles nädala vaates kuvatakse kõik selle nädala sündmused.
 dateplaner#:#hour#:#tund
 dateplaner#:#ical_export#:#iCal eksport
 dateplaner#:#importDates#:#Impordi sündmused Outlook'ist
@@ -8283,8 +7987,6 @@ dateplaner#:#week#:#Nädal
 dateplaner#:#Week_long#:#Nädala vaade
 dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#Aasta
-dateplaner#:#yui_cal_choose_month#:#Kuu:
-dateplaner#:#yui_cal_choose_year#:#Aasta:
 dcl#:#add_value#:#Add new value
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_activate_approval#:#Activate Record Approval
@@ -9089,9 +8791,7 @@ forum#:#forums_all_threads_marked_read#:#Kõik teemad on märgitud loetuks
 forum#:#forums_attachments#:#Manused
 forum#:#forums_attachments_add#:#Lisa manus
 forum#:#forums_censor_comment#:#Tsensori kommentaar
-forum#:#forums_count#:#Foorumite arv
 forum#:#forums_count_art#:#Sõnumite arv
-forum#:#forums_count_thr#:#Teemade arv
 forum#:#forums_created_by#:#Loodud (kelle poolt)
 forum#:#forums_delete_file#:#Kustuta manusfail
 forum#:#forums_disable_notification#:#Keela selle teema märguanded
@@ -9105,14 +8805,11 @@ forum#:#forums_info_delete_post#:#Kas soovite tõepoolest kustutada selle sõnum
 forum#:#forums_mark_read#:#Märgi kõik loetuks
 forum#:#forums_new_thread#:#Uus teema
 forum#:#forums_no_posts_available#:#Antud teema all puuduvad postitused või pole moderaator neid veel aktiveerinud.
-forum#:#forums_notification#:#Märguanne
 forum#:#forums_notification_disabled#:#Märguanne keelatud
 forum#:#forums_notification_enabled#:#Märguanne võimaldatud
 forum#:#forums_notification_intro#:#See e-kiri saadeti sulle automaatselt ILIASe installatsiooni %s, %s poolt.
 forum#:#forums_notification_show_post#:#Näita postitust: %s
-forum#:#forums_notification_subject#:#Uus postitus teemas:
 forum#:#forums_post_activation_mail#:#Seni kuni järgnev postitus pole aktiveeritud, kasutajad seda foorumis ei näe. Antud kiri saadeti Teile kuna olete määratud foorumi moderaatoriks ja omate õigusi aktiveerida postitusi.
-forum#:#forums_post_and_children_were_activated#:#Postitus ja vastusedsellele on aktiveeritud.
 forum#:#forums_post_deleted#:#Sõnum on kustutatud
 forum#:#forums_post_modified#:#Sõnumit on uuendatud
 forum#:#forums_post_needs_to_be_activated#:#Loodud on uus postitus, ent see vajab aktiveerimist moderaatori poolt.
@@ -9124,7 +8821,6 @@ forum#:#forums_print_thread#:#Prindi teema
 forum#:#forums_subject#:#Pealkiri
 forum#:#forums_the_post#:#Sõnum
 forum#:#forums_thread#:#Teema
-forum#:#forums_thread_create_date#:#Loodud
 forum#:#forums_thread_create_from#:#Loodud kelle poolt:
 forum#:#forums_thread_marked#:#Teema on märgitud loetuks.
 forum#:#forums_thread_new_entry#:#Uus teema on loodud
@@ -9156,8 +8852,6 @@ forum#:#frm_pseudonym#:#Pseudonimi
 forum#:#frm_purifier_not_implemented_for_type_x#:#Purifier for type %s not implemented yet.
 forum#:#frm_rating#:#Rating
 forum#:#frm_selected_merge_src#:#Selected Thread to Merge: %s
-forum#:#frm_sorting_posts#:#Posts Sorting
-forum#:#frm_sorting_threads#:#Thread Sorting
 forum#:#frm_statistics#:#Statistika
 forum#:#frm_statistics_disabled_for_participants#:#Foorumi liikmed statistikat ei näe.
 forum#:#frm_statistics_enabled#:#Võimalda statistika
@@ -9341,7 +9035,6 @@ grp#:#grp_set_on_waiting_list#:#Saate lisada oma taotluse ootejärjekorda. Saate
 grp#:#grp_setting_header_presentation#:#Grupi tutvustus
 grp#:#grp_setting_header_registration#:#Grupi registreerimine
 grp#:#grp_settings#:#Grupi seaded
-grp#:#grp_subscriber#:#Tellija
 grp#:#grp_typ#:#Grupi tüüp
 grp#:#grp_type_changed_info#:#Grupi tüübi muutmine nullib kõik õiguste seaded.
 grp#:#grp_unsubscribe#:#Tühista tellimus
@@ -9539,7 +9232,6 @@ ldap#:#ldap_role_selection_info#:#Your selection is ambiguous. Please choose one
 ldap#:#ldap_role_settings#:#LDAP Group Synchronization Settings
 ldap#:#ldap_rule_condition#:#Condition
 ldap#:#ldap_rule_type#:#Type of Assignment
-ldap#:#ldap_scope_base#:#Base
 ldap#:#ldap_scope_one#:#One
 ldap#:#ldap_scope_sub#:#Sub
 ldap#:#ldap_search_base_info#:#Gets prepended to basedn when searching for users.
@@ -9593,16 +9285,11 @@ link#:#link_terms#:#Terms
 link#:#link_wpages#:#Wiki Pages
 lm#:#lm_copy#:#Copy Learning Module
 mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
-mail#:#advice_mail_body_secured#:#Because of security reasons ILIAS removed some elements of your message. Please check the secured message and send the mail again.
-mail#:#also_as_email#:#Also as E-Mail
-mail#:#auto_update#:#Update
 mail#:#back_to_folder#:#Back to Folder
 mail#:#bc#:#BCC
 mail#:#chat_users_have_been_invited#:#The Users have been invited.
 mail#:#chat_users_without_login#:#The following Users don't have an ILIAS Account and can't be invited to a Chat Room
 mail#:#chat_users_without_permission#:#The following Users don't have access to the selected Chat Room.
-mail#:#cron_update_addressbook#:#Synchronize address book entries automatically
-mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cronjob. Only data that was released by the User, will be updated.
 mail#:#current_folder#:#Current Folder: %s
 mail#:#forward#:#Forward
 mail#:#goto_invitation_chat#:#Open Chat Room
@@ -9614,44 +9301,25 @@ mail#:#link_check_introduction#:#the following weblinks are invalid:
 mail#:#link_check_perma_link#:#Permanent Link
 mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.
 mail#:#mail_account_mail#:#Account Mail
-mail#:#mail_account_mail_check#:#Send Account Mail
 mail#:#mail_add_folder#:#Add New Subfolder
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Subfolder
 mail#:#mail_add_subject#:#Please enter a subject
-mail#:#mail_add_to_addressbook#:#Add to Contacts
-mail#:#mail_add_type#:#Please add the type of mail you want to send
-mail#:#mail_addr_entries#:#Kontaktid
 mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to Mailing List
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
-mail#:#mail_bc_not_valid#:#The BCC recipient is not valid
-mail#:#mail_bc_search#:#BCC otsing
-mail#:#mail_byte#:#Byte
-mail#:#mail_cc_not_valid#:#The CC recipient is not valid
-mail#:#mail_cc_search#:#CC otsing
 mail#:#mail_change_to_folder#:#Vaheta kaust:
-mail#:#mail_check_your_email_addr#:#Your e-mail address is not valid
-mail#:#mail_compose#:#Loo sõnum
 mail#:#mail_cronjob_notification_info#:#Siin võid aktiveerida perioodilise märguande uute kirjade kohta.
 mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.
 mail#:#mail_deleted#:#The mail is deleted
 mail#:#mail_deleted_entry#:#The entries are deleted
-mail#:#mail_edit_entry#:#Edit Entry
-mail#:#mail_email_forbidden#:#You are not allowed to send e-mail
 mail#:#mail_empty_trash#:#Empty Trash
 mail#:#mail_empty_trash_confirmation#:#Kas oled kindel, et soovid kõik prügikastist kõik kirjad ära kustutada?
 mail#:#mail_enable_crs_member_notification#:#Course Notification
 mail#:#mail_enable_crs_member_notification_info#:#If enabled, course participants will be notified automatically about membership changes.
 mail#:#mail_enable_grp_member_notification#:#Group Notification
 mail#:#mail_enable_grp_member_notification_info#:#If enabled, group participants will be notified automatically about membership changes.
-mail#:#mail_enter_login_or_email_addr#:#Sisestage kehtiv kasutajanimi või töötav e-posti aadress
-mail#:#mail_enter_valid_email_addr#:#Please enter a valid e-mail address.
-mail#:#mail_enter_valid_login#:#Sisestage kehtiv kasutajanimi.
-mail#:#mail_entry_added#:#Uus sisestus on lisatud
-mail#:#mail_entry_changed#:#The entry is changed
-mail#:#mail_entry_exists#:#An entry with the given login name already exists.
 mail#:#mail_external_sender_noreply#:#no-reply address
 mail#:#mail_file_name#:#File name
 mail#:#mail_file_size#:#File size
@@ -9666,15 +9334,9 @@ mail#:#mail_filter_subject#:#Subject
 mail#:#mail_filter_txt#:#Filter messages by
 mail#:#mail_folder_created#:#A new folder has been created
 mail#:#mail_folder_deleted#:#The folder has been deleted
-mail#:#mail_folder_edit#:#Edit Folder
 mail#:#mail_folder_exists#:#sellenimeline kaust juba eksisteerib
-mail#:#mail_folder_name#:#Folder name
 mail#:#mail_folder_name_changed#:#The folder has been renamed
-mail#:#mail_folder_options#:#Folder Options
 mail#:#mail_following_rcp_not_valid#:#Järgmised saajad ei ole kehtivad:
-mail#:#mail_global_options#:#Global options
-mail#:#mail_group_members#:#Grupi liikmed
-mail#:#mail_in_addressbook#:#Aadressiraamatus olemas
 mail#:#mail_incoming#:#Sissetulev kiri
 mail#:#mail_incoming_both#:#kohalik ja edasisaadetud
 mail#:#mail_incoming_local#:#ainult kohalik
@@ -9682,8 +9344,6 @@ mail#:#mail_incoming_mail#:#Sissetulev post
 mail#:#mail_incoming_smtp#:#edasta e-posti aadressile
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
-mail#:#mail_intern#:#sise-
-mail#:#mail_into_addressbook#:#Lisa aadressiraamatusse
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_list_members#:#Nimestiku liikmed
 mail#:#mail_mailing_list#:#Mailing List
@@ -9694,7 +9354,6 @@ mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allo
 mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:
 mail#:#mail_maxsize_attachment_error#:#The upload limit is:
 mail#:#mail_member_notification#:#Participant Notification
-mail#:#mail_members_added_addressbook#:#Liikmed on lisatud aadressiraamatusse
 mail#:#mail_members_of_mailing_list#:#Members of Mailing List
 mail#:#mail_message_send#:#Sõnum saadetud
 mail#:#mail_move_error#:#Error moving mail
@@ -9703,7 +9362,6 @@ mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_moved_to_trash#:#Mail has been moved to trash
 mail#:#mail_multiple_recipients_found#:#Sisesta teistsugune e-posti aadres. ILIAS leidis aadressile %s mitu võimalikku omanikku.
 mail#:#mail_my_courses#:#Minu kursused
-mail#:#mail_my_entries#:#Minu kontaktid
 mail#:#mail_my_groups#:#Minu grupid
 mail#:#mail_my_mailing_lists#:#Minu listid
 mail#:#mail_nacc_admin_mail#:#Halduri e-posti aadress
@@ -9720,22 +9378,14 @@ mail#:#mail_nacc_target_title#:#Sihtmärgi pealkiri, näiteks kursuse nimetus
 mail#:#mail_nacc_target_type#:#Sisesta sihtmärk, nagu näiteks "kursus" kursuse ühiku jaoks
 mail#:#mail_nacc_timelimit#:#User access period 
 mail#:#mail_nacc_use_placeholder#:#On võimalik kasutada järgmisi kohahoidjaid
-mail#:#mail_new_entry#:#uus kirje
-mail#:#mail_new_file#:#Add new file:
-mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
-mail#:#mail_no_attachments_found#:#No attachments found
 mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external e-mail
 mail#:#mail_no_recipient_found#:#ESisesta teine e-posti aadress. ILIAS ei leidnud sellise e-posti aadressi omanikku.
 mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List
 mail#:#mail_notification_subject#:#New mail in your inbox
-mail#:#mail_options_of#:#Options
 mail#:#mail_options_saved#:#Options saved
 mail#:#mail_prevent_smtp_globally#:#Globally prevent sending external mails (via SMTP)
-mail#:#mail_received_x_new_mails#:#You received %s new mails.
-mail#:#mail_recipient_not_valid#:#The recipient is not valid
 mail#:#mail_rename_folder#:#Rename Folder
 mail#:#mail_s#:#kirja
-mail#:#mail_s_unread#:#Unread Mail(s)
 mail#:#mail_salutation_anonymous#:#Tere
 mail#:#mail_salutation_f#:#Tere
 mail#:#mail_salutation_female#:#Tervitus, naisele
@@ -9749,9 +9399,6 @@ mail#:#mail_select_course#:#Please select at least one course.
 mail#:#mail_select_group#:#Palun vali vähemalt üks grupp.
 mail#:#mail_select_one_entry#:#You must select one entry
 mail#:#mail_select_one_file#:#You must select one file
-mail#:#mail_select_only_one_entry#:#Please select only one entry.
-mail#:#mail_select_recipients#:#Please select mail recipients:
-mail#:#mail_send_with_system_address#:#Send With System Address
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>.
 mail#:#mail_subject_prefix#:#Mail Subject
 mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails.
@@ -9760,15 +9407,11 @@ mail#:#mail_sure_delete_entry#:#Kas oled kindel, et soovid järgmised kontaktid 
 mail#:#mail_sure_delete_file#:#The file will be removed permanently
 mail#:#mail_sure_delete_folder#:#The folder and its contents will be removed permanently
 mail#:#mail_to#:#To
-mail#:#mail_user_addr_n_valid#:#Following users have no valid e-mail address
 mail#:#placeholders_advise#:#Kohahoidjad on lahendatud ainult saajatele `Kellele` väljal.%sSaajad väljadel `Koopia` ja `Pimekoopia`saavad lahendamata kohahoidjad.
-mail#:#search_bc_recipient#:#Otsi pimekoopia saajat
-mail#:#search_cc_recipient#:#Otsi koopia saajat
 mail#:#search_content#:#Search Result
 mail#:#search_recipients#:#Otsi saajat
 mail#:#send_mail_to#:#Saada kiri
 mail#:#system_notification_installation_changed_by#:#Changed By
-mail#:#system_notification_installation_signature#:#This email has been sent automatically by the ILIAS installation
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_extt_maps#:#Maps
@@ -11223,7 +10866,6 @@ rbac#:#cat_write#:#Edit Category
 rbac#:#catr_copy#:#Kategooria viite kopeerimine
 rbac#:#catr_delete#:#Kategooria viite kustutamine
 rbac#:#catr_edit_permission#:#Muuda õiguste seadeid
-rbac#:#catr_read#:#Lugemisõigused to Category Reference
 rbac#:#catr_visible#:#Kategooria viide on nähtav
 rbac#:#catr_write#:#Kategooria viite muutmine
 rbac#:#cert_edit_permission#:#Change permission settings
@@ -11277,7 +10919,6 @@ rbac#:#crs_write#:#Muuda kursust
 rbac#:#crsr_copy#:#Soovitusliku kursuse kopeerimine
 rbac#:#crsr_delete#:#Kustuta kursuse link
 rbac#:#crsr_edit_permission#:#Muuda õiguste seadeid
-rbac#:#crsr_read#:#Lugemisõigused kursuse lingile
 rbac#:#crsr_visible#:#Kursuse link on nähtav
 rbac#:#crsr_write#:#Muuda kursuse linki
 rbac#:#crss_edit_permission#:#User can change permission settings in Course administration
@@ -12479,7 +12120,6 @@ sess#:#sess_reg_request#:#Request Membership
 sess#:#sess_reg_request_info#:#Interested users can send a request/message to administrators.
 sess#:#sess_reg_type#:# Registration Procedure
 sess#:#sess_reg_waiting_list#:#Waiting List
-sess#:#sess_reg_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 sess#:#sess_registered_confirm#:#The registration requires a confirmation of an administrator. You will be notified after the registration process is completed.
 sess#:#sess_section_reg#:#Registration Settings
 sess#:#sess_users_added#:#Registered selected users for the session.
@@ -13879,96 +13519,6 @@ trac#:#search_area_info#:#Vali üks objekt.
 trac#:#search_terms#:#Otsingusõna(d)
 trac#:#select_one#:#Valige esimene objekt
 trac#:#session_statistics#:#Session Statistics
-trac#:#stats_access#:#Juurdepääs
-trac#:#stats_accesses#:#Juurdepääsud
-trac#:#stats_all#:#Kõik
-trac#:#stats_chapter#:#Peatükk
-trac#:#stats_chapter_average_page_number#:#Keskmine lehtede arv peatükkide lõikes
-trac#:#stats_chapter_depth_coverage#:#Degree of Coverage with Depth
-trac#:#stats_chapter_fewest_access#:#Vähim pöördumisi
-trac#:#stats_chapter_listing#:#Peatükkide nimestik
-trac#:#stats_chapter_longest_total_dwell_time_depth#:#Kokku Dwell aja sügavus
-trac#:#stats_chapter_most_access_depth#:#Enim pöördumisi koos sügavusega?
-trac#:#stats_chapter_most_pages#:#Enamik lehti
-trac#:#stats_chapter_number#:#Peatükkide arv
-trac#:#stats_chapter_statisics#:#Peatüki statistika
-trac#:#stats_chapter_stubbiest_total_dwell_time#:#Stubbiest Total Dwell Time
-trac#:#stats_chapter_top#:#Top-Chapter (variance, access, etc.)
-trac#:#stats_chapter_total_statistic#:#Kokku-peatüki-statistika
-trac#:#stats_choice#:#Valik
-trac#:#stats_current#:#Hetkel
-trac#:#stats_depth#:#Sügavus
-trac#:#stats_duration#:#Kestvus
-trac#:#stats_equivalent#:#võrdub
-trac#:#stats_hits#:#Tabamused
-trac#:#stats_hour#:#h
-trac#:#stats_interval#:#Intervall
-trac#:#stats_interval_dwell_time#:#Dwell (peatumis-) aja intervall
-trac#:#stats_interval_page_access#:#Lehtede külastusintervall
-trac#:#stats_last#:#Viimane
-trac#:#stats_legend#:#Legend
-trac#:#stats_measurable_hits#:#Mõõdetavad  (tabamusi seansi ajal)
-trac#:#stats_minute#:#m
-trac#:#stats_navigation#:#Navigatsiooni/jälgimismudel (nõuab JRE 1.5 või kõrgemat)
-trac#:#stats_new_selection#:#Uus valik
-trac#:#stats_occurrence#:#Ilmnemine
-trac#:#stats_of#:#of
-trac#:#stats_page#:#Leht
-trac#:#stats_page_average_access#:#Lehtede külastuse keskmine
-trac#:#stats_page_average_dwell_time#:#Keskmine viibimisaeg lehtedel
-trac#:#stats_page_deviation_access#:#Külastushälve lehtedel
-trac#:#stats_page_deviation_dwell_time#:#Viibimishälve lehtedel
-trac#:#stats_page_fewest_access#:#Vähim pöördumisi
-trac#:#stats_page_highest_deviation#:#Suurim hälve
-trac#:#stats_page_highest_varcoeff#:#Kõrgeim muutlikkuse koefitsent
-trac#:#stats_page_least_deviation#:#Vähim hälve
-trac#:#stats_page_listing#:#Lehtede nimestik
-trac#:#stats_page_longest_average_dwell_time#:#Keskmine Dwell'i aeg
-trac#:#stats_page_longest_total_dwell_time#:#Kokku Dwell'i aeg
-trac#:#stats_page_lowest_varcoeff#:#Madalaim muutlikkuse koefitsent
-trac#:#stats_page_median_access#:#Lehtede külastusmediaan
-trac#:#stats_page_median_dwell_time#:#Viibimisaja mediaan lehtedel
-trac#:#stats_page_mode_access#:#Lligipääs lehtedele
-trac#:#stats_page_most_access#:#Enim pöördumisi
-trac#:#stats_page_number#:#Lehtede arv
-trac#:#stats_page_number_access#:#Lehtede külastusarv
-trac#:#stats_page_range_access#:#Lehtede külastusvahemik
-trac#:#stats_page_range_dwell_time#:#Lehtde viibimisvahemik
-trac#:#stats_page_stubbiest_average_dwell_time#:#Stubbiest Average Dwell Time
-trac#:#stats_page_stubbiest_total_dwell_time#:#Stubbiest Total Dwell Time
-trac#:#stats_page_total_dwell_time#:#Kokku-Lehed-Viibimisaeg
-trac#:#stats_page_total_statistic#:#Kokku-Lehed-Statistika
-trac#:#stats_page_varcoeff_access#:#Lehekülastuste muutetegur
-trac#:#stats_page_varcoeff_dwell_time#:#Lehtede viibimisaja muutetegur
-trac#:#stats_page_variance_access#:#Lehtede külastuste vastuolu
-trac#:#stats_page_variance_dwell_time#:#Lehtede viibimisaja vastuolu
-trac#:#stats_pages#:#Lehed
-trac#:#stats_pages_statisics#:#Lehtede statistika
-trac#:#stats_sec#:#sek
-trac#:#stats_sel_lng#:#English
-trac#:#stats_session#:#Kohtumine
-trac#:#stats_session_average_length#:#Keskmine sessioonide pikkus
-trac#:#stats_session_average_page_access#:#Keskmine lehtede külastus sessiooni kohta
-trac#:#stats_session_evaluable#:#Evaluable Sessions
-trac#:#stats_session_evaluable_access#:#Evaluable Session Access
-trac#:#stats_session_evaluable_usr#:#Evaluable User
-trac#:#stats_session_involved_usr#:#Seotud kasutajate arv
-trac#:#stats_session_listing#:#Session Listing
-trac#:#stats_session_longest#:#Pikim kohtumine
-trac#:#stats_session_longest_total_duration_usr#:#Pikim kestvus kokku kasutajate kaupa
-trac#:#stats_session_most#:#Enim kohtumisi
-trac#:#stats_session_number#:#Kohtumiste arv
-trac#:#stats_session_total_duration#:#Kohtumiste kogukestus
-trac#:#stats_session_total_statistic#:#Sessioonide statistika kokku
-trac#:#stats_sessions#:#Kohtumised
-trac#:#stats_sessions_statisics#:#Sessiooni statistika
-trac#:#stats_start#:#Alusta
-trac#:#stats_summation#:#Summeerimine
-trac#:#stats_tracked_user#:#Kõik kasutajad
-trac#:#stats_until#:#kuni
-trac#:#stats_user#:#Kasutaja(d)
-trac#:#stats_user_selected#:#Kasutaja on valitud
-trac#:#stats_with#:#koos
 trac#:#total_dwell_time#:#Kogu viibimisaeg
 trac#:#trac_activated#:#Monitooring aktiveeritud
 trac#:#trac_active_both#:#Kasutaja jälgimine ja edasijõudmine aktiveeritud
@@ -14115,7 +13665,6 @@ trac#:#trac_mode_tlt#:#Keskmine õppimisaeg
 trac#:#trac_mode_tlt_info#:#Õppimisaja saavitanud kasutajad saavad staatuse 'Lõpetatud'.
 trac#:#trac_mode_visits#:#Külastuste arv
 trac#:#trac_mode_visits_info#:#Määra õppematerjali läbimiseks nõutav külastuste arv.
-trac#:#trac_modifications_saved#:#Seaded salvestatud
 trac#:#trac_modus#:#Olek
 trac#:#trac_name_of_installation#:#Name of Installation
 trac#:#trac_no_attempted#:#Pole alustatud
@@ -15056,8 +14605,6 @@ trac#:#trac_mode_collection_mobs#:#Collection of Media Objects###30 08 2015 new 
 trac#:#trac_mode_collection_mobs_info#:#The learning progress status will be determined by the viewing status of selected media objects.###30 08 2015 new variable
 trac#:#trac_lp_determination_info_mob#:#Select the items that determine the overall learning progress status of the Mediacast###30 08 2015 new variable
 trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Parent Objects###30 08 2015 new variable
-trac#:#trac_lp_settings_info_parent_usage#:#Determines Learning Progress###30 08 2015 new variable
-trac#:#trac_lp_settings_info_parent_group#:#Other objects in grouping###30 08 2015 new variable
 book#:#book_bobj#:#Booking Object###30 08 2015 new variable
 crs#:#crs_subscription_min_members#:#Minimum Number###30 08 2015 new variable
 crs#:#crs_subscription_min_members_info#:#See cron job "Cancellation Limit".###30 08 2015 new variable
@@ -15078,8 +14625,6 @@ grp#:#grp_wrong_min_max_members#:#Please check the minimum and maximum number of
 grp#:#reg_grp_min_members#:#Minimum Number of Members###30 08 2015 new variable
 grp#:#grp_cancellation_end#:#Cancellation Limit###30 08 2015 new variable
 grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###30 08 2015 new variable
-sess#:#sess_reg_min_members#:#Minimum of Users###30 08 2015 new variable
-sess#:#sess_reg_min_members_info#:#A minimum number of users has to register.###30 08 2015 new variable
 grp#:#grp_waiting_list_no_autofill#:#Without Auto-Fill###30 08 2015 new variable
 grp#:#grp_waiting_list_autofill#:#With Auto-Fill###30 08 2015 new variable
 grp#:#grp_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.###30 08 2015 new variable
@@ -15256,8 +14801,6 @@ ldap#:#add_ldap_server#:#Add Server###30 08 2015 new variable
 ldap#:#ldap_username_filter#:#Username Filter###30 08 2015 new variable
 ldap#:#ldap_username_filter_info#:#Use * as wildcard.###30 08 2015 new variable
 search#:#search_filter_cd#:#Filter by Creation Date###30 08 2015 new variable
-search#:#search_filter_date#:#Search by Date###30 08 2015 new variable
-search#:#search_filter_duration#:#Search by Duration###30 08 2015 new variable
 search#:#search_created_before#:#Objects created before...###30 08 2015 new variable
 search#:#search_created_after#:#Objects created after###30 08 2015 new variable
 search#:#search_created_on#:#Objects create on...###30 08 2015 new variable
@@ -15364,7 +14907,6 @@ prg#:#prg_view#:#View###30 08 2015 new variable
 prg#:#prg_update_from_current_plan#:#Update from current Plan###30 08 2015 new variable
 prg#:#prg_update_successful#:#Saved changes successfully!###30 08 2015 new variable
 prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!###30 08 2015 new variable
-prg#:#prg_warning_img_alt#:#Warning!###30 08 2015 new variable
 prg#:#prg_successful_img_alt#:#successful###30 08 2015 new variable
 prg#:#prg_in_progress_img_alt#:#in progress###30 08 2015 new variable
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.###30 08 2015 new variable
@@ -15548,13 +15090,10 @@ forum#:#restore#:#Restore###25 10 2016 new variable
 forum#:#restore_draft_from_autosave#:#Restore draft###25 10 2016 new variable
 forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>###25 10 2016 new variable
 forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>###25 10 2016 new variable
-forum#:#publishThreadDrafts#:#Publish Thread Draft###25 10 2016 new variable
-forum#:#deleteThreadDrafts#:#Delete Thread Draft###25 10 2016 new variable
 forum#:#edit_thread_draft#:#Edit thread draft###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.###25 10 2016 new variable
 pd#:#block_show_pdfrmpostdraft#:#Show 'My Posting Drafts'###25 10 2016 new variable
-forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#save_draft_successfully#:#The draft was saved successfully.###25 10 2016 new variable
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?###25 10 2016 new variable
@@ -15880,7 +15419,6 @@ common#:#objs_grpr#:#Group References###25 10 2016 new variable
 rbac#:#grpr_copy#:#User can copy group reference###25 10 2016 new variable
 rbac#:#grpr_delete#:#User can move or delete group reference###25 10 2016 new variable
 rbac#:#grpr_edit_permission#:#User can change permission settings###25 10 2016 new variable
-rbac#:#grpr_read#:#Read access to Group Reference###25 10 2016 new variable
 rbac#:#grpr_visible#:#Group reference is visible###25 10 2016 new variable
 rbac#:#grpr_write#:#User can edit settings of group reference###25 10 2016 new variable
 rbac#:#rbac_create_grpr#:#Create Group Reference###25 10 2016 new variable
@@ -16252,24 +15790,10 @@ iass#:#iass_status_pending#:#Status pending###25 10 2016 new variable
 iass#:#iass_notify#:#Notify user after finalization###25 10 2016 new variable
 iass#:#iass_finalize#:#Finalize###25 10 2016 new variable
 iass#:#il_iass_member#:#Individual Assessment examinee###25 10 2016 new variable
-iass#:#edit_members#:#Edit examinees###25 10 2016 new variable
-iass#:#iass_edit_members#:#Edit examinees###25 10 2016 new variable
-iass#:#iass_visible#:#Visible###25 10 2016 new variable
-iass#:#iass_read#:#Read###25 10 2016 new variable
-iass#:#iass_copy#:#Copy###25 10 2016 new variable
-iass#:#iass_write#:#Edit Settings###25 10 2016 new variable
-iass#:#iass_delete#:#Delete###25 10 2016 new variable
-iass#:#iass_read_learning_progress#:#View learning progress of other users###25 10 2016 new variable
-iass#:#iass_edit_permissions#:#Change Permissions###25 10 2016 new variable
-iass#:#iass_edit_learning_progress#:#Edit learning progress###25 10 2016 new variable
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised.###25 10 2016 new variable
 iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.###25 10 2016 new variable
 iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer###25 10 2016 new variable
-common#:##obj_iass#:#Individual Assessment###25 10 2016 new variable
-common#:##objs_iass#:#Individual Assessments###25 10 2016 new variable
-common#:##obj_iass_duplicate#:#Copy Individual Assessment###25 10 2016 new variable
-common#:##obj_iass_select#:#-- Please select one individual assessment --###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.###25 10 2016 new variable
 common#:#il_iass_member#:#Individual Assessment Examinee###25 10 2016 new variable
 common#:#iass_new#:#Create Individual Assessment###25 10 2016 new variable
@@ -16355,3 +15879,38 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###25 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###25 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
+grp#:#grp_members_deleted#:#Deleted members###07 02 2017 new variable
+cron#:#cro_job_rc_job_no_result#:#NO RESULT###deprecated 
+cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY###07 02 2017 new variable
+cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED###07 02 2017 new variable
+prg#:#warning#:#Warning!###07 02 2017 new variable
+iass#:#il_iass_members#:#Participants###07 02 2017 new variable
+common#:#obj_iass#:#Individual Assessment###07 02 2017 new variable
+common#:#objs_iass#:#Individual Assessments###07 02 2017 new variable
+common#:#obj_iass_duplicate#:#Copy Individual Assessment###07 02 2017 new variable
+common#:#obj_iass_select#:#-- Please select one individual assessment --###07 02 2017 new variable
+iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.###07 02 2017 new variable
+iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.###07 02 2017 new variable
+common#:#sahs_export_file#:#ILIAS exported SCORM archive file###07 02 2017 new variable
+content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.###07 02 2017 new variable
+survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>###07 02 2017 new variable
+content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.###07 02 2017 new variable
+grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration###07 02 2017 new variable
+auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###07 02 2017 new variable
+lng#:#lng_download_deprecated#:#Download Deprecated List###07 02 2017 new variable
+rbac#:#edit_members#:#Manage members###07 02 2017 new variable
+rbac#:#prg_manage_members#:#Manage members of Study Programme###07 02 2017 new variable
+rbac#:#rbac_create_iass#:#Create Individual Assessment###07 02 2017 new variable
+survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###07 02 2017 new variable
+wsp#:#share_content#:#Share Object###07 02 2017 new variable
+wsp#:#share_with#:#Username###07 02 2017 new variable
+wsp#:#element_already_shared#:#This object is already shared with this user.###07 02 2017 new variable
+wsp#:#search_no_match#:#Your search did not match any results.###07 02 2017 new variable
+wsp#:#element_shared#:#Object shared.###07 02 2017 new variable
+wsp#:#share#:#Share###07 02 2017 new variable
+copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###07 02 2017 new variable
+auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.###07 02 2017 new variable
+crs#:#crs_edit_lo_introduction#:#Edit Introduction###07 02 2017 new variable
+rbac#:#grp_manage_members#:#Manage Members of Group###07 02 2017 new variable
+rbac#:#crs_manage_members#:#Manage Members of Course###07 02 2017 new variable
+survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.###07 02 2017 new variable

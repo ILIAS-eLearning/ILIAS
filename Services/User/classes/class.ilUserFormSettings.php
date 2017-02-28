@@ -229,6 +229,19 @@ class ilUserFormSettings
 	}
 	
 	/**
+	 * Delete all entries for prefix
+	 * @param type $a_prefix
+	 */
+	public static function deleteAllForPrefix($a_prefix)
+	{
+		$query = "DELETE FROM usr_form_settings ".
+			'WHERE '. $GLOBALS['ilDB']->like('id', 'text', $a_prefix.'%');
+		
+		$GLOBALS['ilDB']->manipulate($query);
+		
+	}
+	
+	/**
 	 * Import settings from form
 	 * 
 	 * @param ilPropertyFormGUI $a_form	

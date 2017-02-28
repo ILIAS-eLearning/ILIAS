@@ -2148,7 +2148,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		   !$frm->isThreadNotificationEnabled($ilUser->getId(), $this->objCurrentPost->getThreadId()) &&
 		   !$this->objProperties->isAnonymized())
 		{
-			$oNotificationGUI = new ilCheckboxInputGUI('', 'notify');
+			$oNotificationGUI = new ilCheckboxInputGUI($this->lng->txt('forum_direct_notification'), 'notify');
 			$oNotificationGUI->setInfo($this->lng->txt('forum_notify_me'));
 			
 			$this->replyEditForm->addItem($oNotificationGUI);
@@ -4093,18 +4093,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			// direct notification
 			$dir_notification_gui = new ilCheckboxInputGUI($this->lng->txt('forum_direct_notification'), 'notify');
-			$dir_notification_gui->setInfo($this->lng->txt('forum_notify_me_directly'));
+			$dir_notification_gui->setInfo($this->lng->txt('forum_notify_me'));
 			$dir_notification_gui->setValue(1);
 			$this->create_topic_form_gui->addItem($dir_notification_gui);
-			
-			if($ilias->getSetting('forum_notification') != 0)
-			{
-				// gen. notification
-				$gen_notification_gui = new ilCheckboxInputGUI($this->lng->txt('forum_general_notification'), 'notify_posts');
-				$gen_notification_gui->setInfo($this->lng->txt('forum_notify_me_generally'));
-				$gen_notification_gui->setValue(1);
-				$this->create_topic_form_gui->addItem($gen_notification_gui);
-			}
 		}
 		
 		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
@@ -4212,8 +4203,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			'subject' => '',
 			'message' => '',
 			'userfile' => '',
-			'notify' => 0,
-			'notify_posts' => 0
+			'notify' => 0
 		));
 	}
 
@@ -4451,7 +4441,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->handleFormInput($this->create_topic_form_gui->getInput('subject'), false),
 				ilRTE::_replaceMediaObjectImageSrc($this->create_topic_form_gui->getInput('message'), 0),
 				$this->create_topic_form_gui->getItemByPostVar('notify') ? (int)$this->create_topic_form_gui->getInput('notify') : 0,
-				$this->create_topic_form_gui->getItemByPostVar('notify_posts') ? (int)$this->create_topic_form_gui->getInput('notify_posts') : 0,
+				0, // #19980
 				$user_alias,
 				'',
 				$status
@@ -4799,7 +4789,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$oParticipants = $this->getParticipantsObject();
 
 		$frm_noti = new ilForumNotification($this->object->getRefId());
-		$moderator_ids = $frm_noti->_getModerators($this->object->getRefId());
+		$moderator_ids = ilForum::_getModerators($this->object->getRefId());
 
 		$admin_ids = $oParticipants->getAdmins();
 		$member_ids = $oParticipants->getMembers();
@@ -4912,7 +4902,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$frm_noti = new ilForumNotification($this->object->getRefId());
 		$oParticipants = $this->getParticipantsObject();
 
-		$moderator_ids = $frm_noti->_getModerators($this->object->getRefId());
+		$moderator_ids = ilForum::_getModerators($this->object->getRefId());
 
 		$admin_ids = $oParticipants->getAdmins();
 		$member_ids = $oParticipants->getMembers();
@@ -5361,7 +5351,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			return true;
 		}
 		
-		if($this->isParentObjectCrsOrGrp());
+		if($this->isParentObjectCrsOrGrp())
 		{	
 			global $ilUser;
 
@@ -5943,8 +5933,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($this->create_topic_form_gui->getInput('message'), 0));
 			$draftObj->setPostUserAlias($user_alias);
 			$draftObj->setNotify((int)$this->create_topic_form_gui->getInput('notify'));
-			$draftObj->setPostNotify((int)$this->create_topic_form_gui->getInput('notify_posts'));
-			// 
 			$draftObj->setPostAuthorId($ilUser->getId());
 			$draftObj->setPostDisplayUserId(($this->objProperties->isAnonymized() ? 0 : $ilUser->getId()));
 			

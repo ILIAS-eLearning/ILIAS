@@ -49,19 +49,6 @@ class assClozeSelectGapTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function test_setType_shouldSetShuffling()
-	{
-		// Arrange
-		require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
-		$instance = new assClozeSelectGap(1); // 1 - select gap
-		$expected = false;
-
-		$instance->setType($expected);
-		$actual = $instance->getShuffle();
-
-		$this->assertEquals($expected, $actual);
-	}
-
 	public function test_arrayShuffle_shouldShuffleArray()
 	{
 		// Arrange
@@ -69,14 +56,12 @@ class assClozeSelectGapTest extends PHPUnit_Framework_TestCase
 		$instance = new assClozeSelectGap(1); // 1 - select gap
 		$expected = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
 		
-		$actual = $instance->arrayShuffle($expected);
-
+		$actual = $instance->getItems(new ilArrayElementShuffler());
 		$this->assertNotEquals($expected, $actual);
 	}
 
 	public function test_getItemswithShuffle_shouldReturnShuffledItems()
 	{
-		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
 		$instance = new assClozeSelectGap(1); // 1 - select gap
 
@@ -103,14 +88,14 @@ class assClozeSelectGapTest extends PHPUnit_Framework_TestCase
 
 		$expected = array($item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8);
 
-		$actual = $instance->getItems();
+		$actual = $instance->getItems(new ilArrayElementShuffler());
 
 		$this->assertNotEquals($expected, $actual);
 	}
 
 	public function test_getItemswithoutShuffle_shouldReturnItemsInOrder()
 	{
-		// Arrange
+		require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
 		require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
 		$instance = new assClozeSelectGap(1); // 1 - select gap
 
@@ -128,8 +113,7 @@ class assClozeSelectGapTest extends PHPUnit_Framework_TestCase
 		$instance->setType(false);
 
 		$expected = array($item1, $item2, $item3, $item4);
-
-		$actual = $instance->getItems();
+		$actual   = $instance->getItems(new ilArrayElementOrderKeeper());
 
 		$this->assertEquals($expected, $actual);
 	}

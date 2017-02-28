@@ -252,6 +252,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 					$cmd = "render";
 				}
 				$cmd .= "Object";
+				$this->tabs_gui->activateTab("view_content");	// see #19868
 				$this->$cmd();
 
 				break;
@@ -319,7 +320,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->tabs_gui->addTab("meta_data",
 					$this->lng->txt("meta_data"),
 					$mdtab);
-			}	
+			}
 			
 			include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
 			if(ilContainer::_lookupContainerSetting(

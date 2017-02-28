@@ -702,7 +702,6 @@ class ilClient
 		$req->setOpt(CURLOPT_HEADER, 1);
 		$req->setOpt(CURLOPT_RETURNTRANSFER, 1);
 		$req->setOpt(CURLOPT_CONNECTTIMEOUT, $socket_timeout);
-		$req->setOpt(CURLOPT_FOLLOWLOCATION, 1);
 		$req->setOpt(CURLOPT_MAXREDIRS, $max_redirects);
 		$response = $req->exec();
 		

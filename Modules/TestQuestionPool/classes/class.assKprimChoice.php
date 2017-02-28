@@ -899,8 +899,9 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
 	protected function cloneAnswerImages($sourceQuestionId, $sourceParentId, $targetQuestionId, $targetParentId)
 	{
+		/** @var $ilLog ilLogger */
 		global $ilLog;
-		
+
 		$sourcePath = $this->buildImagePath($sourceQuestionId, $sourceParentId);
 		$targetPath = $this->buildImagePath($targetQuestionId, $targetParentId);
 
@@ -910,23 +911,32 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 			
 			if (strlen($filename))
 			{
-				if (!file_exists($targetPath))
+				if(!file_exists($targetPath))
 				{
 					ilUtil::makeDirParents($targetPath);
 				}
-				
-				if (!@copy($sourcePath.$filename, $targetPath.$filename))
+
+				if(file_exists($sourcePath . $filename))
 				{
-					$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
-					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
-				}
-				
-				if (@file_exists($sourcePath.$this->getThumbPrefix().$filename))
-				{
-					if (!@copy($sourcePath.$this->getThumbPrefix().$filename, $targetPath.$this->getThumbPrefix().$filename))
+					if(!copy($sourcePath . $filename, $targetPath . $filename))
 					{
-						$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
-						$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
+						$ilLog->warning(sprintf(
+							"Could not clone source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
+							$sourcePath . $filename, $targetPath . $filename,
+							$sourceQuestionId, $targetQuestionId, $sourceParentId, $targetParentId
+						));
+					}
+				}
+
+				if(file_exists($sourcePath . $this->getThumbPrefix() . $filename))
+				{
+					if(!copy($sourcePath . $this->getThumbPrefix() . $filename, $targetPath . $this->getThumbPrefix() . $filename))
+					{
+						$ilLog->warning(sprintf(
+							"Could not clone thumbnail source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
+							$sourcePath . $this->getThumbPrefix() . $filename, $targetPath . $this->getThumbPrefix() . $filename,
+							$sourceQuestionId, $targetQuestionId, $sourceParentId, $targetParentId
+						));
 					}
 				}
 			}

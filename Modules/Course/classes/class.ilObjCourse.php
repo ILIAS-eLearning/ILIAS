@@ -34,6 +34,11 @@ include_once './Services/Membership/interfaces/interface.ilMembershipRegistratio
 */
 class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 {
+	/**
+	 * @var ilLogger
+	 */
+	protected $course_logger = null;
+	
 
 	const CAL_REG_START = 1;
 	const CAL_REG_END = 2;
@@ -107,6 +112,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$this->setStatusDetermination(self::STATUS_DETERMINATION_LP);
 
 		$this->type = "crs";
+		
+		$this->course_logger = $GLOBALS['DIC']->logger()->crs();
 
 		parent::__construct($a_id,$a_call_by_reference);
 
@@ -2136,43 +2143,59 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return parent::getOrderType();
 	}
 	
+	/**
+	 * Handle course auto fill 
+	 */
 	public function handleAutoFill()
-	{	
-		if($this->enabledWaitingList() &&
-			$this->hasWaitingListAutoFill())
+	{
+		if(
+			!$this->enabledWaitingList() or
+			!$this->hasWaitingListAutoFill()
+		)
 		{
-			$max = $this->getSubscriptionMaxMembers();
-			$now = ilCourseParticipants::lookupNumberOfMembers($this->getRefId());
-			if($max > $now)
-			{
-				// see assignFromWaitingListObject()
-				include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
-				$waiting_list = new ilCourseWaitingList($this->getId());
-
-				foreach($waiting_list->getUserIds() as $user_id)
-				{
-					if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id,false))
-					{
-						continue;
-					}
-					if($this->getMembersObject()->isAssigned($user_id))
-					{
-						continue;
-					}
-					$this->getMembersObject()->add($user_id,IL_CRS_MEMBER);
-					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
-					$waiting_list->removeFromList($user_id);
-
-					$this->checkLPStatusSync($user_id);
-
-					$now++;
-					if($now >= $max)
-					{
-						break;
-					}
-				}
-			}
+			$this->course_logger->debug('Waiting list or auto fill disabled.');
+			return;
 		}		
+		
+		$max = $this->getSubscriptionMaxMembers();
+		$now = ilCourseParticipants::lookupNumberOfMembers($this->getRefId());
+
+		$this->course_logger->debug('Max members: ' . $max);
+		$this->course_logger->debug('Current members: ' . $now);
+		
+		if($now < $max)
+		{
+			return;
+		}
+
+		// see assignFromWaitingListObject()
+		include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
+		$waiting_list = new ilCourseWaitingList($this->getId());
+
+		foreach($waiting_list->getUserIds() as $user_id)
+		{
+			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id,false))
+			{
+				$this->course_logger->warning('Cannot create user instance for id: ' . $user_id);
+				continue;
+			}
+			if($this->getMembersObject()->isAssigned($user_id))
+			{
+				$this->course_logger->warning('User is already assigned to course. uid: ' . $user_id. ' course_id: ' . $this->getRefId());
+				continue;
+			}
+			$this->getMembersObject()->add($user_id,IL_CRS_MEMBER);
+			$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
+			$waiting_list->removeFromList($user_id);
+			$this->checkLPStatusSync($user_id);
+			
+			$this->course_logger->info('Assigned user from waiting list to course: ' . $this->getTitle());
+			$now++;
+			if($now >= $max)
+			{
+				break;
+			}
+		}
 	}
 	
 	public static function mayLeave($a_course_id, $a_user_id = null, &$a_date = null)

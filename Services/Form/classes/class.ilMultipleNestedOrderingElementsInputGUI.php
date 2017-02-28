@@ -393,7 +393,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 		return $jsTpl->get();
 	}
 	
-	public function render()
+	public function render($a_mode = "")
 	{
 		if( $this->isStylingEnabled() )
 		{

@@ -172,7 +172,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		$act = new ilCheckboxInputGUI($this->lng->txt("badge_service_activate"), "act");
 		$act->setInfo($this->lng->txt("badge_service_activate_info"));
 		$form->addItem($act);				
-		
+
+		/* see bug #0020124
 		$obi = new ilCheckboxInputGUI($this->lng->txt("badge_obi_activate"), "obi");		
 		$obi->setInfo($this->lng->txt("badge_obi_activate_info"));
 		$form->addItem($obi);
@@ -191,13 +192,17 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 			$obi_salt->setRequired(true);
 			$obi_salt->setInfo($this->lng->txt("badge_obi_salt_info"));
 			$obi->addSubItem($obi_salt);
-				
+		*/
+
 		$handler = ilBadgeHandler::getInstance();
-		$act->setChecked($handler->isActive());				
+		$act->setChecked($handler->isActive());
+
+		/* see bug 0020124
 		$obi->setChecked($handler->isObiActive());				
 		$obi_org->setValue($handler->getObiOrganistation());				
 		$obi_contact->setValue($handler->getObiContact());				
-		$obi_salt->setValue($handler->getObiSalt());				
+		$obi_salt->setValue($handler->getObiSalt());
+		*/
 		
 		return $form;
 	}

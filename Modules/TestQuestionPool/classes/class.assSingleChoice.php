@@ -895,7 +895,9 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 
 	function copyImages($question_id, $source_questionpool)
 	{
+		/** @var $ilLog ilLogger */
 		global $ilLog;
+
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
 		$imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
@@ -904,21 +906,32 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 			$filename = $answer->getImage();
 			if (strlen($filename))
 			{
-				if (!file_exists($imagepath))
+				if(!file_exists($imagepath))
 				{
 					ilUtil::makeDirParents($imagepath);
 				}
-				if (!@copy($imagepath_original . $filename, $imagepath . $filename))
+
+				if(file_exists($imagepath_original . $filename))
 				{
-					$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
-					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
-				}
-				if (@file_exists($imagepath_original. $this->getThumbPrefix(). $filename))
-				{
-					if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename))
+					if(!copy($imagepath_original . $filename, $imagepath . $filename))
 					{
-						$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
-						$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
+						$ilLog->warning(sprintf(
+							"Could not clone source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
+							$imagepath_original . $filename, $imagepath . $filename,
+							$question_id, $this->id, $source_questionpool, $this->obj_id
+						));
+					}
+				}
+
+				if(file_exists($imagepath_original. $this->getThumbPrefix(). $filename))
+				{
+					if(!copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename))
+					{
+						$ilLog->warning(sprintf(
+							"Could not clone thumbnail source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
+							$imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename,
+							$question_id, $this->id, $source_questionpool, $this->obj_id
+						));
 					}
 				}
 			}

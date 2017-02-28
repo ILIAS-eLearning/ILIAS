@@ -1685,7 +1685,7 @@ class ilObjMediaObject extends ilObject
 		}
 		$media_item->setHAlign("Left");
 
-		ilUtil::renameExecutables($mob_dir);
+		self::renameExecutables($mob_dir);
 		$media_object->update();
 
 		return $media_object;
@@ -1704,7 +1704,7 @@ class ilObjMediaObject extends ilObject
 		}
 		ilUtil::makeDirParents($dir);
 		ilUtil::moveUploadedFile($tmp_name, $a_name, $dir."/".$a_name, true, $a_mode);
-		ilUtil::renameExecutables($mob_dir);
+		self::renameExecutables($mob_dir);
 	}
 	
 	/**
@@ -2058,5 +2058,15 @@ class ilObjMediaObject extends ilObject
 		return $items;
 	}
 
+	/**
+	 * Rename executables
+	 *
+	 * @param string
+	 */
+	static function renameExecutables($a_dir)
+	{
+		ilUtil::renameExecutables($a_dir);
+		ilUtil::rRenameSuffix ($a_dir, "html", "sec");		// see #20187
+	}
 }
 ?>

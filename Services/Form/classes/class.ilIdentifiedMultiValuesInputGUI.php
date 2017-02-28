@@ -104,7 +104,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 		throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
 	}
 	
-	public function setMultiValues($values)
+	public function setMultiValues(array $values)
 	{
 		require_once 'Services/Form/exceptions/class.ilFormException.php';
 		throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');

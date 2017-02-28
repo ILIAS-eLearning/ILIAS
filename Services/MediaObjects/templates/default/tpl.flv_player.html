@@ -34,6 +34,33 @@
 	});
 	</script>
 <!-- END mejs_video -->
+<!-- BEGIN youtube -->
+<div id="player_{PLAYER_NR}_wrapper" class="ilPlayerPreviewOverlayOuter">
+	<!-- BEGIN ytpreview -->
+	<div class="ilPlayerPreviewOverlay">
+		<img src="{IMG_SRC}" alt="{IMG_ALT}"/>
+		<div class="ilPlayerPreviewDescription">
+			<!-- BEGIN ytdownload --><div class="ilPlayerPreviewDescriptionDownload"><a href="{HREF_DOWNLOAD}">{TXT_DOWNLOAD}</a></div><!-- END ytdownload -->
+			{PTITLE}</div>
+		<div class="ilPlayerPreviewPlayButton"></div>
+	</div>
+	<!-- END ytpreview -->
+	<div id="player_{PLAYER_NR}_vtwrap" class="{CLASS}">
+		<object id="player_{PLAYER_NR}" width="{DISPLAY_WIDTH}" height="{DISPLAY_HEIGHT}">
+			<param name="movie" value="http://www.youtube.com/v/{PV}?fs=1"></param>
+			<param name="allowFullScreen" value="true"></param>
+			<param name="allowscriptaccess" value="always"></param>
+			<embed src="http://www.youtube.com/v/{PV}?fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="{DISPLAY_WIDTH}" height="{DISPLAY_HEIGHT}">
+			</embed>
+		</object>
+		<div style="padding-top: 10px; font-size: 80%; color: #808080;">
+			<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;" class="ilMediaLightboxClose">{CLOSE}</a>
+			<p>{TITLE}</p>
+			<div>{DESCRIPTION}</div>
+		</div>
+	</div>
+</div>
+<!-- END youtube -->
 <!-- BEGIN flv -->
 <p id="player{PLAYER_NR}">
 <object width="{DISPLAY_WIDTH}" height="{DISPLAY_HEIGHT}" type="application/x-shockwave-flash" data="{SWF_FILE}">
