@@ -123,3 +123,211 @@ just ordering ui elements
 *Modules/Exercise/classes/class.ilExSubmissionFileGUI.
 -(change) method "getOverviewContent"
 list files one below another instead of separated by coma.
+
+
+
+##28/2/17
+
+## ilTextareaInput - MIN and MAX CHARACTER LIMITATIONS.
+
+Textarea input now can limit the number of characters allowed. The limitations are not mandatory, for instance we can limit only min or max.
+
+## Info to extend this feature to another elements taking exercise assignments as an example.
+
+#### DATABASE
+
+	update table [X] with 2 new columns "min_char_limit" and "max_char_limit" both integer and length 4.
+
+	if($ilDB->tableExists("[table_name]"))
+	{
+		if(!$ilDB->tableColumnExists('[table_name]','min_char_limit'))
+		{
+			$ilDB->addTableColumn("[table_name]", "min_char_limit", array("type" => "integer", "length" => 4));
+		}
+			if(!$ilDB->tableColumnExists('[table_name]','max_char_limit'))
+		{
+			$ilDB->addTableColumn("[table_name]", "max_char_limit", array("type" => "integer", "length" => 4));
+		}
+	}
+
+e.g. table used in exercise assignments -> "exc_assignment"
+
+
+#### FORM (admin - creation/configuration)
+
+Getting exercise assignments as an example (Modules/Exercise/classes/class.ilExAssignmentEditorGUI.php)
+
+Add the fields - method -> initAssignmentForm()
+
+	$rb_limit_chars = new ilCheckboxInputGUI($lng->txt("exc_limit_characters"),"limit_characters");
+
+	$min_char_limit = new ilNumberInputGUI($lng->txt("exc_min_char_limit"), "min_char_limit");
+	$min_char_limit->allowDecimals(false);
+	$min_char_limit->setSize(3);
+
+	$max_char_limit = new ilNumberInputGUI($lng->txt("exc_max_char_limit"), "max_char_limit");
+	$max_char_limit->allowDecimals(false);
+	$max_char_limit->setMinValue($_POST['min_char_limit'] + 1);
+
+	$max_char_limit->setSize(3);
+
+	$rb_limit_chars->addSubItem($min_char_limit);
+	$rb_limit_chars->addSubItem($max_char_limit);
+
+	$form->addItem($rb_limit_chars);
+
+
+Manage data/inputs
+
+method -> processForm()
+
+	...
+	// text limitations
+	if($a_form->getInput("limit_characters"))
+	{
+	$res['limit_characters'] = $a_form->getInput("limit_characters");
+	}
+	if($a_form->getInput("limit_characters") && $a_form->getInput("max_char_limit"))
+	{
+	$res['max_char_limit'] = $a_form->getInput("max_char_limit");
+	}
+	if($a_form->getInput("limit_characters") && $a_form->getInput("min_char_limit"))
+	{
+	$res['min_char_limit'] = $a_form->getInput("min_char_limit");
+	
+	}
+	...
+
+
+method -> importFormToAssignment()
+
+	$a_ass->setMinCharLimit($a_input['min_char_limit']);
+	$a_ass->setMaxCharLimit($a_input['max_char_limit']);
+
+
+method -> getAssignmentValues()
+
+	if($this->assignment->getMinCharLimit())
+	{
+		$values['limit_characters'] = 1;
+		$values['min_char_limit'] = $this->assignment->getMinCharLimit();
+	}
+	if($this->assignment->getMaxCharLimit())
+	{
+		$values['limit_characters'] = 1;
+		$values['max_char_limit'] = $this->assignment->getMaxCharLimit();
+	}
+
+
+#### MODEL class(admin - creation/configuration)
+
+Getting exercise assignments as an example (Modules/Exercise/classes/class.ilExAssignment.php)
+
+properties
+
+	protected $min_char_limit;
+	protected $max_char_limit;
+
+method -> initFromDB()
+
+	...
+	$this->setMinCharLimit($a_set["min_char_limit"]);
+	$this->setMaxCharLimit($a_set["max_char_limit"]);
+
+method -> save()
+
+	$ilDB->insert("[table_name", array(...
+		"min_char_limit" => array("integer", $this->getMinCharLimit()),
+		"max_char_limit" => array("integer", $this->getMaxCharLimit())
+
+method -> update()
+
+	$ilDB->update("[table_name",array(...
+		"min_char_limit" => array("integer", $this->getMinCharLimit()),
+		"max_char_limit" => array("integer", $this->getMaxCharLimit())
+
+
+setters and getters
+
+	/**
+	* Set limit minimum characters
+	*
+	* @param	int	minim limit
+	*/
+	function setMinCharLimit($a_val)
+	{
+		$this->min_char_limit = $a_val;
+	}
+
+	/**
+	* Get limit minimum characters
+	*
+	* @return	int minimum limit
+	*/
+	function getMinCharLimit()
+	{
+		return $this->min_char_limit;
+	}
+
+	/**
+	* Set limit maximum characters
+	* @param int max limit
+	*/
+	function setMaxCharLimit($a_val)
+	{
+		$this->max_char_limit = $a_val;
+	}
+
+	/**
+	* get limit maximum characters
+	* return int max limit
+	*/
+	function getMaxCharLimit()
+	{
+		return $this->max_char_limit;
+	}
+
+
+#### Public user part. (users doing exercises etc.)
+
+getting exercise submission as an example (Modules/Exercise/classes/class.ilExSubmissionTextGUI.php)
+
+Init the form - method -> initAssignmentTextForm()
+Set max and min limit values
+add a setInfo element with the limits explanation.
+
+	...
+	if(!$a_read_only)
+	{...
+
+$text->setMaxNumOfChars($this->assignment->getMaxCharLimit());
+$text->setMinNumOfChars($this->assignment->getMinCharLimit());
+
+	if ($text->isCharLimited())
+	{
+	$char_msg = $lng->txt("exc_min_char_limit").": ".$this->assignment->getMinCharLimit().
+	" ".$lng->txt("exc_max_char_limit").": ".$this->assignment->getMaxCharLimit();
+
+	$text->setInfo($char_msg);
+	}...
+
+if you want to remove the "HTML" button in your TinyMCE, just add "code" in this array.
+
+	$text->disableButtons(array(
+	'charmap',
+	'undo',
+	'redo',
+	'justifyleft',
+	'justifycenter',
+	'justifyright',
+	'justifyfull',
+	'anchor',
+	'fullscreen',
+	'cut',
+	'copy',
+	'paste',
+	'pastetext',
+	'code',
+	// 'formatselect' #13234
+	));
+
