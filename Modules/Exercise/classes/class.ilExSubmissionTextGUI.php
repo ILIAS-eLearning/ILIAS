@@ -112,6 +112,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 				'copy',
 				'paste',
 				'pastetext',
+				'code',
 				// 'formatselect' #13234
 			));
 			
