@@ -274,15 +274,17 @@ class ilAccountRegistrationGUI
 
 		
 		// custom validation
-				
 		$valid_code = $valid_role = false;
 		 		
-		// code		
+		// code	
 		if($this->code_enabled)
 		{
 			$code = $this->form->getInput('usr_registration_code');			
 			// could be optional
-			if($code)
+			if(
+				$this->registration_settings->registrationCodeRequired() ||
+				strlen($code)
+			)
 			{				
 				// code validation
 				include_once './Services/Registration/classes/class.ilRegistrationCode.php';
@@ -303,7 +305,7 @@ class ilAccountRegistrationGUI
 						$valid_role = $role_id;
 					}
 				}
-			}			
+			}
 		}
 		
 		// valid codes override email domain check
