@@ -291,8 +291,8 @@ class ilAccountRegistrationGUI
 			if($code)
 			{				
 				// code validation
-				include_once './Services/Registration/classes/class.ilRegistrationCode.php';										
-				if(!ilRegistrationCode::isUnusedCode($code))
+				include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+				if(!ilRegistrationCode::isValidRegistrationCode($code))
 				{
 					$code_obj = $this->form->getItemByPostVar('usr_registration_code');
 					$code_obj->setAlert($lng->txt('registration_code_not_valid'));
