@@ -88,6 +88,7 @@
 <xsl:param name="enable_consultation_hours"/>
 <xsl:param name="enable_my_courses"/>
 <xsl:param name="enable_amd_page_list"/>
+<xsl:param name="enable_html_mob"/>
 
 <xsl:template match="PageObject">
 	<xsl:if test="$mode != 'edit'">
@@ -2743,18 +2744,19 @@
 
 		<!-- text/html -->
 		<xsl:when test="$type = 'text/html'">
-		<!-- see #20187
-		<iframe frameborder="0">
-			<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
-			<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-			<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-			<xsl:call-template name="MOBParams">
-				<xsl:with-param name="curPurpose" select="$curPurpose" />
-				<xsl:with-param name="mode">attributes</xsl:with-param>
-				<xsl:with-param name="cmobid" select="$cmobid" />
-			</xsl:call-template>
-			<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
-		</iframe>  -->
+			<xsl:if test = "$enable_html_mob = 'y'">
+				<iframe frameborder="0">
+					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					<xsl:call-template name="MOBParams">
+						<xsl:with-param name="curPurpose" select="$curPurpose" />
+						<xsl:with-param name="mode">attributes</xsl:with-param>
+						<xsl:with-param name="cmobid" select="$cmobid" />
+					</xsl:call-template>
+					<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
+				</iframe>
+			</xsl:if>
 		</xsl:when>
 		
 		<!-- application/pdf -->

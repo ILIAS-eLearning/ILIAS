@@ -161,6 +161,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			case "ilfilesystemgui":
 				include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 				$fs_gui =& new ilFileSystemGUI(ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId());
+				$fs_gui->setAllowedSuffixes(ilObjMediaObject::getRestrictedFileTypes());
+				$fs_gui->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
 				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
 				$fs_gui->setTableId("mobfs".$this->object->getId());
 				$fs_gui->labelFile($this->object->getMediaItem("Standard")->getLocation(),
@@ -238,6 +240,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$op1 = new ilRadioOption($lng->txt("cont_file"), "File");
 			$up = new ilFileInputGUI("", "standard_file");
 			$up->setSuffixes(ilObjMediaObject::getRestrictedFileTypes());
+			$up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
 			$up->setInfo("");
 			$op1->addSubItem($up);
 			$radio_prop->addOption($op1);
@@ -363,6 +366,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$op2 = new ilRadioOption($lng->txt("cont_file"), "File");
 			$up = new ilFileInputGUI("", "full_file");
 			$up->setSuffixes(ilObjMediaObject::getRestrictedFileTypes());
+			$up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
 			$up->setInfo("");
 			$op2->addSubItem($up);
 		$radio_prop2->addOption($op2);

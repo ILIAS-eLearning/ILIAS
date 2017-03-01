@@ -1663,7 +1663,9 @@ return;
 			: ilPlayerUtil::getFlashVideoPlayerFilename(true);
 			
 		$cfg = $this->getPageConfig();
-		
+
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+
 		// added UTF-8 encoding otherwise umlaute are converted too
 		include_once("./Services/Maps/classes/class.ilMapUtil.php");
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
@@ -1712,6 +1714,7 @@ return;
 						 'enable_consultation_hours' =>  $cfg->getEnablePCType("ConsultationHours") ? "y" : "n",
 						 'enable_my_courses' =>  $cfg->getEnablePCType("MyCourses") ? "y" : "n",
 						 'enable_amd_page_list' =>  $cfg->getEnablePCType("AMDPageList") ? "y" : "n",
+			 			 'enable_html_mob' =>  ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
 						 'flv_video_player' => $flv_video_player
 						);
 		if($this->link_frame != "")		// todo other link types

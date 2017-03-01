@@ -292,3 +292,8 @@ $ilDB->modifyTableColumn(
 	)
 );
 ?>
+<#23>
+<?php
+	$mset = new ilSetting("mobs");
+	$mset->set("black_list_file_types", "html");
+?>
