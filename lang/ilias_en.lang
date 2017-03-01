@@ -11027,7 +11027,7 @@ sahs#:#sahs_import_sequencing#:#Import Sequencing
 sahs#:#sahs_import_sequencing_info#:#Import sequencing information from package (Sequencing Expert Mode).
 sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode
 sahs#:#sahs_activate_expert_mode_info#:#The sequencing expert mode allows you to directly edit the sequencing information of the package tree. If you are unsure what this means we recommend to use the default sequencing behaviour.
-mep#:#mobs_restrict_file_types#:#Restrict File Types
+mep#:#mobs_restrict_file_types#:#Allowed File Types
 mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.
 common#:#rep_main_page#:#Home
 common#:#personal_settings#:#Settings
@@ -16223,3 +16223,8 @@ crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
 rbac#:#edit_members#:#Manage members
 rbac#:#prg_manage_members#:#Manage members of Study Programme
+mep#:#mobs_black_list_file_types#:#Forbidden File Types
+mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suffixes. This list will restrict the set of allowed file types. Usually you need this if the former list is empty (all file types are allowed).
+form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.
+common#:#file_no_valid_file_type#:#This file type is not allowed.
+common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
