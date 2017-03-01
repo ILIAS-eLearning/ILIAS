@@ -61,6 +61,16 @@ class ilRbacSystem
 		return self::$instance = new ilRbacSystem();
 	}
 	
+	/**
+	 * Reset internal caches
+	 */
+	public static function resetCaches()
+	{
+		self::$user_role_cache = array();
+		self::$_paCache = null;
+		self::$_checkAccessOfUserCache = null;
+	}
+	
 	/**	
 	* checkAccess represents the main method of the RBAC-system in ILIAS3 developers want to use
 	*  With this method you check the permissions a use may have due to its roles
@@ -110,7 +120,6 @@ class ilRbacSystem
 			return self::$_checkAccessOfUserCache[$cacheKey];
 		}
 
-		#echo ++$counter;
 
 		// DISABLED 
 		// Check For owner
@@ -415,6 +424,8 @@ class ilRbacSystem
 			if($this->checkAccess('write', (int) $_GET['ref_id']))
 			{
 				$settings->toggleActivation((int) $_GET['ref_id'], true);
+				// reset caches
+				self::resetCaches();
 			}
 		}
 		
