@@ -1824,12 +1824,17 @@ class ilUtil
 
 		// remove all sym links
 		clearstatcache();			// prevent is_link from using cache
+		$dir_realpath = realpath($dir);
 		foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)) as $name => $f)
 		{
 			if (is_link($name))
 			{
-				unlink($name);
-				$log->info("Removed symlink ".$name);
+				$target = readlink($name);
+				if (substr($target, 0, strlen($dir_realpath)) != $dir_realpath)
+				{
+					unlink($name);
+					$log->info("Removed symlink " . $name);
+				}
 			}
 		}
 
