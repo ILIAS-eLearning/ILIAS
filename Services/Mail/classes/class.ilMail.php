@@ -850,7 +850,7 @@ class ilMail
 					continue;
 				}
 
-				$id_to_message_map[$tmp_user->getId()] = $this->replacePlaceholders($a_message, $id);
+				$id_to_message_map[$id] = $this->replacePlaceholders($a_message, $id);
 
 				if($user_is_active)
 				{
@@ -871,7 +871,7 @@ class ilMail
 
 				$mail_id = $this->sendInternalMail(
 					$inbox_id, $this->user_id, $a_attachments, $a_rcp_to, $a_rcp_cc, '',
-					'unread', $a_type, 0, $a_subject, $id_to_message_map[$tmp_user->getId()], $id, 0
+					'unread', $a_type, 0, $a_subject, $id_to_message_map[$id], $id, 0
 				);
 
 				if($a_attachments)
@@ -968,7 +968,7 @@ class ilMail
 	 * @param    string $a_m_subject
 	 * @param    string $a_m_message
 	 * @param    string $a_type
-	 * @return    string array message
+	 * @return   array message
 	 */
 	protected function checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_type)
 	{
