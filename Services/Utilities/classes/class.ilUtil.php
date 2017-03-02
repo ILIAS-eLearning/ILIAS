@@ -1817,7 +1817,16 @@ class ilUtil
 		ilUtil::execQuoted($unzip, $unzipcmd);
 
 		chdir($cdir);
-		
+
+		// remove all sym links
+		foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)) as $name => $f)
+		{
+			if (is_link($name))
+			{
+				unlink($name);
+			}
+		}
+
 		// if flat, get all files and move them to original directory
 		if ($a_flat)
 		{
