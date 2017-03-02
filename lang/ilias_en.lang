@@ -7061,6 +7061,7 @@ mail#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIA
 mail#:#mail_my_courses#:#My Courses
 mail#:#mail_my_groups#:#My Groups
 mail#:#mail_my_mailing_lists#:#My Mailing Lists
+mail#:#mail_nacc_title#:#Title
 mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
 mail#:#mail_nacc_client_name#:#Client Name
 mail#:#mail_nacc_ilias_url#:#URL of ILIAS system

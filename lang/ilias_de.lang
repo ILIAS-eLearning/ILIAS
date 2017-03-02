@@ -8142,6 +8142,7 @@ mail#:#mail_multiple_recipients_found#:#Geben Sie eine genaue E-Mail-Adresse an.
 mail#:#mail_my_courses#:#Meine Kurse
 mail#:#mail_my_groups#:#Meine Gruppen
 mail#:#mail_my_mailing_lists#:#Meine Verteilerlisten
+mail#:#mail_nacc_title#:#Titel
 mail#:#mail_nacc_admin_mail#:#E-Mail-Adresse des Administrators
 mail#:#mail_nacc_client_name#:#Name des Mandanten
 mail#:#mail_nacc_ilias_url#:#URL des ILIAS-Systems
