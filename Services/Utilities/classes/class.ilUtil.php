@@ -1823,6 +1823,7 @@ class ilUtil
 		chdir($cdir);
 
 		// remove all sym links
+		clearstatcache();			// prevent is_link from using cache
 		foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)) as $name => $f)
 		{
 			if (is_link($name))
