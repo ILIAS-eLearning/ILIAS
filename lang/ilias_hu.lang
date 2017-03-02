@@ -2685,11 +2685,11 @@ common#:#form_empty_fields#:#Töltse ki ezeket a mezőket:###deprecated
 common#:#form_input_not_valid#:#Néhány adat hiányzik vagy nem megfelelő. Javítsa az űrlapadatokat!
 common#:#forum_attachments#:#Fórum csatolmányai###deprecated 
 common#:#forum_direct_notification#:#Közvetlen értesítés
-common#:#forum_general_notification#:#Általános értesítés
+common#:#forum_general_notification#:#Általános értesítés###deprecated 
 common#:#forum_import_file#:#Importfájl###deprecated 
 common#:#forum_import#:#Fórum importálása###deprecated 
-common#:#forum_notify_me_directly#:#Értesítést kérek a hozzászólásomra érkező válaszokról.
-common#:#forum_notify_me_generally#:#Értesítést kérek ehhez a témához érkező összes új hozzászólásról.
+common#:#forum_notify_me_directly#:#Értesítést kérek a hozzászólásomra érkező válaszokról.###deprecated 
+common#:#forum_notify_me_generally#:#Értesítést kérek ehhez a témához érkező összes új hozzászólásról.###deprecated 
 common#:#forum_notify_me#:#Értesítést kérek, ha ehhez a témához hozzászólnak.
 common#:#forum_post_replied#:#Fórumhozzászólását megválaszolták.
 common#:#forum#:#Fórum
@@ -12091,7 +12091,7 @@ ecs#:#ecs_glo_export#:#Fogalomtár kiadásai
 ecs#:#ecs_glo_export_obj_settings#:#Fogalomtár kiadás beállításai
 ecs#:#ecs_glo_export_disabled#:#Ne legyen kiadva ez a fogalomtár
 ecs#:#ecs_glo_export_enabled#:#Ezen fogalomtár kiadása
-rglo#:#rglo_call#:#ECS fogalomtár hívása###deprecated 
+rglo#:#rglo_call#:#ECS fogalomtár hívása
 common#:#obj_rfil#:#ECS fájl
 common#:#objs_rfil#:#ECS fájlok
 ecs#:#ecs_file_export#:#Fájlkiadások
