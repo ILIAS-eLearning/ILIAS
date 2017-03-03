@@ -45,7 +45,7 @@ class ilExAssignmentEditorGUI
 		{
 			case "ilpropertyformgui":
 				$form = $this->initAssignmentForm(ilExAssignment::TYPE_PORTFOLIO);
-				$this->ctrl->forwardCommand($form);
+				$ilCtrl->forwardCommand($form);
 				break;
 
 			// instruction files
@@ -220,7 +220,7 @@ class ilExAssignmentEditorGUI
 				$repo->setValue($this->assignment->getPortfolioTemplateId());
 			}
 			$repo->getExplorerGUI()->setSelectableTypes(array("prtt"));
-			$repo->getExplorerGUI()->setTypeWhiteList(array("root", "prtt"));
+			$repo->getExplorerGUI()->setTypeWhiteList(array("root", "prtt", "cat", "crs", "grp"));
 			$radio_with_template->addSubItem($repo);
 
 			$rd_template->addOption($radio_no_template);
