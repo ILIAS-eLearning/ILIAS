@@ -1752,9 +1752,6 @@ class ilUtil
 	*/
 	public static function unzip($a_file, $overwrite = false, $a_flat = false)
 	{
-		global $DIC;
-
-		$log = $DIC->logger()->root();
 
 		if (!is_file($a_file))
 		{
@@ -1842,7 +1839,6 @@ class ilUtil
 				if (substr($target, 0, strlen($dir_realpath)) != $dir_realpath)
 				{
 					unlink($name);
-					$log->info("Removed symlink " . $name);
 				}
 			}
 		}
