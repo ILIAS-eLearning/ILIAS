@@ -1093,7 +1093,7 @@ abstract class ilAdvancedMDFieldDefinition
 		return $res;
 	}
 	
-	public function searchSubObjects(ilADTSearchBridge $a_adt_search, $a_obj_id, $sub_obj_type)
+	public function searchSubObjects(ilADTSearchBridge $a_adt_search, $a_obj_id = null, $sub_obj_type = null)
 	{
 		include_once('Services/ADT/classes/ActiveRecord/class.ilADTActiveRecordByType.php');	
 		$element_id = ilADTActiveRecordByType::SINGLE_COLUMN_NAME;
@@ -1112,11 +1112,18 @@ abstract class ilAdvancedMDFieldDefinition
 			{			
 				$res = array();
 				foreach($objects as $item)
-				{			
-					if($item["obj_id"] == $a_obj_id &&
-						$item["sub_type"] == $sub_obj_type)
+				{
+					if((!$a_obj_id || $item["obj_id"] == $a_obj_id) &&
+						(!$sub_obj_type || $item["sub_type"] == $sub_obj_type))
 					{
-						$res[] = $item["sub_id"];
+						if($a_obj_id)
+						{
+							$res[] = $item["sub_id"];
+						}
+						else
+						{
+							$res[] = $item["obj_id"];
+						}
 					}
 				}	
 				return $res;

@@ -36,6 +36,16 @@ class ilAdvancedMDRecordGUI
 	protected $editor_form; // [array]
 
 	/**
+	 * @var bool
+	 */
+	protected $form_enable_section_headers = true;
+
+	/**
+	 * @var array
+	 */
+	protected $form_additional = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @access public
@@ -62,9 +72,11 @@ class ilAdvancedMDRecordGUI
 	 * @param
 	 * 
 	 */
-	public function setPropertyForm($form)
+	public function setPropertyForm($form, $a_enable_section_headers = true, array $a_additional = null)
 	{
 	 	$this->form = $form;
+		$this->form_enable_section_headers = (bool)$a_enable_section_headers;
+		$this->form_additional = $a_additional;
 	}
 	
 	/**
@@ -282,14 +294,23 @@ class ilAdvancedMDRecordGUI
 			{
 				continue;
 			}
-			
-			$section = new ilFormSectionHeaderGUI();
-			$section->setTitle($record->getTitle());
-			$section->setInfo($record->getDescription());
-			$this->form->addItem($section);
-			
+			if($this->form_enable_section_headers)
+			{
+				$section = new ilFormSectionHeaderGUI();
+				$section->setTitle($record->getTitle());
+				$section->setInfo($record->getDescription());
+				$this->form->addItem($section);
+			}
 			foreach($fields as $field)
-			{									 			
+			{
+				if(is_array($this->form_additional) &&
+					array_key_exists("search_whitelist", $this->form_additional))
+				{
+					if(!in_array($field->getFieldId(), $this->form_additional["search_whitelist"]))
+					{
+						continue;
+					}
+				}
 	 			$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);				
 				$field_form->setForm($this->form);
 				$field_form->setElementId("advmd[".$field->getFieldId()."]");
