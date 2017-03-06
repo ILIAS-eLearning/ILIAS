@@ -38,7 +38,8 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$this->setExternalSorting(false);
 		$this->setExternalSegmentation(false);
 		$this->setRowTemplate("tpl.individual_plan_table_row.html", "Modules/StudyProgramme");
-		
+		$this->setDefaultOrderDirection("asc");
+
 		$this->getParentObject()->appendIndividualPlanActions($this);
 		
 		$columns = array( "status"
