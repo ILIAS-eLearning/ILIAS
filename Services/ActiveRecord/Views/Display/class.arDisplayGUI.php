@@ -1,7 +1,7 @@
 <?php
 require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Display/class.arDisplayField.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Display/class.arDisplayFields.php');
+require_once('./Services/ActiveRecord/Views/Display/class.arDisplayField.php');
+require_once('./Services/ActiveRecord/Views/Display/class.arDisplayFields.php');
 
 /**
  * GUI-Class arDisplayGUI
