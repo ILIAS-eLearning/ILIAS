@@ -50,4 +50,16 @@ interface Image extends \ILIAS\UI\Component\Component {
 	 */
 	public function getAlt();
 
+	/**
+	 * Get an image like this with an action
+	 * @param string $url
+	 * @return \ILIAS\UI\Component\Image\Image
+	 */
+	public function withAction($url);
+
+	/**
+	 * Get the action of the image
+	 * @return string|null
+	 */
+	public function getAction();
 }
