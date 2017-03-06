@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Card;
 
 use ILIAS\UI\Component\Card as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\NotImplementedException;
 
 class Card implements C\Card {
 	use ComponentHelper;
@@ -95,5 +96,32 @@ class Card implements C\Card {
 	public function getSections(){
 		return $this->content_sections;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withTitleAction($url){
+		throw new NotImplementedException();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getTitleAction(){
+		throw new NotImplementedException();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withHighlight($status){
+		throw new NotImplementedException();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isHighlighted(){
+		throw new NotImplementedException();
+	}
 }
-?>
