@@ -1,5 +1,5 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Demo/StorageRecord/class.arStorageRecordStorage.php');
+require_once('./Services/ActiveRecord/_Examples/StorageRecord/class.arStorageRecordStorage.php');
 require_once('./Services/ActiveRecord/Storage/int.arStorageInterface.php');
 
 /**
