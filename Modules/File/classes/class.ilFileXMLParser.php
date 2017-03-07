@@ -326,16 +326,17 @@ class ilFileXMLParser extends ilSaxParser
 	 */
 	public function setFileContents ()
 	{
-		global $ilLog;
-		
-		#$ilLog->write(__METHOD__.' '.filesize($this->tmpFilename));
+		if(!file_exists($this->tmpFilename))
+		{
+			ilLoggerFactory::getLogger('file')->error(__METHOD__.' "'.$this->tmpFilename. '" file not found.');
+			return;
+		}
 
 		if (filesize ($this->tmpFilename) == 0) {
 			return;
 		}
 
 		$filedir = $this->file->getDirectory($this->file->getVersion());
-		#$ilLog->write(__METHOD__.' '.$filedir);
 		
 		if (!is_dir($filedir))
 		{
@@ -344,11 +345,11 @@ class ilFileXMLParser extends ilSaxParser
 		}
 		   
 		$filename = $filedir."/".$this->file->getFileName();
+
 		if (file_exists($filename))
 			unlink($filename);
-//echo "-".$this->tmpFilename."-".$filename."-"; exit;
+
 		return rename($this->tmpFilename, $filename);
-	   // @file_put_contents($filename, $this->content);
 	}
 
 
