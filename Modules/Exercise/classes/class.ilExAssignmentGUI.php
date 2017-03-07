@@ -246,7 +246,7 @@ class ilExAssignmentGUI
 	
 	protected function addFiles(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
 	{		
-		global $lng, $ilCtrl, $tpl;
+		global $lng, $ilCtrl;
 		
 		$files = $a_ass->getFiles();
 		if (count($files) > 0)
@@ -277,16 +277,23 @@ class ilExAssignmentGUI
 						$ui_renderer = $DIC->ui()->renderer();
 
 						$image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'],$file['name']));
+						$image_lens = ilUtil::getImagePath("enlarge.svg");
 
 						$modal = ilModalGUI::getInstance();
 						$modal->setId($item_id);
 						$modal->setType(ilModalGUI::TYPE_LARGE);
 						$modal->setBody($image);
 						$modal = $modal->getHTML();
-						$command = "$('#".$item_id."').modal('show')";
-						$image_lens = "<img src='".ilUtil::getImagePath("enlarge.svg")."' onClick=".$command." align='right'>";
-						$image_pack = $image.$image_lens.$modal;
-						$a_info->addProperty($file["name"], $image_pack);
+
+						$img_tpl = new ilTemplate("tpl.image_file.html", true, true, "Modules/Exercise");
+						$img_tpl->setCurrentBlock("image_content");
+						$img_tpl->setVariable("MODAL", $modal);
+						$img_tpl->setVariable("ITEM_ID", $item_id);
+						$img_tpl->setVariable("IMAGE", $image);
+						$img_tpl->setvariable("IMAGE_LENS", $image_lens);
+						$img_tpl->parseCurrentBlock();
+
+						$a_info->addProperty($file["name"], $img_tpl->get());
 						break;
 					case "video":
 					case "audio":
