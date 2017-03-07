@@ -13960,6 +13960,30 @@ if ($ilDB->tableExists('page_style_usage_old'))
 <?php
 //page_question adding primary key
 
+// fixes duplicate entries
+$set1 = $ilDB->query("SELECT DISTINCT user_id FROM personal_pc_clipboard ORDER BY user_id");
+
+while ($r1 = $ilDB->fetchAssoc($set1))
+{
+	$set2 = $ilDB->query("SELECT * FROM personal_pc_clipboard WHERE user_id = ".$ilDB->quote($r1["user_id"], "integer").
+		" ORDER BY insert_time ASC");
+	$new_recs = array();
+	while ($r2 = $ilDB->fetchAssoc($set2))
+	{
+		$new_recs[$r2["user_id"].":".$r2["insert_time"].":".$r2["order_nr"]] = $r2;
+	}
+	$ilDB->manipulate("DELETE FROM personal_pc_clipboard WHERE user_id = ".$ilDB->quote($r1["user_id"], "integer"));
+	foreach ($new_recs as $r)
+	{
+		$ilDB->insert("personal_pc_clipboard", array(
+			"user_id" => array("integer", $r["user_id"]),
+			"content" => array("clob", $r["content"]),
+			"insert_time" => array("timestamp", $r["insert_time"]),
+			"order_nr" => array("integer", $r["order_nr"])
+			));
+	}
+}
+
 if( $ilDB->indexExistsByFields('personal_pc_clipboard', array('user_id')) )
 {
 	$ilDB->dropIndexByFields('obj_stat', array('user_id'));
