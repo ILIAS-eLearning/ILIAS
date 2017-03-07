@@ -61,6 +61,7 @@ class ilECSMappingUtils
 		foreach(
 			array(
 				'organisation',
+				'orgunit',
 				'term',
 				'title',
 				'lecturer',
@@ -106,6 +107,13 @@ class ilECSMappingUtils
 				
 			case 'title':
 				return (string) $course->title;
+				
+			case 'orgunit':
+				foreach((array) $course->organisationalUnits as $unit)
+				{
+					return (string) $unit->title;
+				}
+				return '';
 				
 			case 'lecturer':
 				foreach((array) $course->groups as $group)

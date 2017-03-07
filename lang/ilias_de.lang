@@ -12412,6 +12412,7 @@ ecs#:#ecs_cmap_att_organisation#:#Organisation
 ecs#:#ecs_cmap_att_term#:#Semester
 ecs#:#ecs_cmap_att_title#:#Veranstaltungstitel
 ecs#:#ecs_cmap_att_lecturer#:#Lehrperson
+ecs#:#ecs_cmap_att_orgunit#:#Organisationseinheit
 ecs#:#ecs_cmap_atts_table#:#Konfiguration der Zuordnungs-Attribute
 ecs#:#ecs_cmap_attributes#:#Attribute
 ecs#:#ecs_cmap_overview#:#Zuordnungsübersicht
