@@ -53,8 +53,8 @@ class ilExAssignmentEditorGUI
 				$this->setAssignmentHeader();
 				$ilTabs->activateTab("ass_files");
 				
-				include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-				$fstorage = new ilFSStorageExercise($this->exercise_id, $this->assignment->getId());
+				include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
+				$fstorage = new ilFSWebStorageExercise($this->exercise_id, $this->assignment->getId());
 				$fstorage->create();
 
 				include_once("./Modules/Exercise/classes/class.ilExAssignmentFileSystemGUI.php");

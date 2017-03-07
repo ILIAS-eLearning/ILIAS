@@ -246,16 +246,62 @@ class ilExAssignmentGUI
 	
 	protected function addFiles(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
 	{		
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $tpl;
 		
 		$files = $a_ass->getFiles();
 		if (count($files) > 0)
 		{
 			$a_info->addSection($lng->txt("exc_files"));
+
+			global $DIC;
+
+			//file has -> name,fullpath,size,ctime
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+			include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
+			include_once "./Services/UIComponent/Modal/classes/class.ilModalGUI.php";
+
 			foreach($files as $file)
 			{
-				$a_info->addProperty($file["name"], $lng->txt("download"), $this->getSubmissionLink("downloadFile", array("file"=>urlencode($file["name"]))));
+				// get mime type
+				$mime = ilObjMediaObject::getMimeType($file['fullpath']);
+
+				list($format,$type) = explode("/",$mime);
+
+
+				switch ($format)
+				{
+					case "image":
+						$item_id = str_replace(".", "", $file['name']);
+
+						$ui_factory = $DIC->ui()->factory();
+						$ui_renderer = $DIC->ui()->renderer();
+
+						$image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'],$file['name']));
+
+						$modal = ilModalGUI::getInstance();
+						$modal->setId($item_id);
+						$modal->setType(ilModalGUI::TYPE_LARGE);
+						$modal->setBody($image);
+						$modal = $modal->getHTML();
+						$command = "$('#".$item_id."').modal('show')";
+						$image_lens = "<img src='".ilUtil::getImagePath("enlarge.svg")."' onClick=".$command." align='right'>";
+						$image_pack = $image.$image_lens.$modal;
+						$a_info->addProperty($file["name"], $image_pack);
+						break;
+					case "video":
+					case "audio":
+						$mp = new ilMediaPlayerGUI();
+						$mp->setFile($file['fullpath']);
+						$media = $mp->getMediaPlayerHtml();
+						//$media2 = $mp->getPreviewHtml();
+						$a_info->addProperty($file["name"], $media);
+						break;
+					default:
+						$a_info->addProperty($file["name"], $lng->txt("download"), $this->getSubmissionLink("downloadFile", array("file"=>urlencode($file["name"]))));
+						break;
+				}
 			}
+
 		}			
 	}
 
@@ -306,7 +352,9 @@ class ilExAssignmentGUI
 	protected function addSubmissionFeedback(ilInfoScreenGUI $a_info, ilExAssignment $a_ass, $a_feedback_id, $a_show_global_feedback)
 	{
 		global $lng;
-		
+
+		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+
 		$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());					
 		$cnt_files = $storage->countFeedbackFiles($a_feedback_id);
 		
