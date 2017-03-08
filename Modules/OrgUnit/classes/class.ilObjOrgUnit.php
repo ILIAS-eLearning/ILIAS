@@ -475,18 +475,13 @@ class ilObjOrgUnit extends ilContainer {
 
 	public function initDefaultRoles() {
 		global $DIC;
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
-		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		$role = new ilObjRole();
-		$role->setTitle("il_orgu_employee_" . $this->getRefId());
-		$role->setDescription("Emplyee of org unit obj_no." . $this->getId());
-		$role->create();
-
-		$GLOBALS['DIC']['rbacadmin']->assignRoleToFolder($role->getId(), $this->getRefId(), 'y');
 
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$role_emp = ilObjRole::createDefaultRole('il_orgu_employee_'
+		                                         . $this->getRefId(), "Emplyee of org unit obj_no."
+		                                                              . $this->getId(), 'il_orgu_superior', $this->getRefId());
+
 		$role_sup = ilObjRole::createDefaultRole('il_orgu_superior_'
 		                                         . $this->getRefId(), "Superior of org unit obj_no."
 		                                                              . $this->getId(), 'il_orgu_superior', $this->getRefId());
@@ -495,8 +490,8 @@ class ilObjOrgUnit extends ilContainer {
 			'object'           => $this,
 			'obj_id'           => $this->getId(),
 			'ref_id'           => $this->getRefId(),
-			'role_superior_id' => $role->getId(),
-			'role_employee_id' => $role_sup->getId(),
+			'role_superior_id' => $role_sup->getId(),
+			'role_employee_id' => $role_emp->getId(),
 		));
 	}
 
