@@ -365,7 +365,7 @@ class ilAdministrationGUI
 				= $object;
 			// have to set it manually as translation type of main node cannot be "sys" as this type is a orgu itself.
 			if($object["type"] == "orgu")
-				$new_objects[$object["title"].":".$object["child"]]["title"] = $lng->txt("obj_orgu");
+				$new_objects[$object["title"].":".$object["child"]]["title"] = $lng->txt("objs_orgu");
 		}
 
 		// add entry for switching to repository admin
