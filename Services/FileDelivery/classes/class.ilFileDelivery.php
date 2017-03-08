@@ -750,7 +750,7 @@ class ilFileDelivery {
 		 * @var $ilClientIniFile ilIniFile
 		 */
 
-		if ($ilClientIniFile->readVariable('file_access', 'disable_ascii')) {
+		if ($ilClientIniFile instanceof ilIniFile && $ilClientIniFile->readVariable('file_access', 'disable_ascii')) {
 			$this->setConvertFileNameToAsci(false);
 			$this->setUrlencodeFilename(false);
 		}
