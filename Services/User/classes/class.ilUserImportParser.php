@@ -1354,7 +1354,7 @@ class ilUserImportParser extends ilSaxParser
 							}
 							
 							$updateUser->setProfileIncomplete($this->checkProfileIncomplete($updateUser));
-
+							$updateUser->setFullname();
 							$updateUser->setTitle($updateUser->getFullname());
 							$updateUser->setDescription($updateUser->getEmail());
 							$updateUser->update();
