@@ -200,6 +200,7 @@ class ilWebAccessChecker {
 				include_once './Services/Context/classes/class.ilContext.php';
 				ilContext::init(ilContext::CONTEXT_WEB_ACCESS_CHECK);
 				require_once("Services/Init/classes/class.ilInitialisation.php");
+				$GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, ANONYMOUS_USER_ID);
 				ilInitialisation::reinitILIAS();
 				$this->checkPublicSection();
 				$this->checkUser();

@@ -1885,97 +1885,12 @@ class ilObjGroupGUI extends ilContainerGUI
 		return $lg;
 	}	
 	
-	function printMembersObject()
-	{		
-		global $ilTabs;
-		
-		$this->checkPermission('manage_members');
-		
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt('back'),
-			$this->ctrl->getLinkTarget($this, 'members'));
-		
-		$list = $this->initAttendanceList();
-		$form = $list->initForm('printMembersOutput');
-		$this->tpl->setContent($form->getHTML());	
-	}
-	
-	/**
-	 * Init attendance list object
-	 * 
-	 * @return ilAttendanceList 
-	 */
-	protected function initAttendanceList()
-	{
-		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
-		$members_obj = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
-		
-		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
-		$waiting_list = new ilGroupWaitingList($this->object->getId());
-		
-		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
-		$list = new ilAttendanceList($this, $members_obj, $waiting_list);		
-		$list->setId('grpmemlst');
-				
-		$list->setTitle($this->lng->txt('grp_members_print_title'),
-			$this->lng->txt('obj_grp').': '.$this->object->getTitle());		
-						
-		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
-		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
-			ilObjUserTracking::_enabledUserRelatedData());		
-		if($this->show_tracking)
-		{
-			include_once('./Services/Object/classes/class.ilObjectLP.php');
-			$olp = ilObjectLP::getInstance($this->object->getId());
-			$this->show_tracking = $olp->isActive();
-		}	
-		if($this->show_tracking)
-		{
-			$this->lng->loadLanguageModule('trac');		
-			$list->addPreset('progress', $this->lng->txt('learning_progress'), true);
-		}
-		
-		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-		$privacy = ilPrivacySettings::_getInstance();
-		if($privacy->enabledGroupAccessTimes())
-		{
-			$list->addPreset('access', $this->lng->txt('last_access'), true);
-		}
-		
-		return $list;
-	}
-	
-	public function getAttendanceListUserData($a_user_id)
-	{		
-		$data = $this->members_data[$a_user_id];
-		$data['access'] = $data['access_time'];
-		$data['progress'] = $this->lng->txt($data['progress']);
-		
-		return $data;
-	}
-	
-	function printMembersOutputObject()
-	{				
-		$list = $this->initAttendanceList();		
-		$list->initFromForm();
-		$list->setCallback(array($this, 'getAttendanceListUserData'));	
-		
-		$part = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
-		$this->members_data = $this->readMemberData($part->getParticipants());
-		$this->members_data = $this->addCustomData($this->members_data);
-		
-		$list->getNonMemberUserData($this->members_data);
-		
-		echo $list->getFullscreenHTML();
-		exit();	
-	}
-	
 	
 	/**
 	 * 
 	 * @param array $a_data
 	 */
-	protected function addCustomData($a_data)
+	public function addCustomData($a_data)
 	{
 		// object defined fields
 		include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');

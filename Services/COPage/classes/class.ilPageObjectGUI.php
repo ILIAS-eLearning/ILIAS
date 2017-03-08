@@ -1706,6 +1706,7 @@ return;
 		$cfg = $this->getPageConfig();
 
 		$current_ts = time();
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
 		// added UTF-8 encoding otherwise umlaute are converted too
 		include_once("./Services/Maps/classes/class.ilMapUtil.php");
@@ -1755,8 +1756,9 @@ return;
 						 'enable_consultation_hours' =>  $cfg->getEnablePCType("ConsultationHours") ? "y" : "n",
 						 'enable_my_courses' =>  $cfg->getEnablePCType("MyCourses") ? "y" : "n",
 						 'enable_amd_page_list' =>  $cfg->getEnablePCType("AMDPageList") ? "y" : "n",
-						 'flv_video_player' => $flv_video_player,
-						 'current_ts' => $current_ts
+						 'current_ts' => $current_ts,
+			 			 'enable_html_mob' =>  ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
+						 'flv_video_player' => $flv_video_player
 						);
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;

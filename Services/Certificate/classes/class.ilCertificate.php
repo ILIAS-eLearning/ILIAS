@@ -36,13 +36,6 @@ class ilCertificate
 	protected $ilias;
 
 	/**
-	* The reference to the Template class
-	*
-	* @var ilTemplate
-	*/
-	protected $tpl;
-
-	/**
 	* The reference to the Language class
 	*
 	* @var ilLanguage
@@ -85,7 +78,6 @@ class ilCertificate
 		global $DIC;
 
 		$this->lng      = $DIC['lng'];
-		$this->tpl      = $DIC['tpl'];
 		$this->ctrl     = $DIC['ilCtrl'];
 		$this->ilias    = $DIC['ilias'];
 		$this->tree     = $DIC['tree'];

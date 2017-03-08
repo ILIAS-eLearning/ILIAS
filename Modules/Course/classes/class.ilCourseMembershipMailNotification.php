@@ -57,7 +57,8 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 	 */
 	public function send()
 	{
-		if( (int) $this->getRefId() &&
+		if( 
+			(int) $this->getRefId() &&
 			in_array($this->getType(), array(self::TYPE_ADMISSION_MEMBER)) )
 		{
 			$obj = ilObjectFactory::getInstanceByRefId( (int) $this->getRefId() );

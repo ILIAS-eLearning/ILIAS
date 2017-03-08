@@ -3,7 +3,6 @@
 
 include_once("./Services/Object/classes/class.ilObject2.php");
 require_once('./Services/Component/classes/class.ilPlugin.php');
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /*
 * Object class for plugins. This one wraps around ilObject

@@ -59,7 +59,7 @@ http://www.ilias.de/docu/goto_docu_pg_6531_367.html (II. General Requirements)
 
     - Apache 1.3.44            http://www.apache.org
     - MySQL 5.1.32             http://www.mysql.com
-    - PHP 5.3.27               http://www.php.net
+    - PHP 5.5.x-5.6.x 7.0.x    http://www.php.net
     - Zlib (libz) 1.1.4        http://www.gzip.org/zlib/
     - libpng 1.2.5             http://www.libpng.org
     - libjpeg 6b               ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
@@ -641,8 +641,8 @@ for more information.
 
     cd /opt/ilias/www/htdocs/ilias
     rm *.php *.xml *.dtd *.css
-    rm -r classes content css docs images include java lang layouts
-    rm -r modules setup sql templates xml assessment chat tracking
+    rm -r classes content css docs images include java lang layouts lib
+    rm -r modules setup sql src sso templates xml assessment chat tracking
     rm -r survey syntax_highlight course payment webservice ilinc link
 	rm -r cron Services calendar Modules
 
@@ -663,8 +663,8 @@ copy various files and directories to your ILIAS web directory:
 
     cd /tmp/ilias
     cp -p * /opt/ilias/www/htdocs/ilias/
-    cp -rp classes cron docs include lang /opt/ilias/www/htdocs/ilias/
-    cp -rp Modules Services setup templates /opt/ilias/www/htdocs/ilias/
+    cp -rp classes cron docs include lang libs /opt/ilias/www/htdocs/ilias/
+    cp -rp Modules Services setup src sso templates /opt/ilias/www/htdocs/ilias/
     cp -rp webservice xml /opt/ilias/www/htdocs/ilias/
 
 Please ignore any 'File exists' error messages. After all files have been copied

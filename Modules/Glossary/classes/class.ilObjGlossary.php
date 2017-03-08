@@ -21,9 +21,19 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 {
 
 	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
 	 * @var array
 	 */
 	var $auto_glossaries = array();
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
 
 	/**
 	* Constructor
@@ -31,6 +41,10 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
 		$this->type = "glo";
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -40,8 +54,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function create($a_upload = false)
 	{
-		global $ilDB;
-
 		parent::create();
 		
 		// meta data will be created by
@@ -50,13 +62,13 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		{
 			$this->createMetaData();
 		}
-		
-		$ilDB->manipulate("INSERT INTO glossary (id, is_online, glossary.virtual, pres_mode, snippet_length) VALUES (".
-			$ilDB->quote($this->getId(), "integer").",".
-			$ilDB->quote("n", "text").",".
-			$ilDB->quote($this->getVirtualMode(), "text").",".
-			$ilDB->quote("table", "text").",".
-			$ilDB->quote(200, "integer").
+
+		$this->db->manipulate("INSERT INTO glossary (id, is_online, glossary.virtual, pres_mode, snippet_length) VALUES (".
+			$this->db->quote($this->getId(), "integer").",".
+			$this->db->quote("n", "text").",".
+			$this->db->quote($this->getVirtualMode(), "text").",".
+			$this->db->quote("table", "text").",".
+			$this->db->quote(200, "integer").
 			")");
 		$this->setPresentationMode("table");
 		$this->setSnippetLength(200);
@@ -76,15 +88,13 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function read()
 	{
-		global $ilDB;
-		
 		parent::read();
 #		echo "Glossary<br>\n";
 
 		$q = "SELECT * FROM glossary WHERE id = ".
-			$ilDB->quote($this->getId(), "integer");
-		$gl_set = $ilDB->query($q);
-		$gl_rec = $ilDB->fetchAssoc($gl_set);
+			$this->db->quote($this->getId(), "integer");
+		$gl_set = $this->db->query($q);
+		$gl_rec = $this->db->fetchAssoc($gl_set);
 		$this->setOnline(ilUtil::yn2tf($gl_rec["is_online"]));
 		$this->setVirtualMode($gl_rec["virtual"]);
 		$this->setPublicExportFile("xml", $gl_rec["public_xml_file"]);
@@ -99,11 +109,11 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
 		// read auto glossaries
-		$set = $ilDB->query("SELECT * FROM glo_glossaries ".
-			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
+		$set = $this->db->query("SELECT * FROM glo_glossaries ".
+			" WHERE id = ".$this->db->quote($this->getId(), "integer")
 		);
 		$glos = array();
-		while ($rec = $ilDB->fetchAssoc($set))
+		while ($rec = $this->db->fetchAssoc($set))
 		{
 			$glos[] = $rec["glo_id"];
 		}
@@ -244,12 +254,14 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	static function _lookupOnline($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$db = $DIC->database();
 
 		$q = "SELECT is_online FROM glossary WHERE id = ".
-			$ilDB->quote($a_id, "integer");
-		$lm_set = $ilDB->query($q);
-		$lm_rec = $ilDB->fetchAssoc($lm_set);
+			$db->quote($a_id, "integer");
+		$lm_set = $db->query($q);
+		$lm_rec = $db->fetchAssoc($lm_set);
 
 		return ilUtil::yn2tf($lm_rec["is_online"]);
 	}
@@ -262,11 +274,13 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	static protected function lookup($a_id, $a_property)
 	{
-		global $ilDB;
+		global $DIC;
 
-		$set = $ilDB->query("SELECT $a_property FROM glossary WHERE id = ".
-			$ilDB->quote($a_id, "integer"));
-		$rec = $ilDB->fetchAssoc($set);
+		$db = $DIC->database();
+
+		$set = $db->query("SELECT $a_property FROM glossary WHERE id = ".
+			$db->quote($a_id, "integer"));
+		$rec = $db->fetchAssoc($set);
 
 		return $rec[$a_property];
 	}
@@ -396,21 +410,19 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function update()
 	{
-		global $ilDB;
-		
 		$this->updateMetaData();
 
-		$ilDB->manipulate("UPDATE glossary SET ".
-			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline()), "text").",".
-			" glossary.virtual = ".$ilDB->quote($this->getVirtualMode(), "text").",".
-			" public_xml_file = ".$ilDB->quote($this->getPublicExportFile("xml"), "text").",".
-			" public_html_file = ".$ilDB->quote($this->getPublicExportFile("html"), "text").",".
-			" glo_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveGlossaryMenu()), "text").",".
-			" downloads_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads()), "text").", ".
-			" pres_mode = ".$ilDB->quote($this->getPresentationMode(), "text").", ".
-			" show_tax = ".$ilDB->quote((int) $this->getShowTaxonomy(), "integer").", ".
-			" snippet_length = ".$ilDB->quote((int)$this->getSnippetLength(), "integer")." ".
-			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
+		$this->db->manipulate("UPDATE glossary SET ".
+			" is_online = ".$this->db->quote(ilUtil::tf2yn($this->getOnline()), "text").",".
+			" glossary.virtual = ".$this->db->quote($this->getVirtualMode(), "text").",".
+			" public_xml_file = ".$this->db->quote($this->getPublicExportFile("xml"), "text").",".
+			" public_html_file = ".$this->db->quote($this->getPublicExportFile("html"), "text").",".
+			" glo_menu_active = ".$this->db->quote(ilUtil::tf2yn($this->isActiveGlossaryMenu()), "text").",".
+			" downloads_active = ".$this->db->quote(ilUtil::tf2yn($this->isActiveDownloads()), "text").", ".
+			" pres_mode = ".$this->db->quote($this->getPresentationMode(), "text").", ".
+			" show_tax = ".$this->db->quote((int) $this->getShowTaxonomy(), "integer").", ".
+			" snippet_length = ".$this->db->quote((int)$this->getSnippetLength(), "integer")." ".
+			" WHERE id = ".$this->db->quote($this->getId(), "integer"));
 		
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
@@ -428,18 +440,16 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function updateAutoGlossaries()
 	{
-		global $ilDB;
-
 		// update auto glossaries
-		$ilDB->manipulate("DELETE FROM glo_glossaries WHERE ".
-			" id = ".$ilDB->quote($this->getId(), "integer")
+		$this->db->manipulate("DELETE FROM glo_glossaries WHERE ".
+			" id = ".$this->db->quote($this->getId(), "integer")
 		);
 		foreach ($this->getAutoGlossaries() as $glo_id)
 		{
-			$ilDB->manipulate("INSERT INTO glo_glossaries ".
+			$this->db->manipulate("INSERT INTO glo_glossaries ".
 				"(id, glo_id) VALUES (".
-				$ilDB->quote($this->getId(), "integer").",".
-				$ilDB->quote($glo_id, "integer").
+				$this->db->quote($this->getId(), "integer").",".
+				$this->db->quote($glo_id, "integer").
 				")");
 		}
 	}
@@ -452,14 +462,16 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	static function lookupAutoGlossaries($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$db = $DIC->database();
 
 		// read auto glossaries
-		$set = $ilDB->query("SELECT * FROM glo_glossaries ".
-			" WHERE id = ".$ilDB->quote($a_id, "integer")
+		$set = $db->query("SELECT * FROM glo_glossaries ".
+			" WHERE id = ".$db->quote($a_id, "integer")
 		);
 		$glos = array();
-		while ($rec = $ilDB->fetchAssoc($set))
+		while ($rec = $db->fetchAssoc($set))
 		{
 			$glos[] = $rec["glo_id"];
 		}
@@ -503,7 +515,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function getAllGlossaryIds($a_include_offline_childs = false)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
 
 		if ($this->isVirtual())
 		{	
@@ -665,7 +679,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function exportHTML($a_target_dir, $log)
 	{
-		global $ilias, $tpl;
+		global $tpl;
 
 		// initialize temporary target directory
 		ilUtil::delDir($a_target_dir);
@@ -681,7 +695,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
 		// export system style sheet
 		$location_stylesheet = ilUtil::getStyleSheetLocation("filesystem");
-		$style_name = $ilias->account->prefs["style"].".css";
+		$style_name = $this->user->prefs["style"].".css";
 		copy($location_stylesheet, $a_target_dir."/".$style_name);
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		
@@ -777,15 +791,13 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function exportHTMLGlossaryTerms(&$a_glo_gui, $a_target_dir)
 	{
-		global $ilUser;
-		
 		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
 		$copage_export = new ilCOPageHTMLExport($a_target_dir);
 		$copage_export->exportSupportScripts();
 		
 		// index.html file
 		$a_glo_gui->tpl = new ilTemplate("tpl.main.html", true, true);
-		$style_name = $ilUser->prefs["style"].".css";;
+		$style_name = $this->user->prefs["style"].".css";;
 		$a_glo_gui->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
 		$a_glo_gui->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$a_glo_gui->tpl->setTitle($this->getTitle());
@@ -815,7 +827,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 			//$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 			
 			// set style
-			$style_name = $ilUser->prefs["style"].".css";;
+			$style_name = $this->user->prefs["style"].".css";;
 			$a_glo_gui->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
 
 			$_GET["term_id"] = $term["id"];
@@ -937,8 +949,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function exportXML(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
 	{
-		global $ilBench;
-
 		// export glossary
 		$attrs = array();
 		$attrs["Type"] = "Glossary";
@@ -978,23 +988,17 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
 		// export media objects
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Media Objects");
-		$ilBench->start("GlossaryExport", "exportMediaObjects");
 		$this->exportXMLMediaObjects($a_xml_writer, $a_inst, $a_target_dir, $expLog);
-		$ilBench->stop("GlossaryExport", "exportMediaObjects");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Media Objects");
 
 		// FileItems
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export File Items");
-		$ilBench->start("ContentObjectExport", "exportFileItems");
 		$this->exportFileItems($a_target_dir, $expLog);
-		$ilBench->stop("ContentObjectExport", "exportFileItems");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export File Items");
 
 		// Glossary
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Glossary Items");
-		$ilBench->start("GlossaryExport", "exportGlossaryItems");
 		$this->exportXMLGlossaryItems($a_xml_writer, $a_inst, $expLog);
-		$ilBench->stop("GlossaryExport", "exportGlossaryItems");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Glossary Items");
 
 		$a_xml_writer->xmlEndTag("ContentObject");
@@ -1008,8 +1012,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function exportXMLGlossaryItems(&$a_xml_writer, $a_inst, &$expLog)
 	{
-		global $ilBench;
-
 		$attrs = array();
 		$a_xml_writer->xmlStartTag("Glossary", $attrs);
 
@@ -1022,20 +1024,14 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		reset($terms);
 		foreach ($terms as $term)
 		{
-			$ilBench->start("GlossaryExport", "exportGlossaryItem");
 			$expLog->write(date("[y-m-d H:i:s] ")."Page Object ".$page["obj_id"]);
 
 			// export xml to writer object
-			$ilBench->start("GlossaryExport", "exportGlossaryItem_getGlossaryTerm");
 			$glo_term = new ilGlossaryTerm($term["id"]);
-			$ilBench->stop("GlossaryExport", "exportGlossaryItem_getGlossaryTerm");
-			$ilBench->start("GlossaryExport", "exportGlossaryItem_XML");
 			$glo_term->exportXML($a_xml_writer, $a_inst);
-			$ilBench->stop("GlossaryExport", "exportGlossaryItem_XML");
 
 			unset($glo_term);
 
-			$ilBench->stop("GlossaryExport", "exportGlossaryItem");
 		}
 
 		$a_xml_writer->xmlEndTag("Glossary");
@@ -1123,8 +1119,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function delete()
 	{
-		global $ilDB;
-		
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
@@ -1148,8 +1142,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$refs->delete();
 
 		// delete glossary data entry
-		$q = "DELETE FROM glossary WHERE id = ".$ilDB->quote($this->getId());
-		$ilDB->query($q);
+		$q = "DELETE FROM glossary WHERE id = ".$this->db->quote($this->getId());
+		$this->db->query($q);
 
 		// delete meta data
 		$this->deleteMetaData();
@@ -1173,7 +1167,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	static function getDeletionDependencies($a_obj_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		$dep = array();
 		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
@@ -1214,8 +1210,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilDB, $ilUser, $ilias;
-
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$this->cloneMetaData($new_obj);
 
@@ -1240,7 +1234,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{
-			$style_obj = $ilias->obj_factory->getInstanceByObjId($style_id);
+			include_once("./Services/Object/classes/class.ilObjectFactory.php");
+			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
 			$new_id = $style_obj->ilClone();
 			$new_obj->setStyleSheetId($new_id);
 			$new_obj->update();
@@ -1300,14 +1295,12 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function removeOfflineGlossaries($a_glo_ids)
 	{
-		global $ilDB;
-		
-		$set = $ilDB->query("SELECT id FROM glossary ".
-			" WHERE ".$ilDB->in("id", $a_glo_ids, false, "integer").
-			" AND is_online = ".$ilDB->quote("y", "text")
+		$set = $this->db->query("SELECT id FROM glossary ".
+			" WHERE ".$this->db->in("id", $a_glo_ids, false, "integer").
+			" AND is_online = ".$this->db->quote("y", "text")
 			);
 		$glo_ids = array();
-		while ($rec = $ilDB->fetchAssoc($set))
+		while ($rec = $this->db->fetchAssoc($set))
 		{
 			$glo_ids[] = $rec["id"];
 		}
@@ -1316,7 +1309,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	
 	public static function getAdvMDSubItemTitle($a_obj_id, $a_sub_type, $a_sub_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		if($a_sub_type == "term")
 		{				
@@ -1377,6 +1372,19 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
 	}
 
+	/**
+	 * Is long text search supported
+	 *
+	 * @return bool
+	 */
+	function supportsLongTextQuery()
+	{
+		if ($this->db->getDBType() == "oracle")
+		{
+			return false;
+		}
+		return true;
+	}
 }
 
 ?>

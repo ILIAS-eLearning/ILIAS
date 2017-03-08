@@ -6,6 +6,7 @@
 /.settings
 /extern
 /Services/PHPUnit/config/cfg.phpunit.php
+/nbproject
 
 # General Patterns
 *.bak

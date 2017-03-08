@@ -54,6 +54,9 @@ abstract class ilMailTemplateContext
 	 */
 	abstract public function getDescription();
 
+	/**
+	 * @return array
+	 */
 	final private static function getGenericPlaceholders()
 	{
 		/**
@@ -77,6 +80,11 @@ abstract class ilMailTemplateContext
 			'login'           => array(
 				'placeholder' => 'LOGIN',
 				'label'       => $lng->txt('mail_nacc_login')
+			),
+			'title'           => array(
+				'placeholder'       => 'TITLE',
+				'label'             => $lng->txt('mail_nacc_title'),
+				'supportsCondition' => true
 			),
 			'ilias_url'       => array(
 				'placeholder' => 'ILIAS_URL',
@@ -164,7 +172,11 @@ abstract class ilMailTemplateContext
 			case ('login' == $placeholder_id && $recipient !== null):
 				$resolved = $recipient->getLogin();
 				break;
-			
+
+			case ('title' == $placeholder_id && $recipient !== null):
+				$resolved = $recipient->getUTitle();
+				break;
+
 			case 'ilias_url' == $placeholder_id:
 				$resolved = ILIAS_HTTP_PATH . '/login.php?client_id=' . CLIENT_ID;
 				break;

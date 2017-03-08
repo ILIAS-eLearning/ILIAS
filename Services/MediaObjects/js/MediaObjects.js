@@ -68,7 +68,7 @@ il.MediaObjects = {
 				il.MediaObjects.current_player_id = audio_el.attr('id');
 				il.MediaObjects.current_player = player;
 			} else {
-				
+
 				// image?
 				if ($(t).hasClass('ilPlayerPreviewImage')) {
 					$(t).find('.ilPlayerPreviewOverlay').addClass('ilNoDisplay');
@@ -87,6 +87,22 @@ il.MediaObjects = {
 					il.MediaObjects.current_player_id = img_el.attr('id');
 					
 					il.MediaObjects.playerStarted(il.MediaObjects.current_player_id);
+				} else {
+					$(t).find('.ilPlayerPreviewOverlay').addClass('ilNoDisplay');
+					o_el = $(t).find('object');
+					il.Lightbox.activateView('media_lightbox');
+					location.hash = "detail";
+					il.MediaObjects.lb_opened = true;
+					o_el_wrap = $('#' + o_el.attr('id') + "_vtwrap");
+					//il.Lightbox.onDeactivation('media_lightbox', il.MediaObjects.onLightboxDeactivation);
+//console.log(img_el);
+					o_el_wrap.removeClass('ilNoDisplay');
+					o_el.removeClass('ilNoDisplay');
+					il.Lightbox.loadWrapperToLightbox(o_el.attr('id') + "_wrapper", "media_lightbox");
+					//video_el_wrap.removeClass('ilNoDisplay');
+					il.MediaObjects.current_player_id = o_el.attr('id');
+
+					//il.MediaObjects.playerStarted(il.MediaObjects.current_player_id);
 				}
 			}
 		}
@@ -134,7 +150,9 @@ il.MediaObjects = {
 				// the next line currently fails on safari if a flv file has been called:
 				// TypeError: 'undefined' is not a function (evaluating 'this.pluginApi.pauseMedia()'), see also:
 				// http://stackoverflow.com/questions/10487575/show-hiding-video-container-produces-pluginapi-errors-mediaelement-js
-				il.MediaObjects.current_player.pause();
+				if (il.MediaObjects.current_player) {
+					il.MediaObjects.current_player.pause();
+				}
 			}
 		}
 	},

@@ -1316,7 +1316,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$members_obj = $this->initContainer(true);
 		
 		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
-		$list = new ilAttendanceList($this, $members_obj);	
+		$list = new ilAttendanceList(
+			$this, 
+			$this->object,
+			$members_obj);	
 		$list->setId('sessattlst');
 		
 		$event_app = $this->object->getFirstAppointment();				 

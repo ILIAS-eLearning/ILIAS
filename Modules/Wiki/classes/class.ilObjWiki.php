@@ -918,7 +918,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 			$new_obj->setOnline($this->getOnline());
 		}
 	 	
-		$new_obj->setTitle($this->getTitle());
+		//$new_obj->setTitle($this->getTitle());		// see #20074
 		$new_obj->setStartPage($this->getStartPage());
 		$new_obj->setShortTitle($this->getShortTitle());
 		$new_obj->setRatingOverall($this->getRatingOverall());
