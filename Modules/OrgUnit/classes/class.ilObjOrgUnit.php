@@ -546,6 +546,16 @@ class ilObjOrgUnit extends ilContainer {
 		       . $ilDB->quote($this->getId(), 'integer');
 		$ilDB->manipulate($sql);
 
+		if (!$this->employee_role || !$this->superior_role) {
+			$this->doLoadRoles();
+		}
+		$emp = new ilObjRole($this->employee_role);
+		$emp->setParent($this->getRefId());
+		$emp->delete();
+		$sup = new ilObjRole($this->superior_role);
+		$sup->setParent($this->getRefId());
+		$sup->delete();
+
 		return true;
 	}
 
