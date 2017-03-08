@@ -34,23 +34,25 @@ class ilECSCourseMemberAssignment
 	/**
 	 * Lookup missing assignments;
 	 * @global type $ilDB
-	 * @param type $a_usr_id
-	 * @return type
+	 * @param string account
+	 * @return ilECSCourseMemberAssignment[]
 	 */
 	public static function lookupMissingAssignmentsOfUser($a_usr_id)
 	{
 		global $ilDB;
 		
-		$query = 'SELECT obj_id FROM ecs_course_assignments '.
+		$query = 'SELECT id FROM ecs_course_assignments '.
 				'WHERE usr_id = '.$ilDB->quote($a_usr_id,'text');
 		$res = $ilDB->query($query);
 		
 		$obj_ids = array();
+		
+		$assignments = array();
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			$obj_ids[] = $row->obj_id;
+			$assignments[] = new self($row->id);
 		}
-		return $obj_ids;
+		return $assignments;
 	}
 	
 	/**
