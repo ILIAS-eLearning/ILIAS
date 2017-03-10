@@ -681,6 +681,7 @@ class ilObjFile extends ilObject2 {
 			require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
 
 			$ilFileDelivery = new ilFileDelivery($file);
+			$ilFileDelivery->setDeliveryType(ilFileDelivery::DELIVERY_METHOD_PHP); // always use PHP in ILIAS 5.1
 			$ilFileDelivery->setDisposition($this->isInline() ? ilFileDelivery::DISP_INLINE : ilFileDelivery::DISP_ATTACHMENT);
 			$ilFileDelivery->setMimeType($this->guessFileType($file));
 			$ilFileDelivery->setConvertFileNameToAsci(true);
