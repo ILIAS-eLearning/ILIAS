@@ -442,8 +442,8 @@ class ilObjOrgUnit extends ilContainer {
 			'object'           => $this,
 			'obj_id'           => $this->getId(),
 			'ref_id'           => $this->getRefId(),
-			'role_superior_id' => $role_emp->getId(),
-			'role_employee_id' => $role_sup->getId(),
+			'role_superior_id' => $role_sup->getId(),
+			'role_employee_id' => $role_emp->getId(),
 		));
 	}
 
