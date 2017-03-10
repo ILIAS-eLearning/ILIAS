@@ -234,14 +234,14 @@ class ilFileXMLParser extends ilSaxParser
 				$baseDecodedFilename = ilUtil::ilTempnam();
 				if ($this->mode == ilFileXMLParser::$CONTENT_COPY)
 				{
-					$this->tmpFilename = $this->getImportDirectory()."/".$this->cdata;
+					$this->tmpFilename = $this->getImportDirectory()."/".self::normalizeRelativePath($this->cdata);
 				}
 				// begin-patch fm
 				elseif($this->mode == ilFileXMLParser::$CONTENT_REST)
 				{
 					include_once './Services/WebServices/Rest/classes/class.ilRestFileStorage.php';
 					$storage = new ilRestFileStorage();
-					$this->tmpFilename = $storage->getStoredFilePath($this->cdata);
+					$this->tmpFilename = $storage->getStoredFilePath(self::normalizeRelativePath($this->cdata));
 					if(!ilFileUtils::fastBase64Decode($this->tmpFilename, $baseDecodedFilename))
 					{
 						throw new ilFileException("Base64-Decoding failed", ilFileException::$DECOMPRESSION_FAILED);
