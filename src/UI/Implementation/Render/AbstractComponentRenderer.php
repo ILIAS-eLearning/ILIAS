@@ -146,7 +146,8 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 			$signal = $triggered_signal->getSignal();
 			$event = $triggered_signal->getEvent();
 			$this->js_binding->addOnLoadCode("$('#{$id}').{$event}( function(event) { 
-					$('#{$id}').trigger('{$signal}'); event.preventDefault();
+					$('#{$id}').trigger('{$signal}');
+					if (typeof event.preventDefault === 'function') { event.preventDefault(); }
 				});");
 		}
 	}

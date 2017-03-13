@@ -14,7 +14,7 @@ il.UI = il.UI || {};
         var showModal = function (id, options) {
             options = $.extend(defaultShowOptions, options);
             if (options.ajaxRenderUrl) {
-                var $container = $(id);
+                var $container = $('#' + id);
                 $container.load(options.ajaxRenderUrl, function() {
                     var $modal = $(this).find('.modal');
                     if ($modal.length) {
@@ -22,13 +22,13 @@ il.UI = il.UI || {};
                     }
                 });
             } else {
-                var $modal = $(id);
+                var $modal = $('#' + id);
                 $modal.modal(options);
             }
         };
 
         var closeModal = function (id) {
-            $(id).modal('close');
+            $('#' + id).modal('close');
         };
 
         return {

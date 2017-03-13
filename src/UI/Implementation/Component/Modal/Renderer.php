@@ -56,8 +56,8 @@ class Renderer extends AbstractComponentRenderer {
 			'keyboard' => $modal->getCloseWithKeyboard(),
 		));
 		$js->addOnLoadCode("
-			$(document).on('{$show}', function() { il.UI.modal.showModal({$id}, {$options}); return false; });
-			$(document).on('{$close}', function() { il.UI.modal.closeModal({$id}); return false; });"
+			$(document).on('{$show}', function() { il.UI.modal.showModal('{$id}', {$options}); return false; });
+			$(document).on('{$close}', function() { il.UI.modal.closeModal('{$id}'); return false; });"
 		);
 	}
 
