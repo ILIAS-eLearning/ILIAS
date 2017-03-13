@@ -678,17 +678,20 @@ class ilObjFile extends ilObject2 {
 			/**
 			 * @var $ilClientIniFile ilIniFile
 			 */
-			require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
+			/*require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
+
+			// 
 
 			$ilFileDelivery = new ilFileDelivery($file);
 			$ilFileDelivery->setDeliveryType(ilFileDelivery::DELIVERY_METHOD_PHP); // always use PHP in ILIAS 5.1
 			$ilFileDelivery->setDisposition($this->isInline() ? ilFileDelivery::DISP_INLINE : ilFileDelivery::DISP_ATTACHMENT);
 			$ilFileDelivery->setMimeType($this->guessFileType($file));
-			$ilFileDelivery->setConvertFileNameToAsci(true);
+			$ilFileDelivery->setConvertFileNameToAsci(true);*/
 
 			// also returning the 'real' filename if a history file is delivered
 			if ($ilClientIniFile->readVariable('file_access', 'download_with_uploaded_filename') != '1' && is_null($a_hist_entry_id)) {
-				$ilFileDelivery->setDownloadFileName($this->getTitle());
+				// $ilFileDelivery->setDownloadFileName($this->getTitle());
+				ilUtil::deliverFile($file, $this->getTitle(), $this->guessFileType($file), $this->isInline());
 			} else {
 				// $download_file_name = basename($file);
 				/* FSX Info: basename has a Bug with Japanese and other characters, see:
@@ -696,9 +699,10 @@ class ilObjFile extends ilObject2 {
 				 * Therefore we can no longer use basename();
 				 */
 				$download_file_name = end(explode(DIRECTORY_SEPARATOR, $file));
-				$ilFileDelivery->setDownloadFileName($download_file_name);
+				// $ilFileDelivery->setDownloadFileName($download_file_name);
+				ilUtil::deliverFile($file, $download_file_name, $this->guessFileType($file), $this->isInline());
 			}
-			$ilFileDelivery->deliver();
+			// $ilFileDelivery->deliver();
 
 			return true;
 		}
