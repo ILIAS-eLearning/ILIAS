@@ -137,15 +137,16 @@ class ilLOEditorGUI
 				include_once 'Modules/Course/classes/Objectives/class.ilLOPageGUI.php';
 				$pgui = new ilLOPageGUI($objtv_id);										
 				$pgui->setPresentationTitle(ilCourseObjective::lookupObjectiveTitle($objtv_id));
-				
-				// needed for editor?
+
 				include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
-				$pgui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));	
+				$pgui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+					$this->parent_obj->getStyleSheetId(), $this->parent_obj->getType()));
 				
 				// #14895
 				$GLOBALS['tpl']->setCurrentBlock("ContentStyle");
 				$GLOBALS['tpl']->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath(0));
+					ilObjStyleSheet::getContentStylePath(ilObjStyleSheet::getEffectiveContentStyleId(
+						$this->parent_obj->getStyleSheetId(), $this->parent_obj->getType())));
 				$GLOBALS['tpl']->parseCurrentBlock();
 				
 				$ret = $this->ctrl->forwardCommand($pgui);

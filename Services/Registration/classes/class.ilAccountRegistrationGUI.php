@@ -280,19 +280,21 @@ class ilAccountRegistrationGUI
 
 		
 		// custom validation
-				
 		$valid_code = $valid_role = false;
 		 		
-		// code		
+		// code	
 		if($this->code_enabled)
 		{
 			$code = $this->form->getInput('usr_registration_code');			
 			// could be optional
-			if($code)
+			if(
+				$this->registration_settings->registrationCodeRequired() ||
+				strlen($code)
+			)
 			{				
 				// code validation
-				include_once './Services/Registration/classes/class.ilRegistrationCode.php';										
-				if(!ilRegistrationCode::isUnusedCode($code))
+				include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+				if(!ilRegistrationCode::isValidRegistrationCode($code))
 				{
 					$code_obj = $this->form->getItemByPostVar('usr_registration_code');
 					$code_obj->setAlert($lng->txt('registration_code_not_valid'));
@@ -309,7 +311,7 @@ class ilAccountRegistrationGUI
 						$valid_role = $role_id;
 					}
 				}
-			}			
+			}
 		}
 		
 		// valid codes override email domain check
@@ -687,6 +689,10 @@ class ilAccountRegistrationGUI
 			$hits_per_page = 10;
 		}
 		$this->userObj->setPref("hits_per_page", $hits_per_page);
+		if(strlen($_GET['target']) > 0)
+		{
+			$this->userObj->setPref('reg_target', ilUtil::stripSlashes($_GET['target']));
+		}
 		/*$show_online = $ilSetting->get("show_users_online");
 		if ($show_online == "")
 		{

@@ -66,7 +66,7 @@ class ilFileDelivery {
 	/**
 	 * @var bool
 	 */
-	protected $convert_file_name_to_asci = false;
+	protected $convert_file_name_to_asci = true;
 	/**
 	 * @var string
 	 */
@@ -87,6 +87,14 @@ class ilFileDelivery {
 	 * @var bool
 	 */
 	protected $hash_filename = false;
+	/**
+	 * @var bool
+	 */
+	protected $delete_file = false;
+	/**
+	 * @var bool
+	 */
+	protected $urlencode_filename = false;
 	/**
 	 * @var bool
 	 */
@@ -242,7 +250,7 @@ class ilFileDelivery {
 		}
 		$download_file_name = $this->getDownloadFileName();
 		if ($this->isConvertFileNameToAsci()) {
-			$download_file_name = ilUtil::getASCIIFilename($download_file_name);
+			$download_file_name = self::returnASCIIFileName($download_file_name);
 		}
 		if ($this->hasHashFilename()) {
 			$download_file_name = md5($download_file_name);
@@ -736,8 +744,23 @@ class ilFileDelivery {
 	}
 
 
-	protected function cleanDownloadFileName() {
-		$download_file_name = self::returnASCIIFileName($this->getDownloadFileName());
+	public function cleanDownloadFileName() {
+		global $ilClientIniFile;
+		/**
+		 * @var $ilClientIniFile ilIniFile
+		 */
+
+		if ($ilClientIniFile instanceof ilIniFile && $ilClientIniFile->readVariable('file_access', 'disable_ascii')) {
+			$this->setConvertFileNameToAsci(false);
+			$this->setUrlencodeFilename(false);
+		}
+		$download_file_name = $this->getDownloadFileName();
+		if ($this->isConvertFileNameToAsci()) {
+			$download_file_name = self::returnASCIIFileName($download_file_name);
+		}
+		if ($this->isUrlencodeFilename()) {
+			$download_file_name = urlencode($download_file_name);
+		}
 		$this->setDownloadFileName($download_file_name);
 	}
 
@@ -750,6 +773,36 @@ class ilFileDelivery {
 		return ilUtil::getASCIIFilename($original_name);
 		//		return iconv("UTF-8", "ASCII//TRANSLIT", $original_name); // proposal
 	}
-}
 
-?>
+
+	/**
+	 * @return boolean
+	 */
+	public function isDeleteFile() {
+		return $this->delete_file;
+	}
+
+
+	/**
+	 * @param boolean $delete_file
+	 */
+	public function setDeleteFile($delete_file) {
+		$this->delete_file = $delete_file;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isUrlencodeFilename() {
+		return $this->urlencode_filename;
+	}
+
+
+	/**
+	 * @param bool $urlencode_filename
+	 */
+	public function setUrlencodeFilename($urlencode_filename) {
+		$this->urlencode_filename = $urlencode_filename;
+	}
+}

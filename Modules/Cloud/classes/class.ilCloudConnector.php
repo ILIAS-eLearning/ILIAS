@@ -116,10 +116,10 @@ class ilCloudConnector
      * @param int $obj_id
      * @return ilCloudPlugin
      */
-    public static function getPluginClass($service_name, $obj_id)
+    public static function getPluginClass($service_name, $obj_id, $cloud_module_object = null)
     {
         $class_name = ilCloudConnector::getFullClassName($service_name, "");
-        return new $class_name($service_name, $obj_id);
+        return new $class_name($service_name, $obj_id, $cloud_module_object);
     }
 
     /**

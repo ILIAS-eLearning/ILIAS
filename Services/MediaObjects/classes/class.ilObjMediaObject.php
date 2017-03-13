@@ -1653,7 +1653,7 @@ class ilObjMediaObject extends ilObject
 		}
 		$media_item->setHAlign("Left");
 
-		ilUtil::renameExecutables($mob_dir);
+		self::renameExecutables($mob_dir);
 		$media_object->update();
 
 		return $media_object;
@@ -1672,7 +1672,7 @@ class ilObjMediaObject extends ilObject
 		}
 		ilUtil::makeDirParents($dir);
 		ilUtil::moveUploadedFile($tmp_name, $a_name, $dir."/".$a_name, true, $a_mode);
-		ilUtil::renameExecutables($mob_dir);
+		self::renameExecutables($mob_dir);
 	}
 	
 	/**
@@ -1802,27 +1802,73 @@ class ilObjMediaObject extends ilObject
 	}
 	
 	/**
-	 * Get restricted file types
+	 * Get restricted file types (this is for the input form, this list will be empty, if "allowed list" is empty)
 	 */
 	static function getRestrictedFileTypes()
 	{
-		$mset = new ilSetting("mobs");		
-		$str = $mset->get("restricted_file_types");
-		$types = explode(",", $str);
-		$suffixes = array();
-		if (count($types) > 0)
-		{
-			foreach ($types as $k => $t)
-			{
-				if (($s = strtolower(trim($t))) != "")
-				{
-					$suffixes[] = $s;
-				}
-			}
-		}
-		return $suffixes;
+		return array_filter(self::getAllowedFileTypes(), function ($v) {
+			return !in_array($v, self::getForbiddenFileTypes());
+		});
 	}
 	
+	/**
+	 * Get forbidden file types
+	 *
+	 * @return array
+	 */
+	static function getForbiddenFileTypes()
+	{
+		$mset = new ilSetting("mobs");
+		if (trim($mset->get("black_list_file_types")) == "")
+		{
+			return array();
+		}
+		return array_map(function ($v)
+			{
+				return strtolower(trim($v));
+			},
+			explode(",", $mset->get("black_list_file_types")));
+	}
+
+	/**
+	 * Get allowed file types
+	 *
+	 * @return array
+	 */
+	static function getAllowedFileTypes()
+	{
+		$mset = new ilSetting("mobs");
+		if (trim($mset->get("restricted_file_types")) == "")
+		{
+			return array();
+		}
+		return array_map(function ($v)
+		{
+				return strtolower(trim($v));
+		},
+			explode(",", $mset->get("restricted_file_types")));
+	}
+	
+	/**
+	 * Is type allowed
+	 *
+	 * @param string $a_type
+	 * @return bool
+	 */
+	static function isTypeAllowed($a_type)
+	{
+		if (in_array($a_type, self::getForbiddenFileTypes()))
+		{
+			return false;
+		}
+		if (count(self::getAllowedFileTypes()) == 0 || in_array($a_type, self::getAllowedFileTypes()))
+		{
+			return true;
+		}
+		return false;
+	}
+
+
 	/**
 	 * Duplicate media object, return new media object
 	 */
@@ -2026,5 +2072,18 @@ class ilObjMediaObject extends ilObject
 		return $items;
 	}
 
+	/**
+	 * Rename executables
+	 *
+	 * @param string
+	 */
+	static function renameExecutables($a_dir)
+	{
+		ilUtil::renameExecutables($a_dir);
+		if (!self::isTypeAllowed("html"))
+		{
+			ilUtil::rRenameSuffix($a_dir, "html", "sec");        // see #20187
+		}
+	}
 }
 ?>

@@ -267,6 +267,7 @@ class ilDataCollectionDatatype {
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_FILE:
 				$input = new ilFileInputGUI($title, 'field_' . $field->getId());
+				$input->setAllowDeletion(true);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
 				if (!$field->isNRef()) {
@@ -497,6 +498,10 @@ class ilDataCollectionDatatype {
 		$return = false;
 
 		if ($this->id == ilDataCollectionDatatype::INPUTFORMAT_FILE) {
+			if ($value == -1) //marked for deletion.
+			{
+				return 0;
+			}
 			$file = $value;
 
 			if (is_array($file) && $file['tmp_name']) {

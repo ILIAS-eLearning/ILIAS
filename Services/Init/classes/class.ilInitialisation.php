@@ -1131,6 +1131,18 @@ class ilInitialisation
 		{
 			return;
 		}
+		
+		if(self::showingLoginForm($current_script))
+		{
+			// login form is shown or user tries to authenticate => destroy old user session
+			$ilAuth->logout();
+			ilSession::_destroy(session_id(), ilSession::SESSION_CLOSE_LOGIN);
+			ilSession::set('AccountId', null);
+			
+			ilLoggerFactory::getLogger('auth')->debug('Logout called for old session on login request');
+		}
+		
+		
 						
 		$oldSid = session_id();		
 		
@@ -1147,7 +1159,7 @@ class ilInitialisation
 				ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
 			}
 		}					
-		
+
 		if($ilAuth->getAuth() && $ilAuth->getStatus() == '')
 		{
 			self::initUserAccount();
@@ -1331,7 +1343,7 @@ class ilInitialisation
 	 * @return boolean 
 	 */
 	protected static function blockedAuthentication($a_current_script)
-	{		
+	{
 		if($a_current_script == "register.php" || 
 			$a_current_script == "pwassist.php" ||
 			$a_current_script == "confirmReg.php" ||

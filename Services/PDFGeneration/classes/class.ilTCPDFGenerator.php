@@ -53,5 +53,10 @@ class ilTCPDFGenerator
 			$pdf->writeHTML($page, true, false, true, false, '');
 		}
 		$result = $pdf->Output($job->getFilename(), $job->getOutputMode() ); // (I - Inline, D - Download, F - File)
+
+		if(in_array($job->getOutputMode(), array('I', 'D')))
+		{
+			exit();
+		}
 	}
 }

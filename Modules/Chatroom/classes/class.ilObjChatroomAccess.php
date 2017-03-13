@@ -2,7 +2,8 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
+require_once 'Services/Object/classes/class.ilObjectAccess.php';
+require_once 'Services/WebAccessChecker/interfaces/interface.ilWACCheckingClass.php';
 
 /**
  * Access class for chatroom objects.
@@ -12,7 +13,7 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
  *
  * @ingroup ModulesChatroom
  */
-class ilObjChatroomAccess extends ilObjectAccess
+class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 {
 
 	/**
@@ -91,6 +92,18 @@ class ilObjChatroomAccess extends ilObjectAccess
 		return self::$chat_enabled;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function canBeDelivered(ilWACPath $ilWACPath)
+	{
+		if(preg_match("/chatroom\\/smilies\\//ui", $ilWACPath->getPath()))
+		{
+			return true;
+		}
+
+		return false;
+	}
 }
 
 ?>

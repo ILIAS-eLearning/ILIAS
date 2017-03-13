@@ -758,16 +758,16 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	    }
 	    elseif ($mediaItem->getLocation () != "")
 	    {
-	    	$format = ilObjMediaObject::getMimeType($mediaItem->getLocation());
+	    	$format = ilObjMediaObject::getMimeType($mediaItem->getLocation(), ($locationType == "Reference"));
 	    	$mediaItem->setFormat($format);
-	    }	    
-	    
+	    }
+
 	    if (isset($file))
 	    {
 	        // get mime type, if not already set!
 	        if (!isset($format))
 	        {
-	        	$format = ilObjMediaObject::getMimeType($file);
+	        	$format = ilObjMediaObject::getMimeType($file, ($locationType == "Reference"));
 	        }
 
 	        // set real meta and object data

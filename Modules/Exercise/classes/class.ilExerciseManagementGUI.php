@@ -38,7 +38,7 @@ class ilExerciseManagementGUI
 		$this->assignment = $a_ass;
 		
 		$ilCtrl->saveParameter($this, array("vw", "member_id"));
-		
+
 		// :TODO:
 		$this->ctrl = $ilCtrl;
 		$this->tabs_gui = $ilTabs;
@@ -119,7 +119,8 @@ class ilExerciseManagementGUI
 				$ilCtrl->forwardCommand($gui);				
 				break;
 				
-			case "ilexsubmissiontextgui":															
+			case "ilexsubmissiontextgui":
+				$ilCtrl->saveParameter($this, array("part_id"));
 				include_once "Modules/Exercise/classes/class.ilExSubmissionTextGUI.php";
 				$gui = new ilExSubmissionTextGUI($this->exercise, $this->initSubmission());
 				$ilCtrl->forwardCommand($gui);				
@@ -484,7 +485,10 @@ class ilExerciseManagementGUI
 			{
 				include_once("./Services/User/classes/class.ilObjUser.php");
 				$name = ilObjUser::_lookupName($mem_id);
-				$mems[$mem_id] = $name;
+				if (trim($name["login"]) != "")		// #20073
+				{
+					$mems[$mem_id] = $name;
+				}
 			}
 		}
 		

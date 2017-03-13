@@ -3,18 +3,55 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObjectAccess.php");
+require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClass.php');
 
 /**
-* Access class for file objects.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @author Stefan Born <stefan.born@phzh.ch> 
-* @version $Id$
-*
-* @ingroup ModulesFile
-*/
-class ilObjFileAccess extends ilObjectAccess
-{
+ * Access class for file objects.
+ *
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @author  Stefan Born <stefan.born@phzh.ch>
+ * @version $Id$
+ *
+ * @ingroup ModulesFile
+ */
+class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass {
+
+	/**
+	 * @param $obj_id
+	 * @return bool
+	 */
+	protected function checkAccessToObjectId($obj_id) {
+		global $ilAccess;
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 */
+		foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
+			if ($ilAccess->checkAccess('read', '', $ref_id)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param \ilWACPath $ilWACPath
+	 * @return bool
+	 */
+	public function canBeDelivered(ilWACPath $ilWACPath) {
+		switch ($ilWACPath->getSecurePathId()) {
+			case 'previews':
+				$re = '/\/previews\/[\d\/]{0,}\/preview_([\d]{0,})\//uU';
+				break;
+		}
+		preg_match($re, $ilWACPath->getPath(), $matches);
+
+		return $this->checkAccessToObjectId($matches[1]);
+	}
+
+
+
 	// BEGIN WebDAV cache inline file extensions
 	/**
 	 * Contains an array of extensions separated by space.

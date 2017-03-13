@@ -63,7 +63,7 @@
         this.toggle = function (e, options)
         {
             log("Preview.toggle()");
-            var id = options.id;
+            var id = options.htmlId;
 
             // current element?
             if (id == null || currentId == id)
@@ -90,7 +90,7 @@
         {
             log("Preview.render()");
 
-            $("#preview_render_" + options.id).addClass(HIDDEN_ACTION_CLASS);
+            $("#preview_render_" + options.htmlId).addClass(HIDDEN_ACTION_CLASS);
             executeAction(options);
         };
 
@@ -101,7 +101,7 @@
         {
             log("Preview.delete()");
 
-            $("#preview_delete_" + options.id).addClass(HIDDEN_ACTION_CLASS);
+            $("#preview_delete_" + options.htmlId).addClass(HIDDEN_ACTION_CLASS);
             executeAction(options);
         }
 
@@ -133,14 +133,14 @@
 
                     // enable / disable actions
                     if (data.status == STATUS_FAILED || data.status == STATUS_NONE)
-                        $("#preview_render_" + options.id).removeClass(HIDDEN_ACTION_CLASS);
+                        $("#preview_render_" + options.htmlId).removeClass(HIDDEN_ACTION_CLASS);
                     else
-                        $("#preview_render_" + options.id).addClass(HIDDEN_ACTION_CLASS);
+                        $("#preview_render_" + options.htmlId).addClass(HIDDEN_ACTION_CLASS);
 
                     if (data.status == STATUS_CREATED)
-                        $("#preview_delete_" + options.id).removeClass(HIDDEN_ACTION_CLASS);
+                        $("#preview_delete_" + options.htmlId).removeClass(HIDDEN_ACTION_CLASS);
                     else
-                        $("#preview_delete_" + options.id).addClass(HIDDEN_ACTION_CLASS);
+                        $("#preview_delete_" + options.htmlId).addClass(HIDDEN_ACTION_CLASS);
                 }
             });
         }
@@ -151,7 +151,7 @@
         function displayContent(options, content)
         {
             // was a different preview requested in the meantime?
-            if (options.id != currentId)
+            if (options.htmlId != currentId)
                 return;
 
             // replace wait
@@ -225,7 +225,7 @@
                     success: function (data)
                     {
                         log(" -> Preview loaded: id=%s, status=%s", options.id, data.status);
-                        updateCache(options.id, data.status, data.html);
+                        updateCache(options.htmlId, data.status, data.html);
                         callback(data.html);
                         updatePreviewIcon(options, data.status);
                     }

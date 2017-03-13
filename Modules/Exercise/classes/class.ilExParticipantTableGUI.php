@@ -32,7 +32,7 @@ class ilExParticipantTableGUI extends ilTable2GUI
 		$this->part_id = $a_part_id;
 		
 		$this->setId("exc_part_".$this->exc_id."_".$this->part_id);
-		
+
 		include_once("./Services/User/classes/class.ilObjUser.php");
 		
 		if ($this->part_id > 0)
@@ -47,12 +47,12 @@ class ilExParticipantTableGUI extends ilTable2GUI
 			else
 			{
 				$ilCtrl->setParameter($a_parent_obj, "member_id", "");
+				$ilCtrl->setParameter($a_parent_obj, "part_id", "");	// #0020073
 				$ilCtrl->redirect($a_parent_obj, $a_parent_cmd);
 			}
 		}
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		
 		$data = ilExAssignment::getAssignmentDataOfExercise($this->exc_id);
 		$this->setData($data);
 		

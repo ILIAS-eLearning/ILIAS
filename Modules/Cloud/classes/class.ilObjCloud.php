@@ -131,7 +131,7 @@ class ilObjCloud extends ilObject2
 
         if ($this->getServiceName() != null)
         {
-            $plugin_class = ilCloudConnector::getPluginClass($this->getServiceName(), $this->getId());
+            $plugin_class = ilCloudConnector::getPluginClass($this->getServiceName(), $this->getId(), $this);
             if ($plugin_class)
             {
                 $plugin_class->doDelete($this->getId());

@@ -8613,7 +8613,7 @@ mep#:#mobs_activate_pages#:#Inhaltsbausteine nutzen
 mep#:#mobs_activate_pages_info#:#Ermöglicht es, Seiteninhalte als Bausteine in Medienpools anzulegen. Diese Inhaltsbausteine können in ILIAS Lernmodulen wiederverwendet, aber dort nicht bearbeitet werden.
 mep#:#mobs_always_show_file_manager#:#Dateistruktur immer anzeigen
 mep#:#mobs_always_show_file_manager_info#:#Wenn deaktiviert, wird die Dateistruktur für einfache Datentypen, wie z.B. Bilder, nicht angezeigt.
-mep#:#mobs_restrict_file_types#:#Dateitypen einschränken
+mep#:#mobs_restrict_file_types#:#Erlaubte Dateitypen
 mep#:#mobs_restrict_file_types_info#:#Bestimmen Sie alle Dateitypen, die in Medienobjekten hochgeladen werden dürfen. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Wird kein Eintrag vorgenommen, sind alle Typen erlaubt.
 meta#:#md_adv_active#:#Aktiv
 meta#:#md_adv_add_value#:#Neuer Wert
@@ -15437,8 +15437,8 @@ administration#:#adm_missing_entry_add_action#:#Hinzufügen
 administration#:#adm_missing_entry_add#:#Neuen Eintrag erstellen
 trac#:#trac_mode_survey_finished#:#Umfrage beendet
 trac#:#trac_mode_survey_finished_info#:#Die Umfrage muss beendet werden.
-crs#:#crs_usr_agreement#:#Benutzerveinbarung
-grp#:#grp_usr_agreement#:#Benutzerveinbarung
+crs#:#crs_usr_agreement#:#Benutzervereinbarung
+grp#:#grp_usr_agreement#:#Benutzervereinbarung
 meta#:#md_adv_confirm_definition_select_option_all#:#Alle vorhandenen Einträge gleich behandeln
 meta#:#md_adv_confirm_definition_select_option_single#:#Jeden vorhandenen Eintrag einzeln entscheiden
 meta#:#md_adv_confirm_definition_select_option_all_action#:#Neuer Wert
@@ -15840,10 +15840,10 @@ buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Bestätigen
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Anfrage zurückziehen
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Anfrage bestätigen
 buddysystem#:#buddy_bs_action_not_possible#:#Aktion nicht möglich
-buddysystem#:#buddy_bs_action_already_linked#:#Die Kontaktanfrage für Benutzer '%s' wurde bereits bestätigt.
-buddysystem#:#buddy_bs_action_already_requested#:#Benutzer '%s' wurde bereits angefragt.
-buddysystem#:#buddy_bs_action_already_ignored#:#Die Kontaktanfrage von Benutzer '%s' wurde bereits ignoriert.
-buddysystem#:#buddy_bs_action_already_unlinked#:#Jeglicher Kontakt zu Benutzer '%s' wurde bereits gelöst.
+buddysystem#:#buddy_bs_action_already_linked#:#Die Aktion ist nicht möglich, da die Kontaktanfrage für Benutzer '%s' bereits bestätigt wurde.
+buddysystem#:#buddy_bs_action_already_requested#:#Die Aktion ist nicht möglich, da Benutzer '%s' bereits angefragt wurde.
+buddysystem#:#buddy_bs_action_already_ignored#:#Die Aktion ist nicht möglich, da die Kontaktanfrage von Benutzer '%s' bereits ignoriert wurde.
+buddysystem#:#buddy_bs_action_already_unlinked#:#Die Aktion ist nicht möglich. Jeglicher Kontakt zu Benutzer '%s' wurde bereits gelöst.
 buddysystem#:#buddy_bs_state_linked#:#Vernetzt
 buddysystem#:#buddy_bs_state_linked_a#:#Vernetzt
 buddysystem#:#buddy_bs_state_linked_p#:#Vernetzt
@@ -16221,3 +16221,10 @@ copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gel
 crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind online
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
 survey#:#msg_input_only_positive_numbers#:#Bitte geben Sie natürliche Zahlen als Skalenwerte ein.
+rbac#:#prg_manage_members#:#Teilnehmer eines Studienprogramms bearbeiten
+rbac#:#edit_members#:#Teilnehmer bearbeiten
+mep#:#mobs_black_list_file_types#:#Verbotene Dateitypen
+mep#:#mobs_black_list_file_types_info#:#Diese List schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Dies ist sinnvoll, wenn die vorangegangene Option leer ist (alle Typen erlaubt).
+form#:#form_msg_file_type_is_not_allowed#:#Dieser Dateityp ist nicht erlaubt.
+common#:#file_no_valid_file_type#:#Dieser Dateityp ist nicht erlaubt.
+common#:#file_some_invalid_file_types_removed#:#Einige Dateitypen sind nicht erlaubt und wurden entfernt.

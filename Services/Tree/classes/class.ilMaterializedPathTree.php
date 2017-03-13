@@ -86,12 +86,12 @@ class ilMaterializedPathTree implements ilTreeImplementation
 			$GLOBALS['ilLog']->write(__METHOD__.': EQUALS');
 			return ilTree::RELATION_EQUALS;
 		}
-		if(stristr($a_node_a['path'], $a_node_b['path']))
+		if(stripos($a_node_a['path'], $a_node_b['path']. '.') === 0)
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': CHILD');
 			return ilTree::RELATION_CHILD;
 		}
-		if(stristr($a_node_b['path'], $a_node_a['path']))
+		if(stripos($a_node_b['path'], $a_node_a['path'] . '.') === 0)
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': PARENT');
 			return ilTree::RELATION_PARENT;

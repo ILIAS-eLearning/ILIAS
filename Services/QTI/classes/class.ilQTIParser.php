@@ -49,7 +49,12 @@ class ilQTIParser extends ilSaxParser
 	var $render_type;
 	var $response_label;
 	var $material;
+	
+	/**
+	 * @var ilQTIMatimage
+	 */
 	var $matimage;
+	
 	var $response;
 	var $resprocessing;
 	var $outcomes;
@@ -1358,15 +1363,30 @@ class ilQTIParser extends ilSaxParser
 				$this->material = NULL;
 				break;
 			case "matimage";
-				if ($this->material != NULL)
+
+				if( !$this->isMatImageAvailable() )
 				{
-					if ($this->matimage != NULL)
-					{
-						$this->material->addMatimage($this->matimage);
-					}
+					break;
 				}
+				
+				if( $this->virusDetected($this->matimage->getRawContent()) )
+				{
+					break;
+				}
+				
+				require_once 'Services/QTI/classes/class.ilQtiMatImageSecurity.php';
+				$matImageSecurity = new ilQtiMatImageSecurity($this->matimage);
+				$matImageSecurity->sanitizeLabel();
+				
+				if( !$matImageSecurity->validate() )
+				{
+					break;
+				}
+				
+				$this->material->addMatimage($this->matimage);
 				$this->matimage = NULL;
 				break;
+			
 			// add support for matbreak element
 			case "matbreak":
 				$this->mattext = new ilQTIMattext();
@@ -1801,5 +1821,32 @@ class ilQTIParser extends ilSaxParser
 		
 		return $xmlContent;
 	}
+	
+	protected function isMatImageAvailable()
+	{
+		if( !$this->material )
+		{
+			return false;
+		}
+		
+		if( !$this->matimage )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	protected function virusDetected($buffer)
+	{
+		require_once 'Services/VirusScanner/classes/class.ilVirusScannerFactory.php';
+		$vs = ilVirusScannerFactory::_getInstance();
+		
+		if( $vs === null )
+		{
+			return false; // no virus scan, no virus detected
+		}
+		
+		return (bool)$vs->scanBuffer($buffer);
+	}
 }
-?>

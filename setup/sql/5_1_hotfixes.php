@@ -233,3 +233,79 @@ $ilCtrlStructureReader->getStructure();
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#19>
+<?php
+
+	if( !$ilDB->tableColumnExists('qpl_a_mterm', 'ident') )
+	{
+		$ilDB->addTableColumn('qpl_a_mterm', 'ident', array(
+			'type'    => 'integer', 'length'  => 4,
+			'notnull' => false, 'default' => null
+		));
+		
+		$ilDB->manipulate("UPDATE qpl_a_mterm SET ident = term_id WHERE ident IS NULL");
+	}
+	
+	if( !$ilDB->tableColumnExists('qpl_a_mdef', 'ident') )
+	{
+		require_once 'Services/Database/classes/class.ilDBAnalyzer.php';
+		$ilDB->renameTableColumn('qpl_a_mdef', 'morder', 'ident');
+	}
+	
+?>
+<#20>
+<?php
+$ilDB->modifyTableColumn('exc_returned', 'mimetype', array(
+										'type'	=> 'text',
+										'length'=> 150,
+										'notnull' => false)
+);
+?>
+<#21>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#22>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#23>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#24>
+<?php
+$ilDB->modifyTableColumn(
+	'wiki_stat_page',
+	'num_ratings',
+	array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	)
+);
+?>
+<#25>
+<?php
+$ilDB->modifyTableColumn(
+	'wiki_stat_page',
+	'avg_rating',
+	array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	)
+);
+?>
+<#26>
+<?php
+$query = "SELECT value FROM settings WHERE module = %s AND keyword = %s";
+$res = $ilDB->queryF($query, array('text', 'text'), array("mobs", "black_list_file_types"));
+if (!$ilDB->fetchAssoc($res))
+{
+	$mset = new ilSetting("mobs");
+	$mset->set("black_list_file_types", "html");
+}
+?>

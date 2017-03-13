@@ -323,7 +323,7 @@ class ilAuthContainerApache extends Auth_Container
 		$sync = new ilLDAPUserSynchronisation('ldap_'.$server->getServerId(), $server->getServerId());
 		$sync->setExternalAccount($ext_account);
 		$sync->setUserData(array());
-		$sync->forceCreation($this->force_creation);
+		$sync->forceCreation(self::$force_creation);
 		$sync->forceReadLdapData(true);
 
 		try {
