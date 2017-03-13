@@ -29,7 +29,7 @@ or
 apt-get install node-less
 ```
 
-### How-To 1 (Trough Frontend)
+### How-To 1 (Through Frontend)
 
 #### Step 1: Activate "Manage System Styles"
 1. Browse to the ILIAS Setup (your.installation.com/setup/setup.php) and Login Using
