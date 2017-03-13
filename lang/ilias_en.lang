@@ -15915,6 +15915,8 @@ auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactiva
 crs#:#crs_edit_lo_introduction#:#Edit Introduction
 rbac#:#grp_manage_members#:#Manage Members of Group
 rbac#:#crs_manage_members#:#Manage Members of Course
+iass#:#iass_copy#:#Copy Individual Assessment
+survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.
 survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.
 rbac#:#book_copy#:#User can copy booking pool
 mep#:#mobs_black_list_file_types#:#Forbidden File Types
