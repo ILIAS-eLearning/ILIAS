@@ -126,7 +126,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 		}
 	}
 
-	function formatObject(&$tpl, $a_node_id, $a_option, $a_obj_id = 0)
+	function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0)
 	{
 		global $lng;
 
@@ -246,7 +246,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader(&$tpl, $a_obj_id,$a_option)
+	function formatHeader($tpl, $a_obj_id,$a_option)
 	{
 		global $lng, $ilias;
 
