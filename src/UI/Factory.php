@@ -299,4 +299,28 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Panel\Factory
 	 */
 	public function panel();
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Inputs capture data from users. Some Inputs capture well-structured data i.e. users choose from  a set of options.
+	 *     Other Inputs capture data that is actively produced by users i.e. text or file uploads.
+	 *   composition: >
+	 *      The composition of the inputs heavily depend on the exact type.
+	 *   effect: >
+	 *      Entering input has per default no effect. E.g. in Forms, input has to be applied by clicking a “Save”-button to become effective.
+	 *      Thus Inputs are mostly accompanied by a button or contain one themselves.
+	 *
+	 * rules:
+	 *   style:
+	 *      1: Disabled Input Elements MUST be indicated by setting the “disabled” attribute.
+	 *      2: If focused, the Input Elements MUST change their Input Border Color to the Input Focus Border Color.
+	 *   accessibility:
+	 *      1: All Input Elements visible in a view MUST be accessible by keyboard by using the ‘Tab’-Key.
+	 * ---
+	 * @return \ILIAS\UI\Component\Input\Factory
+	 */
+	public function input();
 }
