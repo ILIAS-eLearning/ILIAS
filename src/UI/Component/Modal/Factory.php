@@ -33,7 +33,7 @@ interface Factory {
 	 *     2: >
 	 *        All actions where data is deleted from the system are considered to be critical situations and
 	 *        SHOULD be implemented as an Interruptive modal. Exceptions are possible if items from lists in
-	 *        forms are to be deleted of ir the modal would heavily disrupt the workflow.
+	 *        forms are to be deleted or if the modal would heavily disrupt the workflow.
 	 *     3: >
 	 *        Interruptive modals MUST contain a primary button continuing the action that initiated the modal
 	 *        (e.g. Delete the item) on the left side of the footer of the modal and a default button canceling
@@ -44,8 +44,8 @@ interface Factory {
 	 * ---
 	 *
 	 * @param string $title
-	 * @param string $message
-	 * @param string $form_action
+	 * @param string $message A plain string informing the user about the critical situation
+	 * @param string $form_action The URL where the modal posts its form data
 	 *
 	 * @return \ILIAS\UI\Component\Modal\Interruptive
 	 */

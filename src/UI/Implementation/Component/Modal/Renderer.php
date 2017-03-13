@@ -34,6 +34,9 @@ class Renderer extends AbstractComponentRenderer {
 		return '';
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/js/Modal/modal.js');
