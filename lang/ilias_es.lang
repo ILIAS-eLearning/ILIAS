@@ -16224,3 +16224,9 @@ crs#:#crs_loc_err_stat_tst_offline#:#Algunos tests no están on-line###12 10 201
 itgr#:#itgr_desc_info#:#La descripción no formará parte de la presentación del grupo de objetos en este contenedor###12 10 2016 new variable
 dcl#:#dcl_std_field_not_importable#:# - Los campos estándar no se pueden importar###25 10 2016 new variable
 rbac#:#edit_members#:#Gestinonar miembros###22 12 2016 new variable
+rbac#:#prg_manage_members#:#Manage members of Study Programme###09 03 2017 new variable
+mep#:#mobs_black_list_file_types#:#Forbidden File Types###09 03 2017 new variable
+mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suffixes. This list will restrict the set of allowed file types. Usually you need this if the former list is empty (all file types are allowed).###09 03 2017 new variable
+form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.###09 03 2017 new variable
+common#:#file_no_valid_file_type#:#This file type is not allowed.###09 03 2017 new variable
+common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.###09 03 2017 new variable
