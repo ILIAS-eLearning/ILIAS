@@ -24,7 +24,8 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Use responsive image is to be used if the image needs to adapt to changing amount of space available.
+	 *     A responsive image is to be used if the image needs to adapt to changing
+	 *     amount of space available.
 	 *   composition: >
 	 *     Responsive images scale nicely to the parent element.
 	 *
