@@ -2,13 +2,13 @@ ILIAS Maintenance
 =================
 The development of the ILIAS source code is coordinated and maintained by a coordination team within the ILIAS network. Besides the main responsibilities for the project, several developers and users are maintaining certain modules of ILIAS.
 
-| Function             | Responsible Person                                          |
-|----------------------|-------------------------------------------------------------|
-| Product Management   | [Matthias Kunkel]                                             |
+| Function             | Responsible Person                                                                       |
+|----------------------|------------------------------------------------------------------------------------------|
+| Product Management   | [Matthias Kunkel]                                                                        |
 | Technical Board      | [Alexander Killing], [Michael Jansen], [Fabian Schmid], [Timon Amstutz], [Richard Klees] |
-| Testcase Management  | [Fabian Kruse]                                              |
-| Documentation        | [Florian Suittenpointner]                                   |
-| Online Help          | [Alexandra Toedt]                                           |
+| Testcase Management  | [Fabian Kruse]                                                                           |
+| Documentation        | [Florian Suittenpointner]                                                                |
+| Online Help          | [Alexandra Toedt]                                                                        |
 
 #Maintainers
 We highly appreciate to get new developers but we have to guarantee the sustainability and the quality of the ILIAS source code. The system is complex for new developers and they need to know the concepts of ILIAS that are described in the development guide.
