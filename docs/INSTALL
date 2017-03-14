@@ -1,27 +1,42 @@
-ILIAS open source - Installation
-==================================
-**Authors:** 
+                       ==================================
+                        ILIAS open source - Installation
+                       ==================================
 
-- Boris H. Schuermann
+          Author: Boris H. Schuermann
 
-**Table of Contents** 
+Table of Contents 
 
-1. [Introduction](#introduction) 
-2. [First time installation](#ft-installation) 
-    1. Where to install ILIAS 
-    2. First steps 
-    3. Installing required third-party software 
-        1. Libraries & utilities 
-        2. MySQL / PHP / Apache 
-    4. Installing ILIAS
-3. [Updating ILIAS](#updating-ilias)
-4. [Appendix A](#appendix_a): Note on using Apache 2
+1. Introduction
 
-#<a name="introduction"></a>Introduction
-```
+2. First time installation
+
+   2.1 Where to install ILIAS
+
+   2.2 First steps
+
+   2.3 Installing required third-party software
+
+       2.3.1 Libraries & utilities
+
+       2.3.2 MySQL / PHP / Apache
+
+   2.4 Installing ILIAS
+
+3. Updating ILIAS
+
+Appendix A: Note on using Apache 2
+
+
+1. I N T R O D U C T I O N
+
+
+*******************************************************************************
+
 CAUTION: THIS IS A BETA RELEASE. NOT INTENDED FOR PRODOCTIVE ENVIRONMENTS.
          ONLY FOR TEST PURPOSES.
-```
+
+*******************************************************************************
+
 
 ILIAS is a web-based Learning Content Managament System (LCMS) developed with
 the server-side scripting language PHP and distributed as Open Source software
@@ -44,7 +59,7 @@ http://www.ilias.de/docu/goto_docu_pg_6531_367.html (II. General Requirements)
 
     - Apache 1.3.44            http://www.apache.org
     - MySQL 5.1.32             http://www.mysql.com
-    - PHP 5.3.27               http://www.php.net
+    - PHP 5.5.x-5.6.x 7.0.x    http://www.php.net
     - Zlib (libz) 1.1.4        http://www.gzip.org/zlib/
     - libpng 1.2.5             http://www.libpng.org
     - libjpeg 6b               ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
@@ -77,13 +92,15 @@ General advices on compiling the software packages:
 
 
 
-#<a name="ft-installation"></a>First Time Installation
+2  F I R S T   T I M E   I N S T A L L A T I O N
 
 Please visit http://www.ilias.de/docu/goto.php?target=st_6487_367&client_id=docu
 and try a install procedure that suits your OS distribution. If this fails, you
 may try to install the tools from scratch.
 
-##Where to install ILIAS
+
+2.1 Where to install ILIAS
+
 The instructions herein assume that you do not have any of the software
 packages required for running ILIAS installed on your server. Following them
 all these programs will be built from their source code and then be installed
@@ -100,7 +117,9 @@ facilitate backup and administration tasks.
 When compiling the components necessary to run ILIAS from source you may easily
 specify their installation location using an appropriate '--prefix' directive.
 
-##First steps
+
+2.2 First steps
+
 Directories where third-party components will be located:
 
     mkdir /opt/ilias
@@ -148,8 +167,11 @@ The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
 space.
 
-##Installing required third-party software
-###Libraries & utilities
+
+2.3 Installing required third-party software
+
+
+2.3.1 Libraries & utilities
 
 If not already available on your system, the following libraries and utilities
 must be installed:
@@ -300,9 +322,11 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
         make install
 
 
-###MySQL / PHP / Apache
+2.3.2 MySQL / PHP / Apache
+
 After the libraries and tools are set up you may install the main third-party
 components:
+
 
 (a) MySQL database
 
@@ -480,7 +504,9 @@ components:
     to get current recommendations for php.ini settings.
 
 
-##Installing ILIAS
+2.4 Installing ILIAS
+
+
 (a) Installing the ILIAS program files
 
     First extract the content of the ILIAS tarball into the web space directory:
@@ -570,7 +596,9 @@ components:
     This example executes the script cron.php every night at 2 a clock.
 
 
-#<a name="updating-ilias"></a>Updating ILIAS
+3. Updating ILIAS
+
+
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS stable version to
 ILIAS 5.0
 
@@ -613,8 +641,8 @@ for more information.
 
     cd /opt/ilias/www/htdocs/ilias
     rm *.php *.xml *.dtd *.css
-    rm -r classes content css docs images include java lang layouts
-    rm -r modules setup sql templates xml assessment chat tracking
+    rm -r classes content css docs images include java lang layouts lib
+    rm -r modules setup sql src sso templates xml assessment chat tracking
     rm -r survey syntax_highlight course payment webservice ilinc link
 	rm -r cron Services calendar Modules
 
@@ -635,8 +663,8 @@ copy various files and directories to your ILIAS web directory:
 
     cd /tmp/ilias
     cp -p * /opt/ilias/www/htdocs/ilias/
-    cp -rp classes cron docs include lang /opt/ilias/www/htdocs/ilias/
-    cp -rp Modules Services setup templates /opt/ilias/www/htdocs/ilias/
+    cp -rp classes cron docs include lang libs /opt/ilias/www/htdocs/ilias/
+    cp -rp Modules Services setup src sso templates /opt/ilias/www/htdocs/ilias/
     cp -rp webservice xml /opt/ilias/www/htdocs/ilias/
 
 Please ignore any 'File exists' error messages. After all files have been copied
@@ -671,7 +699,9 @@ After that enter your clients and execute the "Refresh Languages" command
 in the language administration of the system settings ("Administration" ->
 "System Settings" -> "Languages" -> "Refresh Languages").
 
-#<a name="appendix_a"></a>Appendix A: Note on using Apache 2
+
+	   
+A P P E N D I X  A: Note on using Apache 2
 
 Please proceed as follows:
 
