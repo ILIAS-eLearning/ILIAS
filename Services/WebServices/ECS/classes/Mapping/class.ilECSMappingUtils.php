@@ -61,6 +61,7 @@ class ilECSMappingUtils
 		foreach(
 			array(
 				'organisation',
+				'orgunit',
 				'term',
 				'title',
 				'lecturer',
@@ -106,6 +107,13 @@ class ilECSMappingUtils
 				
 			case 'title':
 				return (string) $course->title;
+				
+			case 'orgunit':
+				foreach((array) $course->organisationalUnits as $unit)
+				{
+					return (string) $unit->title;
+				}
+				return '';
 				
 			case 'lecturer':
 				foreach((array) $course->groups as $group)
@@ -194,9 +202,23 @@ class ilECSMappingUtils
 		{
 			return $roles[$a_role_type_info];
 		}
+	}
+	
+	/**
+	 * Get auth mode selection
+	 */
+	public static function getAuthModeSelection()
+	{
+		$options[0] = $GLOBALS['lng']->txt('select_one');
+		$options['local'] = $GLOBALS['lng']->txt('auth_local');
 		
-		
-		
+		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
+		foreach(ilLDAPServer::getServerIds() as $sid)
+		{
+			$server = ilLDAPServer::getInstanceByServerId($sid);
+			$options['ldap_'.$server->getServerId()] = 'LDAP (' . $server->getName().')';
+		}
+		return $options;
 	}
 
 }

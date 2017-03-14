@@ -24,15 +24,28 @@ class ilTermListTableGUI extends ilTable2GUI
 	protected $term_perm;
 
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_tax_node)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
 		
 		$this->glossary = $a_parent_obj->object;
 		$this->setId("glotl".$this->glossary->getId());
 		$this->tax_node = $a_tax_node;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
 
 		$this->selectable_cols = array();
 
@@ -52,16 +65,16 @@ class ilTermListTableGUI extends ilTable2GUI
 
 		// selectable columns
 		$this->selectable_cols["language"] = array(
-			"txt" => $lng->txt("language"),
+			"txt" => $this->lng->txt("language"),
 			"default" => true);
 		$this->selectable_cols["usage"] = array(
-			"txt" => $lng->txt("cont_usage"),
+			"txt" => $this->lng->txt("cont_usage"),
 			"default" => true);
 
 		// selectable columns of advanced metadata
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->setTitle($lng->txt("cont_terms"));
+		$this->setTitle($this->lng->txt("cont_terms"));
 		
 		$this->addColumn("", "", "1", true);
 		//$this->addColumn($this->lng->txt("cont_term"));
@@ -74,7 +87,7 @@ class ilTermListTableGUI extends ilTable2GUI
 		{
 			if ($c["id"] == 0)
 			{
-				$this->addColumn($lng->txt("cont_term"), "term");
+				$this->addColumn($this->lng->txt("cont_term"), "term");
 			}
 			else
 			{
@@ -105,14 +118,14 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->addColumn("", "", "1");
 		
 		$this->setEnableHeader(true);
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.term_tbl_row.html", "Modules/Glossary");
 		$this->setEnableTitle(true);
 
-		$this->addMultiCommand("copyTerms", $lng->txt("copy"));
-		$this->addMultiCommand("referenceTerms", $lng->txt("glo_reference"));
-		$this->addMultiCommand("confirmTermDeletion", $lng->txt("delete"));
-		//$this->addMultiCommand("addDefinition", $lng->txt("cont_add_definition"));
+		$this->addMultiCommand("copyTerms", $this->lng->txt("copy"));
+		$this->addMultiCommand("referenceTerms", $this->lng->txt("glo_reference"));
+		$this->addMultiCommand("confirmTermDeletion", $this->lng->txt("delete"));
+		//$this->addMultiCommand("addDefinition", $this->lng->txt("cont_add_definition"));
 		
 		$this->setShowRowsSelector(true);
 
@@ -169,11 +182,9 @@ class ilTermListTableGUI extends ilTable2GUI
 	 */
 	function initFilter()
 	{
-		global $lng, $ilDB;
-		
 		// term
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-		$ti = new ilTextInputGUI($lng->txt("cont_term"), "term");
+		$ti = new ilTextInputGUI($this->lng->txt("cont_term"), "term");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
 		$ti->setSubmitFormOnEnter(true);
@@ -182,10 +193,10 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->filter["term"] = $ti->getValue();
 		
 		// definition
-		if ($ilDB->getDBType() != "oracle")
+		if ($this->glossary->supportsLongTextQuery())
 		{
 			include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-			$ti = new ilTextInputGUI($lng->txt("cont_definition"), "defintion");
+			$ti = new ilTextInputGUI($this->lng->txt("cont_definition"), "defintion");
 			$ti->setMaxLength(64);
 			$ti->setSize(20);
 			$ti->setSubmitFormOnEnter(true);
@@ -200,14 +211,12 @@ class ilTermListTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($term)
 	{
-		global $lng, $ilCtrl;
-
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
 		$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
-		$ilCtrl->setParameterByClass("ilobjglossarygui", "term_id", $term["id"]);
-		$ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", $term["id"]);
-		$ilCtrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term["id"]);
+		$this->ctrl->setParameterByClass("ilobjglossarygui", "term_id", $term["id"]);
+		$this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", $term["id"]);
+		$this->ctrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term["id"]);
 
 		// actions drop down
 		//if ($this->glossary->getId() == $term["glo_id"])
@@ -220,22 +229,22 @@ class ilTermListTableGUI extends ilTable2GUI
 				ilGlossaryTermReferences::isReferenced($this->glossary->getId(), $term["id"]))
 			{
 				$list = new ilAdvancedSelectionListGUI();
-				$list->addItem($lng->txt("cont_edit_term"), "", $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
+				$list->addItem($this->lng->txt("cont_edit_term"), "", $this->ctrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
 				if (count($defs) > 1)
 				{
-					$list->addItem($lng->txt("cont_edit_definitions"), "", $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "listDefinitions"));
+					$list->addItem($this->lng->txt("cont_edit_definitions"), "", $this->ctrl->getLinkTargetByClass("ilglossarytermgui", "listDefinitions"));
 				} else if (count($defs) == 1)
 				{
-					$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", $defs[0]["id"]);
-					$list->addItem($lng->txt("cont_edit_definition"), "", $ilCtrl->getLinkTargetByClass(array("ilglossarytermgui",
+					$this->ctrl->setParameterByClass("ilglossarydefpagegui", "def", $defs[0]["id"]);
+					$list->addItem($this->lng->txt("cont_edit_definition"), "", $this->ctrl->getLinkTargetByClass(array("ilglossarytermgui",
 						"iltermdefinitioneditorgui",
 						"ilglossarydefpagegui"), "edit"));
 				}
-				$list->addItem($lng->txt("cont_add_definition"), "", $ilCtrl->getLinkTargetByClass("ilobjglossarygui", "addDefinition"));
-				$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", "");
+				$list->addItem($this->lng->txt("cont_add_definition"), "", $this->ctrl->getLinkTargetByClass("ilobjglossarygui", "addDefinition"));
+				$this->ctrl->setParameterByClass("ilglossarydefpagegui", "def", "");
 
 				$list->setId("act_term_" . $term["id"]);
-				$list->setListTitle($lng->txt("actions"));
+				$list->setListTitle($this->lng->txt("actions"));
 				$this->tpl->setVariable("ACTIONS", $list->getHTML());
 			}
 		}
@@ -278,7 +287,7 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("CHECKBOX_ID", $term["id"]);
 		$this->tpl->parseCurrentBlock();
 
-		$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
+		$this->ctrl->setParameter($this->parent_obj, "term_id", $term["id"]);
 
 
 		// usage
@@ -288,11 +297,11 @@ class ilTermListTableGUI extends ilTable2GUI
 			if ($nr_usage > 0 && $this->glossary->getId() == $term["glo_id"])
 			{
 				$this->tpl->setCurrentBlock("link_usage");
-				$ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", $term["id"]);
+				$this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", $term["id"]);
 				$this->tpl->setVariable("LUSAGE", ilGlossaryTerm::getNumberOfUsages($term["id"]));
 				$this->tpl->setVariable("LINK_USAGE",
-					$ilCtrl->getLinkTargetByClass("ilglossarytermgui", "listUsages"));
-				$ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", "");
+					$this->ctrl->getLinkTargetByClass("ilglossarytermgui", "listUsages"));
+				$this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", "");
 				$this->tpl->parseCurrentBlock();
 			}
 			else
@@ -317,7 +326,7 @@ class ilTermListTableGUI extends ilTable2GUI
 		if (in_array("language", $this->getSelectedColumns()))
 		{
 			$this->tpl->setCurrentBlock("td_lang");
-			$this->tpl->setVariable("TEXT_LANGUAGE", $lng->txt("meta_l_".$term["language"]));
+			$this->tpl->setVariable("TEXT_LANGUAGE", $this->lng->txt("meta_l_".$term["language"]));
 			$this->tpl->parseCurrentBlock();
 		}
 

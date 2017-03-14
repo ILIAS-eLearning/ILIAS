@@ -1391,25 +1391,6 @@ class ilRbacAdmin
 	}
 	
 	
-	/**
-	 * Copies all permission from source to target for all roles 
-	 * @param type $a_source_ref_id
-	 * @param type $target_ref_id
-	 * @param type $a_subtree_id
-	 */
-	public function copyEffectiveRolePermissions($a_source_ref_id, $target_ref_id, $a_subtree_id)
-	{
-		global $rbacreview;
-		
-		$parent_roles = $rbacreview->getParentRoleIds($a_source_ref_id, FALSE);
-		$GLOBALS['ilLog']->write(__METHOD__.': '. print_r($parent_roles,TRUE));
-		
-		
-		
-	}
-	
-	
-	
 	
 } // END class.ilRbacAdmin
 ?>

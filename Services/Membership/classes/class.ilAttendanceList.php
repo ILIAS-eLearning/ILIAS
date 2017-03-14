@@ -12,6 +12,7 @@
 */
 class ilAttendanceList
 {
+	protected $parent_gui;
 	protected $parent_obj; // [object]
 	protected $participants; // [object]
 	protected $waiting_list; // [object]
@@ -36,10 +37,11 @@ class ilAttendanceList
 	 * @param ilParticipants $a_participants_object
 	 * @param ilWaitingList $a_waiting_list
 	 */
-	function __construct($a_parent_obj, ilParticipants $a_participants_object = null, ilWaitingList $a_waiting_list = null)
+	function __construct($a_parent_gui, $a_parent_obj, ilParticipants $a_participants_object = null, ilWaitingList $a_waiting_list = null)
 	{	
 		global $lng;
 		
+		$this->parent_gui = $a_parent_gui;
 		$this->parent_obj = $a_parent_obj;
 		$this->participants = $a_participants_object;
 		$this->waiting_list = $a_waiting_list;
@@ -97,7 +99,7 @@ class ilAttendanceList
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 		include_once('Services/User/classes/class.ilUserDefinedFields.php');
 
-		$field_info = ilExportFieldsInfo::_getInstanceByType($this->parent_obj->object->getType());
+		$field_info = ilExportFieldsInfo::_getInstanceByType($this->parent_obj->getType());
 		$field_info->sortExportFields();
 
 	 	foreach($field_info->getExportableFields() as $field)
@@ -121,7 +123,7 @@ class ilAttendanceList
 
 		// add udf fields
 	 	$udf = ilUserDefinedFields::_getInstance();
-		foreach($udf->getExportableFields($this->parent_obj->object->getId()) as $field_id => $udf_data)
+		foreach($udf->getExportableFields($this->parent_obj->getId()) as $field_id => $udf_data)
 	 	{
 			$this->presets['udf_'.$field_id] = array(
 				$udf_data['field_name'],
@@ -131,7 +133,7 @@ class ilAttendanceList
 		
 		// add cdf fields
 		include_once './Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php';
-		foreach(ilCourseDefinedFieldDefinition::_getFields($this->parent_obj->object->getId()) as $field_obj)
+		foreach(ilCourseDefinedFieldDefinition::_getFields($this->parent_obj->getId()) as $field_obj)
 		{
 			$this->presets['cdf_'.$field_obj->getId()] = array(
 				$field_obj->getName(),
@@ -240,7 +242,7 @@ class ilAttendanceList
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 	 	$udf = ilUserDefinedFields::_getInstance();
 		
-		foreach($udf->getExportableFields($this->parent_obj->object->getId()) as $field_id => $udf_data)
+		foreach($udf->getExportableFields($this->parent_obj->getId()) as $field_id => $udf_data)
 	 	{
 			foreach($profile_data as $user_id => $field)
 			{
@@ -254,7 +256,7 @@ class ilAttendanceList
 		{
 			// object specific user data
 			include_once 'Modules/Course/classes/Export/class.ilCourseUserData.php';
-			$cdfs = ilCourseUserData::_getValuesByObjId($this->parent_obj->object->getId());
+			$cdfs = ilCourseUserData::_getValuesByObjId($this->parent_obj->getId());
 			
 			foreach(array_unique($user_ids) as $user_id)
 			{					
@@ -341,7 +343,7 @@ class ilAttendanceList
 		
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');		
 		$form = new ilPropertyFormGUI();
-		$form->setFormAction($ilCtrl->getFormAction($this->parent_obj,$a_cmd));
+		$form->setFormAction($ilCtrl->getFormAction($this->parent_gui,$a_cmd));
 		$form->setTarget('_blank');
 		$form->setPreventDoubleSubmission(false);
 		$form->setTitle($lng->txt('sess_gen_attendance_list'));
@@ -389,15 +391,15 @@ class ilAttendanceList
 			$title = ilObject::_lookupTitle($role_id);
 			
 			$role_name = $role_id;
-			if(substr($title, 0, 10) == 'il_'.$this->parent_obj->object->getType().'_adm')
+			if(substr($title, 0, 10) == 'il_'.$this->parent_obj->getType().'_adm')
 			{
 				$role_name = 'adm';
 			}
-			if(substr($title, 0, 10) == 'il_'.$this->parent_obj->object->getType().'_mem')
+			if(substr($title, 0, 10) == 'il_'.$this->parent_obj->getType().'_mem')
 			{
 				$role_name = 'mem';
 			}
-			if(substr($title, 0, 10) == 'il_'.$this->parent_obj->object->getType().'_tut')
+			if(substr($title, 0, 10) == 'il_'.$this->parent_obj->getType().'_tut')
 			{
 				$role_name = 'tut';
 			}
@@ -440,7 +442,7 @@ class ilAttendanceList
 			$settings = new ilUserFormSettings($this->id);
 			if(!$settings->hasStoredEntry())
 			{
-				$settings = new ilUserFormSettings($this->parent_obj->object->getType().'s_pview', -1);
+				$settings = new ilUserFormSettings($this->parent_obj->getType().'s_pview', -1);
 			}
 			
 			$settings->deleteValue('desc'); // #11340
@@ -484,15 +486,15 @@ class ilAttendanceList
 			{
 				$title = ilObject::_lookupTitle($role_id);
 				$role_name = $role_id;
-				if(substr($title, 0, 10) == 'il_'.$this->parent_obj->object->getType().'_adm')
+				if(substr($title, 0, 10) == 'il_'.$this->parent_obj->getType().'_adm')
 				{
 					$role_name = 'adm';
 				}
-				if(substr($title, 0, 10) == 'il_'.$this->parent_obj->object->getType().'_mem')
+				if(substr($title, 0, 10) == 'il_'.$this->parent_obj->getType().'_mem')
 				{
 					$role_name = 'mem';
 				}
-				if(substr($title, 0, 10) == 'il_'.$this->parent_obj->object->getType().'_tut')
+				if(substr($title, 0, 10) == 'il_'.$this->parent_obj->getType().'_tut')
 				{
 					$role_name = 'tut';
 				}

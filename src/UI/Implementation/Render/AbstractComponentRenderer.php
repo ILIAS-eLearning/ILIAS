@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Triggerer;
 use ILIAS\UI\Factory;
 
 /**
@@ -74,6 +75,13 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	}
 
 	/**
+	 * @return JavaScriptBinding
+	 */
+	final protected function getJavascriptBinding() {
+		return $this->js_binding;
+	}
+
+	/**
 	 * Get template of component this renderer is made for.
 	 *
 	 * Serves as a wrapper around instantiation of ilTemplate, exposes
@@ -101,11 +109,11 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 * @return	string|null
 	 */
 	final protected function bindJavaScript(JavaScriptBindable $component) {
-		$binder = $component->getOnLoadCode();
+        $binder = $component->getOnLoadCode();
 		if ($binder === null) {
 			return null;
 		}
-		$id = $this->js_binding->createId();
+		$id = $this->createId();
 		$on_load_code = $binder($id);
 		if (!is_string($on_load_code)) {
 			throw new \LogicException(
@@ -113,9 +121,36 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 				" (used component: ".get_class($component).")");
 		}
 		$this->js_binding->addOnLoadCode($on_load_code);
+        return $id;
+	}
+
+
+	/**
+	 * Create an ID
+	 *
+	 * @return string
+	 */
+	final protected function createId() {
+		$id = $this->js_binding->createId();
 		return $id;
 	}
 
+	/**
+	 * Renderers of components acting as triggerer can use this method to trigger the registered signals
+	 *
+	 * @param Triggerer $triggerer
+	 * @param string $id The generated ID for the triggerer component
+	 */
+	protected function triggerRegisteredSignals(Triggerer $triggerer, $id) {
+		foreach ($triggerer->getTriggeredSignals() as $triggered_signal) {
+			$signal = $triggered_signal->getSignal();
+			$event = $triggered_signal->getEvent();
+			$this->js_binding->addOnLoadCode("$('#{$id}').{$event}( function(event) { 
+					$('#{$id}').trigger('{$signal}');
+					if (typeof event.preventDefault === 'function') { event.preventDefault(); }
+				});");
+		}
+	}
 
 	/**
 	 * Check if a given component fits this renderer and throw \LogicError if that is not

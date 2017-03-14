@@ -69,6 +69,7 @@ il.Explorer2 = {
 	// init select input
 	initSelect: function(id) {
 		$("#" + id + "_select").on("click", function (ev) {
+			il.UICore.unloadWrapperFromRightPanel();
 			il.UICore.showRightPanel();
 			il.UICore.loadWrapperToRightPanel(id + "_expl_wrapper");
 			return false;

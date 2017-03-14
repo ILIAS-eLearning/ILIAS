@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
-
 /**
 * Class ilObject
 * Basic functions for all objects
@@ -1671,7 +1669,7 @@ class ilObject
 		}
 		else
 		{
-			include_once("./Services/Component/classes/class.ilPlugin.php");
+			include_once("./Services/Component/classes/class.ilObjectPlugin.php");
 			$options[0] = ilObjectPlugin::lookupTxtById($new_type, "obj_".$new_type."_select");
 		}
 

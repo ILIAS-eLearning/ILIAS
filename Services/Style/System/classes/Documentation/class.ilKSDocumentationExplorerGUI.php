@@ -52,6 +52,7 @@ class ilKSDocumentationExplorerGUI extends ilExplorerBaseGUI
 		$this->setParentLink($this->ctrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
 
 		$this->setEntries($entries);
+		$this->setOfflineMode(true);
 
 		if(!$current_opened_node_id){
 			$this->setCurrentOpenedNodeId($this->getEntries()->getRootEntryId());

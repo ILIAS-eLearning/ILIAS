@@ -280,9 +280,10 @@ class ilMediaPlayerGUI
 		include_once("./Services/MediaObjects/classes/class.ilExternalMediaAnalyzer.php");
 
 		// youtube
-/*		if (ilExternalMediaAnalyzer::isYouTube($this->getFile()))
+		if (ilExternalMediaAnalyzer::isYouTube($this->getFile()))
 		{
 			$p = ilExternalMediaAnalyzer::extractYouTubeParameters($this->getFile());
+			/*
 			$html = '<object width="320" height="240">'.
 				'<param name="movie" value="http://www.youtube.com/v/'.$p["v"].'?fs=1">'.
 				'</param><param name="allowFullScreen" value="true"></param>'.
@@ -290,7 +291,51 @@ class ilMediaPlayerGUI
 				'</param><embed src="http://www.youtube.com/v/'.$p["v"].'?fs=1" '.
 				'type="application/x-shockwave-flash" allowscriptaccess="always" '.
 				'allowfullscreen="true" width="320" height="240"></embed></object>';
-			return $html;
+			return $html;*/
+			$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
+			if ($a_preview)
+			{
+				if ($this->getDownloadLink() != "")
+				{
+					$mp_tpl->setCurrentBlock("ytdownload");
+					$mp_tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
+					$mp_tpl->setVariable("HREF_DOWNLOAD", $this->getDownloadLink());
+					$mp_tpl->parseCurrentBlock();
+				}
+
+				$mp_tpl->setCurrentBlock("ytpreview");
+				if ($this->getVideoPreviewPic() != "")
+				{
+					$mp_tpl->setVariable("IMG_SRC", $this->getVideoPreviewPic());
+				}
+				else
+				{
+					$mp_tpl->setVariable("IMG_SRC", ilUtil::getImagePath("mcst_preview.svg"));
+				}
+				$height = $this->getDisplayHeight();
+				$width = $this->getDisplayWidth();
+				$mp_tpl->setVariable("DISPLAY_HEIGHT", $height);
+				$mp_tpl->setVariable("DISPLAY_WIDTH", $width);
+				$mp_tpl->setVariable("IMG_ALT", $this->video_preview_pic_alt);
+				$mp_tpl->setVariable("PTITLE", $this->getTitle());
+				$mp_tpl->parseCurrentBlock();
+			}
+			$mp_tpl->setCurrentBlock("youtube");
+			if ($a_preview)
+			{
+				$mp_tpl->setVariable("CLASS", "ilNoDisplay");
+			}
+			$mp_tpl->setVariable("PV", $p["v"]);
+			$mp_tpl->setVariable("PLAYER_NR", $this->id."_".$this->current_nr);
+			$mp_tpl->setVariable("TITLE", $this->getTitle());
+			$mp_tpl->setVariable("DESCRIPTION", $this->getDescription());
+			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+			if ($a_preview)
+			{
+				$mp_tpl->setVariable("CLOSE", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
+			}
+			$mp_tpl->parseCurrentBlock();
+			return $mp_tpl->get();
 		}
 
 		// vimeo
@@ -303,7 +348,7 @@ class ilMediaPlayerGUI
 
 			return $html;
 		}
-*/
+
 		$mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 		
@@ -394,7 +439,7 @@ class ilMediaPlayerGUI
 				$tpl->addOnLoadCode("new MediaElementPlayer('#player_".$this->id."_".$this->current_nr."');");
 			}
 
-//echo htmlentities($r);
+//echo htmlentities($r); exit;
 			return $r;
 		}
 

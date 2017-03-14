@@ -10,12 +10,14 @@ namespace ILIAS\UI;
  * @author	Richard Klees <richard.klees@concepts-and-training.de>
  */
 interface Renderer {
+
 	/**
-	 * Render given component.
+	 * Render given component. If an array of components is passed, this method returns a concatenated output of
+	 * each rendered component, in the same order as given in the array
 	 *
-	 * @param	$component			Component
-	 * @throws	\LogicException		if renderer is called with a component it can't render
-	 * @return	string
+	 * @param Component\Component|Component\Component[] $component
+	 *
+	 * @return string
 	 */
-	public function render(Component\Component $component);
+	public function render($component);
 }

@@ -655,6 +655,7 @@ class ilMail
 		{
 			$a_m_message = $this->replacePlaceholders($a_m_message, $a_user_id);
 		}
+		$a_m_message = $this->formatLinebreakMessage($a_m_message);
 
 		if(!$a_user_id)		$a_user_id = '0';
 		if(!$a_folder_id)	$a_folder_id = '0';
@@ -818,7 +819,7 @@ class ilMail
 
 			if(count($to) > 0 || count($bcc) > 0)
 			{
-				$this->sendMimeMail(implode(',', $to), '', implode(',', $bcc), $a_subject, $a_message, $a_attachments);
+				$this->sendMimeMail(implode(',', $to), '', implode(',', $bcc), $a_subject, $this->formatLinebreakMessage($a_message), $a_attachments);
 			}
 		}
 		else
@@ -833,7 +834,8 @@ class ilMail
 				"Parsed CC/BCC user ids from given recipients for serial letter notification: %s", implode(', ', $rcp_ids_no_replace)
 			));
 
-			$as_email = array();
+			$as_email          = array();
+			$id_to_message_map = array();
 
 			foreach($rcp_ids_replace as $id)
 			{
@@ -847,6 +849,8 @@ class ilMail
 				{
 					continue;
 				}
+
+				$id_to_message_map[$id] = $this->replacePlaceholders($a_message, $id);
 
 				if($user_is_active)
 				{
@@ -867,7 +871,7 @@ class ilMail
 
 				$mail_id = $this->sendInternalMail(
 					$inbox_id, $this->user_id, $a_attachments, $a_rcp_to, $a_rcp_cc, '',
-					'unread', $a_type, 0, $a_subject, $a_message, $id, 0
+					'unread', $a_type, 0, $a_subject, $id_to_message_map[$id], $id, 0
 				);
 
 				if($a_attachments)
@@ -880,7 +884,7 @@ class ilMail
 			{
 				foreach($as_email as $id => $email)
 				{
-					$this->sendMimeMail($email, '', '', $a_subject, $this->replacePlaceholders($a_message, $id), $a_attachments);
+					$this->sendMimeMail($email, '', '', $a_subject, $this->formatLinebreakMessage($id_to_message_map[$id]), $a_attachments);
 				}
 			}
 
@@ -931,7 +935,7 @@ class ilMail
 
 			if(count($as_email))
 			{
-				$this->sendMimeMail('', '', implode(',', $as_email), $a_subject, $cc_and_bcc_message, $a_attachments);
+				$this->sendMimeMail('', '', implode(',', $as_email), $a_subject, $this->formatLinebreakMessage($cc_and_bcc_message), $a_attachments);
 			}
 		}
 
@@ -964,7 +968,7 @@ class ilMail
 	 * @param    string $a_m_subject
 	 * @param    string $a_m_message
 	 * @param    string $a_type
-	 * @return    string array message
+	 * @return   array message
 	 */
 	protected function checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_type)
 	{
@@ -1184,8 +1188,8 @@ class ilMail
 
 		if($c_emails)
 		{
-			$externalMailRecipientsTo = $this->getEmailRecipients($rcp_to);
-			$externalMailRecipientsCc = $this->getEmailRecipients($rcp_cc);
+			$externalMailRecipientsTo  = $this->getEmailRecipients($rcp_to);
+			$externalMailRecipientsCc  = $this->getEmailRecipients($rcp_cc);
 			$externalMailRecipientsBcc = $this->getEmailRecipients($rcp_bc);
 
 			ilLoggerFactory::getLogger('mail')->debug(
@@ -1201,7 +1205,7 @@ class ilMail
 				$externalMailRecipientsCc,
 				$externalMailRecipientsBcc,
 				$a_m_subject,
-				$a_use_placeholders ? $this->replacePlaceholders($a_m_message) : $a_m_message,
+				$this->formatLinebreakMessage($a_use_placeholders ? $this->replacePlaceholders($a_m_message, 0, false) : $a_m_message),
 				$a_attachment,
 				0
 			);
@@ -1683,5 +1687,13 @@ class ilMail
 
 		self::$userInstances[$a_usr_id] = new ilObjUser($a_usr_id);
 		return self::$userInstances[$a_usr_id];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function formatLinebreakMessage($a_message)
+	{
+		return $a_message;
 	}
 }

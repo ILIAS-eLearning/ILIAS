@@ -273,6 +273,13 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		$this->determineOffsetAndOrder(true);
 		
 		$part = ilGroupParticipants::_getInstanceByObjId($this->getRepositoryObject()->getId())->getParticipants();
+		
+		if(!$part)
+		{
+			$this->setData(array());
+			return;
+		}
+		
 
 		$group_user_data = (array) $this->getParentObject()->readMemberData(
 			$part,

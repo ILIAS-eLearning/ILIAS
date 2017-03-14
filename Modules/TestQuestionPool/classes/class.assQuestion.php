@@ -19,6 +19,22 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
  */
 abstract class assQuestion
 {
+	const IMG_MIME_TYPE_JPG = 'image/jpeg'; 
+	const IMG_MIME_TYPE_PNG = 'image/png'; 
+	const IMG_MIME_TYPE_GIF = 'image/gif';
+	
+	protected static $allowedFileExtensionsByMimeType = array(
+		self::IMG_MIME_TYPE_JPG => array('jpg', 'jpeg'),
+		self::IMG_MIME_TYPE_PNG => array('png'),
+		self::IMG_MIME_TYPE_GIF => array('gif')
+	);
+
+	protected static $allowedCharsetsByMimeType = array(
+		self::IMG_MIME_TYPE_JPG => array('binary'),
+		self::IMG_MIME_TYPE_PNG => array('binary'),
+		self::IMG_MIME_TYPE_GIF => array('binary')
+	);
+
 	/**
 	* Question id
 	*
@@ -252,7 +268,11 @@ abstract class assQuestion
 	 */
 	protected $testQuestionConfig;
 // fau.
-
+	
+	protected static $allowedImageMaterialFileExtensionsByMimeType = array(
+		'image/jpeg' => array('jpg', 'jpeg'), 'image/png' => array('png'), 'image/gif' => array('gif')
+	);
+	
 	/**
 	* assQuestion constructor
 	*
@@ -309,6 +329,43 @@ abstract class assQuestion
 		require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
 		$this->shuffler = new ilArrayElementOrderKeeper();
 	}
+
+	public static function isAllowedImageMimeType($mimeType)
+	{
+		return (bool)count(self::getAllowedFileExtensionsForMimeType($mimeType));
+	}
+
+	public static function fetchMimeTypeIdentifier($contentTypeString)
+	{
+		return current(explode(';', $contentTypeString));
+	}
+
+	public static function getAllowedFileExtensionsForMimeType($mimeType)
+	{
+		foreach(self::$allowedFileExtensionsByMimeType as $allowedMimeType => $extensions)
+		{
+			$rexCharsets = implode('|', self::$allowedCharsetsByMimeType[$allowedMimeType]);
+			$rexMimeType = preg_quote($allowedMimeType, '/');
+
+			$rex = '/^'.$rexMimeType.'(;(\s)*charset=('.$rexCharsets.'))*$/';
+
+			if( !preg_match($rex, $mimeType) )
+			{
+				continue;
+			}
+
+			return $extensions;
+		}
+
+		return array();
+	}
+
+	public static function isAllowedImageFileExtension($mimeType, $fileExtension)
+	{
+		return in_array(
+			strtolower($fileExtension), self::getAllowedFileExtensionsForMimeType($mimeType)
+		);
+	}
 	
 	/**
 	 * @param integer $active_id
@@ -321,6 +378,20 @@ abstract class assQuestion
 			$message = $this->lng->txtlng('assessment', $langVar, ilObjAssessmentFolder::_getLogLanguage());
 			assQuestion::logAction($message, $active_id, $this->getId());
 		}
+	}
+
+	/**
+	 * @return array	all allowed file extensions for image material
+	 */
+	public static function getAllowedImageMaterialFileExtensions()
+	{
+		$extensions = array();
+
+		foreach (self::$allowedImageMaterialFileExtensionsByMimeType as $mimeType => $mimeExtensions)
+		{
+			$extensions = array_merge($extensions, $mimeExtensions);
+		}
+		return array_unique($extensions);
 	}
 
 	/**

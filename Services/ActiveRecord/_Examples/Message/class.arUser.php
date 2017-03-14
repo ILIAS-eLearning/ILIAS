@@ -1,5 +1,5 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
+require_once('./Services/ActiveRecord/class.ActiveRecord.php');
 
 /**
  * Class arUser

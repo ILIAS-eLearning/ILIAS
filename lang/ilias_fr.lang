@@ -1629,25 +1629,6 @@ auth#:#auth_auth_settings#:#Paramètres
 auth#:#auth_info_add#:#Choisissez cette option si vous ne vous êtes jamais enregistré dans ILIAS. Un nouveau compte sera créé.
 auth#:#auth_info_migrate#:#Si vous avez déjà un compte ILIAS, veuillez saisir votre nom d'utilisateur et votre mot de passe pour migrer vos données personnelles (mail, résultats de test, etc.).
 auth#:#auth_login_editor#:#Edition Page de Connexion
-auth#:#auth_openid#:#OpenId
-auth#:#auth_openid_configure#:#Configurer l'Authentification OpenId
-auth#:#auth_openid_deleted_provider#:#Fournisseur OpenID supprimé
-auth#:#auth_openid_enable#:#Activer le Support d'OpenId
-auth#:#auth_openid_login#:#Votre OpenID
-auth#:#auth_openid_login_info_a#:#Veillez entrer votre identifiant OpenID et choisir un fournisseur
-auth#:#auth_openid_migration#:#Migration de Compte :
-auth#:#auth_openid_migration_info#:#Activer cette option pour donner aux nouveaux utilisateurs la possibilité de migrer leurs comptes existants ILIAS vers l'authentification OpenId.
-auth#:#auth_openid_provider#:#Sélection du Fournisseur
-auth#:#auth_openid_provider_add#:#Ajouter Fournisseur
-auth#:#auth_openid_provider_edit#:#Editer Fournisseur
-auth#:#auth_openid_provider_tbl#:#Fournisseur OpenID
-auth#:#auth_openid_role_select#:#Rôle :
-auth#:#auth_openid_settings#:#Paramètres OpenId
-auth#:#auth_openid_sync#:#Synchronisation Utilisateur
-auth#:#auth_openid_sync_info#:#Lorsque activé, de nouveaux comptes utilisateurs sont automatiquement créés après une authentification réussie.
-auth#:#auth_openid_uncontrolled_selection#:#Choix du Fournisseur non Contrôlé
-auth#:#auth_openid_uncontrolled_selection_info#:#Lorsque activé, n'importe quel fournisseur OpenID peut être utilisé pour l'authentification. Sinon, le fournisseur doit être choisi parmi une liste de fournisseurs valide.
-auth#:#auth_openid_url_info#:#Entrez une URL OpenID et remplacez le nom d'utilisateur par "%s". Par exemple: http://%s.myopenid.com
 auth#:#auth_rad_migration#:#Migration de Compte :
 auth#:#auth_rad_migration_info#:#Activer cette option pour donner aux nouveaux utilisateurs la possibilité de migrer leurs comptes existants ILIAS vers l'authentification Radius.
 auth#:#auth_radius_charset#:#Encodage des Caractères
@@ -1663,118 +1644,6 @@ auth#:#login_page_activate#:#Activer les Langues Sélectionnées
 auth#:#login_page_editor_switched#:#L'éditeur de page a changé
 auth#:#login_page_switch_ipe#:#Utiliser l'Editeur ILIAS
 auth#:#login_page_switch_rte#:#Utiliser l'Editeur de Texte Riche
-barometer#:#anonymous#:#Anonyme
-barometer#:#bar_create#:#Créer nouvelle remarque
-barometer#:#barometer_add#:#Ajouter nouvelle remarque
-barometer#:#barometer_conflict_anon_req#:#Le mode anonyme ne peut pas être combiné au type 'Requis'. Veuillez choisir une de ces options.
-barometer#:#barometer_title#:#Commentaire
-barometer#:#best#:#Meilleur
-barometer#:#change_course#:#Modifier Cours
-barometer#:#chart_type#:#Type de graphique
-barometer#:#chart_users#:#Graphique utilisateur
-barometer#:#chart_votes#:#Graphique votes
-barometer#:#day#:#Jour
-barometer#:#days#:#Jours
-barometer#:#delete#:#Supprimer
-barometer#:#duration#:#Durée
-barometer#:#edit#:#Modifier
-barometer#:#edit_barometer#:#Éditer remarques
-barometer#:#every#:#tous
-barometer#:#feedb_edit_feedback#:#Éditer Remarques
-barometer#:#feedb_feedback_list#:#Liste des remarques
-barometer#:#feedb_feedback_settings#:#Paramètres des remarques
-barometer#:#feedb_time#:#Temps
-barometer#:#first_vote#:#1. Vote est le
-barometer#:#from#:#De
-barometer#:#hours#:#Heures
-barometer#:#lines#:#Lignes
-barometer#:#login#:#Identifiant
-barometer#:#missing_fields#:#Veuillez renseigner toutes les informations nécessaires
-barometer#:#month#:#Mois
-barometer#:#months#:#Mois
-barometer#:#new_vote#:#Nouveau vote
-barometer#:#note#:#Commentaire
-barometer#:#optional#:#Optionel
-barometer#:#options#:#Options
-barometer#:#pie#:#Camenbert
-barometer#:#repeat#:#Répéter tous les
-barometer#:#required#:#Obligatoire
-barometer#:#save#:#Enregistrer
-barometer#:#save_vote#:#Envoyer le vote
-barometer#:#skip#:#Passer
-barometer#:#statistics#:#Statistiques
-barometer#:#status#:#État
-barometer#:#table#:#Tableau
-barometer#:#text#:#Texte
-barometer#:#text_answer#:#Texte réponse
-barometer#:#time#:#En cours
-barometer#:#title#:#Titre
-barometer#:#type#:#Type
-barometer#:#until#:#Jusqu'à
-barometer#:#user#:#Utilisateur
-barometer#:#vote#:#Vote
-barometer#:#votes#:#Votes
-barometer#:#weeks#:#Semaines
-barometer#:#worst#:#Le moins bon
-barometer#:#year#:#Année
-bibitem#:#bibitem_add#:#Ajouter
-bibitem#:#bibitem_author#:#Auteur
-bibitem#:#bibitem_av#:#AV
-bibitem#:#bibitem_bibitem#:#Information bibliographique
-bibitem#:#bibitem_book#:#Livre
-bibitem#:#bibitem_booktitle#:#Titre du livre
-bibitem#:#bibitem_catalog#:#Catalogue
-bibitem#:#bibitem_choose_index#:#Veuillez sélectionner une information bibliographique :
-bibitem#:#bibitem_cross_reference#:#Référence croisée
-bibitem#:#bibitem_delete#:#Supprimer
-bibitem#:#bibitem_dissertation#:#Dissertation
-bibitem#:#bibitem_edition#:#Edition
-bibitem#:#bibitem_editor#:#Editeur
-bibitem#:#bibitem_entry#:#Entrée
-bibitem#:#bibitem_first_name#:#Prénom
-bibitem#:#bibitem_grey_literature#:#Littérature grise
-bibitem#:#bibitem_how_published#:#Mode de publication
-bibitem#:#bibitem_identifier#:#Identifiant
-bibitem#:#bibitem_inbook#:#Livre
-bibitem#:#bibitem_inproceedings#:#Actes
-bibitem#:#bibitem_institution#:#Institution
-bibitem#:#bibitem_internet#:#Internet
-bibitem#:#bibitem_isbn#:#ISBN
-bibitem#:#bibitem_issn#:#ISSN
-bibitem#:#bibitem_journal#:#Revue
-bibitem#:#bibitem_journal_article#:#Article de revue
-bibitem#:#bibitem_keyword#:#Mot-clé
-bibitem#:#bibitem_label#:#Etiquette
-bibitem#:#bibitem_language#:#Langue
-bibitem#:#bibitem_last_name#:#Nom
-bibitem#:#bibitem_manual#:#Manuel
-bibitem#:#bibitem_master_thesis#:#Mémoire de maîtrise
-bibitem#:#bibitem_middle_name#:#Deuxième prénom
-bibitem#:#bibitem_month#:#Mois
-bibitem#:#bibitem_new_element#:#Nouvel élément
-bibitem#:#bibitem_newspaper_article#:#Article de journal
-bibitem#:#bibitem_not_found#:#Pas d'information bibliographique disponible
-bibitem#:#bibitem_note#:#Note
-bibitem#:#bibitem_number#:#Nombre
-bibitem#:#bibitem_organization#:#Organisation
-bibitem#:#bibitem_pages#:#Pages
-bibitem#:#bibitem_phd_thesis#:#Thèse de doctorat
-bibitem#:#bibitem_please_select#:#Veuillez sélectionner
-bibitem#:#bibitem_print#:#Imprimer
-bibitem#:#bibitem_proceedings#:#Actes
-bibitem#:#bibitem_publisher#:#Editeur
-bibitem#:#bibitem_save#:#Enregistrer
-bibitem#:#bibitem_school#:#Ecole
-bibitem#:#bibitem_series#:#Collection
-bibitem#:#bibitem_series_editor#:#Editeur
-bibitem#:#bibitem_series_title#:#Titre de collection
-bibitem#:#bibitem_series_volume#:#Volume
-bibitem#:#bibitem_technical_report#:#Rapport technique
-bibitem#:#bibitem_type#:#Type
-bibitem#:#bibitem_unpublished#:#Non publié
-bibitem#:#bibitem_url#:#URL
-bibitem#:#bibitem_where_published#:#Lieu de publication
-bibitem#:#bibitem_year#:#Année
 bibl#:#bib_default_address#:#Adresse
 bibl#:#bib_default_author#:#Auteur
 bibl#:#bib_default_booktitle#:#Titre
@@ -2048,10 +1917,8 @@ certificate#:#certificate_a4_landscape#:#A4 paysage (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 portrait (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 paysage (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Image d'Arrière-Plan
-certificate#:#certificate_bottom#:#Bas
 certificate#:#certificate_confirm_deletion_text#:#Voulez-vous vraiment supprimer le certificat et toutes les données associées ?
 certificate#:#certificate_custom#:#Personnaliser...
-certificate#:#certificate_delete#:#Supprimer les Données du Certificat
 certificate#:#certificate_edit#:#Créer/Editer un Modèle de Certificat
 certificate#:#certificate_enabled_scorm#:#Activé
 certificate#:#certificate_enabled_scorm_introduction#:#Lorsque coché, les certificats sont accessibles à tous les utilisateurs aillant fini le module SCORM.
@@ -2060,12 +1927,10 @@ certificate#:#certificate_error_upload_bgimage#:#Une erreur s'est produite penda
 certificate#:#certificate_export#:#Exporter Certificat
 certificate#:#certificate_failed#:#échec
 certificate#:#certificate_file_basename#:#Certificat
-certificate#:#certificate_left#:#Gauche
 certificate#:#certificate_letter#:#Lettre (11 pouces x 8.5 pouces)
 certificate#:#certificate_letter_landscape#:#Lettre paysage (8.5 pouces x 11 pouces)
 certificate#:#certificate_margin_body#:#Marges
 certificate#:#certificate_not_well_formed#:#Le certificat n'est pas correctement formaté. Veuillez entrer un contenu XHTML valide !
-certificate#:#certificate_padding_top#:#Marge Haut de Page
 certificate#:#certificate_page_format#:#Format de Page
 certificate#:#certificate_page_format_info#:#Veuillez choisir le format de page par défaut pour les nouveaux certificats.
 certificate#:#certificate_pageheight#:#Hauteur de Page
@@ -2112,16 +1977,10 @@ certificate#:#certificate_ph_title_sco#:#title
 certificate#:#certificate_ph_zipcode#:#Code postal de l'adresse utilisateur
 certificate#:#certificate_points_notavailable#:#Cette valeur ne peut pas être calculée
 certificate#:#certificate_preview#:#Prévisualiser Certificat
-certificate#:#certificate_right#:#Droite
 certificate#:#certificate_settings#:#Paramètres du Certificat
 certificate#:#certificate_short_name#:#Nom de fichier
 certificate#:#certificate_short_name_description#:#Veuillez saisir un titre court pour le nom du certificat. Le titre sera partie intégrante du nom du certificat: AAMMJJ_ [nom] _ [SHORT_TITLE] _certificate.pdf.
-certificate#:#certificate_show#:#Afficher Certificat
-certificate#:#certificate_status#:#Statut
-certificate#:#certificate_status_complete#:#Le certificat est complet et peut être utilisé
-certificate#:#certificate_status_incomplete#:#Le certificat est incomplet
 certificate#:#certificate_text#:#Texte du Certificat
-certificate#:#certificate_top#:#Haut
 certificate#:#certificate_unit_description#:#Entrer une valeur avec unité de mesure : VALEUR [cm|mm|in|pt|pc|px|em], par ex. 10mm ou 3in
 certificate#:#certificate_usage#:#Notez que l'utilisation de certificats n'est possible que si le serveur Java d'ILIAS est configuré (voir Paramètres Généraux > Serveur Java).
 certificate#:#certificate_var_max_points#:#46
@@ -2149,13 +2008,10 @@ certificate#:#certificate_visibility_introduction#:#Les utilisateurs pourront t�
 certificate#:#certificate_visibility_never#:#Non Visible
 certificate#:#certificate_visibility_passed#:#Visible Uniquement si Test Réussi
 certificate#:#certificate_visibility_passed_exercise#:#Visible Uniquement si Exercice Réussi
-certificate#:#certificate_wrong_unit#:#Vous avez saisi une unité de mesure incorrecte
-certificate#:#certificate_wrong_units#:#Vous avez saisi un jeu d'unités de mesure incorrectes
 certificate#:#default_background_info#:#Cette image sera appliquée par défaut à tous les certificats. L'éditeur de certificat permet toutefois de préciser une image différente pour chaque certificat.
 certificate#:#download_certificate#:#Télécharger Certificat
 chatroom#:#allow_anonymous#:#Autoriser l'Accès Anonyme
 chatroom#:#allow_custom_usernames#:#Autoriser les Noms d'Utilisateur Personnalisés
-chatroom#:#allow_private_rooms#:#Autoriser les salles de Chat privées
 chatroom#:#anonymous_hint#:#Assurez vous de régler correctement les permissions dans l'onglet "Permissions" pour permettre aux utilisateurs anonymes d'accéder à cet objet.
 chatroom#:#auto_scroll#:#Défiler automatiquement
 chatroom#:#autogen_usernames#:#Noms d'Utilisateur Générés Automatiquement
@@ -2168,28 +2024,19 @@ chatroom#:#chat_address#:#S&#39;adresser à
 chatroom#:#chat_ban#:#Bannir
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> a quitté la discussion ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> a rejoint la discussion +++
-chatroom#:#chat_create_new_private_room#:#Créer Nouvelle Salle de Chat Privée
 chatroom#:#chat_create_private_room_button#:#Créer Salle de Chat Privée
-chatroom#:#chat_delete#:#Supprimer
 chatroom#:#chat_enable_autoscroll#:#Activer le Défilement Automatique
 chatroom#:#chat_invitation#:#Invitation de [INVITER_NAME] à la salle de Chat [ROOM_NAME]
 chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nVous avez été invité à la salle de Chat :\nTitre de la salle : [ROOM_NAME]\nInvité par : [INVITER_NAME]\nURL: [LINK]\n\nSi vous souhaitez entrer dans cette salle, cliquez sur le lien ci-dessus.
 chatroom#:#chat_invitation_short#:#Veuillez cliquer sur le titre pour entrer dans la salle de Chat.
 chatroom#:#chat_invite#:#Inviter
-chatroom#:#chat_invite_users#:#Inviter Utilisateurs
 chatroom#:#chat_join#:#Rejoindre
 chatroom#:#chat_kick#:#Exclure
-chatroom#:#chat_leave#:#Quitter
 chatroom#:#chat_mainroom#:#Salle Principale
 chatroom#:#chat_message#:#Message
 chatroom#:#chat_message_display#:#Options
-chatroom#:#chat_message_notify_activate#:#Notifications de Chat
 chatroom#:#chat_message_options#:#Afficher
 chatroom#:#chat_message_to_all#:#A Tous
-chatroom#:#chat_new_invitation_sound_status#:#Jouer un son lorsqu'un utilisateur reçoit une nouvelle invitation au Chat
-chatroom#:#chat_new_message_sound_status#:#Jouer un son lorsqu'un nouveau message est reçu
-chatroom#:#chat_private_room#:#Salle de ChatPrivée
-chatroom#:#chat_right_box_user#:#Utilisateur
 chatroom#:#chat_select_room#:#Sélectionner Salle de Chat
 chatroom#:#chat_settings#:#Paramètres du Chat
 chatroom#:#chat_to_mainroom#:#A la Salle Principale
@@ -2198,15 +2045,12 @@ chatroom#:#chatroom_smiley_keyword#:#Mot-Clé
 chatroom#:#chatserver_address#:#Adresse IP des Servers de Chat
 chatroom#:#chatserver_port#:#Port des Serveurs de Chat
 chatroom#:#chtr_add#:#Ajouter Salle de Chat
-chatroom#:#chtr_moderate#:#Modérer
 chatroom#:#chtr_new#:#Nouvelle Salle de Chat
 chatroom#:#clear_room_history#:#Supprimer Historique des Messages
 chatroom#:#clear_room_history_question#:#Voulez-vous vraiment supprimer tous les de la salle ?
-chatroom#:#connected#:#Connexion établie
 chatroom#:#create_private_room_text#:#Nom de la salle de Chat privée
 chatroom#:#custom_username#:#Nom d'Utilisateur Personnalisé
 chatroom#:#delete_private_room#:#Supprimer Salle de Chat Privée
-chatroom#:#disconnected#:#Connexion close
 chatroom#:#display_past_msgs#:#Nombre de Messages Précédents
 chatroom#:#duration_from#:#De
 chatroom#:#duration_to#:#A
@@ -2223,7 +2067,6 @@ chatroom#:#hint_display_past_msgs#:#Nombre de messages précédents à afficher 
 chatroom#:#hint_enable_smilies#:#Lorsque activé, certaines séquences de caractères sont remplacées par une icône. Voir l'onglet Smileys pour configuration.
 chatroom#:#hint_osd#:#Lorsque activé, les utilisateurs sont notifiés des nouvelles invitations par une fenêtre.
 chatroom#:#hint_osd_interval#:#Intervalle de temps pour la vérification de nouvelles notifications. Un nombre bas notifiera les utilisateurs plus rapidement mais augmentera le nombre de requêtes serveur.
-chatroom#:#hint_unique_name#:#Un nom utilisé par ILIAS et le serveur de Chat pour identifier votre installation ILIAS. Si vous utilisez plusieurs clients ILIAS, ce nom doit être unique pour chaque instance d'ILIAS. <br/>Le nom peut contenir des lettres (A-Z/a-z), chiffres (0-9) ainsi que les caractères "-" et "_".
 chatroom#:#history_by_day#:#Historique par Date
 chatroom#:#history_by_session#:#Historique par Session
 chatroom#:#history_byday_title#:#Afficher les Discussions par Jour
@@ -2231,8 +2074,6 @@ chatroom#:#history_bysession_title#:#Afficher les Discussions par Session
 chatroom#:#history_cleared#:#L&#39;historique des messages a été supprimé par un modérateur.
 chatroom#:#history_title_general#:#Discussion dans la Salle de Chat "%s"
 chatroom#:#history_title_private_room#:#Discussion dans la Salle de Chat Privée "%s"
-chatroom#:#ilias_url#:#URL de Base de votre Installation ILIAS
-chatroom#:#instance_name#:#Identifiant Unique
 chatroom#:#invite_to_private_room#:#Inviter des Utilisateurs
 chatroom#:#invite_username#:#Nom d'Utilisateur
 chatroom#:#italic#:#Italique
@@ -2243,7 +2084,6 @@ chatroom#:#layout#:#Mise en Page
 chatroom#:#leave_private_room#:#Quitter Salle de Chat Privée
 chatroom#:#lost_connection#:#La connexion au Chat a été interrompue.
 chatroom#:#main#:#Salle Principale
-chatroom#:#moderate#:#Modérer
 chatroom#:#no_further_users#:#Aucun autre utilisateur présent
 chatroom#:#no_messages#:#Il n'y a aucun message enregistré pour cette période.
 chatroom#:#no_username_given#:#Veuillez choisir un nom d'utilisateur
@@ -2257,27 +2097,19 @@ chatroom#:#private_room_left#:#L&#39;utilisateur <b>#user#</b> a quitté la sall
 chatroom#:#private_rooms_enabled#:#Autoriser les Salles de Chat Privées
 chatroom#:#private_rooms_enabled_info#:#Lorsque activé, les utilisateurs peuvent créer des salles de Chat privées. Seuls les utilisateurs invités peuvent y participer.
 chatroom#:#public_chat_created#:#La salle de Chat publique a été ajoutée au catalogue.
-chatroom#:#remark#:#Remarque
-chatroom#:#restrict_history#:#Restreindre l&#39;Historique
-chatroom#:#restrict_history_info#:#Aucun message durant votre absence.
 chatroom#:#room_in_container#:#%s (in: %s)
 chatroom#:#scope#:#Salle/Salle de Chat Privée
 chatroom#:#select_custom_username#:#Sélectionner Nom d'Utilisateur Personnalisé
 chatroom#:#server_further_information#:#Vous trouverez de plus amples informations sur la configuration du serveur dans le <a href="%1$s" target="_blank">fichier "readme"</a>.
 chatroom#:#session#:#Session
 chatroom#:#settings_general#:#Général
-chatroom#:#settings_privacy#:#Confidentialité
 chatroom#:#settings_title#:#Paramètres
 chatroom#:#show_settings#:#Afficher les Paramètres
 chatroom#:#small#:#Petit
-chatroom#:#soap_must_be_enabled#:#Vous devez activer SOAP dans les paramètres généraux d'ILIAS pour pouvoir activer le Chat.
-chatroom#:#soap_user#:#Nom de l'Utilisateur SOAP
-chatroom#:#soap_user_password#:#Mot de Passe de l'Utilisateur SOAP
 chatroom#:#speak_to#:#S&#39;adresser à <b>#user#</b>
 chatroom#:#unable_to_connect#:#La connexion au Chat n'a pas pu être établie.
 chatroom#:#unban#:#Ne plus bannir
 chatroom#:#underlined#:#Souligné
-chatroom#:#unkown_private_room#:#Salle de Chat privée inconnue
 chatroom#:#user_in_ilias#:#Rechercher et inviter un utilisateur ILIAS
 chatroom#:#user_in_room#:#Inviter un utilisateur de cette salle de Chat
 chatroom#:#user_invited#:#L&#39;utilisateur <b>#user#</b> a été invité.
@@ -2307,23 +2139,16 @@ chatroom_adm#:#chatserver_settings_title#:#Paramètres du Serveur de Chat
 chatroom_adm#:#client_settings#:#Paramètres Client
 chatroom_adm#:#enable_osd#:#Activer les Notifications d'Invitation
 chatroom_adm#:#general_settings_title#:#Paramètres Généraux du Chat
-chatroom_adm#:#hash#:#Hash
 chatroom_adm#:#https#:#HTTPS
-chatroom_adm#:#instance#:#Instance
-chatroom_adm#:#keypass#:#Keypass
-chatroom_adm#:#keystore#:#Keystore
 chatroom_adm#:#osd_intervall#:#Intervalle de rafraîchissement (secondes)
 chatroom_adm#:#play_invitation_sound#:#Jouer un son lorsque'une nouvelle invitation est reçue
 chatroom_adm#:#port_info#:#Les ports rarement utilisés sont souvent bloqués par les firewalls et serveurs proxy. Le navigateur de l'utilisateur ne parviendra pas à établir une connexion avec le serveur de Chat si le port défini est bloqué.
-chatroom_adm#:#priv_hosts#:#Privileged Hosts
 chatroom_adm#:#protocol#:#Protocole
 chatroom_adm#:#public_chat_permissions#:#Permissions de la Salle de Chat Publique
 chatroom_adm#:#public_chat_settings#:#Paramètres de la Salle de Chat Publique
 chatroom_adm#:#server_settings#:#Paramètres Serveur
 chatroom_adm#:#settings_has_been_saved#:#Les paramètres ont été enregistrés
 chatroom_adm#:#smiley#:#Smileys
-chatroom_adm#:#soap_user_hint#:#Cet utilisateur sert à envoyer des informations depuis le serveur de Chat vers ILIAS. Aucune permission particulière n'est requise.<br/>Si vous créez un nouveau compte, veuillez vous assurer que vous pouvez vous connecter avec ce compte (ex. accepter la charte d'utilisation).
-chatroom_adm#:#storepass#:#Storepass
 cld#:#cld_add#:#Ajouter Objet Cloud
 cld#:#cld_add_download_failed#:#Téléchargement Echoué
 cld#:#cld_add_file#:#Fichier
@@ -3901,7 +3726,6 @@ common#:#mail_addressbook#:#Contacts
 common#:#mail_allow_smtp#:#Autoriser SMTP
 common#:#mail_at_the_ilias_installation#:#Vous avez reçu %1$s nouveaux messages sur votre installation ILIAS %2$s
 common#:#mail_attachment#:#Pièce jointe
-common#:#mail_attachments#:#Pièces jointes
 common#:#mail_b_inbox#:#Réception
 common#:#mail_c_trash#:#Corbeille
 common#:#mail_d_drafts#:#Brouillons
@@ -5058,7 +4882,6 @@ common#:#soap_user_administration#:#Administration via SOAP
 common#:#soap_user_administration_desc#:#Lorsque activé, ILIAS peut être administré via SOAP.
 common#:#soap_wsdl_path#:#Chemin WSDL
 common#:#soap_wsdl_path_info#:#Entrez le chemin vers le fichier WSDL qui devrait être utilisé pour le service Web. Si vous laissez ce champ vide, le chemin suivant sera utilisé par défaut :%s
-common#:#sort_activation_header#:#Nach Zeitvorgaben
 common#:#sort_by_this_column#:#Trier selon cette colonne
 common#:#sort_inherit_prefix#:#Par défaut
 common#:#sorting_header#:#Tri des Objets
@@ -6651,7 +6474,6 @@ crs#:#crs_add_objective#:#Ajouter Objectif
 crs#:#crs_add_remove_from_desktop#:#Ajouter au Bureau Personnel
 crs#:#crs_add_remove_from_desktop_info#:#Autoriser les membres à ajouter des objets du cours au bureau personnel.
 crs#:#crs_add_starter#:#Ajouter Objet de Démarrage
-crs#:#crs_add_subscribers#:#Ajouter postulant
 crs#:#crs_add_to_group#:#Ajouter au Groupe
 crs#:#crs_added#:#Nouveau cours ajouté
 crs#:#crs_added_member#:#Votre inscription au cours "%s"
@@ -6661,25 +6483,10 @@ crs#:#crs_added_objective#:#Un nouvel objectif pédagogique a été créé.
 crs#:#crs_added_starters#:#Objet(s) de démarrage assigné(s).
 crs#:#crs_added_to_list#:#Vous êtes inscrits en liste d'attente. Vous avez la position %s dans cette liste.
 crs#:#crs_admin#:#Administrateur
-crs#:#crs_admin_no_notify#:#Administrateur (sans notification)
-crs#:#crs_admin_notify#:#Administrateur (notification)
 crs#:#crs_administrators#:#Administrateurs
 crs#:#crs_agree#:#Validation
 crs#:#crs_agreement_header#:#Charte Utilisateur
 crs#:#crs_agreement_required#:#Vous devez accepter la charte d'utilisation pour accéder à ce cours.
-crs#:#crs_allow_abo#:#Permettre l'inscription aux objets du cours
-crs#:#crs_already_assigned_to_list#:#Vous êtes déjà inscrit en liste d'attente.
-crs#:#crs_archive#:#Archives
-crs#:#crs_archive_disabled#:#Désactivé
-crs#:#crs_archive_download#:#Autoriser le Téléchargement des Archives du Cours
-crs#:#crs_archive_info#:#Lorsque activé, tous les contenus de cours sont supprimés. Seules les archives HTML du cours sont alors disponibles aux membres du cours.
-crs#:#crs_archive_lang#:#Langue
-crs#:#crs_archive_language_selection#:#Choix de la Langue
-crs#:#crs_archive_read#:#Accès en lecture
-crs#:#crs_archive_select_type#:#Présentation de l'archive
-crs#:#crs_archive_type#:#Type d'archive
-crs#:#crs_archive_type_disabled#:#Non disponible
-crs#:#crs_archives_deleted#:#L'archive a été supprimée
 crs#:#crs_auto_fill#:#Auto-Complétion
 crs#:#crs_auto_notification#:#Notification des Nouveaux Membres
 crs#:#crs_auto_notification_info#:#Les nouveaux membres reçoivent un mail dès leur inscription au cours.
@@ -6774,11 +6581,6 @@ crs#:#crs_header_delete_subscribers#:#Supprimer les postulants
 crs#:#crs_header_edit_members#:#Editer Membres
 crs#:#crs_header_members#:#Membres du cours
 crs#:#crs_header_remove_from_waiting_list#:#Liste d'attente : retirer des utilisateurs
-crs#:#crs_hide_link_lms#:#Cacher les ressources
-crs#:#crs_hide_link_objectives#:#Cacher les objectifs
-crs#:#crs_hide_link_or#:#Cacher les autres ressources
-crs#:#crs_hide_link_session#:#Cacher les sessions
-crs#:#crs_hide_link_tst#:#Cacher les tests
 crs#:#crs_html#:#HTML
 crs#:#crs_import#:#Importer Cours
 crs#:#crs_important_info#:#Informations Importantes
@@ -6837,9 +6639,6 @@ crs#:#crs_members_print_title#:#Membres du cours
 crs#:#crs_members_table#:#Participants au Cours
 crs#:#crs_members_title#:#Membres du cours
 crs#:#crs_min_one_admin#:#Il doit y avoir au moins un administrateur pour ce cours.
-crs#:#crs_move_down#:#Déplacer vers le bas
-crs#:#crs_move_up#:#Déplacer vers le haut
-crs#:#crs_moved_item#:#Objets du cours déplacés
 crs#:#crs_moved_objective#:#Objectif pédagogique déplacé.
 crs#:#crs_new_search#:#Nouvelle recherche
 crs#:#crs_new_status#:#Votre nouveau statut est :
@@ -7389,7 +7188,6 @@ dateplaner#:#cal_ch_target_object_info#:#Restreindre les évènements à cet obj
 dateplaner#:#cal_ch_unknown_repository_object#:#Le Ref-ID de l'objet n'est pas valide.
 dateplaner#:#cal_ch_unknown_user#:#Le nom d'utilisateur fourni ne correspond à aucun utilisateur.
 dateplaner#:#cal_ch_user_assignment_failed_info#:#Le nombre maximum de rendez-vous a été atteint.
-dateplaner#:#cal_ch_user_assignment_success#:#Les utilisateurs ont été associés aux rendez-vous choisis.
 dateplaner#:#cal_change_responsible_users#:#Changer les Responsables
 dateplaner#:#cal_changed_events_header#:#Nouveaux Evènements et Evénements Modifiés
 dateplaner#:#cal_confirm_booking#:#Confirmer Réservation
@@ -7584,52 +7382,10 @@ dateplaner#:#del_all#:#Supprimer tous les évènements
 dateplaner#:#del_one#:#Supprimer un évènement
 dateplaner#:#deletedDates#:#Evènements Supprimés
 dateplaner#:#discard#:#Ecarter
-dateplaner#:#dv_button_cancel#:#Annuler
-dateplaner#:#dv_button_delete#:#Supprimer
-dateplaner#:#dv_button_insert#:#Insérer
-dateplaner#:#dv_button_update#:#Mettre à Jour
-dateplaner#:#dv_date_begin#:#Date de Début :
-dateplaner#:#dv_date_end#:#Date de Fin :
-dateplaner#:#dv_date_hm#:#Heure:Minute
-dateplaner#:#dv_enddate#:#Date de fin :
-dateplaner#:#dv_groupselect#:#Sélection du Groupe :
-dateplaner#:#dv_Grouptime#:#Temps disponible
-dateplaner#:#dv_groupview#:#Evènements du Groupe :
-dateplaner#:#dv_groupview_text#:#Groupe :<br>
-dateplaner#:#dv_keywords#:#Mots-Clés :
-dateplaner#:#dv_keywordselect#:#Sélection du Mot-Clé :
-dateplaner#:#dv_message#:#Message :
-dateplaner#:#dv_noGroup#:#Aucun Groupe
-dateplaner#:#dv_noKey#:#Aucun Mot-Clé
-dateplaner#:#dv_preview#:#<b>! Aperçu !</b>
-dateplaner#:#dv_rotation#:#Répétition :
-dateplaner#:#dv_rotation_date#:#Date de répétition :
-dateplaner#:#dv_rotation_end#:#Fin de répétition :
-dateplaner#:#dv_shorttext#:#Texte court :
-dateplaner#:#dv_startdate#:#Date de début :
-dateplaner#:#dv_text#:#Texte :
-dateplaner#:#dv_whole_day#:#Journée entière :
-dateplaner#:#dv_whole_rotation#:#Voulez-vous supprimer la séquence d’évènements ? (cochez la case)
 dateplaner#:#end_date#:#Date de Fin
 dateplaner#:#endtime_for_view#:#Date de fin :
 dateplaner#:#err_end_before_start#:#L'événement ne peut pas commencer avant la fin.
 dateplaner#:#err_missing_title#:#Veuillez entrez un titre d'évènement.
-dateplaner#:#ERROR_DATE_EXISTS#:#Cet évènement existe déjà.
-dateplaner#:#ERROR_DB#:#Erreur d'écriture dans la base de données !
-dateplaner#:#ERROR_DB_CONNECT#:#La base de données n'est pas accessible !
-dateplaner#:#ERROR_DEL_MSG#:#Cet évènement est récurrent. Voulez-vous supprimer un seul évènement ou toute la série d’évènements ?
-dateplaner#:#ERROR_END_START#:#Mauvaise date de fin. La date de fin est antérieure à la date de début.
-dateplaner#:#ERROR_ENDDATE#:#Mauvaise date de fin. Format : jj/mm/aaaa
-dateplaner#:#ERROR_ENDTIME#:#Mauvaise heure de fin. Format : hh:mm
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Veuillez choisir un fichier CSV valide.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Votre navigateur n'accepte pas JavaScript <br/>Veuillez fermer cette fenêtre après insertion manuelle. <br/> Merci</CENTER></B>
-dateplaner#:#error_minical_img#:#Impossible de créer le flux d'image GD
-dateplaner#:#ERROR_ROT_END_START#:#Mauvaise date de fin de répétition. La date de fin est antérieure à la date de début.
-dateplaner#:#ERROR_ROTATIONEND#:#Mauvaise date de fin de répétition. Format: jj/mm/aaaa
-dateplaner#:#ERROR_SHORTTEXT#:#Veuillez saisir un texte court (obligatoire).
-dateplaner#:#ERROR_STARTDATE#:#Mauvaise date de début. Format : jj/mm/aaaa
-dateplaner#:#ERROR_STARTTIME#:#Mauvaise heure de début. Format : hh:mm
-dateplaner#:#ERROR_TS#:#Format de date incorrect
 dateplaner#:#execute#:#Valider les choix
 dateplaner#:#extra_dates#:#Evènements sur Journée Entière
 dateplaner#:#Fr_long#:#Vendredi
@@ -7639,52 +7395,6 @@ dateplaner#:#freetime#:#Temps disponible du groupe
 dateplaner#:#group#:#Groupe
 dateplaner#:#grp_cal_reg_end#:#Fin d'Inscription
 dateplaner#:#grp_cal_reg_start#:#Début d'Inscription
-dateplaner#:#help_day#:#Vue Journalière
-dateplaner#:#help_day_l#:#Dans la vue journalière, tous les évènements du jour sont affichés.
-dateplaner#:#help_enddate#:#Date de fin - syntaxe [jj//mm/aaaa]
-dateplaner#:#help_enddate_l#:#Contient la date de fin de l’évènement. <br/> Le symbole donne accès à un petit agenda pour choisir la date appropriée.
-dateplaner#:#help_endrotation#:#Format d'heure de fin [jj/mm/aaaa]
-dateplaner#:#help_endrotation_l#:#Date de fin de répétition de l’évènement.<br/> Le symbole donne accès à un petit agenda permettant de choisir la date appropriée.
-dateplaner#:#help_endtime#:#Heure de fin - syntaxe [jj/mm] 24h format
-dateplaner#:#help_endtime_l#:#Contient l'heure de fin de l’évènement en utilisant le format 24h.
-dateplaner#:#help_filename#:#dp_help_en.html
-dateplaner#:#help_fullday#:#Evènement sur une journée complète - syntaxe[on/off]
-dateplaner#:#help_fullday_l#:#Si l’évènement s'étend sur plus d'une journée complète, choisissez cette option.<br/>Les heures de début et de fin seront cachées.
-dateplaner#:#help_further#:#<br/> <b>Cliquez ici pour des informations complémentaires.</b>
-dateplaner#:#help_group#:#Sélection d'évènements de groupe
-dateplaner#:#help_group_l#:#Les groupes affichés sont ceux pour lesquels vous avez des droits d'administrateur et pour lesquels vous pouvez attribuer un évènement. <br>Après sélection du groupe, vous verrez ses disponibilités.
-dateplaner#:#help_inbox#:#Planning
-dateplaner#:#help_inbox_l#:#Tous les nouveaux évènements de groupe, évènements modifiés et supprimés sont affichés ici.
-dateplaner#:#help_keyword#:#Choix de mot-clé
-dateplaner#:#help_keyword_l#:#Contient les mots-clés qui peuvent être associés aux dates.
-dateplaner#:#help_keywordUse#:#Choix de mot-clé
-dateplaner#:#help_keywordUse_l#:#Choisissez un ou plusieurs mots-clés dans la boîte de dialogue. <br/>Astuce : utilisez la touche 'CTRL' pour sélectionner plusieurs mots-clés.
-dateplaner#:#help_list#:#Liste des évènements de l'agenda
-dateplaner#:#help_list_l#:#Tous les évènements d'une période donnée sont affichés dans la liste des évènements.
-dateplaner#:#help_month#:#Vue mensuelle
-dateplaner#:#help_month_l#:#Dans la vue mensuelle, tous les évènements du mois concerné sont affichés.
-dateplaner#:#help_properties_alt#:#Change le mot-clé
-dateplaner#:#help_properties_alt_l#:#Choisissez un mot-clé dans la boîte de dialogue.<br/>Changez le mot clé dans le champ de saisie. Attention : 20 caractères maximum.
-dateplaner#:#help_properties_del#:#Supprime le mot-clé
-dateplaner#:#help_properties_del_l#:#Choisissez un mot-clé dans la boîte de dialogue. Cliquer sur le bouton pour supprimer le mot-clé.
-dateplaner#:#help_properties_import#:#Imporation de fichiers CSV Outlook
-dateplaner#:#help_properties_import_l#:#Vous pouvez choisir ici un fichier CSV contenant les évènements Outlook. Ces évènements seront importés dans l'agenda.
-dateplaner#:#help_properties_new#:#Ajouter un mot-clé, 20 caractères max.
-dateplaner#:#help_properties_new_l#:#Ajouter un nouveau mot-clé dans le champ \"nouveau\". Important : max. 20 caractères.
-dateplaner#:#help_properties_time#:#Afficher la plage horaire pour la vue journalière/hebdomadaire
-dateplaner#:#help_properties_time_l#:#La plage horaire standard pour la vue journalière/hebdomadaire peut être modifiée.  Si les événements dépassent la plage d'horaire, celle-ci peut être modifiée. Par défaut, la plage est de 8h à 18h.
-dateplaner#:#help_rotation#:#Répétition
-dateplaner#:#help_rotation_l#:#Choisissez le type de répétition.
-dateplaner#:#help_shorttext#:#Texte court. 50 caractères max.
-dateplaner#:#help_shorttext_l#:#Vous pouvez saisir ici un texte court pour un évènement donné.
-dateplaner#:#help_startdate#:#Date de début - syntaxe [jj//mm/aaaa]
-dateplaner#:#help_startdate_l#:#Contient l'heure de début de l’évènement. <br/> L'icône ci-contre ouvre un petit agenda pour choisir la date appropriée.
-dateplaner#:#help_starttime#:#Horaire de début - syntaxe [hh/mm] 24h format
-dateplaner#:#help_starttime_l#:#Contient l'heure de début de l’évènement au format 24h.
-dateplaner#:#help_text#:#Texte
-dateplaner#:#help_text_l#:#Vous pouvez saisir ici le texte pour un évènement donné.
-dateplaner#:#help_week#:#Vue hebdomadaire
-dateplaner#:#help_week_l#:#Dans la vue hebdomadaire, tous les évènements de la semaine choisie sont affichés.
 dateplaner#:#hour#:#heure
 dateplaner#:#ical_export#:#Export iCal
 dateplaner#:#importDates#:#Importer Evènements Outlook
@@ -7780,8 +7490,6 @@ dateplaner#:#week#:#Semaine
 dateplaner#:#Week_long#:#Vue Hebdomadaire
 dateplaner#:#wk_short#:#Sem.
 dateplaner#:#year#:#Année
-dateplaner#:#yui_cal_choose_month#:#Mois :
-dateplaner#:#yui_cal_choose_year#:#Année :
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_activate_approval#:#Activer l'Approbation des Enregistrements
 dcl#:#dcl_activate_notification#:#Activer Notification
@@ -8476,9 +8184,7 @@ forum#:#forums_all_threads_marked_read#:#Tous les fils de discussion ont été m
 forum#:#forums_attachments#:#Pièces Jointes
 forum#:#forums_attachments_add#:#Ajouter Pièce Jointe
 forum#:#forums_censor_comment#:#Commentaire du modérateur
-forum#:#forums_count#:#Nombre de forums
 forum#:#forums_count_art#:#Nombre d'articles
-forum#:#forums_count_thr#:#Nombre de fils de discussion
 forum#:#forums_created_by#:#Créé par
 forum#:#forums_delete_file#:#Supprimer pièce jointe
 forum#:#forums_disable_notification#:#Désactiver la notification
@@ -8492,14 +8198,11 @@ forum#:#forums_info_delete_post#:#Etes-vous sûr de vouloir supprimer cet articl
 forum#:#forums_mark_read#:#Tout Marquer Comme Lu
 forum#:#forums_new_thread#:#Nouveau Sujet
 forum#:#forums_no_posts_available#:#Le sujet de discussion ne comporte pas encore de message ou bien le modérateur a désactivé le premier message.
-forum#:#forums_notification#:#Notification
 forum#:#forums_notification_disabled#:#Notification désactivée
 forum#:#forums_notification_enabled#:#Notification activé
 forum#:#forums_notification_intro#:#Ce message vous a été automatiquement envoyé par l'instance ILIAS %s, %s
 forum#:#forums_notification_show_post#:#Afficher les messages postés : %s
-forum#:#forums_notification_subject#:#Nouveau message sur un sujet de discussion
 forum#:#forums_post_activation_mail#:#À moins que les publication suivantes ne sont pas activées, il n'est pas visible pour les utilisateurs des autres Forum. Vous recevez ce courriel car vous êtes modérateur et avez l'autorisation d'activer cette annonce.
-forum#:#forums_post_and_children_were_activated#:#Le message et toutes ses réponses ont été activés.
 forum#:#forums_post_deleted#:#L'article a été détruit
 forum#:#forums_post_modified#:#L'article a été modifié
 forum#:#forums_post_needs_to_be_activated#:#Un nouveau message a été posté, mais il doit être accepté par le modérateur pour être publié.
@@ -8511,7 +8214,6 @@ forum#:#forums_print_thread#:#Imprimer Fil de Discussion
 forum#:#forums_subject#:#Sujet
 forum#:#forums_the_post#:#Article
 forum#:#forums_thread#:#Sujet
-forum#:#forums_thread_create_date#:#Créé à
 forum#:#forums_thread_create_from#:#Créé par
 forum#:#forums_thread_marked#:#Fil de discussion marqué comme lu
 forum#:#forums_thread_new_entry#:#Le nouveau sujet a été inscrit
@@ -8539,8 +8241,6 @@ forum#:#frm_post_not_activated_yet#:#Pas encore activé.
 forum#:#frm_pseudonym#:#Pseudo
 forum#:#frm_purifier_not_implemented_for_type_x#:#Purificateur pour type %s non encore implémenté.
 forum#:#frm_selected_merge_src#:#Sujet à Fusionner : %s
-forum#:#frm_sorting_posts#:#Classement de Messages
-forum#:#frm_sorting_threads#:#Classement des Sujets
 forum#:#frm_statistics#:#Statistiques
 forum#:#frm_statistics_disabled_for_participants#:#Les statistiques sont désactivés pour les membres du forum.
 forum#:#frm_statistics_enabled#:#Activer les statistiques
@@ -8715,7 +8415,6 @@ grp#:#grp_set_on_waiting_list#:#Vous pouvez ajouter votre demande d'inscription 
 grp#:#grp_setting_header_presentation#:#Présentation du Groupe
 grp#:#grp_setting_header_registration#:#Inscription au Groupe
 grp#:#grp_settings#:#Paramètres du Groupe
-grp#:#grp_subscriber#:#Membre
 grp#:#grp_typ#:#Type de Groupe
 grp#:#grp_type_changed_info#:#La modification du type de groupe réinitialisera toutes les permissions.
 grp#:#grp_unsubscribe#:#Se Désinscrire
@@ -8912,7 +8611,6 @@ ldap#:#ldap_role_selection_info#:#Votre sélection est ambigu. Merci de choisir 
 ldap#:#ldap_role_settings#:#Paramètres de Synchronisation de Groupe LDAP
 ldap#:#ldap_rule_condition#:#condition
 ldap#:#ldap_rule_type#:#Type de cession
-ldap#:#ldap_scope_base#:#Base
 ldap#:#ldap_scope_one#:#Un
 ldap#:#ldap_scope_sub#:#Sous
 ldap#:#ldap_search_base_info#:#Obtient préfixé basedn lors de la recherche pour les utilisateurs.
@@ -8960,59 +8658,35 @@ license#:#used_licenses#:#Licences consommées
 license#:#used_licenses_explanation#:#Chaque premier accès par un utilisateur consomme une licence.
 license#:#zero_licenses_explanation#:#Entrer 0 pour désactiver les licences.
 mail#:#activate_serial_letter_placeholders#:#Activer les Chaînes de Remplacement
-mail#:#advice_mail_body_secured#:#Pour des raisons de sécurité, ILIAS a supprimé certaines éléments de votre message. Veuillez vérifier le message sécurisé et l'envoyer à nouveau.
-mail#:#also_as_email#:#Également comme E-Mail
-mail#:#auto_update#:#Mettre à Jour
 mail#:#bc#:#CCI
 mail#:#chat_users_have_been_invited#:#Les utilisateurs ont été invités.
 mail#:#chat_users_without_login#:#Les utilisateurs suivants n'ont pas de compte ILIAS et ne peuvent pas être invités à la salle de Chat.
 mail#:#chat_users_without_permission#:#Les utilisateurs suivants n'ont pas accès à la salle de Chat sélectionnée.
-mail#:#cron_update_addressbook#:#Synchroniser automatiquement les entrées du carnet d'adresses
-mail#:#cron_update_addressbook_desc#:#Lorsque cette option est activée, les utilisateurs peuvent demander la synchronisation par tâche Cron de leur carnet d'adresse. Seules les données fournies par l'utilisateur seront mises à jour.
 mail#:#forward#:#Transférer
 mail#:#goto_invitation_chat#:#Ouvrir Salle de Chat
 mail#:#info_mail_external_sender_noreply#:#Entrez l'adresse email qui sera utilisée comme adresse de l'expéditeur pour les messages système et les notifications envoyées par email. <b>Note</b> : utiliser une adresse réelle afin d'éviter un rejet par les anti-SPAM.
 mail#:#invite_to_chat#:#Inviter à un Chat
 mail#:#linebreak#:#Retour à la ligne
 mail#:#mail_account_mail#:#Mail de Compte Utilisateur
-mail#:#mail_account_mail_check#:#Envoyer Mail de Compte Utilisateur
 mail#:#mail_add_folder#:#Ajouter Nouveau Sous-Dossier
 mail#:#mail_add_recipient#:#Veuillez saisir un destinataire
 mail#:#mail_add_subfolder#:#Ajouter Sous-Dossier
 mail#:#mail_add_subject#:#Veuillez saisir un sujet
-mail#:#mail_add_to_addressbook#:#Ajouter aux Contacts
-mail#:#mail_add_type#:#Veuillez ajouter le type de message que vous voulez envoyer
-mail#:#mail_addr_entries#:#Contacts
 mail#:#mail_assign_entry_to_mailing_list#:#Ajouter un Contact à la Liste de Diffusion
 mail#:#mail_attachments#:#Pièces Jointes
 mail#:#mail_auto_generated_info#:#Ce message vous a été automatiquement envoyé par la plateforme ILIAS %s, %s
-mail#:#mail_bc_not_valid#:#Le destinataire en CCI n'est pas valide
-mail#:#mail_bc_search#:#Recherche CCI
-mail#:#mail_byte#:#Octet
-mail#:#mail_cc_not_valid#:#Le destinataire en CC n'est pas valide
-mail#:#mail_cc_search#:#Recherche CC
 mail#:#mail_change_to_folder#:#Afficher le dossier :
-mail#:#mail_check_your_email_addr#:#Votre adresse email n'est pas valide
-mail#:#mail_compose#:#Composer Message
 mail#:#mail_cronjob_notification_info#:#Vous pouvez activer une notification périodique des nouveaux messages.
 mail#:#mail_crs_list_members_not_available#:#Il n'est pas possible de lister les membres des cours sélectionnés.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Les membres d'au moins un cours sélectionné ne peuvent être listés.
 mail#:#mail_deleted#:#L'email est supprimé
 mail#:#mail_deleted_entry#:#Les entrées sont supprimées
-mail#:#mail_edit_entry#:#Modifier l'Entrée
-mail#:#mail_email_forbidden#:#Vous n'êtes pas autorisé à envoyer des emails
 mail#:#mail_empty_trash#:#Vider Corbeille
 mail#:#mail_empty_trash_confirmation#:#Êtes-vous sûr de vouloir supprimer tous les messages ?
 mail#:#mail_enable_crs_member_notification#:#Notification de Cours
 mail#:#mail_enable_crs_member_notification_info#:#Lorsque activé, les membres d'un cours sont automatiquement notifiés lors d'un changement d'inscription.
 mail#:#mail_enable_grp_member_notification#:#Notification de Groupe
 mail#:#mail_enable_grp_member_notification_info#:#Lorsque activé, les membres d'un groupe sont automatiquement notifiés lors d'un changement d'inscription.
-mail#:#mail_enter_login_or_email_addr#:#Veuillez saisir un nom d'utilisateur ou une adresse électronique valide.
-mail#:#mail_enter_valid_email_addr#:#Veuillez saisir une adresse électronique valide.
-mail#:#mail_enter_valid_login#:#Veuillez saisir un nom d'utilisateur valide.
-mail#:#mail_entry_added#:#Nouvelle entrée ajoutée
-mail#:#mail_entry_changed#:#L'entrée a été changée
-mail#:#mail_entry_exists#:#Une entrée avec le nom d'utilisateur ou l'adresse électronique fournie existe déjà.
 mail#:#mail_external_sender_noreply#:#Adresse "No-Reply"
 mail#:#mail_file_name#:#Nom du Fichier
 mail#:#mail_file_size#:#Taille du Fichier
@@ -9027,15 +8701,9 @@ mail#:#mail_filter_subject#:#Sujet
 mail#:#mail_filter_txt#:#Filtrer message par
 mail#:#mail_folder_created#:#Un nouveau dossier a été créé
 mail#:#mail_folder_deleted#:#Le dossier a été supprimé
-mail#:#mail_folder_edit#:#Editer le Dossier
 mail#:#mail_folder_exists#:#Un dossier portant ce nom existe déjà
-mail#:#mail_folder_name#:#Nom du dossier
 mail#:#mail_folder_name_changed#:#Le dossier a été renommé
-mail#:#mail_folder_options#:#Options de Dossier
 mail#:#mail_following_rcp_not_valid#:#Les destinataires suivants ne sont pas valides :
-mail#:#mail_global_options#:#Options globales
-mail#:#mail_group_members#:#Membres du Groupe
-mail#:#mail_in_addressbook#:#Déjà dans mes Contacts
 mail#:#mail_incoming#:#Messages reçus
 mail#:#mail_incoming_both#:#local et redirection
 mail#:#mail_incoming_local#:#local seulement
@@ -9043,8 +8711,6 @@ mail#:#mail_incoming_mail#:#Courrier entrant
 mail#:#mail_incoming_smtp#:#rediriger vers adresse e-mail
 mail#:#mail_insert_folder_name#:#Veuillez saisir un nom de dossier
 mail#:#mail_insert_query#:#Veuillez saisir une requête
-mail#:#mail_intern#:#Interne
-mail#:#mail_into_addressbook#:#Ajouter aux Contacts
 mail#:#mail_invite_users_to_chat#:#Inviter des Utilisateurs à une Chat
 mail#:#mail_list_members#:#Lister les membres
 mail#:#mail_mailing_list#:#Liste de Contacts
@@ -9053,7 +8719,6 @@ mail#:#mail_mark_read#:#Marquer les messages comme lus
 mail#:#mail_mark_unread#:#Marquer les messages comme non lus
 mail#:#mail_maxsize_attachment_error#:#La limite de téléchargement est :
 mail#:#mail_member_notification#:#Notification des Participants
-mail#:#mail_members_added_addressbook#:#Membres ajoutés à mes contacts
 mail#:#mail_members_of_mailing_list#:#Membres de la Liste de Contacts
 mail#:#mail_message_send#:#Message envoyé
 mail#:#mail_move_error#:#Erreur lors du déplacement des messages
@@ -9062,7 +8727,6 @@ mail#:#mail_moved#:#Message déplacé
 mail#:#mail_moved_to_trash#:#Message déplacé dans la corbeille
 mail#:#mail_multiple_recipients_found#:#Saisissez une adresse électronique plus précise. ILIAS a trouvé de multiples destinataires avec cette adresse électronique : %s
 mail#:#mail_my_courses#:#Mes Cours
-mail#:#mail_my_entries#:#Mes Contacts
 mail#:#mail_my_groups#:#Mes Groupes
 mail#:#mail_my_mailing_lists#:#Mes Listes de Diffusion
 mail#:#mail_nacc_admin_mail#:#Adresse E-Mail de l'Administrateur
@@ -9079,22 +8743,14 @@ mail#:#mail_nacc_target_title#:#Titre de l'objet ciblé, par ex. titre du cours.
 mail#:#mail_nacc_target_type#:#Type de l'objet ciblé, par ex. « Cours » pour un objet de type cours.
 mail#:#mail_nacc_timelimit#:#User access period 
 mail#:#mail_nacc_use_placeholder#:#Les chaînes de remplacement suivantes peuvent être utilisées
-mail#:#mail_new_entry#:#Nouvelle Entrée
-mail#:#mail_new_file#:#Ajouter nouveau fichier :
-mail#:#mail_no_attach_allowed#:#Les messages système ne peuvent pas contenir de pièce jointe
-mail#:#mail_no_attachments_found#:#Aucune pièce jointe trouvée
 mail#:#mail_no_permissions_write_smtp#:#Vous n'avez pas la permission d'envoyer des messages externes.
 mail#:#mail_no_recipient_found#:#Saisissez une adresse électronique différente. ILIAS n'a pas pu trouver un destinataire avec cette adresse électronique.
 mail#:#mail_no_valid_mailing_list#:#Aucune Liste de Diffusion Valide
 mail#:#mail_notification_subject#:#Nouveau message dans votre boîte de réception
-mail#:#mail_options_of#:#Options
 mail#:#mail_options_saved#:#Options enregistrées
 mail#:#mail_prevent_smtp_globally#:#Bloquer l'envoi de mails externes (via SMTP)
-mail#:#mail_received_x_new_mails#:#Vous avez reçu %s nouveaux messages.
-mail#:#mail_recipient_not_valid#:#Le destinataire n'est pas valide
 mail#:#mail_rename_folder#:#Renommer Dossier
 mail#:#mail_s#:#Message(s)
-mail#:#mail_s_unread#:#Message(s) Non Lu(s)
 mail#:#mail_salutation_anonymous#:#Bonjour
 mail#:#mail_salutation_f#:#Bonjour
 mail#:#mail_salutation_female#:#Salutation, féminin
@@ -9108,9 +8764,6 @@ mail#:#mail_select_course#:#Veuillez sélectionner au moins un cours.
 mail#:#mail_select_group#:#Veuillez sélectionner au moins un groupe.
 mail#:#mail_select_one_entry#:#Vous devez sélectionner une entrée
 mail#:#mail_select_one_file#:#Vous devez sélectionner un fichier
-mail#:#mail_select_only_one_entry#:#Veuillez sélectionner seulement une entrée.
-mail#:#mail_select_recipients#:#Veuillez sélectionner les destinataires :
-mail#:#mail_send_with_system_address#:#Envoyé Avec l'Adresse Système
 mail#:#mail_settings_incoming_type_see_also#:#Le type d'email entrant peut aussi être modifié <a href="%s">ici</a>.
 mail#:#mail_subject_prefix#:#Objet du Mail
 mail#:#mail_subject_prefix_info#:#Saisissez un texte qui sera ajouté dans l'objet des emails envoyés automatiquement.
@@ -9119,15 +8772,11 @@ mail#:#mail_sure_delete_entry#:#Êtes-vous sûr(e) de vouloir supprimer les entr
 mail#:#mail_sure_delete_file#:#Êtes-vous sûr(e) de vouloir supprimer les fichiers sélectionnés ?
 mail#:#mail_sure_delete_folder#:#Le dossier et son contenu seront détruits définitivement
 mail#:#mail_to#:#À
-mail#:#mail_user_addr_n_valid#:#Les utilisateurs suivants n'ont pas d'adresse email valide
 mail#:#placeholders_advise#:#Les chaînes de remplacement ne concernent que les destinataires indiqués dans le champs "À", et non les destinataires indiqués dans les champs "CC" et "CCI".
-mail#:#search_bc_recipient#:#Rechercher Destinataire CCI
-mail#:#search_cc_recipient#:#Rechercher Destinataire CC
 mail#:#search_content#:#Résultats de Recherche
 mail#:#search_recipients#:#Rechercher Destinataires
 mail#:#send_mail_to#:#Envoyer un message à
 mail#:#system_notification_installation_changed_by#:#Modifié Par
-mail#:#system_notification_installation_signature#:#Cet email a été envoyé automatiquement par l'installation ILIAS
 mathjax#:#mathjax_enable_mathjax#:#Activer MathJax
 mathjax#:#mathjax_enable_mathjax_info#:#Active le rendu MathJax des expressions mathématiques LaTeX.
 mathjax#:#mathjax_limiter#:#Séparateurs
@@ -10464,7 +10113,6 @@ rbac#:#cat_write#:#L'utilisateur peut modifier les paramètres et gérer le cont
 rbac#:#catr_copy#:#L'utilisateur peut copier l'objet
 rbac#:#catr_delete#:#L'utilisateur peut déplacer et supprimer l'objet
 rbac#:#catr_edit_permission#:#L'utilisateur peut modifier les permissions de l'objet
-rbac#:#catr_read#:#Lire l'accès à la Catégorie de référence
 rbac#:#catr_visible#:#L'objet est visible
 rbac#:#catr_write#:#L'utilisateur peut modifier les paramètres de l'objet
 rbac#:#cert_edit_permission#:#Permissions d'administration modifiables
@@ -10515,7 +10163,6 @@ rbac#:#crs_write#:#L'utilisateur peut modifier les paramètres et gérer le cont
 rbac#:#crsr_copy#:#L'utilisateur peut copier l'objet
 rbac#:#crsr_delete#:#L'utilisateur peut déplacer et supprimer l'objet
 rbac#:#crsr_edit_permission#:#L'utilisateur peut modifier les permissions de l'objet
-rbac#:#crsr_read#:#Accès en lecture à la Référence de Cours
 rbac#:#crsr_visible#:#L'objet est visible
 rbac#:#crsr_write#:#L'utilisateur peut modifier les paramètres de l'objet
 rbac#:#crss_edit_permission#:#L'utilisateur peut modifier les permissions de l'objet
@@ -12884,96 +12531,6 @@ trac#:#search_area_info#:#Veuillez choisir un objet.
 trac#:#search_terms#:#Rechercher Terme(s)
 trac#:#select_one#:#Veuillez choisir un objet.
 trac#:#session_statistics#:#Statistiques de Sessions
-trac#:#stats_access#:#Accès
-trac#:#stats_accesses#:#Accès
-trac#:#stats_all#:#Tout
-trac#:#stats_chapter#:#Chapitre
-trac#:#stats_chapter_average_page_number#:#Nombre Moyen de Pages par Chapitre
-trac#:#stats_chapter_depth_coverage#:#Degré de Couverture au Niveau
-trac#:#stats_chapter_fewest_access#:#Nombre d'Accès le Moins Elevé
-trac#:#stats_chapter_listing#:#Liste des Chapitres
-trac#:#stats_chapter_longest_total_dwell_time_depth#:#Temps Total Passé au Niveau
-trac#:#stats_chapter_most_access_depth#:#Accès les Plus Fréquents au Niveau
-trac#:#stats_chapter_most_pages#:#Le Plus de Pages
-trac#:#stats_chapter_number#:#Nombre de Chapitres
-trac#:#stats_chapter_statisics#:#Statistiques de Chapitres
-trac#:#stats_chapter_stubbiest_total_dwell_time#:#Temps Total Passé aux Niveaux Inférieurs
-trac#:#stats_chapter_top#:#Top-Chapitre (variation, accès, etc.)
-trac#:#stats_chapter_total_statistic#:#Statistiques Tous Chapitres Confondus
-trac#:#stats_choice#:#Sélection
-trac#:#stats_current#:#Actuellement
-trac#:#stats_depth#:#Niveau
-trac#:#stats_duration#:#Durée
-trac#:#stats_equivalent#:#est équivalent à
-trac#:#stats_hits#:#Visites
-trac#:#stats_hour#:#h
-trac#:#stats_interval#:#Intervalle
-trac#:#stats_interval_dwell_time#:#Intervalle de Temps Passé
-trac#:#stats_interval_page_access#:#Intervalle d'Accès aux Pages
-trac#:#stats_last#:#Dernier
-trac#:#stats_legend#:#Légende
-trac#:#stats_measurable_hits#:#Visites Mesurables (Visites au Cours d'une Session)
-trac#:#stats_minute#:#m
-trac#:#stats_navigation#:#Modèle de Navigation/Observation (requiert JRE 1.5 ou supérieur)
-trac#:#stats_new_selection#:#Nouvelle Sélection
-trac#:#stats_occurrence#:#Occurrence
-trac#:#stats_of#:#de
-trac#:#stats_page#:#Page
-trac#:#stats_page_average_access#:#Moyenne du Nombre d'Accès aux Pages
-trac#:#stats_page_average_dwell_time#:#Moyenne du Temps Passé sur les Pages
-trac#:#stats_page_deviation_access#:#Ecart du Nombre d'Accès aux Pages
-trac#:#stats_page_deviation_dwell_time#:#Ecart du Temps Passé sur les Pages
-trac#:#stats_page_fewest_access#:#Nombre d'Accès le Moins Elevé
-trac#:#stats_page_highest_deviation#:#Ecart le Plus Grand
-trac#:#stats_page_highest_varcoeff#:#Coefficient de Variation le Plus Elevé
-trac#:#stats_page_least_deviation#:#Ecart le Plus Faible
-trac#:#stats_page_listing#:#Liste des Pages
-trac#:#stats_page_longest_average_dwell_time#:#Temps Passé Moyen
-trac#:#stats_page_longest_total_dwell_time#:#Temps Passé Total
-trac#:#stats_page_lowest_varcoeff#:#Coefficient de Variation le Plus Faible
-trac#:#stats_page_median_access#:#Nombre Médian d'Accès aux Pages
-trac#:#stats_page_median_dwell_time#:#Temps Médian Passé sur les Pages
-trac#:#stats_page_mode_access#:#Mode d'Accès aux Pages
-trac#:#stats_page_most_access#:#Nombre d'Accès le Plus Elevé
-trac#:#stats_page_number#:#Nombre de Pages
-trac#:#stats_page_number_access#:#Nombre d'Accès aux Pages
-trac#:#stats_page_range_access#:#Intervalle d'Accès aux Pages
-trac#:#stats_page_range_dwell_time#:#Intervalle de Temps Passé sur les Pages
-trac#:#stats_page_stubbiest_average_dwell_time#:#Temps Moyen Passé sur les Pages de Niveaux Inférieurs
-trac#:#stats_page_stubbiest_total_dwell_time#:#Temps Total Passé sur les Pages de Niveaux Inférieurs
-trac#:#stats_page_total_dwell_time#:#Temps Passé Toutes Pages Confondues
-trac#:#stats_page_total_statistic#:#Statistiques Toutes Pages Confondues
-trac#:#stats_page_varcoeff_access#:#Coefficient de Variation du Nombre d'Accès aux Pages
-trac#:#stats_page_varcoeff_dwell_time#:#Coefficient de Variation du Temps Passé sur les Pages
-trac#:#stats_page_variance_access#:#Variation du Nombre d'Accès aux Pages
-trac#:#stats_page_variance_dwell_time#:#Variation du Temps Passé sur les Pages
-trac#:#stats_pages#:#Pages
-trac#:#stats_pages_statisics#:#Statistiques de Pages
-trac#:#stats_sec#:#sec
-trac#:#stats_sel_lng#:#Anglais
-trac#:#stats_session#:#Session
-trac#:#stats_session_average_length#:#Durée Moyenne de Session
-trac#:#stats_session_average_page_access#:#Nombre d'Accès Moyen aux Pages par Sessiondes accès aux pages par session
-trac#:#stats_session_evaluable#:#Sessions Evaluables
-trac#:#stats_session_evaluable_access#:#Nombre d'Accès aux Sessions Evaluables
-trac#:#stats_session_evaluable_usr#:#Utilisateur Evaluable
-trac#:#stats_session_involved_usr#:#Nombre d'Utilisateurs Impliqués
-trac#:#stats_session_listing#:#Liste des Sessions
-trac#:#stats_session_longest#:#Session la Plus Longue
-trac#:#stats_session_longest_total_duration_usr#:#Durée Totale la Plus Longue par Utilisateur
-trac#:#stats_session_most#:#Nombre le Plus Elevé de Sessions
-trac#:#stats_session_number#:#Nombre de Sessions
-trac#:#stats_session_total_duration#:#Durée Totale Toutes Sessions Confondues
-trac#:#stats_session_total_statistic#:#Statistiques Toutes Sessions Confondues
-trac#:#stats_sessions#:#Sessions
-trac#:#stats_sessions_statisics#:#Statistiques des Sessions
-trac#:#stats_start#:#Commencer
-trac#:#stats_summation#:#Total
-trac#:#stats_tracked_user#:#Utilisateurs Sélectionnés
-trac#:#stats_until#:#jusqu'à
-trac#:#stats_user#:#Utilisateur(s)
-trac#:#stats_user_selected#:#Utilisateur sélectionné
-trac#:#stats_with#:#avec
 trac#:#total_dwell_time#:#Temps Passé Total
 trac#:#trac_activated#:#Suivi Activé
 trac#:#trac_active_both#:#Suivi et Progression Activés
@@ -13117,7 +12674,6 @@ trac#:#trac_mode_tlt#:#Durée Théorique d'Apprentissage
 trac#:#trac_mode_tlt_info#:#Les utilisateurs qui ont atteint la durée théorique d'apprentissage obtiennent le statut "Terminé".
 trac#:#trac_mode_visits#:#Nombre de Visites
 trac#:#trac_mode_visits_info#:#Définir le nombre de visites nécessaires pour considérer la ressource comme "Terminée".
-trac#:#trac_modifications_saved#:#Configuration Enregistrée
 trac#:#trac_modus#:#Mode
 trac#:#trac_name_of_installation#:#Nom de l'Installation
 trac#:#trac_no_attempted#:#Non Commencé
@@ -14075,7 +13631,6 @@ sess#:#sess_reg_max_members_short#:#Number of Members###26 09 2014 new variable
 sess#:#sess_reg_max_members#:#Limited Number of Members###26 09 2014 new variable
 sess#:#sess_reg_max_members_info#:#Define the maximum number of users that can participate to this session.###26 09 2014 new variable
 sess#:#sess_reg_waiting_list#:#Waiting List###26 09 2014 new variable
-sess#:#sess_reg_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###26 09 2014 new variable
 wiki#:#wiki_page_exists#:#Existing Page###26 09 2014 new variable
 sess#:#sess_section_reg#:#Registration Settings###26 09 2014 new variable
 assessment#:#save_and_next#:#Save and Continue###26 09 2014 new variable
@@ -14123,7 +13678,6 @@ crs#:#crs_objective_status_materials#:#Create New Course Materials###26 09 2014 
 crs#:#crs_objective_status_itest#:#Configure Initial Test###26 09 2014 new variable
 crs#:#crs_objective_status_qtest#:#Configure Qualifying Test###26 09 2014 new variable
 crs#:#crs_objective_status_objectives#:#Configure Learning Objectives###26 09 2014 new variable
-crs#:#crs_objective_status_start#:#Define Start Objects###26 09 2014 new variable
 crs#:#crs_objective_status_fullfilled#:#OK###26 09 2014 new variable
 crs#:#crs_objective_action_materials#:#Material Assignment###26 09 2014 new variable
 crs#:#crs_objective_action_qtest#:#Question Assignment Qualifying###26 09 2014 new variable
@@ -14131,8 +13685,6 @@ crs#:#crs_objective_action_itest#:#Question Assignemnt Initial Test###26 09 2014
 crs#:#crs_loc_qt_visibility#:#Visibility of Qualifying Test###26 09 2014 new variable
 crs#:#crs_loc_qt_visibility_all#:#Show Qualifying Test about all Objectives###26 09 2014 new variable
 crs#:#crs_loc_qt_visibility_lo#:#Show Qualifying Test for each Objective###26 09 2014 new variable
-crs#:#crs_loc_limited_passes#:#Limited Test Passes###26 09 2014 new variable
-crs#:#crs_loc_passes#:#Number of Passes###26 09 2014 new variable
 crs#:#crs_loc_passes_info#:#Maximum Number of test passes###26 09 2014 new variable
 crs#:#crs_loc_err_stat_no_materials#:#No Course Materials available###26 09 2014 new variable
 crs#:#crs_loc_err_stat_no_qt#:#No Qualifying Test available###26 09 2014 new variable
@@ -14147,8 +13699,6 @@ crs#:#crs_loc_settings_tbl#:#Settings for the Learning Objective Oriented Course
 crs#:#crs_loc_settings_type#:#Course Type###26 09 2014 new variable
 crs#:#crs_loc_type_initial_all#:#Kurs startet mit Einstiegstest zu allen Lernzielen###26 09 2014 new variable
 crs#:#crs_loc_type_initial_sel#:#Kurs startet mit Einstiegstest zu ausgewähltem Lernziel###26 09 2014 new variable
-crs#:#crs_loc_type_qualified#:#Kurs startet mit qualifizierendem Test###26 09 2014 new variable
-crs#:#crs_loc_type_practise#:#Kurs startet mit Lern- und Übungsteil###26 09 2014 new variable
 crs#:#crs_loc_tab_materials#:#Materials###26 09 2014 new variable
 crs#:#crs_loc_tab_itest#:#Initial Test###26 09 2014 new variable
 crs#:#crs_loc_tab_qtest#:#Qualifying Test###26 09 2014 new variable
@@ -14376,7 +13926,6 @@ administration#:#language_merge_local_changes_info#:#Merge all local changes and
 administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s_lang.local and change the language status from "Installed With Local" to "Installed". The changes in the database are not touched.###07 11 2014 new variable
 crs#:#crs_loc_type_initial_all_info#:#todo###07 11 2014 new variable
 crs#:#crs_loc_type_qualified_info#:#todo###07 11 2014 new variable
-crs#:#crs_loc_type_practise_info#:#todo###07 11 2014 new variable
 assessment#:#out_of_range#:#Out of range###27 01 2015 new variable
 assessment#:#use_ects_fx#:#Use the 'FX' grade###27 01 2015 new variable
 assessment#:#ects_fx_threshold#:#Threshold###27 01 2015 new variable
@@ -15056,8 +14605,6 @@ trac#:#trac_mode_collection_mobs#:#Collection of Media Objects###30 08 2015 new 
 trac#:#trac_mode_collection_mobs_info#:#The learning progress status will be determined by the viewing status of selected media objects.###30 08 2015 new variable
 trac#:#trac_lp_determination_info_mob#:#Select the items that determine the overall learning progress status of the Mediacast###30 08 2015 new variable
 trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Parent Objects###30 08 2015 new variable
-trac#:#trac_lp_settings_info_parent_usage#:#Determines Learning Progress###30 08 2015 new variable
-trac#:#trac_lp_settings_info_parent_group#:#Other objects in grouping###30 08 2015 new variable
 book#:#book_bobj#:#Booking Object###30 08 2015 new variable
 crs#:#crs_subscription_min_members#:#Minimum Number###30 08 2015 new variable
 crs#:#crs_subscription_min_members_info#:#See cron job "Cancellation Limit".###30 08 2015 new variable
@@ -15078,8 +14625,6 @@ grp#:#grp_wrong_min_max_members#:#Please check the minimum and maximum number of
 grp#:#reg_grp_min_members#:#Minimum Number of Members###30 08 2015 new variable
 grp#:#grp_cancellation_end#:#Cancellation Limit###30 08 2015 new variable
 grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###30 08 2015 new variable
-sess#:#sess_reg_min_members#:#Minimum of Users###30 08 2015 new variable
-sess#:#sess_reg_min_members_info#:#A minimum number of users has to register.###30 08 2015 new variable
 grp#:#grp_waiting_list_no_autofill#:#Without Auto-Fill###30 08 2015 new variable
 grp#:#grp_waiting_list_autofill#:#With Auto-Fill###30 08 2015 new variable
 grp#:#grp_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.###30 08 2015 new variable
@@ -15256,8 +14801,6 @@ ldap#:#add_ldap_server#:#Add Server###30 08 2015 new variable
 ldap#:#ldap_username_filter#:#Username Filter###30 08 2015 new variable
 ldap#:#ldap_username_filter_info#:#Use * as wildcard.###30 08 2015 new variable
 search#:#search_filter_cd#:#Filter by Creation Date###30 08 2015 new variable
-search#:#search_filter_date#:#Search by Date###30 08 2015 new variable
-search#:#search_filter_duration#:#Search by Duration###30 08 2015 new variable
 search#:#search_created_before#:#Objects created before...###30 08 2015 new variable
 search#:#search_created_after#:#Objects created after###30 08 2015 new variable
 search#:#search_created_on#:#Objects create on...###30 08 2015 new variable
@@ -15364,7 +14907,6 @@ prg#:#prg_view#:#View###30 08 2015 new variable
 prg#:#prg_update_from_current_plan#:#Update from current Plan###30 08 2015 new variable
 prg#:#prg_update_successful#:#Saved changes successfully!###30 08 2015 new variable
 prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!###30 08 2015 new variable
-prg#:#prg_warning_img_alt#:#Warning!###30 08 2015 new variable
 prg#:#prg_successful_img_alt#:#successful###30 08 2015 new variable
 prg#:#prg_in_progress_img_alt#:#in progress###30 08 2015 new variable
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.###30 08 2015 new variable
@@ -15548,13 +15090,10 @@ forum#:#restore#:#Restore###25 10 2016 new variable
 forum#:#restore_draft_from_autosave#:#Restore draft###25 10 2016 new variable
 forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>###25 10 2016 new variable
 forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>###25 10 2016 new variable
-forum#:#publishThreadDrafts#:#Publish Thread Draft###25 10 2016 new variable
-forum#:#deleteThreadDrafts#:#Delete Thread Draft###25 10 2016 new variable
 forum#:#edit_thread_draft#:#Edit thread draft###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.###25 10 2016 new variable
 pd#:#block_show_pdfrmpostdraft#:#Show 'My Posting Drafts'###25 10 2016 new variable
-forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#save_draft_successfully#:#The draft was saved successfully.###25 10 2016 new variable
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?###25 10 2016 new variable
@@ -15880,7 +15419,6 @@ common#:#objs_grpr#:#Group References###25 10 2016 new variable
 rbac#:#grpr_copy#:#User can copy group reference###25 10 2016 new variable
 rbac#:#grpr_delete#:#User can move or delete group reference###25 10 2016 new variable
 rbac#:#grpr_edit_permission#:#User can change permission settings###25 10 2016 new variable
-rbac#:#grpr_read#:#Read access to Group Reference###25 10 2016 new variable
 rbac#:#grpr_visible#:#Group reference is visible###25 10 2016 new variable
 rbac#:#grpr_write#:#User can edit settings of group reference###25 10 2016 new variable
 rbac#:#rbac_create_grpr#:#Create Group Reference###25 10 2016 new variable
@@ -16252,24 +15790,10 @@ iass#:#iass_status_pending#:#Status pending###25 10 2016 new variable
 iass#:#iass_notify#:#Notify user after finalization###25 10 2016 new variable
 iass#:#iass_finalize#:#Finalize###25 10 2016 new variable
 iass#:#il_iass_member#:#Individual Assessment examinee###25 10 2016 new variable
-iass#:#edit_members#:#Edit examinees###25 10 2016 new variable
-iass#:#iass_edit_members#:#Edit examinees###25 10 2016 new variable
-iass#:#iass_visible#:#Visible###25 10 2016 new variable
-iass#:#iass_read#:#Read###25 10 2016 new variable
-iass#:#iass_copy#:#Copy###25 10 2016 new variable
-iass#:#iass_write#:#Edit Settings###25 10 2016 new variable
-iass#:#iass_delete#:#Delete###25 10 2016 new variable
-iass#:#iass_read_learning_progress#:#View learning progress of other users###25 10 2016 new variable
-iass#:#iass_edit_permissions#:#Change Permissions###25 10 2016 new variable
-iass#:#iass_edit_learning_progress#:#Edit learning progress###25 10 2016 new variable
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised.###25 10 2016 new variable
 iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.###25 10 2016 new variable
 iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer###25 10 2016 new variable
-common#:##obj_iass#:#Individual Assessment###25 10 2016 new variable
-common#:##objs_iass#:#Individual Assessments###25 10 2016 new variable
-common#:##obj_iass_duplicate#:#Copy Individual Assessment###25 10 2016 new variable
-common#:##obj_iass_select#:#-- Please select one individual assessment --###25 10 2016 new variable
 trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.###25 10 2016 new variable
 common#:#il_iass_member#:#Individual Assessment Examinee###25 10 2016 new variable
 common#:#iass_new#:#Create Individual Assessment###25 10 2016 new variable
@@ -16355,3 +15879,38 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###25 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###25 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
+grp#:#grp_members_deleted#:#Deleted members###07 02 2017 new variable
+cron#:#cro_job_rc_job_no_result#:#NO RESULT###deprecated 
+cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY###07 02 2017 new variable
+cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED###07 02 2017 new variable
+prg#:#warning#:#Warning!###07 02 2017 new variable
+iass#:#il_iass_members#:#Participants###07 02 2017 new variable
+common#:#obj_iass#:#Individual Assessment###07 02 2017 new variable
+common#:#objs_iass#:#Individual Assessments###07 02 2017 new variable
+common#:#obj_iass_duplicate#:#Copy Individual Assessment###07 02 2017 new variable
+common#:#obj_iass_select#:#-- Please select one individual assessment --###07 02 2017 new variable
+iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.###07 02 2017 new variable
+iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.###07 02 2017 new variable
+common#:#sahs_export_file#:#ILIAS exported SCORM archive file###07 02 2017 new variable
+content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.###07 02 2017 new variable
+survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>###07 02 2017 new variable
+content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.###07 02 2017 new variable
+grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration###07 02 2017 new variable
+auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###07 02 2017 new variable
+lng#:#lng_download_deprecated#:#Download Deprecated List###07 02 2017 new variable
+rbac#:#edit_members#:#Manage members###07 02 2017 new variable
+rbac#:#prg_manage_members#:#Manage members of Study Programme###07 02 2017 new variable
+rbac#:#rbac_create_iass#:#Create Individual Assessment###07 02 2017 new variable
+survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###07 02 2017 new variable
+wsp#:#share_content#:#Share Object###07 02 2017 new variable
+wsp#:#share_with#:#Username###07 02 2017 new variable
+wsp#:#element_already_shared#:#This object is already shared with this user.###07 02 2017 new variable
+wsp#:#search_no_match#:#Your search did not match any results.###07 02 2017 new variable
+wsp#:#element_shared#:#Object shared.###07 02 2017 new variable
+wsp#:#share#:#Share###07 02 2017 new variable
+copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###07 02 2017 new variable
+auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.###07 02 2017 new variable
+crs#:#crs_edit_lo_introduction#:#Edit Introduction###07 02 2017 new variable
+rbac#:#grp_manage_members#:#Manage Members of Group###07 02 2017 new variable
+rbac#:#crs_manage_members#:#Manage Members of Course###07 02 2017 new variable
+survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.###07 02 2017 new variable

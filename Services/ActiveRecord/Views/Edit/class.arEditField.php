@@ -1,5 +1,5 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/class.arViewField.php');
+require_once('./Services/ActiveRecord/Views/class.arViewField.php');
 
 /**
  * GUI-Class arEditField

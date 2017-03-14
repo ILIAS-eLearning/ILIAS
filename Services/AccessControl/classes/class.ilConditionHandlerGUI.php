@@ -335,7 +335,6 @@ class ilConditionHandlerGUI
 						{
 							ilConditionHandler::updateObligatory($item["condition_id"], false);
 						}
-						$num_req = 1;
 					}
 					ilConditionHandler::saveNumberOfRequiredTriggers(
 									$this->getTargetRefId(),

@@ -184,7 +184,7 @@ class ilBuddySystemGUI
 
 			if(null !== $onBeforeExecute)
 			{
-				$onBeforeExecute();
+				$onBeforeExecute($relation);
 			}
 
 			ilBuddyList::getInstanceByGlobalUser()->$cmd($relation);

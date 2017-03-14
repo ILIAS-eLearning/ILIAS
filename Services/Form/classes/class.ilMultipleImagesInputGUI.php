@@ -275,9 +275,10 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	}
 	
 	/**
+	 * @param string $mode
 	 * @return string
 	 */
-	public function render()
+	public function render($a_mode = "")
 	{
 		global $lng;
 		

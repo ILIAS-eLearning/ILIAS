@@ -63,7 +63,19 @@ class ilSoapFunctions {
 		return $sua->loginLDAP($client, $username, $password);
 	}
 
+	/**
+	 * @deprecated
+	 */
+	public static function  loginStudipUser($sid,$user_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
+		$sua = new ilSoapUserAdministration();
+
+		return $sua->loginStudipUser($sid,$user_id);
+	}
+
+	
 	public static function  logout($sid)
 	{
 		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';

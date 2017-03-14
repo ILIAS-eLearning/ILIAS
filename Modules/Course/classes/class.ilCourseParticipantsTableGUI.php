@@ -384,7 +384,12 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		unset($additional_fields['org_units']);
 		
 		$part = $this->participants->getParticipants();
-
+		if(!$part)
+		{
+			$this->setData(array());
+			return;
+		}
+		
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)
 		{
