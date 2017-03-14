@@ -93,7 +93,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
-		
+
 		if ($cmd == "") {
 			$cmd = "view";
 		}
@@ -141,8 +141,13 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 
 	protected function manage() {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanTableGUI.php");
-		$table = new ilStudyProgrammeIndividualPlanTableGUI($this, $this->getAssignmentObject());
-		return $this->buildFrame("manage", $table->getHTML());
+		$ass = $this->getAssignmentObject();
+		$this->ctrl->setParameter($this, "ass_id", $ass->getId());
+		$this->ctrl->setParameter($this, "cmd", "manage");
+		$table = new ilStudyProgrammeIndividualPlanTableGUI($this, $ass);
+		$frame = $this->buildFrame("manage", $table->getHTML());
+		$this->ctrl->setParameter($this, "ass_id", null);
+		return $frame;
 	}
 	
 	protected function updateFromCurrentPlan() {
@@ -269,11 +274,9 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	}
 	
 	public function appendIndividualPlanActions(ilTable2GUI $a_table) {
-		$this->ctrl->setParameter($this, "ass_id", $this->getAssignmentObject()->getId());
 		$a_table->setFormAction($this->ctrl->getFormAction($this));
 		$a_table->addCommandButton("updateFromCurrentPlan", $this->lng->txt("prg_update_from_current_plan"));
 		$a_table->addCommandButton("updateFromInput", $this->lng->txt("save"));
-		$this->ctrl->setParameter($this, "ass_id", null);
 	}
 	
 	const MANUAL_STATUS_NONE = 0;

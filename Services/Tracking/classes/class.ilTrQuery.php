@@ -881,10 +881,10 @@ class ilTrQuery
 			/* Mantis 19296: Individual Assessment can be subtype of crs.
 		 	 * But for LP view only his own members should be displayed.
 		 	 * We need to return the members without checking the parent path. */
-			case "mass":
-				include_once("Modules/ManualAssessment/classes/class.ilObjManualAssessment.php");
-				$mass = new ilObjManualAssessment($obj_id, false);
-				return $mass->loadMembers()->membersIds();
+			case "iass":
+				include_once("Modules/IndividualAssessment/classes/class.ilObjIndividualAssessment.php");
+				$iass = new ilObjIndividualAssessment($obj_id, false);
+				return $iass->loadMembers()->membersIds();
 				break;
 
 			default:				

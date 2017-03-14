@@ -122,11 +122,11 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 		 */
 		global $ilObjDataCache;
 
-		if($recipient === null && !in_array($placeholder_id, array('crs_title', 'crs_link')))
+		if(!in_array($placeholder_id, array('crs_title', 'crs_link')))
 		{
 			return '';
 		}
-		
+
 		$obj_id = $ilObjDataCache->lookupObjId($context_parameters['ref_id']);
 
 		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
@@ -145,6 +145,11 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 				return ilLink::_getLink($context_parameters['ref_id'], 'crs');	
 			
 			case 'crs_status':
+				if($recipient === null)
+				{
+					return '';
+				}
+
 				include_once './Services/Tracking/classes/class.ilLPStatus.php';			
 				include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 				$status = ilLPStatus::_lookupStatus($obj_id, $recipient->getId());	
@@ -154,12 +159,22 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 				}
 				return ilLearningProgressBaseGUI::_getStatusText($status, $this->getLanguage());								
 				
-			case 'crs_mark':				
+			case 'crs_mark':
+				if($recipient === null)
+				{
+					return '';
+				}
+
 				include_once './Services/Tracking/classes/class.ilLPMarks.php';
 				$mark = ilLPMarks::_lookupMark($recipient->getId(), $obj_id);
 				return strlen(trim($mark)) ? $mark : '-';
 				
-			case 'crs_time_spent':		
+			case 'crs_time_spent':
+				if($recipient === null)
+				{
+					return '';
+				}
+
 				if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
 				{
 					include_once './Services/Tracking/classes/class.ilLearningProgress.php';
@@ -171,7 +186,12 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 				}
 				break;
 				
-			case 'crs_first_access':		
+			case 'crs_first_access':
+				if($recipient === null)
+				{
+					return '';
+				}
+
 				if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
 				{
 					include_once './Services/Tracking/classes/class.ilLearningProgress.php';
@@ -183,7 +203,12 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 				}
 				break;
 				
-			case 'crs_last_access':		
+			case 'crs_last_access':
+				if($recipient === null)
+				{
+					return '';
+				}
+
 				if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
 				{
 					include_once './Services/Tracking/classes/class.ilLearningProgress.php';

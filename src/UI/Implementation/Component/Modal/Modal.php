@@ -66,7 +66,6 @@ abstract class Modal implements Component\Modal\Modal {
 		$this->checkStringArg('url', $url);
 		$clone = clone $this;
 		$clone->async_render_url = $url;
-		$clone->initSignals();
 		return $clone;
 	}
 
@@ -76,7 +75,6 @@ abstract class Modal implements Component\Modal\Modal {
 	public function withCloseWithKeyboard($state) {
 		$clone = clone $this;
 		$clone->close_with_keyboard = (bool) $state;
-		$clone->initSignals();
 		return $clone;
 	}
 

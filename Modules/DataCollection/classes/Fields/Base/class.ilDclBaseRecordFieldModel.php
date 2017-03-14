@@ -343,6 +343,23 @@ class ilDclBaseRecordFieldModel {
 
 
 	/**
+	 * @param ilDclBaseRecordFieldModel $old_record_field
+	 */
+	public function cloneStructure(ilDclBaseRecordFieldModel $old_record_field) {
+		$this->setValue($old_record_field->getValue());
+		$this->doUpdate();
+	}
+
+
+	/**
+	 *
+	 */
+	public function afterClone(){
+
+	}
+
+
+	/**
 	 * @return ilDclBaseFieldModel
 	 */
 	public function getField() {

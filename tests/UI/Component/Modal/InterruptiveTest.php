@@ -69,7 +69,7 @@ class InterruptiveTest extends ModalBase {
 					<span aria-hidden="true"></span></button><h4 class="modal-title">Title</h4>
 				</div>
 				<div class="modal-body">
-					<div class="il-modal-interruptive-message">Message</div>
+					<div class="alert alert-warning il-modal-interruptive-message" role="alert">Message</div>
 				</div>
 				<div class="modal-footer">
 					<input type="submit" class="btn btn-primary" value="delete">

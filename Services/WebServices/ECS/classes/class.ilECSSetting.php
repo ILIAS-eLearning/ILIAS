@@ -96,9 +96,9 @@ class ilECSSetting
 	 */
 	public static function _getInstance()
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': Using deprecated call.');
-		$GLOBALS['ilLog']->logStack();
-		return self::getInstanceByServerId(15);
+		$GLOBALS['DIC']->logger()->wsrv()->warning('Using deprecated call');
+		$GLOBALS['DIC']->logger()->wsrv()->logStack(ilLogLevel::WARNING);
+		return self::getInstanceByServerId(null);
 	}
 
 	/**
@@ -882,13 +882,10 @@ class ilECSSetting
 
 	/**
 	 * Fetch validity (expired date)
-	 * @global ilLog $ilLog
 	 * @return bool
 	 */
 	public function fetchCertificateExpiration()
 	{
-	 	global $ilLog;
-
 		if($this->getAuthType() != self::AUTH_CERTIFICATE)
 		{
 			return null;
@@ -899,7 +896,8 @@ class ilECSSetting
 			if(isset($cert['validTo_time_t']) and $cert['validTo_time_t'])
 	 		{
 	 			$dt = new ilDateTime($cert['validTo_time_t'], IL_CAL_UNIX);
-	 			$ilLog->write(__METHOD__.': Certificate expires at '.ilDatePresentation::formatDate($dt));
+				
+				$GLOBALS['DIC']->logger()->wsrv()->debug('Certificate expires at: ' . ilDatePresentation::formatDate($dt));
 	 			return $dt;
 	 		}
 	 	}
@@ -914,14 +912,13 @@ class ilECSSetting
 	 */
 	private function fetchSerialID()
 	{
-	 	global $ilLog;
 		
 	 	if(function_exists('openssl_x509_parse') and $cert = openssl_x509_parse('file://'.$this->getClientCertPath()))
 	 	{
 			if(isset($cert['serialNumber']) and $cert['serialNumber'])
 	 		{
 	 			$this->setCertSerialNumber($cert['serialNumber']);
-	 			$ilLog->write(__METHOD__.': Serial number is '.$cert['serialNumber']);
+				$GLOBALS['DIC']->logger()->wsrv()->debug('Searial number is: '. $cert['serialNumber']);
 	 			return true;
 	 		}
 	 	}

@@ -97,8 +97,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			default:
 			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
 				return $this->raiseError(
-						$GLOBALS['DIC']['lng']->txt($status->getReason()),
-						'Server'
+					$status->getTranslatedReason(),
+					'Server'
 				);
 		}				
 		return true;
@@ -137,6 +137,53 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	public function loginLDAP($client, $username, $password)
 	{
 		return $this->login($client, $username, $password);
+	}
+
+	/**
+	 * login as user from Stud.IP
+	 * @deprecated
+	 * @param string $sid
+	 * @param int $user_id
+	 * @return string $sid
+	 */
+	public function loginStudipUser($sid, $user_id)
+	{
+		global $rbacreview, $ilUser, $ilIliasIniFile;
+
+		$this->initAuth($sid);
+		$this->initIlias();
+		list($admin_sid,$client) = $this->__explodeSid($sid);
+	     
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
+		}
+
+		if (!$ilIliasIniFile->readVariable('server', 'studip'))
+		{
+			return $this->__raiseError('Stud.IP mode not active.','Server');
+		}
+
+		if(!$rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID))
+		{
+			return $this->__raiseError('No permission to initialize user session.','Server');
+		}
+
+		if($ilUser->getLoginByUserId($user_id))
+		{
+        		// logout admin
+	    		include_once './Services/Authentication/classes/class.ilSession.php';
+        		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);	
+			$GLOBALS['DIC']['ilAuthSession']->logout();
+			unset($_COOKIE['PHPSESSID']);
+
+			// init session and set user as authenticated
+			$_COOKIE['ilClientId'] = $client;
+			$GLOBALS['DIC']['ilAuthSession']->init();
+			$GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, $user_id);
+			return (session_id().'::'.$client);
+		}
+		return $this->__raiseError('User does not exist','Client');
 	}
 
 	/**

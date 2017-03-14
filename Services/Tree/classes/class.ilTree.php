@@ -44,7 +44,7 @@ class ilTree
 
 	/**
 	* Logger object
-	* @var		object	ilias
+	* @var		ilLogger
 	* @access	private
 	*/
 	var $log;

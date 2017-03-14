@@ -346,6 +346,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setReturn($this, "questions");
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 				$q_gui = assQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
+				$q_gui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
 				$q_gui->object->setObjId($this->object->getId());
 				if($this->object->getType() == 'qpl')
 				{
@@ -1369,14 +1370,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 				$this->tpl->setTitle($title);
 				$this->tpl->setDescription($q_gui->object->getComment());
-				if($this->object instanceof ilObjectPlugin)
-				{
-					$this->tpl->setTitleIcon($this->object->plugin->getImagePath("icon_".$this->object->getType().".svg"), $this->lng->txt("obj_" . $this->object->getType()));
-				}
-				else
-				{
-					$this->tpl->setTitleIcon(ilObject::_getIcon("", "big", $this->object->getType()));
-				}
+				$this->tpl->setTitleIcon(ilObject2::_getIcon("", "big", $this->object->getType()));
 			}
 			else
 			{
@@ -1389,7 +1383,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->tpl->setTitle($this->object->getTitle());
 			$this->tpl->setDescription($this->object->getLongDescription());
-			$this->tpl->setTitleIcon(ilObject::_getIcon("", "big", $this->object->getType()));
+			$this->tpl->setTitleIcon(ilObject2::_getIcon("", "big", $this->object->getType()));
 		}
 	}
 

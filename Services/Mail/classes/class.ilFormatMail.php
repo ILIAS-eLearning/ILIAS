@@ -179,13 +179,12 @@ class ilFormatMail extends ilMail
 	* @access	public
 	* @return string formatted message
 	*/
-	function formatLinebreakMessage($a_message)
+	public function formatLinebreakMessage($a_message)
 	{
 		$formatted = array();
 
-#		debug($a_message);
 		$linebreak = $this->mail_options->getLinebreak();
-		// SPLIT INTO LINES returns always an array
+
 		$lines = explode(chr(10),$a_message);
 		for($i=0;$i<count($lines);$i++)
 		{
@@ -199,7 +198,7 @@ class ilFormatMail extends ilMail
 			}
 		}
 		$formatted = implode(chr(10),$formatted);
-#		debug($formatted);
+
 		return $formatted;
 	}
 					

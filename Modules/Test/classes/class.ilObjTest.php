@@ -750,7 +750,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		}
 
 		// put here object specific stuff
-
+		$this->updateMetaData();
 		return true;
 	}
 
@@ -3705,25 +3705,36 @@ function getAnswerFeedbackPoints()
 		return $titles;
 	}
 
+// fau: testNav - add number parameter (to show if title should not be shown)
 	/**
-	* Returns the title of a test question and checks if the title output is allowed.
-	* If not, the localized text "question" will be returned.
-	*
-	* @param string $title The original title of the question
-	* @return string The title for the question title output
-	* @access public
-	*/
-	function getQuestionTitle($title)
+	 * Returns the title of a test question and checks if the title output is allowed.
+	 * If not, the localized text "question" will be returned.
+	 *
+	 * @param string $title The original title of the question
+	 * @param integer $nr The number of the question in the sequence
+	 * @return string The title for the question title output
+	 * @access public
+	 */
+	function getQuestionTitle($title, $nr =  null)
 	{
 		if ($this->getTitleOutput() == 2)
 		{
-			return $this->lng->txt("ass_question");
+			if (isset($nr))
+			{
+				return $this->lng->txt("ass_question"). ' ' . $nr;
+			}
+			else
+			{
+				return $this->lng->txt("ass_question");
+			}
+
 		}
 		else
 		{
 			return $title;
 		}
 	}
+// fau.
 
 /**
 * Returns the dataset for a given question id
@@ -7084,7 +7095,7 @@ function getAnswerFeedbackPoints()
 	* @param int copy id
 	* @return object new test object
 	*/
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $ilLog, $tree, $ilDB, $ilPluginAdmin;
 
@@ -7092,7 +7103,7 @@ function getAnswerFeedbackPoints()
 
 		// Copy settings
 		/** @var $newObj ilObjTest */
-		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
+		$newObj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$newObj->setTmpCopyWizardCopyId($a_copy_id);
 		$this->cloneMetaData($newObj);
 
@@ -9792,7 +9803,8 @@ function getAnswerFeedbackPoints()
 			'highscore_own_table'     => $this->getHighscoreOwnTable(),
 			'highscore_top_table'     => $this->getHighscoreTopTable(),
 			'highscore_top_num'       => $this->getHighscoreTopNum(),
-			'use_previous_answers' => (string)$this->getUsePreviousAnswers()
+			'use_previous_answers' => (string)$this->getUsePreviousAnswers(),
+			'pass_waiting'          => $this->getPassWaiting()
 		);
 		
 		$next_id = $ilDB->nextId('tst_test_defaults');
@@ -9942,6 +9954,7 @@ function getAnswerFeedbackPoints()
 		$this->setActivationStartingTime($testsettings['activation_start_time']);
 		$this->setActivationEndingTime($testsettings['activation_end_time']);
 		$this->setActivationVisibility($testsettings['activation_visibility']);
+		$this->setPassWaiting($testsettings['pass_waiting']);
 		
 		$this->saveToDb();
 

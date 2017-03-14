@@ -358,9 +358,12 @@ class ilSCORM13Player
 
 		//session
 		if ($this->slm->getSession()) {
-//			$session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
-//			$session_timeout = (int)ilSession::getIdleValue()/2;
-			$session_timeout = (int)ilWACSignedPath::getCookieMaxLifetimeInSeconds()-1;
+			$session_timeout = (int)ilWACSignedPath::getCookieMaxLifetimeInSeconds();
+			$max_idle = (int)ilSession::getIdleValue();
+			if ($session_timeout > $max_idle) $session_timeout = $max_idle;
+			$min_idle = (int)$ilSetting->get('session_min_idle', ilSessionControl::DEFAULT_MIN_IDLE) * 60;
+			if ($session_timeout > $min_idle) $session_timeout = $min_idle;
+			$session_timeout -= 10; //buffer
 		} else {
 			$session_timeout = 0;
 		}
@@ -497,7 +500,7 @@ class ilSCORM13Player
 	/**
 	 * Get inline css
 	 */
-	function getInlineCSS()
+	static function getInlineCSS()
 	{
 		$is_tpl = new ilTemplate("tpl.scorm2004.inlinecss.html", true, true, "Modules/Scorm2004");
 		$is_tpl->setVariable('IC_ASSET', ilUtil::getImagePath("scorm/asset.svg",false));

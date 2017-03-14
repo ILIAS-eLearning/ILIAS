@@ -54,8 +54,9 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 		if( $questionSet->isSmallerThan($requiredQuestionAmount) )
 		{
 			$missingQuestionCount = $questionSet->getMissingCount($requiredQuestionAmount);
-			$questionStage = $this->getQuestionStageForSourcePoolDefinitionList($this->sourcePoolDefinitionList);
-			$questions = $this->fetchQuestionsFromStageRandomly($questionStage, $missingQuestionCount);
+			$potentialQuestionStage = $this->getQuestionStageForSourcePoolDefinitionList($this->sourcePoolDefinitionList);
+			$actualQuestionStage = $potentialQuestionStage->getRelativeComplementCollection($questionSet);
+			$questions = $this->fetchQuestionsFromStageRandomly($actualQuestionStage, $missingQuestionCount);
 
 			$questionSet->mergeQuestionCollection($questions);
 		}

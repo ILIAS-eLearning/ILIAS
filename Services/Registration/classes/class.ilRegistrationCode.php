@@ -186,6 +186,12 @@ class ilRegistrationCode
 		return $result;
 	}
 	
+	/**
+	 * Check if code has been used already
+	 * @global type $ilDB
+	 * @param type $code
+	 * @return boolean
+	 */
 	public static function isUnusedCode($code)
 	{
 		global $ilDB;
@@ -199,6 +205,24 @@ class ilRegistrationCode
 		return false;
 	}
 	
+	/**
+	 * Check if given code is a valid registration code
+	 * @param string $a_code code
+	 * @return bool
+	 */
+	public static function isValidRegistrationCode($a_code)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT code_id FROM reg_registration_codes '.
+			'WHERE used = '.$ilDB->quote(0,'integer').' '.
+			'AND reg_enabled = '.$ilDB->quote(1,'integer').' '.
+			'AND code = '.$ilDB->quote($a_code,'text');
+		$res = $ilDB->query($query);
+		
+		return $res->numRows() ? true : false;
+	}
+
 	public static function useCode($code)
 	{
 		global $ilDB;

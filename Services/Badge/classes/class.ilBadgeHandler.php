@@ -56,6 +56,9 @@ class ilBadgeHandler
 	
 	public function isObiActive()
 	{
+		// see bug #20124
+		return false;
+
 		return $this->settings->get("obi_active", false);		
 	}
 	

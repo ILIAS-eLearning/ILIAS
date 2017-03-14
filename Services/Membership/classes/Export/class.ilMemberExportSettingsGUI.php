@@ -205,7 +205,8 @@ class ilMemberExportSettingsGUI
 			
 			include_once "Services/User/classes/class.ilUserFormSettings.php";
 			
-			ilUserFormSettings::deleteAllForId('crsmemlst');
+			ilUserFormSettings::deleteAllForPrefix('crs_memlist');
+			ilUserFormSettings::deleteAllForPrefix('grp_memlist');
 			
 			$settings = new ilUserFormSettings($this->parent_type.'s_pview',-1);
 			$settings->importFromForm($form);

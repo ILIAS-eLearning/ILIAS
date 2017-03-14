@@ -30,6 +30,7 @@ class ilECSNodeMappingSettings
 	private $allinone_cat = 0;
 	private $attributes = false;
 	private $role_mappings = array();
+	private $auth_mode = null;
 
 	/**
 	 * Singeleton constructor
@@ -187,6 +188,24 @@ class ilECSNodeMappingSettings
 	{
 		return $this->role_mappings;
 	}
+	
+	/**
+	 * Set user auth mode
+	 * @param type $a_auth_mode
+	 */
+	public function setAuthMode($a_auth_mode)
+	{
+		$this->auth_mode = $a_auth_mode;
+	}
+	
+	/**
+	 * Get auth mode
+	 * @return type
+	 */
+	public function getAuthMode()
+	{
+		return $this->auth_mode;
+	}
 
 	/**
 	 * Save settings to db
@@ -201,6 +220,7 @@ class ilECSNodeMappingSettings
 		$this->getStorage()->set('allinone_cat', $this->getAllInOneCategory());
 		$this->getStorage()->set('attributes', $this->isAttributeMappingEnabled());
 		$this->getStorage()->set('role_mappings',serialize($this->getRoleMappings()));
+		$this->getStorage()->set('auth_mode', $this->getAuthMode());
 		return true;
 	}
 
@@ -236,6 +256,7 @@ class ilECSNodeMappingSettings
 		$this->setAllInOneCategory($this->getStorage()->get('allinone_cat'),$this->allinone_cat);
 		$this->enableAttributeMapping($this->getStorage()->get('attributes'),$this->attributes);
 		$this->setRoleMappings(unserialize($this->getStorage()->get('role_mappings')),serialize($this->role_mappings));
+		$this->setAuthMode($this->getStorage()->get('auth_mode', $this->auth_mode));
 	}
 }
 

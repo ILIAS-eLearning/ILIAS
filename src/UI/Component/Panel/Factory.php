@@ -17,7 +17,8 @@ interface Factory {
 	 *   purpose: >
 	 *      Standard Panels are used in the Center Content section to group content.
 	 *   composition: >
-	 *      Standard consist of a title and a content section. The structure of this content might be varying from Standard
+	 *      Standard Panels consist of a title and a content section. The
+	 *      structure of this content might be varying from Standard
 	 *      Panel to Standard Panel. Standard Panels may contain Sub Panels.
 	 *   rivals:
 	 *      Cards: >
@@ -46,7 +47,7 @@ interface Factory {
 	 *      Standard Panel: >
 	 *        The Standard Panel might contain a Sub Panel.
 	 *      Card: >
-	 *        The Sub Panels may contain one card.
+	 *        The Sub Panels may contain one Card.
 	 *
 	 * rules:
 	 *   usage:
@@ -70,7 +71,8 @@ interface Factory {
 	 *       filled with user-generated content harvested by that very structure (i.e. participants’ answers to
 	 *       the question, self-evaluation of competence).
 	 *   composition: >
-	 *       They are composed of a Standard Panel which contains several Block Panels. They might also contain
+	 *       They are composed of a Standard Panel which contains several Sub
+	 *       Panels. They might also contain
 	 *       a card to display information meta information in their first block.
 	 *   effect: >
 	 *       Report Panels are predominantly used for displaying data. They may however comprise links or buttons.
@@ -92,4 +94,5 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Panel\Report
 	 */
 	public function report($title,$sub_panels);
+
 }

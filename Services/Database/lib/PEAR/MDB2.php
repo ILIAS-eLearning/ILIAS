@@ -3831,6 +3831,18 @@ class MDB2_Result_Common extends MDB2_Result implements ilDBStatement
     }
 
     // }}}
+	/**
+	 * @param array $a_data
+	 * @return mixed
+	 * @throws ilDatabaseException
+	 */
+	public function execute($a_data = null) {
+		$res = $this->result->execute($a_data);
+		if (MDB2::isError($res)) {
+			throw new ilDatabaseException("There was an MDB2 error executing the prepared query: ".$this->result->getMessage());
+		}
+		return $res;
+	}
 }
 
 // }}}

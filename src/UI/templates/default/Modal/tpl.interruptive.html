@@ -7,17 +7,26 @@
 					<h4 class="modal-title">{TITLE}</h4>
 				</div>
 				<div class="modal-body">
-					<!-- BEGIN with_message -->
-					<div class="il-modal-interruptive-message">
+					<div class="alert alert-warning il-modal-interruptive-message" role="alert">
 						{MESSAGE}
 					</div>
-					<!-- END with_message -->
 					<!-- BEGIN with_items -->
 					<div class="il-modal-interruptive-items">
+						<table>
+							<!-- BEGIN item -->
+							<tr>
+								<td>
+									{ITEM_ICON}
+								</td>
+								<td>
+									{ITEM_TITLE}
+									{ITEM_DESCRIPTION}
+									<input type="hidden" name="interruptive_items[]" value="{ITEM_ID}">
+								</td>
+							</tr>
+							<!-- END item -->
+						</table>
 						{ITEMS}
-						<!-- BEGIN hidden_inputs -->
-						<input type="hidden" name="interruptive_items[]" value="{ITEM_ID}">
-						<!-- END hidden_inputs -->
 					</div>
 					<!-- END with_items -->
 				</div>

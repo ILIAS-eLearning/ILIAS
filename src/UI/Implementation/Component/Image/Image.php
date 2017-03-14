@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Image;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\NotImplementedException;
 
 /**
  * Class Image
@@ -93,5 +94,18 @@ class Image implements C\Image\Image {
 	public function getAlt() {
 		return $this->alt;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withAction($url){
+		throw new NotImplementedException();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAction(){
+		throw new NotImplementedException();
+	}
 }
-?>

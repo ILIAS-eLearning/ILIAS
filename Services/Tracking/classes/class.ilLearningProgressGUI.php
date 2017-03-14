@@ -107,7 +107,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 			
 			default:
 				$cmd = $this->ctrl->getCmd();
-				$this->$cmd();
+				if(!$cmd)
+				{
+					return;
+				}
 				$this->tpl->show(true);
 				break;
 		}

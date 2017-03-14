@@ -456,7 +456,7 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 	$res = $ilDB->query($query);
 	
 	$tree_impl = 'ns';
-	while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$tree_impl = $row->value;
 	}
@@ -4177,7 +4177,7 @@ if(!$ilDB->tableColumnExists('reg_registration_codes','ext_enabled'))
 
 $query = 'SELECT * FROM usr_account_codes ';
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$until = $row->valid_until;
 	if($until === '0')
@@ -4576,7 +4576,7 @@ else
 	$indexName = strtoupper($indexName);
 }
 
-$indexDefinition = $ilDB->db->loadModule('Reverse')->getTableConstraintDefinition('tst_dyn_quest_set_cfg', $indexName);
+$indexDefinition = $ilDB->loadModule('Reverse')->getTableConstraintDefinition('tst_dyn_quest_set_cfg', $indexName);
 
 if( $indexDefinition instanceof MDB2_Error )
 {
@@ -5690,7 +5690,7 @@ $query = 'SELECT objective_id, ref_id, question_id FROM crs_objective_qst ';
 $res = $ilDB->query($query);
 
 $questions = array();
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$questions[$row->objective_id.'_'.$row->ref_id][] = $row->question_id;
 }
@@ -5708,7 +5708,7 @@ foreach($questions as $objective_ref_id => $qst_ids)
 	{
 		$query = 'SELECT points FROM qpl_questions WHERE question_id = ' . $ilDB->quote($qst_id,'integer');
 		$res_qst = $ilDB->query($query);
-		while($row = $res_qst->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res_qst->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$sum += $row->points;
 		}
@@ -5720,7 +5720,7 @@ foreach($questions as $objective_ref_id => $qst_ids)
 			$res_limit = $ilDB->query($query);
 			
 			$limit_points = 0;
-			while($row = $res_limit->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res_limit->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$limit_points = $row->tst_limit;
 			}
@@ -7349,7 +7349,7 @@ if(!$ilDB->tableExists('chatroom_historytmp'))
 <?php
 require_once 'Services/Migration/DBUpdate_4550/classes/class.ilDBUpdate4550.php';
 ilDBUpdate4550::cleanupOrphanedChatRoomData();
-if($ilDB->getDBType() == 'innodb' || $ilDB->getDBType() == 'mysql')
+if($ilDB->getDBType() == 'innodb' || $ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == '')
 {
 	$query = '
 	SELECT chatroom_history.room_id, chatroom_history.timestamp, chatroom_history.sub_room, chatroom_history.message
@@ -7495,6 +7495,10 @@ if(!$ilDB->tableColumnExists('frm_settings', 'file_upload_allowed'))
 if($ilDB->tableExists('sysc_groups'))
 {
 	$ilDB->dropTable('sysc_groups');
+}
+if($ilDB->tableExists('sysc_groups_seq'))
+{
+	$ilDB->dropTable('sysc_groups_seq');
 }
 
 if(!$ilDB->tableExists('sysc_groups'))
@@ -8104,12 +8108,15 @@ ilDBUpdate3136::addStyleClass("Sub", "sub", "sub",
 ?>
 <#4588>
 <?php
-$ilDB->addTableColumn("il_wiki_data", "link_md_values",array (
-	"type" => "integer",
-	"length" => 1,
-	"notnull" => false,
-	"default" => 0,
-));
+if (!$ilDB->tableColumnExists("il_wiki_data", "link_md_values"))
+{
+	$ilDB->addTableColumn("il_wiki_data", "link_md_values",array (
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => false,
+		"default" => 0,
+	));
+}
 ?>
 <#4589>
 <?php
@@ -10582,7 +10589,7 @@ if(!$ilDB->tableColumnExists("ldap_server_settings", "username_filter"))
 <?php
 $query = "SELECT max(server_id) id FROM ldap_server_settings";
 $res = $ilDB->query($query);
-$set = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$set = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 if(!$set->id)
 {
@@ -10806,7 +10813,7 @@ $ilCtrlStructureReader->getStructure();
 	$res = $ilDB->query($query);
 	
 	$found_dup = FALSE;
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$found_dup = TRUE;
 	}
@@ -12356,7 +12363,7 @@ do
 	{
 		break;
 	}
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		// find course members roles
 		$query = 'select rol_id, title from rbac_fa '.
@@ -12364,7 +12371,7 @@ do
 				'where parent = '.$ilDB->quote($row->ref_id,'integer').' '.
 				'and assign = '.$ilDB->quote('y','text');
 		$rol_res = $ilDB->query($query);
-		while($rol_row = $rol_res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($rol_row = $rol_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			// find users which are not assigned to obj_members and create a default entry
 			$query = 'select ua.usr_id from rbac_ua ua '.
@@ -12373,7 +12380,7 @@ do
 					'and rol_id = '.$ilDB->quote($rol_row->rol_id,'integer').' '.
 					'and om.obj_id = '.$ilDB->quote($row->obj_id,'integer');
 			$ua_res = $ilDB->query($query);
-			while($ua_row = $ua_res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($ua_row = $ua_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$query = 'insert into obj_members (obj_id, usr_id) '.
 						'values('.
@@ -12391,7 +12398,7 @@ do
 					'and rol_id = '.$ilDB->quote($rol_row->rol_id,'integer').' '.
 					'and om.obj_id = '.$ilDB->quote($row->obj_id,'integer');
 			$ua_res = $ilDB->query($query);
-			while($ua_row = $ua_res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($ua_row = $ua_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$admin = $tutor = $member = 0;
 				switch(substr($rol_row->title,0,8))
@@ -12585,7 +12592,7 @@ $ilCtrlStructureReader->getStructure();
 	$res = $ilDB->query($query);
 	
 	$server_id = 0;
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$server_id = $row->server_id;
 	}
@@ -12677,7 +12684,7 @@ $indices = array(
 	'il_dcl_table' => array( 'obj_id' ),
 );
 
-$manager = $ilDB->db->loadModule('Manager');
+$manager = $ilDB->loadModule('Manager');
 
 foreach ($indices as $table_name => $field_names) {
 	if ($manager) {
@@ -13300,7 +13307,7 @@ if($ilDB->tableExists('il_wiki_missing_page'))
 <#4833>
 <?php
 //step 1/2 lo_access search for dublicates and remove them
-
+/*
 if ($ilDB->tableExists('lo_access'))
 {
 	$res = $ilDB->query("
@@ -13358,9 +13365,40 @@ if ($ilDB->tableExists('lo_access'))
 		);
 	}
 }
+*/
 ?>
 <#4834>
 <?php
+
+// fixes step 4833
+
+$set1 = $ilDB->query("SELECT DISTINCT usr_id, lm_id FROM lo_access ORDER BY usr_id");
+
+while ($r1 = $ilDB->fetchAssoc($set1))
+{
+	$set2 = $ilDB->query("SELECT * FROM lo_access WHERE usr_id = ".$ilDB->quote($r1["usr_id"], "integer").
+		" AND lm_id = ".$ilDB->quote($r1["lm_id"], "integer")." ORDER BY timestamp ASC");
+	$new_recs = array();
+	while ($r2 = $ilDB->fetchAssoc($set2))
+	{
+		$new_recs[$r2["usr_id"].":".$r2["lm_id"]] = $r2;
+	}
+	$ilDB->manipulate("DELETE FROM lo_access WHERE usr_id = ".$ilDB->quote($r1["usr_id"], "integer").
+		" AND lm_id = ".$ilDB->quote($r1["lm_id"], "integer"));
+	foreach ($new_recs as $r)
+	{
+		$ilDB->manipulate("INSERT INTO lo_access ".
+			"(timestamp, usr_id, lm_id, obj_id, lm_title) VALUES (".
+			$ilDB->quote($r["timestamp"], "timestamp").",".
+			$ilDB->quote($r["usr_id"], "integer").",".
+			$ilDB->quote($r["lm_id"], "integer").",".
+			$ilDB->quote($r["obj_id"], "integer").",".
+			$ilDB->quote($r["lm_title"], "text").
+			")");
+	}
+}
+
+
 //step 2/2 lo_access adding primary key and removing indexes
 
 if( $ilDB->indexExistsByFields('lo_access', array('usr_id')) )
@@ -13921,6 +13959,30 @@ if ($ilDB->tableExists('page_style_usage_old'))
 <#4852>
 <?php
 //page_question adding primary key
+
+// fixes duplicate entries
+$set1 = $ilDB->query("SELECT DISTINCT user_id FROM personal_pc_clipboard ORDER BY user_id");
+
+while ($r1 = $ilDB->fetchAssoc($set1))
+{
+	$set2 = $ilDB->query("SELECT * FROM personal_pc_clipboard WHERE user_id = ".$ilDB->quote($r1["user_id"], "integer").
+		" ORDER BY insert_time ASC");
+	$new_recs = array();
+	while ($r2 = $ilDB->fetchAssoc($set2))
+	{
+		$new_recs[$r2["user_id"].":".$r2["insert_time"].":".$r2["order_nr"]] = $r2;
+	}
+	$ilDB->manipulate("DELETE FROM personal_pc_clipboard WHERE user_id = ".$ilDB->quote($r1["user_id"], "integer"));
+	foreach ($new_recs as $r)
+	{
+		$ilDB->insert("personal_pc_clipboard", array(
+			"user_id" => array("integer", $r["user_id"]),
+			"content" => array("clob", $r["content"]),
+			"insert_time" => array("timestamp", $r["insert_time"]),
+			"order_nr" => array("integer", $r["order_nr"])
+			));
+	}
+}
 
 if( $ilDB->indexExistsByFields('personal_pc_clipboard', array('user_id')) )
 {
@@ -16332,7 +16394,7 @@ $manager = $ilDB->loadModule('Manager');
 
 if(!$manager)
 {
-	$manager = $ilDB->db->loadModule('Manager');
+	$manager = $ilDB->loadModule('Manager');
 }
 
 $const = $manager->listTableConstraints("bookmark_tree");
@@ -17395,8 +17457,7 @@ if($mass_type_id) {
 			ilDBUpdateNewObjectType::addRBACOperation($mass_type_id, $new_ops_id);
 		}
 	}
-	require_once 'Modules/ManualAssessment/classes/AccessControl/class.ilManualAssessmentAccessHandler.php';
-	$rolt_title = ilManualAssessmentAccessHandler::DEFAULT_ROLE;
+	$rolt_title = 'il_mass_member';
 	$rec = $ilDB->fetchAssoc(
 		$ilDB->query("SELECT obj_id FROM object_data "
 						."	WHERE type = 'rolt' AND title = ".$ilDB->quote($rolt_title,'text')));
@@ -17954,4 +18015,255 @@ if( $ilDB->tableColumnExists('qpl_a_ordering', 'order_position') )
 <#5061>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+
+<#5062>
+<?php
+	//rename tables
+	if($ilDB->tableExists('mass_info_settings') && !$ilDB->tableExists('iass_info_settings')) {
+		$ilDB->renameTable('mass_info_settings', 'iass_info_settings');
+	}
+
+	if($ilDB->tableExists('mass_settings') && !$ilDB->tableExists('iass_settings')) {
+		$ilDB->renameTable('mass_settings', 'iass_settings');
+	}
+
+	if($ilDB->tableExists('mass_members') && !$ilDB->tableExists('iass_members')) {
+		$ilDB->renameTable('mass_members', 'iass_members');
+	}
+
+	//change obj type
+	$ilDB->manipulate('UPDATE object_data SET type = '.$ilDB->quote('iass','text')
+						.'	WHERE type = '.$ilDB->quote('mass','text'));
+
+	//change name of role template for iass member
+	$ilDB->manipulate('UPDATE object_data SET title = '.$ilDB->quote('il_iass_member','text')
+						.'	WHERE type = '.$ilDB->quote('rolt','text')
+						.'		AND title ='.$ilDB->quote('il_mass_member','text'));
+
+	//change names of existing iass member roles
+	$ilDB->manipulate('UPDATE object_data SET title = REPLACE(title,'.$ilDB->quote('_mass_','text').','.$ilDB->quote('_iass_','text').')'
+						.'	WHERE type = '.$ilDB->quote('role','text')
+						.'		AND title LIKE '.$ilDB->quote('il_mass_member_%','text'));
+
+	//change typ name
+	$ilDB->manipulate('UPDATE object_data SET title = '.$ilDB->quote('iass','text')
+						.'		,description = '.$ilDB->quote('Individual Assessment','text')
+						.'	WHERE type = '.$ilDB->quote('typ','text')
+						.'		AND title = '.$ilDB->quote('mass','text'));
+
+	//adapt object declaration in rbac
+	$ilDB->manipulate('UPDATE rbac_templates SET type = '.$ilDB->quote('iass','text')
+						.'	WHERE type = '.$ilDB->quote('mass','text'));
+
+	//change op names
+	$ilDB->manipulate('UPDATE rbac_operations SET operation = '.$ilDB->quote('create_iass','text')
+						.'		,description = '.$ilDB->quote('Create Individual Assessment','text')
+						.'	WHERE operation = '.$ilDB->quote('create_mass','text'));
+
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5063>
+<?php
+if($ilDB->tableExists('svy_qst_oblig'))
+{
+	$ilDB->manipulate("UPDATE svy_question".
+		" INNER JOIN svy_qst_oblig".
+		" ON svy_question.question_id = svy_qst_oblig.question_fi".
+		" SET svy_question.obligatory = svy_qst_oblig.obligatory");
+}
+?>
+<#5064>
+<?php
+$ilDB->modifyTableColumn(
+	'mail_attachment',
+	'path',
+	array(
+		"type" => "text",
+		"length" => 500,
+		"notnull" => false,
+		'default' => null
+	)
+);
+?>
+<#5065>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5066>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5067>
+<?php
+
+	if( !$ilDB->tableColumnExists('qpl_a_mterm', 'ident') )
+	{
+		$ilDB->addTableColumn('qpl_a_mterm', 'ident', array(
+			'type'    => 'integer', 'length'  => 4,
+			'notnull' => false, 'default' => null
+		));
+		
+		$ilDB->manipulate("UPDATE qpl_a_mterm SET ident = term_id WHERE ident IS NULL");
+	}
+	
+	if( !$ilDB->tableColumnExists('qpl_a_mdef', 'ident') )
+	{
+		require_once 'Services/Database/classes/class.ilDBAnalyzer.php';
+		$ilDB->renameTableColumn('qpl_a_mdef', 'morder', 'ident');
+	}
+	
+?>
+<#5068>
+<?php
+$ilDB->modifyTableColumn('exc_returned', 'mimetype', array(
+										'type'	=> 'text',
+										'length'=> 150,
+										'notnull' => false)
+);
+?>
+<#5069>
+<?php
+include_once('./Services/Migration/DBUpdate_5069/classes/class.ilDBUpdate5069.php');
+ilDBUpdate5069::fix19795();
+?>
+
+<#5070>
+<?php
+
+// remove role entries in obj_members
+$query = 'update obj_members set admin = '.$ilDB->quote(0,'integer').', '.
+		'tutor = '.$ilDB->quote(0,'integer').', member = '.$ilDB->quote(0,'integer');
+$ilDB->manipulate($query);
+
+// iterate through all courses
+$offset = 0;
+$limit = 100;
+do
+{
+	$ilDB->setLimit($limit, $offset);
+	$query = 'SELECT obr.ref_id, obr.obj_id FROM object_reference obr '.
+			'join object_data obd on obr.obj_id = obd.obj_id where (type = '.$ilDB->quote('crs','text').' or type = '.$ilDB->quote('grp','text').') ';
+	$res = $ilDB->query($query);
+	
+	if(!$res->numRows())
+	{
+		break;
+	}
+	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+	{
+		// find course members roles
+		$query = 'select rol_id, title from rbac_fa '.
+				'join object_data on rol_id = obj_id '.
+				'where parent = '.$ilDB->quote($row->ref_id,'integer').' '.
+				'and assign = '.$ilDB->quote('y','text');
+		$rol_res = $ilDB->query($query);
+		while($rol_row = $rol_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			// find users which are not assigned to obj_members and create a default entry
+			$query = 'select ua.usr_id from rbac_ua ua '.
+					'left join obj_members om on (ua.usr_id = om.usr_id and om.obj_id = '.$ilDB->quote($row->obj_id,'integer').') '.
+					'where om.usr_id IS NULL '.
+					'and rol_id = '.$ilDB->quote($rol_row->rol_id,'integer');
+			$ua_res = $ilDB->query($query);
+			while($ua_row = $ua_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+			{
+				$query = 'insert into obj_members (obj_id, usr_id) '.
+						'values('.
+						$ilDB->quote($row->obj_id,'integer').', '.
+						$ilDB->quote($ua_row->usr_id,'integer').' '.
+						')';
+				$ilDB->manipulate($query);
+			}
+			
+			// find users which are assigned to obj_members and update their role assignment
+			$query = 'select usr_id from rbac_ua '.
+				'where rol_id = '.$ilDB->quote($rol_row->rol_id,'integer');
+
+			$ua_res = $ilDB->query($query);
+			while($ua_row = $ua_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+			{
+				$admin = $tutor = $member = 0;
+				switch(substr($rol_row->title,0,8))
+				{
+					case 'il_crs_a':
+					case 'il_grp_a':
+						$admin = 1;
+						break;
+					
+					case 'il_crs_t':
+						$tutor = 1;
+						break;
+					
+					default:
+					case 'il_grp_m':
+					case 'il_crs_m':
+						$member = 1;
+						break;
+				}
+				
+				$query = 'update obj_members '.
+						'set admin = admin  + '.$ilDB->quote($admin,'integer').', '.
+						'tutor = tutor + '.$ilDB->quote($tutor,'integer').', '.
+						'member = member + '.$ilDB->quote($member,'integer').' '.
+						'WHERE usr_id = '.$ilDB->quote($ua_row->usr_id,'integer').' '.
+						'AND obj_id = '.$ilDB->quote($row->obj_id,'integer');
+				$ilDB->manipulate($query);
+			}
+		}
+	}
+		// increase offset
+	$offset += $limit;
+}
+while(TRUE);
+?>
+
+<#5071>
+<?php
+
+$ilDB->manipulate('delete from obj_members where admin = '.
+	$ilDB->quote(0,'integer').' and tutor = '.
+	$ilDB->quote(0,'integer').' and member = '.
+	$ilDB->quote(0,'integer')
+);
+?>
+<#5072>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5073>
+<?php
+$ilDB->modifyTableColumn(
+	'wiki_stat_page',
+	'num_ratings',
+	array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	)
+);
+?>
+<#5074>
+<?php
+$ilDB->modifyTableColumn(
+	'wiki_stat_page',
+	'avg_rating',
+	array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	)
+);
+?>
+<#5075>
+<?php
+$query = "SELECT value FROM settings WHERE module = %s AND keyword = %s";
+$res = $ilDB->queryF($query, array('text', 'text'), array("mobs", "black_list_file_types"));
+if (!$ilDB->fetchAssoc($res))
+{
+	$mset = new ilSetting("mobs");
+	$mset->set("black_list_file_types", "html");
+}
 ?>

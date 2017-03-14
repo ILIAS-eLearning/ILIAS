@@ -184,8 +184,9 @@ class ilDclBaseRecordModel {
 		$this->loadRecordFields();
 		foreach ($this->getRecordFields() as $recordField) {
 			$recordField->doCreate();
-
 		}
+
+		$this->getTable()->loadRecords();
 	}
 
 
@@ -654,8 +655,10 @@ class ilDclBaseRecordModel {
 
 	/**
 	 * Delete
+	 *
+	 * @param bool $omit_notification
 	 */
-	public function doDelete() {
+	public function doDelete($omit_notification = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
@@ -677,7 +680,11 @@ class ilDclBaseRecordModel {
 		$query = "DELETE FROM il_dcl_record WHERE id = " . $ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 
-		ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
+		$this->table->loadRecords();
+
+		if (!$omit_notification) {
+			ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
+		}
 
 		$ilAppEventHandler->raise('Modules/DataCollection',
 			'deleteRecord',
@@ -705,21 +712,12 @@ class ilDclBaseRecordModel {
 		foreach($new_fields as $old => $new){
 			$old_rec_field = $original->getRecordField($old);
 			$new_rec_field = ilDclCache::getRecordFieldCache($this, $new);
-			if ($new->getDatatypeTitle() == "reference") {
-				if (!$old_rec_field->getValue()) {
-					continue;
-				}
-				$old_ref_rec = ilDclCache::getRecordCache($old_rec_field->getValue());
-				$old_ref_rec_field = $old_ref_rec->getRecordField(ilDclCache::getFieldCache($old)->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
-				// set the referenced records value instead of id, so we can later get the new referenced record by its value
-				$new_rec_field->setValue($old_ref_rec_field->getValue());
-				$new_rec_field->doUpdate();
-				continue;
-			}
-			$new_rec_field->setValue($old_rec_field->getValue());
-			$new_rec_field->doUpdate();
+			$new_rec_field->cloneStructure($old_rec_field);
 			$this->recordfields[] = $new_rec_field;
 		}
+
+		// mandatory for all cloning functions
+		ilDclCache::setCloneOf($original_id, $this->getId(), ilDclCache::TYPE_RECORD);
 	}
 
 	/**

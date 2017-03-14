@@ -574,7 +574,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				$id = substr($id, 0, $pos);
 			}
 		}
-
+		
 		if(trim($value) == "")
 		{
 			if($id == "title")
@@ -753,7 +753,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 	protected function isArrayColumn($a_name)
 	{
-		if(in_array($a_name, array("country", "gender", "city", "language", "status", "mark")))
+		if(in_array($a_name, array("country", "gender", "city", "language", "status", "mark", 'sel_country')))
 		{
 			return true;
 		}

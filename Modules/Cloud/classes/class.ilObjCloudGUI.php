@@ -242,7 +242,7 @@ class ilObjCloudGUI extends ilObject2GUI {
 	/**
 	 * @return \ilCtrl
 	 */
-	public function getCtrl(): \ilCtrl {
+	public function getCtrl() {
 		return $this->ctrl;
 	}
 

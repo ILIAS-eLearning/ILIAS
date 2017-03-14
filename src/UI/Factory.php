@@ -249,6 +249,13 @@ interface Factory {
 	 *   composition: An Image is composed of the image and an alternative text for screen readers.
 	 *   effect: Images may be included in interacted components but not interactive on their own.
 	 *
+	 * rules:
+	 *   accessibility:
+	 *     1: >
+	 *        Images MUST contain the alt attribute. This attribute MAY be left empty (alt="") if the image is of
+	 *        decorative nature. According to the WAI, decorative images don’t add information to the content of a page. For example, the information provided by the image
+	 *        might already be given using adjacent text, or the image might be included to make the website more visually attractive
+	 *        (see <a href="https://www.w3.org/WAI/tutorials/images/decorative/">https://www.w3.org/WAI/tutorials/images/decorative/</a>).
 	 * ---
 	 * @return \ILIAS\UI\Component\Image\Factory
 	 */

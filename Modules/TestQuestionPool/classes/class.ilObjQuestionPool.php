@@ -1416,11 +1416,11 @@ class ilObjQuestionPool extends ilObject
 *
 * @access public
 */
-	function cloneObject($a_target_id,$a_copy_id = 0)
+	function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $ilLog;
 
-		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
+		$newObj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 
 		//copy online status if object is not the root copy object
 		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -1648,17 +1648,29 @@ class ilObjQuestionPool extends ilObject
 	* @param string $a_pname The plugin name
 	* @access public
 	*/
-	function isPluginActive($a_pname)
+	function isPluginActive($questionType)
 	{
+		/* @var ilPluginAdmin $ilPluginAdmin */
 		global $ilPluginAdmin;
-		if ($ilPluginAdmin->isActive(IL_COMP_MODULE, "TestQuestionPool", "qst", $a_pname))
+		
+		$plugins = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
+		foreach($plugins as $pluginName)
 		{
-			return TRUE;
+			if( $pluginName == $questionType ) // plugins having pname == qtype
+			{
+				return true;
+			}
+			
+			/* @var ilQuestionsPlugin $plugin */
+			$plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pluginName);
+			
+			if($plugin->getQuestionType() == $questionType) // plugins havin an independent name
+			{
+				return true;
+			}
 		}
-		else
-		{
-			return FALSE;
-		}
+		
+		return false;
 	}
 	
 	/*

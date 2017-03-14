@@ -381,16 +381,16 @@ class ilMimeMail
 		{
 			$mail->IsHTML(true);
 
-			$style = $ilClientIniFile->readVariable('layout', 'style');
+			$skin = $ilClientIniFile->readVariable('layout', 'skin');
 
 			$bracket_path = './Services/Mail/templates/default/tpl.html_mail_template.html';
-			if($style != 'delos')
+			if($skin != 'delos')
 			{
-				$tplpath = './Customizing/global/skin/' . $style . '/Services/Mail/tpl.html_mail_template.html';
+				$tplpath = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
 
 				if(@file_exists($tplpath))
 				{
-					$bracket_path = './Customizing/global/skin/' . $style . '/Services/Mail/tpl.html_mail_template.html';
+					$bracket_path = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
 				}
 			}
 			$bracket = file_get_contents($bracket_path);
@@ -410,9 +410,9 @@ class ilMimeMail
 			$mail->Body    = str_replace( '{PLACEHOLDER}', ilUtil::makeClickable( $this->body ), $bracket );
 
 			$directory = './Services/Mail/templates/default/img/';
-			if($style != 'delos')
+			if($skin != 'delos')
 			{
-				$directory = './Customizing/global/skin/' . $style . '/Services/Mail/img/';
+				$directory = './Customizing/global/skin/' . $skin . '/Services/Mail/img/';
 			}
 			$directory_handle  = @opendir($directory);
 			$files = array();
@@ -450,7 +450,7 @@ class ilMimeMail
 			++$i;
 		}
 
-		ilLoggerFactory::getLogger('mail')->debug(sprintf(
+		ilLoggerFactory::getLogger('mail')->debug(
 			"Trying to delegate external email delivery:" .
 			" Initiated by: " . $ilUser->getLogin() . " (" . $ilUser->getId() . ")" .
 			" | From: " . $this->xheaders['From'] .
@@ -458,7 +458,7 @@ class ilMimeMail
 			" | CC: " . implode(', ', $this->acc) .
 			" | BCC: " . implode(', ', $this->abcc) .
 			" | Subject: " .$mail->Subject
-		));
+		);
 
 		if(!(int)$ilSetting->get('prevent_smtp_globally'))
 		{

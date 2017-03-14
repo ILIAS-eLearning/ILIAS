@@ -2,11 +2,12 @@
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Modules/Forum/interfaces/interface.ilForumNotificationMailData.php';
+include_once './Modules/Forum/classes/class.ilForumProperties.php';
 
 /**
  * Class ilForumCronNotificationDataProvider
  *
- * @author Nadia Ahmad <nahmad@databay.de>
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  */
 class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 {
@@ -157,14 +158,17 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	private function readAttachments()
 	{
-		// get attachments
-		include_once "./Modules/Forum/classes/class.ilFileDataForum.php";
-		$fileDataForum = new ilFileDataForum($this->getObjId(), $this->getPostId());
-		$filesOfPost   = $fileDataForum->getFilesOfPost();
-
-		foreach($filesOfPost as $attachment)
+		if(ilForumProperties::isSendAttachmentsByMailEnabled())
 		{
-			$this->attachments[] = $attachment['name'];
+			// get attachments
+			include_once "./Modules/Forum/classes/class.ilFileDataForum.php";
+			$fileDataForum = new ilFileDataForum($this->getObjId(), $this->getPostId());
+			$filesOfPost   = $fileDataForum->getFilesOfPost();
+			
+			foreach($filesOfPost as $attachment)
+			{
+				$this->attachments[] = $attachment['name'];
+			}
 		}
 	}
 

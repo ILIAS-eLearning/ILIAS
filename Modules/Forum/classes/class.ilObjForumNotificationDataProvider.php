@@ -2,10 +2,11 @@
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Modules/Forum/interfaces/interface.ilForumNotificationMailData.php';
+include_once './Modules/Forum/classes/class.ilForumProperties.php';
 
 /**
  * Class ilObjForumNotificationDataProvider
- * @author Nadia Ahmad <nahmad@databay.de>
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  */
 class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 {
@@ -273,17 +274,20 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	private function readAttachments()
 	{
-		require_once 'Modules/Forum/classes/class.ilFileDataForum.php';
-		$fileDataForum = new ilFileDataForum($this->getObjId(), $this->objPost->getId());
-		$filesOfPost   = $fileDataForum->getFilesOfPost();
-
-		require_once 'Services/Mail/classes/class.ilFileDataMail.php';
-		$fileDataMail = new ilFileDataMail(ANONYMOUS_USER_ID);
-
-		foreach($filesOfPost as $attachment)
+		if(ilForumProperties::isSendAttachmentsByMailEnabled())
 		{
-			$this->attachments[$attachment['path']] = $attachment['name'];
-			$fileDataMail->copyAttachmentFile($attachment['path'], $attachment['name']);
+			require_once 'Modules/Forum/classes/class.ilFileDataForum.php';
+			$fileDataForum = new ilFileDataForum($this->getObjId(), $this->objPost->getId());
+			$filesOfPost   = $fileDataForum->getFilesOfPost();
+			
+			require_once 'Services/Mail/classes/class.ilFileDataMail.php';
+			$fileDataMail = new ilFileDataMail(ANONYMOUS_USER_ID);
+			
+			foreach($filesOfPost as $attachment)
+			{
+				$this->attachments[$attachment['path']] = $attachment['name'];
+				$fileDataMail->copyAttachmentFile($attachment['path'], $attachment['name']);
+			}
 		}
 	}
 

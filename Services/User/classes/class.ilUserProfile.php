@@ -46,7 +46,7 @@ class ilUserProfile
 	private static $user_field = array(
 		"username" => array(
 						"input" => "login",
-						"maxlength" => 32,
+						"maxlength" => 64,
 						"size" => 40,
 						"method" => "getLogin",
 						"course_export_fix_value" => 1,
@@ -512,7 +512,7 @@ class ilUserProfile
 						{
 							$val->setValue($a_user->getLogin());
 						}
-						$val->setMaxLength(32);
+						$val->setMaxLength($p['maxlength']);
 						$val->setSize(40);
 						$val->setRequired(true);
 					}
@@ -895,7 +895,7 @@ class ilUserProfile
 		if($a_include_udf)
 		{
 			$user_defined_data = $a_user->getUserDefinedData();
-						
+			
 			include_once './Services/User/classes/class.ilUserDefinedFields.php';
 			$user_defined_fields = ilUserDefinedFields::_getInstance();						
 			foreach($user_defined_fields->getRequiredDefinitions() as $field => $definition)
@@ -908,6 +908,7 @@ class ilUserProfile
 				
 				if(!$user_defined_data["f_".$field])
 				{
+					ilLoggerFactory::getLogger('user')->info('Profile is incomplete due to missing required udf.');
 					return true;
 				}				
 			}					

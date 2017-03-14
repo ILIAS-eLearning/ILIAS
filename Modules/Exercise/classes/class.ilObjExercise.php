@@ -214,12 +214,12 @@ class ilObjExercise extends ilObject
 	 * @param int target ref_id
 	 * @param int copy id
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $ilDB;
 		
 		// Copy settings
-	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 	 	$new_obj->setInstruction($this->getInstruction());
 	 	$new_obj->setTimestamp($this->getTimestamp());
 	 	$new_obj->setPassMode($this->getPassMode());
@@ -557,7 +557,7 @@ class ilObjExercise extends ilObject
 	 */
 	function updateAllUsersStatus()
 	{
-		if (!is_object($this->members_obj));
+		if (!is_object($this->members_obj))
 		{
 			$this->members_obj = new ilExerciseMembers($this);
 		}

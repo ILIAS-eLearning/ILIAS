@@ -784,9 +784,9 @@ class ilMembershipGUI
 		$ilToolbar->addSeparator();
 			
 		// print button
-		#$ilToolbar->addButton(
-		#	$this->lng->txt($this->getParentObject()->getType(). "_print_list"),
-		#	$this->ctrl->getLinkTarget($this, 'printMembers'));
+		$ilToolbar->addButton(
+			$this->lng->txt($this->getParentObject()->getType(). "_print_list"),
+			$this->ctrl->getLinkTarget($this, 'printMembers'));
 		
 		$this->showMailToMemberToolbarButton($ilToolbar, 'participants', false);
 	}
@@ -1413,5 +1413,110 @@ class ilMembershipGUI
 			$this->ctrl->redirect($this->getParentGUI());
 		}
 	}
+	
+	/**
+	 * Print members
+	 * @todo: refactor to own class
+	 */
+	protected function printMembers()
+	{
+		global $ilTabs;
+		
+		$this->checkPermission('manage_members');
+		
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget(
+			$this->lng->txt('back'),
+			$this->ctrl->getLinkTarget($this, 'participants'));
+		
+		$list = $this->initAttendanceList();
+		$form = $list->initForm('printMembersOutput');
+		$this->tpl->setContent($form->getHTML());	
+		
+	}
+	
+	/**
+	 * print members output
+	 */
+	protected function printMembersOutput()
+	{		
+		$list = $this->initAttendanceList();		
+		$list->initFromForm();
+		$list->setCallback(array($this, 'getAttendanceListUserData'));	
+		$this->member_data = $this->getPrintMemberData($this->getMembersObject()->getParticipants());
+		$list->getNonMemberUserData($this->member_data);
+		
+		$list->getFullscreenHTML();
+		exit();
+	}
+	
+	
+	
+	/**
+	 * Init attendance list
+	 */
+	protected function initAttendanceList()
+	{
+		/**
+		 * @var ilWaitingList
+		 */
+		$waiting_list = $this->initWaitingList();
+
+		
+		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
+		$list = new ilAttendanceList(
+			$this,
+			$this->getParentObject(),
+			$this->getMembersObject(), 
+			$waiting_list
+		);		
+		$list->setId($this->getParentObject()->getType().'_memlist_'.$this->getParentObject()->getId());
+	
+		$list->setTitle(
+			$this->lng->txt($this->getParentObject()->getType().'_members_print_title'),
+			$this->lng->txt('obj_'. $this->getParentObject()->getType()).': '.$this->getParentObject()->getTitle());
+				
+		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
+		$show_tracking = 
+			(ilObjUserTracking::_enabledLearningProgress() and ilObjUserTracking::_enabledUserRelatedData());
+		if($show_tracking)
+		{
+			include_once('./Services/Object/classes/class.ilObjectLP.php');
+			$olp = ilObjectLP::getInstance($this->getParentObject()->getId());
+			$show_tracking = $olp->isActive();
+		}
+		if($show_tracking)
+		{
+			$list->addPreset('progress', $this->lng->txt('learning_progress'), true);
+		}
+		
+		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		/**
+		 * @var ilPrivacySettings
+		 */
+		$privacy = ilPrivacySettings::_getInstance();
+		if($privacy->enabledAccessTimesByType($this->getParentObject()->getType()))
+		{
+			$list->addPreset('access', $this->lng->txt('last_access'), true);
+		}
+		
+		switch($this->getParentObject()->getType())
+		{
+			case 'crs':
+				$list->addPreset('status', $this->lng->txt('crs_status'), true);
+				$list->addPreset('passed', $this->lng->txt('crs_passed'), true);
+				break;
+
+			case 'grp':
+			default:
+				break;
+		}
+		
+		return $list;
+		
+	}
+	
+	
+	
 }
 ?>

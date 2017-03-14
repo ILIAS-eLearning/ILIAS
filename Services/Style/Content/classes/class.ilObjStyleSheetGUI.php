@@ -2511,7 +2511,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		if ($this->form_gui->checkInput())
 		{
 			if ($this->object->templateExists($_POST["name"]) &&
-				$_POST["name"] != ilObjStyleSheet::lookupTemplateName($_GET["t_id"]))
+				$_POST["name"] != ilObjStyleSheet::_lookupTemplateName($_GET["t_id"]))
 			{
 				$name_input = $this->form_gui->getItemByPostVar("name");
 				$name_input->setAlert($lng->txt("sty_template_already_exists"));
@@ -2726,7 +2726,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->form_gui->addItem($bl_input);
 		
 		// top bottom padding
-		include_once("./Services/Style/classes/class.ilNumericStyleValueInputGUI.php");
+		include_once("./Services/Style/Content/classes/class.ilNumericStyleValueInputGUI.php");
 		$num_input = new ilNumericStyleValueInputGUI($lng->txt("sty_top_bottom_padding"), "tb_padding");
 		$num_input->setAllowPercentage(false);
 		$num_input->setValue("3px");

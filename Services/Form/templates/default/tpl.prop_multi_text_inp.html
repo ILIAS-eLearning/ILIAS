@@ -1,0 +1,36 @@
+<div id="{ELEMENT_ID}" class="ilWzdContainerText form-inline">
+    <!-- BEGIN row -->
+    <div class="ilWzdRow">
+        <input type="text" class="form-control" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/>
+        <!-- BEGIN edit_bl -->
+        <button type="button" name="{CMD_ADD}" class="ilWzdBtn_add  btn btn-link" id="{ID_ADD}" onclick="javascript: void(0); return false;" >{ADD_BUTTON}</button>
+        <button type="button" name="{CMD_REMOVE}" class="ilWzdBtn_remove  btn btn-link" id="{ID_REMOVE}" onclick="javascript: void(0); return false;">{REMOVE_BUTTON}</button>
+        <!-- END edit_bl -->
+        <!-- BEGIN move -->
+        <button type="button" name="{CMD_UP}" class="ilWzdBtn_up btn btn-link" id="{ID_UP}" onclick="javascript: void(0); return false;">{UP_BUTTON}</button>
+        <button type="button" name="{CMD_DOWN}" class="ilWzdBtn_down btn btn-link" id="{ID_DOWN}" onclick="javascript: void(0); return false;">{DOWN_BUTTON}</button>
+        <!-- END move -->
+    </div>
+    <!-- END row -->
+</div>
+<!-- BEGIN js_engine_initialisation -->
+<script type="application/javascript">
+(function($){
+
+    $(document).ready(function() {
+
+        $.extend({}, ilWizardInput, ilIdentifiedWizardInputExtend).init({
+            fieldContainerSelector: '.ilWzdContainerText',
+            reindexingRequiredElementsSelectors: ['input:text', 'button'],
+           
+            handleRowCleanUpCallback: function(rowElem)
+            {
+                $(rowElem).find('input:text').val('');
+            }
+        });
+
+    });
+
+})(jQuery);
+</script>
+<!-- END js_engine_initialisation -->

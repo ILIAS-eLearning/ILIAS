@@ -320,7 +320,7 @@ class ilSession
 		if( $fixedMode || $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_FIXED )
 		{
 			// fixed session
-			return time() + ini_get('session.gc_maxlifetime');
+			return time() + self::getIdleValue($fixedMode);
 		}
 		else if( $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_LOAD_DEPENDENT )
 		{

@@ -4,6 +4,8 @@
 
 include_once "./Services/Cron/classes/class.ilCronJob.php";
 include_once "./Services/Cron/classes/class.ilCronJobResult.php";
+require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+
 /**
  * Delete orphaned mails
  *
@@ -133,7 +135,7 @@ class ilMailCronOrphanedMails extends ilCronJob
 	 */
 	public function saveCustomSettings(ilPropertyFormGUI $a_form)
 	{	
-		global $ilSetting;
+		global $ilSetting, $ilUser;
 
 		$ilSetting->set('mail_threshold', (int)$a_form->getInput('mail_threshold'));
 		$ilSetting->set('mail_only_inbox_trash', (int)$a_form->getInput('mail_only_inbox_trash'));
@@ -144,6 +146,10 @@ class ilMailCronOrphanedMails extends ilCronJob
 			global $ilDB;
 			//delete all mail_cron_orphaned-table entries! 
 			$ilDB->manipulate('DELETE FROM mail_cron_orphaned');
+
+			ilLoggerFactory::getLogger('mail')->info(sprintf(
+				"Deleted all scheduled mail deletions because a reminder should't be sent (login: %s|usr_id: %s) anymore!", $ilUser->getLogin(), $ilUser->getId() 
+			));
 		}
 		
 		return true;
@@ -159,11 +165,15 @@ class ilMailCronOrphanedMails extends ilCronJob
 		
 		$mail_threshold = (int)$ilSetting->get('mail_threshold');
 
-		if( (int)$ilSetting->get('mail_notify_orphaned') >= 1 && $mail_threshold >= 1)
+		ilLoggerFactory::getLogger('mail')->info(sprintf(
+			'Started mail deletion job with threshold: %s day(s)', var_export($mail_threshold, 1)
+		));
+
+		if((int)$ilSetting->get('mail_notify_orphaned') >= 1 && $mail_threshold >= 1)
 		{
 			$this->processNotification();
 		}
-		
+
 		if((int)$ilSetting->get('last_cronjob_start_ts') && $mail_threshold >= 1)
 		{
 			$this->processDeletion();
@@ -172,6 +182,11 @@ class ilMailCronOrphanedMails extends ilCronJob
 		$result = new ilCronJobResult();
 		$status = ilCronJobResult::STATUS_OK;
 		$result->setStatus($status);
+
+		ilLoggerFactory::getLogger('mail')->info(sprintf(
+			'Finished mail deletion job with threshold: %s day(s)', var_export($mail_threshold, 1)
+		));
+
 		return $result;
 	}
 

@@ -630,7 +630,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 
 				$set = $this->db->query($sql);
 				while ($rec = $this->db->fetchObject($set)) {
-					$this->record_field_ids_2_storage[$rec->id] = $rec->storage_location;
+					$this->record_field_ids_2_storage[$rec->id] = ilDclCache::getFieldCache($rec->field_id)->getStorageLocation();
 				}
 				// Also build a cache of all values, no matter in which table they are (il_dcl_stloc(1|2|3)_value)
 				$sql =

@@ -1493,6 +1493,12 @@ class ilSetup
 				$this->error = "no_path_log";
 				return false;
 			}
+			
+			if(is_dir($log_path))
+			{
+				$this->error = 'could_not_create_logfile';
+				return false;
+			}
 
 			if (!@touch($log_path))
 			{

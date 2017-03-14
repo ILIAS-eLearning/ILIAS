@@ -17,6 +17,7 @@ In theory, you should also invert shadow... but i think we could postpone this t
 All parts that aren't checked yet are actually marked with "rtl-review"
 */
 
+
 @bsbase: "../../Services/UICore/lib/bootstrap-3.2.0/less/";
 
 // This part should be a copy of the less/bootstrap.less file
@@ -79,8 +80,10 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @uibase: "../../src/UI/templates/default/";
 @import "@{uibase}Counter/counter.less";
 @import "@{uibase}Glyph/glyph.less";
+@import "@{uibase}Panel/panel.less";
 @import "@{uibase}Card/card.less";
 @import "@{uibase}Deck/deck.less";
+
 
 @import "less/variables.less";             // customized
 
@@ -1826,8 +1829,9 @@ table.mceToolbar {
    Google recommending 640px: https://developers.google.com/webmasters/smartphone-sites/details
    
    */
+
 @media
-	only screen and (max-width: @screen-sm-min)
+	only screen and (max-width: @grid-float-breakpoint-max)
 {
 	html {
 		-webkit-text-size-adjust: none;

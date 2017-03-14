@@ -95,23 +95,34 @@ class ilLOUtils
 	
 	/**
 	 * 
-	 * @param type $a_container_id
-	 * @param type $a_objective_id
-	 * @param type $a_passes
-	 * @return boolean
+	 * @param int $a_container_id
+	 * @param int $a_objective_id
+	 * @param int $a_ref_id
+	 * @return  int $a_passes
 	 */
-	public static function lookupMaxAttempts($a_container_id, $a_objective_id)
+	public static function lookupMaxAttempts($a_container_id, $a_objective_id, $a_test_ref_id)
 	{
-		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
-		$settings = ilLOSettings::getInstanceByObjId($a_container_id);
-		if($settings->isGeneralQualifiedTestVisible())
+		global $ilDB;
+		
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+		/**
+		 * @var ilLOTestAssignments
+		 */
+		$assignments = ilLOTestAssignments::getInstance($a_container_id);
+		if(!$assignments->isSeparateTest($a_test_ref_id))
 		{
+			// no limit of tries for tests assigned to multiple objectives.
 			return 0;
 		}
-		include_once './Modules/Course/classes/class.ilCourseObjective.php';
-		$max_passes = ilCourseObjective::lookupMaxPasses($a_objective_id);
 		
-		return (int) $max_passes;
+		$query = 'SELECT nr_of_tries FROM tst_tests '.
+			'WHERE obj_fi = '.$ilDB->quote(ilObject::_lookupObjId($a_test_ref_id),'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			return (int) $row->nr_of_tries;
+		}
+		return 0;
 	}
 	
 	

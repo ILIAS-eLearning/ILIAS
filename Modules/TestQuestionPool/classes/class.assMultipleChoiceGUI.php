@@ -539,7 +539,12 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
-				array_push($user_solution, $solution_value["value1"]);
+// fau: testNav - don't add the dummy entry for 'none of the above' to the user options
+				if ( $solution_value["value1"] != 'mc_none_above')
+				{
+					array_push($user_solution, $solution_value["value1"]);
+				}
+// fau.
 			}
 		}
 		// generate the question output
@@ -782,7 +787,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 					if (in_array( $suffix, array( "jpg", "jpeg", "png", "gif" ) ))
 					{
 						// upload image
-						$filename = $this->object->createNewImageFileName( $file_org_name );
+						$filename = $this->object->buildHashedImageFilename( $file_org_name );
 						if ($this->object->setImageFile( $filename, $file_temp_name ) == 0)
 						{
 							$picturefile = $filename;

@@ -569,14 +569,13 @@ class ilRegistrationSettingsGUI
 		
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 
+		$this->access_limitations_obj->resetAccessLimitations();
 		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
 		{
 			$this->access_limitations_obj->setMode($_POST['access_limitation_mode_'.$role['id']],$role['id']);
 			$this->access_limitations_obj->setAbsolute($_POST['access_limitation_absolute_'.$role['id']],$role['id']);
 			$this->access_limitations_obj->setRelative($_POST['access_limitation_relative_'.$role['id']],$role['id']);
 		}
-		
-		//var_dump("<pre>",$_POST,$this->access_limitations_obj->getAbsolute(4),time(),"</pre>");exit;
 		
 		if($err = $this->access_limitations_obj->validate())
 		{

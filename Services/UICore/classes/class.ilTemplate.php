@@ -709,6 +709,11 @@ class ilTemplate extends HTML_Template_ITX
 		if (is_object($ilSetting))		// maybe this one can be removed
 		{
 			$vers = "vers=".str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
+			
+			if(DEVMODE)
+			{
+				$vers .= '-'.time();
+			}
 		}
 		if ($this->blockExists("js_file"))
 		{
@@ -889,8 +894,11 @@ class ilTemplate extends HTML_Template_ITX
 				
 		if (DEVMODE)
 		{
-			$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=xhtml")] = array("Validate", true);
-			$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility")] = array("Accessibility", true);			
+			if (function_exists("tidy_parse_string"))
+			{
+				$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=xhtml")] = array("Validate", true);
+				$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility")] = array("Accessibility", true);
+			}
 		}
 
         // output translation link

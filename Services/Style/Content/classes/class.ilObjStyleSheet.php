@@ -3563,9 +3563,17 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
+	 * Lookup table template name for template ID
+	 */
+	function lookupTemplateName($a_t_id)
+	{
+		return self::_lookupTemplateName($a_t_id);
+	}
+
+	/**
 	* Lookup table template name for template ID
 	*/
-	function lookupTemplateName($a_t_id)
+	static function _lookupTemplateName($a_t_id)
 	{
 		global $ilDB;
 		

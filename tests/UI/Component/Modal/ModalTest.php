@@ -30,20 +30,16 @@ class ModalTest extends ModalBase {
 		$close = $modal->getCloseSignal();
 		$this->assertEquals('signal_1', "$show");
 		$this->assertEquals('signal_2', "$close");
-	}
-
-	public function test_that_signals_change_after_closing_with_keyboard() {
-		$modal = $this->getModal();
-		$modal2 = $modal->withCloseWithKeyboard(false);
+		$modal2 = $modal->withAsyncRenderUrl('blub');
 		$show = $modal2->getShowSignal();
 		$close = $modal2->getCloseSignal();
-		$this->assertEquals('signal_3', "$show");
-		$this->assertEquals('signal_4', "$close");
+		$this->assertEquals('signal_1', "$show");
+		$this->assertEquals('signal_2', "$close");
 	}
 
-	public function test_that_signals_change_after_changing_async_url() {
+	public function test_with_reset_signals() {
 		$modal = $this->getModal();
-		$modal2 = $modal->withAsyncRenderUrl('/fake/async/url');
+		$modal2 = $modal->withResetSignals();
 		$show = $modal2->getShowSignal();
 		$close = $modal2->getCloseSignal();
 		$this->assertEquals('signal_3', "$show");

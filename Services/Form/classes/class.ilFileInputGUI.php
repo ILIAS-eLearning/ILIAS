@@ -20,6 +20,11 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	protected $allow_deletion;
 	
 	static protected $check_wsp_quota;
+
+	/**
+	 * @var array
+	 */
+	protected $forbidden_suffixes = array();
 	
 	/**
 	* Constructor
@@ -131,7 +136,27 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	{
 		return $this->suffixes;
 	}
-	
+
+	/**
+	 * Set forbidden Suffixes.
+	 *
+	 * @param	array	$a_suffixes	forbidden Suffixes
+	 */
+	function setForbiddenSuffixes($a_suffixes)
+	{
+		$this->forbidden_suffixes = $a_suffixes;
+	}
+
+	/**
+	 * Get Accepted Suffixes.
+	 *
+	 * @return	array	forbidden Suffixes
+	 */
+	function getForbiddenSuffixes()
+	{
+		return $this->forbidden_suffixes;
+	}
+
 	/**
 	 * Set pending filename value 
 	 *  
@@ -297,13 +322,20 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 		}
 		
 		// check suffixes
-		if ($_FILES[$this->getPostVar()]["tmp_name"] != "" &&
-			is_array($this->getSuffixes()) && count($this->getSuffixes()) > 0)
+		if ($_FILES[$this->getPostVar()]["tmp_name"] != "")
 		{
-			if (!in_array(strtolower($suffix), $this->getSuffixes()))
+			if (is_array($this->forbidden_suffixes) && in_array(strtolower($suffix), $this->forbidden_suffixes))
 			{
-				$this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
+				$this->setAlert($lng->txt("form_msg_file_type_is_not_allowed")." (".$suffix.")");
 				return false;
+			}
+			if (is_array($this->getSuffixes()) && count($this->getSuffixes()) > 0)
+			{
+				if (!in_array(strtolower($suffix), $this->getSuffixes()))
+				{
+					$this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
+					return false;
+				}
 			}
 		}
 		

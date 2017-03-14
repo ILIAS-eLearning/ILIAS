@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Chatroom/classes/class.ilChatroomObjectDefinition.php';
-require_once 'Modules/Chatroom/classes/class.ilChatroomTaskHandler.php';
+require_once 'Modules/Chatroom/classes/class.ilChatroomGUIHandler.php';
 require_once 'Services/UICore/classes/class.ilFrameTargetInfo.php';
 
 /**
@@ -12,21 +12,21 @@ require_once 'Services/UICore/classes/class.ilFrameTargetInfo.php';
 abstract class ilChatroomObjectGUI extends ilObjectGUI
 {
 	/**
-	 * Loads end executes given $task.
-	 * @param string $task
+	 * Loads end executes given $gui.
+	 * @param string $gui
 	 * @param string $method
 	 */
-	protected function dispatchCall($task, $method)
+	protected function dispatchCall($gui, $method)
 	{
 		/**
 		 * @var $definition ilChatroomObjectDefinition
 		 */
 		$definition = $this->getObjectDefinition();
-		if($definition->hasTask($task))
+		if($definition->hasGUI($gui))
 		{
-			$definition->loadTask($task);
-			$taskHandler = $definition->buildTask($task, $this);
-			$taskHandler->execute($method);
+			$definition->loadGUI($gui);
+			$guiHandler = $definition->buildGUI($gui, $this);
+			$guiHandler->execute($method);
 		}
 	}
 

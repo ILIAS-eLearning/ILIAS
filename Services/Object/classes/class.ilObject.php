@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
-
 /**
 * Class ilObject
 * Basic functions for all objects
@@ -1671,7 +1669,7 @@ class ilObject
 		}
 		else
 		{
-			include_once("./Services/Component/classes/class.ilPlugin.php");
+			include_once("./Services/Component/classes/class.ilObjectPlugin.php");
 			$options[0] = ilObjectPlugin::lookupTxtById($new_type, "obj_".$new_type."_select");
 		}
 
@@ -1706,7 +1704,7 @@ class ilObject
 	 * @return object new object
 	 *  
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $objDefinition,$ilUser,$rbacadmin, $ilDB;
 		
@@ -1716,7 +1714,7 @@ class ilObject
 		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
 		$options = ilCopyWizardOptions::_getInstance($a_copy_id);
 		
-		if(!$options->isTreeCopyDisabled())
+		if(!$options->isTreeCopyDisabled() && !$a_omit_tree)
 		{
 			$title = $this->appendCopyInfo($a_target_id,$a_copy_id);
 		}
@@ -1735,7 +1733,7 @@ class ilObject
 		// Choose upload mode to avoid creation of additional settings, db entries ...
 		$new_obj->create(true);
 
-		if(!$options->isTreeCopyDisabled())
+		if(!$options->isTreeCopyDisabled() && !$a_omit_tree)
 		{
 			ilLoggerFactory::getLogger('obj')->debug('Tree copy is enabled');
 			$new_obj->createReference();

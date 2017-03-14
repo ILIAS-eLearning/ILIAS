@@ -1219,7 +1219,7 @@ class ilObjContentObject extends ilObject
 			" progr_icons = ".$ilDB->quote($this->getProgressIcons(), "integer").", ".
 			" store_tries = ".$ilDB->quote($this->getStoreTries(), "integer").", ".
 			" restrict_forw_nav = ".$ilDB->quote($this->getRestrictForwardNavigation(), "integer").", ".
-			" for_translation = ".$ilDB->quote($this->getForTranslation(), "integer")." ".
+			" for_translation = ".$ilDB->quote((int) $this->getForTranslation(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($q);
 		// #14661
@@ -3283,11 +3283,11 @@ class ilObjContentObject extends ilObject
 	 * @param int copy id
 	 *
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $ilDB, $ilUser, $ilias;
 
-		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$this->cloneMetaData($new_obj);
 		//$new_obj->createProperties();
 

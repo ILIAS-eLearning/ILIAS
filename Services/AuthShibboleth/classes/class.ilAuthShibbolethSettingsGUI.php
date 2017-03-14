@@ -318,8 +318,10 @@ class ilAuthShibbolethSettingsGUI {
 		}
 		if ($_POST["shib"]["active"] != "1") {
 			$this->ilias->setSetting("shib_active", "0");
+			$this->ilias->setSetting("shibboleth_active", "0");
 		} else {
 			$this->ilias->setSetting("shib_active", "1");
+			$this->ilias->setSetting("shibboleth_active", "1");
 		}
 		$this->ilias->setSetting("shib_user_default_role", $_POST["shib"]["user_default_role"]);
 		$this->ilias->setSetting("shib_hos_type", $_POST["shib"]["hos_type"]);
