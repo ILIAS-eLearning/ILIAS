@@ -77,7 +77,7 @@ interface Factory {
 	 *       1: >
 	 *           Most pages SHOULD NOT have any Primary Button at all.
 	 *       2: >
-	 *           There MUST no more than one Primary Button per page in ILIAS.
+	 *           There MUST be no more than one Primary Button per page in ILIAS.
 	 *       3: >
 	 *           The decision to make a Button a Primary Button MUST be confirmed
 	 *           by the JF.
