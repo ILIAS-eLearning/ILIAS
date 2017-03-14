@@ -846,7 +846,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			}
 			else
 			{
-				foreach($a_set[$c] as $idx => $value)
+				foreach((array) $a_set[$c] as $idx => $value)
 				{
 					if($c == "status")
 					{
@@ -942,7 +942,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			}
 			else
 			{
-				foreach($a_set[$c] as $idx => $value)
+				foreach((array) $a_set[$c] as $idx => $value)
 				{
 					if($c != "status")
 					{
