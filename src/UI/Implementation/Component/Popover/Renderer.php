@@ -26,8 +26,8 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable('FORCE_RENDERING', '');
 		$options = json_encode(array(
 			'container' => 'body',
-			'title' => $this->esacpe($component->getTitle()),
-			'content' => $this->esacpe($component->getText()),
+			'title' => $this->escape($component->getTitle()),
+			'content' => $this->escape($component->getText()),
 			'placement' => $component->getPosition(),
 			'trigger' => 'manual',
 			'html' => true,
@@ -42,13 +42,19 @@ class Renderer extends AbstractComponentRenderer {
 		return '';
 	}
 
-
+	/**
+	 * @inheritdoc
+	 */
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/js/Popover/popover.js');
 	}
 
-	protected function esacpe($str) {
+	/**
+	 * @param string $str
+	 * @return string
+	 */
+	protected function escape($str) {
 		return strip_tags(htmlentities($str, ENT_QUOTES, 'UTF-8'));
 	}
 
