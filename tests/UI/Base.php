@@ -65,6 +65,19 @@ class LoggingJavaScriptBinding implements JavaScriptBinding {
 	}
 }
 
+class IncrementalSignalGenerator extends \ILIAS\UI\Implementation\Component\SignalGenerator {
+
+	protected $id = 0;
+
+	protected function createId() {
+		return 'signal_' . ++$this->id;
+	}
+}
+
+class SignalGeneratorMock extends \ILIAS\UI\Implementation\Component\SignalGenerator {
+
+}
+
 /**
  * Provides common functionality for UI tests.
  */

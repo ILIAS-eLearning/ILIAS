@@ -340,9 +340,9 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Popovers are used to display secondary information to a component
+	 *     Popovers are used to display secondary information to a component.
 	 *   composition: >
-	 *     Popovers consist of a short title and text
+	 *     Popovers consist of a short title and text.
 	 *   effect: >
 	 *     Popovers are typically shown by clicking or hovering over a component. The position
 	 *     of the Popover is calculated automatically be default. However, it is possible to
@@ -350,14 +350,14 @@ interface Factory {
 	 * context: >
 	 * rules:
 	 *   usage:
-	 *     1: Popovers MUST contain a title and a text
-	 *     2: The text MUST be plain text (no HTML) and no longer than a paragraph
+	 *     1: Popovers MUST contain a title and a text.
+	 *     2: The text MUST be plain text (no HTML) and no longer than a paragraph.
 	 * ---
 	 * @param string $title
 	 * @param string $text
 	 * @param string $position
 	 * @return \ILIAS\UI\Component\Popover\Popover
 	 */
-	public function popover($title, $text, $position = '');
+	public function popover($title, $text, $position = 'auto');
 
 }

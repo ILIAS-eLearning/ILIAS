@@ -37,7 +37,3 @@ class ModalBase extends ILIAS_UI_TestBase {
 class DummyComponent implements C\Component {
 
 }
-
-class SignalGeneratorMock extends \ILIAS\UI\Implementation\Component\SignalGenerator {
-
-}

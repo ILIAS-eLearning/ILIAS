@@ -58,10 +58,10 @@ class Popover implements Component\Popover\Popover {
 	 * @param string $position
 	 * @param SignalGeneratorInterface $signal_generator
 	 */
-	public function __construct($title, $text, $position = 'auto', SignalGeneratorInterface $signal_generator) {
+	public function __construct($title, $text, $position, SignalGeneratorInterface $signal_generator) {
 		$this->checkStringArg('title', $title);
 		$this->checkStringArg('text', $text);
-		$this->checkArgIsElement('position', $position, self::$positions, 'Popover position');
+		$this->checkArgIsElement('position', $position, self::$positions, implode(',', self::$positions));
 		$this->title = $title;
 		$this->text = $text;
 		$this->position = $position;
