@@ -4,6 +4,9 @@
 
 namespace ILIAS\UI\Implementation;
 
+use ILIAS\UI\Component\Connector\ComponentConnection;
+use ILIAS\UI\Implementation\Render\ComponentIdRegistry;
+use ILIAS\UI\Implementation\Render\ComponentIdRegistryInterface;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
@@ -56,11 +59,21 @@ class DefaultRenderer implements Renderer {
 	}
 
 	/**
-	 * @inheritdocs
+	 * @inheritdoc
 	 */
-	public function render(Component $component) {
-		$renderer = $this->getRendererFor(get_class($component));
-		return $renderer->render($component, $this);
+	public function render($component) {
+		if (is_array($component)) {
+			$out = '';
+			foreach ($component as $_component) {
+				$renderer = $this->getRendererFor(get_class($_component));
+				$out .= $renderer->render($_component, $this);
+			}
+		} else {
+			$renderer = $this->getRendererFor(get_class($component));
+			$out = $renderer->render($component, $this);
+		}
+
+		return $out;
 	}
 
 	/**

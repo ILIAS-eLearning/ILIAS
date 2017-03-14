@@ -10,20 +10,19 @@ use ILIAS\UI\Component;
 
 class Renderer extends AbstractComponentRenderer {
 	/**
-	 * @inheritdocs
+	 * @inheritdoc
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
 		if ($component instanceof Component\Button\Close) {
-			return $this->render_close($component);
-		}
-		else {
-			return $this->render_button($component, $default_renderer);
+			return $this->renderClose($component);
+		} else {
+			return $this->renderButton($component, $default_renderer);
 		}
 	}
 
-	protected function render_button(Component\Component $component, RendererInterface $default_renderer) {
+	protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) {
 		// TODO: Tt would be nice if we could use <button> for rendering a button
 		// instead of <a>. This was not done atm, as there is no attribute on a
 		// button to make it open an URL. This would require JS.
@@ -34,7 +33,7 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component instanceof Component\Button\Standard) {
 			$tpl_name = "tpl.standard.html";
 		}
-		
+
 		$tpl = $this->getTemplate($tpl_name, true, true);
 		$action = $component->getAction();
 		// The action is always put in the data-action attribute to have it available
@@ -48,27 +47,31 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setCurrentBlock("with_href");
 			$tpl->setVariable("HREF", $action);
 			$tpl->parseCurrentBlock();
-		}
-		else {
+		} else {
 			$tpl->touchBlock("disabled");
 		}
 
-		$this->maybe_render_id($component, $tpl);
-
+		$this->maybeRenderId($component, $tpl);
 		return $tpl->get();
 	}
 
-	protected function render_close($component) {
+
+	protected function renderClose($component) {
 		$tpl = $this->getTemplate("tpl.close.html", true, true);
 		// This is required as the rendering seems to only create any output at all
 		// if any var was set or block was touched.
 		$tpl->setVariable("FORCE_RENDERING", "");
-		$this->maybe_render_id($component, $tpl);
+		$this->maybeRenderId($component, $tpl);
 		return $tpl->get();
 	}
 
-	protected function maybe_render_id($component, $tpl) {
+	protected function maybeRenderId(Component\Component $component, $tpl) {
 		$id = $this->bindJavaScript($component);
+		// Check if the button is acting as triggerer
+		if ($component instanceof Component\Triggerer && count($component->getTriggeredSignals())) {
+			$id = ($id === null) ? $this->createId() : $id;
+			$this->triggerRegisteredSignals($component, $id);
+		}
 		if ($id !== null) {
 			$tpl->setCurrentBlock("with_id");
 			$tpl->setVariable("ID", $id);
@@ -77,13 +80,13 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	/**
-	 * @inheritdocs
+	 * @inheritdoc
 	 */
 	protected function getComponentInterfaceName() {
 		return array
-			( Component\Button\Primary::class
-			, Component\Button\Standard::class
-			, Component\Button\Close::class
-			);
+		(Component\Button\Primary::class
+		, Component\Button\Standard::class
+		, Component\Button\Close::class
+		);
 	}
 }
