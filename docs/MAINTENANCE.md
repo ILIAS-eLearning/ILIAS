@@ -443,27 +443,27 @@ The code base is deviced in several components:
 [Marko Glaubitz]:
 [Martin Studer]: 
 [Max Becker]: 
-[Michael Jansen]:
-[Miriam Hölscher]:
-[Miriam Wegener]:
-[Nadia Matuschek]:
-[Nadine Bauser]:
-[Norbert Bromberger]:
-[Richard Klees]:
-[Pascal Grube]:
-[Patrick Bergmann]:
-[Peter Pellemans]:
-[Philipp Kröpelin]:
-[Sascha Kaiser]:
-[Stefan Hecken]:
-[Stanislav Wischniak]:
-[Stefan Meyer]:
-[Stefan Schneider]:
-[Stefan Winiker]:
-[Theodor Truffer]:
-[Thomas Schröder]:
-[Timon Amstutz]:
-[Tom Loewen]:
-[Tobias Balliel]:
-[Uwe Kohnle]:
-[Wolfgang Hübsch]:
+[Michael Jansen]: <http://www.ilias.de/docu/goto_docu_usr_8784.html>
+[Miriam Hölscher]: <http://www.ilias.de/docu/goto_docu_usr_25370.html>
+[Miriam Wegener]: <http://www.ilias.de/docu/goto_docu_usr_23051.html>
+[Nadia Matuschek]: <http://www.ilias.de/docu/goto_docu_usr_14206.html>
+[Nadine Bauser]: <http://www.ilias.de/docu/goto_docu_usr_34662.html>
+[Norbert Bromberger]: <http://www.ilias.de/docu/goto_docu_usr_189.html>
+[Richard Klees]: <http://www.ilias.de/docu/goto_docu_usr_34047.html>
+[Pascal Grube]: <http://www.ilias.de/docu/goto_docu_usr_31492.html>
+[Patrick Bergmann]: <http://www.ilias.de/docu/goto_docu_usr_33766.html>
+[Peter Pellemans]: <http://www.ilias.de/docu/goto_docu_usr_26967.html>
+[Philipp Kröpelin]: <http://www.ilias.de/docu/goto_docu_usr_18504.html>
+[Sascha Kaiser]: <http://www.ilias.de/docu/goto_docu_usr_17260.html>
+[Stefan Hecken]: <http://www.ilias.de/docu/goto_docu_usr_45419.html>
+[Stanislav Wischniak]: <http://www.ilias.de/docu/goto_docu_usr_21896.html>
+[Stefan Meyer]: <http://www.ilias.de/docu/goto_docu_usr_191.html>
+[Stefan Schneider]: <http://www.ilias.de/docu/goto_docu_usr_21741.html>
+[Stefan Winiker]: <http://www.ilias.de/docu/goto_docu_usr_44474.html>
+[Theodor Truffer]: <http://www.ilias.de/docu/goto_docu_usr_42894.html>
+[Thomas Schröder]: <http://www.ilias.de/docu/goto_docu_usr_XXXX.html>
+[Timon Amstutz]: <http://www.ilias.de/docu/goto_docu_usr_26468.html>
+[Tom Loewen]: <http://www.ilias.de/docu/goto_docu_usr_41553.html>
+[Tobias Balliel]: <http://www.ilias.de/docu/goto_docu_usr_18365.html>
+[Uwe Kohnle]: <http://www.ilias.de/docu/goto_docu_usr_21855.html>
+[Wolfgang Hübsch]: <http://www.ilias.de/docu/goto_docu_usr_18455.html>
