@@ -4,7 +4,6 @@ include_once("Services/Style/System/classes/Utilities/class.ilSkinXML.php");
 include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
 include_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessFile.php");
 include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleConfigMock.php");
-include_once("Services/Style/System/test/fixtures/mocks/DICMock.php");
 
 /**
  *
