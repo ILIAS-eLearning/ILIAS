@@ -9,7 +9,7 @@ use \ILIAS\UI\Component as C;
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class ModalBase extends ILIAS_UI_TestBase {
+abstract class ModalBase extends ILIAS_UI_TestBase {
 
 	public function getUIFactory() {
 		return new \ILIAS\UI\Implementation\Factory();
