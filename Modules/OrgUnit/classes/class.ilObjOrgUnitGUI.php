@@ -109,6 +109,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$this->toolbar = $ilToolbar;
 		$this->ilLog = $ilLog;
 		$this->ilias = $ilias;
+		$this->type = 'orgu';
 
 		$lng->loadLanguageModule("orgu");
 		$this->tpl->addCss('./Modules/OrgUnit/templates/default/orgu.css');
