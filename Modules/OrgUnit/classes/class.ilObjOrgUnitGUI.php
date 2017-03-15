@@ -318,6 +318,9 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 						$this->setSubTabsSettings('edit_advanced_settings');
 						$this->updateAdvancedSettings();
 						break;
+					case 'importFile':
+						$this->importFileObject();
+						break;
 				}
 				break;
 		}
