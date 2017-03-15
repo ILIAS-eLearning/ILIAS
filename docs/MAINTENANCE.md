@@ -418,31 +418,31 @@ The code base is deviced in several components:
 
 [Alexander Killing]: <http://www.ilias.de/docu/goto_docu_usr_27631.html>
 [Alexander Baulig]:
-[Alexandra Tödt]: 
-[André Mersch]:
-[Antonia Weber]:
-[Björn Heyser]:
-[Christian Hüser]:
-[Christine Berggold]:
-[Christine Bogen]:
+[Alexandra Tödt]: <http://www.ilias.de/docu/goto_docu_usr_3139.html>
+[André Mersch]: <http://www.ilias.de/docu/goto_docu_usr_15114.html>
+[Antonia Weber]: <http://www.ilias.de/docu/goto_docu_usr_36934.html>
+[Björn Heyser]: <http://www.ilias.de/docu/goto_docu_usr_14300.html>
+[Christian Hüser]: 
+[Christine Berggold]: <http://www.ilias.de/docu/goto_docu_usr_22199.html>
+[Christine Bogen]: <http://www.ilias.de/docu/goto_docu_usr_13815.html
 [Claudia Dehling]:
 [Claudio Fischer]:
-[Daniela Weber]:
+[Daniela Weber]: <http://www.ilias.de/docu/goto_docu_usr_40672.html>
 [Denis Klöpfer]:
-[Elena Coroian]:
-[Esther Paulmann]:
+[Elena Coroian]: <http://www.ilias.de/docu/goto_docu_usr_37215.html>
+[Esther Paulmann]: <http://www.ilias.de/docu/goto_docu_usr_8645.html>
 [Fabian Kruse]: <http://www.ilias.de/docu/goto_docu_usr_27631.html>
-[Fabian Schmid]:
-[Florian Suittenpointner]:
-[Fred Neumann]:
-[Jean-Luc Braun]:
-[Jochen Erkens]:
-[Klaus Vorkauf]:
-[Kim Herms]:
-[Matthias Kunkel]:
-[Marko Glaubitz]:
-[Martin Studer]: 
-[Max Becker]: 
+[Fabian Schmid]: <http://www.ilias.de/docu/goto_docu_usr_21087.html>
+[Florian Suittenpointner]: <http://www.ilias.de/docu/goto_docu_usr_3458.html>
+[Fred Neumann]: <http://www.ilias.de/docu/goto_docu_usr_1560.html>
+[Jean-Luc Braun]: <http://www.ilias.de/docu/goto_docu_usr_27123.html>
+[Jochen Erkens]: <http://www.ilias.de/docu/goto_docu_usr_17688.html>
+[Klaus Vorkauf]: <http://www.ilias.de/docu/goto_docu_usr_5890.html>
+[Kim Herms]: <http://www.ilias.de/docu/goto_docu_usr_28720.html>
+[Matthias Kunkel]: <http://www.ilias.de/docu/goto_docu_usr_115.html>
+[Marko Glaubitz]: <http://www.ilias.de/docu/goto_docu_usr_28309.html>
+[Martin Studer]: <http://www.ilias.de/docu/goto_docu_usr_8473.html>
+[Max Becker]: <http://www.ilias.de/docu/goto_docu_usr_27266.html>
 [Michael Jansen]: <http://www.ilias.de/docu/goto_docu_usr_8784.html>
 [Miriam Hölscher]: <http://www.ilias.de/docu/goto_docu_usr_25370.html>
 [Miriam Wegener]: <http://www.ilias.de/docu/goto_docu_usr_23051.html>
