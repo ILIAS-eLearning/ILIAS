@@ -875,7 +875,7 @@ assessment#:#print_answers#:#Print Answers###deprecated
 assessment#:#qpl_qst_edit_form_taxonomy_section#:#Taxonomies
 assessment#:#qpl_qst_edit_form_taxonomy#:#Taxonomy "%s"
 assessment#:#qpl_answertext_fields_not_filled#:#The question could only be saved, if you fill out all answer text fields!###deprecated 
-assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.
+assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question has not yet been used in a test.
 assessment#:#qpl_assessment_of_questions#:#Assessment of Questions###deprecated 
 assessment#:#qpl_assessment_total_of_answers#:#Total of Answers
 assessment#:#qpl_assessment_total_of_right_answers#:#Total Percentage of Correct Answers (percentage of maximum points)
@@ -913,7 +913,7 @@ assessment#:#qpl_settings_subtab_taxonomies#:#Taxonomies
 assessment#:#qpl_form_general_settings#:#General Settings
 assessment#:#qpl_settings_general_form_property_online_description#:#Only online question pools could be used in tests.
 assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possibly created taxonomies are shown for filtering.
+assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Existing taxonomies in this pool are offered for question filtering.
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies
 assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.
 assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool
@@ -1038,7 +1038,7 @@ assessment#:#starting_time_not_reached#:#You have not reached the start time###d
 assessment#:#statistical_data#:#Statistical Data
 assessment#:#statistics#:#Statistics
 assessment#:#suggested_solution_added_successfully#:#You successfully set a content for recapitulation!
-assessment#:#suggestedSolutionType#:#refer to
+assessment#:#suggestedSolutionType#:#Refer to
 assessment#:#symbol#:#Symbol###deprecated 
 assessment#:#term_image#:#Term Image
 assessment#:#term_text#:#Term Text
@@ -10200,7 +10200,7 @@ sahs#:#sahs_import_sequencing#:#Import Sequencing
 sahs#:#sahs_import_sequencing_info#:#Import sequencing information from package (Sequencing Expert Mode).
 sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode
 sahs#:#sahs_activate_expert_mode_info#:#The sequencing expert mode allows you to directly edit the sequencing information of the package tree. If you are unsure what this means we recommend to use the default sequencing behaviour.
-mep#:#mobs_restrict_file_types#:#Allowed File Types
+mep#:#mobs_restrict_file_types#:#Restrict File Types
 mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.
 common#:#rep_main_page#:#Home
 common#:#personal_settings#:#Settings
@@ -12394,7 +12394,6 @@ ecs#:#ecs_cmap_all_in_one_info#:#Create all new courses in one category.
 ecs#:#ecs_cmap_all_in_one_cat#:#Course Category
 ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes
 ecs#:#ecs_cmap_att_organisation#:#Organisation
-ecs#:#ecs_cmap_att_orgunit#:#Organisational Unit
 ecs#:#ecs_cmap_att_term#:#Term
 ecs#:#ecs_cmap_att_title#:#Title
 ecs#:#ecs_cmap_att_lecturer#:#Lecturer
@@ -15883,7 +15882,7 @@ chatroom#:#chat_user_action_invite_osd#:#Invite to On-Screen Chat
 form#:#err_invalid_input#:#An invalid value has been submited. Please check your input.###deprecated 
 chatroom#:#chat_osc_no_conv#:#No conversations.
 chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
-chatroom#:#chat_osc_no_sub_directory_info#:#If the chat server is only reachable through a sub directory with an URL like "http(s)://[IP/Domain]/[SUB_DIRECTORY]" it is required to insert the [SUB_DIRECTORY] for this chat server. In most scenarios you can leave this field empty.
+chatroom#:#chat_osc_no_sub_directory_info#:#If the Chatserver is only reachable through a sub directory with an URL like "http(s)://[IP/Domain]/[PATH]" it is required to insert the [PATH] for this Chatserver.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
 copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
@@ -15916,9 +15915,3 @@ rbac#:#grp_manage_members#:#Manage Members of Group
 rbac#:#crs_manage_members#:#Manage Members of Course
 survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.
 rbac#:#book_copy#:#User can copy booking pool
-mep#:#mobs_black_list_file_types#:#Forbidden File Types
-mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suffixes. This list will restrict the set of allowed file types. Usually you need this if the former list is empty (all file types are allowed).
-form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.
-common#:#file_no_valid_file_type#:#This file type is not allowed.
-common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
-ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
