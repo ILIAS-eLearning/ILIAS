@@ -22,6 +22,7 @@ access#:#アクセス
 access_status#:#アクセス状態
 activate_global_cache#:#有効
 admin_login#:#マスターパスワードでログイン
+alert#:#警告
 antivir#:#ウイルス監視
 applied_custom_updates#:#カスタム更新適用済
 applied_hotfixes#:#適用済みHotfix
@@ -33,6 +34,17 @@ available_hotfixes#:#適用可能なHotfix
 available_languages#:#利用可能な言語
 back#:#戻る
 basic_settings#:#基本設定
+cache_activate_all#:#全て
+cache_activate_clng#:#言語
+cache_activate_comp#:#要素
+cache_activate_events#:#イベント
+cache_activate_ilctrl#:#制御フロー
+cache_activate_obj_def#:#オブジェクト定義
+cache_activate_tpl#:#テンプレート(HTML)
+cache_activate_tpl_blocks#:#テンプレート(ブロック)
+cache_activate_tpl_variables#:#テンプレート(変数)
+cache_activated_components#:#要素をアクティグにしました
+cache_flush#:#全てのキャッシュを更新
 cannot_create_datadir_no_write_access#:#書込み禁止。データディレクトリを作成できません。
 change#:#変更
 change_basic_settings#:#基本設定の変更
@@ -40,8 +52,6 @@ change_password#:#パスワードの変更
 change_sort_direction#:#ソート順番の変更
 check_db_versions#:#ILIASが確定したデータベースモードとMySQLのバージョンを確認してください。通常はこうなります。そうではない場合は、そのデータベースのバージョンはサポートされていません。<br>例1　モードが'MySQL 4.1以降'で、そのデータベースのバージョンが'4.0.12'の場合は、このMySQLバージョンではサポートされていません。ILIAS開発チームへ連絡してください。<br/>例2
 check_failed_convert#:#変換コマンドが見つかりません。
-check_failed_htmldoc#:#FOPテストに失敗しました。
-check_failed_htmldoc#:#HTMLdocコマンドが見つかりません。
 check_failed_java#:#Javaコマンドが見つかりません。
 check_failed_latex#:#LaTex CGIスクリプトのテストに失敗しました。
 check_failed_unzip#:#Unzipコマンドが見つかりません。
@@ -136,7 +146,9 @@ db_service_name#:#サービス名
 db_set_password#:#パスワードを設定
 db_slave#:#スレーブ
 db_slave_settings#:#スレーブ設定
-db_type#:#データベースのタイプ
+db_switch_legacy#:#新規に実装に置き換えられたデータベースタイプを使用しています。新規実装はPHP7.0もサポートしています。切替えますか:
+db_switch_legacy_button#:#スイッチ
+db_type#:#データベースタイプ
 db_update_interrupted#:#前回起動時に予期しないデータベース更新スクリプト中断がありました。システム状態に<b>矛盾</b>があります。最新バックアップを再インストールして再度移行される事を強くお勧めします。
 db_update_interrupted_avoid#:#この問題を回避するにはphp.iniファイル内にあるmemory_limit設定値とmax_execution_timeを確認してください。
 db_user#:#データベースのユーザー
@@ -160,6 +172,8 @@ email#:#email
 email_not_valid#:#メールアドレスの間違い
 en_by_default#:#初期設定では英語がインストールされていて削除する事はできません。
 enable#:#表示する
+enable_system_styles_management#:#システムスタイルを管理
+enable_system_styles_management_info#:#レイアウト内のシステムスタイル(スキン)と管理セクションのスタイルを管理(追加、編集、削除)します。
 enabled#:#ONする
 enter_dir_and_filename#:#絶対Pathとファイル名を入力してください。
 enter_password#:#パスワードを入力してください。
@@ -169,6 +183,9 @@ env_warning#:#ILIASはApache Webサーバを使ってLinuxとWindowsでのみテ
 environment#:#環境
 err_create_database_failed#:#データベースの作成に失敗しました。
 err_wrong_login#:#ログインが間違っています
+error_log_path#:#エラーログファイルのPath
+error_log_path_comment#:#Pathのみを入力してください。ファイルは自動的にエラーへ保存されます。
+error_log_path_comment_win#:#Pathのみ(例 'C:/iliasdata')を入力してください。ファイルは自動的にエラーへ保存されます。
 error_recipient#:#エラー受領者
 example#:#例
 feedback_recipient#:#フィードバック受領者
@@ -207,9 +224,6 @@ hide_clientlist#:#クライアントの選択をユーザーへ表示しませ�
 host#:#ホスト
 hotfix_applied#:#Hotfix適用済
 hotfix_available#:#Hotfix適用可能
-htmldoc_path#:#HTMLdocのPath
-htmldoc_path_comment#:#PDF作成用　例 '/etc/htmldoc'
-htmldoc_path_comment_win#:#PDF作成用　例 'C
 http_path#:#HTTP Path
 https_settings#:#HTTPS設定
 id#:#ID
@@ -238,8 +252,7 @@ info_text_list#:#ここでは利用可能な全ユーザーやセットアップ
 info_text_login#:#インストールとアカウントデータのクライアントIDを入力してください。アカウントは管理者役割で割り当てる必要があります。
 info_text_nic#:#登録オプションでILIASオープンソースコミュニティーサーバからインストールID(NIC-ID)を入手します。別のILIASインストールと内容を共有したい場合はNIC-IDの入手が可能です。
 info_text_nic3#:#インストールを登録しました。ネットワークインターフェースカードのIDです
-info_text_password#:#セットアッププログラムのマスターパスワードをここで変更できます。
-info_text_password#:#セットアッププログラム用のマスターパスワードを変更できます
+info_text_passwd#:#パスワード設定
 info_text_pathes#:#ILIASは異なるデータベースのマルチクライアントをサポートします。データベースのディレクトリ、ログファイルの場所、サードパーティ製ツールのPathを以下に入力してください。これらの設定はすべてのクライアントを作成した後に有効になります。
 info_text_proxy#:#Proxy設定
 ini_client_id_exists#:#すでにそのクライアントIDは使用されています。別のクライアントIDを選択してください。
@@ -270,9 +283,6 @@ installed_local#:#ローカル(固有表現)をインストール済み
 institution#:#大学名
 intro_install#:#ILIASセットアップのメインページです。ここからインストールを進める事ができます。
 ip_address#:#IPアドレス
-java_path#:#JavaのPath
-java_path_comment#:#SCORMラーニングモジュール検証用　例 '/your_path/java'
-java_path_comment_win#:#SCORMラーニングモジュル検証用　例 'C
 lang_ar#:#Arabic
 lang_bg#:#Bulgarian
 lang_cs#:#Czech
@@ -316,6 +326,9 @@ languages#:#言語
 languages_installed#:#言語をインストールしました
 lastname#:#姓
 latex_url_comment#:#ILIASのLaTexサポート用
+lessc#:#lesscのPath
+lessc_path#:#lesscのPath
+lessc_path_comment#:#LesscはCSSのコンパイルなしファイルに必要です。これは管理内の変数無し操作中のシステムスタイル用のcssファイル生成の要件です。
 list#:#リスト
 list_clients#:#クライアント一覧
 list_disabled#:#クライアント選択が無効
@@ -331,6 +344,18 @@ login_to_ilias#:#ILIASへログイン
 logout#:#ログアウト
 main_datadir_outside_webspace#:#外部のWeb上のメインデータディレクトリ
 master_password#:#マスターパスワードです。
+memcache_actions#:#アクション
+memcache_add#:#Memcachedノードを追加
+memcache_cancel#:#キャンセル
+memcache_delete#:#ノードを削除
+memcache_edit#:#ノードを編集
+memcache_host#:#ホスト
+memcache_port#:#ポート
+memcache_servers#:#Memcachedノード
+memcache_status#:#有効
+memcache_status_server#:#到達可能
+memcache_update#:#ノードを保存
+memcache_weight#:#ウェイト
 missing_data#:#データ未入力
 msg_input_is_required#:#入力必須です。値を入力してください。
 mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x以前
@@ -370,7 +395,6 @@ no_path_convert#:#変換pathがありません。
 no_path_datadir#:#データディレクトリがありません。
 no_path_fop#:#FOP pathがありません。
 no_path_given#:#pathがありません。
-no_path_htmldoc#:#HTMLdoc pathがありません。
 no_path_java#:#Java pathがありません。
 no_path_log#:#ログのpathがありません。
 no_path_mkisofs#:#mkisofs pathがありません。
@@ -388,18 +412,7 @@ out_of_webspace#:#(Webスペース外）
 overall_status#:#全体状況
 overview#:#概要
 pass_does_not_match#:#入力されたパスワードが一致しません。
-passwd#:#パスワードエンコード
-passwd_default_encoder#:#エンコーダー
-passwd_default_encoder_info#:#ILIASクライアント用のストレージパスワードに使用される規定のエンコーダーを選択してください。
-passwd_encoder_bcrypt#:#bcrypt
-passwd_encoder_bcrypt_client_salt#:#Client Salt
-passwd_encoder_bcrypt_client_salt_invalid#:#ILIASはクライアントsaltを確定できなかったかクライアントsaltが要求基準に照合しませんでした。関連するファイルのコンテンツとアクセス権を確認してください。
-passwd_encoder_client_bcrypt_salt_info#:#<span style="font-weight:bold">初回選択された時に</span>ILIASはキー発生bcrypt機能用のランダムsaltを生成します。このsaltは前述のファイルの中で見つけることができます。バックアップ用にセキュアなロケーションへこのsaltをコピーされるようにお勧めします。ユーザーパスワードが保存されるとILIASは個別のパスワード用として追加のsaltを生成します。<span style="color:red">注意:一旦生成した後にクライアントのwide saltまたはデータベースに保存されているsaltは絶対変更しないこと。さもなければ、ユーザは二度とログインできなくなります。!</span>
-passwd_encoder_client_bcrypt_salt_info_php537#:#<span style="color:red;font-weight:bold">PHP %sを使用するbcryptの実装は、8ビット文字のパスワードを使うセキュリティフローを含むことができます。本件に関する詳細は次のリンクを参照してください。: <a href="http://php.net/security/crypt_blowfish.php" target="_blank">http://php.net/security/crypt_blowfish.php</a>.PHP 5.3.7以降のご利用をお勧めします。</span>
-passwd_encoder_md5#:#md5
-passwd_encoding_configured#:#構成済み
-passwd_encoding_not_configured#:#未構成
-passwd_not_match#:#入力内容は新しいパスワードと一致しません。新しいパスワードを再入力してください。
+passwd_not_match#:#入力の新しいパスワードは一致しません。新しいパスワードを再入力してください。
 password#:#パスワード
 password_changed#:#パスワードは変更されました。
 password_empty#:#パスワードが設定されていません!
@@ -414,7 +427,6 @@ password_set#:#パスワードを保存しました。
 path_not_set#:#Pathが未設定です。
 path_to_convert#:#変換用のPath
 path_to_fop#:#FOPのPath
-path_to_htmldoc#:#HTMLdocのPath
 path_to_java#:#JavaのPath
 path_to_mkisofs#:#mkisofsのPath
 path_to_unzip#:#UnzipのPath
@@ -438,12 +450,14 @@ pre_gd_missing#:#PHPインストール中のGDサポートを可能にしてく�
 pre_intro#:#この環境においてインストールの要件を満たしILIASが稼働するかどうかを最初に確認します。
 pre_javascript_comment#:#JavaScriptなしでILIASは動作しますが利用できないインターフェース機能があります。
 pre_javascript_enabled#:#JavaScriptを有効にしました
+pre_load_comments#:#PHP-OPCache load_comments
 pre_memory#:#PHPメモリー制限の設定(php.ini)
 pre_memory_limit_recommend#:#80M以上の設定を推奨します。
 pre_memory_limit_too_low#:#PHPのメモリー制限値は最低でも40Mに設定してください。80M以上を推奨します。
 pre_mysql#:#MySQLのサポート
 pre_mysql_4_1_or_higher#:#ILIASを稼働するにはMySQL 4.1以降が必要です。
 pre_mysql_missing#:#PHPインストールの際には、MySQLのサポート(バージョンは4.1以降)を有効にしてください。
+pre_opcache_comments#:#pcache.load_commentsを1に設定
 pre_php#:#PHPのバージョン
 pre_php_version_too_low#:#このPHPバージョンはサポートしていません。PHP 5.2.1以降のご利用を推奨します。PHP 6.0は未テストです。
 pre_root#:#書き込み可能なWeb上のメインフォルダー
@@ -547,7 +561,6 @@ setup_process_step_finish#:#セットアップ終了
 setup_process_step_ini#:#基本データ
 setup_process_step_lang#:#言語
 setup_process_step_nic#:#登録
-setup_process_step_passwd#:#パスワード
 setup_process_step_proxy#:#Proxy
 setup_process_step_sess#:#セッション管理
 setup_ready#:#セットアップの準備ができました。ログインして進みシステム設定を確認します。
@@ -568,7 +581,6 @@ step_finish#:#セットアップ
 step_ini#:#iniファイル
 step_lang#:#各国語
 step_nic#:#登録
-step_passwd#:#パスワードエンコード
 step_proxy#:#Proxy
 step_sess#:#セッション管理
 street#:#住所
@@ -608,31 +620,3 @@ zip_path#:#ZipのPath
 zip_path_comment#:#エクスポートファイルの作成用　例 '/your_path/zip'
 zip_path_comment_win#:#インポートファイルの解凍用　例 'C
 zipcode#:#郵便番号
-info_text_passwd#:#Password Settings###30 08 2015 new variable
-alert#:#Warning###30 08 2015 new variable
-pre_opcache_comments#:#Set opcache.load_comments to 1###30 08 2015 new variable
-pre_load_comments#:#PHP-OPCache load_comments###30 08 2015 new variable
-memcache_servers#:#Memcached-Nodes###30 08 2015 new variable
-memcache_status#:#Active###30 08 2015 new variable
-memcache_host#:#Host###30 08 2015 new variable
-memcache_port#:#Port###30 08 2015 new variable
-memcache_weight#:#Weight###30 08 2015 new variable
-memcache_actions#:#Actions###30 08 2015 new variable
-memcache_edit#:#Edit node###30 08 2015 new variable
-memcache_add#:#Add Memcached node###30 08 2015 new variable
-memcache_delete#:#Delete node###30 08 2015 new variable
-memcache_cancel#:#Cancel###30 08 2015 new variable
-memcache_update#:#Save node###30 08 2015 new variable
-memcache_status_server#:#Reachable###30 08 2015 new variable
-cache_activate_clng#:#Language###30 08 2015 new variable
-cache_activate_obj_def#:#Object Definition###30 08 2015 new variable
-cache_activate_ilctrl#:#Control Flow###30 08 2015 new variable
-cache_activate_comp#:#Components###30 08 2015 new variable
-cache_activate_tpl#:#Template (HTML)###30 08 2015 new variable
-cache_activate_events#:#Events###30 08 2015 new variable
-cache_activated_components#:#Activated Components###30 08 2015 new variable
-cache_flush#:#Flush all caches###30 08 2015 new variable
-cache_activate_tpl_blocks#:#Template (Blocks)###30 08 2015 new variable
-cache_activate_tpl_variables#:#Template (Variablen###30 08 2015 new variable
-error_log_path#:#Path to error log files
-error_log_path_comment#:#Please enter only the path. Files will be automaticly saved on error.
