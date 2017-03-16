@@ -150,6 +150,7 @@ class ilPreviewGUI
 	 */
 	public function getPreviewHTML()
 	{
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 		// load the template
 		$tmpl = new ilTemplate("tpl.preview.html", true, true, "Services/Preview");
 		$tmpl->setVariable("PREVIEW_ID", $this->getHtmlId());
@@ -167,7 +168,7 @@ class ilPreviewGUI
 				foreach ($images as $image)
 				{
 					$tmpl->setCurrentBlock("preview_item");
-					$tmpl->setVariable("IMG_URL", $image["url"]);
+					$tmpl->setVariable("IMG_URL", ilWACSignedPath::signFile($image["url"]));
 					$tmpl->setVariable("WIDTH", $image["width"]);
 					$tmpl->setVariable("HEIGHT", $image["height"]);
 					$tmpl->parseCurrentBlock();

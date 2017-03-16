@@ -13,6 +13,12 @@ include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.
  */
 class ilECSCourseCreationHandler
 {
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+
 	private $server = null;
 	private $mapping = null;
 	private $course_url = null;
@@ -27,6 +33,8 @@ class ilECSCourseCreationHandler
 	 */
 	public function __construct(ilECSSetting $server,$a_mid)
 	{
+		$this->log = $GLOBALS['DIC']->logger()->wsrv();
+		
 		$this->server = $server;
 		$this->mid = $a_mid;
 		$this->mapping = ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(), $this->getMid());
@@ -97,8 +105,6 @@ class ilECSCourseCreationHandler
 	 */
 	public function handle($a_content_id,$course)
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': --------- content id '.$a_content_id);
-		
 		// prepare course url
 		// if any object (course group) will be created, a list of all course urls
 		// will be sent to ecs.
@@ -108,23 +114,23 @@ class ilECSCourseCreationHandler
 		
 		if($this->getMapping()->isAttributeMappingEnabled())
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Handling advanced attribute mapping');
+			$this->log->debug('Handling advanced attribute mapping');
 			return $this->doAttributeMapping($a_content_id,$course);
 		}
 		
 		if($this->getMapping()->isAllInOneCategoryEnabled())
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Handling course all in one category setting');
+			$this->log->debug('Handling course all in one category setting');
 			return $this->doSync($a_content_id, $course,ilObject::_lookupObjId($this->getMapping()->getAllInOneCategory()));
 		}
 
 		$parent_obj_id = $this->syncParentContainer($a_content_id,$course);
 		if($parent_obj_id)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Using already mapped category: '. ilObject::_lookupTitle($parent_obj_id));
+			$this->log->info('Using already mapped category: '. ilObject::_lookupTitle($parent_obj_id));
 			return $this->doSync($a_content_id,$course,$parent_obj_id);
 		}
-		$GLOBALS['ilLog']->write(__METHOD__.': Using course default category');
+		$this->log->info('Using course default category');
 		return $this->doSync($a_content_id,$course,ilObject::_lookupObjId($this->getMapping()->getDefaultCourseCategory()));
 	}
 	
@@ -142,7 +148,7 @@ class ilECSCourseCreationHandler
 		if($obj_id)
 		{
 			// do update
-			$GLOBALS['ilLog']->write(__METHOD__.' Performing update of already imported course.');
+			$this->log->debug('Performing update of already imported course.');
 			
 			$refs = ilObject::_getAllReferences($obj_id);
 			$ref = end($refs);
@@ -171,8 +177,8 @@ class ilECSCourseCreationHandler
 		if(!$matching_rule)
 		{
 			// Put course in default category
-			$GLOBALS['ilLog']->write(__METHOD__.': No matching attribute mapping rule found.');
-			$GLOBALS['ilLog']->write(__METHOD__.': Using course default category');
+			$this->log->debug('No matching attribute mapping rule found.');
+			$this->log->info('Using course default category');
 			return $this->doSync($a_content_id,$course,ilObject::_lookupObjId($this->getMapping()->getDefaultCourseCategory()));
 		}
 		// map according mapping rules
@@ -313,23 +319,23 @@ class ilECSCourseCreationHandler
 		
 		$obj_id = $this->getImportId($course_id);
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': Found obj_id '.$obj_id. ' for course_id '. $course_id );
+		$this->log->debug('Found obj_id '.$obj_id. ' for course_id '. $course_id );
 		
 		// Handle parallel groups
 		if($obj_id)
 		{
 			// update multiple courses/groups according to parallel scenario
-			$GLOBALS['ilLog']->write(__METHOD__.': Group scenario '.$course->groupScenario);
+			$this->log->debug('Group scenario '.$course->groupScenario);
 			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
 			switch((int) $course->groupScenario)
 			{
 				case ilECSMappingUtils::PARALLEL_GROUPS_IN_COURSE:
-					$GLOBALS['ilLog']->write(__METHOD__.': Performing update for parallel groups in course.');
-					$this->updateParallelGroups($course,$obj_id);
+					$this->log->debug('Performing update for parallel groups in course.');
+					$this->updateParallelGroups($a_content_id,$course, $obj_id);
 					break;
 				
 				case ilECSMappingUtils::PARALLEL_ALL_COURSES:
-					$GLOBALS['ilLog']->write(__METHOD__.': Performing update for parallel courses.');
+					$this->log->debug('Performing update for parallel courses.');
 					$this->updateParallelCourses($a_content_id,$course, $a_parent_obj_id);
 					break;
 				
@@ -514,7 +520,7 @@ class ilECSCourseCreationHandler
 		foreach((array) $course->groups as $group)
 		{
 			$obj_id = $this->getImportId($course->lectureID, $group->id);
-			$GLOBALS['ilLog']->write(__METHOD__.': Imported obj id is ' .$obj_id);
+			$this->log->debug('Imported obj id is ' .$obj_id);
 			if(!$obj_id)
 			{
 				$this->createParallelGroup($a_content_id,$course, $group, $parent_ref);
@@ -625,8 +631,7 @@ class ilECSCourseCreationHandler
 				$this->getServer()->getServerId(),
 				is_object($object) ? $object->getId() : 0
 		);
-		
-		$GLOBALS['ilLog']->write(__METHOD__.': Imported with ecs id '.$a_ecs_id);
+
 		
 		$import->setSubId($a_sub_id);
 		$import->setMID($this->getMid());
