@@ -108,4 +108,13 @@ class Container extends \Pimple\Container {
 	public function ui() {
 		return new UIServices($this);
 	}
+
+	/**
+	 * Get the interface to the settings
+	 *
+	 * @return \ilSetting
+	 */
+	public function settings() {
+		return $this["ilSetting"];
+	}
 }
