@@ -36,6 +36,11 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 	private $backward_compatibility = false;
 
 	/**
+	 * @var string
+	 */
+	private $data_directory = '';
+
+	/**
 	 * @param array $config
 	 * @throws ilPasswordException
 	 */
@@ -49,6 +54,10 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 				{
 					case 'ignore_security_flaw':
 						$this->setIsSecurityFlawIgnored($value);
+						break;
+
+					case 'data_directory':
+						$this->setDataDirectory($value);
 						break;
 				}
 			}
@@ -71,6 +80,22 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 	protected function isBcryptSupported()
 	{
 		return PHP_VERSION_ID >= 50307;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDataDirectory()
+	{
+		return $this->data_directory;
+	}
+
+	/**
+	 * @param string $data_directory
+	 */
+	public function setDataDirectory($data_directory)
+	{
+		$this->data_directory = $data_directory;
 	}
 
 	/**
@@ -247,7 +272,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 	 */
 	public function getClientSaltLocation()
 	{
-		return ilUtil::getDataDir() . '/' . self::SALT_STORAGE_FILENAME;
+		return $this->getDataDirectory() . '/' . self::SALT_STORAGE_FILENAME;
 	}
 
 	/**
