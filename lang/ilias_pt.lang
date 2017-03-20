@@ -15510,7 +15510,7 @@ assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau:
 assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
 assessment#:#postpone_question#:#Mover a pergunta para o fim###fau: testNav
 assessment#:#tst_question_not_marked#:#Question is not Marked###fau: testNav
-assessment#:#tst_save_and_proceed#:#Save and Proceed###fau: testNav
+assessment#:#tst_save_and_proceed#:#Salvar e Prosseguir###fau: testNav
 adve#:#char_selector_menu_open#:#Abrir Seletor de Caracteres Especiais###fau: testNav
 adve#:#char_selector_menu_close#:#Fechar Seletor de Caracteres Especiais###fau: testNav
 wfe#:#dashboard#:#Dashboard###25 10 2016 new variable
