@@ -49,7 +49,7 @@ class ilAuthSession
 	/**
 	 * @return ilLogger
 	 */
-	public function getLogger()
+	protected function getLogger()
 	{
 		return $this->logger;
 	}
@@ -195,15 +195,14 @@ class ilAuthSession
 		return true;
 	}
 	
-	public function setId($a_id)
+	protected function setId($a_id)
 	{
 		$this->id = $a_id;
 	}
-	
+
 	public function getId()
 	{
 		return $this->id;
 	}
 	
 }
-?>
