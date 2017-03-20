@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (Local changes merged into the global language file)
 *
@@ -25,15 +25,15 @@ acc#:#acc_forward_mail#:#Encaminhar correio###30 04 2009 new variable
 acc#:#acc_function#:#Função###30 04 2009 new variable
 acc#:#acc_last_rep_visited#:#Repository/Last Visited
 acc#:#acc_last_visited#:#Visitou por último###deprecated
-acc#:#acc_mark_all_read#:#Mark All Read
+acc#:#acc_mark_all_read#:#marcar tudo como lido
 acc#:#acc_next#:#próximo###30 04 2009 new variable
-acc#:#acc_personal_desktop#:#Personal Desktop
-acc#:#acc_previous#:#Anterior###30 04 2009 new variable
-acc#:#acc_reply#:#Resposta###30 04 2009 new variable
+acc#:#acc_personal_desktop#:#área de trabalho pessoal
+acc#:#acc_previous#:#anterior###30 04 2009 new variable
+acc#:#acc_reply#:#Responder###30 04 2009 new variable
 acc#:#acc_tree_off#:#Árvore Off###30 04 2009 new variable
 acc#:#acc_tree_on#:#Árvore On###30 04 2009 new variable
-adm#:#adm_update_skill_status#:#Update Skill Status###deprecated 
-adm#:#adm_update_skill_tables#:#Update Skill Tables###deprecated 
+adm#:#adm_update_skill_status#:#Atualização de estado de competências###deprecated 
+adm#:#adm_update_skill_tables#:#Atualização de tabela de competências###deprecated 
 administration#:#adm_activate_db_benchmark#:#Activate Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
 administration#:#adm_add_settings_template#:#Add Template
@@ -47,7 +47,7 @@ administration#:#adm_db_benchmark_user#:#Configuração nome de usuário###16 07
 administration#:#adm_db_benchmark_user_desc#:#Only measurements for this user will be made.
 administration#:#adm_edit_settings_template#:#Edit Template
 administration#:#adm_hide#:#Hide
-administration#:#adm_hide_tabs#:#Hide Tabs
+administration#:#adm_hide_tabs#:#Esconder Abas
 administration#:#adm_item_cmd_asynch#:#Load Resource Action Lists Asynchronously
 administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the repository, are loaded asynchronously. This increases performance in general, but slows down loading of action command lists a little bit.
 administration#:#adm_locale#:#Local###30 04 2009 new variable
@@ -147,7 +147,7 @@ administration#:#language_error_write_local#:#O arquivo local do idioma não pod
 administration#:#language_export_file#:#Exportar Pasta de Idioma###23 08 2007 new variable
 administration#:#language_file_imported#:#O arquivo do idioma %s foi importado###23 08 2007 new variable
 administration#:#language_file_scope#:#Ficheiro âmbito de Idioma###23 08 2007 new variable
-administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed ILIAS version to the folder of local language files. The current language file is automatically copied when you save your local language file on the 'Maintain' tab.
+administration#:#language_former_file_description#:#Para comparar as suas alterações locais com as mudanças da última atualização, por favor, copie o arquivo de idioma da versão ILIAS instalado anteriormente para a pasta de ficheiros de idiomas locais. O arquivo de idioma atual é copiado automaticamente quando você salvar seu arquivo de idioma local no separador 'Manter'.
 administration#:#language_former_file_equal#:#O arquivo <b>%s</b> é idêntico com o arquivo do idioma atual###19 09 2008 new variable
 administration#:#language_former_file_missing#:#O arquivo <b>%s</b> está ausente###19 09 2008 new variable
 administration#:#language_import_file#:#Import Language File
@@ -189,7 +189,7 @@ administration#:#language_translation_mode#:#Modo de tradução ###deprecated
 administration#:#log_scan#:#Fazer Log dos resultados da verificação
 administration#:#log_scan_desc#:#Escrever os resultados da verificação em 'scanlog.log' na directoria de dados do cliente.
 administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names
-administration#:#loginname_change_blocking_time_info#:#Insert a period in seconds that an user has to wait before changing again its login name. If you enter 0 or leave this field blank, user can change login names anytime. Enter 3600 for one hour, 86400 for one day, a.s.o.
+administration#:#loginname_change_blocking_time_info#:#Inserir um período de segundos que um usuário tem que esperar antes de mudar novamente o seu nome de login. Se você digitar 0, o usuário pode alterar nomes de login a qualquer hora. Entre 3600 para uma hora, 86400 para um dia, etc.
 administration#:#loginname_change_blocking_time_invalidity_info#:#Please insert a numeric value.
 administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.
 administration#:#nothing_to_purge#:#Nada para limpar...
@@ -256,7 +256,7 @@ administration#:#user_criteria_desc#:#Unique user criteria that is used for test
 administration#:#usr_loginname_history_info#:#The user changed its login at last at %s. The former login was: %s.
 administration#:#view_last_log#:#Veja o último scan log 
 administration#:#view_log#:#Veja os detalhes###07 Apr 2005 content changed
-adve#:#adve_activation#:#Activation
+adve#:#adve_activation#:#Ativação
 adve#:#adve_grp_glo#:#Glossaries
 adve#:#adve_grp_lm#:#ILIAS Learning Modules
 adve#:#adve_grp_rep#:#Repository Pages
@@ -264,54 +264,54 @@ adve#:#adve_grp_scorm#:#SCORM Editing
 adve#:#adve_grp_test#:#Test & Assessment
 adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#ILIAS Page Editor Settings
-adve#:#adve_pe_general#:#General
+adve#:#adve_pe_general#:#Geral
 adve#:#adve_rte_settings#:#Rich Text Editor Settings
 adve#:#adve_text_content_features#:#Text Content Menu
 adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 assessment#:#0_unlimited#:#(0 = ilimitado)###deprecated 
-assessment#:#action#:#Action
+assessment#:#action#:#Ação
 assessment#:#add_answer#:#Adicionar resposta###deprecated 
 assessment#:#add_answer_tf#:#Adicionar respostas verdadeiro/falso###deprecated 
 assessment#:#add_answer_yn#:#Adicionar respostas sim/não###deprecated 
-assessment#:#add_applet_parameter#:#Add applet parameter###deprecated 
-assessment#:#add_area#:#Add area###deprecated 
-assessment#:#add_circle#:#Add circle area
-assessment#:#add_gap#:#Add Gap Text###deprecated 
-assessment#:#add_imagemap#:#Add imagemap
+assessment#:#add_applet_parameter#:#Adicionar parâmetros do applet###deprecated 
+assessment#:#add_area#:#Adicionar Área###deprecated 
+assessment#:#add_circle#:#Adicionar área de circulo
+assessment#:#add_gap#:#Adicionar texto com lacunas###deprecated 
+assessment#:#add_imagemap#:#Adicionar mapa de imagem
 assessment#:#add_matching_pair#:#Adicionar par correpondente###deprecated 
-assessment#:#add_new_question#:#Add new Question###deprecated 
-assessment#:#add_poly#:#Add polygon area
-assessment#:#add_questionpool#:#Add questionpool###deprecated 
-assessment#:#add_rect#:#Add rectangle area
-assessment#:#add_solution#:#Add suggested solution###deprecated 
-assessment#:#addSuggestedSolution#:#Add suggested solution
-assessment#:#adm_settings_templates#:#Settings Templates
-assessment#:#all_available_question_pools#:#All available question pools
-assessment#:#allow_images#:#Image Support for Answers
-assessment#:#allowedextensions#:#Allowed File Extensions
-assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).
-assessment#:#analyze_errortext#:#Analyze Error Text
+assessment#:#add_new_question#:#Adicionar nova pergunta###deprecated 
+assessment#:#add_poly#:#Adicionar área polígono
+assessment#:#add_questionpool#:#Adicionar repositório de perguntas###deprecated 
+assessment#:#add_rect#:#Adicionar área do retângulo
+assessment#:#add_solution#:#Adicionar solução sugerida###deprecated 
+assessment#:#addSuggestedSolution#:#Adicionar solução sugerida
+assessment#:#adm_settings_templates#:#Modelos de Configurações
+assessment#:#all_available_question_pools#:#Todas as coleções de questões disponíveis
+assessment#:#allow_images#:#Permitir imagens dentro de respostas
+assessment#:#allowedextensions#:#Extensões de arquivos permitidas
+assessment#:#allowedextensions_info#:#Inclui uma lista separada por vírgulas de extensões de arquivos permitidas se você quiser restringir o upload para um determinado conjunto de extensões de arquivo (por exemplo, doc,xls,odt).
+assessment#:#analyze_errortext#:#Analisar texto com erros
 assessment#:#answer#:#Resposta
-assessment#:#answer_image#:#Answer Image
-assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution
-assessment#:#answer_is_right#:#Your solution is right
-assessment#:#answer_is_wrong#:#Your solution is wrong
-assessment#:#answer_picture#:#Foto de resposta###deprecated 
+assessment#:#answer_image#:#Imagem resposta
+assessment#:#answer_is_not_correct_but_positive#:#Você ganhou pontos para a sua solução, mas não é a melhor solução
+assessment#:#answer_is_right#:#Sua solução é certo
+assessment#:#answer_is_wrong#:#Sua solução é errado
+assessment#:#answer_picture#:#Imagem de resposta###deprecated 
 assessment#:#answer_text#:#Texto de resposta
-assessment#:#answer_types#:#Answer Types
+assessment#:#answer_types#:#Tipos de resposta
 assessment#:#answers_multiline#:#Multi Line Answers
 assessment#:#answers_singleline#:#Single Line Answers
 assessment#:#applet_attributes#:#Applet attributes
-assessment#:#applet_new_parameter#:#New parameter###deprecated 
-assessment#:#applet_parameter#:#Parameter
-assessment#:#applet_parameters#:#Applet parameters
+assessment#:#applet_new_parameter#:#novo parâmetro###deprecated 
+assessment#:#applet_parameter#:#parâmetro
+assessment#:#applet_parameters#:#parâmetros do applet
 assessment#:#apply#:#Aplicar
 assessment#:#ass_completion_by_submission#:#Completed by Submission
-assessment#:#ass_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of this question by granting the maximum score for this question. The score could be manually changed later. Switching this setting does not effect already submitted solutions.
-assessment#:#ass_create_export_file#:#Create export file
-assessment#:#ass_create_export_test_results#:#Export test results
+assessment#:#ass_completion_by_submission_info#:#Se ativado, a apresentação de pelo menos um arquivo faz com que a conclusão desta questão, concedendo a pontuação máxima para esta pergunta. A pontuação pode ser alterado manualmente mais tarde. Mudando esta configuração não afeta soluções já apresentadas.
+assessment#:#ass_create_export_file#:#Criar Export de Arquivo
+assessment#:#ass_create_export_test_results#:#Exportar Arquivo de Teste
 assessment#:#ass_export_files#:#Export files###deprecated 
 assessment#:#ass_file#:#File###deprecated 
 assessment#:#ass_question#:#Question
@@ -783,7 +783,7 @@ assessment#:#selected_image#:#Selected image###deprecated
 assessment#:#selection#:#Seleção###12 08 2009 new variable
 assessment#:#set_edit_mode#:#Set Edit Mode
 assessment#:#set_filter#:#Definir filtro
-assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"
+assessment#:#set_manscoring_done#:#Marcar este participante como "Participante Pontuado"
 assessment#:#set_manual_feedback#:#Set Manual Feedback
 assessment#:#shape#:#Shape
 assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)
@@ -820,7 +820,7 @@ assessment#:#test_has_datasets_warning_page_view#:#The test already contains dat
 assessment#:#test_has_datasets_warning_page_view_link#:#Edit Participants
 assessment#:#test_is_offline#:#You cannot start the test! The test is offline.
 assessment#:#test_jump_to#:#Jump to Question
-assessment#:#test_move_page#:#Move Question
+assessment#:#test_move_page#:#Mover a pergunta
 assessment#:#test_next_question#:#Next Question
 assessment#:#test_prev_question#:#Previous Question
 assessment#:#test_question_pool_usage#:#Choose Pool when creating questions
@@ -993,8 +993,8 @@ assessment#:#tst_qst_resetsolved#:#Reset###deprecated
 assessment#:#tst_qst_result_sheet#:#Show result sheet###deprecated 
 assessment#:#tst_qst_setsolved#:#Set Solved###deprecated 
 assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.###deprecated 
-assessment#:#tst_question_mark#:#Mark this question
-assessment#:#tst_question_marked#:#You marked the question
+assessment#:#tst_question_mark#:#Marcar esta pergunta
+assessment#:#tst_question_marked#:#Marcou a pergunta
 assessment#:#tst_question_marker#:#Marker
 assessment#:#tst_question_no#:#Ordem
 assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?
@@ -10047,7 +10047,7 @@ survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the 
 survey#:#spl_copy_select_none#:#Please check at least one question to copy it to the clipboard
 survey#:#spl_general_properties#:#General properties###deprecated 
 survey#:#spl_move_insert_clipboard#:#The selected question(s) are marked for moving
-survey#:#spl_move_same_pool#:#It has no effect to move questions from inside the same question pool.
+survey#:#spl_move_same_pool#:#Não tem efeito para mover as perguntas de dentro do mesmo pool de perguntas.
 survey#:#spl_move_select_none#:#Please check at least one question to select it for moving
 survey#:#spl_online_property#:#Online
 survey#:#spl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.
@@ -14272,7 +14272,7 @@ assessment#:#tst_attempt#:#Attempt###30 08 2015 new variable
 assessment#:#tst_back_to_virtual_pass#:#Back to Questionoverview###30 08 2015 new variable
 assessment#:#question_summary_btn#:#Processing Status###30 08 2015 new variable
 assessment#:#submit_answer#:#Submit Answer###30 08 2015 new variable
-assessment#:#discard_answer#:#Discard Answer###30 08 2015 new variable
+assessment#:#discard_answer#:#Descartar Resposta###30 08 2015 new variable
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completly discarded. The question keeps as unanswered until you submit another answer.<br /><br />Would you really like to discard your answer?###30 08 2015 new variable
 assessment#:#edit_answer#:#Edit Answer###30 08 2015 new variable
 assessment#:#answer_question#:#Answer Question###30 08 2015 new variable
@@ -15496,23 +15496,23 @@ trac#:#trac_defaults#:#Completion Status###25 10 2016 new variable
 trac#:#trac_defaults_info#:#Set the completion status determination mode for supported object types. Used by certain badge types.###25 10 2016 new variable
 trac#:#trac_defaults_inactive#:#Inactive###25 10 2016 new variable
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.###25 10 2016 new variable
-assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav
-assessment#:#save_on_navigation#:#Save on Navigation###fau: testNav
-assessment#:#save_on_navigation_confirmation#:#Your changed answers will be automatically saved when you navigate.###fau: testNav
+assessment#:#tst_revert_changes#:#Desfazer edição###fau: testNav
+assessment#:#save_on_navigation#:#Guardar na Navegação###fau: testNav
+assessment#:#save_on_navigation_confirmation#:#Suas respostas alteradas serão salvas automaticamente quando você navegar.###fau: testNav
 assessment#:#save_on_navigation_locked_confirmation#:#Your changed answers will be automatically saved and locked when you navigate.###fau: testNav
 assessment#:#save_on_navigation_forced_feedback_hint#:#Before you get feedback on your given answer.###fau: testNav
-assessment#:#save_on_navigation_prevent_confirmation#:#Don't show this message again###fau: testNav
-assessment#:#tst_answer_status_editing#:# (editing ... )###fau: testNav
-assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
-assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
+assessment#:#save_on_navigation_prevent_confirmation#:#Não mostrar esta mensagem novamente###fau: testNav
+assessment#:#tst_answer_status_editing#:# (editando ... )###fau: testNav
+assessment#:#tst_answer_status_answered#:#Respondido###fau: testNav
+assessment#:#tst_answer_status_not_answered#:#Não Respondido###fau: testNav
 assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fau: testNav
 assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau: testNav
 assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
-assessment#:#postpone_question#:#Move Question to the End###fau: testNav
+assessment#:#postpone_question#:#Mover a pergunta para o fim###fau: testNav
 assessment#:#tst_question_not_marked#:#Question is not Marked###fau: testNav
 assessment#:#tst_save_and_proceed#:#Save and Proceed###fau: testNav
-adve#:#char_selector_menu_open#:#Open Special Character Selector###fau: testNav
-adve#:#char_selector_menu_close#:#Close Special Character Selector###fau: testNav
+adve#:#char_selector_menu_open#:#Abrir Seletor de Caracteres Especiais###fau: testNav
+adve#:#char_selector_menu_close#:#Fechar Seletor de Caracteres Especiais###fau: testNav
 wfe#:#dashboard#:#Dashboard###25 10 2016 new variable
 wfe#:#definitions#:#Process Definitions###25 10 2016 new variable
 wfe#:#instances#:#Process Instances###25 10 2016 new variable
