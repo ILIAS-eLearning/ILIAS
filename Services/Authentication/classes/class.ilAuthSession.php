@@ -26,9 +26,9 @@ class ilAuthSession
 	/**
 	 * Consctructor
 	 */
-	public function __construct()
+	public function __construct(\ilLogger $logger)
 	{
-		$this->logger = ilLoggerFactory::getLogger('auth');
+		$this->logger = $logger;
 	}
 	
 	/**
