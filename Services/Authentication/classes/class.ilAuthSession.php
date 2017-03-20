@@ -32,19 +32,6 @@ class ilAuthSession
 	}
 	
 	/**
-	 * Get instance
-	 * @return ilAuthSession
-	 */
-	public static function getInstance()
-	{
-		if(static::$instance)
-		{
-			return new static::$instance;
-		}
-		return static::$instance = new self();
-	}
-	
-	/**
 	 * @return ilLogger
 	 */
 	protected function getLogger()
