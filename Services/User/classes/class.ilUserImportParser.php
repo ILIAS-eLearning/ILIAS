@@ -560,6 +560,9 @@ class ilUserImportParser extends ilSaxParser
 							
 						case "radius":
 						case "shibboleth":
+						// saml-patch: begin
+						case "saml":
+						// saml-patch: end
 						case "script":
 						case "cas":
 						case "soap":
@@ -702,6 +705,9 @@ class ilUserImportParser extends ilSaxParser
 							
 						case "radius":
 						case "shibboleth":
+						// saml-patch: begin
+						case "saml":
+						// saml-patch: end
 						case "script":
 						case "cas":
 						case "soap":
