@@ -16,8 +16,6 @@ class ilAuthSession
 	const SESSION_AUTH_USER_ID = '_authsession_user_id';
 	const SESSION_AUTH_EXPIRED = '_authsession_expired';
 	
-	private static $instance = null;
-	
 	private $logger = null;
 	
 	private $id = '';
@@ -28,7 +26,7 @@ class ilAuthSession
 	/**
 	 * Consctructor
 	 */
-	private function __construct()
+	public function __construct()
 	{
 		$this->logger = ilLoggerFactory::getLogger('auth');
 	}

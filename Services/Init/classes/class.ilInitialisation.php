@@ -893,10 +893,12 @@ class ilInitialisation
 	 */
 	protected static function initSession()
 	{
-		include_once './Services/Authentication/classes/class.ilAuthSession.php';
-		self::initGlobal('ilAuthSession', ilAuthSession::getInstance());
-		
-		$GLOBALS['DIC']['ilAuthSession']->init();
+		$GLOBALS["DIC"]["ilAuthSession"] = function ($c) {
+			include_once './Services/Authentication/classes/class.ilAuthSession.php';
+			$auth_session = new ilAuthSession();
+			$auth_session->init();
+			return $auth_session;
+		};
 	}
 
 
