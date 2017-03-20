@@ -1255,12 +1255,12 @@ class ilObject
 	}
 
 
-    /**
-     * maybe this method should be in tree object!?
-     *
-     * @todo    role/rbac stuff
-     * @param int $a_parent_ref Ref-ID of the parent object
-     */
+	/**
+	 * maybe this method should be in tree object!?
+	 *
+	 * @todo    role/rbac stuff
+	 * @param int $a_parent_ref Ref-ID of the parent object
+	 */
 	function putInTree($a_parent_ref)
 	{
 		global $tree, $log, $ilAppEventHandler;
@@ -1278,7 +1278,7 @@ class ilObject
 			'obj_id' => $this->getId(),
 			'parent_ref_id' => $a_parent_ref,
 			)
-        );
+		);
 	}
 
 	/**
@@ -1405,7 +1405,7 @@ class ilObject
 				$this->ilias->raiseError("ilObject::delete(): Type mismatch. (".$this->type."/".$this->id.")",$this->ilias->error_obj->WARNING);
 			}
 
-            $ilAppEventHandler->raise('Services/Object', 'beforeDeletion', array('object' => $this));
+			$ilAppEventHandler->raise('Services/Object', 'beforeDeletion', array('object' => $this));
 
             // delete entry in object_data
 			$q = "DELETE FROM object_data ".
