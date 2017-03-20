@@ -95,17 +95,6 @@ class ilAuthSession
 	}
 	
 	/**
-	 * Regenerate id
-	 */
-	public function regenerateId()
-	{
-		$old_session_id = session_id();
-		session_regenerate_id(true);
-		$this->setId(session_id());
-		$this->getLogger()->info('Session regenrate id: ['.substr($old_session_id,0,5).'] -> ['.  substr($this->getId(),0,5).']');
-	}
-	
-	/**
 	 * Logout user => stop session
 	 */
 	public function logout()
