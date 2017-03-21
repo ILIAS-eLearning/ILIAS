@@ -402,7 +402,15 @@ class ilLDAPQuery
 				}
 			}
 			
-			$user_ext = strtolower($user_data[strtolower($this->settings->getUserAttribute())]);
+			$account = $user_data[strtolower($this->settings->getUserAttribute())];
+			if(is_array($account))
+			{
+				$user_ext = strtolower(array_shift($account));
+			}
+			else
+			{
+				$user_ext = strtolower($account);
+			}
 			
 			// auth mode depends on ldap server settings
 			$auth_mode = $this->settings->getAuthenticationMappingKey();
