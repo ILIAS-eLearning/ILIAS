@@ -37,6 +37,12 @@ class ilUserPasswordResetRequestTargetAdjustmentCase extends ilUserRequestTarget
 	 */
 	public function shouldAdjustRequest()
 	{
+		// saml-patch: begin
+		if(ilSession::get('used_external_auth'))
+		{
+			return false;
+		}
+		// saml-patch: end
 		if(!$this->isInFulfillment() && ($this->user->isPasswordChangeDemanded() || $this->user->isPasswordExpired()))
 		{
 			return true;

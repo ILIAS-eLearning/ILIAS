@@ -3722,7 +3722,9 @@ class ilObjUser extends ilObject
 	*
 	* @static
 	*/
-	public static function _checkExternalAuthAccount($a_auth, $a_account)
+	// saml-patch: begin
+	public static function _checkExternalAuthAccount($a_auth, $a_account, $fallback = true)
+	// saml-patch: end
 	{
 		global $ilDB,$ilSetting;
 
@@ -3735,7 +3737,12 @@ class ilObjUser extends ilObject
 		{
 			return $usr["login"];
 		}
-
+		// saml-patch: begin
+		if(!$fallback)
+		{
+			return '';
+		}
+		// saml-patch: end
 		// For compatibility, check for login (no ext_account entry given)
 		$res = $ilDB->queryF("SELECT login FROM usr_data ".
 			"WHERE login = %s AND auth_mode = %s AND ext_account IS NULL ",
