@@ -597,7 +597,9 @@ abstract class ilContainerContentGUI
 			}
 		}
 
-		if ($ilSetting->get("item_cmd_asynch"))
+		$fold_set = new ilSetting('fold');
+		if ($ilSetting->get("item_cmd_asynch")
+			&& !($a_item_data['type'] == 'fold' && $fold_set->get("bgtask_download") && $fold_set->get("enable_download_folder")))  //#0020343
 		{
 			$asynch = true;
 			$ilCtrl->setParameter($this->container_gui, "cmdrefid", $a_item_data['ref_id']);
