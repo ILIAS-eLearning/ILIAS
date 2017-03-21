@@ -1,5 +1,7 @@
 # ILIAS Installation
 
+ILIAS is a powerful Open Source Learning Management System for developing and realising web-based e-learning. The software was developed to reduce the costs of using new media in education and further training and to ensure the maximum level of customer influence in the implementation of the software. ILIAS is published under the General Public Licence and free of charge.
+
 1. [System Requirements](#system-requirements)
    1. [CPU](#cpu)
    2. [Memory](#memory)
@@ -31,7 +33,10 @@
       3. [Proper SSL configuration](#proper-ssl-configuration)
    3. [Servce security related Headers](#serve-security-related-headers)
 4. [Customizing ILIAS](#customizing-ilias)
+   1. [Plugin Repository](#plugin-repository)
 5. [Upgrading ILIAS](#upgrading-ilias)
+6. [Contribute](#contribute)
+   1. [Pull Requests](#pull-requests)
 
 # System Requirements
 
@@ -461,6 +466,10 @@ You can find proper ways to customize ILIAS in the [ILIAS Development Guide](htt
 
   * [Plugins and Plugin Slots - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=st_27029)
   * [Styles and Templates - ILIAS Development Guide](http://www.ilias.de/docu/goto_docu_pg_210_42.html)
+  
+## Plugin Repository
+
+ILIAS can be extended with a lot of Plugins. You find the complete list in the [Plugin Repository](http://www.ilias.de/docu/goto.php?target=cat_1442&client_id=docu)
 
 # Upgrading ILIAS
 
@@ -475,3 +484,18 @@ Then go to your ILIAS directory (e.g. ```cd /var/www/html/ilias/```) and excute:
 Afterwards open the ILIAS Installation Wizard in your browser (e.g. http://yourservername.org/setup/setup.php) and check if your database needs updates or hotfixes.
 
 In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
+
+# Contribute
+
+We have a big [community](http://www.ilias.de/docu/goto.php?target=cat_1444&client_id=docu) and you can get a member of [ILIAS Society](http://www.ilias.de/docu/goto.php?target=cat_1669&client_id=docu).
+You may even join us at one of our regular [ILIAS Conferences](http://www.ilias.de/docu/goto.php?target=cat_2255&client_id=docu).
+
+## Pull Requests
+
+We highly appreciate Pull-Request from external developers. Due to some regulations in the developments process of ILIAS, some kinds of Pull-Request need further steps. Additionally Pull-Request should target the correct branch for easy merging.
+
+- Language-Fixes or additions to language-files don't need further steps.
+- Bugfixes need an entry in the Bugtracker: http://mantis.ilias.de . Pull-Request for Bugfixes target always to the branch where the bug occurs. The developer which merges it will cherry-pick the fix to all branches needed
+- Features/Refactorings need an entry in Feature-Wiki and has to get through the existing procedure for Feature-Requests: http://feature.ilias.de . Pull-Request target to trunk.
+
+Pull-Request will be assigned to the responsible maintainer(s). See further information on how contributions are handled in [/docs/CONTRIBUTING.md](/docs/CONTRIBUTING.md)
