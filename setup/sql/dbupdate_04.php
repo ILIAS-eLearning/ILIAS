@@ -13014,12 +13014,6 @@ if ($ilDB->tableExists('il_exc_team_log') && $ilDB->tableExists('exc_team_log_ol
 			",".$ilDB->quote($row['tstamp'], "integer").
 			")"
 		);
-
-		$ilDB->manipulateF(
-			"DELETE FROM exc_team_log_old WHERE team_id = %s AND user_id = %s AND action = %s AND tstamp = %s",
-			array('integer', 'integer', 'integer', 'integer'),
-			array($row['team_id'], $row['user_id'], $row['action'], $row['tstamp'])
-		);
 	}
 }
 ?>
