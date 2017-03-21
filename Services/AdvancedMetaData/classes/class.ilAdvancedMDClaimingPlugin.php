@@ -284,7 +284,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
 		
 		// validating type
 		$a_type = (int)$a_type;
-		if($a_type < 1 || $a_type > 8)
+		if($a_type < 1 || $a_type > 7)
 		{
 			return;
 		}
