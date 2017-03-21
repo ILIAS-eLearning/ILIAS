@@ -31,7 +31,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
       1. [Redirect all unencrypted traffic to HTTPS](#redirect-all-unencrypted-traffic-to-https)
       2. [Enable HTTP Strict Transport Security (HSTS)](#enable-http-strict-transport-security)
       3. [Proper SSL configuration](#proper-ssl-configuration)
-   3. [Servce security related Headers](#serve-security-related-headers)
+   3. [Serve security related Headers](#serve-security-related-headers)
 4. [Customizing ILIAS](#customizing-ilias)
    1. [Plugin Repository](#plugin-repository)
 5. [Upgrading ILIAS](#upgrading-ilias)
