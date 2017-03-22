@@ -114,7 +114,7 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 		{
 			global $tpl, $ilCtrl;
 
-			$url =  $ilCtrl->getLinkTargetByClass(array("ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
+			$url =  $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
 
 			$tpl->addJavaScript("Services/BackgroundTask/js/BgTask.js");
 			$tpl->addOnLoadCode('il.BgTask.setAjax("'.$url.'");');
