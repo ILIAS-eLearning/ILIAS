@@ -351,8 +351,7 @@ class ilSessionControl
 
 		$query = "SELECT session_id,expires FROM usr_session WHERE expires >= %s " .
 				"AND (expires - %s) < (%s - %s) " .
-				"AND ".$ilDB->in('type', $a_types, false, 'integer');
-				"ORDER BY expires";
+				"AND ".$ilDB->in('type', $a_types, false, 'integer') . " ORDER BY expires";
 
 		$res = $ilDB->queryF(
 				$query,
