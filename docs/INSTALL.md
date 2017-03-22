@@ -19,6 +19,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
       2. [PHP Installation/Configuration](#php-installationconfiguration)
       3. [Database Installation/Configuration](#database-installationconfiguration)
          1. [MySQL Performance tuning](#mysql-perfomance-tuning)
+      4. [Install other Depedencies](#install-other-dependencies)
    3. [E-Mail Configuration](#e-mail-configuration)
    4. [Install other Dependencies](#install-other-depedencies)
    5. [Installation Wizard](#installation-wizard)
