@@ -23,6 +23,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
    4. [Install other Dependencies](#install-other-depedencies)
    5. [Installation Wizard](#installation-wizard)
    6. [Configure ILIAS Java RPC server](#configure-ilias-java-rpc-server)
+   7. [Information on Updates](#information-on-updates)
 3. [Hardening and Security Guidance](#hardening-and-security-guidance)
    1. [Secure Files](#secure-files)
       1. [Place data directory outside of the web root](#place-data-directory-outside-of-the-web-root)
@@ -32,6 +33,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
       2. [Enable HTTP Strict Transport Security (HSTS)](#enable-http-strict-transport-security)
       3. [Proper SSL configuration](#proper-ssl-configuration)
    3. [Serve security related Headers](#serve-security-related-headers)
+   4. [Report security issuses](#report-security-issues)
 4. [Customizing ILIAS](#customizing-ilias)
    1. [Plugin Repository](#plugin-repository)
 5. [Upgrading ILIAS](#upgrading-ilias)
@@ -87,11 +89,17 @@ For best results we recommend:
   * Desktop: Windows 7+, MacOS X 10.7+, Linux
   * Web Browser: IE11+, Microsoft Edge, Firefox 14+, Chrome 18+, Safari 7+
 
-## Database Recommendations (MySQL/MariaDB)
+## Database Recommendations
+
+We recommend to use MySQL/MariaDB with the following settings:
 
   * InnoDB storage engine
   * utf8_general_ci
   * STRICT_TRANS_TABLES or STRICT_ALL_TABLES disabled (on MySQL 5.6.x)
+  * query_cache_size (> 16M)
+  * join_buffer_size (> 128.0K, or always use indexes with joins)
+  * table_open_cache (> 400)
+  * innodb_buffer_pool_size (>= 2G, depending on DB size)
 
 # Manual Installation on Linux
 
@@ -299,11 +307,11 @@ On RHEL/CentOS execute:
 yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk
 ```
 
-# Installation Wizard
+## Installation Wizard
 
 After having all dependencies installed an configured you should be able to run the ILIAS Installation Wizard using http://yourservername.org/setup/setup.php
 
-# Configure ILIAS Java RPC server
+## Configure ILIAS Java RPC server
 
 The ILIAS Java RPC server is used for certain functions as Lucene Search or generating PDF Certificates. To enable the RPC server you need to place a configuration file in ```<YOUR_ILIAS_DIR>/Services/WebServices/RPC/lib/ilServer.properties```:
 
@@ -365,6 +373,10 @@ esac
 
 exit 0
 ```
+
+## Information on Updates
+
+To keep your ILIAS Installation secure and healthy it is important that you keep it up to date. To get informations about updates and security fixes you should consider to subscribe to the ILIAS Admin Mailing-List: http://lists.ilias.de/cgi-bin/mailman/listinfo/ilias-admins
 
 # Hardening and Security Guidance
 
@@ -454,6 +466,10 @@ To improve the security of your ILIAS users you should set at least the followin
   * X-XSS-Protection: 1; mode=block
   * X-Frame-Options: SAMEORIGIN
 
+## Report security issuses
+
+If you think you found an security related issue in ILIAS please refer to http://www.ilias.de/docu/goto_docu_wiki_5307.html#ilPageTocA213 for reporting it.
+
 For Apache on Debian systems you can turn those headers on by editing ```/etc/apache2/conf-enabled/security.conf```, make sure ```mod_headers``` and ```mod_env``` are enabled.
 
 For Nginx you can simply add for example ```add_header X-Frame-Options "SAMEORIGIN";``` in your ```server``` configuration.
@@ -473,7 +489,7 @@ ILIAS can be extended with a lot of Plugins. You find the complete list in the [
 
 # Upgrading ILIAS
 
-The easiest way to update ILIAS is using Git. Before you start you should consider to:
+The easiest way to update ILIAS is using Git, please note that this is only possible if you installed ILIAS via git as advised in this document. Before you start you should consider to:
 
   * Backup your database
   * Backup your docroot
