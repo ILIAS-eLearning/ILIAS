@@ -281,7 +281,12 @@ class ilStartUpGUI
 				case AUTH_APACHE_FAILED:
 					$failure = $lng->txt("err_auth_apache_failed");
 					break;
-
+				// saml-patch: begin
+				case AUTH_SAML_FAILED:
+					$lng->loadLanguageModule('auth');
+					$failure = $lng->txt("err_auth_saml_failed");
+					break;
+				// saml-patch: end
 				case AUTH_CAPTCHA_INVALID:
 					$lng->loadLanguageModule('cptch');
 					ilSession::setClosingContext(ilSession::SESSION_CLOSE_CAPTCHA);
@@ -377,6 +382,9 @@ class ilStartUpGUI
 		$page_editor_html = $this->showLoginForm($page_editor_html);
 		$page_editor_html = $this->showCASLoginForm($page_editor_html);
 		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
+		// saml-patch: begin
+		$page_editor_html = $this->showSamlLoginForm($page_editor_html);
+		// saml-patch: end
 		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
 		$page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
 		$page_editor_html = $this->purgePlaceholders($page_editor_html);
@@ -1494,14 +1502,26 @@ class ilStartUpGUI
 	function showLogout()
 	{
 		global $tpl, $ilSetting, $ilAuth, $lng, $ilIliasIniFile;
-		
+		// saml-patch: begin
+		/**
+		 * @var $ilUser ilObjUser
+		 */
+		global $ilUser;
+		// saml-patch: end
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
 		$GLOBALS['DIC']['ilAuthSession']->logout();
 
 		// reset cookie
 		$client_id = $_COOKIE["ilClientId"];
 		ilUtil::setCookie("ilClientId","");
-
+		// saml-patch: begin
+		if((int)$ilUser->getAuthMode(true) == AUTH_SAML)
+		{
+			ilUtil::setCookie("SAMLSESSID","");
+			ilUtil::setCookie("SimpleSAMLAuthToken","");
+			ilUtil::redirect('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
+		}
+		// saml-patch: end
 		//instantiate logout template
 		self::initStartUpTemplate("tpl.logout.html");
 		
@@ -2259,4 +2279,91 @@ class ilStartUpGUI
 		include_once("./Services/MainMenu/classes/class.ilMainMenuGUI.php");
 		return ilMainMenuGUI::getLanguageSelection(true);
 	}
+	// saml-patch: begin
+	protected function showSamlLoginForm($page_editor_html)
+	{
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
+
+		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+		require_once 'Services/Saml/classes/class.ilSamlSettings.php';
+
+		if(count(ilSamlIdp::getActiveIdpList()) > 0 && ilSamlSettings::getInstance()->isDisplayedOnLoginPage())
+		{
+			$tpl = new ilTemplate('tpl.login_form_saml.html', true, true, 'Services/Saml');
+
+			$return = '';
+			if(isset($_GET['target']))
+			{
+				$return = '?returnTo=' . urlencode(ilUtil::stripSlashes($_GET['target']));
+			}
+
+			$tpl->setVariable('SAML_SCRIPT_URL', './saml.php' . $return);
+			$tpl->setVariable('TXT_LOGIN', $lng->txt('log_in'));
+			$tpl->setVariable('TXT_SAML_LOGIN_TXT', $lng->txt('saml_login_form_txt'));
+			$tpl->setVariable('TXT_SAML_LOGIN_INFO_TXT', $lng->txt('saml_login_form_info_txt'));
+
+			return $this->substituteLoginPageElements(
+				$GLOBALS['tpl'],
+				$page_editor_html,
+				$tpl->get(),
+				'[list-saml-login-form]',
+				'SAML_LOGIN_FORM'
+			);
+		}
+
+		return $page_editor_html;
+	}
+
+	protected function doSamlAuthentication()
+	{
+		$this->getLogger()->debug('Trying apache authentication');
+
+		require_once 'Services/Saml/classes/class.ilAuthFrontendCredentialsSaml.php';
+		$credentials = new ilAuthFrontendCredentialsSaml();
+		$credentials->initFromRequest();
+
+		require_once 'Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
+		$provider_factory = new ilAuthProviderFactory();
+		$provider = $provider_factory->getProviderByAuthMode($credentials, ilUtil::stripSlashes($_POST['auth_mode']));
+
+		require_once 'Services/Authentication/classes/class.ilAuthStatus.php';
+		$status = ilAuthStatus::getInstance();
+
+		require_once 'Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
+		$frontend_factory = new ilAuthFrontendFactory();
+		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
+		$frontend = $frontend_factory->getFrontend(
+			$GLOBALS['DIC']['ilAuthSession'],
+			$status,
+			$credentials,
+			array($provider)
+		);
+
+		$frontend->authenticate();
+
+		switch($status->getStatus())
+		{
+			case ilAuthStatus::STATUS_AUTHENTICATED:
+				ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
+				require_once 'Services/Init/classes/class.ilInitialisation.php';
+				return ilInitialisation::redirectToStartingPage();
+
+			case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
+				return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
+
+			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+				ilUtil::sendFailure($status->getTranslatedReason(),true);
+				$GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
+				return false;
+		}
+
+		ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+		$this->showLoginPage();
+
+		return false;
+	}
+	// saml-patch: begin
 }
