@@ -1,12 +1,12 @@
 <?php
+use ILIAS\HTTP\Cookies\CookieWrapper;
+
 require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACPath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACSecurePath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACLog.php');
 require_once('./Services/Init/classes/class.ilInitialisation.php');
 require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
-require_once('./Services/WebAccessChecker/classes/class.ilWACCookie.php');
-require_once('./Services/WebAccessChecker/classes/class.ilWACHeader.php');
 
 /**
  * Class ilWebAccessChecker
@@ -60,29 +60,24 @@ class ilWebAccessChecker {
 	 */
 	protected static $use_seperate_logfile = false;
 	/**
-	 * @var ilWACCookieInterface
-	 */
-	protected $cookie = null;
-	/**
-	 * @var ilWACHeaderInterface
-	 */
-	protected $header = null;
-	/**
 	 * @var array
 	 */
 	protected $applied_checking_methods = array();
 
 
+    /**
+     * @var \ILIAS\DI\HTTPServices $http
+     */
+    private $http;
+
 	/**
 	 * ilWebAccessChecker constructor.
 	 *
-	 * @param $path
-	 * @param \ilWACCookieInterface|null $ilWACCookieInterface
+	 * @param string $path
 	 */
-	public function __construct($path, ilWACCookieInterface $ilWACCookieInterface = null, ilWACHeaderInterface $ilWACHeaderInterface = null) {
+	public function __construct($path) {
 		$this->setPathObject(new ilWACPath($path));
-		$this->setCookie($ilWACCookieInterface ? $ilWACCookieInterface : new ilWACCookie());
-		$this->setHeader($ilWACHeaderInterface ? $ilWACHeaderInterface : new ilWACHeader());
+        $this->http = $GLOBALS["DIC"]->http();
 	}
 
 
@@ -97,7 +92,7 @@ class ilWebAccessChecker {
 		}
 
 		// Check if Path has been signed with a token
-		$ilWACSignedPath = new ilWACSignedPath($this->getPathObject(), $this->cookie);
+		$ilWACSignedPath = new ilWACSignedPath($this->getPathObject());
 		if ($ilWACSignedPath->isSignedPath()) {
 			$this->addAppliedCheckingMethod(self::CM_FILE_TOKEN);
 			if ($ilWACSignedPath->isSignedPathValid()) {
@@ -172,7 +167,8 @@ class ilWebAccessChecker {
 	 * @param $message
 	 */
 	protected function sendHeader($message) {
-		$this->getHeader()->sendHeader('X-ILIAS-WebAccessChecker: ' . $message);
+		$response = $this->http->response()->withHeader('X-ILIAS-WebAccessChecker', $message);
+        $this->http->saveResponse($response);
 	}
 
 
@@ -185,7 +181,17 @@ class ilWebAccessChecker {
 			return true;
 		}
 		$GLOBALS['COOKIE_PATH'] = '/';
-		$this->cookie->set('ilClientId', $this->getPathObject()->getClient(), 0, '/');
+
+        $cookie = CookieWrapper::create('ilClientId', $this->getPathObject()->getClient())
+                ->withPath('/')
+                ->withExpires(0);
+
+        $response = $this->http->cookieJar()
+            ->with($cookie)
+            ->renderIntoResponseHeader($this->http->response());
+
+        $this->http->saveResponse($response);
+
 		ilContext::init(ilContext::CONTEXT_WAC);
 		try {
 			ilWACLog::getInstance()->write('init ILIAS');
@@ -197,11 +203,20 @@ class ilWebAccessChecker {
 				throw  $e;
 			}
 			if ($e instanceof Exception && $e->getMessage() == 'Authentication failed.') {
-				include_once './Services/Context/classes/class.ilContext.php';
-				ilContext::init(ilContext::CONTEXT_WEB_ACCESS_CHECK);
-				require_once("Services/Init/classes/class.ilInitialisation.php");
-				$GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, ANONYMOUS_USER_ID);
+				$request = $this->http->request();
+				$queries = $request->getQueryParams();
+				$queries["baseClass"] = "ilStartUpGUI";
+				$_REQUEST["baseClass"] = "ilStartUpGUI";
+				// @todo authentication: fix request show login
+				$queries["cmd"] = "showLoginPage";
+				$_REQUEST["cmd"] = "showLoginPage";
+				$request = $request->withQueryParams($queries);
+
+				$this->http->saveRequest($request);
+
+				ilWACLog::getInstance()->write('reinit ILIAS');
 				ilInitialisation::reinitILIAS();
+				$GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, ANONYMOUS_USER_ID);
 				$this->checkPublicSection();
 				$this->checkUser();
 			}
@@ -370,23 +385,6 @@ class ilWebAccessChecker {
 		self::$use_seperate_logfile = $use_seperate_logfile;
 	}
 
-
-	/**
-	 * @return \ilWACCookieInterface
-	 */
-	public function getCookie() {
-		return $this->cookie;
-	}
-
-
-	/**
-	 * @param \ilWACCookieInterface $cookie
-	 */
-	public function setCookie($cookie) {
-		$this->cookie = $cookie;
-	}
-
-
 	/**
 	 * @return array
 	 */
@@ -408,21 +406,5 @@ class ilWebAccessChecker {
 	 */
 	protected function addAppliedCheckingMethod($method) {
 		$this->applied_checking_methods[] = $method;
-	}
-
-
-	/**
-	 * @return \ilWACHeaderInterface
-	 */
-	public function getHeader() {
-		return $this->header;
-	}
-
-
-	/**
-	 * @param \ilWACHeaderInterface $header
-	 */
-	public function setHeader($header) {
-		$this->header = $header;
 	}
 }

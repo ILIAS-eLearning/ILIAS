@@ -1,7 +1,9 @@
 <?php
+
 require_once('./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php');
-require_once('./Services/WebAccessChecker/classes/class.ilHTTP.php');
+require_once('./Services/FileDelivery/classes/Delivery.php');
 require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
+use ILIAS\FileDelivery\Delivery as F;
 
 /**
  * Class ilWebAccessCheckerDelivery
@@ -14,6 +16,10 @@ class ilWebAccessCheckerDelivery {
 	 * @var ilWebAccessChecker
 	 */
 	protected $ilWebAccessChecker = null;
+    /**
+     * @var \ILIAS\DI\Container $dic
+     */
+    private $dic;
 
 
 	/**
@@ -32,21 +38,23 @@ class ilWebAccessCheckerDelivery {
 	 */
 	public function __construct($raw_path) {
 		$this->ilWebAccessChecker = new ilWebAccessChecker(rawurldecode($raw_path));
+        $this->dic = $GLOBALS["DIC"];
 	}
 
 
 	protected function handleRequest() {
 		// Set errorreporting
 		ilInitialisation::handleErrorReporting();
+        $queries = $this->dic->http()->request()->getQueryParams();
 
 		// Set customizing
-		if (isset($_GET[ilWebAccessChecker::DISPOSITION])) {
+		if (isset($queries[ilWebAccessChecker::DISPOSITION])) {
 			$this->ilWebAccessChecker->setDisposition($_GET[ilWebAccessChecker::DISPOSITION]);
 		}
-		if (isset($_GET[ilWebAccessChecker::STATUS_CODE])) {
+		if (isset($queries[ilWebAccessChecker::STATUS_CODE])) {
 			$this->ilWebAccessChecker->setSendStatusCode($_GET[ilWebAccessChecker::STATUS_CODE]);
 		}
-		if (isset($_GET[ilWebAccessChecker::REVALIDATE])) {
+		if (isset($queries[ilWebAccessChecker::REVALIDATE])) {
 			$this->ilWebAccessChecker->setRevalidateFolderTokens($_GET[ilWebAccessChecker::REVALIDATE]);
 		}
 
@@ -84,16 +92,16 @@ class ilWebAccessCheckerDelivery {
 
 
 	protected function deliverDummyImage() {
-		$ilFileDelivery = new ilFileDelivery('./Services/WebAccessChecker/templates/images/access_denied.png', $this->ilWebAccessChecker->getPathObject()
-		                                                                                                                                ->getFileName());
+		$ilFileDelivery = new F('./Services/WebAccessChecker/templates/images/access_denied.png', $this->ilWebAccessChecker->getPathObject()
+		                                                                                                                   ->getFileName());
 		$ilFileDelivery->setDisposition($this->ilWebAccessChecker->getDisposition());
 		$ilFileDelivery->deliver();
 	}
 
 
 	protected function deliverDummyVideo() {
-		$ilFileDelivery = new ilFileDelivery('./Services/WebAccessChecker/templates/images/access_denied.mp4', $this->ilWebAccessChecker->getPathObject()
-		                                                                                                                                ->getFileName());
+		$ilFileDelivery = new F('./Services/WebAccessChecker/templates/images/access_denied.mp4', $this->ilWebAccessChecker->getPathObject()
+		                                                                                                                   ->getFileName());
 		$ilFileDelivery->setDisposition($this->ilWebAccessChecker->getDisposition());
 		$ilFileDelivery->stream();
 	}
@@ -103,9 +111,13 @@ class ilWebAccessCheckerDelivery {
 	 * @param ilWACException $e
 	 */
 	protected function handleAccessErrors(ilWACException $e) {
-		if ($this->ilWebAccessChecker->isSendStatusCode()) {
-			ilHTTP::status(401);
-		}
+
+        $response = $this->dic->http()
+            ->response()
+            ->withStatus(401);
+
+        $this->dic->http()->saveResponse($response);
+
 		if ($this->ilWebAccessChecker->getPathObject()->isImage()) {
 			$this->deliverDummyImage();
 		}
@@ -114,15 +126,20 @@ class ilWebAccessCheckerDelivery {
 		}
 		try {
 			$this->ilWebAccessChecker->initILIAS();
+
+            //log the error
+            $ilLog = $this->dic["ilLoggerFactory"];
+            $ilLog->write($e->getMessage());
+
 		} catch (ilWACException $ilWACException) {
 		}
 
-		global $tpl, $ilLog;
-		$ilLog->write($e->getMessage());
-		$tpl->setVariable('BASE', strstr($_SERVER['REQUEST_URI'], '/data', true) . '/');
-		ilUtil::sendFailure($e->getMessage());
-		$tpl->getStandardTemplate();
-		$tpl->show();
+		//set the status code again because ilias creates a new DIC.
+        $response = $this->dic->http()
+            ->response()
+            ->withStatus(401);
+
+		$this->dic->http()->saveResponse($response);
 	}
 
 
@@ -130,8 +147,17 @@ class ilWebAccessCheckerDelivery {
 	 * @param ilWACException $e
 	 */
 	protected function handleErrors(ilWACException $e) {
-		ilHTTP::status(500);
-		echo $e->getMessage();
+        $response = $this->dic->http()->response()
+            ->withStatus(500);
+
+
+        /**
+         * @var \Psr\Http\Message\StreamInterface $stream
+         */
+        $stream = $response->getBody();
+        $stream->write($e->getMessage());
+
+        $this->dic->http()->saveResponse($response);
 	}
 
 
@@ -140,7 +166,7 @@ class ilWebAccessCheckerDelivery {
 			throw new ilWACException(ilWACException::ACCESS_WITHOUT_CHECK);
 		}
 
-		$ilFileDelivery = new ilFileDelivery($this->ilWebAccessChecker->getPathObject()->getPath());
+		$ilFileDelivery = new F($this->ilWebAccessChecker->getPathObject()->getPath());
 		$ilFileDelivery->setCache(false);
 		$ilFileDelivery->setDisposition($this->ilWebAccessChecker->getDisposition());
 		ilWACLog::getInstance()->write('Deliver file using ' . $ilFileDelivery->getDeliveryType());

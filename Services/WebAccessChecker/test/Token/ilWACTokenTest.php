@@ -1,5 +1,4 @@
 <?php
-require_once('./libs/composer/vendor/autoload.php');
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -21,6 +20,8 @@ require_once('./libs/composer/vendor/autoload.php');
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+require_once './Services/WebAccessChecker/test/WACTestCase.php';
+
 use org\bovigo\vfs;
 
 /**
@@ -34,7 +35,7 @@ use org\bovigo\vfs;
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class ilWACTokenTest extends PHPUnit_Framework_TestCase {
+class ilWACTokenTest extends WACTestCase {
 
 	const ADDITIONAL_TIME = 0.5;
 	const LIFETIME = 1;
@@ -77,28 +78,34 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Setup
 	 */
-	protected function setUp() {
+	protected function setUp()
+	{
+		parent::setUp();
 		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 		require_once('./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php');
 		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 		require_once('./Services/WebAccessChecker/classes/class.ilWACToken.php');
-		require_once('./Services/WebAccessChecker/test/Token/mock/class.ilWACDummyCookie.php');
-		require_once('./libs/composer/vendor/autoload.php');
+
 		$this->root = vfs\vfsStream::setup('ilias.de');
-		$this->file_one = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/dummy.jpg')->at($this->root)->setContent('dummy');
-		$this->file_one_subfolder = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/mobile/dummy.jpg')->at($this->root)->setContent('dummy');
-		$this->file_one_subfolder_two = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/mobile/device/dummy.jpg')->at($this->root)
-		                                             ->setContent('dummy');
-		$this->file_two = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/dummy2.jpg')->at($this->root)->setContent('dummy2');
-		$this->file_three = vfs\vfsStream::newFile('data/client_name/mobs/mm_124/dummy.jpg')->at($this->root)->setContent('dummy');
-		$this->file_four = vfs\vfsStream::newFile('data/client_name/sec/ilBlog/mm_124/dummy.jpg')->at($this->root)->setContent('dummy');
+		$this->file_one = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/dummy.jpg')
+		                               ->at($this->root)->setContent('dummy');
+		$this->file_one_subfolder = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/mobile/dummy.jpg')
+		                                         ->at($this->root)->setContent('dummy');
+		$this->file_one_subfolder_two = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/mobile/device/dummy.jpg')
+		                                             ->at($this->root)->setContent('dummy');
+		$this->file_two = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/dummy2.jpg')
+		                               ->at($this->root)->setContent('dummy2');
+		$this->file_three = vfs\vfsStream::newFile('data/client_name/mobs/mm_124/dummy.jpg')
+		                                 ->at($this->root)->setContent('dummy');
+		$this->file_four = vfs\vfsStream::newFile('data/client_name/sec/ilBlog/mm_124/dummy.jpg')
+		                                ->at($this->root)->setContent('dummy');
 		ilWACToken::setSALT(self::SALT);
-		parent::setUp();
 	}
 
 
-	public function testWithoutSigning() {
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_one->url()), new ilWACDummyCookie());
+	public function testWithoutSigning()
+	{
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_one->url()));
 
 		$this->assertFalse($ilWACSignedPath->isSignedPath());
 		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
@@ -107,13 +114,17 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function testSomeBasics() {
+	public function testSomeBasics()
+	{
 		$query = 'myparam=1234';
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_four->url() . '?' . $query), new ilWACDummyCookie());
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_four->url() . '?'
+		                                                     . $query));
 
 		$this->assertEquals('dummy.jpg', $ilWACSignedPath->getPathObject()->getFileName());
 		$this->assertEquals($query, $ilWACSignedPath->getPathObject()->getQuery());
-		$this->assertEquals('./data/' . self::CLIENT_NAME . '/sec/ilBlog/mm_124/', $ilWACSignedPath->getPathObject()->getSecurePath());
+		$this->assertEquals('./data/' . self::CLIENT_NAME
+		                    . '/sec/ilBlog/mm_124/', $ilWACSignedPath->getPathObject()
+		                                                             ->getSecurePath());
 		$this->assertEquals('ilBlog', $ilWACSignedPath->getPathObject()->getSecurePathId());
 		$this->assertFalse($ilWACSignedPath->getPathObject()->isStreamable());
 
@@ -124,7 +135,8 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function testTokenGeneration() {
+	public function testTokenGeneration()
+	{
 		ilWebAccessChecker::setDEBUG(false);
 		$ilWacPath = new ilWacPath($this->file_four->url());
 		$ilWACToken = new ilWACToken($ilWacPath->getPath(), self::CLIENT_NAME, 123456, 20);
@@ -142,34 +154,45 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function testCookieGeneration() {
+	public function testCookieGeneration()
+	{
 		ilWebAccessChecker::setDEBUG(false);
-		ilWACDummyCookie::clear();
-		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-		$ilWACCookieInterface = new ilWACDummyCookie();
-		ilWACSignedPath::signFolderOfStartFile($this->file_one->url(), $ilWACCookieInterface);
+
+		$response = $this->response(); //save response to reset to this state later
+
+		ilWACSignedPath::signFolderOfStartFile($this->file_one->url());
 		$expected_cookies = array(
 			'19ab58dae37d8d8cf931727c35514642',
 			'19ab58dae37d8d8cf931727c35514642ts',
 			'19ab58dae37d8d8cf931727c35514642ttl',
 		);
-		$this->assertEquals($expected_cookies, array_keys($ilWACCookieInterface->getAll()));
+		$cookieJar = $this->cookieJar();
+		$this->assertTrue($cookieJar->has($expected_cookies[0]));
+		$this->assertTrue($cookieJar->has($expected_cookies[1]));
+		$this->assertTrue($cookieJar->has($expected_cookies[2]));
+
 		// in subfolder
-		ilWACDummyCookie::clear();
-		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-		$ilWACCookieInterface = new ilWACDummyCookie();
-		ilWACSignedPath::signFolderOfStartFile($this->file_one_subfolder->url(), $ilWACCookieInterface);
-		$this->assertEquals($expected_cookies, array_keys($ilWACCookieInterface->getAll()));
+		$this->http()->saveResponse($response); //reset state
+		ilWACSignedPath::signFolderOfStartFile($this->file_one_subfolder->url());
+
+		$cookieJar = $this->cookieJar();
+		$this->assertTrue($cookieJar->has($expected_cookies[0]));
+		$this->assertTrue($cookieJar->has($expected_cookies[1]));
+		$this->assertTrue($cookieJar->has($expected_cookies[2]));
+
 		// in sub-subfolder
-		ilWACDummyCookie::clear();
-		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-		$ilWACCookieInterface = new ilWACDummyCookie();
-		ilWACSignedPath::signFolderOfStartFile($this->file_one_subfolder->url(), $ilWACCookieInterface);
-		$this->assertEquals($expected_cookies, array_keys($ilWACCookieInterface->getAll()));
+		$this->http()->saveResponse($response); //reset state
+		ilWACSignedPath::signFolderOfStartFile($this->file_one_subfolder->url());
+
+		$cookieJar = $this->cookieJar();
+		$this->assertTrue($cookieJar->has($expected_cookies[0]));
+		$this->assertTrue($cookieJar->has($expected_cookies[1]));
+		$this->assertTrue($cookieJar->has($expected_cookies[2]));
 	}
 
 
-	public function testFileToken() {
+	public function testFileToken()
+	{
 		ilWACSignedPath::setTokenMaxLifetimeInSeconds(self::LIFETIME);
 		$lifetime = ilWACSignedPath::getTokenMaxLifetimeInSeconds();
 
@@ -196,15 +219,15 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function testFolderToken() {
-		ilWACDummyCookie::clear();
+	public function testFolderToken()
+	{
 		ilWACSignedPath::setCookieMaxLifetimeInSeconds(self::LIFETIME);
 		$lifetime = ilWACSignedPath::getCookieMaxLifetimeInSeconds();
 
 		$signed_path = $this->file_one->url();
-		ilWACSignedPath::signFolderOfStartFile($signed_path, new ilWACDummyCookie());
+		ilWACSignedPath::signFolderOfStartFile($signed_path);
 
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path), new ilWACDummyCookie());
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path));
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
 		$this->assertEquals($ilWACSignedPath->getPathObject()->getClient(), self::CLIENT_NAME);
@@ -216,41 +239,42 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($ilWACSignedPath->getPathObject()->hasToken());
 
 		// Request after lifetime
-		ilWACSignedPath::signFolderOfStartFile($signed_path, new ilWACDummyCookie());
+		ilWACSignedPath::signFolderOfStartFile($signed_path);
 		sleep($lifetime + self::ADDITIONAL_TIME);
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path), new ilWACDummyCookie());
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path));
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertFalse($ilWACSignedPath->isFolderTokenValid());
 
 		// Revalidating cookie
 		$ilWACSignedPath->revalidatingFolderToken();
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path), new ilWACDummyCookie());
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path));
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
 
 		// Check other file
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_three->url()), new ilWACDummyCookie());
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_three->url()));
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
 	}
 
 
-	public function testFolderTokenWithSecondFile() {
+	public function testFolderTokenWithSecondFile()
+	{
 		ilWACSignedPath::setCookieMaxLifetimeInSeconds(self::LIFETIME);
 		$lifetime = ilWACSignedPath::getCookieMaxLifetimeInSeconds();
 		// Sign File One
-		$ilWACCookieInterface = new ilWACDummyCookie();
-		ilWACSignedPath::signFolderOfStartFile($this->file_one->url(), $ilWACCookieInterface);
+
+		ilWACSignedPath::signFolderOfStartFile($this->file_one->url());
 		// Check File Two
 		$file_two = $this->file_two->url();
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($file_two), $ilWACCookieInterface);
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($file_two));
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
 
 		// Request after lifetime
-		ilWACSignedPath::signFolderOfStartFile($file_two, $ilWACCookieInterface);
+		ilWACSignedPath::signFolderOfStartFile($file_two);
 		sleep($lifetime + self::ADDITIONAL_TIME);
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($file_two), $ilWACCookieInterface);
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($file_two));
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertFalse($ilWACSignedPath->isFolderTokenValid());
 
@@ -260,49 +284,55 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
 
 		// Check other file
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_three->url()), $ilWACCookieInterface);
-		$this->assertTrue($ilWACSignedPath->isFolderSigned());
-		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_three->url()));
+		$this->assertFalse($ilWACSignedPath->isFolderSigned());
+		$this->assertFalse($ilWACSignedPath->isFolderTokenValid());
 	}
 
 
-	public function testModifiedTimestampNoMod() {
-		// This Test is flaky and there is currently no solution for this... but this part of the functionality is already tested
-		//		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 0)));
-		//		$this->assertTrue($ilWACSignedPath->isSignedPath());
-		//		$this->assertTrue($ilWACSignedPath->isSignedPathValid());
+	public function testModifiedTimestampNoMod()
+	{
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 0)));
+		$this->assertTrue($ilWACSignedPath->isSignedPath());
+		$this->assertTrue($ilWACSignedPath->isSignedPathValid());
 	}
 
 
-	public function testModifiedTimestampAddTime() {
+	public function testModifiedTimestampAddTime()
+	{
 		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(self::ADDITIONAL_TIME, 0)));
 		$this->assertTrue($ilWACSignedPath->isSignedPath());
 		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
 	}
 
 
-	public function testModifiedTimestampSubTime() {
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(self::ADDITIONAL_TIME * - 1, 0)));
+	public function testModifiedTimestampSubTime()
+	{
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(self::ADDITIONAL_TIME
+		                                                                                  * - 1, 0)));
 		$this->assertTrue($ilWACSignedPath->isSignedPath());
 		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
 	}
 
 
-	public function testModifiedTTL() {
+	public function testModifiedTTL()
+	{
 		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 1)));
 		$this->assertTrue($ilWACSignedPath->isSignedPath());
 		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
 	}
 
 
-	public function testModifiedTTLAndTimestamp() {
+	public function testModifiedTTLAndTimestamp()
+	{
 		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(1, 1)));
 		$this->assertTrue($ilWACSignedPath->isSignedPath());
 		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
 	}
 
 
-	public function testModifiedToken() {
+	public function testModifiedToken()
+	{
 		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 0, md5('LOREM'))));
 		$this->assertTrue($ilWACSignedPath->isSignedPath());
 		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
@@ -315,7 +345,8 @@ class ilWACTokenTest extends PHPUnit_Framework_TestCase {
 	 * @param null $override_token
 	 * @return string
 	 */
-	protected function getModifiedSignedPath($add_ttl = 0, $add_timestamp = 0, $override_token = null) {
+	protected function getModifiedSignedPath($add_ttl = 0, $add_timestamp = 0, $override_token = null)
+	{
 		ilWACSignedPath::setTokenMaxLifetimeInSeconds(self::LIFETIME);
 		$signed_path = ilWACSignedPath::signFile($this->file_one->url());
 
