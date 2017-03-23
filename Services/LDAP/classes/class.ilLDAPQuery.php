@@ -43,6 +43,10 @@ class ilLDAPQuery
 {
 	private $ldap_server_url = null;
 	private $settings = null;
+	
+	/**
+	 * @var ilLogger
+	 */
 	private $log = null;
 	
 	private $user_fields = array();
@@ -96,7 +100,8 @@ class ilLDAPQuery
 	 */
 	public function fetchUser($a_name)
 	{
-		$this->user_fields = array_merge(array($this->settings->getUserAttribute()),$this->mapping->getFields());
+		// this reduces the available fields. #0020337
+		// $this->user_fields = array_merge(array($this->settings->getUserAttribute()),$this->mapping->getFields());
 		
 		if(!$this->readUserData($a_name))
 		{
