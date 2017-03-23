@@ -60,6 +60,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		//$this->disable("footer");
 		$this->setEnableTitle(true);
 		$this->setEnableNumInfo(false);
+		$this->setShowRowsSelector(false);
 		
 		include_once "Services/Object/classes/class.ilObjectActivation.php";
 	}
