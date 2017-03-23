@@ -460,7 +460,7 @@ class ilMimeMail
 			" | Subject: " .$mail->Subject
 		);
 
-		if(!(int)$ilSetting->get('prevent_smtp_globally'))
+		if((int)$ilSetting->get('mail_allow_external'))
 		{
 			$result = $mail->Send();
 

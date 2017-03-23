@@ -8160,7 +8160,10 @@ mail#:#mail_no_recipient_found#:#Geben Sie eine andere Adresse an. ILIAS konnte 
 mail#:#mail_no_valid_mailing_list#:#%1$s (kein gültiger Verteiler)
 mail#:#mail_notification_subject#:#Neue Mails im Posteingang
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
-mail#:#mail_prevent_smtp_globally#:#Versand von externen E-Mails (via SMTP) global verhindern.
+mail#:#mail_allow_external#:#Externe E-Mails
+mail#:#mail_allow_external_info#:#Sofern nicht aktiviert, wird der Versand von externen E-Mails (via SMTP) global unterdrückt.
+mail#:#mail_settings_general#:#General
+mail#:#mail_settings_external#:#External
 mail#:#mail_s#:#Mails
 mail#:#mail_salutation_anonymous#:#Hallo
 mail#:#mail_salutation_f#:#Hallo
