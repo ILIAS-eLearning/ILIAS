@@ -322,27 +322,32 @@ class ilObjMailGUI extends ilObjectGUI
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveExternalSettingsForm'));
 		$form->setTitle($this->lng->txt('mail_settings_external_frm_head'));
 
-		$smtp = new ilCheckboxInputGUI($this->lng->txt('mail_smpt_status'), 'mail_smpt_status');
-		$smtp->setInfo($this->lng->txt('mail_smpt_status_info'));
+		$smtp = new ilCheckboxInputGUI($this->lng->txt('mail_smtp_status'), 'mail_smtp_status');
+		$smtp->setInfo($this->lng->txt('mail_smtp_status_info'));
 		$smtp->setValue(1);
 		$form->addItem($smtp);
 
-		$host = new ilTextInputGUI($this->lng->txt('mail_smpt_host'), 'mail_smpt_host');
+		$host = new ilTextInputGUI($this->lng->txt('mail_smtp_host'), 'mail_smtp_host');
+		$host->setInfo($this->lng->txt('mail_smtp_host_info'));
 		$host->setRequired(true);
 		$smtp->addSubItem($host);
 
-		$port = new ilTextInputGUI($this->lng->txt('mail_smpt_port'), 'mail_smpt_port');
+		$port = new ilNumberInputGUI($this->lng->txt('mail_smtp_port'), 'mail_smtp_port');
+		$port->setInfo($this->lng->txt('mail_smtp_port_info'));
+		$port->allowDecimals(false);
+		$port->setMinValue(0);
+		$port->setMinValue(0);
 		$smtp->addSubItem($port);
-		
-		$encryption = new ilSelectInputGUI($this->lng->txt('mail_stmp_encryption'), 'mail_stmp_encryption');
+
+		$encryption = new ilSelectInputGUI($this->lng->txt('mail_smtp_encryption'), 'mail_smtp_encryption');
 		$encryptionOptions = array();
 		$encryption->setOptions($encryptionOptions);
 		$smtp->addSubItem($encryption);
 
-		$user = new ilTextInputGUI($this->lng->txt('mail_smpt_user'), 'mail_smpt_user');
+		$user = new ilTextInputGUI($this->lng->txt('mail_smtp_user'), 'mail_smtp_user');
 		$smtp->addSubItem($user);
 
-		$password = new ilTextInputGUI($this->lng->txt('mail_smpt_password'), 'mail_smpt_password');
+		$password = new ilTextInputGUI($this->lng->txt('mail_smtp_password'), 'mail_smtp_password');
 		$smtp->addSubItem($password);
 
 		$pre = new ilTextInputGUI($this->lng->txt('mail_subject_prefix'),'mail_subject_prefix');
@@ -411,6 +416,8 @@ class ilObjMailGUI extends ilObjectGUI
 		$form = $this->getExternalSettingsForm();
 		if($form->checkInput())
 		{
+			// @todo: If smlt settings is active and a username is set, validate password
+			
 			$this->settings->set('mail_send_html', $form->getInput('mail_send_html'));
 			$this->settings->set('mail_subject_prefix', $form->getInput('mail_subject_prefix'));
 			$this->settings->set('mail_external_sender_noreply', $form->getInput('mail_external_sender_noreply'));

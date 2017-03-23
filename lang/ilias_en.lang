@@ -9488,6 +9488,16 @@ mail#:#mail_settings_external_tab#:#External
 mail#:#mail_settings_external_frm_head#:#External Emails
 mail#:#mail_settings_user_frm_head#:#User Emails
 mail#:#mail_settings_system_frm_head#:#System Emails
+mail#:#mail_smtp_status#:#Send via SMTP
+mail#:#mail_smtp_status_info#:#If enabled, ILIAS will dispatch external emails to an SMTP server instead of using the the internal functionality provided by the PHP runtime (mail() function, sendmail).
+mail#:#mail_smtp_host#:#Host
+mail#:#mail_smtp_host_info#:#Please enter the hostname or IP of the desired mail server.
+mail#:#mail_smtp_port#:#Port
+mail#:#mail_smtp_port_info#:#Please enter a numeric value for the mail server port (e.g. 25).
+mail#:#mail_smtp_encryption#:#Encryption
+mail#:#mail_smtp_user#:#User
+mail#:#mail_smtp_password#:#Password
+mail#:#mail_smtp_password_req#:#If you defined a user for authentication purposes, a password must be set.
 content#:#glo_quick_navigation#:#Quick Navigation
 forum#:#post_reply#:#Re:
 forum#:#preset_subject#:#Preset subject on reply
