@@ -13,6 +13,8 @@ class ilObjMailGUI extends ilObjectGUI
 	const SETTINGS_SUB_TAB_ID_GENERAL  = 1;
 	const SETTINGS_SUB_TAB_ID_EXTERNAL = 2;
 
+	const PASSWORD_PLACE_HOLDER = '***********************';
+
 	/**
 	 * @var ilTabsGUI
 	 */
@@ -337,17 +339,21 @@ class ilObjMailGUI extends ilObjectGUI
 		$port->allowDecimals(false);
 		$port->setMinValue(0);
 		$port->setMinValue(0);
+		$port->setRequired(true);
 		$smtp->addSubItem($port);
 
 		$encryption = new ilSelectInputGUI($this->lng->txt('mail_smtp_encryption'), 'mail_smtp_encryption');
-		$encryptionOptions = array();
+		$encryptionOptions = array(
+			'' => $this->lng->txt('please_choose')
+		);
 		$encryption->setOptions($encryptionOptions);
 		$smtp->addSubItem($encryption);
 
 		$user = new ilTextInputGUI($this->lng->txt('mail_smtp_user'), 'mail_smtp_user');
 		$smtp->addSubItem($user);
 
-		$password = new ilTextInputGUI($this->lng->txt('mail_smtp_password'), 'mail_smtp_password');
+		$password = new ilPasswordInputGUI($this->lng->txt('mail_smtp_password'), 'mail_smtp_password');
+		$password->setRetype(false);
 		$smtp->addSubItem($password);
 
 		$pre = new ilTextInputGUI($this->lng->txt('mail_subject_prefix'),'mail_subject_prefix');
@@ -395,6 +401,12 @@ class ilObjMailGUI extends ilObjectGUI
 	protected function populateExternalSettingsForm(ilPropertyFormGUI $form)
 	{
 		$form->setValuesByArray(array(
+			'mail_smtp_status'             => (bool)$this->settings->get('mail_smtp_status'),
+			'mail_smtp_host'               => $this->settings->get('mail_smtp_host'),
+			'mail_smtp_port'               => (int)$this->settings->get('mail_smtp_port'),
+			'mail_smtp_user'               => $this->settings->get('mail_smtp_user'),
+			'mail_smtp_password'           => strlen($this->settings->get('mail_smtp_password')) > 0 ? self::PASSWORD_PLACE_HOLDER : '',
+			'mail_smtp_encryption'         => $this->settings->get('mail_smtp_encryption'),
 			'mail_subject_prefix'          => $this->settings->get('mail_subject_prefix') ? $this->settings->get('mail_subject_prefix') : '[ILIAS]',
 			'mail_send_html'               => (int)$this->settings->get('mail_send_html'),
 			'mail_external_sender_noreply' => $this->settings->get('mail_external_sender_noreply'),
@@ -414,22 +426,43 @@ class ilObjMailGUI extends ilObjectGUI
 		}
 
 		$form = $this->getExternalSettingsForm();
-		if($form->checkInput())
-		{
-			// @todo: If smlt settings is active and a username is set, validate password
-			
-			$this->settings->set('mail_send_html', $form->getInput('mail_send_html'));
-			$this->settings->set('mail_subject_prefix', $form->getInput('mail_subject_prefix'));
-			$this->settings->set('mail_external_sender_noreply', $form->getInput('mail_external_sender_noreply'));
-			$this->settings->set('mail_system_sender_name', $form->getInput('mail_system_from_name'));
-			$this->settings->set('mail_system_return_path', $form->getInput('mail_system_return_path'));
+		$isFormValid = $form->checkInput();
 
-			ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
-			$this->ctrl->redirect($this, 'showExternalSettingsForm');
+		if(!$isFormValid)
+		{
+			$form->setValuesByPost();
+			$this->showExternalSettingsFormObject($form);
+			return;
 		}
 
-		$form->setValuesByPost();
-		$this->showExternalSettingsFormObject($form);
+		$isSmtpEnabled = (bool)$form->getInput('mail_smtp_status');
+		if($isSmtpEnabled && $form->getInput('mail_smtp_user') && !$form->getInput('mail_smtp_password'))
+		{
+			$form->getItemByPostVar('mail_smtp_password')->setRequired(true);
+			$form->getItemByPostVar('mail_smtp_password')->setAlert($this->lng->txt('mail_smtp_password_req'));
+			$form->setValuesByPost();
+			$this->showExternalSettingsFormObject($form);
+			return;
+		}
+
+		$this->settings->set('mail_smtp_status', (int)$form->getInput('mail_smtp_status'));
+		$this->settings->set('mail_smtp_host', $form->getInput('mail_smtp_host'));
+		$this->settings->set('mail_smtp_port', (int)$form->getInput('mail_smtp_port'));
+		$this->settings->set('mail_smtp_user', $form->getInput('mail_smtp_user'));
+		if($form->getInput('mail_smtp_password') != self::PASSWORD_PLACE_HOLDER)
+		{
+			$this->settings->set('mail_smtp_password', $form->getInput('mail_smtp_password'));
+		}
+		$this->settings->set('mail_smtp_encryption', $form->getInput('mail_smtp_encryption'));
+
+		$this->settings->set('mail_send_html', $form->getInput('mail_send_html'));
+		$this->settings->set('mail_subject_prefix', $form->getInput('mail_subject_prefix'));
+		$this->settings->set('mail_external_sender_noreply', $form->getInput('mail_external_sender_noreply'));
+		$this->settings->set('mail_system_sender_name', $form->getInput('mail_system_from_name'));
+		$this->settings->set('mail_system_return_path', $form->getInput('mail_system_return_path'));
+
+		ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+		$this->ctrl->redirect($this, 'showExternalSettingsForm');
 	}
 
 	/**
