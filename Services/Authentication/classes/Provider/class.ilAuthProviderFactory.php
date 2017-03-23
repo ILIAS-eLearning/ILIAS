@@ -94,7 +94,14 @@ class ilAuthProviderFactory
 				$this->getLogger()->debug('Using shibboleth authentication.');
 				include_once './Services/AuthShibboleth/classes/class.ilAuthProviderShibboleth.php';
 				return new ilAuthProviderShibboleth($credentials);
-				
+			// saml-patch: begin
+			case AUTH_SAML:
+				$saml_info = explode('_', $a_authmode);
+				$this->getLogger()->debug('Using apache authentication.');
+				require_once 'Services/Saml/classes/class.ilAuthProviderSaml.php';
+				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+				return new ilAuthProviderSaml($credentials, ilSamlIdp::getIdpIdByAuthMode($saml_info[1]));
+			// saml-patch: end
 		}
 		return null;
 	}
