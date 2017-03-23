@@ -399,6 +399,7 @@ class ilObjMailGUI extends ilObjectGUI
 
 		$system_from_name = new ilTextInputGUI($this->lng->txt('mail_system_sys_from_name'), 'mail_system_sys_from_name');
 		$system_from_name->setRequired(true);
+		$form->addItem($system_from_name);
 
 		$system_reply_to_addr = new ilEMailInputGUI($this->lng->txt('mail_system_sys_reply_to_addr'), 'mail_system_sys_reply_to_addr');
 		$system_reply_to_addr->setRequired(true);
