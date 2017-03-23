@@ -8162,8 +8162,11 @@ mail#:#mail_notification_subject#:#Neue Mails im Posteingang
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
 mail#:#mail_allow_external#:#Externe E-Mails
 mail#:#mail_allow_external_info#:#Sofern nicht aktiviert, wird der Versand von externen E-Mails (via SMTP) global unterdrückt.
-mail#:#mail_settings_general#:#General
-mail#:#mail_settings_external#:#External
+mail#:#mail_settings_general_tab#:#Allgemein
+mail#:#mail_settings_external_tab#:#Extern
+mail#:#mail_settings_external_frm_head#:#External Emails
+mail#:#mail_settings_user_frm_head#:#User Emails
+mail#:#mail_settings_system_frm_head#:#System Emails
 mail#:#mail_s#:#Mails
 mail#:#mail_salutation_anonymous#:#Hallo
 mail#:#mail_salutation_f#:#Hallo

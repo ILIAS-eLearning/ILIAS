@@ -9484,8 +9484,11 @@ common#:#delete_inactivated_user_accounts_interval#:#Frequency###deprecated
 common#:#delete_inactivated_user_accounts_interval_desc#:#Deletion conditions will be reviewed in this frequency.###deprecated 
 mail#:#mail_allow_external#:#External Emails
 mail#:#mail_allow_external_info#:#If disabled, the delivery of external emails (via SMTP) is globally disabled.
-mail#:#mail_settings_general#:#Allgemein
-mail#:#mail_settings_external#:#Extern
+mail#:#mail_settings_general_tab#:#General
+mail#:#mail_settings_external_tab#:#External
+mail#:#mail_settings_external_frm_head#:#External Emails
+mail#:#mail_settings_user_frm_head#:#User Emails
+mail#:#mail_settings_system_frm_head#:#System Emails
 content#:#glo_quick_navigation#:#Quick Navigation
 forum#:#post_reply#:#Re:
 forum#:#preset_subject#:#Preset subject on reply

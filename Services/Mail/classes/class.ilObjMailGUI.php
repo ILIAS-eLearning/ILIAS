@@ -111,7 +111,7 @@ class ilObjMailGUI extends ilObjectGUI
 		{
 			$this->tabs->addTarget(
 				'settings',
-				$this->ctrl->getLinkTarget($this, 'view'), array('view', 'save', ''), '', ''
+				$this->ctrl->getLinkTarget($this, 'view'), array('view', 'save', '', 'showExternalSettingsForm', 'saveExternalSettingsForm'), '', ''
 			);
 		}
 
@@ -141,15 +141,18 @@ class ilObjMailGUI extends ilObjectGUI
 		{
 			$this->tabs->addSubTab(
 				self::SETTINGS_SUB_TAB_ID_GENERAL,
-				$this->lng->txt('mail_settings_general'),
+				$this->lng->txt('mail_settings_general_tab'),
 				$this->ctrl->getLinkTarget($this, 'view')
 			);
 
-			$this->tabs->addSubTab(
-				self::SETTINGS_SUB_TAB_ID_EXTERNAL,
-				$this->lng->txt('mail_settings_external'),
-				$this->ctrl->getLinkTarget($this, 'view')
-			);
+			if($this->settings->get('mail_allow_external'))
+			{
+				$this->tabs->addSubTab(
+					self::SETTINGS_SUB_TAB_ID_EXTERNAL,
+					$this->lng->txt('mail_settings_external_tab'),
+					$this->ctrl->getLinkTarget($this, 'showExternalSettingsForm')
+				);
+			}
 
 			$this->tabs->activateSubTab($activeSubTab);
 		}
@@ -223,6 +226,91 @@ class ilObjMailGUI extends ilObjectGUI
 		$ti->setSize(10);
 		$form->addItem($ti);
 
+		$mn = new ilFormSectionHeaderGUI();
+		$mn->setTitle($this->lng->txt('mail_member_notification'));
+		$form->addItem($mn);
+
+		require_once 'Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php';
+		ilAdministrationSettingsFormHandler::addFieldsToForm(
+			ilAdministrationSettingsFormHandler::FORM_MAIL,
+			$form,
+			$this
+		);
+
+		$form->addCommandButton('save', $this->lng->txt('save'));
+
+		return $form;
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function populateGeneralSettingsForm(ilPropertyFormGUI $form)
+	{
+		$form->setValuesByArray(array(
+			'mail_allow_external'          => $this->settings->get('mail_allow_external'),
+			'mail_incoming_mail'           => (int)$this->settings->get('mail_incoming_mail'),
+			'mail_maxsize_attach'          => $this->settings->get('mail_maxsize_attach'),
+		));
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function saveObject()
+	{
+		if(!$this->rbacsystem->checkAccess('write', $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
+		}
+
+		$form = $this->getGeneralSettingsForm();
+		if($form->checkInput())
+		{
+			$this->settings->set('mail_allow_external', (int)$form->getInput('mail_allow_external'));
+			$this->settings->set('mail_incoming_mail', (int)$form->getInput('mail_incoming_mail'));
+			$this->settings->set('mail_maxsize_attach', $form->getInput('mail_maxsize_attach'));
+
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+			$this->ctrl->redirect($this);
+		}
+
+		$form->setValuesByPost();
+		$this->showGeneralSettingsForm($form);
+	}
+
+	/**
+	 * @param ilPropertyFormGUI|null $form
+	 */
+	protected function showExternalSettingsFormObject(ilPropertyFormGUI $form = null)
+	{
+		if(!$this->accessHandler->checkAccess('write,read', '', $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
+		}
+
+		$this->buildSettingsSubTabs(self::SETTINGS_SUB_TAB_ID_EXTERNAL);
+
+		if($form === null)
+		{
+			$form = $this->getExternalSettingsForm();
+			$this->populateExternalSettingsForm($form);
+		}
+
+		$this->tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * @return ilPropertyFormGUI
+	 */
+	protected function getExternalSettingsForm()
+	{
+		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+
+		$form->setFormAction($this->ctrl->getFormAction($this, 'saveExternalSettingsForm'));
+		$form->setTitle($this->lng->txt('mail_settings_external_frm_head'));
+
 		$pre = new ilTextInputGUI($this->lng->txt('mail_subject_prefix'),'mail_subject_prefix');
 		$pre->setSize(12);
 		$pre->setMaxLength(32);
@@ -274,7 +362,7 @@ class ilObjMailGUI extends ilObjectGUI
 			$this
 		);
 
-		$form->addCommandButton('save', $this->lng->txt('save'));
+		$form->addCommandButton('saveExternalSettingsForm', $this->lng->txt('save'));
 
 		return $form;
 	}
@@ -282,13 +370,9 @@ class ilObjMailGUI extends ilObjectGUI
 	/**
 	 * @param ilPropertyFormGUI $form
 	 */
-	protected function populateGeneralSettingsForm(ilPropertyFormGUI $form)
+	protected function populateExternalSettingsForm(ilPropertyFormGUI $form)
 	{
 		$form->setValuesByArray(array(
-			'mail_allow_external'          => $this->settings->get('mail_allow_external'),
-			'mail_incoming_mail'           => (int)$this->settings->get('mail_incoming_mail'),
-			'mail_maxsize_attach'          => $this->settings->get('mail_maxsize_attach'),
-
 			'mail_subject_prefix'          => $this->settings->get('mail_subject_prefix') ? $this->settings->get('mail_subject_prefix') : '[ILIAS]',
 			'mail_send_html'               => (int)$this->settings->get('mail_send_html'),
 			'mail_external_sender_noreply' => $this->settings->get('mail_external_sender_noreply'),
@@ -299,22 +383,18 @@ class ilObjMailGUI extends ilObjectGUI
 	}
 
 	/**
-	 * @inheritdoc
+	 * 
 	 */
-	public function saveObject()
+	protected function saveExternalSettingsFormObject()
 	{
 		if(!$this->rbacsystem->checkAccess('write', $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
 		}
 
-		$form = $this->getGeneralSettingsForm();
+		$form = $this->getExternalSettingsForm();
 		if($form->checkInput())
 		{
-			$this->settings->set('mail_allow_external', (int)$form->getInput('mail_allow_external'));
-			$this->settings->set('mail_incoming_mail', (int)$form->getInput('mail_incoming_mail'));
-			$this->settings->set('mail_maxsize_attach', $form->getInput('mail_maxsize_attach'));
-
 			$this->settings->set('mail_send_html', $form->getInput('mail_send_html'));
 			$this->settings->set('mail_subject_prefix', $form->getInput('mail_subject_prefix'));
 			$this->settings->set('mail_external_sender_noreply', $form->getInput('mail_external_sender_noreply'));
@@ -322,11 +402,12 @@ class ilObjMailGUI extends ilObjectGUI
 			$this->settings->set('mail_system_sender_name', $form->getInput('mail_system_from_name'));
 			$this->settings->set('mail_system_return_path', $form->getInput('mail_system_return_path'));
 
-			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+			$this->ctrl->redirect($this, 'showExternalSettingsForm');
 		}
 
 		$form->setValuesByPost();
-		$this->showGeneralSettingsForm($form);
+		$this->showExternalSettingsFormObject($form);
 	}
 
 	/**
