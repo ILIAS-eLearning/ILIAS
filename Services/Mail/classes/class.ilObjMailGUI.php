@@ -230,6 +230,15 @@ class ilObjMailGUI extends ilObjectGUI
 		$mn->setTitle($this->lng->txt('mail_member_notification'));
 		$form->addItem($mn);
 
+		$cron_mail = new ilSelectInputGUI($this->lng->txt('cron_mail_notification'), 'mail_notification');
+		$cron_options = array(
+			0 => $this->lng->txt('cron_mail_notification_never'),
+			1 => $this->lng->txt('cron_mail_notification_cron')
+		);
+		$cron_mail->setOptions($cron_options);
+		$cron_mail->setInfo($this->lng->txt('cron_mail_notification_desc'));
+		$form->addItem($cron_mail);
+
 		require_once 'Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php';
 		ilAdministrationSettingsFormHandler::addFieldsToForm(
 			ilAdministrationSettingsFormHandler::FORM_MAIL,
@@ -251,6 +260,7 @@ class ilObjMailGUI extends ilObjectGUI
 			'mail_allow_external'          => $this->settings->get('mail_allow_external'),
 			'mail_incoming_mail'           => (int)$this->settings->get('mail_incoming_mail'),
 			'mail_maxsize_attach'          => $this->settings->get('mail_maxsize_attach'),
+			'mail_notification'            => $this->settings->get('mail_notification')
 		));
 	}
 
@@ -270,6 +280,7 @@ class ilObjMailGUI extends ilObjectGUI
 			$this->settings->set('mail_allow_external', (int)$form->getInput('mail_allow_external'));
 			$this->settings->set('mail_incoming_mail', (int)$form->getInput('mail_incoming_mail'));
 			$this->settings->set('mail_maxsize_attach', $form->getInput('mail_maxsize_attach'));
+			$this->settings->set('mail_notification', (int)$form->getInput('mail_notification'));
 
 			ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 			$this->ctrl->redirect($this);
@@ -311,6 +322,29 @@ class ilObjMailGUI extends ilObjectGUI
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveExternalSettingsForm'));
 		$form->setTitle($this->lng->txt('mail_settings_external_frm_head'));
 
+		$smtp = new ilCheckboxInputGUI($this->lng->txt('mail_smpt_status'), 'mail_smpt_status');
+		$smtp->setInfo($this->lng->txt('mail_smpt_status_info'));
+		$smtp->setValue(1);
+		$form->addItem($smtp);
+
+		$host = new ilTextInputGUI($this->lng->txt('mail_smpt_host'), 'mail_smpt_host');
+		$host->setRequired(true);
+		$smtp->addSubItem($host);
+
+		$port = new ilTextInputGUI($this->lng->txt('mail_smpt_port'), 'mail_smpt_port');
+		$smtp->addSubItem($port);
+		
+		$encryption = new ilSelectInputGUI($this->lng->txt('mail_stmp_encryption'), 'mail_stmp_encryption');
+		$encryptionOptions = array();
+		$encryption->setOptions($encryptionOptions);
+		$smtp->addSubItem($encryption);
+
+		$user = new ilTextInputGUI($this->lng->txt('mail_smpt_user'), 'mail_smpt_user');
+		$smtp->addSubItem($user);
+
+		$password = new ilTextInputGUI($this->lng->txt('mail_smpt_password'), 'mail_smpt_password');
+		$smtp->addSubItem($password);
+
 		$pre = new ilTextInputGUI($this->lng->txt('mail_subject_prefix'),'mail_subject_prefix');
 		$pre->setSize(12);
 		$pre->setMaxLength(32);
@@ -327,6 +361,10 @@ class ilObjMailGUI extends ilObjectGUI
 		$ti->setMaxLength(255);
 		$form->addItem($ti);
 
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($this->lng->txt('mail_settings_user_frm_head'));
+		$form->addItem($sh);
+
 		$system_from_name = new ilTextInputGUI($this->lng->txt('mail_system_from_name'), 'mail_system_from_name');
 		$system_from_name->setInfo($this->lng->txt('mail_system_from_name_info'));
 		$system_from_name->setMaxLength(255);
@@ -337,30 +375,9 @@ class ilObjMailGUI extends ilObjectGUI
 		$system_return_path->setMaxLength(255);
 		$form->addItem($system_return_path);
 
-		$cron_mail = new ilSelectInputGUI($this->lng->txt('cron_mail_notification'), 'mail_notification');
-		$cron_options = array(
-			0 => $this->lng->txt('cron_mail_notification_never'),
-			1 => $this->lng->txt('cron_mail_notification_cron')
-		);
-
-		$cron_mail->setOptions($cron_options);
-		$cron_mail->setInfo($this->lng->txt('cron_mail_notification_desc'));
-		$form->addItem($cron_mail);
-
 		$sh = new ilFormSectionHeaderGUI();
-		$sh->setTitle($this->lng->txt('mail').' ('.$this->lng->txt('internal_system').')');
+		$sh->setTitle($this->lng->txt('mail_settings_system_frm_head'));
 		$form->addItem($sh);
-
-		$mn = new ilFormSectionHeaderGUI();
-		$mn->setTitle($this->lng->txt('mail_member_notification'));
-		$form->addItem($mn);
-
-		require_once 'Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php';
-		ilAdministrationSettingsFormHandler::addFieldsToForm(
-			ilAdministrationSettingsFormHandler::FORM_MAIL,
-			$form,
-			$this
-		);
 
 		$form->addCommandButton('saveExternalSettingsForm', $this->lng->txt('save'));
 
@@ -376,7 +393,6 @@ class ilObjMailGUI extends ilObjectGUI
 			'mail_subject_prefix'          => $this->settings->get('mail_subject_prefix') ? $this->settings->get('mail_subject_prefix') : '[ILIAS]',
 			'mail_send_html'               => (int)$this->settings->get('mail_send_html'),
 			'mail_external_sender_noreply' => $this->settings->get('mail_external_sender_noreply'),
-			'mail_notification'            => $this->settings->get('mail_notification'),
 			'mail_system_from_name'        => $this->settings->get('mail_system_sender_name'),
 			'mail_system_return_path'      => $this->settings->get('mail_system_return_path')
 		));
@@ -398,7 +414,6 @@ class ilObjMailGUI extends ilObjectGUI
 			$this->settings->set('mail_send_html', $form->getInput('mail_send_html'));
 			$this->settings->set('mail_subject_prefix', $form->getInput('mail_subject_prefix'));
 			$this->settings->set('mail_external_sender_noreply', $form->getInput('mail_external_sender_noreply'));
-			$this->settings->set('mail_notification', (int)$form->getInput('mail_notification'));
 			$this->settings->set('mail_system_sender_name', $form->getInput('mail_system_from_name'));
 			$this->settings->set('mail_system_return_path', $form->getInput('mail_system_return_path'));
 
