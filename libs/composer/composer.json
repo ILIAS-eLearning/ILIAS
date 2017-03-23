@@ -139,6 +139,46 @@
 			"last_update": "2016-08-03",
 			"last_update_by": "Thomas Joußen <tjoussen@databay.de>"
 		},
+		"guzzlehttp/psr7" : {
+			"source": "https://github.com/guzzle/psr7",
+			"used_version": "v1.3.1",
+			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
+			"wrapped_by": "ILIAS\\HTTP\\Request\\RequestFactory and ILIAS\\HTTP\\Response\\ResponseFactory",
+			"last_update": "2016-11-14",
+			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>"
+		},
+		"ralouphie/getallheaders" : {
+			"source": "https://github.com/ralouphie/getallheaders",
+			"used_version": "v2.0.5",
+			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
+			"wrapped_by": null,
+			"last_update": "2016-12-16",
+			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>"
+		},
+		"psr/http-message" : {
+			"source": "https://github.com/php-fig/http-message",
+			"used_version": "v1.0.1",
+			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
+			"wrapped_by": "",
+			"last_update": "2016-11-14",
+			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>"
+		},
+		"dflydev/fig-cookies" : {
+			"source": "https://github.com/dflydev/dflydev-fig-cookies",
+			"used_version": "v1.0.2",
+			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
+			"wrapped_by": "ILIAS\\HTTP\\Cookies\\CookieJarWrapper",
+			"last_update": "2016-11-14",
+			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>"
+		},
+		"mockery/mockery" : {
+			"source": "https://github.com/padraic/mockery",
+			"used_version": "v0.9.6",
+			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
+			"wrapped_by": null,
+			"last_update": "2016-12-16",
+			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>"
+		},
 		"patches": {
 			"tecnickcom/tcpdf": {
 				"ILIAS TCPDF Patches": "patches/tcpdf.patch"
