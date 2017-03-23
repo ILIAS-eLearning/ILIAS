@@ -92,7 +92,7 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
 		{
 			if(!$room->isOwnerOfPrivateRoom($ilUser->getId(), $_REQUEST['sub']))
 			{
-				if(!ilChatroom::checkPermissionsOfUser($ilUser->getId(), array('read', 'moderate'), $this->gui->ref_id))
+				if(!ilChatroom::checkUserPermissions(array('read', 'moderate'), $this->gui->ref_id))
 				{
 					$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
 					$ilCtrl->redirectByClass("ilrepositorygui", "");

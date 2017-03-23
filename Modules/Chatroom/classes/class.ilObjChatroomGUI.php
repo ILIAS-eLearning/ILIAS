@@ -64,7 +64,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 		$ref_id = $parts[0];
 		$sub    = $parts[1];
 
-		if($rbacsystem->checkAccess('read', $ref_id))
+		if(ilChatroom::checkUserPermissions('read', $ref_id, false))
 		{
 			if($sub)
 			{

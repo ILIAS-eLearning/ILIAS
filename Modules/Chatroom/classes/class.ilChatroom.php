@@ -44,56 +44,88 @@ class ilChatroom
 
 	/**
 	 * Checks user permissions by given array and ref_id.
-	 * @global  Rbacsystem $rbacsystem
-	 * @param   mixed      $permissions
-	 * @param   integer    $ref_id
+	 * @param string|array  $permissions
+	 * @param integer       $ref_id
+	 * @param bool          $send_info
+	 * @return bool
 	 */
 	public static function checkUserPermissions($permissions, $ref_id, $send_info = true)
 	{
-		global $rbacsystem, $lng;
+		global $DIC;
 
 		if(!is_array($permissions))
 		{
 			$permissions = array($permissions);
 		}
 
-		foreach($permissions as $permission)
+		$hasPermissions = self::checkPermissions($DIC->user()->getId(), $ref_id, $permissions);
+		if(!$hasPermissions && $send_info)
 		{
-			if(!$rbacsystem->checkAccess($permission, $ref_id))
-			{
-				if($send_info)
-				{
-					ilUtil::sendFailure($lng->txt("permission_denied"), true);
-				}
-				return false;
-			}
+			ilUtil::sendFailure($DIC->language()->txt('permission_denied'), true);
+
+			return false;
 		}
 
-		return true;
+		return $hasPermissions;
 	}
 
 	/**
 	 * Checks user permissions in question for a given user id in relation
 	 * to a given ref_id.
-	 * @global ilRbacSystem $rbacsystem
-	 * @global ilLanguage   $lng
 	 * @param integer       $usr_id
-	 * @param mixed         $permissions
+	 * @param array|string  $permissions
 	 * @param integer       $ref_id
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function checkPermissionsOfUser($usr_id, $permissions, $ref_id)
 	{
-		global $rbacsystem, $lng;
-
 		if(!is_array($permissions))
 		{
 			$permissions = array($permissions);
 		}
 
+		return self::checkPermissions($usr_id, $ref_id, $permissions);
+	}
+
+	/**
+	 * @param int   $usrId
+	 * @param int   $refId
+	 * @param array $permissions
+	 * @return bool
+	 */
+	protected static function checkPermissions($usrId, $refId, array $permissions)
+	{
+		global $DIC;
+
+		require_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
+		$pub_ref_id = ilObjChatroom::_getPublicRefId();
+
 		foreach($permissions as $permission)
 		{
-			if(!$rbacsystem->checkAccessOfUser($usr_id, $permission, $ref_id))
+			if($pub_ref_id == $refId)
+			{
+				$hasAccess = $DIC->rbac()->system()->checkAccessOfUser($usrId, $permission, $refId);
+				if($hasAccess)
+				{
+					$hasWritePermission = $DIC->rbac()->system()->checkAccessOfUser($usrId, 'write', $refId);
+					if($hasWritePermission)
+					{
+						continue;
+					}
+
+					$a_obj_id = ilObject::_lookupObjId($refId);
+					if(!ilObjChatroomAccess::lookupOnline($a_obj_id))
+					{
+						return false;
+					}
+				}
+			}
+			else
+			{
+				$hasAccess = $DIC->access()->checkAccessOfUser($usrId, $permission, '', $refId);
+			}
+
+			if(!$hasAccess)
 			{
 				return false;
 			}

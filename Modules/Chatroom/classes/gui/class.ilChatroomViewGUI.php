@@ -101,11 +101,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		 */
 		global $tpl, $ilUser, $ilCtrl, $rbacsystem, $lng, $ilNavigationHistory;
 
-		if(!ilChatroom::checkUserPermissions('read', $this->gui->ref_id))
-		{
-			$ilCtrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
-			$ilCtrl->redirectByClass('ilrepositorygui', '');
-		}
+		$this->redirectIfNoPermission('read');
 
 		$user_id = $chat_user->getUserId($ilUser);
 
@@ -153,7 +149,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		$initial->private_rooms_enabled = (boolean)$room->getSetting('private_rooms_enabled');
 
 		$initial->userinfo = array(
-			'moderator' => $rbacsystem->checkAccess('moderate', (int)$_GET['ref_id']),
+			'moderator' => ilChatroom::checkUserPermissions('moderate', (int)$_GET['ref_id'], false),
 			'id'        => $chat_user->getUserId(),
 			'login'     => $chat_user->getUsername()
 		);
@@ -455,7 +451,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
 		include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
-		ilChatroom::checkUserPermissions('read', $this->gui->ref_id);
+		$this->redirectIfNoPermission('read');
 
 		$this->gui->switchToVisibleMode();
 		$this->setupTemplate();

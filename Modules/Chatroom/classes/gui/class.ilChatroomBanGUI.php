@@ -52,7 +52,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 	{
 		include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
-		ilChatroom::checkUserPermissions('read', $this->gui->ref_id);
+		$this->redirectIfNoPermission('read');
 
 		$this->gui->switchToVisibleMode();
 
