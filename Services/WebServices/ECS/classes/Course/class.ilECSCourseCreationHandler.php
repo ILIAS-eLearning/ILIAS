@@ -182,7 +182,7 @@ class ilECSCourseCreationHandler
 			return $this->doSync($a_content_id,$course,ilObject::_lookupObjId($this->getMapping()->getDefaultCourseCategory()));
 		}
 		// map according mapping rules
-		$parent_ref = ilECSCourseMappingRule::doMappings($course,$this->getServer()->getServerId(),$this->getMid(),$ref_id);
+		$parent_ref = ilECSCourseMappingRule::doMappings($course,$this->getServer()->getServerId(),$this->getMid(),$matching_rule);
 		$this->doSync($a_content_id, $course, ilObject::_lookupObjId($parent_ref));
 		return true;
 	}
@@ -422,6 +422,7 @@ class ilECSCourseCreationHandler
 	{
 		include_once './Modules/Course/classes/class.ilObjCourse.php';
 		$course_obj = new ilObjCourse();
+		$course_obj->setOwner(6);
 		$title = strlen($group->title) ? $group->title : $course->title;
 		$GLOBALS['ilLog']->write(__METHOD__.': Creating new parallel course instance from ecs : '. $title);
 		$course_obj->setTitle($title);
@@ -592,6 +593,7 @@ class ilECSCourseCreationHandler
 	{
 		include_once './Modules/Course/classes/class.ilObjCourse.php';
 		$course_obj = new ilObjCourse();
+		$course_obj->setOwner(6);
 		$title = $course->title;
 		$GLOBALS['ilLog']->write(__METHOD__.': Creating new course instance from ecs : '. $title);
 		$course_obj->setTitle($title);
