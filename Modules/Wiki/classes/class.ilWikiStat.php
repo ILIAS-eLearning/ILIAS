@@ -460,7 +460,7 @@ class ilWikiStat
 		$sql = "SELECT * ".						
 			" FROM wiki_stat_page".
 			" WHERE wiki_id = ".$ilDB->quote($a_page_obj->getWikiId(), "integer").
-			" AND page_id = ".$ilDB->quote($a_page_obj->getId(), "integer");
+			" AND page_id = ".$ilDB->quote($a_page_obj->getId(), "integer") .
 			" ORDER BY ts DESC";
 		$ilDB->setLimit(1);
 		$set = $ilDB->query($sql);

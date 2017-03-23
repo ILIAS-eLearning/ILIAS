@@ -446,9 +446,7 @@ class ilSystemStyleSkinContainer {
 	 * @return string
 	 */
 	protected function getLessMainFileDefautContent(ilSkinStyleXML $style){
-		$less_delos_import = $this->getSystemStylesConf()->getDelosPath();
-		$less_delos_import = str_replace("./","../../../../",$less_delos_import);
-		$content = "@import \"".$less_delos_import."\";\n";
+		$content = "@import \"".$this->getSystemStylesConf()->getRelDelosPath()."\";\n";
 		$content .= "// Import Custom Less Files here\n";
 
 		$content .= "@import \"".$this->getLessVariablesName($style->getId())."\";\n";

@@ -338,7 +338,7 @@ class ilObjAdvancedEditing extends ilObject
 	*
 	* @return array HTML tags
 	*/
-	function &_getAllHTMLTags()
+	public static function _getAllHTMLTags()
 	{
 		$tags = array(
 			"a",

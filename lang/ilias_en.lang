@@ -875,7 +875,7 @@ assessment#:#print_answers#:#Print Answers###deprecated
 assessment#:#qpl_qst_edit_form_taxonomy_section#:#Taxonomies
 assessment#:#qpl_qst_edit_form_taxonomy#:#Taxonomy "%s"
 assessment#:#qpl_answertext_fields_not_filled#:#The question could only be saved, if you fill out all answer text fields!###deprecated 
-assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.
+assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question has not yet been used in a test.
 assessment#:#qpl_assessment_of_questions#:#Assessment of Questions###deprecated 
 assessment#:#qpl_assessment_total_of_answers#:#Total of Answers
 assessment#:#qpl_assessment_total_of_right_answers#:#Total Percentage of Correct Answers (percentage of maximum points)
@@ -913,7 +913,7 @@ assessment#:#qpl_settings_subtab_taxonomies#:#Taxonomies
 assessment#:#qpl_form_general_settings#:#General Settings
 assessment#:#qpl_settings_general_form_property_online_description#:#Only online question pools could be used in tests.
 assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possibly created taxonomies are shown for filtering.
+assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Existing taxonomies in this pool are offered for question filtering.
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies
 assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.
 assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool
@@ -1038,7 +1038,7 @@ assessment#:#starting_time_not_reached#:#You have not reached the start time###d
 assessment#:#statistical_data#:#Statistical Data
 assessment#:#statistics#:#Statistics
 assessment#:#suggested_solution_added_successfully#:#You successfully set a content for recapitulation!
-assessment#:#suggestedSolutionType#:#refer to
+assessment#:#suggestedSolutionType#:#Refer to
 assessment#:#symbol#:#Symbol###deprecated 
 assessment#:#term_image#:#Term Image
 assessment#:#term_text#:#Term Text

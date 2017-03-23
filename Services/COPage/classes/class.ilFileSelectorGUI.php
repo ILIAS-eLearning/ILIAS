@@ -70,7 +70,7 @@ class ilFileSelectorGUI extends ilExplorer
 		{
 			return true;
 		}
-		false;
+		return false;
 	}
 
 	/**
