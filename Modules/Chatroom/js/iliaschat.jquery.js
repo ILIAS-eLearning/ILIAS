@@ -1549,13 +1549,18 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	 * @private
 	 */
 	function _initSubmit() {
-		$('#submit_message').click( function() {
+		$('#submit_message').click(function(e) {
+			e.preventDefault();
+			e.stopPropagation();
 			_sendMessage();
 		});
 
 		// when the client hits ENTER on their keyboard
 		$('#submit_message_text').keypress(function(e) {
 			if(e.which == 13) {
+				e.preventDefault();
+				e.stopPropagation();
+
 				$(this).blur();
 				_sendMessage();
 			}
