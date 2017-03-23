@@ -2290,7 +2290,7 @@ common#:#cron_jobs#:#Cron Jobs
 common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at ’Administration -> Search’.
 common#:#cron_lucene_index#:#Update Lucene search index
 common#:#cron_mail_notification_cron#:#regularly per cron job
-common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail. Please deactivate the option ‘Globally prevent sending external mails’ first to use this function.
+common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail. Please enable the option ‘%s’ first to use this function.
 common#:#cron_mail_notification_never#:#never
 common#:#cron_mail_notification#:#Send Mail Notifications
 common#:#crs_a#:#a Course###deprecated 
@@ -7007,7 +7007,7 @@ mail#:#goto_invitation_chat#:#Open Chat Room
 mail#:#info_mail_external_sender_noreply#:#Please enter the e-mail that shall be used as sender's address for automatically created system messages and notifications send by e-mail. <b<Note</b>: Use only a real existing address to avoid the rejection of such mails by spam filters and mail servers,
 mail#:#invite_to_chat#:#Invite to Chat
 mail#:#linebreak#:#Line break
-mail#:#mail_send_html#:#HTML Frame for External Emails
+mail#:#mail_send_html#:#HTML Frame
 mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .
 mail#:#mail_account_mail#:#Account Mail
 mail#:#mail_add_recipient#:#Please enter a recipient

@@ -2800,7 +2800,7 @@ common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
 common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene-Suchindex aktualisiert. Bitte konfigurieren Sie vorher den Lucene-Server unter 'Administration » Suche'.
 common#:#cron_mail_notification#:#Mail-Benachrichtigungen versenden
 common#:#cron_mail_notification_cron#:#Regelmäßig per Cron-Job
-common#:#cron_mail_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Benutzer über neue Mails benachrichtigt. Bitte deaktivieren Sie vorher die Option 'Versand von externen E-Mails verhinden' um diese Funktion nutzen zu können.
+common#:#cron_mail_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Benutzer über neue Mails benachrichtigt. Bitte aktivieren Sie vorher die Option '%s' um diese Funktion nutzen zu können.
 common#:#cron_mail_notification_message#:#Mail-Benachrichtigungen mit Inhalt versenden
 common#:#cron_mail_notification_message_info#:#Wenn diese Option eingeschaltet ist, werden die Mail-Benachrichtigungen mit dem Inhalt der Mails an die Benutzer versendet.
 common#:#cron_mail_notification_never#:#Nie
@@ -8083,7 +8083,7 @@ mail#:#goto_invitation_chat#:#Öffne Chatraum
 mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail-Adresse ein, die als Absender für automatisch generierte System- oder Benachrichtigungsmails verwendet werden soll. <b>Hinweis</b>: Diese Adresse muss tatsächlich existieren, damit entsprechende Mails nicht von Spam-Filtern und Mail-Servern abgelehnt werden.
 mail#:#invite_to_chat#:#in Chat einladen
 mail#:#linebreak#:#Zeilenumbruch
-mail#:#mail_send_html#:#HTML-Rahmen für externe E-Mails
+mail#:#mail_send_html#:#HTML-Rahmen
 mail#:#mail_send_html_info#:#Falls aktiviert, wird der Nachrichtentext von externen E-Mails in einen HTML-Rahmen gesetzt. Dieser kann über ein Skin-Template unter './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' (als Kopie von './Services/Mail/templates/default/tpl.html_mail_template.html') angepasst werden. 
 mail#:#mail_account_mail#:#Benutzerkonten-Mail
 mail#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein

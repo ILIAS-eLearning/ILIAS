@@ -238,7 +238,7 @@ class ilObjMailGUI extends ilObjectGUI
 			1 => $this->lng->txt('cron_mail_notification_cron')
 		);
 		$cron_mail->setOptions($cron_options);
-		$cron_mail->setInfo($this->lng->txt('cron_mail_notification_desc'));
+		$cron_mail->setInfo(sprintf($this->lng->txt('cron_mail_notification_desc'), $this->lng->txt('mail_allow_external')));
 		$form->addItem($cron_mail);
 
 		require_once 'Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php';
