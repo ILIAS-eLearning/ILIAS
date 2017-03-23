@@ -214,31 +214,25 @@
 		<xsl:variable name="corig"><xsl:value-of select="../@Id"/></xsl:variable>
 		<xsl:variable name="corigp"><xsl:value-of select="@Purpose"/></xsl:variable>
 		
-		<xsl:choose>
-			<!-- If we got a alias item map, take this -->
-			<xsl:when test="//MediaAlias[@OriginId = $corig]/../MediaAliasItem[@Purpose = $corigp]/MapArea[1]">
-				<xsl:for-each select="//MediaAlias[@OriginId = $corig]/../MediaAliasItem[@Purpose = $corigp]/MapArea[1]">
-					<map>
-						<xsl:attribute name="name">map_<xsl:value-of select="$corig"/>_<xsl:value-of select="$corigp"/></xsl:attribute>
-						<xsl:if test="name(../..) = 'InteractiveImage'">
-							<xsl:attribute name="class">iim</xsl:attribute>
-						</xsl:if>
-						<xsl:call-template name="outputImageMapAreas" />
-						<xsl:comment>Break</xsl:comment>
-					</map>
-				</xsl:for-each>
-			</xsl:when>
-			<xsl:otherwise>
-				<!-- Otherwose, if we got an object item map, take this -->
-				<xsl:for-each select="./MapArea[1]">
-					<map>
-						<xsl:attribute name="name">map_<xsl:value-of select="$corig"/>_<xsl:value-of select="$corigp"/></xsl:attribute>
-						<xsl:call-template name="outputImageMapAreas" />
-						<xsl:comment>Break</xsl:comment>
-					</map>
-				</xsl:for-each>
-			</xsl:otherwise>
-		</xsl:choose>
+			<!-- Maps for alias items -->
+			<xsl:for-each select="//MediaAlias[@OriginId = $corig]/../MediaAliasItem[@Purpose = $corigp]/MapArea[1]">
+				<map>
+					<xsl:attribute name="name">map_<xsl:value-of select="$corig"/>_<xsl:value-of select="$corigp"/>_<xsl:number count="MediaAliasItem" level="any" /></xsl:attribute>
+					<xsl:if test="name(../..) = 'InteractiveImage'">
+						<xsl:attribute name="class">iim</xsl:attribute>
+					</xsl:if>
+					<xsl:call-template name="outputImageMapAreas" />
+					<xsl:comment>Break</xsl:comment>
+				</map>
+			</xsl:for-each>
+			<!-- Default map -->
+			<xsl:for-each select="./MapArea[1]">
+				<map>
+					<xsl:attribute name="name">map_<xsl:value-of select="$corig"/>_<xsl:value-of select="$corigp"/></xsl:attribute>
+					<xsl:call-template name="outputImageMapAreas" />
+					<xsl:comment>Break</xsl:comment>
+				</map>
+			</xsl:for-each>
 	</xsl:for-each>
 </xsl:template>
 
@@ -2498,7 +2492,6 @@
 	<xsl:param name="curPurpose"/>
 	<xsl:param name="data"/>
 	<xsl:param name="inline"/>
-
 	<img border="0">
 		<xsl:if test = "$map_item = '' or $cmobid != concat('il__mob_',$map_mob_id)">
 			<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
@@ -2516,6 +2509,10 @@
 			or ./MapArea[@Shape != 'WholePicture'][1]">
 			<xsl:if test="name(..) != 'InteractiveImage' or $mode != 'edit'">
 				<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>
+				<!-- If we got an alias item map, add counter for item to the map id -->
+				<xsl:if test="./MapArea[1]">
+					<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/>_<xsl:number count="MediaAliasItem" level="any" /></xsl:attribute>
+				</xsl:if>
 			</xsl:if>
 		</xsl:if>
 		<xsl:if test="name(..) = 'InteractiveImage'">
