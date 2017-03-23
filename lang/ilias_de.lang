@@ -8176,6 +8176,15 @@ mail#:#mail_smtp_encryption#:#Verschlüsselung
 mail#:#mail_smtp_user#:#Benutzer
 mail#:#mail_smtp_password#:#Passwort
 mail#:#mail_smtp_password_req#:#Sofern Sie einen Benutzer angeben, ist das Passwort obligatorisch.
+mail#:#mail_system_usr_from_addr#:#E-Mail-Adresse des Absenders (From)
+mail#:#mail_system_usr_from_name#:#Name des Absenders (From)
+mail#:#mail_system_usr_from_name_info#:#Als Platzhalter können [[FIRSTNAME]] und [[LASTNAME]] genutzt werden.
+mail#:#mail_system_usr_head_env_from_addr#:#Return-Path (Envelope-From)
+mail#:#mail_system_sys_from_addr#:#E-Mail-Adresse des Absenders (From)
+mail#:#mail_system_sys_from_name#:#Name des Absenders (From)
+mail#:#mail_system_sys_reply_to_addr#:#Reply-To
+mail#:#mail_system_sys_return_path_addr#:#Return-Path (Envelope-From)
+mail#:#mail_system_sys_signature#:#Signatur
 mail#:#mail_s#:#Mails
 mail#:#mail_salutation_anonymous#:#Hallo
 mail#:#mail_salutation_f#:#Hallo

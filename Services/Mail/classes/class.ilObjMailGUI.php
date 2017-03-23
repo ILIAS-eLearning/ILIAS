@@ -376,19 +376,40 @@ class ilObjMailGUI extends ilObjectGUI
 		$sh->setTitle($this->lng->txt('mail_settings_user_frm_head'));
 		$form->addItem($sh);
 
-		$system_from_name = new ilTextInputGUI($this->lng->txt('mail_system_from_name'), 'mail_system_from_name');
-		$system_from_name->setInfo($this->lng->txt('mail_system_from_name_info'));
-		$system_from_name->setMaxLength(255);
-		$form->addItem($system_from_name);
+		$user_from_address = new ilEMailInputGUI($this->lng->txt('mail_system_usr_from_addr'), 'mail_system_usr_from_addr');
+		$user_from_address->setRequired(true);
+		$form->addItem($user_from_address);
 
-		$system_return_path = new ilTextInputGUI($this->lng->txt('mail_system_return_path'), 'mail_system_return_path');
-		$system_return_path->setInfo($this->lng->txt('mail_system_return_path_info'));
-		$system_return_path->setMaxLength(255);
-		$form->addItem($system_return_path);
+		$user_from_name = new ilTextInputGUI($this->lng->txt('mail_system_usr_from_name'), 'mail_system_usr_from_name');
+		$user_from_name->setInfo($this->lng->txt('mail_system_usr_from_name_info'));
+		$user_from_name->setRequired(true);
+		$form->addItem($user_from_name);
+
+		$user_envelope_from_addr = new ilEMailInputGUI($this->lng->txt('mail_system_usr_head_env_from_addr'), 'mail_system_usr_head_env_from_addr');
+		$user_envelope_from_addr->setInfo($this->lng->txt('mail_system_usr_head_env_from_addr_info'));
+		$form->addItem($user_envelope_from_addr);
 
 		$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($this->lng->txt('mail_settings_system_frm_head'));
 		$form->addItem($sh);
+
+		$system_from_addr = new ilEMailInputGUI($this->lng->txt('mail_system_sys_from_addr'), 'mail_system_sys_from_addr');
+		$system_from_addr->setRequired(true);
+		$form->addItem($system_from_addr);
+
+		$system_from_name = new ilTextInputGUI($this->lng->txt('mail_system_sys_from_name'), 'mail_system_sys_from_name');
+		$system_from_name->setRequired(true);
+
+		$system_reply_to_addr = new ilEMailInputGUI($this->lng->txt('mail_system_sys_reply_to_addr'), 'mail_system_sys_reply_to_addr');
+		$system_reply_to_addr->setRequired(true);
+		$form->addItem($system_reply_to_addr);
+
+		$system_return_path = new ilEMailInputGUI($this->lng->txt('mail_system_sys_return_path_addr'), 'mail_system_sys_return_path_addr');
+		$system_return_path->setInfo($this->lng->txt('mail_system_sys_return_path_addr_info'));
+		$form->addItem($system_return_path);
+
+		$signature = new ilTextAreaInputGUI($this->lng->txt('mail_system_sys_signature'), 'mail_system_sys_signature');
+		$form->addItem($signature);
 
 		$form->addCommandButton('saveExternalSettingsForm', $this->lng->txt('save'));
 

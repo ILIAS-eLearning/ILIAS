@@ -9498,6 +9498,15 @@ mail#:#mail_smtp_encryption#:#Encryption
 mail#:#mail_smtp_user#:#User
 mail#:#mail_smtp_password#:#Password
 mail#:#mail_smtp_password_req#:#If you defined a user for authentication purposes, a password must be set.
+mail#:#mail_system_usr_from_addr#:#Sender Email (From)
+mail#:#mail_system_usr_from_name#:#Sender Fullname (From)
+mail#:#mail_system_usr_from_name_info#:#You can use [[FIRSTNAME]] and [[LASTNAME]] as placeholders.
+mail#:#mail_system_usr_head_env_from_addr#:#Return-Path (Envelope-From)
+mail#:#mail_system_sys_from_addr#:#Sender Email (From)
+mail#:#mail_system_sys_from_name#:#Sender FUllname (From)
+mail#:#mail_system_sys_reply_to_addr#:#Reply-To
+mail#:#mail_system_sys_return_path_addr#:#Return-Path (Envelope-From)
+mail#:#mail_system_sys_signature#:#Signature
 content#:#glo_quick_navigation#:#Quick Navigation
 forum#:#post_reply#:#Re:
 forum#:#preset_subject#:#Preset subject on reply
