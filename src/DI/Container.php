@@ -85,7 +85,7 @@ class Container extends \Pimple\Container {
 	/**
 	 * Get interface to the toolbar.
 	 *
-	 * @return	\ilLanguage
+	 * @return	\ilToolbarGUI
 	 */
 	public function toolbar() {
 		return $this["ilToolbar"];
