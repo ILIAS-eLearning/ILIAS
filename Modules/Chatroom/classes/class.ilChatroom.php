@@ -113,10 +113,31 @@ class ilChatroom
 						continue;
 					}
 
+					$visible  = null;
 					$a_obj_id = ilObject::_lookupObjId($refId);
-					if(!ilObjChatroomAccess::lookupOnline($a_obj_id))
+					$active   = ilObjChatroomAccess::isActivated($refId, $a_obj_id, $visible);
+
+					switch($permission)
 					{
-						return false;
+						case 'visible':
+							if(!$active)
+							{
+								$GLOBALS['DIC']->access()->addInfoItem(IL_NO_OBJECT_ACCESS, $GLOBALS['DIC']->language()->txt('offline'));
+							}
+
+							if(!$active && !$visible)
+							{
+								return false;
+							}
+							break;
+
+						case 'read':
+							if(!$active)
+							{
+								$GLOBALS['DIC']->access()->addInfoItem(IL_NO_OBJECT_ACCESS, $GLOBALS['DIC']->language()->txt('offline'));
+								return false;
+							}
+							break;
 					}
 				}
 			}

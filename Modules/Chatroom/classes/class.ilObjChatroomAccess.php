@@ -65,26 +65,24 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 	 */
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		/**
-		 * @var $ilUser     ilObjUser
-		 * @var $rbacsystem ilRbacSystem
-		 * @var $ilAccess   ilAccessHandler
-		 * @var $lng        ilLanguage
-		 */
-		global $ilUser, $rbacsystem, $ilAccess, $lng;
+		if($a_user_id == '')
+		{
+			$a_user_id = $GLOBALS['DIC']->user()->getId();
+		}
 
+		return self::checkRoomAccess($a_permission, $a_ref_id, $a_obj_id, $a_user_id);
+	}
+	
+	
+	public static function checkRoomAccess($a_permission, $a_ref_id, $a_obj_id, $a_user_id)
+	{
 		if(self::$chat_enabled === null)
 		{
 			$chatSetting        = new ilSetting('chatroom');
 			self::$chat_enabled = (boolean)$chatSetting->get('chat_enabled');
 		}
 
-		if($a_user_id == '')
-		{
-			$a_user_id = $ilUser->getId();
-		}
-
-		if($rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
+		if($GLOBALS['DIC']->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
 		{
 			return true;
 		}
@@ -95,11 +93,11 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 				$visible = null;
 
 				$active           = self::isActivated($a_ref_id, $a_obj_id, $visible);
-				$hasWriteAccess   = $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+				$hasWriteAccess   = $GLOBALS['DIC']->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
 
 				if(!$active)
 				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt('offline'));
+					$GLOBALS['DIC']->access()->addInfoItem(IL_NO_OBJECT_ACCESS, $GLOBALS['DIC']->language()->txt('offline'));
 				}
 
 				if(!$hasWriteAccess && !$active && !$visible)
@@ -109,7 +107,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 				break;
 
 			case 'read':
-				$hasWriteAccess = $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+				$hasWriteAccess = $GLOBALS['DIC']->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
 				if($hasWriteAccess)
 				{
 					return true;
@@ -118,7 +116,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 				$active = self::isActivated($a_ref_id, $a_obj_id);
 				if(!$active)
 				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt('offline'));
+					$GLOBALS['DIC']->access()->addInfoItem(IL_NO_OBJECT_ACCESS, $GLOBALS['DIC']->language()->txt('offline'));
 					return false;
 				}
 				break;
