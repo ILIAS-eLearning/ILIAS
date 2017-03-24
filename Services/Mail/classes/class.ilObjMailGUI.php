@@ -113,7 +113,10 @@ class ilObjMailGUI extends ilObjectGUI
 		{
 			$this->tabs->addTarget(
 				'settings',
-				$this->ctrl->getLinkTarget($this, 'view'), array('view', 'save', '', 'showExternalSettingsForm', 'saveExternalSettingsForm'), '', ''
+				$this->ctrl->getLinkTarget($this, 'view'), array(
+					'view', 'save', '', 'showExternalSettingsForm', 'saveExternalSettingsForm',
+					'sendTestUserMail', 'sendTestSystemMail'
+				), '', ''
 			);
 		}
 
@@ -310,7 +313,45 @@ class ilObjMailGUI extends ilObjectGUI
 			$this->populateExternalSettingsForm($form);
 		}
 
+		if((bool)$this->settings->get('mail_smtp_status') && strlen($GLOBALS['DIC']->user()->getEmail()) > 0)
+		{
+			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+
+			$btn = ilLinkButton::getInstance();
+			$btn->setUrl($this->ctrl->getLinkTarget($this, 'sendTestUserMail'));
+			$btn->setCaption('mail_external_send_test_usr');
+			$GLOBALS['DIC']->toolbar()->addButtonInstance($btn);
+
+			$btn = ilLinkButton::getInstance();
+			$btn->setUrl($this->ctrl->getLinkTarget($this, 'sendTestSystemMail'));
+			$btn->setCaption('mail_external_send_test_sys');
+			$GLOBALS['DIC']->toolbar()->addButtonInstance($btn);
+		}
+
 		$this->tpl->setContent($form->getHTML());
+	}
+
+	protected function sendTestUserMailObject()
+	{
+		// @todo
+		$this->sendTestMail();
+	}
+
+	protected function sendTestSystemMailObject()
+	{
+		// @todo
+		$this->sendTestMail();
+	}
+	
+	protected function sendTestMail()
+	{
+		if(!$this->accessHandler->checkAccess('write,read', '', $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
+		}
+
+		ilUtil::sendSuccess($this->lng->txt('mail_external_test_sent'));
+		$this->showExternalSettingsFormObject();
 	}
 
 	/**
