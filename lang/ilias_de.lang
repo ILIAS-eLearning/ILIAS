@@ -2798,7 +2798,7 @@ common#:#cron_jobs#:#Cron-Jobs
 common#:#cron_jobs_desc#:#Ein Cron-Job ist ein automatisierter Prozess, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-Jobs in der Installationsanleitung.
 common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
 common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene-Suchindex aktualisiert. Bitte konfigurieren Sie vorher den Lucene-Server unter 'Administration » Suche'.
-common#:#cron_mail_notification#:#Mail-Benachrichtigungen versenden
+common#:#cron_mail_notification#:#E-Mail-Benachrichtigungen für neue Nachrichten versenden
 common#:#cron_mail_notification_cron#:#Regelmäßig per Cron-Job
 common#:#cron_mail_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Benutzer über neue Mails benachrichtigt. Bitte aktivieren Sie vorher die Option '%s' um diese Funktion nutzen zu können.
 common#:#cron_mail_notification_message#:#Mail-Benachrichtigungen mit Inhalt versenden

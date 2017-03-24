@@ -2292,7 +2292,7 @@ common#:#cron_lucene_index#:#Update Lucene search index
 common#:#cron_mail_notification_cron#:#regularly per cron job
 common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail. Please enable the option ‘%s’ first to use this function.
 common#:#cron_mail_notification_never#:#never
-common#:#cron_mail_notification#:#Send Mail Notifications
+common#:#cron_mail_notification#:#New Mail Notifications
 common#:#crs_a#:#a Course###deprecated 
 common#:#crs_activation_start_invalid#:#The start and the finish time is not valid.
 common#:#crs_add#:#Add Course
