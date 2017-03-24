@@ -15857,6 +15857,7 @@ chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
 usr#:#user_actions#:#Benutzeraktionen
 usr#:#user_action#:#Benuzteraktion
 chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.
+chatroom#:#chtr_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Chatraumtitel angezeigt, die Inhalte aber nicht.
 chatroom#:#chtr_server_status#:#Server-Status
 chatroom#:#chtr_ban_actor_tbl_head#:#Actor
 chatroom#:#chtr_ban_ts_tbl_head#:#Zeitpunkt
