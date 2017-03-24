@@ -57,6 +57,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 				$this->gui->object->setAccessType(ilObjectActivation::TIMINGS_ACTIVATION);
 				$this->gui->object->setAccessBegin($period->getStart()->get(IL_CAL_UNIX));
 				$this->gui->object->setAccessEnd($period->getEnd()->get(IL_CAL_UNIX));
+				$this->gui->object->setAccessVisibility((int)$settingsForm->getInput('access_visibility'));
 			}
 			else
 			{
@@ -126,7 +127,8 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 				'access_period'         => array(
 					'start' => $this->gui->object->getAccessBegin() ? new ilDateTime($this->gui->object->getAccessBegin(), IL_CAL_UNIX) : null,
 					'end'   => $this->gui->object->getAccessEnd()   ? new ilDateTime($this->gui->object->getAccessEnd(), IL_CAL_UNIX) : null
-				)
+				),
+				'access_visibility' => $this->gui->object->getAccessVisibility()
 			);
 
 			if($room)

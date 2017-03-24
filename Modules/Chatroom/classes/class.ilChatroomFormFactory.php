@@ -129,6 +129,11 @@ class ilChatroomFormFactory
 		$dur->setShowTime(true);
 		$form->addItem($dur);
 
+		$visible = new ilCheckboxInputGUI($lng->txt('rep_activation_limited_visibility'), 'access_visibility');
+		$visible->setValue(1);
+		$visible->setInfo($lng->txt('chtr_activation_limited_visibility_info'));
+		$dur->addSubItem($visible);
+
 		return $form;
 	}
 
