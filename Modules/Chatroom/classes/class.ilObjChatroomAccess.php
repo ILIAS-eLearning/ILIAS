@@ -79,7 +79,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 			self::$chat_enabled = (boolean)$chatSetting->get('chat_enabled');
 		}
 
-		if($a_user_id == "")
+		if($a_user_id == '')
 		{
 			$a_user_id = $ilUser->getId();
 		}
@@ -89,13 +89,74 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 			return true;
 		}
 
-		if(!self::lookupOnline($a_obj_id))
+		switch($a_permission)
 		{
-			$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt('offline'));
-			return false;
+			case 'visible':
+				$visible = null;
+
+				$active           = self::isActivated($a_ref_id, $a_obj_id, $visible);
+				$hasWriteAccess   = $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+
+				if(!$active)
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt('offline'));
+				}
+
+				if(!$hasWriteAccess && !$active && !$visible)
+				{
+					return false;
+				}
+				break;
+
+			case 'read':
+				$hasWriteAccess = $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+				if($hasWriteAccess)
+				{
+					return true;
+				}
+
+				$active = self::isActivated($a_ref_id, $a_obj_id);
+				if(!$active)
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt('offline'));
+					return false;
+				}
+				break;
 		}
 
 		return self::$chat_enabled;
+	}
+
+	/**
+	 * @param int $refId
+	 * @param int $objId
+	 * @param null $a_visible_flag
+	 * @return bool
+	 */
+	public static function isActivated($refId, $objId, &$a_visible_flag = null)
+	{
+		if(!self::lookupOnline($objId))
+		{
+			$a_visible_flag = false;
+			return false;
+		}
+
+		$a_visible_flag = true;
+
+		require_once 'Services/Object/classes/class.ilObjectActivation.php';
+		$item = ilObjectActivation::getItem($refId);
+		switch($item['timing_type'])
+		{
+			case ilObjectActivation::TIMINGS_ACTIVATION:
+				if(time() < $item['timing_start'] || time() > $item['timing_end'])
+				{
+					$a_visible_flag = $item['visible'];
+					return false;
+				}
+
+			default:
+				return true;
+		}
 	}
 
 	/**
