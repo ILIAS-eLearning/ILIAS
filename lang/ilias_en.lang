@@ -7004,7 +7004,6 @@ mail#:#chat_users_without_login#:#The following users don't have an ILIAS accoun
 mail#:#chat_users_without_permission#:#The following users don't have access to the selected chat room:
 mail#:#forward#:#Forward
 mail#:#goto_invitation_chat#:#Open Chat Room
-mail#:#info_mail_external_sender_noreply#:#Please enter the e-mail that shall be used as sender's address for automatically created system messages and notifications send by e-mail. <b<Note</b>: Use only a real existing address to avoid the rejection of such mails by spam filters and mail servers,
 mail#:#invite_to_chat#:#Invite to Chat
 mail#:#linebreak#:#Line break
 mail#:#mail_send_html#:#HTML Frame
@@ -7025,7 +7024,6 @@ mail#:#mail_deleted#:#The mail is deleted
 mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?
 mail#:#mail_empty_trash#:#Empty Trash
 mail#:#mail_entry_of_contacts#:#Entry of Contacts
-mail#:#mail_external_sender_noreply#:#no-reply Address
 mail#:#mail_file_name#:#File Name
 mail#:#mail_file_size#:#File Size
 mail#:#mail_files_deleted#:#The file(s) are deleted
@@ -9495,6 +9493,8 @@ mail#:#mail_smtp_host_info#:#Please enter the hostname or IP of the desired mail
 mail#:#mail_smtp_port#:#Port
 mail#:#mail_smtp_port_info#:#Please enter a numeric value for the mail server port (e.g. 25).
 mail#:#mail_smtp_encryption#:#Encryption
+mail#:#mail_smtp_encryption_tls#:#TLS
+mail#:#mail_smtp_encryption_ssl#:#SSL
 mail#:#mail_smtp_user#:#User
 mail#:#mail_smtp_password#:#Password
 mail#:#mail_smtp_password_req#:#If you defined a user for authentication purposes, a password must be set.
@@ -9505,7 +9505,7 @@ mail#:#mail_system_usr_head_env_from_addr#:#Return-Path (Envelope-From)
 mail#:#mail_system_sys_from_addr#:#Sender Email (From)
 mail#:#mail_system_sys_from_name#:#Sender FUllname (From)
 mail#:#mail_system_sys_reply_to_addr#:#Reply-To
-mail#:#mail_system_sys_return_path_addr#:#Return-Path (Envelope-From)
+mail#:#mail_system_sys_env_from_addr#:#Return-Path (Envelope-From)
 mail#:#mail_system_sys_signature#:#Signature
 content#:#glo_quick_navigation#:#Quick Navigation
 forum#:#post_reply#:#Re:
@@ -11610,10 +11610,6 @@ pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 wsp#:#wsp_tab_ownership#:#My Repository Objects
 user#:#user_ownership#:#Repository Objects
 registration#:#registration_code_role_info#:#If you use a registration code, the role selection may be superseded by the code.
-mail#:#mail_system_from_name#:#Sender Name
-mail#:#mail_system_from_name_info#:#Please enter a name. This name (e.g. 'John Doe') will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.
-mail#:#mail_system_return_path#:#Global Return-Path
-mail#:#mail_system_return_path_info#:#Please enter an email address which should be used for the return path (e.g. webmaster@ilias.de). If you leave the field blank, the 'Return-Path' will be the 'From' email address.
 content#:#cont_current_term#:#Current Term
 assessment#:#tst_setting_offer_hints_label#:#Hints
 assessment#:#tst_setting_offer_hints_info#:#Participants request hints to answer a question. With every hint presented the maximum number of points to be earned decreases.

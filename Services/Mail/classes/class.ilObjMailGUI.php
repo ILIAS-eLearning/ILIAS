@@ -344,8 +344,11 @@ class ilObjMailGUI extends ilObjectGUI
 
 		$encryption = new ilSelectInputGUI($this->lng->txt('mail_smtp_encryption'), 'mail_smtp_encryption');
 		$encryptionOptions = array(
-			'' => $this->lng->txt('please_choose')
+			'' => $this->lng->txt('please_choose'),
+			'tls' => $this->lng->txt('mail_smtp_encryption_tls'),
+			'ssl' => $this->lng->txt('mail_smtp_encryption_ssl')
 		);
+
 		$encryption->setOptions($encryptionOptions);
 		$smtp->addSubItem($encryption);
 
@@ -366,11 +369,6 @@ class ilObjMailGUI extends ilObjectGUI
 		$send_html->setInfo($this->lng->txt('mail_send_html_info'));
 		$send_html->setValue(1);
 		$form->addItem($send_html);
-
-		$ti = new ilTextInputGUI($this->lng->txt('mail_external_sender_noreply'), 'mail_external_sender_noreply');
-		$ti->setInfo($this->lng->txt('info_mail_external_sender_noreply'));
-		$ti->setMaxLength(255);
-		$form->addItem($ti);
 
 		$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($this->lng->txt('mail_settings_user_frm_head'));
@@ -405,11 +403,12 @@ class ilObjMailGUI extends ilObjectGUI
 		$system_reply_to_addr->setRequired(true);
 		$form->addItem($system_reply_to_addr);
 
-		$system_return_path = new ilEMailInputGUI($this->lng->txt('mail_system_sys_return_path_addr'), 'mail_system_sys_return_path_addr');
-		$system_return_path->setInfo($this->lng->txt('mail_system_sys_return_path_addr_info'));
+		$system_return_path = new ilEMailInputGUI($this->lng->txt('mail_system_sys_env_from_addr'), 'mail_system_sys_env_from_addr');
+		$system_return_path->setInfo($this->lng->txt('mail_system_sys_env_from_addr_info'));
 		$form->addItem($system_return_path);
 
 		$signature = new ilTextAreaInputGUI($this->lng->txt('mail_system_sys_signature'), 'mail_system_sys_signature');
+		$signature->setRows(8);
 		$form->addItem($signature);
 
 		$form->addCommandButton('saveExternalSettingsForm', $this->lng->txt('save'));
@@ -423,17 +422,22 @@ class ilObjMailGUI extends ilObjectGUI
 	protected function populateExternalSettingsForm(ilPropertyFormGUI $form)
 	{
 		$form->setValuesByArray(array(
-			'mail_smtp_status'             => (bool)$this->settings->get('mail_smtp_status'),
-			'mail_smtp_host'               => $this->settings->get('mail_smtp_host'),
-			'mail_smtp_port'               => (int)$this->settings->get('mail_smtp_port'),
-			'mail_smtp_user'               => $this->settings->get('mail_smtp_user'),
-			'mail_smtp_password'           => strlen($this->settings->get('mail_smtp_password')) > 0 ? self::PASSWORD_PLACE_HOLDER : '',
-			'mail_smtp_encryption'         => $this->settings->get('mail_smtp_encryption'),
-			'mail_subject_prefix'          => $this->settings->get('mail_subject_prefix') ? $this->settings->get('mail_subject_prefix') : '[ILIAS]',
-			'mail_send_html'               => (int)$this->settings->get('mail_send_html'),
-			'mail_external_sender_noreply' => $this->settings->get('mail_external_sender_noreply'),
-			'mail_system_from_name'        => $this->settings->get('mail_system_sender_name'),
-			'mail_system_return_path'      => $this->settings->get('mail_system_return_path')
+			'mail_smtp_status'                   => (bool)$this->settings->get('mail_smtp_status'),
+			'mail_smtp_host'                     => $this->settings->get('mail_smtp_host'),
+			'mail_smtp_port'                     => (int)$this->settings->get('mail_smtp_port'),
+			'mail_smtp_user'                     => $this->settings->get('mail_smtp_user'),
+			'mail_smtp_password'                 => strlen($this->settings->get('mail_smtp_password')) > 0 ? self::PASSWORD_PLACE_HOLDER : '',
+			'mail_smtp_encryption'               => $this->settings->get('mail_smtp_encryption'),
+			'mail_subject_prefix'                => $this->settings->get('mail_subject_prefix') ? $this->settings->get('mail_subject_prefix') : '[ILIAS]',
+			'mail_send_html'                     => (int)$this->settings->get('mail_send_html'),
+			'mail_system_usr_from_addr'          => $this->settings->get('mail_system_usr_from_addr'),
+			'mail_system_usr_from_name'          => $this->settings->get('mail_system_usr_from_name'),
+			'mail_system_usr_head_env_from_addr' => $this->settings->get('mail_system_usr_head_env_from_addr'),
+			'mail_system_sys_from_addr'          => $this->settings->get('mail_system_sys_from_addr'),
+			'mail_system_sys_from_name'          => $this->settings->get('mail_system_sys_from_name'),
+			'mail_system_sys_reply_to_addr'      => $this->settings->get('mail_system_sys_reply_to_addr'),
+			'mail_system_sys_env_from_addr'      => $this->settings->get('mail_system_sys_env_from_addr'),
+			'mail_system_sys_signature'          => $this->settings->get('mail_system_sys_signature')
 		));
 	}
 
@@ -479,9 +483,14 @@ class ilObjMailGUI extends ilObjectGUI
 
 		$this->settings->set('mail_send_html', $form->getInput('mail_send_html'));
 		$this->settings->set('mail_subject_prefix', $form->getInput('mail_subject_prefix'));
-		$this->settings->set('mail_external_sender_noreply', $form->getInput('mail_external_sender_noreply'));
-		$this->settings->set('mail_system_sender_name', $form->getInput('mail_system_from_name'));
-		$this->settings->set('mail_system_return_path', $form->getInput('mail_system_return_path'));
+		$this->settings->set('mail_system_usr_from_addr', $form->getInput('mail_system_usr_from_addr'));
+		$this->settings->set('mail_system_usr_from_name', $form->getInput('mail_system_usr_from_name'));
+		$this->settings->set('mail_system_usr_head_env_from_addr', $form->getInput('mail_system_usr_head_env_from_addr'));
+		$this->settings->set('mail_system_sys_from_addr', $form->getInput('mail_system_sys_from_addr'));
+		$this->settings->set('mail_system_sys_from_name', $form->getInput('mail_system_sys_from_name'));
+		$this->settings->set('mail_system_sys_reply_to_addr', $form->getInput('mail_system_sys_reply_to_addr'));
+		$this->settings->set('mail_system_sys_env_from_addr', $form->getInput('mail_system_sys_env_from_addr'));
+		$this->settings->set('mail_system_sys_signature', $form->getInput('mail_system_sys_signature'));
 
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 		$this->ctrl->redirect($this, 'showExternalSettingsForm');
