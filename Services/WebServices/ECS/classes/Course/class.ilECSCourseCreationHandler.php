@@ -355,7 +355,7 @@ class ilECSCourseCreationHandler
 			switch((int) $course->groupScenario)
 			{
 				case ilECSMappingUtils::PARALLEL_GROUPS_IN_COURSE:
-					$GLOBALS['ilLog']->write(__METHOD__.': Parallel scenario "groups in courses".');
+					$this->log->debug('Parallel scenario "groups in courses".');
 					$crs = $this->createCourseData($course);
 					$crs = $this->createCourseReference($crs, $a_parent_obj_id);
 					$this->setImported($course_id, $crs, $a_content_id);
@@ -365,25 +365,25 @@ class ilECSCourseCreationHandler
 					break;
 				
 				case ilECSMappingUtils::PARALLEL_COURSES_FOR_LECTURERS:
+					$this->log->debug('Parallel scenario "Courses foreach Lecturer".');
 					// Import empty to store the ecs ressource id (used for course member update).
 					$this->setImported($course_id,NULL,$a_content_id);
-					$GLOBALS['ilLog']->write(__METHOD__.': Parallel scenario "Courses foreach Lecturer".');
 					break;
 
 				case ilECSMappingUtils::PARALLEL_ALL_COURSES:
-					$GLOBALS['ilLog']->write(__METHOD__.': Parallel scenario "Many courses".');
-					
+					$this->log->debug('Parallel scenario "Many courses".');
 					$refs = ilObject::_getAllReferences($a_parent_obj_id);
 					$ref = end($refs);
-					$crs = $this->createCourseData($course);
-					$this->createCourseReference($crs, $a_parent_obj_id);
-					$this->setImported($course_id, $crs, $a_content_id);
+					// do not create master course for this scenario
+					//$crs = $this->createCourseData($course);
+					//$this->createCourseReference($crs, $a_parent_obj_id);
+					//$this->setImported($course_id, $crs, $a_content_id);
 					$this->createParallelCourses($a_content_id,$course, $ref);
 					break;
 					
 				default:
 				case ilECSMappingUtils::PARALLEL_ONE_COURSE:
-					$GLOBALS['ilLog']->write(__METHOD__.': Parallel scenario "One Course".');
+					$this->log->debug('Parallel scenario "One Course".');
 					$crs = $this->createCourseData($course);
 					$this->createCourseReference($crs, $a_parent_obj_id);
 					$this->setImported($course_id, $crs, $a_content_id);
@@ -423,8 +423,12 @@ class ilECSCourseCreationHandler
 		include_once './Modules/Course/classes/class.ilObjCourse.php';
 		$course_obj = new ilObjCourse();
 		$course_obj->setOwner(6);
-		$title = strlen($group->title) ? $group->title : $course->title;
-		$GLOBALS['ilLog']->write(__METHOD__.': Creating new parallel course instance from ecs : '. $title);
+		$title = $course->title;
+		if(strlen($group->title))
+		{
+			$title .= ' ('.$group->title.')';
+		}
+		$this->log->debug('Creating new parallel course instance from ecs : '. $title);
 		$course_obj->setTitle($title);
 		$course_obj->setSubscriptionMaxMembers((int) $group->maxParticipants);
 		$course_obj->create();
@@ -447,9 +451,14 @@ class ilECSCourseCreationHandler
 		
 		foreach((array) $course->groups as $group)
 		{
-			$title = strlen($group->title) ? $group->title : $course->title;
+			$title = $course->title;
+			if(strlen($group->title))
+			{
+				$title .= ' ('.$group->title.')';
+			}
+			
 			$obj_id = $this->getImportId($course->lectureID, $group->id);
-			$GLOBALS['ilLog']->write(__METHOD__.': Imported obj id is ' .$obj_id);
+			$this->log->debug('Imported obj id is ' .$obj_id);
 			if(!$obj_id)
 			{
 				$this->createParallelCourse($a_content_id, $course, $group, $parent_ref);
@@ -459,7 +468,7 @@ class ilECSCourseCreationHandler
 				$course_obj = ilObjectFactory::getInstanceByObjId($obj_id,false);
 				if($course_obj instanceof ilObjCourse)
 				{
-					$GLOBALS['ilLog']->write(__METHOD__.': New title is '. $title);
+					$this->log->debug('New title is '. $title);
 					$course_obj->setTitle($title);
 					$course_obj->setSubscriptionMaxMembers($group->maxParticipants);
 					$course_obj->update();
