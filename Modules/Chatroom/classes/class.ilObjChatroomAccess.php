@@ -100,6 +100,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 				if(!$active)
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt('offline'));
+					return false;
 				}
 
 				if(!$hasWriteAccess && !$active && !$visible)
