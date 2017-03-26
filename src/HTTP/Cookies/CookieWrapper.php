@@ -76,7 +76,7 @@ class CookieWrapper implements Cookie {
 	 */
 	public function getPath()
 	{
-		return $this->cookie->getMaxAge();
+		return $this->cookie->getPath();
 	}
 
 
@@ -112,9 +112,7 @@ class CookieWrapper implements Cookie {
 	 */
 	public function withValue($value = null)
 	{
-		$this->cookie = $this->cookie->withValue($value);
-
-		return new self($this->cookie);
+		return new self($this->cookie->withValue($value));
 	}
 
 
@@ -123,9 +121,7 @@ class CookieWrapper implements Cookie {
 	 */
 	public function withExpires($expires = null)
 	{
-		$this->cookie = $this->cookie->withExpires($expires);
-
-		return new self($this->cookie);
+		return new self($this->cookie->withExpires($expires));
 	}
 
 
@@ -134,9 +130,7 @@ class CookieWrapper implements Cookie {
 	 */
 	public function rememberForever()
 	{
-		$this->cookie = $this->cookie->rememberForever();
-
-		return new self($this->cookie);
+		return new self($this->cookie->rememberForever());
 	}
 
 
@@ -145,9 +139,7 @@ class CookieWrapper implements Cookie {
 	 */
 	public function expire()
 	{
-		$this->cookie = $this->cookie->expire();
-
-		return new self($this->cookie);
+		return new self($this->cookie->expire());
 	}
 
 
@@ -156,9 +148,7 @@ class CookieWrapper implements Cookie {
 	 */
 	public function withMaxAge($maxAge = null)
 	{
-		$this->cookie = $this->cookie->withMaxAge($maxAge);
-
-		return new self($this->cookie);
+		return new self($this->cookie->withMaxAge($maxAge));
 	}
 
 
@@ -167,9 +157,7 @@ class CookieWrapper implements Cookie {
 	 */
 	public function withPath($path = null)
 	{
-		$this->cookie = $this->cookie->withPath($path);
-
-		return new self($this->cookie);
+		return new self($this->cookie->withPath($path));
 	}
 
 
@@ -178,9 +166,7 @@ class CookieWrapper implements Cookie {
 	 */
 	public function withDomain($domain = null)
 	{
-		$this->cookie = $this->cookie->withDomain($domain);
-
-		return new self($this->cookie);
+		return new self($this->cookie->withDomain($domain));
 	}
 
 
@@ -189,9 +175,7 @@ class CookieWrapper implements Cookie {
 	 */
 	public function withSecure($secure = null)
 	{
-		$this->cookie = $this->cookie->withSecure($secure);
-
-		return new self($this->cookie);
+		return new self($this->cookie->withSecure($secure));
 	}
 
 
@@ -200,9 +184,7 @@ class CookieWrapper implements Cookie {
 	 */
 	public function withHttpOnly($httpOnly = null)
 	{
-		$this->cookie = $this->cookie->withHttpOnly($httpOnly);
-
-		return new self($this->cookie);
+		return new self($this->cookie->withHttpOnly($httpOnly));
 	}
 
 

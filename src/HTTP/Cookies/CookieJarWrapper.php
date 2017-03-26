@@ -78,9 +78,9 @@ class CookieJarWrapper implements CookieJar {
 		 */
 		$wrapper = $setCookie;
 		$internalCookie = $wrapper->getImplementation();
-		$this->cookies = $this->cookies->with($internalCookie);
+		$cookies = $this->cookies->with($internalCookie);
 
-		return $this;
+		return new self($cookies);
 	}
 
 
@@ -89,9 +89,8 @@ class CookieJarWrapper implements CookieJar {
 	 */
 	public function without($name)
 	{
-		$this->cookies = $this->cookies->without($name);
-
-		return $this;
+		$cookies = $this->cookies->without($name);
+		return new self($cookies);
 	}
 
 
