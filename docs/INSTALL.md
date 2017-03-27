@@ -482,7 +482,7 @@ If you need to customize your ILIAS installation avoid under all circumstances t
 You can find proper ways to customize ILIAS in the [ILIAS Development Guide](http://www.ilias.de/docu/goto_docu_pg_29964_42.html):
 
   * [Plugins and Plugin Slots - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=st_27029)
-  * [Styles and Templates - ILIAS Development Guide](http://www.ilias.de/docu/goto_docu_pg_210_42.html)
+  * [Custom Styles](/templates/Readme.md#custom-styles)
   
 ## Plugin Repository
 
