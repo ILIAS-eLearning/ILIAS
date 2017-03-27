@@ -333,22 +333,43 @@ class ilObjMailGUI extends ilObjectGUI
 
 	protected function sendTestUserMailObject()
 	{
-		// @todo
-		$this->sendTestMail();
+		$this->sendTestMail(true);
 	}
 
 	protected function sendTestSystemMailObject()
 	{
-		// @todo
 		$this->sendTestMail();
 	}
-	
-	protected function sendTestMail()
+
+	/**
+	 * @param bool $is_manual_mail
+	 */
+	protected function sendTestMail($is_manual_mail = false)
 	{
 		if(!$this->accessHandler->checkAccess('write,read', '', $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
 		}
+		
+		if(strlen($GLOBALS['DIC']->user()->getEmail()) == 0)
+		{
+			return $this->showExternalSettingsFormObject();
+		}
+
+		require_once 'Services/Mail/classes/class.ilMail.php';
+		if($is_manual_mail)
+		{
+			$mail = new ilMail($GLOBALS['DIC']->user()->getId());
+			$mail->setSaveInSentbox(false);
+			$type = array('normal');
+		}
+		else
+		{
+			$mail = new ilMail(ANONYMOUS_USER_ID);
+			$type = array('system');
+		}
+
+		$mail->sendMail($GLOBALS['DIC']->user()->getEmail(), '', '', 'Test Subject', 'Test Body', array(), $type);
 
 		ilUtil::sendSuccess($this->lng->txt('mail_external_test_sent'));
 		$this->showExternalSettingsFormObject();
