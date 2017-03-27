@@ -6,20 +6,18 @@
 	}
 
 .il-input-rating {
-
 	display: inline-block;
-
-
-	/*delos uses "\e006", which is the right-arrow...*/
-	.glyphicon-star:before {
-	  content: "\2605" !important;
-	}
 
 	input {
 		float: right;
 		padding: 0;
 		margin: 0 0 0 -20px;
 		opacity: 0;
+	}
+
+	/*delos uses "\e006", which is the right-arrow...*/
+	.glyphicon-star:before {
+	  content: "\2605" !important;
 	}
 
 	.glyphicon-star {
@@ -36,7 +34,6 @@
 		*/
 
 	}
-
 	.glyphicon-star:hover,
 	.glyphicon-star:hover ~ .glyphicon-star,
 	input:checked ~ .glyphicon-star {
@@ -45,7 +42,6 @@
 			for disabled mode, use:
 			color: @il-glyph-highlighted-hover-color
 		*/
-
 	}
 
 	span.label {
@@ -64,9 +60,4 @@
 	  display: block;
 	}
 
-
-
-
-
 }
-

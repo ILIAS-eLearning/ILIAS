@@ -6241,6 +6241,58 @@ button.close {
   padding-left: 5px;
   padding-right: 5px;
 }
+.il-input-rating-topic {
+  float: left;
+  margin-right: 5px;
+}
+.il-input-rating {
+  display: inline-block;
+  /*delos uses "\e006", which is the right-arrow...*/
+}
+.il-input-rating input {
+  float: right;
+  padding: 0;
+  margin: 0 0 0 -20px;
+  opacity: 0;
+}
+.il-input-rating .glyphicon-star:before {
+  content: "\2605" !important;
+}
+.il-input-rating .glyphicon-star {
+  float: right;
+  position: relative;
+  display: block;
+  margin-top: -8px;
+  margin-bottom: 0px;
+  font-size: 160%;
+  color: #557196;
+  /*
+			for disabled mode, use:
+			color: @il-glyph-hover-color;
+		*/
+}
+.il-input-rating .glyphicon-star:hover,
+.il-input-rating .glyphicon-star:hover ~ .glyphicon-star,
+.il-input-rating input:checked ~ .glyphicon-star {
+  color: #fa8228;
+  /*
+			for disabled mode, use:
+			color: @il-glyph-highlighted-hover-color
+		*/
+}
+.il-input-rating span.label {
+  margin-left: 110px;
+  position: absolute;
+  display: none;
+  color: #333333;
+}
+.il-input-rating:hover span.label {
+  display: none;
+}
+.il-input-rating .glyphicon-star:hover + span.label,
+.il-input-rating input:checked + label + span {
+  display: block;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;
