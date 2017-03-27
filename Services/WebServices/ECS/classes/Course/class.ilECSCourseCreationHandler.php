@@ -23,6 +23,7 @@ class ilECSCourseCreationHandler
 	private $mapping = null;
 	private $course_url = null;
 	private $object_created = false;
+	private $courses_created = array();
 	
 	private $mid;
 	
@@ -90,6 +91,15 @@ class ilECSCourseCreationHandler
 	}
 	
 	/**
+	 * get created courses
+	 * @return array
+	 */
+	protected function getCreatedCourses()
+	{
+		return $this->courses_created;
+	}
+	
+	/**
 	 * Get mid of course event
 	 * @return type
 	 */
@@ -121,17 +131,20 @@ class ilECSCourseCreationHandler
 		if($this->getMapping()->isAllInOneCategoryEnabled())
 		{
 			$this->log->debug('Handling course all in one category setting');
-			return $this->doSync($a_content_id, $course,ilObject::_lookupObjId($this->getMapping()->getAllInOneCategory()));
+			$this->doSync($a_content_id, $course,ilObject::_lookupObjId($this->getMapping()->getAllInOneCategory()));
+			return true;
 		}
 
 		$parent_obj_id = $this->syncParentContainer($a_content_id,$course);
 		if($parent_obj_id)
 		{
 			$this->log->info('Using already mapped category: '. ilObject::_lookupTitle($parent_obj_id));
-			return $this->doSync($a_content_id,$course,$parent_obj_id);
+			$this->doSync($a_content_id,$course,$parent_obj_id);
+			return true;
 		}
 		$this->log->info('Using course default category');
-		return $this->doSync($a_content_id,$course,ilObject::_lookupObjId($this->getMapping()->getDefaultCourseCategory()));
+		$this->doSync($a_content_id,$course,ilObject::_lookupObjId($this->getMapping()->getDefaultCourseCategory()));
+		return true;
 	}
 	
 	/**
@@ -153,11 +166,12 @@ class ilECSCourseCreationHandler
 			$refs = ilObject::_getAllReferences($obj_id);
 			$ref = end($refs);
 			
-			return $this->doSync(
+			$this->doSync(
 				$a_content_id, 
 				$course,
 				ilObject::_lookupObjId($GLOBALS['tree']->getParentId($ref))
 			);
+			return true;
 		}
 		
 		// Get all rules
@@ -179,12 +193,58 @@ class ilECSCourseCreationHandler
 			// Put course in default category
 			$this->log->debug('No matching attribute mapping rule found.');
 			$this->log->info('Using course default category');
-			return $this->doSync($a_content_id,$course,ilObject::_lookupObjId($this->getMapping()->getDefaultCourseCategory()));
+			$this->doSync($a_content_id,$course,ilObject::_lookupObjId($this->getMapping()->getDefaultCourseCategory()));
+			return true;
 		}
 		// map according mapping rules
-		$parent_ref = ilECSCourseMappingRule::doMappings($course,$this->getServer()->getServerId(),$this->getMid(),$matching_rule);
-		$this->doSync($a_content_id, $course, ilObject::_lookupObjId($parent_ref));
+		$parent_refs = ilECSCourseMappingRule::doMappings($course,$this->getServer()->getServerId(),$this->getMid(),$matching_rule);
+		
+		$this->log->debug('Parent references: ');
+		$this->log->dump($parent_refs);
+		
+		// parent refs are an array of created categories
+		// the first ref should contain the main course or parallel courses.
+		// all other refs wil contain course references.
+		$first = true;
+		foreach($parent_refs as $ref_id)
+		{
+			if($first)
+			{
+				$this->doSync($a_content_id, $course, ilObject::_lookupObjId($ref_id));
+				$first = false;
+				continue;
+			}
+			else
+			{
+				$this->createCourseReferenceObjects($ref_id);
+			}
+		}
+		
 		return true;
+	}
+	
+	/**
+	 * Create course reference objects
+	 * @param type $a_parent_ref_id
+	 */
+	protected function createCourseReferenceObjects($a_parent_ref_id)
+	{
+		foreach($this->getCreatedCourses() as $ref_id)
+		{
+			include_once './Modules/CourseReference/classes/class.ilObjCourseReference.php';
+			$crsr = new ilObjCourseReference();
+			$crsr->setOwner(6);
+			$crsr->setTargetRefId($ref_id);
+			$crsr->setTargetId(ilObject::_lookupObjId($ref_id));
+			$crsr->create();
+			$crsr->update();
+			$crsr->createReference();
+			$crsr->putInTree($a_parent_ref_id);
+			$crsr->setPermissions($a_parent_ref_id);
+			
+			$this->log->debug('Created new course reference in : ' . ilObject::_lookupTitle(ilObject::_lookupObjId($a_parent_ref_id)));
+			$this->log->debug('Created new course reference for : ' . ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)));
+		}
 	}
 	
 	/**
@@ -310,6 +370,7 @@ class ilECSCourseCreationHandler
 	 * Handle all in one setting
 	 * @param type $a_content_id
 	 * @param type $course
+	 * @return array created course reference references
 	 */
 	protected function doSync($a_content_id, $course, $a_parent_obj_id)
 	{
@@ -420,6 +481,12 @@ class ilECSCourseCreationHandler
 	 */
 	protected function createParallelCourse($a_content_id, $course, $group, $parent_ref)
 	{
+		if($this->getImportId($course->lectureID, $group->id))
+		{
+			$this->log->debug('Parallel course already created');
+			return false;
+		}
+		
 		include_once './Modules/Course/classes/class.ilObjCourse.php';
 		$course_obj = new ilObjCourse();
 		$course_obj->setOwner(6);
@@ -627,6 +694,9 @@ class ilECSCourseCreationHandler
 		
 		$this->setObjectCreated(true);
 		$this->addUrlEntry($crs->getId());
+		
+		$this->courses_created[] = $crs->getRefId();
+		
 		return $crs;
 	}
 	
