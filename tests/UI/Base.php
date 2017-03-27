@@ -30,6 +30,7 @@ class NoUIFactory implements Factory {
 	public function legacy($content) {}
 	public function panel() {}
 	public function modal() {}
+	public function input() {}
 }
 
 class LoggingRegistry implements ResourceRegistry {
