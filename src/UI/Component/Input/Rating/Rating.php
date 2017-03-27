@@ -9,16 +9,14 @@ use ILIAS\UI\Component\Component;
 /**
  * This describes how a rating-input could be modified during construction of UI.
  */
-
 interface Rating extends Component{
 
 	/**
-	 * Sets the topic that should be rated
+	 * get topic of rating input
 	 *
-	 * @param	string 	$topic
-	 * @return	Rating
+	 * @return	string
 	 */
-	public function withTopic($topic);
+	public function topic();
 
 	/**
 	 * Sets the byline, elaboration on the topic
@@ -29,20 +27,18 @@ interface Rating extends Component{
 	public function withByline($byline);
 
 	/**
-	 * Sets captions for scale positions.
+	 * get the byline for this rating input
 	 *
-	 * @param	string[] 	$scale_captions 	default is an array of 5 empty strings
-	 * @return	Rating
+	 * @return	string
 	 */
-	public function withCaptions(array $scale_captions);
+	public function byline();
 
 	/**
-	 * Do not display topic
+	 * get captions for scale-items
 	 *
-	 * @param	Boolean 	$hidden
-	 * @return	Rating
+	 * @return	string[]
 	 */
-	public function withHiddenTopic($hidden=true);
+	public function captions();
 
 
 }

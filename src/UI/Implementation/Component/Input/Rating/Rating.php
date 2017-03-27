@@ -31,35 +31,38 @@ class Rating implements C\Input\Rating\Rating {
 	 */
 	private $scale_captions;
 
-	/**
-	 * @var		boolean
-	 */
-	private $hide_topic;
-
 
 	/**
-	 * @param 	string 	$topic
+	 * @param 	string 		$topic
+	 * @param 	string[] 	$captions
 	 */
-	public function __construct($topic, $byline='') {
+	public function __construct($topic, $captions='') {
+		$this->checkStringArg("string", $topic);
+		$captions = $this->toArray($captions);
+		$types = array('string');
+		$this->checkArgListElements('captions', $captions, $types);
 		$this->topic = $topic;
-		$this->byline = $byline;
-		$this->scale_captions = array_fill(0, 5, '');
-		$this->hide_topic = false;
+		$this->scale_captions = $this->fillCaptions($captions);
+		$this->byline = '';
+
 	}
+
+	/**
+	* Fill up (or truncate) captions to exactly five elements.
+	*
+	* @param 	string[] 	$captions
+	*/
+	private function fillCaptions($captions) {
+		$scale_captions = array_fill(0, 5, '');
+		$scale_captions =  array_replace($scale_captions, $captions);
+		return array_slice($scale_captions, 0, 5);
+
+	}
+
 
 
 	/**
 	 * @inheritdoc
-	 */
-	public function withTopic($topic) {
-		$clone = clone $this;
-		$clone->topic = $topic;
-		return $clone;
-	}
-
-	/**
-	 * get the topic
-	 * @return string
 	 */
 	public function topic() {
 		return $this->topic;
@@ -69,14 +72,14 @@ class Rating implements C\Input\Rating\Rating {
 	 * @inheritdoc
 	 */
 	public function withByline($byline) {
+		$this->checkStringArg('string', $byline);
 		$clone = clone $this;
 		$clone->byline = $byline;
 		return $clone;
 	}
 
 	/**
-	 * get the byline
-	 * @return string
+	 * @inheritdoc
 	 */
 	public function byline() {
 		return $this->byline;
@@ -85,38 +88,8 @@ class Rating implements C\Input\Rating\Rating {
 	/**
 	 * @inheritdoc
 	 */
-	public function withCaptions(array $scale_captions) {
-		$clone = clone $this;
-		$clone->scale_captions = $scale_captions;
-		return $clone;
-	}
-
-	/**
-	 * get all labels for the scale-positions
-	 * @return string[]
-	 */
 	public function captions() {
 		return $this->scale_captions;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withHiddenTopic($hidden=true){
-		$clone = clone $this;
-		$clone->hide_topic = $hidden;
-		return $clone;
-	}
-
-	/**
-	 * should the topic be hidden?
-	 * @return boolean
-	 */
-	public function hideTopic() {
-		return $this->hide_topic;
-	}
-
 }
-
-
-

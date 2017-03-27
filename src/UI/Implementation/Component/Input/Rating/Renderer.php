@@ -18,16 +18,19 @@ class Renderer extends AbstractComponentRenderer {
 
         $id = $this->createId();
 
-        if(! $component->hideTopic()) {
-            $tpl->setVariable("TOPIC",$component->topic());
-        }
+
+        $tpl->setVariable("TOPIC",$component->topic());
         $tpl->setVariable("ID",$id);
         $tpl->setVariable("POSTVAR",$id);
-        $tpl->setVariable("BYLINE",$component->byline());
 
         $captions = $component->captions();
         for($i = 0; $i < 5; ++$i) {
             $tpl->setVariable("SCALECAPTION_" .(string)$i ,$captions[$i]);
+        }
+
+        $byline = $component->byline();
+        if($byline !== '') {
+            $tpl->setVariable("BYLINE", $byline);
         }
 
         return $tpl->get();

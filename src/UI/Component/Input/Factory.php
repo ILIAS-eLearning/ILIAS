@@ -37,10 +37,10 @@ interface Factory {
 	 *
 	 * ----
 	 *
-	 * @param 	string 	$topic
-	 * @param 	string 	$byline 	optional
+	 * @param 	string 		$topic
+	 * @param 	string[] 	$captions 	optional; array with exactly 5 entries
 	 * @return  \ILIAS\UI\Component\Input\Rating\Rating
 	 */
-	public function rating($topic, $byline='');
+	public function rating($topic, $captions='');
 
 }

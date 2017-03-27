@@ -16,8 +16,8 @@ class Factory implements C\Input\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function rating($topic, $byline=''){
-		return new Rating\Rating($topic, $byline);
+	public function rating($topic, $captions=''){
+		return new Rating\Rating($topic, $captions);
 	}
 
 }
