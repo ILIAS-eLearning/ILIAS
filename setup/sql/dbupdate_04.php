@@ -13014,12 +13014,6 @@ if ($ilDB->tableExists('il_exc_team_log') && $ilDB->tableExists('exc_team_log_ol
 			",".$ilDB->quote($row['tstamp'], "integer").
 			")"
 		);
-
-		$ilDB->manipulateF(
-			"DELETE FROM exc_team_log_old WHERE team_id = %s AND user_id = %s AND action = %s AND tstamp = %s",
-			array('integer', 'integer', 'integer', 'integer'),
-			array($row['team_id'], $row['user_id'], $row['action'], $row['tstamp'])
-		);
 	}
 }
 ?>
@@ -18265,5 +18259,36 @@ if (!$ilDB->fetchAssoc($res))
 {
 	$mset = new ilSetting("mobs");
 	$mset->set("black_list_file_types", "html");
+}
+?>
+<#5076>
+<?php
+// #0020342
+$query = $ilDB->query('SELECT 
+    stloc.*
+FROM
+    il_dcl_stloc2_value stloc
+        INNER JOIN
+    il_dcl_record_field rf ON stloc.record_field_id = rf.id
+        INNER JOIN
+    il_dcl_field f ON rf.field_id = f.id
+WHERE
+    f.datatype_id = 3
+ORDER BY stloc.id ASC');
+while ($row = $query->fetchAssoc()) {
+	$query2 = $ilDB->query('SELECT * FROM il_dcl_stloc1_value WHERE record_field_id = ' . $ilDB->quote($row['record_field_id'], 'integer'));
+	if ($ilDB->numRows($query2)) {
+		$rec = $ilDB->fetchAssoc($query2);
+		if ($rec['value'] != null) {
+			continue;
+		}
+	}
+	$id = $ilDB->nextId('il_dcl_stloc1_value');
+	$ilDB->insert('il_dcl_stloc1_value', array(
+		'id' => array('integer', $id),
+		'record_field_id' => array('integer', $row['record_field_id']),
+		'value' => array('text', $row['value']),
+	));
+	$ilDB->manipulate('DELETE FROM il_dcl_stloc2_value WHERE id = ' . $ilDB->quote($row['id'], 'integer'));
 }
 ?>

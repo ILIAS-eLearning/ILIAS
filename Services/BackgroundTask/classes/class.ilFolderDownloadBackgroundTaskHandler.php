@@ -99,25 +99,33 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 	 */
 	public static function getObjectListAction($a_ref_id)
 	{
-		// js/init only needed once per request
+		self::initObjectListAction();
+		
+		return "il.BgTask.init('".get_class($this)."', ".$a_ref_id.");";
+	}
+
+
+	/**
+	 * init js for background download
+	 */
+	public static function initObjectListAction() {
+		// js init only needed once per request
 		if(!self::$initialized)
 		{
 			global $tpl, $ilCtrl;
-			
-			$url =  $ilCtrl->getLinkTargetByClass(array("ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
-			
-			$tpl->addJavaScript("Services/BackgroundTask/js/BgTask.js");			
+
+			$url =  $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
+
+			$tpl->addJavaScript("Services/BackgroundTask/js/BgTask.js");
 			$tpl->addOnLoadCode('il.BgTask.setAjax("'.$url.'");');
-			
+
 			// enable modals from js
 			include_once "Services/UIComponent/Modal/classes/class.ilModalGUI.php";
 			ilModalGUI::initJS();
-			
+
 			self::$initialized = true;
 		}
-		
-		return "il.BgTask.init('".get_class($this)."', ".$a_ref_id.");";
-	}		
+	}
 	
 	
 	//

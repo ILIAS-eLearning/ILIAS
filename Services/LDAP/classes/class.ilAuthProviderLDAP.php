@@ -81,6 +81,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		}
 		try 
 		{
+			// now bind with login credentials
 			$query->bind(IL_LDAP_BIND_AUTH, $users[$this->changeKeyCase($this->getCredentials()->getUsername())]['dn'], $this->getCredentials()->getPassword());
 		} 
 		catch (ilLDAPQueryException $e) {
