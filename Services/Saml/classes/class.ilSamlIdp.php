@@ -111,42 +111,49 @@ class ilSamlIdp
 		{
 			$idp_data = array();
 
-			require_once 'Services/Saml/lib/simplesamlphp/lib/_autoload.php';
-			$idp_remote_auth_sources = array();
-
-			$sources = SimpleSAML_Auth_Source::getSources();
-			$i       = -1;
-			foreach($sources as $id)
+			try
 			{
-				$i++;
-				if($i === 0)
-				{
-					continue;
-				}
+				require_once 'Services/Saml/lib/simplesamlphp/lib/_autoload.php';
+				$idp_remote_auth_sources = array();
 
-				$as = new SimpleSAML_Auth_Simple($id);
-				$idp_remote_auth_sources[$as->getAuthSource()->getMetadata()->getValue('idp')] = array(
-					'id'      => $id,
-					'auth_id' => $as->getAuthSource()->getAuthId(),
-					'idp'     => $as->getAuthSource()->getMetadata()->getValue('idp')
-				);
-			}
-
-			$i        = 0;
-			$metadata = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
-			foreach($metadata->getList('saml20-idp-remote') as $idp)
-			{
-				if(isset($idp_remote_auth_sources[$idp['entityid']]))
+				$sources = SimpleSAML_Auth_Source::getSources();
+				$i       = -1;
+				foreach($sources as $id)
 				{
-					$idp_data[$i + 1] = array(
-						'idp_id'  => $i + 1,
-						'name'    => $idp_remote_auth_sources[$idp['entityid']]['id'] . ' (' . $idp['entityid'] . ')',
-						'idp'     => $idp_remote_auth_sources[$idp['entityid']]['idp'],
-						'auth_id' => $idp_remote_auth_sources[$idp['entityid']]['auth_id']
+					$i++;
+					if($i === 0)
+					{
+						continue;
+					}
+
+					$as                                                                            = new SimpleSAML_Auth_Simple($id);
+					$idp_remote_auth_sources[$as->getAuthSource()->getMetadata()->getValue('idp')] = array(
+						'id'      => $id,
+						'auth_id' => $as->getAuthSource()->getAuthId(),
+						'idp'     => $as->getAuthSource()->getMetadata()->getValue('idp')
 					);
 				}
 
-				++$i;
+				$i        = 0;
+				$metadata = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
+				foreach($metadata->getList('saml20-idp-remote') as $idp)
+				{
+					if(isset($idp_remote_auth_sources[$idp['entityid']]))
+					{
+						$idp_data[$i + 1] = array(
+							'idp_id'  => $i + 1,
+							'name'    => $idp_remote_auth_sources[$idp['entityid']]['id'] . ' (' . $idp['entityid'] . ')',
+							'idp'     => $idp_remote_auth_sources[$idp['entityid']]['idp'],
+							'auth_id' => $idp_remote_auth_sources[$idp['entityid']]['auth_id']
+						);
+					}
+
+					++$i;
+				}
+			}
+			catch(Exception $e)
+			{
+				$GLOBALS['ilLog']->write($e->getMessage());
 			}
 
 			self::$parsed_idps = $idp_data;
