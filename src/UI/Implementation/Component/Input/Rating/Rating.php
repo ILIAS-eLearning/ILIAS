@@ -31,6 +31,11 @@ class Rating implements C\Input\Rating\Rating {
 	 */
 	private $scale_captions;
 
+	/**
+	 * @var		boolean
+	 */
+	private $hide_topic;
+
 
 	/**
 	 * @param 	string 	$topic
@@ -39,6 +44,7 @@ class Rating implements C\Input\Rating\Rating {
 		$this->topic = $topic;
 		$this->byline = $byline;
 		$this->scale_captions = array_fill(0, 5, '');
+		$this->hide_topic = false;
 	}
 
 
@@ -93,6 +99,22 @@ class Rating implements C\Input\Rating\Rating {
 		return $this->scale_captions;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function withHiddenTopic($hidden=true){
+		$clone = clone $this;
+		$clone->hide_topic = $hidden;
+		return $clone;
+	}
+
+	/**
+	 * should the topic be hidden?
+	 * @return boolean
+	 */
+	public function hideTopic() {
+		return $this->hide_topic;
+	}
 
 }
 

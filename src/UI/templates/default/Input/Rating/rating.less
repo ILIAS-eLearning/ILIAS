@@ -1,7 +1,13 @@
+
+
+.il-input-rating-topic{
+	 float: left;
+	 margin-right: 5px;
+	}
+
 .il-input-rating {
 
 	display: inline-block;
-	font-size: 20px;
 
 
 	/*delos uses "\e006", which is the right-arrow...*/
@@ -11,10 +17,6 @@
 
 	input {
 		float: right;
-		/*
-		width: 20px;
-		height: 20px;
-		*/
 		padding: 0;
 		margin: 0 0 0 -20px;
 		opacity: 0;
@@ -24,12 +26,9 @@
 		float: right;
 		position: relative;
 		display: block;
-
-		/*width: 20px;
-		height: 20px;
-		margin-top: -5px;
-		*/
-
+		margin-top: -8px;
+		margin-bottom: 0px;
+		font-size: 160%;
 		color: @il-glyph-color;
 		/*
 			for disabled mode, use:
@@ -50,8 +49,8 @@
 	}
 
 	span.label {
+		margin-left: 110px;
 		position: absolute;
-		left: 30%;
 		display: none;
 		color: @text-color
 	}
@@ -64,6 +63,10 @@
 	input:checked + label + span {
 	  display: block;
 	}
+
+
+
+
 
 }
 

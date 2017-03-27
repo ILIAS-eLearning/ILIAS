@@ -36,5 +36,13 @@ interface Rating extends Component{
 	 */
 	public function withCaptions(array $scale_captions);
 
+	/**
+	 * Do not display topic
+	 *
+	 * @param	Boolean 	$hidden
+	 * @return	Rating
+	 */
+	public function withHiddenTopic($hidden=true);
+
 
 }

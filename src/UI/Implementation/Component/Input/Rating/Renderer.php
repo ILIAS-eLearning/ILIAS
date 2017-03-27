@@ -18,7 +18,9 @@ class Renderer extends AbstractComponentRenderer {
 
         $id = $this->createId();
 
-        $tpl->setVariable("TOPIC",$component->topic());
+        if(! $component->hideTopic()) {
+            $tpl->setVariable("TOPIC",$component->topic());
+        }
         $tpl->setVariable("ID",$id);
         $tpl->setVariable("POSTVAR",$id);
         $tpl->setVariable("BYLINE",$component->byline());
