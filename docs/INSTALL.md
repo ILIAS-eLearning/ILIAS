@@ -547,68 +547,28 @@ In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Gui
 
 When you upgrade from rather old versions please make sure that the dependencies, like Database and PHP, are up to date. Below you will find the supported versions for each ILIAS release:
 
-<table>
-<tr>
-<th>ILIAS Version</th>
-<th>PHP Version</th>
-</tr>
-<tr>
-<td>5.2.x</td><td>5.5.x - 5.6.x, 7.0.x</td>
-</tr>
-<tr>
-<td>5.0.x - 5.1.x</td><td>5.3.x - 5.5.x</td>
-</tr>
-<tr>
-<td>4.4.x</td><td>5.3.x - 5.5.x</td>
-</tr>
-<tr>
-<td>4.3.x</td><td>5.2.6 - 5.4.x</td>
-</tr>
-<tr>
-<td>4.2.x</td><td>5.2.6 - 5.3.x</td>
-</tr>
-<tr>
-<td>4.0.x- - 4.1.x</td><td>5.1.4 - 5.3.x</td>
-</tr>
-<tr>
-<td>3.8.x - 3.10.x</td><td>5.1.4 - 5.2.x</td>
-</tr>
-</table>
+| ILIAS Version   | PHP Version                           |
+|-----------------|---------------------------------------|
+| 5.2.x           | 5.5.x - 5.6.x, 7.0.x                  |
+| 5.0.x - 5.1.x   | 5.3.x - 5.5.x                         |
+| 4.4.x           | 5.3.x - 5.5.x                         |
+| 4.3.x           | 5.2.6 - 5.4.x                         |
+| 4.2.x           | 5.2.6 - 5.3.x                         |
+| 4.0.x- - 4.1.x  | 5.1.4 - 5.3.x                         |
+| 3.8.x - 3.10.x  | 5.1.4 - 5.2.x                         |
 
-<table>
-<tr>
-<th>ILIAS Version</th>
-<th>MySQL Version</th>
-</tr>
-<tr>
-<td>4.4.x - 5.2.x</td><td>5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x</td>
-</tr>
-<tr>
-<td>4.2.x - 4.3.x</td><td>5.0.x, 5.1.32 - 5.1.x, 5.5.x</td>
-</tr>
-<tr>
-<td>4.0.x - 4.1.x</td><td>5.0.x, 5.1.32 - 5.1.x</td>
-</tr>
-<tr>
-<td>3.10.x</td><td>4.1.x, 5.0.x, 5.1.32 - 5.1.x</td>
-</tr>
-<tr>
-<td>3.7.3 - 3.9.x</td><td>4.0.x - 5.0.x</td>
-</tr>
-</table>
+| ILIAS Version   | MySQL Version                         |
+|-----------------|---------------------------------------|
+| 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x   |
+| 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x          |
+| 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x                 |
+| 3.10.x          | 4.1.x, 5.0.x, 5.1.32 - 5.1.x          |
+| 3.7.3 - 3.9.x   | 4.0.x - 5.0.x                         |
 
-<table>
-<tr>
-<th>ILIAS Version</th>
-<th>ImageMagick Version</th>
-</tr>
-<tr>
-<td>4.2.x - 5.2.x</td><td>6.3.8-3 or higher</td>
-</tr>
-<tr>
-<td>&lt; 4.2.x</td><td>No specific version requirements</td>
-</tr>
-</table>
+| ILIAS Version   | ImageMagick Version                   |
+|-----------------|---------------------------------------|
+| 4.2.x - 5.2.x   | 6.3.8-3 or higher                     |
+| < 4.2.x         | No specific version requirements      |
 
 <a name="contribute"></a>
 # Contribute
