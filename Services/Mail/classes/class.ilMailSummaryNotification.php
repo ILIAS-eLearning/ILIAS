@@ -113,7 +113,6 @@ class ilMailSummaryNotification extends ilMailNotification
 			$this->appendBody(ilMail::_getInstallationSignature());
 
 			$mmail = new ilMimeMail();
-			$mmail->autoCheck(false);
 			$mmail->From(ilMail::getIliasMailerAddress());
 			$mmail->To(ilObjUser::_lookupEmail($user_id));
 		

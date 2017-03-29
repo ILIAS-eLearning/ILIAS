@@ -2393,7 +2393,6 @@ class ilObjUserGUI extends ilObjectGUI
 		include_once "Services/Mail/classes/class.ilMimeMail.php";
 
 		$mmail = new ilMimeMail();
-		$mmail->autoCheck(false);
 		$mmail->From($ilUser->getEmail());
 		$mmail->To($this->object->getEmail());
 

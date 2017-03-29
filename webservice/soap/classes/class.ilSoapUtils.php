@@ -63,7 +63,6 @@ class ilSoapUtils extends ilSoapAdministration
 		}
 
 		$mmail = new ilMimeMail();
-		$mmail->autoCheck(false);
 		$mmail->From($sender);
 		$mmail->To(explode(',',$to));
 		$mmail->Subject($subject);

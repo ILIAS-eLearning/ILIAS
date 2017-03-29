@@ -45,7 +45,6 @@ abstract class ilMimeMailNotification extends ilMailNotification
 
 		$this->mime_mail = new ilMimeMail();
 		$this->mime_mail->From($ilSetting->get('admin_email'));
-		$this->mime_mail->autoCheck(false);
 
 		return $this->mime_mail;
 	}

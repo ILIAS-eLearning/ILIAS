@@ -313,7 +313,7 @@ class ilObjMailGUI extends ilObjectGUI
 			$this->populateExternalSettingsForm($form);
 		}
 
-		if((bool)$this->settings->get('mail_smtp_status') && strlen($GLOBALS['DIC']->user()->getEmail()) > 0)
+		if(strlen($GLOBALS['DIC']->user()->getEmail()) > 0)
 		{
 			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 

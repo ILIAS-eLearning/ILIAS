@@ -791,7 +791,6 @@ class ilAccountRegistrationGUI
 				include_once "Services/Mail/classes/class.ilMimeMail.php";
 	
 				$mmail = new ilMimeMail();
-				$mmail->autoCheck(false);
 				$mmail->From($ilSetting->get("admin_email"));
 				$mmail->To($this->userObj->getEmail());
 	

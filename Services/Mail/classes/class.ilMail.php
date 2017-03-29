@@ -1383,7 +1383,6 @@ class ilMail
 			include_once "Services/Mail/classes/class.ilMimeMail.php";
 
 			$mmail = new ilMimeMail();
-			$mmail->autoCheck(false);
 			$mmail->From($sender);
 			$mmail->To($a_rcp_to);
 			$mmail->Subject($a_m_subject);

@@ -223,7 +223,6 @@ class ilAccountMail
 		// send the mail
 		include_once 'Services/Mail/classes/class.ilMimeMail.php';
 		$mmail = new ilMimeMail();
-		$mmail->autoCheck(false);
 		$mmail->From($ilSetting->get('admin_email'));																		
 		$mmail->Subject($mail_subject);
 		$mmail->To($user->getEmail());
