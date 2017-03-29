@@ -1,0 +1,28 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "fschmid(21087)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "",
+    "testcase_writer": "",
+    "path": "Services/WebAccessChecker",
+    "used_in_components": [
+        "ObjectDefinition",
+        "Learning Module SCORM",
+        "Blog",
+        "DataCollection",
+        "Learning Module HTML",
+        "MediaCast",
+        "Poll",
+        "Portfolio",
+        "Test",
+        "Certificate",
+        "Chat",
+        "Badges",
+        "Booking Manager",
+        "File",
+        "Media Objects",
+        "User"
+    ]
+}

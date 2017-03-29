@@ -1,0 +1,16 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "rklees(34047)",
+    "second_maintainer": "shecken",
+    "implicit_maintainers": [
+        "mherren(42714)",
+        "ttruffer(42894)"
+    ],
+    "coordinator": "",
+    "tester": "",
+    "testcase_writer": "",
+    "path": "Modules/StudyProgramme",
+    "used_in_components": [
+        "StudyProgramme"
+    ]
+}

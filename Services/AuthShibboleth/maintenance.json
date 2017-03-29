@@ -1,0 +1,13 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "fschmid(21087)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "",
+    "testcase_writer": "",
+    "path": "Services/AuthShibboleth",
+    "used_in_components": [
+        "Authentication & Registration"
+    ]
+}

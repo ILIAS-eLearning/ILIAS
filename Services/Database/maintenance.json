@@ -1,0 +1,13 @@
+{
+    "maintenance_model": "Service",
+    "first_maintainer": "",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": "fschmid(21087)",
+    "tester": "",
+    "testcase_writer": "",
+    "path": "Services/Database",
+    "used_in_components": [
+        "All"
+    ]
+}
