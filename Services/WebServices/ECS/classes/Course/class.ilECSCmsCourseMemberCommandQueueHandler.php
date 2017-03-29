@@ -188,9 +188,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 		
 		if(!$crs_obj_id)
 		{
-			// check for parallel scenario iv and create courses
-			$this->log->error('Missing assigned course with id '. $course_id);
-			return false;
+			$this->log->info('No main course created. Group scenario >= 3 ?');
 		}
 		
 		$course = $this->readCourse($course_member);
@@ -258,13 +256,27 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 			
 			foreach((array) $member->groups as $pgroup)
 			{
-				if(!$put_in_course)
+				// the sequence number in the course ressource
+				$sequence_number = (int) $pgroup->num;
+				// find parallel group with by sequence number
+				$tmp_pgroup = $course->groups[$sequence_number];
+				if(is_object($tmp_pgroup))
 				{
+					$pgroup_id = $tmp_pgroup->id;
+				}
+				if($pgroup_id)
+				{
+					$this->log->debug('Found parallel group with id: '. $pgroup_id. ': for sequence number: '.$sequence_number);
+					
 					// @todo check hierarchy of roles
-					$assigned[$pgroup->num][$member->personID] = array(
+					$assigned[$pgroup_id][$member->personID] = array(
 						'id' => $member->personID,
 						'role' => $pgroup->role
 					);
+				}
+				else
+				{
+					$this->log->warning('Cannot find parallel group with sequence id: ' . $sequence_number);
 				}
 			}
 		}
@@ -289,14 +301,17 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 			include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 			$part = ilCourseParticipants::_getInstanceByObjId($obj_id);
 		}
-		else
+		elseif($type == 'grp')
 		{
 			include_once './Modules/Group/classes/class.ilGroupParticipants.php';
 			$part = ilGroupParticipants::_getInstanceByObjId($obj_id);
 		}
+		else
+		{
+			$this->log->warning('Invalid object type given for obj_id: ' . $obj_id);
+			return false;
+		}
 		
-		
-
 		$course_id = (int) $course_member->lectureID;
 		$usr_ids = ilECSCourseMemberAssignment::lookupUserIds(
 				$course_id,
