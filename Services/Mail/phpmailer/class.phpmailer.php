@@ -691,7 +691,13 @@ class PHPMailer
         } else {
             $subject = $this->encodeHeader($this->secureHeader($subject));
         }
-
+		// patch-mjansen: begin #20376
+		if(0 == strlen($to) && strpos($header, 'To: undisclosed-recipients:;') !== false)
+		{
+			$to     = 'undisclosed-recipients:;';
+			$header = preg_replace('/To: undisclosed-recipients:;(\s*)/', '', $header);
+		}
+		// patch-mjansen: end
         //Can't use additional_parameters in safe_mode, calling mail() with null params breaks
         //@link http://php.net/manual/en/function.mail.php
         if (ini_get('safe_mode') or !$this->UseSendmailOptions or is_null($params)) {
