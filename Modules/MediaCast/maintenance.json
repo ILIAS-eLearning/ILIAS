@@ -7,7 +7,6 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Modules/MediaCast",
-    "used_in_components": [
-        "MediaCast"
-    ]
+    "belong_to_component": "MediaCast",
+    "used_in_components": []
 }

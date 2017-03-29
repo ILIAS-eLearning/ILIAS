@@ -7,7 +7,6 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Services/AuthShibboleth",
-    "used_in_components": [
-        "Authentication & Registration"
-    ]
+    "belong_to_component": "Authentication & Registration",
+    "used_in_components": []
 }

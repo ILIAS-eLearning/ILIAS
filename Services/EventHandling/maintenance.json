@@ -7,5 +7,6 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Services/EventHandling",
+    "belong_to_component": "None",
     "used_in_components": []
 }

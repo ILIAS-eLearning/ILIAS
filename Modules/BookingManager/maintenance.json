@@ -7,5 +7,6 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Modules/BookingManager",
+    "belong_to_component": "Booking Tool",
     "used_in_components": []
 }

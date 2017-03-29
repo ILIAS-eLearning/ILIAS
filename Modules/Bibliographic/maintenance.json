@@ -12,7 +12,6 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Modules/Bibliographic",
-    "used_in_components": [
-        "Bibliographic"
-    ]
+    "belong_to_component": "Bibliographic List Item",
+    "used_in_components": []
 }

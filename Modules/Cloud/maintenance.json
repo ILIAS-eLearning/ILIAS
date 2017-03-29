@@ -11,7 +11,6 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Modules/Cloud",
-    "used_in_components": [
-        "Cloud"
-    ]
+    "belong_to_component": "Cloud Object",
+    "used_in_components": []
 }

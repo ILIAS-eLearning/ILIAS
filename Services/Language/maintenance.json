@@ -9,6 +9,7 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Services/Language",
+    "belong_to_component": "None",
     "used_in_components": [
         "All",
         "Language"

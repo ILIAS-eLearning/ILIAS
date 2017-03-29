@@ -7,11 +7,12 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Services/FileDelivery",
+    "belong_to_component": "File",
     "used_in_components": [
         "ilUtil",
         "WebAccessChecker",
         "File",
-        "Bibliographic",
+        "Bibliographic List Item",
         "Excel",
         "Style"
     ]

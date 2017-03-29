@@ -7,6 +7,7 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Services/WebAccessChecker",
+    "belong_to_component": "None",
     "used_in_components": [
         "ObjectDefinition",
         "Learning Module SCORM",

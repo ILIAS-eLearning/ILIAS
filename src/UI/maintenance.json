@@ -10,6 +10,7 @@
     "tester": "",
     "testcase_writer": "",
     "path": "src/UI",
+    "belong_to_component": "UI-Service",
     "used_in_components": [
         "All"
     ]

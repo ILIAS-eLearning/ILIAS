@@ -7,7 +7,6 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Modules/File",
-    "used_in_components": [
-        "File"
-    ]
+    "belong_to_component": "File",
+    "used_in_components": []
 }

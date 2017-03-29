@@ -9,9 +9,10 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Services/ActiveRecord",
+    "belong_to_component": "ActiveRecord",
     "used_in_components": [
-        "Bibliographic",
-        "OrgUnits",
+        "Bibliographic List Item",
+        "Organisational Units",
         "StudyProgramme",
         "ItemGroup",
         "DataCollection",
