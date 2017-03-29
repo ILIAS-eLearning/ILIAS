@@ -39,7 +39,10 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
 1. [Customizing ILIAS](#customizing-ilias)
    1. [Plugin Repository](#plugin-repository)
 1. [Upgrading ILIAS](#upgrading-ilias)
-   1. [Upgrading Dependencies](#upgrading-dependencies)
+1. [Upgrading Dependencies](#upgrading-dependencies)
+   1. [PHP](#php)
+   1. [MySQL](#mysql)
+   1. [ImageMagick](#imagemagick)
 1. [Contribute](#contribute)
    1. [Pull Requests](#pull-requests)
 
@@ -543,9 +546,12 @@ Afterwards open the ILIAS Installation Wizard in your browser (e.g. http://yours
 In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
 
 <a name="upgrading-dependencies"></a>
-## Upgrading Dependencies
+# Upgrading Dependencies
 
-When you upgrade from rather old versions please make sure that the dependencies, like Database and PHP, are up to date. Below you will find the supported versions for each ILIAS release:
+When you upgrade from rather old versions please make sure that the dependencies, like Database and PHP, are up to date. Below you will find the supported versions for each ILIAS release.
+
+<a name="php"></a>
+## PHP
 
 | ILIAS Version   | PHP Version                           |
 |-----------------|---------------------------------------|
@@ -554,8 +560,11 @@ When you upgrade from rather old versions please make sure that the dependencies
 | 4.4.x           | 5.3.x - 5.5.x                         |
 | 4.3.x           | 5.2.6 - 5.4.x                         |
 | 4.2.x           | 5.2.6 - 5.3.x                         |
-| 4.0.x- - 4.1.x  | 5.1.4 - 5.3.x                         |
+| 4.0.x - 4.1.x   | 5.1.4 - 5.3.x                         |
 | 3.8.x - 3.10.x  | 5.1.4 - 5.2.x                         |
+
+<a name="mysql"></a>
+## MySQL
 
 | ILIAS Version   | MySQL Version                         |
 |-----------------|---------------------------------------|
@@ -564,6 +573,9 @@ When you upgrade from rather old versions please make sure that the dependencies
 | 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x                 |
 | 3.10.x          | 4.1.x, 5.0.x, 5.1.32 - 5.1.x          |
 | 3.7.3 - 3.9.x   | 4.0.x - 5.0.x                         |
+
+<a name="imagemagick"></a>
+## ImageMagick
 
 | ILIAS Version   | ImageMagick Version                   |
 |-----------------|---------------------------------------|
