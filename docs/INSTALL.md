@@ -38,6 +38,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
 4. [Customizing ILIAS](#customizing-ilias)
    1. [Plugin Repository](#plugin-repository)
 5. [Upgrading ILIAS](#upgrading-ilias)
+   1. [Upgrading Dependencies](#upgrading-dependencies)
 6. [Contribute](#contribute)
    1. [Pull Requests](#pull-requests)
 
@@ -501,6 +502,73 @@ Then go to your ILIAS directory (e.g. ```cd /var/www/html/ilias/```) and excute:
 Afterwards open the ILIAS Installation Wizard in your browser (e.g. http://yourservername.org/setup/setup.php) and check if your database needs updates or hotfixes.
 
 In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
+
+## Upgrading Dependencies
+
+When you upgrade from rather old versions please make sure that the dependencies, like Database and PHP, are up to date. Below you will find the supported versions for each ILIAS release:
+
+<table>
+<tr>
+<th>ILIAS Version</th>
+<th>PHP Version</th>
+</tr>
+<tr>
+<td>5.2.x</td><td>5.5.x - 5.6.x, 7.0.x</td>
+</tr>
+<tr>
+<td>5.0.x - 5.1.x</td><td>5.3.x - 5.5.x</td>
+</tr>
+<tr>
+<td>4.4.x</td><td>5.3.x - 5.5.x</td>
+</tr>
+<tr>
+<td>4.3.x</td><td>5.2.6 - 5.4.x</td>
+</tr>
+<tr>
+<td>4.2.x</td><td>5.2.6 - 5.3.x</td>
+</tr>
+<tr>
+<td>4.0.x- - 4.1.x</td><td>5.1.4 - 5.3.x</td>
+</tr>
+<tr>
+<td>3.8.x - 3.10.x</td><td>5.1.4 - 5.2.x</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<th>ILIAS Version</th>
+<th>MySQL Version</th>
+</tr>
+<tr>
+<td>4.4.x - 5.2.x</td><td>5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x</td>
+</tr>
+<tr>
+<td>4.2.x - 4.3.x</td><td>5.0.x, 5.1.32 - 5.1.x, 5.5.x</td>
+</tr>
+<tr>
+<td>4.0.x - 4.1.x</td><td>5.0.x, 5.1.32 - 5.1.x</td>
+</tr>
+<tr>
+<td>3.10.x</td><td>4.1.x, 5.0.x, 5.1.32 - 5.1.x</td>
+</tr>
+<tr>
+<td>3.7.3 - 3.9.x</td><td>4.0.x - 5.0.x</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<th>ILIAS Version</th>
+<th>ImageMagick Version</th>
+</tr>
+<tr>
+<td>4.2.x - 5.2.x</td><td>6.3.8-3 or higher</td>
+</tr>
+<tr>
+<td>&lt; 4.2.x</td><td>No specific version requirements</td>
+</tr>
+</table>
 
 # Contribute
 
