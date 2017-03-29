@@ -79,8 +79,8 @@ For best results we recommend:
 ### Server
 
   * Server OS: Linux
-  * Web Server: Apache 2 (mod_php, php-fpm), Nginx (php-fpm)
-  * Databases: MySQL/MariaDB 5.0+ and Galera, Oracle 10g+, PostgreSQL
+  * Web Server: Apache 2 (mod_php, php-fpm)
+  * Databases: MySQL/MariaDB 5.0+ and Galera (experimental), Oracle 10g+ (experimental), PostgreSQL (experimental)
   * PHP: Version 5.5+ and 7.0+ are supported
   
   See http://www.ilias.de/docu/goto.php?target=lm_367&client_id=docu for details.
@@ -387,7 +387,7 @@ In previous versions of ILIAS it might have been possible to access SCORM, Media
 
 Since ILIAS 5.1 a new WebAccessChecker (WAC) is implemented by default. To make use of WAC you need to enable ```mod_rewrite``` in you Apache configuration.
 
-Please note that this will not work with Nginx as ```.htaccess```-files are not supported. Instead you can add the following to your Nginx configuration file:
+Please note that this will not work with Nginx as ```.htaccess```-files are not supported. Instead you can add the following to your Nginx configuration file (please note that Nginx isn't officially supported):
 
 ```
 server {
