@@ -1,9 +1,6 @@
-# Rules for the ./Services internal interface documentation
- 
-1. Each subdirectory under ./Services SHOULD contain a README.md file
-2. All internal interfaces provided by the service SHOULD be documented in the README.md file.
+# User Action Interface
 
-# Example: User Action Interface
+THIS DOCUMENTATION IS WORK IN PROGRESS AND CURRENTLY ACTS AS AN EXAMPLE FOR SERVICE README.MD FILES.
 
 The user action interface allows consuming components to implement
 * **user actions** (e.g. show profile, add as contact, send mail) in contexts that list these actions 
@@ -95,7 +92,7 @@ class ilMailUserActionProvider extends ilUserActionProvider
 
 ## User Action Contexts
 
-To implement a context you also need a similar entry in yout service.xml or module.xml.
+To implement a context you also need a similar entry in your service.xml or module.xml.
 
 ````
 <?xml version = "1.0" encoding = "UTF-8"?>
