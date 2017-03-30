@@ -13,10 +13,10 @@
     "used_in_components": [
         "Bibliographic List Item",
         "Organisational Units",
-        "StudyProgramme",
+        "Study Programme",
         "ItemGroup",
-        "DataCollection",
+        "Data Collection",
         "GlobalCache",
-        "WebAccessChecker"
+        "Web Access Checker"
     ]
 }

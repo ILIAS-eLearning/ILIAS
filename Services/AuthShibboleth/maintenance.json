@@ -4,9 +4,9 @@
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "iLUB Universität Bern",
+    "testcase_writer": "iLUB Universität Bern",
     "path": "Services/AuthShibboleth",
-    "belong_to_component": "Authentication & Registration",
+    "belong_to_component": "Shibboleth Authentication",
     "used_in_components": []
 }

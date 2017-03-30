@@ -10,7 +10,7 @@
     "belong_to_component": "File",
     "used_in_components": [
         "ilUtil",
-        "WebAccessChecker",
+        "Web Access Checker",
         "File",
         "Bibliographic List Item",
         "Excel",

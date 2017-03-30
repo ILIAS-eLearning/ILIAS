@@ -1,18 +1,18 @@
 {
     "maintenance_model": "Classic",
     "first_maintainer": "fschmid(21087)",
-    "second_maintainer": "",
+    "second_maintainer": "ukohnle(21855)",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "iLUB Universität Bern",
+    "testcase_writer": "ttruffer(42894)",
     "path": "Services/WebAccessChecker",
     "belong_to_component": "None",
     "used_in_components": [
         "ObjectDefinition",
         "Learning Module SCORM",
         "Blog",
-        "DataCollection",
+        "Data Collection",
         "Learning Module HTML",
         "MediaCast",
         "Poll",
@@ -24,6 +24,6 @@
         "Booking Manager",
         "File",
         "Media Objects",
-        "User"
+        "User Service"
     ]
 }

@@ -9,8 +9,8 @@
         "ttruffer(42894)"
     ],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "marko.glaubitz(28309)",
+    "testcase_writer": "mstuder(8473)",
     "path": "Modules/Bibliographic",
     "belong_to_component": "Bibliographic List Item",
     "used_in_components": []

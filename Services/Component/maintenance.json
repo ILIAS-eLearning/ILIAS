@@ -8,5 +8,7 @@
     "testcase_writer": "",
     "path": "Services/Component",
     "belong_to_component": "None",
-    "used_in_components": []
+    "used_in_components": [
+        "Plugin Slots"
+    ]
 }

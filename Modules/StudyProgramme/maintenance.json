@@ -7,11 +7,9 @@
         "ttruffer(42894)"
     ],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "mstuder(8473)",
+    "testcase_writer": "rklees(34047)",
     "path": "Modules/StudyProgramme",
-    "belong_to_component": "None",
-    "used_in_components": [
-        "StudyProgramme"
-    ]
+    "belong_to_component": "Study Programme",
+    "used_in_components": []
 }
