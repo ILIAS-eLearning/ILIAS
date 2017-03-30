@@ -29,7 +29,6 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
    1. [Install other Depedencies](#install-other-depedencies)
    1. [Installation Wizard](#installation-wizard)
    1. [Configure ILIAS Java RPC server](#configure-ilias-java-rpc-server)
-   1. [Information on Updates](#information-on-updates)
 1. [Hardening and Security Guidance](#hardening-and-security-guidance)
    1. [Secure Files](#secure-files)
       1. [Place data directory outside of the web root](#place-data-directory-outside-of-the-web-root)
@@ -43,6 +42,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
 1. [Customizing ILIAS](#customizing-ilias)
    1. [Plugin Repository](#plugin-repository)
 1. [Upgrading ILIAS](#upgrading-ilias)
+   1. [Information on Updates](#information-on-updates)
 1. [Upgrading Dependencies](#upgrading-dependencies)
    1. [PHP](#php)
    1. [MySQL](#mysql)
@@ -408,11 +408,6 @@ esac
 exit 0
 ```
 
-<a name="information-on-updates"></a>
-## Information on Updates
-
-To keep your ILIAS Installation secure and healthy it is important that you keep it up to date. To get informations about updates and security fixes you SHOULD consider to subscribe to the ILIAS Admin Mailing-List: http://lists.ilias.de/cgi-bin/mailman/listinfo/ilias-admins
-
 <a name="hardening-and-security-guidance"></a>
 # Hardening and Security Guidance
 
@@ -548,6 +543,11 @@ Then go to your ILIAS directory (e.g. ```cd /var/www/html/ilias/```) and excute:
 Afterwards you MUST open the ILIAS Installation Wizard in your browser (e.g. http://yourservername.org/setup/setup.php) and check if your database needs updates or hotfixes.
 
 In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
+
+<a name="information-on-updates"></a>
+## Information on Updates
+
+To keep your ILIAS Installation secure and healthy it is important that you keep it up to date. To get informations about updates and security fixes you SHOULD consider to subscribe to the ILIAS Admin Mailing-List: http://lists.ilias.de/cgi-bin/mailman/listinfo/ilias-admins
 
 <a name="upgrading-dependencies"></a>
 # Upgrading Dependencies
