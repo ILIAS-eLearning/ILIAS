@@ -575,7 +575,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 									$info[] = $lng->txt("blog_draft_info_contributors");
 								}
 							}
-							if($cmd != "history" && !$bpost_gui->getBlogPosting()->getFirstParagraphText() && empty($info))
+							if($cmd != "history" && $is_active && empty($info))
 							{
 								$info[] = $lng->txt("blog_new_posting_info");
 							}							

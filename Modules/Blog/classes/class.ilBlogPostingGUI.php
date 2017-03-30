@@ -110,11 +110,11 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 				{
 					if($_REQUEST["cmd"] == "deactivatePageToList")
 					{
-						ilUtil::sendSuccess($this->lng->txt("Deactivated"), true);
+						ilUtil::sendSuccess($this->lng->txt("blog_draft_info"), true);
 					}
 					else if($_REQUEST["cmd"] == "activatePageToList")
 					{
-						ilUtil::sendSuccess($this->lng->txt("Activated"), true);
+						ilUtil::sendSuccess($this->lng->txt("blog_new_posting_info"), true);
 					}
 					$this->setPresentationTitle($posting->getTitle());
 					
