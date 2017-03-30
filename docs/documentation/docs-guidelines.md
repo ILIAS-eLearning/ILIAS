@@ -4,7 +4,7 @@ This guidelines direct authors in creating, naming and writing files providing
 information such as guidelines, how-tos, tutorials, examples or abouts. If you
 want to propose changes to any of the doc files, please make a PR agains trunk 
 and label it with 'JourFixe'. Further, please consult the 
-[contributing](contributing.md) file for further information about 
+[contributing](contributing.md) guideline for more information about 
 collaborating in this project.
 
 ## Location
