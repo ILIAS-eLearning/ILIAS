@@ -5,4 +5,4 @@ and configuring ILIAS ([configuration](configuration)) and for understanding the
 base of ILIAS for contributing and extending it ([documentation](documentation)).
 
 If you intend to add addition information or documentation here, please consult the
-[docs-guideline](documentation/docs-guideline.md) first.
+[docs-guideline](documentation/docs-guidelines.md) first.
