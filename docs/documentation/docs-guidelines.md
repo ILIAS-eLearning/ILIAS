@@ -44,3 +44,4 @@ guidelines to signify their level of requirement.
 * In Guidelines the audience SHOULD NOT be addressed directly (e.g. do not start with
 "You SHOULD").
 * In how-to, tutorials or similar, the audience MAY be addressed directly.
+* If contend from other files is referenced an internal link to this document SHOULD be provided.
