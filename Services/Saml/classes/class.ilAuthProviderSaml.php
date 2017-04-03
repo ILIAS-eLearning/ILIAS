@@ -257,7 +257,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 	 */
 	public function getTriggerAuthMode()
 	{
-		return AUTH_SAML . '_' . $this->idp->getIdp();
+		return AUTH_SAML . '_' . $this->idp->getIdpId();
 	}
 
 	/**
@@ -265,7 +265,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 	 */
 	public function getUserAuthModeName()
 	{
-		return 'saml_' . $this->idp->getIdp();
+		return 'saml_' . $this->idp->getIdpId()();
 	}
 
 	/**
