@@ -4,12 +4,14 @@
 
 namespace ILIAS\UI\Component\Panel\Listing;
 
+use ILIAS\UI\Component\Item;
+use ILIAS\UI\Component\Panel\Listing\Group;
+
 /**
  * Interface Factory
  * @package ILIAS\UI\Component\Panel\Listing
  */
 interface Factory {
-
 	/**
 	 * ---
 	 * description:
@@ -29,18 +31,18 @@ interface Factory {
 	 *       listing.
 	 * ---
 	 * @param string $title Title of the Appointment Listing Panel
-	 * @param AppointmentItem[] $items Set of Appointments to be displayed
+	 * @param Item\Appointment[]|Item\Group[] $items Set of Appointments to be displayed
 	 * @param string $async_action link pointing back to target for getting more
 	 *        items (e.g. if selected a larger count of days to be displayed)
 	 * @return \ILIAS\UI\Component\Panel\Listing\Appointment
 	 */
-	public function appointment($title,$items,$async_action);
+	public function appointment($title, array $items, $async_action);
 
 	/**
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       Todo, this is a further candidate to make use of Listing Panels
+	 *       TODO, this is a further candidate to make use of Listing Panels
 	 * ---
 	 * @return \ILIAS\UI\Component\Panel\Listing\Repository
 	 */
@@ -50,7 +52,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       Todo, this is a further candidate to make use of Listing Panels
+	 *       TODO, this is a further candidate to make use of Listing Panels
 	 * ---
 	 * @return \ILIAS\UI\Component\Panel\Listing\Repository
 	 */
@@ -60,7 +62,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       Todo, this is a further candidate to make use of Listing Panels
+	 *       TODO, this is a further candidate to make use of Listing Panels
 	 * ---
 	 * @return \ILIAS\UI\Component\Panel\Listing\Repository
 	 */
