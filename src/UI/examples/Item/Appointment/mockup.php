@@ -7,7 +7,7 @@ function mockup() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 	$image = $f->image()->standard(
-			"src/UI/examples/Panel/Listing/AppointmentItem/item.png",
+			"src/UI/examples/Item/Appointment/item.png",
 			"");
 	return $renderer->render($image);
 }

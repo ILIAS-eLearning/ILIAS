@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI\Implementation;
 
+use ILIAS\UI\NotImplementedException;
+
 // TODO: This might cache the created factories.
 class Factory implements \ILIAS\UI\Factory
 {
@@ -77,5 +79,12 @@ class Factory implements \ILIAS\UI\Factory
 	public function panel()
 	{
 		return new Component\Panel\Factory();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function item() {
+		throw new NotImplementedException();
 	}
 }

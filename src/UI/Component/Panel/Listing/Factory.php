@@ -40,38 +40,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      The Appointment Item is used to summarize one single
-	 *      appointment in a list.
-	 *   composition: >
-	 *      The Appointment Item is composed of a period of time, indicating
-	 *      when this appointment takes place, a title, and a little bar on the
-	 *      side indicating by color, which calendar holds this appointment.
-	 *      They further might contain a description and some properties as
-	 *      key-value pair holding information such as location or contact.
-	 *      If there are actions possible to perform on the appointment they
-	 *      are listed in a dropdown on the right.
-	 *   effect: >
-	 *      The title may open the details of the appointment on click in a
-	 *      round-trip modal, if such details are available.
-	 *      The description is blended out if larger than two lines.
-	 *      On small screen sizes, the description and properties (except for the
-	 *      location) is blended out completely. It is shown once the user
-	 *      clicks the "Show More" link displayed if there is hidden content.
-	 * ---
-	 * @param string $title Title of the Appointment
-	 * @param ilDateTime $from Starting point of the appointment.
-	 * @param ilDateTime $to End point of the appointment.
-	 * @param string Color of the calendar containing the item as color code
-	 *        (hex).
-	 * @return \ILIAS\UI\Component\Panel\Listing\AppointmentItem
-	 */
-	public function appointmentItem($title, $from, $to, $color);
-
-	/**
-	 * ---
-	 * description:
-	 *   purpose: >
-	 *       Todo, this is a further candiate to make use of Listing Panels
+	 *       Todo, this is a further candidate to make use of Listing Panels
 	 * ---
 	 * @return \ILIAS\UI\Component\Panel\Listing\Repository
 	 */
@@ -81,9 +50,19 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       Todo, this is a further candiate to make use of Listing Panels
+	 *       Todo, this is a further candidate to make use of Listing Panels
 	 * ---
-	 * @return \ILIAS\UI\Component\Panel\Listing\RepositoryItem
+	 * @return \ILIAS\UI\Component\Panel\Listing\Repository
 	 */
-	public function repositoryItem();
+	public function blog();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Todo, this is a further candidate to make use of Listing Panels
+	 * ---
+	 * @return \ILIAS\UI\Component\Panel\Listing\Repository
+	 */
+	public function forum();
 }
