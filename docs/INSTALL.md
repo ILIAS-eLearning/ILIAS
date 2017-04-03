@@ -92,6 +92,7 @@ For best results we RECOMMEND:
   * php5-gd, php5-xsl, php5-mysql
   * OpenJDK 7+
   * zip, unzip
+  * git
 
 <a name="supported-platforms"></a>
 ## Supported Platforms
@@ -147,6 +148,7 @@ To checkout the ILIAS release 5.2 in ```/var/www/html/ilias/``` use the followin
 ```
 cd /var/www/html/
 git clone https://github.com/ILIAS-eLearning/ILIAS.git ilias
+cd ilias
 git checkout release_5-2
 chown www-data:www-data /var/www/html/ilias -R
 ```
@@ -334,7 +336,7 @@ FromLineOverride=YES
 
 On Debian/Ubuntu execute: 
 ```
-apt-get install zip unzip php5-gd php5-mysql php5-xslt imagemagick openjdk-7-jdk
+apt-get install zip unzip php5-gd php5-mysql php-xsl imagemagick openjdk-7-jdk
 ```
 
 On RHEL/CentOS execute: 
@@ -344,7 +346,9 @@ yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk
 <a name="installation-wizard"></a>
 ## Installation Wizard
 
-After having all dependencies installed an configured you should be able to run the ILIAS Installation Wizard using http://yourservername.org/setup/setup.php
+After having all dependencies installed and configured you should be able to run the ILIAS Installation Wizard using http://yourservername.org/setup/setup.php
+
+Make sure to reload your Apache configuration before entering the Wizard. Otherwise there are unmet dependencies in the setup (like XLS and GD are both installed but ILIAS does not see them, yet).
 
 <a name="configure-ilias-java-rpc-server-optional"></a>
 ## Configure ILIAS Java RPC server (OPTIONAL)
