@@ -55,9 +55,8 @@ if($store_type == 'phpsession' || empty($store_type))
 {
 	$GLOBALS['saml_auth_phpsession'] = true;
 	session_write_close();
-	
+
 	session_name('PHPSESSID');
-	session_id('');
 }
 
 $_POST['auth_mode'] = '99_1';
