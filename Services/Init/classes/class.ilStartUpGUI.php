@@ -2365,5 +2365,5 @@ class ilStartUpGUI
 
 		return false;
 	}
-	// saml-patch: begin
+	// saml-patch: end
 }
