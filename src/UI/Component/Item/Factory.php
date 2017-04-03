@@ -6,17 +6,17 @@ namespace ILIAS\UI\Component\Listing;
 interface Factory {
 	/**
 	 * ---
-	 * description: >
+	 * description:
 	 *   purpose: >
 	 *     The panel listing group is used to group items in a listing panel.
 	 *   composition: >
 	 *     The item group is composed of a title and the contained items.
 	 *
 	 * rules:
-	 *   usage: >
-	 *     The item group SHOULD only group similar items.
-	 *   wording: >
-	 *     The title of the item group MUST desribe the contained items.
+	 *   usage:
+	 *     1: The item group SHOULD only group similar items.
+	 *   wording:
+	 *     1: The title of the item group MUST desribe the contained items.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\Item\Group
