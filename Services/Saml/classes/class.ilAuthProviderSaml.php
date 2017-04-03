@@ -265,7 +265,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 	 */
 	public function getUserAuthModeName()
 	{
-		return 'saml_' . $this->idp->getIdpId()();
+		return 'saml_' . $this->idp->getIdpId();
 	}
 
 	/**
