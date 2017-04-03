@@ -20,8 +20,9 @@
 /ilias.ini.php
 /ilias.log
 /db_template_writer.php
-/setup/sql/dbupdate_custom.php
-
+# saml-patch: begin
+#/setup/sql/dbupdate_custom.php
+# saml-patch: end
 # Directories
 /data
 /Customizing/global
