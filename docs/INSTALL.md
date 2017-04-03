@@ -51,6 +51,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
    1. [ImageMagick](#imagemagick)
 1. [Contribute](#contribute)
    1. [Pull Requests](#pull-requests)
+   1. [Reference System](#reference-system)
 
 <!-- /MarkdownTOC -->
 
@@ -637,3 +638,19 @@ We highly appreciate Pull-Request from external developers. Due to some regulati
    - Features/Refactorings need an entry in [Feature-Wiki](http://feature.ilias.de) and has to get through the existing procedure for Feature-Requests. Pull-Request target to trunk.
 
 Pull-Request will be assigned to the responsible maintainer(s). See further information on how contributions are handled in [/docs/CONTRIBUTING.md](/docs/CONTRIBUTING.md)
+
+<a name="reference-system"></a>
+## Reference System
+
+The ILIAS Testserver (http://ilias.de/test52) is currently configured as follows:
+
+| Package        | Version                     |
+|----------------|-----------------------------|
+| Distribution   | Ubuntu 14.04.5 LTS          |
+| MySQL          | MySQL 5.5.54                |
+| PHP            | 7.0.17                      |
+| Apache         | 2.4.7                       |
+| Nginx          | 1.4.6                       |
+| zip            | 3.0                         |
+| unzip          | 6.00                        |
+| JDK            | 1.7.0_121 (IcedTea 2.6.8)   |
