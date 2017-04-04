@@ -44,10 +44,10 @@ class DefaultResponseRenderingStrategy implements ResponseRenderingStrategy {
 		if (is_resource($resource)) {
 			set_time_limit(0);
 			$sendStatus = fpassthru($resource);
-		}
 
-		//free up resources
-		$response->getBody()->close();
+            //free up resources
+            fclose($resource);
+		}
 
 		//check if the body was successfully send to the client
 		if ($sendStatus === false) {
