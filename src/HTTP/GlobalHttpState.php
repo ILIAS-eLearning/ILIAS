@@ -3,7 +3,7 @@
 namespace ILIAS\HTTP;
 
 use ILIAS\HTTP\Cookies\CookieJar;
-use ILIAS\HTTP\Response\rendering\RenderingException;
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -73,7 +73,7 @@ interface GlobalHttpState {
 	/**
 	 * Render the current response hold by ILIAS.
 	 *
-	 * @throws RenderingException Each subsequent call will throw this exception.
+	 * @throws ResponseSendingException Each subsequent call will throw this exception.
 	 * @return void
 	 */
 	public function renderResponse();

@@ -4,8 +4,8 @@
 namespace ILIAS\DI;
 
 use ILIAS\HTTP\Cookies\CookieJarWrapper;
-use ILIAS\HTTP\Factory;
-use ILIAS\HTTP\Response\rendering\ResponseRenderingStrategy;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -14,28 +14,28 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  */
-class HTTPServices implements Factory {
+class HTTPServices implements GlobalHttpState {
 
 	/**
 	 * @var    Container
 	 */
 	protected $container;
 	/**
-	 * @var ResponseRenderingStrategy
+	 * @var ResponseSenderStrategy
 	 */
-	private $render;
+	private $sender;
 
 
 	/**
 	 * HTTPServices constructor.
 	 *
-	 * @param \ILIAS\DI\Container $container
-	 * @param ResponseRenderingStrategy $renderingStrategy
+	 * @param \ILIAS\DI\Container    $container
+	 * @param ResponseSenderStrategy $senderStrategy
 	 */
-	public function __construct(Container $container, ResponseRenderingStrategy $renderingStrategy)
+	public function __construct(Container $container, ResponseSenderStrategy $senderStrategy)
 	{
 		$this->container = $container;
-		$this->render = $renderingStrategy;
+		$this->sender = $senderStrategy;
 	}
 
 
@@ -91,6 +91,6 @@ class HTTPServices implements Factory {
 	 */
 	public function renderResponse()
 	{
-		$this->render->renderResponse($this->response());
+		$this->sender->sendResponse($this->response());
 	}
 }
