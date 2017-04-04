@@ -855,7 +855,7 @@ class ilInitialisation
 		self::$already_initialized = true;
 
 		self::initCore();
-				
+        self::initHTTPServices($GLOBALS["DIC"]);
 		if(ilContext::initClient())
 		{
 			self::initClient();
@@ -1175,6 +1175,25 @@ class ilInitialisation
 		ilLoggerFactory::getLogger('init')->debug('Redirect to login page.');
 		return self::goToLogin();
 	}
+
+    /**
+     * @param \ILIAS\DI\Container $container
+     */
+    protected static function initHTTPServices(\ILIAS\DI\Container $container) {
+
+        //check if we already initialised the request and response
+        //required for the web access checker
+        if(!isset($container["http.response"]))
+        {
+            //pimple can't save the value back if we lazy initialize the request with a closure.
+            $container["http.response"] = \ILIAS\HTTP\Response\ResponseFactory::create();
+        }
+        if(!isset($container["http.request"]))
+        {
+            //pimple can't save the value back if we lazy initialize the request with a closure.
+            $container["http.request"] = \ILIAS\HTTP\Request\RequestFactory::create();
+        }
+    }
 
 	/**
 	 * init the ILIAS UI framework.
