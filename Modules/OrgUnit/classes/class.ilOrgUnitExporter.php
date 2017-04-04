@@ -17,6 +17,7 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 	public function simpleExport($orgu_ref_id){
 		$nodes = $this->getStructure($orgu_ref_id);
 		$writer = new ilXmlWriter();
+		$writer->xmlHeader();
 		$writer->xmlStartTag("OrgUnits");
 		foreach($nodes as $orgu_ref_id){
 			$orgu = new ilObjOrgUnit($orgu_ref_id);
