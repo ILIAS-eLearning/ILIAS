@@ -68,7 +68,7 @@ assert($raised);
 
 // For retrieving a default could be supplied.
 $v = $e->valueOr("default");
-assert($v == $default);
+assert($v == "default");
 
 ?>
 ```
