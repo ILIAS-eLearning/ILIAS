@@ -5,6 +5,8 @@ namespace ILIAS\Data;
 
 /**
  * A result encapsulates a value with the possibility of a failure.
+ *
+ * To be implemented as immutable object.
  */
 interface Result {
 	/**
@@ -47,7 +49,7 @@ interface Result {
 	public function valueOr($default);
 
 	/**
-	 * Modify the contained value.
+	 * Create a new result where the contained value is modified with $f.
 	 *
 	 * Does nothing if !isOK.
 	 *
@@ -57,7 +59,7 @@ interface Result {
 	public function map(callable $f);
 
 	/**
-	 * Modify the contained value by using it to create a new result.
+	 * Get a new result from the callable or do nothing if this is an error.
 	 *
 	 * Does nothing if !isOK. This is monadic bind.
 	 *
