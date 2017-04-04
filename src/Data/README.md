@@ -5,7 +5,7 @@ locations in the system and do not belong to a certain service.
 
 ## Result
 
-Result encapsulate a value with the possibility of failure.
+A result encapsulates a value or an error and simplifies the handling of those.
 
 ```php
 <?php

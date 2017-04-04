@@ -4,7 +4,7 @@
 namespace ILIAS\Data;
 
 /**
- * A result encapsulates a value with the possibility of a failure.
+ * A result encapsulates a value or an error and simplifies the handling of those.
  *
  * To be implemented as immutable object.
  */
@@ -20,7 +20,7 @@ interface Result {
 	 * Get the encapsulated value.
 	 *
 	 * @throws Exception    if !isOK, will either throw the contained exception or
-     *                      a NotOKException if a string is contained as error.
+	 *                      a NotOKException if a string is contained as error.
 	 * @return mixed
 	 */
 	public function value();
