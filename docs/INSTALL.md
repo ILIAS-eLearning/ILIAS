@@ -123,11 +123,12 @@ We RECOMMEND to use MySQL/MariaDB with the following settings:
 
   * InnoDB storage engine
   * utf8_general_ci
-  * STRICT_TRANS_TABLES or STRICT_ALL_TABLES disabled (on MySQL 5.6.x)
   * query_cache_size (> 16M)
   * join_buffer_size (> 128.0K, or always use indexes with joins)
   * table_open_cache (> 400)
   * innodb_buffer_pool_size (>= 2G, depending on DB size)
+
+On MySQL 5.6 the setting ```STRICT_TRANS_TABLES``` or ```STRICT_ALL_TABLES``` MUST be disabled.
 
 <a name="manual-installation-on-linux"></a>
 # Manual Installation on Linux
