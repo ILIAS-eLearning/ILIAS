@@ -96,8 +96,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 			default:
 			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-				return $this->raiseError(
-					$status->getTranslatedReason(),
+				return $this->__raiseError(
+					$status->getReason(),
 					'Server'
 				);
 		}				

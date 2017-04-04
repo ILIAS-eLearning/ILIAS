@@ -2231,7 +2231,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		else
 		{
-			$this->replyEditForm->addCommandButton('savePost', $this->lng->txt('create'));
+			$this->replyEditForm->addCommandButton('savePost', $this->lng->txt('save'));
 		}
 		$hidden_draft_id= new ilHiddenInputGUI('draft_id');
 		if(isset($_GET['draft_id']) && (int)$_GET['draft_id']> 0)

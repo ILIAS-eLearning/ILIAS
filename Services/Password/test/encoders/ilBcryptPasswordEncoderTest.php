@@ -306,7 +306,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 		$this->assertException(ilPasswordException::class);
 		$this->getTestDirectory()->chmod(0000);
 
-		$encoder = new ilBcryptPasswordEncoder();
+		$encoder = $this->getInstanceWithConfiguredDataDirectory();
 	}
 
 	/**
