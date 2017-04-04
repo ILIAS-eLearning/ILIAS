@@ -75,9 +75,47 @@ class ilAuthUtils
 		
 	}
 	
+	public static function handleForcedAuthentication()
+	{
+		if(isset($_GET['ecs_hash']) or isset($_GET['ecs_hash_url']))
+		{
+			include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentials.php';
+			$credentials = new ilAuthFrontendCredentials();
+			$credentials->setUsername($_GET['ecs_login']);
+			$credentials->setAuthMode(AUTH_ECS);
+			
+			include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
+			$provider_factory = new ilAuthProviderFactory();
+			$providers = $provider_factory->getProviders($credentials);
+			
+			include_once './Services/Authentication/classes/class.ilAuthStatus.php';
+			$status = ilAuthStatus::getInstance();
+			
+			include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
+			$frontend_factory = new ilAuthFrontendFactory();
+			$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
+			$frontend = $frontend_factory->getFrontend(
+				$GLOBALS['DIC']['ilAuthSession'],
+				$status,
+				$credentials,
+				$providers
+			);
+			
+			$frontend->authenticate();
+			
+			switch($status->getStatus())
+			{
+				case ilAuthStatus::STATUS_AUTHENTICATED:
+					return;
+					
+				case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+					ilInitialisation::goToPublicSection();
+					return;
+			}
+		}
+	}
 	
 
-	
 	/**
 	* initialises $ilAuth 
 	*/
