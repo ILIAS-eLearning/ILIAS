@@ -9,7 +9,6 @@ A result encapsulates a value or an error and simplifies the handling of those.
 
 ```php
 <?php
-require_once(__DIR__."/Result.php");
 require_once(__DIR__."/Factory.php");
 
 $f = new Data/Factory;
