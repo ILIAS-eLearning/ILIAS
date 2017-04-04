@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,11 +8,11 @@
  * @version       $Id$
  * @extends       ilVirusScanner
  */
-
 require_once "./Services/VirusScanner/classes/class.ilVirusScanner.php";
 
 class ilVirusScannerClamAV extends ilVirusScanner
 {
+
     const ADD_SCAN_PARAMS = '--no-summary -i';
 
     /**
@@ -137,6 +138,8 @@ class ilVirusScannerClamAV extends ilVirusScanner
         $perm = $currentPermission | 0640;
         chmod($a_filepath, $perm);
 
+		$this->log->info('Scanning file: ' . $this->scanFilePath.' original name: '.$this->scanFileOrigName);
+
         // Call of antivir command
         $cmd = $this->buildScanCommand($a_filepath) . " 2>&1";
         exec($cmd, $out, $ret);
@@ -146,14 +149,22 @@ class ilVirusScannerClamAV extends ilVirusScanner
             chmod($a_filepath, $currentPermission);
         }
 
+		if(strlen($this->scanResult))
+		{
+			$this->log->info('Scan result ... ');
+			$this->log->dump($this->scanResult, ilLogLevel::INFO);
+		}
+
         // sophie could be called
         if ($this->hasDetections($this->scanResult)) {
             $this->scanFileIsInfected = true;
-            $this->logScanResult();
+			#$this->logScanResult();
+			$this->log->error('File is infected: ' . $this->scanFilePath);
             return $this->scanResult;
         } else {
-            $this->scanFileIsInfected = false;
-            return "";
+            $this->log->info('File is clean: ' . $this->scanFilePath);
+			$this->scanFileIsInfected = false;
+			return "";
         }
 
         // antivir has failed (todo)

@@ -13,6 +13,8 @@ class ilVirusScannerFactory
      */
     public static function _getInstance()
     {
+		ilLoggerFactory::getLogger('vira')->debug('Called virus scanner factory for: ' . IL_VIRUS_SCANNER);
+		
         // create global virus scanner class instance
         switch (IL_VIRUS_SCANNER) {
             case "Sophos":
