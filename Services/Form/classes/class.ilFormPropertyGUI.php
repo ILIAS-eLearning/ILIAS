@@ -490,7 +490,7 @@ class ilFormPropertyGUI
 	 * @param string $a_text
 	 * @return string
 	 */
-	function removeProhibitedCharacters($a_text)
+	static function removeProhibitedCharacters($a_text)
 	{
 		return str_replace("\x0B", "", $a_text);
 	}
