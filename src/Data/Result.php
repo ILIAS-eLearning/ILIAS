@@ -67,4 +67,17 @@ interface Result {
 	 * @return  Result
 	 */
 	public function then(callable $f);
+
+	/**
+	 * Feed the error into a callable and replace this with the result
+     * or do nothing if this is a value.
+	 *
+	 * If null is returned, the error in the result is not touched.
+	 *
+	 * Does nothing if !isError.
+	 *
+	 * @param	callable $f string|\Exception -> Result|null
+	 * @return	Result
+	 */
+	public function catch(callable $f);
 }
