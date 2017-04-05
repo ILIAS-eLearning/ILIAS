@@ -1,0 +1,22 @@
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
+survey#:#svy_mail_context_reminder_title#:#Survey Reminder
+survey#:#svy_mail_context_reminder_info#:#Reminds users to participate in survey
+survey#:#svy_mail_context_reminder_survey_title#:#Survey Title
+survey#:#svy_reminder_mail_template#:#Mail Template
+survey#:#svy_reminder_mail_template_none#:#Do not use mail template
+survey#:#svy_eval_view#:#View
+survey#:#svy_eval_view_tables_charts#:#Table and chart
+survey#:#svy_eval_view_tables#:#Table
+survey#:#svy_eval_view_charts#:#Chart
+survey#:#svy_eval_captions#:#Figures
+survey#:#svy_eval_captions_abs_perc#:#Absolute and Percentage
+survey#:#svy_eval_captions_abs#:#Absolute
+survey#:#svy_eval_captions_perc#:#Percentage
+survey#:#svy_chart_download#:#Download Chart
+survey#:#svy_export_pdf#:#Export PDF
+survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results
+survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.
+survey#:#svy_notification_tutor_results_alert#:#This requires an end date.
+survey#:#survey_results_tutor_subject#:#Results for survey "%s"
+survey#:#survey_results_tutor_body#:#Attached you will find the detailed results for the following survey

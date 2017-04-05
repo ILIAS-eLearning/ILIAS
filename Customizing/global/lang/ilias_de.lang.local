@@ -1,0 +1,22 @@
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
+survey#:#svy_mail_context_reminder_title#:#Umfrage-Erinnerung
+survey#:#svy_mail_context_reminder_info#:#Erinnert Benutzer an einer Umfrage teilzunehmen
+survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
+survey#:#svy_reminder_mail_template#:#Mail-Vorlage
+survey#:#svy_reminder_mail_template_none#:#Keine Vorlage verwenden
+survey#:#svy_eval_view#:#Anzeige
+survey#:#svy_eval_view_tables_charts#:#Tabelle und Grafik
+survey#:#svy_eval_view_tables#:#Tabelle
+survey#:#svy_eval_view_charts#:#Grafik
+survey#:#svy_eval_captions#:#Kennzahl
+survey#:#svy_eval_captions_abs_perc#:#Anzahl und Prozent
+survey#:#svy_eval_captions_abs#:#Anzahl
+survey#:#svy_eval_captions_perc#:#Prozent
+survey#:#svy_chart_download#:#Diagramm herunterladen
+survey#:#svy_export_pdf#:#Export PDF
+survey#:#svy_notification_tutor_results#:#Eine E-Mail mit den Umfrageergebnissen
+survey#:#svy_notification_tutor_results_info#:#Nach dem Ablauf des Enddatum wird eine E-Mail mit den detailierten Umfrageergebnissen versendet.
+survey#:#svy_notification_tutor_results_alert#:#Diese Funktion erfordert ein Enddatum.
+survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage "%s"
+survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
