@@ -93,65 +93,71 @@ class ilECSMappingUtils
 	 * Get course value by mapping
 	 * @param type $course
 	 * @param type $a_field
+	 * @return array
 	 */
 	public static function getCourseValueByMappingAttribute($course, $a_field)
 	{
 		switch($a_field)
 		{
 			case 'organisation':
-				return (string) $course->organisation;
+				return array((string) $course->organisation);
 				
 			case 'term':
-				return (string) $course->term;
+				return array((string) $course->term);
 				
 			case 'title':
-				return (string) $course->title;
+				return array((string) $course->title);
 				
 			case 'orgunit':
+				$units = array();
 				foreach((array) $course->organisationalUnits as $unit)
 				{
-					return (string) $unit->title;
+					$units[] = (string) $unit->title;
 				}
-				return '';
+				return $units;
 				
 			case 'lecturer':
+				$lecturers = array();
 				foreach((array) $course->groups as $group)
 				{
 					foreach((array) $group->lecturers as $lecturer)
 					{
-						return (string) ($lecturer->lastName.', '. $lecturer->firstName);
+						$lecturers[] =  (string) ($lecturer->lastName.', '. $lecturer->firstName);
 					}
 				}
-				return '';
+				return $lecturers;
 				
 			case 'courseType':
 				return (string) $course->lectureType;
 				
 			case 'degreeProgramme':
+				$degree_programmes = array();
 				foreach((array) $course->degreeProgrammes as $prog)
 				{
-					return (string) $prog->title;
+					$degree_programmes[] = (string) $prog->title;
 				}
-				return '';
+				return $degree_programmes;
 				
 			case 'module':
+				$modules = array();
 				foreach((array) $course->modules as $mod)
 				{
-					return (string) $mod->title;
+					$modules[] = (string) $mod->title;
 				}
-				return '';
+				return $modules;
 				
 			case 'venue':
+				$venues[] = array();
 				foreach((array) $course->groups as $group)
 				{
 					foreach((array) $group->datesAndVenues as $venue)
 					{
-						return (string) $venue->venue;
+						$venues[] = (string) $venue->venue;
 					}
 				}
-				return '';
+				return $venues;
 		}
-		return '';
+		return array();
 	}
 	
 	

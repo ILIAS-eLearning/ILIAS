@@ -1,4 +1,3 @@
-
 ILIAS is licensed under GPL version 3 or (at your option) any later version.
 
 In addition, as a special exception, we give permission to link the code of this
