@@ -15914,10 +15914,3 @@ rbac#:#grp_manage_members#:#Manage Members of Group###07 02 2017 new variable
 rbac#:#crs_manage_members#:#Manage Members of Course###07 02 2017 new variable
 survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.###07 02 2017 new variable
 rbac#:#book_copy#:#User can copy booking pool###03 03 2017 new variable
-mep#:#mobs_black_list_file_types#:#Forbidden File Types###03 03 2017 new variable
-mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suffixes. This list will restrict the set of allowed file types. Usually you need this if the former list is empty (all file types are allowed).###03 03 2017 new variable
-form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.###03 03 2017 new variable
-common#:#file_no_valid_file_type#:#This file type is not allowed.###03 03 2017 new variable
-common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.###03 03 2017 new variable
-ecs#:#ecs_cmap_att_orgunit#:#Organisational Unit###09 03 2017 new variable
-ecs#:#ecs_member_auth_type#:#Course Member Auth Mode###09 03 2017 new variable
