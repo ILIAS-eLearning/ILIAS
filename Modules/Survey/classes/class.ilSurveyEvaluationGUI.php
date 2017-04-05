@@ -906,8 +906,22 @@ class ilSurveyEvaluationGUI
 			$button->setCaption("print");
 			$button->setOnClick("if(il.Accordion) { il.Accordion.preparePrint(); } window.print(); return false;");
 			$button->setOmitPreventDoubleSubmission(true);
-			$ilToolbar->addButtonInstance($button);								
-			
+			$ilToolbar->addButtonInstance($button);
+
+			// patch BGHW jluetzen-ilias
+			$this->ctrl->setParameter($this, "cp", $_POST["cp"]);
+			$this->ctrl->setParameter($this, "vw", $_POST["vw"]);
+			$url = $this->ctrl->getLinkTarget($this, $details
+				? "evaluationdetailspdf"
+				: "evaluationpdf");
+			$this->ctrl->setParameter($this, "cp", "");
+			$this->ctrl->setParameter($this, "vw", "");
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("svy_export_pdf");
+			$button->setUrl($url);
+			$button->setOmitPreventDoubleSubmission(true);
+			$ilToolbar->addButtonInstance($button);
+
 			$finished_ids = null;
 			if($appr_id)
 			{
@@ -1204,7 +1218,16 @@ class ilSurveyEvaluationGUI
 
 					$chart = $chart[0];
 				}
+
+				// patch BGHW jluezen
+				$this->ctrl->setParameter($this, "qid", $question->getId());
+				$url = $this->ctrl->getLinkTarget($this, "downloadChart");
+				$this->ctrl->setParameter($this, "qid", "");
+
 				$a_tpl->setVariable("CHART", $chart);
+				$a_tpl->setVariable("CHART_DL_URL", $url);
+				$a_tpl->setVariable("CHART_DL_TXT", $this->lng->txt("svy_chart_download"));
+
 			}
 		}
 		$panel = $ui_factory->panel()->sub("", $ui_factory->legacy($a_tpl->get()));
@@ -1836,6 +1859,167 @@ class ilSurveyEvaluationGUI
 	{
 		return $this->access->checkRbacOrPositionPermissionAccess('read_results', 'access_results', $this->object->getRefId());
 	}
+
+	//
+	// PATCH BGHW
+	//
+
+	function evaluationpdf()
+	{
+		$this->ctrl->setParameter($this, "pdf", 1);
+		$this->ctrl->setParameter($this, "cp", $_GET["cp"]);
+		$this->ctrl->setParameter($this, "vw", $_GET["vw"]);
+		$this->callPhantom(
+			$this->ctrl->getLinkTarget($this, "evaluation", "", false, false),
+			"pdf",
+			$this->object->getTitle().".pdf"
+		);
+	}
+
+	function evaluationdetailspdf()
+	{
+		$this->ctrl->setParameter($this, "pdf", 1);
+		$this->ctrl->setParameter($this, "cp", $_GET["cp"]);
+		$this->ctrl->setParameter($this, "vw", $_GET["vw"]);
+		$this->callPhantom(
+			$this->ctrl->getLinkTarget($this, "evaluationdetails", "", false, false),
+			"pdf",
+			$this->object->getTitle().".pdf"
+		);
+	}
+
+	public function downloadChart()
+	{
+		$qid = (int)$_GET["qid"];
+		if(!$qid)
+		{
+			return;
+		}
+
+		$this->ctrl->setParameter($this, "qid", $qid);
+		$url = $this->ctrl->getLinkTarget($this, "renderChartOnly", "", false, false);
+		$this->ctrl->setParameter($this, "qid", "");
+
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+		$file = $this->object->getTitle()." - ".SurveyQuestion::_getTitle($qid);
+
+		$this->callPhantom($url, "png", $file.".png");
+	}
+
+	public function renderChartOnly()
+	{
+		global $tpl;
+
+		$qid = (int)$_GET["qid"];
+		if(!$qid)
+		{
+			return;
+		}
+
+		$finished_ids = null;
+		if($this->object->get360Mode())
+		{
+			$appr_id = $this->getAppraiseeId();
+			$finished_ids = $this->object->getFinishedIdsForAppraiseeId($appr_id);
+			if(!sizeof($finished_ids))
+			{
+				$finished_ids = array(-1);
+			}
+		}
+
+		// parse answer data in evaluation results
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+		foreach($this->object->getSurveyQuestions() as $qdata)
+		{
+			if($qid == $qdata["question_id"])
+			{
+				$q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
+				$q_res =  $q_eval->getResults();
+
+				$chart = $q_eval->getChart($q_res);
+				if($chart)
+				{
+					$dtmpl = new ilTemplate("tpl.il_svy_svy_results_details_single.html", true, true, "Modules/Survey");
+
+					if(is_array($chart))
+					{
+						// legend
+						if(is_array($chart[1]))
+						{
+							foreach($chart[1] as $legend_item)
+							{
+								$dtmpl->setCurrentBlock("legend_bl");
+								$dtmpl->setVariable("LEGEND_CAPTION", $legend_item[0]);
+								$dtmpl->setVariable("LEGEND_COLOR", $legend_item[1]);
+								$dtmpl->parseCurrentBlock();
+							}
+						}
+
+						$chart = $chart[0];
+					}
+					$dtmpl->setVariable("CHART", $chart);
+				}
+			}
+		}
+
+		// "print view"
+		$ptpl = new ilTemplate("tpl.main.html", true, true);
+		foreach($tpl->css_files as $css)
+		{
+			$ptpl->setCurrentBlock("css_file");
+			$ptpl->setVariable("CSS_FILE", $css["file"]);
+			$ptpl->setVariable("CSS_MEDIA", $css["media"]);
+			$ptpl->parseCurrentBlock();
+		}
+		foreach($tpl->js_files as $js)
+		{
+			$ptpl->setCurrentBlock("js_file");
+			$ptpl->setVariable("JS_FILE", $js);
+			$ptpl->parseCurrentBlock();
+		}
+		$ptpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$ptpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilUtil::getNewContentStyleSheetLocation());
+		$ptpl->setVariable("CONTENT", $dtmpl->get());
+		echo $ptpl->get();
+		exit();
+	}
+
+	public function callPhantom($a_url, $a_suffix, $a_filename, $a_return = false)
+	{
+		$script = ILIAS_ABSOLUTE_PATH . "/Modules/Survey/js/phantom.js";
+
+		// :TODO:
+		$bin = ilUtil::isWindows()
+			? ILIAS_ABSOLUTE_PATH . "/libs/composer/vendor/jakoch/phantomjs/bin/phantomjs.exe"
+			: ILIAS_ABSOLUTE_PATH . "/libs/composer/vendor/jakoch/phantomjs/bin/phantomjs";
+
+		$parts = parse_url(ILIAS_HTTP_PATH);
+
+		$target = ilUtil::ilTempnam() . "." . $a_suffix;
+
+		$args = array(
+			session_id(),
+			$parts["host"],
+			$parts["path"],
+			CLIENT_ID,
+			"\"" . ILIAS_HTTP_PATH . "/" . $a_url . "\"",
+			$target
+		);
+
+		$output = $return = "";
+		exec($bin . " " . $script . " " . implode(" ", $args), $output, $return);
+
+		$log = ilLoggerFactory::getLogger("svy");
+		$log->dump($output, ilLogLevel::DEBUG);
+		$log->dump($return, ilLogLevel::DEBUG);
+
+		if (!$a_return) {
+			ilUtil::deliverFile($target, $a_filename);
+		} else {
+			return $target;
+		}
+	}
+	
 }
 
 ?>
