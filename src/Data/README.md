@@ -22,11 +22,11 @@ assert(!$pi->isError());
 
 // Do some transformation with the value.
 $r = 10;
-$A = $f->map(function($pi) use ($r) { return 2 * $pi * $r; });
+$A = $f->map(function($value_of_pi) use ($r) { return 2 * $value_of_pi * $r; });
 
 // Still ok and no error.
-assert($pi->isOk());
-assert(!$pi->isError());
+assert($A->isOk());
+assert(!$A->isError());
 
 // Retrieve the contained value.
 $A_value = $A->value();
@@ -48,8 +48,8 @@ assert($raised);
 $e = $f->error("There was some error...");
 
 // This is of course an error.
-assert(!$pi->isOK());
-assert($pi->isError());
+assert(!$e->isOK());
+assert($e>isError());
 
 // Transformations are nops.
 $A = $f->map($function($v) { assert(false); });
