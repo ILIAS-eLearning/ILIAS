@@ -1185,13 +1185,17 @@ class ilInitialisation
         //required for the web access checker
         if(!isset($container["http.response"]))
         {
+            $responseFactory = new \ILIAS\HTTP\Response\ResponseFactoryImpl();
+
             //pimple can't save the value back if we lazy initialize the request with a closure.
-            $container["http.response"] = \ILIAS\HTTP\Response\ResponseFactory::create();
+            $container["http.response"] = $responseFactory->create();
         }
         if(!isset($container["http.request"]))
         {
+            $requestFactory = new \ILIAS\HTTP\Request\RequestFactoryImpl();
+
             //pimple can't save the value back if we lazy initialize the request with a closure.
-            $container["http.request"] = \ILIAS\HTTP\Request\RequestFactory::create();
+            $container["http.request"] = $requestFactory->create();
         }
     }
 
