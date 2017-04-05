@@ -1,7 +1,8 @@
  # Transformations
 
 This service abstracts transformations between datatypes and provides some basic
-transformations to be reused throughout the system.
+transformations to be reused throughout the system. These transformations SHOULD
+be added to the Factory in this library.
 
 A transformation is a function from one datatype to another. It MUST NOT perform
 any sideeffects, i.e. it must be morally impossible to observe how often the
