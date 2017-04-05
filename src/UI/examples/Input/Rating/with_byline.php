@@ -11,13 +11,15 @@ function with_byline() {
 		'opt4',
 		'opt5'
 	);
+
 	$byline = 'This is a short explanation of the'
 		.' topic to be rated.'
 		.' <br>The byline <i>MAY</i> contain HTML,'
 		.' but usually <i>SHOULD</i> not.';
 
 
-	$ri = $f->input()->rating('topic', $captions)
+	$ri = $f->input()->rating('topic')
+		->withCaptions($captions)
 		->withByline($byline);
 
 	return $renderer->render($ri);

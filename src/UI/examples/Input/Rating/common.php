@@ -3,6 +3,7 @@ function common() {
 	global $DIC;
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
+
 	$captions = array(
 		'opt1',
 		'opt2',
@@ -11,7 +12,8 @@ function common() {
 		'opt5'
 	);
 
-	$ri = $f->input()->rating('topic', $captions);
+	$ri = $f->input()->rating('topic')
+		->withCaptions($captions);
 
 	return $renderer->render($ri);
 }

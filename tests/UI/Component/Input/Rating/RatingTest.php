@@ -22,17 +22,19 @@ class RatingTest extends ILIAS_UI_TestBase {
 		$r = $f->rating('topic');
 		$this->assertInstanceOf("ILIAS\\UI\\Component\\Input\\Rating\\Rating", $r);
 		$this->assertEquals('topic', $r->topic());
+	}
 
+	public function test_with_captions() {
 		$captions =  array('opt1');
-		$r = $f->rating('topic', $captions);
+		$r = $this->getInputFactory()->rating('topic');
+		$r = $r->withCaptions($captions);
 		$expected = array('opt1','','','','');
 		$this->assertEquals($expected, $r->captions());
 
 		$captions =  array('opt1', 'opt2', 'opt3', 'opt4', 'opt5', 'opt6');
-		$r = $f->rating('topic', $captions);
+		$r = $r->withCaptions($captions);
 		$expected = array('opt1', 'opt2', 'opt3', 'opt4', 'opt5');
 		$this->assertEquals($expected, $r->captions());
-
 	}
 
 	public function test_with_byline() {

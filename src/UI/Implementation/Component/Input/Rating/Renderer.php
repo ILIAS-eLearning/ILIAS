@@ -25,7 +25,7 @@ class Renderer extends AbstractComponentRenderer {
 
         $captions = $component->captions();
         for($i = 0; $i < 5; ++$i) {
-            $tpl->setVariable("SCALECAPTION_" .(string)$i ,$captions[$i]);
+            $tpl->setVariable("SCALECAPTION_" .(string)($i+1) ,$captions[$i]);
         }
 
         $byline = $component->byline();

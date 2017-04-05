@@ -34,32 +34,13 @@ class Rating implements C\Input\Rating\Rating {
 
 	/**
 	 * @param 	string 		$topic
-	 * @param 	string[] 	$captions
 	 */
-	public function __construct($topic, $captions='') {
+	public function __construct($topic) {
 		$this->checkStringArg("string", $topic);
-		$captions = $this->toArray($captions);
-		$types = array('string');
-		$this->checkArgListElements('captions', $captions, $types);
 		$this->topic = $topic;
-		$this->scale_captions = $this->fillCaptions($captions);
+		$this->scale_captions = $this->fillCaptions(array());
 		$this->byline = '';
-
 	}
-
-	/**
-	* Fill up (or truncate) captions to exactly five elements.
-	*
-	* @param 	string[] 	$captions
-	*/
-	private function fillCaptions($captions) {
-		$scale_captions = array_fill(0, 5, '');
-		$scale_captions =  array_replace($scale_captions, $captions);
-		return array_slice($scale_captions, 0, 5);
-
-	}
-
-
 
 	/**
 	 * @inheritdoc
@@ -88,8 +69,34 @@ class Rating implements C\Input\Rating\Rating {
 	/**
 	 * @inheritdoc
 	 */
+	public function withCaptions($captions) {
+		$captions = $this->toArray($captions);
+		$types = array('string');
+		$this->checkArgListElements('captions', $captions, $types);
+
+		$clone = clone $this;
+		$clone->scale_captions = $this->fillCaptions($captions);
+		return $clone;
+	}
+
+	/**
+	* Fill up (or truncate) captions to exactly five elements.
+	*
+	* @param 	string[] 	$captions
+	*/
+	private function fillCaptions($captions) {
+		$scale_captions = array_fill(0, 5, '');
+		$scale_captions =  array_replace($scale_captions, $captions);
+		return array_slice($scale_captions, 0, 5);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function captions() {
 		return $this->scale_captions;
 	}
+
+
 
 }

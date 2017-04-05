@@ -34,6 +34,13 @@ interface Rating extends Component{
 	public function byline();
 
 	/**
+	 * Set captions for scale-items
+	 *
+	 * @param 	string[] 	$captions 	array with exactly 5 entries
+	 */
+	public function withCaptions($captions);
+
+	/**
 	 * get captions for scale-items
 	 *
 	 * @return	string[]
