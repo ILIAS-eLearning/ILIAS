@@ -1654,6 +1654,9 @@ class ilObjMediaObject extends ilObject
 		$media_item->setHAlign("Left");
 
 		self::renameExecutables($mob_dir);
+		include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
+		ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
+
 		$media_object->update();
 
 		return $media_object;
@@ -1673,6 +1676,9 @@ class ilObjMediaObject extends ilObject
 		ilUtil::makeDirParents($dir);
 		ilUtil::moveUploadedFile($tmp_name, $a_name, $dir."/".$a_name, true, $a_mode);
 		self::renameExecutables($mob_dir);
+		include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
+		ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
+
 	}
 	
 	/**

@@ -176,6 +176,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				ilObjMediaObject::renameExecutables(ilObjMediaObject::_getDirectory($this->object->getId()));	// see #20187
 				$ret =& $this->ctrl->forwardCommand($fs_gui);
 				ilObjMediaObject::renameExecutables(ilObjMediaObject::_getDirectory($this->object->getId()));	// see #20187
+				include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
+				ilMediaSvgSanitizer::sanitizeDir(ilObjMediaObject::_getDirectory($this->object->getId()));	// see #20339
 				break;
 
 
@@ -796,6 +798,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 	
 		ilObjMediaObject::renameExecutables($mob_dir);
+		include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
+		ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
 		$a_mob->update();		
 	}
 	
@@ -1145,7 +1149,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			}
 
 			ilObjMediaObject::renameExecutables(ilObjMediaObject::_getDirectory($this->object->getId()));
-			
+			include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
+			ilMediaSvgSanitizer::sanitizeDir(ilObjMediaObject::_getDirectory($this->object->getId()));	// see #20339
+
 			$this->object->update();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "edit");
@@ -1390,6 +1396,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		}
 		ilObjMediaObject::renameExecutables($mob_dir);
+		include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
+		ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
+
 		$this->ctrl->saveParameter($this, "cdir");
 		$this->ctrl->redirect($this, "editFiles");
 	}

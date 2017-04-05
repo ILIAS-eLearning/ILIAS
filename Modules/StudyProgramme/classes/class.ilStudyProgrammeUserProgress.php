@@ -575,7 +575,7 @@ class ilStudyProgrammeUserProgress {
 		if (!$achieved_points) {
 			$achieved_points = 0;
 		}
-		$successful = $achieved_points >= $this->getAmountOfPoints();
+		$successful = $achieved_points >= $this->getAmountOfPoints() && $this->hasSuccessfullChildren();
 		$status = $this->getStatus();
 		
 		$this->progress->setCurrentAmountOfPoints($achieved_points);
@@ -590,6 +590,16 @@ class ilStudyProgrammeUserProgress {
 		$this->progress->update();
 		$this->refreshLPStatus();
 		$this->updateParentStatus();
+	}
+
+	protected function hasSuccessfullChildren()
+	{
+		foreach($this->getChildrenProgress() as $child) {
+			if($child->isSuccessful()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
