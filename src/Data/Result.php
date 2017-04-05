@@ -70,7 +70,7 @@ interface Result {
 
 	/**
 	 * Feed the error into a callable and replace this with the result
-     * or do nothing if this is a value.
+	 * or do nothing if this is a value.
 	 *
 	 * If null is returned, the error in the result is not touched.
 	 *
