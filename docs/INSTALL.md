@@ -31,6 +31,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
    1. [Configure ILIAS Java RPC server \(OPTIONAL\)](#configure-ilias-java-rpc-server-optional)
 1. [Hardening and Security Guidance](#hardening-and-security-guidance)
    1. [Secure Files](#secure-files)
+      1. [File Access Rights](#file-access-rights)
       1. [Place data directory outside of the web root](#place-data-directory-outside-of-the-web-root)
       1. [Secure Installation Files](#secure-installation-files)
    1. [Use HTTPS](#use-https)
@@ -86,7 +87,7 @@ We RECOMMEND at least 100 Mbit/sec. for the web server WAN connection.
 For best results we RECOMMEND:
 
   * Debian GNU Linux 8 / Red Hat Enterprise Linux 7 / Ubuntu 16.04 LTS
-  * MySQL 5.5 / MariaDB
+  * MySQL 5.7 / MariaDB
   * PHP 5.6+
   * Apache 2.2+ with mod_php
   * ImageMagick 6.x+
@@ -154,7 +155,9 @@ cd ilias
 git checkout release_5-2
 chown www-data:www-data /var/www/html/ilias -R
 ```
-The files MUST be owned by your webserver user/group (e.g. ```www-data``` or ```apache```) the mode SHOULD be 644 for files and 755 for directories.
+The files SHOULD be owned by your webserver user/group (e.g. ```www-data``` or ```apache```) the mode SHOULD be 644 for files and 755 for directories. 
+
+For more details on file access rights see [File Access Rights](#file-access-rights) in the Security section of this document.
 
 <a name="dependency-installation"></a>
 # Dependency Installation
@@ -441,6 +444,18 @@ server {
     [...]
 }
 ```
+
+<a name="file-access-rights"></a>
+### File Access Rights
+
+If you're an experienced admin you MAY want to use more strict file access rights that we RECOMMENDED earlier in this document. To make it impossible for an attacker to modify PHP files if he gains control over the web server processes those files SHOULD be owned by ```root``` wherever possible.
+
+The only files and directories that must be owned/writeable by the web user are:
+
+  * ilias.ini.php
+  * data/
+
+All the other files and directories should be owned by ```root```, but readable by the web user (e.g. 644/755).
 
 <a name="place-data-directory-outside-of-the-web-root"></a>
 ### Place data directory outside of the web root
