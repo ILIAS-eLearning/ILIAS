@@ -308,7 +308,7 @@ class ilInitialisation
 			}
 			else
 			{
-				self::abortAndDie("Invalid client");
+				self::abortAndDie("Fatal Error: ilInitialisation::initClientIniFile initializing client ini file abborted with: ". $ilClientIniFile->ERROR);
 			}
 		}
 		
