@@ -43,6 +43,23 @@ class RatingTest extends ILIAS_UI_TestBase {
 		$this->assertEquals('my byline', $r->byline());
 	}
 
+	public function test_with_average() {
+		$r = $this->getInputFactory()->rating('topic');
+		$r = $r->withAverage(4);
+		$this->assertEquals(4, $r->average());
+
+		$r = $r->withAverage(2.34);
+		$this->assertEquals(2.34, $r->average());
+
+	}
+
+	public function test_with_wrong_average() {
+		$this->setExpectedException(InvalidArgumentException::class);
+		$r = $this->getInputFactory()->rating('topic');
+		$r = $r->withAverage(12);
+	}
+
+
 	public function test_render() {
 		$renderer = $this->getDefaultRenderer();
 		$r = $this->getInputFactory()->rating('topic');

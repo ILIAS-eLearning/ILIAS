@@ -31,6 +31,11 @@ class Rating implements C\Input\Rating\Rating {
 	 */
 	private $scale_captions;
 
+	/**
+	 * @var		integer
+	 */
+	private $average;
+
 
 	/**
 	 * @param 	string 		$topic
@@ -40,6 +45,7 @@ class Rating implements C\Input\Rating\Rating {
 		$this->topic = $topic;
 		$this->scale_captions = $this->fillCaptions(array());
 		$this->byline = '';
+		$this->average = -1;
 	}
 
 	/**
@@ -97,6 +103,26 @@ class Rating implements C\Input\Rating\Rating {
 		return $this->scale_captions;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function withAverage($average) {
+		//$this->checkFloatArg('integer', $average);
+		if ($average < 0 or $average > 5) {
+			$message = 'average must between 0 and 5.';
+			throw new \InvalidArgumentException("Argument $average': $message");
+		}
+		$clone = clone $this;
+		$clone->average = $average;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function average() {
+		return $this->average;
+	}
 
 
 }

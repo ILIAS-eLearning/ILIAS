@@ -5,8 +5,6 @@
 
 	<div class="il-input-rating" id="{ID}">
 
-
-
 		<input type="radio" id="{ID}-5" name="{POSTVAR}" class="il-input-rating-scaleoption"/>
 		<label class="glyphicon-star il-input-rating-star" for="{ID}-5"></label>
 		<span class="label">
@@ -42,7 +40,13 @@
 			<label class="glyphicon-saltire il-input-rating-reset" for="{ID}-0"></label>
 		</span>
 
-		<input type="radio" id="{ID}-0" name="{POSTVAR}" class="il-input-rating-scaleoption"/>
+		<input type="radio" id="{ID}-0" name="{POSTVAR}" class="il-input-rating-scaleoption reset-option"/>
+
+		<!-- BEGIN average -->
+		<div class="il-input-rating-average">
+			<div class="il-input-rating-average-bar" style="width: {AVERAGE_PERCENT}%;">
+		</div>
+		<!-- END average -->
 
 	</div>
 

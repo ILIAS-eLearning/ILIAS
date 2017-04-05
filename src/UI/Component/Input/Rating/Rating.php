@@ -37,6 +37,7 @@ interface Rating extends Component{
 	 * Set captions for scale-items
 	 *
 	 * @param 	string[] 	$captions 	array with exactly 5 entries
+	 * @return	Rating
 	 */
 	public function withCaptions($captions);
 
@@ -46,6 +47,22 @@ interface Rating extends Component{
 	 * @return	string[]
 	 */
 	public function captions();
+
+	/**
+	 * Set average rating
+	 *
+	 * @param 	integer 	$average 	a number between 0 and 5
+	 * @throws 	\InvalidArgumentException	if $average < 0 or $average > 5
+	 * @return	Rating
+	 */
+	public function withAverage($average);
+
+	/**
+	 * get the average-value of the input
+	 *
+	 * @return	integer
+	 */
+	public function average();
 
 
 }

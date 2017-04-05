@@ -18,7 +18,6 @@ class Renderer extends AbstractComponentRenderer {
 
         $id = $this->createId();
 
-
         $tpl->setVariable("TOPIC",$component->topic());
         $tpl->setVariable("ID",$id);
         $tpl->setVariable("POSTVAR",$id);
@@ -31,6 +30,13 @@ class Renderer extends AbstractComponentRenderer {
         $byline = $component->byline();
         if($byline !== '') {
             $tpl->setVariable("BYLINE", $byline);
+        }
+
+        $average = $component->average();
+        if($average > -1) {
+            $tpl->setVariable("AVERAGE", $average);
+            $average_percent = 20 * $average;
+            $tpl->setVariable("AVERAGE_PERCENT", $average_percent);
         }
 
         return $tpl->get();
