@@ -8,6 +8,26 @@ namespace ILIAS\Transformation;
  */
 interface Factory {
 	/**
+	 * Add labels to an array.
+	 *
+	 * Will transform ["a","b"] to ["A" => "a", "B" => "b"] with $labels = ["A", "B"].
+	 *
+	 * @param   string[] $labels
+	 * @return  Transformation
+	 */
+	public function addLabels(array $labels);
+
+	/**
+     * Split string at given delimiter.
+	 *
+	 * Will transform "a,b,c" to ["a", "b", "c"] with $delim = ",".
+	 *
+	 * @param   string $delimiter
+	 * @return  Transformation
+	 */
+	public function splitString($delimiter);
+
+	/**
 	 * Create a custom transformation.
 	 *
 	 * @param	callable $f	mixed -> mixed
