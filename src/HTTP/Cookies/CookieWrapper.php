@@ -5,13 +5,13 @@ namespace ILIAS\HTTP\Cookies;
 use Dflydev\FigCookies\SetCookie;
 
 /**
- * Class CookieFacade
+ * Class CookieWrapper
  *
  * Facade class for the FigCookies SetCookie class.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @package ILIAS\HTTP\Cookies
- * @since   5.2
+ * @since   5.3
  * @version 1.0.0
  */
 class CookieWrapper implements Cookie {
@@ -112,7 +112,9 @@ class CookieWrapper implements Cookie {
 	 */
 	public function withValue($value = null)
 	{
-		return new self($this->cookie->withValue($value));
+        $clone = clone $this;
+        $clone->cookie = $this->cookie->withValue($value);
+		return $clone;
 	}
 
 
@@ -121,16 +123,20 @@ class CookieWrapper implements Cookie {
 	 */
 	public function withExpires($expires = null)
 	{
-		return new self($this->cookie->withExpires($expires));
+        $clone = clone $this;
+        $clone->cookie = $this->cookie->withExpires($expires);
+		return $clone;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function rememberForever()
+	public function rememberForLongTime()
 	{
-		return new self($this->cookie->rememberForever());
+        $clone = clone $this;
+        $clone->cookie = $this->cookie->rememberForever();
+		return $clone;
 	}
 
 
@@ -139,7 +145,9 @@ class CookieWrapper implements Cookie {
 	 */
 	public function expire()
 	{
-		return new self($this->cookie->expire());
+        $clone = clone $this;
+        $clone->cookie = $this->cookie->expire();
+		return $clone;
 	}
 
 
@@ -148,7 +156,9 @@ class CookieWrapper implements Cookie {
 	 */
 	public function withMaxAge($maxAge = null)
 	{
-		return new self($this->cookie->withMaxAge($maxAge));
+        $clone = clone $this;
+        $clone->cookie = $this->cookie->withMaxAge($maxAge);
+		return $clone;
 	}
 
 
@@ -157,7 +167,9 @@ class CookieWrapper implements Cookie {
 	 */
 	public function withPath($path = null)
 	{
-		return new self($this->cookie->withPath($path));
+        $clone = clone $this;
+        $clone->cookie = $this->cookie->withPath($path);
+		return $clone;
 	}
 
 
@@ -166,7 +178,9 @@ class CookieWrapper implements Cookie {
 	 */
 	public function withDomain($domain = null)
 	{
-		return new self($this->cookie->withDomain($domain));
+	    $clone = clone $this;
+	    $clone->cookie = $this->cookie->withDomain($domain);
+		return $clone;
 	}
 
 
@@ -175,7 +189,9 @@ class CookieWrapper implements Cookie {
 	 */
 	public function withSecure($secure = null)
 	{
-		return new self($this->cookie->withSecure($secure));
+        $clone = clone $this;
+        $clone->cookie = $this->cookie->withSecure($secure);
+		return $clone;
 	}
 
 
@@ -184,7 +200,9 @@ class CookieWrapper implements Cookie {
 	 */
 	public function withHttpOnly($httpOnly = null)
 	{
-		return new self($this->cookie->withHttpOnly($httpOnly));
+	    $clone = clone $this;
+	    $clone->cookie = $this->cookie->withHttpOnly($httpOnly);
+		return $clone;
 	}
 
 
@@ -194,42 +212,6 @@ class CookieWrapper implements Cookie {
 	public function __toString()
 	{
 		return $this->cookie->__toString();
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public static function create($name, $value = null)
-	{
-		return new self(SetCookie::create($name, $value));
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public static function createRememberedForever($name, $value = null)
-	{
-		return new self(SetCookie::createRememberedForever($name, $value));
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public static function createExpired($name)
-	{
-		return new self(SetCookie::createExpired($name));
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public static function fromSetCookieString($string)
-	{
-		return new self(SetCookie::fromSetCookieString($string));
 	}
 
 

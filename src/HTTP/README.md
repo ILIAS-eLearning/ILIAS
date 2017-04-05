@@ -12,9 +12,13 @@ The request is used to fetch data about the actual ongoing request.
 ### Usage
 ```php
 <?php
-$dic = $GLOBAL["DIC"];
+$dic = $GLOBALS["DIC"];
 
-//fetch current request
+use Psr\Http\Message\ServerRequestInterface;
+
+/**
+ * @var ServerRequestInterface $request 
+ */
 $request = $dic->http()->request();
 
 //get server parameters
@@ -51,6 +55,12 @@ The response is immutable therefore to save the changes made to the response mus
 ```php
 <?php
 $dic = $GLOBALS["DIC"];
+
+use \Psr\Http\Message\ResponseInterface;
+
+/**
+ * @var ResponseInterface $response
+ */
 $response = $dic->http()->request();
 
 //get the current status code
@@ -120,16 +130,32 @@ See the caveats section of the response for further information.
 #### Add new Cookie 
 ```php
 <?php
-use \ILIAS\HTTP\Cookies\CookieWrapper;
+use \ILIAS\HTTP\Cookies\CookieFactoryImpl;
+use \ILIAS\HTTP\Cookies\CookieJar;
 
+//get the cookie jar
 $dic = $GLOBALS["DIC"];
-$cookieJar = $dic->http()->cookies();
-$cookie = CookieWrapper::create("CookieName", "CookieValue");
+
+/**
+ * @var CookieJar $cookieJar
+ */
+$cookieJar = $dic->http()->cookieJar();
+
+//create a new cookie factory
+$cookieFactory = new CookieFactoryImpl();
+
+//create a cookie
+$cookie = $cookieFactory->create("CookieName", "CookieValue");
+
+//set the cookie path
 $cookie->withPath('/');
+
+//render the cookies back into the response.
 $response = $cookieJar
     ->with($cookie)
     ->renderIntoResponseHeader($dic->http()->response());
 
+//save the response back into the global http state.
 $dic->http()->saveResponse($response);
 ```
 
@@ -137,18 +163,33 @@ $dic->http()->saveResponse($response);
 
 ```php
 <?php
-use \ILIAS\HTTP\Cookies\CookieWrapper;
+use \ILIAS\HTTP\Cookies\CookieFactoryImpl;
+use \ILIAS\HTTP\Cookies\CookieJar;
 
+//get the cookie jar
 $dic = $GLOBALS["DIC"];
-$cookieJar = $dic->http()->cookies();
-$cookie = CookieWrapper::createExpired("CookieName");
+
+/**
+ * @var CookieJar $cookieJar
+ */
+$cookieJar = $dic->http()->cookieJar();
+
+//create a new cookie factory
+$cookieFactory = new CookieFactoryImpl();
+
+//create an expired cookie
+$cookie = $cookieFactory->createExpired("CookieName");
+
+//set the cookie path
 $cookie
-    ->withPath('/')
-    ->withExpires('+1 days');
+    ->withPath('/');
+
+//render the cookies back into the response.
 $response = $cookieJar
     ->with($cookie)
     ->renderIntoResponseHeader($dic->http()->response());
 
+//save the response back into the global http state.
 $dic->http()->saveResponse($response);
 ```
 

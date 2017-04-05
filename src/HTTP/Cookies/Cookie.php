@@ -10,7 +10,7 @@ namespace ILIAS\HTTP\Cookies;
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @package ILIAS\HTTP\Cookies
- * @since   5.2
+ * @since   5.3
  * @version 1.0.0
  */
 interface Cookie {
@@ -93,6 +93,9 @@ interface Cookie {
 	/**
 	 * Sets the expiration date of the cookie.
 	 * If the cookie should be expired please use the expire function.
+     *
+     * If the expires parameter equals null,
+     * then the expires key will be removed from the cookie.
 	 *
 	 * @param null|\DateTimeInterface|int|string $expires The expiration time of the Cookie.
 	 *
@@ -106,7 +109,7 @@ interface Cookie {
 	 *
 	 * @return Cookie
 	 */
-	public function rememberForever();
+	public function rememberForLongTime();
 
 
 	/**
@@ -175,47 +178,4 @@ interface Cookie {
 	 * @return string String representation.
 	 */
 	public function __toString();
-
-
-	/**
-	 * Create a new cookie with the given name and value.
-	 *
-	 * @param string $name       The unique cookie name.
-	 * @param null|string $value Cookie value.
-	 *
-	 * @return Cookie
-	 */
-	public static function create($name, $value = null);
-
-
-	/**
-	 * Create a new cookie with the given name and value which expires in 5 years.
-	 *
-	 * @param string $name       The unique cookie name.
-	 * @param null|string $value Cookie value.
-	 *
-	 * @return Cookie
-	 */
-	public static function createRememberedForever($name, $value = null);
-
-
-	/**
-	 * Creates an already expired cookie.
-	 * This is useful if the cookie should be deleted at the client end.
-	 *
-	 * @param string $name Cookie name.
-	 *
-	 * @return Cookie
-	 */
-	public static function createExpired($name);
-
-
-	/**
-	 * Creates the cookie from the cookie string.
-	 *
-	 * @param string $string Cookie string.
-	 *
-	 * @return Cookie
-	 */
-	public static function fromSetCookieString($string);
 }

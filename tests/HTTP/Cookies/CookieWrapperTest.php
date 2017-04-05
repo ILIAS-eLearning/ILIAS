@@ -27,6 +27,18 @@ class CookieWrapperTest extends \PHPUnit_Framework_TestCase
      */
     private $cookie;
 
+    /**
+     * @var CookieFactory $cookieFactory
+     */
+    private static $cookieFactory;
+
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        self::$cookieFactory = new CookieFactoryImpl();
+    }
+
+
     protected function setUp()
     {
         parent::setUp();
@@ -34,7 +46,7 @@ class CookieWrapperTest extends \PHPUnit_Framework_TestCase
         //setup the cookie we want to use for our tests.
         $cookieName = "ilias";
         $cookieValue = "theNewCookiesAreYummy";
-        $this->cookie = CookieWrapper::create($cookieName, $cookieValue);
+        $this->cookie = self::$cookieFactory->create($cookieName, $cookieValue);
     }
 
     /**
@@ -65,7 +77,7 @@ class CookieWrapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testRememberForeverDoesNotChangeTheCurrentObject()
     {
-        $newCookie = $this->cookie->rememberForever();
+        $newCookie = $this->cookie->rememberForLongTime();
 
         //remember forever changes the date of expiry so they should differ by quite a bit.
         $this->assertNotEquals($this->cookie->getExpires(), $newCookie->getExpires());

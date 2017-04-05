@@ -3,7 +3,7 @@
 
 namespace ILIAS\DI;
 
-use ILIAS\HTTP\Cookies\CookieJarWrapper;
+use ILIAS\HTTP\Cookies\CookieJarFactory;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 use Psr\Http\Message\ResponseInterface;
@@ -25,17 +25,24 @@ class HTTPServices implements GlobalHttpState {
 	 */
 	private $sender;
 
+    /**
+     * @var CookieJarFactory $cookieJarFactory
+     */
+	private $cookieJarFactory;
 
-	/**
-	 * HTTPServices constructor.
-	 *
-	 * @param \ILIAS\DI\Container    $container
-	 * @param ResponseSenderStrategy $senderStrategy
-	 */
-	public function __construct(Container $container, ResponseSenderStrategy $senderStrategy)
+
+    /**
+     * HTTPServices constructor.
+     *
+     * @param \ILIAS\DI\Container    $container         The ILIAS DIC.
+     * @param ResponseSenderStrategy $senderStrategy    A response sender strategy.
+     * @param CookieJarFactory       $cookieJarFactory  Cookie Jar implementation.
+     */
+	public function __construct(Container $container, ResponseSenderStrategy $senderStrategy, CookieJarFactory $cookieJarFactory)
 	{
 		$this->container = $container;
 		$this->sender = $senderStrategy;
+		$this->$cookieJarFactory = $cookieJarFactory;
 	}
 
 
@@ -46,7 +53,7 @@ class HTTPServices implements GlobalHttpState {
 	 */
 	public function cookieJar()
 	{
-		return CookieJarWrapper::fromResponse($this->response());
+		return $this->cookieJarFactory->fromResponse($this->response());
 	}
 
 

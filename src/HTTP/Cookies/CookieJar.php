@@ -7,20 +7,26 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Interface CookieJar
  *
- * Specifies the cookie jar interface.
- * All implementations must be immutable.
+ * The cookie jar represents a collection of cookies.
+ *
+ * The cookie jar never manipulates the response automatically. Therefore please
+ * call the renderIntoResponseHeader method, when you are done manipulating the cookies.
+ *
+ * Please note that all concrete implementations of the jar must be immutable.
+ * There is no need to implement custom deep copy mechanism because the cookie itself must
+ * be immutable to.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @package ILIAS\HTTP\Cookies
- * @since   5.2
+ * @since   5.3
  * @version 1.0.0
  */
 interface CookieJar {
 
 	/**
-	 * Checks if a cookie with the given name is the current jar.
+	 * Checks if a cookie with the given name is in the jar.
 	 *
-	 * @param string $name Cookie name.
+	 * @param string $name  Cookie name.
 	 * @return bool         True if the cookie exists otherwise false.
 	 */
 	public function has($name);
@@ -72,23 +78,4 @@ interface CookieJar {
 	 * @return ResponseInterface
 	 */
 	public function renderIntoResponseHeader(ResponseInterface $response);
-
-
-	/**
-	 * Create CookieJar from a collection of Cookie header value strings.
-	 *
-	 * @param string[] $cookieStrings
-	 * @return static
-	 */
-	public static function fromCookieStrings($cookieStrings);
-
-
-	/**
-	 * Create CookieJar from a Response.
-	 *
-	 * @param ResponseInterface $response
-	 *
-	 * @return CookieJar
-	 */
-	public static function fromResponse(ResponseInterface $response);
 }

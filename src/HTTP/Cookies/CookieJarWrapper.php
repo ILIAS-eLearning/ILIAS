@@ -6,13 +6,13 @@ use Dflydev\FigCookies\SetCookies;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Class CookieJarFacade
+ * Class CookieJarWrapper
  *
  * Wrapper class for the FigCookies SetCookies class.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @package ILIAS\HTTP\Cookies
- * @since   5.2
+ * @since   5.3
  * @version 1.0.0
  */
 class CookieJarWrapper implements CookieJar {
@@ -28,7 +28,7 @@ class CookieJarWrapper implements CookieJar {
 	 *
 	 * @param SetCookies $cookies
 	 */
-	private function __construct(SetCookies $cookies)
+    function __construct(SetCookies $cookies)
 	{
 		$this->cookies = $cookies;
 	}
@@ -78,9 +78,12 @@ class CookieJarWrapper implements CookieJar {
 		 */
 		$wrapper = $setCookie;
 		$internalCookie = $wrapper->getImplementation();
-		$cookies = $this->cookies->with($internalCookie);
 
-		return new self($cookies);
+		$clone = clone $this;
+		$clone->cookies = $this->cookies->with($internalCookie);
+
+
+		return $clone;
 	}
 
 
@@ -89,8 +92,9 @@ class CookieJarWrapper implements CookieJar {
 	 */
 	public function without($name)
 	{
-		$cookies = $this->cookies->without($name);
-		return new self($cookies);
+	    $clone = clone $this;
+		$clone->cookies = $this->cookies->without($name);
+		return $clone;
 	}
 
 
@@ -102,23 +106,5 @@ class CookieJarWrapper implements CookieJar {
 		$response = $this->cookies->renderIntoSetCookieHeader($response);
 
 		return $response;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public static function fromCookieStrings($cookieStrings)
-	{
-		return new self(SetCookies::fromSetCookieStrings($cookieStrings));
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public static function fromResponse(ResponseInterface $response)
-	{
-		return new self(SetCookies::fromResponse($response));
 	}
 }
