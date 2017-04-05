@@ -491,9 +491,13 @@ class ilInitialisation
 	 */
 	protected static function initMail(\ILIAS\DI\Container $c)
 	{
-		$c["mail.transport.factory"] = function ($c) {
+		$c["mail.mime.transport.factory"] = function ($c) {
 			require_once 'Services/Mail/classes/Mime/Transport/class.ilMailMimeTransportFactory.php';
 			return new ilMailMimeTransportFactory($c["ilSetting"]);
+		};
+		$c["mail.mime.sender.factory"] = function ($c) {
+			require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderFactory.php';
+			return new ilMailMimeSenderFactory($c["ilSetting"]);
 		};
 	}
 

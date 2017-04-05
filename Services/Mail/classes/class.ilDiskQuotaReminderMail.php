@@ -137,12 +137,15 @@ class ilDiskQuotaReminderMail
 			// replace placeholders
 			$mail_subject = $this->replacePlaceholders($amail['subject'], $amail, $lang);
 			$mail_body = $this->replacePlaceholders($amail['body'], $amail, $lang);
-		}	
-		
+		}
+
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+
 		// send the mail
 		include_once 'Services/Mail/classes/class.ilMimeMail.php';
 		$mmail = new ilMimeMail();
-		$mmail->From($ilSetting->get('admin_email'));																		
+		$mmail->From($senderFactory->system());
 		$mmail->Subject($mail_subject);
 		$mmail->To($this->data['email']);
 		$mmail->Body($mail_body);

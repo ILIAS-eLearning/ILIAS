@@ -75,6 +75,10 @@ class ilUserCronCheckAccounts extends ilCronJob
 
 		$res = $ilDB->query($query);
 
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+		$sender        = $senderFactory->system();
+
 		while($row = $ilDB->fetchObject($res))
 		{
 			include_once 'Services/Mail/classes/class.ilMimeMail.php';
@@ -89,7 +93,7 @@ class ilUserCronCheckAccounts extends ilCronJob
 			// Send mail
 			$mail = new ilMimeMail();
 			
-			$mail->From('noreply');
+			$mail->From($sender);
 			$mail->To($data['email']);
 			$mail->Subject($this->txt($data['language'],'account_expires_subject'), true);
 			$mail->Body($this->txt($data['language'],'account_expires_body')." ".strftime('%Y-%m-%d %R',$data['expires']));

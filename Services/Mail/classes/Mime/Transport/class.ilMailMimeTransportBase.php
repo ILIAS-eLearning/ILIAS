@@ -59,7 +59,6 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 	 */
 	protected function onBeforeSend()
 	{
-		
 	}
 
 	/**
@@ -96,13 +95,17 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 			}
 		}
 
-		$this->onBeforeSend();
-
 		$this->getMailer()->Subject = $mail->getSubject();
 
-		$this->getMailer()->Sender = 'info@databay.de';
-		$this->getMailer()->addReplyTo("mjansen+4711@databay.de", "Michael Jansen");
-		$this->getMailer()->setFrom('info@databay.de', "Databay AG");
+		if($mail->getFrom()->hasReplyToAddress())
+		{
+			$this->getMailer()->addReplyTo($mail->getFrom()->getReplyToAddress(), $mail->getFrom()->getReplyToName());
+		}
+		if($mail->getFrom()->hasEnvelopFromAddress())
+		{
+			$this->getMailer()->Sender = $mail->getFrom()->getEnvelopFromAddress();
+		}
+		$this->getMailer()->setFrom($mail->getFrom()->getFromAddress(), $mail->getFrom()->getFromName());
 
 		foreach($mail->getAttachments() as $attachment)
 		{
@@ -127,16 +130,23 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 			$this->getMailer()->Body    = $mail->getFinalBody();
 		}
 
-		// @todo Logg from/sender/reply-to
 		ilLoggerFactory::getLogger('mail')->debug(sprintf(
 			"Trying to delegate external email delivery:" .
-			" Initiated by: %s (%s)" .
-			" | To: %s | CC: %s | BCC: %s | Subject: %s",
+			" Initiated by: %s (%s) " .
+			"| To: %s | CC: %s | BCC: %s | Subject: %s " .
+			"| From: %s / %s " .
+			"| ReplyTo: %s / %s" .
+			"| EnvelopeFrom: %s",
 			$GLOBALS['DIC']->user()->getLogin(), $GLOBALS['DIC']->user()->getId(),
-			implode(', ', $mail->getTo()), implode(', ', $mail->getCc()), implode(', ', $mail->getBcc()), $mail->getSubject()
+			implode(', ', $mail->getTo()), implode(', ', $mail->getCc()), implode(', ', $mail->getBcc()), $mail->getSubject(),
+			$mail->getFrom()->getFromAddress(), $mail->getFrom()->getFromName(),
+			$mail->getFrom()->getReplyToAddress(), $mail->getFrom()->getReplyToName(),
+			$mail->getFrom()->getEnvelopFromAddress()
 		));
 
 		$this->getMailer()->CharSet = 'utf-8';
+
+		$this->onBeforeSend();
 		$result = $this->getMailer()->Send();
 		if($result)
 		{

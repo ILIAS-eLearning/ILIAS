@@ -360,7 +360,6 @@ class ilObjMailGUI extends ilObjectGUI
 		if($is_manual_mail)
 		{
 			$mail = new ilMail($GLOBALS['DIC']->user()->getId());
-			$mail->setSaveInSentbox(false);
 			$type = array('normal');
 		}
 		else
@@ -369,6 +368,8 @@ class ilObjMailGUI extends ilObjectGUI
 			$type = array('system');
 		}
 
+		$mail->setSaveInSentbox(false);
+		$mail->appendInstallationSignature(true);
 		$mail->sendMail($GLOBALS['DIC']->user()->getEmail(), '', '', 'Test Subject', 'Test Body', array(), $type);
 
 		ilUtil::sendSuccess($this->lng->txt('mail_external_test_sent'));

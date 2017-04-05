@@ -6,26 +6,10 @@
  */
 class ilMimeMail
 {
-	const CONTEXT_SYSTEM = 1;
-	const CONTEXT_USER   = 2;
-
-	/**
-	 * @var array
-	 */
-	protected static $validContexts = array(
-		self::CONTEXT_SYSTEM,
-		self::CONTEXT_USER,
-	);
-
 	/**
 	 * @var ilMailMimeTransport|null
 	 */
 	protected static $defaultTransport;
-
-	/**
-	 * @var int
-	 */
-	protected $context;
 
 	/**
 	 * @var string
@@ -90,28 +74,20 @@ class ilMimeMail
 	protected $adisplay = array();
 
 	/**
-	 * @var string
+	 * @var ilMailMimeSender
 	 */
-	protected $from = '';
-
-	/**
-	 * @var string
-	 */
-	protected $from_name = '';
+	protected $sender; 
 
 	/**
 	 * ilMimeMail constructor.
-	 * @param int $context
 	 */
-	public function __construct($context = self::CONTEXT_SYSTEM)
+	public function __construct()
 	{
 		global $DIC;
 
-		$this->setContext($context);
-
 		if(!(self::getDefaultTransport() instanceof ilMailMimeTransport))
 		{
-			$factory = $DIC["mail.transport.factory"];
+			$factory = $DIC["mail.mime.transport.factory"];
 			self::setDefaultTransport($factory->getTransport());
 		}
 	}
@@ -130,32 +106,6 @@ class ilMimeMail
 	public static function getDefaultTransport()
 	{
 		return self::$defaultTransport;
-	}
-
-	/**
-	 * @param int
-	 * @throws ilMailException
-	 */
-	protected function setContext($context)
-	{
-		if(!in_array($context, self::$validContexts))
-		{
-			require_once 'Services/Mail/exceptions/class.ilMailException.php';
-			throw new ilMailException(sprintf(
-				"Invalid mail context '%s' given, supported are: %s",
-				var_export($context, 1), implode(', ', self::$validContexts)
-			));
-		}
-
-		$this->context = $context;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getContext()
-	{
-		return $this->context;
 	}
 
 	/**
@@ -187,26 +137,11 @@ class ilMimeMail
 	}
 
 	/**
-	 * @param string|array $from From should be an email address in case only the address is given, or an array with the email address at the first index, the name at the second index.
-	 * @throws ilMailException
+	 * @param ilMailMimeSender $sender
 	 */
-	public function From($from)
+	public function From(ilMailMimeSender $sender)
 	{
-		if(!is_string($from) && !is_array($from))
-		{
-			require_once 'Services/Mail/exceptions/class.ilMailException.php';
-			throw new ilMailException('The passed parameter must be either of type "string" or of type "array".');
-		}
-
-		if(is_array($from))
-		{
-			$this->from      = $from[0];
-			$this->from_name = $from[1];
-		}
-		else
-		{
-			$this->from = $from;
-		}
+		$this->sender = $sender;
 	}
 
 	/**
@@ -306,6 +241,14 @@ class ilMimeMail
 	public function getFinalBodyAlt()
 	{
 		return $this->final_body_alt;
+	}
+
+	/**
+	 * @return ilMailMimeSender
+	 */
+	public function getFrom()
+	{
+		return $this->sender;
 	}
 
 	/**

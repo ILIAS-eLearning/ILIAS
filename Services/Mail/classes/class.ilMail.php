@@ -141,7 +141,15 @@ class ilMail
 		$this->setSaveInSentbox(false);
 		$this->readMailObjectReferenceId();
 	}
-	
+
+	/**
+	 * @return bool
+	 */
+	protected function isSystemMail()
+	{
+		return $this->user_id == ANONYMOUS_USER_ID;
+	}
+
 	/**
 	 * Magic interceptor method __get
 	 * Used to include files / instantiate objects at runtime.
@@ -1121,7 +1129,7 @@ class ilMail
 		);
 
 		$this->mail_to_global_roles = true;
-		if($this->user_id != ANONYMOUS_USER_ID)
+		if(!$this->isSystemMail())
 		{
 			$this->mail_to_global_roles = $rbacsystem->checkAccessOfUser($this->user_id, 'mail_to_global_roles', $this->mail_obj_ref_id);
 		}
@@ -1166,7 +1174,7 @@ class ilMail
 		$c_emails = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bc, true);
 
 		if(
-			$c_emails && $this->user_id != ANONYMOUS_USER_ID &&
+			$c_emails && !$this->isSystemMail() &&
 			!$rbacsystem->checkAccessOfUser($this->user_id, 'smtp_mail', $this->mail_obj_ref_id)
 		)
 		{
@@ -1260,68 +1268,6 @@ class ilMail
 	}
 
 	/**
-	 * Returns the sender of the mime mail as array(address => name)
-	 * @return array
-	 */
-	protected function getMimeMailSender()
-	{
-		/** @var $ilUser ilObjUser */
-		global $ilUser;
-
-		if($this->user_id && $this->user_id != ANONYMOUS_USER_ID)
-		{
-			$email    = $ilUser->getEmail();
-			$fullname = $ilUser->getFullname();
-			if($ilUser->getId() != $this->user_id)
-			{
-				$user  = self::getCachedUserInstance($this->user_id);
-				$email = $user->getEmail();
-				$fullname = $user->getFullname();
-			}
-
-			$sender = array($email, $fullname);
-		}
-		else
-		{
-			$sender = self::getIliasMailerAddress();
-		}
-
-		return $sender;
-	}
-	
-	/**
-	 * Builds an email address array(address => name) used for system notifications 
-	 * @returnx array
-	 */
-	public static function getIliasMailerAddress()
-	{
-		/** @var $ilSetting ilSetting */
-		global $ilSetting;
-
-		$no_reply_adress = trim($ilSetting->get('mail_external_sender_noreply'));
-		if(strlen($no_reply_adress))
-		{
-			if(strpos($no_reply_adress, '@') === false)
-			{
-				$no_reply_adress = 'noreply@' . $no_reply_adress;
-			}
-			
-			if(!ilUtil::is_email($no_reply_adress))
-			{
-				$no_reply_adress = 'noreply@' . $_SERVER['SERVER_NAME'];
-			}
-
-			$sender = array($no_reply_adress, self::_getIliasMailerName());
-		}
-		else
-		{
-			$sender = array('noreply@' . $_SERVER['SERVER_NAME'], self::_getIliasMailerName());
-		}
-
-		return $sender;
-	}
-
-	/**
 	 * Send mime mail using class.ilMimeMail.php. All external mails are send to SOAP::sendMail (if enabled) starting a kind of background process
 	 * @param string $a_rcp_to
 	 * @param string $a_rcp_cc
@@ -1330,7 +1276,6 @@ class ilMail
 	 * @param string $a_m_message
 	 * @param array  $a_attachments
 	 * @param bool   $a_no_soap
-	 * @return    array of saved data
 	 * @deprecated Should not be called from consumers, please use sendMail()
 	 */
 	public function sendMimeMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_attachments, $a_no_soap = false)
@@ -1338,7 +1283,6 @@ class ilMail
 		require_once 'Services/Mail/classes/class.ilMimeMail.php';
 
 		$a_m_subject = self::getSubjectPrefix() . ' ' . $a_m_subject;
-		$sender      = $this->getMimeMailSender();
 
 		// #10854
 		if($this->isSOAPEnabled() && !$a_no_soap)
@@ -1369,21 +1313,19 @@ class ilMail
 				$a_rcp_to,
 				$a_rcp_cc,
 				$a_rcp_bcc,
-				is_array($sender) ? implode('#:#', $sender) : $sender,
+				is_array($sender) ? implode('#:#', $sender) : $sender, // @todo mail_smtp: Transport sender via SOAP
 				$a_m_subject,
 				$a_m_message,
 				$attachments
 			));
-
-			return true;
 		}
 		else
 		{
-			// send direct
-			include_once "Services/Mail/classes/class.ilMimeMail.php";
+			/** @var ilMailMimeSenderFactory $senderFactory */
+			$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 
 			$mmail = new ilMimeMail();
-			$mmail->From($sender);
+			$mmail->From($senderFactory->getSenderByUsrId($this->user_id));
 			$mmail->To($a_rcp_to);
 			$mmail->Subject($a_m_subject);
 			$mmail->Body($a_m_message);
@@ -1570,21 +1512,10 @@ class ilMail
 	 */
 	public static function _getIliasMailerName()
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 
-		if(strlen($ilSetting->get('mail_system_sender_name')))
-		{
-			return $ilSetting->get('mail_system_sender_name');
-		}
-		else if(strlen($ilSetting->get('short_inst_name')))
-		{
-			return $ilSetting->get('short_inst_name');
-		}
-
-		return 'ILIAS';
+		return $senderFactory->system()->getFromName();
 	}
 
 	/**
@@ -1608,28 +1539,10 @@ class ilMail
 	 */
 	public static function _getInstallationSignature()
 	{
-		/** @var $ilClientIniFile ilIniFile */
-		global $ilClientIniFile;
+		/** @var $ilSetting ilSetting */
+		global $ilSetting;
 
-		$signature = "\n\n* * * * *\n";
-
-		$signature .= $ilClientIniFile->readVariable('client', 'name') . "\n";
-		if(strlen($desc = $ilClientIniFile->readVariable('client', 'description')))
-		{
-			$signature .= $desc . "\n";
-		}
-
-		$signature .= ilUtil::_getHttpPath();
-
-		$clientdirs = glob(ILIAS_WEB_DIR . '/*', GLOB_ONLYDIR);
-		if(is_array($clientdirs) && count($clientdirs) > 1)
-		{
-			$signature .= '/login.php?client_id=' . CLIENT_ID; // #18051
-		}
-
-		$signature .= "\n\n";
-
-		return $signature;
+		return $ilSetting->get('mail_system_sys_signature');
 	}
 
 	/**

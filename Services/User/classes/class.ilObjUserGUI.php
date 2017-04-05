@@ -2392,8 +2392,11 @@ class ilObjUserGUI extends ilObjectGUI
 
 		include_once "Services/Mail/classes/class.ilMimeMail.php";
 
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+
 		$mmail = new ilMimeMail();
-		$mmail->From($ilUser->getEmail());
+		$mmail->From($senderFactory->system());
 		$mmail->To($this->object->getEmail());
 
 		// mail subject
