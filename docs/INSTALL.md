@@ -379,44 +379,23 @@ IliasIniPath = /var/www/html/ilias/ilias.ini.php
 
 ILIAS can generate a proper configuration file via the Administration menu ("Administration -> General Settings -> Server -> Java-Server -> Create Configuration File"). Please note that the configuration file is not directly written to the file system, you MUST copy the displayed content and create the file manually.
 
-You MAY use the following SysV-Initscript to start the RPC server:
+You MAY use the following systemd service description to start the RPC server. If you still use SysV-Initscripts you can find one in the [Lucene RPC-Server](../Services/WebServices/RPC/lib/README.txt) documentation.
 
 ```
-#!/bin/bash
+[Unit]
+Description=ILIAS RPC Server
+After=network.target
 
-JAVABIN=/usr/bin/java    # Type in the path to your java binary
-ILIASDIR=/var/www/html/ilias    # Type in the root directory of your ILIAS installation
-IL_SERVER_INI=/var/www/html/ilias/Services/WebServices/RPC/lib/ilServer.properties    # Type in the location of the RPC config file
+[Service]
+Environment=JAVA_OPTS="-Dfile.encoding=UTF-8"
+Environment=ILSERVER_JAR="/var/www/html/ilias/Services/WebServices/RPC/lib/ilServer.jar"
+Environment=ILSERVER_INI="/var/www/html/ilias/Services/WebServices/RPC/lib/ilServer.properties"
 
-case "$1" in
-    start)
-        echo "Starting ILIAS Java-Server"
-        $JAVABIN -Dfile.encoding=UTF-8 -jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.jar $IL_SERVER_INI start &
-        exit 0
-        ;;
+ExecStart=-/usr/bin/java $JAVA_OPTS -jar $ILSERVER_JAR $ILSERVER_INI start
+ExecStop=/usr/bin/java $JAVA_OPTS -jar $ILSERVER_JAR $ILSERVER_INI stop
 
-    stop)
-        echo "Shutting down ILIAS Java-Server"
-        $JAVABIN -jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.jar $IL_SERVER_INI stop
-        exit 0
-        ;;
-
-    status)
-        $JAVABIN -jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.jar $IL_SERVER_INI status
-        ;;      
-
-    restart)
-        $0 stop
-        sleep 2
-        $0 start
-        ;;
-
-    *)
-        echo "Usage: $0 {start|stop|status|restart}"
-        exit 1
-esac
-
-exit 0
+[Install]
+WantedBy=multi-user.target
 ```
 
 At this point the RPC server will generate PDF certificates, but to use Lucence search further step are needed. See [Lucene RPC-Server](../Services/WebServices/RPC/lib/README.txt) for details.
