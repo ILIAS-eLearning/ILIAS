@@ -41,7 +41,7 @@ class Rating implements C\Input\Rating\Rating {
 	 * @param 	string 		$topic
 	 */
 	public function __construct($topic) {
-		$this->checkStringArg("string", $topic);
+		$this->checkStringArg("topic", $topic);
 		$this->topic = $topic;
 		$this->scale_captions = $this->fillCaptions(array());
 		$this->byline = '';
@@ -59,7 +59,7 @@ class Rating implements C\Input\Rating\Rating {
 	 * @inheritdoc
 	 */
 	public function withByline($byline) {
-		$this->checkStringArg('string', $byline);
+		$this->checkStringArg('byline', $byline);
 		$clone = clone $this;
 		$clone->byline = $byline;
 		return $clone;
@@ -107,7 +107,8 @@ class Rating implements C\Input\Rating\Rating {
 	 * @inheritdoc
 	 */
 	public function withAverage($average) {
-		//$this->checkFloatArg('integer', $average);
+		//waiting for PR to be accepted:
+		//$this->checkFloatArg('average', $average);
 		if ($average < 0 or $average > 5) {
 			$message = 'average must between 0 and 5.';
 			throw new \InvalidArgumentException("Argument $average': $message");
