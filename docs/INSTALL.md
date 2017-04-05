@@ -419,6 +419,8 @@ esac
 exit 0
 ```
 
+At this point the RPC server will generate PDF certificates, but to use Lucence search further step are needed. See [Lucene RPC-Server](../Services/WebServices/RPC/lib/README.txt) for details.
+
 <a name="hardening-and-security-guidance"></a>
 # Hardening and Security Guidance
 
