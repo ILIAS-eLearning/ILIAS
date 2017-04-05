@@ -87,7 +87,7 @@ We RECOMMEND at least 100 Mbit/sec. for the web server WAN connection.
 For best results we RECOMMEND:
 
   * Debian GNU Linux 8 / Red Hat Enterprise Linux 7 / Ubuntu 16.04 LTS
-  * MySQL 5.7 / MariaDB
+  * MySQL 5.5 / MariaDB
   * PHP 5.6+
   * Apache 2.2+ with mod_php
   * ImageMagick 6.x+
@@ -435,6 +435,7 @@ The only files and directories that must be owned/writeable by the web user are:
 
   * ilias.ini.php
   * data/
+  * ILIAS data dir outside of the webservers docroot
 
 All the other files and directories should be owned by ```root```, but readable by the web user (e.g. 644/755).
 
