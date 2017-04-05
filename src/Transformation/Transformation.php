@@ -7,7 +7,7 @@ namespace ILIAS\Transformation;
  * A transformation is a function from one datatype to another.
  *
  * It MUST NOT perform any sideeffects, i.e. it must be morally impossible to observe
- * how often the transformation was actually performed. It MUST NOT touch the providedi
+ * how often the transformation was actually performed. It MUST NOT touch the provided
  * value, i.e. it is allowed to create new values but not to modify existing values.i
  * This would be an observable sideeffect.  
  */
