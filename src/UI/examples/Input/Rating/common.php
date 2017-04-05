@@ -5,11 +5,11 @@ function common() {
 	$renderer = $DIC->ui()->renderer();
 
 	$captions = array(
-		'opt1',
-		'opt2',
-		'opt3',
-		'opt4',
-		'opt5'
+		'I hate it',
+		'it\'s OK',
+		'I\'m completely undecided',
+		'good',
+		'I love it!'
 	);
 
 	$ri = $f->input()->rating('topic')
