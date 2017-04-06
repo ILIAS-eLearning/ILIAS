@@ -38,8 +38,6 @@ sess#:#sess_part_filter_participated#:#Nur Teilgenommene
 sess#:#sess_print_list#:#Liste erstellen
 crs#:#crs_show_member_export#:#Teilnehmerliste
 crs#:#crs_show_member_export_info#:#Mitglieder haben die Möglichkeit eine Teilnehmerliste zu generieren
-grp#:#grp_period#:#Veranstaltungszeitraum
-grp#:#grp_period_info#:#Information zum Start und Ende der Veranstaltung, die mit der Gruppe unterstützt werden soll.
 mem#:#mmbr_gallery_user_actions#:#Member Gallery Actions
 forum#:#delete_drafts_successfully#:#Die Entwürfe wurden erfolgreich gelöscht.
 forum#:#sure_delete_drafts#:#Sind Sie sicher, dass Sie die gewählten Entwürfe löschen möchten?

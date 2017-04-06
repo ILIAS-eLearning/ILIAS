@@ -331,7 +331,9 @@ class ilMembershipGUI
 					$cmd != 'membersMap'
 				)
 				{
-					$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
+					#$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
+					#$this->checkPermission('manage_members');
+					$this->checkPermission('read');
 				}
 				else
 				{
@@ -1561,7 +1563,8 @@ class ilMembershipGUI
 	{
 		global $ilTabs;
 		
-		$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
+		#$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
+		$this->checkPermission('read');
 		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget(
