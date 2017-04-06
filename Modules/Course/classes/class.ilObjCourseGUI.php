@@ -23,6 +23,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilMailMemberSearchGUI, ilBadgeManagementGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilMemberExportSettingsGUI
  *
  * @extends ilContainerGUI
  */
@@ -1623,6 +1624,16 @@ class ilObjCourseGUI extends ilContainerGUI
 						$this->lng->txt("cont_news_settings"),
 						$this->ctrl->getLinkTargetByClass('ilcontainernewssettingsgui'));
 				}
+				
+				if($this->object->getShowMembersExport())
+				{
+					$this->tabs_gui->addSubTab(
+						'export_members', 
+						$this->lng->txt('crs_show_member_export_settings'), 
+						$this->ctrl->getLinkTargetByClass('ilmemberexportsettingsgui','')
+					);
+				}
+				
 				break;
 				
 		}
@@ -2544,6 +2555,14 @@ class ilObjCourseGUI extends ilContainerGUI
 				$t->setUserEditAll($ilAccess->checkAccess('write','',$this->object->getRefId(),'grp'));
 				$this->ctrl->forwardCommand($t);
 				break;
+			
+			case 'ilmemberexportsettingsgui':
+				$this->setSubTabs('properties');
+				include_once './Services/Membership/classes/Export/class.ilMemberExportSettingsGUI.php';
+				$settings_gui = new ilMemberExportSettingsGUI($this->object->getType(), $this->object->getId());
+				$this->ctrl->forwardCommand($settings_gui);
+				break;
+			
 
 			case "ilcontainerskillgui":
 				$this->tabs_gui->activateTab('obj_tool_setting_skills');

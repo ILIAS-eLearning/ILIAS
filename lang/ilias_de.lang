@@ -36,6 +36,7 @@ sess#:#objs_grp_role#:#Gruppenrollen
 sess#:#sess_part_filter_registered#:#Nur Angemeldete
 sess#:#sess_part_filter_participated#:#Nur Teilgenommene
 sess#:#sess_print_list#:#Liste erstellen
+crs#:#crs_show_member_export_settings#:#Teilnehmerliste
 crs#:#crs_show_member_export#:#Teilnehmerliste
 crs#:#crs_show_member_export_info#:#Mitglieder haben die Möglichkeit eine Teilnehmerliste zu generieren
 mem#:#mmbr_gallery_user_actions#:#Member Gallery Actions
