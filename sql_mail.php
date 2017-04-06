@@ -40,7 +40,7 @@ $ilSetting->set('mail_allow_external', !(int)$prevent_smtp_globally);
 
 $ilSetting->set('mail_system_usr_from_addr', $mail_external_sender_noreply);
 $ilSetting->set('mail_system_usr_from_name', $mail_system_sender_name);
-$ilSetting->set('mail_system_usr_head_env_from_addr', $mail_system_return_path);
+$ilSetting->set('mail_system_usr_env_from_addr', $mail_system_return_path);
 
 $ilSetting->set('mail_system_sys_from_addr', $mail_external_sender_noreply);
 $ilSetting->set('mail_system_sys_from_name', $mail_system_sender_name);

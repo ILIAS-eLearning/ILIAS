@@ -78,7 +78,7 @@ class ilMailMimeSenderUser implements ilMailMimeSender
 	 */
 	public function hasEnvelopFromAddress()
 	{
-		return strlen($this->settings->get('mail_system_usr_head_env_from_addr')) > 0;
+		return strlen($this->settings->get('mail_system_usr_env_from_addr')) > 0;
 	}
 
 	/**
@@ -86,7 +86,7 @@ class ilMailMimeSenderUser implements ilMailMimeSender
 	 */
 	public function getEnvelopFromAddress()
 	{
-		return $this->settings->get('mail_system_usr_head_env_from_addr');
+		return $this->settings->get('mail_system_usr_env_from_addr');
 	}
 
 	/**
@@ -102,8 +102,18 @@ class ilMailMimeSenderUser implements ilMailMimeSender
 	 */
 	public function getFromName()
 	{
-		// @todo mail_smtp: Replace Placeholders 
 		$from = $this->settings->get('mail_system_usr_from_name');
-		return $this->user->getFullname();
+		if(0 == strlen($from))
+		{
+			return $this->user->getFullname();
+		}
+
+		$name = str_ireplace('[[FULLNAME]]', $this->user->getFullname(), $from);
+		if($name != $from)
+		{
+			return $name;
+		}
+
+		return $from;
 	}
 }
