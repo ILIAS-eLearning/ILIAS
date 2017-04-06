@@ -111,17 +111,4 @@ class Container extends \Pimple\Container {
 	public function ui() {
 		return new UIServices($this);
 	}
-
-    /**
-     * Get interface to the http service.
-     *
-     * @return GlobalHttpState
-     */
-	public function http() {
-	    return new HTTPServices(
-	        $this,
-            new DefaultResponseSenderStrategy(),
-            new CookieJarFactoryImpl()
-        );
-    }
 }
