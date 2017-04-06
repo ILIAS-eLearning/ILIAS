@@ -1313,7 +1313,7 @@ class ilMail
 				$a_rcp_to,
 				$a_rcp_cc,
 				$a_rcp_bcc,
-				is_array($sender) ? implode('#:#', $sender) : $sender, // @todo mail_smtp: Transport sender via SOAP
+				$this->user_id,
 				$a_m_subject,
 				$a_m_message,
 				$attachments

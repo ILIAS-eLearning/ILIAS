@@ -53,15 +53,21 @@ class ilSoapUtils extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
-		}			
-
-		include_once 'Services/Mail/classes/class.ilMimeMail.php';
-
-		if(strpos($sender, '#:#') !== false)
-		{
-			$sender = explode('#:#', $sender);
 		}
 
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+
+		if(is_numeric($sender))
+		{
+			$sender = $senderFactory->getSenderByUsrId($sender);
+		}
+		else
+		{
+			$sender = $senderFactory->system();
+		}
+
+		require_once 'Services/Mail/classes/class.ilMimeMail.php';
 		$mmail = new ilMimeMail();
 		$mmail->From($sender);
 		$mmail->To(explode(',',$to));
