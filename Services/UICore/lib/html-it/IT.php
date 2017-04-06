@@ -931,13 +931,7 @@ class HTML_Template_IT
         }
 
 
-        return preg_replace_callback(
-            "#<!-- INCLUDE (.*) -->#im",
-            function ($hit) {
-                return $this->getFile($hit[1]);
-            },
-            $content
-        );
+        return $content;
     } // end func getFile
 
     /**
