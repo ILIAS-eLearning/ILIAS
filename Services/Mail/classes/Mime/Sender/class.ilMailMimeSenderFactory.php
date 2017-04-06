@@ -14,6 +14,11 @@ class ilMailMimeSenderFactory
 	protected $settings;
 
 	/**
+	 * @var ilMailMimeSender[]
+	 */
+	protected $senders = array();
+
+	/**
 	 * ilMailMimeSenderFactory constructor.
 	 * @param ilSetting $settings
 	 */
@@ -37,17 +42,25 @@ class ilMailMimeSenderFactory
 	 */
 	public function getSenderByUsrId($usrId)
 	{
-		// @todo mail_smtp: Cache / Flyweight
+		if(array_key_exists($usrId, $this->senders))
+		{
+			return $this->senders[$usrId];
+		}
+
 		switch(true)
 		{
 			case $this->isSystemMail($usrId):
-				return $this->system();
+				$sender = $this->system();
 				break;
 
 			default:
-				return $this->user($usrId);
+				$sender = $this->user($usrId);
 				break;
 		}
+
+		$this->senders[$usrId] = $sender;
+
+		return $sender;
 	}
 
 	/**
@@ -61,13 +74,11 @@ class ilMailMimeSenderFactory
 
 	/**
 	 * @param int $usrId
-	 * @return ilMailMimeSenderSystem
+	 * @return ilMailMimeSenderUser
 	 */
 	public function user($usrId)
 	{
 		require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderUser.php';
-		$sender = new ilMailMimeSenderUser($this->settings, $usrId);
-
-		return $sender;
+		return ilMailMimeSenderUser::byUsrId($this->settings, $usrId);
 	}
 }

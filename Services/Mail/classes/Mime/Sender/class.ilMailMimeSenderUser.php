@@ -9,24 +9,44 @@ require_once 'Services/Mail/classes/Mime/Sender/interface.ilMailMimeSender.php';
 class ilMailMimeSenderUser implements ilMailMimeSender
 {
 	/**
+	 * @var \ilObjUser[]
+	 */
+	protected static $userInstances = array();
+
+	/**
 	 * @var \ilSetting
 	 */
 	protected $settings;
 
 	/**
-	 * @var
+	 * @var \ilObjUser
 	 */
-	protected $usrId;
+	protected $user;
 
 	/**
 	 * ilMailMimeSenderSystem constructor.
-	 * @param ilSetting $settings
-	 * @param int       $usrId
+	 * @param \ilSetting $settings
+	 * @param \ilObjUser ilObjUser
 	 */
-	public function __construct(\ilSetting $settings, $usrId)
+	public function __construct(\ilSetting $settings, \ilObjUser $user)
 	{
 		$this->settings = $settings;
-		$this->usrId    = $usrId;
+		$this->user     = $user;
+	}
+
+	/**
+	 * @param \ilSetting $settings
+	 * @param int $usrId
+	 * @return self
+	 */
+	public static function byUsrId(\ilSetting $settings, $usrId)
+	{
+		if(!array_key_exists($usrId, self::$userInstances))
+		{
+			self::$userInstances[$usrId] = new ilObjUser($usrId);
+		}
+
+		return new self($settings, self::$userInstances[$usrId]);
 	}
 
 	/**
@@ -42,8 +62,7 @@ class ilMailMimeSenderUser implements ilMailMimeSender
 	 */
 	public function getReplyToAddress()
 	{
-		// @todo mail_smtp: 
-		return 'gvollbach@databay.de';
+		return $this->user->getEmail();
 	}
 
 	/**
@@ -51,8 +70,7 @@ class ilMailMimeSenderUser implements ilMailMimeSender
 	 */
 	public function getReplyToName()
 	{
-		// @todo mail_smtp: 
-		return 'Guido Vollbach';
+		return $this->user->getFullname();
 	}
 
 	/**
@@ -84,7 +102,8 @@ class ilMailMimeSenderUser implements ilMailMimeSender
 	 */
 	public function getFromName()
 	{
-		// @todo mail_smtp: Replace Placeholders
-		return $this->settings->get('mail_system_usr_from_name');
+		// @todo mail_smtp: Replace Placeholders 
+		$from = $this->settings->get('mail_system_usr_from_name');
+		return $this->user->getFullname();
 	}
 }
