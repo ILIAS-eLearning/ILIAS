@@ -29723,7 +29723,7 @@ $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '33'), 'type' => array('text', 'typ'), 'title' => array('text', 'root'), 'description' => array('text', 'Root Folder Object'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2002-12-21 00:04:00'), 'last_update' => array('timestamp', '2003-08-15 12:04:20'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
-'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2017-03-09 17:41:39'), 'import_id' => array('text', '')));
+'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2017-04-06 18:08:21'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '14'), 'type' => array('text', 'role'), 'title' => array('text', 'Anonymous'), 'description' => array('text', 'Default role for anonymous users (with no account)'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2003-08-15 12:06:19'), 'last_update' => array('timestamp', '2005-07-20 15:15:06'), 'import_id' => array('text', '')));
