@@ -3,6 +3,19 @@
 This service should contain standard datatypes for ILIAS that are used in many
 locations in the system and do not belong to a certain service.
 
+Other examples for data types that could (and maybe should be added here):
+
+* Option (akin to rusts type)
+* (il)Datetime
+* ObjectId, ReferenceId
+* HTML, Text, Markdown
+* List<int>, List<bool>, ...
+
+This is not to be confused with the service for types. This services is about
+the data, not the types thereof. It still uses types to talk about data (like
+a lot of code does), but it does not reify types as data (which the service
+for types and the PHP-ReflectionClass does).
+
 ## Result
 
 A result encapsulates a value or an error and simplifies the handling of those.
