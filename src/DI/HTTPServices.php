@@ -5,6 +5,8 @@ namespace ILIAS\DI;
 
 use ILIAS\HTTP\Cookies\CookieJarFactory;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Request\RequestFactory;
+use ILIAS\HTTP\Response\ResponseFactory;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,10 +19,6 @@ use Psr\Http\Message\ServerRequestInterface;
 class HTTPServices implements GlobalHttpState {
 
 	/**
-	 * @var    Container
-	 */
-	protected $container;
-	/**
 	 * @var ResponseSenderStrategy
 	 */
 	private $sender;
@@ -30,19 +28,47 @@ class HTTPServices implements GlobalHttpState {
      */
 	private $cookieJarFactory;
 
+    /**
+     * @var RequestFactory $requestFactory
+     */
+	private $requestFactory;
+
+    /**
+     * @var ResponseFactory $responseFactory
+     */
+	private $responseFactory;
+
+    /**
+     * @var ServerRequestInterface $request
+     */
+	private $request;
+
+    /**
+     * @var ResponseInterface $response
+     */
+	private $response;
+
 
     /**
      * HTTPServices constructor.
      *
-     * @param \ILIAS\DI\Container    $container         The ILIAS DIC.
-     * @param ResponseSenderStrategy $senderStrategy    A response sender strategy.
-     * @param CookieJarFactory       $cookieJarFactory  Cookie Jar implementation.
+     * @param ResponseSenderStrategy $senderStrategy   A response sender strategy.
+     * @param CookieJarFactory       $cookieJarFactory Cookie Jar implementation.
+     * @param RequestFactory         $requestFactory
+     * @param ResponseFactory        $responseFactory
      */
-	public function __construct(Container $container, ResponseSenderStrategy $senderStrategy, CookieJarFactory $cookieJarFactory)
+	public function __construct(
+        ResponseSenderStrategy $senderStrategy,
+        CookieJarFactory $cookieJarFactory,
+        RequestFactory $requestFactory,
+        ResponseFactory $responseFactory
+    )
 	{
-		$this->container = $container;
 		$this->sender = $senderStrategy;
 		$this->$cookieJarFactory = $cookieJarFactory;
+
+		$this->requestFactory = $requestFactory;
+		$this->responseFactory = $responseFactory;
 	}
 
 
@@ -62,7 +88,10 @@ class HTTPServices implements GlobalHttpState {
 	 */
 	public function request()
 	{
-		return $this->container["http.request"];
+	    if($this->request === null)
+            $this->request = $this->requestFactory->create();
+
+		return $this->request;
 	}
 
 
@@ -71,7 +100,10 @@ class HTTPServices implements GlobalHttpState {
 	 */
 	public function response()
 	{
-		return $this->container["http.response"];
+	    if($this->response === null)
+	        $this->response = $this->responseFactory->create();
+
+		return $this->response;
 	}
 
 
@@ -80,7 +112,7 @@ class HTTPServices implements GlobalHttpState {
 	 */
 	public function saveRequest(ServerRequestInterface $request)
 	{
-		$this->container["http.request"] = $request;
+        $this->request = $request;
 	}
 
 
@@ -89,14 +121,14 @@ class HTTPServices implements GlobalHttpState {
 	 */
 	public function saveResponse(ResponseInterface $response)
 	{
-		$this->container["http.response"] = $response;
+		$this->response = $response;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function renderResponse()
+	public function sendResponse()
 	{
 		$this->sender->sendResponse($this->response());
 	}
