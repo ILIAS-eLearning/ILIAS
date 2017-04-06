@@ -9,7 +9,7 @@ function with_average() {
 
 	foreach ($averages as $av) {
 		$ri = $f->input()->rating('with average ' .(string)$av)
-			->withAverage($av);
+			->withAverage(floatval($av));
 		$buffer[] = $renderer->render($ri);
 	 }
 
