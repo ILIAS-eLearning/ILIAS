@@ -109,8 +109,6 @@ Please note that different configurations SHOULD be possible, but it might be ha
   * Databases: MySQL/MariaDB 5.0+ and Galera (experimental), Oracle 10g+ (experimental), PostgreSQL (experimental)
   * PHP: Version 5.5+ and 7.0+ are supported
   
-See http://www.ilias.de/docu/goto.php?target=lm_367&client_id=docu for details.
-  
 <a name="client"></a>
 ### Client
 
