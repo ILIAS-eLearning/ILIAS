@@ -22,13 +22,6 @@ class PlusJob extends AbstractJob {
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getId() {
-		return get_called_class();
-	}
-
-	/**
 	 * @return ValueType[] Class-Name of the IO
 	 */
 	public function getInputTypes() {
@@ -56,7 +49,7 @@ class PlusJob extends AbstractJob {
 	 * @return int Returns 0 if !supportsPercentage and the percentage otherwise.
 	 */
 	public function getPercentage() {
-		return false;
+		return 0;
 	}
 
 	/**

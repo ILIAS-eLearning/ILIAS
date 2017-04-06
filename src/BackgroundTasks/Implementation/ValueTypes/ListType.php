@@ -12,12 +12,12 @@ class ListType implements ValueType {
 
 	/**
 	 * SingleType constructor.
-	 * @param $valueType Give a Value Type or a Type that will be wrapped in a single type.
+	 * @param $fullyQualifiedClassName string Give a Value Type or a Type that will be wrapped in a single type.
 	 */
-	public function __construct($valueType) {
-		if(!is_a($valueType, ValueType::class))
-			$valueType = new SingleType($valueType);
-		$this->type = $valueType;
+	public function __construct(string $fullyQualifiedClassName) {
+		if(!is_a($fullyQualifiedClassName, ValueType::class))
+			$fullyQualifiedClassName = new SingleType($fullyQualifiedClassName);
+		$this->type = $fullyQualifiedClassName;
 	}
 
 	/**

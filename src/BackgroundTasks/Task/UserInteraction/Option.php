@@ -21,7 +21,7 @@ interface Option {
 	/**
 	 * @param string $lang_var
 	 */
-	public function setLangVar($lang_var);
+	public function setLangVar(string $lang_var);
 
 
 	/**

@@ -6,4 +6,5 @@ use ILIAS\BackgroundTasks\Task\Job;
 
 abstract class AbstractJob extends AbstractTask implements Job {
 
+
 }

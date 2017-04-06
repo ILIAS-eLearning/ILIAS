@@ -17,17 +17,17 @@ use ILIAS\BackgroundTasks\Task;
 interface UserInteraction extends Task {
 
 	/**
-	 * @param IO $input The input value of this task.
+	 * @param Value $input The input value of this task.
 	 * @return Option[] Options are buttons the user can press on this interaction.
 	 */
 	public function getOptions(Value $input);
 
 
 	/**
-	 * @param \ILIAS\BackgroundTasks\Value $input The input value of this task.
-	 * @param UserInteractionOption $user_selected_option The Option the user chose.
+	 * @param \ILIAS\BackgroundTasks\Value[] $input The input value of this task.
+	 * @param Option $user_selected_option The Option the user chose.
 	 * @param Observer $observer Notify the observer about your progress!
 	 * @return Value
 	 */
-	public function interaction(Value $input, UserInteractionOption $user_selected_option, Observer $observer);
+	public function interaction(Array $input, Option $user_selected_option, Observer $observer);
 }

@@ -5,20 +5,27 @@ namespace ILIAS\BackgroundTasks\Implementation\Observer;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Task;
 
-class ObserverMock implements Observer {
+class BasicObserver implements Observer {
+
+	/**
+	 * @var int
+	 */
+	protected $userId;
 
 	/**
 	 * @return int
 	 */
 	public function getUserId() {
-		// TODO: Implement getUserId() method.
+		return $this->userId;
 	}
 
 	/**
 	 * @param int $user_id
+	 * @return $this BasicObserver
 	 */
 	public function setUserId($user_id) {
-		// TODO: Implement setUserId() method.
+		$this->userId = $user_id;
+		return $this;
 	}
 
 	/**
@@ -38,7 +45,7 @@ class ObserverMock implements Observer {
 	/**
 	 * Used by a job to notify his percentage.
 	 *
-	 * @param $task Task
+	 * @param $task       Task
 	 * @param $percentage int
 	 */
 	public function notifyPercentage(Task $task, $percentage) {

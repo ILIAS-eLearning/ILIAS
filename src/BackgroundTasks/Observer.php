@@ -48,4 +48,10 @@ interface Observer {
 	 * store the observerdata to persistence layer
 	 */
 	public function store();
+
+	/**
+	 * @param int $taskId
+	 * @return mixed
+	 */
+	public function setCurrentTask(int $taskId);
 }
