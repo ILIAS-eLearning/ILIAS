@@ -107,8 +107,7 @@ class Rating implements C\Input\Rating\Rating {
 	 * @inheritdoc
 	 */
 	public function withAverage($average) {
-		//waiting for PR to be accepted:
-		//$this->checkFloatArg('average', $average);
+		$this->checkFloatArg('average', $average);
 		if ($average < 0 or $average > 5) {
 			$message = 'average must between 0 and 5.';
 			throw new \InvalidArgumentException("Argument $average': $message");
