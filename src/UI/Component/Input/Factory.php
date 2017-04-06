@@ -17,9 +17,8 @@ interface Factory {
 	 *     A rating-input consists of five identical graphical elements that can be selected/clicked
 	 *     and a string that is displayed dependent on the selected/hovered item.
 	 *     Besides the title a byline explaining the topic to be rated can be displayed.
-	 *     In order to show the amount of previously received ratings a counter can be used.
 	 *     The average of previously submitted ratings can be visualized by a horizontal bar.
-	 *     Byline, counter and average are optional.
+	 *     Byline and average are optional.
 	 *
 	 *   effect: >
 	 *     A RatingSelector-input displays five stars in a horizontal row.
@@ -35,6 +34,8 @@ interface Factory {
 	 *   composition:
 	 *       1: Ratings MUST have a topic.
 	 *       2: Ratings SHOULD use captions for the scale.
+	 *       3: Ratings MAY have a byline.
+	 *       4: Ratings MAY have an average indicator.
 	 *
 	 * ----
 	 *
