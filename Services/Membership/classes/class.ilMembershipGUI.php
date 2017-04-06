@@ -266,6 +266,7 @@ class ilMembershipGUI
 				}
 
 				$this->showMailToMemberToolbarButton($GLOBALS['ilToolbar'], 'jump2UsersGallery');
+				$this->showMemberExportToolbarButton($GLOBALS['ilToolbar'], 'jump2UsersGallery');
 
 				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryGUI.php';
 				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryParticipants.php';
@@ -858,9 +859,39 @@ class ilMembershipGUI
 		
 		$this->showMailToMemberToolbarButton($ilToolbar, 'participants', false);
 	}
+	
+	/**
+	 * Show member export button
+	 * @param ilToolbarGUI $toolbar
+	 * @param type $a_back_cmd
+	 * @param type $a_separator
+	 */
+	protected function showMemberExportToolbarButton(ilToolbarGUI $toolbar, $a_back_cmd = null, $a_separator = false)
+	{
+		if(
+			$this->getParentObject()->getType() == 'crs' &&
+			$this->getParentObject()->getShowMembersExport())
+		{
+			if($a_separator)
+			{
+				$toolbar->addSeparator();
+			}
 
-	
-	
+			if($a_back_cmd)
+			{
+				$this->ctrl->setParameter($this, "back_cmd", $a_back_cmd);
+			}
+			$toolbar->addButton(
+				$this->lng->txt($this->getParentObject()->getType().'_print_list'),
+				$this->ctrl->getLinkTarget($this, 'printMembers')
+			);
+		}
+	}
+
+
+
+
+
 	/**
 	 * Show mail to member toolbar button
 	 */
