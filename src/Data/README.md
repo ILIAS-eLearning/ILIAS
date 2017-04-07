@@ -3,7 +3,7 @@
 This service should contain standard datatypes for ILIAS that are used in many
 locations in the system and do not belong to a certain service.
 
-Other examples for data types that could (and maybe should be added here):
+Other examples for data types that could (and maybe should) be added here:
 
 * Option (akin to rusts type)
 * (il)Datetime
