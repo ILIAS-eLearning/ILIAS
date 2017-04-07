@@ -27,7 +27,7 @@ require_once(__DIR__."/Factory.php");
 $f = new Data/Factory;
 
 // Build a value that is ok.
-$pi = $f->ok(3.1415);
+$pi = $f->ok(3.1416);
 
 // Value is ok and thus no error.
 assert($pi->isOK());
@@ -81,6 +81,30 @@ assert($raised);
 // For retrieving a default could be supplied.
 $v = $e->valueOr("default");
 assert($v == "default");
+
+// Result also has an interface for chaining computations known as promise
+// interface (or monad interface for pros!).
+
+$pi = $pi->then(function($value_of_pi) use ($f) {
+	// replace contained value with a more accurate number.
+	return $f->ok(3.1415927);
+});
+
+// $pi is ok("3.1415927") now. If one had used map instead of then, $pii
+//  would have been ok(ok(3.1415927).
+
+// One could also inject an error with then, this is not possible with map.
+$pi = $pi->then(function($_) use ($f) {
+	return $f->error("Do not know value of Pi.");
+});
+
+// The error can be catched later on and be corrected:
+$pi = $pi->catch(function($e) use ($f) {
+	assert($e === "Do not know value of Pi.");
+	return $f->ok(3); // for large threes
+});
+
+assert($pi->value() === 3);
 
 ?>
 ```
