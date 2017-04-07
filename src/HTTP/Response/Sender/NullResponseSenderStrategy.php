@@ -18,10 +18,10 @@ class NullResponseSenderStrategy implements ResponseSenderStrategy {
 	 * Noop.
 	 *
 	 * @param ResponseInterface $response Ignored.
+	 *
 	 * @return void
 	 */
-	public function sendResponse(ResponseInterface $response)
-	{
+	public function sendResponse(ResponseInterface $response) {
 		//noop
 		return;
 	}

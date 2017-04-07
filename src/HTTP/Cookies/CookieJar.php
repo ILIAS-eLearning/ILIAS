@@ -26,7 +26,8 @@ interface CookieJar {
 	/**
 	 * Checks if a cookie with the given name is in the jar.
 	 *
-	 * @param string $name  Cookie name.
+	 * @param string $name Cookie name.
+	 *
 	 * @return bool         True if the cookie exists otherwise false.
 	 */
 	public function has($name);
@@ -75,6 +76,7 @@ interface CookieJar {
 	 * Render CookieJar into a Response.
 	 *
 	 * @param ResponseInterface $response
+	 *
 	 * @return ResponseInterface
 	 */
 	public function renderIntoResponseHeader(ResponseInterface $response);

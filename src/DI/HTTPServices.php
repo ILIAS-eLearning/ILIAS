@@ -22,48 +22,37 @@ class HTTPServices implements GlobalHttpState {
 	 * @var ResponseSenderStrategy
 	 */
 	private $sender;
-
-    /**
-     * @var CookieJarFactory $cookieJarFactory
-     */
+	/**
+	 * @var CookieJarFactory $cookieJarFactory
+	 */
 	private $cookieJarFactory;
-
-    /**
-     * @var RequestFactory $requestFactory
-     */
+	/**
+	 * @var RequestFactory $requestFactory
+	 */
 	private $requestFactory;
-
-    /**
-     * @var ResponseFactory $responseFactory
-     */
+	/**
+	 * @var ResponseFactory $responseFactory
+	 */
 	private $responseFactory;
-
-    /**
-     * @var ServerRequestInterface $request
-     */
+	/**
+	 * @var ServerRequestInterface $request
+	 */
 	private $request;
-
-    /**
-     * @var ResponseInterface $response
-     */
+	/**
+	 * @var ResponseInterface $response
+	 */
 	private $response;
 
 
-    /**
-     * HTTPServices constructor.
-     *
-     * @param ResponseSenderStrategy $senderStrategy   A response sender strategy.
-     * @param CookieJarFactory       $cookieJarFactory Cookie Jar implementation.
-     * @param RequestFactory         $requestFactory
-     * @param ResponseFactory        $responseFactory
-     */
-	public function __construct(
-        ResponseSenderStrategy $senderStrategy,
-        CookieJarFactory $cookieJarFactory,
-        RequestFactory $requestFactory,
-        ResponseFactory $responseFactory
-    )
-	{
+	/**
+	 * HTTPServices constructor.
+	 *
+	 * @param ResponseSenderStrategy $senderStrategy   A response sender strategy.
+	 * @param CookieJarFactory       $cookieJarFactory Cookie Jar implementation.
+	 * @param RequestFactory         $requestFactory
+	 * @param ResponseFactory        $responseFactory
+	 */
+	public function __construct(ResponseSenderStrategy $senderStrategy, CookieJarFactory $cookieJarFactory, RequestFactory $requestFactory, ResponseFactory $responseFactory) {
 		$this->sender = $senderStrategy;
 		$this->$cookieJarFactory = $cookieJarFactory;
 
@@ -77,8 +66,7 @@ class HTTPServices implements GlobalHttpState {
 	 *
 	 * @return \ILIAS\HTTP\Cookies\CookieJar
 	 */
-	public function cookieJar()
-	{
+	public function cookieJar() {
 		return $this->cookieJarFactory->fromResponse($this->response());
 	}
 
@@ -86,10 +74,10 @@ class HTTPServices implements GlobalHttpState {
 	/**
 	 * @inheritDoc
 	 */
-	public function request()
-	{
-	    if($this->request === null)
-            $this->request = $this->requestFactory->create();
+	public function request() {
+		if ($this->request === NULL) {
+			$this->request = $this->requestFactory->create();
+		}
 
 		return $this->request;
 	}
@@ -98,10 +86,10 @@ class HTTPServices implements GlobalHttpState {
 	/**
 	 * @inheritDoc
 	 */
-	public function response()
-	{
-	    if($this->response === null)
-	        $this->response = $this->responseFactory->create();
+	public function response() {
+		if ($this->response === NULL) {
+			$this->response = $this->responseFactory->create();
+		}
 
 		return $this->response;
 	}
@@ -110,17 +98,15 @@ class HTTPServices implements GlobalHttpState {
 	/**
 	 * @inheritDoc
 	 */
-	public function saveRequest(ServerRequestInterface $request)
-	{
-        $this->request = $request;
+	public function saveRequest(ServerRequestInterface $request) {
+		$this->request = $request;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function saveResponse(ResponseInterface $response)
-	{
+	public function saveResponse(ResponseInterface $response) {
 		$this->response = $response;
 	}
 
@@ -128,8 +114,7 @@ class HTTPServices implements GlobalHttpState {
 	/**
 	 * @inheritDoc
 	 */
-	public function sendResponse()
-	{
+	public function sendResponse() {
 		$this->sender->sendResponse($this->response());
 	}
 }

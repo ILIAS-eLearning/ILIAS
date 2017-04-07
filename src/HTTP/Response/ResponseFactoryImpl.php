@@ -3,7 +3,6 @@
 namespace ILIAS\HTTP\Response;
 
 use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class ResponseFactoryImpl
@@ -18,13 +17,12 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @author  Nicolas Schaefli <ns@studer-raimann.ch>
  */
-class ResponseFactoryImpl implements ResponseFactory
-{
-    /**
-     * @inheritdoc
-     */
-    public function create()
-	{
+class ResponseFactoryImpl implements ResponseFactory {
+
+	/**
+	 * @inheritdoc
+	 */
+	public function create() {
 		return new Response();
 	}
 }

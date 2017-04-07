@@ -36,7 +36,7 @@ interface StatusCode {
 	const HTTP_UNUSED = 306;
 	const HTTP_TEMPORARY_REDIRECT = 307;
 	// [Client Error 4xx]
-    
+
 	const HTTP_BAD_REQUEST = 400;
 	const HTTP_UNAUTHORIZED = 401;
 	const HTTP_PAYMENT_REQUIRED = 402;

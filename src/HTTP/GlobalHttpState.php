@@ -1,5 +1,6 @@
 <?php
 /* Copyright (c) 2016 Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+
 namespace ILIAS\HTTP;
 
 use ILIAS\HTTP\Cookies\CookieJar;

@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\HTTP\Response\Sender;
 
 use Psr\Http\Message\ResponseInterface;

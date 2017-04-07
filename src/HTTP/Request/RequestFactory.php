@@ -4,7 +4,6 @@ namespace ILIAS\HTTP\Request;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-
 /**
  * Interface RequestFactory
  *
@@ -15,12 +14,12 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @author  Nicolas Schaefli <ns@studer-raimann.ch>
  */
-interface RequestFactory
-{
-    /**
-     * Creates a new ServerRequest object with the help of the underlying library.
-     *
-     * @return ServerRequestInterface
-     */
-    public function create();
+interface RequestFactory {
+
+	/**
+	 * Creates a new ServerRequest object with the help of the underlying library.
+	 *
+	 * @return ServerRequestInterface
+	 */
+	public function create();
 }

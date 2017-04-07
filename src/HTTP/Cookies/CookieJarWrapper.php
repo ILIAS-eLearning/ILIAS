@@ -28,8 +28,7 @@ class CookieJarWrapper implements CookieJar {
 	 *
 	 * @param SetCookies $cookies
 	 */
-    function __construct(SetCookies $cookies)
-	{
+	function __construct(SetCookies $cookies) {
 		$this->cookies = $cookies;
 	}
 
@@ -37,8 +36,7 @@ class CookieJarWrapper implements CookieJar {
 	/**
 	 * @inheritDoc
 	 */
-	public function has($name)
-	{
+	public function has($name) {
 		return $this->cookies->has($name);
 	}
 
@@ -46,19 +44,17 @@ class CookieJarWrapper implements CookieJar {
 	/**
 	 * @inheritDoc
 	 */
-	public function get($name)
-	{
+	public function get($name) {
 		$cookie = $this->cookies->get($name);
 
-		return (is_null($cookie)) ? null : new CookieWrapper($cookie);
+		return (is_null($cookie)) ? NULL : new CookieWrapper($cookie);
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getAll()
-	{
+	public function getAll() {
 		$wrappedCookies = [];
 		foreach ($this->cookies->getAll() as $cookie) {
 			$wrappedCookies[] = new CookieWrapper($cookie);
@@ -71,8 +67,7 @@ class CookieJarWrapper implements CookieJar {
 	/**
 	 * @inheritDoc
 	 */
-	public function with(Cookie $setCookie)
-	{
+	public function with(Cookie $setCookie) {
 		/**
 		 * @var CookieWrapper $wrapper
 		 */
@@ -82,7 +77,6 @@ class CookieJarWrapper implements CookieJar {
 		$clone = clone $this;
 		$clone->cookies = $this->cookies->with($internalCookie);
 
-
 		return $clone;
 	}
 
@@ -90,10 +84,10 @@ class CookieJarWrapper implements CookieJar {
 	/**
 	 * @inheritDoc
 	 */
-	public function without($name)
-	{
-	    $clone = clone $this;
+	public function without($name) {
+		$clone = clone $this;
 		$clone->cookies = $this->cookies->without($name);
+
 		return $clone;
 	}
 
@@ -101,8 +95,7 @@ class CookieJarWrapper implements CookieJar {
 	/**
 	 * @inheritDoc
 	 */
-	public function renderIntoResponseHeader(ResponseInterface $response)
-	{
+	public function renderIntoResponseHeader(ResponseInterface $response) {
 		$response = $this->cookies->renderIntoSetCookieHeader($response);
 
 		return $response;

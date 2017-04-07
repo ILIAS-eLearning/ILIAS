@@ -29,8 +29,7 @@ class CookieWrapper implements Cookie {
 	 *
 	 * @param SetCookie $cookie
 	 */
-	public function __construct(SetCookie $cookie)
-	{
+	public function __construct(SetCookie $cookie) {
 		$this->cookie = $cookie;
 	}
 
@@ -38,8 +37,7 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function getName()
-	{
+	public function getName() {
 		return $this->cookie->getName();
 	}
 
@@ -47,8 +45,7 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function getValue()
-	{
+	public function getValue() {
 		return $this->cookie->getValue();
 	}
 
@@ -56,8 +53,7 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function getExpires()
-	{
+	public function getExpires() {
 		return $this->cookie->getExpires();
 	}
 
@@ -65,8 +61,7 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function getMaxAge()
-	{
+	public function getMaxAge() {
 		return $this->cookie->getMaxAge();
 	}
 
@@ -74,8 +69,7 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function getPath()
-	{
+	public function getPath() {
 		return $this->cookie->getPath();
 	}
 
@@ -83,8 +77,7 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function getDomain()
-	{
+	public function getDomain() {
 		return $this->cookie->getDomain();
 	}
 
@@ -92,8 +85,7 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function getSecure()
-	{
+	public function getSecure() {
 		return $this->cookie->getSecure();
 	}
 
@@ -101,8 +93,7 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function getHttpOnly()
-	{
+	public function getHttpOnly() {
 		return $this->cookie->getHttpOnly();
 	}
 
@@ -110,10 +101,10 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function withValue($value = null)
-	{
-        $clone = clone $this;
-        $clone->cookie = $this->cookie->withValue($value);
+	public function withValue($value = NULL) {
+		$clone = clone $this;
+		$clone->cookie = $this->cookie->withValue($value);
+
 		return $clone;
 	}
 
@@ -121,10 +112,10 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function withExpires($expires = null)
-	{
-        $clone = clone $this;
-        $clone->cookie = $this->cookie->withExpires($expires);
+	public function withExpires($expires = NULL) {
+		$clone = clone $this;
+		$clone->cookie = $this->cookie->withExpires($expires);
+
 		return $clone;
 	}
 
@@ -132,10 +123,10 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function rememberForLongTime()
-	{
-        $clone = clone $this;
-        $clone->cookie = $this->cookie->rememberForever();
+	public function rememberForLongTime() {
+		$clone = clone $this;
+		$clone->cookie = $this->cookie->rememberForever();
+
 		return $clone;
 	}
 
@@ -143,10 +134,10 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function expire()
-	{
-        $clone = clone $this;
-        $clone->cookie = $this->cookie->expire();
+	public function expire() {
+		$clone = clone $this;
+		$clone->cookie = $this->cookie->expire();
+
 		return $clone;
 	}
 
@@ -154,10 +145,10 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function withMaxAge($maxAge = null)
-	{
-        $clone = clone $this;
-        $clone->cookie = $this->cookie->withMaxAge($maxAge);
+	public function withMaxAge($maxAge = NULL) {
+		$clone = clone $this;
+		$clone->cookie = $this->cookie->withMaxAge($maxAge);
+
 		return $clone;
 	}
 
@@ -165,10 +156,10 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function withPath($path = null)
-	{
-        $clone = clone $this;
-        $clone->cookie = $this->cookie->withPath($path);
+	public function withPath($path = NULL) {
+		$clone = clone $this;
+		$clone->cookie = $this->cookie->withPath($path);
+
 		return $clone;
 	}
 
@@ -176,10 +167,10 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function withDomain($domain = null)
-	{
-	    $clone = clone $this;
-	    $clone->cookie = $this->cookie->withDomain($domain);
+	public function withDomain($domain = NULL) {
+		$clone = clone $this;
+		$clone->cookie = $this->cookie->withDomain($domain);
+
 		return $clone;
 	}
 
@@ -187,10 +178,10 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function withSecure($secure = null)
-	{
-        $clone = clone $this;
-        $clone->cookie = $this->cookie->withSecure($secure);
+	public function withSecure($secure = NULL) {
+		$clone = clone $this;
+		$clone->cookie = $this->cookie->withSecure($secure);
+
 		return $clone;
 	}
 
@@ -198,10 +189,10 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function withHttpOnly($httpOnly = null)
-	{
-	    $clone = clone $this;
-	    $clone->cookie = $this->cookie->withHttpOnly($httpOnly);
+	public function withHttpOnly($httpOnly = NULL) {
+		$clone = clone $this;
+		$clone->cookie = $this->cookie->withHttpOnly($httpOnly);
+
 		return $clone;
 	}
 
@@ -209,8 +200,7 @@ class CookieWrapper implements Cookie {
 	/**
 	 * @inheritDoc
 	 */
-	public function __toString()
-	{
+	public function __toString() {
 		return $this->cookie->__toString();
 	}
 
@@ -222,8 +212,7 @@ class CookieWrapper implements Cookie {
 	 * @internal
 	 * @return SetCookie
 	 */
-	function getImplementation()
-	{
+	function getImplementation() {
 		return $this->cookie;
 	}
 }

@@ -22,8 +22,7 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy {
 	 * @return void
 	 * @throws ResponseSendingException Thrown if the response was already sent to the client.
 	 */
-	public function sendResponse(ResponseInterface $response)
-	{
+	public function sendResponse(ResponseInterface $response) {
 		//check if the request is already send
 		if (headers_sent()) {
 			throw new ResponseSendingException("Response was already sent.");
@@ -49,8 +48,8 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy {
 			set_time_limit(0);
 			$sendStatus = fpassthru($resource);
 
-            //free up resources
-            fclose($resource);
+			//free up resources
+			fclose($resource);
 		}
 
 		//check if the body was successfully send to the client

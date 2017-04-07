@@ -4,7 +4,6 @@ namespace ILIAS\HTTP\Response;
 
 use Psr\Http\Message\ResponseInterface;
 
-
 /**
  * Interface ResponseFactory
  *
@@ -15,12 +14,12 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @author  Nicolas Schaefli <ns@studer-raimann.ch>
  */
-interface ResponseFactory
-{
-    /**
-     * Creates a new response with the help of the underlying library.
-     *
-     * @return ResponseInterface
-     */
-    public function create();
+interface ResponseFactory {
+
+	/**
+	 * Creates a new response with the help of the underlying library.
+	 *
+	 * @return ResponseInterface
+	 */
+	public function create();
 }

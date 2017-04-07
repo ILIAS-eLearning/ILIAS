@@ -87,21 +87,21 @@ interface Cookie {
 	 *
 	 * @return Cookie
 	 */
-	public function withValue($value = null);
+	public function withValue($value = NULL);
 
 
 	/**
 	 * Sets the expiration date of the cookie.
 	 * If the cookie should be expired please use the expire function.
-     *
-     * If the expires parameter equals null,
-     * then the expires key will be removed from the cookie.
+	 *
+	 * If the expires parameter equals null,
+	 * then the expires key will be removed from the cookie.
 	 *
 	 * @param null|\DateTimeInterface|int|string $expires The expiration time of the Cookie.
 	 *
 	 * @return Cookie
 	 */
-	public function withExpires($expires = null);
+	public function withExpires($expires = NULL);
 
 
 	/**
@@ -129,7 +129,7 @@ interface Cookie {
 	 *
 	 * @return Cookie
 	 */
-	public function withMaxAge($maxAge = null);
+	public function withMaxAge($maxAge = NULL);
 
 
 	/**
@@ -139,7 +139,7 @@ interface Cookie {
 	 *
 	 * @return Cookie
 	 */
-	public function withPath($path = null);
+	public function withPath($path = NULL);
 
 
 	/**
@@ -149,7 +149,7 @@ interface Cookie {
 	 *
 	 * @return Cookie
 	 */
-	public function withDomain($domain = null);
+	public function withDomain($domain = NULL);
 
 
 	/**
@@ -159,7 +159,7 @@ interface Cookie {
 	 *
 	 * @return Cookie
 	 */
-	public function withSecure($secure = null);
+	public function withSecure($secure = NULL);
 
 
 	/**
@@ -169,7 +169,7 @@ interface Cookie {
 	 *
 	 * @return Cookie
 	 */
-	public function withHttpOnly($httpOnly = null);
+	public function withHttpOnly($httpOnly = NULL);
 
 
 	/**

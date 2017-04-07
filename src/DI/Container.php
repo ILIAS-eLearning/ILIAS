@@ -2,9 +2,6 @@
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\DI;
-use ILIAS\HTTP\Cookies\CookieJarFactoryImpl;
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy;
 
 /**
  * Customizing of pimple-DIC for ILIAS.

@@ -3,7 +3,6 @@
 namespace ILIAS\HTTP\Request;
 
 use GuzzleHttp\Psr7\ServerRequest;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class RequestFactoryImpl
@@ -18,13 +17,12 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @author  Nicolas Schaefli <ns@studer-raimann.ch>
  */
-class RequestFactoryImpl implements RequestFactory
-{
-    /**
-     * @inheritdoc
-     */
-    public function create()
-	{
+class RequestFactoryImpl implements RequestFactory {
+
+	/**
+	 * @inheritdoc
+	 */
+	public function create() {
 		return ServerRequest::fromGlobals();
 	}
 }
