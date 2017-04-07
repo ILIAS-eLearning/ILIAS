@@ -446,8 +446,8 @@ class ilObjMailGUI extends ilObjectGUI
 		$user_from_name->setRequired(true);
 		$form->addItem($user_from_name);
 
-		$user_envelope_from_addr = new ilEMailInputGUI($this->lng->txt('mail_system_usr_head_env_from_addr'), 'mail_system_usr_head_env_from_addr');
-		$user_envelope_from_addr->setInfo($this->lng->txt('mail_system_usr_head_env_from_addr_info'));
+		$user_envelope_from_addr = new ilEMailInputGUI($this->lng->txt('mail_system_usr_env_from_addr'), 'mail_system_usr_env_from_addr');
+		$user_envelope_from_addr->setInfo($this->lng->txt('mail_system_usr_env_from_addr_info'));
 		$form->addItem($user_envelope_from_addr);
 
 		$sh = new ilFormSectionHeaderGUI();
@@ -474,6 +474,17 @@ class ilObjMailGUI extends ilObjectGUI
 		$signature->setRows(8);
 		$form->addItem($signature);
 
+		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
+		$placeholders = new ilManualPlaceholderInputGUI('mail_system_sys_signature');
+		foreach(array(
+			array('placeholder' => 'CLIENT_NAME', 'label' => $this->lng->txt('mail_nacc_client_name')),
+			array('placeholder' => 'CLIENT_DESC', 'label' => $this->lng->txt('mail_nacc_client_desc')),
+			array('placeholder' => 'CLIENT_URL', 'label' => $this->lng->txt('mail_nacc_ilias_url'))) as $key => $value)
+		{
+			$placeholders->addPlaceholder($value['placeholder'], $value['label'] );
+		}
+		$form->addItem($placeholders);
+
 		$form->addCommandButton('saveExternalSettingsForm', $this->lng->txt('save'));
 
 		return $form;
@@ -495,7 +506,7 @@ class ilObjMailGUI extends ilObjectGUI
 			'mail_send_html'                     => (int)$this->settings->get('mail_send_html'),
 			'mail_system_usr_from_addr'          => $this->settings->get('mail_system_usr_from_addr'),
 			'mail_system_usr_from_name'          => $this->settings->get('mail_system_usr_from_name'),
-			'mail_system_usr_head_env_from_addr' => $this->settings->get('mail_system_usr_head_env_from_addr'),
+			'mail_system_usr_env_from_addr'      => $this->settings->get('mail_system_usr_env_from_addr'),
 			'mail_system_sys_from_addr'          => $this->settings->get('mail_system_sys_from_addr'),
 			'mail_system_sys_from_name'          => $this->settings->get('mail_system_sys_from_name'),
 			'mail_system_sys_reply_to_addr'      => $this->settings->get('mail_system_sys_reply_to_addr'),

@@ -2,32 +2,11 @@
 <?php
 // Delete before merge!!!!!!!!!!!
 
-$client_id       = basename(CLIENT_DATA_DIR);
-$client_ini_file = ILIAS_ABSOLUTE_PATH . '/' . ILIAS_WEB_DIR . '/' . $client_id . '/client.ini.php';
-
-$ilClientIniFile = new ilIniFile($client_ini_file);
-
-if(!$ilClientIniFile->read())
-{
-	echo sprintf("Could not read client ini file: %s", $client_ini_file);
-	exit();
-}
 
 $signature = "\n\n* * * * *\n";
-
-$signature     .= $ilClientIniFile->readVariable('client', 'name') . "\n";
-if(strlen($desc = $ilClientIniFile->readVariable('client', 'description')))
-{
-	$signature .= $desc . "\n";
-}
-$signature .= ILIAS_HTTP_PATH;
-$clientdirs = glob(ILIAS_WEB_DIR . '/*', GLOB_ONLYDIR);
-
-if(is_array($clientdirs) && count($clientdirs) > 1)
-{
-	$signature .= '/login.php?client_id=' . CLIENT_ID;
-}
-$signature .= "\n\n";
+$signature .= "[CLIENT_NAME]\n";
+$signature .= "[CLIENT_DESC]\n";
+$signature .= "[CLIENT_URL]\n";
 
 $ilSetting = new ilSetting();
 

@@ -1539,10 +1539,31 @@ class ilMail
 	 */
 	public static function _getInstallationSignature()
 	{
-		/** @var $ilSetting ilSetting */
-		global $ilSetting;
+		/**
+		 * @var $ilSetting       ilSetting
+		 * @var $ilClientIniFile ilIniFile
+		 */
+		global $ilSetting, $ilClientIniFile;
 
-		return $ilSetting->get('mail_system_sys_signature');
+		$signature = $ilSetting->get('mail_system_sys_signature');
+
+		$clientUrl = ilUtil::_getHttpPath();
+		$clientdirs = glob(ILIAS_WEB_DIR . '/*', GLOB_ONLYDIR);
+		if(is_array($clientdirs) && count($clientdirs) > 1)
+		{
+			$clientUrl .= '/login.php?client_id=' . CLIENT_ID; // #18051
+		}
+
+		$signature = str_ireplace('[CLIENT_NAME]', $ilClientIniFile->readVariable('client', 'name'), $signature);
+		$signature = str_ireplace('[CLIENT_DESC]', $ilClientIniFile->readVariable('client', 'description'), $signature);
+		$signature = str_ireplace('[CLIENT_URL]', $clientUrl, $signature);
+
+		if(!preg_match('/^[\n\r]+/', $signature))
+		{
+			$signature = "\n" . $signature;
+		}
+
+		return $signature;
 	}
 
 	/**

@@ -21,6 +21,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 
 	/**
 	 * ilMailMimeTransportBase constructor.
+	 * @param \ilSetting $settings
 	 */
 	public function __construct(\ilSetting $settings)
 	{
@@ -105,7 +106,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 		{
 			$this->getMailer()->Sender = $mail->getFrom()->getEnvelopFromAddress();
 		}
-		$this->getMailer()->setFrom($mail->getFrom()->getFromAddress(), $mail->getFrom()->getFromName());
+		$this->getMailer()->setFrom($mail->getFrom()->getFromAddress(), $mail->getFrom()->getFromName(), false);
 
 		foreach($mail->getAttachments() as $attachment)
 		{

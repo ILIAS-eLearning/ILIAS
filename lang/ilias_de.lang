@@ -8142,6 +8142,7 @@ mail#:#mail_my_mailing_lists#:#Meine Verteilerlisten
 mail#:#mail_nacc_title#:#Titel
 mail#:#mail_nacc_admin_mail#:#E-Mail-Adresse des Administrators
 mail#:#mail_nacc_client_name#:#Name des Mandanten
+mail#:#mail_nacc_client_desc#:#Beschreibung des Mandanten
 mail#:#mail_nacc_ilias_url#:#URL des ILIAS-Systems
 mail#:#mail_nacc_login#:#Login-Account
 mail#:#mail_nacc_no_pw_block#:#Dieser Textblock wird nur eingefügt, wenn der neue Benutzer ohne Passwort angelegt wurde.
@@ -8181,7 +8182,7 @@ mail#:#mail_smtp_password#:#Passwort
 mail#:#mail_smtp_password_req#:#Sofern Sie einen Benutzer angeben, ist das Passwort obligatorisch.
 mail#:#mail_system_usr_from_addr#:#E-Mail-Adresse des Absenders (From)
 mail#:#mail_system_usr_from_name#:#Name des Absenders (From)
-mail#:#mail_system_usr_from_name_info#:#Als Platzhalter kann [[FULLNAME]] genutzt werden. Dieser wird dann durch den Namen des Initiators der E-Mail ersetzt.
+mail#:#mail_system_usr_from_name_info#:#Als Platzhalter kann [FULLNAME] genutzt werden. Dieser wird dann durch den Namen des Initiators der E-Mail ersetzt.
 mail#:#mail_system_usr_env_from_addr#:#Return-Path (Envelope-From)
 mail#:#mail_system_usr_env_from_addr_info#:#Sofern dieses Feld leer gelassen wird ...
 mail#:#mail_system_sys_env_from_addr_info#:#Sofern dieses Feld leer gelassen wird ...

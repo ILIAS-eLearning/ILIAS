@@ -109,6 +109,8 @@ class ilMailMimeSenderUser implements ilMailMimeSender
 		}
 
 		$name = str_ireplace('[[FULLNAME]]', $this->user->getFullname(), $from);
+		$name = str_ireplace('[[FIRSTNAME]]', $this->user->getFirstname(), $name);
+		$name = str_ireplace('[[LASTNAME]]', $this->user->getLastname(), $name);
 		if($name != $from)
 		{
 			return $name;

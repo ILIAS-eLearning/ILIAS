@@ -7061,6 +7061,7 @@ mail#:#mail_my_mailing_lists#:#My Mailing Lists
 mail#:#mail_nacc_title#:#Title
 mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
 mail#:#mail_nacc_client_name#:#Client Name
+mail#:#mail_nacc_client_desc#:#Client Description
 mail#:#mail_nacc_ilias_url#:#URL of ILIAS system
 mail#:#mail_nacc_login#:#Login Account
 mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.
@@ -9502,7 +9503,7 @@ mail#:#mail_smtp_password#:#Password
 mail#:#mail_smtp_password_req#:#If you defined a user for authentication purposes, a password must be set.
 mail#:#mail_system_usr_from_addr#:#Sender Email (From)
 mail#:#mail_system_usr_from_name#:#Sender Fullname (From)
-mail#:#mail_system_usr_from_name_info#:#You can use the placeholder [[FULLNAME]]. This will then be replaced by the name of the email initiator.
+mail#:#mail_system_usr_from_name_info#:#You can use the placeholder [FULLNAME]. This will then be replaced by the name of the email initiator.
 mail#:#mail_system_usr_env_from_addr#:#Return-Path (Envelope-From)
 mail#:#mail_system_usr_env_from_addr_info#:#If you leave this field empty ...
 mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty ...
