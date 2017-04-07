@@ -90,8 +90,8 @@ $pi = $pi->then(function($value_of_pi) use ($f) {
 	return $f->ok(3.1415927);
 });
 
-// $pi is ok("3.1415927") now. If one had used map instead of then, $pii
-//  would have been ok(ok(3.1415927).
+// $pi is ok("3.1415927") now. If one had used map instead of then, $pi
+// would have been ok(ok(3.1415927).
 
 // One could also inject an error with then, this is not possible with map.
 $pi = $pi->then(function($_) use ($f) {
