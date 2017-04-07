@@ -15915,10 +15915,3 @@ rbac#:#grp_manage_members#:#Csoport tagjainak kezelése
 rbac#:#crs_manage_members#:#Kurzus tagjainak kezelése
 survey#:#cannot_send_emails#:#Nincs megfelelő jogusultsága e-mailek küldéséhez.
 rbac#:#book_copy#:#A felhasználó másolhat foglalásgyűjteményt.
-mep#:#mobs_black_list_file_types#:#Tiltott fájltípusok
-mep#:#mobs_black_list_file_types_info#:#Itt adhatja meg az engélyezett fájltípusokat korlátozó fájltípusokat, vesszővel elválasztva. Általában erre akkor van szükség, amikor az engedélyzett fájltípusok listája üres, azaz az összes fájltípus engedélyzett.
-form#:#form_msg_file_type_is_not_allowed#:#Ez a fájltípus nem engedélyezett.
-common#:#file_no_valid_file_type#:#Ez a fájltípus nem engedélyezett.
-common#:#file_some_invalid_file_types_removed#:#Néhány fájltípus nem engedélyezett, az ilyen fájlokat eltávolítottuk.
-ecs#:#ecs_member_auth_type#:#Kurzustagok hitelesítési módja
-ecs#:#ecs_cmap_att_orgunit#:#Szervezeti egység
