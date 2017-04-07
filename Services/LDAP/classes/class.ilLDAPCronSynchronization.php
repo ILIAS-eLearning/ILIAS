@@ -88,18 +88,23 @@ class ilLDAPCronSynchronization extends ilCronJob
 			
 		 		if(count($users))
 		 		{											
-			 		$ilLog->write("LDAP: Starting update/creation of users ...");
-
 					include_once './Services/User/classes/class.ilUserCreationContext.php';
 					ilUserCreationContext::getInstance()->addContext(ilUserCreationContext::CONTEXT_LDAP);
 
-			 		$this->ldap_to_ilias = new ilLDAPAttributeToUser($this->current_server);
-					$this->ldap_to_ilias->setNewUserAuthMode($this->current_server->getAuthenticationMappingKey());
-					#$ilLog->write(print_r($users,true));
-			 		$this->ldap_to_ilias->setUserData($users);
-			 		$this->ldap_to_ilias->refresh();
-			 		$ilLog->write("LDAP: Finished update/creation");
-					
+					$offset = 0;
+					$limit = 500;
+					while($user_sliced = array_slice($users, $offset, $limit))
+					{
+				 		$ilLog->write("LDAP: Starting update/creation of users ...");
+						$ilLog->write("LDAP: Offset: " . $offset);
+						$this->ldap_to_ilias = new ilLDAPAttributeToUser($this->current_server);
+						$this->ldap_to_ilias->setNewUserAuthMode($this->current_server->getAuthenticationMappingKey());
+						$this->ldap_to_ilias->setUserData($user_sliced);
+						$this->ldap_to_ilias->refresh();
+						$ilLog->write("LDAP: Finished update/creation");
+						
+						$offset += $limit;
+					}					
 					$this->counter++;
 		 		}
 				else
