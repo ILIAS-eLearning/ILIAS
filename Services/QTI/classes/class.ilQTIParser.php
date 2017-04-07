@@ -665,6 +665,10 @@ class ilQTIParser extends ilSaxParser
 						}
 					}
 				}
+				if (!$this->matimage->getEmbedded() && strlen($this->matimage->getUri()))
+				{
+					$this->matimage->setContent(@file_get_contents(dirname($this->xml_file) . '/'. $this->matimage->getUri()));
+				}
 				break;
 			case "material":
 				include_once("./Services/QTI/classes/class.ilQTIMaterial.php");

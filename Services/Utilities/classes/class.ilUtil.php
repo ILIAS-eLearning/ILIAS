@@ -1744,6 +1744,8 @@ class ilUtil
 	*/
 	public static function unzip($a_file, $overwrite = false, $a_flat = false)
 	{
+		global $ilLog;
+
 		if (!is_file($a_file))
 		{
 			return;
@@ -1818,7 +1820,23 @@ class ilUtil
 		ilUtil::execQuoted($unzip, $unzipcmd);
 
 		chdir($cdir);
-		
+
+		// remove all sym links
+		clearstatcache();			// prevent is_link from using cache
+		$dir_realpath = realpath($dir);
+		foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)) as $name => $f)
+		{
+			if (is_link($name))
+			{
+				$target = readlink($name);
+				if (substr($target, 0, strlen($dir_realpath)) != $dir_realpath)
+				{
+					unlink($name);
+					$ilLog->write("Remove symlink ".$name);
+				}
+			}
+		}
+
 		// if flat, get all files and move them to original directory
 		if ($a_flat)
 		{

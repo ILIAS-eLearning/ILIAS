@@ -1434,7 +1434,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 				
 		// buttons
-		$this->replyEditForm->addCommandButton('savePost', $this->lng->txt('create'));
+		$this->replyEditForm->addCommandButton('savePost', $this->lng->txt('save'));
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
 		{
 			include_once 'Services/RTE/classes/class.ilRTE.php';
