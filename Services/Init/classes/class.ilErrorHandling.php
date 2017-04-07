@@ -434,10 +434,9 @@ class ilErrorHandling extends PEAR
 			global $ilLog;
 
 			if(is_object($ilLog)) {
-				// ak: default log level of write() is INFO, which is not appropriate -> set this to warning
 				include_once './Services/Logging/classes/public/class.ilLogLevel.php';
 				$message = $exception->getMessage().' in '.$exception->getFile().":".$exception->getLine();
-				$ilLog->write('ERROR (' . $exception->getCode() .') ' . $message, ilLogLevel::WARNING);
+				$ilLog->error($exception->getCode().' '.$message);
 			}
 			
 			// Send to system logger
