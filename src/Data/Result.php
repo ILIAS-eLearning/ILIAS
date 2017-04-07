@@ -61,9 +61,11 @@ interface Result {
 	/**
 	 * Get a new result from the callable or do nothing if this is an error.
 	 *
+	 * If null is returned the result is not touched.
+	 *
 	 * Does nothing if !isOK. This is monadic bind.
 	 *
-	 * @param	callable $f mixed -> Result
+	 * @param	callable $f mixed -> Result|null
 	 * @return  Result
 	 */
 	public function then(callable $f);
