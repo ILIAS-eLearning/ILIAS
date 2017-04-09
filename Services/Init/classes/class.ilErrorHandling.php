@@ -434,7 +434,6 @@ class ilErrorHandling extends PEAR
 			global $ilLog;
 
 			if(is_object($ilLog)) {
-				include_once './Services/Logging/classes/public/class.ilLogLevel.php';
 				$message = $exception->getMessage().' in '.$exception->getFile().":".$exception->getLine();
 				$ilLog->error($exception->getCode().' '.$message);
 			}
