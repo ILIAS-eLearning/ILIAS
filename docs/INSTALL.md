@@ -405,7 +405,7 @@ IliasIniPath = /var/www/html/ilias/ilias.ini.php
 
 ILIAS can generate a proper configuration file via the Administration menu ("Administration -> General Settings -> Server -> Java-Server -> Create Configuration File"). Please note that the configuration file is not directly written to the file system, you MUST copy the displayed content and create the file manually.
 
-You MAY use the following systemd service description to start the RPC server. If you still use SysV-Initscripts you can find one in the [Lucene RPC-Server](../Services/WebServices/RPC/lib/README.txt) documentation.
+You MAY use the following systemd service description to start the RPC server. If you still use SysV-Initscripts you can find one in the [Lucene RPC-Server](../Services/WebServices/RPC/lib/README.md) documentation.
 
 ```
 [Unit]
