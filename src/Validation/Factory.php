@@ -17,7 +17,7 @@ class Factory {
 	 * @param   Restriction[]   $others
 	 * @return  Restriction
 	 */
-	public function seq(array $others);
+	public function sequential(array $others);
 
 	/**
 	 * Get a restriction that checks the supplied restrictions in parallel.
@@ -27,7 +27,7 @@ class Factory {
 	 * @param   Restriction[]   $others
 	 * @return	Restriction
 	 */
-	public function par(array $others);
+	public function parallel(array $others);
 
 	/**
 	 * Get a negated restriction.
