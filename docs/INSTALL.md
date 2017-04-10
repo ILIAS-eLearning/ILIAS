@@ -24,6 +24,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
    1. [Apache Installation/Configuration](#apache-installationconfiguration)
    1. [PHP Installation/Configuration](#php-installationconfiguration)
    1. [Database Installation/Configuration](#database-installationconfiguration)
+      1. [MySQL Strict Mode \(5.6+\)](#mysql-strict-mode-56)
       1. [MySQL Perfomance tuning \(OPTIONAL\)](#mysql-perfomance-tuning-optional)
    1. [E-Mail Configuration \(OPTIONAL\)](#e-mail-configuration-optional)
    1. [Install other Depedencies](#install-other-depedencies)
@@ -127,7 +128,7 @@ We RECOMMEND to use MySQL/MariaDB with the following settings:
   * table_open_cache (> 400)
   * innodb_buffer_pool_size (>= 2G, depending on DB size)
 
-On MySQL 5.6 the setting ```STRICT_TRANS_TABLES``` or ```STRICT_ALL_TABLES``` MUST be disabled.
+On MySQL 5.6+ and Galera the ```Strict SQL Mode``` MUST be disabled. See [MySQL Strict Mode](#mysql-strict-mode-56) for details.
 
 <a name="manual-installation-on-linux"></a>
 # Manual Installation on Linux
@@ -287,6 +288,33 @@ GRANT LOCK TABLES on *.* TO 'ilias@localhost';
 GRANT ALL PRIVILEGES ON ilias.* TO 'ilias'@'localhost';
 FLUSH PRIVILEGES;
 ```
+
+<a name="mysql-strict-mode-56"></a>
+### MySQL Strict Mode (5.6+)
+
+With MySQL 5.6+ and Galera you might see SQL errors like:
+
+```
+SQLSTATE[42000]: Syntax error or access violation: 1055 Expression #1 of
+SELECT list is not in GROUP BY clause and contains nonaggregated column
+'yourdbname.tblannouncements.date' which is not functionally dependent on
+columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+```
+
+As a workaround ```STRICT_TRANS_TABLES```, ```STRICT_ALL_TABLES``` and ```ONLY_FULL_GROUP_BY``` MUST be disabled. To do so create the file ```/etc/mysql/conf.d/disable_strict_mode.cnf``` and enter the following (or add it to ```/etc/mysql/my.cnf```):
+
+```
+[mysqld]
+sql_mode=IGNORE_SPACE,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+```
+
+After restarting the MySQL-Server use the following command to confirm the changes:
+
+```
+mysql -i -BN -e 'SELECT @@sql_mode' | grep -E 'ONLY_FULL_GROUP_BY|STRICT_TRANS_TABLES|STRICT_ALL_TABLES'
+```
+
+If strict mode is disabled, there will be no output.
 
 <a name="mysql-perfomance-tuning-optional"></a>
 ### MySQL Perfomance tuning (OPTIONAL)
