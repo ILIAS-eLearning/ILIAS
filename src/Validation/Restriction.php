@@ -13,7 +13,7 @@ use ILIAS\Data\Result;
 interface Restriction {
 	/**
 	 * Checks the provided value.
-     *
+	 *
 	 * Should not throw if appliesTo($value).
 	 *
 	 * @throws  \UnexcpectedValueException if value does not comply with encoded restriction.
