@@ -1883,7 +1883,7 @@ cntr#:#cntr_view_sessions#:#Sessions View
 cntr#:#cntr_view_simple#:#Simple View
 common#:#3rd_party_software#:#3rd party software
 common#:#absolute_path#:#Absolute Path
-common#:#accept_usr_agreement#:#Accept user agreement?
+common#:#accept_usr_agreement#:#Accept terms of service?
 common#:#access_expired#:#expired
 common#:#access_free_granted#:#Set the selected user(s) to unlimited access
 common#:#access_from#:#Access (from)
@@ -2773,7 +2773,7 @@ rbac#:#fold_write#:#User can edit settings of folder and manage content
 common#:#fold#:#Folder
 common#:#folder#:#Folder
 common#:#folders#:#Folders
-common#:#force_accept_usr_agreement#:#You must accept the user agreement!
+common#:#force_accept_usr_agreement#:#You must accept the terms of service!
 common#:#forename#:#Forename
 common#:#forgot_password#:#Forgot your password?
 common#:#forgot_username#:#Forgot your username?
@@ -3624,7 +3624,7 @@ common#:#nickname#:#Nickname
 common#:#no_access_item_public#:#To access this item you need to be logged in and to have appropriate permissions.
 common#:#no_access_item#:#You have no permission to access this item.
 common#:#no_access_link_object#:#You are not allowed to link this object
-common#:#no_agreement_description#:#There is currently no user agreement text provided with this installation. Please contact the <a href="%1$s">system administrator</a>.
+common#:#no_agreement_description#:#There is currently no terms of service text provided with this installation. Please contact the <a href="%1$s">system administrator</a>.
 common#:#no_bm_in_personal_list#:#No bookmarks defined.
 common#:#no_chat_in_personal_list#:#No chats in personal list
 common#:#no_checkbox#:#Please select at least one item.
@@ -4716,7 +4716,7 @@ common#:#usr_active_only#:#Active Users only
 common#:#usr_add#:#Add User
 common#:#usr_added#:#User added
 common#:#usr_agreement_empty#:#The agreement contains no text
-common#:#usr_agreement#:#User Agreement
+common#:#usr_agreement#:#Terms of Service
 common#:#usr_edit#:#Edit User
 common#:#usr_filter_coursemember#:#Member of course
 common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria
