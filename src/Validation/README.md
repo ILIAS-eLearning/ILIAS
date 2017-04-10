@@ -1,6 +1,6 @@
 # Validations
 
-This service abstract validations of values and provides some basic validations
+This service abstracts validations of values and provides some basic validations
 that could be reused throughout the system.
 
 A validation checks some supplied value for compliance with some restriction.
