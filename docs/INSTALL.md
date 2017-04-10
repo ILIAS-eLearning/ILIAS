@@ -297,7 +297,7 @@ With MySQL 5.6+ and Galera you might see SQL errors like:
 ```
 SQLSTATE[42000]: Syntax error or access violation: 1055 Expression #1 of
 SELECT list is not in GROUP BY clause and contains nonaggregated column
-'yourdbname.tblannouncements.date' which is not functionally dependent on
+'yourdbname.tblname.foobar' which is not functionally dependent on
 columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 ```
 
