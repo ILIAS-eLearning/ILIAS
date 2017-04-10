@@ -1,721 +1,682 @@
-                       ==================================
-                        ILIAS open source - Installation
-                       ==================================
+# ILIAS Installation
+
+ILIAS is a powerful Open Source Learning Management System for developing and realising web-based e-learning. The software was developed to reduce the costs of using new media in education and further training and to ensure the maximum level of customer influence in the implementation of the software. ILIAS is published by ILIAS open source e-Learning e.V. under the General Public Licence and free of charge.
+
+**Please note:** The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and  "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
+
+# Table of Contents
+
+<!-- MarkdownTOC depth=0 autolink="true" bracket="round" autoanchor="true" style="ordered" indent="   " -->
+
+1. [System Requirements](#system-requirements)
+   1. [CPU](#cpu)
+   1. [Memory](#memory)
+   1. [Harddrive](#harddrive)
+   1. [Bandwidth](#bandwidth)
+   1. [Recommended Setup for Running ILIAS](#recommended-setup-for-running-ilias)
+   1. [Supported Platforms](#supported-platforms)
+      1. [Server](#server)
+      1. [Client](#client)
+   1. [Database Recommendations](#database-recommendations)
+1. [Manual Installation on Linux](#manual-installation-on-linux)
+   1. [Git Clone/Checkout](#git-clonecheckout)
+1. [Dependency Installation](#dependency-installation)
+   1. [Apache Installation/Configuration](#apache-installationconfiguration)
+   1. [PHP Installation/Configuration](#php-installationconfiguration)
+   1. [Database Installation/Configuration](#database-installationconfiguration)
+      1. [MySQL Strict Mode \(5.6+\)](#mysql-strict-mode-56)
+      1. [MySQL Perfomance tuning \(OPTIONAL\)](#mysql-perfomance-tuning-optional)
+   1. [E-Mail Configuration \(OPTIONAL\)](#e-mail-configuration-optional)
+   1. [Install other Depedencies](#install-other-depedencies)
+   1. [Installation Wizard](#installation-wizard)
+   1. [Configure ILIAS Java RPC server \(OPTIONAL\)](#configure-ilias-java-rpc-server-optional)
+1. [Hardening and Security Guidance](#hardening-and-security-guidance)
+   1. [Secure Files](#secure-files)
+      1. [File Access Rights](#file-access-rights)
+      1. [Place data directory outside of the web root](#place-data-directory-outside-of-the-web-root)
+      1. [Secure Installation Files](#secure-installation-files)
+   1. [Use HTTPS](#use-https)
+      1. [Redirect all unencrypted traffic to HTTPS](#redirect-all-unencrypted-traffic-to-https)
+      1. [Enable HTTP Strict Transport Security](#enable-http-strict-transport-security)
+      1. [Proper SSL configuration](#proper-ssl-configuration)
+   1. [Serve security related Headers](#serve-security-related-headers)
+   1. [Report security issues](#report-security-issues)
+1. [Customizing ILIAS](#customizing-ilias)
+   1. [Plugin Repository](#plugin-repository)
+1. [Upgrading ILIAS](#upgrading-ilias)
+   1. [Minor Upgrade](#minor-upgrade)
+   1. [Major Upgrade](#major-upgrade)
+   1. [Information on Updates](#information-on-updates)
+1. [Upgrading Dependencies](#upgrading-dependencies)
+   1. [PHP](#php)
+   1. [MySQL](#mysql)
+   1. [ImageMagick](#imagemagick)
+1. [Contribute](#contribute)
+   1. [Pull Requests](#pull-requests)
+   1. [Reference System](#reference-system)
+
+<!-- /MarkdownTOC -->
+
+<a name="system-requirements"></a>
+# System Requirements
+
+The necessary hardware to run an ILIAS installation is always dependent from the number of users and the kind of usage.
+
+<a name="cpu"></a>
+## CPU
+
+We RECOMMEND a common dual core server CPU.
+
+<a name="memory"></a>
+## Memory
+
+Memory requirements are greatly variable, depending on the number of users and server activity. We RECOMMEND a minimum of 4096 MB.
+
+<a name="harddrive"></a>
+## Harddrive
+
+We RECOMMEND 250 GB for usual ILIAS deployments. 25 GB would be used by the operating system and ILIAS itself. 225 GB would remain for the database and files.
+
+<a name="bandwidth"></a>
+## Bandwidth
+
+We RECOMMEND at least 100 Mbit/sec. for the web server WAN connection.
+
+<a name="recommended-setup-for-running-ilias"></a>
+## Recommended Setup for Running ILIAS
+
+For best results we RECOMMEND:
+
+  * Debian GNU Linux 8 / Red Hat Enterprise Linux 7 / Ubuntu 16.04 LTS
+  * MySQL 5.5 / MariaDB
+  * PHP 5.6+
+  * Apache 2.2+ with mod_php
+  * ImageMagick 6.x+
+  * php5-gd, php5-xsl, php5-mysql
+  * OpenJDK 7+
+  * zip, unzip
+  * git
+
+<a name="supported-platforms"></a>
+## Supported Platforms
 
-          Author: Boris H. Schuermann
+Please note that different configurations SHOULD be possible, but it might be harder to find someone who can help when things go south. You SHALL NOT use a different configuration unless you are an experienced system administrator.
 
-Table of Contents 
+<a name="server"></a>
+### Server
 
-1. Introduction
+  * Server OS: Linux
+  * Web Server: Apache 2 (mod_php, php-fpm)
+  * Databases: MySQL/MariaDB 5.0+ and Galera (experimental), Oracle 10g+ (experimental), PostgreSQL (experimental)
+  * PHP: Version 5.5+ and 7.0+ are supported
+  
+<a name="client"></a>
+### Client
 
-2. First time installation
+  * Desktop: Windows 7+, MacOS X 10.7+, Linux
+  * Web Browser: IE11+, Microsoft Edge, Firefox 14+, Chrome 18+, Safari 7+
 
-   2.1 Where to install ILIAS
+<a name="database-recommendations"></a>
+## Database Recommendations
 
-   2.2 First steps
+We RECOMMEND to use MySQL/MariaDB with the following settings:
 
-   2.3 Installing required third-party software
+  * InnoDB storage engine
+  * utf8_general_ci
+  * query_cache_size (> 16M)
+  * join_buffer_size (> 128.0K, or always use indexes with joins)
+  * table_open_cache (> 400)
+  * innodb_buffer_pool_size (>= 2G, depending on DB size)
 
-       2.3.1 Libraries & utilities
+On MySQL 5.6+ and Galera the ```Strict SQL Mode``` MUST be disabled. See [MySQL Strict Mode](#mysql-strict-mode-56) for details.
 
-       2.3.2 MySQL / PHP / Apache
+<a name="manual-installation-on-linux"></a>
+# Manual Installation on Linux
 
-   2.4 Installing ILIAS
+You can download the latest ILIAS release at http://www.ilias.de/docu/goto.php?target=st_229 or clone it from GitHub at https://github.com/ILIAS-eLearning/ILIAS (for production make sure to checkout the latest stable release, not trunk).
 
-3. Updating ILIAS
+We RECOMMEND to clone from GitHub as this will offer some kind of autoupdate for future releases and versions.
 
-Appendix A: Note on using Apache 2
+  * Install dependencies (see [Recommended Setup for Running ILIAS](#recommended-setup-for-running-ilias))
+  * Untar/Clone ILIAS into the web servers docroot (e.g. /var/www/html/)
+  * Create directory outside the web servers docroot (e.g. /var/www/files/)
+  * Change owner/group to www-data (on Debian) or apache (on RHEL) for the files and directories created above
 
+<a name="git-clonecheckout"></a>
+## Git Clone/Checkout
 
-1. I N T R O D U C T I O N
+To checkout the ILIAS release 5.2 in ```/var/www/html/ilias/``` use the following commands:
 
+```
+cd /var/www/html/
+git clone https://github.com/ILIAS-eLearning/ILIAS.git ilias
+cd ilias
+git checkout release_5-2
+chown www-data:www-data /var/www/html/ilias -R
+```
+The files SHOULD be owned by your webserver user/group (e.g. ```www-data``` or ```apache```) the mode SHOULD be 644 for files and 755 for directories. 
+
+For more details on file access rights see [File Access Rights](#file-access-rights) in the Security section of this document.
+
+<a name="dependency-installation"></a>
+# Dependency Installation
+
+Depending on your Linux Distribution you have several ways to install the required dependencies. We RECOMMEND to always use your distributions package manager to keep your packages up to date in an easy manner avoiding security issues. 
+
+<a name="apache-installationconfiguration"></a>
+## Apache Installation/Configuration
+
+On Debian/Ubuntu execute: 
+```
+apt-get install apache2 
+```
+
+On RHEL/CentOS execute: 
+```
+yum install httpd
+```
+
+Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-enabled/000-default.conf``` on Debian). A minimal configuration MAY look as follows:
+
+```
+<VirtualHost *:80>
+    ServerAdmin webmaster@example.com
+
+    DocumentRoot /var/www/html/ilias/
+    <Directory /var/drbd/www/html/>
+        Options FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    LogLevel warn
+
+    ErrorLog /var/log/apache2/error.log
+    CustomLog /var/log/apache2/access.log combined
+</VirtualHost>
+```
+
+After changing the configuration remember to reload the web server daemon:
+
+On Debian/Ubuntu: 
+```
+systemctl restart apache2.service
+```
+
+On RHEL/CentOS: 
+```
+systemctl restart httpd.service
+```
+
+<a name="php-installationconfiguration"></a>
+## PHP Installation/Configuration
+
+On Debian/Ubuntu execute: 
+```
+apt-get install libapache2-mod-php5
+```
+
+On RHEL/CentOS execute: 
+```
+yum install php
+systemctl restart httpd.service
+```
+
+To check if the installation was successfull create the file ```/var/www/html/ilias/phpinfo.php``` with the following contents:
 
-*******************************************************************************
+```
+<?php
+phpinfo();
+?>
+```
 
-CAUTION: THIS IS A BETA RELEASE. NOT INTENDED FOR PRODOCTIVE ENVIRONMENTS.
-         ONLY FOR TEST PURPOSES.
+Then point your browser to ```http://yourservername.org/phpinfo.php```. If you see the content of the file as shown above your configuration is **not** working. If you can see details of your PHP Configuration everything works fine. Search for the entry ```Loaded configuration file``` as we now made some changes to it (e.g. ```/etc/php5/apache2/php.ini```).
 
-*******************************************************************************
+We RECOMMEND the following settings for your php.ini:
+
+```
+; you may choose higher values for max_execution_time and memory_limit
+max_execution_time = 600
+memory_limit = 512M
+ 
+error_reporting = E_ALL & ~E_NOTICE ; up to PHP 5.2.x
+error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED ; PHP 5.3.0 and higher
+error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT ; PHP 5.4.0 and higher
+display_errors = Off
+ 
+; or any higher values for post_max_size and upload_max_filesize
+post_max_size = 256M
+upload_max_filesize = 256M
+
+; choose a non-zero value for session.gc_probability, otherwise old session data will not be deleted
+session.gc_probability = 1
+session.gc_divisor = 100
+session.gc_maxlifetime = 14400
+session.hash_function = 0
+ 
+; for chat server since ILIAS 4.2
+allow_url_fopen = 1
 
+; How many GET/POST/COOKIE input variables may be accepted
+max_input_vars = 10000
+```
 
-ILIAS is a web-based Learning Content Managament System (LCMS) developed with
-the server-side scripting language PHP and distributed as Open Source software
-under the GNU General Public License (GPL). It uses the MySQL database and the
-Apache web server. The main target operating system is Linux, but ILIAS may also
-be run on other Unix systems, Windows and Mac OS.
+Remember to reload your web server configuration to apply those changes.
+
+<a name="database-installationconfiguration"></a>
+## Database Installation/Configuration
+
+On Debian/Ubuntu execute: 
+```
+apt-get install mysql-server
+```
+
+On RHEL/CentOS execute: 
+```
+yum install mariadb
+```
+
+We RECOMMEND to create a dedicated database user for ILIAS:
+
+```
+mysql -u root -p
+CREATE DATABASE ilias CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE USER 'ilias'@'localhost' IDENTIFIED BY 'password';
+GRANT LOCK TABLES on *.* TO 'ilias@localhost';
+GRANT ALL PRIVILEGES ON ilias.* TO 'ilias'@'localhost';
+FLUSH PRIVILEGES;
+```
 
-We highly recommend to use one of the distribution related instructions
-provided at http://www.ilias.de/docu/goto.php?target=st_6487_367&client_id=docu
+<a name="mysql-strict-mode-56"></a>
+### MySQL Strict Mode (5.6+)
+
+With MySQL 5.6+ and Galera you might see SQL errors like:
+
+```
+SQLSTATE[42000]: Syntax error or access violation: 1055 Expression #1 of
+SELECT list is not in GROUP BY clause and contains nonaggregated column
+'yourdbname.tblname.foobar' which is not functionally dependent on
+columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+```
+
+As a workaround ```STRICT_TRANS_TABLES```, ```STRICT_ALL_TABLES``` and ```ONLY_FULL_GROUP_BY``` MUST be disabled. To do so create the file ```/etc/mysql/conf.d/disable_strict_mode.cnf``` and enter the following (or add it to ```/etc/mysql/my.cnf```):
+
+```
+[mysqld]
+sql_mode=IGNORE_SPACE,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+```
+
+After restarting the MySQL-Server use the following command to confirm the changes:
+
+```
+mysql -i -BN -e 'SELECT @@sql_mode' | grep -E 'ONLY_FULL_GROUP_BY|STRICT_TRANS_TABLES|STRICT_ALL_TABLES'
+```
+
+If strict mode is disabled, there will be no output.
+
+<a name="mysql-perfomance-tuning-optional"></a>
+### MySQL Perfomance tuning (OPTIONAL)
+
+We RECOMMEND to use https://github.com/major/MySQLTuner-perl to optimize your MySQL configuration (e.g. ```/etc/mysql/my.cnf```). Execute ```mysqltuner.pl``` after several days of using ILIAS in production.
+
+<a name="e-mail-configuration-optional"></a>
+## E-Mail Configuration (OPTIONAL)
+
+You MAY use whatever MTA you like to send E-Mail generated by ILIAS. We RECOMMEND to use an already existing smarthost (mailhub). A very simple way to do so is using ```ssmtp```:
+
+On Debian/Ubuntu execute: 
+```
+apt-get install ssmtp
+```
 
-This documentation describes how to install all the tools needed from scratch.
-Usually you should prefer to use any package manager provided by your
-distribution. Many of these tools are already installed in standard
-configurations of many distributions.
+On RHEL/CentOS execute: 
+```
+yum install ssmtp
+```
 
-The following third-party tools are necessary for running ILIAS. Release
-numbers refer to the versions tested, usually minimum versions. Newer versions
-should work, see also:
-http://www.ilias.de/docu/goto_docu_pg_6531_367.html (II. General Requirements)
+The configuration file for SSMTP (e.g. ```/etc/ssmtp/ssmtp.conf ```) MAY look as follows:
 
-    - Apache 1.3.44            http://www.apache.org
-    - MySQL 5.1.32             http://www.mysql.com
-    - PHP 5.5.x-5.6.x 7.0.x    http://www.php.net
-    - Zlib (libz) 1.1.4        http://www.gzip.org/zlib/
-    - libpng 1.2.5             http://www.libpng.org
-    - libjpeg 6b               ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
-    - ImageMagick 6.3.8-3      http://www.imagemagick.org
-    - Info-ZIP (Zip/UnZip)     http://www.info-zip.org
-    - libxml2 2.6.31           http://www.xmlsoft.org
-    - libxslt 1.1.22           http://www.xmlsoft.org
+```
+#
+# Config file for sSMTP sendmail
+#
+# The person who gets all mail for userids < 1000
+# Make this empty to disable rewriting.
+root=yourmail@mail.com
 
-Some functions in ILIAS require outgoing Internet mail. Therefore a sendmail
-daemon should run on your system and outgoing connections should be allowed
-on port 25.
+# The place where the mail goes. The actual machine name is required no 
+# MX records are consulted. Commonly mailhosts are named mail.domain.com
+mailhub=smtp.yourmail.com
+
+# Where will the mail seem to come from?
+rewriteDomain=yourservername.org
+
+# The full hostname
+hostname=yourserver.example.com
+
+# Are users allowed to set their own From: address?
+# YES - Allow the user to specify their own From: address
+# NO - Use the system generated From: address
+FromLineOverride=YES
+```
 
-General advices on compiling the software packages:
+<a name="install-other-depedencies"></a>
+## Install other Depedencies
 
-    - For better readability, long command lines are broken down to multiple
-      lines. In this case, a backslash at the end of a line indicates that the
-      next line is to be considered a continuation.
-    - Please follow the installation steps in the given order. Some steps rely
-      on previously issued commands.
-    - If the configure/make process fails or gets interrupted, it is a good idea
-      to remove the complete source directory of the program to be built and
-      start a new attempt with a source directory freshly extracted from the
-      corresponding tarball. In any case you should at least delete the file
-      'config.cache' if it exists.
-    - To facilitate installation you may use the Cut & Paste functions of your
-      system to enter the commands in this document into your console. If you
-      load this document into an editor capable of selecting colums such as
-      'nedit' this may even work for entire command sequences with multiple
-      lines separated by a backslash.
+On Debian/Ubuntu execute: 
+```
+apt-get install zip unzip php5-gd php5-mysql php-xsl imagemagick openjdk-7-jdk
+```
 
+On RHEL/CentOS execute: 
+```
+yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk
+```
+<a name="installation-wizard"></a>
+## Installation Wizard
 
+After having all dependencies installed and configured you should be able to run the ILIAS Installation Wizard using http://yourservername.org/setup/setup.php
 
-2  F I R S T   T I M E   I N S T A L L A T I O N
+Make sure to reload your Apache configuration before entering the Wizard. Otherwise there are unmet dependencies in the setup (like XLS and GD are both installed but ILIAS does not see them, yet).
 
-Please visit http://www.ilias.de/docu/goto.php?target=st_6487_367&client_id=docu
-and try a install procedure that suits your OS distribution. If this fails, you
-may try to install the tools from scratch.
+<a name="configure-ilias-java-rpc-server-optional"></a>
+## Configure ILIAS Java RPC server (OPTIONAL)
 
+The ILIAS Java RPC server is used for certain OPTIONAL functions as Lucene Search or generating PDF Certificates. To enable the RPC server you need to place a configuration file in ```<YOUR_ILIAS_DIR>/Services/WebServices/RPC/lib/ilServer.properties```:
 
-2.1 Where to install ILIAS
+```
+[Server]
+IpAddress = localhost
+Port = 11111
+IndexPath = /var/www/html/ilias/data/
+LogFile = /var/www/files/ilServer.log
+LogLevel = WARN
+NumThreads = 1
+RamBufferSize = 256
+IndexMaxFileSizeMB = 500
 
-The instructions herein assume that you do not have any of the software
-packages required for running ILIAS installed on your server. Following them
-all these programs will be built from their source code and then be installed
-under /opt/ilias/. This way the programs will normally not interfere with
-packages already installed on your system and can easily be removed.
+[Client1]
+ClientId = ACMECorp
+NicId = 0
+IliasIniPath = /var/www/html/ilias/ilias.ini.php
+```
 
-Beside the third-party software also ILIAS itself and all data directories
-(including the ILIAS web space, the MySQL databases, places for file uploads,
-logfiles etc.) will be located under /opt/ilias/. For just trying out ILIAS
-this solution is fine but if you intend to use ILIAS in a production environment
-we recommend to seperate the program binaries from the user data, e.g. to
-facilitate backup and administration tasks.
+ILIAS can generate a proper configuration file via the Administration menu ("Administration -> General Settings -> Server -> Java-Server -> Create Configuration File"). Please note that the configuration file is not directly written to the file system, you MUST copy the displayed content and create the file manually.
 
-When compiling the components necessary to run ILIAS from source you may easily
-specify their installation location using an appropriate '--prefix' directive.
+You MAY use the following systemd service description to start the RPC server. If you still use SysV-Initscripts you can find one in the [Lucene RPC-Server](../Services/WebServices/RPC/lib/README.txt) documentation.
 
+```
+[Unit]
+Description=ILIAS RPC Server
+After=network.target
 
-2.2 First steps
+[Service]
+Environment=JAVA_OPTS="-Dfile.encoding=UTF-8"
+Environment=ILSERVER_JAR="/var/www/html/ilias/Services/WebServices/RPC/lib/ilServer.jar"
+Environment=ILSERVER_INI="/var/www/html/ilias/Services/WebServices/RPC/lib/ilServer.properties"
 
-Directories where third-party components will be located:
+ExecStart=-/usr/bin/java $JAVA_OPTS -jar $ILSERVER_JAR $ILSERVER_INI start
+ExecStop=/usr/bin/java $JAVA_OPTS -jar $ILSERVER_JAR $ILSERVER_INI stop
 
-    mkdir /opt/ilias
-    mkdir /opt/ilias/bin
-    mkdir /opt/ilias/config
-    mkdir /opt/ilias/include
-    mkdir /opt/ilias/lib
-    mkdir /opt/ilias/libexec
-    mkdir /opt/ilias/man
-    mkdir /opt/ilias/man/man1
-    mkdir /opt/ilias/man/man5
-    mkdir /opt/ilias/src
-    mkdir /opt/ilias/src/tarballs
+[Install]
+WantedBy=multi-user.target
+```
 
-Directories for the ILIAS web space and all ILIAS related data:
+At this point the RPC server will generate PDF certificates, but to use Lucence search further step are needed. See [Lucene RPC-Server](../Services/WebServices/RPC/lib/README.txt) for details.
 
-    mkdir /opt/ilias/data
-    mkdir /opt/ilias/log
-    mkdir /opt/ilias/log/ilias
-    mkdir /opt/ilias/mysqldata
-    mkdir /opt/ilias/www
+<a name="hardening-and-security-guidance"></a>
+# Hardening and Security Guidance
 
-Copy all source tar files to /opt/ilias/src/tarballs. GNU-Tar will extract the
-source files into separate directories in /opt/ilias/src:
+<a name="secure-files"></a>
+## Secure Files
 
-    cd /opt/ilias/src
-    tar -xzf tarballs/zlib-1.1.4.tar.gz
-    tar -xzf tarballs/jpegsrc.v6b.tar.gz
-    tar -xzf tarballs/libpng-1.2.5.tar.gz
-    tar -xzf tarballs/ImageMagick-6.3.8-3.tar.gz
-    tar -xzf tarballs/zip23.tar.gz
-    tar -xzf tarballs/unzip550.tar.gz
-    tar -xzf tarballs/mysql-5.1.32.tar.gz
-    tar -xzf tarballs/apache_1.3.44.tar.gz
-    tar -xzf tarballs/php-5.3.27.tar.gz
-    tar -xzf tarballs/libxml2-2.6.31.tar.gz
-    tar -xzf tarballs/libxslt-1.1.22.tar.gz
+In previous versions of ILIAS it might have been possible to access SCORM, Media Files and User Profile Images without beeing logged in by guessing the proper URL and no measures were taken by the admin to deny such access.
 
-The ILIAS software, its documentation and the web space directory structure is
-stored in:
+Since ILIAS 5.1 a new WebAccessChecker (WAC) is implemented by default. To make use of WAC you MUST enable ```mod_rewrite``` in your Apache configuration.
 
-    ilias-5.2.0.tar.gz
+Please note that this will not work with Nginx as ```.htaccess```-files are not supported. Instead you MAY add the following to your Nginx configuration file (please note that running ILIAS with Nginx isn't officially supported and certain features like Shibboleth won't work):
 
-The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
-party software has been installed it can directly be extracted into the web
-space.
+```
+server {
+    [...]
+    root /var/www/trunk;
+    set $root $document_root;
+    rewrite ^/data/(.*)/(.*)/(.*)$ /Services/WebAccessChecker/wac.php last;
+    location /secured-data {
+        alias $root/data;
+        internal;
+    }
+    [...]
+}
+```
 
+<a name="file-access-rights"></a>
+### File Access Rights
 
-2.3 Installing required third-party software
+If you're an experienced admin you MAY want to use more strict file access rights that we RECOMMENDED earlier in this document. To make it impossible for an attacker to modify PHP files if he gains control over the web server processes those files SHOULD be owned by ```root``` wherever possible.
 
+The only files and directories that must be owned/writeable by the web user are:
 
-2.3.1 Libraries & utilities
+  * ilias.ini.php
+  * data/
+  * ILIAS data dir outside of the webservers docroot
 
-If not already available on your system, the following libraries and utilities
-must be installed:
+All the other files and directories should be owned by ```root```, but readable by the web user (e.g. 644/755).
 
-    - ZLib (libz, compression library required by various other programs)
-    - GD-Library (libgd, graphics library used by PHP)
-    - IJG JPEG-Library (libjpeg, graphics library used by ImageMagick)
-    - libpng (PNG graphics library used by libgd and Imagemagick)
-    - ImageMagick (graphics tool used by ILIAS for Image format conversion)
-    - Info-ZIP (Zip/UnZip tools used for compressing offline courses)
-    - libxml (GNOME XML library, required by PHP for XML DOM parsing. At least a
-      version >= 2.4.14 is required)
-    - libxslt (GNOME XSLT library, required by PHP for using DOM XSLT features)
+<a name="place-data-directory-outside-of-the-web-root"></a>
+### Place data directory outside of the web root
 
-The programs can be compiled and installed using the command sequences shown
-below. However, you may decide to install them in different locations such
-as /usr/lib or /usr/local/lib for the libaries by changing the configure option
---prefix.
+It is highly RECOMMENDED to place your data directory outside of the web server docroot, as pointed out by the ILIAS Installation Wizard.
 
+<a name="secure-installation-files"></a>
+### Secure Installation Files
 
-(a) Zlib
+The access to the ILIAS Installation Wizard (```/setup/setup.php```) MAY be restricted:
 
-        cd /opt/ilias/src/zlib-1.1.4
-        ./configure --prefix=/opt/ilias
-        make
-        make install
+```
+<Location /setup>
+  <IfVersion < 2.3>
+    Order Deny,Allow
+    Deny From All
+    Allow from 127.0.0.1
+  </IfVersion>
 
+  <IfVersion > 2.3>
+    Require all denied
+    Require ip 127.0.0.1
+  </IfVersion>
+</Location>
+```
 
-(b) IJG JPEG-library
+<a name="use-https"></a>
+## Use HTTPS
 
-        cd /opt/ilias/src/jpeg-6b
-        ./configure \
-        --prefix=/opt/ilias \
-        --enable-shared \
-        --enable-static
-        make
-        make test
-        make install
+You can get a trusted, free SSL certificate at https://letsencrypt.org
 
+<a name="redirect-all-unencrypted-traffic-to-https"></a>
+### Redirect all unencrypted traffic to HTTPS
 
-(c) libpng
+To redirect all HTTP traffic to HTTPS you MAY issue a permanent redirect using the 301 status code:
 
-    libpng does not come with a configure script. You have to pick a Makefile
-    suitable for your system in the ./scripts subdirectory. In the following it
-    is assumed that the target system is Linux.
+```
+<VirtualHost *:80>
+   ServerName yourservername.org
+   Redirect permanent / https://yourservername.org/
+</VirtualHost>
+```
 
-    To install libpng under /opt/ilias the 'prefix' (default: /usr/local) in the
-    Makefile must be changed. In addition the location of libz should be properly
-    specified: 'ZLIBLIB=/opt/ilias/lib' and 'ZLIBINC=/opt/ilias/include'. Both
-    settings can be changed manually with a text editor such as 'vi' or by using
-    the 'sed' commands shown below.
+<a name="enable-http-strict-transport-security"></a>
+### Enable HTTP Strict Transport Security
 
-        cd /opt/ilias/src/libpng-1.2.5
+By adding the following to your Apache SSL VirtualHost configuration you instruct browsers not to allow any connection to your ILIAS instance using HTTP and prevent visitors from bypassing invalid certificate warnings.
 
-    Now you can either edit Makefile to adjust the prefix:
+```
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=15768000; includeSubDomains; preload"
+</IfModule>
+```
 
-        cp scripts/makefile.linux Makefile
-        vi Makefile
+**Warning:** Before activating the configuration above you MUST make sure that you have a good workflow for maintaining your SSL settings (including certificate renewals) as you will not be able to disable HTTPS access to your site for up to 6 months.
 
-    or you can use 'sed' to directly create a modified Makefile:
+<a name="proper-ssl-configuration"></a>
+### Proper SSL configuration
 
-        sed \
-        -e 's/\/usr\/local/\/opt\/ilias/g' \
-        -e 's/ZLIBLIB=..\/zlib/ZLIBLIB=\/opt\/ilias\/lib/g' \
-        -e 's/ZLIBINC=..\/zlib/ZLIBINC=\/opt\/ilias\/include/g' \
-        scripts/makefile.linux > Makefile
+The default SSL ciphers used by web servers are often not state-of-the-art, so you SHOULD consider to choose your own settings. Which settings should be used depends completely on your environment. Therefore giving a generic recommendation is not really possible.
 
-        make
-        make install
+We RECOMMEND to use the [Mozilla SSL Configuration Generator](https://mozilla.github.io/server-side-tls/ssl-config-generator/) to generate a suitable configuration and the [Qualys SSL Labs Tests](https://www.ssllabs.com/ssltest/) or the [High-Tech Bridge SSL Server Test](https://www.htbridge.com/ssl/) to check your settings.
 
+<a name="serve-security-related-headers"></a>
+## Serve security related Headers
 
-(d) GD-Library
+To improve the security of your ILIAS users you SHOULD set the following Headers:
 
-	We recommend to use the PHP bundled version of GD. Please visit the
-	PHP GD requirements page at http://php.net/manual/en/image.requirements.php
-	The page lists libraries for download to support various image formats.
-	We recommend to install a version that at least supports gif, jpeg and png.
-	
-	Configure options for PHP needed for GD:
-	--with-gd --with-jpeg-dir=DIR --with-png-dir=DIR (and more, if wanted)
+  * X-Content-Type-Options: nosniff
+  * X-XSS-Protection: 1; mode=block
+  * X-Frame-Options: SAMEORIGIN
 
+For Apache on Debian systems you can turn those headers on by editing ```/etc/apache2/conf-enabled/security.conf```. You MUST enable  ```mod_headers``` and ```mod_env``` for this.
 
-(e) ImageMagick
+For Nginx you can simply add for example ```add_header X-Frame-Options "SAMEORIGIN";``` in your ```server``` configuration.
 
-        cd /opt/ilias/src/ImageMagick-6.3.8
-        ./configure \
-        --prefix=/opt/ilias \
-        --without-perl \
-        --enable-lzw \
-        --enable-delegate-build \
-        --enable-shared
-        make
-        make install
+<a name="report-security-issues"></a>
+## Report security issues
 
-    If you do not have X installed on your system you must use the configure
-    option '--without-x' in addition.
+If you think you found an security related issue in ILIAS please refer to http://www.ilias.de/docu/goto_docu_wiki_5307.html#ilPageTocA213 for reporting it.
 
-    At the end of the configure process a configuration summary is displayed.
-    Please check if 'yes' is shown as the configured value for JPEG and PNG. If
-    not, ImageMagick could probably not find the previously installed libjpeg
-    and libpng and you may experience problems when doing image manipulations
-    in ILIAS such as editing a clickable imagemap or when thumbnail pictures
-    are being created. This can be solved by setting the variables LDFLAGS and
-    CFLAGS to include /opt/ilias/lib and /opt/ilias/include before you execute
-    the 'configure' script.
+<a name="customizing-ilias"></a>
+# Customizing ILIAS
 
-    Note on building ImageMagick under SuSE Linux: The build process might
-    fail with an error message claiming that the file 'byteorder.h' cannot be
-    found in /usr/include/sys/. Under SuSE it is located in /usr/include/asm/.
-    Creating a symbolic link will solve the problem:
+If you need to customize your ILIAS installation you MUST NOT edit the core files, otherwise you will not be able to update your installation in a timely manner (e.g. due to security fixes). 
 
-        cd /usr/include/sys
-        ln -s ../asm/byteorder.h byteorder.h
+You can find proper ways to customize ILIAS in the [ILIAS Development Guide](http://www.ilias.de/docu/goto_docu_pg_29964_42.html):
 
+  * [Plugins and Plugin Slots - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=st_27029)
+  * [Custom Styles](/templates/Readme.md#custom-styles)
+  
+<a name="plugin-repository"></a>
+## Plugin Repository
 
-(f) Info-ZIP
+ILIAS can be extended with a lot of Plugins. You find the complete list in the [Plugin Repository](http://www.ilias.de/docu/goto.php?target=cat_1442&client_id=docu)
 
-        cd /opt/ilias/src/zip-2.3
-        make -f unix/Makefile generic
-        make -f unix/Makefile install
-        cd /opt/ilias/src/unzip-5.50
-        make -f unix/Makefile generic
-        make -f unix/Makefile install
+<a name="upgrading-ilias"></a>
+# Upgrading ILIAS
 
-    By default Zip and Unzip will be installed in /usr/local/bin. As the zip and
-    unzip tools are generelly helpful, you may put them there. Otherwise you may
-    install them under /opt/ilias by modifying the Makefile.
+The easiest way to update ILIAS is using Git, please note that this is only possible if you installed ILIAS via git as advised in this document. If Git wasn't used you can always download the ZIP or Tarball in the [release section of the ILIAS GitHub pages](https://github.com/ILIAS-eLearning/ILIAS/releases). 
 
+Before you start you SHOULD consider to:
 
-(g) libxml
+  * Backup your database
+  * Backup your docroot
+  * Change your skin to delos (default skin)
 
-        cd /opt/ilias/src/libxml2-2.6.31
-        ./configure \
-        --prefix=/opt/ilias \
-        --without-python
-        make
-        make install
+We also RECOMMEND to use a decent test instance to make a pre-flight check, to see if all plugins, skins, etc. still working as expected with the new version.
 
+<a name="minor-upgrade"></a>
+## Minor Upgrade
 
-(h) libxslt
+To apply a minor update (e.g. v5.2.0 to v5.2.1) execute the following command in your ILIAS basepath (e.g. ```/var/www/html/ilias/```):
 
-        cd /opt/ilias/src/libxslt-1.1.22
-        ./configure \
-        --prefix=/opt/ilias \
-        --with-libxml-prefix=/opt/ilias \
-        --without-python
-        make
-        make install
+```
+git pull
+```
 
+In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
 
-2.3.2 MySQL / PHP / Apache
+Afterwards you MUST open the ILIAS Installation Wizard in your browser (e.g. http://yourservername.org/setup/setup.php) and check if your database needs updates or hotfixes.
 
-After the libraries and tools are set up you may install the main third-party
-components:
+<a name="major-upgrade"></a>
+## Major Upgrade
 
+To apply a major update (e.g. v5.1.0 to 5.2.0 or v4.x.x to 5.x.x) please check that your OS has the [proper dependency versions](#upgrading-dependencies) installed. If everything is fine change your default skin to Delos and apply this at least to your root user, otherwise ILIAS might become unusable due to changes in the layout templates. Then execute the following commands in your ILIAS basepath (e.g. ```/var/www/html/ilias/```):
 
-(a) MySQL database
+```
+git fetch
+git checkout release_5-2
+```
 
-    Using one of the actual binaries provided at the MySQL web site is always the best idea.
-    However, if you decide to build MySQL from scratch, here are the basic steps:
+Replace ```release_5-2``` with the branch or tag you actually want to upgrade to. You can get a list of available branches by executing ```git branch -a``` and a list of all available tags by executing ```git tag```. Never use ```trunk``` or ```*beta``` for production.
 
-    Configure & make:
+In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
+  
+Afterwards you MUST open the ILIAS Installation Wizard in your browser (e.g. http://yourservername.org/setup/setup.php) and check if your database needs updates or hotfixes.
 
-        cd /opt/ilias/src/mysql-5.1.x
-        ./configure \
-        --prefix=/opt/ilias \
-        --localstatedir=/opt/ilias/mysqldata \
-        --sysconfdir=/opt/ilias/config
-        make
-        make install
+As a last step you should log in with a User using your custom skin. If everything works fine change back from Delos to your skin. If not refer to [Customizing ILIAS](#customizing-ilias) to modify your skin to match the new requirements.
 
-    Now install MySQL's default databases:
+<a name="information-on-updates"></a>
+## Information on Updates
 
-        scripts/mysql_install_db
+To keep your ILIAS Installation secure and healthy it is important that you keep it up to date. To get informations about updates and security fixes you SHOULD consider to subscribe to the ILIAS Admin Mailing-List: http://lists.ilias.de/cgi-bin/mailman/listinfo/ilias-admins
 
-    Create link to init script:
+<a name="upgrading-dependencies"></a>
+# Upgrading Dependencies
 
-        cd /opt/ilias/share/mysql
-        chmod 744 mysql.server
-        cp mysql.server /etc/rc.d/init.d/
-        cd /etc/rc.d/rc3.d
-        ln -s ../init.d/mysql.server S72mysql.server
-        ln -s ../init.d/mysql.server K72mysql.server
+When you upgrade from rather old versions please make sure that the dependencies, like MySQL and PHP, are up to date. Below you will find the supported versions for each ILIAS release.
 
-    The directories containing the init script and the links to it may vary.
-    Please check the default runlevel for your system in /etc/inittab. On
-    Solaris systems the init scripts can usually be found in /etc/init.d, the
-    links in the runlevel specific directories like /etc/rc3.d.
+<a name="php"></a>
+## PHP
 
-    It is recommended not to run the mysql daemon as root. The daemon user can
-    be set in /etc/rc.d/init.d/mysql.server. On many Linux/Unix system you may
-    create a daemon user account and group by entering:
+| ILIAS Version   | PHP Version                           |
+|-----------------|---------------------------------------|
+| 5.2.x           | 5.5.x - 5.6.x, 7.0.x                  |
+| 5.0.x - 5.1.x   | 5.3.x - 5.5.x                         |
+| 4.4.x           | 5.3.x - 5.5.x                         |
+| 4.3.x           | 5.2.6 - 5.4.x                         |
+| 4.2.x           | 5.2.6 - 5.3.x                         |
+| 4.0.x - 4.1.x   | 5.1.4 - 5.3.x                         |
+| 3.8.x - 3.10.x  | 5.1.4 - 5.2.x                         |
 
-        groupadd mysql
-        useradd -g mysql mysql
+<a name="mysql"></a>
+## MySQL
 
-    File ownership for /opt/ilias/mysqldata needs to be set accordingly:
+| ILIAS Version   | MySQL Version                         |
+|-----------------|---------------------------------------|
+| 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x   |
+| 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x          |
+| 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x                 |
+| 3.10.x          | 4.1.x, 5.0.x, 5.1.32 - 5.1.x          |
+| 3.7.3 - 3.9.x   | 4.0.x - 5.0.x                         |
 
-        chown -R mysql /opt/ilias/mysqldata
-        chgrp -R mysql /opt/ilias/mysqldata
+<a name="imagemagick"></a>
+## ImageMagick
 
-    Create a MySQL configuration file and link to it:
+| ILIAS Version   | ImageMagick Version                   |
+|-----------------|---------------------------------------|
+| 4.2.x - 5.2.x   | 6.3.8-3 or higher                     |
+| < 4.2.x         | No specific version requirements      |
 
-        cd /opt/ilias/share/mysql
-        cp my-small|medium|large|huge.cnf /opt/ilias/config/my.cnf
-        cd /opt/ilias/mysqldata
-        ln -s /opt/ilias/config/my.cnf
+<a name="contribute"></a>
+# Contribute
 
-    MySQL version 5.1.x comes with sample configuration files for different
-    memory sizes (small, medium, large, huge). Please select the appropriate
-    file and apply further changes to /opt/ilias/config/my.cnf according to your
-    specific needs. Since ILIAS currently does not rely on InnoDB support in
-    MySQL you may disable it by adding the 'skip-innodb' option to the mysqld
-    section of the my.cnf file.
+We have a big [community](http://www.ilias.de/docu/goto.php?target=cat_1444&client_id=docu) and you can get a member of [ILIAS Society](http://www.ilias.de/docu/goto.php?target=cat_1669&client_id=docu).
+You may even join us at one of our regular [ILIAS Conferences](http://www.ilias.de/docu/goto.php?target=cat_2255&client_id=docu).
 
-    Create link to error log file:
+<a name="pull-requests"></a>
+## Pull Requests
 
-        cd /opt/ilias/log
-        ln -s /opt/ilias/mysqldata/$HOSTNAME.err
+We highly appreciate Pull-Request from external developers. Due to some regulations in the developments process of ILIAS, some kinds of Pull-Request need further steps. Additionally Pull-Request SHOULD target the correct branch for easy merging.
 
-    If desired you may also redirect database logging from /opt/ilias/mysqldata
-    (default) to /opt/ilias/log by modifying the log-bin (or log-update) option
-    in my.cnf.
+   - Language-Fixes or additions to language-files don't need further steps.
+   - Bugfixes need an entry in the [ILIAS-Bugtracker](http://mantis.ilias.de). Pull-Request for Bugfixes target always to the branch where the bug occurs. The developer which merges it will cherry-pick the fix to all branches needed
+   - Features/Refactorings need an entry in [Feature-Wiki](http://feature.ilias.de) and has to get through the existing procedure for Feature-Requests. Pull-Request target to trunk.
 
-    Check if MySQL daemon can be started/stopped:
+Pull-Request will be assigned to the responsible maintainer(s). See further information on how contributions are handled in [/docs/CONTRIBUTING.md](/docs/CONTRIBUTING.md)
 
-        /etc/rc.d/init.d/mysql.server start
-        /etc/rc.d/init.d/mysql.server stop
+<a name="reference-system"></a>
+## Reference System
 
-    Please note that unless a password has been set for the MySQL root account,
-    any user can start the MySQL client with all privileges. It is advisable to
-    change the password for the root account using the follwing command:
+The ILIAS Testserver (http://ilias.de/test52) is currently configured as follows:
 
-        /opt/ilias/bin/mysqladmin -u root password <password>
+| Package        | Version                     |
+|----------------|-----------------------------|
+| Distribution   | Ubuntu 14.04.5 LTS          |
+| MySQL          | MySQL 5.5.54                |
+| PHP            | 7.0.17                      |
+| Apache         | 2.4.7                       |
+| Nginx          | 1.4.6                       |
+| zip            | 3.0                         |
+| unzip          | 6.00                        |
+| JDK            | 1.7.0_121 (IcedTea 2.6.8)   |
 
-    If you set a password for the MySQL root account you will have to modify the
-    database settings for ILIAS. Please see section 2.4 for details. You might
-    also consider using a dedicated MySQL account for running ILIAS instead of
-    the MySQL root account.
-
-    For MySQL 5.1 and higher you need to grant the permission LOCK TABLES to
-    the ILIAS db-user. E.g. if the ILIAS db-user 'dbuser' accesses from host
-    'localhost':
-
-        /opt/ilias/bin/mysql -u root password <password>
-        mysql> grant LOCK TABLES on *.* to dbuser@localhost;
-
-    If you create the ILIAS database manually (ILIAS setup can do this for you)
-    you have to set utf8 as character set and an appropriate collation for the
-    whole database, e.g.:
-    
-        mysql> CREATE DATABASE ilias CHARACTER SET utf8 COLLATE utf8_unicode_ci
-
-
-(b) Apache
-
-    Configure & make:
-
-        cd /opt/ilias/src/apache_1.3.44
-        ./configure \
-        --prefix=/opt/ilias \
-        --enable-so \
-        --logfiledir=/opt/ilias/log \
-        --runtimedir=/opt/ilias/log \
-        --sysconfdir=/opt/ilias/config \
-        --datadir=/opt/ilias/www
-        make
-        make install
-
-    Link to startup script apachectl:
-
-        cd /opt/ilias/bin
-        chmod 744 apachectl
-        cp apachectl /etc/rc.d/init.d/
-        cd /etc/rc.d/rc3.d
-        ln -s ../init.d/apachectl S70apachectl
-        ln -s ../init.d/apachectl K70apachectl
-
-    The directories containing the init script and the links to it may vary.
-    Please check the default runlevel for your system in /etc/inittab. On
-    Solaris systems the init scripts can usually be found in /etc/init.d, the
-    links in the runlevel specific directories like /etc/rc3.d.
-
-    Please change /opt/ilias/config/httpd.conf according to your needs, e.g. set
-    a daemon user/group like 'wwwrun' (default: nobody/nobody) to run the httpd
-    daemon. For PHP support include the following directives:
-
-        DirectoryIndex index.html index.php
-
-        AddType application/x-httpd-php .php
-        AddType application/x-httpd-php .lang
-        AddType application/x-httpd-php .inc
-
-    Also please make sure that the name of your server is properly specified in
-    httpd.conf. The 'ServerName' entry should either contain the DNS name of your
-    server or its IP address. The line should be uncommented.
-
-    IMPORTANT: All directories in your webspace ought to be secured properly, e.g.
-    using .htaccess files. It is recommended to at least disable the directory
-    option 'Indexes' in /opt/ilias/config/httpd.conf, so that someone accessing
-    your web server cannot obtain listings of the files inside your web space
-    directories.
-
-
-(c) PHP
-
-    Configure & make:
-
-    PHP 5.3.27:
-		
-        ./configure \
-        --with-apxs=/opt/ilias/bin/apxs \
-        --with-mysql=/opt/ilias \
-        --with-zlib=/opt/ilias \
-        --with-gd \
-        --with-jpeg-dir=/opt/ilias \
-        --with-png-dir=/opt/ilias \
-        --with-config-file-path=/opt/ilias/config \
-        --with-libxml-dir=/opt/ilias \
-        --with-xsl=/opt/ilias \
-        --enable-mbstring
-        make
-        make install
-		
-    The default PHP configuration file must be copied to /opt/ilias/config:
-
-        cp php.ini-dist /opt/ilias/config/php.ini
-
-    Visit http://www.ilias.de/docu/goto.php?target=pg_6531_367&client_id=docu
-    to get current recommendations for php.ini settings.
-
-
-2.4 Installing ILIAS
-
-
-(a) Installing the ILIAS program files
-
-    First extract the content of the ILIAS tarball into the web space directory:
-
-        cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-5.2.0.tar.gz
-
-    Please make sure your webserver has write permission to the ILIAS web space
-    and data directories and all their subdirectories. If your webserver daemon
-    user is 'wwwrun' you can use these commands:
-
-        chown -R wwwrun /opt/ilias/www/htdocs/ilias
-        chown -R wwwrun /opt/ilias/data
-
-
-(b) Running the setup script
-
-    Open the ILIAS setup script in your web browser:
-
-        http://www.yourserver.com/ilias/setup/setup.php
-
-    If all 'preliminaries' are fulfilled you may click on the [Installation]
-    link at the end of the page and follow the instructions. The Path to the
-    ILIAS data directory must be an absolut path i.e. it should start with
-    "/", e.g. "/opt/ilias/data". The directory is used for data that does not
-    need to be stored within the webspace.
-
-
-(c) Initial login
-
-    After all steps are passed you may proceed to the ILIAS login,
-    either using the [login] link or by accessing
-
-        http://www.yourserver.com/ilias/login.php
-
-    Please use the ILIAS superuser account for your first login:
-
-        User ID: root
-        Password: homer
-
-    In the Administration -> System Settings you may continue with the further
-    configuration of your ILIAS system.
-
-    Please CHANGE THE ILIAS ROOT PASSWORD on your first login!
-
-(d) Setting up the user agreement form
-
-    Every ILIAS user that registers to the system must confirm a user
-    agreement. You should set up your own agreement text. See
-    http://www.ilias.de/docu/goto.php?target=pg_15915_367&client_id=docu
-	for more information how to do this.
-
-(e) Settting up the chat server
-
-    The file Modules/Chat/chatserver/install.txt explains how the chat server
-    installation works.
-
-(f) Setting up cron jobs
-    
-    A cron job is an automated process that operates at predefined time
-    intervals. As an example, you can set up a cron job that checks your ILIAS
-    installation every day at 2:00 am for limited user accounts and sends an
-    email notification to users which account expires within the next 2 weeks.
-
-    How to enable this cron job?
-    Please choose one of the following configurations. If possible use
-    'server based configuration'.
-
-    Server based configuration:
-
-    - you need write access to the file /etc/crontab
-    - add the following line in /etc/crontab
-    0 2 * * * APACHEUSER /usr/bin/php ILIAS_ABSOLUTE_PATH/cron/cron.php > /dev/null
-
-    To understand this even more, I'll show you what each of the values mean for
-    the above cron tab.
-
-    0                    Minutes after the hour
-    2                    Hours of the day
-    *                    Days of the month
-    *                    Month of the year
-    *                    WeekDays of the week
-    APACHEUSER           The user which runs the cron job. Should be the same as
-                         the apache user (wwwrun)
-    ILIAS_ABSOLUTE_PATH  The absolute path to your ILIAS installation
-    
-    This example executes the script cron.php every night at 2 a clock.
-
-
-3. Updating ILIAS
-
-
-THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS stable version to
-ILIAS 5.0
-
-BACKUP YOUR ILIAS DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
-AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
-
-BEFORE UPDATING FROM ANY ILIAS VERSION 3.9 OR LOWER YOU MUST UPGRADE TO
-ILIAS 3.10 FIRST. YOU SHOULD ONLY UPGRADE FROM A 3.10.x VERSION OR HIGHER TO
-ILIAS 5.0.
-
-We recommend not to update from an any alpha or beta version of ILIAS because
-this may cause ambiguous errors in the future. Please setup any stable version
-of ILIAS from scratch.
-
-For major updates (e.g. 4.4.x -> 5.0.x) the safest proceeding is, to upgrade
-a copy of your productive system first and test whether everything works ok.
-
-Please also note that major updates usually include changes in the style
-sheet and template files. So if you use individual styles/skins you will have
-to adopt them for the new release first. This does usually not apply for bugfix
-updates (e.g. 5.0.0 -> 5.0.1).
-
-At the time being no installation script is available for updating ILIAS. For
-this reason the ILIAS script files must be updated manually. In the following
-steps it is assumed that your existing ILIAS installation is located in
-/opt/ilias/www/htdocs/ilias/ while the contents of the ILIAS distribution tar
-file lies in /tmp/. If the locations differ on your system you may need to adapt
-the commands used in the following.
-
-It is recommended to save the files ilias.ini.php located in the
-main ILIAS directory which contains individual settings of your ILIAS
-installation and chat/chatserver/server.ini which stores the setting for the
-ilias chat server. After installing the new ILIAS release you may easily restore
-these files.
-
-Please note that the way user agreements, adapted language files and individual
-skins and styles are stored has been changed with ILIAS 3.8.0. See
-http://www.ilias.de/docu/goto.php?target=st_15914_367&client_id=docu
-for more information.
-
-    cd /opt/ilias/www/htdocs/ilias
-    rm *.php *.xml *.dtd *.css
-    rm -r classes content css docs images include java lang layouts lib
-    rm -r modules setup sql src sso templates xml assessment chat tracking
-    rm -r survey syntax_highlight course payment webservice ilinc link
-	rm -r cron Services calendar Modules
-
-You may ignore any 'no such file or directory' errors because depending on
-your current ILIAS installation some of the directories above may not exist on
-your system.
-
-Then extract the ILIAS distribution tar file to /tmp/ (or any other directory of
-your choice). Do not simply overwrite the 'ilias' directory in your webspace!
-Example:
-
-    cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-5.2.0.tar.gz
-
-After extracting the files you will find a newly created subdirectory 'ilias' in
-your tmp/ directory. Depending on the ILIAS version you are replacing you must
-copy various files and directories to your ILIAS web directory:
-
-    cd /tmp/ilias
-    cp -p * /opt/ilias/www/htdocs/ilias/
-    cp -rp classes cron docs include lang libs /opt/ilias/www/htdocs/ilias/
-    cp -rp Modules Services setup src sso templates /opt/ilias/www/htdocs/ilias/
-    cp -rp webservice xml /opt/ilias/www/htdocs/ilias/
-
-Please ignore any 'File exists' error messages. After all files have been copied
-you may remove /tmp/ilias/.
-
-Copy your saved ilias.ini.php file to /opt/ilias/www/htdocs/ilias/.
-
-Make sure that the apache user is the owner of all files using chown, e.g.
-'chown -R wwwrun /opt/ilias/www/htdocs/ilias/'.
-
-After installing a new ILIAS release you must run the setup script
-'http://www.yourserver.com/ilias/setup/setup.php' and update the database of all
-your clients. Select "Details" for every client in the client list and click on
-the "Database" button. Depending on the size of your database the update process
-may take a while.
-
-This is especially the case for an update from 3.4.x or lower to 3.10.x because
-all meta data will be converted into a new format. On big installations we
-recommend to set the following values to avoid multiple restarts of the database
-migration:
-
-- Apache, httpd.conf:
-  Timeout = 3600
-- PHP, php.ini:
-  memory_limit = 200M
-  max_execution_time = 3600
-
-If the update unexpectedly stops, please restart the update until it finishes
-successfully.
-
-After that enter your clients and execute the "Refresh Languages" command
-in the language administration of the system settings ("Administration" ->
-"System Settings" -> "Languages" -> "Refresh Languages").
-
-
-	   
-A P P E N D I X  A: Note on using Apache 2
-
-Please proceed as follows:
-
-    - Omit the preparatory step and directly compile and install Apache 2 as
-      described in section '2.3.2 - (d) Apache'" but replace the configure
-      directive '--activate-module=src/modules/php5/libphp5.a' by '--enable-so'.
-
-    - Add this line to the Apache configuration file httpd.conf, so that PHP
-      is loaded as a Dynamic Shared Object (DSO):
-
-          LoadModule php5_module modules/libphp5.so
-
-    - Build PHP as described in section '2.3.2 - (c) PHP' but replace the
-      configure directive '--with-apache=/opt/ilias/src/apache_1.3.29' with
-      '--with-apxs2=/opt/ilias/bin/apxs'.
-
-    - Starting the Apache 2 daemon should now also invoke the PHP module.
+Please note: Shibboleth won't work with Nginx.
