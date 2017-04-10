@@ -72,5 +72,5 @@ class Factory {
 	 * @param   string|callable   $error
 	 * @return  Restriction
 	 */
-	public function custom($is_ok, $error);
+	public function custom(callable $is_ok, $error);
 }
