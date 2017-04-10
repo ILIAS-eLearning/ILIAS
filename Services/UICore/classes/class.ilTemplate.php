@@ -1776,11 +1776,19 @@ class ilTemplate extends ilTemplateX
 	
 	function fillBodyClass()
 	{
-		if ($this->body_class != "" && $this->blockExists("body_class"))
+		if ($this->blockExists("body_class"))
 		{
-			$this->setCurrentBlock("body_class");
-			$this->setVariable("BODY_CLASS", $this->body_class);
-			$this->parseCurrentBlock();
+		    if (empty($this->body_class) || $this->body_class == 'std') {
+		    	// Generate body class from GET variables for easier styles theming
+		    	$classes = array();
+		    	foreach ($_GET as $name => $value) {
+		        	$classes[] = filter_var($value, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW + FILTER_FLAG_STRIP_HIGH);
+		    	}
+		    	$this->body_class = implode(' ', $classes);
+		    }
+		    $this->setCurrentBlock("body_class");
+		    $this->setVariable("BODY_CLASS", $this->body_class);
+		    $this->parseCurrentBlock();
 		}
 	}
 	
