@@ -52,7 +52,7 @@ $also_between_0_10 = $f->par([$gt0, $lt10]);
 // message:
 
 $between_0_10->withProblemBuilder(function($value) {
-    return "Value must be between 0 and 10, but is '$value'.";
+	return "Value must be between 0 and 10, but is '$value'.";
 });
 
 ```
