@@ -559,7 +559,7 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->settings->set('mail_subject_prefix', $form->getInput('mail_subject_prefix'));
 		$this->settings->set('mail_system_usr_from_addr', $form->getInput('mail_system_usr_from_addr'));
 		$this->settings->set('mail_system_usr_from_name', $form->getInput('mail_system_usr_from_name'));
-		$this->settings->set('mail_system_usr_head_env_from_addr', $form->getInput('mail_system_usr_head_env_from_addr'));
+		$this->settings->set('mail_system_usr_env_from_addr', $form->getInput('mail_system_usr_env_from_addr'));
 		$this->settings->set('mail_system_sys_from_addr', $form->getInput('mail_system_sys_from_addr'));
 		$this->settings->set('mail_system_sys_from_name', $form->getInput('mail_system_sys_from_name'));
 		$this->settings->set('mail_system_sys_reply_to_addr', $form->getInput('mail_system_sys_reply_to_addr'));
