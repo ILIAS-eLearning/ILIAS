@@ -34,7 +34,7 @@ try {
 	$lt10->check(20);
 	assert(false); // does not happen
 }
-catch (\InvalidArgumentException $e) {
+catch (\UnexpectedValueException $e) {
 	$raised = true;
 }
 assert($raised);

@@ -16,7 +16,7 @@ interface Restriction {
      *
 	 * Should not throw if appliesTo($value).
 	 *
-	 * @throws  \InvalidArgumentException if value does not comply with encoded restriction.
+	 * @throws  \UnexcpectedValueException if value does not comply with encoded restriction.
 	 * @param   mixed  $value
 	 * @return  null
 	 */
