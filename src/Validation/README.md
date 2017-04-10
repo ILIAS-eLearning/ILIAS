@@ -47,4 +47,12 @@ $between_0_10 = $f->seq([$gt0, $lt10]);
 
 // Or in a way that they are checked independently:
 $also_between_0_10 = $f->par([$gt0, $lt10]);
+
+// One can also create a new error message by supplying a builder for an error
+// message:
+
+$between_0_10->withProblemBuilder(function($value) {
+    return "Value must be between 0 and 10, but is '$value'.";
+});
+
 ```
