@@ -64,7 +64,6 @@ class ilSoapUtils extends ilSoapAdministration
 		}
 		else
 		{
-			// @todo: Build User Sender
 			$sender = $senderFactory->system();
 		}
 
