@@ -5,7 +5,7 @@ ILIAS uses two types of ini-files to write some installation-depending settings 
 - /ilias.ini.php
 - /data/YOUR_CLIENT/client.ini.php 
 
-#ilias.ini.php
+# ilias.ini.php
 | Key/Group | e.g. Values | Description |
 | --- | --- | --- |
 | **[server]** | |
@@ -68,7 +68,7 @@ ILIAS uses two types of ini-files to write some installation-depending settings 
 | auto_https_detect_header_value | "" | |
 
 
-#client.ini.php
+# client.ini.php
 | Key/Group | e.g. Values | Description |
 | --- | --- | --- |
 | **[server]** |  |  |
