@@ -322,6 +322,7 @@ assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie %s von %s Antworten!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Bitte wählen Sie nicht mehr als %s von %s Antworten!
 assessment#:#ass_mc_sel_lim_setting#:#Antwortbeschränkung
 assessment#:#ass_mc_sel_lim_setting_desc#:#Mit dieser Einstellung lässt sich die Anzahl durch den Teilnehmer wählbarer Antworten einschränken.
+assessment#:#essay_scoring_mode#:#Bewertungsmodus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Es werden keine Punkte automatisiert vergeben. Die Punktevergabe ist nur mit manueller Bewertung möglich.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatische Bewertung bei Nennung einzelner Begriffe
@@ -15880,7 +15881,7 @@ mail#:#mail_members_search_continue#:#Weiter
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
 crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
-assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#Für jedes gefundede Keyword werden die entsprechenden Punkte automatisch vergeben.###deprecated 
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#Für jedes gefundede Keyword werden die entsprechenden Punkte automatisch vergeben.###deprecated 
 common#:#object_purchased_date#:#Kaufdatum###deprecated 
 dcl#:#dcl_msg_tableviews_order_updated#:#Anordnung der Ansichten aktualisiert
 dcl#:#dcl_create_table#:#Tabelle erstellen###deprecated 
