@@ -709,7 +709,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$lng->loadLanguageModule("wiki");
 		$ilTabs->activateTab("settings");
 		
-		include("Services/Form/classes/class.ilPropertyFormGUI.php");
+		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
 		
 		// Title
