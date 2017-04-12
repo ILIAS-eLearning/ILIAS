@@ -61,47 +61,8 @@ Example:
 
 ```/global/lang/ilias_en.lang.local```
 
-
 <a name="skins-and-styles"></a>
 # Skins and Styles
 
-Skins are applied through changes of HTML template files that are stored in the 
-```/skin``` directory. Currently they can be defined only globally.
-
-```/global/skin/<skin_name>/tpl.xxx.html```
-
-The skin directory must include a ```template.xml``` description file, example:
-
-```
-<?xml version = "1.0" encoding = "UTF-8"?>
-<template xmlns = "http://www.w3.org" name = "MySkin">
-  <style  name = "MyStyle"
-      id = "mystyle"
-      image_directory = "images"/>
-</template>
-```
-
-The directory must include a ```.css``` file that corresponds to the style id, e.g.
-for style id ```mystyle``` a file ```mystyle.css``` with the style sheet information must be
-included.
-
-If you want to customize a HTML template file, you have to put it into the
-following directory:
-
-  a) The original is located in ```templates/default/```:
-     ```/global/skin/<skin_name>/Services/<ServiceName>/tpl.xxx.html```
-
-  b) The original is locatod in ```Modules/<ModuleName>/templates/default/```:
-     ```/global/skin/<skin_name>/Modules/<ModuleName>/tpl.xxx.html```
-
-  c) The original is locatod in ```Services/<ServiceName>/templates/default/```:
-     ```/global/skin/<skin_name>/Services/<ServiceName>/tpl.xxx.html```
-
-All images that are referred by the ```.css``` file must be present at their 
-defined location. If you copy the default css from 
-```templates/default/delos.css```. You have either to change the url in the css 
-for each image or you copy all necessary images to the directory 
-```Customizing/global/skin/<skin_name>/images```.
-
-You find additional information about how to create your own skin in the 
+You find all information about how to create your own skin in the 
 [Custom Styles](/templates/Readme.md#custom-styles) documentation.
