@@ -107,30 +107,35 @@ class ilMailFormGUI
 		return true;
 	}
 
-	public function sendMessage()
+	/**
+	 * @param array $files
+	 * @return array
+	 */
+	protected function decodeAttachmentFiles(array $files)
 	{
-		global $ilUser;
-		
-		// decode post values
-		$files = array();
-		if(is_array($_POST['attachments']))
+		$decodedFiles = array();
+
+		foreach($files as $value)
 		{
-			foreach($_POST['attachments'] as $value)
+			if(is_file($this->mfile->getMailPath() . '/' . $GLOBALS['DIC']->user()->getId() . '_' . urldecode($value)))
 			{
-				if(is_file($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . urldecode($value)))
-				{
-					$files[] = urldecode($value);
-				}
+				$decodedFiles[] = urldecode($value);
 			}
 		}
-		
+
+		return $decodedFiles;
+	}
+
+	public function sendMessage()
+	{
+		$m_type = isset($_POST["m_type"]) ? $_POST["m_type"] : array("normal");
+
 		$message = strip_tags(ilUtil::stripSlashes($_POST['m_message'], false));
 		$message = str_replace("\r", '', $message);
 
+		$files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
+
 		$this->umail->setSaveInSentbox(true);
-
-		$m_type = isset($_POST["m_type"]) ? $_POST["m_type"] : array("normal");
-
 		if($errors = $this->umail->sendMail(
 				ilUtil::securePlainString($_POST['rcp_to']),
 				ilUtil::securePlainString($_POST['rcp_cc']),
@@ -142,26 +147,12 @@ class ilMailFormGUI
 				)
 			)
 		{
-			if(is_array($_POST['attachments']))
-			{
-				foreach($_POST['attachments'] as $key => $value)
-				{
-					if(is_file($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . urldecode($value)))
-					{
-						$_POST['attachments'][$key] = urldecode($value);
-					}
-					else
-					{
-						unset($_POST['attachments'][$key]);
-					}
-				}
-			}
-
+			$_POST['attachments'] = $files;
 			$this->showSubmissionErrors($errors);
 		}
 		else
 		{
-			$this->umail->savePostData($ilUser->getId(), array(), "", "", "", "", "", "", "", "");			
+			$this->umail->savePostData($GLOBALS['DIC']->user()->getId(), array(), "", "", "", "", "", "", "", "");			
 			
 			$this->ctrl->setParameterByClass('ilmailgui', 'type', 'message_sent');
 
@@ -185,17 +176,20 @@ class ilMailFormGUI
 		}
 
 		$draftsId = $this->mbox->getDraftsFolder();
-		
-		// decode post values
-		$files = array();
-		if(is_array($_POST['attachments']))
+		$files    = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
+
+		if($errors = $this->umail->validateRecipients(
+			ilUtil::securePlainString($_POST['rcp_to']),
+			ilUtil::securePlainString($_POST['rcp_cc']),
+			ilUtil::securePlainString($_POST['rcp_bcc'])
+		))
 		{
-			foreach($_POST['attachments'] as $value)
-			{
-				$files[] = urldecode($value);
-			}
+			man
+			$this->showSubmissionErrors($errors);
+			$this->showForm();
+			return;
 		}
-		
+
 		if(isset($_SESSION["draft"]))
 		{
 			// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
@@ -208,7 +202,7 @@ class ilMailFormGUI
 				ilUtil::securePlainString($_POST["m_subject"]),
 				ilUtil::securePlainString($_POST["m_message"]),
 				(int)$_SESSION["draft"],
-				(int)ilUtil::securePlainString($_POST['use_placeholders']),
+				(int)$_POST['use_placeholders'],
 				ilMailFormCall::getContextId(),
 				ilMailFormCall::getContextParameters()
 				
@@ -223,7 +217,7 @@ class ilMailFormGUI
 		}
 		else
 		{
-			if ($this->umail->sendInternalMail($draftsId,$GLOBALS['DIC']['ilUser']->getId(),$files,
+			if ($this->umail->sendInternalMail($draftsId,$GLOBALS['DIC']->user()->getId(),$files,
 					// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
 					ilUtil::securePlainString($_POST["rcp_to"]),
 					ilUtil::securePlainString($_POST["rcp_cc"]),
@@ -241,7 +235,6 @@ class ilMailFormGUI
 			)
 			{
 				ilUtil::sendInfo($this->lng->txt("mail_saved"),true);
-				#$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $this->mbox->getDraftsFolder());
 
                 if(ilMailFormCall::isRefererStored())
                     ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
