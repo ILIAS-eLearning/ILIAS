@@ -1,17 +1,16 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
+    "first_maintainer": "kunkel(115)",
     "second_maintainer": "fneumann(1560)",
     "implicit_maintainers": [
         "fschmid(21087)"
     ],
     "coordinator": "",
-    "tester": "",
+    "tester": "kunkel(115)",
     "testcase_writer": "",
     "path": "Services/Language",
-    "belong_to_component": "None",
+    "belong_to_component": "Language Handling",
     "used_in_components": [
-        "All",
-        "Language"
+        "All"
     ]
 }

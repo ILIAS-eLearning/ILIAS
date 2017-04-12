@@ -9,6 +9,6 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Services/Init",
-    "belong_to_component": "None",
+    "belong_to_component": "Login, Auth & Registration",
     "used_in_components": []
 }
