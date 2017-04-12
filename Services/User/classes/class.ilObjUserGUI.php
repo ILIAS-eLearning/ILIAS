@@ -2463,11 +2463,6 @@ class ilObjUserGUI extends ilObjectGUI
 			exit();
 		}
 
-		if (substr($a_target, 0, 1) == "n")
-		{
-			$a_target = ilObjUser::_lookupId(ilUtil::stripSlashes(substr($a_target, 1)));
-		}
-
 		if('registration' == $a_target)
 		{
 			$_GET["baseClass"] = 'ilStartUpGUI';
@@ -2478,13 +2473,18 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$_GET["baseClass"] = 'ilStartUpGUI';
 			$ilCtrl->setTargetScript('ilias.php');
-			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), '');
+			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), 'showUsernameAssistanceForm');
 		}
 		else if('pwassist' == $a_target)
 		{
 			$_GET["baseClass"] = 'ilStartUpGUI';
 			$ilCtrl->setTargetScript('ilias.php');
-			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), 'showUsernameAssistanceForm');
+			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), '');
+		}
+
+		if (substr($a_target, 0, 1) == "n")
+		{
+			$a_target = ilObjUser::_lookupId(ilUtil::stripSlashes(substr($a_target, 1)));
 		}
 
 		if(strpos($a_target, 'contact_approved') !== false)
