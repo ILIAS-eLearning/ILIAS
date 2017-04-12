@@ -186,6 +186,7 @@ class ilMailFormGUI
 			ilUtil::securePlainString($_POST['rcp_bcc'])
 		))
 		{
+			$_POST['attachments'] = $files;
 			$this->showSubmissionErrors($errors);
 			$this->showForm();
 			return;
