@@ -54,8 +54,8 @@ The code base is deviced in several components:
 * **Badges**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
 	* 2nd Maintainer: MISSING
-	* Testcases: [Thomas.schroeder](http://www.ilias.de/docu/goto_docu_usr_38330.html)
-	* Tester: MISSING
+	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
+	* Tester: [Thomas.schroeder](http://www.ilias.de/docu/goto_docu_usr_38330.html)
 	* Used in Directories: Services/WebAccessChecker, 
 * **GlobalCache**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
@@ -238,9 +238,9 @@ The code base is deviced in several components:
 	* Tester: [berggold](http://www.ilias.de/docu/goto_docu_usr_22199.html)
 	* Used in Directories: Services/WebAccessChecker, Modules/MediaCast, 
 * **Blog**
-	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
 	* 2nd Maintainer: MISSING
-	* Testcases: MISSING
+	* Testcases: [KlausVorkauf](http://www.ilias.de/docu/goto_docu_usr_5890.html)
 	* Tester: MISSING
 	* Used in Directories: Services/WebAccessChecker, Modules/Blog, 
 * **Language**
@@ -303,6 +303,8 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: MISSING)
 * Services/Language
  (1st Maintainer: MISSING)
+* Modules/BookingManager
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html))
 * Modules/MediaCast
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html))
 * Services/Tagging
@@ -347,7 +349,6 @@ The following directories are currently maintained unter the Service-Maintenace-
 
 
 The following directories are currently unmaintained:
-* Modules/BookingManager
 * Modules/Category
 * Modules/CategoryReference
 * Modules/Chatroom
