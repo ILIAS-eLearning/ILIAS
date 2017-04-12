@@ -2468,6 +2468,25 @@ class ilObjUserGUI extends ilObjectGUI
 			$a_target = ilObjUser::_lookupId(ilUtil::stripSlashes(substr($a_target, 1)));
 		}
 
+		if('registration' == $a_target)
+		{
+			$_GET["baseClass"] = 'ilStartUpGUI';
+			$ilCtrl->setTargetScript('ilias.php');
+			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilAccountRegistrationGUI'), '');
+		}
+		else if('nameassist' == $a_target)
+		{
+			$_GET["baseClass"] = 'ilStartUpGUI';
+			$ilCtrl->setTargetScript('ilias.php');
+			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), '');
+		}
+		else if('pwassist' == $a_target)
+		{
+			$_GET["baseClass"] = 'ilStartUpGUI';
+			$ilCtrl->setTargetScript('ilias.php');
+			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), 'showUsernameAssistanceForm');
+		}
+
 		if(strpos($a_target, 'contact_approved') !== false)
 		{
 			$_GET['cmd'] = 'approveContactRequest';
