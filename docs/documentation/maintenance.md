@@ -160,10 +160,10 @@ The code base is deviced in several components:
 	* Tester: MISSING
 	* Used in Directories: Services/FileDelivery, 
 * **Booking Tool**
-	* 1st Maintainer: MISSING
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
 	* 2nd Maintainer: MISSING
-	* Testcases: MISSING
-	* Tester: MISSING
+	* Testcases: [e.coroian](http://www.ilias.de/docu/goto_docu_usr_37215.html)
+	* Tester: [wolfganghuebsch](http://www.ilias.de/docu/goto_docu_usr_18455.html)
 	* Used in Directories: Modules/BookingManager, 
 * **Learning Module SCORM**
 	* 1st Maintainer: MISSING
