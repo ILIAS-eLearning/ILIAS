@@ -1,0 +1,16 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "fschmid(21087)",
+    "second_maintainer": "amstutz(26468)",
+    "implicit_maintainers": [
+        "mstuder(8473)",
+        "otruffer(29130)",
+        "ttruffer(42894)"
+    ],
+    "coordinator": "",
+    "tester": "",
+    "testcase_writer": "",
+    "path": "Modules/Cloud",
+    "belong_to_component": "Cloud Object",
+    "used_in_components": []
+}

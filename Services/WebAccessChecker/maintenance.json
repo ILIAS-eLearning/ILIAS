@@ -1,0 +1,29 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "fschmid(21087)",
+    "second_maintainer": "ukohnle(21855)",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "iLUB Universität Bern",
+    "testcase_writer": "ttruffer(42894)",
+    "path": "Services/WebAccessChecker",
+    "belong_to_component": "None",
+    "used_in_components": [
+        "ObjectDefinition",
+        "Learning Module SCORM",
+        "Blog",
+        "Data Collection",
+        "Learning Module HTML",
+        "MediaCast",
+        "Poll",
+        "Portfolio",
+        "Test",
+        "Certificate",
+        "Chat",
+        "Badges",
+        "Booking Manager",
+        "File",
+        "Media Objects",
+        "User Service"
+    ]
+}
