@@ -32,435 +32,393 @@ ILIAS is currently maintained by two types of Maintainerships:
 - Second Maintainer
 
 The code base is deviced in several components:
+<!-- REMOVE -->
+* **Database**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: MISSING
+	* Tester: MISSING
 
-* **Administration**
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer: [Stefan Meyer]
-	* Testcases: [Matthias Kunkel]
-	* Tester: [Matthias Kunkel]
-* **Badges**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer: -
-	* Testcases: [Alexandra Tödt]
-	* Tester: [Thomas Schröder]
-* **Bibliographic List Item**:
-	* 1st Maintainer: [Fabian Schmid]
-	* 2nd Maintainer: -
-	* Testcases: [Martin Studer]
-	* Tester: [Marko Glaubitz]
-* **Blog**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer: -
-	* Testcases: [Klaus Vorkauf]
-	* Tester: [Patrick Bergmann]
-* **Booking Tool**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer: -
-	* Testcases: [Elena Coroian]
-	* Tester: [Wolfgang Hübsch]
-* **Bookmarks**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer: [Alexander Killing]
-	* Testcases: [Matthias Kunkel]
-	* Tester: [Miriam Hölscher]
-* **Calendar**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer: [Alexander Killing]
-	* Testcases: -
-	* Tester: [Christine Berggold]
-* **Category and Repository**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer: [Stefan Meyer]
-	* Testcases: [Matthias Kunkel]
-	* Tester: [Miriam Hölscher]
-* **Certificate**:
-	* 1st Maintainer: frontend: [Michael Jansen], Java-server: [Stefan Meyer]
-	* 2nd Maintainer: -
-	* Testcases: -
-	* Tester: [Christian Hüser]
-* **Chat**:
-	* 1st Maintainer: [Michael Jansen]
-	* 2nd Maintainer: [Max Becker]
-	* Testcases: [Matthias Kunkel]
-	* Tester: [Antonia Weber], [Alexander Baulig]
-* **Cloud Object**:
-	* 1st Maintainer: [Fabian Schmid]
-	* 2nd Maintainer: -
-	* Testcases: [Theodor Truffer]
-	* Tester: [Timon Amstutz]
-* **Competence Management**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer: -
-	* Testcases: [Alexandra Tödt]
-	* Tester: [Wolfgang Hübsch], [Philipp Kröpelin]
-* **Contacts**:
-	* 1st Maintainer: [Michael Jansen]
-	* 2nd Maintainer: -
-	* Testcases: [Florian Suittenpointner]
-	* Tester: [Antonia Weber], [Alexander Baulig]
-* **Course Management**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer: [Alexander Killing]
+* **Plugin Slots**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* Testcases: MISSING
+	* Tester: [PerPascalGrube](http://www.ilias.de/docu/goto_docu_usr_31492.html)
+
+* **Shibboleth Authentication**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
 	* Testcases: iLUB Universität Bern
 	* Tester: iLUB Universität Bern
-* **CSS / Templates**:
-	* 1st Maintainer: [Jean-Luc Braun]
-	* 2nd Maintainer: [Timon Amstutz]
-	* Testcases: [Fabian Kruse]
-	* Tester: [Fabian Schmid]
-* **Cron Service**:
-	* 1st Maintainer: [Michael Jansen]
-	* 2nd Maintainer: [Björn Heyser]
-	* Testcases: [Matthias Kunkel]
-	* Tester: Tester needed!
-* **Data Collection**:
-	* 1st Maintainer: [Fabian Schmid]
-	* 2nd Maintainer: -
-	* Testcases: [Martin Studer]
-	* Tester: [Kim Herms]
-* **ECS Interface**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer:
-	* Testcases: [Christian Bogen]
-	* Tester: [Christian Bogen]
-* **Exercise**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Klaus Vorkauf]
-	* Tester: [Miriam Wegener]
-* **Export**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer:
-	* Testcases: [Fabian Kruse]
-	* Tester: [Fabian Kruse]
-* **File**:
-	* 1st Maintainer: [Fabian Schmid]
-	* 2nd Maintainer: [Alexander Killing]
-	* Testcases: [Tom Loewen]
-	* Tester: [Tom Loewen]
-* **Forum**:
-	* 1st Maintainer: [Michael Jansen]
-	* 2nd Maintainer: [Nadia Matuschek]
-	* Testcases: FH Aachen
-	* Tester: [Esther Paulmann]
-* **Glossary**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Alexandra Tödt]
-	* Tester: [Alexandra Tödt]
-* **Group**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer: [Alexander Killing]
+
+* **BackgroundTasks**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: MISSING
+	* Tester: MISSING
+
+* **ActiveRecord**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: MISSING
+	* Tester: MISSING
+
+* **GlobalCache**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: MISSING
+	* Tester: MISSING
+
+* **Info Page**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* Testcases: MISSING
+	* Tester: MISSING
+
+* **Badges**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
+	* Tester: [Thomas.schroeder](http://www.ilias.de/docu/goto_docu_usr_38330.html)
+
+* **Chat**
+	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
+	* 2nd Maintainer: [mbecker](http://www.ilias.de/docu/goto_docu_usr_27266.html)
+	* Testcases: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
+	* Tester: [AntoniaWeber](http://www.ilias.de/docu/goto_docu_usr_36934.html)
+
+* **CSS / Templates**
+	* 1st Maintainer: [braun](http://www.ilias.de/docu/goto_docu_usr_27123.html)
+	* 2nd Maintainer: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html)
+	* Testcases: [Fabian](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* Tester: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+
+* **Tagging**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
+	* Testcases: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
+	* Tester: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
+
+* **Notes and Comments**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* Testcases: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
+	* Tester: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
+
+* **Booking Tool**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [e.coroian](http://www.ilias.de/docu/goto_docu_usr_37215.html)
+	* Tester: [wolfganghuebsch](http://www.ilias.de/docu/goto_docu_usr_18455.html)
+
+* **Cloud Object**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [ttruffer](http://www.ilias.de/docu/goto_docu_usr_42894.html)
+	* Tester: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html)
+
+* **Course Management**
+	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* 2nd Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
 	* Testcases: iLUB Universität Bern
 	* Tester: iLUB Universität Bern
-* **ILIAS Page Editor**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Alexandra Tödt]
-	* Tester: FH Aachen
-* **Info Page**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer: [Stefan Meyer]
-	* Testcases: Tester needed!
-	* Tester: Author needed!
-* **Language Handling**:
-	* 1st Maintainer: Organisation: [Matthias Kunkel]
-	* 2nd Maintainer: Implementation: [Fred Neumann]
-	* Testcases: Author needed!
-	* Tester: [Matthias Kunkel]
-* **Learning Module HTML**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Florian Suittenpointner]
-	* Tester: [Florian Suittenpointner]
-* **Learning Module ILIAS**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Tobias Balliel], [Jochen Erkens]
-	* Tester: [Tobias Balliel], [Jochen Erkens]
-* **Learning Module SCORM**:
-	* 1st Maintainer: [Uwe Kohnle]
-	* 2nd Maintainer:
-	* Testcases: [Norbert Bromberger], [Florian Suittenpointner]
-	* Tester: [Florian Suittenpointner]
-* **Login, Auth & Registration**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer: [Björn Heyser]
-	* Testcases: FH Aachen
-	* Tester: [Antonia Weber]
-* **Mail**:
-	* 1st Maintainer: [Michael Jansen]
-	* 2nd Maintainer: [Nadia Matuschek]
-	* Testcases: [André Mersch]
-	* Tester: [André Mersch]
-* **Manual Assessment**:
-	* 1st Maintainer: [Richard Klees]
-	* 2nd Maintainer: [Denis Klöpfer]
-	* Testcases: [Stefan Hecken]
-	* Tester: [Matthias Kunkel]
-* **Maps (OpenLayers)**:
-	* 1st Maintainer: [Richard Klees]
-	* 2nd Maintainer: [Denis Klöpfer]
-	* Testcases: [Richard Klees], [Miriam Hölscher]
-	* Tester: [Miriam Hölscher]
-* **Maps (GoogleMaps)**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer: [Fred Neumann]
-	* Testcases: [Richard Klees], [Miriam Hölscher]
-	* Tester: [Miriam Hölscher]
-* **MathJax**:
-	* 1st Maintainer: [Fred Neumann]
-	* 2nd Maintainer:
-	* Testcases: [Fred Neumann]
-	* Tester: [Claudio Fischer]
-* **Media Pools and Media Objects**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Matthias Kunkel]
-	* Tester: [Matthias Kunkel]
-* **Mediacast**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer: [Fabian Schmid]
-	* Testcases: [Christine Berggold]
-	* Tester: [Christine Berggold]
-* **Metadata**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer:
-	* Testcases: [Daniela Weber]
-	* Tester: [Daniela Weber]
-* **My Workspace**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: Author needed!
-	* Tester: [Klaus Vorkauf]
-* **News**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Thomas Schröder]
-	* Tester: [Thomas Schröder]
-* **Notes and Comments**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer: [Fabian Schmid]
-	* Testcases: [Sascha Kaiser]
-	* Tester: [Sascha Kaiser]
-* **Online Help**:
-	* 1st Maintainer: Content and Organisation: [Alexandra Tödt]
-	* 2nd Maintainer: Implementation: [Alexander Killing]
-	* Testcases: [Alexandra Tödt]
-	* Tester: Tester: Tester needed!
-* **Organisational Units**:
-	* 1st Maintainer: [Fabian Schmid]
-	* 2nd Maintainer: [Björn Heyser]
-	* Testcases: [Stanislav Wischniak]
-	* Tester: [Stanislav Wischniak]
-* **Payment and Shop**:
-	* 1st Maintainer: [Nadia Matuschek]
-	* 2nd Maintainer: [Michael Jansen]
-	* Testcases                            * **Feature to be abandoned in ILIAS 5.2**:
-	* Tester:
-* **Personal Desktop**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Matthias Kunkel]
-	* Tester: Tester needed!
-* **Personal Profile**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Fabian Kruse]
-	* Tester: [Fabian Kruse]
-* **Plugin Slots**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer: [Fabian Schmid]
-	* Testcases: Author needed!
-	* Tester: [Pascal Grube]
-* **Poll**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer:
-	* Testcases: Fabian Wolf, leifos
-	* Tester: Tester: Fabian Wolf, leifos
-* **Portfolio**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Klaus Vorkauf]
-	* Tester: [Klaus Vorkauf]
-* **Precondition Handling**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer:
-	* Testcases: Author needed!
-	* Tester: Tester needed!
-* **Rating**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Fabian Kruse]
-	* Tester: [Fabian Kruse]
-* **RBAC**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer:
-	* Testcases: [Matthias Kunkel]
-	* Tester: [Matthias Kunkel]
-* **SCORM Offline Player**:
-	* 1st Maintainer: ILIAS Component: [Uwe Kohnle]
-	* 2nd Maintainer: Browser Component: [Stefan Schneider]
-	* Testcases: Author needed!
-	* Tester: Tester needed!
-* **SCORM Online Editor**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Alexandra Tödt]
-	* Tester: [Peter Pellemans]
-* **Search**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer:
-	* Testcases: FH Aachen
-	* Tester: Tester needed!
-* **Session (Course & Group)**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer:
-	* Testcases: iLUB Universität Bern
+
+* **Certificate**
+	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: MISSING
+	* Tester: [christian.hueser](http://www.ilias.de/docu/goto_docu_usr_41129.html)
+
+* **Learning Module HTML**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [Balliel](http://www.ilias.de/docu/goto_docu_usr_18365.html)
+	* Tester: [Balliel](http://www.ilias.de/docu/goto_docu_usr_18365.html)
+
+* **Test**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: MISSING
+	* Tester: MISSING
+
+* **Web Access Checker**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html)
+	* Testcases: [ttruffer](http://www.ilias.de/docu/goto_docu_usr_42894.html)
 	* Tester: iLUB Universität Bern
-* **Setup**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer: [Stefan Meyer]
-	* Testcases: Author needed!
-	* Tester: Tester needed!
-* **Shibboleth Authentication**:
-	* 1st Maintainer: [Fabian Schmid]
-	* 2nd Maintainer:
-	* Testcases: iLUB Universität Bern
-	* Tester: iLUB Universität Bern
-* **SOAP & Web Services**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer: [Martin Studer]
-	* 3rd Maintainer: [Michael Jansen]
-	* Testcases: Author needed!
-	* Tester: Tester needed!
-* **Statistics and Learning Progress**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer:
-	* Testcases: [Norbert Bromberger]
-	* Tester: [Florian Suittenpointner]
-* **Study Programme**:
-	* 1st Maintainer: [Richard Klees]
-	* 2nd Maintainer: [Stefan Hecken]
-	* Testcases: [Richard Klees]
-	* Tester: [Martin Studer]
-* **Survey**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Alexandra Tödt]
-	* Tester: [Elena Coroian]
-* **System Check (excl. Trash)**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer:
-	* Testcases: [Matthias Kunkel]
-	* Tester: Tester needed!
-* **Tagging**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer: [Martin Studer]
-	* Testcases: [Sascha Kaiser]
-	* Tester: [Sascha Kaiser]
-* **Taxonomies**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases:
-	* Tester: Tested separately in each module
-* **Test & Assessment**:
-	* 1st Maintainer: [Björn Heyser]
-	* 2nd Maintainer: [Max Becker]
-	* Testcases: [Claudia Dehling], [Fabian Kruse], SIG EA
-	* Tester: [Claudia Dehling], SIG EA
-* **User Service**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer: [Alexander Killing]
-	* Testcases: Author needed!
-	* Tester: Tester needed!
-* **Web Access Checker**:
-	* 1st Maintainer: [Fabian Schmid]
-	* 2nd Maintainer: [Uwe Kohnle]
-	* Testcases: [Theodor Truffer]
-	* Tester: iLUB Universität Bern
-* **Web Feeds & RSS**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Matthias Kunkel]
-	* Tester: [Matthias Kunkel]
-* **WebDAV**:
-	* 1st Maintainer: Stephan Winiker: stephan.winiker at hslu.ch
-	* 2nd Maintainer: [Stefan Meyer]
-	* Testcases: Author needed!
-	* Tester: Tester needed!
-* **Weblink**:
-	* 1st Maintainer: [Stefan Meyer]
-	* 2nd Maintainer:
-	* Testcases: [Nadine Bauser]
-	* Tester: [Nadine Bauser]
-* **Who is online?**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Alexandra Tödt]
-	* Tester: [André Mersch]
-* **Wiki**:
-	* 1st Maintainer: [Alexander Killing]
-	* 2nd Maintainer:
-	* Testcases: [Alexander Baulig]
-	* Tester: Tester needed!
-* **Workflow Engine**:
-	* 1st Maintainer: [Max Becker]
-	* 2nd Maintainer:
-	* Testcases: [Max Becker]
-	* Tester: Tester needed!
+
+* **Blog**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [KlausVorkauf](http://www.ilias.de/docu/goto_docu_usr_5890.html)
+	* Tester: MISSING
+
+* **MediaCast**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* Testcases: [berggold](http://www.ilias.de/docu/goto_docu_usr_22199.html)
+	* Tester: [berggold](http://www.ilias.de/docu/goto_docu_usr_22199.html)
+
+* **Organisational Units**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
+	* Testcases: [wischniak](http://www.ilias.de/docu/goto_docu_usr_21896.html)
+	* Tester: [wischniak](http://www.ilias.de/docu/goto_docu_usr_21896.html)
+
+* **Study Programme**
+	* 1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
+	* 2nd Maintainer: [shecken](http://www.ilias.de/docu/goto_docu_usr_45419.html)
+	* Testcases: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
+	* Tester: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
+
+* **Data Collection**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
+	* Tester: [kim.schmidt](http://www.ilias.de/docu/goto_docu_usr_28720.html)
+
+* **Login, Auth & Registration**
+	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: MISSING
+	* Tester: MISSING
+
+* **Bibliographic List Item**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
+	* Tester: [marko.glaubitz](http://www.ilias.de/docu/goto_docu_usr_28309.html)
+
+* **File**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* Testcases: [tloewen](http://www.ilias.de/docu/goto_docu_usr_41553.html)
+	* Tester: [tloewen](http://www.ilias.de/docu/goto_docu_usr_41553.html)
 
 
-<!--- This is a reference list of all involved persons, it gets stripped out by the MD-processor. --->
+Components in the Service-Maintenance-Model:
+* **UI-Service**
+	* Coordinators: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html) 
+	* Used in Directories: src/UI, 
 
-[alexander killing]: http://www.ilias.de/docu/goto_docu_usr_27631.html
-[Alexander Baulig]: http://www.example.com
-[Alexandra Tödt]: http://www.ilias.de/docu/goto_docu_usr_3139.html
-[André Mersch]: http://www.ilias.de/docu/goto_docu_usr_15114.html
-[Antonia Weber]: http://www.ilias.de/docu/goto_docu_usr_36934.html
-[Björn Heyser]: http://www.ilias.de/docu/goto_docu_usr_14300.html
-[Christian Hüser]: http://www.example.com
-[Christine Berggold]: http://www.ilias.de/docu/goto_docu_usr_22199.html
-[Christine Bogen]: http://www.ilias.de/docu/goto_docu_usr_13815.html
-[Claudia Dehling]: http://www.example.com
-[Claudio Fischer]: http://www.example.com
-[Daniela Weber]: http://www.ilias.de/docu/goto_docu_usr_40672.html
-[Denis Klöpfer]: http://www.example.com
-[Elena Coroian]: http://www.ilias.de/docu/goto_docu_usr_37215.html
-[Esther Paulmann]: http://www.ilias.de/docu/goto_docu_usr_8645.html
-[Fabian Kruse]: http://www.ilias.de/docu/goto_docu_usr_27631.html
-[Fabian Schmid]: http://www.ilias.de/docu/goto_docu_usr_21087.html
-[Florian Suittenpointner]: http://www.ilias.de/docu/goto_docu_usr_3458.html
-[Fred Neumann]: http://www.ilias.de/docu/goto_docu_usr_1560.html
-[Jean-Luc Braun]: http://www.ilias.de/docu/goto_docu_usr_27123.html
-[Jochen Erkens]: http://www.ilias.de/docu/goto_docu_usr_17688.html
-[Klaus Vorkauf]: http://www.ilias.de/docu/goto_docu_usr_5890.html
-[Kim Herms]: http://www.ilias.de/docu/goto_docu_usr_28720.html
-[Matthias Kunkel]: http://www.ilias.de/docu/goto_docu_usr_115.html
-[Marko Glaubitz]: http://www.ilias.de/docu/goto_docu_usr_28309.html
-[Martin Studer]: http://www.ilias.de/docu/goto_docu_usr_8473.html
-[Max Becker]: http://www.ilias.de/docu/goto_docu_usr_27266.html
-[Michael Jansen]: http://www.ilias.de/docu/goto_docu_usr_8784.html
-[Miriam Hölscher]: http://www.ilias.de/docu/goto_docu_usr_25370.html
-[Miriam Wegener]: http://www.ilias.de/docu/goto_docu_usr_23051.html
-[Nadia Matuschek]: http://www.ilias.de/docu/goto_docu_usr_14206.html
-[Nadine Bauser]: http://www.ilias.de/docu/goto_docu_usr_34662.html
-[Norbert Bromberger]: http://www.ilias.de/docu/goto_docu_usr_189.html
-[Richard Klees]: http://www.ilias.de/docu/goto_docu_usr_34047.html
-[Pascal Grube]: http://www.ilias.de/docu/goto_docu_usr_31492.html
-[Patrick Bergmann]: http://www.ilias.de/docu/goto_docu_usr_33766.html
-[Peter Pellemans]: http://www.ilias.de/docu/goto_docu_usr_26967.html
-[Philipp Kröpelin]: http://www.ilias.de/docu/goto_docu_usr_18504.html
-[Sascha Kaiser]: http://www.ilias.de/docu/goto_docu_usr_17260.html
-[Stefan Hecken]: http://www.ilias.de/docu/goto_docu_usr_45419.html
-[Stanislav Wischniak]: http://www.ilias.de/docu/goto_docu_usr_21896.html
-[Stefan Meyer]: http://www.ilias.de/docu/goto_docu_usr_191.html
-[Stefan Schneider]: http://www.ilias.de/docu/goto_docu_usr_21741.html
-[Stefan Winiker]: http://www.ilias.de/docu/goto_docu_usr_44474.html
-[Theodor Truffer]: http://www.ilias.de/docu/goto_docu_usr_42894.html
-[Thomas Schröder]: http://www.ilias.de/docu/goto_docu_usr_XXXX.html
-[Timon Amstutz]: http://www.ilias.de/docu/goto_docu_usr_26468.html
-[Tom Loewen]: http://www.ilias.de/docu/goto_docu_usr_41553.html
-[Tobias Balliel]: http://www.ilias.de/docu/goto_docu_usr_18365.html
-[Uwe Kohnle]: http://www.ilias.de/docu/goto_docu_usr_21855.html
-[Wolfgang Hübsch]: http://www.ilias.de/docu/goto_docu_usr_18455.html
+
+The following directories are currently maintained unter the Classic-Maintenace-Model:
+* Modules/Blog
+ (1st Maintainer: MISSING)
+* Services/AuthApache
+ (1st Maintainer: MISSING)
+* Services/Authentication
+ (1st Maintainer: MISSING)
+* Services/InfoScreen
+ (1st Maintainer: MISSING)
+* Services/Notes
+ (1st Maintainer: MISSING)
+* Services/Database
+ (1st Maintainer: MISSING)
+* Services/Excel
+ (1st Maintainer: MISSING)
+* Services/Init
+ (1st Maintainer: MISSING)
+* Services/PHPUnit
+ (1st Maintainer: MISSING)
+* Services/UIComponent
+ (1st Maintainer: MISSING)
+* Services/UICore
+ (1st Maintainer: MISSING)
+* Services/Utilities
+ (1st Maintainer: MISSING)
+* src/DI
+ (1st Maintainer: MISSING)
+* Modules/BookingManager
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html))
+* Modules/MediaCast
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html))
+* Services/Tagging
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html))
+* Services/Style
+ (1st Maintainer: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html))
+* Services/DiskQuota
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/FileDelivery
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/FileSystem
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/FileUpload
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/GlobalCache
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/VirusScanner
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/AuthShibboleth
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/ActiveRecord
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/BackgroundTask
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Modules/Bibliographic
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Modules/DataCollection
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Modules/File
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Modules/Cloud
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Modules/OrgUnit
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/WebAccessChecker
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/Language
+ (1st Maintainer: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html))
+* Modules/StudyProgramme
+ (1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html))
+* Modules/Course
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+
+
+The following directories are currently maintained unter the Service-Maintenace-Model:
+* src/UI
+ (Coordinator: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html))
+
+
+The following directories are currently unmaintained:
+* Modules/Category
+* Modules/CategoryReference
+* Modules/Chatroom
+* Modules/CourseReference
+* Modules/Exercise
+* Modules/ExternalFeed
+* Modules/Folder
+* Modules/Forum
+* Modules/Glossary
+* Modules/Group
+* Modules/GroupReference
+* Modules/HTMLLearningModule
+* Modules/IndividualAssessment
+* Modules/ItemGroup
+* Modules/LearningModule
+* Modules/MediaPool
+* Modules/Poll
+* Modules/Portfolio
+* Modules/RemoteCategory
+* Modules/RemoteCourse
+* Modules/RemoteFile
+* Modules/RemoteGlossary
+* Modules/RemoteGroup
+* Modules/RemoteLearningModule
+* Modules/RemoteTest
+* Modules/RemoteWiki
+* Modules/RootFolder
+* Modules/Scorm2004
+* Modules/ScormAicc
+* Modules/Session
+* Modules/Survey
+* Modules/SurveyQuestionPool
+* Modules/SystemFolder
+* Modules/Test
+* Modules/TestQuestionPool
+* Modules/WebResource
+* Modules/Wiki
+* Modules/WorkspaceFolder
+* Modules/WorkspaceRootFolder
+* Services/ADT
+* Services/AccessControl
+* Services/Accessibility
+* Services/Accordion
+* Services/Administration
+* Services/AdvancedEditing
+* Services/AdvancedMetaData
+* Services/Awareness
+* Services/Badge
+* Services/Block
+* Services/Booking
+* Services/Bookmarks
+* Services/CAS
+* Services/COPage
+* Services/Cache
+* Services/Calendar
+* Services/Captcha
+* Services/Certificate
+* Services/Chart
+* Services/Classification
+* Services/Clipboard
+* Services/Component
+* Services/Contact
+* Services/Container
+* Services/ContainerReference
+* Services/Context
+* Services/CopyWizard
+* Services/Cron
+* Services/DataSet
+* Services/DidacticTemplate
+* Services/Dom
+* Services/Environment
+* Services/EventHandling
+* Services/Exceptions
+* Services/Export
+* Services/Feeds
+* Services/Form
+* Services/Frameset
+* Services/Help
+* Services/History
+* Services/Html
+* Services/Http
+* Services/Imprint
+* Services/JSON
+* Services/JavaScript
+* Services/LDAP
+* Services/License
+* Services/Link
+* Services/LinkChecker
+* Services/Locator
+* Services/Logging
+* Services/Mail
+* Services/MainMenu
+* Services/Maps
+* Services/Math
+* Services/MathJax
+* Services/MediaObjects
+* Services/Membership
+* Services/MetaData
+* Services/Migration
+* Services/Multilingualism
+* Services/Navigation
+* Services/News
+* Services/Notification
+* Services/Notifications
+* Services/Object
+* Services/OnScreenChat
+* Services/PDFGeneration
+* Services/Password
+* Services/PermanentLink
+* Services/PersonalDesktop
+* Services/PersonalWorkspace
+* Services/Preview
+* Services/PrivacySecurity
+* Services/QTI
+* Services/RTE
+* Services/Radius
+* Services/Randomization
+* Services/Rating
+* Services/Registration
+* Services/Repository
+* Services/SOAPAuth
+* Services/Search
+* Services/Skill
+* Services/Survey
+* Services/SystemCheck
+* Services/Table
+* Services/Taxonomy
+* Services/TermsOfService
+* Services/Tracking
+* Services/Transformation
+* Services/Tree
+* Services/User
+* Services/Verification
+* Services/WebDAV
+* Services/WebServices
+* Services/WorkflowEngine
+* Services/XHTMLPage
+* Services/XHTMLValidator
+* Services/Xml
+* Services/YUI
+* Services/jQuery

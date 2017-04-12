@@ -1,0 +1,12 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "fschmid(21087)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "iLUB Universität Bern",
+    "testcase_writer": "iLUB Universität Bern",
+    "path": "Services/AuthShibboleth",
+    "belong_to_component": "Shibboleth Authentication",
+    "used_in_components": []
+}
