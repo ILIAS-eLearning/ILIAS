@@ -184,10 +184,10 @@ The code base is deviced in several components:
 	* Tester: MISSING
 	* Used in Directories: Services/GlobalCache, 
 * **Certificate**
-	* 1st Maintainer: MISSING
+	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
 	* 2nd Maintainer: MISSING
 	* Testcases: MISSING
-	* Tester: MISSING
+	* Tester: [christian.hueser](http://www.ilias.de/docu/goto_docu_usr_41129.html)
 	* Used in Directories: Services/WebAccessChecker, 
 * **Chat**
 	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
