@@ -130,18 +130,20 @@ If you would like to implement a new component to the framework you should perfo
     * rules:
     *   usage:
     *     1: Where and when an element is to be used or not.
+    *   composition:
+    *     1: How this component is to be assembled.
     *   interaction:
-    *     2: How the interaction with this object takes place.
+    *     1: How the interaction with this object takes place.
     *   wording:
-    *     3: How the wording of labels or captions must be.
+    *     1: How the wording of labels or captions must be.
     *   style:
-    *     4: How this element should look like.
+    *     1: How this element should look like.
     *   ordering:
-    *     5: How different elements of this instance are to be ordered.
+    *     1: How different elements of this instance are to be ordered.
     *   responsiveness:
-    *     6: How this element behaves on changing screen sizes
+    *     1: How this element behaves on changing screen sizes
     *   accessibility:
-    *     7: How this element is made accessible
+    *     1: How this element is made accessible
     *
     * ---
     * @param   string $content

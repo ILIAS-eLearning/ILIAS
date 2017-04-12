@@ -77,7 +77,7 @@ class ilMailUserActionProvider extends ilUserActionProvider
 			$f->setType("compose");
 			$f->setText($this->lng->txt("mail"));
 			$tn = ilObjUser::_lookupName($a_target_user);
-			$f->setHref(ilMailFormCall::getLinkTarget("", '', array(), array('type' => 'new', 'rcp_to' => urlencode($tn["login"]))));
+			$f->setHref(ilMailFormCall::getLinkTarget("", '', array(), array('type' => 'new', 'rcp_to' => $tn["login"])));
 			$coll->addAction($f);
 		}
 
