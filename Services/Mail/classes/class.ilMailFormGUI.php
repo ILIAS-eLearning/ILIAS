@@ -132,8 +132,9 @@ class ilMailFormGUI
 
 		$files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
 
-		$message = strip_tags(ilUtil::stripSlashes($_POST['m_message'], false));
-		$message = str_replace("\r", '', $message);
+		// Remove \r
+		$f_message = str_replace("\r", '', ilUtil::securePlainString($_POST['m_message']));
+
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.		
 		$f_message = $this->umail->formatLinebreakMessage($f_message);
 		
