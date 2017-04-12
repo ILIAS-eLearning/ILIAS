@@ -33,12 +33,6 @@ ILIAS is currently maintained by two types of Maintainerships:
 
 The code base is deviced in several components:
 <!-- REMOVE -->
-* **UI-Service**
-	* 1st Maintainer: MISSING
-	* 2nd Maintainer: MISSING
-	* Testcases: MISSING
-	* Tester: MISSING
-	* Used in Directories: src/UI, 
 * **BackgroundTasks**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: MISSING
@@ -159,18 +153,18 @@ The code base is deviced in several components:
 	* Testcases: MISSING
 	* Tester: MISSING
 	* Used in Directories: Services/FileDelivery, 
-* **Booking Tool**
-	* 1st Maintainer: MISSING
-	* 2nd Maintainer: MISSING
-	* Testcases: MISSING
-	* Tester: MISSING
-	* Used in Directories: Modules/BookingManager, 
 * **ilUtil**
 	* 1st Maintainer: MISSING
 	* 2nd Maintainer: MISSING
 	* Testcases: MISSING
 	* Tester: MISSING
 	* Used in Directories: Services/FileDelivery, 
+* **Booking Tool**
+	* 1st Maintainer: MISSING
+	* 2nd Maintainer: MISSING
+	* Testcases: MISSING
+	* Tester: MISSING
+	* Used in Directories: Modules/BookingManager, 
 * **Learning Module SCORM**
 	* 1st Maintainer: MISSING
 	* 2nd Maintainer: MISSING
@@ -261,12 +255,6 @@ The code base is deviced in several components:
 	* Testcases: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* Tester: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
 	* Used in Directories: Services/ActiveRecord, Modules/StudyProgramme, 
-* **File**
-	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
-	* 2nd Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
-	* Testcases: [tloewen](http://www.ilias.de/docu/goto_docu_usr_41553.html)
-	* Tester: [tloewen](http://www.ilias.de/docu/goto_docu_usr_41553.html)
-	* Used in Directories: Services/FileDelivery, Services/WebAccessChecker, Modules/File, 
 * **Data Collection**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: MISSING
@@ -279,8 +267,17 @@ The code base is deviced in several components:
 	* Testcases: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
 	* Tester: [marko.glaubitz](http://www.ilias.de/docu/goto_docu_usr_28309.html)
 	* Used in Directories: Services/ActiveRecord, Services/FileDelivery, Modules/Bibliographic, 
+* **File**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* Testcases: [tloewen](http://www.ilias.de/docu/goto_docu_usr_41553.html)
+	* Tester: [tloewen](http://www.ilias.de/docu/goto_docu_usr_41553.html)
+	* Used in Directories: Services/DiskQuota, Services/FileDelivery, Services/FileSystem, Services/FileUpload, Services/VirusScanner, Services/WebAccessChecker, Modules/File, 
 
 Components in the Service-Maintenance-Model:
+* **UI-Service**
+	* Coordinators:[amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html) 
+	* Used in Directories: src/UI, 
 
 
 The following directories are currently maintained unter the Classic-Maintenace-Model:
@@ -288,21 +285,43 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: MISSING)
 * Services/Notes
  (1st Maintainer: MISSING)
+* Services/Excel
+ (1st Maintainer: MISSING)
+* Services/Init
+ (1st Maintainer: MISSING)
+* Services/PHPUnit
+ (1st Maintainer: MISSING)
+* Services/UIComponent
+ (1st Maintainer: MISSING)
+* Services/UICore
+ (1st Maintainer: MISSING)
+* Services/Utilities
+ (1st Maintainer: MISSING)
+* src/DI
+ (1st Maintainer: MISSING)
 * Services/Language
  (1st Maintainer: MISSING)
 * Modules/MediaCast
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html))
 * Services/Tagging
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html))
-* Services/BackgroundTask
+* Services/DiskQuota
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/FileDelivery
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/FileSystem
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/FileUpload
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/GlobalCache
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/VirusScanner
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/AuthShibboleth
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/ActiveRecord
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/BackgroundTask
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Modules/Bibliographic
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
@@ -321,8 +340,6 @@ The following directories are currently maintained unter the Classic-Maintenace-
 
 
 The following directories are currently maintained unter the Service-Maintenace-Model:
-* Services/Database
- (Coordinator: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * src/UI
  (Coordinator: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html))
 
@@ -401,16 +418,12 @@ The following directories are currently unmaintained:
 * Services/Cron
 * Services/DataSet
 * Services/DidacticTemplate
-* Services/DiskQuota
 * Services/Dom
 * Services/Environment
 * Services/EventHandling
-* Services/Excel
 * Services/Exceptions
 * Services/Export
 * Services/Feeds
-* Services/FileSystem
-* Services/FileUpload
 * Services/Form
 * Services/Frameset
 * Services/Help
@@ -419,7 +432,6 @@ The following directories are currently unmaintained:
 * Services/Http
 * Services/Imprint
 * Services/InfoScreen
-* Services/Init
 * Services/JSON
 * Services/JavaScript
 * Services/LDAP
@@ -445,7 +457,6 @@ The following directories are currently unmaintained:
 * Services/Object
 * Services/OnScreenChat
 * Services/PDFGeneration
-* Services/PHPUnit
 * Services/Password
 * Services/PermanentLink
 * Services/PersonalDesktop
@@ -471,12 +482,8 @@ The following directories are currently unmaintained:
 * Services/Tracking
 * Services/Transformation
 * Services/Tree
-* Services/UIComponent
-* Services/UICore
 * Services/User
-* Services/Utilities
 * Services/Verification
-* Services/VirusScanner
 * Services/WebDAV
 * Services/WebServices
 * Services/WorkflowEngine
@@ -485,4 +492,4 @@ The following directories are currently unmaintained:
 * Services/Xml
 * Services/YUI
 * Services/jQuery
-* src/DI
+* Services/Database
