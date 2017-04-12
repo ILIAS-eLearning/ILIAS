@@ -107,23 +107,31 @@ class ilMailFormGUI
 		return true;
 	}
 
+	/**
+	 * @param array $files
+	 * @return array
+	 */
+	protected function decodeAttachmentFiles(array $files)
+	{
+		$decodedFiles = array();
+
+		foreach($files as $value)
+		{
+			if(is_file($this->mfile->getMailPath() . '/' . $GLOBALS['ilUser']->getId() . '_' . urldecode($value)))
+			{
+				$decodedFiles[] = urldecode($value);
+			}
+		}
+
+		return $decodedFiles;
+	}
+
 	public function sendMessage()
 	{
 		global $ilUser;
-		
-		// decode post values
-		$files = array();
-		if(is_array($_POST['attachments']))
-		{
-			foreach($_POST['attachments'] as $value)
-			{
-				if(is_file($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . urldecode($value)))
-				{
-					$files[] = urldecode($value);
-				}
-			}
-		}
-		
+
+		$files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
+
 		$message = strip_tags(ilUtil::stripSlashes($_POST['m_message'], false));
 		$message = str_replace("\r", '', $message);
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.		
@@ -145,20 +153,7 @@ class ilMailFormGUI
 				)
 			)
 		{
-			if(is_array($_POST['attachments']))
-			{
-				foreach($_POST['attachments'] as $key => $value)
-				{
-					if(is_file($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . urldecode($value)))
-					{
-						$_POST['attachments'][$key] = urldecode($value);
-					}
-					else
-					{
-						unset($_POST['attachments'][$key]);
-					}
-				}
-			}
+			$_POST['attachments'] = $files;
 			ilUtil::sendInfo($errorMessage);
 		}
 		else
@@ -187,17 +182,21 @@ class ilMailFormGUI
 		}
 
 		$draftsId = $this->mbox->getDraftsFolder();
-		
-		// decode post values
-		$files = array();
-		if(is_array($_POST['attachments']))
+
+		$files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
+
+		if($errorMessage = $this->umail->validateRecipients(
+			ilUtil::securePlainString($_POST['rcp_to']),
+			ilUtil::securePlainString($_POST['rcp_cc']),
+			ilUtil::securePlainString($_POST['rcp_bcc'])
+		))
 		{
-			foreach($_POST['attachments'] as $value)
-			{
-				$files[] = urldecode($value);
-			}
+			$_POST['attachments'] = $files;
+			ilUtil::sendInfo($errorMessage);
+			$this->showForm();
+			return;
 		}
-		
+
 		if(isset($_SESSION["draft"]))
 		{
 			// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
