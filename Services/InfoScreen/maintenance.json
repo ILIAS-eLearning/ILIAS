@@ -7,6 +7,6 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Services/InfoScreen",
-    "belong_to_component": "None",
+    "belong_to_component": "Info Page",
     "used_in_components": []
 }
