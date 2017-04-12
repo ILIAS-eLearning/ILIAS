@@ -40,7 +40,7 @@ The code base is deviced in several components:
 	* Tester: MISSING
 	* Used in Directories: Services/BackgroundTask, 
 * **ActiveRecord**
-	* 1st Maintainer: MISSING
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: MISSING
 	* Testcases: MISSING
 	* Tester: MISSING
@@ -88,7 +88,7 @@ The code base is deviced in several components:
 	* Tester: MISSING
 	* Used in Directories: Services/WebAccessChecker, 
 * **Database**
-	* 1st Maintainer: MISSING
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: MISSING
 	* Testcases: MISSING
 	* Tester: MISSING
@@ -148,7 +148,7 @@ The code base is deviced in several components:
 	* Tester: MISSING
 	* Used in Directories: Services/GlobalCache, 
 * **Style**
-	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 1st Maintainer: MISSING
 	* 2nd Maintainer: MISSING
 	* Testcases: MISSING
 	* Tester: MISSING
@@ -284,6 +284,8 @@ The following directories are currently maintained unter the Classic-Maintenace-
 * Modules/Blog
  (1st Maintainer: MISSING)
 * Services/Notes
+ (1st Maintainer: MISSING)
+* Services/Database
  (1st Maintainer: MISSING)
 * Services/Excel
  (1st Maintainer: MISSING)
@@ -492,4 +494,3 @@ The following directories are currently unmaintained:
 * Services/Xml
 * Services/YUI
 * Services/jQuery
-* Services/Database
