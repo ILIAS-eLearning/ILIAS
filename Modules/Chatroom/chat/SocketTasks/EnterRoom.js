@@ -5,6 +5,8 @@ var Notice = require('../Model/Messages/Notice');
 
 module.exports = function(roomId, subRoomId)
 {
+	Container.removeTimeout(this.subscriber.getId());
+
 	var serverRoomId = Container.createServerRoomId(roomId, subRoomId);
 	var namespace = Container.getNamespace(this.nsp.name);
 	var room = namespace.getRoom(serverRoomId);
