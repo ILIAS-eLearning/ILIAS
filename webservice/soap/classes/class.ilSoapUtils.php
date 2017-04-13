@@ -64,7 +64,7 @@ class ilSoapUtils extends ilSoapAdministration
 		}
 		else
 		{
-			$sender = $senderFactory->system();
+			$sender = $senderFactory->userByEmailAddress($sender);
 		}
 
 		require_once 'Services/Mail/classes/class.ilMimeMail.php';

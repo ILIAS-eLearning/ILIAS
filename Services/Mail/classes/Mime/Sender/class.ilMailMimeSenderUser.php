@@ -43,10 +43,23 @@ class ilMailMimeSenderUser implements ilMailMimeSender
 	{
 		if(!array_key_exists($usrId, self::$userInstances))
 		{
-			self::$userInstances[$usrId] = new ilObjUser($usrId);
+			self::$userInstances[$usrId] = new \ilObjUser($usrId);
 		}
 
 		return new self($settings, self::$userInstances[$usrId]);
+	}
+
+	/**
+	 * @param \ilSetting $settings
+	 * @param string $emailAddress
+	 * @return self
+	 */
+	public static function byEmailAddress(\ilSetting $settings, $emailAddress)
+	{
+		$user = new \ilObjUser();
+		$user->setEmail($emailAddress);
+
+		return new self($settings, $user);
 	}
 
 	/**
@@ -108,9 +121,9 @@ class ilMailMimeSenderUser implements ilMailMimeSender
 			return $this->user->getFullname();
 		}
 
-		$name = str_ireplace('[[FULLNAME]]', $this->user->getFullname(), $from);
-		$name = str_ireplace('[[FIRSTNAME]]', $this->user->getFirstname(), $name);
-		$name = str_ireplace('[[LASTNAME]]', $this->user->getLastname(), $name);
+		$name = str_ireplace('[FULLNAME]', $this->user->getFullname(), $from);
+		$name = str_ireplace('[FIRSTNAME]', $this->user->getFirstname(), $name);
+		$name = str_ireplace('[LASTNAME]', $this->user->getLastname(), $name);
 		if($name != $from)
 		{
 			return $name;

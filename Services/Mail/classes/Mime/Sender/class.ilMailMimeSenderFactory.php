@@ -81,4 +81,14 @@ class ilMailMimeSenderFactory
 		require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderUser.php';
 		return ilMailMimeSenderUser::byUsrId($this->settings, $usrId);
 	}
+
+	/**
+	 * @param $emailAddress
+	 * @return ilMailMimeSenderUser
+	 */
+	public function userByEmailAddress($emailAddress)
+	{
+		require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderUser.php';
+		return ilMailMimeSenderUser::byEmailAddress($this->settings, $emailAddress);
+	}
 }
