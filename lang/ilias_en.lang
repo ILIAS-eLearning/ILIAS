@@ -9499,6 +9499,7 @@ mail#:#mail_smtp_encryption_ssl#:#SSL
 mail#:#mail_external_send_test_usr#:#Send Test Email (User Mail)
 mail#:#mail_external_send_test_sys#:#Test-E-Mail für Systemnachricht schicken
 mail#:#mail_external_test_sent#:#An email was sent to the email address defined in your profile.
+mail#:#mail_smtp_user#:#User
 mail#:#mail_smtp_password#:#Password
 mail#:#mail_smtp_password_req#:#If you defined a user for authentication purposes, a password must be set.
 mail#:#mail_system_usr_from_addr#:#Sender Email (From)
