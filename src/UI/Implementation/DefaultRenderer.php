@@ -4,9 +4,6 @@
 
 namespace ILIAS\UI\Implementation;
 
-use ILIAS\UI\Component\Connector\ComponentConnection;
-use ILIAS\UI\Implementation\Render\ComponentIdRegistry;
-use ILIAS\UI\Implementation\Render\ComponentIdRegistryInterface;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
