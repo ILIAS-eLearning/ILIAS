@@ -9508,7 +9508,7 @@ mail#:#mail_system_usr_env_from_addr#:#Return-Path (Envelope-From)
 mail#:#mail_system_usr_env_from_addr_info#:#If you leave this field empty, the sender email address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
 mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the sender email address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
 mail#:#mail_system_sys_from_addr#:#Sender Email (From)
-mail#:#mail_system_sys_from_name#:#Sender FUllname (From)
+mail#:#mail_system_sys_from_name#:#Sender Fullname (From)
 mail#:#mail_system_sys_reply_to_addr#:#Reply-To
 mail#:#mail_system_sys_env_from_addr#:#Return-Path (Envelope-From)
 mail#:#mail_system_sys_signature#:#Signature
