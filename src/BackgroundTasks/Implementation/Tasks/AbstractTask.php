@@ -36,10 +36,15 @@ abstract class AbstractTask implements Task {
 			$expectedType = $expectedTypes[$i];
 			$givenType = $this->extractType($values[$i]);
 			if(!$givenType->isSubtypeOf($expectedType))
-				throw new InvalidArgumentException("Types did not match when setting input for " . get_class() . ". Expected type $expectedType given type $givenType.");
+				throw new InvalidArgumentException("Types did not match when setting input for " . get_called_class() . ". Expected type $expectedType given type $givenType.");
 		}
 	}
 
+	/**
+	 * @param $value Value
+	 * @return mixed
+	 * @throws InvalidArgumentException
+	 */
 	protected function extractType($value) {
 		if (is_a($value, Value::class))
 			return $value->getType();
@@ -89,7 +94,17 @@ abstract class AbstractTask implements Task {
 	/**
 	 * @return string
 	 */
-	public function getId() {
+	public function getType() {
 		return get_called_class();
+	}
+
+	public function unfoldTask() {
+		$list = [$this];
+		foreach ($this->getInput() as $input) {
+			if(is_a($input, ThunkValue::class))
+				$list = array_merge($list, $input->getParentTask()->unfoldTask());
+		}
+
+		return $list;
 	}
 }

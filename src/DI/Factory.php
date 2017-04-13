@@ -4,6 +4,7 @@ namespace ILIAS\DI;
 
 use ILIAS\DI\Exceptions\InvalidClassException;
 use ILIAS\DI\Exceptions\NoSuchServiceException;
+use ReflectionParameter;
 
 /**
  * Class Factory

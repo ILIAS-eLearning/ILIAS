@@ -1,8 +1,8 @@
 <?php
 
-namespace ILIAS\BackgroundTasks;
+namespace ILIAS\Types;
 
-interface ValueType {
+interface Type {
 
 	/**
 	 * @return string A string representation of the Type.
@@ -12,23 +12,23 @@ interface ValueType {
 	/**
 	 * Is this type a subtype of $type. Not strict! x->isSubtype(x) == true.
 	 *
-	 * @param $type ValueType
+	 * @param Type $type ValueType
 	 * @return bool
 	 */
-	function isSubtypeOf(ValueType $type);
+	function isSubtypeOf(Type $type);
 
 	/**
 	 * returns the hierarchy of this type. E.g. ["AbstractValue", "ScalarValue", "IntegerValue", "UserIdValue"]
 	 *
-	 * @return ValueType[]
+	 * @return Type[]
 	 */
 	function getAncestors();
 
 	/**
 	 * returns true if the two types are equal.
 	 *
-	 * @param ValueType $otherType
+	 * @param Type $otherType
 	 * @return bool
 	 */
-	function equals(ValueType $otherType);
+	function equals(Type $otherType);
 }

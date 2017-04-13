@@ -20,7 +20,7 @@ interface Task {
 	/**
 	 * @return string
 	 */
-	public function getId();
+	public function getType();
 
 
 	/**
@@ -33,18 +33,6 @@ interface Task {
 	 * @return ValueType
 	 */
 	public function getOutputType();
-
-
-	/**
-	 * @return bool Returns true iff the job supports giving feedback about the percentage done.
-	 */
-	public function supportsPercentage();
-
-
-	/**
-	 * @return int Returns 0 if !supportsPercentage and the percentage otherwise.
-	 */
-	public function getPercentage();
 
 	/**
 	 * @return Value
@@ -61,4 +49,9 @@ interface Task {
 	 * @return Value[]
 	 */
 	public function getInput();
+
+	/**
+	 * @return Task[] A list of tasks that is chained with this task. The first element will be this tasks, the following his dependencies.
+	 */
+	public function unfoldTask();
 }

@@ -1,8 +1,9 @@
 <?php
 
-use ILIAS\BackgroundTasks\ValueType;
+namespace ILIAS\Types;
 
-class VoidValue implements ValueType {
+
+class VoidType implements Type {
 
 	protected static $instance = null;
 
@@ -14,11 +15,11 @@ class VoidValue implements ValueType {
 	}
 
 	/**
-	 * @return VoidValue
+	 * @return VoidType
 	 */
 	public static function instance(){
 		if(!self::instance())
-			self::$instance = new VoidValue();
+			self::$instance = new VoidType();
 		return self::$instance;
 	}
 
@@ -32,17 +33,17 @@ class VoidValue implements ValueType {
 	/**
 	 * Is this type a subtype of $type. Not strict! x->isSubtype(x) == true.
 	 *
-	 * @param $type ValueType
+	 * @param $type Type
 	 * @return bool
 	 */
-	function isSubtypeOf(ValueType $type) {
-		return $type instanceof VoidValue;
+	function isSubtypeOf(Type $type) {
+		return $type instanceof VoidType;
 	}
 
 	/**
 	 * returns the hierarchy of this type. E.g. ["AbstractValue", "ScalarValue", "IntegerValue", "UserIdValue"]
 	 *
-	 * @return ValueType[]
+	 * @return Type[]
 	 */
 	function getAncestors() {
 		return [self::class];
@@ -51,10 +52,10 @@ class VoidValue implements ValueType {
 	/**
 	 * returns true if the two types are equal.
 	 *
-	 * @param ValueType $otherType
+	 * @param Type $otherType
 	 * @return bool
 	 */
-	function equals(ValueType $otherType) {
-		return $otherType instanceof VoidValue;
+	function equals(Type $otherType) {
+		return $otherType instanceof VoidType;
 	}
 }

@@ -2,16 +2,17 @@
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 use ILIAS\BackgroundTasks\Implementation\BasicTaskManager;
+use ILIAS\BackgroundTasks\Implementation\Observer\BasicObserver;
 use ILIAS\BackgroundTasks\Implementation\Observer\ObserverMock;
 use ILIAS\BackgroundTasks\Implementation\Tasks\Aggregation\ConcatenationJob;
 use ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob;
 use ILIAS\BackgroundTasks\Implementation\Values\AggregationValues\ListValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
-use ILIAS\BackgroundTasks\Implementation\ValueTypes\SingleType;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\DI\Container;
 use ILIAS\DI\Factory;
+use ILIAS\Types\SingleType;
 use PHPUnit\Framework\TestCase;
 
 require_once("libs/composer/vendor/autoload.php");
@@ -96,5 +97,43 @@ class TaskTest extends TestCase {
 
 		$output = $t1->run([$list], new ILIAS\BackgroundTasks\Implementation\Observer\ObserverMock());
 		$this->assertEquals($output->getValue(), "1, hello, 3");
+	}
+
+	public function testUnfoldTask() {
+		$dic = new Container();
+		$dic[Observer::class] = function ($c) {
+			return new BasicObserver();
+		};
+
+		$factory = new Factory($dic);
+
+		/**
+		 * @var PlusJob $t0
+		 */
+		$t0 = $factory->createInstance(PlusJob::class);
+		$t0->setInput([1, 1]);
+
+		/** @var PlusJob $t1 */
+		$t1 = $factory->createInstance(PlusJob::class);
+		$t1->setInput([$t0, 2]);
+
+		/** @var PlusJob $t25 */
+		$t25 = $factory->createInstance(PlusJob::class);
+		$t25->setInput([2, 2]);
+
+		/** @var PlusJob $t2 */
+		$t2 = $factory->createInstance(PlusJob::class);
+		$t2->setInput([$t1, $t25]);
+
+		$this->assertTrue($t2->getOutputType()->equals(new SingleType(IntegerValue::class)));
+
+		$list = $t2->unfoldTask();
+		$this->assertEquals($list, [$t2, $t1, $t0, $t25]);
+
+		/** @var IntegerValue $finalValue */
+		$taskManager = new BasicTaskManager();
+		/** @var IntegerValue $finalValue */
+		$finalValue = $taskManager->executeTask($t2, new BasicObserver());
+		$this->assertEquals($finalValue->getValue(), 8);
 	}
 }

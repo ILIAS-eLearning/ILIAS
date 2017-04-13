@@ -2,10 +2,10 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\Values;
 
-use ILIAS\BackgroundTasks\Implementation\ValueTypes\SingleType;
 use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Value;
-use ILIAS\BackgroundTasks\ValueType;
+use ILIAS\Types\SingleType;
+use ILIAS\Types\Type;
 
 /**
  * Class AbstractValue
@@ -21,7 +21,7 @@ abstract class AbstractValue implements Value {
 	protected $parentTask;
 
 	/**
-	 * @return ValueType
+	 * @return Type
 	 */
 	public function getType() {
 		return new SingleType(get_called_class());

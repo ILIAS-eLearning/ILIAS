@@ -13,6 +13,36 @@ class BasicObserver implements Observer {
 	protected $userId;
 
 	/**
+	 * @var Task
+	 */
+	protected $rootTask;
+
+	/**
+	 * @var Task
+	 */
+	protected $currentTask;
+
+	/**
+	 * @var Task[]
+	 */
+	protected $tasks;
+
+	/**
+	 * @var int
+	 */
+	protected $state;
+
+	/**
+	 * @var int
+	 */
+	protected $totalNumberOfTasks;
+
+	/**
+	 * @var int[]
+	 */
+	protected $percentages = [];
+
+	/**
 	 * @return int
 	 */
 	public function getUserId() {
@@ -29,27 +59,13 @@ class BasicObserver implements Observer {
 	}
 
 	/**
-	 * @return int
-	 */
-	public function getBucketId() {
-		// TODO: Implement getBucketId() method.
-	}
-
-	/**
-	 * @param int $bucket_id
-	 */
-	public function setBucketId($bucket_id) {
-		// TODO: Implement setBucketId() method.
-	}
-
-	/**
 	 * Used by a job to notify his percentage.
 	 *
 	 * @param $task       Task
 	 * @param $percentage int
 	 */
 	public function notifyPercentage(Task $task, $percentage) {
-		// TODO: Implement notifyPercentage() method.
+		$this->percentages[spl_object_hash($task)] = $percentage;
 	}
 
 	/**
@@ -60,10 +76,51 @@ class BasicObserver implements Observer {
 	}
 
 	/**
-	 * @param int $taskId
+	 * @param Task $task
 	 * @return mixed
 	 */
-	public function setCurrentTask(int $taskId) {
-		// TODO: Implement setCurrentTask() method.
+	public function setCurrentTask($task) {
+		$this->currentTask = $task;
+	}
+
+	/**
+	 * @param Task $task
+	 * @return void
+	 */
+	public function setTask(Task $task) {
+		$this->tasks = $task->unfoldTask();
+		$this->totalNumberOfTasks = count($this->tasks);
+		$this->currentTask = $task;
+		$this->rootTask = $task;
+		foreach ($this->tasks as $subTask)
+			$this->percentages[spl_object_hash($subTask)] = 0;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPercentage() {
+		return array_sum($this->percentages) / $this->totalNumberOfTasks;
+	}
+
+	/**
+	 * @param int $state From ILIAS\BackgroundTasks\Implementation\Observer\State
+	 */
+	public function notifyState($state) {
+		$this->state = $state;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getId(): int {
+		return $this->id;
+	}
+
+	/**
+	 * @param int $id
+	 */
+	public function setId(int $id) {
+		$this->id = $id;
 	}
 }

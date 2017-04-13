@@ -4,8 +4,8 @@ use ILIAS\BackgroundTasks\Implementation\Values\AggregationValues\ListValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\ScalarValue;
-use ILIAS\BackgroundTasks\Implementation\ValueTypes\ListType;
-use ILIAS\BackgroundTasks\Implementation\ValueTypes\SingleType;
+use ILIAS\Types\ListType;
+use ILIAS\Types\SingleType;
 use PHPUnit\Framework\TestCase;
 
 require_once("libs/composer/vendor/autoload.php");

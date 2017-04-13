@@ -53,10 +53,33 @@ class ObserverMock implements Observer {
 	}
 
 	/**
-	 * @param int $taskId
+	 * @param string $taskId
 	 * @return mixed
 	 */
-	public function setCurrentTask(int $taskId) {
+	public function setCurrentTask($taskId) {
 		// TODO: Implement setCurrentTask() method.
+	}
+
+	/**
+	 * @param Task $task
+	 * @return void
+	 */
+	public function setTask(Task $task) {
+		// TODO: Implement setTask() method.
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPercentage() {
+		// TODO: Implement getPercentage() method.
+	}
+
+	/**
+	 * @param $state int From Observer\State
+	 * @return void
+	 */
+	public function notifyState($state) {
+		// TODO: Implement notifyState() method.
 	}
 }

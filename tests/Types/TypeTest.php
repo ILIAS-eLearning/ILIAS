@@ -3,8 +3,9 @@
 use ILIAS\BackgroundTasks\Implementation\Values\AbstractValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\ScalarValue;
-use ILIAS\BackgroundTasks\Implementation\ValueTypes\ListType;
-use ILIAS\BackgroundTasks\Implementation\ValueTypes\SingleType;
+use ILIAS\Types\ListType;
+use ILIAS\Types\SingleType;
+use ILIAS\Types\TupleType;
 use PHPUnit\Framework\TestCase;
 
 require_once("libs/composer/vendor/autoload.php");
@@ -65,5 +66,14 @@ class TypeTest extends TestCase {
 		$this->assertTrue($listlist->equals(new ListType(new ListType(IntegerValue::class))));
 		$this->assertTrue($listlist->isSubtypeOf($listlist1));
 		$this->assertFalse($listlist1->isSubtypeOf($listlist));
+	}
+
+	public function testTuple() {
+		$tuple1 = new TupleType([IntegerValue::class, new ListType(ScalarValue::class)]);
+		$tuple2 = new TupleType([IntegerValue::class, new ListType(IntegerValue::class)]);
+
+		$this->assertEquals($tuple1->__toString(), '(ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue, [ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\ScalarValue])');
+		$this->assertTrue($tuple2->isSubtypeOf($tuple1));
+		$this->assertFalse($tuple1->isSubtypeOf($tuple2));
 	}
 }

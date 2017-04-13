@@ -5,6 +5,8 @@ namespace ILIAS\BackgroundTasks\Implementation;
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Exceptions\Exception;
 use ILIAS\BackgroundTasks\Exceptions\NoObserverForUserInteractionException;
+use ILIAS\BackgroundTasks\Implementation\Observer\BasicObserver;
+use ILIAS\BackgroundTasks\Implementation\Observer\State;
 use ILIAS\BackgroundTasks\Implementation\Values\ThunkValue;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Task;
@@ -12,6 +14,15 @@ use ILIAS\BackgroundTasks\TaskManager;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\Worker;
 
+/**
+ * Class BasicTaskManager
+ * @package ILIAS\BackgroundTasks\Implementation
+ *
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ *
+ * Basic Task manager. Will execute tasks immediately.
+ *
+ */
 class BasicTaskManager implements TaskManager {
 
 	public function __construct() {
@@ -26,27 +37,37 @@ class BasicTaskManager implements TaskManager {
 	 * @throws \UserInteractionRequiredException
 	 */
 	public function executeTask(Task $task, Observer $observer) {
+		$observer->notifyState(State::RUNNING);
 		/** @var Value[] $values */
 		$values = $task->getInput();
 		$final_values = [];
+		$replace_thunk_values = false;
 		foreach ($values as $value) {
-			if(is_a($value, ThunkValue::class))
+			if(is_a($value, ThunkValue::class)) {
 				$value = $this->executeTask($value->getParentTask(), $observer);
-				// TODO: Replace Thunk with actual value.
+				$replace_thunk_values = true;
+			}
 			$final_values[] = $value;
+		}
+
+		if ($replace_thunk_values) {
+			$task->setInput($final_values);
 		}
 
 		if(is_a($task, Task\Job::class)) {
 			/** @var Task\Job $job */
 			$job = $task;
-			$observer->setCurrentTask($job->getId());
-			return $job->run($final_values, $observer);
+			$observer->setCurrentTask($job);
+			$value = $job->run($final_values, $observer);
+			$observer->notifyPercentage($job, 100);
+			return $value;
 		}
 
 		if(is_a($task, Task\UserInteraction::class)) {
 			/** @var Task\UserInteraction $userInteraction */
 			$userInteraction = $task;
-			$observer->setCurrentTask($userInteraction->getId());
+			$observer->setCurrentTask($userInteraction);
+			$observer->notifyState(State::USER_INTERACTION);
 			throw new \UserInteractionRequiredException("User interaction required.");
 		}
 
@@ -59,9 +80,23 @@ class BasicTaskManager implements TaskManager {
 	 * @param int $userId
 	 * @param Task $task
 	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function observeAndExecuteTask(int $userId, Task $task) {
-		throw new Exception("Not implemented yet.");
+		$observer = new BasicObserver();
+		$observer->setUserId($userId);
+		$observer->setTask($task);
+
+		try {
+			$this->executeTask($task, $observer);
+			$observer->notifyState(State::FINISHED);
+		} catch (\UserInteractionRequiredException $e) {
+			// We're okay!
+			// TODO: Write Task and Observer into the Database.
+		} catch (\Exception $e) {
+			// As we are Synchronous execution we rethrow the error for the caller to handle.
+			throw $e;
+		}
 	}
 
 	/**

@@ -1,21 +1,20 @@
 <?php
 
-namespace ILIAS\BackgroundTasks\Implementation\ValueTypes;
+namespace ILIAS\Types;
 
-use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
-use ILIAS\BackgroundTasks\ValueType;
+use ILIAS\Types\Exceptions\InvalidArgumentException;
 
-class ListType implements ValueType {
+class ListType implements Type {
 
-	/** @var ValueType */
+	/** @var Type */
 	protected $type;
 
 	/**
 	 * SingleType constructor.
-	 * @param $fullyQualifiedClassName string Give a Value Type or a Type that will be wrapped in a single type.
+	 * @param $fullyQualifiedClassName string|Type Give a Value Type or a Type that will be wrapped in a single type.
 	 */
-	public function __construct(string $fullyQualifiedClassName) {
-		if(!is_a($fullyQualifiedClassName, ValueType::class))
+	public function __construct($fullyQualifiedClassName) {
+		if(!is_a($fullyQualifiedClassName, Type::class))
 			$fullyQualifiedClassName = new SingleType($fullyQualifiedClassName);
 		$this->type = $fullyQualifiedClassName;
 	}
@@ -24,32 +23,35 @@ class ListType implements ValueType {
 	 * @return string A string representation of the Type.
 	 */
 	function __toString() {
-		return $this->type . "[]";
+		return "[" . $this->type . "]";
 	}
 
 	/**
 	 * Is this type a subtype of $type. Not strict! x->isSubtype(x) == true.
 	 *
-	 * @param $type ValueType
+	 * @param $type Type
 	 * @return bool
 	 */
-	function isSubtypeOf(ValueType $type) {
+	function isSubtypeOf(Type $type) {
 		if(!$type instanceof ListType)
 			return false;
 
-		return $this->type->isSubtypeOf($type->getType());
+		return $this->type->isSubtypeOf($type->getContainedType());
 	}
 
 	/**
-	 * @return ValueType
+	 * @return Type
 	 */
-	function getType() {
+	function getContainedType() {
 		return $this->type;
 	}
 
 	/**
-	 * @param $list ValueType[]
-	 * @return ValueType
+	 * Todo: This implementation is not performing well (needs the most iterations) on lists with all the same type,
+	 * this might be suboptimal.
+	 *
+	 * @param $list Type[]
+	 * @return Type
 	 * @throws InvalidArgumentException
 	 */
 	public static function calculateLowestCommonType($list) {
@@ -62,8 +64,8 @@ class ListType implements ValueType {
 
 		$ancestorsList = [];
 		foreach ($list as $object) {
-			if(!$object instanceof ValueType)
-				throw new InvalidArgumentException("List Type must be constructed with instances of ValueType.");
+			if(!$object instanceof Type)
+				throw new InvalidArgumentException("List Type must be constructed with instances of Type.");
 			$ancestorsList[] = $object->getAncestors();
 		}
 
@@ -75,6 +77,8 @@ class ListType implements ValueType {
 				return $lct;
 			}
 		}
+
+		// We reach this point if the types are equal.
 		return $lct;
 	}
 
@@ -112,13 +116,13 @@ class ListType implements ValueType {
 	/**
 	 * returns true if the two types are equal.
 	 *
-	 * @param ValueType $otherType
+	 * @param Type $otherType
 	 * @return bool
 	 */
-	function equals(ValueType $otherType) {
+	function equals(Type $otherType) {
 		if(!$otherType instanceof ListType)
 			return false;
 
-		return $this->type->equals($otherType->getType());
+		return $this->type->equals($otherType->getContainedType());
 	}
 }

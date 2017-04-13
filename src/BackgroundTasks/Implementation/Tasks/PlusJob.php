@@ -4,10 +4,10 @@ namespace ILIAS\BackgroundTasks\Implementation\Tasks;
 
 use ILIAS\BackgroundTasks\Implementation\Observer\ObserverMock;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
-use ILIAS\BackgroundTasks\Implementation\ValueTypes\SingleType;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\ValueType;
+use ILIAS\Types\SingleType;
 
 class PlusJob extends AbstractJob {
 

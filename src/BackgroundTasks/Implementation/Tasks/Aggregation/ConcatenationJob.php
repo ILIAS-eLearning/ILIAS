@@ -4,14 +4,14 @@ namespace ILIAS\BackgroundTasks\Implementation\Tasks\Aggregation;
 
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
-use ILIAS\BackgroundTasks\Implementation\Values\AggregationValues\ListValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\ScalarValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
-use ILIAS\BackgroundTasks\Implementation\ValueTypes\ListType;
-use ILIAS\BackgroundTasks\Implementation\ValueTypes\SingleType;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\ValueType;
+use ILIAS\Types\ListType;
+use ILIAS\Types\SingleType;
+use ILIAS\Types\Type;
 
 class ConcatenationJob extends AbstractJob {
 
@@ -46,14 +46,14 @@ class ConcatenationJob extends AbstractJob {
 	}
 
 	/**
-	 * @return ValueType[] Class-Name of the IO
+	 * @return Type[] Class-Name of the IO
 	 */
 	public function getInputTypes() {
 		return [new ListType(ScalarValue::class)];
 	}
 
 	/**
-	 * @return ValueType
+	 * @return Type
 	 */
 	public function getOutputType() {
 		return new SingleType(StringValue::class);

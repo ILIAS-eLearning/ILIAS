@@ -24,18 +24,6 @@ interface Observer {
 
 
 	/**
-	 * @return int
-	 */
-	public function getBucketId();
-
-
-	/**
-	 * @param int $bucket_id
-	 */
-	public function setBucketId($bucket_id);
-
-
-	/**
 	 * Used by a job to notify his percentage.
 	 *
 	 * @param $task       Task
@@ -43,6 +31,10 @@ interface Observer {
 	 */
 	public function notifyPercentage(Task $task, $percentage);
 
+	/**
+	 * @return int
+	 */
+	public function getPercentage();
 
 	/**
 	 * store the observerdata to persistence layer
@@ -50,8 +42,31 @@ interface Observer {
 	public function store();
 
 	/**
-	 * @param int $taskId
+	 * @param Task $task
 	 * @return mixed
 	 */
-	public function setCurrentTask(int $taskId);
+	public function setCurrentTask($task);
+
+	/**
+	 * @return Task
+	 */
+	public function getCurrentTask();
+
+	/**
+	 * @param Task $task
+	 * @return void
+	 */
+	public function setTask(Task $task);
+
+	/**
+	 *
+	 * @return Task
+	 */
+	public function getTask();
+
+	/**
+	 * @param $state int From Observer\State
+	 * @return void
+	 */
+	public function notifyState($state);
 }

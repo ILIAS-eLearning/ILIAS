@@ -1,10 +1,8 @@
 <?php
 
-namespace ILIAS\BackgroundTasks\Implementation\ValueTypes;
+namespace ILIAS\Types;
 
-use ILIAS\BackgroundTasks\ValueType;
-
-class SingleType implements ValueType {
+class SingleType implements Type {
 
 	/** @var \ReflectionClass */
 	protected $type;
@@ -25,10 +23,10 @@ class SingleType implements ValueType {
 	}
 
 	/**
-	 * @param ValueType $type
+	 * @param Type $type
 	 * @return bool
 	 */
-	function isSubtypeOf(ValueType $type) {
+	function isSubtypeOf(Type $type) {
 		if(!$type instanceof SingleType)
 			return false;
 
@@ -38,7 +36,7 @@ class SingleType implements ValueType {
 	/**
 	 * returns the hierarchy of this type. E.g. ["AbstractValue", "ScalarValue", "IntegerValue", "UserIdValue"]
 	 *
-	 * @return ValueType[]
+	 * @return Type[]
 	 */
 	function getAncestors() {
 		$class = $this->type;
@@ -56,7 +54,7 @@ class SingleType implements ValueType {
 	 * @param $otherType
 	 * @return bool
 	 */
-	function equals(ValueType $otherType) {
+	function equals(Type $otherType) {
 		if(!$otherType instanceof SingleType)
 			return false;
 

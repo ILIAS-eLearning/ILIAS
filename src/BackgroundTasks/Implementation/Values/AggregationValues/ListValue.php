@@ -5,15 +5,15 @@ namespace ILIAS\BackgroundTasks\Implementation\Values\AggregationValues;
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 use ILIAS\BackgroundTasks\Implementation\Values\AbstractValue;
 use ILIAS\BackgroundTasks\Implementation\Values\PrimitiveValueWrapperFactory;
-use ILIAS\BackgroundTasks\Implementation\ValueTypes\ListType;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\ValueType;
+use ILIAS\Types\ListType;
 
 /**
  * Class ListValue
  * @package ILIAS\BackgroundTasks\Implementation\Values
  *
- * The type of the class will be the lowest common type in the list e.g. IntegerValue[].
+ * The type of the list will be the lowest common type in the list e.g. [ScalarValue] if its a list containing IntegerValues and FloatValues.
  *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  */
@@ -25,7 +25,7 @@ class ListValue extends AbstractValue {
 	protected $list = array();
 
 	/**
-	 * @var ValueType
+	 * @var Type
 	 */
 	protected $type;
 
@@ -34,6 +34,14 @@ class ListValue extends AbstractValue {
 	 * @param $list array
 	 */
 	public function __construct($list) {
+		$this->type = $this->deriveType($list);
+	}
+
+	protected function deriveType($list) {
+		return new ListType(ListType::calculateLowestCommonType($this->getTypes($list)));
+	}
+
+	protected function getTypes($list) {
 		$wrapperFactory = PrimitiveValueWrapperFactory::getInstance();
 		$types = [];
 		foreach ($list as $value) {
@@ -42,7 +50,7 @@ class ListValue extends AbstractValue {
 			$types[] =  $valueWrapped->getType();
 		}
 
-		$this->type = ListType::calculateLowestCommonType($types);
+		return $types;
 	}
 
 	/**
@@ -66,7 +74,7 @@ class ListValue extends AbstractValue {
 	 */
 	public function unserialize($serialized) {
 		$this->list = $this->unserialize($serialized);
-		$this->type = $this->calculateLowestCommonType($this->list);
+		$this->type = $this->deriveType($this->list);
 	}
 
 	/**
@@ -171,9 +179,9 @@ class ListValue extends AbstractValue {
 	}
 
 	/**
-	 * @return ValueType
+	 * @return Type
 	 */
 	public function getType() {
-		return new ListType($this->type);
+		return $this->type;
 	}
 }
