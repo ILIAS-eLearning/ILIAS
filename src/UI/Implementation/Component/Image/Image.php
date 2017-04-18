@@ -6,7 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Image;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\NotImplementedException;
+use ILIAS\UI\NotImplementedUIException;
 
 /**
  * Class Image
@@ -99,13 +99,13 @@ class Image implements C\Image\Image {
 	 * @inheritdoc
 	 */
 	public function withAction($url){
-		throw new NotImplementedException();
+		throw new NotImplementedUIException();
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function getAction(){
-		throw new NotImplementedException();
+		throw new NotImplementedUIException();
 	}
 }
