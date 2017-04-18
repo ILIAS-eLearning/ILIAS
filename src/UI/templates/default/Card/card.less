@@ -2,16 +2,27 @@
 	img{
 		width: 100%;
 	}
-	padding: 0px;
+	padding: 0;
+
+	.card-highlight {
+		background-color: @brand-warning;
+		height: 3px;
+		width: 100%;
+	}
+
+	.card-no-highlight {
+		background-color: transparent;
+		height: 3px;
+		width: 100%;
+	}
 
 	.caption{
 		.card-title{
 			overflow-wrap: break-word;
 		}
-		border-top: 1px solid @panel-inner-border;
 
-		&:first-child{
-			border-top: none;
+		&:nth-of-type(1n+3) {
+			border-top: 1px solid @panel-inner-border;
 		}
 	}
 }

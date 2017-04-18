@@ -219,8 +219,8 @@ class ilMembershipGUI
 
 				$this->showMailToMemberToolbarButton($GLOBALS['ilToolbar'], 'jump2UsersGallery');
 
-				require_once 'Services/User/classes/class.ilUsersGalleryGUI.php';
-				require_once 'Services/User/classes/class.ilUsersGalleryParticipants.php';
+				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryGUI.php';
+				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryParticipants.php';
 
 
 				$provider    = new ilUsersGalleryParticipants($this->getParentObject()->getMembersObject());
