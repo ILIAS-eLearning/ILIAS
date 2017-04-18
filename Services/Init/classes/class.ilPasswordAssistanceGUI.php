@@ -737,10 +737,10 @@ class ilPasswordAssistanceGUI
 	}
 
 	/**
-	 * @param string $type
+	 * @param string $context
 	 */
-	protected function fillPermanentLink($type)
+	protected function fillPermanentLink($context)
 	{
-		$this->tpl->setPermanentLink('usr', null, $type);
+		$this->tpl->setPermanentLink('usr', null, $context);
 	}
 }

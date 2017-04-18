@@ -30,7 +30,34 @@ class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass {
 	/**
 	 * check whether goto script will succeed
 	 */
-	static function _checkGoto($a_target) {
+	static function _checkGoto($a_target)
+	{
+		$settings = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']->settings() : $GLOBALS['ilSetting'];
+
+		if('usr_registration' == $a_target)
+		{
+			require_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
+			$regSeetings = new ilRegistrationSettings();
+			if($regSeetings->getRegistrationType() == IL_REG_DISABLED)
+			{
+				return false;
+			}
+		}
+		else if('usr_nameassist' == $a_target)
+		{
+			if(!$settings->get('password_assistance'))
+			{
+				return false;
+			}
+		}
+		else if('usr_pwassist' == $a_target)
+		{
+			if(!$settings->get('password_assistance'))
+			{
+				return false;
+			}
+		}
+
 		return true;
 	}
 
