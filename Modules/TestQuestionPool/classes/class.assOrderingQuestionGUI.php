@@ -384,8 +384,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$orderingInput = $form->getItemByPostVar(
 					assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
 				);
-				
-				$orderingInput->setMultiValues($orderingInput->getMultiValues()); // KEEP THIS (!)
+				// #20297
+				$orderingInput->setIdentifiedMultiValues($orderingInput->getIdentifiedMultiValues()); // KEEP THIS (!)
 				
 				// consequence of vaidation
 				$savingAllowed = false;

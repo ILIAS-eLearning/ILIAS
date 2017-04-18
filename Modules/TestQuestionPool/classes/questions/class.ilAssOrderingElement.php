@@ -217,6 +217,12 @@ class ilAssOrderingElement
 	 */
 	public function setContent($content)
 	{
+		if(is_array($content))
+		{
+			// #20297
+			$content = current($content);
+		}
+
 		$this->content = $content;
 	}
 	
