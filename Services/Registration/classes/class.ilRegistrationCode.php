@@ -216,7 +216,7 @@ class ilRegistrationCode
 		
 		$query = 'SELECT code_id FROM reg_registration_codes '.
 			'WHERE used = '.$ilDB->quote(0,'integer').' '.
-			'AND (reg_enabled = '.$ilDB->quote(1,'integer').' OR ext_enabled = '.$ilDB->quote(1,'integer').') '.
+			'AND reg_enabled = '.$ilDB->quote(1,'integer').' '.
 			'AND code = '.$ilDB->quote($a_code,'text');
 		$res = $ilDB->query($query);
 		
