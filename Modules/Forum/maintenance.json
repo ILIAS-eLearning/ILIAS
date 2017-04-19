@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
-    "second_maintainer": "",
+    "first_maintainer": "mjansen(8784)",
+    "second_maintainer": "nadia(14206)",
     "implicit_maintainers": [],
     "coordinator": "",
     "tester": "",
     "testcase_writer": "",
     "path": "Modules/Forum",
-    "belong_to_component": "None",
+    "belong_to_component": "Forum",
     "used_in_components": []
 }
