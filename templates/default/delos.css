@@ -6221,8 +6221,6 @@ button.close {
 .il-card {
   padding: 0;
   width: 100%;
-  display: flex;
-  flex-direction: column;
   background-color: white;
 }
 .il-card img {
@@ -6241,9 +6239,6 @@ button.close {
   height: 3px;
   width: 100%;
 }
-.il-card :nth-child(4) {
-  flex-grow: 2;
-}
 .il-card .caption .card-title {
   overflow-wrap: break-word;
 }
@@ -6252,6 +6247,13 @@ button.close {
 }
 .il-panel-report .il-card {
   background-color: #f9f9f9;
+}
+.row-eq-height .il-card {
+  display: flex;
+  flex-direction: column;
+}
+.row-eq-height .il-card :nth-child(4) {
+  flex-grow: 2;
 }
 .il-deck .row {
   margin-left: 0;

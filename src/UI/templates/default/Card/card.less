@@ -3,9 +3,6 @@
 	width: 100%;
 
 
-	display: flex;
-	flex-direction: column;
-
 	background-color: @il-primary-container-bg;
 
 	img{
@@ -25,9 +22,6 @@
 		height: 3px;
 		width: 100%;
 	}
-	:nth-child(4){
-		flex-grow: 2;
-	}
 
 	.caption{
 		.card-title{
@@ -43,4 +37,15 @@
 
 .il-panel-report .il-card{
 	background-color: @il-secondary-container-bg;
+}
+
+.row-eq-height {
+	.il-card {
+		display: flex;
+		flex-direction: column;
+
+		:nth-child(4){
+			flex-grow: 2;
+		}
+	}
 }
