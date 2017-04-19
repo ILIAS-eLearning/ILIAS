@@ -257,7 +257,7 @@ The code base is deviced in several components:
 
 * **WebDAV**
 	* 1st Maintainer: [fawinike](http://www.ilias.de/docu/goto_docu_usr_44474.html)
-	* 2nd Maintainer: MISSING
+	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* Testcases: MISSING
 	* Tester: MISSING
 
@@ -298,11 +298,11 @@ The following directories are currently maintained unter the Classic-Maintenace-
 * Services/ActiveRecord
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/AuthApache
- (1st Maintainer: MISSING)
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/AuthShibboleth
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/Authentication
- (1st Maintainer: MISSING)
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/BackgroundTask
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/Database
@@ -322,9 +322,9 @@ The following directories are currently maintained unter the Classic-Maintenace-
 * Services/GlobalCache
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/InfoScreen
- (1st Maintainer: MISSING)
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html))
 * Services/Init
- (1st Maintainer: MISSING)
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/Language
  (1st Maintainer: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html))
 * Services/MainMenu
@@ -332,7 +332,7 @@ The following directories are currently maintained unter the Classic-Maintenace-
 * Services/MathJax
  (1st Maintainer: [fneumann](http://www.ilias.de/docu/goto_docu_usr_1560.html))
 * Services/Notes
- (1st Maintainer: MISSING)
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html))
 * Services/PHPUnit
  (1st Maintainer: MISSING)
 * Services/Repository
@@ -348,7 +348,7 @@ The following directories are currently maintained unter the Classic-Maintenace-
 * Services/UICore
  (1st Maintainer: MISSING)
 * Services/User
- (1st Maintainer: MISSING)
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/Utilities
  (1st Maintainer: MISSING)
 * Services/VirusScanner
