@@ -384,9 +384,10 @@ class ilOrgUnitStaffGUI {
 		}
 		$this->parent_object->deassignUserFromSuperiorRole($_POST["obj_id"]);
 		//if user is neither employee nor superior, remove orgunit from user->org_units
-		if (!$this->rbacreview->isAssigned($_POST["obj_id"], $this->parent_object->getEmployeeRole())) {
-			ilObjUser::_removeOrgUnit($_POST["obj_id"], $this->parent_object->getRefId());
-		}
+		// The method ilObjUser::_removeOrgUnit is no longer available, see #20428
+		//		if (!$this->rbacreview->isAssigned($_POST["obj_id"], $this->parent_object->getEmployeeRole())) {
+		//			ilObjUser::_removeOrgUnit($_POST["obj_id"], $this->parent_object->getRefId());
+		//		}
 		ilUtil::sendSuccess($this->lng->txt("deassign_user_successful"), true);
 		$this->ctrl->redirect($this, "showStaff");
 	}
@@ -399,9 +400,10 @@ class ilOrgUnitStaffGUI {
 		}
 		$this->parent_object->deassignUserFromEmployeeRole($_POST["obj_id"]);
 		//if user is neither employee nor superior, remove orgunit from user->org_units
-		if (!$this->rbacreview->isAssigned($_POST["obj_id"], $this->parent_object->getSuperiorRole())) {
-			ilObjUser::_removeOrgUnit($_POST["obj_id"], $this->parent_object->getRefId());
-		}
+		// The method ilObjUser::_removeOrgUnit is no longer available, see #20428
+		//		if (!$this->rbacreview->isAssigned($_POST["obj_id"], $this->parent_object->getSuperiorRole())) {
+		//			ilObjUser::_removeOrgUnit($_POST["obj_id"], $this->parent_object->getRefId());
+		//		}
 		ilUtil::sendSuccess($this->lng->txt("deassign_user_successful"), true);
 		$this->ctrl->redirect($this, "showStaff");
 	}
