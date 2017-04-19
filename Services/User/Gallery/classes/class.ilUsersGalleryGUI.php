@@ -187,13 +187,16 @@ class ilUsersGalleryGUI
 				if(count($groups_with_highlight) > 0)
 				{
 					$card = $card->withHighlight($group->isHighlighted());
-
-					if($group->isHighlighted())
-					{
-						$sections[] = $this->factory->legacy($group->getLabel());
-					}
 				}
 
+				$list = $this->factory->listing()->descriptive(
+						[
+								$this->lng->txt("username") =>$user->getAggregatedUser()->getLogin(),
+								$this->lng->txt("crs_contact_responsibility")=>$group->getLabel()
+						]
+				);
+
+				$sections[] = $this->factory->legacy($this->renderer->render($list));
 				$this->addContactWidgetSection($user->getAggregatedUser(), $sections);
 
 				if($user->hasPublicProfile())
