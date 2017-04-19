@@ -96,18 +96,10 @@ class ilStartUpGUI
 			if ($_GET["rep_ref_id"] != "")
 			{
 				$_GET["ref_id"] = $_GET["rep_ref_id"];
-			}			
+			}
 			$this->processStartingPage();
 		}
 		
-		// if authentication of soap user failed, but email address is
-		// known, show users and ask for password
-		if ($status == AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL)
-		{
-			$this->showUserMappingSelection();
-			return;
-		}
-
 		// check for session cookies enabled
 		if (!isset($_COOKIE['iltest']))
 		{
