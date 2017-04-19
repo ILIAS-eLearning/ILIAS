@@ -255,6 +255,18 @@ The code base is deviced in several components:
 	* Testcases: MISSING
 	* Tester: MISSING
 
+* **Wiki**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [abaulig1](http://www.ilias.de/docu/goto_docu_usr_44386.html)
+	* Tester: MISSING
+
+* **Workflow Engine**
+	* 1st Maintainer: [mbecker](http://www.ilias.de/docu/goto_docu_usr_27266.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [mbecker](http://www.ilias.de/docu/goto_docu_usr_27266.html)
+	* Tester: MISSING
+
 
 Components in the Service-Maintenance-Model:
 * **UI-Service**
@@ -271,6 +283,8 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html))
 * Modules/Category
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html))
+* Modules/Chatroom
+ (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
 * Modules/Cloud
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Modules/Course
@@ -291,6 +305,8 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html))
 * Modules/TestQuestionPool
  (1st Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html))
+* Modules/Wiki
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html))
 * Services/ActiveRecord
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/AuthApache
@@ -353,6 +369,8 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/WebDAV
  (1st Maintainer: [fawinike](http://www.ilias.de/docu/goto_docu_usr_44474.html))
+* Services/WorkflowEngine
+ (1st Maintainer: [mbecker](http://www.ilias.de/docu/goto_docu_usr_27266.html))
 * src/DI
  (1st Maintainer: MISSING)
 
@@ -364,7 +382,6 @@ The following directories are currently maintained unter the Service-Maintenace-
 
 The following directories are currently unmaintained:
 * Modules/CategoryReference
-* Modules/Chatroom
 * Modules/CourseReference
 * Modules/Exercise
 * Modules/ExternalFeed
@@ -395,7 +412,6 @@ The following directories are currently unmaintained:
 * Modules/SurveyQuestionPool
 * Modules/SystemFolder
 * Modules/WebResource
-* Modules/Wiki
 * Modules/WorkspaceFolder
 * Modules/WorkspaceRootFolder
 * Services/ADT
@@ -487,7 +503,6 @@ The following directories are currently unmaintained:
 * Services/Tree
 * Services/Verification
 * Services/WebServices
-* Services/WorkflowEngine
 * Services/XHTMLPage
 * Services/XHTMLValidator
 * Services/Xml
