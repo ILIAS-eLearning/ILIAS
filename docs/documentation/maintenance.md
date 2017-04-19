@@ -213,6 +213,12 @@ The code base is deviced in several components:
 	* Testcases: iLUB Universität Bern
 	* Tester: iLUB Universität Bern
 
+* **Statistics and Learning Progress**
+	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [bromberger](http://www.ilias.de/docu/goto_docu_usr_198.html)
+	* Tester: [suittenpointner](http://www.ilias.de/docu/goto_docu_usr_3458.html)
+
 * **Study Programme**
 	* 1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* 2nd Maintainer: [shecken](http://www.ilias.de/docu/goto_docu_usr_45419.html)
@@ -227,6 +233,18 @@ The code base is deviced in several components:
 
 * **Test**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: MISSING
+	* Tester: MISSING
+
+* **Test & Assessment**
+	* 1st Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
+	* 2nd Maintainer: [mbecker](http://www.ilias.de/docu/goto_docu_usr_27266.html)
+	* Testcases: MISSING
+	* Tester: MISSING
+
+* **User Service**
+	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* 2nd Maintainer: MISSING
 	* Testcases: MISSING
 	* Tester: MISSING
@@ -273,6 +291,10 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Modules/StudyProgramme
  (1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html))
+* Modules/Test
+ (1st Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html))
+* Modules/TestQuestionPool
+ (1st Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html))
 * Services/ActiveRecord
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/AuthApache
@@ -319,9 +341,13 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html))
 * Services/Tagging
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html))
+* Services/Tracking
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/UIComponent
  (1st Maintainer: MISSING)
 * Services/UICore
+ (1st Maintainer: MISSING)
+* Services/User
  (1st Maintainer: MISSING)
 * Services/Utilities
  (1st Maintainer: MISSING)
@@ -373,8 +399,6 @@ The following directories are currently unmaintained:
 * Modules/Survey
 * Modules/SurveyQuestionPool
 * Modules/SystemFolder
-* Modules/Test
-* Modules/TestQuestionPool
 * Modules/WebResource
 * Modules/Wiki
 * Modules/WorkspaceFolder
@@ -464,10 +488,8 @@ The following directories are currently unmaintained:
 * Services/Table
 * Services/Taxonomy
 * Services/TermsOfService
-* Services/Tracking
 * Services/Transformation
 * Services/Tree
-* Services/User
 * Services/Verification
 * Services/WebServices
 * Services/WorkflowEngine

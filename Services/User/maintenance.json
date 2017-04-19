@@ -7,6 +7,6 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Services/User",
-    "belong_to_component": "None",
+    "belong_to_component": "User Service",
     "used_in_components": []
 }
