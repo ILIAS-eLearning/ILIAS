@@ -96,7 +96,7 @@ class ilStartUpGUI
 			if ($_GET["rep_ref_id"] != "")
 			{
 				$_GET["ref_id"] = $_GET["rep_ref_id"];
-			}			
+			}
 			$this->processStartingPage();
 		}
 		

@@ -40,9 +40,7 @@ class ilAuthContainerSOAP extends Auth_Container
 	protected $server_https	= null;
 	protected $server_nms	= null;
 	protected $use_dot_net	= null;
-	
 	protected $uri = null;
-	
 	protected $client = null;
 	protected $response = null;
 
@@ -60,7 +58,6 @@ class ilAuthContainerSOAP extends Auth_Container
 	
 	/**
 	 * Init soap client
-	 * @return 
 	 */
 	public function initClient()
 	{
@@ -94,7 +91,7 @@ class ilAuthContainerSOAP extends Auth_Container
 	 * @param string $a_password
 	 * @param bool $isChallengeResponse[optional]
 	 */
-	public function fetchData($a_username,$a_password,$isChallengeResponse = false)
+	public function fetchData($a_username, $a_password, $isChallengeResponse = false)
 	{
 		$GLOBALS['ilLog']->write(__METHOD__.': Soap auth fetch data');
 
@@ -123,11 +120,6 @@ class ilAuthContainerSOAP extends Auth_Container
 				$nspref.'new_user' => $new_user),
 			$this->server_nms,
 			$soapAction);
-//echo "<br>== Request ==";
-//echo '<br><pre>' . htmlspecialchars($this->client->request, ENT_QUOTES) . '</pre><br>';
-//echo "<br>== Response ==";
-//echo "<br>Valid: -".$valid["valid"]."-";
-//echo '<br><pre>' . htmlspecialchars($this->client->response, ENT_QUOTES) . '</pre>';
 		
 		if (trim($valid["valid"]) == "false")
 		{
@@ -137,41 +129,21 @@ class ilAuthContainerSOAP extends Auth_Container
 		// to do check SOAP error!?
 		$valid["local_user"] = $local_user;
 		$this->response = $valid;
+
 		return $valid['valid'] == true;
 	}
 	
 	/**
 	 * Called after login and successful call of fetch data
-	 * @return 
-	 * @param object $a_username
-	 * @param object $a_auth
+	 * @return bool
+	 * @param string $a_username
+	 * @param \ilAuthWeb $a_auth
 	 */
 	public function loginObserver($a_username,$a_auth)
 	{
-		global $ilias, $rbacadmin, $lng, $ilSetting;
+		global $rbacadmin, $lng, $ilSetting;
 		
 		$GLOBALS['ilLog']->write(__METHOD__.': SOAP login observer called');
-		
-
-		// TODO: handle passed credentials via GET
-		/*
-		if (empty($_GET["ext_uid"]) || empty($_GET["soap_pw"]))
-		{
-			$this->status = AUTH_WRONG_LOGIN;
-			return;
-		}
-		*/
-		
-		// Not required anymore
-		/*
-		$validation_data = $this->validateSoapUser($_GET["ext_uid"], $_GET["soap_pw"]);
-		
-		if (!$validation_data["valid"])
-		{
-			$this->status = AUTH_WRONG_LOGIN;
-			return;
-		}
-		*/
 		
 		$local_user = $this->response["local_user"];
 		if ($local_user != "")

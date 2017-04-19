@@ -36,41 +36,28 @@ include_once 'Auth.php';
 
 class ilAuthSOAP extends Auth
 {
+
+	/**
+	 * ilAuthSOAP constructor.
+	 *
+	 * @param $container
+	 * @param array $a_options
+	 */
 	public function __construct($container, $a_options = array())
 	{
 		parent::__construct($container,$a_options,'',false);
 		$this->setSessionName("_authhttp".md5(CLIENT_ID));
 		
 		$this->initAuth();
-		
-		/*
-    	parent::__construct($container);
-
-		if(isset($a_further_options['username']))
-		{
-			$_POST['username'] = $a_further_options['username'];
-		}
-		if(isset($a_further_options['password']))
-		{
-			$_POST['password'] = $a_further_options['password'];
-		}
-
-		$this->appendOption('sessionName',"_authhttp".md5(CLIENT_ID));
-		$this->appendOption('sessionSharing',false);
-		$this->initAuth();
-		$this->initCallbacks();
-		*/
 	}
 
 	/**
 	 * Returns true, if the current auth mode allows redirection to e.g 
 	 * to loginScreen, public section... 
-	 * @return 
+	 * @return bool
 	 */
 	public function supportsRedirects()
 	{
 		return false;
 	} 
 }
-
-?>
