@@ -10,8 +10,8 @@
         "ttruffer(42894)"
     ],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "wischniak(21896)",
+    "testcase_writer": "wischniak(21896)",
     "path": "Modules/OrgUnit",
     "belong_to_component": "Organisational Units",
     "used_in_components": []

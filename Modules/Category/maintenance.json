@@ -4,8 +4,8 @@
     "second_maintainer": "smeyer(191)",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "miriamhoelscher(25370)",
+    "testcase_writer": "kunkel(115)",
     "path": "Modules/Category",
     "belong_to_component": "Category and Repository",
     "used_in_components": []

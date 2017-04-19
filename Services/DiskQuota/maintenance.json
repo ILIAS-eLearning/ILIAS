@@ -4,8 +4,8 @@
     "second_maintainer": "akill(27631)",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "tloewen(41553)",
+    "testcase_writer": "tloewen(41553)",
     "path": "Services/DiskQuota",
     "belong_to_component": "File",
     "used_in_components": []
