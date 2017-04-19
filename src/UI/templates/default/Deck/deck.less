@@ -8,14 +8,16 @@
     margin-bottom: @padding-large-vertical;
   }
 }
+@media (min-width: @screen-md-min) {
+  .row-eq-height {
 
-.row-eq-height {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display:         flex;
-
-  > div{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+
+    > div {
+      display: flex;
+    }
   }
 }

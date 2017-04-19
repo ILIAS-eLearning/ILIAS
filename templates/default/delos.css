@@ -6248,12 +6248,14 @@ button.close {
 .il-panel-report .il-card {
   background-color: #f9f9f9;
 }
-.row-eq-height .il-card {
-  display: flex;
-  flex-direction: column;
-}
-.row-eq-height .il-card :nth-child(4) {
-  flex-grow: 2;
+@media (min-width: 992px) {
+  .row-eq-height .il-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .row-eq-height .il-card :nth-child(4) {
+    flex-grow: 2;
+  }
 }
 .il-deck .row {
   margin-left: 0;
@@ -6264,14 +6266,16 @@ button.close {
   padding-right: 5px;
   margin-bottom: 6px;
 }
-.row-eq-height {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-.row-eq-height > div {
-  display: flex;
+@media (min-width: 992px) {
+  .row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .row-eq-height > div {
+    display: flex;
+  }
 }
 /*		Color scheme
 		Dark BLue: #0f2152;
