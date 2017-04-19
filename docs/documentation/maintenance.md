@@ -33,18 +33,6 @@ ILIAS is currently maintained by two types of Maintainerships:
 
 The code base is deviced in several components:
 <!-- REMOVE -->
-* **Database**
-	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
-	* 2nd Maintainer: MISSING
-	* Testcases: MISSING
-	* Tester: MISSING
-
-* **Plugin Slots**
-	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
-	* 2nd Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
-	* Testcases: MISSING
-	* Tester: [PerPascalGrube](http://www.ilias.de/docu/goto_docu_usr_31492.html)
-
 * **Shibboleth Authentication**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: MISSING
@@ -63,17 +51,53 @@ The code base is deviced in several components:
 	* Testcases: MISSING
 	* Tester: MISSING
 
+* **Administration**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* Testcases: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
+	* Tester: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
+
+* **Glossary**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
+	* Tester: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
+
 * **GlobalCache**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: MISSING
 	* Testcases: MISSING
 	* Tester: MISSING
 
-* **Info Page**
+* **Plugin Slots**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
-	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* 2nd Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* Testcases: MISSING
-	* Tester: MISSING
+	* Tester: [PerPascalGrube](http://www.ilias.de/docu/goto_docu_usr_31492.html)
+
+* **Forum**
+	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
+	* 2nd Maintainer: [nadia](http://www.ilias.de/docu/goto_docu_usr_14206.html)
+	* Testcases: FH Aachen
+	* Tester: [e.paulmann](http://www.ilias.de/docu/goto_docu_usr_8645.html)
+
+* **ILIAS Page Editor**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
+	* Tester: FH Aachen
+
+* **Learning Module ILIAS**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [suittenpointner](http://www.ilias.de/docu/goto_docu_usr_3458.html)
+	* Tester: [suittenpointner](http://www.ilias.de/docu/goto_docu_usr_3458.html)
+
+* **Course Management**
+	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* 2nd Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* Testcases: iLUB Universität Bern
+	* Tester: iLUB Universität Bern
 
 * **Badges**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
@@ -81,29 +105,23 @@ The code base is deviced in several components:
 	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
 	* Tester: [Thomas.schroeder](http://www.ilias.de/docu/goto_docu_usr_38330.html)
 
+* **Info Page**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* Testcases: MISSING
+	* Tester: MISSING
+
 * **Chat**
 	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
 	* 2nd Maintainer: [mbecker](http://www.ilias.de/docu/goto_docu_usr_27266.html)
 	* Testcases: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
 	* Tester: [AntoniaWeber](http://www.ilias.de/docu/goto_docu_usr_36934.html)
 
-* **CSS / Templates**
-	* 1st Maintainer: [braun](http://www.ilias.de/docu/goto_docu_usr_27123.html)
-	* 2nd Maintainer: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html)
-	* Testcases: [Fabian](http://www.ilias.de/docu/goto_docu_usr_27631.html)
-	* Tester: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
-
-* **Tagging**
+* **Learning Module HTML**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
-	* 2nd Maintainer: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
-	* Testcases: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
-	* Tester: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
-
-* **Notes and Comments**
-	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
-	* 2nd Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
-	* Testcases: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
-	* Tester: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [Balliel](http://www.ilias.de/docu/goto_docu_usr_18365.html)
+	* Tester: [Balliel](http://www.ilias.de/docu/goto_docu_usr_18365.html)
 
 * **Booking Tool**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
@@ -117,40 +135,34 @@ The code base is deviced in several components:
 	* Testcases: [ttruffer](http://www.ilias.de/docu/goto_docu_usr_42894.html)
 	* Tester: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html)
 
-* **Course Management**
-	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
-	* 2nd Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
-	* Testcases: iLUB Universität Bern
-	* Tester: iLUB Universität Bern
-
-* **Certificate**
-	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
-	* 2nd Maintainer: MISSING
-	* Testcases: MISSING
-	* Tester: [christian.hueser](http://www.ilias.de/docu/goto_docu_usr_41129.html)
-
-* **Learning Module HTML**
-	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
-	* 2nd Maintainer: MISSING
-	* Testcases: [Balliel](http://www.ilias.de/docu/goto_docu_usr_18365.html)
-	* Tester: [Balliel](http://www.ilias.de/docu/goto_docu_usr_18365.html)
-
-* **Test**
+* **Database**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: MISSING
 	* Testcases: MISSING
 	* Tester: MISSING
 
-* **Web Access Checker**
-	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
-	* 2nd Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html)
-	* Testcases: [ttruffer](http://www.ilias.de/docu/goto_docu_usr_42894.html)
-	* Tester: iLUB Universität Bern
-
-* **Blog**
+* **Tagging**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
+	* Testcases: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
+	* Tester: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
+
+* **CSS / Templates**
+	* 1st Maintainer: [braun](http://www.ilias.de/docu/goto_docu_usr_27123.html)
+	* 2nd Maintainer: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html)
+	* Testcases: [Fabian](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* Tester: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+
+* **Notes and Comments**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
+	* 2nd Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* Testcases: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
+	* Tester: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
+
+* **MathJax**
+	* 1st Maintainer: [fneumann](http://www.ilias.de/docu/goto_docu_usr_1560.html)
 	* 2nd Maintainer: MISSING
-	* Testcases: [KlausVorkauf](http://www.ilias.de/docu/goto_docu_usr_5890.html)
+	* Testcases: [fneumann](http://www.ilias.de/docu/goto_docu_usr_1560.html)
 	* Tester: MISSING
 
 * **MediaCast**
@@ -159,11 +171,23 @@ The code base is deviced in several components:
 	* Testcases: [berggold](http://www.ilias.de/docu/goto_docu_usr_22199.html)
 	* Tester: [berggold](http://www.ilias.de/docu/goto_docu_usr_22199.html)
 
-* **Organisational Units**
+* **Certificate**
+	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: MISSING
+	* Tester: [christian.hueser](http://www.ilias.de/docu/goto_docu_usr_41129.html)
+
+* **Web Access Checker**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
-	* 2nd Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
-	* Testcases: [wischniak](http://www.ilias.de/docu/goto_docu_usr_21896.html)
-	* Tester: [wischniak](http://www.ilias.de/docu/goto_docu_usr_21896.html)
+	* 2nd Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html)
+	* Testcases: [ttruffer](http://www.ilias.de/docu/goto_docu_usr_42894.html)
+	* Tester: iLUB Universität Bern
+
+* **Test**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: MISSING
+	* Tester: MISSING
 
 * **Study Programme**
 	* 1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
@@ -171,17 +195,29 @@ The code base is deviced in several components:
 	* Testcases: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* Tester: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
 
-* **Data Collection**
+* **Organisational Units**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
+	* Testcases: [wischniak](http://www.ilias.de/docu/goto_docu_usr_21896.html)
+	* Tester: [wischniak](http://www.ilias.de/docu/goto_docu_usr_21896.html)
+
+* **Blog**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html)
 	* 2nd Maintainer: MISSING
-	* Testcases: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
-	* Tester: [kim.schmidt](http://www.ilias.de/docu/goto_docu_usr_28720.html)
+	* Testcases: [KlausVorkauf](http://www.ilias.de/docu/goto_docu_usr_5890.html)
+	* Tester: MISSING
 
 * **Login, Auth & Registration**
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* 2nd Maintainer: MISSING
 	* Testcases: MISSING
 	* Tester: MISSING
+
+* **Data Collection**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
+	* Tester: [kim.schmidt](http://www.ilias.de/docu/goto_docu_usr_28720.html)
 
 * **Bibliographic List Item**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
@@ -237,6 +273,8 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_27631.html))
 * Services/Style
  (1st Maintainer: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html))
+* Services/MathJax
+ (1st Maintainer: [fneumann](http://www.ilias.de/docu/goto_docu_usr_1560.html))
 * Services/DiskQuota
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/FileDelivery
@@ -375,7 +413,6 @@ The following directories are currently unmaintained:
 * Services/MainMenu
 * Services/Maps
 * Services/Math
-* Services/MathJax
 * Services/MediaObjects
 * Services/Membership
 * Services/MetaData
