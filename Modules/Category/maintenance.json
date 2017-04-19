@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
-    "second_maintainer": "",
+    "first_maintainer": "akill(27631)",
+    "second_maintainer": "smeyer(191)",
     "implicit_maintainers": [],
     "coordinator": "",
     "tester": "",
     "testcase_writer": "",
     "path": "Modules/Category",
-    "belong_to_component": "None",
+    "belong_to_component": "Category and Repository",
     "used_in_components": []
 }
