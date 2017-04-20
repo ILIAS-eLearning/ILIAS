@@ -61,7 +61,7 @@ interface Result {
 	/**
 	 * Get a new result from the callable or do nothing if this is an error.
 	 *
-	 * If null is returned the result is not touched.
+	 * If null is returned from $f, the result is not touched.
 	 *
 	 * Does nothing if !isOK. This is monadic bind.
 	 *
@@ -74,7 +74,7 @@ interface Result {
 	 * Feed the error into a callable and replace this with the result
 	 * or do nothing if this is a value.
 	 *
-	 * If null is returned, the error in the result is not touched.
+	 * If null is returned from $f, the error in the result is not touched.
 	 *
 	 * Does nothing if !isError.
 	 *
