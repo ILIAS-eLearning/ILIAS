@@ -9,64 +9,73 @@ class TupleType implements Type {
 	 */
 	protected $types = [];
 
+
 	/**
 	 * SingleType constructor.
+	 *
 	 * @param $fullyQualifiedClassNames (string|Type)[] Give a Value Type or a Type that will be wrapped in a single type.
 	 */
 	public function __construct($fullyQualifiedClassNames) {
 		foreach ($fullyQualifiedClassNames as $fullyQualifiedClassName) {
-			if(!is_a($fullyQualifiedClassName, Type::class))
+			if (!is_a($fullyQualifiedClassName, Type::class)) {
 				$fullyQualifiedClassName = new SingleType($fullyQualifiedClassName);
+			}
 			$this->types[] = $fullyQualifiedClassName;
 		}
 	}
 
+
 	/**
-	 * @return string A string representation of the Type.
+	 * @inheritdoc
 	 */
 	function __toString() {
 		return "(" . implode(", ", $this->types) . ")";
 	}
 
+
 	/**
-	 * Is this type a subtype of $type. Not strict! x->isSubtype(x) == true.
+	 * @param Type $type
 	 *
-	 * @param Type $type ValueType
+	 * tuple A is a subtype of tuple B, iff every element i of tuple A is a subtype of element i of tuple B.
+	 *
 	 * @return bool
 	 */
-	function isSubtypeOf(Type $type) {
-		if (! $type instanceof TupleType)
+	function isExtensionOf(Type $type) {
+		if (!$type instanceof TupleType) {
 			return false;
+		}
 
 		$others = $type->getTypes();
-		for ($i = 0; $i < count($this->types); $i++) {
-			if (!$this->types[$i]->isSubtypeOf($others[$i]))
+		for ($i = 0; $i < count($this->types); $i ++) {
+			if (!$this->types[$i]->isExtensionOf($others[$i])) {
 				return false;
+			}
 		}
 
 		return true;
 	}
 
+
 	public function getTypes() {
 		return $this->types;
 	}
 
-	/**
-	 * returns the hierarchy of this type. E.g. ["AbstractValue", "ScalarValue", "IntegerValue", "UserIdValue"]
-	 *
-	 * @return Type[]
-	 */
-	function getAncestors() {
-		// TODO: Implement getAncestors() method.
-	}
 
 	/**
-	 * returns true if the two types are equal.
-	 *
-	 * @param Type $otherType
-	 * @return bool
+	 * @inheritdoc
 	 */
-	function equals(Type $otherType) {
-		// TODO: Implement equals() method.
+	function equals(Type $otherTuple) {
+		if (!$otherTuple instanceof TupleType) {
+			return false;
+		}
+
+		foreach ($this->types as $i => $type) {
+			$otherTypes = $otherTuple->getTypes();
+			if (!$otherTypes[$i]->equals($type)) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

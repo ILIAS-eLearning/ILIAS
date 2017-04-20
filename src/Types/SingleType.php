@@ -2,61 +2,64 @@
 
 namespace ILIAS\Types;
 
-class SingleType implements Type {
+class SingleType implements Type, Ancestors {
 
 	/** @var \ReflectionClass */
 	protected $type;
 
+
 	/**
 	 * SingleType constructor.
+	 *
 	 * @param $fullyQualifiedClassName
 	 */
 	public function __construct(string $fullyQualifiedClassName) {
 		$this->type = new \ReflectionClass($fullyQualifiedClassName);
 	}
 
+
 	/**
-	 * @return string A string representation of the Type.
+	 * @inheritdoc
 	 */
 	function __toString() {
 		return $this->type->getName();
 	}
 
+
 	/**
-	 * @param Type $type
-	 * @return bool
+	 * @inheritdoc
 	 */
-	function isSubtypeOf(Type $type) {
-		if(!$type instanceof SingleType)
+	function isExtensionOf(Type $type) {
+		if (!$type instanceof SingleType) {
 			return false;
+		}
 
 		return $this->type->isSubclassOf($type->__toString()) || $this->__toString() == $type->__toString();
 	}
 
+
 	/**
-	 * returns the hierarchy of this type. E.g. ["AbstractValue", "ScalarValue", "IntegerValue", "UserIdValue"]
-	 *
-	 * @return Type[]
+	 * @inheritdoc
 	 */
 	function getAncestors() {
 		$class = $this->type;
-		$ancestors = [new SingleType($class->getName())];
+		$ancestors = [ new SingleType($class->getName()) ];
 
-		while($class = $class->getParentClass())
+		while ($class = $class->getParentClass()) {
 			$ancestors[] = new SingleType($class->getName());
+		}
 
 		return array_reverse($ancestors);
 	}
 
+
 	/**
-	 * returns true if the two types are equal.
-	 *
-	 * @param $otherType
-	 * @return bool
+	 * @inheritdoc
 	 */
 	function equals(Type $otherType) {
-		if(!$otherType instanceof SingleType)
+		if (!$otherType instanceof SingleType) {
 			return false;
+		}
 
 		return $this->__toString() == $otherType->__toString();
 	}

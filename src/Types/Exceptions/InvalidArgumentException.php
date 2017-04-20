@@ -7,7 +7,9 @@ namespace ILIAS\Types\Exceptions;
  *
  * @package ILIAS\Types
  *
- *          A bucket that contains a user interaction needs at least one observer.
+ * Thrown if some procedure did not get the arguments it expected.
+ *
  */
 class InvalidArgumentException extends Exception {
+
 }

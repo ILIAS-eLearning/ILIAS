@@ -15,18 +15,18 @@ Usage
 $objectType = new SingleType(ilObject2::class);
 $userType = new SingleType(ilUser::class);
 
-$this->assertTrue($userType->isSubtypeOf($objectType));
+$this->assertTrue($userType->isExtensionOf($objectType));
 
 $objectTypes = new ListType(ilObject2::class);
 //or $objectTypes = new ListType($objectType);
 $userTypes = new ListType(ilUser::class);
 
-$this->assertTrue($userTypes->isSubtypeOf($objectTypes));
-$this->assertFalse($userTypes->isSubtypeOf($objectType));
+$this->assertTrue($userTypes->isExtensionOf($objectTypes));
+$this->assertFalse($userTypes->isExtensionOf($objectType));
 
 $objectTuple = new TupleType([ilObject2::class, new ListType(ilObject2::class));
 $userTuple = new TupleType([ilUser::class, new ListType(ilUser::class)]);
-$this->assertTrue($userTuple->isSubtypeOf($objectTuple))
+$this->assertTrue($userTuple->isExtensionOf($objectTuple))
 
 ```
 

@@ -9,7 +9,8 @@ require_once('Services/Exceptions/classes/class.ilException.php');
  *
  * @package ILIAS\Types
  *
- *          The Basic Exception Class for BackgroundTasks. Please Specify by extending
+ * The Basic Exception Class for Types. Please Specify by extending.
+ *
  */
 class Exception extends \ilException {
 
