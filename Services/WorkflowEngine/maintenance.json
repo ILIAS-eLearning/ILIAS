@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
+    "first_maintainer": "mbecker(27266)",
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
     "tester": "",
-    "testcase_writer": "",
+    "testcase_writer": "mbecker(27266)",
     "path": "Services/WorkflowEngine",
-    "belong_to_component": "None",
+    "belong_to_component": "Workflow Engine",
     "used_in_components": []
 }

@@ -8,8 +8,8 @@
         "ttruffer(42894)"
     ],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "amstutz(26468)",
+    "testcase_writer": "ttruffer(42894)",
     "path": "Modules/Cloud",
     "belong_to_component": "Cloud Object",
     "used_in_components": []
