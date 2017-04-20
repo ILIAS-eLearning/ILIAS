@@ -62,15 +62,15 @@ $e = $f->error("There was some error...");
 
 // This is of course an error.
 assert(!$e->isOK());
-assert($e>isError());
+assert($e->isError());
 
 // Transformations are nops.
-$A = $f->map($function($v) { assert(false); });
+$A = $f->map(function($v) { assert(false); });
 
 // Attempts to retrieve the value will throw.
 $raised = false;
 try {
-	$A->value()
+	$A->value();
 	assert(false); // Won't happen.	
 }
 catch (\ILIAS\Data\NotOKException $e) {
