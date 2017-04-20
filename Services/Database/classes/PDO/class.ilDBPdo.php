@@ -215,8 +215,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	public function generateDSN() {
-		$this->dsn = 'mysql:host=' . $this->getHost() . ($this->getDbname() ? ';dbname=' . $this->getDbname() : '') . ';charset='
-			. $this->getCharset();
+		$this->dsn = 'mysql:host=' . $this->getHost() . ($this->getPort() ? ";port="
+		                                                                    . $this->getPort() : "")
+		             . ($this->getDbname() ? ';dbname=' . $this->getDbname() : '') . ';charset='
+		             . $this->getCharset();
 	}
 
 
