@@ -18,18 +18,30 @@ interface Popover extends Component, Triggerable {
 	public function getTitle();
 
 	/**
-	 * Get the text (content) of the popover
+	 * Get the components representing the content of the popover
 	 *
-	 * @return string
+	 * @return Component[]
 	 */
-	public function getText();
+	public function getContent();
 
 	/**
-	 * Get the position of the popover: top, bottom, left, right or auto
+	 * Get the position of the popover: auto, vertical or horizontal
 	 *
 	 * @return string
 	 */
 	public function getPosition();
+
+	/**
+	 * Get the same popover being rendered at the specified position:
+	 *
+	 * auto: Popover placement is determined automatically based on the available space
+	 * vertical: Popover is placed below or above the triggerer, based on the available space
+	 * horizontal: Popover is placed right or left of the triggerer, based on the available space
+	 *
+	 * @param string $position auto|vertical|horizontal
+	 * @return Popover
+	 */
+	public function withPosition($position);
 
 	/**
 	 * Get the signal to show this popover in the frontend

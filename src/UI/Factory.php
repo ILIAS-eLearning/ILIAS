@@ -3,6 +3,7 @@
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI;
+use ILIAS\UI\Component\Component;
 
 /**
  * This is how the factory for UI elements looks. This should provide access
@@ -354,10 +355,9 @@ interface Factory {
 	 *     2: The text MUST be plain text (no HTML) and no longer than a paragraph.
 	 * ---
 	 * @param string $title
-	 * @param string $text
-	 * @param string $position
+	 * @param Component|Component[] $content
 	 * @return \ILIAS\UI\Component\Popover\Popover
 	 */
-	public function popover($title, $text, $position = 'auto');
+	public function popover($title, $content);
 
 }

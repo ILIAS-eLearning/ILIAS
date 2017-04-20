@@ -20,26 +20,30 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 		/** @var Component\Popover\Popover $component */
+		// Render the content of the popover into DOM with an ID
+		$content_id = $this->createId();
 		$show = $component->getShowSignal();
-		$js = $this->getJavascriptBinding();
 		$tpl = $this->getTemplate('tpl.popover.html', true, true);
 		$tpl->setVariable('FORCE_RENDERING', '');
 		$options = json_encode(array(
-			'container' => 'body',
 			'title' => $this->escape($component->getTitle()),
-			'content' => $this->escape($component->getText()),
+			'url' => "#{$content_id}",
 			'placement' => $component->getPosition(),
-			'trigger' => 'manual',
-			'html' => true,
+			'multi' => true,
 			'template' => str_replace('"', '\"', $tpl->get()),
 		));
-		$js->addOnLoadCode("
-		$(document).on('{$show}', function() { 
-			var \$triggerer = $('#' + event.target.id);
-			il.UI.popover.toggle(\$triggerer, '{$options}');
-		});"
+		$this->getJavascriptBinding()->addOnLoadCode("
+			$(document).on('{$show}', function(event, data) { 
+				var triggerer_id = data.triggerer.attr('id');
+				var options = JSON.parse('{$options}');
+				options.trigger = (data.type == 'mouseenter') ? 'hover' : data.type;
+				il.UI.popover.show(triggerer_id, options);
+			});"
 		);
-		return '';
+		$tpl = $this->getTemplate('tpl.popover-content.html', true, true);
+		$tpl->setVariable('ID', $content_id);
+		$tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
+		return $tpl->get();
 	}
 
 	/**
@@ -47,6 +51,8 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
+		$registry->register('./src/UI/templates/libs/node_modules/webui-popover/dist/jquery.webui-popover.min.js');
+		$registry->register('./src/UI/templates/libs/node_modules/webui-popover/dist/jquery.webui-popover.min.css');
 		$registry->register('./src/UI/templates/js/Popover/popover.js');
 	}
 

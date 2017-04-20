@@ -99,13 +99,13 @@ abstract class Button implements C\Button\Button {
 	 * @inheritdoc
 	 */
 	public function withOnHover(Signal $signal) {
-		return $this->addTriggeredSignal($signal, 'hover');
+		return $this->addTriggeredSignal($signal, 'mouseenter');
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function appendOnHover(Signal $signal) {
-		return $this->appendTriggeredSignal($signal, 'hover');
+		return $this->appendTriggeredSignal($signal, 'mouseenter');
 	}
 }

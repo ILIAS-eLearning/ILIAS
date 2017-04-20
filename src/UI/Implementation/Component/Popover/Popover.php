@@ -10,21 +10,17 @@ class Popover implements Component\Popover\Popover {
 
 	use ComponentHelper;
 
-	const POS_LEFT = 'left';
-	const POS_BOTTOM = 'bottom';
-	const POS_TOP = 'top';
-	const POS_RIGHT = 'right';
 	const POS_AUTO = 'auto';
+	const POS_VERTICAL = 'vertical';
+	const POS_HORIZONTAL = 'horizontal';
 
 	/**
 	 * @var array
 	 */
 	protected static $positions = array(
 		self::POS_AUTO,
-		self::POS_BOTTOM,
-		self::POS_LEFT,
-		self::POS_RIGHT,
-		self::POS_TOP,
+		self::POS_HORIZONTAL,
+		self::POS_VERTICAL,
 	);
 
 	/**
@@ -33,9 +29,9 @@ class Popover implements Component\Popover\Popover {
 	protected $title;
 
 	/**
-	 * @var string
+	 * @var Component\Component[]
 	 */
-	protected $text;
+	protected $content;
 
 	/**
 	 * @var string
@@ -54,17 +50,17 @@ class Popover implements Component\Popover\Popover {
 
 	/**
 	 * @param string $title
-	 * @param string $text
-	 * @param string $position
+	 * @param string $content
 	 * @param SignalGeneratorInterface $signal_generator
 	 */
-	public function __construct($title, $text, $position, SignalGeneratorInterface $signal_generator) {
+	public function __construct($title, $content, SignalGeneratorInterface $signal_generator) {
 		$this->checkStringArg('title', $title);
-		$this->checkStringArg('text', $text);
-		$this->checkArgIsElement('position', $position, self::$positions, implode(',', self::$positions));
+		$content = $this->toArray($content);
+		$types = array(Component\Component::class);
+		$this->checkArgListElements('content', $content, $types);
 		$this->title = $title;
-		$this->text = $text;
-		$this->position = $position;
+		$this->content = $content;
+		$this->position = self::POS_AUTO;
 		$this->signal_generator = $signal_generator;
 		$this->initSignals();
 	}
@@ -79,8 +75,8 @@ class Popover implements Component\Popover\Popover {
 	/**
 	 * @inheritdoc
 	 */
-	public function getText() {
-		return $this->text;
+	public function getContent() {
+		return $this->content;
 	}
 
 	/**
@@ -88,6 +84,25 @@ class Popover implements Component\Popover\Popover {
 	 */
 	public function getPosition() {
 		return $this->position;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withPosition($position) {
+		$this->checkArgIsElement('position', $position, self::$positions, implode(',', self::$positions));
+		$clone = clone $this;
+		$clone->position = $position;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withResetSignals() {
+		$clone = clone $this;
+		$clone->initSignals();
+		return $clone;
 	}
 
 	/**
@@ -104,12 +119,4 @@ class Popover implements Component\Popover\Popover {
 		$this->show_signal = $this->signal_generator->create();
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withResetSignals() {
-		$clone = clone $this;
-		$clone->initSignals();
-		return $clone;
-	}
 }

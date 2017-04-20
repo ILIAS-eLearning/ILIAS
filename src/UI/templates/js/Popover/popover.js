@@ -2,18 +2,19 @@ var il = il || {};
 il.UI = il.UI || {};
 
 (function($, UI) {
-
     UI.popover = (function ($) {
-
-        var toggle = function ($triggerer, options) {
-            options = JSON.parse(options);
-            $triggerer.popover(options).popover('toggle');
+        var show = function (triggerer_id, options) {
+            var $triggerer = $('#' + triggerer_id);
+            if (!$triggerer.length) {
+                return;
+            }
+            console.log(options);
+            if (!WebuiPopovers.isCreated('#' + triggerer_id)) {
+                $triggerer.webuiPopover(options).webuiPopover('show');
+            }
         };
-
         return {
-            toggle: toggle
+            show: show
         };
-
     })($);
-
 })($, il.UI);
