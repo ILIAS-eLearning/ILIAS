@@ -124,6 +124,16 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result, $new_result);
 	}
 
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testThenNoResult() {
+		$result = $this->f->ok(3);
+		$new_result = $result->then(function($v) {
+			return 4;
+		});
+	}
+
 	public function testExceptError() {
 		$result = $this->f->error("Something went wrong");
 		$exception = "Something else went wrong";
@@ -161,5 +171,15 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf(Data\Result::class, $new_result);
 		$this->assertEquals($result, $new_result);
+	}
+
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testExceptNoResult() {
+		$result = $this->f->error("Something went wrong");
+		$new_result = $result->except(function($v) {
+			return "New error text";
+		});
 	}
 }
