@@ -35,7 +35,7 @@ assert(!$pi->isError());
 
 // Do some transformation with the value.
 $r = 10;
-$A = $f->map(function($value_of_pi) use ($r) { return 2 * $value_of_pi * $r; });
+$A = $pi->map(function($value_of_pi) use ($r) { return 2 * $value_of_pi * $r; });
 
 // Still ok and no error.
 assert($A->isOk());
