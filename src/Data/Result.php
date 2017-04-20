@@ -66,6 +66,7 @@ interface Result {
 	 * Does nothing if !isOK. This is monadic bind.
 	 *
 	 * @param	callable $f mixed -> Result|null
+	 * @throws 	UnexpectedValueException 	If callable returns no instance of Result
 	 * @return  Result
 	 */
 	public function then(callable $f);
@@ -79,7 +80,8 @@ interface Result {
 	 * Does nothing if !isError.
 	 *
 	 * @param	callable $f string|\Exception -> Result|null
+	 * @throws 	UnexpectedValueException 	If callable returns no instance of Result
 	 * @return	Result
 	 */
-	public function catch(callable $f);
+	public function except(callable $f);
 }
