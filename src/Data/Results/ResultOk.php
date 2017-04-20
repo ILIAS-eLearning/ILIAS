@@ -1,95 +1,72 @@
 <?php
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Data;
+namespace ILIAS\Data\Results;
+use ILIAS\Data\Result;
 
 /**
  * A result encapsulates a value or an error and simplifies the handling of those.
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class ResultImpl implements Result {
+class ResultOk implements Result {
 
 	/**
 	 * @var mixed | \Exception
 	 */
 	protected $value;
 
-	/**
-	 * @var boolean
-	 */
-	protected $is_ok;
-
-	public function __construct($value, $is_ok = true) {
+	public function __construct($value) {
 		$this->value = $value;
-		$this->is_ok = $is_ok;
 	}
+
 	/**
- 	 * @inheritdoc
+	 * @inheritdoc
 	 */
 	public function isOK() {
-		return $this->is_ok;
+		return true;
 	}
 
 	/**
- 	 * @inheritdoc
+	 * @inheritdoc
 	 */
 	public function value() {
-		if($this->isError() && $this->value instanceOf \Exception) {
-			throw $this->value;
-		} else if($this->isError()) {
-			throw new NotOKException($this->value);
-		}
-
 		return $this->value;
 	}
 
 	/**
- 	 * @inheritdoc
+	 * @inheritdoc
 	 */
 	public function isError() {
-		return $this->is_ok === false;
+		return false;
 	}
 
 	/**
- 	 * @inheritdoc
+	 * @inheritdoc
 	 */
 	public function error() {
-		if($this->isOk()) {
-			throw new \LogicException("");
-		}
-
-		return $this->value;
+		throw new \LogicException("This is a OK result. No error message available");
 	}
 
 	/**
- 	 * @inheritdoc
+	 * @inheritdoc
 	 */
 	public function valueOr($default) {
-		if($this->isError()) {
-			return $default;
-		}
-
 		return $this->value;
 	}
 
 	/**
- 	 * @inheritdoc
+	 * @inheritdoc
 	 */
 	public function map(callable $f) {
 		$clone = clone $this;
-
-		if($this->isError()) {
-			return $clone;
-		}
-
 		$value = $f($this->value);
 		$clone->value = $value;
 		return $clone;
 	}
 
 	/**
- 	 * @inheritdoc
+	 * @inheritdoc
 	 */
 	public function then(callable $f) {
 		$clone = clone $this;
@@ -103,16 +80,9 @@ class ResultImpl implements Result {
 	}
 
 	/**
- 	 * @inheritdoc
+	 * @inheritdoc
 	 */
 	public function except(callable $f) {
-		$clone = clone $this;
-		$result = $f($this->value);
-
-		if($this->isOk() || $result === null) {
-			return $clone;
-		}
-
-		return $result;
+		return clone $this;
 	}
 }

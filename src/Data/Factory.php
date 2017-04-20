@@ -17,7 +17,7 @@ class Factory {
 	 * @return Result 
 	 */
 	public function ok($value) {
-		return new ResultImpl($value);
+		return new Results\ResultOk($value);
 	}
 
 	/**
@@ -27,6 +27,6 @@ class Factory {
 	 * @return Result
 	 */
 	public function error($e) {
-		return new ResultImpl($e, false);
+		return new Results\ResultError($e);
 	}
 }
