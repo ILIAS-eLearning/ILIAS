@@ -111,6 +111,9 @@ class ilStartUpGUI
 		$page_editor_html = $this->showLoginInformation($page_editor_html);
 		$page_editor_html = $this->showLoginForm($page_editor_html, $form);
 		$page_editor_html = $this->showCASLoginForm($page_editor_html);
+		// saml-patch: begin
+		$page_editor_html = $this->showSamlLoginForm($page_editor_html);
+		// saml-patch: end
 		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
 		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
 		$page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
