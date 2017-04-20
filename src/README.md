@@ -24,7 +24,7 @@ This rules are to be understood according to [RFC2119](https://www.ietf.org/rfc/
 6. Libraries SHOULD contain a README.md on the top-level, that explains the purpose
    and design of the library and gives usage examples.
 7. All libraries MUST expose a clear public interface to their consumers. Every
-   class, interface or trait on the top level of the libary is considered to be a
+   class, interface or trait on the top level of the library is considered to be a
    part of the public interface, as well as all entities that are reachable via
    entities on the top level.
 8. The public interface of the libraries MUST be documented with Doc-Blocks.

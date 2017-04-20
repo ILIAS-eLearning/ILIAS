@@ -18292,3 +18292,21 @@ while ($row = $query->fetchAssoc()) {
 	$ilDB->manipulate('DELETE FROM il_dcl_stloc2_value WHERE id = ' . $ilDB->quote($row['id'], 'integer'));
 }
 ?>
+<#5077>
+<?php
+
+$ilDB->manipulate('update grp_settings set registration_start = '. $ilDB->quote(null, 'integer').', '.
+	'registration_end = '.$ilDB->quote(null, 'integer') .' '.
+	'where registration_unlimited = '.$ilDB->quote(1,'integer')
+);
+?>
+
+<#5078>
+<?php
+$ilDB->manipulate('update crs_settings set '
+	.'sub_start = ' . $ilDB->quote(null,'integer').', '
+	.'sub_end = '.$ilDB->quote(null,'integer').' '
+	.'WHERE sub_limitation_type != '.$ilDB->quote(2,'integer')
+);
+	
+?>

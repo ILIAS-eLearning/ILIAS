@@ -43,6 +43,20 @@ class CardTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($c->getTitle(), "Card Title New");
 	}
 
+	public function test_with_title_action() {
+		$f = $this->getFactory();
+		$c = $f->card("Card Title");
+		$c = $c->withTitleAction("newAction");
+		$this->assertEquals("newAction", $c->getTitleAction());
+	}
+
+	public function test_with_highlight() {
+		$f = $this->getFactory();
+		$c = $f->card("Card Title");
+		$c = $c->withHighlight(true);
+		$this->assertTrue($c->isHighlighted());
+	}
+
 	public function test_get_image() {
 		$f = $this->getFactory();
 
@@ -87,6 +101,7 @@ class CardTest extends ILIAS_UI_TestBase {
 
 		$expected_html =
 				"<div class=\"il-card thumbnail\">".
+				"   <div class=\"card-no-highlight\"></div>".
 				"   <div class=\"caption\">".
 				"       <h5 class=\"card-title\">Card Title</h5>".
 				"   </div>".
@@ -112,11 +127,34 @@ class CardTest extends ILIAS_UI_TestBase {
 		$expected_html =
 				"<div class=\"il-card thumbnail\">".
 				"   <img src=\"src\" class=\"img-standard\" alt=\"alt\" />".
+				"   <div class=\"card-no-highlight\"></div>".
 				"   <div class=\"caption\">".
 				"       <h5 class=\"card-title\">Card Title</h5>".
 				"   </div>".
 				"   <div class=\"caption\">Random Content</div>".
 				"</div>";
+
+		$this->assertHTMLEquals($expected_html, $html);
+	}
+
+	public function test_render_content_with_highlight() {
+		$f = $this->getFactory();
+		$r = $this->getDefaultRenderer();
+
+		$image = $f->image()->standard("src","alt");
+
+		$c = $f->card("Card Title",$image)->withHighlight(true);
+
+		$html = $r->render($c);
+
+		$expected_html =
+			"<div class=\"il-card thumbnail\">".
+			"   <img src=\"src\" class=\"img-standard\" alt=\"alt\" />".
+			"   <div class=\"card-highlight\"></div>".
+			"   <div class=\"caption\">".
+			"       <h5 class=\"card-title\">Card Title</h5>".
+			"   </div>".
+			"</div>";
 
 		$this->assertHTMLEquals($expected_html, $html);
 	}

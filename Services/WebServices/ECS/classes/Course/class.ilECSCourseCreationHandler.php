@@ -705,7 +705,7 @@ class ilECSCourseCreationHandler
 	 * @param int $a_content_id
 	 * @param ilObjCourse $crs
 	 */
-	protected function setImported($a_content_id, $object, $a_ecs_id = 0, $a_sub_id = 0)
+	protected function setImported($a_content_id, $object, $a_ecs_id = 0, $a_sub_id = null)
 	{
 		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
 		$import = new ilECSImport(

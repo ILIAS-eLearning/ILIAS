@@ -1,0 +1,12 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "akill(27631)",
+    "second_maintainer": "smeyer(191)",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "",
+    "testcase_writer": "",
+    "path": "Services/InfoScreen",
+    "belong_to_component": "Info Page",
+    "used_in_components": []
+}

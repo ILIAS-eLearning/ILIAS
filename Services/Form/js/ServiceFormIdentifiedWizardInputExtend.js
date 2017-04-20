@@ -11,7 +11,7 @@ var ilIdentifiedWizardInputExtend;
 		
 		newRowKeySequence: null,
 		newRowKeyStartValue: -1,
-		newRowKeyValueInterval: -1,
+		newRowKeyValueInterval: 1, // #20297
 		newRowKeyValuePrefix: 'IDENTIFIER~',
 		
 		handleRowCleanUp: function(){},
@@ -93,7 +93,6 @@ var ilIdentifiedWizardInputExtend;
 			$(wizard.getReindexSelectors()).each( function(pos, selector) {
 	
 				$(row).find(selector).each( function (pos, input) {
-						console.log(input);
 						wizard.replaceRowKey(input, 'name', reg, newKey);
 						wizard.replaceRowKey(input, 'id', reg, newKey);
 				});

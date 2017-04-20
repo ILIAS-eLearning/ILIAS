@@ -246,7 +246,10 @@ class assOrderingQuestionImport extends assQuestionImport
 			else
 			{
 				$element->setPosition($position++);
-				$element->setIndentation($answer['answerdepth']);
+				if(isset($answer['answerdepth']))
+				{
+					$element->setIndentation($answer['answerdepth']);
+				}
 			}
 			
 			if( $this->object->isImageOrderingType() )

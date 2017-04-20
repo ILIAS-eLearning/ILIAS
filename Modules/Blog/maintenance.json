@@ -1,0 +1,12 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "akill(27631)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "",
+    "testcase_writer": "KlausVorkauf(5890)",
+    "path": "Modules/Blog",
+    "belong_to_component": "Blog",
+    "used_in_components": []
+}

@@ -1,0 +1,12 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "akill(27631)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "wolfganghuebsch(18455)",
+    "testcase_writer": "e.coroian(37215)",
+    "path": "Modules/BookingManager",
+    "belong_to_component": "Booking Tool",
+    "used_in_components": []
+}

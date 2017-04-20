@@ -87,30 +87,6 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($registration);
 				break;
 
-			case 'ilusersgallerygui':
-				$is_participant = (bool)ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId());
-				if(!$ilAccess->checkAccess('manage_members', '', $this->ref_id) &&
-					(
-						$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_DISABLED ||
-						!$is_participant
-					))
-				{
-					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
-				}
-
-				$this->addMailToMemberButton($ilToolbar, 'jump2UsersGallery');
-
-				require_once 'Services/User/classes/class.ilUsersGalleryParticipants.php';
-				require_once 'Services/User/classes/class.ilUsersGalleryGUI.php';
-				$this->setSubTabs('members');
-				$this->tabs_gui->setTabActive('members');
-				$this->tabs_gui->setSubTabActive('grp_members_gallery');
-
-				$provider = new ilUsersGalleryParticipants($this->object->members_obj);
-				$gallery_gui = new ilUsersGalleryGUI($provider);
-				$this->ctrl->forwardCommand($gallery_gui);
-				break;
-
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");

@@ -21,6 +21,11 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	protected $elementRemoveCmd = self::ELEMENT_DEFAULT_REMOVE_CMD;
 	protected $elementMoveUpCommand = self::ELEMENT_DEFAULT_MOVE_UP_CMD;
 	protected $elementMoveDownCommand = self::ELEMENT_DEFAULT_MOVE_DOWN_CMD;
+
+	/**
+	 * @var ilAssOrderingElement[]
+	 */
+	protected $identified_multi_values = array();
 	
 	protected $formValuesManipulationChain = array();
 
@@ -219,12 +224,12 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 		);
 		
 		$this->setIdentifiedMultiValuesByArray($a_values);
-		parent::setValueByArray($a_values);
 	}
 	
 	protected function setIdentifiedMultiValuesByArray($a_values)
 	{
-		$this->multi_values = $a_values[$this->getPostVar()];
+		// #20297
+		$this->identified_multi_values = $a_values[$this->getPostVar()];
 	}
 	
 	final public function checkInput()
