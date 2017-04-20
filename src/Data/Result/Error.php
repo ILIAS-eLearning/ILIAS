@@ -84,7 +84,7 @@ class Error implements Data\Result {
 		}
 
 		if(!$result instanceof Data\Result) {
-			throw \UnexpectedValueException("The returned type of callable is not an instance of interface Result");
+			throw new \UnexpectedValueException("The returned type of callable is not an instance of interface Result");
 		}
 
 		return $result;

@@ -76,7 +76,7 @@ class Ok implements Result {
 		}
 
 		if(!$result instanceof Result) {
-			throw \UnexpectedValueException("The returned type of callable is not an instance of interface Result");
+			throw new \UnexpectedValueException("The returned type of callable is not an instance of interface Result");
 		}
 
 		return $result;
