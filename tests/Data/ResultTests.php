@@ -1,7 +1,9 @@
 <?php
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Data;
+require_once("libs/composer/vendor/autoload.php");
+
+use ILIAS\Data;
 
 /**
  * Tests working with result object
@@ -72,7 +74,6 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 			return $v * $multiplicator;
 		});
 
-
 		$this->assertInstanceOf(Data\Result::class, $new_result);
 		$this->assertNotEquals($result, $new_result);
 		$this->assertEquals(9, $new_result->value());
@@ -123,11 +124,11 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result, $new_result);
 	}
 
-	public function testCatchError() {
+	public function testExceptError() {
 		$result = $this->f->error("Something went wrong");
 		$exception = "Something else went wrong";
 
-		$new_result = $result->catch(function($v) use ($exception) {
+		$new_result = $result->except(function($v) use ($exception) {
 			$ret = $this->f->error($exception);
 			return $ret;
 		});
@@ -137,11 +138,11 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("Something else went wrong", $new_result->error());
 	}
 
-	public function testCatchCallableNull() {
+	public function testExceptCallableNull() {
 		$result = $this->f->error("Something went wrong");
 		$exception = "Something else went wrong";
 
-		$new_result = $result->catch(function($v) {
+		$new_result = $result->except(function($v) {
 			return null;
 		});
 
@@ -149,11 +150,11 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result, $new_result);
 	}
 
-	public function testCatchOk() {
+	public function testExceptOk() {
 		$result = $this->f->ok(3);
 		$exception = "Something else went wrong";
 
-		$new_result = $result->catch(function($v) use ($exception) {
+		$new_result = $result->except(function($v) use ($exception) {
 			$ret = $this->f->error($exception);
 			return $ret;
 		});
