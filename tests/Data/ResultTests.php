@@ -24,12 +24,17 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(3.154, $result->value());
 	}
 
-	/**
-	 * @expectedException Exception
-	 */
 	public function testNoValue() {
 		$result = $this->f->error("Something went wrong");
-		$result->value();
+
+		try{
+			$result->value();
+			$raised = false;
+		} catch(\Exception $e) {
+			$raised = true;
+		}
+
+		$this->assertTrue($raised);
 	}
 
 	public function testIsOk() {
@@ -43,12 +48,17 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("Something went wrong", $result->error());
 	}
 
-	/**
-	 * @expectedException LogicException
-	 */
 	public function testNoError() {
 		$result = $this->f->ok(3.154);
-		$result->error();
+
+		try{
+			$result->error();
+			$raised = false;
+		} catch(\LogicException $e) {
+			$raised = true;
+		}
+
+		$this->assertTrue($raised);
 	}
 
 	public function testIsError() {
@@ -124,14 +134,20 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result, $new_result);
 	}
 
-	/**
-	 * @expectedException UnexpectedValueException
-	 */
 	public function testThenNoResult() {
 		$result = $this->f->ok(3);
-		$new_result = $result->then(function($v) {
-			return 4;
-		});
+
+		try {
+			$new_result = $result->then(function($v) {
+					return 4;
+				});
+
+			$raised = false;
+		} catch(\UnexpectedValueException $e) {
+			$raised = true;
+		}
+
+		$this->assertTrue($raised);
 	}
 
 	public function testExceptError() {
@@ -173,13 +189,19 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result, $new_result);
 	}
 
-	/**
-	 * @expectedException UnexpectedValueException
-	 */
 	public function testExceptNoResult() {
 		$result = $this->f->error("Something went wrong");
-		$new_result = $result->except(function($v) {
-			return "New error text";
-		});
+
+		try {
+			$new_result = $result->except(function($v) {
+					return "New error text";
+				});
+
+			$raised = false;
+		} catch(\UnexpectedValueException $e) {
+			$raised = true;
+		}
+
+		$this->assertTrue($raised);
 	}
 }
