@@ -12,11 +12,12 @@ use ILIAS\Data;
 class Error implements Data\Result {
 
 	/**
-	 * @var mixed | \Exception
+	 * @var string | \Exception
 	 */
 	protected $value;
 
 	public function __construct($value) {
+		assert('is_string($value) || $value instanceof \Exception');
 		$this->value = $value;
 	}
 	/**
@@ -62,14 +63,14 @@ class Error implements Data\Result {
  	 * @inheritdoc
 	 */
 	public function map(callable $f) {
-		return clone $this;
+		return $this;
 	}
 
 	/**
  	 * @inheritdoc
 	 */
 	public function then(callable $f) {
-		return clone $this;
+		return $this;
 	}
 
 	/**
@@ -79,7 +80,11 @@ class Error implements Data\Result {
 		$result = $f($this->value);
 
 		if($result === null) {
-			return clone $this;
+			return $this;
+		}
+
+		if(!$result instanceof Data\Result) {
+			throw \UnexpectedValueException("The returned type of callable is not an instance of interface Result");
 		}
 
 		return $result;

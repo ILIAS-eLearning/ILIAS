@@ -12,7 +12,7 @@ use ILIAS\Data\Result;
 class Ok implements Result {
 
 	/**
-	 * @var mixed | \Exception
+	 * @var mixed
 	 */
 	protected $value;
 
@@ -72,7 +72,11 @@ class Ok implements Result {
 		$result = $f($this->value);
 
 		if($result === null) {
-			return clone $this;
+			return $this;
+		}
+
+		if(!$result instanceof Result) {
+			throw \UnexpectedValueException("The returned type of callable is not an instance of interface Result");
 		}
 
 		return $result;
@@ -82,6 +86,6 @@ class Ok implements Result {
 	 * @inheritdoc
 	 */
 	public function except(callable $f) {
-		return clone $this;
+		return $this;
 	}
 }
