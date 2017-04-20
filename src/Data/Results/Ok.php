@@ -69,11 +69,10 @@ class Ok implements Result {
 	 * @inheritdoc
 	 */
 	public function then(callable $f) {
-		$clone = clone $this;
 		$result = $f($this->value);
 
-		if($this->isError() || $result === null) {
-			return $clone;
+		if($result === null) {
+			return clone $this;
 		}
 
 		return $result;
