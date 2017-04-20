@@ -22,9 +22,11 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(3.154, $result->value());
 	}
 
+	/**
+	 * @expectedException Exception
+	 */
 	public function testNoValue() {
 		$result = $this->f->error("Something went wrong");
-		$this->expectException(Exception::class);
 		$result->value();
 	}
 
@@ -39,9 +41,11 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("Something went wrong", $result->error());
 	}
 
+	/**
+	 * @expectedException LogicException
+	 */
 	public function testNoError() {
 		$result = $this->f->ok(3.154);
-		$this->expectException(LogicException::class);
 		$result->error();
 	}
 
@@ -86,10 +90,9 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 
 	public function testThenOk() {
 		$result = $this->f->ok(3);
-		$f = $this->f;
 		$multiplicator = 3;
-		$new_result = $result->then(function($v) use ($f, $multiplicator) {
-			$ret = $f->ok(($v * $multiplicator));
+		$new_result = $result->then(function($v) use ($multiplicator) {
+			$ret = $this->f->ok(($v * $multiplicator));
 			return $ret;
 		});
 
@@ -110,10 +113,9 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 
 	public function testThenError() {
 		$result = $this->f->error("Something went wrong");
-		$f = $this->f;
 		$multiplicator = 3;
-		$new_result = $result->then(function($v) use ($f, $multiplicator) {
-			$ret = $f->ok(($v * $multiplicator));
+		$new_result = $result->then(function($v) use ($multiplicator) {
+			$ret = $this->f->ok(($v * $multiplicator));
 			return $ret;
 		});
 
@@ -123,11 +125,10 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 
 	public function testCatchError() {
 		$result = $this->f->error("Something went wrong");
-		$f = $this->f;
 		$exception = "Something else went wrong";
 
-		$new_result = $result->catch(function($v) use ($f, $exception) {
-			$ret = $f->error($exception);
+		$new_result = $result->catch(function($v) use ($exception) {
+			$ret = $this->f->error($exception);
 			return $ret;
 		});
 
@@ -138,7 +139,6 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 
 	public function testCatchCallableNull() {
 		$result = $this->f->error("Something went wrong");
-		$f = $this->f;
 		$exception = "Something else went wrong";
 
 		$new_result = $result->catch(function($v) {
@@ -151,12 +151,10 @@ class ResultTests extends PHPUnit_Framework_TestCase {
 
 	public function testCatchOk() {
 		$result = $this->f->ok(3);
-
-		$f = $this->f;
 		$exception = "Something else went wrong";
 
-		$new_result = $result->catch(function($v) use ($f, $exception) {
-			$ret = $f->error($exception);
+		$new_result = $result->catch(function($v) use ($exception) {
+			$ret = $this->f->error($exception);
 			return $ret;
 		});
 
