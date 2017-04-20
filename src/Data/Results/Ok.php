@@ -9,7 +9,7 @@ use ILIAS\Data\Result;
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class ResultOk implements Result {
+class Ok implements Result {
 
 	/**
 	 * @var mixed | \Exception
