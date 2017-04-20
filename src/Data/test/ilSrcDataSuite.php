@@ -1,8 +1,10 @@
 <?php
+/* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+
 /**
  * Data Test-Suite
+ *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
- * @version 1.0.0
  */
 class ilSrcDataSuite extends PHPUnit_Framework_TestSuite {
 	public static function suite()

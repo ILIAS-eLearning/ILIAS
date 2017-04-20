@@ -1,4 +1,5 @@
 <?php
+/* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use namespace ILIAS\Data;
 
@@ -6,8 +7,6 @@ use namespace ILIAS\Data;
  * Tests working with result object
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
- *
- * @version 1.0.0
  */
 class ilResultTests extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
