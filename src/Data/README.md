@@ -99,7 +99,7 @@ $pi = $pi->then(function($_) use ($f) {
 });
 
 // The error can be catched later on and be corrected:
-$pi = $pi->catch(function($e) use ($f) {
+$pi = $pi->except(function($e) use ($f) {
 	assert($e === "Do not know value of Pi.");
 	return $f->ok(3); // for large threes
 });
