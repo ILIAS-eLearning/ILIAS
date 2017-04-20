@@ -14,11 +14,11 @@ class Error implements Data\Result {
 	/**
 	 * @var string | \Exception
 	 */
-	protected $value;
+	protected $error;
 
-	public function __construct($value) {
-		assert('is_string($value) || $value instanceof \Exception');
-		$this->value = $value;
+	public function __construct($error) {
+		assert('is_string($error) || $error instanceof \Exception');
+		$this->error = $error;
 	}
 	/**
  	 * @inheritdoc
@@ -31,11 +31,11 @@ class Error implements Data\Result {
  	 * @inheritdoc
 	 */
 	public function value() {
-		if($this->value instanceOf \Exception) {
-			throw $this->value;
+		if($this->error instanceOf \Exception) {
+			throw $this->error;
 		}
 
-		throw new Data\NotOKException($this->value);
+		throw new Data\NotOKException($this->error);
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Error implements Data\Result {
  	 * @inheritdoc
 	 */
 	public function error() {
-		return $this->value;
+		return $this->error;
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Error implements Data\Result {
  	 * @inheritdoc
 	 */
 	public function except(callable $f) {
-		$result = $f($this->value);
+		$result = $f($this->error);
 
 		if($result === null) {
 			return $this;
