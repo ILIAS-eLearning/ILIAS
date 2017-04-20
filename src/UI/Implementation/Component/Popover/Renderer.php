@@ -36,7 +36,7 @@ class Renderer extends AbstractComponentRenderer {
 			$(document).on('{$show}', function(event, data) { 
 				var triggerer_id = data.triggerer.attr('id');
 				var options = JSON.parse('{$options}');
-				options.trigger = (data.type == 'mouseenter') ? 'hover' : data.type;
+				options.trigger = (data.type == 'mouseenter') ? 'hover' : 'click';
 				il.UI.popover.show(triggerer_id, options);
 			});"
 		);
