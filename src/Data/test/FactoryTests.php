@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use namespace ILIAS\Data;
+namespace ILIAS\Data;
 
 /**
  * Testing the faytory of result objects
@@ -19,11 +19,11 @@ class FactoryTests extends PHPUnit_Framework_TestCase {
 
 	public function testOk() {
 		$result = $this->f->ok(3.154);
-		$this->assertInstanceOf(Data\ilResult::class, $result);
+		$this->assertInstanceOf(Data\Result::class, $result);
 	}
 
 	public function testError() {
-		$result = $this->f->error("This is not a number");
-		$this->assertInstanceOf(Data\ilResult::class, $result);
+		$result = $this->f->error("Something went wrong");
+		$this->assertInstanceOf(Data\Result::class, $result);
 	}
 }

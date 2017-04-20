@@ -1,14 +1,14 @@
 <?php
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use namespace ILIAS\Data;
+namespace ILIAS\Data;
 
 /**
  * Tests working with result object
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class ilResultTests extends PHPUnit_Framework_TestCase {
+class ResultTests extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		$this->f = new Data\Factory();
 	}
@@ -69,7 +69,7 @@ class ilResultTests extends PHPUnit_Framework_TestCase {
 		});
 
 
-		$this->assertInstanceOf(Data\ilResult::class, $new_result);
+		$this->assertInstanceOf(Data\Result::class, $new_result);
 		$this->assertNotEquals($result, $new_result);
 		$this->assertEquals(9, $new_result->value());
 	}
@@ -93,7 +93,7 @@ class ilResultTests extends PHPUnit_Framework_TestCase {
 			return $ret;
 		});
 
-		$this->assertInstanceOf(Data\ilResult::class, $new_result);
+		$this->assertInstanceOf(Data\Result::class, $new_result);
 		$this->assertNotEquals($result, $new_result);
 		$this->assertEquals(9, $new_result->value());
 	}
@@ -104,7 +104,7 @@ class ilResultTests extends PHPUnit_Framework_TestCase {
 			return null;
 		});
 
-		$this->assertInstanceOf(Data\ilResult::class, $new_result);
+		$this->assertInstanceOf(Data\Result::class, $new_result);
 		$this->assertEquals($result, $new_result);
 	}
 
@@ -117,7 +117,7 @@ class ilResultTests extends PHPUnit_Framework_TestCase {
 			return $ret;
 		});
 
-		$this->assertInstanceOf(Data\ilResult::class, $new_result);
+		$this->assertInstanceOf(Data\Result::class, $new_result);
 		$this->assertEquals($result, $new_result);
 	}
 
@@ -131,7 +131,7 @@ class ilResultTests extends PHPUnit_Framework_TestCase {
 			return $ret;
 		});
 
-		$this->assertInstanceOf(Data\ilResult::class, $new_result);
+		$this->assertInstanceOf(Data\Result::class, $new_result);
 		$this->assertNotEquals($result, $new_result);
 		$this->assertEquals("Something else went wrong", $new_result->error());
 	}
@@ -145,7 +145,7 @@ class ilResultTests extends PHPUnit_Framework_TestCase {
 			return null;
 		});
 
-		$this->assertInstanceOf(Data\ilResult::class, $new_result);
+		$this->assertInstanceOf(Data\Result::class, $new_result);
 		$this->assertEquals($result, $new_result);
 	}
 
@@ -160,7 +160,7 @@ class ilResultTests extends PHPUnit_Framework_TestCase {
 			return $ret;
 		});
 
-		$this->assertInstanceOf(Data\ilResult::class, $new_result);
+		$this->assertInstanceOf(Data\Result::class, $new_result);
 		$this->assertEquals($result, $new_result);
 	}
 }
