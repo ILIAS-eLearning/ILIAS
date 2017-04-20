@@ -5,6 +5,9 @@ namespace ILIAS\Data;
 
 /**
  * Builds data types.
+ *
+ * @author Richard Klees <richard.klees@concepts-and-training.de>
+ * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class Factory {
 	/**
@@ -13,7 +16,9 @@ class Factory {
 	 * @param  mixed  $value
 	 * @return Result 
 	 */
-	public function ok($value);
+	public function ok($value) {
+		return new ResultImpl($value);
+	}
 
 	/**
 	 * Get an error result.
@@ -21,5 +26,7 @@ class Factory {
 	 * @param  string|\Exception $error
 	 * @return Result
 	 */
-	public function error($e);
+	public function error($e) {
+		return new ResultImpl($e, false);
+	}
 }
