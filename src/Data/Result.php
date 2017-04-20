@@ -81,5 +81,5 @@ interface Result {
 	 * @param	callable $f string|\Exception -> Result|null
 	 * @return	Result
 	 */
-	public function catch(callable $f);
+	public function except(callable $f);
 }
