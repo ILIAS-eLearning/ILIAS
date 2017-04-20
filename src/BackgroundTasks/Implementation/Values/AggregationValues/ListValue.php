@@ -8,6 +8,7 @@ use ILIAS\BackgroundTasks\Implementation\Values\PrimitiveValueWrapperFactory;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\ValueType;
 use ILIAS\Types\ListType;
+use ILIAS\Types\Type;
 
 /**
  * Class ListValue
@@ -38,7 +39,60 @@ class ListValue extends AbstractValue {
 	}
 
 	protected function deriveType($list) {
-		return new ListType(ListType::calculateLowestCommonType($this->getTypes($list)));
+		return new ListType($this->calculateLowestCommonType($this->getTypes($list)));
+	}
+
+
+	/**
+	 * Todo: This implementation is not performing well (needs the most iterations) on lists with all the same type,
+	 * this might be suboptimal.
+	 *
+	 * @param $types ListType[]
+	 * @return Type
+	 * @throws InvalidArgumentException
+	 */
+	protected function calculateLowestCommonType($types) {
+		// If the list is empty the type should be [] (empty list).
+		if(!count($types))
+			return null;
+
+		if(count($types) == 1)
+			return $types[0];
+
+		$ancestorsList = [];
+		foreach ($types as $object) {
+			if(!$object instanceof Type)
+				throw new InvalidArgumentException("List Type must be constructed with instances of Type.");
+			$ancestorsList[] = $object->getAncestors();
+		}
+
+		$lct = $ancestorsList[0][0];
+		foreach ($ancestorsList[0] as $i => $ancestors) {
+			if($this->sameClassOnLevel($ancestorsList, $i)) {
+				$lct = $ancestors;
+			} else {
+				return $lct;
+			}
+		}
+
+		// We reach this point if the types are equal.
+		return $lct;
+	}
+
+	/**
+	 * @param $ancestorsList Type[][]
+	 * @param $i
+	 * @return bool
+	 */
+	protected function sameClassOnLevel($ancestorsList, $i) {
+		$class = $ancestorsList[0][$i];
+		foreach($ancestorsList as $class_hierarchy) {
+			if(count($class_hierarchy) <= $i)
+				return false;
+			if(!$class_hierarchy[$i]->equals($class))
+				return false;
+		}
+		return true;
 	}
 
 	protected function getTypes($list) {
@@ -120,45 +174,6 @@ class ListValue extends AbstractValue {
 		return $this->list;
 	}
 
-	/**
-	 * @param $list Value
-	 * @return string
-	 */
-	protected function calculateLowestCommonType($list) {
-		// If the list is empty the type should be [] (empty list).
-		if(!count($list))
-			return "";
-
-		$class_hierarchies = [];
-		foreach ($list as $object) {
-			$class_hierarchies[] = array_reverse($this->getClassHierarchy($object));
-		}
-
-		$lct = $class_hierarchies[0][0];
-		foreach ($class_hierarchies[0] as $i => $class) {
-			if($this->sameClassOnLevel($class_hierarchies, $i)) {
-				$lct = $class;
-			} else {
-				return $lct;
-			}
-		}
-	}
-
-	/**
-	 * @param $class_hierarchies
-	 * @param $i
-	 * @return bool
-	 */
-	protected function sameClassOnLevel($class_hierarchies, $i) {
-		$class = $class_hierarchies[0][$i];
-		foreach($class_hierarchies as $class_hierarchy) {
-			if(count($class_hierarchy) <= $i)
-				return false;
-			if($class_hierarchy[$i] !== $class)
-				return false;
-		}
-		return true;
-	}
 
 	/**
 	 * @param $object
