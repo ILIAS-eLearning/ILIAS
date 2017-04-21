@@ -39,6 +39,11 @@ class Popover implements Component\Popover\Popover {
 	protected $position = self::POS_AUTO;
 
 	/**
+	 * @var string
+	 */
+	protected $ajax_content_url = '';
+
+	/**
 	 * @var Signal
 	 */
 	protected $show_signal;
@@ -89,10 +94,27 @@ class Popover implements Component\Popover\Popover {
 	/**
 	 * @inheritdoc
 	 */
+	public function getAsyncContentUrl() {
+		return $this->ajax_content_url;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function withPosition($position) {
 		$this->checkArgIsElement('position', $position, self::$positions, implode(',', self::$positions));
 		$clone = clone $this;
 		$clone->position = $position;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withAsyncContentUrl($url) {
+		$this->checkStringArg('url', $url);
+		$clone = clone $this;
+		$clone->ajax_content_url = $url;
 		return $clone;
 	}
 

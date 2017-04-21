@@ -19,19 +19,25 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
-		/** @var Component\Popover\Popover $component */
-		// Render the content of the popover into DOM with an ID
-		$content_id = $this->createId();
-		$show = $component->getShowSignal();
 		$tpl = $this->getTemplate('tpl.popover.html', true, true);
 		$tpl->setVariable('FORCE_RENDERING', '');
-		$options = json_encode(array(
+		/** @var Component\Popover\Popover $component */
+		$options = array(
 			'title' => $this->escape($component->getTitle()),
-			'url' => "#{$content_id}",
 			'placement' => $component->getPosition(),
 			'multi' => true,
 			'template' => str_replace('"', '\"', $tpl->get()),
-		));
+		);
+		// Check if the content is rendered async or via DOM
+		$content_id = $this->createId();
+		if ($component->getAsyncContentUrl()) {
+			$options['type'] = 'async';
+			$options['url'] = $component->getAsyncContentUrl();
+		} else {
+			$options['url'] = "#{$content_id}";
+		}
+		$options = json_encode($options);
+		$show = $component->getShowSignal();
 		$this->getJavascriptBinding()->addOnLoadCode("
 			$(document).on('{$show}', function(event, data) { 
 				var triggerer_id = data.triggerer.attr('id');
@@ -40,10 +46,13 @@ class Renderer extends AbstractComponentRenderer {
 				il.UI.popover.show(triggerer_id, options);
 			});"
 		);
-		$tpl = $this->getTemplate('tpl.popover-content.html', true, true);
-		$tpl->setVariable('ID', $content_id);
-		$tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
-		return $tpl->get();
+		if (!$component->getAsyncContentUrl()) {
+			$tpl = $this->getTemplate('tpl.popover-content.html', true, true);
+			$tpl->setVariable('ID', $content_id);
+			$tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
+			return $tpl->get();
+		}
+		return '';
 	}
 
 	/**
