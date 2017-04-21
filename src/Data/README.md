@@ -20,6 +20,8 @@ for types and the PHP-ReflectionClass does).
 
 A result encapsulates a value or an error and simplifies the handling of those.
 
+### Example 1: Ok
+
 ```php
 <?php
 require_once(__DIR__."/Factory.php");
@@ -56,6 +58,13 @@ catch(\LogicException $e) {
 }
 assert($raised);
 
+?>
+```
+
+### Example 2: Error
+
+```php
+<?php
 
 // Build a value that is not ok.
 $e = $f->error("There was some error...");
