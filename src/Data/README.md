@@ -65,16 +65,17 @@ assert($raised);
 
 ```php
 <?php
+use ILIAS\Data;
 
 // Build a value that is not ok.
-$r_error = $f->error("There was some error...");
+$error = $f->error("There was some error...");
 
 // This is of course an error.
-assert(!$r_error->isOK());
-assert($r_error->isError());
+assert(!$error->isOK());
+assert($error->isError());
 
 // Transformations do nothing.
-$A = $r_error->map(function($v) { assert(false); });
+$A = $error->map(function($v) { assert(false); });
 
 // Attempts to retrieve the value will throw.
 $raised = false;
@@ -88,7 +89,7 @@ catch (\ILIAS\Data\NotOKException $e) {
 assert($raised);
 
 // For retrieving a default could be supplied.
-$v = $r_error->valueOr("default");
+$v = $error->valueOr("default");
 assert($v == "default");
 
 // Result also has an interface for chaining computations known as promise
