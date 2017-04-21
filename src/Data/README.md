@@ -64,7 +64,7 @@ $e = $f->error("There was some error...");
 assert(!$e->isOK());
 assert($e>isError());
 
-// Transformations are nops.
+// Transformations do nothing.
 $A = $f->map($function($v) { assert(false); });
 
 // Attempts to retrieve the value will throw.
