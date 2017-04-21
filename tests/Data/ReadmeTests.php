@@ -13,6 +13,18 @@ ini_set("assert.warning", "1");
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class ReadmeTests extends PHPUnit_Framework_TestCase {
+	protected function setUp() {
+		$this->old_active = ini_get("assert.active");
+		$this->old_bail = ini_get("assert.bail");
+		$this->old_warninig = ini_get("assert.warning");
+	}
+
+	protected function tearDown() {
+		ini_set("assert.active", $this->old_active);
+		ini_set("assert.bail", $this->old_bail);
+		ini_set("assert.warning", $this->old_warninig);
+	}
+
 	public function testReadme() {
 		require_once(__DIR__."/../../src/Data/README.md");
 		$this->assertTrue(true);
