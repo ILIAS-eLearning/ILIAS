@@ -26,7 +26,9 @@ class ReadmeTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testReadme() {
+		ob_start();
 		require_once(__DIR__."/../../src/Data/README.md");
+		ob_end_clean();
 		$this->assertTrue(true);
 	}
 }
