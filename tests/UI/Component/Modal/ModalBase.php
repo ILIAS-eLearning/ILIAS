@@ -33,7 +33,3 @@ class ModalBase extends ILIAS_UI_TestBase {
 		return str_replace(['&times;', "\t"], ['', ''], $html);
 	}
 }
-
-class DummyComponent implements C\Component {
-
-}

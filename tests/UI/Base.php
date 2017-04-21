@@ -74,9 +74,9 @@ class IncrementalSignalGenerator extends \ILIAS\UI\Implementation\Component\Sign
 	}
 }
 
-class SignalGeneratorMock extends \ILIAS\UI\Implementation\Component\SignalGenerator {
+class SignalGeneratorMock extends \ILIAS\UI\Implementation\Component\SignalGenerator {}
 
-}
+class DummyComponent implements \ILIAS\UI\Component\Component {}
 
 /**
  * Provides common functionality for UI tests.

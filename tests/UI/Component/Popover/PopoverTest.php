@@ -13,37 +13,30 @@ class PopoverTest extends ILIAS_UI_TestBase {
 
 	public function test_implements_interface() {
 		$factory = new \ILIAS\UI\Implementation\Factory();
-		$popover = $factory->popover('myTitle', 'myText');
+		$popover = $factory->popover('myTitle',  new DummyComponent());
 		$this->assertInstanceOf("ILIAS\\UI\\Component\\Popover\\Popover", $popover);
-	}
-
-	public function test_get_title() {
-		$factory = new \ILIAS\UI\Implementation\Factory();
-		$popover = $factory->popover('myTitle', 'myText');
-		$this->assertEquals('myTitle', $popover->getTitle());
-	}
-
-	public function test_get_text() {
-		$factory = new \ILIAS\UI\Implementation\Factory();
-		$popover = $factory->popover('myTitle', 'myText');
-		$this->assertEquals('myText', $popover->getText());
 	}
 
 	public function test_that_position_is_auto_by_default() {
 		$factory = new \ILIAS\UI\Implementation\Factory();
-		$popover = $factory->popover('myTitle', 'myText');
+		$popover = $factory->popover('myTitle', new DummyComponent());
 		$this->assertEquals('auto', $popover->getPosition());
 	}
 
-	public function test_get_position() {
+	public function test_with_position() {
 		$factory = new \ILIAS\UI\Implementation\Factory();
-		$popover = $factory->popover('myTitle', 'myText', 'top');
-		$this->assertEquals('top', $popover->getPosition());
+		$popover1 = $factory->popover('myTitle', new DummyComponent());
+		$popover2 = $popover1->withPosition('vertical');
+		$popover3 = $popover2->withPosition('horizontal');
+		$this->assertEquals('auto', $popover1->getPosition());
+		$this->assertEquals('vertical', $popover2->getPosition());
+		$this->assertEquals('horizontal', $popover3->getPosition());
 	}
 
 	public function test_failing_on_invalid_position() {
 		$factory = new \ILIAS\UI\Implementation\Factory();
 		$this->setExpectedException(InvalidArgumentException::class);
-		$factory->popover('myTitle', 'myText', 'not-existing-position');
+		$factory->popover('myTitle', new DummyComponent())
+			->withPosition('hozirontal');
 	}
 }
