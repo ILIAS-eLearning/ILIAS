@@ -22,9 +22,9 @@ A result encapsulates a value or an error and simplifies the handling of those.
 
 ```php
 <?php
-require_once(__DIR__."/Factory.php");
+use ILIAS\Data;
 
-$f = new Data/Factory;
+$f = new Data\Factory;
 
 // Build a value that is ok.
 $pi = $f->ok(3.1416);
@@ -43,7 +43,7 @@ assert(!$A->isError());
 
 // Retrieve the contained value.
 $A_value = $A->value();
-assert($A_value == 2 * 3.1415 * 10);
+assert($A_value == 2 * 3.1416 * 10);
 
 // No error contained...
 $raised = false;
@@ -58,14 +58,14 @@ assert($raised);
 
 
 // Build a value that is not ok.
-$e = $f->error("There was some error...");
+$r_error = $f->error("There was some error...");
 
 // This is of course an error.
-assert(!$e->isOK());
-assert($e->isError());
+assert(!$r_error->isOK());
+assert($r_error->isError());
 
 // Transformations are nops.
-$A = $f->map(function($v) { assert(false); });
+$A = $r_error->map(function($v) { assert(false); });
 
 // Attempts to retrieve the value will throw.
 $raised = false;
@@ -79,7 +79,7 @@ catch (\ILIAS\Data\NotOKException $e) {
 assert($raised);
 
 // For retrieving a default could be supplied.
-$v = $e->valueOr("default");
+$v = $r_error->valueOr("default");
 assert($v == "default");
 
 // Result also has an interface for chaining computations known as promise
