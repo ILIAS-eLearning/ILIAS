@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
-    "second_maintainer": "",
+    "first_maintainer": "rklees(34047)",
+    "second_maintainer": "dkloepfer(42712)",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "kunkel(115)",
+    "testcase_writer": "dkloepfer(42712)",
     "path": "Modules/IndividualAssessment",
-    "belong_to_component": "None",
+    "belong_to_component": "IndividualAssessment",
     "used_in_components": []
 }
