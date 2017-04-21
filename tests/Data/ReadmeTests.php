@@ -3,10 +3,6 @@
 
 require_once("libs/composer/vendor/autoload.php");
 
-ini_set("assert.active", "1");
-ini_set("assert.bail", "0");
-ini_set("assert.warning", "1");
-
 /**
  * Testing the faytory of result objects
  *
@@ -17,6 +13,10 @@ class ReadmeTests extends PHPUnit_Framework_TestCase {
 		$this->old_active = ini_get("assert.active");
 		$this->old_bail = ini_get("assert.bail");
 		$this->old_warninig = ini_get("assert.warning");
+
+		ini_set("assert.active", "1");
+		ini_set("assert.bail", "0");
+		ini_set("assert.warning", "1");
 	}
 
 	protected function tearDown() {
