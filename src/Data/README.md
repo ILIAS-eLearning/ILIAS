@@ -65,7 +65,6 @@ assert($raised);
 
 ```php
 <?php
-use ILIAS\Data;
 
 // Build a value that is not ok.
 $error = $f->error("There was some error...");
