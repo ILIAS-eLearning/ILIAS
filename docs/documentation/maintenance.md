@@ -471,14 +471,12 @@ The following directories are currently unmaintained:
 * Services/Html
 * Services/Http
 * Services/Imprint
-* Services/InitScorm2004store
 * Services/JSON
 * Services/JavaScript
 * Services/LDAP
 * Services/License
 * Services/Link
 * Services/LinkChecker
-* Services/LoadTest
 * Services/Locator
 * Services/Logging
 * Services/Mail
@@ -494,11 +492,8 @@ The following directories are currently unmaintained:
 * Services/Notifications
 * Services/Object
 * Services/OnScreenChat
-* Services/OpenId
 * Services/PDFGeneration
-* Services/PEAR
 * Services/Password
-* Services/Payment
 * Services/PermanentLink
 * Services/PersonalDesktop
 * Services/PersonalWorkspace
@@ -522,8 +517,6 @@ The following directories are currently unmaintained:
 * Services/Tree
 * Services/Verification
 * Services/WebServices
-* Services/Windows
-* Services/Workflow
 * Services/XHTMLPage
 * Services/XHTMLValidator
 * Services/Xml
