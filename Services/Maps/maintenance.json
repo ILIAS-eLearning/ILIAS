@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
-    "second_maintainer": "",
+    "first_maintainer": "rklees(34047)",
+    "second_maintainer": "dkloepfer(42712)",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "miriamhoelscher(25370)",
+    "testcase_writer": "rklees(34047)",
     "path": "Services/Maps",
-    "belong_to_component": "None",
+    "belong_to_component": "Maps",
     "used_in_components": []
 }
