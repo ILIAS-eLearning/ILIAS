@@ -19,6 +19,9 @@ class ilServicesMailSuite extends PHPUnit_Framework_TestSuite
 		require_once 'Services/Mail/test/ilMailAddressTypesTest.php';
 		$suite->addTestSuite('ilMailAddressTypesTest');
 
+		require_once 'Services/Mail/test/ilMailMimeTest.php';
+		$suite->addTestSuite('ilMailMimeTest');
+
 		return $suite;
 	}
 }

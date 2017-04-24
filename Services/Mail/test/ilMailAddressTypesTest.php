@@ -1,6 +1,7 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Mail/test/ilMailBaseTest.php';
 require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressTypeFactory.php';
 require_once 'Services/Mail/classes/Address/class.ilMailAddress.php';
 require_once 'Services/Mail/classes/Address/Type/class.ilMailLoginOrEmailAddressAddressType.php';
@@ -15,24 +16,8 @@ require_once 'Services/Database/interfaces/interface.ilDBStatement.php';
 /**
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailAddressTypesTest extends PHPUnit_Framework_TestCase
+class ilMailAddressTypesTest extends \ilMailBaseTest
 {
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 */
-	protected function setGlobalVariable($name, $value)
-	{
-		global $DIC;
-
-		$GLOBALS[$name] = $value;
-
-		unset($DIC[$name]);
-		$DIC[$name] = function ($c) use ($name) {
-			return $GLOBALS[$name];
-		};
-	}
-
 	/**
 	 * 
 	 */
@@ -71,7 +56,13 @@ class ilMailAddressTypesTest extends PHPUnit_Framework_TestCase
 		$that = $this;
 
 		return [
-			array(new ilMailAddress('#il_ml_4711', ''), 'ilMailMailingListAddressType'),
+			array(new ilMailAddress('#il_ml_4711', ''), 'ilMailMailingListAddressType', function() use ($that) {
+				$database = $that->getMockBuilder('ilDBInterface')->getMock();
+				$result   = $that->getMockBuilder('ilDBStatement')->getMock();
+				$result->expects($that->any())->method('numRows')->will($that->returnValue(1));
+				$database->expects($that->any())->method('query')->will($that->returnValue($result));
+				$that->setGlobalVariable('ilDB', $database);
+			}),
 			array(new ilMailAddress('#MyGroup', ''), 'ilMailGroupAddressType', function() use ($that) {
 				$database = $that->getMockBuilder('ilDBInterface')->getMock();
 				$result   = $that->getMockBuilder('ilDBStatement')->getMock();
