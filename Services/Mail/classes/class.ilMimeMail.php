@@ -93,15 +93,23 @@ class ilMimeMail
 	}
 
 	/**
-	 * @param ilMailMimeTransport $transport
+	 * @param \ilMailMimeTransport|null $transport
+	 * @throws \InvalidArgumentException
 	 */
-	public static function setDefaultTransport(ilMailMimeTransport $transport)
+	public static function setDefaultTransport($transport)
 	{
+		if(!is_null($transport) && !($transport instanceof \ilMailMimeTransport))
+		{
+			throw new \InvalidArgumentException(\sprintf(
+				"The passed argument must be null or of type 'ilMailMimeTransport', %s given!", gettype($transport)
+			));
+		}
+
 		self::$defaultTransport = $transport;
 	}
 
 	/**
-	 * @return ilMailMimeTransport
+	 * @return ilMailMimeTransport|null
 	 */
 	public static function getDefaultTransport()
 	{
