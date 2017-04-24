@@ -392,7 +392,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	 * @param string $parentType
 	 * @param int $parentObjId
 	 * @param int $taxId
-	 * @param array $taxNode
+	 * @param int $taxNode
 	 * @return array
 	 */
 	protected function getTaxItems($parentType, $parentObjId, $taxId, $taxNode)
