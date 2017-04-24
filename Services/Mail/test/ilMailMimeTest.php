@@ -4,6 +4,9 @@
 require_once 'Services/Mail/test/ilMailBaseTest.php';
 require_once 'Services/Mail/classes/Mime/Transport/class.ilMailMimeTransportFactory.php';
 require_once 'Services/Mail/classes/Mime/Transport/interface.ilMailMimeTransport.php';
+require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderFactory.php';
+require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderUser.php';
+require_once 'Services/User/classes/class.ilObjUser.php';
 require_once 'Services/Mail/classes/class.ilMimeMail.php';
 
 /**
@@ -14,9 +17,20 @@ class ilMailMimeTest extends \ilMailBaseTest
 	/**
 	 * 
 	 */
+	const USER_ID = 6;
+
+	/**
+	 * 
+	 */
 	protected function setUp()
 	{
+		if(!defined('ANONYMOUS_USER_ID'))
+		{
+			define('ANONYMOUS_USER_ID', 13);
+		}
+
 		\ilMimeMail::setDefaultTransport(null);
+		\ilMailMimeSenderUser::addUserToCache(self::USER_ID, $this->getUserById(self::USER_ID));
 
 		parent::setUp();
 	}
@@ -132,5 +146,63 @@ class ilMailMimeTest extends \ilMailBaseTest
 
 		$factory = new \ilMailMimeTransportFactory($settings);
 		$this->assertInstanceOf('\ilMailMimeTransportSendMail', $factory->getTransport());
+	}
+
+	/**
+	 * 
+	 */
+	public function testFactoryWillReturnSystemSenderForAnonymousUserId()
+	{
+		$settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->setMethods(array('set', 'get'))->getMock();
+
+		$factory = new \ilMailMimeSenderFactory($settings);
+		$this->assertInstanceOf('\ilMailMimeSenderSystem', $factory->getSenderByUsrId(\ANONYMOUS_USER_ID));
+	}
+
+	/**
+	 *
+	 */
+	public function testFactoryWillReturnSystemSenderWhenExplicitlyRequested()
+	{
+		$settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->setMethods(array('set', 'get'))->getMock();
+
+		$factory = new \ilMailMimeSenderFactory($settings);
+		$this->assertInstanceOf('\ilMailMimeSenderSystem', $factory->system());
+	}
+
+	/**
+	 * @param int $usrId
+	 * @return \ilObjUser
+	 */
+	protected function getUserById($usrId)
+	{
+		$user = $this->getMockBuilder('\ilObjUser')->disableOriginalConstructor()->setMethods(
+			array()
+		)->getMock();
+		$user->expects($this->any())->method('getId')->will($this->returnValue($usrId));
+
+		return $user;
+	}
+
+	/**
+	 *
+	 */
+	public function testFactoryWillReturnUserSenderForExistingUserId()
+	{
+		$settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->setMethods(array('set', 'get'))->getMock();
+
+		$factory = new \ilMailMimeSenderFactory($settings);
+		$this->assertInstanceOf('\ilMailMimeSenderUser', $factory->getSenderByUsrId(self::USER_ID));
+	}
+
+	/**
+	 *
+	 */
+	public function testFactoryWillReturnUserSenderWhenExplicitlyRequested()
+	{
+		$settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->setMethods(array('set', 'get'))->getMock();
+
+		$factory = new \ilMailMimeSenderFactory($settings);
+		$this->assertInstanceOf('\ilMailMimeSenderUser', $factory->user(self::USER_ID));
 	}
 }
