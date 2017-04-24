@@ -50,6 +50,15 @@ class ilMailMimeSenderUser implements ilMailMimeSender
 	}
 
 	/**
+	 * @param int $usrId
+	 * @param \ilObjUser $user
+	 */
+	public static function addUserToCache($usrId, \ilObjUser $user)
+	{
+		self::$userInstances[$usrId] = $user;
+	}
+
+	/**
 	 * @param \ilSetting $settings
 	 * @param string $emailAddress
 	 * @return self
