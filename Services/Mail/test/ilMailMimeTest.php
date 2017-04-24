@@ -61,4 +61,76 @@ class ilMailMimeTest extends \ilMailBaseTest
 		$mail = new \ilMimeMail();
 		$mail->send();
 	}
+
+	/**
+	 * 
+	 */
+	public function testTransportFactoryWillReturnNullTransportIfExternalEmailDeliveryIsDisabled()
+	{
+		$settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->setMethods(array('set', 'get'))->getMock();
+		$settings->expects($this->any())->method('get')->will($this->returnCallback(function($key) {
+			if('mail_allow_external' == $key)
+			{
+				return false;
+			}
+			
+			return true;
+		}));
+		$this->setGlobalVariable('ilSetting', $settings);
+
+		$factory = new \ilMailMimeTransportFactory($settings);
+		$this->assertInstanceOf('\ilMailMimeTransportNull', $factory->getTransport());
+	}
+
+	/**
+	 *
+	 */
+	public function testTransportFactoryWillReturnSmtpTransportIfEnabled()
+	{
+		$settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->setMethods(array('set', 'get'))->getMock();
+		$settings->expects($this->any())->method('get')->will($this->returnCallback(function($key) {
+			if('mail_allow_external' == $key)
+			{
+				return true;
+			}
+
+
+			if('mail_smtp_status' == $key)
+			{
+				return true;
+			}
+
+			return true;
+		}));
+		$this->setGlobalVariable('ilSetting', $settings);
+
+		$factory = new \ilMailMimeTransportFactory($settings);
+		$this->assertInstanceOf('\ilMailMimeTransportSmtp', $factory->getTransport());
+	}
+
+	/**
+	 *
+	 */
+	public function testTransportFactoryWillReturnSendmailTransportIfSmtpTransportIsDisabled()
+	{
+		$settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->setMethods(array('set', 'get'))->getMock();
+		$settings->expects($this->any())->method('get')->will($this->returnCallback(function($key) {
+			if('mail_allow_external' == $key)
+			{
+				return true;
+			}
+
+
+			if('mail_smtp_status' == $key)
+			{
+				return false;
+			}
+
+			return true;
+		}));
+		$this->setGlobalVariable('ilSetting', $settings);
+
+		$factory = new \ilMailMimeTransportFactory($settings);
+		$this->assertInstanceOf('\ilMailMimeTransportSendMail', $factory->getTransport());
+	}
 }
