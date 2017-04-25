@@ -64,7 +64,7 @@ class ilCustomUserFieldsHelper
 		include_once './Services/User/classes/class.ilUDFDefinitionPlugin.php';
 		foreach($this->getActivePlugins() as $plugin)
 		{
-			$types[$plugin_obj->getDefinitionType()] = $plugin_obj->getDefinitionTypeName();
+			$types[$plugin->getDefinitionType()] = $plugin->getDefinitionTypeName();
 		}
 		return $types;
 	}

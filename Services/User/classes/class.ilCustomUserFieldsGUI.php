@@ -458,8 +458,17 @@ class ilCustomUserFieldsGUI
 			$user_field_definitions->enableExport($access['export']);
 			$user_field_definitions->enableSearchable($access['searchable']);
 			$user_field_definitions->enableCertificate($access['certificate']);
-			$user_field_definitions->add();
-
+			$new_id = $user_field_definitions->add();
+			
+			if($user_field_definitions->isPluginType())
+			{
+				include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
+				$plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType($user_field_definitions->getFieldType());
+				if($plugin instanceof ilUDFDefinitionPlugin)
+				{
+					$plugin->updateDefinitionFromForm($form, $new_id);
+				}
+			}
 			if ($access['course_export'])
 			{
 				include_once('Services/Membership/classes/class.ilMemberAgreement.php');
@@ -591,6 +600,16 @@ class ilCustomUserFieldsGUI
 			$user_field_definitions->enableSearchable($access['searchable']);
 			$user_field_definitions->enableCertificate($access['certificate']);
 			$user_field_definitions->update($this->field_id);
+			
+			if($user_field_definitions->isPluginType())
+			{
+				include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
+				$plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType($user_field_definitions->getFieldType());
+				if($plugin instanceof ilUDFDefinitionPlugin)
+				{
+					$plugin->updateDefinitionFromForm($form, $this->field_id);
+				}
+			}
 
 			if ($access['course_export'])
 			{
