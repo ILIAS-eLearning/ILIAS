@@ -8038,6 +8038,8 @@ pwassist#:#pwassist_password_assigned#:#The password has been successfully assig
 pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been sent by e-mail to you more than once, or because too much time has passed since the link has been sent to you.
 pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base.###deprecated 
 pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given e-mail address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten user names for the e-mail address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this e-mail by accident:\nDelete this e-mail.\n\n-You are sure, that you never requested this e-mail:\nPlease contact %s.\n\n- If you requested this e-mail, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according e-mail address to retrieve a new password.
+pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s
+pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s
 rating#:#rating_average_rating#:#Average Rating###deprecated 
 rating#:#rating_nr_users#:#%s User(s)###deprecated 
 rating#:#rating_your_rating#:#Your Rating
@@ -8234,6 +8236,7 @@ registration#:#registration_roles_all#:#All Roles
 registration#:#registration_generated_all#:#All Dates
 registration#:#registration_export_codes_no_data#:#No codes to export were selected.
 registration#:#registration_code_not_valid#:#The given registration code is either invalid or already has been used.
+registration#:#registration_disabled_no_access#:#The self-registration is not enabled. Please contact the system administration for further assistance: %s
 rep#:#rep_intro#:#Welcome to the Repository!
 rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchy of disciplines, or classes of a school.
 rep#:#rep_intro2#:#Three steps are needed to build an initial structure:
