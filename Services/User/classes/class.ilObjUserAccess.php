@@ -40,13 +40,18 @@ class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass {
 			$regSeetings = new ilRegistrationSettings();
 			if($regSeetings->getRegistrationType() == IL_REG_DISABLED)
 			{
+				$GLOBALS['DIC']->language()->loadLanguageModule('registration');
+				ilUtil::sendFailure(sprintf($GLOBALS['DIC']->language()->txt('registration_disabled_no_access'), $settings->get('admin_email')), true);
 				return false;
 			}
+			return false;
 		}
 		else if('usr_nameassist' == $a_target)
 		{
 			if(!$settings->get('password_assistance'))
 			{
+				$GLOBALS['DIC']->language()->loadLanguageModule('pwassist');
+				ilUtil::sendFailure(sprintf($GLOBALS['DIC']->language()->txt('unassist_disabled_no_access'), $settings->get('admin_email')), true);
 				return false;
 			}
 		}
@@ -54,6 +59,8 @@ class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass {
 		{
 			if(!$settings->get('password_assistance'))
 			{
+				$GLOBALS['DIC']->language()->loadLanguageModule('pwassist');
+				ilUtil::sendFailure(sprintf($GLOBALS['DIC']->language()->txt('pwassist_disabled_no_access'), $settings->get('admin_email')), true);
 				return false;
 			}
 		}
