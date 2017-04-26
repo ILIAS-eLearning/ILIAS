@@ -2166,7 +2166,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		}
 		else
 		{
-			$str = preg_replace('/\[IF_([A-Z_]+)\](?:(.*))\[\/IF_\1\]/','\2', $str);
+			$str = preg_replace('/\[IF_([A-Z_]+)\](?:(.*))\[\/IF_\1\]/s','\2', $str);
 		}
 		return $str;
 	}
