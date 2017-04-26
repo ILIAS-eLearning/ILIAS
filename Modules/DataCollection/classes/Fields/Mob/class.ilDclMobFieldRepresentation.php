@@ -15,8 +15,6 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation {
 		$input->setSuffixes(ilDclMobFieldModel::$mob_suffixes);
 		$input->setAllowDeletion(true);
 
-		$this->setupInputField($input, $this->getField());
-
 		$this->requiredWorkaroundForInputField($input, $record_id);
 
 		return $input;
