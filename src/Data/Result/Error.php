@@ -17,7 +17,9 @@ class Error implements Data\Result {
 	protected $error;
 
 	public function __construct($error) {
-		assert('is_string($error) || $error instanceof \Exception');
+        if (!is_string($error) && !($error instanceof \Exception)) {
+            throw new \InvalidArgumentException("Expected error to be a string or an Exception.");
+        }
 		$this->error = $error;
 	}
 	/**
