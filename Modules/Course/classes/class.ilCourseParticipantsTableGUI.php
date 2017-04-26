@@ -109,7 +109,8 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
 		$this->setRowTemplate("tpl.show_participants_row.html", "Modules/Course");
 
-		$this->setDefaultOrderField('lastname');
+		$this->setDefaultOrderField('role');
+		$this->setDefaultOrderDirection("asc");
 		$this->enable('sort');
 		$this->enable('header');
 		$this->enable('numinfo');
@@ -382,8 +383,34 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		unset($additional_fields['prtf']);
 		unset($additional_fields['roles']);
 		unset($additional_fields['org_units']);
-		
-		$part = $this->participants->getParticipants();
+
+
+
+		if($this->getOrderField() == "roles" && $this->getOrderDirection() == "asc")
+		{
+			$part = array_merge(
+				$this->participants->getAdmins(),
+				$this->participants->getTutors(),
+				$this->participants->getMembers()
+			);
+
+			$this->getParentObject()->setForcedRowsPosition(true);
+		}
+		else if($this->getOrderField() == "roles" && $this->getOrderDirection() == "desc")
+		{
+			$part = array_merge(
+				$this->participants->getMembers(),
+				$this->participants->getTutors(),
+				$this->participants->getAdmins()
+			);
+
+			$this->getParentObject()->setForcedRowsPosition(true);
+		}
+		else
+		{
+			$part = $this->participants->getParticipants();
+		}
+
 		if(!$part)
 		{
 			$this->setData(array());
@@ -596,6 +623,12 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			}
 		}
 		#$this->setMaxCount($usr_data['cnt'] ? $usr_data['cnt'] : 0);
+
+		#20370
+		if($this->getParentObject()->getForcedRowsPosition())
+		{
+			$a_user_data = array_replace(array_flip($part),$a_user_data);
+		}
 		return $this->setData($a_user_data);
 	}
 	

@@ -17,7 +17,9 @@ include_once './Services/Membership/classes/class.ilMembershipGUI.php';
  */
 class ilCourseMembershipGUI extends ilMembershipGUI
 {
-	
+	//if we want to show an specific order before apply the sorting.
+	protected $forced_rows_position = false;
+
 	/**
 	 * callback from repository search gui
 	 * @global ilRbacSystem $rbacsystem
@@ -399,6 +401,21 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	public function getAttendanceListUserData($a_user_id)
 	{
 		return $this->member_data[$a_user_id];
+	}
+
+	/**
+	 * Set bool if some rows should be always in a fixed position.
+	 *
+	 * @param $a_forced string
+	 */
+	function setForcedRowsPosition($a_forced)
+	{
+		$this->forced_rows_position = $a_forced;
+	}
+
+	function getForcedRowsPosition()
+	{
+		return $this->forced_rows_position;
 	}
 	
 }

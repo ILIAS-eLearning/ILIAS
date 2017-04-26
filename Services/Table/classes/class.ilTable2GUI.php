@@ -1646,8 +1646,16 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		$data = $this->getData();
 		if($this->dataExists())
 		{
-			// sort
-			if (!$this->getExternalSorting() && $this->enabled["sort"])
+
+			//force row position if needed. #20370
+			$forced_rows = false;
+			if(method_exists($this->parent_obj,"getForcedRowsPosition"))
+			{
+				$forced_rows = $this->parent_obj->getForcedRowsPosition();
+			}
+
+			//sort
+			if (!$this->getExternalSorting() && $this->enabled["sort"] && !$forced_rows)
 			{
 				$data = ilUtil::sortArray($data, $this->getOrderField(),
 					$this->getOrderDirection(), $this->numericOrdering($this->getOrderField()));
