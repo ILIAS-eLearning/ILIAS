@@ -566,9 +566,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			array($this->getId())
 		);
 
-		$source_qst_id = $original_id;
-		$target_qst_id = $this->getId();
-
 		foreach($this->variables as $variable)
 		{
 			$next_id      = $ilDB->nextId('il_qpl_qst_fq_var');
@@ -650,33 +647,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			}
 		}
 
-
-		// copy category/unit-process:
-		// if $source_qst_id = '' -> nothing to copy because this is a new question
-		// if $source_qst_id == $target_qst_id -> nothing to copy because this is just an update-process
-		// if $source_qst_id != $target_qst_id -> copy categories and untis because this is a copy-process
-		// @todo: Nadia wtf?
-		if($source_qst_id != $target_qst_id && $source_qst_id > 0)
-		{
-			$res = $ilDB->queryF('
-				SELECT * FROM il_qpl_qst_fq_ucat WHERE question_fi = %s',
-				array('integer'), array($source_qst_id));
-
-			$cp_cats = array();
-			while($row = $ilDB->fetchAssoc($res))
-			{
-				$cp_cats[] = $row['category_id'];
-			}
-
-			foreach($cp_cats as $old_category_id)
-			{
-				// copy admin-categorie to custom-category (with question_fi)
-				$new_cat_id = $this->unitrepository->copyCategory($old_category_id, $target_qst_id);
-
-				// copy units to custom_category
-				$this->unitrepository->copyUnitsByCategories($old_category_id, $new_cat_id, $target_qst_id);
-			}
-		}
 		parent::saveToDb();
 	}
 
