@@ -97,4 +97,18 @@ class ilPDOStatement implements ilDBStatement {
 
 		return $this;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function errorCode() {
+		return $this->pdo_statement->errorCode();
+	}
+
+	/**
+	 * @return array
+	 */
+	public function errorInfo() {
+		return $this->pdo_statement->errorInfo();
+	}
 }
