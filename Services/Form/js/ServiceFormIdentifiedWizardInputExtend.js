@@ -11,7 +11,7 @@ var ilIdentifiedWizardInputExtend;
 		
 		newRowKeySequence: null,
 		newRowKeyStartValue: -1,
-		newRowKeyValueInterval: 1, // #20297
+		newRowKeyValueInterval: -1,
 		newRowKeyValuePrefix: 'IDENTIFIER~',
 		
 		handleRowCleanUp: function(){},
