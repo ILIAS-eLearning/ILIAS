@@ -12,6 +12,11 @@ include_once "Services/Object/classes/class.ilObjectLP.php";
  */
 class ilTestLP extends ilObjectLP
 {
+	/**
+	 * @var \ilObjTest
+	 */
+	protected $testObj;
+
 	public static function getDefaultModes($a_lp_active)
 	{
 		return array(
@@ -41,15 +46,35 @@ class ilTestLP extends ilObjectLP
 		return (bool)ilObjTest::_lookupAnonymity($this->obj_id);
 	}
 
+	/**
+	 * @param ilObjTest $test
+	 */
+	public function setTestObject(\ilObjTest $test)
+	{
+		$this->testObj = $test;
+	}
+
 	protected function resetCustomLPDataForUserIds(array $a_user_ids, $a_recursive = true)
 	{
 		/* @var ilObjTest $testOBJ */
-		require_once 'Services/Object/classes/class.ilObjectFactory.php';
-		$testOBJ = ilObjectFactory::getInstanceByObjId($this->obj_id);
+		if($this->testObj)
+		{
+			// #19247
+			$testOBJ = $this->testObj;
+		}
+		else
+		{
+			require_once 'Services/Object/classes/class.ilObjectFactory.php';
+			$testOBJ = ilObjectFactory::getInstanceByObjId($this->obj_id);
+		}
 		$testOBJ->removeTestResultsByUserIds($a_user_ids);
-		
+
 		// :TODO: there has to be a better way
-		$test_ref_id = (int)$_REQUEST["ref_id"];		
+		$test_ref_id = (int)$_REQUEST["ref_id"];
+		if($this->testObj && $this->testObj->getRefId())
+		{
+			$test_ref_id = $this->testObj->getRefId();
+		}
 		if($test_ref_id)
 		{
 			require_once "Modules/Course/classes/Objectives/class.ilLOSettings.php";
