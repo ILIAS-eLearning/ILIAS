@@ -16228,3 +16228,9 @@ mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suf
 form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.
 common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
+wsp#:#share_content#:#Share content
+wsp#:#share_with#:#Share with:
+wsp#:#element_already_shared#:#This element is already shared with this user.
+wsp#:#search_no_match#:#Your search did not match any results
+wsp#:#element_shared#:#Element shared
+wsp#:#share#:#Share
