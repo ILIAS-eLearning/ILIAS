@@ -65,7 +65,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		return 1;
 	}
 
-// fau: fixScMcSingleLine - new function to check if answers should be edited multiline
 	/**
 	 * Get the single/multiline editing of answers
 	 * - The settings of an already saved question is preferred
@@ -93,7 +92,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			return $this->object->isSingleline;
 		}
 	}
-// fau.
 
 	/**
 	 * Creates an output of the edit form for the question
@@ -112,7 +110,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
 		$isSingleline = $this->getEditAnswersSingleLine($checkonly);
-		if ($checkonly) $isSingleline = ($_POST['types'] == 0) ? true : false;
 		if ($isSingleline)
 		{
 			$form->setMultipart(TRUE);
@@ -815,9 +812,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
 		if (!$this->object->getSelfAssessmentEditingMode())
 		{
-// fau: fixScMcSingleLine - use getEditAnswersSingleLine() to determine the mode
 			$isSingleline = $this->getEditAnswersSingleLine();
-// fau.
 			// Answer types
 			$types = new ilSelectInputGUI($this->lng->txt( "answer_types" ), "types");
 			$types->setRequired( false );
@@ -854,9 +849,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		$choices = new ilMultipleChoiceWizardInputGUI($this->lng->txt( "answers" ), "choice");
 		$choices->setRequired( true );
 		$choices->setQuestionObject( $this->object );
-// fau: fixScMcSingleLine - use getEditAnswersSingleLine() to determine the mode
 		$isSingleline = $this->getEditAnswersSingleLine();
-// fau.
 		$choices->setSingleline( $isSingleline );
 		$choices->setAllowMove( false );
 		if ($this->object->getSelfAssessmentEditingMode())

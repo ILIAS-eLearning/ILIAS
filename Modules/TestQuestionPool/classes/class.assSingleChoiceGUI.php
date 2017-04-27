@@ -61,7 +61,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		return 1;
 	}
 
-// fau: fixScMcSingleLine - new function to check if answers should be edited multiline
 	/**
 	 * Get the single/multiline editing of answers
 	 * - The settings of an already saved question is preferred
@@ -89,7 +88,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			return $this->object->isSingleline;
 		}
 	}
-// fau.
 
 	/**
 	 * Creates an output of the edit form for the question
@@ -104,9 +102,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
-// fau: fixScMcSingleLine - use getEditAnswersSingleLine() to determine the mode
 		$isSingleline = $this->getEditAnswersSingleLine($checkonly);
-// fau.
 		if ($isSingleline)
 		{
 			$form->setMultipart(TRUE);
@@ -680,9 +676,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
 	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
 	{
-// fau: fixScMcSingleLine - use getEditAnswersSingleLine() to determine the mode
 		$isSingleline = $this->getEditAnswersSingleLine();
-// fau.
 		// shuffle
 		$shuffle = new ilCheckboxInputGUI($this->lng->txt( "shuffle_answers" ), "shuffle");
 		$shuffle->setValue( 1 );
@@ -785,9 +779,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
 	public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
 	{
-// fau: fixScMcSingleLine - use getEditAnswersSingleLine() to determine the mode
 		$isSingleline = $this->getEditAnswersSingleLine();
-// fau.
 
 		// Choices
 		include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
