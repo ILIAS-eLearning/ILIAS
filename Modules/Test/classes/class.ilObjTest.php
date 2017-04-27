@@ -3411,6 +3411,7 @@ function getAnswerFeedbackPoints()
 			/* @var ilTestLP $testLP */
 			require_once 'Services/Object/classes/class.ilObjectLP.php';
 			$testLP = ilObjectLP::getInstance($this->getId());
+			$testLP->setTestObject($this);
 			$testLP->resetLPDataForUserIds($participantData->getUserIds(), false);
 		}
 
