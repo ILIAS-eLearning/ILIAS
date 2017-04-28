@@ -3110,7 +3110,7 @@ if(!$ilDB->tableColumnExists('tst_solutions', 'step'))
 /** @var ilDB $ilDB */
 if(!$ilDB->tableColumnExists('tst_test_result', 'step'))
 {
-	$ilDB->addTableColumn('	tst_test_result', 'step', array(
+	$ilDB->addTableColumn('tst_test_result', 'step', array(
 		'type' => 'integer',
 		'length' => 4,
 		'notnull' => false,
