@@ -17,7 +17,7 @@ interface Constraint {
 	 *
 	 * Should not throw if appliesTo($value).
 	 *
-	 * @throws  \UnexcpectedValueException if value does not comply with encoded constraint.
+	 * @throws  \UnexpectedValueException if value does not comply with encoded constraint.
 	 * @param   mixed  $value
 	 * @return  null
 	 */

@@ -62,7 +62,7 @@ class IsIntTest extends PHPUnit_Framework_TestCase {
 		$raised = false;
 		try {
 			$this->is_int->check(2);
-		} catch (UnexcpectedValueException $e) {
+		} catch (UnexpectedValueException $e) {
 			$raised = true;
 		}
 
@@ -70,7 +70,7 @@ class IsIntTest extends PHPUnit_Framework_TestCase {
 
 		try {
 			$this->is_int->check(2.5);
-		} catch (UnexcpectedValueException $e) {
+		} catch (UnexpectedValueException $e) {
 			$raised = true;
 		}
 
