@@ -82,6 +82,9 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
 		}
 	}
 	
+	/**
+	 * @return ilIdentifiedMultiValuesInputGUI
+	 */
 	public function getOrderingElementInputField()
 	{
 		return $this->getItemByPostVar(
