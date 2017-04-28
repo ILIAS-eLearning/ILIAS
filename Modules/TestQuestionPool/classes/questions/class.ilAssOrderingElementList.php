@@ -903,6 +903,26 @@ class ilAssOrderingElementList implements Iterator
 	}
 	
 	/**
+	 * @param ilAssOrderingElementList $otherList
+	 */
+	public function completeContentsFromElementList(self $otherList)
+	{
+		foreach($this as $thisElement)
+		{
+			if( !$otherList->elementExistByRandomIdentifier($thisElement->getRandomIdentifier()) )
+			{
+				continue;
+			}
+			
+			$otherElement = $otherList->getElementByRandomIdentifier(
+				$thisElement->getRandomIdentifier()
+			);
+			
+			$thisElement->setContent( $otherElement->getContent() );
+		}
+	}
+	
+	/**
 	 * @return ilAssOrderingElement
 	 */
 	public function current() { return current($this->elements); }
