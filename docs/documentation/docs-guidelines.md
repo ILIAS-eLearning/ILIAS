@@ -49,7 +49,7 @@ guidelines to signify their level of requirement.
 
 ### Table of Content (Markdown)
 
-To maintain a TOC the Sublime Plugin `MarkdownTOC` SHOULD be used. The TOC SHOULD be initiated with the following attributes:
+To maintain a TOC the Sublime Plugin `MarkdownTOC` MAY be used, other Tools are welcome as well. If `MarkdownTOC` is used, the TOC SHOULD be initiated with the following attributes:
 
 ```
 <!-- MarkdownTOC depth=0 autolink="true" bracket="round" autoanchor="true" style="ordered" indent="   " -->
