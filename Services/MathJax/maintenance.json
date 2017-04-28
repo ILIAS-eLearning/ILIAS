@@ -1,0 +1,27 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "fneumann(1560)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": "fneumann(1560)",
+    "tester": "",
+    "testcase_writer": "fneumann(1560)",
+    "path": "Services/MathJax",
+    "belong_to_component": "MathJax",
+    "used_in_components": [
+        "Bibliographic List Item",
+        "Blog",
+        "Forum",
+        "Glossary",
+        "Learning Module ILIAS",
+        "Learning Module SCORM",
+        "Survey",
+        "Test & Assessment",
+        "Wiki",
+        "Administration",
+        "Certificate",
+        "ILIAS Page Editor",
+        "PDFGeneration",
+        "ilUtil"
+    ]
+}

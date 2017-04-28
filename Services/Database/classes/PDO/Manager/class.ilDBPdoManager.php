@@ -533,4 +533,16 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface {
 
 		return $this->pdo->exec($query);
 	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function dropTable($name) {
+		$db = $this->getDBInstance();
+
+		$name = $db->quoteIdentifier($name, true);
+
+		return $db->manipulate("DROP TABLE $name");
+	}
 }

@@ -227,12 +227,12 @@ class ilDclStandardField extends ilDclBaseFieldModel
 					. $ilDB->quote("%$filter_value%", 'text') . ") ";
 
 		} else if($this->getDatatypeId() == ilDclDatatype::INPUTFORMAT_NUMBER) {
-			$from = (isset($filter_value['from'])) ? (int)$filter_value['from'] : NULL;
-			$to = (isset($filter_value['to'])) ? (int)$filter_value['to'] : NULL;
-			if (! is_null($from)) {
+			$from = (isset($filter_value['from'])) ? $filter_value['from'] : NULL;
+			$to = (isset($filter_value['to'])) ? $filter_value['to'] : NULL;
+			if (is_numeric($from)) {
 				$where_additions .= " AND record.{$this->getId()} >= " . $ilDB->quote($from, 'integer');
 			}
-			if (! is_null($to)) {
+			if (is_numeric($to)) {
 				$where_additions .= " AND record.{$this->getId()} <= " . $ilDB->quote($to, 'integer');
 			}
 

@@ -48,7 +48,7 @@ interface ilDBStatement {
 
 	/**
 	 * @param array $a_data
-	 * @return mixed
+	 * @return \ilPDOStatement|\MDB2_Result_Common
 	 */
 	public function execute($a_data = null);
 }

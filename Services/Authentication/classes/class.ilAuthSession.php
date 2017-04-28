@@ -39,11 +39,11 @@ class ilAuthSession
 	 */
 	public static function getInstance()
 	{
-		if(static::$instance)
+		if(self::$instance)
 		{
-			return new static::$instance;
+			return self::$instance;
 		}
-		return static::$instance = new self();
+		return self::$instance = new self();
 	}
 	
 	/**

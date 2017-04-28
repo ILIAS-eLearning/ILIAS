@@ -64,6 +64,13 @@ class ImageTest extends ILIAS_UI_TestBase {
 		$this->assertEquals("newAlt", $i->getAlt());
 	}
 
+	public function test_set_action() {
+		$f = $this->getImageFactory();
+		$i = $f->standard("source","alt");
+		$i = $i->withAction("newAction");
+		$this->assertEquals("newAction", $i->getAction());
+	}
+
 	public function test_invalid_source(){
 		$f = $this->getImageFactory();
 
@@ -114,6 +121,18 @@ class ImageTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($i));
 
 		$expected = "<img src=\"source\" class=\"img-responsive\" alt=\"&quot;=test;&quot;)(blah&quot;\" />";
+
+		$this->assertEquals($expected, $html);
+	}
+
+	public function test_render_with_action() {
+		$f = $this->getImageFactory();
+		$r = $this->getDefaultRenderer();
+		$i = $f->standard("source", "alt")->withAction("action");
+
+		$html = $this->normalizeHTML($r->render($i));
+
+		$expected = "<a href=\"action\"><img src=\"source\" class=\"img-standard\" alt=\"alt\" /></a>";
 
 		$this->assertEquals($expected, $html);
 	}
