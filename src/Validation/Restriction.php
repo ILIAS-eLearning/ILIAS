@@ -28,7 +28,7 @@ interface Restriction {
 	 * @param   mixed $value
 	 * @return  bool
 	 */
-	public function appliesTo($value);
+	public function accept($value);
 
 	/**
 	 * Tells what the problem with the provided value is.
