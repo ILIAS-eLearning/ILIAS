@@ -2151,7 +2151,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$new_pool->addSubItem($name);
 		}
 
-		$form->addCommandButton("executeCreateQuestion", $lng->txt("submit"));
+		$form->addCommandButton("executeCreateQuestion", $lng->txt("create"));
 		$form->addCommandButton("questions", $lng->txt("cancel"));
 
 		return $tpl->setContent($form->getHTML());
