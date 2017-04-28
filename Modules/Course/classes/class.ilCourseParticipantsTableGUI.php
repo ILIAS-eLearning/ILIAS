@@ -109,7 +109,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
 		$this->setRowTemplate("tpl.show_participants_row.html", "Modules/Course");
 
-		$this->setDefaultOrderField('role');
+		$this->setDefaultOrderField('roles');
 		$this->setDefaultOrderDirection("asc");
 		$this->enable('sort');
 		$this->enable('header');
