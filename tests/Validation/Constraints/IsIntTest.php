@@ -3,7 +3,7 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Validation;
-use ILIAS\Data\Result;
+use ILIAS\Data;
 
 /**
  * TestCase for the factory of constraints
@@ -15,42 +15,19 @@ class IsIntTest extends PHPUnit_Framework_TestCase {
 		$this->f = new Validation\Factory();
 		$this->is_int = $this->f->isInt();
 
-		$this->ok = $this->getMockBuilder(Result\Ok::class)
-		                 ->disableOriginalConstructor()
-		                 ->disableOriginalClone()
-		                 ->disableArgumentCloning()
-		                 ->disallowMockingUnknownTypes()
-		                 ->getMock();
-
-		$this->ok->method("isOk")
-		          ->with(true);
-		$this->ok->method("isError")
-		          ->with(false);
-
-		$this->ok2 = clone $this->ok;
-
-		$this->ok->method("value")
-		          ->with(2);
-		$this->ok2->method("value")
-		          ->with(2.2);
-
-
-		$this->error = $this->getMockBuilder(Result\Error::class)
-		                  ->disableOriginalConstructor()
-		                  ->disableOriginalClone()
-		                  ->disableArgumentCloning()
-		                  ->disallowMockingUnknownTypes()
-		                  ->getMock();
-
-		$this->error->method("isError")
-		            ->with(true);
-		$this->error->method("isOk")
-		            ->with(false);
+		$this->rf = new Data\Factory();
+		$this->ok = $this->rf->ok(2);
+		$this->ok2 = $this->rf->ok(2.2);
+		$this->error = $this->rf->error("text");
 	}
 
 	protected function tearDown() {
 		$this->f = null;
 		$this->is_int = null;
+		$this->rf = null;
+		$this->ok = null;
+		$this->ok2 = null;
+		$this->error = null;
 	}
 
 	public function testAccept() {
