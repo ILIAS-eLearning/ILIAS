@@ -4927,22 +4927,15 @@ abstract class assQuestion
 		return $maxStep;
 	}
 		
-	public function removeExistingSolutions($activeId, $pass, $ignoredSolutionIds = array())
+	public function removeExistingSolutions($activeId, $pass)
 	{
 		global $ilDB;
-
-		$not_in = '';
-		if(count($ignoredSolutionIds) > 0)
-		{
-			$not_in = ' AND ' . $ilDB->in('solution_id', $ignoredSolutionIds, true, 'integer') . ' ';
-		}
 
 		$query = "
 			DELETE FROM tst_solutions
 			WHERE active_fi = %s
 			AND question_fi = %s
 			AND pass = %s
-			$not_in
 		";
 
 		return $ilDB->manipulateF($query, array('integer', 'integer', 'integer'),

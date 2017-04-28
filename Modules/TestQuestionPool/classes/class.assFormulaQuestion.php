@@ -1503,8 +1503,18 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		);
 	}
 
-	public function removeExistingSolutions($activeId, $pass, $ignoredSolutionIds = array())
+	public function removeExistingSolutions($activeId, $pass)
 	{
-		parent::removeExistingSolutions($activeId, $pass, $this->getVariableSolutionIds($activeId, $pass));
+		global $ilDB;
+
+		$query = "
+			DELETE FROM tst_solutions
+			WHERE active_fi = " . $ilDB->quote($activeId, 'integer') ."
+			AND question_fi = ". $ilDB->quote($this->getId(), 'integer') ."
+			AND pass = " .$ilDB->quote($pass, 'integer') ."
+			AND value1 like '\$r%'
+		";
+
+		return $ilDB->manipulate($query);
 	}
 }
