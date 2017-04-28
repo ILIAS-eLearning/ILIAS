@@ -46,7 +46,7 @@ interface Constraint {
 	 *
 	 * Must do nothing with the result if $result->isError().
 	 * Must replace the result with an error according to problemWith() if
-	 * !appliesTo($result->value()).
+	 * !accepts($result->value()).
 	 *
 	 * @param   Result $value
 	 * @return  Result
