@@ -809,7 +809,7 @@ if( !$ilDB->tableColumnExists('qpl_a_cloze', 'gap_size') )
 ?>
 <#4212>
 <?php
-if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'qpl_qst_cloze') )
+if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'cloze_text') )
 {
 	$ilDB->addTableColumn( 'qpl_qst_cloze', 'cloze_text', array('type' => 'clob') );
 
@@ -829,7 +829,7 @@ if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'qpl_qst_cloze') )
 				'question_fi'	=> array('integer', $row['question_id'] )
 			)
 		);
-		$ilDB->execute($clean_qst_txt, $row['question_id'] );
+		$ilDB->execute($clean_qst_txt, array($row['question_id']) );
 	}
 }
 ?>
