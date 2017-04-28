@@ -18,6 +18,11 @@ define('IL_GRP_MEMBER',5);
 
 define('IL_SESS_MEMBER', 6);
 
+define("IL_ROLE_POSITION_ADMIN",1);
+define("IL_ROLE_POSITION_TUTOR",2);
+define("IL_ROLE_POSITION_MEMBER",3);
+
+
 abstract class ilParticipants
 {
 	protected $component = '';
@@ -1617,5 +1622,19 @@ abstract class ilParticipants
 		return $res;
 	}
 
+	public function setRoleOrderPosition($a_user_id)
+	{
+		if($this->isAdmin($a_user_id))
+		{
+			return IL_ROLE_POSITION_ADMIN;
+		}
+		else if($this->isTutor($a_user_id))
+		{
+			return IL_ROLE_POSITION_TUTOR;
+		}
+
+		return IL_ROLE_POSITION_MEMBER;
+
+	}
 }
 ?>
