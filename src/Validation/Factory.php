@@ -4,73 +4,73 @@
 namespace ILIAS\Validation;
 
 /**
- * Factory for creating restrictions.
+ * Factory for creating constraints.
  */
 class Factory {
 	// COMBINATORS
 
 	/**
-	 * Get a restriction that sequentially checks the supplied restrictions.
+	 * Get a constraint that sequentially checks the supplied constraints.
 	 *
-	 * The new restriction tells the problem of the first violated restriction.
+	 * The new constraint tells the problem of the first violated constraint.
 	 *
-	 * @param   Restriction[]   $others
-	 * @return  Restriction
+	 * @param   constraint[]   $others
+	 * @return  constraint
 	 */
 	public function sequential(array $others);
 
 	/**
-	 * Get a restriction that checks the supplied restrictions in parallel.
+	 * Get a constraint that checks the supplied constraints in parallel.
 	 *
-	 * The new restriction tells the problems of all violated restrictions.
+	 * The new constraint tells the problems of all violated constraints.
 	 *
-	 * @param   Restriction[]   $others
-	 * @return	Restriction
+	 * @param   constraint[]   $others
+	 * @return	constraint
 	 */
 	public function parallel(array $others);
 
 	/**
-	 * Get a negated restriction.
+	 * Get a negated constraint.
 	 *
-	 * @param   Restriction   $other
-	 * @return  Restriction
+	 * @param   Constraint   $other
+	 * @return  Constraint
 	 */
-	public function not(Restriction $other);
+	public function not(Constraint $other);
 
 	// SOME RESTRICTOINS
 
 	/**
-	 * Get a restriction for an integer.
+	 * Get a constraint for an integer.
 	 *
-	 * @return  Restriction
+	 * @return  Constraint
 	 */
 	public function isInt();
 
 	/**
-	 * Get the restriction that some value is larger than $min.
+	 * Get the constraint that some value is larger than $min.
 	 *
 	 * @param   int   $min
-	 * @return  Restriction
+	 * @return  Constraint
 	 */
 	public function greaterThan($min);
 
 	/**
-	 * Get the restriction that some value is smaller then $max.
+	 * Get the constraint that some value is smaller then $max.
 	 *
-	 * @param	int   $max
-	 * @return  Restriction
+	 * @param   int   $max
+	 * @return  Constraint
 	 */
 	public function lessThan($max);
 
 	/**
-	 * Get a custom restriction.
+	 * Get a custom constraint.
 	 *
 	 * If the provided value !$is_ok will either use the $error (if it is a string)
 	 * or provide the value to the $error callback.
 	 *
 	 * @param   callable          $is_ok MUST return boolean
 	 * @param   string|callable   $error
-	 * @return  Restriction
+	 * @return  Constraint
 	 */
 	public function custom(callable $is_ok, $error);
 }

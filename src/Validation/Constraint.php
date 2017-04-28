@@ -1,22 +1,22 @@
 <?php
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Validation;
 
 use ILIAS\Data\Result;
 
 /**
- * A restriction encodes some constraint on values.
+ * A constraint encodes some restictions on values.
  *
- * Restrictions MUST NOT modify the supplied value.
+ * Constraints MUST NOT modify the supplied value.
  */
-interface Restriction {
+interface Constraint {
 	/**
 	 * Checks the provided value.
 	 *
 	 * Should not throw if appliesTo($value).
 	 *
-	 * @throws  \UnexcpectedValueException if value does not comply with encoded restriction.
+	 * @throws  \UnexcpectedValueException if value does not comply with encoded constraint.
 	 * @param   mixed  $value
 	 * @return  null
 	 */
@@ -47,8 +47,8 @@ interface Restriction {
 	 * Must replace the result with an error according to problemWith() if
 	 * !appliesTo($result->value()).
 	 *
-	 * @param	Result $value
-	 * @return	Result
+	 * @param   Result $value
+	 * @return  Result
 	 */
 	public function restrict(Result $result);
 
@@ -59,8 +59,8 @@ interface Restriction {
 	 * problemWith() must return an error message according to the new builder for
 	 * the new restriction.
 	 *
-	 * @param	callable  $builder  mixed -> string
-	 * @return  Restriction
+	 * @param   callable  $builder  mixed -> string
+	 * @return  Constraint
 	 */
 	public function withProblemBuilder(callable $builder);
 }
