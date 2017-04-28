@@ -810,9 +810,10 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			$form->addItem( $hidden );
 		}
 
+		$isSingleline = $this->getEditAnswersSingleLine();
+
 		if (!$this->object->getSelfAssessmentEditingMode())
 		{
-			$isSingleline = $this->getEditAnswersSingleLine();
 			// Answer types
 			$types = new ilSelectInputGUI($this->lng->txt( "answer_types" ), "types");
 			$types->setRequired( false );
