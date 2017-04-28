@@ -87,7 +87,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		
 		$this->object->saveToDb();
 		
-		$form->prepareFormValuesReprintable($this->object);
+		$form->ensureReprintableFormStructure($this->object);
 		$this->renderEditForm($form);
 	}
 
@@ -106,7 +106,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		$this->object->saveToDb();
 		
-		$form->prepareFormValuesReprintable($this->object);
+		$form->ensureReprintableFormStructure($this->object);
 		$this->renderEditForm($form);
 	}
 
@@ -373,18 +373,15 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		{
 			// this case seems to be a regular save call, so we consider
 			// the validation result for the decision of saving as well
-
+			
 			// inits {this->editForm} and performs validation
 			$form = $this->buildEditForm();
 			$form->setValuesByPost(); // manipulation and distribution of values 
 			
 			if( !$form->checkInput() ) // manipulations regular style input propeties
 			{
-				$orderingInput = $form->getItemByPostVar(
-					assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
-				);
-				// #20297
-				$orderingInput->setIdentifiedMultiValues($orderingInput->getIdentifiedMultiValues()); // KEEP THIS (!)
+				$form->prepareValuesReprintable($this->object);
+				$this->renderEditForm($form);
 				
 				// consequence of vaidation
 				$savingAllowed = false;
@@ -400,7 +397,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$form->checkInput(); // manipulations regular style input propeties
 		}
 		
-		if ($savingAllowed)
+		if( $savingAllowed )
 		{
 			$this->persistAuthoringForm($form);
 			
