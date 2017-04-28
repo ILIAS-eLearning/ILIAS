@@ -209,6 +209,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		}
 		if(preg_match_all("/(\\\$v\\d+)/ims", $this->getQuestion(), $matches))
 		{
+			$generateVariables = true;
+			if(is_array($userdata) && $this->getUserSolutionPreferingIntermediate($userdata["active_id"], $userdata["pass"]))
+			{
+				$generateVariables = false;
+			}
+			
 			foreach($matches[1] as $variable)
 			{
 				$varObj = $this->getVariable($variable);
@@ -227,8 +233,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 					}
 					else
 					{
-						// save value to db
-						$this->saveCurrentSolution($userdata["active_id"], $userdata["pass"], $variable,$varObj->getValue());
+						if($generateVariables)
+						{
+							$this->saveCurrentSolution($userdata["active_id"], $userdata["pass"], $variable, $varObj->getValue());
+							$this->saveCurrentSolution($userdata["active_id"], $userdata["pass"], $variable, $varObj->getValue(), false);
+						}
 					}
 				}
 				$unit = (is_object($varObj->getUnit())) ? $varObj->getUnit()->getUnit() : "";
@@ -1450,5 +1459,52 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		{
 			return $this->getResults();
 		}
+	}
+
+	/**
+	 * @param $active_id
+	 * @param $pass
+	 * @return array
+	 */
+	protected function getVariableSolutionIds($active_id, $pass)
+	{
+		global $ilDB;
+
+		$ignoredSolutionIds = array();
+
+		$query = "
+			SELECT value1, solution_id FROM tst_solutions
+			WHERE active_fi = %s AND question_fi = %s AND pass = %s
+		";
+
+		$res = $ilDB->queryF(
+			$query,
+			array('integer', 'integer', 'integer'),
+			array($active_id, $this->getId(), $pass)
+		);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			if(preg_match('/^\$v\d+$/', $row['value1']))
+			{
+				$ignoredSolutionIds[] = $row['solution_id'];
+			}
+		}
+		
+		return $ignoredSolutionIds;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function removeCurrentSolution($active_id, $pass, $authorized = true, $ignoredSolutionIds = array())
+	{
+		return parent::removeCurrentSolution(
+			$active_id, $pass, $authorized, $this->getVariableSolutionIds($active_id, $pass)
+		);
+	}
+
+	public function removeExistingSolutions($activeId, $pass, $ignoredSolutionIds = array())
+	{
+		parent::removeExistingSolutions($activeId, $pass, $this->getVariableSolutionIds($activeId, $pass));
 	}
 }
