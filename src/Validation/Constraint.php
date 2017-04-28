@@ -34,7 +34,7 @@ interface Constraint {
 	/**
 	 * Tells what the problem with the provided value is.
 	 *
-	 * Should return null if appliesTo($value).
+	 * Should return null if accepts($value).
 	 *
 	 * @param   mixed $value
 	 * @return  string|null
