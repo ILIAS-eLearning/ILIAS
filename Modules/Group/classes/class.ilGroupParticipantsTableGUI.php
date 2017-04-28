@@ -193,7 +193,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 				
 				case 'roles':
 					$this->tpl->setCurrentBlock('custom_fields');
-					$this->tpl->setVariable('VAL_CUST', (string) $a_set['roles']);
+					$this->tpl->setVariable('VAL_CUST', (string) $a_set['roles_label']);
 					$this->tpl->parseCurrentBlock();
 					break;
 					
@@ -370,7 +370,10 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 					$roles[] = $role_name;
 				}
 			}
-			$a_user_data[$user_id]['roles'] = implode('<br />', $roles);
+			$a_user_data[$user_id]['roles_label'] = implode('<br />', $roles);
+
+			$a_user_data[$user_id]['roles'] = $this->participants->setRoleOrderPosition($user_id);
+
 		}
 
 		// Custom user data fields
