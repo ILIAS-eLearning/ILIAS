@@ -14,8 +14,8 @@ class Factory {
 	 *
 	 * The new constraint tells the problem of the first violated constraint.
 	 *
-	 * @param   constraint[]   $others
-	 * @return  constraint
+	 * @param   Constraint[]   $others
+	 * @return  Constraint
 	 */
 	public function sequential(array $others);
 
@@ -24,8 +24,8 @@ class Factory {
 	 *
 	 * The new constraint tells the problems of all violated constraints.
 	 *
-	 * @param   constraint[]   $others
-	 * @return	constraint
+	 * @param   Constraint[]   $others
+	 * @return	Constraint
 	 */
 	public function parallel(array $others);
 
