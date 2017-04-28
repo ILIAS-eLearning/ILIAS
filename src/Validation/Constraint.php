@@ -6,7 +6,7 @@ namespace ILIAS\Validation;
 use ILIAS\Data\Result;
 
 /**
- * A constraint encodes some restictions on values.
+ * A constraint encodes some resrtictions on values.
  *
  * Constraints MUST NOT modify the supplied value.
  */
@@ -28,7 +28,7 @@ interface Constraint {
 	 * @param   mixed $value
 	 * @return  bool
 	 */
-	public function accept($value);
+	public function accepts($value);
 
 	/**
 	 * Tells what the problem with the provided value is.
