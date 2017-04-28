@@ -144,7 +144,7 @@ class assFormulaQuestionResult
 			$res = $result * 1;
 			if (is_numeric($this->getPrecision()))
 			{
-				if( $this->getResultType()==self::RESULT_CO_DEC || $this->getResultType()==self::RESULT_NO_SELECTION )
+				if( $this->getResultType()==self::RESULT_DEC || $this->getResultType()==self::RESULT_NO_SELECTION )
 				{
 					$result = ilMath::_round($res, $this->getPrecision());
 				}			
