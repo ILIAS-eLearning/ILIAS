@@ -54,7 +54,7 @@ class HTTPServices implements GlobalHttpState {
 	 */
 	public function __construct(ResponseSenderStrategy $senderStrategy, CookieJarFactory $cookieJarFactory, RequestFactory $requestFactory, ResponseFactory $responseFactory) {
 		$this->sender = $senderStrategy;
-		$this->$cookieJarFactory = $cookieJarFactory;
+		$this->cookieJarFactory = $cookieJarFactory;
 
 		$this->requestFactory = $requestFactory;
 		$this->responseFactory = $responseFactory;
