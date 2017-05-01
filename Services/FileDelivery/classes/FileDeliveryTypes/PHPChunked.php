@@ -1,7 +1,8 @@
 <?php
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
-use ILIAS\DI\HTTPServices;
+use ILIAS\FileDelivery\ilFileDeliveryType;
+use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Response\ResponseHeader;
 
 require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
@@ -10,20 +11,24 @@ require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
  * Class PHPChunked
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @since 5.3
+ * @version 1.0
  */
-class PHPChunked implements \ilFileDeliveryType {
+final class PHPChunked implements ilFileDeliveryType {
 
 	/**
-	 * @var HTTPServices $httpService
+	 * @var GlobalHttpState $httpService
 	 */
 	private $httpService;
 
 
 	/**
-	 * PHPChunked constructor.
+	 * PHP constructor.
+	 *
+	 * @param GlobalHttpState $httpState
 	 */
-	public function __construct() {
-		$this->httpService = $GLOBALS["DIC"]->http();
+	public function __construct(GlobalHttpState $httpState) {
+		$this->httpService = $httpState;
 	}
 
 
@@ -124,7 +129,7 @@ class PHPChunked implements \ilFileDeliveryType {
 		$this->httpService->saveResponse($response);
 
 		//render response and start buffered download
-		$this->httpService->renderResponse();
+		$this->httpService->sendResponse();
 
 		// Start buffered download
 		$buffer = 1024 * 8;
@@ -172,7 +177,7 @@ class PHPChunked implements \ilFileDeliveryType {
 
 	private function close() {
 		//render response
-		$this->httpService->renderResponse();
+		$this->httpService->sendResponse();
 		exit;
 	}
 }

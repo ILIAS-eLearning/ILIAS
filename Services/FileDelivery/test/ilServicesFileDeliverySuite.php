@@ -1,5 +1,4 @@
 <?php
-use ILIAS\FileDelivery\FileDeliveryTypes\XSendfileTest;
 
 /**
  * Class ilServicesFileDeliverySuite
@@ -18,6 +17,7 @@ class ilServicesFileDeliverySuite extends PHPUnit_Framework_TestSuite {
 		$suite->addTestFiles([
 			'./Services/FileDelivery/test/FileDeliveryTypes/XSendfileTest.php',
 			'./Services/FileDelivery/test/FileDeliveryTypes/XAccelTest.php',
+			'./Services/FileDelivery/test/FileDeliveryTypes/FileDeliveryTypeFactoryTest.php'
 		]);
 
 		return $suite;

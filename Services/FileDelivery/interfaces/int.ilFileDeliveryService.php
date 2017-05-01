@@ -1,5 +1,7 @@
 <?php
 
+namespace ILIAS\FileDelivery;
+
 /**
  * Interface ilFileDeliveryService
  *
@@ -9,31 +11,38 @@ interface ilFileDeliveryService {
 
 	/**
 	 * @param $path_to_file
-	 * @param null $download_file_name
-	 * @param null $mime_type
+	 * @param string $download_file_name
+	 * @param string $mime_type
 	 * @param bool $delete_file
+	 *
+	 * @return void
 	 */
-	public static function deliverFileAttached($path_to_file, $download_file_name = null, $mime_type = null, $delete_file = false);
+	public static function deliverFileAttached(string $path_to_file, string $download_file_name = '', string $mime_type = '', bool $delete_file = false);
 
 
 	/**
 	 * @param $path_to_file
-	 * @param null $download_file_name
+	 * @param string $download_file_name
+	 *
+	 * @return void
 	 */
-	public static function streamVideoInline($path_to_file, $download_file_name = null);
+	public static function streamVideoInline(string $path_to_file, string $download_file_name = '');
 
 
 	/**
 	 * @param $path_to_file
-	 * @param null $download_file_name
+	 * @param string $download_file_name
+	 *
+	 * @return void
 	 */
-	public static function deliverFileInline($path_to_file, $download_file_name = null);
+	public static function deliverFileInline(string $path_to_file, string $download_file_name = '');
 
 	/**
 	 * Converts a UTF-8 filename to ASCII
 	 *
-	 * @param $original_filename string UFT8-Filename
+	 * @param string $original_filename UFT8-Filename
+	 *
 	 * @return string ASCII-Filename
 	 */
-	public static function returnASCIIFileName($original_filename);
+	public static function returnASCIIFileName(string $original_filename) : string;
 }

@@ -9,8 +9,7 @@ namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 require_once('./libs/composer/vendor/autoload.php');
 
-use ILIAS\DI\Container;
-use ILIAS\DI\HTTPServices;
+use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Response\ResponseHeader;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
@@ -29,27 +28,17 @@ use Psr\Http\Message\ResponseInterface;
 class XAccelTest extends MockeryTestCase {
 
 	/**
-	 * @var \Mockery\MockInterface
+	 * @var \Mockery\MockInterface | GlobalHttpState
 	 */
 	private $httpServiceMock;
-	/**
-	 * @var \Mockery\MockInterface
-	 */
-	private $containerMock;
 
 
 	protected function setUp()
 	{
 		parent::setUp();
 
-		$this->httpServiceMock = Mockery::mock(HTTPServices::class);
+		$this->httpServiceMock = Mockery::mock(GlobalHttpState::class);
 		$this->httpServiceMock->shouldIgnoreMissing();
-
-		//init request and response handling
-		$this->containerMock = Mockery::mock(Container::class);
-
-		$this->containerMock->shouldIgnoreMissing();
-		$GLOBALS["DIC"] = $this->containerMock;
 
 		//set remote address to localhost
 		//$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
@@ -66,8 +55,6 @@ class XAccelTest extends MockeryTestCase {
 
 		$expectedContentValue = '';
 
-		$this->containerMock->shouldReceive("http")->times(1)->andReturn($this->httpServiceMock);
-
 		$response = Mockery::mock(ResponseInterface::class);
 		$response->shouldIgnoreMissing()->shouldReceive("withHeader")->times(1)
 		         ->withArgs([ ResponseHeader::CONTENT_TYPE, $expectedContentValue ])
@@ -77,7 +64,7 @@ class XAccelTest extends MockeryTestCase {
 		                      ->andReturn($response)->getMock()->shouldReceive("saveResponse")
 		                      ->times(1)->withArgs([ $response ]);
 
-		$xAccel = new XAccel();
+		$xAccel = new XAccel($this->httpServiceMock);
 		$result = $xAccel->prepare("this path is never used in this method");
 
 		$this->assertTrue($result);
@@ -93,18 +80,16 @@ class XAccelTest extends MockeryTestCase {
 		$expectedHeader = 'X-Accel-Redirect';
 		$path = './normal/path';
 
-		$this->containerMock->shouldReceive("http")->times(1)->andReturn($this->httpServiceMock);
-
-		$response = Mockery::mock(\Psr\Http\Message\ResponseInterface::class);
+		$response = Mockery::mock(ResponseInterface::class);
 		$response->shouldIgnoreMissing()->shouldReceive("withHeader")->times(1)
 		         ->withArgs([ $expectedHeader, $path ])->andReturnSelf();
 
 		$this->httpServiceMock->shouldReceive("response")->times(1)->withNoArgs()
 		                      ->andReturn($response)->getMock()->shouldReceive("saveResponse")
 		                      ->times(1)->withArgs([ $response ])->getMock()
-		                      ->shouldReceive("renderResponse")->times(1)->withNoArgs();
+		                      ->shouldReceive("sendResponse")->times(1)->withNoArgs();
 
-		$xAccel = new XAccel();
+		$xAccel = new XAccel($this->httpServiceMock);
 		$xAccel->deliver($path);
 	}
 
@@ -119,8 +104,6 @@ class XAccelTest extends MockeryTestCase {
 		$path = './data/path/to/what/ever';
 		$expectedPath = '/secured-data/path/to/what/ever';
 
-		$this->containerMock->shouldReceive("http")->times(1)->andReturn($this->httpServiceMock);
-
 		$response = Mockery::mock(ResponseInterface::class);
 		$response->shouldIgnoreMissing()->shouldReceive("withHeader")->times(1)
 		         ->withArgs([ $expectedHeader, $expectedPath ])->andReturnSelf();
@@ -128,9 +111,9 @@ class XAccelTest extends MockeryTestCase {
 		$this->httpServiceMock->shouldReceive("response")->times(1)->withNoArgs()
 		                      ->andReturn($response)->getMock()->shouldReceive("saveResponse")
 		                      ->times(1)->withArgs([ $response ])->getMock()
-		                      ->shouldReceive("renderResponse")->times(1)->withNoArgs();
+		                      ->shouldReceive("sendResponse")->times(1)->withNoArgs();
 
-		$xAccel = new XAccel();
+		$xAccel = new XAccel($this->httpServiceMock);
 		$xAccel->deliver($path);
 	}
 }

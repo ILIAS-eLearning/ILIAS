@@ -1,5 +1,6 @@
 <?php
-use ILIAS\HTTP\Headers\HeadersInterface as Headers;
+
+namespace ILIAS\FileDelivery;
 
 /**
  * Interface ilFileDeliveryType

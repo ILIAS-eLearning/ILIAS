@@ -1,7 +1,8 @@
 <?php
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
-use ILIAS\DI\HTTPServices;
+use ILIAS\FileDelivery\ilFileDeliveryType;
+use ILIAS\HTTP\GlobalHttpState;
 
 require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
 
@@ -9,24 +10,30 @@ require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
  * Class PHP
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @since 5.3
+ * @version 1.0
+ *
+ * @Internal
  */
-class PHP implements \ilFileDeliveryType {
+final class PHP implements ilFileDeliveryType {
 
 	/**
 	 * @var resource
 	 */
 	protected $file;
 	/**
-	 * @var HTTPServices $httpService
+	 * @var GlobalHttpState $httpService
 	 */
 	protected $httpService;
 
 
 	/**
 	 * PHP constructor.
+	 *
+	 * @param GlobalHttpState $httpState
 	 */
-	public function __construct() {
-		$this->httpService = $GLOBALS["DIC"]->http();
+	public function __construct(GlobalHttpState $httpState) {
+		$this->httpService = $httpState;
 	}
 
 
@@ -43,7 +50,7 @@ class PHP implements \ilFileDeliveryType {
 	 * @inheritdoc
 	 */
 	public function deliver($path_to_file) {
-		$this->httpService->renderResponse();
+		$this->httpService->sendResponse();
 		fpassthru($this->file);
 	}
 

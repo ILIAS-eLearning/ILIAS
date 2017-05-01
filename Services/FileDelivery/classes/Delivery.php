@@ -6,9 +6,13 @@ require_once('./Services/Utilities/classes/class.ilUtil.php'); // This include i
 require_once('./Services/Context/classes/class.ilContext.php');
 require_once('./Services/Http/classes/class.ilHTTPS.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACLog.php');
-require_once('./Services/FileDelivery/classes/FileDeliveryTypes/Factory.php');
+require_once('./Services/FileDelivery/classes/FileDeliveryTypes/FileDeliveryTypeFactory.php');
+require_once './Services/FileDelivery/classes/FileDeliveryTypes/DeliveryMethod.php';
+
 use ILIAS\DI\HTTPServices;
-use ILIAS\FileDelivery\FileDeliveryTypes\Factory as DeliveryType;
+use ILIAS\FileDelivery\FileDeliveryTypes\DeliveryMethod;
+use ILIAS\FileDelivery\FileDeliveryTypes\FileDeliveryTypeFactory;
+use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Response\ResponseHeader;
 
 /**
@@ -16,8 +20,11 @@ use ILIAS\HTTP\Response\ResponseHeader;
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.0
+ * @since 5.3
+ *
+ * @Internal
  */
-class Delivery {
+final class Delivery {
 
 	const DIRECT_PHP_OUTPUT = 'php://output';
 	const DISP_ATTACHMENT = 'attachment';
@@ -25,126 +32,82 @@ class Delivery {
 	/**
 	 * @var integer
 	 */
-	protected static $delivery_type_static = null;
+	private static $delivery_type_static = null;
 	/**
 	 * @var string
 	 */
-	protected $delivery_type = DeliveryType::DELIVERY_METHOD_PHP;
+	private $delivery_type = DeliveryMethod::PHP;
 	/**
 	 * @var string
 	 */
-	protected $mime_type = '';
+	private $mime_type = '';
 	/**
 	 * @var string
 	 */
-	protected $path_to_file = '';
+	private $path_to_file = '';
 	/**
 	 * @var string
 	 */
-	protected $download_file_name = '';
+	private $download_file_name = '';
 	/**
 	 * @var string
 	 */
-	protected $disposition = self::DISP_ATTACHMENT;
+	private $disposition = self::DISP_ATTACHMENT;
 	/**
 	 * @var bool
 	 */
-	protected $send_mime_type = true;
+	private $send_mime_type = true;
 	/**
 	 * @var bool
 	 */
-	protected $exit_after = true;
+	private $exit_after = true;
 	/**
 	 * @var bool
 	 */
-	protected $convert_file_name_to_asci = true;
+	private $convert_file_name_to_asci = true;
 	/**
 	 * @var string
 	 */
-	protected $etag = '';
+	private $etag = '';
 	/**
 	 * @var bool
 	 */
-	protected $show_last_modified = true;
+	private $show_last_modified = true;
 	/**
 	 * @var bool
 	 */
-	protected $has_context = true;
+	private $has_context = true;
 	/**
 	 * @var bool
 	 */
-	protected $cache = false;
+	private $cache = false;
 	/**
 	 * @var bool
 	 */
-	protected $hash_filename = false;
+	private $hash_filename = false;
 	/**
 	 * @var bool
 	 */
-	protected $delete_file = false;
+	private $delete_file = false;
 	/**
 	 * @var bool
 	 */
-	protected static $DEBUG = false;
+	private static $DEBUG = false;
 	/**
 	 * @var HTTPServices $httpService
 	 */
-	protected $httpService;
+	private $httpService;
+	/**
+	 * @var FileDeliveryTypeFactory $fileDeliveryTypeFactory
+	 */
+	private $fileDeliveryTypeFactory;
 
 
 	/**
-	 * @param $path_to_file
-	 * @param null $download_file_name
-	 * @param null $mime_type
-	 * @param bool $delete_file
+	 * @param string          $path_to_file
+	 * @param GlobalHttpState $httpState
 	 */
-	public static function deliverFileAttached($path_to_file, $download_file_name = null, $mime_type = null, $delete_file = false) {
-		$obj = new self($path_to_file);
-		if ($download_file_name) {
-			$obj->setDownloadFileName($download_file_name);
-		}
-		if ($mime_type) {
-			$obj->setMimeType($mime_type);
-		}
-		$obj->setDisposition(self::DISP_ATTACHMENT);
-		$obj->setDeleteFile($delete_file);
-		$obj->deliver();
-	}
-
-
-	/**
-	 * @param      $path_to_file
-	 * @param null $download_file_name
-	 */
-	public static function streamVideoInline($path_to_file, $download_file_name = null) {
-		$obj = new self($path_to_file);
-		if ($download_file_name) {
-			$obj->setDownloadFileName($download_file_name);
-		}
-		$obj->setDisposition(self::DISP_INLINE);
-		$obj->stream();
-	}
-
-
-	/**
-	 * @param      $path_to_file
-	 * @param null $download_file_name
-	 */
-	public static function deliverFileInline($path_to_file, $download_file_name = null) {
-		$obj = new self($path_to_file);
-
-		if ($download_file_name) {
-			$obj->setDownloadFileName($download_file_name);
-		}
-		$obj->setDisposition(self::DISP_INLINE);
-		$obj->deliver();
-	}
-
-
-	/**
-	 * @param $path_to_file
-	 */
-	public function __construct($path_to_file) {
+	public function __construct(string $path_to_file, GlobalHttpState $httpState) {
 		if ($path_to_file == self::DIRECT_PHP_OUTPUT) {
 			$this->setPathToFile(self::DIRECT_PHP_OUTPUT);
 		} else {
@@ -155,27 +118,27 @@ class Delivery {
 			$this->determineDownloadFileName();
 		}
 		$this->setHasContext(\ilContext::getType() !== null);
-		$this->httpService = $GLOBALS["DIC"]->http();
+		$this->httpService = $httpState;
+		$this->fileDeliveryTypeFactory = new FileDeliveryTypeFactory($httpState);
 	}
 
 
 	public function stream() {
 		if (!$this->delivery()->supportsStreaming()) {
-			$this->setDeliveryType(DeliveryType::DELIVERY_METHOD_PHP_CHUNKED);
+			$this->setDeliveryType(DeliveryMethod::PHP_CHUNKED);
 		}
 		$this->deliver();
 	}
 
 
-	protected function delivery() {
-		return FileDeliveryTypes\Factory::getInstance($this->getDeliveryType());
+	private function delivery() {
+		return $this->fileDeliveryTypeFactory->getInstance($this->getDeliveryType());
 	}
 
 
 	public function deliver() {
 
 		$response = $this->httpService->response()->withHeader('X-ILIAS-FileDelivery-Method', $this->getDeliveryType());
-
 		$this->httpService->saveResponse($response);
 
 		$this->cleanDownloadFileName();
@@ -183,7 +146,7 @@ class Delivery {
 		$this->checkCache();
 		$this->setGeneralHeaders();
 		$this->delivery()->prepare($this->getPathToFile());
-		//$this->headers()->sendAll();
+
 		$this->delivery()->deliver($this->getPathToFile());
 		if ($this->isDeleteFile()) {
 			unlink($this->getPathToFile());
@@ -209,7 +172,7 @@ class Delivery {
 		$this->setDispositionHeaders();
 		$response = $this->httpService->response()->withHeader(ResponseHeader::ACCEPT_RANGES, 'bytes');
 		$this->httpService->saveResponse($response);
-		if ($this->getDeliveryType() == DeliveryType::DELIVERY_METHOD_PHP && $this->getPathToFile() != self::DIRECT_PHP_OUTPUT) {
+		if ($this->getDeliveryType() == DeliveryMethod::PHP && $this->getPathToFile() != self::DIRECT_PHP_OUTPUT) {
 			$response = $this->httpService->response()->withHeader(ResponseHeader::CONTENT_LENGTH, (string)filesize($this->getPathToFile()));
 			$this->httpService->saveResponse($response);
 		}
@@ -241,7 +204,7 @@ class Delivery {
 	/**
 	 * @return bool
 	 */
-	protected function determineMimeType() {
+	private function determineMimeType() {
 		$info = \ilMimeTypeUtil::lookupMimeType($this->getPathToFile(), \ilMimeTypeUtil::APPLICATION__OCTET_STREAM);
 		if ($info) {
 			$this->setMimeType($info);
@@ -262,9 +225,9 @@ class Delivery {
 
 
 	/**
-	 * @return bool
+	 * @return void
 	 */
-	protected function determineDownloadFileName() {
+	private function determineDownloadFileName() {
 		if (!$this->getDownloadFileName()) {
 			$download_file_name = basename($this->getPathToFile());
 			$this->setDownloadFileName($download_file_name);
@@ -275,7 +238,7 @@ class Delivery {
 	/**
 	 * @return bool
 	 */
-	protected function detemineDeliveryType() {
+	private function detemineDeliveryType() {
 		if (self::$delivery_type_static) {
 			\ilWACLog::getInstance()->write('used cached delivery type');
 			$this->setDeliveryType(self::$delivery_type_static);
@@ -284,7 +247,7 @@ class Delivery {
 		}
 
 		if (function_exists('apache_get_modules') && in_array('mod_xsendfile', apache_get_modules())) {
-			$this->setDeliveryType(DeliveryType::DELIVERY_METHOD_XSENDFILE);
+			$this->setDeliveryType(DeliveryMethod::XSENDFILE);
 		}
 
 		if (is_file('./Services/FileDelivery/classes/override.php')) {
@@ -297,12 +260,12 @@ class Delivery {
 
 		require_once('./Services/Environment/classes/class.ilRuntime.php');
 		$ilRuntime = \ilRuntime::getInstance();
-		if ((!$ilRuntime->isFPM() && !$ilRuntime->isHHVM()) && $this->getDeliveryType() == DeliveryType::DELIVERY_METHOD_XACCEL) {
-			$this->setDeliveryType(DeliveryType::DELIVERY_METHOD_PHP);
+		if ((!$ilRuntime->isFPM() && !$ilRuntime->isHHVM()) && $this->getDeliveryType() == DeliveryMethod::XACCEL) {
+			$this->setDeliveryType(DeliveryMethod::PHP);
 		}
 
-		if ($this->getDeliveryType() == DeliveryType::DELIVERY_METHOD_XACCEL && strpos($this->getPathToFile(), './data') !== 0) {
-			$this->setDeliveryType(DeliveryType::DELIVERY_METHOD_PHP);
+		if ($this->getDeliveryType() == DeliveryMethod::XACCEL && strpos($this->getPathToFile(), './data') !== 0) {
+			$this->setDeliveryType(DeliveryMethod::PHP);
 		}
 
 		self::$delivery_type_static = $this->getDeliveryType();
@@ -519,7 +482,7 @@ class Delivery {
 	}
 
 
-	protected function sendEtagHeader() {
+	private function sendEtagHeader() {
 		if ($this->getEtag()) {
 			$response = $this->httpService->response()->withHeader('ETag', $this->getEtag());
 			$this->httpService->saveResponse($response);
@@ -527,7 +490,7 @@ class Delivery {
 	}
 
 
-	protected function sendLastModified() {
+	private function sendLastModified() {
 		if ($this->getShowLastModified()) {
 			$response = $this->httpService->response()->withHeader('Last-Modified', date("D, j M Y H:i:s", filemtime($this->getPathToFile()))
 			                                                                        . " GMT");
@@ -535,49 +498,52 @@ class Delivery {
 		}
 	}
 
+//	/**
+//	 * @return bool
+//	 */
+//	private function isNonModified() {
+//		if (self::$DEBUG) {
+//			return false;
+//		}
+//
+//		if (!isset($_SERVER['HTTP_IF_NONE_MATCH']) || !isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+//			return false;
+//		}
+//
+//		$http_if_none_match = $_SERVER['HTTP_IF_NONE_MATCH'];
+//		$http_if_modified_since = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
+//
+//		switch (true) {
+//			case ($http_if_none_match != $this->getEtag()):
+//				return false;
+//			case (@strtotime($http_if_modified_since) <= filemtime($this->getPathToFile())):
+//				return false;
+//		}
+//
+//		return true;
+//	}
+
+
 
 	/**
 	 * @return bool
 	 */
-	protected function isNonModified() {
-		if (self::$DEBUG) {
-			return false;
-		}
-
-		if (!isset($_SERVER['HTTP_IF_NONE_MATCH']) || !isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-			return false;
-		}
-
-		$http_if_none_match = $_SERVER['HTTP_IF_NONE_MATCH'];
-		$http_if_modified_since = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
-
-		switch (true) {
-			case ($http_if_none_match != $this->getEtag()):
-				return false;
-			case (@strtotime($http_if_modified_since) <= filemtime($this->getPathToFile())):
-				return false;
-		}
-
-		return true;
-	}
-
-
-	/**
-	 * @return boolean
-	 */
-	public static function isDEBUG() {
+	public static function isDEBUG() : bool {
 		return self::$DEBUG;
 	}
 
 
 	/**
-	 * @param boolean $DEBUG
+	 * @param bool $DEBUG
 	 */
-	public static function setDEBUG($DEBUG) {
+	public static function setDEBUG(bool $DEBUG) {
 		self::$DEBUG = $DEBUG;
 	}
 
 
+	/**
+	 * @return void
+	 */
 	public function checkCache() {
 		if ($this->hasCache()) {
 			$this->generateEtag();
@@ -588,6 +554,9 @@ class Delivery {
 	}
 
 
+	/**
+	 * @return void
+	 */
 	public function clearBuffer() {
 		$ob_get_contents = ob_get_contents();
 		if ($ob_get_contents) {
@@ -597,7 +566,10 @@ class Delivery {
 	}
 
 
-	protected function checkExisting() {
+	/**
+	 * @return void
+	 */
+	private function checkExisting() {
 		if ($this->getPathToFile() != self::DIRECT_PHP_OUTPUT && !file_exists($this->getPathToFile())) {
 			$this->close();
 		}
@@ -606,8 +578,10 @@ class Delivery {
 
 	/**
 	 * Converts the filename to ASCII
+	 *
+	 * @return void
 	 */
-	protected function cleanDownloadFileName() {
+	private function cleanDownloadFileName() {
 		$download_file_name = self::returnASCIIFileName($this->getDownloadFileName());
 		$this->setDownloadFileName($download_file_name);
 	}
@@ -619,7 +593,7 @@ class Delivery {
 	 * @param $original_filename string UFT8-Filename
 	 * @return string ASCII-Filename
 	 */
-	public static function returnASCIIFileName($original_filename) {
+	public static function returnASCIIFileName($original_filename) : string {
 		// The filename must be converted to ASCII, as of RFC 2183,
 		// section 2.3.
 
@@ -665,24 +639,25 @@ class Delivery {
 
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
-	public function isDeleteFile() {
+	public function isDeleteFile() : bool {
 		return $this->delete_file;
 	}
 
 
 	/**
-	 * @param boolean $delete_file
+	 * @param bool $delete_file
+	 * @return void
 	 */
-	public function setDeleteFile($delete_file) {
+	public function setDeleteFile(bool $delete_file) {
 		$this->delete_file = $delete_file;
 	}
 
 
-	protected function setDispositionHeaders() {
+	private function setDispositionHeaders() {
 		$response = $this->httpService->response();
-		$response = $response->withHeader('Content-Disposition', $this->getDisposition() . '; filename="' . $this->getDownloadFileName() . '"');
+		$response = $response->withHeader(ResponseHeader::CONTENT_DISPOSITION, $this->getDisposition() . '; filename="' . $this->getDownloadFileName() . '"');
 		$response = $response->withHeader('Content-Description', $this->getDownloadFileName());
 		$this->httpService->saveResponse($response);
 	}
