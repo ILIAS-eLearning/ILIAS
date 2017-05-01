@@ -23,7 +23,7 @@ il.UI = il.UI || {};
          * The popover is displayed next to the triggerer, the exact position depends on the placement option.
          *
          * @param triggerer_id ID of the triggerer in the DOM
-         * @param options
+         * @param options Object with options
          */
         var show = function (triggerer_id, options) {
             var $triggerer = $('#' + triggerer_id);

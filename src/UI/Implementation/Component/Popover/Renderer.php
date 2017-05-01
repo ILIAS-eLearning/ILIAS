@@ -40,10 +40,9 @@ class Renderer extends AbstractComponentRenderer {
 		$show = $component->getShowSignal();
 		$this->getJavascriptBinding()->addOnLoadCode("
 			$(document).on('{$show}', function(event, data) { 
-				var triggerer_id = data.triggerer.attr('id');
 				var options = JSON.parse('{$options}');
 				options.trigger = (data.type == 'mouseenter') ? 'hover' : 'click';
-				il.UI.popover.show(triggerer_id, options);
+				il.UI.popover.show(data.triggerer.attr('id'), options);
 			});"
 		);
 		if (!$component->getAsyncContentUrl()) {

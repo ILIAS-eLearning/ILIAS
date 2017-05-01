@@ -6,19 +6,19 @@ function show_popover_with_different_positions()
 	$renderer = $DIC->ui()->renderer();
 
 	$content = $factory->legacy('The position of this popover is calculated automatically based on the available space');
-	$popover = $factory->popover('Auto', $content);
+	$popover = $factory->popover($content);
 	$button = $factory->button()->standard('Auto Popover', '#')
 		->withOnClick($popover->getShowSignal());
 
 	$content = $factory->legacy('The position of this popover is either on top or bottom of the triggerer, based on the available space');
-	$popover2 = $factory->popover('Vertical', $content)
-		->withPosition('vertical');
+	$popover2 = $factory->popover($content)
+		->withVerticalPosition();
 	$button2 = $factory->button()->standard('Vertical Popover', '#')
 		->withOnClick($popover2->getShowSignal());
 
 	$content = $factory->legacy('The position of this popover is either on the left or right of the triggerer, based on the available space');
-	$popover3 = $factory->popover('Horizontal', $content)
-		->withPosition('horizontal');
+	$popover3 = $factory->popover($content)
+		->withHorizontalPosition();
 	$button3 = $factory->button()->standard('Horizontal Popover', '#')
 		->withOnClick($popover3->getShowSignal());
 
