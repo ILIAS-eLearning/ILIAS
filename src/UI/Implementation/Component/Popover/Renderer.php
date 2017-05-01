@@ -60,7 +60,6 @@ class Renderer extends AbstractComponentRenderer {
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/libs/node_modules/webui-popover/dist/jquery.webui-popover.min.js');
-		$registry->register('./src/UI/templates/libs/node_modules/webui-popover/dist/jquery.webui-popover.min.css');
 		$registry->register('./src/UI/templates/js/Popover/popover.js');
 	}
 
