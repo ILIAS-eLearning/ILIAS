@@ -259,6 +259,11 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 				'id' => $member->personID,
 				'role' => $member->role
 			);
+			if((int) $course->groupScenario == ilECSMappingUtils::PARALLEL_ONE_COURSE)
+			{
+				$this->log->debug('Group scenarion "one course". Ignoring group assignments');
+				continue;
+			}
 			
 			foreach((array) $member->groups as $pgroup)
 			{

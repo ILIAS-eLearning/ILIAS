@@ -1,0 +1,12 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "akill(149)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "",
+    "testcase_writer": "abaulig1(44386)",
+    "path": "Modules/Wiki",
+    "belong_to_component": "Wiki",
+    "used_in_components": []
+}

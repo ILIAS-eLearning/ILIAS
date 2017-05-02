@@ -79,14 +79,15 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$this->setClearAnswersOnWritingPostDataEnabled(true);
 		}
 		
+		$this->object->setOrderingType(OQ_PICTURES);
+		
 		$form = $this->buildEditForm();
 		$form->setValuesByPost();
 		$this->persistAuthoringForm($form);
 		
-		$this->object->setOrderingType(OQ_PICTURES);
 		$this->object->saveToDb();
 		
-		$form->prepareFormValuesReprintable($this->object);
+		$form->ensureReprintableFormStructure($this->object);
 		$this->renderEditForm($form);
 	}
 
@@ -97,14 +98,15 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$this->setClearAnswersOnWritingPostDataEnabled(true);
 		}
 		
+		$this->object->setOrderingType(OQ_TERMS);
+
 		$form = $this->buildEditForm();
 		$form->setValuesByPost();
 		$this->persistAuthoringForm($form);
 
-		$this->object->setOrderingType(OQ_TERMS);
 		$this->object->saveToDb();
 		
-		$form->prepareFormValuesReprintable($this->object);
+		$form->ensureReprintableFormStructure($this->object);
 		$this->renderEditForm($form);
 	}
 
@@ -273,6 +275,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$replacementElementList->addElement($submittedElement);
 		}
 		
+		if( $this->object->isImageOrderingType() )
+		{
+			$this->object->handleThumbnailCreation($replacementElementList);
+		}
+		
 		if( $this->isClearAnswersOnWritingPostDataEnabled() )
 		{
 			$replacementElementList->clearElementContents();
@@ -318,14 +325,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	
 	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
 	{
-		$orderingtype = $this->object->getOrderingType();
-
-		// Edit mode
-
-		//$hidden = new ilHiddenInputGUI("ordering_type");
-		//$hidden->setValue( $orderingtype );
-		//$form->addItem( $hidden );
-
 		if (!$this->object->getSelfAssessmentEditingMode())
 		{
 			$element_height = new ilNumberInputGUI($this->lng->txt( "element_height" ), "element_height");
@@ -338,7 +337,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$form->addItem( $element_height );
 		}
 
-		if ($orderingtype == OQ_PICTURES)
+		if( $this->object->isImageOrderingType() )
 		{
 			$geometry = new ilNumberInputGUI($this->lng->txt( "thumb_geometry" ), "thumb_geometry");
 			$geometry->setValue( $this->object->getThumbGeometry() );
@@ -374,18 +373,15 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		{
 			// this case seems to be a regular save call, so we consider
 			// the validation result for the decision of saving as well
-
+			
 			// inits {this->editForm} and performs validation
 			$form = $this->buildEditForm();
 			$form->setValuesByPost(); // manipulation and distribution of values 
 			
 			if( !$form->checkInput() ) // manipulations regular style input propeties
 			{
-				$orderingInput = $form->getItemByPostVar(
-					assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
-				);
-				
-				$orderingInput->setMultiValues($orderingInput->getMultiValues()); // KEEP THIS (!)
+				$form->prepareValuesReprintable($this->object);
+				$this->renderEditForm($form);
 				
 				// consequence of vaidation
 				$savingAllowed = false;
@@ -401,7 +397,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$form->checkInput(); // manipulations regular style input propeties
 		}
 		
-		if ($savingAllowed)
+		if( $savingAllowed )
 		{
 			$this->persistAuthoringForm($form);
 			
