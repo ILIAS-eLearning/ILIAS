@@ -136,7 +136,7 @@ class ilPortfolioRepositoryGUI
 				if($this->checkAccess("write", $id))
 				{
 					$portfolio = new ilObjPortfolio($id, false);
-					$portfolio->setTitle($title);
+					$portfolio->setTitle(ilUtil::stripSlashes($title));
 
 					if(is_array($_POST["online"]) && in_array($id, $_POST["online"]))
 					{
