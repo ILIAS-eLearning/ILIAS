@@ -15,7 +15,7 @@ interface Constraint {
 	/**
 	 * Checks the provided value.
 	 *
-	 * Should not throw if appliesTo($value).
+	 * Should not throw if accepts($value).
 	 *
 	 * @throws  \UnexpectedValueException if value does not comply with encoded constraint.
 	 * @param   mixed  $value
@@ -54,11 +54,11 @@ interface Constraint {
 	public function restrict(Result $result);
 
 	/**
-	 * Get a restriction like this one with a builder for a custom error
+	 * Get a constraint like this one with a builder for a custom error
 	 * message.
 	 *
 	 * problemWith() must return an error message according to the new builder for
-	 * the new restriction.
+	 * the new constraint.
 	 *
 	 * @param   callable  $builder  mixed -> string
 	 * @return  Constraint
