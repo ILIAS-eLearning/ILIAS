@@ -1,10 +1,14 @@
 <?php
+declare(strict_types=1);
+
+use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Cookies\CookieWrapper;
+use ILIAS\HTTP\GlobalHttpState;
+use Psr\Http\Message\UriInterface;
 
 require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACPath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACSecurePath.php');
-require_once('./Services/WebAccessChecker/classes/class.ilWACLog.php');
 require_once('./Services/Init/classes/class.ilInitialisation.php');
 require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
 
@@ -54,10 +58,6 @@ class ilWebAccessChecker {
 	/**
 	 * @var bool
 	 */
-	protected static $DEBUG = false;
-	/**
-	 * @var bool
-	 */
 	protected static $use_seperate_logfile = false;
 	/**
 	 * @var array
@@ -69,15 +69,22 @@ class ilWebAccessChecker {
      * @var \ILIAS\DI\HTTPServices $http
      */
     private $http;
+	/**
+	 * @var CookieFactory $cookieFactory
+	 */
+    private $cookieFactory;
+
 
 	/**
 	 * ilWebAccessChecker constructor.
 	 *
-	 * @param string $path
+	 * @param GlobalHttpState $httpState
+	 * @param CookieFactory   $cookieFactory
 	 */
-	public function __construct($path) {
-		$this->setPathObject(new ilWACPath($path));
-        $this->http = $GLOBALS["DIC"]->http();
+	public function __construct(GlobalHttpState $httpState, CookieFactory $cookieFactory ) {
+		$this->setPathObject(new ilWACPath($httpState->request()->getRequestTarget()));
+        $this->http = $httpState;
+        $this->cookieFactory = $cookieFactory;
 	}
 
 
@@ -85,19 +92,17 @@ class ilWebAccessChecker {
 	 * @return bool
 	 * @throws ilWACException
 	 */
-	public function check() {
-		ilWACLog::getInstance()->write('Checking File: ' . $this->getPathObject()->getPathWithoutQuery());
+	public function check() : bool {
 		if (!$this->getPathObject()) {
 			throw new ilWACException(ilWACException::CODE_NO_PATH);
 		}
 
 		// Check if Path has been signed with a token
-		$ilWACSignedPath = new ilWACSignedPath($this->getPathObject());
+		$ilWACSignedPath = new ilWACSignedPath($this->getPathObject(), $this->http, $this->cookieFactory);
 		if ($ilWACSignedPath->isSignedPath()) {
 			$this->addAppliedCheckingMethod(self::CM_FILE_TOKEN);
 			if ($ilWACSignedPath->isSignedPathValid()) {
 				$this->setChecked(true);
-				ilWACLog::getInstance()->write('checked using token');
 				$this->sendHeader('checked using token');
 
 				return true;
@@ -112,7 +117,6 @@ class ilWebAccessChecker {
 					$ilWACSignedPath->revalidatingFolderToken();
 				}
 				$this->setChecked(true);
-				ilWACLog::getInstance()->write('checked using secure folder');
 				$this->sendHeader('checked using secure folder');
 
 				return true;
@@ -126,10 +130,8 @@ class ilWebAccessChecker {
 		$checkingInstance = ilWACSecurePath::getCheckingInstance($this->getPathObject());
 		if ($checkingInstance instanceof ilWACCheckingClass) {
 			$this->addAppliedCheckingMethod(self::CM_CHECKINGINSTANCE);
-			ilWACLog::getInstance()->write('has checking instance: ' . get_class($checkingInstance));
 			$canBeDelivered = $checkingInstance->canBeDelivered($this->getPathObject());
 			if ($canBeDelivered) {
-				ilWACLog::getInstance()->write('checked using fallback');
 				$this->sendHeader('checked using fallback');
 				if ($ilWACSignedPath->isFolderSigned() && $this->isRevalidateFolderTokens()) {
 					$ilWACSignedPath->revalidatingFolderToken();
@@ -139,7 +141,6 @@ class ilWebAccessChecker {
 
 				return true;
 			} else {
-				ilWACLog::getInstance()->write('checking-instance denied access');
 				$this->setChecked(true);
 
 				return false;
@@ -148,15 +149,12 @@ class ilWebAccessChecker {
 
 		// none of the checking mechanisms could have been applied. no access
 		$this->setChecked(true);
-		ilWACLog::getInstance()->write('none of the checking mechanisms could have been applied. access depending on sec folder');
 		if ($this->getPathObject()->isInSecFolder()) {
 			$this->addAppliedCheckingMethod(self::CM_SECFOLDER);
-			ilWACLog::getInstance()->write('file is in sec-folder, no delivery');
 
 			return false;
 		} else {
 			$this->addAppliedCheckingMethod(self::CM_SECFOLDER);
-			ilWACLog::getInstance()->write('file is not in sec-folder, delivery');
 
 			return true;
 		}
@@ -164,25 +162,26 @@ class ilWebAccessChecker {
 
 
 	/**
-	 * @param $message
+	 * @param string $message
+	 * @return void
 	 */
-	protected function sendHeader($message) {
+	protected function sendHeader(string $message) {
 		$response = $this->http->response()->withHeader('X-ILIAS-WebAccessChecker', $message);
         $this->http->saveResponse($response);
 	}
 
 
 	/**
-	 * @return bool
-	 * @throws \ilWACException
+	 * @return void
 	 */
 	public function initILIAS() {
 		if ($this->isInitialized()) {
-			return true;
+			return;
 		}
+
 		$GLOBALS['COOKIE_PATH'] = '/';
 
-        $cookie = CookieWrapper::create('ilClientId', $this->getPathObject()->getClient())
+        $cookie = $this->cookieFactory->create('ilClientId', $this->getPathObject()->getClient())
                 ->withPath('/')
                 ->withExpires(0);
 
@@ -194,14 +193,11 @@ class ilWebAccessChecker {
 
 		ilContext::init(ilContext::CONTEXT_WAC);
 		try {
-			ilWACLog::getInstance()->write('init ILIAS');
 			ilInitialisation::initILIAS();
 			$this->checkPublicSection();
 			$this->checkUser();
-		} catch (Exception $e) {
-			if ($e instanceof ilWACException) {
-				throw  $e;
-			}
+		}
+		catch (Exception $e) {
 			if ($e instanceof Exception && $e->getMessage() == 'Authentication failed.') {
 				$request = $this->http->request();
 				$queries = $request->getQueryParams();
@@ -214,7 +210,6 @@ class ilWebAccessChecker {
 
 				$this->http->saveRequest($request);
 
-				ilWACLog::getInstance()->write('reinit ILIAS');
 				ilInitialisation::reinitILIAS();
 				$GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, ANONYMOUS_USER_ID);
 				$this->checkPublicSection();
@@ -225,35 +220,44 @@ class ilWebAccessChecker {
 	}
 
 
+	/**
+	 * @return void
+	 * @throws ilWACException
+	 */
 	protected function checkPublicSection() {
 		global $ilSetting, $ilUser;
-		if (!$ilSetting instanceof ilSetting || ($ilUser->getId() == ANONYMOUS_USER_ID && !$ilSetting->get('pub_section'))) {
-			ilWACLog::getInstance()->write('public section not activated');
+		if (!$ilSetting instanceof ilSetting || ($ilUser->getId() === ANONYMOUS_USER_ID && !$ilSetting->get('pub_section'))) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
 		}
 	}
 
 
+	/**
+	 * @return void
+	 * @throws ilWACException
+	 */
 	protected function checkUser() {
 		global $ilUser;
-		if (!$ilUser instanceof ilObjUser || ($ilUser->getId() == 0 && strpos($_SERVER['HTTP_REFERER'], 'login.php') === false)) {
+		$referrer = $_SERVER['HTTP_REFERER'] ?? '';
+		if (!$ilUser instanceof ilObjUser || ($ilUser->getId() === 0 && strpos($referrer, 'login.php') === false)) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);
 		}
 	}
 
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
-	public function isChecked() {
+	public function isChecked() : bool {
 		return $this->checked;
 	}
 
 
 	/**
 	 * @param boolean $checked
+	 * @return void
 	 */
-	public function setChecked($checked) {
+	public function setChecked(bool $checked) {
 		$this->checked = $checked;
 	}
 
@@ -261,15 +265,16 @@ class ilWebAccessChecker {
 	/**
 	 * @return ilWACPath
 	 */
-	public function getPathObject() {
+	public function getPathObject() : ilWACPath{
 		return $this->path_object;
 	}
 
 
 	/**
 	 * @param ilWACPath $path_object
+	 * @return void
 	 */
-	public function setPathObject($path_object) {
+	public function setPathObject(ilWACPath $path_object) {
 		$this->path_object = $path_object;
 	}
 
@@ -277,15 +282,16 @@ class ilWebAccessChecker {
 	/**
 	 * @return string
 	 */
-	public function getDisposition() {
+	public function getDisposition() : string {
 		return $this->disposition;
 	}
 
 
 	/**
 	 * @param string $disposition
+	 * @return void
 	 */
-	public function setDisposition($disposition) {
+	public function setDisposition(string $disposition) {
 		$this->disposition = $disposition;
 	}
 
@@ -293,118 +299,107 @@ class ilWebAccessChecker {
 	/**
 	 * @return string
 	 */
-	public function getOverrideMimetype() {
+	public function getOverrideMimetype() : string {
 		return $this->override_mimetype;
 	}
 
 
 	/**
 	 * @param string $override_mimetype
+	 * @return void
 	 */
-	public function setOverrideMimetype($override_mimetype) {
+	public function setOverrideMimetype(string $override_mimetype) {
 		$this->override_mimetype = $override_mimetype;
 	}
 
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
-	public function isInitialized() {
+	public function isInitialized() : bool {
 		return $this->initialized;
 	}
 
 
 	/**
-	 * @param boolean $initialized
+	 * @param bool $initialized
 	 */
-	public function setInitialized($initialized) {
+	public function setInitialized(bool $initialized) {
 		$this->initialized = $initialized;
 	}
 
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
-	public function isSendStatusCode() {
+	public function isSendStatusCode() : bool {
 		return $this->send_status_code;
 	}
 
 
 	/**
-	 * @param boolean $send_status_code
+	 * @param bool $send_status_code
+	 * @return void
 	 */
-	public function setSendStatusCode($send_status_code) {
+	public function setSendStatusCode(bool $send_status_code) {
 		$this->send_status_code = $send_status_code;
 	}
 
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
-	public function isRevalidateFolderTokens() {
+	public function isRevalidateFolderTokens() : bool {
 		return $this->revalidate_folder_tokens;
 	}
 
 
 	/**
-	 * @param boolean $revalidate_folder_tokens
+	 * @param bool $revalidate_folder_tokens
+	 * @return void
 	 */
-	public function setRevalidateFolderTokens($revalidate_folder_tokens) {
+	public function setRevalidateFolderTokens(bool $revalidate_folder_tokens) {
 		$this->revalidate_folder_tokens = $revalidate_folder_tokens;
 	}
 
-
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
-	public static function isDEBUG() {
-		return self::$DEBUG;
-	}
-
-
-	/**
-	 * @param boolean $DEBUG
-	 */
-	public static function setDEBUG($DEBUG) {
-		self::$DEBUG = $DEBUG;
-	}
-
-
-	/**
-	 * @return boolean
-	 */
-	public static function isUseSeperateLogfile() {
+	public static function isUseSeperateLogfile() : bool {
 		return self::$use_seperate_logfile;
 	}
 
 
 	/**
-	 * @param boolean $use_seperate_logfile
+	 * @param bool $use_seperate_logfile
+	 * @return void
 	 */
-	public static function setUseSeperateLogfile($use_seperate_logfile) {
+	public static function setUseSeperateLogfile(bool $use_seperate_logfile) {
 		self::$use_seperate_logfile = $use_seperate_logfile;
 	}
 
 	/**
-	 * @return array
+	 * @return int[]
 	 */
-	public function getAppliedCheckingMethods() {
+	public function getAppliedCheckingMethods() : array {
 		return $this->applied_checking_methods;
 	}
 
 
 	/**
-	 * @param array $applied_checking_methods
+	 * @param int[] $applied_checking_methods
+	 * @return void
 	 */
-	public function setAppliedCheckingMethods($applied_checking_methods) {
+	public function setAppliedCheckingMethods(array $applied_checking_methods) {
 		$this->applied_checking_methods = $applied_checking_methods;
 	}
 
 
 	/**
 	 * @param int $method
+	 * @return void
 	 */
-	protected function addAppliedCheckingMethod($method) {
+	protected function addAppliedCheckingMethod(int $method) {
 		$this->applied_checking_methods[] = $method;
 	}
 }

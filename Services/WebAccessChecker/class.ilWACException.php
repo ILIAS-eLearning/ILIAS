@@ -36,18 +36,32 @@ class ilWACException extends ilException {
 		self::MAX_LIFETIME           => 'You can only only use lifetimes shorter than ilWACSignedPath::MAX_LIFETIME',
 	);
 
-
 	/**
-	 * @param string $code
+	 * @param int $code
 	 * @param string $additional_message
 	 */
 	public function __construct($code, $additional_message = '') {
+
 		$message = self::$messages[$code];
-		if ($additional_message) {
-			$message = $message . ': ' . $additional_message;
+
+		if ($this->isNonEmptyString($additional_message)) {
+			$message = "\"{$this->message}\" with additional message: \"$additional_message\"";
 		}
-		ilWACLog::getInstance()->write('Exception in ' . $this->getFile() . ':' . $this->getLine() . ': ' . $message);
+
+		//ilWACLog::getInstance()->write('Exception in ' . $this->getFile() . ':' . $this->getLine() . ': ' . $message);
 		parent::__construct($message, $code);
+	}
+
+	/**
+	 * Checks if the given text is empty or not.
+	 *
+	 * @param string $text  The text which should be checked.
+	 *
+	 * @return bool true if the string is not empty, otherwise false.
+	 */
+	private function isNonEmptyString(string $text) : bool
+	{
+		return strcmp($text, '') !== 0;
 	}
 }
 

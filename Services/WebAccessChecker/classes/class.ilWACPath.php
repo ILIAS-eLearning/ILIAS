@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * Class ilWACPath
@@ -15,7 +16,7 @@ class ilWACPath {
 	 */
 	const REGEX = "(?<prefix>.*?)(?<path>(?<path_without_query>(?<secure_path_id>(?<module_path>\/data\/(?<client>[\w-\.]*)\/(?<sec>sec\/|)(?<module_type>.*?)\/(?<module_identifier>.*\/|)))(?<appendix>[^\?\n]*)).*)";
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected static $image_suffixes = array(
 		'png',
@@ -25,7 +26,7 @@ class ilWACPath {
 		'svg',
 	);
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected static $video_suffixes = array(
 		'mp4',
@@ -35,7 +36,7 @@ class ilWACPath {
 		'webm',
 	);
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected static $audio_suffixes = array(
 		'mp3',
@@ -124,9 +125,9 @@ class ilWACPath {
 	/**
 	 * ilWACPath constructor.
 	 *
-	 * @param string $path
+	 * @param string                $path
 	 */
-	public function __construct($path) {
+	public function __construct(string $path) {
 		$this->setOriginalRequest($path);
 		$re = '/' . self::REGEX . '/';
 		preg_match($re, $path, $result);
@@ -137,21 +138,30 @@ class ilWACPath {
 			}
 		}
 
-		$this->setPrefix($result['prefix']);
-		$this->setClient($result['client']);
-		$this->setAppendix($result['appendix']);
-		$this->setModuleIdentifier(strstr($result['module_identifier'], "/", true));
-		$this->setModuleType($result['module_type']);
+		$moduleId = strstr($result['module_identifier'] ?? '', "/", true);
+		$moduleId = $moduleId === false ? '' : $moduleId;
+
+		$this->setPrefix($result['prefix'] ?? '');
+		$this->setClient($result['client'] ?? '');
+		$this->setAppendix($result['appendix'] ?? '');
+		$this->setModuleIdentifier($moduleId);
+		$this->setModuleType($result['module_type'] ?? '');
+
+		$modulePath = NULL;
+
 		if ($this->getModuleIdentifier()) {
-			$this->setModulePath('.' . strstr($result['module_path'], $this->getModuleIdentifier(), true));
+			$modulePath = strstr($result['module_path'] ?? '', $this->getModuleIdentifier(), true);
+			$modulePath = '.' . ($modulePath === false ? '' : $modulePath);
 		}else {
-			$this->setModulePath('.' . $result['module_path']);
+			$modulePath = ('.' . ($result['module_path'] ?? ''));
 		}
-		$this->setInSecFolder($result['sec'] == 'sec/');
-		$this->setPathWithoutQuery('.' . $result['path_without_query']);
-		$this->setPath('.' . $result['path']);
-		$this->setSecurePath('.' . $result['secure_path_id']);
-		$this->setSecurePathId($result['module_type']);
+
+		$this->setModulePath("$modulePath");
+		$this->setInSecFolder($result['sec'] === 'sec/');
+		$this->setPathWithoutQuery('.' . ($result['path_without_query'] ?? ''));
+		$this->setPath('.' . ($result['path'] ?? ''));
+		$this->setSecurePath('.' . ($result['secure_path_id'] ?? ''));
+		$this->setSecurePathId($result['module_type'] ?? '');
 		// Pathinfo
 		$parts = parse_url($path);
 		$this->setFileName(basename($parts['path']));
@@ -172,10 +182,10 @@ class ilWACPath {
 			$this->setToken($param[ilWACSignedPath::WAC_TOKEN_ID]);
 		}
 		if (isset($param[ilWACSignedPath::WAC_TIMESTAMP_ID])) {
-			$this->setTimestamp($param[ilWACSignedPath::WAC_TIMESTAMP_ID]);
+			$this->setTimestamp(intval($param[ilWACSignedPath::WAC_TIMESTAMP_ID]));
 		}
 		if (isset($param[ilWACSignedPath::WAC_TTL_ID])) {
-			$this->setTTL($param[ilWACSignedPath::WAC_TTL_ID]);
+			$this->setTTL(intval($param[ilWACSignedPath::WAC_TTL_ID]));
 		}
 	}
 
@@ -183,7 +193,7 @@ class ilWACPath {
 	/**
 	 * @return array
 	 */
-	public function getParameters() {
+	public function getParameters() : array {
 		return $this->parameters;
 	}
 
@@ -191,7 +201,7 @@ class ilWACPath {
 	/**
 	 * @param array $parameters
 	 */
-	public function setParameters($parameters) {
+	public function setParameters(array $parameters) {
 		$this->parameters = $parameters;
 	}
 
@@ -199,7 +209,7 @@ class ilWACPath {
 	/**
 	 * @return array
 	 */
-	public static function getAudioSuffixes() {
+	public static function getAudioSuffixes() : array {
 		return self::$audio_suffixes;
 	}
 
@@ -207,7 +217,7 @@ class ilWACPath {
 	/**
 	 * @param array $audio_suffixes
 	 */
-	public static function setAudioSuffixes($audio_suffixes) {
+	public static function setAudioSuffixes(array $audio_suffixes) {
 		self::$audio_suffixes = $audio_suffixes;
 	}
 
@@ -215,7 +225,7 @@ class ilWACPath {
 	/**
 	 * @return array
 	 */
-	public static function getImageSuffixes() {
+	public static function getImageSuffixes() : array {
 		return self::$image_suffixes;
 	}
 
@@ -223,7 +233,7 @@ class ilWACPath {
 	/**
 	 * @param array $image_suffixes
 	 */
-	public static function setImageSuffixes($image_suffixes) {
+	public static function setImageSuffixes(array $image_suffixes) {
 		self::$image_suffixes = $image_suffixes;
 	}
 
@@ -231,7 +241,7 @@ class ilWACPath {
 	/**
 	 * @return array
 	 */
-	public static function getVideoSuffixes() {
+	public static function getVideoSuffixes() : array {
 		return self::$video_suffixes;
 	}
 
@@ -239,7 +249,7 @@ class ilWACPath {
 	/**
 	 * @param array $video_suffixes
 	 */
-	public static function setVideoSuffixes($video_suffixes) {
+	public static function setVideoSuffixes(array $video_suffixes) {
 		self::$video_suffixes = $video_suffixes;
 	}
 
@@ -247,7 +257,7 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getPrefix() {
+	public function getPrefix() : string {
 		return $this->prefix;
 	}
 
@@ -255,7 +265,7 @@ class ilWACPath {
 	/**
 	 * @param string $prefix
 	 */
-	public function setPrefix($prefix) {
+	public function setPrefix(string $prefix) {
 		$this->prefix = $prefix;
 	}
 
@@ -263,7 +273,7 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getAppendix() {
+	public function getAppendix() : string {
 		return $this->appendix;
 	}
 
@@ -271,7 +281,7 @@ class ilWACPath {
 	/**
 	 * @param string $appendix
 	 */
-	public function setAppendix($appendix) {
+	public function setAppendix(string $appendix) {
 		$this->appendix = $appendix;
 	}
 
@@ -279,7 +289,7 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getModulePath() {
+	public function getModulePath() : string {
 		return $this->module_path;
 	}
 
@@ -287,7 +297,7 @@ class ilWACPath {
 	/**
 	 * @param string $module_path
 	 */
-	public function setModulePath($module_path) {
+	public function setModulePath(string $module_path) {
 		$this->module_path = $module_path;
 	}
 
@@ -295,7 +305,7 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getDirName() {
+	public function getDirName() : string {
 		return dirname($this->getPathWithoutQuery());
 	}
 
@@ -303,7 +313,7 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getPathWithoutQuery() {
+	public function getPathWithoutQuery() : string {
 		return $this->path_without_query;
 	}
 
@@ -311,7 +321,7 @@ class ilWACPath {
 	/**
 	 * @param string $path_without_query
 	 */
-	public function setPathWithoutQuery($path_without_query) {
+	public function setPathWithoutQuery(string $path_without_query) {
 		$this->path_without_query = $path_without_query;
 	}
 
@@ -319,7 +329,7 @@ class ilWACPath {
 	/**
 	 * @return bool
 	 */
-	public function isImage() {
+	public function isImage() : bool {
 		return in_array(strtolower($this->getSuffix()), self::$image_suffixes);
 	}
 
@@ -327,7 +337,7 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getSuffix() {
+	public function getSuffix() : string {
 		return $this->suffix;
 	}
 
@@ -335,7 +345,7 @@ class ilWACPath {
 	/**
 	 * @param string $suffix
 	 */
-	public function setSuffix($suffix) {
+	public function setSuffix(string $suffix) {
 		$this->suffix = $suffix;
 	}
 
@@ -343,7 +353,7 @@ class ilWACPath {
 	/**
 	 * @return bool
 	 */
-	public function isStreamable() {
+	public function isStreamable() : bool {
 		return ($this->isAudio() || $this->isVideo());
 	}
 
@@ -351,7 +361,7 @@ class ilWACPath {
 	/**
 	 * @return bool
 	 */
-	public function isAudio() {
+	public function isAudio() : bool {
 		return in_array(strtolower($this->getSuffix()), self::$audio_suffixes);
 	}
 
@@ -359,7 +369,7 @@ class ilWACPath {
 	/**
 	 * @return bool
 	 */
-	public function isVideo() {
+	public function isVideo() : bool {
 		return in_array(strtolower($this->getSuffix()), self::$video_suffixes);
 	}
 
@@ -367,7 +377,7 @@ class ilWACPath {
 	/**
 	 * @return bool
 	 */
-	public function fileExists() {
+	public function fileExists() : bool {
 		return is_file($this->getPathWithoutQuery());
 	}
 
@@ -375,39 +385,39 @@ class ilWACPath {
 	/**
 	 * @return bool
 	 */
-	public function hasToken() {
-		return ($this->token != '');
+	public function hasToken() : bool {
+		return ($this->token !== '');
 	}
 
 
 	/**
 	 * @return bool
 	 */
-	public function hasTimestamp() {
-		return ($this->timestamp != 0);
+	public function hasTimestamp() : bool {
+		return ($this->timestamp !== 0);
 	}
 
 
 	/**
 	 * @return bool
 	 */
-	public function hasTTL() {
-		return ($this->ttl != 0);
+	public function hasTTL() : bool {
+		return ($this->ttl !== 0);
 	}
 
 
 	/**
 	 * @return string
 	 */
-	public function getToken() {
+	public function getToken() : string {
 		return $this->token;
 	}
 
 
 	/**
-	 * @param $token
+	 * @param string $token
 	 */
-	public function setToken($token) {
+	public function setToken(string $token) {
 		$this->parameters[ilWACSignedPath::WAC_TOKEN_ID] = $token;
 		$this->token = $token;
 	}
@@ -416,15 +426,15 @@ class ilWACPath {
 	/**
 	 * @return int
 	 */
-	public function getTimestamp() {
+	public function getTimestamp() : int {
 		return $this->timestamp;
 	}
 
 
 	/**
-	 * @param $timestamp
+	 * @param int $timestamp
 	 */
-	public function setTimestamp($timestamp) {
+	public function setTimestamp(int $timestamp) {
 		$this->parameters[ilWACSignedPath::WAC_TIMESTAMP_ID] = $timestamp;
 		$this->timestamp = $timestamp;
 	}
@@ -433,7 +443,7 @@ class ilWACPath {
 	/**
 	 * @return int
 	 */
-	public function getTTL() {
+	public function getTTL() : int {
 		return $this->ttl;
 	}
 
@@ -441,7 +451,7 @@ class ilWACPath {
 	/**
 	 * @param int $ttl
 	 */
-	public function setTTL($ttl) {
+	public function setTTL(int $ttl) {
 		$this->parameters[ilWACSignedPath::WAC_TTL_ID] = $ttl;
 		$this->ttl = $ttl;
 	}
@@ -450,7 +460,7 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getClient() {
+	public function getClient() : string {
 		return $this->client;
 	}
 
@@ -458,7 +468,7 @@ class ilWACPath {
 	/**
 	 * @param string $client
 	 */
-	public function setClient($client) {
+	public function setClient(string $client) {
 		$this->client = $client;
 	}
 
@@ -466,7 +476,7 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getSecurePathId() {
+	public function getSecurePathId() : string {
 		return $this->secure_path_id;
 	}
 
@@ -474,7 +484,7 @@ class ilWACPath {
 	/**
 	 * @param string $secure_path_id
 	 */
-	public function setSecurePathId($secure_path_id) {
+	public function setSecurePathId(string $secure_path_id) {
 		$this->secure_path_id = $secure_path_id;
 	}
 
@@ -482,7 +492,7 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getPath() {
+	public function getPath() : string {
 		return $this->path;
 	}
 
@@ -490,7 +500,7 @@ class ilWACPath {
 	/**
 	 * @param string $path
 	 */
-	public function setPath($path) {
+	public function setPath(string $path) {
 		$this->path = $path;
 	}
 
@@ -498,7 +508,7 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getQuery() {
+	public function getQuery() : string {
 		return $this->query;
 	}
 
@@ -506,7 +516,7 @@ class ilWACPath {
 	/**
 	 * @param string $query
 	 */
-	public function setQuery($query) {
+	public function setQuery(string $query) {
 		$this->query = $query;
 	}
 
@@ -514,7 +524,7 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getFileName() {
+	public function getFileName() : string {
 		return $this->file_name;
 	}
 
@@ -522,7 +532,7 @@ class ilWACPath {
 	/**
 	 * @param string $file_name
 	 */
-	public function setFileName($file_name) {
+	public function setFileName(string $file_name) {
 		$this->file_name = $file_name;
 	}
 
@@ -530,7 +540,7 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getOriginalRequest() {
+	public function getOriginalRequest() : string {
 		return $this->original_request;
 	}
 
@@ -538,7 +548,7 @@ class ilWACPath {
 	/**
 	 * @param string $original_request
 	 */
-	public function setOriginalRequest($original_request) {
+	public function setOriginalRequest(string $original_request) {
 		$this->original_request = $original_request;
 	}
 
@@ -546,7 +556,7 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getSecurePath() {
+	public function getSecurePath() : string {
 		return $this->secure_path;
 	}
 
@@ -554,23 +564,23 @@ class ilWACPath {
 	/**
 	 * @param string $secure_path
 	 */
-	public function setSecurePath($secure_path) {
+	public function setSecurePath(string $secure_path) {
 		$this->secure_path = $secure_path;
 	}
 
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
-	public function isInSecFolder() {
+	public function isInSecFolder() : bool {
 		return $this->in_sec_folder;
 	}
 
 
 	/**
-	 * @param boolean $in_sec_folder
+	 * @param bool $in_sec_folder
 	 */
-	public function setInSecFolder($in_sec_folder) {
+	public function setInSecFolder(bool $in_sec_folder) {
 		$this->in_sec_folder = $in_sec_folder;
 	}
 
@@ -578,7 +588,7 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getModuleType() {
+	public function getModuleType() : string {
 		return $this->module_type;
 	}
 
@@ -586,7 +596,7 @@ class ilWACPath {
 	/**
 	 * @param string $module_type
 	 */
-	public function setModuleType($module_type) {
+	public function setModuleType(string $module_type) {
 		$this->module_type = $module_type;
 	}
 
@@ -594,7 +604,7 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getModuleIdentifier() {
+	public function getModuleIdentifier() : string {
 		return $this->module_identifier;
 	}
 
@@ -602,7 +612,7 @@ class ilWACPath {
 	/**
 	 * @param string $module_identifier
 	 */
-	public function setModuleIdentifier($module_identifier) {
+	public function setModuleIdentifier(string $module_identifier) {
 		$this->module_identifier = $module_identifier;
 	}
 }

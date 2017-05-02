@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+require_once('./libs/composer/vendor/autoload.php');
+
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 /**
  * TestCase for the ilWACCheckingInstanceTest
@@ -7,8 +12,13 @@
  * @version                1.0.0
  *
  * @group                  needsInstalledILIAS
+ *
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState    disabled
+ * @backupGlobals          disabled
+ * @backupStaticAttributes disabled
  */
-class ilWACPathTest extends PHPUnit_Framework_TestCase {
+class ilWACPathTest extends MockeryTestCase {
 
 	/**
 	 * Setup
@@ -17,6 +27,17 @@ class ilWACPathTest extends PHPUnit_Framework_TestCase {
 	{
 		require_once('./Services/WebAccessChecker/classes/class.ilWACPath.php');
 		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+
+		//setup container for HttpServiceAware classes
+		/*
+		$container = new \ILIAS\DI\Container();
+		$container['http'] = function ($c) {
+			return Mockery::mock(GlobalHttpState::class);
+		};
+
+
+		$GLOBALS["DIC"] = $container; */
+
 		parent::setUp();
 	}
 

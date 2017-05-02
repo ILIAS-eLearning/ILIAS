@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -20,9 +21,22 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-require_once './Services/WebAccessChecker/test/WACTestCase.php';
+require_once('./libs/composer/vendor/autoload.php');
 
+require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+require_once('./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php');
+require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+require_once('./Services/WebAccessChecker/classes/class.ilWACToken.php');
+
+use ILIAS\HTTP\Cookies\Cookie;
+use ILIAS\HTTP\Cookies\CookieFactory;
+use ILIAS\HTTP\Cookies\CookieFactoryImpl;
+use ILIAS\HTTP\Cookies\CookieJar;
+use ILIAS\HTTP\GlobalHttpState;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\MockInterface;
 use org\bovigo\vfs;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * TestCase for the ilWACTokenTest
@@ -30,15 +44,15 @@ use org\bovigo\vfs;
  * @author                 Fabian Schmid <fs@studer-raimann.ch>
  * @version                1.0.0
  *
- * @runInSeparateProcess
+ *
  * @preserveGlobalState    disabled
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class ilWACTokenTest extends WACTestCase {
+class ilWACTokenTest extends MockeryTestCase {
 
-	const ADDITIONAL_TIME = 0.5;
-	const LIFETIME = 1;
+	const ADDITIONAL_TIME = 1;
+	const LIFETIME = 2;
 	const SALT = 'SALT';
 	const CLIENT_NAME = 'client_name';
 	/**
@@ -73,6 +87,14 @@ class ilWACTokenTest extends WACTestCase {
 	 * @var vfs\vfsStreamDirectory
 	 */
 	protected $root;
+	/**
+	 * @var GlobalHttpState|MockInterface $http
+	 */
+	private $http;
+	/**
+	 * @var CookieFactory|MockInterface $cookieFactory
+	 */
+	private $cookieFactory;
 
 
 	/**
@@ -81,10 +103,6 @@ class ilWACTokenTest extends WACTestCase {
 	protected function setUp()
 	{
 		parent::setUp();
-		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
-		require_once('./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php');
-		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
-		require_once('./Services/WebAccessChecker/classes/class.ilWACToken.php');
 
 		$this->root = vfs\vfsStream::setup('ilias.de');
 		$this->file_one = vfs\vfsStream::newFile('data/client_name/mobs/mm_123/dummy.jpg')
@@ -99,13 +117,43 @@ class ilWACTokenTest extends WACTestCase {
 		                                 ->at($this->root)->setContent('dummy');
 		$this->file_four = vfs\vfsStream::newFile('data/client_name/sec/ilBlog/mm_124/dummy.jpg')
 		                                ->at($this->root)->setContent('dummy');
+
+		//setup container for HttpServiceAware classes
+		$container = new \ILIAS\DI\Container();
+		$container['http'] = function ($c) {
+			return Mockery::mock(GlobalHttpState::class);
+		};
+
+		$this->http = $container['http'];
+
+
+		$GLOBALS["DIC"] = $container;
+
+		$this->cookieFactory = Mockery::mock(CookieFactoryImpl::class);
+
+		//because the cookie have no logic except cloning it self therefore it should be no problem to defer the function calls
+		$this->cookieFactory->shouldDeferMissing();
+
 		ilWACToken::setSALT(self::SALT);
 	}
 
 
 	public function testWithoutSigning()
 	{
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_one->url()));
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_one->url()), $this->http, $this->cookieFactory);
+
+		$cookieJar = Mockery::mock(CookieJar::class);
+
+		$cookieJar
+			->shouldReceive('get')
+			->times(6)
+			->withAnyArgs()
+			->andReturnNull();
+
+		$this->http->shouldReceive('cookieJar')
+			->twice()
+			->withNoArgs()
+			->andReturn($cookieJar);
 
 		$this->assertFalse($ilWACSignedPath->isSignedPath());
 		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
@@ -118,7 +166,7 @@ class ilWACTokenTest extends WACTestCase {
 	{
 		$query = 'myparam=1234';
 		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_four->url() . '?'
-		                                                     . $query));
+		                                                     . $query), $this->http, $this->cookieFactory);
 
 		$this->assertEquals('dummy.jpg', $ilWACSignedPath->getPathObject()->getFileName());
 		$this->assertEquals($query, $ilWACSignedPath->getPathObject()->getQuery());
@@ -127,17 +175,11 @@ class ilWACTokenTest extends WACTestCase {
 		                                                             ->getSecurePath());
 		$this->assertEquals('ilBlog', $ilWACSignedPath->getPathObject()->getSecurePathId());
 		$this->assertFalse($ilWACSignedPath->getPathObject()->isStreamable());
-
-		$this->assertEquals('ilWACLogDummy', get_class(ilWACLog::getInstance()));
-
-		$this->assertFalse(ilWebAccessChecker::isDEBUG());
-		$this->assertFalse(ilWACToken::DEBUG);
 	}
 
 
 	public function testTokenGeneration()
 	{
-		ilWebAccessChecker::setDEBUG(false);
 		$ilWacPath = new ilWacPath($this->file_four->url());
 		$ilWACToken = new ilWACToken($ilWacPath->getPath(), self::CLIENT_NAME, 123456, 20);
 		$ilWACToken->setIp('127.0.0.1');
@@ -145,7 +187,6 @@ class ilWACTokenTest extends WACTestCase {
 		$this->assertEquals('SALT-127.0.0.1-client_name-123456-20', $ilWACToken->getRawToken());
 		$this->assertEquals('./data/client_name/sec/ilBlog/mm_124/dummy.jpg', $ilWACToken->getId());
 
-		ilWebAccessChecker::setDEBUG(false);
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 		$this->assertEquals(self::SALT, ilWACToken::getSALT());
 		$ilWACToken = new ilWACToken($ilWacPath->getPath(), self::CLIENT_NAME, 123456, 20);
@@ -156,38 +197,63 @@ class ilWACTokenTest extends WACTestCase {
 
 	public function testCookieGeneration()
 	{
-		ilWebAccessChecker::setDEBUG(false);
-
-		$response = $this->response(); //save response to reset to this state later
-
-		ilWACSignedPath::signFolderOfStartFile($this->file_one->url());
-		$expected_cookies = array(
+		$expected_cookies = [
 			'19ab58dae37d8d8cf931727c35514642',
 			'19ab58dae37d8d8cf931727c35514642ts',
 			'19ab58dae37d8d8cf931727c35514642ttl',
-		);
-		$cookieJar = $this->cookieJar();
-		$this->assertTrue($cookieJar->has($expected_cookies[0]));
-		$this->assertTrue($cookieJar->has($expected_cookies[1]));
-		$this->assertTrue($cookieJar->has($expected_cookies[2]));
+		];
+
+		$cookieJar = Mockery::mock(CookieJar::class);
+
+		$response = Mockery::mock(ResponseInterface::class);
+
+		$this->http
+			->shouldReceive('response')
+			->times(3)
+			->withNoArgs()
+			->andReturn($response)
+			->getMock()
+
+			->shouldReceive('saveResponse')
+			->times(3)
+			->with($response);
+
+		$cookieJar
+			->shouldReceive('with')
+			->times(3)
+			->with(Mockery::on(function (Cookie $cookie) use ($expected_cookies) {return strcmp($cookie->getName(), $expected_cookies[0]) === 0; }))
+			->andReturnSelf()
+			->getMock()
+
+			->shouldReceive('with')
+			->times(3)
+			->with(Mockery::on(function (Cookie $cookie) use ($expected_cookies) {return strcmp($cookie->getName(), $expected_cookies[1]) === 0; }))
+			->andReturnSelf()
+			->getMock()
+
+			->shouldReceive('with')
+			->times(3)
+			->with(Mockery::on(function (Cookie $cookie) use ($expected_cookies) {return strcmp($cookie->getName(), $expected_cookies[2]) === 0; }))
+			->andReturnSelf()
+			->getMock()
+
+			->shouldReceive('renderIntoResponseHeader')
+			->times(3)
+			->withAnyArgs()
+			->andReturn($response);
+
+		$this->http->shouldReceive('cookieJar')
+			->times(3)
+			->withNoArgs()
+			->andReturn($cookieJar);
+
+		ilWACSignedPath::signFolderOfStartFile($this->file_one->url());
 
 		// in subfolder
-		$this->http()->saveResponse($response); //reset state
 		ilWACSignedPath::signFolderOfStartFile($this->file_one_subfolder->url());
-
-		$cookieJar = $this->cookieJar();
-		$this->assertTrue($cookieJar->has($expected_cookies[0]));
-		$this->assertTrue($cookieJar->has($expected_cookies[1]));
-		$this->assertTrue($cookieJar->has($expected_cookies[2]));
 
 		// in sub-subfolder
-		$this->http()->saveResponse($response); //reset state
 		ilWACSignedPath::signFolderOfStartFile($this->file_one_subfolder->url());
-
-		$cookieJar = $this->cookieJar();
-		$this->assertTrue($cookieJar->has($expected_cookies[0]));
-		$this->assertTrue($cookieJar->has($expected_cookies[1]));
-		$this->assertTrue($cookieJar->has($expected_cookies[2]));
 	}
 
 
@@ -198,7 +264,7 @@ class ilWACTokenTest extends WACTestCase {
 
 		// Request within lifetime
 		$signed_path = ilWACSignedPath::signFile($this->file_one->url());
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path));
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path), $this->http, $this->cookieFactory);
 
 		$this->assertTrue($ilWACSignedPath->isSignedPath());
 		$this->assertTrue($ilWACSignedPath->isSignedPathValid());
@@ -213,21 +279,76 @@ class ilWACTokenTest extends WACTestCase {
 		// Request after lifetime
 		$signed_path = ilWACSignedPath::signFile($this->file_four->url());
 		sleep($lifetime + self::ADDITIONAL_TIME);
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path));
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path), $this->http, $this->cookieFactory);
 		$this->assertTrue($ilWACSignedPath->isSignedPath());
 		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
 	}
 
 
+	/**
+	 * @Test
+	 */
 	public function testFolderToken()
 	{
+		$response = Mockery::mock(ResponseInterface::class);
+		$cookieJar = Mockery::mock(CookieJar::class);
+
+		$this->http
+			->shouldReceive('response')
+			->once()
+			->withNoArgs()
+			->andReturn($response)
+			->getMock()
+
+			->shouldReceive('cookieJar')
+			->once()
+			->withNoArgs()
+			->andReturn($cookieJar)
+			->getMock()
+
+			->shouldReceive('saveResponse')
+			->once()
+			->with($response);
+
+		$timestamp = 2 ** 31 - 31;
+		$ttl = 30;
+		$tokenId = '19ab58dae37d8d8cf931727c35514642';
+
+		$tokenCookie = $this->cookieFactory->create($tokenId, '344d7676240285cc714366038beb44d81bda1d4b');
+		$timestampCookie = $this->cookieFactory->create("{$tokenId}ts", "$timestamp");
+		$ttlCookie = $this->cookieFactory->create("{$tokenId}ttl", "$ttl");
+
+		$cookieJar
+			->shouldReceive('with')
+			->times(3)
+			->with(Mockery::type(Cookie::class))
+			->andReturnSelf()
+			->getMock()
+
+			->shouldReceive('renderIntoResponseHeader')
+			->once()
+			->withAnyArgs()
+			->andReturn($response)
+			->getMock()
+
+			->shouldReceive('get')
+			->times(3)
+			->withAnyArgs()
+			->andReturnValues([$tokenCookie, $timestampCookie, $ttlCookie])
+			->getMock()
+
+			->shouldReceive('get')
+			->times(3)
+			->withAnyArgs()
+			->andReturnValues([$tokenCookie, $timestampCookie, $ttlCookie]);
+
 		ilWACSignedPath::setCookieMaxLifetimeInSeconds(self::LIFETIME);
 		$lifetime = ilWACSignedPath::getCookieMaxLifetimeInSeconds();
 
 		$signed_path = $this->file_one->url();
 		ilWACSignedPath::signFolderOfStartFile($signed_path);
 
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path));
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path), $this->http, $this->cookieFactory);
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
 		$this->assertEquals($ilWACSignedPath->getPathObject()->getClient(), self::CLIENT_NAME);
@@ -241,23 +362,26 @@ class ilWACTokenTest extends WACTestCase {
 		// Request after lifetime
 		ilWACSignedPath::signFolderOfStartFile($signed_path);
 		sleep($lifetime + self::ADDITIONAL_TIME);
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path));
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path), $this->http, $this->cookieFactory);
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertFalse($ilWACSignedPath->isFolderTokenValid());
 
 		// Revalidating cookie
 		$ilWACSignedPath->revalidatingFolderToken();
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path));
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path), $this->http, $this->cookieFactory);
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
 
 		// Check other file
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_three->url()));
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_three->url()), $this->http, $this->cookieFactory);
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
 	}
 
 
+	/**
+	 * @Test
+	 */
 	public function testFolderTokenWithSecondFile()
 	{
 		ilWACSignedPath::setCookieMaxLifetimeInSeconds(self::LIFETIME);
@@ -267,14 +391,14 @@ class ilWACTokenTest extends WACTestCase {
 		ilWACSignedPath::signFolderOfStartFile($this->file_one->url());
 		// Check File Two
 		$file_two = $this->file_two->url();
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($file_two));
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($file_two), $this->http, $this->cookieFactory);
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
 
 		// Request after lifetime
 		ilWACSignedPath::signFolderOfStartFile($file_two);
 		sleep($lifetime + self::ADDITIONAL_TIME);
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($file_two));
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($file_two), $this->http, $this->cookieFactory);
 		$this->assertTrue($ilWACSignedPath->isFolderSigned());
 		$this->assertFalse($ilWACSignedPath->isFolderTokenValid());
 
@@ -284,23 +408,29 @@ class ilWACTokenTest extends WACTestCase {
 		$this->assertTrue($ilWACSignedPath->isFolderTokenValid());
 
 		// Check other file
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_three->url()));
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_three->url()), $this->http, $this->cookieFactory);
 		$this->assertFalse($ilWACSignedPath->isFolderSigned());
 		$this->assertFalse($ilWACSignedPath->isFolderTokenValid());
 	}
 
 
+	/**
+	 * @Test
+	 */
 	public function testModifiedTimestampNoMod()
 	{
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 0)));
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 0)), $this->http, $this->cookieFactory);
 		$this->assertTrue($ilWACSignedPath->isSignedPath());
 		$this->assertTrue($ilWACSignedPath->isSignedPathValid());
 	}
 
 
+	/**
+	 * @Test
+	 */
 	public function testModifiedTimestampAddTime()
 	{
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(self::ADDITIONAL_TIME, 0)));
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(self::ADDITIONAL_TIME, 0)), $this->http, $this->cookieFactory);
 		$this->assertTrue($ilWACSignedPath->isSignedPath());
 		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
 	}
@@ -309,7 +439,7 @@ class ilWACTokenTest extends WACTestCase {
 	public function testModifiedTimestampSubTime()
 	{
 		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(self::ADDITIONAL_TIME
-		                                                                                  * - 1, 0)));
+		                                                                                  * - 1, 0)), $this->http, $this->cookieFactory);
 		$this->assertTrue($ilWACSignedPath->isSignedPath());
 		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
 	}
@@ -317,7 +447,7 @@ class ilWACTokenTest extends WACTestCase {
 
 	public function testModifiedTTL()
 	{
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 1)));
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 1)), $this->http, $this->cookieFactory);
 		$this->assertTrue($ilWACSignedPath->isSignedPath());
 		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
 	}
@@ -325,7 +455,7 @@ class ilWACTokenTest extends WACTestCase {
 
 	public function testModifiedTTLAndTimestamp()
 	{
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(1, 1)));
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(1, 1)), $this->http, $this->cookieFactory);
 		$this->assertTrue($ilWACSignedPath->isSignedPath());
 		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
 	}
@@ -333,7 +463,7 @@ class ilWACTokenTest extends WACTestCase {
 
 	public function testModifiedToken()
 	{
-		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 0, md5('LOREM'))));
+		$ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 0, md5('LOREM'))), $this->http, $this->cookieFactory);
 		$this->assertTrue($ilWACSignedPath->isSignedPath());
 		$this->assertFalse($ilWACSignedPath->isSignedPathValid());
 	}

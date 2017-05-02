@@ -1,5 +1,8 @@
 <?php
-require_once('./Services/ActiveRecord/class.ActiveRecord.php');
+declare(strict_types=1);
+
+require_once './Services/ActiveRecord/class.ActiveRecord.php';
+require_once './Services/WebAccessChecker/class.ilWACException.php';
 
 /**
  * Class ilWACSecurePath
@@ -14,7 +17,7 @@ class ilWACSecurePath extends ActiveRecord {
 	 * @description Return the Name of your Database Table
 	 * @deprecated
 	 */
-	static function returnDbTableName() {
+	static function returnDbTableName() : string {
 		return 'il_wac_secure_path';
 	}
 
@@ -25,21 +28,18 @@ class ilWACSecurePath extends ActiveRecord {
 	 * @return ilWACCheckingClass
 	 * @throws ilWACException
 	 */
-	public static function getCheckingInstance(ilWACPath $ilWACPath) {
+	public static function getCheckingInstance(ilWACPath $ilWACPath) : ilWACCheckingClass {
 		/**
 		 * @var $obj ilWACSecurePath
 		 */
 		$obj = self::find($ilWACPath->getModuleType());
 		if (!$obj) {
-			ilWACLog::getInstance()->write('No Checking Instance found for id: ' . $ilWACPath->getSecurePathId());
-
-			return null;
+			throw new ilWACException(ilWACException::CODE_NO_PATH, 'No Checking Instance found for id: ' . $ilWACPath->getSecurePathId());
 		}
+
 		$secure_path_checking_class = $obj->getComponentDirectory() . '/classes/class.' . $obj->getCheckingClass() . '.php';
 		if (!file_exists($secure_path_checking_class)) {
-			ilWACLog::getInstance()->write('Checking Instance not found in path: ' . $secure_path_checking_class);
-
-			return null;
+			throw new ilWACException(ilWACException::CODE_NO_PATH, 'Checking Instance not found in path: ' . $secure_path_checking_class);
 		}
 
 		require_once($secure_path_checking_class);
@@ -100,15 +100,16 @@ class ilWACSecurePath extends ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getPath() {
+	public function getPath() : string {
 		return $this->path;
 	}
 
 
 	/**
 	 * @param string $path
+	 * @return void
 	 */
-	public function setPath($path) {
+	public function setPath(string $path) {
 		$this->path = $path;
 	}
 
@@ -116,7 +117,7 @@ class ilWACSecurePath extends ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getComponentDirectory() {
+	public function getComponentDirectory() : string {
 		preg_match("/[\\\|\\/](Services|Modules|Customizing)[\\\|\\/].*/u", $this->component_directory, $matches);
 
 		return '.' . $matches[0];
@@ -125,8 +126,9 @@ class ilWACSecurePath extends ActiveRecord {
 
 	/**
 	 * @param string $component_directory
+	 * @return void
 	 */
-	public function setComponentDirectory($component_directory) {
+	public function setComponentDirectory(string $component_directory) {
 		$this->component_directory = $component_directory;
 	}
 
@@ -134,23 +136,25 @@ class ilWACSecurePath extends ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getCheckingClass() {
+	public function getCheckingClass() : string {
 		return $this->checking_class;
 	}
 
 
 	/**
 	 * @param string $checking_class
+	 * @return void
 	 */
-	public function setCheckingClass($checking_class) {
+	public function setCheckingClass(string $checking_class) {
 		$this->checking_class = $checking_class;
 	}
 
 
 	/**
-	 * @param boolean $has_checking_instance
+	 * @param bool $has_checking_instance
+	 * @return void
 	 */
-	public function setHasCheckingInstance($has_checking_instance) {
+	public function setHasCheckingInstance(bool $has_checking_instance) {
 		$this->has_checking_instance = $has_checking_instance;
 	}
 
@@ -158,7 +162,7 @@ class ilWACSecurePath extends ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getInSecFolder() {
+	public function getInSecFolder() : string {
 		return $this->in_sec_folder;
 	}
 
@@ -166,7 +170,7 @@ class ilWACSecurePath extends ActiveRecord {
 	/**
 	 * @param string $in_sec_folder
 	 */
-	public function setInSecFolder($in_sec_folder) {
+	public function setInSecFolder(string $in_sec_folder) {
 		$this->in_sec_folder = $in_sec_folder;
 	}
 }

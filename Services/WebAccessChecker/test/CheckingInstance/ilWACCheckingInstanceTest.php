@@ -1,8 +1,15 @@
 <?php
+declare(strict_types=1);
 
-require_once './Services/WebAccessChecker/test/WACTestCase.php';
+require_once('./libs/composer/vendor/autoload.php');
 
+use ILIAS\HTTP\Cookies\CookieFactory;
+use ILIAS\HTTP\GlobalHttpState;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\MockInterface;
 use org\bovigo\vfs;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
 
 /**
  * TestCase for the ilWACCheckingInstanceTest
@@ -11,8 +18,13 @@ use org\bovigo\vfs;
  * @version                1.0.0
  *
  * @group                  needsInstalledILIAS
+ *
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState    disabled
+ * @backupGlobals          disabled
+ * @backupStaticAttributes disabled
  */
-class ilWACCheckingInstanceTest extends WACTestCase {
+class ilWACCheckingInstanceTest extends MockeryTestCase {
 
 	/**
 	 * @var vfs\vfsStreamFile
@@ -22,6 +34,10 @@ class ilWACCheckingInstanceTest extends WACTestCase {
 	 * @var vfs\vfsStreamDirectory
 	 */
 	protected $root;
+	/**
+	 * @var GlobalHttpState|MockInterface
+	 */
+	private $http;
 
 
 	/**
@@ -38,6 +54,17 @@ class ilWACCheckingInstanceTest extends WACTestCase {
 		$this->root = vfs\vfsStream::setup('ilias.de');
 		$this->file_one = vfs\vfsStream::newFile('data/trunk/mobs/mm_123/dummy.jpg')
 		                               ->at($this->root)->setContent('dummy');
+
+		//setup container for HttpServiceAware classes
+		$container = new \ILIAS\DI\Container();
+		$container['http'] = function ($c) {
+			return Mockery::mock(GlobalHttpState::class);
+		};
+
+		$this->http = $container['http'];
+
+
+		$GLOBALS["DIC"] = $container;
 		ilWACToken::setSALT('TOKEN');
 	}
 
@@ -74,7 +101,39 @@ class ilWACCheckingInstanceTest extends WACTestCase {
 
 			return '';
 		});
-		ilWebAccessCheckerDelivery::run($image->url());
+
+		/**
+		 * @var GlobalHttpState|\Mockery\MockInterface $httpService
+		 */
+		$httpService = $this->http;
+		/**
+		 * @var ServerRequestInterface|\Mockery\MockInterface $request
+		 */
+		$request = Mockery::mock(ServerRequestInterface::class);
+		/**
+		 * @var UriInterface|\Mockery\MockInterface $uri
+		 */
+		$uri = Mockery::mock(UriInterface::class);
+
+		$uri
+			->shouldReceive('getPath')
+			->once()
+			->withNoArgs()
+			->andReturn($image->url());
+
+		$request
+			->shouldReceive('getUri')
+			->once()
+			->withNoArgs()
+			->andReturn($uri);
+
+		$httpService
+			->shouldReceive('request')
+			->once()
+			->withNoArgs()
+			->andReturn($uri);
+
+		ilWebAccessCheckerDelivery::run($httpService, Mockery::mock(CookieFactory::class));
 		ob_end_clean();
 		ob_end_flush();
 		$this->assertEquals(404, $this->response()->getStatusCode());
@@ -155,7 +214,6 @@ class ilWACCheckingInstanceTest extends WACTestCase {
 		self::markTestSkipped("Can't run test without db.");
 
 		return;
-		ilWebAccessChecker::setDEBUG(false);
 
 		$file = vfs\vfsStream::newFile('data/trunk/dummy/mm_123/dummy.jpg')->at($this->root)
 		                     ->setContent('dummy');

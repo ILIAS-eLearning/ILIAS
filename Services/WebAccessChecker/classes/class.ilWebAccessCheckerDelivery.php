@@ -1,9 +1,13 @@
 <?php
+declare(strict_types=1);
 
 require_once('./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php');
 require_once('./Services/FileDelivery/classes/Delivery.php');
 require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
-use ILIAS\FileDelivery\Delivery as F;
+
+use ILIAS\FileDelivery\Delivery;
+use ILIAS\HTTP\Cookies\CookieFactory;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * Class ilWebAccessCheckerDelivery
@@ -15,18 +19,21 @@ class ilWebAccessCheckerDelivery {
 	/**
 	 * @var ilWebAccessChecker
 	 */
-	protected $ilWebAccessChecker = null;
+	private $ilWebAccessChecker = null;
     /**
-     * @var \ILIAS\DI\Container $dic
+     * @var GlobalHttpState $http
      */
-    private $dic;
+    private $http;
 
 
 	/**
-	 * @param $raw_path
+	 * @param GlobalHttpState $httpState
+	 * @param CookieFactory   $cookieFactory
+	 *
+	 * @return void
 	 */
-	public static function run($raw_path) {
-		$obj = new self($raw_path);
+	public static function run(GlobalHttpState $httpState, CookieFactory $cookieFactory) {
+		$obj = new self($httpState, $cookieFactory);
 		$obj->handleRequest();
 	}
 
@@ -34,28 +41,32 @@ class ilWebAccessCheckerDelivery {
 	/**
 	 * ilWebAccessCheckerDelivery constructor.
 	 *
-	 * @param string $raw_path
+	 * @param GlobalHttpState $httpState
+	 * @param CookieFactory   $cookieFactory
 	 */
-	public function __construct($raw_path) {
-		$this->ilWebAccessChecker = new ilWebAccessChecker(rawurldecode($raw_path));
-        $this->dic = $GLOBALS["DIC"];
+	public function __construct(GlobalHttpState $httpState, CookieFactory $cookieFactory) {
+		$this->ilWebAccessChecker = new ilWebAccessChecker($httpState, $cookieFactory);
+		$this->http = $httpState;
 	}
 
 
+	/**
+	 * @return void
+	 */
 	protected function handleRequest() {
 		// Set errorreporting
 		ilInitialisation::handleErrorReporting();
-        $queries = $this->dic->http()->request()->getQueryParams();
+        $queries = $this->http->request()->getQueryParams();
 
 		// Set customizing
 		if (isset($queries[ilWebAccessChecker::DISPOSITION])) {
-			$this->ilWebAccessChecker->setDisposition($_GET[ilWebAccessChecker::DISPOSITION]);
+			$this->ilWebAccessChecker->setDisposition($queries[ilWebAccessChecker::DISPOSITION]);
 		}
 		if (isset($queries[ilWebAccessChecker::STATUS_CODE])) {
-			$this->ilWebAccessChecker->setSendStatusCode($_GET[ilWebAccessChecker::STATUS_CODE]);
+			$this->ilWebAccessChecker->setSendStatusCode($queries[ilWebAccessChecker::STATUS_CODE]);
 		}
 		if (isset($queries[ilWebAccessChecker::REVALIDATE])) {
-			$this->ilWebAccessChecker->setRevalidateFolderTokens($_GET[ilWebAccessChecker::REVALIDATE]);
+			$this->ilWebAccessChecker->setRevalidateFolderTokens($queries[ilWebAccessChecker::REVALIDATE]);
 		}
 
 		// Check if File can be delivered
@@ -66,6 +77,7 @@ class ilWebAccessCheckerDelivery {
 				$this->deny();
 			}
 		} catch (ilWACException $e) {
+
 			switch ($e->getCode()) {
 				case ilWACException::ACCESS_DENIED:
 				case ilWACException::ACCESS_DENIED_NO_PUB:
@@ -92,16 +104,14 @@ class ilWebAccessCheckerDelivery {
 
 
 	protected function deliverDummyImage() {
-		$ilFileDelivery = new F('./Services/WebAccessChecker/templates/images/access_denied.png', $this->ilWebAccessChecker->getPathObject()
-		                                                                                                                   ->getFileName());
+		$ilFileDelivery = new Delivery('./Services/WebAccessChecker/templates/images/access_denied.png', $this->http);
 		$ilFileDelivery->setDisposition($this->ilWebAccessChecker->getDisposition());
 		$ilFileDelivery->deliver();
 	}
 
 
 	protected function deliverDummyVideo() {
-		$ilFileDelivery = new F('./Services/WebAccessChecker/templates/images/access_denied.mp4', $this->ilWebAccessChecker->getPathObject()
-		                                                                                                                   ->getFileName());
+		$ilFileDelivery = new Delivery('./Services/WebAccessChecker/templates/images/access_denied.mp4', $this->http);
 		$ilFileDelivery->setDisposition($this->ilWebAccessChecker->getDisposition());
 		$ilFileDelivery->stream();
 	}
@@ -112,11 +122,12 @@ class ilWebAccessCheckerDelivery {
 	 */
 	protected function handleAccessErrors(ilWACException $e) {
 
-        $response = $this->dic->http()
+		//1.5.2017 Http code needs to be 200 because mod_xsendfile ignores the response with an 401 code. (possible leak of web path via xsendfile header)
+        $response = $this->http
             ->response()
-            ->withStatus(401);
+            ->withStatus(200);
 
-        $this->dic->http()->saveResponse($response);
+		$this->http->saveResponse($response);
 
 		if ($this->ilWebAccessChecker->getPathObject()->isImage()) {
 			$this->deliverDummyImage();
@@ -124,30 +135,17 @@ class ilWebAccessCheckerDelivery {
 		if ($this->ilWebAccessChecker->getPathObject()->isVideo()) {
 			$this->deliverDummyVideo();
 		}
-		try {
-			$this->ilWebAccessChecker->initILIAS();
 
-            //log the error
-            $ilLog = $this->dic["ilLoggerFactory"];
-            $ilLog->write($e->getMessage());
-
-		} catch (ilWACException $ilWACException) {
-		}
-
-		//set the status code again because ilias creates a new DIC.
-        $response = $this->dic->http()
-            ->response()
-            ->withStatus(401);
-
-		$this->dic->http()->saveResponse($response);
+		$this->ilWebAccessChecker->initILIAS();
 	}
 
 
 	/**
 	 * @param ilWACException $e
+	 * @throws ilWACException
 	 */
 	protected function handleErrors(ilWACException $e) {
-        $response = $this->dic->http()->response()
+        $response = $this->http->response()
             ->withStatus(500);
 
 
@@ -157,21 +155,23 @@ class ilWebAccessCheckerDelivery {
         $stream = $response->getBody();
         $stream->write($e->getMessage());
 
-        $this->dic->http()->saveResponse($response);
+        $this->http->saveResponse($response);
 	}
 
 
+	/**
+	 * @return void
+	 * @throws ilWACException
+	 */
 	protected function deliver() {
 		if (!$this->ilWebAccessChecker->isChecked()) {
 			throw new ilWACException(ilWACException::ACCESS_WITHOUT_CHECK);
 		}
 
-		$ilFileDelivery = new F($this->ilWebAccessChecker->getPathObject()->getPath());
+		$ilFileDelivery = new Delivery($this->ilWebAccessChecker->getPathObject()->getPath(), $this->http);
 		$ilFileDelivery->setCache(false);
 		$ilFileDelivery->setDisposition($this->ilWebAccessChecker->getDisposition());
-		ilWACLog::getInstance()->write('Deliver file using ' . $ilFileDelivery->getDeliveryType());
 		if ($this->ilWebAccessChecker->getPathObject()->isStreamable()) { // fixed 0016468
-			ilWACLog::getInstance()->write('begin streaming');
 			$ilFileDelivery->stream();
 		} else {
 			$ilFileDelivery->deliver();

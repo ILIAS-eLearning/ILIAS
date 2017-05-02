@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
 
-require_once './Services/WebAccessChecker/test/WACTestCase.php';
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+
+require_once('./libs/composer/vendor/autoload.php');
 
 /**
  * Class ilWACSecurePathTest extends PHPUnit
@@ -8,8 +11,13 @@ require_once './Services/WebAccessChecker/test/WACTestCase.php';
  * @author                 Fabian Schmid <fs@studer-raimann.ch>
  *
  * @group                  needsInstalledILIAS
+ *
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState    disabled
+ * @backupGlobals          disabled
+ * @backupStaticAttributes disabled
  */
-class ilWACSecurePathTest extends WACTestCase {
+class ilWACSecurePathTest extends MockeryTestCase {
 
 	/**
 	 * @var bool
