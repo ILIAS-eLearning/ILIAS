@@ -30,7 +30,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	}
 	
 	protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_node_id = null)
-	{				
+	{
 		if($a_perm == "create")
 		{
 			return true;
@@ -43,7 +43,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	}
 	
 	function executeCommand()
-	{					
+	{
+		$this->checkPermission("read");
+
 		// goto link to portfolio page
 		if($_GET["gtp"])
 		{		
@@ -129,7 +131,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 			
-			default:		
+			default:
+
 				if($cmd != "preview")
 				{
 					$this->addLocator();

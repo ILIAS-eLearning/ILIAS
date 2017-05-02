@@ -53,8 +53,14 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 	public function checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_node_id, $a_type = "")
 	{
 		global $rbacreview, $ilUser, $ilSetting;
-		
-		// #12059
+
+		// #20310
+		if(!$ilSetting->get("enable_global_profiles") && $ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			return false;
+		}
+
+			// #12059
 		if (!$ilSetting->get('user_portfolios'))
 		{
 			return false;
