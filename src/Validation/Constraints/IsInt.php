@@ -6,7 +6,7 @@ use ILIAS\Validation\Constraint;
 use ILIAS\Data\Factory;
 
 class IsInt implements Constraint {
-	const ERROR_MESSAGE = "The value %s is not an integer"
+	const ERROR_MESSAGE = "The value %s is not an integer";
 
 	/**
 	 * @var ILIAS\Data\Factory
