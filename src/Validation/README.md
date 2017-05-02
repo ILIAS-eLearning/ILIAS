@@ -3,7 +3,7 @@
 This service abstracts validations of values and provides some basic validations
 that could be reused throughout the system.
 
-A validation checks some supplied value for compliance with some restriction.
+A validation checks some supplied value for compliance with some constraints.
 Validations MUST NOT modify the supplied value.
 
 Having an interface to Validations allows to typehint on them and allows them
@@ -19,12 +19,12 @@ require_once(__DIR__."/Factory.php");
 
 $f = new Validation/Factory;
 
-// Build some basic restrictions
+// Build some basic constraints
 $gt0 = $f->greaterThan(0);
 $lt10 = $f->lessThan(10);
 
 // Check them and react:
-if (!$gt0->appliesTo(1)) {
+if (!$gt0->accepts(1)) {
 	assert(false); // does not happen
 }
 
@@ -42,7 +42,7 @@ assert($raised);
 // Get to know what the problem with some value is:
 assert(is_string($gt0->problemWith(-10)));
 
-// Combine them in a way that the restrictions are checked one after another:
+// Combine them in a way that the constraints are checked one after another:
 $between_0_10 = $f->seq([$gt0, $lt10]);
 
 // Or in a way that they are checked independently:
