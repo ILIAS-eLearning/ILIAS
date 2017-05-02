@@ -265,8 +265,15 @@ class ilECSAppEventListener implements ilAppEventListener
 			{
 				$log->info('Adding user ' . $assignment->getUid() . ' to course/group: ' . $assignment->getObjId());
 				include_once './Services/Membership/classes/class.ilParticipants.php';
-				$part = ilParticipants::getInstanceByObjId($assignment->getObjId());
-				$part->add($user->getId(), IL_CRS_MEMBER);
+				
+				if(
+					ilObject::_lookupType($assignment->getObjId()) == 'crs' ||
+					ilObject::_lookupType($assignment->getObjId()) == 'grp'
+				)
+				{
+					$part = ilParticipants::getInstanceByObjId($assignment->getObjId());
+					$part->add($user->getId(), IL_CRS_MEMBER);
+				}
 			}
 			else
 			{

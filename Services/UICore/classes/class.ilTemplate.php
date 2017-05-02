@@ -71,7 +71,7 @@ class ilTemplate extends HTML_Template_ITX
 	* @access	public
 	*/
 	function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
-		$plugin = false, $a_use_cache = false)
+		$plugin = false, $a_use_cache = true)
 	{
 		global $ilias;
 //echo "<br>-".$file."-";
@@ -2559,7 +2559,7 @@ class ilTemplate extends HTML_Template_ITX
 			}
 		}
 		// personal workspace
-		else if ($_GET["wsp_id"] != "")
+		else if ($_GET["wsp_id"] != "" && $_GET["wsp_id"] > 0)
 		{
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";			
 			$tree = new ilWorkspaceTree($ilUser->getId());									

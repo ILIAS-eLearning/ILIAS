@@ -82,7 +82,22 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
 		}
 	}
 	
-	public function prepareFormValuesReprintable(assOrderingQuestion $questionOBJ)
+	/**
+	 * @return ilIdentifiedMultiValuesInputGUI
+	 */
+	public function getOrderingElementInputField()
+	{
+		return $this->getItemByPostVar(
+			assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
+		);
+	}
+	
+	public function prepareValuesReprintable(assOrderingQuestion $questionOBJ)
+	{
+		$this->getOrderingElementInputField()->prepareReprintable($questionOBJ);
+	}
+	
+	public function ensureReprintableFormStructure(assOrderingQuestion $questionOBJ)
 	{
 		$this->renewOrderingElementInput($questionOBJ);
 		$this->renewOrderingCommandButtons($questionOBJ);

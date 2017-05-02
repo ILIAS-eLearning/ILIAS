@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "77247c2bd633fb3bb18adb6edeeb8472",
+    "content-hash": "4d91b7880ba44b41ba13a6710ebf2d6b",
     "packages": [
         {
             "name": "cweagans/composer-patches",
@@ -470,6 +470,11 @@
                 "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
             },
             "type": "library",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS PhpMailer Patches": "patches/phpmailer.patch"
+                }
+            },
             "autoload": {
                 "classmap": [
                     "class.phpmailer.php",

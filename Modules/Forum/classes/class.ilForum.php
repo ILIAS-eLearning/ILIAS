@@ -1080,8 +1080,9 @@ class ilForum
 		 */
 		global $ilDB, $ilUser, $ilSetting;
 		
-		$frm_overview_setting = (int)$ilSetting::_lookupValue('frma', 'forum_overview');
-		$frm_props            = ilForumProperties::getInstance($this->getForumId());
+		$frm_overview_setting       = (int)$ilSetting::_lookupValue('frma', 'forum_overview');
+		$frm_props                  = ilForumProperties::getInstance($this->getForumId());
+		$is_post_activation_enabled = $frm_props->isPostActivationEnabled();
 		
 		$excluded_ids_condition = '';
 		if(isset($params['excluded_ids']) && is_array($params['excluded_ids']) && $params['excluded_ids'])
@@ -1097,29 +1098,39 @@ class ilForum
 		{
 			$params['order_direction'] = 'desc';
 		}
-		
-		// Count all threads for the passed forum
-		$query = "SELECT COUNT(thr_pk) cnt
-				  FROM frm_threads
-				  WHERE thr_top_fk = %s {$excluded_ids_condition}";
-		$res   = $ilDB->queryF($query, array('integer'), array($a_topic_id));
-		$data  = $ilDB->fetchAssoc($res);
-		$cnt   = (int)$data['cnt'];
-		
-		$threads = array();
-		
-		$data       = array();
-		$data_types = array();
-		
+
+		$cnt_active_pos_query = '';
+		$cnt_join_type        = 'LEFT';
+		if($is_post_activation_enabled && !$params['is_moderator'])
+		{
+			$cnt_active_pos_query = " AND (pos_status = {$ilDB->quote(1, 'integer')} OR pos_author_id = {$ilDB->quote($ilUser->getId(), 'integer')}) ";
+			$cnt_join_type        = "INNER";
+		}
+		$query =
+			"SELECT COUNT(DISTINCT(thr_pk)) cnt
+			 FROM frm_threads
+			 {$cnt_join_type} JOIN frm_posts
+			 	ON pos_thr_fk = thr_pk {$cnt_active_pos_query}
+			 WHERE thr_top_fk = %s {$excluded_ids_condition}
+		";
+		$res      = $ilDB->queryF($query, array('integer'), array($a_topic_id));
+		$cntData  = $ilDB->fetchAssoc($res);
+		$cnt      = (int)$cntData['cnt'];
+
 		$active_query               = '';
 		$active_inner_query         = '';
-		$is_post_activation_enabled = $frm_props->isPostActivationEnabled();
+		$having                     = '';
 		if($is_post_activation_enabled && !$params['is_moderator'])
 		{
 			$active_query       = ' AND (pos_status = %s OR pos_author_id = %s) ';
 			$active_inner_query = ' AND (ipos.pos_status = %s OR ipos.pos_author_id = %s) ';
+			$having = ' HAVING num_posts > 0';
 		}
-		
+
+		$threads    = array();
+		$data       = array();
+		$data_types = array();
+
 		$optional_fields = '';
 		if($frm_props->isIsThreadRatingEnabled())
 		{
@@ -1210,6 +1221,7 @@ class ilForum
 						{$excluded_ids_condition}
 						GROUP BY thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
 						{$optional_fields}
+						{$having}
 						ORDER BY is_sticky DESC {$additional_sort}, thr_date DESC";
 			
 			
@@ -1270,6 +1282,7 @@ class ilForum
 						{$excluded_ids_condition}
 						GROUP BY thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
 						{$optional_fields}
+						{$having}
 						ORDER BY is_sticky DESC {$additional_sort}, thr_date DESC";
 
 			if($is_post_activation_enabled && !$params['is_moderator'])

@@ -5,6 +5,7 @@ module.exports = function(subscriberName, subscriberId)
 {
 	var namespace = Container.getNamespace(this.nsp.name);
 
+	Container.removeTimeout(subscriberId);
 	Container.getLogger().info('Subscriber %s connected for namespace %s', subscriberId, namespace.getName());
 
 	if(!namespace.hasSubscriber(subscriberId)) {
@@ -18,12 +19,6 @@ module.exports = function(subscriberName, subscriberId)
 		var subscriber = namespace.getSubscriber(subscriberId);
 		subscriber.setName(subscriberName);
 		subscriber.addSocketId(this.id);
-
-		var timeout = Container.getTimeout(subscriberId);
-		if(timeout != undefined) {
-			Container.removeTimeout(subscriberId);
-			clearTimeout(timeout);
-		}
 
 		this.namespace = namespace;
 		this.subscriber = subscriber;
