@@ -14,7 +14,7 @@ require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
  * @since 5.3
  * @version 1.0
  */
-final class PHPChunked implements ilFileDeliveryType {
+class PHPChunked implements ilFileDeliveryType {
 
 	/**
 	 * @var GlobalHttpState $httpService

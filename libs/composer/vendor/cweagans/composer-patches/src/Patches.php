@@ -20,7 +20,7 @@ use Composer\Plugin\PluginInterface;
 use Composer\Installer\PackageEvents;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
-use Composer\Script\PackageEvent;
+use Composer\Installer\PackageEvent;
 use Composer\Util\ProcessExecutor;
 use Composer\Util\RemoteFilesystem;
 use Symfony\Component\Process\Process;
@@ -60,6 +60,7 @@ class Patches implements PluginInterface, EventSubscriberInterface {
     $this->eventDispatcher = $composer->getEventDispatcher();
     $this->executor = new ProcessExecutor($this->io);
     $this->patches = array();
+    $this->installedPatches = array();
   }
 
   /**
@@ -99,6 +100,9 @@ class Patches implements PluginInterface, EventSubscriberInterface {
 
       foreach ($packages as $package) {
         $extra = $package->getExtra();
+        if (isset($extra['patches'])) {
+          $this->installedPatches[$package->getName()] = $extra['patches'];
+        }
         $patches = isset($extra['patches']) ? $extra['patches'] : array();
         $tmp_patches = array_merge_recursive($tmp_patches, $patches);
       }
@@ -135,10 +139,12 @@ class Patches implements PluginInterface, EventSubscriberInterface {
   public function gatherPatches(PackageEvent $event) {
     // If we've already done this, then don't do it again.
     if (isset($this->patches['_patchesGathered'])) {
+      $this->io->write('<info>Patches already gathered. Skipping</info>', TRUE, IOInterface::VERBOSE);
       return;
     }
     // If patching has been disabled, bail out here.
     elseif (!$this->isPatchingEnabled()) {
+      $this->io->write('<info>Patching is disabled. Skipping.</info>', TRUE, IOInterface::VERBOSE);
       return;
     }
 
@@ -146,6 +152,9 @@ class Patches implements PluginInterface, EventSubscriberInterface {
     if (empty($this->patches)) {
       $this->io->write('<info>No patches supplied.</info>');
     }
+
+    $extra = $this->composer->getPackage()->getExtra();
+    $patches_ignore = isset($extra['patches-ignore']) ? $extra['patches-ignore'] : array();
 
     // Now add all the patches from dependencies that will be installed.
     $operations = $event->getOperations();
@@ -155,9 +164,25 @@ class Patches implements PluginInterface, EventSubscriberInterface {
         $package = $this->getPackageFromOperation($operation);
         $extra = $package->getExtra();
         if (isset($extra['patches'])) {
-          $this->patches = array_merge_recursive($this->patches, $extra['patches']);
+          if (isset($patches_ignore[$package->getName()])) {
+            foreach ($patches_ignore[$package->getName()] as $package_name => $patches) {
+              if (isset($extra['patches'][$package_name])) {
+                $extra['patches'][$package_name] = array_diff($extra['patches'][$package_name], $patches);
+              }
+            }
+          }
+          $this->patches = $this->arrayMergeRecursiveDistinct($this->patches, $extra['patches']);
+        }
+        // Unset installed patches for this package
+        if(isset($this->installedPatches[$package->getName()])) {
+          unset($this->installedPatches[$package->getName()]);
         }
       }
+    }
+
+    // Merge installed patches from dependencies that did not receive an update.
+    foreach ($this->installedPatches as $patches) {
+      $this->patches = array_merge_recursive($this->patches, $patches);
     }
 
     // If we're in verbose mode, list the projects we're going to patch.
@@ -269,8 +294,9 @@ class Patches implements PluginInterface, EventSubscriberInterface {
         $extra['patches_applied'][$description] = $url;
       }
       catch (\Exception $e) {
-        $this->io->write('   <error>Could not apply patch! Skipping.</error>');
-        if (getenv('COMPOSER_EXIT_ON_PATCH_FAILURE')) {
+        $this->io->write('   <error>Could not apply patch! Skipping. The error was: ' . $e->getMessage() . '</error>');
+        $extra = $this->composer->getPackage()->getExtra();
+        if (getenv('COMPOSER_EXIT_ON_PATCH_FAILURE') || !empty($extra['composer-exit-on-patch-failure'])) {
           throw new \Exception("Cannot apply patch $description ($url)!");
         }
       }
@@ -314,11 +340,11 @@ class Patches implements PluginInterface, EventSubscriberInterface {
 
     // Local patch file.
     if (file_exists($patch_url)) {
-      $filename = $patch_url;
+      $filename = realpath($patch_url);
     }
     else {
       // Generate random (but not cryptographically so) filename.
-      $filename = uniqid("/tmp/") . ".patch";
+      $filename = uniqid(sys_get_temp_dir().'/') . ".patch";
 
       // Download file from remote filesystem to this location.
       $hostname = parse_url($patch_url, PHP_URL_HOST);
@@ -332,10 +358,10 @@ class Patches implements PluginInterface, EventSubscriberInterface {
     // it might be useful.
     $patch_levels = array('-p1', '-p0', '-p2');
     foreach ($patch_levels as $patch_level) {
-      $checked = $this->executeCommand('cd %s && GIT_DIR=. git apply --check %s %s', $install_path, $patch_level, $filename);
+      $checked = $this->executeCommand('cd %s && git --git-dir=. apply --check %s %s', $install_path, $patch_level, $filename);
       if ($checked) {
         // Apply the first successful style.
-        $patched = $this->executeCommand('cd %s && GIT_DIR=. git apply %s %s', $install_path, $patch_level, $filename);
+        $patched = $this->executeCommand('cd %s && git --git-dir=. apply %s %s', $install_path, $patch_level, $filename);
         break;
       }
     }
@@ -372,7 +398,7 @@ class Patches implements PluginInterface, EventSubscriberInterface {
   protected function isPatchingEnabled() {
     $extra = $this->composer->getPackage()->getExtra();
 
-    if (empty($extra['patches'])) {
+    if (empty($extra['patches']) && empty($extra['patches-ignore']) && !isset($extra['patches-file'])) {
       // The root package has no patches of its own, so only allow patching if
       // it has specifically opted in.
       return isset($extra['enable-patching']) ? $extra['enable-patching'] : FALSE;
@@ -430,4 +456,36 @@ class Patches implements PluginInterface, EventSubscriberInterface {
     }
     return ($this->executor->execute($command, $output) == 0);
   }
+
+  /**
+   * Recursively merge arrays without changing data types of values.
+   *
+   * Does not change the data types of the values in the arrays. Matching keys'
+   * values in the second array overwrite those in the first array, as is the
+   * case with array_merge.
+   *
+   * @param array $array1
+   *   The first array.
+   * @param array $array2
+   *   The second array.
+   * @return array
+   *   The merged array.
+   *
+   * @see http://php.net/manual/en/function.array-merge-recursive.php#92195
+   */
+  protected function arrayMergeRecursiveDistinct(array $array1, array $array2) {
+    $merged = $array1;
+
+    foreach ($array2 as $key => &$value) {
+      if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+        $merged[$key] = $this->arrayMergeRecursiveDistinct($merged[$key], $value);
+      }
+      else {
+        $merged[$key] = $value;
+      }
+    }
+
+    return $merged;
+  }
+
 }

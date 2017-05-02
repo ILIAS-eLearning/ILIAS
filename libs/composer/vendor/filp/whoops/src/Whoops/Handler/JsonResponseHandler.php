@@ -21,6 +21,22 @@ class JsonResponseHandler extends Handler
     private $returnFrames = false;
 
     /**
+     * @var bool
+     */
+    private $jsonApi = false;
+
+    /**
+     * Returns errors[[]] instead of error[] to be in compliance with the json:api spec
+     * @param bool $jsonApi Default is false
+     * @return $this
+     */
+    public function setJsonApi($jsonApi = false)
+    {
+        $this->jsonApi = (bool) $jsonApi;
+        return $this;
+    }
+
+    /**
      * @param  bool|null  $returnFrames
      * @return bool|$this
      */
@@ -39,19 +55,34 @@ class JsonResponseHandler extends Handler
      */
     public function handle()
     {
-        $response = array(
+      if ($this->jsonApi === true) {
+        $response = [
+          'errors' => [
+            Formatter::formatExceptionAsDataArray(
+                  $this->getInspector(),
+                  $this->addTraceToOutput()
+            ),
+          ]
+        ];
+      } else {
+        $response = [
             'error' => Formatter::formatExceptionAsDataArray(
                 $this->getInspector(),
                 $this->addTraceToOutput()
             ),
-        );
-
-        if (\Whoops\Util\Misc::canSendHeaders()) {
-            header('Content-Type: application/json');
-        }
+        ];
+      }
 
         echo json_encode($response, defined('JSON_PARTIAL_OUTPUT_ON_ERROR') ? JSON_PARTIAL_OUTPUT_ON_ERROR : 0);
 
         return Handler::QUIT;
+    }
+
+    /**
+     * @return string
+     */
+    public function contentType()
+    {
+        return 'application/json';
     }
 }

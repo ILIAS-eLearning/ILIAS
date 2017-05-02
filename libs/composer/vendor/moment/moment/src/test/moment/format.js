@@ -148,6 +148,61 @@ test('toISOString', function (assert) {
     // big negative years
     date = moment.utc('-020123-10-09T20:30:40.678');
     assert.equal(date.toISOString(), '-020123-10-09T20:30:40.678Z', 'ISO8601 format on big negative year');
+
+    //invalid dates
+    date = moment.utc('2017-12-32');
+    assert.equal(date.toISOString(), null, 'An invalid date to iso string is null');
+});
+
+// See https://nodejs.org/dist/latest/docs/api/util.html#util_custom_inspect_function_on_objects
+test('inspect', function (assert) {
+    function roundtrip(m) {
+        /*jshint evil:true */
+        return (new Function('moment', 'return ' + m.inspect()))(moment);
+    }
+    function testInspect(date, string) {
+        var inspected = date.inspect();
+        assert.equal(inspected, string);
+        assert.ok(date.isSame(roundtrip(date)), 'Tried to parse ' + inspected);
+    }
+
+    testInspect(
+        moment('2012-10-09T20:30:40.678'),
+        'moment("2012-10-09T20:30:40.678")'
+    );
+    testInspect(
+        moment('+020123-10-09T20:30:40.678'),
+        'moment("+020123-10-09T20:30:40.678")'
+    );
+    testInspect(
+        moment.utc('2012-10-09T20:30:40.678'),
+        'moment.utc("2012-10-09T20:30:40.678+00:00")'
+    );
+    testInspect(
+        moment.utc('+020123-10-09T20:30:40.678'),
+        'moment.utc("+020123-10-09T20:30:40.678+00:00")'
+    );
+    testInspect(
+        moment.utc('+020123-10-09T20:30:40.678+01:00'),
+        'moment.utc("+020123-10-09T19:30:40.678+00:00")'
+    );
+    testInspect(
+        moment.parseZone('2016-06-11T17:30:40.678+0430'),
+        'moment.parseZone("2016-06-11T17:30:40.678+04:30")'
+    );
+    testInspect(
+        moment.parseZone('+112016-06-11T17:30:40.678+0430'),
+        'moment.parseZone("+112016-06-11T17:30:40.678+04:30")'
+    );
+
+    assert.equal(
+        moment(new Date('nope')).inspect(),
+        'moment.invalid(/* Invalid Date */)'
+    );
+    assert.equal(
+        moment('blah', 'YYYY').inspect(),
+        'moment.invalid(/* blah */)'
+    );
 });
 
 test('long years', function (assert) {
@@ -160,8 +215,15 @@ test('long years', function (assert) {
     assert.equal(moment.utc().year(-20123).format('YYYYYY'), '-020123', 'big negative year with YYYYYY');
 });
 
+test('toISOString() when 0 year', function (assert) {
+    // https://github.com/moment/moment/issues/3765
+    var date = moment('0000-01-01T21:00:00.000Z');
+    assert.equal(date.toISOString(), '0000-01-01T21:00:00.000Z');
+    assert.equal(date.toDate().toISOString(), '0000-01-01T21:00:00.000Z');
+});
+
 test('iso week formats', function (assert) {
-    // http://en.wikipedia.org/wiki/ISO_week_date
+    // https://en.wikipedia.org/wiki/ISO_week_date
     var cases = {
         '2005-01-02': '2004-53',
         '2005-12-31': '2005-52',
@@ -193,7 +255,7 @@ test('iso week formats', function (assert) {
 });
 
 test('iso week year formats', function (assert) {
-    // http://en.wikipedia.org/wiki/ISO_week_date
+    // https://en.wikipedia.org/wiki/ISO_week_date
     var cases = {
         '2005-01-02': '2004-53',
         '2005-12-31': '2005-52',
@@ -226,7 +288,7 @@ test('iso week year formats', function (assert) {
 });
 
 test('week year formats', function (assert) {
-    // http://en.wikipedia.org/wiki/ISO_week_date
+    // https://en.wikipedia.org/wiki/ISO_week_date
     var cases = {
         '2005-01-02': '2004-53',
         '2005-12-31': '2005-52',

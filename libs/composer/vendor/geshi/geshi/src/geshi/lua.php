@@ -46,7 +46,7 @@ $language_data = array (
     'LANG_NAME' => 'Lua',
     'COMMENT_SINGLE' => array(1 => "--"),
     'COMMENT_MULTI' => array(),
-    'COMMENT_REGEXP' => array(1 => '/--\[(=*)\[.*\]\1\]/s'),
+    'COMMENT_REGEXP' => array(1 => '/--\[(=*)\[.*?\]\1\]/s'),
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
     'QUOTEMARKS' => array("'", '"'),
     'ESCAPE_CHAR' => '',

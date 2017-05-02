@@ -3,12 +3,12 @@
   <!--
     GeSHi - Generic Syntax Highlighter - phing build file.
     Works for 1.0.x
-    Packs up a new version of geshi, tags it in svn and releases it on
+    Packs up a new version of geshi, tags it in git and releases it on
     sourceforge.net
   -->
   <property file="build.properties" />
 
-  <property name="version"    value="1.0.8.12" />
+  <property name="version"    value="1.0.9.0" />
   <property name="stability"  value="stable" />
   <property name="zipfile"    value="${phing.project.name}-${version}.zip" />
   <property name="gzfile"     value="${phing.project.name}-${version}.tar.gz" />
@@ -17,17 +17,20 @@
   <property name="fileprefix" value="geshi/" />
   <property name="sfproject"  value="GeSHi" />
   <property name="sffilepath" value="g/ge/geshi/" />
-  <property name="svnpath"    value="https://geshi.svn.sourceforge.net/svnroot/geshi/" />
 
   <property name="releasenotes" value="
-Version 1.0.8.12
+Version 1.0.9.0
 " />
 
 
   <fileset dir="src" id="files">
    <include name="**"/>
    <exclude name="**/.gitignore/"/>
-   <exclude name="**/.svn/"/>
+  </fileset>
+
+  <fileset dir="." id="extra">
+   <include name="contrib/**"/>
+   <include name="docs/**"/>
   </fileset>
 
   <taskdef name="d51pearpkg2" classname="phing.tasks.ext.d51PearPkg2Task" />
@@ -46,12 +49,15 @@ Version 1.0.8.12
 
     <zip destfile="dist/${zipfile}" prefix="${fileprefix}">
      <fileset refid="files" />
+     <fileset refid="extra" />
     </zip>
     <tar destfile="dist/${gzfile}" prefix="${fileprefix}" compression="gzip">
      <fileset refid="files" />
+     <fileset refid="extra" />
     </tar>
     <tar destfile="dist/${bz2file}" prefix="${fileprefix}" compression="bzip2">
      <fileset refid="files" />
+     <fileset refid="extra" />
     </tar>
   </target>
 
@@ -91,6 +97,7 @@ Version 1.0.8.12
 
      <ignore>**/.gitignore</ignore>
      <ignore>contrib/**</ignore>
+     <ignore>dist/**</ignore>
      <ignore>docs/**</ignore>
      <ignore>*.properties</ignore>
      <ignore>*.tgz</ignore>

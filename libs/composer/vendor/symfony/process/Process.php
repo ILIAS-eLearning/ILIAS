@@ -73,6 +73,7 @@ class Process implements \IteratorAggregate
     private $incrementalErrorOutputOffset = 0;
     private $tty;
     private $pty;
+    private $inheritEnv = false;
 
     private $useFileHandles = false;
     /** @var PipesInterface */
@@ -168,7 +169,6 @@ class Process implements \IteratorAggregate
         $this->setTimeout($timeout);
         $this->useFileHandles = '\\' === DIRECTORY_SEPARATOR;
         $this->pty = false;
-        $this->enhanceWindowsCompatibility = true;
         $this->enhanceSigchildCompatibility = '\\' !== DIRECTORY_SEPARATOR && $this->isSigchildEnabled();
         $this->options = array_replace(array('suppress_errors' => true, 'binary_pipes' => true), $options);
     }
@@ -265,9 +265,23 @@ class Process implements \IteratorAggregate
         $this->callback = $this->buildCallback($callback);
         $this->hasCallback = null !== $callback;
         $descriptors = $this->getDescriptors();
+        $inheritEnv = $this->inheritEnv;
 
         $commandline = $this->commandline;
 
+        $env = $this->env;
+        $envBackup = array();
+        if (null !== $env && $inheritEnv) {
+            if ('\\' === DIRECTORY_SEPARATOR && !empty($this->options['bypass_shell']) && !$this->enhanceWindowsCompatibility) {
+                throw new LogicException('The "bypass_shell" option must be false to inherit environment variables while enhanced Windows compatibility is off');
+            }
+
+            foreach ($env as $k => $v) {
+                $envBackup[$k] = getenv($k);
+                putenv(false === $v || null === $v ? $k : "$k=$v");
+            }
+            $env = null;
+        }
         if ('\\' === DIRECTORY_SEPARATOR && $this->enhanceWindowsCompatibility) {
             $commandline = 'cmd /V:ON /E:ON /D /C "('.$commandline.')';
             foreach ($this->processPipes->getFiles() as $offset => $filename) {
@@ -291,7 +305,11 @@ class Process implements \IteratorAggregate
             $ptsWorkaround = fopen(__FILE__, 'r');
         }
 
-        $this->process = proc_open($commandline, $descriptors, $this->processPipes->pipes, $this->cwd, $this->env, $this->options);
+        $this->process = proc_open($commandline, $descriptors, $this->processPipes->pipes, $this->cwd, $env, $this->options);
+
+        foreach ($envBackup as $k => $v) {
+            putenv(false === $v ? $k : "$k=$v");
+        }
 
         if (!is_resource($this->process)) {
             throw new RuntimeException('Unable to launch a new process.');
@@ -318,7 +336,7 @@ class Process implements \IteratorAggregate
      * @param callable|null $callback A PHP callback to run whenever there is some
      *                                output available on STDOUT or STDERR
      *
-     * @return Process The new process
+     * @return $this
      *
      * @throws RuntimeException When process can't be launched
      * @throws RuntimeException When process is already running
@@ -361,7 +379,7 @@ class Process implements \IteratorAggregate
         if (null !== $callback) {
             if (!$this->processPipes->haveReadSupport()) {
                 $this->stop(0);
-                throw new \LogicException('Pass the callback to the Process:start method or enableOutput to use a callback with Process::wait');
+                throw new \LogicException('Pass the callback to the Process::start method or enableOutput to use a callback with Process::wait');
             }
             $this->callback = $this->buildCallback($callback);
         }
@@ -398,7 +416,7 @@ class Process implements \IteratorAggregate
      *
      * @param int $signal A valid POSIX signal (see http://www.php.net/manual/en/pcntl.constants.php)
      *
-     * @return Process
+     * @return $this
      *
      * @throws LogicException   In case the process is not running
      * @throws RuntimeException In case --enable-sigchild is activated and the process can't be killed
@@ -414,7 +432,7 @@ class Process implements \IteratorAggregate
     /**
      * Disables fetching output and error output from the underlying process.
      *
-     * @return Process
+     * @return $this
      *
      * @throws RuntimeException In case the process is already running
      * @throws LogicException   if an idle timeout is set
@@ -436,7 +454,7 @@ class Process implements \IteratorAggregate
     /**
      * Enables fetching output and error output from the underlying process.
      *
-     * @return Process
+     * @return $this
      *
      * @throws RuntimeException In case the process is already running
      */
@@ -557,6 +575,7 @@ class Process implements \IteratorAggregate
                 yield self::OUT => '';
             }
 
+            $this->checkTimeout();
             $this->readPipesForOutput(__FUNCTION__, $blocking);
         }
     }
@@ -564,7 +583,7 @@ class Process implements \IteratorAggregate
     /**
      * Clears the process output.
      *
-     * @return Process
+     * @return $this
      */
     public function clearOutput()
     {
@@ -623,7 +642,7 @@ class Process implements \IteratorAggregate
     /**
      * Clears the process output.
      *
-     * @return Process
+     * @return $this
      */
     public function clearErrorOutput()
     {
@@ -976,8 +995,16 @@ class Process implements \IteratorAggregate
         if ('\\' === DIRECTORY_SEPARATOR && $tty) {
             throw new RuntimeException('TTY mode is not supported on Windows platform.');
         }
-        if ($tty && (!file_exists('/dev/tty') || !is_readable('/dev/tty'))) {
-            throw new RuntimeException('TTY mode requires /dev/tty to be readable.');
+        if ($tty) {
+            static $isTtySupported;
+
+            if (null === $isTtySupported) {
+                $isTtySupported = (bool) @proc_open('echo 1 >/dev/null', array(array('file', '/dev/tty', 'r'), array('file', '/dev/tty', 'w'), array('file', '/dev/tty', 'w')), $pipes);
+            }
+
+            if (!$isTtySupported) {
+                throw new RuntimeException('TTY mode requires /dev/tty to be read/writable.');
+            }
         }
 
         $this->tty = (bool) $tty;
@@ -1079,10 +1106,7 @@ class Process implements \IteratorAggregate
             return !is_array($value);
         });
 
-        $this->env = array();
-        foreach ($env as $key => $value) {
-            $this->env[$key] = (string) $value;
-        }
+        $this->env = $env;
 
         return $this;
     }
@@ -1198,6 +1222,30 @@ class Process implements \IteratorAggregate
     }
 
     /**
+     * Sets whether environment variables will be inherited or not.
+     *
+     * @param bool $inheritEnv
+     *
+     * @return self The current Process instance
+     */
+    public function inheritEnvironmentVariables($inheritEnv = true)
+    {
+        $this->inheritEnv = (bool) $inheritEnv;
+
+        return $this;
+    }
+
+    /**
+     * Returns whether environment variables will be inherited or not.
+     *
+     * @return bool
+     */
+    public function areEnvironmentVariablesInherited()
+    {
+        return $this->inheritEnv;
+    }
+
+    /**
      * Performs a check between the timeout definition and the time the process started.
      *
      * In case you run a background process (with the start method), you should
@@ -1241,7 +1289,7 @@ class Process implements \IteratorAggregate
             return $result = false;
         }
 
-        return $result = (bool) @proc_open('echo 1', array(array('pty'), array('pty'), array('pty')), $pipes);
+        return $result = (bool) @proc_open('echo 1 >/dev/null', array(array('pty'), array('pty'), array('pty')), $pipes);
     }
 
     /**

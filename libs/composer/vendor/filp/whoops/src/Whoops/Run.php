@@ -29,9 +29,9 @@ final class Run implements RunInterface
     /**
      * @var HandlerInterface[]
      */
-    private $handlerStack = array();
+    private $handlerStack = [];
 
-    private $silencedPatterns = array();
+    private $silencedPatterns = [];
 
     private $system;
 
@@ -91,7 +91,7 @@ final class Run implements RunInterface
      */
     public function clearHandlers()
     {
-        $this->handlerStack = array();
+        $this->handlerStack = [];
         return $this;
     }
 
@@ -118,9 +118,9 @@ final class Run implements RunInterface
             class_exists("\\Whoops\\Exception\\Frame");
             class_exists("\\Whoops\\Exception\\Inspector");
 
-            $this->system->setErrorHandler(array($this, self::ERROR_HANDLER));
-            $this->system->setExceptionHandler(array($this, self::EXCEPTION_HANDLER));
-            $this->system->registerShutdownFunction(array($this, self::SHUTDOWN_HANDLER));
+            $this->system->setErrorHandler([$this, self::ERROR_HANDLER]);
+            $this->system->setExceptionHandler([$this, self::EXCEPTION_HANDLER]);
+            $this->system->registerShutdownFunction([$this, self::SHUTDOWN_HANDLER]);
 
             $this->isRegistered = true;
         }
@@ -170,15 +170,26 @@ final class Run implements RunInterface
             $this->silencedPatterns,
             array_map(
                 function ($pattern) use ($levels) {
-                    return array(
+                    return [
                         "pattern" => $pattern,
                         "levels" => $levels,
-                    );
+                    ];
                 },
                 (array) $patterns
             )
         );
         return $this;
+    }
+
+
+    /**
+     * Returns an array with silent errors in path configuration
+     *
+     * @return array
+     */
+    public function getSilenceErrorsInPaths()
+    {
+        return $this->silencedPatterns;
     }
 
     /*
@@ -247,6 +258,7 @@ final class Run implements RunInterface
 
         // Just in case there are no handlers:
         $handlerResponse = null;
+        $handlerContentType = null;
 
         foreach (array_reverse($this->handlerStack) as $handler) {
             $handler->setRun($this);
@@ -259,7 +271,10 @@ final class Run implements RunInterface
             // and removing it would be possibly breaking for users.
             $handlerResponse = $handler->handle($exception);
 
-            if (in_array($handlerResponse, array(Handler::LAST_HANDLER, Handler::QUIT))) {
+            // Collect the content type for possible sending in the headers.
+            $handlerContentType = method_exists($handler, 'contentType') ? $handler->contentType() : null;
+
+            if (in_array($handlerResponse, [Handler::LAST_HANDLER, Handler::QUIT])) {
                 // The Handler has handled the exception in some way, and
                 // wishes to quit execution (Handler::QUIT), or skip any
                 // other handlers (Handler::LAST_HANDLER). If $this->allowQuit
@@ -277,11 +292,15 @@ final class Run implements RunInterface
         // it so that it may be used by the caller
         if ($this->writeToOutput()) {
             // @todo Might be able to clean this up a bit better
-            // If we're going to quit execution, cleanup all other output
-            // buffers before sending our own output:
             if ($willQuit) {
+                // Cleanup all other output buffers before sending our output:
                 while ($this->system->getOutputBufferLevel() > 0) {
                     $this->system->endOutputBuffering();
+                }
+
+                // Send any headers if needed:
+                if (Misc::canSendHeaders() && $handlerContentType) {
+                    header("Content-Type: {$handlerContentType}");
                 }
             }
 
@@ -320,6 +339,7 @@ final class Run implements RunInterface
                 $levelMatches = $level & $entry["levels"];
                 if ($pathMatches && $levelMatches) {
                     // Ignore the error, abort handling
+                    // See https://github.com/filp/whoops/issues/418
                     return true;
                 }
             }

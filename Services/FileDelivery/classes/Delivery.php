@@ -5,7 +5,6 @@ require_once('./Services/Utilities/classes/class.ilMimeTypeUtil.php');
 require_once('./Services/Utilities/classes/class.ilUtil.php'); // This include is needed since WAC can use ilFileDelivery without Initialisation
 require_once('./Services/Context/classes/class.ilContext.php');
 require_once('./Services/Http/classes/class.ilHTTPS.php');
-require_once('./Services/WebAccessChecker/classes/class.ilWACLog.php');
 require_once('./Services/FileDelivery/classes/FileDeliveryTypes/FileDeliveryTypeFactory.php');
 require_once './Services/FileDelivery/classes/FileDeliveryTypes/DeliveryMethod.php';
 
@@ -24,7 +23,7 @@ use ILIAS\HTTP\Response\ResponseHeader;
  *
  * @Internal
  */
-final class Delivery {
+class Delivery {
 
 	const DIRECT_PHP_OUTPUT = 'php://output';
 	const DISP_ATTACHMENT = 'attachment';
@@ -240,7 +239,6 @@ final class Delivery {
 	 */
 	private function detemineDeliveryType() {
 		if (self::$delivery_type_static) {
-			\ilWACLog::getInstance()->write('used cached delivery type');
 			$this->setDeliveryType(self::$delivery_type_static);
 
 			return true;
@@ -558,10 +556,6 @@ final class Delivery {
 	 * @return void
 	 */
 	public function clearBuffer() {
-		$ob_get_contents = ob_get_contents();
-		if ($ob_get_contents) {
-			\ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: ' . $ob_get_contents);
-		}
 		ob_end_clean(); // fixed 0016469, 0016467, 0016468
 	}
 

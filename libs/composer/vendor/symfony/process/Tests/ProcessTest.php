@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Process\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Exception\LogicException;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Exception\RuntimeException;
@@ -22,7 +23,7 @@ use Symfony\Component\Process\Process;
 /**
  * @author Robert Schönthal <seroscho@googlemail.com>
  */
-class ProcessTest extends \PHPUnit_Framework_TestCase
+class ProcessTest extends TestCase
 {
     private static $phpBin;
     private static $process;
@@ -747,6 +748,27 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         throw $e;
     }
 
+    /**
+     * @expectedException \Symfony\Component\Process\Exception\ProcessTimedOutException
+     * @expectedExceptionMessage exceeded the timeout of 0.1 seconds.
+     */
+    public function testIterateOverProcessWithTimeout()
+    {
+        $process = $this->getProcess(self::$phpBin.' -r "sleep(30);"');
+        $process->setTimeout(0.1);
+        $start = microtime(true);
+        try {
+            $process->start();
+            foreach ($process as $buffer);
+            $this->fail('A RuntimeException should have been raised');
+        } catch (RuntimeException $e) {
+        }
+
+        $this->assertLessThan(15, microtime(true) - $start);
+
+        throw $e;
+    }
+
     public function testCheckTimeoutOnNonStartedProcess()
     {
         $process = $this->getProcess('echo foo');
@@ -922,7 +944,14 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
     public function testMethodsThatNeedARunningProcess($method)
     {
         $process = $this->getProcess('foo');
-        $this->setExpectedException('Symfony\Component\Process\Exception\LogicException', sprintf('Process must be started before calling %s.', $method));
+
+        if (method_exists($this, 'expectException')) {
+            $this->expectException('Symfony\Component\Process\Exception\LogicException');
+            $this->expectExceptionMessage(sprintf('Process must be started before calling %s.', $method));
+        } else {
+            $this->setExpectedException('Symfony\Component\Process\Exception\LogicException', sprintf('Process must be started before calling %s.', $method));
+        }
+
         $process->{$method}();
     }
 
@@ -939,7 +968,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider provideMethodsThatNeedATerminatedProcess
-     * @expectedException Symfony\Component\Process\Exception\LogicException
+     * @expectedException \Symfony\Component\Process\Exception\LogicException
      * @expectedExceptionMessage Process must be terminated before calling
      */
     public function testMethodsThatNeedATerminatedProcess($method)
@@ -1260,7 +1289,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
     {
         $i = 0;
         $input = new InputStream();
-        $input->onEmpty(function () use (&$i) {++$i;});
+        $input->onEmpty(function () use (&$i) { ++$i; });
 
         $process = $this->getProcess(self::$phpBin.' -r '.escapeshellarg('echo 123; echo fread(STDIN, 1); echo 456;'));
         $process->setInput($input);
@@ -1362,6 +1391,66 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('456', $p2->getOutput());
     }
 
+    public function testSetBadEnv()
+    {
+        $process = $this->getProcess('echo hello');
+        $process->setEnv(array('bad%%' => '123'));
+        $process->inheritEnvironmentVariables(true);
+
+        $process->run();
+
+        $this->assertSame('hello'.PHP_EOL, $process->getOutput());
+        $this->assertSame('', $process->getErrorOutput());
+    }
+
+    public function testEnvBackupDoesNotDeleteExistingVars()
+    {
+        putenv('existing_var=foo');
+        $process = $this->getProcess('php -r "echo getenv(\'new_test_var\');"');
+        $process->setEnv(array('existing_var' => 'bar', 'new_test_var' => 'foo'));
+        $process->inheritEnvironmentVariables();
+
+        $process->run();
+
+        $this->assertSame('foo', $process->getOutput());
+        $this->assertSame('foo', getenv('existing_var'));
+        $this->assertFalse(getenv('new_test_var'));
+    }
+
+    public function testInheritEnvEnabled()
+    {
+        $process = $this->getProcess(self::$phpBin.' -r '.escapeshellarg('echo serialize($_SERVER);'), null, array('BAR' => 'BAZ'));
+
+        putenv('FOO=BAR');
+
+        $this->assertSame($process, $process->inheritEnvironmentVariables(1));
+        $this->assertTrue($process->areEnvironmentVariablesInherited());
+
+        $process->run();
+
+        $expected = array('BAR' => 'BAZ', 'FOO' => 'BAR');
+        $env = array_intersect_key(unserialize($process->getOutput()), $expected);
+
+        $this->assertEquals($expected, $env);
+    }
+
+    public function testInheritEnvDisabled()
+    {
+        $process = $this->getProcess(self::$phpBin.' -r '.escapeshellarg('echo serialize($_SERVER);'), null, array('BAR' => 'BAZ'));
+
+        putenv('FOO=BAR');
+
+        $this->assertFalse($process->areEnvironmentVariablesInherited());
+
+        $process->run();
+
+        $expected = array('BAR' => 'BAZ', 'FOO' => 'BAR');
+        $env = array_intersect_key(unserialize($process->getOutput()), $expected);
+        unset($expected['FOO']);
+
+        $this->assertSame($expected, $env);
+    }
+
     /**
      * @param string      $commandline
      * @param null|string $cwd
@@ -1404,7 +1493,12 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
             if (!$expectException) {
                 $this->markTestSkipped('PHP is compiled with --enable-sigchild.');
             } elseif (self::$notEnhancedSigchild) {
-                $this->setExpectedException('Symfony\Component\Process\Exception\RuntimeException', 'This PHP has been compiled with --enable-sigchild.');
+                if (method_exists($this, 'expectException')) {
+                    $this->expectException('Symfony\Component\Process\Exception\RuntimeException');
+                    $this->expectExceptionMessage('This PHP has been compiled with --enable-sigchild.');
+                } else {
+                    $this->setExpectedException('Symfony\Component\Process\Exception\RuntimeException', 'This PHP has been compiled with --enable-sigchild.');
+                }
             }
         }
     }

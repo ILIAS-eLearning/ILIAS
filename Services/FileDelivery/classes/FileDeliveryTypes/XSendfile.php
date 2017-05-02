@@ -13,7 +13,7 @@ require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
  * @since 5.3
  * @version 1.0
  */
-final class XSendfile implements ilFileDeliveryType {
+class XSendfile implements ilFileDeliveryType {
 
 	/**
 	 * @var GlobalHttpState $httpService

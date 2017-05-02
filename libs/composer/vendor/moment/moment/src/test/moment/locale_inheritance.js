@@ -133,21 +133,21 @@ test('ordinal', function (assert) {
 
 test('ordinal parse', function (assert) {
     moment.defineLocale('base-ordinal-parse-1', {
-        ordinalParse : /\d{1,2}x/
+        dayOfMonthOrdinalParse : /\d{1,2}x/
     });
     moment.defineLocale('child-ordinal-parse-1', {
         parentLocale: 'base-ordinal-parse-1',
-        ordinalParse : /\d{1,2}y/
+        dayOfMonthOrdinalParse : /\d{1,2}y/
     });
 
     assert.ok(moment.utc('2015-01-1y', 'YYYY-MM-Do', true).isValid(), 'ordinal parse uses child');
 
     moment.defineLocale('base-ordinal-parse-2', {
-        ordinalParse : /\d{1,2}x/
+        dayOfMonthOrdinalParse : /\d{1,2}x/
     });
     moment.defineLocale('child-ordinal-parse-2', {
         parentLocale: 'base-ordinal-parse-2',
-        ordinalParse : /\d{1,2}/
+        dayOfMonthOrdinalParse : /\d{1,2}/
     });
 
     assert.ok(moment.utc('2015-01-1', 'YYYY-MM-Do', true).isValid(), 'ordinal parse uses child (default)');
@@ -162,4 +162,21 @@ test('months', function (assert) {
         months : 'First_Second_Third_Fourth_Fifth_Sixth_Seventh_Eighth_Ninth_Tenth_Eleventh_Twelveth '.split('_')
     });
     assert.ok(moment.utc('2015-01-01', 'YYYY-MM-DD').format('MMMM'), 'First', 'months uses child');
+});
+
+test('define child locale before parent', function (assert) {
+    moment.defineLocale('months-x', null);
+    moment.defineLocale('base-months-x', null);
+
+    moment.defineLocale('months-x', {
+        parentLocale: 'base-months-x',
+        months : 'First_Second_Third_Fourth_Fifth_Sixth_Seventh_Eighth_Ninth_Tenth_Eleventh_Twelveth '.split('_')
+    });
+    assert.equal(moment.locale(), 'en', 'failed to set a locale requiring missing parent');
+    moment.defineLocale('base-months-x', {
+        months : 'One_Two_Three_Four_Five_Six_Seven_Eight_Nine_Ten_Eleven_Twelve'.split('_')
+    });
+    assert.equal(moment.locale(), 'base-months-x', 'defineLocale should also set the locale (regardless of child locales)');
+
+    assert.equal(moment().locale('months-x').month(0).format('MMMM'), 'First', 'loading child before parent locale works');
 });

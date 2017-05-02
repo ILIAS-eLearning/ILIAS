@@ -3,7 +3,7 @@
 * Layout template file for Whoops's pretty error output.
 */
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html><?php echo $preface; ?>
 <html>
   <head>
     <meta charset="utf-8">
@@ -15,23 +15,11 @@
 
     <div class="Whoops container">
       <div class="stack-container">
-        <div class="left-panel cf <?php echo (!$has_frames ? 'empty' : '') ?>">
-          <header>
-            <?php $tpl->render($header) ?>
-          </header>
 
-          <div class="frames-description">
-            Stack frames (<?php echo count($frames) ?>):
-          </div>
+        <?php $tpl->render($panel_left_outer) ?>
 
-          <div class="frames-container">
-            <?php $tpl->render($frame_list) ?>
-          </div>
-        </div>
-        <div class="details-container cf">
-          <?php $tpl->render($frame_code) ?>
-          <?php $tpl->render($env_details) ?>
-        </div>
+        <?php $tpl->render($panel_details_outer) ?>
+
       </div>
     </div>
 
