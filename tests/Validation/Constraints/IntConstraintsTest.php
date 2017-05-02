@@ -15,8 +15,8 @@ class IntConstraintsTest extends PHPUnit_Framework_TestCase {
 	 * @dataprovider constraintsProvider
 	 */
 	public function testAccept($constraint, $ok_value, $error_value) {
-		$this->assertTrue($this->constraint->accepts($ok_value));
-		$this->assertFalse($this->constraint->accepts($error_value));
+		$this->assertTrue($constraint->accepts($ok_value));
+		$this->assertFalse($constraint->accepts($error_value));
 	}
 
 	/**
@@ -25,7 +25,7 @@ class IntConstraintsTest extends PHPUnit_Framework_TestCase {
 	public function testCheck($constraint, $ok_value, $error_value) {
 		$raised = false;
 		try {
-			$this->constraint->check($ok_value);
+			$constraint->check($ok_value);
 		} catch (UnexpectedValueException $e) {
 			$raised = true;
 		}
@@ -33,7 +33,7 @@ class IntConstraintsTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($raised);
 
 		try {
-			$this->constraint->check($error_value);
+			$constraint->check($error_value);
 		} catch (UnexpectedValueException $e) {
 			$raised = true;
 		}
@@ -45,8 +45,8 @@ class IntConstraintsTest extends PHPUnit_Framework_TestCase {
 	 * @dataprovider constraintsProvider
 	 */
 	public function testProblemWith($constraint, $ok_value, $error_value) {
-		$this->asserNull($this->constraint->problemWith($ok_value));
-		$this->assertInternalType("string", $this->constraint->problemWith($error_value));
+		$this->assertNull($constraint->problemWith($ok_value));
+		$this->assertInternalType("string", $constraint->problemWith($error_value));
 	}
 
 	/**
@@ -58,13 +58,13 @@ class IntConstraintsTest extends PHPUnit_Framework_TestCase {
 		$ok2 = $rf->ok($error_value);
 		$error = $rf->error("text");
 
-		$result = $this->constraint->restrict($ok);
+		$result = $constraint->restrict($ok);
 		$this->assertTrue($result->isOk());
 
-		$result = $this->constraint->restrict($ok2);
+		$result = $constraint->restrict($ok2);
 		$this->assertTrue($result->isError());
 
-		$result = $this->constraint->restrict($error);
+		$result = $constraint->restrict($error);
 		$this->assertSame($error, $result);
 	}
 
