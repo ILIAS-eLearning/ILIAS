@@ -209,6 +209,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		}
 		if(preg_match_all("/(\\\$v\\d+)/ims", $this->getQuestion(), $matches))
 		{
+			$generateVariables = true;
+			if(is_array($userdata) && $this->getUserSolutionPreferingIntermediate($userdata["active_id"], $userdata["pass"]))
+			{
+				$generateVariables = false;
+			}
+			
 			foreach($matches[1] as $variable)
 			{
 				$varObj = $this->getVariable($variable);
@@ -227,8 +233,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 					}
 					else
 					{
-						// save value to db
-						$this->saveCurrentSolution($userdata["active_id"], $userdata["pass"], $variable,$varObj->getValue());
+						if($generateVariables)
+						{
+							$this->saveCurrentSolution($userdata["active_id"], $userdata["pass"], $variable, $varObj->getValue());
+							$this->saveCurrentSolution($userdata["active_id"], $userdata["pass"], $variable, $varObj->getValue(), false);
+						}
 					}
 				}
 				$unit = (is_object($varObj->getUnit())) ? $varObj->getUnit()->getUnit() : "";
@@ -566,9 +575,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			array($this->getId())
 		);
 
-		$source_qst_id = $original_id;
-		$target_qst_id = $this->getId();
-
 		foreach($this->variables as $variable)
 		{
 			$next_id      = $ilDB->nextId('il_qpl_qst_fq_var');
@@ -650,33 +656,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			}
 		}
 
-
-		// copy category/unit-process:
-		// if $source_qst_id = '' -> nothing to copy because this is a new question
-		// if $source_qst_id == $target_qst_id -> nothing to copy because this is just an update-process
-		// if $source_qst_id != $target_qst_id -> copy categories and untis because this is a copy-process
-		// @todo: Nadia wtf?
-		if($source_qst_id != $target_qst_id && $source_qst_id > 0)
-		{
-			$res = $ilDB->queryF('
-				SELECT * FROM il_qpl_qst_fq_ucat WHERE question_fi = %s',
-				array('integer'), array($source_qst_id));
-
-			$cp_cats = array();
-			while($row = $ilDB->fetchAssoc($res))
-			{
-				$cp_cats[] = $row['category_id'];
-			}
-
-			foreach($cp_cats as $old_category_id)
-			{
-				// copy admin-categorie to custom-category (with question_fi)
-				$new_cat_id = $this->unitrepository->copyCategory($old_category_id, $target_qst_id);
-
-				// copy units to custom_category
-				$this->unitrepository->copyUnitsByCategories($old_category_id, $new_cat_id, $target_qst_id);
-			}
-		}
 		parent::saveToDb();
 	}
 
@@ -1480,5 +1459,62 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		{
 			return $this->getResults();
 		}
+	}
+
+	/**
+	 * @param $active_id
+	 * @param $pass
+	 * @return array
+	 */
+	protected function getVariableSolutionIds($active_id, $pass)
+	{
+		global $ilDB;
+
+		$ignoredSolutionIds = array();
+
+		$query = "
+			SELECT value1, solution_id FROM tst_solutions
+			WHERE active_fi = %s AND question_fi = %s AND pass = %s
+		";
+
+		$res = $ilDB->queryF(
+			$query,
+			array('integer', 'integer', 'integer'),
+			array($active_id, $this->getId(), $pass)
+		);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			if(preg_match('/^\$v\d+$/', $row['value1']))
+			{
+				$ignoredSolutionIds[] = $row['solution_id'];
+			}
+		}
+		
+		return $ignoredSolutionIds;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function removeCurrentSolution($active_id, $pass, $authorized = true, $ignoredSolutionIds = array())
+	{
+		return parent::removeCurrentSolution(
+			$active_id, $pass, $authorized, $this->getVariableSolutionIds($active_id, $pass)
+		);
+	}
+
+	public function removeExistingSolutions($activeId, $pass)
+	{
+		global $ilDB;
+
+		$query = "
+			DELETE FROM tst_solutions
+			WHERE active_fi = " . $ilDB->quote($activeId, 'integer') ."
+			AND question_fi = ". $ilDB->quote($this->getId(), 'integer') ."
+			AND pass = " .$ilDB->quote($pass, 'integer') ."
+			AND value1 like '\$r%'
+		";
+
+		return $ilDB->manipulate($query);
 	}
 }

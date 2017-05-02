@@ -1148,6 +1148,13 @@ class assFormulaQuestionGUI extends assQuestionGUI
 			$user_solution["pass"]      = $pass;
 			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 
+			if(0 == count(array_filter($solutions, function(array $row){
+				return !preg_match('/^\$v\d+$/', $row['value1']);
+			})))
+			{
+				$solutions = $this->object->getSolutionValues($active_id, $pass, true);
+			}
+			
 			foreach($solutions as $idx => $solution_value)
 			{
 				if(preg_match("/^(\\\$v\\d+)$/", $solution_value["value1"], $matches))

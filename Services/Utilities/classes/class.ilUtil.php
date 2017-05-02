@@ -3141,6 +3141,32 @@ class ilUtil
 		return $a_str;
 	}
 
+	/**
+	 * Prepare secure href attribute
+	 *
+	 * @param
+	 * @return
+	 */
+	function secureUrl($url)
+	{
+		// check if url is valid (absolute or relative)
+		if (filter_var($url, FILTER_VALIDATE_URL) === false &&
+			filter_var("http://".$url, FILTER_VALIDATE_URL) === false &&
+			filter_var("http:".$url, FILTER_VALIDATE_URL) === false &&
+			filter_var("http://de.de".$url, FILTER_VALIDATE_URL) === false &&
+			filter_var("http://de.de/".$url, FILTER_VALIDATE_URL) === false)
+		{
+			return "";
+		}
+		if (trim(strtolower(parse_url($url, PHP_URL_SCHEME))) == "javascript")
+		{
+			return "";
+		}
+		$url = htmlspecialchars($url, ENT_QUOTES);
+		return $url;
+	}
+
+
 
 	/**
 	* prepare a string for db writing (insert/update)

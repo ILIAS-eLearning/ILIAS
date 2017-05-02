@@ -25,8 +25,8 @@ class ilSharedResourceGUI
 		
 		$ilCtrl->saveParameter($this, "wsp_id");
 		$ilCtrl->saveParameter($this, "prt_id");
-		$this->node_id = $_GET["wsp_id"];			
-		$this->portfolio_id = $_GET["prt_id"];			
+		$this->node_id = (int) $_GET["wsp_id"];
+		$this->portfolio_id = (int) $_GET["prt_id"];
 	}
 	
 	function executeCommand()

@@ -2282,7 +2282,7 @@ common#:#check_languages#:#Check All Languages
 common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be checked if they are active.
 common#:#check_link#:#Weblink check
 common#:#check_max_allowed_packet_size#:#The page content size is too large.
-common#:#check_user_accounts_desc#:#If enabled, all users whose account expires will be informed by e-mail. Furthermore all users which have not confirmed their account after a registration with e-mail confirmation will be deleted.
+common#:#check_user_accounts_desc#:#If enabled, all users whose account expires will be informed by e-mail two weeks before. Furthermore all users which have not confirmed their account after a registration with e-mail confirmation will be deleted.
 common#:#check_user_accounts#:#Check user accounts
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#check_web_resources#:#Check Weblinks
@@ -10298,7 +10298,7 @@ common#:#delete_inactive_user_accounts_include_roles#:#Included roles
 common#:#delete_inactive_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.
 common#:#delete_inactive_user_accounts_interval#:#Frequency
 common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts
-common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of inactivation.
+common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted %s days after inactivation.
 common#:#delete_inactivated_user_accounts_period#:#Days passed since inactivation
 common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this period of time has passed since inactivation.
 common#:#delete_inactivated_user_accounts_include_roles#:#Included roles
@@ -16228,3 +16228,9 @@ mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suf
 form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.
 common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
+wsp#:#share_content#:#Share content
+wsp#:#share_with#:#Share with:
+wsp#:#element_already_shared#:#This element is already shared with this user.
+wsp#:#search_no_match#:#Your search did not match any results
+wsp#:#element_shared#:#Element shared
+wsp#:#share#:#Share

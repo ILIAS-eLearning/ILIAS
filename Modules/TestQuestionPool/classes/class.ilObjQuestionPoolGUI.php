@@ -688,9 +688,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$contParser = new ilContObjParser($newObj, $_SESSION["qpl_import_xml_file"], $_SESSION["qpl_import_subdir"]);
 				$contParser->setQuestionMapping($qtiParser->getImportMapping());
 				$contParser->startParsing();
-			}
 
-			$newObj->fromXML($_SESSION["qpl_import_xml_file"]);
+				// #20494
+				$newObj->fromXML($_SESSION["qpl_import_xml_file"]);
+			}
 
 			// set another question pool name (if possible)
 			if( isset($_POST["qpl_new"]) && strlen($_POST["qpl_new"]) )

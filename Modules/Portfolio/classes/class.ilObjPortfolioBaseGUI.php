@@ -39,7 +39,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		
 		if($this->object)
 		{									
-			$ilLocator->addItem($this->object->getTitle(),
+			$ilLocator->addItem(strip_tags($this->object->getTitle()),
 				$this->ctrl->getLinkTarget($this, "view"));
 		}		
 				

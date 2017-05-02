@@ -4704,13 +4704,20 @@ abstract class assQuestion
 	 * @param int $active_id
 	 * @param int $pass
 	 * @param bool|true $authorized
+	 * @param array $ignoredSolutionIds an array of solution ids which should be ignored
 	 * @global ilDB $ilDB
 	 *
 	 * @return int
 	 */
-	public function removeCurrentSolution($active_id, $pass, $authorized = true)
+	public function removeCurrentSolution($active_id, $pass, $authorized = true, $ignoredSolutionIds = array())
 	{
 		global $ilDB;
+
+		$not_in = '';
+		if(count($ignoredSolutionIds) > 0)
+		{
+			$not_in = ' AND ' . $ilDB->in('solution_id', $ignoredSolutionIds, true, 'integer') . ' ';
+		}
 
 		if($this->getStep() !== NULL)
 		{
@@ -4721,6 +4728,7 @@ abstract class assQuestion
 				AND pass = %s
 				AND step = %s
 				AND authorized = %s
+				$not_in
 			";
 
 			return $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer', 'integer'),
@@ -4735,6 +4743,7 @@ abstract class assQuestion
 				AND question_fi = %s
 				AND pass = %s
 				AND authorized = %s
+				$not_in
 			";
 
 			return $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer'),
