@@ -21,7 +21,7 @@ class ilWorkspaceAccessHandler
 	public function __construct(ilTree $a_tree = null)
 	{
 		global $ilUser, $lng;
-		
+
 		$lng->loadLanguageModule("wsp");
 		
 		if(!$a_tree)
@@ -71,10 +71,16 @@ class ilWorkspaceAccessHandler
 	 */
 	public function checkAccessOfUser(ilTree $a_tree, $a_user_id, $a_permission, $a_cmd, $a_node_id, $a_type = "")
 	{
-		global $rbacreview, $ilUser;
+		global $rbacreview, $ilUser, $ilSetting;
 
 		// :TODO: create permission for parent node with type ?!
-		
+
+		// #20310
+		if(!$ilSetting->get("enable_global_profiles") && $ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			return false;
+		}
+
 		// tree root is read-only
 		if($a_permission == "write")
 		{
