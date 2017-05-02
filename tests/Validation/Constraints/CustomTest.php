@@ -35,6 +35,7 @@ class CustomTest extends PHPUnit_Framework_TestCase {
 		try {
 			$constraint->check($error_value);
 		} catch (UnexpectedValueException $e) {
+			$this->assertTrue($message, $e->getMessage());
 			$raised = true;
 		}
 
