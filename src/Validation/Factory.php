@@ -3,11 +3,22 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Validation;
+use ILIAS\Data\Factory;
 
 /**
  * Factory for creating constraints.
  */
 class Factory {
+	/**
+	 * @var ILIAS\Data\Factory
+	 */
+	protected $data_factory;
+
+	public function __construct() {
+		$this->data_factory = new Factory();
+	}
+
+
 	// COMBINATORS
 
 	/**
@@ -45,7 +56,9 @@ class Factory {
 	 *
 	 * @return  Constraint
 	 */
-	public function isInt();
+	public function isInt() {
+		return new Constraints\IsInt($this->result_factory);
+	}
 
 	/**
 	 * Get the constraint that some value is larger than $min.
