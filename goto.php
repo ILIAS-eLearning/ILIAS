@@ -62,7 +62,7 @@ include_once("Services/Init/classes/class.ilStartUpGUI.php");
 if(!ilStartUpGUI::_checkGoto($_GET["target"]))
 {
 	// if anonymous: go to login page
-	if($ilUser->getId() == ANONYMOUS_USER_ID)
+	if(!$ilUser->getId() || $ilUser->isAnonymous())
 	{
 		ilUtil::redirect("login.php?target=".$orig_target."&cmd=force_login&lang=".$ilUser->getCurrentLanguage());
 	}

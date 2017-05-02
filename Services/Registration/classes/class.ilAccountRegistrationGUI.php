@@ -70,6 +70,7 @@ class ilAccountRegistrationGUI
 				}
 				break;
 		}
+		$tpl->setPermanentLink('usr', null, 'registration');
 		$tpl->show();
 		return true;
 	}

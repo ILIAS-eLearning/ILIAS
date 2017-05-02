@@ -157,7 +157,7 @@ class ilECSTaskScheduler
 		}
 		catch(ilException $exc)
 		{
-			$this->log->warning('CAnnto start ecs task execution: ' . $exc->getMessage());
+			$this->log->warning('Cannot start ecs task execution: ' . $exc->getMessage());
 			return false;
 		}
 		return true;
