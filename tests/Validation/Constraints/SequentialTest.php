@@ -1,0 +1,82 @@
+<?php
+
+/* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+
+use ILIAS\Validation;
+use ILIAS\Data;
+
+/**
+ * TestCase for the factory of constraints
+ *
+ * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
+ */
+class SequentialTest extends PHPUnit_Framework_TestCase {
+	protected function setUp() {
+		$this->f = new Validation\Factory();
+	}
+
+	protected function tearDown() {
+		$this->f = null;
+	}
+
+	public function testAccept() {
+		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(5)))
+
+		$this->assertTrue($constraint->accepts(4));
+		$this->assertFalse($constraint->accepts(2));
+	}
+
+	public function testCheck() {
+		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(5)))
+		$raised = false;
+
+		try {
+			$constraint->check(4);
+		} catch (UnexpectedValueException $e) {
+			$raised = true;
+		}
+
+		$this->assertTrue($raised);
+
+		try {
+			$constraint->check(2);
+			$raised = false;
+		} catch (UnexpectedValueException $e) {
+			$raised = true;
+		}
+
+		$this->assertFalse($raised);
+	}
+
+	public function testProblemWith() {
+		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(5)))
+
+		$this->assertNull($constraint->problemWith(4));
+		$this->assertInternalType("string", $constraint->problemWith(2));
+	}
+
+	public function testRestrict() {
+		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(5)))
+
+		$rf = new Data\Factory();
+		$ok = $rf->ok(4);
+		$ok2 = $rf->ok(2);
+		$error = $rf->error("text");
+
+		$result = $constraint->restrict($ok);
+		$this->assertTrue($result->isOk());
+
+		$result = $constraint->restrict($ok2);
+		$this->assertTrue($result->isError());
+
+		$result = $constraint->restrict($error);
+		$this->assertSame($error, $result);
+	}
+
+	public function testWithProblemBuilder() {
+		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(5)))
+
+		$new_constraint = $this->is_int->withProblemBuilder(function($value) { return "This was a vault"; });
+		$this->asserEquals("This was a fault", $new_constraint->problemWith(4));
+	}
+}
