@@ -12,7 +12,7 @@ use ILIAS\Data;
  */
 class IntConstraintsTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @dataprovider constraintsProvider
+	 * @dataProvider constraintsProvider
 	 */
 	public function testAccept($constraint, $ok_value, $error_value) {
 		$this->assertTrue($constraint->accepts($ok_value));
@@ -20,7 +20,7 @@ class IntConstraintsTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @dataprovider constraintsProvider
+	 * @dataProvider constraintsProvider
 	 */
 	public function testCheck($constraint, $ok_value, $error_value) {
 		$raised = false;
@@ -42,7 +42,7 @@ class IntConstraintsTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @dataprovider constraintsProvider
+	 * @dataProvider constraintsProvider
 	 */
 	public function testProblemWith($constraint, $ok_value, $error_value) {
 		$this->assertNull($constraint->problemWith($ok_value));
@@ -50,7 +50,7 @@ class IntConstraintsTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @dataprovider constraintsProvider
+	 * @dataProvider constraintsProvider
 	 */
 	public function testRestrict($constraint, $ok_value, $error_value) {
 		$rf = new Data\Factory();
@@ -69,19 +69,19 @@ class IntConstraintsTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @dataprovider constraintsProvider
+	 * @dataProvider constraintsProvider
 	 */
 	public function testWithProblemBuilder($constraint, $ok_value, $error_value) {
-		$new_constraint = $this->is_int->withProblemBuilder(function($value) { return "This was a vault"; });
-		$this->asserEquals("This was a fault", $new_constraint->problemWith($error_value));
+		$new_constraint = $constraint->withProblemBuilder(function() { return "This was a vault"; });
+		$this->assertEquals("This was a vault", $new_constraint->problemWith($error_value));
 	}
 
 	public function constraintsProvider() {
-		$this->f = new Validation\Factory();
+		$f = new Validation\Factory();
 
-		return array(array($this->f->isInt(), 2, 2.2),
-					 array($this->f->greaterThan(5), 6, 4)
-					 array($this->f->lessThan(5), 4, 6)
+		return array(array($f->isInt(), 2, 2.2),
+					 array($f->greaterThan(5), 6, 4),
+					 array($f->lessThan(5), 4, 6)
 			);
 	}
 }
