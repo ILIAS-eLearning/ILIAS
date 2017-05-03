@@ -6,36 +6,15 @@ use ILIAS\Validation\Constraint;
 use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
 
-class Not implements Constraint {
-	/**
-	 * @var ILIAS\Data\Factory
-	 */
-	protected $data_factory;
-
+class Not extends Custom implements Constraint {
 	/**
 	 * @var Constraint
 	 */
 	protected $constraint;
 
-	/**
-	 * @var callable
-	 */
-	protected $builder = null;
-
 	public function __construct(Constraint $constraint, Factory $data_factory) {
 		$this->constraint = $constraint;
 		$this->data_factory = $data_factory;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function check($value) {
-		if(!$this->accepts($value)) {
-			throw new \UnexpectedValueException($this->getErrorMessage($value));
-		}
-
-		return null;
 	}
 
 	/**
@@ -46,45 +25,13 @@ class Not implements Constraint {
 	}
 
 	/**
-	 * @inheritdoc
-	 */
-	public function problemWith($value) {
-		if(!$this->accepts($value)) {
-			return $this->getErrorMessage($value);
-		}
-
-		return null;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function restrict(Result $result) {
-		if($result->isOk() && ($problem = $this->problemWith($result->value())) !== null) {
-			$error = $this->data_factory->error($problem);
-			return $error;
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function withProblemBuilder(callable $builder) {
-		$clone = clone $this;
-		$clone->builder = $builder;
-		return $clone;
-	}
-
-	/**
 	 * Get the problem message
 	 *
 	 * @return string
 	 */
 	public function getErrorMessage() {
-		if($this->builder !== null) {
-			return call_user_func($this->builder);
+		if($this->error !== null) {
+			return call_user_func($this->error);
 		}
 
 		return $this->constraint->getErrorMessage();

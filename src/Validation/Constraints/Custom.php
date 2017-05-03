@@ -7,8 +7,6 @@ use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
 
 class Custom implements Constraint {
-	const ERROR_MESSAGE = "The checked value is not greater.";
-
 	/**
 	 * @var ILIAS\Data\Factory
 	 */
@@ -20,21 +18,22 @@ class Custom implements Constraint {
 	protected $is_ok;
 
 	/**
-	 * @var string|callable
-	 */
-	protected $error;
-
-	/**
 	 * @var callable
 	 */
-	protected $builder = null;
+	protected $error;
 
 	/**
 	 * @param string|callable   $error
 	 */
 	public function __construct(callable $is_ok, $error, Factory $data_factory) {
 		$this->is_ok = $is_ok;
-		$this->error = $error;
+
+		if(!is_callable($error)) {
+			$this->error = function() use ($error) { return $error; };
+		} else {
+			$this->error = $error;
+		}
+
 		$this->data_factory = $data_factory;
 	}
 
@@ -84,7 +83,7 @@ class Custom implements Constraint {
 	 */
 	public function withProblemBuilder(callable $builder) {
 		$clone = clone $this;
-		$clone->builder = $builder;
+		$clone->error = $builder;
 		return $clone;
 	}
 
@@ -94,14 +93,6 @@ class Custom implements Constraint {
 	 * @return string
 	 */
 	public function getErrorMessage() {
-		if($this->builder !== null) {
-			return call_user_func($this->builder);
-		}
-
-		if(is_callable($this->error)) {
-			return call_user_func($this->error);
-		}
-
-		return $this->error;
+		return call_user_func($this->error);
 	}
 }

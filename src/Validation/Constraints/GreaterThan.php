@@ -6,23 +6,13 @@ use ILIAS\Validation\Constraint;
 use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
 
-class GreaterThan implements Constraint {
+class GreaterThan extends Custom implements Constraint {
 	const ERROR_MESSAGE = "The checked value is not greater.";
-
-	/**
-	 * @var ILIAS\Data\Factory
-	 */
-	protected $data_factory;
 
 	/**
 	 * @var int
 	 */
 	protected $min;
-
-	/**
-	 * @var callable
-	 */
-	protected $builder = null;
 
 	public function __construct($min, Factory $data_factory) {
 		assert('is_int($min)');
@@ -33,51 +23,8 @@ class GreaterThan implements Constraint {
 	/**
 	 * @inheritdoc
 	 */
-	public function check($value) {
-		if(!$this->accepts($value)) {
-			throw new \UnexpectedValueException($this->getErrorMessage($value));
-		}
-
-		return null;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function accepts($value) {
 		return $value > $this->min;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function problemWith($value) {
-		if(!$this->accepts($value)) {
-			return $this->getErrorMessage($value);
-		}
-
-		return null;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function restrict(Result $result) {
-		if($result->isOk() && ($problem = $this->problemWith($result->value())) !== null) {
-			$error = $this->data_factory->error($problem);
-			return $error;
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function withProblemBuilder(callable $builder) {
-		$clone = clone $this;
-		$clone->builder = $builder;
-		return $clone;
 	}
 
 	/**
@@ -86,8 +33,8 @@ class GreaterThan implements Constraint {
 	 * @return string
 	 */
 	public function getErrorMessage() {
-		if($this->builder !== null) {
-			return call_user_func($this->builder);
+		if($this->error !== null) {
+			return call_user_func($this->error);
 		}
 
 		return self::ERROR_MESSAGE;

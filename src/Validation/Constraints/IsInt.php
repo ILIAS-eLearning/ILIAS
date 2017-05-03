@@ -6,32 +6,11 @@ use ILIAS\Validation\Constraint;
 use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
 
-class IsInt implements Constraint {
+class IsInt extends Custom implements Constraint {
 	const ERROR_MESSAGE = "The checked value is not an integer";
-
-	/**
-	 * @var ILIAS\Data\Factory
-	 */
-	protected $data_factory;
-
-	/**
-	 * @var callable
-	 */
-	protected $builder = null;
 
 	public function __construct(Factory $data_factory) {
 		$this->data_factory = $data_factory;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function check($value) {
-		if(!$this->accepts($value)) {
-			throw new \UnexpectedValueException($this->getErrorMessage($value));
-		}
-
-		return null;
 	}
 
 	/**
@@ -42,45 +21,13 @@ class IsInt implements Constraint {
 	}
 
 	/**
-	 * @inheritdoc
-	 */
-	public function problemWith($value) {
-		if(!$this->accepts($value)) {
-			return $this->getErrorMessage($value);
-		}
-
-		return null;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function restrict(Result $result) {
-		if($result->isOk() && ($problem = $this->problemWith($result->value())) !== null) {
-			$error = $this->data_factory->error($problem);
-			return $error;
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function withProblemBuilder(callable $builder) {
-		$clone = clone $this;
-		$clone->builder = $builder;
-		return $clone;
-	}
-
-	/**
 	 * Get the problem message
 	 *
 	 * @return string
 	 */
 	public function getErrorMessage() {
-		if($this->builder !== null) {
-			return call_user_func($this->builder);
+		if($this->error !== null) {
+			return call_user_func($this->error);
 		}
 
 		return self::ERROR_MESSAGE;
