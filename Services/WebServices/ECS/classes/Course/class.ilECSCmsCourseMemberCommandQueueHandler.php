@@ -516,6 +516,9 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 			$users = $query->fetchUser($a_person_id);
 			if($users)
 			{
+				include_once './Services/User/classes/class.ilUserCreationContext.php';
+				ilUserCreationContext::getInstance()->addContext(ilUserCreationContext::CONTEXT_LDAP);
+
 				include_once './Services/LDAP/classes/class.ilLDAPAttributeToUser.php';
 				$xml = new ilLDAPAttributeToUser($server);
 				$xml->setNewUserAuthMode($server->getAuthenticationMappingKey());
