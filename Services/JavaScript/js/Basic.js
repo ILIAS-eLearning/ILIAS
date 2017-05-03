@@ -79,13 +79,13 @@ il.Util = {
 	 	}
 		if(do_check)
 		{
-			$("#" + parent_el).find("input:checkbox" + name_sel).attr('checked', 'checked');
-			$('[name="' + parent_el + '"]').find("input:checkbox" + name_sel).attr('checked', 'checked');
+			$("#" + parent_el).find("input:checkbox" + name_sel).prop('checked', true);
+			$('[name="' + parent_el + '"]').find("input:checkbox" + name_sel).prop('checked', true);
 		}
 		else
 		{
-			$("#" + parent_el).find("input:checkbox" + name_sel).removeAttr('checked');
-			$('[name="' + parent_el + '"]').find("input:checkbox" + name_sel).removeAttr('checked');
+			$("#" + parent_el).find("input:checkbox" + name_sel).prop('checked', false);
+			$('[name="' + parent_el + '"]').find("input:checkbox" + name_sel).prop('checked', false);
 		}
 	  return true;
 	},

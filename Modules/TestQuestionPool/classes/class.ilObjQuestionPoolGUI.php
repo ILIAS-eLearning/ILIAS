@@ -513,17 +513,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$_SESSION["qpl_import_xml_file"] = $xml_file;
 		$_SESSION["qpl_import_qti_file"] = $qti_file;
 		$_SESSION["qpl_import_subdir"] = $subdir;
-		// display of found questions
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_import_verification.html",
-			"Modules/TestQuestionPool");
-		$row_class = array("tblrow1", "tblrow2");
-		$counter = 0;
-		foreach ($founditems as $item)
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_import_verification.html", "Modules/TestQuestionPool");
+
+		require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolImportVerificationTableGUI.php';
+		$table = new ilQuestionPoolImportVerificationTableGUI($this, 'uploadQplObject');
+		$rows  = array();
+
+		foreach($founditems as $item)
 		{
-			$this->tpl->setCurrentBlock("verification_row");
-			$this->tpl->setVariable("ROW_CLASS", $row_class[$counter++ % 2]);
-			$this->tpl->setVariable("QUESTION_TITLE", $item["title"]);
-			$this->tpl->setVariable("QUESTION_IDENT", $item["ident"]);
+			$row = array(
+				'title' => $item['title'],
+				'ident' => $item['ident'],
+			);
+
 			include_once "./Services/QTI/classes/class.ilQTIItem.php";
 			switch ($item["type"])
 			{
@@ -581,10 +584,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					}
 				}
 			}
-			$this->tpl->setVariable("QUESTION_TYPE", $type);
-			$this->tpl->parseCurrentBlock();
+
+			$row['type'] = $type;
+
+			$rows[] = $row;
 		}
-		
+		$table->setData($rows);
+
 		$this->tpl->setCurrentBlock("import_qpl");
 		if (is_file($xml_file))
 		{
@@ -601,8 +607,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 		
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("question_title"));
 		$this->tpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("qpl_import_verify_found_questions"));
 		if ($questions_only)
 		{
@@ -615,15 +619,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			
 			$this->ctrl->setParameter($this, "new_type", $this->type);
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-			//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$this->type));
 		}
-		$this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.svg"));
-		$this->tpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
-		$this->tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
+
 		$value_questions_only = 0;
 		if ($questions_only) $value_questions_only = 1;
 		$this->tpl->setVariable("VALUE_QUESTIONS_ONLY", $value_questions_only);
+		$this->tpl->setVariable("VERIFICATION_TABLE", $table->getHtml());
+		$this->tpl->setVariable("VERIFICATION_FORM_NAME", $table->getFormName());
 
 		$this->tpl->parseCurrentBlock();
 		
