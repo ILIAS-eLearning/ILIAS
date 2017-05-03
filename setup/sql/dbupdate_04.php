@@ -14775,6 +14775,40 @@ if ($ilDB->tableExists('benchmark_old'))
 //step skl_user_skill_level adding primary key
 if($ilDB->tableExists('skl_user_skill_level'))
 {
+	// get rid of duplicates
+	$set = $ilDB->query("SELECT * FROM skl_user_skill_level ORDER BY status_date ASC");
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$q = "DELETE FROM skl_user_skill_level WHERE ".
+			" skill_id = ".$ilDB->quote($rec["skill_id"], "integer"). " AND ".
+			" tref_id = ".$ilDB->quote($rec["tref_id"], "integer"). " AND ".
+			" user_id = ".$ilDB->quote($rec["user_id"], "integer"). " AND ".
+			" status_date = ".$ilDB->quote($rec["status_date"], "datetime"). " AND ".
+			" status = ".$ilDB->quote($rec["status"], "integer"). " AND ".
+			" trigger_obj_id = ".$ilDB->quote($rec["trigger_obj_id"], "integer"). " AND ".
+			" self_eval = ".$ilDB->quote($rec["self_eval"], "integer");
+		//echo "<br>".$q;
+		$ilDB->manipulate($q);
+
+		$q = "INSERT INTO skl_user_skill_level ".
+			"(skill_id, tref_id, user_id, status_date, status, trigger_obj_id, self_eval, level_id, valid, trigger_ref_id, trigger_title, trigger_obj_type, unique_identifier) VALUES (".
+			$ilDB->quote($rec["skill_id"], "integer").", ".
+			$ilDB->quote($rec["tref_id"], "integer").", ".
+			$ilDB->quote($rec["user_id"], "integer").", ".
+			$ilDB->quote($rec["status_date"], "datetime").", ".
+			$ilDB->quote($rec["status"], "integer").", ".
+			$ilDB->quote($rec["trigger_obj_id"], "integer").", ".
+			$ilDB->quote($rec["self_eval"], "integer").", ".
+			$ilDB->quote($rec["level_id"], "integer").", ".
+			$ilDB->quote($rec["valid"], "integer").", ".
+			$ilDB->quote($rec["trigger_ref_id"], "integer").", ".
+			$ilDB->quote($rec["trigger_title"], "text").", ".
+			$ilDB->quote($rec["trigger_obj_type"], "text").", ".
+			$ilDB->quote($rec["unique_identifier"], "text").")";
+		//echo "<br>".$q;
+		$ilDB->manipulate($q);
+	}
+
 	$ilDB->addPrimaryKey('skl_user_skill_level', array('skill_id', 'tref_id', 'user_id', 'status_date', 'status', 'trigger_obj_id', 'self_eval'));
 }
 
