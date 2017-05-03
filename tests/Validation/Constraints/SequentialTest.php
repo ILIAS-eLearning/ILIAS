@@ -42,6 +42,7 @@ class SequentialTest extends PHPUnit_Framework_TestCase {
 			$constraint->check(2);
 			$raised = false;
 		} catch (UnexpectedValueException $e) {
+			$this->assertEquals("The checked value is not greater.", $e->getMessage());
 			$raised = true;
 		}
 
