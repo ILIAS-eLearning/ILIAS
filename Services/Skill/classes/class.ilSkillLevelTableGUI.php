@@ -61,7 +61,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.skill_level_row.html", "Services/Skill");
 		$this->setEnableTitle(true);
 
-		if ($this->tref_id == 0 && !$this->in_use)
+		if ($this->tref_id == 0 && !$this->in_use && $a_parent_obj->checkPermissionBool("write"))
 		{
 			$this->addMultiCommand("confirmLevelDeletion", $lng->txt("delete"));
 			if (count($this->getData()) > 0)
