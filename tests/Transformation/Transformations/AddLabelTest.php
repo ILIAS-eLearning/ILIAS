@@ -5,7 +5,7 @@
 use ILIAS\Transformation\Factory;
 
 /**
- * TestCase for the factory of constraints
+ * TestCase for AddLabel transformations
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
@@ -49,6 +49,15 @@ class AddLabelTest extends PHPUnit_Framework_TestCase {
 			$raised = true;
 		}
 		$this->assertTrue($raised);
+
+		$raised = false;
+		try {
+			$std_class = new stdClass();
+			$with = $add_label->transform($std_class);
+		} catch (InvalidArgumentException $e) {
+			$raised = true;
+		}
+		$this->assertTrue($raised);
 	}
 
 	public function testInvoke() {
@@ -78,6 +87,15 @@ class AddLabelTest extends PHPUnit_Framework_TestCase {
 		try {
 			$without = "1, 2, 3";
 			$with = $add_label($without);
+		} catch (InvalidArgumentException $e) {
+			$raised = true;
+		}
+		$this->assertTrue($raised);
+
+		$raised = false;
+		try {
+			$std_class = new stdClass();
+			$with = $add_label($std_class);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
