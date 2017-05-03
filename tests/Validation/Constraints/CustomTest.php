@@ -12,7 +12,7 @@ use ILIAS\Data;
  */
 class CustomTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @dataprovider constraintsProvider
+	 * @dataProvider constraintsProvider
 	 */
 	public function testAccept($constraint, $ok_value, $error_value, $message) {
 		$this->assertTrue($constraint->accepts($ok_value));
@@ -20,7 +20,7 @@ class CustomTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @dataprovider constraintsProvider
+	 * @dataProvider constraintsProvider
 	 */
 	public function testCheck($constraint, $ok_value, $error_value, $message) {
 		$raised = false;
@@ -35,7 +35,7 @@ class CustomTest extends PHPUnit_Framework_TestCase {
 		try {
 			$constraint->check($error_value);
 		} catch (UnexpectedValueException $e) {
-			$this->assertTrue($message, $e->getMessage());
+			$this->assertEquals($message, $e->getMessage());
 			$raised = true;
 		}
 
@@ -43,7 +43,7 @@ class CustomTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @dataprovider constraintsProvider
+	 * @dataProvider constraintsProvider
 	 */
 	public function testProblemWith($constraint, $ok_value, $error_value, $message) {
 		$this->assertNull($constraint->problemWith($ok_value));
@@ -52,7 +52,7 @@ class CustomTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @dataprovider constraintsProvider
+	 * @dataProvider constraintsProvider
 	 */
 	public function testRestrict($constraint, $ok_value, $error_value, $message) {
 		$rf = new Data\Factory();
@@ -71,18 +71,18 @@ class CustomTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @dataprovider constraintsProvider
+	 * @dataProvider constraintsProvider
 	 */
 	public function testWithProblemBuilder($constraint, $ok_value, $error_value, $message) {
-		$new_constraint = $this->is_int->withProblemBuilder(function($value) { return "This was a vault"; });
-		$this->asserEquals("This was a fault", $new_constraint->problemWith($error_value));
+		$new_constraint = $constraint->withProblemBuilder(function() { return "This was a vault"; });
+		$this->assertEquals("This was a vault", $new_constraint->problemWith($error_value));
 	}
 
 	public function constraintsProvider() {
-		$this->f = new Validation\Factory();
+		$f = new Validation\Factory();
 
-		return array(array($this->f->custom(function($value) { return $value > 1}), "Value is not greater"), 2, 1, "Value is not greater"),
-					 array($this->f->custom(function($value) { return $value > 2}), "Value is not greater"), 1, 2, "Value is not greater")
+		return array(array($f->custom(function($value) { return $value > 1;}, "Value is not greater"), 2, 1, "Value is not greater"),
+					 array($f->custom(function($value) { return $value < 2;}, "Value is not greater"), 1, 2, "Value is not greater")
 			);
 	}
 }
