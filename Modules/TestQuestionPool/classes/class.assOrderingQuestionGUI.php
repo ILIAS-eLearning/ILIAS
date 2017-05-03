@@ -902,6 +902,14 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$keys = $this->object->getShuffler()->shuffle($keys);
 		}
 
+		if($GLOBALS['ilBrowser']->isMobile() || $GLOBALS['ilBrowser']->isIpad())
+		{
+			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+			iljQueryUtil::initjQuery();
+			iljQueryUtil::initjQueryUI();
+			$this->tpl->addJavaScript('./Services/jQuery/js/jquery.ui.touch-punch.min.js');
+		}
+
 		if ($this->object->getOrderingType() == OQ_NESTED_TERMS || $this->object->getOrderingType() == OQ_NESTED_PICTURES)
 		{
 			include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
@@ -1043,6 +1051,13 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		$_SESSION["ordering_keys"] = $keys;
 
+		if($GLOBALS['ilBrowser']->isMobile() || $GLOBALS['ilBrowser']->isIpad())
+		{
+			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+			iljQueryUtil::initjQuery();
+			iljQueryUtil::initjQueryUI();
+			$this->tpl->addJavaScript('./Services/jQuery/js/jquery.ui.touch-punch.min.js');
+		}
 
 		if ($this->object->getOrderingType() == OQ_NESTED_TERMS
 		|| $this->object->getOrderingType() == OQ_NESTED_PICTURES)
