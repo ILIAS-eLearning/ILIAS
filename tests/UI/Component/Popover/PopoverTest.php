@@ -36,4 +36,27 @@ class PopoverTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($popover1->getContent(), $popover2->getContent());
 		$this->assertEquals($popover1->getContent(), $popover3->getContent());
 	}
+
+	public function test_render() {
+		$factory = new \ILIAS\UI\Implementation\Factory();
+		$popover = $factory->popover($factory->legacy('myContent'));
+		$expected = $this->normalizeHTML($this->getExpectedHTML('myContent'));
+		$actual = $this->normalizeHTML($this->getDefaultRenderer()->render($popover));
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_render_async() {
+		$factory = new \ILIAS\UI\Implementation\Factory();
+		$popover = $factory->popover($factory->legacy('myContent'))->withAsyncContentUrl('/blub/');
+		$this->assertEquals('', $this->getDefaultRenderer()->render($popover));
+	}
+
+	/**
+	 * @param string $content
+	 * @return string
+	 */
+	protected function getExpectedHTML($content) {
+		return '<div class="il-popover-content" style="display:none;" id="id_1">' . $content . '</div>';
+	}
+
 }

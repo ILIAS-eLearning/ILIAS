@@ -40,14 +40,13 @@ class Renderer extends AbstractComponentRenderer {
 		$show = $component->getShowSignal();
 		$this->getJavascriptBinding()->addOnLoadCode("
 			$(document).on('{$show}', function(event, signalData) { 
-				il.UI.popover.show(signalData.triggerer.attr('id'), JSON.parse('{$options}'), signalData);
+				il.UI.popover.showFromSignal(signalData, JSON.parse('{$options}'));
 			});"
 		);
-		$replace = $component->getReplaceContentSignal('');
+		$replace = $component->getReplaceContentSignal();
 		$this->getJavascriptBinding()->addOnLoadCode("
 			$(document).on('{$replace}', function(event, signalData) { 
-				console.log(signalData);
-				il.UI.popover.replaceContent('{$show}', signalData);
+				il.UI.popover.replaceContentFromSignal('{$show}', signalData);
 			});"
 		);
 		if (!$component->getAsyncContentUrl()) {
