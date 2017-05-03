@@ -97,6 +97,6 @@ class Factory {
 	 * @return  Constraint
 	 */
 	public function custom(callable $is_ok, $error) {
-		return new Constraints\Custom($is_ok, $error);
+		return new Constraints\Custom($is_ok, $error, $this->data_factory);
 	}
 }
