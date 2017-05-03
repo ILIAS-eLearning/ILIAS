@@ -83,7 +83,7 @@ class Factory {
 	 * @return  Constraint
 	 */
 	public function lessThan($max) {
-		return new Constraints\GreaterThan($max, $this->data_factory);
+		return new Constraints\LessThan($max, $this->data_factory);
 	}
 
 	/**
