@@ -5,7 +5,7 @@
 use ILIAS\Transformation;
 
 /**
- * TestCase for the factory of constraints
+ * TestCase for the factory of transformations
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
