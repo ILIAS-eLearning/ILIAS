@@ -80,7 +80,7 @@ class IsInt implements Constraint {
 	 */
 	public function getErrorMessage() {
 		if($this->builder !== null) {
-			return $this->builder();
+			return call_user_func($this->builder);
 		}
 
 		return self::ERROR_MESSAGE;
