@@ -4,9 +4,10 @@
 namespace ILIAS\Validation\Constraints;
 use ILIAS\Validation\Constraint;
 use ILIAS\Data\Factory;
+use ILIAS\Data\Result;
 
 class IsInt implements Constraint {
-	const ERROR_MESSAGE = "The value %s is not an integer";
+	const ERROR_MESSAGE = "The checked value is not an integer";
 
 	/**
 	 * @var ILIAS\Data\Factory
@@ -72,11 +73,16 @@ class IsInt implements Constraint {
 		return $clone;
 	}
 
-	protected function getErrorMessage($value) {
+	/**
+	 * Get the problem message
+	 *
+	 * @return string
+	 */
+	public function getErrorMessage() {
 		if($this->builder !== null) {
-			return $this->builder($value);
+			return $this->builder();
 		}
 
-		return sprintf(self::ERROR_MESSAGE, $value);
+		return self::ERROR_MESSAGE;
 	}
 }
