@@ -1781,8 +1781,27 @@ class ilObjGroupGUI extends ilContainerGUI
 					$assigned = TRUE;
 					break;
 				
-				default:
+				case $this->object->getDefaultMemberRole():
 					$part->add($new_member, IL_GRP_MEMBER);
+					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+					$part->sendNotification(
+						ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
+						$new_member
+					);
+					$assigned = TRUE;
+					break;
+				
+				default:
+					if(in_array($a_type,$this->object->getLocalGroupRoles(true)))
+					{
+						$part->add($new_member,IL_GRP_MEMBER);
+						$part->updateRoleAssignments($new_member,(array) $a_type);
+					}
+					else
+					{
+						ilUtil::sendFailure($this->lng->txt("grp_cannot_find_role"),true);
+						return false;
+					}
 					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 					$part->sendNotification(
 						ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
