@@ -20,14 +20,14 @@ class SequentialTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testAccept() {
-		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(5)))
+		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(5)));
 
 		$this->assertTrue($constraint->accepts(4));
 		$this->assertFalse($constraint->accepts(2));
 	}
 
 	public function testCheck() {
-		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(5)))
+		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(5)));
 		$raised = false;
 
 		try {
@@ -36,7 +36,7 @@ class SequentialTest extends PHPUnit_Framework_TestCase {
 			$raised = true;
 		}
 
-		$this->assertTrue($raised);
+		$this->assertFalse($raised);
 
 		try {
 			$constraint->check(2);
@@ -45,18 +45,18 @@ class SequentialTest extends PHPUnit_Framework_TestCase {
 			$raised = true;
 		}
 
-		$this->assertFalse($raised);
+		$this->assertTrue($raised);
 	}
 
 	public function testProblemWith() {
-		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(5)))
+		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(5)));
 
 		$this->assertNull($constraint->problemWith(4));
 		$this->assertInternalType("string", $constraint->problemWith(2));
 	}
 
 	public function testRestrict() {
-		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(5)))
+		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(5)));
 
 		$rf = new Data\Factory();
 		$ok = $rf->ok(4);
@@ -74,9 +74,9 @@ class SequentialTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testWithProblemBuilder() {
-		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(5)))
+		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(5)));
 
-		$new_constraint = $this->is_int->withProblemBuilder(function($value) { return "This was a vault"; });
-		$this->asserEquals("This was a fault", $new_constraint->problemWith(4));
+		$new_constraint = $constraint->withProblemBuilder(function() { return "This was a vault"; });
+		$this->assertEquals("This was a vault", $new_constraint->problemWith(2));
 	}
 }
