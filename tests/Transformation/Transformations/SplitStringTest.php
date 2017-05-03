@@ -10,6 +10,8 @@ use ILIAS\Transformation\Factory;
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class SplitStringTest extends PHPUnit_Framework_TestCase {
+	const STRING_TO_SPLIT = "I am#a test string#for split";
+
 	protected function setUp() {
 		$this->f = new Transformation\Factory();
 	}
@@ -20,9 +22,8 @@ class SplitStringTest extends PHPUnit_Framework_TestCase {
 
 	public function testTransform() {
 		$split_string = $this->f->splitString("#");
-		$to_split = array("I am#a test string#for split");
-		$arr = $split_string->transform($split_string);
-		$this->assertEquals(array("I am", "a test string", "for split"), $arr);
+		$arr = $split_string->transform(self::STRING_TO_SPLIT);
+		$this->assertEquals(explode("#",self::STRING_TO_SPLIT), $arr);
 
 		$raised = false;
 		try {
@@ -53,9 +54,8 @@ class SplitStringTest extends PHPUnit_Framework_TestCase {
 
 	public function testInvoke() {
 		$split_string = $this->f->splitString("#");
-		$to_split = array("I am#a test string#for split");
-		$arr = $split_string($split_string);
-		$this->assertEquals(array("I am", "a test string", "for split"), $arr);
+		$arr = $split_string(self::STRING_TO_SPLIT);
+		$this->assertEquals(explode("#",self::STRING_TO_SPLIT), $arr);
 
 		$raised = false;
 		try {

@@ -10,6 +10,8 @@ use ILIAS\Transformation\Factory;
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class CustomTest extends PHPUnit_Framework_TestCase {
+	const TEST_STRING = "I Am A Test String.";
+
 	protected function setUp() {
 		$this->f = new Transformation\Factory();
 	}
@@ -26,9 +28,8 @@ class CustomTest extends PHPUnit_Framework_TestCase {
 			return strtolower($value);}
 		);
 
-		$upper_string = "I Am A Test String.";
-		$lower_string = $string_to_lower->transform($upper_string);
-		$this->assertEquals("i am a test string.", $arr);
+		$lower_string = $string_to_lower->transform(self::TEST_STRING);
+		$this->assertEquals(strtolower(self::TEST_STRING), $lower_string);
 
 		$raised = false;
 		try {
@@ -67,9 +68,8 @@ class CustomTest extends PHPUnit_Framework_TestCase {
 			return strtolower($value);}
 		);
 
-		$upper_string = "I Am A Test String.";
-		$lower_string = $string_to_lower($upper_string);
-		$this->assertEquals("i am a test string.", $arr);
+		$lower_string = $string_to_lower->transform(self::TEST_STRING);
+		$this->assertEquals(strtolower(self::TEST_STRING), $lower_string);
 
 		$raised = false;
 		try {

@@ -10,6 +10,10 @@ use ILIAS\Transformation\Factory;
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class AddLabelTest extends PHPUnit_Framework_TestCase {
+	const LABELS = array("A", "B", "C");
+	const TEST_ARRAY = array(1, 2, 3);
+	const RESULT_ARRAY = array("A"=>1, "B"=>2, "C"=>3);
+
 	protected function setUp() {
 		$this->f = new Transformation\Factory();
 	}
@@ -19,14 +23,13 @@ class AddLabelTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testTransform() {
-		$add_label = $this->f->addLabeld(array("A", "B", "C"));
-		$without = array(1,2,3);
-		$with = $add_label->transform($without);
-		$this->assertEquals(array("A"=>1, "B"=>2, "C"=>3), $with);
+		$add_label = $this->f->addLabeld(self::LABELS);
+		$with = $add_label->transform(self::TEST_ARRAY);
+		$this->assertEquals(self::RESULT_ARRAY, $with);
 
 		$raised = false;
 		try {
-			$next_with =  = $add_label->transform($with);
+			$next_with  = $add_label->transform($with);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
@@ -61,10 +64,9 @@ class AddLabelTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testInvoke() {
-		$add_label = $this->f->addLabeld(array("A", "B", "C"));
-		$without = array(1,2,3);
-		$with = $add_label($without);
-		$this->assertEquals(array("A"=>1, "B"=>2, "C"=>3), $with);
+		$add_label = $this->f->addLabeld(self::LABELS);
+		$with = $add_label(self::TEST_ARRAY);
+		$this->assertEquals(self::RESULT_ARRAY, $with);
 
 		$raised = false;
 		try {
