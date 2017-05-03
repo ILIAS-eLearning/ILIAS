@@ -41,6 +41,11 @@ class Popover implements Component\Popover\Popover {
 	protected $show_signal;
 
 	/**
+	 * @var ReplaceContentSignal
+	 */
+	protected $replace_content_signal;
+
+	/**
 	 * @var SignalGeneratorInterface
 	 */
 	protected $signal_generator;
@@ -141,10 +146,18 @@ class Popover implements Component\Popover\Popover {
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function getReplaceContentSignal() {
+		return $this->replace_content_signal;
+	}
+
+
+	/**
 	 * Init any signals of this component
 	 */
 	protected function initSignals() {
 		$this->show_signal = $this->signal_generator->create();
+		$this->replace_content_signal = $this->signal_generator->create("ILIAS\\UI\\Implementation\\Component\\Popover\\ReplaceContentSignal");
 	}
-
 }

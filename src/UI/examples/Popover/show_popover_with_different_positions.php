@@ -5,7 +5,7 @@ function show_popover_with_different_positions()
 	$factory = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$content = $factory->legacy('The position of this popover is calculated automatically based on the available space');
+	$content = $factory->legacy('The position of this popover is calculated automatically based on the available space. Note that the max width CSS setting is used here, as this text is quite long.');
 	$popover = $factory->popover($content);
 	$button = $factory->button()->standard('Auto Popover', '#')
 		->withOnClick($popover->getShowSignal());

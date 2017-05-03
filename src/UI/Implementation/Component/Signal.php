@@ -15,12 +15,34 @@ class Signal implements \ILIAS\UI\Component\Signal {
 	protected $id;
 
 	/**
+	 * @var array
+	 */
+	protected $options = array();
+
+	/**
 	 * @param string $id
 	 */
 	public function __construct($id) {
 		$this->id = $id;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getId() {
+		return $this->id;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getOptions() {
+		return $this->options;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function __toString() {
 		return $this->id;
 	}

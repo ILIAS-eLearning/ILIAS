@@ -1,0 +1,42 @@
+<?php
+
+$dropzone = factory->dropzone()->file();
+//$dropzone->withValidFileTypes(['jpg', 'png']);
+//$dropzone->withMaxFileSize(1024);
+//$dropzone->withUploadUrl('http://www.google.ch');
+
+
+
+$fileupload = factory->fileupload();
+$fileupload->withValidFileTypes(['jpg', 'png']);
+$fileupload->withMaxFileSize(1024);
+$fileupload->withMaxFiles(3);
+$fileupload->withUploadUrl('blub');
+$fileupload->withDropZone(true);
+
+$fileupload->listenOnDrop($dropzone->getOnDropSignal());
+$fileupload->listenOnDrop($dropzone2->getOnDropSignal());
+
+
+$dropzone->getOnDropSignal(); <--- TRIGGERABLE
+$dropzone->withOnDrop($modal->getShowSignal()); <--- TRIGGERER
+
+$button->withOnClick();
+
+
+$dropListener = factory->dropzone()->listener();
+$modal = $factory->modal('title', $dropListener);
+$dropzone->withOnDrop($dropListener->getSignal());
+$dropzone->appendOnDrop($modal->getShowSignal());
+
+$dropzone->withOnDrop($modal->getShowSignal());
+
+$modal->getShowSignal(
+[
+    'afterShow' => function($id) { return "console.log('$id')"; }
+]
+)
+
+
+
+

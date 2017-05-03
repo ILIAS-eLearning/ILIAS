@@ -15,29 +15,56 @@ il.UI = il.UI || {};
             // Where the popover is placed: auto|horizontal|vertical
             placement: 'auto',
             // Allow multiple popovers being opened at the same time
-            multi: true
+            multi: false
         };
+
+
+        var initializedPopovers = {};
+
 
         /**
          * Show a popover for a triggerer element with the given options.
          * The popover is displayed next to the triggerer, the exact position depends on the placement option.
          *
-         * @param triggerer_id ID of the triggerer in the DOM
-         * @param options Object with options
+         * @param triggererId ID of the triggerer in the DOM
+         * @param options Object with popover options
+         * @param signalData Object with signal options
          */
-        var show = function (triggerer_id, options) {
-            var $triggerer = $('#' + triggerer_id);
+        var show = function (triggererId, options, signalData) {
+            var $triggerer = $('#' + triggererId);
             if (!$triggerer.length) {
                 return;
             }
-            if (!WebuiPopovers.isCreated('#' + triggerer_id)) {
+            if (!WebuiPopovers.isCreated('#' + triggererId)) {
                 options = $.extend({}, defaultOptions, options);
+                // Extend options with data from the signal
+                if (signalData && signalData.event === 'mouseenter') {
+                    options.trigger = 'hover';
+                }
                 $triggerer.webuiPopover(options).webuiPopover('show');
+                // Map the signal to the received ID from the popover
+                initializedPopovers[signalData.id] = triggererId;
             }
         };
 
+        var replaceContent = function (showSignal, signalData) {
+            console.log(signalData);
+            // Find the ID of the triggerer where this popover belongs to
+            var triggererId = (showSignal in initializedPopovers) ? initializedPopovers[showSignal] : 0;
+            if (!triggererId) return;
+            // Find the content of the popover
+            var $triggerer = $('#' + triggererId);
+            var $content = $('#' + $triggerer.attr('data-target')).find('.webui-popover-content');
+            if (!$content.length) return;
+            $content.html('<i class="icon-refresh"></i><p>&nbsp;</p>');
+            $content.load(signalData.options.url, function() {
+                console.log('loaded');
+            });
+        };
+
         return {
-            show: show
+            show: show,
+            replaceContent: replaceContent
         };
 
     })($);

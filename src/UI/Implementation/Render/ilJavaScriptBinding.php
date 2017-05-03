@@ -32,4 +32,12 @@ class ilJavaScriptBinding implements JavaScriptBinding {
 	public function addOnLoadCode($code) {
 		$this->global_tpl->addOnLoadCode($code);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getOnLoadCodeAsync() {
+		return $this->global_tpl->getOnLoadCodeForAsynch();
+	}
+
 }

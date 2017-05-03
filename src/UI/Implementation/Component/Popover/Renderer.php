@@ -39,10 +39,15 @@ class Renderer extends AbstractComponentRenderer {
 		$options = json_encode($options);
 		$show = $component->getShowSignal();
 		$this->getJavascriptBinding()->addOnLoadCode("
-			$(document).on('{$show}', function(event, data) { 
-				var options = JSON.parse('{$options}');
-				options.trigger = (data.type == 'mouseenter') ? 'hover' : 'click';
-				il.UI.popover.show(data.triggerer.attr('id'), options);
+			$(document).on('{$show}', function(event, signalData) { 
+				il.UI.popover.show(signalData.triggerer.attr('id'), JSON.parse('{$options}'), signalData);
+			});"
+		);
+		$replace = $component->getReplaceContentSignal('');
+		$this->getJavascriptBinding()->addOnLoadCode("
+			$(document).on('{$replace}', function(event, signalData) { 
+				console.log(signalData);
+				il.UI.popover.replaceContent('{$show}', signalData);
 			});"
 		);
 		if (!$component->getAsyncContentUrl()) {

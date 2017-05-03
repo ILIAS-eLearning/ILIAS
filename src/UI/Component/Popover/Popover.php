@@ -5,6 +5,7 @@ namespace ILIAS\UI\Component\Popover;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Triggerable;
+use ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal;
 
 /**
  * Describes the Popover component
@@ -62,7 +63,7 @@ interface Popover extends Component, Triggerable {
 	public function withTitle($title);
 
 	/**
-	 * Get a popover like this who's content is rendered via ajax by the given $url before the popover is shown
+	 * Get a popover like this who's content is rendered via ajax by the given $url before the popover is shown.
 	 *
 	 * Means: After the show signal has been triggered but before the popover is displayed to the user,
 	 * an ajax request is sent to this url. The request MUST return the rendered content for the popover.
@@ -73,9 +74,17 @@ interface Popover extends Component, Triggerable {
 	public function withAsyncContentUrl($url);
 
 	/**
-	 * Get the signal to show this popover in the frontend
+	 * Get the signal to show this popover in the frontend.
 	 *
 	 * @return Signal
 	 */
 	public function getShowSignal();
+
+	/**
+	 * Get the signal to replace the content of this popover.
+	 *
+	 * @return ReplaceContentSignal
+	 */
+	public function getReplaceContentSignal();
+
 }

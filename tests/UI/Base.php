@@ -63,6 +63,8 @@ class LoggingJavaScriptBinding implements JavaScriptBinding {
 	public function addOnLoadCode($code) {
 		$this->on_load_code[] = $code;
 	}
+	public function getOnLoadCodeAsync() {
+	}
 }
 
 class IncrementalSignalGenerator extends \ILIAS\UI\Implementation\Component\SignalGenerator {
