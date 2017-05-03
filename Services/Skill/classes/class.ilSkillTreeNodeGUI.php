@@ -15,6 +15,14 @@ include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
 class ilSkillTreeNodeGUI
 {
 	var $node_object;
+	/**
+	 * @var ilAccessHandler
+	 */
+	var $access;
+	/**
+	 * @var int
+	 */
+	var $ref_id;
 
 	/**
 	* constructor
@@ -23,7 +31,11 @@ class ilSkillTreeNodeGUI
 	*/
 	function ilSkillTreeNodeGUI($a_node_id = 0)
 	{
+		global $ilAccess;
+
 		$this->node_object = null;
+		$this->access = $ilAccess;
+		$this->ref_id = (int) $_GET["ref_id"];
 
 		if ($a_node_id > 0 &&
 			$this->getType() == ilSkillTreeNode::_lookupType($a_node_id))
@@ -31,6 +43,18 @@ class ilSkillTreeNodeGUI
 			$this->readNodeObject((int) $a_node_id);
 		}
 	}
+
+	/**
+	 * Check permission pool
+	 *
+	 * @param string $a_perm
+	 * @return bool
+	 */
+	function checkPermissionBool($a_perm)
+	{
+		return $this->access->checkAccess($a_perm, "", $this->ref_id);
+	}
+
 
 	/**
 	* Set Parent GUI class
@@ -188,7 +212,12 @@ class ilSkillTreeNodeGUI
 	function confirmedDelete()
 	{
 		global $ilCtrl;
-		
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$this->getParentGUI()->confirmedDelete(false);
 		ilSkillTreeNode::saveChildsOrder((int) $_GET["obj_id"], array(),
 			$_GET["tmpmode"]);
@@ -331,7 +360,12 @@ class ilSkillTreeNodeGUI
 	public function save()
 	{
 		global $tpl, $lng, $ilCtrl;
-	
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$this->initForm("create");
 		if ($this->form->checkInput())
 		{
@@ -364,7 +398,12 @@ class ilSkillTreeNodeGUI
 	public function update()
 	{
 		global $tpl, $lng, $ilCtrl;
-	
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$this->initForm("edit");
 		if ($this->form->checkInput())
 		{
@@ -416,18 +455,19 @@ class ilSkillTreeNodeGUI
 		$this->form->addItem($ni);
 		
 		// save and cancel commands
-		if ($a_mode == "create")
+		if ($this->checkPermissionBool("write"))
 		{
-			$this->form->addCommandButton("save", $lng->txt("save"));
-			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
-			$this->form->setTitle($lng->txt("skmg_create_".$this->getType()));
+			if ($a_mode == "create")
+			{
+				$this->form->addCommandButton("save", $lng->txt("save"));
+				$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
+				$this->form->setTitle($lng->txt("skmg_create_" . $this->getType()));
+			} else
+			{
+				$this->form->addCommandButton("update", $lng->txt("save"));
+				$this->form->setTitle($lng->txt("skmg_edit_" . $this->getType()));
+			}
 		}
-		else
-		{
-			$this->form->addCommandButton("update", $lng->txt("save"));
-			$this->form->setTitle($lng->txt("skmg_edit_".$this->getType()));
-		}
-
 		
 		$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -495,7 +535,12 @@ class ilSkillTreeNodeGUI
 	function saveOrder()
 	{
 		global $ilCtrl, $lng;
-		
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		ilSkillTreeNode::saveChildsOrder((int) $_GET["obj_id"], $_POST["order"],
 			(int) $_GET["tmpmode"]);
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);

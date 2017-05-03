@@ -216,7 +216,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		$form->addItem($cb_prop);
 		
 		// command buttons
-		$form->addCommandButton("saveSettings", $lng->txt("save"));
+		if ($this->checkPermissionBool("write"))
+		{
+			$form->addCommandButton("saveSettings", $lng->txt("save"));
+		}
 
 		$this->tpl->setContent($form->getHTML());
 	}
@@ -227,7 +230,12 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	public function saveSettings()
 	{
 		global $ilCtrl, $ilSetting;
-		
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
 		$skmg_set->activate((int) $_POST["enable_skmg"]);

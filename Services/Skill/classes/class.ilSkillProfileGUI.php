@@ -15,16 +15,26 @@ include_once("./Services/Skill/classes/class.ilSkillProfile.php");
 class ilSkillProfileGUI
 {
 	protected $profile = null;
-	
+	/**
+	 * @var ilAccessHandler
+	 */
+	var $access;
+	/**
+	 * @var int
+	 */
+	var $ref_id;
+
 	/**
 	 * Constructor
 	 */
 	function __construct()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilAccess;
 		
 		$ilCtrl->saveParameter($this, "sprof_id");
-		
+		$this->access = $ilAccess;
+		$this->ref_id = (int) $_GET["ref_id"];
+
 		if ((int) $_GET["sprof_id"] > 0)
 		{
 			$this->id = (int) $_GET["sprof_id"];
@@ -35,7 +45,18 @@ class ilSkillProfileGUI
 			$this->profile = new ilSkillProfile($this->id);
 		}
 	}
-	
+
+	/**
+	 * Check permission pool
+	 *
+	 * @param string $a_perm
+	 * @return bool
+	 */
+	function checkPermissionBool($a_perm)
+	{
+		return $this->access->checkAccess($a_perm, "", $this->ref_id);
+	}
+
 	/**
 	 * Execute command
 	 */
@@ -118,9 +139,12 @@ class ilSkillProfileGUI
 	function listProfiles()
 	{
 		global $tpl, $ilToolbar, $lng, $ilCtrl;
-		
-		$ilToolbar->addButton($lng->txt("skmg_add_profile"),
-			$ilCtrl->getLinkTarget($this, "create"));
+
+		if ($this->checkPermissionBool("write"))
+		{
+			$ilToolbar->addButton($lng->txt("skmg_add_profile"),
+				$ilCtrl->getLinkTarget($this, "create"));
+		}
 		
 		include_once("./Services/Skill/classes/class.ilSkillProfileTableGUI.php");
 		$tab = new ilSkillProfileTableGUI($this, "listProfiles");
@@ -178,21 +202,23 @@ class ilSkillProfileGUI
 		$form->addItem($desc);
 	
 		// save and cancel commands
-		if ($a_mode == "create")
+		if ($this->checkPermissionBool("write"))
 		{
-			$form->addCommandButton("save", $lng->txt("save"));
-			$form->addCommandButton("listProfiles", $lng->txt("cancel"));
-			$form->setTitle($lng->txt("skmg_add_profile"));
-		}
-		else
-		{
-			// set values
-			$ti->setValue($this->profile->getTitle());
-			$desc->setValue($this->profile->getDescription());
-			
-			$form->addCommandButton("update", $lng->txt("save"));
-			$form->addCommandButton("listProfiles", $lng->txt("cancel"));
-			$form->setTitle($lng->txt("skmg_edit_profile"));
+			if ($a_mode == "create")
+			{
+				$form->addCommandButton("save", $lng->txt("save"));
+				$form->addCommandButton("listProfiles", $lng->txt("cancel"));
+				$form->setTitle($lng->txt("skmg_add_profile"));
+			} else
+			{
+				// set values
+				$ti->setValue($this->profile->getTitle());
+				$desc->setValue($this->profile->getDescription());
+
+				$form->addCommandButton("update", $lng->txt("save"));
+				$form->addCommandButton("listProfiles", $lng->txt("cancel"));
+				$form->setTitle($lng->txt("skmg_edit_profile"));
+			}
 		}
 
 		$form->setFormAction($ilCtrl->getFormAction($this));
@@ -206,7 +232,12 @@ class ilSkillProfileGUI
 	public function save()
 	{
 		global $tpl, $lng, $ilCtrl;
-	
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$form = $this->initProfileForm("create");
 		if ($form->checkInput())
 		{
@@ -230,7 +261,12 @@ class ilSkillProfileGUI
 	function update()
 	{
 		global $lng, $ilCtrl, $tpl;
-		
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$form = $this->initProfileForm("edit");
 		if ($form->checkInput())
 		{
@@ -284,7 +320,12 @@ class ilSkillProfileGUI
 	function deleteProfiles()
 	{
 		global $ilCtrl, $tpl, $lng;
-			
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		if (is_array($_POST["id"]))
 		{
 			foreach ($_POST["id"] as $i)
@@ -313,10 +354,13 @@ class ilSkillProfileGUI
 		global $tpl, $ilCtrl, $lng, $ilToolbar;
 		
 		$this->setTabs("levels");
-		
-		$ilToolbar->addButton($lng->txt("skmg_assign_level"),
-			$ilCtrl->getLinkTarget($this, "assignLevel")
+
+		if ($this->checkPermissionBool("write"))
+		{
+			$ilToolbar->addButton($lng->txt("skmg_assign_level"),
+				$ilCtrl->getLinkTarget($this, "assignLevel")
 			);
+		}
 		
 		include_once("./Services/Skill/classes/class.ilSkillProfileLevelsTableGUI.php");
 		$tab = new ilSkillProfileLevelsTableGUI($this, "showLevels", $this->profile);
@@ -380,6 +424,12 @@ class ilSkillProfileGUI
 	{
 		global $ilCtrl, $lng;
 
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
+
 		$parts = explode(":", $_GET["cskill_id"]);
 
 		$this->profile->addSkillLevel((int) $parts[0],
@@ -435,7 +485,12 @@ class ilSkillProfileGUI
 	function removeLevelAssignments()
 	{
 		global $ilCtrl;
-		
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		if (is_array($_POST["ass_id"]))
 		{
 			foreach ($_POST["ass_id"] as $i)
@@ -484,7 +539,12 @@ class ilSkillProfileGUI
 	function assignUser()
 	{
 		global $ilCtrl, $lng;
-		
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$user_id = ilObjUser::_lookupId(ilUtil::stripSlashes($_POST["user_login"]));
 		if ($user_id > 0)
 		{
@@ -501,6 +561,11 @@ class ilSkillProfileGUI
 	function confirmUserRemoval()
 	{
 		global $ilCtrl, $tpl, $lng;
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
 
 		$this->setTabs("users");
 
@@ -536,6 +601,11 @@ class ilSkillProfileGUI
 	function removeUsers()
 	{
 		global $ilCtrl, $lng;
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
 
 		if (is_array($_POST["id"]))
 		{
