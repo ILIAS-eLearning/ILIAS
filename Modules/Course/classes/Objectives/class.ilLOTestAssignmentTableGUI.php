@@ -304,16 +304,25 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 				{
 					/** @var ilTestRandomQuestionSetSourcePoolDefinition[] $definition */
 					$title = $definition->getPoolTitle();
-					$tax_id = $definition->getMappedFilterTaxId();
-					if($tax_id)
+					// fau: taxFilter/typeFilter - get title for extended filter conditions
+					$filterTitle = array();
+					$filterTitle[] = $translater->getTaxonomyFilterLabel($definition->getMappedTaxonomyFilter());
+					$filterTitle[] = $translater->getTypeFilterLabel($definition->getTypeFilter());
+					if (!empty($filterTitle))
 					{
-						$title .= (' -> '. $translater->getTaxonomyTreeLabel($tax_id));
+						$title .= ' -> '.implode(' / ', $filterTitle);
 					}
-					$tax_node = $definition->getMappedFilterTaxNodeId();
-					if($tax_node)
-					{
-						$title .= (' -> ' .$translater->getTaxonomyNodeLabel($tax_node));
-					}
+					#$tax_id = $definition->getMappedFilterTaxId();
+					#if($tax_id)
+					#{
+					#	$title .= (' -> '. $translater->getTaxonomyTreeLabel($tax_id));
+					#}
+					#$tax_node = $definition->getMappedFilterTaxNodeId();
+					#if($tax_node)
+					#{
+					#	$title .= (' -> ' .$translater->getTaxonomyNodeLabel($tax_node));
+					#}
+					// fau.
 					$tst_data['qpls'][] = $title;
 					++$num;
 				}
