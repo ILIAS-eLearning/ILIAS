@@ -74,8 +74,16 @@ class ilPageObjectGUI
 	 */
 	protected $help;
 
-	var $obj;
-	var $output_mode;
+	/**
+	 * @var ilPageObject
+	 */
+	protected $obj;
+
+	/**
+	 * @var string
+	 */
+	protected $output_mode;
+
 	var $presentation_title;
 	var $target_script;
 	var $return_location;
@@ -320,20 +328,20 @@ class ilPageObjectGUI
 	}
 	
 	/**
-	* Set Page Object
-	*
-	* @param	object		Page Object
-	*/
-	function setPageObject($a_pg_obj)
+	 * Set Page Object
+	 *
+	 * @param ilPageObject $a_pg_obj
+	 */
+	function setPageObject(ilPageObject $a_pg_obj)
 	{
 		$this->obj = $a_pg_obj;
 	}
 
 	/**
-	* Get Page Object
-	*
-	* @return	object		Page Object
-	*/
+	 * Get Page Object
+	 *
+	 * @return ilPageObject
+	 */
 	function getPageObject()
 	{
 		return $this->obj;
