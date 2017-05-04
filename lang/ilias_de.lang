@@ -15881,6 +15881,12 @@ form#:#err_invalid_input#:#Es wurde ein ungültiger Wert übertragen. Bitte übe
 chatroom#:#chat_osc_no_conv#:#Keine Konversationen vorhanden.
 chatroom#:#chat_osc_no_sub_directory#:#Relativer Pfad
 chatroom#:#chat_osc_no_sub_directory_info#:#Wird der Chatserver so konfiguriert, dass der zugehörige URL einen Unterpfad der Form "http(s)://[IP/Domain]/[UNTERVERZEICHNIS]" enthält, muss hier das relative [UNTERVERZEICHNIS] angegeben werden. In den meisten Szenarien kann dieses Feld leer gelassen werden.
+chatroom#:#chat_deletion_section_head#:#Löschen alter Nachrichten
+chatroom#:#chat_deletion_disabled#:#Deaktiviert
+chatroom#:#chat_deletion_interval#:#Intervall
+chatroom#:#chat_deletion_interval_info#:#Falls gewählt, werden Nachrichten im Magazin-Chat und im On-Screen-Chat gelöscht, sofern sie älter als der hier definierte Schwellenwert sind.
+chatroom#:#chat_deletion_interval_unit#:#Einheit
+chatroom#:#chat_deletion_interval_value#:#Wert
 prg#:#prg_points_reachable#:#Erreichbare Punkte
 mail#:#mail_members_search_continue#:#Weiter
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?

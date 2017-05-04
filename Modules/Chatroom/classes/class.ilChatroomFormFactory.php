@@ -354,7 +354,35 @@ class ilChatroomFormFactory
 		$chatServerClientUrl = new ilTextInputGUI($lng->txt('url'), 'client_url');
 		$chatServerClientUrl->setRequired(true);
 		$chatServerClientUrl->setInfo($lng->txt('connection_url_info'));
-		$clientProxy->addSubItem($chatServerClientUrl);
+
+		$deletion_section = new ilFormSectionHeaderGUI();
+		$deletion_section->setTitle($lng->txt('chat_deletion_section_head'));
+		$form->addItem($deletion_section);
+
+		$deletion_options = new ilRadioGroupInputGUI($lng->txt('chat_deletion_section_head'), 'deletion_mode');
+
+		$deletion_mode_deactivated = new ilRadioOption($lng->txt('chat_deletion_disabled'), 0);
+		$deletion_options->addOption($deletion_mode_deactivated);
+
+		$chat_deletion_interval = new ilRadioOption($lng->txt('chat_deletion_interval'), 1);
+		$chat_deletion_interval->setInfo($lng->txt('chat_deletion_interval_info'));
+		$interval_unit = new ilSelectInputGUI($lng->txt('chat_deletion_interval_unit'), 'deletion_unit');
+		$interval_unit->setRequired(true);
+		$interval_unit->setOptions(array(
+			'days'  => $lng->txt('days'),
+			'weeks' => $lng->txt('weeks'),
+			'month' => $lng->txt('months'),
+			'years' => $lng->txt('years')
+		));
+		$chat_deletion_interval->addSubItem($interval_unit);
+		$interval_value = new ilNumberInputGUI($lng->txt('chat_deletion_interval_value'), 'deletion_value');
+		$interval_value->allowDecimals(false);
+		$interval_value->setMinValue(1);
+		$interval_value->setRequired(true);
+		$chat_deletion_interval->addSubItem($interval_value);
+		$deletion_options->addOption($chat_deletion_interval);
+
+		$form->addItem($deletion_options);
 
 		return $form;
 	}
