@@ -271,6 +271,13 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
 	public function isQuestionSetConfigured()
 	{
+		// fau: delayCopyRandomQuestions - question set is not configured if date of last synchronisation is empty
+		if ($this->getLastQuestionSyncTimestamp() == 0 )
+		{
+			return false;
+		}
+		// fau.
+		
 		if( !$this->isQuestionAmountConfigComplete() )
 		{
 			return false;
