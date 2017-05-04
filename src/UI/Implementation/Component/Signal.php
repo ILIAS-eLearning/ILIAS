@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\UI\Implementation\Component;
 
 /**
@@ -38,6 +39,22 @@ class Signal implements \ILIAS\UI\Component\Signal {
 	 */
 	public function getOptions() {
 		return $this->options;
+	}
+
+	/**
+	 * @param string $key
+	 * @param mixed $value
+	 */
+	protected function addOption($key, $value) {
+		$this->options[$key] = $value;
+	}
+
+	/**
+	 * @param string $key
+	 * @return mixed|null
+	 */
+	protected function getOption($key) {
+		return (isset($this->options[$key])) ? $this->options[$key] : null;
 	}
 
 	/**
