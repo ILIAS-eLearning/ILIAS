@@ -719,10 +719,22 @@ class ilTestRandomQuestionSetConfigGUI
 		}
 		elseif( !$this->questionSetConfig->isQuestionSetBuildable() )
 		{
+			//fau: fixRandomTestBuildable - show the messages if set is not buildable
+			ilUtil::sendFailure(implode('<br />', $this->questionSetConfig->getBuildableMessages()));
+			//fau.
+			
 			$infoMessage = $this->lng->txt('tst_msg_rand_quest_set_pass_not_buildable');
 		}
 		else
 		{
+			//fau: fixRandomTestBuildable - show the messages if set is buildable but messages exist
+			if (count($this->questionSetConfig->getBuildableMessages()))
+			{
+				// REALLY REQUIRED !??
+				ilUtil::sendFailure(implode('<br />', $this->questionSetConfig->getBuildableMessages()));
+			}
+			//fau.
+			
 			$syncDate = new ilDateTime(
 				$this->questionSetConfig->getLastQuestionSyncTimestamp(), IL_CAL_UNIX
 			);

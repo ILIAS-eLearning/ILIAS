@@ -36,6 +36,10 @@ abstract class ilTestRandomQuestionSetBuilder
 	 */
 	protected $stagingPoolQuestionList = null;
 
+	//fau: fixRandomTestBuildable - variable for messages
+	protected $checkMessages = array();
+	// fau.
+
 	/**
 	 * @param ilDB $db
 	 * @param ilObjTest $testOBJ
@@ -205,4 +209,11 @@ abstract class ilTestRandomQuestionSetBuilder
 			$db, $testOBJ, $questionSetConfig, $sourcePoolDefinitionList, $stagingPoolQuestionList
 		);
 	}
+	
+	//fau: fixRandomTestBuildable - function to get messages
+	public function getCheckMessages()
+	{
+		return $this->checkMessages;
+	}
+	// fau.
 }
