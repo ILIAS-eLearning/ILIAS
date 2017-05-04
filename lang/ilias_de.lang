@@ -8162,9 +8162,9 @@ mail#:#mail_allow_external#:#Externe E-Mails
 mail#:#mail_allow_external_info#:#Sofern nicht aktiviert, wird der Versand von externen E-Mails (via SMTP) global unterdrückt.
 mail#:#mail_settings_general_tab#:#Allgemein
 mail#:#mail_settings_external_tab#:#Extern
-mail#:#mail_settings_external_frm_head#:#External Emails
-mail#:#mail_settings_user_frm_head#:#User Emails
-mail#:#mail_settings_system_frm_head#:#System Emails
+mail#:#mail_settings_external_frm_head#:#Externe E-Mails
+mail#:#mail_settings_user_frm_head#:#Benutzer E-Mails
+mail#:#mail_settings_system_frm_head#:#System E-Mails
 mail#:#mail_smtp_status#:#SMTP-Versand aktivieren
 mail#:#mail_smtp_status_info#:#Falls aktiviert, delegiert ILIAS den Versand externer E-Mails an den hier konfigurierten Mail-Server, statt die von der PHP-Runtime bereitgestellte Funktionalität für den Versand zu nutzen (mail()-Funtkion, sendmail).
 mail#:#mail_smtp_host#:#Host
