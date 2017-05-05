@@ -2012,10 +2012,10 @@ class ilSurveyEvaluationGUI
 
 		$output = $return = "";
 
-		ilLoggerFactory::getRootLogger()->debug("EXEC => ".$bin . " " . $script . " " . implode(" ", $args));
-		exec($bin . " " . $script . " " . implode(" ", $args), $output, $return);
+		exec($executable_string = $bin . " " . $script . " " . implode(" ", $args), $output, $return);
 
 		$log = ilLoggerFactory::getLogger("svy");
+		$log->debug($executable_string);
 		$log->dump($output, ilLogLevel::DEBUG);
 		$log->dump($return, ilLogLevel::DEBUG);
 
