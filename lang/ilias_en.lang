@@ -687,7 +687,8 @@ assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#The Competence-Question-
 assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool:<br />%s<br /><br />The configuration of threshold values is to be done here in the test.
 assessment#:#qpl_qst_skl_selection_for_question_header#:#Compence Assignments for Question: %s
 assessment#:#tst_save_comp_points#:#Save Competence Points
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points have been saved.
+assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#The competence points have not been saved. Please check your input.
 assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!
 assessment#:#tst_skl_level_thresholds_link#:#Configure Competence Thresholds
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.
