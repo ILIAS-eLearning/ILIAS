@@ -3,11 +3,21 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Validation;
-
+use ILIAS\Data;
 /**
  * Factory for creating constraints.
  */
 class Factory {
+	/**
+	 * @var ILIAS\Data\Factory
+	 */
+	protected $data_factory;
+
+	public function __construct(Data\Factory $data_factory) {
+		$this->data_factory = $data_factory;
+	}
+
+
 	// COMBINATORS
 
 	/**
@@ -18,7 +28,9 @@ class Factory {
 	 * @param   Constraint[]   $others
 	 * @return  Constraint
 	 */
-	public function sequential(array $others);
+	public function sequential(array $others) {
+		return new Constraints\Sequential($others, $this->data_factory);
+	}
 
 	/**
 	 * Get a constraint that checks the supplied constraints in parallel.
@@ -28,7 +40,9 @@ class Factory {
 	 * @param   Constraint[]   $others
 	 * @return	Constraint
 	 */
-	public function parallel(array $others);
+	public function parallel(array $others) {
+		return new Constraints\Parallel($others, $this->data_factory);
+	}
 
 	/**
 	 * Get a negated constraint.
@@ -36,7 +50,9 @@ class Factory {
 	 * @param   Constraint   $other
 	 * @return  Constraint
 	 */
-	public function not(Constraint $other);
+	public function not(Constraint $other) {
+		return new Constraints\Not($other, $this->data_factory);
+	}
 
 	// SOME RESTRICTOINS
 
@@ -45,7 +61,9 @@ class Factory {
 	 *
 	 * @return  Constraint
 	 */
-	public function isInt();
+	public function isInt() {
+		return new Constraints\IsInt($this->data_factory);
+	}
 
 	/**
 	 * Get the constraint that some value is larger than $min.
@@ -53,7 +71,9 @@ class Factory {
 	 * @param   int   $min
 	 * @return  Constraint
 	 */
-	public function greaterThan($min);
+	public function greaterThan($min) {
+		return new Constraints\GreaterThan($min, $this->data_factory);
+	}
 
 	/**
 	 * Get the constraint that some value is smaller then $max.
@@ -61,7 +81,9 @@ class Factory {
 	 * @param   int   $max
 	 * @return  Constraint
 	 */
-	public function lessThan($max);
+	public function lessThan($max) {
+		return new Constraints\LessThan($max, $this->data_factory);
+	}
 
 	/**
 	 * Get a custom constraint.
@@ -73,5 +95,7 @@ class Factory {
 	 * @param   string|callable   $error
 	 * @return  Constraint
 	 */
-	public function custom(callable $is_ok, $error);
+	public function custom(callable $is_ok, $error) {
+		return new Constraints\Custom($is_ok, $error, $this->data_factory);
+	}
 }
