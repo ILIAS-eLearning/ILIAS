@@ -107,9 +107,9 @@ class assImagemapQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlStartTag("render_hotspot");
 		$a_xml_writer->xmlStartTag("material");
 		$imagetype = "image/jpeg";
-		if (preg_match("/.*\.(png|gif)$/", $this->object->getImageFilename(), $matches))
+		if (preg_match("/.*\.(png|gif)$/i", $this->object->getImageFilename(), $matches))
 		{
-			$imagetype = "image/" . $matches[1];
+			$imagetype = "image/" . strtolower($matches[1]);
 		}
 		$attrs = array(
 			"imagtype" => $imagetype,
