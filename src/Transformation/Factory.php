@@ -1,5 +1,6 @@
 <?php
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Transformation;
 
@@ -15,7 +16,9 @@ interface Factory {
 	 * @param   string[] $labels
 	 * @return  Transformation
 	 */
-	public function addLabels(array $labels);
+	public function addLabels(array $labels) {
+		return new Transformations\AddLabels($labels);
+	}
 
 	/**
      * Split string at given delimiter.
@@ -25,7 +28,9 @@ interface Factory {
 	 * @param   string $delimiter
 	 * @return  Transformation
 	 */
-	public function splitString($delimiter);
+	public function splitString($delimiter) {
+		return new Transformations\SplitString($delimiter);
+	}
 
 	/**
 	 * Create a custom transformation.
@@ -33,5 +38,7 @@ interface Factory {
 	 * @param	callable $f	mixed -> mixed
 	 * @return  Transformation
 	 */
-	public function custom(callable $f);
+	public function custom(callable $f) {
+		return new Transformations\Custom($f);
+	}
 }
