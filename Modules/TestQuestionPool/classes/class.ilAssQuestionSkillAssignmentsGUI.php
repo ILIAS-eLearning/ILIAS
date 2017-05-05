@@ -513,9 +513,7 @@ class ilAssQuestionSkillAssignmentsGUI
 		$assignmentList->loadFromDb();
 		$assignmentList->loadAdditionalSkillData();
 		$table->setSkillQuestionAssignmentList($assignmentList);
-
-		$tableData = $this->questionList->getQuestionDataArray();
-		$table->setData($this->orderQuestionData($tableData));
+		$table->setData($this->orderQuestionData($this->questionList->getQuestionDataArray()));
 
 		$this->tpl->setContent($this->ctrl->getHTML($table));
 	}
