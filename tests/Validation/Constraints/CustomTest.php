@@ -79,7 +79,7 @@ class CustomTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function constraintsProvider() {
-		$f = new Validation\Factory();
+		$f = new Validation\Factory(new Data\Factory());
 
 		return array(array($f->custom(function($value) { return $value > 1;}, "Value is not greater"), 2, 1, "Value is not greater"),
 					 array($f->custom(function($value) { return $value < 2;}, "Value is not greater"), 1, 2, "Value is not greater")

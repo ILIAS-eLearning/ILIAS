@@ -3,7 +3,7 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Validation;
-use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Data;
 
 /**
  * TestCase for the factory of constraints
@@ -12,7 +12,7 @@ use ILIAS\Data\Factory as DataFactory;
  */
 class FactoryTest extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
-		$this->f = new Validation\Factory();
+		$this->f = new Validation\Factory(new Data\Factory());
 	}
 
 	protected function tearDown() {

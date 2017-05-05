@@ -77,7 +77,7 @@ class IntConstraintsTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function constraintsProvider() {
-		$f = new Validation\Factory();
+		$f = new Validation\Factory(new Data\Factory());
 
 		return array(array($f->isInt(), 2, 2.2),
 					 array($f->greaterThan(5), 6, 4),
