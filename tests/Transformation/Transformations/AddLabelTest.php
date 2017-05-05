@@ -107,8 +107,6 @@ class AddLabelTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testInvokeFails() {
-		$this->add_label = $this->f->addLabels(self::$labels);
-
 		$raised = false;
 		try {
 			$next_with  = $this->add_label($with);
