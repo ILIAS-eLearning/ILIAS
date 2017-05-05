@@ -43,7 +43,7 @@ class ParallelTest extends PHPUnit_Framework_TestCase {
 			$constraint->check(2);
 			$raised = false;
 		} catch (UnexpectedValueException $e) {
-			$this->assertEquals("The checked value is not greater.The checked value is greater than.", $e->getMessage());
+			$this->assertEquals("'2' is not greater than '3'.'2' is greater than '1'.", $e->getMessage());
 			$raised = true;
 		}
 
@@ -57,7 +57,7 @@ class ParallelTest extends PHPUnit_Framework_TestCase {
 
 		$constraint = $this->f->parallel(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(1)));
 		$this->assertInternalType("string", $constraint->problemWith(2));
-		$this->assertEquals("The checked value is not greater.The checked value is greater than.", $constraint->problemWith(2));
+		$this->assertEquals("'2' is not greater than '3'.'2' is greater than '1'.", $constraint->problemWith(2));
 	}
 
 	public function testRestrict() {
@@ -83,5 +83,16 @@ class ParallelTest extends PHPUnit_Framework_TestCase {
 
 		$new_constraint = $constraint->withProblemBuilder(function() { return "This was a vault"; });
 		$this->assertEquals("This was a vault", $new_constraint->problemWith(2));
+	}
+
+	public function testCorrectErrorMessagesAfterMultiAccept() {
+		$constraint = $this->f->parallel(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(2)));
+		$constraint->accepts(1);
+		$constraint->accepts(3);
+		$constraint->accepts(4);
+
+		$this->assertEquals("'1' is not greater than '3'.", $constraint->problemWith(1));
+		$this->assertEquals("'3' is not greater than '3'.'3' is greater than '2'.", $constraint->problemWith(3));
+		$this->assertEquals("'4' is greater than '2'.", $constraint->problemWith(4));
 	}
 }
