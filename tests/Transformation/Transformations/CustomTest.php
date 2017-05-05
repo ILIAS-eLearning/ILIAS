@@ -10,41 +10,43 @@ use ILIAS\Transformation\Factory;
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class CustomTest extends PHPUnit_Framework_TestCase {
-	const TEST_STRING = "I Am A Test String.";
+	const TEST_STRING = "Test";
 
 	protected function setUp() {
 		$this->f = new Transformation\Factory();
+		$this->custom = $this->f->custom(function($value) {
+			if(!is_string($value)) {
+				throw new InvalidArgumentException("'".gettype($value)."' is not a string.");
+			}
+			return $value;}
+		);
 	}
 
 	protected function tearDown() {
 		$this->f = null;
+		$this->custom = null;
 	}
 
 	public function testTransform() {
-		$string_to_lower = $this->f->custom(function($value) { 
-			if(!is_string($value)) {
-				throw new InvalidArgumentException("Value was not a string.");
-			}
-			return strtolower($value);}
-		);
+		$result = $this->custom->transform(self::TEST_STRING);
+		$this->assertEquals(self::TEST_STRING, $result);
+	}
 
-		$lower_string = $string_to_lower->transform(self::TEST_STRING);
-		$this->assertEquals(strtolower(self::TEST_STRING), $lower_string);
-
+	public function testTransformFails() {
 		$raised = false;
 		try {
-			$lower_string = $string_to_lower->transform(array());
+			$lower_string = $this->custom->transform(array());
 		} catch (InvalidArgumentException $e) {
-			$this->assertEquals("Value was not a string", $e->getMessage());
+			$this->assertEquals("'array' is not a string.", $e->getMessage());
 			$raised = true;
 		}
 		$this->assertTrue($raised);
 
 		$raised = false;
 		try {
-			$lower_string = $string_to_lower->transform(12345);
+			$lower_string = $this->custom->transform(12345);
 		} catch (InvalidArgumentException $e) {
-			$this->assertEquals("Value was not a string", $e->getMessage());
+			$this->assertEquals("'integer' is not a string.", $e->getMessage());
 			$raised = true;
 		}
 		$this->assertTrue($raised);
@@ -54,37 +56,32 @@ class CustomTest extends PHPUnit_Framework_TestCase {
 			$std_class = new stdClass();
 			$lower_string = $split_string->transform($std_class);
 		} catch (InvalidArgumentException $e) {
-			$this->assertEquals("Value was not a string", $e->getMessage());
+			$this->assertEquals("'object' is not a string.", $e->getMessage());
 			$raised = true;
 		}
 		$this->assertTrue($raised);
 	}
 
 	public function testInvoke() {
-		$string_to_lower = $this->f->custom(function($value) { 
-			if(!is_string($value)) {
-				throw new InvalidArgumentException("Value was not a string.");
-			}
-			return strtolower($value);}
-		);
+		$result = $this->custom->transform(self::TEST_STRING);
+		$this->assertEquals(self::TEST_STRING, $result);
+	}
 
-		$lower_string = $string_to_lower->transform(self::TEST_STRING);
-		$this->assertEquals(strtolower(self::TEST_STRING), $lower_string);
-
+	public function testInvokeFails() {
 		$raised = false;
 		try {
-			$lower_string = $string_to_lower(array());
+			$lower_string = $this->custom(array());
 		} catch (InvalidArgumentException $e) {
-			$this->assertEquals("Value was not a string", $e->getMessage());
+			$this->assertEquals("'array' is not a string.", $e->getMessage());
 			$raised = true;
 		}
 		$this->assertTrue($raised);
 
 		$raised = false;
 		try {
-			$lower_string = $string_to_lower(12345);
+			$lower_string = $this->custom(12345);
 		} catch (InvalidArgumentException $e) {
-			$this->assertEquals("Value was not a string", $e->getMessage());
+			$this->assertEquals("'integer' is not a string.", $e->getMessage());
 			$raised = true;
 		}
 		$this->assertTrue($raised);
@@ -94,7 +91,7 @@ class CustomTest extends PHPUnit_Framework_TestCase {
 			$std_class = new stdClass();
 			$lower_string = $split_string($std_class);
 		} catch (InvalidArgumentException $e) {
-			$this->assertEquals("Value was not a string", $e->getMessage());
+			$this->assertEquals("'object' is not a string.", $e->getMessage());
 			$raised = true;
 		}
 		$this->assertTrue($raised);
