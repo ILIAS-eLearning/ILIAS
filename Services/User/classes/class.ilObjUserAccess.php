@@ -44,7 +44,6 @@ class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass {
 				ilUtil::sendFailure(sprintf($GLOBALS['DIC']->language()->txt('registration_disabled_no_access'), $settings->get('admin_email')), true);
 				return false;
 			}
-			return false;
 		}
 		else if('usr_nameassist' == $a_target)
 		{
