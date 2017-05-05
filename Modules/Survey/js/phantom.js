@@ -1,7 +1,7 @@
 var system = require('system');
 if(system.args.length < 7)
 {
-    console.log("Number of arguments is: " + system.args.length + " expecting 7.");
+    system.console.log("Number of arguments is: " + system.args.length + " expecting 7.");
     phantom.exit(1);
 }
 	
