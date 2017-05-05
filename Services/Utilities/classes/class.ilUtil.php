@@ -3078,7 +3078,7 @@ class ilUtil
 	 * @param
 	 * @return
 	 */
-	function secureUrl($url)
+	static function secureUrl($url)
 	{
 		// check if url is valid (absolute or relative)
 		if (filter_var($url, FILTER_VALIDATE_URL) === false &&
