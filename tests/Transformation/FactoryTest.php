@@ -19,7 +19,7 @@ class FactoryTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testAddLabels() {
-		$add_label = $this->f->addLabeld(array("A", "B", "C"));
+		$add_label = $this->f->addLabels(array("A", "B", "C"));
 		$this->assertInstanceOf(Transformation\Transformation::class, $add_label);
 	}
 
@@ -29,7 +29,7 @@ class FactoryTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testCustom() {
-		$custom = $this->f->splitString("#");
+		$custom = $this->f->custom("#");
 		$this->assertInstanceOf(Transformation\Transformation::class, $custom);
 	}
 }
