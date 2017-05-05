@@ -31,6 +31,6 @@ class Custom implements Transformation {
 	 * @inheritdoc
 	 */
 	public function __invoke($from) {
-		return call_user_func($this->transform, $from);
+		$this->transform($from);
 	}
 }

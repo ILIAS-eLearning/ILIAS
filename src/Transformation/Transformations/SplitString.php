@@ -35,10 +35,6 @@ class SplitString implements Transformation {
 	 * @inheritdoc
 	 */
 	public function __invoke($from) {
-		if(!is_string($from)) {
-			throw new \InvalidArgumentException(__METHOD__." the argument is not a string.");
-		}
-
-		return explode($this->delimiter, $from);
+		$this->transform($from);
 	}
 }

@@ -39,14 +39,6 @@ class AddLabels implements Transformation {
 	 * @inheritdoc
 	 */
 	public function __invoke($from) {
-		if(!is_array($from)) {
-			throw new \InvalidArgumentException(__METHOD_." argument is not an array.");
-		}
-
-		if(count($from) != count($this->labels)) {
-			throw new \InvalidArgumentException(__METHOD__." number of items in arrays are not equal.");
-		}
-
-		return array_combine($this->labels, $from);
+		$this->transform($from);
 	}
 }
