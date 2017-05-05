@@ -15,45 +15,32 @@ class Parallel extends Custom implements Constraint {
 	/**
 	 * @var Constraint[]
 	 */
-	protected $failed_constraints = array();
+	protected $failed_constraints;
 
 	public function __construct(array $constraints, Data\Factory $data_factory) {
-		$this->min = $min;
-		$this->data_factory = $data_factory;
 		$this->constraints = $constraints;
-	}
+		parent::__construct(
+			function($value) {
+				$ret = true;
+				$this->failed_constraints = array();
+				foreach ($this->constraints as $constraint) {
+					if(!$constraint->accepts($value)) {
+						$this->failed_constraints[] = $constraint;
+						$ret = false;
+					}
+				}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function accepts($value) {
-		$ret = true;
-		$this->failed_constraints = array();
-		foreach ($this->constraints as $constraint) {
-			if(!$constraint->accepts($value)) {
-				$this->failed_constraints[] = $constraint;
-				$ret = false;
-			}
-		}
+				return $ret;
+			},
+			function($value) {
+				$message = "";
+				foreach ($this->failed_constraints as $key => $constraint) {
+					$message .= $constraint->getErrorMessage($value);
+				}
 
-		return $ret;
-	}
-
-	/**
-	 * Get the problem message
-	 *
-	 * @return string
-	 */
-	public function getErrorMessage() {
-		if($this->error !== null) {
-			return call_user_func($this->error);
-		}
-
-		$message = "";
-		foreach ($this->failed_constraints as $key => $constraint) {
-			$message .= $constraint->getErrorMessage();
-		}
-
-		return $message;
+				return $message;
+			},
+			$data_factory
+		);
 	}
 }

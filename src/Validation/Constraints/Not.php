@@ -7,6 +7,8 @@ use ILIAS\Data;
 use ILIAS\Data\Result;
 
 class Not extends Custom implements Constraint {
+	const ERROR_MESSAGE_PREFIX = "It is not the case that:";
+
 	/**
 	 * @var Constraint
 	 */
@@ -14,26 +16,12 @@ class Not extends Custom implements Constraint {
 
 	public function __construct(Constraint $constraint, Data\Factory $data_factory) {
 		$this->constraint = $constraint;
-		$this->data_factory = $data_factory;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function accepts($value) {
-		return !$this->constraint->accepts($value);
-	}
-
-	/**
-	 * Get the problem message
-	 *
-	 * @return string
-	 */
-	public function getErrorMessage() {
-		if($this->error !== null) {
-			return call_user_func($this->error);
-		}
-
-		return $this->constraint->getErrorMessage();
+		parent::__construct( function ($value) {
+				return !$this->constraint->accepts($value);
+			}, 
+			function ($value) {
+				return $this->constraint->getErrorMessage($value);
+			},
+			$data_factory);
 	}
 }

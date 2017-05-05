@@ -7,29 +7,13 @@ use ILIAS\Data;
 use ILIAS\Data\Result;
 
 class IsInt extends Custom implements Constraint {
-	const ERROR_MESSAGE = "The checked value is not an integer";
-
 	public function __construct(Data\Factory $data_factory) {
-		$this->data_factory = $data_factory;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function accepts($value) {
-		return is_int($value);
-	}
-
-	/**
-	 * Get the problem message
-	 *
-	 * @return string
-	 */
-	public function getErrorMessage() {
-		if($this->error !== null) {
-			return call_user_func($this->error);
-		}
-
-		return self::ERROR_MESSAGE;
+		parent::__construct( function ($value) {
+				return is_int($value);
+			}, 
+			function ($value) {
+				return "'$value' is not an integer";
+			},
+			$data_factory);
 	}
 }

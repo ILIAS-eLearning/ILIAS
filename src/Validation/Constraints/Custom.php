@@ -40,7 +40,7 @@ class Custom implements Constraint {
 	/**
 	 * @inheritdoc
 	 */
-	public function check($value) {
+	final public function check($value) {
 		if(!$this->accepts($value)) {
 			throw new \UnexpectedValueException($this->getErrorMessage($value));
 		}
@@ -51,14 +51,14 @@ class Custom implements Constraint {
 	/**
 	 * @inheritdoc
 	 */
-	public function accepts($value) {
+	final public function accepts($value) {
 		return call_user_func($this->is_ok, $value);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function problemWith($value) {
+	final public function problemWith($value) {
 		if(!$this->accepts($value)) {
 			return $this->getErrorMessage($value);
 		}
@@ -69,9 +69,13 @@ class Custom implements Constraint {
 	/**
 	 * @inheritdoc
 	 */
-	public function restrict(Result $result) {
-		$problem = $this->problemWith($result->value())
-		if($result->isOk() && $problem !== null) {
+	final public function restrict(Result $result) {
+		if($result->isError()) {
+			return $result;
+		}
+
+		$problem = $this->problemWith($result->value());
+		if($problem !== null) {
 			$error = $this->data_factory->error($problem);
 			return $error;
 		}
@@ -82,7 +86,7 @@ class Custom implements Constraint {
 	/**
 	 * @inheritdoc
 	 */
-	public function withProblemBuilder(callable $builder) {
+	final public function withProblemBuilder(callable $builder) {
 		$clone = clone $this;
 		$clone->error = $builder;
 		return $clone;
@@ -93,7 +97,7 @@ class Custom implements Constraint {
 	 *
 	 * @return string
 	 */
-	public function getErrorMessage() {
-		return call_user_func($this->error);
+	final public function getErrorMessage($value) {
+		return call_user_func($this->error, $value);
 	}
 }

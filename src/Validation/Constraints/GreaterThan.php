@@ -7,8 +7,6 @@ use ILIAS\Data;
 use ILIAS\Data\Result;
 
 class GreaterThan extends Custom implements Constraint {
-	const ERROR_MESSAGE = "The checked value is not greater.";
-
 	/**
 	 * @var int
 	 */
@@ -17,26 +15,12 @@ class GreaterThan extends Custom implements Constraint {
 	public function __construct($min, Data\Factory $data_factory) {
 		assert('is_int($min)');
 		$this->min = $min;
-		$this->data_factory = $data_factory;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function accepts($value) {
-		return $value > $this->min;
-	}
-
-	/**
-	 * Get the problem message
-	 *
-	 * @return string
-	 */
-	public function getErrorMessage() {
-		if($this->error !== null) {
-			return call_user_func($this->error);
-		}
-
-		return self::ERROR_MESSAGE;
+		parent::__construct( function ($value) {
+				return $value > $this->min;
+			}, 
+			function ($value) {
+				return "'$value' is not greater than '{$this->min}'.";
+			},
+			$data_factory);
 	}
 }
