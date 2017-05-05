@@ -1,8 +1,12 @@
 <?php
+/* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Transformation\Transformations;
 use ILIAS\Transformation\Transformation;
 
+/**
+ * Transform values according to custom configuration
+ */
 class Custom extends Transformation {
 	/**
 	 * @var callable
