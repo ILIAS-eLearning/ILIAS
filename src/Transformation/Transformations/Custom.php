@@ -7,7 +7,7 @@ use ILIAS\Transformation\Transformation;
 /**
  * Transform values according to custom configuration
  */
-class Custom extends Transformation {
+class Custom implements Transformation {
 	/**
 	 * @var callable
 	 */
