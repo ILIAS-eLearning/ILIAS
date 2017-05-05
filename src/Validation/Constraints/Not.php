@@ -3,7 +3,7 @@
 
 namespace ILIAS\Validation\Constraints;
 use ILIAS\Validation\Constraint;
-use ILIAS\Data\Factory;
+use ILIAS\Data;
 use ILIAS\Data\Result;
 
 class Not extends Custom implements Constraint {
@@ -12,7 +12,7 @@ class Not extends Custom implements Constraint {
 	 */
 	protected $constraint;
 
-	public function __construct(Constraint $constraint, Factory $data_factory) {
+	public function __construct(Constraint $constraint, Data\Factory $data_factory) {
 		$this->constraint = $constraint;
 		$this->data_factory = $data_factory;
 	}

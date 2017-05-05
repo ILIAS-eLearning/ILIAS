@@ -3,7 +3,7 @@
 
 namespace ILIAS\Validation\Constraints;
 use ILIAS\Validation\Constraint;
-use ILIAS\Data\Factory;
+use ILIAS\Data;
 use ILIAS\Data\Result;
 
 class Custom implements Constraint {
@@ -25,7 +25,7 @@ class Custom implements Constraint {
 	/**
 	 * @param string|callable   $error
 	 */
-	public function __construct(callable $is_ok, $error, Factory $data_factory) {
+	public function __construct(callable $is_ok, $error, Data\Factory $data_factory) {
 		$this->is_ok = $is_ok;
 
 		if(!is_callable($error)) {

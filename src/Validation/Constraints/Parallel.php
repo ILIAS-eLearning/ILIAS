@@ -3,7 +3,7 @@
 
 namespace ILIAS\Validation\Constraints;
 use ILIAS\Validation\Constraint;
-use ILIAS\Data\Factory;
+use ILIAS\Data;
 use ILIAS\Data\Result;
 
 class Parallel extends Custom implements Constraint {
@@ -17,7 +17,7 @@ class Parallel extends Custom implements Constraint {
 	 */
 	protected $failed_constraints = array();
 
-	public function __construct(array $constraints, Factory $data_factory) {
+	public function __construct(array $constraints, Data\Factory $data_factory) {
 		$this->min = $min;
 		$this->data_factory = $data_factory;
 		$this->constraints = $constraints;

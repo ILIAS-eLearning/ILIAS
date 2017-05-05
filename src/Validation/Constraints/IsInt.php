@@ -3,13 +3,13 @@
 
 namespace ILIAS\Validation\Constraints;
 use ILIAS\Validation\Constraint;
-use ILIAS\Data\Factory;
+use ILIAS\Data;
 use ILIAS\Data\Result;
 
 class IsInt extends Custom implements Constraint {
 	const ERROR_MESSAGE = "The checked value is not an integer";
 
-	public function __construct(Factory $data_factory) {
+	public function __construct(Data\Factory $data_factory) {
 		$this->data_factory = $data_factory;
 	}
 

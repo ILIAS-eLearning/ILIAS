@@ -3,7 +3,7 @@
 
 namespace ILIAS\Validation\Constraints;
 use ILIAS\Validation\Constraint;
-use ILIAS\Data\Factory;
+use ILIAS\Data;
 use ILIAS\Data\Result;
 
 class GreaterThan extends Custom implements Constraint {
@@ -14,7 +14,7 @@ class GreaterThan extends Custom implements Constraint {
 	 */
 	protected $min;
 
-	public function __construct($min, Factory $data_factory) {
+	public function __construct($min, Data\Factory $data_factory) {
 		assert('is_int($min)');
 		$this->min = $min;
 		$this->data_factory = $data_factory;
