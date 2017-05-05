@@ -2,9 +2,13 @@
 <!-- BEGIN singlechoice -->
 	<div id="container{VAL_ID}" class="ilc_question_SingleChoice">
 	<div class="ilc_qtitle_Title question id@id">qtitle</div>
-	<span class="ilc_answers answers">
-		<div class="ilc_qanswer_Answer"><input type="radio" class="order@value" value="0" name="answers{VAL_ID}" /> <span class="answertext" /></span></div>
-		</span>	
+	<div class="ilc_answers answers">
+		<div class="ilc_qanswer_Answer">
+			<div class="pull-left"><input type="radio" class="order@value" value="0" name="answers{VAL_ID}" /></div>
+			<div class="pull-left"><span class="answertext"></span></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>	
 	<div id="feedback{VAL_ID}" style="display:none"></div>
 	<input type="button" class="ilc_qsubmit_Submit" {VAL_NO_DISPLAY} id="button{VAL_ID}" onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 	</div>
