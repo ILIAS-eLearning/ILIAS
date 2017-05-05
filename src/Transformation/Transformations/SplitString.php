@@ -7,7 +7,7 @@ use ILIAS\Transformation\Transformation;
 /**
  * Split a string by delimiter into array
  */
-class SplitString extends Transformation {
+class SplitString implements Transformation {
 	/**
 	 * @var string
 	 */
@@ -25,7 +25,7 @@ class SplitString extends Transformation {
 	 */
 	public function transform($from) {
 		if(!is_string($from)) {
-			throw new \InvalidArgumentException(__METHOD__." the argument is not a string").
+			throw new \InvalidArgumentException(__METHOD__." the argument is not a string.");
 		}
 
 		return explode($this->delimiter, $from);
@@ -36,7 +36,7 @@ class SplitString extends Transformation {
 	 */
 	public function __invoke($from) {
 		if(!is_string($from)) {
-			throw new \InvalidArgumentException(__METHOD__." the argument is not a string").
+			throw new \InvalidArgumentException(__METHOD__." the argument is not a string.");
 		}
 
 		return explode($this->delimiter, $from);
