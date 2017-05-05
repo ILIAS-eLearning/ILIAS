@@ -6,6 +6,7 @@ namespace ILIAS\Transformation;
 
 /**
  * Factory for basic transformations.
+ * For purpose and usage see README.md
  */
 interface Factory {
 	/**
