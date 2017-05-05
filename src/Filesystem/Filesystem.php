@@ -25,16 +25,6 @@ use ILIAS\Filesystem\Exception\IOException;
 interface Filesystem {
 
 	/**
-	 * Public file visibility.
-	 */
-	const VISIBILITY_PUBLIC = 'public';
-	/**
-	 * Private file visibility.
-	 */
-	const VISIBILITY_PRIVATE = 'private';
-
-
-	/**
 	 * Writes the content to a new file.
 	 *
 	 * @param string $path      The path to the file which should be created.
@@ -234,7 +224,7 @@ interface Filesystem {
 	/**
 	 * Create a new directory.
 	 *
-	 * Please note that the Filesystem interface defines two constants VISIBILITY_PUBLIC and VISIBILITY_PRIVATE
+	 * Please note that the Visibility interface defines two constants PUBLIC and PRIVATE
 	 * to ease the development process.
 	 *
 	 * @param string $path          The directory path which should be created.
@@ -248,7 +238,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function createDir(string $path, string $visibility = self::VISIBILITY_PUBLIC);
+	public function createDir(string $path, string $visibility = Visibility::PUBLIC);
 
 
 	/**
@@ -286,7 +276,7 @@ interface Filesystem {
 	 * Sets the visibility for a file.
 	 * Please note that the $visibility must 'public' or 'private'.
 	 *
-	 * The Filesystem interface provides two constants VISIBILITY_PUBLIC and VISIBILITY_PRIVATE.
+	 * The Visibility interface provides two constants PUBLIC and PRIVATE.
 	 * We strongly encourage the consumers of this API to use the constants.
 	 *
 	 * @param string $path          The path to the file.
@@ -306,7 +296,7 @@ interface Filesystem {
 	 * Get the file visibility.
 	 * The file visibility could be 'public' or 'private'.
 	 *
-	 * Please note that the Filesystem interface defines two constants VISIBILITY_PUBLIC and VISIBILITY_PRIVATE
+	 * Please note that the Visibility interface defines two constants PUBLIC and PRIVATE
 	 * to ease the development process.
 	 *
 	 * @param string $path  The path to the file which should be used.
