@@ -1141,7 +1141,7 @@ class ilObjectCopyGUI
 		$target_type = ilObject::_lookupType(ilObject::_lookupObjId($a_target));
 		$source_type = ilObject::_lookupType(ilObject::_lookupObjId($this->getFirstSource()));
 		
-		if($target_type != $source_type or $target_type != 'crs')
+		if($this->getSubMode() != self::SUBMODE_CONTENT_ONLY)
 		{
 		 	if(!$rbacsystem->checkAccess('create', $a_target,$this->getType()))
 		 	{
