@@ -54,7 +54,7 @@ class CustomTest extends PHPUnit_Framework_TestCase {
 		$raised = false;
 		try {
 			$std_class = new stdClass();
-			$lower_string = $split_string->transform($std_class);
+			$lower_string = $this->custom->transform($std_class);
 		} catch (InvalidArgumentException $e) {
 			$this->assertEquals("'object' is not a string.", $e->getMessage());
 			$raised = true;
@@ -89,7 +89,7 @@ class CustomTest extends PHPUnit_Framework_TestCase {
 		$raised = false;
 		try {
 			$std_class = new stdClass();
-			$lower_string = $split_string($std_class);
+			$lower_string = $this->custom($std_class);
 		} catch (InvalidArgumentException $e) {
 			$this->assertEquals("'object' is not a string.", $e->getMessage());
 			$raised = true;
