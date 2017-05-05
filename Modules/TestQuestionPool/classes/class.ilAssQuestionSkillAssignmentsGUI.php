@@ -828,7 +828,8 @@ class ilAssQuestionSkillAssignmentsGUI
 	 */
 	private function buildLacLegendHTML(assQuestion $questionOBJ, ilAssQuestionSkillAssignment $assignment)
 	{
-		if( $questionOBJ instanceof iQuestionCondition )
+		// #19192
+		if( $questionOBJ instanceof iQuestionCondition && $this->isAssignmentEditingEnabled())
 		{
 			require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/class.ilAssLacLegendGUI.php';
 			$legend = new ilAssLacLegendGUI($this->lng, $this->tpl);
