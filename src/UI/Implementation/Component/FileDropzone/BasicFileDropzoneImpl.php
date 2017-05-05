@@ -2,9 +2,11 @@
 /**
  * Class BasicFileDropzone
  *
+ * Basic implementation for file dropzones. Provides functionality which are needed for all dropzones.
+ *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    05.05.17
- * @version 0.0.1
+ * @version 0.0.2
  *
  * @package ILIAS\UI\Implementation\Component\FileDropzone
  */
@@ -18,13 +20,17 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 abstract class BasicFileDropzoneImpl implements BasicFileDropzone {
 	use Triggerer;
 
+	const DROP_EVENT = "drop";
+
 	private $darkendBackground = true;
 
 	/**
 	 * @inheritDoc
 	 */
 	function withDarkendBackground(bool $useDarkendBackground) {
-		// TODO: Implement withDarkendBackground() method.
+		$clonedFileDropzone = clone $this;
+		$clonedFileDropzone->darkendBackground = $useDarkendBackground;
+		return $clonedFileDropzone;
 	}
 
 
@@ -32,7 +38,7 @@ abstract class BasicFileDropzoneImpl implements BasicFileDropzone {
 	 * @inheritDoc
 	 */
 	function isDarkendBackground() {
-		// TODO: Implement isDarkendBackground() method.
+		return $this->darkendBackground;
 	}
 
 
@@ -40,7 +46,7 @@ abstract class BasicFileDropzoneImpl implements BasicFileDropzone {
 	 * @inheritDoc
 	 */
 	function withOnDrop(Signal $signal) {
-		// TODO: Implement withOnDrop() method.
+		$this->addTriggeredSignal($signal, self::DROP_EVENT);
 	}
 
 
@@ -48,6 +54,6 @@ abstract class BasicFileDropzoneImpl implements BasicFileDropzone {
 	 * @inheritDoc
 	 */
 	function appendOnDrop(Signal $signal) {
-		// TODO: Implement appendOnDrop() method.
+		$this->appendTriggeredSignal($signal, self::DROP_EVENT);
 	}
 }

@@ -2,17 +2,16 @@
 /**
  * Class Factory
  *
+ * Default implementation of the dropzone factory.
+ *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    05.05.17
- * @version 0.0.1
+ * @version 0.0.2
  *
  * @package ILIAS\UI\Implementation\Component\FileDropzone
  */
 
 namespace ILIAS\UI\Implementation\Component\FileDropzone;
-
-use ILIAS\UI\Component\FileDropzone\Standard;
-use ILIAS\UI\Component\FileDropzone\Wrapper;
 
 class Factory implements \ILIAS\UI\Component\FileDropzone\Factory {
 
@@ -20,7 +19,7 @@ class Factory implements \ILIAS\UI\Component\FileDropzone\Factory {
 	 * @inheritDoc
 	 */
 	function standard() {
-		// TODO: Implement standard() method.
+		return new Standard();
 	}
 
 
@@ -28,6 +27,6 @@ class Factory implements \ILIAS\UI\Component\FileDropzone\Factory {
 	 * @inheritDoc
 	 */
 	function wrapper() {
-		// TODO: Implement wrapper() method.
+		return new Wrapper();
 	}
 }
