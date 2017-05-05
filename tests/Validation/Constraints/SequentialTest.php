@@ -80,4 +80,15 @@ class SequentialTest extends PHPUnit_Framework_TestCase {
 		$new_constraint = $constraint->withProblemBuilder(function() { return "This was a vault"; });
 		$this->assertEquals("This was a vault", $new_constraint->problemWith(2));
 	}
+
+	public function testCorrectErrorMessagesAfterMultiAccept() {
+		$constraint = $this->f->sequential(array($this->f->isInt(), $this->f->greaterThan(3), $this->f->lessThan(2)));
+		$constraint->accepts("A");
+		$constraint->accepts(2);
+		$constraint->accepts(4);
+
+		$this->assertEquals("'string' is not an integer.", $constraint->problemWith("A"));
+		$this->assertEquals("'2' is not greater than '3'.", $constraint->problemWith(2));
+		$this->assertEquals("'4' is greater than '2'.", $constraint->problemWith(4));
+	}
 }
