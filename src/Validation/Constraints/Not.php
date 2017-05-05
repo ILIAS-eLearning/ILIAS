@@ -20,7 +20,7 @@ class Not extends Custom implements Constraint {
 				return !$this->constraint->accepts($value);
 			}, 
 			function ($value) {
-				return $this->constraint->getErrorMessage($value);
+				return self::ERROR_MESSAGE_PREFIX.": ".$this->constraint->getErrorMessage($value);
 			},
 			$data_factory);
 	}
