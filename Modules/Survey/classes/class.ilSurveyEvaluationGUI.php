@@ -2020,8 +2020,7 @@ class ilSurveyEvaluationGUI
 		$log->dump($return, ilLogLevel::DEBUG);
 
 		if (!$a_return) {
-			ilLoggerFactory::getRootLogger()->debug("**** Deliver the file. Target = ".$target);
-			ilUtil::deliverFile($target, $a_filename);
+			ilUtil::deliverFile($target, $a_filename, 'application/pdf');
 		} else {
 			ilLoggerFactory::getRootLogger()->debug("**** Return a target = ".$target);
 			return $target;
