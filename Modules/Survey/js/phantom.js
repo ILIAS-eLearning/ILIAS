@@ -1,7 +1,8 @@
 var system = require('system');
 if(system.args.length < 7)
-{   
-    phantom.exit();
+{
+    console.log("Number of arguments is: " + system.args.length + " expecting 7.");
+    phantom.exit(1);
 }
 	
 // auth
