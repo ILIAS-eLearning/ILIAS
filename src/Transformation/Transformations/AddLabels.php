@@ -7,7 +7,7 @@ use ILIAS\Transformation\Transformation;
 /**
  * Adds to any array keys for each value
  */
-class AddLabels extends Transformation {
+class AddLabels implements Transformation {
 	/**
 	 * @var string[] | int[]
 	 */
@@ -29,7 +29,7 @@ class AddLabels extends Transformation {
 		}
 
 		if(count($from) != count($this->labels)) {
-			throw new \InvalidArgumentException(__METHOD__." number of items in arrays are not equal");
+			throw new \InvalidArgumentException(__METHOD__." number of items in arrays are not equal.");
 		}
 
 		return array_combine($this->labels, $from);
@@ -38,13 +38,13 @@ class AddLabels extends Transformation {
 	/**
 	 * @inheritdoc
 	 */
-	public function __invoke(array $from) {
+	public function __invoke($from) {
 		if(!is_array($from)) {
 			throw new \InvalidArgumentException(__METHOD_." argument is not an array.");
 		}
 
 		if(count($from) != count($this->labels)) {
-			throw new \InvalidArgumentException(__METHOD__." number of items in arrays are not equal");
+			throw new \InvalidArgumentException(__METHOD__." number of items in arrays are not equal.");
 		}
 
 		return array_combine($this->labels, $from);
