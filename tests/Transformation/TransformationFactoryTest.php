@@ -9,7 +9,7 @@ use ILIAS\Transformation;
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class FactoryTest extends PHPUnit_Framework_TestCase {
+class TransformationFactoryTest extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		$this->f = new Transformation\Factory();
 	}
