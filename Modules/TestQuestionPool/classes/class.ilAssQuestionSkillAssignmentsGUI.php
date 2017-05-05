@@ -428,17 +428,16 @@ class ilAssQuestionSkillAssignmentsGUI
 			$assignment = $this->buildQuestionSkillAssignment(
 				(int)$_GET['question_id'], (int)$_GET['skill_base_id'], (int)$_GET['skill_tref_id']
 			);
-	
+
+			$this->keepAssignmentParameters();
 			$form = $this->buildSkillQuestionAssignmentPropertiesForm($questionGUI->object, $assignment);
-	
-			$form->setValuesByPost();
-			
 			if( !$form->checkInput() )
 			{
-				$this->keepAssignmentParameters();
+				$form->setValuesByPost();
 				$this->showSkillQuestionAssignmentPropertiesFormCmd($questionGUI, $assignment, $form);
 				return;
 			}
+			$form->setValuesByPost();
 
 			if($form->getItemByPostVar('eval_mode'))
 			{
@@ -456,7 +455,6 @@ class ilAssQuestionSkillAssignmentsGUI
 				if( !$this->checkSolutionCompareExpressionInput($solCmpExprInput, $questionGUI->object) )
 				{
 					ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
-					$this->keepAssignmentParameters();
 					$this->showSkillQuestionAssignmentPropertiesFormCmd($questionGUI, $assignment, $form);
 					return;
 				}
@@ -480,7 +478,6 @@ class ilAssQuestionSkillAssignmentsGUI
 
 			if( $this->isSyncOriginalPossibleAndAllowed($questionId) )
 			{
-				$this->keepAssignmentParameters();
 				$this->ctrl->redirect($this, self::CMD_SHOW_SYNC_ORIGINAL_CONFIRMATION);
 			}
 		}
