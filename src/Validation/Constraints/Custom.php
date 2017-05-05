@@ -70,7 +70,8 @@ class Custom implements Constraint {
 	 * @inheritdoc
 	 */
 	public function restrict(Result $result) {
-		if($result->isOk() && ($problem = $this->problemWith($result->value())) !== null) {
+		$problem = $this->problemWith($result->value())
+		if($result->isOk() && $problem !== null) {
 			$error = $this->data_factory->error($problem);
 			return $error;
 		}
