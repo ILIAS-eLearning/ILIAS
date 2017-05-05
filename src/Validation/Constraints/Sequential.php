@@ -13,6 +13,9 @@ class Sequential extends Custom implements Constraint {
 	protected $constraints;
 
 	/**
+	 * Theres a test to show this state will never be visible
+	 * SequentialTest::testCorrectErrorMessagesAfterMultiAccept
+	 *
 	 * @var Constraint
 	 */
 	protected $failed_constraint;

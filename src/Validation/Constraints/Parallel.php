@@ -13,6 +13,9 @@ class Parallel extends Custom implements Constraint {
 	protected $constraints;
 
 	/**
+	 * Theres a test to show this state will never be visible
+	 * ParallelTest::testCorrectErrorMessagesAfterMultiAccept
+	 *
 	 * @var Constraint[]
 	 */
 	protected $failed_constraints;
