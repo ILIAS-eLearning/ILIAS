@@ -12,7 +12,7 @@ class IsInt extends Custom implements Constraint {
 				return is_int($value);
 			}, 
 			function ($value) {
-				return "'".gettype($value)."' is not an integer";
+				return "'".gettype($value)."' is not an integer.";
 			},
 			$data_factory);
 	}
