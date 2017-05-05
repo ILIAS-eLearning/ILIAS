@@ -1,0 +1,32 @@
+<?php
+
+namespace ILIAS\Transformation\Transformations;
+use ILIAS\Transformation\Transformation;
+
+class Custom extends Transformation {
+	/**
+	 * @var callable
+	 */
+	protected $transform;
+
+	/**
+	 * @param string 	$delimiter
+	 */
+	public function __construct(callable $transform) {
+		$this->transform = $transform;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function transform($from) {
+		return call_user_func($this->transform, $from);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function __invoke($from) {
+		return call_user_func($this->transform, $from);
+	}
+}
