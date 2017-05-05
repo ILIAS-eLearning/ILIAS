@@ -1145,6 +1145,7 @@ class ilObjectCopyGUI
 		{
 		 	if(!$rbacsystem->checkAccess('create', $a_target,$this->getType()))
 		 	{
+				$this->log->notice('Permission denied for target: '. $a_target.' type: ' . $this->getType().' CREATE');
 		 		ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
 				$ilCtrl->returnToParent($this);
 		 	}
