@@ -96,10 +96,23 @@ abstract class ilTestRandomQuestionSetBuilder
 
 		if( $this->hasTaxonomyFilter($definition) )
 		{
-			$this->stagingPoolQuestionList->addTaxonomyFilter(
-				$definition->getMappedFilterTaxId(), array($definition->getMappedFilterTaxNodeId())
-			);
+			// fau: taxFilter/typeFilter - use new taxonomy filter
+			foreach($definition->getMappedTaxonomyFilter() as $taxId => $nodeIds)
+			{
+				$this->stagingPoolQuestionList->addTaxonomyFilter($taxId, $nodeIds);
+			}
+			#$this->stagingPoolQuestionList->addTaxonomyFilter(
+			#	$definition->getMappedFilterTaxId(), array($definition->getMappedFilterTaxNodeId())
+			#);
+			// fau.
 		}
+		
+		// fau: taxFilter/typeFilter - use type filter
+		if ($this->hasTypeFilter($definition))
+		{
+			$this->stagingPoolQuestionList->setTypeFilter($definition->getTypeFilter());
+		}
+		// fau.
 
 		$this->stagingPoolQuestionList->loadQuestions();
 
@@ -125,18 +138,35 @@ abstract class ilTestRandomQuestionSetBuilder
 
 	private function hasTaxonomyFilter(ilTestRandomQuestionSetSourcePoolDefinition $definition)
 	{
-		if( !(int)$definition->getMappedFilterTaxId() )
+		// fau: taxFilter - check for existing taxonomy filter
+		if (!count($definition->getMappedTaxonomyFilter()))
 		{
 			return false;
 		}
-
-		if( !(int)$definition->getMappedFilterTaxNodeId() )
-		{
-			return false;
-		}
-
+		#if( !(int)$definition->getMappedFilterTaxId() )
+		#{
+		#	return false;
+		#}
+		#
+		#if( !(int)$definition->getMappedFilterTaxNodeId() )
+		#{
+		#	return false;
+		#}
+		// fau.
 		return true;
 	}
+	
+	//	fau: typeFilter - check for existing type filter
+	private function hasTypeFilter(ilTestRandomQuestionSetSourcePoolDefinition $definition)
+	{
+		if (count($definition->getTypeFilter()))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	//	fau.
 
 	protected function storeQuestionSet(ilTestSession $testSession, $questionSet)
 	{
