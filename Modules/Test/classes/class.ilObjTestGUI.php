@@ -3741,12 +3741,12 @@ class ilObjTestGUI extends ilObjectGUI
 			$starting_time = $this->object->getStartingTime();
 			if ($this->object->isStartingTimeEnabled() && $starting_time != 0)
 			{
-				$info->addProperty($this->lng->txt("tst_starting_time"), $starting_time);
+				$info->addProperty($this->lng->txt("tst_starting_time"), ilDatePresentation::formatDate(new ilDateTime($starting_time, IL_CAL_UNIX)));
 			}
 			$ending_time = $this->object->getEndingTime();
 			if ($this->object->isEndingTimeEnabled() && $ending_time != 0)
 			{
-				$info->addProperty($this->lng->txt("tst_ending_time"), $ending_time);
+				$info->addProperty($this->lng->txt("tst_ending_time"), ilDatePresentation::formatDate(new ilDateTime($ending_time, IL_CAL_UNIX)));
 			}
 			$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 			// forward the command
