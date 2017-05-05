@@ -2018,6 +2018,16 @@ class ilSurveyEvaluationGUI
 		$log->debug($executable_string);
 		$log->dump($output, ilLogLevel::DEBUG);
 		$log->dump($return, ilLogLevel::DEBUG);
+		
+		$mime_type = '';
+		if(substr($a_filename, -3) == 'pdf')
+		{
+			$mime_type = 'application/pdf';
+		}
+		elseif(substr($a_filename,-3) == 'png')
+		{
+			$mime_type = 'image/png';
+		}
 
 		if (!$a_return) {
 			ilUtil::deliverFile($target, $a_filename, 'application/pdf');
