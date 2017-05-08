@@ -39,7 +39,16 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdoc
 	 */
 	public function render(Component $component, \ILIAS\UI\Renderer $default_renderer) {
-		// TODO: Implement render() method.
+
+		$this->renderer = $default_renderer;
+
+		$dropzoneId = $this->createId();
+
+		$tpl = $this->getTemplate("tpl.standard-file-dropzone.html", true, true);
+		$tpl->setVariable("ID", $dropzoneId);
+		$tpl->parseCurrentBlock();
+
+		return $tpl->get();
 	}
 
 
