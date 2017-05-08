@@ -8,7 +8,7 @@ namespace ILIAS\Transformation;
  * Factory for basic transformations.
  * For purpose and usage see README.md
  */
-interface Factory {
+class Factory {
 	/**
 	 * Add labels to an array.
 	 *
@@ -17,7 +17,9 @@ interface Factory {
 	 * @param   string[] $labels
 	 * @return  Transformation
 	 */
-	public function addLabels(array $labels);
+	public function addLabels(array $labels) {
+		return new Transformations\AddLabels($labels);
+	}
 
 	/**
      * Split string at given delimiter.
@@ -27,7 +29,9 @@ interface Factory {
 	 * @param   string $delimiter
 	 * @return  Transformation
 	 */
-	public function splitString($delimiter);
+	public function splitString($delimiter) {
+		return new Transformations\SplitString($delimiter);
+	}
 
 	/**
 	 * Create a custom transformation.
@@ -35,5 +39,7 @@ interface Factory {
 	 * @param	callable $f	mixed -> mixed
 	 * @return  Transformation
 	 */
-	public function custom(callable $f);
+	public function custom(callable $f) {
+		return new Transformations\Custom($f);
+	}
 }

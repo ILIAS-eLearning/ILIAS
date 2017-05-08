@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use ILIAS\Transformation\Factory;
+use ILIAS\Transformation;
 
 /**
  * TestCase for AddLabel transformations
@@ -107,8 +107,6 @@ class AddLabelTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testInvokeFails() {
-		$this->add_label = $this->f->addLabels(self::$labels);
-
 		$raised = false;
 		try {
 			$next_with  = $this->add_label($with);
