@@ -9999,7 +9999,7 @@ ps#:#ps_field_type#:#Datenfeldtyp
 ps#:#ps_files_deleted#:#Die Exportdateien wurden gelöscht.
 ps#:#ps_grp_user_fields#:#Gruppenspezifische Benutzerdaten
 ps#:#ps_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen
-ps#:#ps_login_max_attempts_info#:# Bestimmt die maximal erlaubte Anzahl fehlgeschlagener Anmeldeversuche. Wird kein Wert eingetragen, ist die Funktion deaktiviert und ILIAS zählt ILIAS nicht die fehlgeschlagenen Anmeldeversuche.
+ps#:#ps_login_max_attempts_info#:# Bestimmt wie viele Anmeldeversuche eines Benutzer höchstens fehlschlagen dürfen. Schlagen mehr Anmeldeversuche fehl, wird dieser Benutzer auf 'inaktiv' gesetzt und muss im 'Benutzer Management' wieder aktiviert werden, bevor er die Plattform benutzen kann. Wird kein Wert eingetragen, ist die Funktion deaktiviert und ILIAS zählt die fehlgeschlagenen Anmeldeversuche nicht.
 ps#:#ps_name_field#:#Name des Datenfeldes
 ps#:#ps_new_select_field#:#Neue Auswahlliste anlegen
 ps#:#ps_new_text_field#:#Neues Textfeld anlegen
