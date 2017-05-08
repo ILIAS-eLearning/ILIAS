@@ -106,7 +106,9 @@ class ilObjFileListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $ilUser;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 
 		// BEGIN WebDAV: Get parent properties
 		$props = parent::getProperties();
