@@ -57,14 +57,17 @@ class SplitStringTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testInvoke() {
-		$arr = $this->split_string(self::STRING_TO_SPLIT);
+		$split_string = $this->f->splitString("#");
+		$arr = $split_string(self::STRING_TO_SPLIT);
 		$this->assertEquals(static::$result, $arr);
 	}
 
 	public function testInvokeFails() {
+		$split_string = $this->f->splitString("#");
+
 		$raised = false;
 		try {
-			$next_arr = $this->split_string($arr);
+			$next_arr = $split_string($arr);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
@@ -73,7 +76,7 @@ class SplitStringTest extends PHPUnit_Framework_TestCase {
 		$raised = false;
 		try {
 			$number = 1001;
-			$with = $this->split_string($number);
+			$with = $split_string($number);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
@@ -82,7 +85,7 @@ class SplitStringTest extends PHPUnit_Framework_TestCase {
 		$raised = false;
 		try {
 			$std_class = new stdClass();
-			$with = $this->split_string($std_class);
+			$with = $split_string($std_class);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
