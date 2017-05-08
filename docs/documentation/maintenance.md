@@ -363,6 +363,8 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/PHPUnit
  (1st Maintainer: MISSING)
+* Services/Preview
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/Repository
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/Style
@@ -389,8 +391,6 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [mbecker](http://www.ilias.de/docu/goto_docu_usr_27266.html))
 * src/DI
  (1st Maintainer: MISSING)
-* src/Data
- (1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html))
 * src/HTTP
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 
@@ -501,7 +501,6 @@ The following directories are currently unmaintained:
 * Services/PermanentLink
 * Services/PersonalDesktop
 * Services/PersonalWorkspace
-* Services/Preview
 * Services/PrivacySecurity
 * Services/QTI
 * Services/RTE
@@ -526,3 +525,4 @@ The following directories are currently unmaintained:
 * Services/Xml
 * Services/YUI
 * Services/jQuery
+* src/Data
