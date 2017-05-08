@@ -674,8 +674,12 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
 		$sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList($ilDB, $this->object, $sourcePoolDefinitionFactory);
 		$sourcePoolDefinitionList->loadDefinitions();
-
-		$this->processLocker->requestRandomPassBuildLock($sourcePoolDefinitionList->hasTaxonomyFilters());
+		
+		// fau: taxFilter/typeFilter - add typefilter as criterion for process locker
+		$this->processLocker->requestRandomPassBuildLock(
+			$sourcePoolDefinitionList->hasTaxonomyFilters() || $sourcePoolDefinitionList->hasTypeFilters()
+		);
+		// fau.
 		
 		if( !$this->performTearsAndAngerBrokenConfessionChecks() )
 		{

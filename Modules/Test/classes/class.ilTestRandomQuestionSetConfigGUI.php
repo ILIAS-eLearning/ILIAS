@@ -409,6 +409,12 @@ class ilTestRandomQuestionSetConfigGUI
 		$table->setQuestionAmountColumnEnabled(
 			$this->questionSetConfig->isQuestionAmountConfigurationModePerPool()
 		);
+		
+		// fau: taxFilter/typeFilter - show the mapped taxonomy filters if pools are synced
+		$table->setShowMappedTaxonomyFilter(
+			$this->questionSetConfig->getLastQuestionSyncTimestamp() != 0
+		);
+		// fau.
 
 		require_once 'Modules/Test/classes/class.ilTestTaxonomyFilterLabelTranslater.php';
 		$translater = new ilTestTaxonomyFilterLabelTranslater($this->db);

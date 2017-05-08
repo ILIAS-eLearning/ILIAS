@@ -173,14 +173,34 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		foreach($this as $definition)
 		{
 			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-			if( $definition->getMappedFilterTaxId() && $definition->getMappedFilterTaxNodeId() )
+			// fau: taxFilter/typeFilter - new check for existing taxonomy filter
+			if (count($definition->getMappedTaxonomyFilter()))
 			{
 				return true;
 			}
+			#if( $definition->getMappedFilterTaxId() && $definition->getMappedFilterTaxNodeId() )
+			#{
+			#	return true;
+			#}
+			// fau.
 		}
 		
 		return false;
 	}
+	
+	// fau: taxFilter/typeFilter - check for existing type filters
+	public function hasTypeFilters()
+	{
+		foreach($this as $definition)
+		{
+			if (count($definition->getTypeFilter()))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	// fau.
 
 	/**
 	 * @return ilTestRandomQuestionSetSourcePoolDefinition

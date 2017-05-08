@@ -42,6 +42,14 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 	 */
 	private $taxFilters = array();
 	
+	// fau: taxFilter/typeFilter - private variable
+	// TODO-RND2017: rename to typesFilter (multiple types allowed)
+	/**
+	 * @var array
+	 */
+	private $typeFilter = array();
+	// fau.
+	
 	/**
 	 * @var array
 	 */
@@ -96,6 +104,18 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 	{
 		return $this->taxFilters;
 	}
+	
+	// fau: taxFilter/typeFilter - getter/setter
+	public function getTypeFilter()
+	{
+		return $this->typeFilter;
+	}
+	
+	public function setTypeFilter($typeFilter)
+	{
+		$this->typeFilter = $typeFilter;
+	}
+	// fau.
 
 	public function loadQuestions()
 	{		
@@ -138,6 +158,10 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 	private function getConditionalExpression()
 	{
 		$CONDITIONS = $this->getTaxonomyFilterExpressions();
+		
+		// fau: taxFilter/typeFilter - add the type filter expression to conditions
+		$CONDITIONS = array_merge($CONDITIONS,  $this->getTypeFilterExpressions());
+		// fau.
 
 		$CONDITIONS = implode(' AND ', $CONDITIONS);
 
@@ -184,6 +208,20 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 
 		return $expressions;
 	}
+	
+	// fau: taxFilter/typeFilter - get the expressions for a type filter
+	private function getTypeFilterExpressions()
+	{
+		if( count($this->typeFilter) )
+		{
+			return array(
+				$this->db->in('question_type_fi', $this->typeFilter, false, 'integer')
+			);
+		}
+		
+		return array();
+	}
+	// fau;
 
 	private function isActiveQuestionType($questionData)
 	{
