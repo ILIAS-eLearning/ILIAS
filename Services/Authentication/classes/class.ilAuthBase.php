@@ -133,7 +133,14 @@ abstract class ilAuthBase
 				// 
 				// we only have a single status, so abort after each one
 				// order from highest priority to lowest
-				
+
+				if(!$this->checkExceededLoginAttempts($user))
+				{
+					$this->status = AUTH_USER_INACTIVE_LOGIN_ATTEMPTS;
+					$a_auth->logout();
+					return;
+				}
+
 				// active?
 				if(!$user->getActive())
 				{
@@ -141,7 +148,7 @@ abstract class ilAuthBase
 					$a_auth->logout();
 					return;
 				}
-				
+
 				// time limit
 				if(!$user->checkTimeLimit())
 				{
@@ -215,6 +222,37 @@ abstract class ilAuthBase
 				array('username' => $a_auth->getUsername())
 			);
 		}
+	}
+
+	/**
+	 * @param \ilObjUser $user
+	 * @return bool
+	 */
+	protected function checkExceededLoginAttempts(\ilObjUser $user)
+	{
+		if(in_array($user->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)))
+		{
+			return true;
+		}
+
+		$isInactive = !$user->getActive();
+		if(!$isInactive)
+		{
+			return true;
+		}
+
+		require_once 'Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
+		$security = ilSecuritySettings::_getInstance();
+		$maxLoginAttempts = $security->getLoginMaxAttempts();
+
+		if(!(int)$maxLoginAttempts)
+		{
+			return true;
+		}
+
+		$numLoginAttempts = \ilObjUser::_getLoginAttempts($user->getId());
+
+		return $numLoginAttempts < $maxLoginAttempts;
 	}
 
 	/**

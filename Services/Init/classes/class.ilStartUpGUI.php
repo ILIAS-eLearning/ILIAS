@@ -277,6 +277,14 @@ class ilStartUpGUI
 					
 					$failure = $lng->txt("err_inactive");
 					break;
+
+				case AUTH_USER_INACTIVE_LOGIN_ATTEMPTS:
+					ilSession::setClosingContext(ilSession::SESSION_CLOSE_INACTIVE);
+					$ilAuth->logout();
+					session_destroy();
+					
+					$failure = $lng->txt("err_inactive_login_attempts");
+					break;
 					
 				// special cases end
 					

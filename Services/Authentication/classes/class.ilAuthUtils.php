@@ -47,6 +47,7 @@ define('AUTH_USER_INACTIVE', -601);
 define('AUTH_USER_TIME_LIMIT_EXCEEDED', -602);
 define('AUTH_USER_SIMULTANEOUS_LOGIN', -603);
 define('AUTH_CAPTCHA_INVALID', -604);
+define('AUTH_USER_INACTIVE_LOGIN_ATTEMPTS', -605);
 
 
 include_once './Services/Authentication/classes/class.ilAuthFactory.php';

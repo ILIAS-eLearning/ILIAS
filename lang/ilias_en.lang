@@ -2587,6 +2587,7 @@ common#:#err_count_param#:#Reason: Wrong parameter count
 common#:#err_enter_current_passwd#:#Please enter your current password
 common#:#err_in_line#:#Error in line
 common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.
+common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. 
 common#:#err_invalid_port#:#Invalid port number
 common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please ensure that you have the same password in ILIAS and LDAP
 common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please check your settings
