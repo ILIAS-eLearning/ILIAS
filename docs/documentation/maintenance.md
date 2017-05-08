@@ -389,6 +389,10 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [mbecker](http://www.ilias.de/docu/goto_docu_usr_27266.html))
 * src/DI
  (1st Maintainer: MISSING)
+* src/Data
+ (1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html))
+* src/HTTP
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 
 
 The following directories are currently maintained unter the Service-Maintenace-Model:
