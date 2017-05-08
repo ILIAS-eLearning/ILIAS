@@ -1,5 +1,13 @@
-# Rules for the ./Services internal interface documentation
- 
+# Services
+
+Services provide general functionalities used in the modules or in other services,
+e.g. the role based access system or the news system.
+
+If you want to provide a new service and parts can be almost completely abstracted
+from other ILIAS dependency, they SHOULD be placed in the src directory.
+
+## Guidelines for the ./Services internal interface documentation
+
 1. Each subdirectory under ./Services SHOULD contain a README.md file
 2. All internal interfaces provided by the service SHOULD be documented in the README.md file.
 3. Breaking changes MUST NOT be introduced in maintenance branches.
