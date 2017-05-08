@@ -23,7 +23,7 @@ interface Standard extends BasicFileDropzone {
 	 *
 	 * @return Standard a copy of this instance
 	 */
-	function withDefaultMessage(string $message);
+	function withDefaultMessage($message);
 
 
 	/**

@@ -20,7 +20,7 @@ class Standard extends BasicFileDropzoneImpl implements \ILIAS\UI\Component\File
 	/**
 	 * @inheritDoc
 	 */
-	function withDefaultMessage(string $message) {
+	function withDefaultMessage($message) {
 		$clonedFileDropzone = clone $this;
 		$clonedFileDropzone->message = $message;
 		return $clonedFileDropzone;

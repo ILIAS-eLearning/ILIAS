@@ -27,7 +27,7 @@ abstract class BasicFileDropzoneImpl implements BasicFileDropzone {
 	/**
 	 * @inheritDoc
 	 */
-	function withDarkendBackground(bool $useDarkendBackground) {
+	function withDarkendBackground($useDarkendBackground) {
 		$clonedFileDropzone = clone $this;
 		$clonedFileDropzone->darkendBackground = $useDarkendBackground;
 		return $clonedFileDropzone;
