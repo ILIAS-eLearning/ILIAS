@@ -89,4 +89,11 @@ class Factory implements \ILIAS\UI\Factory
 		return new Component\Modal\Factory(new SignalGenerator());
 	}
 
+
+	/**
+	 * @inheritdoc
+	 */
+	public function fileDropzone() {
+		return new Component\FileDropzone\Factory();
+	}
 }

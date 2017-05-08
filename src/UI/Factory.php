@@ -336,4 +336,26 @@ interface Factory {
 	 **/
 	public function modal();
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: The file dropzone enables drag and drop for files of the file system.
+	 *   composition: >
+	 *     A file dropzone is an area on the screen with a dotted border line.
+	 *   effect: >
+	 *     Every file dropzone on the page will be highlighted on dragenter by the user.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: Most pages should not have more than one dropzone.
+	 *   interaction:
+	 *     1: A user drops a file into the dropzone area to trigger a signal.
+	 *     2: Any file dropped from a user will not be uploaded through file dropzone.
+	 *     3: A dropzone only listens on file drop events by a user.
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\FileDropzone\Factory
+	 **/
+	public function fileDropzone();
+
 }
