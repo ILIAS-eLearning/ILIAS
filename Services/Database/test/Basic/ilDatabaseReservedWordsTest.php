@@ -13,7 +13,7 @@ class ilDatabaseReservedWordsTest extends PHPUnit_Framework_TestCase {
 		parent::setUp();
 		require_once('./Services/Database/classes/class.ilDBConstants.php');
 		global $DIC;
-		$DIC = $DIC['DIC'];
+		$DIC = array();
 		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLInnoDB.php');
 		$ilDB = new ilDBPdoMySQLInnoDB();
 		$DIC['ilDB'] = $ilDB;
