@@ -18,7 +18,7 @@ class FileDropzoneRendererTest extends ILIAS_UI_TestBase {
 		$standardDropzone = new \ILIAS\UI\Implementation\Component\FileDropzone\Standard();
 
 		// setup expected objects
-		$expectedHtml = "<div id=\"1\"></div><div id=\"2\" class=\"il-file-dropzone\"></div>";
+		$expectedHtml = "<div id=\"id_1-darkend\"></div><div id=\"id_1\" class=\"il-file-dropzone\"></div>";
 
 		// start test
 		$html = $this->normalizeHTML(
