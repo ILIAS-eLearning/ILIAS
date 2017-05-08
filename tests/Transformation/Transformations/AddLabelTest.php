@@ -67,49 +67,17 @@ class AddLabelTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testInvoke() {
-		$with = $this->add_label(self::$test_array);
+		$add_label = $this->f->addLabels(self::$labels);
+		$with = $add_label(self::$test_array);
 		$this->assertEquals(self::$result_array, $with);
-
-		$raised = false;
-		try {
-			$next_with = $this->add_label($with);
-		} catch (InvalidArgumentException $e) {
-			$raised = true;
-		}
-		$this->assertTrue($raised);
-
-		$raised = false;
-		try {
-			$without = array(1, 2, 3, 4);
-			$with = $this->add_label($without);
-		} catch (InvalidArgumentException $e) {
-			$raised = true;
-		}
-		$this->assertTrue($raised);
-
-		$raised = false;
-		try {
-			$without = "1, 2, 3";
-			$with = $this->add_label($without);
-		} catch (InvalidArgumentException $e) {
-			$raised = true;
-		}
-		$this->assertTrue($raised);
-
-		$raised = false;
-		try {
-			$std_class = new stdClass();
-			$with = $this->add_label($std_class);
-		} catch (InvalidArgumentException $e) {
-			$raised = true;
-		}
-		$this->assertTrue($raised);
 	}
 
 	public function testInvokeFails() {
+		$add_label = $this->f->addLabels(self::$labels);
+
 		$raised = false;
 		try {
-			$next_with  = $this->add_label($with);
+			$next_with  = $add_label($with);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
@@ -118,7 +86,7 @@ class AddLabelTest extends PHPUnit_Framework_TestCase {
 		$raised = false;
 		try {
 			$without = array(1, 2, 3, 4);
-			$with = $this->add_label($without);
+			$with = $add_label($without);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
@@ -127,7 +95,7 @@ class AddLabelTest extends PHPUnit_Framework_TestCase {
 		$raised = false;
 		try {
 			$without = "1, 2, 3";
-			$with = $this->add_label($without);
+			$with = $add_label($without);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
@@ -136,7 +104,7 @@ class AddLabelTest extends PHPUnit_Framework_TestCase {
 		$raised = false;
 		try {
 			$std_class = new stdClass();
-			$with = $this->add_label($std_class);
+			$with = $add_label($std_class);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
