@@ -68,8 +68,12 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 	}
 	// fau.
 	
-	public function checkBuildableOld()
+	public function checkBuildable()
 	{
+		// fau: fixRandomTestBuildable - improved the check for buildable test
+		return $this->checkBuildableNew();
+		// fau.
+		
 		$questionStage = $this->getQuestionStageForSourcePoolDefinitionList($this->sourcePoolDefinitionList);
 
 		if( $questionStage->isSmallerThan($this->sourcePoolDefinitionList->getQuestionAmount()) )
