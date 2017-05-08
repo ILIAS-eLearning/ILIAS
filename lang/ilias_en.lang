@@ -7983,7 +7983,7 @@ ps#:#ps_export_user_data#:#Data Types
 ps#:#ps_export_wait#:#Users on the Waiting List
 ps#:#ps_field_type#:#Field Type
 ps#:#ps_files_deleted#:#Export Files Deleted
-ps#:#ps_login_max_attempts_info#:# Sets the maximum count of wrong login attempts. Leave empty to disable this option.
+ps#:#ps_login_max_attempts_info#:# Sets the maximum number of unsuccessful attempts to login. After the maximum number of unsuccessful attempts is exceeded, the respective user will be set to 'inactive' and would require re-activation in User Management. Leave the field empty to disable this option and ILIAS will not count failed login attempts. 
 ps#:#ps_login_max_attempts#:#Maximum Login Attempts
 ps#:#ps_name_field#:#Name###deprecated 
 ps#:#ps_new_select_field#:#New Selection Box###deprecated 
