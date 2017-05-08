@@ -311,7 +311,8 @@ class ilPreview
 	 */
 	protected function doCreate()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$ilDB->insert(
 			"preview_data", 
@@ -329,7 +330,8 @@ class ilPreview
 	 */
 	protected function doRead()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$set = $ilDB->queryF(
 			"SELECT * FROM preview_data WHERE obj_id=%s", 
@@ -349,7 +351,8 @@ class ilPreview
 	 */
 	protected function doUpdate()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$ilDB->update(
 			"preview_data", 
@@ -366,7 +369,8 @@ class ilPreview
 	 */
 	protected function doDelete()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$ilDB->manipulateF(
 		    "DELETE FROM preview_data WHERE obj_id=%s",
