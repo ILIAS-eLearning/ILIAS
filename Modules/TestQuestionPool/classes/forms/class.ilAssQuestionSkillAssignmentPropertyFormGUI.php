@@ -187,9 +187,9 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
 		$questSolutionCompareExpressions = new ilLogicalAnswerComparisonExpressionInputGUI(
 			$this->lng->txt('tst_solution_compare_cfg'), 'solution_compare_expressions'
 		);
-		$questSolutionCompareExpressions->setInfo($this->buildLacLegendToggleButton());
 		$questSolutionCompareExpressions->setRequired(true);
-		$questSolutionCompareExpressions->setAllowMove(true);
+		$questSolutionCompareExpressions->setAllowMove($this->isManipulationEnabled());
+		$questSolutionCompareExpressions->setAllowAddRemove($this->isManipulationEnabled());
 		$questSolutionCompareExpressions->setQuestionObject($this->question);
 		$questSolutionCompareExpressions->setValues($this->assignment->getSolutionComparisonExpressionList()->get());
 		$questSolutionCompareExpressions->setMinvalueShouldBeGreater(false);
@@ -197,6 +197,11 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
 		if( !$this->isManipulationEnabled() )
 		{
 			$questSolutionCompareExpressions->setDisabled(true);
+		}
+		else
+		{
+			// #19192
+			$questSolutionCompareExpressions->setInfo($this->buildLacLegendToggleButton());
 		}
 		$evalOptionLogicalAnswerCompare->addSubItem($questSolutionCompareExpressions);
 

@@ -687,7 +687,8 @@ assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#The Competence-Question-
 assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool:<br />%s<br /><br />The configuration of threshold values is to be done here in the test.
 assessment#:#qpl_qst_skl_selection_for_question_header#:#Compence Assignments for Question: %s
 assessment#:#tst_save_comp_points#:#Save Competence Points
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points have been saved.
+assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#The competence points have not been saved. Please check your input.
 assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!
 assessment#:#tst_skl_level_thresholds_link#:#Configure Competence Thresholds
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.
@@ -2492,6 +2493,7 @@ common#:#err_count_param#:#Reason: Wrong parameter count
 common#:#err_enter_current_passwd#:#Please enter your current password###deprecated 
 common#:#err_in_line#:#Error in line
 common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.
+common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. 
 common#:#err_invalid_port#:#Invalid port number
 common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please ensure that you have the same password in ILIAS and LDAP###deprecated 
 common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please check your settings###deprecated 
@@ -7983,7 +7985,7 @@ ps#:#ps_export_user_data#:#Data Types
 ps#:#ps_export_wait#:#Users on the Waiting List
 ps#:#ps_field_type#:#Field Type
 ps#:#ps_files_deleted#:#Export Files Deleted
-ps#:#ps_login_max_attempts_info#:# Sets the maximum count of wrong login attempts. Leave empty to disable this option.
+ps#:#ps_login_max_attempts_info#:# Sets the maximum number of unsuccessful attempts to login. After the maximum number of unsuccessful attempts is exceeded, the respective user will be set to 'inactive' and would require re-activation in User Management. Leave the field empty to disable this option and ILIAS will not count failed login attempts. 
 ps#:#ps_login_max_attempts#:#Maximum Login Attempts
 ps#:#ps_name_field#:#Name###deprecated 
 ps#:#ps_new_select_field#:#New Selection Box###deprecated 
@@ -15928,3 +15930,5 @@ form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.
 common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
 ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
+grp#:#grp_period#:#Group Period
+grp#:#grp_period_info#:#Information about the start and end date of the event, which is supported by the group
