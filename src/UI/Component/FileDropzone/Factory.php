@@ -42,7 +42,7 @@ interface Factory {
 	 *
 	 * @return Standard
 	 */
-	function standard();
+	public function standard();
 
 
 	/**
@@ -75,6 +75,6 @@ interface Factory {
 	 *
 	 * @return Wrapper
 	 */
-	function wrapper();
+	public function wrapper();
 
 }

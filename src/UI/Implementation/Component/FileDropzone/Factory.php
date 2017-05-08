@@ -18,7 +18,7 @@ class Factory implements \ILIAS\UI\Component\FileDropzone\Factory {
 	/**
 	 * @inheritDoc
 	 */
-	function standard() {
+	public function standard() {
 		return new Standard();
 	}
 
@@ -26,7 +26,7 @@ class Factory implements \ILIAS\UI\Component\FileDropzone\Factory {
 	/**
 	 * @inheritDoc
 	 */
-	function wrapper() {
+	public function wrapper() {
 		return new Wrapper();
 	}
 }
