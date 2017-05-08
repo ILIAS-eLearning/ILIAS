@@ -277,15 +277,16 @@ class ilDBMySQL extends ilDB
 	
 	/**
 	 * Init db parameters from ini file
-	 * @param $tmpClientIniFile	overwrite global client ini file if is set to an object 
+	 * @param $tmpClientIniFile	overwrite global client ini file if is set to an object
 	 */
 	function initFromIniFile($tmpClientIniFile = null)
 	{
-		global $ilClientIniFile;
+		global $DIC;
+		$ilClientIniFile = $DIC['ilClientIniFile'];
 		
 		parent::initFromIniFile($tmpClientIniFile);
 		
-		//overwrite global client ini file if local parameter is set 
+		//overwrite global client ini file if local parameter is set
 		if (is_object($tmpClientIniFile))
 			$clientIniFile = $tmpClientIniFile;
 		else 
@@ -447,7 +448,8 @@ class ilDBMySQL extends ilDB
 	*/
 	function checkQuerySize($a_query)
 	{
-		global $lang;
+		global $DIC;
+		$lang = $DIC['lang'];
 
 		if(strlen($a_query) >= $this->max_allowed_packet_size)
 		{
@@ -476,7 +478,6 @@ class ilDBMySQL extends ilDB
 		{
 			ini_get("post_max_size");
 			$query = "SET GLOBAL max_allowed_packet = ".(int) ini_get("post_max_size") * 1024 * 1024;
-//echo "-".$query."-";
 			$this->query($query);
 		}
 		// STORE NEW max_size in member variable
@@ -487,7 +488,6 @@ class ilDBMySQL extends ilDB
 		{
 			$this->max_allowed_packet_size = $row->value;
 		}
-//echo "-".$this->max_allowed_packet_size."-";
 		return true;
 	}
 
@@ -546,7 +546,8 @@ class ilDBMySQL extends ilDB
 	 */
 	public function lockTables($a_tables)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		
 		$lock = 'LOCK TABLES ';
 

@@ -180,7 +180,8 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 	 * @return bool
 	 */
 	public function lockTables($a_tables) {
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		$locks = array();
 

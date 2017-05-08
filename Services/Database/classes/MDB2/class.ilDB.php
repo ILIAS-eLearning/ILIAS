@@ -205,13 +205,14 @@ abstract class ilDB extends PEAR implements ilDBInterface
 
 	/**
 	* Init db parameters from ini file
-	* @param $tmpClientIniFile	overwrite global client ini file if is set to an object 
+	* @param $tmpClientIniFile	overwrite global client ini file if is set to an object
 	*/
 	function initFromIniFile($tmpClientIniFile = null)
 	{
-		global $ilClientIniFile;
+		global $DIC;
+		$ilClientIniFile = $DIC['ilClientIniFile'];
 		
-		//overwrite global client ini file if local parameter is set 
+		//overwrite global client ini file if local parameter is set
 		if (is_object($tmpClientIniFile))
 			$clientIniFile = $tmpClientIniFile;
 		else 
@@ -421,7 +422,8 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	*					something went wrong
 	*/
 	function handleError($a_res, $a_info = "", $a_level = "") {
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		if (MDB2::isError($a_res)) {
 			if ($a_level == "") {
@@ -1414,7 +1416,8 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	*/
 	function query($sql, $a_handle_error = true)
 	{
-		global $ilBench;
+		global $DIC;
+		$ilBench = $DIC['ilBench'];
 
 		if (is_object($ilBench))
 		{
@@ -1549,7 +1552,8 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	*/
 	function manipulate($sql)
 	{
-		global $ilBench;
+		global $DIC;
+		$ilBench = $DIC['ilBench'];
 
 		if (is_object($ilBench))
 		{

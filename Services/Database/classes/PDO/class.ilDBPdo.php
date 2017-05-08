@@ -196,7 +196,8 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param null $tmpClientIniFile
 	 */
 	public function initFromIniFile($tmpClientIniFile = null) {
-		global $ilClientIniFile;
+		global $DIC;
+		$ilClientIniFile = $DIC['ilClientIniFile'];
 		if ($tmpClientIniFile instanceof ilIniFile) {
 			$clientIniFile = $tmpClientIniFile;
 		} else {
@@ -925,7 +926,8 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @deprecated use
 	 */
 	public static function getReservedWords() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		/**
 		 * @var $ilDB ilDBPdo
@@ -942,7 +944,8 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		assert(is_array($tables));
 
 		$lock = $this->manager->getQueryUtils()->lock($tables);
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		if ($ilLog instanceof ilLog) {
 			$ilLog->write('ilDB::lockTables(): ' . $lock);
 		}

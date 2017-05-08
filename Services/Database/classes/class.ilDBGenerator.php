@@ -38,7 +38,8 @@ class ilDBGenerator {
 	 * Constructor
 	 */
 	public function __construct() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$this->manager = $ilDB->loadModule(ilDBConstants::MODULE_MANAGER);
 		$this->reverse = $ilDB->loadModule(ilDBConstants::MODULE_REVERSE);
@@ -54,7 +55,8 @@ class ilDBGenerator {
      * @deprecated abstraction_progress is no longer used in ILIAS
      */
 	public static function lookupAbstractedTables() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT DISTINCT(table_name) FROM abstraction_progress ";
 		$res = $ilDB->query($query);
@@ -238,7 +240,8 @@ class ilDBGenerator {
 	protected function openFile($a_path) {
 		if (1) {
 			$file = fopen($a_path, "w");
-			$start .= "\t" . 'global $ilDB;' . "\n\n";
+			$start .= "\t" . 'global $DIC;' . "\n\n";
+			$start .= "\t" . '$ilDB = $DIC['ilDB'];
 			fwrite($file, $start);
 
 			return $file;
@@ -246,7 +249,8 @@ class ilDBGenerator {
 
 		$file = fopen($a_path, "w");
 		$start = '<?php' . "\n" . 'function setupILIASDatabase()' . "\n{\n";
-		$start .= "\t" . 'global $ilDB;' . "\n\n";
+		$start .= "\t" . 'global $DIC;' . "\n\n";
+		$start .= "\t" . '$ilDB = $DIC['ilDB'];
 		fwrite($file, $start);
 
 		return $file;
@@ -286,7 +290,8 @@ class ilDBGenerator {
 			$file = fopen($a_filename, "w");
 
 			$start = '<?php' . "\n" . 'function setupILIASDatabase()' . "\n{\n";
-			$start .= "\t" . 'global $ilDB;' . "\n\n";
+			$start .= "\t" . 'global $DIC;' . "\n\n";
+			$start .= "\t" . '$ilDB = $DIC['ilDB'];
 			fwrite($file, $start);
 		} elseif ($isDirectory) {
 			;
@@ -554,7 +559,8 @@ class ilDBGenerator {
 	 * @return
 	 */
 	public function buildInsertStatement($a_table, $a_basedir) {
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		$ilLog->write('Starting export of:' . $a_table);
 
@@ -612,7 +618,8 @@ class ilDBGenerator {
 	 * @return
 	 */
 	public function buildInsertStatementsXML($a_table, $a_basedir) {
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		include_once './Services/Xml/classes/class.ilXmlWriter.php';
 		$w = new ilXmlWriter();
@@ -861,7 +868,8 @@ class ilDBGenerator {
 	 * @return string
 	 */
 	protected function shortenText($table, $field, $a_value, $a_size) {
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		if ($this->getTargetEncoding() == 'UTF-8') {
 			return $a_value;

@@ -581,14 +581,16 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 	 * @param \ilDBInterface $ilDBInterface
 	 */
 	protected function changeGlobal(ilDBInterface $ilDBInterface) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$this->ildb_backup = $ilDB;
 		$ilDB = $ilDBInterface;
 	}
 
 
 	protected function changeBack() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$ilDB = $this->ildb_backup;
 	}
 

@@ -57,7 +57,8 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 		require_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 
-		global $ilClientIniFile;
+		global $DIC;
+		$ilClientIniFile = $DIC['ilClientIniFile'];
 		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_GALERA);
 		$this->ilDBInterfaceGalera->initFromIniFile($ilClientIniFile);
 		$this->ilDBInterfaceGalera->connect();
