@@ -116,10 +116,7 @@ class JavascriptHelperTest extends PHPUnit_Framework_TestCase {
 		$secondTriggeredSignal = new \ILIAS\UI\Implementation\Component\TriggeredSignal($secondSignal, "drop");
 
 		// setup expected objects
-		$expectedJS = "function(event) {
-			$('#{$dropzoneId}').trigger('{$firstSignal}', event);
-			$('#{$dropzoneId}').trigger('{$secondSignal}', event);
-		}";
+		$expectedJS = "function(event) {\$('#{$dropzoneId}').trigger('{$firstSignal}', event);$('#{$dropzoneId}').trigger('{$secondSignal}', event);}";
 
 		// start test
 		$jsHelper = new JavascriptHelper($simpleDropzone);
