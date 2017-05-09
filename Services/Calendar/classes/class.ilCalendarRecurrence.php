@@ -242,7 +242,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 	 */
 	public function getEntryId()
 	{
-		return $this->entry_id;
+		return $this->cal_id;
 	}
 	
 	/**
