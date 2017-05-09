@@ -13,7 +13,7 @@
 
 namespace ILIAS\UI\Implementation\Component\FileDropzone;
 
-use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\TriggeredSignal;
 
 class JavascriptHelper {
 
@@ -75,11 +75,20 @@ class JavascriptHelper {
 	/**
 	 * Generates the javascript code to trigger all passed in signals.
 	 *
-	 * @param Signal[] $signalList a list of signals to trigger
+	 * @param TriggeredSignal[] $signalList a list of signals to trigger
 	 *
 	 * @return string the generated code
 	 */
 	public function triggerSignals(array $signalList) {
 
+		$jsCode = "";
+		foreach ($signalList as $triggeredSignal) {
+			/**
+			 * @var \ILIAS\UI\Implementation\Component\Signal $signal
+			 */
+			$signal = $triggeredSignal->getSignal();
+			$jsCode .= "$('#{$this->simpleDropzone->getId()}').trigger('{$signal}', event);\n";
+		}
+		return $jsCode;
 	}
 }
