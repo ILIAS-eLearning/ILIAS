@@ -25,12 +25,12 @@ interface BasicFileDropzone extends Component, Droppable {
 	 *
 	 * @return BasicFileDropzone a copy of this instance
 	 */
-	function withDarkendBackground($useDarkendBackground);
+	public function withDarkendBackground($useDarkendBackground);
 
 
 	/**
 	 * @return bool true if the darkend background is used, otherwise false
 	 */
-	function isDarkendBackground();
+	public function isDarkendBackground();
 
 }
