@@ -17,6 +17,15 @@ class Wrapper extends BasicFileDropzoneImpl implements \ILIAS\UI\Component\FileD
 
 	private $componentList;
 
+
+	/**
+	 * Wrapper constructor.
+	 *
+	 * @param $componentList
+	 */
+	public function __construct(array $componentList) { $this->componentList = $componentList; }
+
+
 	/**
 	 * @inheritDoc
 	 */

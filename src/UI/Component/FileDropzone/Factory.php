@@ -13,6 +13,8 @@
 
 namespace ILIAS\UI\Component\FileDropzone;
 
+use ILIAS\UI\Component\Component;
+
 interface Factory {
 
 	/**
@@ -73,8 +75,10 @@ interface Factory {
 	 *
 	 * ---
 	 *
+	 * @param Component[] $componentList an array of ILIAS UI components
+	 *
 	 * @return Wrapper
 	 */
-	public function wrapper();
+	public function wrapper(array $componentList);
 
 }

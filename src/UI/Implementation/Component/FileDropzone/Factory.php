@@ -26,7 +26,7 @@ class Factory implements \ILIAS\UI\Component\FileDropzone\Factory {
 	/**
 	 * @inheritDoc
 	 */
-	public function wrapper() {
-		return new Wrapper();
+	public function wrapper(array $componentList) {
+		return new Wrapper($componentList);
 	}
 }
