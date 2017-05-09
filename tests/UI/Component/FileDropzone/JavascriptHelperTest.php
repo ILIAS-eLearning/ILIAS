@@ -60,4 +60,35 @@ class JavascriptHelperTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($expectedJS, $jsHelper->disableDropDesign());
 	}
+
+
+	/**
+	 * should return the javascript code to initialize a dropzone.
+	 */
+	public function testInitializeDropzone() {
+
+		// setup example objects.
+		$dropzoneId = "dz-01";
+		$darkendBackground = true;
+
+		$simpleDropzone = new \ILIAS\UI\Implementation\Component\FileDropzone\SimpleDropzone();
+		$simpleDropzone->setId($dropzoneId);
+		$simpleDropzone->setDarkendBackground($darkendBackground);
+
+		// setup expected objects
+		$expectedJS = "var $dropzoneId = new Dropzone(\"div#$dropzoneId\", {
+
+				url: \"/\",
+				autoProcessQueue: false,
+				dictDefaultMessage: \"\",
+				clickable: false,
+
+		});";
+
+		// start test
+		$jsHelper = new JavascriptHelper($simpleDropzone);
+
+		$this->assertEquals($expectedJS, $jsHelper->initializeDropzone());
+
+	}
 }
