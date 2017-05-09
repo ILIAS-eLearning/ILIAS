@@ -39,7 +39,18 @@ class JavascriptHelper {
 	 * @return string the generated code
 	 */
 	public function initializeDropzone() {
+		/*
+		 * the url parameter is required by the library,
+		 * so we set autoProcessQueue to false to prevent the upload to the url
+		 */
+		return "var {$this->simpleDropzone->getId()} = new Dropzone(\"div#{$this->simpleDropzone->getId()}\", {
 
+				url: \"/\",
+				autoProcessQueue: false,
+				dictDefaultMessage: \"\",
+				clickable: false,
+
+		});";
 	}
 
 
