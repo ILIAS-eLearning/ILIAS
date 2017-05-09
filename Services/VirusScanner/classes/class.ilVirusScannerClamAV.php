@@ -159,10 +159,30 @@ class ilVirusScannerClamAV extends ilVirusScanner
         if ($this->hasDetections($this->scanResult)) {
             $this->scanFileIsInfected = true;
 			#$this->logScanResult();
-			$this->log->error('File is infected: ' . $this->scanFilePath);
+			if($GLOBALS['ilUser'] instanceof ilObjUser)
+			{
+				$this->log->error('File is infected: ' . $this->scanFilePath. ' uploaded by ' . $GLOBALS['ilUser']->getLogin());
+				$this->log->logStack();
+			}
+			else
+			{
+				$this->log->error('File is infected: ' . $this->scanFilePath. ' uploaded by unknown.');
+				$this->log->logStack();
+			}
+			
             return $this->scanResult;
-        } else {
-            $this->log->info('File is clean: ' . $this->scanFilePath);
+		}
+		else
+		{
+			if($GLOBALS['ilUser'] instanceof ilObjUser)
+			{
+				$this->log->info('File is clean: ' . $this->scanFilePath . ' uploaded by ' . $GLOBALS['ilUser']->getLogin());
+			}
+			else
+			{
+				$this->log->info('File is clean: ' . $this->scanFilePath . ' uploaded by unknown.');
+				$this->log->logStack();
+			}
 			$this->scanFileIsInfected = false;
 			return "";
         }
