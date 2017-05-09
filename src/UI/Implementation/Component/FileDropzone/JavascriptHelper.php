@@ -55,35 +55,25 @@ class JavascriptHelper {
 
 
 	/**
-	 * Generates the javascript function to enable the drop design of a dropzone.
-	 * The function looks like:
-	 *      function(event) {...}
+	 * Generates the javascript code to enable the drop design of a dropzone.
 	 *
 	 * @return string the generated code
 	 */
 	public function enableDropDesign() {
-		return "function(event) {
-			il.UI.dropzone.enableDropDesign({\"id\": '{$this->simpleDropzone->getId()}', \"darkendBackground\": '{$this->simpleDropzone->isDarkendBackground()}'});
-		}";
+		return "il.UI.dropzone.enableDropDesign({\"id\": '{$this->simpleDropzone->getId()}', \"darkendBackground\": '{$this->simpleDropzone->isDarkendBackground()}'});";
 	}
 
 	/**
-	 * Generates the javascript function to disable the drop design of a dropzone.
-	 * The function looks like:
-	 *      function(event) {...}
+	 * Generates the javascript code to disable the drop design of a dropzone.
 	 *
 	 * @return string the generated code
 	 */
 	public function disableDropDesign() {
-		return "function(event) {
-			il.UI.dropzone.disableDropDesign({\"id\": '{$this->simpleDropzone->getId()}', \"darkendBackground\": '{$this->simpleDropzone->isDarkendBackground()}'});
-		}";
+		return "il.UI.dropzone.disableDropDesign({\"id\": '{$this->simpleDropzone->getId()}', \"darkendBackground\": '{$this->simpleDropzone->isDarkendBackground()}'});";
 	}
 
 	/**
-	 * Generates the javascript function to trigger all passed in signals.
-	 * The function looks like:
-	 *      function(event) {...}
+	 * Generates the javascript code to trigger all passed in signals.
 	 *
 	 * @param TriggeredSignal[] $signalList a list of signals to trigger
 	 *
@@ -91,18 +81,19 @@ class JavascriptHelper {
 	 */
 	public function triggerSignals(array $signalList) {
 
-		$jsCode = "function(event) {";
+		$jsCode = "";
 		foreach ($signalList as $triggeredSignal) {
 			/**
 			 * @var \ILIAS\UI\Implementation\Component\Signal $signal
 			 */
 			$signal = $triggeredSignal->getSignal();
-			$jsCode .= "$('#{$this->simpleDropzone->getId()}').trigger('{$signal}', event);";
+			$jsCode .= "$('#{$this->simpleDropzone->getId()}').trigger('{$signal}', event);\n";
 		}
-
-		$jsCode .= "}";
-
 		return $jsCode;
+	}
+
+	public function wrappToJSEventFunction($javascriptCode) {
+		return "function(event) {" . $javascriptCode . "}";
 	}
 
 
