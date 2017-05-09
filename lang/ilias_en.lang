@@ -15938,3 +15938,6 @@ common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed 
 ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
 grp#:#grp_period#:#Group Period
 grp#:#grp_period_info#:#Information about the start and end date of the event, which is supported by the group
+exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.
+exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.
+exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.
