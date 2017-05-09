@@ -2101,8 +2101,14 @@ common#:#btn_previous#:#Back
 common#:#btn_remove_system#:#Remove from System
 common#:#btn_undelete#:#Restore
 common#:#buy#:#Buy###deprecated 
-common#:#by_location#:#Order by location
-common#:#by_type#:#Order by type
+pd#:#pd_sort_by_location#:#Sort by Location
+pd#:#pd_sort_by_type#:#Sort by Type
+pd#:#pd_sort_by_start_date#:#Sort by Start Date
+pd#:#pd_my_memberships_sort_default#:#Default of Sort Option
+pd#:#pd_upcoming#:#Upcoming
+pd#:#pd_ongoing#:#Ongoing
+pd#:#pd_ended#:#Ended
+pd#:#pd_not_date#:#Not Dated
 common#:#by#:#By
 common#:#bytes#:#Bytes
 common#:#cal_from#:#From:
