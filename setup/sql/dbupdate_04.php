@@ -9057,15 +9057,19 @@ if (!$ilDB->tableColumnExists('adv_md_record', 'parent_obj'))
 ?>
 <#4628>
 <?php
-	$ilDB->dropTableColumn("copg_section_timings", "utc_ts");
-	$ilDB->addTableColumn('copg_section_timings', 'unix_ts',
-		array(
-			"type"    => "integer",
-			"notnull" => true,
-			"length"  => 4,
-			"default" => 0
-		)
-	);
+	if($ilDB->tableColumnExists("copg_section_timings", "utc_ts")) {
+		$ilDB->dropTableColumn("copg_section_timings", "utc_ts");		
+	}
+	if(!$ilDB->tableColumnExists("copg_section_timings", "unix_ts")) {
+		$ilDB->addTableColumn('copg_section_timings', 'unix_ts',
+			array(
+				"type"    => "integer",
+				"notnull" => true,
+				"length"  => 4,
+				"default" => 0
+			)
+		);
+	}
 ?>
 <#4629>
 <?php
@@ -13980,7 +13984,7 @@ while ($r1 = $ilDB->fetchAssoc($set1))
 
 if( $ilDB->indexExistsByFields('personal_pc_clipboard', array('user_id')) )
 {
-	$ilDB->dropIndexByFields('obj_stat', array('user_id'));
+	$ilDB->dropIndexByFields('personal_pc_clipboard', array('user_id'));
 }
 
 if($ilDB->tableExists('personal_pc_clipboard'))
