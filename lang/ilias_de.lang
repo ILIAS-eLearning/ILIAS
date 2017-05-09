@@ -15918,3 +15918,6 @@ prg#:#prg_in_progress_img_alt#:#in progress###deprecated
 survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>###07 02 2017 new variable
 survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.###07 02 2017 new variable
 rbac#:#book_copy#:#Buchungspool kopieren
+exc#:#exc_settings_feedback_mail_info#:#Tutoren geben ihre Rückmeldungen zur Abgabe in ein Mail-Formular ein. Die Mail wird dem entsprechenden Teilnehmer gesendet.
+exc#:#exc_settings_feedback_file_info#:#Tutoren laden ihre Datei hoch. Der jeweilige Teilnehmer erhält eine Benachrichtigung und die Datei wird ihm in der Übungseinheiten-Übersicht angezeigt.
+exc#:#exc_settings_feedback_text_info#:#Tutoren geben ihre Rückmeldungen in ein Textfeld ein. Der jeweilige Teilnehmer erhält eine Benachrichtigung und der Text wird ihm in der Übungseinheiten-Übersicht angezeigt.

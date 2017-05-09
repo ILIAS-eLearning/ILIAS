@@ -15918,3 +15918,6 @@ rbac#:#grp_manage_members#:#Manage Members of Group
 rbac#:#crs_manage_members#:#Manage Members of Course
 survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.
 rbac#:#book_copy#:#User can copy booking pool
+exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.
+exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.
+exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.
