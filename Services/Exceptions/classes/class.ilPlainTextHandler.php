@@ -102,8 +102,8 @@ class ilPlainTextHandler extends Handler {
 		$post = $_POST;
 		$server = $_SERVER;
 
-		$post = $this->securityChangePassword($post);
-		$server = $this->shortPHPSessionId($server);
+		$post = $this->hidePassword($post);
+		$server = $this->shortenPHPSessionId($server);
 
 		return array
 			( "GET Data" => $_GET
@@ -123,9 +123,9 @@ class ilPlainTextHandler extends Handler {
 	 *
 	 * @return array
 	 */
-	private function securityChangePassword(array $post) {
+	private function hidePassword(array $post) {
 		if(isset($post["password"])) {
-			$post["password"] = "Changed for security.";
+			$post["password"] = "REMOVED FOR SECURITY";
 		}
 
 		return $post;
@@ -138,7 +138,7 @@ class ilPlainTextHandler extends Handler {
 	 *
 	 * @return array
 	 */
-	private function shortPHPSessionId(array $server) {
+	private function shortenPHPSessionId(array $server) {
 		$cookie_content = $server["HTTP_COOKIE"];
 		$cookie_content = explode(";", $cookie_content);
 

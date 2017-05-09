@@ -104,8 +104,8 @@ class ilLoggingErrorFileStorage {
 		$post = $_POST;
 		$server = $_SERVER;
 
-		$post = $this->securityChangePassword($post);
-		$server = $this->shortPHPSessionId($server);
+		$post = $this->hidePassword($post);
+		$server = $this->shortenPHPSessionId($server);
 
 		return array
 			( "GET Data" => $_GET
@@ -125,9 +125,9 @@ class ilLoggingErrorFileStorage {
 	 *
 	 * @return array
 	 */
-	private function securityChangePassword(array $post) {
+	private function hidePassword(array $post) {
 		if(isset($post["password"])) {
-			$post["password"] = "Changed for security.";
+			$post["password"] = "REMOVED FOR SECURITY";
 		}
 
 		return $post;
@@ -140,7 +140,7 @@ class ilLoggingErrorFileStorage {
 	 *
 	 * @return array
 	 */
-	private function shortPHPSessionId(array $server) {
+	private function shortenPHPSessionId(array $server) {
 		global $ilLog;
 
 		$cookie_content = $server["HTTP_COOKIE"];
