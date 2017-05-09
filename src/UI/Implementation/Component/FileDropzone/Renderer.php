@@ -6,7 +6,7 @@
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    05.05.17
- * @version 0.0.2
+ * @version 0.0.3
  *
  * @package ILIAS\UI\Implementation\Component\FileDropzone
  */
@@ -40,6 +40,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdoc
 	 */
 	public function render(Component $component, \ILIAS\UI\Renderer $default_renderer) {
+		$this->checkComponent($component);
 
 		$this->renderer = $default_renderer;
 
@@ -50,7 +51,6 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component instanceof \ILIAS\UI\Component\FileDropzone\Standard) {
 			return $this->renderStandardDropzone($component);
 		}
-
 	}
 
 
@@ -96,24 +96,31 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	private function renderWrapperDropzone(\ILIAS\UI\Component\FileDropzone\Wrapper $wrapperDropzone) {
 
-		$dropzoneID = $this->createId();
+		$dropzoneId = $this->createId();
 
 		$tpl = $this->getTemplate("tpl.wrapper-file-dropzone.html", true, true);
-		$tpl->setVariable("ID", $dropzoneID);
+		$tpl->setVariable("ID", $dropzoneId);
+		$tpl->setVariable("CONTENT", $this->getContentAsHtml($wrapperDropzone->getContent()));
+
+		return $tpl->get();
+	}
+
+
+	/**
+	 * Renders each component of the passed in array.
+	 *
+	 * @param Component[] $componentList an array of ILIAS UI components
+	 *
+	 * @return string the passed in components as html
+	 */
+	private function getContentAsHtml(array $componentList) {
 
 		$contentHmtl = "";
 
-		foreach ($wrapperDropzone->getContent() as $component) {
-
-			/**
-			 * @var $component Component
-			 */
+		foreach ($componentList as $component) {
 			$contentHmtl .= $this->renderer->render($component);
 		}
 
-		$tpl->setVariable("CONTENT", $contentHmtl);
-		$tpl->parseCurrentBlock();
-
-		return $tpl->get();
+		return $contentHmtl;
 	}
 }
