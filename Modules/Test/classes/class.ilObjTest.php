@@ -6788,6 +6788,14 @@ function getAnswerFeedbackPoints()
 	 */
 	public function canEditEctsGrades()
 	{
+		return $this->canShowEctsGrades() && $this->canEditMarks();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function canShowEctsGrades()
+	{
 		return $this->getReportingDate();
 	}
 
