@@ -47,13 +47,10 @@ class Renderer extends AbstractComponentRenderer {
 			return $this->renderWrapperDropzone($component);
 		}
 
-		$dropzoneId = $this->createId();
+		if ($component instanceof \ILIAS\UI\Component\FileDropzone\Standard) {
+			return $this->renderStandardDropzone($component);
+		}
 
-		$tpl = $this->getTemplate("tpl.standard-file-dropzone.html", true, true);
-		$tpl->setVariable("ID", $dropzoneId);
-		$tpl->parseCurrentBlock();
-
-		return $tpl->get();
 	}
 
 
@@ -75,6 +72,18 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	private function renderStandardDropzone(\ILIAS\UI\Component\FileDropzone\Standard $standardDropzone) {
 
+		$dropzoneId = $this->createId();
+
+		$tpl = $this->getTemplate("tpl.standard-file-dropzone.html", true, true);
+		$tpl->setVariable("ID", $dropzoneId);
+
+		if (strcmp($standardDropzone->getDefaultMessage(), "") !== 0) {
+			$tpl->setCurrentBlock("with_message");
+			$tpl->setVariable("MESSAGE", $standardDropzone->getDefaultMessage());
+			$tpl->parseCurrentBlock();
+		}
+
+		return $tpl->get();
 	}
 
 
