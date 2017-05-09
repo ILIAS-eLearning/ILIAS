@@ -89,6 +89,34 @@ class JavascriptHelperTest extends PHPUnit_Framework_TestCase {
 		$jsHelper = new JavascriptHelper($simpleDropzone);
 
 		$this->assertEquals($expectedJS, $jsHelper->initializeDropzone());
+	}
 
+
+	/**
+	 * should generate the javascript code to trigger all signals of a dropzone.
+	 */
+	public function testTriggerSignals() {
+
+		// setup example objects.
+		$dropzoneId = "dz-01";
+
+		$simpleDropzone = new \ILIAS\UI\Implementation\Component\FileDropzone\SimpleDropzone();
+		$simpleDropzone->setId($dropzoneId);
+
+		$signalGenerator = new \ILIAS\UI\Implementation\Component\SignalGenerator();
+
+		$firstSignal = $signalGenerator->create();
+		$secondSignal = $signalGenerator->create();
+
+		$firstTriggeredSignal = new \ILIAS\UI\Implementation\Component\TriggeredSignal($firstSignal, "drop");
+		$secondTriggeredSignal = new \ILIAS\UI\Implementation\Component\TriggeredSignal($secondSignal, "drop");
+
+		// setup expected objects
+		$expectedJS = "$('#{$dropzoneId}').trigger('{$firstSignal}', event);\n$('#{$dropzoneId}').trigger('{$secondSignal}', event);\n";
+
+		// start test
+		$jsHelper = new JavascriptHelper($simpleDropzone);
+
+		$this->assertEquals($expectedJS, $jsHelper->triggerSignals(array($firstTriggeredSignal, $secondTriggeredSignal)));
 	}
 }
