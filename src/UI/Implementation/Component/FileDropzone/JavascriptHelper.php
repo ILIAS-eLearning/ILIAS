@@ -13,6 +13,8 @@
 
 namespace ILIAS\UI\Implementation\Component\FileDropzone;
 
+use ILIAS\UI\Component\Signal;
+
 class JavascriptHelper {
 
 	/**
@@ -30,14 +32,42 @@ class JavascriptHelper {
 		$this->simpleDropzone = $simpleDropzone;
 	}
 
+
+	/**
+	 * Generates the javascript code to initialize a dropzone.
+	 *
+	 * @return string the generated code
+	 */
+	public function initializeDropzone() {
+
+	}
+
+
+	/**
+	 * Generates the javascript code to enable the drop design of a dropzone.
+	 *
+	 * @return string the generated code
+	 */
 	public function enableDropDesign() {
 
 	}
 
+	/**
+	 * Generates the javascript code to disable the drop design of a dropzone.
+	 *
+	 * @return string the generated code
+	 */
 	public function disableDropDesign() {
 
 	}
 
+	/**
+	 * Generates the javascript code to trigger all passed in signals.
+	 *
+	 * @param Signal[] $signalList a list of signals to trigger
+	 *
+	 * @return string the generated code
+	 */
 	public function triggerSignals(array $signalList) {
 
 	}
