@@ -83,7 +83,9 @@ class JavascriptHelperTest extends PHPUnit_Framework_TestCase {
 				dictDefaultMessage: \"\",
 				clickable: false,
 
-		});";
+		});
+		$dropzoneId.previewsContainer = \"\"
+		";
 
 		// start test
 		$jsHelper = new JavascriptHelper($simpleDropzone);

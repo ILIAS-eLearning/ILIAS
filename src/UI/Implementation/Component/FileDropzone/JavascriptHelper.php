@@ -42,6 +42,8 @@ class JavascriptHelper {
 		/*
 		 * the url parameter is required by the library,
 		 * so we set autoProcessQueue to false to prevent the upload to the url
+		 *
+		 * The previewsContainer option needs to be empty exclusive, otherwise previews of the files will be displayed
 		 */
 		return "var {$this->simpleDropzone->getId()} = new Dropzone(\"div#{$this->simpleDropzone->getId()}\", {
 
@@ -50,7 +52,9 @@ class JavascriptHelper {
 				dictDefaultMessage: \"\",
 				clickable: false,
 
-		});";
+		});
+		{$this->simpleDropzone->getId()}.previewsContainer = \"\"
+		";
 	}
 
 
@@ -74,6 +78,8 @@ class JavascriptHelper {
 
 	/**
 	 * Generates the javascript code to trigger all passed in signals.
+	 * The result of this method needs to be wrapped by the {@link JavascriptHelper#wrapToJSEventFunction}
+	 * to avoid javascript syntax errors.
 	 *
 	 * @param TriggeredSignal[] $signalList a list of signals to trigger
 	 *
