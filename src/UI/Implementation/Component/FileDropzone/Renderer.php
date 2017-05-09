@@ -43,6 +43,10 @@ class Renderer extends AbstractComponentRenderer {
 
 		$this->renderer = $default_renderer;
 
+		if ($component instanceof \ILIAS\UI\Component\FileDropzone\Wrapper) {
+			return $this->renderWrapperDropzone($component);
+		}
+
 		$dropzoneId = $this->createId();
 
 		$tpl = $this->getTemplate("tpl.standard-file-dropzone.html", true, true);
@@ -83,5 +87,24 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	private function renderWrapperDropzone(\ILIAS\UI\Component\FileDropzone\Wrapper $wrapperDropzone) {
 
+		$dropzoneID = $this->createId();
+
+		$tpl = $this->getTemplate("tpl.wrapper-file-dropzone.html", true, true);
+		$tpl->setVariable("ID", $dropzoneID);
+
+		$contentHmtl = "";
+
+		foreach ($wrapperDropzone->getContent() as $component) {
+
+			/**
+			 * @var $component Component
+			 */
+			$contentHmtl .= $this->renderer->render($component);
+		}
+
+		$tpl->setVariable("CONTENT", $contentHmtl);
+		$tpl->parseCurrentBlock();
+
+		return $tpl->get();
 	}
 }
