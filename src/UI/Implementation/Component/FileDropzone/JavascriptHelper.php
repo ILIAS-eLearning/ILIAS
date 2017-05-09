@@ -58,7 +58,7 @@ class JavascriptHelper {
 	 * @return string the generated code
 	 */
 	public function disableDropDesign() {
-
+		return "il.UI.dropzone.disableDropDesign({\"id\": '{$this->simpleDropzone->getId()}', \"darkendBackground\": '{$this->simpleDropzone->isDarkendBackground()}'});";
 	}
 
 	/**
