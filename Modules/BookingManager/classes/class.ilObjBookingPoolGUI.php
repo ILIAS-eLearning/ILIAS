@@ -1124,27 +1124,25 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		else
 		{			
 			// ilDateTimeInputGUI does NOT add hidden values on disabled!
-			
-			$rece_year = $_POST["rece"]["date"]["y"];
-			$rece_month = str_pad($_POST["rece"]["date"]["m"], 2, "0", STR_PAD_LEFT);
-			$rece_day = str_pad($_POST["rece"]["date"]["d"], 2, "0", STR_PAD_LEFT);
-			
+
+			$rece_array = explode(".", $_POST['rece']);
+
+			$rece_day = str_pad($rece_array[0], 2, "0", STR_PAD_LEFT);
+			$rece_month = str_pad($rece_array[1], 2, "0", STR_PAD_LEFT);
+			$rece_year = $rece_array[2];
+
 			// ilDateTimeInputGUI will choke on POST array format
 			$_POST["rece"] = null;		
 			
 			$form->setValuesByPost();
-			
-			$form->getItemByPostVar("rece")->setDate(new ilDate($rece_year."-".$rece_month."-".$rece_day, IL_CAL_DATE));
+
+			$rece_date = new ilDate($rece_year."-".$rece_month."-".$rece_day, IL_CAL_DATE);
+
+			$form->getItemByPostVar("rece")->setDate($rece_date);
 			$form->getItemByPostVar("recm")->setHideSubForm($_POST["recm"] < 1);
-			
-			$hidden_date = new ilHiddenInputGUI("rece[date][y]");
-			$hidden_date->setValue($rece_year);			
-			$form->addItem($hidden_date);
-			$hidden_date = new ilHiddenInputGUI("rece[date][m]");
-			$hidden_date->setValue($rece_month);			
-			$form->addItem($hidden_date);
-			$hidden_date = new ilHiddenInputGUI("rece[date][d]");
-			$hidden_date->setValue($rece_day);			
+
+			$hidden_date = new ilHiddenInputGUI("rece");
+			$hidden_date->setValue($rece_date);
 			$form->addItem($hidden_date);
 			
 			return $this->confirmBookingNumbers($counter, $group_id, $form);				
