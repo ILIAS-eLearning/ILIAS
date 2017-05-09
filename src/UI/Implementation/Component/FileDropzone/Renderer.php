@@ -153,11 +153,11 @@ class Renderer extends AbstractComponentRenderer {
 		$this->getJavascriptBinding()->addOnLoadCode($jsHelper->initializeDropzone());
 
 		$this->getJavascriptBinding()->addOnLoadCode(
-			"{$jsHelper->getJSDropzone()}.on(\"dragenter\", {$jsHelper->wrappToJSEventFunction(
+			"{$jsHelper->getJSDropzone()}.on(\"dragenter\", {$jsHelper->wrapToJSEventFunction(
 				$jsHelper->enableDropDesign())}
-			).on(\"dragleave\", {$jsHelper->wrappToJSEventFunction(
+			).on(\"dragleave\", {$jsHelper->wrapToJSEventFunction(
 				$jsHelper->disableDropDesign())}
-			).on(\"drop\", {$jsHelper->wrappToJSEventFunction(
+			).on(\"drop\", {$jsHelper->wrapToJSEventFunction(
 				$jsHelper->disableDropDesign()
 				.$jsHelper->triggerSignals($fileDropzone->getTriggeredSignals()))}
 			)"

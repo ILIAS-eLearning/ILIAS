@@ -6,7 +6,7 @@
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    09.05.17
- * @version 0.0.1
+ * @version 0.0.2
  *
  * @package ILIAS\UI\Implementation\Component\FileDropzone
  */
@@ -92,7 +92,17 @@ class JavascriptHelper {
 		return $jsCode;
 	}
 
-	public function wrappToJSEventFunction($javascriptCode) {
+
+	/**
+	 * Wraps the passed in javascript code to a javascript event function.
+	 *
+	 * e.g. function(event) {...}
+	 *
+	 * @param string $javascriptCode the javascript code to wrap
+	 *
+	 * @return string the wrapped javascript code
+	 */
+	public function wrapToJSEventFunction($javascriptCode) {
 		return "function(event) {" . $javascriptCode . "}";
 	}
 
