@@ -58,8 +58,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 		require_once('./Services/Database/classes/Atom/class.ilAtomQueryLock.php');
 		require_once('./Services/Database/classes/class.ilDBWrapperFactory.php');
 
-		global $DIC;
-		$ilClientIniFile = $DIC['ilClientIniFile'];
+		global $ilClientIniFile;
 		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_GALERA);
 		$this->ilDBInterfaceGalera->initFromIniFile($ilClientIniFile);
 		$this->ilDBInterfaceGalera->connect();

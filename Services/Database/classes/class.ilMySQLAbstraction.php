@@ -37,8 +37,7 @@ class ilMySQLAbstraction {
 	 * Constructor
 	 */
 	public function __construct() {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$this->ilDBInterface = $ilDB;
 		$this->manager = $ilDB->loadModule(ilDBConstants::MODULE_MANAGER);
@@ -192,8 +191,7 @@ class ilMySQLAbstraction {
 	 * @return int
 	 */
 	public function countRecords($a_table_name) {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$st = $ilDB->prepare("SELECT count(*) AS cnt FROM `" . $a_table_name . "`");
 		$res = $ilDB->execute($st);
@@ -225,8 +223,7 @@ class ilMySQLAbstraction {
 	 * @throws \ilDatabaseException
 	 */
 	public function replaceEmptyStringsWithNull($a_table) {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$fields = $this->analyzer->getFieldInformation($a_table);
 		$upfields = array();
@@ -250,8 +247,7 @@ class ilMySQLAbstraction {
 	 * @throws \ilDatabaseException
 	 */
 	public function replaceEmptyDatesWithNull($a_table) {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if (!$this->ilDBInterface->tableExists($a_table)) {
 			return;
@@ -287,8 +283,7 @@ class ilMySQLAbstraction {
 	 * @param string $a_table_name
 	 */
 	public function lowerCaseTableName($a_table_name) {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		if ($a_table_name != strtolower($a_table_name)) {
 			// this may look strange, but it does not work directly
@@ -305,8 +300,7 @@ class ilMySQLAbstraction {
 	 * @param string $a_table_name
 	 */
 	public function lowerCaseColumnNames($a_table_name) {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$result = mysql_query("SHOW COLUMNS FROM `" . $a_table_name . "`");
 		while ($row = mysql_fetch_assoc($result)) {

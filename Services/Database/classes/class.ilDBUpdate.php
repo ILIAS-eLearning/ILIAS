@@ -50,8 +50,7 @@ class ilDBUpdate
 		}
 		else
 		{
-			global $DIC;
-			$mySetup = $DIC['mySetup'];
+			global $mySetup;
 			$this->db = $mySetup->db;
 			$this->PATH = "./";
 		}
@@ -282,14 +281,12 @@ class ilDBUpdate
 	*/
 	function applyUpdate($a_break = 0)
 	{
-		global $DIC;
-		$ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
-		$ilMySQLAbstraction = $DIC['ilMySQLAbstraction'];
+		global $ilCtrlStructureReader, $ilMySQLAbstraction;
 		
 		include_once './Services/Database/classes/class.ilMySQLAbstraction.php';
 
 		$ilMySQLAbstraction = new ilMySQLAbstraction();
-		$GLOBALS['DIC']['ilMySQLAbstraction'] = $ilMySQLAbstraction;
+		$GLOBALS['ilMySQLAbstraction'] = $ilMySQLAbstraction;
 		
 		$f = $this->fileVersion;
 		$c = $this->currentVersion;
@@ -351,8 +348,7 @@ class ilDBUpdate
 	
 	function loadXMLInfo()
 	{
-		global $DIC;
-		$ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
+		global $ilCtrlStructureReader;
 		
 		// read module and service information into db
 		require_once "./setup/classes/class.ilModuleReader.php";
@@ -397,13 +393,7 @@ class ilDBUpdate
 	 */
 	function applyUpdateNr($nr, $hotfix = false, $custom_update = false)
 	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$ilErr = $DIC['ilErr'];
-		$ilUser = $DIC['ilUser'];
-		$ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
-		$ilModuleReader = $DIC['ilModuleReader'];
-		$ilMySQLAbstraction = $DIC['ilMySQLAbstraction'];
+		global $ilDB,$ilErr,$ilUser,$ilCtrlStructureReader,$ilModuleReader,$ilMySQLAbstraction;
 
 		//search for desired $nr
 		reset($this->filecontent);
@@ -667,14 +657,12 @@ class ilDBUpdate
 	 */
 	function applyHotfix()
 	{
-		global $DIC;
-		$ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
-		$ilMySQLAbstraction = $DIC['ilMySQLAbstraction'];
+		global $ilCtrlStructureReader, $ilMySQLAbstraction;
 		
 		include_once './Services/Database/classes/class.ilMySQLAbstraction.php';
 
 		$ilMySQLAbstraction = new ilMySQLAbstraction();
-		$GLOBALS['DIC']['ilMySQLAbstraction'] = $ilMySQLAbstraction;
+		$GLOBALS['ilMySQLAbstraction'] = $ilMySQLAbstraction;
 		
 		$this->readHotfixInfo(true);
 		
@@ -788,14 +776,12 @@ class ilDBUpdate
 
 	public function applyCustomUpdates()
 	{
-		global $DIC;
-		$ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
-		$ilMySQLAbstraction = $DIC['ilMySQLAbstraction'];
+		global $ilCtrlStructureReader, $ilMySQLAbstraction;
 
 		include_once './Services/Database/classes/class.ilMySQLAbstraction.php';
 
 		$ilMySQLAbstraction = new ilMySQLAbstraction();
-		$GLOBALS['DIC']['ilMySQLAbstraction'] = $ilMySQLAbstraction;
+		$GLOBALS['ilMySQLAbstraction'] = $ilMySQLAbstraction;
 
 		$this->readCustomUpdatesInfo(true);
 
@@ -846,9 +832,7 @@ class ilDBUpdate
 	 */
 	function getUpdateSteps($a_break = 0)
 	{
-		global $DIC;
-		$ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
-		$ilMySQLAbstraction = $DIC['ilMySQLAbstraction'];
+		global $ilCtrlStructureReader, $ilMySQLAbstraction;
 		
 		$str = "";
 		
@@ -914,13 +898,7 @@ class ilDBUpdate
 	 */
 	function getUpdateStepNr($nr, $hotfix = false, $custom_update = false)
 	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$ilErr = $DIC['ilErr'];
-		$ilUser = $DIC['ilUser'];
-		$ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
-		$ilModuleReader = $DIC['ilModuleReader'];
-		$ilMySQLAbstraction = $DIC['ilMySQLAbstraction'];
+		global $ilDB,$ilErr,$ilUser,$ilCtrlStructureReader,$ilModuleReader,$ilMySQLAbstraction;
 
 		$str = "";
 		

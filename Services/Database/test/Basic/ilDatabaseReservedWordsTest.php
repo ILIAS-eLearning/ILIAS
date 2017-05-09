@@ -12,8 +12,7 @@ class ilDatabaseReservedWordsTest extends PHPUnit_Framework_TestCase {
 		PHPUnit_Framework_Error_Deprecated::$enabled = false;
 		parent::setUp();
 		require_once('./Services/Database/classes/class.ilDBConstants.php');
-		global $DIC;
-		$DIC = array();
+		global $ilDB, $DIC;
 		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLInnoDB.php');
 		$ilDB = new ilDBPdoMySQLInnoDB();
 		$DIC['ilDB'] = $ilDB;

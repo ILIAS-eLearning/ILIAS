@@ -34,8 +34,7 @@ class ilSimpleXMLTableDataParser extends ilSaxParser {
 
 
 	public function startParsing() {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
+		global $ilDB;
 
 		$table = $this->xml->xpath('/Table');
 		foreach ($table[0]->attributes() as $k => $v) {

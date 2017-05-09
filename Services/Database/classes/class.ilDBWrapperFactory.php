@@ -27,8 +27,7 @@ class ilDBWrapperFactory {
 	 * @throws ilDatabaseException
 	 */
 	static public function getWrapper($a_type, $a_inactive_mysqli = null) {
-		global $DIC;
-		$ilClientIniFile = $DIC['ilClientIniFile'];
+		global $ilClientIniFile;
 		/**
 		 * @var $ilClientIniFile ilIniFile
 		 */

@@ -18,9 +18,7 @@ class ilArrayTableDataParser
 	
 	public function startParsing()
 	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$ilLog = $DIC['ilLog'];
+		global $ilDB,$ilLog;
 		
 		if(!$dp = opendir($this->dir))
 		{

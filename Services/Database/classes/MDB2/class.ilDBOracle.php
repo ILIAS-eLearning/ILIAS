@@ -33,10 +33,10 @@ class ilDBOracle extends ilDB
 	{
 		// TODO: check if there is another solution.
 		// This works with 11g
-		if(!isset($GLOBALS['DIC']['_MDB2_dsninfo_default']['charset']) or		
-			$GLOBALS['DIC']['_MDB2_dsninfo_default']['charset'] != 'utf8')
+		if(!isset($GLOBALS['_MDB2_dsninfo_default']['charset']) or		
+			$GLOBALS['_MDB2_dsninfo_default']['charset'] != 'utf8')
 		{
-			$GLOBALS['DIC']['_MDB2_dsninfo_default']['charset'] = 'utf8'; 
+			$GLOBALS['_MDB2_dsninfo_default']['charset'] = 'utf8'; 
 		} 
 
 		return array('phptype' => 'oci8',
@@ -111,7 +111,7 @@ class ilDBOracle extends ilDB
 	*/
 	function initConnection()
 	{
-		$GLOBALS['DIC']['_MDB2_dsninfo_default']['charset'] = 'utf8';
+		$GLOBALS['_MDB2_dsninfo_default']['charset'] = 'utf8';
 		$this->query("ALTER SESSION SET nls_length_semantics='CHAR'");
 		$this->query("ALTER SESSION SET NLS_SORT = binary_ci");
 	}
@@ -427,8 +427,7 @@ class ilDBOracle extends ilDB
 	 */
 	public function lockTables($a_tables)
 	{
-		global $DIC;
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 		
 		$locks = array();
 

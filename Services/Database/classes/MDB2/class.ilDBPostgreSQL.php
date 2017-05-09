@@ -203,8 +203,7 @@ class ilDBPostgreSQL extends ilDB
 	 */
 	public function lockTables($a_tables)
 	{
-		global $DIC;
-		$ilLog = $DIC['ilLog'];
+		global $ilLog;
 		
 		$locks = array();
 

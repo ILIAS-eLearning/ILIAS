@@ -40,10 +40,7 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 	 */
 	public function __construct()
 	{
-		global $DIC;
-		$ilClientIniFile = $DIC['ilClientIniFile'];
-		$ilDB = $DIC['ilDB'];
-		$ilIliasIniFile = $DIC['ilIliasIniFile'];
+		global $ilClientIniFile, $ilDB, $ilIliasIniFile;
 
 		$options['dsn']			= $ilDB->getDSN();
 		$options['table']		= $ilClientIniFile->readVariable('auth', 'table');
@@ -96,7 +93,7 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 		$auth_mode = ilObjUser::_lookupAuthMode($usr_id);
 		$auth_id = ilAuthUtils::_getAuthMode($auth_mode);
 
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': auth id =  ' . $auth_id);
+		$GLOBALS['ilLog']->write(__METHOD__.': auth id =  ' . $auth_id);
 		
 		switch($auth_id)
 		{

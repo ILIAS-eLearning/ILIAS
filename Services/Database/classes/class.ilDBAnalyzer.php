@@ -42,8 +42,7 @@ class ilDBAnalyzer {
 	 */
 	public function __construct(ilDBInterface $ilDBInterface = null) {
 		if (!$ilDBInterface instanceof ilDBInterface) {
-			global $DIC;
-			$ilDB = $DIC['ilDB'];
+			global $ilDB;
 			$ilDBInterface = $ilDB;
 		}
 
