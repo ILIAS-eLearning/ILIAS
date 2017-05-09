@@ -6,7 +6,7 @@
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    05.05.17
- * @version 0.0.3
+ * @version 0.0.4
  *
  * @package ILIAS\UI\Implementation\Component\FileDropzone
  */
@@ -14,6 +14,7 @@
 namespace ILIAS\UI\Implementation\Component\FileDropzone;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\FileDropzone\BasicFileDropzone;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -60,6 +61,7 @@ class Renderer extends AbstractComponentRenderer {
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
 		$registry->register("./src/UI/templates/js/FileDropzone/dropzone.js");
+		$registry->register("./src/UI/templates/js/FileDropzone/dropzone-behavior.js");
 	}
 
 
@@ -74,9 +76,14 @@ class Renderer extends AbstractComponentRenderer {
 
 		$dropzoneId = $this->createId();
 
+		// setup javascript
+		$this->setupJavascriptCode($standardDropzone, $dropzoneId);
+
+		// setup template
 		$tpl = $this->getTemplate("tpl.standard-file-dropzone.html", true, true);
 		$tpl->setVariable("ID", $dropzoneId);
 
+		// set message if not empty
 		if (strcmp($standardDropzone->getDefaultMessage(), "") !== 0) {
 			$tpl->setCurrentBlock("with_message");
 			$tpl->setVariable("MESSAGE", $standardDropzone->getDefaultMessage());
@@ -98,6 +105,10 @@ class Renderer extends AbstractComponentRenderer {
 
 		$dropzoneId = $this->createId();
 
+		// setup javascript
+		$this->setupJavascriptCode($wrapperDropzone, $dropzoneId);
+
+		// setup template
 		$tpl = $this->getTemplate("tpl.wrapper-file-dropzone.html", true, true);
 		$tpl->setVariable("ID", $dropzoneId);
 		$tpl->setVariable("CONTENT", $this->getContentAsHtml($wrapperDropzone->getContent()));
@@ -122,5 +133,35 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		return $contentHmtl;
+	}
+
+
+	/**
+	 * Adds the javascript onload code for the passed in BasicFileDropzone
+	 *
+	 * @param BasicFileDropzone $fileDropzone the file dropzone to setup javascript
+	 * @param string $dropzoneId the dropzon id used in the html
+	 */
+	private function setupJavascriptCode(BasicFileDropzone $fileDropzone, $dropzoneId) {
+
+		$simpleDropzone = new SimpleDropzone();
+		$simpleDropzone->setId($dropzoneId);
+		$simpleDropzone->setDarkendBackground($fileDropzone->isDarkendBackground());
+
+		$jsHelper = new JavascriptHelper($simpleDropzone);
+
+		$this->getJavascriptBinding()->addOnLoadCode($jsHelper->initializeDropzone());
+
+		$this->getJavascriptBinding()->addOnLoadCode(
+			"{$jsHelper->getJSDropzone()}.on(\"dragenter\", {$jsHelper->wrappToJSEventFunction(
+				$jsHelper->enableDropDesign())}
+			).on(\"dragleave\", {$jsHelper->wrappToJSEventFunction(
+				$jsHelper->disableDropDesign())}
+			).on(\"drop\", {$jsHelper->wrappToJSEventFunction(
+				$jsHelper->disableDropDesign()
+				.$jsHelper->triggerSignals($fileDropzone->getTriggeredSignals()))}
+			)"
+		);
+
 	}
 }
