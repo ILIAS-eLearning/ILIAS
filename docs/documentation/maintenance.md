@@ -331,6 +331,10 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/BackgroundTask
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/Certificate
+ (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
+* Services/Contact
+ (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
 * Services/Database
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/DiskQuota
@@ -347,12 +351,16 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: MISSING)
 * Services/GlobalCache
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/Html
+ (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
 * Services/InfoScreen
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/Init
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/Language
  (1st Maintainer: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html))
+* Services/Mail
+ (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
 * Services/MainMenu
  (1st Maintainer: MISSING)
 * Services/Maps
@@ -361,16 +369,26 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [fneumann](http://www.ilias.de/docu/goto_docu_usr_1560.html))
 * Services/Notes
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Services/Notifications
+ (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
+* Services/OnScreenChat
+ (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
 * Services/PHPUnit
  (1st Maintainer: MISSING)
+* Services/Password
+ (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
 * Services/Preview
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/RTE
+ (1st Maintainer: MISSING)
 * Services/Repository
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/Style
  (1st Maintainer: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html))
 * Services/Tagging
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Services/TermsOfService
+ (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
 * Services/Tracking
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/UIComponent
@@ -450,12 +468,10 @@ The following directories are currently unmaintained:
 * Services/Cache
 * Services/Calendar
 * Services/Captcha
-* Services/Certificate
 * Services/Chart
 * Services/Classification
 * Services/Clipboard
 * Services/Component
-* Services/Contact
 * Services/Container
 * Services/ContainerReference
 * Services/Context
@@ -472,7 +488,6 @@ The following directories are currently unmaintained:
 * Services/Frameset
 * Services/Help
 * Services/History
-* Services/Html
 * Services/Http
 * Services/Imprint
 * Services/JSON
@@ -483,7 +498,6 @@ The following directories are currently unmaintained:
 * Services/LinkChecker
 * Services/Locator
 * Services/Logging
-* Services/Mail
 * Services/Math
 * Services/MediaObjects
 * Services/Membership
@@ -493,17 +507,13 @@ The following directories are currently unmaintained:
 * Services/Navigation
 * Services/News
 * Services/Notification
-* Services/Notifications
 * Services/Object
-* Services/OnScreenChat
 * Services/PDFGeneration
-* Services/Password
 * Services/PermanentLink
 * Services/PersonalDesktop
 * Services/PersonalWorkspace
 * Services/PrivacySecurity
 * Services/QTI
-* Services/RTE
 * Services/Radius
 * Services/Randomization
 * Services/Rating
@@ -515,7 +525,6 @@ The following directories are currently unmaintained:
 * Services/SystemCheck
 * Services/Table
 * Services/Taxonomy
-* Services/TermsOfService
 * Services/Transformation
 * Services/Tree
 * Services/Verification
