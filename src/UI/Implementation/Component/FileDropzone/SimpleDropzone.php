@@ -28,7 +28,7 @@ class SimpleDropzone {
 	/**
 	 * @return string
 	 */
-	public function getId(): string {
+	public function getId() {
 		return $this->id;
 	}
 
@@ -36,7 +36,7 @@ class SimpleDropzone {
 	/**
 	 * @param string $id
 	 */
-	public function setId(string $id) {
+	public function setId($id) {
 		$this->id = $id;
 	}
 
@@ -44,7 +44,7 @@ class SimpleDropzone {
 	/**
 	 * @return bool
 	 */
-	public function isDarkendBackground(): bool {
+	public function isDarkendBackground() {
 		return $this->darkendBackground;
 	}
 
@@ -52,7 +52,7 @@ class SimpleDropzone {
 	/**
 	 * @param bool $darkendBackground
 	 */
-	public function setDarkendBackground(bool $darkendBackground) {
+	public function setDarkendBackground($darkendBackground) {
 		$this->darkendBackground = $darkendBackground;
 	}
 
