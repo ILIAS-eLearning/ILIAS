@@ -148,7 +148,7 @@ class ilLoggingErrorFileStorage {
 
 		foreach ($cookie_content as $key => $content) {
 			$content_array = explode("=", $content);
-			if(trim($content_array[0]) == "PHPSESSID") {
+			if(trim($content_array[0]) == session_name()) {
 				$content_array[1] = substr($content_array[1], 0, 5)." (SHORTENED FOR SECURITY)";
 				$cookie_content[$key] = implode("=", $content_array);
 			}
