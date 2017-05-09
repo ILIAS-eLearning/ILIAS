@@ -69,11 +69,9 @@ class FileDropzoneRendererTest extends ILIAS_UI_TestBase {
 		$expectedHtml = "<div id=\"id_1-darkend\"></div><div id=\"id_1\" class=\"il-file-dropzone wrapper\"><p>Pretty smart, isn't it?</p><p>Yeah, this is really smart.</p></div>";
 
 		// start test
-		$wrapperDropzone = new \ILIAS\UI\Implementation\Component\FileDropzone\Wrapper();
 		$exampleTextQuestion = new \ILIAS\UI\Implementation\Component\Legacy\Legacy("<p>Pretty smart, isn't it?</p>");
 		$exampleTextAnswer = new \ILIAS\UI\Implementation\Component\Legacy\Legacy("<p>Yeah, this is really smart.</p>");
-
-		$wrapperDropzone = $wrapperDropzone->withContent(array($exampleTextQuestion, $exampleTextAnswer));
+		$wrapperDropzone = new \ILIAS\UI\Implementation\Component\FileDropzone\Wrapper(array($exampleTextQuestion, $exampleTextAnswer));
 
 		$html = $this->normalizeHTML(
 			$this->getDefaultRenderer()->render($wrapperDropzone)
