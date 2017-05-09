@@ -103,7 +103,7 @@ class ilPlainTextHandler extends Handler {
 			( "GET Data" => $_GET
 			, "POST Data" => $_POST
 			, "Files" => $_FILES
-			, "Cookies" => $_COOKIES
+			, "Cookies" => $_COOKIE
 			, "Session" => isset($_SESSION) ? $_SESSION : array()
 			, "Server/Request Data" => $_SERVER
 			, "Environment Variables" => $_ENV
