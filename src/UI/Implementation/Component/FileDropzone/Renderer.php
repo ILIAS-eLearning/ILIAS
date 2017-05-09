@@ -16,6 +16,7 @@ namespace ILIAS\UI\Implementation\Component\FileDropzone;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 class Renderer extends AbstractComponentRenderer {
 
@@ -49,6 +50,15 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->parseCurrentBlock();
 
 		return $tpl->get();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function registerResources(ResourceRegistry $registry) {
+		parent::registerResources($registry);
+		$registry->register("./src/UI/templates/js/FileDropzone/dropzone.js");
 	}
 
 
