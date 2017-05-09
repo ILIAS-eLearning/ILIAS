@@ -138,6 +138,8 @@ class Renderer extends AbstractComponentRenderer {
 
 	/**
 	 * Adds the javascript onload code for the passed in BasicFileDropzone
+	 * The javascript for uses the dropzone.js library
+	 * @see http://www.dropzonejs.com
 	 *
 	 * @param BasicFileDropzone $fileDropzone the file dropzone to setup javascript
 	 * @param string $dropzoneId the dropzon id used in the html

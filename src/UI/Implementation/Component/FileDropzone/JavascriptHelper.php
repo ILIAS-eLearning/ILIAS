@@ -3,10 +3,12 @@
  * Class JavascriptHelper
  *
  * Helper class to create often used javascript commands a dropzone will need.
+ * The javascript uses the dropzone.js library
+ * @see http://www.dropzonejs.com/#configuration
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    09.05.17
- * @version 0.0.2
+ * @version 0.0.3
  *
  * @package ILIAS\UI\Implementation\Component\FileDropzone
  */
@@ -43,7 +45,8 @@ class JavascriptHelper {
 		 * the url parameter is required by the library,
 		 * so we set autoProcessQueue to false to prevent the upload to the url
 		 *
-		 * The previewsContainer option needs to be empty exclusive, otherwise previews of the files will be displayed
+		 * The previewsContainer option needs to be empty exclusive, otherwise previews of the files will be displayed.
+		 * @see hhttp://www.dropzonejs.com/#configuration
 		 */
 		return "var {$this->simpleDropzone->getId()} = new Dropzone(\"div#{$this->simpleDropzone->getId()}\", {
 
