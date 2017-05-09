@@ -22,12 +22,32 @@ class FileDropzoneRendererTest extends ILIAS_UI_TestBase {
 	 */
 	public function testRenderStandardDropzone() {
 
-		$standardDropzone = new \ILIAS\UI\Implementation\Component\FileDropzone\Standard();
-
 		// setup expected objects
 		$expectedHtml = "<div id=\"id_1-darkend\"></div><div id=\"id_1\" class=\"il-file-dropzone standard\"></div>";
 
 		// start test
+		$standardDropzone = new \ILIAS\UI\Implementation\Component\FileDropzone\Standard();
+
+		$html = $this->normalizeHTML(
+			$this->getDefaultRenderer()->render($standardDropzone)
+		);
+
+		$this->assertEquals($expectedHtml, $html);
+	}
+
+
+	/**
+	 * should be rendered with the css class .standard and a span-tag with the passed in message inside the dropzone div.
+	 */
+	public function testRenderStandardDropzoneWithDefaultMessage() {
+
+		// setup expected objects
+		$expectedHtml = "<div id=\"id_1-darkend\"></div><div id=\"id_1\" class=\"il-file-dropzone standard\"><div class=\"dz-default dz-message\"><span>Drop files here to upload</span></div></div>";
+
+		// start test
+		$standardDropzone = new \ILIAS\UI\Implementation\Component\FileDropzone\Standard();
+		$standardDropzone = $standardDropzone->withDefaultMessage("Drop files here to upload");
+
 		$html = $this->normalizeHTML(
 			$this->getDefaultRenderer()->render($standardDropzone)
 		);
@@ -67,4 +87,6 @@ class FileDropzoneRendererTest extends ILIAS_UI_TestBase {
 		$html = trim(str_replace("\t", "", $html));
 		return parent::normalizeHTML($html);
 	}
+
+
 }
