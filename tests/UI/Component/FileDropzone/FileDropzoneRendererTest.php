@@ -51,7 +51,7 @@ class FileDropzoneRendererTest extends ILIAS_UI_TestBase {
 		// start test
 		$wrapperDropzone = new \ILIAS\UI\Implementation\Component\FileDropzone\Wrapper();
 		$exampleTextQuestion = new \ILIAS\UI\Implementation\Component\Legacy\Legacy("<p>Pretty smart, isn't it?</p>");
-		$exampleTextAnswer = new \ILIAS\UI\Implementation\Component\Legacy\Legacy("<p>Yeah, this really smart.</p>");
+		$exampleTextAnswer = new \ILIAS\UI\Implementation\Component\Legacy\Legacy("<p>Yeah, this is really smart.</p>");
 
 		$wrapperDropzone = $wrapperDropzone->withContent(array($exampleTextQuestion, $exampleTextAnswer));
 
@@ -60,5 +60,11 @@ class FileDropzoneRendererTest extends ILIAS_UI_TestBase {
 		);
 
 		$this->assertEquals($expectedHtml, $html);
+	}
+
+
+	public function normalizeHTML($html) {
+		$html = trim(str_replace("\t", "", $html));
+		return parent::normalizeHTML($html);
 	}
 }
