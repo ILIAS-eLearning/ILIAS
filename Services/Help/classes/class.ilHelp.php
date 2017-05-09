@@ -21,7 +21,7 @@ class ilHelp
 		global $ilDB, $ilSetting, $ilUser;
 		
 		
-		if ($ilUser->getLanguage() != "de")
+		if ($ilUser->getLanguage() != "de" && $ilUser->getLanguage() != "hu")
 		{
 			return "";
 		}

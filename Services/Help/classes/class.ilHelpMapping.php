@@ -241,7 +241,7 @@ class ilHelpMapping
 	{
 		global $ilDB, $ilAccess, $ilSetting, $ilUser;
 		
-		if ($ilUser->getLanguage() != "de")
+		if ($ilUser->getLanguage() != "de" && $ilUser->getLanguage() != "hu")
 		{
 			return false;
 		}
