@@ -30,7 +30,9 @@ class JavascriptHelperTest extends PHPUnit_Framework_TestCase {
 		$simpleDropzone->setDarkendBackground($darkendBackground);
 
 		// setup expected objects
-		$expectedJS = "il.UI.dropzone.enableDropDesign({\"id\": '{$dropzoneId}', \"darkendBackground\": '{$darkendBackground}'});";
+		$expectedJS = "function(event) {
+			il.UI.dropzone.enableDropDesign({\"id\": '{$dropzoneId}', \"darkendBackground\": '{$darkendBackground}'});
+		}";
 
 		// start test
 		$jsHelper = new JavascriptHelper($simpleDropzone);
@@ -53,7 +55,9 @@ class JavascriptHelperTest extends PHPUnit_Framework_TestCase {
 		$simpleDropzone->setDarkendBackground($darkendBackground);
 
 		// setup expected objects
-		$expectedJS = "il.UI.dropzone.disableDropDesign({\"id\": '{$dropzoneId}', \"darkendBackground\": '{$darkendBackground}'});";
+		$expectedJS = "function(event) {
+			il.UI.dropzone.disableDropDesign({\"id\": '{$dropzoneId}', \"darkendBackground\": '{$darkendBackground}'});
+		}";
 
 		// start test
 		$jsHelper = new JavascriptHelper($simpleDropzone);
@@ -112,7 +116,10 @@ class JavascriptHelperTest extends PHPUnit_Framework_TestCase {
 		$secondTriggeredSignal = new \ILIAS\UI\Implementation\Component\TriggeredSignal($secondSignal, "drop");
 
 		// setup expected objects
-		$expectedJS = "$('#{$dropzoneId}').trigger('{$firstSignal}', event);\n$('#{$dropzoneId}').trigger('{$secondSignal}', event);\n";
+		$expectedJS = "function(event) {
+			$('#{$dropzoneId}').trigger('{$firstSignal}', event);
+			$('#{$dropzoneId}').trigger('{$secondSignal}', event);
+		}";
 
 		// start test
 		$jsHelper = new JavascriptHelper($simpleDropzone);
