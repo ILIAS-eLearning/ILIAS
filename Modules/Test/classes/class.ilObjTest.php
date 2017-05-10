@@ -1542,7 +1542,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$newsItem = new ilNewsItem();
 			$newsItem->setContext($this->getId(), 'tst');
 			$newsItem->setPriority(NEWS_NOTICE);
-			$newsItem->setTitle($this->lng->txt('new_test_online'));
+			$newsItem->setTitle('new_test_online');
+			$newsItem->setContentIsLangVar(true);
 			$newsItem->setContent('');
 			$newsItem->setUserId($ilUser->getId());
 			$newsItem->setVisibility(NEWS_USERS);
@@ -1558,7 +1559,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			if($newsId > 0)
 			{
 				$newsItem = new ilNewsItem($newsId);
-				$newsItem->setTitle($this->lng->txt('new_test_online'));
+				$newsItem->setTitle('new_test_online');
+				$newsItem->setContentIsLangVar(true);
 				$newsItem->setContent('');
 				$newsItem->update();
 			}
