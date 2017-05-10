@@ -14,5 +14,8 @@
 		<event type="listen" id="Services/User" component="Services/WebServices/ECS" />
                 <event type="raise" id="newEcsEvent" />
 	</events>
+	<pluginslots>
+		<pluginslot id="soaphk" name="SoapHook" />
+	</pluginslots>
 	<logging />
 </service>
