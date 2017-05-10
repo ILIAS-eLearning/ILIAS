@@ -9,7 +9,9 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetQuestion.php';
  *
  * @package     Modules/Test
  */
-class ilTestRandomQuestionSetQuestionCollection
+// hey: fixRandomTestBuildable - iterator interface for collection
+class ilTestRandomQuestionSetQuestionCollection implements Iterator
+// hey.
 {
 	private $questions = array();
 
@@ -28,6 +30,19 @@ class ilTestRandomQuestionSetQuestionCollection
 		$this->questions[] = $question;
 	}
 
+	// hey: fixRandomTestBuildable - iterator interface for collection
+	/* @return ilTestRandomQuestionSetQuestion */
+	public function current() { return current($this->questions); }
+	/* @return ilTestRandomQuestionSetQuestion */
+	public function next() { return next($this->questions); }
+	/* @return string */
+	public function key() { return key($this->questions); }
+	/* @return bool */
+	public function valid() { return key($this->questions) !== null; }
+	/* @return ilTestRandomQuestionSetQuestion */
+	public function rewind() { return reset($this->questions); }
+	// hey.
+	
 	public function isGreaterThan($amount)
 	{
 		return count($this->questions) > $amount;

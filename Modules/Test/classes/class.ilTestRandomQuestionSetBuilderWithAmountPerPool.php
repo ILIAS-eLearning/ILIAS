@@ -14,16 +14,36 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 	// hey: fixRandomTestBuildable - improvment of improved pass build check
 	public function checkBuildableNewer()
 	{
+		$lng = $GLOBALS['DIC'] ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
+			
+		$isBuildable = true;
+		
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionsQuantitiesDistribution.php';
 		$quantitiesDistribution = new ilTestRandomQuestionsQuantitiesDistribution($this);
-		$quantitiesDistribution->initialise($this->sourcePoolDefinitionList);
+		$quantitiesDistribution->setSourcePoolDefinitionList($this->sourcePoolDefinitionList);
 		
 		foreach($this->sourcePoolDefinitionList as $definition)
 		{
 			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-			$definitionFilteredQuestionSet = $this->getSrcPoolDefRelatedQuestCollection($definition);
 			
+			if( $quantitiesDistribution->isRequiredAmountSatisfiedByExclusiveQstCollection($definition) )
+			{
+				continue;
+			}
+			
+			if( $quantitiesDistribution->isMissingAmountSatisfiedByNonUsedUpSharedQstCollection($definition) )
+			{
+				continue;
+			}
+			
+			$isBuildable = false;
+			
+			$this->checkMessages[] = sprintf(
+				$lng->txt('tst_msg_rand_quest_set_pass_not_buildable_detail'), $definition->getSequencePosition()
+			);
 		}
+		
+		return $isBuildable;
 	}
 	// hey.
 	
@@ -86,6 +106,10 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 	
 	public function checkBuildable()
 	{
+		// hey: fixRandomTestBuildable - improved the buildable check improvement
+		return $this->checkBuildableNewer();
+		// hey.
+		
 		// fau: fixRandomTestBuildable - improved the check for buildable test
 		return $this->checkBuildableNew();
 		// fau.
