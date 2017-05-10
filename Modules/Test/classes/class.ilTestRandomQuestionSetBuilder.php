@@ -9,7 +9,7 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetQuestionCollecti
  *
  * @package		Modules/Test
  */
-abstract class ilTestRandomQuestionSetBuilder
+abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolDefinitionQuestionCollectionProvider
 {
 	/**
 	 * @var ilDB
@@ -67,7 +67,9 @@ abstract class ilTestRandomQuestionSetBuilder
 	abstract public function performBuild(ilTestSession $testSession);
 
 
-	protected function getQuestionStageForSourcePoolDefinitionList(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+	// hey: fixRandomTestBuildable 
+	public function getSrcPoolDefListRelatedQuestCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+	// hey.
 	{
 		$questionStage = new ilTestRandomQuestionSetQuestionCollection();
 
@@ -75,14 +77,18 @@ abstract class ilTestRandomQuestionSetBuilder
 		{
 			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
 
-			$questions = $this->getQuestionStageForSourcePoolDefinition($definition);
+			// hey: fixRandomTestBuildable 
+			$questions = $this->getSrcPoolDefRelatedQuestCollection($definition);
+			// hey.
 			$questionStage->mergeQuestionCollection($questions);
 		}
 
 		return $questionStage->getUniqueQuestionCollection();
 	}
 
-	protected function getQuestionStageForSourcePoolDefinition(ilTestRandomQuestionSetSourcePoolDefinition $definition)
+	// hey: fixRandomTestBuildable 
+	public function getSrcPoolDefRelatedQuestCollection(ilTestRandomQuestionSetSourcePoolDefinition $definition)
+	// hey.
 	{
 		$questionIds = $this->getQuestionIdsForSourcePoolDefinitionIds($definition);
 		$questionStage = $this->buildSetQuestionCollection($definition, $questionIds);
