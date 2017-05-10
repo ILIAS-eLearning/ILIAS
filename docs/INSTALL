@@ -63,7 +63,7 @@ http://www.ilias.de/docu/goto_docu_pg_6531_367.html (II. General Requirements)
     - Zlib (libz) 1.1.4        http://www.gzip.org/zlib/
     - libpng 1.2.5             http://www.libpng.org
     - libjpeg 6b               ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
-    - ImageMagick 6.3.8-3      http://www.imagemagick.org
+    - ImageMagick 6.8.9-9      http://www.imagemagick.org
     - Info-ZIP (Zip/UnZip)     http://www.info-zip.org
     - libxml2 2.6.31           http://www.xmlsoft.org
     - libxslt 1.1.22           http://www.xmlsoft.org
@@ -161,7 +161,7 @@ source files into separate directories in /opt/ilias/src:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-5.2.3.tar.gz
+    ilias-5.2.4.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -512,7 +512,7 @@ components:
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-5.2.3.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-5.2.4.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -655,7 +655,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-5.2.3.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-5.2.4.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must

@@ -719,7 +719,6 @@ assessment#:#essay_scoring_mode_keyword_relation_one#:#Punteggio automatico con 
 assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#I punti sono concessi automaticamente, se non viene trovata almeno una parola chiave.
 assessment#:#essay_scoring_mode_without_keywords#:#Nessun punteggio automatico
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Nessun punteggio è concesso a meno di un punteggio manuale del tutor.
-assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#Per qualsiasi parola chiave trovata i punti corrispondenti verranno concessi automaticamente.
 assessment#:#eval_all_users#:#Valutazione per tutti gli utenti
 assessment#:#eval_choice_result#:#La scelta con il valore %s è %s. Ricevi %s punti.
 assessment#:#eval_cloze_result#:#Lo spazio vuoto numero %s con valore %s è %s. Hai ricevuto %s punti.
@@ -970,7 +969,6 @@ assessment#:#multiline_terms_show#:#Usa termini multipli
 assessment#:#negative_points_not_allowed#:#Non è possibile inserire valori negativi!
 assessment#:#new_category#:#Nuovo Categoria Unità
 assessment#:#new_test_created#:#Nuovo test
-assessment#:#new_test_online#:#Il test è stato messo online.
 assessment#:#new_unit#:#Nuova unità
 assessment#:#next_question#:#Domanda successiva
 assessment#:#next_question_rows#:#Domande %d - %d di %d >>
@@ -13138,60 +13136,12 @@ sahs#:#sahs_std_sequencing#:#Sequenza Standard
 sahs#:#sahs_std_sequencing_info#:#Utilizzare ILIAS comportamento sequenziamento standard.
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Creare Export File (HTML, One Page, Review Mode)
-scormdebug#:#adl_nav_request#:#Dopo Termina è richiesto di navigare per elaborare immediatamente()
-scormdebug#:#adl_nav_request_valid_choice#:#Utilizzato da un SCO per determinare se una richiesta di navigazione scelta per una particolare attività avrà successo.
-scormdebug#:#adl_nav_request_valid_continue#:#Used by a SCO to determine if a Continue navigation request will succeed.
-scormdebug#:#adl_nav_request_valid_previous#:#Utilizzato da un SCO per determinare se una richiesta di proseguire la navigazione avrà successo.
 scormdebug#:#adl.nav.request#:#Navigation request to be processed immediately following Terminate()
 scormdebug#:#adl.nav.request_valid.choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.
 scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Continue navigation request will succeed.
 scormdebug#:#adl.nav.request_valid.previous#:#Used by a SCO to determine if a Previous navigation request will succeed.
 scormdebug#:#all_API-calls_shown#:#Sono attualmente mostrati tutti gli API-Calls.
 scormdebug#:#API-call#:#API-call
-scormdebug#:#cmi_comments_from_learner__children#:#Elenco degli elementi supportati dal modello di dati
-scormdebug#:#cmi_comments_from_learner__count#:#Numero attuale di commenti dello studente
-scormdebug#:#cmi_comments_from_learner_n_comment#:#Ingresso testuale
-scormdebug#:#cmi_comments_from_learner_n_location#:#Punto nello SCO in cui il commento si applica
-scormdebug#:#cmi_comments_from_learner_n_timestamp#:#Momento in cui il commento è stato creato o più recentemente cambiato
-scormdebug#:#cmi_comments_from_lms__children#:#Elenco dei modelli di data supportati
-scormdebug#:#cmi_comments_from_lms__count#:#Numero corrente di elementi dall'LMS
-scormdebug#:#cmi_comments_from_lms_n_comment#:#Commenti o Annotazioni associate ad uno SCO
-scormdebug#:#cmi_comments_from_lms_n_location#:#Punto nello SCO a cui il commento si applica
-scormdebug#:#cmi_comments_from_lms_n_timestamp#:#Momento in cui il commento è stato creato o cambiato più recentemente
-scormdebug#:#cmi_completion_status#:#Indica se lo studente ha completato la SCO
-scormdebug#:#cmi_completion_threshold#:#Utilizzato per determinare se la SCO deve essere considerato completa
-scormdebug#:#cmi_credit#:#<br />73/5000<br />Indica se lo studente sarà accreditato per le prestazioni in SCO
-scormdebug#:#cmi_entry#:#Afferma se lo studente ha già accesso alla SCO
-scormdebug#:#cmi_exit#:#Indica come o perché lo studente ha lasciato la SCO
-scormdebug#:#cmi_interactions__children#:#Listing of supported data model elements
-scormdebug#:#cmi_interactions__count#:#Current number of interactions being stored by the LMS
-scormdebug#:#cmi_interactions_n_correct_responses__count#:#Current number of correct responses being stored by the LMS for this interaction
-scormdebug#:#cmi_interactions_n_correct_responses_n_pattern#:#One correct response pattern for the interaction
-scormdebug#:#cmi_interactions_n_description#:#Brief informative description of the interaction
-scormdebug#:#cmi_interactions_n_id#:#Unique label for the interaction
-scormdebug#:#cmi_interactions_n_latency#:#Time elapsed between the time the interaction was made available to the learner for response and the time of the first response
-scormdebug#:#cmi_interactions_n_learner_response#:#Data generated when a learner responds to an interaction
-scormdebug#:#cmi_interactions_n_objectives__count#:#Current number of objectives (i.e., objective identifiers) being stored by the LMS for this interaction
-scormdebug#:#cmi_interactions_n_objectives_n_id#:#Label for objectives associated with the interaction
-scormdebug#:#cmi_interactions_n_result#:#Judgment of the correctness of the learner response
-scormdebug#:#cmi_interactions_n_timestamp#:#Point in time at which the interaction was first made available to the learner for learner interaction and response
-scormdebug#:#cmi_interactions_n_type#:#Which type of interaction is recorded
-scormdebug#:#cmi_interactions_n_weighting#:#Weight given to the interaction relative to other interactions
-scormdebug#:#cmi_launch_data#:#Data provided to a SCO after launch, initialized from the dataFromLMS manifest element
-scormdebug#:#cmi_learner_id#:#Identifies the learner on behalf of whom the SCO was launched
-scormdebug#:#cmi_learner_name#:#Name provided for the learner by the LMS
-scormdebug#:#cmi_learner_preference__children#:#Listing of supported data model elements
-scormdebug#:#cmi_learner_preference_audio_captioning#:#Specifies whether captioning text corresponding to audio is displayed
-scormdebug#:#cmi_learner_preference_audio_level#:#Specifies an intended change in perceived audio level
-scormdebug#:#cmi_learner_preference_delivery_speed#:#The learner's preferred relative speed of content delivery
-scormdebug#:#cmi_learner_preference_language#:#The learner's preferred language for SCOs with multilingual capability
-scormdebug#:#cmi_location#:#The learner's current location in the SCO
-scormdebug#:#cmi_max_time_allowed#:#Amount of accumulated time the learner is allowed to use a SCO
-scormdebug#:#cmi_mode#:#Identifies one of three possible modes in which the SCO may be presented to the learner
-scormdebug#:#cmi_objectives_n_completion_status#:#Indicates whether the learner has completed the associated objective
-scormdebug#:#cmi_objectives_n_description#:#Provides a brief informative description of the objective
-scormdebug#:#cmi_objectives_n_id#:#Unique label for the objective
-scormdebug#:#cmi_objectives_n_progress_measure#:#Measure of the progress the learner has made toward completing the objective
 scormdebug#:#cmi._version#:#Represents the version of the data model
 scormdebug#:#cmi.comments_from_learner._children#:#Listing of supported data model elements
 scormdebug#:#cmi.comments_from_learner._count#:#Current number of learner comments
@@ -15962,3 +15912,12 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Verification: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
+assessment#:#essay_scoring_mode#:#Scoring Mode###10 05 2017 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###deprecated 
+assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#The competence points have not been saved. Please check your input.###10 05 2017 new variable
+news#:#new_test_online#:#The Test was set online.###10 05 2017 new variable
+common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. ###10 05 2017 new variable
+style#:#Style#:#Style###10 05 2017 new variable
+exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.###10 05 2017 new variable
+exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.###10 05 2017 new variable
+exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.###10 05 2017 new variable
