@@ -420,6 +420,9 @@ class ilDataCollectionRecordListGUI {
 		foreach ($fields as $field) {
 			if ($this->checkImportType($field, $warnings)) {
 				foreach ($titles as $key => $value) {
+					if (!is_array($value) && !ilStr::isUtf8($value)) {
+						$value = utf8_encode($value);
+					}
 					if ($value == $field->getTitle()) {
 						$import_fields[$key] = $field;
 						$properties = $field->getProperties();
