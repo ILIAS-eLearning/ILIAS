@@ -251,8 +251,9 @@ class ilInitialisation
 			$client_id = $ilIliasIniFile->readVariable("clients","default");
 			ilUtil::setCookie("ilClientId", $client_id);
 		}
-		if (!defined("IL_PHPUNIT_TEST"))
+		if (!defined("IL_PHPUNIT_TEST") && ilContext::supportsPersistentSessions())
 		{
+			
 			define ("CLIENT_ID", $_COOKIE["ilClientId"]);
 		}
 		else
@@ -310,7 +311,7 @@ class ilInitialisation
 			}
 			else
 			{
-				self::abortAndDie("Invalid client");
+				self::abortAndDie("Fatal Error: ilInitialisation::initClientIniFile initializing client ini file abborted with: ". $ilClientIniFile->ERROR);
 			}
 		}
 		
@@ -661,6 +662,12 @@ class ilInitialisation
 			self::redirect("goto.php?target=".$_GET["target"]);			
 		}
 		
+		// check access of root folder otherwise redirect to login
+		#if(!$GLOBALS['DIC']->rbac()->system()->checkAccess('read', ROOT_FOLDER_ID))
+		#{
+		#	return self::goToLogin();
+		#}
+		
 		// we do not know if ref_id of request is accesible, so redirecting to root
 		$_GET["ref_id"] = ROOT_FOLDER_ID;
 		$_GET["cmd"] = "frameset";
@@ -855,7 +862,7 @@ class ilInitialisation
 		self::$already_initialized = true;
 
 		self::initCore();
-				
+        self::initHTTPServices($GLOBALS["DIC"]);
 		if(ilContext::initClient())
 		{
 			self::initClient();
@@ -1063,6 +1070,11 @@ class ilInitialisation
 	 */
 	public static function resumeUserSession()
 	{
+		include_once './Services/Authentication/classes/class.ilAuthUtils.php';
+		if(ilAuthUtils::handleForcedAuthentication())
+		{
+		}
+		
 		if(
 			!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated() or
 			$GLOBALS['DIC']['ilAuthSession']->isExpired()
@@ -1177,6 +1189,37 @@ class ilInitialisation
 		ilLoggerFactory::getLogger('init')->debug('Redirect to login page.');
 		return self::goToLogin();
 	}
+
+    /**
+     * @param \ILIAS\DI\Container $container
+     */
+    protected static function initHTTPServices(\ILIAS\DI\Container $container) {
+
+        $container['http.request_factory'] = function ($c) {
+            return new \ILIAS\HTTP\Request\RequestFactoryImpl();
+        };
+
+        $container['http.response_factory'] = function ($c) {
+            return new \ILIAS\HTTP\Response\ResponseFactoryImpl();
+        };
+
+        $container['http.cookie_jar_factory'] = function ($c) {
+            return new \ILIAS\HTTP\Cookies\CookieJarFactoryImpl();
+        };
+
+        $container['http.response_sender_strategy'] = function ($c) {
+            return new \ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy();
+        };
+
+        $container['http'] = function ($c) {
+            return new \ILIAS\DI\HTTPServices(
+                $c['http.response_sender_strategy'],
+                $c['http.cookie_jar_factory'],
+                $c['http.request_factory'],
+                $c['http.response_factory']
+            );
+        };
+    }
 
 	/**
 	 * init the ILIAS UI framework.
@@ -1368,6 +1411,15 @@ class ilInitialisation
 			ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for baseClass: ' . $_GET['baseClass']);
 			return true;
 		}
+
+		if($a_current_script == 'goto.php' && in_array($_GET['target'], array(
+			'usr_registration', 'usr_nameassist', 'usr_pwassist'
+		)))
+		{
+			ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for goto target: ' . $_GET['target']);
+			return true;
+		}
+
 		ilLoggerFactory::getLogger('auth')->debug('Authentication required');
 		return false;
 	}

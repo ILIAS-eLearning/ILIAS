@@ -45,6 +45,11 @@ class ilObjectCopyGUI
 	private $targets = array();
 	private $targets_copy_id = array();
 	// end-patch multi copy
+	
+	/**
+	 * @var ilLogger
+	 */
+	private $log = null;
 
 
 	/**
@@ -60,6 +65,8 @@ class ilObjectCopyGUI
 		$this->lng->loadLanguageModule('obj');
 
 		$this->parent_obj = $a_parent_gui;
+		
+		$this->log = ilLoggerFactory::getLogger('obj');
 	}
 	
 	/**
@@ -948,6 +955,7 @@ class ilObjectCopyGUI
 			{
 				if(!$rbacsystem->checkAccess('create', $target_ref_id, $source_type))
 				{
+					$this->log->notice('Permission denied for target_id: ' . $target_ref_id.' source_type: ' . $source_type.' CREATE');
 					ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
 					$ilCtrl->returnToParent($this);
 				}
@@ -956,6 +964,7 @@ class ilObjectCopyGUI
 			{
 				if(!$rbacsystem->checkAccess('create', $target_ref_id, $source_type))
 				{
+					$this->log->notice('Permission denied for target_id: ' . $target_ref_id.' source_type: ' . $source_type.' CREATE');
 					ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
 					$ilCtrl->returnToParent($this);
 				}
@@ -964,6 +973,7 @@ class ilObjectCopyGUI
 			// Copy permission
 			if(!$ilAccess->checkAccess('copy','',$source_ref_id))
 			{
+				$this->log->notice('Permission denied for source_ref_id: ' . $source_ref_id.' COPY');
 				ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
 				$ilCtrl->returnToParent($this);
 			}
@@ -1131,10 +1141,11 @@ class ilObjectCopyGUI
 		$target_type = ilObject::_lookupType(ilObject::_lookupObjId($a_target));
 		$source_type = ilObject::_lookupType(ilObject::_lookupObjId($this->getFirstSource()));
 		
-		if($target_type != $source_type or $target_type != 'crs')
+		if($this->getSubMode() != self::SUBMODE_CONTENT_ONLY)
 		{
 		 	if(!$rbacsystem->checkAccess('create', $a_target,$this->getType()))
 		 	{
+				$this->log->notice('Permission denied for target: '. $a_target.' type: ' . $this->getType().' CREATE');
 		 		ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
 				$ilCtrl->returnToParent($this);
 		 	}

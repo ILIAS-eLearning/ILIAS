@@ -13,6 +13,9 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdocs
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
+		/**
+		 * @var Component\Card\Card $component
+		 */
 		$this->checkComponent($component);
 		$tpl = $this->getTemplate("tpl.card.html", true, true);
 
@@ -20,7 +23,23 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("IMAGE",$default_renderer->render($component->getImage(),$default_renderer));
 		}
 
+		if($component->isHighlighted()) {
+			$tpl->touchBlock("highlight");
+		} else {
+			$tpl->touchBlock("no_highlight");
+		}
+
+		if($component->getTitleAction()) {
+			$tpl->setCurrentBlock("title_action_begin");
+			$tpl->setVariable("HREF",$component->getTitleAction());
+			$tpl->parseCurrentBlock();
+		}
+
 		$tpl->setVariable("TITLE",$component->getTitle());
+
+		if($component->getTitleAction()) {
+			$tpl->touchBlock("title_action_end");
+		}
 
 		if(is_array($component->getSections())){
 			foreach($component->getSections() as $section){

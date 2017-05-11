@@ -5,6 +5,7 @@ require_once("./Modules/OrgUnit/classes/class.ilOrgUnitImporter.php");
 require_once('./Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php');
 require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
 
 /**
  * Class ilObjOrgUnit

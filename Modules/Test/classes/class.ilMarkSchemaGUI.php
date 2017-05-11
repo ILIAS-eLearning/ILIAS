@@ -76,6 +76,18 @@ class ilMarkSchemaGUI
 	}
 
 	/**
+	 *
+	 */
+	protected function ensureEctsGradesCanBeEdited()
+	{
+		if(!$this->object->canEditEctsGrades())
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+			$this->ctrl->redirect($this, 'showMarkSchema');
+		}
+	}
+
+	/**
 	 * Add a new mark step to the tests marks
 	 */
 	protected function addMarkStep()
@@ -231,7 +243,7 @@ class ilMarkSchemaGUI
 
 		$content_parts = array($mark_schema_table->getHTML());
 
-		if($this->objectSupportsEctsGrades() && $this->object->canEditEctsGrades())
+		if($this->objectSupportsEctsGrades() && $this->object->canShowEctsGrades())
 		{
 			if(!($ects_form instanceof ilPropertyFormGUI))
 			{
@@ -272,12 +284,14 @@ class ilMarkSchemaGUI
 	{
 		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
+		$disabled = !$this->object->canEditEctsGrades();
+
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveEctsForm'));
-		$form->addCommandButton('saveEctsForm', $this->lng->txt('save'));
 		$form->setTitle($this->lng->txt('ects_output_of_ects_grades'));
 
 		$allow_ects_marks = new ilCheckboxInputGUI($this->lng->txt('ects_allow_ects_grades'), 'ectcs_status');
+		$allow_ects_marks->setDisabled($disabled);
 		for($i = ord('a'); $i <= ord('e'); $i++)
 		{
 			$mark = chr($i);
@@ -289,20 +303,28 @@ class ilMarkSchemaGUI
 			$mark_step->setMaxValue(100, true);
 			$mark_step->setSuffix($this->lng->txt('percentile'));
 			$mark_step->setRequired(true);
+			$mark_step->setDisabled($disabled);
 			$allow_ects_marks->addSubItem($mark_step);
 		}
 
 		$use_ects_fx = new ilCheckboxInputGUI($this->lng->txt('use_ects_fx'), 'use_ects_fx');
+		$use_ects_fx->setDisabled($disabled);
 		$threshold = new ilNumberInputGUI($this->lng->txt('ects_fx_threshold'), 'ects_fx_threshold');
 		$threshold->setInfo($this->lng->txt('ects_fx_threshold_info'));
 		$threshold->setSuffix($this->lng->txt('percentile'));
 		$threshold->allowDecimals(true);
 		$threshold->setSize(5);
 		$threshold->setRequired(true);
+		$threshold->setDisabled($disabled);
 		$use_ects_fx->addSubItem($threshold);
 		$allow_ects_marks->addSubItem($use_ects_fx);
 
 		$form->addItem($allow_ects_marks);
+
+		if(!$disabled)
+		{
+			$form->addCommandButton('saveEctsForm', $this->lng->txt('save'));
+		}
 
 		return $form;
 	}
@@ -312,11 +334,7 @@ class ilMarkSchemaGUI
 	 */
 	protected function saveEctsForm()
 	{
-		if(!$this->objectSupportsEctsGrades() && $this->object->canEditEctsGrades())
-		{
-			$this->showMarkSchema();
-			return;
-		}
+		$this->ensureEctsGradesCanBeEdited();
 
 		$ects_form = $this->getEctsForm();
 		if(!$ects_form->checkInput())

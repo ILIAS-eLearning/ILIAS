@@ -34,7 +34,8 @@ class ilFile
 	*/
 	function __construct()
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 
 		$this->ilias = &$ilias;
 	}

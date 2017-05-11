@@ -67,7 +67,8 @@ final class ilRendererFactory
 		$r = array();
 		
 		// get registered and active plugins
-		global $ilPluginAdmin;
+		global $DIC;
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Preview", "pvre");
 		foreach ($pl_names as $pl)
 		{

@@ -155,6 +155,7 @@ class ilECSCourseMappingRule
 	 * @param type $a_sid
 	 * @param type $a_mid
 	 * @param type $a_ref_id
+	 * @return array
 	 */
 	public static function doMappings($course,$a_sid,$a_mid, $a_ref_id)
 	{
@@ -167,18 +168,35 @@ class ilECSCourseMappingRule
 				'ORDER BY rid';
 		$res = $ilDB->query($query);
 		
-		$first = true;
+		$level = 1;
+		$last_level_category = array();
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$rule = new ilECSCourseMappingRule($row->rid);
-			if($first)
+			if($level == 1)
 			{
-				$parent_ref = $rule->getRefId();
+				$last_level_category[] = $rule->getRefId();
 			}
-			$parent_ref = $rule->doMapping($course,$parent_ref);
-			$first = false;
+
+			$found_new_level = false;
+			$new_level_cats = array();
+			foreach((array) $last_level_category as $cat_ref_id)
+			{
+				$refs = $rule->doMapping($course, $cat_ref_id);
+				foreach($refs as $new_ref_id)
+				{
+					$found_new_level = true;
+					$new_level_cats[] = $new_ref_id;
+				}
+			}
+			if($found_new_level)
+			{
+				$last_level_category = $new_level_cats;
+			}
+			$level++;
 		}
-		return $parent_ref;
+		
+		return (array) $last_level_category;
 	}
 	
 	/**
@@ -192,42 +210,56 @@ class ilECSCourseMappingRule
 		
 		if(!$this->isSubdirCreationEnabled())
 		{
-			return $parent_ref;
+			return array();
 		}
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
-		$value = ilECSMappingUtils::getCourseValueByMappingAttribute($course, $this->getAttribute());
+		$values = ilECSMappingUtils::getCourseValueByMappingAttribute($course, $this->getAttribute());
 		
 		$childs = $tree->getChildsByType($parent_ref,'cat');
-		
-		$existing_ref = 0;
-		foreach((array) $childs as $child)
+		foreach($values as $value)
 		{
-			if(strcmp($child['title'], $value) === 0)
+			$found = false;
+			foreach((array) $childs as $child)
 			{
-				$existing_ref = $child['child'];
-				break;
+				// category already created
+				if(strcmp($child['title'], $value) === 0)
+				{
+					$found = true;
+					$category_references[] = $child['child'];
+					break;
+				}
+			}
+			if(!$found)
+			{
+				$category_references[] = $this->createCategory($value, $parent_ref);
 			}
 		}
-		if(!$existing_ref)
-		{
-			// Create category
-			include_once './Modules/Category/classes/class.ilObjCategory.php';
-			$cat = new ilObjCategory();
-			$cat->setTitle($value);
-			$cat->create();
-			$cat->createReference();
-			$cat->putInTree($parent_ref);
-			$cat->setPermissions($parent_ref);
-			$cat->deleteTranslation($GLOBALS['lng']->getDefaultLanguage());
-			$cat->addTranslation(
-					$value,
-					$cat->getLongDescription(),
-					$GLOBALS['lng']->getDefaultLanguage(),
-					1
-			);
-			return $cat->getRefId();
-		}
-		return $existing_ref;
+		return $category_references;
+	}
+	
+	/**
+	 * Create attribute category
+	 * @return int $ref_id;
+	 */
+	protected function createCategory($a_title, $a_parent_ref)
+	{
+		// Create category
+		include_once './Modules/Category/classes/class.ilObjCategory.php';
+		$cat = new ilObjCategory();
+		$cat->setOwner(6);
+		$cat->setTitle($a_title);
+		$cat->create();
+		$cat->createReference();
+		$cat->putInTree($a_parent_ref);
+		$cat->setPermissions($a_parent_ref);
+		$cat->deleteTranslation($GLOBALS['lng']->getDefaultLanguage());
+		$cat->addTranslation(
+			$a_title,
+			$cat->getLongDescription(),
+			$GLOBALS['lng']->getDefaultLanguage(),
+			1
+		);
+		return $cat->getRefId();
 	}
 
 
@@ -241,9 +273,16 @@ class ilECSCourseMappingRule
 		if($this->isFilterEnabled())
 		{
 			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
-			$value = ilECSMappingUtils::getCourseValueByMappingAttribute($course, $this->getAttribute());
-			$GLOBALS['ilLog']->write(__METHOD__.': Comparing '. $value . ' with ' . $this->getFilter());
-			return strcmp($value, $this->getFilter()) === 0;
+			$values = ilECSMappingUtils::getCourseValueByMappingAttribute($course, $this->getAttribute());
+			foreach($values as $value)
+			{
+				$GLOBALS['ilLog']->write(__METHOD__.': Comparing '. $value . ' with ' . $this->getFilter());
+				if(strcmp($value, $this->getFilter()) === 0)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 		return true;
 	}

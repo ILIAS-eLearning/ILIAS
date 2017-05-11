@@ -33,13 +33,25 @@ abstract class ilDataSet
 	const EXPORT_ID_ILIAS_REMOTE_INVALID = 5;
 	const EXPORT_ID = 6;
 	const EXPORT_ID_INVALID = 7;
-		
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $ds_log;
 	
 	/**
 	 * Constructor
 	 */
 	function __construct()
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->ds_log = ilLoggerFactory::getLogger('ds');
 	}
 	

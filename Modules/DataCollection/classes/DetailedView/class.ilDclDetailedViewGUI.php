@@ -417,7 +417,7 @@ class ilDclDetailedViewGUI {
     private function loadSession()
     {
         // We need the default sorting etc. to dertermine on which position we currently are, thus we instantiate the table gui.
-        $list = new ilDclRecordListTableGUI(new ilDclRecordListGUI($this->dcl_gui_object, $this->table->getId()), "listRecords", $this->table);
+        $list = new ilDclRecordListTableGUI(new ilDclRecordListGUI($this->dcl_gui_object, $this->table->getId()), "listRecords", $this->table, $this->tableview_id);
         //we then partially load the records. note that this also fills up session data.
         $this->table->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $list->getLimit(), $list->getOffset(), $list->getFilter());
     }

@@ -33,7 +33,8 @@ class ilCronStartUp
 		ilContext::init(ilContext::CONTEXT_CRON);
 		
 		// define client
-		$_COOKIE['client_id'] = $this->client;
+		// @see mantis 20371
+		$_GET['client_id'] = $this->client;
 		
 		include_once './include/inc.header.php';
 	}

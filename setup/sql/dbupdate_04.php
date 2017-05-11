@@ -809,7 +809,7 @@ if( !$ilDB->tableColumnExists('qpl_a_cloze', 'gap_size') )
 ?>
 <#4212>
 <?php
-if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'qpl_qst_cloze') )
+if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'cloze_text') )
 {
 	$ilDB->addTableColumn( 'qpl_qst_cloze', 'cloze_text', array('type' => 'clob') );
 
@@ -829,7 +829,7 @@ if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'qpl_qst_cloze') )
 				'question_fi'	=> array('integer', $row['question_id'] )
 			)
 		);
-		$ilDB->execute($clean_qst_txt, $row['question_id'] );
+		$ilDB->execute($clean_qst_txt, array($row['question_id']) );
 	}
 }
 ?>
@@ -3110,7 +3110,7 @@ if(!$ilDB->tableColumnExists('tst_solutions', 'step'))
 /** @var ilDB $ilDB */
 if(!$ilDB->tableColumnExists('tst_test_result', 'step'))
 {
-	$ilDB->addTableColumn('	tst_test_result', 'step', array(
+	$ilDB->addTableColumn('tst_test_result', 'step', array(
 		'type' => 'integer',
 		'length' => 4,
 		'notnull' => false,
@@ -13014,12 +13014,6 @@ if ($ilDB->tableExists('il_exc_team_log') && $ilDB->tableExists('exc_team_log_ol
 			",".$ilDB->quote($row['tstamp'], "integer").
 			")"
 		);
-
-		$ilDB->manipulateF(
-			"DELETE FROM exc_team_log_old WHERE team_id = %s AND user_id = %s AND action = %s AND tstamp = %s",
-			array('integer', 'integer', 'integer', 'integer'),
-			array($row['team_id'], $row['user_id'], $row['action'], $row['tstamp'])
-		);
 	}
 }
 ?>
@@ -14781,6 +14775,40 @@ if ($ilDB->tableExists('benchmark_old'))
 //step skl_user_skill_level adding primary key
 if($ilDB->tableExists('skl_user_skill_level'))
 {
+	// get rid of duplicates
+	$set = $ilDB->query("SELECT * FROM skl_user_skill_level ORDER BY status_date ASC");
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$q = "DELETE FROM skl_user_skill_level WHERE ".
+			" skill_id = ".$ilDB->quote($rec["skill_id"], "integer"). " AND ".
+			" tref_id = ".$ilDB->quote($rec["tref_id"], "integer"). " AND ".
+			" user_id = ".$ilDB->quote($rec["user_id"], "integer"). " AND ".
+			" status_date = ".$ilDB->quote($rec["status_date"], "datetime"). " AND ".
+			" status = ".$ilDB->quote($rec["status"], "integer"). " AND ".
+			" trigger_obj_id = ".$ilDB->quote($rec["trigger_obj_id"], "integer"). " AND ".
+			" self_eval = ".$ilDB->quote($rec["self_eval"], "integer");
+		//echo "<br>".$q;
+		$ilDB->manipulate($q);
+
+		$q = "INSERT INTO skl_user_skill_level ".
+			"(skill_id, tref_id, user_id, status_date, status, trigger_obj_id, self_eval, level_id, valid, trigger_ref_id, trigger_title, trigger_obj_type, unique_identifier) VALUES (".
+			$ilDB->quote($rec["skill_id"], "integer").", ".
+			$ilDB->quote($rec["tref_id"], "integer").", ".
+			$ilDB->quote($rec["user_id"], "integer").", ".
+			$ilDB->quote($rec["status_date"], "datetime").", ".
+			$ilDB->quote($rec["status"], "integer").", ".
+			$ilDB->quote($rec["trigger_obj_id"], "integer").", ".
+			$ilDB->quote($rec["self_eval"], "integer").", ".
+			$ilDB->quote($rec["level_id"], "integer").", ".
+			$ilDB->quote($rec["valid"], "integer").", ".
+			$ilDB->quote($rec["trigger_ref_id"], "integer").", ".
+			$ilDB->quote($rec["trigger_title"], "text").", ".
+			$ilDB->quote($rec["trigger_obj_type"], "text").", ".
+			$ilDB->quote($rec["unique_identifier"], "text").")";
+		//echo "<br>".$q;
+		$ilDB->manipulate($q);
+	}
+
 	$ilDB->addPrimaryKey('skl_user_skill_level', array('skill_id', 'tref_id', 'user_id', 'status_date', 'status', 'trigger_obj_id', 'self_eval'));
 }
 
@@ -18267,3 +18295,73 @@ if (!$ilDB->fetchAssoc($res))
 	$mset->set("black_list_file_types", "html");
 }
 ?>
+<#5076>
+<?php
+// #0020342
+$query = $ilDB->query('SELECT 
+    stloc.*
+FROM
+    il_dcl_stloc2_value stloc
+        INNER JOIN
+    il_dcl_record_field rf ON stloc.record_field_id = rf.id
+        INNER JOIN
+    il_dcl_field f ON rf.field_id = f.id
+WHERE
+    f.datatype_id = 3
+ORDER BY stloc.id ASC');
+while ($row = $query->fetchAssoc()) {
+	$query2 = $ilDB->query('SELECT * FROM il_dcl_stloc1_value WHERE record_field_id = ' . $ilDB->quote($row['record_field_id'], 'integer'));
+	if ($ilDB->numRows($query2)) {
+		$rec = $ilDB->fetchAssoc($query2);
+		if ($rec['value'] != null) {
+			continue;
+		}
+	}
+	$id = $ilDB->nextId('il_dcl_stloc1_value');
+	$ilDB->insert('il_dcl_stloc1_value', array(
+		'id' => array('integer', $id),
+		'record_field_id' => array('integer', $row['record_field_id']),
+		'value' => array('text', $row['value']),
+	));
+	$ilDB->manipulate('DELETE FROM il_dcl_stloc2_value WHERE id = ' . $ilDB->quote($row['id'], 'integer'));
+}
+?>
+<#5077>
+<?php
+
+$ilDB->manipulate('update grp_settings set registration_start = '. $ilDB->quote(null, 'integer').', '.
+	'registration_end = '.$ilDB->quote(null, 'integer') .' '.
+	'where registration_unlimited = '.$ilDB->quote(1,'integer')
+);
+?>
+
+<#5078>
+<?php
+$ilDB->manipulate('update crs_settings set '
+	.'sub_start = ' . $ilDB->quote(null,'integer').', '
+	.'sub_end = '.$ilDB->quote(null,'integer').' '
+	.'WHERE sub_limitation_type != '.$ilDB->quote(2,'integer')
+);
+	
+?>
+<#5079>
+<?php
+if(!$ilDB->tableColumnExists('grp_settings', 'grp_start'))
+{
+	$ilDB->addTableColumn('grp_settings', 'grp_start',
+		array(
+			"type"		 => "integer",
+			"notnull"	 => false,
+			"length"	 => 4
+	));
+}
+if(!$ilDB->tableColumnExists('grp_settings', 'grp_end'))
+{
+	$ilDB->addTableColumn('grp_settings', 'grp_end',
+	   array(
+			"type"		 => "integer",
+			"notnull"	 => false,
+			"length"	 => 4
+	));
+}
+?>     

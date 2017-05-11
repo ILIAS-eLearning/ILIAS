@@ -10,9 +10,6 @@ include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.p
  * Clicking items triggers a "selection" command.
  * However ajax/checkbox/radio and use in an inputgui class should be implemented in the future, too.
  *
- * The class has some things in commong with ilRepositoryExplorerGUI. Maybe a common parent class
- * would be a good idea in the future.
- *
  * @author	Alex Killing <alex.killing@gmx.de>
  * @version	$Id$
  *
@@ -26,9 +23,34 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 	protected $clickable_types = array();
 
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
 	 * @var callable
 	 */
 	protected $nc_modifier = null;
+
+	/**
+	 * @var object
+	 */
+	protected $selection_gui = null;
+
+	/**
+	 * @var string
+	 */
+	protected $selection_par;
+
+	/**
+	 * @var string
+	 */
+	protected $selection_cmd;
 
 	/**
 	 * Constructor
@@ -42,7 +64,10 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_selection_gui = null, $a_selection_cmd = "selectObject",
 								$a_selection_par = "sel_ref_id", $a_id = "rep_exp_sel")
 	{
-		global $tree, $objDefinition;
+		global $tree, $objDefinition, $DIC;
+
+		$this->access = $DIC->access();
+		$this->ctrl = $DIC->ctrl();
 
 		if (is_null($a_selection_gui))
 		{
@@ -219,7 +244,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function isNodeVisible($a_node)
 	{
-		global $ilAccess,$tree,$ilSetting;
+		global $ilAccess;
 
 		if (!$ilAccess->checkAccess('visible', '', $a_node["child"]))
 		{

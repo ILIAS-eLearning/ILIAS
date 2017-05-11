@@ -562,17 +562,12 @@ class ilPersonalDesktopGUI
 	 */
 	public function jumpToMemberships()
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
-
-		if(!$ilSetting->get('disable_my_memberships'))
+		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
+		$viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
+		if($viewSettings->enabledMemberships())
 		{
-			require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php';
-			$_GET['view'] = ilPDSelectedItemsBlockGUI::VIEW_MY_MEMBERSHIPS;
+			$_GET['view'] = $viewSettings->getMembershipsView();
 		}
-
 		$this->show();
 	}
 
@@ -581,17 +576,12 @@ class ilPersonalDesktopGUI
 	 */
 	public function jumpToSelectedItems()
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
-
-		if(!$ilSetting->get('disable_my_offers'))
+		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
+		$viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
+		if($viewSettings->enabledSelectedItems())
 		{
-			require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php';
-			$_GET['view'] = ilPDSelectedItemsBlockGUI::VIEW_SELECTED_ITEMS;
+			$_GET['view'] = $viewSettings->getSelectedItemsView();
 		}
-
 		$this->show();
 	}
 

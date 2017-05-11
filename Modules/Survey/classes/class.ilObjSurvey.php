@@ -4440,6 +4440,7 @@ class ilObjSurvey extends ilObject
 
 	function sendCodes($not_sent, $subject, $message, $lang)
 	{
+		global $DIC;
 		/*
 		 * 0 = all
 		 * 1 = not sent
@@ -4450,7 +4451,9 @@ class ilObjSurvey extends ilObject
 		
 		include_once "./Services/Mail/classes/class.ilMail.php";
 		include_once "./Services/Link/classes/class.ilLink.php";
-		$user_id = $this->getOwner();
+
+		#19956
+		$user_id = $DIC->user()->getId();
 		$mail = new ilMail($user_id);
 		$recipients = $this->getExternalCodeRecipients($check_finished);
 		foreach ($recipients as $data)

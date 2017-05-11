@@ -70,6 +70,7 @@ class ilAccountRegistrationGUI
 				}
 				break;
 		}
+		$tpl->setPermanentLink('usr', null, 'registration');
 		$tpl->show();
 		return true;
 	}
@@ -496,16 +497,10 @@ class ilAccountRegistrationGUI
 		$this->userObj->setFullName();
 
 		$birthday_obj = $this->form->getItemByPostVar("usr_birthday");
-		if ($birthday_obj)
+		if($birthday_obj)
 		{
 			$birthday = $this->form->getInput("usr_birthday");
-			$birthday = $birthday["date"];
-
-			// when birthday was not set, array will not be substituted with string by ilBirthdayInputGui
-			if(!is_array($birthday))
-			{
-				$this->userObj->setBirthday($birthday);
-			}
+			$this->userObj->setBirthday($birthday);
 		}
 
 		$this->userObj->setTitle($this->userObj->getFullname());
