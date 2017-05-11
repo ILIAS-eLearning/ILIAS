@@ -2,8 +2,10 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\Observer;
 
+use ILIAS\BackgroundTasks\Exception;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Task;
+use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 
 class ObserverMock implements Observer {
 
@@ -46,13 +48,6 @@ class ObserverMock implements Observer {
 	}
 
 	/**
-	 * store the observerdata to persistence layer
-	 */
-	public function store() {
-		// TODO: Implement store() method.
-	}
-
-	/**
 	 * @param string $taskId
 	 * @return mixed
 	 */
@@ -81,5 +76,51 @@ class ObserverMock implements Observer {
 	 */
 	public function notifyState($state) {
 		// TODO: Implement notifyState() method.
+	}
+
+
+	/**
+	 * @return Task
+	 */
+	public function getCurrentTask() {
+		// TODO: Implement getCurrentTask() method.
+	}
+
+
+	/**
+	 *
+	 * @return Task
+	 */
+	public function getTask() {
+		// TODO: Implement getTask() method.
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getState() {
+		// TODO: Implement getState() method.
+	}
+
+
+	/**
+	 * @return boolean      Returns true if everything's alright. Throws an exception otherwise.
+	 * @throws Exception
+	 */
+	public function checkIntegrity() {
+		// TODO: Implement checkIntegrity() method.
+	}
+
+
+	/**
+	 * Let the user interact with the observer task queue.
+	 *
+	 * @param Option $option
+	 *
+	 * @return void
+	 */
+	public function userInteraction(Option $option) {
+		// TODO: Implement userInteraction() method.
 	}
 }

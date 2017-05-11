@@ -2,9 +2,10 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\Values\AggregationValues;
 
+use ILIAS\BackgroundTasks\Implementation\Values\AbstractValue;
 use ILIAS\BackgroundTasks\Value;
 
-class TupleValue implements Value {
+class TupleValue extends AbstractValue {
 
 	/**
 	 * @var array
@@ -20,13 +21,7 @@ class TupleValue implements Value {
 	 * TupleValue constructor.
 	 * @param $values
 	 */
-	public function __construct($values) {
-		$wrapperFactory = \PrimitiveValueWrapperFactory::getInstance();
-		foreach ($values as $value) {
-			$this->$values[] = $wrapperFactory->wrapValue($value);
-		}
-
-		$this->type = $this->constructType($this->values);
+	public function __construct() {
 
 	}
 
@@ -111,5 +106,20 @@ class TupleValue implements Value {
 	 */
 	private function constructType($list) {
 		return "(" + implode(",", $list->getType()) + ")";
+	}
+
+
+	/**
+	 * @param $values
+	 *
+	 */
+	function setValue($values) {
+		$wrapperFactory = \PrimitiveValueWrapperFactory::getInstance();
+		foreach ($values as $value) {
+			$this->$values[] = $wrapperFactory->wrapValue($value);
+		}
+
+		$this->type = $this->constructType($this->values);
+
 	}
 }

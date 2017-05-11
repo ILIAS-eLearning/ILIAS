@@ -17,7 +17,7 @@ class TaskContainer extends \ActiveRecord {
 	 * @con_fieldtype  integer
 	 * @con_length     8
 	 */
-	protected $id;
+	protected $id = 0;
 
 	/**
 	 * @var string
@@ -45,6 +45,15 @@ class TaskContainer extends \ActiveRecord {
 	 * @con_length     256
 	 */
 	protected $class_name;
+
+	/**
+	 * @var int
+	 *
+	 * @con_fieldtype  integer
+	 * @con_has_field  true
+	 * @con_length     8
+	 */
+	protected $observer_id;
 
 	/**
 	 * @return int
@@ -100,5 +109,21 @@ class TaskContainer extends \ActiveRecord {
 	 */
 	public function setClassName(string $class_name) {
 		$this->class_name = $class_name;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getObserverId(): int {
+		return $this->observer_id;
+	}
+
+
+	/**
+	 * @param int $observer_id
+	 */
+	public function setObserverId(int $observer_id) {
+		$this->observer_id = $observer_id;
 	}
 }

@@ -7,7 +7,10 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\ValueType;
+use ILIAS\DI\DependencyMap\BaseDependencyMap;
+use ILIAS\DI\Injector;
 use ILIAS\Types\SingleType;
+use ILIAS\Types\Type;
 
 class PlusJob extends AbstractJob {
 
@@ -16,13 +19,12 @@ class PlusJob extends AbstractJob {
 	 *
 	 * Jobs dependencies will be injected. Type hinting is necessary for that!
 	 *
-	 * @param Observer $mock The mock will be injected by the dependency injection.
 	 */
-	public function __construct(Observer $mock) {
+	public function __construct() {
 	}
 
 	/**
-	 * @return ValueType[] Class-Name of the IO
+	 * @return Type[] Class-Name of the IO
 	 */
 	public function getInputTypes() {
 		return [
@@ -32,7 +34,7 @@ class PlusJob extends AbstractJob {
 	}
 
 	/**
-	 * @return ValueType
+	 * @return Type
 	 */
 	public function getOutputType() {
 		return new SingleType(IntegerValue::class);
@@ -62,8 +64,9 @@ class PlusJob extends AbstractJob {
 		$a = $input[0];
 		/** @var IntegerValue $b */
 		$b = $input[1];
-
-		return new IntegerValue($a->getValue() + $b->getValue());
+		$output = new IntegerValue();
+		$output->setValue($a->getValue() + $b->getValue());
+		return $output;
 	}
 
 	/**

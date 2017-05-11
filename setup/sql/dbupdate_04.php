@@ -18292,3 +18292,183 @@ while ($row = $query->fetchAssoc()) {
 	$ilDB->manipulate('DELETE FROM il_dcl_stloc2_value WHERE id = ' . $ilDB->quote($row['id'], 'integer'));
 }
 ?>
+<#5077>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'user_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'root_task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'current_task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'state' => array(
+		'type' => 'integer',
+		'length' => '2',
+		
+	),
+	'total_number_of_tasks' => array(
+		'type' => 'integer',
+		'length' => '4',
+		
+	),
+	'percentage' => array(
+		'type' => 'integer',
+		'length' => '2',
+		
+	),
+	
+);
+if (! $ilDB->tableExists('il_bt_observer')) {
+	$ilDB->createTable('il_bt_observer', $fields);
+	$ilDB->addPrimaryKey('il_bt_observer', array( 'id' ));
+	
+	if (! $ilDB->sequenceExists('il_bt_observer')) {
+		$ilDB->createSequence('il_bt_observer');
+	}
+	
+}
+
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'type' => array(
+		'type' => 'text',
+		'length' => '256',
+		
+	),
+	'class_path' => array(
+		'type' => 'text',
+		'length' => '256',
+		
+	),
+	'class_name' => array(
+		'type' => 'text',
+		'length' => '256',
+		
+	),
+	'observer_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	
+);
+if (! $ilDB->tableExists('il_bt_task')) {
+	$ilDB->createTable('il_bt_task', $fields);
+	$ilDB->addPrimaryKey('il_bt_task', array( 'id' ));
+	
+	if (! $ilDB->sequenceExists('il_bt_task')) {
+		$ilDB->createSequence('il_bt_task');
+	}
+	
+}
+
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'has_parent_task' => array(
+		'type' => 'integer',
+		'length' => '1',
+		
+	),
+	'parent_task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'hash' => array(
+		'type' => 'text',
+		'length' => '256',
+		
+	),
+	'type' => array(
+		'type' => 'text',
+		'length' => '256',
+		
+	),
+	'class_path' => array(
+		'type' => 'text',
+		'length' => '256',
+		
+	),
+	'class_name' => array(
+		'type' => 'text',
+		'length' => '256',
+		
+	),
+	'serialized' => array(
+		'type' => 'clob',
+		
+	),
+	'observer_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	
+);
+if (! $ilDB->tableExists('il_bt_value')) {
+	$ilDB->createTable('il_bt_value', $fields);
+	$ilDB->addPrimaryKey('il_bt_value', array( 'id' ));
+	
+	if (! $ilDB->sequenceExists('il_bt_value')) {
+		$ilDB->createSequence('il_bt_value');
+	}
+	
+}
+
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'value_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'observer_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	
+);
+if (! $ilDB->tableExists('il_bt_value_to_task')) {
+	$ilDB->createTable('il_bt_value_to_task', $fields);
+	$ilDB->addPrimaryKey('il_bt_value_to_task', array( 'id' ));
+	
+	if (! $ilDB->sequenceExists('il_bt_value_to_task')) {
+		$ilDB->createSequence('il_bt_value_to_task');
+	}
+	
+}
+?>
+
+

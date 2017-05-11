@@ -2,8 +2,12 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\Observer;
 
+use ILIAS\BackgroundTasks\Exceptions\Exception;
+use ILIAS\BackgroundTasks\Implementation\Values\ThunkValue;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Task;
+use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
+use ILIAS\BackgroundTasks\Value;
 
 class BasicObserver implements Observer {
 
@@ -69,13 +73,6 @@ class BasicObserver implements Observer {
 	}
 
 	/**
-	 * store the observerdata to persistence layer
-	 */
-	public function store() {
-		// TODO: Implement store() method.
-	}
-
-	/**
 	 * @param Task $task
 	 * @return mixed
 	 */
@@ -111,16 +108,105 @@ class BasicObserver implements Observer {
 	}
 
 	/**
-	 * @return int
+	 * @return Task
 	 */
-	public function getId(): int {
-		return $this->id;
+	public function getCurrentTask() {
+		return $this->currentTask;
 	}
 
 	/**
-	 * @param int $id
+	 *
+	 * @return Task
 	 */
-	public function setId(int $id) {
-		$this->id = $id;
+	public function getTask() {
+		return $this->rootTask;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getState() {
+		return $this->state;
+	}
+
+
+	/**
+	 * @param int $state
+	 */
+	public function setState(int $state) {
+		$this->state = $state;
+	}
+
+	/**
+	 * @return bool
+	 * @throws Exception
+	 */
+	public function checkIntegrity() {
+		if (!$this->getUserId()) {
+			foreach($this->getTask()->unfoldTask() as $task) {
+				if ($task instanceof Task\UserInteraction){
+					throw new Exception("Your task contains user interactions and thus needs a user that observes the task.");
+				}
+			}
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * Continue a task with a given option.
+	 *
+	 * @param Option $option
+	 *
+	 * @return mixed
+	 * @throws Exception
+	 */
+	public function userInteraction(Option $option) {
+		$currentTask = $this->getCurrentTask();
+
+		if ($this->getState() != State::USER_INTERACTION) {
+			throw new Exception("Cannot continue a task that is not in the state 'user interaction'");
+		}
+		if (!$currentTask instanceof Task\UserInteraction) {
+			// TODO: Maybe cleanup task?
+			throw new Exception("Observer is in an invalid state! state: userInteraction but current task is not a user interaction!");
+		}
+
+		// From the current task we do the interaction.
+		$inputs = $currentTask->getInput();
+		$resulting_value = $currentTask->interaction($inputs, $option, $this);
+
+		if($currentTask == $this->rootTask) {
+			// If this user interaction was the last thing to do, we set the state to finished. We can throw away the resulting value.
+			$this->setState(State::FINISHED);
+		} else {
+			// Then we replace the thunk value with the resulting value.
+			$this->replaceThunkValue($currentTask, $resulting_value);
+		}
+	}
+
+
+	/**
+	 * In the structure of the task of this observer the result of $currentTask is replaced with the $resulting_value
+	 *
+	 * @param Task  $currentTask
+	 * @param Value $resulting_value
+	 */
+	protected function replaceThunkValue(Task $currentTask, Value $resulting_value) {
+		$tasks = $this->getTask()->unfoldTask();
+
+		foreach ($tasks as $task) {
+			$newInputs = [];
+			foreach ($task->getInput() as $input) {
+				if ($input instanceof ThunkValue && $input->getParentTask() === $currentTask) {
+					$newInputs[] = $resulting_value;
+				} else {
+					$newInputs[] = $input;
+				}
+			}
+			$task->setInput($newInputs);
+		}
 	}
 }

@@ -1,18 +1,18 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\BackgroundTasks\Implementation;
 
-use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Exceptions\Exception;
-use ILIAS\BackgroundTasks\Exceptions\NoObserverForUserInteractionException;
-use ILIAS\BackgroundTasks\Implementation\Observer\BasicObserver;
 use ILIAS\BackgroundTasks\Implementation\Observer\State;
+use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionRequiredException;
 use ILIAS\BackgroundTasks\Implementation\Values\ThunkValue;
 use ILIAS\BackgroundTasks\Observer;
+use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\BackgroundTasks\Task;
+use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\TaskManager;
 use ILIAS\BackgroundTasks\Value;
-use ILIAS\BackgroundTasks\Worker;
 
 /**
  * Class BasicTaskManager
@@ -22,21 +22,31 @@ use ILIAS\BackgroundTasks\Worker;
  *
  * Basic Task manager. Will execute tasks immediately.
  *
+ * Some important infos:
+ *         - The observer and its tasks are not saved into the db upon execution
+ *         - The percentage and current task are not updated during execution.
+ *         - The observer and its tasks inkl. percentage and current task are only saved into the DB when a user interaction occurs.
+ *
  */
 class BasicTaskManager implements TaskManager {
 
-	public function __construct() {
+	/**
+	 * @var Persistence
+	 */
+	protected $persistence;
 
+	public function __construct(Persistence $persistence) {
+		$this->persistence = $persistence;
 	}
+
 
 	/**
 	 * @param Task $task
 	 * @param Observer $observer
 	 * @return Value
 	 * @throws Exception
-	 * @throws \UserInteractionRequiredException
 	 */
-	public function executeTask(Task $task, Observer $observer) {
+	function executeTask(Task $task, Observer $observer) {
 		$observer->notifyState(State::RUNNING);
 		/** @var Value[] $values */
 		$values = $task->getInput();
@@ -68,78 +78,55 @@ class BasicTaskManager implements TaskManager {
 			$userInteraction = $task;
 			$observer->setCurrentTask($userInteraction);
 			$observer->notifyState(State::USER_INTERACTION);
-			throw new \UserInteractionRequiredException("User interaction required.");
+			throw new UserInteractionRequiredException("User interaction required.");
 		}
 
 		throw new Exception("You need to execute a Job or a UserInteraction.");
 	}
 
+
 	/**
 	 * This will add an Observer of the Task and start running the task.
 	 *
-	 * @param int $userId
-	 * @param Task $task
-	 * @throws Exception
+	 * @param Observer $observer
+	 *
+	 * @return mixed|void
 	 * @throws \Exception
+	 *
 	 */
-	public function observeAndExecuteTask(int $userId, Task $task) {
-		$observer = new BasicObserver();
-		$observer->setUserId($userId);
-		$observer->setTask($task);
+	public function run(Observer $observer) {
+		$task = $observer->getTask();
 
 		try {
 			$this->executeTask($task, $observer);
 			$observer->notifyState(State::FINISHED);
-		} catch (\UserInteractionRequiredException $e) {
+		} catch (UserInteractionRequiredException $e) {
 			// We're okay!
-			// TODO: Write Task and Observer into the Database.
+			$this->persistence->saveObserverAndItsTasks($observer);
 		} catch (\Exception $e) {
 			// As we are Synchronous execution we rethrow the error for the caller to handle.
 			throw $e;
 		}
 	}
 
+
 	/**
-	 * @param $bucket Bucket
-	 * @param $user_ids int[]
-	 * @return Bucket
+	 * Continue a task with a given option.
 	 *
-	 * @throws NoObserverForUserInteractionException Is thrown when the user_id(s) cannot be resolved to a user. Thus we would have a user interaction without a user.
-	 */
-	public function putInQueueAndObserve(Bucket $bucket, $user_ids) {
-		// TODO: Implement putInQueueAndObserve() method.
-	}
-
-	/**
-	 * @param $bucket
+	 * @param Observer $observer
+	 * @param Option   $option
+	 *
 	 * @return mixed
 	 */
-	public function removeBucket($bucket) {
-		// TODO: Implement removeBucket() method.
-	}
-
-	/**
-	 * @param $bucket
-	 * @param $user_id
-	 * @return mixed
-	 */
-	public function addObserver($bucket, $user_id) {
-		// TODO: Implement addObserver() method.
-	}
-
-	/**
-	 * @param $bucket
-	 * @param $user_id
-	 * @return mixed
-	 */
-	public function removeObserver($bucket, $user_id) {
-		// TODO: Implement removeObserver() method.
-	}
-
-	/**
-	 * @return Worker
-	 */
-	public function getWorker() {
-		// TODO: Implement getWorker() method.
+	public function continueTask(Observer $observer, Option $option) {
+		// We do the user interaction
+		$observer->userInteraction($option);
+		if($observer->getState() != State::FINISHED)
+			// The job is not done after the user interaction, so we continue to run it.
+			$this->run($observer);
+		else {
+			//TODO cleanup.
+			echo "TODO.";
+		}
 	}
 }

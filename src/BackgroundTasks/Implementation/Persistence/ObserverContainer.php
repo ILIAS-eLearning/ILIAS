@@ -4,6 +4,8 @@ namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 use ILIAS\BackgroundTasks\Observer;
 
+require_once("./Services/ActiveRecord/class.ActiveRecord.php");
+
 class ObserverContainer extends \ActiveRecord {
 
 	public static function returnDbTableName() {
@@ -29,7 +31,7 @@ class ObserverContainer extends \ActiveRecord {
 	 * @con_fieldtype  integer
 	 * @con_length     8
 	 */
-	protected $userId;
+	protected $user_id;
 
 	/**
 	 * @var int
@@ -38,7 +40,7 @@ class ObserverContainer extends \ActiveRecord {
 	 * @con_fieldtype  integer
 	 * @con_length     8
 	 */
-	protected $rootTaskId;
+	protected $root_task_id = 0;
 
 	/**
 	 * @var int
@@ -47,7 +49,7 @@ class ObserverContainer extends \ActiveRecord {
 	 * @con_fieldtype  integer
 	 * @con_length     8
 	 */
-	protected $currentTaskId;
+	protected $current_task_id = 0;
 
 	/**
 	 * @var int
@@ -65,7 +67,7 @@ class ObserverContainer extends \ActiveRecord {
 	 * @con_fieldtype  integer
 	 * @con_length     4
 	 */
-	protected $totalNumberOfTasks;
+	protected $total_number_of_tasks;
 
 	/**
 	 * @var int
@@ -79,7 +81,7 @@ class ObserverContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getId(): int {
+	public function getId() {
 		return $this->id;
 	}
 
@@ -94,42 +96,42 @@ class ObserverContainer extends \ActiveRecord {
 	 * @return int
 	 */
 	public function getUserId(): int {
-		return $this->userId;
+		return $this->user_id;
 	}
 
 	/**
-	 * @param int $userId
+	 * @param int $user_id
 	 */
-	public function setUserId(int $userId) {
-		$this->userId = $userId;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getRootTaskId(): int {
-		return $this->rootTaskId;
-	}
-
-	/**
-	 * @param int $rootTaskId
-	 */
-	public function setRootTaskId(int $rootTaskId) {
-		$this->rootTaskId = $rootTaskId;
+	public function setUserId(int $user_id) {
+		$this->user_id = $user_id;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getCurrentTaskId(): int {
-		return $this->currentTaskId;
+	public function getRootTaskid(): int {
+		return $this->root_task_id;
 	}
 
 	/**
-	 * @param int $currentTaskId
+	 * @param int $root_task_id
 	 */
-	public function setCurrentTaskId(int $currentTaskId) {
-		$this->currentTaskId = $currentTaskId;
+	public function setRootTaskid(int $root_task_id) {
+		$this->root_task_id = $root_task_id;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getCurrentTaskid(): int {
+		return $this->current_task_id;
+	}
+
+	/**
+	 * @param int $current_task_id
+	 */
+	public function setCurrentTaskid(int $current_task_id) {
+		$this->current_task_id = $current_task_id;
 	}
 
 	/**
@@ -149,15 +151,15 @@ class ObserverContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getTotalNumberOfTasks(): int {
-		return $this->totalNumberOfTasks;
+	public function getTotalNumberoftasks(): int {
+		return $this->total_number_of_tasks;
 	}
 
 	/**
-	 * @param int $totalNumberOfTasks
+	 * @param int $total_number_of_tasks
 	 */
-	public function setTotalNumberOfTasks(int $totalNumberOfTasks) {
-		$this->totalNumberOfTasks = $totalNumberOfTasks;
+	public function setTotalNumberoftasks(int $total_number_of_tasks) {
+		$this->total_number_of_tasks = $total_number_of_tasks;
 	}
 
 	/**

@@ -1,18 +1,23 @@
 <?php
 
+namespace ILIAS\BackgroundTasks\Implementation\Tasks;
+
+use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
-use ILIAS\BackgroundTasks\Implementation\ValueTypes\SingleType;
-use ILIAS\BackgroundTasks\Task\Option;
+use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\Observer;
-use ILIAS\BackgroundTasks\ValueType;
+use ILIAS\Types\SingleType;
+use ILIAS\Types\Type;
+
+require_once("./Services/FileDelivery/classes/class.ilPHPOutputDelivery.php");
 
 class DownloadInteger extends AbstractUserInteraction {
 	/**
-	 * @param Value $input The input value of this task.
+	 * @param Value[] $input The input value of this task.
 	 * @return Option[] Options are buttons the user can press on this interaction.
 	 */
-	public function getOptions(Value $input) {
+	public function getOptions(Array $input) {
 		return [
 			new UserInteractionOption("download", "download"),
 			new UserInteractionOption("dismiss", "dismiss")
@@ -30,17 +35,17 @@ class DownloadInteger extends AbstractUserInteraction {
 		$integerValue = $input[0];
 
 		if($user_selected_option->getValue() == "download") {
-			$outputter = new ilPHPOutputDelivery();
+			$outputter = new \ilPHPOutputDelivery();
 			$outputter->start("IntegerFile");
 			echo $integerValue->getValue();
 			$outputter->stop();
 		}
 
-		return VoidValue::instance();
+		return $integerValue;
 	}
 
 	/**
-	 * @return ValueType[] Class-Name of the IO
+	 * @return Type[] Class-Name of the IO
 	 */
 	public function getInputTypes() {
 		return [
@@ -49,10 +54,10 @@ class DownloadInteger extends AbstractUserInteraction {
 	}
 
 	/**
-	 * @return ValueType
+	 * @return Type
 	 */
 	public function getOutputType() {
-		return VoidValue::instance();
+		return new SingleType(IntegerValue::class);
 	}
 
 	/**

@@ -2,6 +2,8 @@
 
 namespace ILIAS\BackgroundTasks;
 
+use ILIAS\Types\Type;
+
 /**
  * Interface Task
  *
@@ -24,13 +26,13 @@ interface Task {
 
 
 	/**
-	 * @return ValueType[] Class-Name of the IO
+	 * @return Type[] Class-Name of the IO
 	 */
 	public function getInputTypes();
 
 
 	/**
-	 * @return ValueType
+	 * @return Type
 	 */
 	public function getOutputType();
 
@@ -43,7 +45,7 @@ interface Task {
 	 * @param $values (Value|Task)[]
 	 * @return void
 	 */
-	public function setInput($values);
+	public function setInput(array $values);
 
 	/**
 	 * @return Value[]

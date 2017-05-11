@@ -94,7 +94,7 @@ class Container extends \Pimple\Container {
 	/**
 	 * Get interface to the i18n service.
 	 *
-	 * @return	\ilLanguage
+	 * @return	\ilTabsGUI
 	 */
 	public function tabs() {
 		return $this["ilTabs"];
@@ -119,9 +119,9 @@ class Container extends \Pimple\Container {
 	}
 
 	/**
-	 * @return Factory
+	 * @return Injector
 	 */
-	public function ilFactory() {
-		return $this["\\ILIAS\\DI\\Factory"];
+	public function injector() {
+		return $this["di.injector"];
 	}
 }

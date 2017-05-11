@@ -2,10 +2,20 @@
 
 namespace ILIAS\Types;
 
-
+/**
+ * Class VoidType
+ *
+ * @package ILIAS\Types
+ *
+ * @author  Oskar Truffer <ot@studer-raimann.ch>
+ *
+ * Void Type and Singleton for the void type.
+ *
+ */
 class VoidType implements Type {
 
-	protected static $instance = null;
+	protected static $instance = NULL;
+
 
 	/**
 	 * Just to make it protected.
@@ -14,14 +24,18 @@ class VoidType implements Type {
 	protected function __construct() {
 	}
 
+
 	/**
 	 * @return VoidType
 	 */
-	public static function instance(){
-		if(!self::instance())
+	public static function instance() {
+		if (!self::instance()) {
 			self::$instance = new VoidType();
+		}
+
 		return self::$instance;
 	}
+
 
 	/**
 	 * @return string A string representation of the Type.
@@ -30,29 +44,24 @@ class VoidType implements Type {
 		return "Void";
 	}
 
+
 	/**
 	 * Is this type a subtype of $type. Not strict! x->isSubtype(x) == true.
 	 *
 	 * @param $type Type
+	 *
 	 * @return bool
 	 */
-	function isSubtypeOf(Type $type) {
+	function isExtensionOf(Type $type) {
 		return $type instanceof VoidType;
 	}
 
-	/**
-	 * returns the hierarchy of this type. E.g. ["AbstractValue", "ScalarValue", "IntegerValue", "UserIdValue"]
-	 *
-	 * @return Type[]
-	 */
-	function getAncestors() {
-		return [self::class];
-	}
 
 	/**
 	 * returns true if the two types are equal.
 	 *
 	 * @param Type $otherType
+	 *
 	 * @return bool
 	 */
 	function equals(Type $otherType) {

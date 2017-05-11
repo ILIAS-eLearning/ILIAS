@@ -9,25 +9,21 @@ interface Type {
 	 */
 	function __toString();
 
-	/**
-	 * Is this type a subtype of $type. Not strict! x->isSubtype(x) == true.
-	 *
-	 * @param Type $type ValueType
-	 * @return bool
-	 */
-	function isSubtypeOf(Type $type);
 
 	/**
-	 * returns the hierarchy of this type. E.g. ["AbstractValue", "ScalarValue", "IntegerValue", "UserIdValue"]
+	 * Is this type a subtype of $type. Not strict! x->isExtensionOf(x) == true.
 	 *
-	 * @return Type[]
+	 * @param Type $type ValueType
+	 *
+	 * @return bool
 	 */
-	function getAncestors();
+	function isExtensionOf(Type $type);
 
 	/**
 	 * returns true if the two types are equal.
 	 *
 	 * @param Type $otherType
+	 *
 	 * @return bool
 	 */
 	function equals(Type $otherType);

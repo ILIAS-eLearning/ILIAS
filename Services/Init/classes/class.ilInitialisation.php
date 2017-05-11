@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\DI\DependencyMap\BaseDependencyMap;
+
 require_once("libs/composer/vendor/autoload.php");
 
 // needed for slow queries, etc.
@@ -885,6 +887,8 @@ class ilInitialisation
 			self::initLanguage();
 			$GLOBALS['DIC']['tree']->initLangCode();
 
+			self::initBackgroundTasks($GLOBALS['DIC']);
+
 			if(ilContext::hasHTML())
 			{													
 				include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
@@ -1549,5 +1553,20 @@ class ilInitialisation
 		{
 			ilUtil::redirect("goto.php?target=".$_GET["target"]);
 		}
+	}
+
+
+	private static function initBackgroundTasks(\ILIAS\DI\Container $c) {
+		//TODO: instantiate persistance.
+	}
+
+	private static function initInjector(\ILIAS\DI\Container $c) {
+		$c["di.dependency_map"]  = function ($c) {
+			return new ILIAS\DI\DependencyMap\BaseDependencyMap();
+		};
+
+		$c["di.injector"] = function ($c) {
+			return new ILIAS\UI\Implementation\Factory();
+		};
 	}
 }

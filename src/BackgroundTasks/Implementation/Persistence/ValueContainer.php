@@ -26,15 +26,16 @@ class ValueContainer extends \ActiveRecord {
 	 * @con_fieldtype  integer
 	 * @con_length     1
 	 */
-	protected $hasParentTask;
+	protected $has_parent_task;
 
 	/**
 	 * @var int
 	 *
+	 * @con_has_field  true
 	 * @con_fieldtype  integer
 	 * @con_length     8
 	 */
-	protected $parentTask;
+	protected $parent_task_id;
 
 	/**
 	 * @var string
@@ -71,6 +72,22 @@ class ValueContainer extends \ActiveRecord {
 	 * @con_length     256
 	 */
 	protected $class_name;
+	/**
+	 * @var string
+	 *
+	 * @con_has_field  true
+	 * @con_fieldtype  clob
+	 */
+	protected $serialized;
+
+	/**
+	 * @var int
+	 *
+	 * @con_has_field  true
+	 * @con_fieldtype  integer
+	 * @con_length     8
+	 */
+	protected $observer_id;
 
 	/**
 	 * @return int
@@ -89,42 +106,42 @@ class ValueContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getHasParentTask(): int {
-		return $this->hasParentTask;
+	public function getHasParenttask(): int {
+		return $this->has_parent_task;
 	}
 
 	/**
-	 * @param int $hasParentTask
+	 * @param int $has_parent_task
 	 */
-	public function setHasParentTask(int $hasParentTask) {
-		$this->hasParentTask = $hasParentTask;
+	public function setHasParenttask(int $has_parent_task) {
+		$this->has_parent_task = $has_parent_task;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getParentTask(): int {
-		return $this->parentTask;
+	public function getParentTaskid(): int {
+		return $this->parent_task_id;
 	}
 
 	/**
-	 * @param int $parentTask
+	 * @param int $parent_task_id
 	 */
-	public function setParentTask(int $parentTask) {
-		$this->parentTask = $parentTask;
+	public function setParentTaskid(int $parent_task_id) {
+		$this->parent_task_id = $parent_task_id;
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getHash(): string {
+	public function getHash() {
 		return $this->hash;
 	}
 
 	/**
-	 * @param string $hash
+	 * @param string|null $hash may be null for thunk values.
 	 */
-	public function setHash(string $hash) {
+	public function setHash($hash) {
 		$this->hash = $hash;
 	}
 
@@ -168,5 +185,37 @@ class ValueContainer extends \ActiveRecord {
 	 */
 	public function setClassName(string $class_name) {
 		$this->class_name = $class_name;
+	}
+
+
+	/**
+	 * @return string|null
+	 */
+	public function getSerialized() {
+		return $this->serialized;
+	}
+
+
+	/**
+	 * @param string|null $serialized May be null for thunk values.
+	 */
+	public function setSerialized($serialized) {
+		$this->serialized = $serialized;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getObserverId(): int {
+		return $this->observer_id;
+	}
+
+
+	/**
+	 * @param int $observer_id
+	 */
+	public function setObserverId(int $observer_id) {
+		$this->observer_id = $observer_id;
 	}
 }

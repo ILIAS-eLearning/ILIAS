@@ -33,6 +33,13 @@ interface Value extends \Serializable {
 	public function getType();
 
 	/**
+	 * @param Task $parentTask
+	 *
+	 * @return mixed
+	 */
+	public function setParentTask(Task $parentTask);
+
+	/**
 	 * @return Task
 	 */
 	public function getParentTask();
@@ -41,4 +48,12 @@ interface Value extends \Serializable {
 	 * @return boolean
 	 */
 	public function hasParentTask();
+
+
+	/**
+	 * @param $value
+	 *
+	 * @return
+	 */
+	function setValue($value);
 }

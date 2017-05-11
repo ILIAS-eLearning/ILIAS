@@ -34,10 +34,13 @@ abstract class AbstractValue implements Value {
 		return $this->parentTask;
 	}
 
+
 	/**
 	 * @param Task $parentTask
+	 *
+	 * @return void
 	 */
-	public function setParentTask($parentTask) {
+	public function setParentTask(Task $parentTask) {
 		$this->parentTask = $parentTask;
 	}
 

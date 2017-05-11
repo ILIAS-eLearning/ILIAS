@@ -5,6 +5,7 @@ namespace ILIAS\BackgroundTasks\Implementation\Values\AggregationValues;
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 use ILIAS\BackgroundTasks\Implementation\Values\AbstractValue;
 use ILIAS\BackgroundTasks\Implementation\Values\PrimitiveValueWrapperFactory;
+use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BasicScalarValueFactory;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\ValueType;
 use ILIAS\Types\ListType;
@@ -20,6 +21,8 @@ use ILIAS\Types\Type;
  */
 class ListValue extends AbstractValue {
 
+	use BasicScalarValueFactory;
+
 	/**
 	 * @var array The values of the list are saved in an array.
 	 */
@@ -34,8 +37,7 @@ class ListValue extends AbstractValue {
 	 * ListValue constructor.
 	 * @param $list array
 	 */
-	public function __construct($list) {
-		$this->type = $this->deriveType($list);
+	public function __construct() {
 	}
 
 	protected function deriveType($list) {
@@ -96,10 +98,9 @@ class ListValue extends AbstractValue {
 	}
 
 	protected function getTypes($list) {
-		$wrapperFactory = PrimitiveValueWrapperFactory::getInstance();
 		$types = [];
 		foreach ($list as $value) {
-			$valueWrapped = $wrapperFactory->wrapValue($value);
+			$valueWrapped = $this->wrapValue($value);
 			$this->list[] = $valueWrapped;
 			$types[] =  $valueWrapped->getType();
 		}
@@ -198,5 +199,14 @@ class ListValue extends AbstractValue {
 	 */
 	public function getType() {
 		return $this->type;
+	}
+
+
+	/**
+	 * @param $list
+	 *
+	 */
+	function setValue($list) {
+		$this->type = $this->deriveType($list);
 	}
 }

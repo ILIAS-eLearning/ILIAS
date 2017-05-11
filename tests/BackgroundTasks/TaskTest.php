@@ -10,8 +10,10 @@ use ILIAS\BackgroundTasks\Implementation\Values\AggregationValues\ListValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Observer;
+use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\DI\Container;
-use ILIAS\DI\Factory;
+use ILIAS\DI\DependencyMap\BaseDependencyMap;
+use ILIAS\DI\Injector;
 use ILIAS\Types\SingleType;
 use PHPUnit\Framework\TestCase;
 
@@ -26,15 +28,15 @@ class TaskTest extends TestCase {
 
 	public function testPlusTask() {
 		$dic = new Container();
-		$dic[Observer::class] = function ($c) {
-			return new ObserverMock();
-		};
 
-		$factory = new Factory($dic);
+		$factory = new Injector($dic, new BaseDependencyMap());
 
-		$a = new IntegerValue(1);
-		$b = new IntegerValue(2);
-		$c = new IntegerValue(3);
+		$a = new IntegerValue();
+		$a->setValue(1);
+		$b = new IntegerValue();
+		$b->setValue(2);
+		$c = new IntegerValue();
+		$c->setValue(3);
 
 		/** @var PlusJob $t1 */
 		$t1 = $factory->createInstance(PlusJob::class);
@@ -46,7 +48,7 @@ class TaskTest extends TestCase {
 
 		$this->assertTrue($t2->getOutputType()->equals(new SingleType(IntegerValue::class)));
 
-		$taskManager = new BasicTaskManager();
+		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
 		/** @var IntegerValue $finalValue */
 		$finalValue = $taskManager->executeTask($t2, new ObserverMock());
 		$this->assertEquals($finalValue->getValue(), 6);
@@ -57,12 +59,12 @@ class TaskTest extends TestCase {
 		$dic[Observer::class] = function ($c) {
 			return new ObserverMock();
 		};
-		$factory = new Factory($dic);
+		$factory = new Injector($dic, new BaseDependencyMap());
 
 		$t = $factory->createInstance(PlusJob::class);
 		$t->setInput([1, 4]);
 
-		$taskManager = new BasicTaskManager();
+		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
 		/** @var IntegerValue $finalValue */
 		$finalValue = $taskManager->executeTask($t, new ObserverMock());
 		$this->assertEquals($finalValue->getValue(), 5);
@@ -75,7 +77,7 @@ class TaskTest extends TestCase {
 		$dic[Observer::class] = function ($c) {
 			return new ObserverMock();
 		};
-		$factory = new Factory($dic);
+		$factory = new Injector($dic, new BaseDependencyMap());
 
 		$a = new IntegerValue(1);
 		$b = new StringValue("hello");
@@ -87,9 +89,10 @@ class TaskTest extends TestCase {
 
 	public function testAggregation() {
 		$dic = new Container();
-		$factory = new Factory($dic);
+		$factory = new Injector($dic, new BaseDependencyMap());
 
-		$list = new ListValue([1, "hello", 3.0]);
+		$list = new ListValue();
+		$list->setValue([1, "hello", 3.0]);
 
 		/** @var ConcatenationJob $t1 */
 		$t1 = $factory->createInstance(ConcatenationJob::class);
@@ -105,7 +108,7 @@ class TaskTest extends TestCase {
 			return new BasicObserver();
 		};
 
-		$factory = new Factory($dic);
+		$factory = new Injector($dic, new BaseDependencyMap());
 
 		/**
 		 * @var PlusJob $t0
@@ -131,7 +134,7 @@ class TaskTest extends TestCase {
 		$this->assertEquals($list, [$t2, $t1, $t0, $t25]);
 
 		/** @var IntegerValue $finalValue */
-		$taskManager = new BasicTaskManager();
+		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
 		/** @var IntegerValue $finalValue */
 		$finalValue = $taskManager->executeTask($t2, new BasicObserver());
 		$this->assertEquals($finalValue->getValue(), 8);

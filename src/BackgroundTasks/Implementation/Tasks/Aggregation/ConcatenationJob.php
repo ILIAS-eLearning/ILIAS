@@ -28,7 +28,10 @@ class ConcatenationJob extends AbstractJob {
 			function($a) { return $a->getValue(); },
 			$list);
 
-		return new StringValue(implode(', ', $values));
+		$string_value = new StringValue();
+		$string_value->setValue(implode(', ', $values));
+
+		return $string_value;
 	}
 
 	/**

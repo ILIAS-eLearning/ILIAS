@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\BackgroundTasks\Task;
+namespace ILIAS\BackgroundTasks\Task\UserInteraction;
 
 /**
  * Interface Option

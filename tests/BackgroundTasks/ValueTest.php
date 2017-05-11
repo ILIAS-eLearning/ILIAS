@@ -18,9 +18,12 @@ require_once("libs/composer/vendor/autoload.php");
 class ValueTest extends TestCase {
 
 	public function testIntegerValue() {
-		$integer = new IntegerValue(3);
+		$integer = new IntegerValue();
+		$integer->setValue(3);
 		$integer2 = new IntegerValue(3);
+		$integer2->setValue(3);
 		$integer3 = new IntegerValue(4);
+		$integer3->setValue(4);
 
 		$this->assertEquals($integer->getValue(), 3);
 		$this->assertTrue($integer->equals($integer2));
@@ -32,8 +35,15 @@ class ValueTest extends TestCase {
 	}
 
 	public function testListValue() {
-		$list = new ListValue([1, 2, 3]);
-		$list2 = new ListValue([new IntegerValue(2), new StringValue("1")]);
+		$list = new ListValue();
+		$list->setValue([1, 2, 3]);
+
+		$list2 = new ListValue();
+		$integer1 = new IntegerValue();
+		$integer1->setValue(1);
+		$string = new StringValue();
+		$string->setValue("1");
+		$list2->setValue([$integer1, $string]);
 
 		$this->assertTrue($list->getType()->equals(new ListType(IntegerValue::class)));
 		$this->assertTrue($list2->getType()->equals(new ListType(ScalarValue::class)));

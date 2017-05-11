@@ -4,11 +4,14 @@ namespace ILIAS\BackgroundTasks\Implementation\Tasks;
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 use ILIAS\BackgroundTasks\Implementation\Values\PrimitiveValueWrapperFactory;
+use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BasicScalarValueFactory;
 use ILIAS\BackgroundTasks\Implementation\Values\ThunkValue;
 use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Value;
 
-abstract class AbstractTask implements Task {
+abstract class AbstractTask  implements Task {
+
+	use BasicScalarValueFactory;
 
 	/**
 	 * @var Value[]
@@ -20,11 +23,18 @@ abstract class AbstractTask implements Task {
 	 */
 	protected $output;
 
+	protected $scalarValueWrapper;
+
+	public function __construct() {
+
+	}
+
+
 	/**
 	 * @param $values (Value|Task)[]
 	 * @return void
 	 */
-	public function setInput($values) {
+	public function setInput(array $values) {
 		$this->input = $this->getValues($values);
 		$this->checkTypes($this->input);
 	}
@@ -35,7 +45,7 @@ abstract class AbstractTask implements Task {
 		for ($i = 0; $i < count($expectedTypes); $i++ ) {
 			$expectedType = $expectedTypes[$i];
 			$givenType = $this->extractType($values[$i]);
-			if(!$givenType->isSubtypeOf($expectedType))
+			if(!$givenType->isExtensionOf($expectedType))
 				throw new InvalidArgumentException("Types did not match when setting input for " . get_called_class() . ". Expected type $expectedType given type $givenType.");
 		}
 	}
@@ -69,7 +79,6 @@ abstract class AbstractTask implements Task {
 	 * @return Value[]
 	 */
 	private function getValues($values) {
-		$wrapper = PrimitiveValueWrapperFactory::getInstance();
 		$inputs = [];
 
 		foreach($values as $value) {
@@ -78,7 +87,7 @@ abstract class AbstractTask implements Task {
 			elseif($value instanceof Value)
 				$inputs[] = $value;
 			else
-				$inputs[] = $wrapper->wrapValue($value);
+				$inputs[] = $this->wrapScalar($value);
 
 		}
 		return $inputs;
@@ -98,6 +107,12 @@ abstract class AbstractTask implements Task {
 		return get_called_class();
 	}
 
+
+	/**
+	 * Unfold the task. If task A has dependency B and B' and B has dependency C, the resulting list will be [A, B, C, B'].
+	 *
+	 * @return Task[]
+	 */
 	public function unfoldTask() {
 		$list = [$this];
 		foreach ($this->getInput() as $input) {

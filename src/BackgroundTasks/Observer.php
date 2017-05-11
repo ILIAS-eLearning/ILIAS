@@ -2,6 +2,9 @@
 
 namespace ILIAS\BackgroundTasks;
 
+use ILIAS\BackgroundTasks\Exceptions\Exception;
+use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
+
 /**
  * Interface Observer
  *
@@ -37,11 +40,6 @@ interface Observer {
 	public function getPercentage();
 
 	/**
-	 * store the observerdata to persistence layer
-	 */
-	public function store();
-
-	/**
 	 * @param Task $task
 	 * @return mixed
 	 */
@@ -69,4 +67,27 @@ interface Observer {
 	 * @return void
 	 */
 	public function notifyState($state);
+
+
+	/**
+	 * @return int
+	 */
+	public function getState();
+
+
+	/**
+	 * @return boolean      Returns true if everything's alright. Throws an exception otherwise.
+ 	 * @throws Exception
+	 */
+	public function checkIntegrity();
+
+
+	/**
+	 * Let the user interact with the observer task queue.
+	 *
+	 * @param Option $option
+	 *
+	 * @return void
+	 */
+	public function userInteraction(Option $option);
 }

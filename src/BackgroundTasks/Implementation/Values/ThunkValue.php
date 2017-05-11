@@ -4,6 +4,7 @@ namespace ILIAS\BackgroundTasks\Implementation\Values;
 
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\ValueType;
+use ILIAS\Types\Type;
 
 /**
  * Class ThunkValue
@@ -22,17 +23,15 @@ class ThunkValue extends AbstractValue {
 
 	/**
 	 * ThunkValue constructor.
-	 * @param $type ValueType What type of value will be stored here later?
 	 */
-	public function __construct($type) {
-		$this->type = $type;
+	public function __construct() {
 	}
 
 	/**
-	 * @return \ILIAS\BackgroundTasks\ValueType
+	 * @return Type
 	 */
 	public function getType() {
-		return $this->type;
+		return $this->parentTask->getOutputType();
 	}
 
 	/**
@@ -72,5 +71,15 @@ class ThunkValue extends AbstractValue {
 	 */
 	public function equals(Value $other) {
 		return false;
+	}
+
+
+	/**
+	 * @param $value
+	 *
+	 * @return
+	 */
+	function setValue($value) {
+		// TODO: Implement setValue() method.
 	}
 }

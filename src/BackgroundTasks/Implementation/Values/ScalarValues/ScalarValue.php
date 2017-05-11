@@ -13,16 +13,11 @@ class ScalarValue extends AbstractValue {
 	 */
 	protected $value;
 
+
 	/**
 	 * ScalarValue constructor. Given value must resolve to true when given to is_scalar.
-	 * @param $value
-	 * @throws InvalidArgumentException
 	 */
-	public function __construct($value) {
-		if(!is_scalar($value))
-			throw new InvalidArgumentException("The value given must be a scalar! See php-documentation is_scalar().");
-
-		$this->value = $value;
+	function __construct() {
 	}
 
 	/**
@@ -71,5 +66,19 @@ class ScalarValue extends AbstractValue {
 	 */
 	public function getValue() {
 		return $this->value;
+	}
+
+
+	/**
+	 * @param mixed $value
+	 *
+	 * @return void
+	 * @throws InvalidArgumentException
+	 */
+	function setValue($value) {
+		if(!is_scalar($value))
+			throw new InvalidArgumentException("The value given must be a scalar! See php-documentation is_scalar().");
+
+		$this->value = $value;
 	}
 }

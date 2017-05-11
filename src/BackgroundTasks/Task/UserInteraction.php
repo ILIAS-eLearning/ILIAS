@@ -2,6 +2,7 @@
 
 namespace ILIAS\BackgroundTasks\Task;
 
+use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Task;
@@ -17,10 +18,10 @@ use ILIAS\BackgroundTasks\Task;
 interface UserInteraction extends Task {
 
 	/**
-	 * @param Value $input The input value of this task.
+	 * @param Value[] $input The input value of this task.
 	 * @return Option[] Options are buttons the user can press on this interaction.
 	 */
-	public function getOptions(Value $input);
+	public function getOptions(Array $input);
 
 
 	/**

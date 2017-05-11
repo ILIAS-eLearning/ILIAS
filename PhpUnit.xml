@@ -1,0 +1,23 @@
+<phpunit>
+	<testsuites>
+		<testsuite name="My ILIAS Tests">
+			<!--<file>../test/ilGlobalSuite.php</file>-->
+			<directory suffix=".php">tests/BackgroundTasks</directory>
+			<directory suffix=".php">tests/Types</directory>
+		</testsuite>
+	</testsuites>
+
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">src/BackgroundTasks</directory>
+			<directory suffix=".php">src/Types</directory>
+		</whitelist>
+	</filter>
+
+	<logging>
+		<log type="coverage-html" target="./log/codeCoverage" charset="UTF-8"
+				yui="true" highlight="true"
+				lowUpperBound="50" highLowerBound="80"/>
+		<log type="testdox-html" target="./log/testdox.html" />
+	</logging>
+</phpunit>

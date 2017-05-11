@@ -1,6 +1,8 @@
 <?php
 
-use ILIAS\BackgroundTasks\Task\Option;
+namespace ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction;
+
+use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 
 class UserInteractionOption implements Option {
 	/**
