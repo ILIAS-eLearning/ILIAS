@@ -40,7 +40,9 @@ class ilDclExportGUI extends ilExportGUI
 	 * @return bool
 	 */
 	protected function checkForExportableFields() {
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		foreach ($this->obj->getTables() as $tbl) {
 			/** @var $tbl ilDclTable */
 			foreach ($tbl->getFields() as $field) {

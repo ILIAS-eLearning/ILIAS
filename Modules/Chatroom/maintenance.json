@@ -1,0 +1,12 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "mjansen(8784)",
+    "second_maintainer": "mbecker(27266)",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "AntoniaWeber(36934)",
+    "testcase_writer": "kunkel(115)",
+    "path": "Modules/Chatroom",
+    "belong_to_component": "Chat",
+    "used_in_components": []
+}

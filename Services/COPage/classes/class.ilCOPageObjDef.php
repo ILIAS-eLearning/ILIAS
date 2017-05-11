@@ -21,12 +21,14 @@ class ilCOPageObjDef
 	 */
 	static function init()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$db = $DIC->database();
 		
 		if (self::$page_obj_def == null)
 		{
-			$set = $ilDB->query("SELECT * FROM copg_pobj_def ");
-			while ($rec = $ilDB->fetchAssoc($set))
+			$set = $db->query("SELECT * FROM copg_pobj_def ");
+			while ($rec = $db->fetchAssoc($set))
 			{
 				self::$page_obj_def[$rec["parent_type"]] = $rec;
 			}

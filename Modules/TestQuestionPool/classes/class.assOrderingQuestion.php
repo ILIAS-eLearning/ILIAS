@@ -862,12 +862,26 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			return false;
 		}
 
-		// create thumbnail file
-		
-		$thumbpath = $this->getImagePath() . $this->getThumbPrefix() . $targetFile;
-		ilUtil::convertImage($this->getImagePath().$targetFile, $thumbpath, "JPEG", $this->getThumbGeometry());
-		
 		return true;
+	}
+	
+	public function handleThumbnailCreation(ilAssOrderingElementList $elementList)
+	{
+		foreach($elementList as $element)
+		{
+			$this->createImageThumbnail($element);
+		}
+	}
+	
+	public function createImageThumbnail(ilAssOrderingElement $element)
+	{
+		if( $this->getThumbGeometry() )
+		{
+			$imageFile = $this->getImagePath() . $element->getContent();
+			$thumbFile = $this->getImagePath() . $this->getThumbPrefix().$element->getContent();
+			
+			ilUtil::convertImage( $imageFile, $thumbFile, "JPEG", $this->getThumbGeometry() );
+		}
 	}
 
 	/**

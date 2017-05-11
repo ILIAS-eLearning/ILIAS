@@ -226,10 +226,11 @@ assessment#:#ass_mc_sel_lim_hint#:#Please select %s of %s answers!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Please do not select more than %s of %s answers!
 assessment#:#ass_mc_sel_lim_setting#:#Answering Limitation
 assessment#:#ass_mc_sel_lim_setting_desc#:#With this setting the number of answers choosable by the participants can be limited.
+assessment#:#essay_scoring_mode#:#Scoring Mode
 assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring
 assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY
-assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###deprecated 
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###deprecated 
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.
 assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE
@@ -686,7 +687,8 @@ assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#The Competence-Question-
 assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool:<br />%s<br /><br />The configuration of threshold values is to be done here in the test.
 assessment#:#qpl_qst_skl_selection_for_question_header#:#Compence Assignments for Question: %s
 assessment#:#tst_save_comp_points#:#Save Competence Points
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points have been saved.
+assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#The competence points have not been saved. Please check your input.
 assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!
 assessment#:#tst_skl_level_thresholds_link#:#Configure Competence Thresholds
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.
@@ -1143,7 +1145,7 @@ assessment#:#tst_hide_previous_results_hide#:#Hide my results from a previous te
 assessment#:#tst_hide_previous_results_introduction#:#If you’re processing more than one pass of this test, your previous entered results will not be used as default values###deprecated 
 assessment#:#tst_hide_previous_results#:#Hide Previous Results###deprecated 
 assessment#:#tst_hide_side_list#:#Hide List of Questions
-assessment#:#new_test_online#:#The Test was set online.
+news#:#new_test_online#:#The Test was set online.
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!###deprecated 
@@ -1789,7 +1791,7 @@ cntr#:#cntr_view_sessions#:#Sessions View
 cntr#:#cntr_view_simple#:#Simple View
 common#:#3rd_party_software#:#3rd party software
 common#:#absolute_path#:#Absolute Path
-common#:#accept_usr_agreement#:#Accept user agreement?
+common#:#accept_usr_agreement#:#Accept terms of service?
 common#:#access_expired#:#expired
 common#:#access_free_granted#:#Set the selected user(s) to unlimited access
 common#:#access_from#:#Access (from)
@@ -2099,8 +2101,14 @@ common#:#btn_previous#:#Back
 common#:#btn_remove_system#:#Remove from System
 common#:#btn_undelete#:#Restore
 common#:#buy#:#Buy###deprecated 
-common#:#by_location#:#Order by location
-common#:#by_type#:#Order by type
+pd#:#pd_sort_by_location#:#Sort by Location
+pd#:#pd_sort_by_type#:#Sort by Type
+pd#:#pd_sort_by_start_date#:#Sort by Start Date
+pd#:#pd_my_memberships_sort_default#:#Default of Sort Option
+pd#:#pd_upcoming#:#Upcoming
+pd#:#pd_ongoing#:#Ongoing
+pd#:#pd_ended#:#Ended
+pd#:#pd_not_date#:#Not Dated
 common#:#by#:#By
 common#:#bytes#:#Bytes
 common#:#cal_from#:#From:
@@ -2186,7 +2194,7 @@ common#:#check_languages#:#Check All Languages
 common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be checked if they are active.
 common#:#check_link#:#Weblink check
 common#:#check_max_allowed_packet_size#:#The page content size is too large.###deprecated 
-common#:#check_user_accounts_desc#:#If enabled, all users whose account expires will be informed by e-mail. Furthermore all users which have not confirmed their account after a registration with e-mail confirmation will be deleted.
+common#:#check_user_accounts_desc#:#If enabled, all users whose account expires will be informed by e-mail two weeks before. Furthermore all users which have not confirmed their account after a registration with e-mail confirmation will be deleted.
 common#:#check_user_accounts#:#Check user accounts
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#check_web_resources#:#Check Weblinks
@@ -2491,6 +2499,7 @@ common#:#err_count_param#:#Reason: Wrong parameter count
 common#:#err_enter_current_passwd#:#Please enter your current password###deprecated 
 common#:#err_in_line#:#Error in line
 common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.
+common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. 
 common#:#err_invalid_port#:#Invalid port number
 common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please ensure that you have the same password in ILIAS and LDAP###deprecated 
 common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please check your settings###deprecated 
@@ -2677,7 +2686,7 @@ rbac#:#fold_write#:#User can edit settings of folder and manage content
 common#:#fold#:#Folder
 common#:#folder#:#Folder
 common#:#folders#:#Folders
-common#:#force_accept_usr_agreement#:#You must accept the user agreement!
+common#:#force_accept_usr_agreement#:#You must accept the terms of service!
 common#:#forename#:#Forename###deprecated 
 common#:#forgot_password#:#Forgot your password?
 common#:#forgot_username#:#Forgot your username?
@@ -3513,7 +3522,7 @@ common#:#nickname#:#Nickname###deprecated
 common#:#no_access_item_public#:#To access this item you need to be logged in and to have appropriate permissions.
 common#:#no_access_item#:#You have no permission to access this item.
 common#:#no_access_link_object#:#You are not allowed to link this object###deprecated 
-common#:#no_agreement_description#:#There is currently no user agreement text provided with this installation. Please contact the <a href="%1$s">system administrator</a>.
+common#:#no_agreement_description#:#There is currently no terms of service text provided with this installation. Please contact the <a href="%1$s">system administrator</a>.
 common#:#no_bm_in_personal_list#:#No bookmarks defined.###deprecated 
 common#:#no_chat_in_personal_list#:#No chats in personal list###deprecated 
 common#:#no_checkbox#:#Please select at least one item.
@@ -4585,7 +4594,7 @@ common#:#usr_active_only#:#Active Users only
 common#:#usr_add#:#Add User
 common#:#usr_added#:#User added###deprecated 
 common#:#usr_agreement_empty#:#The agreement contains no text###deprecated 
-common#:#usr_agreement#:#User Agreement
+common#:#usr_agreement#:#Terms of Service
 common#:#usr_edit#:#Edit User
 common#:#usr_filter_coursemember#:#Member of course
 common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria###deprecated 
@@ -7387,7 +7396,7 @@ meta#:#meta_c_LI#:#Liechtenstein
 meta#:#meta_c_LK#:#Sri Lanka
 meta#:#meta_c_LR#:#Liberia
 meta#:#meta_c_LS#:#Lesotho
-meta#:#meta_c_LT#:#Lithunia
+meta#:#meta_c_LT#:#Lithuania
 meta#:#meta_c_LU#:#Luxembourg
 meta#:#meta_c_LV#:#Latvia
 meta#:#meta_c_LY#:#Libyan Arab Jamahiriya
@@ -7982,7 +7991,7 @@ ps#:#ps_export_user_data#:#Data Types
 ps#:#ps_export_wait#:#Users on the Waiting List
 ps#:#ps_field_type#:#Field Type
 ps#:#ps_files_deleted#:#Export Files Deleted
-ps#:#ps_login_max_attempts_info#:# Sets the maximum count of wrong login attempts. Leave empty to disable this option.
+ps#:#ps_login_max_attempts_info#:# Sets the maximum number of unsuccessful attempts to login. After the maximum number of unsuccessful attempts is exceeded, the respective user will be set to 'inactive' and would require re-activation in User Management. Leave the field empty to disable this option and ILIAS will not count failed login attempts. 
 ps#:#ps_login_max_attempts#:#Maximum Login Attempts
 ps#:#ps_name_field#:#Name###deprecated 
 ps#:#ps_new_select_field#:#New Selection Box###deprecated 
@@ -8037,6 +8046,8 @@ pwassist#:#pwassist_password_assigned#:#The password has been successfully assig
 pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been sent by e-mail to you more than once, or because too much time has passed since the link has been sent to you.
 pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base.###deprecated 
 pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given e-mail address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten user names for the e-mail address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this e-mail by accident:\nDelete this e-mail.\n\n-You are sure, that you never requested this e-mail:\nPlease contact %s.\n\n- If you requested this e-mail, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according e-mail address to retrieve a new password.
+pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s
+pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s
 rating#:#rating_average_rating#:#Average Rating###deprecated 
 rating#:#rating_nr_users#:#%s User(s)###deprecated 
 rating#:#rating_your_rating#:#Your Rating
@@ -8233,6 +8244,7 @@ registration#:#registration_roles_all#:#All Roles
 registration#:#registration_generated_all#:#All Dates
 registration#:#registration_export_codes_no_data#:#No codes to export were selected.
 registration#:#registration_code_not_valid#:#The given registration code is either invalid or already has been used.
+registration#:#registration_disabled_no_access#:#The self-registration is not enabled. Please contact the system administration for further assistance: %s
 rep#:#rep_intro#:#Welcome to the Repository!
 rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchy of disciplines, or classes of a school.
 rep#:#rep_intro2#:#Three steps are needed to build an initial structure:
@@ -9475,7 +9487,7 @@ common#:#delete_inactive_user_accounts_interval#:#Frequency###deprecated
 common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts
-common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of inactivation.
+common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted %s days after inactivation.
 common#:#delete_inactivated_user_accounts_period#:#Days passed since inactivation
 common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this period of time has passed since inactivation.
 common#:#delete_inactivated_user_accounts_include_roles#:#Included roles
@@ -15924,3 +15936,8 @@ form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.
 common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
 ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
+grp#:#grp_period#:#Group Period
+grp#:#grp_period_info#:#Information about the start and end date of the event, which is supported by the group
+exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.
+exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.
+exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.

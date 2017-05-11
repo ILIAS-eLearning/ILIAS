@@ -5,7 +5,9 @@ require_once("./Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 
-global $ilCtrl, $tpl;
+global $DIC;
+$ilCtrl = $DIC['ilCtrl'];
+$tpl = $DIC['tpl'];
 /**
  * @var $ilCtrl ilCtrl
  * @var $tpl    ilTemplate

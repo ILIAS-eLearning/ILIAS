@@ -36,7 +36,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	/** @var ilCtrl $ctrl */
 	protected $ctrl = null;
 
-	/** @var ilAccess $access */
+	/** @var ilAccessHandler $access */
 	protected $access = null;
 
 	/** @var ilLanguage $lng */
@@ -1183,6 +1183,10 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$radioGroup = new ilRadioGroupInputGUI(
 			$this->lng->txt('tst_instant_feedback_handling'), 'instant_feedback_handling'
 		);
+		if( $this->testOBJ->participantDataExist() )
+		{
+			$radioGroup->setDisabled(true);
+		}
 		$radioOption = new ilRadioOption(
 			$this->lng->txt('tst_instant_feedback_handling_none'),
 			self::INST_FB_HANDLING_OPT_NONE
@@ -1266,7 +1270,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$this->testOBJ->setScoringFeedbackOptionsByArray($form->getItemByPostVar('instant_feedback')->getValue());
 		}
 
-		if ($this->formPropertyExists($form, 'instant_feedback_handling'))
+		if (!$this->testOBJ->participantDataExist() && $this->formPropertyExists($form, 'instant_feedback_handling'))
 		{
 			$this->saveInstFbHandlingSettings($form->getItemByPostVar('instant_feedback_handling')->getValue());
 		}

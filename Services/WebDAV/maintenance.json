@@ -1,0 +1,12 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "fawinike(44474)",
+    "second_maintainer": "smeyer(191)",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "",
+    "testcase_writer": "",
+    "path": "Services/WebDAV",
+    "belong_to_component": "WebDAV",
+    "used_in_components": []
+}

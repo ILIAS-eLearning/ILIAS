@@ -24,7 +24,11 @@ class ilFileSystemTableGUI extends ilTable2GUI
 		$a_file_labels, $a_label_header = "", $a_commands = array(),
 		$a_post_dir_path = false, $a_table_id = "")
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
 
 		$this->setId($a_table_id);
 		$this->cur_dir = $a_cur_dir;
@@ -154,7 +158,8 @@ class ilFileSystemTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$hash = $this->post_dir_path
 			? md5($a_set["file"])

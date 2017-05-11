@@ -1,13 +1,17 @@
 {FORM_BEGIN}
 <!-- BEGIN singlechoice -->
-	<div id="container{VAL_ID}" class="ilc_question_SingleChoice">
+<div id="container{VAL_ID}" class="ilc_question_SingleChoice">
 	<div class="ilc_qtitle_Title question id@id">qtitle</div>
-	<span class="ilc_answers answers">
-		<div class="ilc_qanswer_Answer"><input type="radio" class="order@value" value="0" name="answers{VAL_ID}" /> <span class="answertext" /></span></div>
-		</span>	
+	<div class="ilc_answers answers">
+		<div class="ilc_qanswer_Answer">
+			<div class="pull-left"><input type="radio" class="order@value" value="0" name="answers{VAL_ID}" /></div>
+			<div class="pull-left"><span class="answertext"></span></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>	
 	<div id="feedback{VAL_ID}" style="display:none"></div>
 	<input type="button" class="ilc_qsubmit_Submit" {VAL_NO_DISPLAY} id="button{VAL_ID}" onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
-	</div>
+</div>
 <script>
 	function renderILQuestion{VAL_ID}()
 	{
@@ -24,12 +28,16 @@
 	<!-- BEGIN selection_limit_hint -->
 	<p class="ilAdditionalAssQuestionInstruction">{SELECTION_LIMIT_HINT}</p>
 	<!-- END selection_limit_hint -->
-	<span class="ilc_answers answers">
-		<div class="ilc_qanswer_Answer"><input type="checkbox" class="order@value order@data-ans-id ilAssMultipleChoiceOption" value="(ans-id)" name="answers{VAL_ID}" data-qst-id="{VAL_ID}" data-ans-id="{VAL_ID}" /> <span class="answertext" /></span></div>
-		</span>	
+	<div class="ilc_answers answers">
+		<div class="ilc_qanswer_Answer">
+			<div class="pull-left"><input type="checkbox" class="order@value order@data-ans-id ilAssMultipleChoiceOption" value="(ans-id)" name="answers{VAL_ID}" data-qst-id="{VAL_ID}" data-ans-id="{VAL_ID}" /></div>
+			<div class="pull-left"><span class="answertext"></span></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
 	<div id="feedback{VAL_ID}" style="display:none"></div>
 	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
-	</div>
+</div>
 <script>
 	(function($) { $(document).ready(
 
@@ -177,7 +185,7 @@
 	</div>
 	<map class="map" name="map{VAL_ID}">
 		<!-- BEGIN mapareas -->
-		<area href="javascript:ilias.questions.toggleArea({VAL_ID},{VAL_ORDER});" coords="{VAL_COORDS}" shape="{VAL_AREA}" id="{VAL_ID}_{VAL_ORDER}" />
+		<area href="javascript:ilias.questions.toggleArea({VAL_ID},{VAL_ORDER});" title="{VAL_TOOLTIP}" coords="{VAL_COORDS}" shape="{VAL_AREA}" id="{VAL_ID}_{VAL_ORDER}" />
 		<!-- END mapareas -->
 	</map>
 

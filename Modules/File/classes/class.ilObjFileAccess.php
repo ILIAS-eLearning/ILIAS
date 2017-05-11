@@ -21,7 +21,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass {
 	 * @return bool
 	 */
 	protected function checkAccessToObjectId($obj_id) {
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 		/**
 		 * @var $ilAccess ilAccessHandler
 		 */
@@ -92,7 +93,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass {
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 		
 		$t_arr = explode("_", $a_target);
 		
@@ -122,7 +124,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass {
 	*/
 	static function _lookupFileData($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
@@ -136,7 +139,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass {
 	*/
 	static function _lookupVersion($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$q = "SELECT version FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
@@ -151,7 +155,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass {
 	*/
 	public static function _lookupFileSize($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$q = "SELECT file_size FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
@@ -170,7 +175,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass {
 	*/
 	public static function _lookupFileSizeFromFilesystem($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
@@ -206,7 +212,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass {
 	{
 		include_once('Modules/File/classes/class.ilFSStorageFile.php');
 		
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		// BEGIN WebDAV: Filename suffix is determined by file title
 		$q = "SELECT * FROM object_data WHERE obj_id = ".$ilDB->quote($a_id ,'integer');
@@ -316,7 +323,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass {
 	 */
 	public static function _appendNumberOfCopyToFilename($a_file_name, $nth_copy = null, $a_handle_extension = false)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$filenameWithoutExtension= $a_file_name;
                 
@@ -396,7 +404,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass {
 	
 	public static function _preloadData($a_obj_ids, $a_ref_ids)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		self::$preload_list_gui_data = array();
 		

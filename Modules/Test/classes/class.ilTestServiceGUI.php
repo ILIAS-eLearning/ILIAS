@@ -438,16 +438,23 @@ class ilTestServiceGUI
 				}
 			}
 		}
-		
-		if($pass !== null)
+
+		if($testResultHeaderLabelBuilder !== null)
 		{
-			$headerText = $testResultHeaderLabelBuilder->getListOfAnswersHeaderLabel($pass + 1);
+			if($pass !== null)
+			{
+				$headerText = $testResultHeaderLabelBuilder->getListOfAnswersHeaderLabel($pass + 1);
+			}
+			else
+			{
+				$headerText = $testResultHeaderLabelBuilder->getVirtualListOfAnswersHeaderLabel();
+			}
 		}
 		else
 		{
-			$headerText = $testResultHeaderLabelBuilder->getVirtualListOfAnswersHeaderLabel();
+			$headerText = '';
 		}
-		
+
 		$maintemplate->setVariable("RESULTS_OVERVIEW", $headerText);
 		return $maintemplate->get();
 	}

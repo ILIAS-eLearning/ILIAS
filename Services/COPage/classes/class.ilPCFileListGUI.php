@@ -122,7 +122,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 	*/
 	function insertFromRepository($a_cmd = "insert")
 	{
-		global $ilTabs, $tree, $ilCtrl, $tpl;
+		global $ilTabs, $ilCtrl, $tpl;
 
 		if ($a_cmd == "insert")
 		{
@@ -134,41 +134,15 @@ class ilPCFileListGUI extends ilPageContentGUI
 		}
 
 		$ilTabs->setSubTabActive("cont_file_from_repository");
-		
-		include_once "./Services/COPage/classes/class.ilFileSelectorGUI.php";
-
-		$exp = new ilFileSelectorGUI($this->ctrl->getLinkTarget($this, $a_cmd));
-
-		if ($_GET["expand"] == "")
-		{
-			$expanded = $tree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET["expand"];
-		}
-		$exp->setExpand($expanded);
-
-		$exp->setTargetGet("sel_id");
-		//$this->ctrl->setParameter($this, "target_type", $a_type);
 		$ilCtrl->setParameter($this, "subCmd", "insertFromRepository");
-		$exp->setParamsGet($this->ctrl->getParameterArray($this, $a_cmd));
-		
-		// filter
-		$exp->setFiltered(true);
-		$exp->setFilterMode(IL_FM_POSITIVE);
-		$exp->addFilter("root");
-		$exp->addFilter("cat");
-		$exp->addFilter("grp");
-		$exp->addFilter("fold");
-		$exp->addFilter("crs");
-		$exp->addFilter("file");
 
-		$sel_types = array('file');
-
-		$exp->setOutput(0);
-
-		$tpl->setContent($exp->getOutput());
+		include_once("./Services/COPage/classes/class.ilPCFileItemFileSelectorGUI.php");
+		$exp = new ilPCFileItemFileSelectorGUI($this, $a_cmd,
+			$this, $a_cmd, "file_ref_id");
+		if (!$exp->handleCommand())
+		{
+			$tpl->setContent($exp->getHTML());
+		}
 	}
 	
 	/**

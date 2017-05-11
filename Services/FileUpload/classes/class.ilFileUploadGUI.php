@@ -37,7 +37,8 @@ class ilFileUploadGUI
 	 */
 	public function __construct($a_drop_zone_id, $a_ref_id = null, $current_obj = false) 
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->drop_zone_id = $a_drop_zone_id;
 		$this->ref_id = $a_ref_id;
@@ -49,7 +50,8 @@ class ilFileUploadGUI
 	 */
 	public static function initFileUpload()
 	{
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		
 		// needed scripts
 		$tpl->addJavaScript("./Services/FileUpload/js/tmpl.js");
@@ -70,7 +72,10 @@ class ilFileUploadGUI
 	 */
 	public function getHTML()
 	{
-		global $lng, $ilCtrl, $tpl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 		
 		// get values
 		$id = $this->ref_id;
@@ -157,7 +162,8 @@ class ilFileUploadGUI
 	 */
 	protected function getSharedHtml()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		// already loaded?
 		if (self::$shared_code_loaded)
@@ -361,7 +367,8 @@ class ilFileUploadGUI
 	
 	private function getUploadUrl()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		// return null when the form is used
 		if ($this->use_form)

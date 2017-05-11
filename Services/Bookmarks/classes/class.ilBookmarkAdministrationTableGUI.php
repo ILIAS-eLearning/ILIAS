@@ -121,7 +121,7 @@ class ilBookmarkAdministrationTableGUI extends ilTable2GUI
 		else
 		{
 			$this->tpl->setVariable("VAL_BM_TITLE", $a_data["title"]);
-			$this->tpl->setVariable("VAL_BM_TARGET", htmlentities($a_data["target"]));
+			$this->tpl->setVariable("VAL_BM_TARGET", ilUtil::secureUrl($a_data["target"]));
 			$this->tpl->setVariable("VAL_BM_DESCRIPTION", $a_data["description"]);
 			$this->tpl->setVariable("FRAME_TARGET_BM", ilFrameTargetInfo::_getFrame("ExternalContent"));
 		}
