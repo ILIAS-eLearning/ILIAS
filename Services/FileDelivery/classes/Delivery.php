@@ -110,8 +110,9 @@ final class Delivery {
 		if ($path_to_file == self::DIRECT_PHP_OUTPUT) {
 			$this->setPathToFile(self::DIRECT_PHP_OUTPUT);
 		} else {
-			$parts = parse_url($path_to_file);
-			$this->setPathToFile(($parts['path']));
+			$path_to_file = explode("?", $path_to_file); // removing everything behind ?
+			$path_to_file = $path_to_file[0];
+			$this->setPathToFile($path_to_file);
 			$this->detemineDeliveryType();
 			$this->determineMimeType();
 			$this->determineDownloadFileName();
