@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+// declare(strict_types=1);
 
 require_once('class.ilWACSignedPath.php');
 
@@ -12,7 +12,6 @@ require_once('class.ilWACSignedPath.php');
 class ilWACToken {
 
 	const SALT_FILE_PATH = './data/wacsalt.php';
-
 	/**
 	 * @var string
 	 */
@@ -58,12 +57,16 @@ class ilWACToken {
 	/**
 	 * ilWACToken constructor.
 	 *
-	 * @param string     $path
-	 * @param string     $client
-	 * @param int        $timestamp
-	 * @param int        $ttl
+	 * @param string $path
+	 * @param string $client
+	 * @param int $timestamp
+	 * @param int $ttl
 	 */
-	public function __construct(string $path, string $client, int $timestamp = 0, int $ttl = 0) {
+	public function __construct($path, $client, $timestamp = 0, $ttl = 0) {
+		assert(is_string($path));
+		assert(is_string($client));
+		assert(is_int($timestamp));
+		assert(is_int($ttl));
 		$this->setClient($client);
 		$this->setPath($path);
 		$session_id = session_id();
@@ -78,16 +81,24 @@ class ilWACToken {
 		$this->setId($this->getPath());
 	}
 
+
 	/**
 	 * @return void
 	 */
 	public function generateToken() {
 		$this->initSalt();
-		$token = implode('-', array( self::getSALT(), $this->getIp(), $this->getClient(), $this->getTimestamp(), $this->getTTL()));
+		$token = implode('-', array(
+			self::getSALT(),
+			$this->getIp(),
+			$this->getClient(),
+			$this->getTimestamp(),
+			$this->getTTL(),
+		));
 		$this->setRawToken($token);
 		$token = sha1($token);
 		$this->setToken($token);
 	}
+
 
 	/**
 	 * @return void
@@ -133,8 +144,8 @@ class ilWACToken {
 	/**
 	 * @return string
 	 */
-	public function getSessionId() : string {
-		return $this->session_id;
+	public function getSessionId() {
+		return (string)$this->session_id;
 	}
 
 
@@ -142,7 +153,8 @@ class ilWACToken {
 	 * @param string $session_id
 	 * @return void
 	 */
-	public function setSessionId(string $session_id) {
+	public function setSessionId($session_id) {
+		assert(is_string($session_id));
 		$this->session_id = $session_id;
 	}
 
@@ -150,8 +162,8 @@ class ilWACToken {
 	/**
 	 * @return int
 	 */
-	public function getTimestamp() : int {
-		return $this->timestamp;
+	public function getTimestamp() {
+		return (int)$this->timestamp;
 	}
 
 
@@ -159,7 +171,8 @@ class ilWACToken {
 	 * @param int $timestamp
 	 * @return void
 	 */
-	public function setTimestamp(int $timestamp) {
+	public function setTimestamp($timestamp) {
+		assert(is_int($timestamp));
 		$this->timestamp = $timestamp;
 	}
 
@@ -167,8 +180,8 @@ class ilWACToken {
 	/**
 	 * @return string
 	 */
-	public function getIp() : string {
-		return $this->ip;
+	public function getIp() {
+		return (string)$this->ip;
 	}
 
 
@@ -176,7 +189,8 @@ class ilWACToken {
 	 * @param string $ip
 	 * @return void
 	 */
-	public function setIp(string $ip) {
+	public function setIp($ip) {
+		assert(is_string($ip));
 		$this->ip = $ip;
 	}
 
@@ -184,8 +198,8 @@ class ilWACToken {
 	/**
 	 * @return string
 	 */
-	public function getToken() : string {
-		return $this->token;
+	public function getToken() {
+		return (string)$this->token;
 	}
 
 
@@ -193,7 +207,8 @@ class ilWACToken {
 	 * @param string $token
 	 * @return void
 	 */
-	public function setToken(string $token) {
+	public function setToken($token) {
+		assert(is_string($token));
 		$this->token = $token;
 	}
 
@@ -201,8 +216,8 @@ class ilWACToken {
 	/**
 	 * @return string
 	 */
-	public function getPath() : string {
-		return $this->path;
+	public function getPath() {
+		return (string)$this->path;
 	}
 
 
@@ -210,7 +225,8 @@ class ilWACToken {
 	 * @param string $path
 	 * @return void
 	 */
-	public function setPath(string $path) {
+	public function setPath($path) {
+		assert(is_string($path));
 		$this->path = $path;
 	}
 
@@ -218,23 +234,24 @@ class ilWACToken {
 	/**
 	 * @return string
 	 */
-	public function getId() : string {
-		return $this->id;
+	public function getId() {
+		return (string)$this->id;
 	}
 
 
 	/**
 	 * @return string
 	 */
-	public function getHashedId() : string {
-		return md5($this->id);
+	public function getHashedId() {
+		return (string)md5($this->id);
 	}
 
 
 	/**
 	 * @param string $id
 	 */
-	public function setId(string $id) {
+	public function setId($id) {
+		assert(is_string($id));
 		$this->id = $id;
 	}
 
@@ -242,8 +259,8 @@ class ilWACToken {
 	/**
 	 * @return string
 	 */
-	public static function getSALT() : string {
-		return self::$SALT;
+	public static function getSALT() {
+		return (string)self::$SALT;
 	}
 
 
@@ -251,7 +268,8 @@ class ilWACToken {
 	 * @param string $salt
 	 * @return void
 	 */
-	public static function setSALT(string $salt) {
+	public static function setSALT($salt) {
+		assert(is_string($salt));
 		self::$SALT = $salt;
 	}
 
@@ -259,8 +277,8 @@ class ilWACToken {
 	/**
 	 * @return string
 	 */
-	public function getClient() : string {
-		return $this->client;
+	public function getClient() {
+		return (string)$this->client;
 	}
 
 
@@ -268,7 +286,8 @@ class ilWACToken {
 	 * @param string $client
 	 * @return void
 	 */
-	public function setClient(string $client) {
+	public function setClient($client) {
+		assert(is_string($client));
 		$this->client = $client;
 	}
 
@@ -276,8 +295,8 @@ class ilWACToken {
 	/**
 	 * @return int
 	 */
-	public function getTTL() : int {
-		return $this->ttl;
+	public function getTTL() {
+		return (int)$this->ttl;
 	}
 
 
@@ -285,7 +304,8 @@ class ilWACToken {
 	 * @param int $ttl
 	 * @return void
 	 */
-	public function setTTL(int $ttl) {
+	public function setTTL($ttl) {
+		assert(is_int($ttl));
 		$this->ttl = $ttl;
 	}
 
@@ -293,8 +313,8 @@ class ilWACToken {
 	/**
 	 * @return string
 	 */
-	public function getRawToken() : string {
-		return $this->raw_token;
+	public function getRawToken() {
+		return (string)$this->raw_token;
 	}
 
 
@@ -302,7 +322,8 @@ class ilWACToken {
 	 * @param string $raw_token
 	 * @return void
 	 */
-	public function setRawToken(string $raw_token) {
+	public function setRawToken($raw_token) {
+		assert(is_string($raw_token));
 		$this->raw_token = $raw_token;
 	}
 }

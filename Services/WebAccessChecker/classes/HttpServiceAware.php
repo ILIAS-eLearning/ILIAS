@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+// declare(strict_types=1);
 
 namespace ILIAS\WebAccessChecker;
 
@@ -34,7 +34,7 @@ trait HttpServiceAware {
 	 * @return GlobalHttpState  The current http global state of ILIAS.
 	 * @since 5.3
 	 */
-	protected static function http() : GlobalHttpState
+	protected static function http()
 	{
 		if(self::$http === NULL)
 			self::$http = $GLOBALS['DIC']['http'];

@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+// declare(strict_types=1);
 
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Cookies\CookieWrapper;
@@ -63,28 +63,26 @@ class ilWebAccessChecker {
 	 * @var array
 	 */
 	protected $applied_checking_methods = array();
-
-
-    /**
-     * @var \ILIAS\DI\HTTPServices $http
-     */
-    private $http;
+	/**
+	 * @var \ILIAS\DI\HTTPServices $http
+	 */
+	private $http;
 	/**
 	 * @var CookieFactory $cookieFactory
 	 */
-    private $cookieFactory;
+	private $cookieFactory;
 
 
 	/**
 	 * ilWebAccessChecker constructor.
 	 *
 	 * @param GlobalHttpState $httpState
-	 * @param CookieFactory   $cookieFactory
+	 * @param CookieFactory $cookieFactory
 	 */
-	public function __construct(GlobalHttpState $httpState, CookieFactory $cookieFactory ) {
+	public function __construct(GlobalHttpState $httpState, CookieFactory $cookieFactory) {
 		$this->setPathObject(new ilWACPath($httpState->request()->getRequestTarget()));
-        $this->http = $httpState;
-        $this->cookieFactory = $cookieFactory;
+		$this->http = $httpState;
+		$this->cookieFactory = $cookieFactory;
 	}
 
 
@@ -92,7 +90,7 @@ class ilWebAccessChecker {
 	 * @return bool
 	 * @throws ilWACException
 	 */
-	public function check() : bool {
+	public function check() {
 		if (!$this->getPathObject()) {
 			throw new ilWACException(ilWACException::CODE_NO_PATH);
 		}
@@ -167,7 +165,7 @@ class ilWebAccessChecker {
 	 */
 	protected function sendHeader(string $message) {
 		$response = $this->http->response()->withHeader('X-ILIAS-WebAccessChecker', $message);
-        $this->http->saveResponse($response);
+		$this->http->saveResponse($response);
 	}
 
 
@@ -181,23 +179,18 @@ class ilWebAccessChecker {
 
 		$GLOBALS['COOKIE_PATH'] = '/';
 
-        $cookie = $this->cookieFactory->create('ilClientId', $this->getPathObject()->getClient())
-                ->withPath('/')
-                ->withExpires(0);
+		$cookie = $this->cookieFactory->create('ilClientId', $this->getPathObject()->getClient())->withPath('/')->withExpires(0);
 
-        $response = $this->http->cookieJar()
-            ->with($cookie)
-            ->renderIntoResponseHeader($this->http->response());
+		$response = $this->http->cookieJar()->with($cookie)->renderIntoResponseHeader($this->http->response());
 
-        $this->http->saveResponse($response);
+		$this->http->saveResponse($response);
 
 		ilContext::init(ilContext::CONTEXT_WAC);
 		try {
 			ilInitialisation::initILIAS();
 			$this->checkPublicSection();
 			$this->checkUser();
-		}
-		catch (Exception $e) {
+		} catch (Exception $e) {
 			if ($e instanceof Exception && $e->getMessage() == 'Authentication failed.') {
 				$request = $this->http->request();
 				$queries = $request->getQueryParams();
@@ -226,7 +219,10 @@ class ilWebAccessChecker {
 	 */
 	protected function checkPublicSection() {
 		global $ilSetting, $ilUser;
-		if (!$ilSetting instanceof ilSetting || ($ilUser->getId() === ANONYMOUS_USER_ID && !$ilSetting->get('pub_section'))) {
+		if (!$ilSetting instanceof ilSetting
+		    || ($ilUser->getId() === ANONYMOUS_USER_ID
+		        && !$ilSetting->get('pub_section'))
+		) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
 		}
 	}
@@ -238,8 +234,11 @@ class ilWebAccessChecker {
 	 */
 	protected function checkUser() {
 		global $ilUser;
-		$referrer = $_SERVER['HTTP_REFERER'] ?? '';
-		if (!$ilUser instanceof ilObjUser || ($ilUser->getId() === 0 && strpos($referrer, 'login.php') === false)) {
+		$referrer = !is_null($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+		if (!$ilUser instanceof ilObjUser
+		    || ($ilUser->getId() === 0
+		        && strpos($referrer, 'login.php') === false)
+		) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);
 		}
 	}
@@ -248,8 +247,8 @@ class ilWebAccessChecker {
 	/**
 	 * @return bool
 	 */
-	public function isChecked() : bool {
-		return $this->checked;
+	public function isChecked() {
+		return (bool)$this->checked;
 	}
 
 
@@ -257,7 +256,8 @@ class ilWebAccessChecker {
 	 * @param boolean $checked
 	 * @return void
 	 */
-	public function setChecked(bool $checked) {
+	public function setChecked($checked) {
+		assert(is_bool($checked));
 		$this->checked = $checked;
 	}
 
@@ -265,7 +265,7 @@ class ilWebAccessChecker {
 	/**
 	 * @return ilWACPath
 	 */
-	public function getPathObject() : ilWACPath{
+	public function getPathObject() {
 		return $this->path_object;
 	}
 
@@ -282,8 +282,8 @@ class ilWebAccessChecker {
 	/**
 	 * @return string
 	 */
-	public function getDisposition() : string {
-		return $this->disposition;
+	public function getDisposition() {
+		return (string)$this->disposition;
 	}
 
 
@@ -291,7 +291,8 @@ class ilWebAccessChecker {
 	 * @param string $disposition
 	 * @return void
 	 */
-	public function setDisposition(string $disposition) {
+	public function setDisposition($disposition) {
+		assert(is_string($disposition));
 		$this->disposition = $disposition;
 	}
 
@@ -299,8 +300,8 @@ class ilWebAccessChecker {
 	/**
 	 * @return string
 	 */
-	public function getOverrideMimetype() : string {
-		return $this->override_mimetype;
+	public function getOverrideMimetype() {
+		return (string)$this->override_mimetype;
 	}
 
 
@@ -308,7 +309,8 @@ class ilWebAccessChecker {
 	 * @param string $override_mimetype
 	 * @return void
 	 */
-	public function setOverrideMimetype(string $override_mimetype) {
+	public function setOverrideMimetype($override_mimetype) {
+		assert(is_string($override_mimetype));
 		$this->override_mimetype = $override_mimetype;
 	}
 
@@ -316,15 +318,16 @@ class ilWebAccessChecker {
 	/**
 	 * @return bool
 	 */
-	public function isInitialized() : bool {
-		return $this->initialized;
+	public function isInitialized() {
+		return (bool)$this->initialized;
 	}
 
 
 	/**
 	 * @param bool $initialized
 	 */
-	public function setInitialized(bool $initialized) {
+	public function setInitialized($initialized) {
+		assert(is_bool($initialized));
 		$this->initialized = $initialized;
 	}
 
@@ -332,8 +335,8 @@ class ilWebAccessChecker {
 	/**
 	 * @return bool
 	 */
-	public function isSendStatusCode() : bool {
-		return $this->send_status_code;
+	public function isSendStatusCode() {
+		return (bool)$this->send_status_code;
 	}
 
 
@@ -341,7 +344,8 @@ class ilWebAccessChecker {
 	 * @param bool $send_status_code
 	 * @return void
 	 */
-	public function setSendStatusCode(bool $send_status_code) {
+	public function setSendStatusCode($send_status_code) {
+		assert(is_bool($send_status_code));
 		$this->send_status_code = $send_status_code;
 	}
 
@@ -349,8 +353,8 @@ class ilWebAccessChecker {
 	/**
 	 * @return bool
 	 */
-	public function isRevalidateFolderTokens() : bool {
-		return $this->revalidate_folder_tokens;
+	public function isRevalidateFolderTokens() {
+		return (bool)$this->revalidate_folder_tokens;
 	}
 
 
@@ -358,15 +362,17 @@ class ilWebAccessChecker {
 	 * @param bool $revalidate_folder_tokens
 	 * @return void
 	 */
-	public function setRevalidateFolderTokens(bool $revalidate_folder_tokens) {
+	public function setRevalidateFolderTokens($revalidate_folder_tokens) {
+		assert(is_bool($revalidate_folder_tokens));
 		$this->revalidate_folder_tokens = $revalidate_folder_tokens;
 	}
+
 
 	/**
 	 * @return bool
 	 */
-	public static function isUseSeperateLogfile() : bool {
-		return self::$use_seperate_logfile;
+	public static function isUseSeperateLogfile() {
+		return (bool)self::$use_seperate_logfile;
 	}
 
 
@@ -374,15 +380,17 @@ class ilWebAccessChecker {
 	 * @param bool $use_seperate_logfile
 	 * @return void
 	 */
-	public static function setUseSeperateLogfile(bool $use_seperate_logfile) {
+	public static function setUseSeperateLogfile($use_seperate_logfile) {
+		assert(is_bool($use_seperate_logfile));
 		self::$use_seperate_logfile = $use_seperate_logfile;
 	}
+
 
 	/**
 	 * @return int[]
 	 */
-	public function getAppliedCheckingMethods() : array {
-		return $this->applied_checking_methods;
+	public function getAppliedCheckingMethods() {
+		return (array)$this->applied_checking_methods;
 	}
 
 
@@ -399,7 +407,8 @@ class ilWebAccessChecker {
 	 * @param int $method
 	 * @return void
 	 */
-	protected function addAppliedCheckingMethod(int $method) {
+	protected function addAppliedCheckingMethod($method) {
+		assert(is_int($method));
 		$this->applied_checking_methods[] = $method;
 	}
 }
