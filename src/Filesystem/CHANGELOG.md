@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this service adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.0.2]
+## Added
+* copyDir method added to filesystem interface
+
+### Changed
+* Code is now PHP 5.6 compatible
+
 ## [0.0.1]
 ### Added
 * Filesystem interface created

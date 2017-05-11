@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace ILIAS\Filesystem;
 
@@ -38,7 +37,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function write(string $path, string $content);
+	public function write($path, $content);
 
 
 	/**
@@ -56,7 +55,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function update(string $path, string $newContent);
+	public function update($path, $newContent);
 
 
 	/**
@@ -75,7 +74,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function put(string $path, string $content);
+	public function put($path, $content);
 
 
 	/**
@@ -91,7 +90,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function read(string $path) : string;
+	public function read($path);
 
 
 	/**
@@ -104,7 +103,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function has(string $path) : bool;
+	public function has($path);
 
 
 	/**
@@ -120,7 +119,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function delete(string $path);
+	public function delete($path);
 
 
 	/**
@@ -136,7 +135,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function readAndDelete(string $path) : string;
+	public function readAndDelete($path);
 
 
 	/**
@@ -154,7 +153,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function rename(string $path, string $newPath);
+	public function rename($path, $newPath);
 
 
 	/**
@@ -172,7 +171,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function copy(string $path, string $copyPath);
+	public function copy($path, $copyPath);
 
 
 	/**
@@ -185,7 +184,7 @@ interface Filesystem {
 	 * @throws FileNotFoundException    If the file is not found.
 	 * @throws IOException              If the mime-type could not be determined.
 	 */
-	public function getMimeType(string $path) : string;
+	public function getMimeType($path);
 
 
 	/**
@@ -201,7 +200,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function getTimestamp(string $path) : \DateTime;
+	public function getTimestamp($path);
 
 
 	/**
@@ -218,13 +217,13 @@ interface Filesystem {
 	 *
 	 * @see FileSize
 	 */
-	public function getSize(string $path, int $fileSizeUnit) : FileSize;
+	public function getSize($path, $fileSizeUnit);
 
 
 	/**
 	 * Create a new directory.
 	 *
-	 * Please note that the Visibility interface defines two constants PUBLIC and PRIVATE
+	 * Please note that the Visibility interface defines two constants PUBLIC_ACCESS and PRIVATE_ACCESS
 	 * to ease the development process.
 	 *
 	 * @param string $path          The directory path which should be created.
@@ -238,8 +237,23 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function createDir(string $path, string $visibility = Visibility::PUBLIC);
+	public function createDir($path, $visibility = Visibility::PUBLIC_ACCESS);
 
+
+	/**
+	 * Copy all childes of the source recursive to the destination.
+	 * The file access rights will be copied as well.
+	 *
+	 * @param string $source        The source which should be scanned and copied.
+	 * @param string $destination   The destination of the recursive copy.
+	 *
+	 * @throws IOException                  Thrown if the directory could not be copied.
+	 * @throws FileAlreadyExistsException   Thrown if a file already exists at the destination.
+	 * @throws DirectoryNotFoundException   Thrown if the source or target directory could not be found.
+	 *
+	 * @return void
+	 */
+	public function copyDir($source, $destination);
 
 	/**
 	 * Deletes a directory recursive.
@@ -253,7 +267,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function deleteDir(string $path);
+	public function deleteDir($path);
 
 
 	/**
@@ -269,14 +283,14 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function listContents(string $path = '', bool $recursive = false) : array;
+	public function listContents($path = '', $recursive = false);
 
 
 	/**
 	 * Sets the visibility for a file.
 	 * Please note that the $visibility must 'public' or 'private'.
 	 *
-	 * The Visibility interface provides two constants PUBLIC and PRIVATE.
+	 * The Visibility interface provides two constants PUBLIC_ACCESS and PRIVATE.
 	 * We strongly encourage the consumers of this API to use the constants.
 	 *
 	 * @param string $path          The path to the file.
@@ -289,14 +303,14 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function setVisibility(string $path, string $visibility) : bool;
+	public function setVisibility($path, $visibility);
 
 
 	/**
 	 * Get the file visibility.
 	 * The file visibility could be 'public' or 'private'.
 	 *
-	 * Please note that the Visibility interface defines two constants PUBLIC and PRIVATE
+	 * Please note that the Visibility interface defines two constants PUBLIC_ACCESS and PRIVATE_ACCESS
 	 * to ease the development process.
 	 *
 	 * @param string $path  The path to the file which should be used.
@@ -308,7 +322,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function getVisibility(string $path) : string;
+	public function getVisibility($path);
 
 
 	/**
@@ -333,7 +347,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function writeStream(string $path, resource $stream);
+	public function writeStream($path, resource $stream);
 
 
 	/**
@@ -350,7 +364,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function readStream(string $path) : resource;
+	public function readStream($path);
 
 
 	/**
@@ -374,7 +388,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function putStream(string $path, resource $stream);
+	public function putStream($path, resource $stream);
 
 
 	/**
@@ -399,7 +413,7 @@ interface Filesystem {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function updateStream(string $path, resource $stream);
+	public function updateStream($path, resource $stream);
 
 
 }

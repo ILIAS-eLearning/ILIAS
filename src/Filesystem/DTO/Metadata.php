@@ -1,7 +1,8 @@
 <?php
-declare(strict_types=1);
 
 namespace ILIAS\Filesystem\DTO;
+
+use ILIAS\Filesystem\Exception\IllegalArgumentException;
 
 /**
  * Class Metadata
@@ -34,11 +35,23 @@ final class Metadata {
 	 *
 	 * @internal
 	 *
-	 * @param string $basename  The basename of the file / directory.
-	 * @param string $path      The path to the file / directory.
-	 * @param string $type      The file type.
+	 * @param string $basename The basename of the file / directory.
+	 * @param string $path     The path to the file / directory.
+	 * @param string $type     The file type.
+	 *
+	 * @throws IllegalArgumentException Thrown if the type of the given arguments are not correct.
 	 */
-	public function __construct(string $basename, string $path, string $type) {
+	public function __construct($basename, $path, $type) {
+
+		if(!is_string($basename))
+			throw new IllegalArgumentException("Basename must be of type string.");
+
+		if(!is_string($path))
+			throw new IllegalArgumentException("Path must be of type string.");
+
+		if(!is_string($type))
+			throw new IllegalArgumentException("Type must be of type string.");
+
 		$this->basename = $basename;
 		$this->path = $path;
 		$this->type = $type;
@@ -48,7 +61,7 @@ final class Metadata {
 	/**
 	 * @return string
 	 */
-	public function getBasename(): string {
+	public function getBasename() {
 		return $this->basename;
 	}
 
@@ -56,7 +69,7 @@ final class Metadata {
 	/**
 	 * @return string
 	 */
-	public function getPath(): string {
+	public function getPath() {
 		return $this->path;
 	}
 
@@ -64,7 +77,7 @@ final class Metadata {
 	/**
 	 * @return string
 	 */
-	public function getType(): string {
+	public function getType() {
 		return $this->type;
 	}
 }

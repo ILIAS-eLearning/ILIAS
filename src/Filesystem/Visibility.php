@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace ILIAS\Filesystem;
 
@@ -20,10 +19,10 @@ interface Visibility {
 	 * Public file visibility.
 	 * @since 5.3
 	 */
-	const PUBLIC = 'public';
+	const PUBLIC_ACCESS = 'public';
 	/**
 	 * Private file visibility.
 	 * @since 5.3
 	 */
-	const PRIVATE = 'private';
+	const PRIVATE_ACCESS = 'private';
 }

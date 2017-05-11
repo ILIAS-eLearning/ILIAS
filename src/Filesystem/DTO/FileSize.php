@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace ILIAS\Filesystem\DTO;
 
@@ -92,7 +91,13 @@ final class FileSize {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function __construct(int $size, int $unit) {
+	public function __construct($size, $unit) {
+
+		if(!is_int($size))
+			throw new IllegalArgumentException("Size must be of the type int.");
+
+		if(!is_int($unit))
+			throw new IllegalArgumentException("Unit must be of the type int.");
 
 		if(!isset(self::$suffixMap[$unit]))
 			throw new IllegalArgumentException('The given file size unit is not valid, please check the provided class constants of the FileSize class.');
@@ -110,7 +115,7 @@ final class FileSize {
 	 *
 	 * @return float
 	 */
-	public function getSize() : float {
+	public function getSize() {
 		return $this->size;
 	}
 
@@ -120,7 +125,7 @@ final class FileSize {
 	 *
 	 * @return int
 	 */
-	public function getUnit(): int {
+	public function getUnit() {
 		return $this->unit;
 	}
 
@@ -130,7 +135,7 @@ final class FileSize {
 	 *
 	 * @return string
 	 */
-	public function getSuffix() : string {
+	public function getSuffix() {
 		return $this->suffix;
 	}
 }
