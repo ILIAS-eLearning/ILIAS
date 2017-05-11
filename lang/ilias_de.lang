@@ -798,6 +798,7 @@ assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#Die Fragen-Kompetenz-Zuo
 assessment#:#qpl_qst_skl_selection_for_question_header#:#Kompetenzzuordnung für die Frage: %s
 assessment#:#tst_save_comp_points#:#Speichere Kompetenz-Punkte
 assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenz-Punkte wurden gespeichert.
+assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#Die Kompetenz-Punkte wurden nicht gespeichert. Bitte überprüfen Sie Ihre Eingabe.
 assessment#:#tst_skl_level_thresholds_missing#:#Es sind noch nicht für alle relevanten Kompetenzen Schwellenwerte definiert worden!
 assessment#:#tst_skl_level_thresholds_link#:#Kompetenz-Schwellenwerte konfigurieren
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Beachten Sie, dass die Kompetenzergebnisse eines einzelnen Tests nur bedingt aussagekräftig sind. Je mehr Informationen zu den einzelnen Kompetenzen gesammelt werden, desto valider die Aussage. Sollten einzelne Kompetenzen keinen Eintrag erhalten haben, standen für diese Kompetenz zu wenig Informationen zur Verfügung.
@@ -1296,7 +1297,7 @@ assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse v
 assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus dem vorigen Testdurchlauf nicht anzeigen
 assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_side_list#:#Fragenliste aus
-assessment#:#new_test_online#:#Der Test wurde online geschaltet.
+news#:#new_test_online#:#Der Test wurde online geschaltet.
 assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
 assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmern begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
@@ -2599,8 +2600,14 @@ common#:#btn_remove_system#:#Aus System entfernen
 common#:#btn_undelete#:#Wiederherstellen
 common#:#buy#:#Kaufen
 common#:#by#:#durch
-common#:#by_location#:#Nach Ort sortieren
-common#:#by_type#:#Nach Typ sortieren
+pd#:#pd_sort_by_location#:#Nach Ort sortieren
+pd#:#pd_sort_by_type#:#Nach Typ sortieren
+pd#:#pd_sort_by_start_date#:#Nach Startdatum sortieren
+pd#:#pd_my_memberships_sort_default#:#Default of Sorting Option
+pd#:#pd_upcoming#:#Bevorstehend
+pd#:#pd_ongoing#:#Aktuell
+pd#:#pd_ended#:#Beendet
+pd#:#pd_not_date#:#Nicht datiert
 common#:#bytes#:#Bytes
 common#:#cal_from#:#Von:
 common#:#cal_until#:#Bis:
@@ -2909,7 +2916,7 @@ common#:#delete_inactive_user_accounts_period_desc#:#Accounts werden gelöscht, 
 common#:#update_orgunits#:#Benutzerfeld 'Organisationseinheiten' aktualisieren
 common#:#update_orgunits_desc#:#Wenn eingeschaltet, werden bei allen Benutzern das Feld 'Organisationseinheiten' aktualisiert und so allfällige Fehler behoben.
 common#:#delete_inactivated_user_accounts#:#Benutzerzugänge nach Inaktivierung löschen
-common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt der Inaktivierung gelöscht.
+common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach der Inaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
 common#:#delete_inactivated_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
 common#:#delete_inactivated_user_accounts_interval#:#Häufigkeit
@@ -3038,6 +3045,7 @@ common#:#err_count_param#:#Grund: Falsche Parameteranzahl
 common#:#err_enter_current_passwd#:#Bitte geben Sie Ihr momentanes Passwort an!
 common#:#err_in_line#:#Fehler in Zeile
 common#:#err_inactive#:#Dieses Benutzerkonto ist nicht aktiv bzw. noch nicht aktiviert worden. Bitte kontaktieren Sie den Technischen Support (siehe Link unten) für weitere Unterstützung.
+common#:#err_inactive_login_attempts#:#Ihr Benutzerkonto wurde wegen falscher Loginversuche deaktiviert. Klicken Sie auf 'Technische Betreuung kontaktieren' am Fuße dieser Seite, um die Administratoren zu informieren, dass sie Ihr Benutzerkonto wieder aktivieren sollen.
 common#:#err_invalid_port#:#Ungültige Portnummer
 common#:#err_ldap_auth_failed#:#Benutzer konnte nicht authentifiziert werden! Bitte überprüfen Sie, ob ILIAS- und LDAP-Passwort übereinstimmen
 common#:#err_ldap_connect_failed#:#Verbindung zum LDAP-Server fehlgeschlagen! Bitte überprüfen Sie Serveradresse und Port
@@ -9147,7 +9155,7 @@ ps#:#ps_field_type#:#Datenfeldtyp
 ps#:#ps_files_deleted#:#Die Exportdateien wurden gelöscht.
 ps#:#ps_grp_user_fields#:#Gruppenspezifische Benutzerdaten
 ps#:#ps_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen
-ps#:#ps_login_max_attempts_info#:# Bestimmt die maximal erlaubte Anzahl fehlgeschlagener Anmeldeversuche. Wird kein Wert eingetragen, ist die Funktion deaktiviert und ILIAS zählt ILIAS nicht die fehlgeschlagenen Anmeldeversuche.
+ps#:#ps_login_max_attempts_info#:# Bestimmt wie viele Anmeldeversuche eines Benutzer höchstens fehlschlagen dürfen. Schlagen mehr Anmeldeversuche fehl, wird dieser Benutzer auf 'inaktiv' gesetzt und muss im 'Benutzer Management' wieder aktiviert werden, bevor er die Plattform benutzen kann. Wird kein Wert eingetragen, ist die Funktion deaktiviert und ILIAS zählt die fehlgeschlagenen Anmeldeversuche nicht.
 ps#:#ps_name_field#:#Name des Datenfeldes
 ps#:#ps_new_select_field#:#Neue Auswahlliste anlegen
 ps#:#ps_new_text_field#:#Neues Textfeld anlegen
@@ -9203,6 +9211,8 @@ pwassist#:#pwassist_password_assigned#:#Das Passwort ist erfolgreich dem Benutze
 pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.\nDie Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
 pwassist#:#pwassist_update_error#:#Bitte benachrichtigen Sie den System Administrator.\nDas Passwort konnte aufgrund eines Datenbank Fehlers nicht zugewiesen werden.
 pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat:\n%s\n\nDiese Mail ist automatisch generiert worden von der ILIAS-Installation:\n\t%s\n\nSie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die E-Mail-Adresse '%s' angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie diese E-Mail.\n\n-Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben:\nBitte nehmen Sie mit %s Kontakt auf.\n\n- Sie haben um Benutzernamen-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und E-Mail ein neues Passwort schicken zu lassen.
+pwassist#:#pwassist_disabled_no_access#:#Die Passwort-Unterstützung ist nicht aktiviert.  Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
+pwassist#:#unassist_disabled_no_access#:#Die Benutzernamen-Unterstützung ist nicht aktiviert. Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
 rating#:#rat_not_rated_yet#:#Noch nicht bewertet
 rating#:#rat_nr_ratings#:#%s Bewertungen
 rating#:#rat_one_rating#:#Eine Bewertung
@@ -9523,6 +9533,7 @@ registration#:#registration_tab_codes#:#Registrierungscodes
 registration#:#registration_tab_settings#:#Einstellungen
 registration#:#registration_used#:#Verbraucht am
 registration#:#registration_user_new_account_mail#:#Benachrichtigung über Neuanmeldung editieren
+registration#:#registration_disabled_no_access#:#Die Selbstregistrierung ist nicht aktiviert. Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
 rep#:#rep_dependencies#:#Abhängigkeiten
 rep#:#rep_dependency#:#Abhängigkeit
 rep#:#rep_dependent_object#:#Abhängiges Objekt
@@ -15925,3 +15936,8 @@ form#:#form_msg_file_type_is_not_allowed#:#Dieser Dateityp ist nicht erlaubt.
 common#:#file_no_valid_file_type#:#Dieser Dateityp ist nicht erlaubt.
 common#:#file_some_invalid_file_types_removed#:#Einige Dateitypen sind nicht erlaubt und wurden entfernt.
 ecs#:#ecs_member_auth_type#:#Authentifizierungsmethode für Kursmitglieder
+grp#:#grp_period#:#Veranstaltungszeitraum
+grp#:#grp_period_info#:#Information zum Start und Ende der Veranstaltung, die mit der Gruppe unterstützt werden soll.
+exc#:#exc_settings_feedback_mail_info#:#Tutoren geben ihre Rückmeldungen zur Abgabe in ein Mail-Formular ein. Die Mail wird dem entsprechenden Teilnehmer gesendet.
+exc#:#exc_settings_feedback_file_info#:#Tutoren laden ihre Datei hoch. Der jeweilige Teilnehmer erhält eine Benachrichtigung und die Datei wird ihm in der Übungseinheiten-Übersicht angezeigt.
+exc#:#exc_settings_feedback_text_info#:#Tutoren geben ihre Rückmeldungen in ein Textfeld ein. Der jeweilige Teilnehmer erhält eine Benachrichtigung und der Text wird ihm in der Übungseinheiten-Übersicht angezeigt.

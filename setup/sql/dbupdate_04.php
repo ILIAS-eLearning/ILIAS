@@ -809,7 +809,7 @@ if( !$ilDB->tableColumnExists('qpl_a_cloze', 'gap_size') )
 ?>
 <#4212>
 <?php
-if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'qpl_qst_cloze') )
+if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'cloze_text') )
 {
 	$ilDB->addTableColumn( 'qpl_qst_cloze', 'cloze_text', array('type' => 'clob') );
 
@@ -829,7 +829,7 @@ if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'qpl_qst_cloze') )
 				'question_fi'	=> array('integer', $row['question_id'] )
 			)
 		);
-		$ilDB->execute($clean_qst_txt, $row['question_id'] );
+		$ilDB->execute($clean_qst_txt, array($row['question_id']) );
 	}
 }
 ?>
@@ -3110,7 +3110,7 @@ if(!$ilDB->tableColumnExists('tst_solutions', 'step'))
 /** @var ilDB $ilDB */
 if(!$ilDB->tableColumnExists('tst_test_result', 'step'))
 {
-	$ilDB->addTableColumn('	tst_test_result', 'step', array(
+	$ilDB->addTableColumn('tst_test_result', 'step', array(
 		'type' => 'integer',
 		'length' => 4,
 		'notnull' => false,
@@ -14775,6 +14775,40 @@ if ($ilDB->tableExists('benchmark_old'))
 //step skl_user_skill_level adding primary key
 if($ilDB->tableExists('skl_user_skill_level'))
 {
+	// get rid of duplicates
+	$set = $ilDB->query("SELECT * FROM skl_user_skill_level ORDER BY status_date ASC");
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$q = "DELETE FROM skl_user_skill_level WHERE ".
+			" skill_id = ".$ilDB->quote($rec["skill_id"], "integer"). " AND ".
+			" tref_id = ".$ilDB->quote($rec["tref_id"], "integer"). " AND ".
+			" user_id = ".$ilDB->quote($rec["user_id"], "integer"). " AND ".
+			" status_date = ".$ilDB->quote($rec["status_date"], "datetime"). " AND ".
+			" status = ".$ilDB->quote($rec["status"], "integer"). " AND ".
+			" trigger_obj_id = ".$ilDB->quote($rec["trigger_obj_id"], "integer"). " AND ".
+			" self_eval = ".$ilDB->quote($rec["self_eval"], "integer");
+		//echo "<br>".$q;
+		$ilDB->manipulate($q);
+
+		$q = "INSERT INTO skl_user_skill_level ".
+			"(skill_id, tref_id, user_id, status_date, status, trigger_obj_id, self_eval, level_id, valid, trigger_ref_id, trigger_title, trigger_obj_type, unique_identifier) VALUES (".
+			$ilDB->quote($rec["skill_id"], "integer").", ".
+			$ilDB->quote($rec["tref_id"], "integer").", ".
+			$ilDB->quote($rec["user_id"], "integer").", ".
+			$ilDB->quote($rec["status_date"], "datetime").", ".
+			$ilDB->quote($rec["status"], "integer").", ".
+			$ilDB->quote($rec["trigger_obj_id"], "integer").", ".
+			$ilDB->quote($rec["self_eval"], "integer").", ".
+			$ilDB->quote($rec["level_id"], "integer").", ".
+			$ilDB->quote($rec["valid"], "integer").", ".
+			$ilDB->quote($rec["trigger_ref_id"], "integer").", ".
+			$ilDB->quote($rec["trigger_title"], "text").", ".
+			$ilDB->quote($rec["trigger_obj_type"], "text").", ".
+			$ilDB->quote($rec["unique_identifier"], "text").")";
+		//echo "<br>".$q;
+		$ilDB->manipulate($q);
+	}
+
 	$ilDB->addPrimaryKey('skl_user_skill_level', array('skill_id', 'tref_id', 'user_id', 'status_date', 'status', 'trigger_obj_id', 'self_eval'));
 }
 
@@ -18310,3 +18344,24 @@ $ilDB->manipulate('update crs_settings set '
 );
 	
 ?>
+<#5079>
+<?php
+if(!$ilDB->tableColumnExists('grp_settings', 'grp_start'))
+{
+	$ilDB->addTableColumn('grp_settings', 'grp_start',
+		array(
+			"type"		 => "integer",
+			"notnull"	 => false,
+			"length"	 => 4
+	));
+}
+if(!$ilDB->tableColumnExists('grp_settings', 'grp_end'))
+{
+	$ilDB->addTableColumn('grp_settings', 'grp_end',
+	   array(
+			"type"		 => "integer",
+			"notnull"	 => false,
+			"length"	 => 4
+	));
+}
+?>     

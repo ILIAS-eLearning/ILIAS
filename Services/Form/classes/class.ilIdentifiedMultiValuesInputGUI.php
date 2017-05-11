@@ -22,9 +22,6 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	protected $elementMoveUpCommand = self::ELEMENT_DEFAULT_MOVE_UP_CMD;
 	protected $elementMoveDownCommand = self::ELEMENT_DEFAULT_MOVE_DOWN_CMD;
 
-	/**
-	 * @var ilAssOrderingElement[]
-	 */
 	protected $identified_multi_values = array();
 	
 	protected $formValuesManipulationChain = array();
@@ -228,7 +225,6 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 	
 	protected function setIdentifiedMultiValuesByArray($a_values)
 	{
-		// #20297
 		$this->identified_multi_values = $a_values[$this->getPostVar()];
 	}
 	
@@ -290,5 +286,10 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
 		$fieldPostVar = "{$this->getPostVar()}[$subFieldIndex]";
 		$elemPostVar = str_replace($this->getPostVar(), $fieldPostVar, $elemPostVar);
 		return $elemPostVar;
+	}
+	
+	public function prepareReprintable(assQuestion $question)
+	{
+		$this->setIdentifiedMultiValues( $this->getIdentifiedMultiValues() );
 	}
 }

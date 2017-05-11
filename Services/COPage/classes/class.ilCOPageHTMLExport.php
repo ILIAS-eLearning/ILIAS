@@ -10,11 +10,35 @@
  */
 class ilCOPageHTMLExport
 {
-	private $mobs = array();
-	private $files = array();
-	private $files_direct = array();
-	private $exp_dir = "";
-	private $content_style_id = 0;
+	/**
+	 * @var array
+	 */
+	protected $mobs = array();
+
+	/**
+	 * @var array
+	 */
+	protected $files = array();
+
+	/**
+	 * @var array
+	 */
+	protected $files_direct = array();
+
+	/**
+	 * @var string
+	 */
+	protected $exp_dir = "";
+
+	/**
+	 * @var int
+	 */
+	protected $content_style_id = 0;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
 
 	/**
 	 * @var ilLogger
@@ -22,12 +46,15 @@ class ilCOPageHTMLExport
 	protected $log;
 
 	/**
-	 * Initialisation
+	 * ilCOPageHTMLExport constructor.
+	 * @param $a_exp_dir
 	 */
 	function __construct($a_exp_dir)
 	{
+		global $DIC;
 
 		$this->log = ilLoggerFactory::getLogger('copg');
+		$this->user = $DIC->user();
 
 		$this->exp_dir = $a_exp_dir;
 		$this->mobs_dir = $a_exp_dir."/mobs";
@@ -45,8 +72,6 @@ class ilCOPageHTMLExport
 		$this->js_dir = $a_exp_dir.'/js';
 		$this->js_yahoo_dir = $a_exp_dir.'/js/yahoo';
 		$this->css_dir = $a_exp_dir.'/css';
-
-		$GLOBALS["teximgcnt"] = 0;
 	}
 
 	/**
@@ -237,8 +262,6 @@ class ilCOPageHTMLExport
 	 */
 	function getPreparedMainTemplate($a_tpl = "")
 	{
-		global $ilUser;
-
 		$this->log->debug("get main template");
 		
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
@@ -284,7 +307,7 @@ class ilCOPageHTMLExport
 		}
 
 		// css files needed
-		$style_name = $ilUser->prefs["style"].".css";
+		$style_name = $this->user->prefs["style"].".css";
 		$css_files = array("./css/container.css",
 			"./content_style/content.css", "./style/".$style_name, "./css/test_javascript.css");
 		$css_files = array_merge($css_files, ilPlayerUtil::getCssFilePaths());
@@ -510,8 +533,6 @@ class ilCOPageHTMLExport
 	 */
 	function exportHTMLMOB($a_mob_id, &$a_linked_mobs)
 	{
-		global $tpl;
-
 		$this->log->debug("export html mobs");
 
 		$source_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;

@@ -46,6 +46,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
 1. [Upgrading ILIAS](#upgrading-ilias)
    1. [Minor Upgrade](#minor-upgrade)
    1. [Major Upgrade](#major-upgrade)
+   1. [Database Update](#database-update)
    1. [Information on Updates](#information-on-updates)
 1. [Upgrading Dependencies](#upgrading-dependencies)
    1. [PHP](#php)
@@ -91,7 +92,7 @@ For best results we RECOMMEND:
   * MySQL 5.5 / MariaDB
   * PHP 5.6+
   * Apache 2.2+ with mod_php
-  * ImageMagick 6.x+
+  * ImageMagick 6.8+
   * php5-gd, php5-xsl, php5-mysql
   * OpenJDK 7+
   * zip, unzip
@@ -584,7 +585,7 @@ git pull
 
 In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
 
-Afterwards you MUST open the ILIAS Installation Wizard in your browser (e.g. http://yourservername.org/setup/setup.php) and check if your database needs updates or hotfixes.
+See [Database Update](#database-update) for details on how to complete the Upgrade by updating your database.
 
 <a name="major-upgrade"></a>
 ## Major Upgrade
@@ -600,9 +601,16 @@ Replace ```release_5-2``` with the branch or tag you actually want to upgrade to
 
 In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
   
-Afterwards you MUST open the ILIAS Installation Wizard in your browser (e.g. http://yourservername.org/setup/setup.php) and check if your database needs updates or hotfixes.
+See [Database Update](#database-update) for details on how to complete the Upgrade by updating your database.
 
 As a last step you should log in with a User using your custom skin. If everything works fine change back from Delos to your skin. If not refer to [Customizing ILIAS](#customizing-ilias) to modify your skin to match the new requirements.
+
+<a name="database-update"></a>
+## Database Update
+
+A Database Updates MUST be done for both minor and major updates. Open the ILIAS Installation Wizard (e.g. http://yourservername.org/setup/setup.php) to check and apply the needed updates and/or hotfixes.
+
+The update process usually will be splitted into several runs to avoid timeouts. Each update step can take quite some time without huge load peaks on your PHP/Database processes. To check which update step gets currently executed run the following SQL-Statement on your ILIAS database: ```SELECT * FROM `settings` WHERE keyword = "db_update_running"```
 
 <a name="information-on-updates"></a>
 ## Information on Updates
@@ -643,7 +651,7 @@ When you upgrade from rather old versions please make sure that the dependencies
 
 | ILIAS Version   | ImageMagick Version                   |
 |-----------------|---------------------------------------|
-| 4.2.x - 5.2.x   | 6.3.8-3 or higher                     |
+| 4.2.x - 5.2.x   | 6.8.9-9 or higher                     |
 | < 4.2.x         | No specific version requirements      |
 
 <a name="contribute"></a>

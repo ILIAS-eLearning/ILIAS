@@ -2,7 +2,9 @@
     "maintenance_model": "Classic",
     "first_maintainer": "",
     "second_maintainer": "",
-    "implicit_maintainers": [],
+    "implicit_maintainers": [
+        "mjansen(8784)"
+    ],
     "coordinator": "",
     "tester": "",
     "testcase_writer": "",

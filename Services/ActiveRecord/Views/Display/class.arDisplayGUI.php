@@ -59,7 +59,9 @@ class arDisplayGUI {
 	 * @param ActiveRecord $ar
 	 */
 	public function __construct(arGUI $parent_gui, ActiveRecord $ar) {
-		global $ilCtrl, $tpl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 		/**
 		 * @var ilCtrl     $ilCtrl
 		 * @var ilTemplate $tpl

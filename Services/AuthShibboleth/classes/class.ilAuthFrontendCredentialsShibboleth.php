@@ -27,7 +27,7 @@ class ilAuthFrontendCredentialsShibboleth extends ilAuthFrontendCredentials impl
 		parent::__construct();
 
 		include_once './Services/Administration/classes/class.ilSetting.php';
-		$this->settings = $GLOBALS['ilSetting'];
+		$this->settings = $GLOBALS['DIC']['ilSetting'];
 	}
 	
 	

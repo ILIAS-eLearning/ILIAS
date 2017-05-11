@@ -37,6 +37,10 @@ var ilKprimChoiceWizardInputTemplate = {
 				that.handleId(this, 'name', rowindex);
 				that.handleId(this, 'id', rowindex);
 			});
+			$(this).find('textarea[id*="[answer]"]').each(function() {
+				that.handleId(this, 'name', rowindex);
+				that.handleId(this, 'id', rowindex);
+			});
 
 			// fileupload
 			$(this).find('input:file[id*="[image]"]').each(function() {

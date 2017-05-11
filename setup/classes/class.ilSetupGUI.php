@@ -596,7 +596,7 @@ echo "<br>+".$client_id;
 			}
 		}
 
-		$this->tpl->setVariable("VAL_CMD", $_GET["cmd"]);
+		$this->tpl->setVariable("VAL_CMD", htmlspecialchars($_GET["cmd"]));
 		$this->tpl->setVariable("TXT_OK",$this->lng->txt("change"));
 		$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE",$this->lng->txt("choose_language"));
 		$this->tpl->setVariable("PAGETITLE","Setup");

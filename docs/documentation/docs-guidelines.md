@@ -39,9 +39,18 @@ docs-guidelines).
 
 ## Content
 * Markdown SHOULD be used for providing information such as described above.
+  * A Table of Content (TOC) with links to all headlines SHOULD be included.
 * [RFC2119](https://www.ietf.org/rfc/rfc2119.txt) SHOULD be used when writing
 guidelines to signify their level of requirement.
 * In Guidelines the audience SHOULD NOT be addressed directly (e.g. do not start with
 "You SHOULD").
 * In how-to, tutorials or similar, the audience MAY be addressed directly.
 * If contend from other files is referenced an internal link to this document SHOULD be provided.
+
+### Table of Content (Markdown)
+
+To maintain a TOC the Sublime Plugin `MarkdownTOC` MAY be used, other Tools are welcome as well. If `MarkdownTOC` is used, the TOC SHOULD be initiated with the following attributes:
+
+```
+<!-- MarkdownTOC depth=0 autolink="true" bracket="round" autoanchor="true" style="ordered" indent="   " -->
+```

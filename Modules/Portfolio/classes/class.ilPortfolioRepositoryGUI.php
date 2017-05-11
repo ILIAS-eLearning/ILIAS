@@ -136,7 +136,7 @@ class ilPortfolioRepositoryGUI
 				if($this->checkAccess("write", $id))
 				{
 					$portfolio = new ilObjPortfolio($id, false);
-					$portfolio->setTitle($title);
+					$portfolio->setTitle(ilUtil::stripSlashes($title));
 
 					if(is_array($_POST["online"]) && in_array($id, $_POST["online"]))
 					{
@@ -232,12 +232,12 @@ class ilPortfolioRepositoryGUI
 	 */
 	protected function setDefaultConfirmation()
 	{
-		global $ilCtrl, $lng, $tpl, $ilTabs;
+		global $ilCtrl, $lng, $tpl, $ilTabs, $ilSetting;
 		
 		$prtf_id = (int)$_REQUEST["prt_id"];
 		
 		if($prtf_id && $this->checkAccess("write"))
-		{			
+		{
 			// if already shared, no need to ask again
 			if($this->access_handler->hasRegisteredPermission($prtf_id) ||
 				$this->access_handler->hasGlobalPermission($prtf_id))
@@ -250,6 +250,12 @@ class ilPortfolioRepositoryGUI
 				$ilCtrl->getLinkTarget($this, "show"));
 
 			$ilCtrl->setParameter($this, "prt_id", $prtf_id);
+
+			// #20310
+			if(!$ilSetting->get("enable_global_profiles"))
+			{
+				$ilCtrl->redirect($this, "setDefaultRegistered");
+			}
 
 			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 			$cgui = new ilConfirmationGUI();
