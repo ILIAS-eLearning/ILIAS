@@ -48,7 +48,8 @@ final class FileDeliveryTypeFactory {
 	 *
 	 * @see DeliveryMethod
 	 */
-	public function getInstance(string $type) : ilFileDeliveryType {
+	public function getInstance( $type){
+		assert(is_string($type));
 		if (isset(self::$instances[$type])) {
 			return self::$instances[$type];
 		}

@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\FileDelivery;
 
 require_once('./Services/Utilities/classes/class.ilMimeTypeUtil.php');
@@ -19,7 +20,7 @@ use ILIAS\HTTP\Response\ResponseHeader;
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.0
- * @since 5.3
+ * @since   5.3
  *
  * @Internal
  */
@@ -103,10 +104,11 @@ final class Delivery {
 
 
 	/**
-	 * @param string          $path_to_file
+	 * @param string $path_to_file
 	 * @param GlobalHttpState $httpState
 	 */
-	public function __construct(string $path_to_file, GlobalHttpState $httpState) {
+	public function __construct($path_to_file, GlobalHttpState $httpState) {
+		assert(is_string($path_to_file));
 		if ($path_to_file == self::DIRECT_PHP_OUTPUT) {
 			$this->setPathToFile(self::DIRECT_PHP_OUTPUT);
 		} else {
@@ -172,7 +174,9 @@ final class Delivery {
 		$this->setDispositionHeaders();
 		$response = $this->httpService->response()->withHeader(ResponseHeader::ACCEPT_RANGES, 'bytes');
 		$this->httpService->saveResponse($response);
-		if ($this->getDeliveryType() == DeliveryMethod::PHP && $this->getPathToFile() != self::DIRECT_PHP_OUTPUT) {
+		if ($this->getDeliveryType() == DeliveryMethod::PHP
+		    && $this->getPathToFile() != self::DIRECT_PHP_OUTPUT
+		) {
 			$response = $this->httpService->response()->withHeader(ResponseHeader::CONTENT_LENGTH, (string)filesize($this->getPathToFile()));
 			$this->httpService->saveResponse($response);
 		}
@@ -182,8 +186,7 @@ final class Delivery {
 
 
 	public function setCachingHeaders() {
-		$response = $this->httpService->response()->withHeader(ResponseHeader::CACHE_CONTROL, 'must-revalidate, post-check=0, pre-check=0')
-		                              ->withHeader(ResponseHeader::PRAGMA, 'public');
+		$response = $this->httpService->response()->withHeader(ResponseHeader::CACHE_CONTROL, 'must-revalidate, post-check=0, pre-check=0')->withHeader(ResponseHeader::PRAGMA, 'public');
 
 		$this->httpService->saveResponse($response);
 		$this->sendEtagHeader();
@@ -246,7 +249,9 @@ final class Delivery {
 			return true;
 		}
 
-		if (function_exists('apache_get_modules') && in_array('mod_xsendfile', apache_get_modules())) {
+		if (function_exists('apache_get_modules')
+		    && in_array('mod_xsendfile', apache_get_modules())
+		) {
 			$this->setDeliveryType(DeliveryMethod::XSENDFILE);
 		}
 
@@ -260,11 +265,15 @@ final class Delivery {
 
 		require_once('./Services/Environment/classes/class.ilRuntime.php');
 		$ilRuntime = \ilRuntime::getInstance();
-		if ((!$ilRuntime->isFPM() && !$ilRuntime->isHHVM()) && $this->getDeliveryType() == DeliveryMethod::XACCEL) {
+		if ((!$ilRuntime->isFPM() && !$ilRuntime->isHHVM())
+		    && $this->getDeliveryType() == DeliveryMethod::XACCEL
+		) {
 			$this->setDeliveryType(DeliveryMethod::PHP);
 		}
 
-		if ($this->getDeliveryType() == DeliveryMethod::XACCEL && strpos($this->getPathToFile(), './data') !== 0) {
+		if ($this->getDeliveryType() == DeliveryMethod::XACCEL
+		    && strpos($this->getPathToFile(), './data') !== 0
+		) {
 			$this->setDeliveryType(DeliveryMethod::PHP);
 		}
 
@@ -498,45 +507,44 @@ final class Delivery {
 		}
 	}
 
-//	/**
-//	 * @return bool
-//	 */
-//	private function isNonModified() {
-//		if (self::$DEBUG) {
-//			return false;
-//		}
-//
-//		if (!isset($_SERVER['HTTP_IF_NONE_MATCH']) || !isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-//			return false;
-//		}
-//
-//		$http_if_none_match = $_SERVER['HTTP_IF_NONE_MATCH'];
-//		$http_if_modified_since = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
-//
-//		switch (true) {
-//			case ($http_if_none_match != $this->getEtag()):
-//				return false;
-//			case (@strtotime($http_if_modified_since) <= filemtime($this->getPathToFile())):
-//				return false;
-//		}
-//
-//		return true;
-//	}
-
-
+	//	/**
+	//	 * @return bool
+	//	 */
+	//	private function isNonModified() {
+	//		if (self::$DEBUG) {
+	//			return false;
+	//		}
+	//
+	//		if (!isset($_SERVER['HTTP_IF_NONE_MATCH']) || !isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+	//			return false;
+	//		}
+	//
+	//		$http_if_none_match = $_SERVER['HTTP_IF_NONE_MATCH'];
+	//		$http_if_modified_since = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
+	//
+	//		switch (true) {
+	//			case ($http_if_none_match != $this->getEtag()):
+	//				return false;
+	//			case (@strtotime($http_if_modified_since) <= filemtime($this->getPathToFile())):
+	//				return false;
+	//		}
+	//
+	//		return true;
+	//	}
 
 	/**
 	 * @return bool
 	 */
-	public static function isDEBUG() : bool {
-		return self::$DEBUG;
+	public static function isDEBUG() {
+		return (bool)self::$DEBUG;
 	}
 
 
 	/**
 	 * @param bool $DEBUG
 	 */
-	public static function setDEBUG(bool $DEBUG) {
+	public static function setDEBUG($DEBUG) {
+		assert(is_bool($DEBUG));
 		self::$DEBUG = $DEBUG;
 	}
 
@@ -560,7 +568,8 @@ final class Delivery {
 	public function clearBuffer() {
 		$ob_get_contents = ob_get_contents();
 		if ($ob_get_contents) {
-			\ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: ' . $ob_get_contents);
+			\ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: '
+			                                . $ob_get_contents);
 		}
 		ob_end_clean(); // fixed 0016469, 0016467, 0016468
 	}
@@ -570,7 +579,9 @@ final class Delivery {
 	 * @return void
 	 */
 	private function checkExisting() {
-		if ($this->getPathToFile() != self::DIRECT_PHP_OUTPUT && !file_exists($this->getPathToFile())) {
+		if ($this->getPathToFile() != self::DIRECT_PHP_OUTPUT
+		    && !file_exists($this->getPathToFile())
+		) {
 			$this->close();
 		}
 	}
@@ -593,7 +604,7 @@ final class Delivery {
 	 * @param $original_filename string UFT8-Filename
 	 * @return string ASCII-Filename
 	 */
-	public static function returnASCIIFileName($original_filename) : string {
+	public static function returnASCIIFileName($original_filename) {
 		// The filename must be converted to ASCII, as of RFC 2183,
 		// section 2.3.
 
@@ -633,7 +644,7 @@ final class Delivery {
 		// OS do not allow the following characters in filenames: \/:*?"<>|
 		$ascii_filename = preg_replace('/[:\x5c\/\*\?\"<>\|]/', '_', $ascii_filename);
 
-		return $ascii_filename;
+		return (string)$ascii_filename;
 		//		return iconv("UTF-8", "ASCII//TRANSLIT", $original_name); // proposal
 	}
 
@@ -641,8 +652,8 @@ final class Delivery {
 	/**
 	 * @return bool
 	 */
-	public function isDeleteFile() : bool {
-		return $this->delete_file;
+	public function isDeleteFile() {
+		return (bool)$this->delete_file;
 	}
 
 
@@ -650,14 +661,18 @@ final class Delivery {
 	 * @param bool $delete_file
 	 * @return void
 	 */
-	public function setDeleteFile(bool $delete_file) {
+	public function setDeleteFile($delete_file) {
+		assert(is_bool($delete_file));
 		$this->delete_file = $delete_file;
 	}
 
 
 	private function setDispositionHeaders() {
 		$response = $this->httpService->response();
-		$response = $response->withHeader(ResponseHeader::CONTENT_DISPOSITION, $this->getDisposition() . '; filename="' . $this->getDownloadFileName() . '"');
+		$response = $response->withHeader(ResponseHeader::CONTENT_DISPOSITION, $this->getDisposition()
+		                                                                       . '; filename="'
+		                                                                       . $this->getDownloadFileName()
+		                                                                       . '"');
 		$response = $response->withHeader('Content-Description', $this->getDownloadFileName());
 		$this->httpService->saveResponse($response);
 	}

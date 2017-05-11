@@ -1,6 +1,5 @@
 <?php
 
-
 namespace ILIAS\FileDelivery;
 
 use ILIAS\HTTP\GlobalHttpState;
@@ -16,7 +15,7 @@ use ILIAS\HTTP\GlobalHttpState;
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @version 1.0
- * @since 5.3
+ * @since   5.3
  *
  * @Internal
  */
@@ -34,10 +33,10 @@ trait HttpServiceAware {
 	 * @return GlobalHttpState  The current http global state of ILIAS.
 	 * @since 5.3
 	 */
-	protected static function http() : GlobalHttpState
-	{
-		if(self::$http === NULL)
+	protected static function http() {
+		if (self::$http === null) {
 			self::$http = $GLOBALS['DIC']['http'];
+		}
 
 		return self::$http;
 	}
