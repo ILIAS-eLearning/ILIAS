@@ -15,7 +15,7 @@ require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
  *
  * @Internal
  */
-class PHP implements ilFileDeliveryType {
+final class PHP implements ilFileDeliveryType {
 
 	/**
 	 * @var resource

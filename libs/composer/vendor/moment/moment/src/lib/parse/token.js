@@ -1,5 +1,4 @@
 import hasOwnProp from '../utils/has-own-prop';
-import isNumber from '../utils/is-number';
 import toInt from '../utils/to-int';
 
 var tokens = {};
@@ -9,7 +8,7 @@ export function addParseToken (token, callback) {
     if (typeof token === 'string') {
         token = [token];
     }
-    if (isNumber(callback)) {
+    if (typeof callback === 'number') {
         func = function (input, array) {
             array[callback] = toInt(input);
         };

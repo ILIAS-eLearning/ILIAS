@@ -1,3 +1,4 @@
+.cf:before, .cf:after {content: " ";display: table;} .cf:after {clear: both;} .cf {*zoom: 1;}
 body {
   font: 12px "Helvetica Neue", helvetica, arial, sans-serif;
   color: #131313;
@@ -12,10 +13,9 @@ body {
     text-decoration: none;
   }
 
-.panel {
-    overflow-x: hidden;
-    overflow-y: scroll;
+.container{
     height: 100%;
+    width: 100%;
     position: fixed;
     margin: 0;
     left: 0;
@@ -41,10 +41,9 @@ header {
   padding: 35px 40px;
   max-height: 180px;
   overflow: hidden;
-  transition: 0.5s;
 }
 
-  header.header-expand {
+  header:hover {
     max-height: 1000px;
   }
 
@@ -71,8 +70,15 @@ header {
         font-weight: 300;
       }
 
+.stack-container {
+  height: 100%;
+  position: relative;
+}
+
 .details-container {
-  left: 30%;
+  height: 100%;
+  overflow: auto;
+  float: right;
   width: 70%;
   background: #fafafa;
 }
@@ -109,6 +115,9 @@ header {
     }
 
 .left-panel {
+  height: 100%;
+  overflow: auto;
+  float: left;
   width: 30%;
   background: #ded8d8;
 }
@@ -118,27 +127,6 @@ header {
     padding: 8px 15px;
     color: #a29d9d;
     font-size: 11px;
-  }
-
-  .frames-description.frames-description-application {
-    text-align: center;
-    font-size: 12px;
-  }
-  .frames-container.frames-container-application .frame:not(.frame-application) {
-    display: none;
-  }
-
-  .frames-tab {
-    color: #a29d9d;
-    display: inline-block;
-    padding: 4px 8px;
-    margin: 0 2px;
-    border-radius: 3px;
-  }
-
-  .frames-tab.frames-tab-active {
-    background-color: #2a2a2a;
-    color: #bebebe;
   }
 
   .frame {
@@ -169,14 +157,6 @@ header {
     }
 
     .frame-index {
-      float: left;
-    }
-
-    .frame-method-info {
-      margin-left: 24px;
-    }
-
-    .frame-index {
       font-size: 11px;
       color: #a29d9d;
       background-color: rgba(0, 0, 0, .05);
@@ -189,13 +169,9 @@ header {
       display: inline-block;
     }
 
-    .frame-application .frame-index {
-      background-color: #2a2a2a;
-      color: #bebebe;
-    }
-
     .frame-file {
       font-family: "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
+      word-wrap: break-word;
       color: #a29d9d;
     }
 
@@ -229,8 +205,6 @@ header {
     }
 
     .code-block {
-      max-height: 345px;
-      overflow: hidden;
       padding: 10px;
       margin: 0;
       border-radius: 6px;
@@ -285,10 +259,6 @@ header {
       font-size: 10px;
       color: white;
     }
-
-.delimiter {
-  display: inline-block;
-}
 
 .data-table-container label {
   font-size: 16px;
@@ -366,16 +336,16 @@ pre .xsl, code .xsl { color: #d0a0d0; }  /* xslt tag */
 pre .atn, code .atn { color: #ef7c61; font-weight: normal;} /* html/xml attribute name */
 pre .atv, code .atv { color: #bcd42a; }  /* html/xml attribute value  */
 pre .dec, code .dec { color: #606; }  /* decimal  */
-pre.code-block, code.code-block, .frame-args.code-block, .frame-args.code-block samp {
+pre.prettyprint, code.prettyprint, .frame-args.prettyprint, .frame-args.prettyprint samp {
   font-family: "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
   background: #333;
   color: #e9e4e5;
 }
-  pre.code-block {
+  pre.prettyprint {
     white-space: pre-wrap;
   }
 
-  pre.code-block a, code.code-block a {
+  pre.prettyprint a, code.prettyprint a {
     text-decoration:none;
   }
 
@@ -444,10 +414,10 @@ kbd {
 @media (min-width: 1000px) {
   .details, .frame-code {
     padding: 20px 40px;
+    margin-bottom: 60px;
   }
 
   .details-container {
-    left: 32%;
     width: 68%;
   }
 

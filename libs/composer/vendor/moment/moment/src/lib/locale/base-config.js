@@ -1,7 +1,7 @@
 import { defaultCalendar } from './calendar';
 import { defaultLongDateFormat } from './formats';
 import { defaultInvalidDate } from './invalid';
-import { defaultOrdinal, defaultDayOfMonthOrdinalParse } from './ordinal';
+import { defaultOrdinal, defaultOrdinalParse } from './ordinal';
 import { defaultRelativeTime } from './relative';
 
 // months
@@ -28,7 +28,7 @@ export var baseConfig = {
     longDateFormat: defaultLongDateFormat,
     invalidDate: defaultInvalidDate,
     ordinal: defaultOrdinal,
-    dayOfMonthOrdinalParse: defaultDayOfMonthOrdinalParse,
+    ordinalParse: defaultOrdinalParse,
     relativeTime: defaultRelativeTime,
 
     months: defaultLocaleMonths,

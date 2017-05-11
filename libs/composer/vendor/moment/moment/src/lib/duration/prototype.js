@@ -10,9 +10,7 @@ import { get, milliseconds, seconds, minutes, hours, days, months, years, weeks 
 import { humanize } from './humanize';
 import { toISOString } from './iso-string';
 import { lang, locale, localeData } from '../moment/locale';
-import { isValid } from './valid';
 
-proto.isValid        = isValid;
 proto.abs            = abs;
 proto.add            = add;
 proto.subtract       = subtract;

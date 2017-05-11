@@ -12,8 +12,6 @@
  *
  * CHANGES
  * -------
- * 2015/04/14
- *  -  Added C# 5.0 and 6.0 missing keywords and #pragma directive
  * 2012/06/18 (1.0.8.11)
  *  -  Added missing keywords (Christian Stelzmann)
  * 2009/04/03 (1.0.8.6)
@@ -64,8 +62,7 @@ $language_data = array (
     'ESCAPE_CHAR' => '\\',
     'KEYWORDS' => array(
         1 => array(
-            'abstract', 'add', 'as', 'async', 'await', 'base',
-            'break', 'by', 'case', 'catch', 'const', 'continue',
+            'abstract', 'add', 'as', 'base', 'break', 'by', 'case', 'catch', 'const', 'continue',
             'default', 'do', 'else', 'event', 'explicit', 'extern', 'false',
             'finally', 'fixed', 'for', 'foreach', 'from', 'get', 'goto', 'group', 'if',
             'implicit', 'in', 'into', 'internal', 'join', 'lock', 'namespace', 'null',
@@ -77,10 +74,10 @@ $language_data = array (
             ),
         2 => array(
             '#elif', '#endif', '#endregion', '#else', '#error', '#define', '#if',
-            '#line', '#pragma', '#region', '#undef', '#warning'
+            '#line', '#region', '#undef', '#warning'
             ),
         3 => array(
-            'checked', 'is', 'new', 'nameof', 'sizeof', 'typeof', 'unchecked'
+            'checked', 'is', 'new', 'sizeof', 'typeof', 'unchecked'
             ),
         4 => array(
             'bool', 'byte', 'char', 'class', 'decimal', 'delegate', 'double',

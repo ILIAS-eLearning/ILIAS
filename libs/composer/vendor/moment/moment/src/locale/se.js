@@ -42,7 +42,7 @@ export default moment.defineLocale('se', {
         y : 'okta jahki',
         yy : '%d jagit'
     },
-    dayOfMonthOrdinalParse: /\d{1,2}\./,
+    ordinalParse: /\d{1,2}\./,
     ordinal : '%d.',
     week : {
         dow : 1, // Monday is the first day of the week.

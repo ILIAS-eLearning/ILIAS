@@ -21,7 +21,7 @@ class TemplateHelper
      * An array of variables to be passed to all templates
      * @var array
      */
-    private $variables = [];
+    private $variables = array();
 
     /**
      * @var HtmlDumper
@@ -37,17 +37,6 @@ class TemplateHelper
      * @var AbstractCloner
      */
     private $cloner;
-
-    /**
-     * @var string
-     */
-    private $applicationRootPath;
-
-    public function __construct()
-    {
-        // root path for ordinary composer projects
-        $this->applicationRootPath = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
-    }
 
     /**
      * Escapes a string for output in an HTML document
@@ -71,8 +60,6 @@ class TemplateHelper
             $flags |= ENT_IGNORE;
         }
 
-        $raw = str_replace(chr(9), '    ', $raw);
-
         return htmlspecialchars($raw, $flags, "UTF-8");
     }
 
@@ -92,38 +79,6 @@ class TemplateHelper
         );
     }
 
-    /**
-     * Makes sure that the given string breaks on the delimiter.
-     *
-     * @param  string $delimiter
-     * @param  string $s
-     * @return string
-     */
-    public function breakOnDelimiter($delimiter, $s)
-    {
-        $parts = explode($delimiter, $s);
-        foreach ($parts as &$part) {
-            $part = '<div class="delimiter">' . $part . '</div>';
-        }
-
-        return implode($delimiter, $parts);
-    }
-
-    /**
-     * Replace the part of the path that all files have in common.
-     *
-     * @param  string $path
-     * @return string
-     */
-    public function shorten($path)
-    {
-        if ($this->applicationRootPath != "/") {
-            $path = str_replace($this->applicationRootPath, '&hellip;', $path);
-        }
-
-        return $path;
-    }
-
     private function getDumper()
     {
         if (!$this->htmlDumper && class_exists('Symfony\Component\VarDumper\Cloner\VarCloner')) {
@@ -131,7 +86,7 @@ class TemplateHelper
             // re-use the same var-dumper instance, so it won't re-render the global styles/scripts on each dump.
             $this->htmlDumper = new HtmlDumper($this->htmlDumperOutput);
 
-            $styles = [
+            $styles = array(
                 'default' => 'color:#FFFFFF; line-height:normal; font:12px "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace !important; word-wrap: break-word; white-space: pre-wrap; position:relative; z-index:99999; word-break: normal',
                 'num' => 'color:#BCD42A',
                 'const' => 'color: #4bb1b1;',
@@ -144,7 +99,7 @@ class TemplateHelper
                 'meta' => 'color:#FFFFFF',
                 'key' => 'color:#BCD42A',
                 'index' => 'color:#ef7c61',
-            ];
+            );
             $this->htmlDumper->setStyles($styles);
         }
 
@@ -164,15 +119,8 @@ class TemplateHelper
         if ($dumper) {
             // re-use the same DumpOutput instance, so it won't re-render the global styles/scripts on each dump.
             // exclude verbose information (e.g. exception stack traces)
-            if (class_exists('Symfony\Component\VarDumper\Caster\Caster')) {
-                $cloneVar = $this->getCloner()->cloneVar($value, Caster::EXCLUDE_VERBOSE);
-            // Symfony VarDumper 2.6 Caster class dont exist.
-            } else {
-                $cloneVar = $this->getCloner()->cloneVar($value);
-            }
-
             $dumper->dump(
-                $cloneVar,
+                $this->getCloner()->cloneVar($value, Caster::EXCLUDE_VERBOSE),
                 $this->htmlDumperOutput
             );
 
@@ -327,25 +275,5 @@ class TemplateHelper
             $this->cloner = new VarCloner();
         }
         return $this->cloner;
-    }
-
-    /**
-     * Set the application root path.
-     *
-     * @param string $applicationRootPath
-     */
-    public function setApplicationRootPath($applicationRootPath)
-    {
-        $this->applicationRootPath = $applicationRootPath;
-    }
-
-    /**
-     * Return the application root path.
-     *
-     * @return string
-     */
-    public function getApplicationRootPath()
-    {
-        return $this->applicationRootPath;
     }
 }

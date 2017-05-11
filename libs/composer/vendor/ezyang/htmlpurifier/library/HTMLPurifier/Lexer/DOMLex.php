@@ -72,20 +72,12 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
         $doc->loadHTML($html);
         restore_error_handler();
 
-        $body = $doc->getElementsByTagName('html')->item(0)-> // <html>
-                      getElementsByTagName('body')->item(0);  // <body>
-
-        $div = $body->getElementsByTagName('div')->item(0); // <div>
         $tokens = array();
-        $this->tokenizeDOM($div, $tokens, $config);
-        // If the div has a sibling, that means we tripped across
-        // a premature </div> tag.  So remove the div we parsed,
-        // and then tokenize the rest of body.  We can't tokenize
-        // the sibling directly as we'll lose the tags in that case.
-        if ($div->nextSibling) {
-            $body->removeChild($div);
-            $this->tokenizeDOM($body, $tokens, $config);
-        }
+        $this->tokenizeDOM(
+            $doc->getElementsByTagName('html')->item(0)-> // <html>
+            getElementsByTagName('body')->item(0), //   <body>
+            $tokens
+        );
         return $tokens;
     }
 
@@ -96,7 +88,7 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
      * @param HTMLPurifier_Token[] $tokens   Array-list of already tokenized tokens.
      * @return HTMLPurifier_Token of node appended to previously passed tokens.
      */
-    protected function tokenizeDOM($node, &$tokens, $config)
+    protected function tokenizeDOM($node, &$tokens)
     {
         $level = 0;
         $nodes = array($level => new HTMLPurifier_Queue(array($node)));
@@ -105,7 +97,7 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
             while (!$nodes[$level]->isEmpty()) {
                 $node = $nodes[$level]->shift(); // FIFO
                 $collect = $level > 0 ? true : false;
-                $needEndingTag = $this->createStartNode($node, $tokens, $collect, $config);
+                $needEndingTag = $this->createStartNode($node, $tokens, $collect);
                 if ($needEndingTag) {
                     $closingNodes[$level][] = $node;
                 }
@@ -135,7 +127,7 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
      * @return bool if the token needs an endtoken
      * @todo data and tagName properties don't seem to exist in DOMNode?
      */
-    protected function createStartNode($node, &$tokens, $collect, $config)
+    protected function createStartNode($node, &$tokens, $collect)
     {
         // intercept non element nodes. WE MUST catch all of them,
         // but we're not getting the character reference nodes because
@@ -159,7 +151,7 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
                     }
                 }
             }
-            $tokens[] = $this->factory->createText($this->parseText($data, $config));
+            $tokens[] = $this->factory->createText($this->parseData($data));
             return false;
         } elseif ($node->nodeType === XML_COMMENT_NODE) {
             // this is code is only invoked for comments in script/style in versions
@@ -260,7 +252,7 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
      * @param HTMLPurifier_Context $context
      * @return string
      */
-    protected function wrapHTML($html, $config, $context, $use_div = true)
+    protected function wrapHTML($html, $config, $context)
     {
         $def = $config->getDefinition('HTML');
         $ret = '';
@@ -279,11 +271,7 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
         $ret .= '<html><head>';
         $ret .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         // No protection if $html contains a stray </div>!
-        $ret .= '</head><body>';
-        if ($use_div) $ret .= '<div>';
-        $ret .= $html;
-        if ($use_div) $ret .= '</div>';
-        $ret .= '</body></html>';
+        $ret .= '</head><body>' . $html . '</body></html>';
         return $ret;
     }
 }

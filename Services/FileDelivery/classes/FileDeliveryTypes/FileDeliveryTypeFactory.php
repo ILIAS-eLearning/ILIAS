@@ -16,7 +16,7 @@ use ILIAS\HTTP\GlobalHttpState;
  *
  * @Internal
  */
-class FileDeliveryTypeFactory {
+final class FileDeliveryTypeFactory {
 
 	/**
 	 * @var ilFileDeliveryType[]

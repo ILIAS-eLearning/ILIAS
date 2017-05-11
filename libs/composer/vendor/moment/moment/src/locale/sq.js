@@ -1,8 +1,8 @@
 //! moment.js locale configuration
 //! locale : Albanian [sq]
 //! author : Flakërim Ismani : https://github.com/flakerimi
-//! author : Menelion Elensúle : https://github.com/Oire
-//! author : Oerd Cukalla : https://github.com/oerd
+//! author: Menelion Elensúle: https://github.com/Oire (tests)
+//! author : Oerd Cukalla : https://github.com/oerd (fixes)
 
 import moment from '../moment';
 
@@ -51,7 +51,7 @@ export default moment.defineLocale('sq', {
         y : 'një vit',
         yy : '%d vite'
     },
-    dayOfMonthOrdinalParse: /\d{1,2}\./,
+    ordinalParse: /\d{1,2}\./,
     ordinal : '%d.',
     week : {
         dow : 1, // Monday is the first day of the week.

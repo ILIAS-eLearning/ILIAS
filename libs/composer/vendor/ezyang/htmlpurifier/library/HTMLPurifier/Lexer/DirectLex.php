@@ -129,12 +129,12 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
                 // We are not inside tag and there still is another tag to parse
                 $token = new
                 HTMLPurifier_Token_Text(
-                    $this->parseText(
+                    $this->parseData(
                         substr(
                             $html,
                             $cursor,
                             $position_next_lt - $cursor
-                        ), $config
+                        )
                     )
                 );
                 if ($maintain_line_numbers) {
@@ -154,11 +154,11 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
                 // Create Text of rest of string
                 $token = new
                 HTMLPurifier_Token_Text(
-                    $this->parseText(
+                    $this->parseData(
                         substr(
                             $html,
                             $cursor
-                        ), $config
+                        )
                     )
                 );
                 if ($maintain_line_numbers) {
@@ -324,8 +324,8 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
                 $token = new
                 HTMLPurifier_Token_Text(
                     '<' .
-                    $this->parseText(
-                        substr($html, $cursor), $config
+                    $this->parseData(
+                        substr($html, $cursor)
                     )
                 );
                 if ($maintain_line_numbers) {
@@ -429,7 +429,7 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
             if ($value === false) {
                 $value = '';
             }
-            return array($key => $this->parseAttr($value, $config));
+            return array($key => $this->parseData($value));
         }
 
         // setup loop environment
@@ -518,7 +518,7 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
                 if ($value === false) {
                     $value = '';
                 }
-                $array[$key] = $this->parseAttr($value, $config);
+                $array[$key] = $this->parseData($value);
                 $cursor++;
             } else {
                 // boolattr

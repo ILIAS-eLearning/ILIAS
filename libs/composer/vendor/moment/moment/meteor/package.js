@@ -3,10 +3,12 @@
 
 var packageName = 'momentjs:moment';  // https://atmospherejs.com/momentjs/moment
 
+var packageJson = JSON.parse(Npm.require("fs").readFileSync('package.json'));
+
 Package.describe({
   name: packageName,
   summary: 'Moment.js (official): parse, validate, manipulate, and display dates - official Meteor packaging',
-  version: '2.18.1',
+  version: packageJson.version,
   git: 'https://github.com/moment/moment.git'
 });
 
@@ -15,7 +17,7 @@ Package.onUse(function (api) {
   api.export('moment');
   api.addFiles([
     'moment.js',
-    'export.js'
+    'meteor/export.js'
   ]);
 });
 
@@ -23,5 +25,5 @@ Package.onTest(function (api) {
   api.use(packageName);
   api.use('tinytest');
 
-  api.addFiles('test.js');
+  api.addFiles('meteor/test.js');
 });

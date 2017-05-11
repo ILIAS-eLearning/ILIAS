@@ -68,12 +68,12 @@ $language_data = array (
             /* deprecated: SML90 */
             'abstype',
 
-            'and', 'andalso', 'as', 'case', 'datatype', 'else',
+            'and', 'andalso', 'as', 'begin', 'case', 'datatype', 'else',
             'end', 'exception', 'fn', 'fun', 'functor',
-            'if', 'in', 'infix', 'infixr', 'let', 'local', 'nonfix',
+            'if', 'in', 'infix', 'infixr', 'include', 'let', 'local', 'nonfix',
             'of', 'op', 'open', 'orelse',
             'rec', 'raise', 'sharing', 'sig', 'signature', 'struct', 'structure', 'then',
-            'type', 'val', 'while', 'with', 'withtype'
+            'type', 'val', 'while', 'where', 'with', 'withtype'
             ),
         /* Top-level type and constructors */
         2 => array(

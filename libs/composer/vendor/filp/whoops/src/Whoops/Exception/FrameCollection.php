@@ -140,18 +140,6 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
     }
 
     /**
-     * Count the frames that belongs to the application.
-     *
-     * @return int
-     */
-    public function countIsApplication()
-    {
-        return count(array_filter($this->frames, function(Frame $f) {
-            return $f->isApplication();
-        }));
-    }
-
-    /**
      * @see Serializable::serialize
      * @return string
      */

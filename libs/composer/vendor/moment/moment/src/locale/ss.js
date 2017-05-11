@@ -1,5 +1,5 @@
 //! moment.js locale configuration
-//! locale : siSwati [ss]
+//! locale : Swazi [ss]
 //! author : Nicolai Davies<mail@nicolai.io> : https://github.com/nicolaidavies
 
 
@@ -70,7 +70,7 @@ export default moment.defineLocale('ss', {
             return hour + 12;
         }
     },
-    dayOfMonthOrdinalParse: /\d{1,2}/,
+    ordinalParse: /\d{1,2}/,
     ordinal : '%d',
     week : {
         dow : 1, // Monday is the first day of the week.

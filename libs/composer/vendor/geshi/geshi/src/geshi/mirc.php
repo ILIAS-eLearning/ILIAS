@@ -125,7 +125,7 @@ $language_data = array (
     'URLS' => array(
         1 => '',
         2 => '',
-        3 => 'http://en.wikichip.org/wiki/mirc/commands/{FNAMEL}'
+        3 => 'http://www.mirc.com/{FNAMEL}'
         ),
     'OOLANG' => true,
     'OBJECT_SPLITTERS' => array('.'),

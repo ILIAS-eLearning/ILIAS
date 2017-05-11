@@ -129,22 +129,6 @@ class PlainTextHandler extends Handler
     }
 
     /**
-     * Create plain text response and return it as a string
-     * @return string
-     */
-    public function generateResponse()
-    {
-        $exception = $this->getException();
-        return sprintf("%s: %s in file %s on line %d%s\n",
-            get_class($exception),
-            $exception->getMessage(),
-            $exception->getFile(),
-            $exception->getLine(),
-            $this->getTraceOutput()
-        );
-    }
-
-    /**
      * Get the size limit in bytes of frame arguments var_dump output.
      * If the limit is reached, the var_dump output is discarded.
      * Prevent memory limit errors.
@@ -256,7 +240,15 @@ class PlainTextHandler extends Handler
      */
     public function handle()
     {
-        $response = $this->generateResponse();
+        $exception = $this->getException();
+
+        $response = sprintf("%s: %s in file %s on line %d%s\n",
+                get_class($exception),
+                $exception->getMessage(),
+                $exception->getFile(),
+                $exception->getLine(),
+                $this->getTraceOutput()
+            );
 
         if ($this->getLogger()) {
             $this->getLogger()->error($response);
@@ -266,16 +258,12 @@ class PlainTextHandler extends Handler
             return Handler::DONE;
         }
 
+        if (\Whoops\Util\Misc::canSendHeaders()) {
+            header('Content-Type: text/plain');
+        }
+
         echo $response;
 
         return Handler::QUIT;
-    }
-
-    /**
-     * @return string
-     */
-    public function contentType()
-    {
-        return 'text/plain';
     }
 }

@@ -26,7 +26,7 @@ abstract class HTMLPurifier_Token
     public $armor = array();
 
     /**
-     * Used during MakeWellFormed.  See Note [Injector skips]
+     * Used during MakeWellFormed.
      * @type
      */
     public $skip;

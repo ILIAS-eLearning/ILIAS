@@ -3,12 +3,12 @@ import absFloor from '../utils/abs-floor';
 
 export function get (units) {
     units = normalizeUnits(units);
-    return this.isValid() ? this[units + 's']() : NaN;
+    return this[units + 's']();
 }
 
 function makeGetter(name) {
     return function () {
-        return this.isValid() ? this._data[name] : NaN;
+        return this._data[name];
     };
 }
 

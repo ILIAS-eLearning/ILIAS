@@ -15,11 +15,12 @@ Documentation
 -------------
 For more information on how to use GeSHi, please consult the
 documentation. If you got this readme from a GeSHi package, then
-the documentation is available in the [docs](https://github.com/GeSHi/geshi-1.0/tree/master/docs)
+the documentation is available in the [docs](https://github.com/GeSHi/geshi-1.0/tree/master/src/docs)
 directory. Documentation is also available [online](http://qbnz.com/highlighter/documentation.php).
 
 If you think you've found a bug in GeSHi, contact me with a bug
-report at <BenBE@geshi.org>, submit to the [bug tracker at GitHub](https://github.com/GeSHi/geshi-1.0/issues).
+report at <BenBE@geshi.org>, submit to the [bug tracker at GitHub](https://github.com/GeSHi/geshi-1.0/issues)
+or submit it to the [bug tracker at SourceForge](http://sourceforge.net/p/geshi/bugs/).
 Be aware that minor highlighting errors may well just be incorrect
 language files, but if you do find something major please contact me.
 
@@ -30,7 +31,7 @@ you specialist help if you need it.
 License
 -------
 GeSHi is free software, released under the GNU GPL. Please see the
-[LICENSE](https://github.com/GeSHi/geshi-1.0/blob/master/LICENSE)
+[COPYING](https://github.com/GeSHi/geshi-1.0/blob/master/src/docs/COPYING)
 file for more information. If you do modify this program, please tell
 me about it! Perhaps you've made a good improvement that I can learn
 from :)

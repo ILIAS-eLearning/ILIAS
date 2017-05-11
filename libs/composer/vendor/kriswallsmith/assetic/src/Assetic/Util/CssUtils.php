@@ -129,7 +129,7 @@ abstract class CssUtils
             $imports[] = $matches['url'];
         });
 
-        return array_unique(array_filter($imports));
+        return array_unique($imports);
     }
 
     final private function __construct()

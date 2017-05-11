@@ -14,7 +14,7 @@ require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
  * @since 5.3
  * @version 1.0
  */
-class XAccel implements ilFileDeliveryType {
+final class XAccel implements ilFileDeliveryType {
 
 	const DATA = 'data';
 	const SECURED_DATA = 'secured-data';

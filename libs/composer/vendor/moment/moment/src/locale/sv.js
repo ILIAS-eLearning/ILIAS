@@ -43,7 +43,7 @@ export default moment.defineLocale('sv', {
         y : 'ett år',
         yy : '%d år'
     },
-    dayOfMonthOrdinalParse: /\d{1,2}(e|a)/,
+    ordinalParse: /\d{1,2}(e|a)/,
     ordinal : function (number) {
         var b = number % 10,
             output = (~~(number % 100 / 10) === 1) ? 'e' :

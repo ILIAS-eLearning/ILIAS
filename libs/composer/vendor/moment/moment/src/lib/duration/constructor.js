@@ -1,6 +1,5 @@
 import { normalizeObjectUnits } from '../units/aliases';
 import { getLocale } from '../locale/locales';
-import isDurationValid from './valid.js';
 
 export function Duration (duration) {
     var normalizedInput = normalizeObjectUnits(duration),
@@ -13,8 +12,6 @@ export function Duration (duration) {
         minutes = normalizedInput.minute || 0,
         seconds = normalizedInput.second || 0,
         milliseconds = normalizedInput.millisecond || 0;
-
-    this._isValid = isDurationValid(normalizedInput);
 
     // representation for dateAddRemove
     this._milliseconds = +milliseconds +

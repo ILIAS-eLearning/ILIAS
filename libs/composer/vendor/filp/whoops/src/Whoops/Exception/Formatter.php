@@ -19,26 +19,26 @@ class Formatter
     public static function formatExceptionAsDataArray(Inspector $inspector, $shouldAddTrace)
     {
         $exception = $inspector->getException();
-        $response = [
+        $response = array(
             'type'    => get_class($exception),
             'message' => $exception->getMessage(),
             'file'    => $exception->getFile(),
             'line'    => $exception->getLine(),
-        ];
+        );
 
         if ($shouldAddTrace) {
             $frames    = $inspector->getFrames();
-            $frameData = [];
+            $frameData = array();
 
             foreach ($frames as $frame) {
                 /** @var Frame $frame */
-                $frameData[] = [
+                $frameData[] = array(
                     'file'     => $frame->getFile(),
                     'line'     => $frame->getLine(),
                     'function' => $frame->getFunction(),
                     'class'    => $frame->getClass(),
                     'args'     => $frame->getArgs(),
-                ];
+                );
             }
 
             $response['trace'] = $frameData;

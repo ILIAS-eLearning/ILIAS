@@ -102,7 +102,7 @@ export default moment.defineLocale('be', {
             return 'вечара';
         }
     },
-    dayOfMonthOrdinalParse: /\d{1,2}-(і|ы|га)/,
+    ordinalParse: /\d{1,2}-(і|ы|га)/,
     ordinal: function (number, period) {
         switch (period) {
             case 'M':

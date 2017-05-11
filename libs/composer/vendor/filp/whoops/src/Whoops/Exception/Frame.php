@@ -24,12 +24,7 @@ class Frame implements Serializable
     /**
      * @var array[]
      */
-    protected $comments = [];
-
-    /**
-     * @var bool
-     */
-    protected $application;
+    protected $comments = array();
 
     /**
      * @param array[]
@@ -63,9 +58,7 @@ class Frame implements Serializable
         if ($shortened && is_string($file)) {
             // Replace the part of the path that all frames have in common, and add 'soft hyphens' for smoother line-breaks.
             $dirname = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
-            if ($dirname !== '/') {
-                $file = str_replace($dirname, "&hellip;", $file);
-            }
+            $file = str_replace($dirname, "&hellip;", $file);
             $file = str_replace("/", "/&shy;", $file);
         }
 
@@ -101,7 +94,7 @@ class Frame implements Serializable
      */
     public function getArgs()
     {
-        return isset($this->frame['args']) ? (array) $this->frame['args'] : [];
+        return isset($this->frame['args']) ? (array) $this->frame['args'] : array();
     }
 
     /**
@@ -143,10 +136,10 @@ class Frame implements Serializable
      */
     public function addComment($comment, $context = 'global')
     {
-        $this->comments[] = [
+        $this->comments[] = array(
             'comment' => $comment,
             'context' => $context,
-        ];
+        );
     }
 
     /**
@@ -272,25 +265,5 @@ class Frame implements Serializable
             return false;
         }
         return $frame->getFile() === $this->getFile() && $frame->getLine() === $this->getLine();
-    }
-
-    /**
-     * Returns whether this frame belongs to the application or not.
-     *
-     * @return boolean
-     */
-    public function isApplication()
-    {
-        return $this->application;
-    }
-
-    /**
-     * Mark as an frame belonging to the application.
-     * 
-     * @param boolean $application
-     */
-    public function setApplication($application)
-    {
-        $this->application = $application;
     }
 }
