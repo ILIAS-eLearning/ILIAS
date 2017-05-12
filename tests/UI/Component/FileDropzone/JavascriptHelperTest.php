@@ -17,48 +17,44 @@ class JavascriptHelperTest extends PHPUnit_Framework_TestCase {
 	 */
 
 	/**
-	 * should return the javascript code to enable the drop design.
+	 * should return the javascript code to enable the darkend background.
 	 */
 	public function testEnableDropDesign() {
 
 		// setup example objects.
 		$dropzoneId = "dz-01";
-		$darkendBackground = true;
 
 		$simpleDropzone = new \ILIAS\UI\Implementation\Component\FileDropzone\SimpleDropzone();
 		$simpleDropzone->setId($dropzoneId);
-		$simpleDropzone->setDarkendBackground($darkendBackground);
 
 		// setup expected objects
-		$expectedJS = "il.UI.dropzone.enableDropDesign({\"id\": '{$dropzoneId}', \"darkendBackground\": '{$darkendBackground}'});";
+		$expectedJS = "il.UI.dropzone.enableDarkendBackground('{$dropzoneId}');";
 
 		// start test
 		$jsHelper = new JavascriptHelper($simpleDropzone);
 
-		$this->assertEquals($expectedJS, $jsHelper->enableDropDesign());
+		$this->assertEquals($expectedJS, $jsHelper->enableDarkendBackground());
 	}
 
 
 	/**
-	 * should return the javascript code to disable the drop design.
+	 * should return the javascript code to disable the darkend background.
 	 */
 	public function testDisableDropDesign() {
 
 		// setup example objects.
 		$dropzoneId = "dz-01";
-		$darkendBackground = true;
 
 		$simpleDropzone = new \ILIAS\UI\Implementation\Component\FileDropzone\SimpleDropzone();
 		$simpleDropzone->setId($dropzoneId);
-		$simpleDropzone->setDarkendBackground($darkendBackground);
 
 		// setup expected objects
-		$expectedJS = "il.UI.dropzone.disableDropDesign({\"id\": '{$dropzoneId}', \"darkendBackground\": '{$darkendBackground}'});";
+		$expectedJS = "il.UI.dropzone.disableDarkendBackground('{$dropzoneId}');";
 
 		// start test
 		$jsHelper = new JavascriptHelper($simpleDropzone);
 
-		$this->assertEquals($expectedJS, $jsHelper->disableDropDesign());
+		$this->assertEquals($expectedJS, $jsHelper->disableDarkendBackground());
 	}
 
 
@@ -102,9 +98,6 @@ class JavascriptHelperTest extends PHPUnit_Framework_TestCase {
 		// setup example objects.
 		$dropzoneId = "dz-01";
 
-		$simpleDropzone = new \ILIAS\UI\Implementation\Component\FileDropzone\SimpleDropzone();
-		$simpleDropzone->setId($dropzoneId);
-
 		$signalGenerator = new \ILIAS\UI\Implementation\Component\SignalGenerator();
 
 		$firstSignal = $signalGenerator->create();
@@ -113,12 +106,16 @@ class JavascriptHelperTest extends PHPUnit_Framework_TestCase {
 		$firstTriggeredSignal = new \ILIAS\UI\Implementation\Component\TriggeredSignal($firstSignal, "drop");
 		$secondTriggeredSignal = new \ILIAS\UI\Implementation\Component\TriggeredSignal($secondSignal, "drop");
 
+		$simpleDropzone = new \ILIAS\UI\Implementation\Component\FileDropzone\SimpleDropzone();
+		$simpleDropzone->setId($dropzoneId);
+		$simpleDropzone->setRegisteredSignals(array($firstTriggeredSignal, $secondTriggeredSignal));
+
 		// setup expected objects
 		$expectedJS = "$('#{$dropzoneId}').trigger('{$firstSignal}', event);\n$('#{$dropzoneId}').trigger('{$secondSignal}', event);\n";
 
 		// start test
 		$jsHelper = new JavascriptHelper($simpleDropzone);
 
-		$this->assertEquals($expectedJS, $jsHelper->triggerSignals(array($firstTriggeredSignal, $secondTriggeredSignal)));
+		$this->assertEquals($expectedJS, $jsHelper->triggerRegisteredSignals());
 	}
 }
