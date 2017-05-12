@@ -24,9 +24,10 @@ interface Factory {
 	 *      The standard dropzone is used to provide a simple dropzone area.
 	 *      A default massage can be displayed inside the dropzone.
 	 *   composition: >
-	 *      The standard dropzone uses the darkend background by default.
+	 *      The standard dropzone highlights with a bright yellow on drag enter.
 	 *   effect: >
-	 *      Every FileDropzone on the page will be highlighted on dragenter by the user.
+	 *      If the darkend background is set to true, every FileDropzone on the page will be highlighted.
+	 *      On file drop event, this dropzones triggers a signal with the event data.
 	 *   rivals:
 	 *     Rival 1: A wrapper dropzone can hold other ILIAS UI components instead of a message.
 	 *
