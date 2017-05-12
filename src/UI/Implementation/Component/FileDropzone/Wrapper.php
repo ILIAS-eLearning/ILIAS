@@ -31,6 +31,7 @@ class Wrapper extends BasicFileDropzoneImpl implements \ILIAS\UI\Component\FileD
 	public function __construct(array $componentList) {
 		$this->checkEmptyArray($componentList);
 		$this->componentList = $componentList;
+		$this->darkendBackground = true;
 	}
 
 
