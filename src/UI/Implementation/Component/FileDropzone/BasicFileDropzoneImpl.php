@@ -22,7 +22,7 @@ abstract class BasicFileDropzoneImpl implements BasicFileDropzone {
 
 	const DROP_EVENT = "drop";
 
-	private $darkendBackground = true;
+	protected $darkendBackground = false;
 
 	/**
 	 * @inheritDoc
