@@ -6,12 +6,14 @@
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    09.05.17
- * @version 0.0.1
+ * @version 0.0.2
  *
  * @package ILIAS\UI\Implementation\Component\FileDropzone
  */
 
 namespace ILIAS\UI\Implementation\Component\FileDropzone;
+
+use ILIAS\UI\Implementation\Component\TriggeredSignalInterface;
 
 class SimpleDropzone {
 
@@ -23,6 +25,10 @@ class SimpleDropzone {
 	 * @var boolean $darkendBackground
 	 */
 	private $darkendBackground;
+	/**
+	 * @var TriggeredSignalInterface[] $registeredSignals
+	 */
+	private $registeredSignals;
 
 
 	/**
@@ -54,6 +60,22 @@ class SimpleDropzone {
 	 */
 	public function setDarkendBackground($darkendBackground) {
 		$this->darkendBackground = $darkendBackground;
+	}
+
+
+	/**
+	 * @return TriggeredSignalInterface[]
+	 */
+	public function getRegisteredSignals() {
+		return $this->registeredSignals;
+	}
+
+
+	/**
+	 * @param TriggeredSignalInterface[] $registeredSignals
+	 */
+	public function setRegisteredSignals(array $registeredSignals) {
+		$this->registeredSignals = $registeredSignals;
 	}
 
 }
