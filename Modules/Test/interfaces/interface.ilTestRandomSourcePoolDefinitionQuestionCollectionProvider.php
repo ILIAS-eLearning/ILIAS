@@ -20,7 +20,13 @@ interface ilTestRandomSourcePoolDefinitionQuestionCollectionProvider
 	 * @param ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList
 	 * @return ilTestRandomQuestionSetQuestionCollection
 	 */
-	public function getSrcPoolDefListRelatedQuestCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList);
+	public function getSrcPoolDefListRelatedQuestCombinationCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList);
+
+	/**
+	 * @param ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList
+	 * @return ilTestRandomQuestionSetQuestionCollection
+	 */
+	public function getSrcPoolDefListRelatedQuestUniqueCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList);
 	
 	/**
 	 * @param ilTestRandomQuestionSetSourcePoolDefinition $definition

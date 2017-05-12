@@ -67,8 +67,8 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
 	abstract public function performBuild(ilTestSession $testSession);
 
 
-	// hey: fixRandomTestBuildable 
-	public function getSrcPoolDefListRelatedQuestCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+	// hey: fixRandomTestBuildable - rename/public-access to be aware for building interface
+	public function getSrcPoolDefListRelatedQuestCombinationCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
 	// hey.
 	{
 		$questionStage = new ilTestRandomQuestionSetQuestionCollection();
@@ -76,17 +76,17 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
 		foreach($sourcePoolDefinitionList as $definition)
 		{
 			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-
-			// hey: fixRandomTestBuildable 
+			
+			// hey: fixRandomTestBuildable - rename/public-access to be aware for building interface
 			$questions = $this->getSrcPoolDefRelatedQuestCollection($definition);
 			// hey.
 			$questionStage->mergeQuestionCollection($questions);
 		}
 
-		return $questionStage->getUniqueQuestionCollection();
+		return $questionStage;
 	}
-
-	// hey: fixRandomTestBuildable 
+	
+	// hey: fixRandomTestBuildable - rename/public-access to be aware for building interface
 	public function getSrcPoolDefRelatedQuestCollection(ilTestRandomQuestionSetSourcePoolDefinition $definition)
 	// hey.
 	{
@@ -95,6 +95,14 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
 
 		return $questionStage;
 	}
+	
+	// hey: fixRandomTestBuildable - rename/public-access to be aware for building interface
+	public function getSrcPoolDefListRelatedQuestUniqueCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+	{
+		$combinationCollection = $this->getSrcPoolDefListRelatedQuestCombinationCollection($sourcePoolDefinitionList);
+		return $combinationCollection->getUniqueQuestionCollection();
+	}
+	// hey.
 
 	private function getQuestionIdsForSourcePoolDefinitionIds(ilTestRandomQuestionSetSourcePoolDefinition $definition)
 	{

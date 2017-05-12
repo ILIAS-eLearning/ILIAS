@@ -1,6 +1,12 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/Test/classes/class.ilObjTest.php';
+require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
+require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
+require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetQuestionCollection.php';
+require_once 'Modules/Test/classes/class.ilTestRandomQuestionCollectionSubsetApplicantList.php';
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -9,6 +15,8 @@
  */
 class ilTestRandomQuestionsQuantitiesDistribution
 {
+	// -----------------------------------------------------------------------------------------------------------------
+
 	/**
 	 * @var ilTestRandomSourcePoolDefinitionQuestionCollectionProvider
 	 */
@@ -19,16 +27,20 @@ class ilTestRandomQuestionsQuantitiesDistribution
 	 */
 	protected $sourcePoolDefinitionList;
 	
+	// -----------------------------------------------------------------------------------------------------------------
+
 	/**
-	 * @var array[ $questionId => array[$definitionId] ] 
+	 * @var array[ $questionId => ilTestRandomQuestionSetSourcePoolDefinitionList ] 
 	 */
 	protected $questRelatedSrcPoolDefRegister = array();
 	
 	/**
-	 * @var array[ $definitionId => array[ilTestRandomSetQuestion] ]
+	 * @var array[ $definitionId => ilTestRandomSetQuestionCollection ]
 	 */
 	protected $srcPoolDefRelatedQuestRegister= array();
 	
+	// -----------------------------------------------------------------------------------------------------------------
+
 	/**
 	 * @param ilTestRandomSourcePoolDefinitionQuestionCollectionProvider $questionCollectionProvider
 	 */
@@ -57,14 +69,6 @@ class ilTestRandomQuestionsQuantitiesDistribution
 	}
 	
 	/**
-	 * @return ilTestRandomQuestionSetSourcePoolDefinitionList
-	 */
-	public function getSourcePoolDefinitionList()
-	{
-		return $this->sourcePoolDefinitionList;
-	}
-	
-	/**
 	 * @param ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList
 	 */
 	public function setSourcePoolDefinitionList($sourcePoolDefinitionList)
@@ -72,26 +76,93 @@ class ilTestRandomQuestionsQuantitiesDistribution
 		$this->sourcePoolDefinitionList = $sourcePoolDefinitionList;
 	}
 	
-	public function resetQuestRelatedSrcPoolDefRegister()
+	/**
+	 * @return ilTestRandomQuestionSetSourcePoolDefinitionList
+	 */
+	public function getSourcePoolDefinitionList()
+	{
+		return $this->sourcePoolDefinitionList;
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+	
+	/**
+	 * @return ilTestRandomQuestionSetSourcePoolDefinitionList
+	 */
+	protected function buildSourcePoolDefinitionListInstance()
+	{
+		$anyTestObject = new ilObjTest();
+		$nonRequiredDb = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		$nonUsedFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory($nonRequiredDb, $anyTestObject);
+		return new ilTestRandomQuestionSetSourcePoolDefinitionList($nonRequiredDb, $anyTestObject, $nonUsedFactory);
+	}
+	
+	/**
+	 * @return ilTestRandomQuestionSetQuestionCollection
+	 */
+	protected function buildRandomQuestionCollectionInstance()
+	{
+		return new ilTestRandomQuestionSetQuestionCollection();
+	}
+	
+	/**
+	 * @return ilTestRandomQuestionCollectionSubsetApplication
+	 */
+	protected function buildQuestionCollectionSubsetApplicationInstance()
+	{
+		return new ilTestRandomQuestionCollectionSubsetApplication();
+	}
+	
+	/**
+	 * @return ilTestRandomQuestionCollectionSubsetApplicationList
+	 */
+	protected function buildQuestionCollectionSubsetApplicationListInstance()
+	{
+		return new ilTestRandomQuestionCollectionSubsetApplicationList();
+	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
+	
+	/**
+	 * re-setter for questRelatedSrcPoolDefRegister
+	 */
+	protected function resetQuestRelatedSrcPoolDefRegister()
 	{
 		$this->questRelatedSrcPoolDefRegister = array();
 	}
 	
 	/**
 	 * @param integer $questionId
-	 * @param integer $definitionId
+	 * @param ilTestRandomQuestionSetSourcePoolDefinition $definition
 	 */
-	public function registerQuestRelatedSrcPoolDef($questionId, $definitionId)
+	protected function registerQuestRelatedSrcPoolDef($questionId, ilTestRandomQuestionSetSourcePoolDefinition $definition)
 	{
 		if( !$this->questRelatedSrcPoolDefRegister[$questionId] )
 		{
-			$this->questRelatedSrcPoolDefRegister[$questionId] = array();
+			$this->questRelatedSrcPoolDefRegister[$questionId] = $this->buildSourcePoolDefinitionListInstance();
 		}
 		
-		$this->questRelatedSrcPoolDefRegister[$questionId][] = $definitionId;
+		$this->questRelatedSrcPoolDefRegister[$questionId]->addDefinition($definition);
 	}
 	
-	public function resetSrcPoolDefRelatedQuestRegister()
+	/**
+	 * @param $questionId
+	 * @return ilTestRandomQuestionSetSourcePoolDefinitionList
+	 */
+	protected function getQuestRelatedSrcPoolDefinitionList($questionId)
+	{
+		if( isset($this->questRelatedSrcPoolDefRegister[$questionId]) )
+		{
+			return $this->questRelatedSrcPoolDefRegister[$questionId];
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * re-setter the srcPoolDefRelatedQuestRegister
+	 */
+	protected function resetSrcPoolDefRelatedQuestRegister()
 	{
 		$this->srcPoolDefRelatedQuestRegister = array();
 	}
@@ -100,45 +171,14 @@ class ilTestRandomQuestionsQuantitiesDistribution
 	 * @param integer $definitionId
 	 * @param ilTestRandomQuestionSetQuestion $randomSetQuestion
 	 */
-	public function registerSrcPoolDefRelatedQuest($definitionId, ilTestRandomQuestionSetQuestion $randomSetQuestion)
+	protected function registerSrcPoolDefRelatedQuest($definitionId, ilTestRandomQuestionSetQuestion $randomSetQuestion)
 	{
-		if( !$this->srcPoolDefRelatedQuestRegister[$definitionId] )
+		if( !isset($this->srcPoolDefRelatedQuestRegister[$definitionId]) )
 		{
-			$this->srcPoolDefRelatedQuestRegister[$definitionId] = array();
+			$this->srcPoolDefRelatedQuestRegister[$definitionId] = $this->buildRandomQuestionCollectionInstance();
 		}
 		
-		$this->srcPoolDefRelatedQuestRegister[$definitionId][$randomSetQuestion->getQuestionId()] = $randomSetQuestion;
-	}
-	
-	/**
-	 * @param ilTestRandomQuestionSetSourcePoolDefinition $definition
-	 * @return integer
-	 */
-	protected function getMissingQuestionCountUsingUpExclusiveQuestionCollection(ilTestRandomQuestionSetSourcePoolDefinition $definition)
-	{
-		$exclusiveQstCollection = $this->getExclusiveQuestionCollection($definition->getId());
-		return $exclusiveQstCollection->getMissingCount($definition->getQuestionAmount());
-	}
-	
-	/**
-	 * @param ilTestRandomQuestionSetQuestion $question
-	 * @param $definitionId
-	 */
-	protected function isQuestionUsedUpByAnySrcPoolDefinition(ilTestRandomQuestionSetQuestion $question, $definitionId)
-	{
-		// true when question must be used by any other definition than given
-		// otherwise false, becauseevery definition will left questions over that fits our need in sum
-		
-		return true;
-	}
-	
-	/**
-	 * @param ilTestRandomQuestionSetQuestion $question
-	 * @return bool
-	 */
-	protected function isQuestionUsedByMultipleSrcPoolDefinitions(ilTestRandomQuestionSetQuestion $question)
-	{
-		return 1 < count($this->questRelatedSrcPoolDefRegister[$question->getQuestionId()]);
+		$this->srcPoolDefRelatedQuestRegister[$definitionId]->addQuestion($randomSetQuestion);
 	}
 	
 	/**
@@ -147,45 +187,66 @@ class ilTestRandomQuestionsQuantitiesDistribution
 	 */
 	protected function getSrcPoolDefRelatedQuestionCollection($definitionId)
 	{
-		$srcPoolDefRelatedQstCollection = new ilTestRandomQuestionSetQuestionCollection();
-		
-		foreach($this->srcPoolDefRelatedQuestRegister[$definitionId] as $question)
+		if( isset($this->srcPoolDefRelatedQuestRegister[$definitionId]) )
 		{
-			$srcPoolDefRelatedQstCollection->addQuestion($question);
+			return $this->srcPoolDefRelatedQuestRegister[$definitionId];
 		}
 		
-		return $srcPoolDefRelatedQstCollection;
+		return null;
 	}
-
-	protected function getNonUsedUpSharedQuestionCollection($definitionId)
+	
+	// -----------------------------------------------------------------------------------------------------------------
+	
+	/**
+	 * initialise the src-pool-def/question registers
+	 */
+	protected function initialiseRegisters()
 	{
-		$nonUsedUpSharedQstCollection = new ilTestRandomQuestionSetQuestionCollection();
-		
-		foreach($this->getSrcPoolDefRelatedQuestionCollection($definitionId) as $question)
+		foreach( $this->getSrcPoolDefQuestionCombinationCollection() as $randomQuestion)
 		{
-			if( !$this->isQuestionUsedByMultipleSrcPoolDefinitions($question) )
-			{
-				continue;
-			}
+			$this->registerSrcPoolDefRelatedQuest(
+				$randomQuestion->getSourcePoolDefinitionId(), $randomQuestion
+			);
 			
-			if( $this->isQuestionUsedUpByAnySrcPoolDefinition($question, $definitionId) )
-			{
-				continue;
-			}
-			
-			$nonUsedUpSharedQstCollection->addQuestion($question);
+			$this->registerQuestRelatedSrcPoolDef(
+				$randomQuestion->getQuestionId(), $this->getSourcePoolDefinitionList()->$randomQuestion->getSourcePoolDefinitionId()
+			);
 		}
-		
-		return $nonUsedUpSharedQstCollection;
 	}
 	
 	/**
-	 * @param $definitionId
+	 * reset internal registers
+	 */
+	protected function resetRegisters()
+	{
+		$this->resetQuestRelatedSrcPoolDefRegister();
+		$this->resetSrcPoolDefRelatedQuestRegister();
+	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
+	
+	/**
+	 * @return ilTestRandomQuestionSetQuestionCollection
+	 */
+	protected function getSrcPoolDefQuestionCombinationCollection()
+	{
+		$qstCollectionProvider = $this->getQuestionCollectionProvider();
+		$srcPoolDefinitionList = $this->getSourcePoolDefinitionList();
+		
+		$defQstCombinationCollection = $qstCollectionProvider->getSrcPoolDefListRelatedQuestCombinationCollection(
+			$srcPoolDefinitionList
+		);
+		
+		return $defQstCombinationCollection;
+	}
+	
+	/**
+	 * @param integer $definitionId
 	 * @return ilTestRandomQuestionSetQuestionCollection
 	 */
 	protected function getExclusiveQuestionCollection($definitionId)
 	{
-		$exclusiveQstCollection = new ilTestRandomQuestionSetQuestionCollection();
+		$exclusiveQstCollection = $this->buildRandomQuestionCollectionInstance();
 		
 		foreach($this->getSrcPoolDefRelatedQuestionCollection($definitionId) as $question)
 		{
@@ -201,35 +262,153 @@ class ilTestRandomQuestionsQuantitiesDistribution
 	}
 	
 	/**
+	 * @param integer $definitionId
 	 * @return ilTestRandomQuestionSetQuestionCollection
 	 */
-	protected function getOverallQuestionCollection()
+	protected function getSharedQuestionCollection($definitionId)
 	{
-		$questCollectionProvider = $this->getQuestionCollectionProvider();
-		$srcPoolDefinitionList = $this->getSourcePoolDefinitionList();
-		
-		return $questCollectionProvider->getSrcPoolDefListRelatedQuestCollection(
-			$srcPoolDefinitionList
-		);
+		$srcPoolDefRelatedQstCollection = $this->getSrcPoolDefRelatedQuestionCollection($definitionId);
+		$exclusiveQstCollection = $this->getExclusiveQuestionCollection($definitionId);
+		return $srcPoolDefRelatedQstCollection->getRelativeComplementCollection($exclusiveQstCollection);
 	}
 	
-	public function initialiseRegisters()
+	/**
+	 * @param integer $thisDefinitionId
+	 * @param integer $thatDefinitionId
+	 * @return ilTestRandomQuestionSetQuestionCollection
+	 */
+	protected function getIntersectionQuestionCollection($thisDefinitionId, $thatDefinitionId)
 	{
-		foreach($this->getOverallQuestionCollection() as $randomQuestion)
-		{
-			$this->registerSrcPoolDefRelatedQuest(
-				$randomQuestion->getSourcePoolDefinitionId(), $randomQuestion
-			);
-			
-			$this->registerQuestRelatedSrcPoolDef(
-				$randomQuestion->getQuestionId(), $randomQuestion->getSourcePoolDefinitionId()
-			);
-		}
+		$thisDefRelatedSharedQstCollection = $this->getSharedQuestionCollection($thisDefinitionId);
+		$thatDefRelatedSharedQstCollection = $this->getSharedQuestionCollection($thatDefinitionId);
+		
+		$intersectionQstCollection = $thisDefRelatedSharedQstCollection->getIntersectionCollection(
+			$thatDefRelatedSharedQstCollection
+		);
+		
+		return $intersectionQstCollection;
 	}
+	
+	/**
+	 * @param ilTestRandomQuestionSetSourcePoolDefinition $definition
+	 * @return array[ $definitionId => ilTestRandomQuestionSetQuestionCollection ]
+	 */
+	protected function getIntersectionQstCollectionByDefinitionMap(ilTestRandomQuestionSetSourcePoolDefinition $definition)
+	{
+		$intersectionQstCollectionsByDefId = array();
+		
+		$sharedQuestionCollection = $this->getSharedQuestionCollection($definition->getId());
+		foreach( $sharedQuestionCollection as $sharedQuestion )
+		{
+			$relatedSrcPoolDefList = $this->getQuestRelatedSrcPoolDefinitionList($sharedQuestion->getQuestionId());
+			foreach( $relatedSrcPoolDefList as $otherDefinition )
+			{
+				if( isset( $intersectionQstCollectionsByDefId[$otherDefinition->getId()] ) )
+				{
+					continue;
+				}
+				
+				$intersectionQuestionCollection = $this->getIntersectionQuestionCollection(
+					$definition->getId(), $otherDefinition->getId()
+				);
+				
+				$intersectionQstCollectionsByDefId[$otherDefinition->getId()] = $intersectionQuestionCollection;
+			}
+		}
+		
+		return $intersectionQstCollectionsByDefId;
+	}
+	
+	/**
+	 * @param ilTestRandomQuestionSetSourcePoolDefinition $definition
+	 * @return ilTestRandomQuestionCollectionSubsetApplicationList
+	 */
+	protected function getIntersectionQuestionCollectionSubsetApplicationList(ilTestRandomQuestionSetSourcePoolDefinition $definition)
+	{
+		$qstCollectionSubsetApplicationList = $this->buildQuestionCollectionSubsetApplicationListInstance();
+		
+		$intersectionQstCollectionByDefIdMap = $this->getIntersectionQstCollectionByDefinitionMap($definition);
+		foreach( $intersectionQstCollectionByDefIdMap as $otherDefinitionId => $intersectionCollection )
+		{
+			/* @var ilTestRandomQuestionSetQuestionCollection $intersectionCollection */
+			
+			$qstCollectionSubsetApplication = $this->buildQuestionCollectionSubsetApplicationInstance();
+			$qstCollectionSubsetApplication->setQuestions($intersectionCollection->getQuestions());
+			$qstCollectionSubsetApplication->setApplicantId($otherDefinitionId);
+			$qstCollectionSubsetApplication->setRequiredAmount($this->getRequiredSharedQuestionAmount(
+				$this->getSourcePoolDefinitionList()->getDefinition($otherDefinitionId)
+			));
+			
+			$qstCollectionSubsetApplicationList->addCollectionSubsetApplication($qstCollectionSubsetApplication);
+		}
+		
+		return $qstCollectionSubsetApplicationList;
+	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
+	
+	/**
+	 * @param ilTestRandomQuestionSetQuestion $question
+	 * @return bool
+	 */
+	protected function isQuestionUsedByMultipleSrcPoolDefinitions(ilTestRandomQuestionSetQuestion $question)
+	{
+		return 1 < count($this->questRelatedSrcPoolDefRegister[$question->getQuestionId()]);
+	}
+	
+	/**
+	 * @param ilTestRandomQuestionSetSourcePoolDefinition $definition
+	 * @return bool
+	 */
+	protected function requiresSharedQuestions(ilTestRandomQuestionSetSourcePoolDefinition $definition)
+	{
+		return $this->getRequiredSharedQuestionAmount($definition) > 0;
+	}
+	
+	/**
+	 * @param ilTestRandomQuestionSetSourcePoolDefinition $definition
+	 * @return integer
+	 */
+	protected function getRequiredSharedQuestionAmount(ilTestRandomQuestionSetSourcePoolDefinition $definition)
+	{
+		$exclusiveQstCollection = $this->getExclusiveQuestionCollection($definition->getId());
+		$missingExclsuiveQstCount = $exclusiveQstCollection->getMissingCount($definition->getQuestionAmount());
+		return $missingExclsuiveQstCount;
+	}
+	
+	/**
+	 * @param ilTestRandomQuestionSetSourcePoolDefinition $definition
+	 * @return integer $nonReserverdSharedQuestionAmount
+	 */
+	protected function getNonReservedSharedQuestionAmount(ilTestRandomQuestionSetSourcePoolDefinition $definition)
+	{
+		$intersectionSubsetApplicationList = $this->getIntersectionQuestionCollectionSubsetApplicationList($definition);
+		
+		foreach($this->getSharedQuestionCollection($definition->getId()) as $sharedQuestion)
+		{
+			$intersectionSubsetApplicationList->handleQuestionRequest($sharedQuestion);
+		}
+		
+		return $intersectionSubsetApplicationList->getNonReservedQuestionAmount();
+	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
+	
+	public function initialise()
+	{
+		$this->initialiseRegisters();
+	}
+	
+	public function reset()
+	{
+		$this->resetRegisters();
+	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
 	
 	public function isRequiredAmountSatisfiedByExclusiveQstCollection(ilTestRandomQuestionSetSourcePoolDefinition $definition)
 	{
-		if( 0 < $this->getMissingQuestionCountUsingUpExclusiveQuestionCollection($definition) )
+		if( $this->requiresSharedQuestions($definition) )
 		{
 			return false;
 		}
@@ -239,14 +418,16 @@ class ilTestRandomQuestionsQuantitiesDistribution
 	
 	public function isMissingAmountSatisfiedByNonUsedUpSharedQstCollection(ilTestRandomQuestionSetSourcePoolDefinition $definition)
 	{
-		$requiredAmount = $this->getMissingQuestionCountUsingUpExclusiveQuestionCollection($definition);
-		$nonUsedUpSharedQstCollection = $this->getNonUsedUpSharedQuestionCollection();
+		$requiredAmountForSharedQuestions = $this->getRequiredSharedQuestionAmount($definition);
+		$nonReservedSharedQuestionAmount = $this->getNonReservedSharedQuestionAmount($definition);
 		
-		if( 0 < $nonUsedUpSharedQstCollection->getMissingCount($requiredAmount) )
+		if( $requiredAmountForSharedQuestions > $nonReservedSharedQuestionAmount )
 		{
 			return false;
 		}
 		
 		return true;
 	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
 }

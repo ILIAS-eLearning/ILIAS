@@ -13,7 +13,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuesti
 {
 	public function checkBuildable()
 	{
-		$questionStage = $this->getSrcPoolDefListRelatedQuestCollection($this->sourcePoolDefinitionList);
+		$questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
 
 		if( $questionStage->isSmallerThan($this->questionSetConfig->getQuestionAmountPerTest()) )
 		{
@@ -25,7 +25,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuesti
 
 	public function performBuild(ilTestSession $testSession)
 	{
-		$questionStage = $this->getSrcPoolDefListRelatedQuestCollection($this->sourcePoolDefinitionList);
+		$questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
 
 		$questionSet = $this->fetchQuestionsFromStageRandomly(
 			$questionStage, $this->questionSetConfig->getQuestionAmountPerTest()

@@ -94,7 +94,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 		// return $buildable;
 		
 		// keep old check for a while but messages will be created for the new check
-		$questionStage = $this->getSrcPoolDefListRelatedQuestCollection($this->sourcePoolDefinitionList);
+		$questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
 		if( $questionStage->isSmallerThan($this->sourcePoolDefinitionList->getQuestionAmount()) )
 		{
 			return false;
@@ -114,7 +114,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 		return $this->checkBuildableNew();
 		// fau.
 		
-		$questionStage = $this->getSrcPoolDefListRelatedQuestCollection($this->sourcePoolDefinitionList);
+		$questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
 
 		if( $questionStage->isSmallerThan($this->sourcePoolDefinitionList->getQuestionAmount()) )
 		{
@@ -170,7 +170,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 		{
 			$missingQuestionCount = $questionSet->getMissingCount($requiredQuestionAmount);
 			// fau: fixRandomTestBuildable - avoid already chosen questions being used as fillers
-			$potentialQuestionStage = $this->getSrcPoolDefListRelatedQuestCollection($this->sourcePoolDefinitionList);
+			$potentialQuestionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
 			$actualQuestionStage = $potentialQuestionStage->getRelativeComplementCollection($questionSet);
 			$questions = $this->fetchQuestionsFromStageRandomly($actualQuestionStage, $missingQuestionCount);
 			// fau.
