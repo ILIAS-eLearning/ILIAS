@@ -22,7 +22,15 @@
 	-webkit-border-radius: 8px;
 	border-radius: 8px;  }
 
+
+
   // general dropzone design
+  &.darkend-drag-enter {
+	background-color: #FFFFFF;  }
+	&.darkend-drag-enter {
+	  z-index:  1100;
+	  position: relative;  }
+
   &.dz-drag-hover {
 	border: 3px dashed #606060;
 	-moz-border-radius: 8px;
@@ -32,9 +40,4 @@
 	opacity: 0.7;  }
   &.dz-drag-hover * {
 	pointer-events: none;  }
-
-  &.darkend-drag-enter {
-	z-index:  1100;
-	position: relative;  }
-
 }
