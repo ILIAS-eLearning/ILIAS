@@ -22,6 +22,10 @@ class SimpleDropzone {
 	 */
 	private $id;
 	/**
+	 * @var boolean $darkendBackground
+	 */
+	protected $darkendBackground;
+	/**
 	 * @var TriggeredSignalInterface[] $registeredSignals
 	 */
 	private $registeredSignals;
@@ -40,6 +44,22 @@ class SimpleDropzone {
 	 */
 	public function setId($id) {
 		$this->id = $id;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isDarkendBackground() {
+		return $this->darkendBackground;
+	}
+
+
+	/**
+	 * @param bool $darkendBackground
+	 */
+	public function setDarkendBackground($darkendBackground) {
+		$this->darkendBackground = $darkendBackground;
 	}
 
 
