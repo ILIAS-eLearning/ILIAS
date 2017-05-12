@@ -1159,6 +1159,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if($this->is_moderator)
 		{
 			$this->objCurrentPost->activatePost();
+			$GLOBALS['ilAppEventHandler']->raise(
+				'Modules/Forum',
+				'activatedPost',
+				array(
+					'ref_id'            => $this->object->getRefId(),
+					'post'              => $this->objCurrentPost
+				)
+			);
 			ilUtil::sendInfo($this->lng->txt('forums_post_was_activated'), true);
 		}
 		
@@ -1272,6 +1280,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$form_tpl->setVariable('TXT_ACT', $lng->txt('activate_post_txt'));								
 		$form_tpl->setVariable('CONFIRM_BUTTON', $lng->txt('activate_only_current'));
 		$form_tpl->setVariable('CMD_CONFIRM', 'performPostActivation');
+		$form_tpl->setVariable('CANCEL_BUTTON', $lng->txt('cancel'));
+		$form_tpl->setVariable('CMD_CANCEL', 'viewThread');
 		$this->ctrl->clearParameters($this);
 
 		return $form_tpl->get(); 
@@ -2312,6 +2322,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			if(
 				!$this->isTopLevelReplyCommand() &&
 				$first_node instanceof ilForumPost &&
+				$first_node->isActivated() &&
 				!$this->objCurrentTopic->isClosed() &&
 				$ilAccess->checkAccess('add_reply', '', (int)$_GET['ref_id'])
 			)
@@ -2559,7 +2570,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						if($this->is_moderator || $node->isActivated())
 						{
 							// button: reply
-							if(!$this->objCurrentTopic->isClosed() &&
+							if(!$this->objCurrentTopic->isClosed() && $node->isActivated() &&
 								$ilAccess->checkAccess('add_reply', '', (int)$_GET['ref_id']) &&
 								!$node->isCensored()
 							)
@@ -2576,7 +2587,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 							}
 
 							// button: edit article
-							if (!$this->objCurrentTopic->isClosed() &&
+							if (!$this->objCurrentTopic->isClosed() && $node->isActivated() &&
 								($node->isOwner($ilUser->getId()) || $this->is_moderator) &&
 								 !$node->isCensored() &&
 								 $ilUser->getId() != ANONYMOUS_USER_ID)
@@ -2877,7 +2888,23 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						$this->ctrl->setParameter($this, 'backurl', $backurl);
 						$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
 						$this->ctrl->setParameter($this, 'user', $node->getUpdateUserId());
-
+						
+						$update_user_id = $node->getUpdateUserId();
+						if($node->getPosAuthorId() == $node->getUpdateUserId()
+							&& $node->getDisplayUserId() == 0)
+						{
+							$update_user_id = $node->getDisplayUserId();
+						}
+						require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
+						$authorinfo = new ilForumAuthorInformation(
+							$node->getPosAuthorId(),
+							$update_user_id,
+							$node->getUserAlias(),
+							$node->getImportName(),
+							array(
+								'href' => $this->ctrl->getLinkTarget($this, 'showUser')
+							)
+						);
 						$this->ctrl->clearParameters($this);
 
 						$tpl->setVariable('POST_UPDATE_TXT', $lng->txt('edited_on').': '.$frm->convertDate($node->getChangeDate()).' - '.strtolower($lng->txt('by')));
