@@ -6,7 +6,7 @@
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    05.05.17
- * @version 0.0.5
+ * @version 0.0.6
  *
  * @package ILIAS\UI\Implementation\Component\FileDropzone
  */
@@ -79,25 +79,10 @@ class Renderer extends AbstractComponentRenderer {
 		// setup javascript
 		$simpleDropzone = new SimpleDropzone();
 		$simpleDropzone->setId($dropzoneId);
+		$simpleDropzone->setDarkendBackground($standardDropzone->isDarkendBackground());
 		$simpleDropzone->setRegisteredSignals($standardDropzone->getTriggeredSignals());
 
-		$jsHelper = new JavascriptHelper($simpleDropzone);
-
-		$this->getJavascriptBinding()->addOnLoadCode($jsHelper->initializeDropzone());
-
-		$this->getJavascriptBinding()->addOnLoadCode("
-			{$jsHelper->getJSDropzone()}.on(\"drop\", function(event) { {$jsHelper->triggerRegisteredSignals()} });
-		");
-
-		if ($standardDropzone->isDarkendBackground()) {
-
-			$this->getJavascriptBinding()->addOnLoadCode("
-				{$jsHelper->getJSDropzone()}.on(\"dragenter\", function(event) { {$jsHelper->enableDarkendBackground()} })
-				.on(\"dragleave\", function(event) { {$jsHelper->disableDarkendBackground()} })
-				.on(\"drop\", function(event) { {$jsHelper->disableDarkendBackground()} });
-			");
-
-		}
+		$this->setupJavascriptCode($simpleDropzone);
 
 
 		// setup template
@@ -127,12 +112,17 @@ class Renderer extends AbstractComponentRenderer {
 		$dropzoneId = $this->createId();
 
 		// setup javascript
-		$this->setupJavascriptCode($wrapperDropzone, $dropzoneId);
+		$simpleDropzone = new SimpleDropzone();
+		$simpleDropzone->setId($dropzoneId);
+		$simpleDropzone->setDarkendBackground($wrapperDropzone->isDarkendBackground());
+		$simpleDropzone->setRegisteredSignals($wrapperDropzone->getTriggeredSignals());
+
+		$this->setupJavascriptCode($simpleDropzone);
 
 		// setup template
 		$tpl = $this->getTemplate("tpl.wrapper-file-dropzone.html", true, true);
 		$tpl->setVariable("ID", $dropzoneId);
-		$tpl->setVariable("CONTENT", $this->getContentAsHtml($wrapperDropzone->getContent()));
+		$tpl->setVariable("CONTENT", $this->renderComponentList($wrapperDropzone->getContent()));
 
 		return $tpl->get();
 	}
@@ -145,7 +135,7 @@ class Renderer extends AbstractComponentRenderer {
 	 *
 	 * @return string the passed in components as html
 	 */
-	private function getContentAsHtml(array $componentList) {
+	private function renderComponentList(array $componentList) {
 
 		$contentHmtl = "";
 
@@ -158,32 +148,30 @@ class Renderer extends AbstractComponentRenderer {
 
 
 	/**
-	 * Adds the javascript onload code for the passed in BasicFileDropzone
+	 * Adds the javascript onload code for the passed in SimpleDropzone.
 	 * The javascript for uses the dropzone.js library
 	 * @see http://www.dropzonejs.com
 	 *
-	 * @param BasicFileDropzone $fileDropzone the file dropzone to setup javascript
-	 * @param string $dropzoneId the dropzon id used in the html
+	 * @param SimpleDropzone $simpleDropzone Wrapper class for dropzone components.
 	 */
-	private function setupJavascriptCode(BasicFileDropzone $fileDropzone, $dropzoneId) {
-
-		$simpleDropzone = new SimpleDropzone();
-		$simpleDropzone->setId($dropzoneId);
+	private function setupJavascriptCode(SimpleDropzone $simpleDropzone) {
 
 		$jsHelper = new JavascriptHelper($simpleDropzone);
 
 		$this->getJavascriptBinding()->addOnLoadCode($jsHelper->initializeDropzone());
 
-//		$this->getJavascriptBinding()->addOnLoadCode(
-//			"{$jsHelper->getJSDropzone()}.on(\"dragenter\", {$jsHelper->wrapToJSEventFunction(
-//				$jsHelper->enableDropDesign())}
-//			).on(\"dragleave\", {$jsHelper->wrapToJSEventFunction(
-//				$jsHelper->disableDropDesign())}
-//			).on(\"drop\", {$jsHelper->wrapToJSEventFunction(
-//				$jsHelper->disableDropDesign()
-//				.$jsHelper->triggerSignals($fileDropzone->getTriggeredSignals()))}
-//			)"
-//		);
+		$this->getJavascriptBinding()->addOnLoadCode("
+			{$jsHelper->getJSDropzone()}.on(\"drop\", function(event) { {$jsHelper->triggerRegisteredSignals()} });
+		");
 
+		if ($simpleDropzone->isDarkendBackground()) {
+
+			$this->getJavascriptBinding()->addOnLoadCode("
+				{$jsHelper->getJSDropzone()}.on(\"dragenter\", function(event) { {$jsHelper->enableDarkendBackground()} })
+				.on(\"dragleave\", function(event) { {$jsHelper->disableDarkendBackground()} })
+				.on(\"drop\", function(event) { {$jsHelper->disableDarkendBackground()} });
+			");
+
+		}
 	}
 }
