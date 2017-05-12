@@ -1,22 +1,40 @@
 .il-file-dropzone {
 
-  .standard {
-	min-height: 150px;
-	border: 2px solid rgba(0, 0, 0, 0.3);
-	background: white;
-	padding: 20px 20px; }
-	.standard.dz-drag-hover {
-	  border-style: solid; }
-	.standard.dz-drag-hover .dz-message {
-	  opacity: 0.5; }
-	.standard .dz-message {
-	  text-align: center;
-	  margin: 2em 0; }
 
-  .dragenter {
-	z-index: 1100;
-	position: relative; }
-	.dragenter * {
-	  pointer-events: none; }
+
+  // standard dropzone design
+  &.standard {
+	padding: 20px 20px;
+	border: 3px #C0C0C0 dashed;
+	min-height: 150px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	background: #FFFFFF;  }
+	&.standard .dz-message {
+	  text-align: center;
+	  margin:     40px 0;  }
+
+  // wrapper dropzone design
+  &.wrapper.drag-enter {
+	border: 3px dashed #C0C0C0;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	background-color: #FFFFD6;
+	opacity: 0.7;
+  }
+
+  // general dropzone design
+  &.dz-drag-hover {
+	border-color: #606060;
+	background-color: #FFF9BC;
+	opacity: 0.7;  }
+  &.dz-drag-hover * {
+	pointer-events: none;  }
+
+  &.darkend-drag-enter {
+	z-index:  1100;
+	position: relative;  }
 
 }
