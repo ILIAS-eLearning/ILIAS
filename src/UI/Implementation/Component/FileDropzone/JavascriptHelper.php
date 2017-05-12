@@ -8,14 +8,12 @@
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    09.05.17
- * @version 0.0.3
+ * @version 0.0.4
  *
  * @package ILIAS\UI\Implementation\Component\FileDropzone
  */
 
 namespace ILIAS\UI\Implementation\Component\FileDropzone;
-
-use ILIAS\UI\Implementation\Component\TriggeredSignal;
 
 class JavascriptHelper {
 
@@ -62,36 +60,36 @@ class JavascriptHelper {
 
 
 	/**
-	 * Generates the javascript code to enable the drop design of a dropzone.
+	 * Generates the javascript code to enable the darkend background for dropzones.
 	 *
 	 * @return string the generated code
 	 */
-	public function enableDropDesign() {
-		return "il.UI.dropzone.enableDropDesign({\"id\": '{$this->simpleDropzone->getId()}', \"darkendBackground\": '{$this->simpleDropzone->isDarkendBackground()}'});";
+	public function enableDarkendBackground() {
+		return "il.UI.dropzone.enableDarkendBackground('{$this->simpleDropzone->getId()}');";
 	}
 
 	/**
-	 * Generates the javascript code to disable the drop design of a dropzone.
+	 * Generates the javascript code to disable the darkend backgrounds for dropzones.
 	 *
 	 * @return string the generated code
 	 */
-	public function disableDropDesign() {
-		return "il.UI.dropzone.disableDropDesign({\"id\": '{$this->simpleDropzone->getId()}', \"darkendBackground\": '{$this->simpleDropzone->isDarkendBackground()}'});";
+	public function disableDarkendBackground() {
+		return "il.UI.dropzone.disableDarkendBackground('{$this->simpleDropzone->getId()}');";
 	}
 
 	/**
-	 * Generates the javascript code to trigger all passed in signals.
-	 * The result of this method needs to be wrapped by the {@link JavascriptHelper#wrapToJSEventFunction}
-	 * to avoid javascript syntax errors.
+	 * Generates the javascript code to trigger all registered signals of a dropzone.
+	 * The result of this method needs a javascript variable "event".
 	 *
-	 * @param TriggeredSignal[] $signalList a list of signals to trigger
+	 * e.g. javascript code
+	 * function(event) { JavascriptHelper#triggerRegisteredSignals }
 	 *
 	 * @return string the generated code
 	 */
-	public function triggerSignals(array $signalList) {
+	public function triggerRegisteredSignals() {
 
 		$jsCode = "";
-		foreach ($signalList as $triggeredSignal) {
+		foreach ($this->simpleDropzone->getRegisteredSignals() as $triggeredSignal) {
 			/**
 			 * @var \ILIAS\UI\Implementation\Component\Signal $signal
 			 */
@@ -99,20 +97,6 @@ class JavascriptHelper {
 			$jsCode .= "$('#{$this->simpleDropzone->getId()}').trigger('{$signal}', event);\n";
 		}
 		return $jsCode;
-	}
-
-
-	/**
-	 * Wraps the passed in javascript code to a javascript event function.
-	 *
-	 * e.g. function(event) {...}
-	 *
-	 * @param string $javascriptCode the javascript code to wrap
-	 *
-	 * @return string the wrapped javascript code
-	 */
-	public function wrapToJSEventFunction($javascriptCode) {
-		return "function(event) {" . $javascriptCode . "}";
 	}
 
 
