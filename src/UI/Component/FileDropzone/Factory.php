@@ -72,7 +72,7 @@ interface Factory {
 	 *     3: The standard dropzone only listens on file drop events by a user.
 	 *   style:
 	 *     1: This dropzone does not have any padding or margin.
-	 *     2: The height and the with is determined by the components inside.
+	 *     2: The height and the width is determined by the components inside.
 	 *
 	 * ---
 	 *
