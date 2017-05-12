@@ -6,7 +6,7 @@
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    09.05.17
- * @version 0.0.2
+ * @version 0.0.3
  *
  * @package ILIAS\UI\Implementation\Component\FileDropzone
  */
@@ -21,10 +21,6 @@ class SimpleDropzone {
 	 * @var string $id
 	 */
 	private $id;
-	/**
-	 * @var boolean $darkendBackground
-	 */
-	private $darkendBackground;
 	/**
 	 * @var TriggeredSignalInterface[] $registeredSignals
 	 */
@@ -44,22 +40,6 @@ class SimpleDropzone {
 	 */
 	public function setId($id) {
 		$this->id = $id;
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function isDarkendBackground() {
-		return $this->darkendBackground;
-	}
-
-
-	/**
-	 * @param bool $darkendBackground
-	 */
-	public function setDarkendBackground($darkendBackground) {
-		$this->darkendBackground = $darkendBackground;
 	}
 
 
