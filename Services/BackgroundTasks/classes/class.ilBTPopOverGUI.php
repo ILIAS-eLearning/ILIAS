@@ -6,6 +6,8 @@ use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\UI\Component\Listing\Descriptive;
 use ILIAS\UI\Factory;
 
+require_once("./Services/BackgroundTasks/classes/StateTranslator.php");
+
 class ilBTPopOverGUI {
 
 	use StateTranslator;
@@ -31,7 +33,8 @@ class ilBTPopOverGUI {
 	 *
 	 * @return \ILIAS\UI\Component\Deck\Deck
 	 */
-	public function getPopOverContent(int $user_id) {
+	public function getPopOverContent($user_id) {
+		assert(is_int($user_id));
 		$observer_ids = $this->btPersistence->getObserverIdsOfUser($user_id);
 		$observers = $this->btPersistence->loadObservers($observer_ids);
 
@@ -39,7 +42,7 @@ class ilBTPopOverGUI {
 			return $this->uiFactory->listing()->descriptive(
 				[
 					"State" => $this->translateState($observer->getState(), $this->lng),
-					"Percentage" => $observer->getPercentage()
+					"Percentage" => (string) $observer->getPercentage()
 				]
 			);
 		}, $observers);

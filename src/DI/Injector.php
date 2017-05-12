@@ -80,9 +80,7 @@ class Injector {
 
 		foreach ($parameters as $parameter) {
 			// As long as there are given arguments we take those.
-			$type = $this->getDependency($fullyQualifiedClassName, $parameter, $with);
-
-			$constructorArguments[] = isset($this->dic[$type]) ? $this->dic[$type] : null;
+			$constructorArguments[] = $this->getDependency($fullyQualifiedClassName, $parameter, $with);
 		}
 		return $constructorArguments;
 	}

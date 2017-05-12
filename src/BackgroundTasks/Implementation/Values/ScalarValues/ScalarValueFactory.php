@@ -8,6 +8,7 @@
 namespace ILIAS\BackgroundTasks\Implementation\Values\ScalarValues;
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
+use ILIAS\BackgroundTasks\Value;
 
 interface ScalarValueFactory {
 

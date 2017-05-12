@@ -1,7 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory;
 use ILIAS\DI\DependencyMap\BaseDependencyMap;
+use ILIAS\DI\Injector;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -887,6 +889,7 @@ class ilInitialisation
 			self::initLanguage();
 			$GLOBALS['DIC']['tree']->initLangCode();
 
+			self::initInjector($GLOBALS['DIC']);
 			self::initBackgroundTasks($GLOBALS['DIC']);
 
 			if(ilContext::hasHTML())
@@ -1557,16 +1560,22 @@ class ilInitialisation
 
 
 	private static function initBackgroundTasks(\ILIAS\DI\Container $c) {
-		//TODO: instantiate persistance.
+		$c["bt.task_factory"]  = function ($c) {
+			return new \ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory($c["di.injector"]);
+		};
+
+		$c["bt.persistence"]  = function ($c) {
+			return new \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence();
+		};
 	}
 
 	private static function initInjector(\ILIAS\DI\Container $c) {
 		$c["di.dependency_map"]  = function ($c) {
-			return new ILIAS\DI\DependencyMap\BaseDependencyMap();
+			return new \ILIAS\DI\DependencyMap\BaseDependencyMap();
 		};
 
 		$c["di.injector"] = function ($c) {
-			return new ILIAS\UI\Implementation\Factory();
+			return new \ILIAS\DI\Injector($c, $c["di.dependency_map"]);
 		};
 	}
 }

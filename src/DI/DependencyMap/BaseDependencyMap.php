@@ -2,7 +2,10 @@
 
 namespace ILIAS\DI\DependencyMap;
 
+use ILIAS\BackgroundTasks\Persistence;
+use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\DI\Container;
+use ILIAS\DI\Injector;
 
 /**
  * Class BaseDependencyMap
@@ -13,9 +16,12 @@ use ILIAS\DI\Container;
  */
 class BaseDependencyMap extends EmptyDependencyMap {
 
+	protected $map;
+
 	public function __construct() {
 		$this->maps = [[$this, 'resolveBaseDependencies']];
 	}
+
 
 
 	protected function resolveBaseDependencies(Container $DIC, string $fullyQualifiedDomainName, string $for) {
@@ -60,6 +66,10 @@ class BaseDependencyMap extends EmptyDependencyMap {
 				return $DIC->ui()->renderer();
 			case \ilTemplate::class:
 				return $DIC->ui()->mainTemplate();
+			case Persistence::class:
+				return $DIC->backgroundTasks()->persistence();
+			case TaskFactory::class:
+				return $DIC->backgroundTasks()->taskFactory();
 		}
 	}
 }

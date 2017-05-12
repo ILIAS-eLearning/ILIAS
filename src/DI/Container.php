@@ -124,4 +124,12 @@ class Container extends \Pimple\Container {
 	public function injector() {
 		return $this["di.injector"];
 	}
+
+
+	/**
+	 * @return BackgroundTaskServices
+	 */
+	public function backgroundTasks() {
+		return new BackgroundTaskServices($this);
+	}
 }

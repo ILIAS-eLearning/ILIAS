@@ -46,9 +46,6 @@ class BasicPersistence implements Persistence {
 	 */
 	protected $connector = null;
 
-	protected function __construct() {
-	}
-
 	public static function instance() {
 		if (!self::$instance)
 			self::$instance = new BasicPersistence();
@@ -321,13 +318,13 @@ class BasicPersistence implements Persistence {
 	 */
 	private function loadTask(int $taskContainerId, Observer $observer, ObserverContainer $observerContainer) {
 		global $DIC;
-		$factory = new Injector($DIC);
+		$factory = $DIC->backgroundTasks()->taskFactory();
 		/** @var TaskContainer $taskContainer */
 		$taskContainer = TaskContainer::find($taskContainerId);
 		/** @noinspection PhpIncludeInspection */
 		require_once($taskContainer->getClassPath());
 		/** @var Task $task */
-		$task = $factory->createInstance($taskContainer->getClassName(), [], null, true);
+		$task = $factory->createTask($taskContainer->getClassName());
 
 		/** @var ValueToTaskContainer $valueToTask */
 		$valueToTasks = ValueToTaskContainer::where(['task_id' => $taskContainerId])->get();
@@ -346,14 +343,14 @@ class BasicPersistence implements Persistence {
 
 	private function loadValue(int $valueContainerId, Observer $observer, ObserverContainer $observerContainer) {
 		global $DIC;
-		$factory = new Injector($DIC);
+		$factory = $DIC->injector();
 
 		/** @var ValueContainer $valueContainer */
 		$valueContainer = ValueContainer::find($valueContainerId);
 		/** @noinspection PhpIncludeInspection */
 		require_once($valueContainer->getClassPath());
 		/** @var Value $value */
-		$value = $factory->createInstance($valueContainer->getClassName(), [], null, true);
+		$value = $factory->createInstance($valueContainer->getClassName());
 
 		$value->unserialize($valueContainer->getSerialized());
 		if($valueContainer->getHasParenttask()) {

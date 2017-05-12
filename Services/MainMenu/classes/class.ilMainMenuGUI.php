@@ -230,6 +230,7 @@ class ilMainMenuGUI
 			$this->renderOnScreenChatMenu();
 			$this->populateWithBuddySystem();
 			$this->populateWithOnScreenChat();
+			$this->renderBackgroundTasks();
 			$this->renderAwareness();
 		}
 
@@ -1112,7 +1113,20 @@ class ilMainMenuGUI
 		}
 		
 		return $url;
-	}	
+	}
+
+	protected function renderBackgroundTasks()
+	{
+		global $DIC;
+		require_once("./Services/BackgroundTasks/classes/class.ilBTPopOverGUI.php");
+
+		/** @var ilBTPopOverGUI $popoverGUI */
+		$popoverGUI = $DIC->injector()->createInstance(ilBTPopOverGUI::class);
+		$popoverContent = $popoverGUI->getPopOverContent($DIC->user()->getId());
+
+		$this->tpl->setVariable('BACKGROUNDTASKS',
+			"<li>".$DIC->ui()->renderer()->render($popoverContent).'</li>');
+	}
 }
 
 ?>
