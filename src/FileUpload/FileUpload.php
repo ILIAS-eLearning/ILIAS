@@ -3,6 +3,7 @@
 namespace ILIAS\FileUpload;
 
 use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\FileUpload\Exception\IllegalArgumentException;
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\FileUpload\Processor\PreProcessor;
 
@@ -25,14 +26,21 @@ interface FileUpload {
 	 * Only files which got accepted by the processors are moved. Please make sure to process the
 	 * uploaded files first with the help of the process method.
 	 *
-	 * @param string $destination  The destination of the uploaded files.
+	 * Please note that the Location interface defines all valid location.
+	 *
+	 * @param string $destination   The destination of the uploaded files.
+	 *
+	 * @param int    $location      The filesystem location which should be used.
 	 *
 	 * @return void
 	 *
-	 * @throws IllegalStateException Thrown if the files are not processed before invoking the moveFilesTo method.
+	 * @throws IllegalStateException        Thrown if the files are not processed before invoking the moveFilesTo method.
+	 * @throws IllegalArgumentException     Thrown if the location is invalid.
 	 * @since 5.3
+	 *
+	 * @see Location
 	 */
-	public function moveFilesTo($destination);
+	public function moveFilesTo($destination, $location = Location::STORAGE);
 
 
 	/**
@@ -50,6 +58,7 @@ interface FileUpload {
 	 * @param PreProcessor $preProcessor    The preprocessor instance which should be registered.
 	 *
 	 * @return void
+	 *
 	 * @throws IllegalStateException If the register method is called after the files already got processed.
 	 * @since 5.3
 	 */
@@ -62,6 +71,7 @@ interface FileUpload {
 	 * the file which got processed is automatically rejected to prevent ILIAS from using unprocessed files.
 	 *
 	 * @return void
+	 *
 	 * @throws IllegalStateException If the files already got processed.
 	 * @since 5.3
 	 */
@@ -72,6 +82,7 @@ interface FileUpload {
 	 * Returns the results of the processing and moving operation of the uploaded files.
 	 *
 	 * @return UploadResult[]
+	 *
 	 * @throws IllegalStateException If the method is called before the files are processed.
 	 * @since 5.3
 	 */
