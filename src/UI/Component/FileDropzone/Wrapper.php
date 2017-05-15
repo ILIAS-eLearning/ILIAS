@@ -20,16 +20,16 @@ interface Wrapper extends BasicFileDropzone {
 	/**
 	 * Clones this instance and sets the passed in argument on it.
 	 *
-	 * @param Component[] $componentList an array of ILIAS UI components
+	 * @param Component[]|Component $content an array of ILIAS UI components
 	 *
 	 * @return Wrapper a copy of this instance
 	 */
-	function withContent(array $componentList);
+	public function withContent($content);
 
 
 	/**
 	 * @return Component[] an array of ILIAS UI components for this dropzone
 	 */
-	function getContent();
+	public function getContent();
 
 }

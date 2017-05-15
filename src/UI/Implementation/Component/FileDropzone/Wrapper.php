@@ -14,8 +14,10 @@
 namespace ILIAS\UI\Implementation\Component\FileDropzone;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 class Wrapper extends BasicFileDropzoneImpl implements \ILIAS\UI\Component\FileDropzone\Wrapper {
+	use ComponentHelper;
 
 	/**
 	 * @var Component[]
@@ -26,11 +28,11 @@ class Wrapper extends BasicFileDropzoneImpl implements \ILIAS\UI\Component\FileD
 	 * Wrapper constructor.
 	 * An array of ILIAS UI components. At least, the array must contain one or more elements.
 	 *
-	 * @param Component[] $componentList an array of ILIAS UI components
+	 * @param Component[]|Component $content an array or a single instance of ILIAS UI components
 	 */
-	public function __construct(array $componentList) {
-		$this->checkEmptyArray($componentList);
-		$this->componentList = $componentList;
+	public function __construct($content) {
+		$this->componentList = $this->toArray($content);
+		$this->checkEmptyArray($this->componentList);
 		$this->darkendBackground = true;
 	}
 
@@ -38,10 +40,10 @@ class Wrapper extends BasicFileDropzoneImpl implements \ILIAS\UI\Component\FileD
 	/**
 	 * @inheritDoc
 	 */
-	public function withContent(array $componentList) {
-		$this->checkEmptyArray($componentList);
+	public function withContent($content) {
 		$clonedFileDropzone = clone $this;
-		$clonedFileDropzone->componentList = $componentList;
+		$clonedFileDropzone->componentList = $this->toArray($content);
+		$this->checkEmptyArray($clonedFileDropzone->componentList);
 		return $clonedFileDropzone;
 	}
 
