@@ -40,6 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND'
 
 
 // start correct client
+#added by AJM on 2015-Sep-03 - if domain name is revia, client_id is revia
+if(in_array($_SERVER['SERVER_NAME'],array('stage-lms.revia.ca','lms.revia.ca','elearn.revia.ca','elearning.revia.ca'))){
+        $_GET['client_id']='REVIA';
+}
+#end add by AJM
+
 // if no client_id is given, default client is loaded (in class.ilias.php)
 if (isset($_GET["client_id"]))
 {

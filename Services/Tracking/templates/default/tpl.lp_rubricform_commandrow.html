@@ -1,0 +1,34 @@
+<form action="{FORM_ACTION}" method="POST" onsubmit="return verifyForm()">
+<input type="hidden" id="complete" name="complete">
+<div class="ilTableCommandRowTop form-inline">
+
+    <div class="ilFloatLeft">
+
+        <img border="0" style="vertical-align:middle;" alt="Action" src="./templates/default/images/arrow_upright.svg">
+        
+        {RURBRIC_COMMANDROW_SELECT}
+        <input type="button" {RUBRIC_DISABLED} value="{RUBRIC_EXECUTE}" onclick="rubric_cmd(this)" class="btn btn-default">
+        <input type="submit" {USER_LOCK} value="{RUBRIC_LOCK}" name="cmd[lockRubricCardForm]" class="btn btn-default btn-sm">
+    </div>
+
+    <div class="ilFloatRight ilFormCmds">
+
+        <div class="form-group">        
+            <label class="control-label" for="passing_grade">Passing Grade</label>
+            <div class="input-group has-success has-feedback">
+                <div class="input-group-addon">%</div>                
+                <input {RUBRIC_DISABLED} name="passing_grade" class="form-control" id="passing_grade" aria-describedby="passing_gradeWarningStatus" onkeyup="validate(this)" onblur="validate(this)" type="text" value="{PASSING_GRADE_VALUE}">
+                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                <span class="sr-only" id="passing_gradeWarningStatus">(ok)</span>    
+            </div>
+            
+        </div>
+        
+        <input type="submit" {RUBRIC_DISABLED} value="{RUBRIC_SAVE}" name="cmd[saveRubricCard]" class="btn btn-default btn-sm">
+
+    </div>
+    
+    <div style="clear:both;"></div>
+    
+</div>
+

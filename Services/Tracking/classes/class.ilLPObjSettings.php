@@ -6,7 +6,7 @@
 *
 * @author Stefan Meyer <meyer@leifos.com>
 *
-* @version $Id$
+* @version $Id: class.ilLPObjSettings.php 53719 2014-09-23 12:53:04Z jluetzen $
 *
 * @package ilias-tracking
 *
@@ -40,6 +40,12 @@ class ilLPObjSettings
 	const LP_MODE_COLLECTION_TLT = 15;
 	const LP_MODE_COLLECTION_MANUAL = 16;
 	const LP_MODE_QUESTIONS = 17;
+
+    // START PATCH RUBRIC CPKN 2015
+    const LP_MODE_RUBRIC = 92;
+    // END PATCH RUBRKC CPKN 2015
+
+
 	// const LP_MODE_SURVEY_FINISHED = 18; (placeholder for 4.6.x)
 
 	const LP_DEFAULT_VISITS = 30;
@@ -299,6 +305,11 @@ class ilLPObjSettings
 				
 			case self::LP_MODE_QUESTIONS:
 				return $lng->txt('trac_mode_questions');
+
+            // START PATCH RUBRIC CPKN 2015
+            case self::LP_MODE_RUBRIC:
+                return $lng->txt('trac_mode_rubric');
+            // END PATCH RUBRIC CPKN 2015
 		}
 	}
 	
@@ -356,6 +367,12 @@ class ilLPObjSettings
 				
 			case self::LP_MODE_QUESTIONS:
 				return $lng->txt('trac_mode_questions_info');
+
+            // START PATCH RUBRIC CPKN 2015
+            case self::LP_MODE_RUBRIC:
+                return $lng->txt('trac_mode_rubric_info');
+            // END PATCH RUBRIC CPKN 2015
+                    
 		}
 	}
 }

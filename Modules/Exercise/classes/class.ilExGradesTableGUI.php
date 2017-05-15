@@ -83,10 +83,16 @@ class ilExGradesTableGUI extends ilTable2GUI
 		$this->setEnableTitle(true);
 //		$this->setSelectAllCheckbox("assid");
 
-		if (count($mems) > 0)
+                // START PATCH RUBRIC CPKN 2015
+                include_once 'Services/Object/classes/class.ilObjectLP.php';
+                $olp = ilObjectLP::getInstance($this->exc_id);
+                $lp_mode = $olp->getCurrentMode();
+                
+		if (count($mems) > 0 && $lp_mode!=92)
 		{
 			$this->addCommandButton("saveGrades", $lng->txt("exc_save_changes"));
 		}
+                // END PATCH RUBRIC CPKN 2015
 	}
 	
 	/**
@@ -109,9 +115,8 @@ class ilExGradesTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 
-
 		$user_id = $d["user_id"];
-		
+
 		foreach ($this->ass_data as $ass)
 		{
 			// grade
@@ -140,6 +145,16 @@ class ilExGradesTableGUI extends ilTable2GUI
 		// exercise total
 		
 		// mark input
+
+		// START PATCH RUBRIC CPKN 2015
+		include_once 'Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($this->exc_id);
+		$lp_mode = $olp->getCurrentMode();
+		if($lp_mode==92) {
+			$this->tpl->setVariable("RUBRIC_DISABLED", "disabled");
+		}
+		// END PATCH RUBRIC CPKN 2015
+
 		$this->tpl->setCurrentBlock("mark_input");
 		$this->tpl->setVariable("TXT_MARK", $lng->txt("exc_mark"));
 		$this->tpl->setVariable("NAME_MARK",
@@ -172,6 +187,8 @@ class ilExGradesTableGUI extends ilTable2GUI
 		
 		$this->tpl->parseCurrentBlock();
 
+
+
 		// name
 		$this->tpl->setVariable("TXT_NAME",
 			$d["lastname"].", ".$d["firstname"]." [".$d["login"]."]");
@@ -185,6 +202,8 @@ class ilExGradesTableGUI extends ilTable2GUI
 		$c = ilLPMarks::_lookupComment($user_id, $this->exc_id);
 		$this->tpl->setVariable("VAL_COMMENT",
 			ilUtil::prepareFormOutput($c));
+
+
 	}
 
 }

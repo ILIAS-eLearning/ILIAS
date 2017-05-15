@@ -1,0 +1,18 @@
+<form action="{FORM_ACTION}" method="POST" onsubmit="return verifyGrade()">
+
+<input type="hidden" id="user_id" name="user_id" value="{USER_ID}">
+<input type="hidden" id="mark" name="mark" value="">
+<input type="hidden" id="comment" name="comment" value="Graded by Rubric">
+
+<div class="ilTableCommandRowTop form-inline">
+
+    <div class="ilFloatRight ilFormCmds">
+        {RUBRIC_COMMANDROW_HISTORY_SELECT}
+        <input type="submit" value="{RUBRIC_VIEW_HISTORY}" name="cmd[viewHistory]" class="btn btn-default btn-sm">
+        <input type="submit" value="{RUBRIC_EXPORT}" name="cmd[exportPDF]" class="btn btn-default btn-sm">
+        
+    </div>
+    
+    <div style="clear:both;"></div>
+    
+</div>

@@ -13,7 +13,7 @@ include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
  *
  * @author Stefan Meyer <meyer@leifos.com>
  *
- * @version $Id$
+ * @version $Id: class.ilLearningProgressBaseGUI.php 57670 2015-01-30 11:45:44Z jluetzen $
  *
  * @package ilias-tracking
  *
@@ -45,6 +45,10 @@ class ilLearningProgressBaseGUI
 	const LP_ACTIVE_OBJSTATDAILY = 9;
 	const LP_ACTIVE_OBJSTATADMIN = 10;
 	const LP_ACTIVE_MATRIX = 11;
+    
+    // START PATCH RUBRIC CPKN 2015
+    const LP_ACTIVE_RUBRIC = 92;
+    // END PATCH RUBRIC CPKN 2015
 
 	function ilLearningProgressBaseGUI($a_mode,$a_ref_id = 0,$a_usr_id = 0)
 	{
@@ -175,13 +179,23 @@ class ilLearningProgressBaseGUI
 						{
 							$this->tabs_gui->addSubTabTarget("trac_matrix",
 															$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),
-															"", "", "", $a_active == self::LP_ACTIVE_MATRIX);							
+															"", "", "", $a_active == self::LP_ACTIVE_MATRIX);						    
 						}
+                        
+                        // START PATCH RUBRIC CPKN 2015
+                        if($olp->getCurrentMode()==92){
+                            $this->tabs_gui->addSubTabTarget("trac_rubric",
+															$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showRubricCardForm'),
+															"", "", "", $a_active == self::LP_ACTIVE_RUBRIC);                            
+                        }
+                        // END PATCH RUBRIC CPKN 2015
 
 						$this->tabs_gui->addSubTabTarget("trac_summary",
 														$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showObjectSummary'),
 														"", "", "", $a_active == self::LP_ACTIVE_SUMMARY);
+                                                        
 					}
+                    
 				}				
 				if(!($olp instanceof ilPluginLP) &&
 					$rbacsystem->checkAccess('edit_learning_progress',$this->getRefId()))
@@ -444,7 +458,7 @@ class ilLearningProgressBaseGUI
 	function __appendLPDetails(&$info,$item_id,$user_id)
 	{
 		global $ilObjDataCache;
-
+        
 		$type = $ilObjDataCache->lookupType($item_id);
 		
 		// Section learning_progress
@@ -454,7 +468,7 @@ class ilLearningProgressBaseGUI
 		
 		$olp = ilObjectLP::getInstance($item_id);
 		$info->addProperty($this->lng->txt('trac_mode'),
-			$olp->getModeText($olp->getCurrentMode()));
+				$olp->getModeText($olp->getCurrentMode()));
 		
 		switch($type)
 		{
@@ -492,8 +506,9 @@ class ilLearningProgressBaseGUI
 				$info->addProperty($this->lng->txt('trac_status'), 
 					ilUtil::img($status_path, $status_text)." ".$status_text);
 				
-				// #15334 - see ilLPTableBaseGUI::isPercentageAvailable()
+				// #15334 - see ilLPTableBaseGUI::isPercentageAvailable()                
 				$mode = $olp->getCurrentMode();
+                
 				if(in_array($mode, array(ilLPObjSettings::LP_MODE_TLT, 
 					ilLPObjSettings::LP_MODE_VISITS, 
 					// ilLPObjSettings::LP_MODE_OBJECTIVES, 
@@ -502,7 +517,7 @@ class ilLearningProgressBaseGUI
 				{
 					include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 					$perc = ilLPStatus::_lookupPercentage($item_id, $user_id);
-					$info->addProperty($this->lng->txt('trac_percentage'), (int)$perc."%");
+					$info->addProperty($this->lng->txt('trac_percentage'), (int)$perc."%");                    
 				}				
 				break;
 
@@ -517,6 +532,10 @@ class ilLearningProgressBaseGUI
 		{
 			$info->addProperty($this->lng->txt('trac_comment'),$comment);
 		}
+
+
+
+
 	}
 
 	function __readStatus($a_obj_id,$user_id)
@@ -724,16 +743,73 @@ class ilLearningProgressBaseGUI
 		{
 			$ilCtrl->setParameter($this,'userdetails_id',$a_sub_id);
 			$obj_id = ilObject::_lookupObjId($a_sub_id);
-		}		
-				
-		$ilCtrl->setParameter($this, 'user_id', $a_user_id);
+		}
+            
+        $ilCtrl->setParameter($this, 'user_id', $a_user_id);
 		$ilCtrl->setParameter($this, 'details_id', $a_ref_id);
 		
 		$form = $this->initEditUserForm($a_user_id, $obj_id, $a_cancel);
 		
 		return $form->getHTML();
-	}
+	}    
+    
+    // START PATCH RUBRIC CPKN 2015
+    function __updateUserRubric($user_id, $obj_id, $passing_grade_minimum)
+	{		
+		$form = $this->initEditUserForm($user_id, $obj_id);
+		if($form->checkInput())
+		{
+			include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
+			$marks = new ilLPMarks($obj_id, $user_id);
+			$marks->setMark($form->getInput("mark"));
+			$marks->setComment($form->getInput("comment"));
+            $marks->setCompleted(1);
+
+            $do_lp=true;
+
+			$marks->update();
+            
+            // if assignment, updated exc_mem_ass_status
+            $obj_type=ilObject::_lookupType($obj_id);
+            if($obj_type=='exc'){
+                include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+                
+                // do we have an ass id?
+                $ass_id=0;
+                if(isset($_GET['ass_id'])){
+                    // yes, came from submission and grades
+                    $ass_id=$_GET['ass_id'];                    
+                }else{
+                    // no, we need to get it
+                    $ass_ids=ilExAssignment::getAssignmentDataOfExercise($obj_id);
+                    $ass_id=$ass_ids[0]['id'];
+                }
+                
+                if($marks->getMark()>=$passing_grade_minimum){
+                    ilExAssignment::updateStatusOfUser($ass_id,$user_id,'passed');
+                }else{
+                    ilExAssignment::updateStatusOfUser($ass_id,$user_id,'failed');
+                }
+                
+                ilExAssignment::updateMarkOfUser($ass_id,$user_id,$marks->getMark());
+            }else{
+                include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+                ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
+            }
+            
+            include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+            
+            if($marks->getMark()>=$passing_grade_minimum){
+                ilLPStatus::writeStatus($obj_id, $user_id, ilLPStatus::LP_STATUS_COMPLETED_NUM, false, true);
+            }else{
+                ilLPStatus::writeStatus($obj_id, $user_id, ilLPStatus::LP_STATUS_FAILED_NUM, false, true);                
+            }
+            
+		}
+	}
+    // END PATCH RUBRIC CPKN 2015
+    
 	function __updateUser($user_id, $obj_id)
 	{		
 		$form = $this->initEditUserForm($user_id, $obj_id);

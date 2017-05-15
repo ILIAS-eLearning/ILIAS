@@ -1778,7 +1778,7 @@ else
 				$i->setAlert($this->lng->txt("ini_client_id_invalid"));
 				ilUtil::sendFailure($this->lng->txt("ini_client_id_invalid"),true);
 			}
-			else if (strlen($_POST["client_id"]) < 4)
+			else if (strlen($_POST["client_id"]) < 3)
 			{
 				$i = $this->form->getItemByPostVar("client_id");
 				$i->setAlert($this->lng->txt("ini_client_id_too_short"));

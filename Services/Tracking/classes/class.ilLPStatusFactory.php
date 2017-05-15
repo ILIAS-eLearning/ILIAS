@@ -11,7 +11,7 @@ include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 *
 * @author Stefan Meyer <meyer@leifos.com>
 *
-* @version $Id$
+* @version $Id: class.ilLPStatusFactory.php 53171 2014-09-08 12:52:20Z jluetzen $
 *
 * @ingroup ServicesTracking
 *
@@ -107,6 +107,12 @@ class ilLPStatusFactory
 			case ilLPObjSettings::LP_MODE_DEACTIVATED:
 				include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatus';
+
+            // START PATCH RUBRIC CPKN 2015
+            case ilLPObjSettings::LP_MODE_RUBRIC:
+                include_once self::PATH.'class.ilLPStatusRubric.php';
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusRubric';
+            // END PATCH RUBRIC CPKN 2015
 
 			case ilLPObjSettings::LP_MODE_UNDEFINED:
 				include_once 'Services/Object/classes/class.ilObjectLP.php';
@@ -217,6 +223,12 @@ class ilLPStatusFactory
 			case ilLPObjSettings::LP_MODE_DEACTIVATED:
 				include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 				return new ilLPStatus($a_obj_id);
+            
+            // START PATCH RUBRIC CPKN 2015    
+            case ilLPObjSettings::LP_MODE_RUBRIC:
+				include_once self::PATH.'class.ilLPStatusRubric.php';
+				return new ilLPStatusRubric($a_obj_id);
+            // END PATCH RUBRIC CPKN 2015
 				
 			case ilLPObjSettings::LP_MODE_UNDEFINED:
 				include_once 'Services/Object/classes/class.ilObjectLP.php';

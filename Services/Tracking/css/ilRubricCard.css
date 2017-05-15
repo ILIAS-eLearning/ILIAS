@@ -1,0 +1,191 @@
+
+.col-custom-7{
+    width: 14.25%;    
+}
+
+
+.col-custom-8{
+    width: 12.5%;
+}
+
+.rubric_error{
+    background-color:red;
+    border-radius: 5px;
+    color:#FFF;
+}
+
+.table-rubric-style>thead>tr>th
+{
+    text-align: center;
+}
+
+.table-rubric-style>thead>tr>th:nth-child(odd):not(:first-child)
+{
+    background-color: #849bb9!important;
+    color: white;
+}
+
+.table-rubric-style>thead>tr>th:first-child
+{
+    background-color: #94a8c2!important;
+    color: white;
+}
+
+.table-rubric-style>thead>tr>th:nth-child(even)
+{
+    background-color: #8ba1bd!important;
+    color: white;
+}
+
+.table-rubric-style .range-row th
+{
+    text-align: center;
+    border: 1px solid #f2f2f2;
+}
+
+.table-rubric-style>tbody:nth-child(even) .big-block
+{
+    background-color: #f0f3f7!important;
+}
+
+#jkn_div_rubric>table.table-rubric-style>tbody:nth-child(even)>tr.first-group>td:nth-child(even)
+{
+    background-color: #dbe2eb;
+    color: black;
+}
+
+.table-rubric-style>tbody:nth-child(even)>tr.first-group>td:nth-child(odd):not(:first-child)
+{
+    background-color: #c0ccdb;
+    color: black;
+}
+
+.table-rubric-style>tbody:nth-child(even)>tr:nth-child(even)>td:nth-child(odd)
+{
+    background-color: #dbe2eb;
+    color: black;
+}
+
+.table-rubric-style>tbody:nth-child(even)>tr:nth-child(even)>td:nth-child(even)
+{
+    background-color: #c0ccdb;
+    color: black;
+}
+
+
+.table-rubric-style>tbody:nth-child(even)>tr:nth-child(odd)>td:nth-child(odd)
+{
+    background-color: #edf1f5;
+    color: black;
+}
+
+.table-rubric-style>tbody:nth-child(even)>tr:nth-child(odd)>td:nth-child(even)
+{
+    background-color: #dfe6ed;
+    color: black;
+}
+
+.table-rubric-style .total-row th
+{
+    background-color: #aaaaaa!important;
+    color: white!important;
+}
+
+.table-rubric-style .total-row td
+{
+    background-color: #aaaaaa!important;
+    color: white!important;
+}
+
+
+.table-rubric-style>tbody:nth-child(odd) .big-block
+{
+    background-color: #eff5ea!important;
+}
+
+#jkn_div_rubric>table.table-rubric-style>tbody:nth-child(odd)>tr.first-group>td:nth-child(even)
+{
+    background-color: #eaf1e2;
+    color: black;
+}
+
+.table-rubric-style>tbody:nth-child(odd)>tr.first-group>td:nth-child(odd):not(:first-child)
+{
+    background-color: #cbddb9;
+    color: black;
+}
+
+.table-rubric-style>tbody:nth-child(odd)>tr:nth-child(even)>td:nth-child(odd)
+{
+    background-color: #eaf1e2;
+    color: black;
+}
+
+.table-rubric-style>tbody:nth-child(odd)>tr:nth-child(even)>td:nth-child(even)
+{
+    background-color: #cbddb9;
+    color: black;
+}
+
+
+.table-rubric-style>tbody:nth-child(odd)>tr:nth-child(odd)>td:nth-child(odd)
+{
+    background-color: #cbddb9;
+    color: black;
+}
+
+.table-rubric-style>tbody:nth-child(odd)>tr:nth-child(odd)>td:nth-child(even)
+{
+    background-color: #b4ce9a;
+    color: black;
+}
+
+.table-rubric-style .grade-point
+{
+    text-align: center;
+}
+
+.table-rubric-style>tbody>tr.tblrow1>td.range-flag
+{
+    background-color: #FBB117!important;
+}
+
+textarea
+{
+    height: 100px !important;
+    overflow: hidden !important;
+    resize: none;
+}
+
+/*
+
+
+.table-rubric-style>tbody>tr:nth-child(odd)>td:nth-child(odd)
+{
+    background-color: #94a8c2;
+    color: black;
+}
+
+
+.table-rubric-style>tbody>tr:nth-child(odd)>td:nth-child(even)
+{
+    background-color: #dfe6ed;
+    color: black;
+}
+
+
+.table-rubric-style>tbody>tr:nth-child(even)>td:nth-child(odd)
+{
+    background-color: #dbe2eb;
+    color: black;
+}
+
+
+.table-rubric-style>tbody>tr:nth-child(even)>td:nth-child(even)
+{
+    background-color: #c0ccdb;
+    color: black;
+}
+
+
+*/

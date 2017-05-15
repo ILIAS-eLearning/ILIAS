@@ -19,11 +19,14 @@ class ilExerciseLP extends ilObjectLP
 	}
 	
 	public function getValidModes()
-	{				
-		return array(
+	{
+	   // START PATCH RUBRIC CPKN 2015
+	    return array(            
 			ilLPObjSettings::LP_MODE_DEACTIVATED,
-			ilLPObjSettings::LP_MODE_EXERCISE_RETURNED
+			ilLPObjSettings::LP_MODE_EXERCISE_RETURNED,
+            ilLPObjSettings::LP_MODE_RUBRIC,
 		);
+       // END PATCH RUBRIC CPKN 2015 
 	}		
 }
 

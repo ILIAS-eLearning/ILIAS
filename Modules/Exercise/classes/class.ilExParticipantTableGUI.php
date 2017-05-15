@@ -232,7 +232,7 @@ class ilExParticipantTableGUI extends ilTable2GUI
 			$lcomment->setRows(5);			
 			$lcomment_form->addItem($lcomment);
 			
-			$lcomment_form->addCommandButton("save", $lng->txt("save"));
+			//$lcomment_form->addCommandButton("save", $lng->txt("save"));
 			// $lcomment_form->addCommandButton("cancel", $lng->txt("cancel"));
 			
 			$this->overlay_tpl->setCurrentBlock("overlay_bl");			

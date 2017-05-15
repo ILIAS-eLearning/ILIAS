@@ -1,0 +1,25 @@
+<form action="{FORM_ACTION}" method="POST" onsubmit="return verifyForm()">
+    <input type="hidden" id="complete" name="complete">
+    <div class="ilTableCommandRowTop form-inline">
+
+        <div class="ilFloatRight ilFormCmds">
+
+            <div class="form-group">
+                <label class="control-label" for="passing_grade">Passing Grade</label>
+                <div class="input-group has-success has-feedback">
+                    <div class="input-group-addon">%</div>
+                    <input {RUBRIC_READONLY} name="passing_grade" class="form-control" id="passing_grade" aria-describedby="passing_gradeWarningStatus" type="text" value="{PASSING_GRADE_VALUE}">
+                    <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                    <span class="sr-only" id="passing_gradeWarningStatus">(ok)</span>
+                </div>
+
+            </div>
+
+            <input type="submit" value="{RUBRIC_SAVE}" name="cmd[saveRubricCard]" class="btn btn-default btn-sm">
+
+        </div>
+
+        <div style="clear:both;"></div>
+
+    </div>
+

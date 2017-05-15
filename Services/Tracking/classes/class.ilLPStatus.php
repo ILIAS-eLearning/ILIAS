@@ -7,7 +7,7 @@
  *
  * @author Stefan Meyer <meyer@leifos.com>
  *
- * @version $Id$
+ * @version $Id: class.ilLPStatus.php 58185 2015-02-25 09:41:22Z gitmgr $
  *
  * @ingroup ServicesTracking
  *
@@ -372,7 +372,7 @@ class ilLPStatus
 			" usr_id = ".$ilDB->quote($a_user_id, "integer")
 			);
 		$rec = $ilDB->fetchAssoc($set);	
-		
+        
 		// update
 		if ($rec)
 		{
@@ -386,6 +386,7 @@ class ilLPStatus
 					" WHERE usr_id = ".$ilDB->quote($a_user_id, "integer").
 					" AND obj_id = ".$ilDB->quote($a_obj_id, "integer")
 					);
+                
 				if ($ret != 0)
 				{
 					$update_collections = true;

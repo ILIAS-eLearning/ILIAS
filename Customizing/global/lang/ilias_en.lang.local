@@ -1,0 +1,58 @@
+<!-- language file start -->
+trac#:#rubric_label#:#Label
+trac#:#rubric_point#:#Points
+trac#:#rubric_group#:#Group
+trac#:#rubric_comment#:#Comment
+trac#:#rubric_group_name#:#Group Name
+trac#:#rubric_total#:#Total
+trac#:#rubric_grand_total#:#Grand Total
+trac#:#rubric_criteria#:#Criteria
+trac#:#rubric_criteria_name#:#Criteria Label
+trac#:#rubric_behavior#:#Behavior
+trac#:#rubric_behavior_name#:#Behavior Description
+trac#:#rubric_label_excellent#:#Excellent
+trac#:#rubric_label_good#:#Good
+trac#:#rubric_label_acceptable#:#Acceptable
+trac#:#rubric_label_fair#:#Fair
+trac#:#rubric_label_poor#:#Poor
+trac#:#rubric_label_bad#:#Bad
+trac#:#trac_rubric#:#Rubric Card
+trac#:#trac_mode_rubric#:#Manual by Rubric
+trac#:#trac_mode_rubric_info#:#The learning progress status will be determined by the Rubric.
+trac#:#rubric_option_behavior_1#:#Enable 1 Behaviors
+trac#:#rubric_option_behavior_2#:#Enable 2 Behaviors
+trac#:#rubric_option_behavior_3#:#Enable 3 Behaviors
+trac#:#rubric_option_behavior_4#:#Enable 4 Behaviors
+trac#:#rubric_option_behavior_5#:#Enable 5 Behaviors
+trac#:#rubric_option_behavior_6#:#Enable 6 Behaviors
+trac#:#rubric_option_add_group#:#Add New Group
+trac#:#rubric_option_del_group#:#Delete Selected Group
+trac#:#rubric_option_add_criteria#:#Add Criteria to Selected Group
+trac#:#rubric_option_del_criteria#:#Delete Selected Criteria
+trac#:#rubric_overall_point#:#Overall Point Range For All Groups
+trac#:#rubric_point_range_group#:#Point Range For Group
+trac#:#rubric_grade_range#:#Range
+trac#:#rubric_no_point#:#30 - 70 Points
+trac#:#rubric_card_save#:#Rubric Card Saved
+trac#:#rubric_card_not_defined#:#Rubric Card is not created for object.  First create the Rubric Card.
+trac#:#rubric_out_of#:#out of
+trac#:#rubric_passing_grade#:#Passing Grade
+trac#:#rubric_grade#:#Grade
+trac#:#rubric_card_lock#:#Lock
+trac#:#rubric_option_export_pdf#:#Download Rubric Template
+trac#:#rubric_card_unlock#:#Unlock
+trac#:#rubric_locked_info#:#This Rubric Card has been locked for editing by:
+trac#:#rubric_locked_grade_info#:#This Rubric has been locked for grading by:
+trac#:#rubric_graded_by#:#Graded By
+trac#:#rubric_card_not_completed#:#Rubric Card is Incomplete.
+trac#:#rubric_card_please_complete#:#Please Click Here to Continue Editing Rubric Card
+trac#:#trac_rubric_developer#:#Rubric Card (Developer Mode)
+trac#:#trac_rubric_grader#:#Rubric Card (Grading Mode)
+trac#:#rubric_regrade#:#Regrade
+trac#:#rubric_regraded_by#:#Regraded By
+trac#:#no_current_rubric_grade#:#No Current Saved Grade for User
+trac#:#rubric_current#:# (Current)
+trac#:#rubric_regrade_warning#:#Are you sure you want to Regrade this Exercise?  Learning progress will be reset.
+common#:#rubric_confirm_resubmission#:#Please be advised: if resubmitting an assignment learning progress will be reset and your assignment will be regraded.
+common#:#authenticate_ilias#:#Non-REALTOR&#174;
+common#:#login_to_ilias#:#Login

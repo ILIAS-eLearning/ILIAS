@@ -18,7 +18,9 @@ db_template_writer.php
 .DS_Store
 
 # /Customizing/
-/Customizing/global
+/Customizing/global/*
+!/Customizing/global/lang
+!/Customizing/global/agreement
 
 # /Modules/BookingManager/js/
 

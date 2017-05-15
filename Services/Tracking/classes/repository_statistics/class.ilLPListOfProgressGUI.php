@@ -6,7 +6,7 @@
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 *
-* @version $Id$
+* @version $Id: class.ilLPListOfProgressGUI.php 57460 2015-01-26 11:37:42Z jluetzen $
 *
 * @ilCtrl_Calls ilLPListOfProgressGUI: ilLPProgressTableGUI
 *
@@ -107,19 +107,46 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_progress_container.html','Services/Tracking');
 
+		$olp = ilObjectLP::getInstance($this->details_obj_id);
+		$collection = $olp->getCollectionInstance();
+
+
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		$info->setFormAction($ilCtrl->getFormAction($this));
-		$this->__appendUserInfo($info, $this->tracked_user);		
-		$this->__appendLPDetails($info,$this->details_obj_id,$this->tracked_user->getId());
+		$this->__appendUserInfo($info, $this->tracked_user);
 		$this->__showObjectDetails($info,$this->details_obj_id, false);
-		
+
+		// START PATCH RUBRIC CPKN 2016
+		include_once('./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php');
+		include_once('./Services/Tracking/classes/rubric/class.ilLPRubricGradeGUI.php');
+
+		//if the user is viewing history show the old status/mark/etc.
+		if($olp->getCurrentMode()==92 && $_REQUEST['grader_history'] !== 'current'
+				&& !is_null($_REQUEST['grader_history'])){
+			$marks = ilLPRubricGrade::_lookupRubricHistoryLP($_REQUEST['grader_history']);
+			include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+
+			$status_path = ilLearningProgressBaseGUI::_getImagePathForStatus($marks['status']);
+			$status_text = ilLearningProgressBaseGUI::_getStatusText($marks['status']);
+
+			$info->addSection($this->lng->txt("trac_progress").": ".ilObject::_lookupTitle($this->details_obj_id));
+			$info->addProperty($this->lng->txt('trac_mode'),
+					$olp->getModeText($olp->getCurrentMode()));	$info->addProperty($this->lng->txt('trac_status'),
+					ilUtil::img($status_path, $status_text)." ".$status_text);
+			$info->addProperty($this->lng->txt('trac_mark'),$marks['mark']);
+			$info->addProperty($this->lng->txt('trac_comment'),$marks['comments']);
+
+		}else{
+			$this->__appendLPDetails($info,$this->details_obj_id,$this->tracked_user->getId());
+		}
+		// END PATCH RUBRIC CPKN 2016
+
 		// Finally set template variable
 		$this->tpl->setVariable("LM_INFO",$info->getHTML());
 		
 		include_once './Services/Object/classes/class.ilObjectLP.php';
-		$olp = ilObjectLP::getInstance($this->details_obj_id);	
-		$collection = $olp->getCollectionInstance();
+
 		if($collection)
 		{			
 			$obj_ids = array();
@@ -149,7 +176,34 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		}
 		
 		$this->tpl->setVariable("LEGEND",$this->__getLegendHTML());
+        
+        // START PATCH RUBRIC CPKN 2015
+        if($olp->getCurrentMode()==ilLPObjSettings::LP_MODE_RUBRIC)
+        {
+            $rubricObj=new ilLPRubricGrade($this->getObjId());
+            $rubricGui=new ilLPRubricGradeGUI();
+            
+            $a_user = ilObjectFactory::getInstanceByObjId($_SESSION['AccountId']);
+            if($rubricObj->objHasRubric()&&$rubricObj->isRubricComplete()){
+				$rubricGui->setUserHistoryId($_REQUEST['grader_history']);
+				$rubricGui->setUserHistory($rubricObj->getUserHistory($_SESSION['AccountId']));
+                $rubricGui->setRubricData($rubricObj->load());
+                $rubricGui->setUserData($rubricObj->getRubricUserGradeData($_SESSION['AccountId'],$_REQUEST['grader_history']));
+                $this->tpl->setVariable("LP_OBJECTS", $rubricGui->getStudentViewHTML($this->ctrl->getFormAction($this), $a_user->getFullname(), (int)$_GET['user_id']));
+            }
+            
+        }
+        // END PATCH RUBRIC CPKN 2015
 	}
+
+	// START PATCH RUBRIC CPKN 2016
+	function viewHistory()
+	{
+		$this->ctrl->setParameter($this,'grader_history',$_POST['grader_history']);
+		$this->ctrl->redirect($this,'details');
+	}
+
+	// END PATCH RUBRIC CPKN 2016
 
 	function __showProgressList()
 	{
@@ -236,6 +290,113 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->details_mode = $olp->getCurrentMode();
 		}
 	}
+
+    // START PATCH RUBRIC CPKN 2015
+
+    public function exportPDF()
+    {
+        include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGradeGUI.php");
+        include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php");
+        $rubricObj=new ilLPRubricGrade($this->getObjId());
+        $rubricGui=new ilLPRubricGradeGUI();
+
+        if($rubricObj->objHasRubric()){
+            $rubricGui->setRubricData($rubricObj->load());
+            $html = $rubricGui->getPDFViewHTML($this->getObjId());
+            $html = self::removeScriptElements($html);
+            $css = '<style>
+
+					.ilHeaderDesc
+					{
+						display:block;
+						text-align:center;
+
+					}
+                    table
+                    {
+                        table-layout: fixed;
+                    }
+
+                    td
+                    {
+                        padding: 10px;
+                        border: 1px solid grey;
+                    }
+                    tr
+                    {
+                        padding: 10px;
+                        border: 1px solid grey;
+                    }
+                    th
+                    {
+                        padding: 10px;
+                        border: 1px solid grey;
+                    }
+                    </style>';
+
+
+            self::generatePDF($css.$html, 'D', 'rubric');
+        }
+    }
+
+    public static function generatePDF($pdf_output, $output_mode, $filename=null)
+    {
+        require_once './Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+
+        define ('PDF_PAGE_ORIENTATION', 'L');
+
+        if (substr($filename, strlen($filename) - 4, 4) != '.pdf')
+        {
+            $filename .= '.pdf';
+        }
+        $job = new ilPDFGenerationJob();
+        $job->setAutoPageBreak(true)
+            ->setCreator('rubric')
+            ->setFilename($filename)
+            ->setMarginLeft('20')
+            ->setMarginRight('20')
+            ->setMarginTop('20')
+            ->setMarginBottom('20')
+            ->setOutputMode($output_mode)
+            ->addPage($pdf_output);
+        ilPDFGeneration::doJob($job);
+    }
+
+    /**
+     * @param $html
+     * @return string
+     */
+    private static function removeScriptElements($html)
+    {
+        if(!is_string($html) || !strlen(trim($html)))
+        {
+            return $html;
+        }
+        $dom = new DOMDocument("1.0", "utf-8");
+        if(!@$dom->loadHTML('<?xml encoding="UTF-8">' . $html))
+        {
+            return $html;
+        }
+        $invalid_elements = array();
+        $script_elements     = $dom->getElementsByTagName('script');
+        foreach($script_elements as $elm)
+        {
+            $invalid_elements[] = $elm;
+        }
+        foreach($invalid_elements as $elm)
+        {
+            $elm->parentNode->removeChild($elm);
+        }
+        $dom->encoding = 'UTF-8';
+        $cleaned_html = $dom->saveHTML();
+        if(!$cleaned_html)
+        {
+            return $html;
+        }
+        return $cleaned_html;
+    }
+
+    // END PATCH RUBRIC CPKN 2015
 }
 
 ?>
