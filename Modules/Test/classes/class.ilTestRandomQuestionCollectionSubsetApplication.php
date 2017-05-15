@@ -68,4 +68,30 @@ class ilTestRandomQuestionCollectionSubsetApplication extends ilTestRandomQuesti
 	{
 		$this->setRequiredAmount( $this->getRequiredAmount() - 1 );
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function hasQuestion($questionId)
+	{
+		return $this->getQuestion($questionId) !== null;
+	}
+	
+	/**
+	 * @return ilTestRandomQuestionSetQuestion
+	 */
+	public function getQuestion($questionId)
+	{
+		foreach($this as $question)
+		{
+			if( $question->getQuestionId() != $questionId )
+			{
+				continue;
+			}
+			
+			return $question;
+		}
+		
+		return null;
+	}
 }
