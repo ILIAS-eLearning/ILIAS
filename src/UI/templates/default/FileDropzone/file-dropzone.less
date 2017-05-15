@@ -17,27 +17,25 @@
 
   // wrapper dropzone design
   &.wrapper {
+	padding: 1px  } // <- is needed to display a possible margin of the inner elements
+
+  // general dropzone design
+  &.border {
 	border: 3px #C0C0C0 dashed;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
-	border-radius: 8px;  }
+	border-radius: 8px;
+	background: #FFFFFF;  }
 
+  &.darkend-highlight {
+	z-index:  1100;
+	position: relative;  }
 
-
-  // general dropzone design
-  &.darkend-drag-enter {
-	background-color: #FFFFFF;  }
-	&.darkend-drag-enter {
-	  z-index:  1100;
-	  position: relative;  }
-
-  &.dz-drag-hover {
+  &.drag-hover {
 	border: 3px dashed #606060;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
-	background-color: #FFF9BC;
-	opacity: 0.7;  }
-  &.dz-drag-hover * {
-	pointer-events: none;  }
+	background-color: #FFF9BC; }
+	//opacity: 0.7;  }
 }
