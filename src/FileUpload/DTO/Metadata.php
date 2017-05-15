@@ -32,9 +32,9 @@ final class Metadata {
 	 */
 	private $status;
 	/**
-	 * @var int $size
+	 * @var int $uploadSize
 	 */
-	private $size;
+	private $uploadSize;
 	/**
 	 * @var string $mimeType
 	 */
@@ -64,13 +64,16 @@ final class Metadata {
 
 		$this->filename = $filename;
 		$this->status = $status;
-		$this->size = $size;
+		$this->uploadSize = $size;
 		$this->mimeType = $mimeType;
 		$this->additionalMetaData = new EntryLockingStringMap();
 	}
 
 
 	/**
+	 * The filename supplied by the browser.
+	 * Please be aware of the fact that this value can be potentially unsafe.
+	 *
 	 * @return string
 	 * @since 5.3
 	 */
@@ -80,7 +83,9 @@ final class Metadata {
 
 
 	/**
-	 * @param string $filename
+	 * Overwrite the current filename.
+	 *
+	 * @param string $filename  The new filename.
 	 *
 	 * @return Metadata
 	 * @since 5.3
@@ -94,17 +99,22 @@ final class Metadata {
 	}
 
 	/**
-	 * This always the original file size which was determinated by the http service.
+	 * This is always the original file size which was determinated by the http service.
+	 * The current size is provided by the size method of the Stream passed to the processor.
+	 * Please use the filesystem service to get the file size outside of the processors.
 	 *
 	 * @return int
 	 * @since 5.3
 	 */
-	public function getSize() {
-		return $this->size;
+	public function getUploadSize() {
+		return $this->uploadSize;
 	}
 
 
 	/**
+	 * Client supplied mime type of the uploaded. This
+	 * value must be threaded as unreliable.
+	 *
 	 * @return string
 	 * @since 5.3
 	 */
@@ -114,7 +124,9 @@ final class Metadata {
 
 
 	/**
-	 * @param string $mimeType
+	 * Overwrite the current mime type of the file.
+	 *
+	 * @param string $mimeType  The new mime type if the file.
 	 *
 	 * @return Metadata
 	 * @since 5.3
