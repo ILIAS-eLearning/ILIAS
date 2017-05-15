@@ -51,6 +51,34 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		$this->sourcePoolDefinitions[ $sourcePoolDefinition->getId() ] = $sourcePoolDefinition;
 	}
 	
+	// hey: fixRandomTestBuildable - provide single definitions, quantities distribution likes to deal with objects
+	
+	public function hasDefinition($sourcePoolDefinitionId)
+	{
+		return $this->getDefinition($sourcePoolDefinitionId) !== null;
+	}
+	
+	public function getDefinition($sourcePoolDefinitionId)
+	{
+		if( isset($this->sourcePoolDefinitions[$sourcePoolDefinitionId]) )
+		{
+			return $this->sourcePoolDefinitions[$sourcePoolDefinitionId];
+		}
+		
+		return null;
+	}
+	
+	public function getDefinitionIds()
+	{
+		return array_keys($this->sourcePoolDefinitions);
+	}
+	
+	public function getDefinitionCount()
+	{
+		return count($this->sourcePoolDefinitions);
+	}
+	// hey.
+	
 	public function loadDefinitions()
 	{
 		$query = "SELECT * FROM tst_rnd_quest_set_qpls WHERE test_fi = %s ORDER BY sequence_pos ASC";
