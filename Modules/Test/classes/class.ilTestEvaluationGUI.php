@@ -2105,7 +2105,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				}
 
 				$taxId = substr($item->getPostVar(), strlen('tax_'));
-				$questionList->addTaxonomyFilter($taxId, $item->getValue());
+				$questionList->addTaxonomyFilter($taxId, $item->getValue(), $this->object->getId(), 'tst');
 			}
 			elseif( $item->getValue() !== false )
 			{
