@@ -38,7 +38,7 @@ final class UploadResult {
 	 */
 	private $metaData;
 	/**
-	 * @var UploadStatus $status
+	 * @var ProcessingStatus $status
 	 */
 	private $status;
 	/**
@@ -50,16 +50,16 @@ final class UploadResult {
 	/**
 	 * UploadResult constructor.
 	 *
-	 * @param string             $name              The name of the uploaded file.
-	 * @param int                $size              The original file size.
-	 * @param string             $mimeType          The mime type of the uploaded file.
-	 * @param ImmutableStringMap $metaData          Additional meta data. Make sure to wrap the instance with an ImmutableMapWrapper if the instance is mutable.
-	 * @param UploadStatus       $status            The status code either OK or REJECTED.
-	 * @param string             $path              The path to the newly moved file.
+	 * @param string             $name     The name of the uploaded file.
+	 * @param int                $size     The original file size.
+	 * @param string             $mimeType The mime type of the uploaded file.
+	 * @param ImmutableStringMap $metaData Additional meta data. Make sure to wrap the instance with an ImmutableMapWrapper if the instance is mutable.
+	 * @param ProcessingStatus   $status   The status code either OK or REJECTED.
+	 * @param string             $path     The path to the newly moved file.
 	 *
 	 * @since 5.3
 	 */
-	public function __construct($name, $size, $mimeType, ImmutableStringMap $metaData, UploadStatus $status, $path) {
+	public function __construct($name, $size, $mimeType, ImmutableStringMap $metaData, ProcessingStatus $status, $path) {
 
 		$this->stringTypeCheck($name, "name");
 		$this->stringTypeCheck($mimeType, "mimeType");
@@ -111,7 +111,7 @@ final class UploadResult {
 
 
 	/**
-	 * @return UploadStatus
+	 * @return ProcessingStatus
 	 * @since 5.3
 	 */
 	public function getStatus() {

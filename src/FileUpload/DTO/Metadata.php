@@ -28,10 +28,6 @@ final class Metadata {
 	 */
 	private $filename;
 	/**
-	 * @var UploadStatus
-	 */
-	private $status;
-	/**
 	 * @var int $uploadSize
 	 */
 	private $uploadSize;
@@ -49,21 +45,19 @@ final class Metadata {
 	 * Metadata constructor.
 	 *
 	 * @param string       $filename    The filename of the uploaded file.
-	 * @param UploadStatus $status      The upload status.
 	 * @param int          $size        The original size of the uploaded file.
 	 * @param string       $mimeType    The mime type of the uploaded file.
 	 *
 	 * @throws IllegalArgumentException Thrown if the arguments are not matching with the expected types.
 	 * @since 5.3
 	 */
-	public function __construct($filename, UploadStatus $status, $size, $mimeType) {
+	public function __construct($filename, $size, $mimeType) {
 
 		$this->stringTypeCheck($filename, "filename");
 		$this->intTypeCheck($size, "size");
 		$this->stringTypeCheck($mimeType, "mimeType");
 
 		$this->filename = $filename;
-		$this->status = $status;
 		$this->uploadSize = $size;
 		$this->mimeType = $mimeType;
 		$this->additionalMetaData = new EntryLockingStringMap();

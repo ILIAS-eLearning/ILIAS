@@ -3,7 +3,7 @@
 namespace ILIAS\FileUpload\Processor;
 
 use ILIAS\FileUpload\DTO\Metadata;
-use ILIAS\FileUpload\DTO\UploadStatus;
+use ILIAS\FileUpload\DTO\ProcessingStatus;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -30,7 +30,7 @@ interface PreProcessor {
 	 * @param StreamInterface   $stream      The stream of the file.
 	 * @param Metadata          $metadata    The meta data of the uploaded file.
 	 *
-	 * @return UploadStatus The new status of the file.
+	 * @return ProcessingStatus The new status of the file.
 	 */
 	public function process(StreamInterface $stream, Metadata $metadata);
 
