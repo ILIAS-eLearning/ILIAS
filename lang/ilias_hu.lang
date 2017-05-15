@@ -229,7 +229,6 @@ assessment#:#ass_mc_sel_lim_setting_desc#:#Ezzel a beállítással korlátozhat�
 assessment#:#essay_scoring_mode_without_keywords#:#Nincs automatikus pontozás
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Csak a tutor manuális pontozásával kerülnek megadásra pontok.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#BÁRMELY kulcsszó megtalálásán alapuló automatikus pontozás
-assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#Bármely megtalált kulcsszóhoz a vonatkozó pontok automatikusan megadásra kerülnek.###deprecated 
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Az ÖSSZES kulcsszó megtalálásán alapuló automatikus pontozás
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#A pontok automatikusan megadásra kerülnek, ha minden kulcsszó megtalálható.
 assessment#:#essay_scoring_mode_keyword_relation_one#:#EGY kulcsszó megtalálásán alapuló automatikus pontozás
@@ -1143,7 +1142,6 @@ assessment#:#tst_hide_previous_results_hide#:#Előző tesztkitöltéseim eredmé
 assessment#:#tst_hide_previous_results_introduction#:#Ha nem először teljesíti ez a tesztet, előző megoldásai nem képeznek alapértelmezett értékeket.###deprecated 
 assessment#:#tst_hide_previous_results#:#Előző eredmények elrejtése###deprecated 
 assessment#:#tst_hide_side_list#:#Kérdéslista elrejtése
-assessment#:#new_test_online#:#A tesztet sikeresen online-ra állította.
 assessment#:#tst_import_no_items#:#Hiba: Az importfájl nem tartalmaz kérdéseket.
 assessment#:#tst_import_verify_found_questions#:#Az ILIAS az alábbi kérdéseket találta a teszt importfájlban. Válassza ki azokat a kérdéseket, amelyeket be szeretne importálni ebbe a tesztbe.
 assessment#:#tst_in_use_edit_questions_disabled#:#A tesztet %d felhasználó már használja, ezért nem módosíthat vagy helyezhet át kérdéseket a tesztben.###deprecated 
@@ -15915,3 +15913,11 @@ rbac#:#grp_manage_members#:#Csoport tagjainak kezelése
 rbac#:#crs_manage_members#:#Kurzus tagjainak kezelése
 survey#:#cannot_send_emails#:#Nincs megfelelő jogusultsága e-mailek küldéséhez.
 rbac#:#book_copy#:#A felhasználó másolhat foglalásgyűjteményt.
+assessment#:#essay_scoring_mode#:#Scoring Mode###10 05 2017 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###deprecated 
+assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#The competence points have not been saved. Please check your input.###10 05 2017 new variable
+news#:#new_test_online#:#The Test was set online.###10 05 2017 new variable
+common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. ###10 05 2017 new variable
+exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.###10 05 2017 new variable
+exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.###10 05 2017 new variable
+exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.###10 05 2017 new variable

@@ -15118,7 +15118,6 @@ assessment#:#ass_mc_sel_lim_hint#:#Please select %s of %s answers!###25 10 2016 
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Please do not select more than %s of %s answers!###25 10 2016 new variable
 assessment#:#ass_mc_sel_lim_setting#:#Answering Limitation###25 10 2016 new variable
 assessment#:#ass_mc_sel_lim_setting_desc#:#With this setting the number of answers choosable by the participants can be limited.###25 10 2016 new variable
-assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###deprecated
 assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl. Participant Results)###25 10 2016 new variable
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress###25 10 2016 new variable
 assessment#:#tst_objective_progress_header#:#Learning Objective Progress###25 10 2016 new variable
@@ -15147,7 +15146,6 @@ assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the tes
 assessment#:#finish_all_user_passes#:#Finish all test Passes###25 10 2016 new variable
 assessment#:#finish_unfinished_passes#:#Finish open Passes###25 10 2016 new variable
 assessment#:#finish_unfinished_passes_desc#:#Passes which have a Finishing time or a Duration limit configured will be closed by this cron job. ###25 10 2016 new variable
-assessment#:#new_test_online#:#The Test was set online.###25 10 2016 new variable
 crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.###25 10 2016 new variable
 grp#:#grp_at_least_one_admin#:#There has to be at least one group administrator.###25 10 2016 new variable
 common#:#lang_uninstall_confirm#:#Do you really want to uninstall the selected languages?###25 10 2016 new variable
@@ -15915,3 +15913,11 @@ rbac#:#grp_manage_members#:#Manage Members of Group###07 02 2017 new variable
 rbac#:#crs_manage_members#:#Manage Members of Course###07 02 2017 new variable
 survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.###07 02 2017 new variable
 rbac#:#book_copy#:#User can copy booking pool###03 03 2017 new variable
+assessment#:#essay_scoring_mode#:#Scoring Mode###10 05 2017 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###deprecated 
+assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#The competence points have not been saved. Please check your input.###10 05 2017 new variable
+news#:#new_test_online#:#The Test was set online.###10 05 2017 new variable
+common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. ###10 05 2017 new variable
+exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.###10 05 2017 new variable
+exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.###10 05 2017 new variable
+exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.###10 05 2017 new variable

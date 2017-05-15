@@ -100,3 +100,20 @@ $ilDB->manipulate('update crs_settings set '
 );
 	
 ?>
+<#8>
+<?php
+if(!$ilDB->tableColumnExists('frm_posts', 'pos_activation_date'))
+{
+	$ilDB->addTableColumn('frm_posts', 'pos_activation_date',
+		array('type' => 'timestamp', 'notnull' => false));
+}
+
+if($ilDB->tableColumnExists('frm_posts', 'pos_activation_date'))
+{
+	$ilDB->manipulate('
+	UPDATE frm_posts SET pos_activation_date = pos_date 
+	WHERE pos_status = '. $ilDB->quote(1, 'integer')
+	.' AND pos_activation_date is NULL'
+	);
+}
+?>

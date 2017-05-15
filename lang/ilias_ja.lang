@@ -719,7 +719,6 @@ assessment#:#essay_scoring_mode_keyword_relation_one#:#ひとつ一致するキ�
 assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#ひとつでもキーワードが見つかれば点数は自動付与されます。
 assessment#:#essay_scoring_mode_without_keywords#:#自動採点禁止
 assessment#:#essay_scoring_mode_without_keywords_desc#:#指導教員の手動採点を除いて点数は付与されません。
-assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#あらゆるキーワード検索用に一致する点が自動的に授与されます。
 assessment#:#eval_all_users#:#全ユーザの評価
 assessment#:#eval_choice_result#:#選択の値%sは%sです。%s 点です。
 assessment#:#eval_cloze_result#:#穴埋め番号%sの値%sは%sです。%s 点です。
@@ -970,7 +969,6 @@ assessment#:#multiline_terms_show#:#複数行用語を使用
 assessment#:#negative_points_not_allowed#:#マイナス点の入力はできません!
 assessment#:#new_category#:#新ユニットカテゴリ
 assessment#:#new_test_created#:#新規テスト
-assessment#:#new_test_online#:#テストはオンラインに設定されていました。
 assessment#:#new_unit#:#新ユニット
 assessment#:#next_question#:#次
 assessment#:#next_question_rows#:#問題 %dの%d - %d >>
@@ -15915,3 +15913,11 @@ prg#:#prg_prg_type#:#Study Programme Type###05 04 2017 new variable
 trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer###05 04 2017 new variable
 trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.###05 04 2017 new variable
 common#:#il_iass_member#:#Individual Assessment Examinee###05 04 2017 new variable
+assessment#:#essay_scoring_mode#:#Scoring Mode###10 05 2017 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###deprecated 
+assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#The competence points have not been saved. Please check your input.###10 05 2017 new variable
+news#:#new_test_online#:#The Test was set online.###10 05 2017 new variable
+common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. ###10 05 2017 new variable
+exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.###10 05 2017 new variable
+exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.###10 05 2017 new variable
+exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.###10 05 2017 new variable
