@@ -22,7 +22,7 @@ interface Factory {
 	 * description:
 	 *   purpose: >
 	 *      The standard dropzone is used to provide a simple dropzone area.
-	 *      A default massage can be displayed inside the dropzone.
+	 *      A massage can be displayed inside the dropzone.
 	 *   composition: >
 	 *      The standard dropzone highlights with a bright yellow on drag enter.
 	 *   effect: >
@@ -69,17 +69,17 @@ interface Factory {
 	 *   interaction:
 	 *     1: A user drops a file into the dropzone area to trigger a signal.
 	 *     2: Any file dropped from a user will not be uploaded through this dropzone.
-	 *     3: The standard dropzone only listens on file drop events by a user.
+	 *     3: The wrapper dropzone only listens on file drop events by a user.
 	 *   style:
 	 *     1: This dropzone does not have any padding or margin.
 	 *     2: The height and the width is determined by the components inside.
 	 *
 	 * ---
 	 *
-	 * @param Component[] $componentList an array of ILIAS UI components
+	 * @param Component[]|Component $conent an array or a single instance of ILIAS UI components
 	 *
 	 * @return Wrapper
 	 */
-	public function wrapper(array $componentList);
+	public function wrapper($conent);
 
 }

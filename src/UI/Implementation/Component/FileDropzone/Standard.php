@@ -2,7 +2,7 @@
 /**
  * Class Standard
  *
- * Implementation of a file dropzone which provides a default message.
+ * Implementation of a file dropzone which provides a message inside the dropzone.
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    05.05.17
@@ -20,7 +20,7 @@ class Standard extends BasicFileDropzoneImpl implements \ILIAS\UI\Component\File
 	/**
 	 * @inheritDoc
 	 */
-	public function withDefaultMessage($message) {
+	public function withMessage($message) {
 		$clonedFileDropzone = clone $this;
 		$clonedFileDropzone->message = $message;
 		return $clonedFileDropzone;
@@ -30,7 +30,7 @@ class Standard extends BasicFileDropzoneImpl implements \ILIAS\UI\Component\File
 	/**
 	 * @inheritDoc
 	 */
-	public function getDefaultMessage() {
+	public function getMessage() {
 		return $this->message;
 	}
 }

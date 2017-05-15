@@ -46,7 +46,7 @@ class FileDropzoneRendererTest extends ILIAS_UI_TestBase {
 
 		// start test
 		$standardDropzone = new \ILIAS\UI\Implementation\Component\FileDropzone\Standard();
-		$standardDropzone = $standardDropzone->withDefaultMessage("Drop files here to upload");
+		$standardDropzone = $standardDropzone->withMessage("Drop files here to upload");
 
 		$html = $this->normalizeHTML(
 			$this->getDefaultRenderer()->render($standardDropzone)
