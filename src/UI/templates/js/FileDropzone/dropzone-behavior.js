@@ -12,33 +12,55 @@ il.UI = il.UI || {};
 
 		var css = {
 			"darkendBackground": "modal-backdrop in", // <- bootstrap classes, should not be changed
-			"darkendDragEnter": "darkend-drag-enter"
+			"darkendDropzoneHighlight": "darkend-highlight",
+			"dropzoneBorder": "border"
 		};
 
-		/**
-		 * Enables the darkend background and highlights all file dropzones on the page.
-		 *
-		 * @param {string} dropzoneId the html id of the dropzone
-		 */
-		var enableDarkendBackground = function (dropzoneId) {
-			$("#" + dropzoneId + "-darkend").addClass(css.darkendBackground);
-			$(".il-file-dropzone").addClass(css.darkendDragEnter);
+		var _darkendDesign = false;
+
+		var _createDarkendHtmlIfNotExists = function () {
+			if (!$("#il-dropzone-darkend").length) {
+				$("body").prepend("<div id=\"il-dropzone-darkend\"></div>");
+			}
 		};
 
-		/**
-		 *
-		 * Disables the darkend background and removes the highlighting of all file dropzones on the page.
-		 *
-		 * @param {string} dropzoneId the html id of the dropzone
-		 */
-		var disableDarkendBackground = function (dropzoneId) {
-			$("#" + dropzoneId + "-darkend").removeClass(css.darkendBackground);
-			$(".il-file-dropzone").removeClass(css.darkendDragEnter);
+		var enableAutoDesign = function () {
+			if (_darkendDesign) {
+				enableDarkendDesign();
+			} else {
+				enableDefaultDesign();
+			}
 		};
+
+		var enableDarkendDesign = function () {
+			$("#il-dropzone-darkend").addClass(css.darkendBackground);
+			// $("body").css("pointer-events", "none");
+			$(".il-file-dropzone").addClass(css.darkendDropzoneHighlight + " " + css.dropzoneBorder);
+			// $(".il-file-dropzone").css("pointer-events", "auto");
+		};
+
+		var enableDefaultDesign = function () {
+
+		};
+
+		var disableDesign = function () {
+			$("#il-dropzone-darkend").removeClass(css.darkendBackground);
+			$(".il-file-dropzone").removeClass(css.darkendDropzoneHighlight);
+			$(".il-file-dropzone").removeClass(css.dropzoneBorder);
+		};
+
+		var setDarkendDesign = function (darkendDesign) {
+			_darkendDesign = darkendDesign;
+			_createDarkendHtmlIfNotExists();
+		};
+
 
 		return {
-			enableDarkendBackground: enableDarkendBackground,
-			disableDarkendBackground: disableDarkendBackground
+			enableAutoDesign: enableAutoDesign,
+			enableDarkendDesign: enableDarkendDesign,
+			enableDefaultDesign: enableDefaultDesign,
+			disableDesign: disableDesign,
+			setDarkendDesign: setDarkendDesign
 		};
 	})($);
 })($, il.UI);
