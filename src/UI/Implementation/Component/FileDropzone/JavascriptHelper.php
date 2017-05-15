@@ -58,23 +58,43 @@ class JavascriptHelper {
 		";
 	}
 
+	public function enableAutoDesign() {
+		return "il.UI.dropzone.enableAutoDesign()";
+	}
+
+	public function enableDragHover() {
+		return "$(this).addClass(\"drag-hover\");";
+	}
+
+	public function disableDragHover() {
+		return "$(this).removeClass(\"drag-hover\");";
+	}
+
 
 	/**
 	 * Generates the javascript code to enable the darkend background for dropzones.
 	 *
 	 * @return string the generated code
 	 */
-	public function enableDarkendBackground() {
-		return "il.UI.dropzone.enableDarkendBackground('{$this->simpleDropzone->getId()}');";
+	public function enableDarkendDesign() {
+		return "il.UI.dropzone.enableDarkendDesign();";
+	}
+
+	public function enableDefaultDesign() {
+		return "il.UI.dropzone.enableDefaultDesign();";
+	}
+
+	public function configureDarkendDesign() {
+		return "il.UI.dropzone.setDarkendDesign({$this->simpleDropzone->isDarkendBackground()})";
 	}
 
 	/**
-	 * Generates the javascript code to disable the darkend backgrounds for dropzones.
+	 * Generates the javascript code to disable all css highlighting for dropzones.
 	 *
 	 * @return string the generated code
 	 */
-	public function disableDarkendBackground() {
-		return "il.UI.dropzone.disableDarkendBackground('{$this->simpleDropzone->getId()}');";
+	public function disableDesign() {
+		return "il.UI.dropzone.disableDesign();";
 	}
 
 	/**
@@ -101,9 +121,12 @@ class JavascriptHelper {
 
 
 	/**
-	 * @return string the id of the dropzone used in the javascript code.
+	 * Wraps the id used in the javascript into a jQuery object.
+	 * e.g. $("#dropzoneId")
+	 *
+	 * @return string the jQuery object of the dropzone used in the javascript code.
 	 */
 	public function getJSDropzone() {
-		return $this->simpleDropzone->getId();
+		return "$(\"#{$this->simpleDropzone->getId()}\")";
 	}
 }
