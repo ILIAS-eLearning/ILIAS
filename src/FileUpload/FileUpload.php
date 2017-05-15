@@ -15,6 +15,8 @@ use ILIAS\FileUpload\Processor\PreProcessor;
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @since 5.3
  * @version 1.0
+ *
+ * @public
  */
 interface FileUpload {
 
@@ -28,6 +30,7 @@ interface FileUpload {
 	 * @return void
 	 *
 	 * @throws IllegalStateException Thrown if the files are not processed before invoking the moveFilesTo method.
+	 * @since 5.3
 	 */
 	public function moveFilesTo($destination);
 
@@ -47,6 +50,8 @@ interface FileUpload {
 	 * @param PreProcessor $preProcessor    The preprocessor instance which should be registered.
 	 *
 	 * @return void
+	 * @throws IllegalStateException If the register method is called after the files already got processed.
+	 * @since 5.3
 	 */
 	public function register(PreProcessor $preProcessor);
 
@@ -57,6 +62,8 @@ interface FileUpload {
 	 * the file which got processed is automatically rejected to prevent ILIAS from using unprocessed files.
 	 *
 	 * @return void
+	 * @throws IllegalStateException If the files already got processed.
+	 * @since 5.3
 	 */
 	public function process();
 
@@ -66,6 +73,7 @@ interface FileUpload {
 	 *
 	 * @return UploadResult[]
 	 * @throws IllegalStateException If the method is called before the files are processed.
+	 * @since 5.3
 	 */
 	public function getResults();
 }

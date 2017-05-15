@@ -3,6 +3,7 @@
 namespace ILIAS\FileUpload\DTO;
 
 use ILIAS\FileUpload\Exception\IllegalArgumentException;
+use ILIAS\FileUpload\ScalarTypeCheckAware;
 
 /**
  * Class UploadStatus
@@ -14,8 +15,12 @@ use ILIAS\FileUpload\Exception\IllegalArgumentException;
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @since 5.3
  * @version 1.0
+ *
+ * @public
  */
 final class UploadStatus {
+
+	use ScalarTypeCheckAware;
 
 	/**
 	 * Upload is ok
@@ -46,14 +51,11 @@ final class UploadStatus {
 	 */
 	public function __construct($code, $reason) {
 
-		if($code !== self::OK && $code !== self::REJECTED)
-			throw new IllegalArgumentException("Invalid upload status code received. The code must be OK or REJECTED.");
+		$this->intTypeCheck($code, 'code');
+		$this->stringTypeCheck($reason, 'reason');
 
-		if(!is_string($reason))
-		{
-			$varType = gettype($reason);
-			throw new IllegalArgumentException("The reason must be of type string but $varType was given.");
-		}
+		if($code !== self::OK && $code !== self::REJECTED)
+			throw new IllegalArgumentException('Invalid upload status code received. The code must be OK or REJECTED.');
 
 		$this->code = $code;
 		$this->reason = $reason;

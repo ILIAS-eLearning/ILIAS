@@ -3,9 +3,9 @@
 namespace ILIAS\FileUpload\DTO;
 
 use ILIAS\FileUpload\Collection\EntryLockingStringMap;
-use ILIAS\FileUpload\Collection\ImmutableStringMap;
 use ILIAS\FileUpload\Collection\StringMap;
 use ILIAS\FileUpload\Exception\IllegalArgumentException;
+use ILIAS\FileUpload\ScalarTypeCheckAware;
 
 /**
  * Class Metadata
@@ -16,9 +16,12 @@ use ILIAS\FileUpload\Exception\IllegalArgumentException;
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @since 5.3
  * @version 1.0
+ *
+ * @public
  */
 final class Metadata {
 
+	use ScalarTypeCheckAware;
 
 	/**
 	 * @var string $filename
@@ -55,14 +58,9 @@ final class Metadata {
 	 */
 	public function __construct($filename, UploadStatus $status, $size, $mimeType) {
 
-		$this->typeCheckFilename($filename);
-		$this->typeCheckSize($size);
-		$this->typeCheckMimeType($mimeType);
-
-		if(!is_string($mimeType)) {
-			$varType = gettype($mimeType);
-			throw new IllegalArgumentException("The mimeType must be of type string but $varType was given.");
-		}
+		$this->stringTypeCheck($filename, "filename");
+		$this->intTypeCheck($size, "size");
+		$this->stringTypeCheck($mimeType, "mimeType");
 
 		$this->filename = $filename;
 		$this->status = $status;
@@ -88,7 +86,7 @@ final class Metadata {
 	 * @since 5.3
 	 */
 	public function setFilename($filename) {
-		$this->typeCheckFilename($filename);
+		$this->stringTypeCheck($filename, "filename");
 
 		$this->filename = $filename;
 
@@ -122,7 +120,7 @@ final class Metadata {
 	 * @since 5.3
 	 */
 	public function setMimeType($mimeType) {
-		$this->typeCheckMimeType($mimeType);
+		$this->stringTypeCheck($mimeType, "mimeType");
 
 		$this->mimeType = $mimeType;
 
@@ -139,52 +137,5 @@ final class Metadata {
 	 */
 	public function additionalMetaData() {
 		return $this->additionalMetaData;
-	}
-
-
-	/**
-	 * Type checking for the filename.
-	 *
-	 * @param string $filename The filename which should be checked.
-	 *
-	 * @throws IllegalArgumentException If the type of the filename is not equal to string.
-	 */
-	private function typeCheckFilename($filename) {
-		if(!is_string($filename))
-		{
-			$varType = gettype($filename);
-			throw new IllegalArgumentException("The filename must be of type string but $varType was given.");
-		}
-	}
-
-
-	/**
-	 * Type checking for the size.
-	 *
-	 * @param int $size The size which should be validated.
-	 *
-	 * @throws IllegalArgumentException If the type of the size is not equal to int.
-	 */
-	private function typeCheckSize($size) {
-		if(!is_int($size))
-		{
-			$varType = gettype($size);
-			throw new IllegalArgumentException("The size must be of type int but $varType was given.");
-		}
-	}
-
-	/**
-	 * Type checking for the mime type.
-	 *
-	 * @param string $mimeType The mime type which should be checked.
-	 *
-	 * @throws IllegalArgumentException If the data type of the mime type is not equal to string.
-	 */
-	private function typeCheckMimeType($mimeType) {
-		if(!is_string($mimeType))
-		{
-			$varType = gettype($mimeType);
-			throw new IllegalArgumentException("The mime type must be of type string but $varType was given.");
-		}
 	}
 }

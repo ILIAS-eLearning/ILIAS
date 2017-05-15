@@ -10,6 +10,8 @@ namespace ILIAS\FileUpload\Exception;
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @since 5.3
  * @version 1.0
+ *
+ * @public
  */
 class IllegalArgumentException extends \Exception {
 
