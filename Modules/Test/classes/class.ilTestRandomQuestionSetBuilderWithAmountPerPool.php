@@ -21,26 +21,22 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionsQuantitiesDistribution.php';
 		$quantitiesDistribution = new ilTestRandomQuestionsQuantitiesDistribution($this);
 		$quantitiesDistribution->setSourcePoolDefinitionList($this->sourcePoolDefinitionList);
+		$quantitiesDistribution->initialise();
 		
 		foreach($this->sourcePoolDefinitionList as $definition)
 		{
 			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
 			
-			if( $quantitiesDistribution->isRequiredAmountSatisfiedByExclusiveQstCollection($definition) )
-			{
-				continue;
-			}
+			$quantityCalculation = $quantitiesDistribution->calculateQuantities($definition);
 			
-			if( $quantitiesDistribution->isMissingAmountSatisfiedByNonUsedUpSharedQstCollection($definition) )
+			if( $quantityCalculation->isRequiredAmountGuaranteedAvailable() )
 			{
 				continue;
 			}
 			
 			$isBuildable = false;
 			
-			$this->checkMessages[] = sprintf(
-				$lng->txt('tst_msg_rand_quest_set_pass_not_buildable_detail'), $definition->getSequencePosition()
-			);
+			$this->checkMessages[] = $quantityCalculation->getDistributionReport($lng);
 		}
 		
 		return $isBuildable;

@@ -247,6 +247,11 @@ assessment#:#applet_new_parameter#:#New Parameter
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet Parameters
 assessment#:#apply#:#Apply
+assessment#:#tst_msg_rand_quest_set_rule_label#:#Rule %s
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Rule %s requires %s questions, but there are only %s questions provided.
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_shared#:#Additionally from these questions there are %s questions also provided to the following other rules: %s
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved#:#Rule %s requires %s questions and there are %s questions provided.
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared#:#But there are only %s of the provided questions guaranteed available, because of intersections with the following other rules: %s
 assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives
 assessment#:#tst_res_lo_try_header#:#Attempt
 assessment#:#tst_res_lo_try_n#:#Attempt %s

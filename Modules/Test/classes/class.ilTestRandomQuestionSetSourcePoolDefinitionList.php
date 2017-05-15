@@ -52,6 +52,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 	}
 	
 	// hey: fixRandomTestBuildable - provide single definitions, quantities distribution likes to deal with objects
+	
+	public function hasDefinition($sourcePoolDefinitionId)
+	{
+		return $this->getDefinition($sourcePoolDefinitionId) !== null;
+	}
+	
 	public function getDefinition($sourcePoolDefinitionId)
 	{
 		if( isset($this->sourcePoolDefinitions[$sourcePoolDefinitionId]) )
@@ -65,6 +71,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 	public function getDefinitionIds()
 	{
 		return array_keys($this->sourcePoolDefinitions);
+	}
+	
+	public function getDefinitionCount()
+	{
+		return count($this->sourcePoolDefinitions);
 	}
 	// hey.
 	

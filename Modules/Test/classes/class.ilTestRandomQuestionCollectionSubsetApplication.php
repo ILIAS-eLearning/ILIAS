@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require 'Modules/Test/classes/class.ilTestRandomQuestionSetQuestionCollection.php';
+require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetQuestionCollection.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
