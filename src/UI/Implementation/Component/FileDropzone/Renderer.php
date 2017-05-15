@@ -62,6 +62,7 @@ class Renderer extends AbstractComponentRenderer {
 		parent::registerResources($registry);
 		$registry->register("./src/UI/templates/js/FileDropzone/dropzone.js");
 		$registry->register("./src/UI/templates/js/FileDropzone/dropzone-behavior.js");
+		$registry->register("./src/UI/templates/js/FileDropzone/jquery.dragster.js");
 	}
 
 
@@ -90,9 +91,9 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("ID", $dropzoneId);
 
 		// set message if not empty
-		if (strcmp($standardDropzone->getDefaultMessage(), "") !== 0) {
+		if (strcmp($standardDropzone->getMessage(), "") !== 0) {
 			$tpl->setCurrentBlock("with_message");
-			$tpl->setVariable("MESSAGE", $standardDropzone->getDefaultMessage());
+			$tpl->setVariable("MESSAGE", $standardDropzone->getMessage());
 			$tpl->parseCurrentBlock();
 		}
 
@@ -117,7 +118,46 @@ class Renderer extends AbstractComponentRenderer {
 		$simpleDropzone->setDarkendBackground($wrapperDropzone->isDarkendBackground());
 		$simpleDropzone->setRegisteredSignals($wrapperDropzone->getTriggeredSignals());
 
-		$this->setupJavascriptCode($simpleDropzone);
+		$jsHelper = new JavascriptHelper($simpleDropzone);
+
+		$this->getJavascriptBinding()->addOnLoadCode("
+		
+			{$jsHelper->configureDarkendDesign()}
+		
+			$(document).dragster({
+			
+				enter: function(dragsterEvent, event) {
+					{$jsHelper->enableAutoDesign()}
+				},
+				leave: function(dragsterEvent, event) {
+					{$jsHelper->disableDesign()}
+				},
+				drop: function(dragsterEvent, event) {
+					{$jsHelper->disableDesign()}
+				}
+			
+			});
+			
+			
+			{$jsHelper->getJSDropzone()}.dragster({
+			
+				enter: function(dragsterEvent, event) {
+					dragsterEvent.stopImmediatePropagation();
+					{$jsHelper->enableDragHover()}
+				},
+				leave: function(dragsterEvent, event) {
+					dragsterEvent.stopImmediatePropagation();
+					{$jsHelper->disableDragHover()}
+				},
+				drop: function(dragsterEvent, event) {
+					{$jsHelper->disableDragHover()}
+					{$jsHelper->disableDesign()}
+					{$jsHelper->triggerRegisteredSignals()}
+				}
+			
+			});
+		
+		");
 
 		// setup template
 		$tpl = $this->getTemplate("tpl.wrapper-file-dropzone.html", true, true);
@@ -149,7 +189,7 @@ class Renderer extends AbstractComponentRenderer {
 
 	/**
 	 * Adds the javascript onload code for the passed in SimpleDropzone.
-	 * The javascript for uses the dropzone.js library
+	 * The javascript code uses the dropzone.js library
 	 * @see http://www.dropzonejs.com
 	 *
 	 * @param SimpleDropzone $simpleDropzone Wrapper class for dropzone components.
@@ -167,9 +207,9 @@ class Renderer extends AbstractComponentRenderer {
 		if ($simpleDropzone->isDarkendBackground()) {
 
 			$this->getJavascriptBinding()->addOnLoadCode("
-				{$jsHelper->getJSDropzone()}.on(\"dragenter\", function(event) { {$jsHelper->enableDarkendBackground()} })
-				.on(\"dragleave\", function(event) { {$jsHelper->disableDarkendBackground()} })
-				.on(\"drop\", function(event) { {$jsHelper->disableDarkendBackground()} });
+				{$jsHelper->getJSDropzone()}.on(\"dragenter\", function(event) { {$jsHelper->enableDarkendDesign()} })
+				.on(\"dragleave\", function(event) { {$jsHelper->disableDesign()} })
+				.on(\"drop\", function(event) { {$jsHelper->disableDesign()} });
 			");
 
 		}
