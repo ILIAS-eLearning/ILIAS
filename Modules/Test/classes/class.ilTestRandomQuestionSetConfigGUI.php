@@ -29,6 +29,7 @@ class ilTestRandomQuestionSetConfigGUI
 	const CMD_SAVE_SRC_POOL_DEF_LIST                = 'saveSourcePoolDefinitionList';
 	const CMD_DELETE_SINGLE_SRC_POOL_DEF            = 'deleteSingleSourcePoolDefinition';
 	const CMD_DELETE_MULTI_SRC_POOL_DEFS            = 'deleteMultipleSourcePoolDefinitions';
+	const CMD_SHOW_POOL_SELECTOR_EXPLORER			= 'showPoolSelectorExplorer';
 	const CMD_SHOW_CREATE_SRC_POOL_DEF_FORM         = 'showCreateSourcePoolDefinitionForm';
 	const CMD_SAVE_CREATE_SRC_POOL_DEF_FORM         = 'saveCreateSourcePoolDefinitionForm';
 	const CMD_SAVE_AND_NEW_CREATE_SRC_POOL_DEF_FORM = 'saveCreateAndNewSourcePoolDefinitionForm';
@@ -460,6 +461,29 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 	}
 
+	// hey: randomPoolSelector - new pool selector explorer command
+	protected function showPoolSelectorExplorerCmd()
+	{
+		$this->questionSetConfig->loadFromDb();
+		
+		require_once 'Services/Repository/classes/class.ilTestQuestionPoolSelectorExplorer.php';
+		$selector = new ilTestQuestionPoolSelectorExplorer(
+			$this, self::CMD_SHOW_POOL_SELECTOR_EXPLORER, self::CMD_SHOW_CREATE_SRC_POOL_DEF_FORM
+		);
+		
+		$selector->setAvailableQuestionPools(
+			array_keys( $this->questionSetConfig->getSelectableQuestionPools() )
+		);
+		
+		if( $selector->handleCommand() )
+		{
+			return;
+		}
+		
+		$this->tpl->setContent( $selector->getHTML() );
+	}
+	// hey.
+		
 	private function showCreateSourcePoolDefinitionFormCmd(ilTestRandomQuestionSetPoolDefinitionFormGUI $form = null)
 	{
 		$this->questionSetConfig->loadFromDb();
@@ -625,6 +649,14 @@ class ilTestRandomQuestionSetConfigGUI
 		if( isset($_GET['quest_pool_id']) && (int)$_GET['quest_pool_id'] )
 		{
 			return (int)$_GET['quest_pool_id'];
+		}
+
+		if( isset($_GET['quest_pool_ref']) && (int)$_GET['quest_pool_ref'] )
+		{
+			/* @var ilObjectDataCache $objCache */
+			$objCache = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilObjDataCache'] : $GLOBALS['ilObjDataCache'];
+			
+			return $objCache->lookupObjId( (int)$_GET['quest_pool_ref'] );
 		}
 
 		require_once 'Modules/Test/exceptions/class.ilTestMissingQuestionPoolIdParameterException.php';
