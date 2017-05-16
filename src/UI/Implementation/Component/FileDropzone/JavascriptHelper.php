@@ -125,6 +125,14 @@ class JavascriptHelper {
 		return "il.UI.dropzone.enableHighlightDesign({$this->simpleDropzone->isDarkendBackground()});";
 	}
 
+	/**
+	 * Generates the javascript code to disable all css highlighting for dropzones.
+	 *
+	 * @return string The javascript code to disable all css highlighting for dropzones.
+	 */
+	private function disableHighlightDesign() {
+		return "il.UI.dropzone.disableHighlightDesign();";
+	}
 
 	/**
 	 * @return string The javascript code to enable drag hover style.
@@ -149,14 +157,6 @@ class JavascriptHelper {
 		return "il.UI.dropzone.setDarkendDesign({$this->simpleDropzone->isDarkendBackground()})";
 	}
 
-	/**
-	 * Generates the javascript code to disable all css highlighting for dropzones.
-	 *
-	 * @return string The javascript code to disable all css highlighting for dropzones.
-	 */
-	private function disableHighlightDesign() {
-		return "il.UI.dropzone.disableDesign();";
-	}
 
 	/**
 	 * Generates the javascript code to trigger all registered signals of a dropzone.
