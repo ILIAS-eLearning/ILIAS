@@ -27,7 +27,7 @@ abstract class BasicFileDropzoneImpl implements BasicFileDropzone {
 	/**
 	 * @inheritDoc
 	 */
-	function withDarkendBackground($useDarkendBackground) {
+	public function withDarkendBackground($useDarkendBackground) {
 		$clonedFileDropzone = clone $this;
 		$clonedFileDropzone->darkendBackground = $useDarkendBackground;
 		return $clonedFileDropzone;
@@ -37,7 +37,7 @@ abstract class BasicFileDropzoneImpl implements BasicFileDropzone {
 	/**
 	 * @inheritDoc
 	 */
-	function isDarkendBackground() {
+	public function isDarkendBackground() {
 		return $this->darkendBackground;
 	}
 
@@ -45,7 +45,7 @@ abstract class BasicFileDropzoneImpl implements BasicFileDropzone {
 	/**
 	 * @inheritDoc
 	 */
-	function withOnDrop(Signal $signal) {
+	public function withOnDrop(Signal $signal) {
 		$this->addTriggeredSignal($signal, self::DROP_EVENT);
 	}
 
@@ -53,7 +53,7 @@ abstract class BasicFileDropzoneImpl implements BasicFileDropzone {
 	/**
 	 * @inheritDoc
 	 */
-	function appendOnDrop(Signal $signal) {
+	public function appendOnDrop(Signal $signal) {
 		$this->appendTriggeredSignal($signal, self::DROP_EVENT);
 	}
 }
