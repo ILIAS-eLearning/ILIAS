@@ -12,7 +12,8 @@ il.UI = il.UI || {};
 
 		var CSS = {
 			"darkendBackground": "modal-backdrop in", // <- bootstrap classes, should not be changed
-			"darkendDropzoneHighlight": "darkend-highlight"
+			"darkendDropzoneHighlight": "darkend-highlight",
+			"defaultDropzoneHighlight": "default-highlight"
 		};
 
 		var SELECTOR = {
@@ -46,7 +47,7 @@ il.UI = il.UI || {};
 		 * @private
 		 */
 		var _enableDefaultDesign = function () {
-
+			$("." + SELECTOR.fileDropzones).addClass(CSS.defaultDropzoneHighlight);
 		};
 
 		/**
@@ -78,7 +79,8 @@ il.UI = il.UI || {};
 		 */
 		var disableHighlightDesign = function () {
 			$("#" + SELECTOR.darkendBackground).removeClass(CSS.darkendBackground);
-			$("." + SELECTOR.fileDropzones).removeClass(CSS.darkendDropzoneHighlight);
+			$("." + SELECTOR.fileDropzones).removeClass(CSS.darkendDropzoneHighlight)
+				.removeClass(CSS.defaultDropzoneHighlight);
 		};
 
 		/**
