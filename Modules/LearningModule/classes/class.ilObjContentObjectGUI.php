@@ -2514,15 +2514,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$ilCtrl->getLinkTarget($this, "listLinks"));
 
 		// web link checker
-		if ($this->object->getType() == "lm")
-		{
-			if(@include_once('HTTP/Request.php'))
-			{
-				$ilTabs->addSubtab("link_check",
-					$lng->txt("link_check"),
-					$ilCtrl->getLinkTarget($this, "linkChecker"));
-			}
-		}
+		$ilTabs->addSubtab("link_check",
+			$lng->txt("link_check"),
+			$ilCtrl->getLinkTarget($this, "linkChecker"));
 
 		$ilTabs->addSubtab("history",
 			$lng->txt("history"),
