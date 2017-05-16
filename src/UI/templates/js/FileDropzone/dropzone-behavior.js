@@ -67,7 +67,7 @@ il.UI = il.UI || {};
 		 */
 		var enableHighlightDesign = function(darkendBackground) {
 			if (darkendBackground) {
-				_createDarkendHtmlIfNotExists(); // <- Just to ensure the darkend html does exist.
+				_createDarkendHtmlIfNotExists(); // <- Just to ensure the darkend html exists.
 				_enableDarkendDesign();
 			} else {
 				_enableDefaultDesign();
