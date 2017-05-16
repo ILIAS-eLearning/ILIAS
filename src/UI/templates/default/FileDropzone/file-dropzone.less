@@ -1,16 +1,14 @@
 .il-file-dropzone {
 
-
-
   // standard dropzone design
   &.standard {
 	padding: 20px 20px;
-	border: 3px #C0C0C0 dashed;
 	min-height: 150px;
+	background: #FFFFFF;
+	border: 3px #C0C0C0 dashed;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
-	border-radius: 8px;
-	background: #FFFFFF;  }
+	border-radius: 8px;  }
 	&.standard .dz-message {
 	  text-align: center;
 	  margin:     40px 0;  }
@@ -20,16 +18,21 @@
 	padding: 1px  } // <- is needed to display a possible margin of the inner elements
 
   // general dropzone design
-  &.border {
+  &.darkend-highlight {
+	z-index:  1100;
+	position: relative;
 	border: 3px #C0C0C0 dashed;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
-	background: #FFFFFF;  }
+	background: #FFFFD6;	}
 
-  &.darkend-highlight {
-	z-index:  1100;
-	position: relative;  }
+  &.default-highlight {
+	border: 3px #C0C0C0 dashed;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	background: #FFFFD6;	}
 
   &.drag-hover {
 	border: 3px dashed #606060;
@@ -37,5 +40,4 @@
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 	background-color: #FFF9BC; }
-	//opacity: 0.7;  }
 }
