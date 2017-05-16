@@ -6,7 +6,7 @@
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    05.05.17
- * @version 0.0.6
+ * @version 0.0.8
  *
  * @package ILIAS\UI\Implementation\Component\FileDropzone
  */
@@ -14,7 +14,6 @@
 namespace ILIAS\UI\Implementation\Component\FileDropzone;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\FileDropzone\BasicFileDropzone;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -77,12 +76,12 @@ class Renderer extends AbstractComponentRenderer {
 		$dropzoneId = $this->createId();
 
 		// setup javascript
-		$simpleDropzone = new SimpleDropzone();
-		$simpleDropzone->setId($dropzoneId);
-		$simpleDropzone->setDarkendBackground($standardDropzone->isDarkendBackground());
-		$simpleDropzone->setRegisteredSignals($standardDropzone->getTriggeredSignals());
-
-		$jsHelper = new JavascriptHelper($simpleDropzone);
+		$jsHelper = new JavascriptHelper(
+			SimpleDropzone::of()
+				->setId($dropzoneId)
+				->setDarkendBackground($standardDropzone->isDarkendBackground())
+				->setRegisteredSignals($standardDropzone->getTriggeredSignals())
+				->setUseAutoHighlight(false));
 
 		$this->getJavascriptBinding()->addOnLoadCode($jsHelper->initializeStandardDropzone());
 
@@ -114,12 +113,12 @@ class Renderer extends AbstractComponentRenderer {
 		$dropzoneId = $this->createId();
 
 		// setup javascript
-		$simpleDropzone = new SimpleDropzone();
-		$simpleDropzone->setId($dropzoneId);
-		$simpleDropzone->setDarkendBackground($wrapperDropzone->isDarkendBackground());
-		$simpleDropzone->setRegisteredSignals($wrapperDropzone->getTriggeredSignals());
-
-		$jsHelper = new JavascriptHelper($simpleDropzone);
+		$jsHelper = new JavascriptHelper(
+			SimpleDropzone::of()
+				->setId($dropzoneId)
+				->setDarkendBackground($wrapperDropzone->isDarkendBackground())
+				->setRegisteredSignals($wrapperDropzone->getTriggeredSignals())
+				->setUseAutoHighlight(true));
 
 		$this->getJavascriptBinding()->addOnLoadCode($jsHelper->initializeWrapperDropzone());
 
