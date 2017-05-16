@@ -218,6 +218,8 @@ assessment#:#add_applet_parameter#:#Add Applet Parameter
 assessment#:#add_area#:#Add Area
 assessment#:#add_circle#:#Add circle area
 assessment#:#add_gap#:#Add Gap Text
+assessment#:#tst_msg_rand_quest_set_not_sync#:#The rules for a random selection of questions were newly created or changed. The questions from the pools have to be synchronized in the test before it can be used. This checks also if a random test is possible with the given set of rules.
+assessment#:#tst_msg_rand_quest_set_sync_duration#:#The synchronization copies all questions matching the rules into the test. This may take several minutes for big pools.
 assessment#:#add_imagemap#:#Import Image Map
 assessment#:#add_matching_pair#:#Add Matching Pair
 assessment#:#add_poly#:#Add polygon area
