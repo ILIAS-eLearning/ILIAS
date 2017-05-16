@@ -57,7 +57,7 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
 		$member_id = $member["usr_id"];
 		if(!($mem_obj = ilObjectFactory::getInstanceByObjId($member_id,false)))
 		{
-			continue;
+			return;
 		}
 
 		// name and login
