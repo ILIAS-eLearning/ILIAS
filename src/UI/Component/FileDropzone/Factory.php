@@ -44,7 +44,7 @@ interface Factory {
 	 *
 	 * ---
 	 *
-	 * @return Standard
+	 * @return \ILIAS\UI\Component\FileDropzone\Standard
 	 */
 	public function standard();
 
@@ -83,7 +83,7 @@ interface Factory {
 	 *
 	 * @param Component[]|Component $content an array or a single instance of ILIAS UI components
 	 *
-	 * @return Wrapper
+	 * @return \ILIAS\UI\Component\FileDropzone\Wrapper
 	 */
 	public function wrapper($content);
 
