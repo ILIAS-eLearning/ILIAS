@@ -10,9 +10,14 @@ il.UI = il.UI || {};
 (function($, UI) {
 	UI.dropzone = (function ($) {
 
-		var css = {
+		var CSS = {
 			"darkendBackground": "modal-backdrop in", // <- bootstrap classes, should not be changed
 			"darkendDropzoneHighlight": "darkend-highlight"
+		};
+
+		var SELECTOR = {
+			"darkendBackground": "il-dropzone-darkend",
+			"fileDropzones": "il-file-dropzone"
 		};
 
 		var _darkendDesign = false;
@@ -22,8 +27,8 @@ il.UI = il.UI || {};
 		 * @private
 		 */
 		var _createDarkendHtmlIfNotExists = function () {
-			if (!$("#il-dropzone-darkend").length) {
-				$("body").prepend("<div id=\"il-dropzone-darkend\"></div>");
+			if (!$("#" + SELECTOR.darkendBackground).length) {
+				$("body").prepend("<div id=" + SELECTOR.darkendBackground + "></div>");
 			}
 		};
 
@@ -32,8 +37,8 @@ il.UI = il.UI || {};
 		 * @private
 		 */
 		var _enableDarkendDesign = function () {
-			$("#il-dropzone-darkend").addClass(css.darkendBackground);
-			$(".il-file-dropzone").addClass(css.darkendDropzoneHighlight);
+			$("#" + SELECTOR.darkendBackground).addClass(CSS.darkendBackground);
+			$("." + SELECTOR.fileDropzones).addClass(CSS.darkendDropzoneHighlight);
 		};
 
 		/**
@@ -72,8 +77,8 @@ il.UI = il.UI || {};
 		 * Disables all highlight designs which are active.
 		 */
 		var disableHighlightDesign = function () {
-			$("#il-dropzone-darkend").removeClass(css.darkendBackground);
-			$(".il-file-dropzone").removeClass(css.darkendDropzoneHighlight);
+			$("#" + SELECTOR.darkendBackground).removeClass(CSS.darkendBackground);
+			$("." + SELECTOR.fileDropzones).removeClass(CSS.darkendDropzoneHighlight);
 		};
 
 		/**
