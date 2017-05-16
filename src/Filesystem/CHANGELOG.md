@@ -4,6 +4,11 @@ All notable changes to this service will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this service adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.0.3]
+## Changed
+* README updated
+* Filesystem interface split to make the code more versatile
+
 ## [0.0.2]
 ## Added
 * copyDir method added to filesystem interface
