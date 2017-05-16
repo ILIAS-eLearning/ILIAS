@@ -314,6 +314,8 @@ assessment#:#add_applet_parameter#:#Applet-Parameter hinzufügen
 assessment#:#add_area#:#Region hinzufügen
 assessment#:#add_circle#:#Kreis hinzufügen
 assessment#:#add_gap#:#Lückentext hinzufügen
+assessment#:#tst_msg_rand_quest_set_not_sync#:#Die Regeln zur zufälligen Ziehung von Fragen wurden neu erstellt oder verändert. Die Fragen müssen erneut aus den Fragenpools in den Test kopiert werden. Bei diesem Vorgang wird auch eine Prüfung durchgeführt, ob der Regelsatz für Zufallsziehungen erfüllbar ist.
+assessment#:#tst_msg_rand_quest_set_sync_duration#:#Die Synchronisierung kopiert alle Fragen, welche auf die Kriterien der Ziehungsregeln zutreffen. Dies kann für große Pools einige Minuten dauern.
 assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_matching_pair#:#Zuordnungspaar hinzufügen
 assessment#:#add_new_question#:#Neue Frage hinzufügen
