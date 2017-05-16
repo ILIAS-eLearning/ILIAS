@@ -265,6 +265,8 @@ assessment#:#ass_export_files#:#Export Files
 assessment#:#ass_file#:#File
 assessment#:#ass_question#:#Question
 assessment#:#ass_size#:#Size
+assessment#:#tst_filter_question_type#:#Question Type
+assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
 assessment#:#tst_objective_progress_header#:#Learning Objective Progress
 assessment#:#assClozeTest#:#Cloze Question
