@@ -372,6 +372,8 @@ assessment#:#ass_export_files#:#Exportdateien
 assessment#:#ass_file#:#Datei
 assessment#:#ass_question#:#Frage
 assessment#:#ass_size#:#Größe
+assessment#:#tst_filter_question_type#:#Fragentyp
+assessment#:#tst_filter_question_type_enabled#:#Fragentyp Filter verwenden
 assessment#:#tst_objectives_progress_header#:#Fortschritte in den Lernzielen
 assessment#:#tst_objective_progress_header#:#Fortschritt im Lernziel
 assessment#:#assClozeTest#:#Lückentextfrage
