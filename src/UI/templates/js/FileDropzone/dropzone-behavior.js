@@ -2,7 +2,7 @@
  * Provides functions for the dropzone highlighting.
  *
  * @author nmaerchy <nm@studer-raimann.ch>
- * @version 0.0.4
+ * @version 0.0.5
  */
 
 var il = il || {};
@@ -12,43 +12,74 @@ il.UI = il.UI || {};
 
 		var css = {
 			"darkendBackground": "modal-backdrop in", // <- bootstrap classes, should not be changed
-			"darkendDropzoneHighlight": "darkend-highlight",
-			"dropzoneBorder": "border"
+			"darkendDropzoneHighlight": "darkend-highlight"
 		};
 
 		var _darkendDesign = false;
 
+		/**
+		 * Prepends a div to the body tag to enable the darkend background.
+		 * @private
+		 */
 		var _createDarkendHtmlIfNotExists = function () {
 			if (!$("#il-dropzone-darkend").length) {
 				$("body").prepend("<div id=\"il-dropzone-darkend\"></div>");
 			}
 		};
 
+		/**
+		 * Enables the darkend background design for dropzones.
+		 * @private
+		 */
+		var _enableDarkendDesign = function () {
+			$("#il-dropzone-darkend").addClass(css.darkendBackground);
+			$(".il-file-dropzone").addClass(css.darkendDropzoneHighlight);
+		};
+
+		/**
+		 * Enables the default background design for dropzones.
+		 * @private
+		 */
+		var _enableDefaultDesign = function () {
+
+		};
+
+		/**
+		 * Enables either the darkend design or the default design depending on the {@link _darkendDesign} variable.
+		 */
 		var enableAutoDesign = function () {
 			if (_darkendDesign) {
-				enableDarkendDesign();
+				_enableDarkendDesign();
 			} else {
-				enableDefaultDesign();
+				_enableDefaultDesign();
 			}
 		};
 
-		var enableDarkendDesign = function () {
-			$("#il-dropzone-darkend").addClass(css.darkendBackground);
-			// $("body").css("pointer-events", "none");
-			$(".il-file-dropzone").addClass(css.darkendDropzoneHighlight + " " + css.dropzoneBorder);
-			// $(".il-file-dropzone").css("pointer-events", "auto");
+		/**
+		 * Enables the highlight design. If the passed in argument is true, the darkend style will be used.
+		 * @param {boolean} darkendBackground Flag to enable the darkend design.
+		 */
+		var enableHighlightDesign = function(darkendBackground) {
+			if (darkendBackground) {
+				_createDarkendHtmlIfNotExists(); // <- Just to ensure the darkend html does exist.
+				_enableDarkendDesign();
+			} else {
+				_enableDefaultDesign();
+			}
 		};
 
-		var enableDefaultDesign = function () {
-
-		};
-
-		var disableDesign = function () {
+		/**
+		 * Disables all highlight designs which are active.
+		 */
+		var disableHighlightDesign = function () {
 			$("#il-dropzone-darkend").removeClass(css.darkendBackground);
 			$(".il-file-dropzone").removeClass(css.darkendDropzoneHighlight);
-			$(".il-file-dropzone").removeClass(css.dropzoneBorder);
 		};
 
+		/**
+		 * Sets the {@link _darkendDesign} and calls the {@link _createDarkendHtmlIfNotExists} function.
+		 * @param darkendDesign
+		 */
 		var setDarkendDesign = function (darkendDesign) {
 			_darkendDesign = darkendDesign;
 			_createDarkendHtmlIfNotExists();
@@ -57,9 +88,8 @@ il.UI = il.UI || {};
 
 		return {
 			enableAutoDesign: enableAutoDesign,
-			enableDarkendDesign: enableDarkendDesign,
-			enableDefaultDesign: enableDefaultDesign,
-			disableDesign: disableDesign,
+			enableHighlightDesign: enableHighlightDesign,
+			disableHighlightDesign: disableHighlightDesign,
 			setDarkendDesign: setDarkendDesign
 		};
 	})($);
