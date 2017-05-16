@@ -12,33 +12,24 @@ use ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal;
  */
 interface Popover extends Component, Triggerable {
 
+	const POS_AUTO = 'auto';
+	const POS_VERTICAL = 'vertical';
+	const POS_HORIZONTAL = 'horizontal';
+
+	/**
+	 * Get the same popover displaying a title above the content.
+	 *
+	 * @param string $title
+	 * @return Popover
+	 */
+	public function withTitle($title);
+
 	/**
 	 * Get the title of the popover.
 	 *
 	 * @return string
 	 */
 	public function getTitle();
-
-	/**
-	 * Get the components representing the content of the popover.
-	 *
-	 * @return Component[]
-	 */
-	public function getContent();
-
-	/**
-	 * Get the position of the popover.
-	 *
-	 * @return string
-	 */
-	public function getPosition();
-
-	/**
-	 * Get the url returning the rendered content, if the popovers content is rendered via ajax.
-	 *
-	 * @return string
-	 */
-	public function getAsyncContentUrl();
 
 	/**
 	 * Get the same popover being rendered below or above the triggerer, based on the available space.
@@ -55,12 +46,11 @@ interface Popover extends Component, Triggerable {
 	public function withHorizontalPosition();
 
 	/**
-	 * Get the same popover displaying a title above the content.
+	 * Get the position of the popover.
 	 *
-	 * @param string $title
-	 * @return Popover
+	 * @return string
 	 */
-	public function withTitle($title);
+	public function getPosition();
 
 	/**
 	 * Get a popover like this who's content is rendered via ajax by the given $url before the popover is shown.
@@ -72,6 +62,20 @@ interface Popover extends Component, Triggerable {
 	 * @return $this
 	 */
 	public function withAsyncContentUrl($url);
+
+	/**
+	 * Get the url returning the rendered content, if the popovers content is rendered via ajax.
+	 *
+	 * @return string
+	 */
+	public function getAsyncContentUrl();
+
+	/**
+	 * Get the components representing the content of the popover.
+	 *
+	 * @return Component[]
+	 */
+	public function getContent();
 
 	/**
 	 * Get the signal to show this popover in the frontend.

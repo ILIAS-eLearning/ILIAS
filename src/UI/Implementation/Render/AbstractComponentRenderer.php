@@ -149,8 +149,12 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 			$this->js_binding->addOnLoadCode(
 				"$('#{$id}').{$event}( function(event) { 
 					$(this).trigger('{$signal}',
-						{'id' : '{$signal}', 'event' : '{$event}', 'triggerer' : $(this), 'options' : JSON.parse('{$options}')
-					});
+						{
+							'id' : '{$signal}', 'event' : '{$event}',
+							'triggerer' : $(this),
+							'options' : JSON.parse('{$options}')
+						}
+					);
 					return false;
 				});");
 		}

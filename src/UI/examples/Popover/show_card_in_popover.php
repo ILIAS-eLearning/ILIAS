@@ -2,6 +2,7 @@
 function show_card_in_popover() {
 	global $DIC;
 
+	// This example shows how to render a card containing an image and a descriptive list inside a popover.
 	$factory = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 

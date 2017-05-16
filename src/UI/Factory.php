@@ -347,7 +347,7 @@ interface Factory {
 	 *     Popovers consist of a layer displayed above all other content.
 	 *     The content of the Popover depends on the functionality it performs.
 	 *     A Popover MAY display a title above its content.
-	 *     All Popovers contain a pointer pointing from the Popover to the Trigger of the Popover.
+	 *     All Popovers contain a pointer pointing from the Popover to the Triggerer of the Popover.
 	 *   effect: >
 	 *     Popovers are shown by clicking a Triggerer component such as a Button or Glyph.
 	 *     The position of the Popover is calculated automatically be default. However, it is possible to
@@ -362,11 +362,10 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *     1: >
-	 *        Popovers MUST NOT contain horizontal scrollbars. The renderer of the content component is responsible
-	 *        that the content does not exceed the max width from the Popover.
+	 *        Popovers MUST NOT contain horizontal scrollbars.
 	 *     2: >
-	 *        Popovers MAY contain vertical scrollbars. The renderer of the content component is responsible to
-	 *        set the max height and showing the vertical scrollbars.
+	 *        Popovers MAY contain vertical scrollbars. The content component is responsible to
+	 *        define its own height and show vertical scrollbars.
 	 *     3: >
 	 *        If Popovers are used to present secondary information of an object, they SHOULD display a title
 	 *        representing the object.
@@ -374,13 +373,12 @@ interface Factory {
 	 *     1: >
 	 *        A Popover MUST only be displayed if the Trigger component is clicked.
 	 *        This behaviour is different from Tooltips that appear on hovering.
+	 *        Popovers disappear by clicking anywhere outside the Popover or by pressing the ESC key.
 	 *   style:
 	 *     1: Popovers MUST always relate to the Trigger component by a little pointer.
 	 *   accessibility:
 	 *     1: >
-	 *        There MUST be a way to open the Popover by only using the keyboard. Exceptions are acceptable
-	 *        for inputs that can be entered by only using the keyboard without activating the Popover.
-	 *        In this case the input element MUST indicate the required format by setting its placeholder accordingly.
+	 *        There MUST be a way to open the Popover by only using the keyboard.
 	 *     2: >
 	 *        The focus MUST be inside the Popover, once it is open if it contains at least one interactive item.
 	 *        Otherwise the focus MUST remain on the Triggerer component.
@@ -388,9 +386,6 @@ interface Factory {
 	 *        The focus MUST NOT leave the Popover for as long as it is open.
 	 *     4: >
 	 *        There MUST be a way to reach every control in the Popover by only using the keyboard.
-	 *        Exception are acceptable for controls that are only there for convenience (e.g. elements used to
-	 *        reduce the number of clicks to achieve a certain input such as the switch from the month-view
-	 *        to the year-view in the Date/Time picker).
 	 *     5: >
 	 *        The Popover MUST be closable by pressing the ESC key.
 	 *     6: >
