@@ -48,7 +48,7 @@ class JavascriptHelper {
 			
 				enter: function(dragsterEvent, event) {
 					{$this->addDropzoneHover()}
-					{$this->enableHighlightDesign(false)}
+					{$this->enableHighlightDesign()}
 				},
 				leave: function(dragsterEvent, event) {
 					{$this->removeDropzoneHover()}
@@ -67,6 +67,7 @@ class JavascriptHelper {
 
 	/**
 	 * Creates the javascript code to configure a Wrapper Dropzone.
+	 * The generated code adds also a listener on the html document.
 	 *
 	 * @return string The generated code.
 	 */
@@ -78,7 +79,7 @@ class JavascriptHelper {
 			$(document).dragster({
 			
 				enter: function(dragsterEvent, event) {
-					{$this->enableHighlightDesign(true)}
+					{$this->enableHighlightDesign()}
 				},
 				leave: function(dragsterEvent, event) {
 					{$this->disableHighlightDesign()}
@@ -112,14 +113,13 @@ class JavascriptHelper {
 
 
 	/**
-	 * Generates the javascript code to enable the highlight design.
-	 *
-	 * @param boolean $auto If true the highlight design will be discovered automatically, otherwise the option from {@link $this->simpleDropzone} will be used.
+	 * Generates the javascript code to enable the highlight design, depending
+	 * on the {@link $this->simpleDropzone->isUseAutoHighlight} return value.
 	 *
 	 * @return string The javascript code to enable the highlight design.
 	 */
-	private function enableHighlightDesign($auto) {
-		if ($auto) {
+	private function enableHighlightDesign() {
+		if ($this->simpleDropzone->isUseAutoHighlight()) {
 			return "il.UI.dropzone.enableAutoDesign()";
 		}
 		return "il.UI.dropzone.enableHighlightDesign({$this->simpleDropzone->isDarkendBackground()});";

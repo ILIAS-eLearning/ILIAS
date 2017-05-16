@@ -3,10 +3,11 @@
  * Class SimpleDropzone
  *
  * A simple wrapper class for a dropzone. Should only be used inside this namespace.
+ * Provides setter chaining.
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    09.05.17
- * @version 0.0.3
+ * @version 0.0.4
  *
  * @package ILIAS\UI\Implementation\Component\FileDropzone
  */
@@ -29,7 +30,25 @@ class SimpleDropzone {
 	 * @var TriggeredSignalInterface[] $registeredSignals
 	 */
 	private $registeredSignals;
+	/**
+	 * @var boolean $useAutoHighlight
+	 */
+	private $useAutoHighlight;
 
+
+	/**
+	 * Private constructor. Initialize it through the static method {@link SimpleDropzone#of}.
+	 * SimpleDropzone constructor.
+	 */
+	private function __construct() { }
+
+
+	/**
+	 * @return SimpleDropzone A new instance of a SimpleDropzone.
+	 */
+	public static function of() {
+		return new SimpleDropzone();
+	}
 
 	/**
 	 * @return string
@@ -41,9 +60,11 @@ class SimpleDropzone {
 
 	/**
 	 * @param string $id
+	 * @return SimpleDropzone The instance of this object.
 	 */
 	public function setId($id) {
 		$this->id = $id;
+		return $this;
 	}
 
 
@@ -57,9 +78,11 @@ class SimpleDropzone {
 
 	/**
 	 * @param bool $darkendBackground
+	 * @return SimpleDropzone The instance of this object.
 	 */
 	public function setDarkendBackground($darkendBackground) {
 		$this->darkendBackground = $darkendBackground;
+		return $this;
 	}
 
 
@@ -73,9 +96,29 @@ class SimpleDropzone {
 
 	/**
 	 * @param TriggeredSignalInterface[] $registeredSignals
+	 * @return SimpleDropzone The instance of this object.
 	 */
 	public function setRegisteredSignals(array $registeredSignals) {
 		$this->registeredSignals = $registeredSignals;
+		return $this;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isUseAutoHighlight(): bool {
+		return $this->useAutoHighlight;
+	}
+
+
+	/**
+	 * @param bool $useAutoHighlight
+	 * @return SimpleDropzone The instance of this object.
+	 */
+	public function setUseAutoHighlight(bool $useAutoHighlight) {
+		$this->useAutoHighlight = $useAutoHighlight;
+		return $this;
 	}
 
 }
