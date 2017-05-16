@@ -107,7 +107,7 @@ class SimpleDropzone {
 	/**
 	 * @return bool
 	 */
-	public function isUseAutoHighlight(): bool {
+	public function isUseAutoHighlight() {
 		return $this->useAutoHighlight;
 	}
 
@@ -116,7 +116,7 @@ class SimpleDropzone {
 	 * @param bool $useAutoHighlight
 	 * @return SimpleDropzone The instance of this object.
 	 */
-	public function setUseAutoHighlight(bool $useAutoHighlight) {
+	public function setUseAutoHighlight($useAutoHighlight) {
 		$this->useAutoHighlight = $useAutoHighlight;
 		return $this;
 	}
