@@ -4,11 +4,11 @@
   &.standard {
 	padding: 20px 20px;
 	min-height: 150px;
-	background: #FFFFFF;
-	border: 3px #C0C0C0 dashed;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	border-radius: 8px;  }
+	background: @il-file-dropzone-bg;
+	border: @il-file-dropzone-border-width @il-file-dropzone-border-style @il-file-dropzone-border-color;
+	-moz-border-radius: @il-file-dropzone-border-raduis;
+	-webkit-border-radius: @il-file-dropzone-border-raduis;
+	border-radius: @il-file-dropzone-border-raduis;  }
 	&.standard .dz-message {
 	  text-align: center;
 	  margin:     40px 0;  }
@@ -21,23 +21,23 @@
   &.darkend-highlight {
 	z-index:  1100;
 	position: relative;
-	border: 3px #C0C0C0 dashed;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	border-radius: 8px;
-	background: #FFFFD6;	}
+	border: @il-file-dropzone-border-width @il-file-dropzone-border-style @il-file-dropzone-border-color;
+	-moz-border-radius: @il-file-dropzone-border-raduis;
+	-webkit-border-radius: @il-file-dropzone-border-raduis;
+	border-radius: @il-file-dropzone-border-raduis;
+	background: @il-file-dropzone-highlight-bg;	}
 
   &.default-highlight {
-	border: 3px #C0C0C0 dashed;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	border-radius: 8px;
-	background: #FFFFD6;	}
+	border: @il-file-dropzone-border-width @il-file-dropzone-border-style @il-file-dropzone-border-color;
+	-moz-border-radius: @il-file-dropzone-border-raduis;
+	-webkit-border-radius: @il-file-dropzone-border-raduis;
+	border-radius: @il-file-dropzone-border-raduis;
+	background: @il-file-dropzone-highlight-bg;	}
 
   &.drag-hover {
-	border: 3px dashed #606060;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	border-radius: 8px;
-	background-color: #FFF9BC; }
+	border: @il-file-dropzone-border-width @il-file-dropzone-border-style @il-file-dropzone-border-color-hover;
+	-moz-border-radius: @il-file-dropzone-border-raduis;
+	-webkit-border-radius: @il-file-dropzone-border-raduis;
+	border-radius: @il-file-dropzone-border-raduis;
+	background-color: @il-file-dropzone-hover-bg; }
 }
