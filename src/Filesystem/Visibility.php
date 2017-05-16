@@ -12,6 +12,8 @@ namespace ILIAS\Filesystem;
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @version 1.0
  * @since 5.3
+ *
+ * @public
  */
 interface Visibility {
 
