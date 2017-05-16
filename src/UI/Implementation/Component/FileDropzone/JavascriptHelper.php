@@ -2,13 +2,13 @@
 /**
  * Class JavascriptHelper
  *
- * Helper class to create often used javascript commands a dropzone will need.
- * The javascript uses the dropzone.js library
- * @see http://www.dropzonejs.com/#configuration
+ * Helper class to generate the javascript code needed for dropzones.
+ * The generated javascript code uses the jQuery dragster plugin.
+ * @see https://github.com/catmanjan/jquery-dragster
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    09.05.17
- * @version 0.0.4
+ * @version 0.0.5
  *
  * @package ILIAS\UI\Implementation\Component\FileDropzone
  */
@@ -26,7 +26,7 @@ class JavascriptHelper {
 	/**
 	 * JavascriptHelper constructor.
 	 *
-	 * @param SimpleDropzone $simpleDropzone
+	 * @param SimpleDropzone $simpleDropzone A wrapper class for dropzone components.
 	 */
 	public function __construct(SimpleDropzone $simpleDropzone) {
 		$this->simpleDropzone = $simpleDropzone;
@@ -34,66 +34,127 @@ class JavascriptHelper {
 
 
 	/**
-	 * Generates the javascript code to initialize a dropzone.
+	 * Creates the javascript code to configure a Standard Dropzone.
 	 *
-	 * @return string the generated code
+	 * @return string The generated Javascript code.
 	 */
-	public function initializeDropzone() {
-		/*
-		 * the url parameter is required by the library,
-		 * so we set autoProcessQueue to false to prevent the upload to the url
-		 *
-		 * The previewsContainer option needs to be empty exclusive, otherwise previews of the files will be displayed.
-		 * @see hhttp://www.dropzonejs.com/#configuration
-		 */
-		return "var {$this->simpleDropzone->getId()} = new Dropzone(\"div#{$this->simpleDropzone->getId()}\", {
+	public function initializeStandardDropzone() {
 
-				url: \"/\",
-				autoProcessQueue: false,
-				dictDefaultMessage: \"\",
-				clickable: false,
+		return "
+		
+			{$this->configureDarkendDesign()}
+			
+			{$this->getJSDropzone()}.dragster({
+			
+				enter: function(dragsterEvent, event) {
+					{$this->addDropzoneHover()}
+					{$this->enableHighlightDesign(false)}
+				},
+				leave: function(dragsterEvent, event) {
+					{$this->removeDropzoneHover()}
+					{$this->disableHighlightDesign()}
+				},
+				drop: function(dragsterEvent, event) {
+					{$this->removeDropzoneHover()}
+					{$this->disableHighlightDesign()}
+					{$this->triggerRegisteredSignals()}
+				}
+			});
+		";
 
-		});
-		{$this->simpleDropzone->getId()}.previewsContainer = \"\"
+	}
+
+
+	/**
+	 * Creates the javascript code to configure a Wrapper Dropzone.
+	 *
+	 * @return string The generated code.
+	 */
+	public function initializeWrapperDropzone() {
+		return "
+		
+			{$this->configureDarkendDesign()}
+		
+			$(document).dragster({
+			
+				enter: function(dragsterEvent, event) {
+					{$this->enableHighlightDesign(true)}
+				},
+				leave: function(dragsterEvent, event) {
+					{$this->disableHighlightDesign()}
+				},
+				drop: function(dragsterEvent, event) {
+					{$this->disableHighlightDesign()}
+				}
+			
+			});
+			
+			
+			{$this->getJSDropzone()}.dragster({
+			
+				enter: function(dragsterEvent, event) {
+					dragsterEvent.stopImmediatePropagation();
+					{$this->addDropzoneHover()}
+				},
+				leave: function(dragsterEvent, event) {
+					dragsterEvent.stopImmediatePropagation();
+					{$this->removeDropzoneHover()}
+				},
+				drop: function(dragsterEvent, event) {
+					{$this->removeDropzoneHover()}
+					{$this->disableHighlightDesign()}
+					{$this->triggerRegisteredSignals()}
+				}
+			
+			});
 		";
 	}
 
-	public function enableAutoDesign() {
-		return "il.UI.dropzone.enableAutoDesign()";
+
+	/**
+	 * Generates the javascript code to enable the highlight design.
+	 *
+	 * @param boolean $auto If true the highlight design will be discovered automatically, otherwise the option from {@link $this->simpleDropzone} will be used.
+	 *
+	 * @return string The javascript code to enable the highlight design.
+	 */
+	private function enableHighlightDesign($auto) {
+		if ($auto) {
+			return "il.UI.dropzone.enableAutoDesign()";
+		}
+		return "il.UI.dropzone.enableHighlightDesign({$this->simpleDropzone->isDarkendBackground()});";
 	}
 
-	public function enableDragHover() {
+
+	/**
+	 * @return string The javascript code to enable drag hover style.
+	 */
+	private function addDropzoneHover() {
 		return "$(this).addClass(\"drag-hover\");";
 	}
 
-	public function disableDragHover() {
+
+	/**
+	 * @return string The javascript code to disable drag hover style.
+	 */
+	private function removeDropzoneHover() {
 		return "$(this).removeClass(\"drag-hover\");";
 	}
 
 
 	/**
-	 * Generates the javascript code to enable the darkend background for dropzones.
-	 *
-	 * @return string the generated code
+	 * @return string The javascript code to configure the darkend background.
 	 */
-	public function enableDarkendDesign() {
-		return "il.UI.dropzone.enableDarkendDesign();";
-	}
-
-	public function enableDefaultDesign() {
-		return "il.UI.dropzone.enableDefaultDesign();";
-	}
-
-	public function configureDarkendDesign() {
+	private function configureDarkendDesign() {
 		return "il.UI.dropzone.setDarkendDesign({$this->simpleDropzone->isDarkendBackground()})";
 	}
 
 	/**
 	 * Generates the javascript code to disable all css highlighting for dropzones.
 	 *
-	 * @return string the generated code
+	 * @return string The javascript code to disable all css highlighting for dropzones.
 	 */
-	public function disableDesign() {
+	private function disableHighlightDesign() {
 		return "il.UI.dropzone.disableDesign();";
 	}
 
@@ -106,7 +167,7 @@ class JavascriptHelper {
 	 *
 	 * @return string the generated code
 	 */
-	public function triggerRegisteredSignals() {
+	private function triggerRegisteredSignals() {
 
 		$jsCode = "";
 		foreach ($this->simpleDropzone->getRegisteredSignals() as $triggeredSignal) {
@@ -114,7 +175,7 @@ class JavascriptHelper {
 			 * @var \ILIAS\UI\Implementation\Component\Signal $signal
 			 */
 			$signal = $triggeredSignal->getSignal();
-			$jsCode .= "$('#{$this->simpleDropzone->getId()}').trigger('{$signal}', event);\n";
+			$jsCode .= "{$this->getJSDropzone()}.trigger('{$signal}', event);\n";
 		}
 		return $jsCode;
 	}
@@ -126,7 +187,7 @@ class JavascriptHelper {
 	 *
 	 * @return string the jQuery object of the dropzone used in the javascript code.
 	 */
-	public function getJSDropzone() {
+	private function getJSDropzone() {
 		return "$(\"#{$this->simpleDropzone->getId()}\")";
 	}
 }
