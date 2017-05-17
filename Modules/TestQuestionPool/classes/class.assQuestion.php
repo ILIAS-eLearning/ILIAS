@@ -1712,7 +1712,7 @@ abstract class assQuestion
 	* @return boolean The number of datasets which are affected by the use of the query.
 	* @access public
 	*/
-	function isInUse($question_id = "")
+	public function isInUse($question_id = "")
 	{
 		global $ilDB;
 		
@@ -1724,7 +1724,13 @@ abstract class assQuestion
 		$row = $ilDB->fetchAssoc($result);
 		$count = $row["question_count"];
 
-		$result = $ilDB->queryF("SELECT DISTINCT tst_active.test_fi, qpl_questions.question_id FROM qpl_questions, tst_test_rnd_qst, tst_active WHERE qpl_questions.original_id = %s AND qpl_questions.question_id = tst_test_rnd_qst.question_fi AND tst_test_rnd_qst.active_fi = tst_active.active_id",
+		$result = $ilDB->queryF("
+			SELECT tst_active.test_fi
+			FROM qpl_questions
+			INNER JOIN tst_test_rnd_qst ON tst_test_rnd_qst.question_fi = qpl_questions.question_id
+			INNER JOIN tst_active ON tst_active.active_id = tst_test_rnd_qst.active_fi
+			WHERE qpl_questions.original_id = %s
+			GROUP BY tst_active.test_fi",
 			array('integer'),
 			array($question_id)
 		);
