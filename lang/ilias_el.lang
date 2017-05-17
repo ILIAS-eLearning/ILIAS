@@ -16229,3 +16229,10 @@ mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suf
 form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.###09 03 2017 new variable
 common#:#file_no_valid_file_type#:#This file type is not allowed.###09 03 2017 new variable
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.###09 03 2017 new variable
+common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. ###17 05 2017 new variable
+wsp#:#share_content#:#Share content###17 05 2017 new variable
+wsp#:#share_with#:#Share with:###17 05 2017 new variable
+wsp#:#element_already_shared#:#This element is already shared with this user.###17 05 2017 new variable
+wsp#:#search_no_match#:#Your search did not match any results###17 05 2017 new variable
+wsp#:#element_shared#:#Element shared###17 05 2017 new variable
+wsp#:#share#:#Share###17 05 2017 new variable
