@@ -1148,12 +1148,16 @@ class assFormulaQuestionGUI extends assQuestionGUI
 			$user_solution["pass"]      = $pass;
 			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 
-			if(0 == count(array_filter($solutions, function(array $row){
-				return !preg_match('/^\$v\d+$/', $row['value1']);
-			})))
-			{
-				$solutions = $this->object->getSolutionValues($active_id, $pass, true);
-			}
+			// workaround does not consider intermediate solutions,
+			// since we wont find variables in intermediate solutions,
+			// we will always ask for authorized ones and use them instead
+			// --> workaround replaced by separated variable fetching below if corpus
+			#if(0 == count(array_filter($solutions, function(array $row){
+			#	return !preg_match('/^\$v\d+$/', $row['value1']);
+			#})))
+			#{
+			#	$solutions = $this->object->getSolutionValues($active_id, $pass, true);
+			#}
 			
 			foreach($solutions as $idx => $solution_value)
 			{
@@ -1179,7 +1183,18 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				}
 			}
 		}
-
+		
+		// fau: testNav - take question variables always from authorized solution because they are saved with this flag, even if an authorized solution is not saved
+		$solutions = $this->object->getSolutionValues($active_id, $pass, true);
+		foreach($solutions as $idx => $solution_value)
+		{
+			if (preg_match("/^(\\\$v\\d+)$/", $solution_value["value1"], $matches))
+			{
+				$user_solution[$matches[1]] = $solution_value["value2"];
+			}
+		}
+		// fau.
+		
 		// generate the question output
 		$template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output.html", true, true, 'Modules/TestQuestionPool');
 
