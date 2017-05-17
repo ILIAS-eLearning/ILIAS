@@ -97,7 +97,7 @@ The code base is deviced in several components:
 	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
 	* 2nd Maintainer: [mbecker](http://www.ilias.de/docu/goto_docu_usr_27266.html)
 	* Testcases: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
-	* Tester: [AntoniaWeber](http://www.ilias.de/docu/goto_docu_usr_36934.html)
+	* Tester: Alexander Baulig, Uni Köln
 
 * **Cloud Object**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
