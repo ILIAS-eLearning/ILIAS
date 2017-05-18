@@ -11,6 +11,9 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilder.php';
  */
 class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuestionSetBuilder
 {
+	/**
+	 * @return bool
+	 */
 	public function checkBuildable()
 	{
 		$questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
@@ -22,7 +25,10 @@ class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuesti
 
 		return true;
 	}
-
+	
+	/**
+	 * @param ilTestSession $testSession
+	 */
 	public function performBuild(ilTestSession $testSession)
 	{
 		$questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);

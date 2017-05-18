@@ -52,11 +52,15 @@ class ilTestRandomQuestionSetQuestionCollection implements Iterator
 	{
 		return count($this->questions) < $amount;
 	}
-
-	public function getMissingCount($amount)
+	
+	/**
+	 * @param int $requiredAmount
+	 * @return int
+	 */
+	public function getMissingCount($requiredAmount)
 	{
 		// hey: fixRandomTestBuildable - fix returning missing count instead of difference (neg values!)
-		$difference = $amount - count($this->questions);
+		$difference = $requiredAmount - count($this->questions);
 		$missingCount = $difference < 0 ? 0 : $difference;
 		return $missingCount;
 		// hey.
@@ -122,6 +126,10 @@ class ilTestRandomQuestionSetQuestionCollection implements Iterator
 	}
 	
 	// hey: fixRandomTestBuildable - advanced need for quantity tools
+	/**
+	 * @param ilTestRandomQuestionSetQuestionCollection $questionCollection
+	 * @return ilTestRandomQuestionSetQuestionCollection
+	 */
 	public function getIntersectionCollection(self $questionCollection)
 	{
 		$questionIds = array_flip( $questionCollection->getInvolvedQuestionIds() );
@@ -141,6 +149,9 @@ class ilTestRandomQuestionSetQuestionCollection implements Iterator
 		return $intersectionCollection;
 	}
 	
+	/**
+	 * @return int
+	 */
 	public function getQuestionAmount()
 	{
 		return count($this->getQuestions());

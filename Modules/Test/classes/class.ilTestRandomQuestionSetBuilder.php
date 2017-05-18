@@ -87,6 +87,10 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
 	}
 	
 	// hey: fixRandomTestBuildable - rename/public-access to be aware for building interface
+	/**
+	 * @param ilTestRandomQuestionSetSourcePoolDefinition $definition
+	 * @return ilTestRandomQuestionSetQuestionCollection
+	 */
 	public function getSrcPoolDefRelatedQuestCollection(ilTestRandomQuestionSetSourcePoolDefinition $definition)
 	// hey.
 	{
@@ -97,6 +101,10 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
 	}
 	
 	// hey: fixRandomTestBuildable - rename/public-access to be aware for building interface
+	/**
+	 * @param ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList
+	 * @return ilTestRandomQuestionSetQuestionCollection
+	 */
 	public function getSrcPoolDefListRelatedQuestUniqueCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
 	{
 		$combinationCollection = $this->getSrcPoolDefListRelatedQuestCombinationCollection($sourcePoolDefinitionList);
@@ -225,6 +233,9 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
 	}
 	
 	//fau: fixRandomTestBuildable - function to get messages
+	/**
+	 * @return array
+	 */
 	public function getCheckMessages()
 	{
 		return $this->checkMessages;

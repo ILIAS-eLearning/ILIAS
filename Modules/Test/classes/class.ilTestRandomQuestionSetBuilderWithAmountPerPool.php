@@ -12,9 +12,12 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilder.php';
 class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuestionSetBuilder
 {
 	// hey: fixRandomTestBuildable - improvment of improved pass build check
+	/**
+	 * @return bool
+	 */
 	public function checkBuildableNewer()
 	{
-		$lng = $GLOBALS['DIC'] ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
+		$lng = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
 			
 		$isBuildable = true;
 		
@@ -43,72 +46,14 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 	}
 	// hey.
 	
-	// fau: fixRandomTestBuildable - improved the check for buildable test
-	public function checkBuildableNew()
-	{
-		global $lng;
-		
-		$this->checkMessages = array();
-		$questionsPerDefinition = array();
-		$questionsMatchingCount = array();
-		$buildable = true;
-		
-		// first round: collect all used questions and count their matching
-		/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-		foreach($this->sourcePoolDefinitionList as $definition)
-		{
-			$questionsPerDefinition[$definition->getId()] = array();
-			$stage = $this->getSrcPoolDefRelatedQuestCollection($definition);
-			foreach ($stage->getInvolvedQuestionIds() as $id)
-			{
-				$questionsPerDefinition[$definition->getId()][$id]++;
-				$questionsMatchingCount[$id]++;
-			}
-		}
-		
-		// second round: count the exclusive questions of each definition
-		foreach($this->sourcePoolDefinitionList as $definition)
-		{
-			$exclusive = 0;
-			foreach ($questionsPerDefinition[$definition->getId()] as $id => $used)
-			{
-				// all matchings are from this definition
-				if ($questionsMatchingCount[$id] == $used)
-				{
-					// increase the number of exclusive questions
-					$exclusive++;
-				}
-			}
-			if ($exclusive < $definition->getQuestionAmount())
-			{
-				$buildable = false;
-				$this->checkMessages[] = sprintf($lng->txt('tst_msg_rand_quest_set_pass_not_buildable_detail'),
-					$definition->getSequencePosition());
-			}
-		}
-		
-		// return $buildable;
-		
-		// keep old check for a while but messages will be created for the new check
-		$questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
-		if( $questionStage->isSmallerThan($this->sourcePoolDefinitionList->getQuestionAmount()) )
-		{
-			return false;
-		}
-		
-		return true;
-	}
-	// fau.
-	
+	/**
+	 * @return bool
+	 */
 	public function checkBuildable()
 	{
 		// hey: fixRandomTestBuildable - improved the buildable check improvement
 		return $this->checkBuildableNewer();
 		// hey.
-		
-		// fau: fixRandomTestBuildable - improved the check for buildable test
-		return $this->checkBuildableNew();
-		// fau.
 		
 		$questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
 

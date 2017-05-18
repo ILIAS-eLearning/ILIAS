@@ -2,13 +2,6 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Created by PhpStorm.
- * User: bheyser
- * Date: 08.05.17
- * Time: 12:20
- */
-
-/**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
  *
