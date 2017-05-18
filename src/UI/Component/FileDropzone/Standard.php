@@ -14,7 +14,7 @@
 
 namespace ILIAS\UI\Component\FileDropzone;
 
-interface Standard extends BasicFileDropzone {
+interface Standard extends FileDropzone {
 
 	/**
 	 * Clones this instance and sets the passed in argument on it.

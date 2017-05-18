@@ -1,6 +1,6 @@
 <?php
 /**
- * Class BasicFileDropzone
+ * Class FileDropzone
  *
  * Basic implementation for file dropzones. Provides functionality which are needed for all dropzones.
  *
@@ -13,11 +13,11 @@
 
 namespace ILIAS\UI\Implementation\Component\FileDropzone;
 
-use ILIAS\UI\Component\FileDropzone\BasicFileDropzone;
+use ILIAS\UI\Component\FileDropzone\FileDropzone;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
-abstract class BasicFileDropzoneImpl implements BasicFileDropzone {
+abstract class BasicFileDropzoneImpl implements FileDropzone {
 	use Triggerer;
 
 	const DROP_EVENT = "drop";

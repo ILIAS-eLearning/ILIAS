@@ -15,7 +15,7 @@ namespace ILIAS\UI\Component\FileDropzone;
 
 use ILIAS\UI\Component\Component;
 
-interface Wrapper extends BasicFileDropzone {
+interface Wrapper extends FileDropzone {
 
 	/**
 	 * Clones this instance and sets the passed in argument on it.
