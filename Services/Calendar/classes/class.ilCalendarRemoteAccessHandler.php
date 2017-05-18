@@ -33,6 +33,11 @@ include_once './Services/Calendar/classes/class.ilCalendarAuthenticationToken.ph
  */
 class ilCalendarRemoteAccessHandler
 {
+	/**
+	 * @var ilLogger
+	 */
+	private $logger = null;
+	
 	private $token_handler = null;	
 
 	/**
@@ -41,6 +46,7 @@ class ilCalendarRemoteAccessHandler
 	 */
 	public function __construct()
 	{
+		$this->logger = $GLOBALS['DIC']->logger()->cal();
 	}
 	
 	public function getTokenHandler()
@@ -84,15 +90,16 @@ class ilCalendarRemoteAccessHandler
 		include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
 		if($this->getTokenHandler()->getSelectionType() == ilCalendarAuthenticationToken::SELECTION_CALENDAR)
 		{
-			#$export = new ilCalendarExport(array($this->getTokenHandler()->getCalendar()));
 			$cats = ilCalendarCategories::_getInstance();
 			$cats->initialize(ilCalendarCategories::MODE_REMOTE_SELECTED, $this->getTokenHandler()->getCalendar());
+			$this->logger->dump($cats->getCategories(true), ilLogLevel::DEBUG);
 			$export = new ilCalendarExport($cats->getCategories(true));
 		}
 		else
 		{
 			$cats = ilCalendarCategories::_getInstance();
 			$cats->initialize(ilCalendarCategories::MODE_REMOTE_ACCESS);
+			$this->logger->dump($cats->getCategories(true), ilLogLevel::DEBUG);
 			$export = new ilCalendarExport($cats->getCategories(true));
 		}
 		
