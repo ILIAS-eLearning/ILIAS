@@ -103,7 +103,15 @@ class ilQtiMatImageSecurity
 
 			if( $declaredMimeType != $detectedMimeType )
 			{
-				return false;
+				// since ilias exports jpeg declared pngs itself, we skip this validation ^^
+				// return false;
+				
+				/* @var ilComponentLogger $log */
+				$log = $GLOBALS['DIC'] ? $GLOBALS['DIC']['ilLog'] : $GLOBALS['ilLog'];
+				$log->log(
+					'QPL: imported image with declared mime ('.$declaredMimeType.') '
+					.'and detected mime ('.$detectedMimeType.')'
+				);
 			}
 		}
 
