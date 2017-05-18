@@ -257,7 +257,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
 	
 	/**
 	 * @param ilLanguage $lng
-	 * @return array|string
+	 * @return string
 	 */
 	protected function buildIntersectionQuestionSharingDefinitionsString(ilLanguage $lng)
 	{

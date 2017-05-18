@@ -12,7 +12,7 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetQuestionCollecti
 class ilTestRandomQuestionCollectionSubsetApplication extends ilTestRandomQuestionSetQuestionCollection
 {
 	/**
-	 * @var integer|string
+	 * @var integer
 	 */
 	protected $applicantId;
 	
@@ -22,7 +22,7 @@ class ilTestRandomQuestionCollectionSubsetApplication extends ilTestRandomQuesti
 	protected $requiredAmount;
 	
 	/**
-	 * @return int|string
+	 * @return int
 	 */
 	public function getApplicantId()
 	{
@@ -30,7 +30,7 @@ class ilTestRandomQuestionCollectionSubsetApplication extends ilTestRandomQuesti
 	}
 	
 	/**
-	 * @param int|string $applicantId
+	 * @param int $applicantId
 	 */
 	public function setApplicantId($applicantId)
 	{

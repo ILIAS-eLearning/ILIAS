@@ -12,7 +12,7 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionCollectionSubsetApp
 class ilTestRandomQuestionCollectionSubsetApplicationList implements Iterator
 {
 	/**
-	 * @var array[ilTestRandomQuestionCollectionSubsetApplication]
+	 * @var ilTestRandomQuestionCollectionSubsetApplication[]
 	 */
 	protected $collectionSubsetApplications = array();
 	
@@ -44,7 +44,7 @@ class ilTestRandomQuestionCollectionSubsetApplicationList implements Iterator
 	}
 	
 	/**
-	 * @return array[ilTestRandomQuestionCollectionSubsetApplication]
+	 * @return ilTestRandomQuestionCollectionSubsetApplication[]
 	 */
 	public function getCollectionSubsetApplications()
 	{
@@ -60,7 +60,7 @@ class ilTestRandomQuestionCollectionSubsetApplicationList implements Iterator
 	}
 	
 	/**
-	 * @param array[ilTestRandomQuestionCollectionSubsetApplication] $collectionSubsetApplications
+	 * @param ilTestRandomQuestionCollectionSubsetApplication[] $collectionSubsetApplications
 	 */
 	public function setCollectionSubsetApplications($collectionSubsetApplications)
 	{
@@ -137,6 +137,9 @@ class ilTestRandomQuestionCollectionSubsetApplicationList implements Iterator
 		}
 	}
 	
+	/**
+	 * @return int
+	 */
 	public function getNonReservedQuestionAmount()
 	{
 		$availableQuestionCollection = new ilTestRandomQuestionSetQuestionCollection();
