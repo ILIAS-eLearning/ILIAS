@@ -336,4 +336,15 @@ interface Factory {
 	 **/
 	public function modal();
 
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: Layout elements
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Layout\Factory
+	 **/
+	public function layout();
+
 }
