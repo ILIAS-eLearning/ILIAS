@@ -8,10 +8,10 @@
  * @date    05.05.17
  * @version 0.0.8
  *
- * @package ILIAS\UI\Implementation\Component\FileDropzone
+ * @package ILIAS\UI\Implementation\Component\Dropzone
  */
 
-namespace ILIAS\UI\Implementation\Component\FileDropzone;
+namespace ILIAS\UI\Implementation\Component\Dropzone;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\DefaultRenderer;
@@ -30,8 +30,8 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function getComponentInterfaceName() {
 		return array(
-			\ILIAS\UI\Component\FileDropzone\Standard::class,
-			\ILIAS\UI\Component\FileDropzone\Wrapper::class
+			\ILIAS\UI\Component\Dropzone\Standard::class,
+			\ILIAS\UI\Component\Dropzone\Wrapper::class
 		);
 	}
 
@@ -44,11 +44,11 @@ class Renderer extends AbstractComponentRenderer {
 
 		$this->renderer = $default_renderer;
 
-		if ($component instanceof \ILIAS\UI\Component\FileDropzone\Wrapper) {
+		if ($component instanceof \ILIAS\UI\Component\Dropzone\Wrapper) {
 			return $this->renderWrapperDropzone($component);
 		}
 
-		if ($component instanceof \ILIAS\UI\Component\FileDropzone\Standard) {
+		if ($component instanceof \ILIAS\UI\Component\Dropzone\Standard) {
 			return $this->renderStandardDropzone($component);
 		}
 	}
@@ -59,19 +59,19 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
-		$registry->register("./src/UI/templates/js/FileDropzone/dropzone-behavior.js");
-		$registry->register("./src/UI/templates/js/FileDropzone/jquery.dragster.js");
+		$registry->register("./src/UI/templates/js/Dropzone/dropzone-behavior.js");
+		$registry->register("./src/UI/templates/js/Dropzone/jquery.dragster.js");
 	}
 
 
 	/**
 	 * Renders the passed in standerd dropzone.
 	 *
-	 * @param \ILIAS\UI\Component\FileDropzone\Standard $standardDropzone the dropzone to render
+	 * @param \ILIAS\UI\Component\Dropzone\Standard $standardDropzone the dropzone to render
 	 *
 	 * @return string the html representation of the passed in argument.
 	 */
-	private function renderStandardDropzone(\ILIAS\UI\Component\FileDropzone\Standard $standardDropzone) {
+	private function renderStandardDropzone(\ILIAS\UI\Component\Dropzone\Standard $standardDropzone) {
 
 		$dropzoneId = $this->createId();
 
@@ -104,11 +104,11 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * Renders the passed in wrapper dropzone.
 	 *
-	 * @param \ILIAS\UI\Component\FileDropzone\Wrapper $wrapperDropzone the dropzone to render
+	 * @param \ILIAS\UI\Component\Dropzone\Wrapper $wrapperDropzone the dropzone to render
 	 *
 	 * @return string the html representation of the passed in argument.
 	 */
-	private function renderWrapperDropzone(\ILIAS\UI\Component\FileDropzone\Wrapper $wrapperDropzone) {
+	private function renderWrapperDropzone(\ILIAS\UI\Component\Dropzone\Wrapper $wrapperDropzone) {
 
 		$dropzoneId = $this->createId();
 

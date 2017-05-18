@@ -8,12 +8,12 @@
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    09.05.17
- * @version 0.0.5
+ * @version 0.0.6
  *
- * @package ILIAS\UI\Implementation\Component\FileDropzone
+ * @package ILIAS\UI\Implementation\Component\Dropzone
  */
 
-namespace ILIAS\UI\Implementation\Component\FileDropzone;
+namespace ILIAS\UI\Implementation\Component\Dropzone;
 
 class JavascriptHelper {
 

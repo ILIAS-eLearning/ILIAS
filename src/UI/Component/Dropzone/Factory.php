@@ -8,10 +8,10 @@
  * @date    05.05.17
  * @version 0.0.1
  *
- * @package ILIAS\UI\Component\FileDropzone
+ * @package ILIAS\UI\Component\Dropzone
  */
 
-namespace ILIAS\UI\Component\FileDropzone;
+namespace ILIAS\UI\Component\Dropzone;
 
 use ILIAS\UI\Component\Component;
 
@@ -26,7 +26,7 @@ interface Factory {
 	 *   composition: >
 	 *      The standard dropzone highlights with a bright yellow on drag enter.
 	 *   effect: >
-	 *      If the darkend background is set to true, every FileDropzone on the page will be highlighted.
+	 *      If the darkend background is set to true, every Dropzone on the page will be highlighted.
 	 *      On file drop event, this dropzones triggers all registered signals with the event data.
 	 *   rivals:
 	 *     Rival 1: A wrapper dropzone can hold other ILIAS UI components instead of a message.
@@ -44,7 +44,7 @@ interface Factory {
 	 *
 	 * ---
 	 *
-	 * @return \ILIAS\UI\Component\FileDropzone\Standard
+	 * @return \ILIAS\UI\Component\Dropzone\Standard
 	 */
 	public function standard();
 
@@ -58,7 +58,7 @@ interface Factory {
 	 *   composition: >
 	 *      The wrapper dropzone uses the darkend background by default and is not visible before the drag enter event.
 	 *   effect: >
-	 *      Every FileDropzone on the page will be highlighted on dragenter on the html document by the user.
+	 *      Every Dropzone on the page will be highlighted on dragenter on the html document by the user.
 	 *      If a page contains two or more wrapper dropzones, the setting for the darkend background
 	 *      of the last rendered dropzone will be used.
 	 *   rivals:
@@ -83,7 +83,7 @@ interface Factory {
 	 *
 	 * @param Component[]|Component $content an array or a single instance of ILIAS UI components
 	 *
-	 * @return \ILIAS\UI\Component\FileDropzone\Wrapper
+	 * @return \ILIAS\UI\Component\Dropzone\Wrapper
 	 */
 	public function wrapper($content);
 

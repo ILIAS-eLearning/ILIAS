@@ -8,14 +8,14 @@
  * @date    05.05.17
  * @version 0.0.1
  *
- * @package ILIAS\UI\Component\FileDropzone
+ * @package ILIAS\UI\Component\Dropzone
  */
 
-namespace ILIAS\UI\Component\FileDropzone;
+namespace ILIAS\UI\Component\Dropzone;
 
 use ILIAS\UI\Component\Component;
 
-interface Wrapper extends FileDropzone {
+interface Wrapper extends Dropzone {
 
 	/**
 	 * Clones this instance and sets the passed in argument on it.

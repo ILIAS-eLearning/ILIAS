@@ -1,23 +1,22 @@
 <?php
 /**
- * Class FileDropzone
+ * Class Dropzone
  *
- * Basic implementation for file dropzones. Provides functionality which are needed for all dropzones.
+ * Basic implementation for dropzones. Provides functionality which are needed for all dropzones.
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    05.05.17
- * @version 0.0.2
+ * @version 0.0.3
  *
- * @package ILIAS\UI\Implementation\Component\FileDropzone
+ * @package ILIAS\UI\Implementation\Component\Dropzone
  */
 
-namespace ILIAS\UI\Implementation\Component\FileDropzone;
+namespace ILIAS\UI\Implementation\Component\Dropzone;
 
-use ILIAS\UI\Component\FileDropzone\FileDropzone;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
-abstract class BasicFileDropzoneImpl implements FileDropzone {
+abstract class Dropzone implements \ILIAS\UI\Component\Dropzone\Dropzone {
 	use Triggerer;
 
 	const DROP_EVENT = "drop";

@@ -6,14 +6,14 @@
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    05.05.17
- * @version 0.0.2
+ * @version 0.0.3
  *
- * @package ILIAS\UI\Implementation\Component\FileDropzone
+ * @package ILIAS\UI\Implementation\Component\Dropzone
  */
 
-namespace ILIAS\UI\Implementation\Component\FileDropzone;
+namespace ILIAS\UI\Implementation\Component\Dropzone;
 
-class Factory implements \ILIAS\UI\Component\FileDropzone\Factory {
+class Factory implements \ILIAS\UI\Component\Dropzone\Factory {
 
 	/**
 	 * @inheritDoc
