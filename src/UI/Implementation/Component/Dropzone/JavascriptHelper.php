@@ -74,7 +74,7 @@ class JavascriptHelper {
 	public function initializeWrapperDropzone() {
 		return "
 		
-			{$this->configureDarkendDesign()}
+			{$this->configureDarkenedDesign()}
 		
 			$(document).dragster({
 			
@@ -122,7 +122,7 @@ class JavascriptHelper {
 		if ($this->simpleDropzone->isUseAutoHighlight()) {
 			return "il.UI.dropzone.enableAutoDesign()";
 		}
-		return "il.UI.dropzone.enableHighlightDesign({$this->simpleDropzone->isDarkendBackground()});";
+		return "il.UI.dropzone.enableHighlightDesign({$this->simpleDropzone->isDarkenedBackground()});";
 	}
 
 	/**
@@ -153,8 +153,8 @@ class JavascriptHelper {
 	/**
 	 * @return string The javascript code to configure the darkend background.
 	 */
-	private function configureDarkendDesign() {
-		return "il.UI.dropzone.setDarkendDesign({$this->simpleDropzone->isDarkendBackground()})";
+	private function configureDarkenedDesign() {
+		return "il.UI.dropzone.setDarkenedDesign({$this->simpleDropzone->isDarkenedBackground()})";
 	}
 
 

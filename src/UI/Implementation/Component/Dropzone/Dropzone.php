@@ -21,14 +21,14 @@ abstract class Dropzone implements \ILIAS\UI\Component\Dropzone\Dropzone {
 
 	const DROP_EVENT = "drop";
 
-	protected $darkendBackground = false;
+	protected $darkenedBackground = false;
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withDarkendBackground($useDarkendBackground) {
+	public function withDarkenedBackground($useDarkenedBackground) {
 		$clonedFileDropzone = clone $this;
-		$clonedFileDropzone->darkendBackground = $useDarkendBackground;
+		$clonedFileDropzone->darkenedBackground = $useDarkenedBackground;
 		return $clonedFileDropzone;
 	}
 
@@ -36,8 +36,8 @@ abstract class Dropzone implements \ILIAS\UI\Component\Dropzone\Dropzone {
 	/**
 	 * @inheritDoc
 	 */
-	public function isDarkendBackground() {
-		return $this->darkendBackground;
+	public function isDarkenedBackground() {
+		return $this->darkenedBackground;
 	}
 
 

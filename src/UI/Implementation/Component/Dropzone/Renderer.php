@@ -79,7 +79,7 @@ class Renderer extends AbstractComponentRenderer {
 		$jsHelper = new JavascriptHelper(
 			SimpleDropzone::of()
 				->setId($dropzoneId)
-				->setDarkendBackground($standardDropzone->isDarkendBackground())
+				->setDarkenedBackground($standardDropzone->isDarkenedBackground())
 				->setRegisteredSignals($standardDropzone->getTriggeredSignals())
 				->setUseAutoHighlight(false));
 
@@ -116,7 +116,7 @@ class Renderer extends AbstractComponentRenderer {
 		$jsHelper = new JavascriptHelper(
 			SimpleDropzone::of()
 				->setId($dropzoneId)
-				->setDarkendBackground($wrapperDropzone->isDarkendBackground())
+				->setDarkenedBackground($wrapperDropzone->isDarkenedBackground())
 				->setRegisteredSignals($wrapperDropzone->getTriggeredSignals())
 				->setUseAutoHighlight(true));
 

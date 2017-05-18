@@ -26,7 +26,7 @@ interface Factory {
 	 *   composition: >
 	 *      The standard dropzone highlights with a bright yellow on drag enter.
 	 *   effect: >
-	 *      If the darkend background is set to true, every Dropzone on the page will be highlighted.
+	 *      If the darkened background is set to true, every Dropzone on the page will be highlighted.
 	 *      On file drop event, this dropzones triggers all registered signals with the event data.
 	 *   rivals:
 	 *     Rival 1: A wrapper dropzone can hold other ILIAS UI components instead of a message.
@@ -56,10 +56,10 @@ interface Factory {
 	 *      The wrapper dropzone is used to display other ILIAS UI components
 	 *      inside the dropzone.
 	 *   composition: >
-	 *      The wrapper dropzone uses the darkend background by default and is not visible before the drag enter event.
+	 *      The wrapper dropzone uses the darkened background by default and is not visible before the drag enter event.
 	 *   effect: >
 	 *      Every Dropzone on the page will be highlighted on dragenter on the html document by the user.
-	 *      If a page contains two or more wrapper dropzones, the setting for the darkend background
+	 *      If a page contains two or more wrapper dropzones, the setting for the darkened background
 	 *      of the last rendered dropzone will be used.
 	 *   rivals:
 	 *     Rival 1: A standard dropzone can display a message instead of other ILIAS UI components.
