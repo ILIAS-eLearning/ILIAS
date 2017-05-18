@@ -45,7 +45,7 @@ abstract class Dropzone implements \ILIAS\UI\Component\Dropzone\Dropzone {
 	 * @inheritDoc
 	 */
 	public function withOnDrop(Signal $signal) {
-		$this->addTriggeredSignal($signal, self::DROP_EVENT);
+		return $this->addTriggeredSignal($signal, self::DROP_EVENT);
 	}
 
 
@@ -53,6 +53,6 @@ abstract class Dropzone implements \ILIAS\UI\Component\Dropzone\Dropzone {
 	 * @inheritDoc
 	 */
 	public function appendOnDrop(Signal $signal) {
-		$this->appendTriggeredSignal($signal, self::DROP_EVENT);
+		return $this->appendTriggeredSignal($signal, self::DROP_EVENT);
 	}
 }
