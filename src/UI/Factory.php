@@ -360,4 +360,24 @@ interface Factory {
 	 */
 	public function popover($title, $content);
 
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Progress bars are used to display any ongoing progress.
+	 *   composition: >
+	 *     Progress bars either consist of a percentage or do not display any specific progress (if a percentage is not available).
+	 * rules:
+	 *   usage:
+	 *     1: The percentage MUST be an integer value.
+	 * context: >
+	 * ---
+	 *
+	 * @param $percentage int|null
+	 *
+	 * @return Component\Progressbar\Progressbar
+	 */
+	public function progressbar($percentage);
+
 }

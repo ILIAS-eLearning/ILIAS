@@ -1132,6 +1132,9 @@ class ilMainMenuGUI
 		$glyph = $factory->glyph()->add();
 		$button = $factory->button()->standard('Background Tasks', '#')
 			->withOnClick($popover->getShowSignal());
+
+		$button = $button->withOnClick($popover->get)
+
 		$this->tpl->setVariable('BACKGROUNDTASKS',
 			"<li>".$DIC->ui()->renderer()->render([$button, $popover]).'</li>');
 	}

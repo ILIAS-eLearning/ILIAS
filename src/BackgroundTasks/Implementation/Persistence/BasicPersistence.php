@@ -298,6 +298,8 @@ class BasicPersistence implements Persistence {
 			return self::$buckets[$bucket_id];
 		/** @var BucketContainer $bucketContainer */
 		$bucketContainer = BucketContainer::find($bucket_id);
+		if(!$bucketContainer)
+			throw new BucketNotFoundException("The requested bucket with container id $bucket_id could not be found in the database.");
 		$bucket = new BasicBucket();
 
 		$bucket->setUserId($bucketContainer->getUserId());

@@ -57,10 +57,12 @@ class ilBTPopOverGUI {
 	}
 
 	public function getDefaultCardContent(Bucket $observer) {
+		global $DIC;
+		$running = $observer->getState() == State::RUNNING;
 		return $this->uiFactory->listing()->descriptive(
 			[
 				"State" => $this->translateState($observer->getState(), $this->lng),
-				"Percentage" => (string) $observer->getOverallPercentage()
+				"Percentage" => $DIC->ui()->factory()->progressbar($observer->getOverallPercentage(), $running)
 			]
 		);
 	}

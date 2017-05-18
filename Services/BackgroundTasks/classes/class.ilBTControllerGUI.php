@@ -29,6 +29,8 @@ class ilBTControllerGUI {
 	protected function performCommand() {
 		$cmd = $this->ctrl->getCmd();
 		switch ($cmd) {
+			//TODO: Permissions!
+			case 'userInteraction':
 			case 'userInteraction':
 				$this->$cmd();
 		}
@@ -46,5 +48,15 @@ class ilBTControllerGUI {
 		$DIC->backgroundTasks()->taskManager()->continueTask($observer, $option);
 
 		ilUtil::redirect($from_url);
+	}
+
+	protected function getPopoverContent() {
+		global $DIC;
+
+		/** @var ilBTPopOverGUI $gui */
+		$gui = $DIC->injector()->createInstance(ilBTPopOverGUI::class);
+		$html = $DIC->ui()->renderer()->render($gui->getPopOverContent($DIC->user()->getId()));
+
+		echo $html;
 	}
 }

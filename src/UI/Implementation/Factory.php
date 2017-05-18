@@ -95,4 +95,13 @@ class Factory implements \ILIAS\UI\Factory
 	public function popover($title, $content) {
 		return new Component\Popover\Popover($title, $content, new SignalGenerator());
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function progressbar($percentage = NULL, $active = true)
+	{
+		return new Component\Progressbar\Progressbar($percentage, $active);
+	}
+
 }
