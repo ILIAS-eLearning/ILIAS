@@ -60,7 +60,7 @@ class Renderer extends AbstractComponentRenderer {
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
 		$registry->register("./src/UI/templates/js/Dropzone/dropzone-behavior.js");
-		$registry->register("./src/UI/templates/js/Dropzone/jquery.dragster.js");
+		$registry->register("./src/UI/templates/js/libs/jquery.dragster.js");
 	}
 
 
