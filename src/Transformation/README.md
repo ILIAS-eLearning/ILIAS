@@ -1,14 +1,14 @@
  # Transformations
 
-This service abstracts transformations between datatypes and provides some basic
-transformations to be reused throughout the system. These transformations SHOULD
-be added to the Factory in this library.
+This service abstracts transformations between types and structure of data and
+provides some basic transformations to be reused throughout the system. These
+transformations SHOULD be added to the Factory in this library.
 
-A transformation is a function from one datatype to another. It MUST NOT perform
-any sideeffects, i.e. it must be morally impossible to observe how often the
-transformation was actually performed. It MUST NOT touch the provided value, i.e.
-it is allowed to create new values but not to modify existing values. This would
-be an observable sideeffect.
+A transformation is a function from one type or structure of data to another.
+It MUST NOT perform any sideeffects, i.e. it must be morally impossible to observe
+how often the transformation was actually performed. It MUST NOT touch the provided
+value, i.e. it is allowed to create new values but not to modify existing values.
+This would be an observable sideeffect.
 
 The actual usage of this interface is quite boring, but we could typehint on
 `Transformation` to announce we indeed want some function having the aforementioned
