@@ -190,16 +190,16 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	public function getPostUpdateUserName($user_lang)
 	{
 		// GET AUTHOR OF UPDATED POST
-		if($this->objPost->getPostUpdateUserId() > 0)
+		if($this->objPost->getUpdateUserId() > 0)
 		{
-			$this->post_user_name = ilObjUser::_lookupLogin($this->objPost->getPostUpdateUserId());
+			$this->post_user_name = ilObjUser::_lookupLogin($this->objPost->getUpdateUserId());
 		}
 		
-		if($this->objPost->getPosDisplayUserId() == 0 && $this->objPost->getPosAuthorId() == $this->objPost->getPostUpdateUserId())
+		if($this->objPost->getDisplayUserId() == 0 && $this->objPost->getPosAuthorId() == $this->objPost->getUpdateUserId())
 		{
-			if(strlen($this->objPost->getPosUserAlias()))
+			if(strlen($this->objPost->getUserAlias()))
 			{
-				$this->post_user_name = $this->objPost->getPosUserAlias() . ' (' . $user_lang->txt('frm_pseudonym') . ')';
+				$this->post_user_name = $this->objPost->getUserAlias() . ' (' . $user_lang->txt('frm_pseudonym') . ')';
 			}
 			
 			if($this->post_user_name == '')
