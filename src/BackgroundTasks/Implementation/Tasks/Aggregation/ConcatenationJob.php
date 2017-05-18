@@ -6,6 +6,7 @@ namespace ILIAS\BackgroundTasks\Implementation\Tasks\Aggregation;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\ScalarValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
+use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\ValueType;
@@ -17,8 +18,9 @@ class ConcatenationJob extends AbstractJob {
 
 	/**
 	 * @param \ILIAS\BackgroundTasks\Value[] $input
-	 * @param Observer $observer Notify the observer about your progress!
-	 * @return StringValue
+	 * @param Observer                         $observer Notify the bucket about your progress!
+	 *
+*@return StringValue
 	 */
 	public function run(Array $input, Observer $observer) {
 		/** @var ScalarValue[] $list */

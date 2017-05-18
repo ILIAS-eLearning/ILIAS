@@ -4,13 +4,13 @@ namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 use ILIAS\BackgroundTasks\Exceptions\SerializationException;
 use ILIAS\BackgroundTasks\Implementation\BasicTaskManager;
-use ILIAS\BackgroundTasks\Implementation\Observer\BasicObserver;
-use ILIAS\BackgroundTasks\Implementation\Observer\State;
+use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Tasks\DownloadInteger;
 use ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionRequiredException;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
-use ILIAS\BackgroundTasks\Observer;
+use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\DI\Container;
 use ILIAS\DI\DependencyMap\BaseDependencyMap;
@@ -31,7 +31,7 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 
 	use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-	/** @var  Observer */
+	/** @var  Bucket */
 	protected $observer;
 
 	/** @var  BasicPersistence */
@@ -39,14 +39,14 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp() {
 		$dic = new Container();
-		$dic[Observer::class] = function ($c) {
-			return new BasicObserver();
+		$dic[Bucket::class] = function ($c) {
+			return new BasicBucket();
 		};
 
 		$factory = new Injector($dic, new BaseDependencyMap());
 		$this->persistence = BasicPersistence::instance();
 
-		$observer = new BasicObserver(Mockery::mock(Persistence::class));
+		$observer = new BasicBucket(Mockery::mock(Persistence::class));
 		$observer->setUserId(3);
 		$observer->setState(State::SCHEDULED);
 
@@ -83,7 +83,7 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 		/** @var \arConnector $valueToTaskConnector */
 		$valueToTaskConnector = Mockery::namedMock("valueToTaskConnectorMock", \arConnector::class);
 
-		\arConnectorMap::register(new ObserverContainer(), $observerConnector);
+		\arConnectorMap::register(new BucketContainer(), $observerConnector);
 		\arConnectorMap::register(new ValueContainer(), $valueConnector);
 		\arConnectorMap::register(new TaskContainer(), $taskConnector);
 		\arConnectorMap::register(new ValueToTaskContainer(), $valueToTaskConnector);
@@ -119,14 +119,14 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 		$valueToTaskConnector->shouldReceive("create")->time(7);
 
 		$this->persistence->setConnector($observerConnector);
-		$this->persistence->saveObserverAndItsTasks($this->observer);
+		$this->persistence->saveBucketAndItsTasks($this->observer);
 	}
 
 	public function testCannotUpdateUnknownObserver() {
 		// We have an unknown observer, we can't update it.
 		$this->setExpectedException(SerializationException::class);
 
-		$this->persistence->updateObserver($this->observer);
+		$this->persistence->updateBucket($this->observer);
 	}
 
 	public function testUpdateObserver() {
@@ -135,25 +135,25 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 		/** @var \arConnector $observerConnector */
 		$observerConnector = Mockery::namedMock("observerConnectorMock", \arConnector::class);
 
-		\arConnectorMap::register(new ObserverContainer(), $observerConnector);
+		\arConnectorMap::register(new BucketContainer(), $observerConnector);
 
 		// Observer is updated after tasks are added.
 		$observerConnector->shouldReceive("read")->once()->andReturn(1);
 		$observerConnector->shouldReceive("update")->once()->andReturn(true);
 
 		$this->persistence->setConnector($observerConnector);
-		$this->persistence->updateObserver($this->observer);
+		$this->persistence->updateBucket($this->observer);
 	}
 
 	public function testGetObserverIdsOfUser() {
 		/** @var \arConnector $observerConnector */
 		$observerConnector = Mockery::namedMock("observerConnectorMock", \arConnector::class);
 
-		\arConnectorMap::register(new ObserverContainer(), $observerConnector);
+		\arConnectorMap::register(new BucketContainer(), $observerConnector);
 		$observerConnector->shouldReceive("readSet")->once()->andReturn([["id" => 2], ["id" => 3]]);
 
 		$this->persistence->setConnector($observerConnector);
-		$observer_ids = $this->persistence->getObserverIdsOfUser(5);
+		$observer_ids = $this->persistence->getBucketIdsOfUser(5);
 		$this->assertEquals($observer_ids, [2 => 2, 3 => 3]);
 	}
 
@@ -161,11 +161,11 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 		/** @var \arConnector $observerConnector */
 		$observerConnector = Mockery::namedMock("observerConnectorMock", \arConnector::class);
 
-		\arConnectorMap::register(new ObserverContainer(), $observerConnector);
+		\arConnectorMap::register(new BucketContainer(), $observerConnector);
 		$observerConnector->shouldReceive("readSet")->once()->andReturn([["id" => 2], ["id" => 3]]);
 
 		$this->persistence->setConnector($observerConnector);
-		$observer_ids = $this->persistence->getObserverIdsByState(State::RUNNING);
+		$observer_ids = $this->persistence->getBucketIdsByState(State::RUNNING);
 		$this->assertEquals($observer_ids, [2 => 2, 3 => 3]);
 	}
 

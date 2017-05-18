@@ -1118,14 +1118,22 @@ class ilMainMenuGUI
 	protected function renderBackgroundTasks()
 	{
 		global $DIC;
+		$factory = $DIC->ui()->factory();
+		$persistence = $DIC->backgroundTasks()->persistence();
+		if(!count($persistence->getBucketIdsOfUser($DIC->user()->getId())))
+			return;
 		require_once("./Services/BackgroundTasks/classes/class.ilBTPopOverGUI.php");
 
 		/** @var ilBTPopOverGUI $popoverGUI */
 		$popoverGUI = $DIC->injector()->createInstance(ilBTPopOverGUI::class);
-		$popoverContent = $popoverGUI->getPopOverContent($DIC->user()->getId());
 
+		$popoverContent = $popoverGUI->getPopOverContent($DIC->user()->getId());
+		$popover = $factory->popover('Background Tasks', $popoverContent);
+		$glyph = $factory->glyph()->add();
+		$button = $factory->button()->standard('Background Tasks', '#')
+			->withOnClick($popover->getShowSignal());
 		$this->tpl->setVariable('BACKGROUNDTASKS',
-			"<li>".$DIC->ui()->renderer()->render($popoverContent).'</li>');
+			"<li>".$DIC->ui()->renderer()->render([$button, $popover]).'</li>');
 	}
 }
 

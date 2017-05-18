@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\BackgroundTasks\Implementation\BasicTaskManager;
 use ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory;
 use ILIAS\DI\DependencyMap\BaseDependencyMap;
 use ILIAS\DI\Injector;
@@ -1566,6 +1567,10 @@ class ilInitialisation
 
 		$c["bt.persistence"]  = function ($c) {
 			return new \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence();
+		};
+
+		$c["bt.task_manager"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager($c["bt.persistence"]);
 		};
 	}
 

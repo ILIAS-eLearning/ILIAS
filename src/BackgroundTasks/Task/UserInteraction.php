@@ -4,7 +4,7 @@ namespace ILIAS\BackgroundTasks\Task;
 
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Value;
-use ILIAS\BackgroundTasks\Observer;
+use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Task;
 
 /**
@@ -12,8 +12,7 @@ use ILIAS\BackgroundTasks\Task;
  *
  * @package ILIAS\BackgroundTasks\Task
  *
- *          A Task in the Bucket, which will need some User-Interaction before running the task. A
- *          User-Interaction is provided as
+ *          A Task in the Bucket, which will need some User-Interaction before running the task.
  */
 interface UserInteraction extends Task {
 
@@ -25,10 +24,11 @@ interface UserInteraction extends Task {
 
 
 	/**
-	 * @param \ILIAS\BackgroundTasks\Value[] $input The input value of this task.
-	 * @param Option $user_selected_option The Option the user chose.
-	 * @param Observer $observer Notify the observer about your progress!
-	 * @return Value
+	 * @param \ILIAS\BackgroundTasks\Value[] $input                The input value of this task.
+	 * @param Option                         $user_selected_option The Option the user chose.
+	 * @param Bucket                         $bucket               Notify the bucket about your progress!
+	 *
+*@return Value
 	 */
-	public function interaction(Array $input, Option $user_selected_option, Observer $observer);
+	public function interaction(Array $input, Option $user_selected_option, Bucket $bucket);
 }

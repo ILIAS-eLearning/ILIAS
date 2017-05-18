@@ -2,7 +2,7 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\UI;
 
-use ILIAS\BackgroundTasks\Implementation\Observer\State;
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 
 /**
  * Class StateTranslator

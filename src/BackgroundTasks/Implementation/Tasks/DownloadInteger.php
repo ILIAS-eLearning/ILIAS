@@ -6,7 +6,7 @@ use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOp
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Value;
-use ILIAS\BackgroundTasks\Observer;
+use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\Types\SingleType;
 use ILIAS\Types\Type;
 
@@ -25,12 +25,13 @@ class DownloadInteger extends AbstractUserInteraction {
 	}
 
 	/**
-	 * @param array $input The input value of this task.
+	 * @param array  $input                The input value of this task.
 	 * @param Option $user_selected_option The Option the user chose.
-	 * @param Observer $observer Notify the observer about your progress!
-	 * @return Value
+	 * @param Bucket $bucket               Notify the bucket about your progress!
+	 *
+*@return Value
 	 */
-	public function interaction(Array $input, Option $user_selected_option, Observer $observer) {
+	public function interaction(Array $input, Option $user_selected_option, Bucket $bucket) {
 		/** @var IntegerValue $a */
 		$integerValue = $input[0];
 

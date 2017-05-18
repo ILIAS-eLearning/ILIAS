@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\BackgroundTasks\Implementation\Observer;
+namespace ILIAS\BackgroundTasks\Implementation\Bucket;
 
 class State {
 

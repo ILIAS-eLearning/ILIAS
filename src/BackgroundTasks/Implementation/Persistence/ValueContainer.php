@@ -87,7 +87,7 @@ class ValueContainer extends \ActiveRecord {
 	 * @con_fieldtype  integer
 	 * @con_length     8
 	 */
-	protected $observer_id;
+	protected $bucket_id;
 
 	/**
 	 * @return int
@@ -207,15 +207,15 @@ class ValueContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getObserverId(): int {
-		return $this->observer_id;
+	public function getBucketId(): int {
+		return $this->bucket_id;
 	}
 
 
 	/**
-	 * @param int $observer_id
+	 * @param int $bucket_id
 	 */
-	public function setObserverId(int $observer_id) {
-		$this->observer_id = $observer_id;
+	public function setBucketId(int $bucket_id) {
+		$this->bucket_id = $bucket_id;
 	}
 }

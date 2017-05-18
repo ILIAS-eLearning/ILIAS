@@ -18,7 +18,8 @@ interface Job extends Task {
 
 	/**
 	 * @param \ILIAS\BackgroundTasks\Value[] $input
-	 * @param Observer $observer Notify the observer about your progress!
+	 * @param Observer                $observer Notify the bucket about your progress!
+	 *
 	 * @return Value
 	 */
 	public function run(Array $input, Observer $observer);

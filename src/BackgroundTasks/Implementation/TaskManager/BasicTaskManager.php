@@ -1,12 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace ILIAS\BackgroundTasks\Implementation;
+namespace ILIAS\BackgroundTasks\Implementation\TaskManager;
 
 use ILIAS\BackgroundTasks\Exceptions\Exception;
-use ILIAS\BackgroundTasks\Implementation\Observer\State;
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionRequiredException;
 use ILIAS\BackgroundTasks\Implementation\Values\ThunkValue;
+use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\BackgroundTasks\Task;
@@ -23,9 +24,9 @@ use ILIAS\BackgroundTasks\Value;
  * Basic Task manager. Will execute tasks immediately.
  *
  * Some important infos:
- *         - The observer and its tasks are not saved into the db upon execution
+ *         - The bucket and its tasks are not saved into the db upon execution
  *         - The percentage and current task are not updated during execution.
- *         - The observer and its tasks inkl. percentage and current task are only saved into the DB when a user interaction occurs.
+ *         - The bucket and its tasks inkl. percentage and current task are only saved into the DB when a user interaction occurs.
  *
  */
 class BasicTaskManager implements TaskManager {
@@ -41,9 +42,10 @@ class BasicTaskManager implements TaskManager {
 
 
 	/**
-	 * @param Task $task
+	 * @param Task   $task
 	 * @param Observer $observer
-	 * @return Value
+	 *
+*@return Value
 	 * @throws Exception
 	 */
 	function executeTask(Task $task, Observer $observer) {
@@ -67,7 +69,7 @@ class BasicTaskManager implements TaskManager {
 		if(is_a($task, Task\Job::class)) {
 			/** @var Task\Job $job */
 			$job = $task;
-			$observer->setCurrentTask($job);
+			$observer->notifyCurrentTask($job);
 			$value = $job->run($final_values, $observer);
 			$observer->notifyPercentage($job, 100);
 			return $value;
@@ -76,7 +78,7 @@ class BasicTaskManager implements TaskManager {
 		if(is_a($task, Task\UserInteraction::class)) {
 			/** @var Task\UserInteraction $userInteraction */
 			$userInteraction = $task;
-			$observer->setCurrentTask($userInteraction);
+			$observer->notifyCurrentTask($userInteraction);
 			$observer->notifyState(State::USER_INTERACTION);
 			throw new UserInteractionRequiredException("User interaction required.");
 		}
@@ -88,21 +90,22 @@ class BasicTaskManager implements TaskManager {
 	/**
 	 * This will add an Observer of the Task and start running the task.
 	 *
-	 * @param Observer $observer
+	 * @param Bucket $bucket
 	 *
 	 * @return mixed|void
 	 * @throws \Exception
 	 *
 	 */
-	public function run(Observer $observer) {
-		$task = $observer->getTask();
+	public function run(Bucket $bucket) {
+		$task = $bucket->getTask();
+		$observer = new NonPersistingObserver($bucket);
 
 		try {
 			$this->executeTask($task, $observer);
-			$observer->notifyState(State::FINISHED);
+			$bucket->setState(State::FINISHED);
 		} catch (UserInteractionRequiredException $e) {
 			// We're okay!
-			$this->persistence->saveObserverAndItsTasks($observer);
+			$this->persistence->saveBucketAndItsTasks($bucket);
 		} catch (\Exception $e) {
 			// As we are Synchronous execution we rethrow the error for the caller to handle.
 			throw $e;
@@ -113,20 +116,19 @@ class BasicTaskManager implements TaskManager {
 	/**
 	 * Continue a task with a given option.
 	 *
-	 * @param Observer $observer
-	 * @param Option   $option
+	 * @param Bucket $bucket
+	 * @param Option $option
 	 *
 	 * @return mixed
 	 */
-	public function continueTask(Observer $observer, Option $option) {
+	public function continueTask(Bucket $bucket, Option $option) {
 		// We do the user interaction
-		$observer->userInteraction($option);
-		if($observer->getState() != State::FINISHED)
+		$bucket->userInteraction($option);
+		if($bucket->getState() != State::FINISHED)
 			// The job is not done after the user interaction, so we continue to run it.
-			$this->run($observer);
+			$this->run($bucket);
 		else {
-			//TODO cleanup.
-			echo "TODO.";
+			$this->persistence->deleteBucket($bucket);
 		}
 	}
 }

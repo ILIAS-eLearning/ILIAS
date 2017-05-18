@@ -35,6 +35,8 @@ class BasicTaskFactory implements TaskFactory {
 		}
 		if($input){
 			$wrappedInput = array_map(function($i) {
+				if ($i instanceof Task)
+					return $i->getOutput();
 				if ($i instanceof Value)
 					return $i;
 				return $this->wrapValue($i);

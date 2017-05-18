@@ -7,59 +7,80 @@
  */
 namespace ILIAS\BackgroundTasks;
 
-use ILIAS\BackgroundTasks\Implementation\Observer\State;
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 
 interface Persistence {
 
 	/**
-	 * @param Observer $observer The observer you want to save.
+	 * @param Bucket $bucket The bucket you want to save.
 	 */
-	public function saveObserverAndItsTasks(Observer $observer);
+	public function saveBucketAndItsTasks(Bucket $bucket);
 
 
 	/**
 	 * @param int $user_id
 	 *
-	 * @return \int[] Returns an array of observer ids for the given user Id.
+	 * @return \int[] Returns an array of bucket ids for the given user Id.
 	 */
-	public function getObserverIdsOfUser(int $user_id);
+	public function getBucketIdsOfUser(int $user_id);
 
 
 	/**
-	 * @param $state State
+	 * @param $state int
 	 *
-	 * @return int[] Returns a list of observer ids for the given Observer State
+	 * @return int[] Returns a list of bucket ids for the given Observer State
 	 */
-	public function getObserverIdsByState($state);
+	public function getBucketIdsByState($state);
 
 
 	/**
-	 * @param int $observer_id
+	 * @param int $bucket_container_id
 	 *
-	 * @return Observer
+	 * @return Bucket
+	 *
 	 */
-	public function loadObserver(int $observer_id);
+	public function loadBucket(int $bucket_container_id);
+
 
 	/**
-	 * @param int[] $observer_ids
+	 * @param $bucket_container_id
 	 *
-	 * @return Observer[]
+	 * @return Bucket[]
+	 *
 	 */
-	public function loadObservers($observer_ids);
+	public function loadBuckets($bucket_container_id);
 
 	/**
 	 * Deletes the Observer AND all its tasks and values.
 	 *
-	 * @param $observer_id int
+	 * @param $bucket_id int
 	 *
 	 * @return void
 	 */
-	public function deleteObserver($observer_id);
+	public function deleteBucketById($bucket_id);
+
 
 	/**
-	 * Updates only the observer! Use this if e.g. the percentage or the current task changes.
+	 * Delete the bucket and all its stuff.
 	 *
-	 * @param Observer $observer
+	 * @param $bucket Bucket
+	 *
+	 * @return void
 	 */
-	public function updateObserver(Observer $observer);
+	public function deleteBucket($bucket);
+
+	/**
+	 * Updates only the bucket! Use this if e.g. the percentage or the current task changes.
+	 *
+	 * @param Bucket $bucket
+	 */
+	public function updateBucket(Bucket $bucket);
+
+
+	/**
+	 * @param Bucket $bucket
+	 *
+	 * @return int Returns the container id of an obvserver.
+	 */
+	public function getBucketContainerId(Bucket $bucket);
 }

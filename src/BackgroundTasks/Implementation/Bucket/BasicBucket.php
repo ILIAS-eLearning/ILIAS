@@ -1,15 +1,15 @@
 <?php
 
-namespace ILIAS\BackgroundTasks\Implementation\Observer;
+namespace ILIAS\BackgroundTasks\Implementation\Bucket;
 
 use ILIAS\BackgroundTasks\Exceptions\Exception;
 use ILIAS\BackgroundTasks\Implementation\Values\ThunkValue;
-use ILIAS\BackgroundTasks\Observer;
+use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Value;
 
-class BasicObserver implements Observer {
+class BasicBucket implements Bucket {
 
 	/**
 	 * @var int
@@ -45,6 +45,18 @@ class BasicObserver implements Observer {
 	 * @var int[]
 	 */
 	protected $percentages = [];
+	/**
+	 * @var string
+	 */
+	protected $title = "";
+	/**
+	 * @var string
+	 */
+	protected $description = "";
+	/**
+	 * @var int
+	 */
+	protected $percentage = 0;
 
 	/**
 	 * @return int
@@ -68,8 +80,13 @@ class BasicObserver implements Observer {
 	 * @param $task       Task
 	 * @param $percentage int
 	 */
-	public function notifyPercentage(Task $task, $percentage) {
+	public function setPercentage(Task $task, $percentage) {
 		$this->percentages[spl_object_hash($task)] = $percentage;
+		$this->calculateOverallPercentage();
+	}
+
+	public function setOverallPercentage($percentage) {
+		$this->percentage = $percentage;
 	}
 
 	/**
@@ -96,14 +113,18 @@ class BasicObserver implements Observer {
 	/**
 	 * @return int
 	 */
-	public function getPercentage() {
-		return array_sum($this->percentages) / $this->totalNumberOfTasks;
+	public function calculateOverallPercentage() {
+		$this->percentage = array_sum($this->percentages) / $this->totalNumberOfTasks;
+	}
+
+	public function getOverallPercentage() {
+		return $this->percentage;
 	}
 
 	/**
 	 * @param int $state From ILIAS\BackgroundTasks\Implementation\Observer\State
 	 */
-	public function notifyState($state) {
+	public function setState($state) {
 		$this->state = $state;
 	}
 
@@ -130,13 +151,6 @@ class BasicObserver implements Observer {
 		return $this->state;
 	}
 
-
-	/**
-	 * @param int $state
-	 */
-	public function setState(int $state) {
-		$this->state = $state;
-	}
 
 	/**
 	 * @return bool
@@ -189,7 +203,7 @@ class BasicObserver implements Observer {
 
 
 	/**
-	 * In the structure of the task of this observer the result of $currentTask is replaced with the $resulting_value
+	 * In the structure of the task of this bucket the result of $currentTask is replaced with the $resulting_value
 	 *
 	 * @param Task  $currentTask
 	 * @param Value $resulting_value
@@ -208,5 +222,37 @@ class BasicObserver implements Observer {
 			}
 			$task->setInput($newInputs);
 		}
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getTitle() {
+		return $this->title;
+	}
+
+
+	/**
+	 * @param string $title
+	 */
+	public function setTitle(string $title) {
+		$this->title = $title;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getDescription() {
+		return $this->description;
+	}
+
+
+	/**
+	 * @param string $description
+	 */
+	public function setDescription($description) {
+		$this->description = $description;
 	}
 }

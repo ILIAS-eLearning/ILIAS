@@ -13,7 +13,7 @@ use ILIAS\DI\Injector;
 use ILIAS\Types\SingleType;
 use ILIAS\Types\Type;
 
-class PlusJob extends AbstractJob {
+class SlowPlusJob extends AbstractJob {
 
 	/**
 	 * PlusJob constructor.
@@ -67,6 +67,15 @@ class PlusJob extends AbstractJob {
 		$a = $input[0];
 		/** @var IntegerValue $b */
 		$b = $input[1];
+
+		sleep(5);
+		$observer->notifyPercentage($this, 20);
+		sleep(5);
+		$observer->notifyPercentage($this, 40);
+		sleep(5);
+		$observer->notifyPercentage($this, 60);
+		sleep(5);
+		$observer->notifyPercentage($this, 80);
 
 		$output = new IntegerValue();
 		$output->setValue($a->getValue() + $b->getValue());

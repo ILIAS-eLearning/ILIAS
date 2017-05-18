@@ -2,14 +2,14 @@
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 use ILIAS\BackgroundTasks\Implementation\BasicTaskManager;
-use ILIAS\BackgroundTasks\Implementation\Observer\BasicObserver;
-use ILIAS\BackgroundTasks\Implementation\Observer\ObserverMock;
+use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
+use ILIAS\BackgroundTasks\Implementation\Bucket\BucketMock;
 use ILIAS\BackgroundTasks\Implementation\Tasks\Aggregation\ConcatenationJob;
 use ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob;
 use ILIAS\BackgroundTasks\Implementation\Values\AggregationValues\ListValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
-use ILIAS\BackgroundTasks\Observer;
+use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\DI\Container;
 use ILIAS\DI\DependencyMap\BaseDependencyMap;
@@ -50,14 +50,14 @@ class TaskTest extends TestCase {
 
 		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
 		/** @var IntegerValue $finalValue */
-		$finalValue = $taskManager->executeTask($t2, new ObserverMock());
+		$finalValue = $taskManager->executeTask($t2, new BucketMock());
 		$this->assertEquals($finalValue->getValue(), 6);
 	}
 
 	public function testValueWrapper() {
 		$dic = new Container();
-		$dic[Observer::class] = function ($c) {
-			return new ObserverMock();
+		$dic[Bucket::class] = function ($c) {
+			return new BucketMock();
 		};
 		$factory = new Injector($dic, new BaseDependencyMap());
 
@@ -66,7 +66,7 @@ class TaskTest extends TestCase {
 
 		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
 		/** @var IntegerValue $finalValue */
-		$finalValue = $taskManager->executeTask($t, new ObserverMock());
+		$finalValue = $taskManager->executeTask($t, new BucketMock());
 		$this->assertEquals($finalValue->getValue(), 5);
 	}
 
@@ -74,8 +74,8 @@ class TaskTest extends TestCase {
 		$this->expectException(InvalidArgumentException::class);
 
 		$dic = new Container();
-		$dic[Observer::class] = function ($c) {
-			return new ObserverMock();
+		$dic[Bucket::class] = function ($c) {
+			return new BucketMock();
 		};
 		$factory = new Injector($dic, new BaseDependencyMap());
 
@@ -98,14 +98,14 @@ class TaskTest extends TestCase {
 		$t1 = $factory->createInstance(ConcatenationJob::class);
 		$t1->setInput([$list]);
 
-		$output = $t1->run([$list], new ILIAS\BackgroundTasks\Implementation\Observer\ObserverMock());
+		$output = $t1->run([$list], new ILIAS\BackgroundTasks\Implementation\Bucket\BucketMock());
 		$this->assertEquals($output->getValue(), "1, hello, 3");
 	}
 
 	public function testUnfoldTask() {
 		$dic = new Container();
-		$dic[Observer::class] = function ($c) {
-			return new BasicObserver();
+		$dic[Bucket::class] = function ($c) {
+			return new BasicBucket();
 		};
 
 		$factory = new Injector($dic, new BaseDependencyMap());
@@ -136,7 +136,7 @@ class TaskTest extends TestCase {
 		/** @var IntegerValue $finalValue */
 		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
 		/** @var IntegerValue $finalValue */
-		$finalValue = $taskManager->executeTask($t2, new BasicObserver());
+		$finalValue = $taskManager->executeTask($t2, new BasicBucket());
 		$this->assertEquals($finalValue->getValue(), 8);
 	}
 }

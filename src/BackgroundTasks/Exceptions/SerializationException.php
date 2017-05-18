@@ -7,7 +7,7 @@ namespace ILIAS\BackgroundTasks\Exceptions;
  *
  * @package ILIAS\BackgroundTasks
  *
- *          If something goes wrong in writing a task/observer to the database.
+ *          If something goes wrong in writing a task/bucket to the database.
  */
 class SerializationException extends Exception {
 

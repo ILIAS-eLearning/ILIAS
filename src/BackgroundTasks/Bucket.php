@@ -2,90 +2,112 @@
 
 namespace ILIAS\BackgroundTasks;
 
+use ILIAS\BackgroundTasks\Exceptions\Exception;
+use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
+
 /**
- * Interface Bucket
+ * Interface Observer
  *
  * @package ILIAS\BackgroundTasks
  *
- *          A Bucket is used to pack several Tasks which have to be done one after the other and is
- *          put in the background to avoid hight impact on the ILIAS system.
- *
- *          Whenever packing a bucket, you start with an Input (IO-interface) wich will be passed
- *          to the first task. your task will provide an output
- *          (IO-interface again) wich will be passed to the next Task, ...
- *
- *          Bucket (IO -> Task -> IO -> Task)
- *
- *          Please notice that Buckets are mutable!
+ *                Observers show a background task in the user interface.
  */
 interface Bucket {
 
 	/**
-	 * @param \ILIAS\BackgroundTasks\Task $task
-	 * @return Bucket
-	 */
-	public function addTask(Task $task);
-
-	/**
 	 * @return int
 	 */
-	public function countTasks();
+	public function getUserId();
 
 
 	/**
-	 * @return int Returns the position of the running job in the bucket. Will be between 1 and
-	 *             countJobs()
+	 * @param int $user_id
 	 */
-	public function getRunningTaskPosition();
+	public function setUserId($user_id);
 
 
 	/**
-	 * @return int Tries to estimate a percentage for the whole bucket.
+	 * Used by a job to notify his percentage.
+	 *
+	 * @param $task       Task
+	 * @param $percentage int
+	 */
+	public function setPercentage(Task $task, $percentage);
+
+
+	/**
+	 * @return integer
 	 */
 	public function getOverallPercentage();
 
 
 	/**
+	 * @param $percentage int
+	 *
+	 */
+	public function setOverallPercentage($percentage);
+	
+	/**
+	 * @param Task $task
+	 * @return mixed
+	 */
+	public function setCurrentTask($task);
+
+	/**
+	 * @return Task
+	 */
+	public function getCurrentTask();
+
+	/**
+	 * @param Task $task
 	 * @return void
 	 */
-	public function runBucket();
+	public function setTask(Task $task);
+
+	/**
+	 *
+	 * @return Task
+	 */
+	public function getTask();
+
+	/**
+	 * @param $state int From Observer\State
+	 * @return void
+	 */
+	public function setState($state);
 
 
 	/**
+	 * @return int
+	 */
+	public function getState();
+
+
+	/**
+	 * @return boolean      Returns true if everything's alright. Throws an exception otherwise.
+ 	 * @throws Exception
+	 */
+	public function checkIntegrity();
+
+
+	/**
+	 * Let the user interact with the bucket task queue.
+	 *
+	 * @param Option $option
+	 *
 	 * @return void
 	 */
-	public function runOneTask();
+	public function userInteraction(Option $option);
+
+
+	/**
+	 * @return string
+	 */
+	public function getDescription();
+
 
 	/**
 	 * @return string
 	 */
 	public function getTitle();
-
-
-	/**
-	 * @param $title string
-	 * @return void
-	 */
-	public function setTitle($title);
-
-
-	/**
-	 * @param \ILIAS\BackgroundTasks\Observer $observer when no observer is set, Common observer is
-	 *                                                  used
-	 * @return $this
-	 */
-	public function addObserver(Observer $observer);
-
-
-	/**
-	 * @param Observer $observer
-	 * @return void
-	 */
-	public function removeObserver(Observer $observer);
-
-
-	/**
-	 * @return Observer[]
-	 */
-	public function getObserver();
 }

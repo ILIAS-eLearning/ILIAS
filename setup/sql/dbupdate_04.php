@@ -18330,14 +18330,24 @@ $fields = array(
 		'length' => '2',
 		
 	),
+	'title' => array(
+		'type' => 'integer',
+		'length' => '255',
+		
+	),
+	'description' => array(
+		'type' => 'integer',
+		'length' => '255',
+		
+	),
 	
 );
-if (! $ilDB->tableExists('il_bt_observer')) {
-	$ilDB->createTable('il_bt_observer', $fields);
-	$ilDB->addPrimaryKey('il_bt_observer', array( 'id' ));
+if (! $ilDB->tableExists('il_bt_bucket')) {
+	$ilDB->createTable('il_bt_bucket', $fields);
+	$ilDB->addPrimaryKey('il_bt_bucket', array( 'id' ));
 	
-	if (! $ilDB->sequenceExists('il_bt_observer')) {
-		$ilDB->createSequence('il_bt_observer');
+	if (! $ilDB->sequenceExists('il_bt_bucket')) {
+		$ilDB->createSequence('il_bt_bucket');
 	}
 	
 }
@@ -18363,7 +18373,7 @@ $fields = array(
 		'length' => '256',
 		
 	),
-	'observer_id' => array(
+	'bucket_id' => array(
 		'type' => 'integer',
 		'length' => '8',
 		
@@ -18420,7 +18430,7 @@ $fields = array(
 		'type' => 'clob',
 		
 	),
-	'observer_id' => array(
+	'bucket_id' => array(
 		'type' => 'integer',
 		'length' => '8',
 		
@@ -18453,7 +18463,7 @@ $fields = array(
 		'length' => '8',
 		
 	),
-	'observer_id' => array(
+	'bucket_id' => array(
 		'type' => 'integer',
 		'length' => '8',
 		

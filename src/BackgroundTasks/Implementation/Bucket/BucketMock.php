@@ -1,13 +1,13 @@
 <?php
 
-namespace ILIAS\BackgroundTasks\Implementation\Observer;
+namespace ILIAS\BackgroundTasks\Implementation\Bucket;
 
 use ILIAS\BackgroundTasks\Exception;
-use ILIAS\BackgroundTasks\Observer;
+use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 
-class ObserverMock implements Observer {
+class BucketMock implements Bucket {
 
 	/**
 	 * @return int
@@ -43,7 +43,7 @@ class ObserverMock implements Observer {
 	 * @param $task Task
 	 * @param $percentage int
 	 */
-	public function notifyPercentage(Task $task, $percentage) {
+	public function setPercentage(Task $task, $percentage) {
 		// TODO: Implement notifyPercentage() method.
 	}
 
@@ -74,7 +74,7 @@ class ObserverMock implements Observer {
 	 * @param $state int From Observer\State
 	 * @return void
 	 */
-	public function notifyState($state) {
+	public function setState($state) {
 		// TODO: Implement notifyState() method.
 	}
 
@@ -114,7 +114,7 @@ class ObserverMock implements Observer {
 
 
 	/**
-	 * Let the user interact with the observer task queue.
+	 * Let the user interact with the bucket task queue.
 	 *
 	 * @param Option $option
 	 *
@@ -122,5 +122,21 @@ class ObserverMock implements Observer {
 	 */
 	public function userInteraction(Option $option) {
 		// TODO: Implement userInteraction() method.
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getDescription() {
+		// TODO: Implement getDescription() method.
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getTitle() {
+		// TODO: Implement getTitle() method.
 	}
 }

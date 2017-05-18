@@ -2,14 +2,12 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
-use ILIAS\BackgroundTasks\Observer;
-
 require_once("./Services/ActiveRecord/class.ActiveRecord.php");
 
-class ObserverContainer extends \ActiveRecord {
+class BucketContainer extends \ActiveRecord {
 
 	public static function returnDbTableName() {
-		return "il_bt_observer";
+		return "il_bt_bucket";
 	}
 
 	/**
@@ -77,6 +75,25 @@ class ObserverContainer extends \ActiveRecord {
 	 * @con_length     2
 	 */
 	protected $percentage = 0;
+
+	/**
+	 * @var string
+	 *
+	 * @con_has_field  true
+	 * @con_fieldtype  text
+	 * @con_length     255
+	 */
+	protected $title;
+
+
+	/**
+	 * @var string
+	 *
+	 * @con_has_field  true
+	 * @con_fieldtype  text
+	 * @con_length     255
+	 */
+	protected $description;
 
 	/**
 	 * @return int
@@ -174,5 +191,37 @@ class ObserverContainer extends \ActiveRecord {
 	 */
 	public function setPercentage(int $percentage) {
 		$this->percentage = $percentage;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getTitle(): string {
+		return $this->title;
+	}
+
+
+	/**
+	 * @param string $title
+	 */
+	public function setTitle(string $title) {
+		$this->title = $title;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getDescription(): string {
+		return $this->description;
+	}
+
+
+	/**
+	 * @param string $description
+	 */
+	public function setDescription(string $description) {
+		$this->description = $description;
 	}
 }

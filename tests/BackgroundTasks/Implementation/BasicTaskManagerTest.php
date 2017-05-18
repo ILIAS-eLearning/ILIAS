@@ -9,12 +9,12 @@
 namespace BackgroundTasks\Implementation;
 
 use ILIAS\BackgroundTasks\Implementation\BasicTaskManager;
-use ILIAS\BackgroundTasks\Implementation\Observer\BasicObserver;
-use ILIAS\BackgroundTasks\Implementation\Observer\State;
+use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence;
 use ILIAS\BackgroundTasks\Implementation\Tasks\DownloadInteger;
 use ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob;
-use ILIAS\BackgroundTasks\Observer;
+use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\DI\Container;
 use ILIAS\DI\DependencyMap\EmptyDependencyMap;
 use ILIAS\DI\Injector;
@@ -37,7 +37,7 @@ class BasicTaskManagerTest extends \PHPUnit_Framework_TestCase {
 
 		$factory = new Injector($dic, new EmptyDependencyMap());
 
-		$observer = new BasicObserver();
+		$observer = new BasicBucket();
 		$observer->setUserId(3);
 		$observer->setState(State::SCHEDULED);
 

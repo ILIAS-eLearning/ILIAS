@@ -9,7 +9,7 @@
 namespace BackgroundTasks\Implementation\Observer;
 
 use ILIAS\BackgroundTasks\Exceptions\Exception;
-use ILIAS\BackgroundTasks\Implementation\Observer\BasicObserver;
+use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence;
 use ILIAS\BackgroundTasks\Implementation\Tasks\DownloadInteger;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
@@ -21,8 +21,8 @@ class BasicObserverTest extends MockeryTestCase {
 	public function testCheckIntegrity() {
 		$this->expectException(Exception::class);
 
-		$observer = new BasicObserver();
+		$observer = new BasicBucket();
 		$observer->setTask(new DownloadInteger());
-		BasicPersistence::instance()->saveObserverAndItsTasks($observer);
+		BasicPersistence::instance()->saveBucketAndItsTasks($observer);
 	}
 }
