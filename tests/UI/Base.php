@@ -31,7 +31,7 @@ class NoUIFactory implements Factory {
 	public function legacy($content) {}
 	public function panel() {}
 	public function modal() {}
-	public function popover($title, $text, $position = '') {}
+	public function popover($content) {}
 	public function progressbar($percentage) {}
 }
 
@@ -64,6 +64,8 @@ class LoggingJavaScriptBinding implements JavaScriptBinding {
 	public $on_load_code = array();
 	public function addOnLoadCode($code) {
 		$this->on_load_code[] = $code;
+	}
+	public function getOnLoadCodeAsync() {
 	}
 }
 

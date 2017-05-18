@@ -39,11 +39,14 @@ class Renderer extends AbstractComponentRenderer {
 		$options = json_encode($options);
 		$show = $component->getShowSignal();
 		$this->getJavascriptBinding()->addOnLoadCode("
-			$(document).on('{$show}', function(event, data) { 
-				var triggerer_id = data.triggerer.attr('id');
-				var options = JSON.parse('{$options}');
-				options.trigger = (data.type == 'mouseenter') ? 'hover' : 'click';
-				il.UI.popover.show(triggerer_id, options);
+			$(document).on('{$show}', function(event, signalData) { 
+				il.UI.popover.showFromSignal(signalData, JSON.parse('{$options}'));
+			});"
+		);
+		$replace = $component->getReplaceContentSignal();
+		$this->getJavascriptBinding()->addOnLoadCode("
+			$(document).on('{$replace}', function(event, signalData) { 
+				il.UI.popover.replaceContentFromSignal('{$show}', signalData);
 			});"
 		);
 		if (!$component->getAsyncContentUrl()) {
@@ -61,7 +64,6 @@ class Renderer extends AbstractComponentRenderer {
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/libs/node_modules/webui-popover/dist/jquery.webui-popover.min.js');
-		$registry->register('./src/UI/templates/libs/node_modules/webui-popover/dist/jquery.webui-popover.min.css');
 		$registry->register('./src/UI/templates/js/Popover/popover.js');
 	}
 

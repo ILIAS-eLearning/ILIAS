@@ -99,6 +99,10 @@ abstract class Button implements C\Button\Button {
 	 * @inheritdoc
 	 */
 	public function withOnHover(Signal $signal) {
+		// Note: The event 'hover' maps to 'mouseenter' in javascript. Although 'hover' is available in JQuery,
+		// it encodes the 'mouseenter' and 'mouseleave' events and thus expects two event handlers.
+		// In the context of this framework, the signal MUST only be triggered on the 'mouseenter' event.
+		// See also: https://api.jquery.com/hover/
 		return $this->addTriggeredSignal($signal, 'mouseenter');
 	}
 
