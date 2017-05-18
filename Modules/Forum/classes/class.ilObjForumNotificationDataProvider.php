@@ -197,9 +197,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 		
 		if($this->objPost->getDisplayUserId() == 0 && $this->objPost->getPosAuthorId() == $this->objPost->getUpdateUserId())
 		{
-			if(strlen($this->objPost->getPosUserAlias()))
+			if(strlen($this->objPost->getUserAlias()))
 			{
-				$this->post_user_name = $this->objPost->getPosUserAlias() . ' (' . $user_lang->txt('frm_pseudonym') . ')';
+				$this->post_user_name = $this->objPost->getUserAlias() . ' (' . $user_lang->txt('frm_pseudonym') . ')';
 			}
 			
 			if($this->post_user_name == '')
