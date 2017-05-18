@@ -32,6 +32,8 @@ class Wrapper extends Dropzone implements \ILIAS\UI\Component\Dropzone\Wrapper {
 	 */
 	public function __construct($content) {
 		$this->componentList = $this->toArray($content);
+		$types = array(Component::class);
+		$this->checkArgListElements('content', $content, $types);
 		$this->checkEmptyArray($this->componentList);
 		$this->darkenedBackground = true;
 	}

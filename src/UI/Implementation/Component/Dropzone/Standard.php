@@ -13,7 +13,10 @@
 
 namespace ILIAS\UI\Implementation\Component\Dropzone;
 
+use ILIAS\UI\Implementation\Component\ComponentHelper;
+
 class Standard extends Dropzone implements \ILIAS\UI\Component\Dropzone\Standard {
+	use ComponentHelper;
 
 	private $message = "";
 
@@ -21,6 +24,7 @@ class Standard extends Dropzone implements \ILIAS\UI\Component\Dropzone\Standard
 	 * @inheritDoc
 	 */
 	public function withMessage($message) {
+		$this->checkStringArg("message", $message);
 		$clonedFileDropzone = clone $this;
 		$clonedFileDropzone->message = $message;
 		return $clonedFileDropzone;
