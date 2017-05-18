@@ -34,7 +34,7 @@ il.UI = il.UI || {};
 		};
 
 		/**
-		 * Enables the darkend background design for dropzones.
+		 * Enables the darkened background design for dropzones.
 		 * @private
 		 */
 		var _enableDarkenedDesign = function () {

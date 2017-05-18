@@ -19,7 +19,7 @@ use ILIAS\UI\Component\Droppable;
 interface Dropzone extends Component, Droppable {
 
 	/**
-	 * Gets a component like this, using the darkened background depending on the passed in argument.
+	 * Get a component like this, using the darkened background depending on the passed in argument.
 	 *
 	 * @param bool $useDarkenedBackground true to use the darkened background, otherwise false
 	 *

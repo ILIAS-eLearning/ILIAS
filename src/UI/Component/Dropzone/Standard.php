@@ -17,7 +17,7 @@ namespace ILIAS\UI\Component\Dropzone;
 interface Standard extends Dropzone {
 
 	/**
-	 * Clones this instance and sets the passed in argument on it.
+	 * Gets a dropzone like this, displaying the given message in it.
 	 *
 	 * @param string $message a message for a dropzone
 	 *
