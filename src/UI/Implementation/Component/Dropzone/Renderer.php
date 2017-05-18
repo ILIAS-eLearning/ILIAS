@@ -87,7 +87,7 @@ class Renderer extends AbstractComponentRenderer {
 
 
 		// setup template
-		$tpl = $this->getTemplate("tpl.standard-file-dropzone.html", true, true);
+		$tpl = $this->getTemplate("tpl.standard-dropzone.html", true, true);
 		$tpl->setVariable("ID", $dropzoneId);
 
 		// set message if not empty
@@ -123,7 +123,7 @@ class Renderer extends AbstractComponentRenderer {
 		$this->getJavascriptBinding()->addOnLoadCode($jsHelper->initializeWrapperDropzone());
 
 		// setup template
-		$tpl = $this->getTemplate("tpl.wrapper-file-dropzone.html", true, true);
+		$tpl = $this->getTemplate("tpl.wrapper-dropzone.html", true, true);
 		$tpl->setVariable("ID", $dropzoneId);
 		$tpl->setVariable("CONTENT", $this->renderComponentList($wrapperDropzone->getContent()));
 

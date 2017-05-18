@@ -1,0 +1,43 @@
+.il-dropzone {
+
+  // standard dropzone design
+  &.standard {
+	padding: 20px 20px;
+	min-height: 150px;
+	background: @il-dropzone-bg;
+	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
+	-moz-border-radius: @il-dropzone-border-raduis;
+	-webkit-border-radius: @il-dropzone-border-raduis;
+	border-radius: @il-dropzone-border-raduis;  }
+	&.standard .dz-message {
+	  text-align: center;
+	  margin:     40px 0;  }
+
+  // wrapper dropzone design
+  &.wrapper {
+	padding: 1px  } // <- is needed to display a possible margin of the inner elements
+
+  // general dropzone design
+  &.darkened-highlight {
+	z-index:  1100;
+	position: relative;
+	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
+	-moz-border-radius: @il-dropzone-border-raduis;
+	-webkit-border-radius: @il-dropzone-border-raduis;
+	border-radius: @il-dropzone-border-raduis;
+	background: @il-dropzone-highlight-bg;	}
+
+  &.default-highlight {
+	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
+	-moz-border-radius: @il-dropzone-border-raduis;
+	-webkit-border-radius: @il-dropzone-border-raduis;
+	border-radius: @il-dropzone-border-raduis;
+	background: @il-dropzone-highlight-bg;	}
+
+  &.drag-hover {
+	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color-hover;
+	-moz-border-radius: @il-dropzone-border-raduis;
+	-webkit-border-radius: @il-dropzone-border-raduis;
+	border-radius: @il-dropzone-border-raduis;
+	background-color: @il-dropzone-hover-bg; }
+}

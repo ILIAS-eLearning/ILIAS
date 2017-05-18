@@ -11,25 +11,25 @@ il.UI = il.UI || {};
 	UI.dropzone = (function ($) {
 
 		var CSS = {
-			"darkendBackground": "modal-backdrop in", // <- bootstrap classes, should not be changed
-			"darkendDropzoneHighlight": "darkend-highlight",
+			"darkenedBackground": "modal-backdrop in", // <- bootstrap classes, should not be changed
+			"darkenedDropzoneHighlight": "darkened-highlight",
 			"defaultDropzoneHighlight": "default-highlight"
 		};
 
 		var SELECTOR = {
-			"darkendBackground": "il-dropzone-darkend",
-			"fileDropzones": "il-file-dropzone"
+			"darkenedBackground": "il-dropzone-darkened",
+			"dropzones": "il-dropzone"
 		};
 
-		var _darkendDesign = false;
+		var _darkenedDesign = false;
 
 		/**
-		 * Prepends a div to the body tag to enable the darkend background.
+		 * Prepends a div to the body tag to enable the darkened background.
 		 * @private
 		 */
-		var _createDarkendHtmlIfNotExists = function () {
-			if (!$("#" + SELECTOR.darkendBackground).length) {
-				$("body").prepend("<div id=" + SELECTOR.darkendBackground + "></div>");
+		var _createDarkenedHtmlIfNotExists = function () {
+			if (!$("#" + SELECTOR.darkenedBackground).length && _darkenedDesign) {
+				$("body").prepend("<div id=" + SELECTOR.darkenedBackground + "></div>");
 			}
 		};
 
@@ -37,9 +37,9 @@ il.UI = il.UI || {};
 		 * Enables the darkend background design for dropzones.
 		 * @private
 		 */
-		var _enableDarkendDesign = function () {
-			$("#" + SELECTOR.darkendBackground).addClass(CSS.darkendBackground);
-			$("." + SELECTOR.fileDropzones).addClass(CSS.darkendDropzoneHighlight);
+		var _enableDarkenedDesign = function () {
+			$("#" + SELECTOR.darkenedBackground).addClass(CSS.darkenedBackground);
+			$("." + SELECTOR.dropzones).addClass(CSS.darkenedDropzoneHighlight);
 		};
 
 		/**
@@ -47,28 +47,28 @@ il.UI = il.UI || {};
 		 * @private
 		 */
 		var _enableDefaultDesign = function () {
-			$("." + SELECTOR.fileDropzones).addClass(CSS.defaultDropzoneHighlight);
+			$("." + SELECTOR.dropzones).addClass(CSS.defaultDropzoneHighlight);
 		};
 
 		/**
-		 * Enables either the darkend design or the default design depending on the {@link _darkendDesign} variable.
+		 * Enables either the darkened design or the default design depending on the {@link _darkenedDesign} variable.
 		 */
 		var enableAutoDesign = function () {
-			if (_darkendDesign) {
-				_enableDarkendDesign();
+			if (_darkenedDesign) {
+				_enableDarkenedDesign();
 			} else {
 				_enableDefaultDesign();
 			}
 		};
 
 		/**
-		 * Enables the highlight design. If the passed in argument is true, the darkend style will be used.
-		 * @param {boolean} darkendBackground Flag to enable the darkend design.
+		 * Enables the highlight design. If the passed in argument is true, the darkened style will be used.
+		 * @param {boolean} darkenedBackground Flag to enable the darkened design.
 		 */
-		var enableHighlightDesign = function(darkendBackground) {
-			if (darkendBackground) {
-				_createDarkendHtmlIfNotExists(); // <- Just to ensure the darkend html exists.
-				_enableDarkendDesign();
+		var enableHighlightDesign = function(darkenedBackground) {
+			if (darkenedBackground) {
+				_createDarkenedHtmlIfNotExists(); // <- Just to ensure the darkened html exists.
+				_enableDarkenedDesign();
 			} else {
 				_enableDefaultDesign();
 			}
@@ -78,18 +78,18 @@ il.UI = il.UI || {};
 		 * Disables all highlight designs which are active.
 		 */
 		var disableHighlightDesign = function () {
-			$("#" + SELECTOR.darkendBackground).removeClass(CSS.darkendBackground);
-			$("." + SELECTOR.fileDropzones).removeClass(CSS.darkendDropzoneHighlight)
+			$("#" + SELECTOR.darkenedBackground).removeClass(CSS.darkenedBackground);
+			$("." + SELECTOR.dropzones).removeClass(CSS.darkenedDropzoneHighlight)
 				.removeClass(CSS.defaultDropzoneHighlight);
 		};
 
 		/**
-		 * Sets the {@link _darkendDesign} and calls the {@link _createDarkendHtmlIfNotExists} function.
-		 * @param darkendDesign
+		 * Sets the {@link _darkenedDesign} and calls the {@link _createDarkenedHtmlIfNotExists} function.
+		 * @param {boolean} darkenedDesign true to set the darkened design, otherwise false.
 		 */
-		var setDarkendDesign = function (darkendDesign) {
-			_darkendDesign = darkendDesign;
-			_createDarkendHtmlIfNotExists();
+		var setDarkenedDesign = function (darkenedDesign) {
+			_darkenedDesign = darkenedDesign;
+			_createDarkenedHtmlIfNotExists();
 		};
 
 
@@ -97,7 +97,7 @@ il.UI = il.UI || {};
 			enableAutoDesign: enableAutoDesign,
 			enableHighlightDesign: enableHighlightDesign,
 			disableHighlightDesign: disableHighlightDesign,
-			setDarkendDesign: setDarkendDesign
+			setDarkenedDesign: setDarkenedDesign
 		};
 	})($);
 })($, il.UI);
