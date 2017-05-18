@@ -93,7 +93,7 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function fileDropzone() {
-		return new Component\FileDropzone\Factory();
+	public function dropzone() {
+		return new Component\Dropzone\Factory();
 	}
 }
