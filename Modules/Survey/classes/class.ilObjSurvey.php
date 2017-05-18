@@ -583,6 +583,11 @@ class ilObjSurvey extends ilObject
 				array('integer', 'integer', 'integer', 'integer', 'integer'),
 				array($next_id, $this->getSurveyId(), $duplicate_id, $sequence, time())
 			);
+			$this->log->debug("*INSERT INTO svy_svy_qst (survey_question_id, survey_fi, question_fi, sequence, tstamp) VALUES ($next_id, ".$this->getSurveyId().", $duplicate_id, $sequence, time())");
+
+			#19469
+			SurveyQuestion::updateObjFi($this->getId(),$duplicate_id);
+
 			$this->loadQuestionsFromDb();
 			return TRUE;
 		}
@@ -869,12 +874,19 @@ class ilObjSurvey extends ilObject
 			if(in_array($fi, $insert))
 			{
 				$next_id = $ilDB->nextId('svy_svy_qst');
+
+				$this->log->debug("INSERT INTO svy_svy_qst (survey_question_id, survey_fi, question_fi, heading, sequence, tstamp) VALUES ($next_id, ".$this->getSurveyId().", ".$fi.", NULL, $seq, time()))");
+
 				$ilDB->manipulateF("INSERT INTO svy_svy_qst".
 					" (survey_question_id, survey_fi, question_fi, heading, sequence, tstamp)".
 					" VALUES (%s, %s, %s, %s, %s, %s)",
 					array('integer','integer','integer','text','integer','integer'),
 					array($next_id, $this->getSurveyId(), $fi, NULL, $seq, time())
 				);
+
+				#19469
+				SurveyQuestion::updateObjFi($this->getId(),$fi);
+
 			}
 			else if(array_key_exists($fi, $update))
 			{
@@ -3744,8 +3756,9 @@ class ilObjSurvey extends ilObject
 			}
 			else
 			{
-				$this->log->debug("survey id = ".$this->getId());
-				$this->log->debug("question pool id = ".$svy_qpl_id);
+				$this->log->debug("OBJECT survey id = ".$this->getId());
+				$this->log->debug("OBJECT  pool id = ".$svy_qpl_id);
+
 
 				include_once("./Services/Export/classes/class.ilImport.php");
 				$imp = new ilImport();

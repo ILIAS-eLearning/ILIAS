@@ -165,9 +165,9 @@
 * table svy_finished
   * survey_fi: survey -> svy_svy
   * user_fi: user -> usr_data (and object_data)
-  * anonymous_id:
-  * state: 1 if finished? 0 otherwise?
-  * lastpage:
+  * anonymous_id: NULL or svy_anonymous->survey_key
+  * state: 1 if user finished the survey otherwise 0
+  * lastpage: Page where the user finished the survey. (interesting when routing)
   * appr_id:
   
 ## Survey Run Access Times
@@ -494,8 +494,8 @@ User answered but the scale is saved as value 10: (scale -1)
     * finished_id: sequence value -> svy_finished_seq (PK)
     * survey_fi: survey -> svy_svy (MUL)
     * user_fi: user -> usr_data (and object_data)(MUL)
-    * anonymous_id: (MUL)
-    * state: 1 if finished? 0 otherwise?
+    * state: 1 if user finished the survey otherwise 0
+    * lastpage: Page where the user finished the survey. (interesting when routing)
     * lastpage:
     * appr_id:
 
@@ -589,7 +589,7 @@ User answered but the scale is saved as value 10: (scale -1)
 
 * table svy_anonymous:
     * anonymous_id: sequence value -> svy_anonymous_seq (PK)
-    * survey_key:
+    * survey_key: Code generated for anonymous surveys (relation with svy_finished)
     * survey_fi: survey -> svy_svy
     * user_key:
     * tstamp:

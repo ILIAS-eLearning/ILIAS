@@ -22,6 +22,7 @@ class ilSurveyPageGUI
 	protected $has_next_page; // [bool]
 	protected $has_datasets; // [bool]
 	protected $use_pool; // [bool]
+	protected $log;
 	
 	/**
 	* Constructor
@@ -34,6 +35,7 @@ class ilSurveyPageGUI
 		$this->editor_gui = $a_survey_editor_gui;
 		$this->ref_id = $a_survey->getRefId();
 		$this->object = $a_survey;
+		$this->log = ilLoggerFactory::getLogger("svy");
 	}
 
 	/**
@@ -177,11 +179,17 @@ class ilSurveyPageGUI
 		
 		// append to survey 
 		$next_id = $ilDB->nextId('svy_svy_qst');
+
+		$this->log->debug("INSERT INTO svy_svy_qst (survey_question_id, survey_fi,question_fi, sequence, tstamp) VALUES ($next_id, ".$this->object->getSurveyId().", $survey_question_id, $sequence, time)");
+
 		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_svy_qst (survey_question_id, survey_fi,".
 			"question_fi, sequence, tstamp) VALUES (%s, %s, %s, %s, %s)",
 			array('integer', 'integer', 'integer', 'integer', 'integer'),
 			array($next_id, $this->object->getSurveyId(), $survey_question_id, $sequence, time())
 		);
+
+		#19469
+		SurveyQuestion::updateObjFi($this->object->getId(),$survey_question_id);
 
 		return $survey_question_id;
 	}
