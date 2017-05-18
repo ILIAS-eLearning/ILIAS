@@ -33,11 +33,6 @@ include_once './Services/Calendar/classes/class.ilCalendarAuthenticationToken.ph
  */
 class ilCalendarRemoteAccessHandler
 {
-	/**
-	 * @var ilLogger
-	 */
-	private $logger = null;
-	
 	private $token_handler = null;	
 
 	/**
@@ -46,7 +41,6 @@ class ilCalendarRemoteAccessHandler
 	 */
 	public function __construct()
 	{
-		$this->logger = $GLOBALS['DIC']->logger()->cal();
 	}
 	
 	public function getTokenHandler()
@@ -79,6 +73,10 @@ class ilCalendarRemoteAccessHandler
 	public function handleRequest()
 	{
 		$this->initIlias();
+
+		$logger = $GLOBALS['DIC']->logger()->cal();
+		
+		
 		$this->initTokenHandler();
 		
 		if($this->getTokenHandler()->getIcal() and !$this->getTokenHandler()->isIcalExpired())
@@ -92,14 +90,14 @@ class ilCalendarRemoteAccessHandler
 		{
 			$cats = ilCalendarCategories::_getInstance();
 			$cats->initialize(ilCalendarCategories::MODE_REMOTE_SELECTED, $this->getTokenHandler()->getCalendar());
-			$this->logger->dump($cats->getCategories(true), ilLogLevel::DEBUG);
+			$logger->dump($cats->getCategories(true), ilLogLevel::DEBUG);
 			$export = new ilCalendarExport($cats->getCategories(true));
 		}
 		else
 		{
 			$cats = ilCalendarCategories::_getInstance();
 			$cats->initialize(ilCalendarCategories::MODE_REMOTE_ACCESS);
-			$this->logger->dump($cats->getCategories(true), ilLogLevel::DEBUG);
+			$logger->dump($cats->getCategories(true), ilLogLevel::DEBUG);
 			$export = new ilCalendarExport($cats->getCategories(true));
 		}
 		
