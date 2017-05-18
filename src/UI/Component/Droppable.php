@@ -16,22 +16,24 @@ namespace ILIAS\UI\Component;
 interface Droppable extends Triggerer {
 
 	/**
-	 * Clones this instance and sets the passed in argument on it.
+	 * Get a component like this, triggering a signal of another component when files have been dropped.
+	 * Note: Any previous signals registered on drop are replaced.
 	 *
 	 * @param Signal $signal a ILIAS UI signal which is used on drop event
 	 *
 	 * @return Droppable a copy of this instance
 	 */
-	function withOnDrop(Signal $signal);
+	public function withOnDrop(Signal $signal);
 
 
 	/**
-	 * Clones this instance and appends the passed in argument on it.
+	 * Get a component like this, triggering a signal of another component when files have been dropped.
+	 * In contrast to withOnClick, the signal is appended to existing signals for the click event.
 	 *
 	 * @param Signal $signal a ILIAS UI signal which is used on drop event
 	 *
 	 * @return Droppable a copy of this instance
 	 */
-	function appendOnDrop(Signal $signal);
+	public function appendOnDrop(Signal $signal);
 
 }
