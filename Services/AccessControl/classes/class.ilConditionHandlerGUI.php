@@ -276,7 +276,10 @@ class ilConditionHandlerGUI
 		)
 		{
 			$form = $this->showObligatoryForm($optional_conditions);
-			$this->tpl->setVariable('TABLE_SETTINGS',$form->getHTML());
+			if($form instanceof ilPropertyFormGUI)
+			{
+				$this->tpl->setVariable('TABLE_SETTINGS',$form->getHTML());
+			}
 		}
 
 		include_once './Services/AccessControl/classes/class.ilConditionHandlerTableGUI.php';
@@ -402,6 +405,12 @@ class ilConditionHandlerGUI
 	 */
 	protected function showObligatoryForm($opt = array())
 	{
+		if(!$GLOBALS['objDefinition']->isRbacObject($this->getTargetType()))
+		{
+			return;
+		}
+		
+		
 		if(!$opt)
 		{
 			$opt = ilConditionHandler::getOptionalConditionsOfTarget(
