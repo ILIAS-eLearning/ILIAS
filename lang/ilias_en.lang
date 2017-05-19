@@ -274,6 +274,9 @@ assessment#:#answer_text#:#Answer Text
 assessment#:#answer_types#:#Editor for Answers
 assessment#:#gap_combination#:#Gap Combination
 assessment#:#answer#:#Answer
+assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.
+assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.
+assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint
 assessment#:#answers_multiline#:#Multi Line Answers
 assessment#:#answers_singleline#:#Single Line Answers
 assessment#:#applet_attributes#:#Applet Attributes

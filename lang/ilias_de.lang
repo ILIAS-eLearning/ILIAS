@@ -365,6 +365,9 @@ assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der er
 assessment#:#analyze_errortext#:#Text analysieren
 assessment#:#gap_combination#:#Lückentext-Kombination
 assessment#:#answer#:#Antwort
+assessment#:#tst_failed_imp_skl_thresholds#:#Der Import der Schwellenwerte für folgende Kompetenzen wurde übersprungen, weil die zugehörige Kompetenz im lokalen System eine abweichende Liste von Ausprägungen aufweist.
+assessment#:#tst_failed_imp_qst_skl_assign#:#Die Zuweisungen der Fragen zu fogenden Kompetenzen konnte durch den Import nicht hergestellt werden. Die entsprechenden Kompetenzen konnten im hiesigen System nicht identifiziert werden.
+assessment#:#ass_skl_import_fails_remove_btn#:#Diese Meldung entfernen
 assessment#:#answer_image#:#Antwort-Grafik
 assessment#:#answer_is_not_correct_but_positive#:#Sie haben Punkte für Ihre Lösung erhalten. Allerdings handelt es sich dabei nicht um die beste Lösung.
 assessment#:#answer_is_right#:#Ihre Lösung ist korrekt.
