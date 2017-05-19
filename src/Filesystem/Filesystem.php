@@ -2,14 +2,9 @@
 
 namespace ILIAS\Filesystem;
 
-use ILIAS\Filesystem\DTO\FileSize;
-use ILIAS\Filesystem\DTO\Metadata;
-use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
-use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
-use ILIAS\Filesystem\Exception\FileNotFoundException;
-use ILIAS\Filesystem\Exception\IllegalArgumentException;
-use ILIAS\Filesystem\Exception\IOException;
-use Psr\Http\Message\StreamInterface;
+use ILIAS\Filesystem\Provider\FileStreamAccess;
+use ILIAS\Filesystem\Provider\FileAccess;
+use ILIAS\Filesystem\Provider\DirectoryAccess;
 
 /**
  * Interface Filesystem
