@@ -345,6 +345,25 @@ foreach ($metadataArray as $metadata) {
 }
 ```
 
+### Cross Filesystem Operation
+The cross filesystem operation such as copy a file from one filesystem to another one can be archived with the
+help of the stream interface.
+
+```php
+<?php
+/**
+ * @var ILIAS\Filesystem\Filesystem $temp
+ */
+$temp = $DIC->filesystem()->temp();
+
+/**
+ * @var ILIAS\Filesystem\Filesystem $web
+ */
+$web = $DIC->filesystem()->web();
+$stream = $temp->readStream("source/file");
+$web->writeStream("destination/file", $stream);
+```
+
 ## Authors
 
 * **Nicolas Schaefli** - *interface definition* - [d3r1w](https://github.com/d3r1w)
