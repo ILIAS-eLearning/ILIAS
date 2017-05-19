@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this service adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.0.3]
+## Added
+* Filesystem factories
+
+## Changed
+* IllegalArgumentException changed to the native InvalidArgumentException
+
+## [0.0.3]
 ## Changed
 * README updated
 * Filesystem interface split to make the code more versatile
