@@ -42,7 +42,7 @@ class JavascriptHelper {
 
 		return "
 		
-			{$this->configureDarkendDesign()}
+			{$this->configureDarkenedDesign()}
 			
 			{$this->getJSDropzone()}.dragster({
 			
