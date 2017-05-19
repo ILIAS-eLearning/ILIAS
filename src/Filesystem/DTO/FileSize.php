@@ -86,7 +86,7 @@ final class FileSize {
 	 * @param int $size The file size in bytes.
 	 * @param int $unit The unit which is used to calculate the file size.
 	 *
-	 * @throws IllegalArgumentException If the given unit is not valid, or the file size is negative.
+	 * @throws \InvalidArgumentException If the given unit is not valid, or the file size is negative.
 	 *
 	 * @since 5.3
 	 * @version 1.0
@@ -94,16 +94,16 @@ final class FileSize {
 	public function __construct($size, $unit) {
 
 		if(!is_int($size))
-			throw new IllegalArgumentException("Size must be of the type int.");
+			throw new \InvalidArgumentException("Size must be of the type int.");
 
 		if(!is_int($unit))
-			throw new IllegalArgumentException("Unit must be of the type int.");
+			throw new \InvalidArgumentException("Unit must be of the type int.");
 
 		if(!isset(self::$suffixMap[$unit]))
-			throw new IllegalArgumentException('The given file size unit is not valid, please check the provided class constants of the FileSize class.');
+			throw new \InvalidArgumentException('The given file size unit is not valid, please check the provided class constants of the FileSize class.');
 
 		if($size < 0)
-			throw new IllegalArgumentException('The file size must not be negative.');
+			throw new \InvalidArgumentException('The file size must not be negative.');
 
 		$this->size = (float)$size / $unit; //the div operation can return int and float
 		$this->unit = $unit;

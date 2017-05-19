@@ -39,18 +39,18 @@ final class Metadata {
 	 * @param string $path     The path to the file / directory.
 	 * @param string $type     The file type.
 	 *
-	 * @throws IllegalArgumentException Thrown if the type of the given arguments are not correct.
+	 * @throws \InvalidArgumentException Thrown if the type of the given arguments are not correct.
 	 */
 	public function __construct($basename, $path, $type) {
 
 		if(!is_string($basename))
-			throw new IllegalArgumentException("Basename must be of type string.");
+			throw new \InvalidArgumentException("Basename must be of type string.");
 
 		if(!is_string($path))
-			throw new IllegalArgumentException("Path must be of type string.");
+			throw new \InvalidArgumentException("Path must be of type string.");
 
 		if(!is_string($type))
-			throw new IllegalArgumentException("Type must be of type string.");
+			throw new \InvalidArgumentException("Type must be of type string.");
 
 		$this->basename = $basename;
 		$this->path = $path;
