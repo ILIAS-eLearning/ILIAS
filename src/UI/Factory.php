@@ -336,18 +336,21 @@ interface Factory {
 	 **/
 	public function modal();
 
+
 	/**
 	 * ---
 	 * description:
-	 *   purpose: The file dropzone enables drag and drop for files of the file system.
+	 *   purpose: Dropzones are used to drop files from outside the browser window.
 	 *   composition: >
-	 *
+	 *      Dropzones are areas to drop files dragging from outside the browser window.
 	 *   effect: >
 	 *     A dropzone is highlighted when the user drags files over it.
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: Most pages SHOULD only have one dropzone.
+	 *     1: Most pages SHOULD contain only one dropzone.
+	 *     2: Dropzones MAY use the darkened background highlighting.
+	 *     3: Other ILIAS UI components are REQUIRED to handle dropped files further.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\Dropzone\Factory
