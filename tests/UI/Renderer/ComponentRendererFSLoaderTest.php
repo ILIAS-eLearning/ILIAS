@@ -3,10 +3,6 @@
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once(__DIR__."/TestComponent.php");
-require_once(__DIR__."/../Base.php");
-
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation\Glyph\Renderer as GlyphRenderer;
 
 class ComponentRendererFSLoaderTesting extends ILIAS\UI\Implementation\ComponentRendererFSLoader {
     public function _instantiateRendererFor($class) {
