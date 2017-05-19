@@ -37,10 +37,10 @@ interface Factory {
      *     2: The bar MUST have a fixed height (mobile).
      *
      * ----
-     *
+     * @param  entry[] $entries
      * @return  \ILIAS\UI\Component\Layout\Page\Cockpit\Bar
      */
-    public function bar();
+    public function bar($entry_1, $entry_2=null, $entry_3=null, $entry_4=null, $entry_5=null);
 
 
     /**
@@ -49,35 +49,36 @@ interface Factory {
      *   purpose: >
      *     An entry in this context describes an item in the cockpit-bar.
      *     Usually, it is a labeled, clickable icon which triggers a slate.
-     *     However, a clickable linking to a content-element is feasible as well
-     *     as a glyph with a counter.
+     *     Alternatively, the link directly targets a page.
      *
      *   composition: >
-     *     Entries consist of a caption, an image or glyph and, optionally, a slate.
+     *     Entries consist of a caption, an icon and, optionally, a slate.
      *
      * rules:
      *   usage:
      *     1: Entries MUST only be inside a cockpit-bar.
-     *     1: Entries CAN be connected with a slate
+     *     2: Entries CAN be connected with a slate
      *
      *   interaction:
-     *     1: Entries MUST have states.
+     *     1: Entries MUST have an active-state.
      *     2: Entries CAN trigger a slate.
      *     3: Entries CAN trigger navigation to a content element.
      *     4: Entries CAN be unclickable.
      *
      *   composition:
      *     1: Entries MUST have a caption.
-     *     2: Entries MUST have a graphical representation like an image or glyph.
+     *     2: Entries MUST have a graphical representation like an icon or glyph.
      *
      *   style:
      *     1: Graphical elements of entries SHOULD be of the same size.
      *
      * ----
-     *
+     * @param  string              $caption
+     * @param  \Icon               $icon
+     * @param  \Slate|string|null  $action
      * @return  \ILIAS\UI\Component\Layout\Page\Cockpit\Entry
      */
-    public function entry();
+    public function entry($caption, $icon, $action);
 
 
     /**
@@ -105,21 +106,16 @@ interface Factory {
      *     When content-length exceeds the slate's height, the area above the
      *     close button will start scrolling.
      *
-     *   rivals: >
-     *
      * rules:
      *   usage:
      *     1: There MUST be only one slate visible on the page.
-     *     2: >
-     *        The contents of a slate CAN navigate immanently within the slate
-     *        without changing the context.
      *
      *   accessibility:
      *     1: The slate MUST be triggered by an entry.
      *
      * ----
-     *
-     * @return  \ILIAS\UI\Component\Layout\Page\Cockpit\Slate
+     * @param \Component $content
+     * @return \ILIAS\UI\Component\Layout\Page\Cockpit\Slate
      */
-    public function slate();
+    public function slate($content);
 }
