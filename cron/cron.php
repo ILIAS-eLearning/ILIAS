@@ -27,4 +27,6 @@ $cron_check->start();
 include_once './Services/Cron/classes/class.ilCronManager.php';
 ilCronManager::runActiveJobs();
 
-?>
+ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
+$ilAuth->logout();
+session_destroy();
