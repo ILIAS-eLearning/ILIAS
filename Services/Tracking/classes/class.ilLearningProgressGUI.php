@@ -48,8 +48,9 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				break;
 
 			case 'illplistofobjectsgui':
+				include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 				if($this->getRefId() &&
-					!$ilAccess->checkAccess('read_learning_progress', '', $this->getRefId()))
+					!ilLearningProgressAccess::checkPermission('read_learning_progress', $this->getRefId()))
 				{
 					return;
 				}
@@ -72,9 +73,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				$this->ctrl->forwardCommand($loo_gui);
 				break;
 
-			case 'illplistofsettingsgui':				
+			case 'illplistofsettingsgui':
+				include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 				if($this->getRefId() &&
-					!$ilAccess->checkAccess('edit_learning_progress', '', $this->getRefId()))
+					!ilLearningProgressAccess::checkPermission('edit_learning_progress', $this->getRefId()))
 				{
 					return;
 				}
@@ -172,9 +174,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				include_once './Services/Object/classes/class.ilObjectLP.php';
 				$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($this->getRefId()));						
 				if(!$olp->isActive())
-				{				
+				{
+					include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 					if(!($olp instanceof ilPluginLP) &&
-						$ilAccess->checkAccess('edit_learning_progress','',$this->getRefId()))
+						ilLearningProgressAccess::checkPermission('edit_learning_progress', $this->getRefId()))
 					{
 						return 'illplistofsettingsgui';
 					}
@@ -184,12 +187,14 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 					}
 				}
 											
+				include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 				if(!$this->anonymized &&
-					$ilAccess->checkAccess('read_learning_progress','',$this->getRefId()))
+					ilLearningProgressAccess::checkPermission('read_learning_progress', $this->getRefId()))
 				{
 					return 'illplistofobjectsgui';
 				}								
-				if($ilAccess->checkAccess('edit_learning_progress','',$this->getRefId()))
+				if(
+					ilLearningProgressAccess::checkPermission('edit_learning_progress', $this->getRefId()))
 				{
 					return 'illplistofsettingsgui';
 				}
