@@ -42,16 +42,6 @@ class ilLearningProgressAccess
 			$a_user_id = $GLOBALS['ilUser']->getId();
 		}
 		
-		// workaround for missing permission definitions in file object
-		$type = ilObject::_lookupType($a_ref_id, true);
-		if(
-			$type == 'file' && (
-				$a_permission == 'read_learning_progress' || 
-				$a_permission == 'edit_learning_progress'
-			)
-		) {
-			return $GLOBALS['ilAccess']->checkAccessOfUser($a_user_id, 'write','', $a_ref_id);
-		}
 		return $GLOBALS['ilAccess']->checkAccessOfUser($a_user_id, $a_permission,'', $a_ref_id);
 	}
 	
@@ -79,14 +69,6 @@ class ilLearningProgressAccess
 			return false;
 		}
 		
-		// workaround for missing file object permissions
-		if(ilObject::_lookupType($a_ref_id, true) == 'file' &&
-			$ilAccess->checkAccess('write','',$a_ref_id)
-		)
-		{
-			return true;
-		}
-
 		if($ilAccess->checkAccess('read_learning_progress','',$a_ref_id) ||
 			$ilAccess->checkAccess('edit_learning_progress','',$a_ref_id))
 		{
