@@ -1,9 +1,8 @@
 <?php exit; ?>
 ## Main changes
 
-<<<<<<< HEAD
 New DB table exc_ass_file_order with columns id,assignment_id,filename,order_nr
-=======
+
 #### 7/3/2017 INSTRUCTION FILES - DISPLAYED IN VIEW MODE
 
 ## MIGRATION
@@ -144,7 +143,6 @@ Save and show instruction files located inside root directory instead of outside
 
 ## MANTIS BUG :0019795
 It is not possible to remove files from a peer feedback from a exercise.
->>>>>>> 916bf30... exc. instruction files displayed in line.
 
 - Modules/Exercise/classes/class.ilExAssignmentEditorGUI.php
 working with ilExAssignmentFileSystemGUI instead of ilFileSystemGUI

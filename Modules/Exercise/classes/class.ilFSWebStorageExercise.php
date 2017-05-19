@@ -120,8 +120,6 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
 	 */
 	function getAssignmentFilePath($a_file)
 	{
-		ilLoggerFactory::getRootLogger()->debug("// Get Assignment File Path");
-
 		return $this->getAbsolutePath()."/".$a_file;
 	}
 
