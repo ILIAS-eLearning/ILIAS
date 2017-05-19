@@ -38,11 +38,7 @@ class ComponentRendererFSLoader implements ComponentRendererLoader {
     }
 
 	/**
-	 * Get a renderer for a certain Component class.
-	 *
-	 * @param	string	$class
-	 * @throws	\LogicException		if no renderer could be found for component.
-	 * @return	ComponentRenderer
+	 * @inheritdocs
 	 */
 	public function getRendererFor($class) {
 		$renderer_class = $this->getRendererNameFor($class);
