@@ -2,36 +2,8 @@
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Test {
-	require_once("libs/composer/vendor/autoload.php");
-
-
-use \ILIAS\UI\Implementation\Render\ResourceRegistry;
-use \ILIAS\UI\Renderer as DefaultRenderer;
-use \ILIAS\UI\Component\Component;
-
-class TestComponent implements \ILIAS\UI\Component\Component {
-	public function __construct($text) {
-		$this->text = $text;
-	}
-}
-
-class Renderer implements \ILIAS\UI\Implementation\Render\ComponentRenderer {
-	public function render(Component $component, DefaultRenderer $default_renderer) {
-		return $component->text;
-	}
-
-	public function registerResources(ResourceRegistry $registry) {
-		$registry->register("test.js");
-	}
-}
-
-} // namespace \ILIAS\UI\Test
-
-namespace {
-
-require_once("libs/composer/vendor/autoload.php");
-	require_once(__DIR__."/../Base.php");
+require_once(__DIR__."/TestComponent.php");
+require_once(__DIR__."/../Base.php");
 
 use \ILIAS\UI\Component as C;
 use \ILIAS\UI\Implementation\Glyph\Renderer as GlyphRenderer;
@@ -80,5 +52,3 @@ class DefaultRendererTest extends ILIAS_UI_TestBase {
 		$this->assertEquals(array("test.js"), $this->resource_registry->resources);
 	}
 }
-
-} // root namespace
