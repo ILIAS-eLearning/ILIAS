@@ -343,13 +343,6 @@ interface Factory {
 	 *   purpose: Dropzones are used for drag and drop.
 	 *   composition: >
 	 *     A dropzone is a drag and drop area on the page.
-	 *   effect: >
-	 *     All controls of the original context are inaccessible until the Modal is completed.
-	 *     Upon completion the user returns to the original context.
-	 *
-	 * rules:
-	 *   usage:
-	 *     1: TODO
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\Dropzone\Factory

@@ -6,7 +6,7 @@ function withDarkendBackground() {
 	$renderer = $DIC->ui()->renderer();
 
 
-	$standardDropzone = $uiFactory->dropzone()->standard()
+	$standardDropzone = $uiFactory->dropzone()->file()->standard()
 		->withDarkenedBackground(true);
 
 	return $renderer->render($standardDropzone);

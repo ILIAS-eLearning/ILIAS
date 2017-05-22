@@ -2,14 +2,16 @@
 /**
  * Interface Factory
  *
+ * Describes a factory implementation for ILIAS UI File Dropzones.
+ *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    22.05.17
  * @version 0.0.1
  *
- * @package UI\Component\Dropzone
+ * @package ILIAS\UI\Component\Dropzone
  */
 
-namespace UI\Component\Dropzone;
+namespace ILIAS\UI\Component\Dropzone;
 
 interface Factory {
 

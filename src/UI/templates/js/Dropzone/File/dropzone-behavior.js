@@ -40,8 +40,8 @@ il.UI = il.UI || {};
 		 * e.g. ILIAS\UI\Component\Dropzone\Standard -> ILIASUIComponentDropzoneStandard
 		 */
 		var DROPZONE = {
-			"standard": "ILIASUIComponentDropzoneStandard",
-			"wrapper": "ILIASUIComponentDropzoneWrapper"
+			"standard": "ILIASUIComponentDropzoneFileStandard",
+			"wrapper": "ILIASUIComponentDropzoneFileWrapper"
 		};
 
 		var _darkenedBackground = false;

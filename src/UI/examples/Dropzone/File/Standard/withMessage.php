@@ -5,7 +5,7 @@ function withMessage() {
 	$uiFactory = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$standardDropzone = $uiFactory->dropzone()->standard()
+	$standardDropzone = $uiFactory->dropzone()->file()->standard()
 		->withMessage("Drop files here to upload.");
 
 	return $renderer->render($standardDropzone);

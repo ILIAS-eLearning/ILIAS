@@ -9,8 +9,8 @@ function withMultipleInstances() {
 		["Point 1","Point 2","Point 3"]
 	);
 
-	$firstWrapperDropzone = $uiFactory->dropzone()->wrapper($unorderedList);
-	$secondWrapperDropzone = $uiFactory->dropzone()->wrapper($unorderedList);
+	$firstWrapperDropzone = $uiFactory->dropzone()->file()->wrapper($unorderedList);
+	$secondWrapperDropzone = $uiFactory->dropzone()->file()->wrapper($unorderedList);
 
 	return $renderer->render(array($firstWrapperDropzone, $secondWrapperDropzone));
 }

@@ -9,7 +9,7 @@ function base() {
 		["Point 1","Point 2","Point 3"]
 	);
 
-	$wrapperDropzone = $uiFactory->dropzone()->wrapper($unorderedList);
+	$wrapperDropzone = $uiFactory->dropzone()->file()->wrapper($unorderedList);
 
 	return $renderer->render($wrapperDropzone);
 }

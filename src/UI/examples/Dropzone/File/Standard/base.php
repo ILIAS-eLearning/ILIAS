@@ -6,7 +6,7 @@ function base() {
 	$renderer = $DIC->ui()->renderer();
 
 
-	$standardDropzone = $uiFactory->dropzone()->standard();
+	$standardDropzone = $uiFactory->dropzone()->file()->standard();
 
 	return $renderer->render($standardDropzone);
 }
