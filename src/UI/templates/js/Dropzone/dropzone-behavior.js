@@ -130,6 +130,8 @@ il.UI = il.UI || {};
 		/**
 		 * Disables the highlighting of all dropzones.
 		 * Does NOT affect the highlighting of a single dropzone on drag hover.
+		 *
+		 * @private
 		 */
 		var _disableHighlighting = function () {
 
