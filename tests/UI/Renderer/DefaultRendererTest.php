@@ -12,14 +12,14 @@ class DefaultRendererTest extends ILIAS_UI_TestBase {
 	public function test_getRenderer_successfully() {
 		// There should be a renderer for Glyph...
 		$dr = $this->getDefaultRenderer();
-		$r = $dr->getRendererFor("\\ILIAS\\UI\\Implementation\\Component\\Glyph\\Glyph");
+		$r = $dr->_getRendererFor("\\ILIAS\\UI\\Implementation\\Component\\Glyph\\Glyph");
 		$this->assertInstanceOf("\\ILIAS\\UI\\Implementation\\Render\\ComponentRenderer", $r);
 	}
 
 	public function test_getRenderer_caching() {
 		$dr = $this->getDefaultRenderer();
-		$r1 = $dr->getRendererFor("\\ILIAS\\UI\\Implementation\\Component\\Glyph\\Glyph");
-		$r2 = $dr->getRendererFor("\\ILIAS\\UI\\Implementation\\Component\\Glyph\\Glyph");
+		$r1 = $dr->_getRendererFor("\\ILIAS\\UI\\Implementation\\Component\\Glyph\\Glyph");
+		$r2 = $dr->_getRendererFor("\\ILIAS\\UI\\Implementation\\Component\\Glyph\\Glyph");
 		$this->assertTrue($r1 === $r2, "Instances not equal");
 	}
 

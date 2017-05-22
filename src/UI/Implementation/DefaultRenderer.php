@@ -51,7 +51,7 @@ class DefaultRenderer implements Renderer {
 	 * @throws	\LogicException		if no renderer could be found for component.
 	 * @return	ComponentRenderer
 	 */
-	public function getRendererFor($class) {
+	protected function getRendererFor($class) {
 		return $this->component_renderer_loader->getRendererFor($class);
 	}
 }

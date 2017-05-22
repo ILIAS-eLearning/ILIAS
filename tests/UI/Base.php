@@ -67,6 +67,12 @@ class LoggingJavaScriptBinding implements JavaScriptBinding {
 	}
 }
 
+class TestDefaultRenderer extends DefaultRenderer {
+	public function _getRendererFor($class) {
+		return $this->getRendererFor($class);
+	}
+}
+
 /**
  * Provides common functionality for UI tests.
  */
@@ -119,7 +125,7 @@ abstract class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 						)
 					)
 				);
-		return new DefaultRenderer($component_renderer_loader);
+		return new TestDefaultRenderer($component_renderer_loader);
 	}
 
 	public function normalizeHTML($html) {
