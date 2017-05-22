@@ -578,6 +578,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 							if($cmd != "history" && $is_active && empty($info))
 							{
 								$info[] = $lng->txt("blog_new_posting_info");
+								$public_action = true;
 							}							
 							if($this->object->hasApproval() && !$bpost_gui->getBlogPosting()->isApproved())
 							{								
@@ -586,8 +587,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 							}
 							if(sizeof($info) && !$tpl->hasMessage("info")) // #15121
 							{
-								ilUtil::sendInfo(implode("<br />", $info));	
-							}					
+								if($public_action)
+								{
+									ilUtil::sendSuccess(implode("<br />", $info));
+								}
+								else
+								{
+									ilUtil::sendInfo(implode("<br />", $info));
+								}
+							}
 							// revert to edit cmd to avoid confusion
 							$this->addHeaderActionForCommand("render");	
 							$tpl->setContent($ret);
