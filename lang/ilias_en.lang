@@ -15896,6 +15896,7 @@ chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository c
 chatroom#:#chat_deletion_interval_unit#:#Unit
 chatroom#:#chat_deletion_interval_value#:#Value
 chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s
+chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
 copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
