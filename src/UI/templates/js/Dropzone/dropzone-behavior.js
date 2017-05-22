@@ -2,7 +2,7 @@
  * Provides the behavior of all dropzone types.
  *
  * @author nmaerchy <nm@studer-raimann.ch>
- * @version 0.0.6
+ * @version 0.0.7
  */
 
 var il = il || {};
@@ -85,6 +85,7 @@ il.UI = il.UI || {};
 					_initStandardDropzone(settings);
 					break;
 				case DROPZONE.wrapper:
+					_initWrapperDropzone(settings);
 					break;
 				default:
 					throw new Error("Unsupported dropzone type found: " + type);
@@ -155,7 +156,7 @@ il.UI = il.UI || {};
 
 
 
-		/*
+		/**
 		 * @private functions to initialize different types of dropzones -----------------------------------
 		 *
 		 * Every dropzone MUST have its own init function (improves code readability).
@@ -192,6 +193,7 @@ il.UI = il.UI || {};
 		};
 
 		/**
+		 * Also inits the drag and drop behavior on the document for highlighting.
 		 *
 		 * @param {Object} options possible settings for this dropzone
 		 *                         @see {@link initializeDropzone}
@@ -200,13 +202,42 @@ il.UI = il.UI || {};
 		 */
 		var _initWrapperDropzone = function (options) {
 
+			$(document).dragster({
+
+				enter: function (dragsterEvent, event) {
+					_enableHighlighting(_darkenedBackground);
+				},
+				leave: function (dragsterEvent, event) {
+					_disableHighlighting();
+				},
+				drop: function (dragsterEvent, event) {
+					_disableHighlighting();
+				}
+			});
 
 
+			/*
+			 * event.stopImmediatePropagation() is needed
+			 * to prevent dragster to fire leave events on the document,
+			 * when a user just leaves on the dropzone.
+			 */
+			$("#" + options.id).dragster({
+
+				enter: function (dragsterEvent, event) {
+					dragsterEvent.stopImmediatePropagation();
+					$(this).addClass(CSS.dropzoneDragHover);
+				},
+				leave: function (dragsterEvent, event) {
+					dragsterEvent.stopImmediatePropagation();
+					$(this).removeClass(CSS.dropzoneDragHover);
+				},
+				drop: function (dragsterEvent, event) {
+					$(this).removeClass(CSS.dropzoneDragHover);
+					_disableHighlighting();
+					_triggerSignals(options.registeredSignals, event);
+				}
+			});
 		};
-
-		// --------------------------------------------------------------------------------------------------
-
-
 
 
 		return {
