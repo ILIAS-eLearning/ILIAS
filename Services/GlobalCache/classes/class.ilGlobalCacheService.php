@@ -222,8 +222,6 @@ abstract class ilGlobalCacheService {
 	 */
 	public function returnKey($key) {
 		return $str = $this->getServiceId() . '_' . $this->getComponent() . '_' . $key;
-
-		return str_replace('/', '_', $str);
 	}
 
 
