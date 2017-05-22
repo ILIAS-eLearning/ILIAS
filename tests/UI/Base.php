@@ -11,6 +11,9 @@ use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 use ILIAS\UI\Implementation\DefaultRenderer;
+use ILIAS\UI\Implementation\ComponentRendererFSLoader;
+use ILIAS\UI\Implementation\ComponentRendererLoaderCachingWrapper;
+use ILIAS\UI\Implementation\ComponentRendererLoaderResourceRegistryWrapper;
 use ILIAS\UI\Factory;
 
 class ilIndependentTemplateFactory implements TemplateFactory {
@@ -104,8 +107,19 @@ abstract class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 		$resource_registry = $this->getResourceRegistry();
 		$lng = $this->getLanguage();
 		$js_binding = $this->getJavaScriptBinding();
-		return new DefaultRenderer(
-				$ui_factory, $tpl_factory, $resource_registry, $lng, $js_binding);
+		$component_renderer_loader
+			= new ComponentRendererLoaderCachingWrapper
+				( new ComponentRendererLoaderResourceRegistryWrapper
+					( $resource_registry
+					, new ComponentRendererFSLoader
+						( $ui_factory
+						, $tpl_factory
+						, $lng
+						, $js_binding
+						)
+					)
+				);
+		return new DefaultRenderer($component_renderer_loader);
 	}
 
 	public function normalizeHTML($html) {

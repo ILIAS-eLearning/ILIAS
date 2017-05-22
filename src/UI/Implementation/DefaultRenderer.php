@@ -7,10 +7,7 @@ namespace ILIAS\UI\Implementation;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
-use ILIAS\UI\Implementation\Render\TemplateFactory;
-use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ILIAS\UI\Implementation\Render\JavaScriptBinding;
-use ILIAS\UI\Factory as RootFactory;
+use ILIAS\UI\Implementation\ComponentRendererLoader;
 
 /**
  * Renderer that dispatches rendering of UI components to a Renderer found
@@ -18,41 +15,12 @@ use ILIAS\UI\Factory as RootFactory;
  */
 class DefaultRenderer implements Renderer {
 	/**
-	 * @var	RootFactory
+	 * @var	ComponentRendererLoader
 	 */
-	private $ui_factory;
+	private $component_renderer_loader;
 
-	/**
-	 * @var	array<string, ComponentRenderer>
-	 */
-	private $cache = array();
-
-	/**
-	 * @var	TemplateFactory
-	 */
-	private $tpl_factory;
-
-	/**
-	 * @var	ResourceRegistry
-	 */
-	private $resource_registry;
-
-	/**
-	 * @var	\ilLanguage
-	 */
-	private $lng;
-
-	/**
-	 * @var	JavaScriptBinding
-	 */
-	private $js_binding;
-
-	public function __construct(RootFactory $ui_factory, TemplateFactory $tpl_factory, ResourceRegistry $resource_registry, \ilLanguage $lng, JavaScriptBinding $js_binding) {
-		$this->ui_factory = $ui_factory;
-		$this->tpl_factory = $tpl_factory;
-		$this->resource_registry = $resource_registry;
-		$this->lng = $lng;
-		$this->js_binding = $js_binding;
+	public function __construct(ComponentRendererLoader $component_renderer_loader) {
+		$this->component_renderer_loader = $component_renderer_loader;
 	}
 
 	/**
@@ -84,41 +52,6 @@ class DefaultRenderer implements Renderer {
 	 * @return	ComponentRenderer
 	 */
 	public function getRendererFor($class) {
-		if (array_key_exists($class, $this->cache)) {
-			return $this->cache[$class];
-		}
-		$renderer = $this->instantiateRendererFor($class);
-		$renderer->registerResources($this->resource_registry);
-		$this->cache[$class] = $renderer;
-		return $renderer;
-	}
-
-	/**
-	 * Instantiate a renderer for a certain Component class.
-	 *
-	 * This will always create a fresh renderer for the component.
-	 *
-	 * @param	string	$class
-	 * @throws	\LogicException		if no renderer could be found for component.
-	 * @return	ComponentRenderer
-	 */
-	public function instantiateRendererFor($class) {
-		$renderer_class = $this->getRendererNameFor($class);
-		if (!class_exists($renderer_class)) {
-			throw new \LogicException("No rendered for '".$class."' found.");
-		}
-		return new $renderer_class($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
-	}
-
-	/**
-	 * Get the class name for the renderer of Component class.
-	 *
-	 * @param	string	$class
-	 * @return 	string
-	 */
-	public function	getRendererNameFor($class) {
-		$parts = explode("\\", $class);
-		$parts[count($parts)-1] = "Renderer";
-		return implode("\\", $parts);
+		return $this->component_renderer_loader->getRendererFor($class);
 	}
 }

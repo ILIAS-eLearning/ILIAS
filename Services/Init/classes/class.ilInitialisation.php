@@ -1228,17 +1228,26 @@ class ilInitialisation
 		};
 		$c["ui.renderer"] = function($c) {
 			return new ILIAS\UI\Implementation\DefaultRenderer
-							( $c["ui.factory"]
-							, $c["ui.template_factory"]
-							, $c["ui.resource_registry"]
-							, $c["lng"]
-							, $c["ui.javascript_binding"]
-							);
+				( $c["ui.component_renderer_loader"]
+				);
+		};
+		$c["ui.component_renderer_loader"] = function($c) {
+			return new ComponentRendererLoaderCachingWrapper
+				( new ComponentRendererLoaderResourceRegistryWrapper
+					( $c["ui.resource_registry"]
+					, new ComponentRendererFSLoader
+						( $c["ui.factory"]
+						, $c["ui.template_factory"]
+						, $c["lng"]
+						, $c["ui.javascript_binding"]
+						)
+					)
+				);
 		};
 		$c["ui.template_factory"] = function($c) {
 			return new ILIAS\UI\Implementation\Render\ilTemplateWrapperFactory
-							( $c["tpl"]
-							);
+				( $c["tpl"]
+				);
 		};
 		$c["ui.resource_registry"] = function($c) {
 			return new ILIAS\UI\Implementation\Render\ilResourceRegistry($c["tpl"]);
