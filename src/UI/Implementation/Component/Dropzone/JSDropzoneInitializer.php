@@ -2,9 +2,11 @@
 /**
  * Class JSDropzoneInitializer
  *
+ * Generates the javascript code to initialize a dropzone.
+ *
  * @author  nmaerchy
  * @date    22.05.17
- * @version 0.0.1
+ * @version 0.0.2
  *
  * @package ILIAS\UI\Implementation\Component\Dropzone
  */
@@ -22,10 +24,16 @@ class JSDropzoneInitializer {
 	/**
 	 * JSDropzoneInitializer constructor.
 	 *
-	 * @param SimpleDropzone $dropzone
+	 * @param SimpleDropzone $dropzone a wrapper class for dropzones
 	 */
 	public function __construct(SimpleDropzone $dropzone) { $this->dropzone = $dropzone; }
 
+
+	/**
+	 * Generates the javascript code to initialize a dropzone.
+	 *
+	 * @return string the generated code
+	 */
 	public function initDropzone() {
 
 		$darkenedBackground = $this->dropzone->isDarkenedBackground()? "true" : "false";
@@ -42,6 +50,10 @@ class JSDropzoneInitializer {
 
 	}
 
+
+	/**
+	 * @return string the registered signals as comma separated string
+	 */
 	private function getRegisteredSignals() {
 
 		$registeredSignalList = array();
