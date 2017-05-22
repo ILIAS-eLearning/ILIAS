@@ -4,7 +4,7 @@
  *
  * Generates the javascript code to initialize a dropzone.
  *
- * @author  nmaerchy
+ * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    22.05.17
  * @version 0.0.2
  *
