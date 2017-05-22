@@ -7,7 +7,7 @@
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    09.05.17
- * @version 0.0.5
+ * @version 0.0.6
  *
  * @package ILIAS\UI\Implementation\Component\Dropzone
  */
@@ -31,9 +31,9 @@ class SimpleDropzone {
 	 */
 	private $registeredSignals;
 	/**
-	 * @var boolean $useAutoHighlight
+	 * @var string $type
 	 */
-	private $useAutoHighlight;
+	private $type;
 
 
 	/**
@@ -106,19 +106,19 @@ class SimpleDropzone {
 
 
 	/**
-	 * @return bool
+	 * @return string
 	 */
-	public function isUseAutoHighlight() {
-		return $this->useAutoHighlight;
+	public function getType() {
+		return $this->type;
 	}
 
 
 	/**
-	 * @param bool $useAutoHighlight
+	 * @param string $type
 	 * @return SimpleDropzone The instance of this object.
 	 */
-	public function setUseAutoHighlight($useAutoHighlight) {
-		$this->useAutoHighlight = $useAutoHighlight;
+	public function setType($type) {
+		$this->type = $type;
 		return $this;
 	}
 
