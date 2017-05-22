@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
+require_once('./Services/FileSystem/classes/class.ilFileSystemStorage.php');
 /**
  *
  * @author Jesús López <lopez@leifos.com>
@@ -92,6 +92,11 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
 	 */
 	function getFiles()
 	{
+		require_once "./Modules/Exercise/classes/class.ilExAssignment.php";
+
+		$ass = new ilExAssignment();
+		$files_order = $ass->getInstructionFilesOrder($this->ass_id);
+
 		$files = array();
 		if (!is_dir($this->path))
 		{
@@ -107,11 +112,13 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
 					'name'     => $file,
 					'size'     => filesize($this->path.'/'.$file),
 					'ctime'    => filectime($this->path.'/'.$file),
-					'fullpath' => $this->path.'/'.$file);
+					'fullpath' => $this->path.'/'.$file,
+					'order'    => $files_order[$file] ? $files_order[$file] : 0
+					);
 			}
 		}
 		closedir($dp);
-		$files = ilUtil::sortArray($files, "name", "asc");
+		$files = ilUtil::sortArray($files, "order", "asc");
 		return $files;
 	}
 
@@ -149,4 +156,3 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
 	}
 
 }
-?>

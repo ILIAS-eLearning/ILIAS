@@ -1094,6 +1094,27 @@ class ilExAssignment
 		$storage = new ilFSWebStorageExercise($this->getExerciseId(), $this->getId());
 		return $storage->getFiles();
 	}
+
+	/**
+	 * @param $a_ass_id
+	 * @return array
+	 */
+	public function getInstructionFilesOrder($a_ass_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT filename, order_nr FROM exc_ass_file_order ".
+			" WHERE assignment_id  = ".$ilDB->quote($a_ass_id, "integer")
+		);
+
+		$data = array();
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			$data[$rec['filename']] = $rec['order_nr'];
+		}
+
+		return $data;
+	}
 	
 	/**
 	 * Select the maximum order nr for an exercise
