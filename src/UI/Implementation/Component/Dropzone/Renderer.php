@@ -125,28 +125,8 @@ class Renderer extends AbstractComponentRenderer {
 		// setup template
 		$tpl = $this->getTemplate("tpl.wrapper-dropzone.html", true, true);
 		$tpl->setVariable("ID", $dropzoneId);
-		$tpl->setVariable("CONTENT", $this->renderComponentList($wrapperDropzone->getContent()));
+		$tpl->setVariable("CONTENT", $this->renderer->render($wrapperDropzone->getContent()));
 
 		return $tpl->get();
 	}
-
-
-	/**
-	 * Renders each component of the passed in array.
-	 *
-	 * @param Component[] $componentList an array of ILIAS UI components
-	 *
-	 * @return string the passed in components as html
-	 */
-	private function renderComponentList(array $componentList) {
-
-		$contentHmtl = "";
-
-		foreach ($componentList as $component) {
-			$contentHmtl .= $this->renderer->render($component);
-		}
-
-		return $contentHmtl;
-	}
-
 }
