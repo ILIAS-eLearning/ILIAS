@@ -71,6 +71,9 @@ class TestDefaultRenderer extends DefaultRenderer {
 	public function _getRendererFor($class) {
 		return $this->getRendererFor($class);
 	}
+	public function _getContexts() {
+		return $this->getContexts();
+	}
 }
 
 /**

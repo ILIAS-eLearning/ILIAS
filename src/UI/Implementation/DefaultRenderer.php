@@ -19,6 +19,11 @@ class DefaultRenderer implements Renderer {
 	 */
 	private $component_renderer_loader;
 
+	/**
+	 * @var Component[]
+	 */
+	private $contexts = [];
+
 	public function __construct(ComponentRendererLoader $component_renderer_loader) {
 		$this->component_renderer_loader = $component_renderer_loader;
 	}
@@ -42,6 +47,15 @@ class DefaultRenderer implements Renderer {
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function withAdditionalContext(Component $context) {
+		$clone = clone $this;
+		$clone->contexts[] = $context;
+		return $clone;
+	}
+
+	/**
 	 * Get a renderer for a certain Component class.
 	 *
 	 * Either initializes a new renderer or uses a cached one initialized
@@ -53,5 +67,15 @@ class DefaultRenderer implements Renderer {
 	 */
 	protected function getRendererFor($class) {
 		return $this->component_renderer_loader->getRendererFor($class);
+	}
+
+	/**
+	 * Get the contexts that are added via withAdditionalContext where most recently
+	 * added contexts come last.
+	 *
+	 * @return  Component[]
+	 */
+	protected function getContexts() {
+		return $this->contexts;
 	}
 }

@@ -36,4 +36,22 @@ class DefaultRendererTest extends ILIAS_UI_TestBase {
 
 		$this->assertEquals(array("test.js"), $this->resource_registry->resources);
 	}
+
+	public function test_withAdditionalContext_clones() {
+		$dr = $this->getDefaultRenderer();
+		$component = new \ILIAS\UI\Test\TestComponent("foo");
+		$dr2 = $dr->withAdditionalContext($component);
+		$this->assertNotSame($dr, $dr2);
+	}
+
+	public function test_getContexts() {
+		$dr = $this->getDefaultRenderer();
+		$c1 = new \ILIAS\UI\Test\TestComponent("foo");
+		$c2 = new \ILIAS\UI\Test\TestComponent("bar");
+		$dr2 = $dr
+			->withAdditionalContext($c1)
+			->withAdditionalContext($c2);
+		$this->assertEquals([], $dr->_getContexts());
+		$this->assertEquals([$c1, $c2], $dr2->_getContexts());
+	}
 }
