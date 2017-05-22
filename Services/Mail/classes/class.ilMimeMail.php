@@ -332,7 +332,7 @@ class ilMimeMail
 			$skin = $ilClientIniFile->readVariable('layout', 'skin');
 
 			$bracket_path = './Services/Mail/templates/default/tpl.html_mail_template.html';
-			if($skin != 'delos')
+			if($skin != 'default')
 			{
 				$tplpath = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
 
@@ -358,7 +358,7 @@ class ilMimeMail
 			$this->final_body = str_replace('{PLACEHOLDER}', ilUtil::makeClickable($this->body), $bracket);
 
 			$directory = './Services/Mail/templates/default/img/';
-			if($skin != 'delos')
+			if($skin != 'default')
 			{
 				$directory = './Customizing/global/skin/' . $skin . '/Services/Mail/img/';
 			}
