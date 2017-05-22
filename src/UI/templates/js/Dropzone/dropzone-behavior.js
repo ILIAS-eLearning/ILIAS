@@ -35,11 +35,13 @@ il.UI = il.UI || {};
 
 		/**
 		 * Contains all supported dropzone types.
-		 * The type MUST be equal to the class name used in php.
+		 * The type MUST be equal to the full qualified class name used in php.
+		 * NOTE backslashes needs to be removed.
+		 * e.g. ILIAS\UI\Component\Dropzone\Standard -> ILIASUIComponentDropzoneStandard
 		 */
-		var TYPES = {
-			"standard": "Standard",
-			"wrapper": "Wrapper"
+		var DROPZONE = {
+			"standard": "ILIASUIComponentDropzoneStandard",
+			"wrapper": "ILIASUIComponentDropzoneWrapper"
 		};
 
 		var _darkenedBackground = false;
@@ -61,6 +63,11 @@ il.UI = il.UI || {};
 		 */
 		var initializeDropzone = function (type, options) {
 
+			// disable default behavior of browsers for file drops
+			$(document).on("dragenter dragstart dragend dragleave dragover drag drop", function (e) {
+				e.preventDefault();
+			});
+
 			var settings = $.extend({
 				// default settings
 				registeredSignals: [],
@@ -73,20 +80,14 @@ il.UI = il.UI || {};
 
 			_configureDarkenedBackground(settings.darkenedBackground);
 
-			/*
-			 * We have to find Dropzone and then the word after it, because it is something like this:
-			 * ILIASUIComponentsDropzoneStandard <- Standard is what we want
-			 */
-			var dropzoneType = type.substring((type.lastIndexOf("Dropzone")) + 8);
-
-			switch (dropzoneType) {
-				case TYPES.standard:
+			switch (type) {
+				case DROPZONE.standard:
 					_initStandardDropzone(settings);
 					break;
-				case TYPES.wrapper:
+				case DROPZONE.wrapper:
 					break;
 				default:
-					throw new Error("Unsupported dropzone type found: " + dropzoneType);
+					throw new Error("Unsupported dropzone type found: " + type);
 			}
 
 		};
@@ -138,9 +139,6 @@ il.UI = il.UI || {};
 
 		/**
 		 * Triggers all passed in signals with the passed in event.
-		 *
-		 * This method MUST bind "this" to the function call.
-		 * e.g. _triggerSignals(signalList, event).bind(this);
 		 *
 		 * @param {Array} signalList all signals to trigger
 		 * @param {Object} event the javascript event to trigger
