@@ -61,7 +61,7 @@ class JSDropzoneInitializer {
 		foreach ($this->dropzone->getRegisteredSignals() as $registeredSignal) {
 
 			$signal = $registeredSignal->getSignal();
-			array_push($registeredSignalList, $signal);
+			$registeredSignalList[] = "\"$signal\"";
 		}
 
 		return implode(",", $registeredSignalList);
