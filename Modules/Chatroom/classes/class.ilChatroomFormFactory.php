@@ -371,11 +371,12 @@ class ilChatroomFormFactory
 		$interval_unit->setOptions(array(
 			'days'  => $lng->txt('days'),
 			'weeks' => $lng->txt('weeks'),
-			'month' => $lng->txt('months'),
-			'years' => $lng->txt('years')
+			'month' => $lng->txt('months')
 		));
 		$chat_deletion_interval->addSubItem($interval_unit);
-		$interval_value = new ilNumberInputGUI($lng->txt('chat_deletion_interval_value'), 'deletion_value');
+
+		require_once 'Modules/Chatroom/classes/form/class.ilChatroomMessageDeletionThresholdInputGUI.php';
+		$interval_value = new ilChatroomMessageDeletionThresholdInputGUI($lng->txt('chat_deletion_interval_value'), 'deletion_value', $interval_unit);
 		$interval_value->allowDecimals(false);
 		$interval_value->setMinValue(1);
 		$interval_value->setRequired(true);
