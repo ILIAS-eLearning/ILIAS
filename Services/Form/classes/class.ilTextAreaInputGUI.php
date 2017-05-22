@@ -449,7 +449,10 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 
 		if($this->isCharLimited())
 		{
-			$chars_entered = strlen(trim(strip_tags($_POST[$this->getPostVar()])));
+			//avoid whitespace surprises. #20630
+			$ascii_whitespaces = chr(194).chr(160);
+
+			$chars_entered = strlen(strip_tags(str_replace($ascii_whitespaces, ' ', $_POST[$this->getPostVar()])));
 
 			if($this->getMaxNumOfChars() && ($chars_entered > $this->getMaxNumOfChars()))
 			{

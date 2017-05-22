@@ -407,7 +407,9 @@ il.Form = {
 		//var content_raw = ed.getContent({ format: 'raw' }); // whitespaces and br issues. (first whitespace creates br etc.)
 		var content_raw = ed.getContent({ format: 'raw' });
 		var content = content_raw.replace(/<\/?[^>]+(>|$)/g, "");
-		var text_length = content.length;
+		//20630
+		var content_no_spaces = content.replace(/&nbsp;/g, " ");
+        var text_length = content_no_spaces.length;
 
 		var max_limit = $('#textarea_feedback_'+ed.id).data("maxchars");
 		if(max_limit > 0) {
