@@ -6,7 +6,7 @@
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    05.05.17
- * @version 0.0.8
+ * @version 0.0.9
  *
  * @package ILIAS\UI\Implementation\Component\Dropzone
  */
@@ -76,14 +76,14 @@ class Renderer extends AbstractComponentRenderer {
 		$dropzoneId = $this->createId();
 
 		// setup javascript
-		$jsHelper = new JavascriptHelper(
+		$jsDropzoneInitializer = new JSDropzoneInitializer(
 			SimpleDropzone::of()
 				->setId($dropzoneId)
+				->setType(\ILIAS\UI\Component\Dropzone\Standard::class)
 				->setDarkenedBackground($standardDropzone->isDarkenedBackground())
-				->setRegisteredSignals($standardDropzone->getTriggeredSignals())
-				->setUseAutoHighlight(false));
+				->setRegisteredSignals($standardDropzone->getTriggeredSignals()));
 
-		$this->getJavascriptBinding()->addOnLoadCode($jsHelper->initializeStandardDropzone());
+		$this->getJavascriptBinding()->addOnLoadCode($jsDropzoneInitializer->initDropzone());
 
 
 		// setup template
@@ -113,14 +113,14 @@ class Renderer extends AbstractComponentRenderer {
 		$dropzoneId = $this->createId();
 
 		// setup javascript
-		$jsHelper = new JavascriptHelper(
+		$jsDropzoneInitializer = new JSDropzoneInitializer(
 			SimpleDropzone::of()
 				->setId($dropzoneId)
+				->setType(\ILIAS\UI\Component\Dropzone\Wrapper::class)
 				->setDarkenedBackground($wrapperDropzone->isDarkenedBackground())
-				->setRegisteredSignals($wrapperDropzone->getTriggeredSignals())
-				->setUseAutoHighlight(true));
+				->setRegisteredSignals($wrapperDropzone->getTriggeredSignals()));
 
-		$this->getJavascriptBinding()->addOnLoadCode($jsHelper->initializeWrapperDropzone());
+		$this->getJavascriptBinding()->addOnLoadCode($jsDropzoneInitializer->initDropzone());
 
 		// setup template
 		$tpl = $this->getTemplate("tpl.wrapper-dropzone.html", true, true);
