@@ -9,10 +9,10 @@
  * @date    09.05.17
  * @version 0.0.6
  *
- * @package ILIAS\UI\Implementation\Component\Dropzone
+ * @package ILIAS\UI\Implementation\Component\Dropzone\File
  */
 
-namespace ILIAS\UI\Implementation\Component\Dropzone;
+namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Implementation\Component\TriggeredSignalInterface;
 

@@ -8,10 +8,10 @@
  * @date    05.05.17
  * @version 0.0.9
  *
- * @package ILIAS\UI\Implementation\Component\Dropzone
+ * @package ILIAS\UI\Implementation\Component\Dropzone\File
  */
 
-namespace ILIAS\UI\Implementation\Component\Dropzone;
+namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\DefaultRenderer;
@@ -30,8 +30,8 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function getComponentInterfaceName() {
 		return array(
-			\ILIAS\UI\Component\Dropzone\Standard::class,
-			\ILIAS\UI\Component\Dropzone\Wrapper::class
+			\ILIAS\UI\Component\Dropzone\File\Standard::class,
+			\ILIAS\UI\Component\Dropzone\File\Wrapper::class
 		);
 	}
 
@@ -44,11 +44,11 @@ class Renderer extends AbstractComponentRenderer {
 
 		$this->renderer = $default_renderer;
 
-		if ($component instanceof \ILIAS\UI\Component\Dropzone\Wrapper) {
+		if ($component instanceof \ILIAS\UI\Component\Dropzone\File\Wrapper) {
 			return $this->renderWrapperDropzone($component);
 		}
 
-		if ($component instanceof \ILIAS\UI\Component\Dropzone\Standard) {
+		if ($component instanceof \ILIAS\UI\Component\Dropzone\File\Standard) {
 			return $this->renderStandardDropzone($component);
 		}
 	}
@@ -59,7 +59,7 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
-		$registry->register("./src/UI/templates/js/Dropzone/dropzone-behavior.js");
+		$registry->register("./src/UI/templates/js/Dropzone/File/dropzone-behavior.js");
 		$registry->register("./src/UI/templates/js/libs/jquery.dragster.js");
 	}
 
@@ -67,11 +67,11 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * Renders the passed in standerd dropzone.
 	 *
-	 * @param \ILIAS\UI\Component\Dropzone\Standard $standardDropzone the dropzone to render
+	 * @param \ILIAS\UI\Component\Dropzone\File\Standard $standardDropzone the dropzone to render
 	 *
 	 * @return string the html representation of the passed in argument.
 	 */
-	private function renderStandardDropzone(\ILIAS\UI\Component\Dropzone\Standard $standardDropzone) {
+	private function renderStandardDropzone(\ILIAS\UI\Component\Dropzone\File\Standard $standardDropzone) {
 
 		$dropzoneId = $this->createId();
 
@@ -79,7 +79,7 @@ class Renderer extends AbstractComponentRenderer {
 		$jsDropzoneInitializer = new JSDropzoneInitializer(
 			SimpleDropzone::of()
 				->setId($dropzoneId)
-				->setType(\ILIAS\UI\Component\Dropzone\Standard::class)
+				->setType(\ILIAS\UI\Component\Dropzone\File\Standard::class)
 				->setDarkenedBackground($standardDropzone->isDarkenedBackground())
 				->setRegisteredSignals($standardDropzone->getTriggeredSignals()));
 
@@ -104,11 +104,11 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * Renders the passed in wrapper dropzone.
 	 *
-	 * @param \ILIAS\UI\Component\Dropzone\Wrapper $wrapperDropzone the dropzone to render
+	 * @param \ILIAS\UI\Component\Dropzone\File\Wrapper $wrapperDropzone the dropzone to render
 	 *
 	 * @return string the html representation of the passed in argument.
 	 */
-	private function renderWrapperDropzone(\ILIAS\UI\Component\Dropzone\Wrapper $wrapperDropzone) {
+	private function renderWrapperDropzone(\ILIAS\UI\Component\Dropzone\File\Wrapper $wrapperDropzone) {
 
 		$dropzoneId = $this->createId();
 
@@ -116,7 +116,7 @@ class Renderer extends AbstractComponentRenderer {
 		$jsDropzoneInitializer = new JSDropzoneInitializer(
 			SimpleDropzone::of()
 				->setId($dropzoneId)
-				->setType(\ILIAS\UI\Component\Dropzone\Wrapper::class)
+				->setType(\ILIAS\UI\Component\Dropzone\File\Wrapper::class)
 				->setDarkenedBackground($wrapperDropzone->isDarkenedBackground())
 				->setRegisteredSignals($wrapperDropzone->getTriggeredSignals()));
 

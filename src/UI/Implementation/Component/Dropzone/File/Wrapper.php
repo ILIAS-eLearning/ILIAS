@@ -8,15 +8,15 @@
  * @date    05.05.17
  * @version 0.0.2
  *
- * @package ILIAS\UI\Implementation\Component\Dropzone
+ * @package ILIAS\UI\Implementation\Component\Dropzone\File
  */
 
-namespace ILIAS\UI\Implementation\Component\Dropzone;
+namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
-class Wrapper extends Dropzone implements \ILIAS\UI\Component\Dropzone\Wrapper {
+class Wrapper extends Dropzone implements \ILIAS\UI\Component\Dropzone\File\Wrapper {
 	use ComponentHelper;
 
 	/**

@@ -8,10 +8,10 @@
  * @date    22.05.17
  * @version 0.0.2
  *
- * @package ILIAS\UI\Implementation\Component\Dropzone
+ * @package ILIAS\UI\Implementation\Component\Dropzone\File
  */
 
-namespace ILIAS\UI\Implementation\Component\Dropzone;
+namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 class JSDropzoneInitializer {
 

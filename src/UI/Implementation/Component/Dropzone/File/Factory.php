@@ -8,12 +8,12 @@
  * @date    05.05.17
  * @version 0.0.3
  *
- * @package ILIAS\UI\Implementation\Component\Dropzone
+ * @package ILIAS\UI\Implementation\Component\Dropzone\File
  */
 
-namespace ILIAS\UI\Implementation\Component\Dropzone;
+namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
-class Factory implements \ILIAS\UI\Component\Dropzone\Factory {
+class Factory implements \ILIAS\UI\Component\Dropzone\File\Factory {
 
 	/**
 	 * @inheritDoc

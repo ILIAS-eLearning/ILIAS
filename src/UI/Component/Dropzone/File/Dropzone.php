@@ -8,10 +8,10 @@
  * @date    05.05.17
  * @version 0.0.2
  *
- * @package ILIAS\UI\Component\Dropzone
+ * @package ILIAS\UI\Component\Dropzone\File
  */
 
-namespace ILIAS\UI\Component\Dropzone;
+namespace ILIAS\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Droppable;

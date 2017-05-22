@@ -8,14 +8,14 @@
  * @date    05.05.17
  * @version 0.0.2
  *
- * @package ILIAS\UI\Implementation\Component\Dropzone
+ * @package ILIAS\UI\Implementation\Component\Dropzone\File
  */
 
-namespace ILIAS\UI\Implementation\Component\Dropzone;
+namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
-class Standard extends Dropzone implements \ILIAS\UI\Component\Dropzone\Standard {
+class Standard extends Dropzone implements \ILIAS\UI\Component\Dropzone\File\Standard {
 	use ComponentHelper;
 
 	private $message = "";
