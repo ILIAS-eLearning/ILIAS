@@ -354,7 +354,8 @@ class ilChatroomFormFactory
 		$chatServerClientUrl = new ilTextInputGUI($lng->txt('url'), 'client_url');
 		$chatServerClientUrl->setRequired(true);
 		$chatServerClientUrl->setInfo($lng->txt('connection_url_info'));
-
+		$clientProxy->addSubItem($chatServerClientUrl);
+		
 		$deletion_section = new ilFormSectionHeaderGUI();
 		$deletion_section->setTitle($lng->txt('chat_deletion_section_head'));
 		$form->addItem($deletion_section);
