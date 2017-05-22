@@ -81,6 +81,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 			'deletion_mode'=> $form->getInput('deletion_mode'),
 			'deletion_unit'=> $form->getInput('deletion_unit'),
 			'deletion_value'=> $form->getInput('deletion_value'),
+			'deletion_time' => $form->getInput('time'),
 		);
 
 		$adminSettings = new ilChatroomAdmin($this->gui->object->getId());

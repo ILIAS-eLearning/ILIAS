@@ -371,7 +371,8 @@ class ilChatroomFormFactory
 		$interval_unit->setOptions(array(
 			'days'  => $lng->txt('days'),
 			'weeks' => $lng->txt('weeks'),
-			'month' => $lng->txt('months')
+			'month' => $lng->txt('months'),
+			'years' => $lng->txt('years'),
 		));
 		$chat_deletion_interval->addSubItem($interval_unit);
 
@@ -381,6 +382,13 @@ class ilChatroomFormFactory
 		$interval_value->setMinValue(1);
 		$interval_value->setRequired(true);
 		$chat_deletion_interval->addSubItem($interval_value);
+
+		$runAtTime = new ilTextInputGUI($lng->txt('chat_deletion_interval_run_at'), 'time');
+		$runAtTime->setInfo($lng->txt('chat_deletion_interval_run_at_info'));
+		$runAtTime->setRequired(true);
+		$runAtTime->setValidationRegexp('/([01][0-9]|[2][0-3]):[0-5][0-9]/');
+		$chat_deletion_interval->addSubItem($runAtTime);
+
 		$deletion_options->addOption($chat_deletion_interval);
 
 		$form->addItem($deletion_options);
