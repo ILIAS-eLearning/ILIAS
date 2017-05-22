@@ -115,7 +115,12 @@ class ilExAssignmentEditorGUI
 		// #16163 - ignore ass id from request
 		$this->assignment = null;
 
-		$form = $this->initAssignmentForm($_POST["type"], "create");
+		if(!(int)$_POST["type"])
+		{
+			$ilCtrl->redirect($this, "listAssignments");
+		}
+
+		$form = $this->initAssignmentForm((int)$_POST["type"], "create");
 		$tpl->setContent($form->getHTML());
 	}
 	
