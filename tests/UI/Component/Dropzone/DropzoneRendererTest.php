@@ -39,7 +39,7 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase {
 	/**
 	 * should be rendered with the css class .standard and a span-tag with the passed in message inside the dropzone div.
 	 */
-	public function testRenderStandardDropzoneWithDefaultMessage() {
+	public function testRenderStandardDropzoneWithMessage() {
 
 		// setup expected objects
 		$expectedHtml = "<div id=\"id_1\" class=\"il-dropzone standard\"><div class=\"dz-default dz-message\"><span>Drop files here to upload</span></div></div>";
