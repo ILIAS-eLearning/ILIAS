@@ -383,7 +383,7 @@ class ilChatroomFormFactory
 		$interval_value->setRequired(true);
 		$chat_deletion_interval->addSubItem($interval_value);
 
-		$runAtTime = new ilTextInputGUI($lng->txt('chat_deletion_interval_run_at'), 'time');
+		$runAtTime = new ilTextInputGUI($lng->txt('chat_deletion_interval_run_at'), 'deletion_time');
 		$runAtTime->setInfo($lng->txt('chat_deletion_interval_run_at_info'));
 		$runAtTime->setRequired(true);
 		$runAtTime->setValidationRegexp('/([01][0-9]|[2][0-3]):[0-5][0-9]/');
