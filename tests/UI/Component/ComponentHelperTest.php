@@ -4,6 +4,8 @@
 
 require_once("libs/composer/vendor/autoload.php");
 
+require_once(__DIR__."/../Renderer/TestComponent.php");
+
 class ComponentMock {
 	use \ILIAS\UI\Implementation\Component\ComponentHelper;
 
@@ -49,6 +51,11 @@ class Class3 {
 class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 	public function setUp() {
 		$this->mock = new ComponentMock();
+	}
+
+	public function test_getName() {
+		$c = new \ILIAS\UI\Component\Test\TestComponent("foo");
+		$this->assertEquals("Test Component Test", $c->getName());
 	}
 
 	public function test_check_arg_ok() {

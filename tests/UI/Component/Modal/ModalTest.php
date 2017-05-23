@@ -63,4 +63,7 @@ class IncrementalSignalGenerator extends \ILIAS\UI\Implementation\Component\Sign
 }
 
 class ModalMock extends \ILIAS\UI\Implementation\Component\Modal\Modal {
+	public function getName() {
+		return "Modal Mock";
+	}
 }

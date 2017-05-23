@@ -9,6 +9,23 @@ namespace ILIAS\UI\Implementation\Component;
  */
 trait ComponentHelper {
 	/**
+	 * Default implementation uses the namespace of the component up to component,
+	 * reverses the order and adds spaces.
+	 *
+	 * @return string
+	 */
+	public function getName() {
+		$cls = explode("\\", get_class($this));
+		$name = [];
+		$cur = array_pop($cls);
+		while ($cur !== "Component" && count($cls) > 0) {
+			$name[] = preg_replace("%([a-z])([A-Z])%", "$1 $2", $cur);
+			$cur = array_pop($cls);
+		}
+		return implode(" ", $name);
+	}
+
+	/**
 	 * Throw an InvalidArgumentException containing the message if $check is false.
      *
 	 * @param	string	$which
