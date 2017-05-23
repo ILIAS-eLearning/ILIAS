@@ -51,23 +51,6 @@ class ComponentRendererFSLoader implements ComponentRendererLoader {
     }
 
 	/**
-	 * Instantiate a renderer for a certain Component class.
-	 *
-	 * This will always create a fresh renderer for the component.
-	 *
-	 * @param	string	$class
-	 * @throws	\LogicException		if no renderer could be found for component.
-	 * @return	ComponentRenderer
-	 */
-	protected function instantiateRendererFor($class) {
-		$renderer_class = $this->getRendererNameFor($class);
-		if (!class_exists($renderer_class)) {
-			throw new \LogicException("No rendered for '".$class."' found.");
-		}
-		return new $renderer_class($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
-	}
-
-	/**
 	 * Get the class name for the renderer of Component class.
 	 *
 	 * @param	string	$class
