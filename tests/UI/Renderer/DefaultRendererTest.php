@@ -6,6 +6,7 @@ require_once(__DIR__."/TestComponent.php");
 require_once(__DIR__."/../Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation\DefaultRenderer;
 use \ILIAS\UI\Implementation\Glyph\Renderer as GlyphRenderer;
 
 class DefaultRendererTest extends ILIAS_UI_TestBase {
@@ -53,5 +54,28 @@ class DefaultRendererTest extends ILIAS_UI_TestBase {
 			->withAdditionalContext($c2);
 		$this->assertEquals([], $dr->_getContexts());
 		$this->assertEquals([$c1, $c2], $dr2->_getContexts());
+	}
+
+	public function test_passesContextsToComponentRendererLoader() {
+		$loader = $this
+			->getMockBuilder(\ILIAS\UI\Implementation\ComponentRendererLoader::class)
+			->setMethods(["getRendererFor"])
+			->getMock();
+
+		$renderer = new TestDefaultRenderer($loader);
+
+		$c1 = new \ILIAS\UI\Component\Test\TestComponent("foo");
+		$c2 = new \ILIAS\UI\Component\Test\TestComponent("bar");
+
+		$renderer = $renderer
+			->withAdditionalContext($c1)
+			->withAdditionalContext($c2);
+
+		$loader
+			->expects($this->once())
+			->method("getRendererFor")
+			->with($c1, [$c1, $c2]);
+
+		$renderer->_getRendererFor($c1);
 	}
 }
