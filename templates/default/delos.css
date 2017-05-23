@@ -9242,7 +9242,7 @@ tr.tblheader {
   background-color: #d0d0ff;
 }
 .tblrowmarked {
-  background-color: #ffe4e4;
+  background-color: #ffe4e4 !important;
   color: #222;
   padding: 3px;
 }
