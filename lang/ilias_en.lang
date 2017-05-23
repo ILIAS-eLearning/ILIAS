@@ -15900,6 +15900,14 @@ form#:#err_invalid_input#:#An invalid value has been submited. Please check your
 chatroom#:#chat_osc_no_conv#:#No conversations.
 chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
 chatroom#:#chat_osc_no_sub_directory_info#:#If the chat server is only reachable through a sub directory with an URL like "http(s)://[IP/Domain]/[SUB_DIRECTORY]" it is required to insert the [SUB_DIRECTORY] for this chat server. In most scenarios you can leave this field empty.
+chatroom#:#chat_deletion_section_head#:#Deletion of old Messages
+chatroom#:#chat_deletion_disabled#:#Disabled
+chatroom#:#chat_deletion_interval#:#Interval
+chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat on On-Screen-Chat conversations will be deleted after the defined threshold.
+chatroom#:#chat_deletion_interval_unit#:#Unit
+chatroom#:#chat_deletion_interval_value#:#Value
+chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s
+chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
 copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
