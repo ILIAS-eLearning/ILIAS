@@ -43,22 +43,57 @@ class ComponentRendererFSLoader implements ComponentRendererLoader {
 	 */
 	public function getRendererFor(Component $component, array $contexts) {
 		$class = get_class($component);
-		$renderer_class = $this->getRendererNameFor($class);
-		if (!class_exists($renderer_class)) {
-			throw new \LogicException("No rendered for '".$class."' found.");
+		$context_names = $this->getContextNames($contexts);
+		$renderer_classes = $this->getRendererNamesFor($class, $context_names);
+		foreach ($renderer_classes as $renderer_class) {
+			if (class_exists($renderer_class)) {
+				return new $renderer_class
+					($this->ui_factory
+					, $this->tpl_factory
+					, $this->lng
+					, $this->js_binding
+					);
+			}
 		}
-		return new $renderer_class($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+		throw new \LogicException("No rendered for '".$class."' found.");
     }
 
 	/**
-	 * Get the class name for the renderer of Component class.
+	 * Get the possible class names for the renderer of Component class under the given
+     * contexts.
 	 *
-	 * @param	string	$class
+	 * @param	string		$class
+	 * @param	string[]	$contexts
 	 * @return	string
 	 */
-	protected function getRendererNameFor($class) {
+	protected function getRendererNamesFor($class, array $contexts) {
 		$parts = explode("\\", $class);
 		$parts[count($parts)-1] = "Renderer";
-		return implode("\\", $parts);
+		$base = implode("\\", $parts);
+		if (count($contexts) == 0) {
+			return [$base];
+		}
+		$ret = [$base."_".implode("_", $contexts)];
+		$last = array_pop($contexts);
+		while($last) {
+			$ret[] = $base."_".$last;
+			$last = array_pop($contexts);
+		}
+		$ret[] = $base;
+		return $ret;
+	}
+
+	/**
+	 * Get and collapse the names of the passes components.
+	 *
+	 * @param	Component[]	$contexts
+	 * @return	string[]
+	 */
+	protected function getContextNames(array $contexts) {
+		$names = [];
+		foreach ($contexts as $context) {
+			$names[] = str_replace(" ", "", $context->getName());
+		}
+		return $names;
 	}
 }
