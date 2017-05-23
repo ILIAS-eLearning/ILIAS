@@ -214,8 +214,8 @@ The code base is deviced in several components:
 	* Tester: [wischniak](http://www.ilias.de/docu/goto_docu_usr_21896.html)
 
 * **Plugin Slots**
-	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
-	* 2nd Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* Testcases: MISSING
 	* Tester: [PerPascalGrube](http://www.ilias.de/docu/goto_docu_usr_31492.html)
 
@@ -333,6 +333,8 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/Certificate
  (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
+* Services/Component
+ (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/Contact
  (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
 * Services/Database
@@ -471,7 +473,6 @@ The following directories are currently unmaintained:
 * Services/Chart
 * Services/Classification
 * Services/Clipboard
-* Services/Component
 * Services/Container
 * Services/ContainerReference
 * Services/Context
