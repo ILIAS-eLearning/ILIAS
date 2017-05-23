@@ -14,6 +14,7 @@ use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\ComponentRendererFSLoader;
 use ILIAS\UI\Implementation\ComponentRendererLoaderCachingWrapper;
 use ILIAS\UI\Implementation\ComponentRendererLoaderResourceRegistryWrapper;
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory;
 
 class ilIndependentTemplateFactory implements TemplateFactory {
@@ -68,8 +69,8 @@ class LoggingJavaScriptBinding implements JavaScriptBinding {
 }
 
 class TestDefaultRenderer extends DefaultRenderer {
-	public function _getRendererFor($class) {
-		return $this->getRendererFor($class);
+	public function _getRendererFor(Component $component) {
+		return $this->getRendererFor($component);
 	}
 	public function _getContexts() {
 		return $this->getContexts();

@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation;
 
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use ILIAS\UI\Component\Component;
 
 /**
  * Registers resources for retreived renderers at a ResourceRegistry.
@@ -28,8 +29,8 @@ class ComponentRendererLoaderResourceRegistryWrapper implements ComponentRendere
 	/**
 	 * @inheritdocs
 	 */
-	public function getRendererFor($class) {
-		$renderer = $this->loader->getRendererFor($class);
+	public function getRendererFor(Component $component) {
+		$renderer = $this->loader->getRendererFor($component);
 		$renderer->registerResources($this->resource_registry);
 		return $renderer;
     }

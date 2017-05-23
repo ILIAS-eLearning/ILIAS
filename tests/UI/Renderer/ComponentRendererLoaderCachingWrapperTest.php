@@ -10,15 +10,15 @@ class ComponentRendererLoaderCachingWrapper extends PHPUnit_Framework_TestCase {
 			->getMock();
 
 		$renderer = new \stdClass();
-		$renderer_class = "MyRenderer";
+		$component = $this->getMockBuilder(\ILIAS\UI\Component\Component::class)->getMock();
 		$underlying
 			->expects($this->once())
 			->method("getRendererFor")
-			->with($renderer_class)
+			->with($component)
 			->willReturn($renderer);
 
 		$l = new \ILIAS\UI\Implementation\ComponentRendererLoaderCachingWrapper($underlying);
-		$r = $l->getRendererFor($renderer_class);
+		$r = $l->getRendererFor($component);
 
 		$this->assertSame($renderer, $r);
 	}
@@ -29,16 +29,16 @@ class ComponentRendererLoaderCachingWrapper extends PHPUnit_Framework_TestCase {
 			->getMock();
 
 		$renderer = new \stdClass();
-		$renderer_class = "MyRenderer";
+		$component = $this->getMockBuilder(\ILIAS\UI\Component\Component::class)->getMock();
 		$underlying
 			->expects($this->once())
 			->method("getRendererFor")
-			->with($renderer_class)
+			->with($component)
 			->willReturn($renderer);
 
 		$l = new \ILIAS\UI\Implementation\ComponentRendererLoaderCachingWrapper($underlying);
-		$r1 = $l->getRendererFor($renderer_class);
-		$r2 = $l->getRendererFor($renderer_class);
+		$r1 = $l->getRendererFor($component);
+		$r2 = $l->getRendererFor($component);
 
 		$this->assertSame($renderer, $r1);
 		$this->assertSame($renderer, $r2);

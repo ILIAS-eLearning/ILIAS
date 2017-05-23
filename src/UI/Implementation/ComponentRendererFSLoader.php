@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation;
 
 use ILIAS\UI\Factory as RootFactory;
+use ILIAS\UI\Component\Component;
 
 /**
  * Loads renderers for components from the file system.
@@ -40,7 +41,8 @@ class ComponentRendererFSLoader implements ComponentRendererLoader {
 	/**
 	 * @inheritdocs
 	 */
-	public function getRendererFor($class) {
+	public function getRendererFor(Component $component) {
+		$class = get_class($component);
 		$renderer_class = $this->getRendererNameFor($class);
 		if (!class_exists($renderer_class)) {
 			throw new \LogicException("No rendered for '".$class."' found.");

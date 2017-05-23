@@ -12,18 +12,18 @@ class ComponentRendererLoaderResourceRegistryWrapperTest extends PHPUnit_Framewo
 		$renderer = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\ComponentRenderer::class)
 			->setMethods(["registerResources", "render"])
 			->getMock();
-		$renderer_class = "MyRenderer";
+		$component = $this->getMockBuilder(\ILIAS\UI\Component\Component::class)->getMock();
 		$underlying
 			->expects($this->once())
 			->method("getRendererFor")
-			->with($renderer_class)
+			->with($component)
 			->willReturn($renderer);
 
 		$registry = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\ResourceRegistry::class)
 			->getMock();
 
 		$l = new \ILIAS\UI\Implementation\ComponentRendererLoaderResourceRegistryWrapper($registry, $underlying);
-		$r = $l->getRendererFor($renderer_class);
+		$r = $l->getRendererFor($component);
 
 		$this->assertSame($renderer, $r);
 	}
@@ -36,11 +36,11 @@ class ComponentRendererLoaderResourceRegistryWrapperTest extends PHPUnit_Framewo
 		$renderer = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\ComponentRenderer::class)
 			->setMethods(["registerResources", "render"])
 			->getMock();
-		$renderer_class = "MyRenderer";
+		$component = $this->getMockBuilder(\ILIAS\UI\Component\Component::class)->getMock();
 		$underlying
 			->expects($this->once())
 			->method("getRendererFor")
-			->with($renderer_class)
+			->with($component)
 			->willReturn($renderer);
 
 		$registry = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\ResourceRegistry::class)
@@ -52,6 +52,6 @@ class ComponentRendererLoaderResourceRegistryWrapperTest extends PHPUnit_Framewo
 			->with($registry);
 
 		$l = new \ILIAS\UI\Implementation\ComponentRendererLoaderResourceRegistryWrapper($registry, $underlying);
-		$r = $l->getRendererFor($renderer_class);
+		$r = $l->getRendererFor($component);
 	}
 }

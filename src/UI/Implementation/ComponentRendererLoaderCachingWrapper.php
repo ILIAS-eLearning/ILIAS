@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI\Implementation;
 
+use ILIAS\UI\Component\Component;
+
 /**
  * Caches renderers loaded by another loader.
  */
@@ -25,11 +27,12 @@ class ComponentRendererLoaderCachingWrapper implements ComponentRendererLoader {
 	/**
 	 * @inheritdocs
 	 */
-	public function getRendererFor($class) {
+	public function getRendererFor(Component $component) {
+		$class = get_class($component);
 		if (isset($this->cache[$class])) {
 			return $this->cache[$class];
 		}
-		$renderer = $this->loader->getRendererFor($class);
+		$renderer = $this->loader->getRendererFor($component);
 		$this->cache[$class] = $renderer;
 		return $renderer;
     }

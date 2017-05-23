@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI\Implementation;
 
+use ILIAS\UI\Component\Component;
+
 /**
  * Loads renderers for components.
  */
@@ -11,9 +13,9 @@ interface ComponentRendererLoader {
 	/**
 	 * Get a renderer for a certain Component class.
 	 *
-	 * @param	string	$class
+	 * @param	Component	$component
 	 * @throws	\LogicException		if no renderer could be found for component.
 	 * @return	ComponentRenderer
 	 */
-	public function getRendererFor($class);
+	public function getRendererFor(Component $component);
 }

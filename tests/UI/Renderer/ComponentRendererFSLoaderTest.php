@@ -25,22 +25,22 @@ class ComponentRendererFSLoaderTest extends PHPUnit_Framework_TestCase {
 	public function test_instantiateRenderer_successfully() {
 		// There should be a renderer for Glyph...
 		$l = $this->getComponentRendererFSLoader();
-		$r = $l->_instantiateRendererFor("\\ILIAS\\UI\\Implementation\\Component\\Glyph\\Glyph");
-		$this->assertInstanceOf("\\ILIAS\\UI\\Implementation\\Render\\ComponentRenderer", $r);
+		$r = $l->_instantiateRendererFor(\ILIAS\UI\Implementation\Component\Glyph\Glyph::class);
+		$this->assertInstanceOf(\ILIAS\UI\Implementation\Render\ComponentRenderer::class, $r);
 	}
 
 	public function test_getRenderer_successfully() {
 		// There should be a renderer for Glyph...
 		$f = $this->getComponentRendererFSLoader();
-		$r = $f->getRendererFor("\\ILIAS\\UI\\Implementation\\Component\\Glyph\\Glyph");
-		$this->assertInstanceOf("\\ILIAS\\UI\\Implementation\\Render\\ComponentRenderer", $r);
+		$r = $f->getRendererFor(new \ILIAS\UI\Implementation\Component\Glyph\Glyph("up", "up"));
+		$this->assertInstanceOf(\ILIAS\UI\Implementation\Render\ComponentRenderer::class, $r);
 	}
 
 	public function test_getRendererNameFor() {
 		$f = $this->getComponentRendererFSLoader();
 
-		$renderer_class = $f->_getRendererNameFor("\\ILIAS\\UI\\Implementation\\Component\\Glyph\\Glyph");
-		$expected = "\\ILIAS\\UI\\Implementation\\Component\\Glyph\\Renderer";
+		$renderer_class = $f->_getRendererNameFor(\ILIAS\UI\Implementation\Component\Glyph\Glyph::class);
+		$expected = \ILIAS\UI\Implementation\Component\Glyph\Renderer::class;
 		$this->assertEquals($expected, $renderer_class);
 	}
 }

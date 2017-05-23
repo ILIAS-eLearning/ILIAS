@@ -35,11 +35,11 @@ class DefaultRenderer implements Renderer {
 		if (is_array($component)) {
 			$out = '';
 			foreach ($component as $_component) {
-				$renderer = $this->getRendererFor(get_class($_component));
+				$renderer = $this->getRendererFor($_component);
 				$out .= $renderer->render($_component, $this);
 			}
 		} else {
-			$renderer = $this->getRendererFor(get_class($component));
+			$renderer = $this->getRendererFor($component);
 			$out = $renderer->render($component, $this);
 		}
 
@@ -61,12 +61,12 @@ class DefaultRenderer implements Renderer {
 	 * Either initializes a new renderer or uses a cached one initialized
 	 * before.
 	 *
-	 * @param	string	$class
+	 * @param	Component	$component
 	 * @throws	\LogicException		if no renderer could be found for component.
 	 * @return	ComponentRenderer
 	 */
-	protected function getRendererFor($class) {
-		return $this->component_renderer_loader->getRendererFor($class);
+	protected function getRendererFor(Component $component) {
+		return $this->component_renderer_loader->getRendererFor($component);
 	}
 
 	/**
