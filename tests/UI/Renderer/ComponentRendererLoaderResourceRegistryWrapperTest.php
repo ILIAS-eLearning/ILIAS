@@ -16,14 +16,14 @@ class ComponentRendererLoaderResourceRegistryWrapperTest extends PHPUnit_Framewo
 		$underlying
 			->expects($this->once())
 			->method("getRendererFor")
-			->with($component)
+			->with($component, [])
 			->willReturn($renderer);
 
 		$registry = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\ResourceRegistry::class)
 			->getMock();
 
 		$l = new \ILIAS\UI\Implementation\ComponentRendererLoaderResourceRegistryWrapper($registry, $underlying);
-		$r = $l->getRendererFor($component);
+		$r = $l->getRendererFor($component, []);
 
 		$this->assertSame($renderer, $r);
 	}
@@ -40,7 +40,7 @@ class ComponentRendererLoaderResourceRegistryWrapperTest extends PHPUnit_Framewo
 		$underlying
 			->expects($this->once())
 			->method("getRendererFor")
-			->with($component)
+			->with($component, [])
 			->willReturn($renderer);
 
 		$registry = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\ResourceRegistry::class)
@@ -52,6 +52,6 @@ class ComponentRendererLoaderResourceRegistryWrapperTest extends PHPUnit_Framewo
 			->with($registry);
 
 		$l = new \ILIAS\UI\Implementation\ComponentRendererLoaderResourceRegistryWrapper($registry, $underlying);
-		$r = $l->getRendererFor($component);
+		$r = $l->getRendererFor($component, []);
 	}
 }

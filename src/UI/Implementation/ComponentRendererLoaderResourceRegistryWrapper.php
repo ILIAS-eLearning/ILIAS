@@ -29,8 +29,8 @@ class ComponentRendererLoaderResourceRegistryWrapper implements ComponentRendere
 	/**
 	 * @inheritdocs
 	 */
-	public function getRendererFor(Component $component) {
-		$renderer = $this->loader->getRendererFor($component);
+	public function getRendererFor(Component $component, array $contexts) {
+		$renderer = $this->loader->getRendererFor($component, $contexts);
 		$renderer->registerResources($this->resource_registry);
 		return $renderer;
     }

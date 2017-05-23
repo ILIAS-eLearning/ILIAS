@@ -66,7 +66,7 @@ class DefaultRenderer implements Renderer {
 	 * @return	ComponentRenderer
 	 */
 	protected function getRendererFor(Component $component) {
-		return $this->component_renderer_loader->getRendererFor($component);
+		return $this->component_renderer_loader->getRendererFor($component, $this->getContexts());
 	}
 
 	/**

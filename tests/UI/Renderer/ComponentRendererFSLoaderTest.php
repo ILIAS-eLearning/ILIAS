@@ -32,7 +32,7 @@ class ComponentRendererFSLoaderTest extends PHPUnit_Framework_TestCase {
 	public function test_getRenderer_successfully() {
 		// There should be a renderer for Glyph...
 		$f = $this->getComponentRendererFSLoader();
-		$r = $f->getRendererFor(new \ILIAS\UI\Implementation\Component\Glyph\Glyph("up", "up"));
+		$r = $f->getRendererFor(new \ILIAS\UI\Implementation\Component\Glyph\Glyph("up", "up"), []);
 		$this->assertInstanceOf(\ILIAS\UI\Implementation\Render\ComponentRenderer::class, $r);
 	}
 

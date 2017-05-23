@@ -41,7 +41,7 @@ class ComponentRendererFSLoader implements ComponentRendererLoader {
 	/**
 	 * @inheritdocs
 	 */
-	public function getRendererFor(Component $component) {
+	public function getRendererFor(Component $component, array $contexts) {
 		$class = get_class($component);
 		$renderer_class = $this->getRendererNameFor($class);
 		if (!class_exists($renderer_class)) {

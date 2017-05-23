@@ -14,11 +14,11 @@ class ComponentRendererLoaderCachingWrapper extends PHPUnit_Framework_TestCase {
 		$underlying
 			->expects($this->once())
 			->method("getRendererFor")
-			->with($component)
+			->with($component, [])
 			->willReturn($renderer);
 
 		$l = new \ILIAS\UI\Implementation\ComponentRendererLoaderCachingWrapper($underlying);
-		$r = $l->getRendererFor($component);
+		$r = $l->getRendererFor($component, []);
 
 		$this->assertSame($renderer, $r);
 	}
@@ -33,12 +33,12 @@ class ComponentRendererLoaderCachingWrapper extends PHPUnit_Framework_TestCase {
 		$underlying
 			->expects($this->once())
 			->method("getRendererFor")
-			->with($component)
+			->with($component, [])
 			->willReturn($renderer);
 
 		$l = new \ILIAS\UI\Implementation\ComponentRendererLoaderCachingWrapper($underlying);
-		$r1 = $l->getRendererFor($component);
-		$r2 = $l->getRendererFor($component);
+		$r1 = $l->getRendererFor($component, []);
+		$r2 = $l->getRendererFor($component, []);
 
 		$this->assertSame($renderer, $r1);
 		$this->assertSame($renderer, $r2);

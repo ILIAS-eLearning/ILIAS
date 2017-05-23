@@ -27,12 +27,12 @@ class ComponentRendererLoaderCachingWrapper implements ComponentRendererLoader {
 	/**
 	 * @inheritdocs
 	 */
-	public function getRendererFor(Component $component) {
+	public function getRendererFor(Component $component, array $contexts) {
 		$class = get_class($component);
 		if (isset($this->cache[$class])) {
 			return $this->cache[$class];
 		}
-		$renderer = $this->loader->getRendererFor($component);
+		$renderer = $this->loader->getRendererFor($component, $contexts);
 		$this->cache[$class] = $renderer;
 		return $renderer;
     }
