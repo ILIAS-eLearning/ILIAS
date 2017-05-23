@@ -13,17 +13,18 @@ class ComponentRendererLoaderResourceRegistryWrapperTest extends PHPUnit_Framewo
 			->setMethods(["registerResources", "render"])
 			->getMock();
 		$component = $this->getMockBuilder(\ILIAS\UI\Component\Component::class)->getMock();
+		$context = ["a", "b"];
 		$underlying
 			->expects($this->once())
 			->method("getRendererFor")
-			->with($component, [])
+			->with($component, $context)
 			->willReturn($renderer);
 
 		$registry = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\ResourceRegistry::class)
 			->getMock();
 
 		$l = new \ILIAS\UI\Implementation\ComponentRendererLoaderResourceRegistryWrapper($registry, $underlying);
-		$r = $l->getRendererFor($component, []);
+		$r = $l->getRendererFor($component, $context);
 
 		$this->assertSame($renderer, $r);
 	}

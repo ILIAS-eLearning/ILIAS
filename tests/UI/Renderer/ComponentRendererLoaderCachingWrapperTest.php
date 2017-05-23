@@ -11,14 +11,15 @@ class ComponentRendererLoaderCachingWrapper extends PHPUnit_Framework_TestCase {
 
 		$renderer = new \stdClass();
 		$component = $this->getMockBuilder(\ILIAS\UI\Component\Component::class)->getMock();
+		$context = ["a", "b"];
 		$underlying
 			->expects($this->once())
 			->method("getRendererFor")
-			->with($component, [])
+			->with($component, $context)
 			->willReturn($renderer);
 
 		$l = new \ILIAS\UI\Implementation\ComponentRendererLoaderCachingWrapper($underlying);
-		$r = $l->getRendererFor($component, []);
+		$r = $l->getRendererFor($component, $context);
 
 		$this->assertSame($renderer, $r);
 	}
