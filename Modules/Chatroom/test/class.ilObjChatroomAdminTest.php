@@ -21,7 +21,7 @@ class ilObjChatroomAdminTest extends PHPUnit_Framework_TestCase
 		}
 
 		require_once './Services/Utilities/classes/class.ilBenchmark.php';
-		$ilBenchMock = $this->getMock('ilBenchmark');
+		$ilBenchMock = $this->createMock('ilBenchmark');
 		$ilBenchMock->expects($this->any())->method('start');
 		$ilBenchMock->expects($this->any())->method('stop');
 		global $ilBench;
