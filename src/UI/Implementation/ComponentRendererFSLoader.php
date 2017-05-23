@@ -62,7 +62,7 @@ class ComponentRendererFSLoader implements ComponentRendererLoader {
 
 	/**
 	 * Get the possible class names for the renderer of Component class under the given
-     * contexts.
+	 * contexts.
 	 *
 	 * @param	string		$class
 	 * @param	string[]	$contexts

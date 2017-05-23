@@ -9,8 +9,8 @@ namespace ILIAS\UI\Implementation\Component;
  */
 trait ComponentHelper {
 	/**
-	 * Default implementation uses the namespace of the component up to component,
-	 * reverses the order and adds spaces.
+	 * Default implementation uses the namespace of the component up to and excluding
+	 * "Component", reverses the order and adds spaces.
 	 *
 	 * @return string
 	 */
