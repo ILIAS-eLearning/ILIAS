@@ -451,8 +451,12 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 		{
 			//avoid whitespace surprises. #20630
 			$ascii_whitespaces = chr(194).chr(160);
+			$ascii_breaklines = chr(13).chr(10);
 
-			$chars_entered = strlen(strip_tags(str_replace($ascii_whitespaces, ' ', $_POST[$this->getPostVar()])));
+			$to_replace = array ($ascii_whitespaces, $ascii_breaklines);
+			$replace_to = array (' ', '');
+
+			$chars_entered = strlen(strip_tags(str_replace($to_replace, $replace_to, $_POST[$this->getPostVar()])));
 
 			if($this->getMaxNumOfChars() && ($chars_entered > $this->getMaxNumOfChars()))
 			{
