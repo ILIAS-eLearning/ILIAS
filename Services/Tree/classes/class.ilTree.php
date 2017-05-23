@@ -1001,7 +1001,6 @@ class ilTree
 		$this->getTreeImplementation()->deleteTree($a_node['child']);
 		
 		$this->resetInTreeCache();
-		
 	}
 	
 	/**
@@ -2821,14 +2820,23 @@ class ilTree
 	
 	public function deleteNode($a_tree_id,$a_node_id)
 	{
-		global $ilDB;
+		global $ilDB, $ilAppEventHandler;
 		
 		$query = 'DELETE FROM tree where '.
 				'child = '.$ilDB->quote($a_node_id,'integer').' '.
 				'AND tree = '.$ilDB->quote($a_tree_id,'integer');
 		$ilDB->manipulate($query);
+
+		$ilAppEventHandler->raise(
+					"Services/Tree",
+					"deleteNode",
+					array('tree' => $this->table_tree,
+						  'node_id' => $a_node_id,
+						  'tree_id' => $a_tree_id
+					)
+				);
 	}
-	
+
 	/**
 	 * Lookup object types in trash
 	 * @global type $ilDB
