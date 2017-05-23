@@ -1603,7 +1603,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 */
 	private function populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext)
 	{
-		if ($_GET['pdf'])
+		if( $this->isPdfOutputMode() || $this->isContentEditingOutputMode() )
 		{
 			$gaptemplate->setCurrentBlock('gap_span');
 			$gaptemplate->setVariable('SPAN_SOLUTION', $solutiontext);

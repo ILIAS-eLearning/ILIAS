@@ -654,7 +654,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 
-			if( $this->isPdfOutputMode() || $this->isUserInputOutputMode() )
+			if( $this->isPdfOutputMode() || $this->isContentEditingOutputMode() )
 			{
 				if( isset($user_solution[$answer->getPosition()]) )
 				{

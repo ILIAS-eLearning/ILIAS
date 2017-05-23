@@ -75,7 +75,7 @@ abstract class assQuestionGUI
 
 	const OUTPUT_MODE_SCREEN = 'outModeScreen';
 	const OUTPUT_MODE_PDF = 'outModePdf';
-	const OUTPUT_MODE_USERINPUT = 'outModeUsrInp';
+	const OUTPUT_MODE_CONTENT_EDITING = 'outModeUsrSol';
 	
 	/**
 	 * @var string
@@ -188,9 +188,9 @@ abstract class assQuestionGUI
 		return $this->getOutputMode() == self::OUTPUT_MODE_PDF;
 	}
 
-	public function isUserInputOutputMode()
+	public function isContentEditingOutputMode()
 	{
-		return $this->getOutputMode() == self::OUTPUT_MODE_USERINPUT;
+		return $this->getOutputMode() == self::OUTPUT_MODE_CONTENT_EDITING;
 	}
 	
 	/**
@@ -1302,13 +1302,13 @@ abstract class assQuestionGUI
 		elseif ((strcmp($_POST["solutiontype"], "text") == 0) && (strcmp($solution_array["type"], "text") != 0))
 		{
 			$oldOutputMode = $this->getOutputMode();
-			$this->setOutputMode(self::OUTPUT_MODE_USERINPUT);
+			$this->setOutputMode(self::OUTPUT_MODE_CONTENT_EDITING);
 			
 			$solution_array = array(
 				"type" => "text",
 				"value" => $this->getSolutionOutput(0, NULL, FALSE, FALSE, TRUE, FALSE, TRUE)
 			);
-			$this->setOutputMode($oldOutputMode);
+			$this->setOutputMode($oldsaveSuggestedSolutionOutputMode);
 		}
 		if ($save && strlen($_POST["filename"]))
 		{
