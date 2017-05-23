@@ -10,6 +10,8 @@ use ILIAS\UI\Component\Component;
  * Caches renderers loaded by another loader.
  */
 class ComponentRendererLoaderCachingWrapper implements ComponentRendererLoader {
+	use ComponentRendererLoaderHelper;
+
 	/**
 	 * @var ComponentRendererLoader	
 	 */
@@ -28,12 +30,23 @@ class ComponentRendererLoaderCachingWrapper implements ComponentRendererLoader {
 	 * @inheritdocs
 	 */
 	public function getRendererFor(Component $component, array $contexts) {
-		$class = get_class($component);
-		if (isset($this->cache[$class])) {
-			return $this->cache[$class];
+		$key = $this->getCacheKey($component, $contexts);
+		if (isset($this->cache[$key])) {
+			return $this->cache[$key];
 		}
 		$renderer = $this->loader->getRendererFor($component, $contexts);
-		$this->cache[$class] = $renderer;
+		$this->cache[$key] = $renderer;
 		return $renderer;
     }
+
+	/**
+	 * Get a key for the cache.
+	 *
+	 * @param	Component	$component
+	 * @param	Component[]	$contexts
+	 * @return 	string
+	 */
+	protected function getCacheKey(Component $component, array $contexts) {
+		return $component->getName()." ".implode("_", $this->getContextNames($contexts));
+	}
 }

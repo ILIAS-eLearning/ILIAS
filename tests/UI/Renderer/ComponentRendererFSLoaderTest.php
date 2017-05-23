@@ -11,9 +11,6 @@ class ComponentRendererFSLoaderTesting extends ILIAS\UI\Implementation\Component
     public function _getRendererNamesFor($class, array $contexts) {
         return $this->getRendererNamesFor($class, $contexts);
     }
-	public function _getContextNames(array $contexts) {
-		return $this->getContextNames($contexts);
-	}
 }
 
 class ComponentRendererFSLoaderTest extends PHPUnit_Framework_TestCase {
@@ -51,15 +48,5 @@ class ComponentRendererFSLoaderTest extends PHPUnit_Framework_TestCase {
 			, "Space\\Renderer"
 			];
 		$this->assertEquals($expected, $context_names);
-	}
-
-	public function test_getContextNames() {
-		$f = $this->getComponentRendererFSLoader();
-
-		$c1 = new \ILIAS\UI\Component\Test\TestComponent("foo");
-		$c2 = new \ILIAS\UI\Implementation\Component\Glyph\Glyph("up", "up");
-		$names = $f->_getContextNames([$c1, $c2]);
-		$expected = ["TestComponentTest", "GlyphGlyph"];
-		$this->assertEquals($expected, $names);
 	}
 }

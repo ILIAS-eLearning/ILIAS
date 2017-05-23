@@ -11,6 +11,8 @@ use ILIAS\UI\Component\Component;
  * Loads renderers for components from the file system.
  */
 class ComponentRendererFSLoader implements ComponentRendererLoader {
+	use ComponentRendererLoaderHelper;
+
 	/**
 	 * @var	RootFactory
 	 */
@@ -81,19 +83,5 @@ class ComponentRendererFSLoader implements ComponentRendererLoader {
 		}
 		$ret[] = $base;
 		return $ret;
-	}
-
-	/**
-	 * Get and collapse the names of the passes components.
-	 *
-	 * @param	Component[]	$contexts
-	 * @return	string[]
-	 */
-	protected function getContextNames(array $contexts) {
-		$names = [];
-		foreach ($contexts as $context) {
-			$names[] = str_replace(" ", "", $context->getName());
-		}
-		return $names;
 	}
 }
