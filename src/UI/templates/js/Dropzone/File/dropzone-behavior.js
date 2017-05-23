@@ -150,7 +150,7 @@ il.UI = il.UI || {};
 		 */
 		var _triggerSignals = function (signalList, event) {
 
-			jQuery.each(signalList, function (signal) {
+			jQuery.each(signalList, function (index, signal) {
 				$(this).trigger(signal, event);
 			});
 		};
