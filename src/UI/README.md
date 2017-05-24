@@ -34,7 +34,7 @@ Testing.
 
 As a user of the ILIAS UI-Framework your entry point to the framework is provided
 via the dependency injection container `$DIC->ui()->factory()`, which gives you
-access to the main factory implementing ILIAS\UI\Factory.
+access to the main factory implementing ILIAS\UI\ComponentFactory.
 
 ### How to Discover the Components in the Framework?
 
@@ -109,7 +109,7 @@ source code in the trunk.
 
 If you would like to implement a new component to the framework you should perform the following tasks:
 
-1. Add your new component into the respective factory interface. E.g. If you introduce a component of a completely new type, you MUST add the description to the main factory (src/UI/Factory.php). If you add a new type of a button, you MUST add the description to the existing factory for buttons, located at src/UI/Component/Button/Factory.
+1. Add your new component into the respective factory interface. E.g. If you introduce a component of a completely new type, you MUST add the description to the main factory (src/UI/ComponentFactory.php). If you add a new type of a button, you MUST add the description to the existing factory for buttons, located at src/UI/Component/Button/ButtonFactory.
 2. The description MUST use the following template:
 
     ``` php
@@ -153,7 +153,7 @@ If you would like to implement a new component to the framework you should perfo
     ```
 
 3. This freshly added function in the factory leads to an error as soon as ILIAS is opened, since the implementation
- of the factory (located at src/UI/Implementation/Factory.php) does not implement that function yet. For
+ of the factory (located at src/UI/ComponentFactoryImpl.php) does not implement that function yet. For
  the moment, implement it, as follows:
  
     ``` php
@@ -162,7 +162,7 @@ If you would like to implement a new component to the framework you should perfo
     */
     public function demo($content)
     {
-        throw new \ILIAS\UI\NotImplementedException();
+        throw new \ILIAS\UI\Exception\NotImplementedUIException();
     }
     ```
 
@@ -239,15 +239,15 @@ If you would like to implement a new component to the framework you should perfo
     class DemoTest extends ILIAS_UI_TestBase {
 
         public function test_implements_factory_interface() {
-            $f = new \ILIAS\UI\Implementation\Factory();
+            $f = new \ILIAS\UI\ComponentFactoryImpl();
 
-            $this->assertInstanceOf("ILIAS\\UI\\Factory", $f);
+            $this->assertInstanceOf("ILIAS\\UI\\ComponentFactory", $f);
             $demo = $f->demo("Demo Implementation!");
             $this->assertInstanceOf( "ILIAS\\UI\\Component\\Demo\\Demo", $demo);
         }
 
         public function test_get_content() {
-            $f = new \ILIAS\UI\Implementation\Factory();
+            $f = new \ILIAS\UI\ComponentFactoryImpl();
             $demo = $f->demo("Demo Implementation!");
 
             $this->assertEquals($demo->getContent(), "Demo Implementation!");
@@ -255,7 +255,7 @@ If you would like to implement a new component to the framework you should perfo
 
         public function test_render_content() {
             $r = $this->getDefaultRenderer();
-            $f = new \ILIAS\UI\Implementation\Factory();
+            $f = new \ILIAS\UI\ComponentFactoryImpl();
             $demo = $f->demo("Demo Implementation!");
 
 
@@ -268,16 +268,15 @@ If you would like to implement a new component to the framework you should perfo
     }
     ```
 
-8. Currently you will only get the NotImplementedException you throwed previously. That needs to be changed.
-  First, add an implementation for the new interface (add it at src/UI/Implementation/Component/Demo/Demo.php):
+8. Currently you will only get the NotImplementedUIException you threw previously. That needs to be changed.
+  First, add an implementation for the new interface (add it at src/UI/Component/Demo/DefaultDemo.php):
     ``` php
     <?php
-    namespace ILIAS\UI\Implementation\Component\Demo;
+    namespace ILIAS\UI\Component\Demo;
+    
+    use ILIAS\UI\Component\ComponentHelper;
 
-    use ILIAS\UI\Component\Demo as D;
-    use ILIAS\UI\Implementation\Component\ComponentHelper;
-
-    class Demo implements D\Demo {
+    class DefaultDemo implements Demo {
         use ComponentHelper;
 
         /**
@@ -302,22 +301,22 @@ If you would like to implement a new component to the framework you should perfo
         }
     }
     ```
-9. Next, make the factory return the new component (change demo() of src/UI/Implementation/Factory.php):
+9. Next, make the factory return the new component (change demo() of src/UI/ComponentFactoryImpl.php):
 
     ``` php
-    return new Component\Demo\Demo($content);
+    return new Component\Demo\DefaultDemo($content);
     ```
 
-10. Then, implement the renderer at src/UI/Implementation/Component/Demo/Demo.php:
+10. Then, implement the renderer for src/UI/Component/Demo/Demo.php:
     ``` php
     <?php
 
     /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
-    namespace ILIAS\UI\Implementation\Component\Demo;
+    namespace ILIAS\UI\Component\Demo;
 
-    use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-    use ILIAS\UI\Renderer as RendererInterface;
+    use ILIAS\UI\Render\AbstractComponentRenderer;
+    use ILIAS\UI\Render\Renderer as RendererInterface;
     use ILIAS\UI\Component;
 
     class Renderer extends AbstractComponentRenderer {
