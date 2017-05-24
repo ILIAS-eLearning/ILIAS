@@ -1,11 +1,5 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once('./Services/Object/classes/class.ilObjectGUI.php');
-include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminTableGUI.php');
-include_once('./Modules/Bibliographic/classes/Admin/class.ilBibliographicSetting.php');
-include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminLibrariesGUI.php');
-include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminLibrariesFormGUI.php');
-
 /**
  * Bibliographic Administration Settings.
  *

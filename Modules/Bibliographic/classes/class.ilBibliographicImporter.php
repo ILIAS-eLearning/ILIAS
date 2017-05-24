@@ -1,8 +1,5 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('./Services/Export/classes/class.ilXmlImporter.php');
-require_once('class.ilBibliographicDataSet.php');
-require_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
 /**
  * Class ilBibliographicImporter
  *
