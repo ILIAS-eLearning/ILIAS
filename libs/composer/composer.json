@@ -3,6 +3,9 @@
 	"description": "Dependencies of ILIAS",
 	"license": "GPL v3",
 	"authors": [],
+	"config": {
+		"optimize-autoloader": true
+	},
 	"require": {
 		"cweagans/composer-patches": "~1.0",
 		"filp/whoops": "^2.0",
