@@ -1767,8 +1767,10 @@ class ilObject
 
 		$ilAppEventHandler->raise('Services/Object',
 								  'clone',
-								  array('object' => $this,
-								  		'obj_id' => $this->getId()
+								  array('parent' => $this,
+								  		'parent_id' => $this->getId(),
+								  		'new_object' => $new_obj,
+								  		'new_object_id' => $new_obj->getId()
 								  )
 							);
 
