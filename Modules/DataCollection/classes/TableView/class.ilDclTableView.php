@@ -50,7 +50,7 @@ class ilDclTableView extends ActiveRecord
      * @db_fieldtype        text
      * @db_length           256
      */
-    protected $roles;
+    protected $roles = array();
 
     /**
      * @var string
@@ -184,7 +184,7 @@ class ilDclTableView extends ActiveRecord
      */
     public function getRoles()
     {
-        return $this->roles;
+        return (array) $this->roles;
     }
 
     /**
