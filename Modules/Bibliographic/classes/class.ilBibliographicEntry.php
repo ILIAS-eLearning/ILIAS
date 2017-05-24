@@ -1,4 +1,5 @@
 <?php
+require_once('./Modules/Bibliographic/classes/class.ilBiblOverviewGUI.php');
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**

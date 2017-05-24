@@ -1,4 +1,5 @@
 <?php
+require_once('./Modules/Bibliographic/interfaces/interface.ilBibliograficFileReader.php');
 
 /**
  * Class ilBibliograficFileReaderBase

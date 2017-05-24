@@ -1,4 +1,5 @@
 <?php
+require_once('./Modules/Bibliographic/classes/Types/class.ilBibliograficFileReaderBase.php');
 
 /**
  * Class ilBibTex

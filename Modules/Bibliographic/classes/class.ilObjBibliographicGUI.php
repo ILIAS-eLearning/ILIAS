@@ -4,6 +4,10 @@
 
 require_once "./Services/Object/classes/class.ilObject2GUI.php";
 require_once "./Modules/Bibliographic/classes/class.ilBibliographicDetailsGUI.php";
+require_once("./Services/Export/classes/class.ilExportGUI.php");
+require_once('./Services/News/classes/class.ilNewsItem.php');
+require_once('./Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php');
+require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 
 /**
  * Class ilObjBibliographicGUI
@@ -400,7 +404,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			$file_path = $this->bibl_obj->getFileAbsolutePath();
 			if ($file_path) {
 				if (is_file($file_path)) {
-										ilFileDelivery::deliverFileAttached($file_path, null, 'application/octet-stream');
+					require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
+					ilFileDelivery::deliverFileAttached($file_path, null, 'application/octet-stream');
 				} else {
 					ilUtil::sendFailure($DIC['lng']->txt("file_not_found"));
 					$this->showContent();

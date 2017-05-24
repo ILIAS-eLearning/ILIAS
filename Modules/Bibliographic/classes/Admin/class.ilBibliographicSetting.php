@@ -1,5 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+require_once('./Services/ActiveRecord/class.ActiveRecord.php');
 
 /**
  * Class ilBibliographicSetting
@@ -155,13 +156,15 @@ class ilBibliographicSetting extends ActiveRecord {
 	 */
 	public function getButton(ilObjBibliographic $bibl_obj, ilBibliographicEntry $entry) {
 		if ($this->getImg()) {
-						$button = ilImageLinkButton::getInstance();
+			require_once('./Services/UIComponent/Button/classes/class.ilImageLinkButton.php');
+			$button = ilImageLinkButton::getInstance();
 			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFiletype()));
 			$button->setImage($this->getImg(), false);
 			$button->setTarget('_blank');
 			return $button->render();
 		} else {
-						$button = ilLinkButton::getInstance();
+			require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
+			$button = ilLinkButton::getInstance();
 			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFiletype()));
 			$button->setTarget('_blank');
 			$button->setCaption('bibl_link_online');

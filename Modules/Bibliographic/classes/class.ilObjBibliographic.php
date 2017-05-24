@@ -3,6 +3,8 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once "Services/Object/classes/class.ilObject2.php";
 require_once "Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
+require_once('./Modules/Bibliographic/classes/Types/Ris/class.ilRis.php');
+require_once('./Modules/Bibliographic/classes/Types/BibTex/class.ilBibTex.php');
 
 /**
  * Class ilObjBibliographic
@@ -143,7 +145,8 @@ class ilObjBibliographic extends ilObject2 {
 			$ilDB->manipulate("DELETE FROM il_bibl_data WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 		}
 		// delete history entries
-				ilHistory::_removeEntriesForObject($this->getId());
+		require_once("./Services/History/classes/class.ilHistory.php");
+		ilHistory::_removeEntriesForObject($this->getId());
 	}
 
 

@@ -1,4 +1,5 @@
 <?php
+require_once('./libs/composer/vendor/autoload.php');
 use LibRIS\RISReader;
 
 /**
