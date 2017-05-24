@@ -2,6 +2,11 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once('./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.php');
+require_once('./Modules/DataCollection/classes/class.ilObjDataCollectionGUI.php');
+require_once('./Modules/DataCollection/classes/Content/class.ilDclRecordListGUI.php');
+require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
+require_once ('./Services/Export/classes/class.ilExport.php');
 
 
 
@@ -259,7 +264,8 @@ class ilDclContentExporter
 		else
 		{
 			$ilLog->warning('SOAP clone call failed. Calling clone method manually');
-						if(method_exists('ilSoapFunctions', $method)) {
+			require_once('./webservice/soap/include/inc.soap_functions.php');
+			if(method_exists('ilSoapFunctions', $method)) {
 				$res = ilSoapFunctions::$method($new_session_id.'::'.$client_id, $soap_params);
 			} else {
 				throw new ilDclException("SOAP call ".$method." does not exists!");

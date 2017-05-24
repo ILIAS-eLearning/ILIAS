@@ -1,5 +1,7 @@
 <?php
-
+require_once('Modules/DataCollection/classes/TableView/class.ilDclTableViewTableGUI.php');
+require_once('Modules/DataCollection/classes/TableView/class.ilDclTableViewEditGUI.php');
+require_once('Services/Utilities/classes/class.ilConfirmationGUI.php');
 /**
  * Class ilDclTableViewGUI
  *
@@ -92,7 +94,8 @@ class ilDclTableViewGUI
         switch ($next_class)
         {
             case 'ildcltablevieweditgui':
-                                $edit_gui = new ilDclTableViewEditGUI($this, $this->table, ilDclTableView::findOrGetInstance($_GET['tableview_id']));
+                require_once('./Modules/DataCollection/classes/TableView/class.ilDclTableViewEditGUI.php');
+                $edit_gui = new ilDclTableViewEditGUI($this, $this->table, ilDclTableView::findOrGetInstance($_GET['tableview_id']));
                 $this->ctrl->saveParameter($edit_gui, 'tableview_id');
                 $this->ctrl->forwardCommand($edit_gui);
                 break;
@@ -130,7 +133,8 @@ class ilDclTableViewGUI
         $this->toolbar->addSeparator();
 
         // Show tables
-                $tables = $this->parent_obj->getDataCollectionObject()->getTables();
+        require_once("./Modules/DataCollection/classes/Table/class.ilDclTable.php");
+        $tables = $this->parent_obj->getDataCollectionObject()->getTables();
 
         foreach($tables as $table)
         {

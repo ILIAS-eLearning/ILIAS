@@ -1,5 +1,6 @@
 <?php
 
+require_once('./Services/Form/classes/class.ilTextInputGUI.php');
 
 /**
  * Class ilDclTextInputGUI

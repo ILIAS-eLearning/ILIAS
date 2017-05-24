@@ -1,7 +1,10 @@
 <?php
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+require_once('./Services/Object/classes/class.ilObject2.php');
+require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
+require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
+require_once('./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.php');
 
 /**
  * Class ilObjDataCollection
@@ -129,7 +132,8 @@ class ilObjDataCollection extends ilObject2 {
 		$obj_dcl = $obj_table->getCollectionObject();
 
 		// recipients
-				$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), true);
+		require_once('./Services/Notification/classes/class.ilNotification.php');
+		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), true);
 		if (! sizeof($users)) {
 			return;
 		}
@@ -137,13 +141,19 @@ class ilObjDataCollection extends ilObject2 {
 		ilNotification::updateNotificationTime(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), $users);
 
 		//FIXME  $_GET['ref_id]
-				$link = ilLink::_getLink($_GET['ref_id']);
+		require_once('./Services/Link/classes/class.ilLink.php');
+		$link = ilLink::_getLink($_GET['ref_id']);
 
 		// prepare mail content
 		// use language of recipient to compose message
+		require_once('./Services/Language/classes/class.ilLanguageFactory.php');
 
 		// send mails
-										foreach (array_unique($users) as $idx => $user_id) {
+		require_once('./Services/Mail/classes/class.ilMail.php');
+		require_once('./Services/User/classes/class.ilObjUser.php');
+		require_once('./Services/Language/classes/class.ilLanguageFactory.php');
+		require_once('./Services/User/classes/class.ilUserUtil.php');
+		foreach (array_unique($users) as $idx => $user_id) {
 			// the user responsible for the action should not be notified
 			// FIXME  $_GET['ref_id]
 			if ($user_id != $ilUser->getId() && $ilAccess->checkAccessOfUser($user_id, 'read', '', $_GET['ref_id'])) {

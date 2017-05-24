@@ -1,6 +1,15 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once("./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordModel.php");
+require_once("./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php");
+require_once("./Modules/DataCollection/classes/Table/class.ilDclTable.php");
+require_once("./Modules/DataCollection/classes/Fields/Base/class.ilDclDatatype.php");
+require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
+require_once('./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php');
+require_once('./Modules/DataCollection/classes/Helpers/class.ilDclPropertyFormGUI.php');
 
 /**
  * Class ilDclRecordEditGUI

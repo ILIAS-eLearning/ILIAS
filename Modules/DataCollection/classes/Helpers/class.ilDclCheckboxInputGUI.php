@@ -1,5 +1,6 @@
 <?php
 
+require_once('./Services/Form/classes/class.ilCheckboxInputGUI.php');
 
 /**
  * Class ilDclCheckboxInputGUI

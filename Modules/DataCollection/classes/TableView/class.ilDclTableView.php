@@ -1,5 +1,6 @@
 <?php
-
+require_once('./Services/ActiveRecord/class.ActiveRecord.php');
+require_once('./Modules/DataCollection/classes/TableView/class.ilDclTableViewFieldSetting.php');
 /**
  * Class ilDclTableView
  *

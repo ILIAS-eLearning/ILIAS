@@ -1,6 +1,23 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+require_once("./Modules/DataCollection/classes/Helpers/class.ilDclTreePickInputGUI.php");
+require_once("./Modules/DataCollection/classes/Helpers/class.ilDclCache.php");
+require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+require_once("./Modules/File/classes/class.ilObjFile.php");
+require_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+require_once("./Services/Form/classes/class.ilMultiSelectInputGUI.php");
+require_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
+require_once("./Services/Form/classes/class.ilTextInputGUI.php");
+require_once("./Services/Form/classes/class.ilFileInputGUI.php");
+require_once("./Services/Form/classes/class.ilImageFileInputGUI.php");
+require_once("./Services/Preview/classes/class.ilPreview.php");
+require_once('./Services/Preview/classes/class.ilPreviewGUI.php');
+require_once('./Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewDefinition.php');
+require_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
+require_once("./Modules/DataCollection/classes/Helpers/class.ilDclCheckboxInputGUI.php");
+require_once("./Modules/DataCollection/classes/Helpers/class.ilDclTextInputGUI.php");
 
 /**
  * Class ilDclDatatype

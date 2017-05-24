@@ -1,4 +1,6 @@
 <?php
+require_once("./Modules/DataCollection/classes/Fields/Formula/class.ilDclFormulaRecordQueryObject.php");
+require_once("./Modules/DataCollection/classes/Helpers/class.ilDclRecordQueryObject.php");
 
 /**
  * Class ilDclFormulaFieldModel

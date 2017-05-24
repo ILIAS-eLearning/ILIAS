@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once("./Services/DataSet/classes/class.ilDataSet.php");
+require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
+require_once('class.ilObjDataCollection.php');
 
 /**
  * DataCollection dataset class

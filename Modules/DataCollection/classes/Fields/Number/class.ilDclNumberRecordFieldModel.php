@@ -2,6 +2,7 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordFieldModel.php');
 
 /**
  * Class ilDclNumberRecordFieldModel

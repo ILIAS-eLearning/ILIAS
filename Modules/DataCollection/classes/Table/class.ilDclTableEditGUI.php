@@ -2,6 +2,7 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once("./Modules/DataCollection/classes/Table/class.ilDclTable.php");
 
 /**
  * Class ilDclBaseFieldModel
@@ -469,7 +470,8 @@ class ilDclTableEditGUI {
 	 */
 	protected function createTableSwitcher() {
 		// Show tables
-				$tables = $this->parent_object->getDataCollectionObject()->getTables();
+		require_once("./Modules/DataCollection/classes/Table/class.ilDclTable.php");
+		$tables = $this->parent_object->getDataCollectionObject()->getTables();
 
 		foreach ($tables as $table) {
 			$options[$table->getId()] = $table->getTitle(); //TODO order tables
