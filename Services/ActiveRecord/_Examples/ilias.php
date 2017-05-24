@@ -13,7 +13,7 @@ global $ilCtrl, $tpl;
 $tpl->getStandardTemplate();
 $tpl->setVariable('BASE', '/');
 
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Demo/StorageRecord/class.arStorageRecordGUI.php');
+require_once('./Services/ActiveRecord/Demo/StorageRecord/class.arStorageRecordGUI.php');
 
 $arTestRecordGUI = new arStorageRecordGUI();
 $arTestRecordGUI->executeCommand();

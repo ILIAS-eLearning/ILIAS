@@ -1,10 +1,10 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.srModelObjectTableGUI.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecordList.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Index/class.arIndexTableField.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Index/class.arIndexTableFields.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Index/class.arIndexTableAction.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Index/class.arIndexTableActions.php');
+require_once('./Services/Table/classes/class.ilTable2GUI.php');
+require_once('./Services/ActiveRecord/class.ActiveRecordList.php');
+require_once('./Services/ActiveRecord/Views/Index/class.arIndexTableField.php');
+require_once('./Services/ActiveRecord/Views/Index/class.arIndexTableFields.php');
+require_once('./Services/ActiveRecord/Views/Index/class.arIndexTableAction.php');
+require_once('./Services/ActiveRecord/Views/Index/class.arIndexTableActions.php');
 
 /**
  * GUI-Class arIndexTableGUI
@@ -282,7 +282,7 @@ class arIndexTableGUI extends ilTable2GUI {
 	 * @description returns false, if dynamic template is needed, otherwise implement your own template by $this->setRowTemplate($a_template, $a_template_dir = '')
 	 */
 	protected function initTableRowTemplate() {
-		$this->setRowTemplate('tpl.record_row.html', './Customizing/global/plugins/Libraries/ActiveRecord/');
+		$this->setRowTemplate('tpl.record_row.html', './Services/ActiveRecord/');
 	}
 
 
@@ -683,7 +683,7 @@ class arIndexTableGUI extends ilTable2GUI {
 	 */
 	public function render() {
 
-		$index_table_tpl = new ilTemplate("tpl.index_table.html", true, true, "./Customizing/global/plugins/Libraries/ActiveRecord/");
+		$index_table_tpl = new ilTemplate("tpl.index_table.html", true, true, "./Services/ActiveRecord/");
 		if ($this->getToolbar()) {
 			$index_table_tpl->setVariable("TOOLBAR", $this->getToolbar()->getHTML());
 		}

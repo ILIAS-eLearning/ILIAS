@@ -1,7 +1,7 @@
 <?php
 require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Edit/class.arEditField.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Edit/class.arEditFields.php');
+require_once('./Services/ActiveRecord/Views/Edit/class.arEditField.php');
+require_once('./Services/ActiveRecord/Views/Edit/class.arEditFields.php');
 
 /**
  * GUI-Class arEditGUI
