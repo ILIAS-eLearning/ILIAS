@@ -2,15 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once('./Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewGUI.php');
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php');
-require_once('./Services/Tracking/classes/class.ilLPStatus.php');
-require_once('./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php');
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclDatatype.php');
-require_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
-require_once('./Services/Table/classes/class.ilTablePropertiesStorage.php');
-require_once('class.ilDclContentExporter.php');
 
 /**
  * Class ilDclBaseFieldModel
