@@ -4,9 +4,9 @@
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
+    "tester": "christian.hueser(41129)",
     "testcase_writer": "",
     "path": "Services/Certificate",
-    "belong_to_component": "None",
+    "belong_to_component": "Certificate",
     "used_in_components": []
 }
