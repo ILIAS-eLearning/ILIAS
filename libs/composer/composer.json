@@ -4,6 +4,9 @@
 	"license": "GPL v3",
 	"authors": [],
 	"config": {
+		"platform": {
+			"php": ">=5.6.0 <=7.0.99"
+		},
 		"optimize-autoloader": true
 	},
 	"require": {
