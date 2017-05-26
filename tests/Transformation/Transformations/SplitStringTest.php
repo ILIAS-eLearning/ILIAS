@@ -31,7 +31,7 @@ class SplitStringTest extends PHPUnit_Framework_TestCase {
 	public function testTransformFails() {
 		$raised = false;
 		try {
-            $arr = [];
+			$arr = [];
 			$next_arr = $this->split_string->transform($arr);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
@@ -68,7 +68,7 @@ class SplitStringTest extends PHPUnit_Framework_TestCase {
 
 		$raised = false;
 		try {
-            $arr = [];
+			$arr = [];
 			$next_arr = $split_string($arr);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
