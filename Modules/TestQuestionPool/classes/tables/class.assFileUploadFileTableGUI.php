@@ -1,3 +1,4 @@
+
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -56,6 +57,16 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 		}
 	}
 	
+	// hey: uploadFileTimestamps - parse solution file versioning timestamp from storage filename
+	protected function fetchUploadTimestampFromStorageFilename($storageFilename)
+	{
+		list($prefix, $activeId, $passIndex, $versioningUploadTS) = explode(
+			'_', pathinfo($storageFilename, PATHINFO_BASENAME)
+		);
+		return $versioningUploadTS;
+	}
+	// hey.
+	
 	/**
 	 * fill row 
 	 *
@@ -76,6 +87,9 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable('VAL_FILE', ilUtil::prepareFormOutput($a_set['value2']));
 		}
+		// hey: uploadFileTimestamps - parse solution file versioning timestamp from storage filename
+		$a_set['tstamp'] = $this->fetchUploadTimestampFromStorageFilename($a_set['value1']);
+		// hey.
 		ilDatePresentation::setUseRelativeDates(false);
 		$this->tpl->setVariable('VAL_DATE', ilDatePresentation::formatDate(new ilDateTime($a_set["tstamp"],IL_CAL_UNIX)));
 	}
