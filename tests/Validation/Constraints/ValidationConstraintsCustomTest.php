@@ -10,7 +10,7 @@ use ILIAS\Data;
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class CustomTest extends PHPUnit_Framework_TestCase {
+class ValidationConstraintsCustomTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider constraintsProvider
 	 */

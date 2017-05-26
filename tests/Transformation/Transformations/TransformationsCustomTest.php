@@ -9,7 +9,7 @@ use ILIAS\Transformation;
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class CustomTest extends PHPUnit_Framework_TestCase {
+class TransformationsCustomTest extends PHPUnit_Framework_TestCase {
 	const TEST_STRING = "Test";
 
 	protected function setUp() {
