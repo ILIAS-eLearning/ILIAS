@@ -48,7 +48,7 @@ class BasicTaskManager implements TaskManager {
 *@return Value
 	 * @throws Exception
 	 */
-	function executeTask(Task $task, Observer $observer) {
+	public function executeTask(Task $task, Observer $observer) {
 		$observer->notifyState(State::RUNNING);
 		/** @var Value[] $values */
 		$values = $task->getInput();
@@ -106,9 +106,6 @@ class BasicTaskManager implements TaskManager {
 		} catch (UserInteractionRequiredException $e) {
 			// We're okay!
 			$this->persistence->saveBucketAndItsTasks($bucket);
-		} catch (\Exception $e) {
-			// As we are Synchronous execution we rethrow the error for the caller to handle.
-			throw $e;
 		}
 	}
 

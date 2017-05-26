@@ -25,7 +25,7 @@ class PlusJob extends AbstractJob {
 	}
 
 	/**
-	 * @return Type[] Class-Name of the IO
+	 * @return Type[] Classof the Values
 	 */
 	public function getInputTypes() {
 		return [
@@ -40,21 +40,6 @@ class PlusJob extends AbstractJob {
 	public function getOutputType() {
 		return new SingleType(IntegerValue::class);
 	}
-
-	/**
-	 * @return bool Returns true iff the job supports giving feedback about the percentage done.
-	 */
-	public function supportsPercentage() {
-		return false;
-	}
-
-	/**
-	 * @return int Returns 0 if !supportsPercentage and the percentage otherwise.
-	 */
-	public function getPercentage() {
-		return 0;
-	}
-
 
 	/**
 	 * @param Value[]         $input

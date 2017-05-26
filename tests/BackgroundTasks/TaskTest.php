@@ -1,9 +1,10 @@
 <?php
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
-use ILIAS\BackgroundTasks\Implementation\BasicTaskManager;
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Implementation\Bucket\BucketMock;
+use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
+use ILIAS\BackgroundTasks\Implementation\TaskManager\MockObserver;
 use ILIAS\BackgroundTasks\Implementation\Tasks\Aggregation\ConcatenationJob;
 use ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob;
 use ILIAS\BackgroundTasks\Implementation\Values\AggregationValues\ListValue;
@@ -50,7 +51,7 @@ class TaskTest extends TestCase {
 
 		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
 		/** @var IntegerValue $finalValue */
-		$finalValue = $taskManager->executeTask($t2, new BucketMock());
+		$finalValue = $taskManager->executeTask($t2, new MockObserver());
 		$this->assertEquals($finalValue->getValue(), 6);
 	}
 
@@ -66,7 +67,7 @@ class TaskTest extends TestCase {
 
 		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
 		/** @var IntegerValue $finalValue */
-		$finalValue = $taskManager->executeTask($t, new BucketMock());
+		$finalValue = $taskManager->executeTask($t, new MockObserver());
 		$this->assertEquals($finalValue->getValue(), 5);
 	}
 
@@ -98,7 +99,7 @@ class TaskTest extends TestCase {
 		$t1 = $factory->createInstance(ConcatenationJob::class);
 		$t1->setInput([$list]);
 
-		$output = $t1->run([$list], new ILIAS\BackgroundTasks\Implementation\Bucket\BucketMock());
+		$output = $t1->run([$list], new MockObserver());
 		$this->assertEquals($output->getValue(), "1, hello, 3");
 	}
 
@@ -136,7 +137,7 @@ class TaskTest extends TestCase {
 		/** @var IntegerValue $finalValue */
 		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
 		/** @var IntegerValue $finalValue */
-		$finalValue = $taskManager->executeTask($t2, new BasicBucket());
+		$finalValue = $taskManager->executeTask($t2, new MockObserver());
 		$this->assertEquals($finalValue->getValue(), 8);
 	}
 }

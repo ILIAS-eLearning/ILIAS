@@ -41,7 +41,7 @@ interface TaskManager {
 
 
 	/**
-	 * Continue a task with a given option.
+	 * Continue a task that is the state UserInteraction with a given option.
 	 *
 	 * @param Bucket $bucket
 	 * @param Option $option

@@ -3,9 +3,11 @@
 namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 use ILIAS\BackgroundTasks\Exceptions\SerializationException;
-use ILIAS\BackgroundTasks\Implementation\BasicTaskManager;
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
+use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
+use ILIAS\BackgroundTasks\Implementation\TaskManager\MockObserver;
+use ILIAS\BackgroundTasks\Implementation\TaskManager\NonPersistingObserver;
 use ILIAS\BackgroundTasks\Implementation\Tasks\DownloadInteger;
 use ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionRequiredException;
@@ -32,7 +34,7 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 	use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 	/** @var  Bucket */
-	protected $observer;
+	protected $bucket;
 
 	/** @var  BasicPersistence */
 	protected $persistence;
@@ -46,9 +48,9 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 		$factory = new Injector($dic, new BaseDependencyMap());
 		$this->persistence = BasicPersistence::instance();
 
-		$observer = new BasicBucket(Mockery::mock(Persistence::class));
-		$observer->setUserId(3);
-		$observer->setState(State::SCHEDULED);
+		$bucket = new BasicBucket(Mockery::mock(Persistence::class));
+		$bucket->setUserId(3);
+		$bucket->setState(State::SCHEDULED);
 
 		/** @var PlusJob $a */
 		$a = $factory->createInstance(PlusJob::class);
@@ -65,17 +67,17 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 		$userInteraction = $factory->createInstance(DownloadInteger::class);
 		$userInteraction->setInput([$c]);
 
-		$observer->setTask($userInteraction);
+		$bucket->setTask($userInteraction);
 
-		$this->observer = $observer;
+		$this->bucket = $bucket;
 	}
 
 	/**
 	 *
 	 */
 	public function testSave() {
-		/** @var \arConnector $observerConnector */
-		$observerConnector = Mockery::namedMock("observerConnectorMock", \arConnector::class);
+		/** @var \arConnector $bucketConnector */
+		$bucketConnector = Mockery::namedMock("bucketConnectorMock", \arConnector::class);
 		/** @var \arConnector $valueConnector */
 		$valueConnector = Mockery::namedMock("valueConnectorMock", \arConnector::class);
 		/** @var \arConnector $taskConnector */
@@ -83,18 +85,18 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 		/** @var \arConnector $valueToTaskConnector */
 		$valueToTaskConnector = Mockery::namedMock("valueToTaskConnectorMock", \arConnector::class);
 
-		\arConnectorMap::register(new BucketContainer(), $observerConnector);
+		\arConnectorMap::register(new BucketContainer(), $bucketConnector);
 		\arConnectorMap::register(new ValueContainer(), $valueConnector);
 		\arConnectorMap::register(new TaskContainer(), $taskConnector);
 		\arConnectorMap::register(new ValueToTaskContainer(), $valueToTaskConnector);
 
-		// Observer is created.
-		$observerConnector->shouldReceive("nextID")->once()->andReturn(1);
-		$observerConnector->shouldReceive("create")->once();
+		// Bucket is created.
+		$bucketConnector->shouldReceive("nextID")->once()->andReturn(1);
+		$bucketConnector->shouldReceive("create")->once();
 
-		// Observer is updated after tasks are added.
-		$observerConnector->shouldReceive("affectedRows")->once()->andReturn(1);
-		$observerConnector->shouldReceive("update")->once()->andReturn(true);
+		// Bucket is updated after tasks are added.
+		$bucketConnector->shouldReceive("affectedRows")->once()->andReturn(1);
+		$bucketConnector->shouldReceive("update")->once()->andReturn(true);
 
 		//For all four tasks
 		for($i = 0; $i < 4; $i++) {
@@ -118,15 +120,15 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 		$valueToTaskConnector->shouldReceive("nextID")->time(7)->andReturn(1);
 		$valueToTaskConnector->shouldReceive("create")->time(7);
 
-		$this->persistence->setConnector($observerConnector);
-		$this->persistence->saveBucketAndItsTasks($this->observer);
+		$this->persistence->setConnector($bucketConnector);
+		$this->persistence->saveBucketAndItsTasks($this->bucket);
 	}
 
-	public function testCannotUpdateUnknownObserver() {
+	public function testCannotUpdateUnknownBucket() {
 		// We have an unknown observer, we can't update it.
 		$this->setExpectedException(SerializationException::class);
 
-		$this->persistence->updateBucket($this->observer);
+		$this->persistence->updateBucket($this->bucket);
 	}
 
 	public function testUpdateObserver() {
@@ -142,7 +144,7 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 		$observerConnector->shouldReceive("update")->once()->andReturn(true);
 
 		$this->persistence->setConnector($observerConnector);
-		$this->persistence->updateBucket($this->observer);
+		$this->persistence->updateBucket($this->bucket);
 	}
 
 	public function testGetObserverIdsOfUser() {
@@ -175,7 +177,7 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 		/** @var IntegerValue $finalValue */
 		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
 		/** @var IntegerValue $finalValue */
-		$taskManager->executeTask($this->observer->getTask(), $this->observer);
+		$taskManager->executeTask($this->bucket->getTask(), new MockObserver());
 	}
 
 	public function testContinueUserInteraction() {
@@ -183,20 +185,20 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
 		try {
 			/** @var IntegerValue $finalValue */
-			$taskManager->executeTask($this->observer->getTask(), $this->observer);
+			$taskManager->executeTask($this->bucket->getTask(), new NonPersistingObserver($this->bucket));
 		} catch (UserInteractionRequiredException $e) {}
 
 		$download_integer = new DownloadInteger();
 
 		// We worked on the task up to the user interaction. The current task should be the download integer interaction.
-		self::assertEquals($this->observer->getCurrentTask()->getType(), $download_integer->getType());
+		self::assertEquals($this->bucket->getCurrentTask()->getType(), $download_integer->getType());
 
 		$options = $download_integer->getOptions([]); // Download, Dismiss (the input doesnt matter so we pass an empty array)
 
-		$this->observer->userInteraction($options[1]); // We "click" Dismiss.
+		$this->bucket->userInteraction($options[1]); // We "click" Dismiss.
 
 		// As we dismissed the last user interaction the state is finished.
-		self::assertEquals($this->observer->getState(), State::FINISHED);
+		self::assertEquals($this->bucket->getState(), State::FINISHED);
 	}
 
 	public function testContinueUserInteraction2() {
@@ -204,34 +206,34 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 
 		$factory = new Injector($dic, new EmptyDependencyMap());
 
-		$c = $this->observer->getTask();
+		$c = $this->bucket->getTask();
 		/** @var PlusJob $x */
 		$x = $factory->createInstance(PlusJob::class);
 
 		$x->setInput([$c, 1]);
 
 		// we now have (1 + 1) + (1 + 1) -> User Interaction x -> (x + 1) Where x will be the input of the user interaction so: 4.
-		$this->observer->setTask($x);
+		$this->bucket->setTask($x);
 
 		/** @var IntegerValue $finalValue */
 		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
 		try {
 			/** @var IntegerValue $finalValue */
-			$taskManager->executeTask($this->observer->getTask(), $this->observer);
+			$taskManager->executeTask($this->bucket->getTask(), new NonPersistingObserver($this->bucket));
 		} catch (UserInteractionRequiredException $e) {}
 
 		$download_integer = new DownloadInteger();
 
 		// We worked on the task up to the user interaction. The current task should be the download integer interaction.
-		self::assertEquals($this->observer->getCurrentTask()->getType(), $download_integer->getType());
+		self::assertEquals($this->bucket->getCurrentTask()->getType(), $download_integer->getType());
 
 		$options = $download_integer->getOptions([]); // Download, Dismiss (the input doesn't matter so we pass an empty array)
 
-		$this->observer->userInteraction($options[1]); // We "click" Dismiss.
+		$this->bucket->userInteraction($options[1]); // We "click" Dismiss.
 
 		// As we dismissed the last user interaction the state is finished.
 		/** @var IntegerValue $result */
-		$result = $taskManager->executeTask($this->observer->getTask(), $this->observer);
+		$result = $taskManager->executeTask($this->bucket->getTask(), new NonPersistingObserver($this->bucket));
 		self::assertEquals(5, $result->getValue());
 	}
 

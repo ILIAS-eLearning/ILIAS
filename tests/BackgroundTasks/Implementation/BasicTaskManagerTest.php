@@ -8,13 +8,12 @@
 
 namespace BackgroundTasks\Implementation;
 
-use ILIAS\BackgroundTasks\Implementation\BasicTaskManager;
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence;
+use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
 use ILIAS\BackgroundTasks\Implementation\Tasks\DownloadInteger;
 use ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob;
-use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\DI\Container;
 use ILIAS\DI\DependencyMap\EmptyDependencyMap;
 use ILIAS\DI\Injector;
@@ -25,7 +24,7 @@ class BasicTaskManagerTest extends \PHPUnit_Framework_TestCase {
 	use MockeryPHPUnitIntegration;
 
 	protected $taskManager;
-	protected $observer;
+	protected $bucket;
 
 	public function setUp() {
 		$persistence = \Mockery::mock(BasicPersistence::class);
@@ -37,9 +36,9 @@ class BasicTaskManagerTest extends \PHPUnit_Framework_TestCase {
 
 		$factory = new Injector($dic, new EmptyDependencyMap());
 
-		$observer = new BasicBucket();
-		$observer->setUserId(3);
-		$observer->setState(State::SCHEDULED);
+		$bucket = new BasicBucket();
+		$bucket->setUserId(3);
+		$bucket->setState(State::SCHEDULED);
 
 		/** @var PlusJob $a */
 		$a = $factory->createInstance(PlusJob::class);
@@ -56,9 +55,9 @@ class BasicTaskManagerTest extends \PHPUnit_Framework_TestCase {
 		$userInteraction = $factory->createInstance(DownloadInteger::class);
 		$userInteraction->setInput([$c]);
 
-		$observer->setTask($userInteraction);
+		$bucket->setTask($userInteraction);
 
-		$this->observer = $observer;
+		$this->bucket = $bucket;
 	}
 
 

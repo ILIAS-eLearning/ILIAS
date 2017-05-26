@@ -2,9 +2,11 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
+use ILIAS\BackgroundTasks\BucketMeta;
 use ILIAS\BackgroundTasks\Exceptions\SerializationException;
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Bucket;
+use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucketMeta;
 use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Value;
@@ -104,6 +106,29 @@ class BasicPersistence implements Persistence {
 		}, $buckets);
 
 		return $ids;
+	}
+
+
+	/**
+	 * @param int $user_id
+	 *
+	 * @return BucketMeta[]
+	 */
+	public function getBucketMetaOfUser(int $user_id) {
+		$buckets = BucketContainer::where(['user_id' => $user_id])->get();
+		$bucketMetas = array_map(function(BucketContainer $bucketContainer) {
+			$bucketMeta = new BasicBucketMeta();
+
+			$bucketMeta->setUserId($bucketContainer->getUserId());
+			$bucketMeta->setState($bucketContainer->getState());
+			$bucketMeta->setTitle($bucketContainer->getTitle());
+			$bucketMeta->setDescription($bucketContainer->getDescription());
+			$bucketMeta->setOverallPercentage($bucketContainer->getPercentage());
+
+			return $bucketMeta;
+		}, $buckets);
+
+		return $bucketMetas;
 	}
 
 

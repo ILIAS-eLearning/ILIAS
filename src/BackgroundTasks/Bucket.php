@@ -10,7 +10,7 @@ use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
  *
  * @package ILIAS\BackgroundTasks
  *
- *                Observers show a background task in the user interface.
+ * Contains several chained tasks and infos about them.
  */
 interface Bucket {
 

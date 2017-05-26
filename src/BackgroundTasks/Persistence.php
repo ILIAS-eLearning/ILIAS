@@ -83,4 +83,11 @@ interface Persistence {
 	 * @return int Returns the container id of an obvserver.
 	 */
 	public function getBucketContainerId(Bucket $bucket);
+
+	/**
+	 * @param int $user_id
+	 *
+	 * @return BucketMeta[]
+	 */
+	public function getBucketMetaOfUser(int $user_id);
 }

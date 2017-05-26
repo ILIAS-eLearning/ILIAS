@@ -2,6 +2,10 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\BackgroundTasks\BucketMeta;
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
+use ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal;
+
 include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 
 /**
@@ -1120,23 +1124,35 @@ class ilMainMenuGUI
 		global $DIC;
 		$factory = $DIC->ui()->factory();
 		$persistence = $DIC->backgroundTasks()->persistence();
-		if(!count($persistence->getBucketIdsOfUser($DIC->user()->getId())))
+		$metas = $persistence->getBucketMetaOfUser($DIC->user()->getId());
+		if(!count($metas))
 			return;
 		require_once("./Services/BackgroundTasks/classes/class.ilBTPopOverGUI.php");
+
+		$numberOfUserInteractions = count(array_filter($metas, function(BucketMeta $meta) {
+			return $meta->getState() == State::USER_INTERACTION;
+		}));
+		$numberOfNotUserInteractions = count($metas) - $numberOfUserInteractions;
 
 		/** @var ilBTPopOverGUI $popoverGUI */
 		$popoverGUI = $DIC->injector()->createInstance(ilBTPopOverGUI::class);
 
-		$popoverContent = $popoverGUI->getPopOverContent($DIC->user()->getId());
-		$popover = $factory->popover('Background Tasks', $popoverContent);
-		$glyph = $factory->glyph()->add();
-		$button = $factory->button()->standard('Background Tasks', '#')
+		$popover = $factory->popover($factory->legacy(''))
+			->withTitle($DIC->language()->txt("background_tasks"));
+		$DIC->ctrl()->clearParametersByClass(ilBTControllerGUI::class);
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($popoverGUI->full_url($_SERVER)));
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class, "replaceSignal", $popover->getReplaceContentSignal()->getId());
+		$popover = $popover->withAsyncContentUrl($DIC->ctrl()->getLinkTargetByClass([ilBTControllerGUI::class], "getPopoverContent", "", true));
+		$glyph = $factory->glyph()->briefcase()
 			->withOnClick($popover->getShowSignal());
-
-		$button = $button->withOnClick($popover->get)
+		if($numberOfUserInteractions)
+			$glyph = $glyph->withCounter($factory->counter()->novelty($numberOfUserInteractions));
+		if($numberOfNotUserInteractions)
+			$glyph = $glyph->withCounter($factory->counter()->status($numberOfNotUserInteractions));
 
 		$this->tpl->setVariable('BACKGROUNDTASKS',
-			"<li>".$DIC->ui()->renderer()->render([$button, $popover]).'</li>');
+			"<li>".$DIC->ui()->renderer()->render([$glyph, $popover]).'</li>'
+		);
 	}
 }
 

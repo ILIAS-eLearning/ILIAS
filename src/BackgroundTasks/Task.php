@@ -26,13 +26,13 @@ interface Task {
 
 
 	/**
-	 * @return Type[] Class-Name of the IO
+	 * @return Type[] A list of types that are taken as input.
 	 */
 	public function getInputTypes();
 
 
 	/**
-	 * @return Type
+	 * @return Type A single type.
 	 */
 	public function getOutputType();
 

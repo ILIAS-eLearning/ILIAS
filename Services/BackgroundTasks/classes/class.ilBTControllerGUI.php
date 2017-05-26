@@ -1,6 +1,8 @@
 <?php
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
 
+require_once("./Services/BackgroundTasks/classes/class.ilBTPopOverGUI.php");
+
 /**
  * Class ilBTControllerGUI
  *
@@ -31,7 +33,7 @@ class ilBTControllerGUI {
 		switch ($cmd) {
 			//TODO: Permissions!
 			case 'userInteraction':
-			case 'userInteraction':
+			case 'getPopoverContent':
 				$this->$cmd();
 		}
 	}
@@ -55,7 +57,22 @@ class ilBTControllerGUI {
 
 		/** @var ilBTPopOverGUI $gui */
 		$gui = $DIC->injector()->createInstance(ilBTPopOverGUI::class);
-		$html = $DIC->ui()->renderer()->render($gui->getPopOverContent($DIC->user()->getId()));
+
+		$signalId = $_GET['replaceSignal'];
+		$redirect_url = $_GET['from_url'];
+		$replaceSignal = new \ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal($signalId);
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class, 'replaceSignal', $signalId);
+		$DIC->ctrl()->saveParameterByClass(ilBTControllerGUI::class, 'from_url');
+		$button =$DIC->ui()->factory()->button()->standard('refresh', '#')
+			->withOnClick(
+				$replaceSignal->withAsyncRenderUrl($DIC->ctrl()->getLinkTargetByClass([ilBTControllerGUI::class], "getPopoverContent", "", true))
+			);
+
+		$components = [$button];
+		$components = array_merge($components, $gui->getPopOverContent($DIC->user()->getId(), $redirect_url));
+
+//		print_r($components);exit;
+		$html = $DIC->ui()->renderer()->renderAsync($components);
 
 		echo $html;
 	}

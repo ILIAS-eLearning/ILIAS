@@ -34,11 +34,13 @@ class ilBTPopOverGUI {
 	/**
 	 * Get the content for the popover as ui element. DOES NOT DO ANY PERMISSION CHECKS.
 	 *
-	 * @param int $user_id
+	 * @param int  $user_id
 	 *
-	 * @return \ILIAS\UI\Component\Deck\Deck
+	 * @param null $redirect_uri
+	 *
+	 * @return \ILIAS\UI\Component\Component[]
 	 */
-	public function getPopOverContent($user_id) {
+	public function getPopOverContent($user_id, $redirect_uri = null) {
 		assert(is_int($user_id));
 		$observer_ids = $this->btPersistence->getBucketIdsOfUser($user_id);
 		$observers = $this->btPersistence->loadBuckets($observer_ids);
@@ -48,12 +50,12 @@ class ilBTPopOverGUI {
 			if($observer->getState() != State::USER_INTERACTION) {
 				$content = $this->getDefaultCardContent($observer);
 			} else {
-				$content = $this->getUserInteractionContent($observer);
+				$content = $this->getUserInteractionContent($observer, $redirect_uri);
 			}
 			$cards[] = $this->uiFactory->card($observer->getTitle())->withSections([$content]);
 		}
 
-		return $this->uiFactory->deck($cards);
+		return [$this->uiFactory->deck($cards)];
 	}
 
 	public function getDefaultCardContent(Bucket $observer) {
@@ -67,21 +69,22 @@ class ilBTPopOverGUI {
 		);
 	}
 
-	public function getUserInteractionContent(Bucket $observer) {
+	public function getUserInteractionContent(Bucket $observer, $redirect_uri) {
 		global $DIC;
 		$factory = $DIC->ui()->factory();
 		$renderer = $DIC->ui()->renderer();
 		$persistence = $DIC->backgroundTasks()->persistence();
 		if (!$observer->getCurrentTask() instanceof UserInteraction)
 			return "";
+		$redirect_uri = $redirect_uri?$redirect_uri:$this->full_url($_SERVER);
 		/** @var UserInteraction $userInteraction */
 		$userInteraction = $observer->getCurrentTask();
 		$options = $userInteraction->getOptions($userInteraction->getInput());
-		$buttons = array_map(function (UserInteraction\Option $option) use ($factory, $renderer, $observer, $persistence) {
+		$buttons = array_map(function (UserInteraction\Option $option) use ($factory, $renderer, $observer, $persistence, $redirect_uri) {
 
 			$this->ctrl->setParameterByClass(ilBTControllerGUI::class, "selected_option", $option->getValue());
 			$this->ctrl->setParameterByClass(ilBTControllerGUI::class, "observer_id", $persistence->getBucketContainerId($observer));
-			$this->ctrl->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($this->full_url($_SERVER)));
+			$this->ctrl->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($redirect_uri));
 			return $renderer->render($factory->button()->standard($option->getLangVar(), $this->ctrl->getLinkTargetByClass([ilBTControllerGUI::class], "userInteraction")));
 
 		}, $options);
@@ -95,7 +98,7 @@ class ilBTPopOverGUI {
 		);
 	}
 
-	private function url_origin( $s, $use_forwarded_host = false )
+	protected function url_origin( $s, $use_forwarded_host = false )
 	{
 		$ssl      = ( ! empty( $s['HTTPS'] ) && $s['HTTPS'] == 'on' );
 		$sp       = strtolower( $s['SERVER_PROTOCOL'] );
@@ -107,7 +110,7 @@ class ilBTPopOverGUI {
 		return $protocol . '://' . $host;
 	}
 
-	private function full_url( $s, $use_forwarded_host = false )
+	public function full_url( $s, $use_forwarded_host = false )
 	{
 		return $this->url_origin( $s, $use_forwarded_host ) . $s['REQUEST_URI'];
 	}

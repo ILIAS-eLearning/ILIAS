@@ -12,6 +12,15 @@ use ILIAS\Types\Type;
 
 require_once("./Services/FileDelivery/classes/class.ilPHPOutputDelivery.php");
 
+/**
+ * Class DownloadInteger
+ *
+ * @package ILIAS\BackgroundTasks\Implementation\Tasks
+ *
+ * @author  Oskar Truffer <ot@studer-raimann.ch>
+ *
+ * Example User Interaction. You will be able to download a number in a file.
+ */
 class DownloadInteger extends AbstractUserInteraction {
 	/**
 	 * @param Value[] $input The input value of this task.
@@ -59,19 +68,5 @@ class DownloadInteger extends AbstractUserInteraction {
 	 */
 	public function getOutputType() {
 		return new SingleType(IntegerValue::class);
-	}
-
-	/**
-	 * @return bool Returns true iff the job supports giving feedback about the percentage done.
-	 */
-	public function supportsPercentage() {
-		return false;
-	}
-
-	/**
-	 * @return int Returns 0 if !supportsPercentage and the percentage otherwise.
-	 */
-	public function getPercentage() {
-		return 0;
 	}
 }

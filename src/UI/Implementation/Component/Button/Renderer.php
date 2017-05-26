@@ -23,7 +23,7 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) {
-		// TODO: Tt would be nice if we could use <button> for rendering a button
+		// TODO: It would be nice if we could use <button> for rendering a button
 		// instead of <a>. This was not done atm, as there is no attribute on a
 		// button to make it open an URL. This would require JS.
 

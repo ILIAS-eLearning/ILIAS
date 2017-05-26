@@ -17,10 +17,10 @@ use ILIAS\BackgroundTasks\Task;
 interface Job extends Task {
 
 	/**
-	 * @param \ILIAS\BackgroundTasks\Value[] $input
-	 * @param Observer                $observer Notify the bucket about your progress!
+	 * @param \ILIAS\BackgroundTasks\Value[]    $input This will be a list of Values hinted by getInputTypes.
+	 * @param Observer                          $observer Notify the bucket about your progress!
 	 *
-	 * @return Value
+	 * @return Value                            The returned Value must be of the type hinted by getOutputType.
 	 */
 	public function run(Array $input, Observer $observer);
 
