@@ -10,7 +10,7 @@ use ILIAS\Data;
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class FactoryTest extends PHPUnit_Framework_TestCase {
+class DataFactoryTest extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		$this->f = new Data\Factory();
 	}
