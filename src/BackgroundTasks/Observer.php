@@ -2,50 +2,26 @@
 
 namespace ILIAS\BackgroundTasks;
 
-/**
- * Interface Observer
- *
- * @package ILIAS\BackgroundTasks
- *
- *                Observers show a background task in the user interface.
- */
 interface Observer {
 
 	/**
-	 * @return int
-	 */
-	public function getUserId();
-
-
-	/**
-	 * @param int $user_id
-	 */
-	public function setUserId($user_id);
-
-
-	/**
-	 * @return int
-	 */
-	public function getBucketId();
-
-
-	/**
-	 * @param int $bucket_id
-	 */
-	public function setBucketId($bucket_id);
-
-
-	/**
-	 * Used by a job to notify his percentage.
+	 * @param $state int
 	 *
-	 * @param $task       Task
-	 * @param $percentage int
+	 */
+	public function notifyState($state);
+
+
+	/**
+	 * @param Task $task
+	 * @param int  $percentage
+	 *
 	 */
 	public function notifyPercentage(Task $task, $percentage);
 
 
 	/**
-	 * store the observerdata to persistence layer
+	 * @param Task $task
+	 *
 	 */
-	public function store();
+	public function notifyCurrentTask(Task $task);
 }

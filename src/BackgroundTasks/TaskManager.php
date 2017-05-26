@@ -3,6 +3,7 @@
 namespace ILIAS\BackgroundTasks;
 
 use ILIAS\BackgroundTasks\Exceptions\NoObserverForUserInteractionException;
+use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 
 /**
  * Interface TaskManager
@@ -15,50 +16,37 @@ use ILIAS\BackgroundTasks\Exceptions\NoObserverForUserInteractionException;
 interface TaskManager {
 
 	/**
-	 * @param $bucket   Bucket
-	 * @param $user_ids int[]
-	 * @return Bucket
+	 * Actually executes a task.
 	 *
-	 * @throws NoObserverForUserInteractionException Is thrown when the user_id(s) cannot be
-	 *                                               resolved to a user. Thus we would have a user
-	 *                                               interaction without a user.
-	 */
-	public function putInQueueAndObserve(Bucket $bucket, $user_ids);
-
-
-	/**
-	 * @param $bucket
-	 * @return mixed
-	 */
-	public function removeBucket($bucket);
-
-
-	/**
-	 * @param $bucket
-	 * @param $user_id
-	 * @return mixed
-	 */
-	public function addObserver($bucket, $user_id);
-
-
-	/**
-	 * @param $bucket
-	 * @param $user_id
-	 * @return mixed
-	 */
-	public function removeObserver($bucket, $user_id);
-
-
-	/**
-	 * @return Worker
-	 */
-	public function getWorker();
-
-	/**
-	 * @param Task $task
+	 * @param Task   $task
 	 * @param Observer $observer
+	 *
 	 * @return mixed
 	 */
 	public function executeTask(Task $task, Observer $observer);
 
+
+	/**
+	 *
+	 * Depending on your background task settings, executes or puts the task into the queue.
+	 *
+	 * @param Bucket $bucket
+	 *
+	 * @return mixed
+	 * @internal param int $userId
+	 * @internal param Task $task
+	 *
+	 */
+	public function run(Bucket $bucket);
+
+
+	/**
+	 * Continue a task that is the state UserInteraction with a given option.
+	 *
+	 * @param Bucket $bucket
+	 * @param Option $option
+	 *
+	 * @return mixed
+	 */
+	public function continueTask(Bucket $bucket, Option $option);
 }

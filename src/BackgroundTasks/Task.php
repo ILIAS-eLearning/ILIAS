@@ -2,6 +2,8 @@
 
 namespace ILIAS\BackgroundTasks;
 
+use ILIAS\Types\Type;
+
 /**
  * Interface Task
  *
@@ -20,31 +22,19 @@ interface Task {
 	/**
 	 * @return string
 	 */
-	public function getId();
+	public function getType();
 
 
 	/**
-	 * @return ValueType[] Class-Name of the IO
+	 * @return Type[] A list of types that are taken as input.
 	 */
 	public function getInputTypes();
 
 
 	/**
-	 * @return ValueType
+	 * @return Type A single type.
 	 */
 	public function getOutputType();
-
-
-	/**
-	 * @return bool Returns true iff the job supports giving feedback about the percentage done.
-	 */
-	public function supportsPercentage();
-
-
-	/**
-	 * @return int Returns 0 if !supportsPercentage and the percentage otherwise.
-	 */
-	public function getPercentage();
 
 	/**
 	 * @return Value
@@ -55,10 +45,15 @@ interface Task {
 	 * @param $values (Value|Task)[]
 	 * @return void
 	 */
-	public function setInput($values);
+	public function setInput(array $values);
 
 	/**
 	 * @return Value[]
 	 */
 	public function getInput();
+
+	/**
+	 * @return Task[] A list of tasks that is chained with this task. The first element will be this tasks, the following his dependencies.
+	 */
+	public function unfoldTask();
 }

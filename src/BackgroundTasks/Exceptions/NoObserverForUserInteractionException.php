@@ -7,7 +7,7 @@ namespace ILIAS\BackgroundTasks\Exceptions;
  *
  * @package ILIAS\BackgroundTasks
  *
- *          A bucket that contains a user interaction needs at least one observer.
+ * A bucket that contains a user interaction needs at least one user that observes it.
  */
 class NoObserverForUserInteractionException extends Exception {
 

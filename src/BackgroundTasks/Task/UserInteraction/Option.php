@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\BackgroundTasks\Task;
+namespace ILIAS\BackgroundTasks\Task\UserInteraction;
 
 /**
  * Interface Option
@@ -21,7 +21,7 @@ interface Option {
 	/**
 	 * @param string $lang_var
 	 */
-	public function setLangVar($lang_var);
+	public function setLangVar(string $lang_var);
 
 
 	/**
