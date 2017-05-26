@@ -25,7 +25,7 @@ class AddLabels implements Transformation {
 	 */
 	public function transform($from) {
 		if(!is_array($from)) {
-			throw new \InvalidArgumentException(__METHOD_." argument is not an array.");
+			throw new \InvalidArgumentException(__METHOD__." argument is not an array.");
 		}
 
 		if(count($from) != count($this->labels)) {
