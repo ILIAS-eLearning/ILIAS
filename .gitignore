@@ -33,3 +33,6 @@ virtual-data
 /dicto/results/*
 !/dicto/results/README.md
 override.php
+
+# no patch files
+*.patch
