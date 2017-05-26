@@ -511,24 +511,36 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/Category
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Modules/CategoryReference
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/Chatroom
  (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
 * Modules/Cloud
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Modules/Course
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Modules/CourseReference
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Modules/DataCollection
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Modules/Exercise
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Modules/ExternalFeed
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/File
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Modules/Forum
  (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
+* Modules/Glossary
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/Group
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Modules/HTMLLearningModule
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/IndividualAssessment
  (1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html))
+* Modules/LearningModule
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/MediaCast
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/MediaPool
@@ -538,6 +550,24 @@ The following directories are currently maintained unter the Classic-Maintenace-
 * Modules/Poll
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Modules/Portfolio
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Modules/RemoteCategory
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Modules/RemoteCourse
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Modules/RemoteFile
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Modules/RemoteGlossary
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Modules/RemoteGroup
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Modules/RemoteLearningModule
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Modules/RemoteTest
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Modules/RemoteWiki
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Modules/RootFolder
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/Scorm2004
  (1st Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html))
@@ -551,6 +581,8 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/SurveyQuestionPool
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Modules/SystemFolder
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/Test
  (1st Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html))
 * Modules/TestQuestionPool
@@ -558,6 +590,10 @@ The following directories are currently maintained unter the Classic-Maintenace-
 * Modules/WebResource
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Modules/Wiki
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Modules/WorkspaceFolder
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Modules/WorkspaceRootFolder
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/ADT
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
@@ -577,6 +613,10 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/CAS
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Services/COPage
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Services/Cache
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/Calendar
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/Certificate
@@ -655,6 +695,8 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/Style
  (1st Maintainer: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html))
+* Services/Survey
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/SystemCheck
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/Tagging
@@ -695,27 +737,9 @@ The following directories are currently maintained unter the Service-Maintenace-
 
 
 The following directories are currently unmaintained:
-* Modules/CategoryReference
-* Modules/CourseReference
-* Modules/ExternalFeed
 * Modules/Folder
-* Modules/Glossary
 * Modules/GroupReference
-* Modules/HTMLLearningModule
 * Modules/ItemGroup
-* Modules/LearningModule
-* Modules/RemoteCategory
-* Modules/RemoteCourse
-* Modules/RemoteFile
-* Modules/RemoteGlossary
-* Modules/RemoteGroup
-* Modules/RemoteLearningModule
-* Modules/RemoteTest
-* Modules/RemoteWiki
-* Modules/RootFolder
-* Modules/SystemFolder
-* Modules/WorkspaceFolder
-* Modules/WorkspaceRootFolder
 * Services/Accessibility
 * Services/Accordion
 * Services/Administration
@@ -725,8 +749,6 @@ The following directories are currently unmaintained:
 * Services/Block
 * Services/Booking
 * Services/Bookmarks
-* Services/COPage
-* Services/Cache
 * Services/Captcha
 * Services/Chart
 * Services/Classification
@@ -770,7 +792,6 @@ The following directories are currently unmaintained:
 * Services/Randomization
 * Services/Registration
 * Services/Skill
-* Services/Survey
 * Services/Table
 * Services/Taxonomy
 * Services/Transformation
