@@ -109,7 +109,7 @@ The code base is deviced in several components:
 	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
 	* 2nd Maintainer: [mbecker](http://www.ilias.de/docu/goto_docu_usr_27266.html)
 	* Testcases: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
-	* Tester: [AntoniaWeber](http://www.ilias.de/docu/goto_docu_usr_36934.html)
+	* Tester: [abaulig1](http://www.ilias.de/docu/goto_docu_usr_44386.html)
 
 * **Cloud Object**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
@@ -127,7 +127,7 @@ The code base is deviced in several components:
 	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
 	* 2nd Maintainer: MISSING
 	* Testcases: [suittenpointner](http://www.ilias.de/docu/goto_docu_usr_3458.html)
-	* Tester: [AntoniaWeber](http://www.ilias.de/docu/goto_docu_usr_36934.html)
+	* Tester: [abaulig1](http://www.ilias.de/docu/goto_docu_usr_44386.html)
 
 * **Course Management**
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
@@ -300,8 +300,8 @@ The code base is deviced in several components:
 * **Metadata**
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* 2nd Maintainer: MISSING
-	* Testcases: [AntoniaWeber](http://www.ilias.de/docu/goto_docu_usr_36934.html)
-	* Tester: [AntoniaWeber](http://www.ilias.de/docu/goto_docu_usr_36934.html)
+	* Testcases: [abaulig1](http://www.ilias.de/docu/goto_docu_usr_44386.html)
+	* Tester: [abaulig1](http://www.ilias.de/docu/goto_docu_usr_44386.html)
 
 * **My Workspace**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
@@ -693,6 +693,8 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
 * Services/PHPUnit
  (1st Maintainer: MISSING)
+* Services/Password
+ (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
 * Services/PersonalDesktop
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/PersonalWorkspace
@@ -710,13 +712,15 @@ The following directories are currently maintained unter the Classic-Maintenace-
 * Services/Search
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/Style
- (1st Maintainer: [braun](http://www.ilias.de/docu/goto_docu_usr_27123.html))
+ (1st Maintainer: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html))
 * Services/Survey
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/SystemCheck
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/Tagging
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Services/TermsOfService
+ (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
 * Services/Tracking
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/UIComponent
@@ -799,7 +803,6 @@ The following directories are currently unmaintained:
 * Services/Notification
 * Services/Object
 * Services/PDFGeneration
-* Services/Password
 * Services/PermanentLink
 * Services/PrivacySecurity
 * Services/QTI
@@ -809,7 +812,6 @@ The following directories are currently unmaintained:
 * Services/Skill
 * Services/Table
 * Services/Taxonomy
-* Services/TermsOfService
 * Services/Transformation
 * Services/Tree
 * Services/Verification
