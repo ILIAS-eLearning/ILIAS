@@ -29,7 +29,7 @@ class TransformationFactoryTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testCustom() {
-		$custom = $this->f->custom("#");
+		$custom = $this->f->custom(function() {});
 		$this->assertInstanceOf(Transformation\Transformation::class, $custom);
 	}
 }

@@ -32,6 +32,7 @@ class AddLabelTest extends PHPUnit_Framework_TestCase {
 	public function testTransformFails() {
 		$raised = false;
 		try {
+            $with = null;
 			$next_with  = $this->add_label->transform($with);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
@@ -77,6 +78,7 @@ class AddLabelTest extends PHPUnit_Framework_TestCase {
 
 		$raised = false;
 		try {
+            $with = null;
 			$next_with  = $add_label($with);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
