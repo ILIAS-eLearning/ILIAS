@@ -76,8 +76,8 @@ The code base is deviced in several components:
 	* Tester: [wolfganghuebsch](http://www.ilias.de/docu/goto_docu_usr_18455.html)
 
 * **Bookmarks**
-	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
-	* 2nd Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 2nd Maintainer: MISSING
 	* Testcases: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
 	* Tester: [miriamhoelscher](http://www.ilias.de/docu/goto_docu_usr_25370.html)
 
@@ -237,6 +237,12 @@ The code base is deviced in several components:
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
+* **ItemGroup**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **Language Handling**
 	* 1st Maintainer: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
 	* 2nd Maintainer: [fneumann](http://www.ilias.de/docu/goto_docu_usr_1560.html)
@@ -284,6 +290,12 @@ The code base is deviced in several components:
 	* 2nd Maintainer: MISSING
 	* Testcases: [fneumann](http://www.ilias.de/docu/goto_docu_usr_1560.html)
 	* Tester: [claudio.fischer](http://www.ilias.de/docu/goto_docu_usr_41113.html)
+
+* **Media Objects**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
 * **Media Pool**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
@@ -453,6 +465,12 @@ The code base is deviced in several components:
 	* Testcases: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
 	* Tester: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
 
+* **Taxonomy**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **Test & Assessment**
 	* 1st Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
 	* 2nd Maintainer: [mbecker](http://www.ilias.de/docu/goto_docu_usr_27266.html)
@@ -547,16 +565,22 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/File
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Modules/Folder
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/Forum
  (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
 * Modules/Glossary
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/Group
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Modules/GroupReference
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Modules/HTMLLearningModule
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/IndividualAssessment
  (1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html))
+* Modules/ItemGroup
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/LearningModule
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Modules/MediaCast
@@ -617,8 +641,16 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/AccessControl
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Services/Accessibility
+ (1st Maintainer: MISSING)
+* Services/Accordion
+ (1st Maintainer: MISSING)
 * Services/ActiveRecord
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/Administration
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Services/AdvancedEditing
+ (1st Maintainer: MISSING)
 * Services/AdvancedMetaData
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/AuthApache
@@ -627,8 +659,18 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/Authentication
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Services/Awareness
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/BackgroundTask
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/Badge
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Services/Block
+ (1st Maintainer: MISSING)
+* Services/Booking
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Services/Bookmarks
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/CAS
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/COPage
@@ -637,16 +679,36 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/Calendar
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Services/Captcha
+ (1st Maintainer: MISSING)
 * Services/Certificate
  (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
+* Services/Chart
+ (1st Maintainer: MISSING)
+* Services/Classification
+ (1st Maintainer: MISSING)
+* Services/Clipboard
+ (1st Maintainer: MISSING)
 * Services/Contact
  (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
+* Services/Container
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Services/ContainerReference
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Services/Context
+ (1st Maintainer: MISSING)
 * Services/Cron
  (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
+* Services/DataSet
+ (1st Maintainer: MISSING)
 * Services/Database
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/DiskQuota
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* Services/Dom
+ (1st Maintainer: MISSING)
+* Services/EventHandling
+ (1st Maintainer: MISSING)
 * Services/Excel
  (1st Maintainer: MISSING)
 * Services/Export
@@ -661,18 +723,30 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/Form
  (1st Maintainer: MISSING)
+* Services/Frameset
+ (1st Maintainer: MISSING)
 * Services/GlobalCache
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/Help
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Services/History
+ (1st Maintainer: MISSING)
 * Services/Html
  (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
+* Services/Imprint
+ (1st Maintainer: MISSING)
 * Services/InfoScreen
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/Init
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Services/JavaScript
+ (1st Maintainer: MISSING)
 * Services/Language
  (1st Maintainer: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html))
+* Services/Link
+ (1st Maintainer: MISSING)
+* Services/Locator
+ (1st Maintainer: MISSING)
 * Services/Mail
  (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
 * Services/MainMenu
@@ -681,20 +755,34 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html))
 * Services/MathJax
  (1st Maintainer: [fneumann](http://www.ilias.de/docu/goto_docu_usr_1560.html))
+* Services/MediaObjects
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/MetaData
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Services/Migration
+ (1st Maintainer: MISSING)
+* Services/Multilingualism
+ (1st Maintainer: MISSING)
+* Services/Navigation
+ (1st Maintainer: MISSING)
 * Services/News
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/Notes
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Services/Notification
+ (1st Maintainer: MISSING)
 * Services/Notifications
  (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
+* Services/Object
+ (1st Maintainer: MISSING)
 * Services/OnScreenChat
  (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
 * Services/PHPUnit
  (1st Maintainer: MISSING)
 * Services/Password
  (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
+* Services/PermanentLink
+ (1st Maintainer: MISSING)
 * Services/PersonalDesktop
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/PersonalWorkspace
@@ -703,21 +791,31 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/RTE
  (1st Maintainer: MISSING)
+* Services/Radius
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/Rating
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Services/Registration
+ (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/Repository
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/SOAPAuth
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/Search
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Services/Skill
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/Style
  (1st Maintainer: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html))
 * Services/Survey
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/SystemCheck
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
+* Services/Table
+ (1st Maintainer: MISSING)
 * Services/Tagging
+ (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
+* Services/Taxonomy
  (1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html))
 * Services/TermsOfService
  (1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html))
@@ -731,6 +829,8 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/Utilities
  (1st Maintainer: MISSING)
+* Services/Verification
+ (1st Maintainer: MISSING)
 * Services/VirusScanner
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
 * Services/WebAccessChecker
@@ -741,12 +841,24 @@ The following directories are currently maintained unter the Classic-Maintenace-
  (1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html))
 * Services/WorkflowEngine
  (1st Maintainer: [mbecker](http://www.ilias.de/docu/goto_docu_usr_27266.html))
+* Services/XHTMLPage
+ (1st Maintainer: MISSING)
+* Services/XHTMLValidator
+ (1st Maintainer: MISSING)
+* Services/YUI
+ (1st Maintainer: MISSING)
+* Services/jQuery
+ (1st Maintainer: MISSING)
 * src/DI
  (1st Maintainer: MISSING)
 * src/Data
  (1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html))
 * src/HTTP
  (1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html))
+* src/Transformation
+ (1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html))
+* src/Validation
+ (1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html))
 
 
 The following directories are currently maintained unter the Service-Maintenace-Model:
@@ -755,68 +867,23 @@ The following directories are currently maintained unter the Service-Maintenace-
 
 
 The following directories are currently unmaintained:
-* Modules/Folder
-* Modules/GroupReference
-* Modules/ItemGroup
-* Services/Accessibility
-* Services/Accordion
-* Services/Administration
-* Services/AdvancedEditing
-* Services/Awareness
-* Services/Badge
-* Services/Block
-* Services/Booking
-* Services/Bookmarks
-* Services/Captcha
-* Services/Chart
-* Services/Classification
-* Services/Clipboard
 * Services/Component
-* Services/Container
-* Services/ContainerReference
-* Services/Context
 * Services/CopyWizard
-* Services/DataSet
 * Services/DidacticTemplate
-* Services/Dom
 * Services/Environment
-* Services/EventHandling
 * Services/Exceptions
-* Services/Frameset
-* Services/History
 * Services/Http
-* Services/Imprint
 * Services/JSON
-* Services/JavaScript
 * Services/LDAP
 * Services/License
-* Services/Link
 * Services/LinkChecker
-* Services/Locator
 * Services/Logging
 * Services/Math
-* Services/MediaObjects
 * Services/Membership
-* Services/Migration
-* Services/Multilingualism
-* Services/Navigation
-* Services/Notification
-* Services/Object
 * Services/PDFGeneration
-* Services/PermanentLink
 * Services/PrivacySecurity
 * Services/QTI
-* Services/Radius
 * Services/Randomization
-* Services/Registration
-* Services/Skill
-* Services/Table
-* Services/Taxonomy
 * Services/Transformation
 * Services/Tree
-* Services/Verification
-* Services/XHTMLPage
-* Services/XHTMLValidator
 * Services/Xml
-* Services/YUI
-* Services/jQuery
