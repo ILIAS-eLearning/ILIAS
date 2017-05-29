@@ -471,12 +471,9 @@ class ilObjLanguage extends ilObject
 			$path = $this->cust_lang_path;
 		}
 
-		$tmpPath = getcwd();
-		chdir($path);
+		$lang_file = $path. "/ilias_" . $this->key . ".lang" . $scopeExtension;
 
-		$lang_file = "ilias_" . $this->key . ".lang" . $scopeExtension;
-
-		if ($lang_file)
+		if (is_file($lang_file))
 		{
 			// initialize the array for updating lng_modules below
 			$lang_array = array();
@@ -607,8 +604,6 @@ class ilObjLanguage extends ilObject
 				ilObjLanguage::replaceLangModule($this->key, $module, $lang_arr);
 			}
 		}
-
-		chdir($tmpPath);
 	}
 
 	/**
