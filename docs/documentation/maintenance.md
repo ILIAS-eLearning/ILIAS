@@ -449,7 +449,7 @@ The code base is deviced in several components:
 
 * **Survey**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
-	* 2nd Maintainer: MISSING
+	* 2nd Maintainer: [Xus](http://www.ilias.de/docu/goto_docu_usr_50418.html)
 	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
 	* Tester: [e.coroian](http://www.ilias.de/docu/goto_docu_usr_37215.html)
 
