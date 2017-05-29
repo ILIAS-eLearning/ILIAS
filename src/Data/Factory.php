@@ -14,7 +14,7 @@ class Factory {
  	 * Get an ok result.
 	 *
 	 * @param  mixed  $value
-	 * @return Result 
+	 * @return Result
 	 */
 	public function ok($value) {
 		return new Result\Ok($value);
@@ -29,4 +29,18 @@ class Factory {
 	public function error($e) {
 		return new Result\Error($e);
 	}
+
+	/**
+	 * Color is a data type representing a color in HTML.
+	 * Construct a color with a #-leading hex-value or
+	 * a list with RGB-values.
+	 *
+	 * @param  string|<int>
+	 * @return Color
+	 */
+	public function color($value) {
+		return new Color\Color($value);
+	}
+
+
 }
