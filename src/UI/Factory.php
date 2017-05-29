@@ -398,4 +398,62 @@ interface Factory {
 	 */
 	public function link();
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      Drop Downs reveal a list of interactions that change the system’s status or navigate to
+	 *      a different view.
+	 *   composition: >
+	 *      Drop Down is a clickable, graphically obtrusive control element. It can
+	 *      bear text.
+	 *   effect: >
+	 *      On-click, a list of actions is revealed. Clicking an item will trigger the action indicated.
+	 *      Clicking outside of an opened drop down will close the list of items.
+	 *   rivals:
+	 *      button: >
+	 *          Buttons are used, if single actions should be presented directly in the user interface.
+	 *      links: >
+	 *          Links are used to trigger Interactions that do not change the systems
+	 *          status. They are usually contained inside a Navigational Collection.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: >
+	 *           Drop Downs MUST NOT be used standalone. They are only parts of more complex UI elements.
+	 *           These elements MUST define their use of drop down. E.g. a List or a Table MAY define that a certain
+	 *           kind of Drop Down is used as part of the UI element.
+	 *   interaction:
+	 *      1: >
+	 *           Only Drop Down Items MUST trigger an action or change a view. The Drop Down trigger element
+	 *           is only used to show and hide the list of Drop Down Items.
+	 *   style:
+	 *      1: >
+	 *           If Text is used inside a Drop Down label, the Drop Down MUST be at least six characters
+	 *           wide.
+	 *   wording:
+	 *      1: >
+	 *           The label of a Drop Down SHOULD contain no more than two words.
+	 *      2: >
+	 *           Every word except articles, coordinating conjunctions and prepositions
+	 *           of four or fewer letters MUST be capitalized.
+	 *      3: >
+	 *           For standard events such as saving or canceling the existing standard
+	 *           terms MUST be used if possible: Save, Cancel, Delete, Cut, Copy.
+	 *      4: >
+	 *           There are cases where a non-standard label such as “Send Mail” for saving
+	 *           and sending the input of a specific form might deviate from the standard.
+	 *           These cases MUST however specifically justified.
+	 *   accessibility:
+	 *      1: >
+	 *           DOM elements of type "button" MUST be used to properly identify an
+	 *           element as a Drop Down.
+	 *      2: >
+	 *           Drop Down Items are being implemented as "ul" list with a set of "li" elements and
+	 *           nested "a" elements for the actions.
+	 * ---
+	 * @return  \ILIAS\UI\Component\DropDown\Factory
+	 */
+	public function dropdown();
+
 }
