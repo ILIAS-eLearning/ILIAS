@@ -270,7 +270,7 @@ class ilObjSCORMInitData
 	// hash for storing data without session
 	private static function setHash($a_packageId,$a_user_id) {
 		global $ilDB;
-		$hash = mt_rand(1000000000,9999999999);
+		$hash = mt_rand(1000000000,2147483647);
 		$endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d')+1, date('Y')));
 
 		$res = $ilDB->queryF('SELECT count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s',

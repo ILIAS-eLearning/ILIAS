@@ -739,15 +739,19 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 					ilUtil::makeDirParents($this->getFileUploadPath($test_id, $active_id));
 				}
 
-				$version = time();
+				$solutionFileVersioningUploadTS = time();
 				$filename_arr = pathinfo($_FILES["upload"]["name"]);
 				$extension = $filename_arr["extension"];
-				$newfile = "file_" . $active_id . "_" . $pass . "_" . $version . "." . $extension;
+				$newfile = "file_" . $active_id . "_" . $pass . "_" . $solutionFileVersioningUploadTS . "." . $extension;
 
 				ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath($test_id, $active_id) . $newfile);
 
 // fau: testNav - upload new files always to the intermediate solution
-				$this->saveCurrentSolution($active_id, $pass, $newfile, $_FILES['upload']['name'], false);
+				// hey: uploadFileTimestamps - use solution file versioning timestamp
+				$this->saveCurrentSolution($active_id, $pass, $newfile, $_FILES['upload']['name'], false,
+					$solutionFileVersioningUploadTS
+				);
+				// hey.
 // fau.
 				$entered_values = true;
 			}
