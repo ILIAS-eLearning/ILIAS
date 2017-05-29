@@ -89,4 +89,12 @@ class Factory implements \ILIAS\UI\Factory
 		return new Component\Modal\Factory(new SignalGenerator());
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function dropdown()
+	{
+		return new Component\DropDown\Factory();
+	}
+
 }
