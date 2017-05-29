@@ -48,8 +48,6 @@ interface Item extends \ILIAS\UI\Component\Component {
 
 	/**
 	 * Create a new appointment item with a set of actions to perform on it.
-	 * Those actions will be listed in the dropdown on the right side of the
-	 * appointment.
 	 *
 	 * @param string[] $actions
 	 * @return AppointmentItem

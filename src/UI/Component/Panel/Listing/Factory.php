@@ -42,6 +42,17 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
+	 *       TODO, this is a further candidate to make use of Listing Panels. This
+	 *       could be used for generic listing to be stuffed with any items.
+	 * ---
+	 * @return \ILIAS\UI\Component\Panel\Listing\Repository
+	 */
+	public function standard();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
 	 *       TODO, this is a further candidate to make use of Listing Panels
 	 * ---
 	 * @return \ILIAS\UI\Component\Panel\Listing\Repository

@@ -8,31 +8,12 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     The panel listing group is used to group items in a listing panel.
-	 *   composition: >
-	 *     The item group is composed of a title and the contained items.
-	 *
-	 * rules:
-	 *   usage:
-	 *     1: The item group SHOULD only group similar items.
-	 *   wording:
-	 *     1: The title of the item group MUST desribe the contained items.
-	 * ---
-	 *
-	 * @return \ILIAS\UI\Component\Item\Group
-	 */
-	public function group($title, array $items);
-
-	/**
-	 * ---
-	 * description:
-	 *   purpose: >
 	 *      The Appointment Item is used to summarize one single
 	 *      appointment in a list.
 	 *   composition: >
 	 *      The Appointment Item is composed of a period of time, indicating
-	 *      when this appointment takes place, a title, and a little bar on the
-	 *      side indicating by color, which calendar holds this appointment.
+	 *      when this appointment takes place, a title, and a color, indicating which
+	 *      calendar holds this appointment.
 	 *      They further might contain a description and some properties as
 	 *      key-value pair holding information such as location or contact.
 	 *      If there are actions possible to perform on the appointment they
@@ -53,6 +34,17 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Item\Appointment
 	 */
 	public function appointment($title, \ilDateTime $from, \ilDateTime $to, $color);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       TODO, this is a further candidate to make use of Items. This could be
+	 *       stuffed with items of no-specific type.
+	 * ---
+	 * @return \ILIAS\UI\Component\Item\Repository
+	 */
+	public function standard();
 
 	/**
 	 * ---

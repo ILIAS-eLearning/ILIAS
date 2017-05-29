@@ -304,7 +304,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      An item display a unique entity within the system. It shows information
+	 *      An item displays a unique entity within the system. It shows information
 	 *      about that entity in a structured way.
 	 *   composition: >
 	 *      Items contain the name of the entity as a title. The item contains three
@@ -312,23 +312,17 @@ interface Factory {
 	 *      the second section shows the content of the item and another section shows
 	 *      metadata about the entity.
 	 *   effect: >
-	 *      Items may contain Interaction Triggers.
+	 *      Items may contain Interaction Triggers such as Glyphs, Buttons or Tags.
 	 *   rivals:
 	 *      Card: >
-	 *         TBD. What is the difference? Less complexity of contained information?
-	 *         Why would I use a Card for a user, which is an entity in the system?
+	 *         Cards define the look of items in a deck. Todo: We need to refactor cards.
 	 *
 	 * rules:
 	 *   composition:
 	 *      1: Items MUST contain the name of the displayed entity as a title.
-	 *      2: Items MUST contain a section with important information.
-	 *      2: Items MUST contain a section with content.
+	 *      2: Items SHOULD contain a section with it's content.
 	 *      3: Items MAY contain Interaction Triggers.
 	 *      4: Items MAY contain a section with metadata.
-	 *   style:
-	 *      1: TBD. Dear designers, help me here!!
-	 *   accessibility:
-	 *      1: If multiple Items are used, they MUST be contained in a Listing.
 	 * ---
 	 * @return \ILIAS\UI\Component\Item\Factory
 	 */
