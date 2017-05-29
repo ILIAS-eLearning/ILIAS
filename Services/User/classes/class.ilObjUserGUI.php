@@ -1674,7 +1674,7 @@ class ilObjUserGUI extends ilObjectGUI
 		foreach($all_defs as $field_id => $definition)
 		{
 			include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
-			$f_property = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition($definition);
+			$f_property = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition($definition,true);
 			if($f_property instanceof ilFormPropertyGUI)
 			{
 				$this->form_gui->addItem($f_property);

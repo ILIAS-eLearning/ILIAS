@@ -121,7 +121,7 @@ class ilCustomUserFieldsHelper
 	 * @param array $definition
 	 * @return ilFormPropertyGUI
 	 */
-	public function getFormPropertyForDefinition($definition, $a_default_value = null)
+	public function getFormPropertyForDefinition($definition, $a_changeable = true, $a_default_value = null)
 	{
 		$fprop = null;
 		
@@ -132,6 +132,7 @@ class ilCustomUserFieldsHelper
 					$definition['field_name'],
 					'udf_'.$definition['field_id']
 				);
+				$fprop->setDisabled(!$a_changeable);
 				$fprop->setValue($a_default_value);
 				$fprop->setSize(40);
 				$fprop->setMaxLength(255);
@@ -143,6 +144,7 @@ class ilCustomUserFieldsHelper
 					$definition['field_name'],
 					'udf_'.$definition['field_id']
 				);
+				$fprop->setDisabled(!$a_changeable);
 				$fprop->setValue($a_default_value);
 				$fprop->setUseRte(true);
 				$fprop->setRequired($definition['required'] ? true : false);
@@ -153,6 +155,7 @@ class ilCustomUserFieldsHelper
 					$definition['field_name'],
 					'udf_'.$definition['field_id']
 				);
+				$fprop->setDisabled(!$a_changeable);
 				
 				include_once './Services/User/classes/class.ilUserDefinedFields.php';
 				$user_defined_fields = ilUserDefinedFields::_getInstance();
@@ -168,7 +171,7 @@ class ilCustomUserFieldsHelper
 				{
 					if($plugin->getDefinitionType() == $definition['field_type'])
 					{
-						$fprop = $plugin->getFormPropertyForDefinition($definition, $a_default_value);
+						$fprop = $plugin->getFormPropertyForDefinition($definition, $a_changeable, $a_default_value);
 						break;
 					}
 				}

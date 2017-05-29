@@ -801,7 +801,11 @@ class ilPersonalProfileGUI
 			$value = $user_defined_data["f_".$field_id];
 			
 			include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
-			$fprop = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition($definition,$value);
+			$fprop = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition(
+				$definition,
+				$definition['changeable'],
+				$value
+			);
 			if($fprop instanceof ilFormPropertyGUI)
 			{
 				$this->input['udf_'.$definition['field_id']] = $fprop;
