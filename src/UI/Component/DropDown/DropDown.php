@@ -13,6 +13,14 @@ use ILIAS\UI\Component\JavaScriptBindable;
  * This describes commonalities between all types of drop downs
  */
 interface DropDown extends Component, JavaScriptBindable, Clickable, Hoverable {
+
+	/**
+	 * Get the items of the drop down.
+	 *
+	 * @return	DropDownItem[]
+	 */
+	public function getItems();
+
 	/**
 	 * Get the label on the drop down.
 	 *

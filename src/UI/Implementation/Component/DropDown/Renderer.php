@@ -29,7 +29,7 @@ class Renderer extends AbstractComponentRenderer {
 		if (count($items) == 0) {
 			return "";
 		}
-		$this->renderItems($items);
+		$this->renderItems($items, $tpl);
 
 		// render trigger button
 		$label = $component->getLabel();

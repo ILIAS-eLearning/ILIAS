@@ -23,16 +23,27 @@ abstract class DropDown implements C\DropDown\DropDown {
 	 */
 	protected $label;
 
-	public function __construct($label) {
-		$this->checkStringArg("label", $label);
-		$this->label = $label;
-	} 
+	/**
+	 * @var DropDownItem[]
+	 */
+	protected $items;
+
+	public function __construct($items) {
+		$this->items = $items;
+	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function getLabel() {
 		return $this->label;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getItems() {
+		return $this->items;
 	}
 
 	/**
