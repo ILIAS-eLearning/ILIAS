@@ -1,6 +1,6 @@
 # Filesystem Service
 ## Conceptual Summary
-To eliminate security issues like path traversal, we would like to introduce
+To eliminate security issues like path traversal, we introduced
 a new Filesystem Service which streamlines the filesystem access for ILIAS.
 The service provides a modular way for extension, which enables the ILIAS
 community to seamless extend the service with additional supported filesystem
