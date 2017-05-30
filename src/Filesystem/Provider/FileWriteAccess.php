@@ -7,7 +7,7 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 
 /**
- * Class FileWriteAccess
+ * Interface FileWriteAccess
  *
  * All write file operations of the filesystem service.
  *

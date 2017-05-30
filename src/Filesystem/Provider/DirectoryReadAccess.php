@@ -6,7 +6,7 @@ use ILIAS\Filesystem\DTO\Metadata;
 use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 
 /**
- * Class DirectoryReadAccess
+ * Interface DirectoryReadAccess
  *
  * Defines the readonly directory access operations of the filesystem.
  *

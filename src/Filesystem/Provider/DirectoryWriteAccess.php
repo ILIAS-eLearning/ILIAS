@@ -7,7 +7,7 @@ use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Visibility;
 
 /**
- * Class DirectoryWriteAccess
+ * Interface DirectoryWriteAccess
  *
  * Defines the write operations of the directory access.
  *

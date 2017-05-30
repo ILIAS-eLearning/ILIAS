@@ -6,7 +6,7 @@ use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 
 /**
- * Class LocalFilesystemFactory
+ * Interface LocalFilesystemFactory
  *
  * The local filesystem factory creates instances of the local filesystem adapter.
  * The purpose of the specific factory is to hold the FilesystemFactories clean from specific bootstrap code of each adapter.

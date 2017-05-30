@@ -7,7 +7,7 @@ use ILIAS\Filesystem\Exception\IOException;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * Class FileStreamReadAccess
+ * Interface FileStreamReadAccess
  *
  * This interface describes all readonly streaming filesystem operations.
  *

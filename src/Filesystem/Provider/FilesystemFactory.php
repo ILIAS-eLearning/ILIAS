@@ -6,7 +6,7 @@ use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 
 /**
- * Class FilesystemFactory
+ * Interface FilesystemFactory
  *
  * The filesystem factory produces different filesystem types.
  * The creation of the specific filesystem type will be delegated to a specific factory.

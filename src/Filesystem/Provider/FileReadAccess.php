@@ -7,7 +7,7 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 
 /**
- * Class FileReadAccess
+ * Interface FileReadAccess
  *
  * All readonly file operations of the filesystem service.
  *
