@@ -9,12 +9,11 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The standard dropdown is the default dropdown to be used in ILIAS. If
-	 *       there is no good reason using another dropdown instance in ILIAS, this
+	 *       The standard Drop Down is the default Drop Down to be used in ILIAS. If
+	 *       there is no good reason using another Drop Down instance in ILIAS, this
 	 *       is the one that should be used.
 	 *   composition: >
-	 *       The standard dropdown uses the primary color as background.
-	 *
+	 *       The standard Drop Down uses the primary color as background.
 	 * rules:
 	 *   usage:
 	 *       1: >
