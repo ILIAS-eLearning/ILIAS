@@ -36,6 +36,12 @@ class ComponentMock {
 	public function _checkArgList($which, &$value, $check, $message) {
 		$this->checkArgList($which, $value, $check, $message);
 	}
+
+    public $called_gcnbfqn = 0;
+    protected function getCanonicalNameByFullyQualifiedName() {
+        $this->called_gcnbfqn++;
+        return "Foo";
+    }
 }
 
 class Class1 {
@@ -57,6 +63,13 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 		$c = new \ILIAS\UI\Component\Test\TestComponent("foo");
 		$this->assertEquals("Test Component Test", $c->getCanonicalName());
 	}
+
+    public function test_cachesCanonicalName() {
+        $name1 = $this->mock->getCanonicalName();
+        $name2 = $this->mock->getCanonicalName();
+        $this->assertEquals($name1, $name2);
+        $this->assertEquals(1, $this->mock->called_gcnbfqn);
+    }
 
 	public function test_check_arg_ok() {
 		try {

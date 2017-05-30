@@ -8,13 +8,30 @@ namespace ILIAS\UI\Implementation\Component;
  * Provides common functionality for component implementations.
  */
 trait ComponentHelper {
+    /**
+     * @var string|null
+     */
+    private $canonical_name = null; 
+
 	/**
 	 * Default implementation uses the namespace of the component up to and excluding
-	 * "Component", reverses the order and adds spaces.
+	 * "Component", reverses the order and adds spaces. Also does caching.
 	 *
 	 * @return string
 	 */
 	public function getCanonicalName() {
+        if ($this->canonical_name === null) {
+            $this->canonical_name = $this->getCanonicalNameByFullyQualifiedName();
+        }
+        return $this->canonical_name;
+	}
+
+    /**
+     * Does the calculation required for getCanonicalName.
+     *
+     * @return  string
+     */
+    protected function getCanonicalNameByFullyQualifiedName() {
 		$cls = explode("\\", get_class($this));
 		$name = [];
 		$cur = array_pop($cls);
@@ -23,7 +40,9 @@ trait ComponentHelper {
 			$cur = array_pop($cls);
 		}
 		return implode(" ", $name);
-	}
+    }
+
+    /**
 
 	/**
 	 * Throw an InvalidArgumentException containing the message if $check is false.
