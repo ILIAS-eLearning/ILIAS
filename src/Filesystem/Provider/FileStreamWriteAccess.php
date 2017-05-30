@@ -5,7 +5,7 @@ namespace ILIAS\Filesystem\Provider;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
-use Psr\Http\Message\StreamInterface;
+use ILIAS\Filesystem\Stream\FileStream;
 
 /**
  * Interface FileStreamWriteAccess
@@ -33,8 +33,8 @@ interface FileStreamWriteAccess {
 	 * The default behaviour of the filesystem implementation is to let the stream open if possible.
 	 * Therefore always check and close the stream after the work with the stream is finished.
 	 *
-	 * @param string            $path        The file which should be used to write the stream into.
-	 * @param StreamInterface   $stream      The stream which should be written into the new file.
+	 * @param string     $path   The file which should be used to write the stream into.
+	 * @param FileStream $stream The stream which should be written into the new file.
 	 *
 	 * @return void
 	 *
@@ -44,7 +44,7 @@ interface FileStreamWriteAccess {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function writeStream($path, StreamInterface $stream);
+	public function writeStream($path, FileStream $stream);
 
 
 	/**
@@ -58,8 +58,8 @@ interface FileStreamWriteAccess {
 	 * The default behaviour of the filesystem implementation is to let the stream open if possible.
 	 * Therefore always check and close the stream after the work with the stream is finished.
 	 *
-	 * @param string            $path       The file which should be used to write the stream into.
-	 * @param StreamInterface   $stream     The stream which should be written to the file.
+	 * @param string     $path   The file which should be used to write the stream into.
+	 * @param FileStream $stream The stream which should be written to the file.
 	 *
 	 * @return void
 	 *
@@ -68,7 +68,7 @@ interface FileStreamWriteAccess {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function putStream($path, StreamInterface $stream);
+	public function putStream($path, FileStream $stream);
 
 
 	/**
@@ -82,8 +82,8 @@ interface FileStreamWriteAccess {
 	 * The default behaviour of the filesystem implementation is to let the stream open if possible.
 	 * Therefore always check and close the stream after the work with the stream is finished.
 	 *
-	 * @param string            $path        The path to the file which should be updated.
-	 * @param StreamInterface   $stream      The stream which should be used to update the file content.
+	 * @param string     $path   The path to the file which should be updated.
+	 * @param FileStream $stream The stream which should be used to update the file content.
 	 *
 	 * @return void
 	 *
@@ -93,5 +93,5 @@ interface FileStreamWriteAccess {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function updateStream($path, StreamInterface $stream);
+	public function updateStream($path, FileStream $stream);
 }

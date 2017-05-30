@@ -4,7 +4,7 @@ namespace ILIAS\Filesystem\Provider;
 
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
-use Psr\Http\Message\StreamInterface;
+use ILIAS\Filesystem\Stream\FileStream;
 
 /**
  * Interface FileStreamReadAccess
@@ -27,7 +27,7 @@ interface FileStreamReadAccess {
 	 *
 	 * @param string $path  The path to the file which should be used to open the new stream.
 	 *
-	 * @return StreamInterface The newly created file stream.
+	 * @return FileStream The newly created file stream.
 	 *
 	 * @throws FileNotFoundException    If the file could not be found.
 	 * @throws IOException              If the stream could not be opened.
