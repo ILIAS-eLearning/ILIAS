@@ -30,6 +30,7 @@ class NoUIFactory implements Factory {
 	public function legacy($content) {}
 	public function panel() {}
 	public function modal() {}
+	public function popover($title, $text, $position = '') {}
 }
 
 class LoggingRegistry implements ResourceRegistry {
@@ -62,6 +63,19 @@ class LoggingJavaScriptBinding implements JavaScriptBinding {
 	public function addOnLoadCode($code) {
 		$this->on_load_code[] = $code;
 	}
+}
+
+class IncrementalSignalGenerator extends \ILIAS\UI\Implementation\Component\SignalGenerator {
+
+	protected $id = 0;
+
+	protected function createId() {
+		return 'signal_' . ++$this->id;
+	}
+}
+
+class SignalGeneratorMock extends \ILIAS\UI\Implementation\Component\SignalGenerator {
+
 }
 
 /**
