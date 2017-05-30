@@ -46,14 +46,19 @@ interface DirectoryAccess {
 	 * Copy all childes of the source recursive to the destination.
 	 * The file access rights will be copied as well.
 	 *
+	 * The operation will fail fast if the destination directory is not empty.
+	 * All destination folders will be created if needed.
+	 *
 	 * @param string $source        The source which should be scanned and copied.
 	 * @param string $destination   The destination of the recursive copy.
 	 *
 	 * @throws IOException                  Thrown if the directory could not be copied.
-	 * @throws FileAlreadyExistsException   Thrown if a file already exists at the destination.
-	 * @throws DirectoryNotFoundException   Thrown if the source or target directory could not be found.
+	 * @throws DirectoryNotFoundException   Thrown if the source directory could not be found.
 	 *
 	 * @return void
+	 *
+	 * @since 5.3
+	 * @version 1.0
 	 */
 	public function copyDir($source, $destination);
 
@@ -70,6 +75,19 @@ interface DirectoryAccess {
 	 * @version 1.0
 	 */
 	public function deleteDir($path);
+
+
+	/**
+	 * Checks whether the directory exists or not.
+	 *
+	 * @param string $path  The path which should be checked.
+	 *
+	 * @return bool True if the directory exists otherwise false.
+	 *
+	 * @since 5.3
+	 * @version 1.0
+	 */
+	public function hasDir($path);
 
 
 	/**
