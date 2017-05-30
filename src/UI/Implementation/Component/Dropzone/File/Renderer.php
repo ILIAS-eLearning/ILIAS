@@ -25,13 +25,14 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	private $renderer;
 
+
 	/**
 	 * @inheritDoc
 	 */
 	protected function getComponentInterfaceName() {
 		return array(
 			\ILIAS\UI\Component\Dropzone\File\Standard::class,
-			\ILIAS\UI\Component\Dropzone\File\Wrapper::class
+			\ILIAS\UI\Component\Dropzone\File\Wrapper::class,
 		);
 	}
 
@@ -67,7 +68,10 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * Renders the passed in standerd dropzone.
 	 *
-	 * @param \ILIAS\UI\Component\Dropzone\File\Standard $standardDropzone the dropzone to render
+	 * @param \ILIAS\UI\Component\Dropzone\File\Standard $standardDropzone the
+	 *                                                                     dropzone
+	 *                                                                     to
+	 *                                                                     render
 	 *
 	 * @return string the html representation of the passed in argument.
 	 */
@@ -76,15 +80,9 @@ class Renderer extends AbstractComponentRenderer {
 		$dropzoneId = $this->createId();
 
 		// setup javascript
-		$jsDropzoneInitializer = new JSDropzoneInitializer(
-			SimpleDropzone::of()
-				->setId($dropzoneId)
-				->setType(\ILIAS\UI\Component\Dropzone\File\Standard::class)
-				->setDarkenedBackground($standardDropzone->isDarkenedBackground())
-				->setRegisteredSignals($standardDropzone->getTriggeredSignals()));
+		$jsDropzoneInitializer = new JSDropzoneInitializer(SimpleDropzone::of()->setId($dropzoneId)->setType(\ILIAS\UI\Component\Dropzone\File\Standard::class)->setDarkenedBackground($standardDropzone->isDarkenedBackground())->setRegisteredSignals($standardDropzone->getTriggeredSignals()));
 
 		$this->getJavascriptBinding()->addOnLoadCode($jsDropzoneInitializer->initDropzone());
-
 
 		// setup template
 		$tpl = $this->getTemplate("tpl.standard-dropzone.html", true, true);
@@ -104,7 +102,10 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * Renders the passed in wrapper dropzone.
 	 *
-	 * @param \ILIAS\UI\Component\Dropzone\File\Wrapper $wrapperDropzone the dropzone to render
+	 * @param \ILIAS\UI\Component\Dropzone\File\Wrapper $wrapperDropzone the
+	 *                                                                   dropzone
+	 *                                                                   to
+	 *                                                                   render
 	 *
 	 * @return string the html representation of the passed in argument.
 	 */
@@ -113,12 +114,7 @@ class Renderer extends AbstractComponentRenderer {
 		$dropzoneId = $this->createId();
 
 		// setup javascript
-		$jsDropzoneInitializer = new JSDropzoneInitializer(
-			SimpleDropzone::of()
-				->setId($dropzoneId)
-				->setType(\ILIAS\UI\Component\Dropzone\File\Wrapper::class)
-				->setDarkenedBackground($wrapperDropzone->isDarkenedBackground())
-				->setRegisteredSignals($wrapperDropzone->getTriggeredSignals()));
+		$jsDropzoneInitializer = new JSDropzoneInitializer(SimpleDropzone::of()->setId($dropzoneId)->setType(\ILIAS\UI\Component\Dropzone\File\Wrapper::class)->setDarkenedBackground($wrapperDropzone->isDarkenedBackground())->setRegisteredSignals($wrapperDropzone->getTriggeredSignals()));
 
 		$this->getJavascriptBinding()->addOnLoadCode($jsDropzoneInitializer->initDropzone());
 

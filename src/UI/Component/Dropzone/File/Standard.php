@@ -2,8 +2,8 @@
 /**
  * Interface Standard
  *
- * Describes a standard dropzone which listens on file drop events from the browser.
- * Provides a message to display.
+ * Describes a standard dropzone which listens on file drop events from the
+ * browser. Provides a message to display.
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    05.05.17
@@ -30,5 +30,4 @@ interface Standard extends Dropzone {
 	 * @return string the message of this dropzone
 	 */
 	public function getMessage();
-
 }
