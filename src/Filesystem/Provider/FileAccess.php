@@ -2,7 +2,7 @@
 
 namespace ILIAS\Filesystem\Provider;
 
-use ILIAS\Filesystem\DTO\FileSize;
+use ILIAS\Data\DataSize;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
@@ -204,16 +204,16 @@ interface FileAccess {
 	/**
 	 * Get the size of a file.
 	 *
-	 * The file size units are provided by the FileSize class.
+	 * The file size units are provided by the DataSize class.
 	 *
 	 * @param string $path         The path to the file.
-	 * @param int    $fileSizeUnit The unit of the file size, which are defined in the FileSize class.
+	 * @param int    $fileSizeUnit The unit of the file size, which are defined in the DataSize class.
 	 *
-	 * @return FileSize
+	 * @return DataSize
 	 * @since   5.3
 	 * @version 1.0
 	 *
-	 * @see FileSize
+	 * @see     DataSize
 	 */
 	public function getSize($path, $fileSizeUnit);
 
