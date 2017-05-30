@@ -36,7 +36,7 @@ class JSDropzoneInitializer {
 	 */
 	public function initDropzone() {
 
-		$darkenedBackground = $this->dropzone->isDarkenedBackground()? "true" : "false";
+		$darkenedBackground = $this->dropzone->isDarkenedBackground() ? "true" : "false";
 
 		return "
 		
@@ -47,7 +47,6 @@ class JSDropzoneInitializer {
 				\"registeredSignals\": [{$this->getRegisteredSignals()}]
 			});
 		";
-
 	}
 
 

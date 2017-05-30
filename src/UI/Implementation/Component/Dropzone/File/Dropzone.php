@@ -2,7 +2,8 @@
 /**
  * Class Dropzone
  *
- * Basic implementation for dropzones. Provides functionality which are needed for all dropzones.
+ * Basic implementation for dropzones. Provides functionality which are needed
+ * for all dropzones.
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    05.05.17
@@ -17,11 +18,11 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
 abstract class Dropzone implements \ILIAS\UI\Component\Dropzone\File\Dropzone {
+
 	use Triggerer;
-
 	const DROP_EVENT = "drop";
-
 	protected $darkenedBackground = false;
+
 
 	/**
 	 * @inheritDoc
@@ -29,6 +30,7 @@ abstract class Dropzone implements \ILIAS\UI\Component\Dropzone\File\Dropzone {
 	public function withDarkenedBackground($useDarkenedBackground) {
 		$clonedFileDropzone = clone $this;
 		$clonedFileDropzone->darkenedBackground = $useDarkenedBackground;
+
 		return $clonedFileDropzone;
 	}
 

@@ -20,7 +20,8 @@ interface Wrapper extends Dropzone {
 	/**
 	 * Clones this instance and sets the passed in argument on it.
 	 *
-	 * @param Component[]|Component $content an array or a single instance of ILIAS UI components
+	 * @param Component[]|Component $content an array or a single instance of
+	 *                                       ILIAS UI components
 	 *
 	 * @return Wrapper a copy of this instance
 	 */
@@ -31,5 +32,4 @@ interface Wrapper extends Dropzone {
 	 * @return Component[] an array of ILIAS UI components for this dropzone
 	 */
 	public function getContent();
-
 }

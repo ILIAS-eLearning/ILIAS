@@ -18,7 +18,8 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase {
 	 */
 
 	/**
-	 * should be rendered with the css class .standard and no content inside the dropzone div.
+	 * should be rendered with the css class .standard and no content inside
+	 * the dropzone div.
 	 */
 	public function testRenderStandardDropzone() {
 
@@ -71,11 +72,12 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase {
 		// start test
 		$exampleTextQuestion = new \ILIAS\UI\Implementation\Component\Legacy\Legacy("<p>Pretty smart, isn't it?</p>");
 		$exampleTextAnswer = new \ILIAS\UI\Implementation\Component\Legacy\Legacy("<p>Yeah, this is really smart.</p>");
-		$wrapperDropzone = new \ILIAS\UI\Implementation\Component\Dropzone\File\Wrapper(array($exampleTextQuestion, $exampleTextAnswer));
+		$wrapperDropzone = new \ILIAS\UI\Implementation\Component\Dropzone\File\Wrapper(array(
+			$exampleTextQuestion,
+			$exampleTextAnswer,
+		));
 
-		$html = $this->normalizeHTML(
-			$this->getDefaultRenderer()->render($wrapperDropzone)
-		);
+		$html = $this->normalizeHTML($this->getDefaultRenderer()->render($wrapperDropzone));
 
 		$this->assertEquals($expectedHtml, $html);
 	}
@@ -83,8 +85,7 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase {
 
 	public function normalizeHTML($html) {
 		$html = trim(str_replace("\t", "", $html));
+
 		return parent::normalizeHTML($html);
 	}
-
-
 }

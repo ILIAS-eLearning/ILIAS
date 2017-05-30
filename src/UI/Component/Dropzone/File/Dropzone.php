@@ -2,7 +2,8 @@
 /**
  * Interface Dropzone
  *
- * Describes a dropzone that can be configured to use the darkened background or not.
+ * Describes a dropzone that can be configured to use the darkened background
+ * or not.
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    05.05.17
@@ -19,9 +20,11 @@ use ILIAS\UI\Component\Droppable;
 interface Dropzone extends Component, Droppable {
 
 	/**
-	 * Get a component like this, using the darkened background depending on the passed in argument.
+	 * Get a component like this, using the darkened background depending on
+	 * the passed in argument.
 	 *
-	 * @param bool $useDarkenedBackground true to use the darkened background, otherwise false
+	 * @param bool $useDarkenedBackground true to use the darkened background,
+	 *                                    otherwise false
 	 *
 	 * @return Dropzone a copy of this instance
 	 */
@@ -32,5 +35,4 @@ interface Dropzone extends Component, Droppable {
 	 * @return bool true if the darkened background is used, otherwise false
 	 */
 	public function isDarkenedBackground();
-
 }

@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__."/../../../../../libs/composer/vendor/autoload.php");
+require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 
 use ILIAS\UI\Implementation\Component\Dropzone\File\SimpleDropzone;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
@@ -33,7 +33,8 @@ class JSDropzoneInitializerTest extends PHPUnit_Framework_TestCase {
 	 */
 
 	/**
-	 * should create the javascript code to initialize a dropzone when all values are given.
+	 * should create the javascript code to initialize a dropzone when all
+	 * values are given.
 	 */
 	public function testInitDropzone() {
 
@@ -99,7 +100,8 @@ class JSDropzoneInitializerTest extends PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * should create the javascript code with an empty array for parameter registeredSignals of the json object.
+	 * should create the javascript code with an empty array for parameter
+	 * registeredSignals of the json object.
 	 */
 	public function testInitDropzoneWhenNoSignalsAreRegistered() {
 

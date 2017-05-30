@@ -2,8 +2,8 @@
 /**
  * Class SimpleDropzone
  *
- * A simple wrapper class for a dropzone. Should only be used inside this namespace.
- * Provides setter chaining.
+ * A simple wrapper class for a dropzone. Should only be used inside this
+ * namespace. Provides setter chaining.
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    09.05.17
@@ -37,8 +37,8 @@ class SimpleDropzone {
 
 
 	/**
-	 * Private constructor. Initialize it through the static method {@link SimpleDropzone#of}.
-	 * SimpleDropzone constructor.
+	 * Private constructor. Initialize it through the static method
+	 * {@link SimpleDropzone#of}. SimpleDropzone constructor.
 	 */
 	private function __construct() { }
 
@@ -50,6 +50,7 @@ class SimpleDropzone {
 		return new SimpleDropzone();
 	}
 
+
 	/**
 	 * @return string
 	 */
@@ -60,10 +61,12 @@ class SimpleDropzone {
 
 	/**
 	 * @param string $id
+	 *
 	 * @return SimpleDropzone The instance of this object.
 	 */
 	public function setId($id) {
 		$this->id = $id;
+
 		return $this;
 	}
 
@@ -83,6 +86,7 @@ class SimpleDropzone {
 	 */
 	public function setDarkenedBackground($darkenedBackground) {
 		$this->darkenedBackground = $darkenedBackground;
+
 		return $this;
 	}
 
@@ -97,10 +101,12 @@ class SimpleDropzone {
 
 	/**
 	 * @param TriggeredSignalInterface[] $registeredSignals
+	 *
 	 * @return SimpleDropzone The instance of this object.
 	 */
 	public function setRegisteredSignals(array $registeredSignals) {
 		$this->registeredSignals = $registeredSignals;
+
 		return $this;
 	}
 
@@ -115,11 +121,12 @@ class SimpleDropzone {
 
 	/**
 	 * @param string $type
+	 *
 	 * @return SimpleDropzone The instance of this object.
 	 */
 	public function setType($type) {
 		$this->type = $type;
+
 		return $this;
 	}
-
 }
