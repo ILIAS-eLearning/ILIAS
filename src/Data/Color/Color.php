@@ -52,6 +52,28 @@ class Color {
 		return array_map('hexdec', $chunks);
 	}
 
+	/**
+	* Based on https://de.wikipedia.org/wiki/Luminanz
+	* this funktion decides if the color can be considered "dark".
+	* With a dark background, i.e., a lighter (white) color should be used
+	* for the foreground.
+	*/
+	public function isDark() {
+		$factor_r = 0.299;
+		$factor_g = 0.587;
+		$factor_b = 0.114;
+
+		$rgb = $this->rgb();
+		$r = $rgb[0];
+		$g = $rgb[1];
+		$b = $rgb[2];
+		$sum = 0.299 * $r + 0.587 * $g + 0.114 * $b;
+		if($sum < 128){
+			return true;
+		}
+		return false;
+	}
+
 
 	/**
 	 * A value is valid, if it

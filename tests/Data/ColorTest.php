@@ -86,6 +86,16 @@ class ResultTest extends PHPUnit_Framework_TestCase {
 		$v = $this->f->color('#gg0000');
 	}
 
+	public function testDarkness() {
+		$v = $this->f->color('#6541f4');
+		$this->assertEquals(true, $v->isDark());
+	}
+
+	public function testDarkness2() {
+		$v = $this->f->color('#c1f441');
+		$this->assertEquals(false, $v->isDark());
+	}
+
 
 
 
