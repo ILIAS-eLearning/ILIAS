@@ -44,7 +44,7 @@ class Color {
 	/**
 	 * Return a list with rgb-values of color
 	 *
-	 * @return <int>
+	 * @return integer[]
 	 */
 	public function rgb() {
 		$col = $this->trimhash($this->value);
