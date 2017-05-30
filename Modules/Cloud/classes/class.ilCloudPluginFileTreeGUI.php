@@ -202,8 +202,7 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI {
 	 * @return string
 	 */
 	public function getLocatorHtml(ilCloudFileNode $node) {
-		global $DIC;
-		$ilLocator = $DIC['ilLocator'];
+		static $ilLocator;
 
 		if ($node == $this->getFileTree()->getRootNode()) {
 			$ilLocator = new ilLocatorGUI();
