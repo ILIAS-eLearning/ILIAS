@@ -2,8 +2,6 @@
 
 namespace ILIAS\Filesystem\DTO;
 
-use ILIAS\Filesystem\Exception\IllegalArgumentException;
-
 /**
  * Class FileSize
  *
