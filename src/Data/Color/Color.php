@@ -59,10 +59,6 @@ class Color {
 	* for the foreground.
 	*/
 	public function isDark() {
-		$factor_r = 0.299;
-		$factor_g = 0.587;
-		$factor_b = 0.114;
-
 		$rgb = $this->rgb();
 		$r = $rgb[0];
 		$g = $rgb[1];
@@ -141,9 +137,6 @@ class Color {
 		return $value;
 	}
 
-
-
-
 	/**
 	 * trims away the leading #
 	 *
@@ -156,7 +149,6 @@ class Color {
 		}
 		return $hex;
 	}
-
 
 	/**
 	 * fill up shorthand notation
@@ -181,7 +173,6 @@ class Color {
 			.str_pad(dechex($g), 2, '0', STR_PAD_LEFT)
 			.str_pad(dechex($b), 2, '0', STR_PAD_LEFT);
 	}
-
 
 }
 

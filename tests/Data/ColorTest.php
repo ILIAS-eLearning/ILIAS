@@ -96,7 +96,4 @@ class ResultTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(false, $v->isDark());
 	}
 
-
-
-
 }
