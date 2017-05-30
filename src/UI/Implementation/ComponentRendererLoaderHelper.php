@@ -20,7 +20,7 @@ trait ComponentRendererLoaderHelper {
 	protected function getContextNames(array $contexts) {
 		$names = [];
 		foreach ($contexts as $context) {
-			$names[] = str_replace(" ", "", $context->getName());
+			$names[] = str_replace(" ", "", $context->getCanonicalName());
 		}
 		return $names;
 	}

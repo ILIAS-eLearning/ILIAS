@@ -35,7 +35,7 @@ abstract class ModalBase extends ILIAS_UI_TestBase {
 }
 
 class DummyComponent implements C\Component {
-	public function getName() {
+	public function getCanonicalName() {
 		return "Dummy";
 	}
 }

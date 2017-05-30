@@ -53,9 +53,9 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 		$this->mock = new ComponentMock();
 	}
 
-	public function test_getName() {
+	public function test_getCanonicalName() {
 		$c = new \ILIAS\UI\Component\Test\TestComponent("foo");
-		$this->assertEquals("Test Component Test", $c->getName());
+		$this->assertEquals("Test Component Test", $c->getCanonicalName());
 	}
 
 	public function test_check_arg_ok() {

@@ -16,5 +16,5 @@ interface Component {
 	 *
 	 * @return string
 	 */
-	public function getName();
+	public function getCanonicalName();
 }

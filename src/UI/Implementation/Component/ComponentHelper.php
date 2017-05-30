@@ -14,7 +14,7 @@ trait ComponentHelper {
 	 *
 	 * @return string
 	 */
-	public function getName() {
+	public function getCanonicalName() {
 		$cls = explode("\\", get_class($this));
 		$name = [];
 		$cur = array_pop($cls);

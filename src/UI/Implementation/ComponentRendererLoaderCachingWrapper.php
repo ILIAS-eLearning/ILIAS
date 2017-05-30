@@ -47,6 +47,6 @@ class ComponentRendererLoaderCachingWrapper implements ComponentRendererLoader {
 	 * @return 	string
 	 */
 	protected function getCacheKey(Component $component, array $contexts) {
-		return $component->getName()." ".implode("_", $this->getContextNames($contexts));
+		return $component->getCanonicalName()." ".implode("_", $this->getContextNames($contexts));
 	}
 }
