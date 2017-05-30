@@ -2,6 +2,8 @@
 
 namespace ILIAS\Filesystem\DTO;
 
+use ILIAS\Filesystem\MetadataType;
+
 /**
  * Class Metadata
  *
@@ -31,13 +33,18 @@ final class Metadata {
 	/**
 	 * Metadata constructor.
 	 *
+	 * Creates a new instance of the Metadata.
+	 *
 	 * @internal
 	 *
-	 * @param string $basename The basename of the file / directory.
-	 * @param string $path     The path to the file / directory.
-	 * @param string $type     The file type.
+	 * @param string $basename The name of the directory or file without the full path.
+	 * @param string $path     The path to the parent of the file or directory.
+	 * @param string $type     The file type which can be -> file or directory.
+	 *                         Please note that only constants defined in the MetadataType interface are considered as valid.
 	 *
 	 * @throws \InvalidArgumentException Thrown if the type of the given arguments are not correct.
+	 *
+	 * @see MetadataType
 	 */
 	public function __construct($basename, $path, $type) {
 
@@ -50,14 +57,19 @@ final class Metadata {
 		if(!is_string($type))
 			throw new \InvalidArgumentException("Type must be of type string.");
 
+		if($type !== MetadataType::FILE && $type !== MetadataType::DIRECTORY)
+			throw new \InvalidArgumentException("The metadata type must be TYPE_FILE or TYPE_DIRECTORY but \"$type\" was given.");
+
 		$this->basename = $basename;
 		$this->path = $path;
 		$this->type = $type;
 	}
-
-
+	
 	/**
+	 * The name of the directory or file without the full path.
+	 *
 	 * @return string
+	 * @since 5.3
 	 */
 	public function getBasename() {
 		return $this->basename;
@@ -65,7 +77,10 @@ final class Metadata {
 
 
 	/**
+	 * The path to the parent of the file or directory.
+	 *
 	 * @return string
+	 * @since 5.3
 	 */
 	public function getPath() {
 		return $this->path;
@@ -73,7 +88,12 @@ final class Metadata {
 
 
 	/**
+	 * The type of the subject which can be FILE or DIRECTORY.
+	 *
 	 * @return string
+	 * @since 5.3
+	 *
+	 * @see MetadataType
 	 */
 	public function getType() {
 		return $this->type;
