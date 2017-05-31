@@ -358,7 +358,7 @@ interface Factory {
      *     It is _the_ main navigational item apart from links/buttons in the content.
      *
      *   rivals:
-     *     Tab Bar:
+     *     Tab Bar: >
      *       The cockpit shall not be used to substitute functionality available at
      *       objects, such as settings, members or learning progress.
      *       Those remain in the Tab Bar.
