@@ -37,11 +37,11 @@ class ComponentMock {
 		$this->checkArgList($which, $value, $check, $message);
 	}
 
-    public $called_gcnbfqn = 0;
-    protected function getCanonicalNameByFullyQualifiedName() {
-        $this->called_gcnbfqn++;
-        return "Foo";
-    }
+	public $called_gcnbfqn = 0;
+	protected function getCanonicalNameByFullyQualifiedName() {
+		$this->called_gcnbfqn++;
+		return "Foo";
+	}
 }
 
 class Class1 {
@@ -52,7 +52,7 @@ class Class3 {
 }
 
 /**
- * @author  Richard Klees <richard.klees@concepts-and-training.de>
+ * @author	Richard Klees <richard.klees@concepts-and-training.de>
  */
 class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 	public function setUp() {
@@ -64,12 +64,12 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("Test Component Test", $c->getCanonicalName());
 	}
 
-    public function test_cachesCanonicalName() {
-        $name1 = $this->mock->getCanonicalName();
-        $name2 = $this->mock->getCanonicalName();
-        $this->assertEquals($name1, $name2);
-        $this->assertEquals(1, $this->mock->called_gcnbfqn);
-    }
+	public function test_cachesCanonicalName() {
+		$name1 = $this->mock->getCanonicalName();
+		$name2 = $this->mock->getCanonicalName();
+		$this->assertEquals($name1, $name2);
+		$this->assertEquals(1, $this->mock->called_gcnbfqn);
+	}
 
 	public function test_check_arg_ok() {
 		try {
