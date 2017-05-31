@@ -33,6 +33,23 @@ interface Renderer {
 	 * look different every time but are morally the same item. Another use case could
 	 * be a kiosk mode for replaying tests or using ILIAS a LTI tool provider.
 	 *
+	 * Consider you have two components: Container and Item, where Items can be
+	 * rendered inside containers or on their own, but should look differently in
+	 * both situations. You could implement a standard renderer for the Item, that
+	 * renders the item without taking the container into account. This would go
+	 * in the standard Renderer-class in the Item-namespace.
+	 * To take care of the rendering in the container, a second renderer Renderer_Container
+	 * can be implemented in the Item-namespace, that takes care of the rendering
+	 * in the container context.
+	 *
+	 * $item = $ui_factory->item();
+	 * $container = $ui_factory->container();
+	 *
+	 * $default_renderer->render($item); // will use standard renderer
+	 *
+	 * $default_renderer_with_context = $default_renderer->withAdditionalContext($container);
+	 * $default_renderer_with_context->render($item); // will use Renderer_Container if available
+	 *
 	 * @param  Component	$context
 	 * @return Renderer
 	 */
