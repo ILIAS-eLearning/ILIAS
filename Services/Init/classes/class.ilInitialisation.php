@@ -1232,10 +1232,10 @@ class ilInitialisation
 				);
 		};
 		$c["ui.component_renderer_loader"] = function($c) {
-			return new ILIAS\UI\Implementation\ComponentRendererLoaderCachingWrapper
-				( new ILIAS\UI\Implementation\ComponentRendererLoaderResourceRegistryWrapper
+			return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper
+				( new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper
 					( $c["ui.resource_registry"]
-					, new ILIAS\UI\Implementation\ComponentRendererFSLoader
+					, new ILIAS\UI\Implementation\Render\FSLoader
 						( $c["ui.factory"]
 						, $c["ui.template_factory"]
 						, $c["lng"]

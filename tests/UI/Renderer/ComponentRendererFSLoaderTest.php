@@ -4,7 +4,7 @@
 
 require_once(__DIR__."/TestComponent.php");
 
-class ComponentRendererFSLoaderTesting extends ILIAS\UI\Implementation\ComponentRendererFSLoader {
+class ComponentRendererFSLoaderTesting extends ILIAS\UI\Implementation\Render\FSLoader {
     public function _instantiateRendererFor($class) {
         return $this->instantiateRendererFor($class);
     }

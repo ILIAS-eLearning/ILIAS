@@ -7,7 +7,6 @@ namespace ILIAS\UI\Implementation;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
-use ILIAS\UI\Implementation\ComponentRendererLoader;
 
 /**
  * Renderer that dispatches rendering of UI components to a Renderer found
@@ -15,7 +14,7 @@ use ILIAS\UI\Implementation\ComponentRendererLoader;
  */
 class DefaultRenderer implements Renderer {
 	/**
-	 * @var	ComponentRendererLoader
+	 * @var	Render\Loader
 	 */
 	private $component_renderer_loader;
 
@@ -24,7 +23,7 @@ class DefaultRenderer implements Renderer {
 	 */
 	private $contexts = [];
 
-	public function __construct(ComponentRendererLoader $component_renderer_loader) {
+	public function __construct(Render\Loader $component_renderer_loader) {
 		$this->component_renderer_loader = $component_renderer_loader;
 	}
 

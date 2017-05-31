@@ -3,9 +3,9 @@
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 
-class ComponentRendererLoaderCachingWrapper extends PHPUnit_Framework_TestCase {
+class ComponentRendererLoaderCachingWrapperTest extends PHPUnit_Framework_TestCase {
 	public function test_forwards_from_underlying() {
-		$underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\ComponentRendererLoader::class)
+		$underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
 			->setMethods(["getRendererFor"])
 			->getMock();
 
@@ -18,14 +18,14 @@ class ComponentRendererLoaderCachingWrapper extends PHPUnit_Framework_TestCase {
 			->with($component, $context)
 			->willReturn($renderer);
 
-		$l = new \ILIAS\UI\Implementation\ComponentRendererLoaderCachingWrapper($underlying);
+		$l = new \ILIAS\UI\Implementation\Render\LoaderCachingWrapper($underlying);
 		$r = $l->getRendererFor($component, $context);
 
 		$this->assertSame($renderer, $r);
 	}
 
 	public function test_caches() {
-		$underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\ComponentRendererLoader::class)
+		$underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
 			->setMethods(["getRendererFor"])
 			->getMock();
 
@@ -37,7 +37,7 @@ class ComponentRendererLoaderCachingWrapper extends PHPUnit_Framework_TestCase {
 			->with($component, [])
 			->willReturn($renderer);
 
-		$l = new \ILIAS\UI\Implementation\ComponentRendererLoaderCachingWrapper($underlying);
+		$l = new \ILIAS\UI\Implementation\Render\LoaderCachingWrapper($underlying);
 		$r1 = $l->getRendererFor($component, []);
 		$r2 = $l->getRendererFor($component, []);
 
@@ -46,7 +46,7 @@ class ComponentRendererLoaderCachingWrapper extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_caching_respects_contexts() {
-		$underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\ComponentRendererLoader::class)
+		$underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
 			->setMethods(["getRendererFor"])
 			->getMock();
 
@@ -62,7 +62,7 @@ class ComponentRendererLoaderCachingWrapper extends PHPUnit_Framework_TestCase {
 				, [$c1, [$c2]])
 			->will($this->onConsecutiveCalls($renderer1, $renderer2));
 
-		$l = new \ILIAS\UI\Implementation\ComponentRendererLoaderCachingWrapper($underlying);
+		$l = new \ILIAS\UI\Implementation\Render\LoaderCachingWrapper($underlying);
 		$r1 = $l->getRendererFor($c1, []);
 		$r2 = $l->getRendererFor($c1, [$c2]);
 		$r3 = $l->getRendererFor($c1, [$c2]);

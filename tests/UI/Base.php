@@ -12,8 +12,7 @@ use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\ComponentRendererFSLoader;
-use ILIAS\UI\Implementation\ComponentRendererLoaderCachingWrapper;
-use ILIAS\UI\Implementation\ComponentRendererLoaderResourceRegistryWrapper;
+use ILIAS\UI\Implementation\Render;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory;
 
@@ -118,10 +117,10 @@ abstract class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 		$lng = $this->getLanguage();
 		$js_binding = $this->getJavaScriptBinding();
 		$component_renderer_loader
-			= new ComponentRendererLoaderCachingWrapper
-				( new ComponentRendererLoaderResourceRegistryWrapper
+			= new Render\LoaderCachingWrapper
+				( new Render\LoaderResourceRegistryWrapper
 					( $resource_registry
-					, new ComponentRendererFSLoader
+					, new Render\FSLoader
 						( $ui_factory
 						, $tpl_factory
 						, $lng

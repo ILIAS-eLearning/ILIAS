@@ -5,7 +5,7 @@
 require_once(__DIR__."/TestComponent.php");
 
 class ComponentRendererLoaderHelperTest extends PHPUnit_Framework_TestCase {
-	use \ILIAS\UI\Implementation\ComponentRendererLoaderHelper;
+	use \ILIAS\UI\Implementation\Render\LoaderHelper;
 
 	public function test_getContextNames() {
 		$c1 = new \ILIAS\UI\Component\Test\TestComponent("foo");

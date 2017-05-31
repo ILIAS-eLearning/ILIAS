@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation;
+namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Factory as RootFactory;
 use ILIAS\UI\Component\Component;
@@ -10,8 +10,8 @@ use ILIAS\UI\Component\Component;
 /**
  * Loads renderers for components from the file system.
  */
-class ComponentRendererFSLoader implements ComponentRendererLoader {
-	use ComponentRendererLoaderHelper;
+class FSLoader implements Loader {
+	use LoaderHelper;
 
 	/**
 	 * @var	RootFactory
@@ -33,7 +33,7 @@ class ComponentRendererFSLoader implements ComponentRendererLoader {
 	 */
 	private $js_binding;
 
-	public function __construct(RootFactory $ui_factory, Render\TemplateFactory $tpl_factory, \ilLanguage $lng, Render\JavaScriptBinding $js_binding) {
+	public function __construct(RootFactory $ui_factory, TemplateFactory $tpl_factory, \ilLanguage $lng, JavaScriptBinding $js_binding) {
         $this->ui_factory = $ui_factory;
         $this->tpl_factory = $tpl_factory;
         $this->lng = $lng;

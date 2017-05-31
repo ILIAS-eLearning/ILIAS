@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation;
+namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Factory as RootFactory;
 use ILIAS\UI\Component\Component;
@@ -10,7 +10,7 @@ use ILIAS\UI\Component\Component;
 /**
  * Helpers for loaders of component renderers. 
  */
-trait ComponentRendererLoaderHelper {
+trait LoaderHelper {
 	/**
 	 * Get and collapse the names of the passes components.
 	 *

@@ -2,18 +2,18 @@
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation;
+namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
 
 /**
  * Caches renderers loaded by another loader.
  */
-class ComponentRendererLoaderCachingWrapper implements ComponentRendererLoader {
-	use ComponentRendererLoaderHelper;
+class LoaderCachingWrapper implements Loader {
+	use LoaderHelper;
 
 	/**
-	 * @var ComponentRendererLoader	
+	 * @var Loader
 	 */
 	private $loader;
 
@@ -22,7 +22,7 @@ class ComponentRendererLoaderCachingWrapper implements ComponentRendererLoader {
 	 */
 	private $cache = array();
 
-	public function __construct(ComponentRendererLoader $loader) {
+	public function __construct(Loader $loader) {
 		$this->loader = $loader;
     }
 
