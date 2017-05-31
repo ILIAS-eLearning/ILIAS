@@ -117,3 +117,45 @@ if($ilDB->tableColumnExists('frm_posts', 'pos_activation_date'))
 	);
 }
 ?>
+<#9>
+<?php
+// #0020342
+$query = $ilDB->query('SELECT 
+    stloc.*,
+	fp.value as fp_value,
+	fp.name as fp_name
+FROM
+    il_dcl_stloc1_value stloc
+        INNER JOIN
+    il_dcl_record_field rf ON stloc.record_field_id = rf.id
+        INNER JOIN
+    il_dcl_field f ON rf.field_id = f.id
+		INNER JOIN
+	il_dcl_field_prop fp ON rf.field_id = fp.field_id
+WHERE
+    f.datatype_id = 3
+	AND fp.name = "multiple_selection"
+	AND fp.value = 1
+ORDER BY stloc.id ASC');
+
+while ($row = $query->fetchAssoc()) {
+	if (!is_numeric($row['value'])) {
+		continue;
+	}
+
+	$value_array = array($row['value']);
+
+	$query2 = $ilDB->query('SELECT * FROM il_dcl_stloc2_value WHERE record_field_id = ' . $ilDB->quote($row['record_field_id'], 'integer'));
+	while ($row2 = $ilDB->fetchAssoc($query2)) {
+		$value_array[] = $row2['value'];
+	}
+
+	$ilDB->update('il_dcl_stloc1_value', array(
+		'id' => array('integer', $row['id']),
+		'record_field_id' => array('integer', $row['record_field_id']),
+		'value' => array('text', json_encode($value_array)),
+	), array('id' => array('integer', $row['id'])));
+	$ilDB->manipulate('DELETE FROM il_dcl_stloc2_value WHERE record_field_id = ' . $ilDB->quote($row['record_field_id'], 'integer'));
+}
+?>
+
