@@ -2036,7 +2036,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 						continue;
 					}
 					$this->getMembersObject()->add($user_id,IL_GRP_MEMBER); // #18213
-					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
+					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id,true);
 					$waiting_list->removeFromList($user_id);
 
 					$now++;
