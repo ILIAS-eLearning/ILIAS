@@ -120,7 +120,7 @@ interface Factory {
 	 *       The Split Button is used to group related actions if space is scarce while offering the most prominent as
 	 *       visible default.
 	 *   composition: >
-	 *       The Split Button is composed of a Standard Button offering the default action along with a dropdown containing all further options.
+	 *       The Split Button is contains a button-like-looking control accompanied by a dropdown-like control on the right.
 	 *   effect: >
 	 *       Clicking the default directly fires the contained action. Clicking on the caret hinting the dropdown, opens it,
 	 *       displaying all further options and possibilities to select one of those.
@@ -128,8 +128,9 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *       1: >
-	 *           The options in the split MUST be related. They SHOULD be highly related, offering "more of the same"
-	 *           if possible (e.g. reply, reply all, forward etc.)
+	 *           The options in the split MUST be related. They SHOULD offer "more of the same" 
+	 *           (e.g. reply, reply all, forward etc.).
+	 *           
 	 *   accessibility:
 	 *       1: >
 	 *           All options offered in the dropdown MUST be accessible by keyboard.

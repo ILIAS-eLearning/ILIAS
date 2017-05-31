@@ -13,15 +13,9 @@ use ILIAS\UI\Component\JavaScriptBindable;
  * @example:
  * 		$month_picker->withOnLoadCode(function($id) {
  *			return "$( "#$id someMonthSelector" ).bind( "click", function() {
-				someActionAfterClickedOnSpecificMonth;
-			});";
+ *				someActionAfterClickedOnSpecificMonth;
+ *			});";
  *		});
  */
 interface Month extends Split, JavaScriptBindable {
-	/**
-	 * Get the month shown as default
-	 *
-	 * @return	string
-	 */
-	public function getDefaultMonth();
 }
