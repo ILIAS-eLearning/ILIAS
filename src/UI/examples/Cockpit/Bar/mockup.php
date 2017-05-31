@@ -16,12 +16,12 @@ function mockup() {
 
 	$image = $f->image()->standard(
 			"src/UI/examples/Cockpit/Bar/bar_mobile.png",
-			"");
+			"a bar in mobile context");
 	array_push($buf, $renderer->render($image));
 
 	$image = $f->image()->standard(
 			"src/UI/examples/Cockpit/Bar/bar_widescreen.png",
-			"");
+			"a bar on a really wide screen");
 	array_push($buf, $renderer->render($image));
 
 

@@ -89,7 +89,9 @@ interface Factory {
      *       Entries not triggering a slate MUST NOT become active at any time.
      *     2: Entries MAY trigger a slate.
      *     3: Entries MAY trigger navigation to a content element.
-     *     4: Entries MAY be unclickable.
+     *     4: >
+     *        Entries MAY be unclickable in general
+     *        and MUST be unclickable if in active-state.
      *
      *   composition:
      *     1: >
@@ -107,9 +109,10 @@ interface Factory {
      * @param  \Slate|string|null  $action
      * @param  \Icon|string        $icon
      * @param  string              $caption
+     * @param  boolean             $active
      * @return  \ILIAS\UI\Component\Cockpit\Entry
      */
-    public function entry($action, $icon, $caption='',);
+    public function entry($action, $icon, $caption='', $active=false);
 
 
     /**
