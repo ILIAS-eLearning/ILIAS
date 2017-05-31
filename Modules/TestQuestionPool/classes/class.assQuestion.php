@@ -4757,12 +4757,12 @@ abstract class assQuestion
 	// hey: prevPassSolutions - check for authorized solution
 	public function authorizedSolutionExists($active_id, $pass)
 	{
-		$solutionAvailability = $this->object->lookupForExistingSolutions($active_id, $pass);
+		$solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);
 		return (bool)$solutionAvailability['authorized'];
 	}
 	public function authorizedOrIntermediateSolutionExists($active_id, $pass)
 	{
-		$solutionAvailability = $this->object->lookupForExistingSolutions($active_id, $pass);
+		$solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);
 		return (bool)$solutionAvailability['authorized'] || (bool)$solutionAvailability['intermediate'];
 	}
 	// hey.

@@ -422,7 +422,6 @@ abstract class assQuestionGUI
 			ilUtil::sendInfo($this->getPreviousSolutionProvidedMessage());
 			$html .= $this->getPreviousSolutionConfirmationCheckboxHtml();
 		}
-		else
 		// hey.
 
 		$this->lng->loadLanguageModule("content");
