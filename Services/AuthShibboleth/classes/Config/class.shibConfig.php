@@ -174,6 +174,10 @@ class shibConfig {
 	/**
 	 * @var bool
 	 */
+	protected $activate_new = false;
+	/**
+	 * @var bool
+	 */
 	protected static $cache = null;
 
 
@@ -872,5 +876,21 @@ class shibConfig {
 	 */
 	public function getUpdateLastname() {
 		return $this->update_lastname;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isActivateNew() {
+		return $this->activate_new;
+	}
+
+
+	/**
+	 * @param bool $activate_new
+	 */
+	public function setActivateNew($activate_new) {
+		$this->activate_new = $activate_new;
 	}
 }
