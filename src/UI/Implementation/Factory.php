@@ -92,7 +92,7 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function layout()
+	public function cockpit()
 	{
 		throw new \ILIAS\UI\NotImplementedException();
 	}
