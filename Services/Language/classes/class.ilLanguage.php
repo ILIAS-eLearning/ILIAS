@@ -365,6 +365,11 @@ class ilLanguage
 		$row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		
 		$new_text = unserialize($row["lang_array"]);
+
+		if($new_text === false) {
+			throw new Exception("Data for module: ".$a_module." language: ".$lang_key." could not be unserialized");
+		}
+
 		if (is_array($new_text))
 		{
 			$this->text = array_merge($this->text, $new_text);
