@@ -1,0 +1,23 @@
+<!-- PLEASE NOTE THAT THIS IS OF COURSE NOT THE FINAL IMPLEMENTATION --->
+<div id="datetimepicker3" class="split-btn btn-group">
+	<span class="split-btn-default"><a style="min-width:10em;" class="btn btn-default" href="{DEFAULT_ACTION}">{DEFAULT_LABEL}</a></span>
+	<button type="button" class="btn btn-default {BTN_CSS_CLASS} btn-split dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+		<span class="caret"></span>
+		<span class="sr-only">{TXT_TOGGLE_DROPDOWN}</span>
+	</button>
+	<div class="dropdown-menu" style="min-width:250px;">
+		<div class="inline-picker"></div>
+	</div>
+</div>
+<script>
+	$('#datetimepicker3 .inline-picker').datetimepicker({
+		inline: true,
+		sideBySide: true,
+		viewMode: 'months',
+		format: 'MM/YYYY'
+	}).on('dp.change', function (ev) {
+		var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		var d = new Date(ev.date);
+		$("#datetimepicker3 > span > a").html(months[d.getMonth()] + " " + d.getFullYear());
+	});
+</script>

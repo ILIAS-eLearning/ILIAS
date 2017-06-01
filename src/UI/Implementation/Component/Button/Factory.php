@@ -33,6 +33,6 @@ class Factory implements B\Factory {
 	 * @inheritdoc
 	 */
 	public function split() {
-		throw new NotImplementedException();
+		return new Split\Factory();
 	}
 }
