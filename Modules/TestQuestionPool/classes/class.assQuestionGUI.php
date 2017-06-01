@@ -467,7 +467,7 @@ abstract class assQuestionGUI
 	protected function getPreviousSolutionConfirmationCheckboxHtml()
 	{
 		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
-		$tpl->setVariable('TXT_USE_UNCHANGED_ANSWER', $this->lng->txt('use_previous_answer'));
+		$tpl->setVariable('TXT_USE_UNCHANGED_ANSWER', $this->lng->txt('use_previous_solution'));
 		return $tpl->get();
 	}
 	// hey.
