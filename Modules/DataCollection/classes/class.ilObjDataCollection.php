@@ -55,6 +55,7 @@ class ilObjDataCollection extends ilObject2 {
 			$main_table->setDeletePerm(1);
 			$main_table->setEditByOwner(1);
 			$main_table->setLimited(0);
+			$main_table->setIsVisible(true);
 			$main_table->doCreate();
 		}
 
