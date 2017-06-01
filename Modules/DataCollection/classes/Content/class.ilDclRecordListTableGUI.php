@@ -312,12 +312,11 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$field = $field_set->getFieldObject();
 			ilDclCache::getFieldRepresentation($field)->addFilterInputFieldToTable($this);
 
-			//Disable filters
+			//set filter values
 			$filter = &end($this->filters);
 			$value = $field_set->getFilterValue();
 			$filter->setValueByArray($value);
-
-			$this->applyFilter($field->getId(), $value ? $filter->getValue() : null);
+			$this->applyFilter($field->getId(), empty(array_filter($value)) ? null : $filter->getValue());
 
 			//Disable filters
 			if (!$field_set->isFilterChangeable())
