@@ -422,11 +422,10 @@ abstract class assQuestionGUI
 	*/
 	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
 	{
-		// hey: prevPassSolutions - add the "use previous answer"
+		// hey: prevPassSolutions - send the "use previous answer" message
 		if ($this->isPreviousSolutionPrefilled())
 		{
 			ilUtil::sendInfo($this->getPreviousSolutionProvidedMessage());
-			$html .= $this->getPreviousSolutionConfirmationCheckboxHtml();
 		}
 		// hey.
 
@@ -462,13 +461,6 @@ abstract class assQuestionGUI
 	protected function getPreviousSolutionProvidedMessage()
 	{
 		return $this->lng->txt('use_previous_solution_advice');
-	}
-	
-	protected function getPreviousSolutionConfirmationCheckboxHtml()
-	{
-		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
-		$tpl->setVariable('TXT_USE_UNCHANGED_ANSWER', $this->lng->txt('use_previous_solution'));
-		return $tpl->get();
 	}
 	// hey.
 	
