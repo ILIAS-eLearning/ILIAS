@@ -81,7 +81,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		$this->addColumn($this->lng->txt('grp_notification'), 'notification');
 
 		$this->addColumn($this->lng->txt(''), 'optional');
-		$this->setDefaultOrderField('lastname');
+		$this->setDefaultOrderField('roles');
+		$this->setDefaultOrderDirection("asc");
 
 		$this->setRowTemplate("tpl.show_participants_row.html", "Modules/Group");
 
@@ -272,8 +273,29 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
     {
 		$this->determineOffsetAndOrder(true);
 		
-		$part = ilGroupParticipants::_getInstanceByObjId($this->getRepositoryObject()->getId())->getParticipants();
-		
+		//$part = ilGroupParticipants::_getInstanceByObjId($this->getRepositoryObject()->getId())->getParticipants();
+		if($this->getOrderField() == "roles" && $this->getOrderDirection() == "asc")
+		{
+			$part = array_merge(
+				$this->participants->getAdmins(),
+				$this->participants->getMembers()
+			);
+			$this->getParentObject()->setForcedRowsPosition(true);
+		}
+		else if($this->getOrderField() == "roles" && $this->getOrderDirection() == "desc")
+		{
+			$part = array_merge(
+				$this->participants->getMembers(),
+				$this->participants->getAdmins()
+			);
+			$this->getParentObject()->setForcedRowsPosition(true);
+		}
+		else
+		{
+			$part = $this->participants->getParticipants();
+		}
+
+
 		if(!$part)
 		{
 			$this->setData(array());
@@ -456,7 +478,12 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 				}
 			}
 		}
-		
+		#20370
+		if($this->getParentObject()->getForcedRowsPosition())
+		{
+			$a_user_data = array_replace(array_flip($part),$a_user_data);
+		}
+
         return $this->setData($a_user_data);
     }
 }

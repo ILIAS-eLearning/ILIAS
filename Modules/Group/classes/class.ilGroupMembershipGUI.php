@@ -17,6 +17,9 @@ include_once './Services/Membership/classes/class.ilMembershipGUI.php';
  */
 class ilGroupMembershipGUI extends ilMembershipGUI
 {
+	//if we want to show an specific order before apply the sorting.
+	protected $forced_rows_position = false;
+
 	/**
 	 * @access public
 	 */
@@ -228,7 +231,21 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 		
 		return $data;
 	}
-	
+
+	/**
+	 * Set bool if some rows should be always in a fixed position.
+	 *
+	 * @param $a_forced string
+	 */
+	function setForcedRowsPosition($a_forced)
+	{
+		$this->forced_rows_position = $a_forced;
+	}
+
+	function getForcedRowsPosition()
+	{
+		return $this->forced_rows_position;
+	}
 
 
 }
