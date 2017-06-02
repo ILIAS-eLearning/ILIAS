@@ -82,6 +82,13 @@ abstract class assQuestionGUI
 	 */
 	private $outputMode = self::OUTPUT_MODE_SCREEN;
 	
+	// hey: prevPassSolutions - flag to indicate that a previous answer is shown
+	/**
+	 * @var bool
+	 */
+	private $previousSolutionPrefilled = false;
+	// hey.
+	
 	/**
 	* assQuestionGUI constructor
 	*/
@@ -166,6 +173,24 @@ abstract class assQuestionGUI
 	{
 		return $this->getPresentationContext() == self::PRESENTATION_CONTEXT_TEST;
 	}
+
+	// hey: previousPassSolutions - setter/getter for Previous Solution Prefilled flag
+	/**
+	 * @return boolean
+	 */
+	public function isPreviousSolutionPrefilled()
+	{
+		return $this->previousSolutionPrefilled;
+	}
+	
+	/**
+	 * @param boolean $previousSolutionPrefilled
+	 */
+	public function setPreviousSolutionPrefilled($previousSolutionPrefilled)
+	{
+		$this->previousSolutionPrefilled = $previousSolutionPrefilled;
+	}
+	// hey.
 
 	/**
 	 * @return string
@@ -397,6 +422,13 @@ abstract class assQuestionGUI
 	*/
 	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
 	{
+		// hey: prevPassSolutions - send the "use previous answer" message
+		if ($this->isPreviousSolutionPrefilled())
+		{
+			ilUtil::sendInfo($this->getPreviousSolutionProvidedMessage());
+		}
+		// hey.
+
 		$this->lng->loadLanguageModule("content");
 
 		if( $this->getNavigationGUI() )
@@ -424,6 +456,13 @@ abstract class assQuestionGUI
 
 		return $page_gui->presentation();
 	}
+	
+	// hey: prevPassSolutions - build prev solution message / build "use previous answer checkbox" html
+	protected function getPreviousSolutionProvidedMessage()
+	{
+		return $this->lng->txt('use_previous_solution_advice');
+	}
+	// hey.
 	
 	/**
 	* cancel action
@@ -2027,7 +2066,9 @@ abstract class assQuestionGUI
 	final public function outQuestionForTest(
 		$formaction,
 		$active_id,
-		$pass = NULL,
+		// hey: prevPassSolutions - pass will be always available from now on
+		$pass,
+		// hey.
 		$is_question_postponed = FALSE,
 		$user_post_solutions = FALSE,
 		$show_specific_inline_feedback = FALSE
@@ -2051,7 +2092,9 @@ abstract class assQuestionGUI
 		$this->tpl->setVariable("FORM_TIMESTAMP", time());
 	}
 	
-	protected function completeTestOutputFormAction($formAction, $active_id, $pass = NULL)
+	// hey: prevPassSolutions - $pass will be passed always from now on
+	protected function completeTestOutputFormAction($formAction, $active_id, $pass)
+	// hey.
 	{
 		return $formAction;
 	}
@@ -2068,6 +2111,18 @@ abstract class assQuestionGUI
 		$user_post_solutions,
 		$show_specific_inline_feedback
 	);
+	
+	// hey: prevPassSolutions - accept and prefer intermediate only from current pass
+	protected function getTestOutputSolutions($activeId, $pass)
+	{
+		if( $this->isPreviousSolutionPrefilled() )
+		{
+			return $this->object->getSolutionValues($activeId, $pass, true);
+		}
+		
+		return $this->object->getUserSolutionPreferingIntermediate($activeId, $pass);
+	}
+	// hey.
 
 	public function getFormEncodingType()
 	{

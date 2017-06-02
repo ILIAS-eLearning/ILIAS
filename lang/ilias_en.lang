@@ -1366,6 +1366,7 @@ assessment#:#examid_in_test_res_desc#:#The ILIAS test pass ID will be included i
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test passes. This option has to be activated by individual participants on the Info-tab before starting a test pass.
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
+assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to save the prepared solution unchanged or modified to adopt it for the current pass.
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_your_answer_was#:#Your answer was
