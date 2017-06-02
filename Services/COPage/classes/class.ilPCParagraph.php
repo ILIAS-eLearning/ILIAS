@@ -1742,19 +1742,18 @@ if (!$a_wysiwyg)
 
 		if ($a_par_node == null)
 		{
-			$parnodes = $xpath->query('//Paragraph');
+			$parnodes = $xpath->query("//Paragraph[@Characteristic != 'Code']");
 		}
 		else
 		{
-			$parnodes = $xpath->query('//Paragraph', $a_par_node);
+			$parnodes = $xpath->query(".//Paragraph[@Characteristic != 'Code']", $a_par_node->parentNode);
 		}
-
 
 		include_once("./Services/Utilities/classes/class.ilStr.php");
 
 		foreach ($parnodes as $parnode)
 		{
-			$textnodes = $xpath->query('//text()', $parnode);
+			$textnodes = $xpath->query('.//text()', $parnode);
 			foreach ($textnodes as $node)
 			{
 				$p = $node->getNodePath();
@@ -1806,8 +1805,8 @@ if (!$a_wysiwyg)
 					$node->nodeValue = $node_val;
 				}
 
-	//			var_dump($p);
-	//			var_dump($node->nodeValue);
+//				var_dump($p);
+//				var_dump($node->nodeValue);
 			}
 
 
@@ -1850,6 +1849,7 @@ if (!$a_wysiwyg)
 				}
 			}
 		}
+//		exit;
 	}
 
 
