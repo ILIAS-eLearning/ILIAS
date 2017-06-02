@@ -1644,10 +1644,10 @@ abstract class assQuestion
 	{
 		if( $this->getTestQuestionConfig()->isSolutionInitiallyPrefilled() )
 		{
-			return $this->object->getSolutionValues($activeId, $pass, true);
+			return $this->getSolutionValues($activeId, $pass, true);
 		}
 		
-		return $this->object->getUserSolutionPreferingIntermediate($activeId, $pass);
+		return $this->getUserSolutionPreferingIntermediate($activeId, $pass);
 	}
 	// hey.
 	
