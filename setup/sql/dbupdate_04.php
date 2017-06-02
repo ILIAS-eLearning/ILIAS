@@ -15561,7 +15561,7 @@ if (!$ilDB->tableColumnExists('il_dcl_table', 'table_order')) {
 if ($ilDB->tableColumnExists('il_dcl_data', 'main_table_id')) {
 	$main_table_query = $ilDB->query('SELECT main_table_id FROM il_dcl_data');
 	while ($rec = $ilDB->fetchAssoc($main_table_query)) {
-		$ilDB->query('UPDATE il_dcl_table SET table_order = 10 WHERE id = ' . $ilDB->quote($rec['main_table_id'], 'integer'));
+		$ilDB->query('UPDATE il_dcl_table SET table_order = 10, is_visible = 1 WHERE id = ' . $ilDB->quote($rec['main_table_id'], 'integer'));
 	}
 	$ilDB->dropTableColumn('il_dcl_data', 'main_table_id');
 }

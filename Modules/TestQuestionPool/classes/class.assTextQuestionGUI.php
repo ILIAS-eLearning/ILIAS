@@ -176,7 +176,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		}
 		else
 		{
-			$solution = $this->getBestAnswer($_GET['pdf']);
+			$solution = $this->getBestAnswer($this->renderPurposeSupportsFormHtml());
 		}
 		
 		// generate the question output
@@ -185,7 +185,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 
 		$solution = $this->object->getHtmlUserSolutionPurifier()->purify($solution);
-		if( $_GET['pdf'] )
+		if( $this->renderPurposeSupportsFormHtml() )
 		{
 			$template->setCurrentBlock('essay_div');
 			$template->setVariable("DIV_ESSAY", $this->object->prepareTextareaOutput($solution, TRUE));
