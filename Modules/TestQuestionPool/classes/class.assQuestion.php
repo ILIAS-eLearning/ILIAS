@@ -1639,6 +1639,18 @@ abstract class assQuestion
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 	
+	// hey: prevPassSolutions - accept and prefer intermediate only from current pass
+	protected function getTestOutputSolutions($activeId, $pass)
+	{
+		if( $this->getTestQuestionConfig()->isSolutionInitiallyPrefilled() )
+		{
+			return $this->object->getSolutionValues($activeId, $pass, true);
+		}
+		
+		return $this->object->getUserSolutionPreferingIntermediate($activeId, $pass);
+	}
+	// hey.
+	
 	public function getUserSolutionPreferingIntermediate($active_id, $pass = NULL)
 	{
 		$solution = $this->getSolutionValues($active_id, $pass, false);
@@ -4926,6 +4938,19 @@ abstract class assQuestion
 	
 	abstract public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null);
 
+	// hey: prevPassSolutions - check for authorized solution
+	public function authorizedSolutionExists($active_id, $pass)
+	{
+		$solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);
+		return (bool)$solutionAvailability['authorized'];
+	}
+	public function authorizedOrIntermediateSolutionExists($active_id, $pass)
+	{
+		$solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);
+		return (bool)$solutionAvailability['authorized'] || (bool)$solutionAvailability['intermediate'];
+	}
+	// hey.
+	
 	/**
 	 * @param $active_id
 	 * @param $pass

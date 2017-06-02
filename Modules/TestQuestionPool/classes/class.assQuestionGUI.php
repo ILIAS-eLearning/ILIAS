@@ -523,6 +523,14 @@ abstract class assQuestionGUI
 	*/
 	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
 	{
+		// hey: prevPassSolutions - add the "use previous answer"
+		if( $this->object->getTestQuestionConfig()->isSolutionInitiallyPrefilled() )
+		{
+			ilUtil::sendInfo($this->getPreviousSolutionProvidedMessage());
+			$html .= $this->getPreviousSolutionConfirmationCheckboxHtml();
+		}
+		else /* if( ...->isUnchangedAnswerPossible() ) --> */
+		// hey.
 // fau: testNav - add the "use unchanged answer checkbox"
 		if ($this->object->getTestQuestionConfig()->isUnchangedAnswerPossible())
 		{
@@ -566,6 +574,20 @@ abstract class assQuestionGUI
 		return $tpl->get();
 	}
 // fau.
+
+	// hey: prevPassSolutions - build prev solution message / build "use previous answer checkbox" html
+	protected function getPreviousSolutionProvidedMessage()
+	{
+		return $this->lng->txt('use_previous_solution_advice');
+	}
+	
+	protected function getPreviousSolutionConfirmationCheckboxHtml()
+	{
+		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
+		$tpl->setVariable('TXT_USE_UNCHANGED_ANSWER', $this->lng->txt('use_previous_solution'));
+		return $tpl->get();
+	}
+	// hey.
 
 	/**
 	* cancel action
@@ -2157,7 +2179,9 @@ abstract class assQuestionGUI
 	final public function outQuestionForTest(
 		$formaction,
 		$active_id,
-		$pass = NULL,
+		// hey: prevPassSolutions - pass will be always available from now on
+		$pass,
+		// hey.
 		$is_question_postponed = FALSE,
 		$user_post_solutions = FALSE,
 		$show_specific_inline_feedback = FALSE
@@ -2181,7 +2205,9 @@ abstract class assQuestionGUI
 		$this->tpl->setVariable("FORM_TIMESTAMP", time());
 	}
 	
-	protected function completeTestOutputFormAction($formAction, $active_id, $pass = NULL)
+	// hey: prevPassSolutions - $pass will be passed always from now on
+	protected function completeTestOutputFormAction($formAction, $active_id, $pass)
+	// hey.
 	{
 		return $formAction;
 	}
