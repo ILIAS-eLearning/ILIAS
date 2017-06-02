@@ -54,17 +54,26 @@ class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
 	{
 		global $ilDB;
 
+		$awrn_logger = ilLoggerFactory::getLogger('awrn');
 
 		include_once("./Services/Membership/classes/class.ilParticipants.php");
 		$groups_and_courses_of_user = ilParticipants::_getMembershipByType($this->getUserId(), array("grp", "crs"));
 
-		$set = $ilDB->query("SELECT DISTINCT usr_id FROM obj_members ".
+		$awrn_logger->debug("Courses and groups of user:'".$this->getUserId()."': ".implode(", ",$groups_and_courses_of_user));
+
+		$set = $ilDB->query($q = "SELECT DISTINCT usr_id FROM obj_members ".
 			" WHERE ".$ilDB->in("obj_id", $groups_and_courses_of_user, false, "integer"));
+
+		$awrn_logger->debug($q);
+
 		$ub = array();
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
 			$ub[] = $rec["usr_id"];
 		}
+
+		$awrn_logger->debug("Got ".count($ub)." distinct members.");
+
 		return $ub;
 	}
 }
