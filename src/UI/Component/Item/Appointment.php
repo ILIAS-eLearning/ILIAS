@@ -2,13 +2,13 @@
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Component\Panel\Listing;
+namespace ILIAS\UI\Component\Item;
 
 /**
  * Interface Appointment
  * @package ILIAS\UI\Component\Panel\Listing
  */
-interface AppointmentItem extends \ILIAS\UI\Component\Item {
+interface AppointmentItem extends Item {
 	/**
 	 * Get the starting point of the appointment.
 	 * @return \ilDateTime

@@ -37,6 +37,6 @@ class Factory implements \ILIAS\UI\Component\Panel\Factory {
 	 * @inheritdoc
 	 */
 	public function listing() {
-		throw new NotImplementedException();
+		return new Listing\Factory();
 	}
 }

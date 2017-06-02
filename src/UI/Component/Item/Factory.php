@@ -42,7 +42,7 @@ interface Factory {
 	 *       TODO, this is a further candidate to make use of Items. This could be
 	 *       stuffed with items of no-specific type.
 	 * ---
-	 * @return \ILIAS\UI\Component\Item\Repository
+	 * @return \ILIAS\UI\Component\Item\Standard
 	 */
 	public function standard();
 
