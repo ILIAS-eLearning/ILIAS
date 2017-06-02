@@ -1640,14 +1640,14 @@ abstract class assQuestion
 	}
 	
 	// hey: prevPassSolutions - accept and prefer intermediate only from current pass
-	protected function getTestOutputSolutions($activeId, $pass)
+	public function getTestOutputSolutions($activeId, $pass)
 	{
 		if( $this->getTestQuestionConfig()->isSolutionInitiallyPrefilled() )
 		{
-			return $this->object->getSolutionValues($activeId, $pass, true);
+			return $this->getSolutionValues($activeId, $pass, true);
 		}
 		
-		return $this->object->getUserSolutionPreferingIntermediate($activeId, $pass);
+		return $this->getUserSolutionPreferingIntermediate($activeId, $pass);
 	}
 	// hey.
 	
