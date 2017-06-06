@@ -179,3 +179,7 @@ while ($rec = $ilDB->fetchAssoc($set))
 	$ilDB->dropPrimaryKey('page_question');
 	$ilDB->addPrimaryKey('page_question', array('page_parent_type', 'page_id', 'question_id', 'page_lang'));
 ?>
+<#12>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
