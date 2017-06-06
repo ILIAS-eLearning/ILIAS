@@ -24,12 +24,18 @@ class ResultTest extends PHPUnit_Framework_TestCase {
 		$expected = array(
 			'#0fff2f',
 			'rgb(15, 255, 47)',
-			array(15, 255, 47)
+			array(15, 255, 47),
+			15,
+			255,
+			47
 		);
 		$this->assertEquals($expected, array(
 			$v->asHex(),
 			$v->asRGBString(),
-			$v->asArray()
+			$v->asArray(),
+			$v->r(),
+			$v->g(),
+			$v->b()
 		));
 	}
 
