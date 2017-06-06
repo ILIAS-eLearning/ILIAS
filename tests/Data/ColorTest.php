@@ -27,9 +27,9 @@ class ResultTest extends PHPUnit_Framework_TestCase {
 			array(15, 255, 47)
 		);
 		$this->assertEquals($expected, array(
-			$v->value(),
-			$v->rgbstring(),
-			$v->rgb()
+			$v->asHex(),
+			$v->asRGBString(),
+			$v->asArray()
 		));
 	}
 
@@ -41,9 +41,23 @@ class ResultTest extends PHPUnit_Framework_TestCase {
 			array(255, 0, 255)
 		);
 		$this->assertEquals($expected, array(
-			$v->value(),
-			$v->rgbstring(),
-			$v->rgb()
+			$v->asHex(),
+			$v->asRGBString(),
+			$v->asArray()
+		));
+	}
+
+	public function testShortHexValue2() {
+		$v = $this->f->color('f0f');
+		$expected = array(
+			'#ff00ff',
+			'rgb(255, 0, 255)',
+			array(255, 0, 255)
+		);
+		$this->assertEquals($expected, array(
+			$v->asHex(),
+			$v->asRGBString(),
+			$v->asArray()
 		));
 	}
 
@@ -55,34 +69,44 @@ class ResultTest extends PHPUnit_Framework_TestCase {
 			array(15, 255, 47)
 		);
 		$this->assertEquals($expected, array(
-			$v->value(),
-			$v->rgbstring(),
-			$v->rgb()
+			$v->asHex(),
+			$v->asRGBString(),
+			$v->asArray()
 		));
 	}
 
 	public function testWrongRBGValue() {
-		$this->setExpectedException(UnexpectedValueException::class);
-		$v = $this->f->color(array(-1,256,'123'));
+		$this->setExpectedException(InvalidArgumentException::class);
+		$v = $this->f->color(array(-1,0,0));
 	}
+
 	public function testWrongRBGValue2() {
-		$this->setExpectedException(UnexpectedValueException::class);
+		$this->setExpectedException(InvalidArgumentException::class);
+		$v = $this->f->color(array(256,0,0));
+	}
+
+	public function testWrongRBGValue3() {
+		$this->setExpectedException(InvalidArgumentException::class);
 		$v = $this->f->color(array(1,1,'123'));
 	}
-	public function testWrongRBGValue3() {
-		$this->setExpectedException(UnexpectedValueException::class);
+
+	public function testWrongRBGValue4() {
+		$this->setExpectedException(InvalidArgumentException::class);
 		$v = $this->f->color(array());
 	}
+
 	public function testWrongHexValue() {
-		$this->setExpectedException(UnexpectedValueException::class);
-		$v = $this->f->color('ffffff');
+		$this->setExpectedException(InvalidArgumentException::class);
+		$v = $this->f->color('1234');
 	}
+
 	public function testWrongHexValue2() {
-		$this->setExpectedException(UnexpectedValueException::class);
+		$this->setExpectedException(InvalidArgumentException::class);
 		$v = $this->f->color('#ff');
 	}
+
 	public function testWrongHexValue4() {
-		$this->setExpectedException(UnexpectedValueException::class);
+		$this->setExpectedException(InvalidArgumentException::class);
 		$v = $this->f->color('#gg0000');
 	}
 

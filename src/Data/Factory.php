@@ -8,6 +8,7 @@ namespace ILIAS\Data;
  *
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
+ * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class Factory {
 	/**
@@ -35,11 +36,12 @@ class Factory {
 	 * Construct a color with a #-leading hex-value or
 	 * a list with RGB-values.
 	 *
-	 * @param  string|<int>
+	 * @param  string|int[]
 	 * @return Color
 	 */
 	public function color($value) {
-		return new Color\Color($value);
+		$f = new Color\ColorFactory();
+		return $f->build($value);
 	}
 
 

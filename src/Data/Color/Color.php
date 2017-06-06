@@ -13,43 +13,90 @@ use ILIAS\Data as D;
 class Color {
 
 	/**
-	 * @var string
+	 * @var integer
 	 */
-	protected $value;
+	protected $r;
 
-	public function __construct($value) {
-		$this->value = $this->normalize($value);
+	/**
+	 * @var integer
+	 */
+	protected $g;
+
+	/**
+	 * @var integer
+	 */
+	protected $b;
+
+
+	public function __construct($r, $g, $b) {
+		assert('is_integer($r)');
+		assert('is_integer($g)');
+		assert('is_integer($b)');
+		$this->r = $r;
+		$this->g = $g;
+		$this->b = $b;
 	}
 
 	/**
-	 * Return the hex-value of color
+	 * Get the valule for red.
 	 *
-	 * @return string
+	 * @return integer
 	 */
-	public function value() {
-		return $this->value;
+	public function r() {
+		return $this->r;
+	}
+	/**
+	 * Get the valule for green.
+	 *
+	 * @return integer
+	 */
+	public function g() {
+		return $this->g;
+	}
+	/**
+	 * Get the valule for blue.
+	 *
+	 * @return integer
+	 */
+	public function b() {
+		return $this->b;
 	}
 
 	/**
-	 * Return string with rgb-notation
+	 * Return array with RGB-values.
+	 *
+	 * @return int[]
+	 */
+	public function asArray() {
+		return array(
+			$this->r,
+			$this->g,
+			$this->b
+		);
+	}
+
+	/**
+	 * Return color-value in hex-format.
 	 *
 	 * @return string
 	 */
-	public function rgbstring() {
+	public function asHex() {
+		$hex = '#';
+		foreach ($this->asArray() as $value) {
+			$hex .= str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+		}
+		return $hex;
+	}
+
+	/**
+	 * Return string with RGB-notation
+	 *
+	 * @return string
+	 */
+	public function asRGBString() {
 		return 'rgb('
-			.implode($this->rgb(), ', ')
+			.implode($this->asArray(), ', ')
 			.')';
-	}
-
-	/**
-	 * Return a list with rgb-values of color
-	 *
-	 * @return integer[]
-	 */
-	public function rgb() {
-		$col = $this->trimhash($this->value);
-		$chunks = str_split($col, 2);
-		return array_map('hexdec', $chunks);
 	}
 
 	/**
@@ -57,122 +104,15 @@ class Color {
 	* this funktion decides if the color can be considered "dark".
 	* With a dark background, i.e., a lighter (white) color should be used
 	* for the foreground.
+	*
+	* @return boolean
 	*/
 	public function isDark() {
-		$rgb = $this->rgb();
-		$r = $rgb[0];
-		$g = $rgb[1];
-		$b = $rgb[2];
-		$sum = 0.299 * $r + 0.587 * $g + 0.114 * $b;
+		$sum = 0.299 * $this->r + 0.587 * $this->g + 0.114 * $this->b;
 		if($sum < 128){
 			return true;
 		}
 		return false;
 	}
 
-
-	/**
-	 * A value is valid, if it
-	 * -starts with '#'
-	 * -is of length 3(4) or 6(7)
-	 * OR
-	 * -is a list of exactly three values
-	 * -each value is between 0 and 255
-	 *
-	 * The datatype stores the value in hex longhand notation.
-	 * Normalization also includes validation.
-	 *
-	 * @throws Exception
-	 * @return string
-	 */
-	private function normalize($value) {
-
-		switch(gettype($value)) {
-
-			case 'array':
-				if(count($value) !== 3) {
-					throw new \UnexpectedValueException("RGB must contain three values", 1);
-				}
-				// build constraints
-				$f = new VAL\Factory(new D\Factory());
-				$constraints = $f->parallel([
-						$f->greaterThan(-1),
-						$f->lessThan(256)
-					],
-					new D\Factory()
-				);
-
-				foreach ($value as $key => $val) {
-					if(! is_integer($val)) {
-						throw new \UnexpectedValueException("RGB must contain integer values only", 1);
-					}
-					$constraints->check($val);
-				}
-
-				$value = $this->toHex($value[0], $value[1],	$value[2]);
-				break;
-
-			case 'string':
-				if(substr($value, 0, 1) !== '#') {
-					throw new \UnexpectedValueException("color must start with #", 1);
-				}
-				if(strlen($value) !== 4 && strlen($value) !== 7) {
-					throw new \UnexpectedValueException("length must be 3 or 6", 1);
-				}
-
-				if(strlen($value) === 4) {
-					$value = $this->unshort($value);
-				}
-
-				if(! preg_match('/^#[a-f0-9]{6}$/i', $value)) {
-					throw new \UnexpectedValueException("color contains illegal characters", 1);
-				}
-
-				break;
-
-			default:
-				throw new Exception("invalid data type", 1);
-
-		}
-		return $value;
-	}
-
-	/**
-	 * trims away the leading #
-	 *
-	 * @param string $hex
-	 * @return string
-	 */
-	private function trimhash($hex) {
-		if(substr($hex, 0, 1) === '#') {
-			$hex = ltrim($hex, '#');
-		}
-		return $hex;
-	}
-
-	/**
-	 * fill up shorthand notation
-	 *
-	 * @param string $hex
-	 * @return string
-	 */
-	private function unshort($hex) {
-		$h = $this->trimhash($hex);
-		$hex = '#'.$h[0].$h[0].$h[1].$h[1].$h[2].$h[2];
-		return $hex;
-	}
-
-	/**
-	 * convert the rgb-values to hex
-	 *
-	 * @return string
-	 */
-	private function toHex($r, $g, $b) {
-		return '#'
-			.str_pad(dechex($r), 2, '0', STR_PAD_LEFT)
-			.str_pad(dechex($g), 2, '0', STR_PAD_LEFT)
-			.str_pad(dechex($b), 2, '0', STR_PAD_LEFT);
-	}
-
 }
-
