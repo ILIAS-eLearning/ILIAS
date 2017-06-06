@@ -9,7 +9,13 @@ function base() {
 	$renderer = $DIC->ui()->renderer();
 
 	//ViewControl element
-	$view_control = $f->viewControl()->mode(array("Button 1" => "http://example.com", "Button 2" => "http://example.net", "Button 3" => "http://example.org"));
+	$actions = array (
+		"Using ILIAS" => "http://www.ilias.de/docu/goto_docu_cat_580.html",
+		"ILIAS Development" => "http://www.ilias.de/docu/goto.php?target=cat_582&client_id=docu",
+		"ILIAS Community" => "http://www.ilias.de/docu/goto.php?target=cat_1444&client_id=docu"
+	);
+
+	$view_control = $f->viewControl()->mode($actions);
 	$html = $renderer->render($view_control);
 
 	return $html;
