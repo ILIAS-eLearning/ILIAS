@@ -95,6 +95,6 @@ class Factory implements \ILIAS\UI\Factory
 	 */
 	public function viewControl()
 	{
-		throw new NotImplementedException();
+		return new Component\ViewControl\Factory();
 	}
 }
