@@ -33,8 +33,7 @@ class Factory {
 
 	/**
 	 * Color is a data type representing a color in HTML.
-	 * Construct a color with a #-leading hex-value or
-	 * a list with RGB-values.
+	 * Construct a color with a hex-value or list of RGB-values.
 	 *
 	 * @param  string|int[]
 	 * @return Color
