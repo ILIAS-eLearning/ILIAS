@@ -1,5 +1,5 @@
 <?php
-namespace ILIAS\UI\Component\Listing;
+namespace ILIAS\UI\Component\Item;
 /**
  * This is how a factory for Items looks like.
  */
@@ -27,11 +27,11 @@ interface Factory {
 	 *      clicks the "Show More" link displayed if there is hidden content.
 	 * ---
 	 * @param string $title Title of the Appointment
-	 * @param ilDateTime $from Starting point of the appointment.
-	 * @param ilDateTime $to End point of the appointment.
-	 * @param string Color of the calendar containing the item as color code
+	 * @param \ilDateTime $from Starting point of the appointment.
+	 * @param \ilDateTime $to End point of the appointment.
+	 * @param string $color Color of the calendar containing the item as color code
 	 *        (hex).
-	 * @return \ILIAS\UI\Component\Item\Appointment
+	 * @return \ILIAS\UI\Component\Item\AppointmentItem
 	 */
 	public function appointment($title, \ilDateTime $from, \ilDateTime $to, $color);
 
@@ -39,12 +39,13 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       TODO, this is a further candidate to make use of Items. This could be
-	 *       stuffed with items of no-specific type.
+	 *       This is a standard item to be used in lists and other context. If possible
+	 *       use this type.
 	 * ---
-	 * @return \ILIAS\UI\Component\Item\Standard
+	 * @param string $title Title of the Appointment
+	 * @return \ILIAS\UI\Component\Item\StandardItem
 	 */
-	public function standard();
+	public function standard($title);
 
 	/**
 	 * ---

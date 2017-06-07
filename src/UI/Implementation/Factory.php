@@ -95,7 +95,7 @@ class Factory implements \ILIAS\UI\Factory
 	 * @inheritdoc
 	 */
 	public function item() {
-		throw new NotImplementedException();
+		return new Component\Item\Factory();
 	}
 
 }

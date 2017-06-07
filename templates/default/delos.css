@@ -6248,6 +6248,64 @@ button.close {
   padding-left: 5px;
   padding-right: 5px;
 }
+.il-item {
+  background-color: white;
+  position: relative;
+}
+.il-item h4 {
+  margin: 4px 0px 2px 0px;
+  font-size: 130%;
+  float: left;
+}
+.il-item .il-item-divider {
+  clear: both;
+  padding: 0;
+  margin: 0;
+  padding-top: 10px;
+  margin-bottom: 10px;
+  border: 0 none;
+  background: none;
+  border-bottom: dashed 2px #E0E0E0;
+}
+.il-item .dropdown {
+  float: right;
+}
+.il-item .il-item-description {
+  padding-top: 10px;
+  font-size: 90%;
+  clear: both;
+}
+.il-item .il-item-property-name {
+  font-size: 90%;
+}
+.il-item .il-item-property-value {
+  font-size: 90%;
+  color: #A0A0A0;
+}
+.il-std-item {
+  padding: 20px;
+}
+.il-small-list > .il-item .dropdown {
+  position: static;
+}
+.il-small-list > .il-item .dropdown-menu.pull-right {
+  width: 100%;
+}
+.il-small-list > .il-item .dropdown-toggle {
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  margin-top: -20px;
+  z-index: 1;
+}
+.il-small-list > .il-item button.dropdown-toggle {
+  background-color: transparent;
+  border: 0;
+}
+.il-small-list > .il-item button.dropdown-toggle > span {
+  display: none;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;

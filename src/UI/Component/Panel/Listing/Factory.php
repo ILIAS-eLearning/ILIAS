@@ -31,7 +31,7 @@ interface Factory {
 	 *       listing.
 	 * ---
 	 * @param string $title Title of the Appointment Listing Panel
-	 * @param Item\Appointment[]|Item\Group[] $items Set of Appointments to be displayed
+	 * @param Item\AppointmentItem[]
 	 * @param string $async_action link pointing back to target for getting more
 	 *        items (e.g. if selected a larger count of days to be displayed)
 	 * @return \ILIAS\UI\Component\Panel\Listing\Appointment

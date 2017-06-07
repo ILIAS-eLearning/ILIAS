@@ -5,7 +5,7 @@
 namespace ILIAS\UI\Component\Item;
 
 /**
- * Interface Appointment
+ * Interface AppointmentItem
  * @package ILIAS\UI\Component\Panel\Listing
  */
 interface AppointmentItem extends Item {
