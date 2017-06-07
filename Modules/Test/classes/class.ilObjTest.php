@@ -2897,6 +2897,14 @@ function getAnswerFeedbackPoints()
 		}
 		return 0;
 	}
+	
+	// hey: prevPassSolutions - serious (nonstatic) identifier, for use in high level controller gui
+	public function isPreviousSolutionReuseEnabled($activeId)
+	{
+		// checks if allowed in general and if enabled by participant
+		return self::_getUsePreviousAnswers($activeId, true);
+	}
+	// hey.
 
 /**
 * Returns if the previous results should be hidden for a learner

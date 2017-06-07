@@ -524,7 +524,9 @@ abstract class assQuestionGUI
 	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
 	{
 		// hey: prevPassSolutions - add the "use previous answer"
-		if( $this->object->getTestQuestionConfig()->isSolutionInitiallyPrefilled() )
+		// hey: prevPassSolutions - refactored identifiers
+		if( $this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled() )
+		// hey
 		{
 			ilUtil::sendInfo($this->getPreviousSolutionProvidedMessage());
 			$html .= $this->getPreviousSolutionConfirmationCheckboxHtml();
@@ -532,7 +534,9 @@ abstract class assQuestionGUI
 		else /* if( ...->isUnchangedAnswerPossible() ) --> */
 		// hey.
 // fau: testNav - add the "use unchanged answer checkbox"
-		if ($this->object->getTestQuestionConfig()->isUnchangedAnswerPossible())
+		// hey: prevPassSolutions - refactored identifiers
+		if ($this->object->getTestPresentationConfig()->isUnchangedAnswerPossible())
+		// hey.
 		{
 			$html .= $this->getUseUnchangedAnswerCheckboxHtml();
 		}
@@ -569,8 +573,11 @@ abstract class assQuestionGUI
 // fau: testNav - get the html of the "use unchanged answer checkbox"
 	private function getUseUnchangedAnswerCheckboxHtml()
 	{
-		$tpl = new ilTemplate("tpl.tst_question_use_unchanged_answer.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		$tpl->setVariable('TXT_USE_UNCHANGED_ANSWER', $this->object->getTestQuestionConfig()->getUseUnchangedAnswerLabel());
+		// hey: prevPassSolutions - use abstracted template to share with other purposes of this kind
+		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
+		$tpl->setVariable('CHECKBOX_IDENT', 'ilQuestionUseUnchangedAnswerLabel');
+		$tpl->setVariable('CHECKBOX_LABEL', $this->object->getTestPresentationConfig()->getUseUnchangedAnswerLabel());
+		// hey.
 		return $tpl->get();
 	}
 // fau.
@@ -584,7 +591,9 @@ abstract class assQuestionGUI
 	protected function getPreviousSolutionConfirmationCheckboxHtml()
 	{
 		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
-		$tpl->setVariable('TXT_USE_UNCHANGED_ANSWER', $this->lng->txt('use_previous_solution'));
+		// hey: prevPassSolutions - use abtract template
+		$tpl->setVariable('CHECKBOX_IDENT', 'ilQuestionUsePreviousSolutionLabel');
+		$tpl->setVariable('CHECKBOX_LABEL', $this->lng->txt('use_previous_solution'));
 		return $tpl->get();
 	}
 	// hey.
