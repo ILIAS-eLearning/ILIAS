@@ -343,8 +343,8 @@ interface Factory {
 	 *   purpose: >
 	 *     Icons are quickly comprehensible and recognizable graphics.
 	 *     They indicate the functionality or nature of a text-element or context:
-     *     Icons will mainly be used in front of object-titles, e.g. in the
-     *     header, the tree and in repository listing.
+	 *     Icons will mainly be used in front of object-titles, e.g. in the
+	 *     header, the tree and in repository listing.
 	 *   composition: >
 	 *     An Icon is displayed as a block-element with a background-graphic.
 	 *     Icons themselves are not interactive; however they are allowed
@@ -367,7 +367,7 @@ interface Factory {
 	 *     2: Icons MUST be used in combination with a title.
 	 *   style:
 	 *     1: Icons MUST have a class indicating their usage.
-	 *     1: Icons MUST be tagged with a CSS-class indicating their size.
+	 *     2: Icons MUST be tagged with a CSS-class indicating their size.
 	 *   accessibility:
 	 *     1: Icons MUST use aria-label.
 	 *   wording:
