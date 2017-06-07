@@ -4,17 +4,19 @@
 
 namespace ILIAS\UI\Component\ViewControl;
 
+use \ILIAS\UI\Component\Component;
+
 /**
  * This describes a Section Control
  */
-interface Section extends \ILIAS\UI\Component\Component {
+interface Section extends Component{
 
 	/**
 	 * Returns the action executed by clicking on previous.
 	 *
 	 * @return string action
 	 */
-	public function gePreviousActions();
+	public function getPreviousActions();
 
 	/**
 	 * Returns the action executed by clicking on next.
