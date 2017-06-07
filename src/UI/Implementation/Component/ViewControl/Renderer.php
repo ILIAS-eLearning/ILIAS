@@ -20,14 +20,12 @@ class Renderer extends AbstractComponentRenderer
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer)
 	{
-
 		$this->checkComponent($component);
 
 		if ($component instanceof Component\ViewControl\Mode) {
 			return $this->renderMode($component, $default_renderer);
-		} else {
-			//todo
 		}
+		return $this->renderSection($component, $default_renderer);
 
 	}
 
@@ -62,11 +60,31 @@ class Renderer extends AbstractComponentRenderer
 		return $tpl->get();
 	}
 
+	protected function renderSection(Component\ViewControl\Section $component, RendererInterface $default_renderer)
+	{
+		$f = $this->getUIFactory();
+
+		$tpl = $this->getTemplate("tpl.section.html", true, true);
+
+		//how to deal with UI glyphs? (tests)
+		//$tpl->setVariable("PREVIOUS", $renderer->render($f->button()->standard($renderer->render($f->glyph()->back(null)),$component->getPreviousActions())));
+		//$tpl->setVariable("PREVIOUS", $default_renderer->render($f->glyph()->back($component->getPreviousActions())));
+
+		$tpl->setVariable("PREVIOUS", $default_renderer->render($f->button()->standard("<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span>",$component->getPreviousActions())));
+		$tpl->setVariable("BUTTON", $default_renderer->render($component->getSelectorButton()));
+		$tpl->setVariable("NEXT", $default_renderer->render($f->button()->standard("<span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span>",$component->getNextActions())));
+
+		return $tpl->get();
+	}
+
 	/**
 	 * @inheritdocs
 	 */
 	protected function getComponentInterfaceName() {
-		return [Component\ViewControl\Mode::class];
+		return array(
+			Component\ViewControl\Mode::class,
+			Component\ViewControl\Section::class
+		);
 	}
 
 }
