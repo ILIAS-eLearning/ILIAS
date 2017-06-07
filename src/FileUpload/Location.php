@@ -8,7 +8,7 @@ namespace ILIAS\FileUpload;
  * Defines the valid filesystem locations for the file upload service.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
  *
  * @public

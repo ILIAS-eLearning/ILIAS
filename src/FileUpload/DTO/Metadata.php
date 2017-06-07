@@ -14,7 +14,7 @@ use ILIAS\FileUpload\ScalarTypeCheckAware;
  * This class only purpose is to transport data.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
  *
  * @public
@@ -22,7 +22,6 @@ use ILIAS\FileUpload\ScalarTypeCheckAware;
 final class Metadata {
 
 	use ScalarTypeCheckAware;
-
 	/**
 	 * @var string $filename
 	 */
@@ -44,11 +43,12 @@ final class Metadata {
 	/**
 	 * Metadata constructor.
 	 *
-	 * @param string       $filename    The filename of the uploaded file.
-	 * @param int          $size        The original size of the uploaded file.
-	 * @param string       $mimeType    The mime type of the uploaded file.
+	 * @param string $filename The filename of the uploaded file.
+	 * @param int    $size     The original size of the uploaded file.
+	 * @param string $mimeType The mime type of the uploaded file.
 	 *
-	 * @throws IllegalArgumentException Thrown if the arguments are not matching with the expected types.
+	 * @throws IllegalArgumentException Thrown if the arguments are not matching with the expected
+	 *                                  types.
 	 * @since 5.3
 	 */
 	public function __construct($filename, $size, $mimeType) {
@@ -79,7 +79,7 @@ final class Metadata {
 	/**
 	 * Overwrite the current filename.
 	 *
-	 * @param string $filename  The new filename.
+	 * @param string $filename The new filename.
 	 *
 	 * @return Metadata
 	 * @since 5.3
@@ -91,6 +91,7 @@ final class Metadata {
 
 		return $this;
 	}
+
 
 	/**
 	 * This is always the original file size which was determinated by the http service.
@@ -120,7 +121,7 @@ final class Metadata {
 	/**
 	 * Overwrite the current mime type of the file.
 	 *
-	 * @param string $mimeType  The new mime type if the file.
+	 * @param string $mimeType The new mime type if the file.
 	 *
 	 * @return Metadata
 	 * @since 5.3

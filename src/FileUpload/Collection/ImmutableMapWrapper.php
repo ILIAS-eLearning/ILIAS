@@ -9,7 +9,7 @@ namespace ILIAS\FileUpload\Collection;
  * immutable and stops the user of the api to cast the list back to a mutable one.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
  *
  * @Internal

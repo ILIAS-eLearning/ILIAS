@@ -18,7 +18,7 @@ use ILIAS\FileUpload\Exception\IllegalArgumentException;
  * Maps in general are collections which map a key to value.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
  *
  * @public
@@ -33,7 +33,8 @@ interface StringMap extends ImmutableStringMap {
 	 *
 	 * @return void
 	 *
-	 * @throws IllegalArgumentException         Thrown if the key or value is not of the type string.
+	 * @throws IllegalArgumentException         Thrown if the key or value is not of the type
+	 *                                          string.
 	 *
 	 * @since 5.3
 	 */

@@ -13,7 +13,7 @@ use ILIAS\FileUpload\Exception\IllegalArgumentException;
  * This trait will be replaced with the native scalar types once ILIAS drops PHP 5.6 support.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
  *
  * @Internal
@@ -30,12 +30,12 @@ trait ScalarTypeCheckAware {
 	 * @since 5.3
 	 */
 	private function stringTypeCheck($variable, $name) {
-		if(!is_string($variable))
-		{
+		if (!is_string($variable)) {
 			$varType = gettype($variable);
 			throw new IllegalArgumentException("The $name must be of type string but $varType was given.");
 		}
 	}
+
 
 	/**
 	 * Type check for int variables.
@@ -47,8 +47,7 @@ trait ScalarTypeCheckAware {
 	 * @since 5.3
 	 */
 	private function intTypeCheck($variable, $name) {
-		if(!is_int($variable))
-		{
+		if (!is_int($variable)) {
 			$varType = gettype($variable);
 			throw new IllegalArgumentException("The $name must be of type integer but $varType was given.");
 		}

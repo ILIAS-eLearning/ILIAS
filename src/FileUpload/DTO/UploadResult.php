@@ -12,7 +12,7 @@ use ILIAS\FileUpload\ScalarTypeCheckAware;
  * This class only purpose is to transport data.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
  *
  * @public
@@ -20,7 +20,6 @@ use ILIAS\FileUpload\ScalarTypeCheckAware;
 final class UploadResult {
 
 	use ScalarTypeCheckAware;
-
 	/**
 	 * @var string $name
 	 */
@@ -53,7 +52,8 @@ final class UploadResult {
 	 * @param string             $name     The name of the uploaded file.
 	 * @param int                $size     The original file size.
 	 * @param string             $mimeType The mime type of the uploaded file.
-	 * @param ImmutableStringMap $metaData Additional meta data. Make sure to wrap the instance with an ImmutableMapWrapper if the instance is mutable.
+	 * @param ImmutableStringMap $metaData Additional meta data. Make sure to wrap the instance
+	 *                                     with an ImmutableMapWrapper if the instance is mutable.
 	 * @param ProcessingStatus   $status   The status code either OK or REJECTED.
 	 * @param string             $path     The path to the newly moved file.
 	 *
@@ -73,6 +73,7 @@ final class UploadResult {
 		$this->status = $status;
 		$this->path = $path;
 	}
+
 
 	/**
 	 * @return string

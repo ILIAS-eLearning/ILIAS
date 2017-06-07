@@ -11,7 +11,7 @@ use ILIAS\FileUpload\Exception\IllegalArgumentException;
  * This interface provides the standard interface for the immutable string map implementation.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
  *
  * @public

@@ -5,10 +5,11 @@ namespace ILIAS\FileUpload\Processor;
 /**
  * Class PreProcessorManagerFactory
  *
- * The main reason of this factory is to decouple other parts of ILIAS from the PreProcessorManager implementation.
+ * The main reason of this factory is to decouple other parts of ILIAS from the PreProcessorManager
+ * implementation.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
  */
 interface PreProcessorManagerFactory {

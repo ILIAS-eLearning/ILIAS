@@ -14,7 +14,7 @@ use ILIAS\FileUpload\ScalarTypeCheckAware;
  * Therefore it is not possible to overwrite an existing key.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
  *
  * @Internal
@@ -22,11 +22,11 @@ use ILIAS\FileUpload\ScalarTypeCheckAware;
 final class EntryLockingStringMap implements StringMap {
 
 	use ScalarTypeCheckAware;
-
 	/**
 	 * @var \ArrayObject $map
 	 */
 	private $map;
+
 
 	/**
 	 * EntryLockingStringMap constructor.
@@ -39,7 +39,7 @@ final class EntryLockingStringMap implements StringMap {
 	/**
 	 * Returns the value of the given key.
 	 *
-	 * @param string $key   The key which should be used to search the corresponding value.
+	 * @param string $key The key which should be used to search the corresponding value.
 	 *
 	 * @return string
 	 *
@@ -51,7 +51,7 @@ final class EntryLockingStringMap implements StringMap {
 	public function get($key) {
 		$this->stringTypeCheck($key, 'key');
 
-		if($this->map->offsetExists($key)) {
+		if ($this->map->offsetExists($key)) {
 			return $this->map->offsetGet($key);
 		}
 
@@ -70,10 +70,11 @@ final class EntryLockingStringMap implements StringMap {
 		return $this->map->getArrayCopy();
 	}
 
+
 	/**
 	 * Probe if the key is known and associated with a value.
 	 *
-	 * @param string $key   The key which should be checked.
+	 * @param string $key The key which should be checked.
 	 *
 	 * @return bool
 	 *
@@ -98,7 +99,8 @@ final class EntryLockingStringMap implements StringMap {
 	 * @return void
 	 *
 	 * @throws ElementAlreadyExistsException    Thrown if the key already exists in the map.
-	 * @throws IllegalArgumentException         Thrown if the key or value is not of the type string.
+	 * @throws IllegalArgumentException         Thrown if the key or value is not of the type
+	 *                                          string.
 	 *
 	 * @since 5.3
 	 */
@@ -106,8 +108,9 @@ final class EntryLockingStringMap implements StringMap {
 		$this->stringTypeCheck($key, 'key');
 		$this->stringTypeCheck($value, 'value');
 
-		if($this->map->offsetExists($key))
+		if ($this->map->offsetExists($key)) {
 			throw new ElementAlreadyExistsException("Element $key can not be overwritten.");
+		}
 
 		$this->map->offsetSet($key, $value);
 	}

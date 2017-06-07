@@ -13,7 +13,7 @@ use ILIAS\FileUpload\ScalarTypeCheckAware;
  * This class only purpose is to transport data.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
  *
  * @public
@@ -21,7 +21,6 @@ use ILIAS\FileUpload\ScalarTypeCheckAware;
 final class ProcessingStatus {
 
 	use ScalarTypeCheckAware;
-
 	/**
 	 * Upload is ok
 	 */
@@ -44,9 +43,12 @@ final class ProcessingStatus {
 	 * ProcessingStatus constructor.
 	 *
 	 * @param int    $code   The code OK or REJECTED.
-	 * @param string $reason The message which should be set to make the rejection more understandable for other developers.
+	 * @param string $reason The message which should be set to make the rejection more
+	 *                       understandable for other developers.
 	 *
-	 * @throws IllegalArgumentException Thrown if the given code is not OK or REJECTED. The exception can also be thrown if the given arguments are not of the correct type.
+	 * @throws IllegalArgumentException Thrown if the given code is not OK or REJECTED. The
+	 *                                  exception can also be thrown if the given arguments are not
+	 *                                  of the correct type.
 	 * @since 5.3
 	 */
 	public function __construct($code, $reason) {
@@ -54,12 +56,14 @@ final class ProcessingStatus {
 		$this->intTypeCheck($code, 'code');
 		$this->stringTypeCheck($reason, 'reason');
 
-		if($code !== self::OK && $code !== self::REJECTED)
+		if ($code !== self::OK && $code !== self::REJECTED) {
 			throw new IllegalArgumentException('Invalid upload status code received. The code must be OK or REJECTED.');
+		}
 
 		$this->code = $code;
 		$this->message = $reason;
 	}
+
 
 	/**
 	 * @return int

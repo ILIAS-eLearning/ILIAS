@@ -8,7 +8,7 @@ namespace ILIAS\FileUpload\Collection\Exception;
  * Indicates that an element which is request is not found.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
  *
  * @public

@@ -9,10 +9,11 @@ use Psr\Http\Message\StreamInterface;
 /**
  * Class PreProcessorManager
  *
- * The pre processor manager is used to create pools of processors and invoke them for a particular stream.
+ * The pre processor manager is used to create pools of processors and invoke them for a particular
+ * stream.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
  *
  * @public
@@ -35,12 +36,11 @@ interface PreProcessorManager {
 	 * Invokes the registered processors until one rejects the file or fails.
 	 * The file must be discarded if this method returns a rejected status.
 	 *
-	 * @param StreamInterface $stream       The stream of the current file.
-	 * @param Metadata        $metadata     The metadata of the current file.
+	 * @param StreamInterface $stream   The stream of the current file.
+	 * @param Metadata        $metadata The metadata of the current file.
 	 *
 	 * @return ProcessingStatus
 	 * @since 5.3
 	 */
 	public function process(StreamInterface $stream, Metadata $metadata);
-
 }

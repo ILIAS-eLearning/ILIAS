@@ -8,7 +8,7 @@ namespace ILIAS\FileUpload\Exception;
  * Indicates illegal arguments given to a method or constructor.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
  *
  * @public
