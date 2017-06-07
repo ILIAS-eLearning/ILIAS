@@ -10,7 +10,7 @@ use ILIAS\Data;
  *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-class ResultTest extends PHPUnit_Framework_TestCase {
+class ColorTest extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		$this->f = new Data\Factory();
 	}

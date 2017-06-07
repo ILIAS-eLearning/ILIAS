@@ -12,6 +12,11 @@ namespace ILIAS\Data;
  */
 class Factory {
 	/**
+	 * cache for color factory.
+	 */
+	private $colorfactory;
+
+	/**
  	 * Get an ok result.
 	 *
 	 * @param  mixed  $value
@@ -39,8 +44,10 @@ class Factory {
 	 * @return Color
 	 */
 	public function color($value) {
-		$f = new Color\ColorFactory();
-		return $f->build($value);
+		if(! $this->colorfactory) {
+			$this->colorfactory = new Color\ColorFactory();
+		}
+		return $this->colorfactory->build($value);
 	}
 
 
