@@ -1,0 +1,67 @@
+.icon {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-image: url('./images/icon_default.svg');
+	text-align: center;
+
+	.abbreviation {
+		font-weight: bold;
+	}
+
+	&.small {
+		height: @icon-size-small;
+		width: @icon-size-small;
+		line-height: @icon-size-small;
+		.abbreviation {
+			font-size: ceil(@icon-size-small / 2.5);
+		}
+	}
+	&.medium {
+		height: @icon-size-medium;
+		width: @icon-size-medium;
+		line-height: @icon-size-medium;
+		.abbreviation {
+			font-size: ceil(@icon-size-medium / 2.5);
+		}
+	}
+	&.large {
+		height: @icon-size-large;
+		width: @icon-size-large;
+		line-height: @icon-size-large;
+		.abbreviation {
+			font-size: ceil(@icon-size-large / 2.5);
+		}
+	}
+
+	/* add known classes here */
+	&.course,
+	&.category,
+	&.calendar,
+	&.plugin,
+	&.file,
+	&.certificate
+	 {
+		.abbreviation {
+			display: none;
+		}
+	}
+
+	&.course {
+		background-image: url('./images/icon_crs.svg');
+	}
+	&.category {
+		background-image: url('./images/icon_cat.svg');
+	}
+	&.calendar {
+		background-image: url('./images/icon_cal.svg');
+	}
+	&.plugin {
+		background-image: url('./images/icon_cmps.svg');
+	}
+	&.file {
+		background-image: url('./images/icon_file.svg');
+	}
+	&.certificate {
+		background-image: url('./images/icon_cert.svg');
+	}
+}

@@ -336,4 +336,53 @@ interface Factory {
 	 **/
 	public function modal();
 
+
+    /**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Icons are quickly comprehensible and recognizable graphics.
+	 *     They indicate the functionality or nature of a text-element or context:
+     *     Icons will mainly be used in front of object-titles, e.g. in the
+     *     header, the tree and in repository listing.
+	 *   composition: >
+	 *     An Icon is displayed as a block-element with a background-graphic.
+	 *     Icons themselves are not interactive; however they are allowed
+	 *     within interactive containers.
+	 *   effect: >
+	 *     Icons come in three fixed sizes: small, medium and large.
+	 *     By default, a fallback icon will be rendered based on an abbreviation;
+	 *     this is until a background image is defined in the icon's CSS-class.
+	 *   rivals:
+	 *     1: >
+	 *       Glyphs are typographical characters that act as a trigger for
+	 *       some action.
+	 *     2: >
+	 *       Images belong to the content and can be purely decorative.
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       Icons MUST be used to represent objects or context, NOT for
+	 *       cross-sectional functionality.
+	 *     2: Icons MUST be used in combination with a title.
+	 *   style:
+	 *     1: Icons MUST have a class indicating their usage.
+	 *     1: Icons MUST be tagged with a CSS-class indicating their size.
+	 *   accessibility:
+	 *     1: Icons MUST use aria-label.
+	 *   wording:
+	 *     1: >
+	 *       The aria-label MUST state the represented object-type.
+	 *     2: >
+	 *       The abbreviation SHOULD consist of one or two letters.
+	 * ---
+	 *
+	 * @param   string $class
+	 * @param   string $aria
+	 * @param   string $size
+	 * @param   string $abbreviation
+	 * @return 	\ILIAS\UI\Component\Icon\Icon
+	 **/
+	public function icon($class, $aria_label, $size='small', $abbreviation='');
+
 }
