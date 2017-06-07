@@ -8804,7 +8804,7 @@ mathjax#:#mathjax_limiter#:#Inline Delimiters
 mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.
+mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.
 mathjax#:#mathjax_settings#:#MathJax Settings
 mcst#:#mcst_add_new_item#:#Přidat novou položku Mediacast
 mcst#:#mcst_audioportable_settings_info#:#Seznam přípon souborů oddělený čárkou.
