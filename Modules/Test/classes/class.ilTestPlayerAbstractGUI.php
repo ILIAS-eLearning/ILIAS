@@ -1242,13 +1242,21 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$questionGui->setIsAnswered($isQuestionWorkedThrough);
 		}
 // fau.
-
-		// hey: prevPassSolutions - determine solution pass index and configure gui accordingly 
-		$solutionPassIndex = $this->determineSolutionPassIndex($questionGui);
 		
-		$questionGui->object->getTestQuestionConfig()->setSolutionInitiallyPrefilled(
-			$solutionPassIndex < $this->testSession->getPass()
-		);
+		// hey: prevPassSolutions - determine solution pass index and configure gui accordingly
+		$qstConfig = $questionGui->object->getTestPresentationConfig();
+		if( $qstConfig->isPreviousPassSolutionReuseAllowed() )
+		{
+			$passIndex = $this->determineSolutionPassIndex($questionGui); // last pass having solution stored
+			if( $passIndex < $this->testSession->getPass() ) // it's the previous pass if current pass is higher
+			{
+				$qstConfig->setSolutionInitiallyPrefilled(true);
+			}
+		}
+		else
+		{
+			$passIndex = $this->testSession->getPass();
+		}
 		// hey.
 		
 		// Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.
@@ -1257,7 +1265,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$formAction, 							#form_action
 			$this->testSession->getActiveId(),		#active_id
 			// hey: prevPassSolutions - prepared pass index having no, current or previous solution
-			$solutionPassIndex, 					#pass
+			$passIndex, 							#pass
 			// hey.
 			$isPostponed, 							#is_postponed
 			$userPostSolution, 						#user_post_solution
@@ -2450,6 +2458,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$questionGui->object->setOutputType(OUTPUT_JAVASCRIPT);
 			$questionGui->object->setShuffler($this->buildQuestionAnswerShuffler($questionId));
 			
+			// hey: prevPassSolutions - determine solution pass index and configure gui accordingly
+			$this->initTestQuestionConfig($questionGui->object);
+			// hey.
+			
 			$this->cachedQuestionGuis[$questionId] = $questionGui;
 		}
 		
@@ -2485,12 +2497,25 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$questionOBJ->setObligationsToBeConsidered($this->object->areObligationsEnabled());
 			$questionOBJ->setOutputType(OUTPUT_JAVASCRIPT);
 
+			// hey: prevPassSolutions - determine solution pass index and configure gui accordingly
+			$this->initTestQuestionConfig($questionOBJ);
+			// hey.
+			
 			$this->cachedQuestionObjects[$questionId] = $questionOBJ;
 		}
 		
 		return $this->cachedQuestionObjects[$questionId];
 	}
 
+	// hey: prevPassSolutions - determine solution pass index and configure gui accordingly
+	protected function initTestQuestionConfig(assQuestion $questionOBJ)
+	{
+		$questionOBJ->getTestPresentationConfig()->setPreviousPassSolutionReuseAllowed(
+			$this->object->isPreviousSolutionReuseEnabled( $this->testSession->getActiveId() )
+		);
+	}
+	// hey.
+	
 	/**
 	 * @param $questionId
 	 * @return ilArrayElementShuffler
@@ -2746,7 +2771,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		/** @var  ilTestQuestionConfig $questionConfig */
-		$questionConfig = $questionGUI->object->getTestQuestionConfig();
+		// hey: prevPassSolutions - refactored method identifiers
+		$questionConfig = $questionGUI->object->getTestPresentationConfig();
+		// hey.
 
 		// Normal questions: changes are done in form fields an can be detected there
 		$config['withFormChangeDetection'] = $questionConfig->isFormChangeDetectionEnabled();
