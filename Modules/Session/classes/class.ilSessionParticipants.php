@@ -25,15 +25,13 @@ include_once('./Services/Membership/classes/class.ilParticipants.php');
 include_once './Modules/Session/classes/class.ilEventParticipants.php';
 
 /**
-* 
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesGroup
-*/
-
-
+ * Session participation handling.
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ModulesSession
+ */
 class ilSessionParticipants extends ilParticipants
 {
 	const COMPONENT_NAME = 'Modules/Session';
