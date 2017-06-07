@@ -39,6 +39,11 @@ abstract class Item implements C\Item\Item {
 	 */
 	protected $actions;
 
+	/**
+	 * @var null|string|\ILIAS\UI\Component\Image\Image
+	 */
+	protected $lead = null;
+
 	public function __construct($title) {
 		$this->checkStringArg("title", $title);
 		$this->title = $title;
@@ -118,4 +123,40 @@ abstract class Item implements C\Item\Item {
 	public function getMarkerId(){
 		return $this->marker_id;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withLeadImage(\ILIAS\UI\Component\Image\Image $image) {
+		$clone = clone $this;
+		$clone->lead = $image;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withLeadText($text) {
+		$this->checkStringArg("lead_text", $text);
+		$clone = clone $this;
+		$clone->lead = (string) $text;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withNoLead() {
+		$clone = clone $this;
+		$clone->lead = null;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getLead() {
+		return $this->lead;
+	}
+
 }

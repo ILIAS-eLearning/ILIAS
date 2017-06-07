@@ -26,8 +26,15 @@ class Factory implements \ILIAS\UI\Component\Panel\Listing\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function standard() {
-		throw new NotImplementedException();
+	public function standard($title, $items) {
+		return new Standard($title, $items);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function divider() {
+		return new Divider();
 	}
 
 	/**

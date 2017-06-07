@@ -60,4 +60,42 @@ interface Item extends \ILIAS\UI\Component\Component {
 	 * @return string[]
 	 */
 	public function getActions();
+
+	/**
+	 * Set a marker id. Marker IDs must be >=0 and <=32. They assign the item to a CSS class il-item-marker-[ID].
+	 * Set 0 for no marker (default).
+	 *
+	 * @param int $marker_id
+	 */
+	public function withMarkerId($marker_id);
+
+	/**
+	 * @return int
+	 */
+	public function getMarkerId();
+
+	/**
+	 * Set image as lead
+	 *
+	 * @param \ILIAS\UI\Component\Image\Image $image lead image
+	 */
+	public function withLeadImage(\ILIAS\UI\Component\Image\Image $image);
+
+	/**
+	 * Set image as lead
+	 *
+	 * @param string $text lead text
+	 */
+	public function withLeadText($text);
+
+	/**
+	 * Reset lead to null
+	 */
+	public function withNoLead();
+
+	/**
+	 * @return null|string|\ILIAS\UI\Component\Image\Image
+	 */
+	public function getLead();
+
 }

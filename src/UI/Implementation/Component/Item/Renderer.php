@@ -19,11 +19,50 @@ class Renderer extends AbstractComponentRenderer {
 		{
 			return $this->renderAppointment($component, $default_renderer);
 		}
+		if ($component instanceof Component\Item\StandardItem)
+		{
+			return $this->renderStandard($component, $default_renderer);
+		}
 	}
 
 	protected function renderAppointment(Component\Item\AppointmentItem $component, RendererInterface $default_renderer) {
+		return $this->renderStandard($component, $default_renderer);
+	}
+
+	protected function renderStandard(Component\Item\Item $component, RendererInterface $default_renderer) {
+		global $DIC;
 
 		$tpl = $this->getTemplate("tpl.item_standard.html", true, true);
+
+		// marker
+		$marker_id = $component->getMarkerId();
+		if ($marker_id > 0)
+		{
+			$tpl->setCurrentBlock("marker");
+			$tpl->setVariable("MARKER_ID", (int) $marker_id);
+			$tpl->parseCurrentBlock();
+		}
+
+		// lead
+		$lead = $component->getLead();
+		if ($lead != null)
+		{
+			if (is_string($lead)) {
+				$tpl->setCurrentBlock("lead_text");
+				$tpl->setVariable("LEAD_TEXT", $lead);
+				$tpl->parseCurrentBlock();
+			}
+			if ($lead instanceof Component\Image\Image) {
+				$renderer = $DIC->ui()->renderer();
+				$tpl->setCurrentBlock("lead_image");
+				$tpl->setVariable("LEAD_IMAGE", $renderer->render($lead));
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->setCurrentBlock("lead_start");
+			$tpl->parseCurrentBlock();
+
+			$tpl->touchBlock("lead_end");
+		}
 
 		// description
 		$desc = $component->getDescription();
@@ -91,7 +130,7 @@ class Renderer extends AbstractComponentRenderer {
 	protected function getComponentInterfaceName() {
 		return array
 		(Component\Item\AppointmentItem::class
-		, Component\Button\Standard::class
+		, Component\Item\StandardItem::class
 		);
 	}
 }

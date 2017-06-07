@@ -6285,6 +6285,16 @@ button.close {
 .il-std-item {
   padding: 20px;
 }
+/* needs variable / mixin? */
+.il-item-marker-1 {
+  border-left: 3px solid #FF8080;
+}
+.il-item-marker-2 {
+  border-left: 3px solid #80FF80;
+}
+.il-item-marker-3 {
+  border-left: 3px solid #8080FF;
+}
 .il-small-list > .il-item .dropdown {
   position: static;
 }

@@ -6,7 +6,7 @@ function base() {
 	global $DIC;
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
-	$app_item = $f->item()->standard("Item Title")
+	$list_item1 = $f->item()->standard("Item Title")
 		->withActions(array(
 			"IILAS" => "http://www.ilias.de",
 			"Features" => "http://feature.ilias.de",
@@ -17,5 +17,11 @@ function base() {
 			"Location" => "Room 123, Main Street 44, 3012 Bern"))
 		->withDescription("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.")
 		->withMarkerId(2);
-	return $renderer->render($app_item);
+
+	$std_list = $f->panel()->listing()->standard("List Title", array(
+		$list_item1
+	));
+
+
+	return $renderer->render($std_list);
 }

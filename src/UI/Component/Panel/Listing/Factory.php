@@ -42,12 +42,24 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       TODO, this is a further candidate to make use of Listing Panels. This
-	 *       could be used for generic listing to be stuffed with any items.
+	 *       Standard item lists should be used if possible.
 	 * ---
-	 * @return \ILIAS\UI\Component\Panel\Listing\Repository
+	 * @param string $title Title of the Listing
+	 * @param array<Divider|\ILIAS\UI\Component\Item\Item> $items List items
+	 * @return \ILIAS\UI\Component\Panel\Listing\Standard
 	 */
-	public function standard();
+	public function standard($title, $items);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Divides lists into multiple sublists. Optionally contains a label.
+	 * ---
+	 * @param string $title Title of the Listing
+	 * @return \ILIAS\UI\Component\Panel\Listing\Divider
+	 */
+	public function divider();
 
 	/**
 	 * ---
@@ -65,7 +77,7 @@ interface Factory {
 	 *   purpose: >
 	 *       TODO, this is a further candidate to make use of Listing Panels
 	 * ---
-	 * @return \ILIAS\UI\Component\Panel\Listing\Repository
+	 * @return \ILIAS\UI\Component\Panel\Listing\Blog
 	 */
 	public function blog();
 
@@ -75,7 +87,7 @@ interface Factory {
 	 *   purpose: >
 	 *       TODO, this is a further candidate to make use of Listing Panels
 	 * ---
-	 * @return \ILIAS\UI\Component\Panel\Listing\Repository
+	 * @return \ILIAS\UI\Component\Panel\Listing\Forum
 	 */
 	public function forum();
 }
