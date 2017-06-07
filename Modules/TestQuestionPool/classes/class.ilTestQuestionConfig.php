@@ -12,7 +12,12 @@ class ilTestQuestionConfig
 	protected $useUnchangedAnswerLabel = '';
 	protected $enableFormChangeDetection = true;
 	protected $enableBackgroundChangeDetection = false;
-
+	
+	// hey: prevPassSolutions - previous solution adopted
+	protected $previousPassSolutionReuseAllowed = false;
+	protected $solutionInitiallyPrefilled = false;
+	// hey.
+	
 	/**
 	 * ilTestQuestionConfig constructor.
 	 */
@@ -103,4 +108,46 @@ class ilTestQuestionConfig
 		$this->enableBackgroundChangeDetection = $enableBackgroundChangeDetection;
 		return $this;
 	}
+	
+	// hey: prevPassSolutions - extension or fix or anything sensefull in the current fixing work :-D
+	/**
+	 * @return bool
+	 */
+	public function isPreviousPassSolutionReuseAllowed()
+	{
+		return $this->previousPassSolutionReuseAllowed;
+	}
+	
+	/**
+	 * @param bool $previousPassSolutionReuseAllowed
+	 */
+	public function setPreviousPassSolutionReuseAllowed($previousPassSolutionReuseAllowed)
+	{
+		$this->previousPassSolutionReuseAllowed = $previousPassSolutionReuseAllowed;
+	}
+	// hey.
+	
+	// hey: prevPassSolutions - previous solution adopted
+	/**
+	 * @return bool
+	 */
+	public function isSolutionInitiallyPrefilled()
+	{
+		return $this->solutionInitiallyPrefilled;
+	}
+	
+	/**
+	 * @param bool $solutionInitiallyPrefilled
+	// hey: prevPassSolutions - streamlined signatures
+	 * @return ilTestQuestionConfig $this
+	// hey.
+	 */
+	public function setSolutionInitiallyPrefilled($solutionInitiallyPrefilled)
+	{
+		$this->solutionInitiallyPrefilled = $solutionInitiallyPrefilled;
+		// hey: prevPassSolutions - streamlined signatures
+		return $this;
+		// hey.
+	}
+	// hey.
 }

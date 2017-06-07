@@ -420,29 +420,35 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->ctrl->redirect($this, 'editQuestion');
 	}
 
-	protected function completeTestOutputFormAction($formaction, $active_id, $pass = NULL)
+	// hey: prevPassSolutions - max solution pass determinations allready done, pass passed for sure
+	// hey: fixedIdentifier - changed access to passed param (lower-/uppercase issues)
+	protected function completeTestOutputFormAction($formAction, $active_id, $pass)
 	{
-		require_once './Modules/Test/classes/class.ilObjTest.php';
-		if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-		{
-			$pass = ilObjTest::_getPass($active_id);
-			$info = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
-		}
-		else
-		{
-			$info = $this->object->getUserSolutionPreferingIntermediate($active_id, NULL);
-		}
+		#require_once './Modules/Test/classes/class.ilObjTest.php';
+		#if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+		#{
+		#	$pass = ilObjTest::_getPass($active_id);
+		#	$info = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+		#}
+		#else
+		#{
+		#	$info = $this->object->getUserSolutionPreferingIntermediate($active_id, NULL);
+		#}
+		
+		$info = $this->object->getTestOutputSolutions($active_id, $pass);
 
 		if (count($info))
 		{
 			if (strcmp($info[0]["value1"], "") != 0)
 			{
-				$formaction .= "&selImage=" . $info[0]["value1"];
+				$formAction .= "&selImage=" . $info[0]["value1"];
 			}
 		}
 
-		return $formaction;
+		return $formAction;
 	}
+	// hey.
+	// hey.
 
 	/**
 	* Get the question solution output
@@ -680,7 +686,9 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		return $questionoutput;
 	}
 
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	// hey: prevPassSolutions - pass will be always available from now on
+	function getTestOutput($active_id, $pass, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	// hey.
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = "";
@@ -690,13 +698,15 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		if ($active_id)
 		{
-			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
-			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+			// hey: prevPassSolutions - obsolete due to central check
+			#$solutions = NULL;
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			#{
+			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			#}
+			$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
+			// hey.
 			foreach ($solutions as $idx => $solution_value)
 			{
 				if($this->object->getIsMultipleChoice())

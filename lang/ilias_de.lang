@@ -1605,6 +1605,8 @@ assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem lauf
 assessment#:#tst_types#:#Test-Typen###deprecated 
 assessment#:#tst_use_javascript#:#JavaScript für das Ziehen und Ablegen von Antworten verwenden###deprecated 
 assessment#:#tst_use_previous_answers#:#Verwendung vorheriger Lösungen
+assessment#:#use_previous_solution_advice#:#Die angezeigte Lösung wurde vormals von Ihnen abgegeben. Sie müssen die Übernahme dieser Lösung unterhalb der Frage bestätigen, falls Sie die Lösung ohne Änderungen übernehmen wollen.
+assessment#:#use_previous_solution#:#Verwende vorherige Lösung
 assessment#:#tst_use_previous_answers_description#:#Zeigt Teilnehmern die Antworten aus dem vorherigen Testdurchlauf an. Die Option muss vom Teilnehmer vor Beginn des Tests auf dem Reiter 'Info' per Checkbox aktiviert werden.
 assessment#:#tst_use_previous_answers_user#:#Meine Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte verwenden
 assessment#:#tst_user_finished_test#:#Ein Teilnehmer hat den Test beendet (%s)
