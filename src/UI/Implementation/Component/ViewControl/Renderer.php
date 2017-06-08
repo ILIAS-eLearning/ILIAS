@@ -33,6 +33,8 @@ class Renderer extends AbstractComponentRenderer
 
 	protected function renderMode(Component\ViewControl\Mode $component, RendererInterface $default_renderer)
 	{
+		$f = $this->getUIFactory();
+
 		$tpl = $this->getTemplate("tpl.mode.html", true, true);
 
 		$active = $component->getActive();
@@ -44,18 +46,15 @@ class Renderer extends AbstractComponentRenderer
 		{
 			$tpl->setCurrentBlock("view_control");
 
-			$tpl->setVariable("LABEL", $label);
-			$tpl->setVariable("HREF", $action);
 			if($activate_first_item) {
-				$tpl->setVariable("ACTIVE", "active");
+				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)->withCurrent()));
 				$activate_first_item = false;
 			} else if($active == $label) {
-				$tpl->setVariable("ACTIVE", "active");
+				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)));
 			}
 			else {
-				$tpl->setVariable("ACTIVE", "");
+				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)));
 			}
-
 			$tpl->parseCurrentBlock();
 		}
 

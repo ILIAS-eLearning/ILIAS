@@ -51,4 +51,19 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable {
 	 * @return Button
 	 */
 	public function withUnavailableAction();
+
+	/**
+	 * Get a button like this, but with "active" css class. 
+	 *
+	 * @return 	button
+	 */
+	public function withCurrent();
+
+	/**
+	 * Get to know if the button is the last button pressed. 
+	 * Usefull when working with a bunch of buttons like in a UI View Control
+	 *
+	 * @return 	bool
+	 */
+	public function isCurrent();
 }

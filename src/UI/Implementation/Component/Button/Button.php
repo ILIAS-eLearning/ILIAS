@@ -31,6 +31,11 @@ abstract class Button implements C\Button\Button {
 	/**
 	 * @var bool
 	 */
+	protected $current = false;
+
+	/**
+	 * @var bool
+	 */
 	protected $active = true;
 	
 
@@ -107,5 +112,23 @@ abstract class Button implements C\Button\Button {
 	 */
 	public function appendOnHover(Signal $signal) {
 		return $this->appendTriggeredSignal($signal, 'hover');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withCurrent()
+	{
+		$clone = clone $this;
+		$clone->current = true;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isCurrent()
+	{
+		return $this->current;
 	}
 }
