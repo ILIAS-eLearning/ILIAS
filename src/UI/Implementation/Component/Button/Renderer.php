@@ -35,10 +35,6 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		$tpl = $this->getTemplate($tpl_name, true, true);
-
-		if($component->isCurrent()){
-			$tpl->touchBlock("current");
-		}
 		$action = $component->getAction();
 		// The action is always put in the data-action attribute to have it available
 		// on the client side, even if it is not available on rendering.

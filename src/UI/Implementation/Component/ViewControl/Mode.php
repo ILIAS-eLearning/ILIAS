@@ -14,6 +14,8 @@ class Mode implements C\ViewControl\Mode {
 
 	protected $labeled_actions;
 	protected $active;
+	protected $aria = "Mode View Controler";
+	protected $role = "group";
 
 	public function __construct($labelled_actions)
 	{
@@ -33,6 +35,16 @@ class Mode implements C\ViewControl\Mode {
 	public function getLabelledActions()
 	{
 		return $this->labeled_actions;
+	}
+
+	public function getAria()
+	{
+		return $this->aria;
+	}
+
+	public function getRole()
+	{
+		return $this->role;
 	}
 
 
