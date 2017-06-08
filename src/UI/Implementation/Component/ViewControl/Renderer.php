@@ -46,11 +46,12 @@ class Renderer extends AbstractComponentRenderer
 		{
 			$tpl->setCurrentBlock("view_control");
 
+			//withCurrent vs withUnavailableAction
 			if($activate_first_item) {
 				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)->withCurrent()));
 				$activate_first_item = false;
 			} else if($active == $label) {
-				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)));
+				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)->withCurrent()));
 			}
 			else {
 				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)));

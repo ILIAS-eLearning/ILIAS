@@ -120,6 +120,7 @@ abstract class Button implements C\Button\Button {
 	public function withCurrent()
 	{
 		$clone = clone $this;
+		$clone->active = false;
 		$clone->current = true;
 		return $clone;
 	}
