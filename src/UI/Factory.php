@@ -336,4 +336,17 @@ interface Factory {
 	 **/
 	public function modal();
 
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *   composition: >
+	 *   effect: >
+	 * rules:
+	 * ---
+	 * @return \ILIAS\UI\Component\Input\Factory
+	 */
+	public function input();
+
 }

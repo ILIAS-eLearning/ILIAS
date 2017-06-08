@@ -1,0 +1,108 @@
+
+
+.il-input-rating-topic{
+	 float: left;
+	 margin-right: 5px;
+}
+
+
+.il-input-rating {
+	display: inline-block;
+
+	input.il-input-rating-scaleoption {
+		float: right;
+		padding: 0;
+		margin: 0 0 0 -20px;
+		opacity: 0;
+
+	}
+
+	/*delos uses "\e006", which is the right-arrow...*/
+	.glyphicon-star:before {
+	  content: "\2605" !important;
+	}
+
+	/*delos uses "\e007", which is a check-icon...*/
+	.glyphicon-star-empty:before {
+	  content: "\2606";
+	}
+
+	.glyphicon-saltire:before {
+	  content: "\2613";
+	}
+
+	.il-input-rating-star {
+		float: right;
+		position: relative;
+		display: block;
+		margin-top: -8px;
+		margin-bottom: 0px;
+		font-size: 160%;
+		color: @il-glyph-color;
+		/*
+			for disabled mode, use:
+			color: @il-glyph-hover-color;
+		*/
+	}
+
+	.il-input-rating-reset {
+		font-size: 120%;
+		margin-top: -8px;
+		font-weight: bold;
+		color: @il-glyph-color;
+		&:hover {
+			color: @il-glyph-highlighted-color;
+		};
+	}
+
+	.il-input-rating-star:hover,
+	.il-input-rating-star:hover ~ .il-input-rating-star,
+	.il-input-rating-scaleoption:checked ~ .il-input-rating-star {
+		color: @il-glyph-highlighted-color;
+		/*
+			for disabled mode, use:
+			color: @il-glyph-highlighted-hover-color
+		*/
+	}
+
+	span.label {
+		margin-left: 110px;
+		position: absolute;
+		display: none;
+		color: @text-color
+	}
+
+	&:hover span.label,
+	.il-input-rating-star:hover + span.label .il-input-rating-reset{
+		display: none;
+	}
+
+
+	.il-input-rating-star:hover + span.label,
+	span.label:hover {
+		display: block;
+	}
+
+	&:not(:hover) {
+		.il-input-rating-scaleoption:checked + label + span {
+			display: block !important;
+		}
+	}
+
+
+	.il-input-rating-average{
+		display: inline-block;
+		width: 100%;
+		height: 2px;
+		top: -18px;
+		position: relative;
+		background-color: @il-glyph-color;
+		.il-input-rating-average-bar {
+			height: 2px;
+			background-color: @il-glyph-highlighted-color;
+		}
+	}
+
+
+
+}

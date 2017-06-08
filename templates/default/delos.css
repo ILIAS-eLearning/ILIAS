@@ -6248,6 +6248,90 @@ button.close {
   padding-left: 5px;
   padding-right: 5px;
 }
+.il-input-rating-topic {
+  float: left;
+  margin-right: 5px;
+}
+.il-input-rating {
+  display: inline-block;
+  /*delos uses "\e006", which is the right-arrow...*/
+  /*delos uses "\e007", which is a check-icon...*/
+}
+.il-input-rating input.il-input-rating-scaleoption {
+  float: right;
+  padding: 0;
+  margin: 0 0 0 -20px;
+  opacity: 0;
+}
+.il-input-rating .glyphicon-star:before {
+  content: "\2605" !important;
+}
+.il-input-rating .glyphicon-star-empty:before {
+  content: "\2606";
+}
+.il-input-rating .glyphicon-saltire:before {
+  content: "\2613";
+}
+.il-input-rating .il-input-rating-star {
+  float: right;
+  position: relative;
+  display: block;
+  margin-top: -8px;
+  margin-bottom: 0px;
+  font-size: 160%;
+  color: #557196;
+  /*
+			for disabled mode, use:
+			color: @il-glyph-hover-color;
+		*/
+}
+.il-input-rating .il-input-rating-reset {
+  font-size: 120%;
+  margin-top: -8px;
+  font-weight: bold;
+  color: #557196;
+}
+.il-input-rating .il-input-rating-reset:hover {
+  color: #fa8228;
+}
+.il-input-rating .il-input-rating-star:hover,
+.il-input-rating .il-input-rating-star:hover ~ .il-input-rating-star,
+.il-input-rating .il-input-rating-scaleoption:checked ~ .il-input-rating-star {
+  color: #fa8228;
+  /*
+			for disabled mode, use:
+			color: @il-glyph-highlighted-hover-color
+		*/
+}
+.il-input-rating span.label {
+  margin-left: 110px;
+  position: absolute;
+  display: none;
+  color: #333333;
+}
+.il-input-rating:hover span.label,
+.il-input-rating .il-input-rating-star:hover + span.label .il-input-rating-reset {
+  display: none;
+}
+.il-input-rating .il-input-rating-star:hover + span.label,
+.il-input-rating span.label:hover {
+  display: block;
+}
+.il-input-rating:not(:hover) .il-input-rating-scaleoption:checked + label + span {
+  display: block !important;
+}
+.il-input-rating .il-input-rating-average {
+  display: inline-block;
+  width: 100%;
+  height: 2px;
+  top: -18px;
+  position: relative;
+  background-color: #557196;
+}
+.il-input-rating .il-input-rating-average .il-input-rating-average-bar {
+  height: 2px;
+  background-color: #fa8228;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;
