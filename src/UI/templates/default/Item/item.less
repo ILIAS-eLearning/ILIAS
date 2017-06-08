@@ -2,7 +2,7 @@
 	background-color: @il-primary-container-bg;
 	position: relative;
 
-	h4 {
+	h5 {
 		margin: 4px 0px 2px 0px;
 		font-size: 130%;
 		float: left;
@@ -54,7 +54,61 @@
 	border-left: 3px solid #8080FF;
 }
 
-.il-small-list > .il-item {
+.il-narrow-content .il-item:hover {
+	background-color: @il-highlight-bg;
+}
+
+.il-narrow-content .il-item {
+	padding: 0px;
+	display: table;
+	width: 100%;
+
+	h5 {
+		margin-top: 3px;
+		font-size: 100%;
+		float: none;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.il-item-description {
+		padding-top: 1px;
+		font-size: 80%;
+	}
+
+	.il-item-divider, .il-item-property-name, .il-item-property-value {
+		display:none;
+	}
+
+	.row {
+		display: table-row;
+	}
+
+	.col-sm-3 {
+		display: table-cell;
+		height: 100%;
+		padding: 0;
+		float: none;
+		vertical-align: top;
+		width: 45px;
+	}
+
+	.col-sm-3 img {
+		width: 40px;
+	}
+
+	.col-sm-9 {
+		position: static;
+		display: table-cell;
+		padding: 0 5px 0 5px;
+		overflow: hidden;
+		max-width: 0;
+		float: none;
+		zoom: 1;
+		vertical-align: top;
+		width: auto;
+	}
 
 	.dropdown {
 		position:static;

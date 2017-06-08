@@ -29,6 +29,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$renderer = $DIC->ui()->renderer();
 
+		$first = true;
 		foreach ($component->getItems() as $item)
 		{
 			if ($item instanceof \ILIAS\UI\Component\Item\StandardItem)
@@ -37,6 +38,19 @@ class Renderer extends AbstractComponentRenderer {
 				$tpl->setVariable("ITEM", $renderer->render($item));
 				$tpl->parseCurrentBlock();
 			}
+
+			if ($item instanceof Divider)
+			{
+				if (!$first)
+				{
+					$tpl->touchBlock("list_group");
+				}
+				$tpl->setCurrentBlock("divider");
+				$tpl->setVariable("DIVIDER_LABEL", $item->getLabel());
+				$tpl->parseCurrentBlock();
+			}
+
+			$first = false;
 		}
 		$tpl->touchBlock("list_group");
 

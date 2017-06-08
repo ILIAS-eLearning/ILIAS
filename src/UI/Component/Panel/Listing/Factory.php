@@ -42,7 +42,13 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       Standard item lists should be used if possible.
+	 *       Standard item lists present lists of items with similar presentation.
+	 *       Optionally lists can be grouped by using Dividers.
+	 *   composition: >
+	 *      This Listing is composed of title and a set of items. Additionally an
+	 *      optional dropdown to select the number/types of items
+	 *      to be shown at the top of the Listing. The list reacts to surrounding
+	 *      containers having the class 'il-narrow-content' with a minimalised presentation.
 	 * ---
 	 * @param string $title Title of the Listing
 	 * @param array<Divider|\ILIAS\UI\Component\Item\Item> $items List items

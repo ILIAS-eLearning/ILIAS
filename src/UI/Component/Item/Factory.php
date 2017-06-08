@@ -39,10 +39,20 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       This is a standard item to be used in lists and other context. If possible
-	 *       use this type.
+	 *       This is a standard item to be used in lists or similar contexts.
+ 	 *   composition: >
+	 *       A list item consists of a title and the following optional elements:
+	 *       description, action drop down, properties (name/value), a text or
+	 *       image lead and a marker. List items reacts to surrounding
+	 *       containers having the class 'il-narrow-content' with a minimalised presentation.
+ 	 * rules:
+	 *    accessibility:
+	 *      1: >
+	 *       Do not provide information by a marker ID only, since it will only be presented
+	 *       with a colored border. The same information should be presented, e.g. in a property
+	 *       to enable screen reader access.
 	 * ---
-	 * @param string $title Title of the Appointment
+	 * @param string $title Title of the item
 	 * @return \ILIAS\UI\Component\Item\StandardItem
 	 */
 	public function standard($title);
