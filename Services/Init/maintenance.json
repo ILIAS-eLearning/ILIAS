@@ -1,13 +1,14 @@
 {
     "maintenance_model": "Classic",
     "first_maintainer": "smeyer(191)",
-    "second_maintainer": "",
+    "second_maintainer": "bheyser(14300)",
     "implicit_maintainers": [
-        "fschmid(21087)"
+        "fschmid(21087)",
+        "akill(149)"
     ],
     "coordinator": "",
     "tester": "",
-    "testcase_writer": "",
+    "testcase_writer": "FH Aachen",
     "path": "Services/Init",
     "belong_to_component": "Login, Auth & Registration",
     "used_in_components": []

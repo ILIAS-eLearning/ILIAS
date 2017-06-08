@@ -74,14 +74,16 @@ abstract class assQuestionGUI
 	 */
 	private $presentationContext = null;
 
-	const OUTPUT_MODE_SCREEN = 'outModeScreen';
-	const OUTPUT_MODE_PDF = 'outModePdf';
-	const OUTPUT_MODE_CONTENT_EDITING = 'outModeUsrSol';
+	const RENDER_PURPOSE_PLAYBACK = 'renderPurposePlayback';
+	const RENDER_PURPOSE_DEMOPLAY = 'renderPurposeDemoplay';
+	const RENDER_PURPOSE_PREVIEW = 'renderPurposePreview';
+	const RENDER_PURPOSE_PRINT_PDF = 'renderPurposePrintPdf';
+	const RENDER_PURPOSE_INPUT_VALUE = 'renderPurposeInputValue';
 	
 	/**
 	 * @var string
 	 */
-	private $outputMode = self::OUTPUT_MODE_SCREEN;
+	private $renderPurpose = self::RENDER_PURPOSE_PLAYBACK;
 
 	const EDIT_CONTEXT_AUTHORING = 'authoring';
 	const EDIT_CONTEXT_ADJUSTMENT = 'adjustment';
@@ -193,27 +195,57 @@ abstract class assQuestionGUI
 	/**
 	 * @return string
 	 */
-	public function getOutputMode()
+	public function getRenderPurpose()
 	{
-		return $this->outputMode;
+		return $this->renderPurpose;
 	}
 
 	/**
-	 * @param string $outputMode
+	 * @param string $renderPurpose
 	 */
-	public function setOutputMode($outputMode)
+	public function setRenderPurpose($renderPurpose)
 	{
-		$this->outputMode = $outputMode;
+		$this->renderPurpose = $renderPurpose;
 	}
-
-	public function isPdfOutputMode()
+	
+	public function isRenderPurposePrintPdf()
 	{
-		return $this->getOutputMode() == self::OUTPUT_MODE_PDF;
+		return $this->getRenderPurpose() == self::RENDER_PURPOSE_PRINT_PDF;
 	}
-
-	public function isContentEditingOutputMode()
+	
+	public function isRenderPurposePreview()
 	{
-		return $this->getOutputMode() == self::OUTPUT_MODE_CONTENT_EDITING;
+		return $this->getRenderPurpose() == self::RENDER_PURPOSE_PREVIEW;
+	}
+	
+	public function isRenderPurposeInputValue()
+	{
+		return $this->getRenderPurpose() == self::RENDER_PURPOSE_INPUT_VALUE;
+	}
+	
+	public function isRenderPurposePlayback()
+	{
+		return $this->getRenderPurpose() == self::RENDER_PURPOSE_PLAYBACK;
+	}
+	
+	public function isRenderPurposeDemoplay()
+	{
+		return $this->getRenderPurpose() == self::RENDER_PURPOSE_DEMOPLAY;
+	}
+	
+	public function renderPurposeSupportsFormHtml()
+	{
+		if( $this->isRenderPurposePrintPdf() )
+		{
+			return false;
+		}
+		
+		if( $this->isRenderPurposeInputValue() )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -1399,14 +1431,14 @@ abstract class assQuestionGUI
 		} 
 		elseif ((strcmp($_POST["solutiontype"], "text") == 0) && (strcmp($solution_array["type"], "text") != 0))
 		{
-			$oldOutputMode = $this->getOutputMode();
-			$this->setOutputMode(self::OUTPUT_MODE_CONTENT_EDITING);
+			$oldOutputMode = $this->getRenderPurpose();
+			$this->setRenderPurpose(self::RENDER_PURPOSE_INPUT_VALUE);
 			
 			$solution_array = array(
 				"type" => "text",
 				"value" => $this->getSolutionOutput(0, NULL, FALSE, FALSE, TRUE, FALSE, TRUE)
 			);
-			$this->setOutputMode($oldsaveSuggestedSolutionOutputMode);
+			$this->setRenderPurpose($oldsaveSuggestedSolutionOutputMode);
 		}
 		if ($save && strlen($_POST["filename"]))
 		{

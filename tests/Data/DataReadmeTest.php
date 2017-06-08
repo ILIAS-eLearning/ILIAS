@@ -8,7 +8,7 @@ require_once("libs/composer/vendor/autoload.php");
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class ReadmeTest extends PHPUnit_Framework_TestCase {
+class DataReadmeTest extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		$this->old_active = ini_get("assert.active");
 		$this->old_bail = ini_get("assert.bail");

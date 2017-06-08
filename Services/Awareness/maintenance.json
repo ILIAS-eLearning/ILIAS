@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
+    "first_maintainer": "akill(149)",
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "amersch(15114)",
+    "testcase_writer": "atoedt(3139)",
     "path": "Services/Awareness",
-    "belong_to_component": "None",
+    "belong_to_component": "Who is online?",
     "used_in_components": []
 }
