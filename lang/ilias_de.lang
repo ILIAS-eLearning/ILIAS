@@ -13173,7 +13173,7 @@ content#:#cont_selected_topic#:#Ausgewähltes Thema
 content#:#cont_all_topics#:#Alle Themen
 content#:#cont_highlight_class#:#Klasse hervorheben
 survey#:#survey_question_pool_usage_active#:#Fragen können optional in einem Fragenpool angelegt werden
-survey#:#survey_question_pool_usage_active_info#:#Beim Anlegen einer Fragen muss jeweils entschieden werden, ob ein Fragenpool verwendet werden soll.
+survey#:#survey_question_pool_usage_active_info#:#Beim Anlegen einer Frage muss jeweils entschieden werden, ob ein Fragenpool verwendet werden soll.
 survey#:#survey_question_pool_usage_inactive#:#Fragen werden direkt in der Umfrage angelegt.
 survey#:#survey_question_pool_usage_inactive_info#:#Die Frage wird zuerst nur für diese Umfrage erstellt und kann später manuell zu einem Fragenpool hinzugefügt werden.
 dateplaner#:#cal_notification_crsgrp#:#Benachrichtigung für Kurs/Gruppenteilnehmer
