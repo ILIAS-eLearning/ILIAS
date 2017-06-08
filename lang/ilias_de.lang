@@ -1817,7 +1817,7 @@ auth#:#auth_radius_charset_info#:#Wählen Sie hier die Zeichenkodierung aus, die
 auth#:#auth_radius_ldap#:#Synchronisierung über LDAP-Einstellungen
 auth#:#auth_radius_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutzerdaten und Rollenzuordnungen, gemäß der LDAP-Einstellungen vorgenommen.
 auth#:#auth_radius_sync_rad#:#Automatische Generierung von ILIAS-Benutzerkonten
-auth#:#auth_radius_sync_rad_info#:#Benutzer, die sich erfolgreich gegen Radius authentifiziert haben, jedoch über keinen ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
+auth#:#auth_radius_sync_rad_info#:#Benutzer, die sich erfolgreich gegen Radius authentifiziert haben, jedoch über kein ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
 auth#:#auth_sync#:#Benutzer-Synchronisierung
 auth#:#auth_sync_cas#:#Automatische Generierung von ILIAS-Benutzerkonten
 auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über keinen ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
