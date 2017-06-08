@@ -17,8 +17,7 @@ class Mode implements C\ViewControl\Mode {
 
 	public function __construct($labelled_actions)
 	{
-		$this->labeled_actions = $labelled_actions;
-		//array validation? trait?
+		$this->labeled_actions = $this->toArray($labelled_actions);
 	}
 
 	public function withActive($label)
