@@ -14570,7 +14570,7 @@ dateplaner#:#cal_type_exc#:#Übungskalender
 grp#:#grp_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Gruppe ist ausserhalb des Beitrittszeitraumes.
 crs#:#crs_admission_link_failure_registration_period#:#Kein Beitritt möglich. Der Kurs ist ausserhalb des Beitrittszeitraumes.
 grp#:#grp_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
-crs#:#crs_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
+crs#:#crs_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl des Kurses ist begrenzt.
 grp#:#grp_admission_link_success_registration#:#Erfolgreich zur Gruppe "%s" beigetreten.
 crs#:#crs_admission_link_success_registration#:#Erfolgreich zum Kurs "%s" beigetreten.
 rbac#:#ilias_id#:#ILIAS-ID
