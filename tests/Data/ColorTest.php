@@ -21,99 +21,104 @@ class ColorTest extends PHPUnit_Framework_TestCase {
 
 	public function testFullHexValue() {
 		$v = $this->f->color('#0fff2f');
-		$expected = array(
-			'#0fff2f',
-			'rgb(15, 255, 47)',
-			array(15, 255, 47),
-			15,
-			255,
-			47
-		);
-		$this->assertEquals($expected, array(
-			$v->asHex(),
-			$v->asRGBString(),
-			$v->asArray(),
-			$v->r(),
-			$v->g(),
-			$v->b()
-		));
+
+		$this->assertEquals('#0fff2f', $v->asHex());
+		$this->assertEquals('rgb(15, 255, 47)', $v->asRGBString());
+		$this->assertEquals(array(15, 255, 47), $v->asArray());
+		$this->assertEquals(15, $v->r());
+		$this->assertEquals(255, $v->g());
+		$this->assertEquals(47, $v->b());
 	}
 
 	public function testShortHexValue() {
 		$v = $this->f->color('#f0f');
-		$expected = array(
-			'#ff00ff',
-			'rgb(255, 0, 255)',
-			array(255, 0, 255)
-		);
-		$this->assertEquals($expected, array(
-			$v->asHex(),
-			$v->asRGBString(),
-			$v->asArray()
-		));
+		$this->assertEquals('#ff00ff', $v->asHex());
+		$this->assertEquals('rgb(255, 0, 255)', $v->asRGBString());
+		$this->assertEquals(array(255, 0, 255), $v->asArray());
 	}
 
 	public function testShortHexValue2() {
 		$v = $this->f->color('f0f');
-		$expected = array(
-			'#ff00ff',
-			'rgb(255, 0, 255)',
-			array(255, 0, 255)
-		);
-		$this->assertEquals($expected, array(
-			$v->asHex(),
-			$v->asRGBString(),
-			$v->asArray()
-		));
+		$this->assertEquals('#ff00ff', $v->asHex());
+		$this->assertEquals('rgb(255, 0, 255)', $v->asRGBString());
+		$this->assertEquals(array(255, 0, 255), $v->asArray());
 	}
 
 	public function testRBGValue() {
 		$v = $this->f->color(array(15,255,47));
-		$expected = array(
-			'#0fff2f',
-			'rgb(15, 255, 47)',
-			array(15, 255, 47)
-		);
-		$this->assertEquals($expected, array(
-			$v->asHex(),
-			$v->asRGBString(),
-			$v->asArray()
-		));
+		$this->assertEquals('#0fff2f', $v->asHex());
+		$this->assertEquals('rgb(15, 255, 47)', $v->asRGBString());
+		$this->assertEquals(array(15, 255, 47), $v->asArray());
 	}
 
 	public function testWrongRBGValue() {
-		$this->setExpectedException(InvalidArgumentException::class);
-		$v = $this->f->color(array(-1,0,0));
+		try {
+			$v = $this->f->color(array(-1,0,0));
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertTrue(true);
+		}
 	}
 
 	public function testWrongRBGValue2() {
-		$this->setExpectedException(InvalidArgumentException::class);
-		$v = $this->f->color(array(256,0,0));
+		try {
+			$v = $this->f->color(array(256,0,0));
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertTrue(true);
+		}
 	}
 
 	public function testWrongRBGValue3() {
-		$this->setExpectedException(InvalidArgumentException::class);
-		$v = $this->f->color(array(1,1,'123'));
+		try {
+			$v = $this->f->color(array(1,1,'123'));
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertTrue(true);
+		}
 	}
 
 	public function testWrongRBGValue4() {
-		$this->setExpectedException(InvalidArgumentException::class);
-		$v = $this->f->color(array());
+		try {
+			$v = $this->f->color(array());
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertTrue(true);
+		}
 	}
 
 	public function testWrongHexValue() {
-		$this->setExpectedException(InvalidArgumentException::class);
-		$v = $this->f->color('1234');
+		try {
+			$v = $this->f->color('1234');
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertTrue(true);
+		}
 	}
 
 	public function testWrongHexValue2() {
-		$this->setExpectedException(InvalidArgumentException::class);
-		$v = $this->f->color('#ff');
+		try {
+			$v = $this->f->color('#ff');
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertTrue(true);
+		}
 	}
 
 	public function testWrongHexValue4() {
-		$this->setExpectedException(InvalidArgumentException::class);
-		$v = $this->f->color('#gg0000');
+		try {
+			$v = $this->f->color('#gg0000');
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertTrue(true);
+		}
 	}
 
 	public function testDarkness() {
@@ -125,5 +130,4 @@ class ColorTest extends PHPUnit_Framework_TestCase {
 		$v = $this->f->color('#c1f441');
 		$this->assertEquals(false, $v->isDark());
 	}
-
 }
