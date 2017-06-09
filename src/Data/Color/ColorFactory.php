@@ -21,13 +21,13 @@ class ColorFactory {
 	public function build($value) {
 
 		if(is_array($value)) {
-			$this->validateRGB($value);
+			$this->checkRGB($value);
 			return $this->fromRGB($value);
 		}
 
 		if(is_string($value)) {
 			$hex = $this->trimHash($value);
-			$this->validateHex($hex);
+			$this->checkHex($hex);
 			return $this->fromHex($hex);
 		}
 
@@ -40,7 +40,7 @@ class ColorFactory {
 	* @param string $hex
 	* @throws \InvalidArgumentException
 	*/
-	private function validateHex($hex) {
+	private function checkHex($hex) {
 		$hexpattern = '/^([a-f0-9]{6}|[a-f0-9]{3})$/i';
 		if(! preg_match($hexpattern, $hex)) {
 			throw new \InvalidArgumentException($hex ." is is not a proper color value.", 1);
@@ -53,7 +53,7 @@ class ColorFactory {
 	* @param array $rgb
 	* @throws \InvalidArgumentException
 	*/
-	private function validateRGB($rgb) {
+	private function checkRGB($rgb) {
 		if(count($rgb) !== 3) {
 			throw new \InvalidArgumentException("Array with three values (RGB) needed.", 1);
 		}

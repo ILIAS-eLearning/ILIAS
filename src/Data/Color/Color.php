@@ -101,7 +101,7 @@ class Color {
 
 	/**
 	* Based on https://de.wikipedia.org/wiki/Luminanz
-	* this funktion decides if the color can be considered "dark".
+	* this function decides if the color can be considered "dark".
 	* With a dark background, i.e., a lighter (white) color should be used
 	* for the foreground.
 	*
