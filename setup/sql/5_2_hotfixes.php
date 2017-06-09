@@ -158,4 +158,38 @@ while ($row = $query->fetchAssoc()) {
 	$ilDB->manipulate('DELETE FROM il_dcl_stloc2_value WHERE record_field_id = ' . $ilDB->quote($row['record_field_id'], 'integer'));
 }
 ?>
+<#10>
+<?php
+$set = $ilDB->query("SELECT * FROM mep_item JOIN mep_tree ON (mep_item.obj_id = mep_tree.child) ".
+	" WHERE mep_item.type = ".$ilDB->quote("pg", "text")
+);
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$q = "UPDATE page_object SET ".
+		" parent_id = ".$ilDB->quote($rec["mep_id"], "integer").
+		" WHERE parent_type = ".$ilDB->quote("mep", "text").
+		" AND page_id = ".$ilDB->quote($rec["obj_id"], "integer");
+	//echo "<br>".$q;
+	$ilDB->manipulate($q);
+}
+?>
+<#11>
+<?php
+	// fix 20706
+	$ilDB->dropPrimaryKey('page_question');
+	$ilDB->addPrimaryKey('page_question', array('page_parent_type', 'page_id', 'question_id', 'page_lang'));
+?>
+<#12>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#13>
+<?php
+    // fix 20409 and 20638
+    $old = 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    $new = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
 
+    $ilDB->manipulateF("UPDATE settings SET value=%s WHERE module='MathJax' AND keyword='path_to_mathjax' AND value=%s",
+        array('text','text'), array($new, $old)
+    );
+?>

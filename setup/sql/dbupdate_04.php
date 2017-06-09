@@ -13842,7 +13842,7 @@ if ($ilDB->tableExists('obj_stat_tmp_old'))
 
 if($ilDB->tableExists('page_question'))
 {
-	$ilDB->addPrimaryKey('page_question', array('page_id', 'question_id'));
+//	$ilDB->addPrimaryKey('page_question', array('page_id', 'question_id'));
 }
 ?>
 <#4848>

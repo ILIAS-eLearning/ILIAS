@@ -9300,7 +9300,7 @@ mathjax#:#mathjax_limiter#:#Inline Delimiters
 mathjax#:#mathjax_limiter_info#:#Selecteer de inline delimiters zoals deze zijn ingesteld in je MathJax installatie
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_path_to_mathjax#:#URL van MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#Bijv: http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML of de URL van de lokale installatie
+mathjax#:#mathjax_path_to_mathjax_desc#:#Bijv: https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML of de URL van de lokale installatie
 mathjax#:#mathjax_settings#:#MathJax Instellingen
 mcst#:#mcst_add_new_item#:#Voeg Nieuw Media Cast Item toe
 mcst#:#mcst_audioportable_settings_info#:#Comma separated list of file suffixes

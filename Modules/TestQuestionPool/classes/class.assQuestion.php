@@ -367,6 +367,97 @@ abstract class assQuestion
 		);
 	}
 	
+	// hey: prevPassSolutions - question action actracted (heavy use in fileupload refactoring)
+	
+	/**
+	 * @return string
+	 */
+	protected function getQuestionAction()
+	{
+		if( !isset($_POST['cmd']) || !isset($_POST['cmd'][$this->questionActionCmd]) )
+		{
+			return '';
+		}
+		
+		if( !is_array($_POST['cmd'][$this->questionActionCmd]) || !count($_POST['cmd'][$this->questionActionCmd]) )
+		{
+			return '';
+		}
+		
+		return key($_POST['cmd'][$this->questionActionCmd]);
+	}
+	
+	/**
+	 * @param string $postSubmissionFieldname
+	 * @return bool
+	 */
+	protected function isNonEmptyItemListPostSubmission($postSubmissionFieldname)
+	{
+		if( !isset($_POST[$postSubmissionFieldname]) )
+		{
+			return false;
+		}
+		
+		if( !is_array($_POST[$postSubmissionFieldname]) )
+		{
+			return false;
+		}
+		
+		if( !count($_POST[$postSubmissionFieldname]) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * @param $active_id
+	 * @param $pass
+	 * @return int
+	 */
+	protected function ensureCurrentTestPass($active_id, $pass)
+	{
+		if( is_integer($pass) && $pass >= 0 )
+		{
+			return $pass;
+		}
+		
+		return $this->lookupCurrentTestPass($active_id, $pass);
+	}
+	
+	/**
+	 * @param $active_id
+	 * @param $pass
+	 * @return int
+	 */
+	protected function lookupCurrentTestPass($active_id, $pass)
+	{
+		require_once 'Modules/Test/classes/class.ilObjTest.php';
+		return ilObjTest::_getPass($active_id);
+	}
+	
+	/**
+	 * @param $active_id
+	 * @return int
+	 */
+	protected function lookupTestId($active_id)
+	{
+		$ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		
+		$result = $ilDB->queryF("SELECT test_fi FROM tst_active WHERE active_id = %s",
+			array('integer'), array($active_id)
+		);
+		
+		while($row = $ilDB->fetchAssoc($result))
+		{
+			return $row["test_fi"];
+		}
+		
+		return null;
+	}
+	// hey.
+	
 	/**
 	 * @param integer $active_id
 	 * @param string $langVar
@@ -1638,6 +1729,20 @@ abstract class assQuestion
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/flash/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
+	
+	// hey: prevPassSolutions - accept and prefer intermediate only from current pass
+	public function getTestOutputSolutions($activeId, $pass)
+	{
+		// hey: refactored identifiers
+		if( $this->getTestPresentationConfig()->isSolutionInitiallyPrefilled() )
+		// hey.
+		{
+			return $this->getSolutionValues($activeId, $pass, true);
+		}
+		
+		return $this->getUserSolutionPreferingIntermediate($activeId, $pass);
+	}
+	// hey.
 	
 	public function getUserSolutionPreferingIntermediate($active_id, $pass = NULL)
 	{
@@ -4707,7 +4812,29 @@ abstract class assQuestion
 			array('integer'), array($solutionId)
 		);
 	}
+	
+	// hey: prevPassSolutions - selected file reuse, copy solution records
+	/**
+	 * @param $solutionId
+	 * @global ilDBInterface $ilDB
+	 *
+	 * @return int
+	 */
+	protected function getSolutionRecordById($solutionId)
+	{
+		$ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
 
+		$res = $ilDB->queryF("SELECT * FROM tst_solutions WHERE solution_id = %s",
+			array('integer'), array($solutionId)
+		);
+		
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			return $row;
+		}
+	}
+	// hey.
+	
 	/**
 	 * @param int $active_id
 	 * @param int $pass
@@ -4926,6 +5053,19 @@ abstract class assQuestion
 	
 	abstract public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null);
 
+	// hey: prevPassSolutions - check for authorized solution
+	public function authorizedSolutionExists($active_id, $pass)
+	{
+		$solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);
+		return (bool)$solutionAvailability['authorized'];
+	}
+	public function authorizedOrIntermediateSolutionExists($active_id, $pass)
+	{
+		$solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);
+		return (bool)$solutionAvailability['authorized'] || (bool)$solutionAvailability['intermediate'];
+	}
+	// hey.
+	
 	/**
 	 * @param $active_id
 	 * @param $pass
@@ -5127,18 +5267,43 @@ abstract class assQuestion
 	}
 
 // fau: testNav - new function getTestQuestionConfig()
+	// hey: prevPassSolutions - get caching independent from configuration (config once)
+	//					renamed: getTestPresentationConfig() -> does the caching
+	//					completed: extracted instance building
+	//					avoids configuring cached instances on every access
+	//					allows a stable reconfigure of the instance from outside
 	/**
-	 * Get the test question configuration
+	 * @var ilTestQuestionConfig
+	 */
+	private $testQuestionConfigInstance = null;
+	
+	/**
+	 * Get the test question configuration (initialised once)
 	 * @return ilTestQuestionConfig
 	 */
-	public function getTestQuestionConfig()
+	public function getTestPresentationConfig()
 	{
-		if (!isset($this->testQuestionConfig))
+		if( $this->testQuestionConfigInstance === null )
 		{
-			include_once('Modules/TestQuestionPool/classes/class.ilTestQuestionConfig.php');
-			$this->testQuestionConfig = new ilTestQuestionConfig();
+			$this->testQuestionConfigInstance = $this->buildTestPresentationConfig();
 		}
-		return $this->testQuestionConfig;
+		
+		return $this->testQuestionConfigInstance;
 	}
+	
+	/**
+	 * build basic test question configuration instance
+	 * 
+	 * method can be overwritten to configure an instance
+	 * use parent call for building when possible
+	 * 
+	 * @return ilTestQuestionConfig
+	 */
+	protected function buildTestPresentationConfig()
+	{
+		include_once('Modules/TestQuestionPool/classes/class.ilTestQuestionConfig.php');
+		return new ilTestQuestionConfig();
+	}
+	// hey.
 // fau.
 }

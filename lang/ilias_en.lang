@@ -1423,6 +1423,8 @@ assessment#:#examid_in_test_res_desc#:#The ILIAS test pass ID will be included i
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions###deprecated 
 assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test passes. This option has to be activated by individual participants on the Info-tab before starting a test pass.
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
+assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. 
+assessment#:#use_previous_solution#:#Use Previous Solution
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_your_answer_was#:#Your answer was
@@ -6842,7 +6844,7 @@ jscalendar#:#wk#:#wk
 mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.
 mathjax#:#mathjax_enable_mathjax#:#Enable MathJax
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.
+mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.
 mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax
 mathjax#:#mathjax_settings#:#MathJax Settings
 mathjax#:#mathjax_limiter#:#Inline Delimiters

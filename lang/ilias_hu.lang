@@ -6834,7 +6834,7 @@ jscalendar#:#wk#:#hét
 mathjax#:#mathjax_enable_mathjax_info#:#A LaTeX kifejezések támogatásának bekapcsolása a MathJax alapú matematikai kimenethez.
 mathjax#:#mathjax_enable_mathjax#:#MathJax engedélyezése
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#Pl. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML vagy egy URL a saját helyi telepítésre.
+mathjax#:#mathjax_path_to_mathjax_desc#:#Pl. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML vagy egy URL a saját helyi telepítésre.
 mathjax#:#mathjax_path_to_mathjax#:#URL a MathJaxhoz
 mathjax#:#mathjax_settings#:#MathJax beállítások
 mathjax#:#mathjax_limiter#:#Beágyazott határolójelek

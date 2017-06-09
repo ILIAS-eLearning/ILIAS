@@ -10638,7 +10638,7 @@ mathjax#:#mathjax_limiter#:#インライン区切り文字
 mathjax#:#mathjax_limiter_info#:#MathJaxを有効にする構成するインライン区切り文字を選択します。
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_path_to_mathjax#:#MathJaxのURL
-mathjax#:#mathjax_path_to_mathjax_desc#:#例：http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMMLまたはローカルインストレーションのURL・
+mathjax#:#mathjax_path_to_mathjax_desc#:#例：https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMMLまたはローカルインストレーションのURL・
 mathjax#:#mathjax_server_address#:#サーバアドレス
 mathjax#:#mathjax_server_address_info#:#例 http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#MathJaxキャッシュはクリヤされました。
