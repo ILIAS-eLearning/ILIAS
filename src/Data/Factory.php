@@ -8,13 +8,19 @@ namespace ILIAS\Data;
  *
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
+ * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class Factory {
+	/**
+	 * cache for color factory.
+	 */
+	private $colorfactory;
+
 	/**
  	 * Get an ok result.
 	 *
 	 * @param  mixed  $value
-	 * @return Result 
+	 * @return Result
 	 */
 	public function ok($value) {
 		return new Result\Ok($value);
@@ -29,4 +35,20 @@ class Factory {
 	public function error($e) {
 		return new Result\Error($e);
 	}
+
+	/**
+	 * Color is a data type representing a color in HTML.
+	 * Construct a color with a hex-value or list of RGB-values.
+	 *
+	 * @param  string|int[]
+	 * @return Color
+	 */
+	public function color($value) {
+		if(! $this->colorfactory) {
+			$this->colorfactory = new Color\ColorFactory();
+		}
+		return $this->colorfactory->build($value);
+	}
+
+
 }
