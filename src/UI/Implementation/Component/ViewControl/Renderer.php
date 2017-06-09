@@ -65,14 +65,10 @@ class Renderer extends AbstractComponentRenderer
 		$f = $this->getUIFactory();
 
 		$tpl = $this->getTemplate("tpl.section.html", true, true);
-
-		//how to deal with UI glyphs? (tests)
-		//$tpl->setVariable("PREVIOUS", $renderer->render($f->button()->standard($renderer->render($f->glyph()->back(null)),$component->getPreviousActions())));
-		//$tpl->setVariable("PREVIOUS", $default_renderer->render($f->glyph()->back($component->getPreviousActions())));
-
-		$tpl->setVariable("PREVIOUS", $default_renderer->render($f->button()->standard("<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span>",$component->getPreviousActions())));
+		
+		$tpl->setVariable("PREVIOUS", $default_renderer->render($f->glyph()->back($component->getPreviousActions())));
 		$tpl->setVariable("BUTTON", $default_renderer->render($component->getSelectorButton()));
-		$tpl->setVariable("NEXT", $default_renderer->render($f->button()->standard("<span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span>",$component->getNextActions())));
+		$tpl->setVariable("NEXT", $default_renderer->render($f->glyph()->next($component->getNextActions())));
 
 		return $tpl->get();
 	}

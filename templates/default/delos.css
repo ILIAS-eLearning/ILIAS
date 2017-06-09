@@ -6253,6 +6253,20 @@ a.btn-link.ilSubmitInactive:hover {
   background-color: inherit;
   color: #333333;
   padding: 0;
+.il-viewcontrol-section .glyphicon:before {
+  background-color: #708bae;
+  border: 1px solid transparent;
+  padding: 3px 8px;
+  position: relative;
+  top: 2px;
+  color: white;
+  text-decoration: none;
+}
+.il-viewcontrol-section .glyphicon:hover:before {
+  background-color: #3a4c65;
+}
+.il-viewcontrol-section a:hover {
+  text-decoration: none;
 }
 /*		Color scheme
 		Dark BLue: #0f2152;
