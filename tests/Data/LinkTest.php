@@ -22,8 +22,8 @@ class LinkTest extends PHPUnit_Framework_TestCase {
 		$l = $this->f->link('the label', 'http://www.ilias.de');
 
 		$this->assertInstanceOf(Data\Link\Link::class, $l);
-		$this->assertEquals('the label', $l->getLabel());
-		$this->assertEquals('http://www.ilias.de', $l->getURL());
+		$this->assertEquals('the label', $l->label());
+		$this->assertEquals('http://www.ilias.de', $l->url());
 	}
 
 	public function testContructionWrongParams() {

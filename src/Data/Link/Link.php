@@ -36,7 +36,7 @@ class Link {
 	 *
 	 * @return string
 	 */
-	public function getLabel() {
+	public function label() {
 		return $this->label;
 	}
 
@@ -45,7 +45,7 @@ class Link {
 	 *
 	 * @return string
 	 */
-	public function getURL() {
+	public function url() {
 		return $this->url;
 	}
 

@@ -154,7 +154,7 @@ use ILIAS\Data;
 $f = new Data\Factory;
 $l = $f->link('ILIAS Homepage', 'http://www.ilias.de');
 
-assert($l->getLabel() === 'ILIAS Homepage');
-assert($l->getURL() === 'http://www.ilias.de');
+assert($l->label() === 'ILIAS Homepage');
+assert($l->url() === 'http://www.ilias.de');
 ?>
 ```
