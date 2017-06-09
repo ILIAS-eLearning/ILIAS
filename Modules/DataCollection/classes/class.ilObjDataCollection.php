@@ -55,6 +55,7 @@ class ilObjDataCollection extends ilObject2 {
 			$main_table->setDeletePerm(1);
 			$main_table->setEditByOwner(1);
 			$main_table->setLimited(0);
+			$main_table->setIsVisible(true);
 			$main_table->doCreate();
 		}
 
@@ -176,12 +177,25 @@ class ilObjDataCollection extends ilObject2 {
 					}
 					//					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id.":\n";
 					$t = "";
-					foreach ($record->getTable()->getFields() as $field) {
-						if ($record->getRecordField($field->getId())) {
-							$t .= $field->getTitle() . ": " . $record->getRecordField($field->getId())->getPlainText() . "\n";
+					if ($tableview_id = $record->getTable()->getFirstTableViewId($_GET['ref_id'], $user_id)) {
+						$visible_fields = ilDclTableView::find($tableview_id)->getVisibleFields();
+						if (empty($visible_fields)) {
+							continue;
+						}
+						/** @var ilDclBaseFieldModel $field */
+						foreach ($visible_fields as $field) {
+							if ($field->isStandardField()) {
+								$value = $record->getStandardFieldHTML($field->getId());
+							} elseif ($record_field = $record->getRecordField($field->getId())) {
+								$value = $record_field->getPlainText();
+							}
+
+							if ($value) {
+								$t .= $field->getTitle() . ": " . $value . "\n";
+							}
 						}
 					}
-					$message .= $t . "\n";
+					$message .= $t;
 				}
 				$message .= "------------------------------------\n";
 				$message .= $ulng->txt('dcl_changed_by') . ": " . $ilUser->getFullname() . " " . ilUserUtil::getNamePresentation($ilUser->getId())

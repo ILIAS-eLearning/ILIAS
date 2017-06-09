@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
-    "second_maintainer": "",
+    "first_maintainer": "akill(149)",
+    "second_maintainer": "smeyer(191)",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "miriamhoelscher(25370)",
+    "testcase_writer": "kunkel(115)",
     "path": "Modules/CategoryReference",
-    "belong_to_component": "None",
+    "belong_to_component": "Category and Repository",
     "used_in_components": []
 }

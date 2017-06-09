@@ -313,7 +313,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$orderingElementInput = $this->object->buildOrderingElementInputGui();
 		}
 		
-		$orderingElementInput->setStylingDisabled($this->isPdfOutputMode());
+		$orderingElementInput->setStylingDisabled($this->isRenderPurposePrintPdf());
 		$this->object->initOrderingElementAuthoringProperties($orderingElementInput);
 		
 		$orderingElementInput->setElementList( $this->object->getOrderingElementList() );
@@ -551,7 +551,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$answers = $this->object->buildNestedOrderingElementInputGui();
 		$answers->setNestingEnabled($this->object->isOrderingTypeNested());
 		$answers->setContext(ilAssNestedOrderingElementsInputGUI::CONTEXT_QUESTION_PREVIEW);
-		$answers->setInteractionEnabled($this->isUserInputOutputMode());
+		$answers->setInteractionEnabled($this->isInteractivePresentation());
 		$answers->setElementList($solutionOrderingElementList);
 		
 		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
@@ -595,6 +595,21 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$pageoutput = $this->outQuestionPage('', $isPostponed, $activeId, $template->get());
 
 		return $pageoutput;
+	}
+	
+	protected function isInteractivePresentation()
+	{
+		if( $this->isRenderPurposePlayback() )
+		{
+			return true;
+		}
+		
+		if( $this->isRenderPurposeDemoplay() )
+		{
+			return true;
+		}
+		
+		return false;
 	}
 
 	/**

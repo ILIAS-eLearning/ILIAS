@@ -1246,7 +1246,7 @@ class ilMembershipGUI
 			if($this instanceof ilCourseMembershipGUI)
 			{
 				$this->getMembersObject()->add($user_id,IL_CRS_MEMBER);
-				$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
+				$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id,true);
 				$this->getParentObject()->checkLPStatusSync($user_id);
 			}
 			else
@@ -1255,7 +1255,8 @@ class ilMembershipGUI
 				$this->getMembersObject()->add($user_id,IL_GRP_MEMBER);
 				$this->getMembersObject()->sendNotification(
 					ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
-					$user_id
+					$user_id,
+					true
 				);
 			}
 			$waiting_list->removeFromList($user_id);

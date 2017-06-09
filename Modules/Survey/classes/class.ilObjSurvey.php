@@ -6116,6 +6116,7 @@ class ilObjSurvey extends ilObject
 			$user = new ilObjUser($a_user_id);
 
 			require_once 'Services/Mail/classes/class.ilMailTemplatePlaceholderResolver.php';
+			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
 			$a_message = $processor->resolve($user, ilMailFormCall::getContextParameters());
 			

@@ -15561,7 +15561,7 @@ if (!$ilDB->tableColumnExists('il_dcl_table', 'table_order')) {
 if ($ilDB->tableColumnExists('il_dcl_data', 'main_table_id')) {
 	$main_table_query = $ilDB->query('SELECT main_table_id FROM il_dcl_data');
 	while ($rec = $ilDB->fetchAssoc($main_table_query)) {
-		$ilDB->query('UPDATE il_dcl_table SET table_order = 10 WHERE id = ' . $ilDB->quote($rec['main_table_id'], 'integer'));
+		$ilDB->query('UPDATE il_dcl_table SET table_order = 10, is_visible = 1 WHERE id = ' . $ilDB->quote($rec['main_table_id'], 'integer'));
 	}
 	$ilDB->dropTableColumn('il_dcl_data', 'main_table_id');
 }
@@ -18396,4 +18396,104 @@ if($ilDB->tableExists('svy_answer'))
 		));
 	}
 }
+?>
+
+<#5083>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$rp_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
+$ep_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
+$w_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+if($rp_ops_id && $ep_ops_id && $w_ops_id)
+{			
+	// see ilObjectLP
+	$lp_types = array('file');
+
+	foreach($lp_types as $lp_type)
+	{
+		$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId($lp_type);
+		if($lp_type_id)
+		{			
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $rp_ops_id);				
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ep_ops_id);				
+			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $rp_ops_id);
+			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $ep_ops_id);
+		}
+	}
+}
+?>
+
+<#5084>
+<?php
+// #0020342
+$query = $ilDB->query('SELECT 
+    stloc.*,
+	fp.value as fp_value,
+	fp.name as fp_name
+FROM
+    il_dcl_stloc1_value stloc
+        INNER JOIN
+    il_dcl_record_field rf ON stloc.record_field_id = rf.id
+        INNER JOIN
+    il_dcl_field f ON rf.field_id = f.id
+		INNER JOIN
+	il_dcl_field_prop fp ON rf.field_id = fp.field_id
+WHERE
+    f.datatype_id = 3
+	AND fp.name = "multiple_selection"
+	AND fp.value = 1
+ORDER BY stloc.id ASC');
+
+while ($row = $query->fetchAssoc()) {
+	if (!is_numeric($row['value'])) {
+		continue;
+	}
+
+	$value_array = array($row['value']);
+
+	$query2 = $ilDB->query('SELECT * FROM il_dcl_stloc2_value WHERE record_field_id = ' . $ilDB->quote($row['record_field_id'], 'integer'));
+	while ($row2 = $ilDB->fetchAssoc($query2)) {
+		$value_array[] = $row2['value'];
+	}
+	
+	$ilDB->update('il_dcl_stloc1_value', array(
+		'id' => array('integer', $row['id']),
+		'record_field_id' => array('integer', $row['record_field_id']),
+		'value' => array('text', json_encode($value_array)),
+	), array('id' => array('integer', $row['id'])));
+	$ilDB->manipulate('DELETE FROM il_dcl_stloc2_value WHERE record_field_id = ' . $ilDB->quote($row['record_field_id'], 'integer'));
+}
+?>
+<#5085>
+<?php
+$set = $ilDB->query("SELECT * FROM mep_item JOIN mep_tree ON (mep_item.obj_id = mep_tree.child) ".
+	" WHERE mep_item.type = ".$ilDB->quote("pg", "text")
+);
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$q = "UPDATE page_object SET ".
+		" parent_id = ".$ilDB->quote($rec["mep_id"], "integer").
+		" WHERE parent_type = ".$ilDB->quote("mep", "text").
+		" AND page_id = ".$ilDB->quote($rec["obj_id"], "integer");
+	//echo "<br>".$q;
+	$ilDB->manipulate($q);
+}
+?>
+<#5086>
+<?php
+	// fix 20706
+	$ilDB->dropPrimaryKey('page_question');
+	$ilDB->addPrimaryKey('page_question', array('page_parent_type', 'page_id', 'question_id', 'page_lang'));
+?>
+<#5087>
+<?php
+    // fix 20409 and 20638
+    $old = 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    $new = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+
+    $ilDB->manipulateF("UPDATE settings SET value=%s WHERE module='MathJax' AND keyword='path_to_mathjax' AND value=%s",
+        array('text','text'), array($new, $old)
+    );
 ?>

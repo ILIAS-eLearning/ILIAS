@@ -144,7 +144,9 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * 
 	 * Here the definition of the workflow is to be done. 
 	 */
-	public abstract function __construct();
+	public function __construct()
+	{
+	}
 
 	/**
 	 * Starts the workflow, activating the start_node. 

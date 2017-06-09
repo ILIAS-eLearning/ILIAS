@@ -314,7 +314,6 @@ var ilCOPage =
 
 	setCharacterClass: function(i)
 	{
-		console.log(i);
 		switch (i.hid_val)
 		{
 			case "Quotation":
@@ -1897,6 +1896,7 @@ function extractHierId(id)
  */
 function doMouseClick(e, id, type, char)
 {
+	console.log(ilCOPage);
 	if (ilCOPage.getInsertStatus())
 	{
 		return;

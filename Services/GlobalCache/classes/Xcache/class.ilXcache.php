@@ -4,12 +4,26 @@ require_once('./Services/GlobalCache/classes/class.ilGlobalCacheService.php');
 /**
  * Class ilXcache
  *
+ * Concrete XCache implementation.
+ *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.0
+ * @version 1.0.1
  */
 class ilXcache extends ilGlobalCacheService {
 
 	const MIN_MEMORY = 32;
+
+
+	/**
+	 * ilXcache constructor.
+	 *
+	 * @param $serviceId
+	 * @param $component
+	 */
+	public function __construct($serviceId, $component) {
+		parent::__construct($serviceId, $component);
+		$this->readValid();
+	}
 
 
 	/**
@@ -134,6 +148,37 @@ class ilXcache extends ilGlobalCacheService {
 	protected function getMinMemory() {
 		return self::MIN_MEMORY;
 	}
+
+	/**
+	 * @return void
+	 *
+	 * @description save self::$valid_keys to GlobalCache
+	 */
+	protected function saveValid() {
+		if ($this->isActive()) {
+			if ($this->valid_key_hash != md5(serialize($this->valid_keys))) {
+				$this->set('valid_keys', $this->serialize($this->valid_keys));
+			}
+		}
+	}
+
+
+	/**
+	 * @return void
+	 *
+	 * @description set self::$valid_keys from GlobalCache
+	 */
+	protected function readValid() {
+		if ($this->isActive() && $this->isInstallable()) {
+			$this->valid_keys = $this->unserialize($this->get('valid_keys'));
+			$this->valid_key_hash = md5(serialize($this->valid_keys));
+		}
+	}
+
+	public function __destruct() {
+		$this->saveValid();
+	}
+
 }
 
 ?>

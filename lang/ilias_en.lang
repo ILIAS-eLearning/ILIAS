@@ -274,6 +274,9 @@ assessment#:#answer_text#:#Answer Text
 assessment#:#answer_types#:#Editor for Answers
 assessment#:#gap_combination#:#Gap Combination
 assessment#:#answer#:#Answer
+assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.
+assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.
+assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint
 assessment#:#answers_multiline#:#Multi Line Answers
 assessment#:#answers_singleline#:#Single Line Answers
 assessment#:#applet_attributes#:#Applet Attributes
@@ -6845,7 +6848,7 @@ jscalendar#:#wk#:#wk
 mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.
 mathjax#:#mathjax_enable_mathjax#:#Enable MathJax
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.
+mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.
 mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax
 mathjax#:#mathjax_settings#:#MathJax Settings
 mathjax#:#mathjax_limiter#:#Inline Delimiters
@@ -12543,6 +12546,7 @@ dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
 dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.
+dcl#:#dcl_table_title_not_matching#:#The titles of the excel sheet and the Data Collection table do not match. Rename the sheet for a successfull import.
 dcl#:#dcl_please_select#:#--- Please select ---
 dcl#:#dcl_asc#:#Ascending Order (ASC)
 dcl#:#dcl_desc#:#Descending Order (DESC)
@@ -15213,7 +15217,7 @@ wsp#:#wsp_shared_filter_reset_button#:#Reset Search
 wsp#:#wsp_shared_filter_button#:#Search
 wiki#:#wiki_page_title_too_long#:#Sorry, the title of the wiki page is too long. Please replace it with a shorter title.
 exc#:#exc_direct_submit#:#Submit
-membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one precondition is not fullfilled.
+membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one setting prevents this.
 export#:#no_file#:#No file
 content#:#lm_no_download_files#:#There are currently no files for download available.
 rbac#:#feed_copy#:#User can copy webfeed
@@ -15897,6 +15901,14 @@ form#:#err_invalid_input#:#An invalid value has been submited. Please check your
 chatroom#:#chat_osc_no_conv#:#No conversations.
 chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
 chatroom#:#chat_osc_no_sub_directory_info#:#If the chat server is only reachable through a sub directory with an URL like "http(s)://[IP/Domain]/[SUB_DIRECTORY]" it is required to insert the [SUB_DIRECTORY] for this chat server. In most scenarios you can leave this field empty.
+chatroom#:#chat_deletion_section_head#:#Deletion of old Messages
+chatroom#:#chat_deletion_disabled#:#Disabled
+chatroom#:#chat_deletion_interval#:#Interval
+chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat on On-Screen-Chat conversations will be deleted after the defined threshold.
+chatroom#:#chat_deletion_interval_unit#:#Unit
+chatroom#:#chat_deletion_interval_value#:#Value
+chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s
+chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
 copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
@@ -15941,3 +15953,4 @@ grp#:#grp_period_info#:#Information about the start and end date of the event, w
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.
 exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.
 exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.
+rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
