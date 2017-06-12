@@ -14,6 +14,9 @@ use ILIAS\UI\Component;
 class Renderer extends AbstractComponentRenderer
 {
 
+	const MODE_ARIA = "Mode View Controler";
+	const MODE_ROLE = "group";
+
 	/**
 	 * @param Component\Component $component
 	 * @param RendererInterface $default_renderer
@@ -44,8 +47,8 @@ class Renderer extends AbstractComponentRenderer
 
 		foreach ($component->getLabelledActions() as $label => $action)
 		{
-			$tpl->setVariable("ARIA", $component->getAria());
-			$tpl->setVariable("ROLE", $component->getRole());
+			$tpl->setVariable("ARIA", self::MODE_ARIA);
+			$tpl->setVariable("ROLE", self::MODE_ROLE);
 
 			$tpl->setCurrentBlock("view_control");
 

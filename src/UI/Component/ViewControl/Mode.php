@@ -30,16 +30,4 @@ interface Mode extends Component {
 	 *@return array (string|string)[]. Array containing keys as label and values as actions.
 	 */
 	public function getLabelledActions();
-
-	/**
-	 * Get the role HTML attribute
-	 * @return string
-	 */
-	public function getRole();
-
-	/**
-	 * Get the aria-label HTML attribute
-	 * @return string
-	 */
-	public function getAria();
 }

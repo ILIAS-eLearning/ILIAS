@@ -24,8 +24,9 @@ interface Factory {
 	 *   usage:
 	 *      1: Exactly one Button MUST always be active.
 	 *   accessibility:
-	 *      1: The Buttons of the Mode View Control MUST cary the role-attribute "group".
-	 *      2: The Buttons of the Mode View Control MUST set an aria-label clearly describing it's functionality.
+	 *      1: The HTML container enclosing the buttons of the Mode View Control MUST cary the role-attribute "group".
+	 * 		2: The HTML container enclosing the buttons of the Mode View Control MUST set an aria-label describing the element. Eg. "Mode View Control"
+	 *      2: The Buttons of the Mode View Control MUST set an aria-label clearly describing what the button shows if clicked. E.g. "List View", "Month View", ...
 	 *      3: The currently active Button must be labeled by setting aria-checked to "true".
 	 *
 	 * ---
@@ -53,7 +54,7 @@ interface Factory {
 	 * ---
 	 *
 	 * @param   string $previous_action action to be executed by clicking on the left Button.
-	 * @param   \ILIAS\UI\Component\Component $button Button to be placed in the middle (Split Button or Default Button).
+	 * @param   \ILIAS\UI\Component\Button\Button $button Button to be placed in the middle (Split Button or Default Button).
 	 * @param   string $next_action action to be executed by clicking on the left Button.
 	 *
 	 * @return \ILIAS\UI\Component\ViewControl\Section
