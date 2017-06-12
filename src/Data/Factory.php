@@ -45,10 +45,8 @@ class Factory {
 	 */
 	public function color($value) {
 		if(! $this->colorfactory) {
-			$this->colorfactory = new Color\ColorFactory();
+			$this->colorfactory = new Color\Factory();
 		}
 		return $this->colorfactory->build($value);
 	}
-
-
 }

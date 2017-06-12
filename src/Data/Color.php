@@ -1,9 +1,8 @@
 <?php
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Data\Color;
-use ILIAS\Validation as VAL;
-use ILIAS\Data as D;
+namespace ILIAS\Data;
+
 /**
  * Color expresses a certain color by giving the mixing ratio
  * in the RGB color space.

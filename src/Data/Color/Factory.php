@@ -2,12 +2,15 @@
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Data\Color;
+
+use ILIAS\Data\Color;
+
 /**
  * Builds a Color from either hex- or rgb values.
  *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-class ColorFactory {
+class Factory {
 
 	/**
 	 * Determine type of input and validate it, then build a color.
