@@ -347,6 +347,8 @@ interface Factory {
 	 *     header, the tree and in repository listing.
 	 *   composition: >
 	 *     Icons come in three fixed sizes: small, medium and large.
+	 *     They can be configured with an additional "abbreviation",
+	 *     a text of a few characters that will be rendered on top of the image.
 	 *   effect: >
 	 *     Icons themselves are not interactive; however they are allowed
 	 *     within interactive containers.
@@ -358,9 +360,7 @@ interface Factory {
 	 *       Images belong to the content and can be purely decorative.
 	 * rules:
 	 *   usage:
-	 *     1: >
-	 *       Icons MUST be used to represent objects or context, NOT for
-	 *       cross-sectional functionality.
+	 *     1: Icons MUST be used to represent objects or context.
 	 *     2: Icons MUST be used in combination with a title.
 	 *   style:
 	 *     1: Icons MUST have a class indicating their usage.
@@ -368,10 +368,8 @@ interface Factory {
 	 *   accessibility:
 	 *     1: Icons MUST use aria-label.
 	 *   wording:
-	 *     1: >
-	 *       The aria-label MUST state the represented object-type.
-	 *     2: >
-	 *       The abbreviation SHOULD consist of one or two letters.
+	 *     1: The aria-label MUST state the represented object-type.
+	 *     2: The abbreviation SHOULD consist of one or two letters.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\Icon\Factory

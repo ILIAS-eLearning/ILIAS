@@ -12,23 +12,10 @@ interface Factory {
 	 *
 	 *   composition: >
 	 *     A Standard Icon is displayed as a block-element with a background-graphic.
-	 *     By default, a fallback icon will be rendered based on an abbreviation;
-	 *     this is until a background image is defined in the icon's CSS-class.
+	 *     By default, a fallback icon will be rendered; this is until a
+	 *     background image is defined in the icon's CSS-class.
 	 *   rivals:
-	 *     1: >
-	 *       Custom Icon
-	 * rules:
-	 *   usage:
-	 *     1: >
-	 *   style:
-	 *
-	 *   accessibility:
-	 *     1:
-	 *   wording:
-	 *     1: >
-	 *
-	 *     2: >
-	 *
+	 *     1: Custom Icons are constructed with a path to an (uploaded) image.
 	 * ---
 	 *
 	 * @param   string $class
@@ -42,22 +29,19 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     ILIAS allows users to upload icons for certain repository objects.
+	 *     ILIAS allows users to upload icons for repository objects.
 	 *     Those, in opposite to the standard icons, need to be constructed with
 	 *     a path.
 	 *   composition: >
-	 *   effect: >
+	 *     Instead of setting a background image via CSS-class, an image-tag is
+	 *     contained in the icons's div.
 	 *   rivals:
-	 *     1: >
-	 *       Standard Icons
-	 *     2: >
+	 *     1: Standard Icons MUST be used for core-objects.
 	 * rules:
 	 *   usage:
-	 *     1: >
+	 *     1: Custom Icons MAY still use an abbreviation.
 	 *   style:
-	 *   accessibility:
-	 *   wording:
-	 *
+	 *     1: Images used for Custom Icons MUST be quadratic.
 	 * ---
 	 *
 	 * @param   string $icon_path
