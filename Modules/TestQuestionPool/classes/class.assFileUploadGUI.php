@@ -369,7 +369,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 			#{
 			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			#}
-			$files = $this->getTestOutputSolutions($active_id, $pass);
+			$files = $this->object->getTestOutputSolutions($active_id, $pass);
 			// hey.
 			include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
 			$table_gui = new assFileUploadFileTableGUI(null , $this->getQuestionActionCmd());

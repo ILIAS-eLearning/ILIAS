@@ -599,7 +599,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 			#{
 			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			#}
-			$info = $this->getTestOutputSolutions($active_id, $pass);
+			$info = $this->object->getTestOutputSolutions($active_id, $pass);
 			// hey.
 			foreach ($info as $kk => $infodata)
 			{

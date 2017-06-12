@@ -1245,7 +1245,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		// hey: prevPassSolutions - determine solution pass index and configure gui accordingly 
 		$solutionPassIndex = $this->determineSolutionPassIndex($questionGui);
-		$questionGui->setPreviousSolutionPrefilled($solutionPassIndex < $this->testSession->getPass());
+		
+		$questionGui->object->getTestQuestionConfig()->setSolutionInitiallyPrefilled(
+			$solutionPassIndex < $this->testSession->getPass()
+		);
 		// hey.
 		
 		// Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.

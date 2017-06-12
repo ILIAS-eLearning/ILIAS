@@ -1153,7 +1153,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 			$user_solution["active_id"] = $active_id;
 			$user_solution["pass"]      = $pass;
 			// hey: prevPassSolutions - obsolete due to central check
-			$solutions = $this->getTestOutputSolutions($active_id, $pass);
+			$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
 			// hey.
 
 			foreach($solutions as $idx => $solution_value)

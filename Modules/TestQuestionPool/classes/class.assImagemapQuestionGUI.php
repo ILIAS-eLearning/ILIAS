@@ -435,7 +435,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		#	$info = $this->object->getUserSolutionPreferingIntermediate($active_id, NULL);
 		#}
 		
-		$info = $this->getTestOutputSolutions($active_id, $pass);
+		$info = $this->object->getTestOutputSolutions($active_id, $pass);
 
 		if (count($info))
 		{
@@ -705,7 +705,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			#{
 			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			#}
-			$solutions = $this->getTestOutputSolutions($active_id, $pass);
+			$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
 			// hey.
 			foreach ($solutions as $idx => $solution_value)
 			{

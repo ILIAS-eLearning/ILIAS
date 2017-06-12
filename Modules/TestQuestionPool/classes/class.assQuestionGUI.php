@@ -549,7 +549,7 @@ abstract class assQuestionGUI
 	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
 	{
 		// hey: prevPassSolutions - add the "use previous answer"
-		if ($this->isPreviousSolutionPrefilled())
+		if( $this->object->getTestQuestionConfig()->isSolutionInitiallyPrefilled() )
 		{
 			ilUtil::sendInfo($this->getPreviousSolutionProvidedMessage());
 			$html .= $this->getPreviousSolutionConfirmationCheckboxHtml();
@@ -2249,18 +2249,6 @@ abstract class assQuestionGUI
 		$user_post_solutions,
 		$show_specific_inline_feedback
 	);
-	
-	// hey: prevPassSolutions - accept and prefer intermediate only from current pass
-	protected function getTestOutputSolutions($activeId, $pass)
-	{
-		if( $this->isPreviousSolutionPrefilled() )
-		{
-			return $this->object->getSolutionValues($activeId, $pass, true);
-		}
-		
-		return $this->object->getUserSolutionPreferingIntermediate($activeId, $pass);
-	}
-	// hey.
 
 	public function getFormEncodingType()
 	{

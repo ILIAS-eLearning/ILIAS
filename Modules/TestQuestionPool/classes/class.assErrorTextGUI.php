@@ -343,7 +343,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			#{
 			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			#}
-			$solutions = $this->getTestOutputSolutions($active_id, $pass);
+			$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
 			// hey.
 		}
 		$errortext_value = "";

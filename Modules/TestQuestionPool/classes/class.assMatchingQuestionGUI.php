@@ -824,7 +824,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			else
 			{
 				// hey: prevPassSolutions - obsolete due to central check
-				$solutions = $this->getTestOutputSolutions($active_id, $pass);
+				$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
 				// hey.
 			}
 

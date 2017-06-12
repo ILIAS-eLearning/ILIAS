@@ -1267,7 +1267,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			#{
 			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			#}
-			$user_solution = $this->getTestOutputSolutions($active_id, $pass);
+			$user_solution = $this->object->getTestOutputSolutions($active_id, $pass);
 			// hey.
 			if (!is_array($user_solution)) 
 			{

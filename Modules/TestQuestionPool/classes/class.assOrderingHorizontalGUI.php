@@ -303,7 +303,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 			#{
 			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			#}
-			$solutions = $this->getTestOutputSolutions($active_id, $pass);
+			$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
 			// hey.
 			if (count($solutions) == 1)
 			{

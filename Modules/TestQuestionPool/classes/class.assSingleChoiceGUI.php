@@ -462,7 +462,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			#}
 			// hey.
-			$solutions = $this->getTestOutputSolutions($active_id, $pass);
+			$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
 				$user_solution = $solution_value["value1"];

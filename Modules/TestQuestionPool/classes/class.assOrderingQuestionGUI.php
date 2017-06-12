@@ -573,7 +573,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	}
 	
 	// hey: prevPassSolutions - pass will be always available from now on
-	function getTestOutput($activeId, $pass, $isPostponed = FALSE, $userSolutionPost = FALSE, $inlineFeedback = false)
+	public function getTestOutput($activeId, $pass, $isPostponed = FALSE, $userSolutionPost = FALSE, $inlineFeedback = false)
 	// hey.
 	{
 		// hey: prevPassSolutions - fixed variable type, makes phpstorm stop crying
