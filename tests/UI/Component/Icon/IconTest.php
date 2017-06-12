@@ -37,32 +37,35 @@ class IconTest extends ILIAS_UI_TestBase {
 
 		$ico = $ico->withAbbreviation('K');
 		$this->assertEquals('K', $ico->getAbbreviation());
-
 	}
 
 	public function testSizeModification() {
 		$f = $f = $this->getIconFactory();
 		$ico = $f->standard('course', 'Kurs');
+
 		$ico = $ico->withSize('medium');
 		$this->assertEquals('medium', $ico->getSize());
+
 		$ico = $ico->withSize('large');
 		$this->assertEquals('large', $ico->getSize());
+
 		$ico = $ico->withSize('small');
 		$this->assertEquals('small', $ico->getSize());
 	}
 
 	public function testSizeModificationWrongParam() {
 		$this->setExpectedException(\InvalidArgumentException::class);
+
 		$f = $f = $this->getIconFactory();
 		$ico = $f->standard('course', 'Kurs');
 		$ico = $ico->withSize('tiny');
 	}
+
 	public function testCustomPath() {
 		$f = $f = $this->getIconFactory();
+
 		$ico = $f->custom('/some/path/', 'Custom Icon');
 		$this->assertEquals('/some/path/', $ico->getIconPath());
 	}
-
-
 
 }

@@ -23,6 +23,10 @@ class Renderer extends AbstractComponentRenderer {
         $tpl->setVariable("ARIA_LABEL",$component->getAriaLabel());
         $tpl->setVariable("SIZE",$component->getSize());
 
+        if ($component instanceof Component\Icon\Custom) {
+                $tpl->setVariable("CUSTOMIMAGE",$component->getIconPath());
+        }
+
         $ab = $component->getAbbreviation();
         if($ab) {
             $tpl->setVariable("ABBREVIATION",$ab);
