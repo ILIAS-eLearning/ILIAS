@@ -575,8 +575,7 @@ abstract class assQuestionGUI
 	{
 		// hey: prevPassSolutions - use abstracted template to share with other purposes of this kind
 		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
-		$tpl->setVariable('CHECKBOX_IDENT', 'ilQuestionUseUnchangedAnswerLabel');
-		$tpl->setVariable('CHECKBOX_LABEL', $this->object->getTestPresentationConfig()->getUseUnchangedAnswerLabel());
+		$tpl->setVariable('TXT_FORCE_FORM_DIFF_LABEL', $this->object->getTestPresentationConfig()->getUseUnchangedAnswerLabel());
 		// hey.
 		return $tpl->get();
 	}
@@ -592,8 +591,8 @@ abstract class assQuestionGUI
 	{
 		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
 		// hey: prevPassSolutions - use abtract template
-		$tpl->setVariable('CHECKBOX_IDENT', 'ilQuestionUsePreviousSolutionLabel');
-		$tpl->setVariable('CHECKBOX_LABEL', $this->lng->txt('use_previous_solution'));
+		$tpl->setVariable('TXT_FORCE_FORM_DIFF_LABEL', $this->lng->txt('use_previous_solution'));
+		// hey.
 		return $tpl->get();
 	}
 	// hey.
