@@ -6,7 +6,8 @@ function default_icon() {
 
 	$buffer = array();
 
-	$ico = $f->icon()->standard('someobject', 'Object', 'small', 'E');
+	$ico = $f->icon()->standard('someExample', 'Example');
+	$ico = $ico->withAbbreviation('E');
 
 	$buffer[] = $renderer->render($ico)
 		.' Small Example';
@@ -18,9 +19,10 @@ function default_icon() {
 		.' Large Example';
 
 
-	$ico = $f->icon()->standard('someobject', 'Object', 'small', 'OB');
+	$ico = $f->icon()->standard('someObject', 'Object');
+	$ico = $ico->withAbbreviation('OB');
 
-	$buffer[] = $renderer->render($ico)
+	$buffer[] = $renderer->render($ico->withSize('small'))
 		.' Small Object';
 
 	$buffer[] = $renderer->render($ico->withSize('medium'))
