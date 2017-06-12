@@ -3,6 +3,7 @@
 
 namespace ILIAS\UI\Implementation\Component\ViewControl;
 
+use ILIAS\Data\Link\Link;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
@@ -14,7 +15,7 @@ class Section implements C\ViewControl\Section {
 	protected $button;
 	protected $next_action;
 
-	public function __construct($previous_action, $button, $next_action)
+	public function __construct(Link $previous_action, C\Button\Button $button, Link $next_action)
 	{
 		$this->previous_action = $previous_action;
 		$this->button = $button;
@@ -28,7 +29,7 @@ class Section implements C\ViewControl\Section {
 	 */
 	public function getPreviousActions()
 	{
-		return $this->previous_action;
+		return $this->previous_action->url();
 	}
 
 	/**
@@ -38,7 +39,7 @@ class Section implements C\ViewControl\Section {
 	 */
 	public function getNextActions()
 	{
-		return $this->next_action;
+		return $this->next_action->url();
 	}
 
 	/**
