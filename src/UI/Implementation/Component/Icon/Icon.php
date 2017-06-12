@@ -33,9 +33,9 @@ class Icon implements C\Icon\Icon {
 	 * @var	string[]
 	 */
 	protected static $possible_sizes = array(
-		'small',
-		'medium',
-		'large'
+		self::SMALL,
+		self::MEDIUM,
+		self::LARGE
 	);
 
 

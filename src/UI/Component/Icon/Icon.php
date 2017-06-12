@@ -8,6 +8,11 @@ namespace ILIAS\UI\Component\Icon;
  */
 interface Icon extends \ILIAS\UI\Component\Component {
 
+	// sizes of icons
+	const SMALL = 'small';
+	const MEDIUM = 'medium';
+	const LARGE = 'large';
+
 	/**
 	 * Get the CSS-class of the icon.
 	 *
