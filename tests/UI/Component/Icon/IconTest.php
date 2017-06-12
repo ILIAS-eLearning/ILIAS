@@ -68,4 +68,45 @@ class IconTest extends ILIAS_UI_TestBase {
 		$this->assertEquals('/some/path/', $ico->getIconPath());
 	}
 
+	public function testRenderingStandard() {
+		$f = $f = $this->getIconFactory();
+		$r = $this->getDefaultRenderer();
+
+		$ico = $ico = $f->standard('crs', 'Course', 'medium');
+		$html = $this->normalizeHTML($r->render($ico));
+		$expected = '<div class="icon crs medium" aria-label="Course"></div>';
+		$this->assertEquals($expected, $html);
+
+		//with abbreviation
+		$ico = $ico->withAbbreviation('CRS');
+		$html = $this->normalizeHTML($r->render($ico));
+		$expected = '<div class="icon crs medium" aria-label="Course">'
+					.'	<div class="abbreviation">CRS</div>'
+					.'</div>';
+		$this->assertEquals($expected, $html);
+	}
+
+	public function testRenderingCustom() {
+		$f = $f = $this->getIconFactory();
+		$r = $this->getDefaultRenderer();
+		$path = './templates/default/images/icon_fold.svg';
+
+		$ico = $ico = $f->custom($path, 'Custom', 'medium');
+		$html = $this->normalizeHTML($r->render($ico));
+		$expected = '<div class="icon custom medium" aria-label="Custom">'
+					.'	<img src="./templates/default/images/icon_fold.svg" />'
+					.'</div>';
+		$this->assertEquals($expected, $html);
+
+		//with abbreviation
+		$ico = $ico->withAbbreviation('CS');
+		$html = $this->normalizeHTML($r->render($ico));
+		$expected = '<div class="icon custom medium" aria-label="Custom">'
+					.'	<img src="./templates/default/images/icon_fold.svg" />'
+					.'	<div class="abbreviation">CS</div>'
+					.'</div>';
+
+		$this->assertEquals($expected, $html);
+	}
+
 }
