@@ -1,5 +1,4 @@
 <?php
-
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Icon;
@@ -11,21 +10,32 @@ interface Icon extends \ILIAS\UI\Component\Component {
 
 	/**
 	 * Get the CSS-class of the icon.
+	 *
 	 * @return string
 	 */
-	public function cssclass();
+	public function getCSSClass();
 
 	/**
 	 * Get the aria-label of this icon.
+	 *
 	 * @return string
 	 */
-	public function aria();
+	public function getAriaLabel();
+
+	/**
+	 * Set the abbreviation for this icon.
+	 *
+	 * @param string $abbreviation
+	 * @return \ILIAS\UI\Component\Icon\Icon
+	 */
+	public function withAbbreviation($abbreviation);
 
 	/**
 	 * Get the abbreviation of this icon.
+	 *
 	 * @return string
 	 */
-	public function abbreviation();
+	public function getAbbreviation();
 
 	/**
 	 * Set the size for this icon.
@@ -38,11 +48,9 @@ interface Icon extends \ILIAS\UI\Component\Component {
 
 	/**
 	 * Get the size of this icon.
+	 *
 	 * @return string
 	 */
-	public function size();
-
-
-
+	public function getSize();
 
 }

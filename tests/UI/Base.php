@@ -30,7 +30,7 @@ class NoUIFactory implements Factory {
 	public function legacy($content) {}
 	public function panel() {}
 	public function modal() {}
-	public function icon($class, $aria, $size='small', $abbreviation='') {}
+	public function icon() {}
 }
 
 class LoggingRegistry implements ResourceRegistry {

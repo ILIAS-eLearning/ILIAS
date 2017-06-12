@@ -19,12 +19,11 @@ class Renderer extends AbstractComponentRenderer {
         $this->checkComponent($component);
         $tpl = $this->getTemplate("tpl.icon.html", true, true);
 
-        $id = $this->createId();
-        $tpl->setVariable("ID",$id);
-        $tpl->setVariable("CLASS",$component->cssclass());
-        $tpl->setVariable("ARIA_LABEL",$component->aria());
-        $tpl->setVariable("SIZE",$component->size());
-        $ab = $component->abbreviation();
+        $tpl->setVariable("CLASS",$component->getCSSClass());
+        $tpl->setVariable("ARIA_LABEL",$component->getAriaLabel());
+        $tpl->setVariable("SIZE",$component->getSize());
+
+        $ab = $component->getAbbreviation();
         if($ab) {
             $tpl->setVariable("ABBREVIATION",$ab);
         }
@@ -38,4 +37,5 @@ class Renderer extends AbstractComponentRenderer {
     protected function getComponentInterfaceName() {
         return array(Component\Icon\Icon::class);
     }
+
 }

@@ -6,7 +6,7 @@ function std_course_icon() {
 
 	$buffer = array();
 
-	$ico = $f->icon('course', 'Course', 'small');
+	$ico = $f->icon()->standard('course', 'Course', 'small');
 
 	$buffer[] = $renderer->render($ico)
 		.' Small Course';

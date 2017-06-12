@@ -91,8 +91,9 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function icon($class, $aria_label, $size='small', $abbreviation=''){
-		return new Component\Icon\Icon($class, $aria_label, $size, $abbreviation);
+	public function icon(){
+		return new Component\Icon\Factory();
+
 	}
 
 }

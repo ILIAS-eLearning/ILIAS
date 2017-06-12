@@ -346,13 +346,10 @@ interface Factory {
 	 *     Icons will mainly be used in front of object-titles, e.g. in the
 	 *     header, the tree and in repository listing.
 	 *   composition: >
-	 *     An Icon is displayed as a block-element with a background-graphic.
+	 *     Icons come in three fixed sizes: small, medium and large.
+	 *   effect: >
 	 *     Icons themselves are not interactive; however they are allowed
 	 *     within interactive containers.
-	 *   effect: >
-	 *     Icons come in three fixed sizes: small, medium and large.
-	 *     By default, a fallback icon will be rendered based on an abbreviation;
-	 *     this is until a background image is defined in the icon's CSS-class.
 	 *   rivals:
 	 *     1: >
 	 *       Glyphs are typographical characters that act as a trigger for
@@ -377,12 +374,7 @@ interface Factory {
 	 *       The abbreviation SHOULD consist of one or two letters.
 	 * ---
 	 *
-	 * @param   string $class
-	 * @param   string $aria
-	 * @param   string $size
-	 * @param   string $abbreviation
-	 * @return 	\ILIAS\UI\Component\Icon\Icon
+	 * @return \ILIAS\UI\Component\Icon\Factory
 	 **/
-	public function icon($class, $aria_label, $size='small', $abbreviation='');
-
+	public function icon();
 }

@@ -16,7 +16,7 @@ function std_icons() {
 	$buffer = array();
 
 	foreach ($default_icons as $icon) {
-		$i = $f->icon($icon, $icon, 'medium');
+		$i = $f->icon()->standard($icon, $icon, 'medium');
 		$buffer[] = $renderer->render($i)
 		.' '
 		.$icon;

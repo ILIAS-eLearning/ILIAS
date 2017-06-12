@@ -10,42 +10,59 @@ use \ILIAS\UI\Component as C;
  * Test on icon implementation.
  */
 class IconTest extends ILIAS_UI_TestBase {
-
-	public function getIcon() {
+	private function getIconFactory() {
 		$f = new \ILIAS\UI\Implementation\Factory();
-		return $f->icon('course', 'Kurs', 'large', 'K');
+		return $f->icon();
 	}
 
+	public function testConstruction() {
+		$f = $this->getIconFactory();
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Icon\\Factory", $f);
 
-	public function test_attributes() {
-		$ico = $this->getIcon();
-		$expected = array(
-			'course',
-			'Kurs',
-			'large',
-			'K'
-		);
-		$this->assertEquals(
-			$expected,
-			array(
-				$ico->cssclass(),
-				$ico->aria(),
-				$ico->size(),
-				$ico->abbreviation()
-			)
-		);
+		$si = $f->standard('course', 'Kurs');
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Icon\\Standard", $si);
+
+		$ci = $f->custom('course', 'Kurs');
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Icon\\Custom", $ci);
 	}
 
-	public function test_size_modification() {
-		$ico = $this->getIcon();
+	public function testAttributes() {
+		$f = $this->getIconFactory();
+
+		$ico = $f->standard('course', 'Kurs');
+		$this->assertEquals('Kurs', $ico->getAriaLabel());
+		$this->assertEquals('course', $ico->getCSSClass());
+		$this->assertEquals('small', $ico->getSize());
+		$this->assertNull($ico->getAbbreviation());
+
+		$ico = $ico->withAbbreviation('K');
+		$this->assertEquals('K', $ico->getAbbreviation());
+
+	}
+
+	public function testSizeModification() {
+		$f = $f = $this->getIconFactory();
+		$ico = $f->standard('course', 'Kurs');
+		$ico = $ico->withSize('medium');
+		$this->assertEquals('medium', $ico->getSize());
+		$ico = $ico->withSize('large');
+		$this->assertEquals('large', $ico->getSize());
 		$ico = $ico->withSize('small');
-		$this->assertEquals('small', $ico->size());
+		$this->assertEquals('small', $ico->getSize());
 	}
 
-	public function test_size_modification_wrong_param() {
+	public function testSizeModificationWrongParam() {
 		$this->setExpectedException(\InvalidArgumentException::class);
-		$ico = $this->getIcon();
+		$f = $f = $this->getIconFactory();
+		$ico = $f->standard('course', 'Kurs');
 		$ico = $ico->withSize('tiny');
 	}
+	public function testCustomPath() {
+		$f = $f = $this->getIconFactory();
+		$ico = $f->custom('/some/path/', 'Custom Icon');
+		$this->assertEquals('/some/path/', $ico->getIconPath());
+	}
+
+
 
 }
