@@ -3,6 +3,9 @@
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\ViewControl;
+use ILIAS\Data\Link\Link;
+use ILIAS\UI\Component\Button\Button;
+
 /**
  * This is how the factory for UI elements looks.
  */
@@ -52,12 +55,12 @@ interface Factory {
 	 *
 	 * ---
 	 *
-	 * @param   string $previous_action action to be executed by clicking on the left Button.
-	 * @param   \ILIAS\UI\Component\Component $button Button to be placed in the middle (Split Button or Default Button).
-	 * @param   string $next_action action to be executed by clicking on the left Button.
+	 * @param   \ILIAS\Data\Link\Link $previous_action action/link to be executed by clicking on the left Button.
+	 * @param   \ILIAS\UI\Component\Button\Button $button Button to be placed in the middle (Split Button or Default Button).
+	 * @param   \ILIAS\Data\Link\Link $next_action action/link to be executed by clicking on the left Button.
 	 *
 	 * @return \ILIAS\UI\Component\ViewControl\Section
 	 */
-	public function section($previous_action, $button, $next_action);
+	public function section(Link $previous_action, Button $button, Link $next_action);
 
 }
