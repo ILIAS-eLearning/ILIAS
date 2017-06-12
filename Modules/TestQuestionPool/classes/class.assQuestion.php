@@ -4982,8 +4982,96 @@ abstract class assQuestion
 		
 		return $ilDB->update('tst_solutions', $fieldData, $whereData);
 	}
-// fau.
-
+	// fau.
+	
+	// hey: prevPassSolutions - motivation slowly decreases on imagemap
+	protected function deleteDummySolutionRecord($activeId, $passIndex)
+	{
+		foreach( $this->getSolutionValues($activeId, $passIndex, false) as $solutionRec )
+		{
+			if( empty($solutionRec['value1']) && empty($solutionRec['value2']) )
+			{
+				$this->removeSolutionRecordById($solutionRec['solution_id']);
+			}
+		}
+	}
+	
+	protected function deleteSolutionRecordByValues($activeId, $passIndex, $authorized, $matchValues)
+	{
+		$ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		
+		$types = array("integer", "integer", "integer", "integer");
+		$values = array($activeId, $this->getId(), $passIndex, (int)$authorized);
+		$valuesCondition = array();
+		
+		foreach($matchValues as $valueField => $value)
+		{
+			switch($valueField)
+			{
+				case 'value1':
+				case 'value2':
+					$valuesCondition[] = "{$valueField} = %s";
+					$types[] = 'text';
+					$values[] = $value;
+					break;
+				
+				default:
+					require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
+					throw new ilTestQuestionPoolException('invalid value field given: '.$valueField);
+			}
+		}
+		
+		$valuesCondition = implode(' AND ', $valuesCondition);
+		
+		$query = "
+			DELETE FROM tst_solutions
+			WHERE active_fi = %s
+			AND question_fi = %s
+			AND pass = %s
+			AND authorized = %s
+			AND $valuesCondition
+		";
+		
+		if( $this->getStep() !== NULL )
+		{
+			$query .= " AND step = %s ";
+			$types[] = 'integer';
+			$values[] = $this->getStep();
+		}
+		
+		$ilDB->manipulateF($query, $types, $values);
+	}
+	
+	protected function duplicateIntermediateSolutionAuthorized($activeId, $passIndex)
+	{
+		foreach($this->getSolutionValues($activeId, $passIndex, false) as $rec)
+		{
+			$this->saveCurrentSolution($activeId, $passIndex, $rec['value1'], $rec['value2'], true, $rec['tstamp']);
+		}
+	}
+	
+	protected function forceExistingIntermediateSolution($activeId, $passIndex, $considerDummyRecordCreation)
+	{
+		$intermediateSolution = $this->getSolutionValues($activeId, $passIndex, false);
+		
+		if( !count($intermediateSolution) )
+		{
+			// make the authorized solution intermediate (keeping timestamps)
+			// this keeps the solution_ids in synch with eventually selected in $_POST['deletefiles']
+			$this->updateCurrentSolutionsAuthorization($activeId, $passIndex, false, true);
+			
+			// create a backup as authorized solution again (keeping timestamps)
+			$this->duplicateIntermediateSolutionAuthorized($activeId, $passIndex);
+			
+			if( $considerDummyRecordCreation )
+			{
+				// create an additional dummy record to indicate the existence of an intermediate solution
+				// even if all entries are deleted from the intermediate solution later
+				$this->saveCurrentSolution($activeId, $passIndex, null, null, false, null);
+			}
+		}
+	}
+	// hey.
 
 	/**
 	 * @param \ilObjTestGateway $resultGateway

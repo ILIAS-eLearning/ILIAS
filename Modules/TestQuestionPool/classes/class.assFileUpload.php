@@ -678,23 +678,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
 			if ($authorized == false)
 			{
-				$intermediate = $this->getSolutionValues($active_id, $pass, false);
-				if (empty($intermediate))
-				{
-					// make the authorized solution intermediate (keeping timestamps)
-					// this keeps the solution_ids in synch with eventually selected in $_POST['deletefiles']
-					$this->updateCurrentSolutionsAuthorization($active_id, $pass, false, true);
-
-					// create a backup of the authorized solution (keeping timestamps)
-					foreach ($this->getSolutionValues($active_id, $pass, false) as $solution)
-					{
-						$this->saveCurrentSolution($active_id, $pass, $solution['value1'], $solution['value2'], true, $solution['tstamp']);
-					}
-
-					// create an additional dummy record to indicate the existence of an intermediate solution
-					// even if all files are deleted from the intermediate solution later
-					$this->saveCurrentSolution($active_id, $pass, null, null, false, null);
-				}
+				$this->forceExistingIntermediateSolution($active_id, $pass, true);
 			}
 
 			if( $this->isFileDeletionAction() )
@@ -751,13 +735,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			if ($authorized == true)
 			{
 				// remove the dummy record of the intermediate solution
-				foreach ($this->getSolutionValues($active_id, $pass, false) as $solution)
-				{
-					if (empty($solution['value1']))
-					{
-						$this->removeSolutionRecordById($solution['solution_id']);
-					}
-				}
+				$this->deleteDummySolutionRecord($active_id, $pass);
 
 				// delete the authorized solution and make the intermediate solution authorized (keeping timestamps)
 				$this->removeCurrentSolution($active_id, $pass, true);
@@ -766,7 +744,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
 			$this->deleteUnusedFiles($test_id, $active_id, $pass);
 		});
-
+		
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
