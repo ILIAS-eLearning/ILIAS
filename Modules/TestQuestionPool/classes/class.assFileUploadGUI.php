@@ -588,7 +588,19 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		return assFileUpload::DELETE_FILES_TBL_POSTVAR;
 	}
 	// hey.
-
+	
+	// hey: prevPassSolutions - overwrite common prevPassSolution-Checkbox
+	protected function getPreviousSolutionProvidedMessage()
+	{
+		return $this->lng->txt('use_previous_solution_advice_file_upload');
+	}
+	
+	protected function getPreviousSolutionConfirmationCheckboxHtml()
+	{
+		return '';
+	}
+	// hey.
+	
 	public function getFormEncodingType()
 	{
 		return self::FORM_ENCODING_MULTIPART;
