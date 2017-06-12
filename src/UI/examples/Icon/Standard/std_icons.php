@@ -4,15 +4,8 @@ function std_icons() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$default_icons = array(
-		'course',
-		'category',
-		'calendar',
-		'plugin',
-		'file',
-		'certificate'
-	);
-
+	$i = $f->icon()->standard('NONE', 'DummyIcon');
+	$default_icons = $i->getAllStandardHandles();
 	$buffer = array();
 
 	foreach ($default_icons as $icon) {
