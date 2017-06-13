@@ -126,9 +126,9 @@ Construct a color with a hex-value or list of RGB-values.
 
 ```php
 <?php
-use ILIAS\Data;
+use ILIAS\Data as DCol;
 
-$f = new Data\Factory;
+$f = new DCol\Factory;
 //construct color with rgb-values:
 $rgb = $f->color(array(255,255,0));
 
