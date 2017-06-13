@@ -55,7 +55,7 @@ il.UI = il.UI || {};
 
 		$.ajax({
 			url: this.url,
-			type: "application/multipart",
+			type: "multipart/form-data",
 			data: ajaxData,
 			cache: false,
 			contentType: false,
@@ -70,7 +70,7 @@ il.UI = il.UI || {};
 			error: function () {
 				console.log("Upload error");
 			}
-		})
-	}
+		});
+	};
 
 })($, il.UI);
