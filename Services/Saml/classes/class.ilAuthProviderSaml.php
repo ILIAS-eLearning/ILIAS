@@ -4,6 +4,7 @@
 require_once 'Services/Authentication/classes/Provider/class.ilAuthProvider.php';
 require_once 'Services/Authentication/interfaces/interface.ilAuthProviderInterface.php';
 require_once 'Services/Authentication/interfaces/interface.ilAuthProviderAccountMigrationInterface.php';
+require_once 'Services/Authentication/classes/class.ilAuthUtils.php';
 
 /**
  * Class ilAuthProviderSaml
@@ -117,7 +118,12 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 			ilLoggerFactory::getLogger('auth')->debug(sprintf('Trying to find ext_account "%s" for auth_mode "%s".', $this->uid, $fallback_auth_mode));
 			$internal_account = ilObjUser::_checkExternalAuthAccount($fallback_auth_mode, $this->uid, false);
 
-			if(strlen($internal_account) == 0 && AUTH_DEFAULT == AUTH_LOCAL)
+			if(!defined('AUTH_DEFAULT'))
+			{
+				define('AUTH_DEFAULT', $GLOBALS['DIC']['ilSetting']->get('auth_mode') ? $GLOBALS['DIC']['ilSetting']->get('auth_mode') : AUTH_LOCAL);
+			}
+
+			if(strlen($internal_account) == 0 && (AUTH_DEFAULT == AUTH_LOCAL || AUTH_DEFAULT == $this->getTriggerAuthMode()))
 			{
 				ilLoggerFactory::getLogger('auth')->debug(sprintf('Could not find ext_account "%s" for auth_mode "%s".', $this->uid, $fallback_auth_mode));
 
@@ -134,7 +140,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 			if($this->idp->isSynchronizationEnabled())
 			{
 				ilLoggerFactory::getLogger('auth')->debug(sprintf('SAML user synchronisation is enabled, so update existing user "%s" with ext_account "%s".', $internal_account, $this->uid));
-				$this->importUser($internal_account, $this->uid, $this->attributes);
+				$internal_account = $this->importUser($internal_account, $this->uid, $this->attributes);
 			}
 
 			if($update_auth_mode)
@@ -314,13 +320,39 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 
 			$xml_writer->xmlStartTag('User', array('Action' => 'Update', 'Id' => $usr_id));
 
+			$loginClaim = $a_user_data[$this->idp->getLoginClaim()][0];
+			if($login != $loginClaim)
+			{
+				$login = ilAuthUtils::_generateLogin($loginClaim);
+				$xml_writer->xmlElement('Login', array(), $login);
+			}
+
 			require_once 'Services/Saml/classes/class.ilSamlUserUpdateAttributeMappingFilter.php';
 			$mapping = new ilSamlUserUpdateAttributeMappingFilter($mapping);
 		}
 
 		foreach($mapping as $rule)
 		{
-			$value = $a_user_data[$rule->getIdpAttribute()][0];
+			$value = '';
+
+			$matches = null;
+			if(preg_match('/^(.*?)\|(\d+)$/', $rule->getIdpAttribute(), $matches))
+			{
+				$ruleAttr  = $matches[1];
+				$attrIndex = $matches[2];
+
+				if(
+					isset($a_user_data[$ruleAttr]) && is_array($a_user_data[$ruleAttr]) &&
+					isset($a_user_data[$ruleAttr][$attrIndex])
+				)
+				{
+					$value = $a_user_data[$ruleAttr][$attrIndex];
+				}
+			}
+			else
+			{
+				$value = $a_user_data[$rule->getIdpAttribute()][0];
+			}
 
 			switch(strtolower($rule->getAttribute()))
 			{
