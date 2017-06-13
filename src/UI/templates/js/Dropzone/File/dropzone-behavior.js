@@ -2,7 +2,7 @@
  * Provides the behavior of all dropzone types.
  *
  * @author nmaerchy <nm@studer-raimann.ch>
- * @version 0.0.7
+ * @version 0.0.8
  */
 
 var il = il || {};
@@ -41,7 +41,8 @@ il.UI = il.UI || {};
 		 */
 		var DROPZONE = {
 			"standard": "ILIASUIComponentDropzoneFileStandard",
-			"wrapper": "ILIASUIComponentDropzoneFileWrapper"
+			"wrapper": "ILIASUIComponentDropzoneFileWrapper",
+			"upload": "ILIASUIComponentDropzoneFileUpload"
 		};
 
 		var _darkenedBackground = false;
@@ -58,7 +59,9 @@ il.UI = il.UI || {};
 		 *                             "darkenedBackground": true
 		 *                             "registeredSignals": [
 		 *                                  "a_signal", "another_signal"
-		 *                             ]
+		 *                             ],
+		 *                             "uploadUrl": "https://your.url",
+		 *                             "previewContainerId": "some-id"
 		 *                         }
 		 */
 		var initializeDropzone = function (type, options) {
@@ -71,7 +74,8 @@ il.UI = il.UI || {};
 			var settings = $.extend({
 				// default settings
 				registeredSignals: [],
-				darkenedBackground: false
+				darkenedBackground: false,
+				uploadUrl: "http://localhost"
 			}, options);
 
 			if (settings.id === undefined) {
@@ -86,6 +90,9 @@ il.UI = il.UI || {};
 					break;
 				case DROPZONE.wrapper:
 					_initWrapperDropzone(settings);
+					break;
+				case DROPZONE.upload:
+					_initUploadDropzone(settings);
 					break;
 				default:
 					throw new Error("Unsupported dropzone type found: " + type);
@@ -241,6 +248,61 @@ il.UI = il.UI || {};
 			});
 		};
 
+		/**
+		 *
+		 * @param {Object} options possible settings for this dropzone
+		 *                         @see {@link initializeDropzone}
+		 *
+		 * @private
+		 */
+		var _initUploadDropzone = function (options) {
+
+			$(document).dragster({
+
+				enter: function (dragsterEvent, event) {
+					_enableHighlighting(_darkenedBackground);
+				},
+				leave: function (dragsterEvent, event) {
+					_disableHighlighting();
+				},
+				drop: function (dragsterEvent, event) {
+					_disableHighlighting();
+				}
+			});
+
+			// initialize an Uploader and add it to the instance container
+			var uploader = new il.UI.Uploader(options.previewContainerId, options.uploadUrl);
+			il.UI.UploaderContainer.addInstance(uploader);
+
+			/*
+			 * event.stopImmediatePropagation() is needed
+			 * to prevent dragster to fire leave events on the document,
+			 * when a user just leaves on the dropzone.
+			 */
+			$("#" + options.id).dragster({
+
+				enter: function (dragsterEvent, event) {
+					dragsterEvent.stopImmediatePropagation();
+					$(this).addClass(CSS.dropzoneDragHover);
+				},
+				leave: function (dragsterEvent, event) {
+					dragsterEvent.stopImmediatePropagation();
+					$(this).removeClass(CSS.dropzoneDragHover);
+				},
+				drop: function (dragsterEvent, event) {
+					$(this).removeClass(CSS.dropzoneDragHover);
+					_disableHighlighting();
+
+					var files = event.dataTransfer.files;
+
+					$.each(files, function (file) {
+						uploader.addFile(file);
+					});
+
+					_triggerSignals(options.registeredSignals, event);
+				}
+			});
+		};
 
 		return {
 			initializeDropzone: initializeDropzone
