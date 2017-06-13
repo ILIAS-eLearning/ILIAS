@@ -1136,7 +1136,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			return false;
 		}
 		
-		if( strlen($_GET["remImage"]) )
+		if( !strlen($_GET["remImage"]) )
 		{
 			return false;
 		}
