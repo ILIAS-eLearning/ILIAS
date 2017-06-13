@@ -24,9 +24,8 @@ A result encapsulates a value or an error and simplifies the handling of those.
 
 ```php
 <?php
-use ILIAS\Data;
 
-$f = new Data\Factory;
+$f = new \ILIAS\Data\Factory;
 
 // Build a value that is ok.
 $pi = $f->ok(3.1416);
@@ -65,6 +64,8 @@ assert($raised);
 
 ```php
 <?php
+
+$f = new \ILIAS\Data\Factory;
 
 // Build a value that is not ok.
 $error = $f->error("There was some error...");
@@ -126,9 +127,9 @@ Construct a color with a hex-value or list of RGB-values.
 
 ```php
 <?php
-use ILIAS\Data as DCol;
 
-$f = new DCol\Factory;
+$f = new \ILIAS\Data\Factory;
+
 //construct color with rgb-values:
 $rgb = $f->color(array(255,255,0));
 
