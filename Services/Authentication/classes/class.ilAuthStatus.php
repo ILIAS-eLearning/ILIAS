@@ -59,7 +59,7 @@ class ilAuthStatus
 	
 	/**
 	 * Set auth status
-	 * @param type $a_status
+	 * @param int $a_status
 	 */
 	public function setStatus($a_status)
 	{

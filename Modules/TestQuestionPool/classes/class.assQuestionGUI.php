@@ -93,6 +93,13 @@ abstract class assQuestionGUI
 	 */
 	private $editContext = self::EDIT_CONTEXT_AUTHORING;
 	
+	// hey: prevPassSolutions - flag to indicate that a previous answer is shown
+	/**
+	 * @var bool
+	 */
+	private $previousSolutionPrefilled = false;
+	// hey.
+	
 	/**
 	 * @var \ilPropertyFormGUI
 	 */
@@ -191,6 +198,24 @@ abstract class assQuestionGUI
 	{
 		return $this->getPresentationContext() == self::PRESENTATION_CONTEXT_TEST;
 	}
+
+	// hey: previousPassSolutions - setter/getter for Previous Solution Prefilled flag
+	/**
+	 * @return boolean
+	 */
+	public function isPreviousSolutionPrefilled()
+	{
+		return $this->previousSolutionPrefilled;
+	}
+	
+	/**
+	 * @param boolean $previousSolutionPrefilled
+	 */
+	public function setPreviousSolutionPrefilled($previousSolutionPrefilled)
+	{
+		$this->previousSolutionPrefilled = $previousSolutionPrefilled;
+	}
+	// hey.
 
 	/**
 	 * @return string
@@ -523,8 +548,20 @@ abstract class assQuestionGUI
 	*/
 	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
 	{
+		// hey: prevPassSolutions - add the "use previous answer"
+		// hey: prevPassSolutions - refactored identifiers
+		if( $this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled() )
+		// hey
+		{
+			ilUtil::sendInfo($this->getPreviousSolutionProvidedMessage());
+			$html .= $this->getPreviousSolutionConfirmationCheckboxHtml();
+		}
+		else // (!) --> if ($this->object->getTestQuestionConfig()->isUnchangedAnswerPossible())
+		// hey.
 // fau: testNav - add the "use unchanged answer checkbox"
-		if ($this->object->getTestQuestionConfig()->isUnchangedAnswerPossible())
+		// hey: prevPassSolutions - refactored identifiers
+		if ($this->object->getTestPresentationConfig()->isUnchangedAnswerPossible())
+		// hey.
 		{
 			$html .= $this->getUseUnchangedAnswerCheckboxHtml();
 		}
@@ -561,12 +598,30 @@ abstract class assQuestionGUI
 // fau: testNav - get the html of the "use unchanged answer checkbox"
 	private function getUseUnchangedAnswerCheckboxHtml()
 	{
-		$tpl = new ilTemplate("tpl.tst_question_use_unchanged_answer.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		$tpl->setVariable('TXT_USE_UNCHANGED_ANSWER', $this->object->getTestQuestionConfig()->getUseUnchangedAnswerLabel());
+		// hey: prevPassSolutions - use abstracted template to share with other purposes of this kind
+		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
+		$tpl->setVariable('TXT_FORCE_FORM_DIFF_LABEL', $this->object->getTestPresentationConfig()->getUseUnchangedAnswerLabel());
+		// hey.
 		return $tpl->get();
 	}
 // fau.
 
+	// hey: prevPassSolutions - build prev solution message / build "use previous answer checkbox" html
+	protected function getPreviousSolutionProvidedMessage()
+	{
+		return $this->lng->txt('use_previous_solution_advice');
+	}
+	
+	protected function getPreviousSolutionConfirmationCheckboxHtml()
+	{
+		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
+		// hey: prevPassSolutions - use abtract template
+		$tpl->setVariable('TXT_FORCE_FORM_DIFF_LABEL', $this->lng->txt('use_previous_solution'));
+		// hey.
+		return $tpl->get();
+	}
+	// hey.
+	
 	/**
 	* cancel action
 	*/
@@ -2157,7 +2212,9 @@ abstract class assQuestionGUI
 	final public function outQuestionForTest(
 		$formaction,
 		$active_id,
-		$pass = NULL,
+		// hey: prevPassSolutions - pass will be always available from now on
+		$pass,
+		// hey.
 		$is_question_postponed = FALSE,
 		$user_post_solutions = FALSE,
 		$show_specific_inline_feedback = FALSE
@@ -2181,7 +2238,9 @@ abstract class assQuestionGUI
 		$this->tpl->setVariable("FORM_TIMESTAMP", time());
 	}
 	
-	protected function completeTestOutputFormAction($formAction, $active_id, $pass = NULL)
+	// hey: prevPassSolutions - $pass will be passed always from now on
+	protected function completeTestOutputFormAction($formAction, $active_id, $pass)
+	// hey.
 	{
 		return $formAction;
 	}
