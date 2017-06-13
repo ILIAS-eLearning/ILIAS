@@ -7,7 +7,7 @@
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    09.05.17
- * @version 0.0.6
+ * @version 0.0.7
  *
  * @package ILIAS\UI\Implementation\Component\Dropzone\File
  */
@@ -34,11 +34,20 @@ class SimpleDropzone {
 	 * @var string $type
 	 */
 	private $type;
+	/**
+	 * @var string $uploadUrl
+	 */
+	private $uploadUrl;
+	/**
+	 * @var string $previewContainerId
+	 */
+	private $previewContainerId;
 
 
 	/**
 	 * Private constructor. Initialize it through the static method
-	 * {@link SimpleDropzone#of}. SimpleDropzone constructor.
+	 * {@link SimpleDropzone#of}.
+	 * SimpleDropzone constructor.
 	 */
 	private function __construct() { }
 
@@ -126,6 +135,46 @@ class SimpleDropzone {
 	 */
 	public function setType($type) {
 		$this->type = $type;
+
+		return $this;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getUploadUrl() {
+		return $this->uploadUrl;
+	}
+
+
+	/**
+	 * @param string $uploadUrl
+	 *
+	 * @return SimpleDropzone The instance of this object.
+	 */
+	public function setUploadUrl($uploadUrl) {
+		$this->uploadUrl = $uploadUrl;
+
+		return $this;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getPreviewContainerId() {
+		return $this->previewContainerId;
+	}
+
+
+	/**
+	 * @param string $previewContainerId
+	 *
+	 * @return SimpleDropzone The instance of this object.
+	 */
+	public function setPreviewContainerId($previewContainerId) {
+		$this->previewContainerId = $previewContainerId;
 
 		return $this;
 	}
