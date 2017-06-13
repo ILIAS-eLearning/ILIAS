@@ -4985,6 +4985,20 @@ abstract class assQuestion
 	// fau.
 	
 	// hey: prevPassSolutions - motivation slowly decreases on imagemap
+	const KEY_VALUES_IMPLOSION_SEPARATOR = ':';
+	protected static function getKeyValuesImplosionSeparator()
+	{
+		return self::KEY_VALUES_IMPLOSION_SEPARATOR;
+	}
+	public static function implodeKeyValues($keyValues)
+	{
+		return implode(self::getKeyValuesImplosionSeparator(), $keyValues);
+	}
+	public static function explodeKeyValues($keyValues)
+	{
+		return explode(self::getKeyValuesImplosionSeparator(), $keyValues);
+	}
+	
 	protected function deleteDummySolutionRecord($activeId, $passIndex)
 	{
 		foreach( $this->getSolutionValues($activeId, $passIndex, false) as $solutionRec )
