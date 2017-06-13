@@ -148,7 +148,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($b));
 
 		$css_classes = self::$canonical_css_classes[$factory_method];
-		$expected = "<a class=\"$css_classes ilSubmitInactive\" data-action=\"$ln\">".
+		$expected = "<a class=\"$css_classes ilSubmitInactive disabled\" data-action=\"$ln\">".
 					"label".
 					"</a>";
 		$this->assertEquals($expected, $html);
