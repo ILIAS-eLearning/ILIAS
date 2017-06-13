@@ -6,7 +6,7 @@
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @date    22.05.17
- * @version 0.0.2
+ * @version 0.0.3
  *
  * @package ILIAS\UI\Implementation\Component\Dropzone\File
  */
@@ -44,7 +44,9 @@ class JSDropzoneInitializer {
 			
 				\"id\": \"{$this->dropzone->getId()}\",
 				\"darkenedBackground\": {$darkenedBackground},
-				\"registeredSignals\": [{$this->getRegisteredSignals()}]
+				\"registeredSignals\": [{$this->getRegisteredSignals()}],
+				\"previewContainerId\": \"{$this->dropzone->getPreviewContainerId()}\",
+				\"uploadUrl\": \"{$this->dropzone->getUploadUrl()}\"
 			});
 		";
 	}
