@@ -47,8 +47,9 @@ class ilGroupParticipants extends ilParticipants
 	 */
 	public function __construct($a_obj_id)
 	{
-		$this->type = 'grp';
-		parent::__construct(self::COMPONENT_NAME,$a_obj_id);
+		// ref based constructor
+		$refs = ilObject::_getAllReferences($a_obj_id);
+		parent::__construct(self::COMPONENT_NAME,  array_pop($refs));
 	}
 	
 	/**

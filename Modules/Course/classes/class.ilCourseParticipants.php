@@ -47,8 +47,6 @@ class ilCourseParticipants extends ilParticipants
 	 */
 	public function __construct($a_obj_id)
 	{
-		$this->type = 'crs';
-		
 		$this->NOTIFY_DISMISS_SUBSCRIBER = 1;
 		$this->NOTIFY_ACCEPT_SUBSCRIBER = 2;
 		$this->NOTIFY_DISMISS_MEMBER = 3;
@@ -61,9 +59,11 @@ class ilCourseParticipants extends ilParticipants
 		
 		$this->NOTIFY_REGISTERED = 10;
 		$this->NOTIFY_UNSUBSCRIBE = 11;
-		$this->NOTIFY_WAITING_LIST = 12; 
+		$this->NOTIFY_WAITING_LIST = 12;
 		
-		parent::__construct(self::COMPONENT_NAME,$a_obj_id);
+		// ref based constructor 
+		$refs = ilObject::_getAllReferences($a_obj_id);
+		parent::__construct(self::COMPONENT_NAME,  array_pop($refs));
 	}
 
 	/**

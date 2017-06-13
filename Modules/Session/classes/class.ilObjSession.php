@@ -15,6 +15,8 @@ include_once './Services/Membership/classes/class.ilMembershipRegistrationSettin
 */
 class ilObjSession extends ilObject
 {
+	const LOCAL_ROLE_PARTICIPANT_PREFIX = 'il_sess_participant';
+	
 	const CAL_REG_START = 1;
 	
 	protected $db;
@@ -37,6 +39,11 @@ class ilObjSession extends ilObject
 	protected $appointments;
 	protected $files = array();
 	
+	/**
+	 * @var ilLogger
+	 */
+	protected $session_logger = null;
+	
 
 	
 	/**
@@ -48,6 +55,8 @@ class ilObjSession extends ilObject
 	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		global $ilDB;
+		
+		$this->session_logger = $GLOBALS['DIC']->logger()->sess();
 
 		$this->db = $ilDB;
 		$this->type = "sess";
@@ -120,7 +129,26 @@ class ilObjSession extends ilObject
 
 	}
 	
-	
+	/**
+	 * Create local session participant role
+	 */
+	public function initDefaultRoles()
+	{
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$role = ilObjRole::createDefaultRole(
+			self::LOCAL_ROLE_PARTICIPANT_PREFIX.'_'.$this->getRefId(),
+			'Participant of session obj_no.'.$this->getId(),
+			self::LOCAL_ROLE_PARTICIPANT_PREFIX,
+			$this->getRefId()
+		);
+		
+		if(!$role instanceof ilObjRole)
+		{
+			$this->session_logger->warning('Could not create default session role.');
+			$this->session_logger->logStack(ilLogLevel::WARNING);
+		}
+		return array();
+	}
 	
 	/**
 	 * sget event id
