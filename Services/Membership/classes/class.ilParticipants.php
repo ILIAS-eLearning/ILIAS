@@ -36,7 +36,14 @@ abstract class ilParticipants
 	
 	protected $subscribers = array();
 	
+	/**
+	 * @var ilDBInterface
+	 */
 	protected $ilDB;
+	
+	/**
+	 * @var ilLanguage
+	 */
 	protected $lng;
 	
 
@@ -44,25 +51,50 @@ abstract class ilParticipants
 	 * Singleton Constructor
 	 *
 	 * @access public
+	 * @param string component definition e.g Modules/Course
 	 * @param int obj_id of container
 	 * 
 	 */
-	public function __construct($a_component_name, $a_obj_id)
+	public function __construct($a_component_name, $a_ref_id)
 	{
-	 	global $ilDB,$lng;
-	 	
-	 	$this->ilDB = $ilDB;
-	 	$this->lng = $lng;
+	 	$this->ilDB = $GLOBALS['DIC']->database();
+	 	$this->lng = $GLOBALS['DIC']->language();
 	 
 		$this->component = $a_component_name;
 		
-	 	$this->obj_id = $a_obj_id;
-	 	$this->type = ilObject::_lookupType($a_obj_id);
-		$ref_ids = ilObject::_getAllReferences($this->obj_id);
-		$this->ref_id = current($ref_ids);
+		$this->ref_id = $a_ref_id;
+	 	$this->obj_id = ilObject::_lookupObjId($a_ref_id);
+	 	$this->type = ilObject::_lookupType($this->obj_id);
 	 	
 	 	$this->readParticipants();
 	 	$this->readParticipantsStatus();
+	}
+	
+	/**
+	 * Get instance by ref_id
+	 * @param int $a_ref_id
+	 * @return ilParticipants
+	 */
+	public static function getInstance($a_ref_id)
+	{
+		$obj_id = ilObject::_lookupObjId($a_ref_id);
+		$type = ilObject::_lookupType($obj_id);
+		
+		switch($type)
+		{
+			case 'crs':
+			case 'grp':
+				return self::getInstanceByObjId($obj_id);
+				
+			case 'sess':
+				include_once './Modules/Session/classes/class.ilSessionParticipants.php';
+				return ilSessionParticipants::getInstance($a_ref_id);
+				
+			default:
+				$GLOBALS['DIC']->logger()->mem()->logStack();
+				$GLOBALS['DIC']->logger()->mem()->warning('Invalid ref_id -> obj_id given: ' . $a_ref_id .' -> '. $obj_id);
+				throw new \InvalidArgumentException('Invalid obj_id given.');
+		}
 	}
 	
 	/**
@@ -71,6 +103,7 @@ abstract class ilParticipants
 	 * @param int $a_obj_id
 	 * @return ilParticipants
 	 * @throws InvalidArgumentException
+	 * @deprecated since version 5.4 use getInstance() (ref_id based)
 	 */
 	public static function getInstanceByObjId($a_obj_id)
 	{
@@ -111,6 +144,7 @@ abstract class ilParticipants
 	 * Check if (current) user has access to the participant list
 	 * @param type $a_obj
 	 * @param type $a_usr_id
+	 * @todo refactor remove
 	 */
 	public static function hasParticipantListAccess($a_obj_id, $a_usr_id = null)
 	{
@@ -211,7 +245,7 @@ abstract class ilParticipants
 	 */
 	public static function _isParticipant($a_ref_id,$a_usr_id)
 	{
-		global $rbacreview,$ilObjDataCache,$ilDB,$ilLog;
+		global $rbacreview;
 
 		$local_roles = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
         
@@ -859,7 +893,7 @@ abstract class ilParticipants
 	
 	
 	/**
-	 * Add user to course
+	 * Add user to object
 	 *
 	 * @access public
 	 * @param int user id

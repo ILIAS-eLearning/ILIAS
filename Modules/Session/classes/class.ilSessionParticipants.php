@@ -24,34 +24,29 @@ class ilSessionParticipants extends ilParticipants
 	 * Constructor
 	 *
 	 * @access protected
-	 * @param int obj_id of container
+	 * @param int ref_id of object
 	 */
-	public function __construct($a_obj_id)
+	public function __construct($a_ref_id)
 	{
-		$this->type = 'sess';
-		$this->event_part = new ilEventParticipants($a_obj_id);
-		parent::__construct(self::COMPONENT_NAME,$a_obj_id);
-		
+		$this->event_part = new ilEventParticipants(ilObject::_lookupObjId($a_ref_id));
+		parent::__construct(self::COMPONENT_NAME,$a_ref_id);
 	}
 	
+	
 	/**
-	 * Get singleton instance
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param int obj_id
-	 * @return object ilGroupParticipants
+	 * Get instance
+	 * @param int $a_ref_id
+	 * @return ilSessionParticipants
 	 */
-	public static function _getInstanceByObjId($a_obj_id)
+	public static function getInstance($a_ref_id)
 	{
-		if(isset(self::$instances[$a_obj_id]) and self::$instances[$a_obj_id])
+		if(self::$instances[$a_ref_id] instanceof self)
 		{
-			return self::$instances[$a_obj_id];
+			return self::$instances[$a_ref_id];
 		}
-		return self::$instances[$a_obj_id] = new ilSessionParticipants($a_obj_id);
+		return self::$instances[$a_ref_id] = new self(self::COMPONENT_NAME, $a_ref_id);
 	}
-
+	
 	/**
 	 * 
 	 * @return ilEventParticipants

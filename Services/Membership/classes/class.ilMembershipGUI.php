@@ -247,7 +247,7 @@ class ilMembershipGUI
 				$this->setSubTabs($GLOBALS['ilTabs']);
 
 				include_once './Services/Membership/classes/class.ilParticipants.php';
-				$prt = ilParticipants::getInstanceByObjId($this->getParentObject()->getId());
+				$prt = ilParticipants::getInstance($this->getParentObject()->getRefId());
 			
 				include_once('./Modules/Session/classes/class.ilSessionOverviewGUI.php');
 				$overview = new ilSessionOverviewGUI($this->getParentObject()->getRefId(), $prt);

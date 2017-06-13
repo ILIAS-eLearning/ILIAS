@@ -194,7 +194,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->checkPermission('read');
 		
 		include_once './Services/Membership/classes/class.ilParticipants.php';
-		$part = ilParticipants::getInstanceByObjId($this->getCurrentObject()->getId());
+		$part = ilParticipants::getInstance($this->getCurrentObject()->getRefId());
 
 		include_once './Modules/Session/classes/class.ilEventParticipants.php';
 		$event_part = new ilEventParticipants($this->getCurrentObject()->getId());
@@ -276,7 +276,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		global $ilUser;
 		
 		include_once './Modules/Session/classes/class.ilSessionParticipants.php';
-		$part = ilSessionParticipants::getInstanceByObjId($this->object->getId());
+		$part = ilSessionParticipants::getInstance($this->object->getRefId());
 		if($part->isSubscriber($ilUser->getId()))
 		{
 			$part->deleteSubscriber($ilUser->getId());
@@ -392,7 +392,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once './Modules/Session/classes/class.ilSessionWaitingList.php';
 		
 		include_once './Services/Membership/classes/class.ilParticipants.php';
-		$part = ilParticipants::getInstanceByObjId($this->getCurrentObject()->getId());
+		$part = ilParticipants::getInstance($this->getCurrentObject()->getRefId());
 		
 		include_once './Modules/Session/classes/class.ilEventParticipants.php';
 		if(ilEventParticipants::_isRegistered($ilUser->getId(), $this->getCurrentObject()->getId()))
@@ -1108,7 +1108,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// subscribers
 		// Subscriber table
 		include_once './Services/Membership/classes/class.ilParticipants.php';
-		$part = ilParticipants::getInstanceByObjId($this->object->getId());
+		$part = ilParticipants::getInstance($this->object->getRefId());
 		if($part->getSubscribers())
 		{
 			include_once('./Services/Membership/classes/class.ilSubscriberTableGUI.php');
@@ -2122,7 +2122,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		
 		include_once './Services/Membership/classes/class.ilParticipants.php';
-		$part = ilParticipants::getInstanceByObjId($this->object->getId());
+		$part = ilParticipants::getInstance($this->object->getRefId());
 		
 		foreach($_POST['subscribers'] as $usr_id)
 		{
@@ -2161,7 +2161,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		
 		include_once './Services/Membership/classes/class.ilParticipants.php';
-		$part = ilParticipants::getInstanceByObjId($this->object->getId());
+		$part = ilParticipants::getInstance($this->object->getRefId());
 		foreach($_POST['subscribers'] as $usr_id)
 		{
 			$part->deleteSubscriber($usr_id);
