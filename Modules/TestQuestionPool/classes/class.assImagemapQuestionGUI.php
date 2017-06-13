@@ -23,10 +23,6 @@ require_once  'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
  */
 class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
-	// hey: prevPassSolutions - wtf is imagemap ^^
-	protected $currentSolution = array();
-	// hey.
-	
 	private $linecolor;
 	
 	/**
@@ -706,7 +702,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
 			// hey.
 			
-			$userSelection = $this->object->getIsMultipleChoice() ? array() : '';
+			$userSelection = array();
+			$selectionIndex = 0;
 			
 			include_once "./Modules/TestQuestionPool/classes/class.ilImagemapPreview.php";
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->getImageFilename());
@@ -716,15 +713,9 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				if( strlen($solution_value["value1"]) )
 				{
 					$preview->addArea($solution_value["value1"], $this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true, $this->linecolor);
+					$userSelection[$selectionIndex] = $solution_value["value1"];
 					
-					if( $this->object->getIsMultipleChoice() )
-					{
-						$userSelection[] = $solution_value["value1"];
-					}
-					else
-					{
-						$userSelection = $solution_value["value1"];
-					}
+					$selectionIndex = $this->object->getIsMultipleChoice() ? ++$selectionIndex : $selectionIndex;
 				}
 			}
 			
@@ -745,12 +736,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		foreach ($this->object->answers as $answer_id => $answer)
 		{
 			$template->setCurrentBlock("imagemap_area");
-			$parameter = "&amp;selImage=$answer_id";
-			if(is_array($userSelection) && in_array($answer_id, $userSelection))
-			{
-				$parameter = "&amp;remImage=$answer_id";
-			}
-			$template->setVariable("HREF_AREA", $hrefArea . $parameter);
+			$template->setVariable("HREF_AREA", $this->buildAreaLinkTarget($userSelection, $answer_id));
 			$template->setVariable("SHAPE", $answer->getArea());
 			$template->setVariable("COORDS", $answer->getCoords());
 			$template->setVariable("ALT", ilUtil::prepareFormOutput($answer->getAnswertext()));
@@ -758,7 +744,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$template->parseCurrentBlock();
 			if ($show_feedback)
 			{
-				if(!$this->object->getIsMultipleChoice() && strlen($userSelection) && $userSelection == $answer_id)
+				if(!$this->object->getIsMultipleChoice() && count($userSelection) && current($userSelection) == $answer_id)
 				{
 					$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
 							$this->object->getId(), $answer_id
@@ -781,6 +767,73 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;
 	}
+	
+	// hey: prevPassSolutions - fixed confusing handling of not reusing, but modifying the previous solution
+	protected function buildAreaLinkTarget($currentSelection, $areaIndex)
+	{
+		$href = $this->ctrl->getLinkTargetByClass(
+			$this->getTargetGuiClass(), $this->getQuestionActionCmd()
+		);
+		
+		$href = ilUtil::appendUrlParameterString(
+			$href, $this->buildSelectionParameter($currentSelection, $areaIndex)
+		);
+		
+		return $href;
+	}
+	
+	protected function buildSelectionParameter($currentSelection, $areaIndex = null)
+	{
+		if( $this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled() )
+		{
+			$reuseSelection = array();
+			
+			if( $areaIndex === null )
+			{
+				$reuseSelection = $currentSelection;
+			}
+			elseif( $this->object->getIsMultipleChoice() )
+			{
+				if( !in_array($areaIndex, $currentSelection) )
+				{
+					$reuseSelection[] = $areaIndex;
+				}
+				
+				foreach(array_diff($currentSelection, array($areaIndex)) as $otherSelectedArea)
+				{
+					$reuseSelection[] = $otherSelectedArea;
+				}
+			}
+			else
+			{
+				$reuseSelection[] = $areaIndex;
+			}
+			
+			$selection = assQuestion::implodeKeyValues($reuseSelection);
+			$action = 'reuseSelection';
+		}
+		elseif( $areaIndex !== null ) 
+		{
+			if( !$this->object->getIsMultipleChoice() || !in_array($areaIndex, $currentSelection) )
+			{
+				$areaAction = 'selImage';
+			}
+			else
+			{
+				$areaAction = 'selImage';
+			}
+			
+			$selection = $areaIndex;
+			$action = $areaAction;
+		}
+		else
+		{
+			return '';
+		}
+		
+		return "{$action}={$selection}";
+	}
+	// hey.
 
 	/**
 	 * Sets the ILIAS tabs for this question type
@@ -930,18 +983,13 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			return '';
 		}
 		
-		$solution = array();
-		foreach($this->object->currentSolution as $record)
-		{
-			$solution[] = $record['value1'];
-		}
-		$solution = implode(',', $solution);
-		
 		$button = ilLinkButton::getInstance();
 		$button->setCaption('use_previous_solution');
-
-		$url = $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), $this->getQuestionActionCmd());
-		$button->setUrl(ilUtil::appendUrlParameterString($url, 'reuseSelection='.$solution));
+		
+		$button->setUrl(ilUtil::appendUrlParameterString(
+			$this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), $this->getQuestionActionCmd()),
+			$this->buildSelectionParameter($this->object->currentSolution, null)
+		));
 		
 		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
 		$tpl->setVariable('BUTTON', $button->render());
