@@ -293,9 +293,9 @@ il.UI = il.UI || {};
 					$(this).removeClass(CSS.dropzoneDragHover);
 					_disableHighlighting();
 
-					var files = event.dataTransfer.files;
+					var files = event.originalEvent.dataTransfer.files;
 
-					$.each(files, function (file) {
+					$.each(files, function (index, file) {
 						uploader.addFile(file);
 					});
 
