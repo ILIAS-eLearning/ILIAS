@@ -340,15 +340,14 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      Links trigger interactions that change the view or start a worfklow, e.g. in a modal.
-	 *      Links MAY only trigger interactions that change the system’s status, if buttons are
-	 *      to obstrusive for the presentation (e.g. in Dropdowns).
-	 *      Links are contained in an Input Collection or may appear inline in a text paragraph.
+	 *      Links are used navigate to other resources or views of the system. Clicking
+	 *      on a link does not change the systems status.
 	 *   composition: >
 	 *      Link is a clickable, graphically minimal obtrusive control element. It can
 	 *      bear text or other content.
 	 *   effect: >
-	 *      On-click, the action indicated by the link is carried out.
+	 *      On-click, the resource or view indicated by the link is requested and
+	 *      presented.
 	 *   rivals:
 	 *      buttons: >
 	 *          Buttons are used to trigger Interactions that usually change the systems
@@ -357,25 +356,16 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *      1: >
-	 *           Links MAY be used inline in a Textual Paragraph. Usually the SHOULD be used
-	 *           in an Input Collection.
+	 *           Links MAY be used inline in a Textual Paragraphs.
 	 *   interaction:
 	 *      1: >
-	 *           A link SHOULD change a view or start a workflow, e.g. in a Modal. If a button
-	 *           would be to obstrusive for the presentation, links MAY trigger actions that
-	 *           change the system status.
+	 *           Hovering an active link should indicate a possible interaction.
 	 *   style:
 	 *      1: >
 	 *           Links SHOULD not be presented with a separate background color.
 	 *   wording:
 	 *      1: >
-	 *           The label of a Link SHOULD contain no more than two words.
-	 *      2: >
-	 *           The wording of the link SHOULD name the target view or describe the action
-	 *           the link performs by using a verb or a verb phrase.
-	 *      3: >
-	 *           Every word except articles, coordinating conjunctions and prepositions
-	 *           of four or fewer letters MUST be capitalized.
+	 *           The wording of the link SHOULD name the target view or resource.
 	 *   accessibility:
 	 *      1: >
 	 *           DOM elements of type "a" MUST be used to properly identify an
