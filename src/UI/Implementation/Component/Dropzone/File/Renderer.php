@@ -60,6 +60,8 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
+		$registry->register("./UI/templates/js/Dropzone/File/uploader-container.js");
+		$registry->register("./UI/templates/js/Dropzone/File/uploader.js");
 		$registry->register("./src/UI/templates/js/Dropzone/File/dropzone-behavior.js");
 		$registry->register("./src/UI/templates/js/libs/jquery.dragster.js");
 	}
@@ -80,7 +82,12 @@ class Renderer extends AbstractComponentRenderer {
 		$dropzoneId = $this->createId();
 
 		// setup javascript
-		$jsDropzoneInitializer = new JSDropzoneInitializer(SimpleDropzone::of()->setId($dropzoneId)->setType(\ILIAS\UI\Component\Dropzone\File\Standard::class)->setDarkenedBackground($standardDropzone->isDarkenedBackground())->setRegisteredSignals($standardDropzone->getTriggeredSignals()));
+		$jsDropzoneInitializer = new JSDropzoneInitializer(
+			SimpleDropzone::of()
+				->setId($dropzoneId)
+				->setType(\ILIAS\UI\Component\Dropzone\File\Standard::class)
+				->setDarkenedBackground($standardDropzone->isDarkenedBackground())
+				->setRegisteredSignals($standardDropzone->getTriggeredSignals()));
 
 		$this->getJavascriptBinding()->addOnLoadCode($jsDropzoneInitializer->initDropzone());
 
@@ -114,7 +121,12 @@ class Renderer extends AbstractComponentRenderer {
 		$dropzoneId = $this->createId();
 
 		// setup javascript
-		$jsDropzoneInitializer = new JSDropzoneInitializer(SimpleDropzone::of()->setId($dropzoneId)->setType(\ILIAS\UI\Component\Dropzone\File\Wrapper::class)->setDarkenedBackground($wrapperDropzone->isDarkenedBackground())->setRegisteredSignals($wrapperDropzone->getTriggeredSignals()));
+		$jsDropzoneInitializer = new JSDropzoneInitializer(
+			SimpleDropzone::of()
+				->setId($dropzoneId)
+				->setType(\ILIAS\UI\Component\Dropzone\File\Wrapper::class)
+				->setDarkenedBackground($wrapperDropzone->isDarkenedBackground())
+				->setRegisteredSignals($wrapperDropzone->getTriggeredSignals()));
 
 		$this->getJavascriptBinding()->addOnLoadCode($jsDropzoneInitializer->initDropzone());
 
