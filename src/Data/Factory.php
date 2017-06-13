@@ -40,7 +40,7 @@ class Factory {
 	 * Color is a data type representing a color in HTML.
 	 * Construct a color with a hex-value or list of RGB-values.
 	 *
-	 * @param  string|int[] $value
+	 * @param  string|int[]
 	 * @return Color
 	 */
 	public function color($value) {

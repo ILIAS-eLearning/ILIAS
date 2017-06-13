@@ -119,29 +119,6 @@ assert($pi->value() === 3);
 ```
 
 
-## Color
-Color is a data type representing a color in HTML.
-Construct a color with a hex-value or list of RGB-values.
-
-### Example
-
-```php
-<?php
-use ILIAS\Data;
-
-$f = new Data\Factory;
-//construct color with rgb-values:
-$rgb = $f->color(array(255,255,0));
-
-//construct color with hex-value:
-$hex = $f->color('#ffff00');
-
-assert($rgb->asHex() === '#ffff00');
-assert($hex->asRGBString() === 'rgb(255, 255, 0)');
-?>
-```
-
-
 ## Link
 A Link is a tuple of label and URL.
 
