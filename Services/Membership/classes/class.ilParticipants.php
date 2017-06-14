@@ -16,6 +16,7 @@ define("IL_CRS_MEMBER",2);
 define('IL_GRP_ADMIN',4);
 define('IL_GRP_MEMBER',5);
 
+define('IL_SESS_MEMBER', 6);
 
 abstract class ilParticipants
 {
@@ -46,6 +47,12 @@ abstract class ilParticipants
 	 */
 	protected $lng;
 	
+	/**
+	 *
+	 * @var ilLogger
+	 */
+	protected $logger = null;
+	
 
 	/**
 	 * Singleton Constructor
@@ -59,6 +66,7 @@ abstract class ilParticipants
 	{
 	 	$this->ilDB = $GLOBALS['DIC']->database();
 	 	$this->lng = $GLOBALS['DIC']->language();
+		$this->logger = $GLOBALS['DIC']->logger()->mem();
 	 
 		$this->component = $a_component_name;
 		
@@ -930,6 +938,10 @@ abstract class ilParticipants
 	 		case IL_GRP_MEMBER:
 	 			$this->members[] = $a_usr_id;
 	 			break;
+			
+			case IL_SESS_MEMBER:
+				$this->members[] = $a_usr_id;
+				break;
 	 	}
 		
 		$this->participants[] = $a_usr_id;
@@ -1105,6 +1117,13 @@ abstract class ilParticipants
 					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));
 					$this->members = $rbacreview->assignedUsers($role_id);
 					break;
+				
+				case 'il_sess_':
+					$this->role_data[IL_SESS_MEMBER] = $role_id;
+					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));
+					$this->members = $rbacreview->assignedUsers($role_id);
+					break;
+					
 				
 				default:
 					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));

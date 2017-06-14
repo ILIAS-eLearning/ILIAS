@@ -84,6 +84,21 @@ class ilCourseParticipants extends ilParticipants
 	}
 	
 	/**
+	 * Add user to role
+	 * @param int $a_usr_id
+	 * @param int $a_role
+	 */
+	public function add($a_usr_id, $a_role)
+	{
+		if(parent::add($a_usr_id, $a_role))
+		{
+			$this->addDesktopItem($a_usr_id);
+			return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Get member roles
 	 * @param int $a_ref_id
 	 */

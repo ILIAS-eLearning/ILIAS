@@ -97,6 +97,22 @@ class ilGroupParticipants extends ilParticipants
 		return $roles;
 	}
 	
+	/**
+	 * Add user to role 
+	 * @param int $a_usr_id
+	 * @param int $a_role
+	 * @return boolean
+	 */
+	public function add($a_usr_id, $a_role)
+	{
+		if(parent::add($a_usr_id, $a_role))
+		{
+			$this->addDesktopItem($a_usr_id);
+			return true;
+		}
+		return false;
+	}
+	
 	public function addSubscriber($a_usr_id)
 	{
 		global $ilAppEventHandler, $ilLog;
