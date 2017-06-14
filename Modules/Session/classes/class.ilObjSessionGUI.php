@@ -220,7 +220,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				break;
 			
 			case ilMembershipRegistrationSettings::TYPE_DIRECT:
-				$part->add($ilUser->getId());
+				$part->register($ilUser->getId());
 				ilUtil::sendSuccess($this->lng->txt('event_registered'),true);
 				$this->ctrl->redirect($this,'infoScreen');
 				break;
@@ -281,10 +281,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			$part->deleteSubscriber($ilUser->getId());
 		}
-
-		include_once './Modules/Session/classes/class.ilEventParticipants.php';
-		ilEventParticipants::_unregister($ilUser->getId(),$this->object->getId());
 		
+		$part->unregister($ilUser->getId());
+
 		include_once './Modules/Session/classes/class.ilSessionWaitingList.php';
 		ilSessionWaitingList::deleteUserEntry($ilUser->getId(), $this->getCurrentObject()->getId());
 
@@ -1264,8 +1263,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->checkPermission('write');
 
-		
-
 		$this->initContainer();
 		
 		$_POST['participants'] = is_array($_POST['participants']) ? $_POST['participants'] : array();
@@ -2116,8 +2113,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		if(!count($_POST['subscribers']))
 		{
-			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
-			$this->membersObject();
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'),true);
+			$GLOBALS['DIC']->ctrl()->redirect($this,'members');
 			return false;
 		}
 		
@@ -2126,7 +2123,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		foreach($_POST['subscribers'] as $usr_id)
 		{
-			$part->add($usr_id);
+			$part->register($usr_id);
 			$part->deleteSubscriber($usr_id);
 
 			include_once './Modules/Session/classes/class.ilSessionMembershipMailNotification.php';
@@ -2149,14 +2146,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function refuseSubscribersObject()
 	{
-		global $lng;
-
 		$this->checkPermission('write');
 		
 		if(!count($_POST['subscribers']))
 		{
-			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
-			$this->membersObject();
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'),true);
+			$GLOBALS['DIC']->ctrl()->redirect($this,'members');
 			return false;
 		}
 		

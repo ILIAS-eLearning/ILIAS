@@ -44,11 +44,11 @@ class ilSessionParticipants extends ilParticipants
 		{
 			return self::$instances[$a_ref_id];
 		}
-		return self::$instances[$a_ref_id] = new self(self::COMPONENT_NAME, $a_ref_id);
+		return self::$instances[$a_ref_id] = new self($a_ref_id);
 	}
 	
 	/**
-	 * 
+	 * Get event particpants object
 	 * @return ilEventParticipants
 	 */
 	public function getEventParticipants()
@@ -69,15 +69,7 @@ class ilSessionParticipants extends ilParticipants
 		$obj_id = ilObject::_lookupObjId($a_ref_id);
 		return ilEventParticipants::_isRegistered($a_usr_id, $obj_id);
 	}
-	
-	/**
-	 * read Participants
-	 */
-	public function readParticipants()
-	{
-		$this->participants = $this->members = $this->getEventParticipants()->getRegistered();
-	}
-	
+		
 	/**
 	 * read participant status
 	 */
@@ -93,21 +85,56 @@ class ilSessionParticipants extends ilParticipants
 	}
 	
 	/**
-	 * Add user
-	 * @param type $a_usr_id
+	 * Add user to session member role. Additionally the status registered or participated must be set manually
+	 * @param int $a_usr_id
+	 * @param int $a_role
 	 */
 	public function add($a_usr_id, $a_role = "")
 	{
-		$this->getEventParticipants()->register($a_usr_id);
+		if(parent::add($a_usr_id, $a_role))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Register user
+	 * @param int $a_usr_id
+	 * @return boolean
+	 */
+	public function register($a_usr_id)
+	{
+		$this->logger->debug('Registering user: ' . $a_usr_id);
+		if($this->add($a_usr_id, IL_SESS_MEMBER))
+		{
+			$this->logger->debug('Registering for event');
+			$this->getEventParticipants()->register($a_usr_id);
+			return true;
+		}
 	}
 	
 	/**
 	 * Unregister user
-	 * @param type $a_usr_id
+	 * @param int $a_usr_id
+	 * @return boolean
 	 */
-	public function delete($a_usr_id)
+	public function unregister($a_usr_id)
 	{
-		$this->getEventParticipants()->unregister($a_usr_id);
+		// participated users are not dropped from role
+		if($this->getEventParticipants()->hasParticipated($a_usr_id))
+		{
+			$this->getEventParticipants()->unregister($a_usr_id);
+			return true;
+		}
+		else
+		{
+			$this->delete($a_usr_id);
+			$this->getEventParticipants()->unregister($a_usr_id);
+			return true;
+		}
+		return false;
 	}
+
 }
 ?>
