@@ -631,6 +631,7 @@ class ilObjMediaPool extends ilObject
 					$item->create();
 					$page = new ilMediaPoolPage($node["child"]);
 					$new_page = new ilMediaPoolPage();
+					$new_page->setParentId($a_new_obj->getId());
 					$new_page->setId($item->getId());
 					$new_page->create();
 					

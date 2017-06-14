@@ -4,8 +4,8 @@
     "second_maintainer": "mbecker(27266)",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "SIG EA",
+    "testcase_writer": "Fabian(27631)",
     "path": "Modules/TestQuestionPool",
     "belong_to_component": "Test & Assessment",
     "used_in_components": []

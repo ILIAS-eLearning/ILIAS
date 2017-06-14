@@ -24,9 +24,8 @@ A result encapsulates a value or an error and simplifies the handling of those.
 
 ```php
 <?php
-use ILIAS\Data;
 
-$f = new Data\Factory;
+$f = new \ILIAS\Data\Factory;
 
 // Build a value that is ok.
 $pi = $f->ok(3.1416);
@@ -65,6 +64,8 @@ assert($raised);
 
 ```php
 <?php
+
+$f = new \ILIAS\Data\Factory;
 
 // Build a value that is not ok.
 $error = $f->error("There was some error...");
@@ -115,5 +116,27 @@ $pi = $pi->except(function($e) use ($f) {
 
 assert($pi->value() === 3);
 
+?>
+```
+
+## Color
+Color is a data type representing a color in HTML.
+Construct a color with a hex-value or list of RGB-values.
+
+### Example
+
+```php
+<?php
+
+$f = new \ILIAS\Data\Factory;
+
+//construct color with rgb-values:
+$rgb = $f->color(array(255,255,0));
+
+//construct color with hex-value:
+$hex = $f->color('#ffff00');
+
+assert($rgb->asHex() === '#ffff00');
+assert($hex->asRGBString() === 'rgb(255, 255, 0)');
 ?>
 ```

@@ -21,17 +21,31 @@
 	+-----------------------------------------------------------------------------+
 */
 
-/** 
-* Learning progress access checks
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-*
-* @ingroup ServicesTracking
-*/
+/**
+ * Learning progress access checks
+ * 
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * 
+ *
+ * @ingroup ServicesTracking
+ */
 class ilLearningProgressAccess
 {
+	/**
+	 * wrapper for rbac access checks
+	 */
+	public static function checkPermission($a_permission, $a_ref_id , $a_user_id = null)
+	{
+		if(is_null($a_user_id))
+		{
+			$a_user_id = $GLOBALS['ilUser']->getId();
+		}
+		
+		return $GLOBALS['ilAccess']->checkAccessOfUser($a_user_id, $a_permission,'', $a_ref_id);
+	}
+	
+	
 	/**
 	 * check access to learning progress
 	 * 
@@ -54,7 +68,7 @@ class ilLearningProgressAccess
 		{
 			return false;
 		}
-
+		
 		if($ilAccess->checkAccess('read_learning_progress','',$a_ref_id) ||
 			$ilAccess->checkAccess('edit_learning_progress','',$a_ref_id))
 		{

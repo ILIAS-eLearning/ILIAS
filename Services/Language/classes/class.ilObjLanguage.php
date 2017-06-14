@@ -471,12 +471,9 @@ class ilObjLanguage extends ilObject
 			$path = $this->cust_lang_path;
 		}
 
-		$tmpPath = getcwd();
-		chdir($path);
+		$lang_file = $path. "/ilias_" . $this->key . ".lang" . $scopeExtension;
 
-		$lang_file = "ilias_" . $this->key . ".lang" . $scopeExtension;
-
-		if ($lang_file)
+		if (is_file($lang_file))
 		{
 			// initialize the array for updating lng_modules below
 			$lang_array = array();
@@ -607,8 +604,6 @@ class ilObjLanguage extends ilObject
 				ilObjLanguage::replaceLangModule($this->key, $module, $lang_arr);
 			}
 		}
-
-		chdir($tmpPath);
 	}
 
 	/**
@@ -616,7 +611,8 @@ class ilObjLanguage extends ilObject
 	*/
 	static final function replaceLangModule($a_key, $a_module, $a_array)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		ilGlobalCache::flushAll();
 
@@ -627,11 +623,27 @@ class ilObjLanguage extends ilObject
 			"(%s,%s,%s)", $ilDB->quote($a_key, "text"),
 			$ilDB->quote($a_module, "text"),
 			$ilDB->quote(serialize($a_array), "clob")));*/
-		$ilDB->insert("lng_modules", array(
+        $ilDB->insert("lng_modules", array(
 			"lang_key" => array("text", $a_key),
 			"module" => array("text", $a_module),
-			"lang_array" => array("clob", serialize($a_array))
+			"lang_array" => array("clob", serialize((array) $a_array))
 			));
+
+		// check if the module is correctly saved
+		// see mantis #20046 and #19140
+		$result = $ilDB->queryF("SELECT lang_array FROM lng_modules WHERE lang_key = %s AND module = %s",
+			array('text','text'), array($a_key, $a_module));
+		$row = $ilDB->fetchAssoc($result);
+
+		$unserialied = unserialize($row['lang_array']);
+		if (!is_array($unserialied))
+		{
+			/** @var ilErrorHandling $ilErr */
+			$ilErr = $DIC['ilErr'];
+            $ilErr->raiseError("Data for module '" . $a_module . "' of  language '" . $a_key . "' is not correctly saved. ".
+				"Please check the collation of your database tables lng_data and lng_modules. It must be utf8_unicode_ci.",
+				$ilErr->MESSAGE);
+		}
 	}
 
 	/**

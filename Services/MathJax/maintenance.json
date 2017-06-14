@@ -4,7 +4,7 @@
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "fneumann(1560)",
-    "tester": "",
+    "tester": "claudio.fischer(41113)",
     "testcase_writer": "fneumann(1560)",
     "path": "Services/MathJax",
     "belong_to_component": "MathJax",

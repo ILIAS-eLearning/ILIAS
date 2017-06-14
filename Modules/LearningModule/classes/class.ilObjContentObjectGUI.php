@@ -1177,7 +1177,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 			return;
 		}
-		$form = $this->initImportForm();
+		$form = $this->initImportForm("lm");
 		if ($form->checkInput())
 		{
 			// create and insert object in objecttree
@@ -2514,15 +2514,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$ilCtrl->getLinkTarget($this, "listLinks"));
 
 		// web link checker
-		if ($this->object->getType() == "lm")
-		{
-			if(@include_once('HTTP/Request.php'))
-			{
-				$ilTabs->addSubtab("link_check",
-					$lng->txt("link_check"),
-					$ilCtrl->getLinkTarget($this, "linkChecker"));
-			}
-		}
+		$ilTabs->addSubtab("link_check",
+			$lng->txt("link_check"),
+			$ilCtrl->getLinkTarget($this, "linkChecker"));
 
 		$ilTabs->addSubtab("history",
 			$lng->txt("history"),

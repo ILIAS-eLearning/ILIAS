@@ -120,8 +120,8 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 						$this->tpl->setVariable("COLL_MODE", "");
 					}
 				}
-				
-				if($ilAccess->checkAccess('edit_learning_progress', '', $a_set['ref_id']))
+				include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+				if(ilLearningProgressAccess::checkPermission('edit_learning_progress', $a_set['ref_id']))
 				{
 					$lp_settings_link = ilLink::_getLink($a_set['ref_id'], $a_set['type'], array('gotolp'=>1));					
 					$a_set["mode"] = '<a href="'.$lp_settings_link.'">'.$a_set['mode'].'</a>'; // :TODO: il_ItemAlertProperty?
