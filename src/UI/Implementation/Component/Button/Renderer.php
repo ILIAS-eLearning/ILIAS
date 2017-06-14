@@ -33,6 +33,10 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component instanceof Component\Button\Standard) {
 			$tpl_name = "tpl.standard.html";
 		}
+		if ($component instanceof Component\Button\Tag) {
+			$tpl_name = "tpl.tag.html";
+		}
+
 
 		$tpl = $this->getTemplate($tpl_name, true, true);
 		$action = $component->getAction();
@@ -52,6 +56,19 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		$this->maybeRenderId($component, $tpl);
+
+		if ($component instanceof Component\Button\Tag) {
+			$tpl->setVariable("REL", $component->getRelevanceClass());
+			$bgcol = $component->getBackgroundColor();
+			if($bgcol) {
+				$tpl->setVariable("BGCOL", $bgcol->asHex());
+			}
+			$forecol = $component->getForegroundColor();
+			if($forecol) {
+				$tpl->setVariable("FORECOL", $forecol->asHex());
+			}
+		}
+
 		return $tpl->get();
 	}
 
@@ -87,6 +104,7 @@ class Renderer extends AbstractComponentRenderer {
 		(Component\Button\Primary::class
 		, Component\Button\Standard::class
 		, Component\Button\Close::class
+		, Component\Button\Tag::class
 		);
 	}
 }

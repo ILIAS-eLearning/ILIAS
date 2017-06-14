@@ -1,0 +1,25 @@
+.btn-tag {
+	&.btn-tag-inactive {
+		cursor: default !important;
+	}
+	&.btn-tag-relevance-verylow {
+		background-color: desaturate(@btn-tag-bg, 80%);
+		color: contrast(desaturate(@btn-tag-bg, 80%));
+	}
+	&.btn-tag-relevance-low {
+		background-color: desaturate(@btn-tag-bg, 60%);
+		color: contrast(desaturate(@btn-tag-bg, 60%));
+	}
+	&.btn-tag-relevance-middle {
+		background-color: desaturate(@btn-tag-bg, 40%);
+		color: contrast(desaturate(@btn-tag-bg, 40%));
+	}
+	&.btn-tag-relevance-high {
+		background-color: desaturate(@btn-tag-bg, 20%);
+		color: contrast(desaturate(@btn-tag-bg, 20%));
+	}
+	&.btn-tag-relevance-veryhigh {
+		background-color: @btn-tag-bg;
+		color: contrast(@btn-tag-bg);
+	}
+}

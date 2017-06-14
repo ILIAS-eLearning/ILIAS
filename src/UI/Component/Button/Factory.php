@@ -112,4 +112,37 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Button\Close
 	 */
 	public function close();
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Tags classify objects. Thus, their primary purpose is the visualization
+	 *     of those classifications for one object. However, tags are usually
+	 *     clickable - either to edit object association or list related objects,
+	 *     i.e. objects with the same tag.
+	 *   composition: >
+	 *     Tags are rendered as "a"-element with a background color.
+	 *     When used in a tag-cloud (a list of tags), tags are visually "weighted"
+	 *     according to the number of their occurences, be it with different
+	 *     font-sizes, different colors or both.
+	 *     The font-color should be set with high contrast to the chosen background color.
+	 *   effect: >
+	 *     Tags may trigger an action or change the view when clicked.
+	 *
+	 * context:
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *           The functionality of the tag button MUST be indicated for screen
+	 *           readers by an aria-label.
+	 * ---
+	 * @param	string		$label
+	 * @param	string		$action
+	 * @return  \ILIAS\UI\Component\Button\Tag
+	 */
+	public function tag($label, $action);
+
 }

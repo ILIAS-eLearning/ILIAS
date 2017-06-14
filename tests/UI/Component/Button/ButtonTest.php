@@ -18,7 +18,15 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	static $canonical_css_classes = array
 		( "standard"	=>	 "btn btn-default"
 		, "primary"	 =>	 "btn btn-default btn-primary"
+		, "tag"	 =>	 "btn btn-tag btn-tag-relevance-veryhigh"
 		);
+
+	static $canonical_css_inactivation_classes = array
+		( "standard"	=>	 "ilSubmitInactive"
+		, "primary"	 	=>	 "ilSubmitInactive"
+		, "tag"	 		=>	 "btn-tag-inactive"
+		);
+
 
 	public function test_implements_factory_interface() {
 		$f = $this->getButtonFactory();
@@ -79,7 +87,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$f = $this->getButtonFactory();
 		$b = $f->$factory_method("label", "http://www.ilias.de");
 
-		$b2 = $b->withLabel("label2");	
+		$b2 = $b->withLabel("label2");
 
 		$this->assertEquals("label", $b->getLabel());
 		$this->assertEquals("label2", $b2->getLabel());
@@ -148,7 +156,8 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($b));
 
 		$css_classes = self::$canonical_css_classes[$factory_method];
-		$expected = "<a class=\"$css_classes ilSubmitInactive\" data-action=\"$ln\">".
+		$css_class_inactive = self::$canonical_css_inactivation_classes[$factory_method];
+		$expected = "<a class=\"$css_classes $css_class_inactive\" data-action=\"$ln\">".
 					"label".
 					"</a>";
 		$this->assertEquals($expected, $html);
@@ -216,10 +225,71 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($expected, $html);
 	}
 
+
+	public function test_btn_tag_weights() {
+		$f = $this->getButtonFactory();
+		$b = $f->tag('tag', '#');
+		try {
+		    $b->withRelevance(0);
+		    $this->assertFalse("This should not happen");
+		}
+		catch (\InvalidArgumentException $e) {
+		    $this->assertTrue(true);
+		}
+		try {
+		    $b->withRelevance(6);
+		    $this->assertFalse("This should not happen");
+		}
+		catch (\InvalidArgumentException $e) {
+		    $this->assertTrue(true);
+		}
+
+
+	}
+
+	public function test_render_btn_tag_weights() {
+		$expectations = array(
+			'<a class="btn btn-tag btn-tag-relevance-verylow" href="#" data-action="#">tag</a>',
+			'<a class="btn btn-tag btn-tag-relevance-low" href="#" data-action="#">tag</a>',
+			'<a class="btn btn-tag btn-tag-relevance-middle" href="#" data-action="#">tag</a>',
+			'<a class="btn btn-tag btn-tag-relevance-high" href="#" data-action="#">tag</a>',
+			'<a class="btn btn-tag btn-tag-relevance-veryhigh" href="#" data-action="#">tag</a>'
+		);
+
+		$f = $this->getButtonFactory();
+		$r = $this->getDefaultRenderer();
+		$b = $f->tag('tag', '#');
+		foreach(range(1, 5) as $w) {
+			$html = $this->normalizeHTML(
+				$r->render($b->withRelevance($w))
+			);
+			$expected = $expectations[$w-1];
+			$this->assertEquals($expected, $html);
+		}
+	}
+
+	public function test_render_btn_tag_colors() {
+		$f = $this->getButtonFactory();
+		$r = $this->getDefaultRenderer();
+		$df = new \ILIAS\Data\Factory;
+
+		$bgcol = $df->color('#00ff00');
+		$fcol = $df->color('#fff');
+		$b = $f->tag('tag', '#')
+			->withBackgroundColor($bgcol)
+			->withForegroundColor($fcol);
+		$html = $this->normalizeHTML($r->render($b));
+		$expected = '<a class="btn btn-tag btn-tag-relevance-veryhigh" style="background-color: #00ff00; color: #ffffff;" href="#" data-action="#">tag</a>';
+		$this->assertEquals($expected, $html);
+	}
+
+
+
 	public function button_type_provider() {
 		return array
 			( array("standard")
 			, array("primary")
+			, array("tag")
 			);
 	}
 
