@@ -1423,6 +1423,8 @@ assessment#:#examid_in_test_res_desc#:#The ILIAS test pass ID will be included i
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions###deprecated 
 assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test passes. This option has to be activated by individual participants on the Info-tab before starting a test pass.
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
+assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. 
+assessment#:#use_previous_solution#:#Use Previous Solution
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_your_answer_was#:#Your answer was
@@ -6848,7 +6850,7 @@ jscalendar#:#wk#:#wk
 mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.
 mathjax#:#mathjax_enable_mathjax#:#Enable MathJax
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.
+mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.
 mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax
 mathjax#:#mathjax_settings#:#MathJax Settings
 mathjax#:#mathjax_limiter#:#Inline Delimiters
@@ -12546,6 +12548,7 @@ dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
 dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.
+dcl#:#dcl_table_title_not_matching#:#The titles of the excel sheet and the Data Collection table do not match. Rename the sheet for a successfull import.
 dcl#:#dcl_please_select#:#--- Please select ---
 dcl#:#dcl_asc#:#Ascending Order (ASC)
 dcl#:#dcl_desc#:#Descending Order (DESC)
@@ -15216,7 +15219,7 @@ wsp#:#wsp_shared_filter_reset_button#:#Reset Search
 wsp#:#wsp_shared_filter_button#:#Search
 wiki#:#wiki_page_title_too_long#:#Sorry, the title of the wiki page is too long. Please replace it with a shorter title.
 exc#:#exc_direct_submit#:#Submit
-membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one precondition is not fullfilled.
+membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one setting prevents this.
 export#:#no_file#:#No file
 content#:#lm_no_download_files#:#There are currently no files for download available.
 rbac#:#feed_copy#:#User can copy webfeed
@@ -15953,4 +15956,3 @@ exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mai
 exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.
 exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.
 rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
-rbac#:#file_edit_permission#:#User can change permission settings

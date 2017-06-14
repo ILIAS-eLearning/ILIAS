@@ -15561,7 +15561,7 @@ if (!$ilDB->tableColumnExists('il_dcl_table', 'table_order')) {
 if ($ilDB->tableColumnExists('il_dcl_data', 'main_table_id')) {
 	$main_table_query = $ilDB->query('SELECT main_table_id FROM il_dcl_data');
 	while ($rec = $ilDB->fetchAssoc($main_table_query)) {
-		$ilDB->query('UPDATE il_dcl_table SET table_order = 10 WHERE id = ' . $ilDB->quote($rec['main_table_id'], 'integer'));
+		$ilDB->query('UPDATE il_dcl_table SET table_order = 10, is_visible = 1 WHERE id = ' . $ilDB->quote($rec['main_table_id'], 'integer'));
 	}
 	$ilDB->dropTableColumn('il_dcl_data', 'main_table_id');
 }
@@ -18465,4 +18465,35 @@ while ($row = $query->fetchAssoc()) {
 	), array('id' => array('integer', $row['id'])));
 	$ilDB->manipulate('DELETE FROM il_dcl_stloc2_value WHERE record_field_id = ' . $ilDB->quote($row['record_field_id'], 'integer'));
 }
+?>
+<#5085>
+<?php
+$set = $ilDB->query("SELECT * FROM mep_item JOIN mep_tree ON (mep_item.obj_id = mep_tree.child) ".
+	" WHERE mep_item.type = ".$ilDB->quote("pg", "text")
+);
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$q = "UPDATE page_object SET ".
+		" parent_id = ".$ilDB->quote($rec["mep_id"], "integer").
+		" WHERE parent_type = ".$ilDB->quote("mep", "text").
+		" AND page_id = ".$ilDB->quote($rec["obj_id"], "integer");
+	//echo "<br>".$q;
+	$ilDB->manipulate($q);
+}
+?>
+<#5086>
+<?php
+	// fix 20706
+	$ilDB->dropPrimaryKey('page_question');
+	$ilDB->addPrimaryKey('page_question', array('page_parent_type', 'page_id', 'question_id', 'page_lang'));
+?>
+<#5087>
+<?php
+    // fix 20409 and 20638
+    $old = 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    $new = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+
+    $ilDB->manipulateF("UPDATE settings SET value=%s WHERE module='MathJax' AND keyword='path_to_mathjax' AND value=%s",
+        array('text','text'), array($new, $old)
+    );
 ?>

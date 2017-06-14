@@ -1605,6 +1605,8 @@ assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem lauf
 assessment#:#tst_types#:#Test-Typen
 assessment#:#tst_use_javascript#:#JavaScript für das Ziehen und Ablegen von Antworten verwenden
 assessment#:#tst_use_previous_answers#:#Verwendung vorheriger Lösungen
+assessment#:#use_previous_solution_advice#:#Die angezeigte Lösung wurde vormals von Ihnen abgegeben. Sie müssen die Übernahme dieser Lösung unterhalb der Frage bestätigen, falls Sie die Lösung ohne Änderungen übernehmen wollen.
+assessment#:#use_previous_solution#:#Verwende vorherige Lösung
 assessment#:#tst_use_previous_answers_description#:#Zeigt Teilnehmern die Antworten aus dem vorherigen Testdurchlauf an. Die Option muss vom Teilnehmer vor Beginn des Tests auf dem Reiter 'Info' per Checkbox aktiviert werden.
 assessment#:#tst_use_previous_answers_user#:#Meine Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte verwenden
 assessment#:#tst_user_finished_test#:#Ein Teilnehmer hat den Test beendet (%s)
@@ -1815,7 +1817,7 @@ auth#:#auth_radius_charset_info#:#Wählen Sie hier die Zeichenkodierung aus, die
 auth#:#auth_radius_ldap#:#Synchronisierung über LDAP-Einstellungen
 auth#:#auth_radius_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutzerdaten und Rollenzuordnungen, gemäß der LDAP-Einstellungen vorgenommen.
 auth#:#auth_radius_sync_rad#:#Automatische Generierung von ILIAS-Benutzerkonten
-auth#:#auth_radius_sync_rad_info#:#Benutzer, die sich erfolgreich gegen Radius authentifiziert haben, jedoch über keinen ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
+auth#:#auth_radius_sync_rad_info#:#Benutzer, die sich erfolgreich gegen Radius authentifiziert haben, jedoch über kein ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
 auth#:#auth_sync#:#Benutzer-Synchronisierung
 auth#:#auth_sync_cas#:#Automatische Generierung von ILIAS-Benutzerkonten
 auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über keinen ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
@@ -12141,6 +12143,7 @@ dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// o
 dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert, dadurch funktionieren unter Umständen die Platzhalter in der Seitenvorlage nicht mehr, diese müssen gegebenenfalls manuell angepasst werden.
 dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_table_title_unique#:#Es existiert bereits eine Tabelle mit diesem Titel. Titel muss eindeutig sein.
+dcl#:#dcl_table_title_not_matching#:#Die Titel des Excel-Arbeitsblatts und der Tabelle in der Datensammlung stimmen nicht überein. Benennen Sie das Arbeitsblatt um, um einen korrekten Import durchzuführen.
 pd#:#pd_export_profile#:#Persönliche Daten exportieren
 pd#:#pd_download_last_export_file#:#Aktuelle Exportdatei herunterladen
 pd#:#pd_import_personal_data#:#Persönliche Daten importieren
@@ -12279,7 +12282,7 @@ common#:#qpl_copy#:#Fragenpool für Tests kopieren
 mathjax#:#mathjax_enable_mathjax_info#:#Aktiviert die LaTeX-Unterstützung mit MathJax, um mathematische Formeln ausgeben zu können.
 mathjax#:#mathjax_enable_mathjax#:#MathJax aktivieren
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#Zum Beispiel: http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML oder eine URL zu Ihrer lokalen Installation.
+mathjax#:#mathjax_path_to_mathjax_desc#:#Zum Beispiel: https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML oder eine URL zu Ihrer lokalen Installation.
 mathjax#:#mathjax_path_to_mathjax#:#URL zu MathJax
 mathjax#:#mathjax_settings#:#MathJax-Einstellungen
 mathjax#:#mathjax_limiter#:#Trennzeichen
@@ -14415,7 +14418,7 @@ survey#:#svy_evaluation_access_participants_info#:#Alle Benutzer, die an der Umf
 survey#:#svy_results_view_own_info#:#Teilnehmer können sich eine Übersicht mit den eigenen Antworten anzeigen lassen, nachdem sie die Umfrage beendet haben. Sie können die Antworten nicht mehr ändern.
 survey#:#survey_360_self_evaluation_info#:#Feedback-Nehmer können anhand der Fragen eine Selbsteinschätzung vornehmen.
 survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, welche ihnen eine Rückmeldung geben sollen selber aus. Sie laden diese Personen auch selbständig ein. 
-survey#:#survey_360_self_appraisee_info#:#Allen Benutzern wird ein Link auf dem Reiter "Info" angezeigt. Mit diesem Link können sie sich selbständig Umfrage als Empfänger von Feedback eintragen.  
+survey#:#survey_360_self_appraisee_info#:#Allen Benutzern wird ein Link auf dem Reiter "Info" angezeigt. Über diesen Link können diese sich selbst als Feedback-Empfänger für diese Umfrage eintragen.
 survey#:#survey_360_results_none_info#:#Feedback-Nehmer können die Antworten, welche Feedback-Geber ausgewählt haben nicht einsehen. 
 survey#:#survey_360_results_own_info#:#Feedback-Nehmer können nur die Antworten einsehen, welche Feedback-Geber zu ihnen persönlich ausgewählt haben. 
 survey#:#survey_360_results_all_info#:#Alle Feedback-Nehmer der 360°-Umfrage können alle Rückmeldungen aller Feedback-Geber zu sich und zu allen anderen Feedback-Nehmern einsehen. 
@@ -15232,7 +15235,7 @@ wsp#:#wsp_shared_filter_reset_button#:#Suche zurücksetzen
 wsp#:#wsp_shared_filter_button#:#Suche
 wiki#:#wiki_page_title_too_long#:#Die Seite konnte nicht angelegt werden, da der Titel zu lang ist. Bitte wählen Sie einen kürzeren Seitentitel.
 exc#:#exc_direct_submit#:#Abgeben
-membership#:#mem_error_preconditions#:#Die Aufnahme konnte nicht erfolgen, da Vorbedingungen zum Beitritt nicht erfüllt sind.
+membership#:#mem_error_preconditions#:#Die Aufnahme konnte nicht erfolgen, da mindestens eine Einstellung dies verhindert.
 export#:#no_file#:#Keine Datei
 content#:#lm_no_download_files#:#Zurzeit stehen keine Download-Dateien zur Verfügung.
 rbac#:#feed_copy#:#Webfeed kopieren

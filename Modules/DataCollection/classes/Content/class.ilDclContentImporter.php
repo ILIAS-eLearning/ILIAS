@@ -174,7 +174,7 @@ class ilDclContentImporter
 		}
 
 
-		return array('line'=>$i-2, 'warnings'=>$this->warnings);
+		return array('line'=>($i-2 < 0 ? 0 : $i-2), 'warnings'=>$this->warnings);
 	}
 
 	/**

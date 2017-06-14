@@ -23,6 +23,10 @@ require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php'
  */
 class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
 {
+	// hey: prevPassSolutions - wtf is imagemap ^^
+	public $currentSolution = array();
+	// hey.
+	
 	const MODE_SINGLE_CHOICE   = 0;
 	const MODE_MULTIPLE_CHOICE = 1;
 
@@ -714,85 +718,73 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$pass = ilObjTest::_getPass($active_id);
 		}
 
-		$imageWasSelected = false;
+		$solutionSelectionChanged = false;
 
-		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$imageWasSelected, $ilDB, $active_id, $pass, $authorized) {
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$solutionSelectionChanged, $ilDB, $active_id, $pass, $authorized) {
 
-			if(!$authorized)
+			if( $authorized )
 			{
-				$solutions = $this->getSolutionValues($active_id, $pass, false);
-				if(0 == count($solutions))
-				{
-					$solutions = $this->getSolutionValues($active_id, $pass, true);
-// fau: testNav - don't delete an authorized solution if an intermediate is saved
-					//$this->removeCurrentSolution($active_id, $pass, true);
-// fau.
-					$this->removeCurrentSolution($active_id, $pass, false);
-					foreach($solutions as $solution)
-					{
-						$this->saveCurrentSolution($active_id, $pass, $solution['value1'], null, false);
-					}
-				}
-
-				if($this->is_multiple_choice && strlen($_GET['remImage']))
-				{
-					$query  = "DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s AND authorized = %s";
-					$types  = array("integer", "integer", "integer", "integer", 'integer');
-					$values = array($active_id, $this->getId(), $pass, $_GET['remImage'], (int)$authorized);
-
-					if($this->getStep() !== NULL)
-					{
-						$query .= " AND step = %s ";
-						$types[]  = 'integer';
-						$values[] = $this->getStep();
-					}
-					$ilDB->manipulateF($query, $types, $values);
-				}
-				elseif(!$this->is_multiple_choice)
-				{
-					$this->removeCurrentSolution($active_id, $pass, $authorized);
-				}
-
-				if(!$authorized && strlen($_GET["selImage"]))
-				{
-					$imageWasSelected = true;
-
-					$types = array('integer', 'integer', 'integer', 'integer', 'integer');
-					$values = array($active_id, $this->getId(), $pass,  (int)$_GET['selImage'], (int)$authorized);
-					$query = 'DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s AND authorized = %s';
-					if($this->getStep() != null)
-					{
-						$types[] = 'integer';
-						$values[] = $this->getStep();
-						$query .= ' AND step = %s';
-					}
-
-					$ilDB->manipulateF($query, $types, $values);
-
-					$this->saveCurrentSolution($active_id, $pass, $_GET['selImage'], null, $authorized);
-				}
-				else
-				{
-					$imageWasSelected = false;
-				}
+				// remove the dummy record of the intermediate solution
+				$this->deleteDummySolutionRecord($active_id, $pass);
+				
+				// delete the authorized solution and make the intermediate solution authorized (keeping timestamps)
+				$this->removeCurrentSolution($active_id, $pass, true);
+				$this->updateCurrentSolutionsAuthorization($active_id, $pass, true, true);
+				
+				$solutionSelectionChanged = true;
 			}
 			else
 			{
-				$solutions = $this->getUserSolutionPreferingIntermediate($active_id, $pass);
-				$this->removeCurrentSolution($active_id, $pass, true);
-				$this->removeCurrentSolution($active_id, $pass, false);
-				foreach($solutions as $solution)
+				$this->forceExistingIntermediateSolution(
+					$active_id, $pass, $this->is_multiple_choice
+				);
+				
+				if( $this->isReuseSolutionSelectionRequest() )
 				{
-					$this->saveCurrentSolution($active_id, $pass, $solution['value1'], null, true);
+					$selection = $this->getReuseSolutionSelectionParameter();
+					
+					foreach($selection as $selectedIndex)
+					{
+						$this->saveCurrentSolution($active_id, $pass, (int)$selectedIndex, null, $authorized);
+						$solutionSelectionChanged = true;
+					}
+				}
+				elseif( $this->isRemoveSolutionSelectionRequest() )
+				{
+					$selection = $this->getRemoveSolutionSelectionParameter();
+					
+					$this->deleteSolutionRecordByValues($active_id, $pass, $authorized, array(
+						'value1' => (int)$selection
+					));
+					
+					$solutionSelectionChanged = true;
+				}
+				elseif( $this->isAddSolutionSelectionRequest() )
+				{
+					$selection = $this->getAddSolutionSelectionParameter();
+
+					if( $this->is_multiple_choice )
+					{
+						$this->deleteSolutionRecordByValues($active_id, $pass, $authorized, array(
+							'value1' => (int)$_GET['selImage']
+						));
+					}
+					else
+					{
+						$this->removeCurrentSolution($active_id, $pass, $authorized);
+					}
+
+					$this->saveCurrentSolution($active_id, $pass, $_GET['selImage'], null, $authorized);
+					
+					$solutionSelectionChanged = true;
 				}
 			}
-
 		});
 
 		require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
-		if( !$authorized && ilObjAssessmentFolder::_enabledAssessmentLogging() )
+		if( ilObjAssessmentFolder::_enabledAssessmentLogging() )
 		{
-			if( $imageWasSelected )
+			if( $solutionSelectionChanged )
 			{
 				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
@@ -1096,4 +1088,103 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			return $this->getAnswers();
 		}
 	}
+	
+	// hey: prevPassSolutions - wtf is imagemap ^^
+	public function getTestOutputSolutions($activeId, $pass)
+	{
+		$solution = parent::getTestOutputSolutions($activeId, $pass);
+		
+		$this->currentSolution = array();
+		foreach($solution as $record)
+		{
+			$this->currentSolution[] = $record['value1'];
+		}
+		
+		return $solution;
+	}
+	protected function getAddSolutionSelectionParameter()
+	{
+		if( !$this->isAddSolutionSelectionRequest() )
+		{
+			return null;
+		}
+		
+		return $_GET["selImage"];
+	}
+	protected function isAddSolutionSelectionRequest()
+	{
+		if( !isset($_GET["selImage"]) )
+		{
+			return false;
+		}
+		
+		if( !strlen($_GET["selImage"]) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	protected function getRemoveSolutionSelectionParameter()
+	{
+		if( !$this->isRemoveSolutionSelectionRequest() )
+		{
+			return null;
+		}
+		
+		return $_GET["remImage"];
+	}
+	protected function isRemoveSolutionSelectionRequest()
+	{
+		if( !$this->is_multiple_choice )
+		{
+			return false;
+		}
+		
+		if( !isset($_GET["remImage"]) )
+		{
+			return false;
+		}
+		
+		if( !strlen($_GET["remImage"]) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	protected function getReuseSolutionSelectionParameter()
+	{
+		if( !$this->isReuseSolutionSelectionRequest() )
+		{
+			return null;
+		}
+		
+		return assQuestion::explodeKeyValues($_GET["reuseSelection"]);
+	}
+	protected function isReuseSolutionSelectionRequest()
+	{
+		if( !$this->getTestPresentationConfig()->isPreviousPassSolutionReuseAllowed() )
+		{
+			return false;
+		}
+		
+		if( !isset($_GET["reuseSelection"]) )
+		{
+			return false;
+		}
+		
+		if( !strlen($_GET["reuseSelection"]) )
+		{
+			return false;
+		}
+		
+		if( !preg_match('/\d(,\d)*/', $_GET["reuseSelection"]) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	// hey.
 }
