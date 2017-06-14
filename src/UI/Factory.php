@@ -336,4 +336,22 @@ interface Factory {
 	 **/
 	public function modal();
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A divider marks a thematic change in a sequence of other components.
+	 *   composition: >
+	 *     A divider consists of a horizontal ruler which may be accompanied by a label.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       Dividers MUST be used in in container components that render a sequence of items.
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Divider\Factory
+	 **/
+	public function divider();
+
 }
