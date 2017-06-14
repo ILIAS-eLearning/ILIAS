@@ -136,14 +136,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$cmd = "infoScreen";
 				}
 				$cmd .= "Object";
-				if ($cmd != "infoScreenObject")
-				{
-					$this->checkPermission("read");
-				}
-				else
-				{
-					$this->checkPermission("visible");
-				}
 				$this->$cmd();
 	
 			break;
@@ -191,7 +183,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $ilUser;
 
-		$this->checkPermission('read');
+		$this->checkPermission('visible');
 		
 		include_once './Services/Membership/classes/class.ilParticipants.php';
 		$part = ilParticipants::getInstance($this->getCurrentObject()->getRefId());
@@ -2020,16 +2012,16 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		if(!count($_POST["waiting"]))
 		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
-			$this->membersObject();
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);
+			$GLOBALS['DIC']->ctrl()->redirect($this,'members');
 			return false;
 		}
 		
 		include_once('./Modules/Session/classes/class.ilSessionWaitingList.php');
 		$waiting_list = new ilSessionWaitingList($this->object->getId());
 		
-		include_once './Modules/Session/classes/class.ilEventParticipants.php';
-		$part = new ilEventParticipants($this->object->getId());
+		include_once './Services/Membership/classes/class.ilParticipants.php';
+		$part = ilParticipants::getInstance($this->object->getRefId());
 
 		$added_users = 0;
 		foreach($_POST["waiting"] as $user_id)
@@ -2048,8 +2040,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		if($added_users)
 		{
-			ilUtil::sendSuccess($this->lng->txt("sess_users_added"));
-			$this->membersObject();
+			ilUtil::sendSuccess($this->lng->txt("sess_users_added"),true);
+			$GLOBALS['DIC']->ctrl()->redirect($this,'members');
 
 			return true;
 		}
