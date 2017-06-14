@@ -113,7 +113,6 @@ interface Factory {
 	 */
 	public function close();
 
-
 	/**
 	 * ---
 	 * description:

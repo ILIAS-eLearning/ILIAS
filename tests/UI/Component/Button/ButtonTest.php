@@ -16,15 +16,15 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	}
 
 	static $canonical_css_classes = array
-		( "standard"	=>	 "btn btn-default"
+		( "standard" =>	 "btn btn-default"
 		, "primary"	 =>	 "btn btn-default btn-primary"
 		, "tag"	 =>	 "btn btn-tag btn-tag-relevance-veryhigh"
 		);
 
 	static $canonical_css_inactivation_classes = array
-		( "standard"	=>	 "ilSubmitInactive"
-		, "primary"	 	=>	 "ilSubmitInactive"
-		, "tag"	 		=>	 "btn-tag-inactive"
+		( "standard" =>	"ilSubmitInactive"
+		, "primary"	=> "ilSubmitInactive"
+		, "tag"	=> "btn-tag-inactive"
 		);
 
 
@@ -226,7 +226,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	}
 
 
-	public function test_btn_tag_weights() {
+	public function test_btn_tag_relevance() {
 		$f = $this->getButtonFactory();
 		$b = $f->tag('tag', '#');
 		try {
@@ -247,7 +247,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 	}
 
-	public function test_render_btn_tag_weights() {
+	public function test_render_btn_tag_relevance() {
 		$expectations = array(
 			'<a class="btn btn-tag btn-tag-relevance-verylow" href="#" data-action="#">tag</a>',
 			'<a class="btn btn-tag btn-tag-relevance-low" href="#" data-action="#">tag</a>',
