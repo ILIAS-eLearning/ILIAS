@@ -7,7 +7,12 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
-class Popover implements Component\Popover\Popover {
+/**
+ * Class Popover
+ * @author Stefan Wanzenried <sw@studer-raimann.ch>
+ * @package ILIAS\UI\Implementation\Component\Popover
+ */
+abstract class Popover implements Component\Popover\Popover {
 
 	use ComponentHelper;
 
@@ -15,11 +20,6 @@ class Popover implements Component\Popover\Popover {
 	 * @var string
 	 */
 	protected $title = '';
-
-	/**
-	 * @var Component\Component[]
-	 */
-	protected $content;
 
 	/**
 	 * @var string
@@ -47,14 +47,9 @@ class Popover implements Component\Popover\Popover {
 	protected $signal_generator;
 
 	/**
-	 * @param Component\Component|Component\Component[] $content
 	 * @param SignalGeneratorInterface $signal_generator
 	 */
-	public function __construct($content, SignalGeneratorInterface $signal_generator) {
-		$content = $this->toArray($content);
-		$types = array(Component\Component::class);
-		$this->checkArgListElements('content', $content, $types);
-		$this->content = $content;
+	public function __construct(SignalGeneratorInterface $signal_generator) {
 		$this->signal_generator = $signal_generator;
 		$this->initSignals();
 	}
@@ -64,13 +59,6 @@ class Popover implements Component\Popover\Popover {
 	 */
 	public function getTitle() {
 		return $this->title;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getContent() {
-		return $this->content;
 	}
 
 	/**

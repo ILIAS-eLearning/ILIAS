@@ -92,7 +92,7 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function popover($content) {
-		return new Component\Popover\Popover($content, new SignalGenerator());
+	public function popover() {
+		return new Component\Popover\Factory(new SignalGenerator());
 	}
 }

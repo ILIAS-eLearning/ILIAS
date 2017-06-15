@@ -15,7 +15,7 @@ function show_popover_with_async_loaded_content()
 	}
 
 	$async_url = $_SERVER['REQUEST_URI'] . '&renderPopoverAsync=1';
-	$popover = $factory->popover($factory->legacy(''))
+	$popover = $factory->popover()->standard($factory->legacy(''))
 		->withTitle('Popover')
 		->withAsyncContentUrl($async_url);
 	$button = $factory->button()->standard('Show Popover', '#')

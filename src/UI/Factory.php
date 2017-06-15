@@ -358,7 +358,6 @@ interface Factory {
 	 *   Modals: >
 	 *     Modals hide all other content while Popovers do not prevent interaction with other parts
 	 *     of the current context.
-	 * context:
 	 * rules:
 	 *   usage:
 	 *     1: >
@@ -392,9 +391,8 @@ interface Factory {
 	 *        Once the Popover is closed, the focus MUST return to the element triggering the opening of the Popover
 	 *        or the element being clicked if the Popover was closed on click.
 	 * ---
-	 * @param Component|Component[] $content
-	 * @return \ILIAS\UI\Component\Popover\Popover
+	 * @return \ILIAS\UI\Component\Popover\Factory
 	 */
-	public function popover($content);
+	public function popover();
 
 }

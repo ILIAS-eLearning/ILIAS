@@ -5,6 +5,10 @@ function show_popover_with_vertical_scrollbars()
 	$factory = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
+	// Note: A list should be rendered with the listing popover, e.g. $factory->popover()->listing()
+	// However, at the moment there is no component present representing such list items, so this example
+	// also uses a standard popover.
+
 	$series = [
 		'Breaking Bad',
 		'Big Bang Theory',
@@ -30,7 +34,7 @@ function show_popover_with_vertical_scrollbars()
 	// height of the list to 200px and display vertical scrollbars, if needed.
 	$content = "<div style='max-height: 200px; overflow-y: auto; padding-right: 10px;'>{$list}</div>";
 
-	$popover = $factory->popover($factory->legacy($content))->withTitle('Series');
+	$popover = $factory->popover()->standard($factory->legacy($content))->withTitle('Series');
 	$button = $factory->button()->standard('Show me some Series', '#')
 		->withOnClick($popover->getShowSignal());
 

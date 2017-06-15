@@ -45,7 +45,7 @@ function show_popover_with_dynamic_changing_content()
 	}
 
 	// This is the "normal" request to render the popover. Any content of the popover is rendered async.
-	$popover = $factory->popover($factory->legacy(''))->withTitle('Pages');
+	$popover = $factory->popover()->standard($factory->legacy(''))->withTitle('Pages');
 	$asyncUrl = $url . '&page=overview&replaceSignal=' . $popover->getReplaceContentSignal()->getId();
 	$popover = $popover->withAsyncContentUrl($asyncUrl);
 	$button = $factory->button()->standard('Show Popover', '#')

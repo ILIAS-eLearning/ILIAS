@@ -49,11 +49,13 @@ class Renderer extends AbstractComponentRenderer {
 				il.UI.popover.replaceContentFromSignal('{$show}', signalData);
 			});"
 		);
-		if (!$component->getAsyncContentUrl()) {
-			$tpl = $this->getTemplate('tpl.popover-content.html', true, true);
-			$tpl->setVariable('ID', $content_id);
-			$tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
-			return $tpl->get();
+		if ($component->getAsyncContentUrl()) {
+			return '';
+		}
+		if ($component instanceof Component\Popover\Standard) {
+			return $this->renderStandardPopover($component, $default_renderer, $content_id);
+		} else if ($component instanceof Component\Popover\Listing) {
+			return $this->renderListingPopover($component, $default_renderer, $content_id);
 		}
 		return '';
 	}
@@ -68,6 +70,36 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	/**
+	 * @param Component\Popover\Standard $popover
+	 * @param RendererInterface $default_renderer
+	 * @param string $id
+	 * @return string
+	 */
+	protected function renderStandardPopover(Component\Popover\Standard $popover, RendererInterface $default_renderer, $id) {
+		$tpl = $this->getTemplate('tpl.standard-popover-content.html', true, true);
+		$tpl->setVariable('ID', $id);
+		$tpl->setVariable('CONTENT', $default_renderer->render($popover->getContent()));
+		return $tpl->get();
+	}
+
+	/**
+	 * @param Component\Popover\Listing $popover
+	 * @param RendererInterface $default_renderer
+	 * @param string $id
+	 * @return string
+	 */
+	protected function renderListingPopover(Component\Popover\Listing $popover, RendererInterface $default_renderer, $id) {
+		$tpl = $this->getTemplate('tpl.listing-popover-content.html', true, true);
+		$tpl->setVariable('ID', $id);
+		foreach ($popover->getItems() as $item) {
+			$tpl->setCurrentBlock('item');
+			$tpl->setVariable('ITEM', $default_renderer->render($item));
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl->get();
+	}
+
+	/**
 	 * @param string $str
 	 * @return string
 	 */
@@ -79,6 +111,6 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdoc
 	 */
 	protected function getComponentInterfaceName() {
-		return array(Component\Popover\Popover::class);
+		return array(Component\Popover\Standard::class, Component\Popover\Listing::class);
 	}
 }

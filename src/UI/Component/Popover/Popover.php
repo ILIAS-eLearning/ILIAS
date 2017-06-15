@@ -71,13 +71,6 @@ interface Popover extends Component, Triggerable {
 	public function getAsyncContentUrl();
 
 	/**
-	 * Get the components representing the content of the popover.
-	 *
-	 * @return Component[]
-	 */
-	public function getContent();
-
-	/**
 	 * Get the signal to show this popover in the frontend.
 	 *
 	 * @return Signal
