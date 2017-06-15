@@ -16,6 +16,9 @@ require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
  */
 final class XSendfile implements ilFileDeliveryType {
 
+	use HeaderBasedDeliveryHelper;
+	const X_SENDFILE = 'X-Sendfile';
+	const X_SENDFILE_TEMPORARY = 'X-Sendfile-Temporary';
 	/**
 	 * @var GlobalHttpState $httpService
 	 */
@@ -45,12 +48,20 @@ final class XSendfile implements ilFileDeliveryType {
 	/**
 	 * @inheritdoc
 	 */
-	public function deliver($path_to_file) {
-		$response = $this->httpService->response()->withHeader('X-Sendfile', realpath($path_to_file));
+	public function deliver($path_to_file, $file_marked_to_delete) {
+		$response = $this->httpService->response();
+		$delivery = function () use ($path_to_file, $response) {
+			$response = $response->withHeader(self::X_SENDFILE, realpath($path_to_file));
+			$response = $response->withHeader('Connection', 'close');
+			$this->httpService->saveResponse($response);
+			$this->httpService->sendResponse();
+		};
 
-		$this->httpService->saveResponse($response);
-
-		$this->httpService->sendResponse();
+		if ($file_marked_to_delete) {
+			$this->sendFileUnbufferedUsingHeaders($delivery);
+		} else {
+			$delivery();
+		}
 
 		return true;
 	}
@@ -77,5 +88,13 @@ final class XSendfile implements ilFileDeliveryType {
 	 */
 	public function supportsStreaming() {
 		return true;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function handleFileDeletion($path_to_file) {
+		unlink($path_to_file);
 	}
 }

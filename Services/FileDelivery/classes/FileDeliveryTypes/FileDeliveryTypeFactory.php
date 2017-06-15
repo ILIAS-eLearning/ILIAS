@@ -1,8 +1,10 @@
 <?php
+
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 require_once './Services/FileDelivery/classes/HttpServiceAware.php';
 require_once './Services/FileDelivery/classes/FileDeliveryTypes/DeliveryMethod.php';
+require_once './Services/FileDelivery/classes/FileDeliveryTypes/HeaderBasedDeliveryHelper.php';
 
 use ILIAS\FileDelivery\ilFileDeliveryType;
 use ILIAS\HTTP\GlobalHttpState;
@@ -10,8 +12,8 @@ use ILIAS\HTTP\GlobalHttpState;
 /**
  * Class FileDeliveryTypeFactory
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
- * @since 5.3
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @since   5.3
  * @version 1.0
  *
  * @Internal
@@ -48,7 +50,7 @@ final class FileDeliveryTypeFactory {
 	 *
 	 * @see DeliveryMethod
 	 */
-	public function getInstance( $type){
+	public function getInstance($type) {
 		assert(is_string($type));
 		if (isset(self::$instances[$type])) {
 			return self::$instances[$type];

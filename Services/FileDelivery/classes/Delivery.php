@@ -148,10 +148,9 @@ final class Delivery {
 		$this->checkCache();
 		$this->setGeneralHeaders();
 		$this->delivery()->prepare($this->getPathToFile());
-
-		$this->delivery()->deliver($this->getPathToFile());
+		$this->delivery()->deliver($this->getPathToFile(), $this->isDeleteFile());
 		if ($this->isDeleteFile()) {
-			unlink($this->getPathToFile());
+			$this->delivery()->handleFileDeletion($this->getPathToFile());
 		}
 		if ($this->isExitAfter()) {
 			$this->close();

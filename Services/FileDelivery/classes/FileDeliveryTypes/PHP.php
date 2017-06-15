@@ -50,7 +50,7 @@ final class PHP implements ilFileDeliveryType {
 	/**
 	 * @inheritdoc
 	 */
-	public function deliver($path_to_file) {
+	public function deliver($path_to_file, $file_marked_to_delete) {
 		$this->httpService->sendResponse();
 		fpassthru($this->file);
 	}
@@ -77,5 +77,13 @@ final class PHP implements ilFileDeliveryType {
 	 */
 	public function supportsStreaming() {
 		return false;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function handleFileDeletion($path_to_file) {
+		return unlink($path_to_file);
 	}
 }

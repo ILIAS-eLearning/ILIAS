@@ -6,6 +6,7 @@ use ILIAS\FileDelivery\ilFileDeliveryType;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Response\ResponseHeader;
 
+const X_ACCEL_REDIRECT = 'X-Accel-Redirect';
 require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
 
 /**
@@ -17,6 +18,7 @@ require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
  */
 final class XAccel implements ilFileDeliveryType {
 
+	use  HeaderBasedDeliveryHelper;
 	const DATA = 'data';
 	const SECURED_DATA = 'secured-data';
 	/**
@@ -50,17 +52,25 @@ final class XAccel implements ilFileDeliveryType {
 	/**
 	 * @inheritdoc
 	 */
-	public function deliver($path_to_file) {
+	public function deliver($path_to_file, $file_marked_to_delete) {
+		// There is currently no way to delete the file after delivery
 		if (strpos($path_to_file, './' . self::DATA . '/') === 0) {
 			$path_to_file = str_replace('./' . self::DATA . '/', '/' . self::SECURED_DATA
 			                                                     . '/', $path_to_file);
 		}
 
-		$response = $this->httpService->response()->withHeader('X-Accel-Redirect', $path_to_file);
+		$response = $this->httpService->response();
+		$delivery = function () use ($path_to_file, $response) {
+			$response = $response->withHeader(X_ACCEL_REDIRECT, $path_to_file);
+			$this->httpService->saveResponse($response);
+			$this->httpService->sendResponse();
+		};
 
-		$this->httpService->saveResponse($response);
-
-		$this->httpService->sendResponse();
+		if ($file_marked_to_delete) {
+			$this->sendFileUnbufferedUsingHeaders($delivery);
+		} else {
+			$delivery();
+		}
 	}
 
 
@@ -85,5 +95,13 @@ final class XAccel implements ilFileDeliveryType {
 	 */
 	public function supportsStreaming() {
 		return true;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function handleFileDeletion($path_to_file) {
+		// No possibilities to do this at the moment
 	}
 }

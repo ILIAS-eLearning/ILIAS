@@ -44,7 +44,7 @@ final class PHPChunked implements ilFileDeliveryType {
 	/**
 	 * @inheritdoc
 	 */
-	public function deliver($path_to_file) {
+	public function deliver($path_to_file, $file_marked_to_delete) {
 		$file = $path_to_file;
 		$fp = @fopen($file, 'rb');
 
@@ -179,5 +179,13 @@ final class PHPChunked implements ilFileDeliveryType {
 		//render response
 		$this->httpService->sendResponse();
 		exit;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function handleFileDeletion($path_to_file) {
+		return unlink($path_to_file);
 	}
 }

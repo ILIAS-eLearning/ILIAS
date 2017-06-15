@@ -25,7 +25,15 @@ interface ilFileDeliveryType {
 	 *
 	 * @return bool
 	 */
-	public function deliver($path_to_file);
+	public function deliver($path_to_file, $file_marked_to_delete);
+
+
+	/**
+	 * @param $path_to_file
+	 *
+	 * @return bool
+	 */
+	public function handleFileDeletion($path_to_file);
 
 
 	/**
