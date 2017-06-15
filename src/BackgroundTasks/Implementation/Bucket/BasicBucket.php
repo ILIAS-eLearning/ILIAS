@@ -111,9 +111,16 @@ class BasicBucket implements Bucket {
 	}
 
 	/**
+	 * Calculates the percentage up to the last task.
+	 *
 	 * @return int
 	 */
 	public function calculateOverallPercentage() {
+		// TODO: Task percentage up to first user interaction.
+//		global $ilLog;
+//		$tasks = array_slice($this->rootTask->unfoldTask(), 1);
+//		$percentages = array_map(function($task) { return $this->percentages[spl_object_hash($task)]; }, $tasks);
+
 		$this->percentage = array_sum($this->percentages) / $this->totalNumberOfTasks;
 	}
 

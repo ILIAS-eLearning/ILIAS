@@ -59,21 +59,39 @@ class ilBTControllerGUI {
 		$gui = $DIC->injector()->createInstance(ilBTPopOverGUI::class);
 
 		$signalId = $_GET['replaceSignal'];
-		$redirect_url = $_GET['from_url'];
 		$replaceSignal = new \ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal($signalId);
 		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class, 'replaceSignal', $signalId);
-		$DIC->ctrl()->saveParameterByClass(ilBTControllerGUI::class, 'from_url');
+		$redirect_url = $_GET['from_url'];
+		$replace_url = $DIC->ctrl()->getLinkTargetByClass([ilBTControllerGUI::class], "getPopoverContent", "", true);
 		$button =$DIC->ui()->factory()->button()->standard('refresh', '#')
 			->withOnClick(
-				$replaceSignal->withAsyncRenderUrl($DIC->ctrl()->getLinkTargetByClass([ilBTControllerGUI::class], "getPopoverContent", "", true))
+				$replaceSignal->withAsyncRenderUrl($replace_url)
 			);
 
 		$components = [$button];
-		$components = array_merge($components, $gui->getPopOverContent($DIC->user()->getId(), $redirect_url));
+		$components = array_merge($components, $gui->getPopOverContent($DIC->user()->getId(), $redirect_url, $replace_url));
 
 //		print_r($components);exit;
-		$html = $DIC->ui()->renderer()->renderAsync($components);
+		$html = $DIC->ui()->renderer()->renderAsync(
+			$gui->getPopOverContent($DIC->user()->getId(), $redirect_url, $replace_url));
 
 		echo $html;
+	}
+
+	protected function url_origin( $s, $use_forwarded_host = false )
+	{
+		$ssl      = ( ! empty( $s['HTTPS'] ) && $s['HTTPS'] == 'on' );
+		$sp       = strtolower( $s['SERVER_PROTOCOL'] );
+		$protocol = substr( $sp, 0, strpos( $sp, '/' ) ) . ( ( $ssl ) ? 's' : '' );
+		$port     = $s['SERVER_PORT'];
+		$port     = ( ( ! $ssl && $port=='80' ) || ( $ssl && $port=='443' ) ) ? '' : ':'.$port;
+		$host     = ( $use_forwarded_host && isset( $s['HTTP_X_FORWARDED_HOST'] ) ) ? $s['HTTP_X_FORWARDED_HOST'] : ( isset( $s['HTTP_HOST'] ) ? $s['HTTP_HOST'] : null );
+		$host     = isset( $host ) ? $host : $s['SERVER_NAME'] . $port;
+		return $protocol . '://' . $host;
+	}
+
+	public function full_url( $s, $use_forwarded_host = false )
+	{
+		return $this->url_origin( $s, $use_forwarded_host ) . $s['REQUEST_URI'];
 	}
 }

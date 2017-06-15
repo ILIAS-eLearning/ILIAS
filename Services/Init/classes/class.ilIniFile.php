@@ -192,7 +192,7 @@ class ilIniFile
 	function write()
 	{
 		$fp = @fopen($this->INI_FILE_NAME,"w");
-		
+
 		if (empty($fp))
 		{
 			$this->error("Cannot create file $this->INI_FILE_NAME");

@@ -1561,6 +1561,14 @@ class ilInitialisation
 
 
 	private static function initBackgroundTasks(\ILIAS\DI\Container $c) {
+		global $ilIliasIniFile;
+
+		$n_of_tasks = $ilIliasIniFile->readVariable("background_tasks","number_of_concurrent_tasks");
+		$sync = $ilIliasIniFile->readVariable("background_tasks","concurrency");
+
+		$n_of_tasks = $n_of_tasks ? $n_of_tasks : 5;
+		$sync = $sync ? $sync : 'sync'; // The default value is sync.
+
 		$c["bt.task_factory"]  = function ($c) {
 			return new \ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory($c["di.injector"]);
 		};
@@ -1569,8 +1577,14 @@ class ilInitialisation
 			return new \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence();
 		};
 
-		$c["bt.task_manager"] = function ($c) {
-			return new \ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager($c["bt.persistence"]);
+		$c["bt.task_manager"] = function ($c) use ($sync) {
+			if($sync == 'sync') {
+				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager($c["bt.persistence"]);
+			} elseif ($sync == 'async') {
+				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager($c["bt.persistence"]);
+			} else {
+				throw new ilException("The supported Background Task Managers are sync and async. $sync given.");
+			}
 		};
 	}
 

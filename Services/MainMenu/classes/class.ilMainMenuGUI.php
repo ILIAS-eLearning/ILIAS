@@ -391,6 +391,7 @@ class ilMainMenuGUI
 		$this->tpl->setVariable("TXT_MAIN_MENU", $lng->txt("main_menu"));
 		
 		$this->tpl->parseCurrentBlock();
+
 	}
 	
 	/**
@@ -1140,19 +1141,39 @@ class ilMainMenuGUI
 		$popover = $factory->popover($factory->legacy(''))
 			->withTitle($DIC->language()->txt("background_tasks"));
 		$DIC->ctrl()->clearParametersByClass(ilBTControllerGUI::class);
-		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($popoverGUI->full_url($_SERVER)));
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($this->full_url($_SERVER)));
 		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class, "replaceSignal", $popover->getReplaceContentSignal()->getId());
 		$popover = $popover->withAsyncContentUrl($DIC->ctrl()->getLinkTargetByClass([ilBTControllerGUI::class], "getPopoverContent", "", true));
 		$glyph = $factory->glyph()->briefcase()
 			->withOnClick($popover->getShowSignal());
-		if($numberOfUserInteractions)
-			$glyph = $glyph->withCounter($factory->counter()->novelty($numberOfUserInteractions));
-		if($numberOfNotUserInteractions)
-			$glyph = $glyph->withCounter($factory->counter()->status($numberOfNotUserInteractions));
+
+		$glyph = $glyph->withCounter($factory->counter()->novelty($numberOfUserInteractions));
+		$glyph = $glyph->withCounter($factory->counter()->status($numberOfNotUserInteractions));
+
+		$DIC['tpl']->addJavascript('./Services/BackgroundTasks/js/background_task_refresh.js');
 
 		$this->tpl->setVariable('BACKGROUNDTASKS',
-			"<li>".$DIC->ui()->renderer()->render([$glyph, $popover]).'</li>'
+			$DIC->ui()->renderer()->render([$glyph, $popover])
 		);
+
+		$this->tpl->setVariable('BACKGROUNDTASKS_REFRESH_URI', $DIC->ctrl()->getLinkTargetByClass([ilBTControllerGUI::class], "getPopoverContent", "", true));
+	}
+
+	protected function url_origin( $s, $use_forwarded_host = false )
+	{
+		$ssl      = ( ! empty( $s['HTTPS'] ) && $s['HTTPS'] == 'on' );
+		$sp       = strtolower( $s['SERVER_PROTOCOL'] );
+		$protocol = substr( $sp, 0, strpos( $sp, '/' ) ) . ( ( $ssl ) ? 's' : '' );
+		$port     = $s['SERVER_PORT'];
+		$port     = ( ( ! $ssl && $port=='80' ) || ( $ssl && $port=='443' ) ) ? '' : ':'.$port;
+		$host     = ( $use_forwarded_host && isset( $s['HTTP_X_FORWARDED_HOST'] ) ) ? $s['HTTP_X_FORWARDED_HOST'] : ( isset( $s['HTTP_HOST'] ) ? $s['HTTP_HOST'] : null );
+		$host     = isset( $host ) ? $host : $s['SERVER_NAME'] . $port;
+		return $protocol . '://' . $host;
+	}
+
+	public function full_url( $s, $use_forwarded_host = false )
+	{
+		return $this->url_origin( $s, $use_forwarded_host ) . $s['REQUEST_URI'];
 	}
 }
 

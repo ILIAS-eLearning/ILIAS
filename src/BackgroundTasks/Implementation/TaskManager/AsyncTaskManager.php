@@ -37,13 +37,16 @@ class AsyncTaskManager extends BasicTaskManager {
 	}
 
 	public function runAsync() {
-		global $DIC, $ilLog;
+		global $DIC, $ilLog, $ilIliasIniFile;
+
+		$n_of_tasks = $ilIliasIniFile->readVariable("background_tasks","number_of_concurrent_tasks");
+		$n_of_tasks = $n_of_tasks ? $n_of_tasks : 5;
+
 		$ilLog->write("[BackgroundTask] Starting background job.");
 		$persistence = $DIC->backgroundTasks()->persistence();
-		//TODO replace by ini config.
 		//TODO search over all clients.
-		$MAX_PARALLEL_JOBS = 3;
-		if( count($persistence->getBucketIdsByState(State::RUNNING)) > $MAX_PARALLEL_JOBS) {
+		$MAX_PARALLEL_JOBS = $n_of_tasks ;
+		if( count($persistence->getBucketIdsByState(State::RUNNING)) >= $MAX_PARALLEL_JOBS) {
 			$ilLog->write("[BackgroundTask] Too many running jobs, worker going down.");
 			return;
 		}

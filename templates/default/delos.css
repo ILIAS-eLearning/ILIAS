@@ -13012,3 +13012,6 @@ table.mceToolbar td {
     content: "";
   }
 }
+.bt-popover-content {
+  min-width: 300px;
+}

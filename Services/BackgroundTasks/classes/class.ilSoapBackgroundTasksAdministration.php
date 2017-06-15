@@ -38,8 +38,6 @@ class ilSoapBackgroundTasksAdministration extends ilSoapAdministration {
 
 		global $DIC;
 
-
-
 		return $DIC->backgroundTasks()->taskManager()->runAsync();
 	}
 }

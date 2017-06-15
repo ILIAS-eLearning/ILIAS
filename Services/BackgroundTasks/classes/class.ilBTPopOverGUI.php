@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\BackgroundTasks\BucketMeta;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\UI\StateTranslator;
 use ILIAS\BackgroundTasks\Bucket;
@@ -35,48 +36,65 @@ class ilBTPopOverGUI {
 	 * Get the content for the popover as ui element. DOES NOT DO ANY PERMISSION CHECKS.
 	 *
 	 * @param int  $user_id
-	 *
 	 * @param null $redirect_uri
-	 *
 	 * @return \ILIAS\UI\Component\Component[]
 	 */
-	public function getPopOverContent($user_id, $redirect_uri = null) {
+	public function getPopOverContent($user_id, $redirect_uri) {
 		assert(is_int($user_id));
+
+		global $DIC;
+
+		$renderer = $DIC->ui()->renderer();
+		$factory = $DIC->ui()->factory();
+		$persistence = $DIC->backgroundTasks()->persistence();
+
 		$observer_ids = $this->btPersistence->getBucketIdsOfUser($user_id);
 		$observers = $this->btPersistence->loadBuckets($observer_ids);
 
-		$cards = [];
+		$metas = $persistence->getBucketMetaOfUser($DIC->user()->getId());
+		$numberOfUserInteractions = count(array_filter($metas, function(BucketMeta $meta) {
+			return $meta->getState() == State::USER_INTERACTION;
+		}));
+
+		$template = new ilTemplate("tpl.popover_content.html", true, true, "Services/BackgroundTasks");
+		$template->setVariable("BACKGROUND_TASKS_TOTAL", count($metas));
+		$template->setVariable("BACKGROUND_TASKS_USER_INTERACTION", $numberOfUserInteractions);
+
 		foreach ($observers as $observer) {
 			if($observer->getState() != State::USER_INTERACTION) {
 				$content = $this->getDefaultCardContent($observer);
 			} else {
 				$content = $this->getUserInteractionContent($observer, $redirect_uri);
 			}
-			$cards[] = $this->uiFactory->card($observer->getTitle())->withSections([$content]);
+			$template->setCurrentBlock("bucket");
+			$template->setVariable("BUCKET_TITLE", $observer->getTitle() . ($observer->getState() == State::SCHEDULED ? " (" . $this->lng->txt("scheduled") . ")" : ""));
+			$template->setVariable("BUCKET_CONTENT", $renderer->render($content));
+			$template->parseCurrentBlock();
 		}
-
-		return [$this->uiFactory->deck($cards)];
+		$uiElement = $factory->legacy($template->get());
+		return [$uiElement];
 	}
 
 	public function getDefaultCardContent(Bucket $observer) {
 		global $DIC;
 		$running = $observer->getState() == State::RUNNING;
-		return $this->uiFactory->listing()->descriptive(
-			[
-				"State" => $this->translateState($observer->getState(), $this->lng),
-				"Percentage" => $DIC->ui()->factory()->progressbar($observer->getOverallPercentage(), $running)
-			]
-		);
+		return $DIC->ui()->factory()->progressbar($observer->getOverallPercentage(), $running);
 	}
 
+
+	/**
+	 * @param Bucket $observer
+	 * @param        $redirect_uri
+	 *
+	 * @return Descriptive|null
+	 */
 	public function getUserInteractionContent(Bucket $observer, $redirect_uri) {
 		global $DIC;
 		$factory = $DIC->ui()->factory();
 		$renderer = $DIC->ui()->renderer();
 		$persistence = $DIC->backgroundTasks()->persistence();
 		if (!$observer->getCurrentTask() instanceof UserInteraction)
-			return "";
-		$redirect_uri = $redirect_uri?$redirect_uri:$this->full_url($_SERVER);
+			return null;
 		/** @var UserInteraction $userInteraction */
 		$userInteraction = $observer->getCurrentTask();
 		$options = $userInteraction->getOptions($userInteraction->getInput());
@@ -90,28 +108,6 @@ class ilBTPopOverGUI {
 		}, $options);
 
 		$options = implode(" ", $buttons);
-		return $this->uiFactory->listing()->descriptive(
-			[
-				"State" => $this->translateState($observer->getState(), $this->lng),
-				"Options" => $options
-			]
-		);
-	}
-
-	protected function url_origin( $s, $use_forwarded_host = false )
-	{
-		$ssl      = ( ! empty( $s['HTTPS'] ) && $s['HTTPS'] == 'on' );
-		$sp       = strtolower( $s['SERVER_PROTOCOL'] );
-		$protocol = substr( $sp, 0, strpos( $sp, '/' ) ) . ( ( $ssl ) ? 's' : '' );
-		$port     = $s['SERVER_PORT'];
-		$port     = ( ( ! $ssl && $port=='80' ) || ( $ssl && $port=='443' ) ) ? '' : ':'.$port;
-		$host     = ( $use_forwarded_host && isset( $s['HTTP_X_FORWARDED_HOST'] ) ) ? $s['HTTP_X_FORWARDED_HOST'] : ( isset( $s['HTTP_HOST'] ) ? $s['HTTP_HOST'] : null );
-		$host     = isset( $host ) ? $host : $s['SERVER_NAME'] . $port;
-		return $protocol . '://' . $host;
-	}
-
-	public function full_url( $s, $use_forwarded_host = false )
-	{
-		return $this->url_origin( $s, $use_forwarded_host ) . $s['REQUEST_URI'];
+		return $factory->legacy($options);
 	}
 }
