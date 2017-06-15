@@ -156,9 +156,8 @@ il.UI = il.UI || {};
 		 * @private
 		 */
 		var _triggerSignals = function (signalList, event) {
-
 			jQuery.each(signalList, function (index, signal) {
-				$(this).trigger(signal, event);
+				$(document).trigger(signal, event);
 			});
 		};
 
@@ -183,7 +182,9 @@ il.UI = il.UI || {};
 		 */
 		var _initStandardDropzone = function (options) {
 
-			$("#" + options.id).dragster({
+			var $dropzone = $("#" + options.id);
+
+			$dropzone.dragster({
 
 				enter: function (dragsterEvent, event) {
 					$(this).addClass(CSS.dropzoneDragHover);
@@ -196,7 +197,7 @@ il.UI = il.UI || {};
 				drop: function (dragsterEvent, event) {
 					$(this).removeClass(CSS.dropzoneDragHover);
 					_disableHighlighting();
-					_triggerSignals(options.registeredSignals, event);
+					_triggerSignals(options.registeredSignals, event, $dropzone);
 				}
 			});
 		};

@@ -101,4 +101,37 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Dropzone\File\Wrapper
 	 */
 	public function wrapper($content);
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      The upload wrapper dropzone extends the wrapper dropzone with
+	 *      the possibility to upload the dropped files.
+	 *   composition: >
+	 *      The upload wrapper dropzone is composed of the same components as
+	 *      the standalone wrapper drozpone.
+	 *   effect: >
+	 *      Additionally to the effects described for the wrapper drozpone,
+	 *      the upload wrapper dropzone opens a modal which lists the
+	 *      dropped files with some meta information (file name, file size etc.).
+	 *      The modal offers a button to upload the files to the server.
+	 *   rivals:
+	 *      Rival 1: >
+	 *         The standalone wrapper dropzone does not offer the functionality to
+	 *         upload the files to the server.
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *        Please see the rules of the standalone wrapper dropzone, they also apply
+	 *        to the upload wrapper dropzone
+	 * ---
+	 *
+	 * @param Component[]|Component $content an array or a single instance of ILIAS UI components
+	 * @param string $url URL where the files are uploaded
+	 * @return \ILIAS\UI\Component\Dropzone\File\Upload
+	 */
+	public function upload($content, $url);
+
 }

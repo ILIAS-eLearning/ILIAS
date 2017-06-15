@@ -23,7 +23,7 @@ class Wrapper extends Dropzone implements \ILIAS\UI\Component\Dropzone\File\Wrap
 	/**
 	 * @var Component[]
 	 */
-	private $componentList;
+	protected $componentList;
 
 
 	/**

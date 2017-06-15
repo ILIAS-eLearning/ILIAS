@@ -38,6 +38,14 @@ il.UI = il.UI || {};
 	 */
 	UI.Uploader.prototype.addFile = function (file) {
 		this.files.push(file);
+        console.log(file);
+        var $container = $('#' + this.previewContainer);
+        var $items = $container.find('.il-upload-file-items');
+        var $template = $container.find('.il-upload-file-item-template');
+		var $item = $template.clone().removeClass('il-upload-file-item-template');
+		$item.find('.filename').text(file.name);
+		$item.find('.filesize').text(file.size);
+        $items.append($item);
 	};
 
 	/**

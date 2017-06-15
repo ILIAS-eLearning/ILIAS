@@ -13,20 +13,29 @@
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
+use ILIAS\UI\Component\Component;
+
 class Factory implements \ILIAS\UI\Component\Dropzone\File\Factory {
 
 	/**
-	 * @inheritDoc
+	 * @inheritdoc
 	 */
 	public function standard() {
 		return new Standard();
 	}
 
-
 	/**
-	 * @inheritDoc
+	 * @inheritdoc
 	 */
 	public function wrapper($content) {
 		return new Wrapper($content);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function upload($content, $url) {
+		return new Upload($content, $url);
+	}
+
 }

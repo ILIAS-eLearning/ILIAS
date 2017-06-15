@@ -33,6 +33,7 @@ class Renderer extends AbstractComponentRenderer {
 		return array(
 			\ILIAS\UI\Component\Dropzone\File\Standard::class,
 			\ILIAS\UI\Component\Dropzone\File\Wrapper::class,
+			\ILIAS\UI\Component\Dropzone\File\Upload::class,
 		);
 	}
 
@@ -45,6 +46,10 @@ class Renderer extends AbstractComponentRenderer {
 
 		$this->renderer = $default_renderer;
 
+		if ($component instanceof \ILIAS\UI\Component\Dropzone\File\Upload) {
+			return $this->renderUploadWrapperDropzone($component);
+		}
+
 		if ($component instanceof \ILIAS\UI\Component\Dropzone\File\Wrapper) {
 			return $this->renderWrapperDropzone($component);
 		}
@@ -52,6 +57,7 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component instanceof \ILIAS\UI\Component\Dropzone\File\Standard) {
 			return $this->renderStandardDropzone($component);
 		}
+
 	}
 
 
@@ -137,4 +143,39 @@ class Renderer extends AbstractComponentRenderer {
 
 		return $tpl->get();
 	}
+
+	private function renderUploadWrapperDropzone(\ILIAS\UI\Component\Dropzone\File\Upload $dropzone) {
+		$dropzoneId = $this->createId();
+		$fileListId = $this->createId();
+		$tplFileList = $this->getTemplate('tpl.upload-file-list.html', true, true);
+		$tplFileList->setVariable('ID', $fileListId);
+		// Create the roundtrip modal which displays the uploaded files
+		$uploadButton = $this->getUIFactory()->button()->primary('Upload', '')
+			->withOnLoadCode(function($id) use ($fileListId) {
+				return "$('#{$id}').click(function(event) { 
+							event.preventDefault();
+							il.UI.UploaderContainer.getInstanceById('{$fileListId}').submit();
+						});";
+			});
+		$modal = $this->getUIFactory()->modal()->roundtrip('Upload', $this->getUIFactory()->legacy($tplFileList->get()))
+			->withActionButtons([$uploadButton]);
+		$tpl = $this->getTemplate("tpl.upload-wrapper-dropzone.html", true, true);
+		$tpl->setVariable("ID", $dropzoneId);
+		$tpl->setVariable("CONTENT", $this->renderer->render($dropzone->getContent()));
+		$tpl->setVariable('MODAL', $this->renderer->render($modal));
+		$dropzone = $dropzone->withOnDrop($modal->getShowSignal());
+		// setup javascript
+		$jsDropzoneInitializer = new JSDropzoneInitializer(
+			SimpleDropzone::of()
+				->setId($dropzoneId)
+				->setType(\ILIAS\UI\Component\Dropzone\File\Upload::class)
+				->setDarkenedBackground($dropzone->isDarkenedBackground())
+				->setRegisteredSignals($dropzone->getTriggeredSignals())
+				->setPreviewContainerId($fileListId)
+		);
+
+		$this->getJavascriptBinding()->addOnLoadCode($jsDropzoneInitializer->initDropzone());
+		return $tpl->get();
+	}
+
 }
