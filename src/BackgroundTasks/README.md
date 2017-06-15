@@ -10,7 +10,7 @@ Overview and Glossary for this namespace:
 | Value | A value contains some serializable value that can be used as input or output of a task. A Value is a PHP-Class that implements Value. | IntegerValue, FilePathValue |
 | Type | Values have a type. Tasks have input types and output types. Those are lended from the Types namespace. They are used to check for compatibility during task composition | ListType(SingleType(IntegerValue)), SingleType(ListValue) |
 | Task | A task is an operation that is executed and can be combined with other tasks | DownloadFile, ZipFolders |
-| Job | A job is a task that does something automatically | ZipFolders |
+| Job |  A Task, which can be run without any interaction with the user, such as zipping files or just collecting some data | ZipFolders |
 | UserInteraction | Is a task that needs the user's input | DownloadFile |
 | Option | Describes an option that the user can choose in a user interaction | DownloadFileOption, DiscardFileOption |
 | Bucket | Contains a composition of tasks and meta information about the tasks (name, current task, percentage, user id, etc.) | BasicBucket |
