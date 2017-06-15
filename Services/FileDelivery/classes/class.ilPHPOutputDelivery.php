@@ -17,7 +17,6 @@ use ILIAS\FileDelivery\HttpServiceAware;
 final class ilPHPOutputDelivery {
 
 	use HttpServiceAware;
-
 	/**
 	 * @var ILIAS\FileDelivery\Delivery
 	 */
@@ -25,7 +24,7 @@ final class ilPHPOutputDelivery {
 
 
 	/**
-	 * @param $download_file_name
+	 * @param        $download_file_name
 	 * @param string $mime_type
 	 */
 	public function start($download_file_name, $mime_type = ilMimeTypeUtil::APPLICATION__OCTET_STREAM) {

@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 use ILIAS\FileDelivery\ilFileDeliveryType;
@@ -10,8 +11,8 @@ require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
 /**
  * Class XAccel
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
- * @since 5.3
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @since   5.3
  * @version 1.0
  */
 final class XAccel implements ilFileDeliveryType {
@@ -51,7 +52,8 @@ final class XAccel implements ilFileDeliveryType {
 	 */
 	public function deliver($path_to_file) {
 		if (strpos($path_to_file, './' . self::DATA . '/') === 0) {
-			$path_to_file = str_replace('./' . self::DATA . '/', '/' . self::SECURED_DATA . '/', $path_to_file);
+			$path_to_file = str_replace('./' . self::DATA . '/', '/' . self::SECURED_DATA
+			                                                     . '/', $path_to_file);
 		}
 
 		$response = $this->httpService->response()->withHeader('X-Accel-Redirect', $path_to_file);

@@ -11,13 +11,18 @@ interface ilFileDeliveryType {
 
 	/**
 	 * @param $path_to_file
+	 *
 	 * @return bool
 	 */
 	public function prepare($path_to_file);
 
 
 	/**
-	 * @param string $path_to_file absolute path to file
+	 * @param string  $path_to_file          absolute path to file
+	 *
+	 * @param    bool $file_marked_to_delete This is needed at this point for header-based delivery
+	 *                                       methods
+	 *
 	 * @return bool
 	 */
 	public function deliver($path_to_file);

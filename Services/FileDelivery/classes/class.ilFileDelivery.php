@@ -113,9 +113,9 @@ final class ilFileDelivery implements ilFileDeliveryService {
 	 * Workaround because legacy components try to call methods which are moved to the Deliver
 	 * class.
 	 *
-	 * @param string $name     The function name which was not found on the current object.
-	 * @param array $arguments The function arguments passed to the function which was not existent
-	 *                         on the current object.
+	 * @param string $name      The function name which was not found on the current object.
+	 * @param array  $arguments The function arguments passed to the function which was not existent
+	 *                          on the current object.
 	 */
 	public function __call($name, array $arguments) {
 		assert(is_string($name));

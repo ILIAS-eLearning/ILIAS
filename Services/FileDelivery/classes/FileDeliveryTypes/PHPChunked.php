@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 use ILIAS\FileDelivery\ilFileDeliveryType;
@@ -10,8 +11,8 @@ require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
 /**
  * Class PHPChunked
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
- * @since 5.3
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @since   5.3
  * @version 1.0
  */
 final class PHPChunked implements ilFileDeliveryType {
@@ -123,8 +124,7 @@ final class PHPChunked implements ilFileDeliveryType {
 		} // fim do if
 
 		// Notify the client the byte range we'll be outputting
-		$response = $this->httpService->response()->withHeader(ResponseHeader::CONTENT_RANGE, "bytes $start-$end/$size")
-		                              ->withHeader(ResponseHeader::CONTENT_LENGTH, $length);
+		$response = $this->httpService->response()->withHeader(ResponseHeader::CONTENT_RANGE, "bytes $start-$end/$size")->withHeader(ResponseHeader::CONTENT_LENGTH, $length);
 
 		$this->httpService->saveResponse($response);
 

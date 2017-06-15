@@ -10,10 +10,10 @@ namespace ILIAS\FileDelivery;
 interface ilFileDeliveryService {
 
 	/**
-	 * @param $path_to_file
+	 * @param        $path_to_file
 	 * @param string $download_file_name
 	 * @param string $mime_type
-	 * @param bool $delete_file
+	 * @param bool   $delete_file
 	 *
 	 * @return void
 	 */
@@ -21,7 +21,7 @@ interface ilFileDeliveryService {
 
 
 	/**
-	 * @param $path_to_file
+	 * @param        $path_to_file
 	 * @param string $download_file_name
 	 *
 	 * @return void
@@ -30,7 +30,7 @@ interface ilFileDeliveryService {
 
 
 	/**
-	 * @param $path_to_file
+	 * @param        $path_to_file
 	 * @param string $download_file_name
 	 *
 	 * @return void

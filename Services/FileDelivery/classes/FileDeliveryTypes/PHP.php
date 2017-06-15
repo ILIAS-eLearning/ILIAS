@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 use ILIAS\FileDelivery\ilFileDeliveryType;
@@ -9,8 +10,8 @@ require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
 /**
  * Class PHP
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
- * @since 5.3
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @since   5.3
  * @version 1.0
  *
  * @Internal

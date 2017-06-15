@@ -104,7 +104,7 @@ final class Delivery {
 
 
 	/**
-	 * @param string $path_to_file
+	 * @param string          $path_to_file
 	 * @param GlobalHttpState $httpState
 	 */
 	public function __construct($path_to_file, GlobalHttpState $httpState) {
@@ -602,6 +602,7 @@ final class Delivery {
 	 * Converts a UTF-8 filename to ASCII
 	 *
 	 * @param $original_filename string UFT8-Filename
+	 *
 	 * @return string ASCII-Filename
 	 */
 	public static function returnASCIIFileName($original_filename) {
@@ -659,6 +660,7 @@ final class Delivery {
 
 	/**
 	 * @param bool $delete_file
+	 *
 	 * @return void
 	 */
 	public function setDeleteFile($delete_file) {
