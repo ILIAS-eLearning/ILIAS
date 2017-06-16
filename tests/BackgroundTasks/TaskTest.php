@@ -13,9 +13,9 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\DI\Container;
-use ILIAS\DI\DependencyMap\BaseDependencyMap;
-use ILIAS\DI\Injector;
-use ILIAS\Types\SingleType;
+use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
+use ILIAS\BackgroundTasks\Dependencies\Injector;
+use ILIAS\BackgroundTasks\Types\SingleType;
 use PHPUnit\Framework\TestCase;
 
 require_once("libs/composer/vendor/autoload.php");

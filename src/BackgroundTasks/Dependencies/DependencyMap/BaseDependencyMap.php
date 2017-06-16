@@ -1,16 +1,16 @@
 <?php
 
-namespace ILIAS\DI\DependencyMap;
+namespace ILIAS\BackgroundTasks\Dependencies\DependencyMap;
 
 use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\DI\Container;
-use ILIAS\DI\Injector;
+use ILIAS\BackgroundTasks\Dependencies\Injector;
 
 /**
  * Class BaseDependencyMap
  *
- * @package ILIAS\DI
+ * @package ILIAS\BackgroundTasks\Dependencies
  *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */

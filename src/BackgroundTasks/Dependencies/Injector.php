@@ -1,16 +1,15 @@
 <?php
 
-namespace ILIAS\DI;
+namespace ILIAS\BackgroundTasks\Dependencies;
 
-use ILIAS\DI\DependencyMap\DependencyMap;
-use ILIAS\DI\Exceptions\Exception;
-use ILIAS\DI\Exceptions\InvalidClassException;
-use ILIAS\DI\Exceptions\NoSuchServiceException;
+use ILIAS\BackgroundTasks\Dependencies\DependencyMap\DependencyMap;
+use ILIAS\BackgroundTasks\Dependencies\Exceptions\InvalidClassException;
+use ILIAS\DI\Container;
 use ReflectionParameter;
 
 /**
  * Class Factory
- * @package ILIAS\DI
+ * @package ILIAS\BackgroundTasks\Dependencies
  *
  * Create instances of classes using type hinting and the dependency injection container.
  *

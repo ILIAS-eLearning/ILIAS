@@ -8,8 +8,8 @@ use ILIAS\BackgroundTasks\Implementation\Values\PrimitiveValueWrapperFactory;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BasicScalarValueFactory;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\ValueType;
-use ILIAS\Types\ListType;
-use ILIAS\Types\Type;
+use ILIAS\BackgroundTasks\Types\ListType;
+use ILIAS\BackgroundTasks\Types\Type;
 
 /**
  * Class ListValue

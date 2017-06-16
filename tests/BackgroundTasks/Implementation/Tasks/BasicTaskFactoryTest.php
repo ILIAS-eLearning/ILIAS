@@ -10,11 +10,10 @@ namespace BackgroundTasks\Implementation\Tasks;
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory;
 use ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob;
-use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BasicScalarValueFactory;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\DI\Container;
-use ILIAS\DI\DependencyMap\BaseDependencyMap;
-use ILIAS\DI\Injector;
+use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
+use ILIAS\BackgroundTasks\Dependencies\Injector;
 
 class BasicTaskFactoryTest extends \PHPUnit_Framework_TestCase {
 

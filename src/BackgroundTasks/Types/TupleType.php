@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\Types;
+namespace ILIAS\BackgroundTasks\Types;
 
 class TupleType implements Type {
 

@@ -3,9 +3,9 @@
 namespace ILIAS\BackgroundTasks\Implementation\Values;
 
 use ILIAS\BackgroundTasks\Task;
+use ILIAS\BackgroundTasks\Types\SingleType;
+use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
-use ILIAS\Types\SingleType;
-use ILIAS\Types\Type;
 
 /**
  * Class AbstractValue

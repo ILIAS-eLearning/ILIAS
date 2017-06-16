@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\DI\DependencyMap;
+namespace ILIAS\BackgroundTasks\Dependencies\DependencyMap;
 
 use ILIAS\DI\Container;
 

@@ -1,13 +1,13 @@
 <?php
 
 
-namespace ILIAS\DI\Exceptions;
+namespace ILIAS\BackgroundTasks\Dependencies\Exceptions;
 
 require_once("./Services/Exceptions/classes/class.ilException.php");
 
 /**
  * Class Exception
- * @package ILIAS\DI
+ * @package ILIAS\BackgroundTasks\Exceptions
  *
  * Top Level Exception for DIC Exceptions.
  *

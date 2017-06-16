@@ -8,7 +8,7 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\ScalarValueFactory;
 use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\BackgroundTasks\Value;
-use ILIAS\DI\Injector;
+use ILIAS\BackgroundTasks\Dependencies\Injector;
 
 class BasicTaskFactory implements TaskFactory {
 

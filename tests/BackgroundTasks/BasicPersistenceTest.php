@@ -15,9 +15,9 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\DI\Container;
-use ILIAS\DI\DependencyMap\BaseDependencyMap;
-use ILIAS\DI\DependencyMap\EmptyDependencyMap;
-use ILIAS\DI\Injector;
+use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
+use ILIAS\BackgroundTasks\Dependencies\DependencyMap\EmptyDependencyMap;
+use ILIAS\BackgroundTasks\Dependencies\Injector;
 use Mockery;
 
 require_once("libs/composer/vendor/autoload.php");

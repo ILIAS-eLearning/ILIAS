@@ -1,14 +1,14 @@
 <?php
 
-namespace ILIAS\DI\DependencyMap;
+namespace ILIAS\BackgroundTasks\Dependencies\DependencyMap;
 
 use ILIAS\DI\Container;
-use ILIAS\DI\Exceptions\NoSuchServiceException;
+use ILIAS\BackgroundTasks\Dependencies\Exceptions\NoSuchServiceException;
 
 /**
  * Class BaseDependencyMap
  *
- * @package ILIAS\DI
+ * @package ILIAS\BackgroundTasks\Dependencies
  *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */

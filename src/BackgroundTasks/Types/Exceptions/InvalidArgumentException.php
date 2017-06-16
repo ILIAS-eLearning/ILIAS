@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\Types\Exceptions;
+namespace ILIAS\BackgroundTasks\Types\Exceptions;
 
 /**
  * Class Exception

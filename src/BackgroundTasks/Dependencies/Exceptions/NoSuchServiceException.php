@@ -1,10 +1,9 @@
 <?php
 
-namespace ILIAS\DI\Exceptions;
-
+namespace ILIAS\BackgroundTasks\Dependencies\Exceptions;
 /**
  * Class NoSuchServiceException
- * @package ILIAS\DIC\Exceptions
+ * @package ILIAS\BackgroundTasks\Exceptions
  *
  * If the DIC does not contain a service that is required.
  *

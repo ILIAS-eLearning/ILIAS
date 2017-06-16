@@ -2,7 +2,7 @@
 
 namespace ILIAS\BackgroundTasks;
 
-use ILIAS\Types\Type;
+use ILIAS\BackgroundTasks\Types\Type;
 
 /**
  * Interface Task

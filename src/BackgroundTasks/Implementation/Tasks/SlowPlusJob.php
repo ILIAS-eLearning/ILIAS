@@ -4,14 +4,10 @@ namespace ILIAS\BackgroundTasks\Implementation\Tasks;
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BucketMock;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
-use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Value;
-use ILIAS\BackgroundTasks\ValueType;
-use ILIAS\DI\DependencyMap\BaseDependencyMap;
-use ILIAS\DI\Injector;
-use ILIAS\Types\SingleType;
-use ILIAS\Types\Type;
+use ILIAS\BackgroundTasks\Types\SingleType;
+use ILIAS\BackgroundTasks\Types\Type;
 
 class SlowPlusJob extends AbstractJob {
 

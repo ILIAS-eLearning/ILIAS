@@ -6,13 +6,11 @@ namespace ILIAS\BackgroundTasks\Implementation\Tasks\Aggregation;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\ScalarValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
-use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Observer;
-use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\ValueType;
-use ILIAS\Types\ListType;
-use ILIAS\Types\SingleType;
-use ILIAS\Types\Type;
+use ILIAS\BackgroundTasks\Types\ListType;
+use ILIAS\BackgroundTasks\Types\SingleType;
+use ILIAS\BackgroundTasks\Types\Type;
 
 class ConcatenationJob extends AbstractJob {
 

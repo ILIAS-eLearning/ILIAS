@@ -5,10 +5,10 @@ namespace ILIAS\BackgroundTasks\Implementation\Tasks;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
+use ILIAS\BackgroundTasks\Types\SingleType;
+use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\Bucket;
-use ILIAS\Types\SingleType;
-use ILIAS\Types\Type;
 
 require_once("./Services/FileDelivery/classes/class.ilPHPOutputDelivery.php");
 

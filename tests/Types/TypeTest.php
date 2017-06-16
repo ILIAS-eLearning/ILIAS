@@ -1,9 +1,8 @@
 <?php
 
-use ILIAS\BackgroundTasks\Implementation\Values\AbstractValue;
-use ILIAS\Types\ListType;
-use ILIAS\Types\SingleType;
-use ILIAS\Types\TupleType;
+use ILIAS\BackgroundTasks\Types\ListType;
+use ILIAS\BackgroundTasks\Types\SingleType;
+use ILIAS\BackgroundTasks\Types\TupleType;
 use PHPUnit\Framework\TestCase;
 
 require_once("libs/composer/vendor/autoload.php");

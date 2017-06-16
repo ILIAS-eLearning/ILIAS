@@ -1,10 +1,9 @@
 <?php
 
-namespace ILIAS\DI\Exceptions;
-
+namespace ILIAS\BackgroundTasks\Dependencies\Exceptions;
 /**
  * Class InvalidClassException
- * @package ILIAS\DI\Exceptions
+ * @package ILIAS\BackgroundTasks\Exceptions
  *
  * This method is thrown when the DI tries to instantiate a class that somehow cannot be instantiated.
  *

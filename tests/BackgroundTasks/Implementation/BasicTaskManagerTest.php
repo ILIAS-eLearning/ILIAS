@@ -15,8 +15,8 @@ use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
 use ILIAS\BackgroundTasks\Implementation\Tasks\DownloadInteger;
 use ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob;
 use ILIAS\DI\Container;
-use ILIAS\DI\DependencyMap\EmptyDependencyMap;
-use ILIAS\DI\Injector;
+use ILIAS\BackgroundTasks\Dependencies\DependencyMap\EmptyDependencyMap;
+use ILIAS\BackgroundTasks\Dependencies\Injector;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 class BasicTaskManagerTest extends \PHPUnit_Framework_TestCase {
