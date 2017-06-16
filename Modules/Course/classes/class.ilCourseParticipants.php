@@ -149,16 +149,21 @@ class ilCourseParticipants extends ilParticipants
 	 * Update passed status (static)
 	 *
 	 * @access public
-	 * @param int $a_obj_id
-	 * @param int $a_usr_id
+	 *
+	 * @param int  $a_obj_id
+	 * @param int  $a_usr_id
 	 * @param bool $a_passed
 	 * @param bool $a_manual
 	 * @param bool $a_no_origin
+	 *
 	 * @return bool
 	 */
 	public static function _updatePassed($a_obj_id, $a_usr_id, $a_passed, $a_manual = false, $a_no_origin = false)
 	{
 		global $ilDB, $ilUser, $ilAppEventHandler;
+		/**
+		 * @var $ilAppEventHandler ilAppEventHandler
+		 */
 
 		// #11600
 		$origin = -1;
@@ -215,10 +220,9 @@ class ilCourseParticipants extends ilParticipants
 			$ilDB->manipulate($update_query);
 			if ($a_passed) {
 				$ilAppEventHandler->raise('Modules/Course', 'participantHasPassedCourse', array(
-						'obj_id' => $a_obj_id,
-						'usr_id' => $a_usr_id,
-					)
-				);
+					'obj_id' => $a_obj_id,
+					'usr_id' => $a_usr_id,
+				));
 			}
 		}
 		return true;	
