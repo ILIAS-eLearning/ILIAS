@@ -13,7 +13,7 @@ use ILIAS\DI\Exceptions\NoSuchServiceException;
  *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  */
-class Factory {
+class Injector {
 
 	/**
 	 * @var Container

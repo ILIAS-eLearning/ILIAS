@@ -11,7 +11,7 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Implementation\ValueTypes\SingleType;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\DI\Container;
-use ILIAS\DI\Factory;
+use ILIAS\DI\Injector;
 use PHPUnit\Framework\TestCase;
 
 require_once("libs/composer/vendor/autoload.php");
@@ -29,7 +29,7 @@ class TaskTest extends TestCase {
 			return new ObserverMock();
 		};
 
-		$factory = new Factory($dic);
+		$factory = new Injector($dic);
 
 		$a = new IntegerValue(1);
 		$b = new IntegerValue(2);
@@ -56,7 +56,7 @@ class TaskTest extends TestCase {
 		$dic[Observer::class] = function ($c) {
 			return new ObserverMock();
 		};
-		$factory = new Factory($dic);
+		$factory = new Injector($dic);
 
 		$t = $factory->createInstance(PlusJob::class);
 		$t->setInput([1, 4]);
@@ -74,7 +74,7 @@ class TaskTest extends TestCase {
 		$dic[Observer::class] = function ($c) {
 			return new ObserverMock();
 		};
-		$factory = new Factory($dic);
+		$factory = new Injector($dic);
 
 		$a = new IntegerValue(1);
 		$b = new StringValue("hello");
@@ -86,7 +86,7 @@ class TaskTest extends TestCase {
 
 	public function testAggregation() {
 		$dic = new Container();
-		$factory = new Factory($dic);
+		$factory = new Injector($dic);
 
 		$list = new ListValue([1, "hello", 3.0]);
 
