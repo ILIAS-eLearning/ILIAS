@@ -1,9 +1,9 @@
 <?php
 
-namespace ILIAS\DI;
+namespace ILIAS\BackgroundTasks\Dependencies;
 
-use ILIAS\DI\Exceptions\InvalidClassException;
-use ILIAS\DI\Exceptions\NoSuchServiceException;
+use ILIAS\BackgroundTasks\Dependencies\Exceptions\InvalidClassException;
+use ILIAS\BackgroundTasks\Dependencies\Exceptions\NoSuchServiceException;
 
 /**
  * Class Factory
