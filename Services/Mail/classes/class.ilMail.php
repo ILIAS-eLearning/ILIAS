@@ -592,6 +592,24 @@ class ilMail
 		return $a_row;
 	}
 
+	/**
+	 * @param int $usrId
+	 * @param int $folderId
+	 * @return int
+	 */
+	public function getNewDraftId($usrId, $folderId)
+	{
+		$next_id = $this->db->nextId($this->table_mail);
+		$this->db->insert($this->table_mail, array(
+			'mail_id'        => array('integer', $next_id),
+			'user_id'        => array('integer', $usrId),
+			'folder_id'      => array('integer', $folderId),
+			'sender_id'      => array('integer', $usrId)
+		));
+
+		return $next_id;
+	}
+
 	public function updateDraft(
 		$a_folder_id, $a_attachments, $a_rcp_to, $a_rcp_cc, $a_rcp_bcc,
 		$a_m_type, $a_m_email, $a_m_subject,  $a_m_message, $a_draft_id = 0,
@@ -670,7 +688,6 @@ class ilMail
 		if(!$a_m_message)	$a_m_message = NULL;
 
 		$next_id = $this->db->nextId($this->table_mail);
-
 		$this->db->insert($this->table_mail, array(
 			'mail_id'        => array('integer', $next_id),
 			'user_id'        => array('integer', $a_user_id),
