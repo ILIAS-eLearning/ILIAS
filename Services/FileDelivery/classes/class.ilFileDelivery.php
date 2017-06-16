@@ -213,21 +213,35 @@ class ilFileDelivery {
 
 
 	protected function deliverXSendfile() {
-		// $this->clearHeaders(); // FIX: XSendfile seems to need all headers set
-
-		header('X-Sendfile: ' . realpath($this->getPathToFile()));
+		$realpath = realpath($this->getPathToFile());
+		$closure = function () use ($realpath) {
+			header('X-Sendfile: ' . $realpath);
+		};
+		if ($this->isDeleteFile()) {
+			$this->sendFileUnbufferedUsingHeaders($closure);
+		} else {
+			$closure();
+		}
 	}
 
 
 	protected function deliverXAccelRedirect() {
-		$path_to_file = $this->getPathToFile();
 		$this->clearHeaders();
-		header('Content-type:');
+		$path_to_file = $this->getPathToFile();
+
 		if (strpos($path_to_file, './' . self::DATA . '/') === 0) {
 			$path_to_file = str_replace('./' . self::DATA . '/', '/' . self::SECURED_DATA . '/', $path_to_file);
 		}
 
-		header('X-Accel-Redirect: ' . ($path_to_file));
+		$closure = function () use ($path_to_file) {
+			header('Content-type:');
+			header('X-Accel-Redirect: ' . ($path_to_file));
+		};
+		if ($this->isDeleteFile()) {
+			$this->sendFileUnbufferedUsingHeaders($closure);
+		} else {
+			$closure();
+		}
 	}
 
 
@@ -244,7 +258,8 @@ class ilFileDelivery {
 	}
 
 
-	protected function setGeneralHeaders() {
+	public function setGeneralHeaders() {
+		header("X-ILIAS-FileDelivery-Method: " . $this->getDeliveryType());
 		$this->checkExisting();
 		if ($this->isSendMimeType()) {
 			header("Content-type: " . $this->getMimeType());
@@ -769,6 +784,7 @@ class ilFileDelivery {
 
 	/**
 	 * @param $original_name
+	 *
 	 * @return string
 	 */
 	public static function returnASCIIFileName($original_name) {
@@ -806,5 +822,22 @@ class ilFileDelivery {
 	 */
 	public function setUrlencodeFilename($urlencode_filename) {
 		$this->urlencode_filename = $urlencode_filename;
+	}
+
+
+	/**
+	 * @param \Closure $closure which sets the output-headers, e.g.
+	 *                          header('X-Sendfile: ' . realpath($this->getPathToFile()));
+	 */
+	protected function sendFileUnbufferedUsingHeaders(\Closure $closure) {
+		ignore_user_abort(true);
+		set_time_limit(0);
+		ob_start();
+
+		$closure();
+
+		ob_flush();
+		ob_end_flush();
+		flush();
 	}
 }
