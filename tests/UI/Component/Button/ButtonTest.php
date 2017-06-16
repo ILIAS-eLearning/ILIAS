@@ -225,7 +225,6 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($expected, $html);
 	}
 
-
 	public function test_btn_tag_relevance() {
 		$f = $this->getButtonFactory();
 		$b = $f->tag('tag', '#');
@@ -243,8 +242,6 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		catch (\InvalidArgumentException $e) {
 		    $this->assertTrue(true);
 		}
-
-
 	}
 
 	public function test_render_btn_tag_relevance() {

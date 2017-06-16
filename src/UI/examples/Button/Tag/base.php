@@ -9,7 +9,7 @@ function base() {
     $tag = $f->button()->tag("simple tag", "#");
 
     foreach (range(1,5) as $w) {
-    	$buffer[] = $renderer->render($tag->withRelevance($w));
+        $buffer[] = $renderer->render($tag->withRelevance($w));
     }
 
     $col = $df->color('#00ff00');
@@ -17,14 +17,14 @@ function base() {
 
     $buffer[] = '<hr>with fix colors:<br>';
     $buffer[] = $renderer->render(
-    	$tag->withBackgroundColor($col)
-    	    ->withForegroundColor($forecol)
+        $tag->withBackgroundColor($col)
+            ->withForegroundColor($forecol)
     );
 
     $buffer[] = '<hr>with unavailable action:<br>';
-	$tag = $tag->withUnavailableAction();
-	foreach (range(1,5) as $w) {
-    	$buffer[] = $renderer->render($tag->withRelevance($w));
+    $tag = $tag->withUnavailableAction();
+    foreach (range(1,5) as $w) {
+        $buffer[] = $renderer->render($tag->withRelevance($w));
     }
 
     return implode(' ', $buffer);

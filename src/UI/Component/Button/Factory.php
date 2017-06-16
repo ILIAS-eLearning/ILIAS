@@ -129,6 +129,8 @@ interface Factory {
 	 *     The font-color should be set with high contrast to the chosen background color.
 	 *   effect: >
 	 *     Tags may trigger an action or change the view when clicked.
+	 *     There is no visual difference (besides the cursor) between
+	 *     clickable tags and tags with unavailable action.
 	 *
 	 * context:
 	 *
