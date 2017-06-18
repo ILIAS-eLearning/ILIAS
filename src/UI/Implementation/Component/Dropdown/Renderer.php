@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\DropDown;
+namespace ILIAS\UI\Implementation\Component\Dropdown;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -15,10 +15,10 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
-		return $this->renderDropDown($component, $default_renderer);
+		return $this->renderDropdown($component, $default_renderer);
 	}
 
-	protected function renderDropDown(Component\DropDown\DropDown $component, RendererInterface $default_renderer) {
+	protected function renderDropdown(Component\Dropdown\Dropdown $component, RendererInterface $default_renderer) {
 
 		// get template
 		$tpl_name = "tpl.standard.html";
@@ -42,11 +42,12 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	/**
-	 * @param DropDownItem[] $items
+	 * @param array $items
 	 * @param ilTemplate $tpl
 	 */
 	protected function renderItems($items, $tpl)
 	{
+		/* needs rewrite
 		foreach ($items as $item)
 		{
 			$this->maybeRenderId($item, $tpl, "with_item_id", "ITEM_ID");
@@ -63,6 +64,7 @@ class Renderer extends AbstractComponentRenderer {
 			}
 			$tpl->parseCurrentBlock();
 		}
+		*/
 	}
 
 
@@ -85,7 +87,7 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function getComponentInterfaceName() {
 		return array
-		(Component\DropDown\Standard::class
+		(Component\Dropdown\Standard::class
 		);
 	}
 }

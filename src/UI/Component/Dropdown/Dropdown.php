@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Component\DropDown;
+namespace ILIAS\UI\Component\Dropdown;
 
 use ILIAS\UI\Component\Clickable;
 use ILIAS\UI\Component\Component;
@@ -10,29 +10,29 @@ use ILIAS\UI\Component\Hoverable;
 use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
- * This describes commonalities between all types of drop downs
+ * This describes commonalities between all types of Dropdowns
  */
-interface DropDown extends Component, JavaScriptBindable, Clickable, Hoverable {
+interface Dropdown extends Component, JavaScriptBindable, Clickable, Hoverable {
 
 	/**
-	 * Get the items of the drop down.
+	 * Get the items of the Dropdown.
 	 *
-	 * @return	DropDownItem[]
+	 * @return	array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Standard>
 	 */
 	public function getItems();
 
 	/**
-	 * Get the label on the drop down.
+	 * Get the label of the Dropdown.
 	 *
 	 * @return	string
 	 */
 	public function getLabel();
 
 	/**
-	 * Get a drop down like this, but with an additional/replaced label.
+	 * Get a Dropdown like this, but with an additional/replaced label.
 	 *
 	 * @param	string	$label
-	 * @return	DropDown
+	 * @return	Dropdown
 	 */
 	public function withLabel($label);
 
