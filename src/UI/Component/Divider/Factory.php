@@ -22,8 +22,12 @@ interface Factory
 	 *          another instance.
 	 *   ordering:
 	 *       1: >
-	 *          Dividers MUST always have a preceding and a succeeding element
+	 *          Standard Dividers MUST always have a succeeding element
 	 *          in a sequence of elments, which MUST NOT be another Divider.
+	 *       2: >
+	 *          Standard Dividers without label MUST always have a preceding
+	 *          element in a sequence of elments, which MUST NOT be another
+	 *          Divider.
 	 * ---
 	 * @return  \ILIAS\UI\Component\Divider\Standard
 	 */

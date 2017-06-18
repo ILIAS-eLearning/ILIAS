@@ -347,7 +347,8 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *     1: >
-	 *       Dividers MUST be used in in container components that render a sequence of items.
+	 *       Dividers MUST only be used in in container components that render
+	 *       a sequence of items.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\Divider\Factory
