@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\DropDown;
+namespace ILIAS\UI\Implementation\Component\Dropdown;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
@@ -11,9 +11,9 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
- * This implements commonalities between different types of drop downs.
+ * This implements commonalities between different types of Dropdowns.
  */
-abstract class DropDown implements C\DropDown\DropDown {
+abstract class Dropdown implements C\Dropdown\Dropdown {
 	use ComponentHelper;
 	use JavaScriptBindable;
 	use Triggerer;
