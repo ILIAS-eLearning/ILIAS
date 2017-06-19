@@ -34,7 +34,7 @@ interface Item extends \ILIAS\UI\Component\Component {
 	 * The key is holding the title and the value is holding the content of the
      * specific data set.
 	 *
-	 * @param array<string,string> $properties Title => Content
+	 * @param array<string,string> $properties Label => Content
 	 * @return self
 	 */
 	public function withProperties(array $properties);
