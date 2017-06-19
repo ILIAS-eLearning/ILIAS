@@ -571,9 +571,15 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		
 		//$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/ordering.js");
 	}
-		
-	public function getTestOutput($activeId, $pass = NULL, $isPostponed = FALSE, $userSolutionPost = FALSE, $inlineFeedback = false)
+	
+	// hey: prevPassSolutions - pass will be always available from now on
+	public function getTestOutput($activeId, $pass, $isPostponed = FALSE, $userSolutionPost = FALSE, $inlineFeedback = false)
+	// hey.
 	{
+		// hey: prevPassSolutions - fixed variable type, makes phpstorm stop crying
+		$userSolutionPost = is_array($userSolutionPost) ? $userSolutionPost : array();
+		// hey.
+		
 		$orderingGUI = $this->object->buildNestedOrderingElementInputGui();
 		$orderingGUI->setNestingEnabled($this->object->isOrderingTypeNested());
 		

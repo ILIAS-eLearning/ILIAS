@@ -277,19 +277,23 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 	 *
 	 * @return string
 	 */
-	public function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $inlineFeedback)
+	// hey: prevPassSolutions - pass will be always available from now on
+	public function getTestOutput($active_id, $pass, $is_postponed = FALSE, $use_post_solutions = FALSE, $inlineFeedback)
+	// hey.
 	{
 		$solutions = NULL;
 		// get the solution of the user for the active pass or from the last pass if allowed
 		if ($active_id)
 		{
 			
-			require_once './Modules/Test/classes/class.ilObjTest.php';
-			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
-			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+			// hey: prevPassSolutions - obsolete due to central check
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			#{
+			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			#}
+			$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
+			// hey.
 		}
 		
 		// generate the question output
