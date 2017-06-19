@@ -361,7 +361,8 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *     1: Icons MUST be used to represent objects or context.
-	 *     2: Icons MUST be used in combination with a title.
+	 *     2: Icons MUST be used in combination with a title or label.
+	 *     3: An unique Icon MUST always refer to the same thing.
 	 *   style:
 	 *     1: Icons MUST have a class indicating their usage.
 	 *     2: Icons MUST be tagged with a CSS-class indicating their size.

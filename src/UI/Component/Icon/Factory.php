@@ -41,7 +41,11 @@ interface Factory {
 	 *   usage:
 	 *     1: Custom Icons MAY still use an abbreviation.
 	 *   style:
-	 *     1: Images used for Custom Icons MUST be quadratic.
+	 *     1: Custom Icons MUST use SVG as graphic.
+	 *     2: >
+	 *       Icons MUST have a transparent background so they could be put on
+	 *       all kinds of backgrounds.
+	 *     3: Images used for Custom Icons MUST be quadratic.
 	 * ---
 	 *
 	 * @param   string $icon_path
