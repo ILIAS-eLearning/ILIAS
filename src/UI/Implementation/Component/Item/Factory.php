@@ -12,13 +12,6 @@ class Factory implements I\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function appointment($title, \ilDateTime $from, \ilDateTime $to, $color) {
-		return new AppointmentItem($title, $from, $to, $color);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function standard($title) {
 		return new StandardItem($title);
 	}
@@ -26,22 +19,8 @@ class Factory implements I\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function repository() {
-		throw new NotImplementedException();
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function blogPosting() {
-		throw new NotImplementedException();
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function forumPosting() {
-		throw new NotImplementedException();
+	public function group($title, $items) {
+		return new Group($title, $items);
 	}
 
 }

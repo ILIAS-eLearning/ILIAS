@@ -15,9 +15,9 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
-		if ($component instanceof Component\Item\AppointmentItem)
+		if ($component instanceof Component\Item\Group)
 		{
-			return $this->renderAppointment($component, $default_renderer);
+			return $this->renderGroup($component, $default_renderer);
 		}
 		if ($component instanceof Component\Item\StandardItem)
 		{
@@ -25,8 +25,25 @@ class Renderer extends AbstractComponentRenderer {
 		}
 	}
 
-	protected function renderAppointment(Component\Item\AppointmentItem $component, RendererInterface $default_renderer) {
-		return $this->renderStandard($component, $default_renderer);
+	protected function renderGroup(Component\Item\Group $component, RendererInterface $default_renderer) {
+		global $DIC;
+
+		$renderer = $DIC->ui()->renderer();
+
+		$tpl = $this->getTemplate("tpl.group.html", true, true);
+		$title = $component->getTitle();
+		$items = $component->getItems();
+
+		foreach ($items as $item)
+		{
+			$tpl->setCurrentBlock("item");
+			$tpl->setVariable("ITEM", $renderer->render($item));
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setVariable("TITLE", $title);
+
+		return $tpl->get();
 	}
 
 	protected function renderStandard(Component\Item\Item $component, RendererInterface $default_renderer) {
@@ -129,8 +146,8 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function getComponentInterfaceName() {
 		return array
-		(Component\Item\AppointmentItem::class
-		, Component\Item\StandardItem::class
+		(Component\Item\StandardItem::class
+			, Component\Item\Group::class
 		);
 	}
 }

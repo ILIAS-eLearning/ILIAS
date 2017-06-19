@@ -38,11 +38,13 @@ function with_lead_image_in_narrow_container() {
 		->withLeadImage($image);
 
 	$std_list = $f->panel()->listing()->standard("", array(
-		$f->panel()->listing()->divider()->withLabel("Your Contacts"),
-		$list_item1,
-		$list_item2,
-		$f->panel()->listing()->divider()->withLabel("All Users"),
-		$list_item3
+		$f->item()->group("Your Contacts", array(
+			$list_item1,
+			$list_item2
+		)),
+		$f->item()->group("All Users", array(
+			$list_item3
+		))
 	));
 
 

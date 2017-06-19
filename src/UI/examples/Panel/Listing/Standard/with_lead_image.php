@@ -44,11 +44,13 @@ function with_lead_image() {
 		->withLeadImage($image);
 
 	$std_list = $f->panel()->listing()->standard("Content", array(
-		$f->panel()->listing()->divider()->withLabel("Courses"),
-		$list_item1,
-		$list_item2,
-		$f->panel()->listing()->divider()->withLabel("Groups"),
-		$list_item3
+		$f->item()->group("Courses", array(
+			$list_item1,
+			$list_item2
+		)),
+		$f->item()->group("Groups", array(
+			$list_item3
+		))
 	));
 
 

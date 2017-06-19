@@ -19,7 +19,7 @@ interface Listing extends \ILIAS\UI\Component\Component {
 	/**
 	 * Get item list
 	 *
-	 * @return array<Divider|\ILIAS\UI\Component\Item\Item>
+	 * @return \ILIAS\UI\Component\Item\Group[]
 	 */
-	public function getItems();
+	public function getItemGroups();
 }

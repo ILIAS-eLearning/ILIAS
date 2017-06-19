@@ -20,15 +20,15 @@ abstract class Listing implements C\Panel\Listing\Listing {
 	protected  $title;
 
 	/**
-	 * @var string
+	 * @var \ILIAS\UI\Component\Item\Group[]
 	 */
-	protected  $items = array();
+	protected $item_groups = array();
 
-	public function __construct($title, $items) {
+	public function __construct($title, $item_groups) {
 		$this->checkStringArg("title",$title);
 
 		$this->title = $title;
-		$this->items = $items;
+		$this->item_groups = $item_groups;
 	}
 
 	/**
@@ -41,8 +41,8 @@ abstract class Listing implements C\Panel\Listing\Listing {
 	/**
 	 * @inheritdoc
 	 */
-	public function getItems() {
-		return $this->items;
+	public function getItemGroups() {
+		return $this->item_groups;
 	}
 
 }

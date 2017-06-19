@@ -102,8 +102,8 @@ interface Factory {
 	 *       Listing Panels are used to list items following all one
 	 *       single template.
 	 *   composition: >
-	 *       Listing Panels are composed of several titled sections containing
-	 *       related List Items. They further may contain a filter.
+	 *       Listing Panels are composed of several titled Item Groups.
+	 *       They further may contain a filter.
 	 *   effect: >
 	 *       The List Items of Listing Panels may contain a dropdown
 	 *       offering options to interact with the item. Further Listing Panels

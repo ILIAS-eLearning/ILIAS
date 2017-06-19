@@ -42,11 +42,13 @@ function with_lead_text() {
 		->withLeadText("8:00 - 10:00");
 
 	$std_list = $f->panel()->listing()->standard("Upcoming Events", array(
-		$f->panel()->listing()->divider()->withLabel("Today"),
-		$list_item1,
-		$list_item2,
-		$f->panel()->listing()->divider()->withLabel("Tomorrow"),
-		$list_item3
+		$f->item()->group("Today", array(
+			$list_item1,
+			$list_item2
+		)),
+		$f->item()->group("Tomorrow", array(
+			$list_item3
+		))
 	));
 
 

@@ -28,11 +28,13 @@ function base() {
 		->withDescription("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.");
 
 	$std_list = $f->panel()->listing()->standard("List Title", array(
-		$f->panel()->listing()->divider()->withLabel("Subtitle 1"),
-		$list_item1,
-		$list_item2,
-		$f->panel()->listing()->divider()->withLabel("Subtitle 2"),
-		$list_item3
+		$f->item()->group("Subtitle 1", array(
+			$list_item1,
+			$list_item2
+		)),
+		$f->item()->group("Subtitle 2", array(
+			$list_item3
+		))
 	));
 
 
