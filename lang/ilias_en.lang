@@ -15658,10 +15658,10 @@ style#:#from_skin#:#of skin:
 style#:#dir_copied_from#:#The directory has been copied to from:
 style#:#to#:#to:
 style#:#dir_deleted#:#The following directory has been deleted:
-style#:#sty_create_new_system_style#:#Create a new system style.
-style#:#sty_create_new_system_sub_style#:#Create a new system sub style.
-style#:#sty_import_system_style#:#Import an existing system style as zip.
-style#:#sty_copy_other_system_style#:#Clone an existing system style.
+style#:#sty_create_new_system_style#:#Create new System Style
+style#:#sty_create_new_system_sub_style#:#Create new Sub Style
+style#:#sty_import_system_style#:#Import System Style
+style#:#sty_copy_other_system_style#:#Copy System Style
 style#:#sub_style_id#:#Sub Style ID
 style#:#sub_style_name#:#Sub Style Name
 style#:#less_variables_file_not_included#:#The less variables file:
@@ -15957,3 +15957,5 @@ exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant re
 exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.
 rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#stys_sty_write_content#:#Edit Content Styles
+style#:#manage_system_styles#:#Manage System Styles
+style#:#scope#:#Scope
