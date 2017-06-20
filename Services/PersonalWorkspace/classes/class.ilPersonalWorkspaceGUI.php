@@ -34,7 +34,7 @@ class ilPersonalWorkspaceGUI
 
 		$ilCtrl->saveParameter($this, "wsp_id");
 
-		$this->node_id = $_REQUEST["wsp_id"];
+		$this->node_id = (int) $_REQUEST["wsp_id"];
 		if(!$this->node_id)
 		{
 			$this->node_id = $this->tree->getRootId();
