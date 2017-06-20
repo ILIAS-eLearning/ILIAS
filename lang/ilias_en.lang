@@ -15956,3 +15956,4 @@ exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mai
 exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.
 exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.
 rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#stys_sty_write_content#:#Edit Content Styles
