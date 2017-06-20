@@ -22,7 +22,11 @@ class Mode implements C\ViewControl\Mode {
 
 	public function withActive($label)
 	{
-		$this->active = $this->checkStringArg("label", $label);
+		//$this->active = $this->checkStringArg("label", $label);
+		$this->checkStringArg("label", $label);
+		$clone = clone $this;
+		$clone->active = $label;
+		return $clone;
 	}
 
 	public function getActive()
