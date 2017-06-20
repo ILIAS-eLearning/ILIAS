@@ -29,7 +29,7 @@ class Section implements C\ViewControl\Section {
 	 */
 	public function getPreviousActions()
 	{
-		return $this->previous_action->url();
+		return $this->previous_action;
 	}
 
 	/**
@@ -39,7 +39,7 @@ class Section implements C\ViewControl\Section {
 	 */
 	public function getNextActions()
 	{
-		return $this->next_action->url();
+		return $this->next_action;
 	}
 
 	/**
