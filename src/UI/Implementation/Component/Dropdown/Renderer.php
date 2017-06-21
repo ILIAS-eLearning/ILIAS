@@ -7,6 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Dropdown;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 class Renderer extends AbstractComponentRenderer {
 	/**
@@ -47,9 +48,17 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderItems($items, $tpl)
 	{
-		/* needs rewrite
+		global $DIC;
+
+		$renderer = $DIC->ui()->renderer();
+
 		foreach ($items as $item)
 		{
+			$tpl->setCurrentBlock("item");
+			$tpl->setVariable("ITEM", $renderer->render($item));
+			$tpl->parseCurrentBlock();
+
+			/*
 			$this->maybeRenderId($item, $tpl, "with_item_id", "ITEM_ID");
 
 			$label = $item->getLabel();
@@ -62,9 +71,9 @@ class Renderer extends AbstractComponentRenderer {
 			if ($label !== null) {
 				$tpl->setVariable("ITEM_LABEL", $label);
 			}
-			$tpl->parseCurrentBlock();
+			$tpl->parseCurrentBlock();*/
 		}
-		*/
+
 	}
 
 
@@ -80,6 +89,14 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable($template_var, $id);
 			$tpl->parseCurrentBlock();
 		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function registerResources(ResourceRegistry $registry) {
+		parent::registerResources($registry);
+		$registry->register('./src/UI/templates/js/Dropdown/dropdown.js');
 	}
 
 	/**

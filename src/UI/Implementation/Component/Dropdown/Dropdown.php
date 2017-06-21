@@ -24,10 +24,14 @@ abstract class Dropdown implements C\Dropdown\Dropdown {
 	protected $label;
 
 	/**
-	 * @var DropDownItem[]
+	 * @var array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal>
 	 */
 	protected $items;
 
+	/**
+	 * Dropdown constructor.
+	 * @param array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal> $items
+	 */
 	public function __construct($items) {
 		$this->items = $items;
 	}
@@ -54,13 +58,6 @@ abstract class Dropdown implements C\Dropdown\Dropdown {
 		$clone = clone $this;
 		$clone->label = $label;
 		return $clone;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function isActive() {
-		return $this->active;
 	}
 
 	/**
