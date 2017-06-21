@@ -344,14 +344,15 @@ interface Factory {
 	 *      on a link does not change the systems status.
 	 *   composition: >
 	 *      Link is a clickable, graphically minimal obtrusive control element. It can
-	 *      bear text or other content.
+	 *      bear text or other content. Links always contain a valid href tag which
+	 *      should not not just contain a hash sign.
 	 *   effect: >
 	 *      On-click, the resource or view indicated by the link is requested and
-	 *      presented.
+	 *      presented. Links are not used to trigger Javascript events.
 	 *   rivals:
 	 *      buttons: >
 	 *          Buttons are used to trigger Interactions that usually change the systems
-	 *          status. Buttons are much more obtrusive than links.
+	 *          status. Buttons are much more obtrusive than links and may fire JS events.
 	 *
 	 * rules:
 	 *   usage:
@@ -360,6 +361,8 @@ interface Factory {
 	 *   interaction:
 	 *      1: >
 	 *           Hovering an active link should indicate a possible interaction.
+	 *      2: >
+	 *           Links MUST not be used to fire Javascript events.
 	 *   style:
 	 *      1: >
 	 *           Links SHOULD not be presented with a separate background color.

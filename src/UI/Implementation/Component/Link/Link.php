@@ -8,7 +8,7 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
- * This implements commonalities between standard and primary buttons.
+ * This implements commonalities between Links
  */
 abstract class Link implements C\Link\Link {
 	use ComponentHelper;
