@@ -92,8 +92,17 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function divider() {
+	public function divider()
+	{
 		return new Component\Divider\Factory();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function link()
+	{
+		return new Component\Link\Factory();
 	}
 
 }

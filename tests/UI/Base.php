@@ -31,6 +31,7 @@ class NoUIFactory implements Factory {
 	public function panel() {}
 	public function modal() {}
 	public function divider() {}
+	public function link() {}
 }
 
 class LoggingRegistry implements ResourceRegistry {
