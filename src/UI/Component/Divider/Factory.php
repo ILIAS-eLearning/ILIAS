@@ -13,7 +13,7 @@ interface Factory
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       Horizontal Divider is used to mark a thematic change in sequence of
+	 *       A Horizontal Divider is used to mark a thematic change in a sequence of
 	 *       elements that are stacked from top to bottom.
 	 *   composition: >
 	 *     Horiztonal dividers consists of a horizontal ruler which may comprise a label.
