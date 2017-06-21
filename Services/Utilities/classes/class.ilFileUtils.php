@@ -240,7 +240,7 @@ class ilFileUtils
 	 * @param string $containerType Fold or Cat
 	 * @return integer ref_id of containerobject
 	 */
-	function createContainer($name, $ref_id, $containerType, $tree = null, $access_handler = null) 
+	public static function createContainer($name, $ref_id, $containerType, $tree = null, $access_handler = null)
 	{
 		switch($containerType)
 		{

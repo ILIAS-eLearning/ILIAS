@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
+    "first_maintainer": "ukohnle(21855)",
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "suittenpointner(3458)",
+    "testcase_writer": "suittenpointner(3458)",
     "path": "Modules/Scorm2004",
-    "belong_to_component": "None",
+    "belong_to_component": "Learning Module SCORM",
     "used_in_components": []
 }

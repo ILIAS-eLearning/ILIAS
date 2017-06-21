@@ -157,7 +157,8 @@ class ilLearningProgressBaseGUI
 				$olp = ilObjectLP::getInstance($this->obj_id);			
 				if($olp->isActive())
 				{
-					$has_read = $rbacsystem->checkAccess('read_learning_progress',$this->getRefId());
+					include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+					$has_read = ilLearningProgressAccess::checkPermission('read_learning_progress', $this->getRefId());
 								
 					if($this->isAnonymized() || !$has_read)
 					{
@@ -194,8 +195,9 @@ class ilLearningProgressBaseGUI
 														"", "", "", $a_active == self::LP_ACTIVE_SUMMARY);
 					}
 				}				
+				include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 				if(!($olp instanceof ilPluginLP) &&
-					$rbacsystem->checkAccess('edit_learning_progress',$this->getRefId()))
+					ilLearningProgressAccess::checkPermission('edit_learning_progress', $this->getRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget('trac_settings',
 													 $this->ctrl->getLinkTargetByClass('illplistofsettingsgui',''),

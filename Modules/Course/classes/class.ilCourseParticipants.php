@@ -238,16 +238,18 @@ class ilCourseParticipants extends ilParticipants
 	}		
 	
 	// Subscription
-	function sendNotification($a_type, $a_usr_id)
+	function sendNotification($a_type, $a_usr_id, $a_force_sending_mail = false)
 	{
-		include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
 		
 		global $ilObjDataCache,$ilUser;
 	
+		include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
+		$mail = new ilCourseMembershipMailNotification();
+		$mail->forceSendingMail($a_force_sending_mail);
+
 		switch($a_type)
 		{
 			case $this->NOTIFY_DISMISS_SUBSCRIBER:
-				$mail = new ilCourseMembershipMailNotification();
 				$mail->setType(ilCourseMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -255,7 +257,6 @@ class ilCourseParticipants extends ilParticipants
 				break;
 				
 			case $this->NOTIFY_ACCEPT_SUBSCRIBER:
-				$mail = new ilCourseMembershipMailNotification();
 				$mail->setType(ilCourseMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -263,7 +264,6 @@ class ilCourseParticipants extends ilParticipants
 				break;				
 
 			case $this->NOTIFY_DISMISS_MEMBER:
-				$mail = new ilCourseMembershipMailNotification();
 				$mail->setType(ilCourseMembershipMailNotification::TYPE_DISMISS_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -271,7 +271,6 @@ class ilCourseParticipants extends ilParticipants
 				break;
 
 			case $this->NOTIFY_BLOCK_MEMBER:
-				$mail = new ilCourseMembershipMailNotification();
 				$mail->setType(ilCourseMembershipMailNotification::TYPE_BLOCKED_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -279,7 +278,6 @@ class ilCourseParticipants extends ilParticipants
 				break;
 				
 			case $this->NOTIFY_UNBLOCK_MEMBER:
-				$mail = new ilCourseMembershipMailNotification();
 				$mail->setType(ilCourseMembershipMailNotification::TYPE_UNBLOCKED_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -287,7 +285,6 @@ class ilCourseParticipants extends ilParticipants
 				break;
 
 			case $this->NOTIFY_ACCEPT_USER:
-				$mail = new ilCourseMembershipMailNotification();
 				$mail->setType(ilCourseMembershipMailNotification::TYPE_ADMISSION_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -295,7 +292,6 @@ class ilCourseParticipants extends ilParticipants
 				break;
 
 			case $this->NOTIFY_STATUS_CHANGED:
-				$mail = new ilCourseMembershipMailNotification();
 				$mail->setType(ilCourseMembershipMailNotification::TYPE_STATUS_CHANGED);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -303,7 +299,6 @@ class ilCourseParticipants extends ilParticipants
 				break;
 				
 			case $this->NOTIFY_UNSUBSCRIBE:
-				$mail = new ilCourseMembershipMailNotification();
 				$mail->setType(ilCourseMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -311,7 +306,6 @@ class ilCourseParticipants extends ilParticipants
 				break;
 				
 			case $this->NOTIFY_REGISTERED:
-				$mail = new ilCourseMembershipMailNotification();
 				$mail->setType(ilCourseMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -323,7 +317,6 @@ class ilCourseParticipants extends ilParticipants
 				$wl = new ilCourseWaitingList($this->obj_id);
 				$pos = $wl->getPosition($a_usr_id);
 					
-				$mail = new ilCourseMembershipMailNotification();
 				$mail->setType(ilCourseMembershipMailNotification::TYPE_WAITING_LIST_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));

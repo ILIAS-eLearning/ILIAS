@@ -19,10 +19,15 @@ class ilECSCourseMappingRule
 	private $ref_id;
 	private $is_filter = false;
 	private $filter;
+	private $filter_elements = [];
 	private $create_subdir = true;
 	private $subdir_type = self::SUBDIR_VALUE;
 	private $directory = '';
 	
+	/**
+	 * @var ilLogger
+	 */
+	private $logger = null;
 	
 	/**
 	 * Constructor
@@ -30,6 +35,7 @@ class ilECSCourseMappingRule
 	 */
 	public function __construct($a_rid = 0)
 	{
+		$this->logger = $GLOBALS['DIC']->logger()->wsrv();
 		$this->rid = $a_rid;
 		$this->read();
 	}
@@ -234,7 +240,7 @@ class ilECSCourseMappingRule
 				$category_references[] = $this->createCategory($value, $parent_ref);
 			}
 		}
-		return $category_references;
+		return (array) $category_references;
 	}
 	
 	/**
@@ -276,10 +282,14 @@ class ilECSCourseMappingRule
 			$values = ilECSMappingUtils::getCourseValueByMappingAttribute($course, $this->getAttribute());
 			foreach($values as $value)
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': Comparing '. $value . ' with ' . $this->getFilter());
-				if(strcmp($value, $this->getFilter()) === 0)
+				foreach($this->getFilterElements() as $filter_element)
 				{
-					return true;
+					$this->logger->debug('Comparing ' . $value . ' with ' . $filter_element);
+					if(strcmp(trim($value), trim($filter_element)) === 0)
+					{
+						$this->logger->debug($value . ' matches ' . $filter_element);
+						return true;
+					}
 				}
 			}
 			return false;
@@ -383,6 +393,11 @@ class ilECSCourseMappingRule
 	public function getFilter()
 	{
 		return $this->filter;
+	}
+	
+	public function getFilterElements()
+	{
+		return (array) $this->filter_elements;
 	}
 	
 	public function enableSubdirCreation($a_stat)
@@ -500,6 +515,31 @@ class ilECSCourseMappingRule
 			$this->setSubDirectoryType($row->subdir_type);
 			$this->setDirectory($row->directory);
 		}
+		
+		$this->parseFilter();
+	}
+	
+	/**
+	 * Parse filter
+	 */
+	protected function parseFilter()
+	{
+		$filter = $this->getFilter();
+		$this->logger->debug('Original filter: ' . $filter);
+		
+		$escaped_filter = str_replace('\,', '#:#', $filter);
+		$this->logger->debug('Escaped filter: ' . $escaped_filter);
+		
+		$filter_elements = explode(',', $escaped_filter);
+		foreach((array) $filter_elements as $filter_element)
+		{
+			$replaced = str_replace('#:#', ',', $filter_element);
+			if(strlen(trim($replaced)))
+			{
+				$this->filter_elements[] = $replaced;
+			}
+		}
+		$this->logger->dump($this->filter_elements);
 	}
 }
 ?>

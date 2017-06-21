@@ -456,6 +456,8 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->ctrl->redirectByClass('iltestexpresspageobjectgui', $this->ctrl->getCmd());
 				}
 
+				$q_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
+				
 				$q_gui->outAdditionalOutput();
 				$q_gui->object->setObjId($this->object->getId());
 				
@@ -544,6 +546,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 				$q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+				$q_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
 				$q_gui->setQuestionTabs();
 				$q_gui->outAdditionalOutput();
 				$q_gui->object->setObjId($this->object->getId());
@@ -3202,7 +3205,7 @@ class ilObjTestGUI extends ilObjectGUI
 			
 			if( $isPdfDeliveryRequest )
 			{
-				$question_gui->setOutputMode(assQuestionGUI::OUTPUT_MODE_PDF);
+				$question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PRINT_PDF);
 			}
 
 			$questionHeaderBlockBuilder->setQuestionTitle($question_gui->object->getTitle());
@@ -3213,7 +3216,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$template->setVariable("TXT_QUESTION_ID", $this->lng->txt('question_id_short'));
 			$template->setVariable("QUESTION_ID", $question_gui->object->getId());
 			$result_output = $question_gui->getSolutionOutput("", NULL, FALSE, TRUE, FALSE, $this->object->getShowSolutionFeedback());
-			if (strlen($result_output) == 0) $result_output = $question_gui->getPreview(FALSE);
 			$template->setVariable("SOLUTION_OUTPUT", $result_output);
 			$template->parseCurrentBlock("question");
 			$counter ++;
@@ -3284,18 +3286,14 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$template->setCurrentBlock("question");
 			$question_gui = $this->object->createQuestionGUI("", $question);
+			$question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
 			
 			$questionHeaderBlockBuilder->setQuestionTitle($question_gui->object->getTitle());
 			$questionHeaderBlockBuilder->setQuestionPoints($question_gui->object->getMaximumPoints());
 			$questionHeaderBlockBuilder->setQuestionPosition($counter);
 			$template->setVariable("QUESTION_HEADER", $questionHeaderBlockBuilder->getHTML());
-			
-			/** @var $question_gui assQuestionGUI  */
-			//$result_output = $question_gui->getTestOutput('', NULL, FALSE, FALSE, FALSE);
-			$result_output = $question_gui->getPreview(false);
 
-			if (strlen($result_output) == 0) $result_output = $question_gui->getPreview(FALSE);
-			$template->setVariable("SOLUTION_OUTPUT", $result_output);
+			$template->setVariable("SOLUTION_OUTPUT", $question_gui->getPreview(false));
 			$template->parseCurrentBlock("question");
 			$counter ++;
 			$max_points += $question_gui->object->getMaximumPoints();

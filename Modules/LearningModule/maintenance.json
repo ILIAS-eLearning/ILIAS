@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
+    "first_maintainer": "akill(149)",
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "Balliel(18365)",
+    "testcase_writer": "Balliel(18365)",
     "path": "Modules/LearningModule",
-    "belong_to_component": "None",
+    "belong_to_component": "Learning Module ILIAS",
     "used_in_components": []
 }
