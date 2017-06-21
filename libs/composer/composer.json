@@ -3,6 +3,12 @@
 	"description": "Dependencies of ILIAS",
 	"license": "GPL v3",
 	"authors": [],
+	"config": {
+		"platform": {
+			"php": ">=5.6.0 <=7.0.99"
+		},
+		"optimize-autoloader": true
+	},
 	"require": {
 		"cweagans/composer-patches": "~1.0",
 		"filp/whoops": "^2.0",
@@ -29,7 +35,9 @@
 		"mockery/mockery": "^0.9.9"
 	},
 	"autoload": {
-		"psr-4" : { "ILIAS\\" : "../../src" }
+		"psr-4" : { "ILIAS\\" : "../../src" },
+		"classmap": ["../../Services/", "../../Modules"],
+		"exclude-from-classmap": ["../../Services/Migration", "../../*/*/lib", "../../*/*/test", "../../Services/CAS/phpcas"]
 	},
 	"extra": {
 		"cweagans/composer-patches" : {
