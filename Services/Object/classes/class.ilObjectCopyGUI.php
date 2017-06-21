@@ -1098,7 +1098,8 @@ class ilObjectCopyGUI
 		$progress->setObjectInfo($this->targets_copy_id);
 		$progress->parse();
 		$progress->init();
-		
+		$progress->setRedirectionUrl($GLOBALS['ilCtrl']->getParentReturn($this->parent_obj));
+
 		$GLOBALS['tpl']->setContent($progress->getHTML());
 	}
 

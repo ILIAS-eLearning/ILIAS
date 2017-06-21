@@ -429,6 +429,7 @@ class ilMailTemplateGUI
 		$form->addItem($hidde_language);
 
 		$subject = new ilTextInputGUI($this->lng->txt('subject'), 'm_subject');
+		$subject->setRequired(true);
 		$subject->setSize(50);
 		$form->addItem($subject);
 
