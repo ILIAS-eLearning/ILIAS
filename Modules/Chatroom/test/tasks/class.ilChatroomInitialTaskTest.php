@@ -23,7 +23,7 @@ class ilChatroomInitialTaskTest extends ilChatroomAbstractTaskTest
 		$this->createIlObjChatroomMock(15);
 		$this->createIlObjChatroomGUIMock($this->object);
 
-		$this->task = $this->getMock(
+		$this->task = $this->createMock(
 			'ilChatroomInitialGUI',
 			array('sendResponse', 'getRoomByObjectId', 'redirectIfNoPermission'),
 			array($this->gui)
