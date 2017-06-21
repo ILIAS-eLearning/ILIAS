@@ -6248,6 +6248,12 @@ button.close {
   padding-left: 5px;
   padding-right: 5px;
 }
+a.btn-link.ilSubmitInactive,
+a.btn-link.ilSubmitInactive:hover {
+  background-color: inherit;
+  color: #333333;
+  padding: 0;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;
