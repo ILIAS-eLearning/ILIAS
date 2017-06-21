@@ -199,3 +199,54 @@ while ($rec = $ilDB->fetchAssoc($set))
         array('text','text'), array($new, $old)
     );
 ?>
+<#14>
+<?php
+require_once('./Services/Component/classes/class.ilPluginAdmin.php');
+require_once('./Services/Component/classes/class.ilPlugin.php');
+require_once('./Services/UICore/classes/class.ilCtrl.php');
+
+// Mantis #17842
+/** @var $ilCtrl ilCtrl */
+global $ilCtrl, $ilPluginAdmin;
+if (is_null($ilPluginAdmin)) {
+	$GLOBALS['ilPluginAdmin'] = new ilPluginAdmin();
+}
+if (is_null($ilCtrl)) {
+	$GLOBALS['ilCtrl'] = new ilCtrl();
+}
+global $ilCtrl;
+
+function writeCtrlClassEntry(ilPluginSlot $slot, array $plugin_data) {
+	global $ilCtrl;
+	$prefix = $slot->getPrefix() . '_' . $plugin_data['id'];
+	$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($plugin_data['name']), $prefix);
+}
+
+include_once("./Services/Component/classes/class.ilModule.php");
+$modules = ilModule::getAvailableCoreModules();
+foreach ($modules as $m) {
+	$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_MODULE, $m["subdir"]);
+	foreach ($plugin_slots as $ps) {
+		include_once("./Services/Component/classes/class.ilPluginSlot.php");
+		$slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
+		foreach ($slot->getPluginsInformation() as $p) {
+			if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+				writeCtrlClassEntry($slot, $p);
+			}
+		}
+	}
+}
+include_once("./Services/Component/classes/class.ilService.php");
+$services = ilService::getAvailableCoreServices();
+foreach ($services as $s) {
+	$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_SERVICE, $s["subdir"]);
+	foreach ($plugin_slots as $ps) {
+		$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
+		foreach ($slot->getPluginsInformation() as $p) {
+			if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+				writeCtrlClassEntry($slot, $p);
+			}
+		}
+	}
+}
+?>
