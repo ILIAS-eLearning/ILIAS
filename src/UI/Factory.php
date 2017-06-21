@@ -333,7 +333,68 @@ interface Factory {
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\Modal\Factory
-	 **/
+	 */
 	public function modal();
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     The cockpit is a unique page section that holds navigational elements
+     *     and globally available tools.
+     *     It bundles access to navigational strategies (search or the repository tree),
+     *     tools parallel to the content like the help or a context-sensitive navigation,
+     *     and services unrelated to the actual content like the user's profile or desktop.
+     *     Tools that modify the content are NOT included in the cockpit.
+     *
+     *   composition: >
+     *     The cockpit is built of a bar holding one to five entries, which will
+     *     usually open the "slate", a larger area next to the bar providing room
+     *     for a large variety of components.
+     *
+     *   effect: >
+     *     The cockpit(-bar) is always visible and available (except in exam/kiosk mode).
+     *     It is _the_ main navigational item apart from links/buttons in the content.
+     *
+     *   rivals:
+     *     Tab Bar: >
+     *       The cockpit shall not be used to substitute functionality available at
+     *       objects, such as settings, members or learning progress.
+     *       Those remain in the Tab Bar.
+     *
+     *     Content Actions: >
+     *       Also, adding new items, the actions-menu (with comments, notes and tags),
+     *       moving, linking or deleting objects and the like are not part of
+     *       the cockpit.
+     *
+     *     Personal Desktop: >
+     *       The Personal Desktop provides access to services and tools and
+     *       displays further information at first glance (e.g. the calendar).
+     *       The cockpit may reference those tools as well, but rather in form
+     *       of a link than a widget.
+     *
+     *     Notification Center: >
+     *       Notifications of the system for the user, e.g. new Mail, are placed
+     *       in the Notification Center.
+     *       The direction of communication for the cockpit is "user to system",
+     *       while the direction is "system to user" in the Notification Center.
+     *       However, navigation from both components can lead to the same page.
+     *
+     *     Modal: >
+     *       Forms with the intention of modifying the content are placed in modals
+     *       or on the content-page.
+     *
+     * rules:
+     *   usage:
+     *     1: There MUST be but one cockpit on the page.
+     *
+     *   composition:
+     *     1: The cockpit MUST contain a bar.
+     * ----
+     *
+     * @return \ILIAS\UI\Component\Cockpit\Factory
+     */
+    public function cockpit();
 
 }
