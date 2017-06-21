@@ -4,5 +4,5 @@ function with_label() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->divider()->standard()->withLabel("Label"));
+	return $renderer->render($f->divider()->horizontal()->withLabel("Label"));
 }

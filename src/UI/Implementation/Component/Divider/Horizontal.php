@@ -8,9 +8,9 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
- * Standard divider
+ * Horizontal Divider
  */
-class Standard implements C\Divider\Standard {
+class Horizontal implements C\Divider\Horizontal {
 	use ComponentHelper;
 
 	/**

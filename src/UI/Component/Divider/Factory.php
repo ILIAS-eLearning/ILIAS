@@ -13,24 +13,27 @@ interface Factory
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The standard divider is the default divider to be used in ILIAS.
+	 *       Horizontal Divider is used to mark a thematic change in sequence of
+	 *       elements that are stacked from top to bottom.
+	 *   composition: >
+	 *     Horiztonal dividers consists of a horizontal ruler which may comprise a label.
 	 *
 	 * rules:
 	 *   usage:
 	 *       1: >
-	 *          Standard Divider MUST be used if there is no good reason using
-	 *          another instance.
+	 *          Horizontal Dividers MUST only be used in container components that render
+	 *          a sequence of items from top to bottom.
 	 *   ordering:
 	 *       1: >
-	 *          Standard Dividers MUST always have a succeeding element
-	 *          in a sequence of elments, which MUST NOT be another Divider.
+	 *          Horizontal Dividers MUST always have a succeeding element
+	 *          in a sequence of elments, which MUST NOT be another Horizontal Divider.
 	 *       2: >
-	 *          Standard Dividers without label MUST always have a preceding
+	 *          Horizontal Dividers without label MUST always have a preceding
 	 *          element in a sequence of elments, which MUST NOT be another
-	 *          Divider.
+	 *          Horizontal Divider.
 	 * ---
-	 * @return  \ILIAS\UI\Component\Divider\Standard
+	 * @return  \ILIAS\UI\Component\Divider\Horizontal
 	 */
-	public function standard();
+	public function horizontal();
 }
 

@@ -7,9 +7,9 @@ namespace ILIAS\UI\Component\Divider;
 use ILIAS\UI\Component\Component;
 
 /**
- * Standard divider
+ * Horizontal Divider
  */
-interface Standard extends Component {
+interface Horizontal extends Component {
 	/**
 	 * Get the label of the divider
 	 *
@@ -21,7 +21,7 @@ interface Standard extends Component {
 	 * Get a divider like this, but with another label
 	 *
 	 * @param	string	$label
-	 * @return	Standard
+	 * @return	Horizontal
 	 */
 	public function withLabel($label);
 }

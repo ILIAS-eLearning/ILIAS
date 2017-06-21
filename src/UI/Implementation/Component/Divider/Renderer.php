@@ -18,9 +18,9 @@ class Renderer extends AbstractComponentRenderer {
 		return $this->renderDivider($component, $default_renderer);
 	}
 
-	protected function renderDivider(Component\Divider\Standard $component, RendererInterface $default_renderer) {
+	protected function renderDivider(Component\Divider\Horizontal $component, RendererInterface $default_renderer) {
 
-		$tpl = $this->getTemplate("tpl.standard.html", true, true);
+		$tpl = $this->getTemplate("tpl.horizontal.html", true, true);
 
 		$label = $component->getLabel();
 
@@ -43,7 +43,7 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function getComponentInterfaceName() {
 		return array
-		(Component\Divider\Standard::class
+		(Component\Divider\Horizontal::class
 		);
 	}
 }

@@ -4,5 +4,5 @@ function base() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->divider()->standard());
+	return $renderer->render($f->divider()->horizontal());
 }

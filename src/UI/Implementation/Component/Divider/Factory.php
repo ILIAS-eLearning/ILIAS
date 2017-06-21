@@ -10,7 +10,7 @@ class Factory implements D\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function standard() {
-		return new Standard();
+	public function horizontal() {
+		return new Horizontal();
 	}
 }
