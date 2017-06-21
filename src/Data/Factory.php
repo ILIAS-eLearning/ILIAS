@@ -8,13 +8,19 @@ namespace ILIAS\Data;
  *
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
+ * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class Factory {
+	/**
+	 * cache for color factory.
+	 */
+	private $colorfactory;
+
 	/**
  	 * Get an ok result.
 	 *
 	 * @param  mixed  $value
-	 * @return Result 
+	 * @return Result
 	 */
 	public function ok($value) {
 		return new Result\Ok($value);
