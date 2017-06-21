@@ -82,11 +82,31 @@ class ViewControlTest extends ILIAS_UI_TestBase
 		$this->assertContains('back', $html);
 		$this->assertContains('next', $html);
 		$this->assertContains("btn",$html);
+
+		$expected = $this->getSectionExpectedHTML();
+		$this->assertHTMLEquals($expected,$html);
+
 	}
 
 	public function getUIFactory()
 	{
 		return new \ILIAS\UI\Implementation\Factory();
+	}
+
+
+	protected function getSectionExpectedHTML()
+	{
+		$expected = <<<EOT
+<div class="il-viewcontrol-section">
+<a class="glyph" href="http://www.ilias.de" aria-label="back">
+<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+</a>
+<a class="btn btn-default" href="" data-action="">Today</a><a class="glyph" href="http://www.github.com" aria-label="next">
+<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+</a>
+</div>
+EOT;
+		return $expected;
 	}
 
 }
