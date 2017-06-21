@@ -32,3 +32,13 @@
 - Search the name of dependency you like to update.
 - Update by using "composer update --no-dev <DEPENDENCIE_NAME>"
 - Commit all changes in composer.lock and the vendor folder
+
+# Updating Class-Map
+The composer classmap holds information (besides the PHP-dependencies) on all ILIAS-classnames and 
+provied autoloading for them. There is no need to require_once or include_once ILIAS-Classes 
+anymore.
+Whenever you introduce a new ILIAS-Class in /Services\/* or /Modules\/*, the classmap should be 
+updated using 
+```bash
+$ composer dump-autoload
+```
