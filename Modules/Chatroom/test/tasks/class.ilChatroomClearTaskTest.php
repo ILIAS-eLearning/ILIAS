@@ -34,7 +34,7 @@ class ilChatroomClearTaskTest extends ilChatroomAbstractTaskTest
 		$this->createIlObjChatroomGUIMock($this->object);
 		$this->createIlObjChatroomGUIGetConnectorMock($this->ilChatroomServerConnectorMock);
 
-		$this->task = $this->getMock(
+		$this->task = $this->createMock(
 			'ilChatroomClearGUI',
 			array('sendResponse', 'getRoomByObjectId', 'redirectIfNoPermission'),
 			array($this->gui)

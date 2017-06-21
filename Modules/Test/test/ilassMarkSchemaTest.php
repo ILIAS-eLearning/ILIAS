@@ -263,7 +263,7 @@ class ilassMarkSchemaTest extends PHPUnit_Framework_TestCase
 	{
 		/*
 		// Arrange
-		$ildb_stub = $this->getMock('ilDBInterface');
+		$ildb_stub = $this->createMock('ilDBInterface');
 
 		$ildb_stub->expects($this->any())
 			->method('query')
