@@ -340,6 +340,48 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
+	 *      Links are used navigate to other resources or views of the system. Clicking
+	 *      on a link does not change the systems status.
+	 *   composition: >
+	 *      Link is a clickable, graphically minimal obtrusive control element. It can
+	 *      bear text or other content. Links always contain a valid href tag which
+	 *      should not not just contain a hash sign.
+	 *   effect: >
+	 *      On-click, the resource or view indicated by the link is requested and
+	 *      presented. Links are not used to trigger Javascript events.
+	 *   rivals:
+	 *      buttons: >
+	 *          Buttons are used to trigger Interactions that usually change the systems
+	 *          status. Buttons are much more obtrusive than links and may fire JS events.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: >
+	 *           Links MAY be used inline in a Textual Paragraphs.
+	 *   interaction:
+	 *      1: >
+	 *           Hovering an active link should indicate a possible interaction.
+	 *      2: >
+	 *           Links MUST not be used to fire Javascript events.
+	 *   style:
+	 *      1: >
+	 *           Links SHOULD not be presented with a separate background color.
+	 *   wording:
+	 *      1: >
+	 *           The wording of the link SHOULD name the target view or resource.
+	 *   accessibility:
+	 *      1: >
+	 *           DOM elements of type "a" MUST be used to properly identify an
+	 *           element.
+	 * ---
+	 * @return  \ILIAS\UI\Component\Link\Factory
+	 */
+	public function link();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
 	 *     Breadcrumbs is a type of secondary navigation scheme. It eases the
 	 *     user's navigation back to higher items in hierarchical (or prior items
 	 *     in chronological) structures.
@@ -349,7 +391,7 @@ interface Factory {
 	 *     so we will stick to it, although in the context of ILIAS "Ariadne's Path"
 	 *     would probably be more appropriate.
 	 *   composition: >
-	 *     Breadcrumbs-entries are rendered as horizontally arranged shy-buttons
+	 *     Breadcrumbs-entries are rendered as horizontally arranged UI Links
 	 *     with a seperator in-between.
 	 *   effect: >
 	 *     Clicking on an entry will get the user to the respective location.
@@ -360,7 +402,7 @@ interface Factory {
 	 *   usage:
 	 *     1: Crumbs MUST trigger navigation.
 	 * ---
-	 * @param 	\ILIAS\UI\Component\Button\Shy[] 	$crumbs 	a list of shy-buttons
+	 * @param 	\ILIAS\UI\Component\Link\Standard[] 	$crumbs 	a list of Links
 	 * @return 	\ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
 	 **/
 	public function breadcrumbs($crumbs);

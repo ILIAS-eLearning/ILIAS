@@ -7,16 +7,16 @@ function breadcrumbs() {
 	$entry =
 
 	$crumbs = array(
-		$f->button()->shy("entry1", '#'),
-		$f->button()->shy("entry2", '#'),
-		$f->button()->shy("entry3", '#'),
-		$f->button()->shy("entry4", '#')
+		$f->link()->standard("entry1", '#'),
+		$f->link()->standard("entry2", '#'),
+		$f->link()->standard("entry3", '#'),
+		$f->link()->standard("entry4", '#')
 	);
 
 	$bar = $f->breadcrumbs($crumbs);
 
 	$bar_extended = $bar->withAppendedEntry(
-		$f->button()->shy("entry5", '#')
+		$f->link()->standard("entry5", '#')
 	);
 
 	return $renderer->render($bar)

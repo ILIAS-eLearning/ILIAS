@@ -9,12 +9,12 @@ class Breadcrumbs implements B\Breadcrumbs {
 	use ComponentHelper;
 
 	/**
-	 * @var Button\Shy[] 	list of shy-buttons
+	 * @var Link\Standard[] 	list of links
 	 */
 	protected $crumbs;
 
 	public function __construct($crumbs) {
-		$types = array(\ILIAS\UI\Component\Button\Shy::class);
+		$types = array(\ILIAS\UI\Component\Link\Standard::class);
 		$this->checkArgListElements("crumbs", $crumbs, $types);
 		$this->crumbs = $crumbs;
     }
@@ -31,7 +31,7 @@ class Breadcrumbs implements B\Breadcrumbs {
 	 * @inheritdoc
 	 */
 	public function withAppendedEntry($crumb) {
-		$this->checkArgInstanceOf("crumb", $crumb, \ILIAS\UI\Component\Button\Shy::class);
+		$this->checkArgInstanceOf("crumb", $crumb, \ILIAS\UI\Component\Link\Standard::class);
 		$clone = clone $this;
 		$clone->crumbs[] = $crumb;
 		return $clone;

@@ -91,8 +91,14 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
+	public function link(){
+		return new Component\Link\Factory();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function breadcrumbs($crumbs) {
 		return new Component\Breadcrumbs\Breadcrumbs($crumbs);
 	}
-
 }
