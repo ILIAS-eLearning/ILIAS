@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI\Implementation;
 
+use ILIAS\UI\NotImplementedException;
+
 // TODO: This might cache the created factories.
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 
@@ -87,6 +89,13 @@ class Factory implements \ILIAS\UI\Factory
 	 */
 	public function modal() {
 		return new Component\Modal\Factory(new SignalGenerator());
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function item() {
+		return new Component\Item\Factory();
 	}
 
 }
