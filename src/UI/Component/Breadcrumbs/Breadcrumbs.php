@@ -12,14 +12,14 @@ interface Breadcrumbs extends \ILIAS\UI\Component\Component {
 	/**
 	 * Get all crumbs.
 	 *
-	 * @return 	\ILIAS\UI\Component\Button\Shy[] 	a list of shy buttons
+	 * @return 	\ILIAS\UI\Component\Link\Standard[]
 	 */
 	public function getCrumbs();
 
 	/**
 	 * Append an crumb-entry to the bar.
 	 *
-	 * @param 	\ILIAS\UI\Component\Button\Shy 	$crumb
+	 * @param 	\ILIAS\UI\Component\Link\Standard 	$crumb
 	 * @return 	Breadcrumbs
 	 */
 	public function withAppendedEntry($crumb);
