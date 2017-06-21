@@ -53,8 +53,7 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 		$mode = $f->mode($this->actions);
 
-		//$html = $this->normalizeHTML($r->render($mode));
-		$html = "<div class=\"btn-group il-viewcontrol-mode\" aria-label=\"Mode View Controler\" role=\"group\"><a class=\"btn btn-default ilSubmitInactive\" data-action=\"http://www.ilias.de\">ILIAS</a><a class=\"btn btn-default\" href=\"http://www.github.com\" data-action=\"http://www.github.com\">Github</a></div>";
+		$html = $this->normalizeHTML($r->render($mode));
 
 		$active = $mode->getActive();
 		if($active == "") {
@@ -77,7 +76,12 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 		}
 		$expected .= "</div>";
 
-		$this->assertEquals($expected, $html);
+		$this->assertHTMLEquals($expected, $html);
+	}
+
+	public function getUIFactory()
+	{
+		return new \ILIAS\UI\Implementation\Factory();
 	}
 
 }
