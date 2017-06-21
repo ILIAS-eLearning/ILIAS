@@ -46,7 +46,6 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 		$this->assertInternalType("array",$f->mode($this->actions)->getLabelledActions());
 	}
 
-	// TODO fix line 56-> PHP Fatal error:  Call to a member function standard() on null in /Users/leifos/Sites/ILIAS_trunk/ILIAS/src/UI/Implementation/Component/ViewControl/Renderer.php on line 56
 	public function test_render_viewcontrol_mode()
 	{
 		$f = $this->getViewControlFactory();
