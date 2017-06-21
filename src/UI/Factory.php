@@ -414,16 +414,16 @@ interface Factory {
 	 *      button: >
 	 *          Buttons are used, if single actions should be presented directly in the user interface.
 	 *      links: >
-	 *          Links are used to trigger Interactions that do not change the systems
+	 *          Links are used to trigger actions that do not change the systems
 	 *          status. They are usually contained inside a Navigational Collection.
 	 *      popovers: >
-	 *          Dropdowns only list a list of possible actions. Popovers can include more diverse
+	 *          Dropdowns only provide a list of possible actions. Popovers can include more diverse
 	 *          and flexible content.
 	 *
 	 * rules:
 	 *   usage:
 	 *      1: >
-	 *           Dropdowns MUST NOT be used on their own. They are only parts of more complex UI elements.
+	 *           Dropdowns MUST NOT be used standalone. They are only parts of more complex UI elements.
 	 *           These elements MUST define their use of Dropdown. E.g. a List or a Table MAY define that a certain
 	 *           kind of Dropdown is used as part of the UI element.
 	 *   interaction:
@@ -436,13 +436,13 @@ interface Factory {
 	 *           wide.
 	 *   wording:
 	 *      1: >
-	 *           The caption of a Dropdown SHOULD contain no more than two words.
+	 *           The label of a Dropdown SHOULD contain no more than two words.
 	 *      2: >
 	 *           Every word except articles, coordinating conjunctions and prepositions
 	 *           of four or fewer letters MUST be capitalized.
 	 *      3: >
 	 *           For standard events such as saving or canceling the existing standard
-	 *           terms MUST be used if possible: Save, Cancel, Delete, Cut, Copy.
+	 *           terms MUST be used if possible: Delete, Cut, Copy.
 	 *      4: >
 	 *           There are cases where a non-standard label such as “Send Mail” for saving
 	 *           and sending the input of a specific form might deviate from the standard.
