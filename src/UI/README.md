@@ -515,6 +515,21 @@ is anarchy, rules seem to be the only sensible option to get some structure. All
 exisiting rules have a purpose, but there might be a more terse way to explain
 them. If you have found it, we'll be glad to accept your PR.
 
+### How do I know where my component is rendered?
+
+For some use cases you might get to the point where you want to know where your
+component is rendered to emit different HTML in your renderer. A general idea of
+the UI framework is that components have their unique look that is recognisable
+throughout the system, which is the exact reason you could not find a simple way
+to get to know where your component is rendered.
+
+There still might be circumstances where a context dependent rendering is indeed
+required. The [Renderer](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/src/UI/Renderer.php)
+offers a `withAdditionalContext` method for that purpose, which can be used to
+alter the selection of the renderer for your component. Before using it, consider
+if you really require a different look in a different context and, if that is indeed
+the case, whether you could achieve the same effect by using CSS.
+
 ### I don't understand that stuff, is there anyone who can explain it to me?
 
 Yes. Ask Richard Klees <richard.klees@concepts-and-training.de> or Timon Amstutz
