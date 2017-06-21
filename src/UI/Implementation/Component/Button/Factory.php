@@ -34,4 +34,11 @@ class Factory implements B\Factory {
     public function tag($label, $action) {
         return new Tag($label, $action);
     }
+
+	/**
+	 * @inheritdoc
+	 */
+	public function shy($label, $action) {
+		return new Shy($label, $action);
+	}
 }

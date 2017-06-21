@@ -18,12 +18,14 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	static $canonical_css_classes = array
 		( "standard" =>	 "btn btn-default"
 		, "primary"	 =>	 "btn btn-default btn-primary"
+		, "shy"	 =>	 "btn btn-link"
 		, "tag"	 =>	 "btn btn-tag btn-tag-relevance-veryhigh"
 		);
 
 	static $canonical_css_inactivation_classes = array
 		( "standard" =>	"ilSubmitInactive"
 		, "primary"	=> "ilSubmitInactive"
+		, "shy"	=> "ilSubmitInactive"
 		, "tag"	=> "btn-tag-inactive"
 		);
 
@@ -44,6 +46,11 @@ class ButtonTest extends ILIAS_UI_TestBase {
 			( "ILIAS\\UI\\Component\\Button\\Close"
 			, $f->close()
 			);
+		$this->assertInstanceOf
+			( "ILIAS\\UI\\Component\\Button\\Shy"
+			, $f->shy("label", "http://www.ilias.de")
+			);
+
 	}
 
 	/**
@@ -295,7 +302,6 @@ class ButtonTest extends ILIAS_UI_TestBase {
 			$b->getCSSClasses()
 		);
 
-
 		$html = $this->normalizeHTML($r->render($b));
 		$expected = '<a class="btn btn-tag btn-tag-relevance-veryhigh cl1 cl2" href="#" data-action="#">tag</a>';
 		$this->assertEquals($expected, $html);
@@ -304,12 +310,11 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 
 
-
-
 	public function button_type_provider() {
 		return array
 			( array("standard")
 			, array("primary")
+			, array("shy")
 			, array("tag")
 			);
 	}
