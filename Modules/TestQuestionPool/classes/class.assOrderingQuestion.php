@@ -473,14 +473,18 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			return $this->fetchSolutionListFromFormSubmissionData($lastPost);
 		}
 		
-		if( $pass === null && !ilObjTest::_getUsePreviousAnswers($activeId, true) )
-		// condition looks strange? yes - keep it null when previous solutions not enabled (!)
-		{
-			$pass = ilObjTest::_getPass($activeId);
-		}
+		// hey: prevPassSolutions - pass will be always available from now on
+		#if( $pass === null && !ilObjTest::_getUsePreviousAnswers($activeId, true) )
+		#// condition looks strange? yes - keep it null when previous solutions not enabled (!)
+		#{
+		#	$pass = ilObjTest::_getPass($activeId);
+		#}
+		// hey.
 		
 		$indexedSolutionValues = $this->fetchIndexedValuesFromValuePairs(
-			$this->getUserSolutionPreferingIntermediate($activeId, $pass)
+			// hey: prevPassSolutions - obsolete due to central check
+			$this->getTestOutputSolutions($activeId, $pass)
+			// hey.
 		);
 		
 		if( count($indexedSolutionValues) )
@@ -1643,9 +1647,13 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 * Get the test question configuration
 	 * @return ilTestQuestionConfig
 	 */
-	public function getTestQuestionConfig()
+	// hey: refactored identifiers
+	public function buildTestPresentationConfig()
+	// hey.
 	{
-		return parent::getTestQuestionConfig()
+		// hey: refactored identifiers
+		return parent::buildTestPresentationConfig()
+		// hey.
 			->setIsUnchangedAnswerPossible(true)
 			->setUseUnchangedAnswerLabel($this->lng->txt('tst_unchanged_order_is_correct'));
 	}

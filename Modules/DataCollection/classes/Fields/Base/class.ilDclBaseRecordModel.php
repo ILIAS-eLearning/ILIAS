@@ -588,7 +588,7 @@ class ilDclBaseRecordModel {
 	 *
 	 * @return array|string
 	 */
-	private function getStandardFieldHTML($field_id, array $options = array()) {
+	public function getStandardFieldHTML($field_id, array $options = array()) {
 		switch ($field_id) {
 			case 'id':
 				return $this->getId();

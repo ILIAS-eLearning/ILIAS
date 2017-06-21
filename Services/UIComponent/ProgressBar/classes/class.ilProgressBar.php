@@ -210,6 +210,8 @@ class ilProgressBar
 		if(strlen($this->ajax_url) and $this->ajax_timeout)
 		{
 			$tpl->setCurrentBlock('async_status');
+			$tpl->setVariable('ASYNC_STATUS_ID',$this->unique_id);
+			$tpl->setVariable('ICON_OK',ilUtil::getImagePath('icon_ok.svg'));
 			$tpl->setVariable('AJAX_URL',$this->ajax_url);
 			$tpl->setVariable('AJAX_TIMEOUT',1000 * (int) $this->ajax_timeout);
 			$tpl->parseCurrentBlock();

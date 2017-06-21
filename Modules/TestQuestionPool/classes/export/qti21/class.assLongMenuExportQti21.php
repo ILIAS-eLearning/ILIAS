@@ -1,9 +1,9 @@
 <?php
 require_once 'Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExport.php';
-class assLongMenuExport extends assQuestionExport
+class assLongMenuExportQti21 extends assQuestionExport
 {
 	/**
-	 * @var assKprimChoice
+	 * @var assLongMenu
 	 */
 	public $object;
 

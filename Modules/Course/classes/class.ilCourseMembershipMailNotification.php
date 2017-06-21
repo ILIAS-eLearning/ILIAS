@@ -42,6 +42,9 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 		self::TYPE_NOTIFICATION_REGISTRATION_REQUEST,
 		self::TYPE_NOTIFICATION_UNSUBSCRIBE
 	);
+	
+	private $force_sending_mail = false;
+	
 
 	/**
 	 *
@@ -49,6 +52,15 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 	public function __construct()
 	{
 		parent::__construct();
+	}
+	
+	/**
+	 * Force sending mail independent from global setting
+	 * @param type $a_status
+	 */
+	public function forceSendingMail($a_status)
+	{
+		$this->force_sending_mail = $a_status;
 	}
 	
 	/**
@@ -65,7 +77,9 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 
 			if( $obj->getAutoNotification() == false )
 			{
-				return false;
+				if(!$this->force_sending_mail) {
+					return false;
+				}
 			}
 		}
 
@@ -499,7 +513,10 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 	{
 		global $ilSetting;
 
-		return $ilSetting->get('mail_crs_member_notification',true) || in_array($a_type, $this->permanent_enabled_notifications);
+		return 
+			$this->force_sending_mail ||
+			$ilSetting->get('mail_crs_member_notification',true) || 
+			in_array($a_type, $this->permanent_enabled_notifications);
 	}
 }
 ?>
