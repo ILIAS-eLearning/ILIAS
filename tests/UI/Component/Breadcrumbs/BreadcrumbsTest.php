@@ -57,14 +57,17 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase {
 		$c = $f->Breadcrumbs($crumbs);
 
 		$html = $this->normalizeHTML($r->render($c));
-		$expected = '<div class="icon crs medium" aria-label="Course">'
-					.'	<div class="abbreviation">CRS</div>'
-					.'</div>';
+		$expected = '<nav role="navigation" aria-label="breadcrumbs">'
+			.'	<ul class="breadcrumb">'
+			.'		<li class="crumb">'
+			.'			<a href="#">label</a>'
+			.'		</li>'
+			.'		<li class="crumb">'
+			.'			<a href="#">label2</a>'
+			.'		</li>'
+			.'	</ul>'
+			.'</nav>';
+
 		$this->assertEquals($expected, $html);
-
 	}
-
-
-
-
 }

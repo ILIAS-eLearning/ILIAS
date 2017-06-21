@@ -9,7 +9,7 @@ class Breadcrumbs implements B\Breadcrumbs {
 	use ComponentHelper;
 
 	/**
-	 * @var Link\Standard[] 	list of links
+	 * @var Link\Standard[]     list of links
 	 */
 	protected $crumbs;
 
@@ -17,7 +17,7 @@ class Breadcrumbs implements B\Breadcrumbs {
 		$types = array(\ILIAS\UI\Component\Link\Standard::class);
 		$this->checkArgListElements("crumbs", $crumbs, $types);
 		$this->crumbs = $crumbs;
-    }
+	}
 
 
 	/**
@@ -35,6 +35,6 @@ class Breadcrumbs implements B\Breadcrumbs {
 		$clone = clone $this;
 		$clone->crumbs[] = $crumb;
 		return $clone;
-    }
+	}
 
 }
