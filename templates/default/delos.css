@@ -6248,6 +6248,12 @@ button.close {
   padding-left: 5px;
   padding-right: 5px;
 }
+.il-viewcontrol-mode .ilSubmitInactive,
+.il-viewcontrol-mode .ilSubmitInactive:hover {
+  background-color: #4c6586;
+  color: white;
+  border-color: transparent;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;
