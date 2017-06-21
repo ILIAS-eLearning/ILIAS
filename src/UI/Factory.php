@@ -336,4 +336,33 @@ interface Factory {
 	 **/
 	public function modal();
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Breadcrumbs is a type of secondary navigation scheme. It eases the
+	 *     user's navigation back to higher items in hierarchical (or prior items
+	 *     in chronological) structures.
+	 *     Breadcrumbs also serve as an effective visual aid indicating the
+	 *     user's location on a website.
+	 *     The term is based on the story of Hansel and Gretel and is well established,
+	 *     so we will stick to it, although in the context of ILIAS "Ariadne's Path"
+	 *     would probably be more appropriate.
+	 *   composition: >
+	 *     Breadcrumbs-entries are rendered as horizontally arranged shy-buttons
+	 *     with a seperator in-between.
+	 *   effect: >
+	 *     Clicking on an entry will get the user to the respective location.
+	 *   rivals:
+	 *     1: >
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: Crumbs MUST trigger navigation.
+	 * ---
+	 * @param 	\ILIAS\UI\Component\Button\Shy[] 	$crumbs 	a list of shy-buttons
+	 * @return 	\ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
+	 **/
+	public function breadcrumbs($crumbs);
+
 }

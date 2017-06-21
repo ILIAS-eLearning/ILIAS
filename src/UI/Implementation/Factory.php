@@ -81,12 +81,18 @@ class Factory implements \ILIAS\UI\Factory
 		return new Component\Panel\Factory();
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
 	public function modal() {
 		return new Component\Modal\Factory(new SignalGenerator());
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function breadcrumbs($crumbs) {
+		return new Component\Breadcrumbs\Breadcrumbs($crumbs);
 	}
 
 }
