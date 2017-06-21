@@ -61,6 +61,32 @@ class ViewControlTest extends ILIAS_UI_TestBase
 		$this->assertInstanceOf("\\ILIAS\\Data\\Link\\Link",$action);
 	}
 
-	//TODO test render
+	public function test_render_viewcontrol_section()
+	{
+		$view_control_f = $this->getViewControlFactory();
+		$data_f = new ILIAS\Data\Factory();
+		$button_f = new ILIAS\UI\Implementation\Component\Button\Factory();
+
+		$r = $this->getDefaultRenderer();
+
+		$back = $data_f->link("", "http://www.ilias.de");
+		$next = $data_f->link("", "http://www.github.com");
+		$button = $button_f->standard("Today", "");
+
+		$section = $view_control_f->section($back,$button,$next);
+
+		$html = $r->render($section);
+		$this->assertContains("glyphicon-chevron-left", $html);
+		$this->assertContains("glyphicon-chevron-right", $html);
+		$this->assertContains("il-viewcontrol-section", $html);
+		$this->assertContains('back', $html);
+		$this->assertContains('next', $html);
+		$this->assertContains("btn",$html);
+	}
+
+	public function getUIFactory()
+	{
+		return new \ILIAS\UI\Implementation\Factory();
+	}
 
 }
