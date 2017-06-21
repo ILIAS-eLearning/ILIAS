@@ -627,6 +627,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->createReference();
 		$this->object->putInTree($_GET["ref_id"]);
 		$this->object->setPermissions($_GET["ref_id"]);
+		
+		// apply didactic template?
+		$dtpl = $this->getDidacticTemplateVar("dtpl");
+		if($dtpl)
+		{
+			$this->object->applyDidacticTemplate($dtpl);
+		}
 				
 		// #14547 - active is default
 		if(!$this->form->getInput("lp_preset"))
@@ -746,6 +753,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 			
 			$new_obj = $this->object->cloneObject($parent_id);
+			
+			// apply didactic template?
+			$dtpl = $this->getDidacticTemplateVar("dtpl");
+			if($dtpl)
+			{
+				$new_obj->applyDidacticTemplate($dtpl);
+			}
+			
 			$new_obj->read();
 			$new_obj->getFirstAppointment()->setStartingTime($date->get(IL_CAL_UNIX));
 			$new_obj->getFirstAppointment()->setEndingTime($date->get(IL_CAL_UNIX) + $period_diff);
@@ -1522,7 +1537,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			return true;
 		}
-	
+		
 		$this->lng->loadLanguageModule('dateplaner');
 	
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -1535,14 +1550,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->form->setTableWidth('600px');
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setMultipart(true);
-		
-		/*
-		$full = new ilCheckboxInputGUI('','fulltime');
-		$full->setChecked($this->object->getFirstAppointment()->enabledFulltime() ? true : false);
-		$full->setOptionTitle($this->lng->txt('event_fulltime_info'));
-		$full->setAdditionalAttributes('onchange="ilToggleSessionTime(this);"');
-		#$this->form->addItem($full);
-		*/
+
+		if($a_mode == 'create')
+		{
+			$this->form = $this->initDidacticTemplate($this->form);
+		}
 		
 		$this->lng->loadLanguageModule('dateplaner');
 		include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';

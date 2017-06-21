@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2017 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+* Copyright (c) 1998-2017 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -5113,6 +5113,8 @@ grp#:#grp_cancel_subscr_request#:#Delete Membership Request
 grp#:#grp_change_type#:#Change Group Type
 didactic#:#grp_closed_info#:#Group is not visible for non-members.
 didactic#:#grp_closed#:#Closed Group
+didactic#:#sess_closed_info#:#Session is not visible for non-participants.
+didactic#:#sess_closed#:#Closed Session
 grp#:#grp_edit_members#:#Edit Participants
 grp#:#grp_enable_map#:#Enable Group Map
 grp#:#grp_general_informations#:#General Information

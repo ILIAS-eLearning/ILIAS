@@ -168,3 +168,8 @@ $query = 'INSERT INTO didactic_tpl_fp (pattern_id, pattern_type, pattern_sub_typ
 $ilDB->manipulate($query);
 
 ?>
+<#5>
+<?php
+//
+?>
+
