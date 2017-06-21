@@ -135,6 +135,8 @@ interface Factory {
 	 * context:
 	 *
 	 * rules:
+	 *   style:
+	 *       1: Tags SHOULD be used with an additonal class to adjust colors.
 	 *   accessibility:
 	 *       1: >
 	 *           The functionality of the tag button MUST be indicated for screen

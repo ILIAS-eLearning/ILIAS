@@ -68,4 +68,29 @@ interface Tag extends Button {
 	 */
 	public function getForegroundColor();
 
+	/**
+	 * Replace or set additional CSS-classes.
+	 * Additional classes will be replaced in calling this function.
+	 *
+	 * @param	string[] $classes
+	 * @return	Tag
+	 */
+	public function withClasses($classes);
+
+	/**
+	 * Get the additional CSS classes.
+	 *
+	 * @return	string[]
+	 */
+	public function getAdditionalClasses();
+
+	/**
+	 * Get all CSS classes (both relevance and additional) as flat string.
+	 *
+	 * @return	string
+	 */
+	public function getCSSClasses();
+
+
+
 }

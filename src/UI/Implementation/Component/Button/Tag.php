@@ -32,6 +32,11 @@ class Tag extends Button implements C\Button\Tag {
 	protected $forecol;
 
 	/**
+	 * @var string[]
+	 */
+	protected $css_classes;
+
+	/**
 	 * @inheritdoc
 	 */
 	public function withRelevance($relevance) {
@@ -92,5 +97,38 @@ class Tag extends Button implements C\Button\Tag {
 		return $this->forecol;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function withClasses($classes) {
+		$classes = $this->toArray($classes);
+		foreach ($classes as $class) {
+			$this->checkStringArg('classes', $class);
+		}
+		$clone = clone $this;
+		$clone->css_classes = $classes;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAdditionalClasses() {
+		if(!$this->css_classes) {
+			return array();
+		}
+		return $this->css_classes;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getCSSClasses() {
+		$classes = array_merge(
+			array($this->getRelevanceClass()),
+			$this->getAdditionalClasses()
+		);
+		return trim(join(' ', $classes));
+	}
 
 }

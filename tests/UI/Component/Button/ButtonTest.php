@@ -280,6 +280,30 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($expected, $html);
 	}
 
+	public function test_render_btn_tag_classes() {
+		$f = $this->getButtonFactory();
+		$r = $this->getDefaultRenderer();
+		$df = new \ILIAS\Data\Factory;
+
+		$classes = array('cl1', 'cl2');
+		$b = $f->tag('tag', '#')
+			->withClasses($classes);
+
+		$this->assertEquals($classes, $b->getAdditionalClasses());
+		$this->assertEquals(
+			'btn-tag-relevance-veryhigh cl1 cl2',
+			$b->getCSSClasses()
+		);
+
+
+		$html = $this->normalizeHTML($r->render($b));
+		$expected = '<a class="btn btn-tag btn-tag-relevance-veryhigh cl1 cl2" href="#" data-action="#">tag</a>';
+		$this->assertEquals($expected, $html);
+	}
+
+
+
+
 
 
 	public function button_type_provider() {

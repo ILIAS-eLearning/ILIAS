@@ -58,7 +58,9 @@ class Renderer extends AbstractComponentRenderer {
 		$this->maybeRenderId($component, $tpl);
 
 		if ($component instanceof Component\Button\Tag) {
-			$tpl->setVariable("REL", $component->getRelevanceClass());
+
+			$tpl->setVariable("CSSCLASSES", $component->getCSSClasses());
+
 			$bgcol = $component->getBackgroundColor();
 			if($bgcol) {
 				$tpl->setVariable("BGCOL", $bgcol->asHex());
