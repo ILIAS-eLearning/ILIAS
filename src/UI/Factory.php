@@ -336,4 +336,17 @@ interface Factory {
 	 **/
 	public function modal();
 
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: Dropzones are used for drag and drop.
+	 *   composition: >
+	 *     A dropzone is a drag and drop area on the page.
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Dropzone\Factory
+	 */
+	public function dropzone();
+
 }
