@@ -12,55 +12,59 @@ use \ILIAS\UI\Component as C;
  */
 class BreadcrumbsTest extends ILIAS_UI_TestBase {
 	public function getFactory() {
-		return new \ILIAS\UI\Implementation\Component\Breadcrumbs\Factory();
+		return new \ILIAS\UI\Implementation\Factory();
 	}
 
 	public function test_implements_factory_interface() {
 		$f = $this->getFactory();
-		$this->assertInstanceOf("ILIAS\\UI\\Component\\Breadcrumbs\\Factory", $f);
+		$c = $f->Breadcrumbs(array());
 
-		$c = $f->crumb('label', '#');
-		$this->assertInstanceOf("ILIAS\\UI\\Component\\Breadcrumbs\\Crumb", $c);
-
-		$b = $f->bar(array($c, $c));
-		$this->assertInstanceOf("ILIAS\\UI\\Component\\Breadcrumbs\\Bar", $b);
+		$this->assertInstanceOf("ILIAS\\UI\\Factory", $f);
+		$this->assertInstanceOf(
+			"ILIAS\\UI\\Component\\Breadcrumbs\\Breadcrumbs",
+			$f->Breadcrumbs(array())
+		);
 	}
 
-	public function test_crumb_attributes() {
+	public function testCrumbs() {
 		$f = $this->getFactory();
-		$c = $f->crumb('label', '#');
+		$crumbs = array(
+			$f->link()->standard("label", '#'),
+			$f->link()->standard("label2", '#')
+		);
 
-		$this->assertEquals('label', $c->label());
-		$this->assertEquals('#', $c->url());
+		$c = $f->Breadcrumbs($crumbs);
+		$this->assertEquals($crumbs, $c->getCrumbs());
 	}
 
-	public function test_bar_entries() {
+	public function testAppending() {
 		$f = $this->getFactory();
-		$c1 = $f->crumb('label1', '#');
-		$c2 = $f->crumb('label2', '#');
-		$crumbs = array($c1, $c2);
+		$crumb  = $f->link()->standard("label", '#');
 
-		$b = $f->bar($crumbs);
-		$this->assertEquals($crumbs, $b->crumbs());
-
-		$c3 = $f->crumb('label3', '#');
-		array_push($crumbs, $c3);
-		$b = $b->withAppendedEntry($c3);
-		$this->assertEquals($crumbs, $b->crumbs());
-
+		$c = $f->Breadcrumbs(array())
+			->withAppendedEntry($crumb);
+		$this->assertEquals(array($crumb), $c->getCrumbs());
 	}
 
-	public function test_bar_appending() {
+	public function testRendering() {
 		$f = $this->getFactory();
-		$c1 = $f->crumb('label1', '#');
-		$c2 = $f->crumb('label2', '#');
-		$c3 = $f->crumb('label2', '#');
-		$crumbs = array($c1, $c2);
+		$r = $this->getDefaultRenderer();
 
-		$b = $f->bar($crumbs);
+		$crumbs = array(
+			$f->link()->standard("label", '#'),
+			$f->link()->standard("label2", '#')
+		);
+		$c = $f->Breadcrumbs($crumbs);
 
-		$this->assertEquals($crumbs, $b->crumbs());
+		$html = $this->normalizeHTML($r->render($c));
+		$expected = '<div class="icon crs medium" aria-label="Course">'
+					.'	<div class="abbreviation">CRS</div>'
+					.'</div>';
+		$this->assertEquals($expected, $html);
+
 	}
+
+
 
 
 }

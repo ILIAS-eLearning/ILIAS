@@ -31,7 +31,7 @@ class NoUIFactory implements Factory {
 	public function panel() {}
 	public function modal() {}
 	public function link() {}
-	public function breadcrumbs() {}
+	public function breadcrumbs($crumbs) {}
 }
 
 class LoggingRegistry implements ResourceRegistry {

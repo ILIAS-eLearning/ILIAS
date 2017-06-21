@@ -395,8 +395,8 @@ interface Factory {
 	 *     with a seperator in-between.
 	 *   effect: >
 	 *     Clicking on an entry will get the user to the respective location.
-	 *   rivals:
-	 *     1: >
+	 *
+	 * context: >
 	 *
 	 * rules:
 	 *   usage:
