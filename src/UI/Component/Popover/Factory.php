@@ -13,6 +13,8 @@ interface Factory {
 	 * description:
 	 *   purpose: >
 	 *      Standard Popovers are used to display other components.
+	 *      Whenever you want to use the standard-popover, please hand in a PullRequest and discuss
+	 *      it.
 	 *   composition: >
 	 *      The content of a Standard Popover displays the components together with an optional title.
 	 * rivals: >
@@ -21,6 +23,7 @@ interface Factory {
 	 *   usage:
 	 *      1: Standard Popovers MUST NOT be used to render lists, use a Listing Popover for this purpose.
 	 *      2: Standard Popovers SHOULD NOT contain complex or large components.
+	 *      3: Usages of Standard Popovers MUST be accepted by JourFixe.
 	 * ---
 	 * @param Component|Component[] $content
 	 * @return \ILIAS\UI\Component\Popover\Standard
