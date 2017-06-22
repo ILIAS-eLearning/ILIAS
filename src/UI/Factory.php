@@ -341,8 +341,10 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Popovers can be used if space is scarce to display secondary information such as a preview of
-	 *     some item or to offer limited user interaction.
+	 *     Popovers can be used when space is scarce i.e. within List GUI items, table cells or
+	 *     menus in the Header section. They offer either secondary information on object like a
+	 *     preview or rating to be displayed or entered. They display information about ongoing
+	 *     processes
 	 *   composition: >
 	 *     Popovers consist of a layer displayed above all other content.
 	 *     The content of the Popover depends on the functionality it performs.
@@ -366,20 +368,23 @@ interface Factory {
 	 *        Popovers MAY contain vertical scrollbars. The content component is responsible to
 	 *        define its own height and show vertical scrollbars.
 	 *     3: >
-	 *        If Popovers are used to present secondary information of an object, they SHOULD display a title
+	 *        If Popovers are used to present secondary information of an object, they SHOULD
+	 *        display a title
 	 *        representing the object.
 	 *   interaction:
 	 *     1: >
 	 *        A Popover MUST only be displayed if the Trigger component is clicked.
 	 *        This behaviour is different from Tooltips that appear on hovering.
-	 *        Popovers disappear by clicking anywhere outside the Popover or by pressing the ESC key.
+	 *        Popovers disappear by clicking anywhere outside the Popover or by pressing
+	 *        the ESC key.
 	 *   style:
 	 *     1: Popovers MUST always relate to the Trigger component by a little pointer.
 	 *   accessibility:
 	 *     1: >
 	 *        There MUST be a way to open the Popover by only using the keyboard.
 	 *     2: >
-	 *        The focus MUST be inside the Popover, once it is open if it contains at least one interactive item.
+	 *        The focus MUST be inside the Popover, once it is open if it contains at least one
+	 *        interactive item.
 	 *        Otherwise the focus MUST remain on the Triggerer component.
 	 *     3: >
 	 *        The focus MUST NOT leave the Popover for as long as it is open.
@@ -388,9 +393,11 @@ interface Factory {
 	 *     5: >
 	 *        The Popover MUST be closable by pressing the ESC key.
 	 *     6: >
-	 *        Once the Popover is closed, the focus MUST return to the element triggering the opening of the Popover
-	 *        or the element being clicked if the Popover was closed on click.
+	 *        Once the Popover is closed, the focus MUST return to the element triggering the
+	 *        opening of the Popover or the element being clicked if the Popover was
+	 *        closed on click.
 	 * ---
+	 *
 	 * @return \ILIAS\UI\Component\Popover\Factory
 	 */
 	public function popover();
