@@ -1,10 +1,11 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\BackgroundTasks\Implementation\BasicTaskManager;
+// TODO:
+use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
 use ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory;
-use ILIAS\DI\DependencyMap\BaseDependencyMap;
-use ILIAS\DI\Injector;
+use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
+use ILIAS\BackgroundTasks\Dependencies\Injector;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -1603,22 +1604,22 @@ class ilInitialisation
 	private static function initBackgroundTasks(\ILIAS\DI\Container $c) {
 		global $ilIliasIniFile;
 
-		$n_of_tasks = $ilIliasIniFile->readVariable("background_tasks","number_of_concurrent_tasks");
-		$sync = $ilIliasIniFile->readVariable("background_tasks","concurrency");
+		$n_of_tasks = $ilIliasIniFile->readVariable("background_tasks", "number_of_concurrent_tasks");
+		$sync = $ilIliasIniFile->readVariable("background_tasks", "concurrency");
 
 		$n_of_tasks = $n_of_tasks ? $n_of_tasks : 5;
 		$sync = $sync ? $sync : 'sync'; // The default value is sync.
 
-		$c["bt.task_factory"]  = function ($c) {
+		$c["bt.task_factory"] = function ($c) {
 			return new \ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory($c["di.injector"]);
 		};
 
-		$c["bt.persistence"]  = function ($c) {
+		$c["bt.persistence"] = function ($c) {
 			return new \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence();
 		};
 
 		$c["bt.task_manager"] = function ($c) use ($sync) {
-			if($sync == 'sync') {
+			if ($sync == 'sync') {
 				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager($c["bt.persistence"]);
 			} elseif ($sync == 'async') {
 				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager($c["bt.persistence"]);
@@ -1628,13 +1629,14 @@ class ilInitialisation
 		};
 	}
 
+
 	private static function initInjector(\ILIAS\DI\Container $c) {
-		$c["di.dependency_map"]  = function ($c) {
-			return new \ILIAS\DI\DependencyMap\BaseDependencyMap();
+		$c["di.dependency_map"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap();
 		};
 
 		$c["di.injector"] = function ($c) {
-			return new \ILIAS\DI\Injector($c, $c["di.dependency_map"]);
+			return new \ILIAS\BackgroundTasks\Dependencies\Injector($c, $c["di.dependency_map"]);
 		};
 	}
 }
