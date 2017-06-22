@@ -15,32 +15,26 @@ class BasicBucket implements Bucket {
 	 * @var int
 	 */
 	protected $userId;
-
 	/**
 	 * @var Task
 	 */
 	protected $rootTask;
-
 	/**
 	 * @var Task
 	 */
 	protected $currentTask;
-
 	/**
 	 * @var Task[]
 	 */
 	protected $tasks;
-
 	/**
 	 * @var int
 	 */
 	protected $state;
-
 	/**
 	 * @var int
 	 */
 	protected $totalNumberOfTasks;
-
 	/**
 	 * @var int[]
 	 */
@@ -58,6 +52,7 @@ class BasicBucket implements Bucket {
 	 */
 	protected $percentage = 0;
 
+
 	/**
 	 * @return int
 	 */
@@ -65,14 +60,18 @@ class BasicBucket implements Bucket {
 		return $this->userId;
 	}
 
+
 	/**
 	 * @param int $user_id
+	 *
 	 * @return $this BasicObserver
 	 */
 	public function setUserId($user_id) {
 		$this->userId = $user_id;
+
 		return $this;
 	}
+
 
 	/**
 	 * Used by a job to notify his percentage.
@@ -85,20 +84,25 @@ class BasicBucket implements Bucket {
 		$this->calculateOverallPercentage();
 	}
 
+
 	public function setOverallPercentage($percentage) {
 		$this->percentage = $percentage;
 	}
 
+
 	/**
 	 * @param Task $task
+	 *
 	 * @return mixed
 	 */
 	public function setCurrentTask($task) {
 		$this->currentTask = $task;
 	}
 
+
 	/**
 	 * @param Task $task
+	 *
 	 * @return void
 	 */
 	public function setTask(Task $task) {
@@ -106,9 +110,11 @@ class BasicBucket implements Bucket {
 		$this->totalNumberOfTasks = count($this->tasks);
 		$this->currentTask = $task;
 		$this->rootTask = $task;
-		foreach ($this->tasks as $subTask)
+		foreach ($this->tasks as $subTask) {
 			$this->percentages[spl_object_hash($subTask)] = 0;
+		}
 	}
+
 
 	/**
 	 * Calculates the percentage up to the last task.
@@ -117,16 +123,18 @@ class BasicBucket implements Bucket {
 	 */
 	public function calculateOverallPercentage() {
 		// TODO: Task percentage up to first user interaction.
-//		global $ilLog;
-//		$tasks = array_slice($this->rootTask->unfoldTask(), 1);
-//		$percentages = array_map(function($task) { return $this->percentages[spl_object_hash($task)]; }, $tasks);
+		//		global $ilLog;
+		//		$tasks = array_slice($this->rootTask->unfoldTask(), 1);
+		//		$percentages = array_map(function($task) { return $this->percentages[spl_object_hash($task)]; }, $tasks);
 
 		$this->percentage = array_sum($this->percentages) / $this->totalNumberOfTasks;
 	}
 
+
 	public function getOverallPercentage() {
 		return $this->percentage;
 	}
+
 
 	/**
 	 * @param int $state From ILIAS\BackgroundTasks\Implementation\Observer\State
@@ -135,12 +143,14 @@ class BasicBucket implements Bucket {
 		$this->state = $state;
 	}
 
+
 	/**
 	 * @return Task
 	 */
 	public function getCurrentTask() {
 		return $this->currentTask;
 	}
+
 
 	/**
 	 *
@@ -165,8 +175,8 @@ class BasicBucket implements Bucket {
 	 */
 	public function checkIntegrity() {
 		if (!$this->getUserId()) {
-			foreach($this->getTask()->unfoldTask() as $task) {
-				if ($task instanceof Task\UserInteraction){
+			foreach ($this->getTask()->unfoldTask() as $task) {
+				if ($task instanceof Task\UserInteraction) {
 					throw new Exception("Your task contains user interactions and thus needs a user that observes the task.");
 				}
 			}
@@ -199,7 +209,7 @@ class BasicBucket implements Bucket {
 		$inputs = $currentTask->getInput();
 		$resulting_value = $currentTask->interaction($inputs, $option, $this);
 
-		if($currentTask == $this->rootTask) {
+		if ($currentTask == $this->rootTask) {
 			// If this user interaction was the last thing to do, we set the state to finished. We can throw away the resulting value.
 			$this->setState(State::FINISHED);
 		} else {
@@ -210,7 +220,8 @@ class BasicBucket implements Bucket {
 
 
 	/**
-	 * In the structure of the task of this bucket the result of $currentTask is replaced with the $resulting_value
+	 * In the structure of the task of this bucket the result of $currentTask is replaced with the
+	 * $resulting_value
 	 *
 	 * @param Task  $currentTask
 	 * @param Value $resulting_value

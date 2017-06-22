@@ -3,9 +3,11 @@
 namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 class TaskContainer extends \ActiveRecord {
+
 	public static function returnDbTableName() {
 		return "il_bt_task";
 	}
+
 
 	/**
 	 * @var int
@@ -18,7 +20,6 @@ class TaskContainer extends \ActiveRecord {
 	 * @con_length     8
 	 */
 	protected $id = 0;
-
 	/**
 	 * @var string
 	 *
@@ -27,7 +28,6 @@ class TaskContainer extends \ActiveRecord {
 	 * @con_length     256
 	 */
 	protected $type;
-
 	/**
 	 * @var string
 	 *
@@ -36,7 +36,6 @@ class TaskContainer extends \ActiveRecord {
 	 * @con_length     256
 	 */
 	protected $class_path;
-
 	/**
 	 * @var string
 	 *
@@ -45,7 +44,6 @@ class TaskContainer extends \ActiveRecord {
 	 * @con_length     256
 	 */
 	protected $class_name;
-
 	/**
 	 * @var int
 	 *
@@ -55,12 +53,14 @@ class TaskContainer extends \ActiveRecord {
 	 */
 	protected $bucket_id;
 
+
 	/**
 	 * @return int
 	 */
 	public function getId(): int {
 		return $this->id;
 	}
+
 
 	/**
 	 * @param int $id
@@ -69,12 +69,14 @@ class TaskContainer extends \ActiveRecord {
 		$this->id = $id;
 	}
 
+
 	/**
 	 * @return string
 	 */
 	public function getType(): string {
 		return $this->type;
 	}
+
 
 	/**
 	 * @param string $type
@@ -83,12 +85,14 @@ class TaskContainer extends \ActiveRecord {
 		$this->type = $type;
 	}
 
+
 	/**
 	 * @return string
 	 */
 	public function getClassPath(): string {
 		return $this->class_path;
 	}
+
 
 	/**
 	 * @param string $class_path
@@ -97,12 +101,14 @@ class TaskContainer extends \ActiveRecord {
 		$this->class_path = $class_path;
 	}
 
+
 	/**
 	 * @return string
 	 */
 	public function getClassName(): string {
 		return $this->class_name;
 	}
+
 
 	/**
 	 * @param string $class_name

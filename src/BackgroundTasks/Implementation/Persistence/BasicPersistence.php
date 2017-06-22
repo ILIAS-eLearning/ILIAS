@@ -17,27 +17,22 @@ class BasicPersistence implements Persistence {
 	 * @var BasicPersistence
 	 */
 	protected static $instance;
-
 	/**
 	 * @var Bucket[]
 	 */
 	protected static $buckets = [];
-
 	/**
 	 * @var int[]
 	 */
 	protected $bucketHashToObserverContainerId = [];
-
 	/**
 	 * @var int[]
 	 */
 	protected $taskHashToTaskContainerId = [];
-
 	/**
 	 * @var int[]
 	 */
 	protected $valueHashToValueContainerId = [];
-
 	/**
 	 * @var Task[]
 	 */
@@ -47,9 +42,12 @@ class BasicPersistence implements Persistence {
 	 */
 	protected $connector = null;
 
+
 	public static function instance() {
-		if (!self::$instance)
+		if (!self::$instance) {
 			self::$instance = new BasicPersistence();
+		}
+
 		return self::$instance;
 	}
 
@@ -60,6 +58,7 @@ class BasicPersistence implements Persistence {
 	function setConnector(\arConnector $connector) {
 		$this->connector = $connector;
 	}
+
 
 	/**
 	 * Fully updates or creates an Observer and all its tasks into the database.
@@ -100,8 +99,8 @@ class BasicPersistence implements Persistence {
 	 * @inheritdoc
 	 */
 	public function getBucketIdsOfUser(int $user_id) {
-		$buckets = BucketContainer::where(['user_id' => $user_id])->get();
-		$ids = array_map(function(BucketContainer $bucket_container) {
+		$buckets = BucketContainer::where([ 'user_id' => $user_id ])->get();
+		$ids = array_map(function (BucketContainer $bucket_container) {
 			return $bucket_container->getId();
 		}, $buckets);
 
@@ -115,8 +114,8 @@ class BasicPersistence implements Persistence {
 	 * @return BucketMeta[]
 	 */
 	public function getBucketMetaOfUser(int $user_id) {
-		$buckets = BucketContainer::where(['user_id' => $user_id])->get();
-		$bucketMetas = array_map(function(BucketContainer $bucketContainer) {
+		$buckets = BucketContainer::where([ 'user_id' => $user_id ])->get();
+		$bucketMetas = array_map(function (BucketContainer $bucketContainer) {
 			$bucketMeta = new BasicBucketMeta();
 
 			$bucketMeta->setUserId($bucketContainer->getUserId());
@@ -136,13 +135,14 @@ class BasicPersistence implements Persistence {
 	 * @inheritdoc
 	 */
 	public function getBucketIdsByState($state) {
-		$buckets = BucketContainer::where(['state' => $state])->get();
-		$ids = array_map(function(BucketContainer $bucket_container) {
+		$buckets = BucketContainer::where([ 'state' => $state ])->get();
+		$ids = array_map(function (BucketContainer $bucket_container) {
 			return $bucket_container->getId();
 		}, $buckets);
 
 		return $ids;
 	}
+
 
 	/**
 	 * @param Bucket $bucket The bucket we want to save.
@@ -152,10 +152,11 @@ class BasicPersistence implements Persistence {
 	 */
 	protected function saveObserver(Bucket $bucket) {
 		// If the instance has a known container we use it, otherwise we create a new container.
-		if (isset($this->bucketHashToObserverContainerId[spl_object_hash($bucket)]))
+		if (isset($this->bucketHashToObserverContainerId[spl_object_hash($bucket)])) {
 			$bucketContainer = new BucketContainer($this->bucketHashToObserverContainerId[spl_object_hash($bucket)], $this->connector);
-		else
+		} else {
 			$bucketContainer = new BucketContainer(0, $this->connector);
+		}
 
 		// The basic information about the task.
 		$bucketContainer->setUserId($bucket->getUserId());
@@ -166,8 +167,9 @@ class BasicPersistence implements Persistence {
 		$bucketContainer->setPercentage($bucket->getOverallPercentage());
 
 		// We want to store the bucket ID in every sub task and value. Thus we need to create an id if not available yet.
-		if(!$bucketContainer->getId())
+		if (!$bucketContainer->getId()) {
 			$bucketContainer->create();
+		}
 
 		// The recursive part.
 		$this->saveTask($bucket->getTask(), $bucketContainer->getId());
@@ -181,17 +183,19 @@ class BasicPersistence implements Persistence {
 
 
 	/**
-	 * @param Task $task        The task to save.
-	 * @param int  $bucketId  The bucket id is needed as we want some control over what task belongs to what batch.
+	 * @param Task $task     The task to save.
+	 * @param int  $bucketId The bucket id is needed as we want some control over what task belongs
+	 *                       to what batch.
 	 *
 	 * This will recursivly save a task.
 	 */
 	protected function saveTask(Task $task, int $bucketId) {
 		// If the instance has a known container we use it, otherwise we create a new container.
-		if(isset($this->taskHashToTaskContainerId[spl_object_hash($task)]))
+		if (isset($this->taskHashToTaskContainerId[spl_object_hash($task)])) {
 			$taskContainer = new TaskContainer($this->taskHashToTaskContainerId[spl_object_hash($task)], $this->connector);
-		else
+		} else {
 			$taskContainer = new TaskContainer(0, $this->connector);
+		}
 
 		// The basic information about the task.
 		$taskContainer->setType($task->getType());
@@ -215,15 +219,16 @@ class BasicPersistence implements Persistence {
 	/**
 	 * Save all input parameters to a task.
 	 *
-	 * @param Task          $task           The task containing the inputs
-	 * @param TaskContainer $taskContainer  The container of the task. This is needed to link the ids and delete old links.
+	 * @param Task          $task          The task containing the inputs
+	 * @param TaskContainer $taskContainer The container of the task. This is needed to link the
+	 *                                     ids and delete old links.
 	 * @param int           $bucketId
 	 */
 	protected function saveValueToTask(Task $task, TaskContainer $taskContainer, int $bucketId) {
 		// If we have previous values to task associations we delete them.
-		if($taskContainer->getId()) {
+		if ($taskContainer->getId()) {
 			/** @var ValueToTaskContainer[] $olds */
-			$olds = ValueToTaskContainer::where(['task_id' => $taskContainer->getId()])->get();
+			$olds = ValueToTaskContainer::where([ 'task_id' => $taskContainer->getId() ])->get();
 			foreach ($olds as $old) {
 				$old->delete();
 			}
@@ -244,17 +249,19 @@ class BasicPersistence implements Persistence {
 
 
 	/**
-	 * @param Value $value          The value
-	 * @param int   $bucketId     The bucket id, we need it to have an overview of all values belonging to a batch.
+	 * @param Value $value    The value
+	 * @param int   $bucketId The bucket id, we need it to have an overview of all values belonging
+	 *                        to a batch.
 	 *
 	 * Stores the value recursively.
 	 */
 	protected function saveValue(Value $value, int $bucketId) {
 		// If we have previous values to task associations we delete them.
-		if(isset($this->valueHashToValueContainerId[spl_object_hash($value)]))
+		if (isset($this->valueHashToValueContainerId[spl_object_hash($value)])) {
 			$valueContainer = new ValueContainer($this->valueHashToValueContainerId[spl_object_hash($value)], $this->connector);
-		else
+		} else {
 			$valueContainer = new ValueContainer(0, $this->connector);
+		}
 
 		// Save information about the value
 		$reflection = new \ReflectionClass(get_class($value));
@@ -267,7 +274,7 @@ class BasicPersistence implements Persistence {
 		$valueContainer->setSerialized($value->serialize());
 
 		// If the value is a thunk value we also store its parent.
-		if($value->hasParentTask()) {
+		if ($value->hasParentTask()) {
 			$this->saveTask($value->getParentTask(), $bucketId);
 			$valueContainer->setParentTaskid($this->getTaskContainerId($value->getParentTask()));
 		}
@@ -285,30 +292,43 @@ class BasicPersistence implements Persistence {
 	 * @throws SerializationException
 	 */
 	public function getBucketContainerId(Bucket $bucket) {
-		if(! isset($this->bucketHashToObserverContainerId[spl_object_hash($bucket)] ))
-			throw new SerializationException("Could not resolve container id of task: " . print_r($bucket, true));
+		if (!isset($this->bucketHashToObserverContainerId[spl_object_hash($bucket)])) {
+			throw new SerializationException("Could not resolve container id of task: "
+			                                 . print_r($bucket, true));
+		}
+
 		return $this->bucketHashToObserverContainerId[spl_object_hash($bucket)];
 	}
 
+
 	/**
 	 * @param $task Task
+	 *
 	 * @return int
 	 * @throws SerializationException
 	 */
 	protected function getTaskContainerId(Task $task) {
-		if(! isset($this->taskHashToTaskContainerId[spl_object_hash($task)] ))
-			throw new SerializationException("Could not resolve container id of task: " . print_r($task, true));
+		if (!isset($this->taskHashToTaskContainerId[spl_object_hash($task)])) {
+			throw new SerializationException("Could not resolve container id of task: "
+			                                 . print_r($task, true));
+		}
+
 		return $this->taskHashToTaskContainerId[spl_object_hash($task)];
 	}
 
+
 	/**
 	 * @param $value Value
+	 *
 	 * @return int
 	 * @throws SerializationException
 	 */
 	protected function getValueContainerId($value) {
-		if(! isset($this->valueHashToValueContainerId[spl_object_hash($value)] ))
-			throw new SerializationException("Could not resolve container id of value: " . print_r($value, true));
+		if (!isset($this->valueHashToValueContainerId[spl_object_hash($value)])) {
+			throw new SerializationException("Could not resolve container id of value: "
+			                                 . print_r($value, true));
+		}
+
 		return $this->valueHashToValueContainerId[spl_object_hash($value)];
 	}
 
@@ -319,12 +339,14 @@ class BasicPersistence implements Persistence {
 	 * @return Bucket
 	 */
 	public function loadBucket(int $bucket_id) {
-		if(isset(self::$buckets[$bucket_id]))
+		if (isset(self::$buckets[$bucket_id])) {
 			return self::$buckets[$bucket_id];
+		}
 		/** @var BucketContainer $bucketContainer */
 		$bucketContainer = BucketContainer::find($bucket_id);
-		if(!$bucketContainer)
+		if (!$bucketContainer) {
 			throw new BucketNotFoundException("The requested bucket with container id $bucket_id could not be found in the database.");
+		}
 		$bucket = new BasicBucket();
 
 		$bucket->setUserId($bucketContainer->getUserId());
@@ -336,6 +358,7 @@ class BasicPersistence implements Persistence {
 		$bucket->setTask($this->loadTask($bucketContainer->getRootTaskid(), $bucket, $bucketContainer));
 
 		$this->bucketHashToObserverContainerId[spl_object_hash($bucket)] = $bucket_id;
+
 		return $bucket;
 	}
 
@@ -344,8 +367,10 @@ class BasicPersistence implements Persistence {
 	 * Recursively loads a task.
 	 *
 	 * @param int             $taskContainerId The container ID to load.
-	 * @param Bucket          $bucket          Needed because we want to link the current task as soon as loaded.
-	 * @param BucketContainer $bucketContainer Needed because we need the current tasks container id for correct linking.
+	 * @param Bucket          $bucket          Needed because we want to link the current task as
+	 *                                         soon as loaded.
+	 * @param BucketContainer $bucketContainer Needed because we need the current tasks container
+	 *                                         id for correct linking.
 	 *
 	 * @return Task
 	 */
@@ -360,19 +385,22 @@ class BasicPersistence implements Persistence {
 		$task = $factory->createTask($taskContainer->getClassName());
 
 		/** @var ValueToTaskContainer $valueToTask */
-		$valueToTasks = ValueToTaskContainer::where(['task_id' => $taskContainerId])->get();
+		$valueToTasks = ValueToTaskContainer::where([ 'task_id' => $taskContainerId ])->get();
 		$inputs = [];
 		foreach ($valueToTasks as $valueToTask) {
 			$inputs[] = $this->loadValue($valueToTask->getValueId(), $bucket, $bucketContainer);
 		}
 		$task->setInput($inputs);
 
-		if($taskContainerId == $bucketContainer->getCurrentTaskid())
+		if ($taskContainerId == $bucketContainer->getCurrentTaskid()) {
 			$bucket->setCurrentTask($task);
+		}
 
 		$this->taskHashToTaskContainerId[spl_object_hash($task)] = $taskContainerId;
+
 		return $task;
 	}
+
 
 	private function loadValue(int $valueContainerId, Bucket $bucket, BucketContainer $bucketContainer) {
 		global $DIC;
@@ -386,31 +414,32 @@ class BasicPersistence implements Persistence {
 		$value = $factory->createInstance($valueContainer->getClassName());
 
 		$value->unserialize($valueContainer->getSerialized());
-		if($valueContainer->getHasParenttask()) {
+		if ($valueContainer->getHasParenttask()) {
 			$value->setParentTask($this->loadTask($valueContainer->getParentTaskid(), $bucket, $bucketContainer));
 		}
 
 		$this->valueHashToValueContainerId[spl_object_hash($value)] = $valueContainerId;
+
 		return $value;
 	}
 
+
 	public function deleteBucketById($bucket_id) {
 		/** @var BucketContainer $bucket */
-		$buckets = BucketContainer::where(['id' => $bucket_id])->get();
+		$buckets = BucketContainer::where([ 'id' => $bucket_id ])->get();
 		array_map(function (\ActiveRecord $item) { $item->delete(); }, $buckets);
 
 		/** @var TaskContainer $tasks */
-		$tasks = TaskContainer::where(['bucket_id' => $bucket_id])->get();
+		$tasks = TaskContainer::where([ 'bucket_id' => $bucket_id ])->get();
 		array_map(function (\ActiveRecord $item) { $item->delete(); }, $tasks);
 
 		/** @var ValueContainer $values */
-		$values = ValueContainer::where(['bucket_id' => $bucket_id])->get();
+		$values = ValueContainer::where([ 'bucket_id' => $bucket_id ])->get();
 		array_map(function (\ActiveRecord $item) { $item->delete(); }, $values);
 
 		/** @var ValueToTaskContainer $valueToTasks */
-		$valueToTasks = ValueToTaskContainer::where(['bucket_id' => $bucket_id])->get();
+		$valueToTasks = ValueToTaskContainer::where([ 'bucket_id' => $bucket_id ])->get();
 		array_map(function (\ActiveRecord $item) { $item->delete(); }, $valueToTasks);
-
 	}
 
 
@@ -434,6 +463,7 @@ class BasicPersistence implements Persistence {
 		foreach ($bucket_container_id as $bucket_id) {
 			$buckets[] = $this->loadBucket($bucket_id);
 		}
+
 		return $buckets;
 	}
 }

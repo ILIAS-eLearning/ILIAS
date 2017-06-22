@@ -24,6 +24,7 @@ interface Value extends \Serializable {
 
 	/**
 	 * @param \ILIAS\BackgroundTasks\Value $other
+	 *
 	 * @return bool
 	 */
 	public function equals(Value $other);
@@ -34,6 +35,7 @@ interface Value extends \Serializable {
 	 */
 	public function getType();
 
+
 	/**
 	 * @param Task $parentTask
 	 *
@@ -41,10 +43,12 @@ interface Value extends \Serializable {
 	 */
 	public function setParentTask(Task $parentTask);
 
+
 	/**
 	 * @return Task
 	 */
 	public function getParentTask();
+
 
 	/**
 	 * @return boolean

@@ -2,7 +2,6 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\Bucket;
 
-
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\BucketMeta;
 use ILIAS\BackgroundTasks\Exceptions\Exception;
@@ -16,8 +15,8 @@ use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
  *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  *
- * If you don't want to load the whole task structure of a bucket you will get an empty bucket. You get meta-info about the bucket but cannot access
- * its tasks etc. because they are not loaded yet.
+ * If you don't want to load the whole task structure of a bucket you will get an empty bucket. You
+ * get meta-info about the bucket but cannot access its tasks etc. because they are not loaded yet.
  */
 class BasicBucketMeta implements BucketMeta {
 
@@ -25,22 +24,18 @@ class BasicBucketMeta implements BucketMeta {
 	 * @var int
 	 */
 	protected $userId;
-
 	/**
 	 * @var int
 	 */
 	protected $state;
-
 	/**
 	 * @var string
 	 */
 	protected $title = "";
-
 	/**
 	 * @var string
 	 */
 	protected $description = "";
-
 	/**
 	 * @var int
 	 */

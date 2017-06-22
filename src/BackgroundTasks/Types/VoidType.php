@@ -14,7 +14,7 @@ namespace ILIAS\BackgroundTasks\Types;
  */
 class VoidType implements Type {
 
-	protected static $instance = NULL;
+	protected static $instance = null;
 
 
 	/**

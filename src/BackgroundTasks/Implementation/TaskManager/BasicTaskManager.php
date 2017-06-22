@@ -17,16 +17,18 @@ use ILIAS\BackgroundTasks\Value;
 
 /**
  * Class BasicTaskManager
+ *
  * @package ILIAS\BackgroundTasks\Implementation
  *
- * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @author  Oskar Truffer <ot@studer-raimann.ch>
  *
  * Basic Task manager. Will execute tasks immediately.
  *
  * Some important infos:
  *         - The bucket and its tasks are not saved into the db upon execution
  *         - The percentage and current task are not updated during execution.
- *         - The bucket and its tasks inkl. percentage and current task are only saved into the DB when a user interaction occurs.
+ *         - The bucket and its tasks inkl. percentage and current task are only saved into the DB
+ *         when a user interaction occurs.
  *
  */
 class BasicTaskManager implements TaskManager {
@@ -36,16 +38,17 @@ class BasicTaskManager implements TaskManager {
 	 */
 	protected $persistence;
 
+
 	public function __construct(Persistence $persistence) {
 		$this->persistence = $persistence;
 	}
 
 
 	/**
-	 * @param Task   $task
+	 * @param Task     $task
 	 * @param Observer $observer
 	 *
-*@return Value
+	 * @return Value
 	 * @throws Exception
 	 */
 	public function executeTask(Task $task, Observer $observer) {
@@ -55,7 +58,7 @@ class BasicTaskManager implements TaskManager {
 		$final_values = [];
 		$replace_thunk_values = false;
 		foreach ($values as $value) {
-			if(is_a($value, ThunkValue::class)) {
+			if (is_a($value, ThunkValue::class)) {
 				$value = $this->executeTask($value->getParentTask(), $observer);
 				$replace_thunk_values = true;
 			}
@@ -66,18 +69,23 @@ class BasicTaskManager implements TaskManager {
 			$task->setInput($final_values);
 		}
 
-		if(is_a($task, Task\Job::class)) {
+		if (is_a($task, Task\Job::class)) {
 			/** @var Task\Job $job */
 			$job = $task;
 			$observer->notifyCurrentTask($job);
 			$value = $job->run($final_values, $observer);
-			if(! $value->getType()->isExtensionOf($job->getOutputType()))
-				throw new Exception("The job ".$job->getType()." did state to output a value of type ".$job->getOutputType(). " but outputted a value of type ".$value->getType());
+			if (!$value->getType()->isExtensionOf($job->getOutputType())) {
+				throw new Exception("The job " . $job->getType()
+				                    . " did state to output a value of type "
+				                    . $job->getOutputType() . " but outputted a value of type "
+				                    . $value->getType());
+			}
 			$observer->notifyPercentage($job, 100);
+
 			return $value;
 		}
 
-		if(is_a($task, Task\UserInteraction::class)) {
+		if (is_a($task, Task\UserInteraction::class)) {
 			/** @var Task\UserInteraction $userInteraction */
 			$userInteraction = $task;
 			$observer->notifyCurrentTask($userInteraction);
@@ -123,10 +131,12 @@ class BasicTaskManager implements TaskManager {
 	public function continueTask(Bucket $bucket, Option $option) {
 		// We do the user interaction
 		$bucket->userInteraction($option);
-		if($bucket->getState() != State::FINISHED)
-			// The job is not done after the user interaction, so we continue to run it.
+		if ($bucket->getState()
+		    != State::FINISHED
+		) // The job is not done after the user interaction, so we continue to run it.
+		{
 			$this->run($bucket);
-		else {
+		} else {
 			$this->persistence->deleteBucket($bucket);
 		}
 	}

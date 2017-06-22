@@ -5,6 +5,7 @@
  * Date: 21.04.17
  * Time: 17:26
  */
+
 namespace ILIAS\BackgroundTasks\Implementation\Values\ScalarValues;
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;

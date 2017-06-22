@@ -5,25 +5,28 @@ namespace ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 
 class UserInteractionOption implements Option {
+
 	/**
 	 * @var string
 	 */
 	protected $lang_var;
-
 	/**
 	 * @var
 	 */
 	protected $value;
 
+
 	/**
 	 * UserInteractionOption constructor.
+	 *
 	 * @param string $lang_var
-	 * @param $value
+	 * @param        $value
 	 */
 	public function __construct(string $lang_var, $value) {
 		$this->lang_var = $lang_var;
 		$this->value = $value;
 	}
+
 
 	/**
 	 * @return string
@@ -32,6 +35,7 @@ class UserInteractionOption implements Option {
 		return $this->lang_var;
 	}
 
+
 	/**
 	 * @param string $lang_var
 	 */
@@ -39,12 +43,14 @@ class UserInteractionOption implements Option {
 		$this->lang_var = $lang_var;
 	}
 
+
 	/**
 	 * @return mixed
 	 */
 	public function getValue() {
 		return $this->value;
 	}
+
 
 	/**
 	 * @param mixed $value

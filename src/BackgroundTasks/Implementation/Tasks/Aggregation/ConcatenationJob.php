@@ -2,7 +2,6 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\Tasks\Aggregation;
 
-
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\ScalarValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
@@ -16,9 +15,9 @@ class ConcatenationJob extends AbstractJob {
 
 	/**
 	 * @param \ILIAS\BackgroundTasks\Value[] $input
-	 * @param Observer                         $observer Notify the bucket about your progress!
+	 * @param Observer                       $observer Notify the bucket about your progress!
 	 *
-*@return StringValue
+	 * @return StringValue
 	 */
 	public function run(Array $input, Observer $observer) {
 		/** @var ScalarValue[] $list */
@@ -34,12 +33,15 @@ class ConcatenationJob extends AbstractJob {
 		return $string_value;
 	}
 
+
 	/**
-	 * @return bool returns true iff the job's output ONLY depends on the input. Stateless task results may be cached!
+	 * @return bool returns true iff the job's output ONLY depends on the input. Stateless task
+	 *              results may be cached!
 	 */
 	public function isStateless() {
 		return true;
 	}
+
 
 	/**
 	 * @return string
@@ -48,12 +50,14 @@ class ConcatenationJob extends AbstractJob {
 		return get_called_class();
 	}
 
+
 	/**
 	 * @return Type[] Class-Name of the IO
 	 */
 	public function getInputTypes() {
-		return [new ListType(ScalarValue::class)];
+		return [ new ListType(ScalarValue::class) ];
 	}
+
 
 	/**
 	 * @return Type
@@ -62,12 +66,14 @@ class ConcatenationJob extends AbstractJob {
 		return new SingleType(StringValue::class);
 	}
 
+
 	/**
 	 * @return bool Returns true iff the job supports giving feedback about the percentage done.
 	 */
 	public function supportsPercentage() {
 		return false;
 	}
+
 
 	/**
 	 * @return int Returns 0 if !supportsPercentage and the percentage otherwise.

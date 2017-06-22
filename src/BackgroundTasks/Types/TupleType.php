@@ -36,7 +36,8 @@ class TupleType implements Type {
 	/**
 	 * @param Type $type
 	 *
-	 * tuple A is a subtype of tuple B, iff every element i of tuple A is a subtype of element i of tuple B.
+	 * tuple A is a subtype of tuple B, iff every element i of tuple A is a subtype of element i of
+	 * tuple B.
 	 *
 	 * @return bool
 	 */

@@ -5,6 +5,7 @@
  * Date: 05.05.17
  * Time: 10:14
  */
+
 namespace ILIAS\BackgroundTasks;
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
@@ -50,6 +51,7 @@ interface Persistence {
 	 */
 	public function loadBuckets($bucket_container_id);
 
+
 	/**
 	 * Deletes the Observer AND all its tasks and values.
 	 *
@@ -69,6 +71,7 @@ interface Persistence {
 	 */
 	public function deleteBucket($bucket);
 
+
 	/**
 	 * Updates only the bucket! Use this if e.g. the percentage or the current task changes.
 	 *
@@ -83,6 +86,7 @@ interface Persistence {
 	 * @return int Returns the container id of an obvserver.
 	 */
 	public function getBucketContainerId(Bucket $bucket);
+
 
 	/**
 	 * @param int $user_id

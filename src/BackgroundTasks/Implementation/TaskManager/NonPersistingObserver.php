@@ -17,9 +17,11 @@ class NonPersistingObserver implements Observer {
 
 	protected $bucket;
 
+
 	public function __construct(Bucket $bucket) {
 		$this->bucket = $bucket;
 	}
+
 
 	/**
 	 * @param $state int

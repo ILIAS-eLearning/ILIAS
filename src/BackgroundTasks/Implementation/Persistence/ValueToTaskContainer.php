@@ -20,7 +20,6 @@ class ValueToTaskContainer extends \ActiveRecord {
 	 * @con_length     8
 	 */
 	protected $id;
-
 	/**
 	 * @var int
 	 *
@@ -29,7 +28,6 @@ class ValueToTaskContainer extends \ActiveRecord {
 	 * @con_length     8
 	 */
 	protected $task_id;
-
 	/**
 	 * @var int
 	 *
@@ -38,7 +36,6 @@ class ValueToTaskContainer extends \ActiveRecord {
 	 * @con_length     8
 	 */
 	protected $value_id;
-
 	/**
 	 * @var int
 	 *

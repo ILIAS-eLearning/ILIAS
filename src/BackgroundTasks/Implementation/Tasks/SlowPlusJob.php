@@ -20,15 +20,17 @@ class SlowPlusJob extends AbstractJob {
 	public function __construct() {
 	}
 
+
 	/**
 	 * @return Type[] Class-Name of the IO
 	 */
 	public function getInputTypes() {
 		return [
 			new SingleType(IntegerValue::class),
-			new SingleType(IntegerValue::class)
+			new SingleType(IntegerValue::class),
 		];
 	}
+
 
 	/**
 	 * @return Type
@@ -37,12 +39,14 @@ class SlowPlusJob extends AbstractJob {
 		return new SingleType(IntegerValue::class);
 	}
 
+
 	/**
 	 * @return bool Returns true iff the job supports giving feedback about the percentage done.
 	 */
 	public function supportsPercentage() {
 		return false;
 	}
+
 
 	/**
 	 * @return int Returns 0 if !supportsPercentage and the percentage otherwise.
@@ -53,7 +57,7 @@ class SlowPlusJob extends AbstractJob {
 
 
 	/**
-	 * @param Value[]         $input
+	 * @param Value[]  $input
 	 * @param Observer $observer Notify the bucket about your progress!
 	 *
 	 * @return Value
@@ -75,11 +79,14 @@ class SlowPlusJob extends AbstractJob {
 
 		$output = new IntegerValue();
 		$output->setValue($a->getValue() + $b->getValue());
+
 		return $output;
 	}
 
+
 	/**
-	 * @return bool returns true iff the job's output ONLY depends on the input. Stateless task results may be cached!
+	 * @return bool returns true iff the job's output ONLY depends on the input. Stateless task
+	 *              results may be cached!
 	 */
 	public function isStateless() {
 		return true;

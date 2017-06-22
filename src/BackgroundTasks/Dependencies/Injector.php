@@ -9,11 +9,12 @@ use ReflectionParameter;
 
 /**
  * Class Factory
+ *
  * @package ILIAS\BackgroundTasks\Dependencies
  *
  * Create instances of classes using type hinting and the dependency injection container.
  *
- * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
 class Injector {
 
@@ -21,11 +22,11 @@ class Injector {
 	 * @var Container
 	 */
 	protected $dic;
-
 	/**
 	 * @var DependencyMap
 	 */
 	protected $dependencyMap;
+
 
 	/**
 	 * Factory constructor.
@@ -40,22 +41,25 @@ class Injector {
 
 
 	/**
-	 * @param       $fullyQualifiedClassName string The given class must type hint all its constructor arguments. Furthermore the types must exist in the DI-Container.
+	 * @param       $fullyQualifiedClassName string The given class must type hint all its
+	 *                                       constructor arguments. Furthermore the types must
+	 *                                       exist in the DI-Container.
 	 *
 	 * @param bool  $requireFile
 	 *
 	 * @return object
 	 */
 	public function createInstance($fullyQualifiedClassName, $requireFile = false, callable $with = null) {
-		if($requireFile)
-			/** @noinspection PhpIncludeInspection */
+		if ($requireFile) /** @noinspection PhpIncludeInspection */ {
 			require_once($requireFile);
+		}
 
 		// The reflection classes needed.
 		$reflectionClass = new \ReflectionClass($fullyQualifiedClassName);
 		$constructor = $reflectionClass->getConstructor();
-		if(!$constructor)
+		if (!$constructor) {
 			return $reflectionClass->newInstance();
+		}
 
 		$parameters = $constructor->getParameters();
 
@@ -81,6 +85,7 @@ class Injector {
 			// As long as there are given arguments we take those.
 			$constructorArguments[] = $this->getDependency($fullyQualifiedClassName, $parameter, $with);
 		}
+
 		return $constructorArguments;
 	}
 
@@ -109,7 +114,7 @@ class Injector {
 			throw new InvalidClassException("The DI cannot instantiate $fullyQualifiedClassName because some of the constructors arguments are not type hinted. Make sure all parameters in the constructor have type hinting.");
 		}
 
-		if($with) {
+		if ($with) {
 			return $this->dependencyMap->getDependencyWith($this->dic, $type, $fullyQualifiedClassName, $with);
 		} else {
 			return $this->dependencyMap->getDependency($this->dic, $type, $fullyQualifiedClassName);

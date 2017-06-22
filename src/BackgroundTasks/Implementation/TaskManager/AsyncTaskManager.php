@@ -2,13 +2,12 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\TaskManager;
 
-
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionRequiredException;
 
-
 class AsyncTaskManager extends BasicTaskManager {
+
 	/**
 	 * This will add an Observer of the Task and start running the task.
 	 *
@@ -36,25 +35,28 @@ class AsyncTaskManager extends BasicTaskManager {
 		)), true));
 	}
 
+
 	public function runAsync() {
 		global $DIC, $ilLog, $ilIliasIniFile;
 
-		$n_of_tasks = $ilIliasIniFile->readVariable("background_tasks","number_of_concurrent_tasks");
+		$n_of_tasks = $ilIliasIniFile->readVariable("background_tasks", "number_of_concurrent_tasks");
 		$n_of_tasks = $n_of_tasks ? $n_of_tasks : 5;
 
 		$ilLog->write("[BackgroundTask] Starting background job.");
 		$persistence = $DIC->backgroundTasks()->persistence();
 		//TODO search over all clients.
-		$MAX_PARALLEL_JOBS = $n_of_tasks ;
-		if( count($persistence->getBucketIdsByState(State::RUNNING)) >= $MAX_PARALLEL_JOBS) {
+		$MAX_PARALLEL_JOBS = $n_of_tasks;
+		if (count($persistence->getBucketIdsByState(State::RUNNING)) >= $MAX_PARALLEL_JOBS) {
 			$ilLog->write("[BackgroundTask] Too many running jobs, worker going down.");
+
 			return;
 		}
 
-		while(true) {
+		while (true) {
 			$ids = $persistence->getBucketIdsByState(State::SCHEDULED);
-			if(!count($ids))
+			if (!count($ids)) {
 				break;
+			}
 
 			$bucket = $persistence->loadBucket(array_shift($ids));
 			$observer = new PersistingObserver($bucket, $persistence);
@@ -69,11 +71,13 @@ class AsyncTaskManager extends BasicTaskManager {
 				$this->persistence->saveBucketAndItsTasks($bucket);
 			} catch (\Exception $e) {
 				$persistence->deleteBucket($bucket);
-				$ilLog->write("[BackgroundTasks] Exception while async computing: " . $e->getMessage());
+				$ilLog->write("[BackgroundTasks] Exception while async computing: "
+				              . $e->getMessage());
 			}
 		}
 
 		$ilLog->write("[BackgroundTasks] One worker going down because there's nothing left to do.");
+
 		return true;
 	}
 }

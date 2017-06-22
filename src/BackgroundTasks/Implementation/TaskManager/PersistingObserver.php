@@ -17,13 +17,14 @@ use ILIAS\BackgroundTasks\Task;
 class PersistingObserver implements Observer {
 
 	protected $bucket;
-
 	protected $persistence;
+
 
 	public function __construct(Bucket $bucket, Persistence $persistence) {
 		$this->bucket = $bucket;
 		$this->persistence = $persistence;
 	}
+
 
 	/**
 	 * @param $state int

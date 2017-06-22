@@ -26,7 +26,8 @@ class ListType implements Type, Ancestors {
 	/**
 	 * SingleType constructor.
 	 *
-	 * @param $fullyQualifiedClassName string|Type Give a Value Type or a Type that will be wrapped in a single type.
+	 * @param $fullyQualifiedClassName string|Type Give a Value Type or a Type that will be wrapped
+	 *                                 in a single type.
 	 */
 	public function __construct($fullyQualifiedClassName) {
 		if (!is_a($fullyQualifiedClassName, Type::class)) {

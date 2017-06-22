@@ -20,15 +20,17 @@ class PlusJob extends AbstractJob {
 	public function __construct() {
 	}
 
+
 	/**
 	 * @return Type[] Classof the Values
 	 */
 	public function getInputTypes() {
 		return [
 			new SingleType(IntegerValue::class),
-			new SingleType(IntegerValue::class)
+			new SingleType(IntegerValue::class),
 		];
 	}
+
 
 	/**
 	 * @return Type
@@ -37,8 +39,9 @@ class PlusJob extends AbstractJob {
 		return new SingleType(IntegerValue::class);
 	}
 
+
 	/**
-	 * @param Value[]         $input
+	 * @param Value[]  $input
 	 * @param Observer $observer Notify the bucket about your progress!
 	 *
 	 * @return Value
@@ -51,11 +54,14 @@ class PlusJob extends AbstractJob {
 
 		$output = new IntegerValue();
 		$output->setValue($a->getValue() + $b->getValue());
+
 		return $output;
 	}
 
+
 	/**
-	 * @return bool returns true iff the job's output ONLY depends on the input. Stateless task results may be cached!
+	 * @return bool returns true iff the job's output ONLY depends on the input. Stateless task
+	 *              results may be cached!
 	 */
 	public function isStateless() {
 		return true;

@@ -3,9 +3,11 @@
 namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 class ValueContainer extends \ActiveRecord {
+
 	public static function returnDbTableName() {
 		return "il_bt_value";
 	}
+
 
 	/**
 	 * @var int
@@ -18,7 +20,6 @@ class ValueContainer extends \ActiveRecord {
 	 * @con_length     8
 	 */
 	protected $id;
-
 	/**
 	 * @var int
 	 *
@@ -27,7 +28,6 @@ class ValueContainer extends \ActiveRecord {
 	 * @con_length     1
 	 */
 	protected $has_parent_task;
-
 	/**
 	 * @var int
 	 *
@@ -36,7 +36,6 @@ class ValueContainer extends \ActiveRecord {
 	 * @con_length     8
 	 */
 	protected $parent_task_id;
-
 	/**
 	 * @var string
 	 *
@@ -45,7 +44,6 @@ class ValueContainer extends \ActiveRecord {
 	 * @con_length     256
 	 */
 	protected $hash;
-
 	/**
 	 * @var string
 	 *
@@ -54,7 +52,6 @@ class ValueContainer extends \ActiveRecord {
 	 * @con_length     256
 	 */
 	protected $type;
-
 	/**
 	 * @var string
 	 *
@@ -63,7 +60,6 @@ class ValueContainer extends \ActiveRecord {
 	 * @con_length     256
 	 */
 	protected $class_path;
-
 	/**
 	 * @var string
 	 *
@@ -79,7 +75,6 @@ class ValueContainer extends \ActiveRecord {
 	 * @con_fieldtype  clob
 	 */
 	protected $serialized;
-
 	/**
 	 * @var int
 	 *
@@ -89,12 +84,14 @@ class ValueContainer extends \ActiveRecord {
 	 */
 	protected $bucket_id;
 
+
 	/**
 	 * @return int
 	 */
 	public function getId(): int {
 		return $this->id;
 	}
+
 
 	/**
 	 * @param int $id
@@ -103,12 +100,14 @@ class ValueContainer extends \ActiveRecord {
 		$this->id = $id;
 	}
 
+
 	/**
 	 * @return int
 	 */
 	public function getHasParenttask(): int {
 		return $this->has_parent_task;
 	}
+
 
 	/**
 	 * @param int $has_parent_task
@@ -117,12 +116,14 @@ class ValueContainer extends \ActiveRecord {
 		$this->has_parent_task = $has_parent_task;
 	}
 
+
 	/**
 	 * @return int
 	 */
 	public function getParentTaskid(): int {
 		return $this->parent_task_id;
 	}
+
 
 	/**
 	 * @param int $parent_task_id
@@ -131,12 +132,14 @@ class ValueContainer extends \ActiveRecord {
 		$this->parent_task_id = $parent_task_id;
 	}
 
+
 	/**
 	 * @return string|null
 	 */
 	public function getHash() {
 		return $this->hash;
 	}
+
 
 	/**
 	 * @param string|null $hash may be null for thunk values.
@@ -145,12 +148,14 @@ class ValueContainer extends \ActiveRecord {
 		$this->hash = $hash;
 	}
 
+
 	/**
 	 * @return string
 	 */
 	public function getType(): string {
 		return $this->type;
 	}
+
 
 	/**
 	 * @param string $type
@@ -159,12 +164,14 @@ class ValueContainer extends \ActiveRecord {
 		$this->type = $type;
 	}
 
+
 	/**
 	 * @return string
 	 */
 	public function getClassPath(): string {
 		return $this->class_path;
 	}
+
 
 	/**
 	 * @param string $class_path
@@ -173,12 +180,14 @@ class ValueContainer extends \ActiveRecord {
 		$this->class_path = $class_path;
 	}
 
+
 	/**
 	 * @return string
 	 */
 	public function getClassName(): string {
 		return $this->class_name;
 	}
+
 
 	/**
 	 * @param string $class_name

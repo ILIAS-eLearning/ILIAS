@@ -9,9 +9,10 @@ use ILIAS\BackgroundTasks\Value;
 
 /**
  * Class AbstractValue
+ *
  * @package ILIAS\BackgroundTasks\Implementation\Values
  *
- * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
 abstract class AbstractValue implements Value {
 
@@ -20,12 +21,14 @@ abstract class AbstractValue implements Value {
 	 */
 	protected $parentTask;
 
+
 	/**
 	 * @return Type
 	 */
 	public function getType() {
 		return new SingleType(get_called_class());
 	}
+
 
 	/**
 	 * @return Task
@@ -43,6 +46,7 @@ abstract class AbstractValue implements Value {
 	public function setParentTask(Task $parentTask) {
 		$this->parentTask = $parentTask;
 	}
+
 
 	/**
 	 * @return bool

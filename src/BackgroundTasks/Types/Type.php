@@ -19,6 +19,7 @@ interface Type {
 	 */
 	function isExtensionOf(Type $type);
 
+
 	/**
 	 * returns true if the two types are equal.
 	 *
