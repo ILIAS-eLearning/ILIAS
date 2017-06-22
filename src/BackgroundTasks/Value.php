@@ -2,6 +2,8 @@
 
 namespace ILIAS\BackgroundTasks;
 
+use ILIAS\BackgroundTasks\Types\Type;
+
 /**
  * Interface Value
  *
@@ -28,7 +30,7 @@ interface Value extends \Serializable {
 
 
 	/**
-	 * @var string get the Type of the
+	 * @return Type get the Type of the
 	 */
 	public function getType();
 

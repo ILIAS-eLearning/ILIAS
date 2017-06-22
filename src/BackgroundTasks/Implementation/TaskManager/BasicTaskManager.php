@@ -71,6 +71,8 @@ class BasicTaskManager implements TaskManager {
 			$job = $task;
 			$observer->notifyCurrentTask($job);
 			$value = $job->run($final_values, $observer);
+			if(! $value->getType()->isExtensionOf($job->getOutputType()))
+				throw new Exception("The job ".$job->getType()." did state to output a value of type ".$job->getOutputType(). " but outputted a value of type ".$value->getType());
 			$observer->notifyPercentage($job, 100);
 			return $value;
 		}
