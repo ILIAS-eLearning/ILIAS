@@ -42,6 +42,11 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 		self::TYPE_NOTIFICATION_REGISTRATION_REQUEST,
 		self::TYPE_NOTIFICATION_UNSUBSCRIBE
 	);
+	
+	private $force_sending_mail = false;
+	
+
+	
 
 	/**
 	 *
@@ -50,6 +55,17 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 	{
 		parent::__construct();
 	}
+	
+	/**
+	 * Force sending mail independent from global setting
+	 * @param type $a_status
+	 */
+	public function forceSendingMail($a_status)
+	{
+		$this->force_sending_mail = $a_status;
+	}
+	
+	
 	
 	/**
 	 * Send notifications
@@ -415,7 +431,10 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 	{
 		global $ilSetting;
 
-		return $ilSetting->get('mail_grp_member_notification',true) || in_array($a_type, $this->permanent_enabled_notifications);
+		return 
+			$this->force_sending_mail ||
+			$ilSetting->get('mail_grp_member_notification',true) || 
+			in_array($a_type, $this->permanent_enabled_notifications);
 	}
 }
 ?>

@@ -158,6 +158,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock("overview_row_detail");
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$question_gui = assQuestion::_instanciateQuestionGUI($data["question_id"]);
+			$question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
 			if (strcmp($this->outputmode, "detailed") == 0)
 			{
 				$solutionoutput = $question_gui->getSolutionOutput($active_id = "", $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = FALSE, $show_feedback = FALSE, $show_correct_solution = true, $show_manual_scoring = false);

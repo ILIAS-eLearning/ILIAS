@@ -21,6 +21,9 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScori
  */
 class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
+	const REUSE_FILES_TBL_POSTVAR = 'reusefiles';
+	const DELETE_FILES_TBL_POSTVAR = 'deletefiles';
+	
 	/**
 	 * assFileUploadGUI constructor
 	 *
@@ -235,11 +238,17 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 			$table_gui = new assFileUploadFileTableGUI($this->getTargetGuiClass(), 'gotoquestion');
 			$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.svg', $this->lng->txt('already_delivered_files'));
 			$table_gui->setData($files);
-			$table_gui->init();
+			// hey: prevPassSolutions - table refactored
+			#$table_gui->initCommand(
+			#$this->buildFileTableDeleteButtonInstance(), assFileUploadGUI::DELETE_FILES_TBL_POSTVAR
+			#);
+			// hey.
 			$table_gui->setRowTemplate("tpl.il_as_qpl_fileupload_file_view_row.html", "Modules/TestQuestionPool");
 			$table_gui->setSelectAllCheckbox("");
-			$table_gui->clearCommandButtons();
-			$table_gui->disable('select_all');
+			// hey: prevPassSolutions - table refactored
+			#$table_gui->clearCommandButtons();
+			#$table_gui->disable('select_all');
+			// hey.
 			$table_gui->disable('numinfo');
 			$template->setCurrentBlock("files");
 			$template->setVariable('FILES', $table_gui->getHTML());
@@ -326,7 +335,12 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 			$table_gui = new assFileUploadFileTableGUI(null , $this->getQuestionActionCmd(), 'ilAssQuestionPreview');
 			$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.svg', $this->lng->txt('already_delivered_files'));
 			$table_gui->setData($files);
-			$table_gui->init();
+			// hey: prevPassSolutions - support file reuse with table
+			$table_gui->initCommand(
+				$this->buildFileTableDeleteButtonInstance(),
+				assFileUpload::DELETE_FILES_TBL_POSTVAR
+			);
+			// hey.
 			$template->setCurrentBlock("files");
 			$template->setVariable('FILES', $table_gui->getHTML());
 			$template->parseCurrentBlock();
@@ -353,27 +367,34 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		return $questionoutput;
 	}
 
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	// hey: prevPassSolutions - pass will be always available from now on
+	function getTestOutput($active_id, $pass, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	// hey.
 	{
 		// generate the question output
 		$template = new ilTemplate("tpl.il_as_qpl_fileupload_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		
 		if ($active_id)
 		{
-			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
-
-			// $files = $this->object->getUploadedFiles($active_id, $pass); // does not prefer intermediate but orders tstamp
-			$files = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+			// hey: prevPassSolutions - obsolete due to central check
+			#$solutions = NULL;
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			#{
+			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			#}
+			$files = $this->object->getTestOutputSolutions($active_id, $pass);
+			// hey.
 			include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
 			$table_gui = new assFileUploadFileTableGUI(null , $this->getQuestionActionCmd());
 			$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.svg', $this->lng->txt('already_delivered_files'));
 			$table_gui->setData($files);
-			$table_gui->init();
+			// hey: prevPassSolutions - support file reuse with table
+			$table_gui->initCommand(
+				$this->buildTestPresentationFileTableCommandButtonInstance(),
+				$this->getTestPresentationFileTablePostVar()
+			);
+			// hey.
 			$template->setCurrentBlock("files");
 			$template->setVariable('FILES', $table_gui->getHTML());
 			$template->parseCurrentBlock();
@@ -524,7 +545,62 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		// Empty implementation here since a feasible way to aggregate answer is not known.
 		return ''; //print_r($relevant_answers,true);
 	}
-
+	
+	// hey: prevPassSolutions - shown files needs to be chosen so upload can replace or complete fileset
+	/**
+	 * @return ilAssFileUploadFileTableDeleteButton
+	 */
+	protected function buildFileTableDeleteButtonInstance()
+	{
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssFileUploadFileTableDeleteButton.php';
+		return ilAssFileUploadFileTableDeleteButton::getInstance();
+	}
+	
+	/**
+	 * @return ilAssFileUploadFileTableReuseButton
+	 */
+	protected function buildFileTableReuseButtonInstance()
+	{
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssFileUploadFileTableReuseButton.php';
+		return ilAssFileUploadFileTableReuseButton::getInstance();
+	}
+	
+	/**
+	 * @return ilAssFileUploadFileTableCommandButton
+	 */
+	protected function buildTestPresentationFileTableCommandButtonInstance()
+	{
+		if( $this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled() )
+		{
+			return $this->buildFileTableReuseButtonInstance();
+		}
+		
+		return $this->buildFileTableDeleteButtonInstance();
+	}
+	
+	protected function getTestPresentationFileTablePostVar()
+	{
+		if( $this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled() )
+		{
+			return assFileUpload::REUSE_FILES_TBL_POSTVAR;
+		}
+		
+		return assFileUpload::DELETE_FILES_TBL_POSTVAR;
+	}
+	// hey.
+	
+	// hey: prevPassSolutions - overwrite common prevPassSolution-Checkbox
+	protected function getPreviousSolutionProvidedMessage()
+	{
+		return $this->lng->txt('use_previous_solution_advice_file_upload');
+	}
+	
+	protected function getPreviousSolutionConfirmationCheckboxHtml()
+	{
+		return '';
+	}
+	// hey.
+	
 	public function getFormEncodingType()
 	{
 		return self::FORM_ENCODING_MULTIPART;

@@ -1177,7 +1177,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 			return;
 		}
-		$form = $this->initImportForm();
+		$form = $this->initImportForm("lm");
 		if ($form->checkInput())
 		{
 			// create and insert object in objecttree

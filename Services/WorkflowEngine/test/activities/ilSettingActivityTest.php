@@ -111,7 +111,7 @@ class ilSettingActivityTest extends PHPUnit_Framework_TestCase
 		$activity->setSetting($expected_name, $expected_val);
 
 		require_once './Services/Administration/classes/class.ilSetting.php';
-		$ilSetting_mock = $this->getMock('ilSetting',array('set'),array(),'', FALSE);
+		$ilSetting_mock = $this->createMock('ilSetting',array('set'),array(),'', FALSE);
 
 		$ilSetting_mock->expects($this->exactly(1))
 					   ->method('set')

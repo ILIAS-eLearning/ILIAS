@@ -1,12 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once ("./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php");
-require_once ("./Modules/DataCollection/classes/Table/class.ilDclTable.php");
-require_once("./Modules/DataCollection/classes/Fields/Base/class.ilDclDatatype.php");
-require_once ("./Modules/DataCollection/classes/Helpers/class.ilDclCache.php");
-require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
-require_once('./Modules/DataCollection/classes/Fields/class.ilDclFieldListTableGUI.php');
 
 /**
  * @author Martin Studer <ms@studer-raimann.ch>
