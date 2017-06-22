@@ -30,12 +30,15 @@ class Renderer extends AbstractComponentRenderer {
 		if (count($items) == 0) {
 			return "";
 		}
-		$this->renderItems($items, $tpl);
+		$this->renderItems($items, $tpl, $default_renderer);
 
 		// render trigger button
 		$label = $component->getLabel();
 		if ($label !== null) {
 			$tpl->setVariable("LABEL", $component->getLabel());
+		}
+		else {
+			$tpl->setVariable("LABEL", "");
 		}
 
 		$this->maybeRenderId($component, $tpl, "with_id", "ID");
@@ -46,16 +49,13 @@ class Renderer extends AbstractComponentRenderer {
 	 * @param array $items
 	 * @param ilTemplate $tpl
 	 */
-	protected function renderItems($items, $tpl)
+	protected function renderItems($items, $tpl, $default_renderer)
 	{
-		global $DIC;
-
-		$renderer = $DIC->ui()->renderer();
 
 		foreach ($items as $item)
 		{
 			$tpl->setCurrentBlock("item");
-			$tpl->setVariable("ITEM", $renderer->render($item));
+			$tpl->setVariable("ITEM", $default_renderer->render($item));
 			$tpl->parseCurrentBlock();
 
 			/*
