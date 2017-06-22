@@ -14,14 +14,14 @@ interface Section extends Component{
 	/**
 	 * Returns the action executed by clicking on previous.
 	 *
-	 * @return \ILIAS\Data\Link\Link action
+	 * @return \ILIAS\UI\Component\Button\Button
 	 */
 	public function getPreviousActions();
 
 	/**
 	 * Returns the action executed by clicking on next.
 	 *
-	 * @return \ILIAS\Data\Link\Link action
+	 * @return \ILIAS\UI\Component\Button\Button
 	 */
 	public function getNextActions();
 

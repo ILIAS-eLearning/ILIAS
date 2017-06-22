@@ -6,9 +6,8 @@ function base() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$data_f = new ILIAS\Data\Factory();
-	$back = $data_f->link("", "http://www.ilias.de");
-	$next = $data_f->link("", "http://www.github.com");
+	$back = $f->button()->standard("a", "http://www.ilias.de");
+	$next = $f->button()->standard("b", "http://www.github.com");
 
 	//split button or standard button can be used.
 	$button = $f->button()->standard("Today", "");

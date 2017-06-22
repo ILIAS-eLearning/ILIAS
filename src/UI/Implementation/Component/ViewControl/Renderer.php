@@ -66,9 +66,9 @@ class Renderer extends AbstractComponentRenderer
 
 		$tpl = $this->getTemplate("tpl.section.html", true, true);
 		
-		$tpl->setVariable("PREVIOUS", $default_renderer->render($f->glyph()->back($component->getPreviousActions()->url())));
+		$tpl->setVariable("PREVIOUS", $default_renderer->render($f->glyph()->back($component->getPreviousActions()->getAction())));
 		$tpl->setVariable("BUTTON", $default_renderer->render($component->getSelectorButton()));
-		$tpl->setVariable("NEXT", $default_renderer->render($f->glyph()->next($component->getNextActions()->url())));
+		$tpl->setVariable("NEXT", $default_renderer->render($f->glyph()->next($component->getNextActions()->getAction())));
 
 		return $tpl->get();
 	}
