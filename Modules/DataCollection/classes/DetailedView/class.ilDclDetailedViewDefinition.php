@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObject.php");
 
 /**
  * Class ilDclDetailedViewDefinition
@@ -51,9 +50,7 @@ class ilDclDetailedViewDefinition extends ilPageObject {
 	public function getAvailablePlaceholders() {
 		$all = array();
 
-		require_once("./Modules/DataCollection/classes/Table/class.ilDclTable.php");
-		require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableView.php");
-		$tableview = new ilDclTableView($this->getId());
+						$tableview = new ilDclTableView($this->getId());
 		$table_id = $tableview->getTableId();
 		$objTable = ilDclCache::getTableCache($table_id);
 		$fields = $objTable->getRecordFields();

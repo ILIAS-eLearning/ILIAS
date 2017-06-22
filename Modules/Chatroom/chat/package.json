@@ -6,6 +6,7 @@
     "express": "3.4.x",
     "mysql": "^2.7.0",
     "node-mysql": "^0.4.2",
+    "node-schedule": "^1.2.3",
     "socket.io": "*"
   },
   "devDependencies": {

@@ -53,8 +53,11 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
 	public function getDescription()
 	{
 		global $lng;
-		
-		return $lng->txt("delete_inactivated_user_accounts_desc");
+
+		return sprintf(
+			$lng->txt("delete_inactivated_user_accounts_desc"),
+			$this->period
+		);
 	}
 	
 	public function getDefaultScheduleType()
@@ -152,6 +155,7 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
 			$lng->txt('delete_inactivated_user_accounts_period'),
 			'cron_inactivated_user_delete_period'
 		);
+		$sub_text->allowDecimals(false);
 		$sub_text->setInfo($lng->txt('delete_inactivated_user_accounts_period_desc'));
 		$sub_text->setValue($ilSetting->get("cron_inactivated_user_delete_period", $default_setting));
 		$sub_text->setSize(4);

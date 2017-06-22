@@ -40,7 +40,8 @@ class ilOrgUnitAppEventListener {
 	 * @param $ref_id
 	 */
 	protected static function rebuildOrguPathRecurvice($ref_id) {
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		/**
 		 * @var $tree ilTree
 		 */

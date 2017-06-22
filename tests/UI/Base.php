@@ -31,8 +31,8 @@ class NoUIFactory implements Factory {
 	public function legacy($content) {}
 	public function panel() {}
 	public function modal() {}
-	public function popover($content) {}
-	public function progressbar($percentage) {}
+	public function divider() {}
+	public function link() {}
 }
 
 class LoggingRegistry implements ResourceRegistry {

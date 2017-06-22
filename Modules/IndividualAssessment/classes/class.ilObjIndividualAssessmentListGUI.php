@@ -78,10 +78,6 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI {
 	*						"value" (string) => property value
 	*/
 	function getProperties() {
-		global $lng, $ilUser;
-
-		$props = array();
-		return $props;
+		return [];
 	}
-
 }

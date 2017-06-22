@@ -171,8 +171,9 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					$no_perm = false;
 					
 					$ref_id = $this->ref_ids[$obj_id];
+					include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 					if($ref_id &&
-						!$rbacsystem->checkAccess('read_learning_progress', $ref_id))
+						!ilLearningProgressAccess::checkPermission('read_learning_progress', $ref_id))
 					{
 						$no_perm = true;
 						$this->privacy_cols[] = $obj_id;

@@ -843,9 +843,13 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 	 * Get the test question configuration
 	 * @return ilTestQuestionConfig
 	 */
-	public function getTestQuestionConfig()
+	// hey: refactored identifiers
+	public function buildTestPresentationConfig()
+	// hey.
 	{
-		return parent::getTestQuestionConfig()
+		// hey: refactored identifiers
+		return parent::buildTestPresentationConfig()
+		// hey.
 			->setIsUnchangedAnswerPossible(true)
 			->setUseUnchangedAnswerLabel($this->lng->txt('tst_unchanged_order_is_correct'));
 	}

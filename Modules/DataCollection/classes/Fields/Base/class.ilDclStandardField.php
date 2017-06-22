@@ -112,7 +112,8 @@ class ilDclStandardField extends ilDclBaseFieldModel
 	 * @return array all possible standardfield titles, in all languages (used for excel-import);
 	 */
 	static function _getAllStandardFieldTitles() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$identifiers = '';
 		foreach (array('dcl_id', 'dcl_creation_date', 'dcl_last_update', 'dcl_owner', 'dcl_last_edited_by', 'dcl_comments') as $id) {
 			$identifiers .= $ilDB->quote($id, 'text') . ',';

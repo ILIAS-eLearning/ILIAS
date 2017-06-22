@@ -361,18 +361,18 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 			foreach($taxNodes as $taxNode)
 			{
 				$forceBypass = false;
-				
-				$taxTree = new ilTaxonomyTree($taxId);
-				
-				$taxNodeAssignment = new ilTaxNodeAssignment(
-					$this->taxParentTypes[$taxId], $this->taxParentIds[$taxId], 'quest', $taxId
+
+				$taxItemsByTaxParent = $this->getTaxItems(
+					$this->taxParentTypes[$taxId], $this->taxParentIds[$taxId],
+						$taxId, $taxNode
 				);
 
-				$subNodes = $taxTree->getSubTreeIds($taxNode);
-				$subNodes[] = $taxNode;
+				$taxItemsByParent = $this->getTaxItems(
+					$this->parentObjType, $this->parentObjId,
+					$taxId, $taxNode
+				);
 
-				$taxItems = $taxNodeAssignment->getAssignmentsOfNode($subNodes);
-				
+				$taxItems = array_merge($taxItemsByTaxParent, $taxItemsByParent);
 				foreach($taxItems as $taxItem)
 				{
 					$questionIds[$taxItem['item_id']] = $taxItem['item_id'];
@@ -386,6 +386,27 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		}
 
 		return $expressions;
+	}
+
+	/**
+	 * @param string $parentType
+	 * @param int $parentObjId
+	 * @param int $taxId
+	 * @param int $taxNode
+	 * @return array
+	 */
+	protected function getTaxItems($parentType, $parentObjId, $taxId, $taxNode)
+	{
+		$taxTree = new ilTaxonomyTree($taxId);
+
+		$taxNodeAssignment   = new ilTaxNodeAssignment(
+			$parentType, $parentObjId, 'quest', $taxId
+		);
+
+		$subNodes            = $taxTree->getSubTreeIds($taxNode);
+		$subNodes[]          = $taxNode;
+
+		return $taxNodeAssignment->getAssignmentsOfNode($subNodes);
 	}
 
 	private function getQuestionInstanceTypeFilterExpression()

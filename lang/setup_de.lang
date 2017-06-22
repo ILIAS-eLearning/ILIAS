@@ -648,3 +648,5 @@ no#:#Nein
 yes#:#Ja
 terminated_waiting_tasks#:#Tasks in der Warteschlange wurden beendet
 kill_waiting_tasks#:#Tasks in der Warteschlange entfernen.
+system_styles#:#System Styles
+not_enabled#:#Disabled

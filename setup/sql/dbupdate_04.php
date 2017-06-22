@@ -809,7 +809,7 @@ if( !$ilDB->tableColumnExists('qpl_a_cloze', 'gap_size') )
 ?>
 <#4212>
 <?php
-if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'qpl_qst_cloze') )
+if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'cloze_text') )
 {
 	$ilDB->addTableColumn( 'qpl_qst_cloze', 'cloze_text', array('type' => 'clob') );
 
@@ -829,7 +829,7 @@ if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'qpl_qst_cloze') )
 				'question_fi'	=> array('integer', $row['question_id'] )
 			)
 		);
-		$ilDB->execute($clean_qst_txt, $row['question_id'] );
+		$ilDB->execute($clean_qst_txt, array($row['question_id']) );
 	}
 }
 ?>
@@ -3110,7 +3110,7 @@ if(!$ilDB->tableColumnExists('tst_solutions', 'step'))
 /** @var ilDB $ilDB */
 if(!$ilDB->tableColumnExists('tst_test_result', 'step'))
 {
-	$ilDB->addTableColumn('	tst_test_result', 'step', array(
+	$ilDB->addTableColumn('tst_test_result', 'step', array(
 		'type' => 'integer',
 		'length' => 4,
 		'notnull' => false,
@@ -14775,6 +14775,40 @@ if ($ilDB->tableExists('benchmark_old'))
 //step skl_user_skill_level adding primary key
 if($ilDB->tableExists('skl_user_skill_level'))
 {
+	// get rid of duplicates
+	$set = $ilDB->query("SELECT * FROM skl_user_skill_level ORDER BY status_date ASC");
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$q = "DELETE FROM skl_user_skill_level WHERE ".
+			" skill_id = ".$ilDB->quote($rec["skill_id"], "integer"). " AND ".
+			" tref_id = ".$ilDB->quote($rec["tref_id"], "integer"). " AND ".
+			" user_id = ".$ilDB->quote($rec["user_id"], "integer"). " AND ".
+			" status_date = ".$ilDB->quote($rec["status_date"], "datetime"). " AND ".
+			" status = ".$ilDB->quote($rec["status"], "integer"). " AND ".
+			" trigger_obj_id = ".$ilDB->quote($rec["trigger_obj_id"], "integer"). " AND ".
+			" self_eval = ".$ilDB->quote($rec["self_eval"], "integer");
+		//echo "<br>".$q;
+		$ilDB->manipulate($q);
+
+		$q = "INSERT INTO skl_user_skill_level ".
+			"(skill_id, tref_id, user_id, status_date, status, trigger_obj_id, self_eval, level_id, valid, trigger_ref_id, trigger_title, trigger_obj_type, unique_identifier) VALUES (".
+			$ilDB->quote($rec["skill_id"], "integer").", ".
+			$ilDB->quote($rec["tref_id"], "integer").", ".
+			$ilDB->quote($rec["user_id"], "integer").", ".
+			$ilDB->quote($rec["status_date"], "datetime").", ".
+			$ilDB->quote($rec["status"], "integer").", ".
+			$ilDB->quote($rec["trigger_obj_id"], "integer").", ".
+			$ilDB->quote($rec["self_eval"], "integer").", ".
+			$ilDB->quote($rec["level_id"], "integer").", ".
+			$ilDB->quote($rec["valid"], "integer").", ".
+			$ilDB->quote($rec["trigger_ref_id"], "integer").", ".
+			$ilDB->quote($rec["trigger_title"], "text").", ".
+			$ilDB->quote($rec["trigger_obj_type"], "text").", ".
+			$ilDB->quote($rec["unique_identifier"], "text").")";
+		//echo "<br>".$q;
+		$ilDB->manipulate($q);
+	}
+
 	$ilDB->addPrimaryKey('skl_user_skill_level', array('skill_id', 'tref_id', 'user_id', 'status_date', 'status', 'trigger_obj_id', 'self_eval'));
 }
 
@@ -15527,7 +15561,7 @@ if (!$ilDB->tableColumnExists('il_dcl_table', 'table_order')) {
 if ($ilDB->tableColumnExists('il_dcl_data', 'main_table_id')) {
 	$main_table_query = $ilDB->query('SELECT main_table_id FROM il_dcl_data');
 	while ($rec = $ilDB->fetchAssoc($main_table_query)) {
-		$ilDB->query('UPDATE il_dcl_table SET table_order = 10 WHERE id = ' . $ilDB->quote($rec['main_table_id'], 'integer'));
+		$ilDB->query('UPDATE il_dcl_table SET table_order = 10, is_visible = 1 WHERE id = ' . $ilDB->quote($rec['main_table_id'], 'integer'));
 	}
 	$ilDB->dropTableColumn('il_dcl_data', 'main_table_id');
 }
@@ -18294,191 +18328,412 @@ while ($row = $query->fetchAssoc()) {
 ?>
 <#5077>
 <?php
+
+$ilDB->manipulate('update grp_settings set registration_start = '. $ilDB->quote(null, 'integer').', '.
+	'registration_end = '.$ilDB->quote(null, 'integer') .' '.
+	'where registration_unlimited = '.$ilDB->quote(1,'integer')
+);
+?>
+
+<#5078>
+<?php
+$ilDB->manipulate('update crs_settings set '
+	.'sub_start = ' . $ilDB->quote(null,'integer').', '
+	.'sub_end = '.$ilDB->quote(null,'integer').' '
+	.'WHERE sub_limitation_type != '.$ilDB->quote(2,'integer')
+);
+	
+?>
+<#5079>
+<?php
+if(!$ilDB->tableColumnExists('grp_settings', 'grp_start'))
+{
+	$ilDB->addTableColumn('grp_settings', 'grp_start',
+		array(
+			"type"		 => "integer",
+			"notnull"	 => false,
+			"length"	 => 4
+	));
+}
+if(!$ilDB->tableColumnExists('grp_settings', 'grp_end'))
+{
+	$ilDB->addTableColumn('grp_settings', 'grp_end',
+	   array(
+			"type"		 => "integer",
+			"notnull"	 => false,
+			"length"	 => 4
+	));
+}
+?>     
+<#5080>
+<?php   
+if(!$ilDB->tableColumnExists('frm_posts', 'pos_activation_date'))
+{ 
+	$ilDB->addTableColumn('frm_posts', 'pos_activation_date', 
+		array('type' => 'timestamp', 'notnull' => false));
+}
+?>
+<#5081>
+<?php   
+if($ilDB->tableColumnExists('frm_posts', 'pos_activation_date'))
+{ 
+	$ilDB->manipulate('
+		UPDATE frm_posts SET pos_activation_date = pos_date 
+		WHERE pos_status = '. $ilDB->quote(1, 'integer')
+		.' AND pos_activation_date is NULL'
+		);
+}
+?>
+<#5082>
+<?php
+if($ilDB->tableExists('svy_answer'))
+{
+	if($ilDB->tableColumnExists('svy_answer','textanswer'))
+	{
+		$ilDB->modifyTableColumn('svy_answer', 'textanswer', array(
+			'type'	=> 'clob',
+			'notnull' => false
+		));
+	}
+}
+?>
+
+<#5083>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$rp_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
+$ep_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
+$w_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+if($rp_ops_id && $ep_ops_id && $w_ops_id)
+{			
+	// see ilObjectLP
+	$lp_types = array('file');
+
+	foreach($lp_types as $lp_type)
+	{
+		$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId($lp_type);
+		if($lp_type_id)
+		{			
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $rp_ops_id);				
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ep_ops_id);				
+			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $rp_ops_id);
+			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $ep_ops_id);
+		}
+	}
+}
+?>
+
+<#5084>
+<?php
+// #0020342
+$query = $ilDB->query('SELECT 
+    stloc.*,
+	fp.value as fp_value,
+	fp.name as fp_name
+FROM
+    il_dcl_stloc1_value stloc
+        INNER JOIN
+    il_dcl_record_field rf ON stloc.record_field_id = rf.id
+        INNER JOIN
+    il_dcl_field f ON rf.field_id = f.id
+		INNER JOIN
+	il_dcl_field_prop fp ON rf.field_id = fp.field_id
+WHERE
+    f.datatype_id = 3
+	AND fp.name = "multiple_selection"
+	AND fp.value = 1
+ORDER BY stloc.id ASC');
+
+while ($row = $query->fetchAssoc()) {
+	if (!is_numeric($row['value'])) {
+		continue;
+	}
+
+	$value_array = array($row['value']);
+
+	$query2 = $ilDB->query('SELECT * FROM il_dcl_stloc2_value WHERE record_field_id = ' . $ilDB->quote($row['record_field_id'], 'integer'));
+	while ($row2 = $ilDB->fetchAssoc($query2)) {
+		$value_array[] = $row2['value'];
+	}
+	
+	$ilDB->update('il_dcl_stloc1_value', array(
+		'id' => array('integer', $row['id']),
+		'record_field_id' => array('integer', $row['record_field_id']),
+		'value' => array('text', json_encode($value_array)),
+	), array('id' => array('integer', $row['id'])));
+	$ilDB->manipulate('DELETE FROM il_dcl_stloc2_value WHERE record_field_id = ' . $ilDB->quote($row['record_field_id'], 'integer'));
+}
+?>
+<#5085>
+<?php
+$set = $ilDB->query("SELECT * FROM mep_item JOIN mep_tree ON (mep_item.obj_id = mep_tree.child) ".
+	" WHERE mep_item.type = ".$ilDB->quote("pg", "text")
+);
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$q = "UPDATE page_object SET ".
+		" parent_id = ".$ilDB->quote($rec["mep_id"], "integer").
+		" WHERE parent_type = ".$ilDB->quote("mep", "text").
+		" AND page_id = ".$ilDB->quote($rec["obj_id"], "integer");
+	//echo "<br>".$q;
+	$ilDB->manipulate($q);
+}
+?>
+<#5086>
+<?php
+	// fix 20706
+	$ilDB->dropPrimaryKey('page_question');
+	$ilDB->addPrimaryKey('page_question', array('page_parent_type', 'page_id', 'question_id', 'page_lang'));
+?>
+<#5087>
+<?php
+    // fix 20409 and 20638
+    $old = 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    $new = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+
+    $ilDB->manipulateF("UPDATE settings SET value=%s WHERE module='MathJax' AND keyword='path_to_mathjax' AND value=%s",
+        array('text','text'), array($new, $old)
+    );
+?>
+<#5088>
+<?php
+	require_once('./Services/Component/classes/class.ilPluginAdmin.php');
+	require_once('./Services/Component/classes/class.ilPlugin.php');
+	require_once('./Services/UICore/classes/class.ilCtrl.php');
+
+	// Mantis #17842
+	/** @var $ilCtrl ilCtrl */
+	global $ilCtrl, $ilPluginAdmin;
+	if (is_null($ilPluginAdmin)) {
+		$GLOBALS['ilPluginAdmin'] = new ilPluginAdmin();
+	}
+	if (is_null($ilCtrl)) {
+		$GLOBALS['ilCtrl'] = new ilCtrl();
+	}
+	global $ilCtrl;
+
+	function writeCtrlClassEntry(ilPluginSlot $slot, array $plugin_data) {
+		global $ilCtrl;
+		$prefix = $slot->getPrefix() . '_' . $plugin_data['id'];
+		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($plugin_data['name']), $prefix);
+	}
+
+	include_once("./Services/Component/classes/class.ilModule.php");
+	$modules = ilModule::getAvailableCoreModules();
+	foreach ($modules as $m) {
+		$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_MODULE, $m["subdir"]);
+		foreach ($plugin_slots as $ps) {
+			include_once("./Services/Component/classes/class.ilPluginSlot.php");
+			$slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
+			foreach ($slot->getPluginsInformation() as $p) {
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+					writeCtrlClassEntry($slot, $p);
+				}
+			}
+		}
+	}
+	include_once("./Services/Component/classes/class.ilService.php");
+	$services = ilService::getAvailableCoreServices();
+	foreach ($services as $s) {
+		$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_SERVICE, $s["subdir"]);
+		foreach ($plugin_slots as $ps) {
+			$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
+			foreach ($slot->getPluginsInformation() as $p) {
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+					writeCtrlClassEntry($slot, $p);
+				}
+			}
+		}
+	}
+?>
+<#5089>
+<?php
 $fields = array(
 	'id' => array(
 		'type' => 'integer',
 		'length' => '8',
-		
+
 	),
 	'user_id' => array(
 		'type' => 'integer',
 		'length' => '8',
-		
+
 	),
 	'root_task_id' => array(
 		'type' => 'integer',
 		'length' => '8',
-		
+
 	),
 	'current_task_id' => array(
 		'type' => 'integer',
 		'length' => '8',
-		
+
 	),
 	'state' => array(
 		'type' => 'integer',
 		'length' => '2',
-		
+
 	),
 	'total_number_of_tasks' => array(
 		'type' => 'integer',
 		'length' => '4',
-		
+
 	),
 	'percentage' => array(
 		'type' => 'integer',
 		'length' => '2',
-		
+
 	),
 	'title' => array(
 		'type' => 'integer',
 		'length' => '255',
-		
+
 	),
 	'description' => array(
 		'type' => 'integer',
 		'length' => '255',
-		
+
 	),
-	
+
 );
 if (! $ilDB->tableExists('il_bt_bucket')) {
 	$ilDB->createTable('il_bt_bucket', $fields);
 	$ilDB->addPrimaryKey('il_bt_bucket', array( 'id' ));
-	
+
 	if (! $ilDB->sequenceExists('il_bt_bucket')) {
 		$ilDB->createSequence('il_bt_bucket');
 	}
-	
+
 }
 
 $fields = array(
 	'id' => array(
 		'type' => 'integer',
 		'length' => '8',
-		
+
 	),
 	'type' => array(
 		'type' => 'text',
 		'length' => '256',
-		
+
 	),
 	'class_path' => array(
 		'type' => 'text',
 		'length' => '256',
-		
+
 	),
 	'class_name' => array(
 		'type' => 'text',
 		'length' => '256',
-		
+
 	),
 	'bucket_id' => array(
 		'type' => 'integer',
 		'length' => '8',
-		
+
 	),
-	
+
 );
 if (! $ilDB->tableExists('il_bt_task')) {
 	$ilDB->createTable('il_bt_task', $fields);
 	$ilDB->addPrimaryKey('il_bt_task', array( 'id' ));
-	
+
 	if (! $ilDB->sequenceExists('il_bt_task')) {
 		$ilDB->createSequence('il_bt_task');
 	}
-	
+
 }
 
 $fields = array(
 	'id' => array(
 		'type' => 'integer',
 		'length' => '8',
-		
+
 	),
 	'has_parent_task' => array(
 		'type' => 'integer',
 		'length' => '1',
-		
+
 	),
 	'parent_task_id' => array(
 		'type' => 'integer',
 		'length' => '8',
-		
+
 	),
 	'hash' => array(
 		'type' => 'text',
 		'length' => '256',
-		
+
 	),
 	'type' => array(
 		'type' => 'text',
 		'length' => '256',
-		
+
 	),
 	'class_path' => array(
 		'type' => 'text',
 		'length' => '256',
-		
+
 	),
 	'class_name' => array(
 		'type' => 'text',
 		'length' => '256',
-		
+
 	),
 	'serialized' => array(
 		'type' => 'clob',
-		
+
 	),
 	'bucket_id' => array(
 		'type' => 'integer',
 		'length' => '8',
-		
+
 	),
-	
+
 );
 if (! $ilDB->tableExists('il_bt_value')) {
 	$ilDB->createTable('il_bt_value', $fields);
 	$ilDB->addPrimaryKey('il_bt_value', array( 'id' ));
-	
+
 	if (! $ilDB->sequenceExists('il_bt_value')) {
 		$ilDB->createSequence('il_bt_value');
 	}
-	
+
 }
 
 $fields = array(
 	'id' => array(
 		'type' => 'integer',
 		'length' => '8',
-		
+
 	),
 	'task_id' => array(
 		'type' => 'integer',
 		'length' => '8',
-		
+
 	),
 	'value_id' => array(
 		'type' => 'integer',
 		'length' => '8',
-		
+
 	),
 	'bucket_id' => array(
 		'type' => 'integer',
 		'length' => '8',
-		
+
 	),
-	
+
 );
 if (! $ilDB->tableExists('il_bt_value_to_task')) {
 	$ilDB->createTable('il_bt_value_to_task', $fields);
 	$ilDB->addPrimaryKey('il_bt_value_to_task', array( 'id' ));
-	
+
 	if (! $ilDB->sequenceExists('il_bt_value_to_task')) {
 		$ilDB->createSequence('il_bt_value_to_task');
 	}
-	
+
 }
 ?>
-
 

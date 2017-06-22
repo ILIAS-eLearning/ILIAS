@@ -19,7 +19,7 @@ var ilIdentifiedWizardInputExtend;
 		init: function(parameters)
 		{
 			if(parameters)
-			{console.log($(parameters.fieldContainerSelector));
+			{
 				if( $(parameters.fieldContainerSelector).size() )
 				{
 					this.tag_container = parameters.fieldContainerSelector;
@@ -93,7 +93,6 @@ var ilIdentifiedWizardInputExtend;
 			$(wizard.getReindexSelectors()).each( function(pos, selector) {
 	
 				$(row).find(selector).each( function (pos, input) {
-						console.log(input);
 						wizard.replaceRowKey(input, 'name', reg, newKey);
 						wizard.replaceRowKey(input, 'id', reg, newKey);
 				});

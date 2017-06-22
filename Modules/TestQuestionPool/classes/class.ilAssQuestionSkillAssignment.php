@@ -368,4 +368,17 @@ class ilAssQuestionSkillAssignment
 		
 		return $this->getSkillPoints();
 	}
+
+	/**
+	 * @param mixed $skillPoints
+	 * @return bool
+	 */
+	public function isValidSkillPoint($skillPoints)
+	{
+		return (
+			is_numeric($skillPoints) &&
+			str_replace(array('.', ','), '', $skillPoints) == $skillPoints &&
+			$skillPoints > 0
+		);
+	}
 }

@@ -76,7 +76,9 @@ class ilObjFile extends ilObject2 {
 	 */
 	function createProperties($a_upload = false)
 	{
-		global $ilDB,$tree;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$tree = $DIC['tree'];
 		
 		// Create file directory
 		$this->initFileStorage();
@@ -319,7 +321,8 @@ class ilObjFile extends ilObject2 {
 	 */
 	public function deleteVersions($a_hist_entry_ids = null)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		require_once("./Services/History/classes/class.ilHistory.php");
 		
@@ -388,7 +391,8 @@ class ilObjFile extends ilObject2 {
 	*/
 	protected function doRead()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
 		$r = $this->ilias->db->query($q);
@@ -420,7 +424,9 @@ class ilObjFile extends ilObject2 {
 	*/
 	protected function doUpdate()
 	{
-		global $ilDB, $ilLog;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 		
 		//$ilLog->write(__METHOD__.' File type: '.$this->getFileType());
 		
@@ -483,7 +489,8 @@ class ilObjFile extends ilObject2 {
 
 	function setFileType($a_type)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		
 		
 		$this->filetype = $a_type;
@@ -572,7 +579,8 @@ class ilObjFile extends ilObject2 {
 
 	static function _writeFileType($a_id ,$a_format)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$q = "UPDATE file_data SET ".
 			" file_type = ".$ilDB->quote($a_format ,'text').
@@ -583,7 +591,8 @@ class ilObjFile extends ilObject2 {
 
 	static function _lookupFileName($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
@@ -674,7 +683,8 @@ class ilObjFile extends ilObject2 {
 
 		if (@is_file($file))
 		{
-			global $ilClientIniFile;
+			global $DIC;
+			$ilClientIniFile = $DIC['ilClientIniFile'];
 			/**
 			 * @var $ilClientIniFile ilIniFile
 			 */
@@ -802,7 +812,8 @@ class ilObjFile extends ilObject2 {
 	 */
 	protected function doCloneObject($a_new_obj,$a_target_id,$a_copy_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 	 	$a_new_obj->createDirectory();
 	 	$this->cloneMetaData($a_new_obj);
@@ -843,7 +854,8 @@ class ilObjFile extends ilObject2 {
 	
 	protected function beforeDelete()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		// check, if file is used somewhere
 		$usages = $this->getUsages();
@@ -856,7 +868,8 @@ class ilObjFile extends ilObject2 {
 
 	protected function doDelete()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		// delete file data entry
 		$q = "DELETE FROM file_data WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
@@ -911,7 +924,8 @@ class ilObjFile extends ilObject2 {
 	*/
 	static function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$and_hist = ($a_usage_hist_nr !== false)
 			? " AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer")
@@ -945,7 +959,8 @@ class ilObjFile extends ilObject2 {
 	*/
 	static function _saveUsage($a_file_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// #15143
 		$ilDB->replace("file_usage",
@@ -967,7 +982,8 @@ class ilObjFile extends ilObject2 {
 	*/
 	function getUsages()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// get usages in learning modules
 		$q = "SELECT * FROM file_usage WHERE id = ".$ilDB->quote($this->getId(), "integer");
@@ -994,7 +1010,8 @@ class ilObjFile extends ilObject2 {
 	*/
 	static function _getFilesOfObject($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$lstr = "";
 		if ($a_usage_lang != "")
@@ -1021,7 +1038,8 @@ class ilObjFile extends ilObject2 {
 	// TODO: What is this function good for??
 	function getXMLZip()
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 
 		$zip = PATH_TO_ZIP;
 
@@ -1039,7 +1057,8 @@ class ilObjFile extends ilObject2 {
                 }
                 // END WebDAV Suppress news notification for hidden files
                 
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		
 		// Add Notification to news
 		include_once("./Services/News/classes/class.ilNewsItem.php");
@@ -1211,7 +1230,9 @@ class ilObjFile extends ilObject2 {
 	 */
 	public function rollback($version_id)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		
 		$source = $this->getSpecificVersion($version_id);
 		if ($source === false)

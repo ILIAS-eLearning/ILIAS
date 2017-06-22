@@ -1,5 +1,4 @@
 <?php
-require_once("./Modules/DataCollection/classes/Fields/NReference/class.ilDclNReferenceFieldGUI.php");
 
 /**
  *

@@ -112,4 +112,28 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Button\Close
 	 */
 	public function close();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Shy buttons are used in contexts that need a less obtrusive presentation
+	 *       than usual buttons have, e.g. in UI collections like Dropdowns.
+	 *   composition: >
+	 *       Shy buttons do not come with a separte background color.
+	 *
+	 * rules:
+	 *   usage:
+	 *       1: >
+	 *           Shy buttons MUST only be used, if a standard button presentation
+	 *           is not appropriate. E.g. if usual buttons destroy the presentation
+	 *           of an outer UI component or if there is not enough space for a
+	 *           standard button presentation.
+	 * ---
+	 * @param	string		$label
+	 * @param	string		$action
+	 * @return  \ILIAS\UI\Component\Button\Shy
+	 */
+	public function shy($label, $action);
+
 }

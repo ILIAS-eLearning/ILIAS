@@ -77,7 +77,11 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 			'ilias_url'    => $form->getInput('ilias_url'),
 			'client_proxy' => $form->getInput('client_proxy'),
 			'client_url'   => $form->getInput('client_url'),
-			'sub_directory'=> $form->getInput('sub_directory')
+			'sub_directory'=> $form->getInput('sub_directory'),
+			'deletion_mode'=> $form->getInput('deletion_mode'),
+			'deletion_unit'=> $form->getInput('deletion_unit'),
+			'deletion_value'=> $form->getInput('deletion_value'),
+			'deletion_time' => $form->getInput('deletion_time'),
 		);
 
 		$adminSettings = new ilChatroomAdmin($this->gui->object->getId());

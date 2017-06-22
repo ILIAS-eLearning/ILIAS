@@ -27,4 +27,11 @@ class Factory implements B\Factory {
 	public function close() {
 		return new Close();
     }
+
+	/**
+	 * @inheritdoc
+	 */
+	public function shy($label, $action) {
+		return new Shy($label, $action);
+	}
 }

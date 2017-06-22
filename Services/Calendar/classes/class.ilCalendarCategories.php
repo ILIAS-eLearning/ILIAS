@@ -65,6 +65,11 @@ class ilCalendarCategories
 	protected $target_ref_id = 0;
 	
 	/**
+	 * ilLogger
+	 */
+	protected $logger = null;
+	
+	/**
 	 * Singleton instance
 	 *
 	 * @access protected
@@ -74,6 +79,8 @@ class ilCalendarCategories
 	protected function __construct($a_usr_id = 0)
 	{
 		global $ilUser,$ilDB;
+		
+		$this->logger = $GLOBALS['DIC']->logger()->cal();
 		
 		$this->user_id = $a_usr_id;
 		if(!$this->user_id)

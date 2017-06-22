@@ -72,7 +72,10 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
 		$ilTabs->activateTab("skill_templates");
 
 		include_once("./Services/Skill/classes/class.ilSkillTemplateCategoryGUI.php");
-		ilSkillTemplateCategoryGUI::addCreationButtons();
+		if ($this->checkPermissionBool("write"))
+		{
+			ilSkillTemplateCategoryGUI::addCreationButtons();
+		}
 		
 		include_once("./Services/Skill/classes/class.ilSkillCatTableGUI.php");
 		$table = new ilSkillCatTableGUI($this, "listTemplates", (int) $_GET["obj_id"],
@@ -99,7 +102,10 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
 		$ilTabs->activateTab("skills");
 		
 		include_once("./Services/Skill/classes/class.ilSkillCategoryGUI.php");
-		ilSkillCategoryGUI::addCreationButtons();
+		if ($this->checkPermissionBool("write"))
+		{
+			ilSkillCategoryGUI::addCreationButtons();
+		}
 		
 		include_once("./Services/Skill/classes/class.ilSkillCatTableGUI.php");
 		$table = new ilSkillCatTableGUI($this, "listSkills", (int) $_GET["obj_id"],

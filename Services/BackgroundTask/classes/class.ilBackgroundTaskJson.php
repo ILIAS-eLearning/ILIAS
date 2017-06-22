@@ -17,7 +17,8 @@ class ilBackgroundTaskJson
 	 */
 	public static function getFailedJson($a_message)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$json = new stdClass();
 		
@@ -37,7 +38,8 @@ class ilBackgroundTaskJson
 	 */
 	public static function getBlockedJson($a_task_id)
 	{	
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$json = new stdClass();
 		
@@ -61,7 +63,8 @@ class ilBackgroundTaskJson
 	 */
 	public static function getProcessingJson($a_task_id, $a_message, $a_steps)
 	{	
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$json = new stdClass();
 		

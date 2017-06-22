@@ -164,16 +164,18 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 		$this->form->addItem($cb);
 
 		// save and cancel commands
-		if ($a_mode == "create")
+		if ($this->checkPermissionBool("write"))
 		{
-			$this->form->addCommandButton("save", $lng->txt("save"));
-			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
-			$this->form->setTitle($lng->txt("skmg_create_skill_category"));
-		}
-		else
-		{
-			$this->form->addCommandButton("update", $lng->txt("save"));
-			$this->form->setTitle($lng->txt("skmg_edit_scat"));
+			if ($a_mode == "create")
+			{
+				$this->form->addCommandButton("save", $lng->txt("save"));
+				$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
+				$this->form->setTitle($lng->txt("skmg_create_skill_category"));
+			} else
+			{
+				$this->form->addCommandButton("update", $lng->txt("save"));
+				$this->form->setTitle($lng->txt("skmg_edit_scat"));
+			}
 		}
 		
 		$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
@@ -185,6 +187,10 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 	 */
 	function saveItem()
 	{
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
 		include_once "Services/Skill/classes/class.ilSkillCategory.php";
 		$it = new ilSkillCategory();
 		$it->setTitle($this->form->getInput("title"));
@@ -213,6 +219,11 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 	 */
 	function updateItem()
 	{
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$this->node_object->setTitle($this->form->getInput("title"));
 		$this->node_object->setOrderNr($this->form->getInput("order_nr"));
 		$this->node_object->setSelfEvaluation($_POST["self_eval"]);
@@ -257,7 +268,10 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 			ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
 		}
 
-		self::addCreationButtons();
+		if ($this->checkPermissionBool("write"))
+		{
+			self::addCreationButtons();
+		}
 		$this->setTabs("content");
 		
 		include_once("./Services/Skill/classes/class.ilSkillCatTableGUI.php");
@@ -276,7 +290,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 	static function addCreationButtons()
 	{
 		global $ilCtrl, $lng, $ilToolbar, $ilUser;
-		
+
 		// skill
 		$ilCtrl->setParameterByClass("ilbasicskillgui",
 			"obj_id", (int) $_GET["obj_id"]);
