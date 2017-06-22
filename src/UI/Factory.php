@@ -340,6 +340,26 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
+	 *     A divider marks a thematic change in a sequence of other components. A Horizontal Divider
+	 *     is used to mark a thematic change in sequence of elements that are stacked from top to bottom,
+	 *     e.g. in a Dropdown. A Vertical Divider is used to mark a thematic change in a sequence of elements
+	 *     that are lined up from left to right, e.g. a Toolbar.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       Dividers MUST only be used in container components that explicitly state
+	 *       and define the usage of Dividers within the container.
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Divider\Factory
+	 **/
+	public function divider();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
 	 *      Links are used navigate to other resources or views of the system. Clicking
 	 *      on a link does not change the systems status.
 	 *   composition: >
