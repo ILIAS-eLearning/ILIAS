@@ -131,12 +131,13 @@ class Container extends \Pimple\Container {
 	}
 
 
-	//	/**
-	//	 * @return Injector
-	//	 */
-	//	public function injector() {
-	//		return $this["di.injector"];
-	//	}
+	/**
+	 * @return Injector
+	 */
+	public function injector() {
+		return $this["di.injector"];
+	}
+
 
 	/**
 	 * @return BackgroundTaskServices
