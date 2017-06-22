@@ -100,7 +100,7 @@ class ilAuthContainerDatabase extends Auth_Container_MDB2
 	 */
 	public function isObserversEnabled() 
 	{
-		$this->isObserversEnabled;
+		return $this->isObserversEnabled;
 	}
 	
 	

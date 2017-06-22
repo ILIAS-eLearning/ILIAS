@@ -63,7 +63,10 @@ class arIndexTableGUI extends ilTable2GUI {
 	 * @param ActiveRecordList $active_record_list
 	 */
 	public function __construct(arGUI $a_parent_obj, $a_parent_cmd, ActiveRecordList $active_record_list) {
-		global $ilCtrl, $ilTabs, $ilAccess;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilAccess = $DIC['ilAccess'];
 		$this->ctrl = $ilCtrl;
 		$this->tabs = $ilTabs;
 		$this->access = $ilAccess;
@@ -124,7 +127,8 @@ class arIndexTableGUI extends ilTable2GUI {
 
 
 	protected function initActions() {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$this->addAction(new arIndexTableAction('view', $lng->txt('view'), get_class($this->parent_obj), 'view', 'view'));
 		$this->addAction(new arIndexTableAction('edit', $lng->txt('edit'), get_class($this->parent_obj), 'edit', 'write'));

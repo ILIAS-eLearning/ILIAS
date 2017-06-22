@@ -335,6 +335,7 @@ class ilQuestionExporter
 		$areas = $this->json_decoded->answers;
 		//set areas in PHP cause of inteference between pure and highlighter
 		foreach ($areas as $area) {
+			$this->tpl->setVariable("VAL_TOOLTIP", htmlspecialchars($area->answertext));
 			$this->tpl->setVariable("VAL_COORDS", $area->coords);
 			$this->tpl->setVariable("VAL_ORDER", $area->order);
 			$this->tpl->setVariable("VAL_AREA", $area->area);

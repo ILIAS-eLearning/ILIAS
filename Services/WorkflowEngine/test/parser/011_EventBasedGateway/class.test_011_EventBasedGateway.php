@@ -56,7 +56,7 @@ class test_011_EventBasedGateway extends PHPUnit_Framework_TestCase
 		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
 		require_once './Services/Database/classes/class.ilDB.php';
-		$ildb_mock = $this->getMock('ilDBMySQL', array('nextId','quote','exec', 'insert'), array(), '', false, false);
+		$ildb_mock = $this->createMock('ilDBMySQL', array('nextId','quote','exec', 'insert'), array(), '', false, false);
 		$ildb_mock->expects( $this->any() )->method('quote')->will( $this->returnCallback(''));
 		$i = 0;
 		$ildb_mock->expects( $this->any() )->method( 'nextId' )->will( $this->returnValue($i++) );

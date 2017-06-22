@@ -70,6 +70,7 @@ abstract class ilRegistrationGUI
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('grp');
 		$this->lng->loadLanguageModule('ps');
+		$this->lng->loadLanguageModule('membership');
 		
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;

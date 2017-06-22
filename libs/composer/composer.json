@@ -3,6 +3,9 @@
 	"description": "Dependencies of ILIAS",
 	"license": "GPL v3",
 	"authors": [],
+	"config": {
+		"optimize-autoloader": true
+	},
 	"require": {
 		"cweagans/composer-patches": "~1.0",
 		"filp/whoops": "^2.0",
@@ -10,21 +13,28 @@
 		"phpoffice/phpexcel": "^1.8.1",
 		"technosophos/LibRIS": "^2.0.2",
 		"ezyang/htmlpurifier": "^4.8.0",
-		"phpmailer/phpmailer": "5.2.21",
+		"phpmailer/phpmailer": "5.2.22",
 		"phansys/getid3": "^2.0.0-BETA1",
 		"geshi/geshi": "dev-master",
 		"tecnickcom/tcpdf": "^6.2.12",
 		"pimple/pimple" : "^3.0",
 		"symfony/yaml": "^3.1",
-		"moment/moment": "^2.14.1"
+		"moment/moment": "^2.14.1",
+		"guzzlehttp/psr7": "^1.4",
+		"psr/http-message": "^1.0",
+		"dflydev/fig-cookies": "^1.0",
+		"ralouphie/getallheaders": "^2.0"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "^1.6",
-		"phpunit/phpunit": "^4.8",
-		"phpunit/php-code-coverage": "^2.2"
+		"phpunit/phpunit": "^5.7",
+		"phpunit/php-code-coverage": "^4.0",
+		"mockery/mockery": "^0.9.9"
 	},
 	"autoload": {
-		"psr-4" : { "ILIAS\\" : "../../src" }
+		"psr-4" : { "ILIAS\\" : "../../src" },
+		"classmap": ["../../Services/", "../../Modules"],
+		"exclude-from-classmap": ["../../Services/Migration", "../../*/*/lib", "../../*/*/test", "../../Services/CAS/phpcas"]
 	},
 	"extra": {
 		"cweagans/composer-patches" : {
@@ -77,10 +87,10 @@
 		},
 		"phpmailer/phpmailer" : {
 			"source" : "https://github.com/PHPMailer/PHPMailer",
-			"used_version" : "v5.2.21",
+			"used_version" : "v5.2.22",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2017-01-03",
+			"last_update" : "2017-03-14",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
 		},
 		"phansys/getid3" : {
@@ -139,9 +149,52 @@
 			"last_update": "2016-08-03",
 			"last_update_by": "Thomas Joußen <tjoussen@databay.de>"
 		},
+		"guzzlehttp/psr7" : {
+			"source": "https://github.com/guzzle/psr7",
+			"used_version": "v1.4.2",
+			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
+			"wrapped_by": "ILIAS\\HTTP\\Request\\RequestFactory and ILIAS\\HTTP\\Response\\ResponseFactory",
+			"last_update": "2017-03-26",
+			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>"
+		},
+		"ralouphie/getallheaders" : {
+			"source": "https://github.com/ralouphie/getallheaders",
+			"used_version": "v2.0.5",
+			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
+			"wrapped_by": null,
+			"last_update": "2016-12-16",
+			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>"
+		},
+		"psr/http-message" : {
+			"source": "https://github.com/php-fig/http-message",
+			"used_version": "v1.0.1",
+			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
+			"wrapped_by": "",
+			"last_update": "2016-11-14",
+			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>"
+		},
+		"dflydev/fig-cookies" : {
+			"source": "https://github.com/dflydev/dflydev-fig-cookies",
+			"used_version": "v1.0.2",
+			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
+			"wrapped_by": "ILIAS\\HTTP\\Cookies\\CookieJarWrapper",
+			"last_update": "2016-11-14",
+			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>"
+		},
+		"mockery/mockery" : {
+			"source": "https://github.com/padraic/mockery",
+			"used_version": "v0.9.9",
+			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
+			"wrapped_by": null,
+			"last_update": "2017-03-26",
+			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>"
+		},
 		"patches": {
 			"tecnickcom/tcpdf": {
 				"ILIAS TCPDF Patches": "patches/tcpdf.patch"
+			},
+			"phpmailer/phpmailer": {
+				"ILIAS PhpMailer Patches": "patches/phpmailer.patch"
 			}
 		}
 	}

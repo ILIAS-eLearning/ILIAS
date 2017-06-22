@@ -33,6 +33,10 @@ class ilSystemStyleConfigMock extends ilSystemStyleConfig
 	 */
 	protected $delos_path = "./Services/Style/System/test/fixtures/skins_temp/defaultSkin/defaultStyle";
 
+	/**
+	 * @var string
+	 */
+	protected $rel_delos_path  = "./Services/Style/System/test/fixtures/skins_temp/defaultSkin/defaultStyle";
 
 	/**
 	 * @var string

@@ -99,16 +99,59 @@ class ilPlainTextHandler extends Handler {
 	 * @return array 	$title => $table
 	 */
 	protected function tables() {
+		$post = $_POST;
+		$server = $_SERVER;
+
+		$post = $this->hidePassword($post);
+		$server = $this->shortenPHPSessionId($server);
+
 		return array
 			( "GET Data" => $_GET
-			, "POST Data" => $_POST
+			, "POST Data" => $post
 			, "Files" => $_FILES
-			, "Cookies" => $_COOKIES
+			, "Cookies" => $_COOKIE
 			, "Session" => isset($_SESSION) ? $_SESSION : array()
-			, "Server/Request Data" => $_SERVER
+			, "Server/Request Data" => $server
 			, "Environment Variables" => $_ENV
 			);
 	}
-}
 
-?>
+	/**
+	 * Replace passwort from post array with security message
+	 *
+	 * @param array $post
+	 *
+	 * @return array
+	 */
+	private function hidePassword(array $post) {
+		if(isset($post["password"])) {
+			$post["password"] = "REMOVED FOR SECURITY";
+		}
+
+		return $post;
+	}
+
+	/**
+	 * Shorts the php session id
+	 *
+	 * @param array 	$server
+	 *
+	 * @return array
+	 */
+	private function shortenPHPSessionId(array $server) {
+		$cookie_content = $server["HTTP_COOKIE"];
+		$cookie_content = explode(";", $cookie_content);
+
+		foreach ($cookie_content as $key => $content) {
+			$content_array = explode("=", $content);
+			if(trim($content_array[0]) == session_name()) {
+				$content_array[1] = substr($content_array[1], 0, 5)." (SHORTENED FOR SECURITY)";
+				$cookie_content[$key] = implode("=", $content_array);
+			}
+		}
+
+		$server["HTTP_COOKIE"] = implode(";", $cookie_content);
+
+		return $server;
+	}
+}

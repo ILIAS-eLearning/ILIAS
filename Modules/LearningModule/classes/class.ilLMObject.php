@@ -1026,9 +1026,12 @@ class ilLMObject
 		}
 		if (is_array($a_titles))
 		{
+			include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
 			include_once("./Services/MetaData/classes/class.ilMD.php");
 			foreach($a_titles as $id => $title)
 			{
+				// see #20375
+				$title = ilFormPropertyGUI::removeProhibitedCharacters($title);
 				if ($a_lang == "-")
 				{
 					$lmobj = ilLMObjectFactory::getInstance($a_lm, $id, false);

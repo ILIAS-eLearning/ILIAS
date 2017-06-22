@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 include_once("./Services/Object/classes/class.ilObjectGUI.php");
 include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
+require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
 
 /**
 * News Settings.
@@ -16,6 +17,11 @@ include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 {
     private static $ERROR_MESSAGE;
+
+	/**
+	 * @var ilPDSelectedItemsBlockSelectedItemsBlockViewSettings
+	 */
+	protected $viewSettings; 
 	/**
 	 * Contructor
 	 *
@@ -29,6 +35,8 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$lng->loadLanguageModule("pd");
+
+		$this->viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user());
 	}
 
 	/**
@@ -219,27 +227,34 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_my_offers'), 'enable_my_offers');
 		$cb_prop->setValue('1');
 		$cb_prop->setInfo($lng->txt('pd_enable_my_offers_info'));
-		$cb_prop->setChecked(($ilSetting->get('disable_my_offers') ? '0' : '1'));
+		$cb_prop->setChecked($this->viewSettings->enabledSelectedItems());
 		$form->addItem($cb_prop);
 		
 		// Enable 'My Memberships'
 		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_my_memberships'), 'enable_my_memberships');
 		$cb_prop->setValue('1');
 		$cb_prop->setInfo($lng->txt('pd_enable_my_memberships_info'));
-		$cb_prop->setChecked(($ilSetting->get('disable_my_memberships') ? '0' : '1'));
+		$cb_prop->setChecked($this->viewSettings->enabledMemberships());
 		$form->addItem($cb_prop);
-		
-		if($ilSetting->get('disable_my_offers') == 0 &&
-		   $ilSetting->get('disable_my_memberships') == 0)
+
+		$memberships_sort_defaults = new ilRadioGroupInputGUI($lng->txt('pd_my_memberships_sort_default'), 'my_memberships_sort_default');
+		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_location'), $this->viewSettings->getSortByLocationMode()));
+		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_type'), $this->viewSettings->getSortByTypeMode()));
+		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_start_date'), $this->viewSettings->getSortByStartDateMode()));
+		$memberships_sort_defaults->setRequired(true);
+		$memberships_sort_defaults->setValue($this->viewSettings->getDefaultSortType());
+		$cb_prop->addSubItem($memberships_sort_defaults);
+
+		if($this->viewSettings->allViewsEnabled())
 		{
 			// Default view of personal items
 			$sb_prop = new ilSelectInputGUI($lng->txt('pd_personal_items_default_view'), 'personal_items_default_view');
 			$sb_prop->setInfo($lng->txt('pd_personal_items_default_view_info'));
 			$option = array();
-			$option[0] = $lng->txt('pd_my_offers');
-			$option[1] = $lng->txt('my_courses_groups');
+			$option[$this->viewSettings->getSelectedItemsView()] = $lng->txt('pd_my_offers');
+			$option[$this->viewSettings->getMembershipsView()]   = $lng->txt('my_courses_groups');
 			$sb_prop->setOptions($option);
-			$sb_prop->setValue((int)$ilSetting->get('personal_items_default_view'));
+			$sb_prop->setValue($this->viewSettings->getDefaultView());
 			$form->addItem($sb_prop);
 		}
 		
@@ -296,22 +311,24 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			ilUtil::sendFailure($this->lng->txt('pd_view_select_at_least_one'), true);
 			$ilCtrl->redirect($this, 'view');
 		}
-		
-		// Enable 'My Offers' (default personal items)
-		$ilSetting->set('disable_my_offers', (int)($_POST['enable_my_offers'] ? 0 : 1));
-		
-		// Enable 'My Memberships'
-		$ilSetting->set('disable_my_memberships', (int)($_POST['enable_my_memberships'] ? 0 : 1));
-		
+
+		$this->viewSettings->enableSelectedItems((int)($_POST['enable_my_offers'] ? 1 : 0));
+		$this->viewSettings->enableMemberships((int)($_POST['enable_my_memberships'] ? 1 : 0));
+
 		if((int)$_POST['enable_my_offers'] && !(int)$_POST['enable_my_memberships'])
-			$_POST['personal_items_default_view'] = 0;
+		{
+			$this->viewSettings->storeDefaultView($this->viewSettings->getSelectedItemsView());
+		}
 		else if(!(int)$_POST['enable_my_offers'] && (int)$_POST['enable_my_memberships'])
-			$_POST['personal_items_default_view'] = 1;
-		else if(!isset($_POST['personal_items_default_view']))
-			$_POST['personal_items_default_view'] = $ilSetting->get('personal_items_default_view');
-		
-		// Default view of personal items
-		$ilSetting->set('personal_items_default_view', (int)$_POST['personal_items_default_view']);
+		{
+			$this->viewSettings->storeDefaultView($this->viewSettings->getMembershipsView());
+		}
+		else if(isset($_POST['personal_items_default_view']))
+		{
+			$this->viewSettings->storeDefaultView((int)$_POST['personal_items_default_view']);
+		}
+
+		$this->viewSettings->storeDefaultSortType(ilUtil::stripSlashes($_POST['my_memberships_sort_default']));
 	
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);		
 		$ilCtrl->redirect($this, "view");

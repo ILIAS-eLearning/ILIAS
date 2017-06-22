@@ -126,7 +126,10 @@ class ilVirusScanner
 	 */
 	public function __construct($a_scancommand, $a_cleancommand)
 	{
-		global $ilias, $lng, $log;
+		global $DIC;
+		$ilias = $DIC['ilias'];
+		$lng = $DIC['lng'];
+		$log = $DIC['log'];
 
 		$this->ilias        = $ilias;
 		$this->lng          = $lng;

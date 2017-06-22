@@ -33,7 +33,7 @@ trait ComponentHelper {
 	 * @param	mixed	$value
  	 * @throws 	\InvalidArgumentException	if $check = false
 	 * @return null
-	 */ 
+	 */
 	protected function checkIntArg($which, $value) {
 		$this->checkArg($which, is_int($value), $this->wrongTypeMessage("integer", $value));
 	}
@@ -48,6 +48,18 @@ trait ComponentHelper {
 	 */
 	protected function checkStringArg($which, $value) {
 		$this->checkArg($which, is_string($value), $this->wrongTypeMessage("string", $value));
+	}
+
+	/**
+	 * Throw an InvalidArgumentException if $value is not a float.
+	 *
+	 * @param	string	$which
+	 * @param	mixed	$value
+ 	 * @throws	\InvalidArgumentException	if $check = false
+	 * @return 	null
+	 */
+	protected function checkFloatArg($which, $value) {
+		$this->checkArg($which, is_float($value), $this->wrongTypeMessage("float", $value));
 	}
 
 	/**
@@ -78,9 +90,9 @@ trait ComponentHelper {
 			$message = "expected $name, got '$value'";
 		}
 		else {
-			$message = "expected $name, got object."; 
+			$message = "expected $name, got object.";
 		}
-		$message = 
+		$message =
 		$this->checkArg($which, in_array($value, $array), $message);
 	}
 

@@ -93,6 +93,22 @@ class ilPDOStatement implements ilDBStatement {
 	 * @inheritdoc
 	 */
 	public function execute($a_data = null) {
-		return $this->pdo_statement->execute($a_data);
+		$this->pdo_statement->execute($a_data);
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function errorCode() {
+		return $this->pdo_statement->errorCode();
+	}
+
+	/**
+	 * @return array
+	 */
+	public function errorInfo() {
+		return $this->pdo_statement->errorInfo();
 	}
 }

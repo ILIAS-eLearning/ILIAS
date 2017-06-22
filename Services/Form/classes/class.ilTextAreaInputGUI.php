@@ -402,7 +402,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 				: ilUtil::stripSlashes($_POST[$this->getPostVar()]);
 		}
 
-		$_POST[$this->getPostVar()] = $this->removeProhibitedCharacters($_POST[$this->getPostVar()]);
+		$_POST[$this->getPostVar()] = self::removeProhibitedCharacters($_POST[$this->getPostVar()]);
 
 		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
 		{

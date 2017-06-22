@@ -44,6 +44,7 @@ class ilCOPageImporter extends ilXmlImporter
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
+		$this->log->debug("entity: ".$a_entity.", id: ".$a_id);
 
 		if ($a_entity == "pgtp")
 		{
@@ -55,6 +56,8 @@ class ilCOPageImporter extends ilXmlImporter
 		if ($a_entity == "pg")
 		{
 			$pg_id = $a_mapping->getMapping("Services/COPage", "pg", $a_id);
+
+			$this->log->debug("mapping id: ".$pg_id);
 
 			if ($pg_id != "")
 			{
@@ -122,6 +125,7 @@ class ilCOPageImporter extends ilXmlImporter
 				}
 			}
 		}
+		$this->log->debug("done");
 	}
 
 	/**

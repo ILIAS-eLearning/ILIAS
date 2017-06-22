@@ -33,6 +33,9 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component instanceof Component\Button\Standard) {
 			$tpl_name = "tpl.standard.html";
 		}
+		if ($component instanceof Component\Button\Shy) {
+			$tpl_name = "tpl.shy.html";
+		}
 
 		$tpl = $this->getTemplate($tpl_name, true, true);
 		$action = $component->getAction();
@@ -87,6 +90,7 @@ class Renderer extends AbstractComponentRenderer {
 		(Component\Button\Primary::class
 		, Component\Button\Standard::class
 		, Component\Button\Close::class
+		, Component\Button\Shy::class
 		);
 	}
 }

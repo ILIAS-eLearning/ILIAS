@@ -42,7 +42,13 @@ class ilObjFileGUI extends ilObject2GUI
 
 	function executeCommand()
 	{
-		global $ilNavigationHistory, $ilCtrl, $ilUser, $ilTabs, $ilAccess, $ilErr;
+		global $DIC;
+		$ilNavigationHistory = $DIC['ilNavigationHistory'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilUser = $DIC['ilUser'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -214,7 +220,8 @@ class ilObjFileGUI extends ilObject2GUI
 	*/
 	public function initSingleUploadForm()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$single_form_gui = new ilPropertyFormGUI();
@@ -259,7 +266,9 @@ class ilObjFileGUI extends ilObject2GUI
 	*/
 	function save()
 	{
-		global $objDefinition, $ilUser;
+		global $DIC;
+		$objDefinition = $DIC['objDefinition'];
+		$ilUser = $DIC['ilUser'];
 
 		if (!$this->checkPermissionBool("create", "", "file"))
 		{
@@ -352,7 +361,8 @@ class ilObjFileGUI extends ilObject2GUI
 	*/
 	public function initZipUploadForm($a_mode = "create")
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$zip_form_gui = new ilPropertyFormGUI();
@@ -487,7 +497,8 @@ class ilObjFileGUI extends ilObject2GUI
 	*/
 	function update()
 	{
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 		
 		$form = $this->initPropertiesForm();
 		if(!$form->checkInput())
@@ -544,7 +555,8 @@ class ilObjFileGUI extends ilObject2GUI
 		if (!empty($data["name"]))
 		{
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			global $ilUser;
+			global $DIC;
+			$ilUser = $DIC['ilUser'];
 			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
 			ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());			
 		}
@@ -566,7 +578,9 @@ class ilObjFileGUI extends ilObject2GUI
 	*/
 	function edit()
 	{
-		global $ilTabs, $ilErr;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilErr = $DIC['ilErr'];
 
 		if (!$this->checkPermissionBool("write"))
 		{
@@ -667,7 +681,9 @@ class ilObjFileGUI extends ilObject2GUI
 	
 	function sendFile()
 	{
-		global $ilUser, $ilCtrl;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		if(ANONYMOUS_USER_ID == $ilUser->getId() && isset($_GET['transaction']) )
 		{
@@ -678,7 +694,8 @@ class ilObjFileGUI extends ilObject2GUI
 		{
 			// BEGIN ChangeEvent: Record read event.
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			global $ilUser;
+			global $DIC;
+			$ilUser = $DIC['ilUser'];
 			// Record read event and catchup with write events
 			ilChangeEvent::_recordReadEvent($this->object->getType(), $this->object->getRefId(),
 				$this->object->getId(), $ilUser->getId());			
@@ -704,7 +721,8 @@ class ilObjFileGUI extends ilObject2GUI
 	*/
 	function versions()
 	{
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 		
 		$ilTabs->activateTab("id_versions");
 
@@ -742,7 +760,10 @@ class ilObjFileGUI extends ilObject2GUI
 	*/
 	function infoScreenForward()
 	{
-		global $ilTabs, $ilErr, $ilToolbar;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilErr = $DIC['ilErr'];
+		$ilToolbar = $DIC['ilToolbar'];
 		
 		$ilTabs->activateTab("id_info");
 
@@ -873,7 +894,10 @@ class ilObjFileGUI extends ilObject2GUI
 	// get tabs
 	function setTabs()
 	{
-		global $ilTabs, $lng, $ilHelp;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$lng = $DIC['lng'];
+		$ilHelp = $DIC['ilHelp'];
 		
 		$ilHelp->setScreenIdComponent("file");
 
@@ -938,7 +962,10 @@ class ilObjFileGUI extends ilObject2GUI
 
 	public static function _goto($a_target, $a_additional = null)
 	{
-		global $ilErr, $lng, $ilAccess;
+		global $DIC;
+		$ilErr = $DIC['ilErr'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		if($a_additional && substr($a_additional, -3) == "wsp")
 		{
@@ -976,7 +1003,8 @@ class ilObjFileGUI extends ilObject2GUI
 	*/
 	function addLocatorItems()
 	{
-		global $ilLocator;
+		global $DIC;
+		$ilLocator = $DIC['ilLocator'];
 		
 		if (is_object($this->object))
 		{
@@ -1098,7 +1126,8 @@ class ilObjFileGUI extends ilObject2GUI
 	 */
 	protected function handleFileUpload($file_upload) 
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		// file upload params
 		$filename = ilUtil::stripSlashes($file_upload["name"]);
@@ -1273,7 +1302,9 @@ class ilObjFileGUI extends ilObject2GUI
 	 */
 	function deleteVersions()
 	{
-		global $ilTabs, $ilLocator;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilLocator = $DIC['ilLocator'];
 		
 		// get ids either from GET (if single item was clicked) or 
 		// from POST (if multiple items were selected)
@@ -1331,7 +1362,8 @@ class ilObjFileGUI extends ilObject2GUI
 	 */
 	function confirmDeleteVersions()
 	{
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 		
 		// has the user the rights to delete versions?
 		if (!$this->checkPermissionBool("write"))
@@ -1414,7 +1446,8 @@ class ilObjFileGUI extends ilObject2GUI
 	 */
 	function rollbackVersion()
 	{
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 		
 		// has the user the rights to delete the file?
 		if (!$this->checkPermissionBool("write"))

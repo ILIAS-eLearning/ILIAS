@@ -16,6 +16,9 @@ class ComponentMock {
 	public function _checkStringArg($which, $value) {
 		$this->checkStringArg($which, $value);
 	}
+	public function _checkFloatArg($which, $value) {
+		$this->checkFloatArg($which, $value);
+	}
 	public function _checkArgInstanceOf($which, $value, $class) {
 		$this->checkArgInstanceOf($which, $value, $class);
 	}
@@ -69,7 +72,7 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 
 	public function test_check_int_arg_ok() {
 		try {
-			$this->mock->_checkIntArg("some_arg", 1); 
+			$this->mock->_checkIntArg("some_arg", 1);
 		}
 		catch (\InvalidArgumentException $e) {
 			$this->assertFalse("This should not happen.");
@@ -88,7 +91,7 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 
 	public function test_check_string_arg_ok() {
 		try {
-			$this->mock->_checkStringArg("some_arg", "bar"); 
+			$this->mock->_checkStringArg("some_arg", "bar");
 		}
 		catch (\InvalidArgumentException $e) {
 			$this->assertFalse("This should not happen.");
@@ -107,7 +110,7 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 
 	public function test_check_arg_instanceof_ok() {
 		try {
-			$this->mock->_checkArgInstanceOf("some_arg", $this->mock, ComponentMock::class); 
+			$this->mock->_checkArgInstanceOf("some_arg", $this->mock, ComponentMock::class);
 		}
 		catch (\InvalidArgumentException $e) {
 			$this->assertFalse("This should not happen.");
@@ -128,7 +131,7 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 
 	public function test_check_arg_is_element_ok() {
 		try {
-			$this->mock->_checkArgIsElement("some_arg", "bar", array("foo", "bar"), "foobar"); 
+			$this->mock->_checkArgIsElement("some_arg", "bar", array("foo", "bar"), "foobar");
 		}
 		catch (\InvalidArgumentException $e) {
 			$this->assertFalse("This should not happen.");
@@ -137,7 +140,7 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 
 	public function test_check_string_arg_is_element_not_ok() {
 		try {
-			$this->mock->_checkArgIsElement("some_arg", "baz", array("foo", "bar"), "foobar"); 
+			$this->mock->_checkArgIsElement("some_arg", "baz", array("foo", "bar"), "foobar");
 			$this->assertFalse("This should not happen.");
 		}
 		catch (\InvalidArgumentException $e) {
@@ -277,6 +280,25 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 		catch (\InvalidArgumentException $e) {
 			$m = "expected keys of type string and integer values, got (c => d)";
 			$this->assertEquals("Argument 'some_arg': $m", $e->getMessage());
+		}
+	}
+
+	public function test_check_float_arg_ok() {
+		try {
+			$this->mock->_checkFloatArg("some_arg", 1.73);
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertFalse("This should not happen.");
+		}
+	}
+
+	public function test_check_float_arg_not_ok() {
+		try {
+			$this->mock->_checkFloatArg("some_arg", "foo");
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertEquals("Argument 'some_arg': expected float, got string 'foo'", $e->getMessage());
 		}
 	}
 }

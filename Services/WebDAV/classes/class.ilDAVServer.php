@@ -2119,7 +2119,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$str=utf8_encode($str);
 
 		preg_match_all('/(\\d+)/', $webfolderURI, $matches);
-		$refID=$matches[0][0];
+		$refID=end($matches[0]);
 		
 		$str = str_replace("[WEBFOLDER_ID]", $refID, $str);
 		$str = str_replace("[WEBFOLDER_TITLE]", $webfolderTitle, $str);
@@ -2130,9 +2130,9 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$str = str_replace("[ADMIN_MAIL]", $ilSetting->get("admin_email"), $str);
 
 		if(strpos($_SERVER['HTTP_USER_AGENT'],'MSIE')!==false){
-			$str = preg_replace('/\[IF_IEXPLORE\]((?:.|\n)*)\[\/IF_IEXPLORE\]/','\1', $str);
+			$str = preg_replace('/\[IF_IEXPLORE\](?:(.*))\[\/IF_IEXPLORE\]/s','\1', $str);
 		}else{
-			$str = preg_replace('/\[IF_NOTIEXPLORE\]((?:.|\n)*)\[\/IF_NOTIEXPLORE\]/','\1', $str);
+			$str = preg_replace('/\[IF_NOTIEXPLORE\](?:(.*))\[\/IF_NOTIEXPLORE\]/s','\1', $str);
 		}
 		
 		switch ($os)
@@ -2161,12 +2161,12 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		if ($operatingSystem != 'UNKNOWN')
 		{
-			$str = preg_replace('/\[IF_'.$operatingSystem.'\]((?:.|\n)*)\[\/IF_'.$operatingSystem.'\]/','\1', $str);
-			$str = preg_replace('/\[IF_([A-Z_]+)\](?:(?:.|\n)*)\[\/IF_\1\]/','', $str);
+			$str = preg_replace('/\[IF_'.$operatingSystem.'\](?:(.*))\[\/IF_'.$operatingSystem.'\]/s','\1', $str);
+			$str = preg_replace('/\[IF_([A-Z_]+)\](?:(.*))\[\/IF_\1\]/s','', $str);
 		}
 		else
 		{
-			$str = preg_replace('/\[IF_([A-Z_]+)\]((?:.|\n)*)\[\/IF_\1\]/','\2', $str);
+			$str = preg_replace('/\[IF_([A-Z_]+)\](?:(.*))\[\/IF_\1\]/s','\2', $str);
 		}
 		return $str;
 	}

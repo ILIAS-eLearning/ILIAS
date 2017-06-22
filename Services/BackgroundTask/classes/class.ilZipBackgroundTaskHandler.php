@@ -132,7 +132,8 @@ abstract class ilZipBackgroundTaskHandler implements ilBackgroundTaskHandler
 	 */
 	public function finish()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->deleteTempFiles(false);
 		

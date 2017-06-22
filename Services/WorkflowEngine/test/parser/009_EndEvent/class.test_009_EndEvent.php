@@ -95,7 +95,7 @@ class test_009_EndEvent extends PHPUnit_Framework_TestCase
 		$goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
 		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
-		$ilappeventhandler_mock = $this->getMock('ilAppEventHandler', array('raise'), array(), '', false, false);
+		$ilappeventhandler_mock = $this->createMock('ilAppEventHandler', array('raise'), array(), '', false, false);
 		$ilappeventhandler_mock
 			->expects( $this->once() )
 			->method( 'raise' )
@@ -150,7 +150,7 @@ class test_009_EndEvent extends PHPUnit_Framework_TestCase
 		$goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
 		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
-		$ilappeventhandler_mock = $this->getMock('ilAppEventHandler', array('raise'), array(), '', false, false);
+		$ilappeventhandler_mock = $this->createMock('ilAppEventHandler', array('raise'), array(), '', false, false);
 		$ilappeventhandler_mock
 			->expects( $this->once() )
 			->method( 'raise' )

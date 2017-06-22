@@ -26,7 +26,7 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		}
 		require_once './Services/Utilities/classes/class.ilUtil.php';
 		require_once './Services/Randomization/classes/class.ilArrayElementShuffler.php';
-		$util_mock = $this->getMock('ilUtil', array('stripSlashes'), array(), '', false);
+		$util_mock = $this->createMock('ilUtil', array('stripSlashes'), array(), '', false);
 		$util_mock->expects( $this->any() )->method( 'stripSlashes' )->will( $this->returnArgument(0) );
 		global $ilUtils;
 		$ilUtils = $util_mock;
@@ -513,7 +513,7 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 
 		// We need the $lng-mock.
 		require_once './Services/Language/classes/class.ilLanguage.php';
-		$lng_mock = $this->getMock('ilLanguage', array('txt'), array(), '', false);
+		$lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
 		$lng_mock->expects( $this->any() )->method( 'txt' )->will( $this->returnValue('Test') );
 		global $lng;
 		$lng = $lng_mock;
@@ -545,7 +545,7 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 
 		// We need the $lng-mock.
 		require_once './Services/Language/classes/class.ilLanguage.php';
-		$lng_mock = $this->getMock('ilLanguage', array('txt'), array(), '', false);
+		$lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
 		$lng_mock->expects( $this->any() )->method( 'txt' )->will( $this->returnValue('or') );
 		global $lng;
 		$lng = $lng_mock;
@@ -579,7 +579,7 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 
 		// We need the $lng-mock.
 		require_once './Services/Language/classes/class.ilLanguage.php';
-		$lng_mock = $this->getMock('ilLanguage', array('txt'), array(), '', false);
+		$lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
 		$lng_mock->expects( $this->any() )->method( 'txt' )->will( $this->returnValue('Test') );
 		global $lng;
 		$lng = $lng_mock;
@@ -611,7 +611,7 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 
 		// We need the $lng-mock.
 		require_once './Services/Language/classes/class.ilLanguage.php';
-		$lng_mock = $this->getMock('ilLanguage', array('txt'), array(), '', false);
+		$lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
 		$lng_mock->expects( $this->any() )->method( 'txt' )->will( $this->returnValue('Test') );
 		global $lng;
 		$lng = $lng_mock;
