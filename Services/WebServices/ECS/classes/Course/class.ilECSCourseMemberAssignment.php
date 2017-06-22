@@ -95,9 +95,20 @@ class ilECSCourseMemberAssignment
 	{
 		global $ilDB;
 		
+		$cms_sub_id_query = '';
+		
+		if(is_null($a_cms_sub_id))
+		{
+			$cms_sub_id_query = 'AND cms_sub_id IS NULL ';
+		}
+		else
+		{
+			$cms_sub_id_query = 'AND cms_sub_id = '.$ilDB->quote($a_cms_sub_id,'integer').' ';
+		}
+		
 		$query = 'SELECT usr_id FROM ecs_course_assignments '.
 				'WHERE cms_id = '.$ilDB->quote($a_cms_id,'integer').' '.
-				'AND cms_sub_id = '.$ilDB->quote($a_cms_sub_id).' '.
+				$cms_sub_id_query.
 				'AND obj_id = '.$ilDB->quote($a_obj_id,'integer');
 		$res = $ilDB->query($query);
 		
@@ -121,9 +132,19 @@ class ilECSCourseMemberAssignment
 	{
 		global $ilDB;
 		
+		$cms_sub_id_query = '';
+		if(is_null($a_cms_sub_id))
+		{
+			$cms_sub_id_query = 'AND cms_sub_id IS NULL ';
+		}
+		else
+		{
+			$cms_sub_id_query = 'AND cms_sub_id = '.$ilDB->quote($a_cms_sub_id,'integer').' ';
+		}
+		
 		$query = 'SELECT id FROM ecs_course_assignments '.
 				'WHERE cms_id = '.$ilDB->quote($a_cms_id,'integer').' '.
-				'AND cms_sub_id = '.$ilDB->quote($a_cms_sub_id,'integer').' '.
+				$cms_sub_id_query.
 				'AND obj_id = '.$ilDB->quote($a_obj_id,'integer').' '.
 				'AND usr_id = '.$ilDB->quote($a_usr_id,'text');
 		$res = $ilDB->query($query);

@@ -3,7 +3,6 @@
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI;
-use ILIAS\UI\Component\Component;
 
 /**
  * This is how the factory for UI elements looks. This should provide access
@@ -341,80 +340,62 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Popovers can be used if space is scarce to display secondary information such as a preview of
-	 *     some item or to offer limited user interaction.
-	 *   composition: >
-	 *     Popovers consist of a layer displayed above all other content.
-	 *     The content of the Popover depends on the functionality it performs.
-	 *     A Popover MAY display a title above its content.
-	 *     All Popovers contain a pointer pointing from the Popover to the Triggerer of the Popover.
-	 *   effect: >
-	 *     Popovers are shown by clicking a Triggerer component such as a Button or Glyph.
-	 *     The position of the Popover is calculated automatically be default. However, it is possible to
-	 *     specify if the popover appears horizontal (left, right) or vertical (top, bottom) relative to
-	 *     its Triggerer component. Popovers disappear by clicking anywhere outside the Popover or by pressing
-	 *     the ESC key.
-	 * rivals: >
-	 *   Modals: >
-	 *     Modals hide all other content while Popovers do not prevent interaction with other parts
-	 *     of the current context.
-	 * context:
+	 *     A divider marks a thematic change in a sequence of other components. A Horizontal Divider
+	 *     is used to mark a thematic change in sequence of elements that are stacked from top to bottom,
+	 *     e.g. in a Dropdown. A Vertical Divider is used to mark a thematic change in a sequence of elements
+	 *     that are lined up from left to right, e.g. a Toolbar.
+	 *
 	 * rules:
 	 *   usage:
 	 *     1: >
-	 *        Popovers MUST NOT contain horizontal scrollbars.
-	 *     2: >
-	 *        Popovers MAY contain vertical scrollbars. The content component is responsible to
-	 *        define its own height and show vertical scrollbars.
-	 *     3: >
-	 *        If Popovers are used to present secondary information of an object, they SHOULD display a title
-	 *        representing the object.
-	 *   interaction:
-	 *     1: >
-	 *        A Popover MUST only be displayed if the Trigger component is clicked.
-	 *        This behaviour is different from Tooltips that appear on hovering.
-	 *        Popovers disappear by clicking anywhere outside the Popover or by pressing the ESC key.
-	 *   style:
-	 *     1: Popovers MUST always relate to the Trigger component by a little pointer.
-	 *   accessibility:
-	 *     1: >
-	 *        There MUST be a way to open the Popover by only using the keyboard.
-	 *     2: >
-	 *        The focus MUST be inside the Popover, once it is open if it contains at least one interactive item.
-	 *        Otherwise the focus MUST remain on the Triggerer component.
-	 *     3: >
-	 *        The focus MUST NOT leave the Popover for as long as it is open.
-	 *     4: >
-	 *        There MUST be a way to reach every control in the Popover by only using the keyboard.
-	 *     5: >
-	 *        The Popover MUST be closable by pressing the ESC key.
-	 *     6: >
-	 *        Once the Popover is closed, the focus MUST return to the element triggering the opening of the Popover
-	 *        or the element being clicked if the Popover was closed on click.
+	 *       Dividers MUST only be used in container components that explicitly state
+	 *       and define the usage of Dividers within the container.
 	 * ---
-	 * @param Component|Component[] $content
-	 * @return \ILIAS\UI\Component\Popover\Popover
-	 */
-	public function popover($content);
-
+	 *
+	 * @return \ILIAS\UI\Component\Divider\Factory
+	 **/
+	public function divider();
 
 	/**
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Progress bars are used to display any ongoing progress.
+	 *      Links are used navigate to other resources or views of the system. Clicking
+	 *      on a link does not change the systems status.
 	 *   composition: >
-	 *     Progress bars either consist of a percentage or do not display any specific progress (if a percentage is not available).
+	 *      Link is a clickable, graphically minimal obtrusive control element. It can
+	 *      bear text or other content. Links always contain a valid href tag which
+	 *      should not not just contain a hash sign.
+	 *   effect: >
+	 *      On-click, the resource or view indicated by the link is requested and
+	 *      presented. Links are not used to trigger Javascript events.
+	 *   rivals:
+	 *      buttons: >
+	 *          Buttons are used to trigger Interactions that usually change the systems
+	 *          status. Buttons are much more obtrusive than links and may fire JS events.
+	 *
 	 * rules:
 	 *   usage:
-	 *     1: The percentage MUST be an integer value.
-	 * context: >
+	 *      1: >
+	 *           Links MAY be used inline in a Textual Paragraphs.
+	 *   interaction:
+	 *      1: >
+	 *           Hovering an active link should indicate a possible interaction.
+	 *      2: >
+	 *           Links MUST not be used to fire Javascript events.
+	 *   style:
+	 *      1: >
+	 *           Links SHOULD not be presented with a separate background color.
+	 *   wording:
+	 *      1: >
+	 *           The wording of the link SHOULD name the target view or resource.
+	 *   accessibility:
+	 *      1: >
+	 *           DOM elements of type "a" MUST be used to properly identify an
+	 *           element.
 	 * ---
-	 *
-	 * @param $percentage int|null
-	 *
-	 * @return Component\Progressbar\Progressbar
+	 * @return  \ILIAS\UI\Component\Link\Factory
 	 */
-	public function progressbar($percentage);
+	public function link();
 
 }

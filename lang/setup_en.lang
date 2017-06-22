@@ -636,3 +636,5 @@ no#:#No
 yes#:#Yes
 terminated_waiting_tasks#:#Terminated waiting tasks successfully.
 kill_waiting_tasks#:#Terminate tasks in the queue.
+system_styles#:#System Styles
+not_enabled#:#Disabled

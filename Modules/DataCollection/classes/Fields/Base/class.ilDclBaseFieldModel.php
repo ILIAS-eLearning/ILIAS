@@ -1,12 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclFieldProperty.php');
-require_once('./Services/Exceptions/classes/class.ilException.php');
-require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
-require_once('./Modules/DataCollection/classes/Helpers/class.ilDclRecordQueryObject.php');
-require_once('./Modules/DataCollection/classes/Table/class.ilDclTableFieldSetting.php');
-
 /**
  * Class ilDclBaseFieldModel
  *
@@ -895,6 +889,9 @@ class ilDclBaseFieldModel {
 	 */
 	public function checkTitlesForImport(array &$titles, array &$import_fields) {
 		foreach ($titles as $k => $title) {
+			if (!ilStr::isUtf8($title)) {
+				$title = utf8_encode($title);
+			}
 			if ($title == $this->getTitle()) {
 				$import_fields[$k] = $this;
 			}

@@ -259,6 +259,11 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 				'id' => $member->personID,
 				'role' => $member->role
 			);
+			if((int) $course->groupScenario == ilECSMappingUtils::PARALLEL_ONE_COURSE)
+			{
+				$this->log->debug('Group scenarion "one course". Ignoring group assignments');
+				continue;
+			}
 			
 			foreach((array) $member->groups as $pgroup)
 			{
@@ -511,6 +516,9 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 			$users = $query->fetchUser($a_person_id);
 			if($users)
 			{
+				include_once './Services/User/classes/class.ilUserCreationContext.php';
+				ilUserCreationContext::getInstance()->addContext(ilUserCreationContext::CONTEXT_LDAP);
+
 				include_once './Services/LDAP/classes/class.ilLDAPAttributeToUser.php';
 				$xml = new ilLDAPAttributeToUser($server);
 				$xml->setNewUserAuthMode($server->getAuthenticationMappingKey());

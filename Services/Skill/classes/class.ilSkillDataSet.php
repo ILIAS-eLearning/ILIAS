@@ -36,6 +36,7 @@ class ilSkillDataSet extends ilDataSet
 	 */
 	function __construct()
 	{
+		parent::__construct();
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->skill_tree = new ilSkillTree();
 		$this->skill_tree_root_id = $this->skill_tree->readRootId();

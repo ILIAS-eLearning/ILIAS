@@ -19,14 +19,6 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  */
 class ilSurveyDataSet extends ilDataSet
 {
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-	}
-
 	/**
 	 * Get supported versions
 	 *

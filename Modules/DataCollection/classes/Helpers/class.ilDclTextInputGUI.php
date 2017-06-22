@@ -1,6 +1,5 @@
 <?php
 
-require_once('./Services/Form/classes/class.ilTextInputGUI.php');
 
 /**
  * Class ilDclTextInputGUI
@@ -33,7 +32,8 @@ class ilDclTextInputGUI extends ilTextInputGUI
 			try {
 				preg_match($regex, '');
 			} catch (Exception $e) {
-				global $lng;
+				global $DIC;
+				$lng = $DIC['lng'];
 				$this->setAlert($lng->txt('msg_input_does_not_match_regexp'));
 				return false;
 			}

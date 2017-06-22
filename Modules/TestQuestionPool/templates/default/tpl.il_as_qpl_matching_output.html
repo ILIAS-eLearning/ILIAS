@@ -1,6 +1,6 @@
 <div>{QUESTIONTEXT}</div>
 
-<div class="ilClearFloat" id="ilMatchingQuestionContainer_{QUESTION_ID}" data-type="ilMatchingQuestion" data-id="{QUESTION_ID}">
+<div class="ilClearFloat row" id="ilMatchingQuestionContainer_{QUESTION_ID}" data-type="ilMatchingQuestion" data-id="{QUESTION_ID}">
 
 <!-- fau: testNav - hide the reset button -->
 <!--
@@ -9,61 +9,43 @@
 	</div>
 -->
 <!--fau. -->
-	<table style="width: 100%; overflow: auto;">
-		<tr>
-			<td id="targetArea" style="width: 66%; vertical-align: top;">
-				<!-- BEGIN droparea -->
-				<div class="droparea" id="definition_{ID_DROPAREA}" data-id="{ID_DROPAREA}" data-type="definition">
-				<table style="width: 100%;">
-					<tr>
-						<td class="ilMatchingQuestionDefinition">
-							<!-- BEGIN definition_text -->
-							{DEFINITION}
-							<!-- END definition_text -->
-							<!-- BEGIN definition_picture -->
-							<table class="ilc_media_cont_MediaContainer">
-								<tr>
-									<td class="ilc_Mob"><img border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" /></td>
-								</tr>
-								<tr>
-									<td>
-										<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_DEFINITION} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
-									</td>
-								</tr>
-							</table>
-							<!-- END definition_picture -->
-						</td>
-						<td class="ilMatchingQuestionTerm">
-						</td>
-					</tr>
-				</table>
+	<div id="targetArea" class="col-md-8">
+		<!-- BEGIN droparea -->
+		<div class="droparea row" id="definition_{ID_DROPAREA}" data-id="{ID_DROPAREA}" data-type="definition">
+			<div class="ilMatchingQuestionDefinition col-md-6">
+				<!-- BEGIN definition_text -->
+				{DEFINITION}
+				<!-- END definition_text -->
+				<!-- BEGIN definition_picture -->
+				<div class="thumbnail">
+					<img border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
+					<div class="caption">
+						<a target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_DEFINITION} <img border="0" align="right" src="{IMG_PREVIEW}" /></a>
+					</div>
 				</div>
-				<!-- END droparea -->
-			</td>
-			<td id="sourceArea" style="width: 33%; vertical-align: top;">
-				<!-- BEGIN draggable -->
-				<div class="draggable" id="term_{ID_DRAGGABLE}" data-id="{ID_DRAGGABLE}" data-type="term">
-				<!-- BEGIN term_text -->
-				{TERM_TEXT}
-				<!-- END term_text -->
-				<!-- BEGIN term_picture -->
-				<table class="ilc_media_cont_MediaContainer">
-					<tr>
-						<td class="ilc_Mob"><img border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" /></td>
-					</tr>
-					<tr>
-						<td>
-							<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_TERM} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
-						</td>
-					</tr>
-				</table>
-				<!-- END term_picture -->
+				<!-- END definition_picture -->
+			</div>
+			<div class="ilMatchingQuestionTerm col-md-6"></div>
+		</div>
+		<!-- END droparea -->
+	</div>
+	<div id="sourceArea" class="col-md-4">
+		<!-- BEGIN draggable -->
+		<div class="draggable row" id="term_{ID_DRAGGABLE}" data-id="{ID_DRAGGABLE}" data-type="term">
+			<!-- BEGIN term_text -->
+			{TERM_TEXT}
+			<!-- END term_text -->
+			<!-- BEGIN term_picture -->
+			<div class="thumbnail">
+				<img border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
+				<div class="caption">
+					<a target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_TERM} <img border="0" align="right" src="{IMG_PREVIEW}" /></a>
 				</div>
-				<!-- END draggable -->
-			</td>
-		</tr>
-	</table>
-
+			</div>
+			<!-- END term_picture -->
+		</div>
+		<!-- END draggable -->
+	</div>
 </div>
 	
 <script type="text/javascript">
@@ -73,8 +55,7 @@
 			function()
 			{
 				var question = $.fn.ilMatchingQuestionEngine({QUESTION_ID}, {
-					/* matchingContainer: '#ilMatchingQuestionContainer_{QUESTION_ID}', */
-					matchingContainer: 'body',
+					matchingContainer: '#ilMatchingResetButton_{QUESTION_ID}',
 					matchingMode: '{MATCHING_MODE}',
 					resetButtonId: '#ilMatchingResetButton_{QUESTION_ID}'
 				});

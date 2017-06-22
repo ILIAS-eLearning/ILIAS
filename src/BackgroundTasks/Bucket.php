@@ -12,7 +12,7 @@ use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
  *
  * Contains several chained tasks and infos about them.
  */
-interface Bucket {
+interface Bucket extends BucketMeta {
 
 	/**
 	 * @return int

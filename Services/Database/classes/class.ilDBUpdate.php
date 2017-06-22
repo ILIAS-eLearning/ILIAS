@@ -398,7 +398,7 @@ class ilDBUpdate
 		//search for desired $nr
 		reset($this->filecontent);
 		
-		if (!$hotfix)
+		if (!$hotfix && !$custom_update)
 		{
 			$this->setRunningStatus($nr);
 		}

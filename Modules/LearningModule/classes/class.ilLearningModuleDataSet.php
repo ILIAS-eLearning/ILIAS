@@ -282,9 +282,10 @@ class ilLearningModuleDataSet extends ilDataSet
 
 					$set = $ilDB->query($q);
 					$this->data = array();
+					$obj_ids = array();
 					while ($rec  = $ilDB->fetchAssoc($set))
 					{
-						$set2 = $ilDB->query("SELECT for_translation FROM content_object WHERE id = ".$ilDB->quote($rec["lm_id"], true));
+						$set2 = $ilDB->query("SELECT for_translation FROM content_object WHERE id = ".$ilDB->quote($rec["lm_id"], "integer"));
 						$rec2 = $ilDB->fetchAssoc($set2);
 						if (!$rec2["for_translation"])
 						{
@@ -297,8 +298,33 @@ class ilLearningModuleDataSet extends ilDataSet
 								= $v;
 						}
 						$rec = $tmp;
-
+						$obj_ids[] = $rec["Child"];
 						$this->data[] = $rec;
+					}
+
+					// add free pages #18976
+					$set3 = $ilDB->query($q = "SELECT lm_id, type, title, public_access, active, layout, import_id, obj_id child FROM lm_data ".
+						"WHERE ".$ilDB->in("lm_id", $a_ids, false, "integer").
+						" AND ".$ilDB->in("obj_id", $obj_ids, true, "integer").
+						" AND type = ".$ilDB->quote("pg", "text"));
+					while ($rec3 = $ilDB->fetchAssoc($set3))
+					{
+						$set2 = $ilDB->query("SELECT for_translation FROM content_object WHERE id = ".$ilDB->quote($rec3["lm_id"], "integer"));
+						$rec2 = $ilDB->fetchAssoc($set2);
+						if (!$rec2["for_translation"])
+						{
+							$rec3["import_id"] = "il_".IL_INST_ID."_pg_".$rec3["child"];
+						}
+						$rec3["type"] = "free_pg";
+						$rec3["depth"] = 0;
+						$rec3["parent"] = 0;
+						$tmp = array();
+						foreach ($rec3 as $k => $v)
+						{
+							$tmp[$this->convertToLeadingUpper($k)]
+								= $v;
+						}
+						$this->data[] = $tmp;
 					}
 					break;
 			}
@@ -398,7 +424,7 @@ class ilLearningModuleDataSet extends ilDataSet
 				$newObj->setLayout($a_rec["DefaultLayout"]);
 				$newObj->setPageHeader($a_rec["PageHeader"]);
 				$newObj->setActiveTOC(ilUtil::yn2tf($a_rec["TocActive"]));
-				$newObj->setActiveLMMenu(ilUtil::yn2tf($a_rec["LMMenuActive"]));
+				$newObj->setActiveLMMenu(ilUtil::yn2tf($a_rec["LmMenuActive"]));
 				$newObj->setTOCMode($a_rec["TOCMode"]);
 				$newObj->setActivePrintView(ilUtil::yn2tf($a_rec["PrintViewActive"]));
 				$newObj->setActiveNumbering(ilUtil::yn2tf($a_rec["Numbering"]));
@@ -470,6 +496,23 @@ class ilLearningModuleDataSet extends ilDataSet
 							$pg_obj->setImportId($a_rec["ImportId"]);
 							$pg_obj->create(true, true);
 							ilLMObject::putInTree($pg_obj, $parent, IL_LAST_NODE);
+							$a_mapping->addMapping("Modules/LearningModule", "lm_tree", $a_rec["Child"],
+								$pg_obj->getId());
+							$a_mapping->addMapping("Modules/LearningModule", "pg", $a_rec["Child"], $pg_obj->getId());
+							$a_mapping->addMapping("Services/COPage", "pg", "lm:".$a_rec["Child"],
+								"lm:".$pg_obj->getId());
+							$a_mapping->addMapping("Services/MetaData", "md",
+								$a_rec["LmId"].":".$a_rec["Child"].":pg", $this->current_obj->getId().":".$pg_obj->getId().":pg");
+							break;
+
+						// add free pages #18976
+						case "free_pg":
+							$pg_obj = new ilLMPageObject($this->current_obj);
+							$pg_obj->setType("pg");
+							$pg_obj->setLMId($this->current_obj->getId());
+							$pg_obj->setTitle($a_rec["Title"]);
+							$pg_obj->setImportId($a_rec["ImportId"]);
+							$pg_obj->create(true, true);
 							$a_mapping->addMapping("Modules/LearningModule", "lm_tree", $a_rec["Child"],
 								$pg_obj->getId());
 							$a_mapping->addMapping("Modules/LearningModule", "pg", $a_rec["Child"], $pg_obj->getId());

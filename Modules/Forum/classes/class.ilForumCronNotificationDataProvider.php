@@ -112,7 +112,12 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	/**
 	 * @var int
 	 */
-	public $post_upate_user_id = 0;
+	public $post_update_user_id = 0;
+	
+	/**
+	 * @var int
+	 */
+	public $pos_author_id = 0;
 
 	/**
 	 * @param $row
@@ -133,7 +138,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 		$this->post_message  = $row['pos_message'];
 		$this->post_date   = $row['pos_date'];
 		$this->post_update = $row['pos_update'];
-		$this->post_upate_user_id = $row['update_user'];
+		$this->post_update_user_id = $row['update_user'];
 
 		$this->post_censored         = $row['pos_cens'];
 		$this->post_censored_date    = $row['pos_cens_date'];
@@ -141,6 +146,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 
 		$this->pos_usr_alias       = $row['pos_usr_alias'];
 		$this->pos_display_user_id = $row['pos_display_user_id'];
+		$this->pos_author_id = $row['pos_author_id'];
 
 		$this->read();
 	}
@@ -300,11 +306,30 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	}
 
 	/**
+	 * @param $user_lang 
 	 * @return string login
 	 */
-	public function getPostUpdateUserName()
+	public function getPostUpdateUserName($user_lang)
 	{
-		return ilObjUser::_lookupLogin($this->getPostUpateUserId());
+		// GET AUTHOR OF UPDATED POST
+		if($this->getPostUpdateUserId() > 0)
+		{
+			$this->post_user_name = ilObjUser::_lookupLogin($this->getPostUpdateUserId());
+		}
+		
+		if($this->getPosDisplayUserId() == 0 && $this->getPosAuthorId() == $this->getPostUpdateUserId())
+		{
+			if(strlen($this->getPosUserAlias()))
+			{
+				$this->post_user_name = $this->getPosUserAlias() . ' (' . $user_lang->txt('frm_pseudonym') . ')';
+			}
+			
+			if($this->post_user_name == '')
+			{
+				$this->post_user_name = $user_lang->txt('forums_anonymous');
+			}
+		}
+		return $this->post_user_name;
 	}
 
 	/**
@@ -367,16 +392,26 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	/**
 	 * @return int
 	 */
-	public function getPostUpateUserId()
+	public function getPostUpdateUserId()
 	{
-		return $this->post_upate_user_id;
+		return $this->post_update_user_id;
 	}
 
 	/**
-	 * @param int $post_upate_user_id
+	 * @param int $post_update_user_id
 	 */
-	public function setPostUpateUserId($post_upate_user_id)
+	public function setPostUpdateUserId($post_update_user_id)
 	{
-		$this->post_upate_user_id = $post_upate_user_id;
+		$this->post_update_user_id = $post_update_user_id;
 	}
+	
+	public function setPosAuthorId($pos_author_id)
+	{
+		$this->pos_author_id = $pos_author_id;
+	}
+	public function getPosAuthorId()
+	{
+		return $this->pos_author_id;
+	}
+	
 }

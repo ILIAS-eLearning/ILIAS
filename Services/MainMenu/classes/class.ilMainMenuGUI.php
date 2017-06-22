@@ -545,10 +545,12 @@ class ilMainMenuGUI
 				"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSelectedItems",
 				"_top", "", "", "mm_pd_sel_items", ilHelp::getMainMenuTooltip("mm_pd_sel_items"),
 					"left center", "right center", false);
-			
+
+			require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
+			$pdItemsViewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user());
+
 			// my groups and courses, if both is available
-			if($ilSetting->get('disable_my_offers') == 0 &&
-				$ilSetting->get('disable_my_memberships') == 0)
+			if($pdItemsViewSettings->allViewsEnabled())
 			{
 				$gl->addEntry($lng->txt("my_courses_groups"),
 					"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToMemberships",

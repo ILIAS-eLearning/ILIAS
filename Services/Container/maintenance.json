@@ -1,0 +1,12 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "akill(149)",
+    "second_maintainer": "smeyer(191)",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "miriamhoelscher(25370)",
+    "testcase_writer": "kunkel(115)",
+    "path": "Services/Container",
+    "belong_to_component": "Category and Repository",
+    "used_in_components": []
+}

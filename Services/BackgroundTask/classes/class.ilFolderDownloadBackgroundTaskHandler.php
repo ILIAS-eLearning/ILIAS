@@ -33,7 +33,8 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 	
 	public static function getInstanceFromTask(ilBackgroundTask $a_task)
 	{
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		
 		$obj = new self();
 		$obj->setTask($a_task);
@@ -112,7 +113,9 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 		// js init only needed once per request
 		if(!self::$initialized)
 		{
-			global $tpl, $ilCtrl;
+			global $DIC;
+			$tpl = $DIC['tpl'];
+			$ilCtrl = $DIC['ilCtrl'];
 
 			$url =  $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
 
@@ -134,7 +137,9 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 	
 	public function init($a_params = null)
 	{
-		global $lng, $ilUser;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 		
 		if($a_params)
 		{
@@ -263,7 +268,8 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 	 */
 	protected function calculateRecursive($a_ref_ids, &$a_file_count, &$a_file_size)
 	{
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		
 		include_once("./Modules/File/classes/class.ilObjFileAccess.php");
 						
@@ -310,7 +316,8 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 	 */
 	protected function recurseFolder($a_ref_id, $a_title, $a_tmpdir, &$a_current_step) 
 	{
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		
 		$tmpdir = $a_tmpdir . "/" . ilUtil::getASCIIFilename($a_title);
 		ilUtil::makeDir($tmpdir);
@@ -377,7 +384,8 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 	 */
 	protected function validateAccess($ref_id)
 	{
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 		
 		if(!$ilAccess->checkAccess("read", "", $ref_id))
 		{

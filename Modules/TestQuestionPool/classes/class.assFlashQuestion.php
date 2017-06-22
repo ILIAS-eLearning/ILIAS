@@ -750,9 +750,13 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
 	 * Get the test question configuration
 	 * @return ilTestQuestionConfig
 	 */
-	public function getTestQuestionConfig()
+	// hey: refactored identifiers
+	public function buildTestPresentationConfig()
+	// hey.
 	{
-		return parent::getTestQuestionConfig()
+		// hey: refactored identifiers
+		return parent::buildTestPresentationConfig()
+		// hey.
 			->setFormChangeDetectionEnabled(false)
 			->setBackgroundChangeDetectionEnabled(true);
 	}

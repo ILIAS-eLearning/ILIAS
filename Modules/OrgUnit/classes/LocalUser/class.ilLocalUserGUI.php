@@ -290,9 +290,6 @@ class ilLocalUserGUI {
 		}
 		$roles = $this->__getAssignableRoles();
 		// check minimum one global role
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
 		if (! $this->__checkGlobalRoles($_POST['role_ids'])) {
 			ilUtil::sendFailure($this->lng->txt('no_global_role_left'));
 			$this->assignRolesObject();
