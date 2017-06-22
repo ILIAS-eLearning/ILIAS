@@ -26,7 +26,7 @@ interface Factory {
 	 *   ordering:
 	 *       1: >
 	 *          The most important standard button SHOULD be first in reading
-     *          direction if there are several buttons.
+	 *          direction if there are several buttons.
 	 *       2: >
 	 *          In the toolbar and in forms special regulations for the ordering
 	 *          of the buttons MAY apply.
@@ -140,15 +140,15 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Tags classify objects. Thus, their primary purpose is the visualization
-	 *     of those classifications for one object. However, tags are usually
-	 *     clickable - either to edit object association or list related objects,
+	 *     Tags classify entities. Thus, their primary purpose is the visualization
+	 *     of those classifications for one entity. However, tags are usually
+	 *     clickable - either to edit associations or list related entities,
 	 *     i.e. objects with the same tag.
 	 *   composition: >
-	 *     Tags are rendered as "a"-element with a background color.
-	 *     When used in a tag-cloud (a list of tags), tags are visually "weighted"
+	 *     Tags are a colored area with text on it.
+	 *     When used in a tag-cloud (a list of tags), tags can be visually "weighted"
 	 *     according to the number of their occurences, be it with different
-	 *     font-sizes, different colors or both.
+	 *     (font-)sizes, different colors or all of them.
 	 *   effect: >
 	 *     Tags may trigger an action or change the view when clicked.
 	 *     There is no visual difference (besides the cursor) between

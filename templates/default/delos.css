@@ -6254,6 +6254,13 @@ a.btn-link.ilSubmitInactive:hover {
   color: #333333;
   padding: 0;
 }
+.btn-tag {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 1px 5px;
+  margin: 2px 4px 2px 0;
+  border-radius: 3px;
+}
 .btn-tag.btn-tag-inactive {
   cursor: default !important;
 }
@@ -6276,16 +6283,6 @@ a.btn-link.ilSubmitInactive:hover {
 .btn-tag.btn-tag-relevance-veryhigh {
   background-color: #75deea;
   color: #000000;
-}
-/**
-* this is for demonstartion only and must be replaced by the std. color palette.
-*/
-.std_col_1 {
-  background-color: #ff0000 !important;
-  color: #ffffff !important;
-}
-.std_bold {
-  font-weight: bold;
 }
 h6.il-divider {
   padding: 3px 6px;
