@@ -7,12 +7,13 @@ require_once("libs/composer/vendor/autoload.php");
 /**
  * Class BackgroundTaskTest
  *
- * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @author                 Oskar Truffer <ot@studer-raimann.ch>
+ *
+ * @group                  needsInstalledILIAS
  */
 class BackgroundTaskTest extends TestCase {
 
 	public function testSomething() {
 		$this->assertEquals(1, 1);
 	}
-
 }

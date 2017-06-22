@@ -12,7 +12,9 @@ require_once("libs/composer/vendor/autoload.php");
 /**
  * Class BackgroundTaskTest
  *
- * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @author                 Oskar Truffer <ot@studer-raimann.ch>
+ *
+ * @group                  needsInstalledILIAS
  */
 class TypeTest extends TestCase {
 
@@ -30,6 +32,7 @@ class TypeTest extends TestCase {
 		$this->assertTrue($integer2Type->equals($integerType));
 	}
 
+
 	public function testAncestors() {
 		$integer = new SingleType(IntegerValue::class);
 		$ancestors = $integer->getAncestors();
@@ -39,6 +42,7 @@ class TypeTest extends TestCase {
 		$this->assertTrue($ancestors[2]->equals(new SingleType(IntegerValue::class)));
 	}
 
+
 	public function testListSubtypes() {
 		$scalarList = new ListType(new SingleType(IntegerValue::class));
 		$scalarList3 = new ListType(new SingleType(IntegerValue::class));
@@ -46,6 +50,7 @@ class TypeTest extends TestCase {
 		$this->assertTrue($scalarList3->isSubtypeOf($scalarList));
 		$this->assertTrue($scalarList->isSubtypeOf($scalarList));
 	}
+
 
 	public function testListAncestor() {
 		$integerList = new ListType(new SingleType(IntegerValue::class));
@@ -55,6 +60,7 @@ class TypeTest extends TestCase {
 		$this->assertTrue($ancestors[1]->equals(new ListType(ScalarValue::class)));
 		$this->assertTrue($ancestors[2]->equals(new ListType(IntegerValue::class)));
 	}
+
 
 	public function testListOfLists() {
 		$list = new ListType(IntegerValue::class);

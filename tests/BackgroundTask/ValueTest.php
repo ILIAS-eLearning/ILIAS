@@ -13,7 +13,9 @@ require_once("libs/composer/vendor/autoload.php");
 /**
  * Class BackgroundTaskTest
  *
- * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @author                 Oskar Truffer <ot@studer-raimann.ch>
+ *
+ * @group                  needsInstalledILIAS
  */
 class ValueTest extends TestCase {
 
@@ -31,9 +33,10 @@ class ValueTest extends TestCase {
 		$this->assertTrue($integer->getType()->equals(new SingleType(IntegerValue::class)));
 	}
 
+
 	public function testListValue() {
-		$list = new ListValue([1, 2, 3]);
-		$list2 = new ListValue([new IntegerValue(2), new StringValue("1")]);
+		$list = new ListValue([ 1, 2, 3 ]);
+		$list2 = new ListValue([ new IntegerValue(2), new StringValue("1") ]);
 
 		$this->assertTrue($list->getType()->equals(new ListType(IntegerValue::class)));
 		$this->assertTrue($list2->getType()->equals(new ListType(ScalarValue::class)));
