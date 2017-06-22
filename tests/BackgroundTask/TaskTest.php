@@ -11,7 +11,7 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Implementation\ValueTypes\SingleType;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\DI\Container;
-use ILIAS\DI\Injector;
+use ILIAS\BackgroundTasks\Dependencies\Injector;
 use PHPUnit\Framework\TestCase;
 
 require_once("libs/composer/vendor/autoload.php");
