@@ -88,6 +88,10 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 
 @import "less/variables.less";             // customized
 
+// UI framework components which make use of variables from less/variables.less
+// Note: These files need to be imported after less/variables.less
+@import "@{uibase}Popover/popover.less";
+
 .bg-primary {
   color: white;
 }
