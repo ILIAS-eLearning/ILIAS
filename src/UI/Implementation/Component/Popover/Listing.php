@@ -7,7 +7,8 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
  * Class ListingPopover
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
+ *
+ * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @package ILIAS\UI\Implementation\Component\Popover
  */
 class Listing extends Popover implements Component\Popover\Listing {
@@ -17,17 +18,19 @@ class Listing extends Popover implements Component\Popover\Listing {
 	 */
 	protected $items;
 
+
 	/**
-	 * @param Component\Component[] $items
+	 * @param Component\Component[]    $items
 	 * @param SignalGeneratorInterface $signal_generator
 	 */
 	public function __construct($items, SignalGeneratorInterface $signal_generator) {
 		parent::__construct($signal_generator);
 		// TODO Correct type hinting and checks on list item, once this component is available in the framework
-		$types = array(Component\Component::class);
+		$types = array( Component\Component::class );
 		$this->checkArgListElements('items', $items, $types);
 		$this->items = $items;
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -35,5 +38,4 @@ class Listing extends Popover implements Component\Popover\Listing {
 	public function getItems() {
 		return $this->items;
 	}
-
 }

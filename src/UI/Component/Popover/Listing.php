@@ -4,6 +4,7 @@ namespace ILIAS\UI\Component\Popover;
 
 /**
  * A listing popover renders multiple items as a list.
+ *
  * @package ILIAS\UI\Component\Popover
  */
 interface Listing extends Popover {
@@ -14,5 +15,4 @@ interface Listing extends Popover {
 	 * @return Item[]
 	 */
 	public function getItems();
-
 }

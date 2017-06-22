@@ -6,6 +6,7 @@ use ILIAS\UI\Component\Component;
 
 /**
  * A standard popover renders any other component as its content.
+ *
  * @package ILIAS\UI\Component\Popover
  */
 interface Standard extends Popover {
@@ -16,5 +17,4 @@ interface Standard extends Popover {
 	 * @return Component[]
 	 */
 	public function getContent();
-
 }

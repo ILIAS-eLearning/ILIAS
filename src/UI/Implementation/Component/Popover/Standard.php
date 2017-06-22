@@ -7,7 +7,8 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
  * Class StandardPopover
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
+ *
+ * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @package ILIAS\UI\Implementation\Component\Popover
  */
 class Standard extends Popover implements Component\Popover\Standard {
@@ -17,17 +18,19 @@ class Standard extends Popover implements Component\Popover\Standard {
 	 */
 	protected $content;
 
+
 	/**
 	 * @param Component\Component|Component\Component[] $content
-	 * @param SignalGeneratorInterface $signal_generator
+	 * @param SignalGeneratorInterface                  $signal_generator
 	 */
 	public function __construct($content, SignalGeneratorInterface $signal_generator) {
 		parent::__construct($signal_generator);
 		$content = $this->toArray($content);
-		$types = array(Component\Component::class);
+		$types = array( Component\Component::class );
 		$this->checkArgListElements('content', $content, $types);
 		$this->content = $content;
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -35,5 +38,4 @@ class Standard extends Popover implements Component\Popover\Standard {
 	public function getContent() {
 		return $this->content;
 	}
-
 }

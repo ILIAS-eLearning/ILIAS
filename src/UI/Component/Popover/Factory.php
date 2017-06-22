@@ -3,6 +3,7 @@
 namespace ILIAS\UI\Component\Popover;
 
 use \ILIAS\UI\Component\Component as Component;
+
 /**
  * Factory to create different types of Popovers.
  */
@@ -25,10 +26,13 @@ interface Factory {
 	 *      2: Standard Popovers SHOULD NOT contain complex or large components.
 	 *      3: Usages of Standard Popovers MUST be accepted by JourFixe.
 	 * ---
+	 *
 	 * @param Component|Component[] $content
+	 *
 	 * @return \ILIAS\UI\Component\Popover\Standard
 	 */
 	public function standard($content);
+
 
 	/**
 	 * ---
@@ -43,9 +47,10 @@ interface Factory {
 	 *   usage:
 	 *      1: Listing Popovers MUST be used if one needs to display lists inside a Popover.
 	 * ---
+	 *
 	 * @param Component[] $items
+	 *
 	 * @return \ILIAS\UI\Component\Popover\Listing
 	 */
 	public function listing($items);
-
 }

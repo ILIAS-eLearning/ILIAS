@@ -9,42 +9,38 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
  * Class Popover
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
+ *
+ * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @package ILIAS\UI\Implementation\Component\Popover
  */
 abstract class Popover implements Component\Popover\Popover {
 
 	use ComponentHelper;
-
 	/**
 	 * @var string
 	 */
 	protected $title = '';
-
 	/**
 	 * @var string
 	 */
 	protected $position = self::POS_AUTO;
-
 	/**
 	 * @var string
 	 */
 	protected $ajax_content_url = '';
-
 	/**
 	 * @var Signal
 	 */
 	protected $show_signal;
-
 	/**
 	 * @var ReplaceContentSignal
 	 */
 	protected $replace_content_signal;
-
 	/**
 	 * @var SignalGeneratorInterface
 	 */
 	protected $signal_generator;
+
 
 	/**
 	 * @param SignalGeneratorInterface $signal_generator
@@ -54,12 +50,14 @@ abstract class Popover implements Component\Popover\Popover {
 		$this->initSignals();
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
 	public function getTitle() {
 		return $this->title;
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -68,6 +66,7 @@ abstract class Popover implements Component\Popover\Popover {
 		return $this->position;
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
@@ -75,14 +74,17 @@ abstract class Popover implements Component\Popover\Popover {
 		return $this->ajax_content_url;
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
 	public function withVerticalPosition() {
 		$clone = clone $this;
 		$clone->position = self::POS_VERTICAL;
+
 		return $clone;
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -90,8 +92,10 @@ abstract class Popover implements Component\Popover\Popover {
 	public function withHorizontalPosition() {
 		$clone = clone $this;
 		$clone->position = self::POS_HORIZONTAL;
+
 		return $clone;
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -100,8 +104,10 @@ abstract class Popover implements Component\Popover\Popover {
 		$this->checkStringArg('url', $url);
 		$clone = clone $this;
 		$clone->ajax_content_url = $url;
+
 		return $clone;
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -110,8 +116,10 @@ abstract class Popover implements Component\Popover\Popover {
 		$this->checkStringArg('title', $title);
 		$clone = clone $this;
 		$clone->title = $title;
+
 		return $clone;
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -119,8 +127,10 @@ abstract class Popover implements Component\Popover\Popover {
 	public function withResetSignals() {
 		$clone = clone $this;
 		$clone->initSignals();
+
 		return $clone;
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -128,6 +138,7 @@ abstract class Popover implements Component\Popover\Popover {
 	public function getShowSignal() {
 		return $this->show_signal;
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -142,8 +153,6 @@ abstract class Popover implements Component\Popover\Popover {
 	 */
 	protected function initSignals() {
 		$this->show_signal = $this->signal_generator->create();
-		$this->replace_content_signal = $this->signal_generator->create(
-			"ILIAS\\UI\\Implementation\\Component\\Popover\\ReplaceContentSignal"
-		);
+		$this->replace_content_signal = $this->signal_generator->create("ILIAS\\UI\\Implementation\\Component\\Popover\\ReplaceContentSignal");
 	}
 }

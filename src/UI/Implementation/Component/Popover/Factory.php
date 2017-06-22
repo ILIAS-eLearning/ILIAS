@@ -7,7 +7,8 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
  * Class Factory
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
+ *
+ * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @package ILIAS\UI\Implementation\Component\Popover
  */
 class Factory implements \ILIAS\UI\Component\Popover\Factory {
@@ -16,6 +17,7 @@ class Factory implements \ILIAS\UI\Component\Popover\Factory {
 	 * @var SignalGeneratorInterface
 	 */
 	protected $signal_generator;
+
 
 	/**
 	 * @param SignalGeneratorInterface $signal_generator
@@ -31,6 +33,7 @@ class Factory implements \ILIAS\UI\Component\Popover\Factory {
 	public function standard($content) {
 		return new Standard($content, $this->signal_generator);
 	}
+
 
 	/**
 	 * @inheritdoc
