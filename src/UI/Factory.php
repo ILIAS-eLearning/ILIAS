@@ -340,6 +340,70 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
+	 *     Popovers can be used when space is scarce i.e. within List GUI items, table cells or
+	 *     menus in the Header section. They offer either secondary information on object like a
+	 *     preview or rating to be displayed or entered. They display information about ongoing
+	 *     processes
+	 *   composition: >
+	 *     Popovers consist of a layer displayed above all other content.
+	 *     The content of the Popover depends on the functionality it performs.
+	 *     A Popover MAY display a title above its content.
+	 *     All Popovers contain a pointer pointing from the Popover to the Triggerer of the Popover.
+	 *   effect: >
+	 *     Popovers are shown by clicking a Triggerer component such as a Button or Glyph.
+	 *     The position of the Popover is calculated automatically be default. However, it is possible to
+	 *     specify if the popover appears horizontal (left, right) or vertical (top, bottom) relative to
+	 *     its Triggerer component. Popovers disappear by clicking anywhere outside the Popover or by pressing
+	 *     the ESC key.
+	 * rivals: >
+	 *   Modals: >
+	 *     Modals hide all other content while Popovers do not prevent interaction with other parts
+	 *     of the current context.
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *        Popovers MUST NOT contain horizontal scrollbars.
+	 *     2: >
+	 *        Popovers MAY contain vertical scrollbars. The content component is responsible to
+	 *        define its own height and show vertical scrollbars.
+	 *     3: >
+	 *        If Popovers are used to present secondary information of an object, they SHOULD
+	 *        display a title
+	 *        representing the object.
+	 *   interaction:
+	 *     1: >
+	 *        A Popover MUST only be displayed if the Trigger component is clicked.
+	 *        This behaviour is different from Tooltips that appear on hovering.
+	 *        Popovers disappear by clicking anywhere outside the Popover or by pressing
+	 *        the ESC key.
+	 *   style:
+	 *     1: Popovers MUST always relate to the Trigger component by a little pointer.
+	 *   accessibility:
+	 *     1: >
+	 *        There MUST be a way to open the Popover by only using the keyboard.
+	 *     2: >
+	 *        The focus MUST be inside the Popover, once it is open if it contains at least one
+	 *        interactive item.
+	 *        Otherwise the focus MUST remain on the Triggerer component.
+	 *     3: >
+	 *        The focus MUST NOT leave the Popover for as long as it is open.
+	 *     4: >
+	 *        There MUST be a way to reach every control in the Popover by only using the keyboard.
+	 *     5: >
+	 *        The Popover MUST be closable by pressing the ESC key.
+	 *     6: >
+	 *        Once the Popover is closed, the focus MUST return to the element triggering the
+	 *        opening of the Popover or the element being clicked if the Popover was
+	 *        closed on click.
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Popover\Factory
+	 */
+	public function popover();
+
+	/**
+	 * ---
+	 * description:
 	 *     A divider marks a thematic change in a sequence of other components. A Horizontal Divider
 	 *     is used to mark a thematic change in sequence of elements that are stacked from top to bottom,
 	 *     e.g. in a Dropdown. A Vertical Divider is used to mark a thematic change in a sequence of elements
