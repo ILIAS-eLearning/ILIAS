@@ -14,11 +14,12 @@ interface Icon extends \ILIAS\UI\Component\Component {
 	const LARGE = 'large';
 
 	/**
-	 * Get the CSS-class of the icon.
+	 * Get the name of the icon.
+	 * Name will be used as CSS-class, e.g.
 	 *
 	 * @return string
 	 */
-	public function getCSSClass();
+	public function getName();
 
 	/**
 	 * Get the aria-label of this icon.
@@ -44,7 +45,7 @@ interface Icon extends \ILIAS\UI\Component\Component {
 
 	/**
 	 * Set the size for this icon.
-	 * Size can be'small','medium' or 'large'.
+	 * Size can be'small', 'medium' or 'large'.
 	 *
 	 * @param string $size
 	 * @return \ILIAS\UI\Component\Icon\Icon

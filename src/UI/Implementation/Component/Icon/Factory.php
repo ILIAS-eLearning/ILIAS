@@ -9,15 +9,15 @@ class Factory implements I\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function standard($class, $aria_label, $size='small', $abbreviation=''){
-		return new Standard($class, $aria_label, $size, $abbreviation);
+	public function standard($name, $aria_label, $size='small'){
+		return new Standard($name, $aria_label, $size);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function custom($class, $aria_label, $size='small', $abbreviation=''){
-		return new Custom($class, $aria_label, $size, $abbreviation);
+	public function custom($icon_path, $aria_label, $size='small'){
+		return new Custom($icon_path, $aria_label, $size);
 	}
 
 }

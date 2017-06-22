@@ -31,7 +31,7 @@ class IconTest extends ILIAS_UI_TestBase {
 
 		$ico = $f->standard('course', 'Kurs');
 		$this->assertEquals('Kurs', $ico->getAriaLabel());
-		$this->assertEquals('course', $ico->getCSSClass());
+		$this->assertEquals('course', $ico->getName());
 		$this->assertEquals('small', $ico->getSize());
 		$this->assertNull($ico->getAbbreviation());
 
@@ -54,11 +54,15 @@ class IconTest extends ILIAS_UI_TestBase {
 	}
 
 	public function testSizeModificationWrongParam() {
-		$this->setExpectedException(\InvalidArgumentException::class);
-
-		$f = $f = $this->getIconFactory();
-		$ico = $f->standard('course', 'Kurs');
-		$ico = $ico->withSize('tiny');
+		try {
+			$f = $f = $this->getIconFactory();
+			$ico = $f->standard('course', 'Kurs');
+			$ico = $ico->withSize('tiny');
+		    $this->assertFalse("This should not happen");
+		}
+		catch (\InvalidArgumentException $e) {
+		    $this->assertTrue(true);
+		}
 	}
 
 	public function testCustomPath() {

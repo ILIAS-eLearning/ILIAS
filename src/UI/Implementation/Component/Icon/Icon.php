@@ -12,7 +12,7 @@ class Icon implements C\Icon\Icon {
 	/**
 	 * @var	string
 	 */
-	protected $css_class;
+	protected $name;
 
 	/**
 	 * @var	string
@@ -42,8 +42,8 @@ class Icon implements C\Icon\Icon {
 	/**
 	 * @inheritdoc
 	 */
-	public function getCSSClass(){
-		return $this->css_class;
+	public function getName(){
+		return $this->name;
 	}
 
 	/**

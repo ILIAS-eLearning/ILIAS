@@ -19,7 +19,7 @@ class Renderer extends AbstractComponentRenderer {
         $this->checkComponent($component);
         $tpl = $this->getTemplate("tpl.icon.html", true, true);
 
-        $tpl->setVariable("CLASS",$component->getCSSClass());
+        $tpl->setVariable("NAME",$component->getName());
         $tpl->setVariable("ARIA_LABEL",$component->getAriaLabel());
         $tpl->setVariable("SIZE",$component->getSize());
 

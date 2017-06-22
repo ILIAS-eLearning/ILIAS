@@ -9,7 +9,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *
+	 *    Standard Icons represent ILIAS Objects.
 	 *   composition: >
 	 *     A Standard Icon is displayed as a block-element with a background-graphic.
 	 *     By default, a fallback icon will be rendered; this is until a
@@ -18,12 +18,12 @@ interface Factory {
 	 *     1: Custom Icons are constructed with a path to an (uploaded) image.
 	 * ---
 	 *
-	 * @param   string $class
+	 * @param   string $name
 	 * @param   string $aria_label
 	 * @param   string $size
 	 * @return 	\ILIAS\UI\Component\Icon\Standard
 	 **/
-	public function standard($class, $aria_label, $size='small');
+	public function standard($name, $aria_label, $size='small');
 
 	/**
 	 * ---
@@ -45,7 +45,9 @@ interface Factory {
 	 *     2: >
 	 *       Icons MUST have a transparent background so they could be put on
 	 *       all kinds of backgrounds.
-	 *     3: Images used for Custom Icons MUST be quadratic.
+	 *     3: >
+	 *       Images used for Custom Icons SHOULD have equal width and height
+	 *       (=be quadratic) in order not to be distorted.
 	 * ---
 	 *
 	 * @param   string $icon_path

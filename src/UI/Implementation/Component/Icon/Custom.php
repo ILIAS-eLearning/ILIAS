@@ -22,7 +22,7 @@ class Custom extends Icon implements C\Icon\Custom {
 			self::$possible_sizes,
 			implode(self::$possible_sizes, '/')
 		);
-		$this->css_class = 'custom';
+		$this->name = 'custom';
 		$this->icon_path = $icon_path;
 		$this->aria_label = $aria_label;
 		$this->size = $size;
