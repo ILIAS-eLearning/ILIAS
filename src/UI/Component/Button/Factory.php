@@ -149,7 +149,6 @@ interface Factory {
 	 *     When used in a tag-cloud (a list of tags), tags are visually "weighted"
 	 *     according to the number of their occurences, be it with different
 	 *     font-sizes, different colors or both.
-	 *     The font-color should be set with high contrast to the chosen background color.
 	 *   effect: >
 	 *     Tags may trigger an action or change the view when clicked.
 	 *     There is no visual difference (besides the cursor) between
@@ -160,6 +159,9 @@ interface Factory {
 	 * rules:
 	 *   style:
 	 *       1: Tags SHOULD be used with an additonal class to adjust colors.
+	 *       2: >
+	 *           The font-color SHOULD be set with high contrast to the chosen
+	 *           background color.
 	 *   accessibility:
 	 *       1: >
 	 *           The functionality of the tag button MUST be indicated for screen

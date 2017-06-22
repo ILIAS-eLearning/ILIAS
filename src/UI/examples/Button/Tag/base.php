@@ -8,13 +8,21 @@ function base() {
 
     $tag = $f->button()->tag("simple tag", "#");
 
-    foreach (range(1,5) as $w) {
+    $possible_relevances = array(
+        $tag::REL_VERYLOW,
+        $tag::REL_LOW,
+        $tag::REL_MID,
+        $tag::REL_HIGH,
+        $tag::REL_VERYHIGH
+    );
+
+    foreach ($possible_relevances as $w) {
         $buffer[] = $renderer->render($tag->withRelevance($w));
     }
 
     $buffer[] = '<hr>with unavailable action:<br>';
     $tag = $tag->withUnavailableAction();
-    foreach (range(1,5) as $w) {
+    foreach ($possible_relevances as $w) {
         $buffer[] = $renderer->render($tag->withRelevance($w));
     }
 
@@ -27,11 +35,18 @@ function base() {
         $tag->withClasses(array('std_col_1', 'std_bold'))
     );
 
-    $col = $df->color('#00ff00');
+    $lightcol = $df->color('#00ff00');
+    $darkcol = $df->color('#00aa00');
     $forecol = $df->color('#d4190b');
+
     $buffer[] = '<hr>with fix colors:<br>';
+    $tag = $tag->withBackgroundColor($lightcol);
+    $buffer[] = $renderer->render($tag);
+    $buffer[] = $renderer->render($tag->withBackgroundColor($darkcol));
+
+    $buffer[] = '<br><br>';
     $buffer[] = $renderer->render(
-        $tag->withBackgroundColor($col)
+        $tag->withBackgroundColor($lightcol)
             ->withForegroundColor($forecol)
     );
 

@@ -5,21 +5,22 @@
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
+use ILIAS\Data as D;
 
 class Tag extends Button implements C\Button\Tag {
 
 	private static $relevance_levels = array (
-		 self::RELLOW,
-		 self::RELVERYLOW,
-		 self::RELMID,
-		 self::RELHIGH,
-		 self::RELVERYHIGH
+		 self::REL_VERYLOW,
+		 self::REL_LOW,
+		 self::REL_MID,
+		 self::REL_HIGH,
+		 self::REL_VERYHIGH
 	);
 
 	/**
 	 * @var int
 	 */
-	protected $relevance = 5;
+	protected $relevance = self::REL_VERYHIGH;
 
 	/**
 	 * @var Color
@@ -34,16 +35,14 @@ class Tag extends Button implements C\Button\Tag {
 	/**
 	 * @var string[]
 	 */
-	protected $css_classes;
+	protected $additional_classes;
 
 	/**
 	 * @inheritdoc
 	 */
 	public function withRelevance($relevance) {
-		$this->checkIntArg("relevance", $relevance);
-		if($relevance < 1 || $relevance > 5) {
-			throw new \InvalidArgumentException("Relevance must be between 1 and 5", 1);
-		}
+		$this->checkStringArg('relevance', $relevance);
+		$this->checkArgIsElement('relevance', $relevance, self::$relevance_levels, 'relevance');
 		$clone = clone $this;
 		$clone->relevance = $relevance;
 		return $clone;
@@ -66,7 +65,7 @@ class Tag extends Button implements C\Button\Tag {
 	/**
 	 * @inheritdoc
 	 */
-	public function withBackgroundColor($col) {
+	public function withBackgroundColor(\ILIAS\Data\Color $col) {
 		$this->checkArgInstanceOf('Color', $col, \ILIAS\Data\Color::class);
 		$clone = clone $this;
 		$clone->bgcol = $col;
@@ -83,7 +82,7 @@ class Tag extends Button implements C\Button\Tag {
 	/**
 	 * @inheritdoc
 	 */
-	public function withForegroundColor($col) {
+	public function withForegroundColor(\ILIAS\Data\Color $col) {
 		$this->checkArgInstanceOf('Color', $col, \ILIAS\Data\Color::class);
 		$clone = clone $this;
 		$clone->forecol = $col;
@@ -94,6 +93,11 @@ class Tag extends Button implements C\Button\Tag {
 	 * @inheritdoc
 	 */
 	public function getForegroundColor() {
+		if(is_null($this->forecol) && is_null($this->bgcol) === false) {
+			$col_val = $this->bgcol->isDark() ? '#fff' : '#000';
+			$df = new D\Factory();
+			return $df->color($col_val);
+		}
 		return $this->forecol;
 	}
 
@@ -106,29 +110,18 @@ class Tag extends Button implements C\Button\Tag {
 			$this->checkStringArg('classes', $class);
 		}
 		$clone = clone $this;
-		$clone->css_classes = $classes;
+		$clone->additional_classes = $classes;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getAdditionalClasses() {
-		if(!$this->css_classes) {
+	public function getClasses() {
+		if(!$this->additional_classes) {
 			return array();
 		}
-		return $this->css_classes;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getCSSClasses() {
-		$classes = array_merge(
-			array($this->getRelevanceClass()),
-			$this->getAdditionalClasses()
-		);
-		return trim(join(' ', $classes));
+		return $this->additional_classes;
 	}
 
 }

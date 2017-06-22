@@ -9,17 +9,17 @@ use \ILIAS\UI\Component\Counter\Counter;
  * This describes a tag(-button).
  */
 interface Tag extends Button {
-	const RELLOW  		= 'btn-tag-relevance-verylow';
-	const RELVERYLOW 	= 'btn-tag-relevance-low';
-	const RELMID  		= 'btn-tag-relevance-middle';
-	const RELHIGH  		= 'btn-tag-relevance-high';
-	const RELVERYHIGH  	= 'btn-tag-relevance-veryhigh';
+	const REL_VERYLOW 	= 'verylow';
+	const REL_LOW  		= 'low';
+	const REL_MID  		= 'mid';
+	const REL_HIGH  	= 'high';
+	const REL_VERYHIGH  = 'veryhigh';
 
 	/**
-	 * Set relevance of Tag (to distinguis visually)
+	 * Set relevance of Tag (e.g. to distinguish visually)
 	 *
-	 * @param	int	 $relevance  a value between 1 and 5
-	 * @throws 	\InvalidArgumentException
+	 * @param	string	 $relevance
+	 * @throws 	\InvalidArgumentException 	if $relevance not in rel-constatnts
 	 * @return	Tag
 	 */
 	public function withRelevance($relevance);
@@ -27,16 +27,9 @@ interface Tag extends Button {
 	/**
 	 * Get the relevance of the Tag.
 	 *
-	 * @return	int
-	 */
-	public function getRelevance();
-
-	/**
-	 * Get CSS-class according to the relevance of the Tag.
-	 *
 	 * @return	string
 	 */
-	public function getRelevanceClass();
+	public function getRelevance();
 
 	/**
 	 * Set a fix background-color.
@@ -44,7 +37,7 @@ interface Tag extends Button {
 	 * @param	Color $col
 	 * @return	Tag
 	 */
-	public function withBackgroundColor($col);
+	public function withBackgroundColor(\ILIAS\Data\Color $col);
 
 	/**
 	 * Get the fix background-color.
@@ -59,7 +52,7 @@ interface Tag extends Button {
 	 * @param	Color $col
 	 * @return	Tag
 	 */
-	public function withForegroundColor($col);
+	public function withForegroundColor(\ILIAS\Data\Color $col);
 
 	/**
 	 * Get the fix foreground-color.
@@ -69,7 +62,7 @@ interface Tag extends Button {
 	public function getForegroundColor();
 
 	/**
-	 * Replace or set additional CSS-classes.
+	 * Replace or set additional classes.
 	 * Additional classes will be replaced in calling this function.
 	 *
 	 * @param	string[] $classes
@@ -78,19 +71,10 @@ interface Tag extends Button {
 	public function withClasses($classes);
 
 	/**
-	 * Get the additional CSS classes.
+	 * Get additional classes.
 	 *
 	 * @return	string[]
 	 */
-	public function getAdditionalClasses();
-
-	/**
-	 * Get all CSS classes (both relevance and additional) as flat string.
-	 *
-	 * @return	string
-	 */
-	public function getCSSClasses();
-
-
+	public function getClasses();
 
 }

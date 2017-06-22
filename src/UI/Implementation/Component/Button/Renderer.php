@@ -61,7 +61,12 @@ class Renderer extends AbstractComponentRenderer {
 
 		if ($component instanceof Component\Button\Tag) {
 
-			$tpl->setVariable("CSSCLASSES", $component->getCSSClasses());
+			$tpl->touchBlock('rel_' .$component->getRelevance());
+
+			$classes = trim(join(' ', $component->getClasses()));
+			if($classes !== '') {
+				$tpl->setVariable("CLASSES", $classes);
+			}
 
 			$bgcol = $component->getBackgroundColor();
 			if($bgcol) {

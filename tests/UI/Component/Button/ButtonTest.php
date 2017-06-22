@@ -236,18 +236,18 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$f = $this->getButtonFactory();
 		$b = $f->tag('tag', '#');
 		try {
-		    $b->withRelevance(0);
-		    $this->assertFalse("This should not happen");
+			$b->withRelevance(0);
+			$this->assertFalse("This should not happen");
 		}
 		catch (\InvalidArgumentException $e) {
-		    $this->assertTrue(true);
+			$this->assertTrue(true);
 		}
 		try {
-		    $b->withRelevance(6);
-		    $this->assertFalse("This should not happen");
+			$b->withRelevance('notsoimportant');
+			$this->assertFalse("This should not happen");
 		}
 		catch (\InvalidArgumentException $e) {
-		    $this->assertTrue(true);
+			$this->assertTrue(true);
 		}
 	}
 
@@ -262,12 +262,19 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 		$f = $this->getButtonFactory();
 		$r = $this->getDefaultRenderer();
-		$b = $f->tag('tag', '#');
-		foreach(range(1, 5) as $w) {
+		$t = $f->tag('tag', '#');
+		$possible_relevances = array(
+			$t::REL_VERYLOW,
+			$t::REL_LOW,
+			$t::REL_MID,
+			$t::REL_HIGH,
+			$t::REL_VERYHIGH
+		);
+		foreach($possible_relevances as $w) {
 			$html = $this->normalizeHTML(
-				$r->render($b->withRelevance($w))
+				$r->render($t->withRelevance($w))
 			);
-			$expected = $expectations[$w-1];
+			$expected = $expectations[array_search($w, $possible_relevances)];
 			$this->assertEquals($expected, $html);
 		}
 	}
@@ -278,12 +285,17 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$df = new \ILIAS\Data\Factory;
 
 		$bgcol = $df->color('#00ff00');
-		$fcol = $df->color('#fff');
+
 		$b = $f->tag('tag', '#')
-			->withBackgroundColor($bgcol)
-			->withForegroundColor($fcol);
+			->withBackgroundColor($bgcol);
 		$html = $this->normalizeHTML($r->render($b));
-		$expected = '<a class="btn btn-tag btn-tag-relevance-veryhigh" style="background-color: #00ff00; color: #ffffff;" href="#" data-action="#">tag</a>';
+		$expected = '<a class="btn btn-tag btn-tag-relevance-veryhigh" style="background-color: #00ff00; color: #000000;" href="#" data-action="#">tag</a>';
+		$this->assertEquals($expected, $html);
+
+		$fcol = $df->color('#ddd');
+		$b = $b->withForegroundColor($fcol);
+		$html = $this->normalizeHTML($r->render($b));
+		$expected = '<a class="btn btn-tag btn-tag-relevance-veryhigh" style="background-color: #00ff00; color: #dddddd;" href="#" data-action="#">tag</a>';
 		$this->assertEquals($expected, $html);
 	}
 
@@ -295,20 +307,12 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$classes = array('cl1', 'cl2');
 		$b = $f->tag('tag', '#')
 			->withClasses($classes);
-
-		$this->assertEquals($classes, $b->getAdditionalClasses());
-		$this->assertEquals(
-			'btn-tag-relevance-veryhigh cl1 cl2',
-			$b->getCSSClasses()
-		);
+		$this->assertEquals($classes, $b->getClasses());
 
 		$html = $this->normalizeHTML($r->render($b));
 		$expected = '<a class="btn btn-tag btn-tag-relevance-veryhigh cl1 cl2" href="#" data-action="#">tag</a>';
 		$this->assertEquals($expected, $html);
 	}
-
-
-
 
 	public function button_type_provider() {
 		return array
