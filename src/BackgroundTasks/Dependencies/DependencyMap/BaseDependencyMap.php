@@ -18,13 +18,13 @@ class BaseDependencyMap extends EmptyDependencyMap {
 
 	protected $map;
 
+
 	public function __construct() {
-		$this->maps = [[$this, 'resolveBaseDependencies']];
+		$this->maps = [ [ $this, 'resolveBaseDependencies' ] ];
 	}
 
 
-
-	protected function resolveBaseDependencies(Container $DIC, string $fullyQualifiedDomainName, string $for) {
+	protected function resolveBaseDependencies(Container $DIC, $fullyQualifiedDomainName, $for) {
 		// wow, why a switch statement and not an array?
 		// because we don't really want type unsafe array access on $DIC.
 		switch ($fullyQualifiedDomainName) {

@@ -19,42 +19,48 @@ class EmptyDependencyMap implements DependencyMap {
 	 */
 	protected $maps = [];
 
+
 	/**
 	 * @inheritdoc
 	 */
-	public function getDependencyWith(Container $DIC, string $fullyQualifiedDomainName, string $for, callable $map) {
+	public function getDependencyWith(Container $DIC, $fullyQualifiedDomainName, $for, callable $map) {
 		$result = $map($DIC, $fullyQualifiedDomainName, $for);
-		if($result) {
+		if ($result) {
 			return $result;
 		} else {
 			return $this->getDependency($DIC, $fullyQualifiedDomainName, $for);
 		}
 	}
 
+
 	/**
 	 * Returns a new dependency map with the given mapping. The newer mapping always comes first!
 	 *
-	 * @param callable $map (Container $DIC, string $fullyQualifiedDomainName, string $for) => mixed|null
+	 * @param callable $map (Container $DIC, string $fullyQualifiedDomainName, string $for) =>
+	 *                      mixed|null
 	 *
 	 * @return static
 	 */
 	public function with(callable $map) {
 		$dependencyMap = new static();
-		$dependencyMap->maps = array_merge([$map], $this->maps);
+		$dependencyMap->maps = array_merge([ $map ], $this->maps);
+
 		return $dependencyMap;
 	}
+
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getDependency(Container $DIC, string $fullyQualifiedDomainName, string $for) {
+	public function getDependency(Container $DIC, $fullyQualifiedDomainName, $for) {
 		foreach ($this->maps as $map) {
 			$result = $map($DIC, $fullyQualifiedDomainName, $for);
-			if($result) {
+			if ($result) {
 				return $result;
 			}
 		}
 
-		throw new NoSuchServiceException("The requested service ".$fullyQualifiedDomainName." could not be resolved.");
+		throw new NoSuchServiceException("The requested service " . $fullyQualifiedDomainName
+		                                 . " could not be resolved.");
 	}
 }
