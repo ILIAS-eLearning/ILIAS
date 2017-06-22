@@ -18587,12 +18587,12 @@ $fields = array(
 
 	),
 	'title' => array(
-		'type' => 'integer',
+		'type' => 'text',
 		'length' => '255',
 
 	),
 	'description' => array(
-		'type' => 'integer',
+		'type' => 'text',
 		'length' => '255',
 
 	),
