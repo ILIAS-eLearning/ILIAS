@@ -6,11 +6,12 @@ function with_lead_image() {
 	global $DIC;
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
+	$actions = $f->dropdown()->standard(array(
+		$f->button()->shy("ILIAS", "https://www.ilias.de"),
+		$f->button()->shy("GitHub", "https://www.github.com")
+	));
 	$app_item = $f->item()->standard("ILIAS Course")
-		->withActions(array(
-			"IILAS" => "http://www.ilias.de",
-			"Features" => "http://feature.ilias.de",
-			"Bugs" => "http://www.ilias.de/mantis/"))
+		->withActions($actions)
 		->withProperties(array(
 			"Origin" => "Course Title 1",
 			"Last Update" => "24.11.2011",

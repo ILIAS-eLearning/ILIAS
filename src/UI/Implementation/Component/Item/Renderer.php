@@ -26,20 +26,25 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	protected function renderGroup(Component\Item\Group $component, RendererInterface $default_renderer) {
-		global $DIC;
-
-		$renderer = $DIC->ui()->renderer();
-
 		$tpl = $this->getTemplate("tpl.group.html", true, true);
 		$title = $component->getTitle();
 		$items = $component->getItems();
 
+		// items
 		foreach ($items as $item)
 		{
 			$tpl->setCurrentBlock("item");
-			$tpl->setVariable("ITEM", $renderer->render($item));
+			$tpl->setVariable("ITEM", $default_renderer->render($item));
 			$tpl->parseCurrentBlock();
 		}
+
+		// actions
+		$actions = $component->getActions();
+		if ($actions !== null)
+		{
+			$tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+		}
+
 
 		$tpl->setVariable("TITLE", $title);
 
@@ -51,12 +56,12 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl = $this->getTemplate("tpl.item_standard.html", true, true);
 
-		// marker
-		$marker_id = $component->getMarkerId();
-		if ($marker_id > 0)
+		// color
+		$color = $component->getColor();
+		if ($color !== null)
 		{
-			$tpl->setCurrentBlock("marker");
-			$tpl->setVariable("MARKER_ID", (int) $marker_id);
+			$tpl->setCurrentBlock("color");
+			$tpl->setVariable("COLOR", $color->asHex());
 			$tpl->parseCurrentBlock();
 		}
 
@@ -92,17 +97,9 @@ class Renderer extends AbstractComponentRenderer {
 
 		// actions
 		$actions = $component->getActions();
-		if (count($actions) > 0)
+		if ($actions !== null)
 		{
-			foreach ($actions as $lab => $act)
-			{
-				$tpl->setCurrentBlock("action_item");
-				$tpl->setVariable("ACTION_HREF", $act);
-				$tpl->setVariable("ACTION_LABEL", $lab);
-				$tpl->parseCurrentBlock();
-			}
-			$tpl->setCurrentBlock("actions");
-			$tpl->parseCurrentBlock();
+			$tpl->setVariable("ACTIONS", $default_renderer->render($actions));
 		}
 
 		// properties

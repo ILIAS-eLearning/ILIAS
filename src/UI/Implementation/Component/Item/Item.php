@@ -15,9 +15,9 @@ abstract class Item implements C\Item\Item {
 	use ComponentHelper;
 
 	/**
-	 * @var int marker id 0-32 (0 no marker)
+	 * @var \ILIAS\Data\Color color
 	 */
-	protected $marker_id = 0;
+	protected $color = null;
 
 	/**
 	 * @var string
@@ -35,7 +35,7 @@ abstract class Item implements C\Item\Item {
 	protected $props;
 
 	/**
-	 * @var array
+	 * @var \ILIAS\UI\Component\Dropdown\Standard
 	 */
 	protected $actions;
 
@@ -92,7 +92,7 @@ abstract class Item implements C\Item\Item {
 	/**
 	 * @inheritdoc
 	 */
-	public function withActions(array $actions) {
+	public function withActions(\ILIAS\UI\Component\Dropdown\Standard $actions) {
 		$clone = clone $this;
 		$clone->actions = $actions;
 		return $clone;
@@ -108,11 +108,9 @@ abstract class Item implements C\Item\Item {
 	/**
 	 * @inheritdoc
 	 */
-	public function withMarkerId($marker_id){
-		$this->checkIntArg("marker_id", $marker_id);
-
+	public function withColor(\ILIAS\Data\Color $color){
 		$clone = clone $this;
-		$clone->marker_id = $marker_id;
+		$clone->color = $color;
 
 		return $clone;
 	}
@@ -120,8 +118,8 @@ abstract class Item implements C\Item\Item {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMarkerId(){
-		return $this->marker_id;
+	public function getColor(){
+		return $this->color;
 	}
 
 	/**

@@ -10,12 +10,13 @@ function with_lead_image() {
 	$image = $f->image()->responsive(
 		"src/UI/examples/Image/HeaderIconLarge.svg",
 		"Thumbnail Example");
+	$actions = $f->dropdown()->standard(array(
+		$f->button()->shy("ILIAS", "https://www.ilias.de"),
+		$f->button()->shy("GitHub", "https://www.github.com")
+	));
 
 	$list_item1 = $f->item()->standard("ILIAS Beginner Course")
-		->withActions(array(
-			"IILAS" => "http://www.ilias.de",
-			"Features" => "http://feature.ilias.de",
-			"Bugs" => "http://www.ilias.de/mantis/"))
+		->withActions($actions)
 		->withProperties(array(
 			"Origin" => "Course Title 1",
 			"Last Update" => "24.11.2011",
@@ -24,8 +25,7 @@ function with_lead_image() {
 		->withLeadImage($image);
 
 	$list_item2 = $f->item()->standard("ILIAS Advanced Course")
-		->withActions(array(
-			"ILIAS" => "http://www.ilias.de"))
+		->withActions($actions)
 		->withProperties(array(
 			"Origin" => "Course Title 1",
 			"Last Update" => "24.11.2011",
@@ -34,8 +34,7 @@ function with_lead_image() {
 		->withLeadImage($image);
 
 	$list_item3 = $f->item()->standard("ILIAS User Group")
-		->withActions(array(
-			"ILIAS" => "http://www.ilias.de"))
+		->withActions($actions)
 		->withProperties(array(
 			"Origin" => "Course Title 1",
 			"Last Update" => "24.11.2011",

@@ -1,4 +1,4 @@
-<div class="il-item il-std-item <!-- BEGIN marker -->il-item-marker-{MARKER_ID}<!-- END marker -->">
+<div class="il-item il-std-item <!-- BEGIN color -->il-item-marker " style="border-color:{COLOR}<!-- END color -->">
 	<!-- BEGIN lead_start -->
 	<div class="row">
 		<div class="col-sm-3">
@@ -8,18 +8,7 @@
 		<div class="col-sm-9">
 		<!-- END lead_start -->
 			<h5><!-- BEGIN title_link_start --><a href="{TITLE_HREF}"><!-- END title_link_start -->{TITLE}<!-- BEGIN title_link_end --></a><!-- END title_link_end --></h5>
-			<!-- BEGIN actions -->
-				<div class="dropdown">
-				<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" data-container="body">
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu pull-right" role="menu">
-				<!-- BEGIN action_item -->
-					<li><a href="{ACTION_HREF}">{ACTION_LABEL}</a></li>
-				<!-- END action_item -->
-				</ul>
-				</div>
-			<!-- END actions -->
+			{ACTIONS}
 			<!-- BEGIN desc -->
 			<div class="il-item-description">{DESC}</div><!-- END desc -->
 			<!-- BEGIN properties -->

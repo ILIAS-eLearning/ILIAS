@@ -5,7 +5,6 @@
 namespace ILIAS\UI\Implementation\Component\Item;
 
 use ILIAS\UI\Component\Item as I;
-use ILIAS\UI\NotImplementedException;
 
 class Factory implements I\Factory {
 

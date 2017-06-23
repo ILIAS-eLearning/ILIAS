@@ -25,10 +25,10 @@ interface Group extends \ILIAS\UI\Component\Component {
 	/**
 	 * Create a new appointment item with a set of actions to perform on it.
 	 *
-	 * @param \ILIAS\UI\Component\Dropdown\Standard $actions
+	 * @param \ILIAS\UI\Component\Dropdown\Standard $dropdown
 	 * @return Group
 	 */
-	public function withActions($dropdown);
+	public function withActions(\ILIAS\UI\Component\Dropdown\Standard $dropdown);
 
 	/**
 	 * Get the actions Dropdown of the group

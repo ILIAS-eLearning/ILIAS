@@ -29,6 +29,11 @@ class Group implements C\Item\Group {
 	 */
 	protected $actions;
 
+	/**
+	 * Group constructor.
+	 * @param $title
+	 * @param C\Item\Item[] $items
+	 */
 	public function __construct($title, array $items) {
 		$this->checkStringArg("title", $title);
 		$this->title = $title;
@@ -52,7 +57,7 @@ class Group implements C\Item\Group {
 	/**
 	 * @inheritdoc
 	 */
-	public function withActions($actions) {
+	public function withActions(\ILIAS\UI\Component\Dropdown\Standard $actions) {
 		$clone = clone $this;
 		$clone->actions = $actions;
 		return $clone;

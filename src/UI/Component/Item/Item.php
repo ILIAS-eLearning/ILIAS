@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de>, Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Item;
 
@@ -18,7 +18,7 @@ interface Item extends \ILIAS\UI\Component\Component {
 	/**
 	 * Create a new item with an attached description.
 	 * @param string $description
-	 * @return AppointmentItem
+	 * @return Item
 	 */
 	public function withDescription($description);
 
@@ -49,35 +49,36 @@ interface Item extends \ILIAS\UI\Component\Component {
 	/**
 	 * Create a new appointment item with a set of actions to perform on it.
 	 *
-	 * @param string[] $actions
-	 * @return AppointmentItem
+	 * @param \ILIAS\UI\Component\Dropdown\Standard $actions
+	 * @return Item
 	 */
-	public function withActions(array $actions);
+	public function withActions(\ILIAS\UI\Component\Dropdown\Standard $actions);
 
 	/**
 	 * Get the actions of the item.
 	 *
-	 * @return string[]
+	 * @return \ILIAS\UI\Component\Dropdown\Standard
 	 */
 	public function getActions();
 
 	/**
-	 * Set a marker id. Marker IDs must be >=0 and <=32. They assign the item to a CSS class il-item-marker-[ID].
-	 * Set 0 for no marker (default).
+	 * Set a color
 	 *
-	 * @param int $marker_id
+	 * @param \ILIAS\Data\Color $a_color color
+	 * @return Item
 	 */
-	public function withMarkerId($marker_id);
+	public function withColor(\ILIAS\Data\Color $a_color);
 
 	/**
-	 * @return int
+	 * @return \ILIAS\Data\Color color
 	 */
-	public function getMarkerId();
+	public function getColor();
 
 	/**
 	 * Set image as lead
 	 *
 	 * @param \ILIAS\UI\Component\Image\Image $image lead image
+	 * @return Item
 	 */
 	public function withLeadImage(\ILIAS\UI\Component\Image\Image $image);
 
@@ -85,11 +86,13 @@ interface Item extends \ILIAS\UI\Component\Component {
 	 * Set image as lead
 	 *
 	 * @param string $text lead text
+	 * @return Item
 	 */
 	public function withLeadText($text);
 
 	/**
 	 * Reset lead to null
+	 * @return Item
 	 */
 	public function withNoLead();
 
