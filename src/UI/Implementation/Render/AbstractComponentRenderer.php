@@ -74,6 +74,10 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		return $this->lng->txt($id);
 	}
 
+	final public function toJS($key) {
+		$this->lng->toJS($key);
+	}
+
 	/**
 	 * @return JavaScriptBinding
 	 */

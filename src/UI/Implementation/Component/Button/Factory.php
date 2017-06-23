@@ -32,7 +32,7 @@ class Factory implements B\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function split() {
-		return new Split\Factory();
+	public function month($default) {
+		return new Month($default);
 	}
 }

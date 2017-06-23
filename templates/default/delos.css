@@ -6248,6 +6248,9 @@ button.close {
   padding-left: 5px;
   padding-right: 5px;
 }
+.il-btn-month .dropdown-menu {
+  min-width: 250px;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;

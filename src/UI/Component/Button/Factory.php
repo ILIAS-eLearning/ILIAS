@@ -117,25 +117,23 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The Split Button is used to group related actions if space is scarce while offering the most prominent as
-	 *       visible default.
+	 *       The Month Button enables to select a specific month to fire some action (probably a change of view).
 	 *   composition: >
-	 *       The Split Button is contains a button-like-looking control accompanied by a dropdown-like control on the right.
+	 *       The Month Button is composed of a Button showing the default month directly (probably the
+	 *       month currently rendered by some view). A dropdown contains an interface enabling the selection of a month from
+	 *       the future or the past.
 	 *   effect: >
-	 *       Clicking the default directly fires the contained action. Clicking on the caret hinting the dropdown, opens it,
-	 *       displaying all further options and possibilities to select one of those.
+	 *      Selecting a month from the dropdown directly fires the according action (e.g. switching the view to the
+	 *      selected month). Technically this is currently a Javascript event being fired.
 	 *
 	 * rules:
-	 *   usage:
+	 *   interaction:
 	 *       1: >
-	 *           The options in the split MUST be related. They SHOULD offer "more of the same" 
-	 *           (e.g. reply, reply all, forward etc.).
-	 *           
-	 *   accessibility:
-	 *       1: >
-	 *           All options offered in the dropdown MUST be accessible by keyboard.
+	 *          Selecting a month from the dropdown MUST directly fire the according action.
+	 *
 	 * ---
-	 * @return  \ILIAS\UI\Component\Button\Split\Factory
+	 * @param string $default Initial value, use format "mm-yyyy".
+	 * @return  \ILIAS\UI\Component\Button\Month
 	 */
-	public function split();
+	public function month($default);
 }

@@ -47,6 +47,8 @@ class ilLanguageMock extends \ilLanguage {
 		$this->requested[] = $a_topic;
 		return $a_topic;
 	}
+	public function toJS($a_key, ilTemplate $a_tpl = NULL) {
+	}
 }
 
 class LoggingJavaScriptBinding implements JavaScriptBinding {
