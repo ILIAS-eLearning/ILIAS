@@ -452,7 +452,7 @@ interface Factory {
 	 *           DOM elements of type "button" MUST be used to properly identify an
 	 *           element as a Dropdown.
 	 *      2: >
-	 *           Dropdown Items are being implemented as "ul" list with a set of "li" elements and
+	 *           Dropdown items MUST be implemented as "ul" list with a set of "li" elements and
 	 *           nested Shy Button elements for the actions.
 	 *      3: >
 	 *           Triggers of Dropdowns MUST indicate their effect by the aria-haspopup attribute
@@ -469,7 +469,7 @@ interface Factory {
 	 *           The focus MAY leave the Dropdown if tab is pressed while focusing the last
 	 *           element. This differs from the behaviour in Popovers and Modals.
 	 * ---
-	 * @return  \ILIAS\UI\Component\DropDown\Factory
+	 * @return  \ILIAS\UI\Component\Dropdown\Factory
 	 */
 	public function dropdown();
 
