@@ -32,6 +32,7 @@ class NoUIFactory implements Factory {
 	public function modal() {}
 	public function divider() {}
 	public function link() {}
+	public function dropdown() {}
 	public function icon() {}
 }
 

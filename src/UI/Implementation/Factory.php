@@ -105,8 +105,15 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
+	public function dropdown() {
+		return new Component\Dropdown\Factory();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function icon() {
 		return new Component\Icon\Factory();
-
 	}
+
 }

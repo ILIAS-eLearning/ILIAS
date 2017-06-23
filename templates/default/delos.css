@@ -6265,6 +6265,15 @@ h6.il-divider {
 hr.il-divider-with-label {
   display: none;
 }
+.dropdown .btn {
+  text-align: left;
+}
+.dropdown hr {
+  margin: 6px 0;
+}
+.dropdown h6 {
+  margin: 3px 0;
+}
 .icon {
   background-repeat: no-repeat;
   background-size: cover;
