@@ -8,15 +8,8 @@ use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Component;
 
 /**
- * This describes the month split Button. Note that actions are bound to the month by using the JavaScriptBindable
- * withOnLoadCodeFunction
- *
- * @example:
- * 		$month_picker->withOnLoadCode(function($id) {
- *			return "$( "#$id someMonthSelector" ).bind( "click", function() {
- *				someActionAfterClickedOnSpecificMonth;
- *			});";
- *		});
+ * This describes the Month Button. Note that actions are bound to the month by using the JavaScriptBindable
+ * withOnLoadCodeFunction.
  */
 interface Month extends Component, JavaScriptBindable {
 

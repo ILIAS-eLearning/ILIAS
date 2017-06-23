@@ -5,7 +5,6 @@
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component\Button as B;
-use ILIAS\UI\NotImplementedException;
 
 class Factory implements B\Factory {
 	/**
