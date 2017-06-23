@@ -12,7 +12,7 @@ class Factory implements I\Factory {
 	 * @inheritdoc
 	 */
 	public function standard($title) {
-		return new StandardItem($title);
+		return new Standard($title);
 	}
 
 	/**

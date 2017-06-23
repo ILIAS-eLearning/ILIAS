@@ -19,7 +19,7 @@ class Renderer extends AbstractComponentRenderer {
 		{
 			return $this->renderGroup($component, $default_renderer);
 		}
-		if ($component instanceof Component\Item\StandardItem)
+		if ($component instanceof Component\Item\Standard)
 		{
 			return $this->renderStandard($component, $default_renderer);
 		}
@@ -143,7 +143,7 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function getComponentInterfaceName() {
 		return array
-		(Component\Item\StandardItem::class
+		(Component\Item\Standard::class
 			, Component\Item\Group::class
 		);
 	}

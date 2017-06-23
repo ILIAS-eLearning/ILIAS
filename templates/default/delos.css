@@ -6411,6 +6411,15 @@ hr.il-divider-with-label {
 .il-narrow-content .il-item button.dropdown-toggle > span {
   display: none;
 }
+.il-item-group h4 {
+  float: left;
+}
+.il-item-group .dropdown {
+  float: right;
+}
+.il-item-group-items {
+  clear: both;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;

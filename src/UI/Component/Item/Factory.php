@@ -20,7 +20,7 @@ interface Factory {
 	 *       be presented, e.g. in a property to enable screen reader access.
 	 * ---
 	 * @param string $title Title of the item
-	 * @return \ILIAS\UI\Component\Item\StandardItem
+	 * @return \ILIAS\UI\Component\Item\Standard
 	 */
 	public function standard($title);
 
