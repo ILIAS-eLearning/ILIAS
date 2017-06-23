@@ -17,12 +17,16 @@ class Mode implements C\ViewControl\Mode {
 
 	public function __construct($labelled_actions)
 	{
-		$this->labeled_actions = $labelled_actions;
+		$this->labeled_actions = $this->toArray($labelled_actions);
 	}
 
 	public function withActive($label)
 	{
-		$this->active = $this->checkStringArg("label", $label);
+		//$this->active = $this->checkStringArg("label", $label);
+		$this->checkStringArg("label", $label);
+		$clone = clone $this;
+		$clone->active = $label;
+		return $clone;
 	}
 
 	public function getActive()
@@ -34,6 +38,4 @@ class Mode implements C\ViewControl\Mode {
 	{
 		return $this->labeled_actions;
 	}
-
-
 }

@@ -26,9 +26,10 @@ interface Factory {
 	 *   usage:
 	 *      1: Exactly one Button MUST always be active.
 	 *   accessibility:
-	 *      1: The Buttons of the Mode View Control MUST cary the role-attribute "group".
-	 *      2: The Buttons of the Mode View Control MUST set an aria-label clearly describing it's functionality.
-	 *      3: The currently active Button must be labeled by setting aria-checked to "true".
+	 *      1: The HTML container enclosing the buttons of the Mode View Control MUST cary the role-attribute "group".
+	 *      2: The HTML container enclosing the buttons of the Mode View Control MUST set an aria-label describing the element. Eg. "Mode View Control"
+	 *      3: The Buttons of the Mode View Control MUST set an aria-label clearly describing what the button shows if clicked. E.g. "List View", "Month View", ...
+	 *      4: The currently active Button must be labeled by setting aria-checked to "true".
 	 *
 	 * ---
 	 * @param    array $labelled_actions Set of labelled actions (string|string)[]. The label of the action is used as key, the action itself as value.

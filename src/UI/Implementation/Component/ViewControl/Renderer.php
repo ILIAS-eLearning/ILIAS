@@ -13,6 +13,8 @@ use ILIAS\UI\Component;
  */
 class Renderer extends AbstractComponentRenderer
 {
+	const MODE_ARIA = "Mode View Controler";
+	const MODE_ROLE = "group";
 
 	/**
 	 * @param Component\Component $component
@@ -26,11 +28,12 @@ class Renderer extends AbstractComponentRenderer
 			return $this->renderMode($component, $default_renderer);
 		}
 		return $this->renderSection($component, $default_renderer);
-
 	}
 
 	protected function renderMode(Component\ViewControl\Mode $component, RendererInterface $default_renderer)
 	{
+		$f = $this->getUIFactory();
+
 		$tpl = $this->getTemplate("tpl.mode.html", true, true);
 
 		$active = $component->getActive();
@@ -40,20 +43,20 @@ class Renderer extends AbstractComponentRenderer
 
 		foreach ($component->getLabelledActions() as $label => $action)
 		{
+			$tpl->setVariable("ARIA", self::MODE_ARIA);
+			$tpl->setVariable("ROLE", self::MODE_ROLE);
+
 			$tpl->setCurrentBlock("view_control");
 
-			$tpl->setVariable("LABEL", $label);
-			$tpl->setVariable("HREF", $action);
 			if($activate_first_item) {
-				$tpl->setVariable("ACTIVE", "active");
+				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)->WithUnavailableAction()));
 				$activate_first_item = false;
 			} else if($active == $label) {
-				$tpl->setVariable("ACTIVE", "active");
+				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)->withUnavailableAction()));
 			}
 			else {
-				$tpl->setVariable("ACTIVE", "");
+				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)));
 			}
-
 			$tpl->parseCurrentBlock();
 		}
 
@@ -81,6 +84,7 @@ class Renderer extends AbstractComponentRenderer
 			Component\ViewControl\Mode::class,
 			Component\ViewControl\Section::class
 		);
+
 	}
 
 }

@@ -4,10 +4,12 @@
 
 namespace ILIAS\UI\Component\ViewControl;
 
+use \ILIAS\UI\Component\Component;
+
 /**
  * This describes a Mode Control
  */
-interface Mode extends \ILIAS\UI\Component\Component {
+interface Mode extends Component {
 	/**
 	 * set the currently active Button by label.
 	 *
