@@ -110,7 +110,7 @@ class Factory implements \ILIAS\UI\Factory
 	 */
 	public function dropdown()
 	{
-		return new Component\DropDown\Factory();
+		return new Component\Dropdown\Factory();
 	}
 
 }
