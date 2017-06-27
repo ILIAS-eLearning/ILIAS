@@ -280,6 +280,14 @@ class ilDclStandardField extends ilDclBaseFieldModel
 		//comments are filterable if they are enabled in the tables settings
 		return $this->id != 'comments' || ilDclCache::getTableCache($this->getTableId())->getPublicCommentsEnabled();
 	}
+
+
+	/**
+	 * @param $records
+	 */
+	public function afterClone($records) {
+		return; //0020762; afterClone of 'comments' leads to an error since comments has no datatype
+	}
 }
 
 ?>
