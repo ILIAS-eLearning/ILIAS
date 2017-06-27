@@ -263,6 +263,7 @@ class ilDataCollectionDatatype {
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
 				$input = new ilDateTimeInputGUI($title, 'field_' . $field->getId());
+				$input->setMode(ilDateTimeInputGUI::MODE_INPUT);
 				$input->setStartYear(date("Y") - 100);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_FILE:
