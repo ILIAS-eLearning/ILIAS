@@ -31,11 +31,11 @@ class TextInputTest extends ILIAS_UI_TestBase {
 		$this->assertCount(1, $ids);
 		$name = $ids[0];
 
-
 		$expected = "<div class=\"form-group row\" id=\"$name\">".
-					"	<label for=\"$name\" class=\"col-form-label col-sm-3\">$label</label>".
+					"	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>".
 					"	<div class=\"col-sm-9\">".
 					"		<input type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />".
+					"		<div class=\"help-block\">$byline</div>".
 					"	</div>".
 					"</div>";
 		$this->assertEquals($expected, $html);
