@@ -473,4 +473,33 @@ interface Factory {
 	 */
 	public function dropdown();
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      TBD
+	 *   composition: >
+	 *      TBD
+	 *   effect: >
+	 *      TBD
+	 *
+	 * ---
+	 * @return  \ILIAS\UI\Component\Form\Factory
+	 */
+	public function form();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      TBD
+	 *   composition: >
+	 *      TBD
+	 *   effect: >
+	 *      TBD
+	 *
+	 * ---
+	 * @return  \ILIAS\UI\Component\Form\Factory
+	 */
+	public function input();
 }
