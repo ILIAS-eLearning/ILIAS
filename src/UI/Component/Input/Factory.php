@@ -17,6 +17,10 @@ interface Factory {
 	 *      TBD
 	 *   effect: >
 	 *      TBD
+	 * context: >
+	 *   TBD
+	 *
+	 * rules: []
 	 *
 	 * ---
 	 *
