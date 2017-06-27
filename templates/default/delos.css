@@ -6248,6 +6248,7 @@ button.close {
   padding-left: 5px;
   padding-right: 5px;
 }
+
 .btn {
   font-size: 12px;
 }
@@ -6365,6 +6366,32 @@ fieldset[disabled] .btn.active {
 }
 button > .glyphicon {
   pointer-events: none;
+}
+a.btn-link.ilSubmitInactive,
+a.btn-link.ilSubmitInactive:hover {
+  background-color: inherit;
+  color: #333333;
+  padding: 0;
+}
+h6.il-divider {
+  padding: 3px 6px;
+  background-color: #ececec;
+  display: block;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #4d4d4d;
+}
+hr.il-divider-with-label {
+  display: none;
+}
+.dropdown .btn {
+  text-align: left;
+}
+.dropdown hr {
+  margin: 6px 0;
+}
+.dropdown h6 {
+  margin: 3px 0;
 }
 /*		Color scheme
 		Dark BLue: #0f2152;

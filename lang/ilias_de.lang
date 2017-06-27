@@ -15650,10 +15650,10 @@ style#:#from_skin#:#vom Skin:
 style#:#dir_copied_from#:#Der Ordner wurde kopiert von:
 style#:#to#:#nach:
 style#:#dir_deleted#:#Der folgende Ordner wurde gelöscht:
-style#:#sty_create_new_system_style#:#Erstelle einen neuen System Style.
-style#:#sty_create_new_system_sub_style#:#Erstelle einen neuen System Sub Style.
-style#:#sty_import_system_style#:#Importiere bestehenden System Style aus ZIP.
-style#:#sty_copy_other_system_style#:#Klone einen bestehenden System Style.
+style#:#sty_create_new_system_style#:#Neuen System-Style anlegen
+style#:#sty_create_new_system_sub_style#:#Neuen Sub Style anlegen
+style#:#sty_import_system_style#:#System Style importieren
+style#:#sty_copy_other_system_style#:#System-Style kopieren
 style#:#sub_style_id#:#Sub Style ID
 style#:#sub_style_name#:#Sub Style Name
 style#:#less_variables_file_not_included#:#Die Less Variablen Datei:
@@ -15958,3 +15958,6 @@ exc#:#exc_settings_feedback_file_info#:#Tutoren laden ihre Datei hoch. Der jewei
 exc#:#exc_settings_feedback_text_info#:#Tutoren geben ihre Rückmeldungen in ein Textfeld ein. Der jeweilige Teilnehmer erhält eine Benachrichtigung und der Text wird ihm in der Übungseinheiten-Übersicht angezeigt.
 rbac#:#file_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#file_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
+rbac#:#stys_sty_write_content#:#Content-Styles bearbeiten
+style#:#manage_system_styles#:#System Styles verwalten
+style#:#scope#:#Gültigkeitsbereich

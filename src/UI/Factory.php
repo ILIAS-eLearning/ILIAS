@@ -336,4 +336,141 @@ interface Factory {
 	 **/
 	public function modal();
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A divider marks a thematic change in a sequence of other components. A Horizontal Divider
+	 *     is used to mark a thematic change in sequence of elements that are stacked from top to bottom,
+	 *     e.g. in a Dropdown. A Vertical Divider is used to mark a thematic change in a sequence of elements
+	 *     that are lined up from left to right, e.g. a Toolbar.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       Dividers MUST only be used in container components that explicitly state
+	 *       and define the usage of Dividers within the container.
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Divider\Factory
+	 **/
+	public function divider();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      Links are used navigate to other resources or views of the system. Clicking
+	 *      on a link does not change the systems status.
+	 *   composition: >
+	 *      Link is a clickable, graphically minimal obtrusive control element. It can
+	 *      bear text or other content. Links always contain a valid href tag which
+	 *      should not not just contain a hash sign.
+	 *   effect: >
+	 *      On-click, the resource or view indicated by the link is requested and
+	 *      presented. Links are not used to trigger Javascript events.
+	 *   rivals:
+	 *      buttons: >
+	 *          Buttons are used to trigger Interactions that usually change the systems
+	 *          status. Buttons are much more obtrusive than links and may fire JS events.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: >
+	 *           Links MAY be used inline in a Textual Paragraphs.
+	 *   interaction:
+	 *      1: >
+	 *           Hovering an active link should indicate a possible interaction.
+	 *      2: >
+	 *           Links MUST not be used to fire Javascript events.
+	 *   style:
+	 *      1: >
+	 *           Links SHOULD not be presented with a separate background color.
+	 *   wording:
+	 *      1: >
+	 *           The wording of the link SHOULD name the target view or resource.
+	 *   accessibility:
+	 *      1: >
+	 *           DOM elements of type "a" MUST be used to properly identify an
+	 *           element.
+	 * ---
+	 * @return  \ILIAS\UI\Component\Link\Factory
+	 */
+	public function link();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      Dropdowns reveal a list of interactions that change the system’s status or navigate to
+	 *      a different view.
+	 *   composition: >
+	 *      Dropdown is a clickable, graphically obtrusive control element. It can
+	 *      bear text. On-click a list of Shy Buttons and optional Dividers is shown.
+	 *   effect: >
+	 *      On-click, a list of actions is revealed. Clicking an item will trigger the action indicated.
+	 *      Clicking outside of an opened Dropdown will close the list of items.
+	 *   rivals:
+	 *      button: >
+	 *          Buttons are used, if single actions should be presented directly in the user interface.
+	 *      links: >
+	 *          Links are used to trigger actions that do not change the systems
+	 *          status. They are usually contained inside a Navigational Collection.
+	 *      popovers: >
+	 *          Dropdowns only provide a list of possible actions. Popovers can include more diverse
+	 *          and flexible content.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: >
+	 *           Dropdowns MUST NOT be used standalone. They are only parts of more complex UI elements.
+	 *           These elements MUST define their use of Dropdown. E.g. a List or a Table MAY define that a certain
+	 *           kind of Dropdown is used as part of the UI element.
+	 *   interaction:
+	 *      1: >
+	 *           Only Dropdown Items MUST trigger an action or change a view. The Dropdown trigger element
+	 *           is only used to show and hide the list of Dropdown Items.
+	 *   style:
+	 *      1: >
+	 *           If Text is used inside a Dropdown label, the Dropdown MUST be at least six characters
+	 *           wide.
+	 *   wording:
+	 *      1: >
+	 *           The label of a Dropdown SHOULD contain no more than two words.
+	 *      2: >
+	 *           Every word except articles, coordinating conjunctions and prepositions
+	 *           of four or fewer letters MUST be capitalized.
+	 *      3: >
+	 *           For standard events such as saving or canceling the existing standard
+	 *           terms MUST be used if possible: Delete, Cut, Copy.
+	 *      4: >
+	 *           There are cases where a non-standard label such as “Send Mail” for saving
+	 *           and sending the input of a specific form might deviate from the standard.
+	 *           These cases MUST however specifically justified.
+	 *   accessibility:
+	 *      1: >
+	 *           DOM elements of type "button" MUST be used to properly identify an
+	 *           element as a Dropdown.
+	 *      2: >
+	 *           Dropdown items MUST be implemented as "ul" list with a set of "li" elements and
+	 *           nested Shy Button elements for the actions.
+	 *      3: >
+	 *           Triggers of Dropdowns MUST indicate their effect by the aria-haspopup attribute
+	 *           set to true.
+	 *      4: >
+	 *           Triggers of Dropdowns MUST indicate the current state of the Dropdown by the
+	 *           aria-expanded label.
+	 *      5: >
+	 *           Dropdowns MUST be accessible by keyboard by focusing the trigger element and
+	 *           clicking the return key.
+	 *      6: >
+	 *           Entries in a Dropdown MUST be accessible by the tab-key if opened.
+	 *      7: >
+	 *           The focus MAY leave the Dropdown if tab is pressed while focusing the last
+	 *           element. This differs from the behaviour in Popovers and Modals.
+	 * ---
+	 * @return  \ILIAS\UI\Component\Dropdown\Factory
+	 */
+	public function dropdown();
+
 }

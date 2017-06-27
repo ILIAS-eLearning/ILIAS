@@ -23,6 +23,10 @@ require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php'
  */
 class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
 {
+	// hey: prevPassSolutions - wtf is imagemap ^^
+	public $currentSolution = array();
+	// hey.
+	
 	const MODE_SINGLE_CHOICE   = 0;
 	const MODE_MULTIPLE_CHOICE = 1;
 
@@ -1089,7 +1093,13 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function getTestOutputSolutions($activeId, $pass)
 	{
 		$solution = parent::getTestOutputSolutions($activeId, $pass);
-		$this->currentSolution = $solution;
+		
+		$this->currentSolution = array();
+		foreach($solution as $record)
+		{
+			$this->currentSolution[] = $record['value1'];
+		}
+		
 		return $solution;
 	}
 	protected function getAddSolutionSelectionParameter()
@@ -1150,7 +1160,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			return null;
 		}
 		
-		return explode(',', $_GET["reuseSelection"]);
+		return assQuestion::explodeKeyValues($_GET["reuseSelection"]);
 	}
 	protected function isReuseSolutionSelectionRequest()
 	{

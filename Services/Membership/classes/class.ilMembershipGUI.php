@@ -1336,14 +1336,15 @@ class ilMembershipGUI
 			
 			if($this instanceof ilCourseWaitingList)
 			{
-				$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,$user_id);
+				$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,$user_id,true);
 			}
 			else
 			{
 				include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 				$this->getMembersObject()->sendNotification(
 					ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
-					$user_id
+					$user_id,
+					true
 				);
 			}
 			
