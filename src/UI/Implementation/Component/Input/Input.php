@@ -80,7 +80,10 @@ abstract class Input implements C\Input\Input {
 	}
 
 	/**
-	 * @inheritdoc
+	 * Get an input like this one, with a different name.
+	 *
+	 * @param	string
+	 * @return	Input
 	 */
 	public function withName($name) {
 		$this->checkStringArg("name", $name);
