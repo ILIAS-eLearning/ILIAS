@@ -37,10 +37,6 @@ class ilObjOrgUnitTree {
 	 */
 	private $tree_childs;
 	/**
-	 * @var  ilCtrl
-	 */
-	private $ctrl;
-	/**
 	 * @var  int[] orgu_ref => parent_ref
 	 */
 	private $parent;
@@ -52,10 +48,8 @@ class ilObjOrgUnitTree {
 
 	private function __construct() {
 		global $DIC;
-		$ilCtrl = $DIC['ilCtrl'];
 		$ilDB = $DIC['ilDB'];
 		$tree = $DIC['tree'];
-		$this->ctrl = $ilCtrl;
 		$this->db = $ilDB;
 		$this->tree = $tree;
 		$this->roles = array();
