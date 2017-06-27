@@ -499,7 +499,7 @@ interface Factory {
 	 *      TBD
 	 *
 	 * ---
-	 * @return  \ILIAS\UI\Component\Form\Factory
+	 * @return  \ILIAS\UI\Component\Input\Factory
 	 */
 	public function input();
 }
