@@ -6,12 +6,14 @@ namespace ILIAS\UI\Implementation\Component\Input;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * This implements commonalities between inputs.
  */
 abstract class Input implements C\Input\Input {
 	use ComponentHelper;
+	use JavaScriptBindable;
 
 	/**
 	 * @var string

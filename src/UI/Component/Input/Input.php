@@ -5,11 +5,12 @@
 namespace ILIAS\UI\Component\Input;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes commonalities between all inputs.
  */
-interface Input extends Component {
+interface Input extends Component, JavaScriptBindable {
 	/**
 	 * Get the label off the input.
 	 *
