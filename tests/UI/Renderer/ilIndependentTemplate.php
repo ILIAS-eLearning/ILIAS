@@ -10,6 +10,9 @@ require_once("./Services/UICore/lib/html-it/ITX.php");
 require_once("./Services/UICore/classes/class.ilTemplate.php");
 
 class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementation\Render\Template {
+	// This makes PHP happy, baseclass needs that
+	protected $blockparents = null;
+
 	/**
 	 * Reads a file from disk and returns its content.
 	 *
