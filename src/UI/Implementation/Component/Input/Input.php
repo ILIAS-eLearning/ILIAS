@@ -6,14 +6,12 @@ namespace ILIAS\UI\Implementation\Component\Input;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * This implements commonalities between inputs.
  */
 abstract class Input implements C\Input\Input {
 	use ComponentHelper;
-	use JavaScriptBindable;
 
 	/**
 	 * @var string
@@ -25,11 +23,17 @@ abstract class Input implements C\Input\Input {
 	 */
 	protected $byline;
 
+	/**
+	 * @var	string
+	 */
+	protected $name;
+
 	public function __construct($label, $byline) {
 		$this->checkStringArg("label", $label);
 		$this->checkStringArg("byline", $byline);
 		$this->label = $label;
 		$this->byline= $byline;
+		$this->name = null;
 	}
 
 	/**
@@ -63,6 +67,25 @@ abstract class Input implements C\Input\Input {
 		$this->checkStringArg("byline", $byline);
 		$clone = clone $this;
 		$clone->byline = $byline;
+		return $clone;
+	}
+
+	/**
+	 * The name of the input as used in HTML.
+	 *
+	 * @return string
+	 */
+	public function getName() {
+		return $this->name;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withName($name) {
+		$this->checkStringArg("name", $name);
+		$clone = clone $this;
+		$clone->name = $name;
 		return $clone;
 	}
 }

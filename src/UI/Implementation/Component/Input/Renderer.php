@@ -23,16 +23,8 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	protected function renderText(Component\Input\Text $component, RendererInterface $default_renderer) {
-		$id = $this->bindJavaScript($component);
-
-		// We need an id anyway, even there is no js, since we
-		// also use it as name.
-		if ($id === null) {
-			$id = $this->createId();
-		}
-
 		$tpl = $this->getTemplate("tpl.text.html", true, true);
-		$tpl->setVariable("ID", $id);
+		$tpl->setVariable("NAME", $component->getName());
 		$tpl->setVariable("LABEL", $component->getLabel());
 		$tpl->setVariable("BYLINE", $component->getByline());
 

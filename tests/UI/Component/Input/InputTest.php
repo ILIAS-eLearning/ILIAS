@@ -34,4 +34,11 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals("new byline", $input->getByline());
 		$this->assertNotSame($this->input, $input);
 	}
+
+	public function test_withName() {
+		$input = $this->input->withName("name");
+		$this->assertEquals(null, $this->input->getName());
+		$this->assertEquals("name", $input->getName());
+		$this->assertNotSame($this->input, $input);
+	}
 }
