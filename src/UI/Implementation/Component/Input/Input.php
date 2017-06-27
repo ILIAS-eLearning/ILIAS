@@ -5,8 +5,11 @@
 namespace ILIAS\UI\Implementation\Component\Input;
 
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Data\Result;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\Transformation\Transformation;
+use ILIAS\Validation\Constraint;
 
 /**
  * This implements commonalities between inputs.
@@ -56,6 +59,11 @@ abstract class Input implements C\Input\Input {
 	 */
 	protected $content;
 
+	/**
+	 * @var (Transformation|Constraint)[]
+	 */
+	protected $operations;
+
 	public function __construct(DataFactory $data_factory, $label, $byline) {
 		$this->data_factory = $data_factory;
 		$this->checkStringArg("label", $label);
@@ -66,6 +74,7 @@ abstract class Input implements C\Input\Input {
 		$this->name = null;
 		$this->client_side_error = null;
 		$this->content = null;
+		$this->operations = [];
 	}
 
 	/**
@@ -197,11 +206,35 @@ abstract class Input implements C\Input\Input {
 
 		$value = $this->valueFromArray($input);
 		$clone = $this->withClientSideValue($value);
-		$clone->content = $this->contentFromValue($value);
+		$clone->content = $this->applyOperationsTo($this->contentFromValue($value));
 		if ($clone->content->isError()) {
 			return $clone->withClientSideError("".$clone->content->error());
 		}
 		return $clone;
+	}
+
+	/**
+	 * Applies the operations in this instance to the value.
+	 *
+	 * @param	Result	$res
+	 * @return	Result
+	 */
+	protected function applyOperationsTo(Result $res) {
+		foreach ($this->operations as $op) {
+			if ($res->isError()) {
+				return $res;
+			}
+
+			// TODO: I could make this go away by giving Transformation and
+			// Constraint a common interface for that.
+			if ($op instanceof Transformation) {
+				$res = $res->map($op);
+			}
+			elseif ($op instanceof Constraint) {
+				$res = $op->restrict($res);
+			}
+		}
+		return $res;
 	}
 
 	/**
@@ -222,6 +255,10 @@ abstract class Input implements C\Input\Input {
 	 * Get an initial content for this input from the value as extracted by
 	 * valueFromArray.
 	 *
+	 * TODO: This most probably is garbage. We could start with the plain value
+	 * and just apply an initial validation/transformation, no special case for
+	 * "initial" required.
+	 *
 	 * @param	mixed
 	 * @return	Result
 	 */
@@ -236,5 +273,20 @@ abstract class Input implements C\Input\Input {
 	 */
 	public function getContent() {
 		return $this->content;
+	}
+
+	/**
+	 * Apply a transformation to the current or future content.
+	 *
+	 * @param	Transformation $trafo
+	 * @return	Input
+	 */
+	public function withTransformation(Transformation $trafo) {
+		$clone = clone $this;
+		$clone->operations[] = $trafo;
+		if ($clone->content !== null) {
+			$clone->content = $clone->content->map($trafo);
+		}		
+		return $clone;	
 	}
 }

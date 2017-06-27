@@ -7,6 +7,8 @@ require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Implementation\Component\Input\Input;
 use \ILIAS\Data\Factory as DataFactory;
+use \ILIAS\Transformation\Factory as TransformationFactory;
+use \ILIAS\Validation\Factory as ValidationFactory;
 use \ILIAS\Data\Result;
 
 class DefInput extends Input {
@@ -30,6 +32,7 @@ class DefInput extends Input {
 class InputTest extends ILIAS_UI_TestBase {
 	public function setUp() {
 		$this->data_factory = new DataFactory();
+		$this->transformation_factory = new TransformationFactory();
 		$this->input = new DefInput($this->data_factory, "label", "byline");
 	}
 
@@ -140,5 +143,51 @@ class InputTest extends ILIAS_UI_TestBase {
 
 		$this->assertNotSame($input, $input2);
 		$this->assertEquals($msg, $input2->getClientSideError());
+	}
+
+	public function test_withInput_and_transformation() {
+		$name = "name";
+		$value = "value";
+		$transform_to = "other value";
+		$input = $this->input->withName($name);
+		$values = [$name => $value];
+
+		$input2 = $input
+			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
+				$this->assertEquals($value, $v);
+				return $transform_to;
+			}))
+			->withInput($values);
+		$res = $input2->getContent();
+
+		$this->assertInstanceOf(Result::class, $res);
+		$this->assertTrue($res->isOk());
+		$this->assertEquals($transform_to, $res->value());
+
+		$this->assertNotSame($input, $input2);
+		$this->assertEquals($value, $input2->getClientSideValue());
+	}
+
+	public function test_withInput_and_transformation_different_order() {
+		$name = "name";
+		$value = "value";
+		$transform_to = "other value";
+		$input = $this->input->withName($name);
+		$values = [$name => $value];
+
+		$input2 = $input
+			->withInput($values)
+			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
+				$this->assertEquals($value, $v);
+				return $transform_to;
+			}));
+		$res = $input2->getContent();
+
+		$this->assertInstanceOf(Result::class, $res);
+		$this->assertTrue($res->isOk());
+		$this->assertEquals($transform_to, $res->value());
+
+		$this->assertNotSame($input, $input2);
+		$this->assertEquals($value, $input2->getClientSideValue());
 	}
 }
