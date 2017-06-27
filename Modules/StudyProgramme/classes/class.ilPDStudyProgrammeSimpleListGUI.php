@@ -183,7 +183,11 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	}
 	
 	protected function shouldShowThisList() {
-		return $_GET["cmd"] == "jumpToSelectedItems" && !$_GET["expand"];
+		global $DIC;
+		$ctrl = $DIC->ctrl();
+		return ($_GET["cmd"] == "jumpToSelectedItems" ||
+				($ctrl->getCmdClass() == "ilpersonaldesktopgui" && $ctrl->getCmd() == "show")
+			) && !$_GET["expand"];
 	}
 	
 	protected function readUsersAssignments() {
