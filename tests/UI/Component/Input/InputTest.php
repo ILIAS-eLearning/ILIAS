@@ -82,13 +82,18 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertNotSame($this->input, $input);
 	}
 
-	public function test_collect() {
+	public function test_getContent() {
+		$this->assertEquals(null, $this->input->getContent());
+	}	
+
+	public function test_withInput() {
 		$name = "name";
 		$value = "value";
 		$input = $this->input->withName($name);
 		$values = [$name => $value];
 
-		list($res,$input2) = $input->collect($values);
+		$input2 = $input->withInput($values);
+		$res = $input2->getContent();
 
 		$this->assertInstanceOf(Result::class, $res);
 		$this->assertTrue($res->isOk());
@@ -101,7 +106,7 @@ class InputTest extends ILIAS_UI_TestBase {
 	public function test_only_collect_with_name() {
 		$raised = false;
 		try {
-			$this->input->collect([]);
+			$this->input->withInput([]);
 			$this->assertFalse("This should not happen.");
 		}
 		catch (\LogicException $e) {

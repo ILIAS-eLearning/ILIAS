@@ -49,6 +49,13 @@ abstract class Input implements C\Input\Input {
 	 */
 	protected $client_side_error;
 
+	/**
+	 * This is the current content of the input in the abstraction.
+	 *
+	 * @var	Result|null
+	 */
+	protected $content;
+
 	public function __construct(DataFactory $data_factory, $label, $byline) {
 		$this->data_factory = $data_factory;
 		$this->checkStringArg("label", $label);
@@ -58,6 +65,7 @@ abstract class Input implements C\Input\Input {
 		$this->client_side_value = null;
 		$this->name = null;
 		$this->client_side_error = null;
+		$this->content = null;
 	}
 
 	/**
@@ -172,23 +180,31 @@ abstract class Input implements C\Input\Input {
 	}
 
 	/**
-	 * Collect input from a flat array.
+	 * Get an input like this with input from an array.
 	 *
 	 * Collects the input, applies trafos on the input and returns
 	 * a new input reflecting the data that was putted in.
 	 *
 	 * @param	array<string,mixed>		$input
-	 * @return	[Result,Input]
+	 * @return	Input
 	 */
-	public function collect(array $input) {
+	public function withInput(array $input) {
 		if ($this->name === null) {
 			throw new \LogicException("Can only collect if input has a name.");
 		}
 
 		$value = $input[$this->getName()];
-		return
-			[ $this->data_factory->ok($value)
-			, $this->withClientSideValue($value)
-			];
+		$clone = $this->withClientSideValue($value);
+		$clone->content = $this->data_factory->ok($value);
+		return $clone;
+	}
+
+	/**
+	 * Get the current content of the input.
+	 *
+	 * @return	Result|null
+	 */
+	public function getContent() {
+		return $this->content;
 	}
 }
