@@ -14,6 +14,14 @@ class DefInput extends Input {
 	protected function isClientSideValueOk($value) {
 		return $this->value_ok;
 	}
+
+	public $content_from_value = null;
+	protected function contentFromValue($value) {
+		if ($this->content_from_value === null) {
+			return parent::contentFromValue($value);
+		}
+		return $this->content_from_value;
+	}
 }
 
 /**
@@ -21,8 +29,8 @@ class DefInput extends Input {
  */
 class InputTest extends ILIAS_UI_TestBase {
 	public function setUp() {
-		$data_factory = new DataFactory();
-		$this->input = new DefInput($data_factory, "label", "byline");
+		$this->data_factory = new DataFactory();
+		$this->input = new DefInput($this->data_factory, "label", "byline");
 	}
 
 	public function test_constructor() {
@@ -113,5 +121,24 @@ class InputTest extends ILIAS_UI_TestBase {
 			$raised = true;
 		}
 		$this->assertTrue($raised);
+	}
+
+	public function test_withInput_contentFromValue_returns_error() {
+		$name = "name";
+		$msg = "an error message";
+		$input = $this->input->withName($name);
+		$values = [];
+
+		$error = $this->data_factory->error($msg);
+		$input->content_from_value = $error;
+
+		$input2 = $input->withInput($values);
+		$res = $input2->getContent();
+
+		$this->assertInstanceOf(Result::class, $res);
+		$this->assertEquals($error, $res);
+
+		$this->assertNotSame($input, $input2);
+		$this->assertEquals($msg, $input2->getClientSideError());
 	}
 }

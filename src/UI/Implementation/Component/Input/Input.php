@@ -198,6 +198,9 @@ abstract class Input implements C\Input\Input {
 		$value = $this->valueFromArray($input);
 		$clone = $this->withClientSideValue($value);
 		$clone->content = $this->contentFromValue($value);
+		if ($clone->content->isError()) {
+			return $clone->withClientSideError("".$clone->content->error());
+		}
 		return $clone;
 	}
 
@@ -208,7 +211,11 @@ abstract class Input implements C\Input\Input {
 	 * @return 	mixed
 	 */
 	protected function valueFromArray(array $input) {
-		return $input[$this->getName()];
+		$name = $this->getName();
+		if (isset($input[$name])) {
+			return $input[$name];
+		}
+		return null;
 	}
 
 	/**
