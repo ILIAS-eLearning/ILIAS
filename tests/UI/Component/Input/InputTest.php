@@ -103,7 +103,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($value, $input2->getClientSideValue());
 	}
 
-	public function test_only_collect_with_name() {
+	public function test_only_run_withInput_with_name() {
 		$raised = false;
 		try {
 			$this->input->withInput([]);

@@ -185,6 +185,8 @@ abstract class Input implements C\Input\Input {
 	 * Collects the input, applies trafos on the input and returns
 	 * a new input reflecting the data that was putted in.
 	 *
+	 * TODO: We want to use the HTTP-interface here.
+	 *
 	 * @param	array<string,mixed>		$input
 	 * @return	Input
 	 */
@@ -193,10 +195,31 @@ abstract class Input implements C\Input\Input {
 			throw new \LogicException("Can only collect if input has a name.");
 		}
 
-		$value = $input[$this->getName()];
+		$value = $this->valueFromArray($input);
 		$clone = $this->withClientSideValue($value);
-		$clone->content = $this->data_factory->ok($value);
+		$clone->content = $this->contentFromValue($value);
 		return $clone;
+	}
+
+	/**
+	 * Get the value for this input from an array as POST would contain it.
+	 *
+	 * @param	array<string,mixed>		$input
+	 * @return 	mixed
+	 */
+	protected function valueFromArray(array $input) {
+		return $input[$this->getName()];
+	}
+
+	/**
+	 * Get an initial content for this input from the value as extracted by
+	 * valueFromArray.
+	 *
+	 * @param	mixed
+	 * @return	Result
+	 */
+	protected function contentFromValue($value) {
+		return $this->data_factory->ok($value);
 	}
 
 	/**
