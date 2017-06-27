@@ -11,7 +11,7 @@ use \ILIAS\Data\Result;
 
 class DefInput extends Input {
 	public $value_ok = true;
-	protected function isValueOk($value) {
+	protected function isClientSideValueOk($value) {
 		return $this->value_ok;
 	}
 }
@@ -44,26 +44,26 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertNotSame($this->input, $input);
 	}
 
-	public function test_withValue() {
+	public function test_withClientSideValue() {
 		$value = "some value";
-		$input = $this->input->withValue($value);
-		$this->assertEquals(null, $this->input->getValue());
-		$this->assertEquals($value, $input->getValue());
+		$input = $this->input->withClientSideValue($value);
+		$this->assertEquals(null, $this->input->getClientSideValue());
+		$this->assertEquals($value, $input->getClientSideValue());
 		$this->assertNotSame($this->input, $input);
 	}
 
-	public function test_withValue_throws() {
+	public function test_withClientSideValue_throws() {
 		$this->input->value_ok = false;
 		$raised = false;
 		try {
-			$this->input->withValue("foo");
+			$this->input->withClientSideValue("foo");
 			$this->assertFalse("This should not happen.");
 		}
 		catch (\InvalidArgumentException $e) {
 			$raised = true;
 		}
 		$this->assertTrue($raised);
-		$this->assertEquals(null, $this->input->getValue());
+		$this->assertEquals(null, $this->input->getClientSideValue());
 	}
 
 	public function test_withName() {
@@ -74,11 +74,11 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertNotSame($this->input, $input);
 	}
 
-	public function test_withError() {
+	public function test_withClientSideError() {
 		$error = "error";
-		$input = $this->input->withError($error);
-		$this->assertEquals(null, $this->input->getError());
-		$this->assertEquals($error, $input->getError());
+		$input = $this->input->withClientSideError($error);
+		$this->assertEquals(null, $this->input->getClientSideError());
+		$this->assertEquals($error, $input->getClientSideError());
 		$this->assertNotSame($this->input, $input);
 	}
 
@@ -95,7 +95,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($value, $res->value());
 
 		$this->assertNotSame($input, $input2);
-		$this->assertEquals($value, $input2->getValue());
+		$this->assertEquals($value, $input2->getClientSideValue());
 	}
 
 	public function test_only_collect_with_name() {

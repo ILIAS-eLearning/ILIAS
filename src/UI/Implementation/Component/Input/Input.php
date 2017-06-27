@@ -35,7 +35,7 @@ abstract class Input implements C\Input\Input {
 	 *
 	 * @var	mixed
 	 */
-	protected $value;
+	protected $client_side_value;
 
 	/**
 	 * @var	string|null
@@ -43,9 +43,11 @@ abstract class Input implements C\Input\Input {
 	protected $name;
 
 	/**
+	 * This is an error on the input as displayed client side.
+	 *
 	 * @var	string|null
 	 */
-	protected $error;
+	protected $client_side_error;
 
 	public function __construct(DataFactory $data_factory, $label, $byline) {
 		$this->data_factory = $data_factory;
@@ -53,9 +55,9 @@ abstract class Input implements C\Input\Input {
 		$this->checkStringArg("byline", $byline);
 		$this->label = $label;
 		$this->byline= $byline;
-		$this->value = null;
+		$this->client_side_value = null;
 		$this->name = null;
-		$this->error = null;
+		$this->client_side_error = null;
 	}
 
 	/**
@@ -97,8 +99,8 @@ abstract class Input implements C\Input\Input {
 	 *
 	 * @return	mixed
 	 */
-	public function getValue() {
-		return $this->value;
+	public function getClientSideValue() {
+		return $this->client_side_value;
 	}
 
 	/**
@@ -109,11 +111,11 @@ abstract class Input implements C\Input\Input {
 	 * @throws  \InvalidArgumentException    if value does not fit client side input
 	 * @return Input
 	 */
-	public function withValue($value) {
-		$this->checkArg("value", $this->isValueOk($value),
+	public function withClientSideValue($value) {
+		$this->checkArg("value", $this->isClientSideValueOk($value),
 			"Display value does not match input type.");
 		$clone = clone $this;
-		$clone->value = $value;
+		$clone->client_side_value = $value;
 		return $clone;
 	}
 
@@ -123,7 +125,7 @@ abstract class Input implements C\Input\Input {
 	 * @param	mixed	$value
 	 * @return	bool
 	 */
-	abstract protected function isValueOk($value);
+	abstract protected function isClientSideValueOk($value);
 
 	/**
 	 * The name of the input as used in HTML.
@@ -152,8 +154,8 @@ abstract class Input implements C\Input\Input {
 	 *
 	 * @return string
 	 */
-	public function getError() {
-		return $this->error;
+	public function getClientSideError() {
+		return $this->client_side_error;
 	}
 
 	/**
@@ -162,10 +164,10 @@ abstract class Input implements C\Input\Input {
 	 * @param	string
 	 * @return	Input
 	 */
-	public function withError($error) {
+	public function withClientSideError($error) {
 		$this->checkStringArg("error", $error);
 		$clone = clone $this;
-		$clone->error = $error;
+		$clone->client_side_error = $error;
 		return $clone;
 	}
 
@@ -186,7 +188,7 @@ abstract class Input implements C\Input\Input {
 		$value = $input[$this->getName()];
 		return
 			[ $this->data_factory->ok($value)
-			, $this->withValue($value)
+			, $this->withClientSideValue($value)
 			];
 	}
 }
