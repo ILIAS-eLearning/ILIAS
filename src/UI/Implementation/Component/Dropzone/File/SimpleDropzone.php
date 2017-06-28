@@ -39,9 +39,9 @@ class SimpleDropzone {
 	 */
 	private $uploadUrl;
 	/**
-	 * @var string $previewContainerId
+	 * @var string $uploadId
 	 */
-	private $previewContainerId;
+	private $uploadId;
 
 
 	/**
@@ -49,7 +49,8 @@ class SimpleDropzone {
 	 * {@link SimpleDropzone#of}.
 	 * SimpleDropzone constructor.
 	 */
-	private function __construct() { }
+	private function __construct() {
+	}
 
 
 	/**
@@ -75,7 +76,6 @@ class SimpleDropzone {
 	 */
 	public function setId($id) {
 		$this->id = $id;
-
 		return $this;
 	}
 
@@ -95,7 +95,6 @@ class SimpleDropzone {
 	 */
 	public function setDarkenedBackground($darkenedBackground) {
 		$this->darkenedBackground = $darkenedBackground;
-
 		return $this;
 	}
 
@@ -115,7 +114,6 @@ class SimpleDropzone {
 	 */
 	public function setRegisteredSignals(array $registeredSignals) {
 		$this->registeredSignals = $registeredSignals;
-
 		return $this;
 	}
 
@@ -135,7 +133,6 @@ class SimpleDropzone {
 	 */
 	public function setType($type) {
 		$this->type = $type;
-
 		return $this;
 	}
 
@@ -155,7 +152,6 @@ class SimpleDropzone {
 	 */
 	public function setUploadUrl($uploadUrl) {
 		$this->uploadUrl = $uploadUrl;
-
 		return $this;
 	}
 
@@ -163,19 +159,18 @@ class SimpleDropzone {
 	/**
 	 * @return string
 	 */
-	public function getPreviewContainerId() {
-		return $this->previewContainerId;
+	public function getUploadId() {
+		return $this->uploadId;
 	}
 
 
 	/**
-	 * @param string $previewContainerId
+	 * @param string $uploadId
 	 *
 	 * @return SimpleDropzone The instance of this object.
 	 */
-	public function setPreviewContainerId($previewContainerId) {
-		$this->previewContainerId = $previewContainerId;
-
+	public function setUploadId($uploadId) {
+		$this->uploadId = $uploadId;
 		return $this;
 	}
 }

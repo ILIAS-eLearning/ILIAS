@@ -271,9 +271,11 @@ il.UI = il.UI || {};
 				}
 			});
 
-			// initialize an Uploader and add it to the instance container
-			var uploader = new il.UI.Uploader(options.previewContainerId, options.uploadUrl);
-			il.UI.UploaderContainer.addInstance(uploader);
+			// // initialize an Uploader and add it to the instance container
+			// var uploader = new il.UI.Uploader(options.previewContainerId, options.uploadUrl);
+			// il.UI.UploaderContainer.addInstance(uploader);
+
+            il.UI.uploader.init(options.uploadId, options);
 
 			/*
 			 * event.stopImmediatePropagation() is needed
@@ -293,11 +295,10 @@ il.UI = il.UI || {};
 				drop: function (dragsterEvent, event) {
 					$(this).removeClass(CSS.dropzoneDragHover);
 					_disableHighlighting();
-
+					il.UI.uploader.clear(options.uploadId);
 					var files = event.originalEvent.dataTransfer.files;
-
 					$.each(files, function (index, file) {
-						uploader.addFile(file);
+						il.UI.uploader.addFile(options.uploadId, file);
 					});
 
 					_triggerSignals(options.registeredSignals, event);

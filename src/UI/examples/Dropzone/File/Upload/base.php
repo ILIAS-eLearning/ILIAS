@@ -2,6 +2,13 @@
 function base() {
 
 	global $DIC;
+
+	if (count($_FILES)) {
+//		var_dump($_POST);
+		echo json_encode(['success' => true]);
+		exit(0);
+	}
+
 	$uiFactory = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 

@@ -13,6 +13,8 @@
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
+use ILIAS\UI\Implementation\Component\TriggeredSignalInterface;
+
 class JSDropzoneInitializer {
 
 	/**
@@ -35,36 +37,24 @@ class JSDropzoneInitializer {
 	 * @return string the generated code
 	 */
 	public function initDropzone() {
-
-		$darkenedBackground = $this->dropzone->isDarkenedBackground() ? "true" : "false";
-
-		return "
-		
-			il.UI.dropzone.initializeDropzone(\"{$this->dropzone->getType()}\", {
-			
-				\"id\": \"{$this->dropzone->getId()}\",
-				\"darkenedBackground\": {$darkenedBackground},
-				\"registeredSignals\": [{$this->getRegisteredSignals()}],
-				\"previewContainerId\": \"{$this->dropzone->getPreviewContainerId()}\",
-				\"uploadUrl\": \"{$this->dropzone->getUploadUrl()}\"
-			});
-		";
+		$options = json_encode([
+			'id' => $this->dropzone->getId(),
+			'darkenedBackground' => $this->dropzone->isDarkenedBackground(),
+			'registeredSignals' => $this->getRegisteredSignalIds(),
+			'uploadId' => $this->dropzone->getUploadId(),
+			'uploadUrl' => $this->dropzone->getUploadUrl(),
+		]);
+		return "il.UI.dropzone.initializeDropzone('{$this->dropzone->getType()}', JSON.parse('{$options}'));";
 	}
 
 
 	/**
 	 * @return string the registered signals as comma separated string
 	 */
-	private function getRegisteredSignals() {
-
-		$registeredSignalList = array();
-
-		foreach ($this->dropzone->getRegisteredSignals() as $registeredSignal) {
-
-			$signal = $registeredSignal->getSignal();
-			$registeredSignalList[] = "\"$signal\"";
-		}
-
-		return implode(",", $registeredSignalList);
+	private function getRegisteredSignalIds() {
+		return array_map(function($triggeredSignal) {
+			/** @var $triggeredSignal TriggeredSignalInterface */
+			return (string) $triggeredSignal->getSignal();
+		}, $this->dropzone->getRegisteredSignals());
 	}
 }
