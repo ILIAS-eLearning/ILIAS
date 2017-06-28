@@ -125,4 +125,13 @@ class Factory implements \ILIAS\UI\Factory
 	{
 		return new Component\Link\Factory();
 	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function dropdown()
+	{
+		return new Component\Dropdown\Factory();
+	}
 }

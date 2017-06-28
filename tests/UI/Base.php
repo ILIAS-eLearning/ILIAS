@@ -33,6 +33,7 @@ class NoUIFactory implements Factory {
 	public function popover() {}
 	public function divider() {}
 	public function link() {}
+	public function dropdown() {}
 }
 
 class LoggingRegistry implements ResourceRegistry {
