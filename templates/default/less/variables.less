@@ -170,6 +170,38 @@
 /* @nav-tabs-link-hover-border-color: @brand-primary; */
 @nav-tabs-active-link-hover-border-color: #e0e0e0;
 
+
+//== Buttons
+//
+//## For each of ILIAS's buttons, define text, background and border color.
+
+//** Size of the font displayed inside a button
+@il-button-font-size: 	        @font-size-small;
+
+//** Text color of the standard button (most button instances)
+@il-btn-standard-color:           white;
+//** Background color of the standard button (most button instances)
+@il-btn-standard-bg:              lighten(@brand-primary, 15%);
+//** Border color of the standard button (most button instances)
+@il-btn-standard-border:          lighten(@brand-primary, 15%);
+
+//** Text color of the primary button (most important button on the screen)
+@il-btn-primary-color:           white;
+//** Background color of the primary button (most important button on the screen)
+@il-btn-primary-bg:              @brand-secondary;
+//** Border color of the primary button (most important button on the screen)
+@il-btn-primary-border:          @brand-secondary;
+
+//** Text color of inactive buttons
+@il-disabled-btn-color:          #b0b0b0;
+//** Background color of inactive buttons
+@il-disabled-btn-bg:             #b0b0b0;
+//** Border color of inactive buttons
+@il-disabled-btn-border:         #e0e0e0;
+
+//** Minimal size of non-empty buttons inside forms
+@il-button-min-width: 	        60px;
+
 //== Breadcrumbs
 //
 //##
@@ -185,16 +217,7 @@
 //** Textual separator for between breadcrumb elements
 @breadcrumb-separator:          "»";
 
-//== Buttons
-//
-//##
 
-@btn-default-color:             @link-color;
-@btn-default-border:            #d0d0d0;
-@btn-default-bg:                #fefefe;
-@disabled-btn-bg:               #b0b0b0;
-@disabled-btn-border:           #b0b0b0;
-@disabled-btn-color:            #e0e0e0;
 
 //== Badges
 //
@@ -228,7 +251,7 @@
 
 /* ILIAS variables candidates */
 @ilMainMenuColor:			lighten(@brand-primary, 10%);
-@ilButtonFontSize: 	@font-size-small;
+
 
 @input-color-placeholder: lighten(@gray-light, 30%);
 
@@ -283,6 +306,7 @@
 @il-table-head-bg:             	lighten(@il-secondary-container-bg, 1%);
 @il-data-table-bg:             	@il-secondary-container-bg;
 @il-table-cmd-bg:				@il-secondary-container-bg;
+
 
 //== Toolbar
 //
@@ -341,6 +365,28 @@
 @il-counter-novelty-bg: @brand-warning;
 @il-counter-novelty-margin-top: -5px;
 
+//== Popover
+//
+//## Customizes the Popover component
+
+//** Minimal with of the Popover
+@il-popover-min-width: 50px;
+//** Minimal height of the Popover
+@il-popover-min-height: 32px;
+//** Maximal width of the Popover
+@il-popover-max-width: 400px;
+//** Background color of the Popover
+@il-popover-background-color: @il-primary-container-bg;
+//** Background color of the title
+@il-popover-title-background-color: @il-popover-background-color;
+//** Border color of the Popover
+@il-popover-border-color: rgba(0, 0, 0, .2);
+//** With of the arrow pointing from the Popover to its Triggerer component, e.g. a Button
+@il-popover-arrow-width: 10px;
+//** Background color of the arrow
+@il-popover-arrow-background-color: @il-popover-background-color;
+//** z-index used for the Popover
+@il-popover-z-index: 9999;
 //== Divider
 //
 //##
@@ -356,5 +402,4 @@
 @icon-size-medium: 35px;
 //**Size for icons: Large is used in the header. e.g.
 @icon-size-large: 45px;
-
 

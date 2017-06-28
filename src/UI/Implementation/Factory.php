@@ -9,6 +9,7 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 class Factory implements \ILIAS\UI\Factory
 {
+
 	/**
 	 * @inheritdoc
 	 */
@@ -16,6 +17,7 @@ class Factory implements \ILIAS\UI\Factory
 	{
 		return new Component\Counter\Factory();
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -25,6 +27,7 @@ class Factory implements \ILIAS\UI\Factory
 		return new Component\Glyph\Factory();
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
@@ -32,6 +35,7 @@ class Factory implements \ILIAS\UI\Factory
 	{
 		return new Component\Button\Factory();
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -41,6 +45,7 @@ class Factory implements \ILIAS\UI\Factory
 		return new Component\Card\Card($title, $image);
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
@@ -48,6 +53,7 @@ class Factory implements \ILIAS\UI\Factory
 	{
 		return new Component\Deck\Deck($cards, Component\Deck\Deck::SIZE_S);
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -57,6 +63,7 @@ class Factory implements \ILIAS\UI\Factory
 		return new Component\Listing\Factory();
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
@@ -65,6 +72,7 @@ class Factory implements \ILIAS\UI\Factory
 		return new Component\Image\Factory();
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
@@ -72,6 +80,7 @@ class Factory implements \ILIAS\UI\Factory
 	{
 		return new Component\Legacy\Legacy($content);
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -84,9 +93,20 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function modal() {
+	public function modal()
+	{
 		return new Component\Modal\Factory(new SignalGenerator());
 	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function popover()
+	{
+		return new Component\Popover\Factory(new SignalGenerator());
+	}
+
 
 	/**
 	 * @inheritdoc
@@ -95,6 +115,7 @@ class Factory implements \ILIAS\UI\Factory
 		return new Component\Divider\Factory();
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
@@ -102,12 +123,14 @@ class Factory implements \ILIAS\UI\Factory
 		return new Component\Link\Factory();
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
 	public function dropdown() {
 		return new Component\Dropdown\Factory();
 	}
+
 
 	/**
 	 * @inheritdoc
