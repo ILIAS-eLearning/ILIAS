@@ -462,4 +462,79 @@ interface Factory {
 	 */
 	public function link();
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      Dropdowns reveal a list of interactions that change the system’s status or navigate to
+	 *      a different view.
+	 *   composition: >
+	 *      Dropdown is a clickable, graphically obtrusive control element. It can
+	 *      bear text. On-click a list of Shy Buttons and optional Dividers is shown.
+	 *   effect: >
+	 *      On-click, a list of actions is revealed. Clicking an item will trigger the action indicated.
+	 *      Clicking outside of an opened Dropdown will close the list of items.
+	 *   rivals:
+	 *      button: >
+	 *          Buttons are used, if single actions should be presented directly in the user interface.
+	 *      links: >
+	 *          Links are used to trigger actions that do not change the systems
+	 *          status. They are usually contained inside a Navigational Collection.
+	 *      popovers: >
+	 *          Dropdowns only provide a list of possible actions. Popovers can include more diverse
+	 *          and flexible content.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: >
+	 *           Dropdowns MUST NOT be used standalone. They are only parts of more complex UI elements.
+	 *           These elements MUST define their use of Dropdown. E.g. a List or a Table MAY define that a certain
+	 *           kind of Dropdown is used as part of the UI element.
+	 *   interaction:
+	 *      1: >
+	 *           Only Dropdown Items MUST trigger an action or change a view. The Dropdown trigger element
+	 *           is only used to show and hide the list of Dropdown Items.
+	 *   style:
+	 *      1: >
+	 *           If Text is used inside a Dropdown label, the Dropdown MUST be at least six characters
+	 *           wide.
+	 *   wording:
+	 *      1: >
+	 *           The label of a Dropdown SHOULD contain no more than two words.
+	 *      2: >
+	 *           Every word except articles, coordinating conjunctions and prepositions
+	 *           of four or fewer letters MUST be capitalized.
+	 *      3: >
+	 *           For standard events such as saving or canceling the existing standard
+	 *           terms MUST be used if possible: Delete, Cut, Copy.
+	 *      4: >
+	 *           There are cases where a non-standard label such as “Send Mail” for saving
+	 *           and sending the input of a specific form might deviate from the standard.
+	 *           These cases MUST however specifically justified.
+	 *   accessibility:
+	 *      1: >
+	 *           DOM elements of type "button" MUST be used to properly identify an
+	 *           element as a Dropdown.
+	 *      2: >
+	 *           Dropdown items MUST be implemented as "ul" list with a set of "li" elements and
+	 *           nested Shy Button elements for the actions.
+	 *      3: >
+	 *           Triggers of Dropdowns MUST indicate their effect by the aria-haspopup attribute
+	 *           set to true.
+	 *      4: >
+	 *           Triggers of Dropdowns MUST indicate the current state of the Dropdown by the
+	 *           aria-expanded label.
+	 *      5: >
+	 *           Dropdowns MUST be accessible by keyboard by focusing the trigger element and
+	 *           clicking the return key.
+	 *      6: >
+	 *           Entries in a Dropdown MUST be accessible by the tab-key if opened.
+	 *      7: >
+	 *           The focus MAY leave the Dropdown if tab is pressed while focusing the last
+	 *           element. This differs from the behaviour in Popovers and Modals.
+	 * ---
+	 * @return  \ILIAS\UI\Component\Dropdown\Factory
+	 */
+	public function dropdown();
+
 }
