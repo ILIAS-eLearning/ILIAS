@@ -7,7 +7,7 @@ use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Provider\DirectoryAccess;
 use ILIAS\Filesystem\Visibility;
-use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
 
 /**
  * Class FlySystemDirectoryAccess
@@ -19,7 +19,7 @@ use League\Flysystem\Filesystem;
 class FlySystemDirectoryAccess implements DirectoryAccess {
 
 	/**
-	 * @var Filesystem $flySystemFS
+	 * @var FilesystemInterface $flySystemFS
 	 */
 	private $flySystemFS;
 
@@ -27,9 +27,9 @@ class FlySystemDirectoryAccess implements DirectoryAccess {
 	/**
 	 * FlySystemDirectoryAccess constructor.
 	 *
-	 * @param Filesystem $flySystemFS   A configured fly system filesystem instance.
+	 * @param FilesystemInterface $flySystemFS   A configured fly system filesystem instance.
 	 */
-	public function __construct(Filesystem $flySystemFS) { $this->flySystemFS = $flySystemFS; }
+	public function __construct(FilesystemInterface $flySystemFS) { $this->flySystemFS = $flySystemFS; }
 
 
 	/**

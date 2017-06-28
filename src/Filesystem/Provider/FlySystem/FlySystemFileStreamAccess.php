@@ -7,7 +7,7 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Provider\FileStreamAccess;
 use ILIAS\Filesystem\Stream\FileStream;
-use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
 
 /**
  * Class FlySystemFileStreamAccess
@@ -21,16 +21,16 @@ use League\Flysystem\Filesystem;
 class FlySystemFileStreamAccess implements FileStreamAccess {
 
 	/**
-	 * @var Filesystem $flySystemFS
+	 * @var FilesystemInterface $flySystemFS
 	 */
 	private $flySystemFS;
 
 	/**
 	 * FlySystemFileStreamAccess constructor.
 	 *
-	 * @param Filesystem $flySystemFS   A configured fly system filesystem instance.
+	 * @param FilesystemInterface $flySystemFS   A configured fly system filesystem instance.
 	 */
-	public function __construct(Filesystem $flySystemFS) { $this->flySystemFS = $flySystemFS; }
+	public function __construct(FilesystemInterface $flySystemFS) { $this->flySystemFS = $flySystemFS; }
 
 	/**
 	 * Opens a readable stream of the file.
