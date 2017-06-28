@@ -27,14 +27,12 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl = $this->getTemplate("tpl.listing_standard.html", true, true);
 
-		$renderer = $DIC->ui()->renderer();
-
 		foreach ($component->getItemGroups() as $group)
 		{
 			if ($group instanceof \ILIAS\UI\Component\Item\Group)
 			{
 				$tpl->setCurrentBlock("group");
-				$tpl->setVariable("ITEM_GROUP", $renderer->render($group));
+				$tpl->setVariable("ITEM_GROUP", $default_renderer->render($group));
 				$tpl->parseCurrentBlock();
 			}
 		}
