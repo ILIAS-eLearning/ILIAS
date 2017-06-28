@@ -405,6 +405,7 @@ interface Factory {
 	/**
 	 * ---
 	 * description:
+	 *   purpose: >
 	 *     A divider marks a thematic change in a sequence of other components. A Horizontal Divider
 	 *     is used to mark a thematic change in sequence of elements that are stacked from top to bottom,
 	 *     e.g. in a Dropdown. A Vertical Divider is used to mark a thematic change in a sequence of elements
