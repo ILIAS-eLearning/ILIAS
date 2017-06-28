@@ -118,9 +118,7 @@ class ilObjBibliographic extends ilObject2 {
 		$ilDB->manipulate("UPDATE il_bibl_data SET " . "filename = " . $ilDB->quote($this->getFilename(), "text") . ", " . // filename
 		                  "is_online = " . $ilDB->quote($this->getOnline(), "integer") . // is_online
 		                  " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
-		if ($file_changed) {
-			$this->writeSourcefileEntriesToDb();
-		}
+		$this->writeSourcefileEntriesToDb();
 	}
 
 

@@ -133,7 +133,8 @@ class ilObjItemGroup extends ilObject2
 	 */
 	protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false)
 	{
-		
+		$new_obj->setHideTitle($this->getHideTitle());
+		$new_obj->update();
 	}
 
 	/**

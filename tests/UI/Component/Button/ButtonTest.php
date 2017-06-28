@@ -23,9 +23,9 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		);
 
 	static $canonical_css_inactivation_classes = array
-		( "standard" =>	"ilSubmitInactive"
-		, "primary"	=> "ilSubmitInactive"
-		, "shy"	=> "ilSubmitInactive"
+		( "standard" =>	"ilSubmitInactive disabled"
+		, "primary"	=> "ilSubmitInactive disabled"
+		, "shy"	=> "ilSubmitInactive disabled"
 		, "tag"	=> "btn-tag-inactive"
 		);
 
