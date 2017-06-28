@@ -75,9 +75,8 @@ class Renderer extends AbstractComponentRenderer {
 				$tpl->parseCurrentBlock();
 			}
 			if ($lead instanceof Component\Image\Image) {
-				$renderer = $DIC->ui()->renderer();
 				$tpl->setCurrentBlock("lead_image");
-				$tpl->setVariable("LEAD_IMAGE", $renderer->render($lead));
+				$tpl->setVariable("LEAD_IMAGE", $default_renderer->render($lead));
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock("lead_start");
