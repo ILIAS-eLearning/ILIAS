@@ -7,11 +7,12 @@ use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Provider\FileAccess;
-use League\Flysystem\Filesystem;
+use ILIAS\Filesystem\Visibility;
+use League\Flysystem\FileExistsException;
+use League\Flysystem\FilesystemInterface;
 
 /**
  * Class FlySystemFileAccess
- *
  *
  * Fly system file access implementation.
  *
@@ -22,7 +23,7 @@ use League\Flysystem\Filesystem;
 class FlySystemFileAccess implements FileAccess {
 
 	/**
-	 * @var Filesystem $flySystemFS
+	 * @var FilesystemInterface $flySystemFS
 	 */
 	private $flySystemFS;
 
@@ -30,9 +31,9 @@ class FlySystemFileAccess implements FileAccess {
 	/**
 	 * FlySystemFileAccess constructor.
 	 *
-	 * @param Filesystem $flySystemFS   A configured fly system filesystem instance.
+	 * @param FilesystemInterface $flySystemFS   A configured fly system filesystem instance.
 	 */
-	public function __construct(Filesystem $flySystemFS) { $this->flySystemFS = $flySystemFS; }
+	public function __construct(FilesystemInterface $flySystemFS) { $this->flySystemFS = $flySystemFS; }
 
 
 	/**
@@ -49,7 +50,19 @@ class FlySystemFileAccess implements FileAccess {
 	 * @version 1.0
 	 */
 	public function read($path) {
-		// TODO: Implement read() method.
+		$this->nonNull($path, 'path');
+
+		try {
+			$result = $this->flySystemFS->read($path);
+
+			if($result === false)
+				throw new IOException("Could not access the file \"$path\".");
+
+			return $result;
+		}
+		catch (\League\Flysystem\FileNotFoundException $ex) {
+			throw new FileNotFoundException("File \"$path\" not found.", 0, $ex);
+		}
 	}
 
 
@@ -64,7 +77,9 @@ class FlySystemFileAccess implements FileAccess {
 	 * @version 1.0
 	 */
 	public function has($path) {
-		// TODO: Implement has() method.
+		$this->nonNull($path, 'path');
+
+		return $this->flySystemFS->has($path);
 	}
 
 
@@ -79,7 +94,19 @@ class FlySystemFileAccess implements FileAccess {
 	 * @throws IOException              If the mime-type could not be determined.
 	 */
 	public function getMimeType($path) {
-		// TODO: Implement getMimeType() method.
+		$this->nonNull($path, 'path');
+
+		try {
+			$mimeType = $this->flySystemFS->getMimetype($path);
+			if($mimeType === false) {
+				throw new IOException("Could not determine the MIME type of the file \"$path\".");
+			}
+
+			return $mimeType;
+		}
+		catch (\League\Flysystem\FileNotFoundException $ex) {
+			throw new FileNotFoundException("File \"$path\" not found.", 0, $ex);
+		}
 	}
 
 
@@ -97,7 +124,18 @@ class FlySystemFileAccess implements FileAccess {
 	 * @version 1.0
 	 */
 	public function getTimestamp($path) {
-		// TODO: Implement getTimestamp() method.
+		$this->nonNull($path, 'path');
+
+		try {
+			$rawTimestamp = $this->flySystemFS->getTimestamp($path);
+			if($rawTimestamp === false)
+				throw new IOException("Could not lookup timestamp of the file \"$path\".");
+
+			return new \DateTime($rawTimestamp);
+		}
+		catch (\League\Flysystem\FileNotFoundException $ex) {
+			throw new FileNotFoundException("File \"$path\" not found.", 0, $ex);
+		}
 	}
 
 
@@ -113,10 +151,32 @@ class FlySystemFileAccess implements FileAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 *
+	 * @throws IOException              Thrown if the file is not accessible or the underlying filesystem adapter failed.
+	 * @throws FileNotFoundException    Thrown if the specified file was not found.
+	 *
 	 * @see     DataSize
 	 */
 	public function getSize($path, $fileSizeUnit) {
-		// TODO: Implement getSize() method.
+		$this->nonNull($path, 'path');
+		$this->nonNull($fileSizeUnit, 'fileSizeUnit');
+
+		try
+		{
+			$byteSize = $this->flySystemFS->getSize($path);
+
+			//check if the fly system adapter failed
+			if($byteSize === false)
+				throw new IOException("Could not calculate the file size of the file \"$path\".");
+
+			$size = new DataSize($byteSize, $fileSizeUnit);
+			return  $size;
+		}
+		catch (\League\Flysystem\FileNotFoundException $ex) {
+
+			throw new FileNotFoundException("File \"$path\" not found.");
+
+		}
+
 	}
 
 
@@ -131,14 +191,37 @@ class FlySystemFileAccess implements FileAccess {
 	 * @param string $visibility The new visibility for the given file. This value must be 'private' or 'public'.
 	 *
 	 * @return bool                         True on success or false on failure.
-	 * @throws \InvalidArgumentException     If the visibility is not 'public' or 'private'.
+	 * @throws \InvalidArgumentException    If the visibility is not 'public' or 'private'.
 	 * @throws FileNotFoundException        If the given file could not be found.
 	 *
 	 * @since   5.3
 	 * @version 1.0
 	 */
 	public function setVisibility($path, $visibility) {
-		// TODO: Implement setVisibility() method.
+		$this->nonNull($path, 'path');
+		$this->nonNull($visibility, 'visibility');
+
+		if($this->has($path) === false)
+			throw new FileNotFoundException("Path \"$path\" not found.");
+
+		$this->validateVisibility($visibility);
+
+		return $this->flySystemFS->setVisibility($path, $visibility);
+	}
+
+
+	/**
+	 * Checks if the given visibility is valid an throws an exception otherwise.
+	 * If the visibility is valid no further actions are taken.
+	 *
+	 * @param string $visibility The visibility which should be validated.
+	 * @return void
+	 *
+	 * @throws \InvalidArgumentException Thrown if the given visibility was considered as invalid.
+	 */
+	private function validateVisibility($visibility) {
+		if(strcmp($visibility, Visibility::PUBLIC_ACCESS) !== 0 && strcmp($visibility, Visibility::PRIVATE_ACCESS) !== 0)
+			throw new \InvalidArgumentException("The access must be 'public' or 'private' but '$visibility' was given.");
 	}
 
 
@@ -153,13 +236,24 @@ class FlySystemFileAccess implements FileAccess {
 	 *
 	 * @return string       The string 'public' or 'private'.
 	 *
-	 * @throws FileNotFoundException If the file could not be found.
+	 * @throws FileNotFoundException    If the file could not be found.
+	 * @throws IOException              If the underlying adapter failed to determine the visibility.
 	 *
 	 * @since   5.3
 	 * @version 1.0
 	 */
 	public function getVisibility($path) {
-		// TODO: Implement getVisibility() method.
+		$this->nonNull($path, 'path');
+
+		if($this->has($path) === false)
+			throw new FileNotFoundException("Path \"$path\" not found.");
+
+		$visibility = $this->flySystemFS->getVisibility($path);
+
+		if($visibility === false)
+			throw new IOException("Could not determine visibility for path '$path'.");
+
+		return $visibility;
 	}
 
 
@@ -178,7 +272,17 @@ class FlySystemFileAccess implements FileAccess {
 	 * @version 1.0
 	 */
 	public function write($path, $content) {
-		// TODO: Implement write() method.
+		$this->nonNull($path, 'path');
+		$this->nonNull($content, 'content');
+
+		try
+		{
+			if($this->flySystemFS->write($path, $content) === false)
+				throw new IOException("Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable.");
+		}
+		catch (FileExistsException $ex) {
+			throw new FileAlreadyExistsException("File \"$path\" already exists.", 0, $ex);
+		}
 	}
 
 
@@ -198,7 +302,16 @@ class FlySystemFileAccess implements FileAccess {
 	 * @version 1.0
 	 */
 	public function update($path, $newContent) {
-		// TODO: Implement update() method.
+		$this->nonNull($path, 'path');
+		$this->nonNull($newContent, 'newContent');
+
+		try{
+			if($this->flySystemFS->update($path, $newContent) === false)
+				throw new IOException("Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable.");
+		}
+		catch(\League\Flysystem\FileNotFoundException $ex) {
+			throw new FileNotFoundException("File \"$path\" was not found update failed.", 0, $ex);
+		}
 	}
 
 
@@ -214,12 +327,13 @@ class FlySystemFileAccess implements FileAccess {
 	 *
 	 * @since   5.3
 	 * @version 1.0
-	 *
-	 * @since   5.3
-	 * @version 1.0
 	 */
 	public function put($path, $content) {
-		// TODO: Implement put() method.
+		$this->nonNull($path, 'path');
+		$this->nonNull($content, 'content');
+
+		if($this->flySystemFS->put($path, $content) === false)
+			throw new IOException("Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable.");
 	}
 
 
@@ -237,7 +351,15 @@ class FlySystemFileAccess implements FileAccess {
 	 * @version 1.0
 	 */
 	public function delete($path) {
-		// TODO: Implement delete() method.
+		$this->nonNull($path, 'path');
+
+		try {
+			if($this->flySystemFS->delete($path) === false)
+				throw new IOException("Could not delete file \"$path\" because a general IO error occurred. Please check that your target is writable.");
+		}
+		catch (\League\Flysystem\FileNotFoundException $ex) {
+			throw new FileNotFoundException("File \"$path\" was not found delete operation failed.");
+		}
 	}
 
 
@@ -255,7 +377,12 @@ class FlySystemFileAccess implements FileAccess {
 	 * @version 1.0
 	 */
 	public function readAndDelete($path) {
-		// TODO: Implement readAndDelete() method.
+		$this->nonNull($path, 'path');
+
+		$content = $this->read($path);
+		$this->delete($path);
+
+		return $content;
 	}
 
 
@@ -275,6 +402,9 @@ class FlySystemFileAccess implements FileAccess {
 	 * @version 1.0
 	 */
 	public function rename($path, $newPath) {
+		$this->nonNull($path, 'path');
+		$this->nonNull($newPath, 'newPath');
+
 		// TODO: Implement rename() method.
 	}
 
@@ -295,6 +425,34 @@ class FlySystemFileAccess implements FileAccess {
 	 * @version 1.0
 	 */
 	public function copy($path, $copyPath) {
-		// TODO: Implement copy() method.
+		$this->nonNull($path, 'path');
+		$this->nonNull($copyPath, 'copyPath');
+
+		try
+		{
+			if($this->flySystemFS->copy($path, $copyPath) === false)
+				throw new IOException("Could not copy file \"$path\" to destination \"$copyPath\" because a general IO error occurred. Please check that your destination is writable.");
+		}
+		catch(FileExistsException $ex) {
+			throw new FileAlreadyExistsException("File destination \"$copyPath\" already exists copy failed.");
+		}
+		catch(\League\Flysystem\FileNotFoundException $ex) {
+			throw new FileNotFoundException("File source \"$path\" was not found copy failed.");
+		}
+	}
+
+
+	/**
+	 * Validates that the passed argument is not null or an exception is thrown.
+	 * If the value which should be checked is not null, no further actions are taken.
+	 *
+	 * @param mixed     $toCheck        The value which should be checked.
+	 * @param string    $parameterName  The name of the parameter which was checked by this method. Which is used to generate the error message.
+	 *
+	 * @throws \InvalidArgumentException If the passed $toCheck value is null.
+	 */
+	private function nonNull($toCheck, $parameterName) {
+		if(is_null($toCheck))
+			throw new \InvalidArgumentException("The parameter \"$parameterName\" must not be null.");
 	}
 }
