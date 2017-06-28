@@ -1,22 +1,21 @@
 .il-item {
 	background-color: @il-primary-container-bg;
 	position: relative;
+	padding: @il-item-padding;
 
 	h5 {
-		margin: 4px 0px 2px 0px;
-		font-size: 130%;
+		margin: @il-item-h5-margin;
+		font-size: @font-size-h5;
 		float: left;
 	}
 
 	.il-item-divider {
 		clear: both;
-		padding: 0;
-		margin: 0;
-		padding-top: 10px;
-		margin-bottom: 10px;
+		padding: @il-item-divider-padding;
+		margin: @il-item-divider-margin;
 		border: 0 none;
 		background: none;
-		border-bottom: dashed 2px #E0E0E0;
+		border-bottom: @il-item-divider-border-bottom;
 	}
 
 	.dropdown {
@@ -24,33 +23,42 @@
 	}
 
 	.il-item-description {
-		padding-top: 10px;
-		font-size: 90%;
+		padding: @il-item-description-padding;
+		font-size: @font-size-small;
 		clear: both;
 	}
 
 	.il-item-property-name {
-		font-size: 90%;
+		font-size: @font-size-small;
 	}
 
 	.il-item-property-value {
-		font-size: 90%;
-		color: #A0A0A0;
+		font-size: @font-size-small;
+		color: @il-light-text-color;
 	}
 }
 
-.il-std-item {
-	padding: 20px;
-}
-
 .il-item-marker {
-	border-left: 5px solid;
+	border-left: @il-item-marker-border-left;
 }
 
 .il-narrow-content .il-item:hover {
 	background-color: @il-highlight-bg;
 }
 
+.il-item-group h4 {
+	float:left;
+}
+
+.il-item-group .dropdown {
+	float:right;
+}
+
+.il-item-group-items {
+	clear: both;
+}
+
+/* this is currently experimental, could be removed */
 .il-narrow-content .il-item {
 	padding: 0px;
 	display: table;
@@ -129,16 +137,4 @@
 		display: none;
 	}
 
-}
-
-.il-item-group h4 {
-	float:left;
-}
-
-.il-item-group .dropdown {
-	float:right;
-}
-
-.il-item-group-items {
-	clear: both;
 }

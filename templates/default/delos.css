@@ -6219,21 +6219,25 @@ button.close {
   margin-bottom: 10px;
 }
 .il-panel-listing-std-item-container {
-  margin-bottom: 1px;
+  margin: 0 0 1px 0;
 }
-.il-panel-listing-std-container > h3,
-.il-panel-listing-std-container > h4 {
+.il-panel-listing-std-container > .il-item-group > h4 {
+  margin: 16px 0 2px 0;
+  font-size: 17px;
+  font-weight: normal;
+  padding: 0;
+  text-transform: uppercase;
+  color: #909090;
+}
+.il-panel-listing-std-container > h3 {
   font-weight: normal;
   padding: 0;
   margin: 8px 0 2px 0;
   font-size: 19px;
-  color: #909090;
   text-transform: uppercase;
+  color: #909090;
 }
-.il-panel-listing-std-container > h4 {
-  margin-top: 16px;
-  font-size: 17px;
-}
+/* this is currently experimental, could be removed */
 .il-narrow-content .il-panel-listing-std-container > h3,
 .il-narrow-content .il-panel-listing-std-container > h4 {
   display: block;
@@ -6303,18 +6307,17 @@ hr.il-divider-with-label {
 .il-item {
   background-color: white;
   position: relative;
+  padding: 20px;
 }
 .il-item h5 {
   margin: 4px 0px 2px 0px;
-  font-size: 130%;
+  font-size: 16px;
   float: left;
 }
 .il-item .il-item-divider {
   clear: both;
-  padding: 0;
-  margin: 0;
-  padding-top: 10px;
-  margin-bottom: 10px;
+  padding: 10px 0 0 0;
+  margin: 0 0 10px 0;
   border: 0 none;
   background: none;
   border-bottom: dashed 2px #E0E0E0;
@@ -6323,19 +6326,16 @@ hr.il-divider-with-label {
   float: right;
 }
 .il-item .il-item-description {
-  padding-top: 10px;
-  font-size: 90%;
+  padding: 10px 0 0 0;
+  font-size: 12px;
   clear: both;
 }
 .il-item .il-item-property-name {
-  font-size: 90%;
+  font-size: 12px;
 }
 .il-item .il-item-property-value {
-  font-size: 90%;
-  color: #A0A0A0;
-}
-.il-std-item {
-  padding: 20px;
+  font-size: 12px;
+  color: #909090;
 }
 .il-item-marker {
   border-left: 5px solid;
@@ -6343,6 +6343,16 @@ hr.il-divider-with-label {
 .il-narrow-content .il-item:hover {
   background-color: #ffffd0;
 }
+.il-item-group h4 {
+  float: left;
+}
+.il-item-group .dropdown {
+  float: right;
+}
+.il-item-group-items {
+  clear: both;
+}
+/* this is currently experimental, could be removed */
 .il-narrow-content .il-item {
   padding: 0px;
   display: table;
@@ -6410,15 +6420,6 @@ hr.il-divider-with-label {
 }
 .il-narrow-content .il-item button.dropdown-toggle > span {
   display: none;
-}
-.il-item-group h4 {
-  float: left;
-}
-.il-item-group .dropdown {
-  float: right;
-}
-.il-item-group-items {
-  clear: both;
 }
 /*		Color scheme
 		Dark BLue: #0f2152;
