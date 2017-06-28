@@ -77,6 +77,14 @@ class DefaultRenderer implements Renderer {
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function renderAsync($component) {
+		$out = $this->render($component) . $this->js_binding->getOnLoadCodeAsync();
+		return $out;
+	}
+
+	/**
 	 * Get a renderer for a certain Component class.
 	 *
 	 * Either initializes a new renderer or uses a cached one initialized
