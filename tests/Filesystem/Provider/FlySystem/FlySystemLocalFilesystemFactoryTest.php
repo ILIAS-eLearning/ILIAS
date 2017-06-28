@@ -6,6 +6,8 @@ require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use ILIAS\Filesystem\Provider\FilesystemFacade;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class FlySystemLocalFilesystemFactoryTest
@@ -17,7 +19,9 @@ use ILIAS\Filesystem\Provider\FilesystemFacade;
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class FlySystemLocalFilesystemFactoryTest extends \PHPUnit_Framework_TestCase {
+class FlySystemLocalFilesystemFactoryTest extends TestCase {
+
+	use MockeryPHPUnitIntegration;
 
 	/**
 	 * @var FlySystemLocalFilesystemFactory $subject
