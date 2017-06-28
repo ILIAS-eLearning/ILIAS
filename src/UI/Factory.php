@@ -3,6 +3,7 @@
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI;
+use ILIAS\UI\Component\Component;
 
 /**
  * This is how the factory for UI elements looks. This should provide access
@@ -340,6 +341,70 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
+	 *     Popovers can be used when space is scarce i.e. within List GUI items, table cells or
+	 *     menus in the Header section. They offer either secondary information on object like a
+	 *     preview or rating to be displayed or entered. They display information about ongoing
+	 *     processes
+	 *   composition: >
+	 *     Popovers consist of a layer displayed above all other content.
+	 *     The content of the Popover depends on the functionality it performs.
+	 *     A Popover MAY display a title above its content.
+	 *     All Popovers contain a pointer pointing from the Popover to the Triggerer of the Popover.
+	 *   effect: >
+	 *     Popovers are shown by clicking a Triggerer component such as a Button or Glyph.
+	 *     The position of the Popover is calculated automatically be default. However, it is possible to
+	 *     specify if the popover appears horizontal (left, right) or vertical (top, bottom) relative to
+	 *     its Triggerer component. Popovers disappear by clicking anywhere outside the Popover or by pressing
+	 *     the ESC key.
+	 * rivals: >
+	 *   Modals: >
+	 *     Modals hide all other content while Popovers do not prevent interaction with other parts
+	 *     of the current context.
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *        Popovers MUST NOT contain horizontal scrollbars.
+	 *     2: >
+	 *        Popovers MAY contain vertical scrollbars. The content component is responsible to
+	 *        define its own height and show vertical scrollbars.
+	 *     3: >
+	 *        If Popovers are used to present secondary information of an object, they SHOULD
+	 *        display a title
+	 *        representing the object.
+	 *   interaction:
+	 *     1: >
+	 *        A Popover MUST only be displayed if the Trigger component is clicked.
+	 *        This behaviour is different from Tooltips that appear on hovering.
+	 *        Popovers disappear by clicking anywhere outside the Popover or by pressing
+	 *        the ESC key.
+	 *   style:
+	 *     1: Popovers MUST always relate to the Trigger component by a little pointer.
+	 *   accessibility:
+	 *     1: >
+	 *        There MUST be a way to open the Popover by only using the keyboard.
+	 *     2: >
+	 *        The focus MUST be inside the Popover, once it is open if it contains at least one
+	 *        interactive item.
+	 *        Otherwise the focus MUST remain on the Triggerer component.
+	 *     3: >
+	 *        The focus MUST NOT leave the Popover for as long as it is open.
+	 *     4: >
+	 *        There MUST be a way to reach every control in the Popover by only using the keyboard.
+	 *     5: >
+	 *        The Popover MUST be closable by pressing the ESC key.
+	 *     6: >
+	 *        Once the Popover is closed, the focus MUST return to the element triggering the
+	 *        opening of the Popover or the element being clicked if the Popover was
+	 *        closed on click.
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Popover\Factory
+	 */
+	public function popover();
+
+	/**
+	 * ---
+	 * description:
 	 *     A divider marks a thematic change in a sequence of other components. A Horizontal Divider
 	 *     is used to mark a thematic change in sequence of elements that are stacked from top to bottom,
 	 *     e.g. in a Dropdown. A Vertical Divider is used to mark a thematic change in a sequence of elements
@@ -397,6 +462,81 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Link\Factory
 	 */
 	public function link();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      Dropdowns reveal a list of interactions that change the system’s status or navigate to
+	 *      a different view.
+	 *   composition: >
+	 *      Dropdown is a clickable, graphically obtrusive control element. It can
+	 *      bear text. On-click a list of Shy Buttons and optional Dividers is shown.
+	 *   effect: >
+	 *      On-click, a list of actions is revealed. Clicking an item will trigger the action indicated.
+	 *      Clicking outside of an opened Dropdown will close the list of items.
+	 *   rivals:
+	 *      button: >
+	 *          Buttons are used, if single actions should be presented directly in the user interface.
+	 *      links: >
+	 *          Links are used to trigger actions that do not change the systems
+	 *          status. They are usually contained inside a Navigational Collection.
+	 *      popovers: >
+	 *          Dropdowns only provide a list of possible actions. Popovers can include more diverse
+	 *          and flexible content.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: >
+	 *           Dropdowns MUST NOT be used standalone. They are only parts of more complex UI elements.
+	 *           These elements MUST define their use of Dropdown. E.g. a List or a Table MAY define that a certain
+	 *           kind of Dropdown is used as part of the UI element.
+	 *   interaction:
+	 *      1: >
+	 *           Only Dropdown Items MUST trigger an action or change a view. The Dropdown trigger element
+	 *           is only used to show and hide the list of Dropdown Items.
+	 *   style:
+	 *      1: >
+	 *           If Text is used inside a Dropdown label, the Dropdown MUST be at least six characters
+	 *           wide.
+	 *   wording:
+	 *      1: >
+	 *           The label of a Dropdown SHOULD contain no more than two words.
+	 *      2: >
+	 *           Every word except articles, coordinating conjunctions and prepositions
+	 *           of four or fewer letters MUST be capitalized.
+	 *      3: >
+	 *           For standard events such as saving or canceling the existing standard
+	 *           terms MUST be used if possible: Delete, Cut, Copy.
+	 *      4: >
+	 *           There are cases where a non-standard label such as “Send Mail” for saving
+	 *           and sending the input of a specific form might deviate from the standard.
+	 *           These cases MUST however specifically justified.
+	 *   accessibility:
+	 *      1: >
+	 *           DOM elements of type "button" MUST be used to properly identify an
+	 *           element as a Dropdown.
+	 *      2: >
+	 *           Dropdown items MUST be implemented as "ul" list with a set of "li" elements and
+	 *           nested Shy Button elements for the actions.
+	 *      3: >
+	 *           Triggers of Dropdowns MUST indicate their effect by the aria-haspopup attribute
+	 *           set to true.
+	 *      4: >
+	 *           Triggers of Dropdowns MUST indicate the current state of the Dropdown by the
+	 *           aria-expanded label.
+	 *      5: >
+	 *           Dropdowns MUST be accessible by keyboard by focusing the trigger element and
+	 *           clicking the return key.
+	 *      6: >
+	 *           Entries in a Dropdown MUST be accessible by the tab-key if opened.
+	 *      7: >
+	 *           The focus MAY leave the Dropdown if tab is pressed while focusing the last
+	 *           element. This differs from the behaviour in Popovers and Modals.
+	 * ---
+	 * @return  \ILIAS\UI\Component\Dropdown\Factory
+	 */
+	public function dropdown();
 
 	/**
 	 * ---
