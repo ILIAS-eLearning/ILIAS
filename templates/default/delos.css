@@ -7688,6 +7688,10 @@ div.ilFormExternalSetting span {
 div[id^="ilFormField"] {
   margin-bottom: 10px;
 }
+span.ilFormNonEditable {
+  display: inline-block;
+  padding-top: 4px;
+}
 /* Hierarchy Form */
 div.ilHFormHeader,
 div.ilHFormFooter {
