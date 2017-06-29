@@ -6219,19 +6219,26 @@ button.close {
   margin-bottom: 10px;
 }
 .il-card {
-  padding: 0px;
+  padding: 0;
 }
 .il-card img {
   width: 100%;
 }
-.il-card .caption {
-  border-top: 1px solid #ddd;
+.il-card .card-highlight {
+  background-color: #fa8228;
+  height: 3px;
+  width: 100%;
+}
+.il-card .card-no-highlight {
+  background-color: transparent;
+  height: 3px;
+  width: 100%;
 }
 .il-card .caption .card-title {
   overflow-wrap: break-word;
 }
-.il-card .caption:first-child {
-  border-top: none;
+.il-card .caption:nth-of-type(1n+3) {
+  border-top: 1px solid #ddd;
 }
 .il-deck .row {
   margin-left: 0;
@@ -6241,7 +6248,6 @@ button.close {
   padding-left: 5px;
   padding-right: 5px;
 }
-
 .btn {
   font-size: 12px;
 }
@@ -6365,6 +6371,9 @@ a.btn-link.ilSubmitInactive:hover {
   background-color: inherit;
   color: #333333;
   padding: 0;
+}
+.il-btn-month .dropdown-menu {
+  min-width: 250px;
 }
 h6.il-divider {
   padding: 3px 6px;
