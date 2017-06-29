@@ -32,7 +32,7 @@ interface Item extends \ILIAS\UI\Component\Component {
 	 * Get a new item with the given properties as key-value pairs.
 	 *
 	 * The key is holding the title and the value is holding the content of the
-     * specific data set.
+	 * specific data set.
 	 *
 	 * @param array<string,string> $properties Label => Content
 	 * @return self

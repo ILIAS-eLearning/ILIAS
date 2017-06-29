@@ -16,7 +16,7 @@ interface Factory {
  	 * rules:
 	 *    accessibility:
 	 *      1: >
-	 *       Do not provide information by color only. The same information should
+	 *       Information MUST NOT be provided by color alone. The same information could
 	 *       be presented, e.g. in a property to enable screen reader access.
 	 * ---
 	 * @param string $title Title of the item

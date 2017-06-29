@@ -47,8 +47,8 @@ function with_lead_image_in_narrow_container() {
 		))
 	));
 
-
-	return "<h3>List in il-narrow-content container</h3>"
+	return "<h3>List in il-narrow-content container</h3>".
+		"This concept is currently under discussion and not implemented by any container."
 		."<div class='il-narrow-content' style='max-width:300px;'>"
 		.$renderer->render($std_list)
 		."</div>"
