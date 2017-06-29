@@ -14,10 +14,7 @@ require_once('./Services/User/classes/class.ilUserAccountSettings.php');
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
  */
-// cat-tms-patch start
-//class ilObjStudyProgrammeAccess extends ilObjectAccess {
 class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHandling{
-// cat-tms-patch end
 
 	/**
 	* Checks wether a user may invoke a command or not
