@@ -126,6 +126,9 @@ interface Factory {
 	 *      Selecting a month from the dropdown directly fires the according action (e.g. switching the view to the
 	 *      selected month). Technically this is currently a Javascript event being fired.
 	 *
+	 * context:
+	 *      - Marginal Grid Calendar
+	 *
 	 * rules:
 	 *   interaction:
 	 *       1: >
