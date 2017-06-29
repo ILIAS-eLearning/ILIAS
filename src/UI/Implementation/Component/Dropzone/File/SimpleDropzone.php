@@ -42,8 +42,18 @@ class SimpleDropzone {
 	 * @var string $uploadId
 	 */
 	private $uploadId;
-
-
+	/**
+	 * @var int
+	 */
+	private $uploadMaxFiles = 0;
+	/**
+	 * @var array
+	 */
+	private $uploadAllowedFileTypes = [];
+	/**
+	 * @var int
+	 */
+	private $uploadFileSizeLimit = 0;
 	/**
 	 * Private constructor. Initialize it through the static method
 	 * {@link SimpleDropzone#of}.
@@ -171,6 +181,54 @@ class SimpleDropzone {
 	 */
 	public function setUploadId($uploadId) {
 		$this->uploadId = $uploadId;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getUploadMaxFiles() {
+		return $this->uploadMaxFiles;
+	}
+
+	/**
+	 * @param int $uploadMaxFiles
+	 * @return SimpleDropzone
+	 */
+	public function setUploadMaxFiles($uploadMaxFiles) {
+		$this->uploadMaxFiles = $uploadMaxFiles;
+		return $this;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getUploadAllowedFileTypes() {
+		return $this->uploadAllowedFileTypes;
+	}
+
+	/**
+	 * @param array $uploadAllowedFileTypes
+	 * @return SimpleDropzone
+	 */
+	public function setUploadAllowedFileTypes($uploadAllowedFileTypes) {
+		$this->uploadAllowedFileTypes = $uploadAllowedFileTypes;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getUploadFileSizeLimit() {
+		return $this->uploadFileSizeLimit;
+	}
+
+	/**
+	 * @param int $uploadFileSizeLimit
+	 * @return SimpleDropzone
+	 */
+	public function setUploadFileSizeLimit($uploadFileSizeLimit) {
+		$this->uploadFileSizeLimit = $uploadFileSizeLimit;
 		return $this;
 	}
 }

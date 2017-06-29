@@ -23,4 +23,43 @@ interface Upload extends Wrapper {
 	 */
 	public function getUploadUrl();
 
+	/**
+	 * Get an upload wrapper like this only accepting the submitted file types for uploading, e.g.
+	 * ['jpg', 'png', 'gif'] to allow some image formats.
+	 *
+	 * @param array $types
+	 * @return $this
+	 */
+	public function withAllowedFileTypes(array $types);
+
+	/**
+	 * @return array
+	 */
+	public function getAllowedFileTypes();
+
+	/**
+	 * Get an upload wrapper like this, restricting the max number of files that can be uploaded.
+	 *
+	 * @param int $max
+	 * @return $this
+	 */
+	public function withMaxFiles($max);
+
+	/**
+	 * @return int
+	 */
+	public function getMaxFiles();
+
+	/**
+	 * Get an upload wrapper like this, restricting the max file size of the files to the given limit (in bytes).
+	 *
+	 * @param int $limit Max size for any file uploaded in bytes
+	 * @return $this
+	 */
+	public function withFileSizeLimit($limit);
+
+	/**
+	 * @return int
+	 */
+	public function getFileSizeLimit();
 }

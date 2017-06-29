@@ -43,6 +43,9 @@ class JSDropzoneInitializer {
 			'registeredSignals' => $this->getRegisteredSignalIds(),
 			'uploadId' => $this->dropzone->getUploadId(),
 			'uploadUrl' => $this->dropzone->getUploadUrl(),
+			'allowedFileTypes' => $this->dropzone->getUploadAllowedFileTypes(),
+			'fileSizeLimit' => $this->dropzone->getUploadFileSizeLimit(),
+			'maxFiles' => $this->dropzone->getUploadMaxFiles(),
 		]);
 		return "il.UI.dropzone.initializeDropzone('{$this->dropzone->getType()}', JSON.parse('{$options}'));";
 	}

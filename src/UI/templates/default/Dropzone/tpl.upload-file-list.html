@@ -16,6 +16,12 @@
 			     aria-valuemax="100">
 			</div>
 		</div>
+		<div class="file-error-message alert alert-danger" role="alert" style="display: none;">
+			<!-- Error message for file is inserted with javascript here -->
+		</div>
+		<div class="file-success-message alert alert-success" role="alert" style="display: none;">
+			<!-- Success message for file is inserted with javascript here -->
+		</div>
 		<div class="metadata small"
 		     style="display:none; border-top: 1px solid #cccccc; padding-top: 15px; margin-top: 10px;">
 			<div class="form-group">
@@ -29,6 +35,11 @@
 		</div>
 	</li>
 	<ul class="list-group il-upload-file-items">
+		<li class="list-group-item error-messages" style="display: none;">
+			<div class="alert alert-danger" role="alert">
+				<!-- General error messages are inserted here with javascript -->
+			</div>
+		</li>
 		<!-- li from templates are cloned here with javascript -->
 	</ul>
 </div>

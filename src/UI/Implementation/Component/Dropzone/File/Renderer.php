@@ -175,10 +175,13 @@ class Renderer extends AbstractComponentRenderer {
 				->setRegisteredSignals($dropzone->getTriggeredSignals())
 				->setUploadId($uploadId)
 				->setUploadUrl($dropzone->getUploadUrl())
+				->setUploadAllowedFileTypes($dropzone->getAllowedFileTypes())
+				->setUploadFileSizeLimit($dropzone->getFileSizeLimit())
+				->setUploadMaxFiles($dropzone->getMaxFiles())
 		);
 
 		$this->getJavascriptBinding()->addOnLoadCode($jsDropzoneInitializer->initDropzone());
-		return $tpl->get() . $tplUploadFileList->get();
+		return $tpl->get();
 	}
 
 }

@@ -7,7 +7,8 @@ il.UI = il.UI || {};
         var defaultOptions = {
             allowedFileTypes: [], // Allowed file types
             uploadUrl: '', // URL where files are uploaded to
-            maxFiles: 0 // Max number of files to upload, 0 = infinity
+            maxFiles: 0, // Max number of files to upload, 0 = infinity
+            fileSizeLimit: 0 // Max file size in bytes
         };
 
         var instances = {};
@@ -31,7 +32,7 @@ il.UI = il.UI || {};
 
         var renderRemoveFile = function (uploadId, fileId) {
             var $container = $('#' + uploadId);
-            var $fileItem = $container.find("[data-file-id='"+ fileId +"']");
+            var $fileItem = $container.find("[data-file-id='" + fileId + "']");
             if ($fileItem.length) {
                 $fileItem.fadeOut();
             }
@@ -39,19 +40,34 @@ il.UI = il.UI || {};
 
         var renderProgress = function (uploadId, fileId, progress) {
             var $container = $('#' + uploadId);
-            var $fileItem = $container.find("[data-file-id='"+ fileId +"']");
+            var $fileItem = $container.find("[data-file-id='" + fileId + "']");
             var $progress = $fileItem.find('.progress').show();
             $progress.find('.progress-bar')
                 .css('width', progress + '%')
                 .attr('aria-valuenow', progress);
         };
 
-        var renderComplete = function (uploadId, fileId) {
+        var renderFileError = function (uploadId, fileId, errorReason) {
             var $container = $('#' + uploadId);
-            var $fileItem = $container.find("[data-file-id='"+ fileId +"']");
+            var $fileItem = $container.find("[data-file-id='" + fileId + "']");
+            $fileItem.find('.file-error-message').text(errorReason).fadeIn();
+            $fileItem.find('.progress-bar').removeClass('active');
+        };
+
+        var renderError = function (uploadId, errorReason) {
+            console.log('renderError ' + errorReason);
+            var $container = $('#' + uploadId);
+            $container.find('.error-messages').fadeIn()
+                .children('.alert')
+                .append('<br>' + errorReason);
+        };
+
+        var renderFileSuccess = function (uploadId, fileId) {
+            var $container = $('#' + uploadId);
+            var $fileItem = $container.find("[data-file-id='" + fileId + "']");
             var $progressBar = $fileItem.find('.progress-bar');
             $progressBar.removeClass('active')
-                // .addClass('progress-bar-success')
+            // .addClass('progress-bar-success')
                 .text('Completed');
             $fileItem.find('.btn-group').fadeOut();
             $fileItem.find('.metadata').hide();
@@ -59,7 +75,10 @@ il.UI = il.UI || {};
 
         var renderClear = function (uploadId) {
             var $container = $('#' + uploadId);
-            $container.find('.il-upload-file-items').children().remove();
+            $container.find('.error-messages').hide().children('.alert').text('');
+            $container.find('.il-upload-file-items')
+                .children('.il-upload-file-item')
+                .remove();
         };
 
         var humanFileSize = function (size) {
@@ -100,24 +119,41 @@ il.UI = il.UI || {};
                 request: {
                     endpoint: options.uploadUrl
                 },
+                validation: {
+                    allowedExtensions: options.allowedFileTypes,
+                    sizeLimit: options.fileSizeLimit,
+                    itemLimit: options.maxFiles
+                },
                 callbacks: {
                     onComplete: function (fileId, fileName, response, xmlHttpRequest) {
-                        console.log('complete ' + fileName);
-                        renderComplete(uploadId, fileId);
+                        // Errors are rendered in the onError callback
+                        if (response.success) {
+                            console.log('Successfully uploaded file ' + fileName);
+                            renderFileSuccess(uploadId, fileId);
+                        }
                     },
                     onAllComplete: function (succeeded, failed) {
-                        console.log(succeeded);
-                        var files = succeeded.map(function(fileId) {
-                           return uploader.getFile(fileId).name;
+                        var succeededFiles = succeeded.map(function (fileId) {
+                            return uploader.getFile(fileId).name;
                         });
-                        console.log('Successfuly uploaded files: ' + files.join(', '));
+                        console.log('Successfuly uploaded files: ' + succeededFiles.join(', '));
+                        var failedFiles = failed.map(function (fileId) {
+                            return uploader.getFile(fileId).name;
+                        });
+                        console.log('Failed to upload files: ' + failedFiles.join(', '));
                     },
                     onError: function (fileId, fileName, errorReason, xmlHttpRequest) {
-                        console.log('Error: ' + errorReason);
+                        console.log(xmlHttpRequest);
+                        console.log('Error: ' + errorReason + ', ' + fileId);
+                        if (fileId !== null) {
+                            renderFileError(uploadId, fileId, errorReason);
+                        } else {
+                            renderError(uploadId, errorReason);
+                        }
                     },
                     onProgress: function (fileId, fileName, uploadedBytes, totalBytes) {
                         console.log('progress for ' + fileId + ': ' + uploadedBytes + '/' + totalBytes);
-                        var progress = Math.round(100 / totalBytes * uploadedBytes);
+                        var progress = (totalBytes > 0 && uploadedBytes > 0) ? Math.round(100 / totalBytes * uploadedBytes) : 0;
                         renderProgress(uploadId, fileId, progress);
                     }
                 }
@@ -164,10 +200,11 @@ il.UI = il.UI || {};
 })($, il.UI);
 
 $(function () {
-    $(document).on('click', '.edit-file-metadata', function () {
+    var $uploadFileLists = $('.il-upload-file-list');
+    $uploadFileLists.on('click', '.edit-file-metadata', function () {
         $(this).parents('.il-upload-file-item').find('.metadata').toggle();
     });
-    $(document).on('click', '.delete-file', function () {
+    $uploadFileLists.on('click', '.delete-file', function () {
         var uploadId = $(this).parents('.il-upload-file-list').attr('id');
         var fileId = parseInt($(this).parents('.il-upload-file-item').attr('data-file-id'));
         il.UI.uploader.removeFile(uploadId, fileId);
