@@ -65,6 +65,8 @@ class Renderer extends AbstractComponentRenderer {
 	public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/js/Button/button.js');
+		$registry->register("./libs/composer/vendor/moment/moment/min/moment-with-locales.min.js");
+		$registry->register("./Services/Calendar/lib/bootstrap3_datepicker/bootstrap-datetimepicker.min.js");
 	}
 
 	protected function renderClose($component) {
@@ -103,8 +105,6 @@ class Renderer extends AbstractComponentRenderer {
 		$month = explode("-", $def);
 		$tpl->setVariable("DEFAULT_LABEL", $this->txt("month_".str_pad($month[0], 2, "0", STR_PAD_LEFT)."_long")." ".$month[1]);
 
-		include_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
-		\ilCalendarUtil::initDateTimePicker();
 		$id = $this->bindJavaScript($component);
 
 		// Check if the button is acting as triggerer
