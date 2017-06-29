@@ -35,12 +35,12 @@ interface Factory {
 	 *          The most important standard button in multi-action bars MUST be
 	 *          sticky (stay visible on small screens).
 	 *   accessibility:
-	 * 		 1: >
-	 * 			Standard buttons MAY define aria-label attribute. Use it in cases
-	 * 			where a text label is not visible on the screen or when the label does not provide enough information
-	 * 			about the action.
-	 * 		 2: >
-	 * 			Standard buttons MAY define aria-checked attribute. Use it to inform which is the currently active button.
+	 *       1: >
+	 *          Standard buttons MAY define aria-label attribute. Use it in cases
+	 *          where a text label is not visible on the screen or when the label does not provide enough information
+	 *          about the action.
+	 *       2: >
+	 *          Standard buttons MAY define aria-checked attribute. Use it to inform which is the currently active button.
 	 * ---
 	 * @param	string		$label
 	 * @param	string		$action
