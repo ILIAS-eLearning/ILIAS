@@ -53,7 +53,17 @@ class Renderer extends AbstractComponentRenderer {
 		} else {
 			$tpl->touchBlock("disabled");
 		}
-
+		$aria_label = $component->getAriaLabel();
+		if($aria_label != null){
+			$tpl->setCurrentBlock("with_aria_label");
+			$tpl->setVariable("ARIA_LABEL", $aria_label);
+			$tpl->parseCurrentBlock();
+		}
+		if($component->isAriaChecked()){
+			$tpl->setCurrentBlock("with_aria_checked");
+			$tpl->setVariable("ARIA_CHECKED", "true");
+			$tpl->parseCurrentBlock();
+		}
 		$this->maybeRenderId($component, $tpl);
 		return $tpl->get();
 	}
