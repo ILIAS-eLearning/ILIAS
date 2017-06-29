@@ -92,7 +92,6 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
 		return false;
 	}
 
-	// cat-tms-patch start
 	/**
 	 * Get operators
 	 */
@@ -136,7 +135,6 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
 		}
 		return false;
 	}
-	// cat-tms-patch end
 
 }
 

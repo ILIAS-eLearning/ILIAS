@@ -71,9 +71,7 @@ class ilConditionHandler
 	const OPERATOR_NOT_MEMBER = 'not_member';
 	const OPERATOR_FAILED = 'failed';
 	const OPERATOR_LP = 'learning_progress';
-	// cat-tms-patch start
 	const OPERATOR_ACCREDITED_OR_PASSED = 'accredited_or_passed';
-	// cat-tms-patch end
 
 	const UNIQUE_CONDITIONS = 1;
 	const SHARED_CONDITIONS = 0;
@@ -437,10 +435,7 @@ class ilConditionHandler
 	{
 		global $objDefinition;
 
-		// cat-tms-patch start
-		//$trigger_types =  array('crs','exc','tst','sahs', 'svy', 'lm', 'iass');
 		$trigger_types =  array('crs','exc','tst','sahs', 'svy', 'lm', 'iass', 'prg');
-		// cat-tms-patch end
 
 		foreach($objDefinition->getPlugins() as $p_type => $p_info)
 		{
