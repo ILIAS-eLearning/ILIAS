@@ -14,7 +14,11 @@ require_once('./Services/User/classes/class.ilUserAccountSettings.php');
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
  */
-class ilObjStudyProgrammeAccess extends ilObjectAccess {
+// cat-tms-patch start
+//class ilObjStudyProgrammeAccess extends ilObjectAccess {
+class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHandling{
+// cat-tms-patch end
+
 	/**
 	* Checks wether a user may invoke a command or not
 	* (this method is called by ilAccessHandler::checkAccess)
@@ -47,7 +51,7 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess {
 
 		return parent::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "");
 	}
-	
+
 	/**
 	 * get commands
 	 *
@@ -87,6 +91,53 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess {
 
 		return false;
 	}
+
+	// cat-tms-patch start
+	/**
+	 * Get operators
+	 */
+	public static function getConditionOperators()
+	{
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		return array(
+			ilConditionHandler::OPERATOR_ACCREDITED_OR_PASSED
+		);
+	}
+
+	/**
+	 *
+	 * @global ilObjUser $ilUser
+	 * @param type $a_obj_id
+	 * @param type $a_operator
+	 * @param type $a_value
+	 * @param type $a_usr_id
+	 * @return boolean
+	 */
+	public static function checkCondition($a_obj_id,$a_operator,$a_value,$a_usr_id)
+	{
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		include_once "./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php";
+
+		switch($a_operator) {
+			case ilConditionHandler::OPERATOR_ACCREDITED_OR_PASSED:
+				$valid_progress = array(
+					ilStudyProgrammeProgress::STATUS_COMPLETED,
+					ilStudyProgrammeProgress::STATUS_ACCREDITED
+				);
+
+				$prg_user_progress = ilStudyProgrammeUserProgress::getInstancesForUser($a_obj_id, $a_usr_id);
+				foreach ($prg_user_progress as $progress) {
+					if( in_array($progress->getStatus(), $valid_progress)) {
+						return true;
+					}
+				}
+				break;
+
+		}
+		return false;
+	}
+	// cat-tms-patch end
+
 }
 
 ?>
