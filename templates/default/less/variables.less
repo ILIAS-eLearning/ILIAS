@@ -196,6 +196,13 @@
 @disabled-btn-border:           #b0b0b0;
 @disabled-btn-color:            #e0e0e0;
 
+//** Text color of the standard button (most button instances)
+@il-btn-standard-color:           white;
+//** Background color of the standard button (most button instances)
+@il-btn-standard-bg:              lighten(@brand-primary, 15%);
+//** Border color of the standard button (most button instances)
+@il-btn-standard-border:          lighten(@brand-primary, 15%);
+
 //== Badges
 //
 //##
@@ -340,3 +347,11 @@
 //##
 @il-counter-novelty-bg: @brand-warning;
 @il-counter-novelty-margin-top: -5px;
+
+//== View Control
+//
+//##
+@il-vc-glyph-padding-vertical: @padding-base-vertical+2;
+@il-vc-glyph-padding-horizontal: @padding-base-horizontal;
+@il-vc-glyph-hover-bg: lighten(@brand-primary, 5%);
+@il-vc-mode-btn-active: @il-vc-glyph-hover-bg;
