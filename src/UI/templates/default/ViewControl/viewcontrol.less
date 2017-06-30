@@ -1,20 +1,23 @@
+.il-viewcontrol-section {
+  overflow:hidden;
+}
 .il-viewcontrol-section .glyphicon:before {
-  background-color: lighten(@brand-primary, 15%);
-  border: 1px solid transparent;
-  padding: 3px 8px;
+  background-color: @il-btn-standard-bg;
+  border: @il-btn-standard-border;
+  padding: @il-vc-glyph-padding-vertical @il-vc-glyph-padding-horizontal;
   position: relative;
   top: 2px;
-  color:@component-active-color;
-  text-decoration:none
+  color:@il-btn-standard-color;
+  text-decoration:none;
 }
 .il-viewcontrol-section .glyphicon:hover:before {
-  background-color:@brand-primary; //todo search the proper color.
+  background-color: @il-vc-glyph-hover-bg;
 }
 .il-viewcontrol-section a:hover {
   text-decoration:none;
 }
 .il-viewcontrol-mode .ilSubmitInactive, .il-viewcontrol-mode .ilSubmitInactive:hover {
-  background-color:@component-active-bg;
-  color:@component-active-color;
+  background-color:@il-vc-mode-btn-active;
+  color:@il-btn-standard-color;
   border-color:transparent;
 }

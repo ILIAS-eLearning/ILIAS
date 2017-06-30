@@ -34,10 +34,11 @@ interface Factory {
 	 * ---
 	 * @param    array $labelled_actions Set of labelled actions (string|string)[]. The label of the action is used as key, the action itself as value.
 	 *          The first of the actions will be activated by default.
+	 * @param string $aria_label Defines the functionality.
 	 *
 	 * @return \ILIAS\UI\Component\ViewControl\Mode
 	 */
-	public function mode($labelled_actions);
+	public function mode($labelled_actions, $aria_label);
 
 	/**
 	 * ---
@@ -56,7 +57,7 @@ interface Factory {
 	 * ---
 	 *
 	 * @param   \ILIAS\UI\Component\Button\Button $previous_action Button to be placed in the left.
-	 * @param   \ILIAS\UI\Component\Button\Button $button Button to be placed in the middle (Split Button or Default Button).
+	 * @param   \ILIAS\UI\Component\Button\Button $button Button to be placed in the middle (Month Button or Default Button).
 	 * @param   \ILIAS\UI\Component\Button\Button $next_action Button to be placed in the right.
 	 *
 	 * @return \ILIAS\UI\Component\ViewControl\Section

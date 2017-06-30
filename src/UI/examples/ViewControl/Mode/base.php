@@ -15,7 +15,8 @@ function base() {
 		"ILIAS Community" => "http://www.ilias.de/docu/goto.php?target=cat_1444&client_id=docu"
 	);
 
-	$view_control = $f->viewControl()->mode($actions);
+	$aria_label = "change_the_currently_displayed_mode";
+	$view_control = $f->viewControl()->mode($actions, $aria_label)->withActive("ILIAS Development");
 	$html = $renderer->render($view_control);
 
 	return $html;
