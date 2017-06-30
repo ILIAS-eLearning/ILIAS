@@ -405,6 +405,7 @@ interface Factory {
 	/**
 	 * ---
 	 * description:
+	 *   purpose: >
 	 *     A divider marks a thematic change in a sequence of other components. A Horizontal Divider
 	 *     is used to mark a thematic change in sequence of elements that are stacked from top to bottom,
 	 *     e.g. in a Dropdown. A Vertical Divider is used to mark a thematic change in a sequence of elements
@@ -537,6 +538,34 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Dropdown\Factory
 	 */
 	public function dropdown();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      An item displays a unique entity within the system. It shows information
+	 *      about that entity in a structured way.
+	 *   composition: >
+	 *      Items contain the name of the entity as a title. The item contains three
+	 *      sections, where one section contains important information about the item,
+	 *      the second section shows the content of the item and another section shows
+	 *      metadata about the entity.
+	 *   effect: >
+	 *      Items may contain Interaction Triggers such as Glyphs, Buttons or Tags.
+	 *   rivals:
+	 *      Card: >
+	 *         Cards define the look of items in a deck. Todo: We need to refactor cards.
+	 *
+	 * rules:
+	 *   composition:
+	 *      1: Items MUST contain the name of the displayed entity as a title.
+	 *      2: Items SHOULD contain a section with it's content.
+	 *      3: Items MAY contain Interaction Triggers.
+	 *      4: Items MAY contain a section with metadata.
+	 * ---
+	 * @return \ILIAS\UI\Component\Item\Factory
+	 */
+	public function item();
 
 	/**
 	 * ---

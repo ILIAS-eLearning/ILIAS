@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI\Implementation;
 
+use ILIAS\UI\NotImplementedException;
+
 // TODO: This might cache the created factories.
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 
@@ -131,6 +133,14 @@ class Factory implements \ILIAS\UI\Factory
 	public function dropdown()
 	{
 		return new Component\Dropdown\Factory();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function item()
+	{
+		return new Component\Item\Factory();
 	}
 
 	/**
