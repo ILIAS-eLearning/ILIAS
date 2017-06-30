@@ -55,31 +55,31 @@ a.btn-link.ilSubmitInactive, a.btn-link.ilSubmitInactive:hover {
 .btn-tag {
     display: inline-block;
     white-space: nowrap;
-    padding: 1px 5px;
-    margin: 2px 4px 2px 0;
-    border-radius: 3px;
+    padding: @padding-xs-vertical @padding-xs-horizontal;
+    margin: @btn-tag-margin;
+    border-radius: @btn-tag-border-radius;
 
 	&.btn-tag-inactive {
 		cursor: default !important;
 	}
 	&.btn-tag-relevance-verylow {
-		background-color: desaturate(@btn-tag-bg, 80%);
-		color: contrast(desaturate(@btn-tag-bg, 80%));
+		background-color: @btn-tag-bg-relevance-verylow;
+		color: @btn-tag-fg-relevance-verylow;
 	}
 	&.btn-tag-relevance-low {
-		background-color: desaturate(@btn-tag-bg, 60%);
-		color: contrast(desaturate(@btn-tag-bg, 60%));
+    background-color: @btn-tag-bg-relevance-low;
+    color: @btn-tag-fg-relevance-low;
 	}
 	&.btn-tag-relevance-middle {
-		background-color: desaturate(@btn-tag-bg, 40%);
-		color: contrast(desaturate(@btn-tag-bg, 40%));
+    background-color: @btn-tag-bg-relevance-middle;
+    color: @btn-tag-fg-relevance-middle;
 	}
 	&.btn-tag-relevance-high {
-		background-color: desaturate(@btn-tag-bg, 20%);
-		color: contrast(desaturate(@btn-tag-bg, 20%));
+    background-color: @btn-tag-bg-relevance-high;
+    color: @btn-tag-fg-relevance-high;
 	}
 	&.btn-tag-relevance-veryhigh {
-		background-color: @btn-tag-bg;
-		color: contrast(@btn-tag-bg);
+    background-color: @btn-tag-bg-relevance-veryhigh;
+    color: @btn-tag-fg-relevance-veryhigh;
 	}
 }
