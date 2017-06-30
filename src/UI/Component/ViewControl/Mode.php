@@ -30,4 +30,11 @@ interface Mode extends Component {
 	 *@return array (string|string)[]. Array containing keys as label and values as actions.
 	 */
 	public function getLabelledActions();
+
+	/**
+	* Get the aria-label on the Viewcontrol
+	*
+	* @return	string
+	*/
+	public function getAriaLabel();
 }

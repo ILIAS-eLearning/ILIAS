@@ -26,9 +26,9 @@ interface Section extends Component{
 	public function getNextActions();
 
 	/**
-	 * Returns the Default- or Split-Button placed in the middle of the control
+	 * Returns the Default- or Month Button placed in the middle of the control
 	 *
-	 * @return \ILIAS\UI\Component\Component the Default- or Split-Button placed in the middle of the control
+	 * @return \ILIAS\UI\Component\Button\Button the Default- or Month Button placed in the middle of the control
 	 */
 	public function getSelectorButton();
 

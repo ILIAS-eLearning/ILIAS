@@ -13,7 +13,6 @@ use ILIAS\UI\Component;
  */
 class Renderer extends AbstractComponentRenderer
 {
-	const MODE_ARIA = "Mode View Controler";
 	const MODE_ROLE = "group";
 
 	/**
@@ -43,7 +42,7 @@ class Renderer extends AbstractComponentRenderer
 
 		foreach ($component->getLabelledActions() as $label => $action)
 		{
-			$tpl->setVariable("ARIA", self::MODE_ARIA);
+			$tpl->setVariable("ARIA", $this->txt($component->getAriaLabel()));
 			$tpl->setVariable("ROLE", self::MODE_ROLE);
 
 			$tpl->setCurrentBlock("view_control");

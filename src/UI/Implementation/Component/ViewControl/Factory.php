@@ -12,8 +12,8 @@ class Factory implements VC\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function mode($labelled_actions) {
-		return new Mode($labelled_actions);
+	public function mode($labelled_actions, $aria_label) {
+		return new Mode($labelled_actions, $aria_label);
 	}
 
 	/**

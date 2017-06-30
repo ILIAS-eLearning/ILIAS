@@ -1,11 +1,14 @@
+.il-viewcontrol-section {
+  overflow:hidden;
+}
 .il-viewcontrol-section .glyphicon:before {
   background-color: lighten(@brand-primary, 15%);
   border: 1px solid transparent;
-  padding: 3px 8px;
+  padding: @padding-base-vertical @padding-base-horizontal;
   position: relative;
   top: 2px;
   color:@component-active-color;
-  text-decoration:none
+  text-decoration:none;
 }
 .il-viewcontrol-section .glyphicon:hover:before {
   background-color:@brand-primary; //todo search the proper color.
