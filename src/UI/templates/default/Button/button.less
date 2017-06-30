@@ -12,7 +12,6 @@ input.btn{
   }
 }
 
-
 .btn-default {
   .button-variant(@il-btn-standard-color; @il-btn-standard-bg; @il-btn-standard-border);
 }
@@ -20,8 +19,6 @@ input.btn{
 .btn-primary {
   .button-variant(@il-btn-primary-color; @il-btn-primary-bg; @il-btn-primary-border);
 }
-
-
 
 .btn {
   &.disabled,
@@ -49,6 +46,10 @@ a.btn-link.ilSubmitInactive, a.btn-link.ilSubmitInactive:hover {
 	background-color: inherit;
 	color: @text-color;
 	padding: 0;
+}
+
+.il-btn-month .dropdown-menu {
+  min-width:250px;
 }
 
 .btn-tag {
@@ -82,4 +83,3 @@ a.btn-link.ilSubmitInactive, a.btn-link.ilSubmitInactive:hover {
 		color: contrast(@btn-tag-bg);
 	}
 }
-

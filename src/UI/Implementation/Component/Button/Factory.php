@@ -41,4 +41,11 @@ class Factory implements B\Factory {
 	public function shy($label, $action) {
 		return new Shy($label, $action);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function month($default) {
+		return new Month($default);
+	}
 }
