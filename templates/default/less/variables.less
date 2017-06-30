@@ -47,6 +47,7 @@
 //##
 @body-bg:               #f0f0f0;
 @text-color:            @gray-dark;
+@il-light-text-color:   lighten(@mid-gray, 30%);
 @link-color:            lighten(@brand-primary, 5%);
 @link-hover-color:      darken(@link-color, 15%);
 
@@ -369,7 +370,7 @@
 //
 //## Customizes the Popover component
 
-//** Minimal with of the Popover
+//** Minimal width of the Popover
 @il-popover-min-width: 50px;
 //** Minimal height of the Popover
 @il-popover-min-height: 32px;
@@ -381,7 +382,7 @@
 @il-popover-title-background-color: @il-popover-background-color;
 //** Border color of the Popover
 @il-popover-border-color: rgba(0, 0, 0, .2);
-//** With of the arrow pointing from the Popover to its Triggerer component, e.g. a Button
+//** Width of the arrow pointing from the Popover to its Triggerer component, e.g. a Button
 @il-popover-arrow-width: 10px;
 //** Background color of the arrow
 @il-popover-arrow-background-color: @il-popover-background-color;
@@ -393,6 +394,28 @@
 @il-divider-bg: darken(@il-secondary-container-bg, 5%);
 @il-divider-color: lighten(@text-color, 10%);
 
+//== Item
+//
+//##
+@il-item-divider-padding: 10px 0 0 0;
+@il-item-divider-margin: 0 0 10px 0;
+@il-item-divider-border-bottom: dashed 2px #E0E0E0;
+@il-item-description-padding: 10px 0 0 0;
+@il-item-padding: 20px;
+@il-item-marker-border-left: 5px solid;
+@il-item-h5-margin: 4px 0px 2px 0px;
+
+//== Listing Panel
+//
+//##
+@il-panel-listing-std-container-h4-margin: 16px 0 2px 0;
+@il-panel-listing-std-container-h3-margin: 8px 0 2px 0;
+@il-panel-listing-std-container-h3-text-transform: uppercase;
+@il-panel-listing-std-container-h4-text-transform: uppercase;
+@il-panel-listing-std-container-h3-color: #909090;
+@il-panel-listing-std-container-h4-color: #909090;
+@il-panel-listing-std-item-container-margin: 0 0 1px 0;
+
 //== Icons
 //
 //## Icons are used to represent (and quickly identify) objects.
@@ -402,4 +425,3 @@
 @icon-size-medium: 35px;
 //**Size for icons: Large is used in the header. e.g.
 @icon-size-large: 45px;
-

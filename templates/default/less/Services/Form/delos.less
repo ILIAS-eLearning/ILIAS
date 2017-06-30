@@ -41,12 +41,43 @@ select.form-control {
 	font-size: 100%;
 }
 
-.form-horizontal .control-label {
-    //padding-top: 0;
-	&.col-sm-3.il_textarea {
-		text-align: left;
-		width: 100%;
+.form-horizontal {
+	.control-label {
+		padding-top: 0;
+		line-height: 24px;
+		&.col-sm-3.il_textarea {
+			text-align: left;
+			width: 100%;
+		}
 	}
+	.form-group {
+		.col-sm-9 {
+			line-height: 24px;
+		}
+	}
+	
+	.radio,
+	.checkbox,
+	.radio-inline,
+	.checkbox-inline {
+		padding-top: 0;
+		line-height: 24px;
+	}
+	.help-block {
+		line-height: normal;
+	}
+}
+
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+	position: static;
+	margin-left: -20px;
+	margin-top: 0;
+	min-height: 24px;
+	vertical-align: top;
+	line-height: 24px;
 }
 
 [dir="rtl"] .form-horizontal .control-label {

@@ -8,6 +8,7 @@
 bdo[dir="ltr"] { direction: ltr; unicode-bidi: bidi-override; }
 bdo[dir="rtl"] { direction: rtl; unicode-bidi: bidi-override; }
 
+
 /*
 /* rtl-review */
 /* with specifics imports
@@ -16,7 +17,6 @@ to elements with different left/right margin, padding, border, position, float, 
 In theory, you should also invert shadow... but i think we could postpone this to another release...
 All parts that aren't checked yet are actually marked with "rtl-review"
 */
-
 
 @bsbase: "../../Services/UICore/lib/bootstrap-3.2.0/less/";
 
@@ -86,6 +86,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Button/button.less";
 @import "@{uibase}Divider/divider.less";
 @import "@{uibase}Dropdown/dropdown.less";
+@import "@{uibase}Item/item.less";
 @import "@{uibase}Icon/icon.less";
 
 @import "less/variables.less";             // customized
@@ -336,7 +337,6 @@ div.ilFrame {
 	/* max-width: 1028px; */
 }
 
-
 /* left navigation area (used, e.g. for explorer trees) */
 .ilLeftNav {
 	top: 0;
@@ -388,6 +388,7 @@ div.ilFrame {
 		color: lighten(@mid-gray, 70%);
 	}
 }
+
 
 /* --------------------------------------------------------------
 	"Classic" delos part

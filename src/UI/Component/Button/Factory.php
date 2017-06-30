@@ -136,4 +136,31 @@ interface Factory {
 	 */
 	public function shy($label, $action);
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       The Month Button enables to select a specific month to fire some action (probably a change of view).
+	 *   composition: >
+	 *       The Month Button is composed of a Button showing the default month directly (probably the
+	 *       month currently rendered by some view). A dropdown contains an interface enabling the selection of a month from
+	 *       the future or the past.
+	 *   effect: >
+	 *      Selecting a month from the dropdown directly fires the according action (e.g. switching the view to the
+	 *      selected month). Technically this is currently a Javascript event being fired.
+	 *
+	 * context:
+	 *      - Marginal Grid Calendar
+	 *
+	 * rules:
+	 *   interaction:
+	 *       1: >
+	 *          Selecting a month from the dropdown MUST directly fire the according action.
+	 *
+	 * ---
+	 * @param string $default Initial value, use format "mm-yyyy".
+	 * @return  \ILIAS\UI\Component\Button\Month
+	 */
+	public function month($default);
+
 }
