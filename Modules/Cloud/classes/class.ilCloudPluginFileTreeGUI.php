@@ -258,7 +258,7 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI {
 	 * @return string
 	 */
 	static function getLinkToFolder(ilCloudFileNode $node) {
-		return "#/open_folder?id_parent=" . $node->getParentId() . "&current_id=" . $node->getId() . "&current_path=" . self::_urlencode($node->getPath());
+		return "#/open_folder?id_parent=" . $node->getParentId() . "&current_id=" . $node->getId() . "&current_path=" . $node->getPath();
 	}
 
 
@@ -273,17 +273,6 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI {
 		$options->fileSelectButton = "#ilFileUploadFileSelect_1";
 		echo "<script language='javascript' type='text/javascript'>var fileUpload1 = new ilFileUpload(1, " . ilJsonUtil::encode($options)
 			. ");</script>";
-	}
-
-	/**
-	 * urlencode without encoding slashes
-	 *
-	 * @param $str
-	 *
-	 * @return mixed
-	 */
-	protected static function _urlencode($str) {
-		return str_replace('%2F', '/', rawurlencode($str));
 	}
 }
 

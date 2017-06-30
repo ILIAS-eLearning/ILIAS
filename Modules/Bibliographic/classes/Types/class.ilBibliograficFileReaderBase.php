@@ -23,7 +23,6 @@ abstract class ilBibliograficFileReaderBase implements ilBibliograficFileReader 
 
 	/**
 	 * @param $path_to_file
-	 *
 	 * @return bool
 	 */
 	public function readContent($path_to_file) {
@@ -42,15 +41,9 @@ abstract class ilBibliograficFileReaderBase implements ilBibliograficFileReader 
 
 	/**
 	 * @param $string
-	 *
 	 * @return string
 	 */
 	protected function convertStringToUTF8($string) {
-		if (!function_exists('mb_detect_encoding') || !function_exists('mb_detect_order')
-		    || !function_exists("mb_convert_encoding")
-		) {
-			return $string;
-		}
 		ob_end_clean();
 		$mb_detect_encoding = mb_detect_encoding($string);
 		mb_detect_order(array( self::ENCODING_UTF_8, self::ENCODING_ISO_8859_1 ));

@@ -12,18 +12,4 @@ namespace ILIAS\UI\Component;
  */
 interface Signal {
 
-	/**
-	 * Get the ID of this signal
-	 *
-	 * @return string
-	 */
-	public function getId();
-
-	/**
-	 * Get the options of this signal
-	 *
-	 * @return array
-	 */
-	public function getOptions();
-
 }

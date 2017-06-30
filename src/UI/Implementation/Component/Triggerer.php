@@ -1,7 +1,7 @@
 <?php
 namespace ILIAS\UI\Implementation\Component;
 
-use ILIAS\UI\Component;
+use ILIAS\UI\Component\Signal;
 
 /**
  * Trait Triggerer
@@ -21,11 +21,11 @@ trait Triggerer {
 	/**
 	 * Append a triggered signal to other signals of the same event
 	 *
-	 * @param Component\Signal $signal
+	 * @param Signal $signal
 	 * @param string $event
 	 * @return $this
 	 */
-	protected function appendTriggeredSignal(Component\Signal $signal, $event) {
+	protected function appendTriggeredSignal(Signal $signal, $event) {
 		$clone = clone $this;
 		if (!is_array($clone->triggered_signals[$event])) {
 			$clone->triggered_signals[$event] = array();
@@ -37,11 +37,11 @@ trait Triggerer {
 	/**
 	 * Add a triggered signal, replacing any other signals registered on the same event
 	 *
-	 * @param Component\Signal $signal
+	 * @param Signal $signal
 	 * @param string $event
 	 * @return $this
 	 */
-	protected function addTriggeredSignal(Component\Signal $signal, $event) {
+	protected function addTriggeredSignal(Signal $signal, $event) {
 		$clone = clone $this;
 		$clone->triggered_signals[$event] = array();
 		$clone->triggered_signals[$event][] = new TriggeredSignal($signal, $event);

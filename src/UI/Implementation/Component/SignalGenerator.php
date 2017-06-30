@@ -14,10 +14,8 @@ class SignalGenerator implements SignalGeneratorInterface {
 	/**
 	 * @inheritdoc
 	 */
-	public function create($class = '') {
-		$id = $this->createId();
-		$instance = ($class) ? new $class($id) : new Signal($id);
-		return $instance;
+	public function create() {
+		return new Signal($this->createId());
 	}
 
 	/**

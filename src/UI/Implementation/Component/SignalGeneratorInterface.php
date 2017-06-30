@@ -11,11 +11,10 @@ use ILIAS\UI\Component\Signal;
 interface SignalGeneratorInterface {
 
 	/**
-	 * Create a signal, each created signal MUST have a unique ID.
+	 * Create a unique signal
 	 *
-	 * @param string $class Fully qualified class name (including namespace) of desired signal sub type
 	 * @return Signal
 	 */
-	public function create($class = '');
+	public function create();
 
 }

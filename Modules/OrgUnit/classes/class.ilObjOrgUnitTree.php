@@ -37,6 +37,10 @@ class ilObjOrgUnitTree {
 	 */
 	private $tree_childs;
 	/**
+	 * @var  ilCtrl
+	 */
+	private $ctrl;
+	/**
 	 * @var  int[] orgu_ref => parent_ref
 	 */
 	private $parent;
@@ -48,8 +52,10 @@ class ilObjOrgUnitTree {
 
 	private function __construct() {
 		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$ilDB = $DIC['ilDB'];
 		$tree = $DIC['tree'];
+		$this->ctrl = $ilCtrl;
 		$this->db = $ilDB;
 		$this->tree = $tree;
 		$this->roles = array();
@@ -61,8 +67,8 @@ class ilObjOrgUnitTree {
 	 * @return \ilObjOrgUnitTree
 	 */
 	public static function _getInstance() {
-		if (self::$instance === null) {
-			self::$instance = new self();
+		if (self::$instance == null) {
+			self::$instance = new ilObjOrgUnitTree();
 		}
 
 		return self::$instance;
@@ -420,18 +426,17 @@ class ilObjOrgUnitTree {
 	 * @return bool
 	 */
 	public function buildTempTableWithUsrAssignements($temporary_table_name = 'orgu_usr_assignements') {
-		if (self::$temporary_table_name == $temporary_table_name) {
+		if ($temporary_table_name == self::$temporary_table_name) {
 			return true;
 		}
 		if (self::$temporary_table_name === null) {
-			$this->dropTempTable($temporary_table_name);
 			self::$temporary_table_name = $temporary_table_name;
 		} elseif ($temporary_table_name != self::$temporary_table_name) {
 			throw new ilException('there is already a temporary table for org-unit assignement: ' . self::$temporary_table_name);
 		}
-
+		$this->dropTempTable($temporary_table_name);
 		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
-				SELECT DISTINCT object_reference.ref_id AS ref_id, rbac_ua.usr_id AS user_id, orgu_path_storage.path AS path
+				SELECT object_reference.ref_id AS ref_id, rbac_ua.usr_id AS user_id, orgu_path_storage.path AS path
 					FROM rbac_ua
 					JOIN  rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
 					JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
@@ -590,3 +595,5 @@ class ilObjOrgUnitTree {
 		return $this->parent[$orgu_ref];
 	}
 }
+
+?>

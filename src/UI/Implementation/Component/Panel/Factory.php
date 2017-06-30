@@ -5,7 +5,6 @@
 namespace ILIAS\UI\Implementation\Component\Panel;
 
 use ILIAS\UI\Component\Panel as P;
-use ILIAS\UI\NotImplementedException;
 
 /**
  * Class Factory
@@ -31,12 +30,5 @@ class Factory implements \ILIAS\UI\Component\Panel\Factory {
 	 */
 	public function report($title,$sub_panels) {
 		return new Report($title,$sub_panels);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function listing() {
-		return new Listing\Factory();
 	}
 }

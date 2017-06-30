@@ -15,13 +15,6 @@ class ilJavaScriptBinding implements JavaScriptBinding {
 	 */
 	private	$global_tpl;
 
-	/**
-	 * Cache for all registered JS code
-	 *
-	 * @var array
-	 */
-	protected $code = array();
-
 	public function __construct(\ilTemplate $global_tpl) {
 		$this->global_tpl = $global_tpl;
 	}
@@ -38,17 +31,5 @@ class ilJavaScriptBinding implements JavaScriptBinding {
 	 */
 	public function addOnLoadCode($code) {
 		$this->global_tpl->addOnLoadCode($code);
-		$this->code[] = $code;
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getOnLoadCodeAsync() {
-		if (!count($this->code)) {
-			return '';
-		}
-		return '<script>' . implode("\n", $this->code) . '</script>';
-	}
-
 }
