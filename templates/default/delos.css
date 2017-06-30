@@ -7525,10 +7525,6 @@ img.ilIcon {
   height: 0px;
   display: none;
 }
-.il_VAccordionContentDef > div,
-.il_HAccordionContentDef > div {
-  overflow: auto;
-}
 div.ilc_va_icont_VAccordICont {
   overflow: visible !important;
 }
