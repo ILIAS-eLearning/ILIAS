@@ -16,7 +16,7 @@ include_once("./Services/Component/classes/class.ilComponent.php");
 class ilPluginAdmin
 {
 	var $got_data = false;
-	
+
 	/**
 	 * cached lists of active plugins
 	 * @var	array
@@ -28,15 +28,15 @@ class ilPluginAdmin
 	 * @var	array
 	 */
 	static $plugin_objects = array();
-	
-	
+
+
 	/**
 	* Constructor
 	*/
 	function __construct()
 	{
 	}
-	
+
 	/**
 	* Get basic data of plugin from plugin.php
 	*
@@ -56,9 +56,9 @@ class ilPluginAdmin
 
 			$plugin_php_file = "./Customizing/global/plugins/".$a_ctype."/".
 				$a_cname."/".$slot_name."/".$a_pname."/plugin.php";
-				
+
 			$rec = ilPlugin::getPluginRecord($a_ctype, $a_cname, $a_slot_id, $a_pname);
-			
+
 			if (is_file($plugin_php_file))
 			{
 				include_once($plugin_php_file);
@@ -71,12 +71,12 @@ class ilPluginAdmin
 					"learning_progress" => (bool)$learning_progress,
 					"supports_export" => (bool)$supports_export);
 			}
-			
+
 			$active = $rec["active"];
 			$needs_update = false;
 			$activation_possible = !$active;
 			$inactive_reason = "";
-			
+
 			// version checks
 			if (ilComponent::isVersionGreaterString($ilias_min_version, ILIAS_VERSION_NUMERIC))
 			{
@@ -145,7 +145,7 @@ class ilPluginAdmin
 				$needs_update = true;
 				$activation_possible = false;
 			}
-			
+
 			$this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["is_active"] = $active;
 			$this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["inactive_reason"] = $inactive_reason;
 			$this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["needs_update"] = $needs_update;
@@ -154,7 +154,7 @@ class ilPluginAdmin
 			$this->got_data[$a_ctype][$a_cname][$a_slot_id][$a_pname] = true;
 		}
 	}
-	
+
 	/**
 	* Get version of plugin.
 	*
@@ -283,13 +283,13 @@ class ilPluginAdmin
 		if (!isset(self::$active_plugins[$a_ctype][$a_cname][$a_slot_id]))
 		{
 			include_once "./Services/Component/classes/class.ilPlugin.php";
-			
-			self::$active_plugins[$a_ctype][$a_cname][$a_slot_id] = 
-				ilPlugin::getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id);	
+
+			self::$active_plugins[$a_ctype][$a_cname][$a_slot_id] =
+				ilPlugin::getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id);
 		}
 		return self::$active_plugins[$a_ctype][$a_cname][$a_slot_id];
 	}
-	
+
 	/**
 	* Get Plugin Object
 	*
@@ -304,12 +304,12 @@ class ilPluginAdmin
 		// cache the plugin objects
 		if (!isset(self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname]))
 		{
-			self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname] = 
+			self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname] =
 				ilPlugin::getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname);
 		}
 		return self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname];
 	}
-	
+
    /**
 	* Get Plugin Object
 	*
@@ -325,13 +325,13 @@ class ilPluginAdmin
 		// cache the plugin objects
 		if (!isset(self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname]))
 		{
-			self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname] = 
+			self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname] =
 				ilPlugin::getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname);
 		}
 		$pl = self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname];
 		$pl->includeClass($a_class_file_name);
 	}
-	
+
 	/**
 	* Checks whether plugin has active learning progress
 	*
@@ -346,7 +346,7 @@ class ilPluginAdmin
 		$this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
 		return $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["learning_progress"];
 	}
-	
+
 	/**
 	* Checks whether plugin supports export/import
 	*
@@ -357,10 +357,53 @@ class ilPluginAdmin
 	* @return	bool
 	*/
 	function supportsExport($a_ctype, $a_cname, $a_slot_id, $a_pname)
-	{		
-		$this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);		
+	{
+		$this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
 		return $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["supports_export"];
 	}
+
+	/**
+	 * Get info for all plugins.
+	 *
+	 * @return 	array<string, array>
+	 */
+	public static function getAllPlugins() {
+		$cached_component = ilCachedComponentData::getInstance();
+		return $cached_component->getIlPluginByName();
+	}
+
+	/**
+	 * Get info for all active plugins.
+	 *
+	 * @return 	array
+	 */
+	public static function getActivePlugins() {
+		$cached_component = ilCachedComponentData::getInstance();
+		$plugins = $cached_component->getIlPluginActive();
+		$buf = array();
+		foreach ($plugins as $slot => $plugs) {
+			$buf = array_merge($buf, $plugs);
+		}
+		return $buf;
+	}
+
+	/**
+	 * Check, if a plugin is active
+	 *
+	 * @param 	string 	$id 	id of the plugin
+	 * @return 	boolean
+	 */
+	public static function isPluginActive($id) {
+		assert('is_string($id)');
+		$cached_component = ilCachedComponentData::getInstance();
+		$plugs = $cached_component->getIlPluginById();
+		if(array_key_exists($id, $plugs) &&	$plugs[$id]['active']) {
+			return true;
+		}
+		return false;
+	}
+
+
 }
 
 ?>
