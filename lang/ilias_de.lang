@@ -15961,4 +15961,5 @@ rbac#:#file_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen
 rbac#:#stys_sty_write_content#:#Content-Styles bearbeiten
 style#:#manage_system_styles#:#System Styles verwalten
 style#:#scope#:#Gültigkeitsbereich
-dateplaner#:#cal_agenda#:#Agenda
+dateplaner#:#cal_agenda#:#Terminübersicht
+dateplaner#:#cal_origin#:#Herkunft
