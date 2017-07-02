@@ -1257,6 +1257,9 @@ class ilInitialisation
 		
 		if(ilContext::hasUser())
 		{
+			// LTI
+			self::initLTI();
+			
 			// load style definitions
 			// use the init function with plugin hook here, too
 			self::initStyle();
@@ -1264,8 +1267,18 @@ class ilInitialisation
 
 		self::initUIFramework($GLOBALS["DIC"]);
 
-		// $tpl
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		// LTI
+		if (isset($_SESSION['il_lti_mode'])) 
+		{
+			require_once "./Services/LTI/classes/class.ilTemplate.php";
+			$tpl = new LTI\ilTemplate("tpl.main.html", true, true, "Services/LTI");
+		}
+		else 
+		{
+			// $tpl
+			$tpl = new ilTemplate("tpl.main.html", true, true);
+		}
+		
 		self::initGlobal("tpl", $tpl);
 		
 		// load style sheet depending on user's settings
@@ -1294,12 +1307,21 @@ class ilInitialisation
 
 		if(ilContext::hasUser())
 		{
+			// LTI
 			// $ilMainMenu
-			include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
-			$ilMainMenu = new ilMainMenuGUI("_top");
+			if (isset($_SESSION['il_lti_mode'])) 
+			{
+				include_once './Services/LTI/classes/class.ilMainMenuGUI.php';
+				$ilMainMenu = new LTI\ilMainMenuGUI("_top");
+			}
+			else 
+			{
+				include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
+				$ilMainMenu = new ilMainMenuGUI("_top");
+			}
+			
 			self::initGlobal("ilMainMenu", $ilMainMenu);
 			unset($ilMainMenu);
-	
 
 			// :TODO: tableGUI related
 
@@ -1322,6 +1344,40 @@ class ilInitialisation
 		{
 			// several code parts rely on ilObjUser being always included
 			include_once "Services/User/classes/class.ilObjUser.php";
+		}
+	}
+	
+	// LTI
+	protected static function initLTI()
+	{
+		global $ilUser, $DIC;
+		/*
+		// production
+		if ($ilUser->auth_mode,'lti') !== false) {
+			$_SESSION['il_lti_mode'] = "1"; 
+		}
+		*/ 
+		// fake lti env
+		if ($ilUser->getFirstname() == "LTI") 
+		{
+			//include_once "Services/Authentication/classes/class.ilSession.php";
+			$DIC->logger()->root()->write("LTI Mode!");
+			//require_once "./Services/LTI/classes/class.ilTemplate.php"; // ToDo: check auth_mode and put in into requireCommonIncludes, should work?
+			/*
+			$context_ar = explode('_',$_GET['target']);
+			if (count($context_ar) == 2) {
+				$_SESSION['lti_context_id'] = $context_ar[1];
+				$_SESSION['il_lti_mode'] = "1";
+			}
+			*/
+			//ilUtil::setCookie('il_lti_mode','1'); // for early detection in initTemplate
+			$_SESSION['il_lti_mode'] = '1'; 
+			$_SESSION['lti_context_id'] = "67";
+			$_SESSION['lti_launch_css_url'] = 'http://ltiapps.net/test/css/tc.css';
+			//$_SESSION['lti_launch_presentation_return_url'] = 'http://ltiapps.net/test/tc-return.php';
+		}
+		else {
+			unset($_SESSION['il_lti_mode']);
 		}
 	}
 	
