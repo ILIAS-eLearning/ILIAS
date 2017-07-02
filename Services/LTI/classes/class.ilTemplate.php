@@ -20,12 +20,13 @@ class ilTemplate extends \ilTemplate
 		$plugin, $a_use_cache);
 	}
 	
-	/**
-	* overrides sets content of right column
-	*/
-	function setRightContent($a_html)
+	function getMainMenu()
 	{
-		$this->right_content = "<div>LTI</div>";	
+		global $ilMainMenu;
+		//$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
+		$this->main_menu = $ilMainMenu->getHTML();
+		$this->main_menu_spacer = $ilMainMenu->getSpacerClass();
 	}
+	
 }
 ?>

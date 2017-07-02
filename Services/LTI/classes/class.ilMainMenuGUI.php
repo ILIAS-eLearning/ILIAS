@@ -52,7 +52,9 @@ class ilMainMenuGUI extends \ilMainMenuGUI
 		
 		$this->mail = false;
 		
-		$this->setMode(self::MODE_TOPBAR_REDUCED); // ?	
+		//$this->setMode(self::MODE_TOPBAR_MEMBERVIEW); // ?	
+		
+		//parent::__construct($a_target, $a_use_start_template);
 		
 		$this->log($this->mode);
 		
@@ -87,6 +89,19 @@ class ilMainMenuGUI extends \ilMainMenuGUI
 	{
 		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting, $ilPluginAdmin;
 		
+		// append internal and external LTI css just before </body> end-tag
+		$css_html = "";
+		$css = $this->appendInlineCss();
+		foreach ($css as $cssfile) 
+		{
+			$css_html .= "<style type=\"text/css\">\n";
+			$css_html .= file_get_contents($cssfile);
+			$css_html .= "</style>\n";
+		}
+		$this->dic['tpl']->setCurrentBlock("view_append_inline_css");
+		$this->dic['tpl']->setVariable("APPEND_STYLES", $css_html);
+		$this->dic['tpl']->parseCurrentBlock();
+		
 		$this->tpl->addBlockFile("USERLOGGEDIN","userisloggedin","tpl.user_logged_in.html","Services/LTI");
 		$this->tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
 		$user_img_src = $ilias->account->getPersonalPicturePath("small", true);
@@ -94,6 +109,7 @@ class ilMainMenuGUI extends \ilMainMenuGUI
 		$this->tpl->setVariable("USER_IMG", ilUtil::img($user_img_src, $user_img_alt));
 		$this->tpl->setVariable("TXT_LTI_EXIT",$lng->txt("lti_exit_session"));
 		$this->tpl->setVariable("LINK_LTI_EXIT", "./ilias.php?lti_cmd=exit");
+		
 		
 		if(!$this->topbar_back_url)
 		{
@@ -116,19 +132,26 @@ class ilMainMenuGUI extends \ilMainMenuGUI
 				: $lng->txt("back"));
 			$this->tpl->parseCurrentBlock();			
 		}
-
+		
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-
-		// $this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
-		$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
-		$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
-		
-		
 		//include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
-
 		$this->tpl->setVariable("TXT_MAIN_MENU", $lng->txt("main_menu"));
-		
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock(); 
+	}
+	
+	/**
+	 * append css styles just before </body>
+	 */ 
+	private function appendInlineCss() 
+	{
+		$arr = array();
+		$arr[] = "./Services/LTI/templates/default/lti.css";
+		$lti_css = $this->getSessionValue('lti_launch_css_url');
+		if ($lti_css !== "") 
+		{
+			$arr[] = $lti_css;
+		}
+		return $arr;
 	}
 	
 	/**

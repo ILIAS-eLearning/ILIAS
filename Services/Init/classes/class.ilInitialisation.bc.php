@@ -56,12 +56,7 @@ class ilInitialisation
 	 */
 	protected static function requireCommonIncludes()
 	{
-		// ilTemplate
-		if(ilContext::usesTemplate())
-		{
-			require_once "./Services/UICore/classes/class.ilTemplate.php";
-		}		
-				
+		
 		// really always required?
 		require_once "./Services/Utilities/classes/class.ilUtil.php";			
 		require_once "./Services/Calendar/classes/class.ilDatePresentation.php";														
@@ -930,9 +925,8 @@ class ilInitialisation
 		
 		// breaks CAS: must be included after CAS context isset in AuthUtils
 		//self::includePhp5Compliance();
-
-		self::requireCommonIncludes();
 		
+		self::requireCommonIncludes();
 		
 		// error handler 
 		self::initGlobal("ilErr", "ilErrorHandling", 
@@ -981,8 +975,7 @@ class ilInitialisation
 		{
 			self::handleDevMode();
 		}						
-	
-
+		
 		self::handleMaintenanceMode();
 
 		self::initDatabase();
@@ -1007,7 +1000,6 @@ class ilInitialisation
 		self::setSessionHandler();
 
 		self::initSettings();
-		
 		
 		// --- needs settings	
 		
@@ -1248,6 +1240,27 @@ class ilInitialisation
 		};
 	}
 	
+	// LTI
+	/**
+	 * init Template Class
+	 */
+	protected static function initTemplate()
+	{	
+		if(ilContext::usesTemplate())
+		{
+			if ($_COOKIE["il_lti_mode"] == "1") 
+			{
+				//$DIC->logger()->root()->write("1");
+				require_once "./Services/LTI/classes/class.ilTemplate.php";
+			}
+			else 
+			{
+				//$DIC->logger()->root()->write("2");
+				require_once "./Services/UICore/classes/class.ilTemplate.php";
+			}
+		}
+	}
+	
 	/**
 	 * init HTML output (level 3)
 	 */
@@ -1259,14 +1272,13 @@ class ilInitialisation
 		{
 			// LTI
 			self::initLTI();
-			
 			// load style definitions
 			// use the init function with plugin hook here, too
 			self::initStyle();
 		}
 
 		self::initUIFramework($GLOBALS["DIC"]);
-
+		
 		// LTI
 		if (isset($_SESSION['il_lti_mode'])) 
 		{
@@ -1307,22 +1319,23 @@ class ilInitialisation
 
 		if(ilContext::hasUser())
 		{
-			// LTI
 			// $ilMainMenu
-			if (isset($_SESSION['il_lti_mode'])) 
+			/*
+			if ($_SESSION['il_lti_mode'] == '1') 
 			{
 				include_once './Services/LTI/classes/class.ilMainMenuGUI.php';
-				$ilMainMenu = new LTI\ilMainMenuGUI("_top");
 			}
 			else 
 			{
 				include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
-				$ilMainMenu = new ilMainMenuGUI("_top");
+				
 			}
-			
+			*/ 
+			include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
+			$ilMainMenu = new ilMainMenuGUI("_top");
 			self::initGlobal("ilMainMenu", $ilMainMenu);
 			unset($ilMainMenu);
-
+	
 			// :TODO: tableGUI related
 
 			// set hits per page for all lists using table module
@@ -1373,7 +1386,7 @@ class ilInitialisation
 			//ilUtil::setCookie('il_lti_mode','1'); // for early detection in initTemplate
 			$_SESSION['il_lti_mode'] = '1'; 
 			$_SESSION['lti_context_id'] = "67";
-			//$_SESSION['lti_launch_css_url'] = 'http://ltiapps.net/test/css/tc.css';
+			$_SESSION['lti_launch_css_url'] = 'http://ltiapps.net/test/css/tc.css';
 			//$_SESSION['lti_launch_presentation_return_url'] = 'http://ltiapps.net/test/tc-return.php';
 		}
 		else {
