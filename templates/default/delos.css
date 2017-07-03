@@ -6254,24 +6254,33 @@ a.btn-link.ilSubmitInactive:hover {
   color: #333333;
   padding: 0;
 }
+.il-viewcontrol-section {
+  overflow: hidden;
+  height: 26px;
+}
+.il-viewcontrol-section .glyph {
+  height: 30px;
+}
+.il-viewcontrol-section .btn-default {
+  height: 30px;
+}
 .il-viewcontrol-section .glyphicon:before {
-  background-color: #708bae;
-  border: 1px solid transparent;
-  padding: 3px 8px;
-  position: relative;
-  top: 2px;
+  background-color: red;
+  border: 1px solid red;
+  padding: 5px 8px;
   color: white;
-  text-decoration: none;
+  /*text-decoration:none;
+height:30px;*/
 }
 .il-viewcontrol-section .glyphicon:hover:before {
-  background-color: #3a4c65;
+  background-color: #557196;
 }
 .il-viewcontrol-section a:hover {
   text-decoration: none;
 }
 .il-viewcontrol-mode .ilSubmitInactive,
 .il-viewcontrol-mode .ilSubmitInactive:hover {
-  background-color: #4c6586;
+  background-color: #557196;
   color: white;
   border-color: transparent;
 }
