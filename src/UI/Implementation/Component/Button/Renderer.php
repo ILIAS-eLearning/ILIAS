@@ -40,6 +40,9 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component instanceof Component\Button\Shy) {
 			$tpl_name = "tpl.shy.html";
 		}
+		if ($component instanceof Component\Button\Tag) {
+			$tpl_name = "tpl.tag.html";
+		}
 
 		$tpl = $this->getTemplate($tpl_name, true, true);
 		$action = $component->getAction();
@@ -59,6 +62,11 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		$this->maybeRenderId($component, $tpl);
+
+		if ($component instanceof Component\Button\Tag) {
+			$this->additionalRenderTag($component, $tpl);
+		}
+
 		return $tpl->get();
 	}
 
@@ -125,6 +133,25 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl->get();
 	}
 
+	protected function additionalRenderTag(Component\Button\Tag $component, $tpl) {
+		$tpl->touchBlock('rel_' .$component->getRelevance());
+
+		$classes = trim(join(' ', $component->getClasses()));
+		if($classes !== '') {
+			$tpl->setVariable("CLASSES", $classes);
+		}
+
+		$bgcol = $component->getBackgroundColor();
+		if($bgcol) {
+			$tpl->setVariable("BGCOL", $bgcol->asHex());
+		}
+		$forecol = $component->getForegroundColor();
+		if($forecol) {
+			$tpl->setVariable("FORECOL", $forecol->asHex());
+		}
+
+	}
+
 	/**
 	 * @inheritdoc
 	 */
@@ -135,6 +162,7 @@ class Renderer extends AbstractComponentRenderer {
 		, Component\Button\Close::class
 		, Component\Button\Shy::class
 		, Component\Button\Month::class
+		, Component\Button\Tag::class
 		);
 	}
 }

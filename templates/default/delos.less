@@ -1,4 +1,4 @@
-@import "less/font.less"; 
+@import "less/font.less";
  /* rtl-review is this font safe for RTL languages? */
 
  /* rtl-review */
@@ -11,7 +11,7 @@ bdo[dir="rtl"] { direction: rtl; unicode-bidi: bidi-override; }
 
 /*
 /* rtl-review */
-/* with specifics imports 
+/* with specifics imports
 add [dir="rtl"] SELECTOR ([dir="ltr"] is default)
 to elements with different left/right margin, padding, border, position, float, clear, text-align and, when needed, Background-position.
 In theory, you should also invert shadow... but i think we could postpone this to another release...
@@ -26,7 +26,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 
 // Core variables and mixins
 @import "@{bsbase}variables.less";    // original
-@import "@{bsbase}mixins.less"; 
+@import "@{bsbase}mixins.less";
 
 
 // Reset and dependencies
@@ -403,7 +403,7 @@ ul, ol, p {
 	margin: .8em 0;
 }
 
-ol, ul { 
+ol, ul {
 	padding-left: 40px;
     list-style-image: none;//mantis #19613: stop the inheritance for nested list until specifically setted
 }
@@ -413,9 +413,9 @@ ol, ul {
 }
 
 ol ul, ul ol,
-ul ul, ol ol { 
-	margin-top: 0; 
-	margin-bottom: 0 
+ul ul, ol ol {
+	margin-top: 0;
+	margin-bottom: 0
 }
 
 small, sub, sup {
@@ -450,7 +450,7 @@ strong, b {
 a {
 	text-decoration: none;
 	cursor: pointer;
-/* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer. 
+/* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer.
  * All skins which want to support mounting of Webfolders using Internet Explorer
  * must explicitly enable AnchorClick behavior.
  */
@@ -499,15 +499,15 @@ code {
 
 
 @media print {
-   h1, h2, h3, h4, h5, h6 { 
+   h1, h2, h3, h4, h5, h6 {
 	page-break-after: avoid;
   }
-  
-  ul, ol, dl { 
+
+  ul, ol, dl {
 	page-break-before: avoid;
-  } 
+  }
 }
-  
+
 /* --------------------------------------------------------------
    SPECIAL STYLES
 -------------------------------------------------------------- */
@@ -533,7 +533,7 @@ body#tinymce {
 }
 
 .ilClearFloat {
-	clear: both; 
+	clear: both;
 }
 
 .ilFloatRight {
@@ -660,19 +660,19 @@ input[type=text].numeric {
 /* -------------------- table formatting ------------------ */
 
 div.ilCommandRow {
-	 text-align: right; 
-	 padding-right: 1%; 
+	 text-align: right;
+	 padding-right: 1%;
 	 margin-bottom: 15px;
 }
 
 [dir="rtl"] div.ilCommandRow {
-	 text-align: left; 
+	 text-align: left;
 	 padding-right: 0;
 	 padding-left: 1%;
 }
 
 div.ilCommandRow.one_side_col {
-	 padding-right: 22%; 
+	 padding-right: 22%;
 }
 
 [dir="rtl"] div.ilCommandRow.one_side_col {
@@ -720,7 +720,7 @@ table.nobackground {
   clear: both;
   margin: 0 0 0 -10px;
 }
-  
+
 td.nobackground {
 	color: black;
 	background-color: inherit;
@@ -1287,7 +1287,7 @@ div#bot_center_area {
 	padding: 5px;
 	background-color: @body-bg;
 	border-top: 3px solid #e9e9e9;
-	-webkit-overflow-scrolling: touch; /* Bug 11209 */ 
+	-webkit-overflow-scrolling: touch; /* Bug 11209 */
 	overflow: auto; /* Bug 11209 */
 }
 
@@ -1424,7 +1424,7 @@ div.ilFrameFixedWidthHeader {
 }
 
 div.ilHeaderBanner img.ilHeaderImg {
-	width: 100%;	
+	width: 100%;
 }
 
 .ilFrameFixedWidth h1.ilHeader {
@@ -1662,7 +1662,7 @@ img.ilIcon {
 @import "less/Services/UIComponent/Panel/delos.less";
 @import "less/Modules/Excercise/delos.less";
 @import "less/Services/UIComponent/ProgressBar/delos.less";
-@import "less/Services/News/delos.less"; 
+@import "less/Services/News/delos.less";
 @import "less/Modules/Survey/delos.less";
 @import "less/Modules/MediaPool/delos.less";
 @import "less/Services/Tags/delos.less";
@@ -1827,15 +1827,15 @@ table.mceToolbar {
 /* basic responsiveness (beta)
 
    The following section targets smartphones.
-  
+
    iPads come with a device width of 768, the iPhone with 320, most smartphones seem to
    use a width under 640px, so 640 seems to be a good choice here.
    If you make any changes in this query, please add a reason to this comment and if possible an url that
    backs this decision.
-   
+
    List of common devices width values: http://cssmediaqueries.com/target/
    Google recommending 640px: https://developers.google.com/webmasters/smartphone-sites/details
-   
+
    */
 
 @media
@@ -1851,27 +1851,27 @@ table.mceToolbar {
 	.ilContainerWidth {
 		padding: 0 15px;
 	}
-    
+
     div.il_HeaderInner {
 		color: #222;
 		margin-bottom: 5px;
 		padding: 15px;
 	}
-	
+
 
 	textarea {
-		max-width: 100%; 
+		max-width: 100%;
 	}
-	
+
 	input, select {
 		max-width: 100%;
 	}
-	
+
 	/* height: auto; messes e.g. survey progress bar */
 	img {
 		max-width: 100%;
 	}
-    
+
 	div.ilc_Mob img {
 		height: auto !important;
 	}
@@ -1883,34 +1883,34 @@ table.mceToolbar {
 		max-width: none;
 	}
 
-	
+
 	div.ilFrame {
 		margin: 0;
 		width: 100%;
 	}
 
 	div.ilLeftNav {
-		
+
 	}
 
 	div.ilLeftNavSpace {
-		
+
 	}
 
 	div.ilContentFixed {
 	}
-	
+
 	.ilFrameFixedWidthHeader div.ilHeaderBanner {
 		max-width: 100%;
 		height: 40px !important;
 		padding: 0;
     }
-	
+
 	div.ilTableOuter {
 		max-width: 100%;
 		overflow: auto;
 	}
-    
+
     .table-responsive .dropdown-menu {
         position: relative;
     }
@@ -2075,7 +2075,7 @@ table.mceToolbar {
 	div.ilTabContentOuter {
 		border: none;
 	}
-	
+
 	div.ilFileDropTargetOverlay {
 		display: none;
 	}
@@ -2085,4 +2085,4 @@ table.mceToolbar {
 		content: "";
 	}
 }
- 
+
