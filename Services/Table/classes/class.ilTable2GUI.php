@@ -14,6 +14,16 @@ require_once("Services/Table/classes/class.ilTableGUI.php");
 */
 class ilTable2GUI extends ilTableGUI
 {
+	/**
+	 * @var object
+	 */
+	protected $parent_obj;
+
+	/**
+	 * @var string
+	 */
+	protected $parent_cmd;
+
 	protected $close_command = "";
 	private $unique_id;
 	private $headerHTML;

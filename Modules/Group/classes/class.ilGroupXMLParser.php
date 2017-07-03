@@ -161,6 +161,10 @@ class ilGroupXMLParser extends ilSaxParser
 				$this->group_data['registration_type'] = $a_attribs['type'];
 				$this->group_data['waiting_list_enabled'] = $a_attribs['waitingList'] == 'Yes' ? true : false;
 				break;
+			
+			case 'period':
+				$this->in_period = true;
+				break;
 				
 			case 'maxMembers':
 				$this->group_data['max_members_enabled'] = $a_attribs['enabled'] == 'Yes' ? true : false;
@@ -251,11 +255,29 @@ class ilGroupXMLParser extends ilSaxParser
 				break;
 				
 			case 'start':
-				$this->group_data['expiration_start'] = trim($this->cdata);
+				if($this->in_period)
+				{
+					$this->group_data['period_start'] = trim($this->cdata);
+				}
+				else
+				{
+					$this->group_data['expiration_start'] = trim($this->cdata);
+				}
 				break;
 				
 			case 'end':
-				$this->group_data['expiration_end'] = trim($this->cdata);
+				if($this->in_period)
+				{
+					$this->group_data['period_end'] = trim($this->cdata);
+				}
+				else
+				{
+					$this->group_data['expiration_end'] = trim($this->cdata);
+				}
+				break;
+			
+			case 'period':
+				$this->in_period = false;
 				break;
 
 			case "group":
@@ -337,6 +359,14 @@ class ilGroupXMLParser extends ilSaxParser
 		$this->group_obj->setTitle($this->group_data["title"]);
 		$this->group_obj->setDescription($this->group_data["description"]);
 		$this->group_obj->setInformation((string) $this->group_data['information']);
+		
+		if(
+			$this->group_data['period_start'] && 
+			$this->group_data['period_end'])
+		{
+			$this->group_obj->setStart(new ilDate($this->group_data['period_start'],IL_CAL_UNIX));
+			$this->group_obj->setEnd(new ilDate($this->group_data['period_end'],IL_CAL_UNIX));
+		}
 		
 		$ownerChanged = false;
 		if (isset($this->group_data["owner"])) 

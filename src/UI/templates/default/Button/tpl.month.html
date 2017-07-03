@@ -1,0 +1,11 @@
+<div <!-- BEGIN with_id --> id="{ID}"<!-- END with_id --> class="btn-group il-btn-month">
+	<button type="button" class="btn btn-default dropdown-toggle" href="{DEFAULT_ACTION}" data-toggle="dropdown" aria-expanded="false">
+		<span class="il-current-month">{DEFAULT_LABEL}</span>
+		<span class="caret"></span>
+		<span class="sr-only">{TXT_TOGGLE_DROPDOWN}</span>
+	</button>
+	<div class="dropdown-menu">
+		<div class="inline-picker"></div>
+	</div>
+</div>
+<script>il.Util.addOnLoad(function() {il.UI.button.initMonth('{JSID}');});</script>

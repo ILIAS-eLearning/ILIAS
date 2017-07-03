@@ -103,11 +103,22 @@ class ilAssQuestionSkillAssignmentImportFails
 	 */
 	public function getFailedImportsMessage(ilLanguage $lng)
 	{
+		$handledSkills = array();
 		$msg = $lng->txt('tst_failed_imp_qst_skl_assign');
 		
 		$msg .= '<ul>';
 		foreach($this->getFailedImports() as $assignmentImport)
 		{
+			$sklBaseId = $assignmentImport->getImportSkillBaseId();
+			$sklTrefId = $assignmentImport->getImportSkillTrefId();
+			
+			if( isset($handledSkills["$sklBaseId:$sklTrefId"]) )
+			{
+				continue;
+			}
+			
+			$handledSkills["$sklBaseId:$sklTrefId"] = true;
+			
 			$msg .= '<li>'.$assignmentImport->getImportSkillTitle().'</li>';
 		}
 		$msg .= '</ul>';

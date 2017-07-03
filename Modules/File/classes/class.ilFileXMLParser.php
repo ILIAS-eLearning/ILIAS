@@ -136,9 +136,11 @@ class ilFileXMLParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-		global $ilErr;
+		global $DIC;
+		$ilErr = $DIC['ilErr'];
 
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		
 		switch($a_name)
 		{
@@ -204,7 +206,7 @@ class ilFileXMLParser extends ilSaxParser
 	{
 	    $this->cdata = trim($this->cdata);
 
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$this->cdata);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$this->cdata);
 
 		switch($a_name)
 		{
@@ -229,7 +231,7 @@ class ilFileXMLParser extends ilSaxParser
 			    $this->file->setRating((bool)$this->cdata);
 				break;
 			case 'Content':
-				$GLOBALS['ilLog']->write($this->mode);
+				$GLOBALS['DIC']['ilLog']->write($this->mode);
 				$this->isReadingFile = false;
 				$baseDecodedFilename = ilUtil::ilTempnam();
 				if ($this->mode == ilFileXMLParser::$CONTENT_COPY)
@@ -286,7 +288,8 @@ class ilFileXMLParser extends ilSaxParser
 				// if no file type is given => lookup mime type
 				if(!$this->file->getFileType())
 				{
-					global $ilLog;
+					global $DIC;
+					$ilLog = $DIC['ilLog'];
 					
 					#$ilLog->write(__METHOD__.': Trying to detect mime type...');
 					include_once('./Services/Utilities/classes/class.ilFileUtils.php');

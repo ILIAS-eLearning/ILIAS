@@ -4923,7 +4923,7 @@ meta#:#meta_c_LI#:#Luxemborg
 meta#:#meta_c_LK#:#Sri Lanka
 meta#:#meta_c_LR#:#Liberia###21 Apr 2005 new variable
 meta#:#meta_c_LS#:#Lesotho###21 Apr 2005 new variable
-meta#:#meta_c_LT#:#Lithunia###21 Apr 2005 new variable
+meta#:#meta_c_LT#:#Lithuania###21 Apr 2005 new variable
 meta#:#meta_c_LU#:#Luxembourg###21 Apr 2005 new variable
 meta#:#meta_c_LV#:#Latvia###21 Apr 2005 new variable
 meta#:#meta_c_LY#:#Libyan Arab Jamahiriya###21 Apr 2005 new variable
@@ -11491,7 +11491,7 @@ survey#:#svy_activation_limited_visibility_info#:#If chosen, the survey is visib
 mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.###28 09 2012 new variable
 mathjax#:#mathjax_enable_mathjax#:#Aktiver MathJax
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.###28 09 2012 new variable
+mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.###28 09 2012 new variable
 mathjax#:#mathjax_path_to_mathjax#:#URL til MathJax
 mathjax#:#mathjax_settings#:#MathJax indstillinger
 mathjax#:#mathjax_limiter#:#Inline Delimiters###28 09 2012 new variable

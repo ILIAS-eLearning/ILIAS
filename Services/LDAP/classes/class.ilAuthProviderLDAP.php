@@ -60,7 +60,9 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		try 
 		{
 			// Read user data, which does ensure a sucessful authentication.
-			$users = $query->fetchUser($this->getCredentials()->getUsername());
+			$users = $query->fetchUser(
+				$this->getCredentials()->getUsername()
+			);
 			
 			if(!$users)
 			{
@@ -73,6 +75,16 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 				$this->handleAuthenticationFail($status, 'auth_err_ldap_exception');
 				return false;
 			}
+			
+			// check group membership
+			if(!$query->checkGroupMembership(
+				$this->getCredentials()->getUsername(),
+				$users[$this->changeKeyCase($this->getCredentials()->getUsername())]
+			))
+			{
+				$this->handleAuthenticationFail($status, 'err_wrong_login');
+				return false;
+			}
 		} 
 		catch (ilLDAPQueryException $e) {
 			$this->getLogger()->error('Cannot fetch LDAP user data... '. $e->getMessage());
@@ -81,6 +93,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		}
 		try 
 		{
+			// now bind with login credentials
 			$query->bind(IL_LDAP_BIND_AUTH, $users[$this->changeKeyCase($this->getCredentials()->getUsername())]['dn'], $this->getCredentials()->getPassword());
 		} 
 		catch (ilLDAPQueryException $e) {
@@ -171,7 +184,9 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		try 
 		{
 			// fetch user
-			$users = $query->fetchUser($this->getCredentials()->getUsername());
+			$users = $query->fetchUser(
+				$this->getCredentials()->getUsername()
+			);
 			if(!$users)
 			{
 				$this->handleAuthenticationFail($status, 'err_wrong_login');

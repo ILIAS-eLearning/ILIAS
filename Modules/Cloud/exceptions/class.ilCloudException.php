@@ -63,7 +63,8 @@ class ilCloudException extends ilException
 
     protected function assignMessageToCode()
     {
-        global $lng;
+        global $DIC;
+        $lng = $DIC['lng'];
         switch ($this->code)
         {
             case self::NO_SERVICE_ACTIVE:

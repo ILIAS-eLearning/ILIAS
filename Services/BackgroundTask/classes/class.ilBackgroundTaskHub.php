@@ -22,7 +22,8 @@ class ilBackgroundTaskHub
 	 */
 	public function __construct()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule("bgtask");
 		
@@ -43,7 +44,8 @@ class ilBackgroundTaskHub
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("validate");				
@@ -96,7 +98,8 @@ class ilBackgroundTaskHub
 	 */
 	protected function unblock()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		
 		foreach(ilBackgroundTask::getActiveByUserId($ilUser->getId()) as $task_id)
 		{
@@ -148,7 +151,8 @@ class ilBackgroundTaskHub
 	 */
 	public function isSOAPEnabled()
 	{		
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 
 		// see ilMail
 		return (extension_loaded('curl') &&

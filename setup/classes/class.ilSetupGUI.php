@@ -596,7 +596,7 @@ echo "<br>+".$client_id;
 			}
 		}
 
-		$this->tpl->setVariable("VAL_CMD", $_GET["cmd"]);
+		$this->tpl->setVariable("VAL_CMD", htmlspecialchars($_GET["cmd"]));
 		$this->tpl->setVariable("TXT_OK",$this->lng->txt("change"));
 		$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE",$this->lng->txt("choose_language"));
 		$this->tpl->setVariable("PAGETITLE","Setup");
@@ -851,7 +851,13 @@ echo "<br>+".$client_id;
 		$ne->setValue($p ? $p : $this->lng->txt("not_configured"));
 		$this->form->addItem($ne);
 
+
 		// system styles
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($this->lng->txt("system_styles"));
+		$this->form->addItem($sh);
+
+		// system styles activation
 		$ne = new ilNonEditableValueGUI($lng->txt("enable_system_styles_management"), "enable_system_styles_management");
 		$p = $this->setup->ini->readVariable("tools","enable_system_styles_management");
 		$ne->setValue($p ? $this->lng->txt("enabled") : $this->lng->txt("not_enabled"));
@@ -1163,6 +1169,11 @@ echo "<br>+".$client_id;
 		// clean command
 		$ti = new ilTextInputGUI($lng->txt("clean_command"), "clean_command");
 		$this->form->addItem($ti);
+
+		// system styles
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($this->lng->txt("system_styles"));
+		$this->form->addItem($sh);
 
 		// enabled system styles mangesment
 		$check = new ilCheckboxInputGUI($lng->txt('enable_system_styles_management'),'enable_system_styles_management');

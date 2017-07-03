@@ -26,25 +26,15 @@ ul.boxy li {
     border:2px solid #666;
     background-color:#ccc;
     color:black;
-    text-align:center;
-    width:550px;
+    text-align:left;
     margin: 5px;
     padding: 0.5em;
 }
 
-.ilMatchingQuestionDefinition
-{
-    width: 50%;
-}
-
-.ilMatchingQuestionTerm
-{
-    width: 50%;
-}
-
-#sourceArea .draggable
-{
-    float:right;
+@media only screen and (min-width: 992px) {
+	#sourceArea .draggable {
+		margin-left: 10px;
+	}
 }
 
 .draggable,
@@ -54,15 +44,9 @@ ul.boxy li {
     background-color: #eee;
     color:black;
     text-align:center;
-    width: 250px;
     margin: 5px;
     padding: 0.5em;
     cursor:pointer;
-}
-
-.droppedDraggable
-{
-    float: right;
 }
 
 .draggableDisabled
@@ -79,4 +63,16 @@ ul.boxy li {
 .droppableHover
 {
     background-color: #cff;
+}
+
+.droparea, .draggable{
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	-ms-word-break: break-all;
+	word-break: break-all;
+	word-break: break-word;
+	-ms-hyphens: auto;
+	-moz-hyphens: auto;
+	-webkit-hyphens: auto;
+	hyphens: auto;
 }

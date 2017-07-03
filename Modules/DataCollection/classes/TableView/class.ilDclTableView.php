@@ -1,6 +1,5 @@
 <?php
-require_once('./Services/ActiveRecord/class.ActiveRecord.php');
-require_once('./Modules/DataCollection/classes/TableView/class.ilDclTableViewFieldSetting.php');
+
 /**
  * Class ilDclTableView
  *
@@ -50,7 +49,7 @@ class ilDclTableView extends ActiveRecord
      * @db_fieldtype        text
      * @db_length           256
      */
-    protected $roles;
+    protected $roles = array();
 
     /**
      * @var string
@@ -184,7 +183,7 @@ class ilDclTableView extends ActiveRecord
      */
     public function getRoles()
     {
-        return $this->roles;
+        return (array) $this->roles;
     }
 
     /**

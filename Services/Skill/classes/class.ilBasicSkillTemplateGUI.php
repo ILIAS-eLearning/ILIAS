@@ -66,16 +66,18 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 		$this->form->addItem($ni);
 
 		// save and cancel commands
-		if ($a_mode == "create")
+		if ($this->checkPermissionBool("write"))
 		{
-			$this->form->addCommandButton("save", $lng->txt("save"));
-			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
-			$this->form->setTitle($lng->txt("skmg_create_skll"));
-		}
-		else
-		{
-			$this->form->addCommandButton("update", $lng->txt("save"));
-			$this->form->setTitle($lng->txt("skmg_edit_skll"));
+			if ($a_mode == "create")
+			{
+				$this->form->addCommandButton("save", $lng->txt("save"));
+				$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
+				$this->form->setTitle($lng->txt("skmg_create_skll"));
+			} else
+			{
+				$this->form->addCommandButton("update", $lng->txt("save"));
+				$this->form->setTitle($lng->txt("skmg_edit_skll"));
+			}
 		}
 		
 		$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
@@ -217,6 +219,11 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 	 */
 	function saveItem()
 	{
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$it = new ilBasicSkillTemplate();
 		$it->setTitle($this->form->getInput("title"));
 		$it->setOrderNr($this->form->getInput("order_nr"));
@@ -256,13 +263,16 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 		else
 		{
 
-			if ($this->tref_id == 0)
+			if ($this->checkPermissionBool("write"))
 			{
-				$ilToolbar->addButton($lng->txt("skmg_add_level"),
+				if ($this->tref_id == 0)
+				{
+					$ilToolbar->addButton($lng->txt("skmg_add_level"),
 						$ilCtrl->getLinkTarget($this, "addLevel"));
+				}
 			}
 		}
-		
+
 		include_once("./Services/Skill/classes/class.ilSkillLevelTableGUI.php");
 		$table = new ilSkillLevelTableGUI((int) $_GET["obj_id"], $this, "edit", $this->tref_id, $this->isInUse());
 		$tpl->setContent($table->getHTML());

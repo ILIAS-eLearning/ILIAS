@@ -186,55 +186,6 @@ class ilAuthContainerSOAP extends Auth_Container
 			$a_auth->logout();
 			return false;
 		}
-//echo "1";
-		// try to map external user via e-mail to ILIAS user
-		if ($this->response["email"] != "")
-		{
-//echo "2";
-//var_dump ($_POST);
-			$email_user = ilObjUser::_getLocalAccountsForEmail($this->response["email"]);
-
-			// check, if password has been provided in user mapping screen
-			// (see ilStartUpGUI::showUserMappingSelection)
-			// FIXME
-			if ($_POST["LoginMappedUser"] != "")
-			{ 
-				if (count($email_user) > 0)
-				{
-					$user = ilObjectFactory::getInstanceByObjId($_POST["usr_id"]);
-					require_once 'Services/User/classes/class.ilUserPasswordManager.php';
-					if(ilUserPasswordManager::getInstance()->verifyPassword($user, ilUtil::stripSlashes($_POST["password"])))
-					{
-						// password is correct -> map user
-						//$this->setAuth($local_user); (use login not id)
-						ilObjUser::_writeExternalAccount($_POST["usr_id"], $_GET["ext_uid"]);
-						ilObjUser::_writeAuthMode($_POST["usr_id"], "soap");
-						$_GET["cmd"] = $_POST["cmd"] = $_GET["auth_stat"]= "";
-						$local_user = ilObjUser::_lookupLogin($_POST["usr_id"]);
-						$a_auth->status = '';
-						$a_auth->setAuth($local_user);
-						return true;
-					}
-					else
-					{
-//echo "6"; exit;
-						
-						$a_auth->status = AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL;
-						$a_auth->setSubStatus(AUTH_WRONG_LOGIN);
-						$a_auth->logout();
-						return false;
-					}
-				}
-			}
-			
-			if (count($email_user) > 0 && $_POST["CreateUser"] == "")
-			{					
-				$_GET["email"] = $this->response["email"]; 
-				$a_auth->status = AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL;
-				$a_auth->logout();
-				return false;
-			}
-		}
 
 		$userObj = new ilObjUser();
 		$local_user = ilAuthUtils::_generateLogin($a_username);

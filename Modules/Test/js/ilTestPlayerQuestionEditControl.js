@@ -138,7 +138,7 @@ il.TestPlayerQuestionEditControl = new function() {
         // the checkbox 'use unchanged answer' is only needed for initial empty answers
         // it exists for few question types only
         if (config.isAnswered || config.isAnswerChanged) {
-            $('#ilQuestionUseUnchangedAnswer').hide();
+            $('#ilQuestionForceFormDiffInput').hide();
         }
 
         // Delayed start of timer functions
@@ -260,7 +260,7 @@ il.TestPlayerQuestionEditControl = new function() {
         refreshAnswerStatusView();
 
         // check for changes without the 'use unchanged answer' checkbox
-        var pureData = newData.replace(/&?tst_use_unchanged_answer=1/g,'');
+        var pureData = newData.replace(/&?tst_force_form_diff_input=1/g,'');
         if (pureData != origData) {
             disableUseUnchangedAnswer();
         }
@@ -435,16 +435,16 @@ il.TestPlayerQuestionEditControl = new function() {
      * Disable and uncheck the 'use unchanged answer' checkbox
      */
     function disableUseUnchangedAnswer() {
-        $('#tst_use_unchanged_answer').attr('disabled','disabled').removeAttr('checked');
-        $('#ilQuestionUseUnchangedAnswerLabel').addClass('text-muted');
+        $('#tst_force_form_diff_input').attr('disabled','disabled').removeAttr('checked');
+        $('#ilQuestionForceFormDiffInputLabel').addClass('text-muted');
     }
 
     /**
      * Enable the 'use unchanged answer' checkbox but don't check
      */
     function enableUseUnchangedAnswer() {
-        $('#tst_use_unchanged_answer').removeAttr('disabled');
-        $('#ilQuestionUseUnchangedAnswerLabel').removeClass('text-muted');
+        $('#tst_force_form_diff_input').removeAttr('disabled');
+        $('#ilQuestionForceFormDiffInputLabel').removeClass('text-muted');
     }
 
     /**

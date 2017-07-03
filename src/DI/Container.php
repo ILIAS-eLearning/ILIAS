@@ -85,7 +85,7 @@ class Container extends \Pimple\Container {
 	/**
 	 * Get interface to the toolbar.
 	 *
-	 * @return	\ilLanguage
+	 * @return	\ilToolbarGUI
 	 */
 	public function toolbar() {
 		return $this["ilToolbar"];
@@ -107,5 +107,14 @@ class Container extends \Pimple\Container {
 	 */
 	public function ui() {
 		return new UIServices($this);
+	}
+
+	/**
+	 * Get the interface to the settings
+	 *
+	 * @return \ilSetting
+	 */
+	public function settings() {
+		return $this["ilSetting"];
 	}
 }

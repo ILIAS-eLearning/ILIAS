@@ -27,7 +27,11 @@ class ilFileSystemGUI
 
 	function __construct($a_main_directory)
 	{
-		global $lng, $ilCtrl, $tpl, $ilias;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$ilias = $DIC['ilias'];
 
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
@@ -533,7 +537,10 @@ class ilFileSystemGUI
 	*/
 	function listFiles()
 	{
-		global $ilToolbar, $lng, $ilCtrl;
+		global $DIC;
+		$ilToolbar = $DIC['ilToolbar'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$dir = $this->parseCurrentDirectory();
 		
@@ -602,7 +609,9 @@ class ilFileSystemGUI
 	*/
 	function renameFileForm($a_file)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
 		$file = $this->main_dir."/".$a_file;
@@ -642,7 +651,8 @@ class ilFileSystemGUI
 	*/
 	function renameFile()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$new_name = str_replace("..", "", ilUtil::stripSlashes($_POST["new_name"]));
 		$new_name = str_replace("/", "", $new_name);
@@ -695,7 +705,8 @@ class ilFileSystemGUI
 	*/
 	function createDirectory()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		// determine directory
 		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
@@ -728,7 +739,8 @@ class ilFileSystemGUI
 	*/
 	function uploadFile()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		// determine directory
 		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
@@ -808,7 +820,10 @@ class ilFileSystemGUI
 	*/
 	function confirmDeleteFile(array $a_files)
 	{
-		global $ilCtrl, $tpl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
@@ -830,7 +845,8 @@ class ilFileSystemGUI
 	 */
 	function deleteFile()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		if (!isset($_POST["file"]))
 		{
@@ -885,7 +901,8 @@ class ilFileSystemGUI
 	*/
 	function unzipFile($a_file = null)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		// #17470 - direct unzip call (after upload)
 		if(!$a_file &&
@@ -994,7 +1011,8 @@ class ilFileSystemGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$ilCtrl->setParameter($this, "resetoffset", 1);
 		$tabs_gui->addTarget("cont_list_files",

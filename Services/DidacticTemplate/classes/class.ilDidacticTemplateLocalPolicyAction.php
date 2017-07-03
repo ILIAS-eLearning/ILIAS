@@ -368,6 +368,16 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	{
 		global $rbacreview, $rbacadmin;
 		
+		// fetch role information
+		$role_data = array();
+		foreach($rbacreview->getParentRoleIds($source->getRefId()) as $role_id => $tmp_role)
+		{
+			if($role_id == $role['obj_id'])
+			{
+				$role_data = $tmp_role;
+			}
+		}
+		
 		// Add local policy
 		if(!$rbacreview->isRoleAssignedToObject($role['obj_id'],$source->getRefId()))
 		{
@@ -387,14 +397,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 			return true;
 		}
 
-		$role_data = array();
-		foreach($rbacreview->getParentRoleIds($source->getRefId()) as $role_id => $tmp_role)
-		{
-			if($role_id == $role['obj_id'])
-			{
-				$role_data = $tmp_role;
-			}
-		}
 		switch($this->getRoleTemplateType())
 		{
 			case self::TPL_ACTION_UNION:

@@ -60,7 +60,10 @@ class ilPreviewGUI
 	 */
 	public function __construct($a_node_id = null, $a_context = self::CONTEXT_REPOSITORY, $a_obj_id = null, $a_access_handler = null) 
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		// if we are the base class, get the id's from the query string
 		if (strtolower($_GET["baseClass"]) == "ilpreviewgui")
@@ -357,7 +360,10 @@ class ilPreviewGUI
 		if (self::$initialized)
 			return;
 		
-		global $tpl, $lng, $ilCtrl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		
 		// jquery

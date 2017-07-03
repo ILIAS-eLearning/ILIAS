@@ -108,6 +108,20 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 		return ilAssOrderingElementList::buildInstance($questionId, $this->getIdentifiedMultiValues());
 	}
 	
+	/**
+	 * @param assOrderingQuestion $question
+	 */
+	public function prepareReprintable(assQuestion $question)
+	{
+		$elementList = $this->getElementList($question->getId());
+		
+		$elementList->completeContentsFromElementList(
+			$question->getOrderingElementList()
+		);
+
+		$this->setElementList($elementList);
+	}
+	
 	public function getInstanceId()
 	{
 		if( !$this->getContext() || !$this->getUniquePrefix() )

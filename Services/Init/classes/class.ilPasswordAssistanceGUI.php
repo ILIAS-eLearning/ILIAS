@@ -11,6 +11,9 @@
  */
 class ilPasswordAssistanceGUI
 {
+	const PERMANENT_LINK_TARGET_PW   = 'pwassist';
+	const PERMANENT_LINK_TARGET_NAME = 'nameassist';
+
 	/**
 	 * @var ilCtrl
 	 */
@@ -178,6 +181,7 @@ class ilPasswordAssistanceGUI
 			$form = $this->getAssistanceForm();
 		}
 		$this->tpl->setVariable('FORM', $form->getHTML());
+		$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
 		$this->tpl->show();
 	}
 
@@ -426,6 +430,7 @@ class ilPasswordAssistanceGUI
 				$form = $this->getAssignPasswordForm($pwassist_id);
 			}
 			$this->tpl->setVariable('FORM', $form->getHTML());
+			$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
 			$this->tpl->show();
 		}
 	}
@@ -599,6 +604,7 @@ class ilPasswordAssistanceGUI
 			$form = $this->getUsernameAssistanceForm();
 		}
 		$this->tpl->setVariable('FORM', $form->getHTML());
+		$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
 		$this->tpl->show();
 	}
 
@@ -735,6 +741,15 @@ class ilPasswordAssistanceGUI
 		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
 
 		$this->tpl->setVariable('TXT_TEXT', str_replace("\\n", '<br />', $text));
+		$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
 		$this->tpl->show();
+	}
+
+	/**
+	 * @param string $context
+	 */
+	protected function fillPermanentLink($context)
+	{
+		$this->tpl->setPermanentLink('usr', null, $context);
 	}
 }
