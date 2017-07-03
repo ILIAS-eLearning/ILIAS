@@ -1,5 +1,4 @@
 <?php
-require_once('./Modules/Bibliographic/classes/Types/class.ilBibliograficFileReaderBase.php');
 
 /**
  * Class ilBibTex
@@ -39,7 +38,8 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 		$this->normalizeContent();
 
 		// get entries
-		$objects = preg_split("/\\@([\\w]*)/uix", $this->getFileContent(), null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+		$objects = preg_split("/\\@([\\w]*)/uix", $this->getFileContent(), null, PREG_SPLIT_DELIM_CAPTURE
+		                                                                         | PREG_SPLIT_NO_EMPTY);
 
 		if (in_array($objects[0], self::$ignored_keywords)) {
 			$objects = array_splice($objects, 2);
