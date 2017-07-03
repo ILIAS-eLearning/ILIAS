@@ -15,12 +15,15 @@ use 	\ilSearchSettings,
 	\ilGlyphGUI,
 	\ilObjSystemFolder,
 	\ilUtil,
-	\ilSession;
+	\ilSession,
+	\ilLTIViewGUI;
 	
 //use LTI\ilSearchSettings;
 //use LTI\ilMainMenuSearchGUI;
 include_once("Services/Mail/classes/class.ilMailGlobalServices.php");
+include_once("Services/LTI/classes/class.ilLTIViewGUI.php");
 require_once("Services/MainMenu/classes/class.ilMainMenuGUI.php");
+
 
 /**
 * Handles display of the main menu for LTI
@@ -35,6 +38,7 @@ class ilMainMenuGUI extends \ilMainMenuGUI
 	* @param	boolean		$a_use_start_template	true means: target scripts should
 	*												be called through start template
 	*/
+	
 	function __construct($a_target = "_top", $a_use_start_template = false)
 	{
 		global $ilias, $rbacsystem, $ilUser, $ilLog, $DIC;
@@ -46,25 +50,17 @@ class ilMainMenuGUI extends \ilMainMenuGUI
 		
 		$this->tpl = new ilTemplate("tpl.main_menu.html", true, true,
 			"Services/LTI");
+		//$this->topbar_back_url = "http://www.google.de";
 		$this->ilias = $ilias;
 		$this->target = $a_target;
 		$this->start_template = $a_use_start_template;
 		
 		$this->mail = false;
 		
-		//$this->setMode(self::MODE_TOPBAR_MEMBERVIEW); // ?	
+		$this->setMode(self::MODE_FULL);	
 		
 		//parent::__construct($a_target, $a_use_start_template);
 		
-		$this->log($this->mode);
-		
-		$lti_cmd = $_GET['lti_cmd'];
-		switch ($lti_cmd) 
-		{
-			case "exit" :
-				$this->exitLti();
-				break;
-		}
 		// member view : ToDo?
 		/*
 		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
@@ -89,6 +85,7 @@ class ilMainMenuGUI extends \ilMainMenuGUI
 	{
 		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting, $ilPluginAdmin;
 		
+		/*
 		// append internal and external LTI css just before </body> end-tag
 		$css_html = "";
 		$css = $this->appendInlineCss();
@@ -101,7 +98,12 @@ class ilMainMenuGUI extends \ilMainMenuGUI
 		$this->dic['tpl']->setCurrentBlock("view_append_inline_css");
 		$this->dic['tpl']->setVariable("APPEND_STYLES", $css_html);
 		$this->dic['tpl']->parseCurrentBlock();
+		*/
+		$view = ilLTIViewGUI::getInstance();
+		$view->replace($this->tpl,'user_logged_in');
+		$view->replace($this->tpl,'top_bar_header');
 		
+		/*
 		$this->tpl->addBlockFile("USERLOGGEDIN","userisloggedin","tpl.user_logged_in.html","Services/LTI");
 		$this->tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
 		$user_img_src = $ilias->account->getPersonalPicturePath("small", true);
@@ -132,79 +134,12 @@ class ilMainMenuGUI extends \ilMainMenuGUI
 				: $lng->txt("back"));
 			$this->tpl->parseCurrentBlock();			
 		}
+		*/
 		
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		//include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
+		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
 		$this->tpl->setVariable("TXT_MAIN_MENU", $lng->txt("main_menu"));
 		$this->tpl->parseCurrentBlock(); 
-	}
-	
-	/**
-	 * append css styles just before </body>
-	 */ 
-	private function appendInlineCss() 
-	{
-		$arr = array();
-		$arr[] = "./Services/LTI/templates/default/lti.css";
-		$lti_css = $this->getSessionValue('lti_launch_css_url');
-		if ($lti_css !== "") 
-		{
-			$arr[] = $lti_css;
-		}
-		return $arr;
-	}
-	
-	/**
-	 * exit LTI session and if defined redirecting to returnUrl
-	 * ToDo: Standard Template with delos ...
-	 */
-	private function exitLti() 
-	{
-		global $lng;
-		$this->dic->logger()->root()->write("exitLti");
-		if ($this->getSessionValue('lti_launch_presentation_return_url') === '') {
-			$tplExit = new ilTemplate("tpl.lti_exit.html", true, true, "Services/LTI");
-			$tplExit->setVariable('TXT_EXITED_TITLE',$lng->txt('exited_title'));
-			$tplExit->setVariable('TXT_EXITED',$lng->txt('exited'));
-			$html = $tplExit->get();
-			$this->logout();
-			print $html;
-			exit;
-		}
-		else {
-			$this->logout();
-			header('Location: ' . $_SESSION['lti_launch_presentation_return_url']);
-			exit; 
-		}	
-	}
-	
-	/**
-	 * logout ILIAS and destroys Session and ilClientId cookie
-	 */
-	private function logout() 
-	{
-		//$DIC->logger()->root()->write("logout");
-		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
-		$this->dic['ilAuthSession']->logout();
-		// reset cookie
-		$client_id = $_COOKIE["ilClientId"];
-		ilUtil::setCookie("ilClientId","");
-	}
-	
-	/**
-	 * get session value != ''
-	 * 
-	 * @param $sess_key string 
-	 * @return string
-	 */ 
-	private function getSessionValue($sess_key) 
-	{
-		if (isset($_SESSION[$sess_key]) && $_SESSION[$sess_key] != '') {
-			return $_SESSION[$sess_key];
-		}
-		else {
-			return '';
-		}
 	}
 	
 	private function log($txt) 

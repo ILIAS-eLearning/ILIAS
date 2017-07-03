@@ -1354,27 +1354,21 @@ class ilInitialisation
 		/*
 		// production
 		if ($ilUser->auth_mode,'lti') !== false) {
-			$_SESSION['il_lti_mode'] = "1"; 
+			$DIC->logger()->root()->write("LTI Mode!");
+			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
+			ilLTIViewGUI::getInstance()->activate(); 
 		}
 		*/ 
 		// fake lti env
 		if ($ilUser->getFirstname() == "LTI") 
 		{
-			//include_once "Services/Authentication/classes/class.ilSession.php";
-			$DIC->logger()->root()->write("LTI Mode!");
-			//require_once "./Services/LTI/classes/class.ilTemplate.php"; // ToDo: check auth_mode and put in into requireCommonIncludes, should work?
-			/*
-			$context_ar = explode('_',$_GET['target']);
-			if (count($context_ar) == 2) {
-				$_SESSION['lti_context_id'] = $context_ar[1];
-				$_SESSION['il_lti_mode'] = "1";
-			}
-			*/
-			//ilUtil::setCookie('il_lti_mode','1'); // for early detection in initTemplate
-			$_SESSION['il_lti_mode'] = '1'; 
 			$_SESSION['lti_context_id'] = "67";
-			//$_SESSION['lti_launch_css_url'] = 'http://ltiapps.net/test/css/tc.css';
-			//$_SESSION['lti_launch_presentation_return_url'] = 'http://ltiapps.net/test/tc-return.php';
+			$_SESSION['lti_launch_css_url'] = 'http://ltiapps.net/test/css/tc.css';
+			$_SESSION['lti_launch_presentation_return_url'] = 'http://ltiapps.net/test/tc-return.php';
+			
+			$DIC->logger()->root()->write("LTI Mode!");
+			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
+			ilLTIViewGUI::getInstance()->activate();
 		}
 		else {
 			unset($_SESSION['il_lti_mode']);
