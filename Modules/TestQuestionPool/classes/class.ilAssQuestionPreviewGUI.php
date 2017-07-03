@@ -109,7 +109,7 @@ class ilAssQuestionPreviewGUI
 		$this->questionGUI->setTargetGui($this);
 		$this->questionGUI->setQuestionActionCmd(self::CMD_HANDLE_QUESTION_ACTION);
 		
-		$this->questionGUI->setOutputMode(assQuestionGUI::OUTPUT_MODE_USERINPUT);
+		$this->questionGUI->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_DEMOPLAY);
 	}
 
 	public function initPreviewSettings($parentRefId)

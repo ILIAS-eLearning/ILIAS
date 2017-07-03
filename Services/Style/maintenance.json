@@ -2,7 +2,9 @@
     "maintenance_model": "Classic",
     "first_maintainer": "amstutz(26468)",
     "second_maintainer": "amstutz(26468)",
-    "implicit_maintainers": [],
+    "implicit_maintainers": [
+        "akill(149)"
+    ],
     "coordinator": "",
     "tester": "fschmid(21087)",
     "testcase_writer": "Fabian(27631)",

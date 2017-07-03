@@ -7847,7 +7847,7 @@ mathjax#:#mathjax_limiter#:#Inline Ayırıcılar
 mathjax#:#mathjax_limiter_info#:#Onlar MathJax kurulum yapılandırılmış olarak satır sınırlayıcıları seçin.
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_path_to_mathjax#:#URL MathJax için
-mathjax#:#mathjax_path_to_mathjax_desc#:#Eg http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML veya yerel yükleme için bir URL.
+mathjax#:#mathjax_path_to_mathjax_desc#:#Eg https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML veya yerel yükleme için bir URL.
 mathjax#:#mathjax_settings#:#MathJax Ayarları
 mcst#:#mcst_add_new_item#:#Add New Mediacast Öğe
 mcst#:#mcst_audioportable_settings_info#:#Dosya eklerinin virgülle ayrılmış listesi

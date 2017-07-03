@@ -60,7 +60,9 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		try 
 		{
 			// Read user data, which does ensure a sucessful authentication.
-			$users = $query->fetchUser($this->getCredentials()->getUsername());
+			$users = $query->fetchUser(
+				$this->getCredentials()->getUsername()
+			);
 			
 			if(!$users)
 			{
@@ -71,6 +73,16 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 			{
 				$this->getLogger()->warning('Cannot find user: '. $this->changeKeyCase($this->getCredentials()->getUsername()));
 				$this->handleAuthenticationFail($status, 'auth_err_ldap_exception');
+				return false;
+			}
+			
+			// check group membership
+			if(!$query->checkGroupMembership(
+				$this->getCredentials()->getUsername(),
+				$users[$this->changeKeyCase($this->getCredentials()->getUsername())]
+			))
+			{
+				$this->handleAuthenticationFail($status, 'err_wrong_login');
 				return false;
 			}
 		} 
@@ -172,7 +184,9 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		try 
 		{
 			// fetch user
-			$users = $query->fetchUser($this->getCredentials()->getUsername());
+			$users = $query->fetchUser(
+				$this->getCredentials()->getUsername()
+			);
 			if(!$users)
 			{
 				$this->handleAuthenticationFail($status, 'err_wrong_login');

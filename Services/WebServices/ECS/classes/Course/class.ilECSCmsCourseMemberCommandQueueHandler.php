@@ -397,6 +397,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 						if($il_usr_id = ilObjUser::_lookupId($login))
 						{
 							$part->add($il_usr_id,$role);
+							$part->sendNotification($part->NOTIFY_ACCEPT_USER, $il_usr_id);
 						}
 					}
 				}
@@ -411,6 +412,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 						// Assign user
 						$this->log->info('Assigning new user ' . $person_id. ' '. 'to '. ilObject::_lookupTitle($obj_id).' using role: ' . $role);
 						$part->add($il_usr_id,$role);
+						$part->sendNotification($part->NOTIFY_ACCEPT_USER, $il_usr_id);
 					}
 				}
 				else
@@ -431,6 +433,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 						if($il_usr_id = ilObjUser::_lookupId($login))
 						{
 							$part->add($il_usr_id,$role);
+							$part->sendNotification($part->NOTIFY_ACCEPT_USER, $il_usr_id);
 						}
 					}
 				}
@@ -513,7 +516,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 			$query = new ilLDAPQuery($server);
 			$query->bind(IL_LDAP_BIND_DEFAULT);
 			
-			$users = $query->fetchUser($a_person_id);
+			$users = $query->fetchUser($a_person_id,true);
 			if($users)
 			{
 				include_once './Services/User/classes/class.ilUserCreationContext.php';

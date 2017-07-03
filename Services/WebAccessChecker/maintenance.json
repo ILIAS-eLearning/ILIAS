@@ -7,7 +7,7 @@
     "tester": "iLUB Universität Bern",
     "testcase_writer": "ttruffer(42894)",
     "path": "Services/WebAccessChecker",
-    "belong_to_component": "None",
+    "belong_to_component": "Web Access Checker",
     "used_in_components": [
         "ObjectDefinition",
         "Learning Module SCORM",
