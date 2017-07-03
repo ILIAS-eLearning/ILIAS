@@ -26,7 +26,7 @@ interface Factory {
 	 *   ordering:
 	 *       1: >
 	 *          The most important standard button SHOULD be first in reading
-     *          direction if there are several buttons.
+	 *          direction if there are several buttons.
 	 *       2: >
 	 *          In the toolbar and in forms special regulations for the ordering
 	 *          of the buttons MAY apply.
@@ -162,5 +162,43 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Button\Month
 	 */
 	public function month($default);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Tags classify entities. Thus, their primary purpose is the visualization
+	 *     of those classifications for one entity. However, tags are usually
+	 *     clickable - either to edit associations or list related entities,
+	 *     i.e. objects with the same tag.
+	 *   composition: >
+	 *     Tags are a colored area with text on it.
+	 *     When used in a tag-cloud (a list of tags), tags can be visually "weighted"
+	 *     according to the number of their occurences, be it with different
+	 *     (font-)sizes, different colors or all of them.
+	 *   effect: >
+	 *     Tags may trigger an action or change the view when clicked.
+	 *     There is no visual difference (besides the cursor) between
+	 *     clickable tags and tags with unavailable action.
+	 *
+	 * context:
+	 *
+	 * rules:
+	 *   style:
+	 *       1: Tags SHOULD be used with an additonal class to adjust colors.
+	 *       2: >
+	 *           The font-color SHOULD be set with high contrast to the chosen
+	 *           background color.
+	 *   accessibility:
+	 *       1: >
+	 *           The functionality of the tag button MUST be indicated for screen
+	 *           readers by an aria-label.
+	 * ---
+	 * @param	string		$label
+	 * @param	string		$action
+	 * @return  \ILIAS\UI\Component\Button\Tag
+	 */
+	public function tag($label, $action);
+
 
 }
