@@ -301,7 +301,6 @@ interface Factory {
 	 */
 	public function panel();
 
-
 	/**
 	 * ---
 	 * description:
@@ -566,5 +565,45 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Item\Factory
 	 */
 	public function item();
+
+ 	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Icons are quickly comprehensible and recognizable graphics.
+	 *     They indicate the functionality or nature of a text-element or context:
+	 *     Icons will mainly be used in front of object-titles, e.g. in the
+	 *     header, the tree and in repository listing.
+	 *   composition: >
+	 *     Icons come in three fixed sizes: small, medium and large.
+	 *     They can be configured with an additional "abbreviation",
+	 *     a text of a few characters that will be rendered on top of the image.
+	 *   effect: >
+	 *     Icons themselves are not interactive; however they are allowed
+	 *     within interactive containers.
+	 *   rivals:
+	 *     1: >
+	 *       Glyphs are typographical characters that act as a trigger for
+	 *       some action.
+	 *     2: >
+	 *       Images belong to the content and can be purely decorative.
+	 * rules:
+	 *   usage:
+	 *     1: Icons MUST be used to represent objects or context.
+	 *     2: Icons MUST be used in combination with a title or label.
+	 *     3: An unique Icon MUST always refer to the same thing.
+	 *   style:
+	 *     1: Icons MUST have a class indicating their usage.
+	 *     2: Icons MUST be tagged with a CSS-class indicating their size.
+	 *   accessibility:
+	 *     1: Icons MUST use aria-label.
+	 *   wording:
+	 *     1: The aria-label MUST state the represented object-type.
+	 *     2: The abbreviation SHOULD consist of one or two letters.
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Icon\Factory
+	 **/
+	public function icon();
 
 }

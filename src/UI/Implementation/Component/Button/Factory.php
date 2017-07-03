@@ -11,22 +11,29 @@ class Factory implements B\Factory {
 	 * @inheritdoc
 	 */
 	public function standard($label, $action) {
-        return new Standard($label, $action);
-    }
+		return new Standard($label, $action);
+	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function primary($label, $action) {
-        return new Primary($label, $action);
-    }
+		return new Primary($label, $action);
+	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function close() {
 		return new Close();
-    }
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function tag($label, $action) {
+		return new Tag($label, $action);
+	}
 
 	/**
 	 * @inheritdoc
