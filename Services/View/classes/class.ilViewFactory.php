@@ -42,7 +42,8 @@ class ilViewFactory
 	 */
 	private static $views = array(
 					'ilFullViewGUI' => self::FULL,
-					'ilLTIViewGUI' => self::LTI
+					'ilLTIViewGUI' => self::LTI,
+					'ilExamViewGUI' => self::EXAM
 					);
 	
 	
@@ -79,11 +80,11 @@ class ilViewFactory
 				include_once './Services/LTI/classes/class.ilLTIViewGUI.php';
 				return ilLTIViewGUI::getInstance();
 				break;
-			/*
 			case self::EXAM:
 				include_once './Modules/Test/classes/class.ilExamViewGUI.php';
 				return ilExamViewGUI::getInstance();
 				break;
+			/*
 			case self::SEB:
 				include_once './Services/SEB/classes/class.ilViewSEB.php';
 				return new ilViewSEB();
