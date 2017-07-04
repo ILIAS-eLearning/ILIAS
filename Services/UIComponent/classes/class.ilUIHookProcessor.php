@@ -23,7 +23,7 @@ class ilUIHookProcessor
 	 */
 	function __construct($a_comp, $a_part, $a_pars)
 	{
-		global $ilPluginAdmin, $DIC;
+		global $ilPluginAdmin;
 		
 		include_once("./Services/UIComponent/classes/class.ilUIHookPluginGUI.php");
 		
@@ -49,31 +49,6 @@ class ilUIHookProcessor
 						break;
 						
 					case ilUIHookPluginGUI::REPLACE:
-						if (!$this->replaced)
-						{
-							$this->replace = $resp["html"];
-							$this->replaced = true;
-						}
-						break;
-				}
-			}
-		}
-		
-		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== 'ilFullViewGUI') {
-			$view = $DIC[$_SESSION['il_view_mode']];
-			if ($view->uiHook()) {
-				$resp = $view->getHTML($a_comp, $a_part, $a_pars);
-				switch($resp["mode"])
-				{
-					case $view::PREPEND:
-						$this->prepend[] = $resp["html"];
-						break;
-						
-					case $view::APPEND:
-						$this->append[] = $resp["html"];
-						break;
-						
-					case $view::REPLACE:
 						if (!$this->replaced)
 						{
 							$this->replace = $resp["html"];

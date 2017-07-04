@@ -23,12 +23,11 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $tree, $ilSetting, $objDefinition, $DIC;
+		global $tree, $ilSetting, $objDefinition;
 
 		$this->cur_ref_id = (int) $_GET["ref_id"];
 		
 		$this->top_node_id = 0;
-			
 		if ($ilSetting->get("rep_tree_limit_grp_crs") && $this->cur_ref_id > 0)
 		{
 			$path = $tree->getPathId($this->cur_ref_id);
@@ -45,16 +44,6 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 				}
 			}
 			
-		}
-		
-		/* NEW CODE! EXPERIMENTAL SHOWCASE
-		 * If the default ilFullViewGUI is supported, this condition will be dropped out 
-		 */
-		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== 'ilFullViewGUI') {
-			$view = $DIC[$_SESSION['il_view_mode']];
-			if ($view->tree_root_id > 0) {
-				$this->top_node_id = $view->tree_root_id;
-			}
 		}
 		
 		parent::__construct("rep_exp", $a_parent_obj, $a_parent_cmd, $tree);

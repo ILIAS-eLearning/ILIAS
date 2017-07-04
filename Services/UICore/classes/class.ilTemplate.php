@@ -3,7 +3,6 @@
 
 include_once("./Services/UICore/lib/html-it/IT.php");
 include_once("./Services/UICore/lib/html-it/ITX.php");
-//include_once("./Services/View/classes/class.ilViewFactory.php");
 
 /**
 * special template class to simplify handling of ITX/PEAR
@@ -81,8 +80,7 @@ class ilTemplate extends HTML_Template_ITX
 		$this->vars = array();
 		$this->addFooter = TRUE;
 		
-		//$this->il_use_cache = $a_use_cache;
-		$this->il_use_cache = false;
+		$this->il_use_cache = $a_use_cache;
 		$this->il_cur_key = $file."/".$in_module;
 
 		$fname = $this->getTemplatePath($file, $in_module, $plugin);
@@ -222,7 +220,6 @@ class ilTemplate extends HTML_Template_ITX
 		$handle_referer = false, $add_ilias_footer = false,
 		$add_standard_elements = false, $a_main_menu = true, $a_tabs = true)
 	{
-		global $DIC;
 		if ($add_error_mess)
 		{
 			$this->fillMessage();
@@ -248,7 +245,6 @@ class ilTemplate extends HTML_Template_ITX
 			
 			// these fill blocks in tpl.main.html
 			$this->fillCssFiles();
-			$this->fillViewCssFiles();
 			$this->fillInlineCss();
 			$this->fillContentStyle();
 			$this->fillBodyClass();
@@ -276,8 +272,7 @@ class ilTemplate extends HTML_Template_ITX
 			// late loading of javascipr files, since operations above may add files
 			$this->fillJavaScriptFiles();
 			$this->fillOnLoadCode();
-			$this->fillViewAppendInlineCss();
-			
+
 			// these fill just plain placeholder variables in tpl.adm_content.html
 			if ($this->blockExists("content"))
 			{
@@ -309,7 +304,7 @@ class ilTemplate extends HTML_Template_ITX
 		{
 			$html = parent::get($part);
 		}
-		 
+
 		// include the template output hook
 		global $ilPluginAdmin;
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
@@ -324,19 +319,6 @@ class ilTemplate extends HTML_Template_ITX
 			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
 			{
 				$html = $gui_class->modifyHTML($html, $resp);
-			}
-		}
-		
-		// include the view uiHook if empty il_view_mode and not the default ilViewFull 
-		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== 'ilFullViewGUI') {
-			$view = $DIC[$_SESSION['il_view_mode']];
-			if ($view->uiHook()) {
-				$resp = $view->getHTML("", "template_get", 
-					array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html));
-				if ($resp["mode"] != $view::KEEP)
-				{
-					$html = $view->modifyHTML($html, $resp);
-				}
 			}
 		}
 
@@ -477,7 +459,7 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function show($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false)
 	{
-		global $ilias, $ilTabs, $DIC;
+		global $ilias, $ilTabs;
 
 		// include yahoo dom per default
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
@@ -525,7 +507,6 @@ class ilTemplate extends HTML_Template_ITX
 
 			// these fill blocks in tpl.main.html
 			$this->fillCssFiles();
-			$this->fillViewCssFiles();
 			$this->fillInlineCss();
 			//$this->fillJavaScriptFiles();
 			$this->fillContentStyle();
@@ -553,7 +534,7 @@ class ilTemplate extends HTML_Template_ITX
 			// late loading of javascipr files, since operations above may add files
 			$this->fillJavaScriptFiles();
 			$this->fillOnLoadCode();
-			$this->fillViewAppendInlineCss();
+
 			// these fill just plain placeholder variables in tpl.adm_content.html
 			// these fill just plain placeholder variables in tpl.adm_content.html
 			if ($this->blockExists("content"))
@@ -590,19 +571,6 @@ class ilTemplate extends HTML_Template_ITX
 			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
 			{
 				$html = $gui_class->modifyHTML($html, $resp);
-			}
-		}
-		
-		// include the view uiHook if empty il_view_mode and not the default ilViewFull 
-		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== 'ilFullViewGUI') {
-			$view = $DIC[$_SESSION['il_view_mode']];
-			if ($view->uiHook()) {
-				$resp = $view->getHTML("", "template_show", 
-					array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html));
-				if ($resp["mode"] != $view::KEEP)
-				{
-					$html = $view->modifyHTML($html, $resp);
-				}
 			}
 		}
 
@@ -796,37 +764,6 @@ class ilTemplate extends HTML_Template_ITX
 	}
 
 	/**
-	 * Fill in the css file tags
-	 * 
-	 * @param boolean $a_force
-	 */
-	function fillViewCssFiles($a_force = false)
-	{
-		global $DIC;
-		if (!$this->blockExists("css_file"))
-		{
-			return;
-		}
-		if (!isset($_SESSION['il_view_mode']) || $_SESSION['il_view_mode'] == 'ilFullViewGUI') 
-		{
-			return;
-		}
-		$view = $DIC[$_SESSION['il_view_mode']];
-		
-		$css = $view->addCss();
-		foreach ($css as $cssfile) 
-		{
-			if (is_file($cssfile) || $a_force)
-			{
-				$this->setCurrentBlock("css_file");
-				$this->setVariable("CSS_FILE", $cssfile);
-				$this->setVariable("CSS_MEDIA", "screen");
-				$this->parseCurrentBlock();
-			}
-		}
-	}
-	
-	/**
 	 * Fill in the inline css
 	 *
 	 * @param boolean $a_force
@@ -881,36 +818,13 @@ class ilTemplate extends HTML_Template_ITX
 	
 	function getMainMenu()
 	{
-		global $DIC, $ilMainMenu;
-		
+		global $ilMainMenu;
+
 		if($this->variableExists('MAINMENU'))
 		{
-			/* don't change anything in normal FULL view mode */
-			if (!isset($_SESSION['il_view_mode']) || $_SESSION['il_view_mode'] == 'ilFullViewGUI') {
-				$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
-				$this->main_menu = $ilMainMenu->getHTML();
-				$this->main_menu_spacer = $ilMainMenu->getSpacerClass();
-			}
-			/**
-			 * deprecated if MainMenu gets a module design: see getMainMenu() in view;
-			 * if MainMenu should be replaced use uiHook 
-			 */
-			else { // get MainMenu from View or if empty then default main menu
-				$view = $DIC[$_SESSION['il_view_mode']];
-				if (!$view->showMainMenu()) {
-					$this->main_menu = "";
-					return;
-				}
-				$html = $view->getMainMenuHTML();
-				if ($html != "") {
-					$this->main_menu = $html;
-				}
-				else {
-					$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
-					$this->main_menu = $ilMainMenu->getHTML();
-					$this->main_menu_spacer = $ilMainMenu->getSpacerClass();
-				}
-			} 
+			$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
+			$this->main_menu = $ilMainMenu->getHTML();
+			$this->main_menu_spacer = $ilMainMenu->getSpacerClass();
 		}
 	}
 	
@@ -942,9 +856,9 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function addILIASFooter()
 	{
-		global $ilAuth, $DIC;
-		if (!$this->getAddFooter()) return;
+		global $ilAuth;
 		
+		if (!$this->getAddFooter()) return;
 		global $ilias, $ilClientIniFile, $ilCtrl, $ilDB, $ilSetting, $lng;
 		
 		$ftpl = new ilTemplate("tpl.footer.html", true, true, "Services/UICore");
@@ -1250,8 +1164,6 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function setCurrentBlock ($part = "DEFAULT")
 	{
-		global $ilLog;
-		
 		$this->activeBlock = $part;
 
 		if ($part == "DEFAULT")
@@ -1290,7 +1202,6 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function parseCurrentBlock($part = "DEFAULT")
 	{
-		global $ilLog;
 		// Hier erst noch ein replace aufrufen
 		if ($part != "DEFAULT")
 		{
@@ -1456,7 +1367,6 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function addBlockFile($var, $block, $tplname, $in_module = false)
 	{
-		global $DIC;
 		if (DEBUG)
 		{
 			echo "<br/>Template '".$this->tplPath."/".$tplname."'";
@@ -1489,19 +1399,6 @@ class ilTemplate extends HTML_Template_ITX
 			}
 		}
 		
-		// include the view uiHook if empty il_view_mode and not the default ilViewFull 
-		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== 'ilFullViewGUI') {
-			$view = $DIC[$_SESSION['il_view_mode']];
-			if ($view->uiHook()) {
-				$resp = $view->getHTML("", "template_add", 
-					array("tpl_id" => $id, "tpl_obj" => $this, "html" => $template));
-				if ($resp["mode"] != $view::KEEP)
-				{
-					$template = $view->modifyHTML($html, $resp);
-				}
-			}
-		}
-
 		return $this->addBlock($var, $block, $template);
 	}
 
@@ -1523,7 +1420,6 @@ class ilTemplate extends HTML_Template_ITX
                                $removeUnknownVariables = true,
                                $removeEmptyBlocks = true )
     {
-	global $DIC;
     	// copied from IT:loadTemplateFile
         $template = '';
         if (!$this->flagCacheTemplatefile ||
@@ -1550,20 +1446,6 @@ class ilTemplate extends HTML_Template_ITX
 				$template = $gui_class->modifyHTML($template, $resp);
 			}
 		}
-		
-		// include the view uiHook if empty il_view_mode and not the default ilViewFull 
-		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== 'ilFullViewGUI') {
-			$view = $DIC[$_SESSION['il_view_mode']];
-			if ($view->uiHook()) {
-				$resp = $view->getHTML("", "template_load", 
-					array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $template));
-				if ($resp["mode"] != $view::KEEP)
-				{
-					$template = $view->modifyHTML($html, $resp);
-				}
-			}
-		}
-
 		// new.     
         
         // copied from IT:loadTemplateFile
@@ -1716,7 +1598,6 @@ class ilTemplate extends HTML_Template_ITX
 
 	function getStandardTemplate()
 	{
-		global $DIC;
 		if ($this->standard_template_loaded)
 		{
 			return;
@@ -1735,12 +1616,6 @@ class ilTemplate extends HTML_Template_ITX
 //			true, 1);
 
 		$this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== 'ilFullViewGUI') {
-			$view = $DIC[$_SESSION['il_view_mode']];
-			if ($view->showGetMessages()) {
-				$view->checkMessages();
-			}
-		}
 		$this->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		$this->standard_template_loaded = true;
@@ -1810,7 +1685,8 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	private function fillHeader()
 	{
-		global $lng, $ilUser, $ilCtrl, $DIC;
+		global $lng, $ilUser, $ilCtrl;
+		
 		$icon = false;
 		if ($this->icon_path != "")
 		{
@@ -1860,31 +1736,13 @@ class ilTemplate extends HTML_Template_ITX
 			$this->parseCurrentBlock();
 		}
 		
-		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== 'ilFullViewGUI') 
+		$header = $this->getHeaderActionMenu();
+		if ($header)
 		{
-			$view = $DIC[$_SESSION['il_view_mode']];
-			$action_menu = $view->showActionMenu();
-			if ($action_menu) {
-				$header = $this->getHeaderActionMenu();
-				if ($header)
-				{
-					$this->setCurrentBlock("head_action_inner");
-					$this->setVariable("HEAD_ACTION", $header);
-					$this->parseCurrentBlock();
-					$this->touchBlock("head_action");			
-				}
-				break;
-			}
-		}
-		else { // default
-			$header = $this->getHeaderActionMenu();
-			if ($header)
-			{
-				$this->setCurrentBlock("head_action_inner");
-				$this->setVariable("HEAD_ACTION", $header);
-				$this->parseCurrentBlock();
-				$this->touchBlock("head_action");			
-			}
+			$this->setCurrentBlock("head_action_inner");
+			$this->setVariable("HEAD_ACTION", $header);
+			$this->parseCurrentBlock();
+			$this->touchBlock("head_action");			
 		}
 
 		if(count((array) $this->title_alerts))
@@ -1992,8 +1850,6 @@ class ilTemplate extends HTML_Template_ITX
 	 */
 	function getHeaderActionMenu()
 	{
-		global $DIC;
-		
 		return $this->header_action;
 	}
 
@@ -2024,19 +1880,7 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function setRightContent($a_html)
 	{
-		global $DIC;
-		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== 'ilFullViewGUI') {
-			$view = $DIC[$_SESSION['il_view_mode']];
-			if ($view->showRightColumn()) {
-				$this->right_content = $a_html;
-			}
-			else {
-				$this->right_content = "";
-			}
-		}
-		else {
-			$this->right_content = $a_html;
-		}	
+		$this->right_content = $a_html;
 	}
 	
 	/**
@@ -2087,19 +1931,7 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function setLeftContent($a_html)
 	{
-		global $DIC;
-		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== 'ilFullViewGUI') {
-			$view = $DIC[$_SESSION['il_view_mode']];
-			if ($view->showLeftColumn()) {
-				$this->left_content = $a_html;
-			}
-			else {
-				$this->left_content = "";
-			}
-		}
-		else {
-			$this->left_content = $a_html;
-		}
+		$this->left_content = $a_html;
 	}
 		
 	/**
@@ -2146,7 +1978,7 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function setLocator()
 	{
-		global $ilLocator, $lng, $ilPluginAdmin, $ilMainMenu, $DIC;
+		global $ilLocator, $lng, $ilPluginAdmin, $ilMainMenu;
 		
 		// blog/portfolio
 		if($ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_REDUCED ||
@@ -2155,7 +1987,7 @@ class ilTemplate extends HTML_Template_ITX
 			$this->setVariable("LOCATOR", "");
 			return;
 		}
-			
+
 		$html = "";
 		if (is_object($ilPluginAdmin))
 		{
@@ -2173,12 +2005,6 @@ class ilTemplate extends HTML_Template_ITX
 			$html = $ilLocator->getHTML();
 		}
 		
-		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== 'ilFullViewGUI') {
-			$view = $DIC[$_SESSION['il_view_mode']];
-			if (!$view->showLocator()) {
-				$html = "";
-			}
-		}
 		$this->setVariable("LOCATOR", $html);
 	}
 	
@@ -2331,6 +2157,7 @@ class ilTemplate extends HTML_Template_ITX
 			$a_ref_id = $this->mount_webfolder;
 			$a_link =  $davServer->getMountURI($a_ref_id);
 			$a_folder = $davServer->getFolderURI($a_ref_id);
+			
 			$this->setCurrentBlock("mount_webfolder");
 			$this->setVariable("LINK_MOUNT_WEBFOLDER", $a_link);
 			$this->setVariable("FOLDER_MOUNT_WEBFOLDER", $a_folder);
@@ -2664,28 +2491,6 @@ class ilTemplate extends HTML_Template_ITX
 				$js.
 				'</script>'."\n";
 		}
-	}
-	
-	/**
-	* Fill view append css
-	*/
-	function fillViewAppendInlineCss()
-	{
-		global $DIC, $ilLog;
-		$css_html = "";
-		if (!isset($_SESSION['il_view_mode']) || $_SESSION['il_view_mode'] == 'ilFullViewGUI') {
-			return;
-		}
-		$view = $DIC[$_SESSION['il_view_mode']];
-		$css = $view->appendInlineCss();
-		foreach ($css as $cssfile) {
-			$css_html .= "<style type=\"text/css\">\n";
-			$css_html .= file_get_contents($cssfile);
-			$css_html .= "</style>\n";
-		}
-		$this->setCurrentBlock("view_append_inline_css");
-		$this->setVariable("APPEND_STYLES", $css_html);
-		$this->parseCurrentBlock();
 	}
 	
 	function setBackgroundColor($a_bg_color)

@@ -1,8 +1,12 @@
 <div id="ilTopBar" class="ilTopBar ilTopFixed{TOPBAR_CLASS} hidden-print">
 	<div class="container-fluid ilContainerWidth">
 		<div class="row">
-			{HEADER_TOP_TITLE}
-			{HEADER_BACK_BL}
+			<!-- BEGIN header_top_title -->
+			<div class="ilTopTitle">{TXT_HEADER_TITLE}</div>
+			<!-- END header_top_title -->
+			<!-- BEGIN header_back_bl -->
+			<div class="ilTopTitle ilTopTitleVisible"><a href="{URL_HEADER_BACK}">&laquo; {TXT_HEADER_BACK}</a></div>
+			<!-- END header_back_bl -->
 			<!-- BEGIN member_view_bl -->
 			<div class="ilTopMemberView"><h3>{MEMBER_VIEW_INFO}</h3></div>
 			<!-- END member_view_bl -->
@@ -27,7 +31,25 @@
 						{HELP_SELECT}
 					</li>
 					<!-- END help -->
-					{USERLOGGEDIN}
+					<!-- BEGIN userisloggedin -->
+					<li id="userlog" class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<span>{USER_IMG}<!--{USERNAME}--><span class="caret"></span></span>
+						</a>
+						<ul class="dropdown-menu pull-right" role="menu">
+							<li>
+								<a href="{USR_LINK_PROFILE}" target="_top">{USR_TXT_PROFILE}</a>
+							</li>
+							<li>
+								<a href="{USR_LINK_SETTINGS}" target="_top">{USR_TXT_SETTINGS}</a>
+							</li>
+							<li role="presentation" class="divider"></li>
+							<li>
+								<a href="{LINK_LOGOUT2}">{TXT_LOGOUT2}</a>
+							</li>
+						</ul>
+					</li>
+					<!-- END userisloggedin -->
 					<!-- BEGIN lang_select -->
 					<li class="dropdown"><a id="mm_lang_sel" href="#" class="dropdown-toggle" data-toggle="dropdown">{TXT_LANGSELECT} <span class="caret"></span></a>
 						{LANG_SELECT}
