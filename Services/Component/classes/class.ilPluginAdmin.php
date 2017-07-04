@@ -363,6 +363,16 @@ class ilPluginAdmin
 	}
 
 	/**
+	 * Get info for all plugins.
+	 *
+	 * @return 	array<string, array>
+	 */
+	public static function getAllPlugins() {
+		$cached_component = ilCachedComponentData::getInstance();
+		return $cached_component->getIlPluginById();
+	}
+
+	/**
 	 * Get info for all active plugins.
 	 *
 	 * @return 	array
@@ -406,9 +416,7 @@ class ilPluginAdmin
 		if( ! array_key_exists($id, $plugs)) {
 			throw new \InvalidArgumentException("Plugin does not exist: " .$id, 1);
 		}
-
 		$pdata = $plugs[$id];
-
 		return self::getPluginObject(
 			$pdata['component_type'],
 			$pdata['component_name'],
