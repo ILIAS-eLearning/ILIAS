@@ -52,7 +52,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		$this->show_locator = true;
 		$this->show_ilias_footer = false;
 		$this->show_tree_icon = false;
-		$this->allow_desktop = true;
+		$this->allow_desktop = false;
 		$this->show_get_messages = true;
 		$this->show_action_menu = false;
 		$this->show_right_column = true;
@@ -144,7 +144,11 @@ class ilLTIViewGUI extends ilBaseViewGUI
 			// add home_id to the item list too
 			$this->home_items[] = $this->home_id;
 		}
-		
+		$this->log("home_id: " . $this->home_id);
+		$this->log("home_type: " . $this->home_type);
+		$this->log("home_url: " . $this->home_url);
+		$this->log("home_items: " . $this->home_items);
+		$this->log("current_ref_id: " . $this->current_ref_id);
 		switch ($baseclass) 
 		{
 			case 'illtiroutergui' :
@@ -185,17 +189,8 @@ class ilLTIViewGUI extends ilBaseViewGUI
 	private function setInContext() 
 	{
 		$this->show_home_link = false;
-		// save last context for redirecting
-		/*
-		$_SESSION['view_last_context_id'] = $this->current_ref_id;
-		$_SESSION['view_last_context_type'] = $this->current_type;
-		
-		if (!is_int($pos = strpos($_url, "&view_msg_type="))) 
-		{
-			$_SESSION['view_last_http_path'] = $this->getHttpPath();
-		}
-		*/ 
 		$this->tree_root_id = ($this->fix_tree_id === '') ? $this->home_id : $this->fix_tree_id;
+		$_SESSION['lti_tree_root_id'] = $this->tree_root_id;
 	}
 	
 	/**
@@ -243,12 +238,14 @@ class ilLTIViewGUI extends ilBaseViewGUI
 					}
 				}
 			} 
+			$_SESSION['lti_tree_root_id'] = $this->tree_root_id;
 		}
 		else 
 		{
 			//$this->redirectToReferer();
 			$this->redirectToHome(self::MSG_ERROR,"lti_not_allowed");
 		}
+		
 	}
 	
 	public function replace($tpl,$part) 
@@ -275,7 +272,10 @@ class ilLTIViewGUI extends ilBaseViewGUI
 					$tpl->setVariable("TXT_HEADER_TITLE", "LTI header replaced");
 				}
 				else {
-					$tpl->addBlockFile("HEADER_BACK_BL","header_back_bl","tpl.header_back_bl.html","Services/LTI");
+					if (!$tpl->blockExists("header_back_bl")) 
+					{
+						$tpl->addBlockFile("HEADER_BACK_BL","header_back_bl","tpl.header_back_bl.html","Services/LTI");
+					}
 					$tpl->setVariable("URL_HEADER_BACK", $this->home_url);
 					$tpl->setVariable("TXT_HEADER_BACK", $lng->txt("lti_back_to_home")); // ToDo: $lng variable		
 				}

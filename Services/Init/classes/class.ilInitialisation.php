@@ -1363,8 +1363,8 @@ class ilInitialisation
 		if ($ilUser->getFirstname() == "LTI") 
 		{
 			$_SESSION['lti_context_id'] = "67";
-			$_SESSION['lti_launch_css_url'] = 'http://ltiapps.net/test/css/tc.css';
-			$_SESSION['lti_launch_presentation_return_url'] = 'http://ltiapps.net/test/tc-return.php';
+			//$_SESSION['lti_launch_css_url'] = 'http://ltiapps.net/test/css/tc.css';
+			//$_SESSION['lti_launch_presentation_return_url'] = 'http://ltiapps.net/test/tc-return.php';
 			
 			$DIC->logger()->root()->write("LTI Mode!");
 			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";

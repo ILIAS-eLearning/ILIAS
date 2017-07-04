@@ -84,9 +84,9 @@ class ilLocatorGUI
 		else
 		{
 			// LTI
-			if (isset($_SESSION['lti_context_id'])) 
+			if (isset($_SESSION['lti_tree_root_id'])) 
 			{
-				$a_start = $_SESSION['lti_context_id'];
+				$a_start = $_SESSION['lti_tree_root_id'];
 			}
 			else 
 			{
