@@ -151,7 +151,7 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function breadcrumbs($crumbs) {
+	public function breadcrumbs(array $crumbs) {
 		return new Component\Breadcrumbs\Breadcrumbs($crumbs);
 	}
 

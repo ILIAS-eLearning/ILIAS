@@ -13,7 +13,7 @@ class Breadcrumbs implements B\Breadcrumbs {
 	 */
 	protected $crumbs;
 
-	public function __construct($crumbs) {
+	public function __construct(array $crumbs) {
 		$types = array(\ILIAS\UI\Component\Link\Standard::class);
 		$this->checkArgListElements("crumbs", $crumbs, $types);
 		$this->crumbs = $crumbs;
@@ -23,14 +23,14 @@ class Breadcrumbs implements B\Breadcrumbs {
 	/**
 	 * @inheritdoc
 	 */
-	public function getCrumbs() {
+	public function getItems() {
 		return $this->crumbs;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withAppendedEntry($crumb) {
+	public function withAppendedItem($crumb) {
 		$this->checkArgInstanceOf("crumb", $crumb, \ILIAS\UI\Component\Link\Standard::class);
 		$clone = clone $this;
 		$clone->crumbs[] = $crumb;

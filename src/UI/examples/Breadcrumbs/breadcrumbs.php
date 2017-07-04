@@ -15,7 +15,7 @@ function breadcrumbs() {
 
 	$bar = $f->breadcrumbs($crumbs);
 
-	$bar_extended = $bar->withAppendedEntry(
+	$bar_extended = $bar->withAppendedItem(
 		$f->link()->standard("entry5", '#')
 	);
 

@@ -610,14 +610,10 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Breadcrumbs is a type of secondary navigation scheme. It eases the
-	 *     user's navigation back to higher items in hierarchical (or prior items
-	 *     in chronological) structures.
+	 *     Breadcrumbs is a supplemental navigation scheme. It eases the
+	 *     user's navigation to higher items in hierarchical structures.
 	 *     Breadcrumbs also serve as an effective visual aid indicating the
 	 *     user's location on a website.
-	 *     The term is based on the story of Hansel and Gretel and is well established,
-	 *     so we will stick to it, although in the context of ILIAS "Ariadne's Path"
-	 *     would probably be more appropriate.
 	 *   composition: >
 	 *     Breadcrumbs-entries are rendered as horizontally arranged UI Links
 	 *     with a seperator in-between.
@@ -625,14 +621,17 @@ interface Factory {
 	 *     Clicking on an entry will get the user to the respective location.
 	 *
 	 * context: >
+	 *   1. Suplemental navigation under the main menu
+	 *   2. Location hint in search results
+	 *   3. Path to current location on info page
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: Crumbs MUST trigger navigation.
+	 *     1: Crumbs MUST trigger navigation to other resources of the system.
 	 * ---
 	 * @param 	\ILIAS\UI\Component\Link\Standard[] 	$crumbs 	a list of Links
 	 * @return 	\ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
 	 **/
-	public function breadcrumbs($crumbs);
+	public function breadcrumbs(array $crumbs);
 
 }

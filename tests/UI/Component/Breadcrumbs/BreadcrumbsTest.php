@@ -34,7 +34,7 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase {
 		);
 
 		$c = $f->Breadcrumbs($crumbs);
-		$this->assertEquals($crumbs, $c->getCrumbs());
+		$this->assertEquals($crumbs, $c->getItems());
 	}
 
 	public function testAppending() {
@@ -42,8 +42,8 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase {
 		$crumb  = $f->link()->standard("label", '#');
 
 		$c = $f->Breadcrumbs(array())
-			->withAppendedEntry($crumb);
-		$this->assertEquals(array($crumb), $c->getCrumbs());
+			->withAppendedItem($crumb);
+		$this->assertEquals(array($crumb), $c->getItems());
 	}
 
 	public function testRendering() {

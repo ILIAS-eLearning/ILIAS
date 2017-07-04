@@ -14,7 +14,7 @@ interface Breadcrumbs extends \ILIAS\UI\Component\Component {
 	 *
 	 * @return 	\ILIAS\UI\Component\Link\Standard[]
 	 */
-	public function getCrumbs();
+	public function getItems();
 
 	/**
 	 * Append an crumb-entry to the bar.
@@ -22,7 +22,7 @@ interface Breadcrumbs extends \ILIAS\UI\Component\Component {
 	 * @param 	\ILIAS\UI\Component\Link\Standard 	$crumb
 	 * @return 	Breadcrumbs
 	 */
-	public function withAppendedEntry($crumb);
+	public function withAppendedItem($crumb);
 
 
 }

@@ -36,7 +36,7 @@ class NoUIFactory implements Factory {
 	public function dropdown() {}
 	public function item() {}
 	public function icon() {}
-	public function breadcrumbs($crumbs) {}
+	public function breadcrumbs(array $crumbs) {}
 }
 
 class LoggingRegistry implements ResourceRegistry {
