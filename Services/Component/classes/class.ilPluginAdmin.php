@@ -363,16 +363,6 @@ class ilPluginAdmin
 	}
 
 	/**
-	 * Get info for all plugins.
-	 *
-	 * @return 	array<string, array>
-	 */
-	public static function getAllPlugins() {
-		$cached_component = ilCachedComponentData::getInstance();
-		return $cached_component->getIlPluginByName();
-	}
-
-	/**
 	 * Get info for all active plugins.
 	 *
 	 * @return 	array
@@ -403,6 +393,29 @@ class ilPluginAdmin
 		return false;
 	}
 
+	/**
+	 * Get a plugin-object by id
+	 *
+	 * @param 	string 	$id 	id of the plugin
+	 * @throws 	InvalidArgumentException 	if no plugin with that id is found
+	 * @return 	ilPlugin
+	 */
+	public static function getPluginObjectById($id) {
+		assert('is_string($id)');
+		$plugs = self::getAllPlugins();
+		if( ! array_key_exists($id, $plugs)) {
+			throw new \InvalidArgumentException("Plugin does not exist: " .$id, 1);
+		}
+
+		$pdata = $plugs[$id];
+
+		return self::getPluginObject(
+			$vplug_data['component_type'],
+			$vplug_data['component_name'],
+			$vplug_data['slot_id'],
+			$vplug_data['name']
+		);
+	}
 
 }
 
