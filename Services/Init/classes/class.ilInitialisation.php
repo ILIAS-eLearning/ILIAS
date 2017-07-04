@@ -488,6 +488,21 @@ class ilInitialisation
 	}
 
 	/**
+	 * @param \ILIAS\DI\Container $c
+	 */
+	protected static function initMail(\ILIAS\DI\Container $c)
+	{
+		$c["mail.mime.transport.factory"] = function ($c) {
+			require_once 'Services/Mail/classes/Mime/Transport/class.ilMailMimeTransportFactory.php';
+			return new ilMailMimeTransportFactory($c["ilSetting"]);
+		};
+		$c["mail.mime.sender.factory"] = function ($c) {
+			require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderFactory.php';
+			return new ilMailMimeSenderFactory($c["ilSetting"]);
+		};
+	}
+
+	/**
 	 * initialise $ilSettings object and define constants
 	 * 
 	 * Used in Soap
@@ -1007,6 +1022,7 @@ class ilInitialisation
 		self::setSessionHandler();
 
 		self::initSettings();
+		self::initMail($GLOBALS['DIC']);
 		
 		
 		// --- needs settings	

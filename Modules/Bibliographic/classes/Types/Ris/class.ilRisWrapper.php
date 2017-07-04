@@ -1,5 +1,4 @@
 <?php
-require_once('./libs/composer/vendor/autoload.php');
 use LibRIS\RISReader;
 
 /**
@@ -11,6 +10,7 @@ class ilRisWrapper {
 
 	/**
 	 * @param $content
+	 *
 	 * @return array
 	 */
 	public function parseContent($content) {
@@ -24,6 +24,7 @@ class ilRisWrapper {
 
 	/**
 	 * @param $path_to_file
+	 *
 	 * @return null
 	 * @throws \LibRIS\ParseException
 	 */

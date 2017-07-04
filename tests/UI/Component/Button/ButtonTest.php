@@ -147,7 +147,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$expected = "<a class=\"$css_classes\" href=\"$ln\" data-action=\"$ln\">".
 					"label".
 					"</a>";
-		$this->assertEquals($expected, $html);
+		$this->assertHTMLEquals($expected, $html);
 	}
 
 	/**
@@ -167,7 +167,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$expected = "<a class=\"$css_classes $css_class_inactive\" data-action=\"$ln\">".
 					"label".
 					"</a>";
-		$this->assertEquals($expected, $html);
+		$this->assertHTMLEquals($expected, $html);
 	}
 
 	public function test_render_close_button() {
@@ -207,7 +207,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$expected = "<a class=\"$css_classes\" href=\"$ln\" data-action=\"$ln\" id=\"$id\">".
 					"label".
 					"</a>";
-		$this->assertEquals($expected, $html);
+		$this->assertHTMLEquals($expected, $html);
 	}
 
 	public function test_____render_close_button_with_on_load_code() {
