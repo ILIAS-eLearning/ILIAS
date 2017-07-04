@@ -14,21 +14,6 @@ use \ILIAS\UI\Component as C;
 class ButtonMonthTest extends ILIAS_UI_TestBase {
 
 	/**
-	 * Setup
-	 */
-	public function setUp()
-	{
-		// setup stub for global ilPluginAdmin
-		include_once("./Services/UICore/classes/class.ilTemplate.php");
-		global $tpl;
-		$tpl = $this->getMockBuilder('ilTemplate')
-			->disableOriginalConstructor()
-			->getMock();
-		$tpl->method('addJavaScript')
-			->willReturn("");
-	}
-
-	/**
 	 * @return \ILIAS\UI\Implementation\Factory
 	 */
 	public function getFactory() {

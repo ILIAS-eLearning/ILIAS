@@ -50,6 +50,10 @@ class ilMailSummaryNotification extends ilMailNotification
 			$users[$user_id][] = $row;
 		}
 
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+		$sender        = $senderFactory->system();
+
 		foreach($users as $user_id => $mail_data)
 		{
 			$this->initLanguage($user_id);
@@ -82,13 +86,13 @@ class ilMailSummaryNotification extends ilMailNotification
 				$this->appendBody("\n");
 				if($mail['sender_id'] == ANONYMOUS_USER_ID)
 				{
-					$sender = ilMail::_getIliasMailerName();
+					$senderName = ilMail::_getIliasMailerName();
 				}
 				else
 				{
-					$sender = ilObjUser::_lookupLogin($mail['sender_id']);
+					$senderName = ilObjUser::_lookupLogin($mail['sender_id']);
 				}
-				$this->appendBody($user_lang->txt('sender') . ": " . $sender);
+				$this->appendBody($user_lang->txt('sender') . ": " . $senderName);
 				$this->appendBody("\n");
 				$this->appendBody($user_lang->txt('subject').": ". $mail['m_subject']);
 				$this->appendBody("\n\n");
@@ -113,8 +117,7 @@ class ilMailSummaryNotification extends ilMailNotification
 			$this->appendBody(ilMail::_getInstallationSignature());
 
 			$mmail = new ilMimeMail();
-			$mmail->autoCheck(false);
-			$mmail->From(ilMail::getIliasMailerAddress());
+			$mmail->From($sender);
 			$mmail->To(ilObjUser::_lookupEmail($user_id));
 		
 			$mmail->Subject($this->getSubject());

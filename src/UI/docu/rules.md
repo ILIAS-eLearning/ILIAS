@@ -48,6 +48,9 @@ rules and propose changes.
 * The new UI component MUST be presented on the JF, including the corresponding
   pull request. This SHOULD include some visible representation of the presented
   UI component, like a mock up or a basic implementation on the edge installation.
+  To make it easy for non-developers to follow the discussion, a link to the
+  changed/added factory classes and mock MUST be provided in the description provided
+  for the PR.
 
 ### Modification of existing UI components
 
