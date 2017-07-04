@@ -410,10 +410,10 @@ class ilPluginAdmin
 		$pdata = $plugs[$id];
 
 		return self::getPluginObject(
-			$vplug_data['component_type'],
-			$vplug_data['component_name'],
-			$vplug_data['slot_id'],
-			$vplug_data['name']
+			$pdata['component_type'],
+			$pdata['component_name'],
+			$pdata['slot_id'],
+			$pdata['name']
 		);
 	}
 
