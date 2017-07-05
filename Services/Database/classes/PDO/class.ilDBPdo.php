@@ -271,12 +271,12 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	public function createTable($table_name, $fields, $drop_table = false, $ignore_erros = false) {
 		// check table name
 		if (!$this->checkTableName($table_name) && !$ignore_erros) {
-			throw new ilDatabaseException("ilDB Error: createTable(" . $table_name . ")");
+			throw new ilDatabaseException(" Error: createTable(" . $table_name . ")");
 		}
 
 		// check definition array
 		if (!$this->checkTableColumns($fields) && !$ignore_erros) {
-			throw new ilDatabaseException("ilDB Error: createTable(" . $table_name . ")");
+			throw new ilDatabaseException(" Error: createTable(" . $table_name . ")");
 		}
 
 		if ($drop_table) {
@@ -456,17 +456,26 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	/**
 	 * @param $table_name
 	 * @param bool $error_if_not_existing
-	 * @return int
+	 * @return bool
+	 * @throws \ilDatabaseException
 	 */
 	public function dropTable($table_name, $error_if_not_existing = true) {
-		try {
-			$this->pdo->exec("DROP TABLE $table_name");
-		} catch (PDOException $PDOException) {
-			if ($error_if_not_existing) {
-				throw $PDOException;
-			}
+		$ilDBPdoManager = $this->loadModule(ilDBConstants::MODULE_MANAGER);
+		$tables = $ilDBPdoManager->listTables();
+		$table_exists = in_array($table_name, $tables);
+		if (!$table_exists && $error_if_not_existing) {
+			throw new ilDatabaseException("Table {$table_name} does not exist");
+		}
 
-			return false;
+		// drop sequence
+		$sequences = $ilDBPdoManager->listSequences();
+		if (in_array($table_name, $sequences)) {
+			$ilDBPdoManager->dropSequence($table_name);
+		}
+
+		// drop table
+		if ($table_exists) {
+			$ilDBPdoManager->dropTable($table_name);
 		}
 
 		return true;

@@ -7525,10 +7525,6 @@ img.ilIcon {
   height: 0px;
   display: none;
 }
-.il_VAccordionContentDef > div,
-.il_HAccordionContentDef > div {
-  overflow: auto;
-}
 div.ilc_va_icont_VAccordICont {
   overflow: visible !important;
 }
@@ -7591,9 +7587,37 @@ select.form-control {
   color: #4d4d4d;
   font-size: 100%;
 }
+.form-horizontal .control-label {
+  padding-top: 0;
+  line-height: 24px;
+}
 .form-horizontal .control-label.col-sm-3.il_textarea {
   text-align: left;
   width: 100%;
+}
+.form-horizontal .form-group .col-sm-9 {
+  line-height: 24px;
+}
+.form-horizontal .radio,
+.form-horizontal .checkbox,
+.form-horizontal .radio-inline,
+.form-horizontal .checkbox-inline {
+  padding-top: 0;
+  line-height: 24px;
+}
+.form-horizontal .help-block {
+  line-height: normal;
+}
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+  position: static;
+  margin-left: -20px;
+  margin-top: 0;
+  min-height: 24px;
+  vertical-align: top;
+  line-height: 24px;
 }
 [dir="rtl"] .form-horizontal .control-label {
   text-align: left;
@@ -10603,6 +10627,9 @@ div#il_startup_logo img {
   width: 0;
 }
 /* Services/UIComponent/Toolbar */
+.ilToolbar .container-fluid {
+  padding-left: 0;
+}
 .ilToolbar.navbar {
   border: 0 none;
   background-color: #f9f9f9;
@@ -10613,12 +10640,14 @@ div#il_startup_logo img {
 .ilToolbar .form-control {
   width: auto;
   display: inline-block;
+  vertical-align: top;
 }
 .ilToolbar input[type="file"] {
   display: inline-block;
 }
 .ilToolbar li {
-  border-bottom: 1px solid #d8d8d8;
+  border: 0 none;
+  margin-right: 15px;
 }
 .ilToolbar li .navbar-form,
 .ilToolbar li .navbar-text {
@@ -10655,7 +10684,7 @@ div#il_startup_logo img {
   margin-bottom: 0;
 }
 .ilToolbar .ilToolbarStickyItems.navbar-nav .open .dropdown-menu > li > a {
-  padding-left: 0;
+  padding-left: 10px;
 }
 .ilToolbar .ilToolbarStickyItems > li {
   float: left;
@@ -10669,20 +10698,18 @@ div#il_startup_logo img {
 }
 .ilToolbar ul.dropdown-menu > li {
   border: 0 none;
+  margin-right: 0;
 }
-@media (min-width: 768px) {
+@media only screen and (max-width: 767px) {
   .ilToolbar .container-fluid {
-    padding-left: 0;
+    padding-left: 15px;
   }
   .ilToolbar li {
-    border: 0;
-    margin-right: 15px;
-  }
-  .ilToolbar ul.dropdown-menu > li {
+    border-bottom: 1px solid #d8d8d8;
     margin-right: 0;
   }
   .ilToolbar .ilToolbarStickyItems.navbar-nav .open .dropdown-menu > li > a {
-    padding-left: 10px;
+    padding-left: 0;
   }
 }
 /* Services/UIComponent/Tooltip */
