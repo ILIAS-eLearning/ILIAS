@@ -253,8 +253,8 @@ $fileStream->seek($fileStream->getSize() - 1);
 $fileStream->write("something");
 
 //write stream to another file
+//the stream will automatically be closed after the operation 
 $webDataRoot->writeStream('relative/path/to/another/file', $fileStream);
-$fileStream->close();
 ```
 #### putStream
 Create a new file or update an existing one.
@@ -273,8 +273,8 @@ $fileStream->seek($fileStream->getSize() - 1);
 $fileStream->write("something");
 
 //write stream to another file
+//the stream will automatically be closed after the operation 
 $webDataRoot->putStream('relative/path/to/another/file', $fileStream);
-$fileStream->close();
 ```
 
 #### updateStream
@@ -294,8 +294,8 @@ $fileStream->seek($fileStream->getSize() - 1);
 $fileStream->write("something");
 
 //write stream to another file
+//the stream will automatically be closed after the operation 
 $webDataRoot->updateStream('relative/path/to/another/file', $fileStream);
-$fileStream->close();
 ```
 ### Directory handling
 #### Create Directory
@@ -362,6 +362,34 @@ $temp = $DIC->filesystem()->temp();
 $web = $DIC->filesystem()->web();
 $stream = $temp->readStream("source/file");
 $web->writeStream("destination/file", $stream);
+```
+
+## Stream creation
+The *Streams* class delivers various stream creation methods.
+
+### from string
+```php
+<?php
+use ILIAS\Filesystem\Stream\Streams;
+
+$stream = Streams::ofString("stream content");
+
+//write stream to file ...
+```
+
+### from resource
+```php
+<?php
+use ILIAS\Filesystem\Stream\Streams;
+
+/* 
+ * Please note that the fopen call is only used for demonstration purposes and must not be used to
+ * create a stream from a string.
+ */
+$resource = fopen('data://text/plain,HelloWorld', 'r');
+$stream = Streams::ofResource($resource);
+
+//write stream to file ...
 ```
 
 ## Authors
