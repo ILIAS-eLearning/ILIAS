@@ -63,7 +63,7 @@ class FlySystemFileAccessTest extends TestCase {
 			->andReturn($fileContent);
 
 		$actualContent = $this->subject->read('/path/to/your/file');
-		$this->assertEquals($fileContent, $actualContent);
+		$this->assertSame($fileContent, $actualContent);
 	}
 
 	/**
@@ -111,7 +111,7 @@ class FlySystemFileAccessTest extends TestCase {
 			->andReturn($mimeType);
 
 		$actualMimeType = $this->subject->getMimeType('/path/to/your/file');
-		$this->assertEquals($mimeType, $actualMimeType);
+		$this->assertSame($mimeType, $actualMimeType);
 	}
 
 	/**
@@ -159,6 +159,18 @@ class FlySystemFileAccessTest extends TestCase {
 			->andReturn($timestamp);
 
 		$actualTimestamp = $this->subject->getTimestamp('/path/to/your/file');
+
+		/*
+		 * needs to be equals instead of same because == checks if the object content is the same and === seems to check the reference too
+		 * eg.
+		 * $a == $b => true
+		 * $a === $b => false
+		 * $a === $a => true
+		 * $b === $b => true
+		 *
+		 * Danger; this is only the observed behaviour and was not documented at least the part with the === operator.
+		 * Tested with DateTime objects (PHP 7.1.6)
+		 */
 		$this->assertEquals(new \DateTime($timestamp), $actualTimestamp);
 	}
 
@@ -210,7 +222,7 @@ class FlySystemFileAccessTest extends TestCase {
 			->andReturn($rawSize);
 
 		$actualSize = $this->subject->getSize('/path/to/your/file', DataSize::KiB);
-		$this->assertEquals($size->getSize(), $actualSize->getSize(), '', $delta);
+		$this->assertSame($size->getSize(), $actualSize->getSize(), '', $delta);
 	}
 
 	/**
@@ -353,7 +365,7 @@ class FlySystemFileAccessTest extends TestCase {
 			->andReturn($visibility);
 
 		$actualVisibility = $this->subject->getVisibility($path);
-		$this->assertEquals($visibility, $actualVisibility);
+		$this->assertSame($visibility, $actualVisibility);
 	}
 
 	/**
