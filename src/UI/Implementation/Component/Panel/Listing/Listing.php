@@ -55,7 +55,9 @@ abstract class Listing implements C\Panel\Listing\Listing {
 	 */
 	public function withActions(\ILIAS\UI\Component\Dropdown\Standard $actions)
 	{
-		$this->actions = $actions;
+		$clone = clone $this;
+		$clone->actions = $actions;
+		return $clone;
 	}
 
 	/**

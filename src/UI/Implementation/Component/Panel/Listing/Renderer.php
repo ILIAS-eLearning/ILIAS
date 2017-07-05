@@ -41,6 +41,13 @@ class Renderer extends AbstractComponentRenderer {
 		$title = $component->getTitle();
 		$tpl->setVariable("LIST_TITLE", $title);
 
+		// actions
+		$actions = $component->getActions();
+		if ($actions !== null)
+		{
+			$tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+		}
+
 		return $tpl->get();
 	}
 

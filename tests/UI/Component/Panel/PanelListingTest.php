@@ -55,6 +55,22 @@ class PanelListingTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($c->getItemGroups(), $groups);
 	}
 
+	public function test_with_actions() {
+		$f = $this->getFactory();
+
+		$actions = $f->dropdown()->standard(array(
+			$f->button()->shy("ILIAS", "https://www.ilias.de"),
+			$f->button()->shy("GitHub", "https://www.github.com")
+		));
+
+		$groups = array();
+
+		$c = $f->panel()->listing()->standard("title", $groups)
+			->withActions($actions);
+
+		$this->assertEquals($c->getActions(), $actions);
+	}
+
 	public function test_render_base() {
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
@@ -92,6 +108,35 @@ class PanelListingTest extends ILIAS_UI_TestBase {
 			<h5>title3</h5>
 		</div></div>
 	</div>
+</div>
+</div>
+EOT;
+		$this->assertHTMLEquals($expected, $html);
+	}
+
+	public function test_render_with_actions() {
+		$f = $this->getFactory();
+		$r = $this->getDefaultRenderer();
+
+		$groups = array();
+
+		$actions = $f->dropdown()->standard(array(
+			$f->button()->shy("ILIAS", "https://www.ilias.de"),
+			$f->button()->shy("GitHub", "https://www.github.com")
+		));
+
+		$c = $f->panel()->listing()->standard("title", $groups)
+			->withActions($actions);
+
+		$html = $r->render($c);
+
+		$expected = <<<EOT
+<div class="il-panel-listing-std-container">
+<h3>title</h3><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
+<ul class="dropdown-menu">
+	<li><a class="btn btn-link" href="https://www.ilias.de" data-action="https://www.ilias.de">ILIAS</a></li>
+	<li><a class="btn btn-link" href="https://www.github.com" data-action="https://www.github.com">GitHub</a></li>
+</ul>
 </div>
 </div>
 EOT;

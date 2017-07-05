@@ -6236,6 +6236,10 @@ button.close {
   font-size: 19px;
   text-transform: uppercase;
   color: #909090;
+  float: left;
+}
+.il-panel-listing-std-container .dropdown {
+  float: right;
 }
 /* this is currently experimental, could be removed */
 .il-narrow-content .il-panel-listing-std-container > h3,
@@ -6463,6 +6467,9 @@ hr.il-divider-with-label {
 }
 .il-narrow-content .il-item:hover {
   background-color: #ffffd0;
+}
+.il-item-group {
+  clear: both;
 }
 .il-item-group h4 {
   float: left;
