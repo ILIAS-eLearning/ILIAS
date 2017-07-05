@@ -11,7 +11,7 @@ interface Item extends \ILIAS\UI\Component\Component {
 	/**
 	 * Gets the title of the item 
 	 *
-	 * @return string
+	 * @return string|\ILIAS\UI\Component\Button\Shy
 	 */
 	public function getTitle();
 
@@ -34,7 +34,7 @@ interface Item extends \ILIAS\UI\Component\Component {
 	 * The key is holding the title and the value is holding the content of the
 	 * specific data set.
 	 *
-	 * @param array<string,string> $properties Label => Content
+	 * @param array<string,string|\ILIAS\UI\Component\Button\Shy> $properties Label => Content
 	 * @return self
 	 */
 	public function withProperties(array $properties);
@@ -42,7 +42,7 @@ interface Item extends \ILIAS\UI\Component\Component {
 	/**
 	 * Get the properties of the appointment.
 	 *
-	 * @return array<string,string>		Title => Content
+	 * @return array<string,string|\ILIAS\UI\Component\Button\Shy>		Title => Content
 	 */
 	public function getProperties();
 

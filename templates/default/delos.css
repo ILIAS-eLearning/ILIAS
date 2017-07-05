@@ -6409,6 +6409,9 @@ a.btn-link.ilSubmitInactive:hover {
 .il-btn-month .dropdown-menu {
   min-width: 250px;
 }
+.btn-link {
+  padding: 0;
+}
 h6.il-divider {
   padding: 3px 6px;
   background-color: #ececec;
@@ -6438,6 +6441,9 @@ hr.il-divider-with-label {
   margin: 4px 0px 2px 0px;
   font-size: 16px;
   float: left;
+}
+.il-item h5 .btn-link {
+  font-size: inherit;
 }
 .il-item .il-item-divider {
   clear: both;
