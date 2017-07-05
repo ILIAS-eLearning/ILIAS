@@ -26,12 +26,8 @@ interface FileStreamWriteAccess {
 	 * Writes the stream to a new file.
 	 * The directory path to the file will be created.
 	 *
-	 * Please check if the stream is still valid after the
-	 * writeStream operation is done, because some of the underlying filesystem
-	 * implementations are closing the stream.
-	 *
-	 * The default behaviour of the filesystem implementation is to let the stream open if possible.
-	 * Therefore always check and close the stream after the work with the stream is finished.
+	 * The stream will be closed after the write operation is done. Please note that the
+	 * resource must be detached from the stream in order to write to the file.
 	 *
 	 * @param string     $path   The file which should be used to write the stream into.
 	 * @param FileStream $stream The stream which should be written into the new file.
@@ -43,6 +39,8 @@ interface FileStreamWriteAccess {
 	 *
 	 * @since 5.3
 	 * @version 1.0
+	 *
+	 * @see FileStream::detach()
 	 */
 	public function writeStream($path, FileStream $stream);
 
@@ -51,12 +49,8 @@ interface FileStreamWriteAccess {
 	 * Creates a new file or updates an existing one.
 	 * If the file is updated its content will be truncated before writing the stream.
 	 *
-	 * Please check if the stream is still valid after the
-	 * putStream operation is done, because some of the underlying filesystem
-	 * implementations are closing the stream.
-	 *
-	 * The default behaviour of the filesystem implementation is to let the stream open if possible.
-	 * Therefore always check and close the stream after the work with the stream is finished.
+	 * The stream will be closed after the write operation is done. Please note that the
+	 * resource must be detached from the stream in order to write to the file.
 	 *
 	 * @param string     $path   The file which should be used to write the stream into.
 	 * @param FileStream $stream The stream which should be written to the file.
@@ -67,6 +61,8 @@ interface FileStreamWriteAccess {
 	 *
 	 * @since 5.3
 	 * @version 1.0
+	 *
+	 * @see FileStream::detach()
 	 */
 	public function putStream($path, FileStream $stream);
 
@@ -75,12 +71,8 @@ interface FileStreamWriteAccess {
 	 * Updates an existing file.
 	 * The file content will be truncated to 0.
 	 *
-	 * Please check if the stream is still valid after the
-	 * updateStream operation is done, because some of the underlying filesystem
-	 * implementations are closing the stream.
-	 *
-	 * The default behaviour of the filesystem implementation is to let the stream open if possible.
-	 * Therefore always check and close the stream after the work with the stream is finished.
+	 * The stream will be closed after the write operation is done. Please note that the
+	 * resource must be detached from the stream in order to write to the file.
 	 *
 	 * @param string     $path   The path to the file which should be updated.
 	 * @param FileStream $stream The stream which should be used to update the file content.
@@ -92,6 +84,8 @@ interface FileStreamWriteAccess {
 	 *
 	 * @since 5.3
 	 * @version 1.0
+	 *
+	 * @see FileStream::detach()
 	 */
 	public function updateStream($path, FileStream $stream);
 }
