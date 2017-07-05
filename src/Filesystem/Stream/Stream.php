@@ -326,6 +326,17 @@ class Stream implements FileStream {
 
 
 	/**
+	 * @inheritDoc
+	 */
+	function __destruct() {
+
+		//cleanup the resource on object destruction if the stream is not detached.
+		if(!is_null($this->stream))
+			$this->close();
+	}
+
+
+	/**
 	 * Checks if the stream is attached to the wrapper.
 	 * An exception if thrown if the stream is already detached.
 	 *
