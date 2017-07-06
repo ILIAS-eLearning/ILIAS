@@ -34,6 +34,8 @@ class NoUIFactory implements Factory {
 	public function divider() {}
 	public function link() {}
 	public function dropdown() {}
+	public function item() {}
+	public function icon() {}
 }
 
 class LoggingRegistry implements ResourceRegistry {
@@ -50,6 +52,8 @@ class ilLanguageMock extends \ilLanguage {
 	public function txt($a_topic, $a_default_lang_fallback_mod = "") {
 		$this->requested[] = $a_topic;
 		return $a_topic;
+	}
+	public function toJS($a_key, ilTemplate $a_tpl = NULL) {
 	}
 }
 

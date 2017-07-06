@@ -1,7 +1,5 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/Table/classes/class.ilTable2GUI.php");
-require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
 /**
  * Bibliographic ilObjBibliographicAdminTableGUI
@@ -17,7 +15,7 @@ class ilObjBibliographicAdminTableGUI extends ilTable2GUI {
 	/**
 	 * @var ilObjChatroomAdminGUI|null
 	 */
-	protected $gui = NULL;
+	protected $gui = null;
 
 
 	/**
@@ -64,8 +62,11 @@ class ilObjBibliographicAdminTableGUI extends ilTable2GUI {
 		$current_selection_list = new ilAdvancedSelectionListGUI();
 		$current_selection_list->setListTitle($this->lng->txt("actions"));
 		$current_selection_list->setId($a_set['id']);
-		$current_selection_list->addItem($this->lng->txt("edit"), "", $ilCtrl->getLinkTarget($this->gui, 'edit') . "&lib_id=" . $a_set['id']);
-		$current_selection_list->addItem($this->lng->txt("delete"), "", $ilCtrl->getLinkTarget($this->gui, 'delete') . "&lib_id=" . $a_set['id']);
+		$current_selection_list->addItem($this->lng->txt("edit"), "", $ilCtrl->getLinkTarget($this->gui, 'edit')
+		                                                              . "&lib_id=" . $a_set['id']);
+		$current_selection_list->addItem($this->lng->txt("delete"), "", $ilCtrl->getLinkTarget($this->gui, 'delete')
+		                                                                . "&lib_id="
+		                                                                . $a_set['id']);
 		$this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
 	}
 }

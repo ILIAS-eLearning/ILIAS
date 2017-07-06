@@ -784,10 +784,12 @@ class ilAccountRegistrationGUI
 			else	// do default mail
 			{
 				include_once "Services/Mail/classes/class.ilMimeMail.php";
-	
+
+				/** @var ilMailMimeSenderFactory $senderFactory */
+				$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+
 				$mmail = new ilMimeMail();
-				$mmail->autoCheck(false);
-				$mmail->From($ilSetting->get("admin_email"));
+				$mmail->From($senderFactory->system());
 				$mmail->To($this->userObj->getEmail());
 	
 				// mail subject

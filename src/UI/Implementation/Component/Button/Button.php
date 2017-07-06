@@ -32,6 +32,16 @@ abstract class Button implements C\Button\Button {
 	 * @var bool
 	 */
 	protected $active = true;
+
+	/**
+	 * @var string
+	 */
+	protected $aria_label;
+
+	/**
+	 * @var bool
+	 */
+	protected $aria_checked = false;
 	
 
 	public function __construct($label, $action) {
@@ -111,5 +121,42 @@ abstract class Button implements C\Button\Button {
 	 */
 	public function appendOnHover(Signal $signal) {
 		return $this->appendTriggeredSignal($signal, 'mouseenter');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withAriaLabel($aria_label)
+	{
+		$this->checkStringArg("label", $aria_label);
+		$clone = clone $this;
+		$clone->aria_label = $aria_label;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAriaLabel()
+	{
+		return $this->aria_label;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withAriaChecked()
+	{
+		$clone = clone $this;
+		$clone->aria_checked = true;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isAriaChecked()
+	{
+		return $this->aria_checked;
 	}
 }
