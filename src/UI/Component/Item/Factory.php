@@ -12,14 +12,15 @@ interface Factory {
  	 *   composition: >
 	 *       A list item consists of a title and the following optional elements:
 	 *       description, action drop down, properties (name/value), a text or
-	 *       image lead and a color.
+	 *       image lead and a color. Property values MAY be interactive by using
+	 *       Shy Buttons.
  	 * rules:
 	 *    accessibility:
 	 *      1: >
 	 *       Information MUST NOT be provided by color alone. The same information could
 	 *       be presented, e.g. in a property to enable screen reader access.
 	 * ---
-	 * @param string $title Title of the item
+	 * @param string|\ILIAS\UI\Component\Button\Shy $title Title of the item
 	 * @return \ILIAS\UI\Component\Item\Standard
 	 */
 	public function standard($title);
