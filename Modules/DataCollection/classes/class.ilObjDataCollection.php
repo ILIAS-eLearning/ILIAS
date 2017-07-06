@@ -84,7 +84,7 @@ class ilObjDataCollection extends ilObject2 {
 		$ilDB = $DIC['ilDB'];
 
 		foreach ($this->getTables() as $table) {
-			$table->doDelete();
+			$table->doDelete(false, true);
 		}
 
 		$query = "DELETE FROM il_dcl_data WHERE id = " . $ilDB->quote($this->getId(), "integer");
