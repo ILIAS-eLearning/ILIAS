@@ -5,6 +5,8 @@
 namespace ILIAS\UI\Component\Input;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\Transformation\Transformation;
+use ILIAS\Validation\Constraint;
 
 /**
  * This describes commonalities between all inputs.
