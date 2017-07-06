@@ -9972,7 +9972,7 @@ dateplaner#:#cal_ch_manager#:#Consultation Hour Manager
 dateplaner#:#cal_ch_manager_info#:#Login of the user who will manage your consultation hours.
 dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.
 dateplaner#:#cal_ch_target_object#:#Repository Object
-dateplaner#:#cal_ch_target_object_info#:#Consultation hours will be displayed in a block to the right of the course / group content. To restrict the display of consultation hours to specific courses or groups, please enter the Ref-ID of the said objects. You find the Ref-ID in the URL of the respective objects. Add more than one Ref-ID separated by comma.
+dateplaner#:#cal_ch_target_object_info#:#Consultation hours will be displayed in a block to the right of the course / group content. To restrict the display of consultation hours to specific courses or groups, please enter the Ref-ID of the said objects. You find the Ref-ID in the URL of the respective objects. Add more than one Ref-ID separated by comma. Regardless of that, consultation hours may also appear in your e-portfolios.
 dateplaner#:#cal_ch_unknown_repository_object#:#The given repository object ref-id is not valid.
 rbac#:#push_desktop_items#:#Push Items on the Personal Desktop
 rbac#:#smtp_mail#:#SMTP E-Mail
