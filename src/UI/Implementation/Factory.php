@@ -150,4 +150,11 @@ class Factory implements \ILIAS\UI\Factory
 		return new Component\Icon\Factory();
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function chart()
+	{
+		return new Component\Chart\Factory();
+	}
 }
