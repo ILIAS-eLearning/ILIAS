@@ -405,7 +405,17 @@ class FlySystemFileAccess implements FileAccess {
 		$this->nonNull($path, 'path');
 		$this->nonNull($newPath, 'newPath');
 
-		// TODO: Implement rename() method.
+		try
+		{
+			if($this->flySystemFS->rename($path, $newPath) === false)
+				throw new IOException("Could not move file from \"$path\" to \"$newPath\".");
+		}
+		catch (FileExistsException $ex) {
+			throw new FileAlreadyExistsException("File \"$newPath\" already exists.");
+		}
+		catch (\League\Flysystem\FileNotFoundException $ex) {
+			throw new FileNotFoundException("File \"$path\" not found.");
+		}
 	}
 
 

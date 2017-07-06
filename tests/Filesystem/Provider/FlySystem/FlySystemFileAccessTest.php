@@ -643,6 +643,84 @@ class FlySystemFileAccessTest extends TestCase {
 		$this->subject->readAndDelete($path);
 	}
 
+
+	/**
+	 * @Test
+	 * @small
+	 */
+	public function testRenameWhichShouldSucceed() {
+		$source = '/source/path';
+		$destination = '/dest/path';
+
+		$this->filesystemMock
+			->shouldReceive('rename')
+			->once()
+			->withArgs([$source, $destination])
+			->andReturn(true);
+
+		$this->subject->rename($source, $destination);
+	}
+
+	/**
+	 * @Test
+	 * @small
+	 */
+	public function testRenameWithMissingSourceWhichShouldFail() {
+		$source = '/source/path';
+		$destination = '/dest/path';
+
+		$this->filesystemMock
+			->shouldReceive('rename')
+			->once()
+			->withArgs([$source, $destination])
+			->andThrow(FileNotFoundException::class);
+
+		$this->expectException(\ILIAS\Filesystem\Exception\FileNotFoundException::class);
+		$this->expectExceptionMessage("File \"$source\" not found.");
+
+		$this->subject->rename($source, $destination);
+	}
+
+	/**
+	 * @Test
+	 * @small
+	 */
+	public function testRenameWithExistingDestinationWhichShouldFail() {
+		$source = '/source/path';
+		$destination = '/dest/path';
+
+		$this->filesystemMock
+			->shouldReceive('rename')
+			->once()
+			->withArgs([$source, $destination])
+			->andThrow(FileExistsException::class);
+
+		$this->expectException(FileAlreadyExistsException::class);
+		$this->expectExceptionMessage("File \"$destination\" already exists.");
+
+		$this->subject->rename($source, $destination);
+	}
+
+	/**
+	 * @Test
+	 * @small
+	 */
+	public function testRenameWithGeneralErrorWhichShouldFail() {
+		$source = '/source/path';
+		$destination = '/dest/path';
+
+		$this->filesystemMock
+			->shouldReceive('rename')
+			->once()
+			->withArgs([$source, $destination])
+			->andReturn(false);
+
+		$this->expectException(IOException::class);
+		$this->expectExceptionMessage("Could not move file from \"$source\" to \"$destination\".");
+
+		$this->subject->rename($source, $destination);
+	}
+
 	/**
 	 * @Test
 	 * @small
