@@ -1,8 +1,6 @@
-
-var il = il || {};
+il = il || {};
 il.UI = il.UI || {};
-il.UI = il.UI.button || {};
-
+il.UI.button = il.UI.button || {};
 (function($, il) {
 	il.UI.button = (function($) {
 		var initMonth = function (id) {
