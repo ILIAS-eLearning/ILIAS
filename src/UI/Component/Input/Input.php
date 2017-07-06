@@ -8,6 +8,19 @@ use ILIAS\UI\Component\Component;
 
 /**
  * This describes commonalities between all inputs.
+ *
+ * Inputs are different from other UI components. They bundle two things:
+ * the displaying of the component (as the other components do as well)
+ * and the processing of data as it is received from the client.
+ *
+ * When the the term "value" is used, it references the content of the input
+ * as it is shown to the client. The term "content" on the other hand means
+ * the value that is contained in the input after the client send it to the
+ * server.
+ *
+ * The latter, i.e. the content, can be validated via constraints and transformed
+ * into other types of data. This means, that e.g. the value of an input could
+ * be some id, while the content could be some object referenced by that id.
  */
 interface Input extends Component {
 	/**
@@ -39,4 +52,52 @@ interface Input extends Component {
 	 * @return	Button
 	 */
 	public function withByline($byline);
+
+	/**
+	 * Get the value that is displayed in the input client side.
+	 *
+	 * @return	mixed
+	 */
+	public function getValue();
+
+	/**
+	 * Get an input like this with another value displayed on the
+	 * client side.
+	 *
+	 * @param	mixed
+	 * @throws  \InvalidArgumentException    if value does not fit client side input
+	 * @return Input
+	 */
+	public function withValue($value);
+
+	/**
+	 * The error of the input as used in HTML.
+	 *
+	 * @return string|null
+	 */
+	public function getError();
+
+	/**
+	 * Get an input like this one, with a different error.
+	 *
+	 * @param	string
+	 * @return	Input
+	 */
+	public function withError($error);
+
+	/**
+	 * Apply a transformation to the content of the input.
+	 *
+	 * @param	Transformation $trafo
+	 * @return	Input
+	 */
+	public function withTransformation(Transformation $trafo);
+
+	/**
+	 * Apply a constraint to the content of the input.
+	 *
+	 * @param	Constraint $constraint
+	 * @return 	Input
+	 */
+	public function withConstraint(Constraint $constraint);
 }

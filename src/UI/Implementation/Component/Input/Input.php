@@ -41,11 +41,6 @@ abstract class Input implements C\Input\Input {
 	protected $value;
 
 	/**
-	 * @var	string|null
-	 */
-	protected $name;
-
-	/**
 	 * This is an error on the input as displayed client side.
 	 *
 	 * @var	string|null
@@ -53,16 +48,21 @@ abstract class Input implements C\Input\Input {
 	protected $error;
 
 	/**
+	 * @var	string|null
+	 */
+	private $name;
+
+	/**
 	 * This is the current content of the input in the abstraction.
 	 *
 	 * @var	Result|null
 	 */
-	protected $content;
+	private $content;
 
 	/**
 	 * @var (Transformation|Constraint)[]
 	 */
-	protected $operations;
+	private $operations;
 
 	public function __construct(DataFactory $data_factory, $label, $byline) {
 		$this->data_factory = $data_factory;
@@ -76,6 +76,8 @@ abstract class Input implements C\Input\Input {
 		$this->content = null;
 		$this->operations = [];
 	}
+
+	// Observable properties of the input as it is shown to the client.
 
 	/**
 	 * @inheritdoc
@@ -145,28 +147,6 @@ abstract class Input implements C\Input\Input {
 	abstract protected function isClientSideValueOk($value);
 
 	/**
-	 * The name of the input as used in HTML.
-	 *
-	 * @return string
-	 */
-	public function getName() {
-		return $this->name;
-	}
-
-	/**
-	 * Get an input like this one, with a different name.
-	 *
-	 * @param	string
-	 * @return	Input
-	 */
-	public function withName($name) {
-		$this->checkStringArg("name", $name);
-		$clone = clone $this;
-		$clone->name = $name;
-		return $clone;
-	}
-
-	/**
 	 * The error of the input as used in HTML.
 	 *
 	 * @return string|null
@@ -188,6 +168,68 @@ abstract class Input implements C\Input\Input {
 		return $clone;
 	}
 
+	// These are the ways in which a consumer can define how client side
+	// input is processed.
+
+	/**
+	 * Apply a transformation to the current or future content.
+	 *
+	 * @param	Transformation $trafo
+	 * @return	Input
+	 */
+	public function withTransformation(Transformation $trafo) {
+		$clone = clone $this;
+		$clone->operations[] = $trafo;
+		if ($clone->content !== null) {
+			$clone->content = $clone->content->map($trafo);
+		}
+		return $clone;	
+	}
+
+	/**
+	 * Apply a constraint to the current or the future content.
+	 *
+	 * @param	Constraint $constraint
+	 * @return 	Input
+	 */
+	public function withConstraint(Constraint $constraint) {
+		$clone = clone $this;
+		$clone->operations[] = $constraint;
+		if ($clone->content !== null) {
+			$clone->content = $constraint->restrict($clone->content);
+			if ($clone->content->isError()) {
+				return $clone->withError("".$clone->content->error());
+			}
+		}
+		return $clone;
+	}
+
+	// This is the machinery to be used to process the input from the client side.
+	// This should not be exposed to the consumers of the inputs. These methods
+	// should instead only be used by the forms wrapping the input.
+
+	/**
+	 * The name of the input as used in HTML.
+	 *
+	 * @return string
+	 */
+	final public function getName() {
+		return $this->name;
+	}
+
+	/**
+	 * Get an input like this one, with a different name.
+	 *
+	 * @param	string
+	 * @return	Input
+	 */
+	final public function withName($name) {
+		$this->checkStringArg("name", $name);
+		$clone = clone $this;
+		$clone->name = $name;
+		return $clone;
+	}
+
 	/**
 	 * Get an input like this with input from an array.
 	 *
@@ -199,7 +241,7 @@ abstract class Input implements C\Input\Input {
 	 * @param	array<string,mixed>		$input
 	 * @return	Input
 	 */
-	public function withInput(array $input) {
+	final public function withInput(array $input) {
 		if ($this->name === null) {
 			throw new \LogicException("Can only collect if input has a name.");
 		}
@@ -219,7 +261,7 @@ abstract class Input implements C\Input\Input {
 	 * @param	mixed	$res
 	 * @return	Result
 	 */
-	protected function applyOperationsTo($res) {
+	private function applyOperationsTo($res) {
 		$res = $this->data_factory->ok($res);
 		foreach ($this->operations as $op) {
 			if ($res->isError()) {
@@ -244,7 +286,7 @@ abstract class Input implements C\Input\Input {
 	 * @param	array<string,mixed>		$input
 	 * @return 	mixed
 	 */
-	protected function valueFromArray(array $input) {
+	private function valueFromArray(array $input) {
 		$name = $this->getName();
 		if (isset($input[$name])) {
 			return $input[$name];
@@ -257,40 +299,7 @@ abstract class Input implements C\Input\Input {
 	 *
 	 * @return	Result|null
 	 */
-	public function getContent() {
+	final public function getContent() {
 		return $this->content;
-	}
-
-	/**
-	 * Apply a transformation to the current or future content.
-	 *
-	 * @param	Transformation $trafo
-	 * @return	Input
-	 */
-	public function withTransformation(Transformation $trafo) {
-		$clone = clone $this;
-		$clone->operations[] = $trafo;
-		if ($clone->content !== null) {
-			$clone->content = $clone->content->map($trafo);
-		}		
-		return $clone;	
-	}
-
-	/**
-	 * Apply a constraint to the current or the future content.
-	 *
-	 * @param	Constraint $constraint
-	 * @return 	Input
-	 */
-	public function withConstraint(Constraint $constraint) {
-		$clone = clone $this;
-		$clone->operations[] = $constraint;
-		if ($clone->content !== null) {
-			$clone->content = $constraint->restrict($clone->content);
-			if ($clone->content->isError()) {
-				return $clone->withError("".$clone->content->error());
-			}
-		}
-		return $clone;
 	}
 }
