@@ -82,6 +82,7 @@ class ilCalendarAgendaListGUI
 		$schedule->calculate();
 
 		$events = $schedule->getScheduledEvents();
+		var_dump($events); exit;
 
 		$df = new \ILIAS\Data\Factory();
 		$items = array();
@@ -151,7 +152,13 @@ class ilCalendarAgendaListGUI
 				$properties[$this->lng->txt('location')] = $e["event"]->getLocation();
 			}
 
-			$items[] = $this->ui_fac->item()->standard($e["event"]->getPresentationTitle())
+			// shy button for title
+			$this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $e["event"]->getEntryId());
+			$shy = $this->ui_fac->button()->shy($e["event"]->getPresentationTitle(),
+				$this->ctrl->getLinkTargetByClass(array('ilcalendarinboxgui', 'ilcalendarappointmentgui'),'edit'));
+			$this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', "");
+
+			$items[] = $this->ui_fac->item()->standard($shy)
 				->withDescription($e["event"]->getDescription())
 				->withLeadText(ilDatePresentation::formatPeriod($begin, $end, true))
 				->withProperties($properties)
