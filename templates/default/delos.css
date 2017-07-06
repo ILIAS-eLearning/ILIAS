@@ -7060,15 +7060,18 @@ hr.il-divider-with-label {
 .il-chart-scale-bar {
   min-width: 100px;
   overflow: hidden;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
-.il-chart-scale-bar > div {
+.il-chart-scale-bar > li {
   float: left;
   padding: 0 2px;
 }
-.il-chart-scale-bar > div:last-child {
+.il-chart-scale-bar > li:last-child {
   padding-right: 0;
 }
-.il-chart-scale-bar > div:first-child {
+.il-chart-scale-bar > li:first-child {
   padding-left: 0;
 }
 .il-chart-scale-bar-item {
