@@ -25,6 +25,7 @@ class InputTest extends ILIAS_UI_TestBase {
 	public function setUp() {
 		$this->data_factory = new DataFactory();
 		$this->transformation_factory = new TransformationFactory();
+		$this->validation_factory = new ValidationFactory($this->data_factory);
 		$this->input = new DefInput($this->data_factory, "label", "byline");
 	}
 
@@ -162,5 +163,213 @@ class InputTest extends ILIAS_UI_TestBase {
 
 		$this->assertNotSame($input, $input2);
 		$this->assertEquals($value, $input2->getClientSideValue());
+	}
+
+	public function test_withInput_and_constraint_successfull() {
+		$name = "name";
+		$value = "value";
+		$error = "an error";
+		$input = $this->input->withName($name);
+		$values = [$name => $value];
+
+		$input2 = $input
+			->withConstraint($this->validation_factory->custom(function($_) { return true; }, $error))
+			->withInput($values);
+		$res = $input2->getContent();
+
+		$this->assertInstanceOf(Result::class, $res);
+		$this->assertTrue($res->isOk());
+		$this->assertEquals($value, $res->value());
+
+		$this->assertNotSame($input, $input2);
+		$this->assertEquals($value, $input2->getClientSideValue());
+		$this->assertEquals(null, $input2->getClientSideError());
+	}
+
+	public function test_withInput_and_constraint_fails() {
+		$name = "name";
+		$value = "value";
+		$error = "an error";
+		$input = $this->input->withName($name);
+		$values = [$name => $value];
+
+		$input2 = $input
+			->withConstraint($this->validation_factory->custom(function($_) { return false; }, $error))
+			->withInput($values);
+		$res = $input2->getContent();
+
+		$this->assertInstanceOf(Result::class, $res);
+		$this->assertTrue($res->isError());
+		$this->assertEquals($error, $res->error());
+
+		$this->assertNotSame($input, $input2);
+		$this->assertEquals($value, $input2->getClientSideValue());
+		$this->assertEquals($error, $input2->getClientSideError());
+	}
+
+	public function test_withInput_and_constraint_fails_different_order() {
+		$name = "name";
+		$value = "value";
+		$error = "an error";
+		$input = $this->input->withName($name);
+		$values = [$name => $value];
+
+		$input2 = $input
+			->withInput($values)
+			->withConstraint($this->validation_factory->custom(function($_) { return false; }, $error));
+		$res = $input2->getContent();
+
+		$this->assertInstanceOf(Result::class, $res);
+		$this->assertTrue($res->isError());
+		$this->assertEquals($error, $res->error());
+
+		$this->assertNotSame($input, $input2);
+		$this->assertEquals($value, $input2->getClientSideValue());
+		$this->assertEquals($error, $input2->getClientSideError());
+	}
+
+	public function test_withInput_transformation_and_constraint() {
+		$name = "name";
+		$value = "value";
+		$transform_to = "other value";
+		$error = "an error";
+		$input = $this->input->withName($name);
+		$values = [$name => $value];
+
+		$input2 = $input
+			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
+				$this->assertEquals($value, $v);
+				return $transform_to;
+			}))
+			->withConstraint($this->validation_factory->custom(function($v) use ($transform_to) {
+				$this->assertEquals($transform_to, $v);
+				return true;
+			}, $error))
+			->withInput($values);
+		$res = $input2->getContent();
+
+		$this->assertInstanceOf(Result::class, $res);
+		$this->assertTrue($res->isOk());
+		$this->assertEquals($transform_to, $res->value());
+
+		$this->assertNotSame($input, $input2);
+		$this->assertEquals($value, $input2->getClientSideValue());
+		$this->assertEquals(null, $input2->getClientSideError());
+	}
+
+	public function test_withInput_transformation_and_constraint_different_order() {
+		$name = "name";
+		$value = "value";
+		$transform_to = "other value";
+		$error = "an error";
+		$input = $this->input->withName($name);
+		$values = [$name => $value];
+
+		$input2 = $input
+			->withInput($values)
+			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
+				$this->assertEquals($value, $v);
+				return $transform_to;
+			}))
+			->withConstraint($this->validation_factory->custom(function($v) use ($transform_to) {
+				$this->assertEquals($transform_to, $v);
+				return true;
+			}, $error));
+		$res = $input2->getContent();
+
+		$this->assertInstanceOf(Result::class, $res);
+		$this->assertTrue($res->isOk());
+		$this->assertEquals($transform_to, $res->value());
+
+		$this->assertNotSame($input, $input2);
+		$this->assertEquals($value, $input2->getClientSideValue());
+		$this->assertEquals(null, $input2->getClientSideError());
+	}
+
+	public function test_withInput_constraint_and_transformation() {
+		$name = "name";
+		$value = "value";
+		$transform_to = "other value";
+		$error = "an error";
+		$input = $this->input->withName($name);
+		$values = [$name => $value];
+
+		$input2 = $input
+			->withConstraint($this->validation_factory->custom(function($v) use ($value) {
+				$this->assertEquals($value, $v);
+				return true;
+			}, $error))
+			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
+				$this->assertEquals($value, $v);
+				return $transform_to;
+			}))
+			->withInput($values);
+		$res = $input2->getContent();
+
+		$this->assertInstanceOf(Result::class, $res);
+		$this->assertTrue($res->isOk());
+		$this->assertEquals($transform_to, $res->value());
+
+		$this->assertNotSame($input, $input2);
+		$this->assertEquals($value, $input2->getClientSideValue());
+		$this->assertEquals(null, $input2->getClientSideError());
+	}
+
+	public function test_withInput_constraint_fails_and_transformation() {
+		$name = "name";
+		$value = "value";
+		$transform_to = "other value";
+		$error = "an error";
+		$input = $this->input->withName($name);
+		$values = [$name => $value];
+
+		$input2 = $input
+			->withConstraint($this->validation_factory->custom(function($v) use ($value) {
+				$this->assertEquals($value, $v);
+				return false;
+			}, $error))
+			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
+				$this->assertFalse("This should not happen");
+				return $transform_to;
+			}))
+			->withInput($values);
+		$res = $input2->getContent();
+
+		$this->assertInstanceOf(Result::class, $res);
+		$this->assertTrue($res->isError());
+		$this->assertEquals($error, $res->error());
+
+		$this->assertNotSame($input, $input2);
+		$this->assertEquals($value, $input2->getClientSideValue());
+		$this->assertEquals($error, $input2->getClientSideError());
+	}
+
+	public function test_withInput_constraint_fails_and_transformation_different_order() {
+		$name = "name";
+		$value = "value";
+		$transform_to = "other value";
+		$error = "an error";
+		$input = $this->input->withName($name);
+		$values = [$name => $value];
+
+		$input2 = $input
+			->withInput($values)
+			->withConstraint($this->validation_factory->custom(function($v) use ($value) {
+				$this->assertEquals($value, $v);
+				return false;
+			}, $error))
+			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
+				$this->assertFalse("This should not happen");
+				return $transform_to;
+			}));
+		$res = $input2->getContent();
+
+		$this->assertInstanceOf(Result::class, $res);
+		$this->assertTrue($res->isError());
+		$this->assertEquals($error, $res->error());
+
+		$this->assertNotSame($input, $input2);
+		$this->assertEquals($value, $input2->getClientSideValue());
+		$this->assertEquals($error, $input2->getClientSideError());
 	}
 }

@@ -169,7 +169,7 @@ abstract class Input implements C\Input\Input {
 	/**
 	 * The error of the input as used in HTML.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function getClientSideError() {
 		return $this->client_side_error;
@@ -274,5 +274,23 @@ abstract class Input implements C\Input\Input {
 			$clone->content = $clone->content->map($trafo);
 		}		
 		return $clone;	
+	}
+
+	/**
+	 * Apply a constraint to the current or the future content.
+	 *
+	 * @param	Constraint $constraint
+	 * @return 	Input
+	 */
+	public function withConstraint(Constraint $constraint) {
+		$clone = clone $this;
+		$clone->operations[] = $constraint;
+		if ($clone->content !== null) {
+			$clone->content = $constraint->restrict($clone->content);
+			if ($clone->content->isError()) {
+				return $clone->withClientSideError("".$clone->content->error());
+			}
+		}
+		return $clone;
 	}
 }
