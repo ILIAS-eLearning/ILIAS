@@ -1,0 +1,12 @@
+<?php
+function with_value() {
+    global $DIC;
+    $f = $DIC->ui()->factory();
+    $renderer = $DIC->ui()->renderer();
+
+	$text = $f->input()
+				->text("label", "a byline for the field.")
+				->withValue("The input contains this.");
+
+    return $renderer->render($text);
+}
