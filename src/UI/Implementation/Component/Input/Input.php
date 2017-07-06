@@ -38,7 +38,7 @@ abstract class Input implements C\Input\Input {
 	 *
 	 * @var	mixed
 	 */
-	protected $client_side_value;
+	protected $value;
 
 	/**
 	 * @var	string|null
@@ -50,7 +50,7 @@ abstract class Input implements C\Input\Input {
 	 *
 	 * @var	string|null
 	 */
-	protected $client_side_error;
+	protected $error;
 
 	/**
 	 * This is the current content of the input in the abstraction.
@@ -70,9 +70,9 @@ abstract class Input implements C\Input\Input {
 		$this->checkStringArg("byline", $byline);
 		$this->label = $label;
 		$this->byline= $byline;
-		$this->client_side_value = null;
+		$this->value = null;
 		$this->name = null;
-		$this->client_side_error = null;
+		$this->error = null;
 		$this->content = null;
 		$this->operations = [];
 	}
@@ -116,8 +116,8 @@ abstract class Input implements C\Input\Input {
 	 *
 	 * @return	mixed
 	 */
-	public function getClientSideValue() {
-		return $this->client_side_value;
+	public function getValue() {
+		return $this->value;
 	}
 
 	/**
@@ -128,11 +128,11 @@ abstract class Input implements C\Input\Input {
 	 * @throws  \InvalidArgumentException    if value does not fit client side input
 	 * @return Input
 	 */
-	public function withClientSideValue($value) {
+	public function withValue($value) {
 		$this->checkArg("value", $this->isClientSideValueOk($value),
 			"Display value does not match input type.");
 		$clone = clone $this;
-		$clone->client_side_value = $value;
+		$clone->value = $value;
 		return $clone;
 	}
 
@@ -171,8 +171,8 @@ abstract class Input implements C\Input\Input {
 	 *
 	 * @return string|null
 	 */
-	public function getClientSideError() {
-		return $this->client_side_error;
+	public function getError() {
+		return $this->error;
 	}
 
 	/**
@@ -181,10 +181,10 @@ abstract class Input implements C\Input\Input {
 	 * @param	string
 	 * @return	Input
 	 */
-	public function withClientSideError($error) {
+	public function withError($error) {
 		$this->checkStringArg("error", $error);
 		$clone = clone $this;
-		$clone->client_side_error = $error;
+		$clone->error = $error;
 		return $clone;
 	}
 
@@ -205,10 +205,10 @@ abstract class Input implements C\Input\Input {
 		}
 
 		$value = $this->valueFromArray($input);
-		$clone = $this->withClientSideValue($value);
+		$clone = $this->withValue($value);
 		$clone->content = $this->applyOperationsTo($value);
 		if ($clone->content->isError()) {
-			return $clone->withClientSideError("".$clone->content->error());
+			return $clone->withError("".$clone->content->error());
 		}
 		return $clone;
 	}
@@ -288,7 +288,7 @@ abstract class Input implements C\Input\Input {
 		if ($clone->content !== null) {
 			$clone->content = $constraint->restrict($clone->content);
 			if ($clone->content->isError()) {
-				return $clone->withClientSideError("".$clone->content->error());
+				return $clone->withError("".$clone->content->error());
 			}
 		}
 		return $clone;

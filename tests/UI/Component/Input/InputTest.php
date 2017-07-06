@@ -48,26 +48,26 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertNotSame($this->input, $input);
 	}
 
-	public function test_withClientSideValue() {
+	public function test_withValue() {
 		$value = "some value";
-		$input = $this->input->withClientSideValue($value);
-		$this->assertEquals(null, $this->input->getClientSideValue());
-		$this->assertEquals($value, $input->getClientSideValue());
+		$input = $this->input->withValue($value);
+		$this->assertEquals(null, $this->input->getValue());
+		$this->assertEquals($value, $input->getValue());
 		$this->assertNotSame($this->input, $input);
 	}
 
-	public function test_withClientSideValue_throws() {
+	public function test_withValue_throws() {
 		$this->input->value_ok = false;
 		$raised = false;
 		try {
-			$this->input->withClientSideValue("foo");
+			$this->input->withValue("foo");
 			$this->assertFalse("This should not happen.");
 		}
 		catch (\InvalidArgumentException $e) {
 			$raised = true;
 		}
 		$this->assertTrue($raised);
-		$this->assertEquals(null, $this->input->getClientSideValue());
+		$this->assertEquals(null, $this->input->getValue());
 	}
 
 	public function test_withName() {
@@ -78,11 +78,11 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertNotSame($this->input, $input);
 	}
 
-	public function test_withClientSideError() {
+	public function test_withError() {
 		$error = "error";
-		$input = $this->input->withClientSideError($error);
-		$this->assertEquals(null, $this->input->getClientSideError());
-		$this->assertEquals($error, $input->getClientSideError());
+		$input = $this->input->withError($error);
+		$this->assertEquals(null, $this->input->getError());
+		$this->assertEquals($error, $input->getError());
 		$this->assertNotSame($this->input, $input);
 	}
 
@@ -104,7 +104,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($value, $res->value());
 
 		$this->assertNotSame($input, $input2);
-		$this->assertEquals($value, $input2->getClientSideValue());
+		$this->assertEquals($value, $input2->getValue());
 	}
 
 	public function test_only_run_withInput_with_name() {
@@ -139,7 +139,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($transform_to, $res->value());
 
 		$this->assertNotSame($input, $input2);
-		$this->assertEquals($value, $input2->getClientSideValue());
+		$this->assertEquals($value, $input2->getValue());
 	}
 
 	public function test_withInput_and_transformation_different_order() {
@@ -162,7 +162,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($transform_to, $res->value());
 
 		$this->assertNotSame($input, $input2);
-		$this->assertEquals($value, $input2->getClientSideValue());
+		$this->assertEquals($value, $input2->getValue());
 	}
 
 	public function test_withInput_and_constraint_successfull() {
@@ -182,8 +182,8 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($value, $res->value());
 
 		$this->assertNotSame($input, $input2);
-		$this->assertEquals($value, $input2->getClientSideValue());
-		$this->assertEquals(null, $input2->getClientSideError());
+		$this->assertEquals($value, $input2->getValue());
+		$this->assertEquals(null, $input2->getError());
 	}
 
 	public function test_withInput_and_constraint_fails() {
@@ -203,8 +203,8 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($error, $res->error());
 
 		$this->assertNotSame($input, $input2);
-		$this->assertEquals($value, $input2->getClientSideValue());
-		$this->assertEquals($error, $input2->getClientSideError());
+		$this->assertEquals($value, $input2->getValue());
+		$this->assertEquals($error, $input2->getError());
 	}
 
 	public function test_withInput_and_constraint_fails_different_order() {
@@ -224,8 +224,8 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($error, $res->error());
 
 		$this->assertNotSame($input, $input2);
-		$this->assertEquals($value, $input2->getClientSideValue());
-		$this->assertEquals($error, $input2->getClientSideError());
+		$this->assertEquals($value, $input2->getValue());
+		$this->assertEquals($error, $input2->getError());
 	}
 
 	public function test_withInput_transformation_and_constraint() {
@@ -253,8 +253,8 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($transform_to, $res->value());
 
 		$this->assertNotSame($input, $input2);
-		$this->assertEquals($value, $input2->getClientSideValue());
-		$this->assertEquals(null, $input2->getClientSideError());
+		$this->assertEquals($value, $input2->getValue());
+		$this->assertEquals(null, $input2->getError());
 	}
 
 	public function test_withInput_transformation_and_constraint_different_order() {
@@ -282,8 +282,8 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($transform_to, $res->value());
 
 		$this->assertNotSame($input, $input2);
-		$this->assertEquals($value, $input2->getClientSideValue());
-		$this->assertEquals(null, $input2->getClientSideError());
+		$this->assertEquals($value, $input2->getValue());
+		$this->assertEquals(null, $input2->getError());
 	}
 
 	public function test_withInput_constraint_and_transformation() {
@@ -311,8 +311,8 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($transform_to, $res->value());
 
 		$this->assertNotSame($input, $input2);
-		$this->assertEquals($value, $input2->getClientSideValue());
-		$this->assertEquals(null, $input2->getClientSideError());
+		$this->assertEquals($value, $input2->getValue());
+		$this->assertEquals(null, $input2->getError());
 	}
 
 	public function test_withInput_constraint_fails_and_transformation() {
@@ -340,8 +340,8 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($error, $res->error());
 
 		$this->assertNotSame($input, $input2);
-		$this->assertEquals($value, $input2->getClientSideValue());
-		$this->assertEquals($error, $input2->getClientSideError());
+		$this->assertEquals($value, $input2->getValue());
+		$this->assertEquals($error, $input2->getError());
 	}
 
 	public function test_withInput_constraint_fails_and_transformation_different_order() {
@@ -369,7 +369,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($error, $res->error());
 
 		$this->assertNotSame($input, $input2);
-		$this->assertEquals($value, $input2->getClientSideValue());
-		$this->assertEquals($error, $input2->getClientSideError());
+		$this->assertEquals($value, $input2->getValue());
+		$this->assertEquals($error, $input2->getError());
 	}
 }
