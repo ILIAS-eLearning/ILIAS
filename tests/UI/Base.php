@@ -36,6 +36,7 @@ class NoUIFactory implements Factory {
 	public function dropdown() {}
 	public function item() {}
 	public function icon() {}
+	public function viewControl() {}
 }
 
 class LoggingRegistry implements ResourceRegistry {

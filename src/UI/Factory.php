@@ -606,4 +606,16 @@ interface Factory {
 	 **/
 	public function icon();
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     View Controls switch between different visualisation of data.
+	 *   composition: >
+	 *      View Controls are composed mainly of buttons, they are often found in toolbars.
+	 *   effect: Interacting with a view control changes to display in some content area.
+	 * ---
+	 * @return \ILIAS\UI\Component\ViewControl\Factory
+	 */
+	public function viewControl();
 }
