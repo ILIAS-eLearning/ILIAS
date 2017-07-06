@@ -67,7 +67,9 @@ abstract class Input implements C\Input\Input {
 	public function __construct(DataFactory $data_factory, $label, $byline) {
 		$this->data_factory = $data_factory;
 		$this->checkStringArg("label", $label);
-		$this->checkStringArg("byline", $byline);
+		if ($byline !== null) {
+			$this->checkStringArg("byline", $byline);
+		}
 		$this->label = $label;
 		$this->byline= $byline;
 		$this->value = null;
