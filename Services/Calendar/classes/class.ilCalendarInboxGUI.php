@@ -95,7 +95,14 @@ class ilCalendarInboxGUI
 				$app = new ilCalendarAppointmentGUI($this->seed,$this->seed, (int) $_GET['app_id']);
 				$this->ctrl->forwardCommand($app);
 				break;
-			
+
+			case 'ilcalendaragendalistgui':
+				include_once("./Services/Calendar/classes/Agenda/class.ilCalendarAgendaListGUI.php");
+				$cal_list = new ilCalendarAgendaListGUI();
+				$html = $this->ctrl->forwardCommand($cal_list);
+				$tpl->setContent($html);
+				break;
+
 			default:
 				$cmd = $this->ctrl->getCmd("inbox");
 				$this->$cmd();

@@ -40,6 +40,16 @@ class ilDatePresentation
 	public static $today = null;
 	public static $tomorrow = null;
 	public static $yesterday = null;
+
+	protected static $weekdays = array(
+		0 => "Su_short",
+		1 => "Mo_short",
+		2 => "Tu_short",
+		3 => "We_short",
+		4 => "Th_short",
+		5 => "Fr_short",
+		6 => "Sa_short"
+	);
 	
 	/**
 	 * set use relative dates 
@@ -110,7 +120,7 @@ class ilDatePresentation
 	 * @return string date presentation in user specific timezone and language 
 	 * @static
 	 */
-	public static function formatDate(ilDateTime $date, $a_skip_day = false)
+	public static function formatDate(ilDateTime $date, $a_skip_day = false, $a_include_wd = false)
 	{
 		global $lng,$ilUser;
 		
@@ -145,7 +155,12 @@ class ilDatePresentation
 			} else
 			{
 				include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
-				$date_str = $date->get(IL_CAL_FKT_DATE, 'd') . '. ' .
+				$date_str = "";
+				if ($a_include_wd)
+				{
+					$date_str = $lng->txt(self::$weekdays[$date->get(IL_CAL_FKT_DATE, 'w')]) . ", 	";
+				}
+				$date_str.= $date->get(IL_CAL_FKT_DATE, 'd') . '. ' .
 					ilCalendarUtil::_numericMonthToString($date_info['mon'], false) . ' ' .
 					$date_info['year'];
 			}
