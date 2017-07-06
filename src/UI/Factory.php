@@ -616,6 +616,10 @@ interface Factory {
 	 *   effect: >
 	 *      TBD
 	 *
+	 * rules:
+	 *   wording:
+	 *     1: TBD
+	 *
 	 * ---
 	 * @return  \ILIAS\UI\Component\Form\Factory
 	 */
@@ -630,6 +634,10 @@ interface Factory {
 	 *      TBD
 	 *   effect: >
 	 *      TBD
+	 *
+	 * rules:
+	 *   wording:
+	 *     1: TBD
 	 *
 	 * ---
 	 * @return  \ILIAS\UI\Component\Input\Factory
