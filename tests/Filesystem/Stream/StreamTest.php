@@ -210,6 +210,10 @@ class StreamTest extends TestCase {
 			->with($resource)
 			->andReturn(false);
 
+		$functionMock->shouldReceive('fclose')
+			->once()
+			->with($resource);
+
 		$subject = new Stream($resource);
 
 		$this->expectException(\RuntimeException::class);
@@ -333,6 +337,10 @@ class StreamTest extends TestCase {
 			->withArgs([$resource, $offset, $whence])
 			->andReturn(-1);
 
+		$functionMock->shouldReceive('fclose')
+			->once()
+			->with($resource);
+
 		$this->expectException(\RuntimeException::class);
 		$this->expectExceptionMessage("Unable to seek to stream position \"$offset\" with whence \"$whence\"");
 
@@ -451,6 +459,10 @@ class StreamTest extends TestCase {
 			->withArgs([$resource, $length])
 			->andReturn(false);
 
+		$functionMock->shouldReceive('fclose')
+			->once()
+			->with($resource);
+
 		$this->expectException(\RuntimeException::class);
 		$this->expectExceptionMessage('Unable to read from stream');
 
@@ -508,6 +520,10 @@ class StreamTest extends TestCase {
 			->once()
 			->with($resource)
 			->andReturn(false);
+
+		$functionMock->shouldReceive('fclose')
+			->once()
+			->with($resource);
 
 		$this->expectException(\RuntimeException::class);
 		$this->expectExceptionMessage('Unable to read stream contents');
@@ -632,6 +648,10 @@ class StreamTest extends TestCase {
 			->once()
 			->withArgs([$resource, $newContent])
 			->andReturn(false);
+
+		$functionMock->shouldReceive('fclose')
+			->once()
+			->with($resource);
 
 		$this->expectException(\RuntimeException::class);
 		$this->expectExceptionMessage('Unable to write to stream');
