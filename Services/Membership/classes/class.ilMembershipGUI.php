@@ -69,6 +69,31 @@ class ilMembershipGUI
 	}
 	
 	/**
+	 * @return ilLanguage
+	 */
+	protected function getLanguage()
+	{
+		return $this->lng;
+	}
+	
+	/**
+	 * @return ilCtrl
+	 */
+	protected function getCtrl()
+	{
+		return $this->ctrl;
+	}
+	
+	/**
+	 * @return ilLogger
+	 */
+	protected function getLogger()
+	{
+		return $this->logger;
+	}
+
+
+	/**
 	 * Get parent gui
 	 * @return ilObjectGUI
 	 */
@@ -347,6 +372,8 @@ class ilMembershipGUI
 	 */
 	protected function participantsResetFilter()
 	{
+		ilLoggerFactory::getLogger('root')->dump($_POST);
+		
 		$table = $this->initParticipantTableGUI();
 		$table->resetOffset();
 		$table->resetFilter();
@@ -681,6 +708,20 @@ class ilMembershipGUI
 
 		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		require_once 'Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
+		
+		$context_options = [];
+		
+		// @todo refactor
+		if($this->getParentObject()->getType() == 'crs')
+		{
+			$context_options = 
+				array(
+					ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
+					'ref_id' => $this->getParentObject()->getRefId(),
+					'ts'     => time()
+			);
+		}
+		
 
 		ilMailFormCall::setRecipients($rcps);
 		ilUtil::redirect(
@@ -692,11 +733,7 @@ class ilMembershipGUI
 					'type'   => 'new',
 					'sig' => $this->createMailSignature()
 				),
-				array(
-					ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
-					'ref_id' => $this->getParentObject()->getRefId(),
-					'ts'     => time()
-				)
+				$context_options
 			)
 		);		
 	}
@@ -1409,7 +1446,7 @@ class ilMembershipGUI
 		 */
 		$ilAccess = $GLOBALS['DIC']['ilAccess'];
 
-		if(!$ilAccess->checkAccess($a_permission, $a_cmd, $this->getParentGUI()->ref_id))
+		if(!$ilAccess->checkAccess($a_permission, $a_cmd, $this->getParentObject()->getRefId()))
 		{
 			ilUtil::sendFailure($this->lng->txt('no_permission'), true);
 			$this->ctrl->redirect($this->getParentGUI());
@@ -1507,6 +1544,19 @@ class ilMembershipGUI
 			case 'crs':
 				$list->addPreset('status', $this->lng->txt('crs_status'), true);
 				$list->addPreset('passed', $this->lng->txt('crs_passed'), true);
+				break;
+
+			case 'sess':
+				$list->addPreset('mark', $this->lng->txt('trac_mark'), true);
+				$list->addPreset('comment', $this->lng->txt('trac_comment'), true);		
+				if($this->getParentObject()->enabledRegistration())
+				{
+					$list->addPreset('registered', $this->lng->txt('event_tbl_registered'), true);			
+				}	
+				$list->addPreset('participated', $this->lng->txt('event_tbl_participated'), true);		
+				$list->addBlank($this->lng->txt('sess_signature'));
+		
+				$list->addUserFilter('registered', $this->lng->txt('event_list_registered_only'));
 				break;
 
 			case 'grp':

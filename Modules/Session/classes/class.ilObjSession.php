@@ -795,6 +795,45 @@ class ilObjSession extends ilObject
 			}
 		}		
 	}
+	
+	/**
+	 * Get mail to members type
+	 * @return int
+	 */
+	public function getMailToMembersType()
+	{
+		return false;
+	}
+	
+	/**
+	 * init participants object
+	 * 
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function initParticipants()
+	{
+		include_once('./Modules/Session/classes/class.ilSessionParticipants.php');
+		$this->members_obj = ilSessionParticipants::_getInstanceByObjId($this->getId());
+	}
+	
+	/**
+	 * Get members objects
+	 * 
+	 * @return ilGroupParticipants
+	 */
+	public function getMembersObject()
+	{
+		// #17886
+		if(!$this->members_obj instanceof ilGroupParticipants)
+		{
+			$this->initParticipants();
+		}
+		return $this->members_obj;
+	}
+	
+
 }
 
 ?>

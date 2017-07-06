@@ -13,7 +13,7 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * 
 * @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipMailGUI
-* @ilCtrl_Calls ilObjSessionGUI:  ilLearningProgressGUI
+* @ilCtrl_Calls ilObjSessionGUI:  ilLearningProgressGUI, ilSessionMembershipGUI
 *
 * @ingroup ModulesSession 
 */
@@ -79,6 +79,15 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->prepareOutput();
   		switch($next_class)
 		{
+			case 'ilsessionmembershipgui':
+				
+				$this->tabs_gui->activateTab('members');
+				
+				include_once './Modules/Session/classes/class.ilSessionMembershipGUI.php';
+				$mem_gui = new ilSessionMembershipGUI($this, $this->object);
+				$this->ctrl->forwardCommand($mem_gui);
+				break;
+			
 			case "ilinfoscreengui":
 				$this->checkPermission("visible");
 				$this->infoScreen();	// forwards command
@@ -1936,8 +1945,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 								 $this->ctrl->getLinkTarget($this,'edit'));
 			$this->tabs_gui->addTarget('crs_materials',
 								 $this->ctrl->getLinkTarget($this,'materials'));
-			$this->tabs_gui->addTarget('event_edit_members',
-								 $this->ctrl->getLinkTarget($this,'members'));
+			
+			$this->tabs_gui->addTab(
+				'members',
+				$this->lng->txt('event_edit_members'),
+				$this->ctrl->getLinkTargetByClass('ilsessionmembershipgui','')
+			);
 	 	}
 		
 		// learning progress
@@ -2352,6 +2365,51 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$ilCtrl->redirectByClass("ilrepositorygui", "");
 	}
-
+	
+	
+	/**
+	 * Get default member role
+	 * @return int
+	 */
+	public function getDefaultMemberRole()
+	{
+		$local_roles = $GLOBALS['DIC']->rbac()->review()->getRolesOfRoleFolder($this->object->getRefId(),false);
+		
+		foreach($local_roles as $role_id)
+		{
+			$title = ilObject::_lookupTitle($role_id);
+			if(substr($title,0,19) == 'il_sess_participant')
+			{
+				return $role_id;
+			}
+		}
+		return 0;
+	}
+	
+	
+	/**
+	 * get all local roles
+	 * @return int[]
+	 */
+	public function getLocalRoles()
+	{
+		return $GLOBALS['DIC']->rbac()->review()->getRolesOfRoleFolder($this->object->getRefId(),false);
+	}
+	
+	
+	/**
+	 * Create a course mail signature
+	 * @return string 
+	 */
+	public function createMailSignature()
+	{
+		$link = chr(13).chr(10).chr(13).chr(10);
+		$link .= $this->lng->txt('sess_mail_permanent_link');
+		$link .= chr(13).chr(10).chr(13).chr(10);
+		include_once './Services/Link/classes/class.ilLink.php';
+		$link .= ilLink::_getLink($this->object->getRefId());
+		return rawurlencode(base64_encode($link));
+	}
+	
 }
 ?>

@@ -9390,6 +9390,7 @@ cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable f
 certificate#:#certificate_file_basename#:#Certificate
 grp#:#grp_print_list#:#Generate List
 grp#:#grp_members_print_title#:#Group Members
+sess#:#sess_members_print_title#:#Session Participants
 trac#:#trac_closed_misc#:#Misc.
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.
 rep#:#rep_no_permission_to_delete#:#No permission to delete

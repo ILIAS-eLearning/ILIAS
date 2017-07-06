@@ -38,6 +38,19 @@ class ilSessionParticipants extends ilParticipants
 	 * @param int $a_ref_id
 	 * @return ilSessionParticipants
 	 */
+	public static function _getInstanceByObjId($a_obj_id)
+	{
+		$refs = ilObject::_getAllReferences($a_obj_id);
+		return self::getInstance(array_pop($refs));
+	}
+
+
+	
+	/**
+	 * Get instance
+	 * @param int $a_ref_id
+	 * @return ilSessionParticipants
+	 */
 	public static function getInstance($a_ref_id)
 	{
 		if(self::$instances[$a_ref_id] instanceof self)
@@ -54,6 +67,16 @@ class ilSessionParticipants extends ilParticipants
 	public function getEventParticipants()
 	{
 		return $this->event_part;
+	}
+	
+	/**
+	 * no last admin restrictions for sessions
+	 * @param int[] $a_usr_ids
+	 * @return boolean
+	 */
+	public function checkLastAdmin($a_usr_ids)
+	{
+		return false;
 	}
 	
 	/**
