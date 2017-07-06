@@ -8,5 +8,5 @@ function with_error() {
 		->text("label", "a byline for the field.")
 		->withError("There is an error in this input field. =(");
 
-    return $renderer->render($text);
+    return '<div class="form-horizontal">'.$renderer->render($text)."</div>";
 }

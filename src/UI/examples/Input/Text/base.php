@@ -6,5 +6,5 @@ function base() {
 
 	$text = $f->input()->text("label", "a byline for the field.");
 
-    return $renderer->render($text);
+    return '<div class="form-horizontal">'.$renderer->render($text)."</div>";
 }

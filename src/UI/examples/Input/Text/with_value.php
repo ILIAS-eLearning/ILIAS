@@ -8,5 +8,5 @@ function with_value() {
 		->text("label", "a byline for the field.")
 		->withValue("The input contains this.");
 
-    return $renderer->render($text);
+    return '<div class="form-horizontal">'.$renderer->render($text)."</div>";
 }
