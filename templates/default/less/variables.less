@@ -47,6 +47,7 @@
 //##
 @body-bg:               #f0f0f0;
 @text-color:            @gray-dark;
+@il-light-text-color:   lighten(@mid-gray, 30%);
 @link-color:            lighten(@brand-primary, 5%);
 @link-hover-color:      darken(@link-color, 15%);
 
@@ -217,6 +218,33 @@
 //** Textual separator for between breadcrumb elements
 @breadcrumb-separator:          "»";
 
+//== Buttons
+//
+//##
+
+@btn-default-color:             @link-color;
+@btn-default-border:            #d0d0d0;
+@btn-default-bg:                #fefefe;
+@disabled-btn-bg:               #b0b0b0;
+@disabled-btn-border:           #b0b0b0;
+@disabled-btn-color:            #e0e0e0;
+//** Background color for tags with relevance 5; by default, color is desaturated in steps of 20%.
+@btn-tag-bg:                    #75deea;
+@btn-tag-bg-relevance-verylow:  desaturate(@btn-tag-bg, 80%);
+@btn-tag-bg-relevance-low:      desaturate(@btn-tag-bg, 60%);
+@btn-tag-bg-relevance-middle:   desaturate(@btn-tag-bg, 40%);
+@btn-tag-bg-relevance-high:     desaturate(@btn-tag-bg, 20%);
+@btn-tag-bg-relevance-veryhigh: @btn-tag-bg;
+//** Foreground colors for tags; usually black/white depending on the background color
+@btn-tag-fg-relevance-verylow:  contrast(desaturate(@btn-tag-bg, 80%));
+@btn-tag-fg-relevance-low:      contrast(desaturate(@btn-tag-bg, 60%));
+@btn-tag-fg-relevance-middle:   contrast(desaturate(@btn-tag-bg, 40%));
+@btn-tag-fg-relevance-high:     contrast(desaturate(@btn-tag-bg, 20%));
+@btn-tag-fg-relevance-veryhigh: contrast(@btn-tag-bg);
+//** Border radius of tags
+@btn-tag-border-radius: 3px;
+//** margin of tags
+@btn-tag-margin: 2px 4px 2px 0;
 
 
 //== Badges
@@ -365,8 +393,62 @@
 @il-counter-novelty-bg: @brand-warning;
 @il-counter-novelty-margin-top: -5px;
 
+//== Popover
+//
+//## Customizes the Popover component
+
+//** Minimal width of the Popover
+@il-popover-min-width: 50px;
+//** Minimal height of the Popover
+@il-popover-min-height: 32px;
+//** Maximal width of the Popover
+@il-popover-max-width: 400px;
+//** Background color of the Popover
+@il-popover-background-color: @il-primary-container-bg;
+//** Background color of the title
+@il-popover-title-background-color: @il-popover-background-color;
+//** Border color of the Popover
+@il-popover-border-color: rgba(0, 0, 0, .2);
+//** Width of the arrow pointing from the Popover to its Triggerer component, e.g. a Button
+@il-popover-arrow-width: 10px;
+//** Background color of the arrow
+@il-popover-arrow-background-color: @il-popover-background-color;
+//** z-index used for the Popover
+@il-popover-z-index: 9999;
 //== Divider
 //
 //##
 @il-divider-bg: darken(@il-secondary-container-bg, 5%);
 @il-divider-color: lighten(@text-color, 10%);
+
+//== Item
+//
+//##
+@il-item-divider-padding: 10px 0 0 0;
+@il-item-divider-margin: 0 0 10px 0;
+@il-item-divider-border-bottom: dashed 2px #E0E0E0;
+@il-item-description-padding: 10px 0 0 0;
+@il-item-padding: 20px;
+@il-item-marker-border-left: 5px solid;
+@il-item-h5-margin: 4px 0px 2px 0px;
+
+//== Listing Panel
+//
+//##
+@il-panel-listing-std-container-h4-margin: 16px 0 2px 0;
+@il-panel-listing-std-container-h3-margin: 8px 0 2px 0;
+@il-panel-listing-std-container-h3-text-transform: uppercase;
+@il-panel-listing-std-container-h4-text-transform: uppercase;
+@il-panel-listing-std-container-h3-color: #909090;
+@il-panel-listing-std-container-h4-color: #909090;
+@il-panel-listing-std-item-container-margin: 0 0 1px 0;
+
+//== Icons
+//
+//## Icons are used to represent (and quickly identify) objects.
+//**Size for icons: Small is used in the tree. e.g.
+@icon-size-small: 20px;
+//**Size for icons: Medium is used in the content-listing. e.g.
+@icon-size-medium: 35px;
+//**Size for icons: Large is used in the header. e.g.
+@icon-size-large: 45px;

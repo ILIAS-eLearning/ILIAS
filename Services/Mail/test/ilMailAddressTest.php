@@ -1,12 +1,13 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Mail/test/ilMailBaseTest.php';
 require_once 'Services/Mail/classes/Address/class.ilMailAddress.php';
 
 /**
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailAddressTest extends PHPUnit_Framework_TestCase
+class ilMailAddressTest extends \ilMailBaseTest
 {
 	const LOCAL_PART  = 'phpunit';
 	const DOMAIN_PART = 'ilias.de';

@@ -3,6 +3,7 @@
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI;
+use ILIAS\UI\Component\Component;
 
 /**
  * This is how the factory for UI elements looks. This should provide access
@@ -300,7 +301,6 @@ interface Factory {
 	 */
 	public function panel();
 
-
 	/**
 	 * ---
 	 * description:
@@ -335,6 +335,71 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Modal\Factory
 	 **/
 	public function modal();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Popovers can be used when space is scarce i.e. within List GUI items, table cells or
+	 *     menus in the Header section. They offer either secondary information on object like a
+	 *     preview or rating to be displayed or entered. They display information about ongoing
+	 *     processes
+	 *   composition: >
+	 *     Popovers consist of a layer displayed above all other content.
+	 *     The content of the Popover depends on the functionality it performs.
+	 *     A Popover MAY display a title above its content.
+	 *     All Popovers contain a pointer pointing from the Popover to the Triggerer of the Popover.
+	 *   effect: >
+	 *     Popovers are shown by clicking a Triggerer component such as a Button or Glyph.
+	 *     The position of the Popover is calculated automatically be default. However, it is possible to
+	 *     specify if the popover appears horizontal (left, right) or vertical (top, bottom) relative to
+	 *     its Triggerer component. Popovers disappear by clicking anywhere outside the Popover or by pressing
+	 *     the ESC key.
+	 * rivals: >
+	 *   Modals: >
+	 *     Modals hide all other content while Popovers do not prevent interaction with other parts
+	 *     of the current context.
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *        Popovers MUST NOT contain horizontal scrollbars.
+	 *     2: >
+	 *        Popovers MAY contain vertical scrollbars. The content component is responsible to
+	 *        define its own height and show vertical scrollbars.
+	 *     3: >
+	 *        If Popovers are used to present secondary information of an object, they SHOULD
+	 *        display a title
+	 *        representing the object.
+	 *   interaction:
+	 *     1: >
+	 *        A Popover MUST only be displayed if the Trigger component is clicked.
+	 *        This behaviour is different from Tooltips that appear on hovering.
+	 *        Popovers disappear by clicking anywhere outside the Popover or by pressing
+	 *        the ESC key.
+	 *   style:
+	 *     1: Popovers MUST always relate to the Trigger component by a little pointer.
+	 *   accessibility:
+	 *     1: >
+	 *        There MUST be a way to open the Popover by only using the keyboard.
+	 *     2: >
+	 *        The focus MUST be inside the Popover, once it is open if it contains at least one
+	 *        interactive item.
+	 *        Otherwise the focus MUST remain on the Triggerer component.
+	 *     3: >
+	 *        The focus MUST NOT leave the Popover for as long as it is open.
+	 *     4: >
+	 *        There MUST be a way to reach every control in the Popover by only using the keyboard.
+	 *     5: >
+	 *        The Popover MUST be closable by pressing the ESC key.
+	 *     6: >
+	 *        Once the Popover is closed, the focus MUST return to the element triggering the
+	 *        opening of the Popover or the element being clicked if the Popover was
+	 *        closed on click.
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Popover\Factory
+	 */
+	public function popover();
 
 	/**
 	 * ---
@@ -472,6 +537,74 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Dropdown\Factory
 	 */
 	public function dropdown();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      An item displays a unique entity within the system. It shows information
+	 *      about that entity in a structured way.
+	 *   composition: >
+	 *      Items contain the name of the entity as a title. The item contains three
+	 *      sections, where one section contains important information about the item,
+	 *      the second section shows the content of the item and another section shows
+	 *      metadata about the entity.
+	 *   effect: >
+	 *      Items may contain Interaction Triggers such as Glyphs, Buttons or Tags.
+	 *   rivals:
+	 *      Card: >
+	 *         Cards define the look of items in a deck. Todo: We need to refactor cards.
+	 *
+	 * rules:
+	 *   composition:
+	 *      1: Items MUST contain the name of the displayed entity as a title.
+	 *      2: Items SHOULD contain a section with it's content.
+	 *      3: Items MAY contain Interaction Triggers.
+	 *      4: Items MAY contain a section with metadata.
+	 * ---
+	 * @return \ILIAS\UI\Component\Item\Factory
+	 */
+	public function item();
+
+ 	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Icons are quickly comprehensible and recognizable graphics.
+	 *     They indicate the functionality or nature of a text-element or context:
+	 *     Icons will mainly be used in front of object-titles, e.g. in the
+	 *     header, the tree and in repository listing.
+	 *   composition: >
+	 *     Icons come in three fixed sizes: small, medium and large.
+	 *     They can be configured with an additional "abbreviation",
+	 *     a text of a few characters that will be rendered on top of the image.
+	 *   effect: >
+	 *     Icons themselves are not interactive; however they are allowed
+	 *     within interactive containers.
+	 *   rivals:
+	 *     1: >
+	 *       Glyphs are typographical characters that act as a trigger for
+	 *       some action.
+	 *     2: >
+	 *       Images belong to the content and can be purely decorative.
+	 * rules:
+	 *   usage:
+	 *     1: Icons MUST be used to represent objects or context.
+	 *     2: Icons MUST be used in combination with a title or label.
+	 *     3: An unique Icon MUST always refer to the same thing.
+	 *   style:
+	 *     1: Icons MUST have a class indicating their usage.
+	 *     2: Icons MUST be tagged with a CSS-class indicating their size.
+	 *   accessibility:
+	 *     1: Icons MUST use aria-label.
+	 *   wording:
+	 *     1: The aria-label MUST state the represented object-type.
+	 *     2: The abbreviation SHOULD consist of one or two letters.
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Icon\Factory
+	 **/
+	public function icon();
 
 	/**
 	 * ---

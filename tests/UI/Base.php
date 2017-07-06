@@ -30,9 +30,12 @@ class NoUIFactory implements Factory {
 	public function legacy($content) {}
 	public function panel() {}
 	public function modal() {}
+	public function popover() {}
 	public function divider() {}
 	public function link() {}
 	public function dropdown() {}
+	public function item() {}
+	public function icon() {}
 	public function form() {}
 	public function input() {}
 }
@@ -52,6 +55,8 @@ class ilLanguageMock extends \ilLanguage {
 		$this->requested[] = $a_topic;
 		return $a_topic;
 	}
+	public function toJS($a_key, ilTemplate $a_tpl = NULL) {
+	}
 }
 
 class LoggingJavaScriptBinding implements JavaScriptBinding {
@@ -67,7 +72,22 @@ class LoggingJavaScriptBinding implements JavaScriptBinding {
 	public function addOnLoadCode($code) {
 		$this->on_load_code[] = $code;
 	}
+	public function getOnLoadCodeAsync() {
+	}
 }
+
+class IncrementalSignalGenerator extends \ILIAS\UI\Implementation\Component\SignalGenerator {
+
+	protected $id = 0;
+
+	protected function createId() {
+		return 'signal_' . ++$this->id;
+	}
+}
+
+class SignalGeneratorMock extends \ILIAS\UI\Implementation\Component\SignalGenerator {}
+
+class DummyComponent implements \ILIAS\UI\Component\Component {}
 
 /**
  * Provides common functionality for UI tests.
