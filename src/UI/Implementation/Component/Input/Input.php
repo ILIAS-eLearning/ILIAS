@@ -206,7 +206,7 @@ abstract class Input implements C\Input\Input {
 
 		$value = $this->valueFromArray($input);
 		$clone = $this->withClientSideValue($value);
-		$clone->content = $this->applyOperationsTo($this->contentFromValue($value));
+		$clone->content = $this->applyOperationsTo($value);
 		if ($clone->content->isError()) {
 			return $clone->withClientSideError("".$clone->content->error());
 		}
@@ -216,10 +216,11 @@ abstract class Input implements C\Input\Input {
 	/**
 	 * Applies the operations in this instance to the value.
 	 *
-	 * @param	Result	$res
+	 * @param	mixed	$res
 	 * @return	Result
 	 */
-	protected function applyOperationsTo(Result $res) {
+	protected function applyOperationsTo($res) {
+		$res = $this->data_factory->ok($res);
 		foreach ($this->operations as $op) {
 			if ($res->isError()) {
 				return $res;
@@ -249,21 +250,6 @@ abstract class Input implements C\Input\Input {
 			return $input[$name];
 		}
 		return null;
-	}
-
-	/**
-	 * Get an initial content for this input from the value as extracted by
-	 * valueFromArray.
-	 *
-	 * TODO: This most probably is garbage. We could start with the plain value
-	 * and just apply an initial validation/transformation, no special case for
-	 * "initial" required.
-	 *
-	 * @param	mixed
-	 * @return	Result
-	 */
-	protected function contentFromValue($value) {
-		return $this->data_factory->ok($value);
 	}
 
 	/**
