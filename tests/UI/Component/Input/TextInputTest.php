@@ -56,7 +56,7 @@ class TextInputTest extends ILIAS_UI_TestBase {
 				"	<div class=\"col-sm-9\">".
 				"		<input type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />".
 				"		<div class=\"help-block\">$byline</div>".
-				"		<div class=\"help-block alert alert-danger\">$error</div>".
+				"		<div class=\"help-block alert alert-danger\" role=\"alert\">$error</div>".
 				"	</div>".
 				"</div>";
 		$this->assertEquals($expected, $html);
