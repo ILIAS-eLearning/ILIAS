@@ -1,7 +1,8 @@
 <div class="form-group row">
 	<label for="{NAME}" class="control-label col-sm-3">{LABEL}</label>
 	<div class="col-sm-9">
-		<input type="text" name="{NAME}" class="form-control form-control-sm" />
-		<div class="help-block">{BYLINE}</div>
+		<input type="text"<!-- BEGIN value --> value="{VALUE}"<!-- END value --> name="{NAME}" class="form-control form-control-sm" />
+		<!-- BEGIN byline --><div class="help-block">{BYLINE}</div><!-- END byline -->
+		<!-- BEGIN error --><div class="help-block alert alert-danger">{ERROR}</div><!-- END error -->
 	</div>
 </div>

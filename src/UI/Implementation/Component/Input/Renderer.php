@@ -26,8 +26,24 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate("tpl.text.html", true, true);
 		$tpl->setVariable("NAME", $component->getName());
 		$tpl->setVariable("LABEL", $component->getLabel());
-		$tpl->setVariable("BYLINE", $component->getByline());
 
+		if ($component->getValue() !== null) {
+			$tpl->setCurrentBlock("value");
+			$tpl->setVariable("VALUE", $component->getValue());
+			$tpl->parseCurrentBlock();
+		}
+
+		if ($component->getByline() !== null) {
+			$tpl->setCurrentBlock("byline");
+			$tpl->setVariable("BYLINE", $component->getByline());
+			$tpl->parseCurrentBlock();
+		}
+
+		if ($component->getError() !== null) {
+			$tpl->setCurrentBlock("error");
+			$tpl->setVariable("ERROR", $component->getError());
+			$tpl->parseCurrentBlock();
+		}
 		return $tpl->get();
 	}
 
