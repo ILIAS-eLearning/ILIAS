@@ -7,4 +7,10 @@ namespace ILIAS\UI\Implementation\Component\Form;
 use ILIAS\UI\Component\Form as F;
 
 class Factory implements F\Factory {
+	/**
+	 * @inheritdoc
+	 */
+	public function standard(array $inputs) {
+		throw new \ILIAS\UI\NotImplementedException(); 
+	}
 }
