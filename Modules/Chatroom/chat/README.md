@@ -71,8 +71,7 @@ config files (```server.cfg``` and ```client.cfg```) are created in your ILIAS
 external data directory in the subfolder chatroom. These files must be addressed
 when starting the NodeJs chat server.
 
-If you want to handle multiple ILIAS clients with one chat server multiple
-```client.cfg``` can be passed as start parameters.
+If you want to handle multiple ILIAS clients with one chat server multiple ```client.cfg``` can be passed as start parameters.
 
 After you made changes, the chat server must be restarted.
 
