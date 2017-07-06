@@ -10,7 +10,10 @@ use ILIAS\UI\Component as C;
  * This implements commonalities between inputs.
  */
 class Text extends Input implements C\Input\Text {
+	/**
+	 * @inheritdoc
+	 */
 	protected function isClientSideValueOk($value) {
-		throw new \LogicException("NYI");
+		return is_string($value);
 	}
 }
