@@ -129,13 +129,13 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 		{
 
 			if($activate_first_item) {
-				$expected .= "<a class=\"btn btn-default ilSubmitInactive disabled\" data-action=\"$action\">$label</a>";
+				$expected .= "<a class=\"btn btn-default ilSubmitInactive disabled\" aria-label=\"$label\" aria-checked=\"true\" data-action=\"$action\">$label</a>";
 				$activate_first_item = false;
 			} else if($active == $label) {
-				$expected .= "<a class=\"btn btn-default ilSubmitInactive disabled \" data-action=\"$action\">$label</a>";
+				$expected .= "<a class=\"btn btn-default ilSubmitInactive disabled \" aria-label=\"$label\" aria-checked=\"true\" data-action=\"$action\">$label</a>";
 			}
 			else {
-				$expected .= "<a class=\"btn btn-default\" href=\"$action\" data-action=\"$action\">$label</a>";
+				$expected .= "<a class=\"btn btn-default\" href=\"$action\" aria-label=\"$label\" data-action=\"$action\">$label</a>";
 			}
 		}
 		$expected .= "</div>";

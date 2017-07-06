@@ -47,14 +47,15 @@ class Renderer extends AbstractComponentRenderer
 
 			$tpl->setCurrentBlock("view_control");
 
+			//At this point we don't have an specific text for the button aria label. component->getAriaLabel gets the main viewcontrol aria label.
 			if($activate_first_item) {
-				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)->WithUnavailableAction()));
+				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)->WithUnavailableAction()->withAriaLabel($label)->withAriaChecked()));
 				$activate_first_item = false;
 			} else if($active == $label) {
-				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)->withUnavailableAction()));
+				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)->withUnavailableAction()->withAriaLabel($label)->withAriaChecked()));
 			}
 			else {
-				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)));
+				$tpl->setVariable("BUTTON", $default_renderer->render($f->button()->standard($label, $action)->withAriaLabel($label)));
 			}
 			$tpl->parseCurrentBlock();
 		}
