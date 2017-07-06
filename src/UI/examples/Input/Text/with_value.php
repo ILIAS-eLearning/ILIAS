@@ -5,8 +5,8 @@ function with_value() {
     $renderer = $DIC->ui()->renderer();
 
 	$text = $f->input()
-				->text("label", "a byline for the field.")
-				->withValue("The input contains this.");
+		->text("label", "a byline for the field.")
+		->withValue("The input contains this.");
 
     return $renderer->render($text);
 }
