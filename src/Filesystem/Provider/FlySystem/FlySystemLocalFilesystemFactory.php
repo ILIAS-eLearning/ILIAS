@@ -51,10 +51,11 @@ class FlySystemLocalFilesystemFactory {
 			);
 
 		$filesystem = new \League\Flysystem\Filesystem($adapter);
+		$fileAccess = new FlySystemFileAccess($filesystem);
 		$facade = new FilesystemFacade(
 			new FlySystemFileStreamAccess($filesystem),
-			new FlySystemFileAccess($filesystem),
-			new FlySystemDirectoryAccess($filesystem)
+			$fileAccess,
+			new FlySystemDirectoryAccess($filesystem, $fileAccess)
 		);
 
 		return $facade;
