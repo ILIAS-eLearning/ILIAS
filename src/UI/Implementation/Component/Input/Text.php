@@ -10,4 +10,7 @@ use ILIAS\UI\Component as C;
  * This implements commonalities between inputs.
  */
 class Text extends Input implements C\Input\Text {
+	protected function isClientSideValueOk($value) {
+		throw new \LogicException("NYI");
+	}
 }
