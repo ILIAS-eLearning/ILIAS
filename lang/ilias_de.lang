@@ -15,6 +15,12 @@
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 rbac#:#il_sess_participant#:#Sitzungsteilnehmer
+sess#:#sess_mem_tbl_header#:#Sitzungsteilnehmer
+sess#:#objs_crs_role#:#Kursrollen
+sess#:#objs_grp_role#:#Gruppenrollen
+sess#:#sess_part_filter_registered#:#Nur Angemeldete
+sess#:#sess_part_filter_participated#:#Nur Teilgenommene
+sess#:#sess_print_list#:#Liste erstellen
 forum#:#delete_drafts_successfully#:#Die Entwürfe wurden erfolgreich gelöscht.
 forum#:#sure_delete_drafts#:#Sind Sie sicher, dass Sie die gewählten Entwürfe löschen möchten?
 forum#:#restore#:#Wiederherstellen
