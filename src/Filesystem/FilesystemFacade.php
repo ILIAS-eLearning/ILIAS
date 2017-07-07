@@ -1,10 +1,11 @@
 <?php
 
-namespace ILIAS\Filesystem\Provider;
+namespace ILIAS\Filesystem;
 
-use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Provider\DirectoryAccess;
+use ILIAS\Filesystem\Provider\FileAccess;
+use ILIAS\Filesystem\Provider\FileStreamAccess;
 use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\Filesystem\Visibility;
 
 /**
  * Class FilesystemFacade
