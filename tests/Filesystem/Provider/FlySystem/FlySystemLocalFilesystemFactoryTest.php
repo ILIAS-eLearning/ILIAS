@@ -5,7 +5,7 @@ namespace ILIAS\Filesystem\Provider\FlySystem;
 require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
-use ILIAS\Filesystem\Provider\FilesystemFacade;
+use ILIAS\Filesystem\FilesystemFacade;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 
