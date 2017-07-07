@@ -1320,6 +1320,10 @@ abstract class ilParticipants
 		{
 			$this->add($tmp_obj->getId(),IL_GRP_MEMBER);
 		}
+		if($this instanceof ilSessionParticipants)
+		{
+			$this->register($tmp_obj->getId());
+		}
 		$this->deleteSubscriber($a_usr_id);
 		return true;
 	}

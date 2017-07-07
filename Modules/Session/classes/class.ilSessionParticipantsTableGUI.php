@@ -153,7 +153,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 			$this->setDefaultOrderField('name');
 		}
 		
-		$this->addMultiCommand('confirmDeleteParticipants', $this->lng->txt('remove'));
+		//$this->addMultiCommand('confirmDeleteParticipants', $this->lng->txt('remove'));
 		$this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
 		$this->lng->loadLanguageModule('user');
 		$this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));

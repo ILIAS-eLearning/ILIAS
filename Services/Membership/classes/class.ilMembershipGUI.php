@@ -1132,13 +1132,21 @@ class ilMembershipGUI
 				{
 					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER, $usr_id);
 				}
-				else
+				if($this instanceof ilGroupMembershipGUI)
 				{
 					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 					$this->getMembersObject()->sendNotification(
 						ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
 						$usr_id
 					);
+				}
+				if($this instanceof ilSessionMembershipGUI)
+				{
+					$noti = new ilSessionMembershipMailNotification();
+					$noti->setRefId($this->getParentObject()->getRefId());
+					$noti->setRecipients(array($usr_id));
+					$noti->setType(ilSessionMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER);
+					$noti->send();
 				}
 			}
 		}
@@ -1165,11 +1173,6 @@ class ilMembershipGUI
 		
 		if(!$this->getMembersObject()->assignSubscribers($_POST["subscribers"]))
 		{
-						$this->object->members_obj->add($usr_id,IL_GRP_MEMBER);
-			$this->object->members_obj->deleteSubscriber($usr_id);
-
-			
-			
 			ilUtil::sendFailure($ilErr->getMessage(),true);
 			$this->ctrl->redirect($this, 'participants');
 		}
@@ -1182,13 +1185,23 @@ class ilMembershipGUI
 					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
 					$this->getParentObject()->checkLPStatusSync($usr_id);
 				}
-				else
+				if($this instanceof ilGroupMembershipGUI)
 				{
 					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 					$this->getMembersObject()->sendNotification(
 						ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
 						$usr_id
 					);
+				}
+				if($this instanceof ilSessionMembershipGUI)
+				{
+					// todo refactor to participants
+					include_once './Modules/Session/classes/class.ilSessionMembershipMailNotification.php';
+					$noti = new ilSessionMembershipMailNotification();
+					$noti->setRefId($this->getParentObject()->getRefId());
+					$noti->setRecipients(array($usr_id));
+					$noti->setType(ilSessionMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER);
+					$noti->send();
 				}
 			}
 		}
@@ -1286,7 +1299,7 @@ class ilMembershipGUI
 				$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id,true);
 				$this->getParentObject()->checkLPStatusSync($user_id);
 			}
-			else
+			if($this instanceof ilGroupMembershipGUI)
 			{
 				include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 				$this->getMembersObject()->add($user_id,IL_GRP_MEMBER);
@@ -1296,6 +1309,16 @@ class ilMembershipGUI
 					true
 				);
 			}
+			if($this instanceof ilSessionMembershipGUI)
+			{
+				$this->getMembersObject()->register($user_id);
+				$noti = new ilSessionMembershipMailNotification();
+				$noti->setRefId($this->getParentObject()->getRefId());
+				$noti->setRecipients(array($user_id));
+				$noti->setType(ilSessionMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER);
+				$noti->send();
+			}
+			
 			$waiting_list->removeFromList($user_id);
 			++$added_users;
 		}
@@ -1357,8 +1380,6 @@ class ilMembershipGUI
 	 */
 	protected function refuseFromList()
 	{
-		global $ilUser;
-		
 		if(!count($_POST['waiting']))
 		{
 			ilUtil::sendFailure($this->lng->txt('no_checkbox'),true);
@@ -1375,7 +1396,7 @@ class ilMembershipGUI
 			{
 				$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,$user_id,true);
 			}
-			else
+			if($this instanceof ilGroupMembershipGUI)
 			{
 				include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 				$this->getMembersObject()->sendNotification(
@@ -1383,6 +1404,16 @@ class ilMembershipGUI
 					$user_id,
 					true
 				);
+			}
+			if($this instanceof ilSessionMembershipGUI)
+			{
+				include_once './Modules/Session/classes/class.ilSessionMembershipMailNotification.php';
+				$noti = new ilSessionMembershipMailNotification();
+				$noti->setRefId($this->getParentObject()->getRefId());
+				$noti->setRecipients(array($user_id));
+				$noti->setType(ilSessionMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER);
+				$noti->send();
+				
 			}
 			
 		}
