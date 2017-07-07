@@ -618,4 +618,34 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\ViewControl\Factory
 	 */
 	public function viewControl();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Breadcrumbs is a supplemental navigation scheme. It eases the
+	 *     user's navigation to higher items in hierarchical structures.
+	 *     Breadcrumbs also serve as an effective visual aid indicating the
+	 *     user's location on a website.
+	 *   composition: >
+	 *     Breadcrumbs-entries are rendered as horizontally arranged UI Links
+	 *     with a seperator in-between.
+	 *   effect: >
+	 *     Clicking on an entry will get the user to the respective location.
+	 *
+	 * context: >
+	 *   1. Suplemental navigation under the main menu
+	 *   2. Location hint in search results
+	 *   3. Path to current location on info page
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: Crumbs MUST trigger navigation to other resources of the system.
+	 * ---
+	 * @param 	\ILIAS\UI\Component\Link\Standard[] 	$crumbs 	a list of Links
+	 * @return 	\ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
+	 **/
+	public function breadcrumbs(array $crumbs);
+
+
 }
