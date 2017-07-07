@@ -316,7 +316,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 					}
 					break;
 					
-				case 'filter_registered':
+				case 'filter_registration':
 					if(!$a_user_info['registered'])
 					{
 						return false;
