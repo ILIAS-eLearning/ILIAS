@@ -342,7 +342,6 @@ class ilInitialisation
 		$ini_file = "./".ILIAS_WEB_DIR."/".CLIENT_ID."/client.ini.php";
 
 		// get settings from ini file
-		//require_once("./Services/Init/classes/class.ilIniFile.php");
 		$ilClientIniFile = new ilIniFile($ini_file);		
 		$ilClientIniFile->read();
 		
@@ -404,7 +403,6 @@ class ilInitialisation
 			define ("IL_DB_TYPE", $val);
 		}
 
-		//require_once('./Services/GlobalCache/classes/Settings/class.ilGlobalCacheSettings.php');
 		$ilGlobalCacheSettings = new ilGlobalCacheSettings();
 		$ilGlobalCacheSettings->readFromIniFile($ilClientIniFile);
 		ilGlobalCache::setup($ilGlobalCacheSettings);
