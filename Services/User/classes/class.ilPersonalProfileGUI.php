@@ -229,7 +229,7 @@ class ilPersonalProfileGUI
 		// if check on Institute
 		$val_array = array("institution", "department", "upload", "street",
 			"zip", "city", "country", "phone_office", "phone_home", "phone_mobile",
-			"fax", "email", "hobby", "matriculation");
+			"fax", "email", "second_email", "hobby", "matriculation");
 
 		// set public profile preferences
 		foreach($val_array as $key => $value)
@@ -286,6 +286,15 @@ class ilPersonalProfileGUI
 			if (!ilUtil::is_email($_POST["usr_email"]) and !empty($_POST["usr_email"]) and $form_valid)
 			{
 				ilUtil::sendFailure($this->lng->txt("email_not_valid"));
+				$form_valid = false;
+			}
+		}
+		// check second email
+		if ($this->workWithUserSetting("second_email"))
+		{
+			if (!ilUtil::is_email($_POST["usr_second_email"]) and !empty($_POST["usr_second_email"]) and $form_valid)
+			{
+				ilUtil::sendFailure($this->lng->txt("second_email_not_valid"));
 				$form_valid = false;
 			}
 		}
@@ -351,6 +360,10 @@ class ilPersonalProfileGUI
 		if ($this->workWithUserSetting("email"))
 		{
 			$ilUser->setEmail(ilUtil::stripSlashes($_POST["usr_email"]));
+		}
+		if ($this->workWithUserSetting("second_email"))
+		{
+			$ilUser->setSecondEmail(ilUtil::stripSlashes($_POST["usr_second_email"]));
 		}
 		if ($this->workWithUserSetting("hobby"))
 		{
@@ -1124,6 +1137,7 @@ class ilPersonalProfileGUI
 			"phone_mobile" => $ilUser->getPhoneMobile(),
 			"fax" => $ilUser->getFax(),
 			"email" => $ilUser->getEmail(),
+			"second_email" => $ilUser->getSecondEmail(),
 			"hobby" => $ilUser->getHobby(),
 			"matriculation" => $ilUser->getMatriculation()
 		);
@@ -1264,7 +1278,7 @@ class ilPersonalProfileGUI
 			// if check on Institute
 			$val_array = array("title", "birthday", "gender", "org_units", "institution", "department", "upload",
 				"street", "zipcode", "city", "country", "sel_country", "phone_office", "phone_home", "phone_mobile",
-				"fax", "email", "hobby", "matriculation", "location",
+				"fax", "email", "second_email", "hobby", "matriculation", "location",
 				"interests_general", "interests_help_offered", "interests_help_looking");
 	
 			// set public profile preferences

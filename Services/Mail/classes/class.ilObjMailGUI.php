@@ -214,8 +214,30 @@ class ilObjMailGUI extends ilObjectGUI
 			IL_MAIL_EMAIL => $this->lng->txt('mail_incoming_smtp'),
 			IL_MAIL_BOTH  => $this->lng->txt('mail_incoming_both')
 		);
-		$si = new ilSelectInputGUI($this->lng->txt('mail_incoming'), 'mail_incoming_mail');
-		$si->setOptions($options);
+		include_once 'Services/Form/classes/class.ilRadioGroupInputGUI.php';
+		$sub_radio_group = new ilRadioGroupInputGUI('', 'mail_address_option');
+		$sub_opt1 = new ilRadioOption($this->lng->txt('mail_first_email'), IL_MAIL_FIRST_EMAIL );
+		$sub_radio_group->addOption($sub_opt1);
+		
+		$sub_opt2 = new ilRadioOption($this->lng->txt('mail_second_email'), IL_MAIL_SECOND_EMAIL );
+		$sub_radio_group->addOption($sub_opt2);
+		
+		$sub_opt3 = new ilRadioOption($this->lng->txt('mail_both_email'), IL_MAIL_BOTH_EMAIL );
+		$sub_radio_group->addOption($sub_opt3);
+		
+		$si = new ilRadioGroupInputGUI($this->lng->txt('mail_incoming'), 'mail_incoming_mail');
+		$r_opt1 = new ilRadioOption($this->lng->txt('mail_incoming_local'), IL_MAIL_LOCAL );
+		$si->addOption($r_opt1);
+		
+		$r_opt2 = new ilRadioOption($this->lng->txt('mail_incoming_smtp'), IL_MAIL_EMAIL );
+		$r_opt2->addSubItem($sub_radio_group);
+		$si->addOption($r_opt2);
+		
+		$r_opt3 = new ilRadioOption($this->lng->txt('mail_incoming_both'), IL_MAIL_BOTH );
+		$r_opt3->addSubItem($sub_radio_group);
+		$si->addOption($r_opt3);
+		
+		//		$si->setOptions($options);
 		$this->ctrl->setParameterByClass('ilobjuserfoldergui', 'ref_id', USER_FOLDER_ID);
 		$si->setInfo(sprintf(
 			$this->lng->txt('mail_settings_incoming_type_see_also'),
@@ -264,6 +286,7 @@ class ilObjMailGUI extends ilObjectGUI
 		$form->setValuesByArray(array(
 			'mail_allow_external'          => $this->settings->get('mail_allow_external'),
 			'mail_incoming_mail'           => (int)$this->settings->get('mail_incoming_mail'),
+			'mail_address_option'          => (int)$this->settings->get('mail_address_option'), 
 			'mail_maxsize_attach'          => $this->settings->get('mail_maxsize_attach'),
 			'mail_notification'            => $this->settings->get('mail_notification')
 		));
@@ -284,6 +307,7 @@ class ilObjMailGUI extends ilObjectGUI
 		{
 			$this->settings->set('mail_allow_external', (int)$form->getInput('mail_allow_external'));
 			$this->settings->set('mail_incoming_mail', (int)$form->getInput('mail_incoming_mail'));
+			$this->settings->set('mail_address_option', (int)$form->getInput('mail_address_option'));
 			$this->settings->set('mail_maxsize_attach', $form->getInput('mail_maxsize_attach'));
 			$this->settings->set('mail_notification', (int)$form->getInput('mail_notification'));
 

@@ -4,6 +4,9 @@
 define("IL_MAIL_LOCAL", 0);
 define("IL_MAIL_EMAIL", 1);
 define("IL_MAIL_BOTH", 2);
+define("IL_MAIL_FIRST_EMAIL", 3);
+define("IL_MAIL_SECOND_EMAIL", 4);
+define("IL_MAIL_BOTH_EMAIL", 5);
 
 /**
 * Class UserMail
@@ -20,8 +23,13 @@ class ilMailOptions
 
 	// SOME QUASI STATIC CONSTANTS (possible values of incoming type)
 	var $LOCAL = 0;
-	var $EMAIL = 1;
+	var $EMAIL = 1;         
 	var $BOTH = 2;
+	
+	// sub-options for mail forwarding 
+	var $FIRST_EMAIL  = 3;  // first email address 
+	var $SECOND_EMAIL = 4;  // second email address
+	var $BOTH_EMAIL   = 5;  // both email addresses
 
 	/**
 	* linebreak
@@ -37,6 +45,7 @@ class ilMailOptions
 	*/
 	var $signature;
 	var $incoming_type;
+	public $mail_address_option;
 	var $cronjob_notification;
 
 	/**
@@ -68,12 +77,14 @@ class ilMailOptions
     	global $ilDB, $ilSetting;
     		
 	    $incomingMail = $ilSetting->get('mail_incoming_mail') ? $ilSetting->get('mail_incoming_mail'): IL_MAIL_LOCAL;
+	    $mail_address_option = $ilSetting->get('mail_address_option') ? $ilSetting->get('mail_address_option'): IL_MAIL_FIRST_EMAIL;
 	    $ilDB->insert('mail_options',
 				array(
 						'user_id'              => array('integer', $this->user_id),
 						'linebreak'            => array('integer', DEFAULT_LINEBREAK),
 						'signature'            => array('text', NULL),
 						'incoming_type'        => array('integer', $incomingMail),
+						'mail_address_option'  => array('integer', $mail_address_option),
 						'cronjob_notification' => array('integer', 0)
 				));
 	    
@@ -102,6 +113,7 @@ class ilMailOptions
 		$this->signature = stripslashes($row->signature);
 		$this->linebreak = stripslashes($row->linebreak);
 		$this->incoming_type = $row->incoming_type;
+		$this->mail_address_option = $row->mail_address_option;
 		
 		if(!strlen(ilObjUser::_lookupEmail($this->user_id)))
 		{
@@ -119,7 +131,7 @@ class ilMailOptions
 	* @param int cronjob_notification
 	* @return	boolean
 	*/
-	public function updateOptions($a_signature, $a_linebreak, $a_incoming_type, $a_cronjob_notification)
+	public function updateOptions($a_signature, $a_linebreak, $a_incoming_type, $a_cronjob_notification, $mail_address_option = IL_MAIL_FIRST_EMAIL)
 	{
 		/**
 		 * @var $ilDB      ilDBInterface
@@ -131,11 +143,13 @@ class ilMailOptions
 		$this->signature            = $a_signature;
 		$this->linebreak            = $a_linebreak;
 		$this->incoming_type        = $a_incoming_type;
+		$this->mail_address_option  = $mail_address_option;
 
 		$data = array(
 			'signature'     => array('text', $this->signature),
 			'linebreak'     => array('integer', $this->linebreak),
-			'incoming_type' => array('integer', $this->incoming_type)
+			'incoming_type' => array('integer', $this->incoming_type),
+			'mail_address_option' => array('integer', $this->mail_address_option)
 		);
 		if($ilSetting->get('mail_notification'))
 		{
@@ -188,6 +202,22 @@ class ilMailOptions
 	function getCronjobNotification()
 	{
 		return $this->cronjob_notification;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getMailAddressOption()
+	{
+		return $this->mail_address_option;
+	}
+	
+	/**
+	 * @param int $mail_address_option
+	 */
+	public function setMailAddressOption($mail_address_option)
+	{
+		$this->mail_address_option = $mail_address_option;
 	}
 
 	/**
