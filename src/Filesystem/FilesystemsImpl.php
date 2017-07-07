@@ -15,22 +15,36 @@ namespace ILIAS\Filesystem;
 class FilesystemsImpl implements Filesystems {
 
 	/**
-	 * @var ServiceConfiguration $configuration
+	 * @var Filesystem $storage
 	 */
-	private $configuration;
+	private $storage;
+	/**
+	 * @var Filesystem $storage
+	 */
+	private $web;
+	/**
+	 * @var Filesystem $storage
+	 */
+	private $temp;
+	/**
+	 * @var Filesystem $storage
+	 */
+	private $customizing;
 
 
 	/**
 	 * FilesystemsImpl constructor.
 	 *
-	 * @param ServiceConfiguration $configuration
+	 * @param Filesystem $storage
+	 * @param Filesystem $web
+	 * @param Filesystem $temp
+	 * @param Filesystem $customizing
 	 */
-	public function __construct(ServiceConfiguration $configuration) {
-
-		if(is_null($configuration))
-			throw new \InvalidArgumentException("Configuration must not be null.");
-
-		$this->configuration = $configuration;
+	public function __construct(Filesystem $storage, Filesystem $web, Filesystem $temp, Filesystem $customizing) {
+		$this->storage = $storage;
+		$this->web = $web;
+		$this->temp = $temp;
+		$this->customizing = $customizing;
 	}
 
 
@@ -38,7 +52,7 @@ class FilesystemsImpl implements Filesystems {
 	 * @inheritDoc
 	 */
 	public function web() {
-		return $this->configuration->getWeb();
+		return $this->web;
 	}
 
 
@@ -46,7 +60,7 @@ class FilesystemsImpl implements Filesystems {
 	 * @inheritDoc
 	 */
 	public function storage() {
-		return $this->configuration->getStorage();
+		return $this->storage;
 	}
 
 
@@ -54,7 +68,7 @@ class FilesystemsImpl implements Filesystems {
 	 * @inheritDoc
 	 */
 	public function temp() {
-		return $this->configuration->getTemp();
+		return $this->temp;
 	}
 
 
@@ -62,6 +76,6 @@ class FilesystemsImpl implements Filesystems {
 	 * @inheritDoc
 	 */
 	public function customizing() {
-		return $this->configuration->getCustomizing();
+		return $this->customizing;
 	}
 }
