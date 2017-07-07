@@ -848,7 +848,9 @@ class ilPersonalProfileGUI
 								? $value->get(IL_CAL_DATE)
 								: "");							
 							break;
-					
+						case "second_email":
+							$ilUser->setSecondEmail($value);
+							break;
 						default:
 							$m = ucfirst($f);
 							if(isset($map[$f]))
