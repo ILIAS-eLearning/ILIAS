@@ -610,6 +610,19 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
+	 *     View Controls switch between different visualisation of data.
+	 *   composition: >
+	 *      View Controls are composed mainly of buttons, they are often found in toolbars.
+	 *   effect: Interacting with a view control changes to display in some content area.
+	 * ---
+	 * @return \ILIAS\UI\Component\ViewControl\Factory
+	 */
+	public function viewControl();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
 	 *     Breadcrumbs is a supplemental navigation scheme. It eases the
 	 *     user's navigation to higher items in hierarchical structures.
 	 *     Breadcrumbs also serve as an effective visual aid indicating the
@@ -633,5 +646,6 @@ interface Factory {
 	 * @return 	\ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
 	 **/
 	public function breadcrumbs(array $crumbs);
+
 
 }
