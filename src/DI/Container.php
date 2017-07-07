@@ -3,6 +3,8 @@
 
 namespace ILIAS\DI;
 
+use ILIAS\Filesystem\Filesystems;
+
 /**
  * Customizing of pimple-DIC for ILIAS.
  *
@@ -116,5 +118,15 @@ class Container extends \Pimple\Container {
 	 */
 	public function settings() {
 		return $this["ilSetting"];
+	}
+
+
+	/**
+	 * Get the Filesystem service interface.
+	 *
+	 * @return Filesystems
+	 */
+	public function filesystem() {
+		return $this['filesystem'];
 	}
 }

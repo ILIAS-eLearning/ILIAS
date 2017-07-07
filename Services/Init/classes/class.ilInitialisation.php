@@ -157,6 +157,55 @@ class ilInitialisation
 	}
 
 	/**
+	 * Bootstraps the ILIAS filesystem abstraction.
+	 * The bootstrapped abstraction are:
+	 *  - temp
+	 *  - web
+	 *  - storage
+	 *  - customizing
+	 *
+	 * @return void
+	 * @since 5.3
+	 */
+	public static function bootstrapFilesystems() {
+
+		$delegatingFactory = new \ILIAS\Filesystem\Provider\DelegatingFilesystemFactory();
+
+		$DIC['filesystem.web'] = function ($c) use ($delegatingFactory) {
+			//web
+			$webConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR.'/'.CLIENT_ID);
+			return $delegatingFactory->getLocal($webConfiguration);
+		};
+
+		$DIC['filesystem.storage'] = function ($c) use ($delegatingFactory) {
+			//storage
+			$storageConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID);
+			return $delegatingFactory->getLocal($storageConfiguration);
+		};
+
+		$DIC['filesystem.temp'] = function ($c) use ($delegatingFactory) {
+			//temp
+			$tempConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(sys_get_temp_dir());
+			return $delegatingFactory->getLocal($tempConfiguration);
+		};
+
+		$DIC['filesystem.customizing'] = function ($c) use ($delegatingFactory) {
+			//customizing
+			$customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'Customizing');
+			return $delegatingFactory->getLocal($customizingConfiguration);
+		};
+
+		$DIC['filesystem'] = function($c) {
+			return new \ILIAS\Filesystem\FilesystemsImpl(
+				$c['filesystem.storage'],
+				$c['filesystem.web'],
+				$c['filesystem.temp'],
+				$c['filesystem.customizing']
+			);
+		};
+	}
+
+	/**
 	 * builds http path
 	 */
 	protected static function buildHTTPPath()
@@ -293,7 +342,7 @@ class ilInitialisation
 		$ini_file = "./".ILIAS_WEB_DIR."/".CLIENT_ID."/client.ini.php";
 
 		// get settings from ini file
-		require_once("./Services/Init/classes/class.ilIniFile.php");
+		//require_once("./Services/Init/classes/class.ilIniFile.php");
 		$ilClientIniFile = new ilIniFile($ini_file);		
 		$ilClientIniFile->read();
 		
@@ -355,7 +404,7 @@ class ilInitialisation
 			define ("IL_DB_TYPE", $val);
 		}
 
-		require_once('./Services/GlobalCache/classes/Settings/class.ilGlobalCacheSettings.php');
+		//require_once('./Services/GlobalCache/classes/Settings/class.ilGlobalCacheSettings.php');
 		$ilGlobalCacheSettings = new ilGlobalCacheSettings();
 		$ilGlobalCacheSettings->readFromIniFile($ilClientIniFile);
 		ilGlobalCache::setup($ilGlobalCacheSettings);
@@ -969,6 +1018,8 @@ class ilInitialisation
 		self::setCookieConstants();
 
 		self::determineClient();
+
+		self::bootstrapFilesystems();
 
 		self::initClientIniFile();
 				
