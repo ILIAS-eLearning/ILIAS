@@ -72,10 +72,12 @@ class ilMailOptionsGUI
 		   $ilSetting->get('usr_settings_disable_mail_incoming_mail') != '1')
 		{
 			$incoming_type = (int)$_POST['incoming_type'];
+			$mail_address_option = (int)$_POST['mail_address_option'] > 0 ? (int)$_POST['mail_address_option'] : (int)$_POST['mail_address_option_both'];
 		}
 		else
 		{
 			$incoming_type = $mailOptions->getIncomingType();
+			$mail_address_option = $mailOptions->getMailAddressOption();
 		}		
 		
 		if($this->form->checkInput())
@@ -84,7 +86,8 @@ class ilMailOptionsGUI
 				ilUtil::stripSlashes($_POST['signature']),
 				(int)$_POST['linebreak'],
 				$incoming_type,
-				(int)$_POST['cronjob_notification']
+				(int)$_POST['cronjob_notification'],
+				$mail_address_option
 			);
 			
 			ilUtil::sendSuccess($lng->txt('mail_options_saved'));			
@@ -136,6 +139,15 @@ class ilMailOptionsGUI
 		if($ilSetting->get('usr_settings_hide_mail_incoming_mail') != '1')
 		{		
 			$data['incoming_type'] = $mailOptions->getIncomingType();
+			$mail_address_option = $mailOptions->getMailAddressOption();
+			if($mailOptions->getIncomingType() == IL_MAIL_EMAIL)
+			{
+				$data['mail_address_option'] = $mail_address_option;
+			}
+			else if($mailOptions->getIncomingType() == IL_MAIL_BOTH)
+			{
+				$data['mail_address_option_both'] = $mail_address_option;
+			}
 		}
 		
 		$this->form->setValuesByArray($data);	
@@ -160,19 +172,9 @@ class ilMailOptionsGUI
 		// BEGIN INCOMING
 		if($ilSetting->get('usr_settings_hide_mail_incoming_mail') != '1')
 		{
-			$options = array(
-				IL_MAIL_LOCAL => $lng->txt('mail_incoming_local'), 
-				IL_MAIL_EMAIL => $lng->txt('mail_incoming_smtp'),
-				IL_MAIL_BOTH => $lng->txt('mail_incoming_both')
-			);		
-			$si = new ilSelectInputGUI($lng->txt('mail_incoming'), 'incoming_type');
-			$si->setOptions($options);
-			if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())) ||
-			   $ilSetting->get('usr_settings_disable_mail_incoming_mail') == '1')
-			{
-				$si->setDisabled(true);
-			}		
-			$this->form->addItem($si);
+			include_once 'Services/Mail/classes/Form/class.ilIncomingMailInputGUI.php';
+			$incoming_mail_gui = new ilIncomingMailInputGUI($this->lng->txt('mail_incoming'), 'incoming_type');
+			$this->form->addItem($incoming_mail_gui);
 		}
 		
 		// BEGIN LINEBREAK_OPTIONS

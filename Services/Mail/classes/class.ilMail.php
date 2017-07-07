@@ -772,6 +772,8 @@ class ilMail
 	 */
 	protected function distributeMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_subject, $a_message, $a_attachments, $sent_mail_id, $a_type, $a_action, $a_use_placeholders = 0)
 	{
+		//todo nadia: test second email 
+		
 		require_once 'Services/Mail/classes/class.ilMailbox.php';
 		require_once 'Services/User/classes/class.ilObjUser.php';
 
@@ -801,15 +803,37 @@ class ilMail
 
 				if($user_is_active)
 				{
-					if(!$user_can_read_internal_mails || $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+					if(!$user_can_read_internal_mails 
+						|| $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL
+						|| $tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
-						$as_email[] = $tmp_user->getEmail();
-						continue;
-					}
-
-					if($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
-					{
-						$as_email[] = $tmp_user->getEmail();
+						$mail_address_option = $tmp_mail_options->getMailAddressOption();
+						switch($mail_address_option)
+						{
+							case IL_MAIL_FIRST_EMAIL:
+								$as_email[] = $tmp_user->getEmail();
+								break;
+							case IL_MAIL_SECOND_EMAIL:
+								if(strlen($tmp_user->getSecondEmail()))
+								{
+									$as_email[] = $tmp_user->getSecondEmail();
+								}
+								break;
+							case IL_MAIL_BOTH_EMAIL:
+								$as_email[] = $tmp_user->getEmail();
+								if(strlen($tmp_user->getSecondEmail()))
+								{
+									$as_email[] = $tmp_user->getSecondEmail();
+								}
+								break;
+							default:
+								$as_email[] = $tmp_user->getEmail();
+								break;
+						}
+						if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+						{
+							continue;
+						}
 					}
 				}
 
@@ -879,15 +903,39 @@ class ilMail
 
 				if($user_is_active)
 				{
-					if(!$user_can_read_internal_mails || $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+					if(!$user_can_read_internal_mails 
+						|| $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL
+						|| $tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
-						$as_email[$tmp_user->getId()] = $tmp_user->getEmail();
-						continue;
-					}
-
-					if($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
-					{
-						$as_email[$tmp_user->getId()] = $tmp_user->getEmail();
+						
+						$mail_address_option = $tmp_mail_options->getMailAddressOption();
+						switch($mail_address_option)
+						{
+							case IL_MAIL_FIRST_EMAIL:
+								$as_email[$tmp_user->getId()] = $tmp_user->getEmail();
+								break;
+							case IL_MAIL_SECOND_EMAIL:
+								if(strlen($tmp_user->getSecondEmail()))
+								{
+									$as_email[$tmp_user->getId()] = $tmp_user->getSecondEmail();
+								}
+								break;
+							case IL_MAIL_BOTH_EMAIL:
+								$as_email[$tmp_user->getId()] = $tmp_user->getEmail();
+								if(strlen($tmp_user->getSecondEmail()))
+								{
+									$as_email[$tmp_user->getId()] = $tmp_user->getSecondEmail();
+								}
+								break;
+							default:
+								$as_email[$tmp_user->getId()] = $tmp_user->getEmail();
+								break;
+						}
+						
+						if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+						{
+							continue;
+						}
 					}
 				}
 
@@ -931,16 +979,41 @@ class ilMail
 					{
 						continue;
 					}
-
-					if(!$user_can_read_internal_mails || $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+					
+					
+					if(!$user_can_read_internal_mails
+						|| $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL
+						|| $tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
-						$as_email[] = $tmp_user->getEmail();
-						continue;
-					}
-
-					if($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
-					{
-						$as_email[] = $tmp_user->getEmail();
+						
+						$mail_address_option = $tmp_mail_options->getMailAddressOption();
+						switch($mail_address_option)
+						{
+							case IL_MAIL_FIRST_EMAIL:
+								$as_email[] = $tmp_user->getEmail();
+								break;
+							case IL_MAIL_SECOND_EMAIL:
+								if(strlen($tmp_user->getSecondEmail()))
+								{
+									$as_email[] = $tmp_user->getSecondEmail();
+								}
+								break;
+							case IL_MAIL_BOTH_EMAIL:
+								$as_email[] = $tmp_user->getEmail();
+								if(strlen($tmp_user->getSecondEmail()))
+								{
+									$as_email[] = $tmp_user->getSecondEmail();
+								}
+								break;
+							default:
+								$as_email[] = $tmp_user->getEmail();
+								break;
+						}
+						
+						if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+						{
+							continue;
+						}
 					}
 				}
 

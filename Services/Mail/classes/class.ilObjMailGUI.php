@@ -207,44 +207,16 @@ class ilObjMailGUI extends ilObjectGUI
 		$cb->setInfo($this->lng->txt('mail_allow_external_info'));
 		$cb->setValue(1);
 		$form->addItem($cb);
-
-		require_once 'Services/Mail/classes/class.ilMailOptions.php';
-		$options = array(
-			IL_MAIL_LOCAL => $this->lng->txt('mail_incoming_local'),
-			IL_MAIL_EMAIL => $this->lng->txt('mail_incoming_smtp'),
-			IL_MAIL_BOTH  => $this->lng->txt('mail_incoming_both')
-		);
-		include_once 'Services/Form/classes/class.ilRadioGroupInputGUI.php';
-		$sub_radio_group = new ilRadioGroupInputGUI('', 'mail_address_option');
-		$sub_opt1 = new ilRadioOption($this->lng->txt('mail_first_email'), IL_MAIL_FIRST_EMAIL );
-		$sub_radio_group->addOption($sub_opt1);
 		
-		$sub_opt2 = new ilRadioOption($this->lng->txt('mail_second_email'), IL_MAIL_SECOND_EMAIL );
-		$sub_radio_group->addOption($sub_opt2);
-		
-		$sub_opt3 = new ilRadioOption($this->lng->txt('mail_both_email'), IL_MAIL_BOTH_EMAIL );
-		$sub_radio_group->addOption($sub_opt3);
-		
-		$si = new ilRadioGroupInputGUI($this->lng->txt('mail_incoming'), 'mail_incoming_mail');
-		$r_opt1 = new ilRadioOption($this->lng->txt('mail_incoming_local'), IL_MAIL_LOCAL );
-		$si->addOption($r_opt1);
-		
-		$r_opt2 = new ilRadioOption($this->lng->txt('mail_incoming_smtp'), IL_MAIL_EMAIL );
-		$r_opt2->addSubItem($sub_radio_group);
-		$si->addOption($r_opt2);
-		
-		$r_opt3 = new ilRadioOption($this->lng->txt('mail_incoming_both'), IL_MAIL_BOTH );
-		$r_opt3->addSubItem($sub_radio_group);
-		$si->addOption($r_opt3);
-		
-		//		$si->setOptions($options);
+		include_once 'Services/Mail/classes/Form/class.ilIncomingMailInputGUI.php';
+		$incoming_mail_gui = new ilIncomingMailInputGUI($this->lng->txt('mail_incoming'), 'incoming_type');
 		$this->ctrl->setParameterByClass('ilobjuserfoldergui', 'ref_id', USER_FOLDER_ID);
-		$si->setInfo(sprintf(
+		$incoming_mail_gui->setInfo(sprintf(
 			$this->lng->txt('mail_settings_incoming_type_see_also'),
 			$this->ctrl->getLinkTargetByClass('ilobjuserfoldergui', 'settings')
 		));
 		$this->ctrl->clearParametersByClass('ilobjuserfoldergui');
-		$form->addItem($si);
+		$form->addItem($incoming_mail_gui);
 
 		$ti = new ilNumberInputGUI($this->lng->txt('mail_maxsize_attach'), 'mail_maxsize_attach');
 		$ti->setSuffix($this->lng->txt('kb'));
