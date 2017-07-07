@@ -7057,34 +7057,24 @@ hr.il-divider-with-label {
 .icon.iass {
   background-image: url("images/icon_iass.svg");
 }
-.il-viewcontrol-section {
-  overflow: hidden;
-  height: 26px;
-}
-.il-viewcontrol-section .glyph {
-  height: 30px;
-}
-.il-viewcontrol-section .btn-default {
-  height: 30px;
-}
+/*
 .il-viewcontrol-section .glyphicon:before {
-  background-color: #708bae;
-  border: #708bae;
-  padding: 5px 8px;
-  color: white;
+  background-color: @il-btn-standard-bg;
+  border: @il-btn-standard-border;
+  padding: @il-vc-glyph-padding-vertical @il-vc-glyph-padding-horizontal;
+  color:@il-btn-standard-color;
 }
 .il-viewcontrol-section .glyphicon:hover:before {
-  background-color: #557196;
+  background-color: @il-vc-glyph-hover-bg;
 }
 .il-viewcontrol-section a:hover {
-  text-decoration: none;
+  text-decoration:none;
 }
-.il-viewcontrol-mode .ilSubmitInactive,
-.il-viewcontrol-mode .ilSubmitInactive:hover {
-  background-color: #557196;
-  color: white;
-  border-color: transparent;
-}
+.il-viewcontrol-mode .ilSubmitInactive, .il-viewcontrol-mode .ilSubmitInactive:hover {
+  background-color:@il-vc-mode-btn-active;
+  color:@il-btn-standard-color;
+  border-color:transparent;
+}*/
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;

@@ -84,8 +84,8 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 		$this->assertContains("glyphicon-chevron-left", $html);
 		$this->assertContains("glyphicon-chevron-right", $html);
 		$this->assertContains("il-viewcontrol-section", $html);
-		$this->assertContains('back', $html);
-		$this->assertContains('next', $html);
+		//$this->assertContains('back', $html);
+		//$this->assertContains('next', $html);
 		$this->assertContains("btn",$html);
 
 		$expected = $this->getSectionExpectedHTML();
@@ -152,12 +152,13 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 	{
 		$expected = <<<EOT
 <div class="il-viewcontrol-section">
-<a class="glyph" href="http://www.ilias.de" aria-label="back">
-<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-</a>
-<a class="btn btn-default" href="" data-action="">Today</a><a class="glyph" href="http://www.github.com" aria-label="next">
-<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-</a>
+<a class="btn btn-default " type="button"
+	 href="http://www.ilias.de" data-action="http://www.ilias.de"
+	><span class="glyphicon glyphicon-chevron-left"></span></a>
+<a class="btn btn-default" href=""   data-action="">Today</a>
+<a class="btn btn-default " type="button"
+	 href="http://www.github.com" data-action="http://www.github.com"
+	><span class="glyphicon glyphicon-chevron-right"></span></a>
 </div>
 EOT;
 		return $expected;

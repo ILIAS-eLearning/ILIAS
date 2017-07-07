@@ -68,12 +68,53 @@ class Renderer extends AbstractComponentRenderer
 		$f = $this->getUIFactory();
 
 		$tpl = $this->getTemplate("tpl.section.html", true, true);
-		
-		$tpl->setVariable("PREVIOUS", $default_renderer->render($f->glyph()->back($component->getPreviousActions()->getAction())));
+
+		// render middle button
 		$tpl->setVariable("BUTTON", $default_renderer->render($component->getSelectorButton()));
-		$tpl->setVariable("NEXT", $default_renderer->render($f->glyph()->next($component->getNextActions()->getAction())));
+
+		// previous button
+		$this->renderSectionButton($component->getPreviousActions(), $tpl, "prev");
+
+		// next button
+		$this->renderSectionButton($component->getNextActions(), $tpl, "next");
 
 		return $tpl->get();
+	}
+
+	/**
+	 * @param Component\Button\Button $component button
+	 * @param $tpl
+	 * @param string $type
+	 */
+	protected function renderSectionButton(Component\Button\Button $component, $tpl, $type)
+	{
+		$uptype = strtoupper($type);
+
+		$action = $component->getAction();
+		$tpl->setVariable($uptype."_ACTION", $action);
+		if ($component->isActive())
+		{
+			$tpl->setCurrentBlock($type."_with_href");
+			$tpl->setVariable($uptype."_HREF", $action);
+			$tpl->parseCurrentBlock();
+		} else {
+			$tpl->touchBlock($type."_disabled");
+		}
+		$this->maybeRenderId($component, $tpl, $type."_with_id", $uptype."_PREV_ID");
+	}
+
+	protected function maybeRenderId(Component\Component $component, $tpl, $block, $template_var) {
+		$id = $this->bindJavaScript($component);
+		// Check if the component is acting as triggerer
+		if ($component instanceof Component\Triggerer && count($component->getTriggeredSignals())) {
+			$id = ($id === null) ? $this->createId() : $id;
+			$this->triggerRegisteredSignals($component, $id);
+		}
+		if ($id !== null) {
+			$tpl->setCurrentBlock($block);
+			$tpl->setVariable($template_var, $id);
+			$tpl->parseCurrentBlock();
+		}
 	}
 
 	/**
