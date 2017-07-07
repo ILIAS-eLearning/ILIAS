@@ -1532,14 +1532,29 @@ class ilMembershipGUI
 		 */
 		$waiting_list = $this->initWaitingList();
 
-		
-		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
-		$list = new ilAttendanceList(
-			$this,
-			$this->getParentObject(),
-			$this->getMembersObject(), 
-			$waiting_list
-		);		
+		if($this instanceof ilSessionMembershipGUI)
+		{
+			$parent_ref = $GLOBALS['DIC']->repositoryTree()->getParentId($this->getParentObject()->getRefId());
+			$part = ilParticipants::getInstance($parent_ref);
+			
+			$list = new ilAttendanceList(
+				$this,
+				$this->getParentObject(),
+				$part,
+				$waiting_list
+			);
+		}
+		else
+		{
+			include_once 'Services/Membership/classes/class.ilAttendanceList.php';
+			$list = new ilAttendanceList(
+				$this,
+				$this->getParentObject(),
+				$this->getMembersObject(), 
+				$waiting_list
+			);		
+			
+		}
 		$list->setId($this->getParentObject()->getType().'_memlist_'.$this->getParentObject()->getId());
 	
 		$list->setTitle(

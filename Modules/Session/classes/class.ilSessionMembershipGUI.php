@@ -228,6 +228,21 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 		return $data;
 	}
 	
+	/**
+	 * Check permission has no manage members
+	 * @param string $a_permission
+	 * @param type $a_cmd
+	 * @return type
+	 */
+	protected function checkPermission($a_permission, $a_cmd = "")
+	{
+		if($a_permission == 'manage_members')
+		{
+			$a_permission = 'write';
+		}
+		return parent::checkPermission($a_permission, $a_cmd);
+	}
+	
 	
 	
 	
