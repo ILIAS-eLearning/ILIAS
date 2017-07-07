@@ -1485,16 +1485,19 @@ class ilUtil
 		return $a_str;
 	}
 
+
 	/**
-	* Ensure that the maximum word lenght within a text is not longer
-	* than $a_len
-	*
-	* @param	string		input string
-	* @param	integer		max. word length
-	* @param	boolean		append "..." to shortened words
-	* @static
-	* 
-	*/
+	 * Ensure that the maximum word lenght within a text is not longer
+	 * than $a_len
+	 *
+	 * @param    string    $a_str     input string
+	 * @param    integer   $a_len     max. word length
+	 * @param    boolean   $a_dots    append "..." to shortened words
+	 *
+	 * @static
+	 *
+	 * @return string
+	 */
 	public static function shortenWords($a_str, $a_len = 30, $a_dots = true)
 	{
 		include_once("./Services/Utilities/classes/class.ilStr.php");
@@ -1548,16 +1551,19 @@ class ilUtil
 	}
 
 	/**
-	* Copies content of a directory $a_sdir recursively to a directory $a_tdir
-	* @param	string	$a_sdir		source directory
-	* @param	string	$a_tdir		target directory
-	* @param 	boolean $preserveTimeAttributes	if true, ctime will be kept.
-	*
-	* @return	boolean	TRUE for sucess, FALSE otherwise
-	* @access	public
-	* @static
-	* 
-	*/
+	 * Copies content of a directory $a_sdir recursively to a directory $a_tdir
+	 * @param	string	$a_sdir		source directory
+	 * @param	string	$a_tdir		target directory
+	 * @param 	boolean $preserveTimeAttributes	if true, ctime will be kept.
+	 *
+	 * @return	boolean	TRUE for sucess, FALSE otherwise
+	 * @access	public
+	 * @static
+	 *
+	 * @deprecated in favour of Filesystem::copyDir() located at the filesystem service.
+	 * @see Filesystem::copyDir()
+	 *
+	 */
 	public static function rCopy ($a_sdir, $a_tdir, $preserveTimeAttributes = false)
 	{
 		// check if arguments are directories
@@ -1607,14 +1613,22 @@ class ilUtil
 		return TRUE;
 	}
 
+
 	/**
-	* get webspace directory
-	*
-	* @param	string		$mode		use "filesystem" for filesystem operations
-	*									and "output" for output operations, e.g. images
-	* @static
-	*
-	*/
+	 * get webspace directory
+	 *
+	 * @param    string $mode             use "filesystem" for filesystem operations
+	 *                                    and "output" for output operations, e.g. images
+	 *
+	 * @static
+	 *
+	 * @return string
+	 *
+	 * @deprecated in favour of the filesystem service which should be used for operations on the web dir.
+	 *
+	 * @see \ILIAS\DI\Container::filesystem()
+	 * @see Filesystems::web()
+	 */
 	public static function getWebspaceDir($mode = "filesystem")
 	{
 		global $ilias;
@@ -1634,22 +1648,21 @@ class ilUtil
 				return "./".ILIAS_WEB_DIR."/".$ilias->client_id;
 			}
 		}
-
-		//return $ilias->ini->readVariable("server","webspace_dir");
 	}
 
 	/**
-	* get data directory (outside webspace)
-	* 
-	* @static
-	* 
-	*/
+	 * get data directory (outside webspace)
+	 *
+	 * @static
+	 *
+	 * @deprecated in favour of the filesystem service which should be used to operate on the storage directory.
+	 *
+	 * @see \ILIAS\DI\Container::filesystem()
+	 * @see \ILIAS\Filesystem\Filesystems::storage()
+	 */
 	public static function getDataDir()
 	{
 		return CLIENT_DATA_DIR;
-		//global $ilias;
-
-		//return $ilias->ini->readVariable("server", "data_dir");
 	}
 
 	/**
@@ -1717,14 +1730,19 @@ class ilUtil
 		return $temp_name;
 	}
 
+
 	/**
-	* create directory
-	*
-	* deprecated use makeDir() instead!
-	* 
-	* @static
-	* 
-	*/
+	 * create directory
+	 *
+	 * @param string    $a_dir
+	 * @param int       $a_mod
+	 *
+	 * @static
+	 *
+	 * @deprecated in favour of Filesystem::createDir() located at the filesystem service.
+	 *
+	 * @see        \ILIAS\Filesystem\Filesystem::createDir()
+	 */
 	public static function createDirectory($a_dir, $a_mod = 0755)
 	{
 		ilUtil::makeDir($a_dir);
@@ -2387,6 +2405,9 @@ class ilUtil
 	* @return	boolean
 	* @static
 	*
+	* @deprecated in favour of Filesystem::createDir() located at the filesystem service.
+	*
+	* @see \ILIAS\Filesystem\Filesystem::createDir()
 	*/
 	public static function makeDir($a_dir)
 	{
@@ -2411,19 +2432,24 @@ class ilUtil
 
 
 	/**
-	* Create a new directory and all parent directories
-	*
-	* Creates a new directory and inherits all filesystem permissions of the parent directory
-	* If the parent directories doesn't exist, they will be created recursively.
-	* The directory name NEEDS TO BE an absolute path, because it seems that relative paths
-	* are not working with PHP's file_exists function.
-	*
-	* @author Helmut Schottmüller <hschottm@tzi.de>
-	* @param string $a_dir The directory name to be created
-	* @access public
-	* @static
-	* 
-	*/
+	 * Create a new directory and all parent directories
+	 *
+	 * Creates a new directory and inherits all filesystem permissions of the parent directory
+	 * If the parent directories doesn't exist, they will be created recursively.
+	 * The directory name NEEDS TO BE an absolute path, because it seems that relative paths
+	 * are not working with PHP's file_exists function.
+	 *
+	 * @author Helmut Schottmüller <hschottm@tzi.de>
+	 * @param string $a_dir The directory name to be created
+	 * @access public
+	 * @static
+	 *
+	 * @return bool
+	 *
+	 * @deprecated in favour of Filesystem::createDir() located at the filesystem service.
+	 *
+	 * @see \ILIAS\Filesystem\Filesystem::createDir()
+	 */
 	public static function makeDirParents($a_dir)
 	{
 		$dirs = array($a_dir);
@@ -2486,15 +2512,22 @@ class ilUtil
 		return true;
 	}
 
+
 	/**
-	* removes a dir and all its content (subdirs and files) recursively
-	*
-	* @access	public
-	* @param	string	dir to delete
-	* @author	Unknown <flexer@cutephp.com> (source: http://www.php.net/rmdir)
-	* @static
-	* 
-	*/
+	 * removes a dir and all its content (subdirs and files) recursively
+	 *
+	 * @access    public
+	 *
+	 * @param string    $a_dir          dir to delete
+	 * @param bool      $a_clean_only
+	 *
+	 * @author    Unknown <flexer@cutephp.com> (source: http://www.php.net/rmdir)
+	 * @static
+	 *
+	 * @deprecated in favour of Filesystem::deleteDir() located at the filesystem service.
+	 *
+	 * @see \ILIAS\Filesystem\Filesystem::deleteDir()
+	 */
 	public static function delDir($a_dir, $a_clean_only = false)
 	{
 		if (!is_dir($a_dir) || is_int(strpos($a_dir, "..")))
@@ -2537,11 +2570,20 @@ class ilUtil
 
 
 	/**
-	* get directory
-	* 
-	* @static
-	* 
-	*/
+	 * get directory
+	 *
+	 * @static
+	 *
+	 * @param        $a_dir
+	 * @param bool   $a_rec
+	 * @param string $a_sub_dir
+	 *
+	 * @return array
+	 *
+	 * @deprecated in favour of Filesystem::listContents() located at the filesystem service.
+	 *
+	 * @see \ILIAS\Filesystem\Filesystem::listContents()
+	 */
 	public static function getDir($a_dir, $a_rec = false, $a_sub_dir = "")
 	{
 		$current_dir = opendir($a_dir.$a_sub_dir);
