@@ -7043,7 +7043,7 @@ dateplaner#:#cal_ch_num_bookings#:#Anmeldungen pro Termin
 dateplaner#:#cal_ch_personal_book#:#Persönliche Buchungen
 dateplaner#:#cal_ch_personal_ch#:#Persönliche Sprechstundentermine
 dateplaner#:#cal_ch_target_object#:#Objekt im Magazin
-dateplaner#:#cal_ch_target_object_info#:#Die Sprechstunden werden nur in den ausgewählten Kursen und Gruppen in einem kleinen Block rechts angezeigt. Geben Sie die Ref-ID des betreffenden Objektes ein. Sie finden diese in der URL des entsprechenden Objekts. Mehrere Ref-IDs geben Sie kommagetrennt ein.
+dateplaner#:#cal_ch_target_object_info#:#Die Sprechstunden werden in Kursen und Gruppen in einem kleinen Block rechts angezeigt. Um dies auf bestimmte Kurse oder Gruppen zu beschränken, geben Sie die Ref-ID des betreffenden Objektes ein. Sie finden diese in der URL des entsprechenden Objekts. Mehrere Ref-IDs geben Sie kommagetrennt ein. Unabhängig davon können Sprechstunden auch in Ihren E-Portfolios erscheinen.
 dateplaner#:#cal_ch_unknown_repository_object#:#Die angegebene Kennung des Objekts ist nicht gültig.
 dateplaner#:#cal_ch_unknown_user#:#Der eingegebene Benutzername existiert nicht.
 dateplaner#:#cal_change_responsible_users#:#Verantwortliche Mitglieder ändern
