@@ -26,6 +26,61 @@ class ilPersonalSkillsGUI
 	protected $history_view = false;
 	protected $intro_text = "";
 	protected $hidden_skills = array();
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var mixed
+	 */
+	protected $help;
+
+	/**
+	 * @var mixed
+	 */
+	protected $setting;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var mixed
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var \ILIAS\UI\Factory
+	 */
+	protected $ui_fac;
+
+	/**
+	 * @var \ILIAS\UI\Renderer
+	 */
+	protected $ui_ren;
 	
 	/**
 	 * Contructor
@@ -34,10 +89,27 @@ class ilPersonalSkillsGUI
 	 */
 	public function __construct()
 	{
-		global $ilCtrl, $lng, $ilHelp, $ilSetting;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->help = $DIC["ilHelp"];
+		$this->setting = $DIC["ilSetting"];
+		$this->user = $DIC->user();
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+		$this->toolbar = $DIC->toolbar();
+		$this->access = $DIC->access();
+		$this->ui_fac = $DIC->ui()->factory();
+		$this->ui_ren = $DIC->ui()->renderer();
+
+		$ilCtrl = $this->ctrl;
+		$ilHelp = $this->help;
+		$lng = $this->lng;
+		$ilSetting = $this->setting;
+
 
 		$lng->loadLanguageModule('skmg');
-		
 		$ilHelp->setScreenIdComponent("skill");
 		
 		$ilCtrl->saveParameter($this, "skill_id");
@@ -150,7 +222,10 @@ class ilPersonalSkillsGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl, $tpl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 
 		$next_class = $ilCtrl->getNextClass($this);
 		
@@ -182,8 +257,10 @@ class ilPersonalSkillsGUI
 	 */
 	function setTabs($a_activate)
 	{
-		global $ilTabs, $lng, $ilCtrl;
-		
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
+
 		// list skills
 		$ilTabs->addTab("list_skills",
 			$lng->txt("skmg_list_skills"),
@@ -207,7 +284,11 @@ class ilPersonalSkillsGUI
 	 */
 	function listSkills()
 	{
-		global $tpl, $ilTabs, $lng, $ilCtrl, $ilToolbar, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
 
 		$this->setTabs("list_skills");
 		
@@ -276,7 +357,9 @@ class ilPersonalSkillsGUI
 	 */
 	function renderSkillHTML($a_top_skill_id, $a_user_id = 0, $a_edit = false, $a_tref_id = 0)
 	{
-		global $ilUser, $lng, $ilCtrl, $ilSetting;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 
 //echo "<br>".$a_top_skill_id.":".$a_tref_id;
 		$this->tooltips = array();
@@ -536,8 +619,10 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function addSkill()
 	{
-		global $ilUser, $ilCtrl, $lng;
-		
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+
 		ilPersonalSkill::addPersonalSkill($ilUser->getId(), (int) $_GET["obj_id"]);
 		
 		ilUtil::sendSuccess($lng->txt("msg_object_modified"));
@@ -551,7 +636,9 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function confirmSkillRemove()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 			
 		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
 		if ($_GET["skill_id"] > 0)
@@ -586,7 +673,9 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function removeSkills()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 		
 		if (is_array($_POST["id"]))
 		{
@@ -613,8 +702,13 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function assignMaterials()
 	{
-		global $ilTabs, $lng, $ilCtrl, $tpl, $ilToolbar;
-		
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$ilTabs = $this->tabs;
+
+
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "listSkills"));
 		
@@ -684,8 +778,13 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function assignMaterial()
 	{
-		global $tpl, $ilUser, $ilCtrl, $ilTabs, $lng, $ilSetting;
-		
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilSetting = $this->setting;
+
 		if(!$ilSetting->get("disable_personal_workspace"))
 		{
 			ilUtil::sendInfo($lng->txt("skmg_ass_materials_from_workspace")." » <a href='ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace'>".$lng->txt("personal_workspace")."</a>");
@@ -757,8 +856,11 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function selectMaterial()
 	{
-		global $ilUser, $ilCtrl, $lng;
-		
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+
+
 		include_once("./Services/Skill/classes/class.ilPersonalSkill.php");
 		if (is_array($_POST["wsp_id"]))
 		{
@@ -785,8 +887,11 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function removeMaterial()
 	{
-		global $ilUser, $lng, $ilCtrl;
-		
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+
+
 		ilPersonalSkill::removeMaterial($ilUser->getId(), (int) $_GET["tref_id"],
 			(int) $_GET["level_id"],
 			(int) $_GET["wsp_id"]);
@@ -807,8 +912,13 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function selfEvaluation()
 	{
-		global $ilTabs, $lng, $ilCtrl, $tpl, $ilToolbar;
-		
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$ilTabs = $this->tabs;
+
+
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "listSkills"));
 		
@@ -874,8 +984,10 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function saveSelfEvaluation()
 	{
-		global $ilUser, $lng, $ilCtrl;
-		
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+
 		ilPersonalSkill::saveSelfEvaluation($ilUser->getId(), (int) $_GET["skill_id"],
 			(int) $_GET["tref_id"], (int) $_GET["basic_skill_id"], (int) $_POST["se"]);
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -897,7 +1009,11 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function listSkillsForAdd()
 	{
-		global $ilUser, $tpl, $ilCtrl, $lng, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+
 
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, ""));
@@ -926,8 +1042,13 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function listProfiles()
 	{
-		global $ilCtrl, $ilToolbar, $ilUser, $lng, $tpl;
-		
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+
+
 		$profiles = ilSkillProfile::getProfilesOfUser($ilUser->getId());
 		
 		if (count($profiles) == 0)
@@ -997,7 +1118,8 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function getGapAnalysisHTML($a_user_id = 0, $a_skills = null)
 	{
-		global $ilUser, $lng;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 
 		include_once("./Services/UIComponent/Panel/classes/class.ilPanelGUI.php");
 
@@ -1256,8 +1378,8 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function selectProfile()
 	{
-		global $ilCtrl;
-		
+		$ilCtrl = $this->ctrl;
+
 		$ilCtrl->setParameter($this, "profile_id", $_GET["profile_id"]);
 		$ilCtrl->redirect($this, "listProfiles");
 	}
@@ -1270,8 +1392,9 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function renderSelfEvaluationRow($a_tpl, $a_levels, $a_top_skill_id, $a_base_skill, $a_tref_id = 0, $a_user_id = 0)
 	{
-		global $ilUser, $lng;
-		
+		$ilUser = $this->user;
+		$lng = $this->lng;
+
 		if ($a_user_id == 0)
 		{
 			$a_user_id = $ilUser->getId();
@@ -1330,8 +1453,10 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function renderMaterialsRow($a_tpl, $a_levels, $a_top_skill_id, $a_base_skill, $a_tref_id = 0, $a_user_id = 0)
 	{
-		global $ilUser, $lng;
-		
+		$ilUser = $this->user;
+		$lng = $this->lng;
+
+
 		if ($a_user_id == 0)
 		{
 			$a_user_id = $ilUser->getId();
@@ -1413,8 +1538,9 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function renderProfileTargetRow($a_tpl, $a_levels, $a_top_skill_id, $a_base_skill, $a_tref_id = 0, $a_user_id = 0)
 	{
-		global $ilUser, $lng;
-		
+		$ilUser = $this->user;
+		$lng = $this->lng;
+
 		if ($a_user_id == 0)
 		{
 			$a_user_id = $ilUser->getId();
@@ -1463,7 +1589,8 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function renderActualLevelsRow($a_tpl, $a_levels, $a_top_skill_id, $a_base_skill, $a_tref_id = 0, $a_user_id = 0)
 	{
-		global $ilUser, $lng;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 
 		if ($a_user_id == 0)
 		{
@@ -1519,7 +1646,8 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function renderGapSelfEvalRow($a_tpl, $a_levels, $a_top_skill_id, $a_base_skill, $a_tref_id = 0, $a_user_id = 0)
 	{
-		global $ilUser, $lng;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 
 		if ($a_user_id == 0)
 		{
@@ -1566,7 +1694,9 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function renderObjectEvalRow($a_tpl, $a_levels, $a_level_entry)
 	{
-		global $lng, $ilAccess;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+
 
 		$se_level = $a_level_entry["level_id"];
 		
@@ -1637,7 +1767,7 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function renderSuggestedResources($a_tpl, $a_levels, $a_base_skill, $a_tref_id)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		// use a profile
 		if ($this->getProfileId() > 0)
