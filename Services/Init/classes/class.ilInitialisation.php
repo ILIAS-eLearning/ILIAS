@@ -1272,6 +1272,7 @@ class ilInitialisation
 		{
 			require_once "./Services/LTI/classes/class.ilTemplate.php";
 			$tpl = new LTI\ilTemplate("tpl.main.html", true, true, "Services/LTI");
+			//$tpl = new ilTemplate("tpl.main.html", true, true);
 		}
 		else 
 		{
@@ -1369,6 +1370,7 @@ class ilInitialisation
 			$DIC->logger()->root()->write("LTI Mode!");
 			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
 			ilLTIViewGUI::getInstance()->activate();
+			//ilLTIViewGUI::getInstance()->checkMessages();
 		}
 		else {
 			unset($_SESSION['il_lti_mode']);

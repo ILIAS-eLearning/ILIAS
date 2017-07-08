@@ -30,30 +30,14 @@
  * @ingroup ServicesView
  */
 abstract class ilBaseViewGUI
-{
-	/*
-	const TREE_HIDE = 1; // always hide tree
-	const TREE_MODULES_HIDE = 2; // only hide if ref_id
-	const TREE_CURRENT_CONTAINER = 2; // always show current container 
-	const TREE_PARENT_CONTAINER = 3;
-	const TREE_ROOT_CONTAINER = 4;
-	*/
-	
-	/* Hook Actions */
-	const UNSPECIFIED = "";
-	const KEEP = "";
-	const REPLACE = "r";
-	const APPEND = "a";
-	const PREPEND = "p";
-	const SKIP = "s";
-	
+{	
 	/**
 	 * Messsage Codes
 	 */ 
-	const MSG_ERROR = "0";
-	const MSG_INFO = "1";
-	const MSG_QUESTION = "2";
-	const MSG_SUCCESS = "3";
+	const MSG_ERROR = "failure";
+	const MSG_INFO = "info";
+	const MSG_QUESTION = "question";
+	const MSG_SUCCESS = "success";
 	
 	/*
 	 * Spacer CSS Classes
@@ -64,28 +48,10 @@ abstract class ilBaseViewGUI
 	/**
 	 * override these switches in the view constructor
 	 */
-	protected $topBarOnly = false; 
-	protected $show_locator = true;	
-	protected $show_main_menu = true;
-	protected $show_tree_icon = true;
-	protected $show_ilias_footer = true; 
-	protected $show_get_messages = true;
-	protected $allow_desktop = true;
-	protected $show_action_menu = true;
-	protected $show_right_column = true;
-	protected $show_left_column = true;
-	protected $ui_hook = false;
+
+	protected $allow_desktop = true; // deprecated but we should discuss concepts
 	
-	/* 
-	 * Main Menu component hooks
-	 */
-	protected $main_menu_list_entries = self::KEEP;
-	protected $search = self::KEEP;
-	protected $statusbox = self::KEEP;
-	protected $main_header = self::KEEP;
-	protected $user_logged_in = self::KEEP;
-	protected $top_bar_header = self::KEEP;
-	
+	protected $view_nav = true; 
 	
 	/**
 	 * 
@@ -107,10 +73,20 @@ abstract class ilBaseViewGUI
 	protected $home_id = '';
 	
 	/**
+	 * home obj_id
+	 */ 
+	protected $home_obj_id = '';
+	
+	/**
 	 * home type (obj_type of ref_id)
 	 * The view maybe support a view home link in the topbar (static or dynamically, see topbar_back_url in Member- and LTIView)
 	 */ 
 	protected $home_type = '';
+	
+	/**
+	 * home title (title of ref_id)
+	 */ 
+	protected $home_title = '';
 	
 	/**
 	 * home Link (see topbar_back_url concept in MainMenuGUI)
@@ -258,28 +234,6 @@ abstract class ilBaseViewGUI
 	*/
 	
 	/**
-	 * this means the whole header TopBar,MainMenu,MainMenuEntries
-	 * @return bool
-	 */
-	public function showMainMenu() {
-		return $this->show_main_menu;
-	}
-	
-	/**
-	 * @return bool
-	 */
-	public function showTreeIcon() {
-		return $this->show_tree_icon;
-	}
-	
-	/**
-	 * @return bool
-	 */
-	public function showLocator() {
-		return $this->show_locator;
-	}
-	
-	/**
 	 * @return bool
 	 */
 	public function allowDesktop() {
@@ -289,28 +243,8 @@ abstract class ilBaseViewGUI
 	/**
 	 * @return bool
 	 */
-	public function showActionMenu() {
-		return $this->show_action_menu;
-	}
-	
-	/**
-	 * @return bool
-	 */
-	public function showRightColumn() {
-		return $this->show_right_column;
-	}
-	
-	/**
-	 * @return bool
-	 */
-	public function showLeftColumn() {
-		return $this->show_left_column;
-	}
-	/**
-	 * @return bool
-	 */
-	public function showGetMessages() {
-		return $this->show_get_messages;
+	public function showViewNav() {
+		return $this->view_nav;
 	}
 	
 	/**
@@ -318,57 +252,6 @@ abstract class ilBaseViewGUI
 	 */
 	public function spacerClass() {
 		return ($this->topBarOnly) ? self::TOP_SPACER_BAR_ONLY : self::TOP_SPACER;
-	}
-	
-	/**
-	 * main_menu_list_entries
-	 */
-	public function hookMainMenuListEntries() {
-		return $this->main_menu_list_entries;
-	}
-	  
-	/**
-	 * search
-	 */
-	public function hookSearch() {
-		return $this->search;
-	}
-	
-	/**
-	 * statusbox
-	 */
-	public function hookStatusbox() {
-		return $this->statusbox;
-	}
-	
-	/**
-	 * main_header
-	 */
-	public function hookMainHeader() {
-		return $this->main_header;
-	}
-	
-	/**
-	 * user_logged_in
-	 */
-	public function hookUserLoggedIn() {
-		return $this->user_logged_in;
-	}
-	
-	/**
-	 * top_bar_header
-	 */
-	public function hookTopBarHeader() {
-		return $this->top_bar_header;
-	} 
-	
-	/**
-	 * the whole header TopBar,MainMenu,MainMenuEntries
-	 * custom MainMenu HTML: deprecated
-	 * @return string
-	 */
-	public function getMainMenuHTML() {
-		return "";
 	}
 	
 	/**
@@ -404,98 +287,22 @@ abstract class ilBaseViewGUI
 		return $this->link_dir.$targetScript.$this->ctrl->getLinkTargetByClass(array('illtiroutergui',strtolower(get_class($this))),$cmd)."&baseClass=illtiroutergui";
 	}
 	
-	//https://www.simple.org:9443/ilias_lti/ilias.php?ref_id=75&link_id=4&cmd=callLink&cmdClass=ilobjlinkresourcegui&cmdNode=ue:uc&baseClass=ilLinkResourceHandlerGUI
-	/**
-	 * switch on|off uiHook
-	 * @return bool
-	 */
-	public function uiHook() {
-		return $this->ui_hook;
-	}  
-
-	/**
-	 * Modify HTML output of GUI elements. Modifications modes are:
-	 * - ilUIHookPluginGUI::KEEP (No modification)
-	 * - ilUIHookPluginGUI::REPLACE (Replace default HTML with your HTML)
-	 * - ilUIHookPluginGUI::APPEND (Append your HTML to the default HTML)
-	 * - ilUIHookPluginGUI::PREPEND (Prepend your HTML to the default HTML)
-	 *
-	 * @param string $a_comp component
-	 * @param string $a_part string that identifies the part of the UI that is handled
-	 * @param string $a_par array of parameters (depend on $a_comp and $a_part)
-	 *
-	 * @return array array with entries "mode" => modification mode, "html" => your html
-	 */
-	function getHTML($a_comp, $a_part, $a_par = array()) {
-		return array("mode" => self::KEEP, "html" => "");
-	}		
-	
-	/**
-	 * Modify user interface, paramters contain classes that can be modified
-	 *
-	 * @param
-	 * @return
-	 */
-	function modifyGUI($a_comp, $a_part, $a_par = array())
-	{
-	}
-
-	/**
-	 * Modify HTML based on default html and plugin response
-	 *
-	 * @param	string	default html
-	 * @param	string	resonse from plugin
-	 * @return	string	modified html
-	 */
-	final function modifyHTML($a_def_html, $a_resp)
-	{
-		switch ($a_resp["mode"])
-		{
-			case self::REPLACE:
-				$a_def_html = $a_resp["html"];
-				break;
-			case self::APPEND:
-				$a_def_html.= $a_resp["html"];
-				break;
-			case self::PREPEND:
-				$a_def_html = $a_resp["html"].$a_def_html;
-				break;
-		}
-		return $a_def_html;
-	}
-	
-	/**
-	 * 
-	 */ 
-	public function checkMessages() {
-		global $lng;
-		$msg = $_GET["view_msg"];
-		$msg_type = $_GET["view_msg_type"];
-		switch ($msg_type) {
-			case  self::MSG_ERROR:
-				ilUtil::sendFailure($lng->txt($msg));
-				break;
-			case  self::MSG_INFO:
-				ilUtil::sendInfo($lng->txt($msg));
-				break;
-			case  self::MSG_QUESTION:
-				ilUtil::sendQuestion($lng->txt($msg));
-				break;
-			case  self::MSG_SUCCESS:
-				ilUtil::sendSuccess($lng->txt($msg));
-				break;
-		}
-	}
-	
 	/**
 	 * 
 	 */ 
 	function redirectToHome($_msg_type=self::MSG_INFO, $_msg='') {
-		$msg = ($_msg !== '') ? '&view_msg='.$_msg.'&view_msg_type='.$_msg_type : '';
-		$link = $this->getHomeLink().$msg;
+		//$msg = ($_msg !== '') ? '&view_msg='.$_msg.'&view_msg_type='.$_msg_type : '';
+		//$link = $this->getHomeLink().$msg;
+		$_SESSION[$_msg_type] = $_msg;
+		$link = $this->getHomeLink();
 		$this->dic->logger()->root()->write("redirectLink: " . $link);
 		ilUtil::redirect($link);
 		exit;
+	}
+	
+	public function getHomeTitle() 
+	{
+		return ilObject::_lookupTitle($this->home_obj_id);
 	}
 	
 	/**
@@ -513,6 +320,7 @@ abstract class ilBaseViewGUI
 		if(isset($target_arr[1]) and (int) $target_arr[1])
 		{
 			$this->current_type = ilObject::_lookupType($target_arr[1],true);
+			$this->home_title = ilObject::_lookupTitle(ilObject::_lookupObjectId($target_arr[1]));
 			return $this->current_ref_id = (int) $target_arr[1];
 		}
 	}
@@ -546,5 +354,21 @@ abstract class ilBaseViewGUI
 	{
 		$this->dic->logger()->root()->write($txt);
 	} 
+	
+	/**
+	 * get session value != ''
+	 * 
+	 * @param $sess_key string 
+	 * @return string
+	 */ 
+	function getSessionValue($sess_key) 
+	{
+		if (isset($_SESSION[$sess_key]) && $_SESSION[$sess_key] != '') {
+			return $_SESSION[$sess_key];
+		}
+		else {
+			return '';
+		}
+	}
 }
 ?>

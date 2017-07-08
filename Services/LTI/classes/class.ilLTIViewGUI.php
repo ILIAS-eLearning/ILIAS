@@ -45,28 +45,8 @@ class ilLTIViewGUI extends ilBaseViewGUI
 	{
 		parent::__construct();
 		
-		/* view type */
-		$this->topBarOnly = true;
-		
-		/* main components */
-		$this->show_locator = true;
-		$this->show_ilias_footer = false;
-		$this->show_tree_icon = false;
 		$this->allow_desktop = false;
-		$this->show_get_messages = true;
-		$this->show_action_menu = false;
-		$this->show_right_column = true;
-		$this->show_left_column = true;
-		$this->ui_hook = false;
-		
-		/* MainMenu hooks */
-		$this->main_menu_list_entries = self::SKIP;
-		$this->search = self::SKIP;
-		$this->statusbox = self::SKIP;
-		$this->main_header = self::KEEP;
-		$this->user_logged_in = self::REPLACE;
-		$this->top_bar_header = self::REPLACE;
-		
+		$this->view_nav = true;
 		
 		// for Testing: 
 		// With this settings a fix folder with id $this->root_folder_id is set for locator and tree
@@ -124,11 +104,14 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		$cmdclass = strtolower($_GET['cmdClass']);
 		$this->log("baseClass=".$baseclass);
 		$this->log("cmdClass=".$cmdclass);
-		
 		// init home_id, home_type, home_url and home_items if not already set
 		if ($this->home_id === '') 
 		{
 			$this->home_id = $_SESSION['lti_context_id'];
+		}
+		if ($this->home_obj_id === '') 
+		{
+			$this->home_obj_id = ilObject::_lookupObjectId($this->home_id);
 		}
 		if ($this->home_type === '') 
 		{
@@ -138,6 +121,10 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		{
 			$this->home_url = $this->getHomeLink();
 		}
+		if ($this->home_title === '') 
+		{
+			$this->home_title = $this->getHomeTitle();
+		}
 		if (count($this->home_items) == 0) 
 		{
 			$this->home_items = $this->dic['tree']->getSubTreeIds($this->home_id);
@@ -145,8 +132,10 @@ class ilLTIViewGUI extends ilBaseViewGUI
 			$this->home_items[] = $this->home_id;
 		}
 		$this->log("home_id: " . $this->home_id);
+		$this->log("home_obj_id: " . $this->home_obj_id);
 		$this->log("home_type: " . $this->home_type);
 		$this->log("home_url: " . $this->home_url);
+		$this->log("home_title: " . $this->home_title);
 		$this->log("home_items: " . $this->home_items);
 		$this->log("current_ref_id: " . $this->current_ref_id);
 		switch ($baseclass) 
@@ -158,8 +147,11 @@ class ilLTIViewGUI extends ilBaseViewGUI
 				//return;
 				if (!$this->allowDesktop()) 
 				{
-					$this->log("desktop is not allowed"); 
+					$this->log("desktop is not allowed");
+					//$_SESSION['failure'] = "lti_not_allowed";
 					$this->redirectToHome(self::MSG_ERROR,"lti_not_allowed");
+					$this->redirectToHome();
+					return;
 				} 
 				break;
 		}
@@ -188,6 +180,8 @@ class ilLTIViewGUI extends ilBaseViewGUI
 	 */  
 	private function setInContext() 
 	{
+		global $tpl;
+		$this->log($tpl);
 		$this->show_home_link = false;
 		$this->tree_root_id = ($this->fix_tree_id === '') ? $this->home_id : $this->fix_tree_id;
 		$_SESSION['lti_tree_root_id'] = $this->tree_root_id;
@@ -248,20 +242,11 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		
 	}
 	
-	public function replace($tpl,$part) 
+	public function render($tpl,$part) 
 	{
 		global $lng;
 		switch ($part) 
 		{
-			case 'user_logged_in' :
-				$tpl->addBlockFile("USERLOGGEDIN","userisloggedin","tpl.user_logged_in.html","Services/LTI");
-				$tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
-				$user_img_src = $this->ilias->account->getPersonalPicturePath("small", true);
-				$user_img_alt = $this->ilias->account->getFullname();
-				$tpl->setVariable("USER_IMG", ilUtil::img($user_img_src, $user_img_alt));
-				$tpl->setVariable("TXT_LTI_EXIT",$lng->txt("lti_exit_session"));
-				$tpl->setVariable("LINK_LTI_EXIT", $this->getCmdLink('exit'));
-				break;
 			case 'top_bar_header' :
 				if(!$this->show_home_link) 
 				{
@@ -269,7 +254,8 @@ class ilLTIViewGUI extends ilBaseViewGUI
 					{
 						$tpl->addBlockFile("HEADER_TOP_TITLE","header_top_title","tpl.header_top_title.html","Services/LTI");
 					}
-					$tpl->setVariable("TXT_HEADER_TITLE", "LTI header replaced");
+					//$tpl->setVariable("TXT_HEADER_TITLE", "LTI header replaced");
+					$tpl->setVariable("TXT_HEADER_TITLE", "LTI Sitzung");
 				}
 				else {
 					if (!$tpl->blockExists("header_back_bl")) 
@@ -277,10 +263,86 @@ class ilLTIViewGUI extends ilBaseViewGUI
 						$tpl->addBlockFile("HEADER_BACK_BL","header_back_bl","tpl.header_back_bl.html","Services/LTI");
 					}
 					$tpl->setVariable("URL_HEADER_BACK", $this->home_url);
-					$tpl->setVariable("TXT_HEADER_BACK", $lng->txt("lti_back_to_home")); // ToDo: $lng variable		
+					//$tpl->setVariable("TXT_HEADER_BACK", $lng->txt("lti_back_to_home")); // ToDo: $lng variable
+					$tpl->setVariable("TXT_HEADER_BACK", "Zurück zu ". $this->home_title); // ToDo: $lng variable		
 				}
 				break;
+			case 'view_nav' :
+				if (!$this->view_nav) 
+				{
+					break;
+				}
+				$tpl->setVariable("TXT_VIEW_NAV", "LTI Magazin");
+				$nav_entries = $this->getNavEntries();
+				$tpl->setVariable("VIEW_NAV_EN", $nav_entries);
+				
+				break;
+			case 'user_logged_in' :
+				if (!$tpl->blockExists("userisloggedin"))
+				{
+					$tpl->addBlockFile("USERLOGGEDIN","userisloggedin","tpl.user_logged_in.html","Services/LTI");
+				} 
+				$tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
+				$user_img_src = $this->ilias->account->getPersonalPicturePath("small", true);
+				$user_img_alt = $this->ilias->account->getFullname();
+				$tpl->setVariable("USER_IMG", ilUtil::img($user_img_src, $user_img_alt));
+				//$tpl->setVariable("TXT_LTI_EXIT",$lng->txt("lti_exit_session"));
+				$tpl->setVariable("TXT_LTI_EXIT","LTI Sitzung beenden");
+				$tpl->setVariable("LINK_LTI_EXIT", $this->getCmdLink('exit'));
+				break;
 		}
+	}
+	
+	private function getNavEntries() 
+	{
+		global $lng, $ilNavigationHistory, $ilSetting, $ilCtrl;
+		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
+		$gl = new ilGroupedListGUI();
+		$gl->setAsDropDown(true);
+		
+		include_once("./Services/Link/classes/class.ilLink.php");
+		
+		$icon = ilUtil::img(ilObject::_getIcon((int)$this->home_obj_id, "tiny"));
+		
+		$gl->addEntry($icon." ". $this->getHomeTitle(), $this->getHomeLink(),
+			"_top");
+		
+		
+		$items = $ilNavigationHistory->getItems();
+		reset($items);
+		$cnt = 0;
+		$first = true;
+
+		foreach($items as $k => $item)
+		{
+			if ($cnt >= 10) break;
+			
+			if (!isset($item["ref_id"]) || !isset($_GET["ref_id"]) ||
+				($item["ref_id"] != $_GET["ref_id"] || !$first) && $this->home_id != $item["ref_id"]) // do not list current item
+			{
+				if ($cnt == 0)
+				{
+					$gl->addGroupHeader($lng->txt("last_visited"), "ilLVNavEnt");
+				}
+				$obj_id = ilObject::_lookupObjId($item["ref_id"]);
+				$cnt ++;
+				$icon = ilUtil::img(ilObject::_getIcon($obj_id, "tiny"));
+				$ititle = ilUtil::shortenText(strip_tags($item["title"]), 50, true); // #11023
+				$gl->addEntry($icon." ".$ititle, $item["link"],	"_top", "", "ilLVNavEnt");
+
+			}
+			$first = false;
+		}
+		
+		if ($cnt > 0)
+		{
+			$gl->addEntry("» ".$lng->txt("remove_entries"), "#", "",
+				"return il.MainMenu.removeLastVisitedItems('".
+				$ilCtrl->getLinkTargetByClass("ilnavigationhistorygui", "removeEntries", "", true)."');",
+				"ilLVNavEnt");
+		}
+		
+		return $gl->getHTML();
 	}
 	
 	/**
@@ -305,25 +367,6 @@ class ilLTIViewGUI extends ilBaseViewGUI
 			$arr[] = $_SESSION['lti_launch_css_url'];
 		} 
 		return $arr;
-	}
-	
-	public function getHTML($a_comp, $a_part, $a_par = array()) 
-	{
-		if ($a_part == "template_add" && $a_par["tpl_id"] == "tpl.adm_content.html") 
-		{
-			//$this->checkMessages();
-		}
-		
-		//$this->log("comp: ".$a_comp . " - part: ". $a_part . " - " . var_export($a_par,true));
-		//$this->log("comp: ".$a_comp . " - part: ". $a_part . " - tpl_id: " . $a_par['tpl_id']);
-		//$this->log(self::APPEND);
-		/*
-		if ($a_part == "template_add" && $a_par["tpl_id"] == "Services/MainMenu/tpl.main_menu.html") 
-		{
-			//$this->checkMessages();
-		}
-		*/ 
-		return array("mode" => self::KEEP, "html" => "");
 	}
 	
 	/**
@@ -361,22 +404,6 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		// reset cookie
 		$client_id = $_COOKIE["ilClientId"];
 		ilUtil::setCookie("ilClientId","");
-	}
-	
-	/**
-	 * get session value != ''
-	 * 
-	 * @param $sess_key string 
-	 * @return string
-	 */ 
-	function getSessionValue($sess_key) 
-	{
-		if (isset($_SESSION[$sess_key]) && $_SESSION[$sess_key] != '') {
-			return $_SESSION[$sess_key];
-		}
-		else {
-			return '';
-		}
 	}
 }
 ?>

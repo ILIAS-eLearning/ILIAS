@@ -102,9 +102,10 @@ class ilMainMenuGUI extends \ilMainMenuGUI
 			$this->dic['tpl']->setVariable("APPEND_STYLES", $css_html);
 			$this->dic['tpl']->parseCurrentBlock();
 		}
-		$view->replace($this->tpl,'user_logged_in');
-		$view->replace($this->tpl,'top_bar_header');
-		$view->checkMessages();
+		$view->render($this->tpl,'top_bar_header');
+		$view->render($this->tpl,'view_nav');
+		$view->render($this->tpl,'user_logged_in');
+		//$view->checkMessages();
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
 		$this->tpl->setVariable("TXT_MAIN_MENU", $lng->txt("main_menu"));

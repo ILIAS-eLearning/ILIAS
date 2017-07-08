@@ -27,6 +27,5 @@ class ilTemplate extends \ilTemplate
 		$this->main_menu = $ilMainMenu->getHTML();
 		$this->main_menu_spacer = $ilMainMenu->getSpacerClass();
 	}
-	
 }
 ?>
