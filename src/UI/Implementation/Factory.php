@@ -163,4 +163,12 @@ class Factory implements \ILIAS\UI\Factory
 		return new Component\Breadcrumbs\Breadcrumbs($crumbs);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function chart()
+	{
+		return new Component\Chart\Factory();
+	}
+
 }

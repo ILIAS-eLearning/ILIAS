@@ -38,6 +38,7 @@ class NoUIFactory implements Factory {
 	public function icon() {}
 	public function viewControl() {}
 	public function breadcrumbs(array $crumbs) {}
+	public function chart() {}
 }
 
 class LoggingRegistry implements ResourceRegistry {
