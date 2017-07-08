@@ -68,6 +68,6 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase {
 			.'	</ul>'
 			.'</nav>';
 
-		$this->assertEquals($expected, $html);
+		$this->assertHTMLEquals($expected, $html);
 	}
 }
