@@ -60,6 +60,14 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderStandard(Component\Panel\Standard $component, RendererInterface $default_renderer)
 	{
 		$tpl = $this->getTemplate("tpl.standard.html", true, true);
+
+		// actions
+		$actions = $component->getActions();
+		if ($actions !== null)
+		{
+			$tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+		}
+
 		$tpl->setVariable("TITLE",  $component->getTitle());
 		$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
 		return $tpl->get();
@@ -74,9 +82,19 @@ class Renderer extends AbstractComponentRenderer {
 	{
 		$tpl = $this->getTemplate("tpl.sub.html", true, true);
 
-		if ($component->getTitle() != "")
+		$actions = $component->getActions();
+
+		if ($component->getTitle() != "" || $actions !== null)
 		{
 			$tpl->setCurrentBlock("title");
+
+			// actions
+			if ($actions !== null)
+			{
+				$tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+			}
+
+			// title
 			$tpl->setVariable("TITLE", $component->getTitle());
 			$tpl->parseCurrentBlock();
 		}

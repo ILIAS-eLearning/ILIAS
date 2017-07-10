@@ -24,6 +24,10 @@ class Panel implements C\Panel\Panel {
 	 */
 	private  $content;
 
+	/**
+	 * @var \ILIAS\UI\Component\Dropdown\Standard | null
+	 */
+	protected $actions = null;
 
 	/**
 	 * @param string $title
@@ -52,5 +56,22 @@ class Panel implements C\Panel\Panel {
 	public function getContent() {
 		return $this->content;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withActions(\ILIAS\UI\Component\Dropdown\Standard $actions) {
+		$clone = clone $this;
+		$clone->actions = $actions;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getActions(){
+		return $this->actions;
+	}
+
 }
 ?>
