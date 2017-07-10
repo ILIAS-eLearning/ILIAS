@@ -10698,6 +10698,42 @@ div.ilSkillSuggRes {
 th.ilSkillEntryHead {
   width: 250px;
 }
+.ilSkillEvalItem {
+  border-left: 5px solid;
+  margin: 2px 0;
+  padding: 10px;
+}
+.ilSkillEvalItem > .row > div {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.ilSkillEvalItem.ilSkillEvalType1 {
+  border-color: #dcb496;
+}
+.ilSkillEvalItem.ilSkillEvalType2 {
+  border-color: #21c5d8;
+}
+.ilSkillDescription,
+.ilSkillMaterial {
+  padding: 10px 10px 10px 15px;
+}
+.ilSkillDescription > .row > div,
+.ilSkillMaterial > .row > div {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.ilSkillEvalItem.ilSkillEvalType3 {
+  border-color: #6ea03c;
+}
+.ilSkillEvalItem > .row > .ilSkillEvalType1 {
+  color: #dcb496;
+}
+.ilSkillEvalItem > .row > .ilSkillEvalType2 {
+  color: #21c5d8;
+}
+.ilSkillEvalItem > .row > .ilSkillEvalType3 {
+  color: #6ea03c;
+}
 /* Modules/Poll */
 .ilPollDescription {
   margin: 5px;

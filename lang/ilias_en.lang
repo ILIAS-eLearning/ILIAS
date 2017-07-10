@@ -13542,3 +13542,6 @@ rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#stys_sty_write_content#:#Edit Content Styles
 style#:#manage_system_styles#:#Manage System Styles
 style#:#scope#:#Scope
+skmg#:#skmg_eval_type_1#:#Appraisal
+skmg#:#skmg_eval_type_2#:#Measurement
+skmg#:#skmg_eval_type_3#:#Self-Evaluation
