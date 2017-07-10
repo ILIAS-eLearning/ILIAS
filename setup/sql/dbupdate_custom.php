@@ -172,4 +172,7 @@ $ilDB->manipulate($query);
 <?php
 //
 ?>
-
+<#6>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
