@@ -169,6 +169,8 @@ class ilInitialisation
 	 */
 	public static function bootstrapFilesystems() {
 
+		global $DIC;
+
 		$delegatingFactory = new \ILIAS\Filesystem\Provider\DelegatingFilesystemFactory();
 
 		$DIC['filesystem.web'] = function ($c) use ($delegatingFactory) {
