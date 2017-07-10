@@ -107,6 +107,7 @@
 @font-size-base:          14px;
 @font-size-large:         ceil((@font-size-base * 1.25));
 @font-size-small:         ceil((@font-size-base * 0.85));
+@font-size-xs:         	  ceil((@font-size-base * 0.75));
 
 @font-size-h1:            floor((@font-size-base * 1.6));
 @font-size-h2:            floor((@font-size-base * 1.4));
@@ -215,6 +216,8 @@
 @breadcrumb-color:               @link-color;
 //** Text color of current page in the breadcrumb
 @breadcrumb-active-color:        @link-hover-color;
+//** font-weight of breadcrumbs
+@breadcrumb-font-weight:        600;
 //** Textual separator for between breadcrumb elements
 @breadcrumb-separator:          "»";
 
@@ -442,6 +445,17 @@
 @il-panel-listing-std-container-h3-color: #909090;
 @il-panel-listing-std-container-h4-color: #909090;
 @il-panel-listing-std-item-container-margin: 0 0 1px 0;
+
+//== Charts
+//
+//##
+
+@il-chart-item-active-bg: @brand-primary;
+@il-chart-item-active-color: white;
+@il-chart-item-inactive-bg: #e0e0e0;
+@il-chart-item-inactive-color: #909090;
+@il-chart-item-space: 2px;
+
 
 //== Icons
 //
