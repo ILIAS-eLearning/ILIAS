@@ -6218,6 +6218,18 @@ button.close {
 .il-panel-report > .panel-body > .panel {
   margin-bottom: 10px;
 }
+.panel-heading > h3 {
+  float: left;
+}
+.panel-heading > h4 {
+  float: left;
+}
+.panel-heading .dropdown {
+  float: right;
+}
+.panel-heading .dropdown > button.dropdown-toggle {
+  color: white;
+}
 .il-panel-listing-std-item-container {
   margin: 0 0 1px 0;
 }
