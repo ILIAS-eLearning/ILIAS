@@ -10726,11 +10726,23 @@ th.ilSkillEntryHead {
   border-color: #21c5d8;
 }
 .ilSkillDescription,
-.ilSkillMaterial {
-  padding: 10px 10px 10px 15px;
+.ilSkillMaterial,
+.ilSkillSuggResources {
+  padding: 5px 10px 5px 15px;
 }
 .ilSkillDescription > .row > div,
-.ilSkillMaterial > .row > div {
+.ilSkillMaterial > .row > div,
+.ilSkillSuggResources > .row > div {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.ilSkillResourceList > h5 {
+  margin-top: 25px;
+}
+.ilSkillResourceList > div {
+  padding: 5px 10px 5px 15px;
+}
+.ilSkillResourceList > div > .row > div {
   padding-top: 2px;
   padding-bottom: 2px;
 }

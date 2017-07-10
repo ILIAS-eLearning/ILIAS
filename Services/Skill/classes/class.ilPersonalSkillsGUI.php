@@ -363,9 +363,6 @@ class ilPersonalSkillsGUI
 
 		$sub_panels = array();
 
-//echo "<br>".$a_top_skill_id.":".$a_tref_id;
-		$this->tooltips = array();
-
 		if ($a_user_id == 0)
 		{
 			$user = $ilUser;
@@ -377,23 +374,9 @@ class ilPersonalSkillsGUI
 
 		$tpl = new ilTemplate("tpl.skill_pres.html", true, true, "Services/Skill");
 		
-		include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-		
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$stree = new ilSkillTree();
-		
-		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-		include_once("./Services/Skill/classes/class.ilSkillTreeNodeFactory.php");
-		
-		// general settings for the action drop down
-		include_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-		$act_list = new ilAdvancedSelectionListGUI();
-		$act_list->setListTitle($lng->txt("actions"));
-		$act_list->setSelectionHeaderClass("small");
-//		$act_list->setLinksMode("il_ContainerItemCommand2");
-		$act_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
-		$act_list->setUseImages(false);
-		
+
 		include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
 		$vtree = new ilVirtualSkillTree();
 		$tref_id = $a_tref_id;
@@ -405,12 +388,12 @@ class ilPersonalSkillsGUI
 			$skill_id = ilSkillTemplateReference::_lookupTemplateId($a_top_skill_id);
 		}
 		$b_skills = $vtree->getSubTreeForCSkillId($skill_id.":".$tref_id, true);
-//if ($a_tref_id > 0) $a_top_skill_id = $a_tref_id;
+
 		foreach ($b_skills as $bs)
 		{
-$bs["id"] = $bs["skill_id"];
-$bs["tref"] = $bs["tref_id"];
-//var_dump($bs); exit;
+			$bs["id"] = $bs["skill_id"];
+			$bs["tref"] = $bs["tref_id"];
+
 			$path = $stree->getSkillTreePath($bs["id"], $bs["tref"]);
 
 			$panel_comps = array();
@@ -436,19 +419,12 @@ $bs["tref"] = $bs["tref_id"];
 
 			if ($this->getProfileId() > 0)
 			{
-				$this->renderProfileTargetRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 				$panel_comps[] = $this->ui_fac->legacy($this->getProfileTargetItem($this->getProfileId(), $level_data, $bs["tref"]));
-			}
-			if ($this->mode != "gap")
-			{
-				$this->renderMaterialsRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 			}
 
 			if ($this->mode == "gap" && !$this->history_view)
 			{
-				$this->renderActualLevelsRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 				$panel_comps[] = $this->ui_fac->legacy($this->getActualGapItem($level_data, $bs["tref"]));
-				$this->renderGapSelfEvalRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 				$panel_comps[] = $this->ui_fac->legacy($this->getSelfEvalGapItem($level_data, $bs["tref"]));
 			}
 			else
@@ -467,8 +443,6 @@ $bs["tref"] = $bs["tref_id"];
 					{
 						$se_rendered = true;
 					}
-					$this->renderObjectEvalRow($tpl, $level_data, $level_entry);
-
 					$panel_comps[] = $this->ui_fac->legacy($this->getEvalItem($level_data, $level_entry));
 				}
 				
@@ -477,7 +451,6 @@ $bs["tref"] = $bs["tref_id"];
 			// materials (new)
 			if ($this->mode != "gap")
 			{
-				$this->renderMaterialsRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 				$mat = $this->getMaterials($level_data, $bs["tref"], $user->getId());
 				if ($mat != "")
 				{
@@ -486,28 +459,12 @@ $bs["tref"] = $bs["tref_id"];
 			}
 
 			// suggested resources
-			$this->renderSuggestedResources($tpl, $level_data, $bs["id"], $bs["tref"]);
-			$panel_comps[] = $this->ui_fac->legacy($tpl->get("resources"));
-			
-			$too_low = true;
-			$current_target_level = 0;
-
-			foreach ($level_data as $k => $v)
+			$sugg = $this->getSuggestedResources($this->getProfileId(), $level_data, $bs["id"], $bs["tref"]);
+			if ($sugg != "")
 			{
-		// level
-				$tpl->setCurrentBlock("level_td");
-				$tpl->setVariable("VAL_LEVEL", $v["title"]);
-				$tt_id = "skmg_skl_tt_".self::$skill_tt_cnt;
-				self::$skill_tt_cnt++;
-				$tpl->setVariable("TT_ID", $tt_id);
-				if ($v["description"] != "")
-				{
-					ilTooltipGUI::addTooltip($tt_id, $v["description"]);
-				}
-				$tpl->parseCurrentBlock();
+				$panel_comps[] = $this->ui_fac->legacy($sugg);
 			}
-			
-			
+
 			$title = $sep = "";
 			$found = false;
 			foreach ($path as $p)
@@ -522,66 +479,48 @@ $bs["tref"] = $bs["tref_id"];
 					$found = true;
 				}
 			}
-			
-			$tpl->setCurrentBlock("skill");
-			$tpl->setVariable("BSKILL_TITLE", $title);
 
-			$sub_panels[] = $this->ui_fac->panel()->sub($title, $panel_comps);
-
-			$tpl->setVariable("TXT_TARGET", $lng->txt("skmg_target_level"));
-			$tpl->setVariable("TXT_360_SURVEY", $lng->txt("skmg_360_survey"));
-			
+			$sub = $this->ui_fac->panel()->sub($title, $panel_comps);
 			if ($a_edit)
 			{
-				$act_list->flush();
-				$act_list->setId("act_".$a_top_skill_id."_".$bs["id"]);
+				$actions = array();
 				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "skill_id", $a_top_skill_id);
 				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "tref_id", $bs["tref"]);
 				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "basic_skill_id", $bs["id"]);
 				if ($this->use_materials)
 				{
-					$act_list->addItem($lng->txt('skmg_assign_materials'), "",
+					$actions[] = $this->ui_fac->button()->shy($lng->txt('skmg_assign_materials'),
 						$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "assignMaterials"));
 				}
-				$act_list->addItem($lng->txt('skmg_self_evaluation'), "",
+				$actions[] = $this->ui_fac->button()->shy($lng->txt('skmg_self_evaluation'),
 					$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "selfEvaluation"));
-				$tpl->setVariable("ACTIONS2", $act_list->getHTML());
+				$sub = $sub->withActions($this->ui_fac->dropdown()->standard($actions)->withLabel($lng->txt("actions")));
 			}
+
+			$sub_panels[] = $sub;
 			
 			$tpl->parseCurrentBlock();
 			
 		}
 		
-		$tpl->setVariable("SKILL_TITLE", ilSkillTreeNode::_lookupTitle($skill_id, $tref_id));
-
 		$panel = $this->ui_fac->panel()->standard(ilSkillTreeNode::_lookupTitle($skill_id, $tref_id),
 			$sub_panels);
 
 		if ($a_edit)
 		{
-			$act_list->flush();
-			$act_list->setId("act_".$a_top_skill_id);
+			$actions = array();
+
 			$ilCtrl->setParameterByClass("ilpersonalskillsgui", "skill_id", $a_top_skill_id);
-//			$act_list->addItem($lng->txt('skmg_assign_materials'), "",
-//				$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "assignMaterials"));
-			$act_list->addItem($lng->txt('skmg_remove_skill'), "",
+			$actions[] = $this->ui_fac->button()->shy($lng->txt('skmg_remove_skill'),
 				$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "confirmSkillRemove"));
-			$tpl->setVariable("ACTIONS1", $act_list->getHTML());
+
+			$panel = $panel->withActions($this->ui_fac->dropdown()->standard($actions)->withLabel($lng->txt("actions")));
 		}
 		
-		if (true)
-		{
-			return $this->ui_ren->render($panel);
-		}
-		
-		return $tpl->get();
+		return $this->ui_ren->render($panel);
 	}
 	
-	function getTooltipsJs()
-	{
-		return $this->tooltips;
-	}
-	
+
 	/**
 	 * Get material file name and goto url
 	 * 
@@ -1415,92 +1354,6 @@ $bs["tref"] = $bs["tref_id"];
 		$ilCtrl->setParameter($this, "profile_id", $_GET["profile_id"]);
 		$ilCtrl->redirect($this, "listProfiles");
 	}
-	
-
-	/**
-	 * Render materials row
-	 *
-	 * @param
-	 * @return
-	 */
-	function renderMaterialsRow($a_tpl, $a_levels, $a_top_skill_id, $a_base_skill, $a_tref_id = 0, $a_user_id = 0)
-	{
-		$ilUser = $this->user;
-		$lng = $this->lng;
-
-
-		if ($a_user_id == 0)
-		{
-			$a_user_id = $ilUser->getId();
-		}
-
-		$got_mat = false;
-		foreach ($a_levels as $v)
-		{
-			$mat_cnt = ilPersonalSkill::countAssignedMaterial($a_user_id,
-				$a_tref_id, $v["id"]);
-			if ($mat_cnt > 0)
-			{
-				$got_mat = true;
-			}
-		}
-		if (!$got_mat)
-		{
-			return;
-		}
-
-		foreach ($a_levels as $k => $v)
-		{
-			$mat_cnt = ilPersonalSkill::countAssignedMaterial($a_user_id,
-				$a_tref_id, $v["id"]);
-			if ($mat_cnt == 0)
-			{
-				$a_tpl->setCurrentBlock("val_level_td");
-				$a_tpl->setVariable("VAL_LEVEL", " ");
-				$a_tpl->parseCurrentBlock();
-			}
-			else
-			{					
-				// links to material files
-				$a_tpl->setCurrentBlock("level_link");
-									
-				$mat_tt = array();
-				$cnt = 1;
-				foreach(ilPersonalSkill::getAssignedMaterial($a_user_id,
-					$a_tref_id, $v["id"]) as $item)
-				{												
-					$mat_data = $this->getMaterialInfo($item["wsp_id"], $a_user_id);
-					$a_tpl->setVariable("HREF_LINK", $mat_data[1]);
-					$a_tpl->setVariable("TXT_LINK", $cnt);
-					
-					// tooltip
-					$mat_tt_id = "skmg_skl_tt_mat_".self::$skill_tt_cnt;
-					self::$skill_tt_cnt++;
-					$a_tpl->setVariable("LEVEL_LINK_ID", $mat_tt_id);
-					
-					if(!$this->offline_mode)
-					{
-						ilTooltipGUI::addTooltip($mat_tt_id, $mat_data[0]);
-					}
-					else
-					{							
-						$this->tooltips[] = ilTooltipGUI::getTooltip($mat_tt_id, $mat_data[0]);
-					}
-					
-					$a_tpl->parseCurrentBlock();
-					$cnt++;
-				}																	
-				
-				$a_tpl->setCurrentBlock("val_level_td");
-				$a_tpl->setVariable("TD_CLASS", "ilSkillMat");
-				$a_tpl->parseCurrentBlock();
-			}
-		}
-		
-		$a_tpl->setCurrentBlock("value_row");
-		$a_tpl->setVariable("TXT_VAL_TITLE", $lng->txt("skmg_material"));
-		$a_tpl->parseCurrentBlock();
-	}
 
 	/**
 	 * Get materials
@@ -1531,7 +1384,7 @@ $bs["tref"] = $bs["tref_id"];
 		}
 		if (!$got_mat)
 		{
-			return;
+			return "";
 		}
 
 		$tpl = new ilTemplate("tpl.skill_materials.html", true, true, "Services/Skill");
@@ -1558,57 +1411,6 @@ $bs["tref"] = $bs["tref_id"];
 		$tpl->setVariable("TXT_MATERIAL", $lng->txt("skmg_materials"));
 
 		return $tpl->get();
-	}
-
-	/**
-	 * Render profile target row
-	 *
-	 * @param
-	 * @return
-	 */
-	function renderProfileTargetRow($a_tpl, $a_levels, $a_top_skill_id, $a_base_skill, $a_tref_id = 0, $a_user_id = 0)
-	{
-		$ilUser = $this->user;
-		$lng = $this->lng;
-
-		if ($a_user_id == 0)
-		{
-			$a_user_id = $ilUser->getId();
-		}
-		
-		$profile = new ilSkillProfile($this->getProfileId());
-		$profile_levels = $profile->getSkillLevels();
-
-		foreach ($a_levels as $k => $v)
-		{
-			$a_tpl->setCurrentBlock("val_level_td");
-			$target_level = false;
-			foreach ($profile_levels as $pl)
-			{
-				if ($pl["level_id"] == $v["id"] &&
-					$pl["base_skill_id"] == $v["skill_id"] &&
-					$a_tref_id == $pl["tref_id"])
-				{
-					$target_level = true;
-					$current_target_level = $v["id"];
-				}
-			}
-			if ($target_level)
-			{
-				$too_low = true;
-				$a_tpl->setVariable("VAL_LEVEL", "x");
-				$a_tpl->setVariable("TD_CLASS", "ilSkillSelf");
-			}
-			else
-			{
-				$a_tpl->setVariable("VAL_LEVEL", " ");
-			}
-			$a_tpl->parseCurrentBlock();
-		}
-		
-		$a_tpl->setCurrentBlock("value_row");
-		$a_tpl->setVariable("TXT_VAL_TITLE", $lng->txt("skmg_target_level"));
-		$a_tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -1646,64 +1448,6 @@ $bs["tref"] = $bs["tref_id"];
 		$tpl->setVariable("TITLE", "");
 
 		return $tpl->get();
-	}
-
-
-	/**
-	 * Render actual levels row (gap analysis)
-	 *
-	 * @param
-	 * @return
-	 */
-	function renderActualLevelsRow($a_tpl, $a_levels, $a_top_skill_id, $a_base_skill, $a_tref_id = 0, $a_user_id = 0)
-	{
-		$ilUser = $this->user;
-		$lng = $this->lng;
-
-		if ($a_user_id == 0)
-		{
-			$a_user_id = $ilUser->getId();
-		}
-
-		$profile = new ilSkillProfile($this->getProfileId());
-		$profile_levels = $profile->getSkillLevels();
-
-		foreach ($a_levels as $k => $v)
-		{
-			$a_tpl->setCurrentBlock("val_level_td");
-			$survey_level = false;
-			if ($this->actual_levels[$v["skill_id"]][$a_tref_id] == $v["id"])
-			{
-				$survey_level = true;
-				$too_low = false;
-			}
-			if ($survey_level)
-			{
-				$a_tpl->setVariable("VAL_LEVEL", "x");
-				$a_tpl->setVariable("TD_CLASS", "ilSkillSelf");
-			}
-			else
-			{
-				$a_tpl->setVariable("VAL_LEVEL", " ");
-			}
-			$a_tpl->parseCurrentBlock();
-		}
-		
-		$a_tpl->setCurrentBlock("value_row");
-		if ($this->gap_cat_title != "")
-		{
-			$a_tpl->setVariable("TXT_VAL_TITLE", $this->gap_cat_title);
-		}
-		else if ($this->gap_mode == "max_per_type")
-		{
-			$a_tpl->setVariable("TXT_VAL_TITLE", $lng->txt("objs_".$this->gap_mode_type));
-		}
-		else if ($this->gap_mode == "max_per_object")
-		{
-			$a_tpl->setVariable("TXT_VAL_TITLE", ilObject::_lookupTitle($this->gap_mode_obj_id));
-		}
-		
-		$a_tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -1752,57 +1496,6 @@ $bs["tref"] = $bs["tref_id"];
 		$tpl->setVariable("TITLE", $title);
 
 		return $tpl->get();
-
-
-	}
-	
-	
-	/**
-	 * Render actual levels row (gap analysis)
-	 *
-	 * @param
-	 * @return
-	 */
-	function renderGapSelfEvalRow($a_tpl, $a_levels, $a_top_skill_id, $a_base_skill, $a_tref_id = 0, $a_user_id = 0)
-	{
-		$ilUser = $this->user;
-		$lng = $this->lng;
-
-		if ($a_user_id == 0)
-		{
-			$a_user_id = $ilUser->getId();
-		}
-
-		$self_vals = $this->getGapAnalysisSelfEvalLevels();
-		if (count($self_vals) == 0)
-		{
-			return;
-		}
-		
-		foreach ($a_levels as $k => $v)
-		{
-			$a_tpl->setCurrentBlock("val_level_td");
-			$survey_level = false;
-			if ($self_vals[$v["skill_id"]][$a_tref_id] == $v["id"])
-			{
-				$survey_level = true;
-			}
-			if ($survey_level)
-			{
-				$a_tpl->setVariable("VAL_LEVEL", "x");
-				$a_tpl->setVariable("TD_CLASS", "ilSkillSelf");
-			}
-			else
-			{
-				$a_tpl->setVariable("VAL_LEVEL", " ");
-			}
-			$a_tpl->parseCurrentBlock();
-		}
-		
-		$a_tpl->setCurrentBlock("value_row");
-		$a_tpl->setVariable("TXT_VAL_TITLE", $lng->txt("skmg_self_evaluation"));
-		
-		$a_tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -1958,99 +1651,23 @@ $bs["tref"] = $bs["tref_id"];
 		return $tpl->get();
 	}
 
-
-	/**
-	 * Render object evaluation row (has_level table)
-	 *
-	 * @param
-	 * @return
-	 */
-	function renderObjectEvalRow($a_tpl, $a_levels, $a_level_entry)
-	{
-		$lng = $this->lng;
-		$ilAccess = $this->access;
-
-
-		$se_level = $a_level_entry["level_id"];
-		
-		// check, if current self eval level is in current level data
-		$valid_sel_level = false;
-		if ($se_level > 0)
-		{
-			foreach ($a_levels as $k => $v)
-			{
-				if ($v["id"] == $se_level)
-				{
-					$valid_sel_level = true;
-				}
-			}
-		}
-		reset($a_levels);
-		$found = false;
-		foreach ($a_levels as $k => $v)
-		{
-			$a_tpl->setCurrentBlock("val_level_td");
-			if ($valid_sel_level && $v["id"] == $se_level)
-			{
-				$a_tpl->setVariable("VAL_LEVEL", "x");
-				$a_tpl->setVariable("TD_CLASS", "ilSkillSelf");
-			}
-			else
-			{
-				$a_tpl->setVariable("VAL_LEVEL", " ");
-			}
-			$a_tpl->parseCurrentBlock();
-			/*if ($v["id"] == $se_level)
-			{
-				$found = true;
-			}*/
-		}
-		
-		$a_tpl->setCurrentBlock("value_row");
-		ilDatePresentation::setUseRelativeDates(false);
-		if ($a_level_entry["self_eval"] == 1 && $a_level_entry["trigger_obj_id"] == 0)
-		{
-			$title = $lng->txt("skmg_self_evaluation");
-		}
-		else
-		{
-			$title = ($a_level_entry["trigger_obj_id"] > 0 && $a_level_entry["self_eval"] == 1)
-				? $a_level_entry["trigger_title"]." (".$lng->txt("skmg_self_evaluation").")"
-				: $a_level_entry["trigger_title"];
-		}
-
-		if ($a_level_entry["trigger_ref_id"] > 0
-			&& $ilAccess->checkAccess("read", "", $a_level_entry["trigger_ref_id"]))
-		{
-			include_once("./Services/Link/classes/class.ilLink.php");
-			$title = "<a href='".ilLink::_getLink($a_level_entry["trigger_ref_id"])."'>".$title."</a>";
-		}
-
-		$a_tpl->setVariable("TXT_VAL_TITLE", $title.
-			", ".ilDatePresentation::formatDate(new ilDateTime($a_level_entry["status_date"], IL_CAL_DATETIME)));
-		ilDatePresentation::setUseRelativeDates(true);
-		$a_tpl->parseCurrentBlock();		
-	}
-
 	/**
 	 * Render suggested resources
 	 *
 	 * @param
 	 * @return
 	 */
-	function renderSuggestedResources($a_tpl, $a_levels, $a_base_skill, $a_tref_id)
+	function getSuggestedResources($a_profile_id, $a_levels, $a_base_skill, $a_tref_id)
 	{
 		$lng = $this->lng;
 
-		// use a profile
-		if ($this->getProfileId() > 0)
-		{
-			$profile = new ilSkillProfile($this->getProfileId());
-			$profile_levels = $profile->getSkillLevels();
+		$tpl = new ilTemplate("tpl.suggested_resources.html", true, true, "Services/Skill");
 
+		// use a profile
+		if ($a_profile_id > 0)
+		{
 			$too_low = true;
 			$current_target_level = 0;
-
 
 			foreach ($a_levels as $k => $v)
 			{
@@ -2094,30 +1711,27 @@ $bs["tref"] = $bs["tref_id"];
 					$obj_id = ilObject::_lookupObjId($ref_id);
 					$title = ilObject::_lookupTitle($obj_id);
 					include_once("./Services/Link/classes/class.ilLink.php");
-					$a_tpl->setCurrentBlock("resource_item");
-					$a_tpl->setVariable("TXT_RES", $title);
-					$a_tpl->setVariable("HREF_RES", ilLink::_getLink($ref_id));
-					$a_tpl->parseCurrentBlock();
+					$tpl->setCurrentBlock("resource_item");
+					$tpl->setVariable("TXT_RES", $title);
+					$tpl->setVariable("HREF_RES", ilLink::_getLink($ref_id));
+					$tpl->parseCurrentBlock();
 				}
 				if (count($imp_resources) > 0)
 				{
-					$a_tpl->touchBlock("resources_list");
-					$a_tpl->setCurrentBlock("resources");
-					$a_tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_needs_impr_res"));
-					$a_tpl->parseCurrentBlock();
+					$tpl->touchBlock("resources_list");
+					$tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_needs_impr_res"));
+					return $tpl->get();
 				}
 				else
 				{
-					$a_tpl->setCurrentBlock("resources");
-					$a_tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_needs_impr_no_res"));
-					$a_tpl->parseCurrentBlock();
+					$tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_needs_impr_no_res"));
+					return $tpl->get();
 				}
 			}
 			else
 			{
-				$a_tpl->setCurrentBlock("resources");
-				$a_tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_no_needs_impr"));
-				$a_tpl->parseCurrentBlock();
+				$tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_no_needs_impr"));
+				return $tpl->get();
 			}
 		}
 		else
@@ -2140,10 +1754,10 @@ $bs["tref"] = $bs["tref_id"];
 						$obj_id = ilObject::_lookupObjId($ref_id);
 						$title = ilObject::_lookupTitle($obj_id);
 						include_once("./Services/Link/classes/class.ilLink.php");
-						$a_tpl->setCurrentBlock("resource_item");
-						$a_tpl->setVariable("TXT_RES", $title);
-						$a_tpl->setVariable("HREF_RES", ilLink::_getLink($ref_id));
-						$a_tpl->parseCurrentBlock();
+						$tpl->setCurrentBlock("resource_item");
+						$tpl->setVariable("TXT_RES", $title);
+						$tpl->setVariable("HREF_RES", ilLink::_getLink($ref_id));
+						$tpl->parseCurrentBlock();
 						$available = true;
 						$any = true;
 						$cl = $r["level_id"];
@@ -2151,20 +1765,20 @@ $bs["tref"] = $bs["tref_id"];
 				}
 				if ($available)
 				{
-					$a_tpl->setCurrentBlock("resources_list_level");
-					$a_tpl->setVariable("TXT_LEVEL", $lng->txt("skmg_level"));
-					$a_tpl->setVariable("LEVEL_NAME", ilBasicSkill::lookupLevelTitle($cl));
-					$a_tpl->parseCurrentBlock();
-					$a_tpl->touchBlock("resources_list");
+					$tpl->setCurrentBlock("resources_list_level");
+					$tpl->setVariable("TXT_LEVEL", $lng->txt("skmg_level"));
+					$tpl->setVariable("LEVEL_NAME", ilBasicSkill::lookupLevelTitle($cl));
+					$tpl->parseCurrentBlock();
+					$tpl->touchBlock("resources_list");
 				}
 			}
 			if ($any)
 			{
-				$a_tpl->setCurrentBlock("resources");
-				$a_tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_suggested_resources"));
-				$a_tpl->parseCurrentBlock();
+				$tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_suggested_resources"));
+				return $tpl->get();
 			}
 		}
+		return "";
 	}
 	
 }
