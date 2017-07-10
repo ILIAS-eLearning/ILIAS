@@ -207,6 +207,25 @@ class ilInitialisation
 		};
 	}
 
+
+	/**
+	 * Initializes the file upload service.
+	 * This service requires the http and filesystem service.
+	 *
+	 * @param \ILIAS\DI\Container $dic The dependency container which should be used to load the file upload service.
+	 *
+	 * @return void
+	 */
+	public static function initFileUploadService(\ILIAS\DI\Container $dic) {
+		$dic['upload.processor-manager'] = function ($c) {
+			return new \ILIAS\FileUpload\Processor\PreProcessorManagerImpl();
+		};
+
+		$dic['upload'] = function ($c) {
+			return new \ILIAS\FileUpload\FileUploadImpl($c['upload.processor-manager'], $c['filesystem'], $c['http']);
+		};
+	}
+
 	/**
 	 * builds http path
 	 */
@@ -915,6 +934,7 @@ class ilInitialisation
 		if(ilContext::initClient())
 		{
 			self::initClient();
+			self::initFileUploadService($GLOBALS["DIC"]);
 			self::initSession();
 			
 			if (ilContext::hasUser())

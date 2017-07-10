@@ -4,6 +4,7 @@
 namespace ILIAS\DI;
 
 use ILIAS\Filesystem\Filesystems;
+use ILIAS\FileUpload\FileUpload;
 
 /**
  * Customizing of pimple-DIC for ILIAS.
@@ -128,5 +129,15 @@ class Container extends \Pimple\Container {
 	 */
 	public function filesystem() {
 		return $this['filesystem'];
+	}
+
+
+	/**
+	 * Gets the file upload interface.
+	 *
+	 * @return FileUpload
+	 */
+	public function upload() {
+		return $this['upload'];
 	}
 }
