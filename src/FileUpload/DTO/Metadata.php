@@ -94,7 +94,7 @@ final class Metadata {
 
 
 	/**
-	 * This is always the original file size which was determinated by the http service.
+	 * This is always the original file size which was determined by the http service.
 	 * The current size is provided by the size method of the Stream passed to the processor.
 	 * Please use the filesystem service to get the file size outside of the processors.
 	 *
