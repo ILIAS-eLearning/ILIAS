@@ -7057,6 +7057,12 @@ hr.il-divider-with-label {
 .icon.iass {
   background-image: url("images/icon_iass.svg");
 }
+.il-viewcontrol-mode .ilSubmitInactive,
+.il-viewcontrol-mode .ilSubmitInactive:hover {
+  background-color: #557196;
+  color: white;
+  border-color: transparent;
+}
 ul.breadcrumb {
   margin: 0;
   font-weight: 600;
