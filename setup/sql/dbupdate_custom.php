@@ -52,3 +52,6 @@ if(!$ilDB->tableExists("exc_ass_file_order"))
 	$ilDB->createSequence("exc_ass_file_order");
 }
 ?>
+<#3>
+	//
+?>
