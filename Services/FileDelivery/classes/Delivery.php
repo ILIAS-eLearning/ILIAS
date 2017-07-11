@@ -567,8 +567,8 @@ final class Delivery {
 	public function clearBuffer() {
 		$ob_get_contents = ob_get_contents();
 		if ($ob_get_contents) {
-			\ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: '
-			                                . $ob_get_contents);
+//			\ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: '
+//			                                . $ob_get_contents);
 		}
 		ob_end_clean(); // fixed 0016469, 0016467, 0016468
 	}
