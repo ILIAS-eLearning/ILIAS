@@ -47,7 +47,9 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		$a_infoscreen->addSection($lng->txt((ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 
 		//TODO Work instructions of the assignment...
-		$a_infoscreen->addProperty($lng->txt("exc_instruction"), "OK I NEED THE ASSIGNMENT AND THEN GET THE WORK INSTRUCTIONS");
+		//var_dump($a_app); exit;
+		$ass_id = $a_app["event"]->getContextId() / 10;			// see ilExAssignment->handleCalendarEntries $dl parameter
+		$a_infoscreen->addProperty($lng->txt("exc_instruction"), "OK I NEED THE ASSIGNMENT $ass_id AND THEN GET THE WORK INSTRUCTIONS");
 	}
 
 }
