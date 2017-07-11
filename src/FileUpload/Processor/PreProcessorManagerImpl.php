@@ -5,6 +5,7 @@ namespace ILIAS\FileUpload\Processor;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Class PreProcessorManagerImpl
@@ -36,7 +37,7 @@ final class PreProcessorManagerImpl implements PreProcessorManager {
 	/**
 	 * @inheritDoc
 	 */
-	public function process(FileStream $stream, Metadata $metadata) {
+	public function process(StreamInterface $stream, Metadata $metadata) {
 		try {
 			$result = NULL;
 			foreach ($this->processors as $processor) {

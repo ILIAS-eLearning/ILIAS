@@ -5,6 +5,7 @@ namespace ILIAS\FileUpload\Processor;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Class WhitelistExtensionPreProcessor
@@ -46,7 +47,7 @@ final class WhitelistExtensionPreProcessor implements PreProcessor {
 	/**
 	 * @inheritDoc
 	 */
-	public function process(FileStream $stream, Metadata $metadata) {
+	public function process(StreamInterface $stream, Metadata $metadata) {
 		if($this->isWhitelisted($metadata->getFilename()))
 			return new ProcessingStatus(ProcessingStatus::OK, 'Extension complies with whitelist.');
 

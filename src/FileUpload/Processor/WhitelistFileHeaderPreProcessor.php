@@ -6,6 +6,7 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\ScalarTypeCheckAware;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Class WhitelistFileHeaderPreProcessor
@@ -46,7 +47,7 @@ final class WhitelistFileHeaderPreProcessor implements PreProcessor {
 	/**
 	 * @inheritDoc
 	 */
-	public function process(FileStream $stream, Metadata $metadata) {
+	public function process(StreamInterface $stream, Metadata $metadata) {
 		$header = $stream->read($this->fileHeaderLength);
 		if(strcmp($this->fileHeader, $header) === 0)
 			return new ProcessingStatus(ProcessingStatus::OK, 'File header complies with whitelist.');

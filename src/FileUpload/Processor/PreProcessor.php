@@ -5,6 +5,7 @@ namespace ILIAS\FileUpload\Processor;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Class PreProcessor
@@ -28,10 +29,10 @@ interface PreProcessor {
 	 * If the processor fails or returns an unexpected value, the file gets automatically rejected
 	 * because the file could be dangerous to ILIAS.
 	 *
-	 * @param FileStream      $stream   The stream of the file.
-	 * @param Metadata        $metadata The meta data of the uploaded file.
+	 * @param StreamInterface      $stream   The stream of the file.
+	 * @param Metadata             $metadata The meta data of the uploaded file.
 	 *
 	 * @return ProcessingStatus The new status of the file.
 	 */
-	public function process(FileStream $stream, Metadata $metadata);
+	public function process(StreamInterface $stream, Metadata $metadata);
 }

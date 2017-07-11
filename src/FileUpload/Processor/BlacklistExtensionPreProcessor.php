@@ -5,6 +5,7 @@ namespace ILIAS\FileUpload\Processor;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Class BlacklistExtensionPreProcessor
@@ -47,7 +48,7 @@ final class BlacklistExtensionPreProcessor implements PreProcessor {
 	/**
 	 * @inheritDoc
 	 */
-	public function process(FileStream $stream, Metadata $metadata) {
+	public function process(StreamInterface $stream, Metadata $metadata) {
 		if($this->isBlacklisted($metadata->getFilename()))
 			return new ProcessingStatus(ProcessingStatus::REJECTED, 'Extension is blacklisted.');
 
