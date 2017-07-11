@@ -18497,3 +18497,86 @@ while ($rec = $ilDB->fetchAssoc($set))
         array('text','text'), array($new, $old)
     );
 ?>
+<#5088>
+<?php
+	require_once('./Services/Component/classes/class.ilPluginAdmin.php');
+	require_once('./Services/Component/classes/class.ilPlugin.php');
+	require_once('./Services/UICore/classes/class.ilCtrl.php');
+
+	// Mantis #17842
+	/** @var $ilCtrl ilCtrl */
+	global $ilCtrl, $ilPluginAdmin;
+	if (is_null($ilPluginAdmin)) {
+		$GLOBALS['ilPluginAdmin'] = new ilPluginAdmin();
+	}
+	if (is_null($ilCtrl)) {
+		$GLOBALS['ilCtrl'] = new ilCtrl();
+	}
+	global $ilCtrl;
+
+	function writeCtrlClassEntry(ilPluginSlot $slot, array $plugin_data) {
+		global $ilCtrl;
+		$prefix = $slot->getPrefix() . '_' . $plugin_data['id'];
+		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($plugin_data['name']), $prefix);
+	}
+
+	include_once("./Services/Component/classes/class.ilModule.php");
+	$modules = ilModule::getAvailableCoreModules();
+	foreach ($modules as $m) {
+		$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_MODULE, $m["subdir"]);
+		foreach ($plugin_slots as $ps) {
+			include_once("./Services/Component/classes/class.ilPluginSlot.php");
+			$slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
+			foreach ($slot->getPluginsInformation() as $p) {
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+					writeCtrlClassEntry($slot, $p);
+				}
+			}
+		}
+	}
+	include_once("./Services/Component/classes/class.ilService.php");
+	$services = ilService::getAvailableCoreServices();
+	foreach ($services as $s) {
+		$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_SERVICE, $s["subdir"]);
+		foreach ($plugin_slots as $ps) {
+			$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
+			foreach ($slot->getPluginsInformation() as $p) {
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+					writeCtrlClassEntry($slot, $p);
+				}
+			}
+		}
+	}
+?>
+<#5089>
+<?php
+$signature = "\n\n* * * * *\n";
+$signature .= "[CLIENT_NAME]\n";
+$signature .= "[CLIENT_DESC]\n";
+$signature .= "[CLIENT_URL]\n";
+
+$ilSetting = new ilSetting();
+
+$prevent_smtp_globally        = $ilSetting->get('prevent_smtp_globally', 0);
+$mail_system_sender_name      = $ilSetting->get('mail_system_sender_name', '');
+$mail_external_sender_noreply = $ilSetting->get('mail_external_sender_noreply', '');
+$mail_system_return_path      = $ilSetting->get('mail_system_return_path', '');
+
+$ilSetting->set('mail_allow_external', !(int)$prevent_smtp_globally);
+
+$ilSetting->set('mail_system_usr_from_addr', $mail_external_sender_noreply);
+$ilSetting->set('mail_system_usr_from_name', $mail_system_sender_name);
+$ilSetting->set('mail_system_usr_env_from_addr', $mail_system_return_path);
+
+$ilSetting->set('mail_system_sys_from_addr', $mail_external_sender_noreply);
+$ilSetting->set('mail_system_sys_from_name', $mail_system_sender_name);
+$ilSetting->set('mail_system_sys_reply_to_addr', $mail_external_sender_noreply);
+$ilSetting->set('mail_system_sys_env_from_addr', $mail_system_return_path);
+
+$ilSetting->set('mail_system_sys_signature', $signature);
+
+$ilSetting->delete('prevent_smtp_globally');
+$ilSetting->delete('mail_system_return_path');
+$ilSetting->delete('mail_system_sender_name');
+$ilSetting->delete('mail_external_sender_noreply');
+?>

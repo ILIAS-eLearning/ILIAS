@@ -1,9 +1,5 @@
 <?php
 
-require_once "Services/Repository/classes/class.ilObjectPluginGUI.php";
-require_once "Modules/OrgUnit/classes/class.ilObjOrgUnit.php";
-require_once "Modules/OrgUnit/classes/class.ilOrgUnitExplorerGUI.php";
-require_once("./Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtension.php");
 
 /**
  * Class ilOrgUnitExtensionGUI

@@ -3,8 +3,6 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once "Services/Object/classes/class.ilObject2.php";
 require_once "Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
-require_once('./Modules/Bibliographic/classes/Types/Ris/class.ilRis.php');
-require_once('./Modules/Bibliographic/classes/Types/BibTex/class.ilBibTex.php');
 
 /**
  * Class ilObjBibliographic
@@ -85,7 +83,8 @@ class ilObjBibliographic extends ilObject2 {
 	protected function doCreate() {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		$ilDB->manipulate("INSERT INTO il_bibl_data " . "(id, filename, is_online) VALUES (" . $ilDB->quote($this->getId(), "integer") . "," . // id
+		$ilDB->manipulate("INSERT INTO il_bibl_data " . "(id, filename, is_online) VALUES ("
+		                  . $ilDB->quote($this->getId(), "integer") . "," . // id
 		                  $ilDB->quote($this->getFilename(), "text") . "," . // filename
 		                  $ilDB->quote($this->getOnline(), "integer") . // is_online
 		                  ")");
@@ -95,7 +94,8 @@ class ilObjBibliographic extends ilObject2 {
 	protected function doRead() {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		$set = $ilDB->query("SELECT * FROM il_bibl_data " . " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
+		$set = $ilDB->query("SELECT * FROM il_bibl_data " . " WHERE id = "
+		                    . $ilDB->quote($this->getId(), "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			if (!$this->getFilename()) {
 				$this->setFilename($rec["filename"]);
@@ -115,12 +115,12 @@ class ilObjBibliographic extends ilObject2 {
 		}
 		// Delete the object, but leave the db table 'il_bibl_data' for being able to update it using WHERE, and also leave the file
 		$this->doDelete(true, true);
-		$ilDB->manipulate("UPDATE il_bibl_data SET " . "filename = " . $ilDB->quote($this->getFilename(), "text") . ", " . // filename
-		                  "is_online = " . $ilDB->quote($this->getOnline(), "integer") . // is_online
+		$ilDB->manipulate("UPDATE il_bibl_data SET " . "filename = "
+		                  . $ilDB->quote($this->getFilename(), "text") . ", " . // filename
+		                  "is_online = " . $ilDB->quote($this->getOnline(), "integer")
+		                  . // is_online
 		                  " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
-		if ($file_changed) {
-			$this->writeSourcefileEntriesToDb();
-		}
+		$this->writeSourcefileEntriesToDb();
 	}
 
 
@@ -136,16 +136,17 @@ class ilObjBibliographic extends ilObject2 {
 		}
 		//il_bibl_attribute
 		$ilDB->manipulate("DELETE FROM il_bibl_attribute WHERE il_bibl_attribute.entry_id IN "
-		                  . "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = " . $ilDB->quote($this->getId(), "integer")
-		                  . ")");
+		                  . "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = "
+		                  . $ilDB->quote($this->getId(), "integer") . ")");
 		//il_bibl_entry
-		$ilDB->manipulate("DELETE FROM il_bibl_entry WHERE data_id = " . $ilDB->quote($this->getId(), "integer"));
+		$ilDB->manipulate("DELETE FROM il_bibl_entry WHERE data_id = "
+		                  . $ilDB->quote($this->getId(), "integer"));
 		if (!$leave_out_il_bibl_data) {
 			//il_bibl_data
-			$ilDB->manipulate("DELETE FROM il_bibl_data WHERE id = " . $ilDB->quote($this->getId(), "integer"));
+			$ilDB->manipulate("DELETE FROM il_bibl_data WHERE id = "
+			                  . $ilDB->quote($this->getId(), "integer"));
 		}
 		// delete history entries
-		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_removeEntriesForObject($this->getId());
 	}
 
@@ -154,7 +155,8 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return string the folder is: $ILIAS-data-folder/bibl/$id
 	 */
 	public function getFileDirectory() {
-		return ilUtil::getDataDir() . DIRECTORY_SEPARATOR . $this->getType() . DIRECTORY_SEPARATOR . $this->getId();
+		return ilUtil::getDataDir() . DIRECTORY_SEPARATOR . $this->getType() . DIRECTORY_SEPARATOR
+		       . $this->getId();
 	}
 
 
@@ -206,7 +208,8 @@ class ilObjBibliographic extends ilObject2 {
 	public function getFilePath($without_filename = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		$set = $ilDB->query("SELECT filename FROM il_bibl_data " . " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
+		$set = $ilDB->query("SELECT filename FROM il_bibl_data " . " WHERE id = "
+		                    . $ilDB->quote($this->getId(), "integer"));
 		$rec = $ilDB->fetchAssoc($set);
 		{
 			if ($without_filename) {
@@ -235,7 +238,8 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * @return string returns the absolute filepath of the bib/ris file. it's build as follows: $ILIAS-data-folder/bibl/$id/$filename
+	 * @return string returns the absolute filepath of the bib/ris file. it's build as follows:
+	 *                $ILIAS-data-folder/bibl/$id/$filename
 	 */
 	public function getFileAbsolutePath() {
 		return $this->getFileDirectory() . DIRECTORY_SEPARATOR . $this->getFilename();
@@ -311,7 +315,7 @@ class ilObjBibliographic extends ilObject2 {
 	 *
 	 * @param ilObjBibliographic $new_obj
 	 * @param                    $a_target_id
-	 * @param int $a_copy_id copy id
+	 * @param int                $a_copy_id copy id
 	 *
 	 * @return ilObjPoll
 	 */
@@ -331,7 +335,8 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * @description Attention only use this for objects who have not yet been created (use like: $x = new ilObjDataCollection;
+	 * @description Attention only use this for objects who have not yet been created (use like: $x
+	 *              = new ilObjDataCollection;
 	 *              $x->cloneStructure($id))
 	 *
 	 * @param $original_id The original ID of the dataselection you want to clone it's structure
@@ -399,7 +404,8 @@ class ilObjBibliographic extends ilObject2 {
 				//if (mb_strlen($attribute, 'UTF-8') > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) {
 				if (ilStr::strLen($attribute) > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) {
 					// $attribute = mb_substr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3, 'UTF-8') . '...';
-					$attribute = ilStr::subStr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3) . '...';
+					$attribute = ilStr::subStr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH
+					                                          - 3) . '...';
 				}
 				// ty (RIS) or entryType (BIB) is the type and is treated seperately
 				if (strtolower($key) == 'ty' || strtolower($key) == 'entrytype') {

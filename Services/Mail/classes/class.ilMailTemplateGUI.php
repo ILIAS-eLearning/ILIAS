@@ -352,9 +352,11 @@ class ilMailTemplateGUI
 
 	public function getAjaxPlaceholdersById()
 	{
-		$context_id = ilUtil::stripSlashes($_GET['context_id']);
+		$context_id = ilUtil::stripSlashes($_GET['triggerValue']);
 		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
-		$placeholders = new ilManualPlaceholderInputGUI($this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false));
+		$placeholders = new ilManualPlaceholderInputGUI('m_message');
+		$placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
+		$placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
 		$context = ilMailTemplateService::getTemplateContextById($context_id);
 		foreach( $context->getPlaceholders() as $key => $value)
 		{
@@ -440,8 +442,10 @@ class ilMailTemplateGUI
 		$form->addItem($message);
 
 		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
-		$placeholders = new ilManualPlaceholderInputGUI($this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false));
-		
+		$placeholders = new ilManualPlaceholderInputGUI('m_message');
+		$placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
+		$placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
+		$placeholders->supportsRerenderSignal('context', $this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false));
 		if( $template === null )
 		{
 			$context_id = $generic_context->getId();

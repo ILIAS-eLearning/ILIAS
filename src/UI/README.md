@@ -203,24 +203,38 @@ If you would like to implement a new component to the framework you should perfo
     public function demo($demo){}
     ```
 
-6. Congratulations, at this point you are ready to present your work to the JF.
- However, it would be wise to enhence your work with a little mockup. This makes
- it much easier to discuss the new component at the JF. So best create such an example
- located e.g. at src/UI/examples/Demo/html.php:
+6. Congratulations, at this point you are ready to present your work to the JF. Create
+ a PR named "UI NameOfTheComponent". To make it easy for non-developers to
+ follow the discussion, you MUST link to the changed/added factory classes and mock in the
+ description you provide for your PR. Further, it would be wise to enhance your work
+ with a little mockup. This makes it much easier to discuss the new component at the
+ JF. So best create such an example located and also link it in your comment, e.g. at
+ src/UI/examples/Demo/mockup.php:
     ``` php
     <?php
-    function html() {
+    function mockup() {
         return "<h1>Hello Demo!</h1>";
     }
     ```
-   If needed, you can also add JS-logic (e.g. src/UI/examples/Demo/html.php):
+   If needed, you can also add JS-logic (e.g. src/UI/examples/Demo/mockup.php):
     ``` php
     <?php
     function script() {
         return "<script>console.log('Hello Demo');</script>Open your JS console!";
     }
     ```
+   However best might be to just provide a screenshoot showing what the component will
+   look like:
+    ``` php
+    function mockup() {
+	    global $DIC;
+ 	    $f = $DIC->ui()->factory();
+ 	    $renderer = $DIC->ui()->renderer();
 
+ 	    $mockup = $f->image()->responsive("src/UI/examples/Demo/mockup.png");
+ 	    return $renderer->render($mockup);
+    }
+    ```
 
 7. Next you should create the necessary tests for the new component. At least provide tests
   for all interface methods and the rendering.
@@ -344,8 +358,7 @@ If you would like to implement a new component to the framework you should perfo
     <h1 class="il-demo">{CONTENT}</h1>
      ```
 12. Execute the UI tests again. At this point, everything should pass. Thanks, you just made ILIAS more powerful!
-13. Create a PR and hope for mercy.
-14. Optional: It is possible good to add an examples demonstrating the usage of your new component.
+13. Optional: It is possible good to add an examples demonstrating the usage of your new component.
   The example for the demo looks as follows (located at src/UI/examples/Demo/render.php):
     ``` php
       <?php
@@ -361,7 +374,7 @@ If you would like to implement a new component to the framework you should perfo
           return $renderer->render($demo);
       }
     ```
-15. Optional: You might need to add some less, to make your new component look nice. However, only do that
+14. Optional: You might need to add some less, to make your new component look nice. However, only do that
  if this is really required. Use bootstrap classes as much as possible. If you really need to add
  additional less, use existing less variables whenever appropriate. If you add a new variable, add the il- prefix
  to mark the as special ILIAS less variable and provide the proper description. For the demo this could look as
@@ -371,12 +384,12 @@ If you would like to implement a new component to the framework you should perfo
      color: @il-demo-color;
     }
     ```
-16. Include the new less file to delos (located at templates/default/less/delos.less):
+15. Include the new less file to delos (located at templates/default/less/delos.less):
     ``` less
     @import "@{uibase}Demo/demo.less";
     ```
 
-17. Optional add the new variables to the variables.less file (located at templates/default/less/variables.less):
+16. Optional add the new variables to the variables.less file (located at templates/default/less/variables.less):
     ``` less
     //== Demo Component
     //
@@ -384,7 +397,7 @@ If you would like to implement a new component to the framework you should perfo
     //** Color of the text shown in the demo
     @il-demo-color: @brand-danger;
     ```
-18. Optional: Recompile the less to see the effect by typing lessc templates/default/delos.less > templates/default/delos.css
+17. Optional: Recompile the less to see the effect by typing lessc templates/default/delos.less > templates/default/delos.css
 
 
 ### How to Change an Existing Component?
