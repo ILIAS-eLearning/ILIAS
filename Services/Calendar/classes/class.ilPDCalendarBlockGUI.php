@@ -32,7 +32,7 @@ include_once("Services/Calendar/classes/class.ilCalendarBlockGUI.php");
 * @ilCtrl_IsCalledBy ilPDCalendarBlockGUI: ilColumnGUI
 * @ilCtrl_Calls ilPDCalendarBlockGUI: ilCalendarDayGUI, ilCalendarAppointmentGUI
 * @ilCtrl_Calls ilPDCalendarBlockGUI: ilCalendarMonthGUI, ilCalendarWeekGUI, ilCalendarInboxGUI
-* @ilCtrl_Calls ilPDCalendarBlockGUI: ilConsultationHoursGUI
+* @ilCtrl_Calls ilPDCalendarBlockGUI: ilConsultationHoursGUI, ilCalendarAppointmentPresentationGUI
 *
 * @ingroup ServicesCalendar
 */
@@ -52,6 +52,27 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 		$this->initCategories();
 		$this->setBlockId(0);
 	}
+
+	/**
+	 * execute command
+	 */
+	//TODO execute command.
+	/*
+	function executeCommand()
+	{
+		global $ilCtrl;
+
+		$next_class = $ilCtrl->getNextClass();
+
+		switch ($next_class)
+		{
+			case "ilcalendarappointmentpresentationgui":
+				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php');
+				$presentation = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $this->appointment);
+				$ilCtrl->forwardCommand($presentation);
+				break;
+		}
+	}*/
 	
 	/**
 	* Get block type

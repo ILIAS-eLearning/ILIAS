@@ -33,7 +33,7 @@ include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
 * @ilCtrl_IsCalledBy ilCalendarBlockGUI: ilColumnGUI
 * @ilCtrl_Calls ilCalendarBlockGUI: ilCalendarDayGUI, ilCalendarAppointmentGUI
 * @ilCtrl_Calls ilCalendarBlockGUI: ilCalendarMonthGUI, ilCalendarWeekGUI, ilCalendarInboxGUI
-* @ilCtrl_Calls ilCalendarBlockGUI: ilConsultationHoursGUI
+* @ilCtrl_Calls ilCalendarBlockGUI: ilConsultationHoursGUI, ilCalendarAppointmentPresentationGUI
 *
 * @ingroup ServicesCalendar
 */
@@ -233,6 +233,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				include_once('./Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursGUI.php');
 				$hours = new ilConsultationHoursGUI($this->seed);
 				$ilCtrl->forwardCommand($hours);
+				break;
+
+			case "ilcalendarappointmentpresentationgui":
+				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php');
+				$presentation = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $this->appointment);
+				$ilCtrl->forwardCommand($presentation);
 				break;
 
 			default:
@@ -863,7 +869,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		
 	function getData()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$f = $DIC->ui()->factory();
+		$renderer = $DIC->ui()->renderer();
 							
 		$seed = new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
 		
@@ -876,7 +887,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		
 		$data = array();
 		if(sizeof($events))
-		{			
+		{
+
 			foreach($events as $item)
 			{			
 				$start = $item["dstart"];
@@ -896,14 +908,18 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				$ilCtrl->setParameterByClass('ilcalendardaygui','seed',$start->get(IL_CAL_DATE));
 				$link = $ilCtrl->getLinkTargetByClass('ilcalendardaygui','');
 				$ilCtrl->clearParametersByClass('ilcalendardaygui');
-			
+
+				//TODO create only one modal and deliver the content async.
+				$modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($start, $end),$f->legacy($this->getModalContent($item)));
+
+
 				$data[] = array(	
 					"date" =>  ilDatePresentation::formatPeriod($start, $end),
 					"title" => $item["event"]->getPresentationTitle(),			
-					"url" => $link
-					);				
-			}			
-			
+					"url" => $link,
+					"shy_button" => $renderer->render([$f->button()->shy($item["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal()), $modal])
+					);
+			}
 			$this->setEnableNumInfo(true);
 		}
 		else
@@ -918,6 +934,17 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		
 		return $data;
+	}
+
+	public function getModalContent($a_app)
+	{
+		global $DIC;
+
+		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php');
+		$next_gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $a_app);
+		$this->appointment = $a_app;
+
+		return $DIC->ctrl()->getHTML($next_gui);
 	}
 }
 
