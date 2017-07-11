@@ -13,16 +13,21 @@ include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppoin
  */
 class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
+	protected $lng;
+	protected $ctrl;
 
 	public function getHTML()
 	{
-		global $lng, $ilCtrl,$DIC;
+		global $DIC;
 
 		$a_infoscreen = $this->getInfoScreen();
 		$a_app = $this->appointment;
 
 		$f = $DIC->ui()->factory();
 		$r = $DIC->ui()->renderer();
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
 
 		include_once "./Modules/Course/classes/class.ilObjCourse.php";
 		include_once "./Modules/Course/classes/class.ilCourseFile.php";
@@ -42,38 +47,38 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 		$a_infoscreen->addSection($cat_info['title']);
 
 		if ($a_app['event']->getDescription()) {
-			$a_infoscreen->addProperty($lng->txt("description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
+			$a_infoscreen->addProperty($this->lng->txt("description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
 		}
-		$a_infoscreen->addProperty($lng->txt(ilObject::_lookupType($cat_info['obj_id'])), $description_text);
+		$a_infoscreen->addProperty($this->lng->txt(ilObject::_lookupType($cat_info['obj_id'])), $description_text);
 
-		$a_infoscreen->addSection($lng->txt((ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
+		$a_infoscreen->addSection($this->lng->txt((ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 
 		if($crs->getImportantInformation())
 		{
-			$a_infoscreen->addProperty($lng->txt("crs_important_info"), $crs->getImportantInformation());
+			$a_infoscreen->addProperty($this->lng->txt("crs_important_info"), $crs->getImportantInformation());
 		}
 
 		if($crs->getSyllabus())
 		{
-			$a_infoscreen->addProperty($lng->txt("crs_syllabus"), $crs->getSyllabus());
+			$a_infoscreen->addProperty($this->lng->txt("crs_syllabus"), $crs->getSyllabus());
 		}
 
 		if (count($files)) {
 			$tpl = new ilTemplate('tpl.event_info_file.html', true, true, 'Modules/Course');
 			foreach ($files as $file) {
 				$tpl->setCurrentBlock("files");
-				$ilCtrl->setParameter($this, 'file_id', $file->getFileId());
-				$ilCtrl->setParameterByClass('ilobjcoursegui','file_id', $file->getFileId());
-				$ilCtrl->setParameterByClass('ilobjcoursegui','ref_id', $crs_ref_id);
-				$tpl->setVariable("DOWN_LINK",$ilCtrl->getLinkTargetByClass(array("ilRepositoryGUI","ilobjcoursegui"),'sendfile'));
+				$this->ctrl->setParameter($this, 'file_id', $file->getFileId());
+				$this->ctrl->setParameterByClass('ilobjcoursegui','file_id', $file->getFileId());
+				$this->ctrl->setParameterByClass('ilobjcoursegui','ref_id', $crs_ref_id);
+				$tpl->setVariable("DOWN_LINK",$this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI","ilobjcoursegui"),'sendfile'));
 				$tpl->setVariable("DOWN_NAME", $file->getFileName());
-				$tpl->setVariable("DOWN_INFO_TXT", $lng->txt('crs_file_size_info'));
+				$tpl->setVariable("DOWN_INFO_TXT", $this->lng->txt('crs_file_size_info'));
 				$tpl->setVariable("DOWN_SIZE", $file->getFileSize());
-				$tpl->setVariable("TXT_BYTES", $lng->txt('bytes'));
+				$tpl->setVariable("TXT_BYTES", $this->lng->txt('bytes'));
 				$tpl->parseCurrentBlock();
-				$ilCtrl->setParameterByClass('ilobjcoursegui','ref_id', $_GET["ref_id"]);
+				$this->ctrl->setParameterByClass('ilobjcoursegui','ref_id', $_GET["ref_id"]);
 			}
-			$a_infoscreen->addProperty($lng->txt("files"), $tpl->get());
+			$a_infoscreen->addProperty($this->lng->txt("files"), $tpl->get());
 		}
 
 		// tutorial support members
@@ -93,7 +98,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 				}
 				$str .= $r->render($f->button()->shy(ilObjUser::_lookupFullname($contact), $href));
 			}
-			$a_infoscreen->addProperty($lng->txt("crs_mem_contacts"),$str);
+			$a_infoscreen->addProperty($this->lng->txt("crs_mem_contacts"),$str);
 		}
 
 		//course contact
@@ -136,7 +141,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 		}
 
 		if($crs->getContactPhone()) {
-			$str .=$lng->txt("crs_contact_phone").": ".$crs->getContactPhone()."<br>";
+			$str .=$this->lng->txt("crs_contact_phone").": ".$crs->getContactPhone()."<br>";
 		}
 		if($crs->getContactResponsibility()) {
 			$str .=$crs->getContactResponsibility()."<br>";
@@ -146,15 +151,22 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 		}
 
 		if($str != ""){
-			$a_infoscreen->addProperty($lng->txt("crs_contact"), $str);
+			$a_infoscreen->addProperty($this->lng->txt("crs_contact"), $str);
 		}
 
-		// fill toolbar (example)
+		// fill toolbar
 		$toolbar = $this->getToolbar();
-		$toolbar->addSeparator();
-		$toolbar->addButton("Download all Files", "www.ilias.de");
-		$toolbar->addButton("Open Course", "www.ilias.de");
 
+		//example download all files
+		$btn_download = ilLinkButton::getInstance();
+		$btn_download->setCaption($this->lng->txt("cal_download_all_files"));
+		$btn_download->setUrl("www.ilias.de");
+		$toolbar->addButtonInstance($btn_download);
+
+		$btn_open = ilLinkButton::getInstance();
+		$btn_open->setCaption($this->lng->txt("cal_crs_open"));
+		$btn_open->setUrl(ilLink::_getStaticLink($crs_ref_id, "crs"));
+		$toolbar->addButtonInstance($btn_open);
 
 	}
 }
