@@ -15990,3 +15990,6 @@ style#:#scope#:#Gültigkeitsbereich
 skmg#:#skmg_eval_type_1#:#Fremdeinschätzung
 skmg#:#skmg_eval_type_2#:#Messung
 skmg#:#skmg_eval_type_3#:#Selbsteinschätzung
+user#:#user_profile_info#:#Infotext Benutzerprofil
+user#:#user_profile_info_text_info#:#Dieser Text erscheint über dem Eingabeformular der persönlichen Daten.
+user#:#user_make_profile_public#:#Profil veröffentlichen

@@ -54,7 +54,7 @@ class ilUserProfileInfoSettingsGUI
 		switch ($next_class)
 		{
 			default:
-				if (in_array($cmd, array("show")))
+				if (in_array($cmd, array("show", "save")))
 				{
 					$this->$cmd();
 				}
@@ -79,22 +79,65 @@ class ilUserProfileInfoSettingsGUI
 	public function initForm()
 	{
 		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+
+		$lng->loadLanguageModule("meta");
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 
-		// info text
-		include_once("Services/Form/classes/class.ilTextAreaMultiLangInputGUI.php");
-		$ti = new ilTextAreaMultiLangInputGUI($this->lng->txt("user_profile_info_text"), "user_profile_info_text");
-		$ti->setInfo($this->lng->txt("user_profile_info_text_info"));
-		$form->addItem($ti);
+		$setting = new ilSetting("user");
+
+		$first = true;
+		foreach ($lng->getInstalledLanguages() as $l)
+		{
+			// info text
+			include_once("Services/Form/classes/class.ilTextAreaInputGUI.php");
+			$ti = new ilTextAreaInputGUI($lng->txt("meta_l_".$l), "user_profile_info_text_".$l);
+			$ti->setRows(7);
+			if ($first)
+			{
+				$ti->setInfo($lng->txt("user_profile_info_text_info"));
+			}
+			$first = false;
+			$ti->setValue($setting->get("user_profile_info_".$l));
+			$form->addItem($ti);
+		}
 
 		$form->addCommandButton("save", $lng->txt("save"));
 
-		$form->setTitle($lng->txt("user_profile_info_settings"));
-		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($lng->txt("user_profile_info"));
+		$form->setFormAction($ctrl->getFormAction($this));
 
 		return $form;
+	}
+
+	/**
+	 * Save
+	 */
+	public function save()
+	{
+		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+		$tpl = $this->tpl;
+
+		$form = $this->initForm();
+		if ($form->checkInput())
+		{
+			$setting = new ilSetting("user");
+			foreach ($lng->getInstalledLanguages() as $l)
+			{
+				$setting->set("user_profile_info_".$l, $form->getInput("user_profile_info_text_".$l));
+			}
+
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ctrl->redirect($this, "show");
+		}
+		else
+		{
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHtml());
+		}
 	}
 
 }

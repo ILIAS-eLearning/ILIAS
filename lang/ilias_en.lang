@@ -13545,3 +13545,6 @@ style#:#scope#:#Scope
 skmg#:#skmg_eval_type_1#:#Appraisal
 skmg#:#skmg_eval_type_2#:#Measurement
 skmg#:#skmg_eval_type_3#:#Self-Evaluation
+user#:#user_profile_info#:#User Profile Info
+user#:#user_profile_info_text_info#:#This text is presented on top of the form for entering personal data.
+user#:#user_make_profile_public#:#Publish Profile
