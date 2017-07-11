@@ -19,6 +19,8 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 	{
 		global $DIC;
 
+		include_once('./Services/Link/classes/class.ilLink.php');
+
 		$a_infoscreen = $this->getInfoScreen();
 		$a_app = $this->appointment;
 
@@ -38,7 +40,6 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 
 		// get course ref id (this is possible, since courses only have one ref id)
 		$refs = ilObject::_getAllReferences($cat_info['obj_id']);
-		include_once('./Services/Link/classes/class.ilLink.php');
 		$crs_ref_id = current($refs);
 
 		if(ilObject::_lookupDescription($cat_info['obj_id']) != "") {

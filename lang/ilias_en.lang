@@ -13555,4 +13555,7 @@ dateplaner#:#cal_crs_open#:#Open Course
 dateplaner#:#cal_grp_info#:#Group Information
 dateplaner#:#cal_exc_info#:#Assignment Information
 dateplaner#:#cal_exc_instruction#:#Work Instruction
+dateplaner#:#cal_exc_pass_mode#:#Pass Mode
+dateplaner#:#cal_exc_pass_mode_mandatory#:#Mandatory Assignment
+dateplaner#:#cal_exc_pass_mode_no_mandatory#:#Not Mandatory Assignment
 dateplaner#:#cal_sess_info#:#Session Information

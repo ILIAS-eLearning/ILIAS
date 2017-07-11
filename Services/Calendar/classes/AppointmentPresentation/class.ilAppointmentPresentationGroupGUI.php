@@ -26,6 +26,9 @@ class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI imp
 
 		$grp = new ilObjGroup($cat_info['obj_id'], false);
 
+		$refs = ilObject::_getAllReferences($cat_info['obj_id']);
+		$grp_ref_id = current($refs);
+
 		$description_text = $cat_info['title'] . ", " . ilObject::_lookupDescription($cat_info['obj_id']);
 		$a_infoscreen->addSection($cat_info['title']);
 
@@ -40,7 +43,20 @@ class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI imp
 			$a_infoscreen->addProperty($this->lng->txt("crs_important_info"), $grp->getInformation());
 		}
 
-		return $a_infoscreen;
+		// fill toolbar
+		$toolbar = $this->getToolbar();
+
+		//example download all files
+		$btn_download = ilLinkButton::getInstance();
+		$btn_download->setCaption($this->lng->txt("cal_download_all_files"));
+		$btn_download->setUrl("www.ilias.de");
+		$toolbar->addButtonInstance($btn_download);
+
+		$btn_open = ilLinkButton::getInstance();
+		$btn_open->setCaption($this->lng->txt("cal_grp_open"));
+		$btn_open->setUrl(ilLink::_getStaticLink($grp_ref_id, "grp"));
+		$toolbar->addButtonInstance($btn_open);
+
 	}
 
 }
