@@ -13,7 +13,7 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * 
 * @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipMailGUI
-* @ilCtrl_Calls ilObjSessionGUI:  ilLearningProgressGUI, ilSessionMembershipGUI
+* @ilCtrl_Calls ilObjSessionGUI:  ilLearningProgressGUI, ilSessionMembershipGUI, ilObjectMetaDataGUI
 *
 * @ingroup ModulesSession 
 */
@@ -90,6 +90,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->checkPermission("visible");
 				$this->infoScreen();	// forwards command
 				break;
+			
+			case 'ilobjectmetadatagui';
+				$this->checkPermission('write');
+				$this->tabs_gui->setTabActive('meta_data');
+				$md_gui = new ilObjectMetaDataGUI($this->object);	
+				$this->ctrl->forwardCommand($md_gui);
+				break;
+			
 
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
@@ -484,6 +492,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 							   nl2br($this->object->getDetails()));
 		}
 		
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO,'sess',$this->object->getId());
+		$record_gui->setInfoObject($info);
+		$record_gui->parse();
+		
+		// meta data
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+		
+		
 		// Tutor information
 		if($this->object->hasTutorSettings())
 		{
@@ -616,6 +632,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$ilErr->setMessage($this->lng->txt('err_check_input'));
 		}
 		
+		if(!$this->record_gui->importEditFormPostValues())
+		{
+			$ilErr->setMessage($this->lng->txt('err_check_input'));
+		}
+		
 		$this->load();
 		$this->loadRecurrenceSettings();
 				
@@ -634,6 +655,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->createReference();
 		$this->object->putInTree($_GET["ref_id"]);
 		$this->object->setPermissions($_GET["ref_id"]);
+		
+		$this->record_gui->writeEditForm($this->object->getId());
+		
 		
 		// apply didactic template?
 		$dtpl = $this->getDidacticTemplateVar("dtpl");
@@ -852,6 +876,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$ilErr->setMessage($this->lng->txt('err_check_input'));
 		}
 		
+		if(!$this->record_gui->importEditFormPostValues())
+		{
+			$ilErr->setMessage($this->lng->txt('err_check_input'));
+		}
+		
+		
 		$this->load();
 		
 		$this->object->validate();
@@ -865,8 +895,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		// Update event
 		$this->object->update();
-		$this->object->getFirstAppointment()->update();				
-		
+		$this->object->getFirstAppointment()->update();
+
+		$this->record_gui->writeEditForm();
 		$this->handleFileUpload();
 		
 		// if autofill has been activated trigger process
@@ -1413,6 +1444,16 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$details->setRows(4);
 		$this->form->addItem($details);
 
+		
+		$this->record_gui = new ilAdvancedMDRecordGUI(
+			ilAdvancedMDRecordGUI::MODE_EDITOR,
+			'sess',
+			$this->object->getId()
+		);
+		$this->record_gui->setPropertyForm($this->form);
+		$this->record_gui->parse();
+		
+
 		// section
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('event_tutor_data'));
@@ -1727,6 +1768,22 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				'',
 				array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
+		
+		// meta data
+		if ($ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI($this->object);					
+			$mdtab = $mdgui->getTab();
+			if($mdtab)
+			{
+				$this->tabs_gui->addTarget("meta_data",
+									 $mdtab,
+									 "",
+									 "ilobjectmetadatagui");
+			}
+		}
+		
 
 		// export
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))

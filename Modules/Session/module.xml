@@ -5,7 +5,7 @@
 	</baseclasses>
 	<objects>
 		<object id="sess" class_name="Session" dir="classes" default_pos="15" default_pres_pos="15"
-			checkbox="1" inherit="0" translate="0" rbac="1" allow_link="0" allow_copy="1" export="1">
+			checkbox="1" inherit="0" translate="0" rbac="1" allow_link="0" allow_copy="1" export="1" amet="1">
 			<parent id="crs">crs</parent>
 			<parent id="recf">recf</parent>
 			<parent id="grp">grp</parent>
