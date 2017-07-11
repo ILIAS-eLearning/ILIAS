@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+// declare(strict_types=1);
 
 require_once('./Services/Object/classes/class.ilObject2.php');
 
