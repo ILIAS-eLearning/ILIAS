@@ -407,9 +407,13 @@ il.Form = {
 		//var content_raw = ed.getContent({ format: 'raw' }); // whitespaces and br issues. (first whitespace creates br etc.)
 		var content_raw = ed.getContent({ format: 'raw' });
 		var content = content_raw.replace(/<\/?[^>]+(>|$)/g, "");
-		//20630
-		var content_no_spaces = content.replace(/&nbsp;/g, " ");
-		var text_length = content_no_spaces.length;
+		// #20630, #20674
+		content = content.replace(/&nbsp;/g, " ");
+		content = content.replace(/&lt;/g, "<");
+		content = content.replace(/&gt;/g, ">");
+		content = content.replace(/&amp;/g, "&");
+		console.log(content);
+		var text_length = content.length;
 
 		var max_limit = $('#textarea_feedback_'+ed.id).data("maxchars");
 		if(max_limit > 0) {
