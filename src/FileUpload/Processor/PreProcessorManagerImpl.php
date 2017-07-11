@@ -9,6 +9,9 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
 /**
  * Class PreProcessorManagerImpl
  *
+ * A pool of preprocessors which can be executed for a particular stream.
+ * If once of the processors fail while processing a stream, it will get rejected to protect ILIAS.
+ *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @since 5.3
  * @version 1.0
