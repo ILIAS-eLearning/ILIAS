@@ -160,7 +160,7 @@ class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function writeStream($path, FileStream $stream) {
+	public function writeStream($path, StreamInterface $stream) {
 		$this->fileStreamAccess->writeStream($path, $stream);
 	}
 
