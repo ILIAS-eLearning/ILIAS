@@ -77,7 +77,7 @@ class ilMailOptions
     	global $ilDB, $ilSetting;
     		
 	    $incomingMail = $ilSetting->get('mail_incoming_mail') ? $ilSetting->get('mail_incoming_mail'): IL_MAIL_LOCAL;
-	    $mail_address_option = $ilSetting->get('mail_address_option') ? $ilSetting->get('mail_address_option'): IL_MAIL_FIRST_EMAIL;
+	    $mail_address_option = $ilSetting->get('mail_address_option') ? $ilSetting->get('mail_address_option') : IL_MAIL_FIRST_EMAIL;
 	    $ilDB->insert('mail_options',
 				array(
 						'user_id'              => array('integer', $this->user_id),

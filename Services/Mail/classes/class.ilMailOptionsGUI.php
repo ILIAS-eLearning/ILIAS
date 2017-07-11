@@ -205,5 +205,3 @@ class ilMailOptionsGUI
 		$this->form->addCommandButton('saveOptions', $lng->txt('save'));
 	}
 }
-
-?>
