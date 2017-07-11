@@ -26,15 +26,17 @@ class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI impl
 
 	public function getHTML()
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
 
 		$a_infoscreen = $this->getInfoScreen();
 		$a_app = $this->appointment;
 
-		global $lng, $ilCtrl, $DIC;
 
 		$f = $DIC->ui()->factory();
 		$r = $DIC->ui()->renderer();
+
+		$lng = $DIC->language();
+		$ctrl = $DIC->ctrl();
 
 		$cat_id = $this->getCatId($a_app['event']->getEntryId());
 		$cat_info = $this->getCatInfo($cat_id);
@@ -46,12 +48,12 @@ class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI impl
 			$a_infoscreen->addProperty($lng->txt("description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
 		}
 
-		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'category_id', $cat_id);
-		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'seed',$this->getSeed());
+		$ctrl->setParameterByClass("ilcalendarcategorygui",'category_id', $cat_id);
+		$ctrl->setParameterByClass("ilcalendarcategorygui",'seed',$this->getSeed());
 
 		// link to calendar
 		$a_infoscreen->addProperty($lng->txt("cal_origin"),	$r->render($f->button()->shy($cat_info['title'],
-			$ilCtrl->getLinkTargetByClass(array("ilPersonalDesktopGUI", "ilCalendarPresentationGUI", "ilcalendarcategorygui"), 'details'))));
+			$ctrl->getLinkTargetByClass(array("ilPersonalDesktopGUI", "ilCalendarPresentationGUI", "ilcalendarcategorygui"), 'details'))));
 
 		// link to user profile: todo: check if profile is really public
 		include_once('./Services/Link/classes/class.ilLink.php');
@@ -65,7 +67,29 @@ class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI impl
 			$a_infoscreen->addProperty($lng->txt("location"), ilUtil::makeClickable(nl2br($a_app['event']->getLocation())));
 		}
 
-		$a_infoscreen->addProperty($lng->txt("cal_user_notification"), "DUMMY TEXT, I DON'T KNOW WHAT IS THIS USER NOTIFICATION INFO.");
+		//user notifications
+		include_once './Services/Calendar/classes/class.ilCalendarUserNotification.php';
+
+		$notification = new ilCalendarUserNotification($a_app['event']->getEntryId());
+
+		$recipients = $notification->getRecipients();
+		if(count($recipients) > 0)
+		{
+			$str_notification = "";
+			foreach($recipients as $rcp)
+			{
+				switch ($rcp['type'])
+				{
+					case ilCalendarUserNotification::TYPE_USER:
+						$str_notification.=ilObjUser::_lookupLogin($rcp['usr_id'])."<br>";
+						break;
+					case ilCalendarUserNotification::TYPE_EMAIL:
+						$str_notification.=$rcp['email']."<br>";
+						break;
+				}
+			}
+			$a_infoscreen->addProperty($lng->txt("cal_user_notification"), $str_notification);
+		}
 	}
 
 }
