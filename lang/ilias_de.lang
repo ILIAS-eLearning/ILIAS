@@ -15987,3 +15987,25 @@ rbac#:#file_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen
 rbac#:#stys_sty_write_content#:#Content-Styles bearbeiten
 style#:#manage_system_styles#:#System Styles verwalten
 style#:#scope#:#Gültigkeitsbereich
+common#:#file_order#:#File Order
+exc#:#exc_work_instructions#:#Arbeitsanweisung
+exc#:#exc_after_submission#:#Nach der Abgabe
+exc#:#exc_schedule#:#Terminplan
+exc#:#exc_submit_convenience_no_deadline#:#Submit your at your convenience. There is no  specific  deadline.
+exc#:#exc_select_portfolio_unlink#:#Remove Portfolio
+exc#:#exc_sure_unlink_portfolio#:#Are you sure to remove this portfolio form this assignment?
+exc#:#exc_portfolio_unlinked_from_assignment#:#Portfolio removed from this assignment
+exc#:#exc_template#:#Template
+exc#:#exc_portfolio_template#:#Portfolio Template
+exc#:#exc_without_template#:#Without Portfolio - Template
+exc#:#exc_with_template#:#With Portfolio - Template
+exc#:#exc_without_template_info#:#Participants will create their Portfolio from scratch
+exc#:#exc_with_template_info#:#An empty Portfolio will be automatically derived from a specific Portfolio Template.
+exc#:#exc_no_portfolio_templates#:#There are no Portfolio Templates available.
+exc#:#exc_go_to_exercise#:#Go to Exercise
+exc#:#exc_limit_characters#:#Anzahl der Zeichen beschränken
+exc#:#exc_min_char_limit#:#Mindestanzahl Zeichen
+exc#:#exc_max_char_limit#:#Höchstanzahl Zeichen
+exc#:#exc_chars_remaining#:#Characters remaining:
+exc#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
+exc#:#msg_input_char_limit_max#:#You have entered more characters than allowed.
