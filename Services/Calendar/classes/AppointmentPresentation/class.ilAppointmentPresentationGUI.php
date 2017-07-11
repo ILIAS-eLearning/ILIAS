@@ -15,6 +15,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 	protected $toolbar;
 	protected $appointment;
 	protected $infoscreen;
+	protected $lng;
 
 	/**
 	 * 
@@ -24,9 +25,12 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 	 */
 	function __construct($a_appointment, $a_info_screen, $a_toolbar)
 	{
+		global $DIC;
 		$this->appointment = $a_appointment;
 		$this->infoscreen = $a_info_screen;
 		$this->toolbar = $a_toolbar;
+		$this->lng = $DIC->language();
+		$this->lng->loadLanguageModule("dateplaner");
 	}
 	
 	

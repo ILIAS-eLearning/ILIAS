@@ -16,8 +16,6 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 
 	public function getHTML()
 	{
-		global $lng;
-
 		$a_infoscreen = $this->getInfoScreen();
 		$a_app = $this->appointment;
 
@@ -32,10 +30,10 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 		$a_infoscreen->addSection($cat_info['title']);
 
 		if ($a_app['event']->getDescription()) {
-			$a_infoscreen->addProperty($lng->txt("description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
+			$a_infoscreen->addProperty($this->lng->txt("cal_description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
 		}
-		$a_infoscreen->addProperty($lng->txt(ilObject::_lookupType($cat_info['obj_id'])), $description_text);
+		$a_infoscreen->addProperty($this->lng->txt(ilObject::_lookupType($cat_info['obj_id'])), $description_text);
 
-		$a_infoscreen->addSection($lng->txt((ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
+		$a_infoscreen->addSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 	}
 }

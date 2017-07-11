@@ -16,7 +16,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 
 	public function getHTML()
 	{
-		global $lng, $ilCtrl, $DIC;
+		global $DIC;
 
 		include_once "./Modules/Exercise/classes/class.ilObjExercise.php";
 
@@ -37,19 +37,19 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		//TODO: Fix this link
 		include_once('./Services/Link/classes/class.ilLink.php');
 		$href = ilLink::_getStaticLink($cat_info['obj_id'], "exc");
-		$a_infoscreen->addProperty($lng->txt("cal_origin"),$r->render($f->button()->shy($exc_obj->getPresentationTitle(), $href)));
+		$a_infoscreen->addProperty($this->lng->txt("cal_origin"),$r->render($f->button()->shy($exc_obj->getPresentationTitle(), $href)));
 
 		//parent course or group title
 		$parent_title = ilObject::_lookupTitle(ilObject::_lookupObjectId($_GET['ref_id']));
-		$a_infoscreen->addProperty($lng->txt("cal_contained_in"),$parent_title);
+		$a_infoscreen->addProperty($this->lng->txt("cal_contained_in"),$parent_title);
 
 		//Assignment title information
-		$a_infoscreen->addSection($lng->txt((ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
+		$a_infoscreen->addSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 
 		//TODO Work instructions of the assignment...
 		//var_dump($a_app); exit;
 		$ass_id = $a_app["event"]->getContextId() / 10;			// see ilExAssignment->handleCalendarEntries $dl parameter
-		$a_infoscreen->addProperty($lng->txt("exc_instruction"), "OK I NEED THE ASSIGNMENT $ass_id AND THEN GET THE WORK INSTRUCTIONS");
+		$a_infoscreen->addProperty($this->lng->txt("cal_exc_instruction"), "OK I NEED THE ASSIGNMENT $ass_id AND THEN GET THE WORK INSTRUCTIONS");
 	}
 
 }

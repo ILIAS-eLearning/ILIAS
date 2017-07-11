@@ -13542,10 +13542,17 @@ rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#stys_sty_write_content#:#Edit Content Styles
 style#:#manage_system_styles#:#Manage System Styles
 style#:#scope#:#Scope
-common#:#crs_info#:#Course Information
-common#:#grp_info#:#Group Information
-common#:#exc_info#:#Assignment Information
-common#:#sess_info#:#Session Information
-common#:#app_info#:#Appointment Information
-common#:#origin#:#Origin
-common#:#contained_in#:#Contained in
+dateplaner#:#cal_download_all_files#:#Download all Files
+dateplaner#:#cal_origin#:#Origin
+dateplaner#:#cal_owner#:#Owner
+dateplaner#:#cal_location#:#Location
+dateplaner#:#cal_details_workflow#:#Details/Workflow
+dateplaner#:#cal_info_lecturer#:#Information about Lecturer
+dateplaner#:#cal_contained_in#:#Contained in
+dateplaner#:#cal_app_info#:#Appointment Information
+dateplaner#:#cal_crs_info#:#Course Information
+dateplaner#:#cal_crs_open#:#Open Course
+dateplaner#:#cal_grp_info#:#Group Information
+dateplaner#:#cal_exc_info#:#Assignment Information
+dateplaner#:#cal_exc_instruction#:#Work Instruction
+dateplaner#:#cal_sess_info#:#Session Information

@@ -13,7 +13,6 @@ include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppoin
  */
 class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-	protected $lng;
 	protected $ctrl;
 
 	public function getHTML()
@@ -26,7 +25,6 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 		$f = $DIC->ui()->factory();
 		$r = $DIC->ui()->renderer();
 
-		$this->lng = $DIC->language();
 		$this->ctrl = $DIC->ctrl();
 
 		include_once "./Modules/Course/classes/class.ilObjCourse.php";
@@ -43,7 +41,13 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 		include_once('./Services/Link/classes/class.ilLink.php');
 		$crs_ref_id = current($refs);
 
-		$description_text = $cat_info['title'] . ", " . ilObject::_lookupDescription($cat_info['obj_id']);
+		if(ilObject::_lookupDescription($cat_info['obj_id']) != "") {
+			$description_text = $cat_info['title'] . ", " . ilObject::_lookupDescription($cat_info['obj_id']);
+		}
+		else {
+			$description_text = $cat_info['title'];
+		}
+
 		$a_infoscreen->addSection($cat_info['title']);
 
 		if ($a_app['event']->getDescription()) {
@@ -51,7 +55,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 		}
 		$a_infoscreen->addProperty($this->lng->txt(ilObject::_lookupType($cat_info['obj_id'])), $description_text);
 
-		$a_infoscreen->addSection($this->lng->txt((ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
+		$a_infoscreen->addSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 
 		if($crs->getImportantInformation())
 		{

@@ -111,7 +111,7 @@ class ilCalendarAppointmentPresentationGUI
 			//$toolbar->addButton($this->lng->txt("edit"),
 			//	$this->ctrl->getLinkTargetByClass(array('ilPersonalDesktopGUI', 'ilCalendarPresentationGUI', 'ilCalendarCategoryGUI', 'ilcalendarappointmentgui'), 'askEdit'));
 			$btn_edit = ilLinkButton::getInstance();
-			$btn_edit->setCaption($this->lng->txt("edit"));
+			$btn_edit->setCaption($this->lng->txt("cal_edit"));
 			$btn_edit->setUrl($this->ctrl->getLinkTargetByClass(array('ilPersonalDesktopGUI', 'ilCalendarPresentationGUI', 'ilCalendarCategoryGUI', 'ilcalendarappointmentgui'), 'askEdit'));
 			$toolbar->addButtonInstance($btn_edit);
 
@@ -122,7 +122,7 @@ class ilCalendarAppointmentPresentationGUI
 			//$toolbar->addButton($this->lng->txt("delete"),
 			//	$this->ctrl->getLinkTargetByClass(array('ilPersonalDesktopGUI', 'ilCalendarPresentationGUI', 'ilCalendarCategoryGUI', 'ilcalendarappointmentgui'), 'askDelete'));
 			$btn_delete = ilLinkButton::getInstance();
-			$btn_delete->setCaption($this->lng->txt("delete"));
+			$btn_delete->setCaption($this->lng->txt("cal_delete"));
 			$btn_delete->setUrl($this->ctrl->getLinkTargetByClass(array('ilPersonalDesktopGUI', 'ilCalendarPresentationGUI', 'ilCalendarCategoryGUI', 'ilcalendarappointmentgui'), 'askDelete'));
 			$toolbar->addButtonInstance($btn_delete);
 			$toolbar->addSeparator();

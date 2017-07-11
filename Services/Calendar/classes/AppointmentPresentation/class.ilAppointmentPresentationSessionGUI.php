@@ -16,8 +16,8 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 
 	public function getHTML()
 	{
-		global $lng, $ilCtrl, $DIC;
-		
+		global $DIC;
+
 		$f = $DIC->ui()->factory();
 		$r = $DIC->ui()->renderer();
 
@@ -33,23 +33,23 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 		$a_infoscreen->addSection($cat_info['title']);
 
 		//description
-		$a_infoscreen->addProperty($lng->txt("description"), $a_app['event']->getDescription());
+		$a_infoscreen->addProperty($this->lng->txt("description"), $a_app['event']->getDescription());
 
 		//Contained in:
 		$parent_title = ilObject::_lookupTitle(ilObject::_lookupObjectId($_GET['ref_id']));
-		$a_infoscreen->addProperty($lng->txt("cal_contained_in"),$parent_title);
+		$a_infoscreen->addProperty($this->lng->txt("cal_contained_in"),$parent_title);
 
 		//SESSION INFORMATION
-		$a_infoscreen->addSection($lng->txt((ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
+		$a_infoscreen->addSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 		$session_obj = new ilObjSession($cat_info['obj_id'],false);
 		//location
 		if($session_obj->getLocation()){
-			$a_infoscreen->addProperty($lng->txt("cal_location"),ilUtil::makeClickable($session_obj->getLocation()));
+			$a_infoscreen->addProperty($this->lng->txt("cal_location"),ilUtil::makeClickable($session_obj->getLocation()));
 		}
 		//details/workflow
 		if($session_obj->getDetails())
 		{
-			$a_infoscreen->addProperty($lng->txt("cal_details_workflow"),$session_obj->getDetails());
+			$a_infoscreen->addProperty($this->lng->txt("cal_details_workflow"),$session_obj->getDetails());
 		}
 		//lecturer name
 		$str_lecturer = "";
@@ -64,9 +64,9 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 		}
 		if($session_obj->getPhone())
 		{
-			$str_lecturer .= $lng->txt("phone").": ".$session_obj->getPhone()."<br>";
+			$str_lecturer .= $this->lng->txt("phone").": ".$session_obj->getPhone()."<br>";
 		}
-		$a_infoscreen->addProperty($lng->txt("cal_info_lecturer"), $str_lecturer);
+		$a_infoscreen->addProperty($this->lng->txt("cal_info_lecturer"), $str_lecturer);
 
 		$eventItems = ilObjectActivation::getItemsByEvent($cat_info['obj_id']);
 		if(count($eventItems))
@@ -78,7 +78,7 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 				$href = ilLink::_getStaticLink($file['ref_id'], "file", true,"download");
 				$str .= $r->render($f->button()->shy($file['title'], $href))."<br>";
 			}
-			$a_infoscreen->addProperty($lng->txt("files"),$str);
+			$a_infoscreen->addProperty($this->lng->txt("files"),$str);
 		}
 
 		return $a_infoscreen;
