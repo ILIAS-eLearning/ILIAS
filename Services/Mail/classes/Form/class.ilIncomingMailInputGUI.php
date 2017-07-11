@@ -50,25 +50,30 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
 		
 		$sub_both_opt3 = new ilRadioOption($lng->txt('mail_both_email'), IL_MAIL_BOTH_EMAIL);
 		$sub_radio_group->addOption($sub_both_opt3);
-		if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())) ||
-			$ilSetting->get('usr_settings_disable_mail_incoming_mail') == '1')
-		{
-			$this->setDisabled(true);
-		}
 		
-		if(!strlen($ilUser->getEmail()))
+		if($this->getContext() == 'ilmailoptionsgui')
 		{
-			$sub_mail_opt1->setDisabled(true);
-			$sub_mail_opt3->setDisabled(true);
-			$sub_both_opt1->setDisabled(true);
-			$sub_both_opt3->setDisabled(true);
-		}
-		if(!strlen($ilUser->getSecondEmail()))
-		{
-			$sub_mail_opt2->setDisabled(true);
-			$sub_mail_opt3->setDisabled(true);
-			$sub_both_opt2->setDisabled(true);
-			$sub_both_opt3->setDisabled(true);
+			if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())) ||
+				$ilSetting->get('usr_settings_disable_mail_incoming_mail') == '1'
+			)
+			{
+				$this->setDisabled(true);
+			}
+			
+			if(!strlen($ilUser->getEmail()))
+			{
+				$sub_mail_opt1->setDisabled(true);
+				$sub_mail_opt3->setDisabled(true);
+				$sub_both_opt1->setDisabled(true);
+				$sub_both_opt3->setDisabled(true);
+			}
+			if(!strlen($ilUser->getSecondEmail()))
+			{
+				$sub_mail_opt2->setDisabled(true);
+				$sub_mail_opt3->setDisabled(true);
+				$sub_both_opt2->setDisabled(true);
+				$sub_both_opt3->setDisabled(true);
+			}
 		}
 		
 		$r_opt3->addSubItem($sub_radio_group);
@@ -79,5 +84,15 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
 	public function render()
 	{
 		return parent::render();
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getContext()
+	{
+		global $ilCtrl;
+		$context = strtolower($ilCtrl->getCmdClass());
+		return $context;
 	}
 }
