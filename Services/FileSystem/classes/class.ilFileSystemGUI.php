@@ -39,37 +39,8 @@ class ilFileSystemGUI
 		$this->tpl = $tpl;
 		$this->main_dir = $a_main_directory;
 		$this->post_dir_path = false;
-		$this->commands = array(
-			0 => array(
-				"object" => $this,
-				"method" => "downloadFile",
-				"name" => $lng->txt("download"),
-				"int" => true,
-				"single" => true
-			),
-			1 => array(
-				"object" => $this,
-				"method" => "confirmDeleteFile",
-				"name" => $lng->txt("delete"),
-				"allow_dir" => true,
-				"int" => true				
-			),
-			2 => array(
-				"object" => $this,
-				"method" => "unzipFile",
-				"name" => $lng->txt("unzip"),
-				"int" => true,
-				"single" => true
-			),
-			3 => array(
-				"object" => $this,
-				"method" => "renameFileForm",
-				"name" => $lng->txt("rename"),
-				"allow_dir" => true,
-				"int" => true,
-				"single" => true
-			),
-		);
+
+		$this->defineCommands();
 
 		$this->file_labels = array();
 		$this->label_enable = false;
@@ -531,11 +502,14 @@ class ilFileSystemGUI
 	{
 		return $this->file_creation;
 	}
-	
+
 	/**
-	* list files
-	*/
-	function listFiles()
+	 * List files
+	 *
+	 * @param array $a_class_table_gui if we are here from a child class
+	 *
+	 */
+	function listFiles($a_table_gui = null)
 	{
 		global $DIC;
 		$ilToolbar = $DIC['ilToolbar'];
@@ -589,10 +563,23 @@ class ilFileSystemGUI
 		}
 			
 		// load files templates
-		include_once("./Services/FileSystem/classes/class.ilFileSystemTableGUI.php");
-		$fs_table = new ilFileSystemTableGUI($this, "listFiles", $dir["dir"], $dir["subdir"],
-			$this->label_enable, $this->file_labels, $this->label_header, $this->commands,
-			$this->getPostDirPath(), $this->getTableId());
+		if($a_table_gui)
+		{
+			$path = $a_table_gui['path'];
+			$class = $a_table_gui['class'];
+			include_once("$path");
+			$fs_table = new $class($this, "listFiles", $dir["dir"], $dir["subdir"],
+				$this->label_enable, $this->file_labels, $this->label_header, $this->commands,
+				$this->getPostDirPath(), $this->getTableId());
+		}
+		else
+		{
+			include_once("./Services/FileSystem/classes/class.ilFileSystemTableGUI.php");
+			$fs_table = new ilFileSystemTableGUI($this, "listFiles", $dir["dir"], $dir["subdir"],
+				$this->label_enable, $this->file_labels, $this->label_header, $this->commands,
+				$this->getPostDirPath(), $this->getTableId());
+		}
+
 		if ($this->getTitle() != "")
 		{
 			$fs_table->setTitle($this->getTitle());
@@ -731,12 +718,13 @@ class ilFileSystemGUI
 			ilUtil::sendFailure($lng->txt("cont_enter_a_dir_name"), true);
 		}
 		$this->ctrl->saveParameter($this, "cdir");
-		$this->ctrl->redirect($this, "listFiles");
+		$this->ctrl->redirect($this, 'listFiles');
 	}
 
 	/**
-	* upload file
-	*/
+	 * Upload file
+	 *
+	 */
 	function uploadFile()
 	{
 		global $DIC;
@@ -812,7 +800,7 @@ class ilFileSystemGUI
 
 		ilUtil::renameExecutables($this->main_dir);
 
-		$this->ctrl->redirect($this, "listFiles");
+		$this->ctrl->redirect($this, 'listFiles');
 	}
 
 	/**
@@ -893,7 +881,7 @@ class ilFileSystemGUI
 			$this->setPerformedCommand("delete_file",
 				array("name" => ilUtil::stripSlashes($post_file)));
 		}
-		$this->ctrl->redirect($this, "listFiles");
+		$this->ctrl->redirect($this, 'listFiles');
 	}
 
 	/**
@@ -1019,6 +1007,52 @@ class ilFileSystemGUI
 			$this->ctrl->getLinkTarget($this, "listFiles"), "listFiles",
 			get_class($this));
 		$ilCtrl->setParameter($this, "resetoffset", "");
+	}
+
+	/**
+	 * @return array of commands
+	 */
+	function getActionCommands()
+	{
+		return $this->commands;
+	}
+
+	/**
+	 * Define commands available
+	 */
+	public function defineCommands()
+	{
+		$this->commands = array(
+			0 => array(
+				"object" => $this,
+				"method" => "downloadFile",
+				"name" => $this->lng->txt("download"),
+				"int" => true,
+				"single" => true
+			),
+			1 => array(
+				"object" => $this,
+				"method" => "confirmDeleteFile",
+				"name" => $this->lng->txt("delete"),
+				"allow_dir" => true,
+				"int" => true
+			),
+			2 => array(
+				"object" => $this,
+				"method" => "unzipFile",
+				"name" => $this->lng->txt("unzip"),
+				"int" => true,
+				"single" => true
+			),
+			3 => array(
+				"object" => $this,
+				"method" => "renameFileForm",
+				"name" => $this->lng->txt("rename"),
+				"allow_dir" => true,
+				"int" => true,
+				"single" => true
+			),
+		);
 	}
 
 }

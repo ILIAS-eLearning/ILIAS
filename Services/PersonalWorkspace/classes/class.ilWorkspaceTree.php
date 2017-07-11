@@ -173,13 +173,14 @@ class ilWorkspaceTree extends ilTree
 	 * Get all workspace objects of specific type
 	 * 
 	 * @param string $a_type
+	 * @param bool $a_with_data
 	 * @return array
 	 */
-	public function getObjectsFromType($a_type)
+	public function getObjectsFromType($a_type, $a_with_data = false)
 	{
 		return $this->getSubTree(
-			$this->getNodeData($this->getRootId()), 
-			false, $a_type);		
+			$this->getNodeData($this->getRootId()),
+			$a_with_data, $a_type);
 	}
 	
 	/**

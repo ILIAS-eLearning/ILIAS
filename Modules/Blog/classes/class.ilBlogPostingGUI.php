@@ -108,6 +108,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			default:
 				if($posting)
 				{
+					if($_REQUEST["cmd"] == "deactivatePageToList")
+					{
+						ilUtil::sendSuccess($this->lng->txt("blog_draft_info"), true);
+					}
+					else if($_REQUEST["cmd"] == "activatePageToList")
+					{
+						ilUtil::sendSuccess($this->lng->txt("blog_new_posting_info"), true);
+					}
 					$this->setPresentationTitle($posting->getTitle());
 					
 					$tpl->setTitle(ilObject::_lookupTitle($this->getBlogPosting()->getBlogId()).": ". // #15017

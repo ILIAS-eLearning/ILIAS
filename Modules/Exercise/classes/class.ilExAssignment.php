@@ -49,9 +49,14 @@ class ilExAssignment
 	protected $feedback_date;
 	protected $team_tutor = false;
 	protected $max_file;
+	protected $portfolio_template;
+	protected $min_char_limit;
+	protected $max_char_limit;
 	
 	protected $member_status = array(); // [array]
-	
+
+	protected $log;
+
 	/**
 	 * Constructor
 	 */
@@ -59,6 +64,8 @@ class ilExAssignment
 	{
 		$this->setType(self::TYPE_UPLOAD);
 		$this->setFeedbackDate(self::FEEDBACK_DATE_DEADLINE);
+
+		$this->log = ilLoggerFactory::getLogger("exc");
 		
 		if ($a_id > 0)
 		{
@@ -91,7 +98,35 @@ class ilExAssignment
 		
 		return $data;
 	}
-	
+
+	/**
+	 * @param array $a_file_data
+	 * @param integer $a_ass_id assignment id.
+	 * @return array
+	 */
+	public static function instructionFileGetFileOrderData($a_file_data, $a_ass_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+		$db->setLimit(1,0);
+
+		$result_order_val = $db->query("
+				SELECT id, order_nr
+				FROM exc_ass_file_order
+				WHERE assignment_id = {$db->quote($a_ass_id, 'integer')}
+				AND filename = {$db->quote($a_file_data['entry'], 'string')}
+			");
+
+		$order_val = 0;
+		$order_id = 0;
+		while ($row = $db->fetchAssoc($result_order_val)) {
+			$order_val = (int)$row['order_nr'];
+			$order_id = (int)$row['id'];
+		}
+		return array($order_val, $order_id);
+	}
+
 	public function hasTeam()
 	{
 		return $this->type == self::TYPE_UPLOAD_TEAM;
@@ -739,6 +774,27 @@ class ilExAssignment
 	}
 
 	/**
+	 * Set portfolio template id
+	 *
+	 * @param	int		portfolio id
+	 */
+	function setPortfolioTemplateId($a_val)
+	{
+		$this->portfolio_template = $a_val;
+	}
+
+	/**
+	 * Get portfolio template id
+	 *
+	 * @return	int	portfolio template id
+	 */
+	function getPortfolioTemplateId()
+	{
+		return $this->portfolio_template;
+	}
+
+
+	/**
 	 * Read from db
 	 */
 	function read()
@@ -790,7 +846,10 @@ class ilExAssignment
 		$this->setFeedbackDate($a_set["fb_date"]);
 		$this->setFeedbackCron($a_set["fb_cron"]);
 		$this->setTeamTutor($a_set["team_tutor"]);
-		$this->setMaxFile($a_set["max_file"]);		
+		$this->setMaxFile($a_set["max_file"]);
+		$this->setPortfolioTemplateId($a_set["portfolio_template"]);
+		$this->setMinCharLimit($a_set["min_char_limit"]);
+		$this->setMaxCharLimit($a_set["max_char_limit"]);
 	}
 	
 	/**
@@ -834,7 +893,10 @@ class ilExAssignment
 			"fb_date" => array("integer", $this->getFeedbackDate()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron()),
 			"team_tutor" => array("integer", $this->getTeamTutor()),
-			"max_file" => array("integer", $this->getMaxFile())
+			"max_file" => array("integer", $this->getMaxFile()),
+			"portfolio_template" => array("integer", $this->getPortFolioTemplateId()),
+			"min_char_limit" => array("integer", $this->getMinCharLimit()),
+			"max_char_limit" => array("integer", $this->getMaxCharLimit())
 			));
 		$this->setId($next_id);
 		$exc = new ilObjExercise($this->getExerciseId(), false);
@@ -877,7 +939,10 @@ class ilExAssignment
 			"fb_date" => array("integer", $this->getFeedbackDate()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron()),
 			"team_tutor" => array("integer", $this->getTeamTutor()),
-			"max_file" => array("integer", $this->getMaxFile())
+			"max_file" => array("integer", $this->getMaxFile()),
+			"portfolio_template" => array("integer", $this->getPortFolioTemplateId()),
+			"min_char_limit" => array("integer", $this->getMinCharLimit()),
+			"max_char_limit" => array("integer", $this->getMaxCharLimit())
 			),
 			array(
 			"id" => array("integer", $this->getId()),
@@ -1024,9 +1089,31 @@ class ilExAssignment
 	 */
 	public function getFiles()
 	{
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
+		$this->log->debug("getting files from class.ilExAssignment using ilFSWebStorageExercise");
+		include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
+		$storage = new ilFSWebStorageExercise($this->getExerciseId(), $this->getId());
 		return $storage->getFiles();
+	}
+
+	/**
+	 * @param $a_ass_id
+	 * @return array
+	 */
+	public function getInstructionFilesOrder($a_ass_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT filename, order_nr FROM exc_ass_file_order ".
+			" WHERE assignment_id  = ".$ilDB->quote($a_ass_id, "integer")
+		);
+
+		$data = array();
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			$data[$rec['filename']] = $rec['order_nr'];
+		}
+
+		return $data;
 	}
 	
 	/**
@@ -1100,7 +1187,7 @@ class ilExAssignment
 	/**
 	 * Save ordering of all assignments of an exercise
 	 */
-	function saveAssOrderOfExercise($a_ex_id, $a_order)
+	static function saveAssOrderOfExercise($a_ex_id, $a_order)
 	{
 		global $ilDB;
 		
@@ -1118,7 +1205,7 @@ class ilExAssignment
 			$nr+=10;
 		}
 	}
-	
+
 	/**
 	 * Order assignments by deadline date
 	 */
@@ -1294,8 +1381,9 @@ class ilExAssignment
 	 */
 	function uploadAssignmentFiles($a_files)
 	{
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
+		ilLoggerFactory::getLogger("exc")->debug("upload assignment files files = ",$a_files);
+		include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
+		$storage = new ilFSWebStorageExercise($this->getExerciseId(), $this->getId());
 		$storage->create();
 		$storage->uploadAssignmentFiles($a_files);
 	}
@@ -1908,6 +1996,245 @@ class ilExAssignment
 		
 		return false;		
 	}
+
+	/**
+	 * Save ordering of instruction files for an assignment
+	 * @param int $a_ass_id assignment id
+	 * @param int $a_order order
+	 */
+	static function saveInstructionFilesOrderOfAssignment($a_ass_id, $a_order)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		asort($a_order);
+		$nr = 10;
+		foreach ($a_order as $k => $v)
+		{
+			// the check for exc_id is for security reasons. ass ids are unique.
+			$db->manipulate($t = "UPDATE exc_ass_file_order SET ".
+				" order_nr = ".$db->quote($nr, "integer").
+				" WHERE id = ".$db->quote((int) $k, "integer").
+				" AND assignment_id = ".$db->quote((int) $a_ass_id, "integer")
+			);
+			$nr+=10;
+		}
+	}
+
+	/**
+	 * Store the file order in the database
+	 * @param string $a_filename  previously sanitized.
+	 * @param int $a_ass_id assignment id.
+	 */
+	static function instructionFileInsertOrder($a_filename, $a_ass_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$order = 0;
+		$order_val = 0;
+
+		if($a_ass_id)
+		{
+			//first of all check the suffix and change if necessary
+			$filename = ilUtil::getSafeFilename($a_filename);
+
+			if(!self::instructionFileExistsInDb($filename, $a_ass_id))
+			{
+				$order_val = self::instructionFileOrderGetMax($a_ass_id);
+
+				$order = $order_val + 10;
+
+				$id = $db->nextID('exc_ass_file_order');
+				$db->manipulate("INSERT INTO exc_ass_file_order " .
+					"(id, assignment_id, filename, order_nr) VALUES (" .
+					$db->quote($id, "integer") . "," .
+					$db->quote($a_ass_id, "integer") . "," .
+					$db->quote($filename, "text") . "," .
+					$db->quote($order, "integer") .
+					")");
+			}
+		}
+	}
+
+	static function instructionFileDeleteOrder($a_ass_id, $a_file)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		//now its done by filename. We need to figure how to get the order id in the confirmdelete method
+		foreach ($a_file as $k => $v)
+		{
+			$db->manipulate("DELETE FROM exc_ass_file_order " .
+				//"WHERE id = " . $ilDB->quote((int)$k, "integer") .
+				"WHERE filename = " . $db->quote($v, "string") .
+				" AND assignment_id = " . $db->quote($a_ass_id, 'integer')
+			);
+		}
+	}
+
+	/**
+	 * @param string $a_old_name
+	 * @param string $a_new_name
+	 * @param int $a_ass_id assignment id
+	 */
+	static function renameInstructionFile($a_old_name, $a_new_name, $a_ass_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		if($a_ass_id)
+		{
+			$db->manipulate("DELETE FROM exc_ass_file_order".
+				" WHERE assignment_id = ".$db->quote((int)$a_ass_id, 'integer').
+				" AND filename = ".$db->quote($a_new_name, 'string')
+			);
+
+			$db->manipulate("UPDATE exc_ass_file_order SET".
+				" filename = ".$db->quote($a_new_name, 'string').
+				" WHERE assignment_id = ".$db->quote((int)$a_ass_id, 'integer').
+				" AND filename = ".$db->quote($a_old_name, 'string')
+			);
+		}
+	}
+
+	/**
+	 * @param $a_filename
+	 * @param $a_ass_id assignment id
+	 * @return int if the file exists or not in the DB
+	 */
+	static function instructionFileExistsInDb($a_filename, $a_ass_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		if($a_ass_id)
+		{
+			$result = $db->query("SELECT id FROM exc_ass_file_order" .
+				" WHERE assignment_id = " . $db->quote((int)$a_ass_id, 'integer') .
+				" AND filename = " . $db->quote($a_filename, 'string')
+			);
+
+			return $db->numRows($result);
+		}
+	}
+
+	/**
+	 * @param array $a_entries
+	 * @param integer $a_ass_id assignment id
+	 * @return array data items
+	 */
+	static function fileAddOrder($a_entries = array(), $a_ass_id)
+	{
+		$items = array();
+
+		foreach ($a_entries as $e)
+		{
+			$order_id = 0;
+			$order_val = 0;
+			list($order_val, $order_id) = self::instructionFileGetFileOrderData($e, $a_ass_id);
+
+			if(!$order_val)
+			{
+				self::instructionFileInsertOrder($e['entry'], $a_ass_id);
+				list($order_val, $order_id) = self::instructionFileGetFileOrderData($e, $a_ass_id);
+			}
+
+			$items[$order_val] = array("file" => $e["file"], "entry" => $e["entry"],
+				"type" => $e["type"], "label" => $e["label"], "size" => $e["size"],
+				"name" => $e["name"], "order_id"=>$order_id, "order_val"=>$order_val);
+		}
+
+		ksort($items);
+		$items = self::instructionFileRearrangeOrder($items);
+
+		return $items;
+	}
+
+	/**
+	 * @param $a_items
+	 * @return mixed
+	 */
+	public static function instructionFileRearrangeOrder($a_items)
+	{
+		$ord_const = 10;
+		foreach ($a_items as $k => $v) {
+			$item = $v;
+			$item['order_val'] = $ord_const;
+			unset($a_items[$k]);
+			$a_items[$ord_const] = $item;
+			$ord_const = $ord_const + 10;
+		}
+		return $a_items;
+	}
+
+
+	/**
+	 * @param int $a_ass_id assignment id
+	 * @return int
+	 */
+	public static function instructionFileOrderGetMax($a_ass_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		//get max order number
+		$result = $db->queryF("SELECT max(order_nr) as max_order FROM exc_ass_file_order WHERE assignment_id = %s",
+			array('integer'),
+			array($db->quote($a_ass_id, 'integer'))
+		);
+
+		while ($row = $db->fetchAssoc($result)) {
+			$order_val = (int)$row['max_order'];
+		}
+		return $order_val;
+	}
+
+
+	/**
+	 * Set limit minimum characters
+	 *
+	 * @param	int	minim limit
+	 */
+	function setMinCharLimit($a_val)
+	{
+		$this->min_char_limit = $a_val;
+	}
+
+	/**
+	 * Get limit minimum characters
+	 *
+	 * @return	int minimum limit
+	 */
+	function getMinCharLimit()
+	{
+		return $this->min_char_limit;
+	}
+
+	/**
+	 * Set limit maximum characters
+	 * @param int max limit
+	 */
+	function setMaxCharLimit($a_val)
+	{
+		$this->max_char_limit = $a_val;
+	}
+
+	/**
+	 * get limit maximum characters
+	 * return int max limit
+	 */
+	function getMaxCharLimit()
+	{
+		return $this->max_char_limit;
+	}
+
 }
 
 ?>

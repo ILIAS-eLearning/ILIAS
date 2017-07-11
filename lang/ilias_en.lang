@@ -9026,7 +9026,11 @@ chatroom#:#server_further_information#:#You can find further information about t
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
 blog#:#blog_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s
+<<<<<<< HEAD
 prtf#:#prtf_exercise_submitted_info#:#You submitted your portfolio %s.  Additionally you might want to save a copy for your own files: %s
+=======
+prtf#:#prtf_exercise_submitted_info#:#You submitted your portfolio on %s, Additionally you might want to save a copy for your own files: %s
+>>>>>>> leifos/5_3_exc_improvements
 exc#:#exc_select_blog#:#Use Existing Blog
 exc#:#exc_select_portfolio#:#Use Existing Portfolio
 exc#:#exc_select_blog_info#:#Please select one of your blogs to use it with this assignment.
@@ -9254,7 +9258,7 @@ blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Perso
 prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?
 prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.
 survey#:#svy_participation#:#Participation
-blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list.
+blog#:#blog_new_posting_info#:#The posting is published.
 survey#:#svy_page_add_question#:#Add new %s
 skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.
 common#:#spl_import#:#Import Question Pool Survey
@@ -9279,7 +9283,7 @@ common#:#server_disabled#:#The Chat is Disabled
 rbac#:#rbac_create_chtr#:#Create Chat Room
 search#:#search_err_user_not_exist#:#A user with that login name does not exist.
 blog#:#blog_draft#:#Draft
-blog#:#blog_draft_info#:#This posting draft is only visible for the author.
+blog#:#blog_draft_info#:#The posting is withdrawn and no longer published.
 blog#:#blog_toggle_draft#:#Withdraw Publication
 blog#:#blog_toggle_final#:#Publish Posting
 dateplaner#:#cal_cal_deleted#:#The calendars have been deleted
@@ -13542,3 +13546,25 @@ rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#stys_sty_write_content#:#Edit Content Styles
 style#:#manage_system_styles#:#Manage System Styles
 style#:#scope#:#Scope
+common#:#file_order#:#File Order
+exc#:#exc_work_instructions#:#Work instructions
+exc#:#exc_after_submission#:#After submission
+exc#:#exc_schedule#:#Schedule
+exc#:#exc_submit_convenience_no_deadline#:#Submit your at your convenience. There is no  specific  deadline.
+exc#:#exc_select_portfolio_unlink#:#Remove Portfolio
+exc#:#exc_sure_unlink_portfolio#:#Are you sure to remove this portfolio form this assignment?
+exc#:#exc_portfolio_unlinked_from_assignment#:#Portfolio removed from this assignment
+exc#:#exc_template#:#Template
+exc#:#exc_portfolio_template#:#Portfolio Template
+exc#:#exc_without_template#:#Without Portfolio - Template
+exc#:#exc_with_template#:#With Portfolio - Template
+exc#:#exc_without_template_info#:#Participants will create their Portfolio from scratch
+exc#:#exc_with_template_info#:#An empty Portfolio will be automatically derived from a specific Portfolio Template.
+exc#:#exc_no_portfolio_templates#:#There are no Portfolio Templates available.
+exc#:#exc_go_to_exercise#:#Go to Exercise
+exc#:#exc_limit_characters#:#Limit of characters
+exc#:#exc_min_char_limit#:#Minimum number of characters
+exc#:#exc_max_char_limit#:#Maximum number of characters
+exc#:#exc_chars_remaining#:#Characters remaining:
+exc#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
+exc#:#msg_input_char_limit_max#:#You have entered more characters than allowed.

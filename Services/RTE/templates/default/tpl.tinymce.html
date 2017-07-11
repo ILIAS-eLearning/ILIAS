@@ -95,6 +95,16 @@
 	  	font_size_style_values : "8pt,10pt,12pt,14pt,18pt,24pt,36pt",
 		setup: function (ed) {
 			ed.onInit.add(ilTinyMceInitCallback);
+			ed.onInit.add(function(){
+				if(il.Form) {
+					il.Form.showCharCounterTinymce(ed);
+				}
+			});
+			ed.onKeyUp.add(function(){
+				if(il.Form) {
+					il.Form.showCharCounterTinymce(ed);
+				}
+			});
 		},
 		oninit: function(){
 

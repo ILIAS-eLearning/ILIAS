@@ -125,16 +125,16 @@ class ilExAssignmentGUI
 		$info->setTableClass("");
 		
 		$this->addInstructions($info, $a_ass);
-		$this->addSchedule($info, $a_ass);
-		
-		if ($this->exc->getShowSubmissions())
-		{
-			$this->addPublicSubmissions($info, $a_ass);
-		}
-		
+
 		if (!$a_ass->notStartedYet())
 		{
 			$this->addFiles($info, $a_ass);
+		}
+
+		$this->addSchedule($info, $a_ass);
+		
+		if (!$a_ass->notStartedYet())
+		{
 			$this->addSubmission($info, $a_ass);			
 		}
 
@@ -252,10 +252,63 @@ class ilExAssignmentGUI
 		if (count($files) > 0)
 		{
 			$a_info->addSection($lng->txt("exc_files"));
+
+			global $DIC;
+
+			//file has -> name,fullpath,size,ctime
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+			include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
+			include_once "./Services/UIComponent/Modal/classes/class.ilModalGUI.php";
+
 			foreach($files as $file)
 			{
-				$a_info->addProperty($file["name"], $lng->txt("download"), $this->getSubmissionLink("downloadFile", array("file"=>urlencode($file["name"]))));
+				// get mime type
+				$mime = ilObjMediaObject::getMimeType($file['fullpath']);
+
+				list($format,$type) = explode("/",$mime);
+
+
+				switch ($format)
+				{
+					case "image":
+						$item_id = str_replace(".", "", $file['name']);
+
+						$ui_factory = $DIC->ui()->factory();
+						$ui_renderer = $DIC->ui()->renderer();
+
+						$image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'],$file['name']));
+						$image_lens = ilUtil::getImagePath("enlarge.svg");
+
+						$modal = ilModalGUI::getInstance();
+						$modal->setId($item_id);
+						$modal->setType(ilModalGUI::TYPE_LARGE);
+						$modal->setBody($image);
+						$modal = $modal->getHTML();
+
+						$img_tpl = new ilTemplate("tpl.image_file.html", true, true, "Modules/Exercise");
+						$img_tpl->setCurrentBlock("image_content");
+						$img_tpl->setVariable("MODAL", $modal);
+						$img_tpl->setVariable("ITEM_ID", $item_id);
+						$img_tpl->setVariable("IMAGE", $image);
+						$img_tpl->setvariable("IMAGE_LENS", $image_lens);
+						$img_tpl->parseCurrentBlock();
+
+						$a_info->addProperty($file["name"], $img_tpl->get());
+						break;
+					case "video":
+					case "audio":
+						$mp = new ilMediaPlayerGUI();
+						$mp->setFile($file['fullpath']);
+						$media = $mp->getMediaPlayerHtml();
+						//$media2 = $mp->getPreviewHtml();
+						$a_info->addProperty($file["name"], $media);
+						break;
+					default:
+						$a_info->addProperty($file["name"], $lng->txt("download"), $this->getSubmissionLink("downloadFile", array("file"=>urlencode($file["name"]))));
+						break;
+				}
 			}
+
 		}			
 	}
 
@@ -263,7 +316,7 @@ class ilExAssignmentGUI
 	{		
 		global $lng, $ilCtrl, $ilUser;
 
-		$a_info->addSection($lng->txt("exc_your_submission"));
+		$a_info->addSection($lng->txt("exc_submission"));
 
 		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 		$submission = new ilExSubmission($a_ass, $ilUser->getId());
@@ -296,12 +349,19 @@ class ilExAssignmentGUI
 		}
 
 		$this->addSubmissionFeedback($a_info, $a_ass, $submission->getFeedbackId(), $show_global_feedback);
+
+		if ($this->exc->getShowSubmissions())
+		{
+			$this->addPublicSubmissions($a_info, $a_ass);
+		}
 	}
 	
 	protected function addSubmissionFeedback(ilInfoScreenGUI $a_info, ilExAssignment $a_ass, $a_feedback_id, $a_show_global_feedback)
 	{
 		global $lng;
-		
+
+		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+
 		$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());					
 		$cnt_files = $storage->countFeedbackFiles($a_feedback_id);
 		
@@ -379,7 +439,7 @@ class ilExAssignmentGUI
 		
 		if ($a_deadline == 0)
 		{
-			return $lng->txt("exc_no_deadline_specified");
+			return $lng->txt("exc_submit_convenience_no_deadline");
 		}
 		
 		if ($a_deadline - time() <= 0)

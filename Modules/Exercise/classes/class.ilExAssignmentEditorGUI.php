@@ -9,8 +9,8 @@ include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * 
-* @ilCtrl_Calls ilExAssignmentEditorGUI: ilFileSystemGUI, ilExPeerReviewGUI
-* 
+* @ilCtrl_Calls ilExAssignmentEditorGUI: ilExAssignmentFileSystemGUI, ilExPeerReviewGUI, ilPropertyFormGUI
+ *
 * @ingroup ModulesExercise
 */
 class ilExAssignmentEditorGUI 
@@ -42,18 +42,23 @@ class ilExAssignmentEditorGUI
 		$cmd = $ilCtrl->getCmd("listAssignments");		
 		
 		switch($class)
-		{		
+		{
+			case "ilpropertyformgui":
+				$form = $this->initAssignmentForm(ilExAssignment::TYPE_PORTFOLIO);
+				$ilCtrl->forwardCommand($form);
+				break;
+
 			// instruction files
-			case "ilfilesystemgui":				
+			case "ilexassignmentfilesystemgui":
 				$this->setAssignmentHeader();
 				$ilTabs->activateTab("ass_files");
 				
-				include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-				$fstorage = new ilFSStorageExercise($this->exercise_id, $this->assignment->getId());
+				include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
+				$fstorage = new ilFSWebStorageExercise($this->exercise_id, $this->assignment->getId());
 				$fstorage->create();
-				
-				include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
-				$fs_gui = new ilFileSystemGUI($fstorage->getPath());
+
+				include_once("./Modules/Exercise/classes/class.ilExAssignmentFileSystemGUI.php");
+				$fs_gui = new ilExAssignmentFileSystemGUI($fstorage->getPath());
 				$fs_gui->setTitle($lng->txt("exc_instruction_files"));
 				$fs_gui->setTableId("excassfil".$this->assignment->getId());
 				$fs_gui->setAllowDirectories(false);
@@ -82,7 +87,7 @@ class ilExAssignmentEditorGUI
 	function listAssignmentsObject()
 	{
 		global $tpl, $ilToolbar, $lng, $ilCtrl;
-				
+
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "addAssignment"));		
 		
 		include_once "Services/Form/classes/class.ilSelectInputGUI.php";		
@@ -109,12 +114,12 @@ class ilExAssignmentEditorGUI
 		
 		// #16163 - ignore ass id from request
 		$this->assignment = null;
-		
+
 		if(!(int)$_POST["type"])
 		{
 			$ilCtrl->redirect($this, "listAssignments");
 		}
-		
+
 		$form = $this->initAssignmentForm((int)$_POST["type"], "create");
 		$tpl->setContent($form->getHTML());
 	}
@@ -170,19 +175,94 @@ class ilExAssignmentEditorGUI
 			$form->setTitle($lng->txt("exc_new_assignment"));
 		}
 		$form->setFormAction($ilCtrl->getFormAction($this));
-		
-		// type
-		$ty = $this->getTypeDropdown();
-		$ty->setValue($a_type);
-		$ty->setDisabled(true);
-		$form->addItem($ty);
-		
+
 		// title
 		$ti = new ilTextInputGUI($lng->txt("title"), "title");
 		$ti->setMaxLength(200);
 		$ti->setRequired(true);
 		$form->addItem($ti);
-		
+
+		// type
+		$ty = $this->getTypeDropdown();
+		$ty->setValue($a_type);
+		$ty->setDisabled(true);
+		$form->addItem($ty);
+
+		if($a_type == ilExAssignment::TYPE_TEXT)
+		{
+			$rb_limit_chars = new ilCheckboxInputGUI($lng->txt("exc_limit_characters"),"limit_characters");
+
+			$min_char_limit = new ilNumberInputGUI($lng->txt("exc_min_char_limit"), "min_char_limit");
+			$min_char_limit->allowDecimals(false);
+			$min_char_limit->setMinValue(0);
+			$min_char_limit->setSize(3);
+
+			$max_char_limit = new ilNumberInputGUI($lng->txt("exc_max_char_limit"), "max_char_limit");
+			$max_char_limit->allowDecimals(false);
+			$max_char_limit->setMinValue($_POST['min_char_limit'] + 1);
+
+			$max_char_limit->setSize(3);
+
+			$rb_limit_chars->addSubItem($min_char_limit);
+			$rb_limit_chars->addSubItem($max_char_limit);
+
+			$form->addItem($rb_limit_chars);
+		}
+
+		// portfolio template
+		if($a_type == ilExAssignment::TYPE_PORTFOLIO)
+		{
+			$rd_template = new ilRadioGroupInputGUI($lng->txt("exc_template"), "template");
+			$rd_template->setRequired(true);
+			$radio_no_template = new ilRadioOption($lng->txt("exc_without_template"), 0, $lng->txt("exc_without_template_info", "without_template_info"));
+			$radio_with_template = new ilRadioOption($lng->txt("exc_with_template"), 1 , $lng->txt("exc_with_template_info", "with_template_info"));
+
+			include_once "Services/Form/classes/class.ilRepositorySelector2InputGUI.php";
+			$repo = new ilRepositorySelector2InputGUI($lng->txt("exc_portfolio_template"), "template_id");
+			$repo->setRequired(true);
+			if($this->assignment)
+			{
+				$repo->setValue($this->assignment->getPortfolioTemplateId());
+			}
+			$repo->getExplorerGUI()->setSelectableTypes(array("prtt"));
+			$repo->getExplorerGUI()->setTypeWhiteList(array("root", "prtt", "cat", "crs", "grp"));
+			$radio_with_template->addSubItem($repo);
+
+			$rd_template->addOption($radio_no_template);
+			$rd_template->addOption($radio_with_template);
+			$form->addItem($rd_template);
+		}
+
+		// mandatory
+		$cb = new ilCheckboxInputGUI($lng->txt("exc_mandatory"), "mandatory");
+		$cb->setInfo($lng->txt("exc_mandatory_info"));
+		$cb->setChecked(true);
+		$form->addItem($cb);
+
+		// Work Instructions
+		$sub_header = new ilFormSectionHeaderGUI();
+		$sub_header->setTitle($lng->txt("exc_work_instructions"), "work_instructions");
+		$form->addItem($sub_header);
+
+		$desc_input = new ilTextAreaInputGUI($lng->txt("exc_instruction"), "instruction");
+		$desc_input->setRows(20);
+		$desc_input->setUseRte(true);
+		$desc_input->setRteTagSet("mini");
+		$form->addItem($desc_input);
+
+		// files
+		if ($a_mode == "create")
+		{
+			$files = new ilFileWizardInputGUI($lng->txt('objs_file'),'files');
+			$files->setFilenames(array(0 => ''));
+			$form->addItem($files);
+		}
+
+		// Schedule
+		$sub_header = new ilFormSectionHeaderGUI();
+		$sub_header->setTitle($lng->txt("exc_schedule"), "schedule");
+		$form->addItem($sub_header);
+
 		// start time
 		$start_date = new ilDateTimeInputGUI($lng->txt("exc_start_time"), "start_time");
 		$start_date->setShowTime(true);
@@ -199,42 +279,35 @@ class ilExAssignmentEditorGUI
 		$deadline2->setShowTime(true);
 		$deadline->addSubItem($deadline2);
 
-		// mandatory
-		$cb = new ilCheckboxInputGUI($lng->txt("exc_mandatory"), "mandatory");
-		$cb->setInfo($lng->txt("exc_mandatory_info"));
-		$cb->setChecked(true);
-		$form->addItem($cb);
 
-		// Work Instructions
-		$desc_input = new ilTextAreaInputGUI($lng->txt("exc_instruction"), "instruction");
-		$desc_input->setRows(20);
-		$desc_input->setUseRte(true);				
-		$desc_input->setRteTagSet("mini");		
-		$form->addItem($desc_input);		
-				
-		// files		
-		if ($a_mode == "create")
-		{
-			$files = new ilFileWizardInputGUI($lng->txt('objs_file'),'files');
-			$files->setFilenames(array(0 => ''));
-			$form->addItem($files);						
-		}
-		
 		// max number of files
 		if($a_type == ilExAssignment::TYPE_UPLOAD ||
 			$a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
+			if($a_type == ilExAssignment::TYPE_UPLOAD)
+			{
+				$type_name = $lng->txt("exc_type_upload");
+			}
+			if($a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
+			{
+				$type_name = $lng->txt("exc_type_upload_team");
+			}
+
+			// custom section depending of assignment type
+			$sub_header = new ilFormSectionHeaderGUI();
+			$sub_header->setTitle($type_name);
+			$form->addItem($sub_header);
 			$max_file_tgl = new ilCheckboxInputGUI($lng->txt("exc_max_file_tgl"), "max_file_tgl");
 			$form->addItem($max_file_tgl);
-		
-				$max_file = new ilNumberInputGUI($lng->txt("exc_max_file"), "max_file");
-				$max_file->setInfo($lng->txt("exc_max_file_info"));
-				$max_file->setRequired(true);
-				$max_file->setSize(3);
-				$max_file->setMinValue(1);
-				$max_file_tgl->addSubItem($max_file);			
-		}		
-				
+
+			$max_file = new ilNumberInputGUI($lng->txt("exc_max_file"), "max_file");
+			$max_file->setInfo($lng->txt("exc_max_file_info"));
+			$max_file->setRequired(true);
+			$max_file->setSize(3);
+			$max_file->setMinValue(1);
+			$max_file_tgl->addSubItem($max_file);
+		}
+
 		if($a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
 			$cbtut = new ilCheckboxInputGUI($lng->txt("exc_team_management_tutor"), "team_tutor");
@@ -242,7 +315,11 @@ class ilExAssignmentEditorGUI
 			$cbtut->setChecked(false);
 			$form->addItem($cbtut);
 		}
-		else 	
+		// after submission
+		$sub_header = new ilFormSectionHeaderGUI();
+		$sub_header->setTitle($lng->txt("exc_after_submission"), "after_submission");
+		$form->addItem($sub_header);
+		if($a_type != ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
 			// peer review
 			$peer = new ilCheckboxInputGUI($lng->txt("exc_peer_review"), "peer");		
@@ -285,7 +362,7 @@ class ilExAssignmentEditorGUI
 		
 		return $form;
 	}
-	
+
 	/**
 	 * Custom form validation
 	 * 
@@ -326,7 +403,7 @@ class ilExAssignmentEditorGUI
 		}	
 		
 		if($valid)
-		{									
+		{
 			// dates
 			
 			$time_start = $a_form->getItemByPostVar("start_time")->getDate();
@@ -425,8 +502,28 @@ class ilExAssignmentEditorGUI
 						? $a_form->getInput("max_file")
 						: null
 					,"team_tutor" => $a_form->getInput("team_tutor")							
-				);				
-			
+				);
+				// portfolio template
+				if($a_form->getInput("template_id") && $a_form->getInput("template"))
+				{
+					$res['template_id'] = $a_form->getInput("template_id");
+				}
+
+				// text limitations
+				if($a_form->getInput("limit_characters"))
+				{
+					$res['limit_characters'] = $a_form->getInput("limit_characters");
+				}
+				if($a_form->getInput("limit_characters") && $a_form->getInput("max_char_limit"))
+				{
+					$res['max_char_limit'] = $a_form->getInput("max_char_limit");
+				}
+				if($a_form->getInput("limit_characters") && $a_form->getInput("min_char_limit"))
+				{
+					$res['min_char_limit'] = $a_form->getInput("min_char_limit");
+
+				}
+
 				// peer
 				if($a_form->getInput("peer") ||
 					$protected_peer_review_groups)
@@ -482,9 +579,14 @@ class ilExAssignmentEditorGUI
 		$a_ass->setExtendedDeadline($a_input["deadline_ext"]);
 									
 		$a_ass->setMaxFile($a_input["max_file"]);		
-		$a_ass->setTeamTutor($a_input["team_tutor"]);			
-		
-		$a_ass->setPeerReview((bool)$a_input["peer"]);		
+		$a_ass->setTeamTutor($a_input["team_tutor"]);
+
+		$a_ass->setPortfolioTemplateId($a_input['template_id']);
+
+		$a_ass->setMinCharLimit($a_input['min_char_limit']);
+		$a_ass->setMaxCharLimit($a_input['max_char_limit']);
+
+		$a_ass->setPeerReview((bool)$a_input["peer"]);
 		
 		// peer review default values (on separate form)
 		if($is_create)
@@ -608,8 +710,25 @@ class ilExAssignmentEditorGUI
 		$values["type"] = $this->assignment->getType();
 		$values["title"] = $this->assignment->getTitle();
 		$values["mandatory"] = $this->assignment->getMandatory();
-		$values["instruction"] = $this->assignment->getInstruction();		
-				
+		$values["instruction"] = $this->assignment->getInstruction();
+		$values['template_id'] = $this->assignment->getPortfolioTemplateId();
+
+		if($this->assignment->getPortfolioTemplateId())
+		{
+			$values["template"] = 1;
+		}
+
+		if($this->assignment->getMinCharLimit())
+		{
+			$values['limit_characters'] = 1;
+			$values['min_char_limit'] = $this->assignment->getMinCharLimit();
+		}
+		if($this->assignment->getMaxCharLimit())
+		{
+			$values['limit_characters'] = 1;
+			$values['max_char_limit'] = $this->assignment->getMaxCharLimit();
+		}
+
 		if ($this->assignment->getStartTime())
 		{			
 			$values["start_time"] = new ilDateTime($this->assignment->getStartTime(), IL_CAL_UNIX);		
@@ -856,7 +975,7 @@ class ilExAssignmentEditorGUI
 		
 		$ilTabs->addTab("ass_files",
 			$lng->txt("exc_instruction_files"),
-			$ilCtrl->getLinkTargetByClass(array("ilexassignmenteditorgui", "ilfilesystemgui"), "listFiles"));
+			$ilCtrl->getLinkTargetByClass(array("ilexassignmenteditorgui", "ilexassignmentfilesystemgui"), "listFiles"));
 	}
 	
 	public function downloadGlobalFeedbackFileObject()

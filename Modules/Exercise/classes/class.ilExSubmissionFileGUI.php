@@ -40,7 +40,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		{
 			$titles[] = $file["filetitle"];
 		}
-		$files_str = implode($titles, ", ");
+		$files_str = implode($titles, "<br>");
 		if ($files_str == "")
 		{
 			$files_str = $lng->txt("message_no_delivered_files");
@@ -59,7 +59,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 				$button->setPrimary(true);
 				$button->setCaption($title, false);
 				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "submissionScreen"));							
-				$files_str.= " ".$button->render();								
+				$files_str.= "<br><br>".$button->render();
 			}
 			else
 			{
@@ -68,7 +68,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 					$button = ilLinkButton::getInstance();								
 					$button->setCaption("already_delivered_files");
 					$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "submissionScreen"));											
-					$files_str.= " ".$button->render();
+					$files_str.= "<br>".$button->render();
 				}
 			}
 		}

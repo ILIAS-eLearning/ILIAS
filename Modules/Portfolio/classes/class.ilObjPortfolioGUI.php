@@ -740,26 +740,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			{
 				case ilPortfolioTemplatePage::TYPE_PAGE:	
 					// skills
-					$source_page = new ilPortfolioTemplatePage($page["id"]);	
+					$source_page = new ilPortfolioTemplatePage($page["id"]);
 					$source_page->buildDom(true);
-					$dom = $source_page->getDom();					
-					if($dom instanceof php4DOMDocument)
-					{						
-						$dom = $dom->myDOMDocument;
-					}
-					$xpath = new DOMXPath($dom);
-					$nodes = $xpath->query("//PageContent/Skills");
-					foreach($nodes as $node)
-					{
-						$skill_id = $node->getAttribute("Id");
-						if(!in_array($skill_id, $pskills))
-						{
-							$skill_ids[] = $skill_id;
-						}
-					}
-					unset($nodes);
-					unset($xpath);
-					unset($dom);
+					$skill_ids = $this->getSkillsToPortfolioAssignment($pskills, $skill_ids, $source_page);
+
 					if($check_quota)
 					{																									
 						$quota_sum += $source_page->getPageDiskSize();
@@ -917,27 +901,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$target_id = $target->getId();
 				
 		$source->clonePagesAndSettings($source, $target, $recipe);
-						
+
 		// link portfolio to exercise assignment
-		$exc_ref_id = (int)$_REQUEST["exc_id"];
-		$ass_id = (int)$_REQUEST["ass_id"];		
-		if($exc_ref_id &&
-			$ass_id && 
-			$ilAccess->checkAccess("read", "", $exc_ref_id))
-		{			
-			include_once "Modules/Exercise/classes/class.ilObjExercise.php";
-			include_once "Modules/Exercise/classes/class.ilExAssignment.php";							
-			$exc = new ilObjExercise($exc_ref_id);						
-			$ass = new ilExAssignment($ass_id);			
-			if($ass->getExerciseId() == $exc->getId() &&
-				$ass->getType() == ilExAssignment::TYPE_PORTFOLIO)
-			{				
-				// #16205
-				include_once "Modules/Exercise/classes/class.ilExSubmission.php";			
-				$sub = new ilExSubmission($ass, $ilUser->getId());
-				$sub->addResourceObject($target_id);
-			}
-		}
+		$this->linkPortfolioToAssignment($target_id);
 		
 		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
 		$this->ctrl->setParameter($this, "prt_id", $target_id);
@@ -958,6 +924,152 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		include("ilias.php");
 		exit;
 	}
-}
 
+	public function createPortfolioFromAssignment()
+	{
+		global $ilUser, $ilSetting;
+
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+
+		$title = trim($_REQUEST["pt"]);
+		$prtt_id = (int)$_REQUEST["prtt"];
+
+		if($prtt_id > 0)
+		{
+			$templates = array_keys(ilObjPortfolioTemplate::getAvailablePortfolioTemplates());
+			if(!sizeof($templates) || !in_array($prtt_id, $templates))
+			{
+				$this->toRepository();
+			}
+			unset($templates);
+
+			//quota manipulation
+			include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";
+			$check_quota = (int)ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive();
+			$quota_sum = 0;
+
+			//skills manipulation
+			include_once "Services/Skill/classes/class.ilPersonalSkill.php";
+			$pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
+			$skill_ids = array();
+
+			$recipe = array();
+			foreach(ilPortfolioTemplatePage::getAllPortfolioPages($prtt_id) as $page)
+			{
+				switch($page["type"])
+				{
+					case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
+						if(!$ilSetting->get('disable_wsp_blogs'))
+						{
+							$recipe[$page["id"]] = array("blog", "create", $page['title']);
+						}
+						break;
+					case ilPortfolioTemplatePage::TYPE_PAGE:
+						$source_page = new ilPortfolioTemplatePage($page["id"]);
+						$source_page->buildDom(true);
+						if($check_quota)
+						{
+							$quota_sum += $source_page->getPageDiskSize();
+						}
+						$skill_ids = $this->getSkillsToPortfolioAssignment($pskills, $skill_ids, $source_page);
+						break;
+				}
+			}
+
+			if($quota_sum)
+			{
+				include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+				if(!ilDiskQuotaHandler::isUploadPossible($quota_sum))
+				{
+					ilUtil::sendFailure($this->lng->txt("prtf_template_import_quota_failure"), true);
+					$this->ctrl->redirect($this, "create");
+				}
+			}
+
+			if($skill_ids)
+			{
+				$recipe["skills"] = $skill_ids;
+			}
+
+		}
+
+		// create portfolio
+		$target = new ilObjPortfolio();
+		$target->setTitle($title);
+		$target->create();
+		$target_id = $target->getId();
+
+		if($prtt_id)
+		{
+			$source = new ilObjPortfolioTemplate($prtt_id, false);
+			$source->clonePagesAndSettings($source, $target,$recipe);
+		}
+
+		// link portfolio to exercise assignment
+		$this->linkPortfolioToAssignment($target_id);
+
+		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
+		$this->ctrl->setParameter($this, "prt_id", $target_id);
+		$this->ctrl->redirect($this, "view");
+	}
+
+	function linkPortfolioToAssignment($a_target_id)
+	{
+		global $ilAccess, $ilUser;
+
+		$exc_ref_id = (int)$_REQUEST["exc_id"];
+		$ass_id = (int)$_REQUEST["ass_id"];
+
+		if($exc_ref_id &&
+			$ass_id &&
+			$ilAccess->checkAccess("read", "", $exc_ref_id))
+		{
+			include_once "Modules/Exercise/classes/class.ilObjExercise.php";
+			include_once "Modules/Exercise/classes/class.ilExAssignment.php";
+			$exc = new ilObjExercise($exc_ref_id);
+			$ass = new ilExAssignment($ass_id);
+			if($ass->getExerciseId() == $exc->getId() &&
+				$ass->getType() == ilExAssignment::TYPE_PORTFOLIO)
+			{
+				// #16205
+				include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+				$sub = new ilExSubmission($ass, $ilUser->getId());
+				$sub->addResourceObject($a_target_id);
+			}
+		}
+	}
+
+	/**
+	 * @param array a_pskills
+	 * @param array a_skill_ids
+	 * @param ilPortfolioTemplatePage $a_source_page
+	 * @return array
+	 */
+	function getSkillsToPortfolioAssignment($a_pskills, $a_skill_ids, $a_source_page)
+	{
+		$dom = $a_source_page->getDom();
+		if($dom instanceof php4DOMDocument)
+		{
+			$dom = $dom->myDOMDocument;
+		}
+		$xpath = new DOMXPath($dom);
+		$nodes = $xpath->query("//PageContent/Skills");
+		foreach($nodes as $node)
+		{
+			$skill_id = $node->getAttribute("Id");
+			if(!in_array($skill_id, $a_pskills))
+			{
+				$a_skill_ids[] = $skill_id;
+			}
+		}
+		unset($nodes);
+		unset($xpath);
+		unset($dom);
+
+		return $a_skill_ids;
+
+	}
+}
 ?>
