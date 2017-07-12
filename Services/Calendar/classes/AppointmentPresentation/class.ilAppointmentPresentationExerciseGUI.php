@@ -32,6 +32,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 
 		$exc_obj = new ilObjExercise($cat_info['obj_id'], false);
 		//$exc_ref = $exc_obj->getRefId(); //emtpy...
+		//is this safe?
 		$exc_ref = current(ilObject::_getAllReferences($exc_obj->getId()));
 
 		//Assignment title

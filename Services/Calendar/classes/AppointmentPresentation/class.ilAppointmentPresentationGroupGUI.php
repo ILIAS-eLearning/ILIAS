@@ -39,7 +39,7 @@ class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI imp
 
 		if($grp->getInformation())
 		{
-			$a_infoscreen->addSection($this->lng->txt((ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
+			$a_infoscreen->addSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 			$a_infoscreen->addProperty($this->lng->txt("crs_important_info"), $grp->getInformation());
 		}
 

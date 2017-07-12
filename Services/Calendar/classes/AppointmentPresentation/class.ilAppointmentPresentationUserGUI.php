@@ -57,7 +57,8 @@ class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI impl
 		// link to user profile: todo: check if profile is really public
 		include_once('./Services/Link/classes/class.ilLink.php');
 		$href = ilLink::_getStaticLink($cat_info['obj_id'], "usr");
-		$a_infoscreen->addProperty($this->lng->txt("cal_owner"),$r->render($f->button()->shy($this->lng->txt("link_cal_owner"), $href)));
+
+		$a_infoscreen->addProperty($this->lng->txt("cal_owner"),$r->render($f->button()->shy(ilObjUser::_lookupFullname($cat_info['obj_id']), $href)));
 
 		$a_infoscreen->addSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id']))."_info"));
 
