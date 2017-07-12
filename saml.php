@@ -5,7 +5,7 @@
  * @author Michael Jansen <mjansen@databay.de>
  */
 
-require_once 'Services/Saml/lib/simplesamlphp/lib/_autoload.php';
+require_once 'libs/composer/vendor/autoload.php';
 $as = new SimpleSAML_Auth_Simple('default-sp');
 
 if(isset($_GET['action']) && $_GET['action'] == 'logout' && isset($_GET['logout_url']) && strlen($_GET['logout_url']))

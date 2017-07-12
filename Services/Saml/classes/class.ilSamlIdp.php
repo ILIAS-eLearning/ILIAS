@@ -113,7 +113,6 @@ class ilSamlIdp
 
 			try
 			{
-				require_once 'Services/Saml/lib/simplesamlphp/lib/_autoload.php';
 				$idp_remote_auth_sources = array();
 
 				$sources = SimpleSAML_Auth_Source::getSources();
