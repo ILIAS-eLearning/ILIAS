@@ -175,13 +175,13 @@ class ilInitialisation
 
 		$DIC['filesystem.web'] = function ($c) use ($delegatingFactory) {
 			//web
-			$webConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR.'/'.CLIENT_ID);
+			$webConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID);
 			return $delegatingFactory->getLocal($webConfiguration);
 		};
 
 		$DIC['filesystem.storage'] = function ($c) use ($delegatingFactory) {
 			//storage
-			$storageConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID);
+			$storageConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR.'/'.CLIENT_ID);
 			return $delegatingFactory->getLocal($storageConfiguration);
 		};
 
