@@ -17,9 +17,7 @@ define ("AUTH_HTTP",8);
 define ("AUTH_ECS",9);
 
 define ("AUTH_APACHE",11);
-// saml-patch: begin
-define ("AUTH_SAML", 99);
-// saml-patch: end
+
 define ("AUTH_INACTIVE",18);
 
 define('AUTH_MULTIPLE',20);
@@ -37,9 +35,7 @@ define('AUTH_APACHE_FAILED', -500);
 
 
 define('AUTH_MODE_INACTIVE',-1000);
-// saml-patch: begin
-define('AUTH_SAML_FAILED', -2000);
-// saml-patch: end
+
 // an external user cannot be found in ilias, but his email address
 // matches one or more ILIAS users
 define('AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL', -101);
@@ -163,31 +159,11 @@ class ilAuthUtils
 				{
 					$user_auth_mode = AUTH_LOCAL;
 				}
-				// saml-patch: begin
-				if((int)$user_auth_mode == AUTH_SAML)
-				{
-					require_once 'Services/Saml/classes/class.ilSamlIdp.php';
-					$idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($user_auth_mode));
-					if($idp->isActive() && $idp->allowLocalAuthentication())
-					{
-						$user_auth_mode = AUTH_LOCAL;
-					}
-				}
-				// saml-patch: end
 			}
 			else if ($_POST['auth_mode'] == AUTH_APACHE)
 			{
 				$user_auth_mode = AUTH_APACHE;
-			}
-			// saml-patch: begin
-			else if(
-				((int)$_POST['auth_mode'] == AUTH_SAML || (int)$_GET['auth_mode'] == AUTH_SAML) &&
-				!in_array(strtolower($_GET['cmdClass']), array_map('strtolower', array('ilobjusergui', 'ilobjauthsettingsgui')))
-			)
-			{
-				$user_auth_mode = $_POST['auth_mode'];
-			}
-			// saml-patch: end
+			}			
         }
 	
 		// to do: other solution?
@@ -328,14 +304,7 @@ class ilAuthUtils
 				ilAuthFactory::setContext(ilAuthFactory::CONTEXT_APACHE);
 				$ilAuth = ilAuthFactory::factory(new ilAuthContainerApache());
 				break;
-			// saml-patch: begin
-			case AUTH_SAML:
-				require_once 'Services/Saml/classes/class.ilAuthContainerSAML.php';
-				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
-				ilAuthFactory::setContext(ilAuthFactory::CONTEXT_SAML);
-				$ilAuth = ilAuthFactory::factory(new ilAuthContainerSAML(ilSamlIdp::getIdpIdByAuthMode($authmode)));
-				break;
-			// saml-patch: end
+
 			// begin-patch auth_plugin
 			case AUTH_LOCAL:
 				global $ilDB;
@@ -491,11 +460,7 @@ class ilAuthUtils
 			case "shibboleth":
 				return AUTH_SHIBBOLETH;
 				break;
-			// saml-patch: begin
-			case 'saml':
-				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
-				return ilSamlIdp::getKeyByAuthMode($a_auth_mode);
-			// saml-patch: end
+
 			case "cas":
 				return AUTH_CAS;
 				break;
@@ -548,11 +513,7 @@ class ilAuthUtils
 			case AUTH_SHIBBOLETH:
 				return "shibboleth";
 				break;
-			// saml-patch: begin
-			case AUTH_SAML:
-				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
-				return ilSamlIdp::getAuthModeByKey($a_auth_key);
-			// saml-patch: end
+
 			case AUTH_SOAP:
 				return "soap";
 				break;
@@ -596,13 +557,7 @@ class ilAuthUtils
 		{
 			$modes['ecs'] = AUTH_ECS;
 		}
-		// saml-patch: begin
-		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
-		foreach(ilSamlIdp::getActiveIdpList() as $idp)
-		{
-			$modes['saml_'. $idp->getIdpId()] = AUTH_SAML  .'_' . $idp->getIdpId();
-		}
-		// saml-patch: end
+
 		// begin-path auth_plugin
 		foreach(self::getAuthPlugins() as $pl)
 		{
@@ -624,9 +579,6 @@ class ilAuthUtils
 			AUTH_LOCAL,
 			AUTH_LDAP,
 			AUTH_SHIBBOLETH,
-			// saml-patch: begin
-			AUTH_SAML,
-			// saml-patch: end
 			AUTH_CAS,
 			AUTH_SOAP,
 			AUTH_RADIUS,
@@ -647,18 +599,6 @@ class ilAuthUtils
 				}
 				continue;
 			}
-			// saml-patch: begin
-			else if($mode == AUTH_SAML)
-			{
-				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
-				foreach(ilSamlIdp::getAllIdps() as $idp)
-				{
-					$id = AUTH_SAML . '_' . $idp->getIdpId();
-					$ret[$id] = ilAuthUtils::_getAuthModeName($id);
-				}
-				continue;
-			}
-			// saml-patch: end
 			$ret[$mode] =  ilAuthUtils::_getAuthModeName($mode);
 		}
 		return $ret;
@@ -839,13 +779,7 @@ class ilAuthUtils
 		{
 			return true;
 		}
-		// saml-patch: begin
-		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
-		if(count(ilSamlIdp::getActiveIdpList()) > 0)
-		{
-			return true;
-		}
-		// saml-patch: end
+		
 		// begin-path auth_plugin
 		foreach(self::getAuthPlugins() as $pl)
 		{
@@ -942,12 +876,6 @@ class ilAuthUtils
 				return $ilSetting->get("soap_auth_allow_local");
 			case AUTH_CAS:
 				return $ilSetting->get("cas_allow_local");
-			// saml-patch: begin
-			case AUTH_SAML:
-				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
-				$idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($a_authmode));
-				return $idp->isActive() && $idp->allowLocalAuthentication();
-			// saml-patch: end
 		}
 	}
 	
@@ -966,9 +894,7 @@ class ilAuthUtils
 			case AUTH_LOCAL:
 			case AUTH_RADIUS:
 				return ilAuthUtils::LOCAL_PWV_FULL;
-			// saml-patch: begin
-			case AUTH_SAML:
-			// saml-patch: end
+			
 			case AUTH_SHIBBOLETH:
 			case AUTH_SOAP:
 			case AUTH_CAS:
@@ -1022,13 +948,6 @@ class ilAuthUtils
 		
 		switch((int) $a_auth_key)
 		{
-			// saml-patch: begin
-			case AUTH_SAML:
-				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
-				$idp_id = ilSamlIdp::getIdpIdByAuthMode($a_auth_key);
-				$idp = ilSamlIdp::getInstanceByIdpId($idp_id);
-				return $idp->getName();
-			// saml-patch: end
 			case AUTH_LDAP:
 				include_once './Services/LDAP/classes/class.ilLDAPServer.php';
 				$sid = ilLDAPServer::getServerIdByAuthMode($a_auth_key);
