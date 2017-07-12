@@ -2,6 +2,8 @@
 
 namespace ILIAS\Filesystem\Stream;
 
+use Psr\Http\Message\StreamInterface;
+
 /**
  * Class Streams
  *
@@ -48,6 +50,19 @@ class Streams {
 			throw new \InvalidArgumentException('The argument $resource must be of type resource but was "' . gettype($resource) . '"');
 
 		return new Stream($resource);
+	}
+
+
+	/**
+	 * Create a FileStream from a Psr7 compliant stream.
+	 * Please not that the stream must be detached from the psr7 stream in order to create the filesystem stream.
+	 *
+	 * @param StreamInterface $stream   The stream which should be parsed into a FileStream.
+	 * @return FileStream               The newly created stream.
+	 */
+	public static function ofPsr7Stream(StreamInterface $stream) {
+		$resource = $stream->detach();
+		return self::ofResource($resource);
 	}
 
 }

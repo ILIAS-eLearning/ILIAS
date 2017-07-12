@@ -24,7 +24,7 @@ trait FilesystemsAware {
 	 *
 	 * @return Filesystems
 	 */
-	private function filesystems() {
+	private static function filesystems() {
 		if(is_null(self::$filesystems)) {
 			global $DIC;
 			self::$filesystems = $DIC->filesystem();
