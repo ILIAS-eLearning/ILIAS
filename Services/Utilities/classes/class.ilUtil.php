@@ -3,6 +3,8 @@
 
 /** @defgroup ServicesUtilities Services/Utilities
  */
+use ILIAS\Filesystem\MetadataType;
+use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 /**
 * Util class
@@ -1566,51 +1568,35 @@ class ilUtil
 	 */
 	public static function rCopy ($a_sdir, $a_tdir, $preserveTimeAttributes = false)
 	{
-		// check if arguments are directories
-		if (!@is_dir($a_sdir) or
-		!@is_dir($a_tdir))
-		{
-			return FALSE;
-		}
+		try {
+			$sourceFS = LegacyPathHelper::deriveFilesystemFrom($a_sdir);
+			$targetFS = LegacyPathHelper::deriveFilesystemFrom($a_tdir);
 
-		// read a_sdir, copy files and copy directories recursively
-		$dir = opendir($a_sdir);
+			$sourceDir = LegacyPathHelper::createRelativePath($a_sdir);
+			$targetDir = LegacyPathHelper::createRelativePath($a_tdir);
 
-		while($file = readdir($dir))
-		{
-			if ($file != "." and
-			$file != "..")
+			// check if arguments are directories
+			if (!$sourceFS->hasDir($sourceDir))
 			{
-				// directories
-				if (@is_dir($a_sdir."/".$file))
-				{
-					if (!@is_dir($a_tdir."/".$file))
-					{
-						if (!ilUtil::makeDir($a_tdir."/".$file))
-						return FALSE;
-
-						//chmod($a_tdir."/".$file, 0775);
-					}
-
-					if (!ilUtil::rCopy($a_sdir."/".$file,$a_tdir."/".$file))
-					{
-						return FALSE;
-					}
-				}
-
-				// files
-				if (@is_file($a_sdir."/".$file))
-				{
-					if (!copy($a_sdir."/".$file,$a_tdir."/".$file))
-					{
-						return FALSE;
-					}
-					if ($preserveTimeAttributes)
-						touch($a_tdir."/".$file, filectime($a_sdir."/".$file));
-				}
+				return false;
 			}
+
+			$sourceList = $sourceFS->listContents($sourceDir, true);
+
+			foreach($sourceList as $item)
+			{
+				if(strcmp($item->getType(), MetadataType::DIRECTORY) === 0)
+					continue;
+
+				$itemPath = $targetDir . '/' . substr($item->getPath(), strlen($sourceDir));
+				$stream = $sourceFS->readStream($sourceDir);
+				$targetFS->writeStream($itemPath, $stream);
+			}
+			return true;
 		}
-		return TRUE;
+		catch (\Exception $exception) {
+			return false;
+		}
 	}
 
 
