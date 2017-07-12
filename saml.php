@@ -38,10 +38,17 @@ else
 
 $as->requireAuth();
 
-
 require_once 'Services/Saml/classes/class.ilSamlAttributesHolder.php';
 ilSamlAttributesHolder::setAttributes($as->getAttributes());
-
+ilSamlAttributesHolder::setAttributes(array(
+	'http://schemas.microsoft.com/ws/2008/06/identity/claims/globalsid'          => array('mjansen'),
+	'http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname' => array('mjansen'),
+	'login'     => array('mjansen'),
+	'email'     => array('mjansen@databay.de'),
+	'gender'    => array('m'),
+	'firstname' => array('Michael'),
+	'lastname'  => array('Jansen'),
+));
 if(strlen($session->getData('example:set_target', 'il_target')))
 {
 	ilSamlAttributesHolder::setReturnTo($session->getData('example:set_target', 'il_target'));
@@ -55,6 +62,24 @@ if($store_type == 'phpsession' || empty($store_type))
 	session_write_close();
 	session_name('PHPSESSID');
 }
+
+$state = $session->getAuthState();
+$stateIdp   = $state['saml:sp:IdP'];
+$metadata   = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
+$i          = 1;
+$idpIndex   = 1;
+foreach($metadata->getList('saml20-idp-remote') as $idp)
+{
+	if($idp['entityid'] == $stateIdp)
+	{
+		$idpIndex = $i;
+		break;
+	}
+
+	++$i;
+}
+
+$_POST['auth_mode'] = '12_' . $idpIndex;
 
 require_once './Services/Context/classes/class.ilContext.php';
 ilContext::init(ilContext::CONTEXT_SAML);

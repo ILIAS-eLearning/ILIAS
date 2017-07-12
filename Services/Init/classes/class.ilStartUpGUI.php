@@ -2317,4 +2317,56 @@ class ilStartUpGUI
 
 		return $page_editor_html;
 	}
+
+	/**
+	 * @return bool
+	 */
+	protected function doSamlAuthentication()
+	{
+		$this->getLogger()->debug('Trying apache authentication');
+
+		require_once 'Services/Saml/classes/class.ilAuthFrontendCredentialsSaml.php';
+		$credentials = new ilAuthFrontendCredentialsSaml();
+		$credentials->initFromRequest();
+
+		require_once 'Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
+		$provider_factory = new ilAuthProviderFactory();
+		$provider = $provider_factory->getProviderByAuthMode($credentials, ilUtil::stripSlashes($_POST['auth_mode']));
+
+		require_once 'Services/Authentication/classes/class.ilAuthStatus.php';
+		$status = ilAuthStatus::getInstance();
+
+		require_once 'Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
+		$frontend_factory = new ilAuthFrontendFactory();
+		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
+		$frontend = $frontend_factory->getFrontend(
+			$GLOBALS['DIC']['ilAuthSession'],
+			$status,
+			$credentials,
+			array($provider)
+		);
+
+		$frontend->authenticate();
+
+		switch($status->getStatus())
+		{
+			case ilAuthStatus::STATUS_AUTHENTICATED:
+				ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
+				require_once 'Services/Init/classes/class.ilInitialisation.php';
+				return ilInitialisation::redirectToStartingPage();
+
+			case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
+				return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
+
+			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+				ilUtil::sendFailure($status->getTranslatedReason(),true);
+				$GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
+				return false;
+		}
+
+		ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+		$this->showLoginPage();
+
+		return false;
+	}
 }
