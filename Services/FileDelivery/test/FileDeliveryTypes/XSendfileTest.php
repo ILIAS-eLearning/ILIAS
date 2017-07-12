@@ -7,7 +7,7 @@ require_once('./libs/composer/vendor/autoload.php');
 use ILIAS\DI\HTTPServices;
 use ILIAS\HTTP\GlobalHttpState;
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -20,7 +20,9 @@ use Psr\Http\Message\ResponseInterface;
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class XSendfileTest extends MockeryTestCase {
+class XSendfileTest extends TestCase {
+
+	use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 	/**
 	 * @var \Mockery\MockInterface | GlobalHttpState
@@ -63,7 +65,7 @@ class XSendfileTest extends MockeryTestCase {
 		                      ->shouldReceive("sendResponse")->times(1)->withNoArgs();
 
 		$fileDeliveryType = new XSendfile($this->httpServiceMock);
-		$fileDeliveryOk = $fileDeliveryType->deliver($filePath);
+		$fileDeliveryOk = $fileDeliveryType->deliver($filePath, false);
 
 		$this->assertTrue($fileDeliveryOk);
 	}

@@ -12,7 +12,7 @@ require_once('./libs/composer/vendor/autoload.php');
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Response\ResponseHeader;
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -25,7 +25,9 @@ use Psr\Http\Message\ResponseInterface;
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class XAccelTest extends MockeryTestCase {
+class XAccelTest extends TestCase {
+
+	use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 	/**
 	 * @var \Mockery\MockInterface | GlobalHttpState
@@ -41,7 +43,7 @@ class XAccelTest extends MockeryTestCase {
 		$this->httpServiceMock->shouldIgnoreMissing();
 
 		//set remote address to localhost
-		//$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+		// $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
 		require_once './Services/FileDelivery/classes/FileDeliveryTypes/XAccel.php';
 	}
@@ -52,7 +54,6 @@ class XAccelTest extends MockeryTestCase {
 	 */
 	public function testPrepareWhichShouldSucceed()
 	{
-
 		$expectedContentValue = '';
 
 		$response = Mockery::mock(ResponseInterface::class);
@@ -90,7 +91,7 @@ class XAccelTest extends MockeryTestCase {
 		                      ->shouldReceive("sendResponse")->times(1)->withNoArgs();
 
 		$xAccel = new XAccel($this->httpServiceMock);
-		$xAccel->deliver($path);
+		$xAccel->deliver($path, false);
 	}
 
 
@@ -114,6 +115,6 @@ class XAccelTest extends MockeryTestCase {
 		                      ->shouldReceive("sendResponse")->times(1)->withNoArgs();
 
 		$xAccel = new XAccel($this->httpServiceMock);
-		$xAccel->deliver($path);
+		$xAccel->deliver($path, false);
 	}
 }
