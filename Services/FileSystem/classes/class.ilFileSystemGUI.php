@@ -561,24 +561,8 @@ class ilFileSystemGUI
 			$ilToolbar->addInputItem($si, true);
 			$ilToolbar->addFormButton($lng->txt("copy"), "uploadFile");
 		}
-			
-		// load files templates
-		if($a_table_gui)
-		{
-			$path = $a_table_gui['path'];
-			$class = $a_table_gui['class'];
-			include_once("$path");
-			$fs_table = new $class($this, "listFiles", $dir["dir"], $dir["subdir"],
-				$this->label_enable, $this->file_labels, $this->label_header, $this->commands,
-				$this->getPostDirPath(), $this->getTableId());
-		}
-		else
-		{
-			include_once("./Services/FileSystem/classes/class.ilFileSystemTableGUI.php");
-			$fs_table = new ilFileSystemTableGUI($this, "listFiles", $dir["dir"], $dir["subdir"],
-				$this->label_enable, $this->file_labels, $this->label_header, $this->commands,
-				$this->getPostDirPath(), $this->getTableId());
-		}
+
+		$fs_table = $this->getTable($dir["dir"], $dir["subdir"]);
 
 		if ($this->getTitle() != "")
 		{
@@ -589,6 +573,20 @@ class ilFileSystemGUI
 			$fs_table->resetOffset();
 		}
 		$this->tpl->setContent($fs_table->getHTML());
+	}
+
+	/**
+	 * Get table
+	 *
+	 * @param
+	 * @return
+	 */
+	function getTable($a_dir, $a_subdir)
+	{
+		include_once("./Services/FileSystem/classes/class.ilFileSystemTableGUI.php");
+		return new ilFileSystemTableGUI($this, "listFiles", $a_dir, $a_subdir,
+			$this->label_enable, $this->file_labels, $this->label_header, $this->commands,
+			$this->getPostDirPath(), $this->getTableId());
 	}
 
 	/**

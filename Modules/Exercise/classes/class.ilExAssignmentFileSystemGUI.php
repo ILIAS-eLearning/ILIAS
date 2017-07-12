@@ -19,15 +19,20 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 
 	}
 
-	public function listFiles($a_class_table_gui = "")
+	/**
+	 * Get table
+	 *
+	 * @param
+	 * @return
+	 */
+	function getTable($a_dir, $a_subdir)
 	{
-		$class_data = array (
-			"class" => "ilExAssignmentFileSystemTableGUI",
-			"path" => "./Modules/Exercise/classes/class.ilExAssignmentFileSystemTableGUI.php"
-		);
-		parent::listFiles($class_data);
-
+		include_once("./Modules/Exercise/classes/class.ilExAssignmentFileSystemTableGUI.php");
+		return new ilExAssignmentFileSystemTableGUI($this, "listFiles", $a_dir, $a_subdir,
+			$this->label_enable, $this->file_labels, $this->label_header, $this->commands,
+			$this->getPostDirPath(), $this->getTableId());
 	}
+
 
 	/**
 	 * Insert into database the file order and update the file.

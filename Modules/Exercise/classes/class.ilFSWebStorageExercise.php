@@ -94,8 +94,8 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
 	{
 		require_once "./Modules/Exercise/classes/class.ilExAssignment.php";
 
-		$ass = new ilExAssignment();
-		$files_order = $ass->getInstructionFilesOrder($this->ass_id);
+		$ass = new ilExAssignment($this->ass_id);
+		$files_order = $ass->getInstructionFilesOrder();
 
 		$files = array();
 		if (!is_dir($this->path))
@@ -113,12 +113,12 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
 					'size'     => filesize($this->path.'/'.$file),
 					'ctime'    => filectime($this->path.'/'.$file),
 					'fullpath' => $this->path.'/'.$file,
-					'order'    => $files_order[$file] ? $files_order[$file] : 0
+					'order'    => $files_order[$file]["order_nr"] ? $files_order[$file]["order_nr"] : 0
 					);
 			}
 		}
 		closedir($dp);
-		$files = ilUtil::sortArray($files, "order", "asc");
+		$files = ilUtil::sortArray($files, "order", "asc", true);
 		return $files;
 	}
 

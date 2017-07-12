@@ -249,6 +249,7 @@ class ilExAssignmentGUI
 		global $lng, $ilCtrl;
 		
 		$files = $a_ass->getFiles();
+
 		if (count($files) > 0)
 		{
 			$a_info->addSection($lng->txt("exc_files"));
@@ -297,7 +298,7 @@ class ilExAssignmentGUI
 
 					$a_info->addProperty($file["name"], $img_tpl->get());
 				}
-				if (in_array($mime, array("audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm")))
+				else if (in_array($mime, array("audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm")))
 				{
 					$media_tpl = new ilTemplate("tpl.media_file.html", true, true, "Modules/Exercise");
 					$mp = new ilMediaPlayerGUI();

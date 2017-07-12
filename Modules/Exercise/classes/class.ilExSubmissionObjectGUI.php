@@ -643,7 +643,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		
 		$conf->setHeaderText($txt);
 		$conf->setConfirm($this->lng->txt("exc_direct_submit"), "directSubmit");
-		$conf->setCancel($this->lng->txt("cancel"), "returnToParent");
+		$conf->setCancel($this->lng->txt("exc_direct_no_submit"), "returnToParent");
 		
 		$tpl->setContent($conf->getHTML());
 	}

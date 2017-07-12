@@ -15987,7 +15987,6 @@ rbac#:#file_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen
 rbac#:#stys_sty_write_content#:#Content-Styles bearbeiten
 style#:#manage_system_styles#:#System Styles verwalten
 style#:#scope#:#Gültigkeitsbereich
-common#:#file_order#:#Reihenfolge
 exc#:#exc_work_instructions#:#Arbeitsanweisung
 exc#:#exc_after_submission#:#Nach der Abgabe
 exc#:#exc_schedule#:#Terminplan
@@ -16009,3 +16008,4 @@ exc#:#exc_max_char_limit#:#Höchstanzahl Zeichen
 exc#:#exc_chars_remaining#:#Verbleibende Zeichen
 exc#:#msg_input_char_limit_min#:#Sie müssen die festgelegte Mindestanzahl an Zeichen eingeben. Ihr Beitrag ist zu kurz.
 exc#:#msg_input_char_limit_max#:#Sie müssen die festgelegte Höchstzahl von Zeichen beachten. Ihr Beitrag ist zu lang.
+exc#:#exc_direct_no_submit#:#Nicht abgeben

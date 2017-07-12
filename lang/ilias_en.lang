@@ -13542,7 +13542,6 @@ rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#stys_sty_write_content#:#Edit Content Styles
 style#:#manage_system_styles#:#Manage System Styles
 style#:#scope#:#Scope
-common#:#file_order#:#File Order
 exc#:#exc_work_instructions#:#Work instructions
 exc#:#exc_after_submission#:#After submission
 exc#:#exc_schedule#:#Schedule
@@ -13564,3 +13563,4 @@ exc#:#exc_max_char_limit#:#Maximum number of characters
 exc#:#exc_chars_remaining#:#Characters remaining:
 exc#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
 exc#:#msg_input_char_limit_max#:#You have entered more characters than allowed.
+exc#:#exc_direct_no_submit#:#Do not submit

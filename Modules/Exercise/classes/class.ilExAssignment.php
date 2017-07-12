@@ -1099,18 +1099,18 @@ class ilExAssignment
 	 * @param $a_ass_id
 	 * @return array
 	 */
-	public function getInstructionFilesOrder($a_ass_id)
+	public function getInstructionFilesOrder()
 	{
 		global $ilDB;
 
-		$set = $ilDB->query("SELECT filename, order_nr FROM exc_ass_file_order ".
-			" WHERE assignment_id  = ".$ilDB->quote($a_ass_id, "integer")
+		$set = $ilDB->query("SELECT filename, order_nr, id FROM exc_ass_file_order ".
+			" WHERE assignment_id  = ".$ilDB->quote($this->getId(), "integer")
 		);
 
 		$data = array();
 		while ($rec  = $ilDB->fetchAssoc($set))
 		{
-			$data[$rec['filename']] = $rec['order_nr'];
+			$data[$rec['filename']] = $rec;
 		}
 
 		return $data;
@@ -2008,7 +2008,8 @@ class ilExAssignment
 
 		$db = $DIC->database();
 
-		asort($a_order);
+		asort($a_order, SORT_NUMERIC);
+
 		$nr = 10;
 		foreach ($a_order as $k => $v)
 		{
@@ -2124,55 +2125,69 @@ class ilExAssignment
 		}
 	}
 
+	function fixInstructionFileOrdering()
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$files = array_map(function ($v) {
+			return $v["name"];
+		}, $this->getFiles());
+
+		$set = $db->query("SELECT * FROM exc_ass_file_order ".
+			" WHERE assignment_id = ".$db->quote($this->getId(), "integer").
+			" ORDER BY order_nr");
+		$order_nr = 10;
+		$numbered_files = array();
+		while ($rec = $db->fetchAssoc($set))
+		{
+			// file exists, set correct order nr
+			if (in_array($rec["filename"], $files))
+			{
+				$db->manipulate("UPDATE exc_ass_file_order SET ".
+					" order_nr = ".$db->quote($order_nr, "integer").
+					" WHERE assignment_id = ".$db->quote($this->getId(), "integer").
+					" AND id = ".$db->quote($rec["id"], "integer")
+					);
+				$order_nr+=10;
+				$numbered_files[] = $rec["filename"];
+			}
+			else	// file does not exist, delete entry
+			{
+				$db->manipulate("DELETE FROM exc_ass_file_order ".
+					" WHERE assignment_id = ".$db->quote($this->getId(), "integer").
+					" AND id = ".$db->quote($rec["id"], "integer")
+				);
+			}
+		}
+		foreach ($files as $f)
+		{
+			if (!in_array($f, $numbered_files))
+			{
+				self::instructionFileInsertOrder($f, $this->getId());
+			}
+		}
+	}
+
 	/**
 	 * @param array $a_entries
 	 * @param integer $a_ass_id assignment id
 	 * @return array data items
 	 */
-	static function fileAddOrder($a_entries = array(), $a_ass_id)
+	function fileAddOrder($a_entries = array())
 	{
-		$items = array();
+		$this->fixInstructionFileOrdering();
 
-		foreach ($a_entries as $e)
+		$order = $this->getInstructionFilesOrder();
+		foreach ($a_entries as $k => $e)
 		{
-			$order_id = 0;
-			$order_val = 0;
-			list($order_val, $order_id) = self::instructionFileGetFileOrderData($e, $a_ass_id);
-
-			if(!$order_val)
-			{
-				self::instructionFileInsertOrder($e['entry'], $a_ass_id);
-				list($order_val, $order_id) = self::instructionFileGetFileOrderData($e, $a_ass_id);
-			}
-
-			$items[$order_val] = array("file" => $e["file"], "entry" => $e["entry"],
-				"type" => $e["type"], "label" => $e["label"], "size" => $e["size"],
-				"name" => $e["name"], "order_id"=>$order_id, "order_val"=>$order_val);
+			$a_entries[$k]["order_val"] = $order[$e["file"]]["order_nr"];
+			$a_entries[$k]["order_id"] = $order[$e["file"]]["id"];
 		}
 
-		ksort($items);
-		$items = self::instructionFileRearrangeOrder($items);
-
-		return $items;
+		return $a_entries;
 	}
-
-	/**
-	 * @param $a_items
-	 * @return mixed
-	 */
-	public static function instructionFileRearrangeOrder($a_items)
-	{
-		$ord_const = 10;
-		foreach ($a_items as $k => $v) {
-			$item = $v;
-			$item['order_val'] = $ord_const;
-			unset($a_items[$k]);
-			$a_items[$ord_const] = $item;
-			$ord_const = $ord_const + 10;
-		}
-		return $a_items;
-	}
-
 
 	/**
 	 * @param int $a_ass_id assignment id
