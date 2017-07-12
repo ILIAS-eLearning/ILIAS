@@ -56,8 +56,6 @@ if($store_type == 'phpsession' || empty($store_type))
 	session_name('PHPSESSID');
 }
 
-$_POST['auth_mode'] = '12_1';
-
 require_once './Services/Context/classes/class.ilContext.php';
 ilContext::init(ilContext::CONTEXT_SAML);
 
