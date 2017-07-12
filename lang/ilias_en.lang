@@ -17,7 +17,7 @@
 auth#:#auth_saml#:#SAML
 common#:#auth_saml#:#SAML
 common#:#saml_login_form_txt#:#Login to ILIAS via SAML
-common#:#saml_login_form_info_txt#:#If you’re at a PC on the STIHL network, you can log in using the “Direct Login” button without having to enter your username or password.
+common#:#saml_login_form_info_txt#:#If you’re at a PC on the Rhomberg network, you can log in using the “Direct Login” button without having to enter your username or password.
 auth#:#auth_saml_configure#:#Configure SAML Authentication
 auth#:#auth_saml_enable#:#Enable SAML Support
 auth#:#auth_saml_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to SAML authentication.
