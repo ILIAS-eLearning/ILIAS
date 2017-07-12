@@ -146,11 +146,11 @@ class ilPortfolioExerciseGUI
 			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("download");
-			$button->setUrl($dl_link);			
+			$button->setUrl($dl_link);
 			
-			$info .= "<br />".sprintf($lng->txt("prtf_exercise_submitted_info"), 
+			$info .= "<p>".sprintf($lng->txt("prtf_exercise_submitted_info"),
 				ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
-				$button->render());
+				$button->render())."</p>";
 			
 			ilDatePresentation::setUseRelativeDates($rel);
 		}		
@@ -204,7 +204,7 @@ class ilPortfolioExerciseGUI
 			// trigger
 			$overlay->addTrigger($ol_id."_tr", "click", $ol_id."_tr");
 
-			$info .= "<div id=\"".$ol_id."_tr\"><a href=\"#\">".$lng->txt("exc_instruction")."</a></div>".
+			$info .= "<p id=\"".$ol_id."_tr\"><a href=\"#\">".$lng->txt("exc_instruction")."</a></p>".
 				"<div id=\"".$ol_id."\" style=\"display:none; background-color:white; border: 1px solid #bbb; padding: 10px;\">".$tooltip."</div>";
 		}
 		

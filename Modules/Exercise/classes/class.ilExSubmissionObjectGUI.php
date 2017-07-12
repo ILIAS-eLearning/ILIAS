@@ -589,7 +589,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		$port = new ilObjPortfolio($submission["filetitle"], false);
 
-		$conf->addItem("id[]", "", $port->getTitle(), ilObject::_getIcon($submission['obj_id']));
+		$conf->addItem("id[]", "", $port->getTitle(), ilUtil::getImagePath("icon_prtf.svg"));
 
 		$tpl->setContent($conf->getHTML());
 
