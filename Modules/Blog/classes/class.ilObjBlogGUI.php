@@ -26,6 +26,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	protected $keyword; // [string]
 	protected $author; // [int]
 	protected $month_default; // [bool]
+
+	/**
+	 * @var bool		// note: this is currently set in ilPortfolioPageGUI, should use getter/setter
+	 */
+	public $prtf_embed = false;
 	
 	protected static $keyword_export_map; // [array]
 	
@@ -516,10 +521,21 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					default:						
 						$this->setContentStyleSheet();	
 						
-						$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
-						$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"), 
-							$this->ctrl->getLinkTargetByClass("ilblogpostinggui", "previewFullscreen"));
-						$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", "");
+
+						if (!$this->prtf_embed)
+						{
+							$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
+							$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"),
+								$this->ctrl->getLinkTargetByClass("ilblogpostinggui", "previewFullscreen"));
+							$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", "");
+						}
+						else
+						{
+							$this->ctrl->setParameterByClass("ilobjportfoliogui", "user_page", $_GET["ppage"]);
+							$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"),
+								$this->ctrl->getLinkTargetByClass("ilobjportfoliogui", "preview"));
+							$this->ctrl->setParameterByClass("ilobjportfoliogui", "user_page", "");
+						}
 						break;
 				}
 				
