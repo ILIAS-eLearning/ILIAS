@@ -548,7 +548,6 @@ The following directories are currently unmaintained:
 * Services/DidacticTemplate
 * Services/Exceptions
 * Services/Http
-* Services/JSON
 * Services/LDAP
 * Services/License
 * Services/LinkChecker
