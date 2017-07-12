@@ -8,7 +8,7 @@
 require_once 'Services/Saml/lib/simplesamlphp/lib/_autoload.php';
 $as = new SimpleSAML_Auth_Simple('default-sp');
 
-if(isset($_GET['action']) && $i_GET['action'] == 'logout' && isset($_GET['logout_url']) && strlen($_GET['logout_url']))
+if(isset($_GET['action']) && $_GET['action'] == 'logout' && isset($_GET['logout_url']) && strlen($_GET['logout_url']))
 {
 	$as->logout(array(
 		'ReturnTo'         => $_GET['logout_url'],
@@ -41,15 +41,7 @@ $as->requireAuth();
 
 require_once 'Services/Saml/classes/class.ilSamlAttributesHolder.php';
 ilSamlAttributesHolder::setAttributes($as->getAttributes());
-ilSamlAttributesHolder::setAttributes(array(
-	'http://schemas.microsoft.com/ws/2008/06/identity/claims/globalsid'          => array('mjansen'),
-	'http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname' => array('mjansen'),
-	'login'     => array('mjansen'),
-	'email'     => array('mjansen@databay.de'),
-	'gender'    => array('m'),
-	'firstname' => array('Michael'),
-	'lastname'  => array('Jansen'),
-));
+
 if(strlen($session->getData('example:set_target', 'il_target')))
 {
 	ilSamlAttributesHolder::setReturnTo($session->getData('example:set_target', 'il_target'));
