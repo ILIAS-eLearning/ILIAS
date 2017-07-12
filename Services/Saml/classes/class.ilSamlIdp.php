@@ -149,15 +149,6 @@ class ilSamlIdp
 
 					++$i;
 				}
-
-				$idp_data = array(
-					1 => array(
-						'idp_id'  => 1,
-						'name'    => 'Test',
-						'idp'     => "Test",
-						'auth_id' => "Test"
-					)
-				);
 			}
 			catch(Exception $e)
 			{
