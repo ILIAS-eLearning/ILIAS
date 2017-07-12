@@ -4,6 +4,7 @@ namespace ILIAS\FileUpload;
 
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Filesystems;
+use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\Collection\EntryLockingStringMap;
 use ILIAS\FileUpload\Collection\ImmutableMapWrapper;
 use ILIAS\FileUpload\DTO\Metadata;
@@ -94,7 +95,7 @@ final class FileUploadImpl implements FileUpload {
 
 			try {
 				$path = $destination . '/' . $uploadResult->getName();
-				$filesystem->writeStream($path, $this->uploadStreams[$key]);
+				$filesystem->writeStream($path, Streams::ofPsr7Stream($this->uploadStreams[$key]));
 				$tempResults[] = $this->regenerateUploadResultWithPath($uploadResult, $path);
 			}
 			catch (IOException $ex) {
