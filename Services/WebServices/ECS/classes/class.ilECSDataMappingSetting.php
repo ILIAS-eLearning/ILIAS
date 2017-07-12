@@ -153,7 +153,7 @@ class ilECSDataMappingSetting
 		global $ilDB;
 
 		$query = 'UPDATE ecs_data_mapping '.
-			'SET advmd_id = '.$ilDB->db->quote($this->getAdvMDId(),'integer').' '.
+			'SET advmd_id = '.$ilDB->quote($this->getAdvMDId(),'integer').' '.
 			'WHERE sid = '.$ilDB->quote($this->getServerId(),'integer').' '.
 			'AND mapping_type = '.$ilDB->quote($this->getMappingType(),'integer').' '.
 			'AND ecs_field = '.$ilDB->quote($this->getECSField(),'text');

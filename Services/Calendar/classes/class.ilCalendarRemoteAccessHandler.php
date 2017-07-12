@@ -43,6 +43,9 @@ class ilCalendarRemoteAccessHandler
 	{
 	}
 	
+	/**
+	 * @return ilCalendarAuthenticationHandler
+	 */
 	public function getTokenHandler()
 	{
 		return $this->token_handler;
@@ -73,7 +76,14 @@ class ilCalendarRemoteAccessHandler
 	public function handleRequest()
 	{
 		$this->initIlias();
+		$logger = $GLOBALS['DIC']->logger()->cal();
 		$this->initTokenHandler();
+		
+		if(!$this->initUser())
+		{
+			$logger->warning('Calendar token is invalid. Authentication failed.');
+			return false;
+		}
 		
 		if($this->getTokenHandler()->getIcal() and !$this->getTokenHandler()->isIcalExpired())
 		{
@@ -84,15 +94,16 @@ class ilCalendarRemoteAccessHandler
 		include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
 		if($this->getTokenHandler()->getSelectionType() == ilCalendarAuthenticationToken::SELECTION_CALENDAR)
 		{
-			#$export = new ilCalendarExport(array($this->getTokenHandler()->getCalendar()));
 			$cats = ilCalendarCategories::_getInstance();
 			$cats->initialize(ilCalendarCategories::MODE_REMOTE_SELECTED, $this->getTokenHandler()->getCalendar());
+			$logger->dump($cats->getCategories(true), ilLogLevel::DEBUG);
 			$export = new ilCalendarExport($cats->getCategories(true));
 		}
 		else
 		{
 			$cats = ilCalendarCategories::_getInstance();
 			$cats->initialize(ilCalendarCategories::MODE_REMOTE_ACCESS);
+			$logger->dump($cats->getCategories(true), ilLogLevel::DEBUG);
 			$export = new ilCalendarExport($cats->getCategories(true));
 		}
 		
@@ -114,6 +125,7 @@ class ilCalendarRemoteAccessHandler
 	
 	protected function initTokenHandler()
 	{
+		$GLOBALS['DIC']->logger()->cal()->info('Authentication token: ' .  $_GET['token']);
 		$this->token_handler = new ilCalendarAuthenticationToken(
 			ilCalendarAuthenticationToken::lookupUser($_GET['token']),
 			$_GET['token']
@@ -133,6 +145,38 @@ class ilCalendarRemoteAccessHandler
 		ilInitialisation::initILIAS();
 		
 		$GLOBALS['lng']->loadLanguageModule('dateplaner');
+	}
+	
+	/**
+	 * Init user
+	 * @return boolean
+	 */
+	protected function initUser()
+	{
+		if(!$this->getTokenHandler() instanceof ilCalendarAuthenticationToken)
+		{
+			$GLOBALS['DIC']->logger()->cal()->info('Initialisation of authentication token failed');
+			return false;
+		}
+		if(!$this->getTokenHandler()->getUserId())
+		{
+			$GLOBALS['DIC']->logger()->cal()->info('No user id found for calendar synchronisation');
+			return false;
+		}
+		
+		include_once './Services/Init/classes/class.ilInitialisation.php';
+		$GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, $this->getTokenHandler()->getUserId());
+		ilInitialisation::initUserAccount();
+		
+		if(!$GLOBALS['DIC']->user() instanceof ilObjUser)
+		{
+			$GLOBALS['DIC']->logger()->cal()->debug('no user object defined');
+		}
+		else
+		{
+			$GLOBALS['DIC']->logger()->cal()->debug('Current user is: ' . $GLOBALS['DIC']->user()->getId());
+		}
+		return true;
 	}
 }
 ?>

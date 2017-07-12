@@ -588,7 +588,7 @@ class ilDclBaseRecordModel {
 	 *
 	 * @return array|string
 	 */
-	private function getStandardFieldHTML($field_id, array $options = array()) {
+	public function getStandardFieldHTML($field_id, array $options = array()) {
 		switch ($field_id) {
 			case 'id':
 				return $this->getId();
@@ -684,16 +684,17 @@ class ilDclBaseRecordModel {
 
 		if (!$omit_notification) {
 			ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
+
+			$ilAppEventHandler->raise('Modules/DataCollection',
+				'deleteRecord',
+				array(
+					'dcl' => ilDclCache::getTableCache($this->getTableId())->getCollectionObject(),
+					'table_id' => $this->table_id,
+					'record_id' => $this->getId(),
+					'record' => $this,
+				));
 		}
 
-		$ilAppEventHandler->raise('Modules/DataCollection',
-			'deleteRecord',
-			array(
-				'dcl' => ilDclCache::getTableCache($this->getTableId())->getCollectionObject(),
-				'table_id' => $this->table_id,
-				'record_id' => $this->getId(),
-				'record' => $this,
-			));
 	}
 
 

@@ -719,7 +719,6 @@ assessment#:#essay_scoring_mode_keyword_relation_one#:#ひとつ一致するキ�
 assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#ひとつでもキーワードが見つかれば点数は自動付与されます。
 assessment#:#essay_scoring_mode_without_keywords#:#自動採点禁止
 assessment#:#essay_scoring_mode_without_keywords_desc#:#指導教員の手動採点を除いて点数は付与されません。
-assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#あらゆるキーワード検索用に一致する点が自動的に授与されます。
 assessment#:#eval_all_users#:#全ユーザの評価
 assessment#:#eval_choice_result#:#選択の値%sは%sです。%s 点です。
 assessment#:#eval_cloze_result#:#穴埋め番号%sの値%sは%sです。%s 点です。
@@ -970,7 +969,6 @@ assessment#:#multiline_terms_show#:#複数行用語を使用
 assessment#:#negative_points_not_allowed#:#マイナス点の入力はできません!
 assessment#:#new_category#:#新ユニットカテゴリ
 assessment#:#new_test_created#:#新規テスト
-assessment#:#new_test_online#:#テストはオンラインに設定されていました。
 assessment#:#new_unit#:#新ユニット
 assessment#:#next_question#:#次
 assessment#:#next_question_rows#:#問題 %dの%d - %d >>
@@ -3978,14 +3976,12 @@ common#:#file_is_infected#:#ファイルはウィルスに感染しています�
 common#:#file_lock_unlock_file#:#ファイルをロック/解除
 common#:#file_locked_by#:#ロックされたファイル
 common#:#file_new#:#シングルファイルをアップロード
-common#:#file_no_valid_file_type#:#このファイルタイプは使用できません。
 common#:#file_not_found#:#ファイルが見つかりません
 common#:#file_not_valid#:#ファイルは無効!
 common#:#file_notice#:#画像ファイルの最大サイズ
 common#:#file_rollback#:#これを最新バージョンにする
 common#:#file_rollback_done#:#このファイルバージョン%sが現在の最新バージョンです。
 common#:#file_rollback_select_exact_one#:#一つのファイルバージョンだけが最新版作成用に選択できます。
-common#:#file_some_invalid_file_types_removed#:#いくかのファイルタイプは使用できないか削除されました。
 common#:#file_suffix_repl#:#ファイル アップロードサフィックス変換
 common#:#file_suffix_repl_info#:#(カンマで区切られた)これらのサッフィクスで終わるファイルはWebアップロードされるとサフィックス".sec"へ名前変換されます。サフィックスの初期設定として処理されるもの:
 common#:#file_updated#:#ファイルが更新されました。
@@ -4319,7 +4315,6 @@ common#:#il_grp_admin#:#Group Administrator
 common#:#il_grp_member#:#Group Member
 common#:#il_grp_status_closed#:#Group closed
 common#:#il_grp_status_open#:#Group open
-common#:#il_mass_member#:#手動アセスメント受験者
 common#:#il_orgu_employee#:#従業員
 common#:#il_orgu_superior#:#上司
 common#:#ilias_and_webfolder_username#:#ILIASとWebフォルダユーザ名
@@ -9713,7 +9708,6 @@ form#:#form_msg_file_missing_tmp_dir#:#ファイル アップロード用のテ�
 form#:#form_msg_file_no_upload#:#入力必須項目です。アップロード用のファイルを選択してください。
 form#:#form_msg_file_partially_uploaded#:#ファイルはアップロードを完了できませんでした。
 form#:#form_msg_file_size_exceeds#:#アップロード済ファイルは、最大許容ファイルサイズを超えています。
-form#:#form_msg_file_type_is_not_allowed#:#このファイルタイプは使用できません。
 form#:#form_msg_file_upload_stopped_ext#:#ファイルのアップロードは拡大のため停止しました。
 form#:#form_msg_file_virus_found#:#アップロードされたファイルにウイルスがみつかりました。
 form#:#form_msg_file_wrong_file_type#:#ファイルタイプが間違っています。
@@ -10644,7 +10638,7 @@ mathjax#:#mathjax_limiter#:#インライン区切り文字
 mathjax#:#mathjax_limiter_info#:#MathJaxを有効にする構成するインライン区切り文字を選択します。
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_path_to_mathjax#:#MathJaxのURL
-mathjax#:#mathjax_path_to_mathjax_desc#:#例：http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMMLまたはローカルインストレーションのURL・
+mathjax#:#mathjax_path_to_mathjax_desc#:#例：https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMMLまたはローカルインストレーションのURL・
 mathjax#:#mathjax_server_address#:#サーバアドレス
 mathjax#:#mathjax_server_address_info#:#例 http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#MathJaxキャッシュはクリヤされました。
@@ -10798,8 +10792,6 @@ mep#:#mobs_activate_pages#:#コンテンツスニペット管理を使用
 mep#:#mobs_activate_pages_info#:#メディア集へコンテンツスニペットの作成を許可します。スニペットはラーニングモジュール等において再利用(編集不可）する事ができます。
 mep#:#mobs_always_show_file_manager#:#ファイルマネージャーを常時表示
 mep#:#mobs_always_show_file_manager_info#:#アクティブを解除するとメディアオブジェクト用のファイルマネージャーのシンプルMIMEタイプ(例　イメージ)を非表示にします。
-mep#:#mobs_black_list_file_types#:#禁止ファイルタイプ
-mep#:#mobs_black_list_file_types_info#:#コンマ区切りの拡張子ファイルリストを入力します。以前のリストが空の場合は通常これが必要です。(全てのファイルタイプを許容)
 mep#:#mobs_restrict_file_types#:#制限ファイルタイプ
 mep#:#mobs_restrict_file_types_info#:#メディアオブジェクトに対してアップロードするファイル拡張子のコンマ区切りリスト(例、jpg、gif)を入力します。未入力の場合は全てのファイル形式が許可されます。
 meta#:#md_adv_active#:#アクティブ
@@ -11012,7 +11004,7 @@ meta#:#meta_c_LI#:#Liechtenstein
 meta#:#meta_c_LK#:#Sri Lanka
 meta#:#meta_c_LR#:#Liberia
 meta#:#meta_c_LS#:#Lesotho
-meta#:#meta_c_LT#:#Lithunia
+meta#:#meta_c_LT#:#Lithuania
 meta#:#meta_c_LU#:#Luxembourg
 meta#:#meta_c_LV#:#Latvia
 meta#:#meta_c_LY#:#Libyan Arab Jamahiriya
@@ -11903,7 +11895,6 @@ prg#:#prg_points#:#ポイント
 prg#:#prg_points_current#:#現在のポイント
 prg#:#prg_points_reachable#:#入手可能な点数
 prg#:#prg_points_required#:#要件点数
-prg#:#prg_points_required#:#必須ポイント
 prg#:#prg_possible#:#可能
 prg#:#prg_progress_info#:#あなたは%1$dポイントです。学習プログラムは%2$dポイントで完了しました。
 prg#:#prg_progress_status#:# %1$d of %2$d ポイント
@@ -15364,8 +15355,6 @@ trac#:#trac_mode_event_info#:#セッションに参加いかんに関わらず�
 trac#:#trac_mode_exercise_returned#:#指導教員モニタとステータス設定
 trac#:#trac_mode_exercise_returned_info#:#ユーザが試験を完了すると指導教員は決定します。指導教員は'完了'や'不合格'のような全体ステータスを手動にて設定します。
 trac#:#trac_mode_manual#:#ユーザモニタと自身のステータス設定(全モジュール)
-trac#:#trac_mode_manual_assessment#:#指導教員またはトレーナにより手動採点されました
-trac#:#trac_mode_manual_assessment_info#:#手動アセスメント完了のためには指導教員によりユーザの記録は終了する必要があります。
 trac#:#trac_mode_manual_by_tutor#:#指導教員モニタとステータス設定
 trac#:#trac_mode_manual_by_tutor_info#:#ユーザが試験を完了すると指導教員は決定します。指導教員は'完了'や'不合格'のような全体ステータスを手動にて設定します。
 trac#:#trac_mode_manual_info#:#学習モジュールを完了するとユーザは自身で決定します。一旦完了すると'Info'タブのステータスを'完了'にする必要があります。
@@ -15920,5 +15909,15 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-ecs#:#ecs_cmap_att_orgunit#:#組織ユニット
-ecs#:#ecs_member_auth_type#:#コースメンバーAuth Mode
+prg#:#prg_prg_type#:#Study Programme Type###05 04 2017 new variable
+trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer###05 04 2017 new variable
+trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.###05 04 2017 new variable
+common#:#il_iass_member#:#Individual Assessment Examinee###05 04 2017 new variable
+assessment#:#essay_scoring_mode#:#Scoring Mode###10 05 2017 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###deprecated 
+assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#The competence points have not been saved. Please check your input.###10 05 2017 new variable
+news#:#new_test_online#:#The Test was set online.###10 05 2017 new variable
+common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. ###10 05 2017 new variable
+exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.###10 05 2017 new variable
+exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.###10 05 2017 new variable
+exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.###10 05 2017 new variable

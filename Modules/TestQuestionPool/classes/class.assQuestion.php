@@ -367,6 +367,97 @@ abstract class assQuestion
 		);
 	}
 	
+	// hey: prevPassSolutions - question action actracted (heavy use in fileupload refactoring)
+	
+	/**
+	 * @return string
+	 */
+	protected function getQuestionAction()
+	{
+		if( !isset($_POST['cmd']) || !isset($_POST['cmd'][$this->questionActionCmd]) )
+		{
+			return '';
+		}
+		
+		if( !is_array($_POST['cmd'][$this->questionActionCmd]) || !count($_POST['cmd'][$this->questionActionCmd]) )
+		{
+			return '';
+		}
+		
+		return key($_POST['cmd'][$this->questionActionCmd]);
+	}
+	
+	/**
+	 * @param string $postSubmissionFieldname
+	 * @return bool
+	 */
+	protected function isNonEmptyItemListPostSubmission($postSubmissionFieldname)
+	{
+		if( !isset($_POST[$postSubmissionFieldname]) )
+		{
+			return false;
+		}
+		
+		if( !is_array($_POST[$postSubmissionFieldname]) )
+		{
+			return false;
+		}
+		
+		if( !count($_POST[$postSubmissionFieldname]) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * @param $active_id
+	 * @param $pass
+	 * @return int
+	 */
+	protected function ensureCurrentTestPass($active_id, $pass)
+	{
+		if( is_integer($pass) && $pass >= 0 )
+		{
+			return $pass;
+		}
+		
+		return $this->lookupCurrentTestPass($active_id, $pass);
+	}
+	
+	/**
+	 * @param $active_id
+	 * @param $pass
+	 * @return int
+	 */
+	protected function lookupCurrentTestPass($active_id, $pass)
+	{
+		require_once 'Modules/Test/classes/class.ilObjTest.php';
+		return ilObjTest::_getPass($active_id);
+	}
+	
+	/**
+	 * @param $active_id
+	 * @return int
+	 */
+	protected function lookupTestId($active_id)
+	{
+		$ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		
+		$result = $ilDB->queryF("SELECT test_fi FROM tst_active WHERE active_id = %s",
+			array('integer'), array($active_id)
+		);
+		
+		while($row = $ilDB->fetchAssoc($result))
+		{
+			return $row["test_fi"];
+		}
+		
+		return null;
+	}
+	// hey.
+	
 	/**
 	 * @param integer $active_id
 	 * @param string $langVar
@@ -1639,6 +1730,20 @@ abstract class assQuestion
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 	
+	// hey: prevPassSolutions - accept and prefer intermediate only from current pass
+	public function getTestOutputSolutions($activeId, $pass)
+	{
+		// hey: refactored identifiers
+		if( $this->getTestPresentationConfig()->isSolutionInitiallyPrefilled() )
+		// hey.
+		{
+			return $this->getSolutionValues($activeId, $pass, true);
+		}
+		
+		return $this->getUserSolutionPreferingIntermediate($activeId, $pass);
+	}
+	// hey.
+	
 	public function getUserSolutionPreferingIntermediate($active_id, $pass = NULL)
 	{
 		$solution = $this->getSolutionValues($active_id, $pass, false);
@@ -1712,7 +1817,7 @@ abstract class assQuestion
 	* @return boolean The number of datasets which are affected by the use of the query.
 	* @access public
 	*/
-	function isInUse($question_id = "")
+	public function isInUse($question_id = "")
 	{
 		global $ilDB;
 		
@@ -1724,7 +1829,13 @@ abstract class assQuestion
 		$row = $ilDB->fetchAssoc($result);
 		$count = $row["question_count"];
 
-		$result = $ilDB->queryF("SELECT DISTINCT tst_active.test_fi, qpl_questions.question_id FROM qpl_questions, tst_test_rnd_qst, tst_active WHERE qpl_questions.original_id = %s AND qpl_questions.question_id = tst_test_rnd_qst.question_fi AND tst_test_rnd_qst.active_fi = tst_active.active_id",
+		$result = $ilDB->queryF("
+			SELECT tst_active.test_fi
+			FROM qpl_questions
+			INNER JOIN tst_test_rnd_qst ON tst_test_rnd_qst.question_fi = qpl_questions.question_id
+			INNER JOIN tst_active ON tst_active.active_id = tst_test_rnd_qst.active_fi
+			WHERE qpl_questions.original_id = %s
+			GROUP BY tst_active.test_fi",
 			array('integer'),
 			array($question_id)
 		);
@@ -4701,7 +4812,29 @@ abstract class assQuestion
 			array('integer'), array($solutionId)
 		);
 	}
+	
+	// hey: prevPassSolutions - selected file reuse, copy solution records
+	/**
+	 * @param $solutionId
+	 * @global ilDBInterface $ilDB
+	 *
+	 * @return int
+	 */
+	protected function getSolutionRecordById($solutionId)
+	{
+		$ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
 
+		$res = $ilDB->queryF("SELECT * FROM tst_solutions WHERE solution_id = %s",
+			array('integer'), array($solutionId)
+		);
+		
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			return $row;
+		}
+	}
+	// hey.
+	
 	/**
 	 * @param int $active_id
 	 * @param int $pass
@@ -4849,8 +4982,110 @@ abstract class assQuestion
 		
 		return $ilDB->update('tst_solutions', $fieldData, $whereData);
 	}
-// fau.
-
+	// fau.
+	
+	// hey: prevPassSolutions - motivation slowly decreases on imagemap
+	const KEY_VALUES_IMPLOSION_SEPARATOR = ':';
+	protected static function getKeyValuesImplosionSeparator()
+	{
+		return self::KEY_VALUES_IMPLOSION_SEPARATOR;
+	}
+	public static function implodeKeyValues($keyValues)
+	{
+		return implode(self::getKeyValuesImplosionSeparator(), $keyValues);
+	}
+	public static function explodeKeyValues($keyValues)
+	{
+		return explode(self::getKeyValuesImplosionSeparator(), $keyValues);
+	}
+	
+	protected function deleteDummySolutionRecord($activeId, $passIndex)
+	{
+		foreach( $this->getSolutionValues($activeId, $passIndex, false) as $solutionRec )
+		{
+			if( empty($solutionRec['value1']) && empty($solutionRec['value2']) )
+			{
+				$this->removeSolutionRecordById($solutionRec['solution_id']);
+			}
+		}
+	}
+	
+	protected function deleteSolutionRecordByValues($activeId, $passIndex, $authorized, $matchValues)
+	{
+		$ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		
+		$types = array("integer", "integer", "integer", "integer");
+		$values = array($activeId, $this->getId(), $passIndex, (int)$authorized);
+		$valuesCondition = array();
+		
+		foreach($matchValues as $valueField => $value)
+		{
+			switch($valueField)
+			{
+				case 'value1':
+				case 'value2':
+					$valuesCondition[] = "{$valueField} = %s";
+					$types[] = 'text';
+					$values[] = $value;
+					break;
+				
+				default:
+					require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
+					throw new ilTestQuestionPoolException('invalid value field given: '.$valueField);
+			}
+		}
+		
+		$valuesCondition = implode(' AND ', $valuesCondition);
+		
+		$query = "
+			DELETE FROM tst_solutions
+			WHERE active_fi = %s
+			AND question_fi = %s
+			AND pass = %s
+			AND authorized = %s
+			AND $valuesCondition
+		";
+		
+		if( $this->getStep() !== NULL )
+		{
+			$query .= " AND step = %s ";
+			$types[] = 'integer';
+			$values[] = $this->getStep();
+		}
+		
+		$ilDB->manipulateF($query, $types, $values);
+	}
+	
+	protected function duplicateIntermediateSolutionAuthorized($activeId, $passIndex)
+	{
+		foreach($this->getSolutionValues($activeId, $passIndex, false) as $rec)
+		{
+			$this->saveCurrentSolution($activeId, $passIndex, $rec['value1'], $rec['value2'], true, $rec['tstamp']);
+		}
+	}
+	
+	protected function forceExistingIntermediateSolution($activeId, $passIndex, $considerDummyRecordCreation)
+	{
+		$intermediateSolution = $this->getSolutionValues($activeId, $passIndex, false);
+		
+		if( !count($intermediateSolution) )
+		{
+			// make the authorized solution intermediate (keeping timestamps)
+			// this keeps the solution_ids in synch with eventually selected in $_POST['deletefiles']
+			$this->updateCurrentSolutionsAuthorization($activeId, $passIndex, false, true);
+			
+			// create a backup as authorized solution again (keeping timestamps)
+			$this->duplicateIntermediateSolutionAuthorized($activeId, $passIndex);
+			
+			if( $considerDummyRecordCreation )
+			{
+				// create an additional dummy record to indicate the existence of an intermediate solution
+				// even if all entries are deleted from the intermediate solution later
+				$this->saveCurrentSolution($activeId, $passIndex, null, null, false, null);
+			}
+		}
+	}
+	// hey.
 
 	/**
 	 * @param \ilObjTestGateway $resultGateway
@@ -4920,6 +5155,19 @@ abstract class assQuestion
 	
 	abstract public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null);
 
+	// hey: prevPassSolutions - check for authorized solution
+	public function authorizedSolutionExists($active_id, $pass)
+	{
+		$solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);
+		return (bool)$solutionAvailability['authorized'];
+	}
+	public function authorizedOrIntermediateSolutionExists($active_id, $pass)
+	{
+		$solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);
+		return (bool)$solutionAvailability['authorized'] || (bool)$solutionAvailability['intermediate'];
+	}
+	// hey.
+	
 	/**
 	 * @param $active_id
 	 * @param $pass
@@ -5121,18 +5369,43 @@ abstract class assQuestion
 	}
 
 // fau: testNav - new function getTestQuestionConfig()
+	// hey: prevPassSolutions - get caching independent from configuration (config once)
+	//					renamed: getTestPresentationConfig() -> does the caching
+	//					completed: extracted instance building
+	//					avoids configuring cached instances on every access
+	//					allows a stable reconfigure of the instance from outside
 	/**
-	 * Get the test question configuration
+	 * @var ilTestQuestionConfig
+	 */
+	private $testQuestionConfigInstance = null;
+	
+	/**
+	 * Get the test question configuration (initialised once)
 	 * @return ilTestQuestionConfig
 	 */
-	public function getTestQuestionConfig()
+	public function getTestPresentationConfig()
 	{
-		if (!isset($this->testQuestionConfig))
+		if( $this->testQuestionConfigInstance === null )
 		{
-			include_once('Modules/TestQuestionPool/classes/class.ilTestQuestionConfig.php');
-			$this->testQuestionConfig = new ilTestQuestionConfig();
+			$this->testQuestionConfigInstance = $this->buildTestPresentationConfig();
 		}
-		return $this->testQuestionConfig;
+		
+		return $this->testQuestionConfigInstance;
 	}
+	
+	/**
+	 * build basic test question configuration instance
+	 * 
+	 * method can be overwritten to configure an instance
+	 * use parent call for building when possible
+	 * 
+	 * @return ilTestQuestionConfig
+	 */
+	protected function buildTestPresentationConfig()
+	{
+		include_once('Modules/TestQuestionPool/classes/class.ilTestQuestionConfig.php');
+		return new ilTestQuestionConfig();
+	}
+	// hey.
 // fau.
 }

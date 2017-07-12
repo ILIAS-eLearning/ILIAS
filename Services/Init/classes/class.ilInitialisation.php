@@ -251,8 +251,9 @@ class ilInitialisation
 			$client_id = $ilIliasIniFile->readVariable("clients","default");
 			ilUtil::setCookie("ilClientId", $client_id);
 		}
-		if (!defined("IL_PHPUNIT_TEST"))
+		if (!defined("IL_PHPUNIT_TEST") && ilContext::supportsPersistentSessions())
 		{
+			
 			define ("CLIENT_ID", $_COOKIE["ilClientId"]);
 		}
 		else
@@ -310,7 +311,7 @@ class ilInitialisation
 			}
 			else
 			{
-				self::abortAndDie("Invalid client");
+				self::abortAndDie("Fatal Error: ilInitialisation::initClientIniFile initializing client ini file abborted with: ". $ilClientIniFile->ERROR);
 			}
 		}
 		
@@ -660,6 +661,12 @@ class ilInitialisation
 			// goto will check if target is accessible or redirect to login
 			self::redirect("goto.php?target=".$_GET["target"]);			
 		}
+		
+		// check access of root folder otherwise redirect to login
+		#if(!$GLOBALS['DIC']->rbac()->system()->checkAccess('read', ROOT_FOLDER_ID))
+		#{
+		#	return self::goToLogin();
+		#}
 		
 		// we do not know if ref_id of request is accesible, so redirecting to root
 		$_GET["ref_id"] = ROOT_FOLDER_ID;
@@ -1061,6 +1068,11 @@ class ilInitialisation
 	 */
 	public static function resumeUserSession()
 	{
+		include_once './Services/Authentication/classes/class.ilAuthUtils.php';
+		if(ilAuthUtils::handleForcedAuthentication())
+		{
+		}
+		
 		if(
 			!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated() or
 			$GLOBALS['DIC']['ilAuthSession']->isExpired()

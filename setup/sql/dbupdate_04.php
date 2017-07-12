@@ -809,7 +809,7 @@ if( !$ilDB->tableColumnExists('qpl_a_cloze', 'gap_size') )
 ?>
 <#4212>
 <?php
-if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'qpl_qst_cloze') )
+if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'cloze_text') )
 {
 	$ilDB->addTableColumn( 'qpl_qst_cloze', 'cloze_text', array('type' => 'clob') );
 
@@ -829,7 +829,7 @@ if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'qpl_qst_cloze') )
 				'question_fi'	=> array('integer', $row['question_id'] )
 			)
 		);
-		$ilDB->execute($clean_qst_txt, $row['question_id'] );
+		$ilDB->execute($clean_qst_txt, array($row['question_id']) );
 	}
 }
 ?>
@@ -3110,7 +3110,7 @@ if(!$ilDB->tableColumnExists('tst_solutions', 'step'))
 /** @var ilDB $ilDB */
 if(!$ilDB->tableColumnExists('tst_test_result', 'step'))
 {
-	$ilDB->addTableColumn('	tst_test_result', 'step', array(
+	$ilDB->addTableColumn('tst_test_result', 'step', array(
 		'type' => 'integer',
 		'length' => 4,
 		'notnull' => false,
@@ -13014,12 +13014,6 @@ if ($ilDB->tableExists('il_exc_team_log') && $ilDB->tableExists('exc_team_log_ol
 			",".$ilDB->quote($row['tstamp'], "integer").
 			")"
 		);
-
-		$ilDB->manipulateF(
-			"DELETE FROM exc_team_log_old WHERE team_id = %s AND user_id = %s AND action = %s AND tstamp = %s",
-			array('integer', 'integer', 'integer', 'integer'),
-			array($row['team_id'], $row['user_id'], $row['action'], $row['tstamp'])
-		);
 	}
 }
 ?>
@@ -13848,7 +13842,7 @@ if ($ilDB->tableExists('obj_stat_tmp_old'))
 
 if($ilDB->tableExists('page_question'))
 {
-	$ilDB->addPrimaryKey('page_question', array('page_id', 'question_id'));
+//	$ilDB->addPrimaryKey('page_question', array('page_id', 'question_id'));
 }
 ?>
 <#4848>
@@ -14781,6 +14775,40 @@ if ($ilDB->tableExists('benchmark_old'))
 //step skl_user_skill_level adding primary key
 if($ilDB->tableExists('skl_user_skill_level'))
 {
+	// get rid of duplicates
+	$set = $ilDB->query("SELECT * FROM skl_user_skill_level ORDER BY status_date ASC");
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$q = "DELETE FROM skl_user_skill_level WHERE ".
+			" skill_id = ".$ilDB->quote($rec["skill_id"], "integer"). " AND ".
+			" tref_id = ".$ilDB->quote($rec["tref_id"], "integer"). " AND ".
+			" user_id = ".$ilDB->quote($rec["user_id"], "integer"). " AND ".
+			" status_date = ".$ilDB->quote($rec["status_date"], "datetime"). " AND ".
+			" status = ".$ilDB->quote($rec["status"], "integer"). " AND ".
+			" trigger_obj_id = ".$ilDB->quote($rec["trigger_obj_id"], "integer"). " AND ".
+			" self_eval = ".$ilDB->quote($rec["self_eval"], "integer");
+		//echo "<br>".$q;
+		$ilDB->manipulate($q);
+
+		$q = "INSERT INTO skl_user_skill_level ".
+			"(skill_id, tref_id, user_id, status_date, status, trigger_obj_id, self_eval, level_id, valid, trigger_ref_id, trigger_title, trigger_obj_type, unique_identifier) VALUES (".
+			$ilDB->quote($rec["skill_id"], "integer").", ".
+			$ilDB->quote($rec["tref_id"], "integer").", ".
+			$ilDB->quote($rec["user_id"], "integer").", ".
+			$ilDB->quote($rec["status_date"], "datetime").", ".
+			$ilDB->quote($rec["status"], "integer").", ".
+			$ilDB->quote($rec["trigger_obj_id"], "integer").", ".
+			$ilDB->quote($rec["self_eval"], "integer").", ".
+			$ilDB->quote($rec["level_id"], "integer").", ".
+			$ilDB->quote($rec["valid"], "integer").", ".
+			$ilDB->quote($rec["trigger_ref_id"], "integer").", ".
+			$ilDB->quote($rec["trigger_title"], "text").", ".
+			$ilDB->quote($rec["trigger_obj_type"], "text").", ".
+			$ilDB->quote($rec["unique_identifier"], "text").")";
+		//echo "<br>".$q;
+		$ilDB->manipulate($q);
+	}
+
 	$ilDB->addPrimaryKey('skl_user_skill_level', array('skill_id', 'tref_id', 'user_id', 'status_date', 'status', 'trigger_obj_id', 'self_eval'));
 }
 
@@ -15533,7 +15561,7 @@ if (!$ilDB->tableColumnExists('il_dcl_table', 'table_order')) {
 if ($ilDB->tableColumnExists('il_dcl_data', 'main_table_id')) {
 	$main_table_query = $ilDB->query('SELECT main_table_id FROM il_dcl_data');
 	while ($rec = $ilDB->fetchAssoc($main_table_query)) {
-		$ilDB->query('UPDATE il_dcl_table SET table_order = 10 WHERE id = ' . $ilDB->quote($rec['main_table_id'], 'integer'));
+		$ilDB->query('UPDATE il_dcl_table SET table_order = 10, is_visible = 1 WHERE id = ' . $ilDB->quote($rec['main_table_id'], 'integer'));
 	}
 	$ilDB->dropTableColumn('il_dcl_data', 'main_table_id');
 }

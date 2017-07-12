@@ -1,6 +1,6 @@
 <?php
-include_once('./Customizing/global/plugins/Libraries/ActiveRecord/Fields/class.arField.php');
-include_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/class.arViewField.php');
+include_once('./Services/ActiveRecord/Fields/class.arField.php');
+include_once('./Services/ActiveRecord/Views/class.arViewField.php');
 
 /**
  * GUI-Class arViewFields

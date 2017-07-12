@@ -252,10 +252,11 @@ assessment#:#ass_mc_sel_lim_hint#:#Please select %s of %s answers!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Please do not select more than %s of %s answers!
 assessment#:#ass_mc_sel_lim_setting#:#Answering Limitation
 assessment#:#ass_mc_sel_lim_setting_desc#:#With this setting the number of answers choosable by the participants can be limited.
+assessment#:#essay_scoring_mode#:#Scoring Mode
 assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring
 assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY
-assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###deprecated 
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###deprecated 
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.
 assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE
@@ -299,6 +300,9 @@ assessment#:#answer_text#:#Answer Text
 assessment#:#answer_types#:#Editor for Answers
 assessment#:#gap_combination#:#Gap Combination
 assessment#:#answer#:#Answer
+assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.
+assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.
+assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint
 assessment#:#answers_multiline#:#Multi Line Answers
 assessment#:#answers_singleline#:#Single Line Answers
 assessment#:#applet_attributes#:#Applet Attributes
@@ -712,7 +716,8 @@ assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#The Competence-Question-
 assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool:<br />%s<br /><br />The configuration of threshold values is to be done here in the test.
 assessment#:#qpl_qst_skl_selection_for_question_header#:#Compence Assignments for Question: %s
 assessment#:#tst_save_comp_points#:#Save Competence Points
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points have been saved.
+assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#The competence points have not been saved. Please check your input.
 assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!
 assessment#:#tst_skl_level_thresholds_link#:#Configure Competence Thresholds
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.
@@ -1169,7 +1174,7 @@ assessment#:#tst_hide_previous_results_hide#:#Hide my results from a previous te
 assessment#:#tst_hide_previous_results_introduction#:#If you’re processing more than one pass of this test, your previous entered results will not be used as default values###deprecated 
 assessment#:#tst_hide_previous_results#:#Hide Previous Results###deprecated 
 assessment#:#tst_hide_side_list#:#Hide List of Questions
-assessment#:#new_test_online#:#The Test was set online.
+news#:#new_test_online#:#The Test was set online.
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!###deprecated 
@@ -1444,6 +1449,8 @@ assessment#:#examid_in_test_res_desc#:#The ILIAS test pass ID will be included i
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions###deprecated 
 assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test passes. This option has to be activated by individual participants on the Info-tab before starting a test pass.
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
+assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. 
+assessment#:#use_previous_solution#:#Use Previous Solution
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_your_answer_was#:#Your answer was
@@ -1815,7 +1822,7 @@ cntr#:#cntr_view_sessions#:#Sessions View
 cntr#:#cntr_view_simple#:#Simple View
 common#:#3rd_party_software#:#3rd party software
 common#:#absolute_path#:#Absolute Path
-common#:#accept_usr_agreement#:#Accept user agreement?
+common#:#accept_usr_agreement#:#Accept terms of service?
 common#:#access_expired#:#expired
 common#:#access_free_granted#:#Set the selected user(s) to unlimited access
 common#:#access_from#:#Access (from)
@@ -2212,7 +2219,7 @@ common#:#check_languages#:#Check All Languages
 common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be checked if they are active.
 common#:#check_link#:#Weblink check
 common#:#check_max_allowed_packet_size#:#The page content size is too large.###deprecated 
-common#:#check_user_accounts_desc#:#If enabled, all users whose account expires will be informed by e-mail. Furthermore all users which have not confirmed their account after a registration with e-mail confirmation will be deleted.
+common#:#check_user_accounts_desc#:#If enabled, all users whose account expires will be informed by e-mail two weeks before. Furthermore all users which have not confirmed their account after a registration with e-mail confirmation will be deleted.
 common#:#check_user_accounts#:#Check user accounts
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#check_web_resources#:#Check Weblinks
@@ -2517,6 +2524,7 @@ common#:#err_count_param#:#Reason: Wrong parameter count
 common#:#err_enter_current_passwd#:#Please enter your current password###deprecated 
 common#:#err_in_line#:#Error in line
 common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.
+common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. 
 common#:#err_invalid_port#:#Invalid port number
 common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please ensure that you have the same password in ILIAS and LDAP###deprecated 
 common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please check your settings###deprecated 
@@ -2703,7 +2711,7 @@ rbac#:#fold_write#:#User can edit settings of folder and manage content
 common#:#fold#:#Folder
 common#:#folder#:#Folder
 common#:#folders#:#Folders
-common#:#force_accept_usr_agreement#:#You must accept the user agreement!
+common#:#force_accept_usr_agreement#:#You must accept the terms of service!
 common#:#forename#:#Forename###deprecated 
 common#:#forgot_password#:#Forgot your password?
 common#:#forgot_username#:#Forgot your username?
@@ -3539,7 +3547,7 @@ common#:#nickname#:#Nickname###deprecated
 common#:#no_access_item_public#:#To access this item you need to be logged in and to have appropriate permissions.
 common#:#no_access_item#:#You have no permission to access this item.
 common#:#no_access_link_object#:#You are not allowed to link this object###deprecated 
-common#:#no_agreement_description#:#There is currently no user agreement text provided with this installation. Please contact the <a href="%1$s">system administrator</a>.
+common#:#no_agreement_description#:#There is currently no terms of service text provided with this installation. Please contact the <a href="%1$s">system administrator</a>.
 common#:#no_bm_in_personal_list#:#No bookmarks defined.###deprecated 
 common#:#no_chat_in_personal_list#:#No chats in personal list###deprecated 
 common#:#no_checkbox#:#Please select at least one item.
@@ -4611,7 +4619,7 @@ common#:#usr_active_only#:#Active Users only
 common#:#usr_add#:#Add User
 common#:#usr_added#:#User added###deprecated 
 common#:#usr_agreement_empty#:#The agreement contains no text###deprecated 
-common#:#usr_agreement#:#User Agreement
+common#:#usr_agreement#:#Terms of Service
 common#:#usr_edit#:#Edit User
 common#:#usr_filter_coursemember#:#Member of course
 common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria###deprecated 
@@ -6862,7 +6870,7 @@ jscalendar#:#wk#:#wk
 mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.
 mathjax#:#mathjax_enable_mathjax#:#Enable MathJax
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.
+mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.
 mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax
 mathjax#:#mathjax_settings#:#MathJax Settings
 mathjax#:#mathjax_limiter#:#Inline Delimiters
@@ -7412,7 +7420,7 @@ meta#:#meta_c_LI#:#Liechtenstein
 meta#:#meta_c_LK#:#Sri Lanka
 meta#:#meta_c_LR#:#Liberia
 meta#:#meta_c_LS#:#Lesotho
-meta#:#meta_c_LT#:#Lithunia
+meta#:#meta_c_LT#:#Lithuania
 meta#:#meta_c_LU#:#Luxembourg
 meta#:#meta_c_LV#:#Latvia
 meta#:#meta_c_LY#:#Libyan Arab Jamahiriya
@@ -8007,7 +8015,7 @@ ps#:#ps_export_user_data#:#Data Types
 ps#:#ps_export_wait#:#Users on the Waiting List
 ps#:#ps_field_type#:#Field Type
 ps#:#ps_files_deleted#:#Export Files Deleted
-ps#:#ps_login_max_attempts_info#:# Sets the maximum count of wrong login attempts. Leave empty to disable this option.
+ps#:#ps_login_max_attempts_info#:# Sets the maximum number of unsuccessful attempts to login. After the maximum number of unsuccessful attempts is exceeded, the respective user will be set to 'inactive' and would require re-activation in User Management. Leave the field empty to disable this option and ILIAS will not count failed login attempts. 
 ps#:#ps_login_max_attempts#:#Maximum Login Attempts
 ps#:#ps_name_field#:#Name###deprecated 
 ps#:#ps_new_select_field#:#New Selection Box###deprecated 
@@ -9500,7 +9508,7 @@ common#:#delete_inactive_user_accounts_interval#:#Frequency###deprecated
 common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts
-common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of inactivation.
+common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted %s days after inactivation.
 common#:#delete_inactivated_user_accounts_period#:#Days passed since inactivation
 common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this period of time has passed since inactivation.
 common#:#delete_inactivated_user_accounts_include_roles#:#Included roles
@@ -9990,7 +9998,7 @@ dateplaner#:#cal_ch_manager#:#Consultation Hour Manager
 dateplaner#:#cal_ch_manager_info#:#Login of the user who will manage your consultation hours.
 dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.
 dateplaner#:#cal_ch_target_object#:#Repository Object
-dateplaner#:#cal_ch_target_object_info#:#Consultation hours will be displayed in a block to the right of the course / group content. To restrict the display of consultation hours to specific courses or groups, please enter the Ref-ID of the said objects. You find the Ref-ID in the URL of the respective objects. Add more than one Ref-ID separated by comma.
+dateplaner#:#cal_ch_target_object_info#:#Consultation hours will be displayed in a block to the right of the course / group content. To restrict the display of consultation hours to specific courses or groups, please enter the Ref-ID of the said objects. You find the Ref-ID in the URL of the respective objects. Add more than one Ref-ID separated by comma. Regardless of that, consultation hours may also appear in your e-portfolios.
 dateplaner#:#cal_ch_unknown_repository_object#:#The given repository object ref-id is not valid.
 rbac#:#push_desktop_items#:#Push Items on the Personal Desktop
 rbac#:#smtp_mail#:#SMTP E-Mail
@@ -12555,6 +12563,7 @@ dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
 dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.
+dcl#:#dcl_table_title_not_matching#:#The titles of the excel sheet and the Data Collection table do not match. Rename the sheet for a successfull import.
 dcl#:#dcl_please_select#:#--- Please select ---
 dcl#:#dcl_asc#:#Ascending Order (ASC)
 dcl#:#dcl_desc#:#Descending Order (DESC)
@@ -15225,7 +15234,7 @@ wsp#:#wsp_shared_filter_reset_button#:#Reset Search
 wsp#:#wsp_shared_filter_button#:#Search
 wiki#:#wiki_page_title_too_long#:#Sorry, the title of the wiki page is too long. Please replace it with a shorter title.
 exc#:#exc_direct_submit#:#Submit
-membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one precondition is not fullfilled.
+membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one setting prevents this.
 export#:#no_file#:#No file
 content#:#lm_no_download_files#:#There are currently no files for download available.
 rbac#:#feed_copy#:#User can copy webfeed
@@ -15909,6 +15918,14 @@ form#:#err_invalid_input#:#An invalid value has been submited. Please check your
 chatroom#:#chat_osc_no_conv#:#No conversations.
 chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
 chatroom#:#chat_osc_no_sub_directory_info#:#If the Chatserver is only reachable through a sub directory with an URL like "http(s)://[IP/Domain]/[PATH]" it is required to insert the [PATH] for this Chatserver.
+chatroom#:#chat_deletion_section_head#:#Deletion of old Messages
+chatroom#:#chat_deletion_disabled#:#Disabled
+chatroom#:#chat_deletion_interval#:#Interval
+chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat on On-Screen-Chat conversations will be deleted after the defined threshold.
+chatroom#:#chat_deletion_interval_unit#:#Unit
+chatroom#:#chat_deletion_interval_value#:#Value
+chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s
+chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
 copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
@@ -15941,3 +15958,6 @@ rbac#:#grp_manage_members#:#Manage Members of Group
 rbac#:#crs_manage_members#:#Manage Members of Course
 survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.
 rbac#:#book_copy#:#User can copy booking pool
+exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.
+exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.
+exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.

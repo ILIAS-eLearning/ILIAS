@@ -393,7 +393,9 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
 			if($this->isDraftFolder() || $this->isSentFolder())
 			{
-				$mail['rcp_to'] = $mail['mail_login'] = $this->_parentObject->umail->formatNamesForOutput($mail['rcp_to']);
+				$mail['rcp_to'] = $mail['mail_login'] = ilUtil::htmlencodePlainString(
+					$this->_parentObject->umail->formatNamesForOutput($mail['rcp_to']), false
+				);
 			}
 			else
 			{

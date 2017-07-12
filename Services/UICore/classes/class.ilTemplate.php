@@ -41,7 +41,7 @@ class ilTemplate extends HTML_Template_ITX
 	private $addFooter; // creates an output of the ILIAS footer
 
 	protected static $il_cache = array();
-	protected $message = "";
+	protected $message = array();
 	
 	protected $title_desc = "";	
 	protected $title_url = "";
@@ -2559,7 +2559,7 @@ class ilTemplate extends HTML_Template_ITX
 			}
 		}
 		// personal workspace
-		else if ($_GET["wsp_id"] != "")
+		else if ($_GET["wsp_id"] != "" && $_GET["wsp_id"] > 0)
 		{
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";			
 			$tree = new ilWorkspaceTree($ilUser->getId());									

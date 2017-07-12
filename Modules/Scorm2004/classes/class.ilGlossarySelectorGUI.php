@@ -62,7 +62,7 @@ class ilGlossarySelectorGUI extends ilExplorer
 		{
 			return true;
 		}
-		false;
+		return false;
 	}
 
 	/**

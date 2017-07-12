@@ -232,7 +232,7 @@ class ilModulesTableGUI extends ilTable2GUI
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot($component, $slotName, $slotId);
 		foreach ($pl_names as $pl_name) {
-			$pl_id = ilPlugin::lookupIdForName($component, $slotName, $slotId);
+			$pl_id = ilPlugin::lookupIdForName($component, $slotName, $slotId, $pl_name);
 			if ($pl_id) {
 				$obj_types[$pl_id] = array(
 					"object" => $pl_name,
@@ -246,5 +246,3 @@ class ilModulesTableGUI extends ilTable2GUI
 		return $obj_types;
 	}
 }
-
-?>

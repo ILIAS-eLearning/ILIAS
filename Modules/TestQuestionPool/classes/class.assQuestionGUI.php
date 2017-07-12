@@ -74,14 +74,16 @@ abstract class assQuestionGUI
 	 */
 	private $presentationContext = null;
 
-	const OUTPUT_MODE_SCREEN = 'outModeScreen';
-	const OUTPUT_MODE_PDF = 'outModePdf';
-	const OUTPUT_MODE_USERINPUT = 'outModeUsrInp';
+	const RENDER_PURPOSE_PLAYBACK = 'renderPurposePlayback';
+	const RENDER_PURPOSE_DEMOPLAY = 'renderPurposeDemoplay';
+	const RENDER_PURPOSE_PREVIEW = 'renderPurposePreview';
+	const RENDER_PURPOSE_PRINT_PDF = 'renderPurposePrintPdf';
+	const RENDER_PURPOSE_INPUT_VALUE = 'renderPurposeInputValue';
 	
 	/**
 	 * @var string
 	 */
-	private $outputMode = self::OUTPUT_MODE_SCREEN;
+	private $renderPurpose = self::RENDER_PURPOSE_PLAYBACK;
 
 	const EDIT_CONTEXT_AUTHORING = 'authoring';
 	const EDIT_CONTEXT_ADJUSTMENT = 'adjustment';
@@ -193,27 +195,57 @@ abstract class assQuestionGUI
 	/**
 	 * @return string
 	 */
-	public function getOutputMode()
+	public function getRenderPurpose()
 	{
-		return $this->outputMode;
+		return $this->renderPurpose;
 	}
 
 	/**
-	 * @param string $outputMode
+	 * @param string $renderPurpose
 	 */
-	public function setOutputMode($outputMode)
+	public function setRenderPurpose($renderPurpose)
 	{
-		$this->outputMode = $outputMode;
+		$this->renderPurpose = $renderPurpose;
 	}
-
-	public function isPdfOutputMode()
+	
+	public function isRenderPurposePrintPdf()
 	{
-		return $this->getOutputMode() == self::OUTPUT_MODE_PDF;
+		return $this->getRenderPurpose() == self::RENDER_PURPOSE_PRINT_PDF;
 	}
-
-	public function isUserInputOutputMode()
+	
+	public function isRenderPurposePreview()
 	{
-		return $this->getOutputMode() == self::OUTPUT_MODE_USERINPUT;
+		return $this->getRenderPurpose() == self::RENDER_PURPOSE_PREVIEW;
+	}
+	
+	public function isRenderPurposeInputValue()
+	{
+		return $this->getRenderPurpose() == self::RENDER_PURPOSE_INPUT_VALUE;
+	}
+	
+	public function isRenderPurposePlayback()
+	{
+		return $this->getRenderPurpose() == self::RENDER_PURPOSE_PLAYBACK;
+	}
+	
+	public function isRenderPurposeDemoplay()
+	{
+		return $this->getRenderPurpose() == self::RENDER_PURPOSE_DEMOPLAY;
+	}
+	
+	public function renderPurposeSupportsFormHtml()
+	{
+		if( $this->isRenderPurposePrintPdf() )
+		{
+			return false;
+		}
+		
+		if( $this->isRenderPurposeInputValue() )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -491,8 +523,20 @@ abstract class assQuestionGUI
 	*/
 	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
 	{
+		// hey: prevPassSolutions - add the "use previous answer"
+		// hey: prevPassSolutions - refactored identifiers
+		if( $this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled() )
+		// hey
+		{
+			ilUtil::sendInfo($this->getPreviousSolutionProvidedMessage());
+			$html .= $this->getPreviousSolutionConfirmationCheckboxHtml();
+		}
+		else /* if( ...->isUnchangedAnswerPossible() ) --> */
+		// hey.
 // fau: testNav - add the "use unchanged answer checkbox"
-		if ($this->object->getTestQuestionConfig()->isUnchangedAnswerPossible())
+		// hey: prevPassSolutions - refactored identifiers
+		if ($this->object->getTestPresentationConfig()->isUnchangedAnswerPossible())
+		// hey.
 		{
 			$html .= $this->getUseUnchangedAnswerCheckboxHtml();
 		}
@@ -529,11 +573,29 @@ abstract class assQuestionGUI
 // fau: testNav - get the html of the "use unchanged answer checkbox"
 	private function getUseUnchangedAnswerCheckboxHtml()
 	{
-		$tpl = new ilTemplate("tpl.tst_question_use_unchanged_answer.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		$tpl->setVariable('TXT_USE_UNCHANGED_ANSWER', $this->object->getTestQuestionConfig()->getUseUnchangedAnswerLabel());
+		// hey: prevPassSolutions - use abstracted template to share with other purposes of this kind
+		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
+		$tpl->setVariable('TXT_FORCE_FORM_DIFF_LABEL', $this->object->getTestPresentationConfig()->getUseUnchangedAnswerLabel());
+		// hey.
 		return $tpl->get();
 	}
 // fau.
+
+	// hey: prevPassSolutions - build prev solution message / build "use previous answer checkbox" html
+	protected function getPreviousSolutionProvidedMessage()
+	{
+		return $this->lng->txt('use_previous_solution_advice');
+	}
+	
+	protected function getPreviousSolutionConfirmationCheckboxHtml()
+	{
+		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
+		// hey: prevPassSolutions - use abtract template
+		$tpl->setVariable('TXT_FORCE_FORM_DIFF_LABEL', $this->lng->txt('use_previous_solution'));
+		// hey.
+		return $tpl->get();
+	}
+	// hey.
 
 	/**
 	* cancel action
@@ -1399,14 +1461,14 @@ abstract class assQuestionGUI
 		} 
 		elseif ((strcmp($_POST["solutiontype"], "text") == 0) && (strcmp($solution_array["type"], "text") != 0))
 		{
-			$oldOutputMode = $this->getOutputMode();
-			$this->setOutputMode(self::OUTPUT_MODE_USERINPUT);
+			$oldOutputMode = $this->getRenderPurpose();
+			$this->setRenderPurpose(self::RENDER_PURPOSE_INPUT_VALUE);
 			
 			$solution_array = array(
 				"type" => "text",
 				"value" => $this->getSolutionOutput(0, NULL, FALSE, FALSE, TRUE, FALSE, TRUE)
 			);
-			$this->setOutputMode($oldOutputMode);
+			$this->setRenderPurpose($oldsaveSuggestedSolutionOutputMode);
 		}
 		if ($save && strlen($_POST["filename"]))
 		{
@@ -2125,7 +2187,9 @@ abstract class assQuestionGUI
 	final public function outQuestionForTest(
 		$formaction,
 		$active_id,
-		$pass = NULL,
+		// hey: prevPassSolutions - pass will be always available from now on
+		$pass,
+		// hey.
 		$is_question_postponed = FALSE,
 		$user_post_solutions = FALSE,
 		$show_specific_inline_feedback = FALSE
@@ -2149,7 +2213,9 @@ abstract class assQuestionGUI
 		$this->tpl->setVariable("FORM_TIMESTAMP", time());
 	}
 	
-	protected function completeTestOutputFormAction($formAction, $active_id, $pass = NULL)
+	// hey: prevPassSolutions - $pass will be passed always from now on
+	protected function completeTestOutputFormAction($formAction, $active_id, $pass)
+	// hey.
 	{
 		return $formAction;
 	}

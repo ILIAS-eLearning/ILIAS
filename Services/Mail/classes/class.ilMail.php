@@ -592,6 +592,24 @@ class ilMail
 		return $a_row;
 	}
 
+	/**
+	 * @param int $usrId
+	 * @param int $folderId
+	 * @return int
+	 */
+	public function getNewDraftId($usrId, $folderId)
+	{
+		$next_id = $this->db->nextId($this->table_mail);
+		$this->db->insert($this->table_mail, array(
+			'mail_id'        => array('integer', $next_id),
+			'user_id'        => array('integer', $usrId),
+			'folder_id'      => array('integer', $folderId),
+			'sender_id'      => array('integer', $usrId)
+		));
+
+		return $next_id;
+	}
+
 	public function updateDraft(
 		$a_folder_id, $a_attachments, $a_rcp_to, $a_rcp_cc, $a_rcp_bcc,
 		$a_m_type, $a_m_email, $a_m_subject,  $a_m_message, $a_draft_id = 0,
@@ -670,7 +688,6 @@ class ilMail
 		if(!$a_m_message)	$a_m_message = NULL;
 
 		$next_id = $this->db->nextId($this->table_mail);
-
 		$this->db->insert($this->table_mail, array(
 			'mail_id'        => array('integer', $next_id),
 			'user_id'        => array('integer', $a_user_id),
@@ -993,7 +1010,7 @@ class ilMail
 	 * @return array Returns an empty array, if all recipients are okay. Returns an array with invalid recipients, if some are not okay.
 	 * @throws ilMailException
 	 */
-	protected function checkRecipients($a_recipients, $a_type)
+	protected function checkRecipients($a_recipients)
 	{
 		$errors = array();
 
@@ -1141,22 +1158,11 @@ class ilMail
 			return $errors;
 		}
 
-		try
- 		{
-			$errors = array();
-			$errors = array_merge($errors, $this->checkRecipients($a_rcp_to, $a_type));
-			$errors = array_merge($errors, $this->checkRecipients($a_rcp_cc, $a_type));
-			$errors = array_merge($errors, $this->checkRecipients($a_rcp_bc, $a_type));
-
-			if(count($errors) > 0)
-			{
-				return array_merge(array(array('mail_following_rcp_not_valid')), $errors);
-			}
- 		}
-		catch(ilMailException $e)
- 		{
-			return array(array('mail_generic_rcp_error', $e->getMessage()));
- 		}
+		$errors = $this->validateRecipients($a_rcp_to, $a_rcp_cc, $a_rcp_bc);
+		if(count($errors) > 0)
+		{
+			return $errors;
+		}
 
 		$rcp_to = $a_rcp_to;
 		$rcp_cc = $a_rcp_cc;
@@ -1227,6 +1233,34 @@ class ilMail
 		if(!$this->getSaveInSentbox())
 		{
 			$this->deleteMails(array($sent_id));
+		}
+
+		return array();
+	}
+
+	/**
+	 * @param string $a_rcp_to
+	 * @param string $a_rcp_cc
+	 * @param string $a_rcp_bc
+	 * @return array Returns an empty array if there is no validation issue
+	 */
+	public function validateRecipients($a_rcp_to, $a_rcp_cc, $a_rcp_bc)
+	{
+		try
+		{
+			$errors = array();
+			$errors = array_merge($errors, $this->checkRecipients($a_rcp_to));
+			$errors = array_merge($errors, $this->checkRecipients($a_rcp_cc));
+			$errors = array_merge($errors, $this->checkRecipients($a_rcp_bc));
+
+			if(count($errors) > 0)
+			{
+				return array_merge(array(array('mail_following_rcp_not_valid')), $errors);
+			}
+		}
+		catch(ilMailException $e)
+		{
+			return array(array('mail_generic_rcp_error', $e->getMessage()));
 		}
 
 		return array();

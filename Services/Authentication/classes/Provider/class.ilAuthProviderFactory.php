@@ -94,6 +94,12 @@ class ilAuthProviderFactory
 				$this->getLogger()->debug('Using shibboleth authentication.');
 				include_once './Services/AuthShibboleth/classes/class.ilAuthProviderShibboleth.php';
 				return new ilAuthProviderShibboleth($credentials);
+				
+			case AUTH_ECS:
+				$this->getLogger()->debug('Using ecs authentication.');
+				include_once './Services/WebServices/ECS/classes/class.ilAuthProviderECS.php';
+				return new ilAuthProviderECS($credentials);
+				
 			// saml-patch: begin
 			case AUTH_SAML:
 				$saml_info = explode('_', $a_authmode);

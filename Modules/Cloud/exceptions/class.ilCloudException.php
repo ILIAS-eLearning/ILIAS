@@ -67,72 +67,73 @@ class ilCloudException extends ilException
         switch ($this->code)
         {
             case self::NO_SERVICE_ACTIVE:
-                $this->message = $lng->txt("cld_no_service_active") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_no_service_active");
                 break;
             case self::NO_SERVICE_SELECTED:
-                $this->message = $lng->txt("cld_no_service_selected") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_no_service_selected");
                 break;
             case self::SERVICE_NOT_ACTIVE:
-                $this->message = $lng->txt("cld_service_not_active") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_service_not_active");
                 break;
             case self::SERVICE_CLASS_FILE_NOT_FOUND:
-                $this->message = $lng->txt("cld_service_class_file_not_found") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_service_class_file_not_found");
                 break;
             case self::FOLDER_NOT_EXISTING_ON_SERVICE:
-                $this->message = $lng->txt("cld_folder_not_existing_on_service") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_folder_not_existing_on_service");
                 break;
             case self::FOLDER_ALREADY_EXISTING_ON_SERVICE:
-                $this->message = $lng->txt("cld_folder_already_existing_on_service") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_folder_already_existing_on_service");
                 break;
             case self::FILE_NOT_EXISTING_ON_SERVICE:
-                $this->message = $lng->txt("cld_file_not_existing_on_service") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_file_not_existing_on_service");
                 break;
             case self::AUTHENTICATION_FAILED:
-                $this->message = $lng->txt("cld_authentication_failed") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_authentication_failed");
                 break;
             case self::DELETE_FAILED:
-                $this->message = $lng->txt("cld_delete_failed") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_delete_failed");
                 break;
             case self::ADD_ITEMS_FROM_SERVICE_FAILED:
-                $this->message = $lng->txt("cld_add_items_from_service_failed") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_add_items_from_service_failed");
                 break;
             case self::DOWNLOAD_FAILED:
-                $this->message = $lng->txt("cld_add_download_failed") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_add_download_failed");
                 break;
             case self::FOLDER_CREATION_FAILED:
-                $this->message = $lng->txt("cld_folder_creation_failed") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_folder_creation_failed");
                 break;
             case self::UPLOAD_FAILED:
-                $this->message = $lng->txt("cld_upload_failed") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_upload_failed");
                 break;
             case self::UPLOAD_FAILED_MAX_FILESIZE:
-                $this->message = $lng->txt("cld_upload_failed_max_filesize") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_upload_failed_max_filesize");
                 break;
             case self::INVALID_INPUT:
-                $this->message = $lng->txt("cld_invalid_input") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_invalid_input");
                 break;
             case self::PATH_DOES_NOT_EXIST_IN_FILE_TREE_IN_SESSION:
-                $this->message = $lng->txt("cld_path_does_not_exist_in_file_tree_in_session") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_path_does_not_exist_in_file_tree_in_session");
                 break;
             case self::ID_DOES_NOT_EXIST_IN_FILE_TREE_IN_SESSION:
-                $this->message = $lng->txt("cld_id_does_not_exist_in_file_tree_in_session") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_id_does_not_exist_in_file_tree_in_session");
                 break;
             case self::ID_ALREADY_EXISTS_IN_FILE_TREE_IN_SESSION:
-                $this->message = $lng->txt("cld_id_already_exists_in_file_tree_in_session") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_id_already_exists_in_file_tree_in_session");
                 break;
             case self::PLUGIN_HOOK_COULD_NOT_BE_INSTANTIATED:
-                $this->message = $lng->txt("cld_plugin_hook_could_not_be_instantiated") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_plugin_hook_could_not_be_instantiated");
                 break;
             case self::PERMISSION_DENIED:
-                $this->message = $lng->txt("cld_permission_denied") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_permission_denied");
                 break;
             case self::PERMISSION_TO_CHANGE_ROOT_FOLDER_DENIED:
-                $this->message = $lng->txt("cld_permission_to_change_root_folder_denied") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_permission_to_change_root_folder_denied");
                 break;
             default:
-                $this->message = $lng->txt("cld_unknown_exception") . " " . $this->add_info;
+                $this->message = $lng->txt("cld_unknown_exception");
                 break;
         }
+	    $this->message .= ($this->add_info ? ": " : "") . $this->add_info;
     }
 
     public function __toString()

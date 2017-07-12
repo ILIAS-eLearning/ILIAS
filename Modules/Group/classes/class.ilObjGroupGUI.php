@@ -442,7 +442,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		$members_obj->add($ilUser->getId(),IL_GRP_ADMIN);
 		$members_obj->updateNotification($ilUser->getId(),$ilSetting->get('mail_grp_admin_notification', true));
 		
-		parent::afterSave($new_object);
+		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+		$this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
+		$this->ctrl->redirect($this,'edit');
 	}
 	
 	/**
@@ -1069,7 +1071,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				"");
 		}
 
-		
+		include_once './Modules/Group/classes/class.ilGroupParticipants.php';
 		$is_participant = ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId());
 			
 		// Members

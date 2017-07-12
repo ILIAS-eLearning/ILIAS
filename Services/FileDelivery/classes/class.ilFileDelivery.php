@@ -104,7 +104,7 @@ class ilFileDelivery {
 
 
 	/**
-	 * @param $path_to_file
+	 * @param      $path_to_file
 	 * @param null $download_file_name
 	 * @param null $mime_type
 	 * @param bool $delete_file
@@ -159,8 +159,9 @@ class ilFileDelivery {
 		if ($path_to_file == self::DIRECT_PHP_OUTPUT) {
 			$this->setPathToFile(self::DIRECT_PHP_OUTPUT);
 		} else {
-			$parts = parse_url($path_to_file);
-			$this->setPathToFile(($parts['path']));
+			$path_to_file = explode("?", $path_to_file); // removing everything behind ?
+			$path_to_file = $path_to_file[0];
+			$this->setPathToFile($path_to_file);
 			$this->detemineDeliveryType();
 			$this->determineMimeType();
 			$this->determineDownloadFileName();
@@ -217,29 +218,47 @@ class ilFileDelivery {
 		$path_to_file = $this->getPathToFile();
 		$this->clearHeaders();
 		header('Content-type:');
-		if (strpos($path_to_file, './' . self::DATA . '/') === 0 && is_dir('./' . self::VIRTUAL_DATA)) {
-			$path_to_file = str_replace('./' . self::DATA . '/', '/' . self::VIRTUAL_DATA . '/', $path_to_file);
+		if (strpos($path_to_file, './' . self::DATA . '/') === 0
+		    && is_dir('./' . self::VIRTUAL_DATA)
+		) {
+			$path_to_file = str_replace('./' . self::DATA . '/', '/' . self::VIRTUAL_DATA
+			                                                     . '/', $path_to_file);
 		}
 		virtual($path_to_file);
 	}
 
 
 	protected function deliverXSendfile() {
-		// $this->clearHeaders(); // FIX: XSendfile seems to need all headers set
-
-		header('X-Sendfile: ' . realpath($this->getPathToFile()));
+		$realpath = realpath($this->getPathToFile());
+		$closure = function () use ($realpath) {
+			header('X-Sendfile: ' . $realpath);
+		};
+		if ($this->isDeleteFile()) {
+			$this->sendFileUnbufferedUsingHeaders($closure);
+		} else {
+			$closure();
+		}
 	}
 
 
 	protected function deliverXAccelRedirect() {
-		$path_to_file = $this->getPathToFile();
 		$this->clearHeaders();
-		header('Content-type:');
+		$path_to_file = $this->getPathToFile();
+
 		if (strpos($path_to_file, './' . self::DATA . '/') === 0) {
-			$path_to_file = str_replace('./' . self::DATA . '/', '/' . self::SECURED_DATA . '/', $path_to_file);
+			$path_to_file = str_replace('./' . self::DATA . '/', '/' . self::SECURED_DATA
+			                                                     . '/', $path_to_file);
 		}
 
-		header('X-Accel-Redirect: ' . ($path_to_file));
+		$closure = function () use ($path_to_file) {
+			header('Content-type:');
+			header('X-Accel-Redirect: ' . ($path_to_file));
+		};
+		if ($this->isDeleteFile()) {
+			$this->sendFileUnbufferedUsingHeaders($closure);
+		} else {
+			$closure();
+		}
 	}
 
 
@@ -257,6 +276,7 @@ class ilFileDelivery {
 
 
 	public function setGeneralHeaders() {
+		header("X-ILIAS-FileDelivery-Method: " . $this->getDeliveryType());
 		$this->checkExisting();
 		if ($this->isSendMimeType()) {
 			header("Content-type: " . $this->getMimeType());
@@ -268,10 +288,13 @@ class ilFileDelivery {
 		if ($this->hasHashFilename()) {
 			$download_file_name = md5($download_file_name);
 		}
-		header('Content-Disposition: ' . $this->getDisposition() . '; filename="' . $download_file_name . '"');
+		header('Content-Disposition: ' . $this->getDisposition() . '; filename="'
+		       . $download_file_name . '"');
 		header('Content-Description: ' . $download_file_name);
 		header('Accept-Ranges: bytes');
-		if ($this->getDeliveryType() == self::DELIVERY_METHOD_PHP && $this->getPathToFile() != self::DIRECT_PHP_OUTPUT) {
+		if ($this->getDeliveryType() == self::DELIVERY_METHOD_PHP
+		    && $this->getPathToFile() != self::DIRECT_PHP_OUTPUT
+		) {
 			header("Content-Length: " . (string)filesize($this->getPathToFile()));
 		}
 		header("Connection: close");
@@ -342,7 +365,9 @@ class ilFileDelivery {
 			return true;
 		}
 
-		if (function_exists('apache_get_modules') && in_array('mod_xsendfile', apache_get_modules())) {
+		if (function_exists('apache_get_modules')
+		    && in_array('mod_xsendfile', apache_get_modules())
+		) {
 			$this->setDeliveryType(self::DELIVERY_METHOD_XSENDFILE);
 		}
 
@@ -356,11 +381,15 @@ class ilFileDelivery {
 
 		require_once('./Services/Environment/classes/class.ilRuntime.php');
 		$ilRuntime = ilRuntime::getInstance();
-		if ((!$ilRuntime->isFPM() && !$ilRuntime->isHHVM()) && $this->getDeliveryType() == self::DELIVERY_METHOD_XACCEL) {
+		if ((!$ilRuntime->isFPM() && !$ilRuntime->isHHVM())
+		    && $this->getDeliveryType() == self::DELIVERY_METHOD_XACCEL
+		) {
 			$this->setDeliveryType(self::DELIVERY_METHOD_PHP);
 		}
 
-		if ($this->getDeliveryType() == self::DELIVERY_METHOD_XACCEL && strpos($this->getPathToFile(), './data') !== 0) {
+		if ($this->getDeliveryType() == self::DELIVERY_METHOD_XACCEL
+		    && strpos($this->getPathToFile(), './data') !== 0
+		) {
 			$this->setDeliveryType(self::DELIVERY_METHOD_PHP);
 		}
 
@@ -680,7 +709,8 @@ class ilFileDelivery {
 
 	protected function sendLastModified() {
 		if ($this->getShowLastModified()) {
-			header('Last-Modified: ' . date("D, j M Y H:i:s", filemtime($this->getPathToFile())) . " GMT");
+			header('Last-Modified: ' . date("D, j M Y H:i:s", filemtime($this->getPathToFile()))
+			       . " GMT");
 		}
 	}
 
@@ -744,14 +774,17 @@ class ilFileDelivery {
 	public function clearBuffer() {
 		$ob_get_contents = ob_get_contents();
 		if ($ob_get_contents) {
-			ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: ' . $ob_get_contents);
+			ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: '
+			                               . $ob_get_contents);
 		}
 		ob_end_clean(); // fixed 0016469, 0016467, 0016468
 	}
 
 
 	protected function checkExisting() {
-		if ($this->getPathToFile() != self::DIRECT_PHP_OUTPUT && !file_exists($this->getPathToFile())) {
+		if ($this->getPathToFile() != self::DIRECT_PHP_OUTPUT
+		    && !file_exists($this->getPathToFile())
+		) {
 			ilHTTP::status(404);
 			$this->close();
 		}
@@ -765,7 +798,9 @@ class ilFileDelivery {
 		 */
 		$ilClientIniFile = $DIC['ilClientIniFile'];
 
-		if ($ilClientIniFile instanceof ilIniFile && $ilClientIniFile->readVariable('file_access', 'disable_ascii')) {
+		if ($ilClientIniFile instanceof ilIniFile
+		    && $ilClientIniFile->readVariable('file_access', 'disable_ascii')
+		) {
 			$this->setConvertFileNameToAsci(false);
 			$this->setUrlencodeFilename(false);
 		}
@@ -782,6 +817,7 @@ class ilFileDelivery {
 
 	/**
 	 * @param $original_name
+	 *
 	 * @return string
 	 */
 	public static function returnASCIIFileName($original_name) {
@@ -819,5 +855,22 @@ class ilFileDelivery {
 	 */
 	public function setUrlencodeFilename($urlencode_filename) {
 		$this->urlencode_filename = $urlencode_filename;
+	}
+
+
+	/**
+	 * @param \Closure $closure which sets the output-headers, e.g.
+	 *                          header('X-Sendfile: ' . realpath($this->getPathToFile()));
+	 */
+	protected function sendFileUnbufferedUsingHeaders(\Closure $closure) {
+		ignore_user_abort(true);
+		set_time_limit(0);
+		ob_start();
+
+		$closure();
+
+		ob_flush();
+		ob_end_flush();
+		flush();
 	}
 }
