@@ -268,7 +268,7 @@ class ilPersonalSettingsGUI
 			"", "", "", $showGeneralSettings);
 
 		// password
-		if ($this->allowPasswordChange())
+		if ($this->allowPasswordChange() && !ilSession::get('used_external_auth'))
 		{
 			$ilTabs->addTarget("password", $this->ctrl->getLinkTarget($this, "showPassword"),
 				"", "", "", $showPassword);

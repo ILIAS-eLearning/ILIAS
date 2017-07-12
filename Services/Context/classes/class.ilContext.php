@@ -32,6 +32,7 @@ class ilContext
 	const CONTEXT_WAC = "ilContextWAC";
 	const CONTEXT_APACHE_SSO = 'ilContextApacheSSO';
 	const CONTEXT_SHIBBOLETH = 'ilContextShibboleth';
+	const CONTEXT_SAML = 'ilContextSaml';
 	
 	
 	/**

@@ -122,6 +122,11 @@ class ilSession
 			return true;
 		}
 
+		if(!$a_session_id)
+		{
+			return true;
+		}
+
 		$now = time();
 
 		// prepare session data

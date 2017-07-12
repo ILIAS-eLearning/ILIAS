@@ -559,6 +559,7 @@ class ilUserImportParser extends ilSaxParser
 							break;
 							
 						case "radius":
+						case "saml":
 						case "shibboleth":
 						case "script":
 						case "cas":
@@ -701,6 +702,7 @@ class ilUserImportParser extends ilSaxParser
 							break;
 							
 						case "radius":
+						case "saml":
 						case "shibboleth":
 						case "script":
 						case "cas":

@@ -3722,7 +3722,7 @@ class ilObjUser extends ilObject
 	*
 	* @static
 	*/
-	public static function _checkExternalAuthAccount($a_auth, $a_account)
+	public static function _checkExternalAuthAccount($a_auth, $a_account, $tryFallback = true)
 	{
 		global $ilDB,$ilSetting;
 
@@ -3734,6 +3734,11 @@ class ilObjUser extends ilObject
 		if ($usr = $ilDB->fetchAssoc($r))
 		{
 			return $usr["login"];
+		}
+
+		if(!$tryFallback)
+		{
+			return false;
 		}
 
 		// For compatibility, check for login (no ext_account entry given)

@@ -1143,6 +1143,7 @@ class ilInitialisation
 				// :TODO: should be moved to context?!
 				$mandatory_auth = ($current_script != "shib_login.php"
 						&& $current_script != "shib_logout.php"
+						&& $current_script != "saml.php"
 						&& $current_script != "error.php"
 						&& $current_script != "chat.php"
 						&& $current_script != "wac.php"
@@ -1381,7 +1382,11 @@ class ilInitialisation
 			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for shibboleth request.');
 			return true;
 		}
-		
+		if(ilContext::getType() == ilContext::CONTEXT_SAML)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for SAML request.');
+			return true;
+		}
 		if(
 			$a_current_script == "register.php" || 
 			$a_current_script == "pwassist.php" ||
