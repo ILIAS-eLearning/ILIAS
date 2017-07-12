@@ -44,7 +44,7 @@ use Psr\Http\Message\ResponseInterface;
  * @author                 Fabian Schmid <fs@studer-raimann.ch>
  * @version                1.0.0
  *
- *
+ * @runTestsInSeparateProcesses
  * @preserveGlobalState    disabled
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
