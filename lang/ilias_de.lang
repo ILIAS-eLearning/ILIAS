@@ -1855,7 +1855,7 @@ blog#:#blog_font_color#:#Schriftfarbe
 blog#:#blog_list_more#:#mehr
 blog#:#blog_navigation#:#Beiträge
 blog#:#blog_new#:#Neues Blog anlegen
-blog#:#blog_new_posting_info#:#Der erste Textblock wird als Auszug in der Liste der Einträge verwendet.
+blog#:#blog_new_posting_info#:#Der Beitrag wurde veröffentlicht. Der erste Textblock wird als Auszug in der Liste der Einträge verwendet.
 blog#:#blog_notification_activated#:#Änderungs-Benachrichtigung aktiviert
 blog#:#blog_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
 blog#:#blog_notification_toggle_off#:#Änderungs-Benachrichtigung deaktivieren
@@ -3089,7 +3089,7 @@ common#:#exc_edit#:#Eine neue Übung wurde angelegt
 common#:#exc_edit_exercise#:#Übung bearbeiten
 rbac#:#exc_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#exc_edit_permission#:#Rechteeinstellungen ändern
-common#:#exc_edit_until#:#Zu bearbeiten bis
+common#:#exc_edit_until#:#Abgabetermin
 common#:#exc_exercise_sent#:#Übung versandt
 common#:#exc_feedback_sent#:#Feedback versandt
 common#:#exc_files#:#Dateien
@@ -7482,7 +7482,7 @@ exc#:#exc_assignment_view#:#Je Übungseinheit
 exc#:#exc_assignments#:#Übungseinheiten
 exc#:#exc_assignments_deleted#:#Die Übungseinheiten wurden gelöscht.
 exc#:#exc_blog_created#:#Blog wurde erstellt.
-exc#:#exc_blog_returned#:#Zugeordnetes Blog
+exc#:#exc_blog_returned#:#Blog zur Übungseinheit
 exc#:#exc_blog_selected#:#Das Blog wurde verknüpft.
 exc#:#exc_completion_by_submission#:#Automatisch bei Abgabe
 exc#:#exc_completion_by_submission_info#:#Gibt ein Teilnehmer ein Arbeitsergebnis ab, wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben. Das Ändern dieser Einstellung hat keine Auswirkung auf bestehende Bewertungen.
@@ -7533,8 +7533,8 @@ exc#:#exc_pass_minimum_nr#:#Mindestanzahl an Übungseinheiten
 exc#:#exc_pass_minimum_nr_info#:#Teilnehmer müssen eine Mindestanzahl an Übungseinheiten bestehen, um die gesamte Übung zu bestehen.
 exc#:#exc_pass_mode#:#Anforderung
 exc#:#exc_portfolio_created#:#Portfolio wurde erstellt.
-exc#:#exc_portfolio_returned#:#Zugeordnetes Portfolio
-exc#:#exc_portfolio_selected#:#Das Portfolio wurde verknüpft.
+exc#:#exc_portfolio_returned#:#Portfolio zur Übungseinheit
+exc#:#exc_portfolio_selected#:#Das Portfolio wurde zugeordnet.
 exc#:#exc_presentation_order#:#Reihenfolge
 exc#:#exc_public_submission#:#Öffentliche Lösungsabgaben
 exc#:#exc_save_order#:#Reihenfolge speichern
@@ -7549,13 +7549,13 @@ exc#:#exc_select_portfolio#:#Vorhandenes Portfolio nutzen
 exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
 exc#:#exc_select_portfolio_info#:#Bitte wählen Sie eines Ihrer Portfolios, um es in dieser Übungseinheit zu benutzen.
 exc#:#exc_send_assignment#:#Übungseinheit per Mail verschicken
-exc#:#exc_show_submissions#:#Arbeitsergebnisse veröffentlichen
-exc#:#exc_show_submissions_info#:#Alle abgegebenen Arbeitsergebnisse einer Übungseinheit können nach dem Abgabetermin von allen Teilnehmern eingesehen werden.
+exc#:#exc_show_submissions#:#Lösungsabgaben veröffentlichen
+exc#:#exc_show_submissions_info#:#Alle Lösungsabgaben einer Übungseinheit können nach dem Abgabetermin von allen Teilnehmern eingesehen werden.
 exc#:#exc_start_time#:#Startzeit
 exc#:#exc_starting_on#:#Startet am
 exc#:#exc_submission_notification#:#Benachrichtigung bei Abgabe
 exc#:#exc_submission_notification_body#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
-exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Arbeitsergebnisse abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Tutoren der Übung sind davon nicht betroffen.
+exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Lösungen abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Tutoren der Übung sind davon nicht betroffen.
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
 exc#:#exc_submission_notification_subject#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
 exc#:#exc_submissions_and_grades#:#Abgaben und Noten
@@ -9096,7 +9096,7 @@ prtf#:#prtf_create_portfolio#:#Portfolio hinzufügen
 prtf#:#prtf_default_portfolio#:#Mein Profil
 prtf#:#prtf_edit_portfolio#:#Portfolio bearbeiten
 prtf#:#prtf_exercise_info#:#Dieses Portfolio ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
-prtf#:#prtf_exercise_submitted_info#:#Sie haben Ihr Portfolio am %s eingereicht. Sie können eine Kopie des eingereichten Portfolios für eigene Zwecke speichern: %s
+prtf#:#prtf_exercise_submitted_info#:#Sie haben Ihr Portfolio am %s eingereicht. Wenn Sie möchten, speichern Sie sich eine Kopie für Ihre persönliche Ablage %s
 prtf#:#prtf_existing_portfolio#:#Vorhandenes Portfolio
 prtf#:#prtf_finalize_portfolio#:#Portfolio abschließen und abgeben
 prtf#:#prtf_finalized#:#Das Portfolio wurde abgegeben.
@@ -13059,7 +13059,7 @@ exc#:#exc_needs_deadline#:#Diese Option benötigt einen Abgabetermin.
 exc#:#exc_team_upload_not_supported#:#Diese Option ist für Team-Upload-Übungseinheiten nicht verfügbar.
 exc#:#exc_global_feedback_file#:#Musterlösung
 exc#:#exc_global_feedback_file_cron#:#Benachrichtigung bei Verfügbarkeit
-exc#:#exc_global_feedback_file_cron_info#:#Über einen Cron-Job werden die Lerner über die Verfügbarkeit der Musterlösung informiert.
+exc#:#exc_global_feedback_file_cron_info#:#Teilnehmer werden per Mail über die Verfügbarkeit der Musterlösung informiert.
 exc#:#exc_feedback_notification_subject#:#Feedback für Übungseinheit der Übung "%s" freigeschaltet
 exc#:#exc_feedback_notification_salutation#:#Hallo %s,
 exc#:#exc_feedback_notification_body#:#Das Feedback zur folgenden Übungseinheit wurde freigeschaltet.
@@ -14599,7 +14599,7 @@ mob#:#mob_object#:#Objekt
 content#:#cont_qtries_info#:#Standardwert "Anzahl der Versuche" für neu angelegte Fragen.
 lm#:#lm_copy#:#ILIAS-Lernmodul kopieren
 content#:#cont_settings#:#Lernmoduleinstellungen
-exc#:#exc_no_team_yet_notice#:#Sie gehören noch keinem Team an!
+exc#:#exc_no_team_yet_notice#:#Sie gehören noch keinem Team an.
 prtf#:#prtf_edit_embedded_blog#:#Blog "%s" bearbeiten
 exc#:#exc_manage_team#:#Team verwalten
 assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
@@ -15987,25 +15987,25 @@ rbac#:#file_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen
 rbac#:#stys_sty_write_content#:#Content-Styles bearbeiten
 style#:#manage_system_styles#:#System Styles verwalten
 style#:#scope#:#Gültigkeitsbereich
-common#:#file_order#:#File Order
+common#:#file_order#:#Reihenfolge
 exc#:#exc_work_instructions#:#Arbeitsanweisung
 exc#:#exc_after_submission#:#Nach der Abgabe
 exc#:#exc_schedule#:#Terminplan
-exc#:#exc_submit_convenience_no_deadline#:#Submit your at your convenience. There is no  specific  deadline.
-exc#:#exc_select_portfolio_unlink#:#Remove Portfolio
-exc#:#exc_sure_unlink_portfolio#:#Are you sure to remove this portfolio form this assignment?
-exc#:#exc_portfolio_unlinked_from_assignment#:#Portfolio removed from this assignment
-exc#:#exc_template#:#Template
-exc#:#exc_portfolio_template#:#Portfolio Template
-exc#:#exc_without_template#:#Without Portfolio - Template
-exc#:#exc_with_template#:#With Portfolio - Template
-exc#:#exc_without_template_info#:#Participants will create their Portfolio from scratch
-exc#:#exc_with_template_info#:#An empty Portfolio will be automatically derived from a specific Portfolio Template.
-exc#:#exc_no_portfolio_templates#:#There are no Portfolio Templates available.
-exc#:#exc_go_to_exercise#:#Go to Exercise
+exc#:#exc_submit_convenience_no_deadline#:#Geben Sie nach Bearbeitung der Übungseinheit ab. Es gibt keinen festen Abgabetermin.
+exc#:#exc_select_portfolio_unlink#:#Portfolio entfernen
+exc#:#exc_sure_unlink_portfolio#:#Möchten Sie das Portfolio aus dieser Übungseinheit entfernen?
+exc#:#exc_portfolio_unlinked_from_assignment#:#Das Portfolio wurde aus der Übungseinheit entfernt.
+exc#:#exc_template#:#Portfoliovorlage
+exc#:#exc_portfolio_template#:#Portfoliovorlage bestimmen
+exc#:#exc_without_template#:#Ohne Portfoliovorlage
+exc#:#exc_with_template#:#Mit Portfoliovorlage
+exc#:#exc_without_template_info#:#Teilnehmer erstellen ihre Portfolios selbständig ohne Vorlage.
+exc#:#exc_with_template_info#:#Ein leeres Portfolio wird automatisch aus einer bestimmten Portfoliovorlage abgeleitet.
+exc#:#exc_no_portfolio_templates#:#Es sind keine Portfoliovorlagen vorhanden.
+exc#:#exc_go_to_exercise#:#Zur Übung
 exc#:#exc_limit_characters#:#Anzahl der Zeichen beschränken
 exc#:#exc_min_char_limit#:#Mindestanzahl Zeichen
 exc#:#exc_max_char_limit#:#Höchstanzahl Zeichen
-exc#:#exc_chars_remaining#:#Characters remaining:
-exc#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
-exc#:#msg_input_char_limit_max#:#You have entered more characters than allowed.
+exc#:#exc_chars_remaining#:#Verbleibende Zeichen
+exc#:#msg_input_char_limit_min#:#Sie müssen die festgelegte Mindestanzahl an Zeichen eingeben. Ihr Beitrag ist zu kurz.
+exc#:#msg_input_char_limit_max#:#Sie müssen die festgelegte Höchstzahl von Zeichen beachten. Ihr Beitrag ist zu lang.
