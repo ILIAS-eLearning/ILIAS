@@ -3431,7 +3431,7 @@ common#:#cannot_uninstall_language_in_use#:#현재 사용중인 언어를 제거
 common#:#cannot_uninstall_systemlanguage#:#시스템 언어를 제거 할 수 없습니다!
 common#:#cannot_unzip_file#:#파일을 unpack 수 없습니다.
 common#:#cant_deactivate_if_users_assigned#:#사용자 할당이 아직있는 경우 스타일 취소 할 수 없습니다.
-common # # cat#:#카테고리
+common#:#cat#:#카테고리
 common#:#cat_a#:#카테고리
 common#:#cat_add#:#카테고리를 추가
 common#:#cat_added#:#카테고리가 추가되었습니다
@@ -3580,7 +3580,7 @@ common#:#copy#:#복사
 common#:#copy_all#:#모든 복사
 common#:#copy_n_of_suffix#:#- 복사 (% 1 $ s)
 common#:#copy_of#:#복사
-common#:#copy_of_suffix#:## NAME?
+common#:#copy_of_suffix#:#NAME?
 common#:#copy_selected_items#:#복사
 common#:#copy_to#:#to
 common#:#copyChapter#:#복사
