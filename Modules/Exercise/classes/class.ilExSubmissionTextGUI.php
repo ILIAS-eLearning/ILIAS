@@ -118,7 +118,8 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			
 			$form->setFormAction($ilCtrl->getFormAction($this, "updateAssignmentText"));
 			$form->addCommandButton("updateAssignmentTextAndReturn", $this->lng->txt("save_return"));		
-			$form->addCommandButton("updateAssignmentText", $this->lng->txt("save"));							
+			$form->addCommandButton("updateAssignmentText", $this->lng->txt("save"));
+			$form->addCommandButton("returnToParent", $this->lng->txt("cancel"));
 		}
 		else
 		{
@@ -126,7 +127,6 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			$text = new ilNonEditableValueGUI($this->lng->txt("exc_files_returned_text"), "atxt", true);	
 			$form->addItem($text);					
 		}
-		$form->addCommandButton("returnToParent", $this->lng->txt("cancel"));
 		
 		return $form;
 	}

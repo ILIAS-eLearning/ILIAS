@@ -275,7 +275,7 @@ class ilExAssignmentGUI
 
 				if (in_array($mime, array("image/jpeg", "image/svg+xml", "image/gif", "image/png")))
 				{
-					$item_id = "il-ex-modal-img-".$cnt;
+					$item_id = "il-ex-modal-img-".$a_ass->getId()."-".$cnt;
 
 
 					$image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'], $file['name']));
