@@ -10805,9 +10805,6 @@ meta#:#md_adv_confirm_definition_select_option_overwrite#:#값을 설정
 meta#:#md_adv_confirm_definition_select_option_remove#:#값을 삭제
 meta#:#md_adv_confirm_definition_select_option_single#:#기존의 각 항목을 확정
 meta#:#md_adv_confirm_definition_select_section#:#삭제 된 옵션 마이그레이션
-
-
-
 meta#:#md_adv_create_field#:#신규 필드
 meta#:#md_adv_create_record#:#새 데이터 세트
 meta#:#md_adv_delete_fields_sure#:#정말 다음 필드 정의를 삭제 하시겠습니까?
