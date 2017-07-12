@@ -30,8 +30,8 @@ interface FileStreamWriteAccess {
 	 * The stream will be closed after the write operation is done. Please note that the
 	 * resource must be detached from the stream in order to write to the file.
 	 *
-	 * @param string                     $path   The file which should be used to write the stream into.
-	 * @param StreamInterface $stream The stream which should be written into the new file.
+	 * @param string                    $path   The file which should be used to write the stream into.
+	 * @param FileStream                $stream The stream which should be written into the new file.
 	 *
 	 * @return void
 	 * @since   5.3
@@ -39,7 +39,7 @@ interface FileStreamWriteAccess {
 	 *
 	 * @see     FileStream::detach()
 	 */
-	public function writeStream($path, StreamInterface $stream);
+	public function writeStream($path, FileStream $stream);
 
 
 	/**
@@ -49,19 +49,16 @@ interface FileStreamWriteAccess {
 	 * The stream will be closed after the write operation is done. Please note that the
 	 * resource must be detached from the stream in order to write to the file.
 	 *
-	 * @param string            $path   The file which should be used to write the stream into.
-	 * @param StreamInterface   $stream The stream which should be written to the file.
+	 * @param string                     $path   The file which should be used to write the stream into.
+	 * @param FileStream $stream The stream which should be written to the file.
 	 *
 	 * @return void
-	 *
-	 * @throws IOException If the stream could not be written to the file.
-	 *
-	 * @since 5.3
+	 * @since   5.3
 	 * @version 1.0
 	 *
-	 * @see FileStream::detach()
+	 * @see     FileStream::detach()
 	 */
-	public function putStream($path, StreamInterface $stream);
+	public function putStream($path, FileStream $stream);
 
 
 	/**
@@ -71,18 +68,14 @@ interface FileStreamWriteAccess {
 	 * The stream will be closed after the write operation is done. Please note that the
 	 * resource must be detached from the stream in order to write to the file.
 	 *
-	 * @param string            $path   The path to the file which should be updated.
-	 * @param StreamInterface   $stream The stream which should be used to update the file content.
+	 * @param string          $path   The path to the file which should be updated.
+	 * @param FileStream      $stream The stream which should be used to update the file content.
 	 *
 	 * @return void
-	 *
-	 * @throws FileNotFoundException    If the file which should be updated doesn't exist.
-	 * @throws IOException              If the file could not be updated.
-	 *
-	 * @since 5.3
+	 * @since   5.3
 	 * @version 1.0
 	 *
-	 * @see FileStream::detach()
+	 * @see     FileStream::detach()
 	 */
-	public function updateStream($path, StreamInterface $stream);
+	public function updateStream($path, FileStream $stream);
 }
