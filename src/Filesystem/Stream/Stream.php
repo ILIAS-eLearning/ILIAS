@@ -88,6 +88,10 @@ class Stream implements FileStream {
 			$this->customMetadata = $options->getMetadata();
 			$this->size = ($options->getSize() !== -1) ? $options->getSize() : NULL;
 		}
+		else
+		{
+			$this->customMetadata = [];
+		}
 
 		$this->stream = $stream;
 
