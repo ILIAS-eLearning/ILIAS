@@ -656,6 +656,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		global $tpl, $ilTabs, $ilUser, $ilToolbar;
 		
 		$this->checkPermission("read");
+
+		$tpl->addJavaScript("./Modules/Exercise/js/ilExcPresentation.js");
 		
 		include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
 		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),
@@ -709,8 +711,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$acc->setUseSessionStorage(true);
 		}
-		
-		$tpl->setContent($acc->getHTML());
+
+		$mtpl = new ilTemplate("tpl.exc_ass_overview.html", true, true, "Modules/Exercise");
+		$mtpl->setVariable("CONTENT", $acc->getHTML());
+
+		$tpl->setContent($mtpl->get());
 	}
 	
 	function certificateObject()

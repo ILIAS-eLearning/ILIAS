@@ -283,6 +283,7 @@ class ilExAssignmentGUI
 						$modal->setId($item_id);
 						$modal->setType(ilModalGUI::TYPE_LARGE);
 						$modal->setBody($image);
+						$modal->setHeading($file["name"]);
 						$modal = $modal->getHTML();
 
 						$img_tpl = new ilTemplate("tpl.image_file.html", true, true, "Modules/Exercise");

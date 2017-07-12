@@ -11994,6 +11994,11 @@ div.ilRatingOverlay {
   margin: 4px 0 0 25px;
   font-size: 12px;
 }
+.ilExcOverview .ilExcAssImageContainer {
+  max-width: 300px;
+  display: inline-block;
+  cursor: pointer;
+}
 .progress {
   height: 15px;
   min-width: 100px;
