@@ -45,14 +45,18 @@ class ilPortfolioRepositoryGUI
 		switch($next_class)
 		{			
 			case "ilobjportfoliogui":
+
+				include_once('./Modules/Portfolio/classes/class.ilObjPortfolioGUI.php');
+				$gui = new ilObjPortfolioGUI((int) $_REQUEST["prt_id"]);
+
 				if($cmd != "preview")
 				{
 					$this->setLocator();
 
-					if($_REQUEST['ref_id'])
+					if ((int) $_GET["exc_back_ref_id"] > 0)
 					{
-						$ilCtrl->setParameterByClass("ilobjexercisegui", "ref_id", $_REQUEST['ref_id']);
-						$ilTabs->setBackTarget($lng->txt("exc_go_to_exercise"), $ilCtrl->getLinkTargetByClass(array("ilexercisehandlergui", "ilobjexercisegui"), "showOverview"));
+						include_once("./Services/Link/classes/class.ilLink.php");
+						$ilTabs->setBack2Target($lng->txt("obj_exc"), ilLink::_getLink((int) $_GET["exc_back_ref_id"]));
 					}
 					else
 					{
@@ -60,8 +64,6 @@ class ilPortfolioRepositoryGUI
 					}
 				}
 
-				include_once('./Modules/Portfolio/classes/class.ilObjPortfolioGUI.php');
-				$gui = new ilObjPortfolioGUI($_REQUEST["prt_id"]);
 				$ilCtrl->forwardCommand($gui);
 				break;
 

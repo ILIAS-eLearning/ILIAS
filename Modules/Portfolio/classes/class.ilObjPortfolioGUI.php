@@ -22,6 +22,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	public function __construct($a_id = 0)
 	{		
 		parent::__construct($a_id, self::PORTFOLIO_OBJECT_ID, 0);
+
+		$this->ctrl->saveParameter($this, "exc_back_ref_id");
 	}
 	
 	public function getType()
