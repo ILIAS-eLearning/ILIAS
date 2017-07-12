@@ -417,7 +417,7 @@ il.Accordion = {
 			// set the currently shown accordion
 			a.last_opened_acc = a.clicked_acc;
 
-			il.Accordion.rerenderMathJax(a.clicked_acc);
+			il.Accordion.afterOpening(a.clicked_acc);
 
 			il.Accordion.saveOpenedTabs(a, id);
 
@@ -437,6 +437,11 @@ il.Accordion = {
 				$(last_acc).addClass("ilAccHideContent");
 			});
 		}
+	},
+
+	afterOpening: function (acc_el) {
+		$(acc_el).trigger("il.accordion.opened", [acc_el]);
+		il.Accordion.rerenderMathJax(acc_el);
 	},
 
 	rerenderMathJax: function(acc_el) {

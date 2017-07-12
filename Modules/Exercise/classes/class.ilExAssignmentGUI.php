@@ -269,13 +269,13 @@ class ilExAssignmentGUI
 
 				list($format,$type) = explode("/",$mime);
 
+				$ui_factory = $DIC->ui()->factory();
+				$ui_renderer = $DIC->ui()->renderer();
 
 				if (in_array($mime, array("image/jpeg", "image/svg+xml", "image/gif", "image/png")))
 				{
 					$item_id = "il-ex-modal-img-".$cnt;
 
-					$ui_factory = $DIC->ui()->factory();
-					$ui_renderer = $DIC->ui()->renderer();
 
 					$image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'], $file['name']));
 					$image_lens = ilUtil::getImagePath("enlarge.svg");
@@ -297,13 +297,17 @@ class ilExAssignmentGUI
 
 					$a_info->addProperty($file["name"], $img_tpl->get());
 				}
-				else if (in_array($format, array("video", "audio")))
+				if (in_array($mime, array("audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm")))
 				{
+					$media_tpl = new ilTemplate("tpl.media_file.html", true, true, "Modules/Exercise");
 					$mp = new ilMediaPlayerGUI();
 					$mp->setFile($file['fullpath']);
-					$media = $mp->getMediaPlayerHtml();
-					//$media2 = $mp->getPreviewHtml();
-					$a_info->addProperty($file["name"] . " " . $mime, $media);
+					$media_tpl->setVariable("MEDIA", $mp->getMediaPlayerHtml());
+
+					$but = $ui_factory->button()->shy($lng->txt("download"),
+						$this->getSubmissionLink("downloadFile", array("file"=>urlencode($file["name"]))));
+					$media_tpl->setVariable("DOWNLOAD_BUTTON", $ui_renderer->render($but));
+					$a_info->addProperty($file["name"], $media_tpl->get());
 				}
 				else
 				{
