@@ -13535,6 +13535,69 @@ wsp#:#element_already_shared#:#This object is already shared with this user.
 wsp#:#search_no_match#:#Your search did not match any results.
 wsp#:#element_shared#:#Object shared.
 wsp#:#share#:#Share
+common#:#obj_pdfg#:#PDF Generation
+common#:#obj_pdfg_desc#:#Options for generation PDF documents
+common#:#building_export_file#:#Building Export File...
+pdfgen#:#fop#:#FOP
+pdfgen#:#phantomjs#:#PhantomJS
+pdfgen#:#webkit#:#wkhtmltopdf
+pdfgen#:#tcpdf#:#TCPDF
+pdfgen#:#select_pdf_generator#:#PDF Generator
+pdfgen#:#path#:#Path to the program
+pdfgen#:#wkhtml_config#:#Configuration for WKHTML
+pdfgen#:#fop_config#:#Configuration for Fop
+pdfgen#:#phantomjs_config#:#Configuration for PhantomJs
+pdfgen#:#tcpdf_config#:#Configuration for TCPDF
+pdfgen#:#page_settings#:#Page Settings
+pdfgen#:#zoom#:#Zoom
+pdfgen#:#external_links#:#Enable External Links
+pdfgen#:#enable_forms#:#Enable Forms
+pdfgen#:#user_stylesheet#:#User Stylesheet
+pdfgen#:#page_size#:#Pagesize
+pdfgen#:#is_active#:#Active
+pdfgen#:#pdf_config#:#PDF Service Config
+pdfgen#:#create_test_pdf#:#Create Test Pdf
+pdfgen#:#low_quality#:#Low Quality
+pdfgen#:#greyscale#:#Greyscale
+pdfgen#:#orientation#:#Orientation
+pdfgen#:#print_media_type#:#Use Print Media Type instead of screen
+pdfgen#:#output_options#:#Output Options
+pdfgen#:#javascript_delay#:#Javascript Delay
+pdfgen#:#margin#:#Margin
+pdfgen#:#show_info#:#Show Info
+pdfgen#:#margin_left#:#Margin Left
+pdfgen#:#margin_right#:#Margin Right
+pdfgen#:#margin_top#:#Margin Top
+pdfgen#:#margin_bottom#:#Margin Bottom
+pdfgen#:#header_type#:#Header
+pdfgen#:#text#:#Text
+pdfgen#:#header_text_left#:#Text Left
+pdfgen#:#header_text_center#:#Text Center
+pdfgen#:#header_text_right#:#Text Right
+pdfgen#:#html#:#HTML
+pdfgen#:#footer_type#:#Footer
+pdfgen#:#footer_text_left#:#Text Left
+pdfgen#:#footer_text_center#:#Text Center
+pdfgen#:#footer_text_right#:#Text Right
+pdfgen#:#spacing#:#Spacing
+pdfgen#:#header_line#:#Line
+pdfgen#:#footer_line#:#Line
+pdfgen#:#header_html#:#Path to HTML File
+pdfgen#:#checkbox_svg#:#Path to Checkbox SVG
+pdfgen#:#checkbox_checked_svg#:#Path to checked Checkbox SVG
+pdfgen#:#radio_button_svg#:#Path to Radiobutton SVG
+pdfgen#:#radio_button_checked_svg#:#Path to checked Radiobutton SVG
+pdfgen#:#head_text#:#Text
+pdfgen#:#header_height#:#Header Height
+pdfgen#:#header_show_pages#:#Show Pagenumbers
+pdfgen#:#footer_text#:#Text
+pdfgen#:#footer_height#:#Height Footer
+pdfgen#:#footer_show_pages#:#Show Pagenumbers
+pdfgen#:#xsl#:#Path to XSL file
+pdfgen#:#preferred_renderer#:#Preferred Renderer
+pdfgen#:#selected_renderer#:#Selected Renderer
+pdfgen#:#configure#:#Configure Renderer
+prtf#:#pdf_export#:#PDF Export
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.
 crs#:#crs_edit_lo_introduction#:#Edit Introduction

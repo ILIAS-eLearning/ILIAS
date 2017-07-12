@@ -1,0 +1,93 @@
+<html>
+<head>
+	<script type="text/x-mathjax-config">
+	  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+	</script>
+	<script type="text/javascript" async
+			src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+	</script>
+	<style>
+		body
+		{
+			background-color: lightblue;
+		}
+		@media print {
+			body
+			{
+				background-color: white;
+			}
+		}
+	</style>
+</head>
+<body>
+<div  style="color:darkslategray;page-break-after:always;">
+	<h1><a href="#latex">Test Pdf</a></h1>
+	<h3 style="color:lightblue";>If you can read this, this is the print css settings.</h3>
+	<p>
+		Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Donec sollicitudin molestie malesuada. Curabitur aliquet quam id dui posuere blandit. Sed porttitor lectus nibh. Proin eget tortor risus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Sed porttitor lectus nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Proin eget tortor risus. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Sed porttitor lectus nibh. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Cras ultricies ligula sed magna dictum porta.
+	</p>
+	<img style="height:400px;width:400px;" src="../images/5.png"/>
+	<pre>
+		page.open(address, function (status) {
+			if (status !== 'success') {
+				console.log('Unable to load the address!');
+				phantom.exit(1);
+			} else {
+				window.setTimeout(function () {
+					page.render(output);
+					phantom.exit();
+				}, 200);
+			}
+		});
+	</pre>
+	<a href="http://ilias.de">Ilias</a>
+</div>
+<div  style="page-break-after:always;">
+	<form action="#">
+		<fieldset>
+			<legend>Personal information:</legend>
+			First name:<br>
+			<input type="text" name="firstname" value="Mickey"><br>
+			Last name:<br>
+			<input type="text" name="lastname" value="Mouse"><br><br>
+			<input type="submit" value="Submit">
+		</fieldset>
+		<input type="radio" name="gender" value="male" checked> Male<br>
+		<input type="radio" name="gender" value="female"> Female<br>
+		<input type="radio" name="gender" value="other"> Other
+	</form>
+</div>
+<div  style="page-break-after:always;">
+	<p>
+		<i>Sed porttitor lectus nibh.</i> Quisque velit nisi, pretium ut lacinia in, elementum id enim. Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Nulla quis lorem ut libero malesuada feugiat. Cras ultricies ligula sed magna dictum porta. Donec rutrum congue leo eget malesuada. Donec rutrum congue leo eget malesuada. Nulla porttitor accumsan tincidunt. Pellentesque in ipsum id orci porta dapibus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Nulla porttitor accumsan tincidunt. Nulla porttitor accumsan tincidunt. Pellentesque in ipsum id orci porta dapibus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
+	</p>
+	<p>
+		<b>Sed porttitor lectus nibh.</b> Quisque velit nisi, pretium ut lacinia in, elementum id enim. Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Nulla quis lorem ut libero malesuada feugiat. Cras ultricies ligula sed magna dictum porta. Donec rutrum congue leo eget malesuada. Donec rutrum congue leo eget malesuada. Nulla porttitor accumsan tincidunt. Pellentesque in ipsum id orci porta dapibus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Nulla porttitor accumsan tincidunt. Nulla porttitor accumsan tincidunt. Pellentesque in ipsum id orci porta dapibus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
+	</p>
+	<p>
+	<ul>
+		<li>Sed porttitor lectus nibh. </li>
+		<li>Quisque velit nisi, pretium ut lacinia in, elementum id enim.</li>
+		<li>Vivamus suscipit tortor eget felis porttitor volutpat.</li>
+		<li>Proin eget tortor risus.</li>
+		<li>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.</li>
+		<li>Nulla quis lorem ut libero malesuada feugiat.</li>
+		<li>Cras ultricies ligula sed magna dictum porta.</li>
+		<li>Donec rutrum congue leo eget malesuada.</li>
+		<li>Donec rutrum congue leo eget malesuada.</li>
+		<li>Nulla porttitor accumsan tincidunt.</li>
+	</ul>
+	</p>
+</div>
+<div id="latex"  style="page-break-after:always;">
+	When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
+	$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+	$$L' = {L}{\sqrt{1-\frac{v^2}{c^2}}}$$
+	$$\lim_{x\to 0}{\frac{e^x-1}{2x}}\overset{\left[\frac{0}{0}\right]}{\underset{\mathrm{H}}{=}}\lim_{x\to 0}{\frac{e^x}{2}}={\frac{1}{2}}$$
+	$$z = \overbrace{\underbrace{x}_\text{real} + i\underbrace{y}_\text{imaginary}}^\text{complex number}$$
+</div>
+<div  style="page-break-after:always;">
+	<img style="height:400px;width:400px;" src="../images/5.png"/>
+</div>
+</body>
+</html>
