@@ -15,6 +15,7 @@
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 rbac#:#il_sess_participant#:#Sitzungsteilnehmer
+rbac#:#il_sess_status_closed#:#Nicht-Teilnehmer geschlossene Sitzung
 sess#:#sess_mem_tbl_header#:#Sitzungsteilnehmer
 sess#:#objs_crs_role#:#Kursrollen
 sess#:#objs_grp_role#:#Gruppenrollen
