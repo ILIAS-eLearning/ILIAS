@@ -49,10 +49,10 @@ final class XSendfile implements ilFileDeliveryType {
 	 * @inheritdoc
 	 */
 	public function deliver($path_to_file, $file_marked_to_delete) {
-		$response = $this->httpService->response();
-		$delivery = function () use ($path_to_file, $response) {
-			$response = $response->withHeader(self::X_SENDFILE, realpath($path_to_file));
-			$response = $response->withHeader('Connection', 'close');
+
+		$delivery = function () use ($path_to_file) {
+			$response = $this->httpService->response()
+			                              ->withHeader(self::X_SENDFILE, realpath($path_to_file));
 			$this->httpService->saveResponse($response);
 			$this->httpService->sendResponse();
 		};

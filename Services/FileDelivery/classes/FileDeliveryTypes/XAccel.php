@@ -6,7 +6,6 @@ use ILIAS\FileDelivery\ilFileDeliveryType;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Response\ResponseHeader;
 
-const X_ACCEL_REDIRECT = 'X-Accel-Redirect';
 require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
 
 /**
@@ -25,6 +24,7 @@ final class XAccel implements ilFileDeliveryType {
 	 * @var GlobalHttpState $httpService
 	 */
 	private $httpService;
+	const X_ACCEL_REDIRECT = 'X-Accel-Redirect';
 
 
 	/**
@@ -61,7 +61,7 @@ final class XAccel implements ilFileDeliveryType {
 
 		$response = $this->httpService->response();
 		$delivery = function () use ($path_to_file, $response) {
-			$response = $response->withHeader(X_ACCEL_REDIRECT, $path_to_file);
+			$response = $response->withHeader(self::X_ACCEL_REDIRECT, $path_to_file);
 			$this->httpService->saveResponse($response);
 			$this->httpService->sendResponse();
 		};

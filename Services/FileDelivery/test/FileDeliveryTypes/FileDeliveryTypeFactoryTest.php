@@ -12,8 +12,8 @@ require_once './Services/Exceptions/classes/class.ilException.php';
 use ilException;
 use ILIAS\HTTP\GlobalHttpState;
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\MockInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class FileDeliveryTypeFactoryTest
@@ -25,8 +25,9 @@ use Mockery\MockInterface;
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class FileDeliveryTypeFactoryTest extends MockeryTestCase {
+class FileDeliveryTypeFactoryTest extends TestCase {
 
+	use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 	/**
 	 * @var GlobalHttpState|MockInterface $http
 	 */
