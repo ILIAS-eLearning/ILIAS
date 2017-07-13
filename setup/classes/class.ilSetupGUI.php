@@ -533,11 +533,6 @@ echo "<br>+".$client_id;
 			$num++;
 		}
 
-		if (count($languages) % 2)
-		{
-			$this->tpl->touchBlock("lng_empty_cell");
-		}
-
 		if ($this->cmd != "logout" and $this->setup->isInstalled() and $this->setup->isAuthenticated())
 		{
 			// add client link
