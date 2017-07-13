@@ -19,10 +19,12 @@ Each of the 4 Methods return a filesystem object which satisfies the Filesystem 
  
 ```php
 <?php
+global $DIC;
 
 //new filesystem service key
 $DIC["filesystem"];
- 
+$DIC->filesystem();
+
 //access the 4 predefined storage locations
 $DIC["filesystem"]->web();                //Data directory within the ILIAS web root
 $DIC["filesystem"]->storage();            //ILIAS data directory
@@ -185,13 +187,14 @@ $timestamp = $webDataRoot->getTimestamp('relative/path/to/file');
 Fetches the file size.
 ```php
 <?php
-use ILIAS\Filesystem\DTO\FileSize;
+use ILIAS\Data\DataSize;
+
 /**
  * @var ILIAS\Filesystem\Filesystem $webDataRoot
  */
 $webDataRoot = $DIC->filesystem()->web();
-$fileSize = $webDataRoot->getSize('relative/path/to/file', FileSize::MiB);
-$message = "File size: " . $fileSize->getSize() . " " . $fileSize->getSuffix();
+$fileSize = $webDataRoot->getSize('relative/path/to/file', DataSize::MiB);
+$message = "File size: " . $fileSize->getSize() . " " . $fileSize->getSize();
 ```
 #### Visibility
 Every filesystem has own concepts and restrictions in terms of the filesystem security.
@@ -341,7 +344,7 @@ The second argument is true then the directory listening will be recursive.
 $webDataRoot = $DIC->filesystem()->web();
 $metadataArray = $webDataRoot->listContents("your/path/to/the/directory", true);
 foreach ($metadataArray as $metadata) {
-	echo $metadata->getBasename() . " is located at " . $metadata->getPath() . " and is a " . $metadata->getType();
+	echo "Data is located at " . $metadata->getPath() . " and is a " . $metadata->getType();
 }
 ```
 
@@ -392,6 +395,27 @@ $stream = Streams::ofResource($resource);
 //write stream to file ...
 ```
 
+### from psr7 stream
+```php
+<?php
+use ILIAS\Filesystem\Stream\Streams;
+
+global $DIC;
+
+/**
+ * @var \ILIAS\HTTP\GlobalHttpState $http
+ */
+$http = $DIC['http'];
+
+//fetch http body stream
+$stream = $http->request();
+
+//convert the stream (body stream is detached afterwards!)
+$stream = Streams::ofPsr7Stream($stream->getBody());
+
+//write stream to file ...
+```
+
 ## Authors
 
 * **Nicolas Schaefli** - *interface definition* - [d3r1w](https://github.com/d3r1w)
@@ -403,3 +427,4 @@ We use [SemVer](http://semver.org/) for versioning.
 ## Acknowledgments
 
 * [keep a changelog](http://keepachangelog.com/) The guide used to create and update the service changelog.
+* [FlySystem](https://flysystem.thephpleague.com/) Filesystem abstraction written by the php league.
