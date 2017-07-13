@@ -76,7 +76,6 @@ administration#:#adm_missing_entries#:# 항목 없음
 administration#:#adm_missing_entry_add#:# 새 항목을 추가
 administration#:#adm_missing_entry_add_action#:# 추가
 administration#:#adm_nr_statements#:#문장 수
-administration#:#adm_objects #:#객체
 administration#:#adm_predefined_settings#:#미리 정의된 설정
 administration#:#adm_rep_shorten_description#:#생략 성 명
 administration#:#adm_rep_shorten_description_info#:#개체의 모든 기술을 사용하면 목록 약칭 화됩니다.
@@ -5055,7 +5054,6 @@ common#:#obj_pdts#:#개인용 데스크탑
 common#:#obj_pdts_desc#:#개인용 데스크탑 구성
 common#:#obj_pg#:#페이지
 common#:#obj_poll#:#투표
-common#:#obj_poll_dupliate :#:#투표 복사
 common#:#obj_poll_duplicate#:#투표 복사
 common#:#obj_prg#:#학습 프로그램
 common#:#obj_prg_duplicate#:#학습 프로그램을 복사
@@ -8313,7 +8311,6 @@ crsv#:#crsv_create#:#코스 인증서를 생성
 crsv#:#crsv_create_info#:#인증서를 만들려면 완료된 코스를 선택
 dateplaner#:#add_appointment#:#약속 추가
 dateplaner#:#add_data#:#추가 데이터
-dateplaner#:#app _#:#받은 편지함
 dateplaner#:#app_consultation_hours#:#상담 시간
 dateplaner#:#app_date#:#이벤트 만들기
 dateplaner#:#app_day#:#1 일 표시
@@ -10399,7 +10396,6 @@ lng#:#lng_download_deprecated#:#다운로드 비추천 목록
 lng#:#lng_enable_language_detection#:#언어 감지를 활성화
 log#:#log_browser#:#브라우저 콘솔 로그
 log#:#log_browser_users#:#콘솔 로그 사용중인 아이디
-log#:#log_cache _#:#캐싱
 log#:#log_cache_info#:#메시지가 도착했는지 캐싱 수준을 초과하는 경우에 한해 최소한 로그 수준있는 모든 메시지는 현재의 요청 로그에 추가됩니다.
 log#:#log_cache_level#:#캐싱 조치 수준
 log#:#log_component_btn_reset#:#다시 설정
@@ -15921,3 +15917,21 @@ common#:#err_inactive_login_attempts#:#Your user account has been deactivated du
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants ### 10 05 2017 new variable
 exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview ### 10 05 2017 new variable
 exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview ### 10 05 2017 new variable
+assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.###13 07 2017 new variable
+assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.###13 07 2017 new variable
+assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint###13 07 2017 new variable
+assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. ###13 07 2017 new variable
+assessment#:#use_previous_solution#:#Use Previous Solution###13 07 2017 new variable
+dateplaner#:#app_#:#Inbox###deprecated 
+administration#:#adm_objects#:#Objects###deprecated 
+common#:#obj_poll_dupliate:#:#Copy Poll###13 07 2017 new variable
+dcl#:#dcl_table_title_not_matching#:#The titles of the excel sheet and the Data Collection table do not match. Rename the sheet for a successfull import.###13 07 2017 new variable
+log#:#log_cache_#:#Caching###13 07 2017 new variable
+chatroom#:#chat_deletion_section_head#:#Deletion of old Messages###13 07 2017 new variable
+chatroom#:#chat_deletion_disabled#:#Disabled###13 07 2017 new variable
+chatroom#:#chat_deletion_interval#:#Interval###13 07 2017 new variable
+chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat on On-Screen-Chat conversations will be deleted after the defined threshold.###13 07 2017 new variable
+chatroom#:#chat_deletion_interval_unit#:#Unit###13 07 2017 new variable
+chatroom#:#chat_deletion_interval_value#:#Value###13 07 2017 new variable
+chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s###13 07 2017 new variable
+chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.###13 07 2017 new variable

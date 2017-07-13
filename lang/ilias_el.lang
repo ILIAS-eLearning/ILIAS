@@ -15922,3 +15922,17 @@ common#:#err_inactive_login_attempts#:#Your user account has been deactivated du
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.###10 05 2017 new variable
 exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.###10 05 2017 new variable
 exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.###10 05 2017 new variable
+assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.###13 07 2017 new variable
+assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.###13 07 2017 new variable
+assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint###13 07 2017 new variable
+assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. ###13 07 2017 new variable
+assessment#:#use_previous_solution#:#Use Previous Solution###13 07 2017 new variable
+dcl#:#dcl_table_title_not_matching#:#The titles of the excel sheet and the Data Collection table do not match. Rename the sheet for a successfull import.###13 07 2017 new variable
+chatroom#:#chat_deletion_section_head#:#Deletion of old Messages###13 07 2017 new variable
+chatroom#:#chat_deletion_disabled#:#Disabled###13 07 2017 new variable
+chatroom#:#chat_deletion_interval#:#Interval###13 07 2017 new variable
+chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat on On-Screen-Chat conversations will be deleted after the defined threshold.###13 07 2017 new variable
+chatroom#:#chat_deletion_interval_unit#:#Unit###13 07 2017 new variable
+chatroom#:#chat_deletion_interval_value#:#Value###13 07 2017 new variable
+chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s###13 07 2017 new variable
+chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.###13 07 2017 new variable
