@@ -122,7 +122,9 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		
 		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject(),$this->getParentCmd()));
 
-        $this->addColumn('','f',"1");
+		$this->setRowTemplate("tpl.sess_members_row.html","Modules/Session");
+
+		$this->addColumn('','f',"1");
 	 	$this->addColumn($this->lng->txt('name'),'name','20%');
 		$this->addColumn($this->lng->txt('login'),'login','10%');
 		
@@ -136,15 +138,6 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		if($this->isRegistrationEnabled())
 		{
 			$this->addColumn($this->lng->txt('event_tbl_registered'),'registered');
-		}
-		
-	 	$this->addColumn($this->lng->txt('trac_mark'),'mark');
-	 	$this->addColumn($this->lng->txt('trac_comment'),'comment');
-		$this->addColumn($this->lng->txt('event_tbl_participated'),'participated');
-		$this->setRowTemplate("tpl.sess_members_row.html","Modules/Session");
-		
-		if($this->isRegistrationEnabled())
-		{
 			$this->setDefaultOrderField('registered');
 			$this->setDefaultOrderDirection('desc');
 		}
@@ -152,8 +145,11 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		{
 			$this->setDefaultOrderField('name');
 		}
+		$this->addColumn($this->lng->txt('event_tbl_participated'),'participated');
+	 	$this->addColumn($this->lng->txt('trac_mark'),'mark');
+	 	$this->addColumn($this->lng->txt('trac_comment'),'comment');
 		
-		//$this->addMultiCommand('confirmDeleteParticipants', $this->lng->txt('remove'));
+		
 		$this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
 		$this->lng->loadLanguageModule('user');
 		$this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
