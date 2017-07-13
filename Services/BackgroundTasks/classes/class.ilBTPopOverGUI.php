@@ -61,6 +61,7 @@ class ilBTPopOverGUI {
 		$template->setVariable("BACKGROUND_TASKS_TOTAL", count($metas));
 		$template->setVariable("BACKGROUND_TASKS_USER_INTERACTION", $numberOfUserInteractions);
 
+		// TODO implement the content with UI-Service components
 		foreach ($observers as $observer) {
 			if ($observer->getState() != State::USER_INTERACTION) {
 				$content = $this->getDefaultCardContent($observer);
@@ -68,10 +69,9 @@ class ilBTPopOverGUI {
 				$content = $this->getUserInteractionContent($observer, $redirect_uri);
 			}
 			$template->setCurrentBlock("bucket");
-			$template->setVariable("BUCKET_TITLE", $observer->getTitle() . ($observer->getState()
-			                                                                == State::SCHEDULED ? " ("
-			                                                                                      . $this->lng->txt("scheduled")
-			                                                                                      . ")" : ""));
+			$bucket_title = $observer->getTitle() . ($observer->getState()
+			                                         == State::SCHEDULED ? " ({$this->lng->txt("scheduled")})" : "");
+			$template->setVariable("BUCKET_TITLE", $bucket_title);
 			$template->setVariable("BUCKET_CONTENT", $renderer->render($content));
 			$template->parseCurrentBlock();
 		}
@@ -88,12 +88,11 @@ class ilBTPopOverGUI {
 		$overallPercentage = $observer->getOverallPercentage();
 
 		return $DIC->ui()->factory()->legacy(" <div class=\"progress\">
-  <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"{$overallPercentage}\"
-  aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:{$overallPercentage}%\">
-    {$overallPercentage}%
-  </div>
-</div> ");
-		//		return $DIC->ui()->factory()->progressbar($observer->getOverallPercentage(), $running);
+                    <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"{$overallPercentage}\"
+                        aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:{$overallPercentage}%\">
+                        {$overallPercentage}%
+                    </div>
+				</div> ");
 	}
 
 
