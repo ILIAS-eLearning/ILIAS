@@ -9,7 +9,7 @@ define("IL_MAIL_SECOND_EMAIL", 4);
 define("IL_MAIL_BOTH_EMAIL", 5);
 
 /**
-* Class UserMail
+* Class ilMailOptions
 * this class handles user mails 
 * 
 *  
@@ -235,5 +235,44 @@ class ilMailOptions
 		$row   = $ilDB->fetchAssoc($ilDB->query($query));
 		return (int)$row['cronjob_notification'];
 	}
-} // END class.ilFormatMail
-?>
+	
+	/**
+	 * @param int $user_id
+	 * @return array $external_emails
+	 */
+	public static function lookupExternalEmails($user_id)
+	{
+		$instance = new self($user_id);
+		$tmp_user = new ilObjUser($user_id);
+		$incoming_type = $instance->getIncomingType();
+		$mail_address_option = $instance->getMailAddressOption();
+		$external_emails = array();
+		
+		if($incoming_type == IL_MAIL_EMAIL || $incoming_type == IL_MAIL_BOTH)
+		{
+			switch($mail_address_option)
+			{
+				case IL_MAIL_FIRST_EMAIL:
+					$external_emails[] = $tmp_user->getEmail();
+					break;
+				case IL_MAIL_SECOND_EMAIL:
+					if(strlen($tmp_user->getSecondEmail()))
+					{
+						$external_emails[] = $tmp_user->getSecondEmail();
+					}
+					break;
+				case IL_MAIL_BOTH_EMAIL:
+					$external_emails[] = $tmp_user->getEmail();
+					if(strlen($tmp_user->getSecondEmail()))
+					{
+						$external_emails[] = $tmp_user->getSecondEmail();
+					}
+					break;
+				default:
+					$external_emails[] = $tmp_user->getEmail();
+					break;
+			}
+		}
+		return $external_emails;
+	}
+} 

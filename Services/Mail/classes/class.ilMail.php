@@ -807,29 +807,8 @@ class ilMail
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
-						$mail_address_option = $tmp_mail_options->getMailAddressOption();
-						switch($mail_address_option)
-						{
-							case IL_MAIL_FIRST_EMAIL:
-								$as_email[] = $tmp_user->getEmail();
-								break;
-							case IL_MAIL_SECOND_EMAIL:
-								if(strlen($tmp_user->getSecondEmail()))
-								{
-									$as_email[] = $tmp_user->getSecondEmail();
-								}
-								break;
-							case IL_MAIL_BOTH_EMAIL:
-								$as_email[] = $tmp_user->getEmail();
-								if(strlen($tmp_user->getSecondEmail()))
-								{
-									$as_email[] = $tmp_user->getSecondEmail();
-								}
-								break;
-							default:
-								$as_email[] = $tmp_user->getEmail();
-								break;
-						}
+						$as_email = ilMailOptions::lookupExternalEmails($tmp_user->getId());
+						
 						if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 						{
 							continue;
@@ -908,29 +887,8 @@ class ilMail
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
 						
-						$mail_address_option = $tmp_mail_options->getMailAddressOption();
-						switch($mail_address_option)
-						{
-							case IL_MAIL_FIRST_EMAIL:
-								$as_email[$tmp_user->getId()] = $tmp_user->getEmail();
-								break;
-							case IL_MAIL_SECOND_EMAIL:
-								if(strlen($tmp_user->getSecondEmail()))
-								{
-									$as_email[$tmp_user->getId()] = $tmp_user->getSecondEmail();
-								}
-								break;
-							case IL_MAIL_BOTH_EMAIL:
-								$as_email[$tmp_user->getId()] = $tmp_user->getEmail();
-								if(strlen($tmp_user->getSecondEmail()))
-								{
-									$as_email[$tmp_user->getId()] = $tmp_user->getSecondEmail();
-								}
-								break;
-							default:
-								$as_email[$tmp_user->getId()] = $tmp_user->getEmail();
-								break;
-						}
+						$external_emails = ilMailOptions::lookupExternalEmails($tmp_user->getUserId());
+						$as_email[$tmp_user->getId()] = $external_emails;
 						
 						if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 						{
@@ -955,9 +913,12 @@ class ilMail
 
 			if(count($as_email))
 			{
-				foreach($as_email as $id => $email)
+				foreach($as_email as $id => $emails)
 				{
-					$this->sendMimeMail($email, '', '', $a_subject, $this->formatLinebreakMessage($id_to_message_map[$id]), $a_attachments);
+					foreach($emails as $email)
+					{
+						$this->sendMimeMail($email, '', '', $a_subject, $this->formatLinebreakMessage($id_to_message_map[$id]), $a_attachments);
+					}
 				}
 			}
 
@@ -985,30 +946,7 @@ class ilMail
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
-						
-						$mail_address_option = $tmp_mail_options->getMailAddressOption();
-						switch($mail_address_option)
-						{
-							case IL_MAIL_FIRST_EMAIL:
-								$as_email[] = $tmp_user->getEmail();
-								break;
-							case IL_MAIL_SECOND_EMAIL:
-								if(strlen($tmp_user->getSecondEmail()))
-								{
-									$as_email[] = $tmp_user->getSecondEmail();
-								}
-								break;
-							case IL_MAIL_BOTH_EMAIL:
-								$as_email[] = $tmp_user->getEmail();
-								if(strlen($tmp_user->getSecondEmail()))
-								{
-									$as_email[] = $tmp_user->getSecondEmail();
-								}
-								break;
-							default:
-								$as_email[] = $tmp_user->getEmail();
-								break;
-						}
+						$as_email = ilMailOptions::lookupExternalEmails($tmp_user->getUserId());
 						
 						if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 						{
