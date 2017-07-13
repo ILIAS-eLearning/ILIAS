@@ -49,7 +49,7 @@ final class WhitelistMimeTypePreProcessor implements PreProcessor {
 	/**
 	 * @inheritDoc
 	 */
-	public function process(StreamInterface $stream, Metadata $metadata) {
+	public function process(FileStream $stream, Metadata $metadata) {
 		if($this->isWhitelisted($metadata->getMimeType()))
 			return new ProcessingStatus(ProcessingStatus::OK, 'Entity comply with mime type whitelist.');
 

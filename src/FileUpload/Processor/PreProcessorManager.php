@@ -37,11 +37,11 @@ interface PreProcessorManager {
 	 * Invokes the registered processors until one rejects the file or fails.
 	 * The file must be discarded if this method returns a rejected status.
 	 *
-	 * @param StreamInterface      $stream   The stream of the current file.
-	 * @param Metadata             $metadata The metadata of the current file.
+	 * @param FileStream                 $stream   The stream of the current file.
+	 * @param Metadata                   $metadata The metadata of the current file.
 	 *
 	 * @return ProcessingStatus
 	 * @since 5.3
 	 */
-	public function process(StreamInterface $stream, Metadata $metadata);
+	public function process(FileStream $stream, Metadata $metadata);
 }

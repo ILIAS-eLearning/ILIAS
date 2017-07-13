@@ -2,6 +2,7 @@
 
 namespace ILIAS\FileUpload\Processor;
 
+use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use Psr\Http\Message\StreamInterface;
@@ -46,7 +47,7 @@ final class BlacklistMimeTypePreProcessor implements PreProcessor {
 	/**
 	 * @inheritDoc
 	 */
-	public function process(StreamInterface $stream, Metadata $metadata) {
+	public function process(FileStream $stream, Metadata $metadata) {
 		if($this->isBlacklisted($metadata->getMimeType()))
 			return new ProcessingStatus(ProcessingStatus::REJECTED, 'The mime type ' . $metadata->getMimeType() . ' is blacklisted.');
 		

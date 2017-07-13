@@ -48,7 +48,7 @@ final class BlacklistExtensionPreProcessor implements PreProcessor {
 	/**
 	 * @inheritDoc
 	 */
-	public function process(StreamInterface $stream, Metadata $metadata) {
+	public function process(FileStream $stream, Metadata $metadata) {
 		if($this->isBlacklisted($metadata->getFilename()))
 			return new ProcessingStatus(ProcessingStatus::REJECTED, 'Extension is blacklisted.');
 

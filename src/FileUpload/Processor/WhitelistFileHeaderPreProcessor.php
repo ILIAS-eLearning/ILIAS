@@ -47,7 +47,7 @@ final class WhitelistFileHeaderPreProcessor implements PreProcessor {
 	/**
 	 * @inheritDoc
 	 */
-	public function process(StreamInterface $stream, Metadata $metadata) {
+	public function process(FileStream $stream, Metadata $metadata) {
 		$header = $stream->read($this->fileHeaderLength);
 		if(strcmp($this->fileHeader, $header) === 0)
 			return new ProcessingStatus(ProcessingStatus::OK, 'File header complies with whitelist.');

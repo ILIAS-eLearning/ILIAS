@@ -37,7 +37,7 @@ final class PreProcessorManagerImpl implements PreProcessorManager {
 	/**
 	 * @inheritDoc
 	 */
-	public function process(StreamInterface $stream, Metadata $metadata) {
+	public function process(FileStream $stream, Metadata $metadata) {
 		try {
 			$result = NULL;
 			foreach ($this->processors as $processor) {

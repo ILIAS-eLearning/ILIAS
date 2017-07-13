@@ -4,6 +4,7 @@ namespace ILIAS\FileUpload;
 
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Filesystems;
+use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\Collection\EntryLockingStringMap;
 use ILIAS\FileUpload\Collection\ImmutableMapWrapper;
@@ -51,7 +52,7 @@ final class FileUploadImpl implements FileUpload {
 	 */
 	private $uploadResult;
 	/**
-	 * @var StreamInterface[] $uploadStreams
+	 * @var FileStream[] $uploadStreams
 	 */
 	private $uploadStreams;
 
@@ -207,7 +208,7 @@ final class FileUploadImpl implements FileUpload {
 		foreach ($uploadedFiles as $file) {
 
 			$metadata = new Metadata($file->getClientFilename(), $file->getSize(), $file->getClientMediaType());
-			$stream = $file->getStream();
+			$stream = Streams::ofPsr7Stream($file->getStream());
 			$this->uploadStreams[] = $stream;
 
 			if($file->getError() === UPLOAD_ERR_OK) {
@@ -259,6 +260,9 @@ final class FileUploadImpl implements FileUpload {
 	 * @inheritDoc
 	 */
 	public function getResults() {
-		return $this->uploadResult;
+		if($this->processed)
+			return $this->uploadResult;
+
+		throw new IllegalStateException('Can not fetch results without processing the uploads.');
 	}
 }

@@ -47,7 +47,7 @@ final class WhitelistExtensionPreProcessor implements PreProcessor {
 	/**
 	 * @inheritDoc
 	 */
-	public function process(StreamInterface $stream, Metadata $metadata) {
+	public function process(FileStream $stream, Metadata $metadata) {
 		if($this->isWhitelisted($metadata->getFilename()))
 			return new ProcessingStatus(ProcessingStatus::OK, 'Extension complies with whitelist.');
 
