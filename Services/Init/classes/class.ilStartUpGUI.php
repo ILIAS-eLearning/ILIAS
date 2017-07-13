@@ -588,6 +588,7 @@ class ilStartUpGUI
 		$form->addItem($ti);
 
 		$pi = new ilPasswordInputGUI($this->lng->txt("password"), "password");
+		$pi->setUseStripSlashes(false);
 		$pi->setRetype(false);
 		$pi->setSkipSyntaxCheck(true);
 		$pi->setSize(20);
@@ -1488,10 +1489,18 @@ class ilStartUpGUI
 	*/
 	function showLogout()
 	{
-		global $tpl, $ilSetting, $ilAuth, $lng, $ilIliasIniFile;
+		global $tpl, $ilSetting, $lng, $ilIliasIniFile;
 		
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
 		$GLOBALS['DIC']['ilAuthSession']->logout();
+		
+		$GLOBALS['ilAppEventHandler']->raise(
+			'Services/Authentication', 
+			'afterLogout',
+			array(
+				'username' => $GLOBALS['DIC']->user()->getLogin()
+			)
+		);
 
 		// reset cookie
 		$client_id = $_COOKIE["ilClientId"];

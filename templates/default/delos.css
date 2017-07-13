@@ -79,7 +79,7 @@ bdo[dir="rtl"] {
 }
 /*
 /* rtl-review */
-/* with specifics imports 
+/* with specifics imports
 add [dir="rtl"] SELECTOR ([dir="ltr"] is default)
 to elements with different left/right margin, padding, border, position, float, clear, text-align and, when needed, Background-position.
 In theory, you should also invert shadow... but i think we could postpone this to another release...
@@ -2748,7 +2748,7 @@ select[multiple].input-lg {
 }
 .btn:hover,
 .btn:focus {
-  color: #333;
+  color: #557196;
   text-decoration: none;
 }
 .btn:active,
@@ -2769,18 +2769,18 @@ fieldset[disabled] .btn {
   box-shadow: none;
 }
 .btn-default {
-  color: #333;
-  background-color: #fff;
-  border-color: #ccc;
+  color: #557196;
+  background-color: #fefefe;
+  border-color: #d0d0d0;
 }
 .btn-default:hover,
 .btn-default:focus,
 .btn-default:active,
 .btn-default.active,
 .open > .dropdown-toggle.btn-default {
-  color: #333;
-  background-color: #e6e6e6;
-  border-color: #adadad;
+  color: #557196;
+  background-color: #e5e5e5;
+  border-color: #b1b1b1;
 }
 .btn-default:active,
 .btn-default.active,
@@ -2802,12 +2802,12 @@ fieldset[disabled] .btn-default:active,
 .btn-default.disabled.active,
 .btn-default[disabled].active,
 fieldset[disabled] .btn-default.active {
-  background-color: #fff;
-  border-color: #ccc;
+  background-color: #fefefe;
+  border-color: #d0d0d0;
 }
 .btn-default .badge {
-  color: #fff;
-  background-color: #333;
+  color: #fefefe;
+  background-color: #557196;
 }
 .btn-primary {
   color: white;
@@ -6218,20 +6218,57 @@ button.close {
 .il-panel-report > .panel-body > .panel {
   margin-bottom: 10px;
 }
+.il-panel-listing-std-item-container {
+  margin: 0 0 1px 0;
+}
+.il-panel-listing-std-container > .il-item-group > h4 {
+  margin: 16px 0 2px 0;
+  font-size: 17px;
+  font-weight: normal;
+  padding: 0;
+  text-transform: uppercase;
+  color: #909090;
+}
+.il-panel-listing-std-container > h3 {
+  font-weight: normal;
+  padding: 0;
+  margin: 8px 0 2px 0;
+  font-size: 19px;
+  text-transform: uppercase;
+  color: #909090;
+}
+/* this is currently experimental, could be removed */
+.il-narrow-content .il-panel-listing-std-container > h3,
+.il-narrow-content .il-panel-listing-std-container > h4 {
+  display: block;
+  padding: 3px 5px;
+  font-size: 12px;
+  background-color: #f3f3f3;
+  color: #777777;
+  white-space: nowrap;
+  margin: 0;
+}
 .il-card {
-  padding: 0px;
+  padding: 0;
 }
 .il-card img {
   width: 100%;
 }
-.il-card .caption {
-  border-top: 1px solid #ddd;
+.il-card .card-highlight {
+  background-color: #fa8228;
+  height: 3px;
+  width: 100%;
+}
+.il-card .card-no-highlight {
+  background-color: transparent;
+  height: 3px;
+  width: 100%;
 }
 .il-card .caption .card-title {
   overflow-wrap: break-word;
 }
-.il-card .caption:first-child {
-  border-top: none;
+.il-card .caption:nth-of-type(1n+3) {
+  border-top: 1px solid #ddd;
 }
 .il-deck .row {
   margin-left: 0;
@@ -6241,7 +6278,6 @@ button.close {
   padding-left: 5px;
   padding-right: 5px;
 }
-
 .btn {
   font-size: 12px;
 }
@@ -6366,6 +6402,39 @@ a.btn-link.ilSubmitInactive:hover {
   color: #333333;
   padding: 0;
 }
+.il-btn-month .dropdown-menu {
+  min-width: 250px;
+}
+.btn-tag {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 1px 5px;
+  margin: 2px 4px 2px 0;
+  border-radius: 3px;
+}
+.btn-tag.btn-tag-inactive {
+  cursor: default !important;
+}
+.btn-tag.btn-tag-relevance-verylow {
+  background-color: #b0b0b0;
+  color: #000000;
+}
+.btn-tag.btn-tag-relevance-low {
+  background-color: #a5b8ba;
+  color: #000000;
+}
+.btn-tag.btn-tag-relevance-middle {
+  background-color: #95c5ca;
+  color: #000000;
+}
+.btn-tag.btn-tag-relevance-high {
+  background-color: #85d1da;
+  color: #000000;
+}
+.btn-tag.btn-tag-relevance-veryhigh {
+  background-color: #75deea;
+  color: #000000;
+}
 h6.il-divider {
   padding: 3px 6px;
   background-color: #ececec;
@@ -6385,6 +6454,660 @@ hr.il-divider-with-label {
 }
 .dropdown h6 {
   margin: 3px 0;
+}
+.il-item {
+  background-color: white;
+  position: relative;
+  padding: 20px;
+}
+.il-item h5 {
+  margin: 4px 0px 2px 0px;
+  font-size: 16px;
+  float: left;
+}
+.il-item .il-item-divider {
+  clear: both;
+  padding: 10px 0 0 0;
+  margin: 0 0 10px 0;
+  border: 0 none;
+  background: none;
+  border-bottom: dashed 2px #E0E0E0;
+}
+.il-item .dropdown {
+  float: right;
+}
+.il-item .il-item-description {
+  padding: 10px 0 0 0;
+  font-size: 12px;
+  clear: both;
+}
+.il-item .il-item-property-name {
+  font-size: 12px;
+}
+.il-item .il-item-property-value {
+  font-size: 12px;
+  color: #909090;
+}
+.il-item-marker {
+  border-left: 5px solid;
+}
+.il-narrow-content .il-item:hover {
+  background-color: #ffffd0;
+}
+.il-item-group h4 {
+  float: left;
+}
+.il-item-group .dropdown {
+  float: right;
+}
+.il-item-group-items {
+  clear: both;
+}
+/* this is currently experimental, could be removed */
+.il-narrow-content .il-item {
+  padding: 0px;
+  display: table;
+  width: 100%;
+}
+.il-narrow-content .il-item h5 {
+  margin-top: 3px;
+  font-size: 100%;
+  float: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.il-narrow-content .il-item .il-item-description {
+  padding-top: 1px;
+  font-size: 80%;
+}
+.il-narrow-content .il-item .il-item-divider,
+.il-narrow-content .il-item .il-item-property-name,
+.il-narrow-content .il-item .il-item-property-value {
+  display: none;
+}
+.il-narrow-content .il-item .row {
+  display: table-row;
+}
+.il-narrow-content .il-item .col-sm-3 {
+  display: table-cell;
+  height: 100%;
+  padding: 0;
+  float: none;
+  vertical-align: top;
+  width: 45px;
+}
+.il-narrow-content .il-item .col-sm-3 img {
+  width: 40px;
+}
+.il-narrow-content .il-item .col-sm-9 {
+  position: static;
+  display: table-cell;
+  padding: 0 5px 0 5px;
+  overflow: hidden;
+  max-width: 0;
+  float: none;
+  zoom: 1;
+  vertical-align: top;
+  width: auto;
+}
+.il-narrow-content .il-item .dropdown {
+  position: static;
+}
+.il-narrow-content .il-item .dropdown-menu.pull-right {
+  width: 100%;
+}
+.il-narrow-content .il-item .dropdown-toggle {
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  margin-top: -20px;
+  z-index: 1;
+}
+.il-narrow-content .il-item button.dropdown-toggle {
+  background-color: transparent;
+  border: 0;
+}
+.il-narrow-content .il-item button.dropdown-toggle > span {
+  display: none;
+}
+.icon {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("images/icon_default.svg");
+  display: inline-block;
+  text-align: center;
+  /* the custom-icon is rendered with an image contained in the div */
+  /* add known standard classes here */
+}
+.icon .abbreviation {
+  font-weight: bold;
+  position: absolute;
+}
+.icon img {
+  float: left;
+}
+.icon.small {
+  height: 20px;
+  width: 20px;
+  line-height: 20px;
+}
+.icon.small .abbreviation {
+  font-size: 8px;
+  width: 20px;
+}
+.icon.small img {
+  width: 20px;
+  height: 20px;
+}
+.icon.medium {
+  height: 35px;
+  width: 35px;
+  line-height: 35px;
+}
+.icon.medium .abbreviation {
+  font-size: 14px;
+  width: 35px;
+}
+.icon.medium img {
+  width: 35px;
+  height: 35px;
+}
+.icon.large {
+  height: 45px;
+  width: 45px;
+  line-height: 45px;
+}
+.icon.large .abbreviation {
+  font-size: 18px;
+  width: 45px;
+}
+.icon.large img {
+  width: 45px;
+  height: 45px;
+}
+.icon.custom {
+  background-image: none;
+}
+.icon.grp .abbreviation,
+.icon.cat .abbreviation,
+.icon.crs .abbreviation,
+.icon.mob .abbreviation,
+.icon.mail .abbreviation,
+.icon.sahs .abbreviation,
+.icon.adm .abbreviation,
+.icon.usrf .abbreviation,
+.icon.rolf .abbreviation,
+.icon.objf .abbreviation,
+.icon.usr .abbreviation,
+.icon.typ .abbreviation,
+.icon.rolt .abbreviation,
+.icon.lngf .abbreviation,
+.icon.lng .abbreviation,
+.icon.role .abbreviation,
+.icon.dbk .abbreviation,
+.icon.glo .abbreviation,
+.icon.root .abbreviation,
+.icon.lm .abbreviation,
+.icon.notf .abbreviation,
+.icon.note .abbreviation,
+.icon.frm .abbreviation,
+.icon.exc .abbreviation,
+.icon.auth .abbreviation,
+.icon.fold .abbreviation,
+.icon.file .abbreviation,
+.icon.tst .abbreviation,
+.icon.qpl .abbreviation,
+.icon.recf .abbreviation,
+.icon.mep .abbreviation,
+.icon.htlm .abbreviation,
+.icon.svy .abbreviation,
+.icon.spl .abbreviation,
+.icon.cals .abbreviation,
+.icon.trac .abbreviation,
+.icon.assf .abbreviation,
+.icon.stys .abbreviation,
+.icon.crsg .abbreviation,
+.icon.webr .abbreviation,
+.icon.seas .abbreviation,
+.icon.extt .abbreviation,
+.icon.adve .abbreviation,
+.icon.ps .abbreviation,
+.icon.nwss .abbreviation,
+.icon.feed .abbreviation,
+.icon.mcst .abbreviation,
+.icon.pdts .abbreviation,
+.icon.rcrs .abbreviation,
+.icon.mds .abbreviation,
+.icon.cmps .abbreviation,
+.icon.facs .abbreviation,
+.icon.svyf .abbreviation,
+.icon.sess .abbreviation,
+.icon.mcts .abbreviation,
+.icon.wiki .abbreviation,
+.icon.crsr .abbreviation,
+.icon.catr .abbreviation,
+.icon.tags .abbreviation,
+.icon.cert .abbreviation,
+.icon.lrss .abbreviation,
+.icon.accs .abbreviation,
+.icon.mobs .abbreviation,
+.icon.frma .abbreviation,
+.icon.book .abbreviation,
+.icon.skmg .abbreviation,
+.icon.blga .abbreviation,
+.icon.prfa .abbreviation,
+.icon.chtr .abbreviation,
+.icon.chta .abbreviation,
+.icon.otpl .abbreviation,
+.icon.blog .abbreviation,
+.icon.dcl .abbreviation,
+.icon.poll .abbreviation,
+.icon.hlps .abbreviation,
+.icon.itgr .abbreviation,
+.icon.rcat .abbreviation,
+.icon.rwik .abbreviation,
+.icon.rlm .abbreviation,
+.icon.rglo .abbreviation,
+.icon.rfil .abbreviation,
+.icon.rgrp .abbreviation,
+.icon.rtst .abbreviation,
+.icon.ecss .abbreviation,
+.icon.tos .abbreviation,
+.icon.bibl .abbreviation,
+.icon.sysc .abbreviation,
+.icon.cld .abbreviation,
+.icon.reps .abbreviation,
+.icon.crss .abbreviation,
+.icon.grps .abbreviation,
+.icon.wbrs .abbreviation,
+.icon.prtt .abbreviation,
+.icon.orgu .abbreviation,
+.icon.wiks .abbreviation,
+.icon.excs .abbreviation,
+.icon.taxs .abbreviation,
+.icon.bibs .abbreviation,
+.icon.awra .abbreviation,
+.icon.logs .abbreviation,
+.icon.prg .abbreviation,
+.icon.prgs .abbreviation,
+.icon.cadm .abbreviation,
+.icon.grpr .abbreviation,
+.icon.bdga .abbreviation,
+.icon.wfe .abbreviation,
+.icon.iass .abbreviation {
+  display: none;
+}
+.icon.grp {
+  background-image: url("images/icon_grp.svg");
+}
+.icon.cat {
+  background-image: url("images/icon_cat.svg");
+}
+.icon.crs {
+  background-image: url("images/icon_crs.svg");
+}
+.icon.mob {
+  background-image: url("images/icon_mob.svg");
+}
+.icon.mail {
+  background-image: url("images/icon_mail.svg");
+}
+.icon.sahs {
+  background-image: url("images/icon_sahs.svg");
+}
+.icon.adm {
+  background-image: url("images/icon_adm.svg");
+}
+.icon.usrf {
+  background-image: url("images/icon_usrf.svg");
+}
+.icon.rolf {
+  background-image: url("images/icon_rolf.svg");
+}
+.icon.objf {
+  background-image: url("images/icon_objf.svg");
+}
+.icon.usr {
+  background-image: url("images/icon_usr.svg");
+}
+.icon.rolt {
+  background-image: url("images/icon_rolt.svg");
+}
+.icon.lngf {
+  background-image: url("images/icon_lngf.svg");
+}
+.icon.lng {
+  background-image: url("images/icon_lng.svg");
+}
+.icon.role {
+  background-image: url("images/icon_role.svg");
+}
+.icon.dbk {
+  background-image: url("images/icon_dbk.svg");
+}
+.icon.glo {
+  background-image: url("images/icon_glo.svg");
+}
+.icon.root {
+  background-image: url("images/icon_root.svg");
+}
+.icon.lm {
+  background-image: url("images/icon_lm.svg");
+}
+.icon.notf {
+  background-image: url("images/icon_notf.svg");
+}
+.icon.note {
+  background-image: url("images/icon_note.svg");
+}
+.icon.frm {
+  background-image: url("images/icon_frm.svg");
+}
+.icon.exc {
+  background-image: url("images/icon_exc.svg");
+}
+.icon.auth {
+  background-image: url("images/icon_auth.svg");
+}
+.icon.fold {
+  background-image: url("images/icon_fold.svg");
+}
+.icon.file {
+  background-image: url("images/icon_file.svg");
+}
+.icon.tst {
+  background-image: url("images/icon_tst.svg");
+}
+.icon.qpl {
+  background-image: url("images/icon_qpl.svg");
+}
+.icon.recf {
+  background-image: url("images/icon_recf.svg");
+}
+.icon.mep {
+  background-image: url("images/icon_mep.svg");
+}
+.icon.htlm {
+  background-image: url("images/icon_htlm.svg");
+}
+.icon.svy {
+  background-image: url("images/icon_svy.svg");
+}
+.icon.spl {
+  background-image: url("images/icon_spl.svg");
+}
+.icon.cals {
+  background-image: url("images/icon_cals.svg");
+}
+.icon.trac {
+  background-image: url("images/icon_trac.svg");
+}
+.icon.assf {
+  background-image: url("images/icon_assf.svg");
+}
+.icon.stys {
+  background-image: url("images/icon_stys.svg");
+}
+.icon.crsg {
+  background-image: url("images/icon_crsg.svg");
+}
+.icon.webr {
+  background-image: url("images/icon_webr.svg");
+}
+.icon.seas {
+  background-image: url("images/icon_seas.svg");
+}
+.icon.extt {
+  background-image: url("images/icon_extt.svg");
+}
+.icon.adve {
+  background-image: url("images/icon_adve.svg");
+}
+.icon.ps {
+  background-image: url("images/icon_ps.svg");
+}
+.icon.nwss {
+  background-image: url("images/icon_nwss.svg");
+}
+.icon.feed {
+  background-image: url("images/icon_feed.svg");
+}
+.icon.mcst {
+  background-image: url("images/icon_mcst.svg");
+}
+.icon.pdts {
+  background-image: url("images/icon_pdts.svg");
+}
+.icon.rcrs {
+  background-image: url("images/icon_rcrs.svg");
+}
+.icon.mds {
+  background-image: url("images/icon_mds.svg");
+}
+.icon.cmps {
+  background-image: url("images/icon_cmps.svg");
+}
+.icon.facs {
+  background-image: url("images/icon_facs.svg");
+}
+.icon.svyf {
+  background-image: url("images/icon_svyf.svg");
+}
+.icon.sess {
+  background-image: url("images/icon_sess.svg");
+}
+.icon.mcts {
+  background-image: url("images/icon_mcts.svg");
+}
+.icon.wiki {
+  background-image: url("images/icon_wiki.svg");
+}
+.icon.crsr {
+  background-image: url("images/icon_crsr.svg");
+}
+.icon.catr {
+  background-image: url("images/icon_catr.svg");
+}
+.icon.tags {
+  background-image: url("images/icon_tags.svg");
+}
+.icon.cert {
+  background-image: url("images/icon_cert.svg");
+}
+.icon.lrss {
+  background-image: url("images/icon_lrss.svg");
+}
+.icon.accs {
+  background-image: url("images/icon_accs.svg");
+}
+.icon.mobs {
+  background-image: url("images/icon_mobs.svg");
+}
+.icon.frma {
+  background-image: url("images/icon_frma.svg");
+}
+.icon.book {
+  background-image: url("images/icon_book.svg");
+}
+.icon.skmg {
+  background-image: url("images/icon_skmg.svg");
+}
+.icon.blga {
+  background-image: url("images/icon_blga.svg");
+}
+.icon.prfa {
+  background-image: url("images/icon_prfa.svg");
+}
+.icon.chtr {
+  background-image: url("images/icon_chtr.svg");
+}
+.icon.chta {
+  background-image: url("images/icon_chta.svg");
+}
+.icon.otpl {
+  background-image: url("images/icon_otpl.svg");
+}
+.icon.blog {
+  background-image: url("images/icon_blog.svg");
+}
+.icon.dcl {
+  background-image: url("images/icon_dcl.svg");
+}
+.icon.poll {
+  background-image: url("images/icon_poll.svg");
+}
+.icon.hlps {
+  background-image: url("images/icon_hlps.svg");
+}
+.icon.itgr {
+  background-image: url("images/icon_itgr.svg");
+}
+.icon.rcat {
+  background-image: url("images/icon_rcat.svg");
+}
+.icon.rwik {
+  background-image: url("images/icon_rwik.svg");
+}
+.icon.rlm {
+  background-image: url("images/icon_rlm.svg");
+}
+.icon.rglo {
+  background-image: url("images/icon_rglo.svg");
+}
+.icon.rfil {
+  background-image: url("images/icon_rfil.svg");
+}
+.icon.rgrp {
+  background-image: url("images/icon_rgrp.svg");
+}
+.icon.rtst {
+  background-image: url("images/icon_rtst.svg");
+}
+.icon.ecss {
+  background-image: url("images/icon_ecss.svg");
+}
+.icon.tos {
+  background-image: url("images/icon_tos.svg");
+}
+.icon.bibl {
+  background-image: url("images/icon_bibl.svg");
+}
+.icon.sysc {
+  background-image: url("images/icon_sysc.svg");
+}
+.icon.cld {
+  background-image: url("images/icon_cld.svg");
+}
+.icon.reps {
+  background-image: url("images/icon_reps.svg");
+}
+.icon.crss {
+  background-image: url("images/icon_crss.svg");
+}
+.icon.grps {
+  background-image: url("images/icon_grps.svg");
+}
+.icon.wbrs {
+  background-image: url("images/icon_wbrs.svg");
+}
+.icon.prtt {
+  background-image: url("images/icon_prtt.svg");
+}
+.icon.orgu {
+  background-image: url("images/icon_orgu.svg");
+}
+.icon.wiks {
+  background-image: url("images/icon_wiks.svg");
+}
+.icon.excs {
+  background-image: url("images/icon_excs.svg");
+}
+.icon.taxs {
+  background-image: url("images/icon_taxs.svg");
+}
+.icon.bibs {
+  background-image: url("images/icon_bibs.svg");
+}
+.icon.awra {
+  background-image: url("images/icon_awra.svg");
+}
+.icon.logs {
+  background-image: url("images/icon_logs.svg");
+}
+.icon.prg {
+  background-image: url("images/icon_prg.svg");
+}
+.icon.prgs {
+  background-image: url("images/icon_prgs.svg");
+}
+.icon.cadm {
+  background-image: url("images/icon_cadm.svg");
+}
+.icon.grpr {
+  background-image: url("images/icon_grpr.svg");
+}
+.icon.bdga {
+  background-image: url("images/icon_bdga.svg");
+}
+.icon.wfe {
+  background-image: url("images/icon_wfe.svg");
+}
+.icon.iass {
+  background-image: url("images/icon_iass.svg");
+}
+.il-viewcontrol-mode .ilSubmitInactive,
+.il-viewcontrol-mode .ilSubmitInactive:hover {
+  background-color: #557196;
+  color: white;
+  border-color: transparent;
+}
+ul.breadcrumb {
+  margin: 0;
+  font-weight: 600;
+  padding-left: 12px;
+  font-size: 12px;
+}
+ul.breadcrumb li {
+  color: #557196;
+}
+ul.breadcrumb li:hover {
+  color: #3a4c65;
+}
+[dir="rtl"] ul.breadcrumb {
+  padding-right: 12px;
+}
+.il-chart-scale-bar {
+  min-width: 100px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.il-chart-scale-bar > li {
+  float: left;
+  padding: 0 2px;
+}
+.il-chart-scale-bar > li:last-child {
+  padding-right: 0;
+}
+.il-chart-scale-bar > li:first-child {
+  padding-left: 0;
+}
+.il-chart-scale-bar-item {
+  font-size: 11px;
+  padding: 1px 5px;
+  color: #909090;
+  text-align: center;
+  background-color: #e0e0e0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.il-chart-scale-bar-active {
+  color: white;
+  background-color: #4c6586;
 }
 /*		Color scheme
 		Dark BLue: #0f2152;
@@ -7042,7 +7765,7 @@ b {
 a {
   text-decoration: none;
   cursor: pointer;
-  /* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer. 
+  /* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer.
  * All skins which want to support mounting of Webfolders using Internet Explorer
  * must explicitly enable AnchorClick behavior.
  */
@@ -8001,10 +8724,6 @@ img.ilIcon {
   height: 0px;
   display: none;
 }
-.il_VAccordionContentDef > div,
-.il_HAccordionContentDef > div {
-  overflow: auto;
-}
 div.ilc_va_icont_VAccordICont {
   overflow: visible !important;
 }
@@ -8067,9 +8786,37 @@ select.form-control {
   color: #4d4d4d;
   font-size: 100%;
 }
+.form-horizontal .control-label {
+  padding-top: 0;
+  line-height: 24px;
+}
 .form-horizontal .control-label.col-sm-3.il_textarea {
   text-align: left;
   width: 100%;
+}
+.form-horizontal .form-group .col-sm-9 {
+  line-height: 24px;
+}
+.form-horizontal .radio,
+.form-horizontal .checkbox,
+.form-horizontal .radio-inline,
+.form-horizontal .checkbox-inline {
+  padding-top: 0;
+  line-height: 24px;
+}
+.form-horizontal .help-block {
+  line-height: normal;
+}
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+  position: static;
+  margin-left: -20px;
+  margin-top: 0;
+  min-height: 24px;
+  vertical-align: top;
+  line-height: 24px;
 }
 [dir="rtl"] .form-horizontal .control-label {
   text-align: left;
@@ -11079,6 +11826,9 @@ div#il_startup_logo img {
   width: 0;
 }
 /* Services/UIComponent/Toolbar */
+.ilToolbar .container-fluid {
+  padding-left: 0;
+}
 .ilToolbar.navbar {
   border: 0 none;
   background-color: #f9f9f9;
@@ -11089,12 +11839,14 @@ div#il_startup_logo img {
 .ilToolbar .form-control {
   width: auto;
   display: inline-block;
+  vertical-align: top;
 }
 .ilToolbar input[type="file"] {
   display: inline-block;
 }
 .ilToolbar li {
-  border-bottom: 1px solid #d8d8d8;
+  border: 0 none;
+  margin-right: 15px;
 }
 .ilToolbar li .navbar-form,
 .ilToolbar li .navbar-text {
@@ -11131,7 +11883,7 @@ div#il_startup_logo img {
   margin-bottom: 0;
 }
 .ilToolbar .ilToolbarStickyItems.navbar-nav .open .dropdown-menu > li > a {
-  padding-left: 0;
+  padding-left: 10px;
 }
 .ilToolbar .ilToolbarStickyItems > li {
   float: left;
@@ -11145,20 +11897,18 @@ div#il_startup_logo img {
 }
 .ilToolbar ul.dropdown-menu > li {
   border: 0 none;
+  margin-right: 0;
 }
-@media (min-width: 768px) {
+@media only screen and (max-width: 767px) {
   .ilToolbar .container-fluid {
-    padding-left: 0;
+    padding-left: 15px;
   }
   .ilToolbar li {
-    border: 0;
-    margin-right: 15px;
-  }
-  .ilToolbar ul.dropdown-menu > li {
+    border-bottom: 1px solid #d8d8d8;
     margin-right: 0;
   }
   .ilToolbar .ilToolbarStickyItems.navbar-nav .open .dropdown-menu > li > a {
-    padding-left: 10px;
+    padding-left: 0;
   }
 }
 /* Services/UIComponent/Tooltip */
@@ -11195,22 +11945,6 @@ div#il_startup_logo img {
   background-color: #607ea5;
   border-color: #607ea5;
   color: white;
-}
-/* Services/Locator */
-ol.breadcrumb {
-  margin: 0;
-  font-weight: 600;
-  padding-left: 15px;
-  font-size: .8em;
-}
-[dir="rtl"] ol.breadcrumb {
-  padding-right: 15px;
-}
-.breadcrumb a {
-  /*	color: #a0a0a0; */
-}
-.breadcrumb > li + li:before {
-  /*	 color: #a0a0a0; */
 }
 /* Services/Rating */
 img.ilRatingIcon {
@@ -12575,15 +13309,15 @@ table.mceToolbar td {
 /* basic responsiveness (beta)
 
    The following section targets smartphones.
-  
+
    iPads come with a device width of 768, the iPhone with 320, most smartphones seem to
    use a width under 640px, so 640 seems to be a good choice here.
    If you make any changes in this query, please add a reason to this comment and if possible an url that
    backs this decision.
-   
+
    List of common devices width values: http://cssmediaqueries.com/target/
    Google recommending 640px: https://developers.google.com/webmasters/smartphone-sites/details
-   
+
    */
 @media only screen and (max-width: 767px) {
   html {

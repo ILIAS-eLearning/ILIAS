@@ -47,6 +47,7 @@
 //##
 @body-bg:               #f0f0f0;
 @text-color:            @gray-dark;
+@il-light-text-color:   lighten(@mid-gray, 30%);
 @link-color:            lighten(@brand-primary, 5%);
 @link-hover-color:      darken(@link-color, 15%);
 
@@ -106,6 +107,7 @@
 @font-size-base:          14px;
 @font-size-large:         ceil((@font-size-base * 1.25));
 @font-size-small:         ceil((@font-size-base * 0.85));
+@font-size-xs:         	  ceil((@font-size-base * 0.75));
 
 @font-size-h1:            floor((@font-size-base * 1.6));
 @font-size-h2:            floor((@font-size-base * 1.4));
@@ -214,9 +216,38 @@
 @breadcrumb-color:               @link-color;
 //** Text color of current page in the breadcrumb
 @breadcrumb-active-color:        @link-hover-color;
+//** font-weight of breadcrumbs
+@breadcrumb-font-weight:        600;
 //** Textual separator for between breadcrumb elements
 @breadcrumb-separator:          "»";
 
+//== Buttons
+//
+//##
+
+@btn-default-color:             @link-color;
+@btn-default-border:            #d0d0d0;
+@btn-default-bg:                #fefefe;
+@disabled-btn-bg:               #b0b0b0;
+@disabled-btn-border:           #b0b0b0;
+@disabled-btn-color:            #e0e0e0;
+//** Background color for tags with relevance 5; by default, color is desaturated in steps of 20%.
+@btn-tag-bg:                    #75deea;
+@btn-tag-bg-relevance-verylow:  desaturate(@btn-tag-bg, 80%);
+@btn-tag-bg-relevance-low:      desaturate(@btn-tag-bg, 60%);
+@btn-tag-bg-relevance-middle:   desaturate(@btn-tag-bg, 40%);
+@btn-tag-bg-relevance-high:     desaturate(@btn-tag-bg, 20%);
+@btn-tag-bg-relevance-veryhigh: @btn-tag-bg;
+//** Foreground colors for tags; usually black/white depending on the background color
+@btn-tag-fg-relevance-verylow:  contrast(desaturate(@btn-tag-bg, 80%));
+@btn-tag-fg-relevance-low:      contrast(desaturate(@btn-tag-bg, 60%));
+@btn-tag-fg-relevance-middle:   contrast(desaturate(@btn-tag-bg, 40%));
+@btn-tag-fg-relevance-high:     contrast(desaturate(@btn-tag-bg, 20%));
+@btn-tag-fg-relevance-veryhigh: contrast(@btn-tag-bg);
+//** Border radius of tags
+@btn-tag-border-radius: 3px;
+//** margin of tags
+@btn-tag-margin: 2px 4px 2px 0;
 
 
 //== Badges
@@ -369,7 +400,7 @@
 //
 //## Customizes the Popover component
 
-//** Minimal with of the Popover
+//** Minimal width of the Popover
 @il-popover-min-width: 50px;
 //** Minimal height of the Popover
 @il-popover-min-height: 32px;
@@ -381,7 +412,7 @@
 @il-popover-title-background-color: @il-popover-background-color;
 //** Border color of the Popover
 @il-popover-border-color: rgba(0, 0, 0, .2);
-//** With of the arrow pointing from the Popover to its Triggerer component, e.g. a Button
+//** Width of the arrow pointing from the Popover to its Triggerer component, e.g. a Button
 @il-popover-arrow-width: 10px;
 //** Background color of the arrow
 @il-popover-arrow-background-color: @il-popover-background-color;
@@ -396,3 +427,54 @@
 @il-divider-color: lighten(@text-color, 10%);
 
 @il-divider-color: lighten(@text-color, 10%);
+
+//== Item
+//
+//##
+@il-item-divider-padding: 10px 0 0 0;
+@il-item-divider-margin: 0 0 10px 0;
+@il-item-divider-border-bottom: dashed 2px #E0E0E0;
+@il-item-description-padding: 10px 0 0 0;
+@il-item-padding: 20px;
+@il-item-marker-border-left: 5px solid;
+@il-item-h5-margin: 4px 0px 2px 0px;
+
+//== Listing Panel
+//
+//##
+@il-panel-listing-std-container-h4-margin: 16px 0 2px 0;
+@il-panel-listing-std-container-h3-margin: 8px 0 2px 0;
+@il-panel-listing-std-container-h3-text-transform: uppercase;
+@il-panel-listing-std-container-h4-text-transform: uppercase;
+@il-panel-listing-std-container-h3-color: #909090;
+@il-panel-listing-std-container-h4-color: #909090;
+@il-panel-listing-std-item-container-margin: 0 0 1px 0;
+
+//== Charts
+//
+//##
+
+@il-chart-item-active-bg: @brand-primary;
+@il-chart-item-active-color: white;
+@il-chart-item-inactive-bg: #e0e0e0;
+@il-chart-item-inactive-color: #909090;
+@il-chart-item-space: 2px;
+
+
+//== Icons
+//
+//## Icons are used to represent (and quickly identify) objects.
+//**Size for icons: Small is used in the tree. e.g.
+@icon-size-small: 20px;
+//**Size for icons: Medium is used in the content-listing. e.g.
+@icon-size-medium: 35px;
+//**Size for icons: Large is used in the header. e.g.
+@icon-size-large: 45px;
+
+//== View Control
+//
+//##
+@il-vc-glyph-padding-vertical: @padding-base-vertical+2;
+@il-vc-glyph-padding-horizontal: @padding-base-horizontal;
+@il-vc-glyph-hover-bg: lighten(@brand-primary, 5%);
+@il-vc-mode-btn-active: @il-vc-glyph-hover-bg;

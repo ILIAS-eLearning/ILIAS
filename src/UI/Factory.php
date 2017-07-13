@@ -300,7 +300,6 @@ interface Factory {
 	 */
 	public function panel();
 
-
 	/**
 	 * ---
 	 * description:
@@ -404,6 +403,7 @@ interface Factory {
 	/**
 	 * ---
 	 * description:
+	 *   purpose: >
 	 *     A divider marks a thematic change in a sequence of other components. A Horizontal Divider
 	 *     is used to mark a thematic change in sequence of elements that are stacked from top to bottom,
 	 *     e.g. in a Dropdown. A Vertical Divider is used to mark a thematic change in a sequence of elements
@@ -536,5 +536,130 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Dropdown\Factory
 	 */
 	public function dropdown();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      An item displays a unique entity within the system. It shows information
+	 *      about that entity in a structured way.
+	 *   composition: >
+	 *      Items contain the name of the entity as a title. The item contains three
+	 *      sections, where one section contains important information about the item,
+	 *      the second section shows the content of the item and another section shows
+	 *      metadata about the entity.
+	 *   effect: >
+	 *      Items may contain Interaction Triggers such as Glyphs, Buttons or Tags.
+	 *   rivals:
+	 *      Card: >
+	 *         Cards define the look of items in a deck. Todo: We need to refactor cards.
+	 *
+	 * rules:
+	 *   composition:
+	 *      1: Items MUST contain the name of the displayed entity as a title.
+	 *      2: Items SHOULD contain a section with it's content.
+	 *      3: Items MAY contain Interaction Triggers.
+	 *      4: Items MAY contain a section with metadata.
+	 * ---
+	 * @return \ILIAS\UI\Component\Item\Factory
+	 */
+	public function item();
+
+ 	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Icons are quickly comprehensible and recognizable graphics.
+	 *     They indicate the functionality or nature of a text-element or context:
+	 *     Icons will mainly be used in front of object-titles, e.g. in the
+	 *     header, the tree and in repository listing.
+	 *   composition: >
+	 *     Icons come in three fixed sizes: small, medium and large.
+	 *     They can be configured with an additional "abbreviation",
+	 *     a text of a few characters that will be rendered on top of the image.
+	 *   effect: >
+	 *     Icons themselves are not interactive; however they are allowed
+	 *     within interactive containers.
+	 *   rivals:
+	 *     1: >
+	 *       Glyphs are typographical characters that act as a trigger for
+	 *       some action.
+	 *     2: >
+	 *       Images belong to the content and can be purely decorative.
+	 * rules:
+	 *   usage:
+	 *     1: Icons MUST be used to represent objects or context.
+	 *     2: Icons MUST be used in combination with a title or label.
+	 *     3: An unique Icon MUST always refer to the same thing.
+	 *   style:
+	 *     1: Icons MUST have a class indicating their usage.
+	 *     2: Icons MUST be tagged with a CSS-class indicating their size.
+	 *   accessibility:
+	 *     1: Icons MUST use aria-label.
+	 *   wording:
+	 *     1: The aria-label MUST state the represented object-type.
+	 *     2: The abbreviation SHOULD consist of one or two letters.
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Icon\Factory
+	 **/
+	public function icon();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     View Controls switch between different visualisation of data.
+	 *   composition: >
+	 *      View Controls are composed mainly of buttons, they are often found in toolbars.
+	 *   effect: Interacting with a view control changes to display in some content area.
+	 * ---
+	 * @return \ILIAS\UI\Component\ViewControl\Factory
+	 */
+	public function viewControl();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Breadcrumbs is a supplemental navigation scheme. It eases the
+	 *     user's navigation to higher items in hierarchical structures.
+	 *     Breadcrumbs also serve as an effective visual aid indicating the
+	 *     user's location on a website.
+	 *   composition: >
+	 *     Breadcrumbs-entries are rendered as horizontally arranged UI Links
+	 *     with a seperator in-between.
+	 *   effect: >
+	 *     Clicking on an entry will get the user to the respective location.
+	 *
+	 * context: >
+	 *   1. Suplemental navigation under the main menu
+	 *   2. Location hint in search results
+	 *   3. Path to current location on info page
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: Crumbs MUST trigger navigation to other resources of the system.
+	 * ---
+	 * @param 	\ILIAS\UI\Component\Link\Standard[] 	$crumbs 	a list of Links
+	 * @return 	\ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
+	 **/
+	public function breadcrumbs(array $crumbs);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Charts are used to graphically represent data in various forms such as maps, graphs or diagrams.
+	 *   composition: >
+	 *      Charts are composed of various graphical and textual elements representing the raw data.
+	 *
+	 * rules:
+	 *   style:
+	 *      1: Charts SHOULD not rely on colors to convey information.
+	 * ---
+	 * @return \ILIAS\UI\Component\Chart\Factory
+	 */
+	public function chart();
 
 }

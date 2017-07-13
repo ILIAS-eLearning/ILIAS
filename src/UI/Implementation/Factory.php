@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI\Implementation;
 
+use ILIAS\UI\NotImplementedException;
+
 // TODO: This might cache the created factories.
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 
@@ -90,7 +92,6 @@ class Factory implements \ILIAS\UI\Factory
 		return new Component\Panel\Factory();
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
@@ -112,8 +113,7 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function divider()
-	{
+	public function divider() {
 		return new Component\Divider\Factory();
 	}
 
@@ -121,17 +121,54 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function link()
-	{
+	public function link() {
 		return new Component\Link\Factory();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function dropdown() {
+		return new Component\Dropdown\Factory();
 	}
 
 
 	/**
 	 * @inheritdoc
 	 */
-	public function dropdown()
+	public function item()
 	{
-		return new Component\Dropdown\Factory();
+		return new Component\Item\Factory();
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function icon() {
+		return new Component\Icon\Factory();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function viewControl()
+	{
+		return new Component\ViewControl\Factory();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function breadcrumbs(array $crumbs) {
+		return new Component\Breadcrumbs\Breadcrumbs($crumbs);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function chart()
+	{
+		return new Component\Chart\Factory();
+	}
+
 }

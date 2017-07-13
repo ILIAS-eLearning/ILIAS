@@ -544,13 +544,10 @@ The following directories are currently maintained unter the Service-Maintenace-
 
 
 The following directories are currently unmaintained:
-* Services/Component
 * Services/CopyWizard
 * Services/DidacticTemplate
-* Services/Environment
 * Services/Exceptions
 * Services/Http
-* Services/JSON
 * Services/LDAP
 * Services/License
 * Services/LinkChecker
