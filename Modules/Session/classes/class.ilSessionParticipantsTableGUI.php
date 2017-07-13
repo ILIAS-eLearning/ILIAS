@@ -229,30 +229,39 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-		$all_participants = $this->collectParticipants();
-		
-		foreach($all_participants as $participant_id)
+		$all_participants = [];
+		$all_possible_participants = $this->collectParticipants();
+		if($all_possible_participants)
 		{
-			$usr_data = $this->getParticipants()->getEventParticipants()->getUser($participant_id);
+			// user filter 
+			$user_query = new ilUserQuery();
+			$user_query->setUserFilter($all_possible_participants);
+			$user_query->setTextFilter((string) $this->current_filter['login']);
+			$res = $user_query->query();
+			$all_participants = $res['set'];
+		}
+		
+		foreach($all_participants as $counter => $participant)
+		{
+			$usr_data = $this->getParticipants()->getEventParticipants()->getUser($participant['usr_id']);
 			
-			$tmp_data['id'] = $participant_id;
-			$name = ilObjUser::_lookupName($participant_id);
+			$tmp_data['id'] = $participant['usr_id'];
 			
-			$tmp_data['name'] = $name['lastname'];
-			$tmp_data['lastname'] = $name['lastname'];
-			$tmp_data['firstname'] = $name['firstname'];
-			$tmp_data['login'] = ilObjUser::_lookupLogin($participant_id);
+			$tmp_data['name'] = $participant['lastname'];
+			$tmp_data['lastname'] = $participant['lastname'];
+			$tmp_data['firstname'] = $participant['firstname'];
+			$tmp_data['login'] = $participant['login'];
 			$tmp_data['mark'] = $usr_data['mark'];
 			$tmp_data['comment'] = $usr_data['comment'];
-			$tmp_data['participated'] = $this->getParticipants()->getEventParticipants()->hasParticipated($participant_id);
-			$tmp_data['registered'] = $this->getParticipants()->getEventParticipants()->isRegistered($participant_id);
+			$tmp_data['participated'] = $this->getParticipants()->getEventParticipants()->hasParticipated($participant['usr_id']);
+			$tmp_data['registered'] = $this->getParticipants()->getEventParticipants()->isRegistered($participant['usr_id']);
 			
 			$roles = array();
 			$local_roles = $this->getParentLocalRoles();
 			foreach($local_roles as $role_id => $role_name)
 			{
 				// @todo fix performance
-				if($GLOBALS['rbacreview']->isAssigned($participant_id, $role_id))
+				if($GLOBALS['rbacreview']->isAssigned($participant['usr_id'], $role_id))
 				{
 					$tmp_data['role_ids'][] = $role_id;
 					$roles[] = $role_name;
