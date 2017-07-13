@@ -50,7 +50,7 @@ class ilTestProcessLockFileStorage extends ilFileSystemStorage
 	{
 		set_error_handler(function ($severity, $message, $file, $line)
 		{
-			throw new ErrorException($message, $severity, $severity, $file, $line);
+			throw new ErrorException($message, $severity, 0, $file, $line);
 		});
 
 		try
