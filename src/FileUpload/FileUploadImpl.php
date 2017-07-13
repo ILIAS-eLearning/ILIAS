@@ -15,7 +15,6 @@ use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\FileUpload\Processor\PreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorManager;
 use ILIAS\HTTP\GlobalHttpState;
-use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
 
 /**
