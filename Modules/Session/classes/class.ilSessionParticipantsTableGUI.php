@@ -245,6 +245,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		{
 			$usr_data = $this->getParticipants()->getEventParticipants()->getUser($participant['usr_id']);
 			
+			$tmp_data = [];
 			$tmp_data['id'] = $participant['usr_id'];
 			
 			$tmp_data['name'] = $participant['lastname'];
