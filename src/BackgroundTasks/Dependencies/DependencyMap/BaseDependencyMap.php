@@ -57,7 +57,7 @@ class BaseDependencyMap extends EmptyDependencyMap {
 			case \ilTabsGUI::class:
 				return $DIC->tabs();
 			case Injector::class:
-				return $DIC->injector();
+				return $DIC->backgroundTasks()->injector();
 			case \ilSetting::class:
 				return $DIC->settings();
 			case \ILIAS\UI\Factory::class:

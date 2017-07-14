@@ -7,7 +7,7 @@ interface Type {
 	/**
 	 * @return string A string representation of the Type.
 	 */
-	function __toString();
+	public function __toString();
 
 
 	/**
@@ -17,7 +17,7 @@ interface Type {
 	 *
 	 * @return bool
 	 */
-	function isExtensionOf(Type $type);
+	public function isExtensionOf(Type $type);
 
 
 	/**
@@ -27,5 +27,5 @@ interface Type {
 	 *
 	 * @return bool
 	 */
-	function equals(Type $otherType);
+	public function equals(Type $otherType);
 }

@@ -1710,6 +1710,10 @@ class ilInitialisation
 			return new \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence();
 		};
 
+		$c["bt.injector"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Dependencies\Injector($c, new BaseDependencyMap());
+		};
+
 		$c["bt.task_manager"] = function ($c) use ($sync) {
 			if ($sync == 'sync') {
 				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager($c["bt.persistence"]);

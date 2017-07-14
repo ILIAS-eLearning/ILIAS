@@ -56,7 +56,7 @@ class ilBTControllerGUI {
 		global $DIC;
 
 		/** @var ilBTPopOverGUI $gui */
-		$gui = $DIC->injector()->createInstance(ilBTPopOverGUI::class);
+		$gui = $DIC->backgroundTasks()->injector()->createInstance(ilBTPopOverGUI::class);
 
 		$signalId = $_GET['replaceSignal'];
 		$replaceSignal = new \ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal($signalId);
