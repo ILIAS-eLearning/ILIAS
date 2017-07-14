@@ -40,15 +40,7 @@ $as->requireAuth();
 
 require_once 'Services/Saml/classes/class.ilSamlAttributesHolder.php';
 ilSamlAttributesHolder::setAttributes($as->getAttributes());
-ilSamlAttributesHolder::setAttributes(array(
-	'http://schemas.microsoft.com/ws/2008/06/identity/claims/globalsid'          => array('mjansen'),
-	'http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname' => array('mjansen'),
-	'login'     => array('mjansen'),
-	'email'     => array('mjansen@databay.de'),
-	'gender'    => array('m'),
-	'firstname' => array('Michael'),
-	'lastname'  => array('Jansen'),
-));
+
 if(strlen($session->getData('example:set_target', 'il_target')))
 {
 	ilSamlAttributesHolder::setReturnTo($session->getData('example:set_target', 'il_target'));
