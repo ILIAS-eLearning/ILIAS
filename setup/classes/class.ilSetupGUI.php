@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
+use ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence;
+
 require_once "./setup/classes/class.ilSetup.php";
 require_once('./Services/Database/classes/class.ilDBConstants.php');
 
@@ -74,13 +77,6 @@ class ilSetupGUI
 			$client_id = $_POST["client_id"];
 		}
 
-/*if ($_POST["client_id"] == "")
-{
-echo "<br>+".$_GET["client_id"];
-echo "<br>+".$_POST["client_id"];
-echo "<br>+".$_SESSION["ClientId"];
-echo "<br>+".$client_id;
-}*/
 		// for security
 		if (!$this->setup->isAdmin() and $client_id != $_SESSION["ClientId"])
 		{
@@ -464,6 +460,10 @@ echo "<br>+".$client_id;
 			case "createMemcacheServer":
 			case "updateMemcacheServer":
 			case "flushCache":
+			case "background_tasks":
+			case "edit_background_tasks":
+			case "save_background_tasks":
+			case "kill_waiting_tasks":
 				$this->$cmd();
 				break;
 
@@ -552,6 +552,15 @@ echo "<br>+".$client_id;
 				$this->tpl->setCurrentBlock("display_list");
 				$this->tpl->setVariable("TXT_LIST",ucfirst($this->lng->txt("list_clients")));
 				$this->tpl->setVariable("TAB_CLASS", $class);
+				$this->tpl->parseCurrentBlock();
+
+				// client list link
+				$class = ($this->active_tab == "background_tasks")
+					? "ilSMActive"
+					: "ilSMInactive";
+				$this->tpl->setCurrentBlock("display_list");
+				$this->tpl->setVariable("TXT_BACKGROUND_TASKS",ucfirst($this->lng->txt("background_tasks")));
+				$this->tpl->setVariable("BACKGROUND_TASKS_CLASS", $class);
 				$this->tpl->parseCurrentBlock();
 
 				// edit paths link
@@ -2161,6 +2170,25 @@ echo "<br>+".$client_id;
 		$this->displaySubTabs();
 	}
 
+
+
+	protected function bt_tabs($edit = false) {
+		$tabs = new ilTemplate("tpl.tabs.html", true, true, "Services/UIComponent/Tabs");
+
+		$tabs->setCurrentBlock("tab");
+		$tabs->setVariable("TAB_TYPE",!$edit? "active" : "");
+		$tabs->setVariable("TAB_TEXT", $this->lng->txt('overview'));
+		$tabs->setVariable("TAB_LINK","setup.php?cmd=background_tasks");
+		$tabs->parseCurrentBlock();
+
+		$tabs->setCurrentBlock("tab");
+		$tabs->setVariable("TAB_TYPE",$edit? "active" : "");
+		$tabs->setVariable("TAB_TEXT", $this->lng->txt('settings'));
+		$tabs->setVariable("TAB_LINK","setup.php?cmd=edit_background_tasks");
+		$tabs->parseCurrentBlock();
+
+		return $tabs;
+	}
 
 	protected function displayCache() {
 		require_once('Services/Form/classes/class.ilPropertyFormGUI.php');
@@ -4011,8 +4039,8 @@ echo "<br>+".$client_id;
 
 			if ($status["finish"]["status"])
 			{
-				$this->setup->ini->setVariable("clients","default",$client->getId());
 				$this->setup->ini->write();
+				$this->setup->ini->setVariable("clients","default",$client->getId());
 				$message = "default_client_changed";
 			}
 			else
@@ -4422,6 +4450,125 @@ echo "<br>+".$client_id;
 
 
 		$this->displayProxy(true);
+	}
+
+	protected function background_tasks() {
+		$this->setDisplayMode("view");
+		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html", "setup");
+
+		include_once("./setup/classes/class.ilBackgroundTaskTableGUI.php");
+		$table = new ilBackgroundTaskTableGUI($this->setup);
+
+		$this->tpl->setVariable("SETUP_CONTENT", $this->bt_tabs()->get() . $table->getHTML());
+
+	}
+
+
+	/**
+	 * @return ilPropertyFormGUI
+	 */
+	protected function createBackgroundTasksForm() {
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('background_task_configuration'));
+		$form->addCommandButton('save_background_tasks', $this->lng->txt('save'));
+		$form->addCommandButton('background_tasks', $this->lng->txt('cancel'));
+		$form->setFormAction('setup.php?cmd=gateway');
+
+		$rgroup = new ilRadioGroupInputGUI($this->lng->txt("type"), "concurrency");
+
+		$cc = new ilRadioOption($this->lng->txt('sync'), 'sync');
+		$rgroup->addOption($cc);
+
+		$cc = new ilRadioOption($this->lng->txt('async'), 'async');
+		$rgroup->addOption($cc);
+
+		$form->addItem($rgroup);
+
+		$i = new ilNumberInputGUI($this->lng->txt('max_number_of_concurrent_tasks'), 'number_of_concurrent_tasks');
+		$form->addItem($i);
+
+		return $form;
+	}
+
+	protected function edit_background_tasks() {
+		require_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+		$this->setDisplayMode("view");
+		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html", "setup");
+
+		$form = $this->createBackgroundTasksForm();
+		$this->fillBackgroundTasksForm($form);
+
+		$this->tpl->setVariable("SETUP_CONTENT", $this->bt_tabs(true)->get() . $form->getHTML());
+
+	}
+
+	/**
+	 * @param $form ilPropertyFormGUI
+	 */
+	private function fillBackgroundTasksForm(&$form) {
+		$n_of_tasks = $this->setup->ini->readVariable("background_tasks","number_of_concurrent_tasks");
+		$sync = $this->setup->ini->readVariable("background_tasks","concurrency");
+
+		$n_of_tasks = $n_of_tasks ? $n_of_tasks : 5;
+		$sync = $sync ? $sync : 'sync'; // The default value is sync.
+
+		$form->setValuesByArray([
+			'concurrency' => $sync,
+			'number_of_concurrent_tasks' => $n_of_tasks
+		]);
+	}
+
+	public function save_background_tasks() {
+		$form = $this->createBackgroundTasksForm();
+		$form->setValuesByPost();
+
+		// If something goes wrong we display the content with warnings again.
+		if (!$form->checkInput()) {
+			$this->tpl->setVariable('CONTENT', $this->bt_tabs(true)->get() . $form->getHTML());
+			return;
+		}
+
+		$this->saveBTFormToIni($form);
+
+		ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+		ilUtil::redirect("setup.php?cmd=edit_background_tasks");
+	}
+
+
+	/**
+	 * @param $form ilPropertyFormGUI
+	 */
+	private function saveBTFormToIni(&$form) {
+
+		if(!$this->setup->ini->groupExists('background_tasks')) {
+			$this->setup->ini->addGroup('background_tasks');
+			var_dump($this->setup->ini->getError());
+			$this->setup->ini->write();
+			var_dump($this->setup->ini->getError());
+		}
+
+		$this->setup->ini->setVariable("background_tasks","concurrency",$form->getInput('concurrency'));
+		$this->setup->ini->setVariable("background_tasks","number_of_concurrent_tasks",$form->getInput('number_of_concurrent_tasks'));
+
+		$this->setup->ini->write();
+	}
+
+	public function kill_waiting_tasks() {
+		$client_id = $_GET['client_id'];
+		$this->setup->newClient($client_id);
+		$client = $this->setup->getClient();
+		$client->provideGlobalDB();
+
+		$persistence = new BasicPersistence();
+		$bucket_ids = $persistence->getBucketIdsByState(State::SCHEDULED);
+		foreach($bucket_ids as $bucket_id) {
+			$persistence->deleteBucketById($bucket_id);
+		}
+
+		ilUtil::sendSuccess($this->lng->txt('terminated_waiting_tasks'), true);
+		ilUtil::redirect("setup.php?cmd=background_tasks");
 	}
 } // END class.ilSetupGUI
 ?>

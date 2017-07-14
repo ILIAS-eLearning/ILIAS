@@ -13533,6 +13533,8 @@ form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.
 common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
 ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
+common#:#background_tasks#:#Background Tasks
+common#:#scheduled#:#Scheduled
 grp#:#grp_period#:#Group Period
 grp#:#grp_period_info#:#Information about the start and end date of the event, which is supported by the group
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.

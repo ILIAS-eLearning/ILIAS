@@ -270,6 +270,16 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS deleteCourse(). Deletes a course. Delete courses are stored in "Trash" and can be undeleted in '.
 								' the ILIAS administration. ');
+		// startBackgroundTaskWorker()
+		$this->server->register('startBackgroundTaskWorker',
+			array('sid' => 'xsd:string'),
+			array('success' => 'xsd:boolean'),
+			SERVICE_NAMESPACE,
+			SERVICE_NAMESPACE.'#startBackgroundTaskWorker',
+			SERVICE_STYLE,
+			SERVICE_USE,
+			'ILIAS startBackgroundTaskWorker().');
+
 		// assignCourseMember()
 		$this->server->register('assignCourseMember',
 								array('sid' => 'xsd:string',

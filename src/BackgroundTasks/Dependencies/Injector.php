@@ -2,13 +2,15 @@
 
 namespace ILIAS\BackgroundTasks\Dependencies;
 
+use ILIAS\BackgroundTasks\Dependencies\DependencyMap\DependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\Exceptions\InvalidClassException;
-use ILIAS\BackgroundTasks\Dependencies\Exceptions\NoSuchServiceException;
+use ILIAS\DI\Container;
+use ReflectionParameter;
 
 /**
  * Class Factory
  *
- * @package ILIAS\DI
+ * @package ILIAS\BackgroundTasks\Dependencies
  *
  * Create instances of classes using type hinting and the dependency injection container.
  *
@@ -20,29 +22,34 @@ class Injector {
 	 * @var Container
 	 */
 	protected $dic;
+	/**
+	 * @var DependencyMap
+	 */
+	protected $dependencyMap;
 
 
 	/**
 	 * Factory constructor.
 	 *
-	 * @param $dic Container
+	 * @param               $dic Container
+	 * @param DependencyMap $dependencyMap
 	 */
-	public function __construct(Container $dic) {
+	public function __construct(Container $dic, DependencyMap $dependencyMap) {
 		$this->dic = $dic;
+		$this->dependencyMap = $dependencyMap;
 	}
 
 
 	/**
-	 * @param      $fullyQualifiedClassName string The given class must type hint all its
-	 *                                      constructor arguments. Furthermore the types must exist
-	 *                                      in the DI-Container.
-	 * @param null $requireFile             string
+	 * @param       $fullyQualifiedClassName string The given class must type hint all its
+	 *                                       constructor arguments. Furthermore the types must
+	 *                                       exist in the DI-Container.
+	 *
+	 * @param bool  $requireFile
 	 *
 	 * @return object
-	 * @throws InvalidClassException
-	 * @throws NoSuchServiceException
 	 */
-	public function createInstance($fullyQualifiedClassName, $requireFile = null) {
+	public function createInstance($fullyQualifiedClassName, $requireFile = false, callable $with = null) {
 		if ($requireFile) /** @noinspection PhpIncludeInspection */ {
 			require_once($requireFile);
 		}
@@ -57,7 +64,7 @@ class Injector {
 		$parameters = $constructor->getParameters();
 
 		// we get the arguments to construct the object from the DIC and Typehinting.
-		$constructorArguments = $this->createConstructorArguments($fullyQualifiedClassName, $parameters);
+		$constructorArguments = $this->createConstructorArguments($fullyQualifiedClassName, $parameters, $with);
 
 		// Crate the instance with the arguments.
 		return $reflectionClass->newInstanceArgs($constructorArguments);
@@ -65,35 +72,52 @@ class Injector {
 
 
 	/**
-	 * @param $fullyQualifiedClassName string
-	 * @param $parameters              ReflectionParameter[]
+	 * @param       $fullyQualifiedClassName string
+	 * @param       $parameters              ReflectionParameter[]
 	 *
 	 * @return array
-	 * @throws InvalidClassException
-	 * @throws NoSuchServiceException
+	 *
 	 */
-	protected function createConstructorArguments($fullyQualifiedClassName, $parameters) {
+	protected function createConstructorArguments($fullyQualifiedClassName, $parameters, $with) {
 		$constructorArguments = [];
 
 		foreach ($parameters as $parameter) {
-			$type = $parameter->getType()->__toString();
-
-			if ($parameter->getType()->isBuiltin()) {
-				throw new InvalidClassException("The DI cannot instantiate $fullyQualifiedClassName because some of the constructors arguments are built in types. Only interfaces (and objects) are stored in the DI-Container.");
-			}
-
-			if (!$type) {
-				throw new InvalidClassException("The DI cannot instantiate $fullyQualifiedClassName because some of the constructors arguments are not type hinted. Make sure all parameters in the constructor have type hinting.");
-			}
-
-			if (!isset($this->dic[$type])) {
-				throw new NoSuchServiceException("You wanted to instantiate a class of type $fullyQualifiedClassName which wants an injection of type $type. The DI-Container does not contain such a service. The services available are: "
-				                                 . implode(', ', $this->dic->keys()));
-			}
-
-			$constructorArguments[] = $this->dic[$type];
+			// As long as there are given arguments we take those.
+			$constructorArguments[] = $this->getDependency($fullyQualifiedClassName, $parameter, $with);
 		}
 
 		return $constructorArguments;
+	}
+
+
+	/**
+	 * @param          $fullyQualifiedClassName  string
+	 * @param          $parameter                ReflectionParameter
+	 *
+	 * @param callable $with
+	 *
+	 * @return mixed
+	 * @throws InvalidClassException
+	 */
+	protected function getDependency($fullyQualifiedClassName, $parameter, callable $with = null) {
+		if (!$parameter->getType()) {
+			throw new InvalidClassException("The constructor of $fullyQualifiedClassName is not fully type hinted, or the type hints cannot be resolved.");
+		}
+
+		$type = $parameter->getType()->__toString();
+
+		if ($parameter->getType()->isBuiltin()) {
+			throw new InvalidClassException("The DI cannot instantiate $fullyQualifiedClassName because some of the constructors arguments are built in types. Only interfaces (and objects) are stored in the DI-Container.");
+		}
+
+		if (!$type) {
+			throw new InvalidClassException("The DI cannot instantiate $fullyQualifiedClassName because some of the constructors arguments are not type hinted. Make sure all parameters in the constructor have type hinting.");
+		}
+
+		if ($with) {
+			return $this->dependencyMap->getDependencyWith($this->dic, $type, $fullyQualifiedClassName, $with);
+		} else {
+			return $this->dependencyMap->getDependency($this->dic, $type, $fullyQualifiedClassName);
+		}
 	}
 }

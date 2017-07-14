@@ -41,6 +41,7 @@ interface BucketMeta {
 
 	/**
 	 * @param $state int From Observer\State
+	 *
 	 * @return void
 	 */
 	public function setState($state);
@@ -50,6 +51,7 @@ interface BucketMeta {
 	 * @return int
 	 */
 	public function getState();
+
 
 	/**
 	 * @return string
