@@ -632,5 +632,21 @@ lessc_path_comment#:#Lessc wird benötigt, um Less-Dateien zu CSS zu kompilieren
 db_switch_legacy#:#Sie nutzen einen Datenbank-Typ, der durch eine Neuimplementierung ersetzt wurde. Diese Neuimplementierung unterstützt ausserdem PHP7. Möchten Sie wechsen zu:
 db_switch_legacy_button#:#Switch
 error_log_path_comment_win#:#Bitte nur den Pfad angeben (z. B. 'C:/iliasdata). Hier werden die Dateien im Falle eines Fehlers abgelegt.
+background_tasks#:#Background Tasks
+settings#:#Einstellungen
+type#:#Typ
+sync#:#Synchron
+async#:#Asynchron
+max_number_of_concurrent_tasks#:#Maximale Anzahl nebenläufiger Arbeiten
+cancel#:#Abbrechen
+background_task_configuration#:#Background Tasks Konfiguration
+bt_available#:#Background Tasks verfügbar
+running_tasks#:#Laufende Tasks
+waiting_tasks#:#Tasks in der Warteschlange
+action#:#Aktionen
+no#:#Nein
+yes#:#Ja
+terminated_waiting_tasks#:#Tasks in der Warteschlange wurden beendet
+kill_waiting_tasks#:#Tasks in der Warteschlange entfernen.
 system_styles#:#System Styles
 not_enabled#:#Disabled

@@ -1,6 +1,12 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+// TODO:
+use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
+use ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory;
+use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
+use ILIAS\BackgroundTasks\Dependencies\Injector;
+
 require_once("libs/composer/vendor/autoload.php");
 
 // needed for slow queries, etc.
@@ -561,6 +567,21 @@ class ilInitialisation
 	}
 
 	/**
+	 * @param \ILIAS\DI\Container $c
+	 */
+	protected static function initMail(\ILIAS\DI\Container $c)
+	{
+		$c["mail.mime.transport.factory"] = function ($c) {
+			require_once 'Services/Mail/classes/Mime/Transport/class.ilMailMimeTransportFactory.php';
+			return new ilMailMimeTransportFactory($c["ilSetting"]);
+		};
+		$c["mail.mime.sender.factory"] = function ($c) {
+			require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderFactory.php';
+			return new ilMailMimeSenderFactory($c["ilSetting"]);
+		};
+	}
+
+	/**
 	 * initialise $ilSettings object and define constants
 	 * 
 	 * Used in Soap
@@ -959,6 +980,9 @@ class ilInitialisation
 			self::initLanguage();
 			$GLOBALS['DIC']['tree']->initLangCode();
 
+			self::initInjector($GLOBALS['DIC']);
+			self::initBackgroundTasks($GLOBALS['DIC']);
+
 			if(ilContext::hasHTML())
 			{													
 				include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
@@ -1083,6 +1107,7 @@ class ilInitialisation
 		self::setSessionHandler();
 
 		self::initSettings();
+		self::initMail($GLOBALS['DIC']);
 		
 		
 		// --- needs settings	
@@ -1665,5 +1690,45 @@ class ilInitialisation
 		{
 			ilUtil::redirect("goto.php?target=".$_GET["target"]);
 		}
+	}
+
+
+	private static function initBackgroundTasks(\ILIAS\DI\Container $c) {
+		global $ilIliasIniFile;
+
+		$n_of_tasks = $ilIliasIniFile->readVariable("background_tasks", "number_of_concurrent_tasks");
+		$sync = $ilIliasIniFile->readVariable("background_tasks", "concurrency");
+
+		$n_of_tasks = $n_of_tasks ? $n_of_tasks : 5;
+		$sync = $sync ? $sync : 'sync'; // The default value is sync.
+
+		$c["bt.task_factory"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory($c["di.injector"]);
+		};
+
+		$c["bt.persistence"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence();
+		};
+
+		$c["bt.task_manager"] = function ($c) use ($sync) {
+			if ($sync == 'sync') {
+				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager($c["bt.persistence"]);
+			} elseif ($sync == 'async') {
+				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager($c["bt.persistence"]);
+			} else {
+				throw new ilException("The supported Background Task Managers are sync and async. $sync given.");
+			}
+		};
+	}
+
+
+	private static function initInjector(\ILIAS\DI\Container $c) {
+		$c["di.dependency_map"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap();
+		};
+
+		$c["di.injector"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Dependencies\Injector($c, $c["di.dependency_map"]);
+		};
 	}
 }

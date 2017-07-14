@@ -1851,9 +1851,9 @@ common#:#cron_jobs#:#Cron Jobs
 common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at ’Administration -> Search’.
 common#:#cron_lucene_index#:#Update Lucene search index
 common#:#cron_mail_notification_cron#:#regularly per cron job
-common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail. Please deactivate the option ‘Globally prevent sending external mails’ first to use this function.
+common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail. Please enable the option ‘%s’ first to use this function.
 common#:#cron_mail_notification_never#:#never
-common#:#cron_mail_notification#:#Send Mail Notifications
+common#:#cron_mail_notification#:#New Mail Notifications
 common#:#crs_activation_start_invalid#:#The start and the finish time is not valid.
 common#:#crs_add#:#Add Course
 common#:#crs_added#:#Course added
@@ -2392,7 +2392,6 @@ common#:#installed#:#Installed
 common#:#instant_messengers#:#Instant Messengers
 common#:#institution#:#Institution
 common#:#internal_local_roles_only#:#Local roles (only automatically generated)
-common#:#internal_system#:#Internal system
 common#:#invalid_visible_required_options_selected#:#All fields set to required has to be set to visible in registration, too.
 common#:#invisible_block_mess#:#You do not have the permission to view this block.
 common#:#invisible_block#:#Invisible Block
@@ -5417,10 +5416,9 @@ mail#:#chat_users_without_login#:#The following users don't have an ILIAS accoun
 mail#:#chat_users_without_permission#:#The following users don't have access to the selected chat room:
 mail#:#forward#:#Forward
 mail#:#goto_invitation_chat#:#Open Chat Room
-mail#:#info_mail_external_sender_noreply#:#Please enter the e-mail that shall be used as sender's address for automatically created system messages and notifications send by e-mail. <b<Note</b>: Use only a real existing address to avoid the rejection of such mails by spam filters and mail servers,
 mail#:#invite_to_chat#:#Invite to Chat
 mail#:#linebreak#:#Line break
-mail#:#mail_send_html#:#HTML Frame for External Emails
+mail#:#mail_send_html#:#HTML Frame
 mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .
 mail#:#mail_account_mail#:#Account Mail
 mail#:#mail_add_recipient#:#Please enter a recipient
@@ -5438,7 +5436,6 @@ mail#:#mail_deleted#:#The mail is deleted
 mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?
 mail#:#mail_empty_trash#:#Empty Trash
 mail#:#mail_entry_of_contacts#:#Entry of Contacts
-mail#:#mail_external_sender_noreply#:#no-reply Address
 mail#:#mail_file_name#:#File Name
 mail#:#mail_file_size#:#File Size
 mail#:#mail_files_deleted#:#The file(s) are deleted
@@ -5475,6 +5472,7 @@ mail#:#mail_my_mailing_lists#:#My Mailing Lists
 mail#:#mail_nacc_title#:#Title
 mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
 mail#:#mail_nacc_client_name#:#Client Name
+mail#:#mail_nacc_client_desc#:#Client Description
 mail#:#mail_nacc_ilias_url#:#URL of ILIAS system
 mail#:#mail_nacc_login#:#Login Account
 mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.
@@ -7518,7 +7516,39 @@ common#:#delete_inactivated_user_accounts_period#:#Days passed since inactivatio
 common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this period of time has passed since inactivation.
 common#:#delete_inactivated_user_accounts_include_roles#:#Included roles
 common#:#delete_inactivated_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.
-mail#:#mail_prevent_smtp_globally#:#Globally prevent sending external mails (via SMTP)
+mail#:#mail_allow_external#:#External Emails
+mail#:#mail_allow_external_info#:#If disabled, the delivery of external emails (via SMTP) is globally disabled.
+mail#:#mail_settings_general_tab#:#General
+mail#:#mail_settings_external_tab#:#External
+mail#:#mail_settings_external_frm_head#:#External Emails
+mail#:#mail_settings_user_frm_head#:#User Emails
+mail#:#mail_settings_system_frm_head#:#System Emails
+mail#:#mail_smtp_status#:#Send via SMTP
+mail#:#mail_smtp_status_info#:#If enabled, ILIAS will dispatch external emails to an SMTP server instead of using the the internal functionality provided by the PHP runtime (mail() function, sendmail).
+mail#:#mail_smtp_host#:#Host
+mail#:#mail_smtp_host_info#:#Please enter the hostname or IP of the desired mail server.
+mail#:#mail_smtp_port#:#Port
+mail#:#mail_smtp_port_info#:#Please enter a numeric value for the mail server port (e.g. 25).
+mail#:#mail_smtp_encryption#:#Encryption
+mail#:#mail_smtp_encryption_tls#:#TLS
+mail#:#mail_smtp_encryption_ssl#:#SSL
+mail#:#mail_external_send_test_usr#:#Send Test Email (User Mail)
+mail#:#mail_external_send_test_sys#:#Test-E-Mail für Systemnachricht schicken
+mail#:#mail_external_test_sent#:#An email was sent to the email address defined in your profile.
+mail#:#mail_smtp_user#:#User
+mail#:#mail_smtp_password#:#Password
+mail#:#mail_smtp_password_req#:#If you defined a user for authentication purposes, a password must be set.
+mail#:#mail_system_usr_from_addr#:#Sender Email (From)
+mail#:#mail_system_usr_from_name#:#Sender Fullname (From)
+mail#:#mail_system_usr_from_name_info#:#You can use the placeholders [FULLNAME], [FIRSTNAME] and [LASTNAME]. These will then be replaced by the respective date of the email initiator.
+mail#:#mail_system_usr_env_from_addr#:#Technical Sender
+mail#:#mail_system_usr_env_from_addr_info#:#If you leave this field empty, the sender email address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
+mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the sender email address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
+mail#:#mail_system_sys_from_addr#:#Sender Email (From)
+mail#:#mail_system_sys_from_name#:#Sender Fullname (From)
+mail#:#mail_system_sys_reply_to_addr#:#Reply-To
+mail#:#mail_system_sys_env_from_addr#:#Technical Sender
+mail#:#mail_system_sys_signature#:#Signature
 content#:#glo_quick_navigation#:#Quick Navigation
 forum#:#post_reply#:#Re:
 forum#:#preset_subject#:#Preset subject on reply
@@ -7922,7 +7952,7 @@ dateplaner#:#cal_ch_manager#:#Consultation Hour Manager
 dateplaner#:#cal_ch_manager_info#:#Login of the user who will manage your consultation hours.
 dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.
 dateplaner#:#cal_ch_target_object#:#Repository Object
-dateplaner#:#cal_ch_target_object_info#:#Consultation hours will be displayed in a block to the right of the course / group content. To restrict the display of consultation hours to specific courses or groups, please enter the Ref-ID of the said objects. You find the Ref-ID in the URL of the respective objects. Add more than one Ref-ID separated by comma.
+dateplaner#:#cal_ch_target_object_info#:#Consultation hours will be displayed in a block to the right of the course / group content. To restrict the display of consultation hours to specific courses or groups, please enter the Ref-ID of the said objects. You find the Ref-ID in the URL of the respective objects. Add more than one Ref-ID separated by comma. Regardless of that, consultation hours may also appear in your e-portfolios.
 dateplaner#:#cal_ch_unknown_repository_object#:#The given repository object ref-id is not valid.
 rbac#:#push_desktop_items#:#Push Items on the Personal Desktop
 rbac#:#smtp_mail#:#SMTP E-Mail
@@ -9419,10 +9449,6 @@ pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 wsp#:#wsp_tab_ownership#:#My Repository Objects
 user#:#user_ownership#:#Repository Objects
 registration#:#registration_code_role_info#:#If you use a registration code, the role selection may be superseded by the code.
-mail#:#mail_system_from_name#:#Sender Name
-mail#:#mail_system_from_name_info#:#Please enter a name. This name (e.g. 'John Doe') will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.
-mail#:#mail_system_return_path#:#Global Return-Path
-mail#:#mail_system_return_path_info#:#Please enter an email address which should be used for the return path (e.g. webmaster@ilias.de). If you leave the field blank, the 'Return-Path' will be the 'From' email address.
 content#:#cont_current_term#:#Current Term
 assessment#:#tst_setting_offer_hints_label#:#Hints
 assessment#:#tst_setting_offer_hints_info#:#Participants request hints to answer a question. With every hint presented the maximum number of points to be earned decreases.
@@ -13507,6 +13533,8 @@ form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.
 common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
 ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
+common#:#background_tasks#:#Background Tasks
+common#:#scheduled#:#Scheduled
 grp#:#grp_period#:#Group Period
 grp#:#grp_period_info#:#Information about the start and end date of the event, which is supported by the group
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.
