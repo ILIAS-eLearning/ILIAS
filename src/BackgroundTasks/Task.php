@@ -2,7 +2,7 @@
 
 namespace ILIAS\BackgroundTasks;
 
-use ILIAS\Types\Type;
+use ILIAS\BackgroundTasks\Types\Type;
 
 /**
  * Interface Task
@@ -36,24 +36,30 @@ interface Task {
 	 */
 	public function getOutputType();
 
+
 	/**
 	 * @return Value
 	 */
 	public function getOutput();
 
+
 	/**
 	 * @param $values (Value|Task)[]
+	 *
 	 * @return void
 	 */
 	public function setInput(array $values);
+
 
 	/**
 	 * @return Value[]
 	 */
 	public function getInput();
 
+
 	/**
-	 * @return Task[] A list of tasks that is chained with this task. The first element will be this tasks, the following his dependencies.
+	 * @return Task[] A list of tasks that is chained with this task. The first element will be
+	 *                this tasks, the following his dependencies.
 	 */
 	public function unfoldTask();
 }

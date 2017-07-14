@@ -1,5 +1,4 @@
 <?php
-require_once('./Services/ActiveRecord/class.ActiveRecord.php');
 
 /**
  * Class ilOrgUnitPathStorage
@@ -91,7 +90,6 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 			if (!$array_of_org_ids) {
 				return '-';
 			}
-			require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
 			$paths = ilOrgUnitPathStorage::where(array( 'ref_id' => $array_of_org_ids ))->getArray(null, 'path');
 
 			return implode($separator, $paths);
@@ -120,7 +118,6 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 	 * @return bool
 	 */
 	public static function writePathByRefId($ref_id) {
-		require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
 		$original_ref_id = $ref_id;
 		$names = self::getAllOrguNames();
 		$root_ref_id = ilObjOrgUnit::getRootOrgRefId();
@@ -168,7 +165,6 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 	 * @currently_unused
 	 */
 	protected static function writeFullPathByRefId($ref_id) {
-		require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
 		$original_ref_id = $ref_id;
 		$names = self::getAllOrguNames();
 		$root_ref_id = ilObjOrgUnit::getRootOrgRefId();

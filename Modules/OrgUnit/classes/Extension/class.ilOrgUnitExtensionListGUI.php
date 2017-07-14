@@ -1,7 +1,5 @@
 <?php
 
-require_once "Services/Repository/classes/class.ilObjectPluginListGUI.php";
-
 /**
  * Class ilOrgUnitExtensionListGUI
  *

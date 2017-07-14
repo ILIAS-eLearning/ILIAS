@@ -72,11 +72,11 @@ class ilClientList
 
 //		chdir($tmpPath);
 	}
-	
+
+
 	/**
-	* get all clients
-	* @return	array	array with client objects
-	*/
+	 * @return ilClient[]
+	 */
 	function getClients()
 	{
 		return ($this->clients) ? $this->clients : array();

@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/Object/classes/class.ilObjectTranslationTableGUI.php");
 /**
  * Class ilTranslationGUI
  *
@@ -203,4 +202,3 @@ class ilTranslationGUI {
         $this->saveTranslations();
     }
 }
-?>

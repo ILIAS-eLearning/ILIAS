@@ -18582,6 +18582,198 @@ $ilSetting->delete('mail_external_sender_noreply');
 ?>
 <#5090>
 <?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'user_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'root_task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'current_task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'state' => array(
+		'type' => 'integer',
+		'length' => '2',
+
+	),
+	'total_number_of_tasks' => array(
+		'type' => 'integer',
+		'length' => '4',
+
+	),
+	'percentage' => array(
+		'type' => 'integer',
+		'length' => '2',
+
+	),
+	'title' => array(
+		'type' => 'text',
+		'length' => '255',
+
+	),
+	'description' => array(
+		'type' => 'text',
+		'length' => '255',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_bucket')) {
+	$ilDB->createTable('il_bt_bucket', $fields);
+	$ilDB->addPrimaryKey('il_bt_bucket', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_bucket')) {
+		$ilDB->createSequence('il_bt_bucket');
+	}
+
+}
+
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'type' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_path' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_name' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'bucket_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_task')) {
+	$ilDB->createTable('il_bt_task', $fields);
+	$ilDB->addPrimaryKey('il_bt_task', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_task')) {
+		$ilDB->createSequence('il_bt_task');
+	}
+
+}
+
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'has_parent_task' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+	'parent_task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'hash' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'type' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_path' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_name' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'serialized' => array(
+		'type' => 'clob',
+
+	),
+	'bucket_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_value')) {
+	$ilDB->createTable('il_bt_value', $fields);
+	$ilDB->addPrimaryKey('il_bt_value', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_value')) {
+		$ilDB->createSequence('il_bt_value');
+	}
+
+}
+
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'value_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'bucket_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_value_to_task')) {
+	$ilDB->createTable('il_bt_value_to_task', $fields);
+	$ilDB->addPrimaryKey('il_bt_value_to_task', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_value_to_task')) {
+		$ilDB->createSequence('il_bt_value_to_task');
+	}
+
+}
+?>
+<#5091>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5092>
+<?php
 if(!$ilDB->tableExists('saml_attribute_mapping'))
 {
 	$ilDB->createTable(
@@ -18607,11 +18799,11 @@ if(!$ilDB->tableExists('saml_attribute_mapping'))
 	);
 }
 ?>
-<#5091>
+<#5093>
 <?php
 $ilDB->addPrimaryKey('saml_attribute_mapping', array('idp_id', 'attribute'));
 ?>
-<#5092>
+<#5094>
 <?php
 $ilDB->modifyTableColumn('saml_attribute_mapping', 'idp_attribute', array(
 	'type'    => 'text',
@@ -18620,7 +18812,7 @@ $ilDB->modifyTableColumn('saml_attribute_mapping', 'idp_attribute', array(
 	'default' => null
 ));
 ?>
-<#5093>
+<#5095>
 <?php
 $ilDB->addTableColumn('saml_attribute_mapping', 'update_automatically', array(
 	'type'    => 'integer',
@@ -18629,11 +18821,11 @@ $ilDB->addTableColumn('saml_attribute_mapping', 'update_automatically', array(
 	'default' => 0
 ));
 ?>
-<#5094>
+<#5096>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-<#5095>
+<#5097>
 <?php
 if(!$ilDB->tableExists('saml_idp_settings'))
 {
@@ -18654,11 +18846,11 @@ if(!$ilDB->tableExists('saml_idp_settings'))
 	);
 }
 ?>
-<#5096>
+<#5098>
 <?php
 $ilDB->addPrimaryKey('saml_idp_settings', array('idp_id'));
 ?>
-<#5097>
+<#5099>
 <?php
 if(!$ilDB->tableColumnExists('saml_idp_settings', 'allow_local_auth'))
 {
