@@ -855,6 +855,7 @@ return array(
     'ILIAS\\FileUpload\\Processor\\BlacklistExtensionPreProcessor' => $baseDir . '/../../src/FileUpload/Processor/BlacklistExtensionPreProcessor.php',
     'ILIAS\\FileUpload\\Processor\\BlacklistFileHeaderPreProcessor' => $baseDir . '/../../src/FileUpload/Processor/BlacklistFileHeaderPreProcessor.php',
     'ILIAS\\FileUpload\\Processor\\BlacklistMimeTypePreProcessor' => $baseDir . '/../../src/FileUpload/Processor/BlacklistMimeTypePreProcessor.php',
+    'ILIAS\\FileUpload\\Processor\\FilenameOverridePreProcessor' => $baseDir . '/../../src/FileUpload/Processor/FilenameOverridePreProcessor.php',
     'ILIAS\\FileUpload\\Processor\\PreProcessor' => $baseDir . '/../../src/FileUpload/Processor/PreProcessor.php',
     'ILIAS\\FileUpload\\Processor\\PreProcessorManager' => $baseDir . '/../../src/FileUpload/Processor/PreProcessorManager.php',
     'ILIAS\\FileUpload\\Processor\\PreProcessorManagerImpl' => $baseDir . '/../../src/FileUpload/Processor/PreProcessorManagerImpl.php',

@@ -999,6 +999,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ILIAS\\FileUpload\\Processor\\BlacklistExtensionPreProcessor' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/BlacklistExtensionPreProcessor.php',
         'ILIAS\\FileUpload\\Processor\\BlacklistFileHeaderPreProcessor' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/BlacklistFileHeaderPreProcessor.php',
         'ILIAS\\FileUpload\\Processor\\BlacklistMimeTypePreProcessor' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/BlacklistMimeTypePreProcessor.php',
+        'ILIAS\\FileUpload\\Processor\\FilenameOverridePreProcessor' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/FilenameOverridePreProcessor.php',
         'ILIAS\\FileUpload\\Processor\\PreProcessor' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/PreProcessor.php',
         'ILIAS\\FileUpload\\Processor\\PreProcessorManager' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/PreProcessorManager.php',
         'ILIAS\\FileUpload\\Processor\\PreProcessorManagerImpl' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/PreProcessorManagerImpl.php',

@@ -4137,6 +4137,9 @@ class ilUtil
 		global $DIC;
 
 		$upload = $DIC->upload();
+		$target_filename = basename($a_target);
+		$preProcessor = new \ILIAS\FileUpload\Processor\FilenameOverridePreProcessor($target_filename);
+		$upload->register($preProcessor);
 
 		$targetFilesystem = 0;
 		switch(true) {
