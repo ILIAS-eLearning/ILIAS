@@ -206,6 +206,9 @@ final class FileUploadImpl implements FileUpload {
 		$uploadedFiles = $this->globalHttpState->request()->getUploadedFiles();
 		foreach ($uploadedFiles as $file) {
 
+			if($file->getSize() === 0)
+				continue;
+
 			$metadata = new Metadata($file->getClientFilename(), $file->getSize(), $file->getClientMediaType());
 			$stream = Streams::ofPsr7Stream($file->getStream());
 			$this->uploadStreams[] = $stream;
