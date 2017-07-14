@@ -34,7 +34,7 @@ class VirusScannerPreProcessorTest extends TestCase {
 		$subject = new VirusScannerPreProcessor($mock);
 		$result = $subject->process($stream, new Metadata("MyVirus.exe", $stream->getSize(), 'application/vnd.microsoft.portable-executable'));
 		$this->assertSame(ProcessingStatus::REJECTED, $result->getCode());
-		$this->assertSame('Virus detected', $result->getMessage());
+		$this->assertSame('Virus detected.', $result->getMessage());
 	}
 
 
