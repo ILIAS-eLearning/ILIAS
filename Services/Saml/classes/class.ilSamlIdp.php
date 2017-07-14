@@ -282,7 +282,7 @@ class ilSamlIdp
 	{
 		if(!$a_auth_mode)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__ . ': No auth mode given..............');
+			$GLOBALS['DIC']->logger()->auth()->write(__METHOD__ . ': No auth mode given..............');
 			return false;
 		}
 
