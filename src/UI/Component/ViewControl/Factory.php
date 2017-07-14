@@ -64,4 +64,20 @@ interface Factory {
 	 */
 	public function section(Button $previous_action, Button $button, Button $next_action);
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      The sortation view control allows it to control the order in which some
+	 *      data is presented.
+	 *   composition: >
+	 *      TBD
+	 *   effect: >
+	 *      TBD
+	 *
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\ViewControl\Sortation
+	 */
+	public function sortation();
 }

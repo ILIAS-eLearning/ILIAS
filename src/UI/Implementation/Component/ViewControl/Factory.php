@@ -22,4 +22,11 @@ class Factory implements VC\Factory {
 	public function section(Button $previous_action, Button $button, Button $next_action) {
 		return new Section($previous_action, $button, $next_action);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function sortation() {
+		throw new \ILIAS\UI\NotImplementedException();
+	}
 }
