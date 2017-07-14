@@ -117,14 +117,14 @@ class BasicPersistenceTest extends TestCase {
 		}
 
 		// Create seven values
-		$valueConnector->shouldReceive("affectedRows")->time(7)->andReturn(0);
-		$valueConnector->shouldReceive("nextID")->time(7)->andReturn(1);
-		$valueConnector->shouldReceive("create")->time(7);
+		$valueConnector->shouldReceive("affectedRows")->times(7)->andReturn(0);
+		$valueConnector->shouldReceive("nextID")->times(7)->andReturn(1);
+		$valueConnector->shouldReceive("create")->times(7);
 
 		// Connect the seven values to the
-		$valueToTaskConnector->shouldReceive("affectedRows")->time(7)->andReturn(0);
-		$valueToTaskConnector->shouldReceive("nextID")->time(7)->andReturn(1);
-		$valueToTaskConnector->shouldReceive("create")->time(7);
+		$valueToTaskConnector->shouldReceive("affectedRows")->times(7)->andReturn(0);
+		$valueToTaskConnector->shouldReceive("nextID")->times(7)->andReturn(1);
+		$valueToTaskConnector->shouldReceive("create")->times(7);
 
 		$this->persistence->setConnector($bucketConnector);
 		$this->persistence->saveBucketAndItsTasks($this->bucket);
