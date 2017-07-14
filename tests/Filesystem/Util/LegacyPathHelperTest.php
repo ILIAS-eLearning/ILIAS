@@ -40,13 +40,15 @@ class LegacyPathHelperTest extends TestCase {
 
 		$iliasAbsolutePath = '/var/www/html/ilias';
 		$dataDir = '/var/www/ildata';
-		$webDir = 'web';
+		$webDir = 'data';
 		$clientId = 'default';
 
 		//constants needed for test subject
 		define("CLIENT_DATA_DIR", $dataDir . '/' . $clientId);
 		define("CLIENT_WEB_DIR", $iliasAbsolutePath . '/' . $webDir . '/' . $clientId);
 		define("ILIAS_ABSOLUTE_PATH", $iliasAbsolutePath);
+		define("ILIAS_WEB_DIR", $webDir);
+		define("CLIENT_ID", 'default');
 
 		$this->customizingPath = $iliasAbsolutePath . '/' . 'Customizing';
 		$this->webPath = CLIENT_WEB_DIR;
@@ -58,9 +60,9 @@ class LegacyPathHelperTest extends TestCase {
 
 		$containerMock = Mockery::mock(Container::class);
 		$containerMock->shouldReceive('filesystem')
-			->withNoArgs()
-			->zeroOrMoreTimes()
-			->andReturn($this->filesystemsMock);
+		              ->withNoArgs()
+		              ->zeroOrMoreTimes()
+		              ->andReturn($this->filesystemsMock);
 
 		$GLOBALS['DIC'] = $containerMock;
 	}
@@ -91,9 +93,9 @@ class LegacyPathHelperTest extends TestCase {
 		$target = $this->storagePath . '/testtarget';
 
 		$this->filesystemsMock
-				->shouldReceive('storage')
-				->once()
-				->andReturn(Mockery::mock(Filesystem::class));
+			->shouldReceive('storage')
+			->once()
+			->andReturn(Mockery::mock(Filesystem::class));
 
 		$filesystem = LegacyPathHelper::deriveFilesystemFrom($target);
 		$this->assertTrue($filesystem instanceof Filesystem,'Expecting filesystem instance.');
@@ -119,7 +121,7 @@ class LegacyPathHelperTest extends TestCase {
 	public function testCreateRelativePathWithWebTargetWhichShouldSucceed() {
 		$expectedPath = 'testtarget/subdir';
 		$target = $this->webPath . '/' . $expectedPath;
-		
+
 		$result = LegacyPathHelper::createRelativePath($target);
 		$this->assertEquals($expectedPath, $result);
 	}
