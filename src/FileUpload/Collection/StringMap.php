@@ -1,15 +1,6 @@
 <?php
-/**
- * Class ${NAME}
- *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- */
 
 namespace ILIAS\FileUpload\Collection;
-
-use ILIAS\FileUpload\Collection\Exception\ElementAlreadyExistsException;
-use ILIAS\FileUpload\Collection\Exception\NoSuchElementException;
-use ILIAS\FileUpload\Exception\IllegalArgumentException;
 
 /**
  * Class StringMap
@@ -33,7 +24,7 @@ interface StringMap extends ImmutableStringMap {
 	 *
 	 * @return void
 	 *
-	 * @throws IllegalArgumentException         Thrown if the key or value is not of the type
+	 * @throws \InvalidArgumentException         Thrown if the key or value is not of the type
 	 *                                          string.
 	 *
 	 * @since 5.3

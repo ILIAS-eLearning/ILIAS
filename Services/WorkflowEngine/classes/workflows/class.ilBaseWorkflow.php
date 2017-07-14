@@ -156,6 +156,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 		// Write the workflow to the database, so detectors find a parent id to save with them.
 		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
 		$this->active = true;
+		ilWorkflowDbHelper::writeWorkflow($this);
 		$this->onStartWorkflow();
 
 		// Figure out, if there is a start-node set - or nodes at all.
