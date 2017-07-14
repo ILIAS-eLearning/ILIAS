@@ -22,8 +22,6 @@ class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials implements
 	 */
 	public function initFromRequest()
 	{
-		$this->getLogger()->dump($_SERVER, ilLogLevel::DEBUG);
-
 		$this->setUsername('dummy');
 		$this->setPassword('');
 	}
