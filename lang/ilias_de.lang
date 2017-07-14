@@ -1549,6 +1549,7 @@ assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem lauf
 assessment#:#tst_types#:#Test-Typen
 assessment#:#tst_use_javascript#:#JavaScript für das Ziehen und Ablegen von Antworten verwenden
 assessment#:#tst_use_previous_answers#:#Verwendung vorheriger Lösungen
+assessment#:#use_previous_solution_advice#:#Die angezeigte Lösung wurde vormals von Ihnen abgegeben. Speichern Sie die vorbereitete Lösung unverändert oder angepasst, damit sie in den aktuellen Durchlauf übernommen wird. 
 assessment#:#tst_use_previous_answers_description#:#Zeigt Teilnehmern die Antworten aus dem vorherigen Testdurchlauf an. Die Option muss vom Teilnehmer vor Beginn des Tests auf dem Reiter 'Info' per Checkbox aktiviert werden.
 assessment#:#tst_use_previous_answers_user#:#Meine Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte verwenden
 assessment#:#tst_user_finished_test#:#Ein Teilnehmer hat den Test beendet (%s)
@@ -1778,7 +1779,7 @@ auth#:#auth_radius_charset_info#:#Wählen Sie hier die Zeichenkodierung aus, die
 auth#:#auth_radius_ldap#:#Synchronisierung über LDAP-Einstellungen
 auth#:#auth_radius_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutzerdaten und Rollenzuordnungen, gemäß der LDAP-Einstellungen vorgenommen.
 auth#:#auth_radius_sync_rad#:#Automatische Generierung von ILIAS-Benutzerkonten
-auth#:#auth_radius_sync_rad_info#:#Benutzer, die sich erfolgreich gegen Radius authentifiziert haben, jedoch über keinen ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
+auth#:#auth_radius_sync_rad_info#:#Benutzer, die sich erfolgreich gegen Radius authentifiziert haben, jedoch über kein ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
 auth#:#auth_sync#:#Benutzer-Synchronisierung
 auth#:#auth_sync_cas#:#Automatische Generierung von ILIAS-Benutzerkonten
 auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über keinen ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
@@ -7771,7 +7772,7 @@ exc#:#exc_deadline#:#Abgabetermin
 exc#:#exc_direct_submit_blog#:#Möchten Sie die aktuelle Version Ihres Blogs jetzt abgeben? Sie können dies auch jederzeit im Blog-Editor tun.
 exc#:#exc_direct_submit_portfolio#:#Möchten Sie die aktuelle Version Ihres Portfolios jetzt abgeben? Sie können dies auch jederzeit im Portfolio-Editor tun.
 exc#:#exc_edit_assignment#:#Einstellungen der Übungseinheit
-exc#:#exc_edit_assignments#:#Übungseinheiten bearbeitn
+exc#:#exc_edit_assignments#:#Übungseinheiten bearbeiten
 exc#:#exc_edit_submission#:#Eingereichte Lösungen ändern
 exc#:#exc_ended_on#:#Beendet am
 exc#:#exc_export_excel#:#Export (Excel)
@@ -12623,7 +12624,7 @@ common#:#soap_connect_timeout#:#Timeout für Verbindungsaufbau
 common#:#soap_connect_timeout_info#:#Die maximale Zeit in Sekunden, die gewartet wird, bis eine Verbindung zum SOAP-Web-Service aufgebaut werden kann.
 dateplaner#:#cal_ical_infoscreen#:#Abonnieren
 trac#:#trac_lp_on_personal_desktop#:#Lernfortschritt auf Persönlichem Schreibtisch
-trac#:#trac_lp_learner_access#:#Eigenen Lernfornschritt einsehen
+trac#:#trac_lp_learner_access#:#Eigenen Lernfortschritt einsehen
 rating#:#rating_categories#:#Bewertungs-Kategorien
 rating#:#rating_add_category#:#Kategorie hinzufügen
 rating#:#rating_category_create#:#Kategorie erstellen
@@ -13161,7 +13162,7 @@ common#:#qpl_copy#:#Fragenpool für Tests kopieren
 mathjax#:#mathjax_enable_mathjax_info#:#Aktiviert die LaTeX-Unterstützung mit MathJax, um mathematische Formeln ausgeben zu können.
 mathjax#:#mathjax_enable_mathjax#:#MathJax aktivieren
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#Zum Beispiel: http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML oder eine URL zu Ihrer lokalen Installation.
+mathjax#:#mathjax_path_to_mathjax_desc#:#Zum Beispiel: https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML oder eine URL zu Ihrer lokalen Installation.
 mathjax#:#mathjax_path_to_mathjax#:#URL zu MathJax
 mathjax#:#mathjax_settings#:#MathJax-Einstellungen
 mathjax#:#mathjax_limiter#:#Trennzeichen
@@ -13172,7 +13173,7 @@ content#:#cont_selected_topic#:#Ausgewähltes Thema
 content#:#cont_all_topics#:#Alle Themen
 content#:#cont_highlight_class#:#Klasse hervorheben
 survey#:#survey_question_pool_usage_active#:#Fragen können optional in einem Fragenpool angelegt werden
-survey#:#survey_question_pool_usage_active_info#:#Beim Anlegen einer Fragen muss jeweils entschieden werden, ob ein Fragenpool verwendet werden soll.
+survey#:#survey_question_pool_usage_active_info#:#Beim Anlegen einer Frage muss jeweils entschieden werden, ob ein Fragenpool verwendet werden soll.
 survey#:#survey_question_pool_usage_inactive#:#Fragen werden direkt in der Umfrage angelegt.
 survey#:#survey_question_pool_usage_inactive_info#:#Die Frage wird zuerst nur für diese Umfrage erstellt und kann später manuell zu einem Fragenpool hinzugefügt werden.
 dateplaner#:#cal_notification_crsgrp#:#Benachrichtigung für Kurs/Gruppenteilnehmer
@@ -16078,7 +16079,7 @@ wsp#:#wsp_shared_filter_reset_button#:#Suche zurücksetzen
 wsp#:#wsp_shared_filter_button#:#Suche
 wiki#:#wiki_page_title_too_long#:#Die Seite konnte nicht angelegt werden, da der Titel zu lang ist. Bitte wählen Sie einen kürzeren Seitentitel.
 exc#:#exc_direct_submit#:#Abgeben
-membership#:#mem_error_preconditions#:#Die Aufnahme konnte nicht erfolgen, da Vorbedingungen zum Beitritt nicht erfüllt sind.
+membership#:#mem_error_preconditions#:#Die Aufnahme konnte nicht erfolgen, da mindestens eine Einstellung dies verhindert.
 export#:#no_file#:#Keine Datei
 content#:#lm_no_download_files#:#Zurzeit stehen keine Download-Dateien zur Verfügung.
 rbac#:#feed_copy#:#Webfeed kopieren

@@ -383,11 +383,13 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		if ($active_id)
 		{
 			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
+			// hey: prevPassSolutions - obsolete due to central check
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			#{
+			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			#}
+			// hey.
 			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{

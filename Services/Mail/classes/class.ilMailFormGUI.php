@@ -181,9 +181,8 @@ class ilMailFormGUI
 			$_POST['m_subject'] = 'No title';
 		}
 
-		$draftsId = $this->mbox->getDraftsFolder();
-
-		$files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
+		$draftFolderId = $this->mbox->getDraftsFolder();
+		$files    = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
 
 		if($errorMessage = $this->umail->validateRecipients(
 			ilUtil::securePlainString($_POST['rcp_to']),
@@ -199,62 +198,35 @@ class ilMailFormGUI
 
 		if(isset($_SESSION["draft"]))
 		{
-			// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-			$this->umail->updateDraft($draftsId, $files,
-				ilUtil::securePlainString($_POST["rcp_to"]),
-				ilUtil::securePlainString($_POST["rcp_cc"]),
-				ilUtil::securePlainString($_POST["rcp_bcc"]),
-				$_POST["m_type"],
-				ilUtil::securePlainString($_POST["m_email"]),
-				ilUtil::securePlainString($_POST["m_subject"]),
-				ilUtil::securePlainString($_POST["m_message"]),
-				(int)$_SESSION["draft"],
-				(int)ilUtil::securePlainString($_POST['use_placeholders']),
-				ilMailFormCall::getContextId(),
-				ilMailFormCall::getContextParameters()
-				
-			);
+			$draftId = (int)$_SESSION['draft'];
 			unset($_SESSION['draft']);
-			ilUtil::sendInfo($this->lng->txt("mail_saved"), true);
-			
-            if(ilMailFormCall::isRefererStored())
-                ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
-            else
-               $this->ctrl->redirectByClass("ilmailfoldergui");
 		}
 		else
 		{
-			if ($this->umail->sendInternalMail($draftsId,$_SESSION["AccountId"],$files,
-					// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-					ilUtil::securePlainString($_POST["rcp_to"]),
-					ilUtil::securePlainString($_POST["rcp_cc"]),
-					ilUtil::securePlainString($_POST["rcp_bcc"]),
-					'read',
-					$_POST["m_type"],
-					ilUtil::securePlainString($_POST["m_email"]),
-					ilUtil::securePlainString($_POST["m_subject"]),
-					ilUtil::securePlainString($_POST["m_message"]),
-					$_SESSION["AccountId"],
-					0,
-					ilMailFormCall::getContextId(),
-					ilMailFormCall::getContextParameters()
-					)
-			)
-			{
-				ilUtil::sendInfo($this->lng->txt("mail_saved"),true);
-				#$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $this->mbox->getDraftsFolder());
-
-                if(ilMailFormCall::isRefererStored())
-                    ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
-                else
-                   $this->ctrl->redirectByClass("ilmailfoldergui");
-			}
-			else
-			{
-				ilUtil::sendInfo($this->lng->txt("mail_send_error"));
-			}
+			$draftId = $this->umail->getNewDraftId($GLOBALS['ilUser']->getId(), $draftFolderId);
 		}
-		
+
+		$this->umail->updateDraft($draftFolderId, $files,
+			ilUtil::securePlainString($_POST['rcp_to']),
+			ilUtil::securePlainString($_POST['rcp_cc']),
+			ilUtil::securePlainString($_POST['rcp_bcc']),
+			$_POST['m_type'],
+			ilUtil::securePlainString($_POST['m_email']),
+			ilUtil::securePlainString($_POST['m_subject']),
+			ilUtil::securePlainString($_POST['m_message']),
+			$draftId,
+			(int)$_POST['use_placeholders'],
+			ilMailFormCall::getContextId(),
+			ilMailFormCall::getContextParameters()
+		);
+
+		ilUtil::sendInfo($this->lng->txt('mail_saved'), true);
+
+		if(ilMailFormCall::isRefererStored())
+			ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
+		else
+			$this->ctrl->redirectByClass("ilmailfoldergui");
+
 		$this->showForm();
 	}
 

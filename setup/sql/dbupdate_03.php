@@ -13225,7 +13225,7 @@ if(trim($ade) && !trim($fbr))
 <#3761>
 <?php
 	$settings = new ilSetting('MathJax');
-	$settings->set('path_to_mathjax', 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML');
+	$settings->set('path_to_mathjax', 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML');
 ?>
 <#3762>
 <?php

@@ -355,22 +355,24 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		return $questionoutput;
 	}
 
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	// hey: prevPassSolutions - pass will be always available from now on
+	function getTestOutput($active_id, $pass, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	// hey.
 	{
 		// generate the question output
 		$template = new ilTemplate("tpl.il_as_qpl_fileupload_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		
 		if ($active_id)
 		{
-			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
-
-			// $files = $this->object->getUploadedFiles($active_id, $pass); // does not prefer intermediate but orders tstamp
-			$files = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+			// hey: prevPassSolutions - obsolete due to central check
+			#$solutions = NULL;
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			#{
+			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			#}
+			$files = $this->getTestOutputSolutions($active_id, $pass);
+			// hey.
 			include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
 			$table_gui = new assFileUploadFileTableGUI(null , $this->getQuestionActionCmd());
 			$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.svg', $this->lng->txt('already_delivered_files'));

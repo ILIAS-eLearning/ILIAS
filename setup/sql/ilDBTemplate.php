@@ -27741,7 +27741,7 @@ $ilDB->insert("lng_modules", array(
 'module' => array('text', 'fm'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:7:{s:15:"fm_settings_tab";s:12:"File Manager";s:18:"fm_settings_active";s:19:"Enable File Manager";s:23:"fm_settings_active_info";s:119:"Users can open categories, courses, groups and folders using the ‘Open With File Manager’ action in the repository.";s:17:"fm_settings_local";s:21:"Show Local Filesystem";s:22:"fm_settings_local_info";s:186:"If enabled, the file manager starts with two frames, one shows the local filesystem, the other contains the view on the ILIAS repository. If disabled, only the ILIAS repository is shown.";s:20:"fm_settings_filesize";s:24:"Maximum Upload File Size";s:25:"fm_settings_filesize_info";s:67:"Enter the maximum allowed file size for uploaded files in mebibyte.";}')));
 
 $ilDB->insert("lng_modules", array(
-'module' => array('text', 'mathjax'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:8:{s:27:"mathjax_enable_mathjax_info";s:77:"Activates support for MathJax based mathematical output of LaTeX expressions.";s:22:"mathjax_enable_mathjax";s:14:"Enable MathJax";s:15:"mathjax_mathjax";s:7:"MathJax";s:28:"mathjax_path_to_mathjax_desc";s:119:"E.g. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.";s:23:"mathjax_path_to_mathjax";s:14:"URL to MathJax";s:16:"mathjax_settings";s:16:"MathJax Settings";s:15:"mathjax_limiter";s:17:"Inline Delimiters";s:20:"mathjax_limiter_info";s:81:"Select the inline delimiters as they are configured in your MathJax installation.";}')));
+'module' => array('text', 'mathjax'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:8:{s:27:"mathjax_enable_mathjax_info";s:77:"Activates support for MathJax based mathematical output of LaTeX expressions.";s:22:"mathjax_enable_mathjax";s:14:"Enable MathJax";s:15:"mathjax_mathjax";s:7:"MathJax";s:28:"mathjax_path_to_mathjax_desc";s:119:"E.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.";s:23:"mathjax_path_to_mathjax";s:14:"URL to MathJax";s:16:"mathjax_settings";s:16:"MathJax Settings";s:15:"mathjax_limiter";s:17:"Inline Delimiters";s:20:"mathjax_limiter_info";s:81:"Select the inline delimiters as they are configured in your MathJax installation.";}')));
 
 $ilDB->insert("lng_modules", array(
 'module' => array('text', 'fold'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:3:{s:11:"fold_import";s:13:"Import Folder";s:9:"fold_copy";s:11:"Copy Folder";s:13:"fold_settings";s:15:"Folder Settings";}')));
@@ -46631,7 +46631,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'lp_learner'), 'value' => array('clob', '1')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'MathJax'), 'keyword' => array('text', 'path_to_mathjax'), 'value' => array('clob', 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML')));
+'module' => array('text', 'MathJax'), 'keyword' => array('text', 'path_to_mathjax'), 'value' => array('clob', 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'reuse_of_loginnames'), 'value' => array('clob', '1')));

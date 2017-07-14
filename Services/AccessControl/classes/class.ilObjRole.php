@@ -252,7 +252,7 @@ class ilObjRole extends ilObject
 	{
 		if (empty($a_allow_register))
 		{
-			$a_allow_register == 0;
+			$a_allow_register = 0;
 		}
 		
 		$this->allow_register = (int) $a_allow_register;

@@ -9881,7 +9881,7 @@ mathjax#:#mathjax_limiter#:#Odde_ova_e umiestnené v riadku
 mathjax#:#mathjax_limiter_info#:#Vyberte vložené odde_ova_e tak, ako sú konfigurované vo vašej inštalácii Mathjax.
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_path_to_mathjax#:#URL do MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#Napr. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML alebo URL adresa vašej lokácie.
+mathjax#:#mathjax_path_to_mathjax_desc#:#Napr. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML alebo URL adresa vašej lokácie.
 mathjax#:#mathjax_settings#:#MathJax nastavenia
 mcst#:#mcst_add_new_item#:#Prida_ novú položku Mediacast
 mcst#:#mcst_audioportable_settings_info#:#Zoznam prípon súborov oddelený _iarkou.
