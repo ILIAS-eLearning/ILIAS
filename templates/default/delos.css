@@ -6236,6 +6236,10 @@ button.close {
   font-size: 19px;
   text-transform: uppercase;
   color: #909090;
+  float: left;
+}
+.il-panel-listing-std-container .dropdown {
+  float: right;
 }
 /* this is currently experimental, could be removed */
 .il-narrow-content .il-panel-listing-std-container > h3,
@@ -6435,6 +6439,9 @@ a.btn-link.ilSubmitInactive:hover {
   background-color: #75deea;
   color: #000000;
 }
+.btn-link {
+  padding: 0;
+}
 h6.il-divider {
   padding: 3px 6px;
   background-color: #ececec;
@@ -6465,6 +6472,9 @@ hr.il-divider-with-label {
   font-size: 16px;
   float: left;
 }
+.il-item h5 .btn-link {
+  font-size: inherit;
+}
 .il-item .il-item-divider {
   clear: both;
   padding: 10px 0 0 0;
@@ -6493,6 +6503,9 @@ hr.il-divider-with-label {
 }
 .il-narrow-content .il-item:hover {
   background-color: #ffffd0;
+}
+.il-item-group {
+  clear: both;
 }
 .il-item-group h4 {
   float: left;

@@ -13559,3 +13559,5 @@ dateplaner#:#cal_exc_pass_mode#:#Pass Mode
 dateplaner#:#cal_exc_pass_mode_mandatory#:#Mandatory Assignment
 dateplaner#:#cal_exc_pass_mode_no_mandatory#:#Not Mandatory Assignment
 dateplaner#:#cal_sess_info#:#Session Information
+dateplaner#:#cal_agenda#:#Agenda
+dateplaner#:#cal_origin#:#Origin

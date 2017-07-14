@@ -545,7 +545,8 @@ interface Factory {
 	 *      An item displays a unique entity within the system. It shows information
 	 *      about that entity in a structured way.
 	 *   composition: >
-	 *      Items contain the name of the entity as a title. The item contains three
+	 *      Items contain the name of the entity as a title. The title MAY be interactive by using
+	 *      a Shy Button. The item contains three
 	 *      sections, where one section contains important information about the item,
 	 *      the second section shows the content of the item and another section shows
 	 *      metadata about the entity.

@@ -354,7 +354,10 @@ class ilCalendarPresentationGUI
 		
 		$ilHelp->setScreenIdComponent("cal");
 		
-		$this->tabs_gui->addTarget('cal_upcoming_events_header',$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
+		$this->tabs_gui->addTab('cal_upcoming_events_header',
+			$this->lng->txt("cal_agenda"),
+			$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
+		//$this->tabs_gui->addTarget('cal_upcoming_events_header',$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
 		
 		if(
 			$rbacsystem->checkAccess('add_consultation_hours', ilCalendarSettings::_getInstance()->getCalendarSettingsId()) and

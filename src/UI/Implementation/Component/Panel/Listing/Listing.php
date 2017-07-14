@@ -20,6 +20,11 @@ abstract class Listing implements C\Panel\Listing\Listing {
 	protected  $title;
 
 	/**
+	 * @var \ILIAS\UI\Component\Dropdown\Standard
+	 */
+	protected $actions = null;
+
+	/**
 	 * @var \ILIAS\UI\Component\Item\Group[]
 	 */
 	protected $item_groups = array();
@@ -43,6 +48,24 @@ abstract class Listing implements C\Panel\Listing\Listing {
 	 */
 	public function getItemGroups() {
 		return $this->item_groups;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withActions(\ILIAS\UI\Component\Dropdown\Standard $actions)
+	{
+		$clone = clone $this;
+		$clone->actions = $actions;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function getActions()
+	{
+		return $this->actions;
 	}
 
 }

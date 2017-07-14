@@ -562,5 +562,18 @@ class ilCalendarSchedule
 		
 		return true;
 	}
+
+	/**
+	 * Set period
+	 *
+	 * @param
+	 * @return
+	 */
+	function setPeriod(ilDate $a_start, ilDate $a_end)
+	{
+		$this->start = $a_start;
+		$this->end = $a_end;
+	}
+
 }
 ?>
