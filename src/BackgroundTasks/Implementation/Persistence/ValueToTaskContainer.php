@@ -49,7 +49,7 @@ class ValueToTaskContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getId(): int {
+	public function getId() {
 		return $this->id;
 	}
 
@@ -57,7 +57,7 @@ class ValueToTaskContainer extends \ActiveRecord {
 	/**
 	 * @param int $id
 	 */
-	public function setId(int $id) {
+	public function setId($id) {
 		$this->id = $id;
 	}
 
@@ -65,7 +65,7 @@ class ValueToTaskContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getTaskId(): int {
+	public function getTaskId() {
 		return $this->task_id;
 	}
 
@@ -73,7 +73,7 @@ class ValueToTaskContainer extends \ActiveRecord {
 	/**
 	 * @param int $task_id
 	 */
-	public function setTaskId(int $task_id) {
+	public function setTaskId($task_id) {
 		$this->task_id = $task_id;
 	}
 
@@ -81,7 +81,7 @@ class ValueToTaskContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getValueId(): int {
+	public function getValueId() {
 		return $this->value_id;
 	}
 
@@ -89,7 +89,7 @@ class ValueToTaskContainer extends \ActiveRecord {
 	/**
 	 * @param int $value_id
 	 */
-	public function setValueId(int $value_id) {
+	public function setValueId($value_id) {
 		$this->value_id = $value_id;
 	}
 
@@ -97,7 +97,7 @@ class ValueToTaskContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getBucketId(): int {
+	public function getBucketId() {
 		return $this->bucket_id;
 	}
 
@@ -105,7 +105,7 @@ class ValueToTaskContainer extends \ActiveRecord {
 	/**
 	 * @param int $bucket_id
 	 */
-	public function setBucketId(int $bucket_id) {
+	public function setBucketId($bucket_id) {
 		$this->bucket_id = $bucket_id;
 	}
 }

@@ -13,7 +13,7 @@ class SingleType implements Type, Ancestors {
 	 *
 	 * @param $fullyQualifiedClassName
 	 */
-	public function __construct(string $fullyQualifiedClassName) {
+	public function __construct($fullyQualifiedClassName) {
 		$this->type = new \ReflectionClass($fullyQualifiedClassName);
 	}
 

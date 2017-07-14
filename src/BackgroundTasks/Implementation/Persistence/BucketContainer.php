@@ -97,9 +97,9 @@ class BucketContainer extends \ActiveRecord {
 
 
 	/**
-	 * @param int $id
+	 * @param  $id
 	 */
-	public function setId(int $id) {
+	public function setId( $id) {
 		$this->id = $id;
 	}
 
@@ -107,15 +107,15 @@ class BucketContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getUserId(): int {
+	public function getUserId() {
 		return $this->user_id;
 	}
 
 
 	/**
-	 * @param int $user_id
+	 * @param  $user_id
 	 */
-	public function setUserId(int $user_id) {
+	public function setUserId( $user_id) {
 		$this->user_id = $user_id;
 	}
 
@@ -123,15 +123,15 @@ class BucketContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getRootTaskid(): int {
+	public function getRootTaskid() {
 		return $this->root_task_id;
 	}
 
 
 	/**
-	 * @param int $root_task_id
+	 * @param  $root_task_id
 	 */
-	public function setRootTaskid(int $root_task_id) {
+	public function setRootTaskid( $root_task_id) {
 		$this->root_task_id = $root_task_id;
 	}
 
@@ -139,15 +139,15 @@ class BucketContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getCurrentTaskid(): int {
+	public function getCurrentTaskid() {
 		return $this->current_task_id;
 	}
 
 
 	/**
-	 * @param int $current_task_id
+	 * @param  $current_task_id
 	 */
-	public function setCurrentTaskid(int $current_task_id) {
+	public function setCurrentTaskid( $current_task_id) {
 		$this->current_task_id = $current_task_id;
 	}
 
@@ -155,15 +155,15 @@ class BucketContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getState(): int {
+	public function getState() {
 		return $this->state;
 	}
 
 
 	/**
-	 * @param int $state
+	 * @param  $state
 	 */
-	public function setState(int $state) {
+	public function setState( $state) {
 		$this->state = $state;
 	}
 
@@ -171,15 +171,15 @@ class BucketContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getTotalNumberoftasks(): int {
+	public function getTotalNumberoftasks() {
 		return $this->total_number_of_tasks;
 	}
 
 
 	/**
-	 * @param int $total_number_of_tasks
+	 * @param  $total_number_of_tasks
 	 */
-	public function setTotalNumberoftasks(int $total_number_of_tasks) {
+	public function setTotalNumberoftasks( $total_number_of_tasks) {
 		$this->total_number_of_tasks = $total_number_of_tasks;
 	}
 
@@ -187,15 +187,15 @@ class BucketContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getPercentage(): int {
+	public function getPercentage() {
 		return $this->percentage;
 	}
 
 
 	/**
-	 * @param int $percentage
+	 * @param  $percentage
 	 */
-	public function setPercentage(int $percentage) {
+	public function setPercentage( $percentage) {
 		$this->percentage = $percentage;
 	}
 
@@ -203,7 +203,7 @@ class BucketContainer extends \ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getTitle(): string {
+	public function getTitle() {
 		return $this->title;
 	}
 
@@ -211,7 +211,7 @@ class BucketContainer extends \ActiveRecord {
 	/**
 	 * @param string $title
 	 */
-	public function setTitle(string $title) {
+	public function setTitle ($title) {
 		$this->title = $title;
 	}
 
@@ -219,7 +219,7 @@ class BucketContainer extends \ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getDescription(): string {
+	public function getDescription() {
 		return $this->description;
 	}
 
@@ -227,7 +227,7 @@ class BucketContainer extends \ActiveRecord {
 	/**
 	 * @param string $description
 	 */
-	public function setDescription(string $description) {
+	public function setDescription ($description) {
 		$this->description = $description;
 	}
 }

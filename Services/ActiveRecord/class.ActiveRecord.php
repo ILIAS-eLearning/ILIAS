@@ -509,6 +509,7 @@ abstract class ActiveRecord implements arStorageInterface {
 		} elseif (count($records) == 0 AND $this->ar_safe_read == false) {
 			$this->is_new = true;
 		}
+		$records = is_array($records) ? $records : array();
 		foreach ($records as $rec) {
 			foreach ($this->getArrayForConnector() as $k => $v) {
 				if ($this->wakeUp($k, $rec->{$k}) === null) {

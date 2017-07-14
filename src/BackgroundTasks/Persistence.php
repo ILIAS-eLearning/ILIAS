@@ -23,7 +23,7 @@ interface Persistence {
 	 *
 	 * @return \int[] Returns an array of bucket ids for the given user Id.
 	 */
-	public function getBucketIdsOfUser(int $user_id);
+	public function getBucketIdsOfUser($user_id);
 
 
 	/**
@@ -40,7 +40,7 @@ interface Persistence {
 	 * @return Bucket
 	 *
 	 */
-	public function loadBucket(int $bucket_container_id);
+	public function loadBucket($bucket_container_id);
 
 
 	/**
@@ -93,5 +93,5 @@ interface Persistence {
 	 *
 	 * @return BucketMeta[]
 	 */
-	public function getBucketMetaOfUser(int $user_id);
+	public function getBucketMetaOfUser($user_id);
 }

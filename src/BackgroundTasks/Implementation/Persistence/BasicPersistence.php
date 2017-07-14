@@ -98,7 +98,7 @@ class BasicPersistence implements Persistence {
 	/**
 	 * @inheritdoc
 	 */
-	public function getBucketIdsOfUser(int $user_id) {
+	public function getBucketIdsOfUser($user_id) {
 		$buckets = BucketContainer::where([ 'user_id' => $user_id ])->get();
 		$ids = array_map(function (BucketContainer $bucket_container) {
 			return $bucket_container->getId();
@@ -113,7 +113,7 @@ class BasicPersistence implements Persistence {
 	 *
 	 * @return BucketMeta[]
 	 */
-	public function getBucketMetaOfUser(int $user_id) {
+	public function getBucketMetaOfUser($user_id) {
 		$buckets = BucketContainer::where([ 'user_id' => $user_id ])->get();
 		$bucketMetas = array_map(function (BucketContainer $bucketContainer) {
 			$bucketMeta = new BasicBucketMeta();
@@ -189,7 +189,7 @@ class BasicPersistence implements Persistence {
 	 *
 	 * This will recursivly save a task.
 	 */
-	protected function saveTask(Task $task, int $bucketId) {
+	protected function saveTask(Task $task, $bucketId) {
 		// If the instance has a known container we use it, otherwise we create a new container.
 		if (isset($this->taskHashToTaskContainerId[spl_object_hash($task)])) {
 			$taskContainer = new TaskContainer($this->taskHashToTaskContainerId[spl_object_hash($task)], $this->connector);
@@ -224,7 +224,7 @@ class BasicPersistence implements Persistence {
 	 *                                     ids and delete old links.
 	 * @param int           $bucketId
 	 */
-	protected function saveValueToTask(Task $task, TaskContainer $taskContainer, int $bucketId) {
+	protected function saveValueToTask(Task $task, TaskContainer $taskContainer, $bucketId) {
 		// If we have previous values to task associations we delete them.
 		if ($taskContainer->getId()) {
 			/** @var ValueToTaskContainer[] $olds */
@@ -255,7 +255,7 @@ class BasicPersistence implements Persistence {
 	 *
 	 * Stores the value recursively.
 	 */
-	protected function saveValue(Value $value, int $bucketId) {
+	protected function saveValue(Value $value, $bucketId) {
 		// If we have previous values to task associations we delete them.
 		if (isset($this->valueHashToValueContainerId[spl_object_hash($value)])) {
 			$valueContainer = new ValueContainer($this->valueHashToValueContainerId[spl_object_hash($value)], $this->connector);
@@ -338,7 +338,7 @@ class BasicPersistence implements Persistence {
 	 *
 	 * @return Bucket
 	 */
-	public function loadBucket(int $bucket_id) {
+	public function loadBucket($bucket_id) {
 		if (isset(self::$buckets[$bucket_id])) {
 			return self::$buckets[$bucket_id];
 		}
@@ -374,7 +374,7 @@ class BasicPersistence implements Persistence {
 	 *
 	 * @return Task
 	 */
-	private function loadTask(int $taskContainerId, Bucket $bucket, BucketContainer $bucketContainer) {
+	private function loadTask($taskContainerId, Bucket $bucket, BucketContainer $bucketContainer) {
 		global $DIC;
 		$factory = $DIC->backgroundTasks()->taskFactory();
 		/** @var TaskContainer $taskContainer */
@@ -402,7 +402,7 @@ class BasicPersistence implements Persistence {
 	}
 
 
-	private function loadValue(int $valueContainerId, Bucket $bucket, BucketContainer $bucketContainer) {
+	private function loadValue($valueContainerId, Bucket $bucket, BucketContainer $bucketContainer) {
 		global $DIC;
 		$factory = $DIC->injector();
 
