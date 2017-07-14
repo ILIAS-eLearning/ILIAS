@@ -23,6 +23,11 @@ require_once("libs/composer/vendor/autoload.php");
 /**
  * Class BackgroundTaskTest
  *
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState    disabled
+ * @backupGlobals          disabled
+ * @backupStaticAttributes disabled
+ *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  */
 class TaskTest extends TestCase {

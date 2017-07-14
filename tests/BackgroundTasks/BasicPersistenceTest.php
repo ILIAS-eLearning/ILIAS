@@ -19,6 +19,7 @@ use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\EmptyDependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\Injector;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 
 require_once("libs/composer/vendor/autoload.php");
 require_once("./Services/ActiveRecord/Connector/class.arConnector.php");
@@ -27,9 +28,14 @@ require_once("./Services/ActiveRecord/Connector/class.arConnectorMap.php");
 /**
  * Class BackgroundTaskTest
  *
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState    disabled
+ * @backupGlobals          disabled
+ * @backupStaticAttributes disabled
+ *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  */
-class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
+class BasicPersistenceTest extends TestCase {
 
 	use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
@@ -126,7 +132,7 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCannotUpdateUnknownBucket() {
 		// We have an unknown observer, we can't update it.
-		$this->setExpectedException(SerializationException::class);
+		$this->expectException(SerializationException::class);
 
 		$this->persistence->updateBucket($this->bucket);
 	}
