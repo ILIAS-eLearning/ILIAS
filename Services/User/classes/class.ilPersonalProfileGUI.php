@@ -692,11 +692,27 @@ class ilPersonalProfileGUI
 	*/
 	function showPersonalData($a_no_init = false)
 	{
-		global $ilUser, $styleDefinition, $rbacreview, $ilias, $lng, $ilSetting, $ilTabs;
+		global $ilUser, $lng, $ilTabs, $DIC;
 		
 		$ilTabs->activateTab("personal_data");
+		$ctrl = $DIC->ctrl();
 
-		$settings = $ilias->getAllSettings();
+		$setting = new ilSetting("user");
+		$it = $setting->get("user_profile_info_".$ilUser->getLanguage());
+		if (trim($it) != "")
+		{
+			$pub_prof = in_array($ilUser->prefs["public_profile"], array("y", "n", "g"))
+				? $ilUser->prefs["public_profile"]
+				: "n";
+			if ($pub_prof == "n")
+			{
+				$button = $DIC->ui()->factory()->button()->shy("» " . $lng->txt("user_make_profile_public"),
+					$ctrl->getLinkTarget($this, "showPublicProfile"));
+				$it.= "<br><br>".$DIC->ui()->renderer()->render($button);
+			}
+			
+			ilUtil::sendInfo(nl2br($it));
+		}
 
 		$this->setHeader();
 

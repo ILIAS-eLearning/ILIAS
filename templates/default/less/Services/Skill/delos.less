@@ -79,3 +79,62 @@ div.ilSkillSuggRes {
 th.ilSkillEntryHead {
 	width: 250px;
 }
+
+.ilSkillEvalItem {
+	border-left: 5px solid;
+	margin: 2px 0;
+	padding: 10px;
+
+	> .row > div {
+		padding-top: 3px;
+		padding-bottom: 3px;
+	}
+}
+
+
+.ilSkillEvalItem.ilSkillEvalType1 {
+	border-color: @brand-info;
+}
+
+.ilSkillEvalItem.ilSkillEvalType2 {
+	border-color: @il-brand-3rd;
+}
+
+.ilSkillDescription, .ilSkillMaterial, .ilSkillSuggResources {
+	padding: 5px 10px 5px 15px;
+	> .row > div {
+		padding-top: 2px;
+		padding-bottom: 2px;
+	}
+}
+
+.ilSkillResourceList {
+	> h5 {
+		margin-top:25px;
+	}
+	> div {
+		padding: 5px 10px 5px 15px;
+		> .row > div {
+			padding-top: 2px;
+			padding-bottom: 2px;
+		}
+	}
+}
+
+
+
+.ilSkillEvalItem.ilSkillEvalType3 {
+	border-color: @brand-secondary;
+}
+
+.ilSkillEvalItem > .row > .ilSkillEvalType1 {
+	color: @brand-info;
+}
+
+.ilSkillEvalItem > .row > .ilSkillEvalType2 {
+	color: @il-brand-3rd;
+}
+
+.ilSkillEvalItem > .row > .ilSkillEvalType3 {
+	color: @brand-secondary;
+}

@@ -16013,3 +16013,9 @@ obj#:#obj_activation#:#Aktivierung
 obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren
 obj#:#obj_settings_for_all_members#:#Mitglieder werden automatisch benachrichtigt
 obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren
+skmg#:#skmg_eval_type_1#:#Fremdeinschätzung
+skmg#:#skmg_eval_type_2#:#Messung
+skmg#:#skmg_eval_type_3#:#Selbsteinschätzung
+user#:#user_profile_info#:#Infotext Benutzerprofil
+user#:#user_profile_info_text_info#:#Dieser Text erscheint über dem Eingabeformular der persönlichen Daten.
+user#:#user_make_profile_public#:#Profil veröffentlichen

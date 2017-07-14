@@ -102,3 +102,7 @@ if(!$ilDB->tableColumnExists('notification','activated'))
 		" activated = ".$this->db->quote(1, "integer"));
 }
 ?>
+<#7>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
