@@ -166,16 +166,33 @@ class FileUploadImplTest extends TestCase {
 
 
 	public function testIfUploadIsNotPresent() {
+		// No File-Upload Element
 		$this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
 		                          ->once()
 		                          ->andReturn([]);
 		$this->assertFalse($this->subject->hasUploads());
+
+		// Empty File-Upload Element
+		$uploadedFile = Mockery::mock(UploadedFileInterface::class);
+		$uploadedFile->shouldReceive('getSize')
+		             ->once()
+		             ->andReturn(0);
+
+		$this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
+		                          ->once()
+		                          ->andReturn([$uploadedFile]);
+		$this->assertFalse($this->subject->hasUploads());
 	}
 
 	public function testIfUploadIsPresent() {
+		$uploadedFile = Mockery::mock(UploadedFileInterface::class);
+		$uploadedFile->shouldReceive('getSize')
+		             ->once()
+		             ->andReturn(10);
+
 		$this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
 		                          ->once()
-		                          ->andReturn([Mockery::mock(UploadedFileInterface::class)]);
+		                          ->andReturn([ $uploadedFile ]);
 		$this->assertTrue($this->subject->hasUploads());
 	}
 
