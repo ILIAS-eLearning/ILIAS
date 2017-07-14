@@ -148,4 +148,12 @@ class Container extends \Pimple\Container {
 	public function backgroundTasks() {
 		return new BackgroundTaskServices($this);
 	}
+
+
+	/**
+	 * @return HTTPServices
+	 */
+	public function http() {
+		return $this['http'];
+	}
 }
