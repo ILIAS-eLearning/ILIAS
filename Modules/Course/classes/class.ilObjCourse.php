@@ -2163,7 +2163,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$this->course_logger->debug('Max members: ' . $max);
 		$this->course_logger->debug('Current members: ' . $now);
 		
-		if($max >= $now)
+		if($max <= $now)
 		{
 			return;
 		}
