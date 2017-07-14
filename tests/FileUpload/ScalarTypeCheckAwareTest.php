@@ -2,7 +2,7 @@
 
 namespace ILIAS\FileUpload;
 
-use ILIAS\FileUpload\Exception\IllegalArgumentException;
+use PHPUnit\Framework\TestCase;
 
 require_once './libs/composer/vendor/autoload.php';
 
@@ -16,7 +16,7 @@ require_once './libs/composer/vendor/autoload.php';
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class ScalarTypeCheckAwareTest extends \PHPUnit_Framework_TestCase {
+class ScalarTypeCheckAwareTest extends TestCase {
 
 	/**
 	 * @var ScalarTypeCheckAware $subject
@@ -40,7 +40,8 @@ class ScalarTypeCheckAwareTest extends \PHPUnit_Framework_TestCase {
 		$testInt = 1010101;
 		$name = 'testInt';
 
-		$this->setExpectedException(IllegalArgumentException::class, "The $name must be of type string but integer was given.");
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage("The $name must be of type string but integer was given.");
 
 		$this->callPrivateMethod($this->subject, 'stringTypeCheck', [$testInt, $name]);
 	}
@@ -53,7 +54,8 @@ class ScalarTypeCheckAwareTest extends \PHPUnit_Framework_TestCase {
 		$testString = 'Hello World';
 		$name = 'testInt';
 
-		$this->setExpectedException(IllegalArgumentException::class, "The $name must be of type integer but string was given.");
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage("The $name must be of type integer but string was given.");
 
 		$this->callPrivateMethod($this->subject, 'intTypeCheck', [$testString, $name]);
 	}

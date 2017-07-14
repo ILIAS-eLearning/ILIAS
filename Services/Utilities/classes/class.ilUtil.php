@@ -1,10 +1,12 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @defgroup ServicesUtilities Services/Utilities
+/**
+ * @defgroup ServicesUtilities Services/Utilities
  */
-use ILIAS\Filesystem\MetadataType;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
+use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\Filesystem\MetadataType;
 
 /**
 * Util class
@@ -4114,19 +4116,53 @@ class ilUtil
 
 
 	/**
-	* move uploaded file
-	* 
-	* @static
-	* 
-	*/
+	 * move uploaded file
+	 *
+	 * @static
+	 *
+	 * @param string $a_file
+	 * @param string $a_name
+	 * @param string $a_target
+	 * @param bool   $a_raise_errors
+	 * @param string $a_mode
+	 *
+	 * @return bool
+	 *
+	 * @deprecated in favour of the FileUplad service.
+	 *
+	 * @see \ILIAS\DI\Container::upload()
+	 */
 	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true,
 		$a_mode = "move_uploaded")
 	{
-		global $lng, $ilias;
-//echo "<br>ilUtli::moveuploadedFile($a_name)";
 
-		if (!is_file($a_file))
-		{
+		global $lng, $ilias, $DIC;
+
+		$upload = $DIC->upload();
+
+		$targetFilesystem = 0;
+		switch(true) {
+			case strpos($a_target, CLIENT_WEB_DIR) === 0:
+				$targetFilesystem =  \ILIAS\FileUpload\Location::WEB;
+				break;
+			case strpos($a_target, CLIENT_DATA_DIR) === 0:
+				$targetFilesystem =  \ILIAS\FileUpload\Location::STORAGE;
+				break;
+			case strpos($a_target, ILIAS_ABSOLUTE_PATH . '/Customizing') === 0:
+				$targetFilesystem =  \ILIAS\FileUpload\Location::CUSTOMIZING;
+				break;
+			default:
+				throw new InvalidArgumentException("Can not move files to \"$a_target\" because path can not be mapped to web, storage or customizing location.");
+		}
+
+		$absTargetDir = dirname($a_target);
+		$targetDir = LegacyPathHelper::createRelativePath($absTargetDir);
+
+		$upload->process();
+		$upload->moveFilesTo($targetDir, $targetFilesystem);
+
+		$uploadedFiles = $upload->getResults();
+		if(count($uploadedFiles) === 0 || $uploadedFiles[0]->getStatus() === ProcessingStatus::REJECTED) {
 			if ($a_raise_errors)
 			{
 				$ilias->raiseError($lng->txt("upload_error_file_not_found"), $ilias->error_obj->MESSAGE);
@@ -4138,45 +4174,7 @@ class ilUtil
 			return false;
 		}
 
-		// virus handling
-		$vir = ilUtil::virusHandling($a_file, $a_name);
-		if (!$vir[0])
-		{
-			unlink($a_file);
-			if ($a_raise_errors)
-			{
-				$ilias->raiseError($lng->txt("file_is_infected")."<br />".
-					$vir[1],
-					$ilias->error_obj->MESSAGE);
-			}
-			else
-			{
-				ilUtil::sendFailure($lng->txt("file_is_infected")."<br />".
-					$vir[1], true);
-			}
-			return false;
-		}
-		else
-		{
-			if ($vir[1] != "")
-			{
-				ilUtil::sendInfo($vir[1], true);
-			}
-			switch ($a_mode)
-			{
-				case "rename":
-					return rename($a_file, $a_target);
-					break;
-
-				case "copy":
-					return copy($a_file, $a_target);
-					break;
-
-				default:
-					return move_uploaded_file($a_file, $a_target);
-					break;
-			}
-		}
+		return true;
 	}
 
 

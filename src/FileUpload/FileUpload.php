@@ -3,7 +3,6 @@
 namespace ILIAS\FileUpload;
 
 use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\FileUpload\Exception\IllegalArgumentException;
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\FileUpload\Processor\PreProcessor;
 
@@ -36,7 +35,7 @@ interface FileUpload {
 	 *
 	 * @throws IllegalStateException        Thrown if the files are not processed before invoking
 	 *                                      the moveFilesTo method.
-	 * @throws IllegalArgumentException     Thrown if the location is invalid.
+	 * @throws \InvalidArgumentException    Thrown if the location is invalid.
 	 * @since 5.3
 	 *
 	 * @see   Location
@@ -48,6 +47,7 @@ interface FileUpload {
 	 * Returns the current upload size limit in bytes.
 	 *
 	 * @return int
+	 * @since 5.3
 	 */
 	public function uploadSizeLimit();
 
