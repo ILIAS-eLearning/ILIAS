@@ -567,7 +567,8 @@
             "getid3",
             "metadata",
             "tags"
-        ]
+        ],
+        "abandoned": "james-heinrich/getid3"
     },
     {
         "name": "filp/whoops",
@@ -1149,5 +1150,218 @@
             }
         ],
         "description": "A polyfill for getallheaders."
+    },
+    {
+        "name": "whitehat101/apr1-md5",
+        "version": "v1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/whitehat101/apr1-md5.git",
+            "reference": "8b261c9fc0481b4e9fa9d01c6ca70867b5d5e819"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/whitehat101/apr1-md5/zipball/8b261c9fc0481b4e9fa9d01c6ca70867b5d5e819",
+            "reference": "8b261c9fc0481b4e9fa9d01c6ca70867b5d5e819",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "4.0.*"
+        },
+        "time": "2015-02-11T11:06:42+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "WhiteHat101\\Crypt\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jeremy Ebler",
+                "email": "jebler@gmail.com"
+            }
+        ],
+        "description": "Apache's APR1-MD5 algorithm in pure PHP",
+        "homepage": "https://github.com/whitehat101/apr1-md5",
+        "keywords": [
+            "MD5",
+            "apr1"
+        ]
+    },
+    {
+        "name": "robrichards/xmlseclibs",
+        "version": "1.4.2",
+        "version_normalized": "1.4.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/robrichards/xmlseclibs.git",
+            "reference": "79fb5e03c4ee4dc3ec77e4b2628231374364a017"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/robrichards/xmlseclibs/zipball/79fb5e03c4ee4dc3ec77e4b2628231374364a017",
+            "reference": "79fb5e03c4ee4dc3ec77e4b2628231374364a017",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">= 5.2"
+        },
+        "suggest": {
+            "ext/mcrypt": "MCrypt extension",
+            "ext/openssl": "OpenSSL extension"
+        },
+        "time": "2016-09-08T13:31:44+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "description": "A PHP library for XML Security",
+        "homepage": "https://github.com/robrichards/xmlseclibs",
+        "keywords": [
+            "security",
+            "signature",
+            "xml",
+            "xmldsig"
+        ]
+    },
+    {
+        "name": "simplesamlphp/saml2",
+        "version": "v1.9.1",
+        "version_normalized": "1.9.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/simplesamlphp/saml2.git",
+            "reference": "2a2bd4398257cbe72251c68348be72707cc77262"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/simplesamlphp/saml2/zipball/2a2bd4398257cbe72251c68348be72707cc77262",
+            "reference": "2a2bd4398257cbe72251c68348be72707cc77262",
+            "shasum": ""
+        },
+        "require": {
+            "ext-dom": "*",
+            "ext-openssl": "*",
+            "php": ">=5.3.3",
+            "psr/log": "~1.0",
+            "robrichards/xmlseclibs": "^1.3"
+        },
+        "require-dev": {
+            "mockery/mockery": "~0.9",
+            "phpmd/phpmd": "~1.5",
+            "phpunit/phpunit": "~3.7",
+            "satooshi/php-coveralls": "~0.6.1",
+            "sebastian/phpcpd": "~1.4",
+            "sensiolabs/security-checker": "~1.1",
+            "squizlabs/php_codesniffer": "~1.4"
+        },
+        "time": "2016-12-02T12:45:13+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "SAML2_": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Andreas Åkre Solberg",
+                "email": "andreas.solberg@uninett.no"
+            }
+        ],
+        "description": "SAML2 PHP library from SimpleSAMLphp"
+    },
+    {
+        "name": "simplesamlphp/simplesamlphp",
+        "version": "v1.14.14",
+        "version_normalized": "1.14.14.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/simplesamlphp/simplesamlphp.git",
+            "reference": "0329e7fd0e9f356211a002f5b7c79da4543b5efe"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp/zipball/0329e7fd0e9f356211a002f5b7c79da4543b5efe",
+            "reference": "0329e7fd0e9f356211a002f5b7c79da4543b5efe",
+            "shasum": ""
+        },
+        "require": {
+            "ext-date": "*",
+            "ext-dom": "*",
+            "ext-hash": "*",
+            "ext-json": "*",
+            "ext-mbstring": "*",
+            "ext-openssl": "*",
+            "ext-pcre": "*",
+            "ext-spl": "*",
+            "ext-zlib": "*",
+            "php": ">=5.3",
+            "robrichards/xmlseclibs": "~1.4.1",
+            "simplesamlphp/saml2": "~1.9.1",
+            "whitehat101/apr1-md5": "~1.0"
+        },
+        "require-dev": {
+            "ext-pdo_sqlite": "*",
+            "phpunit/phpunit": "~3.7",
+            "satooshi/php-coveralls": "^1.0"
+        },
+        "time": "2017-05-05T10:52:35+00:00",
+        "type": "project",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "SimpleSAML": "lib/"
+            },
+            "files": [
+                "lib/_autoload_modules.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Olav Morken",
+                "email": "olav.morken@uninett.no"
+            },
+            {
+                "name": "Andreas Åkre Solberg",
+                "email": "andreas.solberg@uninett.no"
+            }
+        ],
+        "description": "A PHP implementation of SAML 2.0 service provider and identity provider functionality. And is also compatible with Shibboleth 1.3 and 2.0.",
+        "homepage": "http://simplesamlphp.org",
+        "keywords": [
+            "OpenId",
+            "SAML2",
+            "aselect",
+            "idp",
+            "oauth",
+            "shibboleth",
+            "sp",
+            "ws-federation"
+        ]
     }
 ]
