@@ -13564,3 +13564,7 @@ exc#:#exc_chars_remaining#:#Characters remaining:
 exc#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
 exc#:#msg_input_char_limit_max#:#You have entered more characters than allowed.
 exc#:#exc_direct_no_submit#:#Do not submit
+obj#:#obj_activation#:#Activation
+obj#:#obj_user_decides_notification#:#Members have to manually activate notifications
+obj#:#obj_settings_for_all_members#:#Members will be notified automatically
+obj#:#obj_user_not_disable_not#:#Member are not allowed to deactivate notifications

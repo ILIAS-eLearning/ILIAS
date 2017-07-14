@@ -39,7 +39,8 @@ class ilNotification
 		$set = $ilDB->query("SELECT user_id FROM notification".
 				" WHERE type = ".$ilDB->quote($type, "integer").
 				" AND user_id = ".$ilDB->quote($user_id, "integer").
-				" AND id = ".$ilDB->quote($id, "integer"));
+				" AND id = ".$ilDB->quote($id, "integer").
+				" AND activated = ".$ilDB->quote(1, "integer"));
 		return (bool)$ilDB->numRows($set);
 	}
 
@@ -54,29 +55,113 @@ class ilNotification
 	 */
 	public static function getNotificationsForObject($type, $id, $page_id = null, $ignore_threshold = false)
 	{
-		global $ilDB;
+		global $DIC;
 
-		$sql = "SELECT user_id FROM notification".
-			" WHERE type = ".$ilDB->quote($type, "integer").
-			" AND id = ".$ilDB->quote($id, "integer");
-		if(!$ignore_threshold)
+		$ilDB = $DIC->database();
+		$tree = $DIC->repositoryTree();
+
+		include_once("./Services/Notification/classes/class.ilObjNotificationSettings.php");
+
+		// currently done for blog
+		$recipients = array();
+		$setting = new ilObjNotificationSettings($id);
+		if ($setting->getMode() != ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION)
 		{
-			$sql .= " AND (last_mail < ".$ilDB->quote(date("Y-m-d H:i:s", 
-				strtotime("-".self::THRESHOLD."minutes")), "timestamp").
-				" OR last_mail IS NULL";
-			if($page_id)
+			foreach (ilObject::_getAllReferences($id) as $ref_id)
 			{
-				$sql .= " OR page_id <> ".$ilDB->quote($page_id, "integer");
+				$grp_ref_id = $tree->checkForParentType($ref_id, 'grp');
+				if ($grp_ref_id > 0)
+				{
+					include_once("./Modules/Group/classes/class.ilGroupParticipants.php");
+					$p = ilGroupParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($grp_ref_id));
+					foreach ($p->getMembers() as $user_id)
+					{
+						if (!in_array($user_id, $recipients))
+						{
+							$recipients[$user_id] = $user_id;
+						}
+					}
+				}
+				$crs_ref_id = $tree->checkForParentType($ref_id, 'crs');
+				if ($crs_ref_id > 0)
+				{
+					include_once("./Modules/Course/classes/class.ilCourseParticipants.php");
+					$p = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($crs_ref_id));
+					foreach ($p->getMembers() as $user_id)
+					{
+						if (!in_array($user_id, $recipients))
+						{
+							$recipients[$user_id] = $user_id;
+						}
+					}
+				}
+			}
+		}
+
+		// remove all users that deactivated the feature
+		if ($setting->getMode() == ilObjNotificationSettings::MODE_DEF_ON_OPT_OUT)
+		{
+			$sql = "SELECT user_id FROM notification" .
+				" WHERE type = " . $ilDB->quote($type, "integer") .
+				" AND id = " . $ilDB->quote($id, "integer") .
+				" AND activated = " . $ilDB->quote(0, "integer").
+				" AND ".$ilDB->in("user_id", $recipients, false, "integer");
+			$set = $ilDB->query($sql);
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				unset($recipients[$rec["user_id"]]);
+			}
+		}
+
+		// remove all users that got a mail
+		if ($setting->getMode() != ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION && !$ignore_threshold)
+		{
+			$sql = "SELECT user_id FROM notification" .
+				" WHERE type = " . $ilDB->quote($type, "integer") .
+				" AND id = " . $ilDB->quote($id, "integer") .
+				" AND activated = " . $ilDB->quote(1, "integer").
+				" AND ".$ilDB->in("user_id", $recipients, false, "integer");
+			$sql .= " AND (last_mail > " . $ilDB->quote(date("Y-m-d H:i:s",
+				strtotime("-" . self::THRESHOLD . "minutes")), "timestamp");
+			if ($page_id)
+			{
+				$sql .= " AND page_id = " . $ilDB->quote($page_id, "integer");
 			}
 			$sql .= ")";
+
+			$set = $ilDB->query($sql);
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				unset($recipients[$rec["user_id"]]);
+			}
 		}
-		$user = array();
-		$set = $ilDB->query($sql);
-		while($row = $ilDB->fetchAssoc($set))
+
+		// get single subscriptions
+		if ($setting->getMode() != ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT)
 		{
-			$user[] = $row["user_id"];
+			$sql = "SELECT user_id FROM notification" .
+				" WHERE type = " . $ilDB->quote($type, "integer") .
+				" AND id = " . $ilDB->quote($id, "integer") .
+				" AND activated = " . $ilDB->quote(1, "integer");
+			if (!$ignore_threshold)
+			{
+				$sql .= " AND (last_mail < " . $ilDB->quote(date("Y-m-d H:i:s",
+						strtotime("-" . self::THRESHOLD . "minutes")), "timestamp") .
+					" OR last_mail IS NULL";
+				if ($page_id)
+				{
+					$sql .= " OR page_id <> " . $ilDB->quote($page_id, "integer");
+				}
+				$sql .= ")";
+			}
+			$set = $ilDB->query($sql);
+			while ($row = $ilDB->fetchAssoc($set))
+			{
+				$recipients[$row["user_id"]] = $row["user_id"];
+			}
 		}
-		return $user;
+
+		return $recipients;
 	}
 
 	/**
@@ -86,28 +171,17 @@ class ilNotification
 	 * @param	int		$user_id
 	 * @param	int		$id
 	 * @param	bool	$status
-	 * @return	bool
 	 */
 	public static function setNotification($type, $user_id, $id, $status = true)
 	{
 		global $ilDB;
 
-		if(!$status)
-		{
-			$ilDB->query("DELETE FROM notification".
-				" WHERE type = ".$ilDB->quote($type, "integer").
-				" AND user_id = ".$ilDB->quote($user_id, "integer").
-				" AND id = ".$ilDB->quote($id, "integer"));
-		}
-		else
-		{
-			$fields = array(
-				"type" => array("integer", $type),
-				"user_id" => array("integer", $user_id),
-				"id" => array("integer", $id)
-			);			
-			$ilDB->replace("notification", $fields, array());			
-		}
+		$fields = array(
+			"type" => array("integer", $type),
+			"user_id" => array("integer", $user_id),
+			"id" => array("integer", $id)
+		);
+		$ilDB->replace("notification", $fields, array("activated" => array("integer", (int) $status)));
 	}
 
 	/**

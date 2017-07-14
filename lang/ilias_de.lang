@@ -16009,3 +16009,7 @@ exc#:#exc_chars_remaining#:#Verbleibende Zeichen
 exc#:#msg_input_char_limit_min#:#Sie müssen die festgelegte Mindestanzahl an Zeichen eingeben. Ihr Beitrag ist zu kurz.
 exc#:#msg_input_char_limit_max#:#Sie müssen die festgelegte Höchstzahl von Zeichen beachten. Ihr Beitrag ist zu lang.
 exc#:#exc_direct_no_submit#:#Nicht abgeben
+obj#:#obj_activation#:#Aktivierung
+obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren
+obj#:#obj_settings_for_all_members#:#Mitglieder werden automatisch benachrichtigt
+obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren

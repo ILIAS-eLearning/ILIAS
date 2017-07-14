@@ -15,7 +15,7 @@ require_once "./Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
 * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
-* @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjStyleSheetGUI, ilBlogExerciseGUI
+* @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjStyleSheetGUI, ilBlogExerciseGUI, ilObjNotificationSettingsGUI
 *
 * @extends ilObject2GUI
 */
@@ -94,6 +94,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	
 	protected function setSettingsSubTabs($a_active)
 	{
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+		$access = $DIC->access();
+
 		// general properties
 		$this->tabs_gui->addSubTab("properties",
 			$this->lng->txt("blog_properties"),
@@ -102,7 +107,24 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$this->tabs_gui->addSubTab("style",
 			$this->lng->txt("obj_sty"),
 			$this->ctrl->getLinkTarget($this, 'editStyleProperties'));
-		
+
+		// notification settings for blogs in courses and groups
+		if($this->id_type == self::REPOSITORY_NODE_ID)
+		{
+			$grp_ref_id = $tree->checkForParentType($this->object->getRefId(), 'grp');
+			$crs_ref_id = $tree->checkForParentType($this->object->getRefId(), 'crs');
+
+			if ((int)$grp_ref_id > 0 || (int)$crs_ref_id > 0)
+			{
+				if ($access->checkAccess('write', '', $this->ref_id))
+				{
+					$this->tabs_gui->addSubTab('notifications',
+						$this->lng->txt("notifications"),
+						$this->ctrl->getLinkTargetByClass("ilobjnotificationsettingsgui", ''));
+				}
+			}
+		}
+
 		$this->tabs_gui->activateSubTab($a_active);
 	}
 
@@ -706,6 +728,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$this->ctrl->setReturn($this, "render");
 				include_once "Modules/Blog/classes/class.ilBlogExerciseGUI.php";
 				$gui = new ilBlogExerciseGUI($this->node_id);
+				$this->ctrl->forwardCommand($gui);
+				break;
+
+			case 'ilobjnotificationsettingsgui':
+				$this->prepareOutput();
+				$ilTabs->activateTab("settings");
+				$this->setSettingsSubTabs("notifications");
+				include_once("./Services/Notification/classes/class.ilObjNotificationSettingsGUI.php");
+				$gui = new ilObjNotificationSettingsGUI($this->object->getRefId());
 				$this->ctrl->forwardCommand($gui);
 				break;
 
