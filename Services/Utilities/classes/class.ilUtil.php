@@ -4132,16 +4132,16 @@ class ilUtil
 	 *
 	 * @see \ILIAS\DI\Container::upload()
 	 */
-	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true,
-		$a_mode = "move_uploaded")
+	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded")
 	{
-
-		global $lng, $ilias, $DIC;
+		global $DIC;
 
 		$upload = $DIC->upload();
 
 		$targetFilesystem = 0;
 		switch(true) {
+			case strpos($a_target, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
+			case strpos($a_target, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
 			case strpos($a_target, CLIENT_WEB_DIR) === 0:
 				$targetFilesystem =  \ILIAS\FileUpload\Location::WEB;
 				break;
@@ -4162,15 +4162,13 @@ class ilUtil
 		$upload->moveFilesTo($targetDir, $targetFilesystem);
 
 		$uploadedFiles = $upload->getResults();
-		if(count($uploadedFiles) === 0 || $uploadedFiles[0]->getStatus() === ProcessingStatus::REJECTED) {
-			if ($a_raise_errors)
-			{
-				$ilias->raiseError($lng->txt("upload_error_file_not_found"), $ilias->error_obj->MESSAGE);
+		if (count($uploadedFiles) === 0 || $uploadedFiles[0]->getStatus() === ProcessingStatus::REJECTED ) {
+			if ($a_raise_errors) {
+				throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
+			} else {
+				ilUtil::sendFailure($DIC->language()->txt("upload_error_file_not_found"), true);
 			}
-			else
-			{
-				ilUtil::sendFailure($lng->txt("upload_error_file_not_found"), true);
-			}
+
 			return false;
 		}
 
