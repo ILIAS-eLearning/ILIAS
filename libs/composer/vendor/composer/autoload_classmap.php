@@ -859,6 +859,7 @@ return array(
     'ILIAS\\FileUpload\\Processor\\PreProcessor' => $baseDir . '/../../src/FileUpload/Processor/PreProcessor.php',
     'ILIAS\\FileUpload\\Processor\\PreProcessorManager' => $baseDir . '/../../src/FileUpload/Processor/PreProcessorManager.php',
     'ILIAS\\FileUpload\\Processor\\PreProcessorManagerImpl' => $baseDir . '/../../src/FileUpload/Processor/PreProcessorManagerImpl.php',
+    'ILIAS\\FileUpload\\Processor\\VirusScannerPreProcessor' => $baseDir . '/../../src/FileUpload/Processor/VirusScannerPreProcessor.php',
     'ILIAS\\FileUpload\\Processor\\WhitelistExtensionPreProcessor' => $baseDir . '/../../src/FileUpload/Processor/WhitelistExtensionPreProcessor.php',
     'ILIAS\\FileUpload\\Processor\\WhitelistFileHeaderPreProcessor' => $baseDir . '/../../src/FileUpload/Processor/WhitelistFileHeaderPreProcessor.php',
     'ILIAS\\FileUpload\\Processor\\WhitelistMimeTypePreProcessor' => $baseDir . '/../../src/FileUpload/Processor/WhitelistMimeTypePreProcessor.php',

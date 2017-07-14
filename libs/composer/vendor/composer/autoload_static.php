@@ -1003,6 +1003,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ILIAS\\FileUpload\\Processor\\PreProcessor' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/PreProcessor.php',
         'ILIAS\\FileUpload\\Processor\\PreProcessorManager' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/PreProcessorManager.php',
         'ILIAS\\FileUpload\\Processor\\PreProcessorManagerImpl' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/PreProcessorManagerImpl.php',
+        'ILIAS\\FileUpload\\Processor\\VirusScannerPreProcessor' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/VirusScannerPreProcessor.php',
         'ILIAS\\FileUpload\\Processor\\WhitelistExtensionPreProcessor' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/WhitelistExtensionPreProcessor.php',
         'ILIAS\\FileUpload\\Processor\\WhitelistFileHeaderPreProcessor' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/WhitelistFileHeaderPreProcessor.php',
         'ILIAS\\FileUpload\\Processor\\WhitelistMimeTypePreProcessor' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/WhitelistMimeTypePreProcessor.php',
