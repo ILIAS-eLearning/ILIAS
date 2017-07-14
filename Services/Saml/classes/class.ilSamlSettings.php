@@ -1,5 +1,4 @@
 <?php
-// saml-patch: begin
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -48,11 +47,10 @@ class ilSamlSettings
 	}
 
 	/**
-	 * @param $dislayed_on_login_page boolean
+	 * @param $displayed_on_login_page boolean
 	 */
-	public function setLoginFormStatus($dislayed_on_login_page)
+	public function setLoginFormStatus($displayed_on_login_page)
 	{
-		$this->settings->set('login_form', (int)$dislayed_on_login_page);
+		$this->settings->set('login_form', (int)$displayed_on_login_page);
 	}
 }
-// saml-patch: end

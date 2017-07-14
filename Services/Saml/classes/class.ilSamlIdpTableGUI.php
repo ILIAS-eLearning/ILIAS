@@ -24,13 +24,10 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
 	{
-		/** @var $ilCtrl ilCtrl */
-		global $ilCtrl;
-
 		$this->setId('saml_idp_list');
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
-		$this->ctrl = $ilCtrl;
+		$this->ctrl = $GLOBALS['DIC']->ctrl();
 
 		$this->setTitle($this->lng->txt('auth_saml_idps'));
 		$this->setRowTemplate('tpl.saml_idp_row.html','Services/Saml');

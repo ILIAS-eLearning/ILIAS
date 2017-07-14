@@ -1494,7 +1494,7 @@ class ilStartUpGUI
 	*/
 	function showLogout()
 	{
-		global $tpl, $ilSetting, $lng, $ilIliasIniFile, $ilUser;
+		global $tpl, $ilSetting, $lng, $ilIliasIniFile;
 		
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
 		$GLOBALS['DIC']['ilAuthSession']->logout();
@@ -1511,7 +1511,7 @@ class ilStartUpGUI
 		$client_id = $_COOKIE["ilClientId"];
 		ilUtil::setCookie("ilClientId","");
 
-		if((int)$ilUser->getAuthMode(true) == AUTH_SAML && ilSession::get('used_external_auth'))
+		if((int)$GLOBALS['DIC']->user()->getAuthMode(true) == AUTH_SAML && ilSession::get('used_external_auth'))
 		{
 			ilSession::set('used_external_auth', false);
 			ilUtil::setCookie("SAMLSESSID","");
@@ -2283,11 +2283,6 @@ class ilStartUpGUI
 	 */
 	protected function showSamlLoginForm($page_editor_html)
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
 		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
 		require_once 'Services/Saml/classes/class.ilSamlSettings.php';
 
@@ -2302,9 +2297,9 @@ class ilStartUpGUI
 			}
 
 			$tpl->setVariable('SAML_SCRIPT_URL', './saml.php' . $return);
-			$tpl->setVariable('TXT_LOGIN', $lng->txt('saml_log_in'));
-			$tpl->setVariable('TXT_SAML_LOGIN_TXT', $lng->txt('saml_login_form_txt'));
-			$tpl->setVariable('TXT_SAML_LOGIN_INFO_TXT', $lng->txt('saml_login_form_info_txt'));
+			$tpl->setVariable('TXT_LOGIN', $GLOBALS['DIC']->language()->txt('saml_log_in'));
+			$tpl->setVariable('TXT_SAML_LOGIN_TXT', $GLOBALS['DIC']->language()->txt('saml_login_form_txt'));
+			$tpl->setVariable('TXT_SAML_LOGIN_INFO_TXT', $GLOBALS['DIC']->language()->txt('saml_login_form_info_txt'));
 
 			return $this->substituteLoginPageElements(
 				$GLOBALS['tpl'],
@@ -2356,11 +2351,11 @@ class ilStartUpGUI
 				return ilInitialisation::redirectToStartingPage();
 
 			case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
-				return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
+				return $GLOBALS['DIC']->ctrl()->redirect($this, 'showAccountMigration');
 
 			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
 				ilUtil::sendFailure($status->getTranslatedReason(),true);
-				$GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
+				$GLOBALS['DIC']->ctrl()->redirect($this, 'showLoginPage');
 				return false;
 		}
 

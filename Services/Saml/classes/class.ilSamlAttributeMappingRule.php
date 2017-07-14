@@ -1,5 +1,4 @@
 <?php
-// saml-patch: begin
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -71,4 +70,3 @@ class ilSamlAttributeMappingRule
 		$this->update_automatically = $update_automatically;
 	}
 }
-// saml-patch: end

@@ -1,5 +1,4 @@
 <?php
-// saml-patch: begin
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Saml/classes/class.ilSamlAttributeMappingRule.php';
@@ -219,4 +218,3 @@ class ilSamlAttributeMapping implements ArrayAccess, Countable, Iterator
 		$this->db->manipulate('DELETE FROM saml_attribute_mapping WHERE idp_id = ' . $this->db->quote($this->getIdpId()));
 	}
 }
-// saml-patch: end

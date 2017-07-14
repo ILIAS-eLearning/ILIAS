@@ -1,5 +1,4 @@
 <?php
-// saml-patch: begin
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Saml/classes/class.ilSamlSettings.php';
@@ -613,4 +612,3 @@ class ilSamlSettingsGUI
 		$this->showIdpSettings($form);
 	}
 }
-// saml-patch: end

@@ -1,5 +1,4 @@
 <?php
-// saml-patch: begin
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -52,4 +51,3 @@ class ilSamlAttributesHolder
 		self::$return_to = $return_to;
 	}
 }
-// saml-patch: end

@@ -87,12 +87,7 @@ class ilSamlIdp
 	 */
 	protected function __construct($a_idp_id = 0)
 	{
-		/**
-		 * @var $ilDB ilDB
-		 */
-		global $ilDB;
-
-		$this->db     = $ilDB;
+		$this->db     = $GLOBALS['DIC']->database();
 		$this->idp_id = $a_idp_id;
 
 		if($this->idp_id > 0)
