@@ -140,4 +140,12 @@ class Container extends \Pimple\Container {
 	public function upload() {
 		return $this['upload'];
 	}
+
+
+	/**
+	 * @return BackgroundTaskServices
+	 */
+	public function backgroundTasks() {
+		return new BackgroundTaskServices($this);
+	}
 }
