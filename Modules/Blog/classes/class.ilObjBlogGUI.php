@@ -2555,8 +2555,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 				$ilCtrl->setParameter($this, "ntf", 1);
 				$link = $ilCtrl->getLinkTarget($this, "setNotification");
-				$ilCtrl->setParameter($this, "ntf", "");				
-				$lg->addCustomCommand($link, "blog_notification_toggle_off");
+				$ilCtrl->setParameter($this, "ntf", "");
+				if (ilNotification::hasOptOut($this->obj_id))
+				{
+					$lg->addCustomCommand($link, "blog_notification_toggle_off");
+				}
 				
 				$lg->addHeaderIcon("not_icon",
 					ilUtil::getImagePath("notification_on.svg"),

@@ -34,14 +34,87 @@ class ilNotification
 	 */
 	public static function hasNotification($type, $user_id, $id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$tree = $DIC->repositoryTree();
+
+		$notification = false;
+
+		include_once("./Services/Notification/classes/class.ilObjNotificationSettings.php");
+		$setting = new ilObjNotificationSettings($id);
+		if ($setting->getMode() != ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION)
+		{
+			// check membership, members should be notidifed...
+			foreach (ilObject::_getAllReferences($id) as $ref_id)
+			{
+				$grp_ref_id = $tree->checkForParentType($ref_id, 'grp');
+				if ($grp_ref_id > 0)
+				{
+					include_once("./Modules/Group/classes/class.ilGroupParticipants.php");
+					if (ilGroupParticipants::_isParticipant($grp_ref_id, $user_id))
+					{
+						$notification = true;
+					}
+				}
+				$crs_ref_id = $tree->checkForParentType($ref_id, 'crs');
+				if ($crs_ref_id > 0)
+				{
+					include_once("./Modules/Course/classes/class.ilCourseParticipants.php");
+					if (ilCourseParticipants::_isParticipant($crs_ref_id, $user_id))
+					{
+						$notification = true;
+					}
+				}
+			}
+
+			if ($notification && $setting->getMode() == ilObjNotificationSettings::MODE_DEF_ON_OPT_OUT)
+			{
+				$set = $ilDB->query("SELECT user_id FROM notification" .
+					" WHERE type = " . $ilDB->quote($type, "integer") .
+					" AND user_id = " . $ilDB->quote($user_id, "integer") .
+					" AND id = " . $ilDB->quote($id, "integer") .
+					" AND activated = " . $ilDB->quote(0, "integer"));
+				$rec = $ilDB->fetchAssoc($set);
+				// ... except when the opted out
+				if ($rec["user_id"] == $user_id)
+				{
+					return false;
+				}
+				return true;
+			}
+
+			if ($notification && $setting->getMode() == ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT)
+			{
+				return true;
+			}
+		}
+
 
 		$set = $ilDB->query("SELECT user_id FROM notification".
-				" WHERE type = ".$ilDB->quote($type, "integer").
-				" AND user_id = ".$ilDB->quote($user_id, "integer").
-				" AND id = ".$ilDB->quote($id, "integer").
-				" AND activated = ".$ilDB->quote(1, "integer"));
+			" WHERE type = ".$ilDB->quote($type, "integer").
+			" AND user_id = ".$ilDB->quote($user_id, "integer").
+			" AND id = ".$ilDB->quote($id, "integer").
+			" AND activated = ".$ilDB->quote(1, "integer"));
+
 		return (bool)$ilDB->numRows($set);
+	}
+
+	/**
+	 * Is opt out (disable notification) allowed?
+	 *
+	 * @param	int		$obj_id
+	 * @return	bool
+	 */
+	public static function hasOptOut($obj_id)
+	{
+		include_once("./Services/Notification/classes/class.ilObjNotificationSettings.php");
+		$setting = new ilObjNotificationSettings($obj_id);
+		if ($setting->getMode() == ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT)
+		{
+			return false;
+		}
+		return true;
 	}
 
 	/**
