@@ -163,7 +163,7 @@ class ilWebAccessChecker {
 	 * @param string $message
 	 * @return void
 	 */
-	protected function sendHeader(string $message) {
+	protected function sendHeader($message) {
 		$response = $this->http->response()->withHeader('X-ILIAS-WebAccessChecker', $message);
 		$this->http->saveResponse($response);
 	}
