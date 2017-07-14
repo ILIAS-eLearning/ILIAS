@@ -156,7 +156,7 @@ class ilSamlIdp
 
 	/**
 	 * @return self
-	 * @throws ilException
+	 * @throws \ilSamlException
 	 */
 	public static function getFirstActiveIdp()
 	{
@@ -166,8 +166,8 @@ class ilSamlIdp
 			return current($idps);
 		}
 
-		require_once 'Services/Exceptions/classes/class.ilException.php';
-		throw new ilException('No active SAML IDP found');
+		require_once 'Services/Saml/exceptions/class.ilSamlException.php';
+		throw new \ilSamlException('No active SAML IDP found');
 	}
 
 	/**
