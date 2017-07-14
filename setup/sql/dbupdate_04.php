@@ -18768,4 +18768,8 @@ if (! $ilDB->tableExists('il_bt_value_to_task')) {
 
 }
 ?>
+<#5091>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
 
