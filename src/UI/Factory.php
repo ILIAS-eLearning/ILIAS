@@ -662,4 +662,36 @@ interface Factory {
 	 */
 	public function chart();
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A Floatable overlays all other content on the screen. It's free floating
+	 *     nature allows the positioning to some fitting space on the screen. They may
+	 *     persist during navigational changes allowing to cary information through
+	 *     different screens.
+	 *   composition: >
+	 *      Floatables consist of a Title and a glyphed close-button in a header and a
+	 *      content area placed bellow which may offer actions.
+	 *   effect: >
+	 *      Floatables may persist while users navigate through the system. They are
+	 *      closed by clicking the Close glyph in the Instructional Overlay or
+	 *      by completing some action offered inside the floatable. Floatables can be
+	 *      moved around on the screen and positioned at will: Users can
+	 *      grab and drag it around by grabbing the header.
+	 *   rivals:
+	 *     1: >
+	 *       Popovers always point the the source that triggered the popover.
+	 *     2: >
+	 *       Modals are not movable and oppress interaction with any other part of the
+	 *       screen.
+	 *
+	 * rules:
+	 *   accessibility:
+	 *      1: Floatables MUST be accessible by keyboard.
+	 * ---
+	 * @return \ILIAS\UI\Component\Floatable\Factory
+	 */
+	public function floatable();
+
 }
