@@ -126,7 +126,7 @@ class BasicPersistenceTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCannotUpdateUnknownBucket() {
 		// We have an unknown observer, we can't update it.
-		$this->setExpectedException(SerializationException::class);
+		$this->expectException(SerializationException::class);
 
 		$this->persistence->updateBucket($this->bucket);
 	}
