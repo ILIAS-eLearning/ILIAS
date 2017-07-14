@@ -35,12 +35,7 @@ class ilSamlAttributeMapping implements ArrayAccess, Countable, Iterator
 	 */
 	protected function __construct($idp_id)
 	{
-		/**
-		 * $ilDB ilDB
-		 */
-		global $ilDB;
-
-		$this->db = $ilDB;
+		$this->db = $GLOBALS['DIC']->database();
 
 		$this->setIdpId($idp_id);
 
