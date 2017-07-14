@@ -1207,11 +1207,12 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		{
 			return $manual_feedback;
 		}
+		$useAuthorizedSolution = $this->isLastSolutionSubmitAuthorized($active_id, $pass);
 		$correct_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true);
 		$incorrect_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false);
 		if (strlen($correct_feedback.$incorrect_feedback))
 		{
-			$reached_points = $this->object->calculateReachedPoints($active_id, $pass);
+			$reached_points = $this->object->calculateReachedPoints($active_id, $pass, (bool)$useAuthorizedSolution);
 			$max_points = $this->object->getMaximumPoints();
 			if ($reached_points == $max_points)
 			{
