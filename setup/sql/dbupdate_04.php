@@ -18548,3 +18548,224 @@ while ($rec = $ilDB->fetchAssoc($set))
 		}
 	}
 ?>
+<#5089>
+<?php
+$signature = "\n\n* * * * *\n";
+$signature .= "[CLIENT_NAME]\n";
+$signature .= "[CLIENT_DESC]\n";
+$signature .= "[CLIENT_URL]\n";
+
+$ilSetting = new ilSetting();
+
+$prevent_smtp_globally        = $ilSetting->get('prevent_smtp_globally', 0);
+$mail_system_sender_name      = $ilSetting->get('mail_system_sender_name', '');
+$mail_external_sender_noreply = $ilSetting->get('mail_external_sender_noreply', '');
+$mail_system_return_path      = $ilSetting->get('mail_system_return_path', '');
+
+$ilSetting->set('mail_allow_external', !(int)$prevent_smtp_globally);
+
+$ilSetting->set('mail_system_usr_from_addr', $mail_external_sender_noreply);
+$ilSetting->set('mail_system_usr_from_name', $mail_system_sender_name);
+$ilSetting->set('mail_system_usr_env_from_addr', $mail_system_return_path);
+
+$ilSetting->set('mail_system_sys_from_addr', $mail_external_sender_noreply);
+$ilSetting->set('mail_system_sys_from_name', $mail_system_sender_name);
+$ilSetting->set('mail_system_sys_reply_to_addr', $mail_external_sender_noreply);
+$ilSetting->set('mail_system_sys_env_from_addr', $mail_system_return_path);
+
+$ilSetting->set('mail_system_sys_signature', $signature);
+
+$ilSetting->delete('prevent_smtp_globally');
+$ilSetting->delete('mail_system_return_path');
+$ilSetting->delete('mail_system_sender_name');
+$ilSetting->delete('mail_external_sender_noreply');
+?>
+<#5090>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'user_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'root_task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'current_task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'state' => array(
+		'type' => 'integer',
+		'length' => '2',
+
+	),
+	'total_number_of_tasks' => array(
+		'type' => 'integer',
+		'length' => '4',
+
+	),
+	'percentage' => array(
+		'type' => 'integer',
+		'length' => '2',
+
+	),
+	'title' => array(
+		'type' => 'text',
+		'length' => '255',
+
+	),
+	'description' => array(
+		'type' => 'text',
+		'length' => '255',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_bucket')) {
+	$ilDB->createTable('il_bt_bucket', $fields);
+	$ilDB->addPrimaryKey('il_bt_bucket', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_bucket')) {
+		$ilDB->createSequence('il_bt_bucket');
+	}
+
+}
+
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'type' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_path' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_name' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'bucket_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_task')) {
+	$ilDB->createTable('il_bt_task', $fields);
+	$ilDB->addPrimaryKey('il_bt_task', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_task')) {
+		$ilDB->createSequence('il_bt_task');
+	}
+
+}
+
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'has_parent_task' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+	'parent_task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'hash' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'type' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_path' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_name' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'serialized' => array(
+		'type' => 'clob',
+
+	),
+	'bucket_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_value')) {
+	$ilDB->createTable('il_bt_value', $fields);
+	$ilDB->addPrimaryKey('il_bt_value', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_value')) {
+		$ilDB->createSequence('il_bt_value');
+	}
+
+}
+
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'value_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'bucket_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_value_to_task')) {
+	$ilDB->createTable('il_bt_value_to_task', $fields);
+	$ilDB->addPrimaryKey('il_bt_value_to_task', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_value_to_task')) {
+		$ilDB->createSequence('il_bt_value_to_task');
+	}
+
+}
+?>
+

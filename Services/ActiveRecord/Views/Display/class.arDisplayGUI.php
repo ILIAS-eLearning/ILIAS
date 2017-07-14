@@ -108,7 +108,7 @@ class arDisplayGUI {
 
 
 	protected function initTemplate() {
-		$this->setTemplate(new ilTemplate("tpl.display.html", true, true, "Customizing/global/plugins/Libraries/ActiveRecord"));
+		$this->setTemplate(new ilTemplate("tpl.display.html", true, true, "Services/ActiveRecord"));
 	}
 
 

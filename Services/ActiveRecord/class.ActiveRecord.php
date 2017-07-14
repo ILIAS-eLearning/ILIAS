@@ -108,10 +108,10 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @param arConnector $connector
 	 */
 	public function __construct($primary_key = 0, arConnector $connector = null) {
-		if ($connector == null) {
-			$connector = new arConnectorDB();
-		}
-		arConnectorMap::register($this, $connector);
+//		if ($connector == null) {
+//			$connector = new arConnectorDB();
+//		}
+//		arConnectorMap::register($this, $connector);
 
 		$arFieldList = arFieldCache::get($this);
 

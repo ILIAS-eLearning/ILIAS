@@ -12,104 +12,116 @@ use ILIAS\Filesystem\Filesystems;
  * to help IDEs when using ILIAS.
  */
 class Container extends \Pimple\Container {
+
 	/**
 	 * Get interface to the Database.
 	 *
-	 * @return	\ilDB
+	 * @return    \ilDB
 	 */
 	public function database() {
 		return $this["ilDB"];
 	}
 
+
 	/**
 	 * Get interface to get interfaces to all things rbac.
 	 *
-	 * @return	RBACServices
+	 * @return    RBACServices
 	 */
 	public function rbac() {
 		return new RBACServices($this);
 	}
 
+
 	/**
 	 * Get the interface to the control structure.
 	 *
-	 * @return	\ilCtrl
+	 * @return    \ilCtrl
 	 */
 	public function ctrl() {
 		return $this["ilCtrl"];
 	}
 
+
 	/**
 	 * Get the current user.
 	 *
-	 * @return	\ilObjUser
+	 * @return    \ilObjUser
 	 */
 	public function user() {
 		return $this["ilUser"];
 	}
 
+
 	/**
 	 * Get interface for access checks.
 	 *
-	 * @return	\ilAccessHandler
+	 * @return    \ilAccessHandler
 	 */
 	public function access() {
 		return $this["ilAccess"];
 	}
 
+
 	/**
 	 * Get interface to the repository tree.
 	 *
-	 * @return	\ilTree
+	 * @return    \ilTree
 	 */
 	public function repositoryTree() {
 		return $this["tree"];
 	}
 
+
 	/**
 	 * Get interface to the i18n service.
 	 *
-	 * @return	\ilLanguage
+	 * @return    \ilLanguage
 	 */
 	public function language() {
 		return $this["lng"];
 	}
 
+
 	/**
 	 * Get interface to get interfaces to different loggers.
 	 *
-	 * @return	LoggingServices
+	 * @return    LoggingServices
 	 */
 	public function logger() {
 		return new LoggingServices($this);
 	}
 
+
 	/**
 	 * Get interface to the toolbar.
 	 *
-	 * @return	\ilToolbarGUI
+	 * @return    \ilToolbarGUI
 	 */
 	public function toolbar() {
 		return $this["ilToolbar"];
 	}
 
+
 	/**
 	 * Get interface to the i18n service.
 	 *
-	 * @return	\ilLanguage
+	 * @return    \ilTabsGUI
 	 */
 	public function tabs() {
 		return $this["ilTabs"];
 	}
 
+
 	/**
 	 * Get the interface to get services from UI framework.
 	 *
-	 * @return	UIServices
+	 * @return    UIServices
 	 */
 	public function ui() {
 		return new UIServices($this);
 	}
+
 
 	/**
 	 * Get the interface to the settings
@@ -128,5 +140,21 @@ class Container extends \Pimple\Container {
 	 */
 	public function filesystem() {
 		return $this['filesystem'];
+	}
+
+
+	/**
+	 * @return \ILIAS\BackgroundTasks\Dependencies\Injector
+	 */
+	public function injector() {
+		return $this["di.injector"];
+	}
+
+
+	/**
+	 * @return BackgroundTaskServices
+	 */
+	public function backgroundTasks() {
+		return new BackgroundTaskServices($this);
 	}
 }
