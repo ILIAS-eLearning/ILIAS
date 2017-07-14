@@ -273,6 +273,6 @@ class ilMailOptions
 					break;
 			}
 		}
-		return $external_emails;
+		return array_unique($external_emails);
 	}
 } 

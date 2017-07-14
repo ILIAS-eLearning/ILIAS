@@ -772,8 +772,6 @@ class ilMail
 	 */
 	protected function distributeMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_subject, $a_message, $a_attachments, $sent_mail_id, $a_type, $a_action, $a_use_placeholders = 0)
 	{
-		//todo nadia: test second email 
-		
 		require_once 'Services/Mail/classes/class.ilMailbox.php';
 		require_once 'Services/User/classes/class.ilObjUser.php';
 
