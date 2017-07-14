@@ -13543,7 +13543,6 @@ rbac#:#stys_sty_write_content#:#Edit Content Styles
 style#:#manage_system_styles#:#Manage System Styles
 style#:#scope#:#Scope
 dateplaner#:#cal_download_all_files#:#Download all Files
-dateplaner#:#cal_origin#:#Origin
 dateplaner#:#cal_owner#:#Owner
 dateplaner#:#cal_location#:#Location
 dateplaner#:#cal_details_workflow#:#Details/Workflow
