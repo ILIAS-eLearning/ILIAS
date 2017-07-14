@@ -264,4 +264,17 @@ final class FileUploadImpl implements FileUpload {
 
 		throw new IllegalStateException('Can not fetch results without processing the uploads.');
 	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function hasUploads() {
+		if ($this->moved) {
+			return false;
+		}
+		$uploadedFiles = $this->globalHttpState->request()->getUploadedFiles();
+
+		return (count($uploadedFiles) > 0);
+	}
 }

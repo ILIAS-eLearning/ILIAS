@@ -90,4 +90,14 @@ interface FileUpload {
 	 * @since 5.3
 	 */
 	public function getResults();
+
+
+	/**
+	 * Return (bool)true if one ore more file-uploads are in the current request, (bool)false if not
+	 *
+	 * @return bool
+	 *
+	 * @since 5.3
+	 */
+	public function hasUploads();
 }

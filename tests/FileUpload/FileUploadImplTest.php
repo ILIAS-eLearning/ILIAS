@@ -69,9 +69,9 @@ class FileUploadImplTest extends TestCase {
 	public function testRegisterWithProcessedFilesWhichShouldFail() {
 		$processorMock = \Mockery::mock(PreProcessor::class);
 
-		$this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
-			->once()
-			->andReturn([]);
+			$this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
+				->once()
+				->andReturn([]);
 
 		$this->expectException(IllegalStateException::class);
 		$this->expectExceptionMessage('Can not register processor after the upload was processed.');
@@ -162,6 +162,21 @@ class FileUploadImplTest extends TestCase {
 
 		$result = $this->subject->getResults()[0];
 		$this->assertSame(ProcessingStatus::REJECTED, $result->getStatus()->getCode());
+	}
+
+
+	public function testIfUploadIsNotPresent() {
+		$this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
+		                          ->once()
+		                          ->andReturn([]);
+		$this->assertFalse($this->subject->hasUploads());
+	}
+
+	public function testIfUploadIsPresent() {
+		$this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
+		                          ->once()
+		                          ->andReturn([Mockery::mock(UploadedFileInterface::class)]);
+		$this->assertTrue($this->subject->hasUploads());
 	}
 
 
