@@ -3,8 +3,8 @@
 namespace ILIAS\BackgroundTasks\Implementation\Values;
 
 use ILIAS\BackgroundTasks\Value;
-use ILIAS\BackgroundTasks\ValueType;
-use ILIAS\Types\Type;
+//use ILIAS\BackgroundTasks\ValueType;
+use ILIAS\BackgroundTasks\Types\Type;
 
 /**
  * Class ThunkValue

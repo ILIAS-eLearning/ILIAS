@@ -12,7 +12,7 @@ trait BasicScalarValueFactory {
 	 *
 	 * @return BooleanValue
 	 */
-	protected function boolean(bool $bool) {
+	protected function boolean($bool) {
 		$value = new BooleanValue();
 		$value->setValue($bool);
 
@@ -25,7 +25,7 @@ trait BasicScalarValueFactory {
 	 *
 	 * @return FloatValue
 	 */
-	protected function float(float $float) {
+	protected function float($float) {
 		$value = new FloatValue();
 		$value->setValue($float);
 
@@ -38,7 +38,7 @@ trait BasicScalarValueFactory {
 	 *
 	 * @return IntegerValue
 	 */
-	protected function integer(int $integer) {
+	protected function integer($integer) {
 		$value = new IntegerValue();
 		$value->setValue($integer);
 
@@ -51,7 +51,7 @@ trait BasicScalarValueFactory {
 	 *
 	 * @return StringValue
 	 */
-	protected function string(string $string) {
+	protected function string($string) {
 		$value = new StringValue();
 		$value->setValue($string);
 

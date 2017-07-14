@@ -22,7 +22,7 @@ class UserInteractionOption implements Option {
 	 * @param string $lang_var
 	 * @param        $value
 	 */
-	public function __construct(string $lang_var, $value) {
+	public function __construct($lang_var, $value) {
 		$this->lang_var = $lang_var;
 		$this->value = $value;
 	}
@@ -31,7 +31,7 @@ class UserInteractionOption implements Option {
 	/**
 	 * @return string
 	 */
-	public function getLangVar(): string {
+	public function getLangVar() {
 		return $this->lang_var;
 	}
 
@@ -39,7 +39,7 @@ class UserInteractionOption implements Option {
 	/**
 	 * @param string $lang_var
 	 */
-	public function setLangVar(string $lang_var) {
+	public function setLangVar($lang_var) {
 		$this->lang_var = $lang_var;
 	}
 

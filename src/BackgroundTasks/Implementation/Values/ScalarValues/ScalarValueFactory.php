@@ -18,7 +18,7 @@ interface ScalarValueFactory {
 	 *
 	 * @return BooleanValue
 	 */
-	public function boolean(bool $bool);
+	public function boolean($bool);
 
 
 	/**
@@ -26,7 +26,7 @@ interface ScalarValueFactory {
 	 *
 	 * @return FloatValue
 	 */
-	public function float(float $float);
+	public function float($float);
 
 
 	/**
@@ -34,7 +34,7 @@ interface ScalarValueFactory {
 	 *
 	 * @return IntegerValue
 	 */
-	public function integer(int $integer);
+	public function integer($integer);
 
 
 	/**
@@ -42,7 +42,7 @@ interface ScalarValueFactory {
 	 *
 	 * @return StringValue
 	 */
-	public function string(string $string);
+	public function string($string);
 
 
 	/**

@@ -57,7 +57,7 @@ class TaskContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getId(): int {
+	public function getId() {
 		return $this->id;
 	}
 
@@ -65,7 +65,7 @@ class TaskContainer extends \ActiveRecord {
 	/**
 	 * @param int $id
 	 */
-	public function setId(int $id) {
+	public function setId ($id) {
 		$this->id = $id;
 	}
 
@@ -73,7 +73,7 @@ class TaskContainer extends \ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getType(): string {
+	public function getType() {
 		return $this->type;
 	}
 
@@ -81,7 +81,7 @@ class TaskContainer extends \ActiveRecord {
 	/**
 	 * @param string $type
 	 */
-	public function setType(string $type) {
+	public function setType($type) {
 		$this->type = $type;
 	}
 
@@ -89,7 +89,7 @@ class TaskContainer extends \ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getClassPath(): string {
+	public function getClassPath() {
 		return $this->class_path;
 	}
 
@@ -97,7 +97,7 @@ class TaskContainer extends \ActiveRecord {
 	/**
 	 * @param string $class_path
 	 */
-	public function setClassPath(string $class_path) {
+	public function setClassPath($class_path) {
 		$this->class_path = $class_path;
 	}
 
@@ -105,7 +105,7 @@ class TaskContainer extends \ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getClassName(): string {
+	public function getClassName() {
 		return $this->class_name;
 	}
 
@@ -113,7 +113,7 @@ class TaskContainer extends \ActiveRecord {
 	/**
 	 * @param string $class_name
 	 */
-	public function setClassName(string $class_name) {
+	public function setClassName($class_name) {
 		$this->class_name = $class_name;
 	}
 
@@ -121,7 +121,7 @@ class TaskContainer extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getBucketId(): int {
+	public function getBucketId() {
 		return $this->bucket_id;
 	}
 
@@ -129,7 +129,7 @@ class TaskContainer extends \ActiveRecord {
 	/**
 	 * @param int $bucket_id
 	 */
-	public function setBucketId(int $bucket_id) {
+	public function setBucketId ($bucket_id) {
 		$this->bucket_id = $bucket_id;
 	}
 }
