@@ -48,6 +48,7 @@ class LegacyPathHelperTest extends TestCase {
 		define("CLIENT_WEB_DIR", $iliasAbsolutePath . '/' . $webDir . '/' . $clientId);
 		define("ILIAS_ABSOLUTE_PATH", $iliasAbsolutePath);
 		define("ILIAS_WEB_DIR", $webDir);
+		define("CLIENT_ID", 'default');
 
 		$this->customizingPath = $iliasAbsolutePath . '/' . 'Customizing';
 		$this->webPath = CLIENT_WEB_DIR;
