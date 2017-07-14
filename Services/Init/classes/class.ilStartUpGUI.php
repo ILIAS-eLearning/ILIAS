@@ -2318,7 +2318,7 @@ class ilStartUpGUI
 	 */
 	protected function doSamlAuthentication()
 	{
-		$this->getLogger()->debug('Trying apache authentication');
+		$this->getLogger()->debug('Trying saml authentication');
 
 		require_once 'Services/Saml/classes/class.ilAuthFrontendCredentialsSaml.php';
 		$credentials = new ilAuthFrontendCredentialsSaml();
