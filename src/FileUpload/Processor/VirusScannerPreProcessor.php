@@ -38,7 +38,7 @@ final class VirusScannerPreProcessor implements PreProcessor {
 	public function process(FileStream $stream, Metadata $metadata) {
 		// $stream->rewind();
 		$uri = $stream->getMetadata()["uri"];
-		chmod($uri, 0755);
+		// chmod($uri, 0755); // we must find a way e.g. ClamAV can read the file
 		if ($this->scanner->scanFile($uri) !== "") {
 			return new ProcessingStatus(ProcessingStatus::REJECTED, 'Virus detected.');
 		}
