@@ -47,10 +47,8 @@ if(strlen($session->getData('example:set_target', 'il_target')))
 	$session->deleteData('example:set_target', 'il_target');
 }
 
-$GLOBALS['saml_auth_phpsession'] = false;
 if($store_type == 'phpsession' || empty($store_type))
 {
-	$GLOBALS['saml_auth_phpsession'] = true;
 	session_write_close();
 	session_name('PHPSESSID');
 }
