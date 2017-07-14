@@ -4128,7 +4128,7 @@ class ilUtil
 	 *
 	 * @return bool
 	 *
-	 * @deprecated in favour of the FileUplad service.
+	 * @deprecated in favour of the FileUpload service.
 	 *
 	 * @see \ILIAS\DI\Container::upload()
 	 */
@@ -4137,11 +4137,10 @@ class ilUtil
 		global $DIC;
 
 		$upload = $DIC->upload();
-		$target_filename = basename($a_target);
-		$preProcessor = new \ILIAS\FileUpload\Processor\FilenameOverridePreProcessor($target_filename);
+
+		$preProcessor = new \ILIAS\FileUpload\Processor\FilenameOverridePreProcessor($a_name ? $a_name : basename($a_target));
 		$upload->register($preProcessor);
 
-		$targetFilesystem = 0;
 		switch(true) {
 			case strpos($a_target, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
 			case strpos($a_target, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
@@ -4162,18 +4161,30 @@ class ilUtil
 		$targetDir = LegacyPathHelper::createRelativePath($absTargetDir);
 
 		$upload->process();
-		$upload->moveFilesTo($targetDir, $targetFilesystem);
 
-		$uploadedFiles = $upload->getResults();
-		if (count($uploadedFiles) === 0 || $uploadedFiles[0]->getStatus() === ProcessingStatus::REJECTED ) {
-			if ($a_raise_errors) {
+		try {
+			if (!$upload->hasUploads()) {
 				throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
+			}
+			/**
+			 * @var \ILIAS\FileUpload\DTO\UploadResult $UploadResult
+			 */
+			$UploadResult = $upload->getResults()[0];
+			$ProcessingStatus = $UploadResult->getStatus();
+			if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
+				throw new ilException($ProcessingStatus->getMessage());
+			}
+		} catch (ilException $e) {
+			if ($a_raise_errors) {
+				throw $e;
 			} else {
-				ilUtil::sendFailure($DIC->language()->txt("upload_error_file_not_found"), true);
+				ilUtil::sendFailure($e->getMessage(), true);
 			}
 
 			return false;
 		}
+
+		$upload->moveFilesTo($targetDir, $targetFilesystem);
 
 		return true;
 	}
