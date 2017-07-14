@@ -147,7 +147,7 @@ class ilSamlIdp
 			}
 			catch(Exception $e)
 			{
-				$GLOBALS['ilLog']->write($e->getMessage());
+				$GLOBALS['DIC']->logger()->auth()->write($e->getMessage());
 			}
 
 			self::$parsed_idps = $idp_data;
