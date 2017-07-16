@@ -39,6 +39,9 @@ include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
 */
 class ilCalendarBlockGUI extends ilBlockGUI
 {
+	/**
+	 * @var ilCtrl|null
+	 */
 	public $ctrl = null;
 	protected $mode;
 	protected $display_mode;
@@ -866,7 +869,26 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
 		}
 	}
-		
+
+	/**
+	 * Get events
+	 *
+	 * @param
+	 * @return
+	 */
+	function getEvents()
+	{
+		$seed = new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
+
+		include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');
+		$schedule = new ilCalendarSchedule($seed, ilCalendarSchedule::TYPE_PD_UPCOMING);
+		$schedule->addSubitemCalendars(true); // #12007
+		$schedule->setEventsLimit(20);
+		$schedule->calculate();
+		return $schedule->getScheduledEvents(); // #13809
+	}
+
+
 	function getData()
 	{
 		global $DIC;
@@ -876,47 +898,25 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$f = $DIC->ui()->factory();
 		$renderer = $DIC->ui()->renderer();
 							
-		$seed = new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
-		
-		include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');		
-		$schedule = new ilCalendarSchedule($seed, ilCalendarSchedule::TYPE_PD_UPCOMING);			
-		$schedule->addSubitemCalendars(true); // #12007
-		$schedule->setEventsLimit(20);
-		$schedule->calculate();
-		$events = $schedule->getScheduledEvents(); // #13809
+		$events = $this->getEvents();
 		
 		$data = array();
 		if(sizeof($events))
 		{
 
 			foreach($events as $item)
-			{			
-				$start = $item["dstart"];
-				$end = $item["dend"];				
-				if($item["fullday"])
-				{
-					$start = new ilDate($start, IL_CAL_UNIX);
-					$end = new ilDate($end, IL_CAL_UNIX);
-				}
-				else
-				{
-					$start = new ilDateTime($start, IL_CAL_UNIX);
-					$end = new ilDateTime($end, IL_CAL_UNIX);
-				}
-				
-				$ilCtrl->clearParametersByClass('ilcalendardaygui');
-				$ilCtrl->setParameterByClass('ilcalendardaygui','seed',$start->get(IL_CAL_DATE));
-				$link = $ilCtrl->getLinkTargetByClass('ilcalendardaygui','');
-				$ilCtrl->clearParametersByClass('ilcalendardaygui');
+			{
+				$this->ctrl->setParameter($this, "app_id", $item["event"]->getEntryId());
+				$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
+				$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
+				$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
-				//TODO create only one modal and deliver the content async.
-				$modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($start, $end),$f->legacy($this->getModalContent($item)));
-
+				$dates = $this->getDatesForItem($item);
 
 				$data[] = array(	
-					"date" =>  ilDatePresentation::formatPeriod($start, $end),
+					"date" =>  ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),
 					"title" => $item["event"]->getPresentationTitle(),			
-					"url" => $link,
+					"url" => "#",
 					"shy_button" => $renderer->render([$f->button()->shy($item["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal()), $modal])
 					);
 			}
@@ -936,6 +936,57 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		return $data;
 	}
 
+	/**
+	 * Get start/end date for item
+	 *
+	 * @param array $item item
+	 * @return array
+	 */
+	function getDatesForItem($item)
+	{
+		$start = $item["dstart"];
+		$end = $item["dend"];
+		if($item["fullday"])
+		{
+			$start = new ilDate($start, IL_CAL_UNIX);
+			$end = new ilDate($end, IL_CAL_UNIX);
+		}
+		else
+		{
+			$start = new ilDateTime($start, IL_CAL_UNIX);
+			$end = new ilDateTime($end, IL_CAL_UNIX);
+		}
+		return array("start" => $start, "end" => $end);
+	}
+
+
+	/**
+	 * Get modal for appointment
+	 *
+	 * @param
+	 * @return
+	 */
+	function getModalForApp()
+	{
+		global $DIC;
+
+		$f = $DIC->ui()->factory();
+		$r = $DIC->ui()->renderer();
+
+		$events = $this->getEvents();
+		foreach ($events as $item)
+		{
+			if ($item["event"]->getEntryId() == (int) $_GET["app_id"])
+			{
+				$dates = $this->getDatesForItem($item);
+				$modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),$f->legacy($this->getModalContent($item)));
+				echo $r->render($modal);
+			}
+		}
+		exit();
+	}
+	
+	
 	public function getModalContent($a_app)
 	{
 		global $DIC;
