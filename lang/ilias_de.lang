@@ -7104,7 +7104,7 @@ dateplaner#:#cal_grp_notification_body#:#es erfolgte eine Terminänderung in der
 dateplaner#:#cal_grp_notification_sub#:#Terminänderung in Gruppe "%s"
 dateplaner#:#cal_in#:#im
 dateplaner#:#cal_last#:#Letzten
-dateplaner#:#cal_manage#:#Kalender
+dateplaner#:#cal_manage#:#Kalender verwalten
 dateplaner#:#cal_milestone_settings#:#Meilensteine
 dateplaner#:#cal_month_overview#:#Monatsübersicht
 dateplaner#:#cal_month_s#:#Monat(e)
@@ -15989,3 +15989,4 @@ style#:#manage_system_styles#:#System Styles verwalten
 style#:#scope#:#Gültigkeitsbereich
 dateplaner#:#cal_agenda#:#Terminübersicht
 dateplaner#:#cal_origin#:#Herkunft
+dateplaner#:#cal_list#:#Liste

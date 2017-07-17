@@ -87,6 +87,10 @@ class ilToolbarGUI
 
 	public function __construct()
 	{
+		global $DIC;
+
+		$this->ui = $DIC->ui();
+
 		self::$instances++;
 	}
 
@@ -304,7 +308,15 @@ class ilToolbarGUI
 	{
 		$this->items[] = array("type" => "spacer", "width" => $a_width);
 	}
- 
+
+	/**
+	 * Add component
+	 */
+	function addComponent(\ILIAS\UI\Component\Component $a_comp)
+	{
+		$this->items[] = array("type" => "component", "component" => $a_comp);
+	}
+
 
 	/**
 	 * Add link
@@ -531,6 +543,12 @@ class ilToolbarGUI
 						case "text":
 							$tpl_items->setCurrentBlock("text");
 							$tpl_items->setVariable("VAL_TEXT", $item["text"]);
+							$tpl_items->touchBlock("item");
+							break;
+
+						case "component":
+							$tpl_items->setCurrentBlock("component");
+							$tpl_items->setVariable("COMPONENT", $this->ui->renderer()->renderAsync($item["component"]));
 							$tpl_items->touchBlock("item");
 							break;
 

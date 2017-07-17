@@ -7664,7 +7664,7 @@ exc#:#exc_import#:#Import Exercise
 dateplaner#:#cal_back_to_list#:#Back to List
 dateplaner#:#cal_back_to_search#:#Back to Search
 dateplaner#:#cal_unshare#:#Cancel Sharing
-dateplaner#:#cal_manage#:#Calendars
+dateplaner#:#cal_manage#:#Manage Calendars
 dateplaner#:#cal_delete_single#:#Delete only this appointment
 dateplaner#:#cal_delete_recurrences#:#Delete all recurrences
 dateplaner#:#cal_back_to_cal#:#Back to Calendar
@@ -13560,3 +13560,4 @@ dateplaner#:#cal_exc_pass_mode_no_mandatory#:#Not Mandatory Assignment
 dateplaner#:#cal_sess_info#:#Session Information
 dateplaner#:#cal_agenda#:#Agenda
 dateplaner#:#cal_origin#:#Origin
+dateplaner#:#cal_list#:#List

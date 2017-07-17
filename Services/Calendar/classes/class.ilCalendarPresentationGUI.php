@@ -37,11 +37,51 @@ include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
 
 class ilCalendarPresentationGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
 	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
 	protected $lng;
+
+	/**
+	 * @var mixed
+	 */
 	protected $tpl;
+
+	/**
+	 * @var ilLanguage
+	 */
 	protected $tabs_gui;
-	
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilHelp
+	 */
+	protected $help;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
 	/**
 	 * Constructor
 	 *
@@ -51,18 +91,23 @@ class ilCalendarPresentationGUI
 	 */
 	public function __construct()
 	{
-		global $ilCtrl,$lng,$tpl,$ilTabs,$ilUser;
-	
-		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->lng->loadLanguageModule('dateplaner');
 		
-		$this->tpl = $tpl; 	
-		$this->tabs_gui = $ilTabs;
+		$this->tpl = $DIC["tpl"];
+		$this->tabs_gui = $DIC->tabs();
+		$this->user = $DIC->user();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->help = $DIC["ilHelp"];
+		$this->ui = $DIC->ui();
+		$this->toolbar = $DIC->toolbar();
 		
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
+		$cats = ilCalendarCategories::_getInstance($this->user->getId());
 		
 		include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
 		if(ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
@@ -85,7 +130,7 @@ class ilCalendarPresentationGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilUser, $ilSetting,$tpl, $ilHelp;
+		$ilUser = $this->user;
 
 		include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 		if(!ilCalendarSettings::_getInstance()->isEnabled())
@@ -101,7 +146,8 @@ class ilCalendarPresentationGUI
 		switch($next_class)
 		{
 			case 'ilcalendarinboxgui':
-				$this->tabs_gui->activateTab('cal_upcoming_events_header');
+				$this->tabs_gui->activateTab('cal_agenda');
+				$this->showViewSelection("cal_list");
 				$this->forwardToClass('ilcalendarinboxgui');
 				break;
 				
@@ -121,17 +167,20 @@ class ilCalendarPresentationGUI
 				return true;
 			
 			case 'ilcalendarmonthgui':
-				$this->tabs_gui->activateTab('app_month');
+				$this->tabs_gui->activateTab('cal_agenda');
+				$this->showViewSelection("app_month");
 				$this->forwardToClass('ilcalendarmonthgui');
 				break;
 				
 			case 'ilcalendarweekgui':
-				$this->tabs_gui->activateTab('app_week');
+				$this->tabs_gui->activateTab('cal_agenda');
+				$this->showViewSelection("app_week");
 				$this->forwardToClass('ilcalendarweekgui');
 				break;
 
 			case 'ilcalendardaygui':
-				$this->tabs_gui->activateTab('app_day');
+				$this->tabs_gui->activateTab('cal_agenda');
+				$this->showViewSelection("app_day");
 				$this->forwardToClass('ilcalendardaygui');
 				break;
 
@@ -194,7 +243,37 @@ class ilCalendarPresentationGUI
 		
 		return true;
 	}
-	
+
+	/**
+	 * Show view selection
+	 *
+	 * @param string $a_active
+	 */
+	function showViewSelection($a_active = "cal_list")
+	{
+		$ui = $this->ui;
+		$ctrl = $this->ctrl;
+		$lng = $this->lng;
+		$toolbar = $this->toolbar;
+
+		$f = $ui->factory();
+		$renderer = $ui->renderer();
+
+		//ViewControl element
+		$actions = array (
+			$lng->txt("app_day") => $ctrl->getLinkTargetByClass('ilCalendarDayGUI',''),
+			$lng->txt("app_week") => $ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''),
+			$lng->txt("app_month") => $ctrl->getLinkTargetByClass('ilCalendarMonthGUI',''),
+			$lng->txt("cal_list") => $ctrl->getLinkTargetByClass('ilCalendarInboxGUI','')
+		);
+
+		$aria_label = $lng->txt("cal_change_calendar_view");
+		$view_control = $f->viewControl()->mode($actions, $aria_label)->withActive($lng->txt($a_active));
+
+		$toolbar->addComponent($view_control);
+	}
+
+
 	/**
 	 * get next class
 	 *
@@ -202,8 +281,6 @@ class ilCalendarPresentationGUI
 	 */
 	public function getNextClass()
 	{
-		global $ilUser;
-
 		if(strlen($next_class = $this->ctrl->getNextClass()))
 		{
 			return $next_class;
@@ -220,7 +297,7 @@ class ilCalendarPresentationGUI
 	 */
 	public function readLastClass()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		return $ilUser->getPref('cal_last_class') ? $ilUser->getPref('cal_last_class') : 'ilcalendarinboxgui';
 				
@@ -245,7 +322,7 @@ class ilCalendarPresentationGUI
 	 */
 	protected function forwardToClass($a_class)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		switch($a_class)
 		{
@@ -297,7 +374,7 @@ class ilCalendarPresentationGUI
 	 */
 	protected function loadHistory()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->ctrl->setCmd('');
 		$history = $ilUser->getPref('cal_last_class') ? $ilUser->getPref('cal_last_class') : 'ilcalendarmonthgui';
@@ -313,7 +390,8 @@ class ilCalendarPresentationGUI
 	 */
 	protected function showSideBlocks()
 	{
-		global $ilUser, $ilCtrl;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
 
 		$tpl =  new ilTemplate('tpl.cal_side_block.html',true,true,'Services/Calendar');
 
@@ -326,7 +404,7 @@ class ilCalendarPresentationGUI
 		$cat = new ilCalendarCategoryGUI($ilUser->getId(),$this->seed);
 		$tpl->setVariable('CATEGORIES', $ilCtrl->getHTML($cat));
 
-		$this->tpl->setLeftContent($tpl->get());
+		$this->tpl->setRightContent($tpl->get());
 	}
 	
 	
@@ -350,11 +428,12 @@ class ilCalendarPresentationGUI
 	 */
 	protected function prepareOutput()
 	{
-		global $rbacsystem, $ilHelp;
-		
+		$rbacsystem = $this->rbacsystem;
+		$ilHelp = $this->help;
+
 		$ilHelp->setScreenIdComponent("cal");
 		
-		$this->tabs_gui->addTab('cal_upcoming_events_header',
+		$this->tabs_gui->addTab('cal_agenda',
 			$this->lng->txt("cal_agenda"),
 			$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
 		//$this->tabs_gui->addTarget('cal_upcoming_events_header',$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
@@ -366,9 +445,6 @@ class ilCalendarPresentationGUI
 		{
 			$this->tabs_gui->addTarget('app_consultation_hours',$this->ctrl->getLinkTargetByClass('ilConsultationHoursGUI',''));
 		}
-		$this->tabs_gui->addTarget('app_day',$this->ctrl->getLinkTargetByClass('ilCalendarDayGUI',''));
-		$this->tabs_gui->addTarget('app_week',$this->ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''));
-		$this->tabs_gui->addTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI',''));
 		$this->tabs_gui->addTarget('cal_manage',$this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI','manage'));
 		$this->tabs_gui->addTarget('settings',$this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI',''));
 	}
@@ -391,9 +467,8 @@ class ilCalendarPresentationGUI
 	 */
 	protected function synchroniseExternalCalendars()
 	{
-		global $ilUser;
-		
-		
+		$ilUser = $this->user;
+
 		if(!ilCalendarSettings::_getInstance()->isWebCalSyncEnabled())
 		{
 			return false;
