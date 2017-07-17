@@ -1,9 +1,4 @@
 <?php
-require_once('class.ilOrgUnitTypeTableGUI.php');
-require_once('class.ilOrgUnitTypeFormGUI.php');
-require_once('class.ilOrgUnitTypeCustomIconsFormGUI.php');
-require_once('class.ilOrgUnitTypeAdvancedMetaDataFormGUI.php');
-require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
 /**
  * Class ilOrgUnitTypeGUI
  *

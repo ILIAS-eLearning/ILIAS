@@ -7057,6 +7057,58 @@ hr.il-divider-with-label {
 .icon.iass {
   background-image: url("images/icon_iass.svg");
 }
+.il-viewcontrol-mode .ilSubmitInactive,
+.il-viewcontrol-mode .ilSubmitInactive:hover {
+  background-color: #557196;
+  color: white;
+  border-color: transparent;
+}
+ul.breadcrumb {
+  margin: 0;
+  font-weight: 600;
+  padding-left: 12px;
+  font-size: 12px;
+}
+ul.breadcrumb li {
+  color: #557196;
+}
+ul.breadcrumb li:hover {
+  color: #3a4c65;
+}
+[dir="rtl"] ul.breadcrumb {
+  padding-right: 12px;
+}
+.il-chart-scale-bar {
+  min-width: 100px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.il-chart-scale-bar > li {
+  float: left;
+  padding: 0 2px;
+}
+.il-chart-scale-bar > li:last-child {
+  padding-right: 0;
+}
+.il-chart-scale-bar > li:first-child {
+  padding-left: 0;
+}
+.il-chart-scale-bar-item {
+  font-size: 11px;
+  padding: 1px 5px;
+  color: #909090;
+  text-align: center;
+  background-color: #e0e0e0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.il-chart-scale-bar-active {
+  color: white;
+  background-color: #4c6586;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;
@@ -11893,22 +11945,6 @@ div#il_startup_logo img {
   background-color: #607ea5;
   border-color: #607ea5;
   color: white;
-}
-/* Services/Locator */
-ol.breadcrumb {
-  margin: 0;
-  font-weight: 600;
-  padding-left: 15px;
-  font-size: .8em;
-}
-[dir="rtl"] ol.breadcrumb {
-  padding-right: 15px;
-}
-.breadcrumb a {
-  /*	color: #a0a0a0; */
-}
-.breadcrumb > li + li:before {
-  /*	 color: #a0a0a0; */
 }
 /* Services/Rating */
 img.ilRatingIcon {
