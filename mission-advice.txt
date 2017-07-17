@@ -1,3 +1,7 @@
+Extract Test Results from the Participant tab and make a separate Tab of it
+===========================================================================
+https://www.ilias.de/docu/goto_docu_wiki_wpage_3341_1357.html
+
 - tabs handling zentralisieren und gänzlich auf neue methodik umstellen
 - statistics "eval all users" subtab plainly raus
 - statistic tab als solcher raus (ansichten umverteilt)
