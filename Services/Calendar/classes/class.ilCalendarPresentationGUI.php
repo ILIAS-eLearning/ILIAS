@@ -362,7 +362,6 @@ class ilCalendarPresentationGUI
 				$inbox_gui = new ilCalendarinboxGUI($this->seed);
 				$this->ctrl->forwardCommand($inbox_gui);
 				break;
-
 		}
 	}
 	
