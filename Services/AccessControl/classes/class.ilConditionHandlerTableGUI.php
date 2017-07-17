@@ -13,7 +13,7 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
 class ilConditionHandlerTableGUI extends ilTable2GUI
 {
 	protected $enable_editing;
-
+	
 	/**
 	 * Constructor
 	 * @param ilObjectGUI $a_parent_obj
@@ -23,7 +23,7 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 	public function __construct($a_parent_obj,$a_parent_cmd,$a_enable_editing = false)
 	{
 		$this->enable_editing = $a_enable_editing;
-
+		
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 
 		$this->initTable();
@@ -65,7 +65,7 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('OBL_STATUS', $a_row['obligatory'] ? ' checked="checked"' : '');
 			$this->tpl->parseCurrentBlock();
 		}
-
+		
 		$ilCtrl->setParameterByClass(get_class($this->getParentObject()),'condition_id',$a_row['id']);
 		$this->tpl->setVariable('EDIT_LINK',$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'edit'));
 		$this->tpl->setVariable('TXT_EDIT', $this->lng->txt('edit'));
@@ -90,11 +90,11 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 			$row['type'] = $condition['trigger_type'];
 			$row['title'] = ilObject::_lookupTitle($condition['trigger_obj_id']);
 			$row['description'] = ilObject::_lookupDescription($condition['trigger_obj_id']);
-			$row['icon'] = ilObject::_getIcon($condition['trigger_obj_id']);
+			$row['icon'] = ilObject::_getIcon($condition['trigger_obj_id']); 
 			$row['icon_alt'] = $this->lng->txt('obj_'.$condition['trigger_type']);
 			$row['condition'] = $this->lng->txt('condition_'.$condition['operator']);
 			$row['obligatory'] = $condition['obligatory'];
-
+			
 			$rows[] = $row;
 		}
 		$this->setData($rows);
@@ -122,18 +122,19 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 
 		$this->enable('select_all');
 		$this->setSelectAllCheckbox('conditions');
-
+		
 		$this->setDefaultOrderField('title');
 		$this->setDefaultOrderDirection('asc');
 
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject(),$this->getParentCmd()));
 		$this->addMultiCommand('askDelete', $this->lng->txt('delete'));
-
+		
 		if($this->enable_editing)
 		{
 			$this->addCommandButton("saveObligatoryList", $this->lng->txt("rbac_precondition_save_obligatory"));
 		}
 	}
 
+	
 }
 ?>

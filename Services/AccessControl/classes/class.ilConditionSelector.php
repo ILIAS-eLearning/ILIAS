@@ -124,4 +124,7 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 		return parent::isNodeHighlighted($a_node);
 	}
 
-}
+
+
+
+} 
