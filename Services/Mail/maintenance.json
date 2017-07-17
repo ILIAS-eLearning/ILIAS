@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
-    "second_maintainer": "",
+    "first_maintainer": "mjansen(8784)",
+    "second_maintainer": "nadia(14206)",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "amersch(15114)",
+    "testcase_writer": "amersch(15114)",
     "path": "Services/Mail",
-    "belong_to_component": "None",
+    "belong_to_component": "Mail",
     "used_in_components": []
 }

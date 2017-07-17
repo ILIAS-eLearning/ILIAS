@@ -623,7 +623,11 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		}
 		
 		include_once './Modules/Test/classes/class.ilObjTest.php';
-		$tst->removeTestResultsByUserIds((array) $a_user_ids);
+		include_once './Modules/Test/classes/class.ilTestParticipantData.php';
+		$part = new ilTestParticipantData($GLOBALS['ilDB'], $GLOBALS['lng']);
+		$part->setUserIds((array) $a_user_ids);
+		$part->load($tst->getTestId());
+		$tst->removeTestResults($part);
 
 		return true;
 	}

@@ -84,16 +84,15 @@ class ilSoapClient
 	}
 	
 	/**
-	 * Set response timeout
-	 * @param type $a_timeout
+	 * @param int $a_timeout Response Timeout
 	 */
 	public function setResponseTimeout($a_timeout)
 	{
-		$this->response_timeout = $a_timeout;
+		$this->response_timeout = (int)$a_timeout;
 	}
 	
 	/**
-	 * Get response timeout
+	 * @return int Response Timeout
 	 */
 	public function getResponseTimeout()
 	{
@@ -205,7 +204,7 @@ class ilSoapClient
 	 */
 	public function call($a_operation, $a_params)
 	{
-		$this->log->debug('Calling webseervice: ' . $a_operations);
+		$this->log->debug('Calling webseervice: ' . $a_operation);
 
 		$this->setSocketTimeout(false);
 		try {

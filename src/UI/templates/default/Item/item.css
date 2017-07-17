@@ -1,0 +1,19 @@
+.il-item {
+  background-color: il-primary-bg;
+}
+.il-item h4 {
+  font-size: 120%;
+  float: left;
+}
+.il-item .il-item-divider {
+  clear: both;
+  margin: 5px 0px;
+  border-top: dotted 3px #E0E0E0;
+}
+.il-item .il-item-actions {
+  float: right;
+}
+.il-item .il-item-property-namse {
+  text-align: right;
+  font-weight: bold;
+}

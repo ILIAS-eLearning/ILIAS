@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once ('./Modules/DataCollection/classes/Table/class.ilDclTableListTableGUI.php');
-require_once ('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 /**
  * Class ilDclTableListGUI
  *

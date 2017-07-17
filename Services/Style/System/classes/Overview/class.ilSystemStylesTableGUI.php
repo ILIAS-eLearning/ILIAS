@@ -54,10 +54,12 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 		$this->getStyles();
 
 		$this->setLimit(9999);
+		$this->setTitle($this->lng->txt("manage_system_styles"));
 		$this->addColumn($this->lng->txt(""));
 		$this->addColumn($this->lng->txt("style_name"),"style_name");
 		$this->addColumn($this->lng->txt("skin_name"),"style_id");
 		$this->addColumn($this->lng->txt("sty_substyle_of"));
+		$this->addColumn($this->lng->txt("scope"));
 		$this->addColumn($this->lng->txt("default"));
 		$this->addColumn($this->lng->txt("active"));
 		$this->addColumn($this->lng->txt("users"),"users");
@@ -180,7 +182,6 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 		}
 
 		if($is_substyle){
-			$this->tpl->setCurrentBlock("substyle");
 			$this->tpl->setVariable("SUB_STYLE_OF", $a_set["substyle_of_name"]);
 
 			$assignments = ilSystemStyleSettings::getSubStyleCategoryAssignments(
@@ -196,8 +197,13 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 			}
 
 			$listing = $DIC->ui()->factory()->listing()->unordered($categories);
-			$this->tpl->setVariable("CATEGORIES",$DIC->ui()->renderer()->render($listing) );
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->setVariable("CATEGORIES",$this->lng->txt("local").$DIC->ui()
+					->renderer()
+					->render
+			($listing));
+		}else{
+			$this->tpl->setVariable("SUB_STYLE_OF", "");
+			$this->tpl->setVariable("CATEGORIES", $this->lng->txt("global"));
 		}
 
 		if($this->isWithActions() && $this->isManagementEnabled()){

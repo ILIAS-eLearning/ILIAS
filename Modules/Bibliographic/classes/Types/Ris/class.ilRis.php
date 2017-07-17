@@ -1,6 +1,4 @@
 <?php
-require_once('./Modules/Bibliographic/classes/Types/class.ilBibliograficFileReaderBase.php');
-require_once('class.ilRisWrapper.php');
 
 /**
  * Class ilRis

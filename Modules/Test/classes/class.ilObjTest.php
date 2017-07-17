@@ -1542,7 +1542,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$newsItem = new ilNewsItem();
 			$newsItem->setContext($this->getId(), 'tst');
 			$newsItem->setPriority(NEWS_NOTICE);
-			$newsItem->setTitle($this->lng->txt('new_test_online'));
+			$newsItem->setTitle('new_test_online');
+			$newsItem->setContentIsLangVar(true);
 			$newsItem->setContent('');
 			$newsItem->setUserId($ilUser->getId());
 			$newsItem->setVisibility(NEWS_USERS);
@@ -1558,7 +1559,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			if($newsId > 0)
 			{
 				$newsItem = new ilNewsItem($newsId);
-				$newsItem->setTitle($this->lng->txt('new_test_online'));
+				$newsItem->setTitle('new_test_online');
+				$newsItem->setContentIsLangVar(true);
 				$newsItem->setContent('');
 				$newsItem->update();
 			}
@@ -2895,6 +2897,14 @@ function getAnswerFeedbackPoints()
 		}
 		return 0;
 	}
+	
+	// hey: prevPassSolutions - serious (nonstatic) identifier, for use in high level controller gui
+	public function isPreviousSolutionReuseEnabled($activeId)
+	{
+		// checks if allowed in general and if enabled by participant
+		return self::_getUsePreviousAnswers($activeId, true);
+	}
+	// hey.
 
 /**
 * Returns if the previous results should be hidden for a learner
@@ -6787,6 +6797,14 @@ function getAnswerFeedbackPoints()
 	 * {@inheritdoc}
 	 */
 	public function canEditEctsGrades()
+	{
+		return $this->canShowEctsGrades() && $this->canEditMarks();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function canShowEctsGrades()
 	{
 		return $this->getReportingDate();
 	}

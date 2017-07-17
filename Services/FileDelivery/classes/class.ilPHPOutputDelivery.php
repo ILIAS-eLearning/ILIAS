@@ -1,30 +1,38 @@
 <?php
 require_once('class.ilFileDelivery.php');
+require_once('Delivery.php');
+require_once './Services/FileDelivery/classes/HttpServiceAware.php';
+
+use ILIAS\FileDelivery\Delivery as Delivery;
+use ILIAS\FileDelivery\HttpServiceAware;
 
 /**
  * Class ilPHPOutputDelivery
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
+ *
+ * @public
  */
-class ilPHPOutputDelivery {
+final class ilPHPOutputDelivery {
 
+	use HttpServiceAware;
 	/**
-	 * @var ilFileDelivery
+	 * @var ILIAS\FileDelivery\Delivery
 	 */
 	protected $ilFileDelivery;
 
 
 	/**
-	 * @param $download_file_name
+	 * @param        $download_file_name
 	 * @param string $mime_type
 	 */
 	public function start($download_file_name, $mime_type = ilMimeTypeUtil::APPLICATION__OCTET_STREAM) {
-		$this->ilFileDelivery = new ilFileDelivery(ilFileDelivery::DIRECT_PHP_OUTPUT);
+		$this->ilFileDelivery = new Delivery(ilFileDelivery::DIRECT_PHP_OUTPUT, self::http());
 		$this->ilFileDelivery->setMimeType($mime_type);
 		$this->ilFileDelivery->setDownloadFileName($download_file_name);
 		$this->ilFileDelivery->setDisposition(ilFileDelivery::DISP_ATTACHMENT);
-		$this->ilFileDelivery->cleanDownloadFileName();
+		$this->ilFileDelivery->setConvertFileNameToAsci(true);
 		$this->ilFileDelivery->clearBuffer();
 		$this->ilFileDelivery->checkCache();
 		$this->ilFileDelivery->setGeneralHeaders();
@@ -37,5 +45,3 @@ class ilPHPOutputDelivery {
 		$this->ilFileDelivery->close();
 	}
 }
-
-?>

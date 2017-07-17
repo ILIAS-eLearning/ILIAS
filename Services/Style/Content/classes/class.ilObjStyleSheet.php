@@ -796,6 +796,10 @@ class ilObjStyleSheet extends ilObject
 			{
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 				$obj_ids = ilObjContentObject::_lookupContObjIdByStyleId($style_rec["id"]);
+				if (count($obj_ids) == 0)
+				{
+					$obj_ids = self::lookupObjectForStyle($style_rec["id"]);
+				}
 				foreach($obj_ids as $id)
 				{
 					$ref = ilObject::_getAllReferences($id);
@@ -814,6 +818,9 @@ class ilObjStyleSheet extends ilObject
 					ilObject::_lookupTitle($style_rec["id"]);
 			}
 		}
+
+		asort($clonable_styles);
+
 		return $clonable_styles;
 	}
 
@@ -3780,7 +3787,32 @@ class ilObjStyleSheet extends ilObject
 		
 		return 0;
 	}
-	
+
+	/**
+	 * Lookup object style
+	 */
+	static function lookupObjectForStyle($a_style_id)
+	{
+		global $ilDB;
+
+		$obj_ids = array();
+		if (ilObject::_lookupType($a_style_id) == "sty")
+		{
+			$set = $ilDB->query("SELECT DISTINCT obj_id FROM style_usage " .
+				" WHERE style_id = " . $ilDB->quote($a_style_id, "integer")
+			);
+
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				$obj_ids[] = $rec["obj_id"];
+			}
+
+			return $obj_ids;
+		}
+
+		return 0;
+	}
+
 
 }
 ?>

@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
+    "first_maintainer": "smeyer(191)",
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "Fabian(27631)",
+    "testcase_writer": "Fabian(27631)",
     "path": "Services/Export",
-    "belong_to_component": "None",
+    "belong_to_component": "Export",
     "used_in_components": []
 }

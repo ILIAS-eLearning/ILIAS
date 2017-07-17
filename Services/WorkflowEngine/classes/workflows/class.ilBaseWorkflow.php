@@ -144,7 +144,9 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 * 
 	 * Here the definition of the workflow is to be done. 
 	 */
-	public abstract function __construct();
+	public function __construct()
+	{
+	}
 
 	/**
 	 * Starts the workflow, activating the start_node. 
@@ -154,6 +156,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 		// Write the workflow to the database, so detectors find a parent id to save with them.
 		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
 		$this->active = true;
+		ilWorkflowDbHelper::writeWorkflow($this);
 		$this->onStartWorkflow();
 
 		// Figure out, if there is a start-node set - or nodes at all.

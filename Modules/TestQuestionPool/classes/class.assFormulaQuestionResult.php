@@ -248,7 +248,7 @@ class assFormulaQuestionResult
 	public function isCorrect($variables, $results, $value, $unit = NULL)
 	{
 		// The user did not answer the question ....  
-		if($value == NULL)
+		if($value === NULL || 0 == strlen($value))
 		{
 			return false;
 		}

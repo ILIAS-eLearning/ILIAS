@@ -30,9 +30,14 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->setVariable("LABEL", $this->txt($component->getAriaLabel()));
 
-		$tpl->touchBlock($component->getType());
-
 		$id = $this->bindJavaScript($component);
+
+		$tpl->touchBlock($component->getType());
+		if ($component instanceof Component\Triggerer && count($component->getTriggeredSignals())) {
+			$id = ($id === null) ? $this->createId() : $id;
+			$this->triggerRegisteredSignals($component, $id);
+		}
+
 		if ($id !== null) {
 			$tpl->setCurrentBlock("with_id");
 			$tpl->setVariable("ID", $id);

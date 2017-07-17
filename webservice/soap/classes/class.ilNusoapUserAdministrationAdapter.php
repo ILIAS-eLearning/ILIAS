@@ -31,6 +31,8 @@
 * @package ilias
 */
 
+use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
+
 include_once './webservice/soap/lib/nusoap.php';
 include_once './webservice/soap/include/inc.soap_functions.php';
 require_once('./Services/WebServices/SOAP/classes/class.ilSoapHook.php');
@@ -272,6 +274,16 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS deleteCourse(). Deletes a course. Delete courses are stored in "Trash" and can be undeleted in '.
 								' the ILIAS administration. ');
+		// startBackgroundTaskWorker()
+		$this->server->register(AsyncTaskManager::CMD_START_WORKER,
+			array('sid' => 'xsd:string'),
+			array('success' => 'xsd:boolean'),
+			SERVICE_NAMESPACE,
+			SERVICE_NAMESPACE . '#' . AsyncTaskManager::CMD_START_WORKER,
+			SERVICE_STYLE,
+			SERVICE_USE,
+			'ILIAS ' . AsyncTaskManager::CMD_START_WORKER . '().');
+
 		// assignCourseMember()
 		$this->server->register('assignCourseMember',
 								array('sid' => 'xsd:string',

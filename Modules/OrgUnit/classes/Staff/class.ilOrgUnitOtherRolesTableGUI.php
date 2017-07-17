@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/Table/classes/class.ilTable2GUI.php");
 /**
  * Class ilOrgUnitOtherRolesTableGUI
  *
@@ -123,8 +122,4 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI{
 		$this->tpl->setVariable("ACTIONS", $selection->getHTML());
 
 	}
-
-
-
 }
-?>
