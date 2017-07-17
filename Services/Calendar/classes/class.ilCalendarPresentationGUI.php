@@ -147,8 +147,8 @@ class ilCalendarPresentationGUI
 		{
 			case 'ilcalendarinboxgui':
 				$this->tabs_gui->activateTab('cal_agenda');
-				$this->showViewSelection("cal_list");
 				$this->forwardToClass('ilcalendarinboxgui');
+				$this->showViewSelection("cal_list");
 				break;
 				
 			case 'ilconsultationhoursgui':
@@ -168,20 +168,20 @@ class ilCalendarPresentationGUI
 			
 			case 'ilcalendarmonthgui':
 				$this->tabs_gui->activateTab('cal_agenda');
-				$this->showViewSelection("app_month");
 				$this->forwardToClass('ilcalendarmonthgui');
+				$this->showViewSelection("app_month");
 				break;
 				
 			case 'ilcalendarweekgui':
 				$this->tabs_gui->activateTab('cal_agenda');
-				$this->showViewSelection("app_week");
 				$this->forwardToClass('ilcalendarweekgui');
+				$this->showViewSelection("app_week");
 				break;
 
 			case 'ilcalendardaygui':
 				$this->tabs_gui->activateTab('cal_agenda');
-				$this->showViewSelection("app_day");
 				$this->forwardToClass('ilcalendardaygui');
+				$this->showViewSelection("app_day");
 				break;
 
 			case 'ilcalendarusersettingsgui':
@@ -257,9 +257,7 @@ class ilCalendarPresentationGUI
 		$toolbar = $this->toolbar;
 
 		$f = $ui->factory();
-		$renderer = $ui->renderer();
 
-		//ViewControl element
 		$actions = array (
 			$lng->txt("app_day") => $ctrl->getLinkTargetByClass('ilCalendarDayGUI',''),
 			$lng->txt("app_week") => $ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''),

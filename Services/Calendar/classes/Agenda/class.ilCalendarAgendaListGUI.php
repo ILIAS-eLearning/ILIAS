@@ -122,6 +122,9 @@ class ilCalendarAgendaListGUI
 	 */
 	function getHTML()
 	{
+		$navigation = new ilCalendarHeaderNavigationGUI($this,new ilDate($this->seed, IL_CAL_DATE),ilDateTime::DAY);
+		$navigation->getHTML();
+
 		// get events
 		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_PD_UPCOMING);
 		$schedule->setPeriod(new ilDate($this->seed, IL_CAL_DATE),

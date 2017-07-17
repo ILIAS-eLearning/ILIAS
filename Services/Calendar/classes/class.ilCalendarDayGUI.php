@@ -43,14 +43,44 @@ class ilCalendarDayGUI
 	protected $seed_info = array();
 	protected $user_settings = null;
 
+	/**
+	 * @var ilLanguage
+	 */
 	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
 	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
 	protected $tabs_gui;
+
+	/**
+	 * @var ilTemplate
+	 */
 	protected $tpl;
 	
 	protected $num_appointments = 1; 
 	
 	protected $timezone = 'UTC';
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
 
 	/**
 	 * Constructor
@@ -61,20 +91,25 @@ class ilCalendarDayGUI
 	 */
 	public function __construct(ilDate $seed_date)
 	{
-		global $ilCtrl, $lng, $ilUser,$ilTabs,$tpl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->tabs_gui = $DIC->tabs();
+		$this->tpl = $DIC["tpl"];
+		$this->ui = $DIC->ui();
+		$this->toolbar = $DIC->toolbar();
+
 		
 		$this->seed = $seed_date;
 		$this->seed_info = $this->seed->get(IL_CAL_FKT_GETDATE);
 
-		$this->tpl = $tpl;
-		$this->lng = $lng;
-		$this->ctrl = $ilCtrl;
-		$this->tabs_gui = $ilTabs;
+
+		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
+		$this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
 		
-		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
-		$this->app_colors = new ilCalendarAppointmentColors($ilUser->getId());
-		
-		$this->timezone = $ilUser->getTimeZone();
+		$this->timezone = $this->user->getTimeZone();
 	}
 	
 	/**
@@ -85,7 +120,8 @@ class ilCalendarDayGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl,$tpl;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 
 		$next_class = $ilCtrl->getNextClass();
 		switch($next_class)
@@ -119,8 +155,10 @@ class ilCalendarDayGUI
 	 */
 	protected function show()
 	{
-		global $lng, $ilUser;
-				
+		$lng = $this->lng;
+		$ilUser = $this->user;
+
+
 		// config
 		$raster = 15;	
 		if($this->user_settings->getDayStart())
@@ -351,8 +389,9 @@ class ilCalendarDayGUI
 	 */
 	protected function showAppointment($a_app)
 	{
-		global $ilUser;
-		
+		$ilUser = $this->user;
+
+
 		$this->tpl->setCurrentBlock('panel_code');
 		$this->tpl->setVariable('NUM',$this->num_appointments);
 		$this->tpl->parseCurrentBlock();
@@ -426,7 +465,9 @@ class ilCalendarDayGUI
 	 * @return array hours
 	 */
 	protected function parseInfoIntoRaster($daily_apps, $morning_aggr, $evening_aggr, $raster)
-	{		
+	{
+		$ilUser = $this->user;
+
 		$hours = array();
 		for($i = $morning_aggr;$i <= $evening_aggr;$i+=$raster)
 		{
@@ -468,8 +509,6 @@ class ilCalendarDayGUI
 		
 		foreach($daily_apps as $app)
 		{
-			global $ilUser;
-			
 			// fullday appointment are not relavant
 			if($app['fullday'])
 			{
@@ -561,8 +600,9 @@ class ilCalendarDayGUI
 	 */
 	protected function calculateColspan($hours)
 	{
-		global $ilUser;
-		
+		$ilUser = $this->user;
+
+
 		$colspan = 1;
 		foreach($hours as $hour)
 		{
