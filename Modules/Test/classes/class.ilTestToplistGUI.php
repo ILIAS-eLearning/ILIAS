@@ -58,8 +58,8 @@ class ilTestToplistGUI
 		$this->lng = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
 		$this->user = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilUser'] : $GLOBALS['ilUser'];
 		
-		$this->object = $a_object->object;
-		$this->toplist = new ilTestTopList($a_object->object);
+		$this->object = $a_object_gui->object;
+		$this->toplist = new ilTestTopList($a_object_gui->object);
 	}
 
 	public function executeCommand()
