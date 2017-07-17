@@ -805,7 +805,7 @@ class ilMail
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
-						$as_email = ilMailOptions::lookupExternalEmails($tmp_user->getId());
+						ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options, $as_email);
 						
 						if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 						{
@@ -830,7 +830,8 @@ class ilMail
 
 			$to  = array();
 			$bcc = array();
-
+			
+			$as_email = array_unique($as_email);
 			if(count($as_email) == 1)
 			{
 				$to[] = $as_email[0];
@@ -884,9 +885,8 @@ class ilMail
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
-						
-						$external_emails = ilMailOptions::lookupExternalEmails($tmp_user->getUserId());
-						$as_email[$tmp_user->getId()] = $external_emails;
+						ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options, $as_email);
+						$as_email[$tmp_user->getId()] = $as_email;
 						
 						if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 						{
@@ -944,8 +944,7 @@ class ilMail
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
-						$as_email = ilMailOptions::lookupExternalEmails($tmp_user->getUserId());
-						
+						ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options, $as_email);	
 						if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 						{
 							continue;

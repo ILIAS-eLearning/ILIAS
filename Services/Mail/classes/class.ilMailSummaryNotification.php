@@ -119,7 +119,8 @@ class ilMailSummaryNotification extends ilMailNotification
 
 			$mmail = new ilMimeMail();
 			$mmail->From($sender);
-			$external_emails = ilMailOptions::lookupExternalEmails($user_id);
+			$external_emails = array();
+			ilMailOptions::lookupExternalEmailByUserId($user_id, NULL, $external_emails);
 			$mmail->To($external_emails);
 		
 			$mmail->Subject($this->getSubject());

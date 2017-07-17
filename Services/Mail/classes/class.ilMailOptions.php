@@ -237,42 +237,71 @@ class ilMailOptions
 	}
 	
 	/**
-	 * @param int $user_id
-	 * @return array $external_emails
+	 * @param ilObjUser     $user
+	 * @param ilMailOptions $mail_options
+	 * @param               $as_email
 	 */
-	public static function lookupExternalEmails($user_id)
+	public static function lookupExternalEmails(ilObjUser $user, ilMailOptions $mail_options, &$as_email)
 	{
-		$instance = new self($user_id);
-		$tmp_user = new ilObjUser($user_id);
-		$incoming_type = $instance->getIncomingType();
-		$mail_address_option = $instance->getMailAddressOption();
-		$external_emails = array();
+		$incoming_type = $mail_options->getIncomingType();
+		$mail_address_option = $mail_options->getMailAddressOption();
 		
 		if($incoming_type == IL_MAIL_EMAIL || $incoming_type == IL_MAIL_BOTH)
 		{
 			switch($mail_address_option)
 			{
 				case IL_MAIL_FIRST_EMAIL:
-					$external_emails[] = $tmp_user->getEmail();
+					$as_email[] = $user->getEmail();
 					break;
 				case IL_MAIL_SECOND_EMAIL:
-					if(strlen($tmp_user->getSecondEmail()))
+					if(strlen($user->getSecondEmail()))
 					{
-						$external_emails[] = $tmp_user->getSecondEmail();
+						$as_email[] = $user->getSecondEmail();
 					}
 					break;
 				case IL_MAIL_BOTH_EMAIL:
-					$external_emails[] = $tmp_user->getEmail();
-					if(strlen($tmp_user->getSecondEmail()))
+					$as_email[] = $user->getEmail();
+					if(strlen($user->getSecondEmail()))
 					{
-						$external_emails[] = $tmp_user->getSecondEmail();
+						$as_email[] = $user->getSecondEmail();
 					}
 					break;
 				default:
-					$external_emails[] = $tmp_user->getEmail();
+					$as_email[] = $user->getEmail();
 					break;
 			}
 		}
-		return array_unique($external_emails);
+	}
+	
+	/**
+	 * @param ilObjUser     $user
+	 * @param ilMailOptions $mail_options
+	 * @param               $as_email
+	 */
+	public static function getExternalEmailsByUser(ilObjUser $user, ilMailOptions $mail_options = NULL, &$as_email)
+	{
+		if(!$mail_options)
+		{
+			$mail_options    = new self($user->getId());
+		}
+		
+		self::lookupExternalEmails($user, $mail_options, $as_email);
+	}
+	
+	/**
+	 * @param                    $user_id
+	 * @param ilMailOptions|NULL $mail_options
+	 * @param                    $as_email
+	 */
+	public static function getExternalEmailsByUserId($user_id, ilMailOptions $mail_options = NULL, &$as_email)
+	{
+		$user = new ilObjUser($user_id);
+		
+		if(!$mail_options)
+		{
+			$mail_options    = new self($user_id);
+		}
+		
+		self::lookupExternalEmails($user, $mail_options, $as_email);
 	}
 } 
