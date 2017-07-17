@@ -43,16 +43,15 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 
 	/**
 	 * ilAuthProviderSaml constructor.
-	 * @param ilAuthCredentials $credentials
-	 * @param null              $a_idp_id
+	 * @param ilAuthFrontendCredentialsSaml $credentials
+	 * @param null                          $a_idp_id
 	 */
-	public function __construct(\ilAuthCredentials $credentials, $a_idp_id = null)
+	public function __construct(\ilAuthFrontendCredentialsSaml $credentials, $a_idp_id = null)
 	{
 		parent::__construct($credentials);
 
 		require_once 'Services/User/classes/class.ilUserDefinedFields.php';
 		require_once 'Services/Saml/classes/class.ilSamlSettings.php';
-		require_once 'Services/Saml/classes/class.ilSamlAttributesHolder.php';
 		require_once 'Services/Saml/classes/class.ilSamlAttributeMapping.php';
 		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
 
@@ -64,6 +63,9 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 		{
 			$this->idp = ilSamlIdp::getInstanceByIdpId($a_idp_id);
 		}
+
+		$this->attributes = $credentials->getAttributes();
+		$this->return_to  = $credentials->getReturnTo();
 	}
 
 	/**
@@ -71,16 +73,9 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 	 */
 	public function doAuthentication(\ilAuthStatus $status)
 	{
-		$attributes = ilSamlAttributesHolder::getAttributes();
-		ilSamlAttributesHolder::setAttributes(array());
-		$return_to = ilSamlAttributesHolder::getReturnTo();
-		ilSamlAttributesHolder::setReturnTo('');
-
-		if($attributes)
+		if(is_array($this->attributes) && count($this->attributes) > 0)
 		{
-			$this->uid        = $attributes[$this->idp->getUidClaim()][0];
-			$this->attributes = $attributes;
-			$this->return_to  = $return_to;
+			$this->uid = $this->attributes[$this->idp->getUidClaim()][0];
 		}
 		else
 		{
@@ -155,11 +150,6 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 				{
 					ilLoggerFactory::getLogger('auth')->debug(sprintf('SAML Could not switch auth_mode of user with login "%s" and ext_account "%s" to "%s".', $internal_account, $this->uid, $this->getUserAuthModeName()));
 				}
-			}
-
-			if(strlen($this->return_to))
-			{
-				$_GET['target'] = $this->return_to;
 			}
 
 			ilLoggerFactory::getLogger('auth')->debug(sprintf('Authentication succeeded: Found internal login "%s for ext_account "%s" and auth_mode "%s".', $internal_account, $this->uid, $this->getUserAuthModeName()));

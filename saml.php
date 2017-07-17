@@ -8,13 +8,19 @@
 require_once 'libs/composer/vendor/autoload.php';
 $as = new SimpleSAML_Auth_Simple('default-sp');
 
-if(isset($_GET['action']) && $_GET['action'] == 'logout' && isset($_GET['logout_url']) && strlen($_GET['logout_url']))
+if(isset($_GET['action']) && $_GET['action'] == 'logout')
 {
-	$as->logout(array(
-		'ReturnTo'         => $_GET['logout_url'],
+	$params = array(
 		'ReturnStateParam' => 'LogoutState',
 		'ReturnStateStage' => 'ilLogoutState'
-	));
+	);
+
+	if(isset($_GET['logout_url']) && strlen($_GET['logout_url']))
+	{
+		$params['ReturnTo']= $_GET['logout_url'];
+	}
+
+	$as->logout($params);
 }
 
 $saml_config = SimpleSAML_Configuration::getInstance();
@@ -38,12 +44,12 @@ else
 
 $as->requireAuth();
 
-require_once 'Services/Saml/classes/class.ilSamlAttributesHolder.php';
-ilSamlAttributesHolder::setAttributes($as->getAttributes());
+require_once 'Services/Saml/classes/class.ilAuthFrontendCredentialsSaml.php';
+ilAuthFrontendCredentialsSaml::setRequestAttributes($as->getAttributes());
 
 if(strlen($session->getData('example:set_target', 'il_target')))
 {
-	ilSamlAttributesHolder::setReturnTo($session->getData('example:set_target', 'il_target'));
+	$_GET['target'] = $session->getData('example:set_target', 'il_target');
 	$session->deleteData('example:set_target', 'il_target');
 }
 
@@ -70,6 +76,15 @@ foreach($metadata->getList('saml20-idp-remote') as $idp)
 }
 
 $_POST['auth_mode'] = '12_' . $idpIndex;
+
+/*
+ 	The complete code above could be moved to ilStartupGUI::doSamlAuthentication in case we use the SQLite session store.
+	If "phpsession" is used as session storage, we have to close the SimpleSAML session (see code above) before we trigger
+	the ILIAS initialisation.
+	If so, we could pass (via setter or constructor injection) the SAML attribute array to the ilAuthFrontendCredentialsSaml instance
+	instead of using a static method. Furthermore we could read the config file from a defined location or/and get the SP name from
+	database instead of using the "default-sp" identifier.
+*/
 
 require_once './Services/Context/classes/class.ilContext.php';
 ilContext::init(ilContext::CONTEXT_SAML);
