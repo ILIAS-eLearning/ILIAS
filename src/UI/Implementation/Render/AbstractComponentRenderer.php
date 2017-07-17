@@ -113,7 +113,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 * @return	string|null
 	 */
 	final protected function bindJavaScript(JavaScriptBindable $component) {
-        $binder = $component->getOnLoadCode();
+		$binder = $component->getOnLoadCode();
 		if ($binder === null) {
 			return null;
 		}
@@ -125,7 +125,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 				" (used component: ".get_class($component).")");
 		}
 		$this->js_binding->addOnLoadCode($on_load_code);
-        return $id;
+		return $id;
 	}
 
 
