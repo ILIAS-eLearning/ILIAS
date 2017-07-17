@@ -61,7 +61,7 @@ class ListType implements Type, Ancestors {
 	 *
 	 * @return bool
 	 */
-	function isExtensionOf(Type $type) {
+	public function isExtensionOf(Type $type) {
 		if (!$type instanceof ListType) {
 			return false;
 		}
@@ -73,7 +73,7 @@ class ListType implements Type, Ancestors {
 	/**
 	 * @return Type
 	 */
-	function getContainedType() {
+	public function getContainedType() {
 		return $this->type;
 	}
 
@@ -95,7 +95,7 @@ class ListType implements Type, Ancestors {
 	/**
 	 * @inheritdoc
 	 */
-	function equals(Type $otherType) {
+	public function equals(Type $otherType) {
 		if (!$otherType instanceof ListType) {
 			return false;
 		}

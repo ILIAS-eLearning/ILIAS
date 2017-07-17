@@ -404,7 +404,7 @@ class BasicPersistence implements Persistence {
 
 	private function loadValue($valueContainerId, Bucket $bucket, BucketContainer $bucketContainer) {
 		global $DIC;
-		$factory = $DIC->injector();
+		$factory = $DIC->backgroundTasks()->injector();
 
 		/** @var ValueContainer $valueContainer */
 		$valueContainer = ValueContainer::find($valueContainerId);
