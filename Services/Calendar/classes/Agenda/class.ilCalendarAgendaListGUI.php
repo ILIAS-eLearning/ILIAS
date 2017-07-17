@@ -3,10 +3,11 @@
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- *
+ * Calendar agenda list
  *
  * @author Alex Killing <killing@leifos.de>
  * @ingroup ServicesCalendar
+ * @ilCtrl_Calls ilCalendarAgendaListGUI: ilCalendarAppointmentPresentationGUI
  */
 class ilCalendarAgendaListGUI
 {
@@ -107,7 +108,7 @@ class ilCalendarAgendaListGUI
 		switch ($next_class)
 		{
 			default:
-				if (in_array($cmd, array("getHTML")))
+				if (in_array($cmd, array("getHTML", "getModalForApp")))
 				{
 					return $this->$cmd();
 				}
@@ -126,18 +127,13 @@ class ilCalendarAgendaListGUI
 		$navigation->getHTML();
 
 		// get events
-		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_PD_UPCOMING);
-		$schedule->setPeriod(new ilDate($this->seed, IL_CAL_DATE),
-			new ilDate($this->period_end_day, IL_CAL_DATE));
-		$schedule->addSubitemCalendars(true);
-		$schedule->calculate();
-
-		$events = $schedule->getScheduledEvents();
+		$events = $this->getEvents();
 		$events = ilUtil::sortArray($events, "dstart", "asc", true);
 
 		$df = new \ILIAS\Data\Factory();
 		$items = array();
 		$groups = array();
+		$modals = array();
 		$cday = "";
 		foreach ($events as $e)
 		{
@@ -188,10 +184,19 @@ class ilCalendarAgendaListGUI
 			}
 
 			// shy button for title
-			$this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $e["event"]->getEntryId());
+			$this->ctrl->setParameter($this, 'app_id', $e["event"]->getEntryId());
+			$this->ctrl->setParameter($this, 'seed', $this->seed);
+			$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
+			$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
+			$modal = $this->ui_fac->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
+			//$modal = $this->ui_fac->modal()->roundtrip('test', $this->ui_fac->legacy("Hello World."));
+			$shy = $this->ui_fac->button()->shy($e["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal());
+			$modals[] = $modal;
+
+			/*$this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $e["event"]->getEntryId());
 			$shy = $this->ui_fac->button()->shy($e["event"]->getPresentationTitle(),
 				$this->ctrl->getLinkTargetByClass(array('ilcalendarinboxgui', 'ilcalendarappointmentgui'),'edit'));
-			$this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', "");
+			$this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', "");*/
 
 			$items[] = $this->ui_fac->item()->standard($shy)
 				->withDescription("".$e["event"]->getDescription())
@@ -229,8 +234,79 @@ class ilCalendarAgendaListGUI
 			->withActions($actions);
 
 
-		return $this->ui_ren->render($list);
+		$comps = array_merge($modals, array($list));
 
+		return $this->ui_ren->render($comps);
+
+	}
+
+	/**
+	 * Get events
+	 *
+	 * @param
+	 * @return
+	 */
+	function getEvents()
+	{
+		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_PD_UPCOMING);
+		$schedule->setPeriod(new ilDate($this->seed, IL_CAL_DATE),
+			new ilDate($this->period_end_day, IL_CAL_DATE));
+		$schedule->addSubitemCalendars(true);
+		$schedule->calculate();
+		return $schedule->getScheduledEvents();
+	}
+
+	/**
+	 * Get start/end date for item
+	 *
+	 * @param array $item item
+	 * @return array
+	 */
+	function getDatesForItem($item)
+	{
+		$start = $item["dstart"];
+		$end = $item["dend"];
+		if($item["fullday"])
+		{
+			$start = new ilDate($start, IL_CAL_UNIX);
+			$end = new ilDate($end, IL_CAL_UNIX);
+		}
+		else
+		{
+			$start = new ilDateTime($start, IL_CAL_UNIX);
+			$end = new ilDateTime($end, IL_CAL_UNIX);
+		}
+		return array("start" => $start, "end" => $end);
+	}
+
+	/**
+	 * Get modal for appointment (see similar code in ilCalendarBlockGUI)
+	 */
+	function getModalForApp()
+	{
+		$ilCtrl = $this->ctrl;
+
+		$f = $this->ui_fac;
+		$r = $this->ui_ren;
+
+		// @todo: this needs optimization
+		$events = $this->getEvents();
+		foreach ($events as $item)
+		{
+			if ($item["event"]->getEntryId() == (int) $_GET["app_id"])
+			{
+				$dates = $this->getDatesForItem($item);
+
+				// content of modal
+				include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
+				$next_gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed, IL_CAL_DATE), $item);
+				$content = $ilCtrl->getHTML($next_gui);
+
+				$modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),$f->legacy($content));
+				echo $r->renderAsync($modal);
+			}
+		}
+		exit();
 	}
 
 }

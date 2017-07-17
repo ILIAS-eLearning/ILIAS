@@ -548,7 +548,7 @@ class ilToolbarGUI
 
 						case "component":
 							$tpl_items->setCurrentBlock("component");
-							$tpl_items->setVariable("COMPONENT", $this->ui->renderer()->renderAsync($item["component"]));
+							$tpl_items->setVariable("COMPONENT", $this->ui->renderer()->render($item["component"]));
 							$tpl_items->touchBlock("item");
 							break;
 

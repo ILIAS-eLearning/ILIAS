@@ -1001,11 +1001,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 
 	/**
-	 * Get modal for appointment
+	 * Get modal for appointment (see similar code in ilCalendarAgendaListGUI)
 	 */
 	function getModalForApp()
 	{
 		$ui = $this->ui;
+		$ilCtrl = $this->ctrl;
 
 		$f = $ui->factory();
 		$r = $ui->renderer();
@@ -1017,27 +1018,17 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			if ($item["event"]->getEntryId() == (int) $_GET["app_id"])
 			{
 				$dates = $this->getDatesForItem($item);
-				$modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),$f->legacy($this->getModalContent($item)));
+
+				// content of modal
+				include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
+				$next_gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $item);
+				$content = $ilCtrl->getHTML($next_gui);
+
+				$modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),$f->legacy($content));
 				echo $r->renderAsync($modal);
 			}
 		}
 		exit();
-	}
-
-
-	/**
-	 * @param array $a_app
-	 * @return string
-	 */
-	public function getModalContent($a_app)
-	{
-		$ilCtrl = $this->ctrl;
-
-		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php');
-		$next_gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $a_app);
-		$this->appointment = $a_app;
-
-		return $ilCtrl->getHTML($next_gui);
 	}
 }
 

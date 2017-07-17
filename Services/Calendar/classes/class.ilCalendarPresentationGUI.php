@@ -93,6 +93,7 @@ class ilCalendarPresentationGUI
 	{
 		global $DIC;
 
+
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
 		$this->lng->loadLanguageModule('dateplaner');
@@ -143,6 +144,8 @@ class ilCalendarPresentationGUI
 		$this->prepareOutput();
 
 		$next_class = $this->getNextClass();
+
+
 		switch($next_class)
 		{
 			case 'ilcalendarinboxgui':
