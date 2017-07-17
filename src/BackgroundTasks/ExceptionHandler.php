@@ -17,8 +17,9 @@ interface ExceptionHandler {
 	 * bucket operation gracefully.
 	 *
 	 * @param Exceptions\Exception $exception
-	 * @param Bucket $bucket
-	 * @param Task|null $task
+	 * @param Bucket               $bucket
+	 * @param Task|null            $task
+	 *
 	 * @return void
 	 */
 	public function handleException(Exceptions\Exception $exception, Bucket $bucket, Task $task = null);
