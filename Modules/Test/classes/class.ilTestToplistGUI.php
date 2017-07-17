@@ -10,9 +10,35 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  * @author     Maximilian Becker <mbecker@databay.de>
  * @version    $Id$
  * @ingroup    ModulesTest
+ * @ilCtrl_Calls ilTestToplistGUI: ilAccordionGUI
  */
 class ilTestToplistGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+	
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+	
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+	
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+	
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+	
 	/** @var $object ilObjTest */
 	protected $object;
 
@@ -22,70 +48,63 @@ class ilTestToplistGUI
 	protected $toplist;
 
 	/**
-	 * @param ilObjTestGUI $a_object
+	 * @param ilObjTestGUI $a_object_gui
 	 */
-	public function __construct(ilObjTestGUI $a_object)
+	public function __construct(ilObjTestGUI $a_object_gui)
 	{
+		$this->ctrl = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilCtrl'] : $GLOBALS['ilCtrl'];
+		$this->tabs = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilTabs'] : $GLOBALS['ilTabs'];
+		$this->tpl = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
+		$this->lng = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
+		$this->user = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilUser'] : $GLOBALS['ilUser'];
+		
 		$this->object = $a_object->object;
 		$this->toplist = new ilTestTopList($a_object->object);
 	}
 
 	public function executeCommand()
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 * @var $ilTabs ilTabsGUI
-		 * @var $lng    ilLanguage
-		 */
-		global $ilCtrl, $ilTabs, $lng;
-
 		if(!$this->object->getHighscoreEnabled())
 		{
-			ilUtil::sendFailure($lng->txt('permission_denied'), true);
-			$ilCtrl->redirectByClass('ilObjTestGUI');
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+			$this->ctrl->redirectByClass('ilObjTestGUI');
 		}
-
-		$cmd = $ilCtrl->getCmd();
-
-		$ilCtrl->saveParameter($this, 'active_id');
-
+		
+		$this->ctrl->saveParameter($this, 'active_id');
+		
+		$cmd = $this->ctrl->getCmd();
+		
 		switch($cmd)
 		{
-			case 'showResultsToplistByTime':
-				$this->manageTabs($ilTabs, $ilCtrl, $lng, 'toplist_by_time');
-				$this->showResultsToplistByTime();
-				break;
-
-			case 'showResultsToplistByScore':
 			default:
-				$this->manageTabs($ilTabs, $ilCtrl, $lng, 'toplist_by_score');
-				$this->showResultsToplistByScore();
+				$this->manageTabs();
+				$this->showResultsToplistsCmd();
 		}
 	}
 	
-	protected function manageTabs(ilTabsGUI $tabsGUI, ilCtrl $ctrl, ilLanguage $lng, $activeTabId)
+	protected function manageTabs()
 	{
-		$tabsGUI->clearTargets();
-
-		$tabsGUI->setBackTarget(
-			$lng->txt('tst_results_back_introduction'), $ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen')
-		);
-
-		$tabsGUI->addTab(
-			'toplist_by_score', $lng->txt('toplist_by_score'), $ctrl->getLinkTarget($this, 'showResultsToplistByScore')
-		);
+		$this->tabs->clearTargets();
 		
-		$tabsGUI->addTab(
-			'toplist_by_time', $lng->txt('toplist_by_time'), $ctrl->getLinkTarget($this, 'showResultsToplistByTime')
+		$this->tabs->setBackTarget( $this->lng->txt('tst_results_back_introduction'),
+			$this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen')
 		);
-
-		$tabsGUI->setTabActive($activeTabId);
 	}
-
-	public function showResultsToplistByScore()
+	
+	protected function showResultsToplistsCmd()
 	{
-		global $ilUser, $lng, $tpl;
-
+		include_once "Services/Accordion/classes/class.ilAccordionGUI.php";
+		$acc = new ilAccordionGUI();
+		$acc->setId('tst_toplists');
+		
+		$acc->addItem($this->lng->txt('toplist_by_score'), $this->renderResultsToplistByScore());
+		$acc->addItem($this->lng->txt('toplist_by_time'), $this->renderResultsToplistByTime());
+		
+		$this->tpl->setVariable("ADM_CONTENT", $this->ctrl->getHTML($acc));
+	}
+	
+	protected function renderResultsToplistByScore()
+	{
 		$html = '';
 
 		if($this->object->getHighscoreMode() != ilObjTest::HIGHSCORE_SHOW_OWN_TABLE)
@@ -93,11 +112,11 @@ class ilTestToplistGUI
 			$table_gui = new ilTable2GUI($this);
 			$this->prepareTable($table_gui);
 
-			$data = $this->toplist->getGeneralToplistByPercentage($_GET['ref_id'], $ilUser->getId());
+			$data = $this->toplist->getGeneralToplistByPercentage($_GET['ref_id'], $this->user->getId());
 
 			$table_gui->setRowTemplate('tpl.toplist_tbl_rows.html', 'Modules/Test');
 			$table_gui->setData($data);
-			$table_gui->setTitle(sprintf($lng->txt('toplist_top_n_results'), $this->object->getHighscoreTopNum()));
+			$table_gui->setTitle(sprintf($this->lng->txt('toplist_top_n_results'), $this->object->getHighscoreTopNum()));
 
 			$html .= $table_gui->getHTML();
 		}
@@ -108,22 +127,20 @@ class ilTestToplistGUI
 
 			$this->prepareTable($table_gui2);
 
-			$data2 = $this->toplist->getUserToplistByPercentage($_GET['ref_id'], $ilUser->getID());
+			$data2 = $this->toplist->getUserToplistByPercentage($_GET['ref_id'], $this->user->getID());
 
 			$table_gui2->setRowTemplate('tpl.toplist_tbl_rows.html', 'Modules/Test');
 			$table_gui2->setData($data2);
-			$table_gui2->setTitle($lng->txt('toplist_your_result'));
+			$table_gui2->setTitle($this->lng->txt('toplist_your_result'));
 
 			$html .= $table_gui2->getHTML();
 		}
 
-		$tpl->setVariable("ADM_CONTENT", $html);
+		return $html;
 	}
-
-	public function showResultsToplistByTime()
+	
+	protected function renderResultsToplistByTime()
 	{
-		global $ilUser, $lng, $tpl;
-
 		$html = '';
 
 		if($this->object->getHighscoreMode() != ilObjTest::HIGHSCORE_SHOW_OWN_TABLE)
@@ -131,11 +148,11 @@ class ilTestToplistGUI
 			$table_gui = new ilTable2GUI($this);
 			$this->prepareTable($table_gui);
 
-			$data = $this->toplist->getGeneralToplistByWorkingtime($_GET['ref_id'], $ilUser->getId());
+			$data = $this->toplist->getGeneralToplistByWorkingtime($_GET['ref_id'], $this->user->getId());
 
 			$table_gui->setRowTemplate('tpl.toplist_tbl_rows.html', 'Modules/Test');
 			$table_gui->setData($data);
-			$table_gui->setTitle(sprintf($lng->txt('toplist_top_n_results'), $this->object->getHighscoreTopNum()));
+			$table_gui->setTitle(sprintf($this->lng->txt('toplist_top_n_results'), $this->object->getHighscoreTopNum()));
 
 			$html .= $table_gui->getHTML();
 		}
@@ -146,17 +163,16 @@ class ilTestToplistGUI
 
 			$this->prepareTable($table_gui2);
 
-			$data2 = $this->toplist->getUserToplistByWorkingtime($_GET['ref_id'], $ilUser->getID());
+			$data2 = $this->toplist->getUserToplistByWorkingtime($_GET['ref_id'], $this->user->getID());
 
 			$table_gui2->setRowTemplate('tpl.toplist_tbl_rows.html', 'Modules/Test');
 			$table_gui2->setData($data2);
-			$table_gui2->setTitle($lng->txt('toplist_your_result'));
+			$table_gui2->setTitle($this->lng->txt('toplist_your_result'));
 
 			$html .= $table_gui2->getHTML();
 		}
 
-		$tpl->setVariable("ADM_CONTENT", $html);
-
+		return $html;
 	}
 
 	/**
@@ -164,33 +180,31 @@ class ilTestToplistGUI
 	 */
 	private function prepareTable(ilTable2GUI $table_gui)
 	{
-		global $lng;
-
-		$table_gui->addColumn($lng->txt('toplist_col_rank'));
-		$table_gui->addColumn($lng->txt('toplist_col_participant'));
+		$table_gui->addColumn($this->lng->txt('toplist_col_rank'));
+		$table_gui->addColumn($this->lng->txt('toplist_col_participant'));
 		if($this->object->getHighscoreAchievedTS())
 		{
-			$table_gui->addColumn($lng->txt('toplist_col_achieved'));
+			$table_gui->addColumn($this->lng->txt('toplist_col_achieved'));
 		}
 
 		if($this->object->getHighscoreScore())
 		{
-			$table_gui->addColumn($lng->txt('toplist_col_score'));
+			$table_gui->addColumn($this->lng->txt('toplist_col_score'));
 		}
 
 		if($this->object->getHighscorePercentage())
 		{
-			$table_gui->addColumn($lng->txt('toplist_col_percentage'));
+			$table_gui->addColumn($this->lng->txt('toplist_col_percentage'));
 		}
 
 		if($this->object->getHighscoreHints())
 		{
-			$table_gui->addColumn($lng->txt('toplist_col_hints'));
+			$table_gui->addColumn($this->lng->txt('toplist_col_hints'));
 		}
 
 		if($this->object->getHighscoreWTime())
 		{
-			$table_gui->addColumn($lng->txt('toplist_col_wtime'));
+			$table_gui->addColumn($this->lng->txt('toplist_col_wtime'));
 		}
 		$table_gui->setEnableNumInfo(false);
 		$table_gui->setLimit(10);
