@@ -1796,7 +1796,7 @@ class HTTP_WebDAV_Server
                     // but if opaquelocktokens are used (RFC2518 6.4)
                     // we have to check the format (litmus tests this)
                     if (!strncmp($condition, "<opaquelocktoken:", strlen("<opaquelocktoken"))) {
-                        if (!ereg("^<opaquelocktoken:[[:xdigit:]]{8}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{12}>$", $condition)) {
+                        if (!preg_match("/^<opaquelocktoken:[[:xdigit:]]{8}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{12}>$/", $condition)) {
                             return false;
                         }
                     }
