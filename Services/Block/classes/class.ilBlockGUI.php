@@ -46,19 +46,51 @@ abstract class ilBlockGUI
 	protected $tpl;
 
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var
+	 */
+	protected $obj_def;
+
+	/**
 	* Constructor
 	*
 	* @param
 	*/
 	function __construct()
 	{
-		global $ilUser, $tpl, $ilCtrl;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$this->access = $DIC->access();
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
+		$this->obj_def = $DIC["objDefinition"];
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initConnection();
-		$tpl->addJavaScript("./Services/Block/js/ilblockcallback.js");
+		$this->tpl->addJavaScript("./Services/Block/js/ilblockcallback.js");
 
-		$this->setLimit($ilUser->getPref("hits_per_page"));
+		$this->setLimit($this->user->getPref("hits_per_page"));
 	}
 	
 	public function addHeaderLink($a_href, $a_text, $status = true)
@@ -642,7 +674,8 @@ abstract class ilBlockGUI
 	*/
 	function handleDetailLevel()
 	{
-		global $ilUser, $ilCtrl;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
 
 		// set/get detail level
 		if ($this->detail_max > $this->detail_min)
@@ -697,7 +730,11 @@ abstract class ilBlockGUI
 	*/
 	function getHTML()
 	{
-		global $ilCtrl, $lng, $ilAccess, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
+		$objDefinition = $this->obj_def;
 		
 		if ($this->isRepositoryObject())
 		{
@@ -739,8 +776,7 @@ abstract class ilBlockGUI
 					
 			// #14595 - see ilObjectListGUI::insertCopyCommand()
 			if ($ilAccess->checkAccess("copy", "", $this->getRefId()))
-			{				
-				global $objDefinition;
+			{
 				$parent_type = ilObject::_lookupType($_GET["ref_id"], true);
 				$parent_gui = "ilObj".$objDefinition->getClassName($parent_type)."GUI";
 			
@@ -911,7 +947,9 @@ abstract class ilBlockGUI
 	*/
 	function fillHeaderCommands()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+
 		
 		// header commands
 		if (count($this->getHeaderCommands()) > 0 ||
@@ -990,7 +1028,7 @@ abstract class ilBlockGUI
 	*/
 	function fillHeaderTitleBlock()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// image
 		if ($this->getImage() != "")
@@ -1101,10 +1139,8 @@ abstract class ilBlockGUI
 	*/
 	function fillPreviousNext()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
 
-		$pn = false;
-				
 		// table pn numinfo
 		$numinfo = "";
 		if ($this->getEnableNumInfo() && $this->max_count > 0)
@@ -1134,7 +1170,8 @@ abstract class ilBlockGUI
 	*/
 	function setPreviousNextLinks()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		// if more entries then entries per page -> show link bar
 		if ($this->max_count > $this->getLimit() && ($this->getLimit() != 0))
@@ -1213,8 +1250,6 @@ abstract class ilBlockGUI
 	*/
 	function fillFooterLinks($a_top = false, $a_numinfo = "")
 	{
-		global $ilCtrl, $lng;
-
 		$first = true;
 		$flinks = $this->getFooterLinks();
 		
@@ -1304,7 +1339,8 @@ abstract class ilBlockGUI
 	*/
 	function fillDetailRow()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		if ($this->enabledetailrow == false)
 		{
