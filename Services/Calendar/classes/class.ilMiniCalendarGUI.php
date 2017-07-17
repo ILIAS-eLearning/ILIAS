@@ -175,14 +175,16 @@ class ilMiniCalendarGUI
 			
 			if($counter and !($counter % 7))
 			{
+				$a_tpl->setCurrentBlock('week');
+				$a_tpl->setVariable('WEEK',
+					$date->get(IL_CAL_FKT_DATE,'W'));
+				$a_tpl->parseCurrentBlock();
+
 				$a_tpl->setCurrentBlock('month_row');
 				$ilCtrl->clearParametersByClass('ilcalendarweekgui');
 				$ilCtrl->setParameterByClass('ilcalendarweekgui','seed',$date->get(IL_CAL_DATE));
-				$a_tpl->setVariable('OPEN_WEEK_VIEW', $ilCtrl->getLinkTargetByClass('ilcalendarweekgui',''));
 				$ilCtrl->clearParametersByClass('ilcalendarweekgui');
 				$a_tpl->setVariable('TD_CLASS','calminiweek');
-				$a_tpl->setVariable('WEEK',
-					$date->get(IL_CAL_FKT_DATE,'W'));
 				$a_tpl->parseCurrentBlock();
 			}
 		}

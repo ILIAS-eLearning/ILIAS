@@ -9897,20 +9897,19 @@ table.calmini th {
     padding: 5px 1px;
   }
 }
+table.calmini tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
 table.calmini tr:nth-child(even) {
-  background-color: #e9e9e9;
+  background-color: white;
 }
 table.calmini th.calmini,
 table.calmini th.calminiweek {
   font-weight: 600;
-  color: #4c6586;
   font-size: 90%;
 }
-table.calmini td.calministd > .il_calmini_monthday > a {
-  color: #696969;
-}
 table.calmini td.calminitoday {
-  background-color: #708bae;
+  background-color: #fa8228;
 }
 table.calmini td.calminitoday > .il_calmini_monthday > a {
   color: white;
@@ -9918,6 +9917,7 @@ table.calmini td.calminitoday > .il_calmini_monthday > a {
 table.calmini td.calminiprev > .il_calmini_monthday > a,
 table.calmini td.calmininext > .il_calmini_monthday > a {
   color: #a9a9a9;
+  display: none;
 }
 a.callink:link,
 a.callink:visited {

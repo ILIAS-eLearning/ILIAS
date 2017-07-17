@@ -456,22 +456,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			
 			if($counter and !($counter % 7))
 			{
-				if(!$disable_empty || $week_has_events)
-				{
-					$a_tpl->setCurrentBlock('month_row_link');
-					$ilCtrl->clearParametersByClass('ilcalendarweekgui');
-					$ilCtrl->setParameterByClass('ilcalendarweekgui','seed',$date->get(IL_CAL_DATE));
-					$a_tpl->setVariable('OPEN_WEEK_VIEW', $ilCtrl->getLinkTargetByClass('ilcalendarweekgui',''));
-					$ilCtrl->clearParametersByClass('ilcalendarweekgui');
-				}
-				else
-				{
-					$a_tpl->setCurrentBlock('month_row_no_link');
-					$a_tpl->setVariable('WEEK_CLASS', 'calminiinactive');
-				}
+				$a_tpl->setCurrentBlock('week');
 				$a_tpl->setVariable('WEEK',
 					$date->get(IL_CAL_FKT_DATE,'W'));
-			    $a_tpl->parseCurrentBlock();
+				$a_tpl->parseCurrentBlock();
+
 
 				$a_tpl->setCurrentBlock('month_row');
 				$a_tpl->setVariable('TD_CLASS','calminiweek');

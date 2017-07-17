@@ -102,19 +102,20 @@ table.calmini {
 		color: lighten(@mid-gray, 45%);
 		background-color: transparent;
 	}
+	tr:nth-child(odd) {
+		background-color: @il-secondary-container-bg;
+	}
 	tr:nth-child(even) {
-		background-color: lighten(@mid-gray, 65%);
+		background-color: @il-primary-container-bg;
 	}
 	th.calmini, th.calminiweek {
 		font-weight: 600;
-		color: @brand-primary;
 		font-size: 90%;
 	}
 	td.calministd > .il_calmini_monthday > a {
-		color: lighten(@mid-gray, 15%);
 	}
 	td.calminitoday {
-		background-color: lighten(@brand-primary, 15%);
+		background-color: @brand-warning;
 		> .il_calmini_monthday > a {
 			color: white;
 		}
@@ -122,6 +123,7 @@ table.calmini {
 	td.calminiprev > .il_calmini_monthday > a,
 	td.calmininext > .il_calmini_monthday > a {
 		color: lighten(@mid-gray, 40%);
+		display:none;
 	}
 }
 
