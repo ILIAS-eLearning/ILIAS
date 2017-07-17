@@ -315,6 +315,8 @@ class ilSessionDataSet extends ilDataSet
 
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Modules/Session", "sess", $a_rec["Id"], $newObj->getId());
+				$a_mapping->addMapping('Services/Object','objs', $a_rec['Id'], $newObj->getId());
+				$a_mapping->addMapping('Services/AdvancedMetaData','parent', $a_rec['Id'], $newObj->getId());
 //var_dump($a_mapping->mappings["Services/News"]["news_context"]);
 				break;
 

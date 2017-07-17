@@ -656,6 +656,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->putInTree($_GET["ref_id"]);
 		$this->object->setPermissions($_GET["ref_id"]);
 		
+		ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+			$this->object->getId(),
+			$this->form,
+			array(
+				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+			)
+		);		
 		$this->record_gui->writeEditForm($this->object->getId());
 		
 		
@@ -896,7 +903,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// Update event
 		$this->object->update();
 		$this->object->getFirstAppointment()->update();
-
+		
+		ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+			$this->object->getId(),
+			$this->form,
+			array(
+				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+			)
+		);
 		$this->record_gui->writeEditForm();
 		$this->handleFileUpload();
 		
@@ -1507,6 +1521,15 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$files->setFilenames(array(0 => ''));
 		$this->form->addItem($files);
 				
+		ilObjectServiceSettingsGUI::initServiceSettingsForm(
+				$this->object->getId(),
+				$this->form,
+				array(
+					ilObjectServiceSettingsGUI::CUSTOM_METADATA
+				)
+			);
+		
+
 		switch($a_mode)
 		{
 			case 'create':

@@ -12,6 +12,18 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
  */
 class ilAdvancedMetaDataImporter extends ilXmlImporter
 {
+	private $logger = null;
+	
+	/**
+	 * 
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->logger = $GLOBALS['DIC']->logger()->amet();
+	}
+	
+	
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{				
 		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDParser.php";
@@ -22,10 +34,10 @@ class ilAdvancedMetaDataImporter extends ilXmlImporter
 		$parser = new ilAdvancedMDParser($a_id, $a_mapping);
 		$parser->setXMLContent($a_xml);
 		$parser->startParsing();
-									
+		
 		// records with imported values should be selected
 		foreach($parser->getRecordIds() as $obj_id => $sub_types)
-		{						
+		{	
 			ilContainer::_writeContainerSetting($obj_id, ilObjectServiceSettingsGUI::CUSTOM_METADATA, 1);
 			
 			foreach($sub_types as $sub_type => $rec_ids)
