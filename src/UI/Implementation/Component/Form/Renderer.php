@@ -40,8 +40,11 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->setVariable("BUTTONS", $default_renderer->render($submit_button));
 
+		$counter = 0;
 		$inputs = "";
 		foreach($component->getInputs() as $input) {
+			$input = $input->withName("name_$counter");
+			$counter++;
 			$inputs .= $default_renderer->render($input);
 		}
 		$tpl->setVariable("INPUTS", $inputs);
