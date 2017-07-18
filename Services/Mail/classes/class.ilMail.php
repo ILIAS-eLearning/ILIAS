@@ -805,8 +805,8 @@ class ilMail
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
-						ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options, $as_email);
-						
+						$as_email = $as_email + ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
+
 						if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 						{
 							continue;
@@ -885,9 +885,8 @@ class ilMail
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
-						ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options, $as_email);
-						$as_email[$tmp_user->getId()] = $as_email;
-						
+						$as_email[$tmp_user->getId()] = ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
+	
 						if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 						{
 							continue;
@@ -913,10 +912,8 @@ class ilMail
 			{
 				foreach($as_email as $id => $emails)
 				{
-					foreach($emails as $email)
-					{
-						$this->sendMimeMail($email, '', '', $a_subject, $this->formatLinebreakMessage($id_to_message_map[$id]), $a_attachments);
-					}
+					$toEmailAddresses = implode(',', $emails);
+					$this->sendMimeMail($toEmailAddresses, '', '', $a_subject, $this->formatLinebreakMessage($id_to_message_map[$id]), $a_attachments);
 				}
 			}
 
@@ -944,7 +941,8 @@ class ilMail
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL
 						|| $tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
-						ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options, $as_email);	
+						$as_email = $as_email + ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
+						
 						if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 						{
 							continue;
