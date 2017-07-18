@@ -299,7 +299,7 @@ class ilMailOptions
 
 		if(!$mail_options)
 		{
-			$mail_options    = new self($user_id);
+			$mail_options = new self($user_id);
 		}
 
 		self::lookupExternalEmails($user, $mail_options, $as_email);
