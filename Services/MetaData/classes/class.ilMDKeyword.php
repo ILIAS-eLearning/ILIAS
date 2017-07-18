@@ -340,7 +340,7 @@ class ilMDKeyword extends ilMDBase
 		$new_keywords = array();
 		foreach($a_keywords as $lang => $keywords)
 		{			
-			foreach($keywords as $keyword)
+			foreach((array) $keywords as $keyword)
 			{
 				$keyword = trim($keyword);
 				if ($keyword != "" && 

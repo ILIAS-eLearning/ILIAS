@@ -145,7 +145,8 @@ class ilObjectMetaDataGUI
 				"webr", 
 				"htlm", 
 				"lm", "lm:st", "lm:pg",
-				"sahs", "sahs:sco", "sahs:page"
+				"sahs", "sahs:sco", "sahs:page",
+				'sess'
 		)));
 	}
 	

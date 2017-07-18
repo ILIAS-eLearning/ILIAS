@@ -543,6 +543,8 @@ class ilObjSession extends ilObject
 	
 		parent::create();
 		
+		$this->createMetaData();
+
 		$next_id = $ilDB->nextId('event');
 		$query = "INSERT INTO event (event_id,obj_id,location,tutor_name,tutor_phone,tutor_email,details,registration, ".
 			'reg_type, reg_limit_users, reg_limited, reg_waiting_list, reg_min_users, reg_auto_wait) '.
@@ -590,6 +592,8 @@ class ilObjSession extends ilObject
 		{
 			return false;
 		}
+		$this->updateMetaData();
+		
 		$query = "UPDATE event SET ".
 			"location = ".$this->db->quote($this->getLocation() ,'text').",".
 			"tutor_name = ".$this->db->quote($this->getName() ,'text').", ".
@@ -629,6 +633,10 @@ class ilObjSession extends ilObject
 		{
 			return false;
 		}
+		
+		// delete meta data
+		$this->deleteMetaData();
+		
 		$query = "DELETE FROM event ".
 			"WHERE obj_id = ".$this->db->quote($this->getId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);

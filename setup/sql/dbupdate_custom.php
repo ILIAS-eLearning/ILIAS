@@ -180,3 +180,52 @@ $ilDB->manipulate($query);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#8>
+<?php
+
+$sessions = [];
+
+$query = 'select obd.obj_id, title, od.description from object_data obd left join object_description od on od.obj_id = obd.obj_id  where type = '.$ilDB->quote('sess','text');
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+{
+	$tmp['obj_id'] = $row->obj_id;
+	$tmp['title'] = $row->title;
+	$tmp['description'] = $row->description;
+	
+	$sessions[] = $tmp;
+}
+
+foreach($sessions as $idx => $sess_info)
+{
+	$meta_id = $ilDB->nextId('il_meta_general');
+	$insert = 'INSERT INTO il_meta_general (meta_general_id, rbac_id, obj_id, obj_type, general_structure, title, title_language, coverage, coverage_language) '.
+		'VALUES( '.
+		$ilDB->quote($meta_id,'integer').', '.
+		$ilDB->quote($sess_info['obj_id'],'integer').', '.
+		$ilDB->quote($sess_info['obj_id'],'integer').', '.
+		$ilDB->quote('sess','text').', '.
+		$ilDB->quote('Hierarchical','text').', '.
+		$ilDB->quote($sess_info['title'],'text').', '.
+		$ilDB->quote('en','text').', '.
+		$ilDB->quote('', 'text').', '.
+		$ilDB->quote('en','text').' '.
+		')';
+		
+	$ilDB->manipulate($insert);
+	
+	$meta_des_id = $ilDB->nextId('il_meta_description');
+	$insert = 'INSERT INTO il_meta_description (meta_description_id, rbac_id, obj_id, obj_type, parent_type, parent_id, description, description_language) '.
+		'VALUES( '.
+		$ilDB->quote($meta_id,'integer').', '.
+		$ilDB->quote($sess_info['obj_id'],'integer').', '.
+		$ilDB->quote($sess_info['obj_id'],'integer').', '.
+		$ilDB->quote('sess','text').', '.
+		$ilDB->quote('meta_general','text').', '.
+		$ilDB->quote($meta_id,'integer').', '.
+		$ilDB->quote($sess_info['description'],'text').', '.
+		$ilDB->quote('en','text').' '.
+		')';
+	$ilDB->manipulate($insert);
+}
+?>
