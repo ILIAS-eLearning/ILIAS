@@ -101,34 +101,39 @@ class ilTestToplistGUI
 	protected function renderResultsToplistByScore()
 	{
 		$html = '';
-
-		if($this->object->getHighscoreMode() != ilObjTest::HIGHSCORE_SHOW_OWN_TABLE)
+		
+		if($this->object->getHighscoreMode() == ilObjTest::HIGHSCORE_SHOW_OWN_TABLE)
 		{
-			$table_gui = new ilTable2GUI($this);
-			$this->prepareTable($table_gui);
-
+			
+		}
+		elseif(true)
+		{
+			
+		}
+			
+		if( $this->isTopTenRankingTableRequired() )
+		{
 			$data = $this->toplist->getGeneralToplistByPercentage($_GET['ref_id'], $this->user->getId());
-
-			$table_gui->setRowTemplate('tpl.toplist_tbl_rows.html', 'Modules/Test');
+			$title = $this->lng->txt('toplist_by_score');
+			
+			$table_gui = $this->buildTableGUI();
+			
 			$table_gui->setData($data);
-			$table_gui->setTitle(sprintf($this->lng->txt('toplist_top_n_results'), $this->object->getHighscoreTopNum()));
+			$table_gui->setTitle($title);
 
 			$html .= $table_gui->getHTML();
 		}
 
-		if($this->object->getHighscoreMode() != ilObjTest::HIGHSCORE_SHOW_TOP_TABLE)
+		if( $this->isOwnRankingTableRequired() )
 		{
-			$table_gui2 = new ilTable2GUI($this);
+			$data = $this->toplist->getUserToplistByPercentage($_GET['ref_id'], $this->user->getID());
+			$title = $this->isTopTenRankingTableRequired() ? '' : $this->lng->txt('toplist_by_score');
+			
+			$table_gui = $this->buildTableGUI();
+			$table_gui->setData($data);
+			$table_gui->setTitle($title);
 
-			$this->prepareTable($table_gui2);
-
-			$data2 = $this->toplist->getUserToplistByPercentage($_GET['ref_id'], $this->user->getID());
-
-			$table_gui2->setRowTemplate('tpl.toplist_tbl_rows.html', 'Modules/Test');
-			$table_gui2->setData($data2);
-			$table_gui2->setTitle($this->lng->txt('toplist_your_result'));
-
-			$html .= $table_gui2->getHTML();
+			$html .= $table_gui->getHTML();
 		}
 
 		return $html;
@@ -138,33 +143,28 @@ class ilTestToplistGUI
 	{
 		$html = '';
 
-		if($this->object->getHighscoreMode() != ilObjTest::HIGHSCORE_SHOW_OWN_TABLE)
+		if( $this->isTopTenRankingTableRequired() )
 		{
-			$table_gui = new ilTable2GUI($this);
-			$this->prepareTable($table_gui);
-
 			$data = $this->toplist->getGeneralToplistByWorkingtime($_GET['ref_id'], $this->user->getId());
-
-			$table_gui->setRowTemplate('tpl.toplist_tbl_rows.html', 'Modules/Test');
+			$title = $this->lng->txt('toplist_by_time');
+			
+			$table_gui = $this->buildTableGUI();
 			$table_gui->setData($data);
-			$table_gui->setTitle(sprintf($this->lng->txt('toplist_top_n_results'), $this->object->getHighscoreTopNum()));
+			$table_gui->setTitle($title);
 
 			$html .= $table_gui->getHTML();
 		}
 
-		if($this->object->getHighscoreMode() != ilObjTest::HIGHSCORE_SHOW_TOP_TABLE)
+		if( $this->isOwnRankingTableRequired() )
 		{
-			$table_gui2 = new ilTable2GUI($this);
+			$data = $this->toplist->getUserToplistByWorkingtime($_GET['ref_id'], $this->user->getID());
+			$title =  $this->isTopTenRankingTableRequired() ? '' : $this->lng->txt('toplist_by_time');
+			
+			$table_gui = $this->buildTableGUI();
+			$table_gui->setData($data);
+			$table_gui->setTitle($title);
 
-			$this->prepareTable($table_gui2);
-
-			$data2 = $this->toplist->getUserToplistByWorkingtime($_GET['ref_id'], $this->user->getID());
-
-			$table_gui2->setRowTemplate('tpl.toplist_tbl_rows.html', 'Modules/Test');
-			$table_gui2->setData($data2);
-			$table_gui2->setTitle($this->lng->txt('toplist_your_result'));
-
-			$html .= $table_gui2->getHTML();
+			$html .= $table_gui->getHTML();
 		}
 
 		return $html;
@@ -203,5 +203,52 @@ class ilTestToplistGUI
 		}
 		$table_gui->setEnableNumInfo(false);
 		$table_gui->setLimit(10);
+	}
+	
+	/**
+	 * @return ilTable2GUI
+	 */
+	protected function buildTableGUI()
+	{
+		$table_gui = new ilTable2GUI($this);
+		$this->prepareTable($table_gui);
+		$table_gui->setRowTemplate('tpl.toplist_tbl_rows.html', 'Modules/Test');
+		return $table_gui;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	protected function isTopTenRankingTableRequired()
+	{
+		if( $this->object->getHighscoreMode() == ilObjTest::HIGHSCORE_SHOW_TOP_TABLE )
+		{
+			return true;
+		}
+		
+		if( $this->object->getHighscoreMode() == ilObjTest::HIGHSCORE_SHOW_ALL_TABLES )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	protected function isOwnRankingTableRequired()
+	{
+		if( $this->object->getHighscoreMode() == ilObjTest::HIGHSCORE_SHOW_OWN_TABLE )
+		{
+			return true;
+		}
+		
+		if( $this->object->getHighscoreMode() == ilObjTest::HIGHSCORE_SHOW_ALL_TABLES )
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }
