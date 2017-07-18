@@ -454,6 +454,7 @@ class ilObjSession extends ilObject
 	 	
 		// Copy settings
 		$this->cloneSettings($new_obj);
+	 	$this->cloneMetaData($new_obj);
 		
 		// Clone appointment
 		$new_app = $this->getFirstAppointment()->cloneObject($new_obj->getId());
@@ -536,14 +537,17 @@ class ilObjSession extends ilObject
 	 *
 	 * @access public
 	 */
-	public function create()
+	public function create($a_skip_meta_data = false)
 	{
 		global $ilDB;
 		global $ilAppEventHandler;
 	
 		parent::create();
 		
-		$this->createMetaData();
+		if(!$a_skip_meta_data)
+		{
+			$this->createMetaData();
+		}
 
 		$next_id = $ilDB->nextId('event');
 		$query = "INSERT INTO event (event_id,obj_id,location,tutor_name,tutor_phone,tutor_email,details,registration, ".
@@ -583,7 +587,7 @@ class ilObjSession extends ilObject
 	 * @param
 	 * @return bool success
 	 */
-	public function update()
+	public function update($a_skip_meta_update = false)
 	{
 		global $ilDB;
 		global $ilAppEventHandler;
@@ -592,7 +596,10 @@ class ilObjSession extends ilObject
 		{
 			return false;
 		}
-		$this->updateMetaData();
+		if(!$a_skip_meta_update)
+		{
+			$this->updateMetaData();
+		}
 		
 		$query = "UPDATE event SET ".
 			"location = ".$this->db->quote($this->getLocation() ,'text').",".

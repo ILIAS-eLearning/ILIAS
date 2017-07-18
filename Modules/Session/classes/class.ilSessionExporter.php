@@ -56,6 +56,21 @@ class ilSessionExporter extends ilXmlExporter
 				"ids" => $advmd_ids
 			);	
 		}
+		
+		$md_ids = array();
+		foreach ($a_ids as $sess_id)
+		{
+			$md_ids[] = $sess_id.":0:sess";
+		}
+		if($md_ids)
+		{
+			$deps[] = 
+				array(
+					"component" => "Services/MetaData",
+					"entity" => "md",
+					"ids" => $md_ids
+				);
+		}
 
 		// service settings
 		$deps[] = array(

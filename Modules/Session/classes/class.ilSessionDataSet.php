@@ -295,7 +295,7 @@ class ilSessionDataSet extends ilDataSet
 						break;
 				}
 
-				$newObj->update();
+				$newObj->update(true);
 
 				$start = new ilDateTime($a_rec["EventStart"], IL_CAL_DATETIME, "UTC");
 				$end = new ilDateTime($a_rec["EventEnd"], IL_CAL_DATETIME, "UTC");
@@ -317,6 +317,12 @@ class ilSessionDataSet extends ilDataSet
 				$a_mapping->addMapping("Modules/Session", "sess", $a_rec["Id"], $newObj->getId());
 				$a_mapping->addMapping('Services/Object','objs', $a_rec['Id'], $newObj->getId());
 				$a_mapping->addMapping('Services/AdvancedMetaData','parent', $a_rec['Id'], $newObj->getId());
+				$a_mapping->addMapping(
+					"Services/MetaData", 
+					"md",
+					$a_rec["Id"].":0:sess", $newObj->getId().":0:sess");
+				
+				
 //var_dump($a_mapping->mappings["Services/News"]["news_context"]);
 				break;
 
