@@ -106,6 +106,19 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 * @return	string|null
 	 */
 	final protected function bindJavaScript(JavaScriptBindable $component) {
+		if ($component instanceof Triggerer) {
+			$component = $this->addTriggererOnLoadCode($component);
+		}
+		return $this->bindOnloadCode($component);
+	}
+
+	/**
+	 * Bind the JavaScript onload-code.
+	 *
+	 * @param	JavaScriptBindable	$component
+	 * @return	string|null
+	 */
+	private function bindOnloadCode(JavaScriptBindable $component) {
 		$binder = $component->getOnLoadCode();
 		if ($binder === null) {
 			return null;
@@ -122,6 +135,37 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	}
 
 	/**
+	 * Add onload-code for triggerer.
+	 *
+	 * @param	Triggerer	$triggerer
+	 * @return 	Triggerer
+	 */
+	private function addTriggererOnLoadCode(Triggerer $triggerer) {
+		$triggered_signals = $triggerer->getTriggeredSignals();
+		if (count($triggered_signals) == 0) {
+			return $triggerer;
+		}
+		return $triggerer->withAdditionalOnLoadCode(function($id) use ($triggered_signals) {
+			foreach ($triggered_signals as $triggered_signal) {
+				$signal = $triggered_signal->getSignal();
+				$event = $triggered_signal->getEvent();
+				$options = json_encode($signal->getOptions());
+				$this->js_binding->addOnLoadCode(
+					"$('#{$id}').{$event}( function(event) {
+						$(this).trigger('{$signal}',
+							{
+								'id' : '{$signal}', 'event' : '{$event}',
+								'triggerer' : $(this),
+								'options' : JSON.parse('{$options}')
+							}
+						);
+						return false;
+					});");
+			}
+		});
+	}
+
+	/**
 	 * Create an ID
 	 *
 	 * @return string
@@ -129,31 +173,6 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	final protected function createId() {
 		$id = $this->js_binding->createId();
 		return $id;
-	}
-
-	/**
-	 * Renderers of components acting as triggerer can use this method to trigger the registered signals
-	 *
-	 * @param Triggerer $triggerer
-	 * @param string $id The generated ID for the triggerer component
-	 */
-	protected function triggerRegisteredSignals(Triggerer $triggerer, $id) {
-		foreach ($triggerer->getTriggeredSignals() as $triggered_signal) {
-			$signal = $triggered_signal->getSignal();
-			$event = $triggered_signal->getEvent();
-			$options = json_encode($signal->getOptions());
-			$this->js_binding->addOnLoadCode(
-				"$('#{$id}').{$event}( function(event) { 
-					$(this).trigger('{$signal}',
-						{
-							'id' : '{$signal}', 'event' : '{$event}',
-							'triggerer' : $(this),
-							'options' : JSON.parse('{$options}')
-						}
-					);
-					return false;
-				});");
-		}
 	}
 
 	/**

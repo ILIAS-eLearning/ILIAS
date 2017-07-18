@@ -81,7 +81,6 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate('tpl.interruptive.html', true, true);
 		$modal = $this->registerSignals($modal);
 		$id = $this->bindJavaScript($modal);
-		$this->triggerRegisteredSignals($modal, $id);
 		$tpl->setVariable('ID', $id);
 		$tpl->setVariable('FORM_ACTION', $modal->getFormAction());
 		$tpl->setVariable('TITLE', $modal->getTitle());
@@ -115,7 +114,6 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate('tpl.roundtrip.html', true, true);
 		$modal = $this->registerSignals($modal);
 		$id = $this->bindJavaScript($modal);
-		$this->triggerRegisteredSignals($modal, $id);
 		$tpl->setVariable('ID', $id);
 		$tpl->setVariable('TITLE', $modal->getTitle());
 		foreach ($modal->getContent() as $content) {
@@ -143,7 +141,6 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate('tpl.lightbox.html', true, true);
 		$modal = $this->registerSignals($modal);
 		$id = $this->bindJavaScript($modal);
-		$this->triggerRegisteredSignals($modal, $id);
 		$tpl->setVariable('ID', $id);
 		$id_carousel = "{$id}_carousel";
 		$pages = $modal->getPages();
