@@ -1,0 +1,36 @@
+.il-chart-scale-bar {
+	min-width: 100px;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.il-chart-scale-bar > li {
+	float: left;
+	padding: 0 @il-chart-item-space;
+}
+
+.il-chart-scale-bar > li:last-child {
+	padding-right: 0;
+}
+
+.il-chart-scale-bar > li:first-child {
+	padding-left: 0;
+}
+
+.il-chart-scale-bar-item {
+	font-size: @font-size-xs;
+	padding: @padding-xs-vertical @padding-xs-horizontal;
+	color: @il-chart-item-inactive-color;
+	text-align: center;
+	background-color: @il-chart-item-inactive-bg;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.il-chart-scale-bar-active {
+	color: @il-chart-item-active-color;
+	background-color: @il-chart-item-active-bg;
+}

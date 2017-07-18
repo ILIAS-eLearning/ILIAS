@@ -6,12 +6,15 @@ namespace ILIAS\UI\Implementation\Component\Glyph;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Counter\Counter;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\Triggerer;
 
 class Glyph implements C\Glyph\Glyph {
 	use ComponentHelper;
 	use JavaScriptBindable;
+	use Triggerer;
 
 	/**
 	 * @var	string
@@ -57,6 +60,7 @@ class Glyph implements C\Glyph\Glyph {
 		, self::TAG
 		, self::NOTE
 		, self::COMMENT
+		, self::BRIEFCASE
 		);
 
 
@@ -128,5 +132,20 @@ class Glyph implements C\Glyph\Glyph {
 		$clone = clone $this;
 		$clone->highlighted = true;
 		return $clone;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnClick(Signal $signal) {
+		return $this->addTriggeredSignal($signal, 'click');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnClick(Signal $signal) {
+		return $this->appendTriggeredSignal($signal, 'click');
 	}
 }

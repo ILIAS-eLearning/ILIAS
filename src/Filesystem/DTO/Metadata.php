@@ -17,10 +17,6 @@ use ILIAS\Filesystem\MetadataType;
 final class Metadata {
 
 	/**
-	 * @var string $basename
-	 */
-	private $basename;
-	/**
 	 * @var string $path
 	 */
 	private $path;
@@ -37,7 +33,6 @@ final class Metadata {
 	 *
 	 * @internal
 	 *
-	 * @param string $basename The name of the directory or file without the full path.
 	 * @param string $path     The path to the parent of the file or directory.
 	 * @param string $type     The file type which can be -> file or directory.
 	 *                         Please note that only constants defined in the MetadataType interface are considered as valid.
@@ -46,10 +41,7 @@ final class Metadata {
 	 *
 	 * @see MetadataType
 	 */
-	public function __construct($basename, $path, $type) {
-
-		if(!is_string($basename))
-			throw new \InvalidArgumentException("Basename must be of type string.");
+	public function __construct($path, $type) {
 
 		if(!is_string($path))
 			throw new \InvalidArgumentException("Path must be of type string.");
@@ -58,26 +50,14 @@ final class Metadata {
 			throw new \InvalidArgumentException("Type must be of type string.");
 
 		if($type !== MetadataType::FILE && $type !== MetadataType::DIRECTORY)
-			throw new \InvalidArgumentException("The metadata type must be TYPE_FILE or TYPE_DIRECTORY but \"$type\" was given.");
+			throw new \InvalidArgumentException("The metadata type must be FILE or DIRECTORY but \"$type\" was given.");
 
-		$this->basename = $basename;
 		$this->path = $path;
 		$this->type = $type;
 	}
-	
-	/**
-	 * The name of the directory or file without the full path.
-	 *
-	 * @return string
-	 * @since 5.3
-	 */
-	public function getBasename() {
-		return $this->basename;
-	}
-
 
 	/**
-	 * The path to the parent of the file or directory.
+	 * The path to the file or directory.
 	 *
 	 * @return string
 	 * @since 5.3

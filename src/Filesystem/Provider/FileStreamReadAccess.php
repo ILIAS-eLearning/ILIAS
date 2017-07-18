@@ -23,7 +23,7 @@ interface FileStreamReadAccess {
 
 	/**
 	 * Opens a readable stream of the file.
-	 * Please make sure to close the stream after the work is done with "fclose($stream)"
+	 * Please make sure to close the stream after the work is done with Stream::close()
 	 *
 	 * @param string $path  The path to the file which should be used to open the new stream.
 	 *
@@ -34,6 +34,8 @@ interface FileStreamReadAccess {
 	 *
 	 * @since 5.3
 	 * @version 1.0
+	 *
+	 * @see FileStream::close()
 	 */
 	public function readStream($path);
 }

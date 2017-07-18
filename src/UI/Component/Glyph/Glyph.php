@@ -5,11 +5,12 @@
 namespace ILIAS\UI\Component\Glyph;
 
 use \ILIAS\UI\Component\Counter\Counter;
+use ILIAS\UI\Component\Clickable;
 
 /**
  * This describes how a glyph could be modified during construction of UI.
  */
-interface Glyph extends \ILIAS\UI\Component\Component, \ILIAS\UI\Component\JavaScriptBindable {
+interface Glyph extends \ILIAS\UI\Component\Component, \ILIAS\UI\Component\JavaScriptBindable, Clickable {
 	// Types of glyphs:
 	const SETTINGS = "settings";
 	const EXPAND = "expand";
@@ -29,6 +30,7 @@ interface Glyph extends \ILIAS\UI\Component\Component, \ILIAS\UI\Component\JavaS
 	const TAG = "tag";
 	const NOTE = "note";
 	const COMMENT = "comment";
+	const BRIEFCASE = "briefcase";
 
 
 	/**

@@ -1,8 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/Table/classes/class.ilTable2GUI.php");
-require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-require_once("./Services/Tracking/classes/class.ilObjUserTracking.php");
 /**
  * Class ilOrgUnitStaffTableGUI
  *
@@ -167,4 +164,3 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 
 
 }
-?>

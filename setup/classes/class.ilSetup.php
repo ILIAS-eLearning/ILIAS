@@ -14,6 +14,10 @@ include_once("./setup/classes/class.ilDBConnections.php");
 */
 class ilSetup
 {
+
+	/**
+	 * @var ilIniFile
+	 */
 	var $ini;			// ini file object
 	var $ini_file_path;	// full path to setup.ini, containing the client list
 	var $error = "";	// error text

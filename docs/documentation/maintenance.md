@@ -159,6 +159,12 @@ The code base is deviced in several components:
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
+* **Didactic Templates**
+	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **ECS Interface**
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* 2nd Maintainer: MISSING
@@ -267,6 +273,12 @@ The code base is deviced in several components:
 	* Testcases: [suittenpointner](http://www.ilias.de/docu/goto_docu_usr_3458.html)
 	* Tester: [suittenpointner](http://www.ilias.de/docu/goto_docu_usr_3458.html)
 
+* **Logging**
+	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **Login, Auth & Registration**
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* 2nd Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
@@ -308,6 +320,12 @@ The code base is deviced in several components:
 	* 2nd Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* Testcases: [berggold](http://www.ilias.de/docu/goto_docu_usr_22199.html)
 	* Tester: [berggold](http://www.ilias.de/docu/goto_docu_usr_22199.html)
+
+* **Membership**
+	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
 * **Metadata**
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
@@ -477,6 +495,12 @@ The code base is deviced in several components:
 	* Testcases: Fabian Kruse and SIG EA
 	* Tester: Claudia Dehling and SIG EA
 
+* **Tree**
+	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **User Service**
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* 2nd Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
@@ -546,20 +570,13 @@ The following directories are currently maintained unter the Service-Maintenace-
 The following directories are currently unmaintained:
 * Services/CopyWizard
 * Services/DidacticTemplate
-* Services/Environment
 * Services/Exceptions
 * Services/Http
-* Services/JSON
 * Services/LDAP
 * Services/License
 * Services/LinkChecker
-* Services/Logging
 * Services/Math
 * Services/Membership
-* Services/PDFGeneration
-* Services/PrivacySecurity
 * Services/QTI
 * Services/Randomization
-* Services/Transformation
-* Services/Tree
 * Services/Xml
