@@ -175,7 +175,13 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 			case ilCalendarCategory::TYPE_BOOK:
 				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_book.svg'));
 				$this->tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_'.$type));
-				break;				
+				break;
+
+			case ilCalendarCategory::TYPE_CH:
+				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_calch.svg'));
+				$this->tpl->setVariable('IMG_ALT',$this->lng->txt('cal_ch_ch'));
+				break;
+
 		}
 		
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
