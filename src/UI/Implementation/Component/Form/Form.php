@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Form;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component as CI;
 
 /**
  * This implements commonalities between all forms.
@@ -19,7 +20,7 @@ abstract class Form implements C\Form\Form {
 	protected $inputs;
 
 	public function __construct(array $inputs) {
-		$classes = [C\Input\Input::class];
+		$classes = [CI\Input\Input::class];
 		$this->checkArgListElements("input", $inputs, $classes);
 		$this->inputs = $inputs;
 	}
@@ -29,5 +30,20 @@ abstract class Form implements C\Form\Form {
 	 */
 	public function getInputs() {
 		return $this->inputs;
+	}
+
+	/**
+	 * Get the inputs with a consecutive name.
+	 *
+	 * @return	\ILIAS\UI\Component\Input\Input[]
+	 */
+	public function getNamedInputs() {
+		$counter = 0;
+		$named_inputs = [];
+		foreach($this->getInputs() as $input) {
+			$named_inputs[] = $input->withName("name_$counter");
+			$counter++;
+		}
+		return $named_inputs;
 	}
 }

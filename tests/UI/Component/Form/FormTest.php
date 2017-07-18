@@ -45,6 +45,32 @@ class FormTest extends ILIAS_UI_TestBase {
 		$this->assertEquals([$if->text("label")], $form->getInputs());
 	}
 
+	public function test_getNamedInputs () {
+	    $f = $this->buildFactory();
+		$if = $this->buildInputFactory();
+		$inputs = [$if->text(""), $if->text("")];
+		$form = $f->standard("", $inputs);
+
+		$seen_names = [];
+		$named_inputs = $form->getNamedInputs();
+		$this->assertEquals(count($inputs), count($named_inputs));
+
+		foreach($named_inputs as $named_input) {
+			$name = $named_input->getName();
+
+			// name is a string
+			$this->assertInternalType("string", $name);
+
+			// only name is attached
+			$input = array_shift($inputs);
+			$this->assertEquals($input->withName($name), $named_input);
+
+			// every name can only be contained once.
+			$this->assertNotContains($name, $seen_names);
+			$seen_names[] = $name;
+		}
+	}
+
 	public function test_getPostURL () {
 	    $f = $this->buildFactory();
 		$if = $this->buildInputFactory();
