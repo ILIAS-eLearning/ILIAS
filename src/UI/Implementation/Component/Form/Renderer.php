@@ -30,7 +30,13 @@ class Renderer extends AbstractComponentRenderer {
 		$f = $this->getUIFactory();
 		$submit_button = $f->button()->standard($this->txt("save"), "#");
 
+		$inputs = "";
+		foreach($component->getInputs() as $input) {
+			$inputs .= $default_renderer->render($input);
+		}
+
 		$tpl->setVariable("BUTTONS", $default_renderer->render($submit_button));
+		$tpl->setVariable("INPUTS", $inputs);
 
 		return $tpl->get();
 	}

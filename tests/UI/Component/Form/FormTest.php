@@ -56,19 +56,24 @@ class FormTest extends ILIAS_UI_TestBase {
 	public function test_render() {
 	    $f = $this->buildFactory();
 		$bf = $this->buildButtonFactory();
+		$if = $this->buildInputFactory();
 		$url = "MY_URL";
-		$form = $f->standard($url, []);
+		$form = $f->standard($url, 
+			[ $if->text("label", "byline")
+			]);
 
 		$r = $this->getDefaultRenderer();
 		$html = $this->normalizeHTML($r->render($form));
 
-		$button = $r->render($bf->standard("save", "#"));
+		$button = $this->normalizeHTML($r->render($bf->standard("save", "#")));
+		$input = $this->normalizeHTML($r->render($if->text("label", "byline")));
 
 		$expected =
 			"<form role=\"form\" class=\"form-horizontal\" enctype=\"multipart/formdata\" action=\"$url\" method=\"post\" novalidate=\"novalidate\">".
 			"	<div class=\"ilFormHeader\">".
 			"		<div class=\"ilFormCmds\">$button</div>".
 			"	</div>".
+			"	".$input.
 			"</form>";
 		$this->assertEquals($expected, $html);
 	}
