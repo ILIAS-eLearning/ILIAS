@@ -10,7 +10,6 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  * @author     Maximilian Becker <mbecker@databay.de>
  * @version    $Id$
  * @ingroup    ModulesTest
- * @ilCtrl_Calls ilTestToplistGUI: ilAccordionGUI
  */
 class ilTestToplistGUI
 {
@@ -93,14 +92,10 @@ class ilTestToplistGUI
 	
 	protected function showResultsToplistsCmd()
 	{
-		include_once "Services/Accordion/classes/class.ilAccordionGUI.php";
-		$acc = new ilAccordionGUI();
-		$acc->setId('tst_toplists');
+		$html = $this->renderResultsToplistByScore();
+		$html .= $this->renderResultsToplistByTime();
 		
-		$acc->addItem($this->lng->txt('toplist_by_score'), $this->renderResultsToplistByScore());
-		$acc->addItem($this->lng->txt('toplist_by_time'), $this->renderResultsToplistByTime());
-		
-		$this->tpl->setVariable("ADM_CONTENT", $this->ctrl->getHTML($acc));
+		$this->tpl->setVariable("ADM_CONTENT", $html);
 	}
 	
 	protected function renderResultsToplistByScore()
