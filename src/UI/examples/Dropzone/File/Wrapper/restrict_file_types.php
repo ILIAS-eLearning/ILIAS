@@ -14,8 +14,10 @@ function restrict_file_types() {
 	$content = $uiFactory->legacy('You are only allowed to upload JPGs, GIFs or PNGs');
 	$uploadUrl = $_SERVER['REQUEST_URI'] . '&example=2';
 
-	$upload = $uiFactory->dropzone()->file()->upload($content, $uploadUrl)
-		->withAllowedFileTypes(['jpg', 'png', 'gif']);
+	$upload = $uiFactory->dropzone()->file()->wrapper($uploadUrl, $content)
+		->withAllowedFileTypes(['jpg', 'png', 'gif'])
+		->withCustomFileNames(true)
+		->withFileDescriptions(true);
 
 	return $renderer->render($upload);
 }

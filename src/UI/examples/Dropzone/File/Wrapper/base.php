@@ -2,14 +2,19 @@
 function base() {
 
 	global $DIC;
+
+	if (isset($_GET['example']) && $_GET['example'] == 1 && count($_FILES)) {
+		echo json_encode(['success' => true, 'message' => 'Successfully uploaded files']);
+		exit(0);
+	}
+
 	$uiFactory = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$unorderedList = $uiFactory->listing()->unordered(
-		["Point 1","Point 2","Point 3"]
-	);
+	$content = $uiFactory->legacy('Hello World, drop some files over me!');
+	$uploadUrl = $_SERVER['REQUEST_URI'] . '&example=1';
 
-	$wrapperDropzone = $uiFactory->dropzone()->file()->wrapper($unorderedList);
+	$upload = $uiFactory->dropzone()->file()->wrapper($uploadUrl, $content);
 
-	return $renderer->render($wrapperDropzone);
+	return $renderer->render($upload);
 }

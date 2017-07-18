@@ -5,16 +5,19 @@ il.UI = il.UI || {};
     UI.uploader = (function ($) {
 
         var defaultOptions = {
+            autoUpload: false, // Any selected/dropped file is getting uploaded automatically, e.g. NOT on button click
             allowedFileTypes: [], // Allowed file types
             uploadUrl: '', // URL where files are uploaded to
             maxFiles: 0, // Max number of files to upload, 0 = infinity
-            fileSizeLimit: 0 // Max file size in bytes
+            fileSizeLimit: 0, // Max file size in bytes
+            inputName: 'files',
+            selectFilesButton: null // A JQuery object acting as select files button. Cannot be a <button>
         };
 
         var instances = {};
-        var filesCount = {};
 
         // Private
+        // ********************************************
 
         var renderAddFile = function (uploadId, file, fileId) {
             var $container = $('#' + uploadId);
@@ -28,6 +31,24 @@ il.UI = il.UI || {};
             $item.find('.filename-input').val(file.name);
             $item.find('.filesize').text(humanFileSize(file.size));
             $items.append($item);
+        };
+
+        var addAdditionalParametersToUploadRequest = function (uploadId, fileId) {
+            var $container = $('#' + uploadId);
+            var $fileList = $container.find('.il-upload-file-item[data-file-id="'+ fileId +'"]');
+            var $metadata = $fileList.find('.metadata');
+            if (!$metadata.length) return;
+            var $filenameInput = $metadata.find('.filename-input');
+            var $descriptionInput = $metadata.find('.description-input');
+            var uploader = instances[uploadId];
+            var params = {};
+            if ($filenameInput.length) {
+                params['customFileName'] = $filenameInput.val();
+            }
+            if ($descriptionInput.length) {
+                params['fileDescription'] = $descriptionInput.val();
+            }
+            uploader.setParams(params, fileId);
         };
 
         var renderRemoveFile = function (uploadId, fileId) {
@@ -52,14 +73,16 @@ il.UI = il.UI || {};
             var $fileItem = $container.find("[data-file-id='" + fileId + "']");
             $fileItem.find('.file-error-message').text(errorReason).fadeIn();
             $fileItem.find('.progress-bar').removeClass('active');
+            $fileItem.find('.delete-file').fadeOut();
         };
 
         var renderError = function (uploadId, errorReason) {
             console.log('renderError ' + errorReason);
             var $container = $('#' + uploadId);
-            $container.find('.error-messages').fadeIn()
-                .children('.alert')
-                .append('<br>' + errorReason);
+            var $alert = $container.find('.error-messages')
+                .fadeIn()
+                .children('.alert');
+            $alert.append($alert.text().trim() ? '<br>' + errorReason : errorReason);
         };
 
         var renderFileSuccess = function (uploadId, fileId) {
@@ -89,35 +112,19 @@ il.UI = il.UI || {};
             return ( size / Math.pow(1024, i) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
         };
 
-        var getFilesCount = function (id) {
-            return (id in filesCount) ? filesCount[id] : 0;
-        };
-
-        var incrementFilesCount = function (id) {
-            if (id in filesCount) {
-                filesCount[id]++;
-            } else {
-                filesCount[id] = 1;
-            }
-        };
-
-        var decrementFilesCount = function (id) {
-            if (id in filesCount && filesCount[id] > 0) {
-                filesCount[id]--;
-            } else {
-                filesCount[id] = 0;
-            }
-        };
 
         // Public
+        // ********************************************
 
         var init = function (uploadId, options) {
             options = $.extend({}, defaultOptions, options);
             var uploader = new qq.FineUploaderBasic({
-                autoUpload: false,
+                autoUpload: options.autoUpload,
+                button: options.selectFilesButton ? options.selectFilesButton[0] : null,
                 debug: true,
                 request: {
-                    endpoint: options.uploadUrl
+                    endpoint: options.uploadUrl,
+                    inputName: options.inputName
                 },
                 validation: {
                     allowedExtensions: options.allowedFileTypes,
@@ -125,6 +132,10 @@ il.UI = il.UI || {};
                     itemLimit: options.maxFiles
                 },
                 callbacks: {
+                    onUpload: function(fileId, name) {
+                        // Register additional name + description parameters for the upload request
+                        addAdditionalParametersToUploadRequest(uploadId, fileId);
+                    },
                     onComplete: function (fileId, fileName, response, xmlHttpRequest) {
                         // Errors are rendered in the onError callback
                         if (response.success) {
@@ -143,9 +154,10 @@ il.UI = il.UI || {};
                         console.log('Failed to upload files: ' + failedFiles.join(', '));
                     },
                     onError: function (fileId, fileName, errorReason, xmlHttpRequest) {
-                        console.log(xmlHttpRequest);
-                        console.log('Error: ' + errorReason + ', ' + fileId);
+                        console.log('Error: ' + errorReason + ', fileId=' + fileId + ', fileName=' + fileName);
                         if (fileId !== null) {
+                            var response = JSON.parse(xmlHttpRequest.response);
+                            errorReason = response.message || errorReason;
                             renderFileError(uploadId, fileId, errorReason);
                         } else {
                             renderError(uploadId, errorReason);
@@ -155,6 +167,12 @@ il.UI = il.UI || {};
                         console.log('progress for ' + fileId + ': ' + uploadedBytes + '/' + totalBytes);
                         var progress = (totalBytes > 0 && uploadedBytes > 0) ? Math.round(100 / totalBytes * uploadedBytes) : 0;
                         renderProgress(uploadId, fileId, progress);
+                    },
+                    onStatusChange: function (fileId, oldStatus, newStatus) {
+                        console.log('status changed' + fileId + '; old=' + oldStatus + ', new=' + newStatus);
+                    },
+                    onSubmitted: function (fileId, name) {
+                        renderAddFile(uploadId, uploader.getFile(fileId), fileId);
                     }
                 }
             });
@@ -164,17 +182,17 @@ il.UI = il.UI || {};
         var addFile = function (uploadId, file) {
             var uploader = instances[uploadId];
             uploader.addFiles([file]);
-            var fileId = getFilesCount(uploadId);
-            renderAddFile(uploadId, file, fileId);
-            incrementFilesCount(uploadId);
         };
-
 
         var removeFile = function (uploadId, fileId) {
             var uploader = instances[uploadId];
             uploader.cancel(fileId);
-            decrementFilesCount(uploadId);
             renderRemoveFile(uploadId, fileId);
+        };
+
+        var setForm = function (uploadId, formId) {
+            var uploader = instances[uploadId];
+            uploader.setForm(formId);
         };
 
         var upload = function (uploadId) {
@@ -185,6 +203,7 @@ il.UI = il.UI || {};
         var clear = function (uploadId) {
             var uploader = instances[uploadId];
             uploader.clearStoredFiles();
+            uploader.reset();
             renderClear(uploadId);
         };
 
@@ -192,6 +211,7 @@ il.UI = il.UI || {};
             init: init,
             addFile: addFile,
             removeFile: removeFile,
+            setForm: setForm,
             upload: upload,
             clear: clear
         }

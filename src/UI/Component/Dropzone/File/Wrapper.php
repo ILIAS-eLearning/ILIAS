@@ -1,35 +1,35 @@
 <?php
-/**
- * Interface Wrapper
- *
- * Describes a dropzone which can hold any other ILIAS UI components in it.
- *
- * @author  nmaerchy <nm@studer-raimann.ch>
- * @date    05.05.17
- * @version 0.0.1
- *
- * @package ILIAS\UI\Component\Dropzone\File
- */
-
 namespace ILIAS\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Component;
 
-interface Wrapper extends Dropzone {
+/**
+ * Interface Wrapper
+ *
+ * A wrapper file drozpones wraps around any other component from the UI framework, e.g. a calendar entry.
+ * The dropzone is highlighted as soon as some files are dragged over the browser window.
+ * Dropping the files opens a modal where the user can start the upload process.
+ *
+ * @author  nmaerchy <nm@studer-raimann.ch>
+ *
+ * @package ILIAS\UI\Component\Dropzone\File
+ */
+interface Wrapper extends File {
 
 	/**
-	 * Clones this instance and sets the passed in argument on it.
+	 * Get a wrapper dropzone like this, wrapping around the given component(s).
 	 *
-	 * @param Component[]|Component $content an array or a single instance of
-	 *                                       ILIAS UI components
+	 * @param Component[]|Component $content
 	 *
-	 * @return Wrapper a copy of this instance
+	 * @return $this
 	 */
 	public function withContent($content);
 
 
 	/**
-	 * @return Component[] an array of ILIAS UI components for this dropzone
+	 * Get the components being wrapped by this dropzone.
+	 *
+	 * @return Component[]
 	 */
 	public function getContent();
 }

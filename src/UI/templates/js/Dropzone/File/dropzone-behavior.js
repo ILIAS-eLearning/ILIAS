@@ -91,9 +91,6 @@ il.UI = il.UI || {};
 				case DROPZONE.wrapper:
 					_initWrapperDropzone(settings);
 					break;
-				case DROPZONE.upload:
-					_initUploadDropzone(settings);
-					break;
 				default:
 					throw new Error("Unsupported dropzone type found: " + type);
 			}
@@ -184,6 +181,11 @@ il.UI = il.UI || {};
 
 			var $dropzone = $("#" + options.id);
 
+			if (options.selectFilesButtonId) {
+				options.selectFilesButton = $('#' + options.selectFilesButtonId);
+			}
+            il.UI.uploader.init(options.uploadId, options);
+
 			$dropzone.dragster({
 
 				enter: function (dragsterEvent, event) {
@@ -197,13 +199,63 @@ il.UI = il.UI || {};
 				drop: function (dragsterEvent, event) {
 					$(this).removeClass(CSS.dropzoneDragHover);
 					_disableHighlighting();
-					_triggerSignals(options.registeredSignals, event, $dropzone);
+                    var files = event.originalEvent.dataTransfer.files;
+                    $.each(files, function (index, file) {
+                        il.UI.uploader.addFile(options.uploadId, file);
+                    });
+                    _triggerSignals(options.registeredSignals, event, $dropzone);
 				}
 			});
 		};
 
+		// /**
+		//  * Also inits the drag and drop behavior on the document for highlighting.
+		//  *
+		//  * @param {Object} options possible settings for this dropzone
+		//  *                         @see {@link initializeDropzone}
+		//  *
+		//  * @private
+		//  */
+		// var _initWrapperDropzone = function (options) {
+        //
+		// 	$(document).dragster({
+        //
+		// 		enter: function (dragsterEvent, event) {
+		// 			_enableHighlighting(_darkenedBackground);
+		// 		},
+		// 		leave: function (dragsterEvent, event) {
+		// 			_disableHighlighting();
+		// 		},
+		// 		drop: function (dragsterEvent, event) {
+		// 			_disableHighlighting();
+		// 		}
+		// 	});
+        //
+        //
+		// 	/*
+		// 	 * event.stopImmediatePropagation() is needed
+		// 	 * to prevent dragster to fire leave events on the document,
+		// 	 * when a user just leaves on the dropzone.
+		// 	 */
+		// 	$("#" + options.id).dragster({
+        //
+		// 		enter: function (dragsterEvent, event) {
+		// 			dragsterEvent.stopImmediatePropagation();
+		// 			$(this).addClass(CSS.dropzoneDragHover);
+		// 		},
+		// 		leave: function (dragsterEvent, event) {
+		// 			dragsterEvent.stopImmediatePropagation();
+		// 			$(this).removeClass(CSS.dropzoneDragHover);
+		// 		},
+		// 		drop: function (dragsterEvent, event) {
+		// 			$(this).removeClass(CSS.dropzoneDragHover);
+		// 			_disableHighlighting();
+		// 			_triggerSignals(options.registeredSignals, event);
+		// 		}
+		// 	});
+		// };
+
 		/**
-		 * Also inits the drag and drop behavior on the document for highlighting.
 		 *
 		 * @param {Object} options possible settings for this dropzone
 		 *                         @see {@link initializeDropzone}
@@ -211,52 +263,6 @@ il.UI = il.UI || {};
 		 * @private
 		 */
 		var _initWrapperDropzone = function (options) {
-
-			$(document).dragster({
-
-				enter: function (dragsterEvent, event) {
-					_enableHighlighting(_darkenedBackground);
-				},
-				leave: function (dragsterEvent, event) {
-					_disableHighlighting();
-				},
-				drop: function (dragsterEvent, event) {
-					_disableHighlighting();
-				}
-			});
-
-
-			/*
-			 * event.stopImmediatePropagation() is needed
-			 * to prevent dragster to fire leave events on the document,
-			 * when a user just leaves on the dropzone.
-			 */
-			$("#" + options.id).dragster({
-
-				enter: function (dragsterEvent, event) {
-					dragsterEvent.stopImmediatePropagation();
-					$(this).addClass(CSS.dropzoneDragHover);
-				},
-				leave: function (dragsterEvent, event) {
-					dragsterEvent.stopImmediatePropagation();
-					$(this).removeClass(CSS.dropzoneDragHover);
-				},
-				drop: function (dragsterEvent, event) {
-					$(this).removeClass(CSS.dropzoneDragHover);
-					_disableHighlighting();
-					_triggerSignals(options.registeredSignals, event);
-				}
-			});
-		};
-
-		/**
-		 *
-		 * @param {Object} options possible settings for this dropzone
-		 *                         @see {@link initializeDropzone}
-		 *
-		 * @private
-		 */
-		var _initUploadDropzone = function (options) {
 
 			$(document).dragster({
 

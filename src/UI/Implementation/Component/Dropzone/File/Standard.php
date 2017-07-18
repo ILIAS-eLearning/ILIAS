@@ -1,42 +1,60 @@
 <?php
-/**
- * Class Standard
- *
- * Implementation of a dropzone which provides a message inside the dropzone.
- *
- * @author  nmaerchy <nm@studer-raimann.ch>
- * @date    05.05.17
- * @version 0.0.2
- *
- * @package ILIAS\UI\Implementation\Component\Dropzone\File
- */
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
+use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
-class Standard extends Dropzone implements \ILIAS\UI\Component\Dropzone\File\Standard {
-
-	use ComponentHelper;
-	private $message = "";
-
+/**
+ * Class Standard
+ *
+ * @author  nmaerchy <nm@studer-raimann.ch>
+ *
+ * @package ILIAS\UI\Implementation\Component\Dropzone\File
+ */
+class Standard extends File implements \ILIAS\UI\Component\Dropzone\File\Standard {
 
 	/**
-	 * @inheritDoc
+	 * @var string
+	 */
+	protected $message = "";
+
+	/**
+	 * @var Button
+	 */
+	protected $upload_button;
+
+	/**
+	 * @inheritdoc
 	 */
 	public function withMessage($message) {
 		$this->checkStringArg("message", $message);
-		$clonedFileDropzone = clone $this;
-		$clonedFileDropzone->message = $message;
-
-		return $clonedFileDropzone;
+		$clone = clone $this;
+		$clone->message = $message;
+		return $clone;
 	}
 
-
 	/**
-	 * @inheritDoc
+	 * @inheritdoc
 	 */
 	public function getMessage() {
 		return $this->message;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withUploadButton(Button $button) {
+		$clone = clone $this;
+		$clone->upload_button = $button;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUploadButton() {
+		return $this->upload_button;
+	}
+
 }

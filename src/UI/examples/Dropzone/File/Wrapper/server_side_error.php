@@ -14,7 +14,7 @@ function server_side_error() {
 	$content = $uiFactory->legacy('Upload will fail for any file you drop here');
 	$uploadUrl = $_SERVER['REQUEST_URI'] . '&example=4';
 
-	$upload = $uiFactory->dropzone()->file()->upload($content, $uploadUrl);
+	$upload = $uiFactory->dropzone()->file()->wrapper($uploadUrl, $content);
 
 	return $renderer->render($upload);
 }

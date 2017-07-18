@@ -46,6 +46,8 @@ class JSDropzoneInitializer {
 			'allowedFileTypes' => $this->dropzone->getUploadAllowedFileTypes(),
 			'fileSizeLimit' => $this->dropzone->getUploadFileSizeLimit(),
 			'maxFiles' => $this->dropzone->getUploadMaxFiles(),
+			'selectFilesButtonId' => $this->dropzone->getSelectFilesButtonId(),
+			'inputName' => $this->dropzone->getInputName(),
 		]);
 		return "il.UI.dropzone.initializeDropzone('{$this->dropzone->getType()}', JSON.parse('{$options}'));";
 	}

@@ -14,7 +14,7 @@ function restrict_max_files_and_file_size() {
 	$content = $uiFactory->legacy('You are not allowed to upload more than 2 files, max file size is 500kB');
 	$uploadUrl = $_SERVER['REQUEST_URI'] . '&example=3';
 
-	$upload = $uiFactory->dropzone()->file()->upload($content, $uploadUrl)
+	$upload = $uiFactory->dropzone()->file()->wrapper($uploadUrl, $content)
 		->withMaxFiles(2)
 		->withFileSizeLimit(500 * 1000);
 

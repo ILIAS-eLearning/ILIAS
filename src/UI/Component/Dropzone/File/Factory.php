@@ -1,20 +1,18 @@
 <?php
+
+namespace ILIAS\UI\Component\Dropzone\File;
+
+use ILIAS\UI\Component\Component;
+
 /**
  * Interface Factory
  *
  * Describes a factory implementation for ILIAS UI Dropzone components.
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
- * @date    05.05.17
- * @version 0.0.1
  *
  * @package ILIAS\UI\Component\Dropzone\File
  */
-
-namespace ILIAS\UI\Component\Dropzone\File;
-
-use ILIAS\UI\Component\Component;
-
 interface Factory {
 
 	/**
@@ -49,9 +47,10 @@ interface Factory {
 	 *
 	 * ---
 	 *
+	 * @param string $url The url where the dropped files are being uploaded
 	 * @return \ILIAS\UI\Component\Dropzone\File\Standard
 	 */
-	public function standard();
+	public function standard($url);
 
 
 	/**
@@ -95,43 +94,11 @@ interface Factory {
 	 *
 	 * ---
 	 *
-	 * @param Component[]|Component $content an array or a single instance of
-	 *                                       ILIAS UI components
-	 *
+	 * @param string $url The url where the dropped files are being uploaded
+	 * @param Component[]|Component $content Component(s) wrapped by the dropzone
 	 * @return \ILIAS\UI\Component\Dropzone\File\Wrapper
 	 */
-	public function wrapper($content);
+	public function wrapper($url, $content);
 
-
-	/**
-	 * ---
-	 * description:
-	 *   purpose: >
-	 *      The upload wrapper dropzone extends the wrapper dropzone with
-	 *      the possibility to upload the dropped files.
-	 *   composition: >
-	 *      The upload wrapper dropzone is composed of the same components as
-	 *      the standalone wrapper drozpone.
-	 *   effect: >
-	 *      Additionally to the effects described for the wrapper drozpone,
-	 *      the upload wrapper dropzone opens a modal which lists the
-	 *      dropped files with some meta information (file name, file size etc.).
-	 *      The modal offers a button to upload the files to the server.
-	 *   rivals:
-	 *      Rival 1: >
-	 *         The standalone wrapper dropzone does not offer the functionality to
-	 *         upload the files to the server.
-	 * rules:
-	 *   usage:
-	 *     1: >
-	 *        Please see the rules of the standalone wrapper dropzone, they also apply
-	 *        to the upload wrapper dropzone
-	 * ---
-	 *
-	 * @param Component[]|Component $content an array or a single instance of ILIAS UI components
-	 * @param string $url URL where the files are uploaded
-	 * @return \ILIAS\UI\Component\Dropzone\File\Upload
-	 */
-	public function upload($content, $url);
 
 }

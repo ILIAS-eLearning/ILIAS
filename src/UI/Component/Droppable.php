@@ -21,7 +21,7 @@ interface Droppable extends Triggerer {
 	 *
 	 * @param Signal $signal a ILIAS UI signal which is used on drop event
 	 *
-	 * @return Droppable a copy of this instance
+	 * @return $this
 	 */
 	public function withOnDrop(Signal $signal);
 
@@ -32,7 +32,7 @@ interface Droppable extends Triggerer {
 	 *
 	 * @param Signal $signal a ILIAS UI signal which is used on drop event
 	 *
-	 * @return Droppable a copy of this instance
+	 * @return $this
 	 */
 	public function appendOnDrop(Signal $signal);
 

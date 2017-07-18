@@ -25,7 +25,7 @@ class SimpleDropzone {
 	/**
 	 * @var boolean $darkenedBackground
 	 */
-	protected $darkenedBackground;
+	protected $darkenedBackground = false;
 	/**
 	 * @var TriggeredSignalInterface[] $registeredSignals
 	 */
@@ -54,6 +54,15 @@ class SimpleDropzone {
 	 * @var int
 	 */
 	private $uploadFileSizeLimit = 0;
+	/**
+	 * @var string
+	 */
+	private $selectFilesButtonId = '';
+	/**
+	 * @var string
+	 */
+	private $inputName = 'files';
+
 	/**
 	 * Private constructor. Initialize it through the static method
 	 * {@link SimpleDropzone#of}.
@@ -231,4 +240,37 @@ class SimpleDropzone {
 		$this->uploadFileSizeLimit = $uploadFileSizeLimit;
 		return $this;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getSelectFilesButtonId() {
+		return $this->selectFilesButtonId;
+	}
+
+	/**
+	 * @param string $selectFilesButtonId
+	 * @return $this
+	 */
+	public function setSelectFilesButtonId($selectFilesButtonId) {
+		$this->selectFilesButtonId = $selectFilesButtonId;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getInputName() {
+		return $this->inputName;
+	}
+
+	/**
+	 * @param string $inputName
+	 * @return $this
+	 */
+	public function setInputName($inputName) {
+		$this->inputName = $inputName;
+		return $this;
+	}
+
 }
