@@ -337,6 +337,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 		$ilUser = $this->user;
+		$ui = $this->ui;
 
 
 		// weekdays
@@ -471,32 +472,50 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		$a_tpl->setCurrentBlock('mini_month');
 		$a_tpl->setVariable('TXT_MONTH_OVERVIEW', $lng->txt("cal_month_overview"));
-		$a_tpl->setVariable('TXT_MONTH',
-			$lng->txt('month_'.$this->seed->get(IL_CAL_FKT_DATE,'m').'_long').
-				' '.$this->seed->get(IL_CAL_FKT_DATE,'Y'));
+
 		$myseed = clone($this->seed);
 		$ilCtrl->setParameterByClass('ilcalendarmonthgui','seed',$myseed->get(IL_CAL_DATE));
-		$a_tpl->setVariable('OPEN_MONTH_VIEW',$ilCtrl->getLinkTargetByClass('ilcalendarmonthgui',''));
-		
+
 		$myseed->increment(ilDateTime::MONTH, -1);
 		$ilCtrl->setParameter($this,'seed',$myseed->get(IL_CAL_DATE));
 		
-		$a_tpl->setVariable('BL_TYPE', $this->getBlockType());
-		$a_tpl->setVariable('BL_ID', $this->getBlockId());
-		
-		$a_tpl->setVariable('PREV_MONTH',
-			$ilCtrl->getLinkTarget($this, "setSeed"));
-		$a_tpl->setVariable('PREV_MONTH_ASYNC',
-			$ilCtrl->getLinkTarget($this, "setSeed", "", true));
-			
+		$prev_link = $ilCtrl->getLinkTarget($this, "setSeed", "", true);
+
 		$myseed->increment(ilDateTime::MONTH, 2);
 		$ilCtrl->setParameter($this,'seed',$myseed->get(IL_CAL_DATE));
-		$a_tpl->setVariable('NEXT_MONTH',
-			$ilCtrl->getLinkTarget($this, "setSeed"));
-		$a_tpl->setVariable('NEXT_MONTH_ASYNC',
-			$ilCtrl->getLinkTarget($this, "setSeed", "", true));
+		$next_link = $ilCtrl->getLinkTarget($this, "setSeed", "", true);
 
 		$ilCtrl->setParameter($this, 'seed', "");
+
+		$blockgui = $this;
+
+		// view control
+		// ... previous button
+		$b1 = $ui->factory()->button()->standard($lng->txt("previous"), "#")->withOnLoadCode(function($id) use($prev_link, $blockgui) {
+			return
+				"$('#".$id."').click(function() { ilBlockJSHandler('block_".$blockgui->getBlockType().
+				"_".$blockgui->getBlockId()."','".$prev_link."'); return false;});";
+		});
+
+		// ... month button
+		$ilCtrl->clearParameterByClass("ilcalendarblockgui",'seed');
+		$month_link = $ilCtrl->getLinkTarget($this, "setSeed", "", true, false);
+		$seed_parts = explode("-", $this->seed->get(IL_CAL_DATE));
+		$b2 = $ui->factory()->button()->month($seed_parts[1]."-".$seed_parts[0])->withOnLoadCode(function($id) use ($month_link, $blockgui) {
+			return "$('#".$id."').on('il.ui.button.month.changed', function(el, id, month) { var m = month.split('-'); ilBlockJSHandler('block_".$blockgui->getBlockType().
+				"_".$blockgui->getBlockId()."','".$month_link."' + '&seed=' + m[1] + '-' + m[0] + '-01'); return false;});";
+		});
+		// ... next button
+		$b3 = $ui->factory()->button()->standard($lng->txt("next"), "#")->withOnLoadCode(function($id) use($next_link, $blockgui) {
+			return
+				"$('#".$id."').click(function() { ilBlockJSHandler('block_".$blockgui->getBlockType().
+				"_".$blockgui->getBlockId()."','".$next_link."'); return false;});";
+		});
+
+
+		$vc = $ui->factory()->viewControl()->section($b1,$b2,$b3);
+		$a_tpl->setVariable("VIEW_CTRL_SECTION", $ui->renderer()->render($vc));
+
 		$a_tpl->parseCurrentBlock();
 	}
 	
