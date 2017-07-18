@@ -123,7 +123,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		if ($binder === null) {
 			return null;
 		}
-		$id = $this->createId();
+		$id = $this->js_binding->createId();
 		$on_load_code = $binder($id);
 		if (!is_string($on_load_code)) {
 			throw new \LogicException(
@@ -146,11 +146,12 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 			return $triggerer;
 		}
 		return $triggerer->withAdditionalOnLoadCode(function($id) use ($triggered_signals) {
+			$code = "";
 			foreach ($triggered_signals as $triggered_signal) {
 				$signal = $triggered_signal->getSignal();
 				$event = $triggered_signal->getEvent();
 				$options = json_encode($signal->getOptions());
-				$this->js_binding->addOnLoadCode(
+				$code .=
 					"$('#{$id}').{$event}( function(event) {
 						$(this).trigger('{$signal}',
 							{
@@ -160,19 +161,10 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 							}
 						);
 						return false;
-					});");
+					});";
 			}
+			return $code;
 		});
-	}
-
-	/**
-	 * Create an ID
-	 *
-	 * @return string
-	 */
-	final protected function createId() {
-		$id = $this->js_binding->createId();
-		return $id;
 	}
 
 	/**
