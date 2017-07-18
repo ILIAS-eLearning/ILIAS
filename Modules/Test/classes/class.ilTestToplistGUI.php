@@ -126,12 +126,16 @@ class ilTestToplistGUI
 
 		if( $this->isOwnRankingTableRequired() )
 		{
-			$data = $this->toplist->getUserToplistByPercentage($_GET['ref_id'], $this->user->getID());
-			$title = $this->isTopTenRankingTableRequired() ? '' : $this->lng->txt('toplist_by_score');
-			
 			$table_gui = $this->buildTableGUI();
-			$table_gui->setData($data);
-			$table_gui->setTitle($title);
+			
+			$table_gui->setData(
+				$this->toplist->getUserToplistByPercentage($_GET['ref_id'], $this->user->getID())
+			);
+			
+			if( !$this->isTopTenRankingTableRequired() )
+			{
+				$table_gui->setTitle($title);
+			}
 
 			$html .= $table_gui->getHTML();
 		}
@@ -157,12 +161,16 @@ class ilTestToplistGUI
 
 		if( $this->isOwnRankingTableRequired() )
 		{
-			$data = $this->toplist->getUserToplistByWorkingtime($_GET['ref_id'], $this->user->getID());
-			$title =  $this->isTopTenRankingTableRequired() ? '' : $this->lng->txt('toplist_by_time');
-			
 			$table_gui = $this->buildTableGUI();
-			$table_gui->setData($data);
-			$table_gui->setTitle($title);
+			
+			$table_gui->setData(
+				$this->toplist->getUserToplistByWorkingtime($_GET['ref_id'], $this->user->getID())
+			);
+			
+			if( !$this->isTopTenRankingTableRequired() )
+			{
+				$table_gui->setTitle($title);
+			}
 
 			$html .= $table_gui->getHTML();
 		}
