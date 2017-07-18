@@ -37,7 +37,7 @@ interface JavaScriptBindable {
 	 *		});
 	 *
 	 * @param	\Closure	$binder
-	 * @param	self
+	 * @return	self
 	 */
 	public function withOnLoadCode(\Closure $binder);
 
