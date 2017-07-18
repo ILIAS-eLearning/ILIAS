@@ -28,14 +28,22 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("URL", $component->getPostURL());
 
 		$f = $this->getUIFactory();
-		$submit_button = $f->button()->standard($this->txt("save"), "#");
+		$submit_button = $f->button()->standard($this->txt("save"), "#")
+				// TODO: replace this with proper 'submit'-signal of form.
+				->withOnLoadCode(function($id) {
+					return
+						"$('#{$id}').on('click', function(ev) {".
+						"	$('#{$id}').parents('form').submit();".
+						"   ev.preventDefault();".
+						"});";
+				});
+
+		$tpl->setVariable("BUTTONS", $default_renderer->render($submit_button));
 
 		$inputs = "";
 		foreach($component->getInputs() as $input) {
 			$inputs .= $default_renderer->render($input);
 		}
-
-		$tpl->setVariable("BUTTONS", $default_renderer->render($submit_button));
 		$tpl->setVariable("INPUTS", $inputs);
 
 		return $tpl->get();
