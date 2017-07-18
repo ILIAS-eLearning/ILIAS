@@ -4,6 +4,7 @@
 
 namespace ILIAS\UI\Component\ViewControl;
 use ILIAS\UI\Component\Button\Button;
+use ILIAS\UI\Component\Component;
 
 /**
  * This is how the factory for UI elements looks.
@@ -57,11 +58,11 @@ interface Factory {
 	 * ---
 	 *
 	 * @param   \ILIAS\UI\Component\Button\Button $previous_action Button to be placed in the left.
-	 * @param   \ILIAS\UI\Component\Button\Button $button Button to be placed in the middle (Month Button or Default Button).
+	 * @param   \ILIAS\UI\Component\Button\Button|\ILIAS\UI\Component\Button\Month $button Button to be placed in the middle (Month Button or Default Button).
 	 * @param   \ILIAS\UI\Component\Button\Button $next_action Button to be placed in the right.
 	 *
 	 * @return \ILIAS\UI\Component\ViewControl\Section
 	 */
-	public function section(Button $previous_action, Button $button, Button $next_action);
+	public function section(Button $previous_action, Component $button, Button $next_action);
 
 }
