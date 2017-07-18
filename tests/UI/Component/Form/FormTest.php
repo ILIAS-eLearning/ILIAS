@@ -7,6 +7,16 @@ require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Implementation\Component\Input\Input;
 
+class WithButtonNoUIFactory extends NoUIFactory {
+	protected $button_factory;
+	public function __construct($button_factory) {
+		$this->button_factory = $button_factory;
+	}
+	public function button() {
+		return $this->button_factory;
+	}
+}
+
 /**
  * Test on form implementation.
  */
@@ -17,6 +27,14 @@ class FormTest extends ILIAS_UI_TestBase {
 
 	protected function buildInputFactory() {
 		return new ILIAS\UI\Implementation\Component\Input\Factory;
+	}
+
+	protected function buildButtonFactory() {
+		return new ILIAS\UI\Implementation\Component\Button\Factory;
+	}
+
+	public function getUIFactory() {
+		return new WithButtonNoUIFactory($this->buildButtonFactory());
 	}
 
 	public function test_getInputs () {
@@ -37,13 +55,14 @@ class FormTest extends ILIAS_UI_TestBase {
 
 	public function test_render() {
 	    $f = $this->buildFactory();
+		$bf = $this->buildButtonFactory();
 		$url = "MY_URL";
 		$form = $f->standard($url, []);
 
 		$r = $this->getDefaultRenderer();
 		$html = $this->normalizeHTML($r->render($form));
 
-		$button = "";
+		$button = $r->render($bf->standard("save", "#"));
 
 		$expected =
 			"<form role=\"form\" class=\"form-horizontal\" enctype=\"multipart/formdata\" action=\"$url\" method=\"post\" novalidate=\"novalidate\">".

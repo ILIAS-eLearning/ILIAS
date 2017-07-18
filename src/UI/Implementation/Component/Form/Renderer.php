@@ -27,6 +27,11 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->setVariable("URL", $component->getPostURL());
 
+		$f = $this->getUIFactory();
+		$submit_button = $f->button()->standard($this->txt("save"), "#");
+
+		$tpl->setVariable("BUTTONS", $default_renderer->render($submit_button));
+
 		return $tpl->get();
 	}
 
