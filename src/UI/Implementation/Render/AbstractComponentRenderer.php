@@ -79,13 +79,6 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	}
 
 	/**
-	 * @return JavaScriptBinding
-	 */
-	final protected function getJavascriptBinding() {
-		return $this->js_binding;
-	}
-
-	/**
 	 * Get template of component this renderer is made for.
 	 *
 	 * Serves as a wrapper around instantiation of ilTemplate, exposes
