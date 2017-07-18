@@ -48,7 +48,7 @@ class ButtonMonthTest extends ILIAS_UI_TestBase {
 		<span class="caret"></span>
 		<span class="sr-only"></span>
 	</button>
-	<div class="dropdown-menu">
+	<div class="dropdown-menu" data-default-date="02/1/2017" data-lang="en">
 		<div class="inline-picker"></div>
 	</div>
 </div>

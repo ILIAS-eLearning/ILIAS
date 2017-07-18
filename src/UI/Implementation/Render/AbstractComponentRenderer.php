@@ -74,9 +74,24 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		return $this->lng->txt($id);
 	}
 
+	/**
+	 * Add language var to client side (il.Language)
+	 * @param $key
+	 */
 	final public function toJS($key) {
 		$this->lng->toJS($key);
 	}
+
+	/**
+	 * Get current language key
+	 *
+	 * @return string
+	 */
+	function getLangKey()
+	{
+		return $this->lng->getLangKey();
+	}
+
 
 	/**
 	 * @return JavaScriptBinding
