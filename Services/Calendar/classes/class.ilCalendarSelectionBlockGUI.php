@@ -15,7 +15,16 @@ include_once("./Services/Block/classes/class.ilBlockGUI.php");
 class ilCalendarSelectionBlockGUI extends ilBlockGUI
 {
 	static $block_type = "cal_sel";
-	
+
+	const CAL_GRP_CURRENT_CRS_CONS = "curr_crs_cons";
+	const CAL_GRP_CURRENT_CRS = "curr_crs";
+	const CAL_GRP_PERSONAL = "personal";
+	const CAL_GRP_OTHERS = "others";
+
+
+	protected $calendar_groups = array();
+	protected $calendars = array();
+
 	/**
 	 * Constructor
 	 */
@@ -56,6 +65,13 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 			$ilCtrl->getLinkTargetByClass("ilcalendarcategorygui", 'add'),
 			$lng->txt('cal_add_calendar')
 			);
+
+		$this->calendar_groups = array(
+			self::CAL_GRP_CURRENT_CRS_CONS => $lng->txt("cal_grp_".self::CAL_GRP_CURRENT_CRS_CONS),
+			self::CAL_GRP_CURRENT_CRS => $lng->txt("cal_grp_".self::CAL_GRP_CURRENT_CRS),
+			self::CAL_GRP_PERSONAL => $lng->txt("cal_grp_".self::CAL_GRP_PERSONAL),
+			self::CAL_GRP_OTHERS => $lng->txt("cal_grp_".self::CAL_GRP_OTHERS)
+		);
 	}
 		
 	/**
@@ -165,7 +181,31 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		}
 		$path_categories = ilUtil::sortArray($path_categories, 'title', "asc");
 
-		$this->calendars = $path_categories;
+
+		$this->calendars[self::CAL_GRP_CURRENT_CRS_CONS] = array();
+		$this->calendars[self::CAL_GRP_CURRENT_CRS] = array();
+		$this->calendars[self::CAL_GRP_PERSONAL] = array();
+		$this->calendars[self::CAL_GRP_OTHERS] = array();
+
+		foreach ($path_categories as $cal)
+		{
+			if ($cal["type"] == ilCalendarCategory::TYPE_CH)
+			{
+				$this->calendars[self::CAL_GRP_CURRENT_CRS_CONS][] = $cal;
+			}
+			else if ($cal["type"] == ilCalendarCategory::TYPE_OBJ && ilObject::_lookupType($cal["obj_id"]) == "crs")
+			{
+				$this->calendars[self::CAL_GRP_CURRENT_CRS][] = $cal;
+			}
+			else if ($cal["type"] == ilCalendarCategory::TYPE_USR || $cal["type"] == ilCalendarCategory::TYPE_BOOK)
+			{
+				$this->calendars[self::CAL_GRP_PERSONAL][] = $cal;
+			}
+			else
+			{
+				$this->calendars[self::CAL_GRP_OTHERS][] = $cal;
+			}
+		}
 	}
 
 	/**
@@ -205,10 +245,19 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		global $lng, $ilCtrl;
 
 		$tpl = new ilTemplate("tpl.cal_selection_block_content.html", true, true, "Services/Calendar");
-		
-		foreach ($this->calendars as $c)
+
+		foreach ($this->calendar_groups as $type => $txt)
 		{
-			$this->renderItem($c, $tpl);
+			foreach ($this->calendars[$type] as $c)
+			{
+				$this->renderItem($c, $tpl);
+			}
+			if (count($this->calendars[$type]) > 0)
+			{
+				$tpl->setCurrentBlock("item_grp");
+				$tpl->setVariable("GRP_HEAD", $txt);
+				$tpl->parseCurrentBlock();
+			}
 		}
 		
 		$tpl->setVariable("TXT_SHOW", $lng->txt("select"));

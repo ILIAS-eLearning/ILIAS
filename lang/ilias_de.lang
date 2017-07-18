@@ -15990,3 +15990,7 @@ style#:#scope#:#Gültigkeitsbereich
 dateplaner#:#cal_agenda#:#Terminübersicht
 dateplaner#:#cal_origin#:#Herkunft
 dateplaner#:#cal_list#:#Liste
+dateplaner#:#cal_grp_curr_crs_cons#:#Consultation Hours
+dateplaner#:#cal_grp_curr_crs#:#Current Course
+dateplaner#:#cal_grp_personal#:#Personal
+dateplaner#:#cal_grp_others#:#Others

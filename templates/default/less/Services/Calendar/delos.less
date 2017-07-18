@@ -59,25 +59,34 @@ ul.ilCalSel {
 
 ul.ilCalSel li {
 	margin: 0;
-	padding: 0 0 0 48px;
+	/* padding: 0 0 0 48px; */
+	margin: 0;
 	border-bottom: 1px solid #f0f0f0;
-	min-height: 25px;
+	/* min-height: 25px; */
 }
 
-span.ilCalColSpan {
-	padding: 2px 0;
-	display: block;
-	margin-left: -48px;
-	width: 24px;
-	height: 25px;
-	float: left;
+ul.ilCalSel li > div {
+	display:table-row;
+}
+
+ul.ilCalSel li > div > div {
+	display:table-cell;
+	padding: 2px;
+}
+
+ul.ilCalSel li > div > div.ilCalColSpan {
+	border-left: 5px solid;
+	padding: 2px 5px;
 }
 
 ul.ilCalSel li img {
-	margin-top: 6px;
-	display: block;
-	float: left;
-	margin-left: -20px;
+}
+
+div.ilCalSelList h6 {
+	padding-left: 5px;
+	font-size: @font-size-small;
+	margin-top: 14px;
+	margin-bottom: 10px;
 }
 
 div.ilCalSelTitle {
