@@ -65,8 +65,8 @@ class FormTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 		$html = $this->normalizeHTML($r->render($form));
 
-		$button = $this->normalizeHTML($r->render($bf->standard("save", "#")));
-		$input = $this->normalizeHTML($r->render($if->text("label", "byline")));
+		$button = $this->normalizeHTML(str_replace('">', '" id="id_1">', $r->render($bf->standard("save", "#"))));
+		$input = $this->normalizeHTML($r->render($if->text("label", "byline")->withName("name_0")));
 
 		$expected =
 			"<form role=\"form\" class=\"form-horizontal\" enctype=\"multipart/formdata\" action=\"$url\" method=\"post\" novalidate=\"novalidate\">".
