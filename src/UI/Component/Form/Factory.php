@@ -24,9 +24,9 @@ interface Factory {
 	 *
 	 * ---
 	 *
-	 * @param	$string		$post_to
+	 * @param	$string		$post_url
 	 * @param	\ILIAS\UI\Component\Input\Input[]	$inputs
-	 * @return	\ILIAS\UI\Component\Input\Text
+	 * @return	\ILIAS\UI\Component\Form\Standard
 	 */
-	public function standard(array $inputs);
+	public function standard($post_url, array $inputs);
 }

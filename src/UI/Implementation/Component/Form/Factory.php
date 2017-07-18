@@ -10,7 +10,7 @@ class Factory implements F\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function standard(array $inputs) {
-		throw new \ILIAS\UI\NotImplementedException(); 
+	public function standard($post_url, array $inputs) {
+		return new Standard($post_url, $inputs);
 	}
 }
