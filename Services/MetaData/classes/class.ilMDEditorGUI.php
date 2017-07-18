@@ -420,7 +420,10 @@ class ilMDEditorGUI
 		$ti = new ilTextInputGUI($this->lng->txt("title"), "gen_title");
 		$ti->setMaxLength(200);
 		$ti->setSize(50);
-		$ti->setRequired(true);
+		if($this->md_obj->getObjType() != 'sess')
+		{
+			$ti->setRequired(true);
+		}
 		$ti->setValue($this->md_section->getTitle());
 		$this->form->addItem($ti);
 		
@@ -606,9 +609,12 @@ class ilMDEditorGUI
 		
 		if(!trim($_POST['gen_title']))
 		{
-			ilUtil::sendFailure($this->lng->txt('title_required'));
-			$this->listQuickEdit();
-			return false;
+			if($this->md_obj->getObjType() != 'sess')
+			{
+				ilUtil::sendFailure($this->lng->txt('title_required'));
+				$this->listQuickEdit();
+				return false;
+			}
 		}
 
 		// General values
@@ -1503,9 +1509,12 @@ class ilMDEditorGUI
 		
 		if(!strlen(trim($_POST['gen_title'])))
 		{
-			ilUtil::sendFailure($this->lng->txt('title_required'));
-			$this->listGeneral();
-			return false;
+			if($this->md_obj->getObjType() != 'sess')
+			{
+				ilUtil::sendFailure($this->lng->txt('title_required'));
+				$this->listGeneral();
+				return false;
+			}
 		}
 		
 		// General values
