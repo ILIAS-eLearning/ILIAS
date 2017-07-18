@@ -128,7 +128,6 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		return $id;
 	}
 
-
 	/**
 	 * Create an ID
 	 *
