@@ -43,8 +43,7 @@ class FormTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 		$html = $this->normalizeHTML($r->render($form));
 
-		$this->assertCount(1, $ids);
-		$name = $ids[0];
+		$button = "";
 
 		$expected =
 			"<form role=\"form\" class=\"form-horizontal\" enctype=\"multipart/formdata\" action=\"$url\" method=\"post\" novalidate=\"novalidate\">".
