@@ -7463,6 +7463,186 @@ ul.breadcrumb li:hover {
 .il-popover i.icon-refresh {
   background: url("../../src/UI/templates/libs/node_modules/webui-popover/img/loading.gif") no-repeat;
 }
+.extended-color-variant-1.il-extended-color-variant-standard {
+  color: #7f7207;
+  background-color: #f3de2c;
+}
+.extended-color-variant-1.il-extended-color-variant-light {
+  color: #beab0b;
+  background-color: #f7e970;
+}
+.extended-color-variant-1.il-extended-color-variant-lighter {
+  color: #c7b30b;
+  background-color: #faf0a0;
+}
+.extended-color-variant-1.il-extended-color-variant-dark {
+  color: #fefced;
+  background-color: #ccb80c;
+}
+.extended-color-variant-1.il-extended-color-variant-darker {
+  color: #ffffff;
+  background-color: #a59509;
+}
+.extended-color-variant-2.il-extended-color-variant-standard {
+  color: #616913;
+  background-color: #cddc39;
+}
+.extended-color-variant-2.il-extended-color-variant-light {
+  color: #95a21d;
+  background-color: #dce776;
+}
+.extended-color-variant-2.il-extended-color-variant-lighter {
+  color: #9daa1e;
+  background-color: #e7eea1;
+}
+.extended-color-variant-2.il-extended-color-variant-dark {
+  color: #f9fbe6;
+  background-color: #a1af1f;
+}
+.extended-color-variant-2.il-extended-color-variant-darker {
+  color: #ffffff;
+  background-color: #818c19;
+}
+.extended-color-variant-3.il-extended-color-variant-standard {
+  color: #234042;
+  background-color: #59a0a5;
+}
+.extended-color-variant-3.il-extended-color-variant-light {
+  color: #3b696d;
+  background-color: #87bbbe;
+}
+.extended-color-variant-3.il-extended-color-variant-lighter {
+  color: #3e7073;
+  background-color: #a8ced0;
+}
+.extended-color-variant-3.il-extended-color-variant-dark {
+  color: #ddeced;
+  background-color: #407377;
+}
+.extended-color-variant-3.il-extended-color-variant-darker {
+  color: #ffffff;
+  background-color: #32595c;
+}
+.extended-color-variant-4.il-extended-color-variant-standard {
+  color: #378144;
+  background-color: #86cb92;
+}
+.extended-color-variant-4.il-extended-color-variant-light {
+  color: #4baf5d;
+  background-color: #b8e0bf;
+}
+.extended-color-variant-4.il-extended-color-variant-lighter {
+  color: #50b462;
+  background-color: #dcf0df;
+}
+.extended-color-variant-4.il-extended-color-variant-dark {
+  color: #ffffff;
+  background-color: #54b665;
+}
+.extended-color-variant-4.il-extended-color-variant-darker {
+  color: #ffffff;
+  background-color: #449d53;
+}
+.extended-color-variant-5.il-extended-color-variant-standard {
+  color: #7c2c5b;
+  background-color: #ce73a8;
+}
+.extended-color-variant-5.il-extended-color-variant-light {
+  color: #ae3d7e;
+  background-color: #e1a8c9;
+}
+.extended-color-variant-5.il-extended-color-variant-lighter {
+  color: #b53f84;
+  background-color: #eecee0;
+}
+.extended-color-variant-5.il-extended-color-variant-dark {
+  color: #ffffff;
+  background-color: #b94187;
+}
+.extended-color-variant-5.il-extended-color-variant-darker {
+  color: #ffffff;
+  background-color: #9b3671;
+}
+.extended-color-variant-6.il-extended-color-variant-standard {
+  color: #352840;
+  background-color: #82639e;
+}
+.extended-color-variant-6.il-extended-color-variant-light {
+  color: #564169;
+  background-color: #a58fb9;
+}
+.extended-color-variant-6.il-extended-color-variant-lighter {
+  color: #5b456f;
+  background-color: #beaecd;
+}
+.extended-color-variant-6.il-extended-color-variant-dark {
+  color: #e7e1ec;
+  background-color: #5e4772;
+}
+.extended-color-variant-6.il-extended-color-variant-darker {
+  color: #ffffff;
+  background-color: #493859;
+}
+.extended-color-variant-7.il-extended-color-variant-standard {
+  color: #4a3737;
+  background-color: #9e7c7d;
+}
+.extended-color-variant-7.il-extended-color-variant-light {
+  color: #705354;
+  background-color: #bca5a6;
+}
+.extended-color-variant-7.il-extended-color-variant-lighter {
+  color: #765758;
+  background-color: #d2c2c3;
+}
+.extended-color-variant-7.il-extended-color-variant-dark {
+  color: #f5f1f1;
+  background-color: #795a5b;
+}
+.extended-color-variant-7.il-extended-color-variant-darker {
+  color: #ffffff;
+  background-color: #624849;
+}
+.extended-color-variant-8.il-extended-color-variant-standard {
+  color: #b30931;
+  background-color: #f75e82;
+}
+.extended-color-variant-8.il-extended-color-variant-light {
+  color: #f20c42;
+  background-color: #faa2b7;
+}
+.extended-color-variant-8.il-extended-color-variant-lighter {
+  color: #f31549;
+  background-color: #fdd3dd;
+}
+.extended-color-variant-8.il-extended-color-variant-dark {
+  color: #ffffff;
+  background-color: #f41a4d;
+}
+.extended-color-variant-8.il-extended-color-variant-darker {
+  color: #ffffff;
+  background-color: #da0b3c;
+}
+.extended-color-variant-9.il-extended-color-variant-standard {
+  color: #8d1116;
+  background-color: #ea4d54;
+}
+.extended-color-variant-9.il-extended-color-variant-light {
+  color: #c91820;
+  background-color: #f28d91;
+}
+.extended-color-variant-9.il-extended-color-variant-lighter {
+  color: #d21921;
+  background-color: #f7babd;
+}
+.extended-color-variant-9.il-extended-color-variant-dark {
+  color: #ffffff;
+  background-color: #d61922;
+}
+.extended-color-variant-9.il-extended-color-variant-darker {
+  color: #ffffff;
+  background-color: #b2151c;
+}
 .bg-primary {
   color: white;
 }

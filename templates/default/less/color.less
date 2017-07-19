@@ -1,0 +1,59 @@
+// Extended color variants mixin
+//
+// Easily pump classes for the various color variants
+// Example: To render a div with color variant 1 in the light version use:
+// <div class="extended-color-variant-1 il-extended-color-variant-light">
+.il-extended-color-variant-mixin(@background-color;){
+  &.il-extended-color-variant-standard{
+    color: darken(@background-color,@il-extended-text-color-factor-standard);
+    background-color: lighten(@background-color,@il-extended-color-factor-standard);
+  }
+
+  &.il-extended-color-variant-light{
+    color: darken(@background-color,@il-extended-text-color-factor-light);
+    background-color: lighten(@background-color,@il-extended-color-factor-light);
+  }
+  &.il-extended-color-variant-lighter{
+    color: darken(@background-color,@il-extended-text-color-factor-lighter);
+    background-color: lighten(@background-color,@il-extended-color-factor-lighter);
+  }
+  &.il-extended-color-variant-dark{
+    color: lighten(@background-color,@il-extended-text-color-factor-dark);
+    background-color: darken(@background-color,@il-extended-color-factor-light);
+  }
+  &.il-extended-color-variant-darker{
+    color: lighten(@background-color,@il-extended-text-color-factor-darker);
+    background-color: darken(@background-color,@il-extended-color-factor-darker);
+  }
+}
+
+
+
+//Concrete color variant classes
+.extended-color-variant-1{
+  .il-extended-color-variant-mixin(@il-extended-color-1);
+}
+.extended-color-variant-2{
+  .il-extended-color-variant-mixin(@il-extended-color-2);
+}
+.extended-color-variant-3{
+  .il-extended-color-variant-mixin(@il-extended-color-3);
+}
+.extended-color-variant-4{
+  .il-extended-color-variant-mixin(@il-extended-color-4);
+}
+.extended-color-variant-5{
+  .il-extended-color-variant-mixin(@il-extended-color-5);
+}
+.extended-color-variant-6{
+  .il-extended-color-variant-mixin(@il-extended-color-6);
+}
+.extended-color-variant-7{
+  .il-extended-color-variant-mixin(@il-extended-color-7);
+}
+.extended-color-variant-8{
+  .il-extended-color-variant-mixin(@il-extended-color-8);
+}
+.extended-color-variant-9{
+  .il-extended-color-variant-mixin(@il-extended-color-9);
+}
