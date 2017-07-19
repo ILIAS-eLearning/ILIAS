@@ -480,8 +480,8 @@ class ilCopyWizardOptions
 	 * Add mapping of source -> target
 	 *
 	 * @access public
-	 * @param int source ref_id
-	 * @param int target ref_id
+	 * @param int|string    $a_source_id    array key of mapping entry
+	 * @param mixed         $a_target_id    array value of mapping entry
 	 * 
 	 */
 	public function appendMapping($a_source_id,$a_target_id)

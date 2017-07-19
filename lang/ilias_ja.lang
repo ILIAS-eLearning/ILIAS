@@ -412,7 +412,7 @@ assessment#:#add_new_question#:#新規問題を追加
 assessment#:#add_poly#:#多角形エリアを追加
 assessment#:#add_questionpool#:#問題集の追加
 assessment#:#add_rect#:#長方形エリアを追加
-assessment#:#add_solution#:#模範解答を追加
+assessment#:#add_solution#:#要約用のコンテンツを追加
 assessment#:#additional_rating_info#:#ここに示される値はパーセント表示で100以内にする必要がある事に注意願います。
 assessment#:#addSuggestedSolution#:#要約用のコンテンツを追加
 assessment#:#adm_categories#:#予約カテゴリ
@@ -454,7 +454,7 @@ assessment#:#ass_completion_by_submission#:#提出すると完了
 assessment#:#ass_completion_by_submission_info#:#有効にすると提出ファイルの一つはこの問題の最高点で承認して完了した事になります。点数は後で手動にて修正可能です。この設定の変更は既に提出済みの解答には影響しません。
 assessment#:#ass_create_archive_export#:#アーカイブーエクスポートを作成
 assessment#:#ass_create_export_file#:#テストエクスポートファイルを作成
-assessment#:#ass_create_export_file_with_results#:#テストエクスポートファイル(参加者結果を含む)を作成
+assessment#:#ass_create_export_file_with_results#:#テストエクスポートファイル(受験者結果を含む)を作成
 assessment#:#ass_create_export_test_archive#:#テストアーカイブファイルを作成
 assessment#:#ass_create_export_test_results#:#テスト結果エクスポートファイルを作成
 assessment#:#ass_create_question#:#問題を作成
@@ -556,10 +556,10 @@ assessment#:#categories#:#カテゴリ
 assessment#:#category#:#カテゴリ
 assessment#:#change_adm_categories_not_allowed#:#このカテゴリに対するアクセス権が何もありません。
 assessment#:#change_adm_units_not_allowed#:#このユニットは管理者のみ変更可能です。
-assessment#:#change_solution#:#推奨の正解を変更
+assessment#:#change_solution#:#要約用のコンテンツを変更
 assessment#:#changelog_description#:#次の表にはこのテストを作成した作成者の全ての変更が含まれます。
 assessment#:#changelog_heading#:#ログ変更
-assessment#:#changeSuggestedSolution#:#推奨の正解を変更
+assessment#:#changeSuggestedSolution#:#要約用のコンテンツタイプを選択
 assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#checkbox_checked#:#確認済み
 assessment#:#checkbox_unchecked#:#未確認
@@ -611,7 +611,7 @@ assessment#:#delete_image#:#イメージを削除
 assessment#:#delete_image_header#:#イメージを削除
 assessment#:#delete_image_question#:#本当にイメージを削除しますか?
 assessment#:#delete_user_data#:#選択したユーザのテストデータを削除
-assessment#:#deleteSuggestedSolution#:#推奨の正解を削除
+assessment#:#deleteSuggestedSolution#:#要約用のコンテンツを削除
 assessment#:#description_maxchars#:#未入力の場合はこのテキスト解答に対する最大文字数の制限はありません。
 assessment#:#detail_ending_time_reached#:#テスト時間は終了しました。%sを過ぎた後のテスト続行はできません。
 assessment#:#detail_max_processing_time_reached#:#テスト所要制限時間を過ぎました!
@@ -712,9 +712,11 @@ assessment#:#errors_section#:#エラーデータ
 assessment#:#errortext#:#エラーテキスト
 assessment#:#errortext_info#:#エラーテキストを入力してください。エラーとしてマークするには、単語の前にハッシュ (#)を挿入してください。 &quot;エラーテキストを分析&quot; ボタンを押すと全てのマークした単語は以降の処理用として展開されます。
 assessment#:#errRecursionInResult#:#式に無限再帰が含まれています。
+assessment#:#essay_scoring_mode#:#採点モード
 assessment#:#essay_scoring_mode_keyword_relation_all#:#すべてに一致するキーワードで自動採点
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#すべてのキーワードが見つかれば点数が自動付与されます。
 assessment#:#essay_scoring_mode_keyword_relation_any#:#いずれか検索のキーワードで自動採点
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#何かキーワードが見つかると対応点が自動的に承諾されます。
 assessment#:#essay_scoring_mode_keyword_relation_one#:#ひとつ一致するキーワードで自動採点
 assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#ひとつでもキーワードが見つかれば点数は自動付与されます。
 assessment#:#essay_scoring_mode_without_keywords#:#自動採点禁止
@@ -846,7 +848,7 @@ assessment#:#kiosk#:#Kioskビュー
 assessment#:#kiosk_description#:#試験ビューはKioskモードでテストを実行します。このテストには含まれないブラウザバー、ナビゲーション、その他の画面要素を非表示にします。受験者が他のWebサイトを開かないようにします。
 assessment#:#kiosk_options#:#試験ビューオプション
 assessment#:#kiosk_options_desc#:#画面のトップセクションにインフォメーションが表示されます。
-assessment#:#kiosk_show_participant#:#参加者の名前を表示
+assessment#:#kiosk_show_participant#:#受験者の名前を表示
 assessment#:#kiosk_show_title#:#テスト題名を表示
 assessment#:#kprim_answers_info#:#多肢選択問題タイプ"正誤4問解答"(タイプK、Kprimとも称す)は4つを解答、問題への追加、不完全な文のどれかになります。正解を確定するには4つ解答または追加をする必要があります。全て正解と確定する場合は最高点は承認のみになります。
 assessment#:#kprim_instruction_text#:#全記述: [%s] または [%s]を決定する必要があります。
@@ -892,7 +894,7 @@ assessment#:#lacex_example_header#:#例
 assessment#:#last_update#:#最終更新
 assessment#:#legend#:#凡例
 assessment#:#locked#:#固定
-assessment#:#log_added_extratime#:#参加者ID %dへ%d分延長を追加しました
+assessment#:#log_added_extratime#:#受験者ID %dへ%d分時間延長しました
 assessment#:#log_answer_changed_points#:#受験者の点数を %sから%dへ%d 点を手動変更
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#同時最大ユーザ数に達しているため、ユーザ テストを入力できませんでした。
 assessment#:#log_create_new_test#:#新規テストを作成
@@ -1025,10 +1027,10 @@ assessment#:#out_of_range#:#範囲外
 assessment#:#output#:#出力
 assessment#:#output_mode#:#出力モード
 assessment#:#parseQuestion#:#問題解析
-assessment#:#part_received_a_of_b_points#:#参加者は%s中の%s得点しました
-assessment#:#participants#:#参加者
-assessment#:#participants_data#:#参加者のデータ
-assessment#:#participants_evaluation#:#参加者全員の評価
+assessment#:#part_received_a_of_b_points#:#受験者は%s中の%s得点しました
+assessment#:#participants#:#受験者
+assessment#:#participants_data#:#受験者のデータ
+assessment#:#participants_evaluation#:#受験者全員の評価
 assessment#:#participants_invitation#:#手動選択受験者
 assessment#:#participants_invitation_description#:#このテストは"受験者"タブで手動追加したユーザのみアクセスする事ができます。
 assessment#:#participants_invitation_search_introduction#:#このテストに確定の受験者を追加するには、以下の検索フォームのユーザを選択してテストへ招待してください。受験者全員が、受験者データのサブタブへ表示されます。
@@ -1151,7 +1153,7 @@ assessment#:#qpl_skill_point_eval_mode_quest_result#:#問題結果
 assessment#:#qpl_skill_point_eval_mode_solution_compare#:#正解比較
 assessment#:#qpl_skl_sub_tab_quest_assign#:#問題/能力割り当て
 assessment#:#qpl_skl_sub_tab_usages#:#割り当て間隔
-assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#T問題が別のリポジトリオブジェクトから挿入されました。オリジナルの問題を能力割り当ての現状構成へ更新しますか?
+assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#問題が別のリポジトリオブジェクトから挿入されました。オリジナルの問題を能力割り当ての現状構成へ更新しますか?
 assessment#:#qpl_tab_competences#:#能力
 assessment#:#qst_hint_self#:#自己アセスメントモードが動作中! 不正解に0点、正解に1点を入力します。
 assessment#:#qst_nr_of_tries#:#実行回数
@@ -1207,7 +1209,7 @@ assessment#:#region#:#Region
 assessment#:#remove_as_participant#:#固定の受験者として削除
 assessment#:#remove_gap#:#ギャップを削除
 assessment#:#remove_question#:#削除
-assessment#:#remove_solution#:#提案の解答を削除
+assessment#:#remove_solution#:#要約用のコンテンツを削除
 assessment#:#report_date_not_reached#:#まだ報告日になっていません。%s のテスト結果を見ることができます。
 assessment#:#res_contains_undef_res#:#結果式に未定義結果が含まれます!
 assessment#:#res_contains_undef_var#:#結果式に未定義変数が含まれます!
@@ -1257,7 +1259,7 @@ assessment#:#search_results#:#結果を検索
 assessment#:#search_roles#:#役割を検索
 assessment#:#search_term#:#用語を検索
 assessment#:#search_users#:#ユーザを検索
-assessment#:#see_details_for_further_information#:#詳細は推奨の解答を参照
+assessment#:#see_details_for_further_information#:#詳細は要約用のコンテンツを参照
 assessment#:#select_an_answer#:#--- 解答を選択 ---
 assessment#:#select_gap#:#穴埋めを選択
 assessment#:#select_max_one_item#:#一アイテムのみ選択してください
@@ -1281,16 +1283,16 @@ assessment#:#show_detailed_results#:#ユーザの詳細結果を表示(パスし
 assessment#:#show_examview_html#:#画面上に
 assessment#:#show_examview_pdf#:#PDFダウンロード
 assessment#:#show_pass_overview#:#マークした試験状況を表示
-assessment#:#show_user_answers#:#ユーザのマークした解答を表示
+assessment#:#show_user_answers#:#マークしたユーザの解答を表示
 assessment#:#showinfo#:#全テストプロパティの表示
 assessment#:#showinfo_desc#:#ユーザは"Info"タブのテストプロパティの全リスト(例:点数とレポートの情報)へ表示されます。
 assessment#:#showSuggestedSolution#:#推奨の解答
 assessment#:#shuffle_answers#:#解答をシャッフル
 assessment#:#sign_submission#:#デジタル署名テスト送信
-assessment#:#sign_submission_info#:#アクティブ化されてシグネチャプラグインがインストール済で有効の場合に参加者はデジタル署名の提出を要求されます。
+assessment#:#sign_submission_info#:#アクティブ化されてシグネチャプラグインがインストール済で有効の場合に受験者はデジタル署名の提出を要求されます。
 assessment#:#skip_question#:#回答しないで次へ
 assessment#:#solution_contain_keywords#:#点数は次のキーワードの発生を基準に承諾されます:
-assessment#:#solution_hint#:#繰り返し用のコンテンツを割り当て
+assessment#:#solution_hint#:#要約用のコンテンツを割り当て
 assessment#:#solution_may_contain_keywords#:#解答には次のいずれかのキーワードが含まれています。
 assessment#:#solution_order#:#解答の順
 assessment#:#solutionText#:#テキスト
@@ -1303,8 +1305,8 @@ assessment#:#step_dim_min#:#寸法(最小)
 assessment#:#submit_and_check#:#回答を保存してチェック
 assessment#:#submit_answer#:#回答を保存して次へ
 assessment#:#suggest_range#:#推奨範囲
-assessment#:#suggested_solution#:#繰り返し用のコンテンツ
-assessment#:#suggested_solution_added_successfully#:#推奨の解答を正しくセットしました
+assessment#:#suggested_solution#:#要約用のコンテンツ
+assessment#:#suggested_solution_added_successfully#:#要約用のコンテンツを正しくセットしました
 assessment#:#suggestedSolutionType#:#推奨解答のタイプ
 assessment#:#symbol#:#シンボル
 assessment#:#term#:#用語
@@ -1420,7 +1422,7 @@ assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#テス�
 assessment#:#tst_change_dyn_test_question_selection#:#現在の問題選択を変更
 assessment#:#tst_change_points_for_question#:#答案点数を変更
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#問題や問題集構成に関係するテストモードがすでに存在するにも関わらずテストモードを<b>%s</b>から<b>%s</b>へ変更しようとしています。<br />既存の構成は消去されます。
-assessment#:#tst_change_workingtime#:#参加者へ延長時間を追加
+assessment#:#tst_change_workingtime#:#受験者へ時間を延長
 assessment#:#tst_comp_eval_mode#:#評価者
 assessment#:#tst_comp_points#:#能力ポイント
 assessment#:#tst_competence#:#能力
@@ -1429,8 +1431,8 @@ assessment#:#tst_confirm_delete_results_info#:#以前入力した問題結果は
 assessment#:#tst_confirm_print#:#点数と正解付の全ての問題を印刷するにはボタンを押します。 問題は常に最終ページに表示されます。
 assessment#:#tst_confirm_submit_answers#:#答案提出を確認してください。 提出ボタンを押すと解答に戻る事はできません。
 assessment#:#tst_conflict_fbh_oblig_quest#:#必須問題に使用される組合せと回答ロックは許可されません。
-assessment#:#tst_conflict_reset_fbh_force#:#"回答をロック"設定は"回答をロックしないがフィードバックを強制"へ変更されました。
-assessment#:#tst_conflict_reset_non_fbh#:#"回答をロック"設定は"回答をロックしない"へ変更されました。
+assessment#:#tst_conflict_reset_fbh_force#:#回答をロック設定は"回答をロックしないがフィードバックを強制"へ変更されました。
+assessment#:#tst_conflict_reset_non_fbh#:#回答をロック設定は"回答をロックしない"へ変更されました。
 assessment#:#tst_copy#:#テストをコピー
 assessment#:#tst_count_correct_solutions#:#正解と完全解答得点のみ
 assessment#:#tst_count_correct_solutions_desc#:#受験者点数、完全解答で全正解の最高点または他のどこかが0点のどちらかの受験者点数。
@@ -1487,9 +1489,9 @@ assessment#:#tst_exp_sc_short#:#純粋な択一テスト用の統計エクスポ
 assessment#:#tst_exp_sc_short_desc#:#統計タブ内の追加のエクスポートオプションがあります。ILIAS外部の統計アイテム用にスプレッドシートが生成されます。このオプションは純粋な択一問題のテスト用としてのみ動作します。
 assessment#:#tst_express_allow_question_pool#:#ページ表示で問題集を許可
 assessment#:#tst_express_allow_question_pool_description#:#チェックすると問題を問題集に追加できます。
-assessment#:#tst_extratime_added#:#参加者の所要時間が%s分増加しました。
+assessment#:#tst_extratime_added#:#受験者の回答時間が%s分増えました。
 assessment#:#tst_extratime_info#:#解答時間を同じ受験者へ掛け算したい場合は追加したい合計時間を挿入してください。
-assessment#:#tst_extratime_nodata#:#選択した参加者にはエントリーがありません。
+assessment#:#tst_extratime_nodata#:#選択した受験者のエントリーがありません。
 assessment#:#tst_extratime_notavailable#:#延長時間は1回のテストと最長所要時間のみに追加することができます。
 assessment#:#tst_feedback#:#フィードバック
 assessment#:#tst_filter_tax_node#:#分類基準モード
@@ -1553,7 +1555,7 @@ assessment#:#tst_import_non_ilias_zip#:#エラー: アップロードするイ�
 assessment#:#tst_import_verify_found_questions#:#テストインポートファイルから次の問題が見つかりました。このテストにインポートしたい問題を選択してください。
 assessment#:#tst_in_use_edit_questions_disabled#:#テストは %d ユーザが使用中です。テスト問題を編集もしくは移動することはできません!
 assessment#:#tst_inp_all_quest_points_equal_per_pool#:#均一の採点問題集を要求
-assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#有効にすると均一に採点される問題集のみが提示されます。テストは全参加者の最高得点と同じになるのでテスト結果は比較しやすくなります。このモードの選択を推奨します。
+assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#有効にすると均一に採点される問題集のみが提示されます。テストは全受験者の最高得点と同じになるのでテスト結果は比較しやすくなります。このモードの選択を推奨します。
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#問題表示順番は問題の最終編集日付に依存します。
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_tax_desc#:#問題表示順番は分類基準の問題割り当てに依存します。
 assessment#:#tst_inp_no_available_tax_hint#:#選択の問題集には利用可能な分類基準がありません
@@ -1647,17 +1649,18 @@ assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#問�
 assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#ランダム問題セット構成は既存の受験者データが存在するので修正できません。
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#問題選択を継続して構成が変更されました。
 assessment#:#tst_msg_rand_quest_set_change_quest_amount_here#:#問題数を変更できます: %s
-assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#正しい問題数を定義しないで参加者のランダムテスト作成はできません。
+assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#正しい問題数を定義しないと受験者のランダムテスト作成はできません。
 assessment#:#tst_msg_rand_quest_set_lost_pools#:#構成に影響する以下の問題集は誰も利用できないのでテストの問題選択構成は確定されました:<br />%s
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#利用可能な問題集がないので、問題選択用の新しいルールは現在追加できません。
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#問題集ソースを定義しないでランダムテスト作成はできません。
 assessment#:#tst_msg_rand_quest_set_pass_buildable#:#問題のランダム設定ありテストは現状の構成で可能です。
-assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#問題集ソースと問題数の現在の構成では参加者のランダムテスト作成はできません。
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#現在の構成で参加者のランダムテスト作成ができます。<br />選択された問題集ソースの最終同期時間： <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#問題集ソースと問題数の現在の構成では受験者のランダムテスト作成はできません。
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#現在の構成で受験者のランダムテスト作成ができます。<br />選択された問題集ソースの最終同期時間： <b>%s</b>
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#問題のランダム設定用の構成は正しく修正されました。現在、新しいルールを追加できます。
 assessment#:#tst_msg_random_question_set_config_modified#:#ランダムテスト構成は正しく修正されました。
 assessment#:#tst_msg_random_question_set_synced#:#現在の構成用の問題は正しく同期されました。
 assessment#:#tst_msg_skl_lvl_thresholds_saved#:#能力しきい値が保存されました。
+assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#能力ポイントはまだ保存されていません。入力を確認してください。
 assessment#:#tst_msg_skl_qst_assign_points_saved#:#能力点数が保存されました。
 assessment#:#tst_msg_source_pool_definitions_deleted#:#ルールは正しく削除されました。
 assessment#:#tst_must_be_online_exam#:#このオプションはオンラインテストでのみ利用できます!
@@ -1747,10 +1750,10 @@ assessment#:#tst_please_select_target_for_pool_derives#:#目標のコンテナ�
 assessment#:#tst_position#:#問題 %s の%s
 assessment#:#tst_position_without_total#:#問題 %s
 assessment#:#tst_postpone#:#問題を後回し
-assessment#:#tst_postpone_off#:#未回答問題は位置に留まります
-assessment#:#tst_postpone_off_desc#:#ユーザが見ただけで回答しないで飛ばした問題はテスト内の位置に留まりれテスト最後の待ち行列にはなりません。
-assessment#:#tst_postpone_on#:#未回答問題は待ち行列になります。
-assessment#:#tst_postpone_on_desc#:#ユーザが見ただけで回答しないで飛ばした問題はテスト最後に自動再表示されるよう待ち行列になります。
+assessment#:#tst_postpone_off#:#未回答問題の位置に留まる
+assessment#:#tst_postpone_off_desc#:#ユーザが見ただけで回答しないで飛ばした問題は、テスト内の位置に留まりテスト最後の待ち行列にはなりません。
+assessment#:#tst_postpone_on#:#未回答問題を待ち行列にする
+assessment#:#tst_postpone_on_desc#:#ユーザが見ただけで回答しないで飛ばした問題は、テスト最後に自動再表示するように待ち行列になります。
 assessment#:#tst_presentation_properties#:#テスト管理:問題の振る舞い
 assessment#:#tst_print#:#テストとアセスメントの印刷ビュー
 assessment#:#tst_print_date#:#印刷日
@@ -1892,7 +1895,7 @@ assessment#:#tst_results_grading_opt_show_status#:#合格/"不合格"ステー�
 assessment#:#tst_results_grading_opt_show_status_desc#:#合格/"不合格"ステータスの情報はテスト結果サマリへ付加されます。受験者は"Info"タブのテスト結果へアクセスできます。<br />
 assessment#:#tst_results_overview#:#テスト結果全般
 assessment#:#tst_results_overview_pass#:#試験%sの結果全般
-assessment#:#tst_results_presentation_description#:#ランニングテスト用の試験詳細を表示が選択されていると問題タイトルとテストの各問題の達成点はテストを終了していない場合に利用できます。"テスト結果内の解答を表示する"が選択されていると、詳細問題解答がテスト結果プレゼンテーション内の参加者で利用できます。全解答の正確な点数が含まれていていないと問題タイトル付きの概要と達成点数のみしか表示されません。解答リストが選択されると、参加者の解答つき全ての問題の概要が作成されます。このリストは最終提出前にInfoページとテスト終了時点で表示されます。 "テスト結果内の解答特定フィードバックを表示"が選択されている場合は、解答特定フィードバック問題の横にテスト結果内へ表示されます。"結果印刷ビュー(解答限定)"が選択されている場合は、"コンテンツを編集"タブを使って問題の周りに配置したILIASコンテンツは印刷ページが表示されません。紙の余白を保存したい場合はこのオプションを選択します。"署名プレースフォルダを表示"が選択されていると署名プレースフォルダが印刷用に表示されます。"推奨解答を表示"が選択されている場合は問題の推奨解答(設定済みの場合)がテスト結果概要内に表示されます。
+assessment#:#tst_results_presentation_description#:#ランニングテスト用の試験詳細を表示が選択されていると問題タイトルとテストの各問題の達成点はテストを終了していない場合に利用できます。"テスト結果内の解答を表示する"が選択されていると、詳細問題解答がテスト結果プレゼンテーション内の受験者で利用できます。全解答の正確な点数が含まれていていないと問題タイトル付きの概要と達成点数のみしか表示されません。解答リストが選択されると、受験者の解答つき全ての問題の概要が作成されます。このリストは最終提出前にInfoページとテスト終了時点で表示されます。 "テスト結果内の解答特定フィードバックを表示"が選択されている場合は、解答特定フィードバック問題の横にテスト結果内へ表示されます。"結果印刷ビュー(解答限定)"が選択されている場合は、"コンテンツを編集"タブを使って問題の周りに配置したILIASコンテンツは印刷ページが表示されません。紙の余白を保存したい場合はこのオプションを選択します。"署名プレースフォルダを表示"が選択されていると署名プレースフォルダが印刷用に表示されます。"要約を表示"が選択されている場合は問題の要約(設定済みの場合)がテスト結果概要内に表示されます。
 assessment#:#tst_results_print_best_solution#:#ベスト解答
 assessment#:#tst_results_print_best_solution_info#:#各問題用に加えて考えられるベスト解答が表示されます。
 assessment#:#tst_results_tax_filters#:#結果フィールター
@@ -1966,8 +1969,8 @@ assessment#:#tst_show_solution_printview#:#追加の印刷用の"解答リスト
 assessment#:#tst_show_solution_printview_desc#:#対象の受験者の解答付問題の概要が作成されます。このリストは"Info"タブへテスト終了時の最終提出前に提供されます。
 assessment#:#tst_show_solution_signature#:#署名記入欄
 assessment#:#tst_show_solution_signature_desc#:#準備した印刷バージョンは受験者用の署名記入欄に含まれます。この機能を使用するには"問題ごとに達成度を印刷"を有効にしてください。
-assessment#:#tst_show_solution_suggested#:#繰り返し用のコンテンツ
-assessment#:#tst_show_solution_suggested_desc#:#繰り返し用のコンテンツが最初の場所内のテスト問題へ割り当てられているとコンテンツは"問題ごとの達成点数"テーブル内に表示されます。受験者は補修学習用の機会を得ます。このオプションを有効にするには"テスト結果へアクセス"配下の"問題ごとの達成点数"を有効にする必要があります。
+assessment#:#tst_show_solution_suggested#:#要約用のコンテンツ
+assessment#:#tst_show_solution_suggested_desc#:#要約用のコンテンツが最初の場所内のテスト問題へ割り当てられているとコンテンツは"問題ごとの達成点数"テーブル内に表示されます。受験者は補修学習用の機会を得ます。このオプションを有効にするには"テスト結果へアクセス"配下の"問題ごとの達成点数"を有効にする必要があります。
 assessment#:#tst_show_summary#:#問題リストを表示
 assessment#:#tst_show_summary_description#:#受験者は実際の問題の左側のテスト問題のリストへ切替できます。さらに"問題リスト"へ表示されます。その画面上で問題の全般ステータスが表示されます。
 assessment#:#tst_show_toplist#:#順位を表示
@@ -2187,7 +2190,7 @@ badge#:#badge_add_template#:#テンプレートを追加
 badge#:#badge_add_to_backpack#:#Backpackへ追加
 badge#:#badge_add_to_backpack_multi#:#Backpackへ%sを追加しようとします
 badge#:#badge_add_to_profile#:#プロファイルを追加
-badge#:#badge_assignment_deletion_confirmation#:#"%s"の以下のバッジ割当てを本当に取り消ししますか?
+badge#:#badge_assignment_deletion_confirmation#:#%sの以下のバッジ割当てを本当に取り消ししますか?
 badge#:#badge_award_badge#:#バッジを与える
 badge#:#badge_backpack_connect_failed#:#%sへMozilla Backpackを要求する事ができませんでした。
 badge#:#badge_backpack_email#:#Mozilla Backpackアカウント (Email)
@@ -3855,6 +3858,7 @@ common#:#err_count_param#:#理由：パラメーターカウントの間違い
 common#:#err_enter_current_passwd#:#現在のパスワードを入力してください
 common#:#err_in_line#:#ライン中のエラー
 common#:#err_inactive#:#アカウントが使用可能になっていません。アクセスするにはシステム管理者へ連絡してください。
+common#:#err_inactive_login_attempts#:#ログイン回数が規定の失敗回数を超えたためにアカウントは無効になっています。管理者へアカウントの再解除が必要であることを通知するには、このページのフッターに記載されている'テクニカルサポートへコンタクト'をクリックします。
 common#:#err_invalid_port#:#無効なポート番号
 common#:#err_ldap_auth_failed#:#ユーザはLDAPサーバーで認証されていません! ILIASとLDAPが同一パスワードである事を確認してください。
 common#:#err_ldap_connect_failed#:#LDAPサーバーへの接続が失敗しました! 設定をチェックしてください
@@ -4315,6 +4319,7 @@ common#:#il_grp_admin#:#Group Administrator
 common#:#il_grp_member#:#Group Member
 common#:#il_grp_status_closed#:#Group closed
 common#:#il_grp_status_open#:#Group open
+common#:#il_iass_member#:#個別アセスメント受験者
 common#:#il_orgu_employee#:#従業員
 common#:#il_orgu_superior#:#上司
 common#:#ilias_and_webfolder_username#:#ILIASとWebフォルダユーザ名
@@ -5323,7 +5328,7 @@ common#:#perm_role_info_glob_1#:#このフォームはリポジトリ内に新�
 common#:#perm_role_info_glob_2#:#リポジトリ内の全ての既存オブジェクトの役割'%s'のアクセス権限を変更したい場合は、画面下にある'既存のオブジェクト変更'オプションをチェックしなければなりません。
 common#:#perm_settings#:#アクセス権限
 common#:#perm_special_options#:#特別オプション
-common#:#perma_link#:#リンク先
+common#:#perma_link#:#Permanent Link
 common#:#permission#:#許諾
 common#:#permission_denied#:#拒否されました
 common#:#permission_denied_filed_locked_by#:#アクセスは拒否されました。ファイルは'%s'にロックされています。
@@ -5593,7 +5598,7 @@ common#:#rte_editor_enabled#:#Richテキストエディターを使用
 common#:#sahs#:#SCORM/AICCラーニングモジュール
 common#:#sahs_added#:#SCORM/AICCラーニングモジュール追加
 common#:#sahs_create#:#SCORM/AICCラーニングモジュールを作成
-common#:#sahs_export_file#:#ILIASはSCORMアーカイブをエクスポートしました
+common#:#sahs_export_file#:#ILIASがエクスポートしたSCORMアーカイブファイル
 common#:#sahs_insert_chap_from_clip#:#クリップボードの章を貼付ける
 common#:#sahs_insert_page_from_clip#:#クリップボードのページﾞを貼り付ける
 common#:#sahs_insert_sco_from_clip#:#クリップボードのSCOを貼付ける
@@ -7363,7 +7368,7 @@ content#:#glo_content_settings#:#Content
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_editing_view#:#編集表示
 content#:#glo_full_definitions#:#詳細定義
-content#:#glo_full_definitions_info#:#用語と定義はメイン表示の中で正しく表示されます。
+content#:#glo_full_definitions_info#:#用語と定義はメイン表示の中に全表示されます。
 content#:#glo_hide_taxonomy#:#分類基準を非表示
 content#:#glo_list_usages#:#使用状況リスト
 content#:#glo_mode_level_info#:#リポジトリ内の同一レベル用語集のすべての用語が含まれます。
@@ -8257,10 +8262,10 @@ crs#:#event_unregister#:#登録解除
 crs#:#event_unregistered#:#登録が解除されました。
 crs#:#event_updated#:#設定を保存しました
 crs#:#event_user_selection#:#ユーザの選択
-crs#:#event_user_selection_include_filter#:#"%1$s"を含む
-crs#:#event_user_selection_include_requests#:#"参加リクエスト"リストの全てのユーザを含む
-crs#:#event_user_selection_include_role#:#"%1$s"役割を持つ全てのユーザを含む
-crs#:#event_user_selection_include_waiting_list#:#"待ちリスト"の全てのユーザを含む
+crs#:#event_user_selection_include_filter#:#%1$sを含む
+crs#:#event_user_selection_include_requests#:#参加リクエストリストの全てのユーザを含む
+crs#:#event_user_selection_include_role#:#%1$s役割を持つ全てのユーザを含む
+crs#:#event_user_selection_include_waiting_list#:#待ちリストの全てのユーザを含む
 crs#:#events#:#セッション
 crs#:#events_clone_title#:#セッションを複製
 crs#:#events_deleted#:#セッション削除
@@ -8835,7 +8840,7 @@ dcl#:#dcl_error_parsing_expression#:#構文解析式エラー
 dcl#:#dcl_export#:#エクスポート
 dcl#:#dcl_export_enabled#:#全ユーザへエクスポート機能を許可する
 dcl#:#dcl_export_enabled_desc#:#全てのユーザはこの表のデータをエクスポートできます。フィールドがエクスポートされる表全体を明示する必要があります。
-dcl#:#dcl_export_finished#:#終了をエクスポート
+dcl#:#dcl_export_finished#:#エクスポートを終了しました
 dcl#:#dcl_export_started#:#非同期のエクスポートを開始しました
 dcl#:#dcl_export_table_excel#:#.xlsをエクスポート
 dcl#:#dcl_field_datatype#:#フィールドデータタイプ
@@ -8883,7 +8888,7 @@ dcl#:#dcl_length_info#:#(200文字以上用には追加のテキストエリア�
 dcl#:#dcl_limit_end#:#終了
 dcl#:#dcl_limit_start#:#開始
 dcl#:#dcl_limited#:#追加・編集・削除限定期間
-dcl#:#dcl_limited_desc#:#ユーザは特定のタイムスパン内のみ編集できます。
+dcl#:#dcl_limited_desc#:#ユーザは指定する期間内に限りエントリーを編集できます。
 dcl#:#dcl_link_detail_page#:#詳細ページへのリンクエントリー
 dcl#:#dcl_list_fields#:#フィールドを一覧表示
 dcl#:#dcl_locked#:#ロック中
@@ -9302,7 +9307,7 @@ ecs#:#ecs_wiki_export_enabled#:#このWikiをリリース
 ecs#:#ecs_wiki_export_obj_settings#:#Wikiリリース設定
 error#:#error_back_to_repository#:#リポジトリへ戻る
 error#:#error_sry_error#:#エラーが発生しました。
-exc#:#exc_add_assignment#:#割り当てを追加
+exc#:#exc_add_assignment#:#課題を追加
 exc#:#exc_add_criteria#:#基準を追加
 exc#:#exc_add_criteria_catalogue#:#カタログを追加
 exc#:#exc_add_feedback_file#:#フィードバックファイルを預ける
@@ -9312,20 +9317,20 @@ exc#:#exc_adopt_group_teams_added#:#%s名のユーザが追加されました。
 exc#:#exc_adopt_group_teams_blocked#:#%s名のユーザがすでに割り当て済です。
 exc#:#exc_adopt_group_teams_conflict#:#ユーザ"%1$s"はすでにグループ"%2$s"へ選択済です。
 exc#:#exc_adopt_group_teams_no_members#:#メンバーなし
-exc#:#exc_assignment#:#割り当て
+exc#:#exc_assignment#:#課題（Assignment）
 exc#:#exc_assignment_type#:#提出のタイプ
-exc#:#exc_assignment_view#:#割り当て表示
-exc#:#exc_assignments#:#割り当て
-exc#:#exc_assignments_deleted#:#割り当ては削除されました。
+exc#:#exc_assignment_view#:#課題表示(Assignment View)
+exc#:#exc_assignments#:#課題（Assignment）
+exc#:#exc_assignments_deleted#:#課題は削除されました。
 exc#:#exc_blog_created#:#ブログが作成されました。
-exc#:#exc_blog_returned#:#ブログ割り当て
+exc#:#exc_blog_returned#:#課題ブログ
 exc#:#exc_blog_selected#:#ブログが割当てられました。
 exc#:#exc_comment_for_learner_edit#:#コメントとしてテキストフィールドへ入力
-exc#:#exc_comment_for_learner_info#:#ユーザへ通知が送られてフィードバックはユーザの割り当てビューに一覧表示されます。
+exc#:#exc_comment_for_learner_info#:#ユーザへ通知が送られてフィードバックはユーザの課題表示内に一覧表示されます。
 exc#:#exc_completion_by_submission#:#提出すれば完了
-exc#:#exc_completion_by_submission_info#:#有効にするとファイルを一つ提出すれば割当ての完了となります。別途点数は手動変更できます。この設定を変更しても提出済みの解答には影響しません。
+exc#:#exc_completion_by_submission_info#:#有効にするとファイルを一つ提出すれば課題完了となります。別途点数は手動変更できます。この設定を変更しても提出済みの解答には影響しません。
 exc#:#exc_completion_by_tutor#:#指導教員のマニュアル操作に限定
-exc#:#exc_conf_del_assignments#:#本当に次の割り当てを削除しますか?
+exc#:#exc_conf_del_assignments#:#本当に次の課題を削除しますか?
 exc#:#exc_copy#:#演習をコピー
 exc#:#exc_create_blog#:#ブログ作成
 exc#:#exc_create_blog_select_info#:#ブログへ追加するリソースフォルダを選択してください。
@@ -9358,21 +9363,21 @@ exc#:#exc_direct_submit#:#送信
 exc#:#exc_direct_submit_blog#:#現在のバージョンのブログを直ぐに提出しますか?後からブログエディタからいつでもできます。
 exc#:#exc_direct_submit_portfolio#:#現在のバージョンのポートフォリオを直ぐに提出しますか?後からポートフォリオエディタからいつでもできます。
 exc#:#exc_download_zip_structure#:#ZIP構造をダウンロード
-exc#:#exc_edit_assignment#:#割り当てを編集
-exc#:#exc_edit_assignments#:#割り当てを編集
+exc#:#exc_edit_assignment#:#課題を編集
+exc#:#exc_edit_assignments#:#課題を編集
 exc#:#exc_edit_criterias#:#基準を編集
 exc#:#exc_edit_submission#:#提出を編集
 exc#:#exc_ended_on#:#終了
 exc#:#exc_export_excel#:#エクスポート(Excel)
 exc#:#exc_fb_files#:#フィードバックファイル
-exc#:#exc_fb_tutor_info#:#フィードバックファイルをuploadする際に通知がユーザへ送信されてフィードバックファイルがユーザの割当てビューに表示されます。
+exc#:#exc_fb_tutor_info#:#フィードバックファイルをuploadする際に通知がユーザへ送信されてフィードバックファイルがユーザの課題表示内に一覧表示されます。
 exc#:#exc_feedback#:#フィードバック
-exc#:#exc_feedback_notification_body#:#フィードバックは以下の割当てへ利用できます。
+exc#:#exc_feedback_notification_body#:#フィードバックは今後次の課題へ利用できます。
 exc#:#exc_feedback_notification_link#:#演習問題へリンク
 exc#:#exc_feedback_notification_reason#:#上記の試験の受講者はこのメールを受領します。
 exc#:#exc_feedback_notification_salutation#:#こんにちは%sさん
-exc#:#exc_feedback_notification_subject#:#フィードバックが割当の試験"%s"で利用可能になります。
-exc#:#exc_files_returned_text#:#割当て文章
+exc#:#exc_feedback_notification_subject#:#フィードバックは演習問題"%s"の課題で利用可能になります。
+exc#:#exc_files_returned_text#:#課題テキスト
 exc#:#exc_global_feedback_file#:#サンプル解答
 exc#:#exc_global_feedback_file_cron#:#通知
 exc#:#exc_global_feedback_file_cron_info#:#サンプル解答が利用可能になるとクローンジョブ経由で全学習者は通知されます。
@@ -9382,7 +9387,7 @@ exc#:#exc_global_feedback_file_date_upload#:#提出後
 exc#:#exc_grades#:#全体成績
 exc#:#exc_grades_overview#:#成績表示
 exc#:#exc_hand_in#:#提出する
-exc#:#exc_import#:#インポート演習
+exc#:#exc_import#:#演習問題をインポート
 exc#:#exc_individual_deadline#:#個別の期限
 exc#:#exc_individual_deadline_action#:#個別の期限を設定
 exc#:#exc_individual_deadline_before_global#:#日付は(最終)期限: %sの後になる必要があります。
@@ -9395,18 +9400,18 @@ exc#:#exc_mail_permanent_link#:#演習にアクセスするには次のリンク
 exc#:#exc_manage#:#管理
 exc#:#exc_manage_team#:#チームを管理
 exc#:#exc_mandatory#:#必須項目
-exc#:#exc_mandatory_info#:#必須項目の割り当てには全演習を通して合格する必要があります。
+exc#:#exc_mandatory_info#:#必須項目の課題は全演習を通して合格する必要があります。
 exc#:#exc_max_file#:#最大ファイル数
 exc#:#exc_max_file_info#:#受験者は一度制限に達すると沢山のファイルをアップロードできなくなります。
 exc#:#exc_max_file_reached#:#ファイル数%s以上のアップロードはできません。
 exc#:#exc_max_file_tgl#:#アップロード制限
-exc#:#exc_members_already_assigned_tean#:#これらのユーザはこの承諾の他のチームへすでに割り当て済です。
-exc#:#exc_min_nr#:#割り当て数
-exc#:#exc_min_nr_info#:#この値は必須割り当て数以上にする必要があります。
-exc#:#exc_msg_all_mandatory_ass#:#演習に合格するには全ての必須割り当て試験に合格する必要があります。
+exc#:#exc_members_already_assigned_tean#:#これらのユーザはこの課題の他のチームへすでに割り当て済です。
+exc#:#exc_min_nr#:#課題数
+exc#:#exc_min_nr_info#:#この値は必須課題数以上にする必要があります。
+exc#:#exc_msg_all_mandatory_ass#:#演習に合格するには全ての必須課題試験に合格する必要があります。
 exc#:#exc_msg_failed_mandatory#:#少なくとも一つの条件に不合格です。
 exc#:#exc_msg_min_number_ass#:#演習に合格するには少なくとも%sの条件に合格する必要があります。
-exc#:#exc_msg_missed_minimum_number#:#最低割り当て数を達成できませんでした。
+exc#:#exc_msg_missed_minimum_number#:#最低課題数を達成できませんでした。
 exc#:#exc_msg_new_feedback_file_uploaded#:#新しいフィードバックファイルが演習 "%s"に追加されました。
 exc#:#exc_msg_new_feedback_file_uploaded2#:#指導教員が新しいフィードバックファイルをアップロードしました。
 exc#:#exc_msg_new_feedback_text_uploaded#:#新しいコメントが演習"%s"へ追加されました。
@@ -9414,13 +9419,13 @@ exc#:#exc_msg_new_feedback_text_uploaded2#:#指導教員が新しいコメント
 exc#:#exc_msg_participants_removed#:#受講者が演習から削除されました。
 exc#:#exc_msg_public_submission#:#すべての応募締め切り後に公開されます。
 exc#:#exc_msg_saved_grades#:#グレードとコメントが保存されました。
-exc#:#exc_msg_sure_to_deassign_participant#:#本当に全ての演習の割り当てから受講者を削除しますか？ これによりリソースの全ての手動設定が削除されます。
-exc#:#exc_multi_feedb_info#:#この画面では1個のファイルに複数フィードバックをアップロードできます。最初に"ZIP構造をダウンロード"をクリックしてZIPファイルを保存してローカルコンピュータ上に展開します。フィードバックファイルを対象のユーザディレクトリへ置きます。全ディレクトリが1個のZIPファイルへ再度圧縮されます。ローカルファイルシステムのファイルを参照して以下のフォームの"複数フィードバックファイル"を選択します。そのあと"アップロード"をクリックします。確認画面にファイル一覧が表示されます。ファイル名には特殊文字を使わないでください。
-exc#:#exc_multi_feedback#:#マルチ-フィードバック
+exc#:#exc_msg_sure_to_deassign_participant#:#本当に全ての演習の課題から受講者を削除しますか？ これによりリソースの全ての手動設定も削除されます。
+exc#:#exc_multi_feedb_info#:#この画面では1個のファイルに複数フィードバックをアップロードできます。最初に"ZIP構造をダウンロード"をクリックしてZIPファイルを保存してローカルコンピュータ上に展開します。フィードバックファイルを対象のユーザディレクトリへ置きます。全ディレクトリが1個のZIPファイルへ再度圧縮されます。ローカルファイルシステムのファイルを参照して以下のフォームの"マルチ-フィードバックファイル"を選択します。その後"アップロード"をクリックします。確認画面にファイル一覧が表示されます。ファイル名には特殊文字を使わないでください。
+exc#:#exc_multi_feedback#:#大量受験者用の評価
 exc#:#exc_multi_feedback_file#:#マルチ-フィードバックファイル
 exc#:#exc_multi_feedback_files#:#マルチ-フィードバックファイル
-exc#:#exc_needs_deadline#:#この機能は割当て締切りでのみしか動作しません。
-exc#:#exc_new_assignment#:#新しい割り当て
+exc#:#exc_needs_deadline#:#この機能は課題締切り一つでのみしか動作しません。
+exc#:#exc_new_assignment#:#新しい課題
 exc#:#exc_no_assignments_available#:#まだアセスメントが未作成です。最初にアセスメントを作成するには"割当て"と"編集"を開いてください。
 exc#:#exc_no_deadline_specified#:#確定期限なし
 exc#:#exc_no_feedback_dir_found_in_zip#:#アップロードされたzipアーカイブのディレクトリ構造を処理できませんでした。
@@ -9437,24 +9442,24 @@ exc#:#exc_participant#:#受講者
 exc#:#exc_participant_view#:#受講者表示
 exc#:#exc_pass_all#:#必須問題すべて
 exc#:#exc_pass_all_info#:#演習に合格するにはすべての必須問題に合格する必要があります。
-exc#:#exc_pass_minimum_nr#:#割り当て最低数
-exc#:#exc_pass_minimum_nr_info#:#演習に合格するには最低必須割当数を達成する必要があります。この値は必須の割当問題数よりも多くする必要があります。
+exc#:#exc_pass_minimum_nr#:#最小課題数
+exc#:#exc_pass_minimum_nr_info#:#演習に合格するには最小課題数を達成する必要があります。この値は必須の課題数よりも多くする必要があります。
 exc#:#exc_pass_mode#:#合格モード
 exc#:#exc_passed_status_determination#:#合格ステータスの確定
-exc#:#exc_passing_exc#:#演習問題に合格
+exc#:#exc_passing_exc#:#演習問題合格するには
 exc#:#exc_peer_deadline_mismatch#:#締切り後にフィードバックをする場合は、割当てる設定の締切りよりフィードバック締切りを早くしてはいけません。
 exc#:#exc_peer_edit_file#:#ファイルを編集
 exc#:#exc_peer_review#:#ピアフィードバック
 exc#:#exc_peer_review_ass_setting_info#:#有効にすると締切り後でユーザはピアを評価できます。
 exc#:#exc_peer_review_chars_invalid#:#フィードバックには最小%sの文字長がありません。
 exc#:#exc_peer_review_comment#:#マイフィードバック
-exc#:#exc_peer_review_completion#:#"合格ス"テータスの決定
+exc#:#exc_peer_review_completion#:#合格ステータスの決定
 exc#:#exc_peer_review_completion_all#:#全ての必須フィードバック
-exc#:#exc_peer_review_completion_all_info#:#割り当ては解答と全ての必須フィードバックの掲出後に限り自動的に"合格"と設定されます。
+exc#:#exc_peer_review_completion_all_info#:#課題は解答と全ての必須フィードバックの掲出後に限り自動的に"合格"と設定されます。
 exc#:#exc_peer_review_completion_none#:#ピアフィードバックはオプションです
-exc#:#exc_peer_review_completion_none_info#:#割り当てはフィードバックが提供されているいないにかかわらず提出後に自動的に"合格"と設定されます。
+exc#:#exc_peer_review_completion_none_info#:#課題はフィードバックが提供されているいないにかかわらず提出後に自動的に"合格"と設定されます。
 exc#:#exc_peer_review_completion_one#:#一つはフィードバック
-exc#:#exc_peer_review_completion_one_info#:#割り当ては解答と一つフィードバックの掲出後に限り自動的に"合格"と設定されます。
+exc#:#exc_peer_review_completion_one_info#:#課題は解答とフィードバック一つの掲出後に限り自動的に"合格"と設定されます。
 exc#:#exc_peer_review_cron_info#:#有効にすると受験者は保留中のピアフィードバックを知らされます。
 exc#:#exc_peer_review_deadline#:#フィードバック締切り期限
 exc#:#exc_peer_review_deadline_info#:#フィードバックをこの日に止めることが可能で受領したフィードバックはその時点からのみアクセス可能となります。
@@ -9466,7 +9471,7 @@ exc#:#exc_peer_review_give#:#フィードバック提供
 exc#:#exc_peer_review_given#:#提出のフィードバックを表示
 exc#:#exc_peer_review_giver#:#フィードバック者
 exc#:#exc_peer_review_info#:#チームupload割当てが利用できません。
-exc#:#exc_peer_review_invalid_giver_ids#:#演習メンバーでも提出もしないピア者
+exc#:#exc_peer_review_invalid_giver_ids#:#演習メンバーでも提出もしないピア寄贈者
 exc#:#exc_peer_review_invalid_peer_ids#:#演習メンバーでも提出もしないピア受信者
 exc#:#exc_peer_review_min_chars#:#最小文字数
 exc#:#exc_peer_review_min_chars_info#:#有効なフィードバック用の必須文字数
@@ -9504,25 +9509,28 @@ exc#:#exc_portfolio_returned#:#ポートフォリアが提出されました
 exc#:#exc_portfolio_selected#:#ポートフォリオが割当てられました。
 exc#:#exc_presentation_order#:#表示順
 exc#:#exc_public_submission#:#公開提出物
-exc#:#exc_publishing#:#出版
+exc#:#exc_publishing#:#公開
 exc#:#exc_save_all#:#全て保存
 exc#:#exc_save_order#:#順番を保存
 exc#:#exc_save_selected#:#選択を保存
 exc#:#exc_saved_order#:#表示順を保存しました。
 exc#:#exc_search_users#:#ユーザを検索
-exc#:#exc_select_ass#:#割り当て問題を選択
+exc#:#exc_select_ass#:#課題を選択
 exc#:#exc_select_blog#:#既存のブログを使用
 exc#:#exc_select_blog_change#:#別のブログを使用
-exc#:#exc_select_blog_info#:#この割当てを一緒に使ってブログのどれか一つを選択してください。
+exc#:#exc_select_blog_info#:#この課題を一緒に使ってブログのどれか一つを選択してください。
 exc#:#exc_select_part#:#受講者を選択
 exc#:#exc_select_portfolio#:#既存のポートフォリオを使用
 exc#:#exc_select_portfolio_change#:#別のポートフォリオを使用
-exc#:#exc_select_portfolio_info#:#この割当てを一緒に使ってポートフォリオをどれか一つ選択してください。
-exc#:#exc_send_assignment#:#割り当て問題をメールで送信
+exc#:#exc_select_portfolio_info#:#この課題を一緒に使ってポートフォリオをどれか一つ選択してください。
+exc#:#exc_send_assignment#:#課題をメールで送信
 exc#:#exc_settings_feedback#:#指導教員フィードバック
 exc#:#exc_settings_feedback_file#:#By File
+exc#:#exc_settings_feedback_file_info#:#指導教員はファイルをアップロードします。受験者はその通知を受信し、アセスメント概要にてファイルにアクセスできます。
 exc#:#exc_settings_feedback_mail#:#By Mail
+exc#:#exc_settings_feedback_mail_info#:#指導教員はメールフォームへ評価を入力します。評価は受験者へ送信されます。
 exc#:#exc_settings_feedback_text#:#テキスト入力
+exc#:#exc_settings_feedback_text_info#:#指導教員はテキストフィールドへ評価を入力します。受験者はその通知を受信し、テキストはアセスメント概要へ表示されます。
 exc#:#exc_show_peer_review#:#ピア - フィードバックを表示
 exc#:#exc_show_submissions#:#締め切り後に提出物公開
 exc#:#exc_show_submissions_info#:#締め切り後にすべての学習者へ全提出物を公開します。
@@ -9538,15 +9546,15 @@ exc#:#exc_submitted_files_deleted#:#選択のファイルは削除されまし�
 exc#:#exc_tbl_action_download_all_files#:#全ての提出をダウンロード
 exc#:#exc_tbl_action_download_files#:#提出をダウンロード
 exc#:#exc_tbl_action_download_new_files#:#新しい提出をダウンロード
-exc#:#exc_tbl_action_feedback_file#:#ファイルのフィ－ドバックを提供
-exc#:#exc_tbl_action_feedback_mail#:#メールのフィードバックを提供
-exc#:#exc_tbl_action_feedback_text#:#テキストのフィードバックを提供
-exc#:#exc_tbl_action_peer_review_given#:#提供のピアフィードバックを表示
+exc#:#exc_tbl_action_feedback_file#:#ファイルで評価
+exc#:#exc_tbl_action_feedback_mail#:#評価メールを送信
+exc#:#exc_tbl_action_feedback_text#:#評価ステートメントを書き込む
+exc#:#exc_tbl_action_peer_review_given#:#評価済ピアフィードバックを表示
 exc#:#exc_tbl_action_peer_review_received#:#受領したピアフィードバックを表示
 exc#:#exc_tbl_action_team_log#:#チームログを表示
 exc#:#exc_tbl_action_text_assignment_show#:#提出を表示
-exc#:#exc_tbl_comment#:#テキストフィードバック
-exc#:#exc_tbl_feedback_time#:#フィ－ドバック日
+exc#:#exc_tbl_comment#:#評価ステートメント
+exc#:#exc_tbl_feedback_time#:#評価日
 exc#:#exc_tbl_filter_has_no_submission#:#まだ提出されていません
 exc#:#exc_tbl_filter_has_submission#:#提出しました
 exc#:#exc_tbl_filter_submission#:#提出
@@ -9564,7 +9572,7 @@ exc#:#exc_team_assignment_adopt_already_assigned#:#割り当て済
 exc#:#exc_team_assignment_adopt_none#:#どのチームにも採用しません
 exc#:#exc_team_assignment_adopt_none_user#:#新しいチームを作成
 exc#:#exc_team_assignment_adopt_teams#:#チーム
-exc#:#exc_team_assignment_adopt_user#:#割り当てからチームを採用
+exc#:#exc_team_assignment_adopt_user#:#課題からチームを採用
 exc#:#exc_team_at_least_one#:#最低一人はチームメンバである必要があります。
 exc#:#exc_team_log#:#チームログ
 exc#:#exc_team_log_add_file#:#ファイル%sを追加しました。
@@ -9586,9 +9594,9 @@ exc#:#exc_team_notification_changed_by#:#ステータス更新者
 exc#:#exc_team_notification_link#:#演習問題へのリンク
 exc#:#exc_team_notification_reason#:#上記の試験の受講者はこのメールを受領します。
 exc#:#exc_team_notification_salutation#:#こんにちは%s さん
-exc#:#exc_team_notification_subject_add#:#アップロード割り当てへチームメンバとして追加しました
-exc#:#exc_team_notification_subject_rmv#:#アップロード割り当てがチームから削除されました
-exc#:#exc_team_upload_not_supported#:#この機能はチームupload割当てをサポートしていません。
+exc#:#exc_team_notification_subject_add#:#演習問題"%s"の課題をアップロードするためにチームメンバとして追加しました
+exc#:#exc_team_notification_subject_rmv#:#演習問題"%s"の課題アップロードチームから削除されました
+exc#:#exc_team_upload_not_supported#:#この機能はアップロード課題チームをポートしていません。
 exc#:#exc_text_assignment_edit#:#テキストを編集
 exc#:#exc_text_assignment_show#:#テキストを表示
 exc#:#exc_total_exc#:#全演習
@@ -9642,7 +9650,7 @@ feed#:#block_feed_block_feed_url_info#:#有効なRSS/Atom URLである事。 例
 feed#:#block_feed_block_head#:#外部Webフィード
 feed#:#block_feed_block_title#:#タイトル
 feed#:#feed_disable_rep_feeds#:#Webフィードを非表示
-feed#:#feed_disable_rep_feeds_info#:#外部フィードソースに予期しない問題が発生す場合に外部のwebフィード表示を無効にする。
+feed#:#feed_disable_rep_feeds_info#:#外部フィードソースに予期しない問題が発生する場合に外部のwebフィード表示を無効にする。
 feed#:#feed_feed_items#:#フィードアイテム
 feed#:#feed_import#:#フィードをインポート
 feed#:#feed_loading_feed#:#フィードをロード中...
@@ -10638,7 +10646,7 @@ mathjax#:#mathjax_limiter#:#インライン区切り文字
 mathjax#:#mathjax_limiter_info#:#MathJaxを有効にする構成するインライン区切り文字を選択します。
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_path_to_mathjax#:#MathJaxのURL
-mathjax#:#mathjax_path_to_mathjax_desc#:#例：https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMMLまたはローカルインストレーションのURL・
+mathjax#:#mathjax_path_to_mathjax_desc#:#例：http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMMLまたはローカルインストレーションのURL・
 mathjax#:#mathjax_server_address#:#サーバアドレス
 mathjax#:#mathjax_server_address_info#:#例 http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#MathJaxキャッシュはクリヤされました。
@@ -11004,7 +11012,7 @@ meta#:#meta_c_LI#:#Liechtenstein
 meta#:#meta_c_LK#:#Sri Lanka
 meta#:#meta_c_LR#:#Liberia
 meta#:#meta_c_LS#:#Lesotho
-meta#:#meta_c_LT#:#Lithuania
+meta#:#meta_c_LT#:#Lithunia
 meta#:#meta_c_LU#:#Luxembourg
 meta#:#meta_c_LV#:#Latvia
 meta#:#meta_c_LY#:#Libyan Arab Jamahiriya
@@ -11457,6 +11465,7 @@ mob#:#mob_subtitles#:#字幕
 mob#:#mob_upload_multi_srt#:#ZIPとしてアップロード
 mob#:#mob_upload_multi_srt_howto#:#.zipファイルはサブディレクトリへ含められないので全ての.srtファイルはトップレベル上に位置するようにしなければなりません。langコードは"en","it","de"の例のようにファイル名が"_&lt;lang code&gt;.srt"で終了するようにする必要があります。
 news#:#finish_publishing_date#:#発行を終了します
+news#:#new_test_online#:#テストはオンラインにされていされていました。
 news#:#news_1_file_created#:#ファイルが1個追加されました。
 news#:#news_1_file_updated#:#ファイルが1個更新されました。
 news#:#news_1_postings#:#投稿が1個追加されました。
@@ -11769,7 +11778,7 @@ pd#:#pd_profile_data#:#プロファイルデータ
 pd#:#pd_remove_multi_confirm#:#オブジェクトは削除されました。
 pd#:#pd_remove_multiple#:#複数オブジェクトを削除
 pd#:#pd_settings#:#パーソナルデスクトップ
-pd#:#pd_sys_msg_mail_block#:#"メールブロック"内にシステムメッセージを表示
+pd#:#pd_sys_msg_mail_block#:#メールブロック内にシステムメッセージを表示
 pd#:#pd_sys_msg_no_block#:#パーソナルデスクトップ上にシステムメッセージを一切表示しない。
 pd#:#pd_sys_msg_own_block#:#自分のブロック内にシステムメッセージを表示
 pd#:#pd_time_before_removal#:#最大アイドルタイム(分)
@@ -11896,6 +11905,7 @@ prg#:#prg_points_current#:#現在のポイント
 prg#:#prg_points_reachable#:#入手可能な点数
 prg#:#prg_points_required#:#要件点数
 prg#:#prg_possible#:#可能
+prg#:#prg_prg_type#:#学習プログラムタイプ
 prg#:#prg_progress_info#:#あなたは%1$dポイントです。学習プログラムは%2$dポイントで完了しました。
 prg#:#prg_progress_status#:# %1$d of %2$d ポイント
 prg#:#prg_progress_status_with_child_sp#:# %1$d of %2$dポイント
@@ -15354,6 +15364,8 @@ trac#:#trac_mode_event#:#指導教員モニタと受験者記録
 trac#:#trac_mode_event_info#:#セッションに参加いかんに関わらず指導教員はモニタします。指導教員は'受験者を編集'タブ内で手動で受講者を記録します。
 trac#:#trac_mode_exercise_returned#:#指導教員モニタとステータス設定
 trac#:#trac_mode_exercise_returned_info#:#ユーザが試験を完了すると指導教員は決定します。指導教員は'完了'や'不合格'のような全体ステータスを手動にて設定します。
+trac#:#trac_mode_individual_assessment#:#指導教員またはトレーナにより手動で評価されました
+trac#:#trac_mode_individual_assessment_info#:#ユーザの記録は個別のアセスメントを完了するために指導教員により終了される必要があります。
 trac#:#trac_mode_manual#:#ユーザモニタと自身のステータス設定(全モジュール)
 trac#:#trac_mode_manual_by_tutor#:#指導教員モニタとステータス設定
 trac#:#trac_mode_manual_by_tutor_info#:#ユーザが試験を完了すると指導教員は決定します。指導教員は'完了'や'不合格'のような全体ステータスを手動にて設定します。
@@ -15739,7 +15751,7 @@ wiki#:#wiki_notification_toggle_wiki_deactivate#:#Wikiのアクティブ解除
 wiki#:#wiki_number_users_notes_or_comments#:#このページに添付されたメモやコメントのユーザ数
 wiki#:#wiki_ordering#:#順番
 wiki#:#wiki_ordering_and_indent_saved#:#順番と字下げを保存しました
-wiki#:#wiki_orphaned_pages#:#Orphaned(孤児)ページ
+wiki#:#wiki_orphaned_pages#:#Orphaned(孤立)ページ
 wiki#:#wiki_other_pages_linking#:#このページにリンクしている他のページ
 wiki#:#wiki_page#:#ページ
 wiki#:#wiki_page_actions#:#ページアクション
@@ -15839,7 +15851,7 @@ wiki#:#wiki_template_added#:#テンプレートページが追加されました
 wiki#:#wiki_template_status_removed#:#テンプレートステータスが削除されました。
 wiki#:#wiki_unblock_page#:#ページブロックしない
 wiki#:#wiki_unhide_meta_adv_records#:#追加のプロパティを表示
-wiki#:#wiki_what_links_here#:#ここへリンクしているもの
+wiki#:#wiki_what_links_here#:#ここへのリンクは?
 wiki#:#wiki_what_links_to_page#:#ページ "%s"へのリンクは?
 wiki#:#wiki_whole_wiki#:#Wiki全体
 wiki#:#wiki_wiki_page#:#Wikiページ
@@ -15909,15 +15921,17 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-prg#:#prg_prg_type#:#Study Programme Type###05 04 2017 new variable
-trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer###05 04 2017 new variable
-trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.###05 04 2017 new variable
-common#:#il_iass_member#:#Individual Assessment Examinee###05 04 2017 new variable
-assessment#:#essay_scoring_mode#:#Scoring Mode###10 05 2017 new variable
-assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###deprecated 
-assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#The competence points have not been saved. Please check your input.###10 05 2017 new variable
-news#:#new_test_online#:#The Test was set online.###10 05 2017 new variable
-common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. ###10 05 2017 new variable
-exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.###10 05 2017 new variable
-exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.###10 05 2017 new variable
-exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.###10 05 2017 new variable
+assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.###13 07 2017 new variable
+assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.###13 07 2017 new variable
+assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint###13 07 2017 new variable
+assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. ###13 07 2017 new variable
+assessment#:#use_previous_solution#:#Use Previous Solution###13 07 2017 new variable
+dcl#:#dcl_table_title_not_matching#:#The titles of the excel sheet and the Data Collection table do not match. Rename the sheet for a successfull import.###13 07 2017 new variable
+chatroom#:#chat_deletion_section_head#:#Deletion of old Messages###13 07 2017 new variable
+chatroom#:#chat_deletion_disabled#:#Disabled###13 07 2017 new variable
+chatroom#:#chat_deletion_interval#:#Interval###13 07 2017 new variable
+chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat on On-Screen-Chat conversations will be deleted after the defined threshold.###13 07 2017 new variable
+chatroom#:#chat_deletion_interval_unit#:#Unit###13 07 2017 new variable
+chatroom#:#chat_deletion_interval_value#:#Value###13 07 2017 new variable
+chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s###13 07 2017 new variable
+chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.###13 07 2017 new variable

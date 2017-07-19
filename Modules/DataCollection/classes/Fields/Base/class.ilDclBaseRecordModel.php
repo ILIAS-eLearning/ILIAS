@@ -684,16 +684,17 @@ class ilDclBaseRecordModel {
 
 		if (!$omit_notification) {
 			ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
+
+			$ilAppEventHandler->raise('Modules/DataCollection',
+				'deleteRecord',
+				array(
+					'dcl' => ilDclCache::getTableCache($this->getTableId())->getCollectionObject(),
+					'table_id' => $this->table_id,
+					'record_id' => $this->getId(),
+					'record' => $this,
+				));
 		}
 
-		$ilAppEventHandler->raise('Modules/DataCollection',
-			'deleteRecord',
-			array(
-				'dcl' => ilDclCache::getTableCache($this->getTableId())->getCollectionObject(),
-				'table_id' => $this->table_id,
-				'record_id' => $this->getId(),
-				'record' => $this,
-			));
 	}
 
 

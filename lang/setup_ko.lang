@@ -1,0 +1,623 @@
+/* Copyright (c) 1998-2017 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/**
+* ILIAS language file (setup)
+*
+* @module       language file Korean
+* @modulegroup  language
+* @author       Daehun Cho <cccman91@naver.com>
+* @version      $Id:
+*/
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+<!-- language file start -->
+3rd_party_software#:#타사 도구
+3rd_party_software_opt#:#타사 도구 옵션
+3rd_party_software_req#:#타사 도구가 필요
+3rdparty#:#타사 도구
+absolute_path#:#절대 Path
+access#:#액세스
+access_status#:#액세스 상태
+activate_global_cache#:#사용
+admin_login#:#마스터 비밀번호로 로그인
+alert#:#경고
+antivir#:#바이러스 감시
+applied_custom_updates#:#사용자 지정 업데이트 적용 후
+applied_hotfixes#:#적용된 Hotfix
+apply_custom_updates#:#정의 업데이트를 적용
+apply_hotfixes#:#Hotfix를 적용
+available_clients#:#사용 가능한 클라이언트
+available_custom_updates#:#적용 가능한 사용자 지정 업데이트
+available_hotfixes#:#적용 가능한 Hotfix
+available_languages ​​# : # 사용 가능한 언어
+back#:#돌아 가기
+basic_settings#:#기본 설정
+cache_activate_all#:#모든
+cache_activate_clng#:#언어
+cache_activate_comp#:#요소
+cache_activate_events#:#이벤트
+cache_activate_ilctrl#:#제어 흐름
+cache_activate_obj_def#:#객체 정의
+cache_activate_tpl#:#템플릿 (HTML)
+cache_activate_tpl_blocks#:#템플릿 (블록)
+cache_activate_tpl_variables#:#템플릿 (변수)
+cache_activated_components#:#요소를 아쿠티구했습니다
+cache_flush#:#모든 캐시를 업데이트
+cannot_create_datadir_no_write_access#:#쓰기 방지 데이터 디렉터리를 만들 수 없습니다.
+change#:#변경
+change_basic_settings#:#기본 설정 변경
+change_password#:#암호 변경
+change_sort_direction#:#정렬 순서 변경
+check_db_versions#:#ILIAS이 확정 된 데이터베이스 모드와 MySQL의 버전을 확인하십시오. 보통은 이렇게됩니다. 그렇지 않으면 데이터베이스 버전은 지원되지 않습니다. <br> 예 1 모드가 'MySQL 4.1 이후'에서 데이터베이스의 버전이 '4.0.12'의 경우는이 MySQL 버젼에서는 지원되지 않습니다. ILIAS 개발 팀에 연락하십시오. <br/> 예 2
+check_failed_convert#:#변환 명령을 찾을 수 없습니다.
+check_failed_java#:#Java 명령을 찾을 수 없습니다.
+check_failed_latex#:#LaTex CGI 스크립트 테스트에 실패했습니다.
+check_failed_unzip#:#Unzip 명령을 찾을 수 없습니다.
+check_failed_zip#:#Zip 명령을 찾을 수 없습니다.
+choose_language#:#언어를 선택
+choose_languages ​​# : # 언어를 추가하거나 선택한 언어를 삭제합니다.
+choose_password#:#암호를 입력하십시오.
+city ​​# : # 시구 군 · 도도부 현
+clamav#:#ClamAV
+clean_command#:#Clean 명령
+client#:#클라이언트
+client_access_mode_changed#:#클라이언트 액세스 모드가 변경되었습니다.
+client_cloned#:#모든 파일과 소스 설정은 클라이언트에 복사됩니다.
+client_data#:#클라이언트 정보
+client_deleted#:#클라이언트 삭제
+client_id#:#클라이언트 ID
+client_info#:#설명
+client_institution#:#대학 이름
+client_login#:#클라이언트 관리자로 로그인
+client_name#:#성명
+client_setup_not_finished#:#클라이언트의 설정이 완료되지 않습니다
+clients#:#클라이언트
+clone_areyousure#:#틀림 없습니까?
+clone_clientismaster#:#클라이언트가 유지 보수 허용 "master"라는 이름이 있으므로 덮어 쓸 수 없습니다.
+clone_clientisnotmysql#:#쿠라이안ン토에 MySQL 데이터베이스가 존재하지 않습니다.
+clone_clientnodatabase#:#현재 MySQL 만 지원되고 있습니다.
+clone_clientnotdisabled#:#클라이언트가 활성 상태입니다. 생성하기 전에 클라이언트를 비활성화하십시오.
+clone_disabledmessage#:#복제는 다음과 같은 이유로 잘못되었습니다.
+clone_selectsource#:#소스
+clone_source#:#복제 용 소스를 선택
+clone_youmustcheckiamsure#:#타겟 고객을 덮어 쓰려면 "틀림 없습니다"를 체크해야합니다.
+cloneit#:#시작
+collation#:#일치
+contact#:#연락처 정보
+contact_data#:#연락처 정보
+convert_path#:#Image Magic의 변환 Path
+convert_path_comment#:#이미지의 썸네일 표시 용 예 '/ your_path / convert'
+convert_path_comment_win#:#이미지의 썸네일 표시 용 예 'C
+could_not_create_logfile#:#로그 파일을 만들 수 없습니다.
+country#:#국가
+create#:#작성
+create_datadir_failed#:#데이터 디렉토리에 실패했습니다.
+create_directory#:#디렉토리 생성
+create_new_client#:#새 클라이언트 만들기
+create_webdir_failed#:#Web 디렉토리 생성에 실패했습니다.
+ctrl_missing_desc#:#제어 구조가 설정되지 않았습니다. '새로 고침'을 눌러주세요.
+ctrl_structure#:#제어 구조
+ctrl_structure_desc#:#업데이트와 패치의 지침에 명확한 설명이없는 한이 기능은 사용하지 마십시오.
+ctrl_structure_reload#:#리로드 제어 구조
+ctrl_structure_reloaded#:#제어 구조를 다시로드했습니다.
+custom_update_applied#:#사용자 정의 업데이트가 적용되었습니다
+custom_updates_available#:#사용자 정의 업데이트 가능
+data_directories#:#데이터 디렉토리
+data_directory_in_ws#:#Web의 데이터 디렉토리
+data_directory_in_ws_info # : #이 디렉토리는 변경할 수 없습니다.
+data_directory_info#:#Web 서버에 쓰기 가능한 Web 공간 외부의 디렉토리를 입력하십시오.
+data_directory_outside_ws#:#Web 외부 데이터 디렉토리
+data_path#:#날짜 Path
+database#:#데이터베이스
+database_create#:#데이터베이스 만들기
+database_exists#:#데이터베이스의 존재
+database_install#:#데이터베이스 설치
+database_installed#:#설치된 데이터베이스
+database_is_uptodate#:#데이터베이스는 최신입니다.
+database_needs_update#:#데이터베이스의 업데이트가 필요합니다.
+database_not_exists_create_first#:#데이터베이스가 존재하지 않습니다. 먼저 데이터베이스를 작성하십시오.
+database_ready#:#데이터베이스 레이디입니다.
+database_update#:#데이터베이스를 업데이트
+database_version#:#현재 데이터베이스 버전
+datadir_path#:#데이터 디렉토리 Path
+datadir_path_comment1#:#필수 항목
+datadir_path_comment2 # : #이 설치 버전은 변경할 수 없습니다.
+datadir_webspacedir_match#:#데이터 디렉토리 포인트 Path와 Web 공간 디렉토리의 위치가 같은 디렉토리입니다. 다른 디렉토리를 선택하십시오.
+date#:#날짜
+db_active#:#활성
+db_conn#:#데이터베이스 연결
+db_control_structure_missing#:#제어 구조가 아닙니다 (고급 -> '도구'참조)
+db_error_please_check#:#데이터베이스 호스트 이름, 사용자 이름, 암호를 확인하십시오.
+db_host#:#데이터베이스 호스트
+db_innodb#:#MySQL (InnoDB)
+db_master#:#마스터
+db_mysql#:#MySQL
+db_name#:#데이터베이스 이름
+db_needs_update#:#데이터베이스의 업데이트가 필요합니다.
+db_not_installed#:#데이터베이스가 설치되어 있지 않습니다.
+db_oracle#:#Oracle
+db_pass#:#데이터베이스 암호
+db_port#:#데이터베이스 포트
+db_postgres#:#PostgreSQL
+db_selection#:#데이터베이스 선택
+db_service_name#:#서비스 이름
+db_set_password#:#암호를 설정
+db_slave#:#슬레이브
+db_slave_settings#:#슬레이브 설정
+db_switch_legacy#:#새롭게 구현으로 대체 된 데이터베이스 유형을 사용하고 있습니다. 새 구현은 PHP7.0도 지원하고 있습니다. 전환 있습니까 :
+db_switch_legacy_button#:#스위치
+db_type#:#데이터베이스 유형
+db_update_interrupted#:#마지막 시작할 때 예기치 않은 데이터베이스 업데이트 스크립트 중단이있었습니다. 시스템 상태 <b> 모순 </ b>이 있습니다. 최신 백업을 다시 설치하고 다시 전환되는 것을 적극 권장합니다.
+db_update_interrupted_avoid # : #이 문제를 해결하려면 php.ini 파일에서 memory_limit 설정과 max_execution_time을 확인하십시오.
+db_user#:#데이터베이스 사용자
+db_version#:#데이터베이스 버전
+default#:#초기 설정
+default_client_changed#:#기본 클라이언트를 변경했습니다.
+default_language#:#초기 설정 언어
+delete#:#삭제
+delete_confirm#:#클라이언트 삭제 확인
+delete_info#:#정말 실행 하시겠습니까?
+details#:#상세
+determine_tools_paths#:#도구의 Path를 결정
+dir_exists_create#:#이미 데이레쿠토리이 존재합니다. "창조"의 체크를 해제하여이 디렉토리를 데이터 디렉토리에 있습니다.
+disable#:#표시하지
+disable_check#:#확인
+disable_logging#:#로그를 생성하지
+disabled#:#불가
+display_clientlist#:#클라이언트의 선택을 사용자에게 표시합니다.
+duplicate_ctrl#:#오류 중복 <br /> <br /> - % s <br /> - % s <br /> <br /> 공식적으로 ILIAS 배포하지 않는 파일을 삭제하십시오. <br /> 그렇다면 'Tools'-> ILIAS 설치 '제어 구조'를 호출한다.
+email#:#email
+email_not_valid#:#우편 주소의 실수
+en_by_default#:#기본적으로 영어가 설치되어 제거 할 수 없습니다.
+enable#:#기
+enable_system_styles_management#:#시스템 스타일을 관리
+enable_system_styles_management_info#:#레이아웃의 시스템 스타일 (스킨) 및 관리 섹션의 스타일을 관리 (추가, 편집, 삭제)합니다.
+enabled#:#ON하는
+enter_dir_and_filename#:#절대 Path와 파일 이름을 입력하십시오.
+enter_password#:#암호를 입력하십시오.
+env_ok#:#OK
+env_using#:#ILIAS를 시작합니다
+env_warning#:#ILIAS는 Apache Web 서버를 사용하여 Linux 및 Windows에서만 테스트하고 있습니다! </ br> 다른 환경에서도 작동 할 수 있습니다.
+environment#:#환경
+err_create_database_failed#:#데이터베이스 작성에 실패했습니다.
+err_wrong_login#:#로그인이 잘못되었습니다.
+error_log_path#:#오류 로그 파일의 Path
+error_log_path_comment#:#Path 만 입력하십시오. 파일은 자동으로 오류에 저장됩니다.
+error_log_path_comment_win#:#Path 만 (예 'C : / iliasdata')를 입력하십시오. 파일은 자동으로 오류에 저장됩니다.
+error_recipient#:#오류 수령자
+example#:#예
+feedback_recipient#:#피드백 수령자
+feedback_recipient_info # : #이 주소는 바닥 글 링크의 "시스템 관리자에게 문의"에 사용됩니다.
+ffmpeg_path#:#ffmpeg 경로
+ffmpeg_path_comment#:#오디오 · 비디오 변환 옵션 예 '/ your_path / ffmpeg
+file_does_not_exist#:#파일이 없습니다.
+file_version#:#파일 버전
+fill_both_fields#:#두 필드에 입력하십시오.
+fill_out_required_fields#:#표시된 모든 필드에 입력해야합니다.
+filled_out#:#제대로 입력 된
+finish#:#설치 완료
+finish_initial_setup_first#:#초기 설정을 먼저 완료하십시오.
+finish_setup#:#설치를 종료 중
+firstname#:#이름
+fop_path#:#FOP의 Path
+fop_path_comment#:#PDF 문서 생성에 필요
+form_input_not_valid#:#데이터가 불완전하거나 잘못된 것입니다. 폼 입력을 정정하십시오.
+form_retype_password#:#암호를 다시 입력하십시오.
+ghostscript_path#:#고스트 스크립트 Path
+ghostscript_path_comment#:#PDF 미리보기 생성을위한 옵션 예 '/ your_path / gs'
+ghostscript_path_comment_win#:#PDF 미리보기 생성을위한 옵션 예 'C : /tools/Ghostscript/gswin32c.exe'
+global_cache#:#글로벌 캐시
+global_cache_configuration#:#글로벌 캐시 구성
+global_cache_install_info_0#:#내장
+global_cache_install_info_1 # : #http : //xcache.lighttpd.net
+global_cache_install_info_2 # : #http : //php.net/manual/de/memcached.installation.php
+global_cache_install_info_3 # : #http : //php.net/manual/de/apc.installation.php
+global_cache_service_type#:#캐싱 서비스
+global_cache_service_type_0#:#PHP-Static-Cache
+global_cache_service_type_1#:#xCache
+global_cache_service_type_2#:#Memcached
+global_cache_service_type_3#:#APC
+global_cache_supported_services#:#설치되지 않은 서비스가 활성화되지 않습니다.
+hide_clientlist#:#클라이언트의 선택을 사용자에게 표시하지 않습니다.
+host#:#호스트
+hotfix_applied#:#Hotfix 적용 제
+hotfix_available#:#Hotfix 적용 가능
+http_path#:#HTTP Path
+https_settings#:#HTTPS 설정
+id#:#ID
+ilias_db_mode#:#ILIAS 데이터베이스 모드
+ilias_homepage#:#ILIAS 홈페이지
+ilias_nic#:#등록
+ilias_nic_id#:#NIC의 ID
+ilias_setup#:#ILIAS 설치
+ilias_version#:#ILIAS 버전
+include_local#:#고유의 표현을 포함
+info_text_3rdparty#:#ILIAS에 필요한 제 특성 도구 설정합니다. 각각의 add-on 설정 정보에 따라 단계를 완료하십시오.
+info_text_clone # : #이 기능은 현재 선택 클라이언트를 다른 위치로 복사하여 덮어 씁니다. <p> <i> 비활성화하는 클라이언트 만 만들 수 있음에주의하시기 바랍니다. 또한 'master'이름 일 수 없습니다. <br> 현재 MySQL 만 지원되고 있습니다. </ i> <p> <b> 경고! 원래로 되돌릴 수 없습니다! 클라이언트는 여기에서 선택한 소스 내용으로 덮어 씁니다! </ b>
+info_text_contact#:#추가 클라이언트 정보 및 클라이언트 시스템 관리자의 연락처 정보를 표시합니다. 모든 정보는 데이터베이스에 저장됩니다. 다음 화면에서 ILIAS 오픈 소스 프로젝트 서버에 설치 정보를 등록하는 옵션이 있습니다.
+info_text_db#:#데이터베이스가 없거나 비어 있습니다. 데이터베이스가없는 경우에는 아래의 "데이터베이스 만들기"를 클릭하십시오. ILIAS는 자동으로 데이터베이스를 만듭니다. 작성에 실패하거나 지정한 같은 결합 못한 경우 다음 명령을 사용하여 수동으로 데이터베이스를 작성하십시오.
+info_text_db_collation1#:#지정된 결합이 UTF-8 방식의 목록에없는 같은 경우에도 마찬가지로 수동으로 데이터베이스를 작성해야합니다. 어떤 경우에도 데이터베이스의 문자 코드는 UTF-8인지 확인하십시오.
+info_text_db_collation2#:#MySQL의 결합에 대한 자세한 정보는 MySQL의 Web 사이트를 참조하십시오.
+info_text_db2#:#데이터베이스는 문자 코드 UTF-8로 작성하도록 확인하십시오.
+info_text_delete#:#다음 삭제 버튼을 클릭하면이 쿠라이안아토은 삭제됩니다. 그러나 client.ini 파일이 삭제 될뿐, 클라이언트 데이터 디렉토리와 데이터베이스에있는 모든 파일은 남아 있습니다. 파일과 데이터베이스는 시스템 관리자가 수동으로 제거해야합니다.
+info_text_finish1#:#축하합니다. 클라이언트 설치가 성공했습니다. 로그인을 클릭하여 ILIAS의 설치에 들어갑니다.
+info_text_finish2#:#설정이 불완전하거나 잘못된 것입니다. 어떤 설정을 실행했는지 중간 과정을 검토하십시오.
+info_text_first_client#:#기본 설정이 저장되었습니다. 다음 첫 번째 클라이언트의 설정을 수행합니다. 일반 설치를 통해 설치를 안내합니다. 설치 프로세스의 현재 상태를 항상 패널의 오른쪽에서 확인할 수 있습니다. .
+info_text_first_install#:#ilias.ini PHP 파일이 없기 때문에 ILIAS 설치가 불완전 할 수 있습니다. 이 파일에 무단 액세스에 의한 ILIAS 설정을 보호하는 마스터 암호가 수납되어 있습니다.
+info_text_ini#:#클라이언트 ID를 입력하십시오. 움라우트를 제외한 문자와 숫자를 사용할 수 있습니다. ID는 하나의 단어 일 필요가 있습니다. </ br> 다음 데이터베이스에 연결하는 내용을 입력합니다. 테스트 연결하여 데이터베이스가 존재하면 설정 내용 확인 및 테스트를 실시합니다.
+info_text_lang#:#언어를 추가하거나 선택한 언어를 삭제합니다. 새로운 사용자 계정 및 언어를 선택하지 않은 사용자는 기본 언어가 지정됩니다.
+info_text_list#:#여기에서 사용 가능한 모든 사용자 및 설치, 액세스 상태 등을 볼 수가 있습니다. 오른쪽에있는 버튼으로 클라이언트 선택 화면을 켜거나 끌 수 있습니다. 클라이언트 선택이 켜져있는 경우에는 접속중인 모든 클라이언트가 ILIAS 시작 페이지 목록에 표시됩니다. 클라이언트 선택이 해제에서 시작 페이지를 사용자가 볼 때 기본 클라이언트의 로그인 화면이 표시됩니다. 아래에있는 버튼으로 기본 클라이언트로 할 수 있습니다.
+info_text_login#:#설치와 계정 데이터의 클라이언트 ID를 입력하십시오. 계정 관리자 역할에 할당해야합니다.
+info_text_nic#:#등록 옵션 ILIAS 오픈 소스 커뮤니티 서버에서 설치 ID (NIC-ID)를 구하십시오. 다른 ILIAS 설치와 내용을 공유하려면 NIC-ID의 입수가 가능합니다.
+info_text_nic3#:#설치를 등록했습니다. 네트워크 인터페이스 카드 ID입니다
+info_text_passwd#:#비밀번호 설정
+info_text_pathes#:#ILIAS 다른 데이터베이스의 다중 클라이언트를 지원합니다. 데이터베이스 디렉토리, 로그 파일 위치 타사 도구의 Path를 아래에 입력하십시오. 이러한 설정은 모든 클라이언트를 작성한 후 사용할 수 있습니다.
+info_text_proxy#:#Proxy 설정
+ini_client_id_exists#:#이미 클라이언트 ID는 사용되고 있습니다. 다른 클라이언트 ID를 선택하십시오.
+ini_client_id_invalid#:#입력 된 클라이언트 ID에 사용할 수없는 문자가 있습니다
+ini_client_id_no_change # : #이 버전은 클라이언트 디렉토리가 생성 된 후에 클라이언트 ID를 변경하는 일은 할 수 없습니다.
+ini_client_id_too_long#:#클라이언트 ID가 너무 깁니다
+ini_client_id_too_short#:#클라이언트 ID가 너무 짧습니다
+ini_db_name_exists#:#중복 있기 때문에 다른 데이터베이스 이름을 선택하십시오.
+ini_no_client_id#:#클라이언트 ID가 없습니다.
+ini_no_db_host#:#호스트 이름이 설정되어 있지 않습니다.
+ini_no_db_name#:#데이터베이스 이름이 설정되어 있지 않습니다.
+ini_no_db_user#:#데이터베이스 사용자 이름이 설정되어 있지 않습니다.
+inifile#:#ini 파일
+inifile_can_write#:#ILIAS 설정은 ini 파일에 쓰기 가능합니다.
+inifile_cannot_write#:#ILIAS 설정은 ini 파일에 쓸 수 없습니다. 처음에 쓰기 권한을 확인하십시오.
+inifile_content#:#ini 파일이 내용입니다.
+inifile_exists#:#ini 파일이 있습니다. 이 설치는 이전 설정이 삭제됩니다.
+inifile_fill_all#:#모든 필드에 입력하십시오.
+inifile_firsttime#:#ini 파일이 없습니다. ILIAS를 처음 시작한 것으로 생각됩니다.
+inifile_written#:#ini 파일이 제대로 저장되었습니다.
+input_error#:#입력 오류
+inst_identification#:#설치 ID
+inst_name#:#설치 이름
+install#:#설치
+installation#:#설치
+installed#:#설치된
+installed_local#:#로컬 (고유 표현)을 설치
+institution#:#대학 이름
+intro_install#:#ILIAS 설정의 메인 페이지입니다. 여기에서 설치를 진행할 수 있습니다.
+ip_address#:#IP 주소
+lang_ar#:#Arabic
+lang_bg#:#Bulgarian
+lang_cs#:#Czech
+lang_da#:#Danish
+lang_de#:#German
+lang_el#:#Greek
+lang_en#:#English
+lang_error_occurred#:#오류가 발생했습니다. 작업을 중지합니다.
+lang_es#:#Spanish
+lang_et#:#Estonian
+lang_fa#:#페르시아어
+lang_fr#:#French
+lang_hu#:#Hungarian
+lang_id#:#Indonesian
+lang_it#:#Italian
+lang_ja#:#일본어
+lang_ka#:#그루지야 어
+lang_ko#:#한국어
+lang_lt#:#Lithuanian
+lang_min_one_language#:#적어도 언어를 하나 설치해야합니다!
+lang_nl#:#Dutch
+lang_no#:#Norwegisch
+lang_none_installed#:#언어가 설치되어 있지 않습니다.
+lang_not_installed_default#:#선택한 언어는 기본 언어로 설치되어 있지 않습니다!
+lang_pl#:#Polish
+lang_pt#:#Portuguese
+lang_ro#:#Romanian
+lang_ru#:#Russian
+lang_se#:#Swedish
+lang_sk#:#슬로바키아어
+lang_sq#:#Albanian
+lang_sr#:#Serbian
+lang_tr#:#Turkis
+lang_uk#:#Ukrainian
+lang_vi#:#Vietnamese
+lang_xx#:#Custom
+lang_zh#:#Chinese
+langs_not_valid_not_installed#:#잘못된 언어 파일이므로 다음의 언어는 설치할 수 없습니다
+language#:#언어
+language#:#언어
+languages ​​# : # 언어
+languages_installed#:#언어를 설치했습니다
+lastname#:#성
+latex_url_comment#:#ILIAS의 LaTex 지원을위한
+lessc#:#lessc의 Path
+lessc_path#:#lessc의 Path
+lessc_path_comment#:#Lessc CSS를 컴파일없이 파일이 필요합니다. 이것은 관리의 변수없이 사용중인 시스템 스타일의 css 파일 생성 요구 사항입니다.
+list#:#목록
+list_clients#:#클라이언트 목록
+list_disabled#:#클라이언트 선택을 해제
+list_enabled#:#클라이언트 선택이 유효
+log_path#:#로그 파일의 Path
+log_path_comment#:#예 '/path_to_log_dir/ilias.log'(파일이 생성되는 위치)
+log_path_comment_win#:#예 'C
+logged_out#:#로그 아웃했습니다.
+logging#:#로깅
+login#:#Login
+login_invalid#:#잘못된 로그인합니다.
+login_to_ilias#:#ILIAS에 로그인
+logout#:#로그 아웃
+main_datadir_outside_webspace#:#외부 Web에서 기본 데이터 디렉토리
+master_password#:#마스터 암호입니다.
+memcache_actions#:#액션
+memcache_add#:#Memcached 노드를 추가
+memcache_cancel#:#취소
+memcache_delete#:#노드를 삭제
+memcache_edit#:#노드를 편집
+memcache_host#:#호스트
+memcache_port#:#포트
+memcache_servers#:#Memcached 노드
+memcache_status#:#사용
+memcache_status_server#:#도달 가능
+memcache_update#:#노드를 저장
+memcache_weight#:#웨이트
+missing_data#:#데이터 미입력
+msg_input_is_required#:#필수입니다. 값을 입력하십시오.
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x 이전
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x 이상
+mysql_replication_info_alpha#:#ILIAS MySQL 복제 기능은 아직 실험 단계입니다. 코드는 비 안정 상태입니다. 데이터 파손의 우려가 있습니다.
+name#:#이름
+need_mysql_4_1_or_higher # : #이 MySQL 버전은 지원되지 않습니다. MySQL4.1 이상이 필요합니다.
+new#:#새
+new_client#:#새 클라이언트
+next#:#다음
+next_update_break#:#다음 업데이트 예정
+next_update_break_info#:#시스템 규모에 좌우되지만, 일반적으로 한 번에 대량의 업데이트를하지 않는 것을 권장합니다.
+nic_not_disabled#:#NIC-ID 없음 & OFF하지 않습니다
+nic_reg_disable#:#등록 건너 뛰기
+nic_reg_disable_comment#:#(나중에 등록)
+nic_reg_disable_info#:#나중에 등록 할 수 있습니다.
+nic_reg_disabled#:#무효
+nic_reg_email#:#email로 등록
+nic_reg_enabled#:#사용
+nic_reg_enter_checksum#:#보낸 체크섬을 입력
+nic_reg_enter_correct_id#:#올바른 NIC ID를 입력하십시오.
+nic_reg_enter_id#:#보낸 NIC ID를 입력
+nic_reg_failed#:#등록에 실패했습니다.
+nic_reg_online#:#온라인 등록
+nic_registration#:#등록
+no_changes#:#변경하지 않습니다.
+no_client_id#:#클라이언트 ID의 미 작성
+no_client_name#:#클라이언트 이름 미 작성
+no_clients_available#:#사용할 수있는 클라이언트가 없습니다
+no_database#:#데이터베이스의 미 작성
+no_db_connect_consult_admin#:#데이터베이스에 연결할 수 없습니다. 시스템 관리자에게 문의하십시오.
+no_db_update_file#:#dbupdate.php를 찾을 수 없습니다!
+no_items#:#항목이 없습니다
+no_latex_url#:#LaTeX CGI script URL이 없습니다.
+no_password#:#암호가 없습니다.
+no_path_convert#:#변환 path가 없습니다.
+no_path_datadir#:#데이터 디렉토리가 없습니다.
+no_path_fop#:#FOP path가 없습니다.
+no_path_given#:#path가 없습니다.
+no_path_java#:#Java path가 없습니다.
+no_path_log#:#로그 path가 없습니다.
+no_path_mkisofs#:#mkisofs path가 없습니다.
+no_path_unzip#:#unzip의 path가 없습니다.
+no_path_zip#:#zip의 path가 없습니다.
+no_setup_pass_given#:#setup 암호가 없습니다.
+no_username#:#사용자 이름이 없습니다.
+no_valid_client_id#:#유효한 클라이언트 ID가 없습니다.
+none#:#없음
+not_configured#:#미 구성입니다
+not_connected_to_db#:#데이터베이스에 연결되지 않은 것입니다.
+online#:#허용
+or#:#또는
+out_of_webspace#:#(Web 공간 외)
+overall_status#:#전체 상황
+overview#:#개요
+pass_does_not_match#:#입력 된 비밀번호가 일치하지 않습니다.
+passwd_not_match#:#입력의 새 암호는 일치하지 않습니다. 새 암호를 다시 입력하십시오.
+password#:#비밀번호
+password_changed#:#비밀번호 변경되었습니다.
+password_empty#:#암호가 설정되어 있지 않습니다!
+password_enter_old#:#먼저 이전 암호를 입력해야합니다!
+password_info#:#부정 액세스에 의한 설정 데이터 보호를 위해 나중에 설정을 변경할 수 있도록 암호를 입력하십시오.
+password_new_master#:#새 마스터 비밀번호를 설정
+password_not_match#:#입력 된 새 암호가 일치하지 않습니다.
+password_old_wrong#:#입력 된 이전 암호가 잘못되었습니다.
+password_retype#:#새 암호를 다시 입력
+password_same#:#신구 암호가 동일합니다!
+password_set#:#비밀번호를 저장했습니다.
+path_not_set#:#Path 설정되지 않았습니다.
+path_to_convert#:#변환 용 Path
+path_to_fop#:#FOP의 Path
+path_to_java#:#Java의 Path
+path_to_mkisofs#:#mkisofs의 Path
+path_to_unzip#:#Unzip의 Path
+path_to_zip#:#Zip의 path
+pathes#:#Path
+phone#:#전화 번호
+please_select#:#선택하십시오
+populate#:#생성
+port#:#포트
+position#:#직함
+pre_cookies_disabled#:#Cokie가 활성화되어 있지 않습니다. ILIAS는 cookie가 필요합니다.
+pre_cookies_enabled#:#Cokie 활성화
+pre_dom#:#DOM 지원
+pre_dom_missing#:#PHP 설치중인 DOM 지원을 가능하게합니다.
+pre_error#:#기본 설정에 설치된 내용과 일치하지 않을 수 있습니다. 참조 <a href="%s" target="_blank"> ILIAS 사이트 </a>.
+pre_folder_create#:#Web에서 메인 폴더에 폴더를 만들 수
+pre_folder_create_error#:#하위 폴더를 만들 수 없습니다. 권한을 적절하게 수정하십시오.
+pre_folder_write_error#:#Web에서 메인 폴더는 쓸 수 없습니다. 권한을 적절하게 수정하십시오.
+pre_gd#:#GD 지원
+pre_gd_missing#:#PHP 설치시 GD 지원을 가능하게합니다. 참조 <a target="_blank" href="%s"> PHP Documentation </a>.
+pre_intro # : #이 환경에서 설치 요구 사항을 충족 ILIAS를 실행할지 여부를 먼저 확인합니다.
+pre_javascript_comment#:#JavaScript없이 ILIAS는 작동하지만 사용할 수없는 인터페이스 기능이 있습니다.
+pre_javascript_enabled#:#JavaScript를 활성화했습니다
+pre_load_comments#:#PHP-OPCache load_comments
+pre_memory#:#PHP 메모리 사용량 설정 (php.ini)
+pre_memory_limit_recommend#:#80M 이상의 설정을 권장합니다.
+pre_memory_limit_too_low#:#PHP의 메모리 제한은 최소 40M로 설정하십시오. 80M 이상을 권장합니다.
+pre_mysql#:#MySQL 지원
+pre_mysql_4_1_or_higher#:#ILIAS를 실행하려면 MySQL 4.1 이후가 필요합니다.
+pre_mysql_missing#:#PHP 설치시, MySQL 지원 (버전 4.1 이상)을 사용하십시오.
+pre_opcache_comments#:#pcache.load_comments을 1로 설정
+pre_php#:#PHP 버전
+pre_php_version_too_low # : #이 PHP 버전은 지원하지 않습니다. PHP 5.2.1 이후의 이용을 권장합니다. PHP 6.0은 안된입니다.
+pre_root#:#쓰기 가능한 Web에서 메인 폴더
+pre_xsl#:#XSL 지원
+pre_xsl_missing#:#PHP 설치중인 XSL 지원을 가능하게합니다. 참조 <a target="_blank" href="%s"> PHP Documentation </a>.
+preliminaries#:#준비
+prev#:#뒤로
+proxy#:#Proxy
+proxy_activated_configurated#:#Proxy를 사용
+proxy_connectable#:#연결이 설정되었습니다.
+proxy_disabled#:#Proxy를 해제
+proxy_host#:#호스트
+proxy_host_info#:#호스트를 입력하십시오.
+proxy_not_connectable#:#ILIAS는 설정 proxy에 연결할 수 없습니다.
+proxy_pear_net_socket_error#:#PEAR Net_Socket 오류
+proxy_port#:#포트
+proxy_port_info#:#0 ~ 65535 (예 : 8080)의 포트를 입력하십시오.
+proxy_port_numeric#:#입력 포트 번호는 0 ~ 65535의 수치가 될 필요가 있습니다
+proxy_status#:#Proxy
+proxy_status_info#:#ILIAS의 prox를 사용 (예, web 피드와 weblink 점검 ")에는 다음 확인란을 사용하십시오.
+ps_auto_https#:#HTTPS 자동 감지
+ps_auto_https_description#:#사용하면 ILIAS는 다음 헤더 값의 분석을 통해 HTTP 상태를 감지하려고합니다.
+ps_auto_https_header_name#:#Header Name
+ps_auto_https_header_value#:#Header Value
+reload#:#업데이트
+required_field#:#필수 입력란
+reset#:#재설정
+root_access#:#루트 권한으로 접근
+safe_mode_enabled#:#안전 모드를 사용할 수 있습니다!
+save#:#저장
+save_error#:#오류 저장
+saved_successfully#:#성공적으로 저장
+scan_command#:#검사 명령
+select_client#:#클라이언트의 선택
+server_info#:#서버 정보
+server_settings#:#서버 설정
+server_software#:#서버 소프트웨어
+sess_allow_client_maintenance#:#클라이언트가 유지 보수 허용
+sess_allow_client_maintenance_info#:#세션 매개 변수 구성을 클라이언트 관리에서 할 수 있는지 여부를 정의합니다.
+sess_fixed_duration#:#고정 세션 기간
+sess_load_dependent_session_handling#:#부하 의존 세션 핸들링
+sess_max_session_count#:#최대 세션 개수
+sess_max_session_count_info#:#동시 설정 가능한 최대 세션 수를 정의합니다. "0"으로하면 작동하지 않습니다.
+sess_max_session_idle#:#최대 세션 아이돌
+sess_max_session_idle_after_first_request#:#처음 요청 후 최대 세션 아이돌 (분)
+sess_max_session_idle_after_first_request_info#:#처음 요청 후 적어도 그동안 아이돌하는 모든 세션은 다른 세션이 다른 사람과 확립되어 기존 세션의 최대 수를 넘어도 삭제됩니다.
+sess_max_session_idle_info#:#세션 오버 전에 사용자가 유휴 할 수있는 최대 구간을 정의합니다.
+sess_min_session_idle#:#최소 세션 아이돌 (분)
+sess_min_session_idle_info#:#사용자가 적어도이 구간 아이돌 때는 다른 세션이 다른 사용자와 확립되어 기존 세션의 최대 수에 도달하면 세션을 취소 할 수 있습니다.
+sess_mode#:#세션 모드
+sess_sessions#:#설정
+session_management#:#세션 관리
+session_management_configured#:#구성된
+session_management_not_configured#:#미 구성
+set_default_client#:#기본 클라이언트로 설정
+set_newpasswd#:#새 암호를 입력하십시오
+set_oldpasswd#:#이전 암호를 입력하십시오
+settings_change_clob#:#CLOB로 변경
+settings_change_text#:#TEXT로 변경
+settings_changed#:#설정을 변경했습니다.
+settings_info_clob#:#CLOB 입력은 최대 4000 자까지 수납이 가능합니다. 이를 TEXT로 변경하면 또한 장문 입력 할 수 있지만 ORACLE 데이터베이스 및 ILIAS와 성능이 저하 될 수 있습니다. 이를 실행하기 전에 4000 자 이상 설정이 있는지 확인 바랍니다.
+settings_info_text#:#TEXT 입력은 최대 4000 자까지 수납이 가능합니다. 이를 CLOB로 변경하면 또한 장문 입력 할 수 있지만 ORACLE 데이터베이스 및 ILIAS와 성능이 저하 될 수 있습니다.
+settings_key_info#:#모듈
+settings_longer_values ​​# : # 긴 값
+settings_no_longer_values ​​# : # 4000 문자를 찾을 수 없습니다. 데이터 유형을 TEXT로 변경 가능합니다.
+settings_saved#:#설정을 저장했습니다.
+settings_show_longer#:#긴 값을 표시
+settings_too_long#:#변환하려면 너무 설정이 있습니다. 설정 데이터 유형을 변경하기 전에 그들을 변경하십시오.
+settings_type#:#설정 데이터 유형
+settings_type_changed#:#설정 유형이 변경되었습니다
+settings_type_current#:#현재 유형
+setup#:#Setup
+setup_3rdparty_data#:#타사 도구
+setup_basic_settings#:#기본 설정
+setup_contact_data#:#연락처 정보
+setup_database#:#데이터베이스
+setup_database_desc#:#데이터베이스 설정
+setup_db_first#:#먼저 데이터베이스를 설정하십시오!
+setup_finished#:#설정이 완료되었습니다
+setup_first_client#:#첫 번째 클라이언트를 설정합니다
+setup_ini_first#:#먼저 ini 파일을 작성하십시오!
+setup_inifile#:#ini 파일을 생성
+setup_inifile_desc#:#설치를위한 ini 파일을 만듭니다.
+setup_languages ​​# : # 언어
+setup_languages_desc#:#추가 언어 설치
+setup_login#:#설정에 로그인합니다
+setup_mainmenu#:#설정 메인 메뉴
+setup_menu#:#설정 메뉴
+setup_nic_desc#:#ILIAS-NIC 서버 설치를위한 등록
+setup_not_finished#:#설정 미완료
+setup_pass#:#비밀번호
+setup_pass_title#:#마스터 암호 설정
+setup_pass2#:#비밀번호 입력
+setup_password#:#암호 만들기
+setup_password_desc#:#설치 루틴에 액세스하기위한 암호를 만듭니다. (예 데이터베이스의 갱신 등)
+setup_process_status#:#설치 상태
+setup_process_step_3rdparty#:#타사 도구
+setup_process_step_contact#:#연락처 연락처 정보
+setup_process_step_db#:#데이터베이스
+setup_process_step_finish#:#설치 완료
+setup_process_step_ini#:#기본 데이터
+setup_process_step_lang#:#언어
+setup_process_step_nic#:#등록
+setup_process_step_proxy#:#Proxy
+setup_process_step_sess#:#세션 관리
+setup_ready#:#설치 준비했습니다. 로그인 이동 시스템 설정을 확인합니다.
+setup_sessions#:#세션 관리
+setup_welcome#:#Welcome to ILIAS Setup. 설치의 흐름을 도와드립니다.
+show_update_steps#:#업데이트 순서를 표시
+sophos#:#Sophos
+sort_by_this_column # : #이 열을 정렬
+status#:#상태
+status_3rdparty_false#:#타사 도구가 없습니다
+status_3rdparty_ok#:#타사 도구를 설치
+status_3rdparty_problems#:#타사 도구의 장애
+step#:#단계
+step_access#:#액세스
+step_contact#:#연락처
+step_db#:#데이터베이스
+step_finish#:#설치
+step_ini#:#ini 파일
+step_lang#:#각 국어
+step_nic#:#등록
+step_proxy#:#Proxy
+step_sess#:#세션 관리
+street#:#우편 주소
+submit#:#제출
+time_zone#:#시간대
+tiny_dir_does_not_exist#:#편집기가 포함 된 디렉토리가 없습니다. 편집기가 포함 된 zip 파일을 적절한 위치에 압축을 풀어야합니다.
+tiny_nothing_to_do#:#편집기는 설치되어 있기 때문에 다른 사람은 필요 없습니다.
+tiny_zip_changed#:#편집기를 포함한 zip 파일은 이전 설치 중에 변경되었습니다. zip 파일을 압축하여 현재 편집기를 업데이트하십시오.
+tiny_zip_does_not_exist#:#TinyMCE 편집기를 포함한 zip 파일이 RTE 서비스를 수행 할 적절한 장소에 존재하지 않습니다.
+tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG 편집기
+title#:#직위
+tools#:#도구
+tree_implementation#:#트리 구조
+tree_implementation_mp#:#경로 실체화 모델
+tree_implementation_ns#:#중첩 집합 모델
+tree_implementation_switch_btn#:#트리 구조로 전환
+tree_implementation_switched#:#트리 구조 유형을 전환했습니다.
+unknown_client_id#:#알 수없는 클라이언트
+unknown_command#:#알 수없는 명령
+unknown_display_mode#:#알 수없는 표시 모드
+unzip#:#압축
+unzip_path#:#Unzip의 Path
+unzip_path_comment#:#압축 가져 오기 파일 예 '/ your_path / unzip'
+unzip_path_comment_win#:#압축 가져 오기 파일 예 'C : /tools/unzip/unzip.exe'
+update_applied#:#업데이트를 적용
+update_error#:#업데이트 중 오류 발생
+update_not_found#:#업데이트를 찾을 수 없습니다
+url_to_latex#:#LaTeX CGI Script의 URL
+user#:#사용자
+username#:#아이디
+version#:#버전
+virus_scanner#:#바이러스 감시
+webspace_dir#:#Web 데이터 Path
+with#:#함께
+wrong_password#:#암호가 잘못되었습니다!
+zip_path#:#Zip의 Path
+zip_path_comment#:#내보내기 파일 만들기 용 예 '/ your_path / zip'
+zip_path_comment_win#:#가져 오기 파일의 압축을 풀기위한 예 'C
+zipcode#:#우편 번호

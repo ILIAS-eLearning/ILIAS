@@ -272,7 +272,12 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 			case ilCalendarCategory::TYPE_BOOK:
 				$a_tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_book.svg'));
 				$a_tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_'.$type));
-				break;				
+				break;
+
+			case ilCalendarCategory::TYPE_CH:
+				$a_tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_calch.svg'));
+				$a_tpl->setVariable('IMG_ALT',$this->lng->txt('cal_ch_ch'));
+				break;
 		}
 		
 		$a_tpl->parseCurrentBlock();
