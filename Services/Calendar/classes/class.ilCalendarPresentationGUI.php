@@ -1,25 +1,7 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
 
@@ -31,7 +13,7 @@ include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
 * 
 * @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarMonthGUI, ilCalendarUserSettingsGUI, ilCalendarCategoryGUI, ilCalendarWeekGUI
 * @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarAppointmentGUI, ilCalendarDayGUI, ilCalendarInboxGUI, ilCalendarSubscriptionGUI
-* @ilCtrl_Calls ilCalendarPresentationGUI: ilConsultationHoursGUI
+* @ilCtrl_Calls ilCalendarPresentationGUI: ilConsultationHoursGUI, ilPDCalendarBlockGUI
 * @ingroup ServicesCalendar
 */
 
@@ -53,7 +35,7 @@ class ilCalendarPresentationGUI
 	protected $tpl;
 
 	/**
-	 * @var ilLanguage
+	 * @var ilTabsGUI
 	 */
 	protected $tabs_gui;
 
@@ -81,6 +63,8 @@ class ilCalendarPresentationGUI
 	 * @var ilToolbarGUI
 	 */
 	protected $toolbar;
+
+	protected $repository_mode = false;
 
 	/**
 	 * Constructor
@@ -121,6 +105,25 @@ class ilCalendarPresentationGUI
 		}
 	}
 	
+	/**
+	 * Set RepositoryMode
+	 *
+	 * @param bool $a_val repository mode	
+	 */
+	function setRepositoryMode($a_val)
+	{
+		$this->repository_mode = $a_val;
+	}
+	
+	/**
+	 * Get RepositoryMode
+	 *
+	 * @return bool repository mode
+	 */
+	function getRepositoryMode()
+	{
+		return $this->repository_mode;
+	}
 	
 	/**
 	 * Execute command
@@ -232,6 +235,14 @@ class ilCalendarPresentationGUI
 					$this->tabs_gui->activateTab($_SESSION['cal_last_tab']);
 					break;
 				}
+
+			case 'ilpdcalendarblockgui':
+				$side_cal = new ilPDCalendarBlockGUI();
+				$side_cal->setAvailableDetailLevels(2,2);
+				$side_cal->setRepositoryMode($this->getRepositoryMode());
+				$side_cal->setForceMonthView(true);
+				$this->ctrl->forwardCommand($side_cal);
+				break;
 
 			default:
 				$cmd = $this->ctrl->getCmd("show");
@@ -395,11 +406,24 @@ class ilCalendarPresentationGUI
 
 		$tpl =  new ilTemplate('tpl.cal_side_block.html',true,true,'Services/Calendar');
 
-		include_once('./Services/Calendar/classes/class.ilMiniCalendarGUI.php');
+		/*include_once('./Services/Calendar/classes/class.ilMiniCalendarGUI.php');
 		$mini = new ilMiniCalendarGUI($this->seed, $this);
-//		$mini->setPresentationMode(ilMiniCalendarGUI::PRESENTATION_CALENDAR);
-		$tpl->setVariable('MINICAL',$mini->getHTML());
-		
+		$tpl->setVariable('MINICAL',$mini->getHTML());*/
+
+		/*
+		include_once("./Services/Calendar/classes/class.ilCalendarSelectionBlockGUI.php");
+		$block_gui = new ilCalendarSelectionBlockGUI($this->seed);
+		$html = $ilCtrl->getHTML($block_gui);
+		return $html;*/
+
+		include_once("./Services/Calendar/classes/class.ilPDCalendarBlockGUI.php");
+		$side_cal = new ilPDCalendarBlockGUI();
+		$side_cal->setAvailableDetailLevels(2,2);
+		$side_cal->setParentGUI("ilCalendarPresentationGUI");
+		$side_cal->setForceMonthView(true);
+		$side_cal->setRepositoryMode($this->getRepositoryMode());
+		$tpl->setVariable('MINICAL', $ilCtrl->getHTML($side_cal));
+
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryGUI.php');
 		$cat = new ilCalendarCategoryGUI($ilUser->getId(),$this->seed);
 		$tpl->setVariable('CATEGORIES', $ilCtrl->getHTML($cat));
@@ -432,23 +456,31 @@ class ilCalendarPresentationGUI
 		$ilHelp = $this->help;
 
 		$ilHelp->setScreenIdComponent("cal");
-		
-		$this->tabs_gui->addTab('cal_agenda',
-			$this->lng->txt("cal_agenda"),
-			$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
-		//$this->tabs_gui->addTarget('cal_upcoming_events_header',$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
-		
-		if(
-			$rbacsystem->checkAccess('add_consultation_hours', ilCalendarSettings::_getInstance()->getCalendarSettingsId()) and
-			ilCalendarSettings::_getInstance()->areConsultationHoursEnabled()
-		)
+
+		if ($this->getRepositoryMode())
 		{
-			$this->tabs_gui->addTarget('app_consultation_hours',$this->ctrl->getLinkTargetByClass('ilConsultationHoursGUI',''));
+			$this->tabs_gui->clearTargets();
+			$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getParentReturn($this));
 		}
-		$this->tabs_gui->addTarget('cal_manage',$this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI','manage'));
-		$this->tabs_gui->addTarget('settings',$this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI',''));
+		else
+		{
+			$this->tabs_gui->addTab('cal_agenda',
+				$this->lng->txt("cal_agenda"),
+				$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI', ''));
+			//$this->tabs_gui->addTarget('cal_upcoming_events_header',$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
+
+			if (
+				$rbacsystem->checkAccess('add_consultation_hours', ilCalendarSettings::_getInstance()->getCalendarSettingsId()) and
+				ilCalendarSettings::_getInstance()->areConsultationHoursEnabled()
+			)
+			{
+				$this->tabs_gui->addTarget('app_consultation_hours', $this->ctrl->getLinkTargetByClass('ilConsultationHoursGUI', ''));
+			}
+			$this->tabs_gui->addTarget('cal_manage', $this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI', 'manage'));
+			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI', ''));
+		}
 	}
-	
+
 	/**
 	 * init the seed date for presentations (month view, minicalendar)
 	 *

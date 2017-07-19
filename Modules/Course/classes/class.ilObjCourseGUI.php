@@ -22,7 +22,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMailMemberSearchGUI, ilBadgeManagementGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilCalendarPresentationGUI
  *
  * @extends ilContainerGUI
  */
@@ -2310,6 +2310,12 @@ class ilObjCourseGUI extends ilContainerGUI
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
+			case 'ilcalendarpresentationgui':
+				include_once('./Services/Calendar/classes/class.ilCalendarPresentationGUI.php');
+				$cal = new ilCalendarPresentationGUI();
+				$cal->setRepositoryMode(true);
+				$ret = $this->ctrl->forwardCommand($cal);
+				break;
 
 			case 'ilcoursecontentinterface':
 

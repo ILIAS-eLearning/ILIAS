@@ -19,6 +19,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilCalendarPresentationGUI
 * 
 *
 * @extends ilObjectGUI
@@ -259,6 +260,13 @@ class ilObjGroupGUI extends ilContainerGUI
 				$t = ilNewsTimelineGUI::getInstance($this->object->getRefId(), $this->object->getNewsTimelineAutoENtries());
 				$t->setUserEditAll($ilAccess->checkAccess('write','',$this->object->getRefId(),'grp'));
 				$this->ctrl->forwardCommand($t);
+				break;
+
+			case 'ilcalendarpresentationgui':
+				include_once('./Services/Calendar/classes/class.ilCalendarPresentationGUI.php');
+				$cal = new ilCalendarPresentationGUI();
+				$cal->setRepositoryMode(true);
+				$ret = $this->ctrl->forwardCommand($cal);
 				break;
 
 			default:

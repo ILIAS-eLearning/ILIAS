@@ -9837,7 +9837,7 @@ div.ilCalSelSelAll {
   padding: 3px 2px 2px 0;
 }
 div.ilCalSelList {
-  max-height: 250px;
+  max-height: 300px;
   overflow: auto;
 }
 .ilCalSelList img {
@@ -9869,8 +9869,8 @@ ul.ilCalSel li > div > div.ilCalColSpan {
 div.ilCalSelList h6 {
   padding-left: 5px;
   font-size: 12px;
-  margin-top: 14px;
-  margin-bottom: 10px;
+  margin-top: 16px;
+  margin-bottom: 8px;
 }
 div.ilCalSelTitle {
   padding: 5px 3px 3px;
