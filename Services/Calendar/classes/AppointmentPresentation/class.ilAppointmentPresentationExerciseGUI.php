@@ -19,6 +19,8 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		global $DIC;
 
 		include_once "./Modules/Exercise/classes/class.ilObjExercise.php";
+		include_once('./Services/Link/classes/class.ilLink.php');
+		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 
 		$f = $DIC->ui()->factory();
 		$r = $DIC->ui()->renderer();
@@ -38,7 +40,6 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		//Assignment title
 		$a_infoscreen->addSection($a_app['event']->getPresentationTitle());
 
-		include_once('./Services/Link/classes/class.ilLink.php');
 		$href = ilLink::_getStaticLink($exc_ref, "exc");
 		$a_infoscreen->addProperty($this->lng->txt("cal_origin"),$r->render($f->button()->shy($exc_obj->getPresentationTitle(), $href)));
 
@@ -53,7 +54,6 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		//var_dump($a_app); exit;
 		$ass_id = $a_app["event"]->getContextId() / 10;			// see ilExAssignment->handleCalendarEntries $dl parameter
 
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$assignment = new ilExAssignment($ass_id);
 		if($assignment->getInstruction() != "")
 		{
@@ -63,18 +63,19 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		if(count($files) > 0)
 		{
 			$str_files = "";
-			//TODO Fix this Links and show only one infoscreen property.
 			foreach($files as $file)
 			{
-				$ctrl->setParameterByClass("ilexsubmissiongui", "ref_if", $exc_ref);
+				$ctrl->setParameterByClass("ilexsubmissiongui", "ref_id", $exc_ref);
 				$ctrl->setParameterByClass("ilexsubmissiongui", "file", urlencode($file["name"]));
 				$ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", $ass_id);
 				$url = $ctrl->getLinkTargetByClass(array("ilExerciseHandlerGUI","ilobjexercisegui", "ilexsubmissiongui"), "downloadFile");
 				$ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", "");
 				$ctrl->setParameterByClass("ilexsubmissiongui", "file", "");
 				$ctrl->setParameterByClass("ilexsubmissiongui", "ref_if", "");
-				$a_infoscreen->addProperty($file["name"], $this->lng->txt("cal_download"), $url);
+				$btn_link = $f->button()->shy($file["name"],$url);
+				$str_files .=$r->render($btn_link)."<br>";
 			}
+			$a_infoscreen->addProperty($this->lng->txt("cal_exc_inst_files"),$str_files);
 		}
 
 		//pass mode
