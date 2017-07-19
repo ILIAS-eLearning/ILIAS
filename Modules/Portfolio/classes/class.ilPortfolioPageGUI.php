@@ -505,16 +505,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$gui->setOfflineMode("./files/");
 		}		
 		$html = $gui->getSkillHTML($a_skills_id, $user_id);
-		
-		if($this->getOutputMode() == "offline")
-		{
-			$js = $gui->getTooltipsJs();
-			if(sizeof($js))
-			{
-				$this->js_onload_code = array_merge($this->js_onload_code, $js);
-			}
-		}
-			
+					
 		return $html;
 	}
 	
