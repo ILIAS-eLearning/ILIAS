@@ -94,14 +94,21 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 		if($num_contacts > 0) {
 			$str = "";
 			foreach ($contacts as $contact) {
-				// link to user profile: todo: check if profile is really public
-				include_once('./Services/Link/classes/class.ilLink.php');
-				$href = ilLink::_getStaticLink($contact, "usr");
+				$usr = new ilObjUser($contact);
 				if($num_contacts > 1 && $contacts[0] != $contact)
 				{
 					$str .= ", ";
 				}
-				$str .= $r->render($f->button()->shy(ilObjUser::_lookupFullname($contact), $href));
+				if($usr->hasPublicProfile())
+				{
+					include_once('./Services/Link/classes/class.ilLink.php');
+					$href = ilLink::_getStaticLink($contact, "usr");
+					$str .= $r->render($f->button()->shy(ilObjUser::_lookupFullname($contact), $href));
+				}
+				else
+				{
+					$str .= ilObjUser::_lookupFullname($contact);
+				}
 			}
 			$a_infoscreen->addProperty($this->lng->txt("crs_mem_contacts"),$str);
 		}

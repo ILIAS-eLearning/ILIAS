@@ -38,9 +38,8 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		//Assignment title
 		$a_infoscreen->addSection($a_app['event']->getPresentationTitle());
 
-		//TODO: Fix this link
 		include_once('./Services/Link/classes/class.ilLink.php');
-		$href = ilLink::_getStaticLink($cat_info['obj_id'], "exc");
+		$href = ilLink::_getStaticLink($exc_ref, "exc");
 		$a_infoscreen->addProperty($this->lng->txt("cal_origin"),$r->render($f->button()->shy($exc_obj->getPresentationTitle(), $href)));
 
 		//parent course or group title
