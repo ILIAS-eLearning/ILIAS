@@ -13561,7 +13561,8 @@ dateplaner#:#cal_sess_info#:#Session Information
 dateplaner#:#cal_agenda#:#Agenda
 dateplaner#:#cal_origin#:#Origin
 dateplaner#:#cal_list#:#List
-dateplaner#:#cal_grp_curr_crs_cons#:#Sprechstunden
-dateplaner#:#cal_grp_curr_crs#:#Aktueller Kurs
-dateplaner#:#cal_grp_personal#:#Persönlich
-dateplaner#:#cal_grp_others#:#Andere
+dateplaner#:#cal_grp_curr_crs_cons#:#Consultation Hours
+dateplaner#:#cal_grp_curr_crs#:#Current Course
+dateplaner#:#cal_grp_personal#:#Personal
+dateplaner#:#cal_grp_others#:#Others
+dateplaner#:#cal_exc_inst_files#:#Instruction Files
