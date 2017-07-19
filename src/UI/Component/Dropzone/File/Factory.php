@@ -10,6 +10,7 @@ use ILIAS\UI\Component\Component;
  * Describes a factory implementation for ILIAS UI Dropzone components.
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
+ * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  *
  * @package ILIAS\UI\Component\Dropzone\File
  */
@@ -20,28 +21,27 @@ interface Factory {
 	 * description:
 	 *   purpose: >
 	 *      The standard dropzone is used to drop files dragged from outside
-	 *      the browser window.
-	 *   composition: Standard dropzones are areas to drop files.
+	 *      the browser window. The dropped files are presented to the user and
+	 *      can be uploaded to the server.
+	 *   composition: >
+	 *      Standard dropzones consist of a visible area where files can
+	 *      be dropped. They contain a message explaining that it is possible to
+	 *      drop files inside. The dropped files are presented to the user along
+	 *      with some button to start the upload process.
 	 *   effect: >
-	 *      All dropzones on the page are highlighted
-	 *      when the user is dragging files from outside the browser window
-	 *      into one dropzone.
+	 *      A Standard dropzone is highlighted when the user is dragging files
+	 *      over the dropzone.
 	 *   rivals:
 	 *      Rival 1: >
-	 *          A wrapper dropzone can hold
-	 *          other ILIAS UI components instead of a message.
+	 *          A wrapper dropzone can hold other ILIAS UI components instead of a message.
 	 *
 	 * rules:
 	 *   usage:
 	 *     1: A page SHOULD contain only one standard dropzone.
 	 *     2: Standard dropzones MAY contain a message.
-	 *     3: Standard dropzones MAY use the darkened background highlighting.
-	 *     4: >
-	 *          Standard dropzones with the darkened background highlighting MUST
-	 *          NOT be used in modals.
-	 *     5: >
-	 *          Other ILIAS UI components are REQUIRED to handle dropped files
-	 *          further.
+	 *     3: >
+	 *        Standard dropzones MUST offer the possibility to select files
+	 *        manually from the computer.
 	 *   responsiveness:
 	 *     1: Standard dropzones SHOULD have a static height.
 	 *
@@ -57,19 +57,18 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      The wrapper dropzone is used to display other ILIAS UI components
-	 *      inside the dropzone. The wrapper dropzone is used to drop files
-	 *      dragged from outside the browser window.
+	 *      A wrapper dropzone is used to display other ILIAS UI components
+	 *      inside the dropzone. In contrast to the standard dropzone, the wrapper
+	 *      dropzone is not visible by default. It gets highlighted once the
+	 *      user is dragging files over the browser window.
 	 *   composition: >
-	 *      The wrapper dropzone uses the darkened background highlighting by
-	 *      default and is not visible before the user is dragging files
-	 *      from outside the browser window into the browser window.
+	 *      A wrapper dropzone contains one or multiple ILIAS UI components.
+	 *      After dropping files, a roundtrip modal is opened which presents
+	 *      the files to the user. The contains a button to start the upload
+	 *      process.
 	 *   effect: >
-	 *      All dropzones on the page are highlighted when the user is dragging
-	 *      files from outside the browser window into the browser window.
-	 *      If a page contains two or more wrapper dropzones, the setting for
-	 *      the darkened background of the last rendered dropzone will be
-	 *      applied to all wrapper dropzones.
+	 *      All wrapper dropzones on the page are highlighted when the user
+	 *      dragging files over the browser window.
 	 *   rivals:
 	 *      Rival 1: >
 	 *          A standard dropzone can display a message instead of other
@@ -79,18 +78,12 @@ interface Factory {
 	 *   usage:
 	 *     1: Most pages SHOULD NOT contain a wrapper dropzone.
 	 *     2: Wrapper dropzones MUST contain one or more ILIAS UI components.
-	 *     3: Wrapper dropzones MUST NOT contain any other dropzone component.
-	 *     4: Wrapper dropzones MAY use the darkened background highlighting.
-	 *     5: >
-	 *          Wrapper dropzones with the darkened background highlighting MUST
-	 *          NOT be used in modals.
-	 *     6: >
-	 *          Other ILIAS UI components are REQUIRED to handle dropped files
-	 *          further.
+	 *     3: Wrapper dropzones MUST NOT contain any other file dropzones.
+	 *     4: Wrapper dropzones MUST NOT be used in modals.
 	 *   style:
 	 *     1: >
-	 *          The height and the width MUST be determined by the components
-	 *          inside.
+	 *          The height and the width of a wrapper dropzone MUST
+	 *          be determined by the components inside.
 	 *
 	 * ---
 	 *

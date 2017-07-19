@@ -35,7 +35,7 @@ il.UI = il.UI || {};
 
         var addAdditionalParametersToUploadRequest = function (uploadId, fileId) {
             var $container = $('#' + uploadId);
-            var $fileList = $container.find('.il-upload-file-item[data-file-id="'+ fileId +'"]');
+            var $fileList = $container.find('.il-upload-file-item[data-file-id="' + fileId + '"]');
             var $metadata = $fileList.find('.metadata');
             if (!$metadata.length) return;
             var $filenameInput = $metadata.find('.filename-input');
@@ -132,7 +132,7 @@ il.UI = il.UI || {};
                     itemLimit: options.maxFiles
                 },
                 callbacks: {
-                    onUpload: function(fileId, name) {
+                    onUpload: function (fileId, name) {
                         // Register additional name + description parameters for the upload request
                         addAdditionalParametersToUploadRequest(uploadId, fileId);
                     },
@@ -195,6 +195,16 @@ il.UI = il.UI || {};
             uploader.setForm(formId);
         };
 
+        var setUploadParams = function (uploadId, params) {
+            var uploader = instances[uploadId];
+            uploader.setParams(params);
+        };
+
+        var getUploads = function (uploadId) {
+            var uploader = instances[uploadId];
+            return uploader.getUploads();
+        };
+
         var upload = function (uploadId) {
             var uploader = instances[uploadId];
             uploader.uploadStoredFiles();
@@ -207,11 +217,19 @@ il.UI = il.UI || {};
             renderClear(uploadId);
         };
 
+        var isUploading = function (uploadId) {
+            var uploader = instances[uploadId];
+            return (uploader.getInProgress > 0);
+        };
+
         return {
             init: init,
             addFile: addFile,
             removeFile: removeFile,
+            setUploadParams: setUploadParams,
             setForm: setForm,
+            getUploads: getUploads,
+            isUploading: isUploading,
             upload: upload,
             clear: clear
         }

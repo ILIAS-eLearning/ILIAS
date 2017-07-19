@@ -7,13 +7,31 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI {
 
 	static $count = 0;
 
+	protected $uploadUrl = '';
+
+	/**
+	 * @return string
+	 */
+	public function getUploadUrl() {
+		return $this->uploadUrl;
+	}
+
+	/**
+	 * @param string $uploadUrl
+	 * @return $this
+	 */
+	public function setUploadUrl($uploadUrl) {
+		$this->uploadUrl = $uploadUrl;
+		return $this;
+	}
+
 	function render($a_mode = "") {
 		global $DIC;
 		$uiFactory = $DIC->ui()->factory();
 		$renderer = $DIC->ui()->renderer();
 
 		$n = ++self::$count;
-		$dropzone = $uiFactory->dropzone()->file()->standard('')
+		$dropzone = $uiFactory->dropzone()->file()->standard($this->getUploadUrl())
 			->withIdentifier($this->getPostVar())
 			->withAllowedFileTypes($this->getSuffixes());
 		$out = "<div id='ilFileStandardDropzoneInputGUIWrapper{$n}'>" . $renderer->render($dropzone) . '</div>';
@@ -25,7 +43,38 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI {
 		var \$wrapper = $('#ilFileStandardDropzoneInputGUIWrapper{$n}');
 		var \$form = \$wrapper.closest('form');
 		var uploadId = \$wrapper.find('.il-upload-file-list').attr('id');
-		il.UI.uploader.setForm(uploadId, \$form.attr('id'));
+		//il.UI.uploader.setForm(uploadId, \$form.attr('id'));
+		var handledUpload = false;
+		\$form.on('submit', function(event) {
+		   console.log('submitting form...');
+		   if (handledUpload) return;
+		   if ($(this)[0].checkValidity()) {
+		     console.log(il.UI.uploader.getUploads(uploadId));
+		     // If we have any files to upload, start uploading process
+		     if (il.UI.uploader.getUploads(uploadId).length) {
+		        event.preventDefault();
+		        var paramObj = {};
+				$.each($(this).serializeArray(), function(_, kv) {
+				  if (paramObj.hasOwnProperty(kv.name)) {
+				    paramObj[kv.name] = $.makeArray(paramObj[kv.name]);
+				    paramObj[kv.name].push(kv.value);
+				  } else {
+				    paramObj[kv.name] = kv.value;
+				  }
+				});
+		       il.UI.uploader.setUploadParams(uploadId, paramObj); 
+		       il.UI.uploader.upload(uploadId);
+		       
+		       var submitFormAfterUploading = function() {
+		         if (!il.UI.uploader.isUploading(uploadId)) {
+		           handledUpload = true;
+		           \$form.trigger('submit');
+		         }
+		       };			
+				setInterval(submitFormAfterUploading, 1000);	       
+		     }
+		   }
+		});
 		");
 		return $out;
 	}
@@ -57,6 +106,7 @@ function usage_in_legacy_form() {
 	$item->setRequired(true);
 	$form->addItem($item);
 	$item = new ilFileStandardDropzoneInputGUI('Images', 'images');
+	$item->setUploadUrl($form->getFormAction());
 	$item->setSuffixes(['jpg', 'gif', 'png']);
 	$item->setInfo('Allowed file types: ' . implode(', ', $item->getSuffixes()));
 	$form->addItem($item);
@@ -67,15 +117,16 @@ function usage_in_legacy_form() {
 		if ($form->checkInput()) {
 			// Process and save data from $_POST
 			// ....
-			if (count($_FILES) && isset($_FILES['images'])) {
+			if (count($_FILES) && isset($_FILES['images']) && $_FILES['images']['name']) {
 				// Also process a file upload
 				// ....
-				echo json_encode(array('success' => true));
+				echo json_encode(array('success' => false));
 				exit();
 			}
 		} else {
 			$form->setValuesByPost();
 		}
+		ilUtil::sendSuccess('Form processed successfully');
 	}
 
 	return $form->getHTML();

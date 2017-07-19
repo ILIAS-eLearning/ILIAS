@@ -5,8 +5,6 @@
  * Describes a factory implementation for ILIAS UI File Dropzones.
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
- * @date    22.05.17
- * @version 0.0.1
  *
  * @package ILIAS\UI\Component\Dropzone
  */
@@ -19,17 +17,16 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      File Dropzones are used to drop files from outside the
-	 *      browser window.
+	 *      File Dropzones are used to drop files from outside the browser window.
+	 *      The dropped files are presented to the user and can be uploaded to the server.
 	 *   composition: >
-	 *      File Dropzones are areas to drop files
-	 *      dragging from outside the browser window.
-	 *   effect: A dropzone is highlighted when the user drags files over it.
+	 *      File Dropzones are areas to drop files being dragged from outside the browser window.
+	 *   effect: >
+	 *      A Dropzone is highlighted when the user drags files over it.
 	 *
 	 * rules:
 	 *   usage:
 	 *     1: Most pages SHOULD contain only one dropzone.
-	 *     2: Dropzones MAY use the darkened background highlighting.
 	 *     3: Other ILIAS UI components are REQUIRED to handle dropped files further.
 	 * ---
 	 *
