@@ -48,7 +48,6 @@ administration#:#adm_captcha_anonymous_frm#:#Activer le Captcha pour les utilisa
 administration#:#adm_captcha_anonymous_reg#:#Activer le Captcha dans le formulaire d'inscription. Gardez à l'esprit que cela affecte l'accessibilité à votre plateforme.
 administration#:#adm_captcha_anonymous_short#:#Captcha
 administration#:#adm_captcha_anonymous_wiki#:#Activer le Captcha pour les utilisateurs anonymes dans les wikis. Gardez à l'esprit que cela affecte l'accessibilité à votre plateforme.
-administration#:#adm_captcha_wiki_forum#:#Activer Captcha pour Utilisateurs Anonymes (Forum/Wiki)
 administration#:#adm_container#:#Objets
 administration#:#adm_content_objects#:#Objets de Contenu
 administration#:#adm_content_services#:#Services (contenus)
@@ -263,7 +262,6 @@ administration#:#obj_blga_desc#:#Paramétrage des Blogs
 administration#:#obj_chta_desc#:#Administration du Chat
 administration#:#obj_excs#:#Exercice
 administration#:#obj_excs_desc#:#Paramètres généraux pour les Exercices
-administration#:#obj_frma_desc#:#Paramètres globaux des forums
 administration#:#obj_mds#:#Méta-données
 administration#:#obj_mds_desc#:#Configurer les paramètres de méta-données et de méta-données avancées
 administration#:#obj_otpl#:#Modèles d'Objet
@@ -276,7 +274,6 @@ administration#:#options#:#Options
 administration#:#output_options#:#Options de restitution
 administration#:#passwd_auto_generate#:#Envoi/Génération de Mot de Passe
 administration#:#path_to_mkisofs#:#Chemin d'accès à "mkisofs"
-administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#Si actif, <u>interdit</u> la réutilisation de n'importe quel nom de connexion (login) déjà  enregistré dans l'historique (même appartenant à  un utilisateur supprimé).
 administration#:#purge_age_limit#:#Limiter l'âge
 administration#:#purge_age_limit_desc#:#Si cette zone contient une valeur, seuls les objets qui ont été supprimés avant le nombre de jours spécifié seront purgés.
 administration#:#purge_count_limit#:#Limiter le nombre
@@ -317,7 +314,6 @@ administration#:#searching_invalid_refs#:#Recherche des références invalides..
 administration#:#searching_invalid_rolfs#:#Recherche des dossiers de rôles invalides...
 administration#:#searching_missing_objs#:#Recherche des objets manquants...
 administration#:#searching_unbound_objs#:#Recherche des objets orphelins...
-administration#:#show_topics_overview#:#Vue par chapitre
 administration#:#skipped#:#passé
 administration#:#start_scan#:#Commencer !
 administration#:#stop_scan#:#Arrêter !
@@ -327,7 +323,6 @@ administration#:#svn_revision_last_change#:#Date de Dernière Mise à Jour : %s
 administration#:#svn_root#:#Racine : %s
 administration#:#system_check_no_owner#:#Objets Orphelins
 administration#:#systemcheck#:#Vérification du système
-administration#:#topics_overview_info#:#Si actif, uniquement les chapitres avec l'information retenue sera affichée
 administration#:#tree_corrupt#:#L'arborescence est corrompue ! Voir le journal d'analyse pour plus de détails.
 administration#:#user_criteria#:#Critère d'Identification Utilisateur
 administration#:#user_criteria_desc#:#Critère utilisé pour identifier l'utilisateur lors d’import/export des résultats de test. Ceci permet d'identifier les utilisateurs sur des installations ILIAS différentes.
@@ -491,12 +486,6 @@ assessment#:#ass_process_lock_mode_db#:#Utilisez le verrouillage de la Base de d
 assessment#:#ass_process_lock_mode_db_desc#:#Ce mécanisme de verrouillage verrouille les tables au sein de la base de données. Processus simultanés pour les mêmes ou d'autres utilisateurs dans le même ou dans un autre test attendent jusqu'à  ce que l'autre processus libère ses verrous.
 assessment#:#ass_process_lock_mode_file#:#Utilisez le verrouillage du Système de fichiers
 assessment#:#ass_process_lock_mode_file_desc#:#Ce mécanisme de verrouillage demande des verrous sur les fichiers vides dans le système de fichiers. Processus simultanés pour le même utilisateur et la même question sont en attente jusqu'à  ce que l'autre processus libère le verrou.
-assessment#:#ass_quest_process_lock#:#Utilisez le verrouillage sur la solution proposée par le participant
-assessment#:#ass_quest_process_lock_desc#:#Sans l'utilisation d'un mécanisme de verrouillage, les conditions d'exécution d'un cours lors de la soumission des données de solution sont possibles. Cela peut conduire à  des résultats incohérents.
-assessment#:#ass_quest_process_lock_mode_db#:#Utilisez le verrouillage de la Base de données
-assessment#:#ass_quest_process_lock_mode_db_desc#:#Ce mécanisme de verrouillage verrouille les tables au sein de la base de données. Processus simultanés pour les mêmes ou d'autres utilisateurs dans le même ou dans un autre test attendent jusqu'à  ce que l'autre processus libère ses verrous.
-assessment#:#ass_quest_process_lock_mode_file#:#Utilisez le verrouillage du système de fichiers
-assessment#:#ass_quest_process_lock_mode_file_desc#:#Ce mécanisme de verrouillage demande des verrous sur les fichiers vides dans le système de fichiers. Processus simultanés pour le même utilisateur et la même question sont en attente jusqu'à  ce que l'autre processus libère le verrou.
 assessment#:#ass_question#:#Question
 assessment#:#ass_size#:#Taille
 assessment#:#assClozeTest#:#Question "Texte à Trous"
@@ -531,7 +520,6 @@ assessment#:#autosave#:#Sauvegarde Automatique
 assessment#:#autosave_failed#:#Echec de l'enregistrement automatique !
 assessment#:#autosave_info#:#Lorsque activé, les réponses sont enregistrées régulièrement sans intervention de l'utilisateur, afin de prévenir toute perte de donnée.
 assessment#:#autosave_ival#:#Intervalle
-assessment#:#autosave_ival_info#:#Intervalle de sauvegarde (en microsecondes).
 assessment#:#autosave_success#:#Enregistrement automatique réussiâ€¦
 assessment#:#available_points#:#Points disponibles
 assessment#:#available_terms#:#Termes disponibles
@@ -558,7 +546,6 @@ assessment#:#categories#:#Catégories
 assessment#:#category#:#Catégorie
 assessment#:#change_adm_categories_not_allowed#:#Vous n'avez aucune permission sur cette catégorie.
 assessment#:#change_adm_units_not_allowed#:#Cette unité ne peut être modifiée que par l'administrateur
-assessment#:#change_properties_from_random_to_standard#:#Le test aléatoire va être changé en test non aléatoire. Les banques de questions antérieurement associés au test ne le seront plus. Voulez-vous effectuer ces modifications dans les propriétés du test ?
 assessment#:#change_solution#:#Modifier Ressource
 assessment#:#changelog_description#:#Le tableau suivant contient tous les changements d'auteur effectués sur ce test.
 assessment#:#changelog_heading#:#Modification
@@ -660,7 +647,6 @@ assessment#:#ects_range_error_c#:#Veuillez saisir une valeur entre 0 et 100 pour
 assessment#:#ects_range_error_d#:#Veuillez saisir une valeur entre 0 et 100 pour le niveau ECTS D.
 assessment#:#ects_range_error_e#:#Veuillez saisir une valeur entre 0 et 100 pour le niveau ECTS E.
 assessment#:#edit_answer#:#à‰diter la Réponse
-assessment#:#edit_content#:#Modifier Contenu
 assessment#:#edit_page#:#à‰diter la Page
 assessment#:#edit_question#:#à‰diter la Question
 assessment#:#edit_test_questions#:#Vue par Liste
@@ -716,11 +702,6 @@ assessment#:#errors_section#:#Donnée erronée
 assessment#:#errortext#:#Texte erroné
 assessment#:#errortext_info#:#Veuillez saisir le texte erroné.
 assessment#:#errRecursionInResult#:#La formule contient une récursivité infinie.
-assessment#:#essay_keyword_relation#:#Les points sont obtenus
-assessment#:#essay_keyword_relation_all#:#Si tous les mots-clés sont présents
-assessment#:#essay_keyword_relation_any#:#Pour chaque mot-clé présent
-assessment#:#essay_keyword_relation_desc#:#Lorsque l'option "Si tous les mots-clés sont présents" est sélectionnée, tous les termes doivent êtres présents dans la réponse pour obtenir des points. Lorsque l'option "Pour chaque mot-clé présent" est sélectionnée, le maximum de points est attribué si un mot-clé est présent.
-assessment#:#essay_keyword_relation_one#:#Si un des mots-clés est présent
 assessment#:#essay_scoring_mode#:#Mode de Notation
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Notation Automatique avec Mots-Clés : trouver TOUS
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#Les points sont attribués automatiquement lorsque tous les mots-clés ont été trouvés.
@@ -772,7 +753,6 @@ assessment#:#feedback_all#:#Afficher un Retour Utilisateur pour toutes les répo
 assessment#:#feedback_answers#:#Commentaire pour chaque réponse à la question
 assessment#:#feedback_checked#:#Montrer un Retour Utilisateur pour toute réponse cochée.
 assessment#:#feedback_complete_solution#:#Réponse correcte
-assessment#:#feedback_correct#:#Afficher un Retour Utilisateur pour toutes les réponses devant être cochées.
 assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).
 assessment#:#feedback_correct_sc_mc#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
 assessment#:#feedback_generic#:#Retour Utilisateur pour la Solution Commune
@@ -795,7 +775,6 @@ assessment#:#filter_show_question_types#:#Afficher types de questions
 assessment#:#filter_show_questionpools#:#Afficher Banques de Questions
 assessment#:#filter_users#:#Filtre utilisateurs
 assessment#:#final_statement#:#Conclusion
-assessment#:#final_statement_show#:#Afficher conclusion
 assessment#:#final_statement_show_desc#:#Si cochée, la conclusion sera affichée dès le test achevé et avant la présentation des résultats.
 assessment#:#finish_test#:#Terminer le Test
 assessment#:#fixed_participants_hint#:#Ce test est seulement accessible pour les participants désignés listés plus bas. Vous pouvez modifier cette liste en désactivant les participants désignés dans l'onglet Paramètres.
@@ -935,11 +914,6 @@ assessment#:#manual_editing#:#Manual Editing
 assessment#:#mark_schema#:#Echelle d'Evaluation
 assessment#:#mark_schema_invalid#:#L'échelle d'évaluation n'est pas valide. Veuillez créer une échelle correcte.
 assessment#:#mark_tst_ects#:#Votre notation ECTS est &quot;[markects]&quot;
-assessment#:#mark_tst_failed#:#Désolé, vous n'avez pas réussi le test.<br />Votre appréciation finale est : &quot;[mark]&quot;
-assessment#:#mark_tst_failed_obligations_answered#:#Désolé, vous avez échoué.<br />Vous avez répondu à  toutes les questions obligatoires.<br />Votre résultat est : &quot;[mark]&quot;
-assessment#:#mark_tst_failed_obligations_missing#:#Désolé, vous avez échoué au test.<br />Vous n'avez pas répondu à  toutes les questions obligatoires.<br />Votre résultat est : &quot;[mark]&quot;
-assessment#:#mark_tst_passed#:#Félicitations, vous avez réussi le test.<br /> Votre appréciation finale est : &quot;[mark]&quot;
-assessment#:#mark_tst_passed_obligations_answered#:#Félicitations, vous avez réussi au test.<br />Vous avez répondu à  toutes les questions obligatoires.<br />Votre résultat au test est: &quot;[mark]&quot;
 assessment#:#match_terms_and_definitions#:#Associer des termes et leur définition
 assessment#:#match_terms_and_pictures#:#Associer termes et images
 assessment#:#matches#:#correspond à
@@ -970,7 +944,6 @@ assessment#:#msg_number_of_terms_too_low#:#Le nombre de termes doit être supér
 assessment#:#msg_poly_added#:#Polygone ajouté
 assessment#:#msg_question_count_too_low#:#Veuillez saisir une note à  la question supérieure à  0.
 assessment#:#msg_questions_moved#:#Question(s) déplacée(s)
-assessment#:#msg_randompool_duplicate_qpl#:#Utiliser qu'une seule Banque de Questions
 assessment#:#msg_rect_added#:#Rectangle ajouté
 assessment#:#msg_selected_for_move#:#Question(s) sélectionnée(s) à  déplacer
 assessment#:#msg_total_questions_too_high#:#Le nombre de questions est supérieur au nombre de questions disponibles dans le jeu de question sélectionné.
@@ -994,7 +967,6 @@ assessment#:#no_target_selected_for_move#:#Vous devez sélectionner une position
 assessment#:#no_terms_message#:#Veuillez saisir au moins un terme.
 assessment#:#no_user_or_group_selected#:#Veuillez sélectionner le type d'objets que vous cherchez (utilisateurs et/ou groupes)
 assessment#:#not_all_obligations_answered#:#Vous devez répondre à toutes les questions obligatoires avant de terminer le test.
-assessment#:#not_worked_through#:#Sans Réponse
 assessment#:#not_yet_accessed#:#Pas encore accédé
 assessment#:#nr_of_correct_answers#:#Nombre de Réponses Attendues
 assessment#:#number_of_answers#:#Nombre de Réponses
@@ -1029,8 +1001,6 @@ assessment#:#oq_btn_use_order_pictures#:#Utiliser les images réponses
 assessment#:#oq_btn_use_order_terms#:#Utiliser les termes réponses
 assessment#:#oq_header_ordering_elements#:#Eléments de Triage
 assessment#:#or#:#ou
-assessment#:#order_pictures#:#Classement d'Images
-assessment#:#order_terms#:#Classement de Termes
 assessment#:#ordering_answer_sequence_info#:#La séquence de réponse définie, ici, sera prise comme séquence correcte de la solution.
 assessment#:#ordering_question_javascript_hint#:#Faites glisser une définition ou une image sur la définition ou l'image choisie. Cette dernière définition ou image sera déplacée plus bas.
 assessment#:#ordertext#:#Texte à  ordonner
@@ -1070,7 +1040,6 @@ assessment#:#polygon_click_next_or_save#:#Veuillez cliquer sur le point suivant 
 assessment#:#polygon_click_next_point#:# Veuillez cliquer sur le point suivant du polygone.
 assessment#:#polygon_click_starting_point#:# Veuillez cliquer sur le premier point du polygone.
 assessment#:#positive_numbers_required#:#Veuillez entrer des chiffres positifs.
-assessment#:#postpone#:#Reporter Question
 assessment#:#postpone_status#:#Postponed
 assessment#:#postponed#:#reporté
 assessment#:#precision#:#Précision
@@ -1129,8 +1098,6 @@ assessment#:#qpl_lac_legend_label_operators#:#Operators
 assessment#:#qpl_maxchars_info_numeric_question#:#Si vous entrez une valeur, le champ de la réponse numérique sera créé avec une longueur fixe de cette valeur, de sorte qu'il n'est pas possible d'entrer plus de caractères autorisés. Notez que pour les intervalles numériques, le séparateur décimal est compté comme un caractère régulier.
 assessment#:#qpl_move_insert_clipboard#:#Les questions sélectionnées sont marquées pour être déplacées
 assessment#:#qpl_move_select_none#:#Sélectionner au moins une question pour la déplacer
-assessment#:#qpl_online_property#:#En-Ligne
-assessment#:#qpl_online_property_description#:#La banque de questions doit être "en-ligne" pour pouvoir être utilisée dans les tests.
 assessment#:#qpl_paste_error#:#At least one question could not pe pasted into the question pool. Possible reason: You tried to move the question into the same question pool.
 assessment#:#qpl_paste_no_objects#:#Il n'y a aucune question dans le presse-papier. Liez ou coupez une question dans le presse-papier.
 assessment#:#qpl_paste_success#:#Les questions ont été copiées dans la banque de questions
@@ -1252,9 +1219,6 @@ assessment#:#save_and_next#:#Sauvegarder et Continuer
 assessment#:#save_before_upload_imagemap#:#Vous devez appliquer vos changements avant de déposer une image interactive.
 assessment#:#save_before_upload_javaapplet#:#Vous devez appliquer vos changements avant de pouvoir télécharger une applet Java
 assessment#:#save_edit#:#Enregistrer et modifier le contenu
-assessment#:#save_finish#:#Terminer le Test
-assessment#:#save_next#:#Suivant
-assessment#:#save_previous#:#Précédent
 assessment#:#save_text_answer_points#:#Enregistrer les points des questions texte
 assessment#:#saved_adjustment#:#Enregistré.
 assessment#:#saveOrder#:#Enregistrer l'Ordre
@@ -1327,7 +1291,6 @@ assessment#:#term_text#:#Texte du terme
 assessment#:#terms#:#Termes
 assessment#:#test_cancelled#:#Le test a été annulé
 assessment#:#test_confirm_template_reset#:#Etes vous sûr de ne plus vouloir utiliser de modèle de paramétrage ?
-assessment#:#test_create_question#:#Créer une question
 assessment#:#test_delete_page#:#Supprimer la Question
 assessment#:#test_edit_settings#:#Modifier les paramètres
 assessment#:#test_enable_archiving#:#Activer l'Archivage
@@ -1396,7 +1359,6 @@ assessment#:#tst_add_quest_cont_edit_mode_default#:#Mode d'Edition par Défaut p
 assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Edition de Contenu Supplémentaire avec Editeur de Page
 assessment#:#tst_all_test_competences#:#All Test Competence
 assessment#:#tst_all_user_data_deleted#:#Toutes les données utilisateur de ce test ont été détruites
-assessment#:#tst_allow_fixed_participants#:#Permet de désigner les participants du test
 assessment#:#tst_allow_instant_verification#:#Activer la vérification instantanée des réponses
 assessment#:#tst_allowed_users#:#Nombre Maximum d'Utilisateurs Simultanés
 assessment#:#tst_allowed_users_desc#:#ILIAS surveillera le nombre de participants faisant le test en même temps. Si plus d'utilisateurs que le maximum autorisé essayent d'accéder au test, ILIAS les empêchera de commencer le test.
@@ -1449,7 +1411,6 @@ assessment#:#tst_count_correct_solutions#:#Comptabiliser uniquement les solution
 assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case.
 assessment#:#tst_count_partial_solutions#:#Comptabiliser les solutions partielles
 assessment#:#tst_count_partial_solutions_desc#:#Points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers.
-assessment#:#tst_count_system_description#:#Si les solutions partielles sont comptabilisées, les points sont attribués en fonction de la réponse du participant. Si les solutions complètes sont comptabilisées, le participant aura soit le maximum de points possibles, soit zéro.
 assessment#:#tst_default_settings#:#Préférences
 assessment#:#tst_defaults_applied#:#Les paramètres du test sélectionnés par défaut ont été appliqués.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS ne peut appliquer les paramètres par défaut sélectionnés à  ce test ! Il est possible que ce test contienne déjà  des  questions et/ou de données de participant.
@@ -1497,7 +1458,6 @@ assessment#:#tst_eval_total_persons#:#Nombre total de personnes qui ont passé l
 assessment#:#tst_eval_user_answer#:#Réponse de l'utilisateur
 assessment#:#tst_exp_sc_short#:#Créer un aperçu pour des Questions à Choix Unique
 assessment#:#tst_exp_sc_short_desc#:#In the 'Statistics'-tab an additional export option is offered. It generates a spreadsheet for item analysis outside of ILIAS. This option only works for tests purely composed of Single Choice Questions.
-assessment#:#tst_export_settings#:#Exporter les paramètres
 assessment#:#tst_express_allow_question_pool#:#Autoriser les Banques de Question dans la vue en page de question
 assessment#:#tst_express_allow_question_pool_description#:#Si cochée, les questions peuvent être placées dans une Banque de Questions.
 assessment#:#tst_extratime_added#:#Le temps passé par le participant a été augmenté de %s minutes.
@@ -1510,7 +1470,6 @@ assessment#:#tst_filter_taxonomy#:#Taxinomie de Filtrage
 assessment#:#tst_final_information#:#Informations avant la Fin du Test
 assessment#:#tst_finish_confirm_button#:#Oui, je souhaite terminer le test
 assessment#:#tst_finish_confirm_cancel_button#:#Non, revenir à la question précédente
-assessment#:#tst_finish_confirm_list_of_answers_button#:#Non, revenir à  la liste des réponses
 assessment#:#tst_finish_confirmation_question#:#Vous allez terminer ce test et atteindre le nombre maximum de tests autorisés validés. Vous ne pourrez plus refaire ce test une nouvelle fois pour modifier vos réponses. Voulez-vous vraiment terminer ce test ?
 assessment#:#tst_finish_notification#:#Notification par Email en fin de test
 assessment#:#tst_finish_notification_advanced#:#Envoyer résultat complet du test au propriétaire du test
@@ -1546,7 +1505,6 @@ assessment#:#tst_highscore_enabled#:#Affichage des meilleurs scores
 assessment#:#tst_highscore_hints#:#Afficher les indices
 assessment#:#tst_highscore_hints_description#:#Ajouter une colonne avec les indices utilisés.
 assessment#:#tst_highscore_mode#:#Mode
-assessment#:#tst_highscore_options#:#Meilleurs Scores
 assessment#:#tst_highscore_own_table#:#Afficher la vue "Classement personnel"
 assessment#:#tst_highscore_own_table_description#:#Ajouter une vue "Classement personnel".
 assessment#:#tst_highscore_percentage#:#Afficher le score en pourcentage
@@ -1598,7 +1556,6 @@ assessment#:#tst_instant_feedback_answer_generic#:#Afficher un Retour d'Informat
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Si coché, le Commentaire marquera un simple "Correct" ou "Incorrect" selon la configuration de la question.
 assessment#:#tst_instant_feedback_answer_specific#:#Commentaire spécifique à  la réponse
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Si coché, le Commentaire sera affiché en fonction des réponses du participant (si la configuration de la question le permet).
-assessment#:#tst_instant_feedback_description#:#Si l'une des options est cochée, le commentaire instantané sera affiché juste après que le participant ait répondu. Si " Commentaire spécifique à  la réponse " est coché, il sera affiché en fonction de la réponse du participant. Si " Résultats (en points) " est coché, les points obtenus seront affichés. Si la case " Solutions " est coché, la réponse correcte sera affichée.
 assessment#:#tst_instant_feedback_fix_usr_answer#:#Fix Participant's Answer
 assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#This option causes a fixation of the participant's answer on requesting the instant feedback.
 assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback
@@ -1634,7 +1591,6 @@ assessment#:#tst_list_of_questions_end#:#Afficher la liste des questions avant l
 assessment#:#tst_list_of_questions_start#:#Afficher la liste des questions avant la première question
 assessment#:#tst_list_of_questions_with_description#:#Afficher  les descriptions de question dans la liste des questions
 assessment#:#tst_list_of_questions_yes#:#Oui, et en plus ...
-assessment#:#tst_mail_notification#:#Notifications par Email
 assessment#:#tst_man_scoring_by_part#:#Notation par Participant
 assessment#:#tst_man_scoring_by_qst#:#Notation par Question
 assessment#:#tst_manage_competence_assigns#:#Manage Competence Assignments
@@ -1651,7 +1607,6 @@ assessment#:#tst_mark_minimum_level#:#Niveau Minimum (en %)
 assessment#:#tst_mark_official_form#:#Forme Officielle
 assessment#:#tst_mark_passed#:#Valid&eacute;
 assessment#:#tst_mark_short_form#:#Forme Courte
-assessment#:#tst_max_allowed_users#:#Restrictions sur les Participants
 assessment#:#tst_max_allowed_users_heading#:#Le nombre maximum d'utilisateurs simultanés de ce test a été atteint
 assessment#:#tst_max_allowed_users_message#:#Le nombre maximum d'utilisateurs simultanés de ce test a été atteint. Veuillez effectuer ou reprendre ce test ultérieurement. Si l'un des participants au test est inactif pendant plus de  %s secondes, vous serez autorisé à passer ce test. Merci de votre compréhension.
 assessment#:#tst_max_comp_points#:#Max. Competence Points
@@ -1743,7 +1698,6 @@ assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Initial Test Re
 assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifying Test Results<br />for the Learning Objectives within the Course %s
 assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifying Test Results<br />for the Learning Objectives %s within the Course %s
 assessment#:#tst_pass_scoring#:#Notation des Essais Multiples
-assessment#:#tst_pass_scoring_description#:#Si le dernier passage du test est comptabilisé, ce dernier sera utilisé pour calculer le résultat du participant au test. Si le meilleur passage est comptabilisé, le passage avec le meilleur score sera retenu comme résultat du test. Ce paramètre n'a d'effet que si les participants sont autorisés à  passer plusieurs fois le test.
 assessment#:#tst_passes#:#Tentatives
 assessment#:#tst_password#:#Mot de Passe du Test
 assessment#:#tst_password_details#:#Si un mot de passe est défini pour ce test, tous les utilisateurs ayant accès à  celui-ci devront saisir ce mot de passe pour y accéder.
@@ -1755,7 +1709,6 @@ assessment#:#tst_percent_solved#:#Pourcentage de Réussite
 assessment#:#tst_position#:#Question %s sur %s
 assessment#:#tst_position_without_total#:#Question %s
 assessment#:#tst_postpone#:#Reporter les Questions
-assessment#:#tst_postpone_description#:#Les participants peuvent reporter les questions à  la fin du test.
 assessment#:#tst_postpone_off#:#Les questions sans réponse ne seront pas reportées.
 assessment#:#tst_postpone_off_desc#:#Les questions sans réponse seront maintenues à  leur position.
 assessment#:#tst_postpone_on#:#Les questions sans réponse seront reportées.
@@ -1855,10 +1808,8 @@ assessment#:#tst_random_nr_of_questions#:#Combien de questions ?
 assessment#:#tst_random_qpl_unselected#:#Il y a au moins une banque de questions non sélectionnée.  Vous n'avez pas besoin d'ajouter une banque de questions.
 assessment#:#tst_random_questionpools#:#Banque de Questions
 assessment#:#tst_random_select_questionpool#:#Sélectionner le jeu de questions dans lequel vous choisirez la question
-assessment#:#tst_random_selection#:#Tirage Aléatoire des Questions
 assessment#:#tst_random_selection_question_count_too_high#:#Le nombre de questions est supérieur au nombre maximum de questions disponibles. Le nombre de questions a été réduit automatiquement.
 assessment#:#tst_random_selection_question_total_count_too_high#:#Le nombre de questions est supérieur au nombre maximum de questions disponibles dans les banques de questions sélectionnées. Le nombre de questions a été réduit automatiquement.
-assessment#:#tst_random_test_description#:#Si cochée, les questions du test seront choisies par un générateur aléatoire
 assessment#:#tst_reached_points#:#Points Obtenus
 assessment#:#tst_remove_mark#:#Retirer cette marque
 assessment#:#tst_remove_question#:#Etes-vous sûr de vouloir retirer la question suivante du test ?
@@ -1882,12 +1833,10 @@ assessment#:#tst_result_pass#:#Results of Test Pass
 assessment#:#tst_result_user_name#:#Résultats du Test de %s
 assessment#:#tst_result_user_name_pass#:#Résultats de la tentative n° %s de %s
 assessment#:#tst_results#:#Résultats du test
-assessment#:#tst_results_access#:#Accès aux Résultats du Test
 assessment#:#tst_results_access_always#:#Toujours
 assessment#:#tst_results_access_always_desc#:#Les participants peuvent accéder à  leurs résultats dans l'onglet 'Info' immédiatement après le démarrage de l'essai et tout en faisant le test. De plus ILIAS leur présentera leurs résultats immédiatement après la fin du test.
 assessment#:#tst_results_access_date#:#Date
 assessment#:#tst_results_access_date_desc#:#Les participants ont accès à  leurs résultats de test dans l'onglet 'Info' après la date définie.
-assessment#:#tst_results_access_description#:#Ce paramètre détermine l'accès des participants à  leur résultat au test. Si les résultats sont accessibles après la fin du test, les participants pourront voir leurs résultats après la fin de leur premier passage, même s'ils sont autorisés à  passer ce test plusieurs fois. Si une date et un horaire d'accès aux résultats sont définis, les participants ne pourront pas voir leurs résultats avant. Choisir cette option si vous voulez utiliser le système d'évaluation ECST avec des questions à  notation manuelle. Si " Toujours " est coché, les participants pourront voir leurs résultats à  n'importe quel moment, même s'ils n'ont pas terminé le test.
 assessment#:#tst_results_access_enabled#:#Accès aux résultats des tests
 assessment#:#tst_results_access_enabled_desc#:#Un bouton "Afficher les résultats du test" sera affiché aux participants dans l'onglet 'Info'. les options et les sections qui suivent ci-dessous configurent quels renseignements sont à  inclure dans le rapport et quand il sera accessible.
 assessment#:#tst_results_access_finished#:#Après la Fin du Test
@@ -1904,7 +1853,6 @@ assessment#:#tst_results_grading_opt_show_status#:#Afficher seulement l'état "R
 assessment#:#tst_results_grading_opt_show_status_desc#:#Les informations sur le statut "Passé" / "Echec" seront ajoutées au résultat du test sommaire. Les participants peuvent accéder aux résultats de leurs tests sur l'onglet "Info".
 assessment#:#tst_results_overview#:#Résultats du Test
 assessment#:#tst_results_overview_pass#:#Vue d'ensemble des résultats de la tentative %s
-assessment#:#tst_results_presentation#:#Présentation des Résultats du Test
 assessment#:#tst_results_presentation_description#:#Si " Afficher les solutions dans les résultats du test " est cochée, la solution détaillée par question est disponible dans la présentation des résultats au test. Cela comprend le score exact de chaque question. Sinon, seuls le titre de la question et les points obtenus sont affichés. Si la liste des réponses est sélectionnée, une vue d'ensemble de toutes les questions avec les réponses du participant est générée. Cette liste est donnée sur la page Info avant l'enregistrement définitif des réponses au test.
 assessment#:#tst_results_print_best_solution#:#Meilleure Réponse dans les Résultats du Test
 assessment#:#tst_results_print_best_solution_info#:#Lorsque activé, la meilleure réponse apparaît dans la synthèse du test.
@@ -1927,9 +1875,7 @@ assessment#:#tst_score_cut_question_desc#:#Participants may score negative resul
 assessment#:#tst_score_cut_test#:#Ne pas comptabiliser les points négatifs dans le total de l'ensemble des questions
 assessment#:#tst_score_cut_test_desc#:#Participants might score negative points in questions. Scored points of all questions are added up. Only if the overall result of the test is negative this overall result will be set to 0 points. With this setting negative points carry a lot of weight.
 assessment#:#tst_score_cutting#:#Ne pas comptabiliser les points négatifs
-assessment#:#tst_score_cutting_description#:#Si les points négatifs des questions ne sont comptabilisés, pour chaque question, les résultats inférieurs à  zéro seront automatiquement mis à  zéro. Si les points négatifs du test ne sont comptabilisés, le résultat du test sera zéro si la somme des résultats des questions est inférieure à  zéro.
 assessment#:#tst_score_mcmr_questions#:#Questions à Choix Multiples
-assessment#:#tst_score_mcmr_questions_description#:#Si " Comptabiliser 0 point ... " est sélectionné, les questions à  choix multiple sans case cochée seront notées zéro. Sinon, toutes les cases à  cocher seront comptabilisées d'après les points qui leur sont attribués.
 assessment#:#tst_score_mcmr_use_scoring_system#:#Utiliser le Score Défini
 assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Despite a multiple choice question was not answered, it still scores points for selecting or not-selecting the answer options as definied in the question. This setting is appropriate only for few cases.
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Comptabiliser 0 point quand aucune réponse n'a été cochée
@@ -1950,10 +1896,7 @@ assessment#:#tst_sequence_fixed#:#La séquence de questions est fixée
 assessment#:#tst_sequence_postpone#:#Les questions peuvent être reportées à la fin du test
 assessment#:#tst_sequence_properties#:#Paramètres de Séquencement
 assessment#:#tst_session_settings#:#Paramètres de Session
-assessment#:#tst_set_feedback_done#:#Le commentaire manuel a été enregistré
-assessment#:#tst_set_feedback_not_done#:#Une erreur s'est produite ! Le commentaire manuel n'a pas été enregistré
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Le test a été mis hors-ligne car le mode de test a été modifié. Vous devez choisir une configuration avant de pouvoir mettre le test en-ligne.
-assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Le test a été mis Hors-Ligne à  cause du réglage de sélection des questions en "Aléatoire".<br />Le changement de ce paramètre a effacé l'intégralité des anciennes questions du test.
 assessment#:#tst_setting_enable_obligations_info#:#Lorsque activé, certaines questions du test peuvent être marquées comme obligatoires (*). L'élève doit répondre à toutes les questions obligatoires pour que le test soit pris en compte. Il est recommandé d'afficher la liste des questions lors des questions obligatoires sont présentes dans le test.
 assessment#:#tst_setting_enable_obligations_label#:#Questions Obligatoires
 assessment#:#tst_setting_offer_hints_info#:#Lorsque activé, des indices peuvent être proposés pour certaines questions.
@@ -2053,7 +1996,6 @@ assessment#:#tst_threshold#:#Thresholds
 assessment#:#tst_time_already_spent#:#Temps déjà passé
 assessment#:#tst_time_already_spent_left#:#Il vous reste %s.
 assessment#:#tst_title_output#:#Présentation des Titres de Questions
-assessment#:#tst_title_output_description#:#Choisir une des options de présentation du titre des questions et du nombre de points à  obtenir pendant le test
 assessment#:#tst_title_output_full#:#Afficher le titre des questions et les points à obtenir
 assessment#:#tst_title_output_hide_points#:#Afficher seulement le titre des questions
 assessment#:#tst_title_output_no_title#:#Ne pas afficher le titre des questions et le nombre de points à obtenir
@@ -2369,7 +2311,6 @@ bibl#:#bibl_settings_edit#:#Edit Library
 bibl#:#bibl_settings_libraries#:#Libraries
 bibl#:#bibl_settings_new#:#Add Library
 bibl#:#bibliography file#:#Bibliography File
-bibl#:#bibliography_file#:#Bibliography File
 bibl#:#detail_view#:#Vue Détaillée
 bibl#:#download_original_file#:#Download Original File
 bibl#:#libraries#:#Libraries
@@ -2472,7 +2413,6 @@ blog#:#blog_changed_by#:#Dernier Changement Par
 blog#:#blog_comments#:#Commentaires
 blog#:#blog_confirm_delete_contributors#:#Etes-vous sà»r de vouloir supprimer les contributeurs suivants?
 blog#:#blog_contribute_other_roles#:#Les rôles suivants donnent les permissions de "contribution" : %s.
-blog#:#blog_contributor_container_add#:#Ajouter Utilisateurs Depuis Cours/Groupe
 blog#:#blog_contributors#:#Contributeurs
 blog#:#blog_copy#:#Copier Blog
 blog#:#blog_draft#:#Brouillon
@@ -2822,85 +2762,6 @@ certificate#:#certificate_wrong_unit#:#Vous avez saisi une unité de mesure inco
 certificate#:#certificate_wrong_units#:#Vous avez saisi un jeu d'unités de mesure incorrectes
 certificate#:#default_background_info#:#Cette image d'arrière-plan sera appliquée par défaut à  tous les certificats. L'éditeur de certificat permet toutefois de téléverser une image différente pour chaque certificat.
 certificate#:#download_certificate#:#Télécharger certificat
-chat#:#chat_access_blocked#:#Vous êtes banni de ce salon de discussion
-chat#:#chat_activate_status_notification#:#Afficher notification aux invitations de nouveau chat et aux messages dans la barre de menu principale.
-chat#:#chat_add_blocking#:#Bloquer l'utilisateur
-chat#:#chat_add_ssl_port#:#Veuillez indiquer le port du serveur SSL
-chat#:#chat_add_to_bookmark#:#Ajouter aux marque-pages
-chat#:#chat_added_to_addressbook#:#L'utilisateur ' %s ' a été ajouté à  vos contacts.
-chat#:#chat_added_to_bookmarks#:#Le salon de discussion ' %s ' a été ajouté dans le haut de votre marque-pages.
-chat#:#chat_available_smilies#:#Emoticônes disponibles
-chat#:#chat_cannot_connect_to_server#:#ILIAS ne peut pas établir de connexion avec le serveur de chat.
-chat#:#chat_chatroom_body#:#Salon de discussion
-chat#:#chat_chatroom_rename#:#Modifier salon de discussion
-chat#:#chat_chatrooms#:#Salons de discussion
-chat#:#chat_chatviewer#:#Spectateur du chat
-chat#:#chat_confirm_delete#:#Etes-vous sà»r de vouloir supprimer ces salons de discussion ?
-chat#:#chat_confirm_delete_private_room#:#Etes vous sà»r de supprimer ce salon de discussion privé ?
-chat#:#chat_confirm_delete_smiley#:#Etes-vous sà»r que tous les émoticônes sélectionnés doivent être effacés ?
-chat#:#chat_confirm_kick_user#:#Etes vous sà»r de bannir cet utilisateur ?
-chat#:#chat_confirm_user_invite#:#L'utilisateur sera invité à  ce chat.
-chat#:#chat_current_image_path#:#Chemin de l'image courante
-chat#:#chat_default_bookmark_description#:#Lien vers le salon de discussion du chat ' %s '
-chat#:#chat_default_bookmark_title#:#Lien du chat : %s
-chat#:#chat_delete_selected#:#Supprimer émoticônes sélectionnés
-chat#:#chat_delete_sure#:#Etes-vous sûr(e) de vouloir détruire ce salon de discussion ?
-chat#:#chat_disinvite_user#:#Retirerl'utilisateur de l'espace de discussion privé
-chat#:#chat_drop_user#:#Utilisateur banni
-chat#:#chat_edit_smiley#:#Modifier émoticône
-chat#:#chat_enable_autoscroll#:#Activer défilement automatique
-chat#:#chat_enter_valid_username#:#Veuillez saisir un identifiant d'utilisateur valide.
-chat#:#chat_export_all#:#Pas de restriction (tous les utilisateurs ayant accès peuvent exporter)
-chat#:#chat_export_info#:#Afficher un bouton d'export pour ce salon de discussion. Les messages seront exportés en HTML.
-chat#:#chat_export_period#:#Exporter periode
-chat#:#chat_export_status#:#Permissions d'exportation requises.
-chat#:#chat_hide_smilies#:#Masquer émoticônes
-chat#:#chat_hide_textformat#:#Masquer format de texte
-chat#:#chat_ilias#:#Module chat d'ILIAS
-chat#:#chat_image_path#:#Chemin de l'image
-chat#:#chat_kick#:#Bannir
-chat#:#chat_kick_user_session#:#Bannir un utilisateur
-chat#:#chat_kicked_from_room#:#You avez été banni de ce salon de discussion. Vous ne pouvez plus écrire aucun message.
-chat#:#chat_message_notify#:#Notification de message
-chat#:#chat_message_notify_activate#:#Activer la notification
-chat#:#chat_message_notify_deactivate#:#Désactiver la notification
-chat#:#chat_new_invitation_sound_status#:#Emettre un son si un utilisateur reçoit une nouvelle invitation à  un chat.
-chat#:#chat_new_message_sound_status#:#Emettre un son si un nouveau message est reçu
-chat#:#chat_no_delete_public#:#Le salon de discussion public ne peut pas être détruit
-chat#:#chat_no_refresh_public#:#Le salon de discussion public ne peut pas être actualisé
-chat#:#chat_no_rename_public#:#Le salon de discussion public ne peut pas être renommé
-chat#:#chat_no_room_selected#:#Aucun salon de discussion n'a été sélectionné.
-chat#:#chat_notification_intro#:#Ce mail vous a été automatiquement envoyé par la plate-forme ILIAS %s, %
-chat#:#chat_open#:#Entrer dans le salon de discussion
-chat#:#chat_public_room#:#Salon de discussion public
-chat#:#chat_recent_postings#:#Envois récents du chat
-chat#:#chat_room_added#:#Nouveau salon de discussion ajouté
-chat#:#chat_room_does_not_exist#:#Le salon de discussion du chat n'existe pas. Il est possible qu'il ait été supprimé ou que vous ayez utilisé un lien non valide.
-chat#:#chat_room_name#:#Nom du salon de discussion
-chat#:#chat_room_renamed#:#Salon de discussion renommé
-chat#:#chat_room_select#:#Salon de discussion privé
-chat#:#chat_rooms#:#Salon de discussion
-chat#:#chat_rooms_deleted#:#Salon(s) de discussion détruit(s)
-chat#:#chat_show_smilies#:#Afficher émoticônes
-chat#:#chat_smiley_image#:#Image de l'émoticône
-chat#:#chat_smiley_image_only_if_changed#:#Veuillez saisir une nouvelle image seulement si vous désirez modifier l'existante. Si aucune nouvelle image n'est donnée, l'existante ne sera pas modifiée.
-chat#:#chat_smiley_keyword#:#Mot-clé de l'émoticône
-chat#:#chat_smiley_keywords#:#Mot-clé de l'émoticône
-chat#:#chat_smiley_keywords_one_per_line_note#:#Vous pouvez saisir plusieurs mots-clé pour chaque émoticône. Chaque ligne sera utilisée comme un mot-clé séparé.
-chat#:#chat_smilies_dir_not_available#:#Le répertoire des émoticônes n'a pas pu être créé. Cet ILIAS ne sera pas capable d'utiliser des émoticônes de chat tant que cette action ne sera pas effectuée.
-chat#:#chat_smilies_dir_not_exists#:#Le répertoire des émoticônes n'existe pas.  Trying to setup folders and database.
-chat#:#chat_smilies_dir_not_writable#:#Votre répertoire d' émoticônes existe mais en lecture uniquement. Vous ne pouvez pas ajouter des émoticônes.
-chat#:#chat_smilies_initialized#:#L' émoticône a été initialisé et est prêt à  être utilisé.
-chat#:#chat_smilies_status#:#Emoticônes du chat
-chat#:#chat_teal#:#Turquoise
-chat#:#chat_unkick#:#Réintégrer
-chat#:#chat_upload_smiley#:#Téléverser émoticône
-chat#:#chat_user_dropped#:#Utilisateur banni
-chat#:#chat_user_dropped_private#:#L'utilisateur a été banni de l'espace de discussion privé.
-chat#:#chat_user_hidden#:#Masqué
-chat#:#chat_user_unkicked#:#L'utilisateur a été réintégré.
-chat#:#check_configuration#:#Veuillez vérifier les paramètres du serveur de chat.
-chat#:#edit_smilies#:#Modifier émoticônes
 chatroom#:#allow_anonymous#:#Autoriser l'Accès Anonyme
 chatroom#:#allow_custom_usernames#:#Autoriser les Noms d'Utilisateur Personnalisés
 chatroom#:#allow_private_rooms#:#Autoriser les salles de Chat privées
@@ -3255,8 +3116,6 @@ common#:#accessFree#:#Supprimer accès limité
 common#:#accessRestrict#:#Appliquer l'accès limité
 common#:#account_expires_body#:#Votre compte à  expiré, Toutefois, vos données sont concervées pendant trois mois après la date d'expiration. Vous pouvez contacter l'administrateur par E-mail pour faire réactiver votre compte. Date d'expiration du compte  :
 common#:#account_expires_subject#:#[ILIAS] Votre compte expire
-common#:#accs_edit_permission#:#Modifier paramètres de permission
-common#:#accs_read#:#Lire les paramètres d'accessibilité
 common#:#action#:#Action
 common#:#action_aborted#:#Action annulée
 common#:#actions#:#Actions
@@ -3289,8 +3148,6 @@ common#:#added_to_desktop#:#L'élément a été ajouté sur le bureau personnel.
 common#:#additional_info#:#Informations Supplémentaires
 common#:#address#:#Adresse
 common#:#adm_create_tax#:#Créer taxinomie
-common#:#adm_edit_permission#:#Modifier les paramètres de permission
-common#:#adm_read#:#Lire les paramètres de base du système
 common#:#admin_force_noti#:#Notification active
 common#:#admin_panel#:#Panneau d'Administration
 common#:#administrate#:#Administrer
@@ -3333,8 +3190,6 @@ common#:#allow_assign_users#:#Autoriser ce rôle pour l'administration locale de
 common#:#allow_override_alert#:#Les règles pour .htaccess ne sont pas interprétées correctement.
 common#:#allow_register#:#Disponible dans le formulaire d'auto-enregistrement des utilisateurs
 common#:#allow_user_toggle_noti#:#Le membre est autorisé à désactiver la notification
-common#:#alm_edit_permission#:#Modifier les paramètres de permission
-common#:#alm_read#:#Lire le document AICC
 common#:#already_delivered_files#:#Fichiers Soumis
 common#:#and#:#et
 common#:#announce#:#Annonce
@@ -3429,7 +3284,6 @@ common#:#auth_create_users#:#Crée automatiquement les comptes non existants
 common#:#auth_default#:#Paramètres par défaut
 common#:#auth_default_mode_changed_to#:#Le mode d'authentification par défaut a été changé en
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#Modifier les paramètres de permission
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authentifier les utilisateurs avec LDAP
 common#:#auth_ldap_enable#:#Activer le Support LDAP
@@ -3524,10 +3378,6 @@ common#:#bm_add_to_social_bookmarks#:#Ajouter aux Favoris
 common#:#bm_manage_social_bm#:#Administrer les marque-pages sociaux
 common#:#bmf#:#Dossier de Favoris
 common#:#bold#:#Gras
-common#:#book_edit_permission#:#Modifier les paramètres de permission
-common#:#book_read#:#Lire  l'outil de réservation
-common#:#book_visible#:#L'outil de reservation est visible
-common#:#book_write#:#Modifier outil de réservation
 common#:#bookings#:#Réservations
 common#:#bookmark_added#:#Le marque-pages a été créé.
 common#:#bookmark_edit#:#Editer le Favori
@@ -3569,22 +3419,12 @@ common#:#cat_add#:#Ajouter Catégorie
 common#:#cat_added#:#Categorie ajoutée
 common#:#cat_clear_page#:#Effacer le Contenu de la Page
 common#:#cat_copy_threads_info#:#Veuillez choisir quelles catégories doivent être copiées, liées ou omises.
-common#:#cat_create_htlm#:#Créer document HTML importé
-common#:#cat_create_icrs#:#Créer LearnLinc Seminar
-common#:#cat_create_lm#:#Créer document ILIAS
-common#:#cat_create_mcst#:#Créer mediaCast
-common#:#cat_create_mep#:#Créer galerie multimédia
-common#:#cat_create_sahs#:#Créer document SCORM/AICC
-common#:#cat_create_webr#:#Créer ressource web
-common#:#cat_create_write#:#Créer wiki
 common#:#cat_edit#:#Editer Catégorie
 common#:#cat_new#:#Nouvelle Catégorie
 common#:#cat_pages#:#Pages de la Catégorie
 common#:#cat_pages_clear#:#Page de catégorie vidée.
 common#:#cat_pages_not_created#:#Page de catégorie non encore créée.
 common#:#cat_pages_undone#:#Dernières modifications de la page de catégorie annulées.
-common#:#cat_read#:#Lire catégorie
-common#:#cat_read_users#:#Lire les comptes utilisateurs locaux
 common#:#cat_title#:#Titre Catégorie
 common#:#cat_undo_last_page_changes#:#Annuler Dernières Modifications de la Page
 common#:#cat_wizard_page#:#Copier une Catégorie (Etape 2/2)
@@ -3596,11 +3436,6 @@ common#:#catr_edit_info#:#Veuillez choisir une catégorie pour créer un nouveau
 common#:#catr_new#:#Créer nouvelle catégorie référente
 common#:#cc#:#CC
 common#:#censorship#:#Censurer
-common#:#centra_account#:#Compte d'Administration Centra
-common#:#cert_edit_permission#:#Modifier paramètres de permission
-common#:#cert_read#:#Lire les paramètres de certificat
-common#:#cert_visible#:#Les paramètres du certificat sont visibles
-common#:#cert_write#:#Modifier paramètres de certificat
 common#:#certificate#:#Certificat
 common#:#chac_edit_permission#:#Modifier les paramètres de permission
 common#:#chac_read#:#Lire les paramètres du chat
@@ -3609,7 +3444,6 @@ common#:#chac_write#:#Modifier les paramètres du Chat
 common#:#change#:#Modifier
 common#:#change_active_assignment#:#Modifier attribution active
 common#:#change_assignment#:#Modifier attribution
-common#:#change_existing_objects#:#Modifier objets existants
 common#:#change_header_title#:#Editer le Titre du Bandeau
 common#:#change_lo_info#:#Modifier informations sur le cours
 common#:#change_metadata#:#Modifier méta-données
@@ -3627,8 +3461,6 @@ common#:#chat_enter_public_room#:#Chat public
 common#:#chat_enter_public_room_tooltip#:#Entrer dans le chat public.
 common#:#chat_invite_public_room#:#Chat Privé
 common#:#chat_invite_public_room_tooltip#:#Inviter à  un chat public.
-common#:#chat_link_to_this_chat#:#Lier à  ce chat
-common#:#chat_read#:#Lire le chat
 common#:#chat_users_active#:#Utilisateurs actifs
 common#:#check#:#Vérifier
 common#:#check_all#:#Tout cocher
@@ -3779,12 +3611,7 @@ common#:#crs_available#:#Cours Disponibles
 common#:#crs_cancel_waiting_list#:#Désirez-vous vraiment vous retirer de la liste d'attente du cours "%s"?
 common#:#crs_container_link_not_allowed#:#Il n'est pas possible de lier des objets conteneurs
 common#:#crs_copy_threads_info#:#Veuillez choisir quels éléments du cours doivent être copiés, liés ou omis.
-common#:#crs_create_icrs#:#Créer LearnLinc Seminar
-common#:#crs_create_mep#:#Créer galerie multimédia
-common#:#crs_create_write#:#Créer wiki
 common#:#crs_edit#:#Editer le Cours
-common#:#crs_edit_learning_progress#:#Modifier le suivi
-common#:#crs_edit_permission#:#Modifier les paramètres de permission
 common#:#crs_info#:#Info
 common#:#crs_list_reg_end#:#Fin d'Inscription
 common#:#crs_list_reg_limit_full#:#Plus de place disponible
@@ -3798,7 +3625,6 @@ common#:#crs_member_passed#:#Validé
 common#:#crs_members_gallery#:#Galerie des Membres du Cours
 common#:#crs_new#:#Nouveau Cours
 common#:#crs_no_content#:#Sans contenu
-common#:#crs_read#:#Lire le cours
 common#:#crs_removed_from_waiting_list#:#Vous avez été supprimé de la liste d'attente du cours "%s".
 common#:#crs_status_blocked#:#[Accès refusé]
 common#:#crs_status_pending#:#[En attente d'inscription]
@@ -3840,8 +3666,6 @@ common#:#db_pass#:#Mot de passe de base de données
 common#:#db_type#:#Type de base de données
 common#:#db_user#:#Utilisateur de base de données
 common#:#db_version#:#Version de Base de Données
-common#:#dbk_edit_learning_progress#:#Modifier le suivi
-common#:#dbk_read#:#Lire le livre Digilib
 common#:#dd_mm_yyyy#:#DD/MM/YYYY
 common#:#deactivate#:#Désactiver
 common#:#decrease_attempts#:#Tentatives - 1
@@ -3875,7 +3699,6 @@ common#:#delete_inactive_user_accounts_desc#:#En cas d'activation, les comptes u
 common#:#delete_inactive_user_accounts_include_roles#:#Rôles inclus
 common#:#delete_inactive_user_accounts_include_roles_desc#:#Désigne les rôles qui seront touchés par la suppression.
 common#:#delete_inactive_user_accounts_interval#:#Fréquence
-common#:#delete_inactive_user_accounts_interval_desc#:#Les conditions de suppression seront examinées à  cette fréquence.
 common#:#delete_inactive_user_accounts_period#:#Nombre de jours depuis la dernière connexion
 common#:#delete_inactive_user_accounts_period_desc#:#La suppression sera effectuée si la période de temps est achevée depuis la dernière connexion.
 common#:#delete_object#:#Supprimer les Objets
@@ -3966,7 +3789,6 @@ common#:#enable_course_group_notifications#:#Mail Hebdomadaire pour les Actualit
 common#:#enable_course_group_notifications_desc#:#Lorsque activé, les participants peuvent s'abonner à un résumé hebdomadaire des actualités.
 common#:#enable_custom_icons#:#Autoriser les icônes personnalisées
 common#:#enable_custom_icons_info#:#Permet de définir des icônes personnalisées pour des catégories, des cours ou des groupes particuliers. L'onglet propriétés des catégories, cours ou groupes permet de téléverser un fichier image destiné à  servir d'icône.
-common#:#enable_disk_quota#:#Activer les Quotas de Disque
 common#:#enable_disk_quota_info#:#Autorise la spécification d'un quota de disque pour chaque compte utilisateur et chaque rôle global. La taille disque d'un compte utilisateur est déterminée une fois tous les jours en utilisant une tà¢che Cron et affiché dans le formulaire du compte utilisateur et dans le rapport de quota de disque.
 common#:#enable_disk_quota_reminder_mail#:#Envoyer mails de rappel du quota de disque
 common#:#enable_disk_quota_summary_mail#:#Envoyer le rapport de dépassement du quota
@@ -4055,7 +3877,6 @@ common#:#exc_download_files#:#Télécharger les Fichiers
 common#:#exc_download_new#:#Télécharger Nouveau
 common#:#exc_edit#:#Nouvel exercice créé
 common#:#exc_edit_exercise#:#Editer l'Exercice
-common#:#exc_edit_permission#:#Modifier les paramètres de permission
 common#:#exc_edit_until#:#Date Limite
 common#:#exc_exercise_sent#:#Exercice Envoyé
 common#:#exc_feedback_sent#:#Commentaire Envoyé
@@ -4113,19 +3934,6 @@ common#:#ext_cat_settings#:#Editer les Paramètres Avancés
 common#:#ext_link#:#Lier
 common#:#extracting#:#Extraction en cours...
 common#:#extt_configure#:#configurer...
-common#:#extt_edit_permission#:#Modifier les paramètres de permission
-common#:#extt_ilinc_additional_options#:#Options Supplémentaires
-common#:#extt_ilinc_akclassvalues_active#:#Activer les centres de coût
-common#:#extt_ilinc_akclassvalues_active_info#:#Vous pouvez utiliser les centres de coûts iLinc pour les séminaires et classes LearnLinc.
-common#:#extt_ilinc_akclassvalues_required#:#Centre de coûts requis
-common#:#extt_ilinc_configure#:#Configurer Netucate LearnLinc
-common#:#extt_ilinc_connection_data#:#Données de connexion
-common#:#extt_ilinc_desc#:#Fournit des classes virtuelles. Service commercial. Pour un compte rendu et de plus amples informations, veuillez contacter netucate à  www.netucate.com
-common#:#extt_ilinc_enable#:#Activer le support LearnLinc
-common#:#extt_ilinc_protocol_port#:#Protocole & Port
-common#:#extt_ilinc_registrar_login#:#ID du login
-common#:#extt_ilinc_registrar_passwd#:#Mot de Passe
-common#:#extt_ilinc_settings_saved#:#Paramètres du LearnLinc enregistrés
 common#:#extt_name#:#Logiciel/Service
 common#:#extt_remark#:#Tous les services et logiciels énumérés ci-dessous ne font pas partie de l'application ILIAS et ne sont pas sous la licence Open Source d'ILIAS.
 common#:#extt_title_configure#:#Configurer un logiciel externe
@@ -4133,7 +3941,6 @@ common#:#failure_message#:#Message d'échec
 common#:#faq_exercise#:#Exercice FAQ
 common#:#fax#:#Fax
 common#:#feed#:#FluxRSS)
-common#:#feed_read#:#Lire le flux externe (RSS)
 common#:#feedback#:#Retours d'Information
 common#:#feedback_recipient#:#Destinataires des remarques
 common#:#field_name#:#Zone Nom
@@ -4205,12 +4012,8 @@ common#:#fold_a#:#un dossier
 common#:#fold_add#:#Ajouter Dossier
 common#:#fold_added#:#Dossier ajouté
 common#:#fold_copy_threads_info#:#Veuillez choisir les contenus à copier, lier ou omettre.
-common#:#fold_create_icrs#:#Créer LearnLinc Seminar
-common#:#fold_create_mep#:#Créer galerie multimédia
-common#:#fold_create_write#:#Créer wiki
 common#:#fold_edit#:#Editer le Dossier
 common#:#fold_new#:#Nouveau Dossier
-common#:#fold_read#:#Lire le  dossier
 common#:#fold_type#:#Type de Dossier
 common#:#fold_wizard_page#:#Copier Dossier (Etape 2/2)
 common#:#folder#:#Dossier
@@ -4250,7 +4053,6 @@ common#:#forums_your_name#:#Votre Nom
 common#:#frm#:#Forum
 common#:#frm_a#:#un Forum
 common#:#frm_add#:#Ajouter Forum
-common#:#frm_add_post#:#Ajouter un nouvel article
 common#:#frm_added#:#Forum ajouté
 common#:#frm_article#:#article
 common#:#frm_create#:#Créer Forum
@@ -4259,16 +4061,10 @@ common#:#frm_edit#:#Editer le Forum
 common#:#frm_edit_post#:#Modifier un article
 common#:#frm_import#:#Importer Forum
 common#:#frm_latest_postings#:#Derniers Articles
-common#:#frm_moderate_frm#:#Supprimer un article, le censurer
 common#:#frm_new#:#Nouveau Forum
-common#:#frm_read#:#Lire le forum
 common#:#frm_statistics_ranking#:#Classement
 common#:#frm_status_new#:#Statut 'Nouveau'
 common#:#frm_status_new_desc#:#Définir le délai de maintien du statut 'Nouveau' pour les derniers articles de forum .
-common#:#frma_edit_permission#:#Modifier paramètres de permission
-common#:#frma_read#:#Lire l'administration du forum
-common#:#frma_visible#:#L'administration du forum est visible
-common#:#frma_write#:#Droit d'écriture dans l'administration Forum
 common#:#from#:#De
 common#:#fullname#:#Nom complet
 common#:#functions#:#Fonctions
@@ -4282,20 +4078,16 @@ common#:#general_settings#:#Paramètres Généraux
 common#:#generate#:#Générer
 common#:#ghostscript_not_configured#:#Ghostscript n'est pas configuré. Veuillez ouvrir ce <a href="setup/setup.php?cmd=mastersettings" target="_blank">lien</a> pour le configurer.
 common#:#glo#:#Glossaire
-common#:#glo_a#:#un Glossaire
 common#:#glo_add#:#Ajouter Glossaire
 common#:#glo_added#:#Glossaire ajouté
 common#:#glo_create#:#Créer Glossaire
 common#:#glo_import#:#Importer Glossaire
-common#:#glo_join#:#S'Abonner au Glossaire
-common#:#glo_leave#:#Se Désabonner du glossaire
 common#:#glo_mode#:#Modèle
 common#:#glo_mode_desc#:#Un glossaire virtuel fonctionne comme un glossaire normal. Mais il peut, en plus, contenir les termes de tous les autres glossaires du même niveau ou de niveaux inférieurs dans l'arborescence des objets d'ILIAS.
 common#:#glo_mode_level#:#virtuel (seulement ce niveau)
 common#:#glo_mode_normal#:#normal
 common#:#glo_mode_subtree#:#virtuel (ce niveau et descendants)
 common#:#glo_new#:#Nouveau Glossaire
-common#:#glo_read#:#Lire le glossaire
 common#:#glo_upload_file#:#Fichier
 common#:#global#:#Global
 common#:#global_default#:#Valeur par Défaut
@@ -4362,8 +4154,6 @@ common#:#grp_cancel_waiting_list#:#Désirez-vous vraiment vous retirer de la lis
 common#:#grp_copy_threads_info#:#Veuillez désigner les contenus à copier, lier ou omettre.
 common#:#grp_count_members#:#Nombre de membres
 common#:#grp_create#:#Créer Groupe
-common#:#grp_create_icrs#:#Créer LearnLinc Seminar
-common#:#grp_create_write#:#Créer wiki
 common#:#grp_deleted_export_files#:#Fichiers sélectionnés supprimés.
 common#:#grp_dismiss_member#:#Etes-vous sûr(e) de vouloir retirer les utilisateurs suivants du groupe ?
 common#:#grp_dismiss_myself#:#Etes-vous sûr(e) de vouloir vous retirer du groupe ?
@@ -4402,7 +4192,6 @@ common#:#grp_no_groups_selected#:#Veuillez sélectionner un groupe
 common#:#grp_no_results_found#:#Aucun résultat
 common#:#grp_no_roles_selected#:#Veuillez sélectionner un rôle
 common#:#grp_options#:#Options
-common#:#grp_read#:#Lire le groupe
 common#:#grp_register#:#S'Inscrire
 common#:#grp_registration#:#S'Inscrire au Groupe
 common#:#grp_registration_completed#:#Vous êtes inscrit au groupe
@@ -4458,7 +4247,6 @@ common#:#hist_webr_delete#:#Ressource web détruite : "%1"
 common#:#hist_webr_update#:#Ressource web mise à jour : "%1"
 common#:#history#:#Historique
 common#:#hits_per_page#:#Lignes/Page
-common#:#hlm_read#:#Lire le document HACP
 common#:#hobby#:#Intérêts/Hobbies
 common#:#home#:#Espace Public
 common#:#host#:#Hôte
@@ -4468,7 +4256,6 @@ common#:#hours_of_day#:#Heures du jour
 common#:#htlm#:#Module HTML
 common#:#htlm_add#:#Ajouter Module HTML
 common#:#htlm_edit#:#Editer les Propriétés du Module HTML
-common#:#htlm_edit_learning_progress#:#Modifier suivi
 common#:#htlm_new#:#Nouveau Module HTML
 common#:#html_block#:#Bloc HTML
 common#:#http#:#HTTP
@@ -4476,32 +4263,12 @@ common#:#http_not_possible#:#Ce serveur ne supporte pas les requêtes HTTP.
 common#:#http_path#:#Chemin HTTP
 common#:#https_not_possible#:#Ce serveur ne supporte pas les connexions HTTPS.
 common#:#i2passwd#:#Mot de passe ILIAS 2
-common#:#icla#:#Classe Virtuelle LearnLinc
-common#:#icla_add#:#Ajouter Classe Virtuelle LearnLinc
-common#:#icla_deleted#:#Salle(s) de cours LearnLinc supprimée(s)
-common#:#icla_edit#:#Modifier salle de classe LearnLinc
-common#:#icla_new#:#Nouvelle Classe Virtuelle LearnLinc
 common#:#icon#:#Icône
 common#:#icon_settings#:#Personnalisation des Icônes
 common#:#icons_in_header#:#Ligne d'entête
 common#:#icons_in_item_rows#:#Rangées d'objets
 common#:#icons_in_typed_lists#:#Position de l'icône dans les listes d'objets
 common#:#icons_in_typed_lists_info#:#Détermine où afficher les icônes dans la liste des objets classés par type dans le catalogue et sur le bureau personnel.
-common#:#icrs#:#Webinar LearnLinc
-common#:#icrs_add#:#Ajouter Webinar LearnLinc
-common#:#icrs_added#:#LearnLinc Seminar ajouté
-common#:#icrs_copy#:#Copier LearnLinc Seminar
-common#:#icrs_create_icla#:#Créer salles de classe LearnLinc
-common#:#icrs_delete#:#Supprimer Webinar LearnLinc
-common#:#icrs_edit#:#Modifier LearnLinc Seminar
-common#:#icrs_edit_permission#:#Editer les permissions
-common#:#icrs_join#:#L'utilisateur peut s'inscrire au LearnLinc Seminar
-common#:#icrs_leave#:#L'utilisateur peut se désinscrire du LearnLinc Seminar
-common#:#icrs_members_gallery#:#Galerie des Membres du Webinar
-common#:#icrs_new#:#Nouveau Webinar LearnLinc
-common#:#icrs_read#:#Lire le cours
-common#:#icrs_visible#:#Le Webinar LearnLinc est visible
-common#:#icrs_write#:#Editer Webinar LearnLinc
 common#:#id#:#ID
 common#:#identifier#:#identifiant
 common#:#if_no_title_then_filename#:#Laisser ce champ vide pour utiliser le nom du fichier comme titre.
@@ -4529,45 +4296,11 @@ common#:#il_grp_admin#:#Administrateur de Groupe
 common#:#il_grp_member#:#Membre de Groupe
 common#:#il_grp_status_closed#:#Groupe clos
 common#:#il_grp_status_open#:#Groupe ouvert
-common#:#il_icrs_admin#:#Administrateur du LearnLinc Seminar
-common#:#il_icrs_member#:#Membre du LearnLinc Seminar
 common#:#il_orgu_employee#:#Employee
 common#:#il_orgu_superior#:#Superior
 common#:#ilias_and_webfolder_username#:#Nom d'utilisateur du dossier web et d'ILIAS
 common#:#ilias_username#:#Nom d'utilisateur d'ILIAS
 common#:#ilias_version#:#Version ILIAS
-common#:#ilinc_abandoned_info#:#L'interface intégrée Netucate LearnLinc va être abandonnée dans ILIAS 4.3. Merci d'installer le nouveau plugin iLinc pour utiliser la classe virtuelle LearnLinc dans ILIAS. Pour plus d'informations, visiter <a href="http://http://www.netucate.com/">le site Web Netucate</a>.
-common#:#ilinc_classroom_always_open#:#La salle de classe est toujours ouverte
-common#:#ilinc_classroom_closed#:#La salle de classe est fermée
-common#:#ilinc_classroom_open#:#La salle de classe est ouverte
-common#:#ilinc_classrooms#:#Classes Virtuelles LearnLinc
-common#:#ilinc_coursemember_status#:#Participer en tant que
-common#:#ilinc_courses#:#Webinars LearnLinc
-common#:#ilinc_dismiss_member#:#Etes vous certain de vouloir retirer l(es) utilisateur(s) suivant(s) du LearnLinc Seminar ?
-common#:#ilinc_dismiss_myself#:#Etes vous certain de vouloir vous retirer du LearnLinc Seminar ?
-common#:#ilinc_err_administrator_required#:#Les membres ne peuvent être exclus. Au moins, un administrateur par LearnLinc Seminar est requis !
-common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Chaque LearnLinc Seminar nécessite au moins un administrateur
-common#:#ilinc_err_last_member#:#Le dernier membre ne peut être retiré. Veuillez plutôt détruire le LearnLinc Seminar.
-common#:#ilinc_err_member_could_not_be_removed#:#Le membre ne peut être exclu. Veuillez vérifier tout ce qui dépend de cet utilisateur.
-common#:#ilinc_err_no_permission#:#Vous ne possédez pas les droits pour effectuer cette action.
-common#:#ilinc_err_registration_data#:#Veuillez saisir un mot de passe, la date-heure d'expiration pour valider la période d'accès !
-common#:#ilinc_header_edit_users#:#Modifier liste des utilisateurs concernés
-common#:#ilinc_mail_body_new_subscription#:#Vous avez été inscrit à  ce LearnLinc Seminar.
-common#:#ilinc_mail_body_subscription_cancelled#:#Votre adhésion a été supprimée.
-common#:#ilinc_mail_subj_new_subscription#:#Nouvelle inscription
-common#:#ilinc_manage_course_documents#:#Matériaux
-common#:#ilinc_mem_change_status#:#Modifier statut de l'utilisateur
-common#:#ilinc_mem_leave#:#Retirer utilisateur du LearnLinc Seminar
-common#:#ilinc_mem_send_mail#:#Envoyer à  l'utilisateur un message
-common#:#ilinc_msg_joined#:#Vous êtes inscrit au LearnLinc Seminar
-common#:#ilinc_msg_member_assigned#:#Utilisateur(s) assigné(s)
-common#:#ilinc_no_akclassvalues#:#Aucune
-common#:#ilinc_no_docent_assigned#:#Non assigné
-common#:#ilinc_notset#:#Non mis
-common#:#ilinc_remark#:#Remarque
-common#:#ilinc_server_not_active#:#Serveur iLind inactif
-common#:#ilinc_upload_pic_linktext#:#Téléverser
-common#:#ilinc_upload_pic_text#:#Pour afficher votre image dans les LearnLinc Seminars, veuillez utiliser ce lien :
 common#:#im_aim#:#AIM
 common#:#im_aim_icon#:#Logo AIM
 common#:#im_icq#:#ICQ
@@ -4589,7 +4322,6 @@ common#:#import_alm#:#Importer Package AICC
 common#:#import_cat_localrol#:#Créer un rôle local pour chaque nouvelle catégorie
 common#:#import_cat_table#:#Le tableau suivant n'a de sens que si la case est cochée
 common#:#import_categories#:#Importer Catégories
-common#:#import_dbk#:#Importer Livre Digilib
 common#:#import_failure_log#:#Importer journal des échecs
 common#:#import_file#:#Importer Fichier
 common#:#import_file_not_valid#:#Le fichier importé n'est pas valide.
@@ -4647,8 +4379,6 @@ common#:#info_trash#:#Objets Supprimés
 common#:#info_view_of_user#:#Utilisateur
 common#:#inform_user_mail#:#Envoyer un mail pour informer l'utilisateur des changements
 common#:#information_abbr#:#Info
-common#:#ingmedia_use_info1#:#Ici, vous pouvez changer vos données personnelles.  Excepté pour le nom d'utilisateur et le mot de passe INGMEDIA, vous n'avez pas à  remplir les autres champs.  Souvenez-vous que les mots de passe perdus ne peuvent être redonnés que par mail (!).
-common#:#ingmedia_use_title#:#Modifier données utilisateurs
 common#:#inifile#:#Fichier INI
 common#:#inline_file_extensions#:#Fichiers Web-actif
 common#:#inline_file_extensions_info#:#Les fichiers avec ces extensions sont affichés dans la fenêtre du navigateur.<br>Par exemple : <b>gif jpg mp3 pdf png</b><br/> Tous les autres fichiers sont proposés au téléchargement.
@@ -4740,7 +4470,6 @@ common#:#ldap_version#:#Version Protocole LDAP
 common#:#ldap_visible#:#Les paramètres LDAP sont visibles
 common#:#ldap_write#:#Modifier paramètres LDAP
 common#:#learning module#:#document
-common#:#learning_module#:#document
 common#:#learning_objects#:#Objets Pédagogiques
 common#:#learning_progress#:#Progression
 common#:#learning_resourc#:#Ressource Pédagogique
@@ -4789,19 +4518,15 @@ common#:#lm_a#:#un Module ILIAS
 common#:#lm_add#:#Ajouter Module ILIAS
 common#:#lm_added#:#Module ILIAS ajouté
 common#:#lm_create#:#Créer Module ILIAS
-common#:#lm_edit_learning_progress#:#Modifier suivi
 common#:#lm_join#:#S'Inscrire au Module ILIAS
 common#:#lm_leave#:#Se Désinscrire du Module ILIAS
 common#:#lm_new#:#Nouveau Module ILIAS
-common#:#lm_read#:#Lire le document ILIAS
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM 1.2
 common#:#lm_type_scorm2004#:#SCORM 2004 3ème/4ème Edition
 common#:#lng#:#Langue
 common#:#lngf#:#Langues
-common#:#lngf_read#:#Lire les paramètres de langues
-common#:#lngf_write#:#Droit d'écriture, nécéssaire pour la maintenance étendue de langage
 common#:#lo#:#Objet Pédagogique
 common#:#lo_available#:#Vue d'Ensemble des Modules et Cours
 common#:#lo_categories#:#Catégories d'Objets Pédagogiques
@@ -4842,9 +4567,6 @@ common#:#logs#:#Données de Suivi
 common#:#los#:#Objets Pédagogiques
 common#:#los_last_visited#:#Derniers Objets Vus
 common#:#lres#:#Ressources Pédagogiques
-common#:#lrss_edit_permission#:#Modifier paramètres de permission
-common#:#lrss_read#:#Lire les paramètres des ressources d'apprentissage
-common#:#lrss_write#:#Modifier paramètres des ressources d'apprentissage
 common#:#mail#:#Messagerie
 common#:#mail_a_root#:#Boîte aux lettres
 common#:#mail_addressbook#:#Contacts
@@ -4864,8 +4586,6 @@ common#:#mail_folders#:#Dossiers de Messagerie
 common#:#mail_import#:#Importer
 common#:#mail_import_file#:#Fichier d'exportation
 common#:#mail_intern_enable#:#Activer
-common#:#mail_mail_to_global_roles#:#L'utilisateur peut envoyer un mail aux rôles globaux
-common#:#mail_mail_visible#:#L'utilisateur peut utiliser le mail système
 common#:#mail_mails_of#:#Messages
 common#:#mail_maxsize_attach#:#Taille max. des pièces jointes
 common#:#mail_maxsize_box#:#Taille max. de boîte aux lettres
@@ -4878,8 +4598,6 @@ common#:#mail_multiple_recipients_found#:#Entrez une adresse plus précise. ILIA
 common#:#mail_no_recipient_found#:#Entrez une adresse mail différente. ILIAS n'a pas trouvé de destinataire pour cette adresse.
 common#:#mail_no_valid_group_role#:#Aucun rôle de groupe valide
 common#:#mail_not_sent#:#Message non envoyé !
-common#:#mail_pear_mail_needed#:#.Vous devez installer Pear Mail pour utiliser cette fonction. Pour le faire, saisir <code>pear install Mail</code> sur la console.
-common#:#mail_read#:#Lire les paramètres de messagerie
 common#:#mail_search_courses_not_found#:#Aucun cours dont vous êtes membre n'a été trouvé.
 common#:#mail_search_groups_not_found#:#Aucun groupe dont vous êtes membre n'a été trouvé.
 common#:#mail_search_no#:#Aucune entrée trouvée !
@@ -4888,13 +4606,10 @@ common#:#mail_select_one#:#Vous devez sélectionner un message!
 common#:#mail_send_error#:#Erreur lors de l'envoi du message
 common#:#mail_sent#:#Message envoyé !
 common#:#mail_settings#:#Paramètres de Messagerie
-common#:#mail_smtp_mail#:#L'utilisateur peut envoyer des mails par SMTP
 common#:#mail_system#:#Menu principal
-common#:#mail_system_message#:#L'utilisateur peut envoyer des mails système internes
 common#:#mail_to_global_roles_not_allowed#:#L'envoi d'email aux rôles globaux n'est pas autorisé.
 common#:#mail_use_pear_mail#:#Utiliser "PEAR Mail"
 common#:#mail_use_pear_mail_info#:#Utilisez "PEAR Mail" pour analyser les adresses de messagerie. L'analyseur d'ILIAS est très limité. "PEAR Mail" est totalement compatible avec les adresses e-mail classiques.
-common#:#mail_visible#:#Les paramètres de mail sont visibles
 common#:#mail_z_local#:#Dossiers Utilisateur
 common#:#mails#:#Messages
 common#:#mails_at_the_ilias_installation#:#Vous avez reçu %1$s nouveaux mails à  l'installation-ILIAS %2$s
@@ -4914,7 +4629,6 @@ common#:#max_time#:#Durée maximale
 common#:#mcst#:#Mediacast
 common#:#mcst_add#:#Ajouter Mediacast
 common#:#mcst_new#:#Nouveau Mediacast
-common#:#mcst_read#:#Lire le MediaCast
 common#:#mem_add_to_wl#:#Ajouter à la Liste d'Attente
 common#:#mem_alert_no_places#:#Il n'existe plus de places libres disponibles.
 common#:#mem_cron_min_members#:#Cours / Groupe: Vérification du Nombre Minimum des Membres
@@ -4952,7 +4666,6 @@ common#:#message_content#:#Contenu du Message
 common#:#message_no_delivered_files#:#Vous n'avez remis aucun fichier
 common#:#message_to#:#Message à :
 common#:#meta_data#:#Métadonnées
-common#:#mgs_objects_linked_to_the_following_folders#:#L(es) objet(s) sont/étaient lié(s) au(x) dossier(s) suivant(s) : %s
 common#:#mgs_objects_linked_to_the_following_folders_p#:#Les objets étaient liés aux dossiers suivant(s): %s
 common#:#mgs_objects_linked_to_the_following_folders_s#:#L'objet était lié aux dossiers suivant(s): %s
 common#:#migrate#:#Migrer
@@ -4964,10 +4677,6 @@ common#:#missing_perm#:#Permission Manquante
 common#:#missing_precondition#:#Précondition Non Remplie
 common#:#mm_dd_yyyy#:#YYYY/DD/MM
 common#:#mob#:#Média
-common#:#mobs_edit_permission#:#Modifier paramètres de permission
-common#:#mobs_read#:#Lire les paramètres des Objets/galeries multimédias
-common#:#mobs_visible#:#Les paramètres des objets/galeries multimédias sont visibles
-common#:#mobs_write#:#Modifier paramètres des objets/galeries multimédias
 common#:#mod_rewrite_disabled#:#Le module Apache 'mod_rewrite' n'est pas disponible.
 common#:#moderators#:#Modérateurs
 common#:#module#:#module
@@ -5035,7 +4744,6 @@ common#:#msg_input_is_required#:#Cette information est obligatoire. Veuillez sai
 common#:#msg_invalid_filetype#:#Type de fichier invalide
 common#:#msg_is_last_role#:#Vous avez retiré le dernier rôle global des utilisateurs suivants
 common#:#msg_last_role_for_registration#:#Au moins un rôle doit être disponible dans le formulaire d'enregistrement des nouveaux utilisateurs. Ce rôle est actuellement le seul disponible.
-common#:#msg_link_clipboard#:#Veuillez choisir la position où les objets sélectionnés doivent être liés puis cliquez sur le bouton Coller.
 common#:#msg_link_clipboard_p#:#Maintenant, veuillez sélectionner l'emplacement souhaité où les objets sélectionnés doivent être liés puis cliquer sur le bouton Coller.
 common#:#msg_link_clipboard_s#:#Maintenant, veuillez sélectionner l'emplacement souhaité où les objets sélectionnés doivent être liés puis cliquer sur le bouton Coller.
 common#:#msg_linked#:#Objet(s) sélectionné(s) lié(s).
@@ -5206,7 +4914,6 @@ common#:#num_of_selected_files#:#%s fichier(s) sélectionnés
 common#:#num_users#:#Nombre d'Utilisateurs
 common#:#number_of_accesses#:#Nombre d'accès
 common#:#number_of_records#:#Nombre d'enregistrements
-common#:#nwss_read#:#Lire les paramètres des flux internes et externes d'actualité (RSS)
 common#:#obj#:#Objet
 common#:#obj_accs#:#Accessibilité
 common#:#obj_accs_desc#:#Paramètrage des fonctions d'accessibilité.
@@ -5295,8 +5002,6 @@ common#:#obj_hlps#:#Système d'Aide
 common#:#obj_hlps_desc#:#Paramétrage de l'aide en-ligne
 common#:#obj_htlm#:#Module HTML
 common#:#obj_htlm_duplicate#:#Copier Module HTML
-common#:#obj_icla#:#Classe Virtuelle LearnLinc
-common#:#obj_icrs#:#Webinar LearnLinc
 common#:#obj_il_chat_moderator#:#Modérateur de Salle de Chat
 common#:#obj_itgr#:#Groupe d'Objets
 common#:#obj_itgr_duplicate#:#Copier Groupe d'Objets
@@ -5478,8 +5183,6 @@ common#:#objs_frm#:#Forums
 common#:#objs_glo#:#Glossaires
 common#:#objs_grp#:#Groupes
 common#:#objs_htlm#:#Modules HTML
-common#:#objs_icla#:#Classes Virtuelles LearnLinc
-common#:#objs_icrs#:#Webinar LearnLinc
 common#:#objs_itgr#:#Groupes d'Objets
 common#:#objs_lm#:#Modules ILIAS
 common#:#objs_lng#:#Langues
@@ -5712,7 +5415,6 @@ common#:#ps_password_must_not_contain_loginame#:#Interdire le Nom d'Utilisateur 
 common#:#ps_password_must_not_contain_loginame_info#:#Lorsque activé, le mot de passe ne doit pas contenir le nom d'utilisateur.
 common#:#ps_password_uppercase_chars_num#:#Lettres Majuscule
 common#:#ps_password_uppercase_chars_num_info#:#Veuillez entrer le nombre de lettres majuscules que le mot de passe doit contenir. 0 désactiver cette contrainte.
-common#:#ps_read#:#Lire les paramètres de confidentialité/sécurité
 common#:#pub_section#:#Espace Public
 common#:#pub_section_info#:#Si actif, des morceaux du système (e.g. repository, profil utilisateur) peuvent être disponibles sur Internet sans authentification. Les permissions du rôle "Anonymous" controleront l'accès aux ressources du repository.
 common#:#public#:#public
@@ -5729,7 +5431,6 @@ common#:#qpl#:#Banque de Questions
 common#:#qpl_add#:#Ajouter Banque de Questions (Test)
 common#:#qpl_copy#:#Copier une Banque de Questions (Test)
 common#:#qpl_new#:#Nouvelle Banque de Questions (Test)
-common#:#qpl_read#:#Lire le jeu de questions (test)
 common#:#qpl_upload_file#:#Déposer fichier
 common#:#quarterly#:#trimestriel
 common#:#query_data#:#Lancer la requête
@@ -5755,7 +5456,6 @@ common#:#reg_account_confirmation_successful#:#Votre compte utilisateur a été 
 common#:#reg_goto_parent_membership_info#:#Seuls les membres peuvent accéder à cet objet.
 common#:#reg_mail_body_2_confirmation#:#Le lien sera bon uniquement pour %s. Après, vous devrez recommencer depuis le début.
 common#:#reg_mail_body_3_confirmation#:#Si ce mail n'a aucune signification, il est possible que votre adresse mail a été saisie délibérament ou par accident. Veuillez donc ignorer ce mail.
-common#:#reg_mail_body_confirmation#:#Pour activer votre compte et confirmer votre adresse de messagerie, cliquer sur le lien suivant :
 common#:#reg_mail_body_forgot_password_info#:#Pour obtenir votre mot de passe, veuillez utiliser la fonction "Mot de passe oublié ?" sur l'écran de connexion afin de demander un nouveau mot de passe pour ce compte.
 common#:#reg_mail_body_salutation#:#Bonjour
 common#:#reg_mail_body_text1#:#Bienvenue sur MediaEcole, votre compte a été créé sur la plateforme de formation du CIN de Saint-Mandrier. Ce compte est ouvert pour une durée variable selon les profils définis dans l'OP 4 - DDE.
@@ -5882,7 +5582,6 @@ common#:#rolt_added#:#Modèle de rôle ajouté
 common#:#rolt_edit#:#Editer Modèle de Rôle
 common#:#rolt_new#:#Nouveau Modèle de Rôle
 common#:#root_edit#:#Editer la racine du système
-common#:#root_read#:#Lire le système ILIAS
 common#:#row#:#Ligne
 common#:#rows#:#Lignes
 common#:#rpc_pdf_font#:#Polices
@@ -5893,13 +5592,11 @@ common#:#rte_editor_enabled#:#Éditeur de Texte Enrichi activé
 common#:#sahs#:#Module SCORM/AICC
 common#:#sahs_added#:#Module SCORM/AICC ajouté
 common#:#sahs_create#:#Créer Module SCORM/AICC
-common#:#sahs_edit_learning_progress#:#Modifier suivi
 common#:#sahs_insert_chap_from_clip#:#Coller Chapitres depuis le presse-papier
 common#:#sahs_insert_page_from_clip#:#Coller Pages depuis le presse-papier
 common#:#sahs_insert_sco_from_clip#:#Coller SCOs depuis le presse-papier
 common#:#sahs_join#:#S'Inscrire au Module SCORM/AICC
 common#:#sahs_leave#:#Se désinscrire du Module SCORM/AICC
-common#:#sahs_read#:#Lire le document SCORM/AICC
 common#:#salutation#:#Salutation
 common#:#salutation_f#:#Mme/Mlle
 common#:#salutation_m#:#M.
@@ -5949,7 +5646,6 @@ common#:#search_user#:#Rechercher Utilisateurs
 common#:#seas_max_hits#:#Nombre maximum de résultats
 common#:#seas_max_hits_info#:#Définir un nombre maximum de résultats de recherche.
 common#:#seas_settings#:#Paramètres de recherche
-common#:#seas_write#:#Modifier les paramètres de recherche
 common#:#second#:#Seconde
 common#:#seconds#:#Seconde(s)
 common#:#sections#:#Sections
@@ -5985,7 +5681,6 @@ common#:#server_data#:#Données Serveur
 common#:#server_disabled#:#Le Chat est Désactivé
 common#:#server_software#:#Logiciel Serveur
 common#:#sess#:#Session
-common#:#sess_copy#:#Copier une Session
 common#:#sess_fixed_duration#:#Durée de Session Fixe
 common#:#sess_load_dependent_session_handling#:#Gestion Dynamique des Sessions
 common#:#sess_mode#:#Mode de Session
@@ -6119,7 +5814,6 @@ common#:#spl#:#Banque de Questions (Enquête)
 common#:#spl_add#:#Ajouter Banque de Questions (Enquête)
 common#:#spl_import#:#Importer Banque de Questions (Enquête)
 common#:#spl_new#:#Nouvelle Banque de Questions (Enquête)
-common#:#spl_read#:#Lire le jeu de questions (enquête)
 common#:#spl_upload_file#:#Déposer fichier
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#un chapitre
@@ -6147,8 +5841,6 @@ common#:#street#:#Rue
 common#:#structure#:#Structure
 common#:#sty#:#Style
 common#:#style_activation#:#Activation du Style
-common#:#stys_edit_permission#:#Modifier les paramètres de permission
-common#:#stys_read#:#Lire les paramètres de style
 common#:#sub_request_deleted#:#Requête d'adhésion supprimée
 common#:#sub_request_saved#:#Requête d'adhésion enregistrée
 common#:#subcat_name#:#Nom de Sous-Catégorie
@@ -6174,10 +5866,8 @@ common#:#svy_no_content#:#Aucune enquête disponible
 common#:#svy_not_finished#:#Ce questionnaire n'est pas encore terminé
 common#:#svy_not_started#:#Vous n'avez pas participé à cette enquête
 common#:#svy_participate#:#Participer à l'enquête
-common#:#svy_read#:#Lire l'Enquête
 common#:#svy_run#:#Commencer
 common#:#svy_upload_file#:#Déposer fichier
-common#:#svy_visible#:#L'enquête est visible
 common#:#svy_warning_survey_not_complete#:#Le questionnaire n'est pas terminé
 common#:#system#:#Système
 common#:#system_check#:#Vérification du Système
@@ -6194,8 +5884,6 @@ common#:#systemcheck_cronform#:#Activation du système de contrôle dans la tà�
 common#:#table_mail_import#:#Importer à  partir de mails d'ILIAS 2
 common#:#tabs#:#Onglets
 common#:#tagging_my_tags#:#Mes Mots-Clés
-common#:#tags_read#:#Lire les paramètres du Tagging
-common#:#tags_visible#:#Les paramètres de Tagging sont visible
 common#:#take_over_structure#:#Adopter la Structure
 common#:#take_over_structure_info#:#Si cochée, les dossiers contenus dans le fichier ZIP seront convertis en catégories ou en dossiers si l'importation du ZIP est faite dans un groupe ou un cours.
 common#:#target#:#Cible
@@ -6272,12 +5960,9 @@ common#:#treeview#:#Afficher le Panneau Latéral
 common#:#tst#:#Test
 common#:#tst_add#:#Ajouter test
 common#:#tst_anon_eval#:#Résultats
-common#:#tst_edit_learning_progress#:#Modifier suivi
 common#:#tst_edit_questions#:#Editer les Questions
 common#:#tst_new#:#Nouveau Test
 common#:#tst_no_content#:#Aucun test disponible
-common#:#tst_random_test_description_warning#:#<br /><b>Ce test comporte des questions qui ne sont pas assignées à  une banque de questions. Si vous passez en mode aléatoire, ces questions seront perdues.</b>
-common#:#tst_read#:#Lire le test
 common#:#tst_run#:#Commencer
 common#:#tst_statistical_evaluation#:#Statistiques
 common#:#tst_statistics#:#Statistiques
@@ -6443,9 +6128,7 @@ common#:#usr_style#:#Style Utilisateur
 common#:#usr_without_courses#:#Utilisateurs non inscrits à des cours
 common#:#usrf#:#Comptes utilisateurs
 common#:#usrf_create_user#:#Créer nouveau compte utilisateur
-common#:#usrf_edit_roleassignment#:#Modifier assignation de rôle des comptes utilisateurs
 common#:#usrf_profile_link#:#Lien vers le profil utilisateur
-common#:#usrf_read#:#Lire les comptes utilisateurs
 common#:#usrimport_action_failed#:#Echec de l'action %1$s
 common#:#usrimport_action_ignored#:#Action %1$s ignorée
 common#:#usrimport_action_replaced#:#Action %1$s remplacée par %2$s
@@ -6520,7 +6203,6 @@ common#:#webr_modified_items#:#Modifications enregistrées.
 common#:#webr_never_checked#:#Jamais vérifié
 common#:#webr_new#:#Ajouter Nouveau Lien Web
 common#:#webr_no_items_created#:#Pas de Lien Web créé
-common#:#webr_read#:#Lire  la ressource web
 common#:#webr_sure_delete_items#:#Voulez-vous vraiment supprimer le(s) Lien(s) Web suivant(s) ?
 common#:#webservices#:#Services Web
 common#:#week#:#Semaine
@@ -6532,11 +6214,7 @@ common#:#width#:#Largeur
 common#:#width_x_height#:#Largeur x Hauteur
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Ajouter Wiki
-common#:#wiki_delete#:#Détruire un WIKI
-common#:#wiki_edit_content#:#Modifier les pages d'un WIKI
 common#:#wiki_new#:#Nouveau Wiki
-common#:#wiki_read#:#Lire un WIKI
-common#:#wiki_visible#:#Les Wiki sont visibles
 common#:#with#:#largeur
 common#:#wizard_search_list#:#Votre recherche a produit les résultats suivants. Veuillez en sélectionner un.
 common#:#wizard_title_info#:#Veuillez saisir le titre de l'objet que vous voulez dupliquer.
@@ -6927,7 +6605,6 @@ content#:#cont_exp_ids_not_resp_format3#:#Cet ID ne doit pas commercer par un no
 content#:#cont_export_all#:#Exporter tout
 content#:#cont_export_files#:#Fichiers d'Export
 content#:#cont_export_id#:#ID d'Export
-content#:#cont_export_raw#:#Données CMI (brutes)
 content#:#cont_export_success#:#Données de Réussite (agrégées)
 content#:#cont_export_tracking#:#Exporter donnée de suivi
 content#:#cont_export_type#:#Type d'Export
@@ -7240,13 +6917,9 @@ content#:#cont_online_info#:#Configurez le module d'apprentissage SCORM en ligne
 content#:#cont_open#:#Affichage
 content#:#cont_open_heigth#:#hauteur
 content#:#cont_open_iframe#:#S'ouvre dans la même fenêtre, le menu principal ILIAS est affiché
-content#:#cont_open_iframe_defined#:#dans une iFrame avec dimension prédéfinie
-content#:#cont_open_iframe_max#:#dans une iFrame pleine dimension
 content#:#cont_open_normal#:#dans un onglet / nouvelle fenêtre avec lien
 content#:#cont_open_width#:#largeur
 content#:#cont_open_window#:#S'ouvre définitivement dans une nouvelle fenêtre, sans le menu principal ILIAS
-content#:#cont_open_window_defined#:#dans une nouvelle fenêtre avec dimension prédéfinie
-content#:#cont_open_window_undefined#:#dans une nouvelle fenêtre sans dimension prédéfinie
 content#:#cont_operation_not_allowed#:#Cette opération n'est pas autorisée.
 content#:#cont_or#:#ou
 content#:#cont_order#:#Type d'Ordre
@@ -7411,7 +7084,6 @@ content#:#cont_sc_auto_review_completed#:#si terminé
 content#:#cont_sc_auto_review_completed_and_passed#:#si terminé et réussi
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#si terminé ou réussi, mais non raté (recommandé pour le Mode Révision Automatique)
 content#:#cont_sc_auto_review_completed_or_passed#:#si terminé ou réussi
-content#:#cont_sc_auto_review_info#:#Passer le "Lesson Mode" à  "Review" lorsque l'utilisateur achève un SCO.
 content#:#cont_sc_auto_review_info_12#:#Passer le "lesson mode" à "review" lorsque l'apprenant a terminé ou réussi un SCO.
 content#:#cont_sc_auto_review_info_2004#:#Lorsque le mode révision automatique est activé, les données de suivi d'un SCO ne sont pas enregistrées si une de ces options s'applique. Toutefois, si le module utilise le Séquencement et la Navigation SCORM 2004, cette option ne devrait pas être activée.
 content#:#cont_sc_auto_review_no#:#désactivé
@@ -7710,7 +7382,6 @@ content#:#glo_used_in_scorm#:#Le glossaire est utilisé par le document SCORM. S
 content#:#help_assign_help_ids#:#Assignation Chapitre/Screen-IDs
 content#:#htlm_import#:#Importer document d'apprentissage HTML
 content#:#HTML export#:#Exportation HTML
-content#:#HTML_export#:#Exportation HTML
 content#:#import_sco_object#:#Importer SCO
 content#:#info_stop_offline_mode_sure#:#Note : la progression en mode déconnecté sera perdue. Etes-vous sûr ?
 content#:#lm_activate_rating#:#Activer la Notation des Pages
@@ -7736,14 +7407,11 @@ content#:#offline_mode_users#:#Utilisateurs en mode déconnecté
 content#:#page_does_not_exist#:#Nous sommes désolés mais cette page n'existe plus.
 content#:#Pages#:#Pages
 content#:#pages from#:#Pages From
-content#:#pages_from#:#Pages depuis
 content#:#par#:#Paragraphe
 content#:#PDF export#:#Exportation PDF
-content#:#PDF_export#:#Exportation PDF
 content#:#pg#:#Page
 content#:#public_section#:#Espace Public
 content#:#read offline#:#Lire hors ligne
-content#:#read_offline#:#Lire hors ligne
 content#:#sahs_empty_objectives_are_not_allowed#:#Veuillez entrer un objectif pédagogique.
 content#:#sahs_insert_pg_from_clip#:#Import Pages from ILIAS Learning Module
 content#:#sahs_insert_st_from_clip#:#Import Chapters from ILIAS Learning Module
@@ -7781,7 +7449,6 @@ content#:#seq_toc#:#De la table des contenus sur la gauche, choisir une activit�
 content#:#set_public_mode#:#Définir le mode d'accès public
 content#:#st#:#Chapitre
 content#:#start export#:#Commencer l'exportation
-content#:#start_export#:#Commencer l'exportation
 content#:#stop_user_offline_mode#:#Arrêter le mode déconnecté
 content#:#stop_user_offline_mode_for_user#:#Arrêter le mode déconnecté pour
 content#:#text_repr#:#Texte de Substitution
@@ -7899,7 +7566,6 @@ crs#:#crs_auto_notification#:#Notification des Nouveaux Membres
 crs#:#crs_auto_notification_info#:#Les nouveaux membres reçoivent un mail dès leur inscription au cours.
 crs#:#crs_availability_limitless_info#:#Sélectionner la manière dont vous allez rendre le cours disponible et accessible aux utilisateurs (Voir les paramètres d'inscription plus loin).
 crs#:#crs_availability_until_info#:#Sélectionner ce mode pour permettre aux utilisateurs d'accéder au cours pendant une période de temps limitée.
-crs#:#crs_availability_unvisible_info#:#Sélectionner ce mode pour préparer le cours. Seul l'auteur et le tuteur du cours peuvent voir et modifier le cours.
 crs#:#crs_awrn_current_course#:#Current Course
 crs#:#crs_awrn_current_course_info#:#If the user navigates to a course in the repository, all members of the course are listed.
 crs#:#crs_awrn_support_contacts#:#Tutorial Support
@@ -8575,7 +8241,6 @@ crs#:#event_location#:#Lieu
 crs#:#event_materials#:#Matériaux de session
 crs#:#event_not_participated#:#N'a Pas Participé
 crs#:#event_overview#:#Participation aux Sessions
-crs#:#event_participant_selection#:#Sélection du participant
 crs#:#event_participated#:#A Participé
 crs#:#event_participation#:#Participation
 crs#:#event_register#:#S'Inscrire
@@ -9182,7 +8847,6 @@ dateplaner#:#wk_short#:#Sem.
 dateplaner#:#year#:#Année
 dateplaner#:#yui_cal_choose_month#:#Mois :
 dateplaner#:#yui_cal_choose_year#:#Année :
-dcl#:#-dcl_table_info_title-#:#Info
 dcl#:#add_value#:#Add new value
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_activate_approval#:#Activer l'Approbation des Enregistrements
@@ -9510,7 +9174,6 @@ ecs#:#ecs_cmap_form_subdir_value#:#Valeur de Sous-Dossier
 ecs#:#ecs_cmap_mapping_form_title#:#Assignation du Cours pour la Catégorie
 ecs#:#ecs_cmap_multiple_atts#:#Attributs Multiples
 ecs#:#ecs_cmap_overview#:#Aperçu de la Correspondance
-ecs#:#ecs_cmpa_enabled#:#Autoriser l'Allocation de Cours
 ecs#:#ecs_cms_dir_tree#:#Arborescences CMS
 ecs#:#ecs_cms_directory_trees_tbl#:#Arborescences CMS
 ecs#:#ecs_cms_id#:#Root-Id dans le Campus-Managment-System
@@ -10087,8 +9750,6 @@ forum#:#content_censored_post#:#Contenu de l'affichage censuré:
 forum#:#content_deleted_post#:#Contenu de l'affichage supprimé:
 forum#:#content_deleted_thread#:#Contenu du fil supprimé:
 forum#:#content_post_updated#:#Contenu de l'affichage édité :
-forum#:#deactivate_current_and_childs#:#Désactiver tous les articles
-forum#:#deactivate_post_txt#:#Etes-vous certain(e) de vouloir désactiver cet article et toutes ses réponses ?
 forum#:#descending_order#:#Les derniers sujets en haut
 forum#:#empty_subject#:#Lors de la réponse, l'utilisateur doit entrer un nouveau titre
 forum#:#enable_thread_ratings#:#Evaluation du fil de discutions
@@ -10103,12 +9764,10 @@ forum#:#file_upload_option_allow#:#Autoriser les Pièces Jointes dans Tous les f
 forum#:#file_upload_option_disallow#:#Autoriser les Pièces Jointes dans les Forums Sélectionnés
 forum#:#fmr_copy_threads_info#:#Vous avez la possibilité de copier des sujets seuls. Seul, le début du sujet sera dupliqué.
 forum#:#forum_add_quote#:#Ajouter la citation
-forum#:#forum_anonymize_desc#:#Ecrire cet article anonymement (votre nom d'utilisateur ILIAS ne sera affiché nulle part).
 forum#:#forums#:#Forums
 forum#:#forums_all_threads_marked_read#:#Tous les sujets ont été marqués comme lus
 forum#:#forums_attachments#:#Pièces Jointes
 forum#:#forums_attachments_add#:#Ajouter Pièce Jointe
-forum#:#forums_attachments_edit#:#Editer pièce jointe
 forum#:#forums_censor_comment#:#Commentaire du modérateur
 forum#:#forums_count#:#Nombre de forums
 forum#:#forums_count_art#:#Nombre d'articles
@@ -10130,14 +9789,11 @@ forum#:#forums_notification#:#Notification
 forum#:#forums_notification_disabled#:#Notification désactivée
 forum#:#forums_notification_enabled#:#Notification activé
 forum#:#forums_notification_intro#:#Ce mail vous a été automatiquement envoyé par l'instance ILIAS %s, %s
-forum#:#forums_notification_is_disabled#:#La notification à  chaque nouvel article sur sujet n'est pas (encore) activée.
-forum#:#forums_notification_is_enabled#:#Maintenant, la notification à  chaque nouvel article sur ce sujet est activée.
 forum#:#forums_notification_show_frm#:#Show forum: %s
 forum#:#forums_notification_show_post#:#Afficher les articles ajoutés : %s
 forum#:#forums_notification_subject#:#Nouvel article sur un sujet de discussion
 forum#:#forums_post_activation_mail#:#Tant que l'article suivant n'est pas activé, il n'est pas visible pour les autres utilisateurs du forum. Vous recevez ce mail car vous êtes désigné comme modérateur et avez le droit pour activer cet article.
 forum#:#forums_post_and_children_were_activated#:#L'article et toutes ses réponses ont été activés.
-forum#:#forums_post_and_children_were_deactivated#:#L'article et toutes ses réponses ont été désactivés.
 forum#:#forums_post_deleted#:#L'article a été détruit
 forum#:#forums_post_modified#:#L'article a été modifié
 forum#:#forums_post_needs_to_be_activated#:#Un nouvel article a été ajouté, mais il doit être accepté par le modérateur pour être publié.
@@ -10166,7 +9822,6 @@ forum#:#frm_copy#:#Copier Forum
 forum#:#frm_default_view#:#Affichage par défaut
 forum#:#frm_detach_moderator_role#:#Détacher rôle de modérateur
 forum#:#frm_edit_title#:#Modifier titre
-forum#:#frm_import#:#Importer Forum
 forum#:#frm_mark_as_read#:#Marqué comme lu
 forum#:#frm_mark_as_unread#:#Marquer comme non lu
 forum#:#frm_max_notification_age#:#Max. Notification Age
@@ -10179,11 +9834,7 @@ forum#:#frm_moderator_m#:#Modérateur
 forum#:#frm_moderator_role_added_successfully#:#Le rôle de modérateur a été ajouté avec succès.
 forum#:#frm_moderators#:#Modérateurs
 forum#:#frm_moderators_detached_role_successfully#:#Le rôle de modérateur a été détaché avec succès de tous les utilisateurs sélectionnés.
-forum#:#frm_moderators_do_search#:#Rechercher
-forum#:#frm_moderators_matches_in_no_results#:#Votre recherche ne donne pas de résultats.
 forum#:#frm_moderators_not_exist_yet#:#Veuillez choisir un modérateur.
-forum#:#frm_moderators_search#:#Recherche utilisateur
-forum#:#frm_moderators_search_query#:#Terme(s) à  rechercher
 forum#:#frm_moderators_select_at_least_one#:#Veuillez choisir au moins un modérateur.
 forum#:#frm_moderators_select_one#:#Veuillez choisir un utilisateur.
 forum#:#frm_noti_message#:#Message:
@@ -10217,8 +9868,6 @@ forum#:#frm_sure_delete_threads#:#à‹tes vous sûr(e) de vouloir supprimer les
 forum#:#frm_sure_merge_threads#:#Etes-vous sûr de vouloir fusionner ces sujets ? Attention : cette action est définitive !
 forum#:#frm_wizard_page#:#Copier Forum (étape 2/2)
 forum#:#is_read#:#Marqué comme lu
-forum#:#make_topic_non_sticky#:#Mettre le sujet sans annonce
-forum#:#make_topic_sticky#:#Mettre le sujet en annonce
 forum#:#make_topics_non_sticky#:#Mettre les sujets sans annonces
 forum#:#make_topics_sticky#:#Mettre les sujets en annonces
 forum#:#mark_moderator_posts#:#Marquer les messages du modérateur
@@ -10242,7 +9891,6 @@ forum#:#post_reply_count#:#Re(%s):
 forum#:#post_uncensored_by#:#a posting was uncensored by "%1$s"
 forum#:#post_updated_by#:#subsequently edited posting in forum by "%1$s": "%2$s"
 forum#:#preset_subject#:#Répéter l'objet lors d'une réponse
-forum#:#preset_subject_info#:#Si décochée, l'utilisateur doit saisir un nouveau titre pour publier.
 forum#:#reopen_topics#:#Ré-ouvrir
 forum#:#reply_to_postings#:#Répondre
 forum#:#sel_threads_already_sticky#:#At least one of the selected threads is already sticky
@@ -10265,17 +9913,8 @@ forum#:#threads_moved_successfully#:#Les sujets sélectionnés ont été correct
 forum#:#topic_close#:#Fermé
 forum#:#topics_please_select_one_action#:#Veuillez choisir une action.
 forum#:#user_decides_notification#:#Chaque utilisateur décide des options de notification
-frm#:#frm_import#:#Importer Forum
 glo#:#glo_copy#:#Copier Glossaire
 glo#:#glo_term#:#Terme du Glossaire
-gmaps#:#gmaps_api_key_desc#:#Pour utiliser l'extension Google Maps, vous devez vous inscrire pour obtenir une Clé API Google Maps à  :
-gmaps#:#gmaps_enable_gmaps#:#Activer Google Maps
-gmaps#:#gmaps_enable_gmaps_info#:#Activer Google Maps dans les profils utilisateur, les groupes et les cours.
-gmaps#:#gmaps_extt_gmaps#:#Google Maps
-gmaps#:#gmaps_lookup_address#:#Rechercher Adresse
-gmaps#:#gmaps_std_location#:#Localisation par Défaut
-gmaps#:#gmaps_std_location_desc#:#Cliquer sur le carte pour définir la position géographique.
-gmaps#:#gmaps_zoom_level#:#Niveau de Zoom
 grp#:#crs_add_grouping#:#Ajouter Contrainte d'Inscription
 grp#:#crs_grouping_delete_sure#:#Êtes-vous certain de vouloir supprimer cette contrainte d'inscription ?
 grp#:#crs_grouping_deleted#:#Contrainte d'inscription supprimée.
@@ -10467,11 +10106,6 @@ help#:#help_tooltips_and_help#:#Etiquettes et Workflow
 help#:#help_tooltips_only#:#Etiquettes Seulement
 help#:#help_topcis#:#Topics
 help#:#help_tt_text#:#Texte
-ilinc#:#ilinc_connection_error#:#Erreur : pas de connexion au serveur iLinc !
-ilinc#:#ilinc_member_administration#:#Editer les Participants
-ilinc#:#ilinc_no_account_yet#:#Aucun compte iLink actuellement
-ilinc#:#ilinc_user_id#:#Identifiant d'Utilisateur iLinc
-ilinc#:#ilinc_user_settings#:#Paramètres d'Utilisateur iLinc
 init#:#init_error_authentication_fail#:#Mauvaise authentification
 init#:#init_error_maintenance#:#Le serveur est indisponible pour cause de maintenance. Veuillez nous excuser.
 init#:#init_error_redirect_click#:#Cliquer pour continuer
@@ -10782,7 +10416,6 @@ mail#:#mail_enter_valid_login#:#Veuillez saisir un identifiant d'utilisateur val
 mail#:#mail_entry_added#:#Nouvelle entrée ajoutée
 mail#:#mail_entry_changed#:#L'entrée a été changée
 mail#:#mail_entry_exists#:#Une entrée avec l'identifiant d'utilisateur ou l'adresse email donnée existe déjà .
-mail#:#mail_entry_of_addressbook#:#Contact
 mail#:#mail_entry_of_contacts#:#Entry of Contacts
 mail#:#mail_external_sender_noreply#:#Adresse "No-Reply"
 mail#:#mail_file_name#:#Nom du Fichier
@@ -10821,9 +10454,7 @@ mail#:#mail_invite_users_to_chat#:#Inviter des Utilisateurs à une Chat
 mail#:#mail_list_members#:#Lister les membres
 mail#:#mail_mailing_list#:#Liste de Contacts
 mail#:#mail_mailing_lists#:#Listes de Contacts
-mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Vous avez déjà  associé la totalité de vos contacts à  cette liste de diffusion.
 mail#:#mail_mailing_lists_all_contact_entries_assigned#:#Vous avez déjà  affecté tous vos contacts à  cette liste de diffusion.
-mail#:#mail_mailing_lists_no_addressbook_entries#:#Vous n'avez pas encore de contat dans votre carnet d'adresse
 mail#:#mail_mailing_lists_no_contact_entries#:#Vous n'avez aucune entrée dans vos contacts à  ajouter à  une liste.
 mail#:#mail_mark_read#:#Marquer les messages comme lus
 mail#:#mail_mark_unread#:#Marquer les m essagescomme non lus
@@ -10888,8 +10519,6 @@ mail#:#mail_salutation_m#:#Bonjour
 mail#:#mail_salutation_male#:#Salutation, masculin
 mail#:#mail_salutation_n#:#Bonjour
 mail#:#mail_saved#:#Le message a été enregistré
-mail#:#mail_search_addressbook#:#Rechercher dans les Contacts
-mail#:#mail_search_system#:#Rechercher dans le Système
 mail#:#mail_sel_users#:#Send Mail to Selected Users
 mail#:#mail_select_attachment#:#Veuillez sélectionner une pièce jointe pour le téléchargement.
 mail#:#mail_select_course#:#Veuillez sélectionner au moins un cours.
@@ -10913,8 +10542,6 @@ mail#:#mail_system_from_name#:#Nom d'Expéditeur
 mail#:#mail_system_from_name_info#:#Veuillez entrer un nom qui sera utilisé pour les messages générés automatiquement (internes et externes). Si vous laissez ce champ vide, ILIAS utilise le titre court de cette installation. Si le titre n'est pas correctement défini, "ILIAS" est utilisé comme expéditeur.
 mail#:#mail_system_return_path#:#Adresse de Réponse
 mail#:#mail_system_return_path_info#:#Veuillez entrer une adresse e-mail qui sera utilisé comme adresse de réponse (par exemple webmaster@ilias.fr). Si vous laissez le champ vide, l'adresse de réponse sera le 'From' adresse e-mail.
-mail#:#mail_system_sender_name#:#Nom d'Expéditeur
-mail#:#mail_system_sender_name_info#:#Veuillez entrer un nom qui sera utilisé pour les messages générés automatiquement (internes et externes). Si vous laissez ce champ vide, ILIAS utilise le titre court de cette installation. Si le titre n'est pas correctement défini, "ILIAS" est utilisé comme expéditeur.
 mail#:#mail_template_client#:#Modèle de Texte
 mail#:#mail_template_client_info#:#Choose one of the available text templates and make use of it's placeholders. If you choose a text template, body and subject of this form (if defined in the text template) will be replaced.
 mail#:#mail_template_context#:#Context
@@ -13004,7 +12631,6 @@ rbac#:#accs_write#:#Administration autorisée
 rbac#:#activate_wiki_protection#:#Lecture seule
 rbac#:#active_preconditions#:#Préconditions Actives
 rbac#:#add_consultation_hours#:#Ajouter heures de consultation à  l'agenda
-rbac#:#add_post#:#Ajouter article
 rbac#:#add_reply#:#Ajouter Réponse
 rbac#:#add_thread#:#Ajouter sujet
 rbac#:#adm_edit_permission#:#Permissions d'administration modifiables
@@ -13070,34 +12696,6 @@ rbac#:#cals_write#:#Modifier paramètres du calendrier
 rbac#:#cat_administrate_users#:#Administrer comptes locaux des utilisateurs
 rbac#:#cat_cat_administrate_users#:#L'utilisateur peut créer et administrer des comptes utilisateurs locaux
 rbac#:#cat_copy#:#L'utilisateur peut copier l'objet
-rbac#:#cat_create_blog#:#Créer Blog
-rbac#:#cat_create_book#:#Créer outil de réservation
-rbac#:#cat_create_cat#:#Créer Catégorie
-rbac#:#cat_create_catr#:#Créer raccourci de catégorie
-rbac#:#cat_create_chtr#:#Créer Salle de Chat
-rbac#:#cat_create_crs#:#Créer Cours
-rbac#:#cat_create_crsr#:#Créer raccourci de cours
-rbac#:#cat_create_dcl#:#Créer Collection de Données
-rbac#:#cat_create_exc#:#Créer Exercice
-rbac#:#cat_create_feed#:#Créer Flux RSS
-rbac#:#cat_create_file#:#Déposer Fichier
-rbac#:#cat_create_frm#:#Créer Forum
-rbac#:#cat_create_glo#:#Créer Glossaire
-rbac#:#cat_create_grp#:#Créer Groupe
-rbac#:#cat_create_htlm#:#Créer Module HTML
-rbac#:#cat_create_itgr#:#Créer Groupe d'Objets
-rbac#:#cat_create_lm#:#Créer Module ILIAS
-rbac#:#cat_create_mcst#:#Créer Mediacasts
-rbac#:#cat_create_mep#:#Créer Galerie de Médias
-rbac#:#cat_create_poll#:#Créer Vote
-rbac#:#cat_create_qpl#:#Créer Banque de Questions (Test)
-rbac#:#cat_create_rcrs#:#Créer Course-Links
-rbac#:#cat_create_sahs#:#Créer Module SCORM/AICC
-rbac#:#cat_create_spl#:#Créer Banque de Questions (Enquête)
-rbac#:#cat_create_svy#:#Créer Enquête
-rbac#:#cat_create_tst#:#Créer Test
-rbac#:#cat_create_webr#:#Créer Liens Web
-rbac#:#cat_create_wiki#:#Créer wiki
 rbac#:#cat_delete#:#L'utilisateur peut déplacer et supprimer l'objet
 rbac#:#cat_edit_permission#:#L'utilisateur peut modifier les permissions de l'objet
 rbac#:#cat_read#:#L'utilisateur a accès à la catégorie
@@ -13148,33 +12746,6 @@ rbac#:#condition_failed#:#Failed
 rbac#:#condition_learning_progress#:#Derive from Learning Progress
 rbac#:#contribute#:#Contribuer
 rbac#:#crs_copy#:#L'utilisateur peut copier l'objet
-rbac#:#crs_create_blog#:#Créer Blog
-rbac#:#crs_create_book#:#Créer outil de réservation
-rbac#:#crs_create_catr#:#Créer référence de catégorie
-rbac#:#crs_create_chtr#:#Créer Salle de Chat
-rbac#:#crs_create_crsr#:#Créer nouvelle référence de cours
-rbac#:#crs_create_dcl#:#Créer Collection de Données
-rbac#:#crs_create_exc#:#Créer Exercice
-rbac#:#crs_create_feed#:#Créer Flux RSS
-rbac#:#crs_create_file#:#Déposer Fichier
-rbac#:#crs_create_fold#:#Créer Dossier
-rbac#:#crs_create_frm#:#Créer Forum
-rbac#:#crs_create_glo#:#Créer Glossaire
-rbac#:#crs_create_grp#:#Créer Groupe
-rbac#:#crs_create_htlm#:#Créer Module HTML
-rbac#:#crs_create_itgr#:#Créer Groupe d'Objets
-rbac#:#crs_create_lm#:#Créer Module ILIAS
-rbac#:#crs_create_mcst#:#Créer Mediacasts
-rbac#:#crs_create_mep#:#Créer Galerie de Médias
-rbac#:#crs_create_poll#:#Créer Vote
-rbac#:#crs_create_qpl#:#Créer  Banque de Questions (Test)
-rbac#:#crs_create_sahs#:#Créer Module SCORM/AICC
-rbac#:#crs_create_sess#:#Créer session
-rbac#:#crs_create_spl#:#Créer Banque de Questions (Enquête)
-rbac#:#crs_create_svy#:#Créer Enquête
-rbac#:#crs_create_tst#:#Créer Test
-rbac#:#crs_create_webr#:#Créer Liens Web
-rbac#:#crs_create_wiki#:#Créer wiki
 rbac#:#crs_delete#:#L'utilisateur peut déplacer et supprimer l'objet
 rbac#:#crs_edit_event#:#Modifier évènements de l'agenda
 rbac#:#crs_edit_learning_progress#:#L'utilisateur peut voir la progression et modifer ses paramètres
@@ -13257,30 +12828,6 @@ rbac#:#filter_local_roles_object#:#Afficher seulement les rôles locaux définis
 rbac#:#filter_roles_local_policy#:#Afficher uniquement les rôles utilisant une politique locale à cette position
 rbac#:#fld_create_poll#:#Créer Vote
 rbac#:#fold_copy#:#L'utilisateur peut copier l'objet
-rbac#:#fold_create_blog#:#Créer Blog
-rbac#:#fold_create_book#:#Créer outil de réservation
-rbac#:#fold_create_chtr#:#Créer Salle de Chat
-rbac#:#fold_create_dcl#:#Créer Collection de Données
-rbac#:#fold_create_exc#:#Créer Exercice
-rbac#:#fold_create_file#:#Déposer Fichier
-rbac#:#fold_create_fold#:#Créer Dossier
-rbac#:#fold_create_frm#:#Créer Forum
-rbac#:#fold_create_glo#:#Créer Glossaire
-rbac#:#fold_create_grp#:#Créer Groupe
-rbac#:#fold_create_htlm#:#Créer Module HTML
-rbac#:#fold_create_itgr#:#Créer Groupe d'Objets
-rbac#:#fold_create_lm#:#Créer Module ILIAS
-rbac#:#fold_create_mcst#:#Créer Mediacasts
-rbac#:#fold_create_mep#:#Créer Galerie de Médias
-rbac#:#fold_create_poll#:#Créer Vote
-rbac#:#fold_create_qpl#:#Créer Banque de Questions (Test)
-rbac#:#fold_create_sahs#:#Créer Module SCORM/AICC
-rbac#:#fold_create_sess#:#Créer Session
-rbac#:#fold_create_spl#:#Créer Banque de Questions (Enquête)
-rbac#:#fold_create_svy#:#Créer Enquête
-rbac#:#fold_create_tst#:#Créer Test
-rbac#:#fold_create_webr#:#Créer Liens Web
-rbac#:#fold_create_wiki#:#Créer wiki
 rbac#:#fold_delete#:#L'utilisateur peut déplacer et supprimer l'objet
 rbac#:#fold_edit_learning_progress#:#L'utilisateur peut voir la progression et modifer ses paramètres
 rbac#:#fold_edit_permission#:#L'utilisateur peut modifier les permissions de l'objet
@@ -13310,34 +12857,7 @@ rbac#:#glo_edit_permission#:#L'utilisateur peut modifier les permissions de l'ob
 rbac#:#glo_read#:#L'utilisateur peut lire le glossaire
 rbac#:#glo_visible#:#L'objet est visible
 rbac#:#glo_write#:#L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet
-rbac#:#grp#:#L'utilisateur peut copier l'objet
 rbac#:#grp_copy#:#L'utilisateur peut copier l'objet
-rbac#:#grp_create_blog#:#Créer Blog
-rbac#:#grp_create_book#:#Créer outil de réservation
-rbac#:#grp_create_catr#:#Créer Référence à  Catégorie
-rbac#:#grp_create_chtr#:#Créer Salle de Chat
-rbac#:#grp_create_crsr#:#Créer Référence à  Cours
-rbac#:#grp_create_dcl#:#Créer Collection de Données
-rbac#:#grp_create_exc#:#Créer Exercice
-rbac#:#grp_create_feed#:#Créer Flux RSS
-rbac#:#grp_create_file#:#Déposer Fichier
-rbac#:#grp_create_fold#:#Créer Dossier
-rbac#:#grp_create_glo#:#Créer Glossaire
-rbac#:#grp_create_grp#:#Créer Groupe
-rbac#:#grp_create_htlm#:#Créer Module HTML
-rbac#:#grp_create_itgr#:#Créer Groupe d'Objets
-rbac#:#grp_create_lm#:#Créer Module ILIAS
-rbac#:#grp_create_mcst#:#Créer Mediacasts
-rbac#:#grp_create_mep#:#Créer Galerie de Médias
-rbac#:#grp_create_poll#:#Créer Vote
-rbac#:#grp_create_qpl#:#Créer Banque de Questions (Test)
-rbac#:#grp_create_sahs#:#Créer Module SCORM/AICC
-rbac#:#grp_create_sess#:#Créer Session
-rbac#:#grp_create_spl#:#Créer Banque de Questions (Enquête)
-rbac#:#grp_create_svy#:#Créer Enquête
-rbac#:#grp_create_tst#:#Créer Test
-rbac#:#grp_create_webr#:#Créer Liens Web
-rbac#:#grp_create_wiki#:#Créer un Wiki
 rbac#:#grp_delete#:#L'utilisateur peut déplacer et supprimer l'objet
 rbac#:#grp_edit_event#:#Modifier événements du calendrier
 rbac#:#grp_edit_learning_progress#:#L'utilisateur peut voir la progression et modifer ses paramètres
@@ -13687,37 +13207,6 @@ rbac#:#role_confirm_block_role_header#:#Désirez vous désactiver les rôles sé
 rbac#:#role_confirm_block_role_info#:#Les opérations suivantes vont être effectuées : <br /><br />- les permissions de rôle de cet objet et de son contenu seront désactivés.<br />- les nouveaux paramètres de permisisons seront protégés.
 rbac#:#role_confirm_unblock_role_info#:#The following steps will be performed for the action "Unblock Role":<br /><br />- the local policy will be deleted.
 rbac#:#role_unblocked#:#: <i>Le Rôle sera débloqué</i>
-rbac#:#root_create_blog#:#Créer Blog
-rbac#:#root_create_book#:#Créer outil de réservation
-rbac#:#root_create_cat#:#Créer Catégories
-rbac#:#root_create_catr#:#Créer référence de catégorie
-rbac#:#root_create_chat#:#Créer chat
-rbac#:#root_create_chtr#:#Créer Salle de Chat
-rbac#:#root_create_crs#:#Créer cours
-rbac#:#root_create_crsr#:#Créer référence de cours
-rbac#:#root_create_dbk#:#Créer livre Digilib
-rbac#:#root_create_dcl#:#Créer Collection de Données
-rbac#:#root_create_exc#:#Créer exercice
-rbac#:#root_create_feed#:#Créer Flux Web
-rbac#:#root_create_file#:#Téléverser fichier
-rbac#:#root_create_frm#:#Créer forum
-rbac#:#root_create_glo#:#Créer glossaire
-rbac#:#root_create_grp#:#Créer groupe
-rbac#:#root_create_htlm#:#Créer document HTML importé
-rbac#:#root_create_icrs#:#Créer LearnLinc Seminar
-rbac#:#root_create_itgr#:#Créer Groupe d'Objets
-rbac#:#root_create_lm#:#Créer document ILIAS
-rbac#:#root_create_mcst#:#Créer Médiacast
-rbac#:#root_create_mep#:#Créer galerie multimédia
-rbac#:#root_create_poll#:#Créer Vote
-rbac#:#root_create_qpl#:#Créer jeu de questions (test)
-rbac#:#root_create_rcrs#:#Créer Course-Link
-rbac#:#root_create_sahs#:#Créer document SCORM/AICC
-rbac#:#root_create_spl#:#Créer jeu de questions (enquête)
-rbac#:#root_create_svy#:#Créer enquête
-rbac#:#root_create_tst#:#Créer test
-rbac#:#root_create_webr#:#Créer ressource Web
-rbac#:#root_create_wiki#:#Créer wiki
 rbac#:#root_edit_permission#:#L'utilisateur peut modifier les permissions de l'objet
 rbac#:#root_read#:#L'utilisateur a accès au <i>Catalogue</i>
 rbac#:#root_visible#:#L'objet est visible
@@ -13814,7 +13303,6 @@ rbac#:#tst_read_learning_progress#:#L'utilisateur peut afficher les progrès d'a
 rbac#:#tst_tst_statistics#:#L'utilisateur a accès aux statistics du test
 rbac#:#tst_visible#:#L'objet est visible
 rbac#:#tst_write#:#L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet
-rbac#:#usrf_create_usr#:#Création de Comptes Utilisateurs
 rbac#:#usrf_delete#:#Suppression des comptes utilisateurs
 rbac#:#usrf_edit_permission#:#Permissions d'administration modifiables
 rbac#:#usrf_edit_roleassignment#:#Attribution de rôles à un compte utilisateur
@@ -14007,7 +13495,6 @@ rep#:#rep_object_to_delete#:#A supprimer
 rep#:#rep_time_period#:#Période
 rep#:#rep_visibility_limitless#:#Illimité
 rep#:#rep_visibility_until#:#Temporairement Disponible
-rep_robj_xatr#:#rep_robj_xatr_obj_xatr#:#CBT
 rfil#:#rfil_call#:#Appeler Fichier ECS
 rfil#:#rfil_version_tstamp#:#Date de Dépôt
 rglo#:#rglo_call#:#Appeler Glossaire ECS
@@ -14024,7 +13511,6 @@ sahs#:#sahs_authoring_mode_info#:#Le package doit avoir été créé avec l'édi
 sahs#:#sahs_chapter#:#Chapitre
 sahs#:#sahs_choose_page_template#:#Choisir un Modèle de Page
 sahs#:#sahs_choose_pages_chap_scos_ass_only#:#Veuillez sélectionner uniquement des pages, SCOs, Assets ou chapitres.
-sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Veuillez sélectionner uniquement soit pages, soit SCOs soit chapitres.
 sahs#:#sahs_choose_special_page#:#Choisir une Page Spéciale
 sahs#:#sahs_desc_objectives#:#Description/Objectifs
 sahs#:#sahs_hide_objectives_page#:#Cacher la Page Description/Objectifs
@@ -14068,43 +13554,12 @@ sahs#:#sahs_std_sequencing#:#Séquencement Standard
 sahs#:#sahs_std_sequencing_info#:#Utiliser le séquencement standard d'ILIAS.
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Créer Fichier d'Export (HTML, 1 Page, Mode Révision)
-scormdebug#:#adl_nav_request#:#Navigation request to be processed immediately following Terminate()
-scormdebug#:#adl_nav_request_valid_choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.
-scormdebug#:#adl_nav_request_valid_continue#:#Used by a SCO to determine if a Continue navigation request will succeed.
-scormdebug#:#adl_nav_request_valid_previous#:#Used by a SCO to determine if a Previous navigation request will succeed.
 scormdebug#:#adl.nav.request#:#Navigation request to be processed immediately following Terminate()
 scormdebug#:#adl.nav.request_valid.choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.
 scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Continue navigation request will succeed.
 scormdebug#:#adl.nav.request_valid.previous#:#Used by a SCO to determine if a Previous navigation request will succeed.
 scormdebug#:#all_API-calls_shown#:#All API-calls are currently shown.
 scormdebug#:#API-call#:#API-call
-scormdebug#:#cmi_comments_from_learner__count#:#Current number of learner comments
-scormdebug#:#cmi_comments_from_learner_n_timestamp#:#Moment où le commentaire a été créé ou plus récemment changé
-scormdebug#:#cmi_comments_from_lms__count#:#Current number of comments from the LMS
-scormdebug#:#cmi_comments_from_lms_n_comment#:#Comments or annotations associated with a SCO
-scormdebug#:#cmi_comments_from_lms_n_timestamp#:#Moment où le commentaire a été créé ou plus récemment changé
-scormdebug#:#cmi_credit#:#Indique si l'apprenant sera crédité pour la performance de SCO
-scormdebug#:#cmi_entry#:#Asserts whether the learner has previously accessed the SCO
-scormdebug#:#cmi_interactions__count#:#Current number of interactions being stored by the LMS
-scormdebug#:#cmi_interactions_n_correct_responses__count#:#Current number of correct responses being stored by the LMS for this interaction
-scormdebug#:#cmi_interactions_n_description#:#Brief informative description of the interaction
-scormdebug#:#cmi_interactions_n_objectives__count#:#Current number of objectives (i.e., objective identifiers) being stored by the LMS for this interaction
-scormdebug#:#cmi_interactions_n_objectives_n_id#:#Label for objectives associated with the interaction
-scormdebug#:#cmi_interactions_n_timestamp#:#Moment où l'interaction a été mis à  la disposition de l'apprenant pour l'interaction de l'apprenant et la réponse
-scormdebug#:#cmi_learner_name#:#Name provided for the learner by the LMS
-scormdebug#:#cmi_learner_preference_delivery_speed#:#The learner's preferred relative speed of content delivery
-scormdebug#:#cmi_max_time_allowed#:#Amount of accumulated time the learner is allowed to use a SCO
-scormdebug#:#cmi_objectives__count#:#Current number of objectives being stored by the LMS
-scormdebug#:#cmi_objectives_n_completion_status#:#Indicates whether the learner has completed the associated objective
-scormdebug#:#cmi_objectives_n_description#:#Provides a brief informative description of the objective
-scormdebug#:#cmi_objectives_n_id#:#Unique label for the objective
-scormdebug#:#cmi_objectives_n_progress_measure#:#Measure of the progress the learner has made toward completing the objective
-scormdebug#:#cmi_objectives_n_score_max#:#Maximum value, for the objective, in the range for the raw score
-scormdebug#:#cmi_objectives_n_score_min#:#Minimum value, for the objective, in the range for the raw score
-scormdebug#:#cmi_objectives_n_score_raw#:#Number that reflects the performance of the learner, for the objective, relative to the range bounded by the values of min and max
-scormdebug#:#cmi_objectives_n_score_scaled#:#Number that reflects the performance of the learner for the objective
-scormdebug#:#cmi_objectives_n_success_status#:#Indicates whether the learner has mastered the objective
-scormdebug#:#cmi_session_time#:#Amount of time that the learner has spent in the current learner session for this SCO
 scormdebug#:#cmi._version#:#Represents the version of the data model
 scormdebug#:#cmi.comments_from_learner._children#:#Listing of supported data model elements
 scormdebug#:#cmi.comments_from_learner._count#:#Current number of learner comments
@@ -14649,8 +14104,6 @@ skmg#:#skmg_create_skill_template_category#:#Créer Catégorie de Modèle de Com
 skmg#:#skmg_create_skill_template_reference#:#Créer Référence à Modèle de Compétence
 skmg#:#skmg_create_skll#:#Créer Compétence
 skmg#:#skmg_delete_profiles#:#Souhaitez-vous vraiment supprimer ces profils ?
-skmg#:#skmg_draft#:#Brouillon (Hors-Ligne)
-skmg#:#skmg_draft_info#:#Les éléments seront cachés aux utilisateurs.
 skmg#:#skmg_edit_level#:#Editer Niveau
 skmg#:#skmg_edit_profile#:#Editer Profil
 skmg#:#skmg_edit_scat#:#Editer Catégorie de Compétence
@@ -15125,14 +14578,8 @@ survey#:#adm_special_users#:#Les utilisateurs spéciaux sont capables de répond
 survey#:#already_completed_survey#:#Vous avez déjà répondu à l'enquête ! Vous ne pouvez pas y répondre à nouveau.
 survey#:#anonymization#:#Anonymat
 survey#:#anonymize_anonymous_introduction#:#Cette enquête préserve l'anonymat. Pour avoir accès à l'enquête, vous devez utiliser un code de 5 caractères que le créateur ou responsable de l'enquête a dû vous envoyer.<br />Veuillez entrer ce code dans le champ ci-dessous.
-survey#:#anonymize_key_introduction#:#Cette enquête préserve l'anonymat. Pour que vous puissiez participer à  l'enquête, le système a généré un code de 5 caractères qui vous sera envoyé après avoir répondu à  la première question. Votre code d'accès est <br /><span class="bold">%s</span><br />Veuillez le saisir dans le champ ci-dessous.
-survey#:#anonymize_personalized#:#Pas d'Anonymat
 survey#:#anonymize_registered_user#:#Accès Anonyme
 survey#:#anonymize_resume_introduction#:#Veuillez saisir votre code d'accès pour reprendre le questionnaire. Il vous a été envoyé quand vous avez commencé l'enquête.
-survey#:#anonymize_survey_description#:#L'anonymat supprime toutes les données personnelles dans les statistiques de l'enquête. Un code d'accès composé de 5 chiffres est nécessaires pour participer à  l'enquête. Pour les utilisateurs inscrits à  ILIAS, un code sera créé automatiquement.
-survey#:#anonymize_with_code#:#Enquête Anonyme avec Codes d'Accès
-survey#:#anonymize_with_code_all#:#Accès par code pour tous les utilisateurs !
-survey#:#anonymize_without_code#:#Enquête Anonyme
 survey#:#anonymous_with_personalized_survey#:#Vous devez être un utilisateur inscrit pour participer à une enquête personnalisé !
 survey#:#answer#:#Réponse
 survey#:#apply#:#Appliquer
@@ -15282,7 +14729,6 @@ survey#:#eval_legend_link#:#Veuillez vous reporter à la légende pour connaîtr
 survey#:#evaluation#:#Résultats
 survey#:#evaluation_access#:#Accès aux Résultats
 survey#:#evaluation_access_all#:#Accès aux Résultats pour Tous les Utilisateurs
-survey#:#evaluation_access_description#:#En général, l'accès aux résultats de l'enquête n'est autorisé qu'aux utilisateurs ayant la permission "écrire" à  propos de l'enquête (Accès aux Résultats = Désactivé)
 survey#:#evaluation_access_info#:#Vous avez accès aux résultats de l'enquête
 survey#:#evaluation_access_off#:#Désactivé
 survey#:#evaluation_access_participants#:#Accès aux Résultats pour les Participants à l'Enquête
@@ -15651,7 +15097,6 @@ survey#:#survey_activate_skill_service_info#:#todo12
 survey#:#survey_add_new_question#:#Ajouter une nouvelle question
 survey#:#survey_assign_competence#:#Assigner Compétence
 survey#:#survey_at_beginning#:#Au Début
-survey#:#survey_auth_mode#:#Mode d'Authentification
 survey#:#survey_auto_block_title#:#Titre
 survey#:#survey_available_question_pools#:#Banques Disponibles
 survey#:#survey_behind_page#:#Derrière
@@ -16790,3 +16235,4 @@ wsp#:#wsp_type_scov#:#Certificat : SCORM
 wsp#:#wsp_type_tstv#:#Certificat : Test
 wsp#:#wsp_type_webr#:#Lien Web
 wsp#:#wsp_type_wfld#:#Dossier
+assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to save the prepared solution unchanged or modified to adopt it for the current pass.###19 07 2017 new variable
