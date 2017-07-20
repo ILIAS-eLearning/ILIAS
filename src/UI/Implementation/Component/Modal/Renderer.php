@@ -54,6 +54,22 @@ class Renderer extends AbstractComponentRenderer {
 			'ajaxRenderUrl' => $modal->getAsyncRenderUrl(),
 			'keyboard' => $modal->getCloseWithKeyboard(),
 		));
+		// ATTENTION, ATTENTION:
+		// with(Additional)OnLoadCode opens a wormhole into the future, where some unspecified
+		// entity magically created an id for the component that can be used to refer to it
+		// via javascript.
+		// This replaced a pattern, where an id was created manually and the java script
+		// code was manually inserted to the (now internal) js-binding of the
+		// AbstractComponentRenderer. (see commit 192144fd1f0e040cadc0149c3dc15fbc4b67858e).
+		// The wormhole solution is considered superior over the manual creation of ids because:
+		// * withAdditionalOnLoadCode introduces no new principles to the UI framework but reuses
+		//   an existing one
+		// * withAdditionalOnLoadCode does not require it to expose internals (js-binding) from
+		//   the AbstractComponentRenderer and thus does have less coupling
+		// * withAdditionalOnLoadCode allows the framework to decide, when ids are actually
+		//   created
+		// * since withAdditionalOnLoadCode refers to some yet unknown future, it disencourages
+		//   tempering with the id _here_.
 		return $modal->withAdditionalOnLoadCode(function($id) use ($show, $close, $options) {
 			return
 				"$(document).on('{$show}', function() { il.UI.modal.showModal('{$id}', {$options}); return false; });".
