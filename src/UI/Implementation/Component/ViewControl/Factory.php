@@ -26,7 +26,7 @@ class Factory implements VC\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function sortation() {
-		throw new \ILIAS\UI\NotImplementedException();
+	public function sortation(array $options) {
+		return new Sortation($options);
 	}
 }

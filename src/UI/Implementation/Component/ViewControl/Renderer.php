@@ -26,7 +26,12 @@ class Renderer extends AbstractComponentRenderer
 		if ($component instanceof Component\ViewControl\Mode) {
 			return $this->renderMode($component, $default_renderer);
 		}
-		return $this->renderSection($component, $default_renderer);
+		if ($component instanceof Component\ViewControl\Section) {
+			return $this->renderSection($component, $default_renderer);
+		}
+		if ($component instanceof Component\ViewControl\Sortation) {
+			return $this->renderSortation($component, $default_renderer);
+		}
 	}
 
 	protected function renderMode(Component\ViewControl\Mode $component, RendererInterface $default_renderer)
@@ -103,6 +108,30 @@ class Renderer extends AbstractComponentRenderer
 		$this->maybeRenderId($component, $tpl, $type."_with_id", $uptype."_PREV_ID");
 	}
 
+
+	protected function renderSortation(Component\ViewControl\Sortation $component, RendererInterface $default_renderer) {
+		$f = $this->getUIFactory();
+
+		//get renderen of Dropdown and append classname
+		$dd_class = 'ILIAS\\UI\\Implementation\\Component\\Dropdown\\';
+		$dd_renderer = $default_renderer->instantiateRendererFor($dd_class)
+			->withAdditionalClassname('sortation');
+
+		$items = array();
+		foreach ($component->getOptions() as $val => $label) {
+			$act = '';
+			array_push($items, $f->button()->shy($label, $act));
+		}
+
+	    return $dd_renderer->render(
+	    	$f->dropdown()->standard($items)->withLabel($component->getLabel()),
+	    	$default_renderer
+	    );
+
+
+
+	}
+
 	protected function maybeRenderId(Component\Component $component, $tpl, $block, $template_var) {
 		$id = $this->bindJavaScript($component);
 		// Check if the component is acting as triggerer
@@ -123,7 +152,8 @@ class Renderer extends AbstractComponentRenderer
 	protected function getComponentInterfaceName() {
 		return array(
 			Component\ViewControl\Mode::class,
-			Component\ViewControl\Section::class
+			Component\ViewControl\Section::class,
+			Component\ViewControl\Sortation::class
 		);
 
 	}

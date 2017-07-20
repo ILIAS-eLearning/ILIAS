@@ -6,11 +6,14 @@ function base() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-    $renderer = $DIC->ui()->renderer();
- 
-    $items = array(
-		$f->button()->shy("Best", "https://www.ilias.de"),
-		$f->button()->shy("Most Recent", "https://www.github.com")
+	$options = array(
+		'internal_rating' => 'Best',
+		'date_desc' => 'Most Recent',
 	);
-    return $renderer->render($f->dropdown()->standard($items)->withLabel("Sort By"));
+
+	$s = $f->viewControl()->sortation($options)
+		->withLabel("ordering")
+		->withParameterName("ord");
+
+	return $renderer->render($s);
 }

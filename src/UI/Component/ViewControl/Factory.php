@@ -68,16 +68,32 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      The sortation view control allows it to control the order in which some
-	 *      data is presented.
+	 *      The sortation view control enables users to change the order in which
+	 *      some data is presented.
+	 *      The common table-sorting mechanism, e.g., in which a column header is clicked,
+	 *      requires the column to be visible. Visibility and sorting can be decoupled
+	 *      by a control next to the actual table.
 	 *   composition: >
-	 *      TBD
+	 *      Sortation uses a Dropdown to display a collection of shy-buttons.
+	 *      A wrapper is used to identify the component.
 	 *   effect: >
-	 *      TBD
+	 *      A click on an option will change the ordering of the associated data-list.
+	 *      by calling the current page with the paramter "sortation" and its
+	 *      value according to the selected option.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: A Sortation MUST NOT be used standalone.
+	 *      2: Sortations MUST BE visually close to the list or table their operation will have effect upon.
+	 *      3: There SHOULD NOT be more than one Sortation per page.
+	 *   accessibility:
+	 *      1: Sortation MUST be operable via keyboard only.
 	 *
 	 * ---
+	 * @param array<string,string>  $options 	a dictionary with value=>title
 	 *
 	 * @return \ILIAS\UI\Component\ViewControl\Sortation
 	 */
-	public function sortation();
+	public function sortation(array $options);
+
 }
