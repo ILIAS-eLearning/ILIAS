@@ -802,12 +802,12 @@ class ilMail
 				if($user_is_active)
 				{
 					if(!$user_can_read_internal_mails 
-						|| $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL
-						|| $tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
 					{
 						$as_email = $as_email + ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
 
-						if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
 						{
 							continue;
 						}
@@ -882,12 +882,12 @@ class ilMail
 				if($user_is_active)
 				{
 					if(!$user_can_read_internal_mails 
-						|| $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL
-						|| $tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
 					{
 						$as_email[$tmp_user->getId()] = ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
 	
-						if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
 						{
 							continue;
 						}
@@ -938,12 +938,12 @@ class ilMail
 					
 					
 					if(!$user_can_read_internal_mails
-						|| $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL
-						|| $tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
 					{
 						$as_email = $as_email + ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
 						
-						if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
 						{
 							continue;
 						}

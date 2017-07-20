@@ -277,7 +277,10 @@ class ilMailOptions
 				break;
 			
 			case self::BOTH_EMAIL:
-				$emailAddresses[] = $user->getEmail();
+				if(strlen($user->getEmail()))
+				{
+					$emailAddresses[] = $user->getEmail();
+				}
 				if(strlen($user->getSecondEmail()))
 				{
 					$emailAddresses[] = $user->getSecondEmail();
@@ -286,7 +289,15 @@ class ilMailOptions
 			
 			case self::FIRST_EMAIL:
 			default:
-				$emailAddresses[] = $user->getEmail();
+				if(strlen($user->getEmail()))
+				{
+					$emailAddresses[] = $user->getEmail();
+				}
+				else if(strlen($user->getSecondEmail()))
+				{
+					// fallback, use first email address
+					$emailAddresses[] = $user->getSecondEmail();
+				}
 				break;
 		}
 		
@@ -304,7 +315,7 @@ class ilMailOptions
 		{
 			$mail_options = new self($user->getId());
 		}
-		
+
 		return self::lookupExternalEmails($user, $mail_options);
 	}
 	
