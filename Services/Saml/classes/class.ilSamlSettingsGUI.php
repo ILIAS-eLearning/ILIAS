@@ -53,6 +53,11 @@ class ilSamlSettingsGUI
 	protected $rbacreview;
 
 	/**
+	 * @var \ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
 	 * @var ilSamlAttributeMapping
 	 */
 	protected $mapping;
@@ -68,24 +73,16 @@ class ilSamlSettingsGUI
 	 */
 	public function __construct($ref_id)
 	{
-		/**
-		 * @var $ilCtrl   ilCtrl
-		 * @var $tpl      ilTemplate
-		 * @var $lng      ilLanguage
-		 * @var $ilAccess ilAccessHandler
-		 * @var $ilErr    ilErrorHandling
-		 * @var $ilTabs    ilTabsGUI
-		 * @var $rbacreview   ilRbacReview
-		 */
-		global $ilCtrl, $tpl, $lng, $ilAccess, $ilErr, $ilTabs, $rbacreview;
+		global $DIC;
 
-		$this->ctrl          = $ilCtrl;
-		$this->tpl           = $tpl;
-		$this->lng           = $lng;
-		$this->access        = $ilAccess;
-		$this->error_handler = $ilErr;
-		$this->tabs          = $ilTabs;
-		$this->rbacreview    = $rbacreview;
+		$this->ctrl          = $DIC->ctrl();
+		$this->tpl           = $DIC->ui()->mainTemplate();
+		$this->lng           = $DIC->language();
+		$this->access        = $DIC->access();
+		$this->error_handler = $DIC['ilErr'];
+		$this->tabs          = $DIC->tabs();
+		$this->rbacreview    = $DIC->rbac()->review();
+		$this->toolbar       = $DIC['ilToolbar'];
 
 		$this->lng->loadLanguageModule('auth');
 		$this->ref_id = $ref_id;
