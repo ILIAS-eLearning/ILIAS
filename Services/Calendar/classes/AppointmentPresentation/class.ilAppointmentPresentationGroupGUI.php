@@ -20,6 +20,8 @@ class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI imp
 
 		$a_app = $this->appointment;
 
+		$this->lng->loadLanguageModule("grp");
+
 		$cat_id = $this->getCatId($a_app['event']->getEntryId());
 		$cat_info = $this->getCatInfo($cat_id);
 
@@ -40,12 +42,13 @@ class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI imp
 		{
 			$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 			$this->addInfoProperty($this->lng->txt("crs_important_info"), $grp->getInformation());
+			$this->addListItemProperty($this->lng->txt("crs_important_info"), $grp->getInformation());
 		}
 
 		//example download all files
 		$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
 
-		$this->addAction($this->lng->txt("cal_crs_open"), ilLink::_getStaticLink($grp_ref_id, "crs"));
+		$this->addAction($this->lng->txt("grp_grp_open"), ilLink::_getStaticLink($grp_ref_id, "grp"));
 	}
 
 }

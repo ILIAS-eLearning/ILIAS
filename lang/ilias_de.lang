@@ -15998,7 +15998,8 @@ dateplaner#:#cal_owner#:#Eigentümer
 dateplaner#:#cal_contained_in#:#Contained in
 dateplaner#:#cal_app_info#:#Information zur Übungseinheit
 dateplaner#:#cal_crs_info#:#Course Information
-dateplaner#:#cal_crs_open#:#Kurs öffnen
+crs#:#crs_open#:#Kurs öffnen
+grp#:#grp_grp_open#:#Gruppe öffnen
 dateplaner#:#cal_grp_info#:#Information zur Gruppe
 dateplaner#:#cal_exc_info#:#Information zur Übungseinheit
 dateplaner#:#cal_sess_info#:#Session Information

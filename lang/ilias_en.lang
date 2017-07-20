@@ -13547,7 +13547,8 @@ dateplaner#:#cal_owner#:#Owner
 dateplaner#:#cal_contained_in#:#Contained in
 dateplaner#:#cal_app_info#:#Appointment Information
 dateplaner#:#cal_crs_info#:#Course Information
-dateplaner#:#cal_crs_open#:#Open Course
+crs#:#crs_open#:#Open Course
+grp#:#grp_grp_open#:#Open Group
 dateplaner#:#cal_grp_info#:#Group Information
 dateplaner#:#cal_exc_info#:#Assignment Information
 dateplaner#:#cal_sess_info#:#Session Information

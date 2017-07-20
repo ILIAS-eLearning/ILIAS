@@ -178,7 +178,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 		//example download all files
 		$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
 
-		$this->addAction($this->lng->txt("cal_crs_open"), ilLink::_getStaticLink($crs_ref_id, "crs"));
+		$this->addAction($this->lng->txt("crs_open"), ilLink::_getStaticLink($crs_ref_id, "crs"));
 
 	}
 }
