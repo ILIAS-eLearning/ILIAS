@@ -153,7 +153,7 @@ class ilCalendarAppointmentPresentationGUI
 		include_once("./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php");
 		$toolbar = new ilToolbarGUI();
 
-		$f = ilAppointmentPresentationFactory::getInstance($this->appointment, $info_screen, $toolbar);
+		$f = ilAppointmentPresentationFactory::getInstance($this->appointment, $info_screen, $toolbar, null);
 
 		$cat_info = $this->getCatInfo($this->appointment);
 
