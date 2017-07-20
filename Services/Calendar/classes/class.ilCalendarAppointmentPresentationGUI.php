@@ -10,11 +10,20 @@ include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
 */
 class ilCalendarAppointmentPresentationGUI
 {
+	const MODE_MODAL = "modal";
+	const MODE_LIST_ITEM = "list_item";
+
 	protected $seed = null;
 	protected static $instance = null;
 	protected $settings = null;
 	protected $appointment;
 
+	protected $mode = self::MODE_MODAL;
+
+	/**
+	 * @var \ILIAS\UI\Component\Item\Standard|null
+	 */
+	protected $list_item = null;
 
 	/**
 	 * Singleton
@@ -34,6 +43,27 @@ class ilCalendarAppointmentPresentationGUI
 
 		$this->seed = $seed;
 		$this->appointment = $a_app;
+	}
+	
+	/**
+	 * Set list item mode
+	 *
+	 * @param \ILIAS\UI\Component\Item\Standard $a_val
+	 */
+	function setListItemMode(\ILIAS\UI\Component\Item\Standard $a_val)
+	{
+		$this->list_item = $a_val;
+		$this->mode = self::MODE_LIST_ITEM;
+	}
+	
+	/**
+	 * Get list item mode
+	 *
+	 * @return \ILIAS\UI\Component\Item\Standard
+	 */
+	function getListItem()
+	{
+		return $this->list_item;
 	}
 
 	/**
@@ -89,14 +119,40 @@ class ilCalendarAppointmentPresentationGUI
 		return $this->seed;
 	}
 
+	/**
+	 * Get modal html
+	 * @return string
+	 */
 	public function getHTML()
+	{
+		if ($this->mode == self::MODE_MODAL)
+		{
+			return $this->getModalHTML();
+		}
+		if ($this->mode == self::MODE_LIST_ITEM)
+		{
+			return $this->modifyListItem();
+		}
+		return "";
+	}
+
+	/**
+	 * Get modal html
+	 * @return string
+	 */
+	function getModalHTML()
 	{
 		include_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationFactory.php";
 
 		$tpl = new ilTemplate('tpl.appointment_presentation.html',true,true,'Services/Calendar');
 
-		$info_screen = $this->setInfoScreen($this->appointment);
-		$toolbar = $this->fillToolbar($this->appointment);
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+		$info_screen = new ilInfoScreenGUI($this);
+		$info_screen->setFormAction($this->ctrl->getFormAction($this));
+
+		include_once("./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php");
+		$toolbar = new ilToolbarGUI();
+
 		$f = ilAppointmentPresentationFactory::getInstance($this->appointment, $info_screen, $toolbar);
 
 		$cat_info = $this->getCatInfo($this->appointment);
@@ -142,13 +198,19 @@ class ilCalendarAppointmentPresentationGUI
 		return $tpl->get();
 	}
 
-	public function fillToolbar()
+	/**
+	 * Modify List item
+	 */
+	function modifyListItem()
 	{
-		include_once("./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php");
-		$toolbar = new ilToolbarGUI();
+		$li = $this->getListItem();
+		include_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationFactory.php";
 
-		return $toolbar;
+		$f = ilAppointmentPresentationFactory::getInstance($this->appointment, null, null, $li);
+		$this->ctrl->getHTML($f);
+		$this->list_item = $f->getListItem();
 	}
+
 
 	//TODO remove this stuff from here.
 	protected function getCatInfo($a_app)
@@ -165,19 +227,4 @@ class ilCalendarAppointmentPresentationGUI
 
 	}
 
-
-	/**
-	 * @param $a_app
-	 * @return ilInfoScreenGUI
-	 */
-	public function setInfoScreen($a_app)
-	{
-		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
-
-		$infoscreen = new ilInfoScreenGUI($this);
-		$infoscreen->setFormAction($this->ctrl->getFormAction($this));
-
-		return $infoscreen;
-
-	}
 }

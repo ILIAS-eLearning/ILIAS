@@ -15,13 +15,12 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 {
 	protected $ctrl;
 
-	public function getHTML()
+	public function collectPropertiesAndActions()
 	{
 		global $DIC;
 
 		include_once('./Services/Link/classes/class.ilLink.php');
 
-		$a_infoscreen = $this->getInfoScreen();
 		$a_app = $this->appointment;
 
 		$f = $DIC->ui()->factory();
@@ -49,23 +48,23 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 			$description_text = $cat_info['title'];
 		}
 
-		$a_infoscreen->addSection($cat_info['title']);
+		$this->addInfoSection($cat_info['title']);
 
 		if ($a_app['event']->getDescription()) {
-			$a_infoscreen->addProperty($this->lng->txt("description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
+			$this->addInfoProperty($this->lng->txt("description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
 		}
-		$a_infoscreen->addProperty($this->lng->txt(ilObject::_lookupType($cat_info['obj_id'])), $description_text);
+		$this->addInfoProperty($this->lng->txt(ilObject::_lookupType($cat_info['obj_id'])), $description_text);
 
-		$a_infoscreen->addSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
+		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 
 		if($crs->getImportantInformation())
 		{
-			$a_infoscreen->addProperty($this->lng->txt("crs_important_info"), $crs->getImportantInformation());
+			$this->addInfoProperty($this->lng->txt("crs_important_info"), $crs->getImportantInformation());
 		}
 
 		if($crs->getSyllabus())
 		{
-			$a_infoscreen->addProperty($this->lng->txt("crs_syllabus"), $crs->getSyllabus());
+			$this->addInfoProperty($this->lng->txt("crs_syllabus"), $crs->getSyllabus());
 		}
 
 		if (count($files)) {
@@ -83,7 +82,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 				$tpl->parseCurrentBlock();
 				$this->ctrl->setParameterByClass('ilobjcoursegui','ref_id', $_GET["ref_id"]);
 			}
-			$a_infoscreen->addProperty($this->lng->txt("files"), $tpl->get());
+			$this->addInfoProperty($this->lng->txt("files"), $tpl->get());
 		}
 
 		// tutorial support members
@@ -110,7 +109,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 					$str .= ilObjUser::_lookupFullname($contact);
 				}
 			}
-			$a_infoscreen->addProperty($this->lng->txt("crs_mem_contacts"),$str);
+			$this->addInfoProperty($this->lng->txt("crs_mem_contacts"),$str);
 		}
 
 		//course contact
@@ -125,8 +124,8 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 			include_once './Modules/Course/classes/class.ilCourseMailTemplateMemberContext.php';
 			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 
-			$courseGUI = new ilObjCourseGUI();
-
+			/* todo: optimize this
+			$courseGUI = new ilObjCourseGUI("", $crs_ref_id);
 			$emails = explode(",",$crs->getContactEmail());
 			foreach ($emails as $email) {
 				$email = trim($email);
@@ -134,7 +133,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 				$etpl->setVariable(
 					"EMAIL_LINK",
 					ilMailFormCall::getLinkTarget(
-						$a_infoscreen, 'showSummary', array(),
+						$this->getInfoScreen(), 'showSummary', array(),
 						array(
 							'type'   => 'new',
 							'rcp_to' => $email,
@@ -150,6 +149,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 				$etpl->setVariable("CONTACT_EMAIL", $email);
 				$str .= $etpl->get()."<br />";
 			}
+			*/
 		}
 
 		if($crs->getContactPhone()) {
@@ -163,22 +163,13 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 		}
 
 		if($str != ""){
-			$a_infoscreen->addProperty($this->lng->txt("crs_contact"), $str);
+			$this->addInfoProperty($this->lng->txt("crs_contact"), $str);
 		}
 
-		// fill toolbar
-		$toolbar = $this->getToolbar();
-
 		//example download all files
-		$btn_download = ilLinkButton::getInstance();
-		$btn_download->setCaption($this->lng->txt("cal_download_all_files"));
-		$btn_download->setUrl("www.ilias.de");
-		$toolbar->addButtonInstance($btn_download);
+		$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
 
-		$btn_open = ilLinkButton::getInstance();
-		$btn_open->setCaption($this->lng->txt("cal_crs_open"));
-		$btn_open->setUrl(ilLink::_getStaticLink($crs_ref_id, "crs"));
-		$toolbar->addButtonInstance($btn_open);
+		$this->addAction($this->lng->txt("cal_crs_open"), ilLink::_getStaticLink($crs_ref_id, "crs"));
 
 	}
 }

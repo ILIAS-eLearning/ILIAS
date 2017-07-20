@@ -13,13 +13,11 @@ include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppoin
  */
 class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-
-	public function getHTML()
+	public function collectPropertiesAndActions()
 	{
 		global $DIC;
 
 		$this->lng->loadLanguageModule("exc");
-
 
 		include_once "./Modules/Exercise/classes/class.ilObjExercise.php";
 		include_once('./Services/Link/classes/class.ilLink.php');
@@ -29,7 +27,6 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		$r = $DIC->ui()->renderer();
 		$ctrl = $DIC->ctrl();
 
-		$a_infoscreen = $this->getInfoScreen();
 		$a_app = $this->appointment;
 
 		$cat_id = $this->getCatId($a_app['event']->getEntryId());
@@ -41,15 +38,15 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		$exc_ref = current(ilObject::_getAllReferences($exc_obj->getId()));
 
 		//Assignment title
-		$a_infoscreen->addSection($a_app['event']->getPresentationTitle());
+		$this->addInfoSection($a_app['event']->getPresentationTitle());
 
 		$href = ilLink::_getStaticLink($exc_ref, "exc");
-		$a_infoscreen->addProperty($this->lng->txt("obj_exc"),$r->render($f->button()->shy($exc_obj->getPresentationTitle(), $href)));
+		$this->addInfoProperty($this->lng->txt("obj_exc"),$r->render($f->button()->shy($exc_obj->getPresentationTitle(), $href)));
 
 		$this->addContainerInfo($exc_ref);
 
 		//Assignment title information
-		$a_infoscreen->addSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
+		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 
 		//TODO Work instructions, Instruction files, pass mode.
 		//var_dump($a_app); exit;
@@ -58,7 +55,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		$assignment = new ilExAssignment($ass_id);
 		if($assignment->getInstruction() != "")
 		{
-			$a_infoscreen->addProperty($this->lng->txt("exc_instruction"), $assignment->getInstruction());
+			$this->addInfoProperty($this->lng->txt("exc_instruction"), $assignment->getInstruction());
 		}
 		$files = $assignment->getFiles();
 		if(count($files) > 0)
@@ -76,39 +73,22 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 				$btn_link = $f->button()->shy($file["name"],$url);
 				$str_files .=$r->render($btn_link)."<br>";
 			}
-			$a_infoscreen->addProperty($this->lng->txt("exc_files"),$str_files);
+			$this->addInfoProperty($this->lng->txt("exc_files"),$str_files);
 		}
 
 		//pass mode
 		if($assignment->getMandatory()) {
-			$a_infoscreen->addProperty($this->lng->txt("exc_mandatory"), $this->lng->txt("yes"));
+			$this->addInfoProperty($this->lng->txt("exc_mandatory"), $this->lng->txt("yes"));
 		}
 		else {
-			$a_infoscreen->addProperty($this->lng->txt("exc_mandatory"), $this->lng->txt("no"));
+			$this->addInfoProperty($this->lng->txt("exc_mandatory"), $this->lng->txt("no"));
 		}
 
-		// fill toolbar
-		$toolbar = $this->getToolbar();
-
 		//example download all files
-		$btn_download = ilLinkButton::getInstance();
-		$btn_download->setCaption("cal_download_all_files");
-		$btn_download->setUrl("www.ilias.de");
-		$toolbar->addButtonInstance($btn_download);
-
-		//todo: hand in, create team
-		/**
-		 * FROM THE WIKI ENTRY (all to the same view?)
-		 * "Hand in" will take user to the view page of this assignment.
-		 *	"Create Team" will take user to the view page of this assignment.
-		 * "Open Assignment" will take user to the view page of this assignment.
-		 */
+		$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
 
 		//go to the exercise.
-		$btn_open = ilLinkButton::getInstance();
-		$btn_open->setCaption("cal_exc_open");
-		$btn_open->setUrl(ilLink::_getStaticLink($exc_ref, "exc"));
-		$toolbar->addButtonInstance($btn_open);
+		$this->addAction($this->lng->txt("cal_exc_open"), ilLink::_getStaticLink($exc_ref, "exc"));
 
 	}
 }

@@ -14,7 +14,7 @@ include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppoin
 class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
 
-	public function getHTML()
+	public function collectPropertiesAndActions()
 	{
 		global $DIC;
 
@@ -24,7 +24,6 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 
 		$this->lng->loadLanguageModule("crs");
 
-		$a_infoscreen = $this->getInfoScreen();
 		$a_app = $this->appointment;
 
 		include_once "./Modules/Session/classes/class.ilObjSession.php";
@@ -33,17 +32,17 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 		$cat_info = $this->getCatInfo($cat_id);
 
 		//Title of the session (The title can be a date... which date? and why no the title of the session?)
-		$a_infoscreen->addSection($cat_info['title']);
+		$this->addInfoSection($cat_info['title']);
 
 		//description
-		$a_infoscreen->addProperty($this->lng->txt("description"), $a_app['event']->getDescription());
+		$this->addInfoProperty($this->lng->txt("description"), $a_app['event']->getDescription());
 
 		//Contained in:
 		$parent_title = ilObject::_lookupTitle(ilObject::_lookupObjectId($_GET['ref_id']));
-		$a_infoscreen->addProperty($this->lng->txt("cal_contained_in"),$parent_title);
+		$this->addInfoProperty($this->lng->txt("cal_contained_in"),$parent_title);
 
 		//SESSION INFORMATION
-		$a_infoscreen->addSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
+		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 
 		$session_obj = new ilObjSession($cat_info['obj_id'],false);
 		// safe? only one?
@@ -51,12 +50,12 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 
 		//location
 		if($session_obj->getLocation()){
-			$a_infoscreen->addProperty($this->lng->txt("event_location"),ilUtil::makeClickable($session_obj->getLocation()));
+			$this->addInfoProperty($this->lng->txt("event_location"),ilUtil::makeClickable($session_obj->getLocation()));
 		}
 		//details/workflow
 		if($session_obj->getDetails())
 		{
-			$a_infoscreen->addProperty($this->lng->txt("event_details_workflow"),$session_obj->getDetails());
+			$this->addInfoProperty($this->lng->txt("event_details_workflow"),$session_obj->getDetails());
 		}
 		//lecturer name
 		$str_lecturer = "";
@@ -73,7 +72,7 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 		{
 			$str_lecturer .= $this->lng->txt("phone").": ".$session_obj->getPhone()."<br>";
 		}
-		$a_infoscreen->addProperty($this->lng->txt("event_tutor_data"), $str_lecturer);
+		$this->addInfoProperty($this->lng->txt("event_tutor_data"), $str_lecturer);
 
 		$eventItems = ilObjectActivation::getItemsByEvent($cat_info['obj_id']);
 		if(count($eventItems))
@@ -85,24 +84,15 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 				$href = ilLink::_getStaticLink($file['ref_id'], "file", true,"download");
 				$str .= $r->render($f->button()->shy($file['title'], $href))."<br>";
 			}
-			$a_infoscreen->addProperty($this->lng->txt("files"),$str);
+			$this->addInfoProperty($this->lng->txt("files"),$str);
 		}
 
 		//[Download All Files] [Attend Session] [Open Session]
-		// fill toolbar
-		$toolbar = $this->getToolbar();
 
 		//example download all files
-		$btn_download = ilLinkButton::getInstance();
-		$btn_download->setCaption("cal_download_all_files");
-		$btn_download->setUrl("www.ilias.de");
-		$toolbar->addButtonInstance($btn_download);
+		$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
 
-		$btn_open = ilLinkButton::getInstance();
-		$btn_open->setCaption($this->lng->txt("cal_sess_open"));
-		$btn_open->setUrl(ilLink::_getStaticLink($session_ref, "sess"));
-		$toolbar->addButtonInstance($btn_open);
-
+		$this->addAction($this->lng->txt("cal_sess_open"), ilLink::_getStaticLink($session_ref, "crs"));
 
 /** working here */
 		//TODO: BUTTON TO register/unregister to sessions. Relevant info: in ilObjSessionGUI method showJoinRequestButton

@@ -198,11 +198,19 @@ class ilCalendarAgendaListGUI
 				$this->ctrl->getLinkTargetByClass(array('ilcalendarinboxgui', 'ilcalendarappointmentgui'),'edit'));
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', "");*/
 
-			$items[] = $this->ui_fac->item()->standard($shy)
+			$li = $this->ui_fac->item()->standard($shy)
 				->withDescription("".$e["event"]->getDescription())
 				->withLeadText(ilDatePresentation::formatPeriod($begin, $end, true))
 				->withProperties($properties)
 				->withColor($df->color('#'.$cat_info["color"]));
+
+			// add type specific actions/properties
+			include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
+			$app_gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed, IL_CAL_DATE), $e);
+			$app_gui->setListItemMode($li);
+			$this->ctrl->getHTML($app_gui);
+			$items[] = $app_gui->getListItem();
+
 		}
 		// terminate last group
 		if ($cday != "")
