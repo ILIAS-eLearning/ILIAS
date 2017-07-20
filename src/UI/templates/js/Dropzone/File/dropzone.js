@@ -2,12 +2,11 @@
  * Provides the behavior of all dropzone types.
  *
  * @author nmaerchy <nm@studer-raimann.ch>
- * @version 0.0.8
  */
 
 var il = il || {};
 il.UI = il.UI || {};
-(function($, UI) {
+(function ($, UI) {
 	UI.dropzone = (function ($) {
 
 		/**
@@ -40,9 +39,8 @@ il.UI = il.UI || {};
 		 * e.g. ILIAS\UI\Component\Dropzone\Standard -> ILIASUIComponentDropzoneStandard
 		 */
 		var DROPZONE = {
-			"standard": "ILIASUIComponentDropzoneFileStandard",
-			"wrapper": "ILIASUIComponentDropzoneFileWrapper",
-			"upload": "ILIASUIComponentDropzoneFileUpload"
+			"standard": "ILIASUIImplementationComponentDropzoneFileStandard",
+			"wrapper": "ILIASUIImplementationComponentDropzoneFileWrapper"
 		};
 
 		var _darkenedBackground = false;
@@ -53,16 +51,6 @@ il.UI = il.UI || {};
 		 * @param {string} type the type of the dropzone
 		 *                      MUST be the full qualified class name.
 		 * @param {Object} options possible settings for this dropzone
-		 *                         Expected an object like this:
-		 *                         {
-		 *                             "id": ""
-		 *                             "darkenedBackground": true
-		 *                             "registeredSignals": [
-		 *                                  "a_signal", "another_signal"
-		 *                             ],
-		 *                             "uploadUrl": "https://your.url",
-		 *                             "previewContainerId": "some-id"
-		 *                         }
 		 */
 		var initializeDropzone = function (type, options) {
 
@@ -75,20 +63,19 @@ il.UI = il.UI || {};
 				// default settings
 				registeredSignals: [],
 				darkenedBackground: false,
-				uploadUrl: "http://localhost"
+				uploadUrl: ''
 			}, options);
 
 			if (settings.id === undefined) {
-				throw new Error("Missing attribute id in parameter options: options.id not found");
+				throw new Error("Missing dropzone id in parameter options: options.id not found");
 			}
-
-			_configureDarkenedBackground(settings.darkenedBackground);
 
 			switch (type) {
 				case DROPZONE.standard:
 					_initStandardDropzone(settings);
 					break;
 				case DROPZONE.wrapper:
+					_configureDarkenedBackground(true);
 					_initWrapperDropzone(settings);
 					break;
 				default:
@@ -106,7 +93,6 @@ il.UI = il.UI || {};
 		 * @private
 		 */
 		var _configureDarkenedBackground = function (darkenedBackground) {
-
 			_darkenedBackground = darkenedBackground;
 			if (!$(SELECTOR.darkenedBackground).length && darkenedBackground) {
 				$("body").prepend("<div id=" + SELECTOR.darkenedBackground.substring(1) + "></div>"); // <- str.substring(1) removes the # symbol used in css
@@ -122,7 +108,6 @@ il.UI = il.UI || {};
 		 * @private
 		 */
 		var _enableHighlighting = function (darkenedBackground) {
-
 			if (darkenedBackground) {
 				$(SELECTOR.darkenedBackground).addClass(CSS.darkenedBackground);
 				$(SELECTOR.dropzones).addClass(CSS.darkenedDropzoneHighlight);
@@ -138,7 +123,6 @@ il.UI = il.UI || {};
 		 * @private
 		 */
 		var _disableHighlighting = function () {
-
 			$(SELECTOR.darkenedBackground).removeClass(CSS.darkenedBackground);
 			$(SELECTOR.dropzones).removeClass(CSS.darkenedDropzoneHighlight)
 				.removeClass(CSS.defaultDropzoneHighlight);
@@ -149,16 +133,22 @@ il.UI = il.UI || {};
 		 *
 		 * @param {Array} signalList all signals to trigger
 		 * @param {Object} event the javascript event to trigger
-		 *
+		 * @param $dropzone JQuery Object representing the dropzone
 		 * @private
 		 */
-		var _triggerSignals = function (signalList, event) {
-			jQuery.each(signalList, function (index, signal) {
-				$(document).trigger(signal, event);
+		var _triggerSignals = function (signalList, event, $dropzone) {
+			$.each(signalList, function (index, signal) {
+				$dropzone.trigger(signal.id,
+					{
+						'id': signal.id,
+						'event': 'drop',
+						'originalEvent': event,
+						'triggerer': $dropzone,
+						'options': signal.options
+					}
+				);
 			});
 		};
-
-
 
 
 		/**
@@ -178,82 +168,35 @@ il.UI = il.UI || {};
 		 * @private
 		 */
 		var _initStandardDropzone = function (options) {
-
 			var $dropzone = $("#" + options.id);
-
-			if (options.selectFilesButtonId) {
-				options.selectFilesButton = $('#' + options.selectFilesButtonId);
+			// Find the element acting as "Select Files" button/link
+			var $selectFilesButton = $dropzone.nextAll('.il-dropzone-standard-select-files-wrapper')
+				.children('.il-dropzone-standard-select-files');
+			if ($selectFilesButton.length) {
+				options.selectFilesButton = $selectFilesButton;
 			}
-            il.UI.uploader.init(options.uploadId, options);
+			options.fileListContainer = $dropzone.nextAll('.il-upload-file-list');
+
+			il.UI.uploader.init(options.id, options);
 
 			$dropzone.dragster({
-
 				enter: function (dragsterEvent, event) {
 					$(this).addClass(CSS.dropzoneDragHover);
-					_enableHighlighting(options.darkenedBackground);
 				},
 				leave: function (dragsterEvent, event) {
 					$(this).removeClass(CSS.dropzoneDragHover);
-					_disableHighlighting();
 				},
 				drop: function (dragsterEvent, event) {
 					$(this).removeClass(CSS.dropzoneDragHover);
-					_disableHighlighting();
-                    var files = event.originalEvent.dataTransfer.files;
-                    $.each(files, function (index, file) {
-                        il.UI.uploader.addFile(options.uploadId, file);
-                    });
-                    _triggerSignals(options.registeredSignals, event, $dropzone);
+					var files = event.originalEvent.dataTransfer.files;
+					$.each(files, function (index, file) {
+						il.UI.uploader.addFile(options.id, file);
+					});
+					_triggerSignals(options.registeredSignals, event, $dropzone);
 				}
 			});
 		};
 
-		// /**
-		//  * Also inits the drag and drop behavior on the document for highlighting.
-		//  *
-		//  * @param {Object} options possible settings for this dropzone
-		//  *                         @see {@link initializeDropzone}
-		//  *
-		//  * @private
-		//  */
-		// var _initWrapperDropzone = function (options) {
-        //
-		// 	$(document).dragster({
-        //
-		// 		enter: function (dragsterEvent, event) {
-		// 			_enableHighlighting(_darkenedBackground);
-		// 		},
-		// 		leave: function (dragsterEvent, event) {
-		// 			_disableHighlighting();
-		// 		},
-		// 		drop: function (dragsterEvent, event) {
-		// 			_disableHighlighting();
-		// 		}
-		// 	});
-        //
-        //
-		// 	/*
-		// 	 * event.stopImmediatePropagation() is needed
-		// 	 * to prevent dragster to fire leave events on the document,
-		// 	 * when a user just leaves on the dropzone.
-		// 	 */
-		// 	$("#" + options.id).dragster({
-        //
-		// 		enter: function (dragsterEvent, event) {
-		// 			dragsterEvent.stopImmediatePropagation();
-		// 			$(this).addClass(CSS.dropzoneDragHover);
-		// 		},
-		// 		leave: function (dragsterEvent, event) {
-		// 			dragsterEvent.stopImmediatePropagation();
-		// 			$(this).removeClass(CSS.dropzoneDragHover);
-		// 		},
-		// 		drop: function (dragsterEvent, event) {
-		// 			$(this).removeClass(CSS.dropzoneDragHover);
-		// 			_disableHighlighting();
-		// 			_triggerSignals(options.registeredSignals, event);
-		// 		}
-		// 	});
-		// };
 
 		/**
 		 *
@@ -264,8 +207,9 @@ il.UI = il.UI || {};
 		 */
 		var _initWrapperDropzone = function (options) {
 
-			$(document).dragster({
+			var $dropzone = $("#" + options.id);
 
+			$(document).dragster({
 				enter: function (dragsterEvent, event) {
 					_enableHighlighting(_darkenedBackground);
 				},
@@ -277,19 +221,15 @@ il.UI = il.UI || {};
 				}
 			});
 
-			// // initialize an Uploader and add it to the instance container
-			// var uploader = new il.UI.Uploader(options.previewContainerId, options.uploadUrl);
-			// il.UI.UploaderContainer.addInstance(uploader);
-
-            il.UI.uploader.init(options.uploadId, options);
+			options.fileListContainer = $dropzone.next('.il-modal-roundtrip').find('.il-upload-file-list');
+			il.UI.uploader.init(options.id, options);
 
 			/*
 			 * event.stopImmediatePropagation() is needed
 			 * to prevent dragster to fire leave events on the document,
 			 * when a user just leaves on the dropzone.
 			 */
-			$("#" + options.id).dragster({
-
+			$dropzone.dragster({
 				enter: function (dragsterEvent, event) {
 					dragsterEvent.stopImmediatePropagation();
 					$(this).addClass(CSS.dropzoneDragHover);
@@ -301,13 +241,15 @@ il.UI = il.UI || {};
 				drop: function (dragsterEvent, event) {
 					$(this).removeClass(CSS.dropzoneDragHover);
 					_disableHighlighting();
-					il.UI.uploader.clear(options.uploadId);
+					// Reset the uploader in case files have been dropped before, e.g.
+					// the user drops some files, closes the modal and drops again
+					il.UI.uploader.reset(options.id);
 					var files = event.originalEvent.dataTransfer.files;
 					$.each(files, function (index, file) {
-						il.UI.uploader.addFile(options.uploadId, file);
+						il.UI.uploader.addFile(options.id, file);
 					});
-
-					_triggerSignals(options.registeredSignals, event);
+					// This will trigger (at least) the show signal of the modal
+					_triggerSignals(options.registeredSignals, event, $dropzone);
 				}
 			});
 		};
@@ -315,5 +257,6 @@ il.UI = il.UI || {};
 		return {
 			initializeDropzone: initializeDropzone
 		};
+
 	})($);
 })($, il.UI);

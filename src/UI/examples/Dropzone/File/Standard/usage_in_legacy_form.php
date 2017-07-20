@@ -42,36 +42,30 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI {
 		$tpl->addOnLoadCode("
 		var \$wrapper = $('#ilFileStandardDropzoneInputGUIWrapper{$n}');
 		var \$form = \$wrapper.closest('form');
-		var uploadId = \$wrapper.find('.il-upload-file-list').attr('id');
-		//il.UI.uploader.setForm(uploadId, \$form.attr('id'));
+		var uploadId = \$wrapper.find('.il-upload-file-list').attr('data-upload-id');
 		var handledUpload = false;
 		\$form.on('submit', function(event) {
-		   console.log('submitting form...');
 		   if (handledUpload) return;
 		   if ($(this)[0].checkValidity()) {
-		     console.log(il.UI.uploader.getUploads(uploadId));
-		     // If we have any files to upload, start uploading process
+		     // If we have any files to upload, start uploading process prior to submitting form
 		     if (il.UI.uploader.getUploads(uploadId).length) {
 		        event.preventDefault();
-		        var paramObj = {};
+		        // Include all form data in the upload request
+		        var params = {};
 				$.each($(this).serializeArray(), function(_, kv) {
-				  if (paramObj.hasOwnProperty(kv.name)) {
-				    paramObj[kv.name] = $.makeArray(paramObj[kv.name]);
-				    paramObj[kv.name].push(kv.value);
+				  if (params.hasOwnProperty(kv.name)) {
+				    params[kv.name] = $.makeArray(params[kv.name]);
+				    params[kv.name].push(kv.value);
 				  } else {
-				    paramObj[kv.name] = kv.value;
+				    params[kv.name] = kv.value;
 				  }
 				});
-		       il.UI.uploader.setUploadParams(uploadId, paramObj); 
-		       il.UI.uploader.upload(uploadId);
-		       
-		       var submitFormAfterUploading = function() {
-		         if (!il.UI.uploader.isUploading(uploadId)) {
+		       il.UI.uploader.setUploadParams(uploadId, params); 
+		       il.UI.uploader.upload(uploadId);		       
+		       il.UI.uploader.onAllUploadCompleted(uploadId, function() {
 		           handledUpload = true;
-		           \$form.trigger('submit');
-		         }
-		       };			
-				setInterval(submitFormAfterUploading, 1000);	       
+		           \$form.trigger('submit');		          
+		       });
 		     }
 		   }
 		});
@@ -120,7 +114,7 @@ function usage_in_legacy_form() {
 			if (count($_FILES) && isset($_FILES['images']) && $_FILES['images']['name']) {
 				// Also process a file upload
 				// ....
-				echo json_encode(array('success' => false));
+				echo json_encode(array('success' => true));
 				exit();
 			}
 		} else {
