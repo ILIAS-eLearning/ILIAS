@@ -20,7 +20,6 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 
 		$f = $DIC->ui()->factory();
 		$r = $DIC->ui()->renderer();
-		$crl = $DIC->ctrl();
 
 		$a_infoscreen = $this->getInfoScreen();
 		$a_app = $this->appointment;
@@ -86,7 +85,6 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 			$a_infoscreen->addProperty($this->lng->txt("files"),$str);
 		}
 
-		//[Download All Files] [Attend Session] [Open Session]
 		// fill toolbar
 		$toolbar = $this->getToolbar();
 
@@ -101,17 +99,10 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 		$btn_open->setUrl(ilLink::_getStaticLink($session_ref, "sess"));
 		$toolbar->addButtonInstance($btn_open);
 
-
-/** working here */
-		//TODO: BUTTON TO register/unregister to sessions. Relevant info: in ilObjSessionGUI method showJoinRequestButton
-		//$this->showJoinRequestButton($session_obj, $toolbar);
-
-		/*
-			$ctrl->setParameter($this, 'file_id', $file->getFileId());
-			$ctrl->setParameterByClass('ilobjcoursegui','file_id', $file->getFileId());
-			$ctrl->setParameterByClass('ilobjcoursegui','ref_id', $crs_ref_id);
-			$tpl->setVariable("DOWN_LINK",$this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI","ilobjcoursegui"),'sendfile'));
-		*/
+		//Attend button
+		require_once './Modules/Session/classes/class.ilObjSessionGUI.php';
+		$session_gui = new ilObjSessionGUI("",$session_ref,true,false);
+		$session_gui->showJoinRequestButtonInCalendar($toolbar);
 
 	}
 }
