@@ -414,8 +414,8 @@ class ilTestEvaluationUserData
 		}
 		
 		$this->questions[$pass][] = array(
-			"id" => $question_id,
-			"o_id" => $original_id,
+			"id" => $question_id, // the so called "aid" from any historical time
+			"o_id" => $original_id, // when the "aid" was valid this was the "id"
 			"points" => $max_points,
 			"sequence" => $sequence
 		);
