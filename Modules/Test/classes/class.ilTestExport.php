@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-
+require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
 /**
  * Export class for tests
  *
@@ -607,11 +607,11 @@ abstract class ilTestExport
 				{
 					foreach($userdata->getQuestions($pass) as $question)
 					{
-						$objQuestion = ilObjTest::_instanciateQuestion($question["aid"]);
+						$objQuestion = assQuestion::_instantiateQuestion($question["id"]);
 						if(is_object($objQuestion) && strcmp($objQuestion->getQuestionType(), 'assSingleChoice') == 0)
 						{
 							$solution = $objQuestion->getSolutionValues($active_id, $pass);
-							$pos = $positions[$question["aid"]];
+							$pos = $positions[$question["id"]];
 							$selectedanswer = "x";
 							foreach ($objQuestion->getAnswers() as $id => $answer)
 							{
