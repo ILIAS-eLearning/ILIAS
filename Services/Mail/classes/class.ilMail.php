@@ -912,6 +912,11 @@ class ilMail
 			{
 				foreach($as_email as $id => $emails)
 				{
+					if(0 == count($emails))
+					{
+						continue;
+					}
+
 					$toEmailAddresses = implode(',', $emails);
 					$this->sendMimeMail($toEmailAddresses, '', '', $a_subject, $this->formatLinebreakMessage($id_to_message_map[$id]), $a_attachments);
 				}
