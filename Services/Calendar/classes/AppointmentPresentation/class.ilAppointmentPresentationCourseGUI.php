@@ -21,6 +21,8 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 
 		include_once('./Services/Link/classes/class.ilLink.php');
 
+		$this->lng->loadLanguageModule("crs");
+
 		$a_app = $this->appointment;
 
 		$f = $DIC->ui()->factory();
@@ -60,11 +62,13 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 		if($crs->getImportantInformation())
 		{
 			$this->addInfoProperty($this->lng->txt("crs_important_info"), $crs->getImportantInformation());
+			$this->addListItemProperty($this->lng->txt("crs_important_info"), $crs->getImportantInformation());
 		}
 
 		if($crs->getSyllabus())
 		{
 			$this->addInfoProperty($this->lng->txt("crs_syllabus"), $crs->getSyllabus());
+			$this->addListItemProperty($this->lng->txt("crs_syllabus"), $crs->getSyllabus());
 		}
 
 		if (count($files)) {
@@ -83,6 +87,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 				$this->ctrl->setParameterByClass('ilobjcoursegui','ref_id', $_GET["ref_id"]);
 			}
 			$this->addInfoProperty($this->lng->txt("files"), $tpl->get());
+			$this->addListItemProperty($this->lng->txt("files"), $tpl->get());
 		}
 
 		// tutorial support members
@@ -110,6 +115,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 				}
 			}
 			$this->addInfoProperty($this->lng->txt("crs_mem_contacts"),$str);
+			$this->addListItemProperty($this->lng->txt("crs_mem_contacts"),$str);
 		}
 
 		//course contact
@@ -121,8 +127,10 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 
 		if($crs->getContactEmail())
 		{
-			include_once './Modules/Course/classes/class.ilCourseMailTemplateMemberContext.php';
-			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+			$str .=$crs->getContactName()."<br>";
+
+			//include_once './Modules/Course/classes/class.ilCourseMailTemplateMemberContext.php';
+			//require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 
 			/* todo: optimize this
 			$courseGUI = new ilObjCourseGUI("", $crs_ref_id);
@@ -164,6 +172,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 
 		if($str != ""){
 			$this->addInfoProperty($this->lng->txt("crs_contact"), $str);
+			$this->addListItemProperty($this->lng->txt("crs_contact"), str_replace("<br>", ", ", $str));
 		}
 
 		//example download all files
