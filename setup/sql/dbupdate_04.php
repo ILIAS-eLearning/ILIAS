@@ -18805,21 +18805,27 @@ $ilDB->addPrimaryKey('saml_attribute_mapping', array('idp_id', 'attribute'));
 ?>
 <#5094>
 <?php
-$ilDB->modifyTableColumn('saml_attribute_mapping', 'idp_attribute', array(
-	'type'    => 'text',
-	'length'  => '1000',
-	'notnull' => false,
-	'default' => null
-));
+if(!$ilDB->tableColumnExists('saml_attribute_mapping', 'idp_attribute'))
+{
+	$ilDB->modifyTableColumn('saml_attribute_mapping', 'idp_attribute', array(
+		'type'    => 'text',
+		'length'  => '1000',
+		'notnull' => false,
+		'default' => null
+	));
+}
 ?>
 <#5095>
 <?php
-$ilDB->addTableColumn('saml_attribute_mapping', 'update_automatically', array(
-	'type'    => 'integer',
-	'length'  => 1,
-	'notnull' => true,
-	'default' => 0
-));
+if(!$ilDB->tableColumnExists('saml_attribute_mapping', 'update_automatically'))
+{
+	$ilDB->addTableColumn('saml_attribute_mapping', 'update_automatically', array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
 ?>
 <#5096>
 <?php
