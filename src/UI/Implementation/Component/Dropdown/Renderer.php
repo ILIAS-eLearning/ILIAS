@@ -10,6 +10,12 @@ use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 class Renderer extends AbstractComponentRenderer {
+
+	/**
+	 * @var string
+	 */
+	private $class_name = 'dropdown';
+
 	/**
 	 * @inheritdoc
 	 */
@@ -24,6 +30,8 @@ class Renderer extends AbstractComponentRenderer {
 		// get template
 		$tpl_name = "tpl.standard.html";
 		$tpl = $this->getTemplate($tpl_name, true, true);
+
+		$tpl->setVariable("CLASSNAME", $this->class_name);
 
 		// render items
 		$items = $component->getItems();
@@ -74,6 +82,22 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 	}
+
+
+	/**
+	 * Append classname and return cloned instance
+	 *
+	 * @param string 	$class_name
+	 *
+	 * @return Renderer
+	 */
+	public function withAdditionalClassname($class_name) {
+		assert('is_string($class_name)');
+		$clone = clone $this;
+		$clone->class_name = $clone->class_name .' ' .$class_name;
+		return $clone;
+	}
+
 
 	/**
 	 * @inheritdoc
