@@ -70,18 +70,21 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 				$ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", "");
 				$ctrl->setParameterByClass("ilexsubmissiongui", "file", "");
 				$ctrl->setParameterByClass("ilexsubmissiongui", "ref_if", "");
-				$btn_link = $f->button()->shy($file["name"],$url);
-				$str_files .=$r->render($btn_link)."<br>";
+				$str_files[] = $r->render($f->button()->shy($file["name"],$url));
 			}
-			$this->addInfoProperty($this->lng->txt("exc_files"),$str_files);
+			$str_files = implode("<br>", $str_files);
+			$this->addInfoProperty($this->lng->txt("exc_instruction_files"),$str_files);
+			$this->addListItemProperty($this->lng->txt("exc_instruction_files"),str_replace("<br>", ", ", $str_files));
 		}
 
 		//pass mode
 		if($assignment->getMandatory()) {
 			$this->addInfoProperty($this->lng->txt("exc_mandatory"), $this->lng->txt("yes"));
+			$this->addListItemProperty($this->lng->txt("exc_mandatory"), $this->lng->txt("yes"));
 		}
 		else {
 			$this->addInfoProperty($this->lng->txt("exc_mandatory"), $this->lng->txt("no"));
+			$this->addListItemProperty($this->lng->txt("exc_mandatory"), $this->lng->txt("no"));
 		}
 
 		//example download all files
