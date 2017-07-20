@@ -2392,9 +2392,11 @@ class ilObjUserGUI extends ilObjectGUI
 
 		include_once "Services/Mail/classes/class.ilMimeMail.php";
 
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+
 		$mmail = new ilMimeMail();
-		$mmail->autoCheck(false);
-		$mmail->From($ilUser->getEmail());
+		$mmail->From($senderFactory->system());
 		$mmail->To($this->object->getEmail());
 
 		// mail subject
@@ -2461,6 +2463,25 @@ class ilObjUserGUI extends ilObjectGUI
 			$_GET["cmd"] = "jumpToBadges";
 			include("ilias.php");
 			exit();
+		}
+
+		if('registration' == $a_target)
+		{
+			$_GET["baseClass"] = 'ilStartUpGUI';
+			$ilCtrl->setTargetScript('ilias.php');
+			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilAccountRegistrationGUI'), '');
+		}
+		else if('nameassist' == $a_target)
+		{
+			$_GET["baseClass"] = 'ilStartUpGUI';
+			$ilCtrl->setTargetScript('ilias.php');
+			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), 'showUsernameAssistanceForm');
+		}
+		else if('pwassist' == $a_target)
+		{
+			$_GET["baseClass"] = 'ilStartUpGUI';
+			$ilCtrl->setTargetScript('ilias.php');
+			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), '');
 		}
 
 		if (substr($a_target, 0, 1) == "n")

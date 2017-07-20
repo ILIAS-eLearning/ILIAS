@@ -174,7 +174,7 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI {
 			}
 
 			$item->setVariable("TXT_DESC",
-				pathinfo($node->getPath(), PATHINFO_EXTENSION) . "&nbsp;&nbsp;&nbsp;" . $node->getSize() . "&nbsp;&nbsp;&nbsp;" . $modified);
+				$this->formatBytes($node->getSize()) . "&nbsp;&nbsp;&nbsp;" . $modified);
 			if ($download) {
 				$item->setVariable("TXT_TITLE_LINKED", basename($node->getPath()));
 				$item->setVariable("HREF_TITLE_LINKED", $ilCtrl->getLinkTarget($gui_class, "getFile") . "&id=" . $node->getId());
@@ -186,6 +186,42 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI {
 		$this->setItemVariablePlugin($item, $node);
 
 		return $item->get();
+	}
+
+
+	/**
+	 * @param     $bytes
+	 * @param int $precision
+	 *
+	 * @return string
+	 */
+	protected function formatBytes($bytes, $precision = 2) {
+		if ($bytes >= 1073741824)
+		{
+			$bytes = number_format($bytes / 1073741824, $precision) . ' GB';
+		}
+		elseif ($bytes >= 1048576)
+		{
+			$bytes = number_format($bytes / 1048576, $precision) . ' MB';
+		}
+		elseif ($bytes >= 1024)
+		{
+			$bytes = number_format($bytes / 1024, $precision) . ' KB';
+		}
+		elseif ($bytes > 1)
+		{
+			$bytes = $bytes . ' bytes';
+		}
+		elseif ($bytes == 1)
+		{
+			$bytes = $bytes . ' byte';
+		}
+		else
+		{
+			$bytes = '0 bytes';
+		}
+
+		return $bytes;
 	}
 
 
@@ -202,8 +238,7 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI {
 	 * @return string
 	 */
 	public function getLocatorHtml(ilCloudFileNode $node) {
-		global $DIC;
-		$ilLocator = $DIC['ilLocator'];
+		static $ilLocator;
 
 		if ($node == $this->getFileTree()->getRootNode()) {
 			$ilLocator = new ilLocatorGUI();
@@ -223,7 +258,7 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI {
 	 * @return string
 	 */
 	static function getLinkToFolder(ilCloudFileNode $node) {
-		return "#/open_folder?id_parent=" . $node->getParentId() . "&current_id=" . $node->getId() . "&current_path=" . $node->getPath();
+		return "#/open_folder?id_parent=" . $node->getParentId() . "&current_id=" . $node->getId() . "&current_path=" . self::_urlencode($node->getPath());
 	}
 
 
@@ -238,6 +273,17 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI {
 		$options->fileSelectButton = "#ilFileUploadFileSelect_1";
 		echo "<script language='javascript' type='text/javascript'>var fileUpload1 = new ilFileUpload(1, " . ilJsonUtil::encode($options)
 			. ");</script>";
+	}
+
+	/**
+	 * urlencode without encoding slashes
+	 *
+	 * @param $str
+	 *
+	 * @return mixed
+	 */
+	protected static function _urlencode($str) {
+		return str_replace('%2F', '/', rawurlencode($str));
 	}
 }
 

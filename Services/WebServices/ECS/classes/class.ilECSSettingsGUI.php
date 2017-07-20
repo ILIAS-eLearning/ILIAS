@@ -36,7 +36,11 @@ class ilECSSettingsGUI
 {
 	const MAPPING_EXPORT = 1;
 	const MAPPING_IMPORT = 2;
-
+	
+	/**
+	 * @var ilLogger
+	 */
+	protected $log = null;
 
 	protected $tpl;
 	protected $lng;
@@ -58,6 +62,8 @@ class ilECSSettingsGUI
 		$this->lng->loadLanguageModule('ecs');
 		$this->ctrl = $ilCtrl;
 		$this->tabs_gui = $ilTabs;
+		
+		$this->log = $GLOBALS['DIC']->logger()->wsrv();
 
 		$this->initSettings();
 	}
@@ -592,7 +598,7 @@ class ilECSSettingsGUI
 		 	{
 				foreach($community->getParticipants() as $part)
 				{
-					$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($community,true));
+					$this->log->dump($community);
 					if($part->isSelf())
 					{
 						$this->settings->setTitle($part->getParticipantName());
@@ -663,8 +669,7 @@ class ilECSSettingsGUI
 				{
 					if(!$creader->getParticipantByMID($mid))
 					{
-						$GLOBALS['ilLog']->write(__METHOD__.': Deleting deprecated participant '. $server->getServerId().' '. $mid);
-
+						$this->log->notice('Deleting deprecated participant: ' . $server->getServerId().' '. $mid);
 						$part = new ilECSParticipantSetting($server->getServerId(),$mid);
 						$part->delete();
 					}
@@ -833,7 +838,7 @@ class ilECSSettingsGUI
 			}
 			catch(Exception $e)
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': Cannot read ecs communities: '.$e->getMessage());
+				$this->log->error('Cannot read ecs communities: ' . $e->getMessage());
 			}
 		}
 
@@ -862,7 +867,7 @@ class ilECSSettingsGUI
 				}
 				catch(Exception $e)
 				{
-					$GLOBALS['ilLog']->write(__METHOD__.': Cannot read ecs communities: '.$e->getMessage());
+					$this->log->error('Cannot read ecs communities: ' . $e->getMessage());
 				}
 
 				$set->update();

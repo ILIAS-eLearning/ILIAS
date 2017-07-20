@@ -15,9 +15,23 @@ class ilFileSystemGUI
 
 	protected $use_upload_directory = false;
 
+	/**
+	 * @var array
+	 */
+	protected $allowed_suffixes = array();
+
+	/**
+	 * @var array
+	 */
+	protected $forbidden_suffixes = array();
+
 	function __construct($a_main_directory)
 	{
-		global $lng, $ilCtrl, $tpl, $ilias;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$ilias = $DIC['ilias'];
 
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
@@ -66,6 +80,70 @@ class ilFileSystemGUI
 		$this->setAllowFileCreation(true);
 //echo "<br>main_dir:".$this->main_dir.":";
 	}
+
+	/**
+	 * Set allowed Suffixes.
+	 *
+	 * @param	array	$a_suffixes	allowed Suffixes
+	 */
+	function setAllowedSuffixes($a_suffixes)
+	{
+		$this->allowed_suffixes = $a_suffixes;
+	}
+
+	/**
+	 * Get allowed Suffixes.
+	 *
+	 * @return	array	allowed Suffixes
+	 */
+	function getAllowedSuffixes()
+	{
+		return $this->allowed_suffixes;
+	}
+
+	/**
+	 * Set forbidden Suffixes.
+	 *
+	 * @param	array	$a_suffixes	forbidden Suffixes
+	 */
+	function setForbiddenSuffixes($a_suffixes)
+	{
+		$this->forbidden_suffixes = $a_suffixes;
+	}
+
+	/**
+	 * Get Accepted Suffixes.
+	 *
+	 * @return	array	forbidden Suffixes
+	 */
+	function getForbiddenSuffixes()
+	{
+		return $this->forbidden_suffixes;
+	}
+
+	/**
+	 * Is suffix valid?
+	 *
+	 * @param string $a_suffix
+	 * @return bool
+	 */
+	function isValidSuffix($a_suffix)
+	{
+		if (is_array($this->getForbiddenSuffixes()) && in_array($a_suffix, $this->getForbiddenSuffixes()))
+		{
+			return false;
+		}
+		if (is_array($this->getAllowedSuffixes()) && in_array($a_suffix, $this->getAllowedSuffixes()))
+		{
+			return true;
+		}
+		if (!is_array($this->getAllowedSuffixes()) || count($this->getAllowedSuffixes()) == 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
 
 	/**
 	 * Set allow directories
@@ -459,7 +537,10 @@ class ilFileSystemGUI
 	*/
 	function listFiles()
 	{
-		global $ilToolbar, $lng, $ilCtrl;
+		global $DIC;
+		$ilToolbar = $DIC['ilToolbar'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$dir = $this->parseCurrentDirectory();
 		
@@ -528,7 +609,9 @@ class ilFileSystemGUI
 	*/
 	function renameFileForm($a_file)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
 		$file = $this->main_dir."/".$a_file;
@@ -568,13 +651,22 @@ class ilFileSystemGUI
 	*/
 	function renameFile()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$new_name = str_replace("..", "", ilUtil::stripSlashes($_POST["new_name"]));
 		$new_name = str_replace("/", "", $new_name);
 		if ($new_name == "")
 		{
 			$this->ilias->raiseError($this->lng->txt("enter_new_name"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$pi = pathinfo($new_name);
+		$suffix = $pi["extension"];
+		if ($suffix != "" && !$this->isValidSuffix($suffix))
+		{
+			ilUtil::sendFailure($this->lng->txt("file_no_valid_file_type")." ($suffix)", true);
+			$this->ctrl->redirect($this, "listFiles");
 		}
 
 		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
@@ -613,7 +705,8 @@ class ilFileSystemGUI
 	*/
 	function createDirectory()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		// determine directory
 		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
@@ -646,7 +739,8 @@ class ilFileSystemGUI
 	*/
 	function uploadFile()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		// determine directory
 		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
@@ -655,7 +749,15 @@ class ilFileSystemGUI
 			: $this->main_dir;
 
 		$tgt_file = null;
-		
+
+		$pi = pathinfo($_FILES["new_file"]["name"]);
+		$suffix = $pi["extension"];
+		if (!$this->isValidSuffix($suffix))
+		{
+			ilUtil::sendFailure($this->lng->txt("file_no_valid_file_type")." ($suffix)", true);
+			$this->ctrl->redirect($this, "listFiles");
+		}
+
 		if (is_file($_FILES["new_file"]["tmp_name"]))
 		{
 			$tgt_file = $cur_dir."/".ilUtil::stripSlashes($_FILES["new_file"]["name"]);
@@ -718,7 +820,10 @@ class ilFileSystemGUI
 	*/
 	function confirmDeleteFile(array $a_files)
 	{
-		global $ilCtrl, $tpl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
@@ -740,7 +845,8 @@ class ilFileSystemGUI
 	 */
 	function deleteFile()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		if (!isset($_POST["file"]))
 		{
@@ -795,7 +901,8 @@ class ilFileSystemGUI
 	*/
 	function unzipFile($a_file = null)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		// #17470 - direct unzip call (after upload)
 		if(!$a_file &&
@@ -812,7 +919,9 @@ class ilFileSystemGUI
 		
 		if (@is_file($a_file))
 		{
+			include_once("./Services/Utilities/classes/class.ilFileUtils.php");
 			$cur_files = array_keys(ilUtil::getDir($cur_dir));
+			$cur_files_r = iterator_to_array(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($cur_dir)));
 			
 			if ($this->getAllowDirectories())
 			{
@@ -824,8 +933,22 @@ class ilFileSystemGUI
 			}
 			
 			$new_files = array_keys(ilUtil::getDir($cur_dir));
-			
-			$diff = array_diff($new_files, $cur_files);					
+			$new_files_r = iterator_to_array(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($cur_dir)));
+
+			$diff = array_diff($new_files, $cur_files);
+			$diff_r = array_diff($new_files_r, $cur_files_r);
+
+			// unlink forbidden file types
+			foreach ($diff_r as $f => $d)
+			{
+				$pi = pathinfo($f);
+				if (!is_dir($f) && !$this->isValidSuffix(strtolower($pi["extension"])))
+				{
+					ilUtil::sendFailure($lng->txt("file_some_invalid_file_types_removed")." (".$pi["extension"].")", true);
+					unlink($f);
+				}
+			}
+
 			if(sizeof($diff))
 			{
 				if ($this->getAllowDirectories())
@@ -888,7 +1011,8 @@ class ilFileSystemGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$ilCtrl->setParameter($this, "resetoffset", 1);
 		$tabs_gui->addTarget("cont_list_files",

@@ -172,14 +172,6 @@ class ilStartUpGUI
 			return;
 		}
 		
-		// if authentication of soap user failed, but email address is
-		// known, show users and ask for password
-		if ($status == AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL)
-		{
-			$this->showUserMappingSelection();
-			return;
-		}
-
 		// check for session cookies enabled
 		if (!isset($_COOKIE['iltest']))
 		{
@@ -596,6 +588,7 @@ class ilStartUpGUI
 		$form->addItem($ti);
 
 		$pi = new ilPasswordInputGUI($this->lng->txt("password"), "password");
+		$pi->setUseStripSlashes(false);
 		$pi->setRetype(false);
 		$pi->setSkipSyntaxCheck(true);
 		$pi->setSize(20);
@@ -676,18 +669,18 @@ class ilStartUpGUI
 	protected function doApacheAuthentication()
 	{
 		$this->getLogger()->debug('Trying apache authentication');
-		
+
 		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsApache.php';
 		$credentials = new ilAuthFrontendCredentialsApache();
 		$credentials->initFromRequest();
-		
+
 		include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
 		$provider_factory = new ilAuthProviderFactory();
 		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_APACHE);
-		
+
 		include_once './Services/Authentication/classes/class.ilAuthStatus.php';
 		$status = ilAuthStatus::getInstance();
-		
+
 		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
 		$frontend_factory = new ilAuthFrontendFactory();
 		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
@@ -697,35 +690,38 @@ class ilStartUpGUI
 			$credentials,
 			array($provider)
 		);
-			
+
 		$frontend->authenticate();
-		
+
 		switch($status->getStatus())
 		{
 			case ilAuthStatus::STATUS_AUTHENTICATED:
 				ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
-				include_once './Services/Init/classes/class.ilInitialisation.php';
-				ilInitialisation::redirectToStartingPage();
+				if($credentials->hasValidTargetUrl())
+				{
+					ilUtil::redirect($credentials->getTargetUrl());
+				}
+				else
+				{
+					require_once './Services/Init/classes/class.ilInitialisation.php';
+					ilInitialisation::redirectToStartingPage();
+				}
 				return;
-					
+
 			case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
 				return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
 
 			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-				ilUtil::sendFailure($status->getTranslatedReason(),true);
-				$GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
+				ilUtil::sendFailure($status->getTranslatedReason(), true);
+				ilUtil::redirect(ilUtil::appendUrlParameterString($GLOBALS['ilCtrl']->getLinkTarget($this, 'showLoginPage'), 'passed_sso=1'));
 				return false;
 		}
-		
+
 		ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
 		$this->showLoginPage();
 		return false;
-		
-		
-		
 	}
-	
-	
+
 	/**
 	 * Check form input; authenticate user
 	 */
@@ -1493,10 +1489,18 @@ class ilStartUpGUI
 	*/
 	function showLogout()
 	{
-		global $tpl, $ilSetting, $ilAuth, $lng, $ilIliasIniFile;
+		global $tpl, $ilSetting, $lng, $ilIliasIniFile;
 		
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
 		$GLOBALS['DIC']['ilAuthSession']->logout();
+		
+		$GLOBALS['ilAppEventHandler']->raise(
+			'Services/Authentication', 
+			'afterLogout',
+			array(
+				'username' => $GLOBALS['DIC']->user()->getLogin()
+			)
+		);
 
 		// reset cookie
 		$client_id = $_COOKIE["ilClientId"];

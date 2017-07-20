@@ -1,0 +1,12 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "akill(149)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "Tested separately in each module that supports taxonomies",
+    "testcase_writer": "Tested separately in each module that supports taxonomies",
+    "path": "Services/Taxonomy",
+    "belong_to_component": "Taxonomy",
+    "used_in_components": []
+}

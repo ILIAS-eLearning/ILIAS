@@ -76,7 +76,10 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		//$dtpl = new ilTemplate("tpl.tabledata.html", true, true, "Services/COPage");
 		$dtpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "tableAction"));
 		$dtpl->setVariable("BB_MENU", $this->getBBMenu("cell_0_0"));
-		
+
+		ilYuiUtil::initDragDrop();
+		ilYuiUtil::initConnection();
+		ilYuiUtil::initPanel(false);
 		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_5/editor.js");
 		$this->tpl->addJavascript("./Services/COPage/js/page_editing.js");
 		$this->tpl->addJavascript("./Services/COPage/js/paragraph_editing.js");
@@ -602,8 +605,13 @@ class ilPCDataTableGUI extends ilPCTableGUI
 							$this->content_obj->readPCId()."_".$i."_".$j);
 					}
 
+					// #20628
+					$s_text = str_replace("{", "&#123;", $s_text);
+					$s_text = str_replace("}", "&#125;", $s_text);
+
 					$dtpl->setVariable("PAR_TA_NAME", "cell[".$i."][".$j."]");
 					$dtpl->setVariable("PAR_TA_ID", "cell_".$i."_".$j);
+
 					$dtpl->setVariable("PAR_TA_CONTENT", $s_text);
 
 					$cs = $res2->nodeset[$j]->get_attribute("ColSpan");

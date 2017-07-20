@@ -130,18 +130,20 @@ If you would like to implement a new component to the framework you should perfo
     * rules:
     *   usage:
     *     1: Where and when an element is to be used or not.
+    *   composition:
+    *     1: How this component is to be assembled.
     *   interaction:
-    *     2: How the interaction with this object takes place.
+    *     1: How the interaction with this object takes place.
     *   wording:
-    *     3: How the wording of labels or captions must be.
+    *     1: How the wording of labels or captions must be.
     *   style:
-    *     4: How this element should look like.
+    *     1: How this element should look like.
     *   ordering:
-    *     5: How different elements of this instance are to be ordered.
+    *     1: How different elements of this instance are to be ordered.
     *   responsiveness:
-    *     6: How this element behaves on changing screen sizes
+    *     1: How this element behaves on changing screen sizes
     *   accessibility:
-    *     7: How this element is made accessible
+    *     1: How this element is made accessible
     *
     * ---
     * @param   string $content
@@ -201,24 +203,38 @@ If you would like to implement a new component to the framework you should perfo
     public function demo($demo){}
     ```
 
-6. Congratulations, at this point you are ready to present your work to the JF.
- However, it would be wise to enhence your work with a little mockup. This makes
- it much easier to discuss the new component at the JF. So best create such an example
- located e.g. at src/UI/examples/Demo/html.php:
+6. Congratulations, at this point you are ready to present your work to the JF. Create
+ a PR named "UI NameOfTheComponent". To make it easy for non-developers to
+ follow the discussion, you MUST link to the changed/added factory classes and mock in the
+ description you provide for your PR. Further, it would be wise to enhance your work
+ with a little mockup. This makes it much easier to discuss the new component at the
+ JF. So best create such an example located and also link it in your comment, e.g. at
+ src/UI/examples/Demo/mockup.php:
     ``` php
     <?php
-    function html() {
+    function mockup() {
         return "<h1>Hello Demo!</h1>";
     }
     ```
-   If needed, you can also add JS-logic (e.g. src/UI/examples/Demo/html.php):
+   If needed, you can also add JS-logic (e.g. src/UI/examples/Demo/mockup.php):
     ``` php
     <?php
     function script() {
         return "<script>console.log('Hello Demo');</script>Open your JS console!";
     }
     ```
+   However best might be to just provide a screenshoot showing what the component will
+   look like:
+    ``` php
+    function mockup() {
+	    global $DIC;
+ 	    $f = $DIC->ui()->factory();
+ 	    $renderer = $DIC->ui()->renderer();
 
+ 	    $mockup = $f->image()->responsive("src/UI/examples/Demo/mockup.png");
+ 	    return $renderer->render($mockup);
+    }
+    ```
 
 7. Next you should create the necessary tests for the new component. At least provide tests
   for all interface methods and the rendering.
@@ -342,8 +358,7 @@ If you would like to implement a new component to the framework you should perfo
     <h1 class="il-demo">{CONTENT}</h1>
      ```
 12. Execute the UI tests again. At this point, everything should pass. Thanks, you just made ILIAS more powerful!
-13. Create a PR and hope for mercy.
-14. Optional: It is possible good to add an examples demonstrating the usage of your new component.
+13. Optional: It is possible good to add an examples demonstrating the usage of your new component.
   The example for the demo looks as follows (located at src/UI/examples/Demo/render.php):
     ``` php
       <?php
@@ -359,7 +374,7 @@ If you would like to implement a new component to the framework you should perfo
           return $renderer->render($demo);
       }
     ```
-15. Optional: You might need to add some less, to make your new component look nice. However, only do that
+14. Optional: You might need to add some less, to make your new component look nice. However, only do that
  if this is really required. Use bootstrap classes as much as possible. If you really need to add
  additional less, use existing less variables whenever appropriate. If you add a new variable, add the il- prefix
  to mark the as special ILIAS less variable and provide the proper description. For the demo this could look as
@@ -369,12 +384,12 @@ If you would like to implement a new component to the framework you should perfo
      color: @il-demo-color;
     }
     ```
-16. Include the new less file to delos (located at templates/default/less/delos.less):
+15. Include the new less file to delos (located at templates/default/less/delos.less):
     ``` less
     @import "@{uibase}Demo/demo.less";
     ```
 
-17. Optional add the new variables to the variables.less file (located at templates/default/less/variables.less):
+16. Optional add the new variables to the variables.less file (located at templates/default/less/variables.less):
     ``` less
     //== Demo Component
     //
@@ -382,12 +397,124 @@ If you would like to implement a new component to the framework you should perfo
     //** Color of the text shown in the demo
     @il-demo-color: @brand-danger;
     ```
-18. Optional: Recompile the less to see the effect by typing lessc templates/default/delos.less > templates/default/delos.css
+17. Optional: Recompile the less to see the effect by typing lessc templates/default/delos.less > templates/default/delos.css
 
 
 ### How to Change an Existing Component?
 
 TODO: write me
+
+## Abstraction of Javascript in the Framework
+
+_Note: The concept described in this section is not yet fully finalized._
+
+The functionality of some components relies on javascript. As an example, a modal is showed and closed by 
+clicking on some triggerer component. As a user of the framework, you should not worry about writing the javascript
+logic for this kind of interactions.
+
+### About Triggerables, Triggerer and Signals
+
+Before describing the concept in more detail, you should be aware of the following definitions:
+* **Signal** A signal describes a javascript action of a component which can be triggered by another component of the
+framework.
+* **Triggerable** A component offering some signals that can be triggered by other components.
+* **Triggerer** A component triggering a signal of another component. 
+* **Event** The javascript event on which a signal is being triggered, e.g. `click`, `hover` etc.
+
+Again, consider the example if a user opens a modal by clicking on a button:
+
+* Signal: Show Modal
+* Triggerable: Modal
+* Triggerer: Button
+* Event: Click 
+
+### How to trigger Signals of Components
+
+This code snippet shows how to open a modal by clicking on a button:
+```php
+$modal = $factory->modal()->roundtrip('Title', $factory->legacy('Hello World'));
+$button = $factory->button()->standard('Open Modal', '#')
+  ->withOnClick($modal->getShowSignal());
+```
+The button is a triggerer component. As such, it offers the method `withOnClick` which takes any `Signal` 
+offered by a triggerable. This is how the framework connects triggerer components with signals of triggerable components.
+Similar to the click event, there exist methods `withOnHover` and `withOnLoad` to abstract the javascript events on
+which a signal is being triggered.
+
+#### Attention: Immutable Objects and Signals
+Each triggerer component stores the signals it triggers. By cloning a component, these signals are cloned as well.
+This means that a cloned component may trigger the same signals as the original. Consider the following example:
+ ```php
+$modal = $factory->modal()->roundtrip('Title', $factory->legacy('Hello World'));
+$button1 = $factory->button()->standard('Open Modal', '#')
+  ->withOnClick($modal->getShowSignal());
+$button2 = $button1->withLabel('Open the same Modal');   
+ ```
+In the example above, `$button2` will open the same modal as `$button1`. In order to reset any triggered signals, use
+ the method `$button2->withResetTriggeredSignals()`.
+
+### Implementing a Triggerer Component
+
+Any component acting as triggerer must implement the `Triggerer` interface. This interface is further extended by 
+interfaces describing the javascript event on which a signal is being triggered. Currently, there exist the `Clickable`,
+ `Hoverable` and `Onloadable` interfaces. Please check out the button component for an example implementation.
+
+### Implementing a Triggerable Component
+
+Any component acting as triggerable must implement the `Triggerable` interface. In addition, it must offer at least
+one signal that can be triggered by other components. The renderer of the triggerable component is also responsible
+to execute the javascript logic if any signal is getting triggered. Please check out the modal component for an example
+implementation. The next section explains how the concept of signals/triggerer/triggerable is abstracted in javascript.
+
+### Technical Details
+
+The magic how everything is glued together on the javascript side takes part in the renderers of the triggerer and 
+triggerable components:
+* Triggerer: The renderer of the triggerer component knows which signals are triggered on which events. It registers
+a new event handler on the component (e.g. on click/hover) which will trigger the signal as a custom javascript event.
+* Triggerable: The renderer of the triggerable component knows the signals and the javascript logic which must be
+executed if any of the signals is getting triggered.
+
+Each signal has a unique alphanumeric ID. The triggerer uses this ID to trigger a custom javascript event which
+ will be handled by some event handler from the triggerable. In order to understand this concept, take a look at the 
+ javascript code that is getting generated by the renderers if a button opens a modal on click:
+ 
+**Renderer of button**  
+The renderer of the button generates the HTML for the button AND registers the event handler for the button click.
+This event handler triggers a custom javascript event with the same name as the ID of show signal of the modal:
+ ```
+ <button id="button1">Open Modal</button>
+ <script>
+ $('#button1').on('click', function() {
+   $(this).trigger('id_of_signal_to_open_the_modal',
+      { 
+        'id' : 'id_of_signal_to_open_the_modal',
+        'triggerer' : $(this),
+        'event' : 'click',
+        'options' : {}
+      }
+      return false;
+ });
+ </script>
+ ```
+Note that some event data is passed with the event, such as the triggerer, event and event options. This allows the
+event handler of the modal to identify the triggerer.
+
+**Renderer of modal**  
+The renderer of the modal generates the HTML for the modal AND registers an event handler on the ID of the show signal.
+The event handler calls some javascript logic to show the modal.
+```
+<div class="modal" id="modal1"> ... </div>
+<script>
+$(document).on('id_of_signal_to_open_the_modal', function(event, signalData) { 
+  il.UI.modal.showModal('modal1', signalData);
+});
+</script>
+```
+Note: `signalData` contains the event data passed by the triggerer, e.g. `signalData.triggerer` holds the JQuery
+object of the button.
+
+For more information on events in javascript, in the context of JQuery: http://api.jquery.com/category/events/
 
 ## FAQ
 

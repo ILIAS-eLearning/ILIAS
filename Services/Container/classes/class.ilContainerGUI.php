@@ -2842,7 +2842,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function allowBlocksMoving()
 	{
-		true;
+		return true;
 	}
 
 	/**
@@ -2850,7 +2850,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function allowBlocksConfigure()
 	{
-		true;
+		return true;
 	}
 	
 	/**

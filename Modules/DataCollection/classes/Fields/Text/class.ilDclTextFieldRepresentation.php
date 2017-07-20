@@ -1,5 +1,4 @@
 <?php
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldRepresentation.php');
 
 /**
  * Class ilDclTextFieldRepresentation
@@ -45,7 +44,6 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation {
 			$input = new ilTextAreaInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
 		}
 
-		$this->setupInputField($input, $this->getField());
 
 		if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_LENGTH)) {
 			$input->setInfo($this->lng->txt("dcl_max_text_length") . ": " . $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
@@ -60,6 +58,9 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation {
 			$title_field->setInfo($this->lng->txt('dcl_text_email_title_info'));
 			$input->addSubItem($title_field);
 		}
+
+		$this->setupInputField($input, $this->getField());
+
 		return $input;
 	}
 

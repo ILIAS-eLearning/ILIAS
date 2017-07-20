@@ -71,7 +71,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.skill_cat_row.html", "Services/Skill");
 
-		if ($this->tref_id == 0)
+		if ($this->tref_id == 0 && $this->parent_obj->checkPermissionBool("write"))
 		{
 			$this->addMultiCommand("cutItems", $lng->txt("cut"));
 			$this->addMultiCommand("copyItems", $lng->txt("copy"));

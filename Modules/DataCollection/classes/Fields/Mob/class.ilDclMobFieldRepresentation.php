@@ -1,6 +1,4 @@
 <?php
-require_once ('./Modules/DataCollection/classes/Fields/Mob/class.ilDclMobFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/Fileupload/class.ilDclFileuploadFieldRepresentation.php');
 
 /**
  * Class ilDclFileuploadFieldRepresentaion
@@ -14,8 +12,6 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation {
 		$input = new ilFileInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
 		$input->setSuffixes(ilDclMobFieldModel::$mob_suffixes);
 		$input->setAllowDeletion(true);
-
-		$this->setupInputField($input, $this->getField());
 
 		$this->requiredWorkaroundForInputField($input, $record_id);
 

@@ -50,8 +50,6 @@
 <xsl:param name="img_item"/>
 <xsl:param name="img_path"/>
 <xsl:param name="med_disabled_path"/>
-<xsl:param name="bib_id" />
-<xsl:param name="citation" />
 <xsl:param name="map_item" />
 <xsl:param name="map_mob_id" />
 <xsl:param name="map_edit_mode" />
@@ -63,12 +61,6 @@
 <xsl:param name="enable_split_new"/>
 <xsl:param name="enable_split_next"/>
 <xsl:param name="paragraph_plugins"/>
-<xsl:param name="pagebreak"/>
-<xsl:param name="page"/>
-<xsl:param name="citate_from"/>
-<xsl:param name="citate_to"/>
-<xsl:param name="citate_page"/>
-<xsl:param name="citate"/>
 <xsl:param name="enable_rep_objects"/>
 <xsl:param name="enable_map"/>
 <xsl:param name="enable_tabs"/>
@@ -89,6 +81,7 @@
 <xsl:param name="enable_my_courses"/>
 <xsl:param name="enable_amd_page_list"/>
 <xsl:param name="current_ts"/>
+<xsl:param name="enable_html_mob"/>
 
 <xsl:template match="PageObject">
 	<xsl:if test="$mode != 'edit'">
@@ -137,21 +130,6 @@
 		</xsl:if>
 		<!-- <br/> -->
 	</xsl:if>
-	<xsl:if test="$citation = 1">
-		<xsl:if test="count(//PageTurn) &gt; 0">
-		<input type="checkbox" name="pgt_id[0]">
-			<xsl:attribute name="value">
-			<xsl:call-template name="getFirstPageNumber" />
-			</xsl:attribute>
-		</input>
-
-		<xsl:call-template name="showCitationSelect">
-			<xsl:with-param name="pos" select="0" />
-		</xsl:call-template>
-		<xsl:text> </xsl:text>
-        <span class="ilc_text_inline_Strong">[<xsl:value-of select="$page"/><xsl:text> </xsl:text><xsl:call-template name="getFirstPageNumber"/>]</span>
-		</xsl:if>
-	</xsl:if>
 	<xsl:apply-templates/>
 
 	<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
@@ -178,31 +156,6 @@
 		</xsl:for-each>
 	</xsl:if>
 
-	<!-- Pageturn List -->
-	<xsl:if test="count(//PageTurn) > 0">
-		<hr />
-		<xsl:variable name="entry_two"><xsl:call-template name="get_bib_item" /></xsl:variable>
-		<xsl:for-each select="//PageTurn">
-			<xsl:variable name="entry_one"><xsl:value-of select="./BibItemIdentifier/@Entry" /></xsl:variable>
-			<xsl:if test="contains($entry_two,$entry_one)">
-			<div class="ilc_page_PageTurn">
-				<a>
-				<xsl:attribute name="name">pt<xsl:number count="PageTurn" level="multiple"/></xsl:attribute>
-                <span class="ilc_text_inline_Strong">[<xsl:value-of select="$pagebreak" /><xsl:text> </xsl:text><xsl:number count="PageTurn" level="multiple"/>] </span>
-				</a>
-				<xsl:call-template name="searchEdition">
-				<xsl:with-param name="Entry">
-					<xsl:value-of select="$entry_one" />
-				</xsl:with-param>
-				</xsl:call-template>
-			</div>
-			</xsl:if>
-		</xsl:for-each>
-		<xsl:if test="$citation = 1">
-			<xsl:call-template name="showCitationSubmit" />
-		</xsl:if>
-	</xsl:if>
-
 	<!-- image map data -->
 	<xsl:call-template name="outputImageMaps" />
 
@@ -214,31 +167,25 @@
 		<xsl:variable name="corig"><xsl:value-of select="../@Id"/></xsl:variable>
 		<xsl:variable name="corigp"><xsl:value-of select="@Purpose"/></xsl:variable>
 		
-		<xsl:choose>
-			<!-- If we got a alias item map, take this -->
-			<xsl:when test="//MediaAlias[@OriginId = $corig]/../MediaAliasItem[@Purpose = $corigp]/MapArea[1]">
-				<xsl:for-each select="//MediaAlias[@OriginId = $corig]/../MediaAliasItem[@Purpose = $corigp]/MapArea[1]">
-					<map>
-						<xsl:attribute name="name">map_<xsl:value-of select="$corig"/>_<xsl:value-of select="$corigp"/></xsl:attribute>
-						<xsl:if test="name(../..) = 'InteractiveImage'">
-							<xsl:attribute name="class">iim</xsl:attribute>
-						</xsl:if>
-						<xsl:call-template name="outputImageMapAreas" />
-						<xsl:comment>Break</xsl:comment>
-					</map>
-				</xsl:for-each>
-			</xsl:when>
-			<xsl:otherwise>
-				<!-- Otherwose, if we got an object item map, take this -->
-				<xsl:for-each select="./MapArea[1]">
-					<map>
-						<xsl:attribute name="name">map_<xsl:value-of select="$corig"/>_<xsl:value-of select="$corigp"/></xsl:attribute>
-						<xsl:call-template name="outputImageMapAreas" />
-						<xsl:comment>Break</xsl:comment>
-					</map>
-				</xsl:for-each>
-			</xsl:otherwise>
-		</xsl:choose>
+			<!-- Maps for alias items -->
+			<xsl:for-each select="//MediaAlias[@OriginId = $corig]/../MediaAliasItem[@Purpose = $corigp]/MapArea[1]">
+				<map>
+					<xsl:attribute name="name">map_<xsl:value-of select="$corig"/>_<xsl:value-of select="$corigp"/>_<xsl:number count="MediaAliasItem" level="any" /></xsl:attribute>
+					<xsl:if test="name(../..) = 'InteractiveImage'">
+						<xsl:attribute name="class">iim</xsl:attribute>
+					</xsl:if>
+					<xsl:call-template name="outputImageMapAreas" />
+					<xsl:comment>Break</xsl:comment>
+				</map>
+			</xsl:for-each>
+			<!-- Default map -->
+			<xsl:for-each select="./MapArea[1]">
+				<map>
+					<xsl:attribute name="name">map_<xsl:value-of select="$corig"/>_<xsl:value-of select="$corigp"/></xsl:attribute>
+					<xsl:call-template name="outputImageMapAreas" />
+					<xsl:comment>Break</xsl:comment>
+				</map>
+			</xsl:for-each>
 	</xsl:for-each>
 </xsl:template>
 
@@ -333,79 +280,6 @@
 		</xsl:if>
 	</xsl:for-each>
 </xsl:template>
-
-<!-- SHOW SELECTBOX OF CITATIONS -->
-<xsl:template name="showCitationSelect">
-	<xsl:param name="pos" />
-	<xsl:text> </xsl:text>
-	<select class="ilEditSelect">
-		<xsl:attribute name="name">ct_option[<xsl:value-of select="$pos" />]</xsl:attribute>
-        <option value="single"><xsl:value-of select="$citate_page"/></option>
-		<option value="from"><xsl:value-of select="$citate_from"/></option>
-		<option value="to"><xsl:value-of select="$citate_to"/></option>
-		<option value="f">F</option>
-		<option value="ff">FF</option>
-	</select>
-</xsl:template>
-
-<!-- SHOW CITATION SUBMIT BUTTON -->
-<xsl:template name="showCitationSubmit">
-	<br />
-    <input class="ilEditSubmit" type="submit" name="cmd[citation]">
-    <xsl:attribute name="value">
-      <xsl:value-of select="$citate"/>
-    </xsl:attribute>
-  </input>
-</xsl:template>
-
-<!-- GET BIB ITEM ENTRY BY BIB ID -->
-<xsl:template name="get_bib_item">
-	<xsl:for-each select="//Bibliography/BibItem">
-		<xsl:if test="contains($bib_id,concat(',',position(),','))">
-		<xsl:value-of select="./Identifier/@Entry" /><xsl:text>,</xsl:text>
-		</xsl:if>
-	</xsl:for-each>
-</xsl:template>
-
-<!-- GET PREDECESSOR OF FIRST PAGE NUMBER USED FOR CITATION -->
-<xsl:template name="getFirstPageNumber">
-	<xsl:variable name="entry_two"><xsl:call-template name="get_bib_item" /></xsl:variable>
-	<xsl:for-each select="//PageTurn[contains($entry_two,./BibItemIdentifier/@Entry)]">
-		<xsl:if test="position() = 1">
-		<xsl:choose>
-			<xsl:when test="@NumberingType = 'Roman'">
-			<xsl:number format="i" value="@Number - 1" />
-			</xsl:when>
-			<xsl:when test="@NumberingType = 'Arabic'">
-			<xsl:number format="1"  value="@Number - 1" />
-			</xsl:when>
-			<xsl:when test="@NumberingType = 'Alpanumeric'">
-			<xsl:number format="A" value="@Number - 1" />
-			</xsl:when>
-		</xsl:choose>
-		</xsl:if>
-	</xsl:for-each>
-</xsl:template>
-
-<!-- Sucht zu den Pageturns die Edition und das Jahr raus -->
-<xsl:template name="searchEdition">
-	<xsl:param name="Entry"/>
-	<xsl:variable name="act_number">
-		<xsl:value-of select="./@Number" />
-	</xsl:variable>
-	<xsl:for-each select="//Bibliography/BibItem">
-		<xsl:variable name="entry_cmp"><xsl:value-of select="./Identifier/@Entry" /></xsl:variable>
-		<xsl:if test="$entry_cmp=$Entry">
-          <xsl:value-of select="$page" /><xsl:text>: </xsl:text><xsl:value-of select="$act_number" /><xsl:text>, </xsl:text>
-		</xsl:if>
-		<xsl:if test="$entry_cmp=$Entry">
-		<xsl:value-of select="./Edition/."/><xsl:text>, </xsl:text><xsl:value-of select="./Year/."/>
-		</xsl:if>
-	</xsl:for-each>
-</xsl:template>
-
-<!-- Bibliography-Tag nie ausgeben -->
-<xsl:template match="Bibliography"/>
 
 <!-- Anchor -->
 <xsl:template match="Anchor">
@@ -1281,31 +1155,6 @@
 	</a>
 </xsl:template>
 
-<!-- PageTurn (Links) -->
-<xsl:template match="PageTurn">
-	<xsl:variable name="entry_one"><xsl:value-of select="./BibItemIdentifier/@Entry" /></xsl:variable>
-	<xsl:variable name="entry_two"><xsl:call-template name="get_bib_item" /></xsl:variable>
-	<xsl:if test="contains($entry_two,$entry_one)">
-		<xsl:if test="$citation = 1">
-			<br />
-			<input type="checkbox">
-				<xsl:attribute name="name">
-				<xsl:text>pgt_id[</xsl:text><xsl:number count="PageTurn" level="multiple" /><xsl:text>]</xsl:text>
-				</xsl:attribute>
-				<xsl:attribute name="value">
-				<xsl:value-of select="./@Number" />
-				</xsl:attribute>
-			</input>
-			<xsl:call-template name="showCitationSelect">
-			<xsl:with-param name="pos">
-			<xsl:number level="multiple" count="PageTurn" />
-			</xsl:with-param>
-			</xsl:call-template>
-		</xsl:if>
-		<a class="ilc_PageTurnLink">
-		<xsl:attribute name="href">#pt<xsl:number count="PageTurn" level="any"/></xsl:attribute>[<xsl:value-of select="$pagebreak" /><xsl:text> </xsl:text><xsl:number count="PageTurn" level="multiple"/>]</a>
-	</xsl:if>
-</xsl:template>
 
 <!-- InitOpenedContent -->
 <xsl:template match="InitOpenedContent">
@@ -2526,7 +2375,6 @@
 	<xsl:param name="curPurpose"/>
 	<xsl:param name="data"/>
 	<xsl:param name="inline"/>
-
 	<img border="0" style="width:100%">
 		<xsl:if test = "$map_item = '' or $cmobid != concat('il__mob_',$map_mob_id)">
 			<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
@@ -2544,6 +2392,10 @@
 			or ./MapArea[@Shape != 'WholePicture'][1]">
 			<xsl:if test="name(..) != 'InteractiveImage' or $mode != 'edit'">
 				<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>
+				<!-- If we got an alias item map, add counter for item to the map id -->
+				<xsl:if test="./MapArea[1]">
+					<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/>_<xsl:number count="MediaAliasItem" level="any" /></xsl:attribute>
+				</xsl:if>
 			</xsl:if>
 		</xsl:if>
 		<xsl:if test="name(..) = 'InteractiveImage'">
@@ -2808,22 +2660,23 @@
 
 		<!-- text/html -->
 		<xsl:when test="$type = 'text/html'">
-		<!-- see #20187
-			<iframe frameborder="0">
-				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
-				<xsl:if test="$width != ''">
-					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				</xsl:if>
-				<xsl:if test="$height != ''">
-					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-				</xsl:if>
-				<xsl:call-template name="MOBParams">
-					<xsl:with-param name="curPurpose" select="$curPurpose" />
-					<xsl:with-param name="mode">attributes</xsl:with-param>
-					<xsl:with-param name="cmobid" select="$cmobid" />
-				</xsl:call-template>
-				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
-			</iframe> -->
+			<xsl:if test = "$enable_html_mob = 'y'">
+				<iframe frameborder="0">
+					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+					<xsl:if test="$width != ''">
+						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$height != ''">
+						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					</xsl:if>
+					<xsl:call-template name="MOBParams">
+						<xsl:with-param name="curPurpose" select="$curPurpose" />
+						<xsl:with-param name="mode">attributes</xsl:with-param>
+						<xsl:with-param name="cmobid" select="$cmobid" />
+					</xsl:call-template>
+					<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
+				</iframe>
+			</xsl:if>
 		</xsl:when>
 		
 		<!-- application/pdf -->

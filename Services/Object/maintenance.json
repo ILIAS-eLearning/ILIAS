@@ -1,0 +1,15 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "",
+    "second_maintainer": "",
+    "implicit_maintainers": [
+        "akill(149)",
+        "smeyer(191)"
+    ],
+    "coordinator": "",
+    "tester": "",
+    "testcase_writer": "",
+    "path": "Services/Object",
+    "belong_to_component": "None",
+    "used_in_components": []
+}

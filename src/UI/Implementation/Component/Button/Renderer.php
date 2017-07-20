@@ -10,21 +10,24 @@ use ILIAS\UI\Component;
 
 class Renderer extends AbstractComponentRenderer {
 	/**
-	 * @inheritdocs
+	 * @inheritdoc
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
 		if ($component instanceof Component\Button\Close) {
-			return $this->render_close($component);
+			return $this->renderClose($component);
+		} else if ($component instanceof Component\Button\Month) {
+			return $this->renderMonth($component, $default_renderer);
+		} else {
+			return $this->renderButton($component, $default_renderer);
 		}
-		else {
-			return $this->render_button($component, $default_renderer);
-		}
+
+
 	}
 
-	protected function render_button(Component\Component $component, RendererInterface $default_renderer) {
-		// TODO: Tt would be nice if we could use <button> for rendering a button
+	protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) {
+		// TODO: It would be nice if we could use <button> for rendering a button
 		// instead of <a>. This was not done atm, as there is no attribute on a
 		// button to make it open an URL. This would require JS.
 
@@ -34,7 +37,13 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component instanceof Component\Button\Standard) {
 			$tpl_name = "tpl.standard.html";
 		}
-		
+		if ($component instanceof Component\Button\Shy) {
+			$tpl_name = "tpl.shy.html";
+		}
+		if ($component instanceof Component\Button\Tag) {
+			$tpl_name = "tpl.tag.html";
+		}
+
 		$tpl = $this->getTemplate($tpl_name, true, true);
 		$action = $component->getAction();
 		// The action is always put in the data-action attribute to have it available
@@ -48,27 +57,55 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setCurrentBlock("with_href");
 			$tpl->setVariable("HREF", $action);
 			$tpl->parseCurrentBlock();
-		}
-		else {
+		} else {
 			$tpl->touchBlock("disabled");
 		}
+		$aria_label = $component->getAriaLabel();
+		if($aria_label != null){
+			$tpl->setCurrentBlock("with_aria_label");
+			$tpl->setVariable("ARIA_LABEL", $aria_label);
+			$tpl->parseCurrentBlock();
+		}
+		if($component->isAriaChecked()){
+			$tpl->setCurrentBlock("with_aria_checked");
+			$tpl->setVariable("ARIA_CHECKED", "true");
+			$tpl->parseCurrentBlock();
+		}
+		$this->maybeRenderId($component, $tpl);
 
-		$this->maybe_render_id($component, $tpl);
+		if ($component instanceof Component\Button\Tag) {
+			$this->additionalRenderTag($component, $tpl);
+		}
 
 		return $tpl->get();
 	}
 
-	protected function render_close($component) {
+	/**
+	 * @inheritdoc
+	 */
+	public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) {
+		parent::registerResources($registry);
+		$registry->register('./src/UI/templates/js/Button/button.js');
+		$registry->register("./libs/composer/vendor/moment/moment/min/moment-with-locales.min.js");
+		$registry->register("./Services/Calendar/lib/bootstrap3_datepicker/bootstrap-datetimepicker.min.js");
+	}
+
+	protected function renderClose($component) {
 		$tpl = $this->getTemplate("tpl.close.html", true, true);
 		// This is required as the rendering seems to only create any output at all
 		// if any var was set or block was touched.
 		$tpl->setVariable("FORCE_RENDERING", "");
-		$this->maybe_render_id($component, $tpl);
+		$this->maybeRenderId($component, $tpl);
 		return $tpl->get();
 	}
 
-	protected function maybe_render_id($component, $tpl) {
+	protected function maybeRenderId(Component\Component $component, $tpl) {
 		$id = $this->bindJavaScript($component);
+		// Check if the button is acting as triggerer
+		if ($component instanceof Component\Triggerer && count($component->getTriggeredSignals())) {
+			$id = ($id === null) ? $this->createId() : $id;
+			$this->triggerRegisteredSignals($component, $id);
+		}
 		if ($id !== null) {
 			$tpl->setCurrentBlock("with_id");
 			$tpl->setVariable("ID", $id);
@@ -76,14 +113,66 @@ class Renderer extends AbstractComponentRenderer {
 		}
 	}
 
+	protected function renderMonth(Component\Button\Month $component, RendererInterface $default_renderer) {
+		$def = $component->getDefault();
+
+		for ($i = 1; $i<=12; $i++)
+		{
+			$this->toJS(array("month_".str_pad($i, 2, "0", STR_PAD_LEFT)."_long"));
+		}
+
+		$tpl = $this->getTemplate("tpl.month.html", true, true);
+
+		$month = explode("-", $def);
+		$tpl->setVariable("DEFAULT_LABEL", $this->txt("month_".str_pad($month[0], 2, "0", STR_PAD_LEFT)."_long")." ".$month[1]);
+
+		$id = $this->bindJavaScript($component);
+
+		// Check if the button is acting as triggerer
+		if ($component instanceof Component\Triggerer && count($component->getTriggeredSignals())) {
+			$id = ($id === null) ? $this->createId() : $id;
+			$this->triggerRegisteredSignals($component, $id);
+		}
+		if ($id !== null) {
+			$tpl->setCurrentBlock("with_id");
+			$tpl->setVariable("ID", $id);
+			$tpl->parseCurrentBlock();
+			$tpl->setVariable("JSID", $id);
+		}
+
+		return $tpl->get();
+	}
+
+	protected function additionalRenderTag(Component\Button\Tag $component, $tpl) {
+		$tpl->touchBlock('rel_' .$component->getRelevance());
+
+		$classes = trim(join(' ', $component->getClasses()));
+		if($classes !== '') {
+			$tpl->setVariable("CLASSES", $classes);
+		}
+
+		$bgcol = $component->getBackgroundColor();
+		if($bgcol) {
+			$tpl->setVariable("BGCOL", $bgcol->asHex());
+		}
+		$forecol = $component->getForegroundColor();
+		if($forecol) {
+			$tpl->setVariable("FORECOL", $forecol->asHex());
+		}
+
+	}
+
 	/**
-	 * @inheritdocs
+	 * @inheritdoc
 	 */
 	protected function getComponentInterfaceName() {
 		return array
-			( Component\Button\Primary::class
-			, Component\Button\Standard::class
-			, Component\Button\Close::class
-			);
+		(Component\Button\Primary::class
+		, Component\Button\Standard::class
+		, Component\Button\Close::class
+		, Component\Button\Shy::class
+		, Component\Button\Month::class
+		, Component\Button\Tag::class
+		);
 	}
 }

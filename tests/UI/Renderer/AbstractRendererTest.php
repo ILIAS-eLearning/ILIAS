@@ -78,8 +78,11 @@ namespace {
 	}
 
 	class NullDefaultRenderer implements \ILIAS\UI\Renderer {
-		public function render(C\Component $component) {
+		public function render($component) {
 			return "";
+		}
+		public function renderAsync($component) {
+			return '';
 		}
 	}
 

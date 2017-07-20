@@ -23,10 +23,20 @@ class Renderer extends AbstractComponentRenderer {
 		$this->checkComponent($component);
 		$tpl = $this->getTemplate("tpl.image.html", true, true);
 
+		if($component->getAction()) {
+			$tpl->setCurrentBlock("action_begin");
+			$tpl->setVariable("HREF",$component->getAction());
+			$tpl->parseCurrentBlock();
+		}
+
 		$tpl->setCurrentBlock($component->getType());
 		$tpl->setVariable("SOURCE",$component->getSource());
 		$tpl->setVariable("ALT",htmlspecialchars($component->getAlt()));
 		$tpl->parseCurrentBlock();
+
+		if($component->getAction()) {
+			$tpl->touchBlock("action_end");
+		}
 
 		return $tpl->get();
 	}

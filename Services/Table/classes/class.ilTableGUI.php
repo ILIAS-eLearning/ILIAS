@@ -17,6 +17,11 @@
 */
 class ilTableGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	var $title;					// table title name
 	var $icon;					// table title icon
 	var $icon_alt;				// table title icon alt text

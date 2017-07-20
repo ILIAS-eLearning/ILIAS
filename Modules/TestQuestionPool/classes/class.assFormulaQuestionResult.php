@@ -144,7 +144,7 @@ class assFormulaQuestionResult
 			$res = $result * 1;
 			if (is_numeric($this->getPrecision()))
 			{
-				if( $this->getResultType()==RESULT_CO_DEC || $this->getResultType()==RESULT_NO_SELECTION )
+				if( $this->getResultType()==self::RESULT_DEC || $this->getResultType()==self::RESULT_NO_SELECTION )
 				{
 					$result = ilMath::_round($res, $this->getPrecision());
 				}			
@@ -248,7 +248,7 @@ class assFormulaQuestionResult
 	public function isCorrect($variables, $results, $value, $unit = NULL)
 	{
 		// The user did not answer the question ....  
-		if($value == NULL)
+		if($value === NULL || 0 == strlen($value))
 		{
 			return false;
 		}

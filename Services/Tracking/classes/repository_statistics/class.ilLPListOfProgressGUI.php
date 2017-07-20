@@ -147,7 +147,8 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		if(sizeof($obj_ids))
 		{
 			// seems obsolete
-			$personal_only = !$rbacsystem->checkAccess('read_learning_progress',$this->getRefId());
+			include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+			$personal_only = !ilLearningProgressAccess::checkPermission('read_learning_progress', $this->getRefId());
 
 			include_once("./Services/Tracking/classes/repository_statistics/class.ilLPProgressTableGUI.php");
 			$lp_table = new ilLPProgressTableGUI($this, "details", $this->tracked_user, $obj_ids, true, $this->details_mode, $personal_only, $this->details_obj_id, $this->details_id);

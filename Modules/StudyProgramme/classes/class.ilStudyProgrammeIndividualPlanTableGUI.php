@@ -18,7 +18,8 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 	protected $assignment;
 	
 	public function __construct($a_parent_obj, ilStudyProgrammeUserAssignment $a_ass) {
-		parent::__construct($a_parent_obj);
+		$this->setId("manage_indiv");
+		parent::__construct($a_parent_obj, 'manage');
 
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
@@ -37,7 +38,8 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$this->setExternalSorting(false);
 		$this->setExternalSegmentation(false);
 		$this->setRowTemplate("tpl.individual_plan_table_row.html", "Modules/StudyProgramme");
-		
+		$this->setDefaultOrderDirection("asc");
+
 		$this->getParentObject()->appendIndividualPlanActions($this);
 		
 		$columns = array( "status"
@@ -53,14 +55,14 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 			$this->addColumn($lng->txt($lng_var));
 		}
 		
+		$plan = $this->fetchData();
+
+		$this->setMaxCount(count($plan));
+		$this->setData($plan);
+
 		$this->determineLimit();
 		$this->determineOffsetAndOrder();
 
-		$plan = $this->fetchData();
-	
-		$this->setMaxCount(count($plan));
-		$this->setData($plan);
-		
 		$this->possible_image = "<img src='".ilUtil::getImagePath("icon_ok.svg")."' alt='ok'>";
 		$this->not_possible_image = "<img src='".ilUtil::getImagePath("icon_not_ok.svg")."' alt='not ok'>";
 	}

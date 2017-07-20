@@ -139,7 +139,7 @@ class PanelTest extends ILIAS_UI_TestBase {
 				"   <div class=\"panel-body\"><div class=\"row\">".
 				"       <div class=\"col-sm-8\"></div>".
 				"       <div class=\"col-sm-4\">".
-				"           <div class=\"il-card thumbnail\"><div class=\"caption\"><h5 class=\"card-title\">Card Title</h5></div></div>".
+				"           <div class=\"il-card thumbnail\"><div class=\"card-no-highlight\"></div><div class=\"caption\"><h5 class=\"card-title\">Card Title</h5></div></div>".
 				"       </div>".
 				"   </div></div>".
 				"</div>";
@@ -171,7 +171,7 @@ class PanelTest extends ILIAS_UI_TestBase {
 				"           <div class=\"panel-body\"><div class=\"row\">".
 				"               <div class=\"col-sm-8\"></div>".
 				"               <div class=\"col-sm-4\">".
-				"                   <div class=\"il-card thumbnail\"><div class=\"caption\"><h5 class=\"card-title\">Card Title</h5></div></div>".
+				"                   <div class=\"il-card thumbnail\"><div class=\"card-no-highlight\"></div><div class=\"caption\"><h5 class=\"card-title\">Card Title</h5></div></div>".
 				"               </div>".
 				"           </div></div>".
 				"       </div>".

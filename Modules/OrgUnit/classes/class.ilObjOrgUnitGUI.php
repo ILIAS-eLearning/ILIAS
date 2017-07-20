@@ -1,31 +1,5 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/Container/classes/class.ilContainerGUI.php");
-require_once("./Services/AccessControl/classes/class.ilObjRole.php");
-require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-require_once("./Services/AccessControl/classes/class.ilPermissionGUI.php");
-require_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
-require_once("./Services/User/classes/class.ilUserAccountSettings.php");
-require_once("./Services/Tracking/classes/class.ilLearningProgressGUI.php");
-require_once("./Services/User/classes/class.ilObjUserFolderGUI.php");
-require_once("./Services/Tree/classes/class.ilTree.php");
-require_once("./Modules/OrgUnit/classes/Staff/class.ilOrgUnitStaffGUI.php");
-require_once("./Modules/OrgUnit/classes/LocalUser/class.ilLocalUserGUI.php");
-require_once("./Modules/OrgUnit/classes/Translation/class.ilTranslationGUI.php");
-require_once("./Modules/OrgUnit/classes/ExtId/class.ilExtIdGUI.php");
-require_once("./Modules/OrgUnit/classes/SimpleImport/class.ilOrgUnitSimpleImportGUI.php");
-require_once("./Modules/OrgUnit/classes/SimpleUserImport/class.ilOrgUnitSimpleUserImportGUI.php");
-require_once("./Modules/OrgUnit/classes/class.ilOrgUnitImporter.php");
-require_once("./Services/Object/classes/class.ilObjectAddNewItemGUI.php");
-require_once("class.ilOrgUnitExplorerGUI.php");
-require_once("class.ilOrgUnitExportGUI.php");
-require_once("class.ilObjOrgUnitAccess.php");
-require_once("class.ilObjOrgUnitTree.php");
-require_once(dirname(__FILE__) . '/Types/class.ilOrgUnitTypeGUI.php');
-require_once(dirname(__FILE__) . '/Settings/class.ilObjOrgUnitSettingsFormGUI.php');
-require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-require_once('./Services/Container/classes/class.ilContainerByTypeContentGUI.php');
-require_once("./Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtension.php");
 
 /**
  * Class ilObjOrgUnit GUI class
@@ -109,6 +83,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$this->toolbar = $ilToolbar;
 		$this->ilLog = $ilLog;
 		$this->ilias = $ilias;
+		$this->type = 'orgu';
 
 		$lng->loadLanguageModule("orgu");
 		$this->tpl->addCss('./Modules/OrgUnit/templates/default/orgu.css');
@@ -316,6 +291,9 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 						$this->tabs_gui->setTabActive("settings");
 						$this->setSubTabsSettings('edit_advanced_settings');
 						$this->updateAdvancedSettings();
+						break;
+					case 'importFile':
+						$this->importFileObject();
 						break;
 				}
 				break;

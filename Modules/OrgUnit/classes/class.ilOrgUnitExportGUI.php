@@ -1,8 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/Export/classes/class.ilExportGUI.php");
-require_once("./Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
-require_once("class.ilOrgUnitExporter.php");
 /**
  * Class ilOrgUnitExportGUI
  *
@@ -49,9 +46,17 @@ class ilOrgUnitExportGUI extends ilExportGUI {
 
 		if ($this->ilObjOrgUnit->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
 			//Simple XML and Simple XLS Export should only be available in the root orgunit folder as it always exports the whole tree
-				$this->extendExportGUI();
+			$this->extendExportGUI();
 		}
 	}
+
+
+	public function listExportFiles() {
+		if ($this->ilObjOrgUnit->getRefId() != ilObjOrgUnit::getRootOrgRefId()) {
+			parent::listExportFiles();
+		}
+	}
+
 
 	private function extendExportGUI() {
 		$this->toolbar->addButton($this->lng->txt("simple_xml"), $this->ctrl->getLinkTarget($this, "simpleExport"));

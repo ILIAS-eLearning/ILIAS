@@ -107,33 +107,35 @@ class ilMailFormGUI
 		return true;
 	}
 
-	public function sendMessage()
+	/**
+	 * @param array $files
+	 * @return array
+	 */
+	protected function decodeAttachmentFiles(array $files)
 	{
-		global $ilUser;
-		
-		// decode post values
-		$files = array();
-		if(is_array($_POST['attachments']))
+		$decodedFiles = array();
+
+		foreach($files as $value)
 		{
-			foreach($_POST['attachments'] as $value)
+			if(is_file($this->mfile->getMailPath() . '/' . $GLOBALS['DIC']->user()->getId() . '_' . urldecode($value)))
 			{
-				if(is_file($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . urldecode($value)))
-				{
-					$files[] = urldecode($value);
-				}
+				$decodedFiles[] = urldecode($value);
 			}
 		}
-		
-		$message = strip_tags(ilUtil::stripSlashes($_POST['m_message'], false));
-		$message = str_replace("\r", '', $message);
-		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.		
-		$message = $this->umail->formatLinebreakMessage($message);
 
-		$this->umail->setSaveInSentbox(true);
+		return $decodedFiles;
+	}
 
+	public function sendMessage()
+	{
 		$m_type = isset($_POST["m_type"]) ? $_POST["m_type"] : array("normal");
 
-		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
+		$message = strip_tags(ilUtil::stripSlashes($_POST['m_message'], false));
+		$message = str_replace("\r", '', $message);
+
+		$files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
+
+		$this->umail->setSaveInSentbox(true);
 		if($errors = $this->umail->sendMail(
 				ilUtil::securePlainString($_POST['rcp_to']),
 				ilUtil::securePlainString($_POST['rcp_cc']),
@@ -145,26 +147,12 @@ class ilMailFormGUI
 				)
 			)
 		{
-			if(is_array($_POST['attachments']))
-			{
-				foreach($_POST['attachments'] as $key => $value)
-				{
-					if(is_file($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . urldecode($value)))
-					{
-						$_POST['attachments'][$key] = urldecode($value);
-					}
-					else
-					{
-						unset($_POST['attachments'][$key]);
-					}
-				}
-			}
-
+			$_POST['attachments'] = $files;
 			$this->showSubmissionErrors($errors);
 		}
 		else
 		{
-			$this->umail->savePostData($ilUser->getId(), array(), "", "", "", "", "", "", "", "");			
+			$this->umail->savePostData($GLOBALS['DIC']->user()->getId(), array(), "", "", "", "", "", "", "", "");			
 			
 			$this->ctrl->setParameterByClass('ilmailgui', 'type', 'message_sent');
 
@@ -187,76 +175,52 @@ class ilMailFormGUI
 			$_POST['m_subject'] = 'No title';
 		}
 
-		$draftsId = $this->mbox->getDraftsFolder();
-		
-		// decode post values
-		$files = array();
-		if(is_array($_POST['attachments']))
+		$draftFolderId = $this->mbox->getDraftsFolder();
+		$files         = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
+
+		if($errors = $this->umail->validateRecipients(
+			ilUtil::securePlainString($_POST['rcp_to']),
+			ilUtil::securePlainString($_POST['rcp_cc']),
+			ilUtil::securePlainString($_POST['rcp_bcc'])
+		))
 		{
-			foreach($_POST['attachments'] as $value)
-			{
-				$files[] = urldecode($value);
-			}
+			$_POST['attachments'] = $files;
+			$this->showSubmissionErrors($errors);
+			$this->showForm();
+			return;
 		}
-		
+
 		if(isset($_SESSION["draft"]))
 		{
-			// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-			$this->umail->updateDraft($draftsId, $files,
-				ilUtil::securePlainString($_POST["rcp_to"]),
-				ilUtil::securePlainString($_POST["rcp_cc"]),
-				ilUtil::securePlainString($_POST["rcp_bcc"]),
-				$_POST["m_type"],
-				ilUtil::securePlainString($_POST["m_email"]),
-				ilUtil::securePlainString($_POST["m_subject"]),
-				ilUtil::securePlainString($_POST["m_message"]),
-				(int)$_SESSION["draft"],
-				(int)ilUtil::securePlainString($_POST['use_placeholders']),
-				ilMailFormCall::getContextId(),
-				ilMailFormCall::getContextParameters()
-				
-			);
+			$draftId = (int)$_SESSION['draft'];
 			unset($_SESSION['draft']);
-			ilUtil::sendInfo($this->lng->txt("mail_saved"), true);
-			
-            if(ilMailFormCall::isRefererStored())
-                ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
-            else
-               $this->ctrl->redirectByClass("ilmailfoldergui");
 		}
 		else
 		{
-			if ($this->umail->sendInternalMail($draftsId,$GLOBALS['DIC']['ilUser']->getId(),$files,
-					// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-					ilUtil::securePlainString($_POST["rcp_to"]),
-					ilUtil::securePlainString($_POST["rcp_cc"]),
-					ilUtil::securePlainString($_POST["rcp_bcc"]),
-					'read',
-					$_POST["m_type"],
-					ilUtil::securePlainString($_POST["m_email"]),
-					ilUtil::securePlainString($_POST["m_subject"]),
-					ilUtil::securePlainString($_POST["m_message"]),
-					$GLOBALS['DIC']['ilUser']->getId(),
-					0,
-					ilMailFormCall::getContextId(),
-					ilMailFormCall::getContextParameters()
-					)
-			)
-			{
-				ilUtil::sendInfo($this->lng->txt("mail_saved"),true);
-				#$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $this->mbox->getDraftsFolder());
-
-                if(ilMailFormCall::isRefererStored())
-                    ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
-                else
-                   $this->ctrl->redirectByClass("ilmailfoldergui");
-			}
-			else
-			{
-				ilUtil::sendInfo($this->lng->txt("mail_send_error"));
-			}
+			$draftId = $this->umail->getNewDraftId($GLOBALS['DIC']->user()->getId(), $draftFolderId);
 		}
-		
+
+		$this->umail->updateDraft($draftFolderId, $files,
+			ilUtil::securePlainString($_POST['rcp_to']),
+			ilUtil::securePlainString($_POST['rcp_cc']),
+			ilUtil::securePlainString($_POST['rcp_bcc']),
+			$_POST['m_type'],
+			ilUtil::securePlainString($_POST['m_email']),
+			ilUtil::securePlainString($_POST['m_subject']),
+			ilUtil::securePlainString($_POST['m_message']),
+			$draftId,
+			(int)$_POST['use_placeholders'],
+			ilMailFormCall::getContextId(),
+			ilMailFormCall::getContextParameters()
+		);
+
+		ilUtil::sendInfo($this->lng->txt('mail_saved'), true);
+
+		if(ilMailFormCall::isRefererStored())
+			ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
+		else
+			$this->ctrl->redirectByClass("ilmailfoldergui");
+
 		$this->showForm();
 	}
 
@@ -819,7 +783,9 @@ class ilMailFormGUI
 		}
 		
 		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
-		$placeholders = new ilManualPlaceholderInputGUI($this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false));
+		$placeholders = new ilManualPlaceholderInputGUI('m_message');
+		$placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
+		$placeholders->setAdviseText(sprintf($lng->txt('placeholders_advise'), '<br />'));
 		foreach($context->getPlaceholders() as $key => $value)
 		{
 			$placeholders->addPlaceholder($value['placeholder'], $value['label'] );
@@ -917,21 +883,6 @@ class ilMailFormGUI
 
 		$this->ctrl->setParameterByClass('ilmailinglistsgui', 'ref', 'mail');
 		$this->ctrl->redirectByClass('ilmailinglistsgui');
-	}
-
-	public function getAjaxPlaceholdersById()
-	{
-		$context_id = ilUtil::stripSlashes($_GET['context_id']);
-		require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
-		$placeholders = new ilManualPlaceholderInputGUI($this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false));
-		$context = ilMailTemplateService::getTemplateContextById($context_id);
-		foreach($context->getPlaceholders() as $key => $value)
-		{
-			$placeholders->addPlaceholder($value['placeholder'], $value['label'] );
-		}
-		$placeholders->render(true);
-		exit();
 	}
 
 	/**

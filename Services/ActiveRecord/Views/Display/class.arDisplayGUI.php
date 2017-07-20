@@ -1,7 +1,7 @@
 <?php
 require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Display/class.arDisplayField.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Display/class.arDisplayFields.php');
+require_once('./Services/ActiveRecord/Views/Display/class.arDisplayField.php');
+require_once('./Services/ActiveRecord/Views/Display/class.arDisplayFields.php');
 
 /**
  * GUI-Class arDisplayGUI
@@ -59,7 +59,9 @@ class arDisplayGUI {
 	 * @param ActiveRecord $ar
 	 */
 	public function __construct(arGUI $parent_gui, ActiveRecord $ar) {
-		global $ilCtrl, $tpl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 		/**
 		 * @var ilCtrl     $ilCtrl
 		 * @var ilTemplate $tpl
@@ -106,7 +108,7 @@ class arDisplayGUI {
 
 
 	protected function initTemplate() {
-		$this->setTemplate(new ilTemplate("tpl.display.html", true, true, "Customizing/global/plugins/Libraries/ActiveRecord"));
+		$this->setTemplate(new ilTemplate("tpl.display.html", true, true, "Services/ActiveRecord"));
 	}
 
 

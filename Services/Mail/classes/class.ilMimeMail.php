@@ -1,47 +1,56 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
-
 /**
- * this class encapsulates the PHP mail() function.
- * implements CC, Bcc, Priority headers
- *  include "libmail.php";
- *  $m= new Mail; // create the mail
- *  $m->From( "leo@isp.com" );
- *  $m->To( "destination@somewhere.fr" );
- *  $m->Subject( "the subject of the mail" );
- *  $message= "Hello world!\nthis is a test of the Mail class\nplease ignore\nThanks.";
- *  $m->Body( $message);	// set the body
- *  $m->Cc( "someone@somewhere.fr");
- *  $m->Bcc( "someoneelse@somewhere.fr");
- *  $m->Priority(4) ;	// set the priority to Low
- *  m->Attach( "/home/leo/toto.gif", "image/gif" ) ;	// attach a file of type image/gif
- *  $m->Send();	// send the mail
- *  echo "the mail below has been sent:<br><pre>", $m->Get(), "</pre>";
- *
- * @author	Leo West - lwest@free.fr
- * @version $Id: class.ilMimeMail.php 46278 2013-11-19 13:27:05Z jluetzen $
- *
- *
+ * Class ilMimeMail
  */
 class ilMimeMail
 {
 	/**
+	 * @var ilMailMimeTransport|null
+	 */
+	protected static $defaultTransport;
+
+	/**
+	 * @var string
+	 */
+	protected $subject = '';
+
+	/**
+	 * @var string
+	 */
+	protected $body = '';
+
+	/**
+	 * @var string
+	 */
+	protected $final_body = '';
+
+	/**
+	 * @var string
+	 */
+	protected $final_body_alt = '';
+
+	/**
 	 * list of To addresses
 	 * @var	array
 	 */
-	var $sendto = array();
+	protected $sendto = array();
 
 	/**
 	 * @var	array
 	 */
-	var $acc = array();
+	protected $acc = array();
 
 	/**
 	 * @var	array
 	 */
-	var $abcc = array();
+	protected $abcc = array();
+
+	/**
+	 * @var array
+	 */
+	protected $images = array();
 
 	/**
 	 * 	paths of attached files
@@ -52,339 +61,278 @@ class ilMimeMail
 	/**
 	 * @var array
 	 */
+	protected $actype = array();
+
+	/**
+	 * @var array
+	 */
+	protected $adispo = array();
+
+	/**
+	 * @var array
+	 */
 	protected $adisplay = array();
 
 	/**
-	 * 	list of message headers
-	 * 	@var array
+	 * @var ilMailMimeSender
 	 */
-	var $xheaders = array();
+	protected $sender; 
 
 	/**
-	 * 	message priorities referential
-	 * 	@var array
-	 */
-	var $priorities = array( '1 (Highest)', '2 (High)', '3 (Normal)', '4 (Low)', '5 (Lowest)' );
-
-	/**
-	 * 	character set of message
-	 * 	@var string
-	 */
-	var $charset = "utf-8";
-	var $ctencoding = "8bit";
-	var $receipt = 0;
-
-	/**
-	 * Mail contructor
+	 * ilMimeMail constructor.
 	 */
 	public function __construct()
 	{
-		$this->autoCheck( false);
-		$this->boundary= "--" . md5( uniqid("myboundary") );
+		global $DIC;
+
+		if(!(self::getDefaultTransport() instanceof ilMailMimeTransport))
+		{
+			$factory = $DIC["mail.mime.transport.factory"];
+			self::setDefaultTransport($factory->getTransport());
+		}
 	}
 
 	/**
-	 * activate or desactivate the email addresses validator
-	 * ex: autoCheck( true ) turn the validator on
-	 * by default autoCheck feature is on
-	 * @param boolean	set to true to turn on the auto validation
-	 * @access public
-	 * @deprecated
+	 * @param \ilMailMimeTransport|null $transport
+	 * @throws \InvalidArgumentException
 	 */
-	function autoCheck($bool )
+	public static function setDefaultTransport($transport)
 	{
-		if( $bool )
+		if(!is_null($transport) && !($transport instanceof \ilMailMimeTransport))
 		{
-			$this->checkAddress = true;
+			throw new \InvalidArgumentException(\sprintf(
+				"The passed argument must be null or of type 'ilMailMimeTransport', %s given!", gettype($transport)
+			));
 		}
-		else
-		{
-			$this->checkAddress = false;
-		}
+
+		self::$defaultTransport = $transport;
 	}
 
 	/**
-	 * Define the subject line of the email
-	 * @param string subject any monoline string
+	 * @return ilMailMimeTransport|null
 	 */
-	function Subject($subject, $a_add_prefix = false)
+	public static function getDefaultTransport()
+	{
+		return self::$defaultTransport;
+	}
+
+	/**
+	 * @param string $subject Define the subject line of the email
+	 * @param bool   $a_add_prefix
+	 */
+	public function Subject($subject, $a_add_prefix = false)
 	{
 		if($a_add_prefix)
 		{
 			// #9096
-			include_once "Services/Mail/classes/class.ilMail.php";
+			require_once 'Services/Mail/classes/class.ilMail.php';
 			$prefix = ilMail::getSubjectPrefix();
 			if(trim($prefix))
 			{
-				$subject = trim($prefix)." ".$subject;
+				$subject = trim($prefix) . ' ' . $subject;
 			}
 		}
-		$this->xheaders['Subject'] = $subject;
+
+		$this->subject = $subject;
 	}
 
 	/**
-	 * set the sender of the mail
-	 * @param string from should be an email address
+	 * @return string
 	 */
-	function From($from )
+	public function getSubject()
 	{
-		if( ! is_string($from) && !is_array($from)) {
-			echo "Class Mail: error, From is not a string or array";
-			exit;
-		}
-		if(is_array($from))
+		return $this->subject;
+	}
+
+	/**
+	 * @param ilMailMimeSender $sender
+	 */
+	public function From(ilMailMimeSender $sender)
+	{
+		$this->sender = $sender;
+	}
+
+	/**
+	 * Set the mail recipient
+	 * @param string|array To email address, accept both a single address or an array of addresses
+	 */
+	public function To($to)
+	{
+		if(is_array($to))
 		{
-			$this->xheaders['From']     = $from[0];
-			$this->xheaders['FromName'] = $from[1];
-			return;
-		}
-
-		$this->xheaders['From'] = $from;
-	}
-
-	/**
-	 *  set the Reply-to header
-	 *  @param string address should be an email address
-	 */
-	function ReplyTo( $address )
-	{
-		if( ! is_string($address) )
-		{
-			return false;
-		}
-
-		$this->xheaders["Reply-To"] = $address;
-	}
-
-	/**
-	 * add a receipt to the mail ie.  a confirmation is returned to the "From" address (or "ReplyTo" if defined)
-	 * when the receiver opens the message.
-	 * @warning this functionality is *not* a standard, thus only some mail clients are compliants.
-	 */
-	function Receipt()
-	{
-		$this->receipt = 1;
-	}
-
-	/**
-	 * set the mail recipient
-	 * @param string to email address, accept both a single address or an array of addresses
-	 */
-	function To( $to )
-	{
-		// TODO : test validit� sur to
-		if( is_array( $to ) )
-		{
-			$this->sendto= $to;
+			$this->sendto = $to;
 		}
 		else
 		{
 			$this->sendto[] = $to;
 		}
-
-		if( $this->checkAddress == true )
-		{
-			$this->CheckAdresses( $this->sendto );
-		}
 	}
 
 	/**
-	 *  Cc()
-	 *	cc : email address(es), accept both array and string
-	 *	@param string cc set the CC headers ( carbon copy )
+	 * Set the cc mail recipient
+	 * @param string|array CC email address, accept both a single address or an array of addresses
 	 */
-
-	function Cc($cc)
+	public function Cc($cc)
 	{
-		if( is_array($cc) )
+		if(is_array($cc))
 		{
-			$this->acc= $cc;
+			$this->acc = $cc;
 		}
 		else
 		{
-			$this->acc[]= $cc;
-		}
-
-		if( $this->checkAddress == true )
-		{
-			$this->CheckAdresses( $this->acc );
+			$this->acc[] = $cc;
 		}
 	}
 
 	/**
-	 * Bcc()
-	 * set the Bcc headers ( blank carbon copy ).
-	 * bcc : email address(es), accept both array and string
-	 * @param string bcc
+	 * Set the bcc mail recipient
+	 * @param string|array BCC email address, accept both a single address or an array of addresses
 	 */
-	function Bcc( $bcc )
+	public function Bcc($bcc)
 	{
-		if( is_array($bcc) ) 
+		if(is_array($bcc)) 
 		{
 			$this->abcc = $bcc;
 		} 
 		else 
 		{
-			$this->abcc[]= $bcc;
-		}
-
-		if( $this->checkAddress == true )
-		{
-			$this->CheckAdresses( $this->abcc );
+			$this->abcc[] = $bcc;
 		}
 	}
 
 	/**
-	 * Body( text [, charset] )
-	 * set the body (message) of the mail
-	 * define the charset if the message contains extended characters (accents)
-	 * default to us-ascii
-	 * $mail->Body( "m�l en fran�ais avec des accents", "iso-8859-1" );
-	 * @param string body
-	 * @param string charset (optional)
+	 * @return array
 	 */
-	function Body( $body, $charset="" )
+	public function getTo()
+	{
+		return $this->sendto;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getCc()
+	{
+		return $this->acc;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getBcc()
+	{
+		return $this->abcc;
+	}
+
+	/**
+	 * @param string $body
+	 */
+	public function Body($body)
 	{
 		$this->body = $body;
 
-		if( $charset != "" ) 
-		{
-			$this->charset = strtolower($charset);
-			if( $this->charset == "us-ascii" )
-			{
-				$this->ctencoding = "7bit";
-			}
-		}
+		$this->final_body     = '';
+		$this->final_body_alt = '';
 	}
 
 	/**
-	 * Organization( $org )
-	 * set the Organization header
-	 * @param string organization
+	 * @return string
 	 */
-	function Organization( $org )
+	public function getFinalBody()
 	{
-		if( trim( $org != "" )  )
-		{
-			$this->xheaders['Organization'] = $org;
-		}
+		return $this->final_body;
 	}
 
 	/**
-	 * Priority( $priority )
-	 * set the mail priority
-	 * $priority : integer taken between 1 (highest) and 5 ( lowest )
-	 * ex: $mail->Priority(1) ; => Highest
-	 * @param integer priority
+	 * @return string
 	 */
-	function Priority( $priority )
+	public function getFinalBodyAlt()
 	{
-		if( ! intval( $priority ) )
-		{
-			return false;
-		}
-
-		if( ! isset( $this->priorities[$priority-1]) )
-		{
-			return false;
-		}
-
-		$this->xheaders["X-Priority"] = $this->priorities[$priority-1];
-
-		return true;
+		return $this->final_body_alt;
 	}
 
 	/**
-	 *  Attach a file to the mail
-	 *  @param string filename : path of the file to attach
-	 *  @param string filetype : MIME-type of the file. default to 'application/x-unknown-content-type'
-	 *  @param string disposition : instruct the Mailclient to display the file if possible ("inline") or always as a link ("attachment") possible values are "inline", "attachment"
-	 *  @param string $display_name: filename to use in email (if different from source file)
+	 * @return ilMailMimeSender
 	 */
-	function Attach( $filename, $filetype = "", $disposition = "inline", $display_name = null)
+	public function getFrom()
 	{
-		// TODO : si filetype="", alors chercher dans un tablo de MT connus / extension du fichier
-		if( $filetype == "" )
+		return $this->sender;
+	}
+
+	/**
+	 * Attach a file to the mail
+	 * @param string $filename     Path of the file to attach
+	 * @param string $file_type    MIME-type of the file. default to 'application/x-unknown-content-type'
+	 * @param string $disposition  Instruct the Mailclient to display the file if possible ("inline") or always as a link ("attachment") possible values are "inline", "attachment"
+	 * @param string $display_name Filename to use in email (if different from source file)
+	 */
+	public function Attach($filename, $file_type = '', $disposition = 'inline', $display_name = null)
+	{
+		if($file_type == '')
 		{
-			$filetype = "application/octet-stream";
+			$file_type = 'application/octet-stream';
 		}
 
-		$this->aattach[] = $filename;
-		$this->actype[] = $filetype;
-		$this->adispo[] = $disposition;
+		$this->aattach[]  = $filename;
+		$this->actype[]   = $file_type;
+		$this->adispo[]   = $disposition;
 		$this->adisplay[] = $display_name;
 	}
 
 	/**
-	 * Build the email message
-	 * @access public
+	 * @return array An array of attachments. Each element must container to associative keys, 'path' and 'name'
 	 */
-	protected function BuildMail()
+	public function getAttachments()
+	{
+		$attachments = array();
+
+		$i = 0;
+		foreach($this->aattach as $attachment)
+		{
+			$name = '';
+			if(isset($this->adisplay[$i]) && strlen($this->adisplay[$i]) > 0)
+			{
+				$name = $this->adisplay[$i];
+			}
+
+			$attachments[] = array(
+				'path' => $attachment,
+				'name' => $name
+			);
+			++$i;
+		}
+
+		return $attachments;
+	}
+
+	/**
+	 * @return array An array of images. Each element must container to associative keys, 'path', 'cid' and 'name'
+	 */
+	public function getImages()
+	{
+		return $this->images;
+	}
+
+	/**
+	 * Build the relevant email data
+	 */
+	protected function build()
 	{
 		/**
 		 * @var $ilUser          ilObjUser
 		 * @var $ilSetting       ilSetting
 		 * @var $ilClientIniFile ilIniFile
 		 */
-		global $ilUser, $ilSetting, $ilClientIniFile;
+		global $ilSetting, $ilClientIniFile;
 
-		require_once 'libs/composer/vendor/autoload.php';
-		$mail = new PHPMailer();
-
-		if($ilSetting->get('mail_system_return_path', ''))
-		{
-			$mail->Sender = $ilSetting->get('mail_system_return_path', '');
-		}
-
-		require_once 'Services/Mail/classes/class.ilMail.php';
-		$addr = ilMail::getIliasMailerAddress();
-		if($this->xheaders['From'] == $addr[0])
-		{
-			$mail->setFrom($this->xheaders['From'], $this->xheaders['FromName']);
-		}
-		else
-		{
-			$mail->addReplyTo($this->xheaders['From'], $this->xheaders['FromName']);
-			$mail->setFrom($addr[0], $addr[1]);
-		}
-		foreach($this->sendto as $recipients)
-		{
-			$recipient_pieces = array_filter(array_map('trim', explode(',', $recipients)));
-			foreach($recipient_pieces as $recipient)
-			{
-				$mail->AddAddress($recipient, '');
-			}
-		}
-
-		foreach($this->acc as $carbon_copies)
-		{
-			$cc_pieces = array_filter(array_map('trim', explode(',', $carbon_copies)));
-			foreach($cc_pieces as $carbon_copy)
-			{
-				$mail->AddCC($carbon_copy, '');
-			}
-		}
-
-		foreach($this->abcc as $blind_carbon_copies)
-		{
-			$bcc_pieces = array_filter(array_map('trim', explode(',', $blind_carbon_copies)));
-			foreach($bcc_pieces as $blind_carbon_copy)
-			{
-				$mail->AddBCC($blind_carbon_copy, '');
-			}
-		}
-
-		$mail->CharSet = 'utf-8';
-		$mail->Subject = $this->xheaders['Subject'];
+		$this->images = array();
 
 		if($ilSetting->get('mail_send_html', 0))
 		{
-			$mail->IsHTML(true);
-
 			$skin = $ilClientIniFile->readVariable('layout', 'skin');
 
 			$bracket_path = './Services/Mail/templates/default/tpl.html_mail_template.html';
-			if($skin != 'delos')
+			if($skin != 'default')
 			{
 				$tplpath = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
 
@@ -400,17 +348,17 @@ class ilMimeMail
 				$this->body  = ' ';
 			}
 
-			$mail->AltBody = $this->body;
+			$this->final_body_alt = $this->body;
 
 			if(strip_tags($this->body, '<b><u><i><a>') == $this->body)
 			{
 				// Let's assume that there is no HTML, so convert "\n" to "<br>" 
 				$this->body = nl2br($this->body);
 			}
-			$mail->Body    = str_replace( '{PLACEHOLDER}', ilUtil::makeClickable( $this->body ), $bracket );
+			$this->final_body = str_replace('{PLACEHOLDER}', ilUtil::makeClickable($this->body), $bracket);
 
 			$directory = './Services/Mail/templates/default/img/';
-			if($skin != 'delos')
+			if($skin != 'default')
 			{
 				$directory = './Customizing/global/skin/' . $skin . '/Services/Mail/img/';
 			}
@@ -423,187 +371,34 @@ class ilMimeMail
 					$files[] = $filename;
 				}
 
-				$images = preg_grep ('/\.jpg$/i', $files);
-
+				$images = preg_grep('/\.jpg$/i', $files);
 				foreach($images as $image)
 				{
-					$mail->AddEmbeddedImage($directory.$image, 'img/'.$image, $image);
+					$this->images[] = array(
+						'path' => $directory . $image,
+						'cid'  => 'img/' . $image,
+						'name' => $image
+					);
 				}
 			}
 		}
 		else
 		{
-			$mail->IsHTML(false);
-			$mail->Body = $this->body;
-		}
-
-		$i = 0;
-		foreach($this->aattach as $attachment)
-		{
-			$name = '';
-			if(isset($this->adisplay[$i]) && strlen($this->adisplay[$i]) > 0)
-			{
-				$name = $this->adisplay[$i];
-			}
-
-			$mail->AddAttachment($attachment, $name);
-			++$i;
-		}
-
-		ilLoggerFactory::getLogger('mail')->debug(
-			"Trying to delegate external email delivery:" .
-			" Initiated by: " . $ilUser->getLogin() . " (" . $ilUser->getId() . ")" .
-			" | From: " . $this->xheaders['From'] .
-			" | To: " . implode(', ', $this->sendto) .
-			" | CC: " . implode(', ', $this->acc) .
-			" | BCC: " . implode(', ', $this->abcc) .
-			" | Subject: " .$mail->Subject
-		);
-
-		if(!(int)$ilSetting->get('prevent_smtp_globally'))
-		{
-			$result = $mail->Send();
-
-			if($result)
-			{
-				ilLoggerFactory::getLogger('mail')->debug(sprintf(
-					'Successfully delegated external mail delivery'
-				));
-			}
-			else
-			{
-				ilLoggerFactory::getLogger('mail')->debug(sprintf(
-					'Could not deliver external email: %s', $mail->ErrorInfo
-				));
-			}
-		}
-		else
-		{
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				'Suppressed delegation of email delivery according to global setting ( prevent_smtp_globally ).'
-			));
+			$this->final_body = $this->body;
 		}
 	}
 
 	/**
-	 * 	fornat and send the mail
-	 * 	@access public
+	 * @param $transport ilMailMimeTransport|null
 	 */
-	function Send()
+	public function Send($transport = null)
 	{
-		$this->BuildMail();
-	}
-
-	/**
-	 *		return the whole e-mail , headers + message
-	 *		can be used for displaying the message in plain text or logging it
-	 */
-	function Get()
-	{
-		$this->BuildMail();
-		$mail = "To: " . $this->strTo . "\n";
-		$mail .= $this->headers . "\n";
-		$mail .= $this->fullBody;
-		return $mail;
-	}
-
-	/**
-	 * 	check an email address validity
-	 * 	@access public
-	 * 	@param string address : email address to check
-	 * 	@return boolean true if email adress is ok
-	 * @deprecated                  
-	 */
-
-	function ValidEmail($address)
-	{
-		$regs = array();
-		if(preg_match("/.*<(.+)>/", $address, $regs))
+		if(!($transport instanceof ilMailMimeTransport))
 		{
-			$address = $regs[1];
+			$transport = self::getDefaultTransport();
 		}
 
-		if(preg_match('/^[^@  ]+@([a-zA-Z0-9\-]+\.)+([a-zA-Z0-9\-]{2}|net|com|gov|mil|org|edu|int)$/', $address))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	/**
-	 * check validity of email addresses
-	 * return if unvalid, output an error message and exit, this may -should- be customized
-	 * @param	array aad -
-	 * @deprecated                 
-	 */
-	function CheckAdresses( $aad )
-	{
-		for($i=0;$i< count( $aad); $i++ ) {
-			if( ! $this->ValidEmail( $aad[$i]) ) 
-			{
-				echo "Class Mail, method Mail : invalid address $aad[$i]";
-				exit;
-			}
-		}
-	}
-
-	/**
-	 *  check and encode attach file(s) . internal use only
-	 *  @access private
-	 */
-	function _build_attachement()
-	{
-		$this->xheaders["Content-Type"] = "multipart/mixed;\n boundary=\"$this->boundary\"";
-
-		$this->fullBody = "This is a multi-part message in MIME format.\n--$this->boundary\n";
-		$this->fullBody .= "Content-Type: text/plain; charset=$this->charset\nContent-Transfer-Encoding: $this->ctencoding\n\n".
-			$this->body ."\n";
-
-		$sep= chr(13) . chr(10);
-
-		$ata= array();
-		$k=0;
-
-		// for each attached file, do...
-		for( $i=0; $i < count( $this->aattach); $i++ ) {
-
-			$filename = $this->aattach[$i];
-			$basename = basename($filename);
-			$ctype = $this->actype[$i];	// content-type
-			$disposition = $this->adispo[$i];
-			$display_name = $this->adisplay[$i];
-			if(!$display_name)
-			{
-				$display_name = $basename;
-			}
-
-			if( ! file_exists( $filename) ) {
-				echo "Class Mail, method attach : file $filename can't be found"; 
-				exit;
-			}
-
-			$subhdr= "--$this->boundary\nContent-type: $ctype;\n name=\"$basename\"\nContent-Transfer-Encoding:".
-				"base64\nContent-Disposition: $disposition;\n  filename=\"$display_name\"\n\n";
-			$ata[$k++] = $subhdr;
-			// non encoded line length
-			$linesz= filesize( $filename)+1;
-			$fp= fopen( $filename, 'r' );
-			$ata[$k++] = chunk_split(base64_encode(fread( $fp, $linesz)));
-			fclose($fp);
-		}
-
-		$this->fullBody .= implode($sep, $ata);
-	}
-
-	public static function _mimeEncode($a_string)
-	{
-		$encoded = '=?utf-8?b?';
-		$encoded .= base64_encode($a_string);
-		$encoded .= '?=';
-
-		return $encoded;
+		$this->build();
+		$transport->send($this);
 	}
 }

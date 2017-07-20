@@ -322,6 +322,7 @@ assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie %s von %s Antworten!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Bitte wählen Sie nicht mehr als %s von %s Antworten!
 assessment#:#ass_mc_sel_lim_setting#:#Antwortbeschränkung
 assessment#:#ass_mc_sel_lim_setting_desc#:#Mit dieser Einstellung lässt sich die Anzahl durch den Teilnehmer wählbarer Antworten einschränken.
+assessment#:#essay_scoring_mode#:#Bewertungsmodus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Es werden keine Punkte automatisiert vergeben. Die Punktevergabe ist nur mit manueller Bewertung möglich.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatische Bewertung bei Nennung einzelner Begriffe
@@ -364,6 +365,9 @@ assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der er
 assessment#:#analyze_errortext#:#Text analysieren
 assessment#:#gap_combination#:#Lückentext-Kombination
 assessment#:#answer#:#Antwort
+assessment#:#tst_failed_imp_skl_thresholds#:#Der Import der Schwellenwerte für folgende Kompetenzen wurde übersprungen, weil die zugehörige Kompetenz im lokalen System eine abweichende Liste von Ausprägungen aufweist.
+assessment#:#tst_failed_imp_qst_skl_assign#:#Die Zuweisungen der Fragen zu fogenden Kompetenzen konnte durch den Import nicht hergestellt werden. Die entsprechenden Kompetenzen konnten im hiesigen System nicht identifiziert werden.
+assessment#:#ass_skl_import_fails_remove_btn#:#Diese Meldung entfernen
 assessment#:#answer_image#:#Antwort-Grafik
 assessment#:#answer_is_not_correct_but_positive#:#Sie haben Punkte für Ihre Lösung erhalten. Allerdings handelt es sich dabei nicht um die beste Lösung.
 assessment#:#answer_is_right#:#Ihre Lösung ist korrekt.
@@ -797,6 +801,7 @@ assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#Die Fragen-Kompetenz-Zuo
 assessment#:#qpl_qst_skl_selection_for_question_header#:#Kompetenzzuordnung für die Frage: %s
 assessment#:#tst_save_comp_points#:#Speichere Kompetenz-Punkte
 assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenz-Punkte wurden gespeichert.
+assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#Die Kompetenz-Punkte wurden nicht gespeichert. Bitte überprüfen Sie Ihre Eingabe.
 assessment#:#tst_skl_level_thresholds_missing#:#Es sind noch nicht für alle relevanten Kompetenzen Schwellenwerte definiert worden!
 assessment#:#tst_skl_level_thresholds_link#:#Kompetenz-Schwellenwerte konfigurieren
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Beachten Sie, dass die Kompetenzergebnisse eines einzelnen Tests nur bedingt aussagekräftig sind. Je mehr Informationen zu den einzelnen Kompetenzen gesammelt werden, desto valider die Aussage. Sollten einzelne Kompetenzen keinen Eintrag erhalten haben, standen für diese Kompetenz zu wenig Informationen zur Verfügung.
@@ -1295,7 +1300,7 @@ assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse v
 assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus dem vorigen Testdurchlauf nicht anzeigen
 assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_side_list#:#Fragenliste aus
-assessment#:#new_test_online#:#Der Test wurde online geschaltet.
+news#:#new_test_online#:#Der Test wurde online geschaltet.
 assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
 assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmern begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
@@ -1600,6 +1605,8 @@ assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem lauf
 assessment#:#tst_types#:#Test-Typen
 assessment#:#tst_use_javascript#:#JavaScript für das Ziehen und Ablegen von Antworten verwenden
 assessment#:#tst_use_previous_answers#:#Verwendung vorheriger Lösungen
+assessment#:#use_previous_solution_advice#:#Die angezeigte Lösung wurde vormals von Ihnen abgegeben. Sie müssen die Übernahme dieser Lösung unterhalb der Frage bestätigen, falls Sie die Lösung ohne Änderungen übernehmen wollen.
+assessment#:#use_previous_solution#:#Verwende vorherige Lösung
 assessment#:#tst_use_previous_answers_description#:#Zeigt Teilnehmern die Antworten aus dem vorherigen Testdurchlauf an. Die Option muss vom Teilnehmer vor Beginn des Tests auf dem Reiter 'Info' per Checkbox aktiviert werden.
 assessment#:#tst_use_previous_answers_user#:#Meine Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte verwenden
 assessment#:#tst_user_finished_test#:#Ein Teilnehmer hat den Test beendet (%s)
@@ -1810,7 +1817,7 @@ auth#:#auth_radius_charset_info#:#Wählen Sie hier die Zeichenkodierung aus, die
 auth#:#auth_radius_ldap#:#Synchronisierung über LDAP-Einstellungen
 auth#:#auth_radius_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutzerdaten und Rollenzuordnungen, gemäß der LDAP-Einstellungen vorgenommen.
 auth#:#auth_radius_sync_rad#:#Automatische Generierung von ILIAS-Benutzerkonten
-auth#:#auth_radius_sync_rad_info#:#Benutzer, die sich erfolgreich gegen Radius authentifiziert haben, jedoch über keinen ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
+auth#:#auth_radius_sync_rad_info#:#Benutzer, die sich erfolgreich gegen Radius authentifiziert haben, jedoch über kein ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
 auth#:#auth_sync#:#Benutzer-Synchronisierung
 auth#:#auth_sync_cas#:#Automatische Generierung von ILIAS-Benutzerkonten
 auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über keinen ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
@@ -2587,8 +2594,14 @@ common#:#btn_remove_system#:#Aus System entfernen
 common#:#btn_undelete#:#Wiederherstellen
 common#:#buy#:#Kaufen
 common#:#by#:#durch
-common#:#by_location#:#Nach Ort sortieren
-common#:#by_type#:#Nach Typ sortieren
+pd#:#pd_sort_by_location#:#Nach Ort sortieren
+pd#:#pd_sort_by_type#:#Nach Typ sortieren
+pd#:#pd_sort_by_start_date#:#Nach Startdatum sortieren
+pd#:#pd_my_memberships_sort_default#:#Default of Sorting Option
+pd#:#pd_upcoming#:#Bevorstehend
+pd#:#pd_ongoing#:#Aktuell
+pd#:#pd_ended#:#Beendet
+pd#:#pd_not_date#:#Nicht datiert
 common#:#bytes#:#Bytes
 common#:#cal_from#:#Von:
 common#:#cal_until#:#Bis:
@@ -2787,9 +2800,9 @@ common#:#cron_jobs#:#Cron-Jobs
 common#:#cron_jobs_desc#:#Ein Cron-Job ist ein automatisierter Prozess, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-Jobs in der Installationsanleitung.
 common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
 common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene-Suchindex aktualisiert. Bitte konfigurieren Sie vorher den Lucene-Server unter 'Administration » Suche'.
-common#:#cron_mail_notification#:#Mail-Benachrichtigungen versenden
+common#:#cron_mail_notification#:#E-Mail-Benachrichtigungen für neue Nachrichten versenden
 common#:#cron_mail_notification_cron#:#Regelmäßig per Cron-Job
-common#:#cron_mail_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Benutzer über neue Mails benachrichtigt. Bitte deaktivieren Sie vorher die Option 'Versand von externen E-Mails verhinden' um diese Funktion nutzen zu können.
+common#:#cron_mail_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Benutzer über neue Mails benachrichtigt. Bitte aktivieren Sie vorher die Option '%s' um diese Funktion nutzen zu können.
 common#:#cron_mail_notification_message#:#Mail-Benachrichtigungen mit Inhalt versenden
 common#:#cron_mail_notification_message_info#:#Wenn diese Option eingeschaltet ist, werden die Mail-Benachrichtigungen mit dem Inhalt der Mails an die Benutzer versendet.
 common#:#cron_mail_notification_never#:#Nie
@@ -2897,7 +2910,7 @@ common#:#delete_inactive_user_accounts_period_desc#:#Accounts werden gelöscht, 
 common#:#update_orgunits#:#Benutzerfeld 'Organisationseinheiten' aktualisieren
 common#:#update_orgunits_desc#:#Wenn eingeschaltet, werden bei allen Benutzern das Feld 'Organisationseinheiten' aktualisiert und so allfällige Fehler behoben.
 common#:#delete_inactivated_user_accounts#:#Benutzerzugänge nach Inaktivierung löschen
-common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt der Inaktivierung gelöscht.
+common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach der Inaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
 common#:#delete_inactivated_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
 common#:#delete_inactivated_user_accounts_interval#:#Häufigkeit
@@ -3026,6 +3039,7 @@ common#:#err_count_param#:#Grund: Falsche Parameteranzahl
 common#:#err_enter_current_passwd#:#Bitte geben Sie Ihr momentanes Passwort an!
 common#:#err_in_line#:#Fehler in Zeile
 common#:#err_inactive#:#Dieses Benutzerkonto ist nicht aktiv bzw. noch nicht aktiviert worden. Bitte kontaktieren Sie den Technischen Support (siehe Link unten) für weitere Unterstützung.
+common#:#err_inactive_login_attempts#:#Ihr Benutzerkonto wurde wegen falscher Loginversuche deaktiviert. Klicken Sie auf 'Technische Betreuung kontaktieren' am Fuße dieser Seite, um die Administratoren zu informieren, dass sie Ihr Benutzerkonto wieder aktivieren sollen.
 common#:#err_invalid_port#:#Ungültige Portnummer
 common#:#err_ldap_auth_failed#:#Benutzer konnte nicht authentifiziert werden! Bitte überprüfen Sie, ob ILIAS- und LDAP-Passwort übereinstimmen
 common#:#err_ldap_connect_failed#:#Verbindung zum LDAP-Server fehlgeschlagen! Bitte überprüfen Sie Serveradresse und Port
@@ -3595,7 +3609,6 @@ common#:#installed_local#:#Mit Custom-Sprachdatei installiert
 common#:#instant_messengers#:#Instant Messenger
 common#:#institution#:#Institution
 common#:#internal_local_roles_only#:#Lokale Rollen (nur automatisch erstellte)
-common#:#internal_system#:#Internes System
 common#:#invalid_visible_required_options_selected#:#Alle Felder deren Option "Erforderliche Angabe" gesetzt ist müssen ebenso die Option "Sichtbar im Registrierungsformular" gesetzt haben.
 common#:#invisible_block#:#Unsichtbarer Block
 common#:#invisible_block_mess#:#Sie haben nicht das Recht, diesen Block zu sehen.
@@ -7014,7 +7027,7 @@ dateplaner#:#cal_ch_num_bookings#:#Anmeldungen pro Termin
 dateplaner#:#cal_ch_personal_book#:#Persönliche Buchungen
 dateplaner#:#cal_ch_personal_ch#:#Persönliche Sprechstundentermine
 dateplaner#:#cal_ch_target_object#:#Objekt im Magazin
-dateplaner#:#cal_ch_target_object_info#:#Die Sprechstunden werden nur in den ausgewählten Kursen und Gruppen in einem kleinen Block rechts angezeigt. Geben Sie die Ref-ID des betreffenden Objektes ein. Sie finden diese in der URL des entsprechenden Objekts. Mehrere Ref-IDs geben Sie kommagetrennt ein.
+dateplaner#:#cal_ch_target_object_info#:#Die Sprechstunden werden in Kursen und Gruppen in einem kleinen Block rechts angezeigt. Um dies auf bestimmte Kurse oder Gruppen zu beschränken, geben Sie die Ref-ID des betreffenden Objektes ein. Sie finden diese in der URL des entsprechenden Objekts. Mehrere Ref-IDs geben Sie kommagetrennt ein. Unabhängig davon können Sprechstunden auch in Ihren E-Portfolios erscheinen.
 dateplaner#:#cal_ch_unknown_repository_object#:#Die angegebene Kennung des Objekts ist nicht gültig.
 dateplaner#:#cal_ch_unknown_user#:#Der eingegebene Benutzername existiert nicht.
 dateplaner#:#cal_change_responsible_users#:#Verantwortliche Mitglieder ändern
@@ -7471,7 +7484,7 @@ exc#:#exc_deadline#:#Abgabetermin
 exc#:#exc_direct_submit_blog#:#Möchten Sie die aktuelle Version Ihres Blogs jetzt abgeben? Sie können dies auch jederzeit im Blog-Editor tun.
 exc#:#exc_direct_submit_portfolio#:#Möchten Sie die aktuelle Version Ihres Portfolios jetzt abgeben? Sie können dies auch jederzeit im Portfolio-Editor tun.
 exc#:#exc_edit_assignment#:#Einstellungen der Übungseinheit
-exc#:#exc_edit_assignments#:#Übungseinheiten bearbeitn
+exc#:#exc_edit_assignments#:#Übungseinheiten bearbeiten
 exc#:#exc_edit_submission#:#Eingereichte Lösungen ändern
 exc#:#exc_ended_on#:#Beendet am
 exc#:#exc_export_excel#:#Export (Excel)
@@ -8070,10 +8083,9 @@ mail#:#chat_users_without_login#:#Die folgenden Benutzer haben keinen ILIAS-Acco
 mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:
 mail#:#forward#:#Weiterleiten
 mail#:#goto_invitation_chat#:#Öffne Chatraum
-mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail-Adresse ein, die als Absender für automatisch generierte System- oder Benachrichtigungsmails verwendet werden soll. <b>Hinweis</b>: Diese Adresse muss tatsächlich existieren, damit entsprechende Mails nicht von Spam-Filtern und Mail-Servern abgelehnt werden.
 mail#:#invite_to_chat#:#in Chat einladen
 mail#:#linebreak#:#Zeilenumbruch
-mail#:#mail_send_html#:#HTML-Rahmen für externe E-Mails
+mail#:#mail_send_html#:#HTML-Rahmen
 mail#:#mail_send_html_info#:#Falls aktiviert, wird der Nachrichtentext von externen E-Mails in einen HTML-Rahmen gesetzt. Dieser kann über ein Skin-Template unter './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' (als Kopie von './Services/Mail/templates/default/tpl.html_mail_template.html') angepasst werden. 
 mail#:#mail_account_mail#:#Benutzerkonten-Mail
 mail#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
@@ -8095,7 +8107,6 @@ mail#:#mail_enable_crs_member_notification_info#:#Mitglieder erhalten automatisc
 mail#:#mail_enable_grp_member_notification#:#Mitglieder benachrichtigen
 mail#:#mail_enable_grp_member_notification_info#:#Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Gruppen der Plattform.
 mail#:#mail_entry_of_contacts#:#Eintrag aus den Kontakten
-mail#:#mail_external_sender_noreply#:#noreply-Adresse
 mail#:#mail_file_name#:#Dateiname
 mail#:#mail_file_size#:#Dateigröße
 mail#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelöscht
@@ -8131,8 +8142,10 @@ mail#:#mail_multiple_recipients_found#:#Geben Sie eine genaue E-Mail-Adresse an.
 mail#:#mail_my_courses#:#Meine Kurse
 mail#:#mail_my_groups#:#Meine Gruppen
 mail#:#mail_my_mailing_lists#:#Meine Verteilerlisten
+mail#:#mail_nacc_title#:#Titel
 mail#:#mail_nacc_admin_mail#:#E-Mail-Adresse des Administrators
 mail#:#mail_nacc_client_name#:#Name des Mandanten
+mail#:#mail_nacc_client_desc#:#Beschreibung des Mandanten
 mail#:#mail_nacc_ilias_url#:#URL des ILIAS-Systems
 mail#:#mail_nacc_login#:#Login-Account
 mail#:#mail_nacc_no_pw_block#:#Dieser Textblock wird nur eingefügt, wenn der neue Benutzer ohne Passwort angelegt wurde.
@@ -8148,7 +8161,39 @@ mail#:#mail_no_recipient_found#:#Geben Sie eine andere Adresse an. ILIAS konnte 
 mail#:#mail_no_valid_mailing_list#:#%1$s (kein gültiger Verteiler)
 mail#:#mail_notification_subject#:#Neue Mails im Posteingang
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
-mail#:#mail_prevent_smtp_globally#:#Versand von externen E-Mails (via SMTP) global verhindern.
+mail#:#mail_allow_external#:#Externe E-Mails
+mail#:#mail_allow_external_info#:#Sofern nicht aktiviert, wird der Versand von externen E-Mails (via SMTP) global unterdrückt.
+mail#:#mail_settings_general_tab#:#Allgemein
+mail#:#mail_settings_external_tab#:#Extern
+mail#:#mail_settings_external_frm_head#:#Externe E-Mails
+mail#:#mail_settings_user_frm_head#:#Benutzer E-Mails
+mail#:#mail_settings_system_frm_head#:#System E-Mails
+mail#:#mail_smtp_status#:#SMTP-Versand aktivieren
+mail#:#mail_smtp_status_info#:#Falls aktiviert, delegiert ILIAS den Versand externer E-Mails an den hier konfigurierten Mail-Server, statt die von der PHP-Runtime bereitgestellte Funktionalität für den Versand zu nutzen (mail()-Funtkion, sendmail).
+mail#:#mail_smtp_host#:#Host
+mail#:#mail_smtp_host_info#:#Bitte tragen Sie hier den Hostsnamen oder die IP des Mail-Servers ein.
+mail#:#mail_smtp_port#:#Port
+mail#:#mail_smtp_port_info#:#Bitte tragen Sie einen numerischen SMTP-Port ein (z.B. 25).
+mail#:#mail_smtp_encryption#:#Verschlüsselung
+mail#:#mail_smtp_encryption_tls#:#TLS
+mail#:#mail_smtp_encryption_ssl#:#SSL
+mail#:#mail_external_send_test_usr#:#Test-E-Mail für Benutzernachricht schicken
+mail#:#mail_external_send_test_sys#:#Test-E-Mail für Systemnachricht schicken
+mail#:#mail_external_test_sent#:#An die in Ihrem Profil hinterlegte E-Mail-Adresse wurde eine Test-E-Mail gesendet.
+mail#:#mail_smtp_user#:#Benutzer
+mail#:#mail_smtp_password#:#Passwort
+mail#:#mail_smtp_password_req#:#Sofern Sie einen Benutzer angeben, ist das Passwort obligatorisch.
+mail#:#mail_system_usr_from_addr#:#E-Mail-Adresse des Absenders (From)
+mail#:#mail_system_usr_from_name#:#Name des Absenders (From)
+mail#:#mail_system_usr_from_name_info#:#Als Platzhalter können [FULLNAME], [FIRSTNAME] und [LASTNAME] genutzt werden. Diese werden dann durch das jeweilige Datum des Initiators der E-Mail ersetzt.
+mail#:#mail_system_usr_env_from_addr#:#Technischer Absender
+mail#:#mail_system_usr_env_from_addr_info#:#Sofern dieses Feld leer gelassen wird, wird die E-Mail-Adresse des Absenders genutzt, sofern der SMTP-Versand genutzt wird. Andernfalls ist es die Aufgabe des Server-Administrators, den Header zu konfigurieren.
+mail#:#mail_system_sys_env_from_addr_info#:#Sofern dieses Feld leer gelassen wird, wird die E-Mail-Adresse des Absenders genutzt, sofern der SMTP-Versand genutzt wird. Andernfalls ist es die Aufgabe des Server-Administrators, den Header zu konfigurieren.
+mail#:#mail_system_sys_from_addr#:#E-Mail-Adresse des Absenders (From)
+mail#:#mail_system_sys_from_name#:#Name des Absenders (From)
+mail#:#mail_system_sys_reply_to_addr#:#Reply-To
+mail#:#mail_system_sys_env_from_addr#:#Technischer Absender
+mail#:#mail_system_sys_signature#:#Signatur
 mail#:#mail_s#:#Mails
 mail#:#mail_salutation_anonymous#:#Hallo
 mail#:#mail_salutation_f#:#Hallo
@@ -8262,7 +8307,7 @@ mep#:#mobs_activate_pages#:#Inhaltsbausteine nutzen
 mep#:#mobs_activate_pages_info#:#Ermöglicht es, Seiteninhalte als Bausteine in Medienpools anzulegen. Diese Inhaltsbausteine können in ILIAS Lernmodulen wiederverwendet, aber dort nicht bearbeitet werden.
 mep#:#mobs_always_show_file_manager#:#Dateistruktur immer anzeigen
 mep#:#mobs_always_show_file_manager_info#:#Wenn deaktiviert, wird die Dateistruktur für einfache Datentypen, wie z.B. Bilder, nicht angezeigt.
-mep#:#mobs_restrict_file_types#:#Dateitypen einschränken
+mep#:#mobs_restrict_file_types#:#Erlaubte Dateitypen
 mep#:#mobs_restrict_file_types_info#:#Bestimmen Sie alle Dateitypen, die in Medienobjekten hochgeladen werden dürfen. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Wird kein Eintrag vorgenommen, sind alle Typen erlaubt.
 meta#:#md_adv_active#:#Aktiv
 meta#:#md_adv_add_value#:#Neuer Wert
@@ -9134,7 +9179,7 @@ ps#:#ps_field_type#:#Datenfeldtyp
 ps#:#ps_files_deleted#:#Die Exportdateien wurden gelöscht.
 ps#:#ps_grp_user_fields#:#Gruppenspezifische Benutzerdaten
 ps#:#ps_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen
-ps#:#ps_login_max_attempts_info#:# Bestimmt die maximal erlaubte Anzahl fehlgeschlagener Anmeldeversuche. Wird kein Wert eingetragen, ist die Funktion deaktiviert und ILIAS zählt ILIAS nicht die fehlgeschlagenen Anmeldeversuche.
+ps#:#ps_login_max_attempts_info#:# Bestimmt wie viele Anmeldeversuche eines Benutzer höchstens fehlschlagen dürfen. Schlagen mehr Anmeldeversuche fehl, wird dieser Benutzer auf 'inaktiv' gesetzt und muss im 'Benutzer Management' wieder aktiviert werden, bevor er die Plattform benutzen kann. Wird kein Wert eingetragen, ist die Funktion deaktiviert und ILIAS zählt die fehlgeschlagenen Anmeldeversuche nicht.
 ps#:#ps_name_field#:#Name des Datenfeldes
 ps#:#ps_new_select_field#:#Neue Auswahlliste anlegen
 ps#:#ps_new_text_field#:#Neues Textfeld anlegen
@@ -9190,6 +9235,8 @@ pwassist#:#pwassist_password_assigned#:#Das Passwort ist erfolgreich dem Benutze
 pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.\nDie Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
 pwassist#:#pwassist_update_error#:#Bitte benachrichtigen Sie den System Administrator.\nDas Passwort konnte aufgrund eines Datenbank Fehlers nicht zugewiesen werden.
 pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat:\n%s\n\nDiese Mail ist automatisch generiert worden von der ILIAS-Installation:\n\t%s\n\nSie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die E-Mail-Adresse '%s' angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie diese E-Mail.\n\n-Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben:\nBitte nehmen Sie mit %s Kontakt auf.\n\n- Sie haben um Benutzernamen-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und E-Mail ein neues Passwort schicken zu lassen.
+pwassist#:#pwassist_disabled_no_access#:#Die Passwort-Unterstützung ist nicht aktiviert.  Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
+pwassist#:#unassist_disabled_no_access#:#Die Benutzernamen-Unterstützung ist nicht aktiviert. Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
 rating#:#rat_not_rated_yet#:#Noch nicht bewertet
 rating#:#rat_nr_ratings#:#%s Bewertungen
 rating#:#rat_one_rating#:#Eine Bewertung
@@ -9510,6 +9557,7 @@ registration#:#registration_tab_codes#:#Registrierungscodes
 registration#:#registration_tab_settings#:#Einstellungen
 registration#:#registration_used#:#Verbraucht am
 registration#:#registration_user_new_account_mail#:#Benachrichtigung über Neuanmeldung editieren
+registration#:#registration_disabled_no_access#:#Die Selbstregistrierung ist nicht aktiviert. Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
 rep#:#rep_dependencies#:#Abhängigkeiten
 rep#:#rep_dependency#:#Abhängigkeit
 rep#:#rep_dependent_object#:#Abhängiges Objekt
@@ -11499,10 +11547,6 @@ pdesk#:#bookmark_moved_ok#:#Bookmark wurde verschoben.
 wsp#:#wsp_tab_ownership#:#Meine Magazin-Objekte
 user#:#user_ownership#:#Magazin-Objekte
 registration#:#registration_code_role_info#:#Bei Benutzung eines Registrierungscodes kann diese Auswahl überschrieben werden.
-mail#:#mail_system_from_name#:#Absendername
-mail#:#mail_system_from_name_info#:#Bitte geben Sie einen Namen (z.B. 'John Doe') ein, der als Absender für automatisch generierte Nachrichten (intern und extern) genutzt werden soll. Falls Sie dieses Feld leer lassen, nutzt ILIAS den Kurztitel dieser Installation. Ist dieser ebenfalls nicht definiert, wird 'ILIAS' als Absender verwendet.
-mail#:#mail_system_return_path#:#Globaler Return-Path
-mail#:#mail_system_return_path_info#:#Bitte geben Sie eine E-Mail-Adresse an, die als 'Return-Path' genutzt werden soll (z.B. webmaster@ilias.de). Falls Sie dieses Feld leer lassen, entspricht der 'Return-Path' der 'From' E-Mail-Adresse.
 content#:#cont_current_term#:#Aktueller Begriff
 assessment#:#tst_setting_offer_hints_label#:#Lösungshinweise
 assessment#:#tst_setting_offer_hints_info#:#Teilnehmer können Lösungshinweise anfordern, um eine Frage zu beantworten. Pro gegebenem Lösungshinweis verringern sich die Punkte für die richtige Antwort.
@@ -11688,7 +11732,7 @@ common#:#soap_connect_timeout#:#Timeout für Verbindungsaufbau
 common#:#soap_connect_timeout_info#:#Die maximale Zeit in Sekunden, die gewartet wird, bis eine Verbindung zum SOAP-Web-Service aufgebaut werden kann.
 dateplaner#:#cal_ical_infoscreen#:#Abonnieren
 trac#:#trac_lp_on_personal_desktop#:#Lernfortschritt auf Persönlichem Schreibtisch
-trac#:#trac_lp_learner_access#:#Eigenen Lernfornschritt einsehen
+trac#:#trac_lp_learner_access#:#Eigenen Lernfortschritt einsehen
 rating#:#rating_categories#:#Bewertungs-Kategorien
 rating#:#rating_add_category#:#Kategorie hinzufügen
 rating#:#rating_category_create#:#Kategorie erstellen
@@ -12114,6 +12158,7 @@ dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// o
 dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert, dadurch funktionieren unter Umständen die Platzhalter in der Seitenvorlage nicht mehr, diese müssen gegebenenfalls manuell angepasst werden.
 dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_table_title_unique#:#Es existiert bereits eine Tabelle mit diesem Titel. Titel muss eindeutig sein.
+dcl#:#dcl_table_title_not_matching#:#Die Titel des Excel-Arbeitsblatts und der Tabelle in der Datensammlung stimmen nicht überein. Benennen Sie das Arbeitsblatt um, um einen korrekten Import durchzuführen.
 pd#:#pd_export_profile#:#Persönliche Daten exportieren
 pd#:#pd_download_last_export_file#:#Aktuelle Exportdatei herunterladen
 pd#:#pd_import_personal_data#:#Persönliche Daten importieren
@@ -12252,7 +12297,7 @@ common#:#qpl_copy#:#Fragenpool für Tests kopieren
 mathjax#:#mathjax_enable_mathjax_info#:#Aktiviert die LaTeX-Unterstützung mit MathJax, um mathematische Formeln ausgeben zu können.
 mathjax#:#mathjax_enable_mathjax#:#MathJax aktivieren
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#Zum Beispiel: http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML oder eine URL zu Ihrer lokalen Installation.
+mathjax#:#mathjax_path_to_mathjax_desc#:#Zum Beispiel: https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML oder eine URL zu Ihrer lokalen Installation.
 mathjax#:#mathjax_path_to_mathjax#:#URL zu MathJax
 mathjax#:#mathjax_settings#:#MathJax-Einstellungen
 mathjax#:#mathjax_limiter#:#Trennzeichen
@@ -12401,6 +12446,7 @@ ecs#:#ecs_cmap_att_organisation#:#Organisation
 ecs#:#ecs_cmap_att_term#:#Semester
 ecs#:#ecs_cmap_att_title#:#Veranstaltungstitel
 ecs#:#ecs_cmap_att_lecturer#:#Lehrperson
+ecs#:#ecs_cmap_att_orgunit#:#Organisationseinheit
 ecs#:#ecs_cmap_atts_table#:#Konfiguration der Zuordnungs-Attribute
 ecs#:#ecs_cmap_attributes#:#Attribute
 ecs#:#ecs_cmap_overview#:#Zuordnungsübersicht
@@ -14387,7 +14433,7 @@ survey#:#svy_evaluation_access_participants_info#:#Alle Benutzer, die an der Umf
 survey#:#svy_results_view_own_info#:#Teilnehmer können sich eine Übersicht mit den eigenen Antworten anzeigen lassen, nachdem sie die Umfrage beendet haben. Sie können die Antworten nicht mehr ändern.
 survey#:#survey_360_self_evaluation_info#:#Feedback-Nehmer können anhand der Fragen eine Selbsteinschätzung vornehmen.
 survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, welche ihnen eine Rückmeldung geben sollen selber aus. Sie laden diese Personen auch selbständig ein. 
-survey#:#survey_360_self_appraisee_info#:#Allen Benutzern wird ein Link auf dem Reiter "Info" angezeigt. Mit diesem Link können sie sich selbständig Umfrage als Empfänger von Feedback eintragen.  
+survey#:#survey_360_self_appraisee_info#:#Allen Benutzern wird ein Link auf dem Reiter "Info" angezeigt. Über diesen Link können diese sich selbst als Feedback-Empfänger für diese Umfrage eintragen.
 survey#:#survey_360_results_none_info#:#Feedback-Nehmer können die Antworten, welche Feedback-Geber ausgewählt haben nicht einsehen. 
 survey#:#survey_360_results_own_info#:#Feedback-Nehmer können nur die Antworten einsehen, welche Feedback-Geber zu ihnen persönlich ausgewählt haben. 
 survey#:#survey_360_results_all_info#:#Alle Feedback-Nehmer der 360°-Umfrage können alle Rückmeldungen aller Feedback-Geber zu sich und zu allen anderen Feedback-Nehmern einsehen. 
@@ -15204,7 +15250,7 @@ wsp#:#wsp_shared_filter_reset_button#:#Suche zurücksetzen
 wsp#:#wsp_shared_filter_button#:#Suche
 wiki#:#wiki_page_title_too_long#:#Die Seite konnte nicht angelegt werden, da der Titel zu lang ist. Bitte wählen Sie einen kürzeren Seitentitel.
 exc#:#exc_direct_submit#:#Abgeben
-membership#:#mem_error_preconditions#:#Die Aufnahme konnte nicht erfolgen, da Vorbedingungen zum Beitritt nicht erfüllt sind.
+membership#:#mem_error_preconditions#:#Die Aufnahme konnte nicht erfolgen, da mindestens eine Einstellung dies verhindert.
 export#:#no_file#:#Keine Datei
 content#:#lm_no_download_files#:#Zurzeit stehen keine Download-Dateien zur Verfügung.
 rbac#:#feed_copy#:#Webfeed kopieren
@@ -15619,10 +15665,10 @@ style#:#from_skin#:#vom Skin:
 style#:#dir_copied_from#:#Der Ordner wurde kopiert von:
 style#:#to#:#nach:
 style#:#dir_deleted#:#Der folgende Ordner wurde gelöscht:
-style#:#sty_create_new_system_style#:#Erstelle einen neuen System Style.
-style#:#sty_create_new_system_sub_style#:#Erstelle einen neuen System Sub Style.
-style#:#sty_import_system_style#:#Importiere bestehenden System Style aus ZIP.
-style#:#sty_copy_other_system_style#:#Klone einen bestehenden System Style.
+style#:#sty_create_new_system_style#:#Neuen System-Style anlegen
+style#:#sty_create_new_system_sub_style#:#Neuen Sub Style anlegen
+style#:#sty_import_system_style#:#System Style importieren
+style#:#sty_copy_other_system_style#:#System-Style kopieren
 style#:#sub_style_id#:#Sub Style ID
 style#:#sub_style_name#:#Sub Style Name
 style#:#less_variables_file_not_included#:#Die Less Variablen Datei:
@@ -15773,7 +15819,7 @@ iass#:#iass_internal_note#:#Interne Anmerkungen zur Prüfung
 iass#:#iass_status_completed#:#Bestanden
 iass#:#iass_status_failed#:#Nicht bestanden
 iass#:#iass_status_pending#:#Noch nicht bewertet
-iass#:#iass_notify#:#Teilnehmer nach Finalisierung benachrichtigen
+iass#:#iass_notify#:#Teilnehmer nach abschließender Bewertung benachrichtigen
 iass#:#iass_finalize#:#Abschließen
 iass#:#il_iass_member#:#Teilnehmer
 iass#:#il_iass_members#:#Teilnehmer
@@ -15801,11 +15847,11 @@ rbac#:#iass_edit_permission#:#Rechteeinstellungen ändern
 iass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 iass#:#iass_edit#:#Einstellungen
 iass#:#iass_add#:#Individuelle Bewertung anlegen
-iass#:#iass_membership_finalized#:#Prüfungsdaten finalisiert
-iass#:#iass_membership_saved#:#Prüfungsdaten gespeichert, jedoch noch nicht finalisiert
+iass#:#iass_membership_finalized#:#Bewertung abgeschlossen.
+iass#:#iass_membership_saved#:#Bewertung gespeichert, jedoch noch nicht abgeschlossen.
 iass#:#iass_return#:#Zurück zur Übersicht
 iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
-iass#:#iass_finalize_user_qst#:#Sollen die Prüfungsdaten des Teilnehmers wirklich finalisiert werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
+iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
 iass#:#iass_settings_saved#:#Einstellungen gespeichert.
 iass#:#iass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
 iass#:#iass_add_user_success#:#Benutzer als Teilnehmer hinzugefügt.
@@ -15814,7 +15860,7 @@ iass#:#grading_info#:#Bewertungsinformationen
 iass#:#grading_record#:#Bewertungszusammenfassung
 iass#:#iass_content_explanation#:#Inhalte der Prüfung.
 iass#:#iass_record_template_explanation#:#Vorlage für die Prüfungsnotiz. Wird für jeden neuen Teilnehmer verwendet.
-iass#:#iass_notify_explanation#:#Der Teilnehmer wird nach der Finalisierung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
+iass#:#iass_notify_explanation#:#Der Teilnehmer wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
 iass#:#iass_contact#:#Name
 iass#:#iass_responsibility#:#Zuständigkeit
 iass#:#iass_phone#:#Telefon
@@ -15869,13 +15915,22 @@ chatroom#:#chat_user_action_invite_osd#:#On-Screen-Chat starten
 form#:#err_invalid_input#:#Es wurde ein ungültiger Wert übertragen. Bitte überprüfen Sie Ihre Eingabe.
 chatroom#:#chat_osc_no_conv#:#Keine Konversationen vorhanden.
 chatroom#:#chat_osc_no_sub_directory#:#Relativer Pfad
-chatroom#:#chat_osc_no_sub_directory_info#:#Wird der Chatserver so konfiguriert, dass die zugehörige URL einen Unterpfad der Form "http(s)://[IP/Domain]/[PFAD]" enthält, muss hier der relative [PFAD] angegeben werden.
+chatroom#:#chat_osc_no_sub_directory_info#:#Wird der Chatserver so konfiguriert, dass der zugehörige URL einen Unterpfad der Form "http(s)://[IP/Domain]/[UNTERVERZEICHNIS]" enthält, muss hier das relative [UNTERVERZEICHNIS] angegeben werden. In den meisten Szenarien kann dieses Feld leer gelassen werden.
+chatroom#:#chat_deletion_section_head#:#Löschen alter Nachrichten
+chatroom#:#chat_deletion_disabled#:#Deaktiviert
+chatroom#:#chat_deletion_interval#:#Intervall
+chatroom#:#chat_deletion_interval_info#:#Falls gewählt, werden Nachrichten im Magazin-Chat und im On-Screen-Chat gelöscht, sofern sie älter als der hier definierte Schwellenwert sind.
+chatroom#:#chat_deletion_interval_unit#:#Einheit
+chatroom#:#chat_deletion_interval_value#:#Wert
+chatroom#:#chat_deletion_ival_max_val#:#Der maximale Wert für die gewählte Einheit '%s' ist: %s
+chatroom#:#chat_deletion_interval_run_at#:#Uhrzeit
+chatroom#:#chat_deletion_interval_run_at_info#:#Geben Sie hier den Zeitpunkt im Format 'HH:MM' an (z.B. 23:30), wann der Server das Löschen alter Nachrichten durchführen soll.
 prg#:#prg_points_reachable#:#Erreichbare Punkte
 mail#:#mail_members_search_continue#:#Weiter
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
 crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
-assessment#:#esusay_scoring_mode_keyword_relation_any_desc#:#Für jedes gefundede Keyword werden die entsprechenden Punkte automatisch vergeben.
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#Für jedes gefundede Keyword werden die entsprechenden Punkte automatisch vergeben.
 common#:#object_purchased_date#:#Kaufdatum
 dcl#:#dcl_msg_tableviews_order_updated#:#Anordnung der Ansichten aktualisiert
 dcl#:#dcl_create_table#:#Tabelle erstellen
@@ -15905,8 +15960,27 @@ auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen fals
 crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten
 rbac#:#grp_manage_members#:#Mitglieder einer Gruppe verwalten
 rbac#:#crs_manage_members#:#Mitglieder eines Kurses verwalten
+iass#:#iass_copy#:#Individuelle Bewertung kopieren
 prg#:#prg_successful_img_alt#:#successful###deprecated 
 prg#:#prg_in_progress_img_alt#:#in progress###deprecated 
 survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>###07 02 2017 new variable
 survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.###07 02 2017 new variable
 rbac#:#book_copy#:#Buchungspool kopieren
+mep#:#mobs_black_list_file_types#:#Verbotene Dateitypen
+mep#:#mobs_black_list_file_types_info#:#Diese List schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Dies ist sinnvoll, wenn die vorangegangene Option leer ist (alle Typen erlaubt).
+form#:#form_msg_file_type_is_not_allowed#:#Dieser Dateityp ist nicht erlaubt.
+common#:#file_no_valid_file_type#:#Dieser Dateityp ist nicht erlaubt.
+common#:#file_some_invalid_file_types_removed#:#Einige Dateitypen sind nicht erlaubt und wurden entfernt.
+ecs#:#ecs_member_auth_type#:#Authentifizierungsmethode für Kursmitglieder
+common#:#background_tasks#:#Background Tasks
+common#:#scheduled#:#Geplant
+grp#:#grp_period#:#Veranstaltungszeitraum
+grp#:#grp_period_info#:#Information zum Start und Ende der Veranstaltung, die mit der Gruppe unterstützt werden soll.
+exc#:#exc_settings_feedback_mail_info#:#Tutoren geben ihre Rückmeldungen zur Abgabe in ein Mail-Formular ein. Die Mail wird dem entsprechenden Teilnehmer gesendet.
+exc#:#exc_settings_feedback_file_info#:#Tutoren laden ihre Datei hoch. Der jeweilige Teilnehmer erhält eine Benachrichtigung und die Datei wird ihm in der Übungseinheiten-Übersicht angezeigt.
+exc#:#exc_settings_feedback_text_info#:#Tutoren geben ihre Rückmeldungen in ein Textfeld ein. Der jeweilige Teilnehmer erhält eine Benachrichtigung und der Text wird ihm in der Übungseinheiten-Übersicht angezeigt.
+rbac#:#file_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#file_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
+rbac#:#stys_sty_write_content#:#Content-Styles bearbeiten
+style#:#manage_system_styles#:#System Styles verwalten
+style#:#scope#:#Gültigkeitsbereich

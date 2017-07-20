@@ -3,7 +3,7 @@
 
 /**
  * Interface ilForumNotificationMailData
- * @author Nadia Ahmad <nahmad@databay.de>
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  */
 interface ilForumNotificationMailData
 {
@@ -51,7 +51,12 @@ interface ilForumNotificationMailData
 	 * @return string frm_posts.pos_message
 	 */
 	public function getPostMessage();
-
+	
+	/**
+	 * @return string frm_posts.pos_author_id
+	 */
+	public function getPosAuthorId();
+	
 	/**
 	 * @return string frm_posts.pos_display_user_id
 	 */
@@ -79,9 +84,10 @@ interface ilForumNotificationMailData
 	public function getPostUpdate();
 
 	/**
+	 * @param ilLanguage object $user_lang 
 	 * @return string login
 	 */
-	public function getPostUpdateUserName();
+	public function getPostUpdateUserName($user_lang);
 	
 	/**
 	 * @return string frm_posts.pos_cens

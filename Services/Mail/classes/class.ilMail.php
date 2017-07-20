@@ -141,7 +141,15 @@ class ilMail
 		$this->setSaveInSentbox(false);
 		$this->readMailObjectReferenceId();
 	}
-	
+
+	/**
+	 * @return bool
+	 */
+	protected function isSystemMail()
+	{
+		return $this->user_id == ANONYMOUS_USER_ID;
+	}
+
 	/**
 	 * Magic interceptor method __get
 	 * Used to include files / instantiate objects at runtime.
@@ -592,6 +600,24 @@ class ilMail
 		return $a_row;
 	}
 
+	/**
+	 * @param int $usrId
+	 * @param int $folderId
+	 * @return int
+	 */
+	public function getNewDraftId($usrId, $folderId)
+	{
+		$next_id = $this->db->nextId($this->table_mail);
+		$this->db->insert($this->table_mail, array(
+			'mail_id'        => array('integer', $next_id),
+			'user_id'        => array('integer', $usrId),
+			'folder_id'      => array('integer', $folderId),
+			'sender_id'      => array('integer', $usrId)
+		));
+
+		return $next_id;
+	}
+
 	public function updateDraft(
 		$a_folder_id, $a_attachments, $a_rcp_to, $a_rcp_cc, $a_rcp_bcc,
 		$a_m_type, $a_m_email, $a_m_subject,  $a_m_message, $a_draft_id = 0,
@@ -655,6 +681,7 @@ class ilMail
 		{
 			$a_m_message = $this->replacePlaceholders($a_m_message, $a_user_id);
 		}
+		$a_m_message = $this->formatLinebreakMessage($a_m_message);
 
 		if(!$a_user_id)		$a_user_id = '0';
 		if(!$a_folder_id)	$a_folder_id = '0';
@@ -670,7 +697,6 @@ class ilMail
 		if(!$a_m_message)	$a_m_message = NULL;
 
 		$next_id = $this->db->nextId($this->table_mail);
-
 		$this->db->insert($this->table_mail, array(
 			'mail_id'        => array('integer', $next_id),
 			'user_id'        => array('integer', $a_user_id),
@@ -818,7 +844,7 @@ class ilMail
 
 			if(count($to) > 0 || count($bcc) > 0)
 			{
-				$this->sendMimeMail(implode(',', $to), '', implode(',', $bcc), $a_subject, $a_message, $a_attachments);
+				$this->sendMimeMail(implode(',', $to), '', implode(',', $bcc), $a_subject, $this->formatLinebreakMessage($a_message), $a_attachments);
 			}
 		}
 		else
@@ -833,7 +859,8 @@ class ilMail
 				"Parsed CC/BCC user ids from given recipients for serial letter notification: %s", implode(', ', $rcp_ids_no_replace)
 			));
 
-			$as_email = array();
+			$as_email          = array();
+			$id_to_message_map = array();
 
 			foreach($rcp_ids_replace as $id)
 			{
@@ -847,6 +874,8 @@ class ilMail
 				{
 					continue;
 				}
+
+				$id_to_message_map[$id] = $this->replacePlaceholders($a_message, $id);
 
 				if($user_is_active)
 				{
@@ -867,7 +896,7 @@ class ilMail
 
 				$mail_id = $this->sendInternalMail(
 					$inbox_id, $this->user_id, $a_attachments, $a_rcp_to, $a_rcp_cc, '',
-					'unread', $a_type, 0, $a_subject, $a_message, $id, 0
+					'unread', $a_type, 0, $a_subject, $id_to_message_map[$id], $id, 0
 				);
 
 				if($a_attachments)
@@ -880,7 +909,7 @@ class ilMail
 			{
 				foreach($as_email as $id => $email)
 				{
-					$this->sendMimeMail($email, '', '', $a_subject, $this->replacePlaceholders($a_message, $id), $a_attachments);
+					$this->sendMimeMail($email, '', '', $a_subject, $this->formatLinebreakMessage($id_to_message_map[$id]), $a_attachments);
 				}
 			}
 
@@ -931,7 +960,7 @@ class ilMail
 
 			if(count($as_email))
 			{
-				$this->sendMimeMail('', '', implode(',', $as_email), $a_subject, $cc_and_bcc_message, $a_attachments);
+				$this->sendMimeMail('', '', implode(',', $as_email), $a_subject, $this->formatLinebreakMessage($cc_and_bcc_message), $a_attachments);
 			}
 		}
 
@@ -964,7 +993,7 @@ class ilMail
 	 * @param    string $a_m_subject
 	 * @param    string $a_m_message
 	 * @param    string $a_type
-	 * @return    string array message
+	 * @return   array message
 	 */
 	protected function checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_type)
 	{
@@ -990,7 +1019,7 @@ class ilMail
 	 * @return array Returns an empty array, if all recipients are okay. Returns an array with invalid recipients, if some are not okay.
 	 * @throws ilMailException
 	 */
-	protected function checkRecipients($a_recipients, $a_type)
+	protected function checkRecipients($a_recipients)
 	{
 		$errors = array();
 
@@ -1117,7 +1146,7 @@ class ilMail
 		);
 
 		$this->mail_to_global_roles = true;
-		if($this->user_id != ANONYMOUS_USER_ID)
+		if(!$this->isSystemMail())
 		{
 			$this->mail_to_global_roles = $rbacsystem->checkAccessOfUser($this->user_id, 'mail_to_global_roles', $this->mail_obj_ref_id);
 		}
@@ -1138,22 +1167,11 @@ class ilMail
 			return $errors;
 		}
 
-		try
- 		{
-			$errors = array();
-			$errors = array_merge($errors, $this->checkRecipients($a_rcp_to, $a_type));
-			$errors = array_merge($errors, $this->checkRecipients($a_rcp_cc, $a_type));
-			$errors = array_merge($errors, $this->checkRecipients($a_rcp_bc, $a_type));
-
-			if(count($errors) > 0)
-			{
-				return array_merge(array(array('mail_following_rcp_not_valid')), $errors);
-			}
- 		}
-		catch(ilMailException $e)
- 		{
-			return array(array('mail_generic_rcp_error', $e->getMessage()));
- 		}
+		$errors = $this->validateRecipients($a_rcp_to, $a_rcp_cc, $a_rcp_bc);
+		if(count($errors) > 0)
+		{
+			return $errors;
+		}
 
 		$rcp_to = $a_rcp_to;
 		$rcp_cc = $a_rcp_cc;
@@ -1162,7 +1180,7 @@ class ilMail
 		$c_emails = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bc, true);
 
 		if(
-			$c_emails && $this->user_id != ANONYMOUS_USER_ID &&
+			$c_emails && !$this->isSystemMail() &&
 			!$rbacsystem->checkAccessOfUser($this->user_id, 'smtp_mail', $this->mail_obj_ref_id)
 		)
 		{
@@ -1184,8 +1202,8 @@ class ilMail
 
 		if($c_emails)
 		{
-			$externalMailRecipientsTo = $this->getEmailRecipients($rcp_to);
-			$externalMailRecipientsCc = $this->getEmailRecipients($rcp_cc);
+			$externalMailRecipientsTo  = $this->getEmailRecipients($rcp_to);
+			$externalMailRecipientsCc  = $this->getEmailRecipients($rcp_cc);
 			$externalMailRecipientsBcc = $this->getEmailRecipients($rcp_bc);
 
 			ilLoggerFactory::getLogger('mail')->debug(
@@ -1201,7 +1219,7 @@ class ilMail
 				$externalMailRecipientsCc,
 				$externalMailRecipientsBcc,
 				$a_m_subject,
-				$a_use_placeholders ? $this->replacePlaceholders($a_m_message) : $a_m_message,
+				$this->formatLinebreakMessage($a_use_placeholders ? $this->replacePlaceholders($a_m_message, 0, false) : $a_m_message),
 				$a_attachment,
 				0
 			);
@@ -1224,6 +1242,34 @@ class ilMail
 		if(!$this->getSaveInSentbox())
 		{
 			$this->deleteMails(array($sent_id));
+		}
+
+		return array();
+	}
+
+	/**
+	 * @param string $a_rcp_to
+	 * @param string $a_rcp_cc
+	 * @param string $a_rcp_bc
+	 * @return array Returns an empty array if there is no validation issue
+	 */
+	public function validateRecipients($a_rcp_to, $a_rcp_cc, $a_rcp_bc)
+	{
+		try
+		{
+			$errors = array();
+			$errors = array_merge($errors, $this->checkRecipients($a_rcp_to));
+			$errors = array_merge($errors, $this->checkRecipients($a_rcp_cc));
+			$errors = array_merge($errors, $this->checkRecipients($a_rcp_bc));
+
+			if(count($errors) > 0)
+			{
+				return array_merge(array(array('mail_following_rcp_not_valid')), $errors);
+			}
+		}
+		catch(ilMailException $e)
+		{
+			return array(array('mail_generic_rcp_error', $e->getMessage()));
 		}
 
 		return array();
@@ -1256,68 +1302,6 @@ class ilMail
 	}
 
 	/**
-	 * Returns the sender of the mime mail as array(address => name)
-	 * @return array
-	 */
-	protected function getMimeMailSender()
-	{
-		/** @var $ilUser ilObjUser */
-		global $ilUser;
-
-		if($this->user_id && $this->user_id != ANONYMOUS_USER_ID)
-		{
-			$email    = $ilUser->getEmail();
-			$fullname = $ilUser->getFullname();
-			if($ilUser->getId() != $this->user_id)
-			{
-				$user  = self::getCachedUserInstance($this->user_id);
-				$email = $user->getEmail();
-				$fullname = $user->getFullname();
-			}
-
-			$sender = array($email, $fullname);
-		}
-		else
-		{
-			$sender = self::getIliasMailerAddress();
-		}
-
-		return $sender;
-	}
-	
-	/**
-	 * Builds an email address array(address => name) used for system notifications 
-	 * @returnx array
-	 */
-	public static function getIliasMailerAddress()
-	{
-		/** @var $ilSetting ilSetting */
-		global $ilSetting;
-
-		$no_reply_adress = trim($ilSetting->get('mail_external_sender_noreply'));
-		if(strlen($no_reply_adress))
-		{
-			if(strpos($no_reply_adress, '@') === false)
-			{
-				$no_reply_adress = 'noreply@' . $no_reply_adress;
-			}
-			
-			if(!ilUtil::is_email($no_reply_adress))
-			{
-				$no_reply_adress = 'noreply@' . $_SERVER['SERVER_NAME'];
-			}
-
-			$sender = array($no_reply_adress, self::_getIliasMailerName());
-		}
-		else
-		{
-			$sender = array('noreply@' . $_SERVER['SERVER_NAME'], self::_getIliasMailerName());
-		}
-
-		return $sender;
-	}
-
-	/**
 	 * Send mime mail using class.ilMimeMail.php. All external mails are send to SOAP::sendMail (if enabled) starting a kind of background process
 	 * @param string $a_rcp_to
 	 * @param string $a_rcp_cc
@@ -1326,7 +1310,6 @@ class ilMail
 	 * @param string $a_m_message
 	 * @param array  $a_attachments
 	 * @param bool   $a_no_soap
-	 * @return    array of saved data
 	 * @deprecated Should not be called from consumers, please use sendMail()
 	 */
 	public function sendMimeMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_attachments, $a_no_soap = false)
@@ -1334,7 +1317,6 @@ class ilMail
 		require_once 'Services/Mail/classes/class.ilMimeMail.php';
 
 		$a_m_subject = self::getSubjectPrefix() . ' ' . $a_m_subject;
-		$sender      = $this->getMimeMailSender();
 
 		// #10854
 		if($this->isSOAPEnabled() && !$a_no_soap)
@@ -1365,22 +1347,19 @@ class ilMail
 				$a_rcp_to,
 				$a_rcp_cc,
 				$a_rcp_bcc,
-				is_array($sender) ? implode('#:#', $sender) : $sender,
+				$this->user_id,
 				$a_m_subject,
 				$a_m_message,
 				$attachments
 			));
-
-			return true;
 		}
 		else
 		{
-			// send direct
-			include_once "Services/Mail/classes/class.ilMimeMail.php";
+			/** @var ilMailMimeSenderFactory $senderFactory */
+			$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 
 			$mmail = new ilMimeMail();
-			$mmail->autoCheck(false);
-			$mmail->From($sender);
+			$mmail->From($senderFactory->getSenderByUsrId($this->user_id));
 			$mmail->To($a_rcp_to);
 			$mmail->Subject($a_m_subject);
 			$mmail->Body($a_m_message);
@@ -1567,21 +1546,10 @@ class ilMail
 	 */
 	public static function _getIliasMailerName()
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 
-		if(strlen($ilSetting->get('mail_system_sender_name')))
-		{
-			return $ilSetting->get('mail_system_sender_name');
-		}
-		else if(strlen($ilSetting->get('short_inst_name')))
-		{
-			return $ilSetting->get('short_inst_name');
-		}
-
-		return 'ILIAS';
+		return $senderFactory->system()->getFromName();
 	}
 
 	/**
@@ -1605,26 +1573,29 @@ class ilMail
 	 */
 	public static function _getInstallationSignature()
 	{
-		/** @var $ilClientIniFile ilIniFile */
-		global $ilClientIniFile;
+		/**
+		 * @var $ilSetting       ilSetting
+		 * @var $ilClientIniFile ilIniFile
+		 */
+		global $ilSetting, $ilClientIniFile;
 
-		$signature = "\n\n* * * * *\n";
+		$signature = $ilSetting->get('mail_system_sys_signature');
 
-		$signature .= $ilClientIniFile->readVariable('client', 'name') . "\n";
-		if(strlen($desc = $ilClientIniFile->readVariable('client', 'description')))
-		{
-			$signature .= $desc . "\n";
-		}
-
-		$signature .= ilUtil::_getHttpPath();
-
+		$clientUrl = ilUtil::_getHttpPath();
 		$clientdirs = glob(ILIAS_WEB_DIR . '/*', GLOB_ONLYDIR);
 		if(is_array($clientdirs) && count($clientdirs) > 1)
 		{
-			$signature .= '/login.php?client_id=' . CLIENT_ID; // #18051
+			$clientUrl .= '/login.php?client_id=' . CLIENT_ID; // #18051
 		}
 
-		$signature .= "\n\n";
+		$signature = str_ireplace('[CLIENT_NAME]', $ilClientIniFile->readVariable('client', 'name'), $signature);
+		$signature = str_ireplace('[CLIENT_DESC]', $ilClientIniFile->readVariable('client', 'description'), $signature);
+		$signature = str_ireplace('[CLIENT_URL]', $clientUrl, $signature);
+
+		if(!preg_match('/^[\n\r]+/', $signature))
+		{
+			$signature = "\n" . $signature;
+		}
 
 		return $signature;
 	}
@@ -1683,5 +1654,13 @@ class ilMail
 
 		self::$userInstances[$a_usr_id] = new ilObjUser($a_usr_id);
 		return self::$userInstances[$a_usr_id];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function formatLinebreakMessage($a_message)
+	{
+		return $a_message;
 	}
 }

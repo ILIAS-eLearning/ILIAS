@@ -35,10 +35,14 @@ class ilECSTaskScheduler
 	
 	private static $instances = array();
 	
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+	
 	private $event_reader = null;
 
 	protected $settings = null;
-	protected $log = null;
 	protected $db;
 	
 	private $mids = array();
@@ -54,8 +58,9 @@ class ilECSTaskScheduler
 	 	global $ilDB,$ilLog;
 	 	
 	 	$this->db = $ilDB;
-	 	$this->log = $ilLog;
-	 	
+		
+		$this->log = $GLOBALS['DIC']->logger()->wsrv();
+		
 	 	include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
 	 	$this->settings = $setting;
 	}
@@ -152,7 +157,7 @@ class ilECSTaskScheduler
 		}
 		catch(ilException $exc)
 		{
-			$this->log->write(__METHOD__.': Caught exception: '.$exc->getMessage());
+			$this->log->warning('Cannot start ecs task execution: ' . $exc->getMessage());
 			return false;
 		}
 		return true;
@@ -217,6 +222,7 @@ class ilECSTaskScheduler
 					break;
 				
 				case ilECSEventQueueReader::TYPE_DIRECTORY_TREES:
+					$this->log->debug('Handling new cms tree event.');
 					include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTreeCommandQueueHandler.php';
 					$handler = new ilECSCmsTreeCommandQueueHandler($this->getServer());
 					break;
@@ -242,7 +248,8 @@ class ilECSTaskScheduler
 					break;
 
 				default:
-					ilLoggerFactory::getRootLogger()->warning('Unknown type in queue, raising new event handling event: '. $event['type']);
+					
+					$this->log->warning('Unknown type in queue, raising new event handling event: '. $event['type']);
 					$event_ignored = true;
 					
 					$GLOBALS['ilAppEventHandler']->raise(
@@ -348,7 +355,6 @@ class ilECSTaskScheduler
 	 				if($part->isSelf())
 	 				{
 	 					$this->mids[] = $part->getMID();
-	 					#$this->log->write('Fetch MID: '.$part->getMID());
 	 				}
 	 			}
 	 		}
@@ -368,7 +374,7 @@ class ilECSTaskScheduler
 	 */
 	public function checkNextExecution()
 	{
-	 	global $ilLog, $ilDB;
+	 	global $ilDB;
 
 	 	
 	 	if(!$this->settings->isEnabled())
@@ -378,7 +384,7 @@ class ilECSTaskScheduler
 		
 	 	if(!$this->settings->checkImportId())
 	 	{
-	 		$this->log->write(__METHOD__.': Import ID is deleted or not of type "category". Aborting');
+			$this->log->warning('Import ID is deleted or not of type "category". Aborting');
 	 		return false;
 	 	}
 
@@ -417,18 +423,17 @@ class ilECSTaskScheduler
 		$soap_client->setResponseTimeout(1);
 		$soap_client->enableWSDL(true);
 
-		#$ilLog->write(__METHOD__.': Trying to call Soap client...');
 		$new_session_id = ilSession::_duplicate($_COOKIE['PHPSESSID']);
 		$client_id = $_COOKIE['ilClientId'];
 
 		if($soap_client->init() and 0)
 		{
-			$ilLog->write(__METHOD__.': Calling soap handleECSTasks method...');
+			$this->log->info('Calling soap handleECSTasks method...');
 			$res = $soap_client->call('handleECSTasks',array($new_session_id.'::'.$client_id,$this->settings->getServerId()));
 		}
 		else
 		{
-			$ilLog->write(__METHOD__.': SOAP call failed. Calling clone method manually. ');
+			$this->log->info('SOAP call failed. Calling clone method manually. ');
 			include_once('./webservice/soap/include/inc.soap_functions.php');
 			$res = ilSoapFunctions::handleECSTasks($new_session_id.'::'.$client_id,$this->settings->getServerId());
 		}

@@ -86,7 +86,7 @@ class ilQtiMatImageSecurity
 	
 	protected function validateContent()
 	{
-		if( !assQuestion::isAllowedImageMimeType($this->getImageMaterial()->getImagetype()) )
+		if($this->getImageMaterial()->getImagetype() && !assQuestion::isAllowedImageMimeType($this->getImageMaterial()->getImagetype()) )
 		{
 			return false;
 		}
@@ -96,20 +96,39 @@ class ilQtiMatImageSecurity
 			return false;
 		}
 
-		$declaredMimeType = assQuestion::fetchMimeTypeIdentifier($this->getImageMaterial()->getImagetype());
-		$detectedMimeType = assQuestion::fetchMimeTypeIdentifier($this->getDetectedMimeType());
-
-		if( $declaredMimeType != $detectedMimeType )
+		if ($this->getImageMaterial()->getImagetype())
 		{
-			return false;
+			$declaredMimeType = assQuestion::fetchMimeTypeIdentifier($this->getImageMaterial()->getImagetype());
+			$detectedMimeType = assQuestion::fetchMimeTypeIdentifier($this->getDetectedMimeType());
+
+			if( $declaredMimeType != $detectedMimeType )
+			{
+				// since ilias exports jpeg declared pngs itself, we skip this validation ^^
+				// return false;
+				
+				/* @var ilComponentLogger $log */
+				$log = $GLOBALS['DIC'] ? $GLOBALS['DIC']['ilLog'] : $GLOBALS['ilLog'];
+				$log->log(
+					'QPL: imported image with declared mime ('.$declaredMimeType.') '
+					.'and detected mime ('.$detectedMimeType.')'
+				);
+			}
 		}
-		
+
 		return true;
 	}
 	
 	protected function validateLabel()
 	{
-		$extension = $this->determineFileExtension($this->getImageMaterial()->getLabel());
+		if ($this->getImageMaterial()->getUri())
+		{
+			$extension = $this->determineFileExtension($this->getImageMaterial()->getUri());
+		}
+		else
+		{
+			$extension = $this->determineFileExtension($this->getImageMaterial()->getLabel());
+		}
+
 		return assQuestion::isAllowedImageFileExtension($this->getDetectedMimeType(), $extension);
 	}
 	

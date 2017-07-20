@@ -99,11 +99,20 @@ class ilCertificate
 	
 	/**
 	* Returns the filesystem path of the background image
-	*
+	* @param  bool $asRelative
 	* @return string The filesystem path of the background image
 	*/
-	public function getBackgroundImagePath()
+	public function getBackgroundImagePath($asRelative = false)
 	{
+		if($asRelative)
+		{
+			return str_replace(
+				array(CLIENT_WEB_DIR, '//'),
+				array('[CLIENT_WEB_DIR]', '/'),
+				$this->getAdapter()->getCertificatePath() . $this->getBackgroundImageName()
+			);
+		}
+
 		return $this->getAdapter()->getCertificatePath() . $this->getBackgroundImageName();
 	}
 
@@ -421,12 +430,17 @@ class ilCertificate
 			$pagewidth = $pageformats[$form_data["pageformat"]]["width"];
 		}
 		include_once "./Services/Certificate/classes/class.ilObjCertificateSettingsAccess.php";
-		$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImagePath() : ((ilObjCertificateSettingsAccess::hasBackgroundImage()) ? ilObjCertificateSettingsAccess::getBackgroundImagePath() : "");
+		$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImagePath(true) : ((ilObjCertificateSettingsAccess::hasBackgroundImage()) ? ilObjCertificateSettingsAccess::getBackgroundImagePath(true) : "");
 		$params = array(
-			"pageheight" => $pageheight, 
-			"pagewidth" => $pagewidth,
+			"pageheight"      => $pageheight,
+			"pagewidth"       => $pagewidth,
 			"backgroundimage" => $backgroundimage,
-			"marginbody" => $form_data["margin_body_top"] . " " . $form_data["margin_body_right"] . " " . $form_data["margin_body_bottom"] . " " . $form_data["margin_body_left"]
+			"marginbody"      => implode(' ', array(
+				$form_data["margin_body_top"],
+				$form_data["margin_body_right"],
+				$form_data["margin_body_bottom"],
+				$form_data["margin_body_left"]
+			))
 		);
 		$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, $params);
 		xslt_error($xh);
@@ -456,6 +470,9 @@ class ilCertificate
 		{
 			$certificate_text = str_replace($var, $value, $certificate_text);
 		}
+
+		$certificate_text = str_replace('[CLIENT_WEB_DIR]', CLIENT_WEB_DIR, $certificate_text);
+
 		return $certificate_text;
 	}
 	

@@ -60,7 +60,10 @@ class ilPreviewGUI
 	 */
 	public function __construct($a_node_id = null, $a_context = self::CONTEXT_REPOSITORY, $a_obj_id = null, $a_access_handler = null) 
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		// if we are the base class, get the id's from the query string
 		if (strtolower($_GET["baseClass"]) == "ilpreviewgui")
@@ -150,6 +153,7 @@ class ilPreviewGUI
 	 */
 	public function getPreviewHTML()
 	{
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 		// load the template
 		$tmpl = new ilTemplate("tpl.preview.html", true, true, "Services/Preview");
 		$tmpl->setVariable("PREVIEW_ID", $this->getHtmlId());
@@ -167,7 +171,7 @@ class ilPreviewGUI
 				foreach ($images as $image)
 				{
 					$tmpl->setCurrentBlock("preview_item");
-					$tmpl->setVariable("IMG_URL", $image["url"]);
+					$tmpl->setVariable("IMG_URL", ilWACSignedPath::signFile($image["url"]));
 					$tmpl->setVariable("WIDTH", $image["width"]);
 					$tmpl->setVariable("HEIGHT", $image["height"]);
 					$tmpl->parseCurrentBlock();
@@ -356,7 +360,10 @@ class ilPreviewGUI
 		if (self::$initialized)
 			return;
 		
-		global $tpl, $lng, $ilCtrl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		
 		// jquery

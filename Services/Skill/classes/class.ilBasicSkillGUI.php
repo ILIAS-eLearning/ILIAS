@@ -101,6 +101,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	 */
 	function saveItem()
 	{
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$it = new ilBasicSkill();
 		$it->setTitle($this->form->getInput("title"));
 		$it->setOrderNr($this->form->getInput("order_nr"));
@@ -128,6 +133,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	 */
 	function updateItem()
 	{
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$this->node_object->setTitle($this->form->getInput("title"));
 		$this->node_object->setOrderNr($this->form->getInput("order_nr"));
 		$this->node_object->setSelfEvaluation($_POST["self_eval"]);
@@ -150,10 +160,13 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		}
 		else
 		{
-			$ilToolbar->addButton($lng->txt("skmg_add_level"),
+			if ($this->checkPermissionBool("write"))
+			{
+				$ilToolbar->addButton($lng->txt("skmg_add_level"),
 					$ilCtrl->getLinkTarget($this, "addLevel"));
+			}
 		}
-		
+
 		include_once("./Services/Skill/classes/class.ilSkillLevelTableGUI.php");
 		$table = new ilSkillLevelTableGUI($this->base_skill_id, $this, "edit", 0, $this->isInUse());
 		$tpl->setContent($table->getHTML());
@@ -194,16 +207,18 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		$this->form->addItem($cb);
 
 		// save and cancel commands
-		if ($a_mode == "create")
+		if ($this->checkPermissionBool("write"))
 		{
-			$this->form->addCommandButton("save", $lng->txt("save"));
-			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
-			$this->form->setTitle($lng->txt("skmg_create_skll"));
-		}
-		else
-		{
-			$this->form->addCommandButton("update", $lng->txt("save"));
-			$this->form->setTitle($lng->txt("skmg_edit_skll"));
+			if ($a_mode == "create")
+			{
+				$this->form->addCommandButton("save", $lng->txt("save"));
+				$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
+				$this->form->setTitle($lng->txt("skmg_create_skll"));
+			} else
+			{
+				$this->form->addCommandButton("update", $lng->txt("save"));
+				$this->form->setTitle($lng->txt("skmg_edit_skll"));
+			}
 		}
 		
 		$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
@@ -261,6 +276,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	{
 		global $tpl, $lng, $ilCtrl;
 
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$this->initLevelForm("create");
 		if ($this->form->checkInput())
 		{
@@ -283,6 +303,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	function updateLevel()
 	{
 		global $lng, $ilCtrl, $tpl;
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
 
 		$this->initLevelForm("edit");
 		if ($this->form->checkInput())
@@ -331,17 +356,19 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		$this->form->addItem($ta);
 
 		// save and cancel commands
-		if ($a_mode == "create")
+		if ($this->checkPermissionBool("write"))
 		{
-			$this->form->addCommandButton("saveLevel", $lng->txt("save"));
-			$this->form->addCommandButton("edit", $lng->txt("cancel"));
-			$this->form->setTitle($lng->txt("skmg_new_level"));
-		}
-		else
-		{
-			$this->form->addCommandButton("updateLevel", $lng->txt("save"));
-			$this->form->addCommandButton("edit", $lng->txt("cancel"));
-			$this->form->setTitle($lng->txt("skmg_edit_level"));
+			if ($a_mode == "create")
+			{
+				$this->form->addCommandButton("saveLevel", $lng->txt("save"));
+				$this->form->addCommandButton("edit", $lng->txt("cancel"));
+				$this->form->setTitle($lng->txt("skmg_new_level"));
+			} else
+			{
+				$this->form->addCommandButton("updateLevel", $lng->txt("save"));
+				$this->form->addCommandButton("edit", $lng->txt("cancel"));
+				$this->form->setTitle($lng->txt("skmg_edit_level"));
+			}
 		}
 
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -367,6 +394,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	{
 		global $lng, $ilCtrl;
 
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$order = ilUtil::stripSlashesArray($_POST["order"]);
 		$this->node_object->updateLevelOrder($order);
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -379,6 +411,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	function confirmLevelDeletion()
 	{
 		global $ilCtrl, $tpl, $lng;
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
 
 		$this->setTabs("levels");
 
@@ -411,6 +448,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	function deleteLevel()
 	{
 		global $lng, $ilCtrl;
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
 
 		if (is_array($_POST["id"]))
 		{
@@ -585,6 +627,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	{
 		global $ilCtrl, $ilTabs, $lng, $tree, $tpl;
 
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$this->setLevelHead();
 		$ilTabs->activateTab("level_trigger");
 
@@ -609,6 +656,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	function saveLevelTrigger()
 	{
 		global $ilCtrl;
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
 
 		ilBasicSkill::writeLevelTrigger((int) $_GET["level_id"], (int) $_GET["root_id"]);
 		$ilCtrl->redirect($this, "editLevelTrigger");
@@ -657,9 +709,12 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	{
 		global $tpl, $ilTabs, $ilToolbar, $lng, $ilCtrl;
 
-		$ilToolbar->addButton(
-			$lng->txt("skmg_add_resource"),
-			$ilCtrl->getLinkTarget($this, "addLevelResource"));
+		if ($this->checkPermissionBool("write"))
+		{
+			$ilToolbar->addButton(
+				$lng->txt("skmg_add_resource"),
+				$ilCtrl->getLinkTarget($this, "addLevelResource"));
+		}
 		
 		$this->setLevelHead();
 		$ilTabs->activateTab("level_resources");
@@ -699,6 +754,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
 		$ref_id = (int) $_GET["root_id"];
 
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		if ($ref_id > 0)
 		{
 			include_once("./Services/Skill/classes/class.ilSkillResources.php");
@@ -718,6 +778,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	function confirmLevelResourcesRemoval()
 	{
 		global $ilCtrl, $tpl, $lng, $ilTabs;
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
 
 		$this->setLevelHead();
 		$ilTabs->activateTab("level_resources");
@@ -752,7 +817,12 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	function removeLevelResources()
 	{
 		global $ilCtrl, $lng;
-		
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		if (is_array($_POST["id"]))
 		{
 			include_once("./Services/Skill/classes/class.ilSkillResources.php");

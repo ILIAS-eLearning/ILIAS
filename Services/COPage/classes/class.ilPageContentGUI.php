@@ -322,6 +322,7 @@ class ilPageContentGUI
 			$lng->toJS("cont_anchor");
 		}
 
+		include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
 		$btpl->setVariable("CHAR_STYLE_SELECT", ilPCParagraphGUI::getCharStyleSelector($this->pg_obj->getParentType(), true, $this->getStyleId()));
 		
 		// footnote

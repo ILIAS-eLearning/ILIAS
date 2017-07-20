@@ -1,9 +1,5 @@
 <?php
 
-require_once "Services/Repository/classes/class.ilObjectPlugin.php";
-require_once "Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php";
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
-
 /**
  * Class ilOrgUnitExtension
  *
@@ -32,7 +28,8 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin {
 	 * @param int $a_ref_id
 	 */
 	public function __construct($a_ref_id = 0) {
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 
 		parent::__construct($a_ref_id);
 		$this->ilObjOrgUnitTree = ilObjOrgUnitTree::_getInstance();

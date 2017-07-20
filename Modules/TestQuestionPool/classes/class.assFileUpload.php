@@ -19,6 +19,11 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilObjFileHandlingQ
  */
 class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjFileHandlingQuestionType
 {
+	// hey: prevPassSolutions - support reusing selected files
+	const REUSE_FILES_TBL_POSTVAR = 'reusefiles';
+	const DELETE_FILES_TBL_POSTVAR = 'deletefiles';
+	// hey.
+	
 	protected $maxsize;
 	
 	protected $allowedextensions;
@@ -649,6 +654,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 	}
 
+	// hey: prevPassSolutions - refactored method to get intermediate/authorized
+	//							as well as upload, delete and previous files working
+	// BASED ON LAST FRED IMPLEMENTATION (@Fred: simply replace and solve unknown calls)
 	/**
 	 * Saves the learners input of the question to the database.
 	 * 
@@ -659,122 +667,84 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
-		global $ilDB;
-		global $ilUser;
-
-		if (is_null($pass))
-		{
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			$pass = ilObjTest::_getPass($active_id);
-		}
-
-		if( $_POST['cmd'][$this->questionActionCmd] != $this->lng->txt('delete')
-			&& strlen($_FILES["upload"]["tmp_name"]) )
-		{
-			$checkUploadResult = $this->checkUpload();
-		}
-		else
-		{
-			$checkUploadResult = false;
-		}
+		$pass = $this->ensureCurrentTestPass($active_id, $pass);
+		$test_id = $this->lookupTestId($active_id);
 		
-		$result = $ilDB->queryF("SELECT test_fi FROM tst_active WHERE active_id = %s",
-			array('integer'),
-			array($active_id)
-		);
-		$test_id = 0;
-		if ($result->numRows() == 1)
-		{
-			$row = $ilDB->fetchAssoc($result);
-			$test_id = $row["test_fi"];
-		}
-
+		$uploadHandlingRequired = $this->isFileUploadAvailable() && $this->checkUpload();
+		
 		$entered_values = false;
 
-		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $checkUploadResult, $test_id, $active_id, $pass, $authorized) {
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $uploadHandlingRequired, $test_id, $active_id, $pass, $authorized) {
 
-// fau: testNav - create an intermediate solution if it does not exist; all manipulations should be done intermediately
 			if ($authorized == false)
 			{
-				$intermediate = $this->getSolutionValues($active_id, $pass, false);
-				if (empty($intermediate))
-				{
-					// make the authorized solution intermediate (keeping timestamps)
-					// this keeps the solution_ids in synch with eventually selected in $_POST['deletefiles']
-					$this->updateCurrentSolutionsAuthorization($active_id, $pass, false, true);
-
-					// create a backup of the authorized solution (keeping timestamps)
-					foreach ($this->getSolutionValues($active_id, $pass, false) as $solution)
-					{
-						$this->saveCurrentSolution($active_id, $pass, $solution['value1'], $solution['value2'], true, $solution['tstamp']);
-					}
-
-					// create an additional dummy record to indicate the existence of an intermediate solution
-					// even if all files are deleted from the intermediate solution later
-					$this->saveCurrentSolution($active_id, $pass, null, null, false, null);
-				}
+				$this->forceExistingIntermediateSolution($active_id, $pass, true);
 			}
-// fau.
 
-			if( $_POST['cmd'][$this->questionActionCmd] == $this->lng->txt('delete') )
+			if( $this->isFileDeletionAction() )
 			{
-				if (is_array($_POST['deletefiles']) && count($_POST['deletefiles']) > 0)
+				if( $this->isFileDeletionSubmitAvailable() )
 				{
-// fau: testNav - don't delete files directly, only delete the solution records. Unused files will be purged at the end
-					foreach ($_POST['deletefiles'] as $solution_id)
+					foreach ($_POST[self::DELETE_FILES_TBL_POSTVAR] as $solution_id)
 					{
 						$this->removeSolutionRecordById($solution_id);
 					}
-// fau.
 				}
 				else
 				{
 					ilUtil::sendInfo($this->lng->txt('no_checkbox'), true);
 				}
 			}
-			elseif( $checkUploadResult )
+			else
 			{
-				if(!@file_exists($this->getFileUploadPath($test_id, $active_id)))
+				if( $this->isFileReuseHandlingRequired() )
 				{
-					ilUtil::makeDirParents($this->getFileUploadPath($test_id, $active_id));
+					foreach ($_POST[self::REUSE_FILES_TBL_POSTVAR] as $solutionId)
+					{
+						$solution = $this->getSolutionRecordById($solutionId);
+						
+						$this->saveCurrentSolution($active_id, $pass,
+							$solution['value1'], $solution['value2'],
+							false, $solution['tstamp']
+						);
+					}
 				}
+				
+				if( $uploadHandlingRequired )
+				{
+					if(!@file_exists($this->getFileUploadPath($test_id, $active_id)))
+					{
+						ilUtil::makeDirParents($this->getFileUploadPath($test_id, $active_id));
+					}
+					
+					$solutionFileVersioningUploadTS = time();
+					$filename_arr = pathinfo($_FILES["upload"]["name"]);
+					$extension = $filename_arr["extension"];
+					$newfile = "file_" . $active_id . "_" . $pass . "_" . $solutionFileVersioningUploadTS . "." . $extension;
+					
+					ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath($test_id, $active_id) . $newfile);
+					
+					$this->saveCurrentSolution($active_id, $pass, $newfile, $_FILES['upload']['name'], false,
+						$solutionFileVersioningUploadTS
+					);
 
-				$version = time();
-				$filename_arr = pathinfo($_FILES["upload"]["name"]);
-				$extension = $filename_arr["extension"];
-				$newfile = "file_" . $active_id . "_" . $pass . "_" . $version . "." . $extension;
-
-				ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath($test_id, $active_id) . $newfile);
-
-// fau: testNav - upload new files always to the intermediate solution
-				$this->saveCurrentSolution($active_id, $pass, $newfile, $_FILES['upload']['name'], false);
-// fau.
-				$entered_values = true;
+					$entered_values = true;
+				}
 			}
 
-// fau: testNav	- save an authorized solution from the intermediate one
 			if ($authorized == true)
 			{
 				// remove the dummy record of the intermediate solution
-				foreach ($this->getSolutionValues($active_id, $pass, false) as $solution)
-				{
-					if (empty($solution['value1']))
-					{
-						$this->removeSolutionRecordById($solution['solution_id']);
-					}
-				}
+				$this->deleteDummySolutionRecord($active_id, $pass);
 
 				// delete the authorized solution and make the intermediate solution authorized (keeping timestamps)
 				$this->removeCurrentSolution($active_id, $pass, true);
 				$this->updateCurrentSolutionsAuthorization($active_id, $pass, true, true);
 			}
-// fau.
 
-// fau: testNav - cleanup files after the database manipuliation is finished
 			$this->deleteUnusedFiles($test_id, $active_id, $pass);
-// fau.
 		});
-
+		
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
@@ -794,8 +764,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		
 		return true;
 	}
-
-
+	// hey.
+	
 // fau: testNav - remove dummy value when intermediate solution is got for test display
 	/**
 	 * Get the user solution preferring the intermediate solution
@@ -843,16 +813,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		$result = parent::removeIntermediateSolution($active_id, $pass);
 
 		// get the current test id
-		$result = $ilDB->queryF("SELECT test_fi FROM tst_active WHERE active_id = %s",
-			array('integer'),
-			array($active_id)
-		);
-		$test_id = 0;
-		if ($result->numRows() == 1)
-		{
-			$row = $ilDB->fetchAssoc($result);
-			$test_id = $row["test_fi"];
-		}
+		// hey: prevPassSolutions - exract until you drop :-D
+		$test_id = $this->lookupTestId($active_id);
+		// hey.
 
 		$this->deleteUnusedFiles($test_id, $active_id, $pass);
 
@@ -870,9 +833,13 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			$userSolution = array();
 		}
 		
-		if (strcmp($_POST['cmd'][$this->questionActionCmd], $this->lng->txt('delete')) == 0)
+		// hey: prevPassSolutions - readability spree - get a chance to understand the code
+		if( $this->isFileDeletionAction() )
+		// hey.
 		{
-			if (is_array($_POST['deletefiles']) && count($_POST['deletefiles']) > 0)
+			// hey: prevPassSolutions - readability spree - get a chance to understand the code
+			if( $this->isFileDeletionSubmitAvailable() )
+			// hey.
 			{
 				$userSolution = $this->deletePreviewFileUploads($previewSession->getUserId(), $userSolution, $_POST['deletefiles']);
 			}
@@ -883,7 +850,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 		else
 		{
-			if (strlen($_FILES["upload"]["tmp_name"]))
+			// hey: prevPassSolutions - readability spree - get a chance to understand the code
+			if ( $this->isFileUploadAvailable() )
+			// hey.
 			{
 				if ($this->checkUpload())
 				{
@@ -1304,10 +1273,77 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * Otherwise just checking a file would delete it at navigation
 	 * @return ilTestQuestionConfig
 	 */
-	public function getTestQuestionConfig()
+	// hey: refactored identifiers
+	public function buildTestPresentationConfig()
+	// hey.
 	{
-		return parent::getTestQuestionConfig()
+		// hey: refactored identifiers
+		return parent::buildTestPresentationConfig()
+			// hey.
 			->setFormChangeDetectionEnabled(false);
 	}
 // fau.
+	
+	// hey: prevPassSolutions - additional extractions to get a just chance to understand saveWorkingData()
+	/**
+	 * @return bool
+	 */
+	protected function isFileDeletionAction()
+	{
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssFileUploadFileTableDeleteButton.php';
+		return $this->getQuestionAction() == ilAssFileUploadFileTableDeleteButton::ACTION;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	protected function isFileDeletionSubmitAvailable()
+	{
+		return $this->isNonEmptyItemListPostSubmission(self::DELETE_FILES_TBL_POSTVAR);
+	}
+	
+	/**
+	 * @return bool
+	 */
+	protected function isFileReuseSubmitAvailable()
+	{
+		return $this->isNonEmptyItemListPostSubmission(self::REUSE_FILES_TBL_POSTVAR);
+	}
+	
+	/**
+	 * @return bool
+	 */
+	protected function isFileReuseHandlingRequired()
+	{
+		if( !$this->getTestPresentationConfig()->isPreviousPassSolutionReuseAllowed() )
+		{
+			return false;
+		}
+		
+		if( !$this->isFileReuseSubmitAvailable() )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	protected function isFileUploadAvailable()
+	{
+		if( !isset($_FILES['upload']) )
+		{
+			return false;
+		}
+		
+		if( !isset($_FILES['upload']['tmp_name']) )
+		{
+			return false;
+		}
+		
+		return strlen($_FILES['upload']['tmp_name']) > 0;
+	}
+	// hey.
 }

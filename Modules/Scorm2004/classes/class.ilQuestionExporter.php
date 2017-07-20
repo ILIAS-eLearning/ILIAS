@@ -220,7 +220,7 @@ class ilQuestionExporter
 		if( $this->json_decoded->path )
 		{
 			$this->tpl->setVariable("HANDLE_IMAGES",
-				"ilias.questions.handleMCImages(".$this->json_decoded->id.");");
+				"ilias.questions.handleKprimImages(".$this->json_decoded->id.");");
 		}
 		
 		$this->tpl->setVariable('OPTION_LABEL_TRUE', $this->json_decoded->trueOptionLabel);
@@ -230,13 +230,21 @@ class ilQuestionExporter
 		$this->tpl->setVariable('VALUE_FALSE', 0);
 		
 		$this->tpl->parseCurrentBlock();
-		
+
 		foreach( $this->json_decoded->answers as $answer )
 		{
-			if( $answer->image != "" )
+			if( is_object($answer->image) )
 			{
 				self::$media_files[] = $answer->getImageFsPath();
 				self::$media_files[] = $answer->getThumbFsPath();
+			}
+			else if( is_string($answer->image) )
+			{
+				self::$media_files[] = $this->q_gui->object->getImagePath() . $answer->image;
+				if (is_file($this->q_gui->object->getImagePath()."thumb.".$answer->image))
+				{
+					self::$media_files[] = $this->q_gui->object->getImagePath() . "thumb." . $answer->image;
+				}
 			}
 		}
 		
@@ -335,6 +343,7 @@ class ilQuestionExporter
 		$areas = $this->json_decoded->answers;
 		//set areas in PHP cause of inteference between pure and highlighter
 		foreach ($areas as $area) {
+			$this->tpl->setVariable("VAL_TOOLTIP", htmlspecialchars($area->answertext));
 			$this->tpl->setVariable("VAL_COORDS", $area->coords);
 			$this->tpl->setVariable("VAL_ORDER", $area->order);
 			$this->tpl->setVariable("VAL_AREA", $area->area);

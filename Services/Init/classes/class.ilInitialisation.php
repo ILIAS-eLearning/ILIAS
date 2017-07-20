@@ -1,6 +1,12 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+// TODO:
+use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
+use ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory;
+use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
+use ILIAS\BackgroundTasks\Dependencies\Injector;
+
 require_once("libs/composer/vendor/autoload.php");
 
 // needed for slow queries, etc.
@@ -157,6 +163,84 @@ class ilInitialisation
 	}
 
 	/**
+	 * Bootstraps the ILIAS filesystem abstraction.
+	 * The bootstrapped abstraction are:
+	 *  - temp
+	 *  - web
+	 *  - storage
+	 *  - customizing
+	 *
+	 * @return void
+	 * @since 5.3
+	 */
+	public static function bootstrapFilesystems() {
+
+		global $DIC;
+
+		$delegatingFactory = new \ILIAS\Filesystem\Provider\DelegatingFilesystemFactory();
+
+		$DIC['filesystem.web'] = function ($c) use ($delegatingFactory) {
+			//web
+			$webConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID);
+			return $delegatingFactory->getLocal($webConfiguration);
+		};
+
+		$DIC['filesystem.storage'] = function ($c) use ($delegatingFactory) {
+			//storage
+			$storageConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR.'/'.CLIENT_ID);
+			return $delegatingFactory->getLocal($storageConfiguration);
+		};
+
+		$DIC['filesystem.temp'] = function ($c) use ($delegatingFactory) {
+			//temp
+			$tempConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(sys_get_temp_dir());
+			return $delegatingFactory->getLocal($tempConfiguration);
+		};
+
+		$DIC['filesystem.customizing'] = function ($c) use ($delegatingFactory) {
+			//customizing
+			$customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'Customizing');
+			return $delegatingFactory->getLocal($customizingConfiguration);
+		};
+
+		$DIC['filesystem'] = function($c) {
+			return new \ILIAS\Filesystem\FilesystemsImpl(
+				$c['filesystem.storage'],
+				$c['filesystem.web'],
+				$c['filesystem.temp'],
+				$c['filesystem.customizing']
+			);
+		};
+	}
+
+
+	/**
+	 * Initializes the file upload service.
+	 * This service requires the http and filesystem service.
+	 *
+	 * @param \ILIAS\DI\Container $dic The dependency container which should be used to load the file upload service.
+	 *
+	 * @return void
+	 */
+	public static function initFileUploadService(\ILIAS\DI\Container $dic) {
+		$dic['upload.processor-manager'] = function ($c) {
+			return new \ILIAS\FileUpload\Processor\PreProcessorManagerImpl();
+		};
+
+		$dic['upload'] = function ($c) {
+			$fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl($c['upload.processor-manager'], $c['filesystem'], $c['http']);
+			$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor(array( "exe" )));
+			//	$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\BlacklistMimeTypePreProcessor(array("exe")));
+			//	$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\BlacklistFileHeaderPreProcessor(array("exe")));
+			if (IL_VIRUS_SCANNER != "None") {
+				$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\VirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
+			}
+
+			return $fileUploadImpl;
+		};
+	}
+
+	/**
 	 * builds http path
 	 */
 	protected static function buildHTTPPath()
@@ -251,8 +335,9 @@ class ilInitialisation
 			$client_id = $ilIliasIniFile->readVariable("clients","default");
 			ilUtil::setCookie("ilClientId", $client_id);
 		}
-		if (!defined("IL_PHPUNIT_TEST"))
+		if (!defined("IL_PHPUNIT_TEST") && ilContext::supportsPersistentSessions())
 		{
+			
 			define ("CLIENT_ID", $_COOKIE["ilClientId"]);
 		}
 		else
@@ -292,7 +377,6 @@ class ilInitialisation
 		$ini_file = "./".ILIAS_WEB_DIR."/".CLIENT_ID."/client.ini.php";
 
 		// get settings from ini file
-		require_once("./Services/Init/classes/class.ilIniFile.php");
 		$ilClientIniFile = new ilIniFile($ini_file);		
 		$ilClientIniFile->read();
 		
@@ -310,7 +394,7 @@ class ilInitialisation
 			}
 			else
 			{
-				self::abortAndDie("Invalid client");
+				self::abortAndDie("Fatal Error: ilInitialisation::initClientIniFile initializing client ini file abborted with: ". $ilClientIniFile->ERROR);
 			}
 		}
 		
@@ -354,7 +438,6 @@ class ilInitialisation
 			define ("IL_DB_TYPE", $val);
 		}
 
-		require_once('./Services/GlobalCache/classes/Settings/class.ilGlobalCacheSettings.php');
 		$ilGlobalCacheSettings = new ilGlobalCacheSettings();
 		$ilGlobalCacheSettings->readFromIniFile($ilClientIniFile);
 		ilGlobalCache::setup($ilGlobalCacheSettings);
@@ -484,6 +567,21 @@ class ilInitialisation
 		session_set_cookie_params(
 			IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
 		);
+	}
+
+	/**
+	 * @param \ILIAS\DI\Container $c
+	 */
+	protected static function initMail(\ILIAS\DI\Container $c)
+	{
+		$c["mail.mime.transport.factory"] = function ($c) {
+			require_once 'Services/Mail/classes/Mime/Transport/class.ilMailMimeTransportFactory.php';
+			return new ilMailMimeTransportFactory($c["ilSetting"]);
+		};
+		$c["mail.mime.sender.factory"] = function ($c) {
+			require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderFactory.php';
+			return new ilMailMimeSenderFactory($c["ilSetting"]);
+		};
 	}
 
 	/**
@@ -660,6 +758,12 @@ class ilInitialisation
 			// goto will check if target is accessible or redirect to login
 			self::redirect("goto.php?target=".$_GET["target"]);			
 		}
+		
+		// check access of root folder otherwise redirect to login
+		#if(!$GLOBALS['DIC']->rbac()->system()->checkAccess('read', ROOT_FOLDER_ID))
+		#{
+		#	return self::goToLogin();
+		#}
 		
 		// we do not know if ref_id of request is accesible, so redirecting to root
 		$_GET["ref_id"] = ROOT_FOLDER_ID;
@@ -855,10 +959,11 @@ class ilInitialisation
 		self::$already_initialized = true;
 
 		self::initCore();
-				
+        self::initHTTPServices($GLOBALS["DIC"]);
 		if(ilContext::initClient())
 		{
 			self::initClient();
+			self::initFileUploadService($GLOBALS["DIC"]);
 			self::initSession();
 			
 			if (ilContext::hasUser())
@@ -877,6 +982,9 @@ class ilInitialisation
 			// language may depend on user setting
 			self::initLanguage();
 			$GLOBALS['DIC']['tree']->initLangCode();
+
+			self::initInjector($GLOBALS['DIC']);
+			self::initBackgroundTasks($GLOBALS['DIC']);
 
 			if(ilContext::hasHTML())
 			{													
@@ -963,6 +1071,8 @@ class ilInitialisation
 
 		self::determineClient();
 
+		self::bootstrapFilesystems();
+
 		self::initClientIniFile();
 				
 		
@@ -1000,6 +1110,7 @@ class ilInitialisation
 		self::setSessionHandler();
 
 		self::initSettings();
+		self::initMail($GLOBALS['DIC']);
 		
 		
 		// --- needs settings	
@@ -1061,6 +1172,11 @@ class ilInitialisation
 	 */
 	public static function resumeUserSession()
 	{
+		include_once './Services/Authentication/classes/class.ilAuthUtils.php';
+		if(ilAuthUtils::handleForcedAuthentication())
+		{
+		}
+		
 		if(
 			!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated() or
 			$GLOBALS['DIC']['ilAuthSession']->isExpired()
@@ -1175,6 +1291,37 @@ class ilInitialisation
 		ilLoggerFactory::getLogger('init')->debug('Redirect to login page.');
 		return self::goToLogin();
 	}
+
+    /**
+     * @param \ILIAS\DI\Container $container
+     */
+    protected static function initHTTPServices(\ILIAS\DI\Container $container) {
+
+        $container['http.request_factory'] = function ($c) {
+            return new \ILIAS\HTTP\Request\RequestFactoryImpl();
+        };
+
+        $container['http.response_factory'] = function ($c) {
+            return new \ILIAS\HTTP\Response\ResponseFactoryImpl();
+        };
+
+        $container['http.cookie_jar_factory'] = function ($c) {
+            return new \ILIAS\HTTP\Cookies\CookieJarFactoryImpl();
+        };
+
+        $container['http.response_sender_strategy'] = function ($c) {
+            return new \ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy();
+        };
+
+        $container['http'] = function ($c) {
+            return new \ILIAS\DI\HTTPServices(
+                $c['http.response_sender_strategy'],
+                $c['http.cookie_jar_factory'],
+                $c['http.request_factory'],
+                $c['http.response_factory']
+            );
+        };
+    }
 
 	/**
 	 * init the ILIAS UI framework.
@@ -1366,6 +1513,15 @@ class ilInitialisation
 			ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for baseClass: ' . $_GET['baseClass']);
 			return true;
 		}
+
+		if($a_current_script == 'goto.php' && in_array($_GET['target'], array(
+			'usr_registration', 'usr_nameassist', 'usr_pwassist'
+		)))
+		{
+			ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for goto target: ' . $_GET['target']);
+			return true;
+		}
+
 		ilLoggerFactory::getLogger('auth')->debug('Authentication required');
 		return false;
 	}
@@ -1537,5 +1693,49 @@ class ilInitialisation
 		{
 			ilUtil::redirect("goto.php?target=".$_GET["target"]);
 		}
+	}
+
+
+	private static function initBackgroundTasks(\ILIAS\DI\Container $c) {
+		global $ilIliasIniFile;
+
+		$n_of_tasks = $ilIliasIniFile->readVariable("background_tasks", "number_of_concurrent_tasks");
+		$sync = $ilIliasIniFile->readVariable("background_tasks", "concurrency");
+
+		$n_of_tasks = $n_of_tasks ? $n_of_tasks : 5;
+		$sync = $sync ? $sync : 'sync'; // The default value is sync.
+
+		$c["bt.task_factory"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory($c["di.injector"]);
+		};
+
+		$c["bt.persistence"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence();
+		};
+
+		$c["bt.injector"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Dependencies\Injector($c, new BaseDependencyMap());
+		};
+
+		$c["bt.task_manager"] = function ($c) use ($sync) {
+			if ($sync == 'sync') {
+				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager($c["bt.persistence"]);
+			} elseif ($sync == 'async') {
+				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager($c["bt.persistence"]);
+			} else {
+				throw new ilException("The supported Background Task Managers are sync and async. $sync given.");
+			}
+		};
+	}
+
+
+	private static function initInjector(\ILIAS\DI\Container $c) {
+		$c["di.dependency_map"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap();
+		};
+
+		$c["di.injector"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Dependencies\Injector($c, $c["di.dependency_map"]);
+		};
 	}
 }
