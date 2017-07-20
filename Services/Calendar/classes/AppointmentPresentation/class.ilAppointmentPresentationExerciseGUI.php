@@ -18,6 +18,9 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 	{
 		global $DIC;
 
+		$this->lng->loadLanguageModule("exc");
+
+
 		include_once "./Modules/Exercise/classes/class.ilObjExercise.php";
 		include_once('./Services/Link/classes/class.ilLink.php');
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
@@ -41,11 +44,9 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		$a_infoscreen->addSection($a_app['event']->getPresentationTitle());
 
 		$href = ilLink::_getStaticLink($exc_ref, "exc");
-		$a_infoscreen->addProperty($this->lng->txt("cal_origin"),$r->render($f->button()->shy($exc_obj->getPresentationTitle(), $href)));
+		$a_infoscreen->addProperty($this->lng->txt("obj_exc"),$r->render($f->button()->shy($exc_obj->getPresentationTitle(), $href)));
 
-		//parent course or group title
-		$parent_title = ilObject::_lookupTitle(ilObject::_lookupObjectId($_GET['ref_id']));
-		$a_infoscreen->addProperty($this->lng->txt("cal_contained_in"),$parent_title);
+		$this->addContainerInfo($exc_ref);
 
 		//Assignment title information
 		$a_infoscreen->addSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
@@ -57,7 +58,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		$assignment = new ilExAssignment($ass_id);
 		if($assignment->getInstruction() != "")
 		{
-			$a_infoscreen->addProperty($this->lng->txt("cal_exc_instruction"), $assignment->getInstruction());
+			$a_infoscreen->addProperty($this->lng->txt("exc_instruction"), $assignment->getInstruction());
 		}
 		$files = $assignment->getFiles();
 		if(count($files) > 0)
@@ -75,15 +76,15 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 				$btn_link = $f->button()->shy($file["name"],$url);
 				$str_files .=$r->render($btn_link)."<br>";
 			}
-			$a_infoscreen->addProperty($this->lng->txt("cal_exc_inst_files"),$str_files);
+			$a_infoscreen->addProperty($this->lng->txt("exc_files"),$str_files);
 		}
 
 		//pass mode
 		if($assignment->getMandatory()) {
-			$a_infoscreen->addProperty($this->lng->txt("cal_exc_pass_mode"), $this->lng->txt("cal_exc_pass_mode_mandatory"));
+			$a_infoscreen->addProperty($this->lng->txt("exc_mandatory"), $this->lng->txt("yes"));
 		}
 		else {
-			$a_infoscreen->addProperty($this->lng->txt("cal_exc_pass_mode"), $this->lng->txt("cal_exc_pass_mode_no_mandatory"));
+			$a_infoscreen->addProperty($this->lng->txt("exc_mandatory"), $this->lng->txt("no"));
 		}
 
 		// fill toolbar
@@ -91,7 +92,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 
 		//example download all files
 		$btn_download = ilLinkButton::getInstance();
-		$btn_download->setCaption($this->lng->txt("cal_download_all_files"));
+		$btn_download->setCaption("cal_download_all_files");
 		$btn_download->setUrl("www.ilias.de");
 		$toolbar->addButtonInstance($btn_download);
 
@@ -105,7 +106,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 
 		//go to the exercise.
 		$btn_open = ilLinkButton::getInstance();
-		$btn_open->setCaption($this->lng->txt("cal_exc_open"));
+		$btn_open->setCaption("cal_exc_open");
 		$btn_open->setUrl(ilLink::_getStaticLink($exc_ref, "exc"));
 		$toolbar->addButtonInstance($btn_open);
 

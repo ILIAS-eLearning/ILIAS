@@ -13544,19 +13544,12 @@ style#:#manage_system_styles#:#Manage System Styles
 style#:#scope#:#Scope
 dateplaner#:#cal_download_all_files#:#Download all Files
 dateplaner#:#cal_owner#:#Owner
-dateplaner#:#cal_location#:#Location
-dateplaner#:#cal_details_workflow#:#Details/Workflow
-dateplaner#:#cal_info_lecturer#:#Information about Lecturer
 dateplaner#:#cal_contained_in#:#Contained in
 dateplaner#:#cal_app_info#:#Appointment Information
 dateplaner#:#cal_crs_info#:#Course Information
 dateplaner#:#cal_crs_open#:#Open Course
 dateplaner#:#cal_grp_info#:#Group Information
 dateplaner#:#cal_exc_info#:#Assignment Information
-dateplaner#:#cal_exc_instruction#:#Work Instruction
-dateplaner#:#cal_exc_pass_mode#:#Pass Mode
-dateplaner#:#cal_exc_pass_mode_mandatory#:#Mandatory Assignment
-dateplaner#:#cal_exc_pass_mode_no_mandatory#:#Not Mandatory Assignment
 dateplaner#:#cal_sess_info#:#Session Information
 dateplaner#:#cal_agenda#:#Agenda
 dateplaner#:#cal_origin#:#Origin
@@ -13566,3 +13559,4 @@ dateplaner#:#cal_grp_curr_crs#:#Current Course
 dateplaner#:#cal_grp_personal#:#Personal
 dateplaner#:#cal_grp_others#:#Others
 dateplaner#:#cal_exc_inst_files#:#Instruction Files
+dateplaner#:#cal_exc_open#:#Open Assignment

@@ -22,6 +22,8 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 		$r = $DIC->ui()->renderer();
 		$crl = $DIC->ctrl();
 
+		$this->lng->loadLanguageModule("crs");
+
 		$a_infoscreen = $this->getInfoScreen();
 		$a_app = $this->appointment;
 
@@ -49,12 +51,12 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 
 		//location
 		if($session_obj->getLocation()){
-			$a_infoscreen->addProperty($this->lng->txt("cal_location"),ilUtil::makeClickable($session_obj->getLocation()));
+			$a_infoscreen->addProperty($this->lng->txt("event_location"),ilUtil::makeClickable($session_obj->getLocation()));
 		}
 		//details/workflow
 		if($session_obj->getDetails())
 		{
-			$a_infoscreen->addProperty($this->lng->txt("cal_details_workflow"),$session_obj->getDetails());
+			$a_infoscreen->addProperty($this->lng->txt("event_details_workflow"),$session_obj->getDetails());
 		}
 		//lecturer name
 		$str_lecturer = "";
@@ -71,7 +73,7 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 		{
 			$str_lecturer .= $this->lng->txt("phone").": ".$session_obj->getPhone()."<br>";
 		}
-		$a_infoscreen->addProperty($this->lng->txt("cal_info_lecturer"), $str_lecturer);
+		$a_infoscreen->addProperty($this->lng->txt("event_tutor_data"), $str_lecturer);
 
 		$eventItems = ilObjectActivation::getItemsByEvent($cat_info['obj_id']);
 		if(count($eventItems))
@@ -92,7 +94,7 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 
 		//example download all files
 		$btn_download = ilLinkButton::getInstance();
-		$btn_download->setCaption($this->lng->txt("cal_download_all_files"));
+		$btn_download->setCaption("cal_download_all_files");
 		$btn_download->setUrl("www.ilias.de");
 		$toolbar->addButtonInstance($btn_download);
 

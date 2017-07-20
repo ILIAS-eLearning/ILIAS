@@ -12,10 +12,37 @@ include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPres
 class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
 	protected static $instance; // [ilCalendarAppointmentPresentationFactory]
+
+	/**
+	 * @var ilToolbarGUI
+	 */
 	protected $toolbar;
+
+	/**
+	 * @var
+	 */
+
 	protected $appointment;
+
+	/**
+	 * @var ilInfoScreenGUI
+	 */
 	protected $infoscreen;
+
+	/**
+	 * @var ilLanguage
+	 */
 	protected $lng;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
 
 	/**
 	 * 
@@ -31,6 +58,8 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 		$this->toolbar = $a_toolbar;
 		$this->lng = $DIC->language();
 		$this->lng->loadLanguageModule("dateplaner");
+		$this->tree = $DIC->repositoryTree();
+		$this->ui = $DIC->ui();
 	}
 	
 	
@@ -97,6 +126,35 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 	{
 
 	}
+
+	/**
+	 * Add course/group container info
+	 *
+	 * @param int $a_ref_id
+	 */
+	function addContainerInfo($a_ref_id)
+	{
+		$tree = $this->tree;
+		$infoscreen = $this->getInfoScreen();
+		$f = $this->ui->factory();
+		$r = $this->ui->renderer();
+
+		//parent course or group title
+		$cont_ref_id = $tree->checkForParentType($a_ref_id, 'grp');
+		if ($cont_ref_id == 0)
+		{
+			$cont_ref_id = $tree->checkForParentType($a_ref_id, 'crs');
+		}
+
+		if ($cont_ref_id > 0)
+		{
+			$type = ilObject::_lookupType($cont_ref_id, true);
+			$href = ilLink::_getStaticLink($cont_ref_id);
+			$parent_title = ilObject::_lookupTitle(ilObject::_lookupObjectId($cont_ref_id));
+			$infoscreen->addProperty($this->lng->txt("obj_" . $type), $r->render($f->button()->shy($parent_title, $href)));
+		}
+	}
+
 
 
 	//TODO : SOME ELEMENTS CAN GET CUSTOM METADATA
