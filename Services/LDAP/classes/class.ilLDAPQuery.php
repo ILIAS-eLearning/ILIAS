@@ -61,8 +61,6 @@ class ilLDAPQuery
 	 */
 	public function __construct(ilLDAPServer $a_server,$a_url = '')
 	{
-		global $ilLog;
-		
 		$this->settings = $a_server;
 		
 		if(strlen($a_url))
@@ -75,7 +73,7 @@ class ilLDAPQuery
 		}
 		
 		$this->mapping = ilLDAPAttributeMapping::_getInstanceByServerId($this->settings->getServerId());
-		$this->log = ilLoggerFactory::getLogger('auth');
+		$this->log = $GLOBALS['DIC']->logger()->auth();
 		
 		$this->fetchUserProfileFields();
 		$this->connect();
@@ -92,6 +90,15 @@ class ilLDAPQuery
 	}
 	
 	/**
+	 * Get logger
+	 * @return ilLogger
+	 */
+	public function getLogger()
+	{
+		return $this->log;
+	}
+	
+	/**
 	 * Get one user by login name
 	 *
 	 * @access public
@@ -100,9 +107,6 @@ class ilLDAPQuery
 	 */
 	public function fetchUser($a_name)
 	{
-		// this reduces the available fields. #0020337
-		// $this->user_fields = array_merge(array($this->settings->getUserAttribute()),$this->mapping->getFields());
-		
 		if(!$this->readUserData($a_name))
 		{
 			return array();
@@ -280,6 +284,85 @@ class ilLDAPQuery
 		return true;
 	}
 	
+	/**
+	 * check group membership
+	 * @param string login name
+	 * @param array user data
+	 * @return bool
+	 */
+	public function checkGroupMembership($a_ldap_user_name, $ldap_user_data)
+	{
+		$group_names = $this->getServer()->getGroupNames();
+		
+		if(!count($group_names))
+		{
+			$this->getLogger()->debug('No LDAP group restrictions found');
+			return true;
+		}
+		
+		$group_dn = $this->getServer()->getGroupDN();
+		if(
+			$group_dn && 
+			(substr($group_dn, -1) != ',')
+		)
+		{
+			$group_dn .= ',';
+		}
+		$group_dn .= $this->getServer()->getBaseDN();
+		
+		foreach($group_names as $group)
+		{
+			$user = $a_ldap_user_name;
+			if($this->getServer()->enabledGroupMemberIsDN())
+			{
+				$user = $ldap_user_data['dn'];
+			}
+			
+			$filter = sprintf('(&(%s=%s)(%s=%s)%s)',
+				$this->getServer()->getGroupAttribute(),
+				$group,
+				$this->getServer()->getGroupMember(),
+				$user,
+				$this->getServer()->getGroupFilter()
+			);
+			$this->getLogger()->debug('Current group search base: ' . $group_dn);
+			$this->getLogger()->debug('Current group filter: ' . $filter);
+			
+			$res = $this->queryByScope(
+				$this->getServer()->getGroupScope(),
+				$group_dn,
+				$filter,
+				[$this->getServer()->getGroupMember()]
+			);
+			
+			$this->getLogger()->dump($res);
+			
+			$tmp_result = new ilLDAPResult($this->lh,$res);
+			$group_result = $tmp_result->getRows();
+			
+			$this->getLogger()->debug('Group query returned: ');
+			$this->getLogger()->dump($group_result, ilLogLevel::DEBUG);
+			
+			if(count($group_result))
+			{
+				return true;
+			}
+		}
+		
+		// group restrictions failed check optional membership
+		if($this->getServer()->isMembershipOptional())
+		{
+			$this->getLogger()->debug('Group restrictions failed, checking user filter.');
+			if($this->readUserData($a_ldap_user_name, true, true))
+			{
+				$this->getLogger()->debug('User filter matches.');
+				return true;
+			}
+		}
+		$this->getLogger()->debug('Group restrictions failed.');
+		return false;
+	}
+	
 
 	/**
 	 * Fetch group member ids
@@ -350,7 +433,7 @@ class ilLDAPQuery
 	 * @param bool use group filter
 	 * @access private
 	 */
-	private function readUserData($a_name,$a_check_dn = true,$a_try_group_user_filter = false)
+	private function readUserData($a_name,$a_check_dn = false,$a_try_group_user_filter = false)
 	{
 		$filter = $this->settings->getFilter();
 		if($a_try_group_user_filter)
@@ -465,6 +548,14 @@ class ilLDAPQuery
 			default:
 				$this->log->warning("LDAP: LDAPQuery: Unknown search scope");
 	 	}
+		
+		$error = ldap_error($this->lh);
+		if(strcmp('Success', $error) !== 0)
+		{
+			$this->getLogger()->warning($error);
+			$this->getLogger()->warning('Base DN:' . $a_base_dn);
+			$this->getLogger()->warning('Filter: ' . $a_filter);
+		}
 		
 	 	return $res;
 	

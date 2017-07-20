@@ -1,13 +1,15 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
+
 /**
  * @author Maximilian Becker <mbecker@databay.de>
  * @version $Id$
  *
  * @ingroup Services/WorkflowEngine
  */
-class test_011_EventBasedGateway extends PHPUnit_Framework_TestCase
+class test_011_EventBasedGateway extends ilWorkflowEngineBaseTest
 {
 	#region Helper
 	public $base_path = './Services/WorkflowEngine/test/parser/';
@@ -33,6 +35,8 @@ class test_011_EventBasedGateway extends PHPUnit_Framework_TestCase
 		chdir( dirname( __FILE__ ) );
 		chdir( '../../../../../' );
 
+		parent::setUp();
+
 		require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
 	}
 
@@ -56,7 +60,7 @@ class test_011_EventBasedGateway extends PHPUnit_Framework_TestCase
 		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
 		require_once './Services/Database/classes/class.ilDB.php';
-		$ildb_mock = $this->getMock('ilDBMySQL', array('nextId','quote','exec', 'insert'), array(), '', false, false);
+		$ildb_mock = $this->createMock('ilDBMySQL', array('nextId','quote','exec', 'insert'), array(), '', false, false);
 		$ildb_mock->expects( $this->any() )->method('quote')->will( $this->returnCallback(''));
 		$i = 0;
 		$ildb_mock->expects( $this->any() )->method( 'nextId' )->will( $this->returnValue($i++) );

@@ -125,7 +125,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
 
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && $rbacsystem->checkAccess('smtp_mail', ilMailGlobalServices::getMailObjectRefId()))
 		{
-			if(!(int)$ilSetting->get('prevent_smtp_globally'))
+			if((int)$ilSetting->get('mail_allow_external'))
 			{
 				$this->addCommandButton("sendCodesMail", $this->lng->txt("send"));
 			}

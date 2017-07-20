@@ -1,9 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/User/classes/class.ilUserTableGUI.php");
-require_once("./Services/User/classes/class.ilLocalUser.php");
-require_once("./Services/User/classes/class.ilObjUserGUI.php");
-require_once("./Services/User/classes/class.ilObjUserFolderGUI.php");
 /**
  * Class ilLocalUserGUI
  *
@@ -290,9 +286,6 @@ class ilLocalUserGUI {
 		}
 		$roles = $this->__getAssignableRoles();
 		// check minimum one global role
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
 		if (! $this->__checkGlobalRoles($_POST['role_ids'])) {
 			ilUtil::sendFailure($this->lng->txt('no_global_role_left'));
 			$this->assignRolesObject();

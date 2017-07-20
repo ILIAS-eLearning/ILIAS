@@ -24,7 +24,9 @@ class arStorageRecordGUI {
 
 
 	public function __construct() {
-		global $ilCtrl, $tpl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
 		$this->object = new arStorageRecord();

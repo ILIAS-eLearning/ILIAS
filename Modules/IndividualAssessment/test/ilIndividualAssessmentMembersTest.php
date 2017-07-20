@@ -47,11 +47,11 @@ class ilIndividualAssessmentMembersTest extends PHPUnit_Framework_TestCase {
 	}
 
 	protected function rbacHandlerMock() {
-		return $this->getMock('IndividualAssessmentAccessHandler');
+		return $this->createMock('IndividualAssessmentAccessHandler');
 	}
 
 	protected function notificaterMock() {
-		return $this->getMock('ilIndividualAssessmentNotificator');
+		return $this->createMock('ilIndividualAssessmentNotificator');
 	}
 
 	public function test_init_iass() {

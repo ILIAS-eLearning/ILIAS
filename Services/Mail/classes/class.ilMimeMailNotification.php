@@ -38,14 +38,11 @@ abstract class ilMimeMailNotification extends ilMailNotification
 	 */
 	protected function initMimeMail()
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 
 		$this->mime_mail = new ilMimeMail();
-		$this->mime_mail->From($ilSetting->get('admin_email'));
-		$this->mime_mail->autoCheck(false);
+		$this->mime_mail->From($senderFactory->system());
 
 		return $this->mime_mail;
 	}

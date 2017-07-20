@@ -1,9 +1,5 @@
 <?php
 
-require_once "Services/Repository/classes/class.ilObjectPluginGUI.php";
-require_once "Modules/OrgUnit/classes/class.ilObjOrgUnit.php";
-require_once "Modules/OrgUnit/classes/class.ilOrgUnitExplorerGUI.php";
-require_once("./Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtension.php");
 
 /**
  * Class ilOrgUnitExtensionGUI
@@ -26,7 +22,8 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 	 * @param int $a_parent_node_id
 	 */
 	public function __construct($a_ref_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0) {
-		global $ilLocator;
+		global $DIC;
+		$ilLocator = $DIC['ilLocator'];
 		parent::__construct($a_ref_id, $a_id_type, $a_parent_node_id);
 		$this->ilLocator = $ilLocator;
 		$this->showTree();
@@ -83,7 +80,8 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI {
 	 * Override the locator (breadcrumbs). We want the breadcrumbs with the Admin Org Unit node as a root and not the repository.
 	 */
 	protected function setLocator() {
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		if ($this->getCreationMode()) {
 			$endnode_id = $this->parent_id;
 		} else {

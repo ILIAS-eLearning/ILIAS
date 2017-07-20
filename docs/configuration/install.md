@@ -92,7 +92,7 @@ For best results we RECOMMEND:
   * MySQL 5.5 / MariaDB
   * PHP 5.6+
   * Apache 2.2+ with mod_php
-  * ImageMagick 6.x+
+  * ImageMagick 6.8+
   * php5-gd, php5-xsl, php5-mysql
   * OpenJDK 7+
   * zip, unzip
@@ -651,7 +651,7 @@ When you upgrade from rather old versions please make sure that the dependencies
 
 | ILIAS Version   | ImageMagick Version                   |
 |-----------------|---------------------------------------|
-| 4.2.x - 5.2.x   | 6.3.8-3 or higher                     |
+| 4.2.x - 5.2.x   | 6.8.9-9 or higher                     |
 | < 4.2.x         | No specific version requirements      |
 
 <a name="contribute"></a>

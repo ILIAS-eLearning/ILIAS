@@ -2,6 +2,10 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\BackgroundTasks\BucketMeta;
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
+use ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal;
+
 include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 
 /**
@@ -230,6 +234,7 @@ class ilMainMenuGUI
 			$this->renderOnScreenChatMenu();
 			$this->populateWithBuddySystem();
 			$this->populateWithOnScreenChat();
+			$this->renderBackgroundTasks();
 			$this->renderAwareness();
 		}
 
@@ -386,6 +391,7 @@ class ilMainMenuGUI
 		$this->tpl->setVariable("TXT_MAIN_MENU", $lng->txt("main_menu"));
 		
 		$this->tpl->parseCurrentBlock();
+
 	}
 	
 	/**
@@ -539,10 +545,12 @@ class ilMainMenuGUI
 				"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSelectedItems",
 				"_top", "", "", "mm_pd_sel_items", ilHelp::getMainMenuTooltip("mm_pd_sel_items"),
 					"left center", "right center", false);
-			
+
+			require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
+			$pdItemsViewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user());
+
 			// my groups and courses, if both is available
-			if($ilSetting->get('disable_my_offers') == 0 &&
-				$ilSetting->get('disable_my_memberships') == 0)
+			if($pdItemsViewSettings->allViewsEnabled())
 			{
 				$gl->addEntry($lng->txt("my_courses_groups"),
 					"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToMemberships",
@@ -1112,7 +1120,61 @@ class ilMainMenuGUI
 		}
 		
 		return $url;
-	}	
+	}
+
+	protected function renderBackgroundTasks()
+	{
+		global $DIC;
+		$factory = $DIC->ui()->factory();
+		$persistence = $DIC->backgroundTasks()->persistence();
+		$metas = $persistence->getBucketMetaOfUser($DIC->user()->getId());
+		if(!count($metas))
+			return;
+		require_once("./Services/BackgroundTasks/classes/class.ilBTPopOverGUI.php");
+
+		$numberOfUserInteractions = count(array_filter($metas, function(BucketMeta $meta) {
+			return $meta->getState() == State::USER_INTERACTION;
+		}));
+		$numberOfNotUserInteractions = count($metas) - $numberOfUserInteractions;
+
+		/** @var ilBTPopOverGUI $popoverGUI */
+		//$popoverGUI = $DIC->injector()->createInstance(ilBTPopOverGUI::class);
+
+		$popover = $factory->popover()->standard($factory->legacy(''))->withTitle($DIC->language()->txt("background_tasks"));
+		$DIC->ctrl()->clearParametersByClass(ilBTControllerGUI::class);
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($this->full_url($_SERVER)));
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class, "replaceSignal", $popover->getReplaceContentSignal()->getId());
+		$popover = $popover->withAsyncContentUrl($DIC->ctrl()->getLinkTargetByClass([ ilBTControllerGUI::class ], "getPopoverContent", "", true));
+		$glyph = $factory->glyph()->briefcase()->withOnClick($popover->getShowSignal());
+
+		$glyph = $glyph->withCounter($factory->counter()->novelty($numberOfUserInteractions));
+		$glyph = $glyph->withCounter($factory->counter()->status($numberOfNotUserInteractions));
+
+		$DIC['tpl']->addJavascript('./Services/BackgroundTasks/js/background_task_refresh.js');
+
+		$this->tpl->setVariable('BACKGROUNDTASKS',
+			$DIC->ui()->renderer()->render([$glyph, $popover])
+		);
+
+		$this->tpl->setVariable('BACKGROUNDTASKS_REFRESH_URI', $DIC->ctrl()->getLinkTargetByClass([ilBTControllerGUI::class], "getPopoverContent", "", true));
+	}
+
+	protected function url_origin( $s, $use_forwarded_host = false )
+	{
+		$ssl      = ( ! empty( $s['HTTPS'] ) && $s['HTTPS'] == 'on' );
+		$sp       = strtolower( $s['SERVER_PROTOCOL'] );
+		$protocol = substr( $sp, 0, strpos( $sp, '/' ) ) . ( ( $ssl ) ? 's' : '' );
+		$port     = $s['SERVER_PORT'];
+		$port     = ( ( ! $ssl && $port=='80' ) || ( $ssl && $port=='443' ) ) ? '' : ':'.$port;
+		$host     = ( $use_forwarded_host && isset( $s['HTTP_X_FORWARDED_HOST'] ) ) ? $s['HTTP_X_FORWARDED_HOST'] : ( isset( $s['HTTP_HOST'] ) ? $s['HTTP_HOST'] : null );
+		$host     = isset( $host ) ? $host : $s['SERVER_NAME'] . $port;
+		return $protocol . '://' . $host;
+	}
+
+	public function full_url( $s, $use_forwarded_host = false )
+	{
+		return $this->url_origin( $s, $use_forwarded_host ) . $s['REQUEST_URI'];
+	}
 }
 
 ?>

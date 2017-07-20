@@ -3,6 +3,9 @@
 
 namespace ILIAS\DI;
 
+use ILIAS\Filesystem\Filesystems;
+use ILIAS\FileUpload\FileUpload;
+
 /**
  * Customizing of pimple-DIC for ILIAS.
  *
@@ -116,5 +119,41 @@ class Container extends \Pimple\Container {
 	 */
 	public function settings() {
 		return $this["ilSetting"];
+	}
+
+
+	/**
+	 * Get the Filesystem service interface.
+	 *
+	 * @return Filesystems
+	 */
+	public function filesystem() {
+		return $this['filesystem'];
+	}
+
+
+	/**
+	 * Gets the file upload interface.
+	 *
+	 * @return FileUpload
+	 */
+	public function upload() {
+		return $this['upload'];
+	}
+
+
+	/**
+	 * @return BackgroundTaskServices
+	 */
+	public function backgroundTasks() {
+		return new BackgroundTaskServices($this);
+	}
+
+
+	/**
+	 * @return HTTPServices
+	 */
+	public function http() {
+		return $this['http'];
 	}
 }

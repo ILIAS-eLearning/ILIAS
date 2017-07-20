@@ -50,7 +50,11 @@ class arGUI {
 	 * @param ilPlugin $plugin_object
 	 */
 	public function __construct($record_type, ilPlugin $plugin_object = NULL) {
-		global $tpl, $ilCtrl, $ilAccess, $lng;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
 
 		$this->lng = $lng;
 

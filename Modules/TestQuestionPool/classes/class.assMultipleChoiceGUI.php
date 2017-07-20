@@ -388,7 +388,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			{
 				if (strcmp($mc_solution, $answer_id) == 0)
 				{
-					if( $this->isPdfOutputMode() || $this->isUserInputOutputMode() )
+					if( $this->renderPurposeSupportsFormHtml() )
 					{
 						$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_checked.png")));
 						$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
@@ -405,7 +405,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			}
 			if (!$checked)
 			{
-				if( $this->isPdfOutputMode() || $this->isUserInputOutputMode() )
+				if( $this->renderPurposeSupportsFormHtml() )
 				{
 					$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
 					$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
@@ -544,7 +544,9 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 	 */
 	function getTestOutput(
 		$active_id, 
-		$pass = NULL, 
+		// hey: prevPassSolutions - will be always available from now on
+		$pass, 
+		// hey.
 		$is_postponed = FALSE, 
 		$use_post_solutions = FALSE, 
 		$show_feedback = FALSE
@@ -557,13 +559,15 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		$user_solution = array();
 		if ($active_id)
 		{
-			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
-			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+			// hey: prevPassSolutions - obsolete due to central check
+			#$solutions = NULL;
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			#{
+			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			#}
+			$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
+			// hey.
 			foreach ($solutions as $idx => $solution_value)
 			{
 // fau: testNav - don't add the dummy entry for 'none of the above' to the user options

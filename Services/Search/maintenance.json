@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
+    "first_maintainer": "smeyer(191)",
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
     "tester": "",
-    "testcase_writer": "",
+    "testcase_writer": "FH Aachen",
     "path": "Services/Search",
-    "belong_to_component": "None",
+    "belong_to_component": "Search",
     "used_in_components": []
 }

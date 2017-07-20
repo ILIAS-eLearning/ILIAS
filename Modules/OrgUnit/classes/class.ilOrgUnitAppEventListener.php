@@ -1,6 +1,4 @@
 <?php
-require_once('./Modules/OrgUnit/classes/class.ilObjOrgUnit.php');
-require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
 
 /**
  * Class ilOrgUnitAppEventListener
@@ -40,7 +38,8 @@ class ilOrgUnitAppEventListener {
 	 * @param $ref_id
 	 */
 	protected static function rebuildOrguPathRecurvice($ref_id) {
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		/**
 		 * @var $tree ilTree
 		 */

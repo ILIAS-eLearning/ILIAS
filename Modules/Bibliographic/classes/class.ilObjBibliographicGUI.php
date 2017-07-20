@@ -2,13 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject2GUI.php";
-require_once "./Modules/Bibliographic/classes/class.ilBibliographicDetailsGUI.php";
-require_once("./Services/Export/classes/class.ilExportGUI.php");
-require_once('./Services/News/classes/class.ilNewsItem.php');
-require_once('./Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php');
-require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-
 /**
  * Class ilObjBibliographicGUI
  *
@@ -17,9 +10,11 @@ require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
  * @author            Martin Studer <ms@studer-raimann.ch>
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  *
- * @ilCtrl_Calls      ilObjBibliographicGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls      ilObjBibliographicGUI: ilInfoScreenGUI, ilNoteGUI
+ * @ilCtrl_Calls      ilObjBibliographicGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
- * @ilCtrl_Calls      ilObjBibliographicGUI: ilObjUserGUI, ilBibliographicDetailsGUI, ilDataBibliographicRecordListTableGUI
+ * @ilCtrl_Calls      ilObjBibliographicGUI: ilObjUserGUI, ilBibliographicDetailsGUI
+ * @ilCtrl_Calls      ilObjBibliographicGUI: ilBibliographicRecordListTableGUI
  * @ilCtrl_isCalledBy ilObjBibliographicGUI: ilRepositoryGUI
  *
  * @extends           ilObject2GUI
@@ -207,9 +202,15 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		// Detail-View
 		if ($id[1]) {
 			$DIC['ilCtrl']->setParameterByClass("ilobjbibliographicgui", ilObjBibliographicGUI::P_ENTRY_ID, $id[1]);
-			$DIC['ilCtrl']->redirectByClass(array( "ilRepositoryGUI", "ilobjbibliographicgui" ), self::CMD_SHOW_DETAILS);
+			$DIC['ilCtrl']->redirectByClass(array(
+				"ilRepositoryGUI",
+				"ilobjbibliographicgui",
+			), self::CMD_SHOW_DETAILS);
 		} else {
-			$DIC['ilCtrl']->redirectByClass(array( "ilRepositoryGUI", "ilobjbibliographicgui" ), self::CMD_VIEW);
+			$DIC['ilCtrl']->redirectByClass(array(
+				"ilRepositoryGUI",
+				"ilobjbibliographicgui",
+			), self::CMD_VIEW);
 		}
 	}
 
@@ -361,7 +362,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		$ilCtrl = $DIC['ilCtrl'];
 		$ilTabs = $DIC['ilTabs'];
 		// if user has read permission and object is online OR user has write permissions
-		if (($ilAccess->checkAccess('read', "", $this->object->getRefId()) && $this->object->getOnline())
+		if (($ilAccess->checkAccess('read', "", $this->object->getRefId())
+		     && $this->object->getOnline())
 		    || $ilAccess->checkAccess('write', "", $this->object->getRefId())
 		) {
 			$ilTabs->setTabActive(self::TAB_CONTENT);
@@ -378,7 +380,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			$DIC['ilToolbar']->addButtonInstance($b);
 
 			include_once "./Modules/Bibliographic/classes/class.ilBibliographicRecordListTableGUI.php";
-			$table = new ilDataBibliographicRecordListTableGUI($this, self::CMD_SHOW_CONTENT);
+			$table = new ilBibliographicRecordListTableGUI($this, self::CMD_SHOW_CONTENT);
 			$html = $table->getHTML();
 			$DIC['tpl']->setContent($html);
 
@@ -404,7 +406,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			$file_path = $this->bibl_obj->getFileAbsolutePath();
 			if ($file_path) {
 				if (is_file($file_path)) {
-					require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
 					ilFileDelivery::deliverFileAttached($file_path, null, 'application/octet-stream');
 				} else {
 					ilUtil::sendFailure($DIC['lng']->txt("file_not_found"));

@@ -24,7 +24,9 @@ class ilRendererTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -49,7 +51,10 @@ class ilRendererTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($renderer)
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		$name = $renderer->getName();
 		$type = $lng->txt("renderer_type_" . ($renderer->isPlugin() ? "plugin" : "builtin"));

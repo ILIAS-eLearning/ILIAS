@@ -18,7 +18,8 @@ class ilBackgroundTaskCronGarbageCollection extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule("bgtask");
 		return $lng->txt("bgtask_cron_gc_title");
@@ -26,7 +27,8 @@ class ilBackgroundTaskCronGarbageCollection extends ilCronJob
 	
 	public function getDescription()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule("bgtask");
 		return $lng->txt("bgtask_cron_gc_desc");
@@ -54,7 +56,8 @@ class ilBackgroundTaskCronGarbageCollection extends ilCronJob
 
 	public function run()
 	{				
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 		
