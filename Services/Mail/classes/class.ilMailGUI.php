@@ -174,6 +174,7 @@ class ilMailGUI
 				break;
 
 			case 'ilmailoptionsgui':
+				$this->tpl->setTitle($this->lng->txt('mail'));
 				include_once 'Services/Mail/classes/class.ilMailOptionsGUI.php';
 
 				$this->ctrl->forwardCommand(new ilMailOptionsGUI());

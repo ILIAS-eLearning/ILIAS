@@ -2477,12 +2477,11 @@ class ilUserImportParser extends ilSaxParser
 	    {
 	        include_once("Services/Mail/classes/class.ilMailOptions.php"); 
 	        $mailOptions = new ilMailOptions($usr_id);
-	        $mailOptions->updateOptions(    
-	            array_key_exists("mail_signature", $this->prefs) ? $this->prefs["mail_signature"] : $mailOptions->getSignature(),
-	            array_key_exists("mail_linebreak", $this->prefs) ? $this->prefs["mail_linebreak"] : $mailOptions->getLinebreak(),
-	            array_key_exists("mail_incoming_type", $this->prefs) ? $this->prefs["mail_incoming_type"] : $mailOptions->getIncomingType(),
-	            $mailOptions->getCronjobNotification()
-	         );
+
+			$mailOptions->setLinebreak(array_key_exists("mail_linebreak", $this->prefs) ? $this->prefs["mail_linebreak"] : $mailOptions->getLinebreak());
+			$mailOptions->setSignature(array_key_exists("mail_signature", $this->prefs) ? $this->prefs["mail_signature"] : $mailOptions->getSignature());
+			$mailOptions->setIncomingType(array_key_exists("mail_incoming_type", $this->prefs) ? $this->prefs["mail_incoming_type"] : $mailOptions->getIncomingType());
+			$mailOptions->updateOptions();
 	    }
 	}
 

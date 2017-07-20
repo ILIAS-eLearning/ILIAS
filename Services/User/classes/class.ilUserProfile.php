@@ -349,9 +349,9 @@ class ilUserProfile
 						"input" => "selection",
 						"default" => "y",
 						"options" => array(
-							IL_MAIL_LOCAL => "mail_incoming_local",
-							IL_MAIL_EMAIL => "mail_incoming_smtp",
-							IL_MAIL_BOTH => "mail_incoming_both"),
+							ilMailOptions::INCOMING_LOCAL => "mail_incoming_local",
+							ilMailOptions::INCOMING_EMAIL => "mail_incoming_smtp",
+							ilMailOptions::INCOMING_BOTH  => "mail_incoming_both"),
 						"required_hide" => true,
 						"visib_reg_hide" => true,
 						"course_export_hide" => true,
