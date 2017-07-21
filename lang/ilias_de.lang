@@ -9911,7 +9911,7 @@ prtf#:#prtf_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte p
 prtf#:#prtf_existing_portfolio#:#Vorhandenes Portfolio
 prtf#:#prtf_finalize_portfolio#:#Portfolio abschließen und abgeben
 prtf#:#prtf_finalized#:#Das Portfolio wurde abgegeben.
-prtf#:#prtf_first_page_title#:#Typ der 1. Seite
+prtf#:#prtf_first_page_title#:#Beginnt mit:
 prtf#:#prtf_font_color#:#Schriftfarbe
 prtf#:#prtf_new_portfolio#:#Neues Portfolio
 prtf#:#prtf_no_blogs_info#:#Wenn Sie im Bereich "%s" einen Blog anlegen, können Sie dieses auch als Teil Ihres Portfolios verwenden.
@@ -13968,10 +13968,10 @@ prtt#:#prtt_activation_limited_visibility_info#:#Falls aktiv, ist die Portfoliov
 content#:#cont_profile_mode_template_inherit_info#:#Verwendet die Daten des Profils
 prtf#:#prtf_template_editor_placeholder_info#:#Dieser Platzhalter wird im Portfolio ersetzt.
 prtf#:#prtf_creation_mode#:#Neues Portfolio
-prtf#:#prtf_creation_mode_template#:#Aus Vorlage erstellen
-prtf#:#prtf_creation_mode_scratch#:#Ohne Vorlage erstellen
-prtf#:#prtf_template_import_blog_create#:#Neuen Blog erstellen
-prtf#:#prtf_template_import_blog_reuse#:#Bestehenden Blog nutzen
+prtf#:#prtf_creation_mode_template#:#Aus einer Portfoliovorlage erstellen
+prtf#:#prtf_creation_mode_scratch#:#Ohne Portfoliovorlage erstellen
+prtf#:#prtf_template_import_blog_create#:#Neues Blog erstellen
+prtf#:#prtf_template_import_blog_reuse#:#Bestehendes Blog nutzen
 prtf#:#prtf_template_import_blog_ignore#:#Blog-Seite entfernen
 prtf#:#prtf_create_template_from_portfolio#:#Portfolio
 prtf#:#prtf_create_template_from_portfolio_info#:#Wählen Sie ein Portfolio um dessen Inhalte und Einstellungen für die Vorlage zu übernehmen.
