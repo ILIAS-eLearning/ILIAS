@@ -412,7 +412,10 @@ class ilMimeMail
 			$directory = './Services/Mail/templates/default/img/';
 			if($skin != 'default')
 			{
-				$directory = './Customizing/global/skin/' . $skin . '/Services/Mail/img/';
+				if(is_dir('./Customizing/global/skin/' . $skin . '/Services/Mail/img'))
+				{
+					$directory = './Customizing/global/skin/' . $skin . '/Services/Mail/img/';
+				}
 			}
 			$directory_handle  = @opendir($directory);
 			$files = array();
