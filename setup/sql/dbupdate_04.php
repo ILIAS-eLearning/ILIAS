@@ -18580,3 +18580,223 @@ $ilSetting->delete('mail_system_return_path');
 $ilSetting->delete('mail_system_sender_name');
 $ilSetting->delete('mail_external_sender_noreply');
 ?>
+<#5090>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'user_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'root_task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'current_task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'state' => array(
+		'type' => 'integer',
+		'length' => '2',
+
+	),
+	'total_number_of_tasks' => array(
+		'type' => 'integer',
+		'length' => '4',
+
+	),
+	'percentage' => array(
+		'type' => 'integer',
+		'length' => '2',
+
+	),
+	'title' => array(
+		'type' => 'text',
+		'length' => '255',
+
+	),
+	'description' => array(
+		'type' => 'text',
+		'length' => '255',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_bucket')) {
+	$ilDB->createTable('il_bt_bucket', $fields);
+	$ilDB->addPrimaryKey('il_bt_bucket', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_bucket')) {
+		$ilDB->createSequence('il_bt_bucket');
+	}
+
+}
+
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'type' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_path' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_name' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'bucket_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_task')) {
+	$ilDB->createTable('il_bt_task', $fields);
+	$ilDB->addPrimaryKey('il_bt_task', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_task')) {
+		$ilDB->createSequence('il_bt_task');
+	}
+
+}
+
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'has_parent_task' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+	'parent_task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'hash' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'type' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_path' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_name' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'serialized' => array(
+		'type' => 'clob',
+
+	),
+	'bucket_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_value')) {
+	$ilDB->createTable('il_bt_value', $fields);
+	$ilDB->addPrimaryKey('il_bt_value', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_value')) {
+		$ilDB->createSequence('il_bt_value');
+	}
+
+}
+
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'value_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'bucket_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_value_to_task')) {
+	$ilDB->createTable('il_bt_value_to_task', $fields);
+	$ilDB->addPrimaryKey('il_bt_value_to_task', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_value_to_task')) {
+		$ilDB->createSequence('il_bt_value_to_task');
+	}
+
+}
+?>
+<#5091>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5092>
+<?php
+if(!$ilDB->tableColumnExists('chatroom_settings','online_status'))
+{
+	$ilDB->addTableColumn('chatroom_settings', 'online_status', array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+
+$ilDB->manipulateF("UPDATE chatroom_settings SET online_status = %s", array('integer'), array(1));
+?>
+<#5093>
+<?php
+if(!$ilDB->tableColumnExists('chatroom_bans', 'actor_id'))
+{
+	$ilDB->addTableColumn('chatroom_bans', 'actor_id',
+		array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+?>

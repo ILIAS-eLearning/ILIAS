@@ -125,7 +125,6 @@ class Factory implements \ILIAS\UI\Factory
 		return new Component\Link\Factory();
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
@@ -147,6 +146,29 @@ class Factory implements \ILIAS\UI\Factory
 	 */
 	public function icon() {
 		return new Component\Icon\Factory();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function viewControl()
+	{
+		return new Component\ViewControl\Factory();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function breadcrumbs(array $crumbs) {
+		return new Component\Breadcrumbs\Breadcrumbs($crumbs);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function chart()
+	{
+		return new Component\Chart\Factory();
 	}
 
 	/**

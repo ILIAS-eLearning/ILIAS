@@ -588,6 +588,7 @@ class ilStartUpGUI
 		$form->addItem($ti);
 
 		$pi = new ilPasswordInputGUI($this->lng->txt("password"), "password");
+		$pi->setUseStripSlashes(false);
 		$pi->setRetype(false);
 		$pi->setSkipSyntaxCheck(true);
 		$pi->setSize(20);

@@ -7,6 +7,7 @@ require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__."/Renderer/ilIndependentTemplate.php");
 require_once(__DIR__."/../../Services/Language/classes/class.ilLanguage.php");
 
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
@@ -36,6 +37,9 @@ class NoUIFactory implements Factory {
 	public function dropdown() {}
 	public function item() {}
 	public function icon() {}
+	public function viewControl() {}
+	public function breadcrumbs(array $crumbs) {}
+	public function chart() {}
 	public function form() {}
 	public function input() {}
 }

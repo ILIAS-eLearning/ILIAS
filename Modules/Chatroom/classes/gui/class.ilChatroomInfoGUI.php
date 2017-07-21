@@ -43,7 +43,7 @@ class ilChatroomInfoGUI extends ilChatroomGUIHandler
 
 		$this->gui->switchToVisibleMode();
 
-		if(!$rbacsystem->checkAccess("visible", $this->gui->ref_id))
+		if(!ilChatroom::checkUserPermissions("visible", $this->gui->ref_id, false))
 		{
 			$this->gui->ilias->raiseError(
 				$lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE
@@ -54,7 +54,7 @@ class ilChatroomInfoGUI extends ilChatroomGUIHandler
 
 		$info->enablePrivateNotes();
 
-		if($rbacsystem->checkAccess("read", (int)$_GET["ref_id"]))
+		if(ilChatroom::checkUserPermissions("read", (int)$_GET["ref_id"], false))
 		{
 			$info->enableNews();
 		}
