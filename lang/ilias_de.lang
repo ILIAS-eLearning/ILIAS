@@ -16005,3 +16005,5 @@ dateplaner#:#cal_exc_info#:#Information zur Übungseinheit
 dateplaner#:#cal_sess_info#:#Session Information
 dateplaner#:#cal_agenda#:#Agenda
 dateplaner#:#cal_exc_open#:#Übungseinheit öffnen
+book#:#book_open#:#Buchungspool öffnen
+book#:#book_booking_information#:#Information

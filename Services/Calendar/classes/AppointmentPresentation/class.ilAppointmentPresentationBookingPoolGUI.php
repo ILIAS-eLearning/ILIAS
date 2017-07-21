@@ -21,6 +21,8 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 		$cat_id = $this->getCatId($a_app['event']->getEntryId());
 		$cat_info = $this->getCatInfo($cat_id);
 
+		$this->lng->loadLanguageModule("book");
+
 		// context id is reservation id (see ilObjBookingPoolGUI->processBooking)
 		$res_id = $a_app['event']->getContextId();
 		include_once("./Modules/BookingManager/classes/class.ilBookingReservation.php");
@@ -29,18 +31,73 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 		$b_obj = new ilBookingObject($res->getObjectId());
 		$obj_id = $b_obj->getPoolId();
 
-
 		$refs = $this->getReadableRefIds($obj_id);
 
 		// add common section (title, description, object/calendar, location)
 		$this->addCommonSection($a_app, $obj_id, $cat_info);
+
+
+
+		if (count($refs) > 0)
+		{
+			// section: booking information
+			if ($b_obj->getDescription() || $b_obj->getFile())
+			{
+				$this->addInfoSection($this->lng->txt("book_booking_information"));
+			}
+
+			// object description
+			if ($b_obj->getDescription())
+			{
+				$this->addInfoProperty($this->lng->txt("description"), $b_obj->getDescription());
+			}
+			$ref_id = current($refs);
+
+			$this->ctrl->setParameterByClass("ilObjBookingPoolGUI", "ref_id", $ref_id);
+			$this->ctrl->setParameterByClass("ilbookingobjectgui", "object_id", $res->getObjectId());
+
+			// info file
+			if ($b_obj->getFile())
+			{
+				$link = $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjBookingPoolGUI", "ilbookingobjectgui"), "deliverInfo");
+
+				$link = $this->ui->renderer()->render(
+					$this->ui->factory()->button()->shy($b_obj->getFile(), $link));
+
+				$this->addInfoProperty($this->lng->txt("book_additional_info_file"), $link);
+			}
+
+			// section: post booking information
+			if ($b_obj->getPostText()|| $b_obj->getPostFile())
+			{
+				$this->addInfoSection($this->lng->txt("book_post_booking_information"));
+			}
+
+			// post text
+			if ($b_obj->getPostText())
+			{
+				$this->addInfoProperty($this->lng->txt("book_post_booking_text"), $b_obj->getPostText());
+			}
+
+			// post file
+			if ($b_obj->getPostFile())
+			{
+				$link = $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjBookingPoolGUI", "ilbookingobjectgui"), "deliverPostFile");
+
+				$link = $this->ui->renderer()->render(
+					$this->ui->factory()->button()->shy($b_obj->getPostFile(), $link));
+
+				$this->addInfoProperty($this->lng->txt("book_post_booking_file"), $link);
+			}
+		}
+
 
 		//example download all files
 		$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
 
 		if (count($refs) > 0)
 		{
-			$this->addAction($this->lng->txt("cal_book_open"), ilLink::_getStaticLink(current($refs)));
+			$this->addAction($this->lng->txt("book_open"), ilLink::_getStaticLink(current($refs)));
 		}
 
 	}
