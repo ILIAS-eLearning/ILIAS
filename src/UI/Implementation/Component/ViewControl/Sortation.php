@@ -20,6 +20,11 @@ class Sortation implements C\ViewControl\Sortation {
 	protected $parameter_name="sortation";
 
 	/**
+	 * @var string
+	 */
+	protected $active;
+
+	/**
 	 * @var arrary<string,string>
 	 */
 	protected $options=array();

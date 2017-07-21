@@ -75,11 +75,11 @@ interface Factory {
 	 *      by a control next to the actual table.
 	 *   composition: >
 	 *      Sortation uses a Dropdown to display a collection of shy-buttons.
-	 *      A wrapper is used to identify the component.
 	 *   effect: >
 	 *      A click on an option will change the ordering of the associated data-list.
-	 *      by calling the current page with the paramter "sortation" and its
+	 *      by calling the current page with the parameter "sortation" and its
 	 *      value according to the selected option.
+	 *      The label displayed in the dropdown will be set to the selected sorting.
 	 *
 	 * rules:
 	 *   usage:

@@ -15,5 +15,12 @@ function base() {
 		->withLabel("ordering")
 		->withParameterName("ord");
 
-	return $renderer->render($s);
+	//pre-selected
+	$s2 = $f->viewControl()->sortation($options)
+		->withLabel("Most Recent");
+
+	return implode('<hr>', array(
+		$renderer->render($s),
+		$renderer->render($s2)
+	));
 }
