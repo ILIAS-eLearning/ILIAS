@@ -10895,6 +10895,7 @@ img.ilPollQuestionImage {
 #ilTopBarNav .dropdown-menu #ilMMSearchMenu a:hover,
 #ilTopBarNav .dropdown-menu #ilMMSearchMenu a:active,
 #ilTopBarNav .dropdown-menu #ilMMSearchMenu a:focus {
+  background-color: transparent;
   color: #f5f5f5;
 }
 div.ilMainMenuSearch {
