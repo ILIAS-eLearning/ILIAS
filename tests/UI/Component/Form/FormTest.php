@@ -10,6 +10,7 @@ use \ILIAS\UI\Implementation\Component\Input\InputInternal;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\UI\Implementation\Component\Input\PostData;
 use \ILIAS\UI\Implementation\Component\Form\Form;
+use \ILIAS\Transformation\Factory as TransformationFactory;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -53,6 +54,11 @@ class FormTest extends ILIAS_UI_TestBase {
 
 	protected function buildButtonFactory() {
 		return new ILIAS\UI\Implementation\Component\Button\Factory;
+	}
+
+	protected function buildTransformation(\Closure $trafo) {
+		$f = new TransformationFactory();
+		return $f->custom($trafo);
 	}
 
 	public function getUIFactory() {
@@ -128,6 +134,51 @@ class FormTest extends ILIAS_UI_TestBase {
 		$this->assertNotSame($form2, $form);
 		$this->assertInstanceOf(Form::class, $form2);
 		$this->assertEquals(["one", "two"], $form2->getInputs());
+	}
+
+	public function test_getData() {
+		$request = \Mockery::mock(ServerRequestInterface::class);
+		$post_data = \Mockery::Mock(PostData::class);
+
+		$input_1 = \Mockery::mock(InputInternal::class);
+		$input_1
+			->shouldReceive("getContent")->once()
+			->andReturn(1);
+
+		$input_2 = \Mockery::mock(InputInternal::class);
+		$input_2
+			->shouldReceive("getContent")->once()
+			->andReturn(2);
+
+		$form = new ConcreteForm([]);
+		$form->setInputs([$input_1, $input_2]);
+
+		$this->assertEquals([1,2], $form->getData());
+	}
+
+	public function test_withTransformation() {
+		$request = \Mockery::mock(ServerRequestInterface::class);
+		$post_data = \Mockery::Mock(PostData::class);
+
+		$input_1 = \Mockery::mock(InputInternal::class);
+		$input_1
+			->shouldReceive("getContent")->once()
+			->andReturn(1);
+
+		$input_2 = \Mockery::mock(InputInternal::class);
+		$input_2
+			->shouldReceive("getContent")->once()
+			->andReturn(2);
+
+		$form = new ConcreteForm([]);
+		$form->setInputs([$input_1, $input_2]);
+
+		$form2 = $form->withTransformation($this->buildTransformation(function ($v) {
+			return "transformed";
+		}));
+
+		$this->assertNotSame($form2, $form);
+		$this->assertEquals("transformed", $form2->getData());
 	}
 
 	public function test_getPostInput() {

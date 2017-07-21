@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Component\Form;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\Transformation\Transformation;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -26,4 +27,19 @@ interface Form extends Component {
 	 * @return	Form
 	 */
 	public function withRequest(ServerRequestInterface $request);
+
+	/**
+	 * Apply a transformation o the data of the form.
+	 *
+	 * @param	Transformation $trafo
+	 * @return	Input
+	 */
+	public function withTransformation(Transformation $trafo);
+
+	/**
+	 * Get the data in the form.
+	 *
+	 * @return	mixed
+	 */
+	public function getData();
 }

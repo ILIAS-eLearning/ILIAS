@@ -7,6 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Form;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component as CI;
+use ILIAS\Transformation\Transformation;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -22,6 +23,11 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	protected $inputs;
 
 	/**
+	 * @var Transformation|null
+	 */
+	protected $transformation;
+
+	/**
 	 * For the implementation of NameSource.
 	 *
 	 * @var	int
@@ -32,6 +38,7 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 		$classes = [CI\Input\Input::class];
 		$this->checkArgListElements("input", $inputs, $classes);
 		$this->inputs = $this->nameInputs($inputs);
+		$this->transformation = null;
 	}
 
 	/**
@@ -55,8 +62,31 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 		foreach ($this->getInputs() as $input) {
 			$clone->inputs[] = $input->withInput($post_data);
 		}
-		
+
 		return $clone;
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function withTransformation(Transformation $trafo) {
+		$clone = clone $this;
+		$clone->transformation = $trafo;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function getData() {
+		$data = array_map
+			( function ($i) { return $i->getContent(); }
+			, $this->getInputs()
+			);
+		if ($this->transformation !== null) {
+			return $this->transformation->transform($data);
+		}
+		return $data;
 	}
 
 	/**
