@@ -8,6 +8,8 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component as CI;
 
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * This implements commonalities between all forms.
  */
@@ -39,6 +41,8 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 		return $this->inputs;
 	}
 
+	// Internal to be used in the form processing machinery.
+
 	/**
 	 * Get the inputs with a consecutive name.
 	 *
@@ -51,7 +55,22 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 			$named_inputs[] = $input->withNameFrom($this);
 			$counter++;
 		}
+		// TODO: This might be cached, as it will mostly be used
+		// twice on every request, once for rendering, once for
+		// input retrieval.
 		return $named_inputs;
+	}
+
+	/**
+	 * Get actual input from an HTTP-Request
+	 *
+	 * Returns an array containing the inputs according to
+	 * the contained inputs.
+	 *
+	 * @param	ServerRequestInterface	$request
+	 * @return	mixed[]
+	 */
+	public function getPostInput(ServerRequestInterface $request) {
 	}
 
 	// Implementation of NameSource

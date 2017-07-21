@@ -8,6 +8,8 @@ require_once(__DIR__."/../../Base.php");
 use \ILIAS\UI\Implementation\Component\Input\Input;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
 
+use Psr\Http\Message\ServerRequestInterface;
+
 class WithButtonNoUIFactory extends NoUIFactory {
 	protected $button_factory;
 	public function __construct($button_factory) {
@@ -117,4 +119,9 @@ class FormTest extends ILIAS_UI_TestBase {
 			"</form>";
 		$this->assertEquals($expected, $html);
 	}
+/*
+	public function test_getPostInput() {
+		$request = \Mockery::getMock(ServerRequestInterface::class);
+		$requests->shouldReceive("getParsedBody")->once();
+	}*/
 }
