@@ -7,6 +7,7 @@ require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Implementation\Component\Input\Input;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
+use \ILIAS\UI\Implementation\Component\Input\PostData;
 use \ILIAS\UI\Implementation\Component\Form\Form;
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,6 +20,16 @@ class FixedNameSource implements NameSource {
 }
 
 class ConcreteForm extends Form {
+	public $post_data = null;
+	public function _extractPostData(ServerRequestInterface $request) {
+		return $this->extractPostData($request);
+	}
+	public function extractPostData(ServerRequestInterface $request) {
+		if ($this->post_data !== null) {
+			return $this->post_data;
+		}
+		return parent::extractPostData($request);
+	}
 }
 
 /**
@@ -77,8 +88,17 @@ class FormTest extends ILIAS_UI_TestBase {
 		}
 	}
 
+	public function test_extractPostData() {
+		$form = new ConcreteForm([]);
+		$request = \Mockery::mock(ServerRequestInterface::class);
+		$request
+			->shouldReceive("getParsedBody")->once()
+			->andReturn([]);
+		$post_data = $form->_extractPostData($request);
+		$this->assertInstanceOf(PostData::class, $post_data);
+	}
+
 	public function test_getPostInput() {
-		$request = \Mockery::getMock(ServerRequestInterface::class);
-		$requests->shouldReceive("getParsedBody")->once();
+		$request = \Mockery::mock(ServerRequestInterface::class);
 	}
 }

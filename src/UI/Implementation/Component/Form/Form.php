@@ -73,6 +73,16 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	public function getPostInput(ServerRequestInterface $request) {
 	}
 
+	/**
+	 * Extract post data from request.
+	 *
+	 * @param	ServerRequestInterface	$request
+	 * @return	PostData
+	 */
+	public function extractPostData(ServerRequestInterface $request) {
+		return new PostDataFromServerRequest($request);
+	}
+
 	// Implementation of NameSource
 
 	public function getNewName() {
