@@ -627,7 +627,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 								(string) $next_app->getStart()->get(IL_CAL_DATE)
 							);
 						}
-						
+
+						/* @todo fix this
 						$this->addBlockCommand(
 							$ilCtrl->getLinkTargetByClass(
 								"ilCalendarMonthGUI",
@@ -638,7 +639,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 						$this->cal_footer[] = array(
 							'link' => $ilCtrl->getLinkTargetByClass('ilCalendarMonthGUI',''),
 							'txt' => $lng->txt("cal_consultation_hours_for").' '.ilObjUser::_lookupFullname($user_id)
-						);
+						);*/
 						
 					}
 				}

@@ -9,7 +9,7 @@
  */
 class ilAppointmentPresentationFactory
 {
-	public static function getInstance($a_appointment, $a_info_screen, $a_toolbar)
+	public static function getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item)
 	{
 		global $lng;
 
@@ -29,44 +29,44 @@ class ilAppointmentPresentationFactory
 				{
 					case "crs":
 						require_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationCourseGUI.php";
-						return ilAppointmentPresentationCourseGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar);
+						return ilAppointmentPresentationCourseGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
 						break;
 					case "grp":
 						require_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGroupGUI.php";
-						return ilAppointmentPresentationGroupGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar);
+						return ilAppointmentPresentationGroupGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
 						break;
 					case "sess":
 						require_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationSessionGUI.php";
-						return ilAppointmentPresentationSessionGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar);
+						return ilAppointmentPresentationSessionGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
 						break;
 					case "exc":
 						include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationExerciseGUI.php';
-						return ilAppointmentPresentationExerciseGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar);
+						return ilAppointmentPresentationExerciseGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
 						break;
 					default:
 						include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
-						return ilAppointmentPresentationGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar); // title, description etc... link to generic object.
+						return ilAppointmentPresentationGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item); // title, description etc... link to generic object.
 				}
 				break;
 			case ilCalendarCategory::TYPE_USR:
 				require_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationUserGUI.php";
-				return ilAppointmentPresentationUserGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar);
+				return ilAppointmentPresentationUserGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
 				break;
 			//TYPE GLOBAL uses the same code/data as TYPE_USR
 			case ilCalendarCategory::TYPE_GLOBAL:
 				require_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationUserGUI.php";
-				return ilAppointmentPresentationUserGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar);
+				return ilAppointmentPresentationUserGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
 				break;
 			case ilCalendarCategory::TYPE_CH:
 				require_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationUserGUI.php";
-				return ilAppointmentPresentationUserGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar);
+				return ilAppointmentPresentationUserGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
 				break;
 			case ilCalendarCategory::TYPE_BOOK:
 				require_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationBookingPoolGUI.php";
-				return ilAppointmentPresentationBookingPoolGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar);
+				return ilAppointmentPresentationBookingPoolGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
 			default:
 				include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
-				return ilAppointmentPresentationGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar);
+				return ilAppointmentPresentationGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
 
 		}
 	}

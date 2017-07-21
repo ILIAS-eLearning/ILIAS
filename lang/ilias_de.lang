@@ -15987,10 +15987,21 @@ rbac#:#file_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen
 rbac#:#stys_sty_write_content#:#Content-Styles bearbeiten
 style#:#manage_system_styles#:#System Styles verwalten
 style#:#scope#:#Gültigkeitsbereich
-dateplaner#:#cal_agenda#:#Terminübersicht
 dateplaner#:#cal_origin#:#Herkunft
 dateplaner#:#cal_list#:#Liste
-dateplaner#:#cal_grp_curr_crs_cons#:#Consultation Hours
-dateplaner#:#cal_grp_curr_crs#:#Current Course
-dateplaner#:#cal_grp_personal#:#Personal
-dateplaner#:#cal_grp_others#:#Others
+dateplaner#:#cal_grp_curr_crs_cons#:#Sprechstunden
+dateplaner#:#cal_grp_curr_crs#:#Aktueller Kurs
+dateplaner#:#cal_grp_personal#:#Persönlich
+dateplaner#:#cal_grp_others#:#Andere
+dateplaner#:#cal_download_all_files#:#Alle Dateien herunterladen
+dateplaner#:#cal_owner#:#Eigentümer
+dateplaner#:#cal_contained_in#:#Contained in
+dateplaner#:#cal_app_info#:#Information zur Übungseinheit
+dateplaner#:#cal_crs_info#:#Course Information
+crs#:#crs_open#:#Kurs öffnen
+grp#:#grp_grp_open#:#Gruppe öffnen
+dateplaner#:#cal_grp_info#:#Information zur Gruppe
+dateplaner#:#cal_exc_info#:#Information zur Übungseinheit
+dateplaner#:#cal_sess_info#:#Session Information
+dateplaner#:#cal_agenda#:#Agenda
+dateplaner#:#cal_exc_open#:#Übungseinheit öffnen

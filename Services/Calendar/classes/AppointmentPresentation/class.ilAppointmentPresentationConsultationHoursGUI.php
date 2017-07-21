@@ -14,12 +14,8 @@ include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppoin
 class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
 
-	public function getHTML()
+	public function collectPropertiesAndActions()
 	{
-		global $lng, $ilCtrl;
-
-		$a_infoscreen = $this->getInfoScreen();
-		$a_app = $this->appointment;
 
 		//WORKING HERE
 
@@ -37,17 +33,17 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 
 
 		$description_text = $cat_info['title'] . ", " . ilObject::_lookupDescription($cat_info['obj_id']);
-		$a_infoscreen->addSection($cat_info['title']);
+		$this->addInfoSection($cat_info['title']);
 
 		if ($a_app['event']->getDescription()) {
-			$a_infoscreen->addProperty($lng->txt("description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
+			$this->addInfoProperty($lng->txt("description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
 		}
-		$a_infoscreen->addProperty($lng->txt(ilObject::_lookupType($cat_info['obj_id'])), $description_text);
+		$this->addInfoProperty($lng->txt(ilObject::_lookupType($cat_info['obj_id'])), $description_text);
 
-		$a_infoscreen->addSection($lng->txt((ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
-		$a_infoscreen->addProperty($lng->txt("crs_important_info"), $crs->getImportantInformation());
-		$a_infoscreen->addProperty($lng->txt("crs_syllabus"), $crs->getSyllabus());
-		$a_infoscreen->addProperty($lng->txt("crs_contact"), "Text from Contact of Setting > Course Information  (do not display if not applicable)The Contact from Course Information should be swapped for Tutorial Support.");
+		$this->addInfoSection($lng->txt((ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
+		$this->addInfoProperty($lng->txt("crs_important_info"), $crs->getImportantInformation());
+		$this->addInfoProperty($lng->txt("crs_syllabus"), $crs->getSyllabus());
+		$this->addInfoProperty($lng->txt("crs_contact"), "Text from Contact of Setting > Course Information  (do not display if not applicable)The Contact from Course Information should be swapped for Tutorial Support.");
 
 		if (count($files)) {
 			$tpl = new ilTemplate('tpl.event_info_file.html', true, true, 'Modules/Course');
@@ -62,7 +58,7 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 				$tpl->setVariable("TXT_BYTES", $lng->txt('bytes'));
 				$tpl->parseCurrentBlock();
 			}
-			$a_infoscreen->addProperty($lng->txt("files"), $tpl->get());
+			$this->addInfoProperty($lng->txt("files"), $tpl->get());
 		}
 
 		// support contacts
@@ -75,7 +71,7 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 				//TODO DOWNLOAD LINK CALL
 				//$pgui->setBackUrl($ilCtrl->getLinkTargetByClass("ilinfoscreengui"));
 				$pgui->setEmbedded(true);
-				$a_infoscreen->addProperty($lng->txt("crs_mem_contacts"), $pgui->getHTML());
+				$this->addInfoProperty($lng->txt("crs_mem_contacts"), $pgui->getHTML());
 			}
 		}
 

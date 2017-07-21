@@ -24,11 +24,10 @@ class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI impl
 		return $this->seed;
 	}
 
-	public function getHTML()
+	public function collectPropertiesAndActions()
 	{
 		global $DIC;
 
-		$a_infoscreen = $this->getInfoScreen();
 		$a_app = $this->appointment;
 
 
@@ -40,31 +39,31 @@ class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI impl
 		$cat_id = $this->getCatId($a_app['event']->getEntryId());
 		$cat_info = $this->getCatInfo($cat_id);
 
-		$a_infoscreen->addSection($a_app['event']->getTitle());
+		$this->addInfoSection($a_app['event']->getTitle());
 
 		if($a_app['event']->getDescription())
 		{
-			$a_infoscreen->addProperty($this->lng->txt("description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
+			$this->addInfoProperty($this->lng->txt("description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
 		}
 
 		$ctrl->setParameterByClass("ilcalendarcategorygui",'category_id', $cat_id);
 		$ctrl->setParameterByClass("ilcalendarcategorygui",'seed',$this->getSeed());
 
 		// link to calendar
-		$a_infoscreen->addProperty($this->lng->txt("cal_origin"),	$r->render($f->button()->shy($cat_info['title'],
+		$this->addInfoProperty($this->lng->txt("cal_origin"),	$r->render($f->button()->shy($cat_info['title'],
 			$ctrl->getLinkTargetByClass(array("ilPersonalDesktopGUI", "ilCalendarPresentationGUI", "ilcalendarcategorygui"), 'details'))));
 
 		// link to user profile: todo: check if profile is really public
 		include_once('./Services/Link/classes/class.ilLink.php');
 		$href = ilLink::_getStaticLink($cat_info['obj_id'], "usr");
 
-		$a_infoscreen->addProperty($this->lng->txt("cal_owner"),$r->render($f->button()->shy(ilObjUser::_lookupFullname($cat_info['obj_id']), $href)));
+		$this->addInfoProperty($this->lng->txt("cal_owner"),$r->render($f->button()->shy(ilObjUser::_lookupFullname($cat_info['obj_id']), $href)));
 
-		$a_infoscreen->addSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id']))."_info"));
+		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id']))."_info"));
 
 		if($a_app['event']->getLocation())
 		{
-			$a_infoscreen->addProperty($this->lng->txt("location"), ilUtil::makeClickable(nl2br($a_app['event']->getLocation())));
+			$this->addInfoProperty($this->lng->txt("location"), ilUtil::makeClickable(nl2br($a_app['event']->getLocation())));
 		}
 
 		//user notifications
@@ -88,7 +87,7 @@ class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI impl
 						break;
 				}
 			}
-			$a_infoscreen->addProperty($this->lng->txt("cal_user_notification"), $str_notification);
+			$this->addInfoProperty($this->lng->txt("cal_user_notification"), $str_notification);
 		}
 	}
 
