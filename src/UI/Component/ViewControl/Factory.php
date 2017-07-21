@@ -74,7 +74,7 @@ interface Factory {
 	 *      requires the column to be visible. Visibility and sorting can be decoupled
 	 *      by a control next to the actual table.
 	 *      This concept is used by many pages, notably in shops like e.g. amazon, and can
-	 *      be applied to not only table but all kinds of data-listings.
+	 *      be applied to not only tables but all kinds of data-listings.
 	 *   composition: >
 	 *      Sortation uses a Dropdown to display a collection of shy-buttons.
 	 *   effect: >
