@@ -7,6 +7,7 @@ require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Implementation\Component\Input\Input;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
+use \ILIAS\UI\Implementation\Component\Input\PostData;
 use \ILIAS\Data\Factory as DataFactory;
 use \ILIAS\Transformation\Factory as TransformationFactory;
 use \ILIAS\Validation\Factory as ValidationFactory;
@@ -25,6 +26,31 @@ class DefNamesource implements NameSource {
 		$name = "name_{$this->count}";
 		$this->count++;
 		return $name;
+	}
+}
+
+class DefPostData implements PostData {
+	public $values = array();
+	public function __construct(array $values) {
+		$this->values = $values;
+	}
+	public function get($name) {
+		if (!is_string($name)) {
+			throw new \InvalidArgumentException('$name is no string.');
+		}
+		if (!isset($this->values[$name])) {
+			throw new \LogicException("'$name' does not exist.");
+		}
+		return $this->values[$name];
+	}
+	public function getOr($name, $value) {
+		if (!is_string($name)) {
+			throw new \InvalidArgumentException('$name is no string.');
+		}
+		if (!isset($this->values[$name])) {
+			return $value;
+		}
+		return $this->values[$name];
 	}
 }
 
@@ -106,7 +132,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$name = "name_0";
 		$value = "valu";
 		$input = $this->input->withNameFrom($this->name_source);
-		$values = [$name => $value];
+		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input->withInput($values);
 		$res = $input2->getContent();
@@ -122,7 +148,7 @@ class InputTest extends ILIAS_UI_TestBase {
 	public function test_only_run_withInput_with_name() {
 		$raised = false;
 		try {
-			$this->input->withInput([]);
+			$this->input->withInput(new DefPostData([]));
 			$this->assertFalse("This should not happen.");
 		}
 		catch (\LogicException $e) {
@@ -136,7 +162,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$value = "value";
 		$transform_to = "other value";
 		$input = $this->input->withNameFrom($this->name_source);
-		$values = [$name => $value];
+		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
 			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
@@ -159,7 +185,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$value = "value";
 		$transform_to = "other value";
 		$input = $this->input->withNameFrom($this->name_source);
-		$values = [$name => $value];
+		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
 			->withInput($values)
@@ -182,7 +208,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$value = "value";
 		$error = "an error";
 		$input = $this->input->withNameFrom($this->name_source);
-		$values = [$name => $value];
+		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
 			->withConstraint($this->validation_factory->custom(function($_) { return true; }, $error))
@@ -203,7 +229,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$value = "value";
 		$error = "an error";
 		$input = $this->input->withNameFrom($this->name_source);
-		$values = [$name => $value];
+		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
 			->withConstraint($this->validation_factory->custom(function($_) { return false; }, $error))
@@ -224,7 +250,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$value = "value";
 		$error = "an error";
 		$input = $this->input->withNameFrom($this->name_source);
-		$values = [$name => $value];
+		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
 			->withInput($values)
@@ -246,7 +272,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$transform_to = "other value";
 		$error = "an error";
 		$input = $this->input->withNameFrom($this->name_source);
-		$values = [$name => $value];
+		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
 			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
@@ -275,7 +301,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$transform_to = "other value";
 		$error = "an error";
 		$input = $this->input->withNameFrom($this->name_source);
-		$values = [$name => $value];
+		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
 			->withInput($values)
@@ -304,7 +330,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$transform_to = "other value";
 		$error = "an error";
 		$input = $this->input->withNameFrom($this->name_source);
-		$values = [$name => $value];
+		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
 			->withConstraint($this->validation_factory->custom(function($v) use ($value) {
@@ -333,7 +359,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$transform_to = "other value";
 		$error = "an error";
 		$input = $this->input->withNameFrom($this->name_source);
-		$values = [$name => $value];
+		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
 			->withConstraint($this->validation_factory->custom(function($v) use ($value) {
@@ -362,7 +388,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$transform_to = "other value";
 		$error = "an error";
 		$input = $this->input->withNameFrom($this->name_source);
-		$values = [$name => $value];
+		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
 			->withInput($values)
