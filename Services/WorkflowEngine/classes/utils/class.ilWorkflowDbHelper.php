@@ -359,7 +359,7 @@ class ilWorkflowDbHelper
 		$workflow = $ilDB->fetchAssoc($result);
 
 		require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php';
-		$path = $workflow['workflow_location'] . $workflow['workflow_class'];
+		$path = rtrim($workflow['workflow_location'], '/') . '/' . $workflow['workflow_class'];
 
 		require_once $path;
 
