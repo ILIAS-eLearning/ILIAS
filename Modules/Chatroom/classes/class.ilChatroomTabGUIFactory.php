@@ -29,8 +29,7 @@ class ilChatroomTabGUIFactory
 	public function __construct(ilObjectGUI $gui)
 	{
 		/**
-		 * @var $lng      ilLanguage
-		 * @var $ilAccess ilAccessHandler
+		 * @var $lng ilLanguage
 		 */
 		global $lng;
 
@@ -185,7 +184,7 @@ class ilChatroomTabGUIFactory
 			$ilCtrl->setParameterByClass('ilPermissionGUI', 'ref_id', $admin_ref);
 		}
 
-		$this->buildTabs($ilTabs, $config, $commandParts);
+		$this->buildTabs($ilTabs, $config, $commandParts, false);
 		$this->activateTab($commandParts, $config);
 	}
 
@@ -205,8 +204,9 @@ class ilChatroomTabGUIFactory
 	 * @param ilTabsGUI $tabs
 	 * @param array     $config
 	 * @param array     $command
+	 * @param bool      $inRoom
 	 */
-	private function buildTabs(ilTabsGUI $tabs, $config, $command)
+	private function buildTabs(ilTabsGUI $tabs, $config, $command, $inRoom = true)
 	{
 		/**
 		 * @var $rbacsystem ilRbacSystem
@@ -216,7 +216,11 @@ class ilChatroomTabGUIFactory
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 		foreach($config as $id => $tabDefinition)
 		{
-			if(!ilChatroom::checkUserPermissions($tabDefinition['permission'], $this->gui->getRefId(), false))
+			if(!$inRoom && !$rbacsystem->checkAccess($tabDefinition['permission'], $this->gui->getRefId()))
+			{
+				continue;
+			}
+			else if($inRoom && !ilChatroom::checkUserPermissions($tabDefinition['permission'], $this->gui->getRefId(), false))
 			{
 				continue;
 			}
@@ -233,7 +237,11 @@ class ilChatroomTabGUIFactory
 			{
 				foreach($tabDefinition['subtabs'] as $subid => $subTabDefinition)
 				{
-					if(!$rbacsystem->checkAccess($subTabDefinition['permission'], $this->gui->getRefId()))
+					if(!$inRoom && !$rbacsystem->checkAccess($tabDefinition['permission'], $this->gui->getRefId()))
+					{
+						continue;
+					}
+					else if($inRoom && !ilChatroom::checkUserPermissions($subTabDefinition['permission'], $this->gui->getRefId()))
 					{
 						continue;
 					}
@@ -374,6 +382,11 @@ class ilChatroomTabGUIFactory
 						'permission' => 'moderate'
 					)
 				)
+			),
+			'export'  => array(
+				'lng'        => 'export',
+				'link'       =>  $ilCtrl->getLinkTargetByClass('ilexportgui', ''),
+				'permission' => 'write'
 			),
 			'perm'     => array(
 				'lng'        => 'permissions',

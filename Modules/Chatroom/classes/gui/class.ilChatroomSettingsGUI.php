@@ -48,6 +48,22 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 		{
 			$this->gui->object->setTitle($settingsForm->getInput('title'));
 			$this->gui->object->setDescription($settingsForm->getInput('desc'));
+
+			require_once 'Services/Object/classes/class.ilObjectActivation.php';
+
+			$period = $settingsForm->getItemByPostVar('access_period');
+			if($period->getStart() && $period->getEnd())
+			{
+				$this->gui->object->setAccessType(ilObjectActivation::TIMINGS_ACTIVATION);
+				$this->gui->object->setAccessBegin($period->getStart()->get(IL_CAL_UNIX));
+				$this->gui->object->setAccessEnd($period->getEnd()->get(IL_CAL_UNIX));
+				$this->gui->object->setAccessVisibility((int)$settingsForm->getInput('access_visibility'));
+			}
+			else
+			{
+				$this->gui->object->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
+			}
+
 			$this->gui->object->update();
 			// @todo: Do not rely on raw post data
 			$settings = $_POST;
@@ -104,9 +120,15 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 		{
 			$settingsForm = $formFactory->getSettingsForm();
 
+			require_once 'Services/Object/classes/class.ilObjectActivation.php';
 			$settings = array(
-				'title' => $this->gui->object->getTitle(),
-				'desc'  => $this->gui->object->getDescription(),
+				'title'                 => $this->gui->object->getTitle(),
+				'desc'                  => $this->gui->object->getDescription(),
+				'access_period'         => array(
+					'start' => $this->gui->object->getAccessBegin() ? new ilDateTime($this->gui->object->getAccessBegin(), IL_CAL_UNIX) : null,
+					'end'   => $this->gui->object->getAccessEnd()   ? new ilDateTime($this->gui->object->getAccessEnd(), IL_CAL_UNIX) : null
+				),
+				'access_visibility' => $this->gui->object->getAccessVisibility()
 			);
 
 			if($room)

@@ -2103,11 +2103,6 @@ chatroom#:#enable_history#:#Historie aktivieren
 chatroom#:#enable_smilies#:#Smilies aktivieren
 chatroom#:#end_whisper#:#Beenden
 chatroom#:#enter#:#Chat beitreten
-chatroom#:#fontcolor#:#Schriftfarbe
-chatroom#:#fontfamily#:#Schriftart
-chatroom#:#fontsize#:#Schriftgröße
-chatroom#:#fontstyle#:#Schriftbild
-chatroom#:#hide_settings#:#Einstellungen verbergen
 chatroom#:#hint_display_past_msgs#:#Anzahl der vergangenen Nachrichten, die beim Betreten des Chatraums angezeigt werden sollen. "0" deaktiviert die Anzeige vergangener Nachrichten.
 chatroom#:#hint_enable_smilies#:#Wenn aktiviert, werden konfigurierte Textbausteine durch ein Bild ersetzt. Die Konfiguration kann im Reiter Smilies vorgenommen werden.
 chatroom#:#hint_osd#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Einladungen informiert.
@@ -2121,11 +2116,8 @@ chatroom#:#history_title_general#:#Unterhaltungen im Chatraum "%s"
 chatroom#:#history_title_private_room#:#Unterhaltungen im Séparée "%s"
 chatroom#:#invite_to_private_room#:#In aktuellen Raum einladen
 chatroom#:#invite_username#:#Benutzername
-chatroom#:#italic#:#Kursiv
 chatroom#:#kick_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum rauswerfen?
 chatroom#:#kicked_from_private_room#:#Sie wurden aus dem Separée <b>#title#</b> geworfen.
-chatroom#:#large#:#Groß
-chatroom#:#layout#:#Layout
 chatroom#:#leave_private_room#:#Séparée verlassen
 chatroom#:#left_private_room#:#Séparée verlassen
 chatroom#:#lost_connection#:#Die Verbindung zum Chat-Server wurde unterbrochen.
@@ -2148,12 +2140,9 @@ chatroom#:#server_further_information#:#Weitere Informationen zur Konfiguration 
 chatroom#:#session#:#Sitzung
 chatroom#:#settings_general#:#Allgemein
 chatroom#:#settings_title#:#Einstellungen
-chatroom#:#show_settings#:#Einstellungen anzeigen
-chatroom#:#small#:#Klein
 chatroom#:#speak_to#:#<b>#user#</b> ansprechen
 chatroom#:#unable_to_connect#:#Die Verbindung zum Chat-Server konnte nicht hergestellt werden.
 chatroom#:#unban#:#Entsperren
-chatroom#:#underlined#:#Unterstrichen
 chatroom#:#user_in_ilias#:#Benutzer in ILIAS suchen und einladen
 chatroom#:#user_in_room#:#Benutzer im aktuellen Chatraum einladen
 chatroom#:#user_invited#:#Der Benutzer wurde eingeladen.
@@ -3306,9 +3295,10 @@ common#:#functions#:#Funktionen
 common#:#further_informations#:#Weitere Informationen
 common#:#gdf_add#:#Definition hinzufügen
 common#:#gdf_new#:#Neue Definition
-common#:#gender#:#Geschlecht
-common#:#gender_f#:#Weiblich
-common#:#gender_m#:#Männlich
+common#:#gender#:#Anrede
+common#:#gender_f#:#Frau
+common#:#gender_m#:#Herr
+common#:#gender_n#:#Keine Anrede gewünscht
 common#:#general_settings#:#Allgemeine Einstellungen
 common#:#generate#:#generieren
 common#:#glo#:#Glossar
@@ -4619,7 +4609,7 @@ common#:#require_department#:#Pflichteingabe Abteilung
 common#:#require_email#:#Pflichteingabe E-Mail
 common#:#require_fax#:#Pflichteingabe Fax
 common#:#require_firstname#:#Pflichteingabe Vorname
-common#:#require_gender#:#Pflichteingabe Geschlecht
+common#:#require_gender#:#Pflichteingabe Anrede
 common#:#require_hobby#:#Pflichteingabe Hobby
 common#:#require_institution#:#Pflichteingabe Institution
 common#:#require_lastname#:#Pflichteingabe Nachname
@@ -4844,7 +4834,7 @@ common#:#shib_edit_permission#:#Zugriffsberechtigungen ändern
 common#:#shib_email#:#Attribut für E-Mailadresse
 common#:#shib_federation_name#:#Name der Shibboleth-Föderation
 common#:#shib_firstname#:#Attribut für Vornamen
-common#:#shib_gender#:#Attribut für Geschlecht (muss 'm' oder 'f' sein)
+common#:#shib_gender#:#Attribut für Anrede (muss 'm' oder 'f' sein)
 common#:#shib_general_login_instructions#:#Um sich über %s anzumelden, klicken Sie bitte auf den Anmelde-Button und wählen Sie auf der folgenden Seite Ihre Organisation aus.<br />Bei Fragen dazu, wenden Sie sich bitte an den
 common#:#shib_general_wayf_login_instructions#:#Falls Sie keiner der angegebenen Organisationen angehören und Zugang zu einem Kurs auf diesem Server benötigen, wenden Sie sich bitte an den
 common#:#shib_idp_list#:#Bitte geben Sie eine Liste von Identity-Providern an, aus denen der Benutzer auf der ILIAS-Anmeldeseite auswählen kann.<br />In jeder Zeile muss ein Komma-getrenntes Tupel sein, welches aus der<strong>providerID eines IdP</strong> (schauen Sie dazu die Shibboleth-Metadaten an) und dem <strong>Namen eines IdP</strong> besteht, so wie er in der Drop-Down Liste angezeigt werden soll.<br />Als optionaler dritter Parameter kann die <strong>Location eines Shibboleth Session Initiators</strong> angegeben werden, welcher benutzt werden kann falls Ihre ILIAS-Installation Teil von mehreren Föderationen ist.
@@ -8208,10 +8198,10 @@ mail#:#mail_system_sys_signature#:#Signatur
 mail#:#mail_s#:#Mails
 mail#:#mail_salutation_anonymous#:#Hallo
 mail#:#mail_salutation_f#:#Hallo
-mail#:#mail_salutation_female#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger weiblich
-mail#:#mail_salutation_general#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn kein Geschlecht angegeben
+mail#:#mail_salutation_female#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger 'Frau'
+mail#:#mail_salutation_general#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn keine Anrede angegeben oder gewünscht
 mail#:#mail_salutation_m#:#Hallo
-mail#:#mail_salutation_male#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger männlich
+mail#:#mail_salutation_male#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger 'Herr'
 mail#:#mail_salutation_n#:#Hallo
 mail#:#mail_saved#:#Ihre Mail wurde gespeichert
 mail#:#mail_select_attachment#:#Bitte einen Anhang zum Herunterladen auswählen.
@@ -9100,7 +9090,7 @@ prtf#:#prtf_exercise_submitted_info#:#Sie haben Ihr Portfolio am %s eingereicht.
 prtf#:#prtf_existing_portfolio#:#Vorhandenes Portfolio
 prtf#:#prtf_finalize_portfolio#:#Portfolio abschließen und abgeben
 prtf#:#prtf_finalized#:#Das Portfolio wurde abgegeben.
-prtf#:#prtf_first_page_title#:#Typ der 1. Seite
+prtf#:#prtf_first_page_title#:#Beginnt mit:
 prtf#:#prtf_font_color#:#Schriftfarbe
 prtf#:#prtf_new_portfolio#:#Neues Portfolio
 prtf#:#prtf_no_blogs_info#:#Wenn Sie im Bereich "%s" einen Blog anlegen, können Sie dieses auch als Teil Ihres Portfolios verwenden.
@@ -12068,7 +12058,7 @@ dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindesten
 dcl#:#dcl_msg_tables_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Tabelle existieren
 dcl#:#dcl_msg_tables_deleted#:#Tabellen gelöscht
 dcl#:#dcl_tables_confirm_delete#:#Sind Sie sicher, dass die folgenden Tabellen gelöscht werden sollen?
-dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden, da entweder keine Einzelansicht für diese Tabellenansicht existiert oder Sie nicht genügend Zurgriffsrechte besitzen. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
+dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden, da entweder keine Einzelansicht für diese Tabellenansicht existiert oder Sie nicht genügend Zugriffsrechte besitzen. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
 dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansichten gelöscht werden sollen?
 dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Ansicht gelöscht werden sollen?
 dcl#:#dcl_tableview_fieldsettings#:#Feldspezifische Einstellungen
@@ -13132,16 +13122,16 @@ prtt#:#prtt_activation_limited_visibility_info#:#Falls aktiv, ist die Portfoliov
 content#:#cont_profile_mode_template_inherit_info#:#Verwendet die Daten des Profils
 prtf#:#prtf_template_editor_placeholder_info#:#Dieser Platzhalter wird im Portfolio ersetzt.
 prtf#:#prtf_creation_mode#:#Neues Portfolio
-prtf#:#prtf_creation_mode_template#:#Aus Vorlage erstellen
-prtf#:#prtf_creation_mode_scratch#:#Ohne Vorlage erstellen
-prtf#:#prtf_template_import_blog_create#:#Neuen Blog erstellen
-prtf#:#prtf_template_import_blog_reuse#:#Bestehenden Blog nutzen
+prtf#:#prtf_creation_mode_template#:#Aus einer Portfoliovorlage erstellen
+prtf#:#prtf_creation_mode_scratch#:#Ohne Portfoliovorlage erstellen
+prtf#:#prtf_template_import_blog_create#:#Neues Blog erstellen
+prtf#:#prtf_template_import_blog_reuse#:#Bestehendes Blog nutzen
 prtf#:#prtf_template_import_blog_ignore#:#Blog-Seite entfernen
 prtf#:#prtf_create_template_from_portfolio#:#Portfolio
-prtf#:#prtf_create_template_from_portfolio_info#:#Wählen Sie ein Portfolio um dessen Inhalte und Einstellungen für die Vorlage zu übernehmen.
+prtf#:#prtf_create_template_from_portfolio_info#:#Wählen Sie ein Portfolio, um dessen Inhalte und Einstellungen für die Vorlage zu übernehmen.
 prtf#:#prtf_template_import_quota_failure#:#Diese Portfoliovorlage kann nicht kopiert werden, da Ihre Disk-Quota überschritten würde.
 cntr#:#prtf_create_portfolio_from_template#:#Portfolio aus Vorlage erstellen
-administration#:#vc_information#:#Zeige Version Control-Information
+administration#:#vc_information#:#Zeige Version-Control-Information
 administration#:#vc_information_not_determined#:#Es konnten keine Version Control-Informationen ermittelt werden.
 administration#:#svn_revision_current#:#Aktuelle Revision: %s
 administration#:#svn_revision_last_change#:#Zuletzt geänderte Revision: %s
@@ -14900,7 +14890,7 @@ crs#:#crs_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 crs#:#crs_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach. Dies sollte nicht in Verbindung mit dem Beitrittsverfahren "Beitritt nach Bestätigung" benutzt werden, da die Bestätigung so umgangen wird.
 crs#:#crs_cancellation_end#:#Spätester Kursaustritt
 crs#:#crs_period#:#Veranstaltungszeitraum
-crs#:#crs_course_period_not_valid#:#Der Kurszeitraum ist nicht gültig.
+crs#:#crs_course_period_not_valid#:#Der Zeitraum ist nicht gültig.
 crs#:#crs_max_and_min_members_needed#:#Setzen Sie eine minimale oder maximale Anzahl - oder beides.
 crs#:#crs_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
 crs#:#crs_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.
@@ -15913,6 +15903,12 @@ chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen n
 chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
 usr#:#user_actions#:#Benutzeraktionen
 usr#:#user_action#:#Benuzteraktion
+chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.
+chatroom#:#chtr_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Chatraumtitel angezeigt, die Inhalte aber nicht.
+chatroom#:#chtr_server_status#:#Server-Status
+chatroom#:#chtr_ban_actor_tbl_head#:#Actor
+chatroom#:#chtr_ban_ts_tbl_head#:#Zeitpunkt
+common#:#chtr_import#:#Chatraum importieren
 buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage
 usr#:#user_actions_activation_info#:#Die Aktionen werden nur angeboten, wenn die entsprechenden Dienste aktiviert sind und für die Benutzer die notwendigen Voraussetzungen (z.B. Berechtigungen) gegeben sind.
 chatroom#:#chat_user_action_invite_public_room#:#In öffentlichen Chatraum einladen

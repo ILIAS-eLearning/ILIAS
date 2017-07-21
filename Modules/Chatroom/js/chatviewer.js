@@ -183,13 +183,6 @@
 						line.append($('<span class="chat content messageseparator">:</span>'))
 							.append(messageSpan);
 
-						for (var i in message.format) {
-							if (i != 'color')
-								messageSpan.addClass(i + '_' + message.format[i]);
-						}
-
-						messageSpan.css('color', message.format.color);
-
 						break;
 
 					case 'connected':
