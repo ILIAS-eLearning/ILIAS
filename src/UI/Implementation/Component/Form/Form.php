@@ -79,10 +79,14 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	 * @inheritdocs
 	 */
 	public function getData() {
-		$data = array_map
-			( function ($i) { return $i->getContent(); }
-			, $this->getInputs()
-			);
+		$data = [];
+		foreach ($this->getInputs() as $input) {
+			$content = $input->getContent();
+			if (!$content->isok()) {
+				return null;
+			}
+			$data[] = $content->value();
+		}
 		if ($this->transformation !== null) {
 			return $this->transformation->transform($data);
 		}

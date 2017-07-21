@@ -65,6 +65,10 @@ class FormTest extends ILIAS_UI_TestBase {
 		return new WithButtonNoUIFactory($this->buildButtonFactory());
 	}
 
+	public function buildDataFactory() {
+		return new \ILIAS\Data\Factory; 
+	}
+
 	public function tearDown() {
 		\Mockery::close();
 	}
@@ -137,18 +141,20 @@ class FormTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_getData() {
+		$df = $this->buildDataFactory();
+
 		$request = \Mockery::mock(ServerRequestInterface::class);
 		$post_data = \Mockery::Mock(PostData::class);
 
 		$input_1 = \Mockery::mock(InputInternal::class);
 		$input_1
 			->shouldReceive("getContent")->once()
-			->andReturn(1);
+			->andReturn($df->ok(1));
 
 		$input_2 = \Mockery::mock(InputInternal::class);
 		$input_2
 			->shouldReceive("getContent")->once()
-			->andReturn(2);
+			->andReturn($df->ok(2));
 
 		$form = new ConcreteForm([]);
 		$form->setInputs([$input_1, $input_2]);
@@ -156,19 +162,43 @@ class FormTest extends ILIAS_UI_TestBase {
 		$this->assertEquals([1,2], $form->getData());
 	}
 
-	public function test_withTransformation() {
+	public function test_getData_faulty() {
+		$df = $this->buildDataFactory();
+
 		$request = \Mockery::mock(ServerRequestInterface::class);
 		$post_data = \Mockery::Mock(PostData::class);
 
 		$input_1 = \Mockery::mock(InputInternal::class);
 		$input_1
 			->shouldReceive("getContent")->once()
-			->andReturn(1);
+			->andReturn($df->error("error"));
+
+		$input_2 = \Mockery::mock(InputInternal::class);
+		$input_2
+			->shouldReceive("getContent")->never()
+			->andReturn($df->ok(2));
+
+		$form = new ConcreteForm([]);
+		$form->setInputs([$input_1, $input_2]);
+
+		$this->assertEquals(null, $form->getData());
+	}
+
+	public function test_withTransformation() {
+		$df = $this->buildDataFactory();
+
+		$request = \Mockery::mock(ServerRequestInterface::class);
+		$post_data = \Mockery::Mock(PostData::class);
+
+		$input_1 = \Mockery::mock(InputInternal::class);
+		$input_1
+			->shouldReceive("getContent")->once()
+			->andReturn($df->ok(1));
 
 		$input_2 = \Mockery::mock(InputInternal::class);
 		$input_2
 			->shouldReceive("getContent")->once()
-			->andReturn(2);
+			->andReturn($df->ok(2));
 
 		$form = new ConcreteForm([]);
 		$form->setInputs([$input_1, $input_2]);

@@ -37,9 +37,12 @@ interface Form extends Component {
 	public function withTransformation(Transformation $trafo);
 
 	/**
-	 * Get the data in the form.
+	 * Get the data in the form if all inputs are ok, where the
+	 * transformation is applied if one was added.
 	 *
-	 * @return	mixed
+	 * @return	mixed|null
 	 */
 	public function getData();
+
+	
 }
