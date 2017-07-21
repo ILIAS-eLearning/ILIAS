@@ -31,12 +31,8 @@ class ConcreteForm extends Form {
 		}
 		return parent::extractPostData($request);
 	}
-	public $named_inputs = null;
-	public function getNamedInputs() {
-		if ($this->named_inputs === null) {
-			return parent::getNamedInputs();
-		}
-		return $this->named_inputs;
+	public function setInputs(array $inputs) {
+		$this->inputs = $inputs;
 	}
 	public function _getPostInput(ServerRequestInterface $request) {
 		return $this->getPostInput($request);
@@ -70,24 +66,17 @@ class FormTest extends ILIAS_UI_TestBase {
 	public function test_getInputs () {
 	    $f = $this->buildFactory();
 		$if = $this->buildInputFactory();
-		$form = new ConcreteForm([$if->text("label")]);
-		$this->assertEquals([$if->text("label")], $form->getInputs());
-	}
-
-	public function test_getNamedInputs () {
-	    $f = $this->buildFactory();
-		$if = $this->buildInputFactory();
 		$name_source = new FixedNameSource();
 
 		$inputs = [$if->text(""), $if->text("")];
 		$form = new ConcreteForm($inputs);
 
 		$seen_names = [];
-		$named_inputs = $form->getNamedInputs();
-		$this->assertEquals(count($inputs), count($named_inputs));
+		$inputs = $form->getInputs();
+		$this->assertEquals(count($inputs), count($inputs));
 
-		foreach($named_inputs as $named_input) {
-			$name = $named_input->getName();
+		foreach($inputs as $input) {
+			$name = $input->getName();
 			$name_source->name = $name;
 
 			// name is a string
@@ -95,7 +84,7 @@ class FormTest extends ILIAS_UI_TestBase {
 
 			// only name is attached
 			$input = array_shift($inputs);
-			$this->assertEquals($input->withNameFrom($name_source), $named_input);
+			$this->assertEquals($input->withNameFrom($name_source), $input);
 
 			// every name can only be contained once.
 			$this->assertNotContains($name, $seen_names);
@@ -111,6 +100,34 @@ class FormTest extends ILIAS_UI_TestBase {
 			->andReturn([]);
 		$post_data = $form->_extractPostData($request);
 		$this->assertInstanceOf(PostData::class, $post_data);
+	}
+
+
+	public function test_withRequest() {
+		$request = \Mockery::mock(ServerRequestInterface::class);
+		$post_data = \Mockery::Mock(PostData::class);
+
+		$input_1 = \Mockery::mock(InputInternal::class);
+		$input_1
+			->shouldReceive("withInput")->once()
+			->with($post_data)
+			->andReturn("one");
+
+		$input_2 = \Mockery::mock(InputInternal::class);
+		$input_2
+			->shouldReceive("withInput")->once()
+			->with($post_data)
+			->andReturn("two");
+
+		$form = new ConcreteForm([]);
+		$form->setInputs([$input_1, $input_2]);
+		$form->post_data = $post_data;
+
+		$form2 = $form->withRequest($request);
+
+		$this->assertNotSame($form2, $form);
+		$this->assertInstanceOf(Form::class, $form2);
+		$this->assertEquals(["one", "two"], $form2->getInputs());
 	}
 
 	public function test_getPostInput() {
@@ -137,7 +154,7 @@ class FormTest extends ILIAS_UI_TestBase {
 
 		$form = new ConcreteForm([]);
 		$form->post_data = $post_data;
-		$form->named_inputs = [$input_1, $input_2];
+		$form->setInputs([$input_1, $input_2]);
 
 		$content = $form->_getPostInput($request);
 	}

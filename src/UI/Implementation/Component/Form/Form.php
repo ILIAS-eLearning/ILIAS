@@ -31,7 +31,7 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	public function __construct(array $inputs) {
 		$classes = [CI\Input\Input::class];
 		$this->checkArgListElements("input", $inputs, $classes);
-		$this->inputs = $inputs;
+		$this->inputs = $this->nameInputs($inputs);
 	}
 
 	/**
@@ -41,19 +41,34 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 		return $this->inputs;
 	}
 
-	// Internal to be used in the form processing machinery.
+	/**
+	 * @inheritdocs
+	 */
+	public function withRequest(ServerRequestInterface $request) {
+		if (!$this->isSanePostRequest($request)) {
+			throw new \LogicException("Server request is not a valid post request.");
+		}
+		$post_data = $this->extractPostData($request);
+
+		$clone = clone $this;
+		$clone->inputs = [];
+		foreach ($this->getInputs() as $input) {
+			$clone->inputs[] = $input->withInput($post_data);
+		}
+		
+		return $clone;
+	}
 
 	/**
-	 * Get the inputs with a consecutive name.
+	 * Assign names to the inputs.
 	 *
-	 * @return	\ILIAS\UI\Component\Input\Input[]
+	 * @param	CI\Input\Input
+	 * @return	CI\Input\Input
 	 */
-	public function getNamedInputs() {
-		$counter = 0;
+	protected function nameInputs(array $inputs) {
 		$named_inputs = [];
-		foreach($this->getInputs() as $input) {
+		foreach($inputs as $input) {
 			$named_inputs[] = $input->withNameFrom($this);
-			$counter++;
 		}
 		// TODO: This might be cached, as it will mostly be used
 		// twice on every request, once for rendering, once for
@@ -75,10 +90,10 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 			throw new \LogicException("Server request is not a valid post request.");
 		}
 		$post_data = $this->extractPostData($request);
-		$named_inputs = $this->getNamedInputs();
+		$inputs = $this->getInputs();
 		$result = [];
-		foreach ($named_inputs as $named_input) {
-			$result[] = $named_input
+		foreach ($inputs as $input) {
+			$result[] = $input
 				->withInput($post_data)
 				->getContent();
 		}

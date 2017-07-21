@@ -6,6 +6,8 @@ namespace ILIAS\UI\Component\Form;
 
 use ILIAS\UI\Component\Component;
 
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * This describes commonalities between all forms.
  */
@@ -16,4 +18,12 @@ interface Form extends Component {
 	 * @return	\ILIAS\UI\Component\Input\Input
 	 */
 	public function getInputs();
+
+	/**
+	 * Get a form like this where data from the request is attached.
+	 *
+	 * @param	ServerRequestInterface $request
+	 * @return	Form
+	 */
+	public function withRequest(ServerRequestInterface $request);
 }
