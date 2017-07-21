@@ -180,5 +180,13 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 
 		$this->addAction($this->lng->txt("crs_open"), ilLink::_getStaticLink($crs_ref_id, "crs"));
 
+		//TODO: Remove the hack in ilADTActiveRecordByType.php.
+		//TODO: this code prints the metadata at the beginning of the infoscreen
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO,'crs',$cat_info['obj_id']);
+		$record_gui->setInfoObject($this->infoscreen);
+		$record_gui->parse();
+		$this->infoscreen->addMetaDataSections($cat_info['obj_id'],0, "crs");
+
 	}
 }

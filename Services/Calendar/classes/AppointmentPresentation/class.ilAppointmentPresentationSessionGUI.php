@@ -91,15 +91,9 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 
 		$this->addAction($this->lng->txt("cal_sess_open"), ilLink::_getStaticLink($session_ref, "crs"));
 
-/** working here */
-		//TODO: BUTTON TO register/unregister to sessions. Relevant info: in ilObjSessionGUI method showJoinRequestButton
-		//$this->showJoinRequestButton($session_obj, $toolbar);
-
-		/*
-			$ctrl->setParameter($this, 'file_id', $file->getFileId());
-			$ctrl->setParameterByClass('ilobjcoursegui','file_id', $file->getFileId());
-			$ctrl->setParameterByClass('ilobjcoursegui','ref_id', $crs_ref_id);
-			$tpl->setVariable("DOWN_LINK",$this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI","ilobjcoursegui"),'sendfile'));
-		*/
+		//Attend button (refactor?¿)
+		require_once './Modules/Session/classes/class.ilObjSessionGUI.php';
+		$session_gui = new ilObjSessionGUI("",$session_ref,true,false);
+		$session_gui->showJoinRequestButtonInCalendar($this->toolbar);
 	}
 }
