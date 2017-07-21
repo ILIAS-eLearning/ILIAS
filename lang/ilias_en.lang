@@ -3436,7 +3436,6 @@ common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_statistics#:#Statistics
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
-common#:#tst_user_wrong_clientip#:#You don't have the right IP address to access this test.
 rbac#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!
 rbac#:#tst_write#:#User can edit content and settings of test
