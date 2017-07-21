@@ -5,7 +5,7 @@ function base() {
 	$trafo = new \ILIAS\Transformation\Factory();
 	$data = new \ILIAS\Data\Factory();
 	$validation = new \ILIAS\Validation\Factory($data);
-    $renderer = $DIC->ui()->renderer();
+	$renderer = $DIC->ui()->renderer();
 	$request = $DIC->http()->request();
 
 	$sum = $trafo->custom(function($vs) {
@@ -32,7 +32,8 @@ function base() {
 		throw new \LogicException("PANIC!");
 	});
 
-	$number_input = $ui->input()->text("number", "Put in the name of a number from one to ten.")
+	$number_input = $ui->input()
+		->text("number", "Put in the name of a number from one to ten.")
 		->withConstraint($valid_number)
 		->withTransformation($from_name);
 
