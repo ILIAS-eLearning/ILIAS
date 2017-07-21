@@ -180,33 +180,4 @@ class FormTest extends ILIAS_UI_TestBase {
 		$this->assertNotSame($form2, $form);
 		$this->assertEquals("transformed", $form2->getData());
 	}
-
-	public function test_getPostInput() {
-		$request = \Mockery::mock(ServerRequestInterface::class);
-		$post_data = \Mockery::Mock(PostData::class);
-
-		$input_1 = \Mockery::mock(InputInternal::class);
-		$input_1
-			->shouldReceive("withInput")->once()
-			->with($post_data)
-			->andReturn($input_1);
-		$input_1
-			->shouldReceive("getContent")->once()
-			->andReturn(1);
-
-		$input_2 = \Mockery::mock(InputInternal::class);
-		$input_2
-			->shouldReceive("withInput")->once()
-			->with($post_data)
-			->andReturn($input_2);
-		$input_2
-			->shouldReceive("getContent")->once()
-			->andReturn(2);
-
-		$form = new ConcreteForm([]);
-		$form->post_data = $post_data;
-		$form->setInputs([$input_1, $input_2]);
-
-		$content = $form->_getPostInput($request);
-	}
 }

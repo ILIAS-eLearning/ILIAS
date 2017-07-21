@@ -107,30 +107,6 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	}
 
 	/**
-	 * Get actual input from an HTTP-Request
-	 *
-	 * Returns an array containing the inputs according to
-	 * the contained inputs.
-	 *
-	 * @param	ServerRequestInterface	$request
-	 * @return	mixed[]
-	 */
-	protected function getPostInput(ServerRequestInterface $request) {
-		if (!$this->isSanePostRequest($request)) {
-			throw new \LogicException("Server request is not a valid post request.");
-		}
-		$post_data = $this->extractPostData($request);
-		$inputs = $this->getInputs();
-		$result = [];
-		foreach ($inputs as $input) {
-			$result[] = $input
-				->withInput($post_data)
-				->getContent();
-		}
-		return $result;
-	}
-
-	/**
 	 * Check the request for sanity.
 	 *
 	 * TODO: implement me!
