@@ -70,6 +70,16 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 	protected $ctrl;
 
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var array readable ref ids for an object id
+	 */
+	protected $readable_ref_ids;
+
+	/**
 	 * 
 	 *
 	 * @param
@@ -86,6 +96,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 		$this->ui = $DIC->ui();
 		$this->list_item = $a_list_item;
 		$this->ctrl = $DIC->ctrl();
+		$this->access = $DIC->access();
 	}
 	
 	
@@ -327,6 +338,135 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 		}
 
 	}
+
+	/**
+	 * Add object link
+	 *
+	 * @param int $ojb_id
+	 */
+	function addObjectLinks($obj_id)
+	{
+		$refs = $this->getReadableRefIds($obj_id);
+		reset($refs);
+		$title = ilObject::_lookupTitle($obj_id);
+		$buttons = array();
+		foreach ($refs as $ref_id)
+		{
+			$link_title = $title;
+			if (count($refs) > 1)
+			{
+				$par_ref = $this->tree->getParentId($ref_id);
+				$link_title.= " (".ilObject::_lookupTitle(ilObject::_lookupObjId($par_ref)).")";
+			}
+			$buttons[] = $this->ui->renderer()->render(
+				$this->ui->factory()->button()->shy($link_title, ilLink::_getStaticLink($ref_id)));
+		}
+		if ($refs == 0)
+		{
+			$prop_value = $title;
+		}
+		else
+		{
+			$prop_value = implode("<br>", $buttons);
+		}
+		$this->addInfoProperty($this->lng->txt("obj_".ilObject::_lookupType($obj_id)), $prop_value);
+	}
+
+	/**
+	 * Get readable ref ids
+	 *
+	 * @param
+	 * @return
+	 */
+	function getReadableRefIds($a_obj_id)
+	{
+		if (!isset($this->readable_ref_ids[$a_obj_id]))
+		{
+			$ref_ids = array();
+			foreach (ilObject::_getAllReferences($a_obj_id) as $ref_id)
+			{
+				if ($this->access->checkAccess("read", "", $ref_id))
+				{
+					$ref_ids[] = $ref_id;
+				}
+			}
+			$this->readable_ref_ids[$a_obj_id] = $ref_ids;
+		}
+		return $this->readable_ref_ids[$a_obj_id];
+	}
+
+	/**
+	 * Add event description
+	 *
+	 * @param array $a_app
+	 */
+	function addEventDescription($a_app)
+	{
+		if ($a_app['event']->getDescription()) {
+			$this->addInfoProperty($this->lng->txt("description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
+		}
+	}
+
+	/**
+	 * Add event location
+	 *
+	 * @param array $a_app
+	 */
+	function addEventLocation($a_app)
+	{
+		if ($a_app['event']->getLocation()) {
+			$this->addInfoProperty($this->lng->txt("location"), $a_app['event']->getLocation());
+		}
+	}
+
+	/**
+	 * Add calendar info
+	 *
+	 * @param array $cat_info
+	 */
+	function addCalendarInfo($cat_info)
+	{
+		$this->ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $cat_info["cat_id"]);
+
+		$link = $this->ui->renderer()->render(
+			$this->ui->factory()->button()->shy($cat_info["title"],
+				$this->ctrl->getLinkTargetByClass(array("ilPersonalDesktopGUI", "ilCalendarPresentationGUI", "ilcalendarcategorygui"), "details")));
+
+		$this->ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $_GET["category_id"]);
+
+		$this->addInfoProperty($this->lng->txt("calendar"), $link);
+	}
+
+
+	/**
+	 * Add common section
+	 *
+	 * @param array $a_app
+	 * @param int $a_obj_id
+	 */
+	function addCommonSection($a_app, $a_obj_id = 0, $cat_info = null)
+	{
+		// event title
+		$this->addInfoSection($a_app["event"]->getTitle());
+
+		// event description
+		$this->addEventDescription($a_app);
+
+		// event location
+		$this->addEventLocation($a_app);
+
+		// course title (linked of accessible)
+		if ($a_obj_id > 0)
+		{
+			$this->addObjectLinks($a_obj_id);
+		}
+
+		if ($cat_info != null)
+		{
+			$this->addCalendarInfo($cat_info);
+		}
+	}
+
 
 	//TODO : SOME ELEMENTS CAN GET CUSTOM METADATA
 }

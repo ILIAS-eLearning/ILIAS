@@ -30,19 +30,14 @@ class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI imp
 		$refs = ilObject::_getAllReferences($cat_info['obj_id']);
 		$grp_ref_id = current($refs);
 
-		$description_text = $cat_info['title'] . ", " . ilObject::_lookupDescription($cat_info['obj_id']);
-		$this->addInfoSection($cat_info['title']);
-
-		if ($a_app['event']->getDescription()) {
-			$this->addInfoProperty($this->lng->txt("description"), ilUtil::makeClickable(nl2br($a_app['event']->getPresentationTitle())));
-		}
-		$this->addInfoProperty($this->lng->txt(ilObject::_lookupType($cat_info['obj_id'])), $description_text);
+		// add common section (title, description, object/calendar, location)
+		$this->addCommonSection($a_app, $cat_info['obj_id']);
 
 		if($grp->getInformation())
 		{
-			$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
-			$this->addInfoProperty($this->lng->txt("crs_important_info"), $grp->getInformation());
-			$this->addListItemProperty($this->lng->txt("crs_important_info"), $grp->getInformation());
+			$this->addInfoSection($this->lng->txt("cal_grp_info"));
+			$this->addInfoProperty($this->lng->txt("grp_information"), $grp->getInformation());
+			$this->addListItemProperty($this->lng->txt("grp_information"), $grp->getInformation());
 		}
 
 		//example download all files

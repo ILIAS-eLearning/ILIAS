@@ -43,19 +43,8 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 		$refs = ilObject::_getAllReferences($cat_info['obj_id']);
 		$crs_ref_id = current($refs);
 
-		if(ilObject::_lookupDescription($cat_info['obj_id']) != "") {
-			$description_text = $cat_info['title'] . ", " . ilObject::_lookupDescription($cat_info['obj_id']);
-		}
-		else {
-			$description_text = $cat_info['title'];
-		}
-
-		$this->addInfoSection($cat_info['title']);
-
-		if ($a_app['event']->getDescription()) {
-			$this->addInfoProperty($this->lng->txt("description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
-		}
-		$this->addInfoProperty($this->lng->txt(ilObject::_lookupType($cat_info['obj_id'])), $description_text);
+		// add common section (title, description, object/calendar, location)
+		$this->addCommonSection($a_app, $cat_info['obj_id']);
 
 		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 

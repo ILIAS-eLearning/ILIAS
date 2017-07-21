@@ -18,19 +18,31 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 	{
 		$a_app = $this->appointment;
 
-		include_once "./Modules/Course/classes/class.ilObjBookingPool.php";
-
 		$cat_id = $this->getCatId($a_app['event']->getEntryId());
 		$cat_info = $this->getCatInfo($cat_id);
 
-		$description_text = $cat_info['title'] . ", " . ilObject::_lookupDescription($cat_info['obj_id']);
-		$this->addInfoSection($cat_info['title']);
+		// context id is reservation id (see ilObjBookingPoolGUI->processBooking)
+		$res_id = $a_app['event']->getContextId();
+		include_once("./Modules/BookingManager/classes/class.ilBookingReservation.php");
+		include_once("./Modules/BookingManager/classes/class.ilBookingObject.php");
+		$res = new ilBookingReservation($res_id);
+		$b_obj = new ilBookingObject($res->getObjectId());
+		$obj_id = $b_obj->getPoolId();
 
-		if ($a_app['event']->getDescription()) {
-			$this->addInfoProperty($this->lng->txt("cal_description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
+
+		$refs = $this->getReadableRefIds($obj_id);
+
+		// add common section (title, description, object/calendar, location)
+		$this->addCommonSection($a_app, $obj_id, $cat_info);
+
+		//example download all files
+		$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
+
+		if (count($refs) > 0)
+		{
+			$this->addAction($this->lng->txt("cal_book_open"), ilLink::_getStaticLink(current($refs)));
 		}
-		$this->addInfoProperty($this->lng->txt(ilObject::_lookupType($cat_info['obj_id'])), $description_text);
 
-		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 	}
+	
 }
