@@ -7,24 +7,18 @@ require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Implementation\Component\Input\Input;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
+use \ILIAS\UI\Implementation\Component\Form\Form;
 
 use Psr\Http\Message\ServerRequestInterface;
-
-class WithButtonNoUIFactory extends NoUIFactory {
-	protected $button_factory;
-	public function __construct($button_factory) {
-		$this->button_factory = $button_factory;
-	}
-	public function button() {
-		return $this->button_factory;
-	}
-}
 
 class FixedNameSource implements NameSource {
 	public $name = "name";
 	public function getNewName() {
 		return $this->name;
 	}
+}
+
+class ConcreteForm extends Form {
 }
 
 /**
@@ -50,8 +44,7 @@ class FormTest extends ILIAS_UI_TestBase {
 	public function test_getInputs () {
 	    $f = $this->buildFactory();
 		$if = $this->buildInputFactory();
-		$url = "MY_URL";
-		$form = $f->standard($url, [$if->text("label")]);
+		$form = new ConcreteForm([$if->text("label")]);
 		$this->assertEquals([$if->text("label")], $form->getInputs());
 	}
 
@@ -61,7 +54,7 @@ class FormTest extends ILIAS_UI_TestBase {
 		$name_source = new FixedNameSource();
 
 		$inputs = [$if->text(""), $if->text("")];
-		$form = $f->standard("", $inputs);
+		$form = new ConcreteForm($inputs);
 
 		$seen_names = [];
 		$named_inputs = $form->getNamedInputs();
@@ -84,44 +77,8 @@ class FormTest extends ILIAS_UI_TestBase {
 		}
 	}
 
-	public function test_getPostURL () {
-	    $f = $this->buildFactory();
-		$if = $this->buildInputFactory();
-		$url = "MY_URL";
-		$form = $f->standard($url, [$if->text("label")]);
-		$this->assertEquals($url, $form->getPostURL());
-	}
-
-	public function test_render() {
-	    $f = $this->buildFactory();
-		$bf = $this->buildButtonFactory();
-		$if = $this->buildInputFactory();
-		$name_source = new FixedNameSource();
-
-		$url = "MY_URL";
-		$form = $f->standard($url, 
-			[ $if->text("label", "byline")
-			]);
-
-		$r = $this->getDefaultRenderer();
-		$html = $this->normalizeHTML($r->render($form));
-
-		$button = $this->normalizeHTML(str_replace('">', '" id="id_1">', $r->render($bf->standard("save", "#"))));
-		$name_source->name = "name_0";
-		$input = $this->normalizeHTML($r->render($if->text("label", "byline")->withNameFrom($name_source)));
-
-		$expected =
-			"<form role=\"form\" class=\"form-horizontal\" enctype=\"multipart/formdata\" action=\"$url\" method=\"post\" novalidate=\"novalidate\">".
-			"	<div class=\"ilFormHeader\">".
-			"		<div class=\"ilFormCmds\">$button</div>".
-			"	</div>".
-			"	".$input.
-			"</form>";
-		$this->assertEquals($expected, $html);
-	}
-/*
 	public function test_getPostInput() {
 		$request = \Mockery::getMock(ServerRequestInterface::class);
 		$requests->shouldReceive("getParsedBody")->once();
-	}*/
+	}
 }
