@@ -2103,11 +2103,6 @@ chatroom#:#enable_history#:#Historie aktivieren
 chatroom#:#enable_smilies#:#Smilies aktivieren
 chatroom#:#end_whisper#:#Beenden
 chatroom#:#enter#:#Chat beitreten
-chatroom#:#fontcolor#:#Schriftfarbe
-chatroom#:#fontfamily#:#Schriftart
-chatroom#:#fontsize#:#Schriftgröße
-chatroom#:#fontstyle#:#Schriftbild
-chatroom#:#hide_settings#:#Einstellungen verbergen
 chatroom#:#hint_display_past_msgs#:#Anzahl der vergangenen Nachrichten, die beim Betreten des Chatraums angezeigt werden sollen. "0" deaktiviert die Anzeige vergangener Nachrichten.
 chatroom#:#hint_enable_smilies#:#Wenn aktiviert, werden konfigurierte Textbausteine durch ein Bild ersetzt. Die Konfiguration kann im Reiter Smilies vorgenommen werden.
 chatroom#:#hint_osd#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Einladungen informiert.
@@ -2121,11 +2116,8 @@ chatroom#:#history_title_general#:#Unterhaltungen im Chatraum "%s"
 chatroom#:#history_title_private_room#:#Unterhaltungen im Séparée "%s"
 chatroom#:#invite_to_private_room#:#In aktuellen Raum einladen
 chatroom#:#invite_username#:#Benutzername
-chatroom#:#italic#:#Kursiv
 chatroom#:#kick_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum rauswerfen?
 chatroom#:#kicked_from_private_room#:#Sie wurden aus dem Separée <b>#title#</b> geworfen.
-chatroom#:#large#:#Groß
-chatroom#:#layout#:#Layout
 chatroom#:#leave_private_room#:#Séparée verlassen
 chatroom#:#left_private_room#:#Séparée verlassen
 chatroom#:#lost_connection#:#Die Verbindung zum Chat-Server wurde unterbrochen.
@@ -2148,12 +2140,9 @@ chatroom#:#server_further_information#:#Weitere Informationen zur Konfiguration 
 chatroom#:#session#:#Sitzung
 chatroom#:#settings_general#:#Allgemein
 chatroom#:#settings_title#:#Einstellungen
-chatroom#:#show_settings#:#Einstellungen anzeigen
-chatroom#:#small#:#Klein
 chatroom#:#speak_to#:#<b>#user#</b> ansprechen
 chatroom#:#unable_to_connect#:#Die Verbindung zum Chat-Server konnte nicht hergestellt werden.
 chatroom#:#unban#:#Entsperren
-chatroom#:#underlined#:#Unterstrichen
 chatroom#:#user_in_ilias#:#Benutzer in ILIAS suchen und einladen
 chatroom#:#user_in_room#:#Benutzer im aktuellen Chatraum einladen
 chatroom#:#user_invited#:#Der Benutzer wurde eingeladen.
@@ -15913,6 +15902,12 @@ chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen n
 chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
 usr#:#user_actions#:#Benutzeraktionen
 usr#:#user_action#:#Benuzteraktion
+chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.
+chatroom#:#chtr_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Chatraumtitel angezeigt, die Inhalte aber nicht.
+chatroom#:#chtr_server_status#:#Server-Status
+chatroom#:#chtr_ban_actor_tbl_head#:#Actor
+chatroom#:#chtr_ban_ts_tbl_head#:#Zeitpunkt
+common#:#chtr_import#:#Chatraum importieren
 buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage
 usr#:#user_actions_activation_info#:#Die Aktionen werden nur angeboten, wenn die entsprechenden Dienste aktiviert sind und für die Benutzer die notwendigen Voraussetzungen (z.B. Berechtigungen) gegeben sind.
 chatroom#:#chat_user_action_invite_public_room#:#In öffentlichen Chatraum einladen

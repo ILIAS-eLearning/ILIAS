@@ -8740,17 +8740,9 @@ chatroom#:#autogen_usernames_info#:#Pattern for auto generated user names that i
 chatroom#:#bans#:#Bans
 chatroom#:#permissions#:#Permissions
 chatroom#:#session#:#Session
-chatroom#:#fontcolor#:#Font Color
-chatroom#:#fontstyle#:#Font Style
-chatroom#:#fontsize#:#Font Size
-chatroom#:#italic#:#Italic
-chatroom#:#underlined#:#Underlined
 chatroom#:#select_custom_username#:#Select Custom Username
 chatroom#:#custom_username#:#Custom Username
 chatroom#:#enter#:#Enter Chat Room
-chatroom#:#fontfamily#:#Font Family
-chatroom#:#small#:#Small
-chatroom#:#large#:#Large
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
 chatroom#:#obj_chtr#:#Chat Room
@@ -9148,9 +9140,6 @@ chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitat
 chatroom#:#create_private_room_text#:#Private room name
 chatroom#:#invite_username#:#Username
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
-chatroom#:#layout#:#Layout
-chatroom#:#show_settings#:#Show Settings
-chatroom#:#hide_settings#:#Hide Settings
 chatroom#:#private_rooms_enabled#:#Allow Private Rooms
 chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.
 chatroom#:#no_further_users#:#No other users present
@@ -13477,6 +13466,12 @@ chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
 chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.
 chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your <a href="%s">'Personal Settings'</a>.
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
+chatroom#:#chtr_activation_online_info#:#Set the chat online to make it visible and available for partcipants. If not, only users with 'Edit Settings' permission will have access to it.
+chatroom#:#chtr_activation_limited_visibility_info#:#If checked, the title of the chat will be visible even outside of the given availability. The chat however can not be accessed.
+chatroom#:#chtr_server_status#:#Server Status
+chatroom#:#chtr_ban_actor_tbl_head#:#Akteur
+chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
+common#:#chtr_import#:#Import Chatroom
 usr#:#user_actions#:#User Actions
 usr#:#user_action#:#User Action
 buddysystem#:#buddy_handle_contact_request#:#Contact Request

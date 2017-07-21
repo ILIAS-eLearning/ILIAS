@@ -15,6 +15,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 	 * Loads end executes given $gui.
 	 * @param string $gui
 	 * @param string $method
+	 * @return boolean A boolean flag whether or not the request could be dispatched
 	 */
 	protected function dispatchCall($gui, $method)
 	{
@@ -27,7 +28,10 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 			$definition->loadGUI($gui);
 			$guiHandler = $definition->buildGUI($gui, $this);
 			$guiHandler->execute($method);
+			return true;
 		}
+
+		return false;
 	}
 
 	/**

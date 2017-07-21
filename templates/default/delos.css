@@ -11223,6 +11223,78 @@ td.chatroom {
   width: 200px;
   height: auto;
 }
+.ilChatroomUser {
+  border-bottom: 1px solid #e9e9e9;
+}
+.ilChatroomUser .media-body {
+  white-space: nowrap;
+}
+.ilChatroomUser .media-body {
+  padding-top: 8px;
+}
+.ilChatroomUser .media-body h4,
+.ilChatroomUser .media-body p {
+  color: #a0a0a0;
+  font-size: 12px;
+  padding: 5px 3px 0 3px;
+  line-height: 1em;
+  margin: 0;
+}
+.ilChatroomUser .media-body h4 {
+  padding-top: 0;
+  color: #606060;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ilChatroomUser .dropdown-menu {
+  background-color: #f0f0f0;
+  padding: 10px 0;
+  font-size: 12px;
+}
+.ilChatroomUser .dropdown-menu a {
+  color: #606060;
+}
+.ilChatroomUser .dropdown-menu a:hover {
+  color: #202020;
+}
+.ilChatroomUser .arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 11px solid transparent;
+  border-right: 11px solid transparent;
+  border-top: 11px solid white;
+  margin-top: -10px;
+  margin-left: 100px;
+}
+.ilChatroomUser .media:hover {
+  background-color: #fea;
+}
+.ilChatroomUser .dropdown-menu {
+  position: static;
+  float: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.ilChatroomUser .media {
+  padding: 0;
+}
+.ilChatroomUser .media-left img {
+  width: 30px;
+  height: 30px;
+}
+.ilChatroomUser .media-body,
+.ilChatroomUser .media-left,
+.ilChatroomUser .media-right {
+  display: table-cell;
+  vertical-align: top;
+}
+.ilChatroomUser .media-left {
+  padding-right: 10px;
+}
+.ilChatroomUser .media {
+  padding: 10px;
+}
 /* Services/Container */
 div.il_Preconditions {
   padding: 10px 0 0;
