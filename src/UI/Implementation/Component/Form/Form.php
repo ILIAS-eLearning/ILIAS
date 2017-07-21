@@ -70,7 +70,31 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	 * @param	ServerRequestInterface	$request
 	 * @return	mixed[]
 	 */
-	public function getPostInput(ServerRequestInterface $request) {
+	protected function getPostInput(ServerRequestInterface $request) {
+		if (!$this->isSanePostRequest($request)) {
+			throw new \LogicException("Server request is not a valid post request.");
+		}
+		$post_data = $this->extractPostData($request);
+		$named_inputs = $this->getNamedInputs();
+		$result = [];
+		foreach ($named_inputs as $named_input) {
+			$result[] = $named_input
+				->withInput($post_data)
+				->getContent();
+		}
+		return $result;
+	}
+
+	/**
+	 * Check the request for sanity.
+	 *
+	 * TODO: implement me!
+	 *
+	 * @param	ServerRequestInterface	$request
+	 * @return	bool
+	 */
+	protected function isSanePostRequest(ServerRequestInterface $request) {
+		return true;
 	}
 
 	/**
@@ -79,7 +103,7 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	 * @param	ServerRequestInterface	$request
 	 * @return	PostData
 	 */
-	public function extractPostData(ServerRequestInterface $request) {
+	protected function extractPostData(ServerRequestInterface $request) {
 		return new PostDataFromServerRequest($request);
 	}
 

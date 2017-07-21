@@ -6,6 +6,7 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Implementation\Component\Input\Input;
+use \ILIAS\UI\Implementation\Component\Input\InputInternal;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\UI\Implementation\Component\Input\PostData;
 use \ILIAS\UI\Implementation\Component\Form\Form;
@@ -30,6 +31,16 @@ class ConcreteForm extends Form {
 		}
 		return parent::extractPostData($request);
 	}
+	public $named_inputs = null;
+	public function getNamedInputs() {
+		if ($this->named_inputs === null) {
+			return parent::getNamedInputs();
+		}
+		return $this->named_inputs;
+	}
+	public function _getPostInput(ServerRequestInterface $request) {
+		return $this->getPostInput($request);
+	}
 }
 
 /**
@@ -50,6 +61,10 @@ class FormTest extends ILIAS_UI_TestBase {
 
 	public function getUIFactory() {
 		return new WithButtonNoUIFactory($this->buildButtonFactory());
+	}
+
+	public function tearDown() {
+		\Mockery::close();
 	}
 
 	public function test_getInputs () {
@@ -100,5 +115,30 @@ class FormTest extends ILIAS_UI_TestBase {
 
 	public function test_getPostInput() {
 		$request = \Mockery::mock(ServerRequestInterface::class);
+		$post_data = \Mockery::Mock(PostData::class);
+
+		$input_1 = \Mockery::mock(InputInternal::class);
+		$input_1
+			->shouldReceive("withInput")->once()
+			->with($post_data)
+			->andReturn($input_1);
+		$input_1
+			->shouldReceive("getContent")->once()
+			->andReturn(1);
+
+		$input_2 = \Mockery::mock(InputInternal::class);
+		$input_2
+			->shouldReceive("withInput")->once()
+			->with($post_data)
+			->andReturn($input_2);
+		$input_2
+			->shouldReceive("getContent")->once()
+			->andReturn(2);
+
+		$form = new ConcreteForm([]);
+		$form->post_data = $post_data;
+		$form->named_inputs = [$input_1, $input_2];
+
+		$content = $form->_getPostInput($request);
 	}
 }
