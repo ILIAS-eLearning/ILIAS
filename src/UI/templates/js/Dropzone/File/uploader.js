@@ -258,6 +258,14 @@ il.UI = il.UI || {};
 							renderError(uploadId, errorReason);
 						}
 					},
+					onCancel: function (fileId, fileName) {
+						var nonCanceledFiles = uploader.getUploads().filter(function(file) {
+							return (file.status !== 'canceled');
+						});
+						if (nonCanceledFiles.length <= 1) {
+							toggleBoundUploadButtons(uploadId, false);
+						}
+					},
 					onProgress: function (fileId, fileName, uploadedBytes, totalBytes) {
 						console.log('progress for ' + fileId + ': ' + uploadedBytes + '/' + totalBytes);
 						var progress = (totalBytes > 0 && uploadedBytes > 0) ? Math.round(100 / totalBytes * uploadedBytes) : 0;
@@ -326,7 +334,10 @@ il.UI = il.UI || {};
 		 */
 		var getUploads = function (uploadId) {
 			var uploader = getUploader(uploadId);
-			return uploader.getUploads();
+			var files = uploader.getUploads();
+			return files.filter(function(file) {
+				return (file.status !== 'canceled');
+			});
 		};
 
 		/**

@@ -17,7 +17,7 @@ use ILIAS\UI\Component\Droppable;
 interface File extends Component, Droppable {
 
 	/**
-	 * Get an upload wrapper like this where the files are uploaded to the given URL.
+	 * Get a dropzone like this where the files are uploaded to the given URL.
 	 *
 	 * @param string $url
 	 * @return $this
@@ -32,7 +32,7 @@ interface File extends Component, Droppable {
 	public function getUploadUrl();
 
 	/**
-	 * Get an upload wrapper like this only accepting the submitted file types for uploading, e.g.
+	 * Get a dropzone like this only accepting the submitted file types for uploading, e.g.
 	 * ['jpg', 'png', 'gif'] to allow some image formats.
 	 *
 	 * @param array $types
@@ -46,7 +46,7 @@ interface File extends Component, Droppable {
 	public function getAllowedFileTypes();
 
 	/**
-	 * Get an upload wrapper like this, restricting the max number of files that can be uploaded.
+	 * Get a dropzone like this, restricting the max number of files that can be uploaded.
 	 *
 	 * @param int $max
 	 * @return $this
@@ -54,12 +54,14 @@ interface File extends Component, Droppable {
 	public function withMaxFiles($max);
 
 	/**
+	 * Get the max number of files that can be uploaded.
+	 *
 	 * @return int
 	 */
 	public function getMaxFiles();
 
 	/**
-	 * Get an upload wrapper like this, restricting the max file size of the files to the given limit (in bytes).
+	 * Get a dropzone like this, restricting the max file size of the files to the given limit (in bytes).
 	 *
 	 * @param int $limit Max size for any file uploaded in bytes
 	 * @return $this
@@ -67,13 +69,15 @@ interface File extends Component, Droppable {
 	public function withFileSizeLimit($limit);
 
 	/**
+	 * Get the max file size limit in bytes.
+	 *
 	 * @return int
 	 */
 	public function getFileSizeLimit();
 
 	/**
 	 * Get a dropzone like this, allowing to set the filename for each file being uploaded.
-	 * The file name is sent as POST parameter along with the uploaded file.
+	 * The custom file name is sent as POST parameter along with the uploaded file.
 	 *
 	 * @param bool $state True to enable custom file names
 	 * @return $this
@@ -91,7 +95,7 @@ interface File extends Component, Droppable {
 	 * Get a dropzone like this, allowing to set a description for each file being uploaded.
 	 * The description is sent as POST parameter along with the uploaded file.
 	 *
-	 * @param bool $state True to enable custom file descriptions
+	 * @param bool $state True to enable file descriptions
 	 * @return $this
 	 */
 	public function withFileDescriptions($state);
@@ -104,10 +108,12 @@ interface File extends Component, Droppable {
 	public function allowFileDescriptions();
 
 	/**
-	 * Get a dropzone like this where each uploaded file is identified over the given identifier
-	 * via $_FILES[$identifier].
+	 * Get a dropzone like this where each uploaded file is identified over a given identifier.
+	 * The identifier corresponds to the key used to identify the files server side,
+	 * e.g. $_FILES[identifier]
 	 *
-	 * By default, uploaded files are accessible via $_FILES['files'].
+	 * Note: If you use multiple file dropzones on the same page, you MUST use identifier in
+	 * order to identify an uploaded file. The default identifier is 'files'.
 	 *
 	 * @param string $identifier
 	 * @return $this
@@ -115,7 +121,7 @@ interface File extends Component, Droppable {
 	public function withIdentifier($identifier);
 
 	/**
-	 * Get the identifier used to retrieve the files server side via $_FILES.
+	 * Get the identifier used to retrieve and identify an uploaded file server side.
 	 *
 	 * @return string
 	 */

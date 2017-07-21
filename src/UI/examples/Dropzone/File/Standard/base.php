@@ -2,17 +2,25 @@
 function base() {
 
 	global $DIC;
-	$uiFactory = $DIC->ui()->factory();
+	$factory = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	if (isset($_GET['example']) && $_GET['example'] == 1 && count($_FILES)) {
-		echo json_encode(['success' => true, 'message' => 'Successfully uploaded files']);
-		exit(0);
+	// Handle a file upload ajax request
+	if (isset($_GET['example']) && $_GET['example'] == 1) {
+		$upload = $DIC->upload();
+		try {
+			$upload->process();
+			// $upload->moveFilesTo('/myPath/');
+			echo json_encode(['success' => true, 'message' => 'Successfully uploaded file']);
+		} catch (Exception $e) {
+			echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+		}
+		exit();
 	}
 
 	$uploadUrl = $_SERVER['REQUEST_URI'] . '&example=1';
-	$standardDropzone = $uiFactory->dropzone()->file()->standard($uploadUrl)
-		->withUploadButton($uiFactory->button()->standard('Upload', ''));
+	$dropzone = $factory->dropzone()->file()->standard($uploadUrl)
+		->withUploadButton($factory->button()->standard('Upload', ''));
 
-	return $renderer->render($standardDropzone);
+	return $renderer->render($dropzone);
 }

@@ -6,8 +6,8 @@ use ILIAS\UI\Component\Component;
 /**
  * Interface Wrapper
  *
- * A wrapper file drozpones wraps around any other component from the UI framework, e.g. a calendar entry.
- * The dropzone is highlighted as soon as some files are dragged over the browser window.
+ * A wrapper file drozpone wraps around any other component from the UI framework, e.g. a calendar entry.
+ * Any wrapper dropzone is highlighted as soon as some files are dragged over the browser window.
  * Dropping the files opens a modal where the user can start the upload process.
  *
  * @author  nmaerchy <nm@studer-raimann.ch>

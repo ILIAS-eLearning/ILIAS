@@ -27,7 +27,6 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *     1: Most pages SHOULD contain only one dropzone.
-	 *     3: Other ILIAS UI components are REQUIRED to handle dropped files further.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\Dropzone\File\Factory

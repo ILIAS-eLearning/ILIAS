@@ -24,10 +24,10 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase {
 	public function testRenderStandardDropzone() {
 
 		// setup expected objects
-		$expectedHtml = "<div id=\"id_1\" class=\"il-dropzone standard\"></div>";
+		$expectedHtml = '<div id="id_1" class="il-dropzone standard"><div class="dz-default dz-message"><span>drag_files_here</span></div></div><div class="text-center">- logic_or -</div><div class="il-dropzone-standard-select-files-wrapper text-center"><a href="" class="il-dropzone-standard-select-files">select_files_from_computer</a></div><div class="il-upload-file-list" data-upload-id="id_1"><li class="list-group-item il-upload-file-item il-upload-file-item-template hidden"><div class="filename"><!-- File name is inserted with javascript here --></div><div class="filesize small"><!-- File size is inserted with javascript here --></div><div class="btn-group" style="position: absolute; right: 16px; top: 16px"><button type="button" class="btn btn-default delete-file" aria-label="Remove File"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></div><div class="progress" style="margin: 10px 0; display: none;"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0"     aria-valuemin="0"     aria-valuemax="100"></div></div><div class="file-error-message alert alert-danger" role="alert" style="display: none;"><!-- Error message for file is inserted with javascript here --></div><div class="file-success-message alert alert-success" role="alert" style="display: none;"><!-- Success message for file is inserted with javascript here --></div></li><div class="error-messages" style="display: none;"><div class="alert alert-danger" role="alert"><!-- General error messages are inserted here with javascript --></div></div><ul class="list-group il-upload-file-items"><!-- li from templates are cloned here with javascript --></ul></div>';
 
 		// start test
-		$standardDropzone = new \ILIAS\UI\Implementation\Component\Dropzone\File\Standard();
+		$standardDropzone = $this->getFactory()->standard('');
 
 		$html = $this->normalizeHTML(
 			$this->getDefaultRenderer()->render($standardDropzone)
@@ -43,11 +43,11 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase {
 	public function testRenderStandardDropzoneWithMessage() {
 
 		// setup expected objects
-		$expectedHtml = "<div id=\"id_1\" class=\"il-dropzone standard\"><div class=\"dz-default dz-message\"><span>Drop files here to upload</span></div></div>";
+		$expectedHtml = '<div id="id_1" class="il-dropzone standard"><div class="dz-default dz-message"><span>message</span></div></div><div class="text-center">- logic_or -</div><div class="il-dropzone-standard-select-files-wrapper text-center"><a href="" class="il-dropzone-standard-select-files">select_files_from_computer</a></div><div class="il-upload-file-list" data-upload-id="id_1"><li class="list-group-item il-upload-file-item il-upload-file-item-template hidden"><div class="filename"><!-- File name is inserted with javascript here --></div><div class="filesize small"><!-- File size is inserted with javascript here --></div><div class="btn-group" style="position: absolute; right: 16px; top: 16px"><button type="button" class="btn btn-default delete-file" aria-label="Remove File"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></div><div class="progress" style="margin: 10px 0; display: none;"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0"     aria-valuemin="0"     aria-valuemax="100"></div></div><div class="file-error-message alert alert-danger" role="alert" style="display: none;"><!-- Error message for file is inserted with javascript here --></div><div class="file-success-message alert alert-success" role="alert" style="display: none;"><!-- Success message for file is inserted with javascript here --></div></li><div class="error-messages" style="display: none;"><div class="alert alert-danger" role="alert"><!-- General error messages are inserted here with javascript --></div></div><ul class="list-group il-upload-file-items"><!-- li from templates are cloned here with javascript --></ul></div>';
 
 		// start test
-		$standardDropzone = new \ILIAS\UI\Implementation\Component\Dropzone\File\Standard();
-		$standardDropzone = $standardDropzone->withMessage("Drop files here to upload");
+		$standardDropzone = $this->getFactory()->standard('')
+			->withMessage('message');
 
 		$html = $this->normalizeHTML(
 			$this->getDefaultRenderer()->render($standardDropzone)
@@ -67,15 +67,12 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase {
 	public function testRenderWrapperDropzone() {
 
 		// setup expected objects
-		$expectedHtml = "<div id=\"id_1\" class=\"il-dropzone wrapper\"><p>Pretty smart, isn't it?</p><p>Yeah, this is really smart.</p></div>";
+		$expectedHtml = '<div id="id_1" class="il-dropzone wrapper"><p>Pretty smart, isn\'t it?</p><p>Yeah, this is really smart.</p></div><div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_2"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">upload</h4></div><div class="modal-body"><div class="il-upload-file-list" data-upload-id="id_1"><li class="list-group-item il-upload-file-item il-upload-file-item-template hidden"><div class="filename"><!-- File name is inserted with javascript here --></div><div class="filesize small"><!-- File size is inserted with javascript here --></div><div class="btn-group" style="position: absolute; right: 16px; top: 16px"><button type="button" class="btn btn-default delete-file" aria-label="Remove File"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></div><div class="progress" style="margin: 10px 0; display: none;"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0"     aria-valuemin="0"     aria-valuemax="100"></div></div><div class="file-error-message alert alert-danger" role="alert" style="display: none;"><!-- Error message for file is inserted with javascript here --></div><div class="file-success-message alert alert-success" role="alert" style="display: none;"><!-- Success message for file is inserted with javascript here --></div></li><div class="error-messages" style="display: none;"><div class="alert alert-danger" role="alert"><!-- General error messages are inserted here with javascript --></div></div><ul class="list-group il-upload-file-items"><!-- li from templates are cloned here with javascript --></ul></div></div><div class="modal-footer"><a class="btn btn-default btn-primary ilSubmitInactive disabled" data-action="" id="id_3">upload</a><a class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</a></div></div></div></div>';
 
 		// start test
 		$exampleTextQuestion = new \ILIAS\UI\Implementation\Component\Legacy\Legacy("<p>Pretty smart, isn't it?</p>");
 		$exampleTextAnswer = new \ILIAS\UI\Implementation\Component\Legacy\Legacy("<p>Yeah, this is really smart.</p>");
-		$wrapperDropzone = new \ILIAS\UI\Implementation\Component\Dropzone\File\Wrapper(array(
-			$exampleTextQuestion,
-			$exampleTextAnswer,
-		));
+		$wrapperDropzone = $this->getFactory()->wrapper('', [$exampleTextQuestion, $exampleTextAnswer]);
 
 		$html = $this->normalizeHTML($this->getDefaultRenderer()->render($wrapperDropzone));
 
@@ -83,9 +80,17 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase {
 	}
 
 
+	public function getUIFactory() {
+		return new \ILIAS\UI\Implementation\Factory();
+	}
+
 	public function normalizeHTML($html) {
 		$html = trim(str_replace("\t", "", $html));
 
 		return parent::normalizeHTML($html);
+	}
+
+	protected function getFactory() {
+		return new \ILIAS\UI\Implementation\Component\Dropzone\File\Factory();
 	}
 }
