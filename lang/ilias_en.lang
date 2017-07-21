@@ -2191,9 +2191,10 @@ common#:#functions#:#Functions
 common#:#further_informations#:#Further Information
 common#:#gdf_add#:#Add Definition
 common#:#gdf_new#:#New Definition
-common#:#gender_f#:#Female
-common#:#gender_m#:#Male
-common#:#gender#:#Gender
+common#:#gender_f#:#Ms.
+common#:#gender_m#:#Mr.
+common#:#gender_n#:#No salutation desired
+common#:#gender#:#Salutation
 common#:#general_settings#:#General Settings
 common#:#generate#:#Generate
 common#:#glo_add#:#Add Glossary
@@ -3108,7 +3109,7 @@ common#:#repository_admin_desc#:#Set permissions for repository items, restore o
 common#:#repository_admin#:#Repository Trash and Permissions
 common#:#repository#:#Repository
 common#:#require_email#:#Require e-mail
-common#:#require_gender#:#Require gender
+common#:#require_gender#:#Require salutation
 common#:#require_hobby#:#Require hobby
 common#:#require_matriculation#:#Require matriculation number
 common#:#require_referral_comment#:#Require referral comment
@@ -3260,7 +3261,7 @@ common#:#shib_department#:#Attribute for department
 common#:#shib_email#:#Attribute for e-mail address
 common#:#shib_federation_name#:#Name of your Shibboleth federation
 common#:#shib_firstname#:#Attribute for first name
-common#:#shib_gender#:#Attribute for gender (must be ‘m’ or ‘f’)
+common#:#shib_gender#:#Attribute for salutation (must be ‘m’ or ‘f’)
 common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the
 common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the
 common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drop-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.
@@ -5490,10 +5491,10 @@ mail#:#mail_options_saved#:#Options saved
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_salutation_anonymous#:#Hello
 mail#:#mail_salutation_f#:#Hello
-mail#:#mail_salutation_female#:#Output for placeholder [MAIL_SALUTATION], if gender is female
-mail#:#mail_salutation_general#:#Output for placeholder [MAIL_SALUTATION], no gender specified
+mail#:#mail_salutation_female#:#Output for placeholder [MAIL_SALUTATION], if salutation is 'Ms.'
+mail#:#mail_salutation_general#:#Output for placeholder [MAIL_SALUTATION], if no salutation is desired or specified
 mail#:#mail_salutation_m#:#Hello
-mail#:#mail_salutation_male#:#Output for placeholder [MAIL_SALUTATION], if gender is male
+mail#:#mail_salutation_male#:#Output for placeholder [MAIL_SALUTATION], if salutation is 'Mr.'
 mail#:#mail_salutation_n#:#Hello
 mail#:#mail_saved#:#The message has been saved
 mail#:#mail_select_attachment#:#Please select an attachment for download.
