@@ -1444,7 +1444,7 @@ assessment#:#upload_image#:#Upload Image###deprecated
 assessment#:#upload_imagemap#:#Upload an Image Map###deprecated 
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#user_not_invited#:#You are not supposed to take this test.
-assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.
+assessment#:#user_wrong_clientip#:#You don't have the right IP address to access this test.
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s
 assessment#:#values#:#Values
 assessment#:#warning_question_not_complete#:#The question is not complete!
@@ -4461,7 +4461,7 @@ common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_statistics#:#Statistics
 common#:#tst_upload_file#:#Upload file###deprecated 
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
-common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test
+common#:#tst_user_wrong_clientip#:#You don't have the right IP address to access this test.
 rbac#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!
 rbac#:#tst_write#:#User can edit content and settings of test
