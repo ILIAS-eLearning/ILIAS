@@ -92,8 +92,8 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 		$this->addAction($this->lng->txt("cal_sess_open"), ilLink::_getStaticLink($session_ref, "crs"));
 
 		//Attend button (refactor?¿)
-		require_once './Modules/Session/classes/class.ilObjSessionGUI.php';
-		$session_gui = new ilObjSessionGUI("",$session_ref,true,false);
-		$session_gui->showJoinRequestButtonInCalendar($this->toolbar);
+		//require_once './Modules/Session/classes/class.ilObjSessionGUI.php';
+		//$session_gui = new ilObjSessionGUI("",$session_ref,true,false);
+		//$session_gui->showJoinRequestButtonInCalendar($this->toolbar);
 	}
 }

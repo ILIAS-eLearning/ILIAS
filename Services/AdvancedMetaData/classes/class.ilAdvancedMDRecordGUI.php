@@ -16,7 +16,8 @@ class ilAdvancedMDRecordGUI
 	const MODE_EDITOR = 1;
 	const MODE_SEARCH = 2;
 	const MODE_INFO = 3;
-	
+	const MODE_APP_PRESENTATION = 8;
+
 	// glossary
 	const MODE_REC_SELECTION = 4;		// record selection (per object)
 	const MODE_FILTER = 5;				// filter (as used e.g. in tables)
@@ -110,7 +111,10 @@ class ilAdvancedMDRecordGUI
 	 		
 	 		case self::MODE_INFO:
 	 			return $this->parseInfoPage();
-	 			
+
+			case self:MODE_APP_PRESENTATION:
+				return $this->parseAppointmentPresentation();
+
 	 		case self::MODE_REC_SELECTION:
 	 			return $this->parseRecordSelection();
 	 			
@@ -378,9 +382,35 @@ class ilAdvancedMDRecordGUI
 				}
 			}
 		}						
-	} 
-	
-					
+	}
+
+	// calendar: modals and lists.
+	// For now is a copy of parseInfoPage
+	private function parseAppointmentPresentation()
+	{
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		include_once('Services/ADT/classes/class.ilADTFactory.php');
+
+		foreach(ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type, $this->sub_type, $this->sub_id) as $record_id => $a_values)
+		{
+			// this correctly binds group and definitions
+			$a_values->read();
+
+			$this->info->addSection(ilAdvancedMDRecord::_lookupTitle($record_id));
+
+			$defs = $a_values->getDefinitions();
+			foreach($a_values->getADTGroup()->getElements() as $element_id => $element)
+			{
+				if(!$element->isNull())
+				{
+					$this->info->addProperty($defs[$element_id]->getTitle(),
+						ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getHTML());
+				}
+			}
+		}
+	}
+
 	//
 	// :TODO: ECS
 	// 
