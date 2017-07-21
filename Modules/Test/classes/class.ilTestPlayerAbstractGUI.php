@@ -320,7 +320,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setVariable( "SPECIFIC_FEEDBACK",
 								 $question_gui->getSpecificFeedbackOutput(
 									 $this->testSession->getActiveId(),
-									 NULL
+									 $this->testSequence->getPass()
 								 )
 		);
 		$this->tpl->parseCurrentBlock();
@@ -331,7 +331,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setCurrentBlock( "answer_feedback" );
 		$this->tpl->setVariable( "ANSWER_FEEDBACK",
 								 $question_gui->getAnswerFeedbackOutput( $this->testSession->getActiveId(),
-																		 NULL
+																		 $this->testSequence->getPass()
 								 )
 		);
 		$this->tpl->parseCurrentBlock();
@@ -2095,7 +2095,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 			// Notation of the params prior to getting rid of this crap in favor of a class
 			$solutionoutput = $questionGui->getSolutionOutput($this->testSession->getActiveId(),    #active_id
-				NULL,                                                #pass
+				$this->testSession->getPass(),                                                      #pass
 				FALSE,                                                #graphical_output
 				$show_question_inline_score,                        #result_output
 				FALSE,                                                #show_question_only

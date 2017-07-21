@@ -1190,7 +1190,7 @@ abstract class assQuestionGUI
 	 * 
 	 * @return bool|null
 	 */
-	private function isLastSolutionSubmitAuthorized($active_id, $pass)
+	protected function isLastSolutionSubmitAuthorized($active_id, $pass)
 	{
 		$userSolution = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 		
