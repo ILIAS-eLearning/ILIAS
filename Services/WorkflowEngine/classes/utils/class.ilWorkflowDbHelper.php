@@ -209,12 +209,12 @@ class ilWorkflowDbHelper
 		$det_context = $a_detector->getEventContext();
 		$det_listen = $a_detector->getListeningTimeframe();
 
-		if($det_context['identifier'] == '{{THIS:WFID}}')
+		if($det_context['identifier'] === '{{THIS:WFID}}')
 		{
 			$det_context['identifier'] = $wf_id;
 		}
 
-		if($det_subject['identifier'] == '{{THIS:WFID}}')
+		if($det_subject['identifier'] === '{{THIS:WFID}}')
 		{
 			$det_subject['identifier'] = $wf_id;
 		}
@@ -321,9 +321,9 @@ class ilWorkflowDbHelper
 			WHERE type = ' . $ilDB->quote($type, 'text') . '
 			AND content = ' . $ilDB->quote($content, 'text') . '
 			AND subject_type = ' . $ilDB->quote($subject_type, 'text') . '
-			AND subject_id = ' . $ilDB->quote($subject_id, 'integer') . '
+			AND (subject_id = ' . $ilDB->quote($subject_id, 'integer') . ' OR subject_id = ' . $ilDB->quote(0, 'integer') . ')
 			AND context_type = ' . $ilDB->quote($context_type, 'text') . '
-			AND context_id = ' . $ilDB->quote($context_id, 'integer') . '
+			AND (context_id = ' . $ilDB->quote($context_id, 'integer') . ' OR context_id = ' . $ilDB->quote(0, 'integer') . ')
 			AND (listening_start = ' . $ilDB->quote(0, 'integer') . ' 
 				 OR (listening_start < ' . $ilDB->quote($now, 'integer') . ' AND listening_end = '. $ilDB->quote(0, 'integer') . ') 
 				 OR listening_end > ' . $ilDB->quote($now, 'integer') . ')'
