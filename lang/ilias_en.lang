@@ -12455,8 +12455,8 @@ crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill
 crs#:#crs_waiting_list_autofill#:#With Auto-Fill
 crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations. This should not be used with the "Request Membership" registration procedure as autofill will bypass it.
 crs#:#crs_cancellation_end#:#Limit 'Unsubscribe from Course'
-crs#:#crs_period#:#Course Period
-crs#:#crs_course_period_not_valid#:#The course period is not valid.
+crs#:#crs_period#:#Period of Event
+crs#:#crs_course_period_not_valid#:#The period is not valid.
 crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.
 crs#:#crs_max_members_needed#:#A maximum number of members is needed for the waiting list feature.
 crs#:#crs_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
@@ -13531,7 +13531,7 @@ common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed 
 ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
 common#:#background_tasks#:#Background Tasks
 common#:#scheduled#:#Scheduled
-grp#:#grp_period#:#Group Period
+grp#:#grp_period#:#Period of Event
 grp#:#grp_period_info#:#Information about the start and end date of the event, which is supported by the group
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.
 exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.
