@@ -20,32 +20,33 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 
 		$f = $DIC->ui()->factory();
 		$r = $DIC->ui()->renderer();
-
+		$this->lng->loadLanguageModule("sess");
 		$this->lng->loadLanguageModule("crs");
-
 		$a_app = $this->appointment;
 
 		include_once "./Modules/Session/classes/class.ilObjSession.php";
 
-		$cat_id = $this->getCatId($a_app['event']->getEntryId());
-		$cat_info = $this->getCatInfo($cat_id);
+		$cat_info = $this->getCatInfo();
 
-		//Title of the session (The title can be a date... which date? and why no the title of the session?)
-		$this->addInfoSection($cat_info['title']);
+		$refs = $this->getReadableRefIds($cat_info['obj_id']);
+		$ref_id = current($refs);
 
-		//description
-		$this->addInfoProperty($this->lng->txt("description"), $a_app['event']->getDescription());
+		// event title
+		$this->addInfoSection($a_app["event"]->getTitle());
+
+		// event description
+		$this->addEventDescription($a_app);
+
+		// event location
+		$this->addEventLocation($a_app);
 
 		//Contained in:
-		$parent_title = ilObject::_lookupTitle(ilObject::_lookupObjectId($_GET['ref_id']));
-		$this->addInfoProperty($this->lng->txt("cal_contained_in"),$parent_title);
+		$this->addContainerInfo($cat_info['obj_id']);
 
 		//SESSION INFORMATION
 		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 
 		$session_obj = new ilObjSession($cat_info['obj_id'],false);
-		// safe? only one?
-		$session_ref = current(ilObject2::_getAllReferences($session_obj->getId()));
 
 		//location
 		if($session_obj->getLocation()){
@@ -89,11 +90,6 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 		//example download all files
 		$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
 
-		$this->addAction($this->lng->txt("cal_sess_open"), ilLink::_getStaticLink($session_ref, "crs"));
-
-		//Attend button (refactor?¿)
-		//require_once './Modules/Session/classes/class.ilObjSessionGUI.php';
-		//$session_gui = new ilObjSessionGUI("",$session_ref,true,false);
-		//$session_gui->showJoinRequestButtonInCalendar($this->toolbar);
+		$this->addAction($this->lng->txt("sess_open"), ilLink::_getStaticLink($ref_id));
 	}
 }

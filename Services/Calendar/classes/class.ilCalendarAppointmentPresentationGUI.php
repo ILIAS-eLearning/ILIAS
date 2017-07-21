@@ -43,6 +43,8 @@ class ilCalendarAppointmentPresentationGUI
 
 		$this->seed = $seed;
 		$this->appointment = $a_app;
+
+		$this->tpl = $DIC["tpl"];
 	}
 	
 	/**
@@ -155,7 +157,6 @@ class ilCalendarAppointmentPresentationGUI
 
 		$f = ilAppointmentPresentationFactory::getInstance($this->appointment, $info_screen, $toolbar, null);
 
-
 		$this->ctrl->getHTML($f);
 
 		// show toolbar
@@ -177,7 +178,6 @@ class ilCalendarAppointmentPresentationGUI
 	{
 		$li = $this->getListItem();
 		include_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationFactory.php";
-
 		$f = ilAppointmentPresentationFactory::getInstance($this->appointment, null, null, $li);
 		$this->ctrl->getHTML($f);
 		$this->list_item = $f->getListItem();

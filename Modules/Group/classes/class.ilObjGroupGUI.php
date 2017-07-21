@@ -264,8 +264,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			case 'ilcalendarpresentationgui':
 				include_once('./Services/Calendar/classes/class.ilCalendarPresentationGUI.php');
-				$cal = new ilCalendarPresentationGUI();
-				$cal->setRepositoryMode(true);
+				$cal = new ilCalendarPresentationGUI($this->object->getRefId());
 				$ret = $this->ctrl->forwardCommand($cal);
 				break;
 

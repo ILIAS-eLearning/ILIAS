@@ -33,8 +33,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 		include_once "./Modules/Course/classes/class.ilObjCourse.php";
 		include_once "./Modules/Course/classes/class.ilCourseFile.php";
 
-		$cat_id = $this->getCatId($a_app['event']->getEntryId());
-		$cat_info = $this->getCatInfo($cat_id);
+		$cat_info = $this->getCatInfo();
 
 		$crs = new ilObjCourse($cat_info['obj_id'], false);
 		$files = ilCourseFile::_readFilesByCourse($cat_info['obj_id']);
@@ -95,8 +94,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 				if($usr->hasPublicProfile())
 				{
 					include_once('./Services/Link/classes/class.ilLink.php');
-					$href = ilLink::_getStaticLink($contact, "usr");
-					$str .= $r->render($f->button()->shy(ilObjUser::_lookupFullname($contact), $href));
+					$str .= $this->getUserName($contact);
 				}
 				else
 				{

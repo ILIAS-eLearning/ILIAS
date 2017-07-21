@@ -64,6 +64,8 @@ class ilCalendarAgendaListGUI
 		$this->user = $DIC->user();
 		$this->lng = $DIC->language();
 
+		$this->tpl = $DIC["tpl"];
+
 		$this->ctrl->saveParameter($this, "cal_agenda_per");
 
 
@@ -108,6 +110,7 @@ class ilCalendarAgendaListGUI
 		switch ($next_class)
 		{
 			default:
+				$this->ctrl->setReturn($this, "");
 				if (in_array($cmd, array("getHTML", "getModalForApp")))
 				{
 					return $this->$cmd();
@@ -256,12 +259,18 @@ class ilCalendarAgendaListGUI
 	 */
 	function getEvents()
 	{
+//		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
+//		initialize($a_mode,$a_source_ref_id = 0,$a_use_cache = false)
 		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_PD_UPCOMING);
 		$schedule->setPeriod(new ilDate($this->seed, IL_CAL_DATE),
 			new ilDate($this->period_end_day, IL_CAL_DATE));
+
+		//return $schedule->getChangedEvents(true);
+
 		$schedule->addSubitemCalendars(true);
 		$schedule->calculate();
-		return $schedule->getScheduledEvents();
+		$ev = $schedule->getScheduledEvents();
+		return $ev;
 	}
 
 	/**

@@ -937,7 +937,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$schedule->addSubitemCalendars(true); // #12007
 		$schedule->setEventsLimit(20);
 		$schedule->calculate();
-		return $schedule->getScheduledEvents(); // #13809
+		$ev = $schedule->getScheduledEvents(); // #13809
+		return ($ev);
 	}
 
 

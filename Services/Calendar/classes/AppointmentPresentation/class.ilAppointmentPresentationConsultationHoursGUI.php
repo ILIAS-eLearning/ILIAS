@@ -24,7 +24,7 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 		//include_once "./Modules/Course/classes/class.ilObjConsu....php";
 
 		$cat_id = $this->getCatId($a_app['event']->getEntryId());
-		$cat_info = $this->getCatInfo($cat_id);
+		$cat_info = $this->getCatInfo();
 
 		//ilLoggerFactory::getRootLogger()->debug("cat_info",$cat_info);
 

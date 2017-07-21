@@ -29,21 +29,15 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 
 		$a_app = $this->appointment;
 
-		$cat_id = $this->getCatId($a_app['event']->getEntryId());
-		$cat_info = $this->getCatInfo($cat_id);
+		$cat_info = $this->getCatInfo();
 
 		$exc_obj = new ilObjExercise($cat_info['obj_id'], false);
 		//$exc_ref = $exc_obj->getRefId(); //emtpy...
 		//is this safe?
 		$exc_ref = current(ilObject::_getAllReferences($exc_obj->getId()));
 
-		//Assignment title
-		$this->addInfoSection($a_app['event']->getPresentationTitle());
-
-		$href = ilLink::_getStaticLink($exc_ref, "exc");
-		$this->addInfoProperty($this->lng->txt("obj_exc"),$r->render($f->button()->shy($exc_obj->getPresentationTitle(), $href)));
-
-		$this->addContainerInfo($exc_ref);
+		// common section: title, location, parent info
+		$this->addCommonSection($a_app, $cat_info['obj_id'], null, true);
 
 		//Assignment title information
 		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));

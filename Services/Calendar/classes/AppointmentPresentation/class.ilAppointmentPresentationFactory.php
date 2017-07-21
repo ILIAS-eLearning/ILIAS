@@ -17,10 +17,15 @@ class ilAppointmentPresentationFactory
 
 		//get object info
 		$cat_id = ilCalendarCategoryAssignments::_lookupCategory($a_appointment['event']->getEntryId());
-		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
-		$entry_obj_id = isset($cat_info['subitem_obj_ids'][$cat_id]) ?
-			$cat_info['subitem_obj_ids'][$cat_id] :
-			$cat_info['obj_id'];
+		//echo "---";
+		//var_dump($cat_id);
+		//$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
+		$cat = ilCalendarCategory::getInstanceByCategoryId($cat_id);
+		$cat_info["type"] = $cat->getType();
+		$cat_info["obj_id"] = $cat->getObjId();
+		//var_dump($cat_info['obj_id']);
+		//var_dump(ilObject::_lookupType($cat_info['obj_id']));
+		//ilUtil::printBacktrace(10); exit;
 		switch($cat_info['type'])
 		{
 			case ilCalendarCategory::TYPE_OBJ:
