@@ -237,7 +237,8 @@ abstract class Input implements C\Input\Input {
 	 * Collects the input, applies trafos on the input and returns
 	 * a new input reflecting the data that was putted in.
 	 *
-	 * TODO: We want to use the HTTP-interface here.
+	 * TODO: We want to use an interface that provides access to the POST specific
+	 * parts of the HTTP-Interface here.
 	 *
 	 * @param	array<string,mixed>		$input
 	 * @return	Input
