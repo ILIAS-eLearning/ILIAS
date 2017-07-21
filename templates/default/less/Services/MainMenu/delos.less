@@ -1,27 +1,6 @@
-/* Services/MainMenu */
-.ilTopHeader {
-	position: fixed;
-	left: 0;
-	right: 0;
-	z-index: @zindex-navbar-fixed;   /* see bootstrap fixed top navbar */
-	top: 0;
-	background-color: lighten(@ilMainMenuColor, 40%);
-	//#gradient > .vertical(lighten(@ilMainMenuColor, 40%), lighten(@ilMainMenuColor, 35%), 0%, 100%);
-	.reset-filter();
-	//max-width:1200px;
-	margin-left: auto;
-	margin-right: auto;
-	/*border-bottom: 3px solid @ilMainMenuColor;*/
-}
-
-.ilBranding {
-	height: 56px;
-	padding: 3px 0;
-}
-
 // Default navbar
 #ilTopNav {
-	margin: -38px 0 0 65px;
+	margin: @il-main-menu-top 0 0 @il-main-menu-left;
 	&.navbar {
 		padding-top: 1px;
 		padding-bottom: 1px;
@@ -42,9 +21,6 @@
 		right: auto;
 		left: 0;
 		min-width: 100%;
-	}
-	.navbar-text {
-		color: @ilMainMenuColor;
 	}
 	.navbar-nav {
 		float: left;
@@ -157,16 +133,16 @@ input.ilOpenIDBox {
 	margin-right: 14px;
 	list-style: none outside none;
 	.dropdown-menu {
-		background-color: lighten(@mid-gray, 42%);
+		background-color: lighten(@il-top-bar-bg-color, 42%);
 		border-radius: 0;
 		margin: 0;
-		color: lighten(@mid-gray, 70%);
+		color: lighten(@il-top-bar-bg-color, 70%);
 		a {
-			color: lighten(@mid-gray, 70%);
+			color: lighten(@il-top-bar-bg-color, 70%);
 			&:hover,
 			&:active,
 			&:focus {
-				color: lighten(@mid-gray, 42%);
+				color: lighten(@il-top-bar-bg-color, 42%);
 			}
 		}
 	}
@@ -183,15 +159,15 @@ input.ilOpenIDBox {
 		min-width: 40px;
 		height: 40px;
 		text-align: center;
-		background-color: lighten(@mid-gray, 20%);
-		color: lighten(@mid-gray, 70%);
+		background-color: lighten(@il-top-bar-bg-color, 20%);
+		color: lighten(@il-top-bar-bg-color, 70%);
 		&:hover,
 		&:active,
 		&:focus {
 			outline: 0 none;
 			color: white;
 			text-decoration: none;
-			background-color: lighten(@mid-gray, 42%);
+			background-color: lighten(@il-top-bar-bg-color, 42%);
 		}
 	}
 	> .active > a,
@@ -203,7 +179,7 @@ input.ilOpenIDBox {
 			outline: 0 none;
 			color: white;
 			text-decoration: none;
-			background-color: lighten(@mid-gray, 42%);
+			background-color: lighten(@il-top-bar-bg-color, 42%);
 		}
 	}
 	#userlog {

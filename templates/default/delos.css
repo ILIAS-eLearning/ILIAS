@@ -7131,7 +7131,6 @@ ul.breadcrumb li:hover {
 /* @il-highlight-bg: lighten(@brand-secondary, 44%); */
 /* @il-highlight-bg: lighten(#21c5d8, 40%); */
 /* @nav-tabs-link-hover-border-color: @brand-primary; */
-/* ILIAS variables candidates */
 .webui-popover-content {
   display: none;
 }
@@ -8253,7 +8252,6 @@ footer.ilFooter {
   margin: 0 auto;
   padding: 20px 0 0;
   text-align: left;
-  color: white;
   background-color: #4c6586;
 }
 footer.ilFooter div.ilFooterContainer {
@@ -8585,9 +8583,6 @@ div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
 [dir="rtl"] div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
   margin-right: 0;
   margin-left: 25px;
-}
-div.ilTopBarRight td.il_adv_sel {
-  background-color: #444;
 }
 div.ilSideBarHead {
   background-color: #f0f0f0;
@@ -9940,24 +9935,6 @@ li.ilWikiBlockItem {
   margin: 0;
   padding: 0;
 }
-/* Services/MainMenu */
-.ilTopHeader {
-  position: fixed;
-  left: 0;
-  right: 0;
-  z-index: 1030;
-  /* see bootstrap fixed top navbar */
-  top: 0;
-  background-color: #e2e8ef;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  margin-left: auto;
-  margin-right: auto;
-  /*border-bottom: 3px solid @ilMainMenuColor;*/
-}
-.ilBranding {
-  height: 56px;
-  padding: 3px 0;
-}
 #ilTopNav {
   margin: -38px 0 0 65px;
 }
@@ -9980,9 +9957,6 @@ li.ilWikiBlockItem {
   right: auto;
   left: 0;
   min-width: 100%;
-}
-#ilTopNav .navbar-text {
-  color: #607ea5;
 }
 #ilTopNav .navbar-nav {
   float: left;
@@ -13550,9 +13524,6 @@ table.mceToolbar td {
   #ilTopNav.navbar-default {
     background-color: #f9f9f9;
   }
-  #ilTopNav .navbar-text {
-    color: #607ea5;
-  }
   #ilTopNav .navbar-nav {
     float: none;
     margin-left: 0;
@@ -13582,7 +13553,7 @@ table.mceToolbar td {
     right: auto;
   }
   #ilTopNav .navbar-toggle:hover {
-    background-color: #aeaeae;
+    background-color: #a9a9a9;
   }
   #ilTopNav .navbar-toggle .icon-bar {
     background-color: white;

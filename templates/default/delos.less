@@ -1079,10 +1079,9 @@ footer.ilFooter {
 	margin: 0 auto;
 	padding: 20px 0 0;
 	text-align: left;
-	color: white;
-	background-color: @brand-primary;
+	background-color: @il-footer-bg-color;
 	div.ilFooterContainer {
-		color: white;
+		color: @il-footer-color;
 		//float: left;
 		line-height: 1.75;
 		padding: 0 15px;
@@ -1452,8 +1451,8 @@ div.ilBox {
 
 /* Top-Bar */
 div.ilTopBar {
-  background-color: #444;
-  color: white;
+  background-color: @il-top-bar-bg-color;
+  color: @il-top-bar-color;
   padding: 5px 10px;
 }
 
@@ -1485,10 +1484,6 @@ div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
 [dir="rtl"] div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
 	margin-right: 0;
 	margin-left: 25px;
-}
-
-div.ilTopBarRight td.il_adv_sel {
-	background-color: #444;
 }
 
 div.ilSideBarHead{
