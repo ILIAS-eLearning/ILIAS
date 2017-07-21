@@ -222,13 +222,12 @@ abstract class Input implements C\Input\Input {
 	/**
 	 * Get an input like this one, with a different name.
 	 *
-	 * @param	string
+	 * @param	NameSource $source
 	 * @return	Input
 	 */
-	final public function withName($name) {
-		$this->checkStringArg("name", $name);
+	final public function withNameFrom(NameSource $source) {
 		$clone = clone $this;
-		$clone->name = $name;
+		$clone->name = $source->getNewName();
 		return $clone;
 	}
 

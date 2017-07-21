@@ -2,8 +2,13 @@
 
 require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
+require_once(__DIR__."/InputTest.php");
 
 class TextInputTest extends ILIAS_UI_TestBase {
+	public function setUp() {
+		$this->name_source = new DefNamesource();
+	}
+
 	protected function buildFactory() {
 		return new ILIAS\UI\Implementation\Component\Input\Factory;
 	}
@@ -18,9 +23,9 @@ class TextInputTest extends ILIAS_UI_TestBase {
 	    $f = $this->buildFactory();
 		$label = "label";
 		$byline = "byline";
-		$name = "a_name";
+		$name = "name_0";
 		$text = $f->text($label, $byline)
-			->withName($name);
+			->withNameFrom($this->name_source);
 
 		$r = $this->getDefaultRenderer();
 		$html = $this->normalizeHTML($r->render($text));
@@ -41,10 +46,10 @@ class TextInputTest extends ILIAS_UI_TestBase {
 	    $f = $this->buildFactory();
 		$label = "label";
 		$byline = "byline";
-		$name = "a_name";
+		$name = "name_0";
 		$error = "an_error";
 		$text = $f->text($label, $byline)
-			->withName($name)
+			->withNameFrom($this->name_source)
 			->withError($error);
 
 		$r = $this->getDefaultRenderer();
@@ -68,9 +73,9 @@ class TextInputTest extends ILIAS_UI_TestBase {
 	public function test_render_no_byline() {
 	    $f = $this->buildFactory();
 		$label = "label";
-		$name = "a_name";
+		$name = "name_0";
 		$text = $f->text($label)
-			->withName($name);
+			->withNameFrom($this->name_source);
 
 		$r = $this->getDefaultRenderer();
 		$html = $this->normalizeHTML($r->render($text));
@@ -91,10 +96,10 @@ class TextInputTest extends ILIAS_UI_TestBase {
 	    $f = $this->buildFactory();
 		$label = "label";
 		$value = "value";
-		$name = "a_name";
+		$name = "name_0";
 		$text = $f->text($label)
 			->withValue($value)
-			->withName($name);
+			->withNameFrom($this->name_source);
 
 		$r = $this->getDefaultRenderer();
 		$html = $this->normalizeHTML($r->render($text));

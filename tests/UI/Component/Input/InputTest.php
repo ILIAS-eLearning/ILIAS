@@ -6,6 +6,7 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Implementation\Component\Input\Input;
+use \ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\Data\Factory as DataFactory;
 use \ILIAS\Transformation\Factory as TransformationFactory;
 use \ILIAS\Validation\Factory as ValidationFactory;
@@ -18,6 +19,15 @@ class DefInput extends Input {
 	}
 }
 
+class DefNamesource implements NameSource {
+	public $count = 0;
+	public function getNewName() {
+		$name = "name_{$this->count}";
+		$this->count++;
+		return $name;
+	}
+}
+
 /**
  * Test on input implementation.
  */
@@ -27,6 +37,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->transformation_factory = new TransformationFactory();
 		$this->validation_factory = new ValidationFactory($this->data_factory);
 		$this->input = new DefInput($this->data_factory, "label", "byline");
+		$this->name_source = new DefNamesource();
 	}
 
 	public function test_constructor() {
@@ -71,11 +82,12 @@ class InputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_withName() {
-		$name = "name";
-		$input = $this->input->withName($name);
+		$name = "name_0";
+		$input = $this->input->withNameFrom($this->name_source);
 		$this->assertEquals(null, $this->input->getName());
 		$this->assertEquals($name, $input->getName());
 		$this->assertNotSame($this->input, $input);
+		$this->assertEquals(1, $this->name_source->count);
 	}
 
 	public function test_withError() {
@@ -91,9 +103,9 @@ class InputTest extends ILIAS_UI_TestBase {
 	}	
 
 	public function test_withInput() {
-		$name = "name";
-		$value = "value";
-		$input = $this->input->withName($name);
+		$name = "name_0";
+		$value = "valu";
+		$input = $this->input->withNameFrom($this->name_source);
 		$values = [$name => $value];
 
 		$input2 = $input->withInput($values);
@@ -120,10 +132,10 @@ class InputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_withInput_and_transformation() {
-		$name = "name";
+		$name = "name_0";
 		$value = "value";
 		$transform_to = "other value";
-		$input = $this->input->withName($name);
+		$input = $this->input->withNameFrom($this->name_source);
 		$values = [$name => $value];
 
 		$input2 = $input
@@ -143,10 +155,10 @@ class InputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_withInput_and_transformation_different_order() {
-		$name = "name";
+		$name = "name_0";
 		$value = "value";
 		$transform_to = "other value";
-		$input = $this->input->withName($name);
+		$input = $this->input->withNameFrom($this->name_source);
 		$values = [$name => $value];
 
 		$input2 = $input
@@ -166,10 +178,10 @@ class InputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_withInput_and_constraint_successfull() {
-		$name = "name";
+		$name = "name_0";
 		$value = "value";
 		$error = "an error";
-		$input = $this->input->withName($name);
+		$input = $this->input->withNameFrom($this->name_source);
 		$values = [$name => $value];
 
 		$input2 = $input
@@ -187,10 +199,10 @@ class InputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_withInput_and_constraint_fails() {
-		$name = "name";
+		$name = "name_0";
 		$value = "value";
 		$error = "an error";
-		$input = $this->input->withName($name);
+		$input = $this->input->withNameFrom($this->name_source);
 		$values = [$name => $value];
 
 		$input2 = $input
@@ -208,10 +220,10 @@ class InputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_withInput_and_constraint_fails_different_order() {
-		$name = "name";
+		$name = "name_0";
 		$value = "value";
 		$error = "an error";
-		$input = $this->input->withName($name);
+		$input = $this->input->withNameFrom($this->name_source);
 		$values = [$name => $value];
 
 		$input2 = $input
@@ -229,11 +241,11 @@ class InputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_withInput_transformation_and_constraint() {
-		$name = "name";
+		$name = "name_0";
 		$value = "value";
 		$transform_to = "other value";
 		$error = "an error";
-		$input = $this->input->withName($name);
+		$input = $this->input->withNameFrom($this->name_source);
 		$values = [$name => $value];
 
 		$input2 = $input
@@ -258,11 +270,11 @@ class InputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_withInput_transformation_and_constraint_different_order() {
-		$name = "name";
+		$name = "name_0";
 		$value = "value";
 		$transform_to = "other value";
 		$error = "an error";
-		$input = $this->input->withName($name);
+		$input = $this->input->withNameFrom($this->name_source);
 		$values = [$name => $value];
 
 		$input2 = $input
@@ -287,11 +299,11 @@ class InputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_withInput_constraint_and_transformation() {
-		$name = "name";
+		$name = "name_0";
 		$value = "value";
 		$transform_to = "other value";
 		$error = "an error";
-		$input = $this->input->withName($name);
+		$input = $this->input->withNameFrom($this->name_source);
 		$values = [$name => $value];
 
 		$input2 = $input
@@ -316,11 +328,11 @@ class InputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_withInput_constraint_fails_and_transformation() {
-		$name = "name";
+		$name = "name_0";
 		$value = "value";
 		$transform_to = "other value";
 		$error = "an error";
-		$input = $this->input->withName($name);
+		$input = $this->input->withNameFrom($this->name_source);
 		$values = [$name => $value];
 
 		$input2 = $input
@@ -345,11 +357,11 @@ class InputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_withInput_constraint_fails_and_transformation_different_order() {
-		$name = "name";
+		$name = "name_0";
 		$value = "value";
 		$transform_to = "other value";
 		$error = "an error";
-		$input = $this->input->withName($name);
+		$input = $this->input->withNameFrom($this->name_source);
 		$values = [$name => $value];
 
 		$input2 = $input
