@@ -45,6 +45,11 @@ abstract class ilBaseViewGUI
 	const TOP_SPACER = "ilFixedTopSpacer";
 	const TOP_SPACER_BAR_ONLY = "ilFixedTopSpacerBarOnly";
 	
+	
+	const ROOT_CONTAINER = "container";
+	const ROOT_CRS = "crs";
+	const ROOT_GRP = "grp";
+	
 	/**
 	 * override these switches in the view constructor
 	 */
@@ -52,6 +57,10 @@ abstract class ilBaseViewGUI
 	protected $allow_desktop = true; // deprecated but we should discuss concepts
 	
 	protected $view_nav = true; 
+	
+	protected $use_top_bar_url = false;
+	
+	protected $root_type = ROOT_CONTAINER;
 	
 	/**
 	 * 

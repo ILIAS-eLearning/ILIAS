@@ -47,6 +47,8 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		
 		$this->allow_desktop = false;
 		$this->view_nav = true;
+		$this->use_top_bar_url = false;
+		
 		
 		// for Testing: 
 		// With this settings a fix folder with id $this->root_folder_id is set for locator and tree
@@ -138,6 +140,8 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		$this->log("home_title: " . $this->home_title);
 		$this->log("home_items: " . $this->home_items);
 		$this->log("current_ref_id: " . $this->current_ref_id);
+		$this->log("current_type: " . $this->current_type);
+		
 		switch ($baseclass) 
 		{
 			case 'illtiroutergui' :
@@ -160,17 +164,22 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		{ // ToDo: conceptual discussion, only initGUI on baseClass=repositorygui? 
 			return;
 		}
+		if ($this->use_top_bar_url) {
 		
-		// set the tree_root_id for tree and locator if ref_id is sub_item or context itself
-		if (in_array($this->current_ref_id, $this->home_items)) 
-		{
-			$this->log($this->current_ref_id . " in lti context"); 
-			$this->setInContext();
+			// set the tree_root_id for tree and locator if ref_id is sub_item or context itself
+			if (in_array($this->current_ref_id, $this->home_items)) 
+			{
+				$this->log($this->current_ref_id . " in lti context"); 
+				$this->setInContext();
+			}
+			else // check if another parent root_folder_id exists for the view
+			{
+				$this->log($this->current_ref_id . " NOT in lti context");
+				$this->setOutContext();
+			}
 		}
-		else // check if another parent root_folder_id exists for the view
-		{
-			$this->log($this->current_ref_id . " NOT in lti context");
-			$this->setOutContext();
+		else {
+			$this->setContext();
 		}
 	}
 	
@@ -240,6 +249,20 @@ class ilLTIViewGUI extends ilBaseViewGUI
 			$this->redirectToHome(self::MSG_ERROR,"lti_not_allowed");
 		}
 		
+	}
+	
+	/**
+	 * current container object is set as root for locator and tree
+	 */ 
+	private function setContext() 
+	{
+		$this->log("setContext");
+		if ($this->isContainer($this->current_type)) 
+		{
+			$this->tree_root_id = $this->current_ref_id;
+			$this->log("set lti_tree_root_id: " . $this->tree_root_id);
+			$_SESSION['lti_tree_root_id'] = $this->tree_root_id;
+		}
 	}
 	
 	public function render($tpl,$part) 
@@ -380,7 +403,8 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		if ($this->getSessionValue('lti_launch_presentation_return_url') === '') {
 			$tplExit = new ilTemplate("tpl.lti_exit.html", true, true, "Services/LTI");
 			$tplExit->setVariable('TXT_EXITED_TITLE',$lng->txt('exited_title'));
-			$tplExit->setVariable('TXT_EXITED',$lng->txt('exited'));
+			$tplExit->setVariable('TXT_EXITED','LTI Sitzung beendet');
+			//$tplExit->setVariable('TXT_EXITED',$lng->txt('exited'));
 			$html = $tplExit->get();
 			$this->logout();
 			print $html;

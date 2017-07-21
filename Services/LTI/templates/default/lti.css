@@ -34,10 +34,12 @@ footer {
 
 .ltiHeaderTitle {
 	float: left;
-	font-weight: 600;
+	font-weight: 400;
 	padding: 0 0 0 15px;
 	white-space: nowrap;
 	line-height: 40px;
+	font-family: 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
 }
 
 .ilLtiExited {
@@ -51,6 +53,12 @@ footer {
 .ilHeadAction {
 	display: none;
 }
+
+/*
+#view_nav {
+	margin-right: 50px;
+}
+*/ 
 /*
 div.ilMainHeader {
 	top: 0px;
