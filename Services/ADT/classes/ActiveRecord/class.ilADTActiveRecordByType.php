@@ -178,7 +178,8 @@ class ilADTActiveRecordByType
 		$this->properties->getADT()->reset();
 		
 		//  using preloaded data
-		if(is_array(self::$preloaded))
+		// TODO: remove this hack.
+		if(is_array(self::$preloaded) && !$a_return_additional_data)
 		{
 			$primary = $this->properties->getPrimary();
 			foreach(self::$preloaded as $table => $data)
