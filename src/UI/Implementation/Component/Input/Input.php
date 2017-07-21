@@ -14,7 +14,7 @@ use ILIAS\Validation\Constraint;
 /**
  * This implements commonalities between inputs.
  */
-abstract class Input implements C\Input\Input {
+abstract class Input implements C\Input\Input, InputInternal {
 	use ComponentHelper;
 
 	/**
@@ -206,24 +206,21 @@ abstract class Input implements C\Input\Input {
 		return $clone;
 	}
 
+	// Implementation of InputInternal
+
 	// This is the machinery to be used to process the input from the client side.
 	// This should not be exposed to the consumers of the inputs. These methods
 	// should instead only be used by the forms wrapping the input.
 
 	/**
-	 * The name of the input as used in HTML.
-	 *
-	 * @return string
+	 * @inheritdoc
 	 */
 	final public function getName() {
 		return $this->name;
 	}
 
 	/**
-	 * Get an input like this one, with a different name.
-	 *
-	 * @param	NameSource $source
-	 * @return	Input
+	 * @inheritdoc
 	 */
 	final public function withNameFrom(NameSource $source) {
 		$clone = clone $this;
@@ -232,13 +229,10 @@ abstract class Input implements C\Input\Input {
 	}
 
 	/**
-	 * Get an input like this with input from an array.
-	 *
 	 * Collects the input, applies trafos on the input and returns
 	 * a new input reflecting the data that was putted in.
 	 *
-	 * @param	PostData	$input
-	 * @return	Input
+	 * @inheritdoc
 	 */
 	final public function withInput(PostData $input) {
 		if ($this->name === null) {
@@ -280,9 +274,7 @@ abstract class Input implements C\Input\Input {
 	}
 
 	/**
-	 * Get the current content of the input.
-	 *
-	 * @return	Result|null
+	 * @inheritdoc
 	 */
 	final public function getContent() {
 		return $this->content;
