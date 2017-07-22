@@ -336,7 +336,7 @@ class ilMimeMail
 			{
 				$tplpath = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
 
-				if(@file_exists($tplpath))
+				if(file_exists($tplpath))
 				{
 					$bracket_path = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
 				}
