@@ -318,18 +318,13 @@ class ilMimeMail
 	 */
 	protected function build()
 	{
-		/**
-		 * @var $ilUser          ilObjUser
-		 * @var $ilSetting       ilSetting
-		 * @var $ilClientIniFile ilIniFile
-		 */
-		global $ilSetting, $ilClientIniFile;
+		global $DIC;
 
 		$this->images = array();
 
-		if($ilSetting->get('mail_send_html', 0))
+		if($DIC->settings()->get('mail_send_html', 0))
 		{
-			$skin = $ilClientIniFile->readVariable('layout', 'skin');
+			$skin = $DIC['ilClientIniFile']->readVariable('layout', 'skin');
 
 			$bracket_path = './Services/Mail/templates/default/tpl.html_mail_template.html';
 			if($skin != 'default')
