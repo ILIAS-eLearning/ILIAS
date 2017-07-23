@@ -50,32 +50,27 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 		if($crs->getImportantInformation())
 		{
 			$this->addInfoProperty($this->lng->txt("crs_important_info"), $crs->getImportantInformation());
-			$this->addListItemProperty($this->lng->txt("crs_important_info"), $crs->getImportantInformation());
 		}
 
 		if($crs->getSyllabus())
 		{
 			$this->addInfoProperty($this->lng->txt("crs_syllabus"), $crs->getSyllabus());
-			$this->addListItemProperty($this->lng->txt("crs_syllabus"), $crs->getSyllabus());
 		}
 
 		if (count($files)) {
-			$tpl = new ilTemplate('tpl.event_info_file.html', true, true, 'Modules/Course');
+			$links = array();
 			foreach ($files as $file) {
-				$tpl->setCurrentBlock("files");
 				$this->ctrl->setParameter($this, 'file_id', $file->getFileId());
 				$this->ctrl->setParameterByClass('ilobjcoursegui','file_id', $file->getFileId());
 				$this->ctrl->setParameterByClass('ilobjcoursegui','ref_id', $crs_ref_id);
-				$tpl->setVariable("DOWN_LINK",$this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI","ilobjcoursegui"),'sendfile'));
-				$tpl->setVariable("DOWN_NAME", $file->getFileName());
-				$tpl->setVariable("DOWN_INFO_TXT", $this->lng->txt('crs_file_size_info'));
-				$tpl->setVariable("DOWN_SIZE", $file->getFileSize());
-				$tpl->setVariable("TXT_BYTES", $this->lng->txt('bytes'));
-				$tpl->parseCurrentBlock();
+
+				$links[] = $this->ui->renderer()->render(($this->ui->factory()->button()->shy($file->getFileName(),
+					$this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI","ilobjcoursegui"),'sendfile'))));
+
 				$this->ctrl->setParameterByClass('ilobjcoursegui','ref_id', $_GET["ref_id"]);
 			}
-			$this->addInfoProperty($this->lng->txt("files"), $tpl->get());
-			$this->addListItemProperty($this->lng->txt("files"), $tpl->get());
+			$this->addInfoProperty($this->lng->txt("files"), implode("<br>", $links));
+			$this->addListItemProperty($this->lng->txt("files"), implode(", ", $links));
 		}
 
 		// tutorial support members

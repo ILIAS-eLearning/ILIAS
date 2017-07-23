@@ -51,6 +51,7 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 		//location
 		if($session_obj->getLocation()){
 			$this->addInfoProperty($this->lng->txt("event_location"),ilUtil::makeClickable($session_obj->getLocation()));
+			$this->addListItemProperty($this->lng->txt("event_location"),ilUtil::makeClickable($session_obj->getLocation()));
 		}
 		//details/workflow
 		if($session_obj->getDetails())
@@ -58,33 +59,38 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 			$this->addInfoProperty($this->lng->txt("event_details_workflow"),$session_obj->getDetails());
 		}
 		//lecturer name
-		$str_lecturer = "";
+		$str_lecturer = array();
 		if($session_obj->getName())
 		{
-			$str_lecturer .= $session_obj->getName()."<br>";
+			$str_lecturer[] = $session_obj->getName();
 		}
 		//lecturer email
 		if($session_obj->getEmail())
 		{
-			$str_lecturer .= $session_obj->getEmail()."<br>";
+			$str_lecturer[] = $session_obj->getEmail();
 		}
 		if($session_obj->getPhone())
 		{
-			$str_lecturer .= $this->lng->txt("phone").": ".$session_obj->getPhone()."<br>";
+			$str_lecturer[] = $this->lng->txt("phone").": ".$session_obj->getPhone();
 		}
-		$this->addInfoProperty($this->lng->txt("event_tutor_data"), $str_lecturer);
+		if (count($str_lecturer) > 0)
+		{
+			$this->addInfoProperty($this->lng->txt("event_tutor_data"), implode("<br>", $str_lecturer));
+			$this->addListItemProperty($this->lng->txt("event_tutor_data"), implode(", ", $str_lecturer));
+		}
 
 		$eventItems = ilObjectActivation::getItemsByEvent($cat_info['obj_id']);
 		if(count($eventItems))
 		{
 			include_once('./Services/Link/classes/class.ilLink.php');
-			$str = "";
+			$str = array();
 			foreach ($eventItems as $file)
 			{
 				$href = ilLink::_getStaticLink($file['ref_id'], "file", true,"download");
-				$str .= $r->render($f->button()->shy($file['title'], $href))."<br>";
+				$str[] = $r->render($f->button()->shy($file['title'], $href));
 			}
-			$this->addInfoProperty($this->lng->txt("files"),$str);
+			$this->addInfoProperty($this->lng->txt("files"), implode("<br>", $str));
+			$this->addListItemProperty($this->lng->txt("files"), implode(", ", $str));
 		}
 
 		//example download all files

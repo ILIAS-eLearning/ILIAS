@@ -129,6 +129,9 @@ class ilCalendarAgendaListGUI
 		$navigation = new ilCalendarHeaderNavigationGUI($this,new ilDate($this->seed, IL_CAL_DATE),ilDateTime::DAY);
 		$navigation->getHTML();
 
+		// set return now (after header navigation) to the list (e.g. for profile links)
+		$this->ctrl->setReturn($this, "");
+
 		// get events
 		$events = $this->getEvents();
 		$events = ilUtil::sortArray($events, "dstart", "asc", true);
@@ -161,30 +164,6 @@ class ilCalendarAgendaListGUI
 			$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
 
 			$properties = array();
-
-			// properties: origin
-			$title = $cat_info["title"];
-			if ($cat_info['type'] == ilCalendarCategory::TYPE_OBJ)
-			{
-				//$type = ilObject::_lookupType($cat_info['obj_id']);
-				$refs = ilObject::_getAllReferences($cat_info['obj_id']);
-				include_once('./Services/Link/classes/class.ilLink.php');
-				$href = ilLink::_getStaticLink(current($refs),ilObject::_lookupType($cat_info['obj_id']),true);
-				$title = $this->ui_fac->button()->shy($title, $href);
-
-			}
-			$properties[$this->lng->txt('cal_origin')] = $title;
-
-			// properties: last update
-
-			$update = new ilDateTime($e["event"]->getLastUpdate()->get(IL_CAL_UNIX), IL_CAL_UNIX, $this->user->getTimeZone());
-			$properties[$this->lng->txt('last_update')] = ilDatePresentation::formatDate($update);
-
-			// properties: location
-			if ($e["event"]->getLocation() != "")
-			{
-				$properties[$this->lng->txt('location')] = $e["event"]->getLocation();
-			}
 
 			// shy button for title
 			$this->ctrl->setParameter($this, 'app_id', $e["event"]->getEntryId());

@@ -304,6 +304,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 				$href = ilLink::_getStaticLink($cont_ref_id);
 				$parent_title = ilObject::_lookupTitle(ilObject::_lookupObjectId($cont_ref_id));
 				$this->addInfoProperty($this->lng->txt("obj_" . $type), $r->render($f->button()->shy($parent_title, $href)));
+				$this->addListItemProperty($this->lng->txt("obj_" . $type), $r->render($f->button()->shy($parent_title, $href)));
 			}
 		}
 	}
@@ -420,6 +421,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 			$prop_value = implode("<br>", $buttons);
 		}
 		$this->addInfoProperty($this->lng->txt("obj_".ilObject::_lookupType($obj_id)), $prop_value);
+		$this->addListItemProperty($this->lng->txt("obj_".ilObject::_lookupType($obj_id)), $prop_value);
 	}
 
 	/**
@@ -466,7 +468,19 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 	{
 		if ($a_app['event']->getLocation()) {
 			$this->addInfoProperty($this->lng->txt("location"), $a_app['event']->getLocation());
+			$this->addListItemProperty($this->lng->txt("location"), $a_app['event']->getLocation());
 		}
+	}
+
+	/**
+	 * Add last update
+	 *
+	 * @param array $a_app
+	 */
+	function addLastUpdate($a_app)
+	{
+		$update = new ilDateTime($a_app["event"]->getLastUpdate()->get(IL_CAL_UNIX), IL_CAL_UNIX, $this->user->getTimeZone());
+		$this->addListItemProperty($this->lng->txt('last_update'), ilDatePresentation::formatDate($update));
 	}
 
 	/**
@@ -485,6 +499,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 		$this->ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $_GET["category_id"]);
 
 		$this->addInfoProperty($this->lng->txt("calendar"), $link);
+		$this->addListItemProperty($this->lng->txt("calendar"), $link);
 	}
 
 	/**
@@ -501,23 +516,28 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 		// event description
 		$this->addEventDescription($a_app);
 
-		// event location
-		$this->addEventLocation($a_app);
-
 		// course title (linked of accessible)
 		if ($a_obj_id > 0)
 		{
 			$this->addObjectLinks($a_obj_id);
 		}
 
-		if ($cat_info != null)
-		{
-			$this->addCalendarInfo($cat_info);
-		}
+		// last edited
+		$this->addLastUpdate($a_app);
 
+		// container info (course groups)
 		if ($a_container_info)
 		{
 			$this->addContainerInfo($a_obj_id);
+		}
+
+		// event location
+		$this->addEventLocation($a_app);
+
+		// calendar info
+		if ($cat_info != null)
+		{
+			$this->addCalendarInfo($cat_info);
 		}
 
 	}

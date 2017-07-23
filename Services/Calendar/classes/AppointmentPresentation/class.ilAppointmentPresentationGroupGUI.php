@@ -36,7 +36,6 @@ class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI imp
 		{
 			$this->addInfoSection($this->lng->txt("cal_grp_info"));
 			$this->addInfoProperty($this->lng->txt("grp_information"), $grp->getInformation());
-			$this->addListItemProperty($this->lng->txt("grp_information"), $grp->getInformation());
 		}
 
 		//example download all files
