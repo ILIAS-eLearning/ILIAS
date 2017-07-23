@@ -36,6 +36,11 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 {
 
 	/**
+	 * @var ilCalendarSettings
+	 */
+	protected $settings;
+
+	/**
 	 * Constructor
 	 *
 	 * @access public
@@ -135,58 +140,6 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
 
 				
-		#$parser = new ilICalParser('./extern/Feiertage.ics',ilICalParser::INPUT_FILE);
-		#$parser->setCategoryId(6);
-		#$parser->parse();
-		/*
-		$calc = new ilCalendarRecurrenceCalculator(
-			new ilCalendarEntry(273),
-			new ilCalendarRecurrence(43));
-	
-		$list = $calc->calculateDateList(
-				new ilDateTime('2008-04-01',IL_CAL_DATE),
-				new ilDateTime('2008-04-31',IL_CAL_DATE));
-		*/		
-		#echo "RESULT: ".$list;
-		/*
-		$zeit = microtime(true);
-		
-		for($i = 0;$i < 1;$i++)
-		{
-			$calc = new ilCalendarRecurrenceCalculator(
-				new ilCalendarEntry(1061),
-				new ilCalendarRecurrence(72));
-	
-			$list = $calc->calculateDateList(
-					new ilDateTime('2008-03-01',IL_CAL_DATE),
-					new ilDateTime('2008-03-31',IL_CAL_DATE));
-		}		
-		echo "NEEDS: ".(microtime(true) - $zeit).' seconds.<br>';
-		foreach($list->get() as $event)
-		{
-			echo $event->get(IL_CAL_DATETIME,'',$this->settings->getDefaultTimeZone()).'<br />';
-		}
-		*/
-		#$parser = new ilICalParser('./extern/fc.ics',ilICalParser::INPUT_FILE);
-		#$parser->setCategoryId(11);
-		#$parser = new ilICalParser('./Feiertage.ics',ilICalParser::INPUT_FILE);
-		#$parser->parse();
-		#$entry = new ilCalendarEntry(927);
-		/*
-		$timezone = "US/Alaska";
-		echo $entry->getTitle().'<br>';
-		echo $entry->getStart()->get(IL_CAL_DATE,'',$timezone).'<br>';
-		echo $entry->getStart()->get(IL_CAL_DATETIME,'',$timezone).'<br>';		
-		echo $entry->getEnd()->get(IL_CAL_DATE,'',$timezone).'<br>';
-		echo $entry->getEnd()->get(IL_CAL_DATETIME,'',$timezone).'<br>';		
-
-		$entry = new ilCalendarEntry(928);
-		echo $entry->getTitle().'<br>';
-		echo $entry->getStart()->get(IL_CAL_DATE,'',$timezone).'<br>';
-		echo $entry->getStart()->get(IL_CAL_DATETIME,'',$timezone).'<br>';		
-		echo $entry->getEnd()->get(IL_CAL_DATE,'',$timezone).'<br>';
-		echo $entry->getEnd()->get(IL_CAL_DATETIME,'',$timezone).'<br>';		
-		*/
 		$this->tabs_gui->setTabActive('settings');
 		$this->initFormSettings();
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.settings.html','Services/Calendar');
@@ -221,6 +174,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->settings->enableCGRegistration((bool) $_POST['cgr']);
 		$this->settings->enableWebCalSync((bool) $_POST['webcal']);
 		$this->settings->setWebCalSyncHours((int) $_POST['webcal_hours']);
+		$this->settings->setShowWeeks((int) $_POST['show_weeks']);
 		
 		if(((int) $_POST['den']) < (int) $_POST['dst'])
 		{
@@ -309,6 +263,14 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$radio->addOption($option);
 
 		$this->form->addItem($radio);
+
+		// show weeks
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cal_show_weeks"), "show_weeks");
+		$cb->setInfo($this->lng->txt("cal_show_weeks_info"));
+		$cb->setValue(1);
+		$cb->setChecked($this->settings->getShowWeeks());
+		$this->form->addItem($cb);
+
 
 		// Day start
 		$day_start = new ilSelectInputGUI($this->lng->txt('cal_day_start'),'dst');

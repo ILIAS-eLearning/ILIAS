@@ -131,6 +131,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		{
 			$this->seed = new ilDate($seed_str,IL_CAL_DATE);	// @todo: check this
 		}
+
+		$this->settings = ilCalendarSettings::_getInstance();
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
 		
 		$tpl->addCSS("./Services/Calendar/css/calendar.css");
@@ -140,7 +142,19 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$mode = $ilUser->getPref("il_pd_cal_mode");
 		$this->display_mode = $mode ? $mode : "mmon";
 	}
-	
+
+	/**
+	 * Show weeks column
+	 *
+	 * @param
+	 * @return
+	 */
+	function getShowWeeksColumn()
+	{
+		return ($this->settings->getShowWeeks() && $this->user_settings->getShowWeeks());
+	}
+
+
 	/**
 	* Get block type
 	*
@@ -339,9 +353,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		// weekdays
 		include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
-		$a_tpl->setCurrentBlock('month_header_col');
-		$a_tpl->setVariable('TXT_WEEKDAY', $lng->txt("cal_week_abbrev"));
-		$a_tpl->parseCurrentBlock();
+		if ($this->getShowWeeksColumn())
+		{
+			$a_tpl->setCurrentBlock('month_header_col');
+			$a_tpl->setVariable('TXT_WEEKDAY', $lng->txt("cal_week_abbrev"));
+			$a_tpl->parseCurrentBlock();
+		}
 		for($i = (int) $this->user_settings->getWeekStart();$i < (7 + (int) $this->user_settings->getWeekStart());$i++)
 		{
 			$a_tpl->setCurrentBlock('month_header_col');
@@ -471,14 +488,16 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			
 			if($counter and !($counter % 7))
 			{
-				$a_tpl->setCurrentBlock('week');
-				$a_tpl->setVariable('WEEK',
-					$date->get(IL_CAL_FKT_DATE,'W'));
-				$a_tpl->parseCurrentBlock();
-
+				if ($this->getShowWeeksColumn())
+				{
+					$a_tpl->setCurrentBlock('week');
+					$a_tpl->setVariable('WEEK',
+						$date->get(IL_CAL_FKT_DATE, 'W'));
+					$a_tpl->parseCurrentBlock();
+				}
 
 				$a_tpl->setCurrentBlock('month_row');
-				$a_tpl->setVariable('TD_CLASS','calminiweek');
+				//$a_tpl->setVariable('TD_CLASS','calminiweek');
 				$a_tpl->parseCurrentBlock();
 
 				$week_has_events = false;
