@@ -43,6 +43,8 @@ class ilCalendarAppointmentPresentationGUI
 
 		$this->seed = $seed;
 		$this->appointment = $a_app;
+
+		$this->tpl = $DIC["tpl"];
 	}
 	
 	/**
@@ -94,20 +96,31 @@ class ilCalendarAppointmentPresentationGUI
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("getHTML");
 
-		if($next_class != '')
+		switch ($next_class)
 		{
-			// get the path and include
-			$class_path = $this->ctrl->lookupClassPath($next_class);
-			include_once($class_path);
+			case 'ilcalendarappointmentgui':
+				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
+				$app = new ilCalendarAppointmentGUI($this->seed,$this->seed, (int) $_GET['app_id']);
+				$this->ctrl->forwardCommand($app);
+				break;
 
-			// check if the class implements our interface
-			$class_name = $this->ctrl->getClassForClasspath($class_path);
-			if (in_array("ilCalendarAppointmentPresentation", class_implements($class_name)))
-			{
-				// forward command to class
-				$gui_class = new $class_name();
-				$this->ctrl->forwardCommand($gui_class);
-			}
+			default:
+				if ($next_class != '')
+				{
+					// get the path and include
+					$class_path = $this->ctrl->lookupClassPath($next_class);
+					include_once($class_path);
+
+					// check if the class implements our interface
+					$class_name = $this->ctrl->getClassForClasspath($class_path);
+					if (in_array("ilCalendarAppointmentPresentation", class_implements($class_name)))
+					{
+						// forward command to class
+						$gui_class = new $class_name();
+						$this->ctrl->forwardCommand($gui_class);
+					}
+				}
+				break;
 		}
 	}
 
@@ -155,7 +168,6 @@ class ilCalendarAppointmentPresentationGUI
 
 		$f = ilAppointmentPresentationFactory::getInstance($this->appointment, $info_screen, $toolbar, null);
 
-
 		$this->ctrl->getHTML($f);
 
 		// show toolbar
@@ -177,7 +189,6 @@ class ilCalendarAppointmentPresentationGUI
 	{
 		$li = $this->getListItem();
 		include_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationFactory.php";
-
 		$f = ilAppointmentPresentationFactory::getInstance($this->appointment, null, null, $li);
 		$this->ctrl->getHTML($f);
 		$this->list_item = $f->getListItem();

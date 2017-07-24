@@ -6498,6 +6498,9 @@ hr.il-divider-with-label {
   font-size: 12px;
   color: #909090;
 }
+.il-item .col-sm-9 > .row {
+  clear: both;
+}
 .il-item-marker {
   border-left: 5px solid;
 }
@@ -6584,6 +6587,18 @@ hr.il-divider-with-label {
 }
 .il-narrow-content .il-item button.dropdown-toggle > span {
   display: none;
+}
+@media only screen and (max-width: 767px) {
+  .il-item div.col-sm-3 > h5 {
+    font-size: 14px;
+    float: none;
+  }
+  .il-item .il-item-description {
+    display: none;
+  }
+  .il-item .il-item-divider {
+    display: none;
+  }
 }
 .icon {
   background-repeat: no-repeat;

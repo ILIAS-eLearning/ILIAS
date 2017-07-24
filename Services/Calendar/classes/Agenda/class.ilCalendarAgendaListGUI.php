@@ -64,6 +64,8 @@ class ilCalendarAgendaListGUI
 		$this->user = $DIC->user();
 		$this->lng = $DIC->language();
 
+		$this->tpl = $DIC["tpl"];
+
 		$this->ctrl->saveParameter($this, "cal_agenda_per");
 
 
@@ -107,13 +109,43 @@ class ilCalendarAgendaListGUI
 
 		switch ($next_class)
 		{
+			case "ilcalendarappointmentpresentationgui":
+				$this->ctrl->setReturn($this, "");
+				include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
+				$gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed, IL_CAL_DATE), $this->getCurrentApp());
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			default:
+				$this->ctrl->setReturn($this, "");
 				if (in_array($cmd, array("getHTML", "getModalForApp")))
 				{
 					return $this->$cmd();
 				}
 		}
 	}
+
+
+	/**
+	 * Get app for id
+	 *
+	 * @param
+	 * @return
+	 */
+	function getCurrentApp()
+	{
+		// @todo: this needs optimization
+		$events = $this->getEvents();
+		foreach ($events as $item)
+		{
+			if ($item["event"]->getEntryId() == (int) $_GET["app_id"])
+			{
+				return $item;
+			}
+		}
+		return null;
+	}
+
 
 	/**
 	 * Get output
@@ -125,6 +157,9 @@ class ilCalendarAgendaListGUI
 	{
 		$navigation = new ilCalendarHeaderNavigationGUI($this,new ilDate($this->seed, IL_CAL_DATE),ilDateTime::DAY);
 		$navigation->getHTML();
+
+		// set return now (after header navigation) to the list (e.g. for profile links)
+		$this->ctrl->setReturn($this, "");
 
 		// get events
 		$events = $this->getEvents();
@@ -159,30 +194,6 @@ class ilCalendarAgendaListGUI
 
 			$properties = array();
 
-			// properties: origin
-			$title = $cat_info["title"];
-			if ($cat_info['type'] == ilCalendarCategory::TYPE_OBJ)
-			{
-				//$type = ilObject::_lookupType($cat_info['obj_id']);
-				$refs = ilObject::_getAllReferences($cat_info['obj_id']);
-				include_once('./Services/Link/classes/class.ilLink.php');
-				$href = ilLink::_getStaticLink(current($refs),ilObject::_lookupType($cat_info['obj_id']),true);
-				$title = $this->ui_fac->button()->shy($title, $href);
-
-			}
-			$properties[$this->lng->txt('cal_origin')] = $title;
-
-			// properties: last update
-
-			$update = new ilDateTime($e["event"]->getLastUpdate()->get(IL_CAL_UNIX), IL_CAL_UNIX, $this->user->getTimeZone());
-			$properties[$this->lng->txt('last_update')] = ilDatePresentation::formatDate($update);
-
-			// properties: location
-			if ($e["event"]->getLocation() != "")
-			{
-				$properties[$this->lng->txt('location')] = $e["event"]->getLocation();
-			}
-
 			// shy button for title
 			$this->ctrl->setParameter($this, 'app_id', $e["event"]->getEntryId());
 			$this->ctrl->setParameter($this, 'seed', $this->seed);
@@ -192,11 +203,6 @@ class ilCalendarAgendaListGUI
 			//$modal = $this->ui_fac->modal()->roundtrip('test', $this->ui_fac->legacy("Hello World."));
 			$shy = $this->ui_fac->button()->shy($e["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal());
 			$modals[] = $modal;
-
-			/*$this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $e["event"]->getEntryId());
-			$shy = $this->ui_fac->button()->shy($e["event"]->getPresentationTitle(),
-				$this->ctrl->getLinkTargetByClass(array('ilcalendarinboxgui', 'ilcalendarappointmentgui'),'edit'));
-			$this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', "");*/
 
 			$li = $this->ui_fac->item()->standard($shy)
 				->withDescription("".$e["event"]->getDescription())
@@ -256,12 +262,18 @@ class ilCalendarAgendaListGUI
 	 */
 	function getEvents()
 	{
+//		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
+//		initialize($a_mode,$a_source_ref_id = 0,$a_use_cache = false)
 		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_PD_UPCOMING);
 		$schedule->setPeriod(new ilDate($this->seed, IL_CAL_DATE),
 			new ilDate($this->period_end_day, IL_CAL_DATE));
+
+		//return $schedule->getChangedEvents(true);
+
 		$schedule->addSubitemCalendars(true);
 		$schedule->calculate();
-		return $schedule->getScheduledEvents();
+		$ev = $schedule->getScheduledEvents();
+		return $ev;
 	}
 
 	/**

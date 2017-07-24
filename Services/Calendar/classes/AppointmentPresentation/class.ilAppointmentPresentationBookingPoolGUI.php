@@ -17,9 +17,7 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 	public function collectPropertiesAndActions()
 	{
 		$a_app = $this->appointment;
-
-		$cat_id = $this->getCatId($a_app['event']->getEntryId());
-		$cat_info = $this->getCatInfo($cat_id);
+		$cat_info = $this->getCatInfo();
 
 		$this->lng->loadLanguageModule("book");
 

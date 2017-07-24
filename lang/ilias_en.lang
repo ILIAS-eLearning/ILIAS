@@ -13563,3 +13563,8 @@ dateplaner#:#cal_exc_inst_files#:#Instruction Files
 dateplaner#:#cal_exc_open#:#Open Assignment
 book#:#book_open#:#Open Booking Pool
 book#:#book_booking_information#:#Information
+sess#:#sess_open#:#Open Session
+dateplaner#:#cal_show_weeks#:#Show Weeks
+dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block. Users can deactivate the column in their settings.
+dateplaner#:#cal_usr_show_weeks#:#Show Week Column
+dateplaner#:#cal_usr_show_weeks_info#:#Activates weeks column in calendar side block.

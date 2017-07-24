@@ -22,8 +22,7 @@ class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI imp
 
 		$this->lng->loadLanguageModule("grp");
 
-		$cat_id = $this->getCatId($a_app['event']->getEntryId());
-		$cat_info = $this->getCatInfo($cat_id);
+		$cat_info = $this->getCatInfo();
 
 		$grp = new ilObjGroup($cat_info['obj_id'], false);
 
@@ -37,7 +36,6 @@ class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI imp
 		{
 			$this->addInfoSection($this->lng->txt("cal_grp_info"));
 			$this->addInfoProperty($this->lng->txt("grp_information"), $grp->getInformation());
-			$this->addListItemProperty($this->lng->txt("grp_information"), $grp->getInformation());
 		}
 
 		//example download all files

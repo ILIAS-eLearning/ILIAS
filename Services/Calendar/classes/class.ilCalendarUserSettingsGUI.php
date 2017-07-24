@@ -39,6 +39,11 @@ class ilCalendarUserSettingsGUI
 	protected $lng;
 	protected $user;
 	protected $settings;
+
+	/**
+	 * @var object ilCalenderUserSettings
+	 */
+	protected $user_settings;
 	
 
 	/**
@@ -130,6 +135,10 @@ class ilCalendarUserSettingsGUI
 		$this->user_settings->setTimeFormat((int) $_POST['time_format']);
 		$this->user_settings->setDayStart((int) $_POST['dst']);
 		$this->user_settings->setDayEnd((int) $_POST['den']);
+		if ($this->settings->getShowWeeks())
+		{
+			$this->user_settings->setShowWeeks((int) $_POST['show_weeks']);
+		}
 
 		if(((int) $_POST['den']) < (int) $_POST['dst'])
 		{
@@ -141,7 +150,7 @@ class ilCalendarUserSettingsGUI
 		$this->user_settings->save();
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->redirect($this, "show");
 	}
 	
 	/**
@@ -163,7 +172,7 @@ class ilCalendarUserSettingsGUI
 		$this->form->setFormAction($this->ctrl->getFormAction($this,'save'));
 		$this->form->setTitle($this->lng->txt('cal_user_settings'));
 		$this->form->addCommandButton('save',$this->lng->txt('save'));
-		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		//$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 		$select = new ilSelectInputGUI($this->lng->txt('cal_user_timezone'),'timezone');
 		$select->setOptions(ilCalendarUtil::_getShortTimeZoneList());
@@ -211,6 +220,17 @@ class ilCalendarUserSettingsGUI
 		$option = new ilRadioOption($this->lng->txt('l_mo'),1);
 		$radio->addOption($option);
 		$this->form->addItem($radio);
+
+		if ($this->settings->getShowWeeks())
+		{
+			//
+			$cb = new ilCheckboxInputGUI($this->lng->txt("cal_usr_show_weeks"), "show_weeks");
+			$cb->setInfo($this->lng->txt("cal_usr_show_weeks_info"));
+			$cb->setValue(1);
+			$cb->setChecked($this->user_settings->getShowWeeks());
+			$this->form->addItem($cb);
+
+		}
 		
 		// Day/Week View
 		$week_month = new ilFormSectionHeaderGUI();

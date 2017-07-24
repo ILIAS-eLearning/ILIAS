@@ -36,35 +36,16 @@ class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI impl
 
 		$ctrl = $DIC->ctrl();
 
-		$cat_id = $this->getCatId($a_app['event']->getEntryId());
-		$cat_info = $this->getCatInfo($cat_id);
+		$cat_info = $this->getCatInfo();
 
-		$this->addInfoSection($a_app['event']->getTitle());
+		// common info: title, description, location, calendar
+		$this->addCommonSection($a_app, 0, $cat_info);
 
-		if($a_app['event']->getDescription())
-		{
-			$this->addInfoProperty($this->lng->txt("description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
-		}
-
-		$ctrl->setParameterByClass("ilcalendarcategorygui",'category_id', $cat_id);
-		$ctrl->setParameterByClass("ilcalendarcategorygui",'seed',$this->getSeed());
-
-		// link to calendar
-		$this->addInfoProperty($this->lng->txt("cal_origin"),	$r->render($f->button()->shy($cat_info['title'],
-			$ctrl->getLinkTargetByClass(array("ilPersonalDesktopGUI", "ilCalendarPresentationGUI", "ilcalendarcategorygui"), 'details'))));
-
-		// link to user profile: todo: check if profile is really public
-		include_once('./Services/Link/classes/class.ilLink.php');
-		$href = ilLink::_getStaticLink($cat_info['obj_id'], "usr");
-
-		$this->addInfoProperty($this->lng->txt("cal_owner"),$r->render($f->button()->shy(ilObjUser::_lookupFullname($cat_info['obj_id']), $href)));
+		// owner
+		$this->addInfoProperty($this->lng->txt("cal_owner"), $this->getUserName($cat_info['obj_id']));
+		$this->addListItemProperty($this->lng->txt("cal_owner"), $this->getUserName($cat_info['obj_id']));
 
 		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id']))."_info"));
-
-		if($a_app['event']->getLocation())
-		{
-			$this->addInfoProperty($this->lng->txt("location"), ilUtil::makeClickable(nl2br($a_app['event']->getLocation())));
-		}
 
 		//user notifications
 		include_once './Services/Calendar/classes/class.ilCalendarUserNotification.php';
@@ -80,7 +61,7 @@ class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI impl
 				switch ($rcp['type'])
 				{
 					case ilCalendarUserNotification::TYPE_USER:
-						$str_notification.=ilObjUser::_lookupLogin($rcp['usr_id'])."<br>";
+						$str_notification.= $this->getUserName($rcp['usr_id'])."<br>";
 						break;
 					case ilCalendarUserNotification::TYPE_EMAIL:
 						$str_notification.=$rcp['email']."<br>";
