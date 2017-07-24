@@ -27,6 +27,8 @@ class ilGroupUserActionProvider extends ilUserActionProvider
 	 */
 	function getActionTypes()
 	{
+		$this->lng->loadLanguageModule("grp");
+
 		return array(
 			"add_to" => $this->lng->txt("grp_add_to_group")
 		);
@@ -44,12 +46,15 @@ class ilGroupUserActionProvider extends ilUserActionProvider
 
 		$ctrl = $DIC->ctrl();
 
+		$this->lng->loadLanguageModule("grp");
+
 		$coll = ilUserActionCollection::getInstance();
 
 		$f = new ilUserAction();
 		$f->setType("add_to");
 		$f->setText($this->lng->txt("grp_add_to_group"));
 		$f->setHref("#");
+		$ctrl->setParameterByClass("ilGroupAddToGroupActionGUI", "user_id", $a_target_user);
 		$f->setData(array(
 			"grp-action-add-to" => "1",
 			"url" => $ctrl->getLinkTargetByClass(array("ilPersonalDesktopGUI", "ilGroupUserActionsGUI", "ilGroupAddToGroupActionGUI"), "", "", true, false)
@@ -70,9 +75,12 @@ class ilGroupUserActionProvider extends ilUserActionProvider
 		switch ($a_action_type)
 		{
 			case "add_to":
+				include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php");
 				return array(
 					"./Modules/Group/UserActions/js/GroupUserActions.js",
-					"./Services/UIComponent/Modal/js/Modal.js"
+					"./src/UI/templates/js/Modal/modal.js",
+					ilExplorerBaseGUI::getLocalExplorerJsPath(),
+					ilExplorerBaseGUI::getLocalJsTreeJsPath()
 				);
 				break;
 		}

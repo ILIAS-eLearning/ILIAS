@@ -113,7 +113,6 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderRoundTrip(Component\Modal\RoundTrip $modal, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate('tpl.roundtrip.html', true, true);
-		//$id = $this->createId();
 		$id = $this->bindJavaScript($modal);
 		$this->registerSignals($modal, $id);
 		$this->triggerRegisteredSignals($modal, $id);

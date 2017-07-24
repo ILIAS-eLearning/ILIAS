@@ -1,40 +1,50 @@
-(function($) {
-	$(function () {
+il = il || {};
+il.Group = il.Group || {};
 
-		var $modal = il.Modal.dialogue({
-			show: false,
-			header: "header",
-			body: "message",
-			buttons: [{
-				type:      "button",
-				label:     "button label",
-				className: "btn btn-default",
-				callback:  function (e) {
-					$modal.hide();
-				}
-			}]
-		});
+(function($, il) {
+
+	il.Group.UserActions = (function ($, il) {
+		var public_interface;
+
+		// public interface
+		public_interface = {
+			selectTargetObject: function($type, $child) {
+				console.log($type);
+				console.log($child);
+			}
+		};
+
+		return public_interface;
+	})($, il);
+
+
+	// on ready initialisation
+	$(function () {
 
 		function initEvents(id) {
 			console.log(id);
 
 			$("#" + id).find("[data-grp-action-add-to='1']").each(function () {
 				$(this).on("click", function(e) {
+					var url;
+
 					e.preventDefault();
+					url = $(this).data("url");
 
-					il.Util.sendAjaxGetRequestToUrl($(this).data("url"), [], [], function (r) {
-						console.log(r);
+					if ($('#il_grp_action_modal_content').length) {
+						url = url + "&modal_exists=1";
+					}
+
+					il.Util.sendAjaxGetRequestToUrl(url, [], [], function (r) {
+						var modal_content = $('#il_grp_action_modal_content');
 						console.log(r.responseText);
-						$("body").append(r.responseText);
-						//$(document).append( "<p>Test</p>" );
-						//$(document).append($(r.responseText));
+						if (modal_content.length) {
+							modal_content.html(r.responseText);
+							modal_content.closest('.il-modal-roundtrip').modal().show();
+						} else {
+							$("body").append(r.responseText);
+						}
 					});
-
-					// get url, add it to document, call the modal
-					console.log($(this).data("url"));
-
-					//$modal.show();
-
 				});
 			});
 		}
@@ -43,4 +53,6 @@
 			initEvents(id);
 		});
 	});
-}($));
+
+
+}($, il));

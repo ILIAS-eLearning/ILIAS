@@ -15985,3 +15985,10 @@ rbac#:#stys_sty_write_content#:#Content-Styles bearbeiten
 style#:#manage_system_styles#:#System Styles verwalten
 style#:#scope#:#Gültigkeitsbereich
 grp#:#grp_add_to_group#:#Zur Gruppe hinzufügen
+grp#:#grp_add_user_to_group#:#Benutzer zur Gruppe hinzufügen
+grp#:#grp_create_or_use_existing#:#Wollen Sie den Benutzer zu einer bestehenden Gruppe hinzufügen oder eine neue Gruppe anlegen?
+grp#:#grp_use_existing#:#Bestehende Gruppe nutzen
+grp#:#grp_create_new#:#Neue Gruppe anlegen
+grp#:#grp_sure_add_user_to_group#:#Wollen Sie den Benutzer wirklich der Gruppe hinzufügen?
+grp#:#grp_add_user#:#Benutzer hinzufügen
+grp#:#grp_user_been_added#:#Der Benutzer wurde der Gruppe hinzugefügt.

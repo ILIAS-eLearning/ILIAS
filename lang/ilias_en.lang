@@ -13540,3 +13540,10 @@ rbac#:#stys_sty_write_content#:#Edit Content Styles
 style#:#manage_system_styles#:#Manage System Styles
 style#:#scope#:#Scope
 grp#:#grp_add_to_group#:#Add to Group
+grp#:#grp_add_user_to_group#:#Add user to group
+grp#:#grp_create_or_use_existing#:#Do you want to add the user to an existing group or create a new group?
+grp#:#grp_use_existing#:#Use Existing Group
+grp#:#grp_create_new#:#Create New Group
+grp#:#grp_sure_add_user_to_group#:#Do you really want to add this user to the group?
+grp#:#grp_add_user#:#Add User
+grp#:#grp_user_been_added#:#The user has been added to the group.
