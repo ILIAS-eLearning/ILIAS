@@ -467,9 +467,17 @@ interface Factory {
 	/**
 	 * ---
 	 * description:
-	 *   purpose: Dropzones are used for drag and drop.
+	 *   purpose: >
+	 *     Dropzones are containers used to drop either files or other HTML elements.
 	 *   composition: >
-	 *     A dropzone is a drag and drop area on the page.
+	 *     A dropzone is a container on the page. Depending on the type of the dropzone,
+	 *     the container is visible by default or it gets highlighted once the user
+	 *     starts to drag the elements over the browser window.
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       Dropzones MUST be highlighted if the user is dragging compatible elements
+	 *       inside or over the browser window.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\Dropzone\Factory

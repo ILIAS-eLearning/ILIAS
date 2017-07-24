@@ -2,17 +2,17 @@
 
   // standard dropzone design
   &.standard {
-	padding: 20px 20px;
-	min-height: 150px;
+	min-height: @il-dropzone-min-height;
 	background: @il-dropzone-bg;
 	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
 	-moz-border-radius: @il-dropzone-border-raduis;
 	-webkit-border-radius: @il-dropzone-border-raduis;
-	border-radius: @il-dropzone-border-raduis;  }
-	&.standard .dz-message {
+	border-radius: @il-dropzone-border-raduis;
+	.dz-message {
 	  text-align: center;
-	  margin:     40px 0;  }
-
+	  line-height: @il-dropzone-min-height;
+	}
+  }
   // wrapper dropzone design
   &.wrapper {
 	padding: 1px  } // <- is needed to display a possible margin of the inner elements
