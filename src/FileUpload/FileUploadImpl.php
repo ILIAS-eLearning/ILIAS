@@ -92,6 +92,9 @@ final class FileUploadImpl implements FileUpload {
 		$tempResults = [];
 
 		foreach ($this->uploadResult as $key => $uploadResult) {
+			if ($uploadResult->getStatus()->getCode() == ProcessingStatus::REJECTED) {
+				continue;
+			}
 
 			try {
 				$path = $destination . '/' . $uploadResult->getName();
@@ -205,9 +208,13 @@ final class FileUploadImpl implements FileUpload {
 		 */
 		$uploadedFiles = $this->globalHttpState->request()->getUploadedFiles();
 		foreach ($uploadedFiles as $file) {
-
 			$metadata = new Metadata($file->getClientFilename(), $file->getSize(), $file->getClientMediaType());
-			$stream = Streams::ofPsr7Stream($file->getStream());
+			try {
+				$stream = Streams::ofPsr7Stream($file->getStream());
+			} catch (\RuntimeException $e) {
+				$this->rejectFailedUpload($metadata);
+				continue;
+			}
 			$this->uploadStreams[] = $stream;
 
 			if($file->getError() === UPLOAD_ERR_OK) {

@@ -18774,6 +18774,34 @@ if (! $ilDB->tableExists('il_bt_value_to_task')) {
 ?>
 <#5092>
 <?php
+if(!$ilDB->tableColumnExists('chatroom_settings','online_status'))
+{
+	$ilDB->addTableColumn('chatroom_settings', 'online_status', array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+
+$ilDB->manipulateF("UPDATE chatroom_settings SET online_status = %s", array('integer'), array(1));
+?>
+<#5093>
+<?php
+if(!$ilDB->tableColumnExists('chatroom_bans', 'actor_id'))
+{
+	$ilDB->addTableColumn('chatroom_bans', 'actor_id',
+		array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+?>
+<#5094>
+<?php
 if(!$ilDB->tableExists('saml_attribute_mapping'))
 {
 	$ilDB->createTable(
@@ -18799,11 +18827,11 @@ if(!$ilDB->tableExists('saml_attribute_mapping'))
 	);
 }
 ?>
-<#5093>
+<#5095>
 <?php
 $ilDB->addPrimaryKey('saml_attribute_mapping', array('idp_id', 'attribute'));
 ?>
-<#5094>
+<#5096>
 <?php
 if(!$ilDB->tableColumnExists('saml_attribute_mapping', 'idp_attribute'))
 {
@@ -18815,7 +18843,7 @@ if(!$ilDB->tableColumnExists('saml_attribute_mapping', 'idp_attribute'))
 	));
 }
 ?>
-<#5095>
+<#5097>
 <?php
 if(!$ilDB->tableColumnExists('saml_attribute_mapping', 'update_automatically'))
 {
@@ -18827,11 +18855,11 @@ if(!$ilDB->tableColumnExists('saml_attribute_mapping', 'update_automatically'))
 	));
 }
 ?>
-<#5096>
+<#5098>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-<#5097>
+<#5099>
 <?php
 if(!$ilDB->tableExists('saml_idp_settings'))
 {
@@ -18852,11 +18880,11 @@ if(!$ilDB->tableExists('saml_idp_settings'))
 	);
 }
 ?>
-<#5098>
+<#6000>
 <?php
 $ilDB->addPrimaryKey('saml_idp_settings', array('idp_id'));
 ?>
-<#5099>
+<#6001>
 <?php
 if(!$ilDB->tableColumnExists('saml_idp_settings', 'allow_local_auth'))
 {

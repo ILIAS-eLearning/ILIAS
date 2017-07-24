@@ -41,7 +41,7 @@ class SingleType implements Type, Ancestors {
 	/**
 	 * @inheritdoc
 	 */
-	function getAncestors() {
+	public function getAncestors() {
 		$class = $this->type;
 		$ancestors = [ new SingleType($class->getName()) ];
 

@@ -9,5 +9,5 @@ interface Ancestors {
 	 *
 	 * @return Type[]
 	 */
-	function getAncestors();
+	public function getAncestors();
 }

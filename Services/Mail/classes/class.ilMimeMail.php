@@ -230,9 +230,6 @@ class ilMimeMail
 	public function Body($body)
 	{
 		$this->body = $body;
-
-		$this->final_body     = '';
-		$this->final_body_alt = '';
 	}
 
 	/**
@@ -318,73 +315,92 @@ class ilMimeMail
 	 */
 	protected function build()
 	{
-		/**
-		 * @var $ilUser          ilObjUser
-		 * @var $ilSetting       ilSetting
-		 * @var $ilClientIniFile ilIniFile
-		 */
-		global $ilSetting, $ilClientIniFile;
+		global $DIC;
 
-		$this->images = array();
+		$this->final_body_alt = '';
+		$this->final_body     = '';
+		$this->images         = array();
 
-		if($ilSetting->get('mail_send_html', 0))
+		if($DIC->settings()->get('mail_send_html', 0))
 		{
-			$skin = $ilClientIniFile->readVariable('layout', 'skin');
+			$skin = $DIC['ilClientIniFile']->readVariable('layout', 'skin');
 
-			$bracket_path = './Services/Mail/templates/default/tpl.html_mail_template.html';
-			if($skin != 'default')
-			{
-				$tplpath = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
-
-				if(@file_exists($tplpath))
-				{
-					$bracket_path = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
-				}
-			}
-			$bracket = file_get_contents($bracket_path);
-
-			if(!$this->body)
-			{
-				$this->body  = ' ';
-			}
-
-			$this->final_body_alt = $this->body;
-
-			if(strip_tags($this->body, '<b><u><i><a>') == $this->body)
-			{
-				// Let's assume that there is no HTML, so convert "\n" to "<br>" 
-				$this->body = nl2br($this->body);
-			}
-			$this->final_body = str_replace('{PLACEHOLDER}', ilUtil::makeClickable($this->body), $bracket);
-
-			$directory = './Services/Mail/templates/default/img/';
-			if($skin != 'default')
-			{
-				$directory = './Customizing/global/skin/' . $skin . '/Services/Mail/img/';
-			}
-			$directory_handle  = @opendir($directory);
-			$files = array();
-			if($directory_handle)
-			{
-				while ($filename = @readdir($directory_handle))
-				{
-					$files[] = $filename;
-				}
-
-				$images = preg_grep('/\.jpg$/i', $files);
-				foreach($images as $image)
-				{
-					$this->images[] = array(
-						'path' => $directory . $image,
-						'cid'  => 'img/' . $image,
-						'name' => $image
-					);
-				}
-			}
+			$this->buildBody($skin);
+			$this->buildImages($skin);
 		}
 		else
 		{
 			$this->final_body = $this->body;
+		}
+	}
+
+	/**
+	 * @param string $skin
+	 */
+	protected function buildBody($skin)
+	{
+		if (0 == strlen($this->body))
+		{
+			$this->body = ' ';
+		}
+		$this->final_body_alt = $this->body;
+
+		if (strip_tags($this->body, '<b><u><i><a>') == $this->body)
+		{
+			// Let's assume that there is no HTML, so convert "\n" to "<br>"
+			$this->body = nl2br($this->body);
+		}
+
+		$this->final_body = str_replace('{PLACEHOLDER}', ilUtil::makeClickable($this->body), $this->getHtmlBracket($skin));
+	}
+
+	/**
+	 * @param string $skin
+	 * @return string
+	 */
+	protected function getHtmlBracket($skin)
+	{
+		$bracket_path = './Services/Mail/templates/default/tpl.html_mail_template.html';
+
+		if($skin != 'default')
+		{
+			$tplpath = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
+
+			if(file_exists($tplpath))
+			{
+				$bracket_path = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
+			}
+		}
+
+		return file_get_contents($bracket_path);
+	}
+
+	/**
+	 * @param string $skin
+	 */
+	protected function buildImages($skin)
+	{
+		$directory = './Services/Mail/templates/default/img';
+		if($skin != 'default')
+		{
+			$skinDirectory = './Customizing/global/skin/' . $skin . '/Services/Mail/img';
+			if(is_dir($skinDirectory) && is_readable($skinDirectory))
+			{
+				$directory = $skinDirectory;
+			}
+		}
+
+		foreach(new \RegexIterator(new \DirectoryIterator($directory), '/\.jpg$/i') as $file)
+		{
+			/**
+			 * @var $file SplFileInfo
+			 */
+
+			$this->images[] = array(
+				'path' => $file->getPathname(),
+				'cid'  => 'img/' . $file->getFilename(),
+				'name' => $file->getFilename()
+			);
 		}
 	}
 

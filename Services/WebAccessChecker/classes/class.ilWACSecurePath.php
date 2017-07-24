@@ -175,7 +175,7 @@ class ilWACSecurePath extends ActiveRecord {
 	 * @param string $in_sec_folder
 	 */
 	public function setInSecFolder( $in_sec_folder) {
-		assert(is_string($in_sec_folder));
+		// assert(is_string($in_sec_folder));
 		$this->in_sec_folder = $in_sec_folder;
 	}
 }

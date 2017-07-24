@@ -1137,7 +1137,7 @@ assessment#:#unlimited#:#unlimited
 assessment#:#unlock#:#Unlock
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#user_not_invited#:#You are not supposed to take this test.
-assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.
+assessment#:#user_wrong_clientip#:#You don't have the right IP address to access this test.
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s
 assessment#:#values#:#Values
 assessment#:#warning_question_not_complete#:#The question is not complete!
@@ -2191,9 +2191,10 @@ common#:#functions#:#Functions
 common#:#further_informations#:#Further Information
 common#:#gdf_add#:#Add Definition
 common#:#gdf_new#:#New Definition
-common#:#gender_f#:#Female
-common#:#gender_m#:#Male
-common#:#gender#:#Gender
+common#:#gender_f#:#Ms.
+common#:#gender_m#:#Mr.
+common#:#gender_n#:#No salutation desired
+common#:#gender#:#Salutation
 common#:#general_settings#:#General Settings
 common#:#generate#:#Generate
 common#:#glo_add#:#Add Glossary
@@ -3108,7 +3109,7 @@ common#:#repository_admin_desc#:#Set permissions for repository items, restore o
 common#:#repository_admin#:#Repository Trash and Permissions
 common#:#repository#:#Repository
 common#:#require_email#:#Require e-mail
-common#:#require_gender#:#Require gender
+common#:#require_gender#:#Require salutation
 common#:#require_hobby#:#Require hobby
 common#:#require_matriculation#:#Require matriculation number
 common#:#require_referral_comment#:#Require referral comment
@@ -3260,7 +3261,7 @@ common#:#shib_department#:#Attribute for department
 common#:#shib_email#:#Attribute for e-mail address
 common#:#shib_federation_name#:#Name of your Shibboleth federation
 common#:#shib_firstname#:#Attribute for first name
-common#:#shib_gender#:#Attribute for gender (must be ‘m’ or ‘f’)
+common#:#shib_gender#:#Attribute for salutation (must be ‘m’ or ‘f’)
 common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the
 common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the
 common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drop-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.
@@ -3435,7 +3436,6 @@ common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_statistics#:#Statistics
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
-common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test
 rbac#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!
 rbac#:#tst_write#:#User can edit content and settings of test
@@ -5490,10 +5490,10 @@ mail#:#mail_options_saved#:#Options saved
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_salutation_anonymous#:#Hello
 mail#:#mail_salutation_f#:#Hello
-mail#:#mail_salutation_female#:#Output for placeholder [MAIL_SALUTATION], if gender is female
-mail#:#mail_salutation_general#:#Output for placeholder [MAIL_SALUTATION], no gender specified
+mail#:#mail_salutation_female#:#Output for placeholder [MAIL_SALUTATION], if salutation is 'Ms.'
+mail#:#mail_salutation_general#:#Output for placeholder [MAIL_SALUTATION], if no salutation is desired or specified
 mail#:#mail_salutation_m#:#Hello
-mail#:#mail_salutation_male#:#Output for placeholder [MAIL_SALUTATION], if gender is male
+mail#:#mail_salutation_male#:#Output for placeholder [MAIL_SALUTATION], if salutation is 'Mr.'
 mail#:#mail_salutation_n#:#Hello
 mail#:#mail_saved#:#The message has been saved
 mail#:#mail_select_attachment#:#Please select an attachment for download.
@@ -8740,17 +8740,9 @@ chatroom#:#autogen_usernames_info#:#Pattern for auto generated user names that i
 chatroom#:#bans#:#Bans
 chatroom#:#permissions#:#Permissions
 chatroom#:#session#:#Session
-chatroom#:#fontcolor#:#Font Color
-chatroom#:#fontstyle#:#Font Style
-chatroom#:#fontsize#:#Font Size
-chatroom#:#italic#:#Italic
-chatroom#:#underlined#:#Underlined
 chatroom#:#select_custom_username#:#Select Custom Username
 chatroom#:#custom_username#:#Custom Username
 chatroom#:#enter#:#Enter Chat Room
-chatroom#:#fontfamily#:#Font Family
-chatroom#:#small#:#Small
-chatroom#:#large#:#Large
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
 chatroom#:#obj_chtr#:#Chat Room
@@ -9148,9 +9140,6 @@ chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitat
 chatroom#:#create_private_room_text#:#Private room name
 chatroom#:#invite_username#:#Username
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
-chatroom#:#layout#:#Layout
-chatroom#:#show_settings#:#Show Settings
-chatroom#:#hide_settings#:#Hide Settings
 chatroom#:#private_rooms_enabled#:#Allow Private Rooms
 chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.
 chatroom#:#no_further_users#:#No other users present
@@ -12465,8 +12454,8 @@ crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill
 crs#:#crs_waiting_list_autofill#:#With Auto-Fill
 crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations. This should not be used with the "Request Membership" registration procedure as autofill will bypass it.
 crs#:#crs_cancellation_end#:#Limit 'Unsubscribe from Course'
-crs#:#crs_period#:#Course Period
-crs#:#crs_course_period_not_valid#:#The course period is not valid.
+crs#:#crs_period#:#Period of Event
+crs#:#crs_course_period_not_valid#:#The period is not valid.
 crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.
 crs#:#crs_max_members_needed#:#A maximum number of members is needed for the waiting list feature.
 crs#:#crs_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
@@ -13477,6 +13466,12 @@ chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
 chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.
 chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your <a href="%s">'Personal Settings'</a>.
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
+chatroom#:#chtr_activation_online_info#:#Set the chat online to make it visible and available for partcipants. If not, only users with 'Edit Settings' permission will have access to it.
+chatroom#:#chtr_activation_limited_visibility_info#:#If checked, the title of the chat will be visible even outside of the given availability. The chat however can not be accessed.
+chatroom#:#chtr_server_status#:#Server Status
+chatroom#:#chtr_ban_actor_tbl_head#:#Akteur
+chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
+common#:#chtr_import#:#Import Chatroom
 usr#:#user_actions#:#User Actions
 usr#:#user_action#:#User Action
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
@@ -13535,7 +13530,7 @@ common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed 
 ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
 common#:#background_tasks#:#Background Tasks
 common#:#scheduled#:#Scheduled
-grp#:#grp_period#:#Group Period
+grp#:#grp_period#:#Period of Event
 grp#:#grp_period_info#:#Information about the start and end date of the event, which is supported by the group
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.
 exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.

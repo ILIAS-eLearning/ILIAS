@@ -32,22 +32,16 @@ abstract class ilChatroomGUIHandler
 	protected $ilLng;
 
 	/**
-	 * @var ilRbacSystem
-	 */
-	protected $rbacsystem;
-
-	/**
 	 * @param ilChatroomObjectGUI $gui
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
 	{
-		global $ilUser, $ilCtrl, $lng, $rbacsystem;
+		global $DIC;
 
 		$this->gui        = $gui;
-		$this->ilUser     = $ilUser;
-		$this->ilCtrl     = $ilCtrl;
-		$this->ilLng      = $lng;
-		$this->rbacsystem = $rbacsystem;
+		$this->ilUser     = $DIC->user();
+		$this->ilCtrl     = $DIC->ctrl();
+		$this->ilLng      = $DIC->language();
 	}
 
 	/**
@@ -133,7 +127,7 @@ abstract class ilChatroomGUIHandler
 	 */
 	public function hasPermission($permission)
 	{
-		return $this->rbacsystem->checkAccess($permission, $this->gui->ref_id);
+		return ilChatroom::checkUserPermissions($permission, $this->gui->ref_id);
 	}
 
 	/**
@@ -170,8 +164,8 @@ abstract class ilChatroomGUIHandler
 	{
 		if(!ilChatroom::checkUserPermissions($permission, $this->gui->ref_id))
 		{
-			$this->ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
-			$this->ilCtrl->redirectByClass("ilrepositorygui", "");
+			$this->ilCtrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
+			$this->ilCtrl->redirectByClass('ilrepositorygui', '');
 		}
 	}
 

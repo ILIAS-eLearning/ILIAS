@@ -42,4 +42,10 @@ class BackgroundTaskServices {
 	public function taskManager() {
 		return $this->container['bt.task_manager'];
 	}
+	/**
+	 * @return \ILIAS\BackgroundTasks\Dependencies\Injector
+	 */
+	public function injector() {
+		return $this->container['bt.injector'];
+	}
 }

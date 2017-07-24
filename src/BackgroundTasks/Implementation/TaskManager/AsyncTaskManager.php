@@ -8,6 +8,9 @@ use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionRe
 
 class AsyncTaskManager extends BasicTaskManager {
 
+	const CMD_START_WORKER = 'startBackgroundTaskWorker';
+
+
 	/**
 	 * This will add an Observer of the Task and start running the task.
 	 *
@@ -18,36 +21,40 @@ class AsyncTaskManager extends BasicTaskManager {
 	 *
 	 */
 	public function run(Bucket $bucket) {
-		global $DIC, $ilLog;
-		$persistence = $DIC->backgroundTasks()->persistence();
+		global $DIC;
 
 		$bucket->setState(State::SCHEDULED);
-		$persistence->saveBucketAndItsTasks($bucket);
+		$DIC->backgroundTasks()->persistence()->saveBucketAndItsTasks($bucket);
 
-		$ilLog->write("[BackgroundTasks] Trying to call webserver");
-		require_once("./Services/WebServices/SOAP/classes/class.ilSoapClient.php");
+		$DIC->logger()->root()->info("[BackgroundTasks] Trying to call webserver");
+
+		// Call SOAP-Server
 		$soap_client = new \ilSoapClient();
 		$soap_client->setResponseTimeout(0);
 		$soap_client->enableWSDL(true);
 		$soap_client->init();
-		$ilLog->write(var_export($soap_client->call('startBackgroundTaskWorker', array(
-			session_id() . '::' . $_COOKIE['ilClientId'],
-		)), true));
+		$session_id = session_id();
+		$ilClientId = $_COOKIE['ilClientId'];
+		$call = $soap_client->call(self::CMD_START_WORKER, array(
+			$session_id . '::' . $ilClientId,
+		));
+		$DIC->logger()->root()->info(var_export($call, true));
 	}
 
 
 	public function runAsync() {
-		global $DIC, $ilLog, $ilIliasIniFile;
+		global $DIC, $ilIliasIniFile;
 
 		$n_of_tasks = $ilIliasIniFile->readVariable("background_tasks", "number_of_concurrent_tasks");
 		$n_of_tasks = $n_of_tasks ? $n_of_tasks : 5;
 
-		$ilLog->write("[BackgroundTask] Starting background job.");
+		$DIC->logger()->root()->info("[BackgroundTask] Starting background job.");
 		$persistence = $DIC->backgroundTasks()->persistence();
-		//TODO search over all clients.
+
+		// TODO search over all clients.
 		$MAX_PARALLEL_JOBS = $n_of_tasks;
 		if (count($persistence->getBucketIdsByState(State::RUNNING)) >= $MAX_PARALLEL_JOBS) {
-			$ilLog->write("[BackgroundTask] Too many running jobs, worker going down.");
+			$DIC->logger()->root()->info("[BackgroundTask] Too many running jobs, worker going down.");
 
 			return;
 		}
@@ -71,12 +78,12 @@ class AsyncTaskManager extends BasicTaskManager {
 				$this->persistence->saveBucketAndItsTasks($bucket);
 			} catch (\Exception $e) {
 				$persistence->deleteBucket($bucket);
-				$ilLog->write("[BackgroundTasks] Exception while async computing: "
-				              . $e->getMessage());
+				$DIC->logger()->root()->info("[BackgroundTasks] Exception while async computing: "
+				                             . $e->getMessage());
 			}
 		}
 
-		$ilLog->write("[BackgroundTasks] One worker going down because there's nothing left to do.");
+		$DIC->logger()->root()->info("[BackgroundTasks] One worker going down because there's nothing left to do.");
 
 		return true;
 	}

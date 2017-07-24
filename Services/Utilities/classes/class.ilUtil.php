@@ -4128,20 +4128,22 @@ class ilUtil
 	 *
 	 * @return bool
 	 *
-	 * @deprecated in favour of the FileUplad service.
+	 * @deprecated in favour of the FileUpload service.
 	 *
 	 * @see \ILIAS\DI\Container::upload()
 	 */
-	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true,
-		$a_mode = "move_uploaded")
+	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded")
 	{
-
-		global $lng, $ilias, $DIC;
+		global $DIC;
 
 		$upload = $DIC->upload();
 
-		$targetFilesystem = 0;
+		$preProcessor = new \ILIAS\FileUpload\Processor\FilenameOverridePreProcessor($a_name ? $a_name : basename($a_target));
+		$upload->register($preProcessor);
+
 		switch(true) {
+			case strpos($a_target, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
+			case strpos($a_target, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
 			case strpos($a_target, CLIENT_WEB_DIR) === 0:
 				$targetFilesystem =  \ILIAS\FileUpload\Location::WEB;
 				break;
@@ -4159,20 +4161,30 @@ class ilUtil
 		$targetDir = LegacyPathHelper::createRelativePath($absTargetDir);
 
 		$upload->process();
-		$upload->moveFilesTo($targetDir, $targetFilesystem);
 
-		$uploadedFiles = $upload->getResults();
-		if(count($uploadedFiles) === 0 || $uploadedFiles[0]->getStatus() === ProcessingStatus::REJECTED) {
-			if ($a_raise_errors)
-			{
-				$ilias->raiseError($lng->txt("upload_error_file_not_found"), $ilias->error_obj->MESSAGE);
+		try {
+			if (!$upload->hasUploads()) {
+				throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
 			}
-			else
-			{
-				ilUtil::sendFailure($lng->txt("upload_error_file_not_found"), true);
+			/**
+			 * @var \ILIAS\FileUpload\DTO\UploadResult $UploadResult
+			 */
+			$UploadResult = $upload->getResults()[0];
+			$ProcessingStatus = $UploadResult->getStatus();
+			if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
+				throw new ilException($ProcessingStatus->getMessage());
 			}
+		} catch (ilException $e) {
+			if ($a_raise_errors) {
+				throw $e;
+			} else {
+				ilUtil::sendFailure($e->getMessage(), true);
+			}
+
 			return false;
 		}
+
+		$upload->moveFilesTo($targetDir, $targetFilesystem);
 
 		return true;
 	}

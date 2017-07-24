@@ -118,11 +118,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
 		include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
-		if(!ilChatroom::checkUserPermissions('read', $this->gui->ref_id))
-		{
-			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
-			$ilCtrl->redirectByClass("ilrepositorygui", "");
-		}
+		$this->redirectIfNoPermission('read');
 
 		$this->gui->switchToVisibleMode();
 
