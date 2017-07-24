@@ -161,6 +161,8 @@ il.Awareness = {
 				t.setSelectionRange(len, len);
 			}
 		});
+
+		$("#awareness-list").trigger("il.user.actions.updated", ["awareness-list"]);
 	},
 
 	fixHeight: function() {

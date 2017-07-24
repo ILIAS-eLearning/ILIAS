@@ -82,6 +82,11 @@ class ilAwarenessGUI
 		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setLoaderSrc('".ilUtil::getImagePath("loader.svg")."');");
 		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.init();");
 
+		// include user action js
+		include_once("./Services/User/Actions/classes/class.ilUserActionGUI.php");
+		$ua_gui = ilUserActionGUI::getInstance();
+		$ua_gui->addRequiredJsForContext("awrn", "toplist");
+
 		$tpl = new ilTemplate("tpl.awareness.html", true, true, "Services/Awareness");
 
 		include_once("./Services/Awareness/classes/class.ilAwarenessAct.php");

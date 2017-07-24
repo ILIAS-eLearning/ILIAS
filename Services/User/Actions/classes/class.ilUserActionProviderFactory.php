@@ -31,6 +31,10 @@ class ilUserActionProviderFactory
 		array (
 			"component" => "Services/User/Actions",
 			"class" => "ilChatUserActionProvider"
+		),
+		array (
+			"component" => "Modules/Group/UserActions",
+			"class" => "ilGroupUserActionProvider"
 		)
 
 	);
@@ -38,7 +42,7 @@ class ilUserActionProviderFactory
 	/**
 	 * Get all action providers
 	 *
-	 * @return array[ilUserActionProvider] all providers
+	 * @return ilUserActionProvider[] all providers
 	 */
 	static function getAllProviders()
 	{
