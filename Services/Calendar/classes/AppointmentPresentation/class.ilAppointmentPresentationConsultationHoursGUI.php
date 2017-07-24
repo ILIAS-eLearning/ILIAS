@@ -21,7 +21,6 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 		$a_app = $this->appointment;
 
 		$cat_id = $this->getCatId($a_app['event']->getEntryId());
-<<<<<<< HEAD
 		$cat_info = $this->getCatInfo($cat_id);
 		$context_id = $a_app['event']->getContextId();
 

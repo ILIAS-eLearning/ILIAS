@@ -524,8 +524,6 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 		{
 			$this->addObjectLinks($a_obj_id);
 		}
-<<<<<<< HEAD
-=======
 
 		// last edited
 		$this->addLastUpdate($a_app);
@@ -540,7 +538,6 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 		$this->addEventLocation($a_app);
 
 		// calendar info
->>>>>>> 8eff48e880fb333a3a53636d673b7e753ca6c04a
 		if ($cat_info != null)
 		{
 			$this->addCalendarInfo($cat_info);
