@@ -377,7 +377,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','dt',$this->appointment['dstart']);
 
 			$this->addAction($this->lng->txt("edit"),
-				$this->ctrl->getLinkTargetByClass(array('ilPersonalDesktopGUI', 'ilCalendarPresentationGUI', 'ilCalendarCategoryGUI', 'ilcalendarappointmentgui'), 'askEdit'));
+				$this->ctrl->getLinkTargetByClass(array('ilcalendarappointmentgui'), 'askEdit'));
 
 			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 //			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->getSeed()->get(IL_CAL_DATE));
@@ -385,7 +385,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','dt',$this->appointment['dstart']);
 
 			$this->addAction($this->lng->txt("delete"),
-				$this->ctrl->getLinkTargetByClass(array('ilPersonalDesktopGUI', 'ilCalendarPresentationGUI', 'ilCalendarCategoryGUI', 'ilcalendarappointmentgui'), 'askDelete'));
+				$this->ctrl->getLinkTargetByClass(array('ilcalendarappointmentgui'), 'askDelete'));
 		}
 
 	}

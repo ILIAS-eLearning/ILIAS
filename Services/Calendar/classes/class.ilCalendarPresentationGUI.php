@@ -67,6 +67,11 @@ class ilCalendarPresentationGUI
 	protected $repository_mode = false;
 
 	/**
+	 * @var string seed string yyyy-mm-dd
+	 */
+	protected $seed;
+
+	/**
 	 * Constructor
 	 *
 	 * @access public
@@ -294,6 +299,16 @@ class ilCalendarPresentationGUI
 		$view_control = $f->viewControl()->mode($actions, $aria_label)->withActive($lng->txt($a_active));
 
 		$toolbar->addComponent($view_control);
+
+		$toolbar->addSeparator();
+
+		$ctrl->setParameterByClass("ilcalendarappointmentgui", "seed", $this->seed->get(IL_CAL_DATE,''));
+		$ctrl->setParameterByClass("ilcalendarappointmentgui", "app_id", "");
+		$ctrl->setParameterByClass("ilcalendarappointmentgui", "dt", "");
+		$add_button = $f->button()->standard($lng->txt("cal_add_appointment"),
+			$ctrl->getLinkTargetByClass("ilcalendarappointmentgui", "add"));
+
+		$toolbar->addComponent($add_button);
 	}
 
 

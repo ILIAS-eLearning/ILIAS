@@ -109,6 +109,13 @@ class ilCalendarAgendaListGUI
 
 		switch ($next_class)
 		{
+			case "ilcalendarappointmentpresentationgui":
+				$this->ctrl->setReturn($this, "");
+				include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
+				$gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed, IL_CAL_DATE), $this->getCurrentApp());
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			default:
 				$this->ctrl->setReturn($this, "");
 				if (in_array($cmd, array("getHTML", "getModalForApp")))
@@ -117,6 +124,28 @@ class ilCalendarAgendaListGUI
 				}
 		}
 	}
+
+
+	/**
+	 * Get app for id
+	 *
+	 * @param
+	 * @return
+	 */
+	function getCurrentApp()
+	{
+		// @todo: this needs optimization
+		$events = $this->getEvents();
+		foreach ($events as $item)
+		{
+			if ($item["event"]->getEntryId() == (int) $_GET["app_id"])
+			{
+				return $item;
+			}
+		}
+		return null;
+	}
+
 
 	/**
 	 * Get output
@@ -174,11 +203,6 @@ class ilCalendarAgendaListGUI
 			//$modal = $this->ui_fac->modal()->roundtrip('test', $this->ui_fac->legacy("Hello World."));
 			$shy = $this->ui_fac->button()->shy($e["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal());
 			$modals[] = $modal;
-
-			/*$this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $e["event"]->getEntryId());
-			$shy = $this->ui_fac->button()->shy($e["event"]->getPresentationTitle(),
-				$this->ctrl->getLinkTargetByClass(array('ilcalendarinboxgui', 'ilcalendarappointmentgui'),'edit'));
-			$this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', "");*/
 
 			$li = $this->ui_fac->item()->standard($shy)
 				->withDescription("".$e["event"]->getDescription())

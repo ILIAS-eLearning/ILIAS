@@ -4768,7 +4768,6 @@ class ilUtil
 	public static function sendFailure($a_info = "",$a_keep = false)
 	{
 		global $tpl;
-
 		if(is_object($tpl))
 		{
 			$tpl->setMessage("failure", $a_info, $a_keep);
