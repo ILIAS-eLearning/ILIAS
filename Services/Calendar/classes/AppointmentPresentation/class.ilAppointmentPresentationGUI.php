@@ -369,7 +369,10 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 		{
 			$prop_value = implode("<br>", $buttons);
 		}
-		$this->addInfoProperty($this->lng->txt("obj_".ilObject::_lookupType($obj_id)), $prop_value);
+		if($prop_value != '')
+		{
+			$this->addInfoProperty($this->lng->txt("obj_".ilObject::_lookupType($obj_id)), $prop_value);
+		}
 	}
 
 	/**
@@ -460,7 +463,6 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 		{
 			$this->addObjectLinks($a_obj_id);
 		}
-
 		if ($cat_info != null)
 		{
 			$this->addCalendarInfo($cat_info);
