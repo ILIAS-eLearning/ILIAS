@@ -70,7 +70,7 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 			try{
 				$ru->deleteObjects($parent_ref_id, array($ref_id)) !== false;
 				$this->stats["deleted"]++;
-			}catch(Excpetion $e){
+			}catch(Exception $e){
 				$this->addWarning("orgu_already_deleted", $ou_id?$ou_id:$external_id, $action);
 			}
 			return;
