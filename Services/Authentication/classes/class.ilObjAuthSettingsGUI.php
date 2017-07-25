@@ -982,9 +982,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$this->tabs_gui->addTarget("apache_auth_settings", $this->ctrl->getLinkTarget($this,'apacheAuthSettings'),
 					"", "", "");
 
+			require_once 'Services/Saml/classes/class.ilSamlSettingsGUI.php';
 			$this->tabs_gui->addTarget(
 				'auth_saml',
-				$this->ctrl->getLinkTargetByClass('ilsamlsettingsgui', 'listIdps'),
+				$this->ctrl->getLinkTargetByClass('ilsamlsettingsgui', ilSamlSettingsGUI::DEFAULT_CMD),
 				'',
 				'',
 				''
