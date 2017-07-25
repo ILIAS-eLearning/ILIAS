@@ -45,4 +45,29 @@ class JavaScriptBindableTest extends PHPUnit_Framework_TestCase {
 			$this->assertTrue(true);
 		}
 	}
+
+	public function test_withAdditionalOnLoadCode() {
+		$m = $this->mock
+			->withOnLoadCode(function($id) {
+				return "Its me, $id!";
+			})
+			->withAdditionalOnLoadCode(function($id) {
+				return "And again, me: $id.";
+			});
+
+		$binder = $m->getOnLoadCode();
+		$this->assertInstanceOf(\Closure::class, $binder);
+		$this->assertEquals("Its me, Mario!\nAnd again, me: Mario.", $binder("Mario"));
+	}
+
+	public function test_withAdditionalOnLoadCode_no_previous() {
+		$m = $this->mock
+			->withAdditionalOnLoadCode(function($id) {
+				return "And again, me: $id.";
+			});
+
+		$binder = $m->getOnLoadCode();
+		$this->assertInstanceOf(\Closure::class, $binder);
+		$this->assertEquals("And again, me: Mario.", $binder("Mario"));
+	}
 }
