@@ -1450,7 +1450,10 @@ class ilChatroom
 
 		\usort($results, function ($a, $b)
 		{
-			return $b->timestamp - $a->timestamp;
+			$a_timestamp = strlen($a->timestamp) == 13 ? substr($a->timestamp, 0, -3) : $a->timestamp;
+			$b_timestamp = strlen($b->timestamp) == 13 ? substr($b->timestamp, 0, -3) : $b->timestamp;
+
+			return $b_timestamp - $a_timestamp;
 		});
 
 		return $results;
