@@ -16009,4 +16009,5 @@ auth#:#auth_saml_login_form_info#:#Falls aktiviert und es mindestens einen aktiv
 auth#:#auth_saml_idps#:#SAML IDP Liste
 auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#SAML-IDP konfigurieren: %s
+auth#:#saml_tab_head_idp#:#IDP
 auth#:#auth_saml_idp_settings#:#IDP Einstellungen

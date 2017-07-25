@@ -265,7 +265,6 @@ class ilSamlSettingsGUI
 					$this->ctrl->getLinkTarget($this, 'showSettings'),
 					array('showSettings', 'saveSettings'), get_class($this)
 				);
-
 				break;
 
 			case self::VIEW_MODE_SINGLE:

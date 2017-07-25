@@ -32,9 +32,9 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 		$this->setTitle($this->lng->txt('auth_saml_idps'));
 		$this->setRowTemplate('tpl.saml_idp_row.html','Services/Saml');
 
-		$this->addColumn($this->lng->txt('active'), '', '1%');
-		$this->addColumn($this->lng->txt('title'), '','80%');
-		$this->addColumn($this->lng->txt('actions'), '', '19%');
+		$this->addColumn($this->lng->txt('saml_tab_head_idp'), '','80%');
+		$this->addColumn($this->lng->txt('active'), '', '5%');
+		$this->addColumn($this->lng->txt('actions'), '', '15%');
 
 		$this->getItems();
 	}
