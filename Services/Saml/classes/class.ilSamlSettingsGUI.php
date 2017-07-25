@@ -12,6 +12,27 @@ class ilSamlSettingsGUI
 	const VIEW_MODE_GLOBAL = 1;
 	const VIEW_MODE_SINGLE = 2;
 
+	const DEFAULT_CMD = 'listIdps';
+
+	/**
+	 * @var array
+	 */
+	protected static $globalCommands = array(
+		'showAddIdpForm', self::DEFAULT_CMD, 'showSettings', 'saveSettings'
+	);
+
+	/**
+	 * @var array
+	 */
+	protected static $ignoredUserFields = array(
+		'mail_incoming_mail', 'preferences', 'hide_own_online_status',
+		'show_users_online', 'hits_per_page',
+		'roles', 'upload', 'password',
+		'username', 'language', 'skin_style',
+		'interests_general', 'interests_help_offered', 'interests_help_looking',
+		'bs_allow_to_contact_me', 'chat_osc_accept_msg'
+	);
+
 	/**
 	 * @var int
 	 */
@@ -89,6 +110,33 @@ class ilSamlSettingsGUI
 	}
 
 	/**
+	 * @param string $operation
+	 */
+	protected function ensureAccess($operation)
+	{
+		if(!$this->access->checkAccess($operation, '', $this->getRefId()))
+		{
+			$this->error_handler->raiseError($this->lng->txt('msg_no_perm_read'), $this->error_handler->WARNING);
+		}
+	}
+
+	/**
+	 *
+	 */
+	protected function ensureWriteAccess()
+	{
+		$this->ensureAccess('write');
+	}
+
+	/**
+	 *
+	 */
+	protected function ensureReadAccess()
+	{
+		$this->ensureAccess('read');
+	}
+
+	/**
 	 * @return int
 	 */
 	public function getRefId()
@@ -118,10 +166,7 @@ class ilSamlSettingsGUI
 	 */
 	public function executeCommand()
 	{
-		if(!$this->access->checkAccess('read', '', $this->getRefId()))
-		{
-			$this->error_handler->raiseError($this->lng->txt('msg_no_perm_read'), $this->error_handler->WARNING);
-		}
+		$this->ensureReadAccess();
 
 		switch($this->ctrl->getNextClass())
 		{
@@ -129,7 +174,7 @@ class ilSamlSettingsGUI
 				$cmd = $this->ctrl->getCmd();
 				if(!strlen($cmd) || !method_exists($this, $cmd))
 				{
-					$cmd = 'listIdps';
+					$cmd = self::DEFAULT_CMD;
 				}
 
 				if(isset($_REQUEST['saml_idp_id']))
@@ -137,18 +182,18 @@ class ilSamlSettingsGUI
 					$this->ctrl->saveParameter($this, 'saml_idp_id');
 				}
 
-				if(!in_array(strtolower($cmd), array_map('strtolower', array('listIdps', 'showSettings', 'saveSettings'))))
+				if(!in_array(strtolower($cmd), array_map('strtolower', self::$globalCommands)))
 				{
 					if(!isset($_REQUEST['saml_idp_id']))
 					{
-						$this->ctrl->redirect($this, 'listIdps');
+						$this->ctrl->redirect($this, self::DEFAULT_CMD);
 					}
 
 					$this->initIdp();
 					$this->initUserAttributeMapping();
 				}
-				
-				if(in_array(strtolower($cmd), array_map('strtolower', array('listIdps', 'showSettings', 'saveSettings', 'deactivateIdp', 'activateIdp'))))
+
+				if(in_array(strtolower($cmd), array_map('strtolower', (self::$globalCommands + array('deactivateIdp', 'activateIdp')))))
 				{
 					$this->setSubTabs(self::VIEW_MODE_GLOBAL);
 				}
@@ -168,7 +213,7 @@ class ilSamlSettingsGUI
 	protected function listIdps()
 	{
 		require_once 'Services/Saml/classes/class.ilSamlIdpTableGUI.php';
-		$table = new ilSamlIdpTableGUI($this, 'listIdps');
+		$table = new ilSamlIdpTableGUI($this, self::DEFAULT_CMD);
 		$this->tpl->setContent($table->getHTML());
 		return;
 	}
@@ -178,10 +223,7 @@ class ilSamlSettingsGUI
 	 */
 	protected function deactivateIdp()
 	{
-		if(!$this->access->checkAccess('write', '', $this->getRefId()))
-		{
-			$this->error_handler->raiseError($this->lng->txt('msg_no_perm_read'), $this->error_handler->WARNING);
-		}
+		$this->ensureWriteAccess();
 
 		$this->idp->setActive(0);
 		$this->idp->persist();
@@ -195,10 +237,7 @@ class ilSamlSettingsGUI
 	 */
 	protected function activateIdp()
 	{
-		if(!$this->access->checkAccess('write', '', $this->getRefId()))
-		{
-			$this->error_handler->raiseError($this->lng->txt('msg_no_perm_read'), $this->error_handler->WARNING);
-		}
+		$this->ensureWriteAccess();
 
 		$this->idp->setActive(1);
 		$this->idp->persist();
@@ -217,8 +256,8 @@ class ilSamlSettingsGUI
 			case self::VIEW_MODE_GLOBAL:
 				$this->tabs->addSubTabTarget(
 					'auth_saml_idps',
-					$this->ctrl->getLinkTarget($this, 'listIdps'),
-					array('listIdps', 'activateIdp', 'deactivateIdp'), get_class($this)
+					$this->ctrl->getLinkTarget($this, self::DEFAULT_CMD),
+					array(self::DEFAULT_CMD, 'activateIdp', 'deactivateIdp'), get_class($this)
 				);
 
 				$this->tabs->addSubTabTarget(
@@ -231,7 +270,7 @@ class ilSamlSettingsGUI
 
 			case self::VIEW_MODE_SINGLE:
 				$this->tabs->clearTargets();
-				$this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'listIdps'));
+				$this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, self::DEFAULT_CMD));
 
 				$this->tabs->addSubTabTarget(
 					'auth_saml_idp_settings',
@@ -272,14 +311,7 @@ class ilSamlSettingsGUI
 		$usr_profile = new ilUserProfile();
 		foreach($usr_profile->getStandardFields() as $id => $definition)
 		{
-			if(in_array($id, array(
-				'mail_incoming_mail', 'preferences', 'hide_own_online_status',
-				'show_users_online', 'hits_per_page',
-				'roles', 'upload', 'password',
-				'username', 'language', 'skin_style',
-				'interests_general', 'interests_help_offered', 'interests_help_looking',
-				'bs_allow_to_contact_me', 'chat_osc_accept_msg'
-			)))
+			if(in_array($id, self::$ignoredUserFields))
 			{
 				continue;
 			}
@@ -338,10 +370,7 @@ class ilSamlSettingsGUI
 	 */
 	protected function saveUserAttributeMapping()
 	{
-		if(!$this->access->checkAccess('write', '', $this->getRefId()))
-		{
-			$this->error_handler->raiseError($this->lng->txt('msg_no_perm_read'), $this->error_handler->WARNING);
-		}
+		$this->ensureWriteAccess();
 
 		$form = $this->getUserAttributeMappingForm();
 		if($form->checkInput())
@@ -352,14 +381,7 @@ class ilSamlSettingsGUI
 			$usr_profile = new ilUserProfile();
 			foreach($usr_profile->getStandardFields() as $id => $definition)
 			{
-				if(in_array($id, array(
-					'mail_incoming_mail', 'preferences', 'hide_own_online_status',
-					'show_users_online', 'hits_per_page',
-					'roles', 'upload', 'password',
-					'username', 'language', 'skin_style',
-					'interests_general', 'interests_help_offered', 'interests_help_looking',
-					'bs_allow_to_contact_me', 'chat_osc_accept_msg'
-				)))
+				if(in_array($id, self::$ignoredUserFields))
 				{
 					continue;
 				}
@@ -482,10 +504,7 @@ class ilSamlSettingsGUI
 	 */
 	protected function saveSettings()
 	{
-		if(!$this->access->checkAccess('write', '', $this->getRefId()))
-		{
-			$this->error_handler->raiseError($this->lng->txt('msg_no_perm_read'), $this->error_handler->WARNING);
-		}
+		$this->ensureWriteAccess();
 
 		$form = $this->getSettingsForm();
 		if($form->checkInput())
@@ -570,7 +589,7 @@ class ilSamlSettingsGUI
 		{
 			$form->addCommandButton('saveIdpSettings', $this->lng->txt('save'));
 		}
-		$form->addCommandButton('listIdps', $this->lng->txt('cancel'));
+		$form->addCommandButton(self::DEFAULT_CMD, $this->lng->txt('cancel'));
 
 		return $form;
 	}
@@ -593,10 +612,7 @@ class ilSamlSettingsGUI
 	
 	protected function saveIdpSettings()
 	{
-		if(!$this->access->checkAccess('write', '', $this->getRefId()))
-		{
-			$this->error_handler->raiseError($this->lng->txt('msg_no_perm_read'), $this->error_handler->WARNING);
-		}
+		$this->ensureWriteAccess();
 
 		$form = $this->getIdpSettingsForm();
 		if($form->checkInput())
