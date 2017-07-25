@@ -13568,3 +13568,4 @@ dateplaner#:#cal_show_weeks#:#Show Weeks
 dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block. Users can deactivate the column in their settings.
 dateplaner#:#cal_usr_show_weeks#:#Show Week Column
 dateplaner#:#cal_usr_show_weeks_info#:#Activates weeks column in calendar side block.
+dateplaner#:#cal_repo_obj#:#Repository Objects

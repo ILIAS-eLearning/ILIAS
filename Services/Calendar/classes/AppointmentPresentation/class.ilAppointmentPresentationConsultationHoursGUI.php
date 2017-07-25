@@ -27,11 +27,14 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 		// TODO: Discuss this order info, using the common section.
 		$this->addCommonSection($a_app, $cat_info['obj_id']);
 
-		$this->addInfoProperty($this->lng->txt("cal_ch_manager"), ilConsultationHourAppointments::getManager(true));
-
 		//objects
 		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 		$booking = new ilBookingEntry($context_id);
+
+		$this->addInfoProperty(
+				$this->lng->txt("cal_ch_manager"),
+				ilConsultationHourAppointments::getManager(true, true, $booking->getObjId())
+			);
 
 		$buttons = array();
 		foreach($booking->getTargetObjIds() as $obj_id)
@@ -56,7 +59,27 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 		}
 		if(count($buttons) > 0)
 		{
-			$this->addInfoProperty("Objects",implode("<br>",$buttons));
+			$this->addInfoProperty($this->lng->txt("cal_repo_obj"),implode("<br>",$buttons));
 		}
+
+		if($deadline = $booking->getDeadlineHours())
+		{
+			$limit = $a_app['dstart'] - ($deadline * 60 * 60);
+
+			if( time() > $limit)
+			{
+				$this->addInfoProperty($this->lng->txt("cal_ch_deadline"),$this->lng->txt("exc_time_over_short"));
+			}
+			else
+			{
+				//appointment starts at -> $a_app['dstart']
+				//limit registration  -> $a_app['dstart'] - $deadline
+
+				$string = ilUtil::period2String(new ilDateTime($limit, IL_CAL_UNIX));
+
+				$this->addInfoProperty($this->lng->txt("cal_ch_deadline"),$string);
+			}
+		}
+
 	}
 }

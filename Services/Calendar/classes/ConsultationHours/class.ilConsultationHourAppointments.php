@@ -122,20 +122,35 @@ class ilConsultationHourAppointments
 	}
 
 	/**
-	 * Get consultation hour manager for current user
-	 * @param	string	$a_as_name
+	 * Get consultation hour manager for current user or specific user.
+	 * @param	bool	$a_as_name
+	 * @param	bool $a_full_name
+	 * @param	int $a_user_id
 	 * @return	int | string
 	 */
-	public static function getManager($a_as_name = false)
+	public static function getManager($a_as_name = false, $a_full_name = false, $a_user_id = null)
 	{
 		global $ilDB, $ilUser;
+
+		if(!$a_user_id)
+		{
+			$user_id = $ilUser->getId();
+		}
+		else
+		{
+			$user_id = $a_user_id;
+		}
 		
 		$set = $ilDB->query('SELECT admin_id FROM cal_ch_settings'.
-			' WHERE user_id = '.$ilDB->quote($ilUser->getId(), 'integer'));
+			' WHERE user_id = '.$ilDB->quote($user_id, 'integer'));
 		$row = $ilDB->fetchAssoc($set);
 		if($row && $row['admin_id'])
 		{
-			if($a_as_name)
+			if($a_as_name && $a_full_name)
+			{
+				return ilObjUser::_lookupFullname($row['admin_id']);
+			}
+			else if($a_as_name)
 			{
 				return ilObjUser::_lookupLogin($row['admin_id']);
 			}
