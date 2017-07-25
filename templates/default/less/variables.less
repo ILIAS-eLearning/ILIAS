@@ -59,8 +59,6 @@
 @btn-danger-color: white;
 @input-bg: white;
 
-@dropdown-bg: white;
-
 @navbar-inverse-link-hover-color: white;
 @navbar-inverse-brand-hover-color: white;
 @navbar-inverse-toggle-icon-bar-bg: white;
@@ -148,21 +146,67 @@
 @border-radius-large:       0px;
 @border-radius-small:       0px;
 
-
 //== Header
-
-//** controls height of the "topbar" (that gray thingy on top of the page in the standard).
+//
+//## Variables to control the header (Top Navigation and Main menu) section of ILIAS.
+//** controls background color of the "topbar" (that gray thingy on top of the page in the standard).
+@il-top-bar-bg:		@mid-gray;
+//** controls text color of the "topbar" (the title of the ILIAS Installation)
+@il-top-bar-color:		    white;
+//** controls height of the "topbar"
 @il-top-bar-height:			40px;
-//** controls the height of the "main header" (that white thingy with the logo and the main menu in it).
-@il-main-header-height:		80px;
-//** controls the height of the border underneath the main header.
-@il-header-border-bottom-height: 3px;
-//** that is the height of the complete header, that is that thingy upon the real content of the page.
-@il-header-height:			ceil((@il-main-header-height + @il-top-bar-height - @il-header-border-bottom-height));
+//** controls colors and bg colors of the "topbar" buttons
+@il-top-bar-link-bg:	lighten(@mid-gray, 20%);
+@il-top-bar-link-color:	lighten(@mid-gray, 70%);
+@il-top-bar-link-hover-bg:	lighten(@mid-gray, 42%);
+@il-top-bar-link-hover-color:	white;
+//** controls colors and bg colors of the "topbar" dropdowns
+@il-top-bar-dropdown-bg:	lighten(@mid-gray, 42%);
+@il-top-bar-dropdown-color:	lighten(@mid-gray, 70%);
+@il-top-bar-dropdown-link-bg:	transparent;
+@il-top-bar-dropdown-link-color:	lighten(@mid-gray, 70%);
+@il-top-bar-dropdown-link-hover-bg:	lighten(@brand-primary, 53%);
+@il-top-bar-dropdown-link-hover-color:	lighten(@mid-gray, 42%);
 //** controls the height of the "logo" (that [ILIAS] thingy on top the page in the standard).
 @il-logo-height:			50px;
 //** controls the width of the "logo" (that [ILIAS] thingy on top the page in the standard).
 @il-logo-width:				50px;
+//** controls the height of the "main header" (that white thingy with the logo and the main menu in it).
+@il-main-header-height:		30px + @il-logo-height;
+//** controls the height of the border underneath the main header.
+@il-header-border-bottom-height: 3px;
+//** that is the height of the complete header, that is that thingy upon the real content of the page.
+@il-header-height:			ceil((@il-main-header-height + @il-top-bar-height - @il-header-border-bottom-height));
+//** controls the bg color of the main header.
+@il-main-header-bg: white;
+//** controls the position of the top of the main menu.
+@il-main-menu-top:		    -38px;
+//** controls the position of the left side of the main menu.
+@il-main-menu-left:		    15px + @il-logo-width;
+@il-main-menu-margin: @il-main-menu-top 0 0 @il-main-menu-left;
+//** controls colors of the main menu.
+@il-main-menu-bg: @il-main-header-bg;
+@il-main-menu-link-color: #808080;
+@il-main-menu-link-hover-color: #808080;
+@il-main-menu-link-active-color: #808080;
+@il-main-menu-link-bg: transparent;
+@il-main-menu-link-hover-bg: transparent;
+@il-main-menu-link-active-bg: #fafafa;
+@il-main-menu-dropdown-bg: #fafafa;
+@il-main-menu-dropdown-link-color: lighten(@mid-gray, 10%);
+@il-main-menu-dropdown-link-hover-color: darken(@gray-dark, 5%);
+@il-main-menu-dropdown-link-bg: transparent;
+@il-main-menu-dropdown-link-hover-bg: lighten(@brand-primary, 53%);
+@il-main-menu-dropdown-header-bg: #f3f3f3;
+
+//== Footer
+//
+//## Variables to control the footer section of ILIAS.
+
+//** controls background color of the footer.
+@il-footer-bg-color: @brand-primary;
+//** controls the color of the text in the footer.
+@il-footer-color: white;
 
 //== Navs
 //
@@ -280,10 +324,6 @@
 @ilFormColor:            	#808080;
 @ilFormBgColor:            	#fdfdfd;
 
-/* ILIAS variables candidates */
-@ilMainMenuColor:			lighten(@brand-primary, 10%);
-
-
 @input-color-placeholder: lighten(@gray-light, 30%);
 
 //== Panels
@@ -311,8 +351,12 @@
 //== DropDowns
 //
 //##
-@dropdown-link-hover-bg: #f2f2f2;
-@dropdown-link-hover-bg: lighten(@brand-primary, 53%);;
+@dropdown-bg: white;
+@dropdown-link-color: lighten(@mid-gray, 10%);
+@dropdown-link-hover-color: darken(@gray-dark, 5%);
+@dropdown-link-bg: transparent;
+@dropdown-link-hover-bg: lighten(@brand-primary, 53%);
+@dropdown-header-bg: #f3f3f3;
 
 //** determines display of icons in dropdowns, 'none' for no display and 'inline' for display
 @il-nav-icons:             inline;

@@ -1,68 +1,79 @@
-/* Services/MainMenu */
-.ilTopHeader {
-	position: fixed;
-	left: 0;
-	right: 0;
-	z-index: @zindex-navbar-fixed;   /* see bootstrap fixed top navbar */
-	top: 0;
-	background-color: lighten(@ilMainMenuColor, 40%);
-	//#gradient > .vertical(lighten(@ilMainMenuColor, 40%), lighten(@ilMainMenuColor, 35%), 0%, 100%);
-	.reset-filter();
-	//max-width:1200px;
-	margin-left: auto;
-	margin-right: auto;
-	/*border-bottom: 3px solid @ilMainMenuColor;*/
-}
-
-.ilBranding {
-	height: 56px;
-	padding: 3px 0;
-}
-
 // Default navbar
 #ilTopNav {
-	margin: -38px 0 0 65px;
+	margin: @il-main-menu-margin;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		min-height: 0;
+		display: block;
+		padding: 0;
+		margin: 0;
+	}
 	&.navbar {
 		padding-top: 1px;
 		padding-bottom: 1px;
 		min-height: 33px;
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			min-height: 0;
+			padding-top: 0;
+		}
 		> .navbar-collapse {
 			margin: 0;
 			padding: 0 0 0 5px;
 		}
 	}
 	&.navbar-default {
-		background-color: transparent;//@body-bg;//lighten(@ilMainMenuColor, 30%);
-		//#gradient > .vertical(lighten(@ilMainMenuColor, 30%), lighten(@ilMainMenuColor, 27%), 0%, 100%);
+		background-color: transparent;
 		.reset-filter();
 		border: 0 none;
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			background-color: @il-secondary-container-bg;
+		}
 	}
 	.dropdown-menu {
 		float: left;
 		right: auto;
 		left: 0;
 		min-width: 100%;
-	}
-	.navbar-text {
-		color: @ilMainMenuColor;
+		background-color: @il-main-menu-dropdown-bg;
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			float: none;
+			left: auto;
+			right: auto;
+		}
 	}
 	.navbar-nav {
 		float: left;
 		margin-left: 5px;
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			float: none;
+			margin-left: 0;
+		}
 		> li {
 			margin: 0 0 0 10px;
 				> a {
 				margin: 0;
 				padding: 5px 10px 6px;
+				text-transform: uppercase;
+				font-size: 14px;
 				border-top: 4px solid white;
-				color: #808080;
+				background-color: @il-main-menu-link-bg;
+				color: @il-main-menu-link-color;
+				@media only screen and (max-width: @grid-float-breakpoint-max) {
+					margin: 0 10px 0 0;
+					padding: 5px 10px 6px;
+					border-top: 0;
+					color: lighten(@mid-gray, 10%);//darken(@ilMainMenuColor, 30%);
+				}
 				&:hover,
 				&:active,
 				&:focus {
+					background-color: @il-main-menu-link-hover-bg;
+					color: @il-main-menu-link-hover-color;
 					//outline: 0;
 					//border-top: 4px solid @brand-primary;
-					//background-color: white;
 					//box-shadow: 3px 9px 9px 0px rgba(0,0,0,0.176);
+					@media only screen and (max-width: @grid-float-breakpoint-max) {
+
+					}
 				}
 			}
 		}
@@ -75,14 +86,44 @@
 				//background-color: lighten(@ilMainMenuColor, 42%);
 				outline: 0 none;
 				border-top: 4px solid @brand-primary;
-				background-color: #fafafa;
+				background-color: @il-main-menu-link-active-bg;
+				color: @il-main-menu-link-active-color;
                 .box-shadow(3px 9px 9px 0px rgba(0,0,0,0.176));
+				@media only screen and (max-width: @grid-float-breakpoint-max) {
+					border-top: 0 none;
+					background-color: inherit;
+					.box-shadow(none);
+				}
 			}
 		}
 	}
-	a.dropdown-toggle {
-		text-transform: uppercase;
-		font-size: 14px;
+	button.navbar-toggle {
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			position: fixed;
+			top: 0;
+			left: 40px;
+			height: 40px;
+			border-radius: 0;
+			border-width: 0;
+			background-color: @il-top-bar-link-bg;
+			color: @il-top-bar-link-color;
+			margin: 0;
+		}
+		.icon-bar {
+			@media only screen and (max-width: @grid-float-breakpoint-max) {
+				background-color: @il-top-bar-link-color;
+			}
+		}
+		&:hover {
+			@media only screen and (max-width: @grid-float-breakpoint-max) {
+				background-color: @il-top-bar-link-hover-bg;
+			}
+			.icon-bar {
+				@media only screen and (max-width: @grid-float-breakpoint-max) {
+					background-color: @il-top-bar-link-hover-color;
+				}
+			}
+		}
 	}
 }
 
@@ -98,6 +139,9 @@
 		float: right;
 		margin-left: 0;
 		margin-right: 70px;
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			margin-right: 0;
+		}
 		> li {
 		margin: 0 10px 0 0;
 		}
@@ -105,22 +149,34 @@
 	&.navbar > .navbar-collapse {
 		padding: 0 5px 0 0;
 	}
+	button.navbar-toggle {
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			left: auto;
+			right: 40px;
+		}
+	}
 }
 /* Main Menu Top Title */
 .ilTopTitle {
-	/* color: darken(@ilMainMenuColor, 20%);*/
 	float: left;
 	font-weight: 600;
 	padding: 0 0 0 15px;
 	white-space: nowrap;
 	line-height: 40px;
-	/*letter-spacing: 0.05em;*/
-	/*word-spacing: -0.1em;*/
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		display: none;
+	}
 }
 
 [dir="rtl"] .ilTopTitle {
 	float: right;
 	padding: 0 15px 0 0;
+}
+
+.ilTopTitleVisible {
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		display: block;
+	}
 }
 
 input.ilOpenIDBox {
@@ -139,6 +195,9 @@ input.ilOpenIDBox {
 	height: 40px;
 	top: 0;
 	z-index: 1040;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		z-index: 1030;
+	}
 }
 
 .ilTopFixed {
@@ -156,17 +215,22 @@ input.ilOpenIDBox {
 	padding: 0;
 	margin-right: 14px;
 	list-style: none outside none;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		margin-right: 0;
+	}
 	.dropdown-menu {
-		background-color: lighten(@mid-gray, 42%);
+		background-color: @il-top-bar-dropdown-bg;
 		border-radius: 0;
 		margin: 0;
-		color: lighten(@mid-gray, 70%);
+		color: @il-top-bar-dropdown-color;
 		a {
-			color: lighten(@mid-gray, 70%);
+			background-color: @il-top-bar-dropdown-link-bg;
+			color: @il-top-bar-dropdown-link-color;
 			&:hover,
 			&:active,
 			&:focus {
-				color: lighten(@mid-gray, 42%);
+				background-color: @il-top-bar-dropdown-link-hover-bg;
+				color:  @il-top-bar-dropdown-link-hover-color;
 			}
 		}
 	}
@@ -174,24 +238,24 @@ input.ilOpenIDBox {
 		float: left;
 		display: block;
 		position: relative;
-	}
-	> li > a {
-		margin-right: 1px;
-		display: block;
-		padding: 10px;
-		position: relative;
-		min-width: 40px;
-		height: 40px;
-		text-align: center;
-		background-color: lighten(@mid-gray, 20%);
-		color: lighten(@mid-gray, 70%);
-		&:hover,
-		&:active,
-		&:focus {
-			outline: 0 none;
-			color: white;
-			text-decoration: none;
-			background-color: lighten(@mid-gray, 42%);
+		> a {
+			margin-right: 1px;
+			display: block;
+			padding: 10px;
+			position: relative;
+			min-width: 40px;
+			height: 40px;
+			text-align: center;
+			background-color: @il-top-bar-link-bg;
+			color: @il-top-bar-link-color;
+			&:hover,
+			&:active,
+			&:focus {
+				outline: 0 none;
+				color: @il-top-bar-link-hover-color;
+				text-decoration: none;
+				background-color: @il-top-bar-link-hover-bg;
+			}
 		}
 	}
 	> .active > a,
@@ -201,9 +265,9 @@ input.ilOpenIDBox {
 		&:active,
 		&:focus {
 			outline: 0 none;
-			color: white;
+			color: @il-top-bar-link-hover-color;
 			text-decoration: none;
-			background-color: lighten(@mid-gray, 42%);
+			background-color: @il-top-bar-link-hover-bg;
 		}
 	}
 	#userlog {
@@ -256,47 +320,65 @@ input.ilOpenIDBox {
 }
 
 .ilMainHeader {
-	background-color: white;
+	background-color: @il-main-header-bg;
 	height: @il-main-header-height;
 	border-bottom: @il-header-border-bottom-height solid @body-bg;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		height: auto;
+	}
 	&.ilTopFixed {
 		top: @il-top-bar-height;
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			height: 0;
+		}
 	}
 	> header > .row > a.navbar-brand {
 		height: auto;//@il-logo-height;
 		display: inline-block;
 		padding: 0;
 		margin: 15px 15px 0;
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			height: 0;
+			padding: 0;
+		}
 		> img {
             display: inline-block;
 			height: @il-logo-height;
 			width: @il-logo-width;
+			@media only screen and (max-width: @grid-float-breakpoint-max) {
+				position: fixed;
+				top: 0;
+				left: 0;
+				height: 40px;
+				width: 40px;
+			}
+		}
+	}
+}
+
+[dir="rtl"] .ilMainHeader {
+	> header > .row > a.navbar-brand {
+		> img {
+			@media only screen and (max-width: @grid-float-breakpoint-max) {
+				left: auto;
+				right: 0;
+			}
 		}
 	}
 }
 
 .ilMainMenu {
-	background-color: white;//@body-bg;
+	background-color: @il-main-menu-bg;//@body-bg;
 	&.ilTopFixed {
 		// This 7px seems arbitrary, no obvious choice for variable.
 		// This is just to get the current 110px in the standard.
 		top: floor((@il-header-height - 7px));
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			position: fixed;
+			top: 40px;
+			border-bottom: 0 none;
+		}
 	}
-}
-					
-.dropdown-menu {
-	font-weight: normal;
-	border: 0 none;
-    .box-shadow(3px 9px 9px 0 rgba(0,0,0,0.3));
-	li > a {
-		padding: 3px 10px;
-		color: lighten(@mid-gray, 10%);
-		font-size: @il-font-size-dropdown;
-	}
-}
-
-.dropdown-header {
-	padding: 3px 10px;
 }
 
 .ilMainMenuEntries {
@@ -309,11 +391,27 @@ div.ilMemberViewMainHeader {
 }
 
 div.ilTopMemberView {
-	text-align: center;	
+	text-align: center;
+	h3 {
+		padding: 0;
+		margin: 0;
+		line-height: 40px;	
+	}
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		display: none;
+	}
 }
 
-div.ilTopMemberView h3 {
-	padding: 0;
-	margin: 0;
-	line-height: 40px;	
+.ilFixedTopSpacer {
+	padding-top: @il-header-height;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		margin-top: 40px;
+	}
+}
+
+.ilFixedTopSpacerBarOnly {
+	padding-top: @il-top-bar-height;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		margin-top: 40px;
+	}
 }
