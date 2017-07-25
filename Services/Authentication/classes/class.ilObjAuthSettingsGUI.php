@@ -984,7 +984,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 			$this->tabs_gui->addTarget(
 				'auth_saml',
-				$this->ctrl->getLinkTargetByClass('ilsamlsettingsgui', 'showSettings'),
+				$this->ctrl->getLinkTargetByClass('ilsamlsettingsgui', 'listIdps'),
 				'',
 				'',
 				''

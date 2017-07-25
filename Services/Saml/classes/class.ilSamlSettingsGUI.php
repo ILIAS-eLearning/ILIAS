@@ -129,7 +129,7 @@ class ilSamlSettingsGUI
 				$cmd = $this->ctrl->getCmd();
 				if(!strlen($cmd) || !method_exists($this, $cmd))
 				{
-					$cmd = 'showSettings';
+					$cmd = 'listIdps';
 				}
 
 				if(isset($_REQUEST['saml_idp_id']))
@@ -169,7 +169,8 @@ class ilSamlSettingsGUI
 	{
 		require_once 'Services/Saml/classes/class.ilSamlIdpTableGUI.php';
 		$table = new ilSamlIdpTableGUI($this, 'listIdps');
-		return $this->tpl->setContent($table->getHTML());
+		$this->tpl->setContent($table->getHTML());
+		return;
 	}
 
 	/**
@@ -215,16 +216,17 @@ class ilSamlSettingsGUI
 		{
 			case self::VIEW_MODE_GLOBAL:
 				$this->tabs->addSubTabTarget(
+					'auth_saml_idps',
+					$this->ctrl->getLinkTarget($this, 'listIdps'),
+					array('listIdps', 'activateIdp', 'deactivateIdp'), get_class($this)
+				);
+
+				$this->tabs->addSubTabTarget(
 					'settings',
 					$this->ctrl->getLinkTarget($this, 'showSettings'),
 					array('showSettings', 'saveSettings'), get_class($this)
 				);
 
-				$this->tabs->addSubTabTarget(
-					'auth_saml_idps',
-					$this->ctrl->getLinkTarget($this, 'listIdps'),
-					array('listIdps', 'activateIdp', 'deactivateIdp'), get_class($this)
-				);
 				break;
 
 			case self::VIEW_MODE_SINGLE:
