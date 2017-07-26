@@ -25,7 +25,7 @@ class ilSamlAttributeMapping implements ArrayAccess, Countable, Iterator
 	protected $idp_id;
 
 	/**
-	 * @var ilSamlAttributeMappingRule[]
+	 * @var ilExternalAuthUserAttributeMappingRule[]
 	 */
 	protected $mapping = array();
 
@@ -73,11 +73,11 @@ class ilSamlAttributeMapping implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
-	 * @return ilSamlAttributeMappingRule
+	 * @return ilExternalAuthUserAttributeMappingRule
 	 */
 	public function getEmptyRule()
 	{
-		return new ilSamlAttributeMappingRule();
+		return new ilExternalAuthUserAttributeMappingRule();
 	}
 
 	/**
@@ -128,7 +128,7 @@ class ilSamlAttributeMapping implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
-	 * @return ilSamlAttributeMappingRule
+	 * @return ilExternalAuthUserAttributeMappingRule
 	 */
 	public function current()
 	{
@@ -176,7 +176,7 @@ class ilSamlAttributeMapping implements ArrayAccess, Countable, Iterator
 		{
 			$rule = $this->getEmptyRule();
 			$rule->setAttribute($row['attribute']);
-			$rule->setIdpAttribute($row['idp_attribute']);
+			$rule->setExternalAttribute($row['idp_attribute']);
 			$rule->updateAutomatically((bool)$row['update_automatically']);
 
 			$this->mapping[$rule->getAttribute()] = $rule;
@@ -197,7 +197,7 @@ class ilSamlAttributeMapping implements ArrayAccess, Countable, Iterator
 					'attribute' => array('text', $rule->getAttribute())
 				),
 				array(
-					'idp_attribute'        => array('text', $rule->getIdpAttribute()),
+					'idp_attribute'        => array('text', $rule->getExternalAttribute()),
 					'update_automatically' => array('integer', (int)$rule->isAutomaticallyUpdated())
 				)
 			);

@@ -300,8 +300,8 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 			$xml_writer->xmlElement('AuthMode', array('type' => $this->getUserAuthModeName()), $this->getUserAuthModeName());
 			$xml_writer->xmlElement('ExternalAccount', array(), $a_external_account);
 
-			require_once 'Services/Saml/classes/class.ilSamlCreateUpdateAttributeMappingFilter.php';
-			$mapping = new ilSamlCreateUpdateAttributeMappingFilter($mapping);
+			require_once 'Services/Saml/classes/class.ilExternalAuthUserCreationAttributeMappingFilter.php';
+			$mapping = new ilExternalAuthUserCreationAttributeMappingFilter($mapping);
 		}
 		else
 		{
@@ -317,32 +317,16 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 				$xml_writer->xmlElement('Login', array(), $login);
 			}
 
-			require_once 'Services/Saml/classes/class.ilSamlUserUpdateAttributeMappingFilter.php';
-			$mapping = new ilSamlUserUpdateAttributeMappingFilter($mapping);
+			require_once 'Services/Saml/classes/class.ilExternalAuthUserUpdateAttributeMappingFilter.php';
+			$mapping = new ilExternalAuthUserUpdateAttributeMappingFilter($mapping);
 		}
 
 		foreach($mapping as $rule)
 		{
-			$value = '';
-
-			$matches = null;
-			if(preg_match('/^(.*?)\|(\d+)$/', $rule->getIdpAttribute(), $matches))
-			{
-				$ruleAttr  = $matches[1];
-				$attrIndex = $matches[2];
-
-				if(
-					isset($a_user_data[$ruleAttr]) && is_array($a_user_data[$ruleAttr]) &&
-					isset($a_user_data[$ruleAttr][$attrIndex])
-				)
-				{
-					$value = $a_user_data[$ruleAttr][$attrIndex];
-				}
-			}
-			else
-			{
-				$value = $a_user_data[$rule->getIdpAttribute()][0];
-			}
+			/**
+			 * @var $rule ilExternalAuthUserAttributeMappingRule
+			 */
+			$value = $this->getValueForRule($rule, $a_user_data);
 
 			switch(strtolower($rule->getAttribute()))
 			{
@@ -435,7 +419,6 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 					break;
 
 				default:
-					// Handle instant messengers
 					if(substr($rule->getAttribute(), 0, 3) == 'im_')
 					{
 						$xml_writer->xmlElement(
@@ -455,7 +438,6 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 						continue;
 					}
 
-					// Handle user defined fields
 					if(substr($rule->getAttribute(), 0, 4) != 'udf_')
 					{
 						continue;
@@ -492,5 +474,36 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 		$importParser->startParsing();
 
 		return $login;
+	}
+
+	/**
+	 * @param ilExternalAuthUserAttributeMappingRule $rule
+	 * @param array $a_user_data
+	 * @return string
+	 */
+	protected function getValueForRule(ilExternalAuthUserAttributeMappingRule $rule, array $a_user_data)
+	{
+		$value = '';
+
+		$matches = null;
+		if(preg_match('/^(.*?)\|(\d+)$/', $rule->getExternalAttribute(), $matches))
+		{
+			$ruleAttr  = $matches[1];
+			$attrIndex = $matches[2];
+
+			if(
+				isset($a_user_data[$ruleAttr]) && is_array($a_user_data[$ruleAttr]) &&
+				isset($a_user_data[$ruleAttr][$attrIndex])
+			)
+			{
+				$value = $a_user_data[$ruleAttr][$attrIndex];
+			}
+		}
+		else
+		{
+			$value = current($a_user_data[$rule->getExternalAttribute()]);
+		}
+
+		return $value;
 	}
 }

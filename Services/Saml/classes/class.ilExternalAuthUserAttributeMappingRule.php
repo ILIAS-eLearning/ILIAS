@@ -2,10 +2,10 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilSamlAttributeMappingRule
+ * Class ilExternalAuthUserAttributeMappingRule
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlAttributeMappingRule
+class ilExternalAuthUserAttributeMappingRule
 {
 	/**
 	 * @var string
@@ -15,7 +15,7 @@ class ilSamlAttributeMappingRule
 	/**
 	 * @var string
 	 */
-	protected $idp_attribute = '';
+	protected $external_attribute = '';
 
 	/**
 	 * @var bool
@@ -25,17 +25,17 @@ class ilSamlAttributeMappingRule
 	/**
 	 * @return string
 	 */
-	public function getIdpAttribute()
+	public function getExternalAttribute()
 	{
-		return $this->idp_attribute;
+		return $this->external_attribute;
 	}
 
 	/**
-	 * @param string $idp_attribute
+	 * @param string $external_attribute
 	 */
-	public function setIdpAttribute($idp_attribute)
+	public function setExternalAttribute($external_attribute)
 	{
-		$this->idp_attribute = $idp_attribute;
+		$this->external_attribute = $external_attribute;
 	}
 
 	/**
