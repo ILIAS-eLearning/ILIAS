@@ -4,25 +4,25 @@
 require_once 'Services/Saml/classes/class.ilExternalAuthUserAttributeMappingRule.php';
 
 /**
- * Class ilSamlAttributeMapping
+ * Class ilExternalAuthAttributeMapping
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlAttributeMapping implements ArrayAccess, Countable, Iterator
+class ilExternalAuthAttributeMapping implements ArrayAccess, Countable, Iterator
 {
-	/**
-	 * @var self[]
-	 */
-	protected static $instances = array();
-
 	/**
 	 * @var ilDB
 	 */
 	protected $db;
 
 	/**
+	 * @var string
+	 */
+	protected $authMode = '';
+
+	/**
 	 * @var int
 	 */
-	protected $idp_id;
+	protected $authSourceId;
 
 	/**
 	 * @var ilExternalAuthUserAttributeMappingRule[]
@@ -30,46 +30,53 @@ class ilSamlAttributeMapping implements ArrayAccess, Countable, Iterator
 	protected $mapping = array();
 
 	/**
-	 * ilSamlAttributeMapping constructor.
-	 * @param int $idp_id
+	 * ilExternalAuthAttributeMapping constructor.
+	 * @param string $authMode
+	 * @param int    $authSourceId
 	 */
-	protected function __construct($idp_id)
+	public function __construct($authMode, $authSourceId = 0)
 	{
+		assert('is_string($authMode)');
+		assert('is_numeric($authSourceId)');
+
 		$this->db = $GLOBALS['DIC']->database();
 
-		$this->setIdpId($idp_id);
+		$this->setAuthMode($authMode);
+		$this->setAuthSourceId($authSourceId);
 
 		$this->read();
 	}
 
 	/**
-	 * @param int $idp_id
-	 * @return self
-	 */
-	public static function getInstanceByIdpId($idp_id)
-	{
-		if(!isset(self::$instances[$idp_id]) || !(self::$instances[$idp_id] instanceof self))
-		{
-			self::$instances[$idp_id] = new self($idp_id);
-		}
-
-		return self::$instances[$idp_id];
-	}
-
-	/**
 	 * @return int
 	 */
-	public function getIdpId()
+	public function getAuthSourceId()
 	{
-		return $this->idp_id;
+		return $this->authSourceId;
 	}
 
 	/**
-	 * @param int $idp_id
+	 * @param int $authSourceId
 	 */
-	public function setIdpId($idp_id)
+	public function setAuthSourceId($authSourceId)
 	{
-		$this->idp_id = $idp_id;
+		$this->authSourceId = $authSourceId;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAuthMode()
+	{
+		return $this->authMode;
+	}
+
+	/**
+	 * @param string $authMode
+	 */
+	public function setAuthMode($authMode)
+	{
+		$this->authMode = $authMode;
 	}
 
 	/**
@@ -171,12 +178,16 @@ class ilSamlAttributeMapping implements ArrayAccess, Countable, Iterator
 	{
 		$this->mapping = array();
 
-		$res = $this->db->query('SELECT * FROM saml_attribute_mapping WHERE idp_id = ' . $this->db->quote($this->getIdpId()));
+		$res = $this->db->queryF(
+			'SELECT * FROM auth_ext_attr_mapping WHERE auth_mode = %s AND auth_src_id = %s',
+			array('text', 'integer'),
+			array($this->getAuthMode(), $this->getAuthSourceId())
+		);
 		while($row = $this->db->fetchAssoc($res))
 		{
 			$rule = $this->getEmptyRule();
 			$rule->setAttribute($row['attribute']);
-			$rule->setExternalAttribute($row['idp_attribute']);
+			$rule->setExternalAttribute($row['ext_attribute']);
 			$rule->updateAutomatically((bool)$row['update_automatically']);
 
 			$this->mapping[$rule->getAttribute()] = $rule;
@@ -191,13 +202,14 @@ class ilSamlAttributeMapping implements ArrayAccess, Countable, Iterator
 		foreach($this->mapping as $rule)
 		{
 			$this->db->replace(
-				'saml_attribute_mapping',
+				'auth_ext_attr_mapping',
 				array(
-					'idp_id'    => array('integer', $this->getIdpId()),
-					'attribute' => array('text', $rule->getAttribute())
+					'auth_mode'   => array('text', $this->getAuthMode()),
+					'auth_src_id' => array('integer', $this->getAuthSourceId()),
+					'attribute'   => array('text', $rule->getAttribute())
 				),
 				array(
-					'idp_attribute'        => array('text', $rule->getExternalAttribute()),
+					'ext_attribute'        => array('text', $rule->getExternalAttribute()),
 					'update_automatically' => array('integer', (int)$rule->isAutomaticallyUpdated())
 				)
 			);
@@ -210,6 +222,10 @@ class ilSamlAttributeMapping implements ArrayAccess, Countable, Iterator
 	public function delete()
 	{
 		$this->mapping = array();
-		$this->db->manipulate('DELETE FROM saml_attribute_mapping WHERE idp_id = ' . $this->db->quote($this->getIdpId()));
+		$this->db->manipulateF(
+			'DELETE FROM auth_ext_attr_mapping WHERE auth_mode = %s AND auth_src_id = %s',
+			array('text', 'integer'),
+			array($this->getAuthMode(), $this->getAuthSourceId())
+		);
 	}
 }

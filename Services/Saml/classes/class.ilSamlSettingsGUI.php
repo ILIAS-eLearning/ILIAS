@@ -79,7 +79,7 @@ class ilSamlSettingsGUI
 	protected $toolbar;
 
 	/**
-	 * @var ilSamlAttributeMapping
+	 * @var ilExternalAuthAttributeMapping
 	 */
 	protected $mapping;
 
@@ -292,7 +292,7 @@ class ilSamlSettingsGUI
 	private function initUserAttributeMapping()
 	{
 		require_once 'Services/Saml/classes/class.ilSamlAttributeMapping.php';
-		$this->mapping = ilSamlAttributeMapping::getInstanceByIdpId($this->idp->getIdpId());
+		$this->mapping = new ilExternalAuthAttributeMapping($this->idp->getIdpId());
 	}
 
 	/**

@@ -144,6 +144,15 @@ class ilSamlIdp
 
 					++$i;
 				}
+
+				$idp_data = array(
+					1 => array(
+						'idp_id'  => 1,
+						'name'    => 'Test',
+						'idp'     => "Test",
+						'auth_id' => "Test"
+					)
+				);
 			}
 			catch(Exception $e)
 			{
@@ -217,7 +226,6 @@ class ilSamlIdp
 			),
 			array(
 				'is_active'           => array('integer', $this->isActive()),
-				'allow_local_auth'    => array('integer', $this->allowLocalAuthentication()),
 				'default_role_id'     => array('integer', $this->getDefaultRoleId()),
 				'uid_claim'           => array('text', $this->getUidClaim()),
 				'login_claim'         => array('text', $this->getLoginClaim()),
@@ -236,7 +244,6 @@ class ilSamlIdp
 			'idp_id'              => $this->getIdpId(),
 			'name'                => $this->getName(),
 			'is_active'           => $this->isActive(),
-			'allow_local_auth'    => $this->allowLocalAuthentication(),
 			'default_role_id'     => $this->getDefaultRoleId(),
 			'uid_claim'           => $this->getUidClaim(),
 			'login_claim'         => $this->getLoginClaim(),
@@ -253,7 +260,6 @@ class ilSamlIdp
 	{
 		$this->setIdpId((int)$record['idp_id']);
 		$this->setActive((bool)$record['is_active']);
-		$this->setLocalLocalAuthenticationStatus((bool)$record['allow_local_auth']);
 		$this->setDefaultRoleId((int)$record['default_role_id']);
 		$this->setUidClaim($record['uid_claim']);
 		$this->setLoginClaim($record['login_claim']);
@@ -266,7 +272,6 @@ class ilSamlIdp
 	 */
 	public function bindForm(ilPropertyFormGUI $form)
 	{
-		$this->setLocalLocalAuthenticationStatus((bool)$form->getInput('allow_local_auth'));
 		$this->setDefaultRoleId((int)$form->getInput('default_role_id'));
 		$this->setUidClaim($form->getInput('uid_claim'));
 		$this->setLoginClaim($form->getInput('login_claim'));
