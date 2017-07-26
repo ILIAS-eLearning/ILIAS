@@ -18991,3 +18991,10 @@ $ilDB->dropPrimaryKey('auth_ext_attr_mapping');
 <?php
 $ilDB->addPrimaryKey('auth_ext_attr_mapping', array('auth_mode', 'auth_src_id', 'attribute'));
 ?>
+<#5108>
+<?php
+if(!$ilDB->tableColumnExists('auth_ext_attr_mapping', 'ext_attribute') && $ilDB->tableColumnExists('auth_ext_attr_mapping', 'idp_attribute'))
+{
+	$ilDB->renameTableColumn('auth_ext_attr_mapping', 'idp_attribute', 'ext_attribute');
+}
+?>
