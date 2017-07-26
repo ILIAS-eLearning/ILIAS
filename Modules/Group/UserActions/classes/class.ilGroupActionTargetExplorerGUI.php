@@ -14,11 +14,17 @@ include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGU
 class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
 {
 	/**
+	 * @var bool
+	 */
+	protected $select_parent = false;
+
+	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_select_parent = false)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd, null, "", "");
+		$this->select_parent = $a_select_parent;
 	}
 
 	/**
@@ -46,10 +52,15 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
 	 */
 	function getNodeOnClick($a_node)
 	{
+		if ($this->select_parent)
+		{
+			$this->ctrl->setParameter($this->parent_obj, "grp_act_par_ref_id", $a_node["child"]);
+			$url = $this->ctrl->getLinkTarget($this->parent_obj, "createGroup", "", true, false);
+			return "il.Group.UserActions.initCreationForm('$url'); return(false);";
+		}
 		$this->ctrl->setParameter($this->parent_obj, "grp_act_ref_id", $a_node["child"]);
 		$url = $this->ctrl->getLinkTarget($this->parent_obj, "confirmAddUser", "", true, false);
 		return "il.Util.ajaxReplaceInner('$url', 'il_grp_action_modal_content'); return(false);";
-		//return "il.Group.UserActions.selectTargetObject('".$a_node["type"]."','".$a_node["child"]."'); return(false);";
 	}
 
 	/**
@@ -60,9 +71,19 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
 	 */
 	function isNodeClickable($a_node)
 	{
-		if ($a_node["type"] == $this->getClickableType())
+		if ($this->select_parent)
 		{
-			return true;
+			if ($this->access->checkAccess("create", "", $a_node["child"], "grp"))
+			{
+				return true;
+			}
+		}
+		else
+		{
+			if ($a_node["type"] == $this->getClickableType())
+			{
+				return true;
+			}
 		}
 		return false;
 	}

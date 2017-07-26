@@ -15992,3 +15992,6 @@ grp#:#grp_create_new#:#Neue Gruppe anlegen
 grp#:#grp_sure_add_user_to_group#:#Wollen Sie den Benutzer wirklich der Gruppe hinzufügen?
 grp#:#grp_add_user#:#Benutzer hinzufügen
 grp#:#grp_user_been_added#:#Der Benutzer wurde der Gruppe hinzugefügt.
+grp#:#grp_sure_create_group_add_user#:#Wollen Sie die Gruppen wirklich erstellen und den Benutzer hinzufügen?
+grp#:#grp_create_and_add_user#:#Erstellen und hinzufügen
+grp#:#grp_next#:#Weiter

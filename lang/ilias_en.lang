@@ -13547,3 +13547,7 @@ grp#:#grp_create_new#:#Create New Group
 grp#:#grp_sure_add_user_to_group#:#Do you really want to add this user to the group?
 grp#:#grp_add_user#:#Add User
 grp#:#grp_user_been_added#:#The user has been added to the group.
+grp#:#grp_sure_create_group_add_user#:#Do you really want to create the group and add the user?
+grp#:#grp_create_and_add_user#:#Create and Add User
+grp#:#grp_next#:#Next
+grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.

@@ -388,7 +388,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 * After object creation 
 	 * @param \ilObject $new_object
 	 */
-	public function afterSave(\ilObject $new_object)
+	public function afterSave(\ilObject $new_object, $a_redirect = true)
 	{
 		global $ilUser, $ilSetting;
 		
@@ -419,8 +419,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		$members_obj->updateNotification($ilUser->getId(),$ilSetting->get('mail_grp_admin_notification', true));
 		
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
-		$this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
-		$this->ctrl->redirect($this,'edit');
+		if ($a_redirect)
+		{
+			$this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
+			$this->ctrl->redirect($this, 'edit');
+		}
 	}
 	
 	/**
@@ -1378,29 +1381,36 @@ class ilObjGroupGUI extends ilContainerGUI
 	 * @param string edit or create
 	 * @return
 	 */
-	protected function initForm($a_mode = 'edit')
+	public function initForm($a_mode = 'edit', $a_omit_form_action = false)
 	{
 		global $ilUser,$tpl,$tree;
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		
 		$form = new ilPropertyFormGUI();
-		switch($a_mode)
+
+		if (!$a_omit_form_action)
 		{
-			case 'edit':
-				$form->setFormAction($this->ctrl->getFormAction($this,'update'));
-				break;
-				
-			default:
-				$form->setTableWidth('600px');
-				$form->setFormAction($this->ctrl->getFormAction($this,'save'));
-				break;
+			switch ($a_mode)
+			{
+				case 'edit':
+					$form->setFormAction($this->ctrl->getFormAction($this, 'update'));
+					break;
+
+				default:
+					$form->setTableWidth('600px');
+					$form->setFormAction($this->ctrl->getFormAction($this, 'save'));
+					break;
+			}
 		}
 		
 		// title
 		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
 		$title->setSubmitFormOnEnter(true);
-		$title->setValue($this->object->getTitle());
+		if ($a_mode == "edit")
+		{
+			$title->setValue($this->object->getTitle());
+		}
 		$title->setSize(min(40, ilObject::TITLE_LENGTH));
 		$title->setMaxLength(ilObject::TITLE_LENGTH);
 		$title->setRequired(true);
@@ -1408,7 +1418,10 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		// desc
 		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
-		$desc->setValue($this->object->getLongDescription());
+		if ($a_mode == "edit")
+		{
+			$desc->setValue($this->object->getLongDescription());
+		}
 		$desc->setRows(2);
 		$desc->setCols(40);
 		$form->addItem($desc);

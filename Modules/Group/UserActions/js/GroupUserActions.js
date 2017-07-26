@@ -8,9 +8,37 @@ il.Group = il.Group || {};
 
 		// public interface
 		public_interface = {
-			selectTargetObject: function($type, $child) {
-				console.log($type);
-				console.log($child);
+
+			initCreationForm: function (url) {
+				il.Util.sendAjaxGetRequestToUrl (url, {}, {}, function (o) {
+					if (o.responseText !== undefined) {
+						$('#il_grp_action_modal_content').html(o.responseText);
+						$('#il_grp_action_modal_content form').on("submit", function(e) {
+							var values;
+
+							e.preventDefault();
+							values = $('#il_grp_action_modal_content form').serializeArray();
+							console.log("Form Submitted...");
+							console.log(values);
+
+							il.Util.sendAjaxPostRequestToUrl($(this).attr('action'), values, function (o) {
+								$('#il_grp_action_modal_content').html(o);
+							});
+						});
+					}
+				});
+			},
+
+			createGroup: function (e) {
+				e.preventDefault();
+				values = $('#il_grp_action_modal_content form').serializeArray();
+				il.Util.sendAjaxPostRequestToUrl($('#il_grp_action_modal_content form').attr('action'), values, function (o) {
+					$('#il_grp_action_modal_content').html(o);
+				});
+			},
+
+			closeModal: function () {
+				$('#il_grp_action_modal_content').closest('.il-modal-roundtrip').find("button.close").click();
 			}
 		};
 
