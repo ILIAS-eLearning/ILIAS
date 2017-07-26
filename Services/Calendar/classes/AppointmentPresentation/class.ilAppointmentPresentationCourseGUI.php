@@ -164,11 +164,13 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_APP_PRESENTATION,'crs',$cat_info['obj_id']);
 		$md_items = $record_gui->parse();
-		foreach($md_items as $md_item)
+		if(count($md_items))
 		{
-			$this->addInfoProperty($md_item['title'],$md_item['value']);
-			$this->addListItemProperty($md_item['title'],$md_item['value']);
+			foreach($md_items as $md_item)
+			{
+				$this->addInfoProperty($md_item['title'],$md_item['value']);
+				$this->addListItemProperty($md_item['title'],$md_item['value']);
+			}
 		}
-
 	}
 }
