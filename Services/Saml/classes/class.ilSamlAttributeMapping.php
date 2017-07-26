@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Saml/classes/class.ilSamlAttributeMappingRule.php';
+require_once 'Services/Saml/classes/class.ilExternalAuthUserAttributeMappingRule.php';
 
 /**
  * Class ilSamlAttributeMapping
