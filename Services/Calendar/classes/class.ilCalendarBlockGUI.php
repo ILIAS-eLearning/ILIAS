@@ -12,7 +12,7 @@ include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
 * @version $Id$
 *
 * @ilCtrl_IsCalledBy ilCalendarBlockGUI: ilColumnGUI
-* @ilCtrl_Calls ilCalendarBlockGUI: ilCalendarAppointmentGUI
+* @ilCtrl_Calls ilCalendarBlockGUI: ilCalendarAppointmentGUI, ilCalendarMonthGUI, ilCalendarWeekGUI, ilCalendarDayGUI
 * @ilCtrl_Calls ilCalendarBlockGUI: ilConsultationHoursGUI, ilCalendarAppointmentPresentationGUI
 *
 * @ingroup ServicesCalendar
@@ -281,6 +281,13 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php');
 				$presentation = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $this->appointment);
 				$ilCtrl->forwardCommand($presentation);
+				break;
+
+			case "ilcalendarmonthgui":
+				$ilTabs->setSubTabActive('app_month');
+				include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
+				$month_gui = new ilCalendarMonthGUI($this->seed);
+				$ilCtrl->forwardCommand($month_gui);
 				break;
 
 			default:
@@ -647,18 +654,18 @@ class ilCalendarBlockGUI extends ilBlockGUI
 							);
 						}
 
-						/* @todo fix this
+						 //@todo fix this - now we lose the sidebar with the marginal calendar and so.
 						$this->addBlockCommand(
 							$ilCtrl->getLinkTargetByClass(
 								"ilCalendarMonthGUI",
 								""),
 							$lng->txt("cal_consultation_hours_for").' '. ilObjUser::_lookupFullname($user_id)
 						);
-						
+
 						$this->cal_footer[] = array(
 							'link' => $ilCtrl->getLinkTargetByClass('ilCalendarMonthGUI',''),
 							'txt' => $lng->txt("cal_consultation_hours_for").' '.ilObjUser::_lookupFullname($user_id)
-						);*/
+						);
 						
 					}
 				}

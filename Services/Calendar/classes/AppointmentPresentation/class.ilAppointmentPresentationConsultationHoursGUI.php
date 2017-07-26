@@ -31,10 +31,11 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 		$booking = new ilBookingEntry($context_id);
 
-		$this->addInfoProperty(
-				$this->lng->txt("cal_ch_manager"),
-				ilConsultationHourAppointments::getManager(true, true, $booking->getObjId())
-			);
+		if($manager = ilConsultationHourAppointments::getManager(true, true, $booking->getObjId()))
+		{
+			$this->addInfoProperty($this->lng->txt("cal_ch_manager"), $manager);
+		}
+
 
 		$buttons = array();
 		foreach($booking->getTargetObjIds() as $obj_id)

@@ -112,7 +112,7 @@ class ilAdvancedMDRecordGUI
 	 		case self::MODE_INFO:
 	 			return $this->parseInfoPage();
 
-			case self:MODE_APP_PRESENTATION:
+			case self::MODE_APP_PRESENTATION:
 				return $this->parseAppointmentPresentation();
 
 	 		case self::MODE_REC_SELECTION:
@@ -384,8 +384,7 @@ class ilAdvancedMDRecordGUI
 		}						
 	}
 
-	// calendar: modals and lists.
-	// For now is a copy of parseInfoPage
+	// Used by list of calendars
 	private function parseAppointmentPresentation()
 	{
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
@@ -397,18 +396,21 @@ class ilAdvancedMDRecordGUI
 			// this correctly binds group and definitions
 			$a_values->read();
 
-			$this->info->addSection(ilAdvancedMDRecord::_lookupTitle($record_id));
-
 			$defs = $a_values->getDefinitions();
+			$array_elements = array();
 			foreach($a_values->getADTGroup()->getElements() as $element_id => $element)
 			{
 				if(!$element->isNull())
 				{
-					$this->info->addProperty($defs[$element_id]->getTitle(),
-						ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getHTML());
+					$array_elements[] = array(
+						"title" => $defs[$element_id]->getTitle(),
+						"value" => ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getHTML()
+					);
 				}
 			}
 		}
+
+		return $array_elements;
 	}
 
 	//

@@ -161,10 +161,26 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 
 		//TODO: Remove the hack in ilADTActiveRecordByType.php.
 		//TODO: this code prints the metadata at the beginning of the infoscreen
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO,'crs',$cat_info['obj_id']);
-		$record_gui->setInfoObject($this->infoscreen);
-		$record_gui->parse();
+
+		//calendar modals contains infoscreen, calendar lists doesn't
+		if(isset($this->infoscreen)) //modals
+		{
+			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+			$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO,'crs',$cat_info['obj_id']);
+			$record_gui->setInfoObject($this->getInfoScreen());
+			$record_gui->parse();
+		}
+		else //first steps wiht md in lists
+		{
+			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+			$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_APP_PRESENTATION,'crs',$cat_info['obj_id']);
+
+			$md_items = $record_gui->parse();
+			foreach($md_items as $md_item)
+			{
+				$this->addListItemProperty($md_item['title'],$md_item['value']);
+			}
+		}
 		//$this->infoscreen->addMetaDataSections($cat_info['obj_id'],0, "crs");
 
 	}
