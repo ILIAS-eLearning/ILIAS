@@ -26,6 +26,14 @@ class ilAppointmentPresentationFactory
 		//var_dump($cat_info['obj_id']);
 		//var_dump(ilObject::_lookupType($cat_info['obj_id']));
 		//ilUtil::printBacktrace(10); exit;
+
+		//Milestones can be part of every type of calendar and
+		// the specific data from the related object is not needed for the modal presentation.
+		if($a_appointment['event']->isMilestone())
+		{
+			require_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationMilestoneGUI.php";
+			return ilAppointmentPresentationMilestoneGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
+		}
 		switch($cat_info['type'])
 		{
 			case ilCalendarCategory::TYPE_OBJ:
