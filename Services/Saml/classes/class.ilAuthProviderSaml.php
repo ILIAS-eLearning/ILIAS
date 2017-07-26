@@ -419,25 +419,6 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 					break;
 
 				default:
-					if(substr($rule->getAttribute(), 0, 3) == 'im_')
-					{
-						$xml_writer->xmlElement(
-							'AccountInfo',
-							array('Type' => substr($rule->getAttribute(), 3)),
-							$value
-						);
-						continue;
-					}
-					else if('delicious' == $rule->getAttribute())
-					{
-						$xml_writer->xmlElement(
-							'AccountInfo',
-							array('Type' => 'delicious'),
-							$value
-						);
-						continue;
-					}
-
 					if(substr($rule->getAttribute(), 0, 4) != 'udf_')
 					{
 						continue;

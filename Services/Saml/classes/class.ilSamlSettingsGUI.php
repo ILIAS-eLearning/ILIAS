@@ -315,15 +315,6 @@ class ilSamlSettingsGUI
 				continue;
 			}
 
-			if('instant_messengers' == $id)
-			{
-				foreach($definition['types'] as $type)
-				{
-					$this->addAttributeRuleFieldToForm($form, $this->lng->txt('im_' . $type), 'im_' . $type);
-				}
-				continue;
-			}
-
 			$this->addAttributeRuleFieldToForm($form, $this->lng->txt($id), $id);
 		}
 
@@ -382,19 +373,6 @@ class ilSamlSettingsGUI
 			{
 				if(in_array($id, self::$ignoredUserFields))
 				{
-					continue;
-				}
-
-				if('instant_messengers' == $id)
-				{
-					foreach($definition['types'] as $type)
-					{
-						$rule = $this->mapping->getEmptyRule();
-						$rule->setAttribute('im_' . $type);
-						$rule->setExternalAttribute($form->getInput($rule->getAttribute()));
-						$rule->updateAutomatically((bool)$form->getInput($rule->getAttribute() . '_update'));
-						$this->mapping[$rule->getAttribute()] = $rule;
-					}
 					continue;
 				}
 
