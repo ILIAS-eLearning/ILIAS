@@ -574,5 +574,4 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 			false, false, true, false, $ctrl_path);
 	}
 
-	//TODO : SOME ELEMENTS CAN GET CUSTOM METADATA
 }
