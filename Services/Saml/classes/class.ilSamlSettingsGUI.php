@@ -291,7 +291,7 @@ class ilSamlSettingsGUI
 	 */
 	private function initUserAttributeMapping()
 	{
-		require_once 'Services/Saml/classes/class.ilSamlAttributeMapping.php';
+		require_once 'Services/Saml/classes/class.ilExternalAuthAttributeMapping.php';
 		$this->mapping = new ilExternalAuthAttributeMapping($this->idp->getIdpId());
 	}
 
