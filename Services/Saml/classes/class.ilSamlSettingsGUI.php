@@ -291,7 +291,6 @@ class ilSamlSettingsGUI
 	 */
 	private function initUserAttributeMapping()
 	{
-		// An idp_id should be passed from request (and saved for links and forms) if we support multiple idps
 		require_once 'Services/Saml/classes/class.ilSamlAttributeMapping.php';
 		$this->mapping = ilSamlAttributeMapping::getInstanceByIdpId($this->idp->getIdpId());
 	}
