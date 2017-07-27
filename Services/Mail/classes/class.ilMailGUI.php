@@ -32,11 +32,11 @@ class ilMailGUI
 
 	public function __construct()
 	{
-		global $tpl, $ilCtrl, $lng, $rbacsystem, $ilErr, $ilUser;
+		global $DIC;
 
-		$this->tpl = $tpl;
-		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
+		$this->tpl  = $DIC->ui()->mainTemplate();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng  = $DIC->language();
 		
 		if(isset($_POST['mobj_id']) && (int)$_POST['mobj_id'])
 		{
@@ -47,12 +47,11 @@ class ilMailGUI
 		$this->ctrl->saveParameter($this, "mobj_id");
 		$this->lng->loadLanguageModule("mail");
 
-		$this->umail = new ilMail($ilUser->getId());
+		$this->umail = new ilMail($DIC->user()->getId());
 
-		// CHECK HACK
-		if (!$rbacsystem->checkAccess('internal_mail', $this->umail->getMailObjectReferenceId()))
+		if(!$DIC->rbac()->system()->checkAccess('internal_mail', $this->umail->getMailObjectReferenceId()))
 		{
-			$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->WARNING);
+			$DIC['ilErr']->raiseError($this->lng->txt("permission_denied"), $DIC['ilErr']->WARNING);
 		}
 	}
 

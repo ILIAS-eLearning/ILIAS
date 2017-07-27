@@ -10,7 +10,7 @@ require_once 'Services/Mail/interfaces/interface.ilMailAddressType.php';
 abstract class ilBaseMailAddressType implements ilMailAddressType
 {
 	/**
-	 * @var ilMailAddress
+	 * @var \ilMailAddress
 	 */
 	protected $address;
 
@@ -31,9 +31,9 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
 
 	/**
 	 * ilBaseMailAddressType constructor.
-	 * @param ilMailAddress $a_address
+	 * @param \ilMailAddress $a_address
 	 */
-	public function __construct(ilMailAddress $a_address)
+	public function __construct(\ilMailAddress $a_address)
 	{
 		global $DIC;
 

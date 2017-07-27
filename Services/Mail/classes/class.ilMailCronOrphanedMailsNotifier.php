@@ -13,20 +13,27 @@ class ilMailCronOrphanedMailsNotifier
 	protected $collector = NULL;
 
 	/**
+	 * @var \ilDBInterface
+	 */
+	protected $db;
+
+	/**
 	 * @param ilMailCronOrphanedMailsNotificationCollector $collector
 	 */
 	public function __construct(ilMailCronOrphanedMailsNotificationCollector $collector)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+
 		$this->collector = $collector;
 	}
 
 	/**
 	 * @param ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj
 	 */
-	private function markAsNotified(ilMailCronOrphanedMailsNotificationCollectionObj$collection_obj)
+	private function markAsNotified(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj)
 	{
-		global $ilDB;
-
 		if($this->threshold > $this->mail_notify_orphaned )
 		{
 			$notify_days_before = $this->threshold - $this->mail_notify_orphaned;
@@ -36,8 +43,8 @@ class ilMailCronOrphanedMailsNotifier
 			$notify_days_before = 1;
 		}
 
-		$ts_delete = strtotime("+ ".$notify_days_before." days");
-		$this->ts_for_deletion = mktime(0, 0, 0, date('m', $ts_delete), date('d', $ts_delete), date('Y', $ts_delete));
+		$ts_delete       = strtotime("+ ".$notify_days_before." days");
+		$ts_for_deletion = mktime(0, 0, 0, date('m', $ts_delete), date('d', $ts_delete), date('Y', $ts_delete));
 
 		foreach($collection_obj->getFolderObjects() as $folder_obj)
 		{
@@ -47,10 +54,10 @@ class ilMailCronOrphanedMailsNotifier
 			{
 				$mail_id = $mail_obj->getMailId();
 			
-					$ilDB->insert('mail_cron_orphaned', array(
+					$this->db->insert('mail_cron_orphaned', array(
 						'mail_id' 		=> array('integer', $mail_id),
 						'folder_id'		=> array('integer', $folder_id),
-						'ts_do_delete'	=> array('integer', $this->ts_for_deletion))
+						'ts_do_delete'	=> array('integer', $ts_for_deletion))
 				);
 			}
 		}	
