@@ -32,7 +32,8 @@ class ilMailExplorer extends ilTreeExplorerGUI
 	{
 		global $DIC;
 
-		$this->lng = $DIC->language();
+		$this->lng  = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
 
 		$this->tree = new ilTree($a_user_id);
 		$this->tree->setTableNames('mail_tree','mail_obj_data');
