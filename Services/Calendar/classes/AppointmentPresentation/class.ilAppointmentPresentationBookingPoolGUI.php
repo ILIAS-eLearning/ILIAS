@@ -46,8 +46,11 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 
 			$this->addObjectLinks($obj_id);
 
-			//todo: add the link to the personal bookings calendar.
-			$this->addContainerInfo($obj_id);
+			//object info (course, grp...)
+			//$this->addContainerInfo($obj_id);
+
+			//link to personal bookings
+			$this->addCalendarInfo($cat_info);
 
 			// section: booking information
 			if ($b_obj->getDescription() || $b_obj->getFile())
