@@ -78,7 +78,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
 					 */
 
 					$path_name = $file->getPathname();
-					if($file->isDir() && $file->file_exists($path_name))
+					if($file->isDir())
 					{
 						ilUtil::delDir($path_name);
 						ilLoggerFactory::getLogger('mail')->info(sprintf(
