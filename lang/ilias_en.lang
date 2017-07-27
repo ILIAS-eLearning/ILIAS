@@ -226,6 +226,7 @@ assessment#:#ass_mc_sel_lim_hint#:#Please select %s of %s answers!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Please do not select more than %s of %s answers!
 assessment#:#ass_mc_sel_lim_setting#:#Answering Limitation
 assessment#:#ass_mc_sel_lim_setting_desc#:#With this setting the number of answers choosable by the participants can be limited.
+assessment#:#ass_txt_char_lim_exhausted_hint#:#Your answer has %s characters and exceeds the character limit of %s characters!
 assessment#:#essay_scoring_mode#:#Scoring Mode
 assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring
 assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.

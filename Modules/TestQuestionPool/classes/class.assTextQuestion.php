@@ -1082,4 +1082,30 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 	{
 		return true;
 	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function validateSolutionSubmit()
+	{
+		$submit = $this->getSolutionSubmit();
+
+		$max_chars = $this->getMaxNumOfChars();
+		if($max_chars)
+		{
+			$char_count = strlen(trim(strip_tags($submit)));
+			if($char_count > $max_chars)
+			{
+				$failureMsg = sprintf($this->lng->txt('ass_txt_char_lim_exhausted_hint'),
+					$max_chars, $char_count
+				);
+
+				ilUtil::sendFailure($failureMsg, true);
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
