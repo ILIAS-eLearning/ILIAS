@@ -633,6 +633,9 @@ class ilCalendarCategories
 			$obj_type = ilObject::_lookupType($row->obj_id);
 			if($obj_type == 'crs' or $obj_type == 'grp')
 			{
+				//Added for calendar revision --> https://goo.gl/CXGTRF
+				//In 5.2-trunk, the booking pools did not appear in the marginal calendar.
+				$this->readBookingCalendar();
 				// Check for global/local activation
 				if(!ilCalendarSettings::_getInstance()->lookupCalendarActivated($row->obj_id))
 				{
