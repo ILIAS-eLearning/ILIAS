@@ -546,6 +546,26 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 	}
 
 	/**
+	 * Add metadata
+	 */
+	function addMetaData($a_obj_type, $a_obj_id, $a_sub_obj_type = null, $a_sub_obj_id = null)
+	{
+		//TODO: Remove the hack in ilADTActiveRecordByType.php.
+		//TODO: bug: only one data set is shown.
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_APP_PRESENTATION, $a_obj_type, $a_obj_id, $a_sub_obj_type, $a_sub_obj_id);
+		$md_items = $record_gui->parse();
+		if(count($md_items))
+		{
+			foreach($md_items as $md_item)
+			{
+				$this->addInfoProperty($md_item['title'],$md_item['value']);
+				$this->addListItemProperty($md_item['title'],$md_item['value']);
+			}
+		}
+	}
+
+	/**
 	 * Get (linked if possible) user name
 	 *
 	 * @param int $a_user_id

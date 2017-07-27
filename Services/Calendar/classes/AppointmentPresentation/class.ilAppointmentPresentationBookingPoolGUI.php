@@ -100,6 +100,8 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 			$this->addAction($this->lng->txt("book_open"), ilLink::_getStaticLink(current($refs)));
 		}
 
+		$this->addMetaData('book', $obj_id, "bobj", $res->getObjectId());
+
 	}
 
 }
