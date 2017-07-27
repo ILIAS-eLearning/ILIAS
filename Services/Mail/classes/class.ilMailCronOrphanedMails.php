@@ -213,7 +213,11 @@ class ilMailCronOrphanedMails extends ilCronJob
 		$collector = new ilMailCronOrphanedMailsNotificationCollector();
 
 		include_once'./Services/Mail/classes/class.ilMailCronOrphanedMailsNotifier.php';
-		$notifier = new ilMailCronOrphanedMailsNotifier($collector);
+		$notifier = new ilMailCronOrphanedMailsNotifier(
+			$collector,
+			(int)$this->settings->get('mail_threshold'),
+			(int)$this->settings->get('mail_notify_orphaned')
+		);
 		$notifier->processNotification();
 	}
 

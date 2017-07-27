@@ -8,9 +8,9 @@
 class ilMailCronOrphanedMailsNotifier 
 {
 	/**
-	 * @var ilMailCronOrphanedMailsNotificationCollector|null
+	 * @var ilMailCronOrphanedMailsNotificationCollector
 	 */
-	protected $collector = NULL;
+	protected $collector;
 
 	/**
 	 * @var \ilDBInterface
@@ -18,15 +18,30 @@ class ilMailCronOrphanedMailsNotifier
 	protected $db;
 
 	/**
-	 * @param ilMailCronOrphanedMailsNotificationCollector $collector
+	 * @var int
 	 */
-	public function __construct(ilMailCronOrphanedMailsNotificationCollector $collector)
+	protected $threshold = 0;
+
+	/**
+	 * @var int
+	 */
+	protected $mail_notify_orphaned = 0;
+
+	/**
+	 * ilMailCronOrphanedMailsNotifier constructor.
+	 * @param ilMailCronOrphanedMailsNotificationCollector $collector
+	 * @param int                                          $threshold
+	 * @param int                                          $mail_notify_orphaned
+	 */
+	public function __construct(ilMailCronOrphanedMailsNotificationCollector $collector, $threshold, $mail_notify_orphaned)
 	{
 		global $DIC;
 
 		$this->db = $DIC->database();
 
-		$this->collector = $collector;
+		$this->collector            = $collector;
+		$this->threshold            = $threshold;
+		$this->mail_notify_orphaned = $mail_notify_orphaned;
 	}
 
 	/**

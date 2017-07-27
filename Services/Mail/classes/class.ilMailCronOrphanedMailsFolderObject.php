@@ -71,7 +71,7 @@ class ilMailCronOrphanedMailsFolderObject
 	}
 
 	/**
-	 * @return array ilMailCronOrphanedMailsFolderMailObject
+	 * @return ilMailCronOrphanedMailsFolderMailObject[]
 	 */
 	public function getOrphanedMailObjects()
 	{

@@ -59,7 +59,7 @@ class ilMailCronOrphanedMailsNotificationCollectionObj
 	}
 
 	/**
-	 * @return array $folder_objects ilMailCronOrphanedMailsFolderObject
+	 * @return ilMailCronOrphanedMailsFolderObject[]
 	 */
 	public function getFolderObjects()
 	{
