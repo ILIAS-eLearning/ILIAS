@@ -294,6 +294,22 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once './Modules/Session/classes/class.ilSessionWaitingList.php';
 		ilSessionWaitingList::deleteUserEntry($ilUser->getId(), $this->getCurrentObject()->getId());
 
+		// check for visible permission of user
+		ilRbacSystem::resetCaches();
+		$GLOBALS['DIC']->access()->clear();
+		$has_access = $GLOBALS['DIC']->access()->checkAccessOfUser(
+			$GLOBALS['DIC']->user()->getId(),
+			'visible',
+			'',
+			$this->object->getRefId()
+		);
+		if(!$has_access)
+		{
+			$parent = $GLOBALS['DIC']->repositoryTree()->getParentId($this->object->getRefId());
+			$this->redirectToRefId($parent);
+			return;
+		}
+
 		ilUtil::sendSuccess($this->lng->txt('event_unregistered'),true);
 		$this->ctrl->returnToParent($this);
 	}
