@@ -13,7 +13,7 @@ class ilMailCronOrphanedMailsNotificationCollectionObj
 	protected $user_id = 0;
 
 	/**
-	 * @var array
+	 * @var ilMailCronOrphanedMailsFolderObject[]
 	 */
 	protected $folder_objects = array();
 

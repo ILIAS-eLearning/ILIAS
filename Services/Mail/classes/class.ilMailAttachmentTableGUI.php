@@ -10,7 +10,7 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
 class ilMailAttachmentTableGUI extends ilTable2GUI
 {
 	/**
-	 * @var ilCtrl
+	 * @var \ilCtrl
 	 */
 	protected $ctrl;
 
@@ -20,12 +20,9 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $ilCtrl;
+		global $DIC;
 
-		$this->ctrl = $ilCtrl;
+		$this->ctrl = $DIC->ctrl();
 
 		// Call this immediately in constructor
 		$this->setId('mail_attachments');

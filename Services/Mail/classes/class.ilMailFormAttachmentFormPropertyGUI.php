@@ -15,6 +15,11 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
 {
 	public $buttonLabel;
 	public $items = array();
+
+	/**
+	 * @var \ilLanguage
+	 */
+	protected $lng;
 	
 	/**
 	 * Form Element for showing Mail Attachments
@@ -22,10 +27,12 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
 	 */
 	public function __construct($buttonLabel)
 	{
-		global $lng;
-		
+		global $DIC;
+
+		$this->lng = $DIC->language();
+
 		$this->buttonLabel = $buttonLabel;
-		parent::__construct($lng->txt('attachments'));
+		parent::__construct($this->lng->txt('attachments'));
 	}
 	
 	/**
@@ -55,5 +62,3 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
 		$a_tpl->parseCurrentBlock();	
 	}
 }
-
-?>

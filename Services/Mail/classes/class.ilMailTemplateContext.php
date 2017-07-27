@@ -21,7 +21,7 @@ abstract class ilMailTemplateContext
 	public function getLanguage()
 	{
 		global $DIC;
-		
+
 		return $this->language ? $this->language : $DIC->language();
 	}
 
