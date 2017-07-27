@@ -19,10 +19,19 @@ class ilMailLuceneSearcher
 	protected $result;
 
 	/**
+	 * @var \ilSetting
+	 */
+	protected $settings;
+
+	/**
 	 *
 	 */
 	public function __construct(ilLuceneQueryParser $query_parser, ilMailSearchResult $result)
 	{
+		global $DIC;
+
+		$this->settings = $DIC->settings();
+
 		$this->query_parser = $query_parser;
 		$this->result       = $result;
 	}
@@ -34,23 +43,16 @@ class ilMailLuceneSearcher
 	 */
 	public function search($user_id, $mail_folder_id)
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 * @var $ilBench   ilBenchmark
-		 */
-		global $ilBench, $ilSetting;
-
 		if(!$this->query_parser->getQuery())
 		{
 			throw new ilException('mail_search_query_missing');
 		}
 
-		$ilBench->start('Mail', 'LuceneSearch');
 		try
 		{
 			include_once 'Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
 			$xml = ilRpcClientFactory::factory('RPCSearchHandler')->searchMail(
-				CLIENT_ID . '_' . $ilSetting->get('inst_id', 0),
+				CLIENT_ID . '_' . $this->settings->get('inst_id', 0),
 				(int)$user_id,
 				(string)$this->query_parser->getQuery(),
 				(int)$mail_folder_id
@@ -58,13 +60,10 @@ class ilMailLuceneSearcher
 		}
 		catch(Exception $e)
 		{
-
-			$ilBench->stop('Mail', 'LuceneSearch');
 			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
 			ilLoggerFactory::getLogger('mail')->critical($e->getMessage());
 			throw $e;
 		}
-		$ilBench->stop('Mail', 'LuceneSearch');
 
 		include_once 'Services/Mail/classes/class.ilMailSearchLuceneResultParser.php';
 		$parser = new ilMailSearchLuceneResultParser($this->result, $xml);

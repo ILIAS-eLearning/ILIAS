@@ -40,18 +40,25 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $adviseText = '';
 
 	/**
+	 * @var \ilTemplate
+	 */
+	protected $tpl;
+
+	/**
 	 * ilManualPlaceholderInputGUI constructor.
 	 * @param string $dependencyElementId
 	 */
 	public function __construct($dependencyElementId)
 	{	
-		global $tpl;
-		
+		global $DIC;
+
+		$this->tpl = $DIC->ui()->mainTemplate();
+
 		parent::__construct('');
 
 		$this->dependencyElementId = $dependencyElementId;
 
-		$tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
+		$this->tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
 	}
 
 	/**

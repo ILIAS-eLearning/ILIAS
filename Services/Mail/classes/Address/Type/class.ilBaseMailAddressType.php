@@ -15,6 +15,16 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
 	protected $address;
 
 	/**
+	 * @var \ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var \ilRbacReview
+	 */
+	protected $rbacreview;
+
+	/**
 	 * @var array
 	 */
 	protected $errors = array();
@@ -25,6 +35,11 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
 	 */
 	public function __construct(ilMailAddress $a_address)
 	{
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->rbacreview = $DIC->rbac()->review();
+
 		$this->address = $a_address;
 		$this->init();
 	}
