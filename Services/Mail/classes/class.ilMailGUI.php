@@ -228,11 +228,10 @@ class ilMailGUI
 	
 	private function showHeader()
 	{
-		global $ilMainMenu, $ilTabs, $ilHelp;
+		global $DIC;
 		
-		$ilHelp->setScreenIdComponent("mail");
-
-		$ilMainMenu->setActive("mail");
+		$DIC['ilHelp']->setScreenIdComponent("mail");
+		$DIC['ilMainMenu']->setActive("mail");
 
 		$this->tpl->getStandardTemplate();
 
@@ -240,36 +239,36 @@ class ilMailGUI
 
 		// display infopanel if something happened
 		ilUtil::infoPanel();
-		
-		$ilTabs->addTarget('fold', $this->ctrl->getLinkTargetByClass('ilmailfoldergui'));		
+
+		$DIC->tabs()->addTarget('fold', $this->ctrl->getLinkTargetByClass('ilmailfoldergui'));		
 		$this->ctrl->setParameterByClass('ilmailformgui', 'type', 'new');
-		$ilTabs->addTarget('compose', $this->ctrl->getLinkTargetByClass('ilmailformgui'));
+		$DIC->tabs()->addTarget('compose', $this->ctrl->getLinkTargetByClass('ilmailformgui'));
 		$this->ctrl->clearParametersByClass('ilmailformgui');
-		$ilTabs->addTarget('mail_addressbook', $this->ctrl->getLinkTargetByClass('ilcontactgui'));
-		$ilTabs->addTarget('options', $this->ctrl->getLinkTargetByClass('ilmailoptionsgui'));
-		
+		$DIC->tabs()->addTarget('mail_addressbook', $this->ctrl->getLinkTargetByClass('ilcontactgui'));
+		$DIC->tabs()->addTarget('options', $this->ctrl->getLinkTargetByClass('ilmailoptionsgui'));
+
 		switch($this->forwardClass)
-		{				
+		{
 			case 'ilmailformgui':
-				$ilTabs->setTabActive('compose');
+				$DIC->tabs()->setTabActive('compose');
 				break;
-				
+
 			case 'ilcontactgui':
-				$ilTabs->setTabActive('mail_addressbook');
+				$DIC->tabs()->setTabActive('mail_addressbook');
 				break;
-				
+
 			case 'ilmailoptionsgui':
-				$ilTabs->setTabActive('options');
+				$DIC->tabs()->setTabActive('options');
 				break;
-				
+
 			case 'ilmailfoldergui':
 			default:
-				$ilTabs->setTabActive('fold');
+				$DIC->tabs()->setTabActive('fold');
 				break;
-			
 		}
-		if(isset($_GET['message_sent'])) $ilTabs->setTabActive('fold');
-		
+
+		if(isset($_GET['message_sent'])) $DIC->tabs()->setTabActive('fold');
+
 		if('tree' != ilSession::get(self::VIEWMODE_SESSION_KEY))
 		{
 			$tree_state = 'tree';
@@ -304,15 +303,13 @@ class ilMailGUI
 
 	private function showExplorer()
 	{
-		global $ilUser;
-		
+		global $DIC;
+
 		require_once "Services/Mail/classes/class.ilMailExplorer.php";
-		$exp = new ilMailExplorer($this, "showExplorer", $ilUser->getId());		
-		if (!$exp->handleCommand())
-		{			
+		$exp = new ilMailExplorer($this, "showExplorer", $DIC->user()->getId());		
+		if(!$exp->handleCommand())
+		{
 			$this->tpl->setLeftNavContent($exp->getHTML());
 		}
 	}
 }
-
-?>
