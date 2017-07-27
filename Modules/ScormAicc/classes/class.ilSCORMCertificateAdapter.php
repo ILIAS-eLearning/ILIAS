@@ -39,7 +39,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	*
 	* @param object $object A reference to a test object
 	*/
-	function __construct(&$object)
+	function __construct($object)
 	{
 		$this->object = $object;
 		parent::__construct();
@@ -63,12 +63,10 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateVariablesForPreview()
 	{
-		global $lng;
-		
 		$vars = $this->getBaseVariablesForPreview();
 		$vars["SCORM_TITLE"] = ilUtil::prepareFormOutput($this->object->getTitle());
-		$vars["SCORM_POINTS"] = number_format(80.7, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %";
-		$vars["SCORM_POINTS_MAX"] = number_format(90, 0, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
+		$vars["SCORM_POINTS"] = number_format(80.7, 1, $this->lng->txt("lang_sep_decimal"), $this->lng->txt("lang_sep_thousand")) . " %";
+		$vars["SCORM_POINTS_MAX"] = number_format(90, 0, $this->lng->txt("lang_sep_decimal"), $this->lng->txt("lang_sep_thousand"));
 		
 		$insert_tags = array();
 		foreach($vars as $id => $caption)
@@ -86,9 +84,9 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			{
 				if($collection->isAssignedEntry($item_id)) {
 					$insert_tags['[SCO_T_'.$counter.']'] = $sahs_item['title'];
-					$insert_tags['[SCO_P_'.$counter.']'] = number_format(30.3, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
-					$insert_tags['[SCO_PM_'.$counter.']'] = number_format(90.9, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
-					$insert_tags['[SCO_PP_'.$counter.']'] = number_format(33.3333, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %";
+					$insert_tags['[SCO_P_'.$counter.']'] = number_format(30.3, 1, $this->lng->txt("lang_sep_decimal"), $this->lng->txt("lang_sep_thousand"));
+					$insert_tags['[SCO_PM_'.$counter.']'] = number_format(90.9, 1, $this->lng->txt("lang_sep_decimal"), $this->lng->txt("lang_sep_thousand"));
+					$insert_tags['[SCO_PP_'.$counter.']'] = number_format(33.3333, 1, $this->lng->txt("lang_sep_decimal"), $this->lng->txt("lang_sep_thousand")) . " %";
 					$counter++;
 				}
 			}
@@ -107,32 +105,30 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateVariablesForPresentation($params = array())
 	{
-		global $lng,$ilUser;
-		
-		$lng->loadLanguageModule('certificate');
+		$this->lng->loadLanguageModule('certificate');
 				
 		$points = $this->object->getPointsInPercent();
 		$txtPoints = "";
 		if (is_null($points))
 		{
-			$txtPoints = $lng->txt("certificate_points_notavailable");
+			$txtPoints = $this->lng->txt("certificate_points_notavailable");
 		}
 		else
 		{
-			$txtPoints = number_format($points, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %";
+			$txtPoints = number_format($points, 1, $this->lng->txt("lang_sep_decimal"), $this->lng->txt("lang_sep_thousand")) . " %";
 		}		
 		
 		$max_points = $this->object->getMaxPoints();
 		$txtMaxPoints = '';
 		if (is_null($max_points))
 		{
-			$txtMaxPoints = $lng->txt("certificate_points_notavailable");
+			$txtMaxPoints = $this->lng->txt("certificate_points_notavailable");
 		}
 		else
 		{
 			if($max_points != floor($max_points))
 			{
-				$txtMaxPoints = number_format($max_points, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
+				$txtMaxPoints = number_format($max_points, 1, $this->lng->txt("lang_sep_decimal"), $this->lng->txt("lang_sep_thousand"));
 			}
 			else
 			{
@@ -163,13 +159,13 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			{
 				if($collection->isAssignedEntry($item_id)) {
 					$insert_tags['[SCO_T_'.$counter.']'] = $sahs_item['title'];//." getId=".$this->object->getId()." item_id=".$item_id." user_id=".$ilUser->getId()
-					$a_scores = $collection->getScoresForUserAndCP_Node_Id($item_id, $ilUser->getId());
-					if ($a_scores["raw"] == null) $insert_tags['[SCO_P_'.$counter.']'] = $lng->txt("certificate_points_notavailable");
-					else $insert_tags['[SCO_P_'.$counter.']'] = number_format($a_scores["raw"], 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
-					if ($a_scores["max"] == null) $insert_tags['[SCO_PM_'.$counter.']'] = $lng->txt("certificate_points_notavailable");
-					else $insert_tags['[SCO_PM_'.$counter.']'] = number_format($a_scores["max"], 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
-					if ($a_scores["scaled"] == null) $insert_tags['[SCO_PP_'.$counter.']'] = $lng->txt("certificate_points_notavailable");
-					else $insert_tags['[SCO_PP_'.$counter.']'] = number_format(($a_scores["scaled"]*100), 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %";
+					$a_scores = $collection->getScoresForUserAndCP_Node_Id($item_id, $GLOBALS['DIC']['ilUser']->getId());
+					if ($a_scores["raw"] == null) $insert_tags['[SCO_P_'.$counter.']'] = $this->lng->txt("certificate_points_notavailable");
+					else $insert_tags['[SCO_P_'.$counter.']'] = number_format($a_scores["raw"], 1, $this->lng->txt("lang_sep_decimal"), $this->lng->txt("lang_sep_thousand"));
+					if ($a_scores["max"] == null) $insert_tags['[SCO_PM_'.$counter.']'] = $this->lng->txt("certificate_points_notavailable");
+					else $insert_tags['[SCO_PM_'.$counter.']'] = number_format($a_scores["max"], 1, $this->lng->txt("lang_sep_decimal"), $this->lng->txt("lang_sep_thousand"));
+					if ($a_scores["scaled"] == null) $insert_tags['[SCO_PP_'.$counter.']'] = $this->lng->txt("certificate_points_notavailable");
+					else $insert_tags['[SCO_PP_'.$counter.']'] = number_format(($a_scores["scaled"]*100), 1, $this->lng->txt("lang_sep_decimal"), $this->lng->txt("lang_sep_thousand")) . " %";
 					$counter++;
 				}
 			}
@@ -186,12 +182,10 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateVariablesDescription()
 	{
-		global $lng;
-		
 		$vars = $this->getBaseVariablesDescription();
-		$vars["SCORM_TITLE"] = $lng->txt("certificate_ph_scormtitle");
-		$vars["SCORM_POINTS"] = $lng->txt("certificate_ph_scormpoints");
-		$vars["SCORM_POINTS_MAX"] = $lng->txt("certificate_ph_scormmaxpoints");
+		$vars["SCORM_TITLE"] = $this->lng->txt("certificate_ph_scormtitle");
+		$vars["SCORM_POINTS"] = $this->lng->txt("certificate_ph_scormpoints");
+		$vars["SCORM_POINTS_MAX"] = $this->lng->txt("certificate_ph_scormmaxpoints");
 		
 		$template = new ilTemplate("tpl.certificate_edit.html", TRUE, TRUE, "Modules/ScormAicc");		
 		$template->setCurrentBlock("items");
@@ -202,7 +196,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			$template->parseCurrentBlock();
 		}
 
-		$template->setVariable("PH_INTRODUCTION", $lng->txt("certificate_ph_introduction"));
+		$template->setVariable("PH_INTRODUCTION", $this->lng->txt("certificate_ph_introduction"));
 
 		include_once 'Services/Object/classes/class.ilObjectLP.php';
 		$olp = ilObjectLP::getInstance($this->object->getId());
@@ -214,20 +208,20 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 
 		if(!$items) {
 			$template->setCurrentBlock('NO_SCO');
-			$template->setVariable('PH_NO_SCO',$lng->txt('certificate_ph_no_sco'));
+			$template->setVariable('PH_NO_SCO',$this->lng->txt('certificate_ph_no_sco'));
 			$template->parseCurrentBlock();
 		}
 		else {
 			$template->setCurrentBlock('SCOS');
-			$template->setVariable('PH_SCOS',$lng->txt('certificate_ph_scos'));
+			$template->setVariable('PH_SCOS',$this->lng->txt('certificate_ph_scos'));
 			$template->parseCurrentBlock();
 			$template->setCurrentBlock('SCO_HEADER');
-			$template->setVariable('PH_TITLE_SCO',$lng->txt('certificate_ph_title_sco'));
+			$template->setVariable('PH_TITLE_SCO',$this->lng->txt('certificate_ph_title_sco'));
 			//$template->setVariable('PH_PH',$lng->txt('certificate_ph_ph'));
-			$template->setVariable('PH_SCO_TITLE',$lng->txt('certificate_ph_sco_title'));
-			$template->setVariable('PH_SCO_POINTS_RAW',$lng->txt('certificate_ph_sco_points_raw'));
-			$template->setVariable('PH_SCO_POINTS_MAX',$lng->txt('certificate_ph_sco_points_max'));
-			$template->setVariable('PH_SCO_POINTS_SCALED',$lng->txt('certificate_ph_sco_points_scaled'));
+			$template->setVariable('PH_SCO_TITLE',$this->lng->txt('certificate_ph_sco_title'));
+			$template->setVariable('PH_SCO_POINTS_RAW',$this->lng->txt('certificate_ph_sco_points_raw'));
+			$template->setVariable('PH_SCO_POINTS_MAX',$this->lng->txt('certificate_ph_sco_points_max'));
+			$template->setVariable('PH_SCO_POINTS_SCALED',$this->lng->txt('certificate_ph_sco_points_scaled'));
 			$template->parseCurrentBlock();
 		}
 
@@ -263,22 +257,21 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function addAdditionalFormElements(&$form, $form_fields)
 	{
-		global $lng;
-		$short_name = new ilTextInputGUI($lng->txt("certificate_short_name"), "short_name");
+		$short_name = new ilTextInputGUI($this->lng->txt("certificate_short_name"), "short_name");
 		$short_name->setRequired(TRUE);
 		require_once "./Services/Utilities/classes/class.ilStr.php";
 		$short_name->setValue(strlen($form_fields["short_name"]) ? $form_fields["short_name"] : ilStr::subStr($this->object->getTitle(), 0, 30));
 		$short_name->setSize(30);
 		if (strlen($form_fields["short_name"])) {
-			$short_name->setInfo(str_replace("[SHORT_TITLE]", $form_fields["short_name"], $lng->txt("certificate_short_name_description")));
+			$short_name->setInfo(str_replace("[SHORT_TITLE]", $form_fields["short_name"], $this->lng->txt("certificate_short_name_description")));
 		} else {
-			$short_name->setInfo($lng->txt("certificate_short_name_description"));
+			$short_name->setInfo($this->lng->txt("certificate_short_name_description"));
 		}
 		if (count($_POST)) $short_name->checkInput();
 		$form->addItem($short_name);
 
-		$visibility = new ilCheckboxInputGUI($lng->txt("certificate_enabled_scorm"), "certificate_enabled_scorm");
-		$visibility->setInfo($lng->txt("certificate_enabled_scorm_introduction"));
+		$visibility = new ilCheckboxInputGUI($this->lng->txt("certificate_enabled_scorm"), "certificate_enabled_scorm");
+		$visibility->setInfo($this->lng->txt("certificate_enabled_scorm_introduction"));
 		$visibility->setValue(1);
 		if ($form_fields["certificate_enabled_scorm"])
 		{
@@ -312,7 +305,6 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function addFormFieldsFromObject(&$form_fields)
 	{
-		global $ilSetting;
 		$scormSetting = new ilSetting("scorm");
 		$form_fields["certificate_enabled_scorm"] = $scormSetting->get("certificate_" . $this->object->getId());
 		$form_fields["short_name"] = $scormSetting->get("certificate_short_name_" . $this->object->getId());
@@ -327,7 +319,6 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function saveFormFields(&$form_fields)
 	{
-		global $ilSetting;
 		$scormSetting = new ilSetting("scorm");
 		$scormSetting->set("certificate_" . $this->object->getId(), $form_fields["certificate_enabled_scorm"]);
 		$scormSetting->set("certificate_short_name_" . $this->object->getId(), $form_fields["short_name"]);
@@ -363,8 +354,6 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateFilename($params = array())
 	{
-		global $lng;
-		
 		$basename = parent::getCertificateFilename($params);
 		
 		$user_data = $params["user_data"];
@@ -373,7 +362,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			global $ilSetting;
 			$scormSetting = new ilSetting("scorm");
 			$short_title = $scormSetting->get("certificate_short_name_" . $this->object->getId());
-			return strftime("%y%m%d", time()) . "_" . $lng->txt("certificate_var_user_lastname") . "_" . $short_title . "_" . $basename;
+			return strftime("%y%m%d", time()) . "_" . $this->lng->txt("certificate_var_user_lastname") . "_" . $short_title . "_" . $basename;
 		}
 		else
 		{
@@ -388,7 +377,6 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function deleteCertificate()
 	{
-		global $ilSetting;
 		$scormSetting = new ilSetting("scorm");
 		$scormSetting->delete("certificate_" . $this->object->getId());
 	}
