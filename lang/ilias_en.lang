@@ -20,7 +20,7 @@ sess#:#sess_mem_tbl_header#:#Session Participants
 sess#:#objs_crs_role#:#Course Roles
 sess#:#objs_grp_role#:#Group Roles
 sess#:#sess_part_filter_registered#:#Only Registered
-sess#:#sess_part_filter_participated#:#Only Participated
+sess#:#sess_part_filter_participated#:#Only Attended 
 sess#:#sess_print_list#:#Generate List
 forum#:#delete_drafts_successfully#:#The drafts were deleted successfully.
 forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?
