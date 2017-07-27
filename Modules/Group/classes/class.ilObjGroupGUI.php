@@ -19,6 +19,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI
 * 
 *
 * @extends ilObjectGUI
@@ -566,7 +567,8 @@ class ilObjGroupGUI extends ilContainerGUI
 						ilObjectServiceSettingsGUI::USE_NEWS,
 						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 						ilObjectServiceSettingsGUI::TAG_CLOUD,
-						ilObjectServiceSettingsGUI::BADGES
+						ilObjectServiceSettingsGUI::BADGES,
+						ilObjectServiceSettingsGUI::SKILLS
 					)
 				);
 				
@@ -1654,7 +1656,8 @@ class ilObjGroupGUI extends ilContainerGUI
 						ilObjectServiceSettingsGUI::USE_NEWS,
 						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 						ilObjectServiceSettingsGUI::TAG_CLOUD,						
-						ilObjectServiceSettingsGUI::BADGES
+						ilObjectServiceSettingsGUI::BADGES,
+						ilObjectServiceSettingsGUI::SKILLS
 					)
 				);
 

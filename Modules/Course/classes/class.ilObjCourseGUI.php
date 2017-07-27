@@ -22,7 +22,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMailMemberSearchGUI, ilBadgeManagementGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilContainerSkillGUI
  *
  * @extends ilContainerGUI
  */
@@ -964,7 +964,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,				
 				ilObjectServiceSettingsGUI::TAG_CLOUD,
 				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-				ilObjectServiceSettingsGUI::BADGES
+				ilObjectServiceSettingsGUI::BADGES,
+				ilObjectServiceSettingsGUI::SKILLS
 			)
 		);
 		
@@ -1402,7 +1403,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 					ilObjectServiceSettingsGUI::TAG_CLOUD,
 					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-					ilObjectServiceSettingsGUI::BADGES
+					ilObjectServiceSettingsGUI::BADGES,
+					ilObjectServiceSettingsGUI::SKILLS
 				)
 			);
 
@@ -2082,9 +2084,19 @@ class ilObjCourseGUI extends ilContainerGUI
 					 "",
 					 "ilbadgemanagementgui");
 			}
-		}		
+		}
 
-		
+		// skills
+		include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
+		if($ilAccess->checkAccess('write','',$this->ref_id) && ilContainer::_lookupContainerSetting($this->object->getId(),
+				ilObjectServiceSettingsGUI::SKILLS, false))
+		{
+			$this->tabs_gui->addTarget("obj_tool_setting_skills",
+				$this->ctrl->getLinkTargetByClass(array("ilcontainerskillgui", "ilcontskillpresentationgui"), ""),
+				"",
+				array("ilcontainerskillgui", "ilcontskillpresentationgui", "ilcontskilladmingui"));
+		}
+
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), $is_participant))
@@ -2511,6 +2523,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				$t = ilNewsTimelineGUI::getInstance($this->object->getRefId(), $this->object->getNewsTimelineAutoENtries());
 				$t->setUserEditAll($ilAccess->checkAccess('write','',$this->object->getRefId(),'grp'));
 				$this->ctrl->forwardCommand($t);
+				break;
+
+			case "ilcontainerskillgui":
+				$this->tabs_gui->activateTab('obj_tool_setting_skills');
+				include_once("./Services/Container/Skills/classes/class.ilContainerSkillGUI.php");
+				$gui = new ilContainerSkillGUI($this);
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			default:

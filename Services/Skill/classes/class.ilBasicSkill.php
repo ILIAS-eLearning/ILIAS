@@ -594,6 +594,41 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	}
 
 	/**
+	 * Remove a user skill completely
+	 *
+	 * @param int $a_user_id user id
+	 * @param int $a_trigger_obj_id triggering repository object obj id
+	 * @param bool $a_self_eval currently needs to be set to true
+	 * @param string $a_unique_identifier unique identifier string
+	 *
+	 */
+	static function removeAllUserSkillLevelStatusOfObject($a_user_id, $a_trigger_obj_id, $a_self_eval = false, $a_unique_identifier = "")
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		if ($a_trigger_obj_id == 0)
+		{
+			return;
+		}
+
+		$db->manipulate("DELETE FROM skl_user_skill_level WHERE "
+			." user_id = ".$db->quote($a_user_id, "integer")
+			." AND trigger_obj_id = ".$db->quote($a_trigger_obj_id, "integer")
+			." AND self_eval = ".$db->quote($a_self_eval, "integer")
+			." AND unique_identifier = ".$db->quote($a_unique_identifier, "text")
+		);
+
+		$db->manipulate("DELETE FROM skl_user_has_level WHERE "
+			." user_id = ".$db->quote($a_user_id, "integer")
+			." AND trigger_obj_id = ".$db->quote($a_trigger_obj_id, "integer")
+			." AND self_eval = ".$db->quote($a_self_eval, "integer")
+		);
+	}
+
+
+	/**
 	 * Get max levels per type
 	 *
 	 * @param

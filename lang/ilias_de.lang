@@ -15995,3 +15995,24 @@ grp#:#grp_user_been_added#:#Der Benutzer wurde der Gruppe hinzugefügt.
 grp#:#grp_sure_create_group_add_user#:#Wollen Sie die Gruppen wirklich erstellen und den Benutzer hinzufügen?
 grp#:#grp_create_and_add_user#:#Erstellen und hinzufügen
 grp#:#grp_next#:#Weiter
+obj#:#obj_tool_setting_skills#:#Kompetenzen
+cont#:#cont_skill_assigned_comp#:#Kompetenzauswahl
+cont#:#cont_skill_members#:#Mitglieder
+cont#:#cont_skill_show#:#Anzeigen
+cont#:#cont_skill_publish#:#Veröffentlichung
+cont#:#cont_skill_publish_manual#:#Manuell
+cont#:#cont_skill_publish_manual_info#:#Zuweisungen von Kompetenzausprägungen zu Mitgliedern werden für diese erst sichtbar, wenn diese veröffentlicht werden.
+cont#:#cont_skill_publish_auto_info#:#Zuweisungen von Kompetenzausprägungen zu Mitgliedern werden für diese sofort sichtbar.
+cont#:#cont_skill_publish_auto#:#Automatisch
+cont#:#cont_add_skill#:#Kompetenz hinzufügen
+cont#:#cont_cont_skills#:#Kurskompetenzen
+cont#:#cont_skill#:#Kompetenz
+cont#:#cont_path#:#Pfad
+cont#:#cont_really_remove_skill_from_course#:#Sollen die Kompetenzen wirklich aus der Liste entfernt werden?
+cont#:#cont_skill_do_not_set#:#Nich setzen
+cont#:#cont_skill_no_skill#:#Kein Wert (zurücksetzen)
+cont#:#cont_mem_skills#:#Kompetenzen
+cont#:#cont_published#:#Veröffentlichung
+cont#:#cont_assign_competence#:#Kompetenzen zuweisen
+cont#:#cont_deassign_competence#:#Kompetenzen zurücksetzen
+cont#:#cont_publish_assignment#:#Zuweisungen veröffentlichen

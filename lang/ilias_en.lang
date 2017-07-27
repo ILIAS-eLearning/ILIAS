@@ -13551,3 +13551,26 @@ grp#:#grp_sure_create_group_add_user#:#Do you really want to create the group an
 grp#:#grp_create_and_add_user#:#Create and Add User
 grp#:#grp_next#:#Next
 grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.
+obj#:#obj_tool_setting_skills#:#Competences
+cont#:#cont_skill_assigned_comp#:#Competence Selection
+cont#:#cont_skill_members#:#Members
+cont#:#cont_skill_show#:#Show
+cont#:#cont_skill_publish#:#Publish
+cont#:#cont_skill_publish_manual#:#Manual
+cont#:#cont_skill_publish_manual_info#:#Competence assignments for members must be published before they become visible for members.
+cont#:#cont_skill_publish_auto_info#:#Competence assignments for members are immediately visible for members.
+cont#:#cont_skill_publish_auto#:#Automatic
+cont#:#cont_add_skill#:#Add Competence
+cont#:#cont_cont_skills#:#Assigned Competences
+cont#:#cont_skill#:#Competence
+cont#:#cont_path#:#Path
+cont#:#cont_really_remove_skill_from_course#:#Do you really want to remove these competences from the list?
+cont#:#cont_assign_skills#:#Assign Competences
+cont#:#cont_skill_do_not_set#:#Do not set
+cont#:#cont_skill_no_skill#:#No value (Reset)
+cont#:#cont_mem_skills#:#Competences
+cont#:#cont_published#:#Published
+cont#:#cont_assign_competence#:#Assign Competences
+cont#:#cont_deassign_competence#:#Deassign Competences
+cont#:#cont_publish_assignment#:#Publish Assignments
+cont#:#cont_really_deassign_skills#:#Do you really want to deassign all competences from the users?
