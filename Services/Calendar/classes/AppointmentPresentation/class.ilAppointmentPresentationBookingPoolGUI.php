@@ -32,23 +32,29 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 		$refs = $this->getReadableRefIds($obj_id);
 
 		// add common section (title, description, object/calendar, location)
-		$this->addCommonSection($a_app, $obj_id, $cat_info);
-
-
+		//$this->addCommonSection($a_app, $obj_id, $cat_info);
 
 		if (count($refs) > 0)
 		{
-			// section: booking information
-			if ($b_obj->getDescription() || $b_obj->getFile())
-			{
-				$this->addInfoSection($this->lng->txt("book_booking_information"));
-			}
+			$this->addInfoSection($b_obj->getTitle());
 
 			// object description
 			if ($b_obj->getDescription())
 			{
 				$this->addInfoProperty($this->lng->txt("description"), $b_obj->getDescription());
 			}
+
+			$this->addObjectLinks($obj_id);
+
+			//todo: add the link to the personal bookings calendar.
+			$this->addContainerInfo($obj_id);
+
+			// section: booking information
+			if ($b_obj->getDescription() || $b_obj->getFile())
+			{
+				$this->addInfoSection($this->lng->txt("book_booking_information"));
+			}
+
 			$ref_id = current($refs);
 
 			$this->ctrl->setParameterByClass("ilObjBookingPoolGUI", "ref_id", $ref_id);
@@ -65,30 +71,23 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 				$this->addInfoProperty($this->lng->txt("book_additional_info_file"), $link);
 			}
 
-			// section: post booking information
-			if ($b_obj->getPostText()|| $b_obj->getPostFile())
-			{
-				$this->addInfoSection($this->lng->txt("book_post_booking_information"));
-			}
-
-			// post text
+			// post file
+			$array_info = array();
 			if ($b_obj->getPostText())
 			{
-				$this->addInfoProperty($this->lng->txt("book_post_booking_text"), $b_obj->getPostText());
+				$array_info[] = $b_obj->getPostText();
 			}
-
-			// post file
 			if ($b_obj->getPostFile())
 			{
 				$link = $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjBookingPoolGUI", "ilbookingobjectgui"), "deliverPostFile");
 
-				$link = $this->ui->renderer()->render(
+				$array_info[] = $this->ui->renderer()->render(
 					$this->ui->factory()->button()->shy($b_obj->getPostFile(), $link));
 
-				$this->addInfoProperty($this->lng->txt("book_post_booking_file"), $link);
 			}
-		}
+			$this->addInfoProperty($this->lng->txt("book_post_booking_information"), implode("<br>",$array_info));
 
+		}
 
 		//example download all files
 		$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
@@ -99,5 +98,5 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 		}
 
 	}
-	
+
 }
