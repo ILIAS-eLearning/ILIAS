@@ -6390,7 +6390,7 @@ fieldset[disabled] .btn:active,
 fieldset[disabled] .btn.active {
   background-color: #b0b0b0;
   border-color: #e0e0e0;
-  color: #b0b0b0;
+  color: white;
   cursor: default;
 }
 button > .glyphicon {
@@ -6398,8 +6398,9 @@ button > .glyphicon {
 }
 a.btn-link.ilSubmitInactive,
 a.btn-link.ilSubmitInactive:hover {
-  background-color: inherit;
-  color: #333333;
+  background-color: #b0b0b0;
+  color: white;
+  border-color: #e0e0e0;
   padding: 0;
 }
 .il-btn-month .dropdown-menu {
