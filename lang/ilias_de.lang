@@ -16025,3 +16025,5 @@ skll#:#skll_competence_achievements#:#Kompetenzauswertung
 common#:#grade#:#Bewerten
 rbac#:#grp_grade#:#Gruppenmitglieder bewerten
 rbac#:#crs_grade#:#Kursmitglieder bewerten
+grp#:#grp_no_perm_to_add_create_first#:#Sie müssen zunächst eine neue Gruppe erstellen. Bitte wählen Sie den Ort, an dem die neue Gruppe erstellt werden soll.
+grp#:#grp_create_new_grp_in#:#Neue Gruppe in '%1' erstellen.

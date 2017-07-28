@@ -13582,3 +13582,5 @@ skll#:#skll_competence_achievements#:#Competence Achievements
 common#:#grade#:#Grade
 rbac#:#grp_grade#:#Grade Members of Group
 rbac#:#crs_grade#:#Grade Members of Course
+grp#:#grp_no_perm_to_add_create_first#:#You need to create a group first. Please select where to create a new group.
+grp#:#grp_create_new_grp_in#:#Create new group in '%1'.

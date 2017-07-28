@@ -13,6 +13,10 @@ include_once("./Services/User/Actions/classes/class.ilUserActionProvider.php");
  */
 class ilGroupUserActionProvider extends ilUserActionProvider
 {
+	/**
+	 * @var array
+	 */
+	static protected $grp_ops = array();
 
 	/**
 	 * @inheritdoc
@@ -35,6 +39,33 @@ class ilGroupUserActionProvider extends ilUserActionProvider
 	}
 
 	/**
+	 * Get command access for user
+	 *
+	 * @param int $a_user_id
+	 * @return array
+	 */
+	static function getCommandAccess($a_user_id)
+	{
+		if (!isset(self::$grp_ops[$a_user_id]))
+		{
+			$ops = array();
+			$o = ilUtil::_getObjectsByOperations(array("root", "crs", "cat"), "create_grp", $a_user_id, 1);
+			if (count($o) > 0)
+			{
+				$ops[] = "create_grp";
+			}
+			$o = ilUtil::_getObjectsByOperations("grp", "manage_members", $a_user_id, 1);
+			if (count($o) > 0)
+			{
+				$ops[] = "manage_members";
+			}
+			self::$grp_ops[$a_user_id] = $ops;
+		}
+		return self::$grp_ops[$a_user_id];
+	}
+
+
+	/**
 	 * Collect user actions
 	 *
 	 * @param int $a_target_user target user
@@ -49,6 +80,12 @@ class ilGroupUserActionProvider extends ilUserActionProvider
 		$this->lng->loadLanguageModule("grp");
 
 		$coll = ilUserActionCollection::getInstance();
+
+		$commands = self::getCommandAccess($this->user_id);
+		if (count($commands) == 0)
+		{
+			return $coll;
+		}
 
 		$f = new ilUserAction();
 		$f->setType("add_to");

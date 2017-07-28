@@ -23,8 +23,26 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_select_parent = false)
 	{
+		global $DIC;
+
+		$user = $DIC->user();
+
 		parent::__construct($a_parent_obj, $a_parent_cmd, null, "", "");
 		$this->select_parent = $a_select_parent;
+
+		// open paths to objects with access
+		if ($a_select_parent)
+		{
+			$ref_ids = ilUtil::_getObjectsByOperations(array("root", "crs", "cat"), "create_grp", $user->getId(), 5);
+		}
+		else
+		{
+			$ref_ids = ilUtil::_getObjectsByOperations("grp", "manage_members", $user->getId(), 5);
+		}
+		foreach ($ref_ids as $ref_id)
+		{
+			$this->setPathOpen($ref_id);
+		}
 	}
 
 	/**
@@ -80,7 +98,8 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
 		}
 		else
 		{
-			if ($a_node["type"] == $this->getClickableType())
+			if ($a_node["type"] == $this->getClickableType() &&
+				$this->access->checkAccess("manage_members", "", $a_node["child"]))
 			{
 				return true;
 			}

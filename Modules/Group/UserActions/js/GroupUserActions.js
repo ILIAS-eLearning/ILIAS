@@ -10,29 +10,38 @@ il.Group = il.Group || {};
 		public_interface = {
 
 			initCreationForm: function (url) {
+				console.log("initCreationForm");
 				il.Util.sendAjaxGetRequestToUrl (url, {}, {}, function (o) {
 					if (o.responseText !== undefined) {
 						$('#il_grp_action_modal_content').html(o.responseText);
-						$('#il_grp_action_modal_content form').on("submit", function(e) {
-							var values;
-
-							e.preventDefault();
-							values = $('#il_grp_action_modal_content form').serializeArray();
-							console.log("Form Submitted...");
-							console.log(values);
-
-							il.Util.sendAjaxPostRequestToUrl($(this).attr('action'), values, function (o) {
-								$('#il_grp_action_modal_content').html(o);
-							});
-						});
+						il.Group.UserActions.setCreationSubmit();
 					}
 				});
 			},
 
+			setCreationSubmit: function () {
+				$('#il_grp_action_modal_content form').on("submit", function(e) {
+					var values;
+
+					e.preventDefault();
+					values = $('#il_grp_action_modal_content form').serializeArray();
+					console.log("Form Submitted...");
+					console.log(values);
+					il.Util.sendAjaxPostRequestToUrl($(this).attr('action'), values, function (o) {
+						console.log("post sucess on form submitted");
+						$('#il_grp_action_modal_content').html(o);
+						il.Group.UserActions.setCreationSubmit();
+					});
+				});
+
+			},
+
 			createGroup: function (e) {
+				console.log("createGroup");
 				e.preventDefault();
 				values = $('#il_grp_action_modal_content form').serializeArray();
 				il.Util.sendAjaxPostRequestToUrl($('#il_grp_action_modal_content form').attr('action'), values, function (o) {
+					console.log("post sucess in createGroup");
 					$('#il_grp_action_modal_content').html(o);
 				});
 			},

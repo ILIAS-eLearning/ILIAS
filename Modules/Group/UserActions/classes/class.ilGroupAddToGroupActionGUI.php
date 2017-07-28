@@ -49,9 +49,10 @@ class ilGroupAddToGroupActionGUI
 		$this->ui = $DIC->ui();
 		$this->lng = $DIC->language();
 		$this->tree = $DIC->repositoryTree();
+		$this->user = $DIC->user();
 
 		$this->lng->loadLanguageModule("grp");
-		$this->ctrl->saveParameter($this, "user_id");
+		$this->ctrl->saveParameter($this, array("user_id", "modal_exists"));
 	}
 
 	/**
@@ -60,16 +61,44 @@ class ilGroupAddToGroupActionGUI
 	function executeCommand()
 	{
 		$ctrl = $this->ctrl;
+		$user = $this->user;
 
 		$next_class = $ctrl->getNextClass($this);
 		$cmd = $ctrl->getCmd("show");
 
+		if ($cmd == "show")
+		{
+			include_once("./Modules/Group/UserActions/classes/class.ilGroupUserActionProvider.php");
+			$ca = ilGroupUserActionProvider::getCommandAccess($user->getId());
+			if (count($ca) == 0)
+			{
+				return;
+			}
+			if (count($ca) == 1)
+			{
+				switch (current($ca))
+				{
+					case "create_grp":
+						$cmd = "selectParent";
+						break;
+
+					case "manage_members":
+						$cmd = "selectGroup";
+						break;
+
+					default:
+						return;
+				}
+			}
+		}
+
 		switch ($next_class)
 		{
 			default:
-				if (in_array($cmd, array("show", "selectParten", "selectGroup", "confirmAddUser", "addUser",
+				if (in_array($cmd, array("show", "selectGroup", "confirmAddUser", "addUser",
 					"selectParent", "createGroup", "confirmCreateGroupAndAddUser", "createGroupAndAddUser")))
 				{
+					$ctrl->setParameter($this, "modal_exists", 1);
 					$this->$cmd();
 				}
 		}
@@ -155,7 +184,7 @@ class ilGroupAddToGroupActionGUI
 
 		if (!$exp->handleCommand())
 		{
-			echo $exp->getHTML();
+			$this->sendResponse($exp->getHTML());
 		}
 
 		exit;
@@ -231,6 +260,8 @@ class ilGroupAddToGroupActionGUI
 	function selectParent()
 	{
 		$tree = $this->tree;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 
 		include_once("./Modules/Group/UserActions/classes/class.ilGroupActionTargetExplorerGUI.php");
 		$exp = new ilGroupActionTargetExplorerGUI($this, "selectParent", true);
@@ -240,7 +271,8 @@ class ilGroupAddToGroupActionGUI
 
 		if (!$exp->handleCommand())
 		{
-			echo $exp->getHTML();
+			$this->sendResponse($tpl->getMessageHTML($lng->txt("grp_no_perm_to_add_create_first"), "info").
+				$exp->getHTML());
 		}
 
 		exit;
@@ -252,14 +284,20 @@ class ilGroupAddToGroupActionGUI
 	 * @param
 	 * @return
 	 */
-	function createGroup()
+	function createGroup($form = null)
 	{
-		$form = $this->getGroupCreationForm();
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+
+		if ($form == null)
+		{
+			$form = $this->getGroupCreationForm();
+		}
 		$this->ctrl->saveParameter($this, "grp_act_par_ref_id");
 		$form->setFormAction($this->ctrl->getLinkTarget($this, "confirmCreateGroupAndAddUser", "", true, false));
 
-		echo "Create Group in ".$_GET["grp_act_par_ref_id"];
-		echo $form->getHTML();
+		echo $tpl->getMessageHTML(str_replace("%1", ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["grp_act_par_ref_id"])) ,$lng->txt("grp_create_new_grp_in")), "info").
+			$form->getHTML();
 		exit;
 	}
 
@@ -285,13 +323,17 @@ class ilGroupAddToGroupActionGUI
 	function confirmCreateGroupAndAddUser()
 	{
 
-		echo "Confirmation of it in ".$_GET["grp_act_par_ref_id"];
-
 		$ctrl = $this->ctrl;
 		$tpl = $this->tpl;
 		$lng = $this->lng;
 
 		$form = $this->getGroupCreationForm();
+		if (!$form->checkInput())
+		{
+			$this->createGroup($form);
+			return;
+		}
+
 		$this->ctrl->saveParameter($this, "grp_act_par_ref_id");
 		$form->setFormAction($this->ctrl->getLinkTarget($this, "createGroupAndAddUser", "", true, false));
 		$form->setValuesByPost();
