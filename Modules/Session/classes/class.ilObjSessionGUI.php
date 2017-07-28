@@ -1537,6 +1537,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$files->setFilenames(array(0 => ''));
 		$this->form->addItem($files);
 				
+		$features = new ilFormSectionHeaderGUI();
+		$features->setTitle($this->lng->txt('obj_features'));
+		$this->form->addItem($features);
 		ilObjectServiceSettingsGUI::initServiceSettingsForm(
 				$this->object->getId(),
 				$this->form,
