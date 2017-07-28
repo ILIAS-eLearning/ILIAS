@@ -10,4 +10,7 @@
 		</object>
 	</objects>
 	<logging />
+	<crons>
+		<cron id="skll_notification" class="ilSkillNotifications" />
+	</crons>
 </service>

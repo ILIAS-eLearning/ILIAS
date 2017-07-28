@@ -13574,3 +13574,8 @@ cont#:#cont_assign_competence#:#Assign Competences
 cont#:#cont_deassign_competence#:#Deassign Competences
 cont#:#cont_publish_assignment#:#Publish Assignments
 cont#:#cont_really_deassign_skills#:#Do you really want to deassign all competences from the users?
+skll#:#skll_new_skill_achievements#:#You achieved new competence levels in the period of %1$s to %2$s:
+skll#:#skll_intro_skill_notification_for#:#this is an overview of your latest competence achievements.
+skll#:#skll_skill_notification#:#Competence Notification
+skll#:#skll_skill_notification_desc#:#Informs user on newly set competence levels.
+skll#:#skll_competence_achievements#:#Competence Achievements
