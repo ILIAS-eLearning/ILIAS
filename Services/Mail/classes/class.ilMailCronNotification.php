@@ -29,7 +29,7 @@ class ilMailCronNotification extends ilCronJob
 	/**
 	 *
 	 */
-	public function init()
+	protected function init()
 	{
 		global $DIC;
 
