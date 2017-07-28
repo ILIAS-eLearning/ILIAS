@@ -262,6 +262,13 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($t);
 				break;
 
+			case "ilcontainerskillgui":
+				$this->tabs_gui->activateTab('obj_tool_setting_skills');
+				include_once("./Services/Container/Skills/classes/class.ilContainerSkillGUI.php");
+				$gui = new ilContainerSkillGUI($this);
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			default:
 			
 				// check visible permission
@@ -1077,8 +1084,19 @@ class ilObjGroupGUI extends ilContainerGUI
 					 "",
 					 "ilbadgemanagementgui");
 			}
-		}		
-		
+		}
+
+		// skills
+		include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
+		if($ilAccess->checkAccess('read','',$this->ref_id) && ilContainer::_lookupContainerSetting($this->object->getId(),
+				ilObjectServiceSettingsGUI::SKILLS, false))
+		{
+			$this->tabs_gui->addTarget("obj_tool_setting_skills",
+				$this->ctrl->getLinkTargetByClass(array("ilcontainerskillgui", "ilcontskillpresentationgui"), ""),
+				"",
+				array("ilcontainerskillgui", "ilcontskillpresentationgui", "ilcontskilladmingui"));
+		}
+
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), $is_participant))

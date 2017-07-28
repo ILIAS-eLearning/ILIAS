@@ -298,8 +298,20 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		}
 		
 		$this->tpl->setVariable('VAL_POSTNAME', 'participants');
-		$this->tpl->setVariable('VAL_PASSED_ID',$a_set['usr_id']);
-		$this->tpl->setVariable('VAL_PASSED_CHECKED',($a_set['passed'] ? 'checked="checked"' : ''));
+
+		if ($ilAccess->checkAccess("grade", "", $this->rep_object->getRefId()))
+		{
+			$this->tpl->setCurrentBlock('grade');
+			$this->tpl->setVariable('VAL_PASSED_ID', $a_set['usr_id']);
+			$this->tpl->setVariable('VAL_PASSED_CHECKED', ($a_set['passed'] ? 'checked="checked"' : ''));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setVariable('VAL_PASSED_TXT', ($a_set['passed']
+				? $this->lng->txt("yes")
+				: $this->lng->txt("no")));
+		}
 		
 		if(
 			$this->getParticipants()->isAdmin($a_set['usr_id']) || 

@@ -51,6 +51,11 @@ class ilContSkillAdminGUI
 	protected $toolbar;
 
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
 	 * Constructor
 	 *
 	 * @param
@@ -64,9 +69,11 @@ class ilContSkillAdminGUI
 		$this->lng = $DIC->language();
 		$this->tpl = $DIC["tpl"];
 		$this->toolbar = $DIC->toolbar();
+		$this->access = $DIC->access();
 
 		$this->container_gui = $a_container_gui;
 		$this->container = $a_container_gui->object;
+		$this->ref_id = $this->container->getRefId();
 
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->skill_tree = new ilSkillTree();
@@ -88,9 +95,15 @@ class ilContSkillAdminGUI
 		switch ($next_class)
 		{
 			default:
-				if (in_array($cmd, array("listMembers", "listCompetences", "settings", "saveSettings", "selectSkill",
-					"saveSelectedSkill", "confirmRemoveSelectedSkill", "removeSelectedSkill", "assignCompetences",
-					"saveCompetenceAssignment", "publishAssignments", "deassignCompetencesConfirm", "deassignCompetences")))
+				if (
+					($this->access->checkAccess("write", "", $this->ref_id) &&
+						in_array($cmd, array("listCompetences", "settings", "saveSettings", "selectSkill",
+						"saveSelectedSkill", "confirmRemoveSelectedSkill", "removeSelectedSkill")))
+					||
+					($this->access->checkAccess("grade", "", $this->ref_id) &&
+						in_array($cmd, array("listMembers", "assignCompetences",
+							"saveCompetenceAssignment", "publishAssignments", "deassignCompetencesConfirm", "deassignCompetences")))
+				)
 				{
 					$this->$cmd();
 				}

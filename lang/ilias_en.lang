@@ -13579,3 +13579,6 @@ skll#:#skll_intro_skill_notification_for#:#this is an overview of your latest co
 skll#:#skll_skill_notification#:#Competence Notification
 skll#:#skll_skill_notification_desc#:#Informs user on newly set competence levels.
 skll#:#skll_competence_achievements#:#Competence Achievements
+common#:#grade#:#Grade
+rbac#:#grp_grade#:#Grade Members of Group
+rbac#:#crs_grade#:#Grade Members of Course

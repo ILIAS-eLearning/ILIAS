@@ -16022,3 +16022,6 @@ skll#:#skll_intro_skill_notification_for#:#nachfolgend eine Übersicht Ihrer let
 skll#:#skll_skill_notification#:#Benachrichtigung Kompetenzauswertung
 skll#:#skll_skill_notification_desc#:#Benutzer werden über geänderte Kompetenzausprägungen benachrichtigt.
 skll#:#skll_competence_achievements#:#Kompetenzauswertung
+common#:#grade#:#Bewerten
+rbac#:#grp_grade#:#Gruppenmitglieder bewerten
+rbac#:#crs_grade#:#Kursmitglieder bewerten

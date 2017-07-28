@@ -2088,7 +2088,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		// skills
 		include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
-		if($ilAccess->checkAccess('write','',$this->ref_id) && ilContainer::_lookupContainerSetting($this->object->getId(),
+		if($ilAccess->checkAccess('read','',$this->ref_id) && ilContainer::_lookupContainerSetting($this->object->getId(),
 				ilObjectServiceSettingsGUI::SKILLS, false))
 		{
 			$this->tabs_gui->addTarget("obj_tool_setting_skills",
