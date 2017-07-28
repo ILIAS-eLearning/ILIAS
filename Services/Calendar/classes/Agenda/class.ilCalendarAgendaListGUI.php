@@ -1,5 +1,5 @@
 <?php
-
+include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,7 +9,7 @@
  * @ingroup ServicesCalendar
  * @ilCtrl_Calls ilCalendarAgendaListGUI: ilCalendarAppointmentPresentationGUI
  */
-class ilCalendarAgendaListGUI
+class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 {
 	const PERIOD_DAY = 1;
 	const PERIOD_WEEK = 2;
@@ -20,16 +20,6 @@ class ilCalendarAgendaListGUI
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
-
-	/**
-	 * @var \ILIAS\UI\Factory
-	 */
-	protected $ui_fac;
-
-	/**
-	 * @var \ILIAS\UI\Renderer
-	 */
-	protected $ui_ren;
 
 	/**
 	 * @var ilObjUser
@@ -59,8 +49,8 @@ class ilCalendarAgendaListGUI
 		global $DIC;
 
 		$this->ctrl = $DIC->ctrl();
-		$this->ui_fac = $DIC->ui()->factory();
-		$this->ui_ren = $DIC->ui()->renderer();
+		$this->ui_factory = $DIC->ui()->factory();
+		$this->ui_renderer = $DIC->ui()->renderer();
 		$this->user = $DIC->user();
 		$this->lng = $DIC->language();
 
@@ -125,28 +115,6 @@ class ilCalendarAgendaListGUI
 		}
 	}
 
-
-	/**
-	 * Get app for id
-	 *
-	 * @param
-	 * @return
-	 */
-	function getCurrentApp()
-	{
-		// @todo: this needs optimization
-		$events = $this->getEvents();
-		foreach ($events as $item)
-		{
-			if ($item["event"]->getEntryId() == (int) $_GET["app_id"])
-			{
-				return $item;
-			}
-		}
-		return null;
-	}
-
-
 	/**
 	 * Get output
 	 *
@@ -182,7 +150,7 @@ class ilCalendarAgendaListGUI
 				// terminate preceding group
 				if ($cday != "")
 				{
-					$groups[] = $this->ui_fac->item()->group($cday, $items);
+					$groups[] = $this->ui_factory->item()->group($cday, $items);
 				}
 				$cday = $day;
 				$items = array();
@@ -199,12 +167,12 @@ class ilCalendarAgendaListGUI
 			$this->ctrl->setParameter($this, 'seed', $this->seed);
 			$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
 			$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
-			$modal = $this->ui_fac->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
-			//$modal = $this->ui_fac->modal()->roundtrip('test', $this->ui_fac->legacy("Hello World."));
-			$shy = $this->ui_fac->button()->shy($e["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal());
+			$modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
+			//$modal = $this->ui_factory->modal()->roundtrip('test', $this->ui_factory->legacy("Hello World."));
+			$shy = $this->ui_factory->button()->shy($e["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal());
 			$modals[] = $modal;
 
-			$li = $this->ui_fac->item()->standard($shy)
+			$li = $this->ui_factory->item()->standard($shy)
 				->withDescription("".$e["event"]->getDescription())
 				->withLeadText(ilDatePresentation::formatPeriod($begin, $end, true))
 				->withProperties($properties)
@@ -221,22 +189,22 @@ class ilCalendarAgendaListGUI
 		// terminate last group
 		if ($cday != "")
 		{
-			$groups[] = $this->ui_fac->item()->group($cday, $items);
+			$groups[] = $this->ui_factory->item()->group($cday, $items);
 		}
 
 		// list actions
 		$items = array();
 		$this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_DAY);
-		$items[] = $this->ui_fac->button()->shy("1 ".$this->lng->txt("day"), $this->ctrl->getLinkTarget($this, "getHTML"));
+		$items[] = $this->ui_factory->button()->shy("1 ".$this->lng->txt("day"), $this->ctrl->getLinkTarget($this, "getHTML"));
 		$this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_WEEK);
-		$items[] = $this->ui_fac->button()->shy("1 ".$this->lng->txt("week"), $this->ctrl->getLinkTarget($this, "getHTML"));
+		$items[] = $this->ui_factory->button()->shy("1 ".$this->lng->txt("week"), $this->ctrl->getLinkTarget($this, "getHTML"));
 		$this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_MONTH);
-		$items[] = $this->ui_fac->button()->shy("1 ".$this->lng->txt("month"), $this->ctrl->getLinkTarget($this, "getHTML"));
+		$items[] = $this->ui_factory->button()->shy("1 ".$this->lng->txt("month"), $this->ctrl->getLinkTarget($this, "getHTML"));
 		$this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_HALF_YEAR);
-		$items[] = $this->ui_fac->button()->shy("6 ".$this->lng->txt("months"), $this->ctrl->getLinkTarget($this, "getHTML"));
+		$items[] = $this->ui_factory->button()->shy("6 ".$this->lng->txt("months"), $this->ctrl->getLinkTarget($this, "getHTML"));
 		$this->ctrl->setParameter($this, "cal_agenda_per", $this->period);
 
-		$actions = $this->ui_fac->dropdown()->standard($items)->withLabel($this->lng->txt("days"));
+		$actions = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("days"));
 
 		$list_title = $this->lng->txt("cal_agenda").": ".ilDatePresentation::formatDate(new ilDate($this->seed, IL_CAL_DATE));
 		if ($this->period != self::PERIOD_DAY)
@@ -244,89 +212,14 @@ class ilCalendarAgendaListGUI
 			$list_title.= " - ".ilDatePresentation::formatDate(new ilDate($this->period_end_day, IL_CAL_DATE));
 		}
 
-		$list = $this->ui_fac->panel()->listing()->standard($list_title, $groups)
+		$list = $this->ui_factory->panel()->listing()->standard($list_title, $groups)
 			->withActions($actions);
 
 
 		$comps = array_merge($modals, array($list));
 
-		return $this->ui_ren->render($comps);
+		return $this->ui_renderer->render($comps);
 
-	}
-
-	/**
-	 * Get events
-	 *
-	 * @param
-	 * @return
-	 */
-	function getEvents()
-	{
-//		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
-//		initialize($a_mode,$a_source_ref_id = 0,$a_use_cache = false)
-		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_PD_UPCOMING);
-		$schedule->setPeriod(new ilDate($this->seed, IL_CAL_DATE),
-			new ilDate($this->period_end_day, IL_CAL_DATE));
-
-		//return $schedule->getChangedEvents(true);
-
-		$schedule->addSubitemCalendars(true);
-		$schedule->calculate();
-		$ev = $schedule->getScheduledEvents();
-		return $ev;
-	}
-
-	/**
-	 * Get start/end date for item
-	 *
-	 * @param array $item item
-	 * @return array
-	 */
-	function getDatesForItem($item)
-	{
-		$start = $item["dstart"];
-		$end = $item["dend"];
-		if($item["fullday"])
-		{
-			$start = new ilDate($start, IL_CAL_UNIX);
-			$end = new ilDate($end, IL_CAL_UNIX);
-		}
-		else
-		{
-			$start = new ilDateTime($start, IL_CAL_UNIX);
-			$end = new ilDateTime($end, IL_CAL_UNIX);
-		}
-		return array("start" => $start, "end" => $end);
-	}
-
-	/**
-	 * Get modal for appointment (see similar code in ilCalendarBlockGUI)
-	 */
-	function getModalForApp()
-	{
-		$ilCtrl = $this->ctrl;
-
-		$f = $this->ui_fac;
-		$r = $this->ui_ren;
-
-		// @todo: this needs optimization
-		$events = $this->getEvents();
-		foreach ($events as $item)
-		{
-			if ($item["event"]->getEntryId() == (int) $_GET["app_id"])
-			{
-				$dates = $this->getDatesForItem($item);
-
-				// content of modal
-				include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
-				$next_gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed, IL_CAL_DATE), $item);
-				$content = $ilCtrl->getHTML($next_gui);
-
-				$modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),$f->legacy($content));
-				echo $r->renderAsync($modal);
-			}
-		}
-		exit();
 	}
 
 }

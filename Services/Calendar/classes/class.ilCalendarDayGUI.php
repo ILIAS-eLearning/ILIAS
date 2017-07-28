@@ -27,7 +27,8 @@
 * @version $Id$
 * 
 * @ilCtrl_Calls ilCalendarDayGUI: ilCalendarAppointmentGUI
-* @ingroup ServicesCalendar 
+* @ilCtrl_Calls ilCalendarDayGUI: ilCalendarAppointmentPresentationGUI
+* @ingroup ServicesCalendar
 */
 
 include_once('./Services/Calendar/classes/class.ilDate.php');
@@ -35,9 +36,10 @@ include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
 include_once('./Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php');
 include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
 include_once('./Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
+include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
 
 
-class ilCalendarDayGUI
+class ilCalendarDayGUI extends ilCalendarViewGUI
 {
 	protected $seed = null;
 	protected $seed_info = array();
@@ -98,10 +100,10 @@ class ilCalendarDayGUI
 		$this->user = $DIC->user();
 		$this->tabs_gui = $DIC->tabs();
 		$this->tpl = $DIC["tpl"];
-		$this->ui = $DIC->ui();
 		$this->toolbar = $DIC->toolbar();
+		$this->ui_factory = $DIC->ui()->factory();
+		$this->ui_renderer = $DIC->ui()->renderer();
 
-		
 		$this->seed = $seed_date;
 		$this->seed_info = $this->seed->get(IL_CAL_FKT_GETDATE);
 
@@ -344,6 +346,9 @@ class ilCalendarDayGUI
 	 */
 	protected function showFulldayAppointment($a_app)
 	{
+		$f = $this->ui_factory;
+		$r = $this->ui_renderer;
+
 		$this->tpl->setCurrentBlock('panel_code');
 		$this->tpl->setVariable('NUM',$this->num_appointments);
 		$this->tpl->parseCurrentBlock();
@@ -359,13 +364,24 @@ class ilCalendarDayGUI
 
 		$this->tpl->setCurrentBlock('fullday_app');
 		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-		$this->tpl->setVariable('PANEL_F_DAY_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
+		//$this->tpl->setVariable('PANEL_F_DAY_DATA',ilCalendarAppointmentPresentationGUI::_getInstance($this->seed)->getHTML($a_app));
 		$this->tpl->setVariable('F_DAY_ID',$this->num_appointments);
 		
 		$compl = ($a_app['event']->isMilestone() && $a_app['event']->getCompletion() > 0)
 			? " (".$a_app['event']->getCompletion()."%)"
 			: "";
-		$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getPresentationTitle(false).$compl);
+
+		$this->ctrl->setParameter($this, "app_id", $a_app["event"]->getEntryId());
+		$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
+		$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
+
+		$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
+
+		$comps = [$f->button()->shy($a_app["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal()), $modal];
+		$shy = $r->render($comps);
+
+		$this->tpl->setVariable('F_APP_TITLE',$shy.$compl);
+
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$this->tpl->setVariable('F_APP_BGCOLOR',$color);
 		$this->tpl->setVariable('F_APP_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
@@ -380,6 +396,92 @@ class ilCalendarDayGUI
 		
 		$this->num_appointments++;
 	}
+
+	//TODO this getModalForApp is copied and adapted from ilCalendarBlockGUI. Refactor this. ilCalendarUtil or base class?¿?
+	/**
+	 * Get modal for appointment (see similar code in ilCalendarAgendaListGUI)
+	 */
+	/*function getModalForApp()
+	{
+		$ui = $this->ui;
+		$ilCtrl = $this->ctrl;
+
+		$f = $ui->factory();
+		$r = $ui->renderer();
+
+		$this->seed = new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
+
+		ilLoggerFactory::getRootLogger()->debug("GET Value".$_GET["app_id"]);
+
+		// @todo: this needs optimization
+		$events = $this->getEvents();
+		foreach ($events as $item)
+		{
+			if ($item["event"]->getEntryId() == (int) $_GET["app_id"])
+			{
+					//$item = new ilCalendarEntry($entry_id);
+					$dates = $this->getDatesForItem($item);
+
+					// content of modal
+					include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
+
+					$next_gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $item);
+					$content = $ilCtrl->getHTML($next_gui);
+
+					$modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]), $f->legacy($content));
+
+					echo $r->renderAsync($modal);
+			}
+		}
+		exit();
+	}*/
+
+	//TODO this function is copied from ilcalendarblockgui move this to ilcalendarutils or base class ?¿?¿
+	/**
+	 * Get start/end date for item
+	 *
+	 * @param array $item item
+	 * @return array
+	 */
+	/*function getDatesForItem($item)
+	{
+		$start = $item["dstart"];
+		$end = $item["dend"];
+		if($item["fullday"])
+		{
+			$start = new ilDate($start, IL_CAL_UNIX);
+			$end = new ilDate($end, IL_CAL_UNIX);
+		}
+		else
+		{
+			$start = new ilDateTime($start, IL_CAL_UNIX);
+			$end = new ilDateTime($end, IL_CAL_UNIX);
+		}
+		return array("start" => $start, "end" => $end);
+	}*/
+
+	/**
+	 * TODO MOVE THIS TO ilCalendarUtils, refactor this
+	 */
+	/**
+	 * Get events
+	 *
+	 * @param
+	 * @return
+	 */
+	/*function getEvents()
+	{
+		$seed = new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
+
+		include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');
+		$schedule = new ilCalendarSchedule($seed, ilCalendarSchedule::TYPE_PD_UPCOMING);
+		$schedule->addSubitemCalendars(true); // #12007
+		$schedule->setEventsLimit(20);
+		$schedule->calculate();
+		$ev = $schedule->getScheduledEvents(); // #13809
+		return ($ev);
+	}*/
+
 	
 	/**
 	 * show appointment
@@ -390,7 +492,6 @@ class ilCalendarDayGUI
 	protected function showAppointment($a_app)
 	{
 		$ilUser = $this->user;
-
 
 		$this->tpl->setCurrentBlock('panel_code');
 		$this->tpl->setVariable('NUM',$this->num_appointments);
@@ -405,9 +506,9 @@ class ilCalendarDayGUI
 			$this->tpl->setCurrentBlock('scrd_app');
 		}
 
-		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-		$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
-		$this->tpl->setVariable('PANEL_NUM',$this->num_appointments);
+		//include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
+		//$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
+		//$this->tpl->setVariable('PANEL_NUM',$this->num_appointments);
 
 		$this->tpl->setVariable('APP_ROWSPAN',$a_app['rowspan']);
 		$this->tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle(false));
@@ -439,8 +540,18 @@ class ilCalendarDayGUI
 		}
 
 		$title .= (' '.$a_app['event']->getPresentationTitle(false));
-		
-		$this->tpl->setVariable('APP_TITLE',$title);
+
+		//todo method for this.
+		$this->ctrl->setParameter($this, "app_id", $a_app["event"]->getEntryId());
+		$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
+		$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
+
+		$modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
+
+		$comps = [$this->ui_factory->button()->shy($title, "")->withOnClick($modal->getShowSignal()), $modal];
+		$shy = $this->ui_renderer->render($comps);
+
+		$this->tpl->setVariable('APP_TITLE',$shy);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$this->tpl->setVariable('APP_BGCOLOR',$color);
