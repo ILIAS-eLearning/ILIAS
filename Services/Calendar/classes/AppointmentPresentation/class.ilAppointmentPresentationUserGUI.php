@@ -39,13 +39,28 @@ class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI impl
 		$cat_info = $this->getCatInfo();
 
 		// common info: title, description, location, calendar
-		$this->addCommonSection($a_app, 0, $cat_info);
+		//$this->addCommonSection($a_app, 0, $cat_info);
+
+		// event title
+		$this->addInfoSection($a_app["event"]->getPresentationTitle());
+
+		// event description
+		$this->addEventDescription($a_app);
+
+		// calendar info
+		if ($cat_info != null)
+		{
+			$this->addCalendarInfo($cat_info);
+		}
 
 		// owner
 		$this->addInfoProperty($this->lng->txt("cal_owner"), $this->getUserName($cat_info['obj_id']));
 		$this->addListItemProperty($this->lng->txt("cal_owner"), $this->getUserName($cat_info['obj_id']));
 
 		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id']))."_info"));
+
+		// event location
+		$this->addEventLocation($a_app);
 
 		//user notifications
 		include_once './Services/Calendar/classes/class.ilCalendarUserNotification.php';
