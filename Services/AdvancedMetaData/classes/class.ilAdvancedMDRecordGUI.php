@@ -391,13 +391,13 @@ class ilAdvancedMDRecordGUI
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 		include_once('Services/ADT/classes/class.ilADTFactory.php');
 
+		$array_elements = array();
 		foreach(ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type, $this->sub_type, $this->sub_id) as $record_id => $a_values)
 		{
 			// this correctly binds group and definitions
 			$a_values->read();
 
 			$defs = $a_values->getDefinitions();
-			$array_elements = array();
 			foreach($a_values->getADTGroup()->getElements() as $element_id => $element)
 			{
 				if(!$element->isNull())
