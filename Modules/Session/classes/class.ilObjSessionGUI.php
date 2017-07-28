@@ -485,12 +485,48 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->checkPermission('visible');
 		$this->tabs_gui->setTabActive('info_short');
 
-		$appointment_obj = $this->object->getFirstAppointment();
+		$this->showJoinRequestButton();
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
+		
+		
+		$eventItems = ilObjectActivation::getItemsByEvent($this->object->getId());			
+		$parent_id = $tree->getParentId($this->object->getRefId());
+		$parent_id = ilObject::_lookupObjId($parent_id);				
+		$eventItems = ilContainerSorting::_getInstance($parent_id)->sortSubItems(
+			'sess',
+			$this->object->getId(),
+			$eventItems
+		);			
+		
+		$lng->loadLanguageModule("cntr");// #14158		
+		
+		$html = '';		
+		foreach($eventItems as $item)
+		{						
+			$list_gui = ilSessionObjectListGUIFactory::factory($item['type']);
+			$list_gui->setContainerObject($this);
+			
+			$this->modifyItemGUI($list_gui, $item, false);
+			
+			$html .= $list_gui->getListItemHTML(
+				$item['ref_id'],
+				$item['obj_id'],
+				$item['title'],
+				$item['description']
+			);
+		}
+		
+		if(strlen($html))
+		{
+			$info->addSection($this->lng->txt('event_materials'));
+			$info->addProperty(
+				'&nbsp;',
+				$html);
+		}
+		
 
-		$this->showJoinRequestButton();
 		
 		// Session information
 		if(strlen($this->object->getLocation()) or strlen($this->object->getDetails()))
@@ -536,48 +572,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 								   $phone);
 			}
 		}
-		
-				
-		$html = '';		
-			
-		include_once './Services/Object/classes/class.ilObjectActivation.php';		
-		include_once './Services/Container/classes/class.ilContainerSorting.php';	
-		include_once './Modules/Session/classes/class.ilSessionObjectListGUIFactory.php';
-		
-		$eventItems = ilObjectActivation::getItemsByEvent($this->object->getId());			
-		$parent_id = $tree->getParentId($this->object->getRefId());
-		$parent_id = ilObject::_lookupObjId($parent_id);				
-		$eventItems = ilContainerSorting::_getInstance($parent_id)->sortSubItems(
-			'sess',
-			$this->object->getId(),
-			$eventItems
-		);			
-		
-		$lng->loadLanguageModule("cntr");// #14158		
-		
-		foreach($eventItems as $item)
-		{						
-			$list_gui = ilSessionObjectListGUIFactory::factory($item['type']);
-			$list_gui->setContainerObject($this);
-			
-			$this->modifyItemGUI($list_gui, $item, false);
-			
-			$html .= $list_gui->getListItemHTML(
-				$item['ref_id'],
-				$item['obj_id'],
-				$item['title'],
-				$item['description']
-			);
-		}
-		
-		if(strlen($html))
-		{
-			$info->addSection($this->lng->txt('event_materials'));
-			$info->addProperty(
-				'&nbsp;',
-				$html);
-		}
-
 		// forward the command
 		$this->ctrl->forwardCommand($info);
 		
