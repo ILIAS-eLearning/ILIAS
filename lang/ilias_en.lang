@@ -13540,3 +13540,5 @@ rbac#:#stys_sty_write_content#:#Edit Content Styles
 style#:#manage_system_styles#:#Manage System Styles
 style#:#scope#:#Scope
 survey#:#sub_tab_dashboard#:#Dashboard
+common#:#edit_page_meta#:#Edit Page Metadata
+rbac#:#wiki_edit_page_meta#:#Edit Wiki Page Metadata

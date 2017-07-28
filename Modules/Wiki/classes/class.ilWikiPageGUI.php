@@ -95,7 +95,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	function executeCommand()
 	{
 		global $ilCtrl, $ilTabs, $ilUser, $ilAccess, $lng, $tpl;
-		
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
@@ -131,10 +131,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				$ilCtrl->redirect($this, "preview");
 				break;
 
-			case "ilpageobjectgui":
-	die("Deprecated. Wikipage gui forwarding to ilpageobject");
-				return;
-				
 			case "ilcommonactiondispatchergui":
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
@@ -196,7 +192,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				   }
 				   $ilCtrl->redirect($this, "preview");
 				}
-				
+
 				$this->setPresentationTitle($this->getWikiPage()->getTitle());
 				return parent::executeCommand();
 		}
@@ -1001,8 +997,15 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		
 	function editAdvancedMetaData(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilTabs, $lng, $ilCtrl, $tpl;
-		
+		global $ilTabs, $lng, $ilCtrl, $tpl, $ilAccess;
+
+		if (!$ilAccess->checkAccess("write", "", $this->wiki_ref_id) &&
+			!$ilAccess->checkAccess("edit_page_meta", "", $this->wiki_ref_id))
+		{
+			return;
+		}
+
+
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "preview"));
@@ -1017,8 +1020,14 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	function updateAdvancedMetaData()
 	{		
-		global $ilCtrl, $lng;
-		
+		global $ilCtrl, $lng, $ilAccess;
+
+		if (!$ilAccess->checkAccess("write", "", $this->wiki_ref_id) &&
+			!$ilAccess->checkAccess("edit_page_meta", "", $this->wiki_ref_id))
+		{
+			return;
+		}
+
 		$form = $this->initAdvancedMetaDataForm();
 	
 		// needed for proper advanced MD validation	 		
@@ -1038,8 +1047,14 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	function hideAdvancedMetaData()
 	{
-		global $ilCtrl, $lng;
-		
+		global $ilCtrl, $lng, $ilAccess;
+
+		if (!$ilAccess->checkAccess("write", "", $this->wiki_ref_id) &&
+			!$ilAccess->checkAccess("edit_page_meta", "", $this->wiki_ref_id))
+		{
+			return;
+		}
+
 		$this->getPageObject()->hideAdvancedMetadata(true);
 		$this->getPageObject()->update();
 			
@@ -1049,8 +1064,14 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	function unhideAdvancedMetaData()
 	{
-		global $ilCtrl, $lng;
-		
+		global $ilCtrl, $lng, $ilAccess;
+
+		if (!$ilAccess->checkAccess("write", "", $this->wiki_ref_id) &&
+			!$ilAccess->checkAccess("edit_page_meta", "", $this->wiki_ref_id))
+		{
+			return;
+		}
+
 		$this->getPageObject()->hideAdvancedMetadata(false);
 		$this->getPageObject()->update();
 			

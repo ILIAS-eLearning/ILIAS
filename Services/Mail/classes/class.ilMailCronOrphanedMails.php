@@ -40,10 +40,16 @@ class ilMailCronOrphanedMails extends ilCronJob
 	{
 		global $DIC;
 
-		$this->settings = $DIC->settings();
+		// temp fix for #20900
+		//$this->settings = $DIC->settings();
+		$this->settings = $GLOBALS["ilSetting"];
+
 		$this->lng      = $DIC->language();
 		$this->db       = $DIC->database();
-		$this->user     = $DIC->user();
+
+		// temp fix for #20900
+		//$this->user     = $DIC->user();
+		$this->user = $GLOBALS["ilUser"];
 
 		$this->lng->loadLanguageModule('mail');
 	}

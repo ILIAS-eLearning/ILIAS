@@ -39,7 +39,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->type = "wiki";
 
 		$this->log = ilLoggerFactory::getLogger('wiki');
-		
+
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$lng->loadLanguageModule("obj");
 		$lng->loadLanguageModule("wiki");
@@ -1397,7 +1397,8 @@ class ilObjWikiGUI extends ilObjectGUI
 			if(!ilWikiPage::lookupAdvancedMetadataHidden($a_wpg_id))
 			{		
 				$cmd = null;
-				if($ilAccess->checkAccess("write", "", $a_wiki_ref_id))
+				if($ilAccess->checkAccess("write", "", $a_wiki_ref_id) ||
+					$ilAccess->checkAccess("edit_page_meta", "", $a_wiki_ref_id))
 				{
 					$cmd = array(
 						"edit" => $ilCtrl->getLinkTargetByClass("ilwikipagegui", "editAdvancedMetaData"),

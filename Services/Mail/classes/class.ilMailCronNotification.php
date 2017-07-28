@@ -29,7 +29,10 @@ class ilMailCronNotification extends ilCronJob
 		global $DIC;
 
 		$this->lng      = $DIC->language();
-		$this->settings = $DIC->settings();
+
+		// temp fix for #20900
+		//$this->settings = $DIC->settings();
+		$this->settings = $GLOBALS["ilSetting"];
 	}
 
 	public function getId()
