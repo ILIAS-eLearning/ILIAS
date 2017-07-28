@@ -12,24 +12,10 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
 class ilMailCronNotification extends ilCronJob
 {
 	/**
-	 * @var \ilLanguage
-	 */
-	protected $lng;
-
-	/**
-	 * @var \ilSetting
-	 */
-	protected $settings;
-
-	/**
 	 * ilMailCronNotification constructor.
 	 */
 	public function __construct()
 	{
-		global $DIC;
-
-		$this->lng      = $DIC->language();
-		$this->settings = $DIC->settings();
 	}
 
 	public function getId()
@@ -39,12 +25,16 @@ class ilMailCronNotification extends ilCronJob
 	
 	public function getTitle()
 	{
-		return $this->lng->txt("cron_mail_notification");
+		global $DIC;
+
+		return $DIC->language()->txt("cron_mail_notification");
 	}
 	
 	public function getDescription()
 	{
-		return  $this->lng->txt("cron_mail_notification_desc");
+		global $DIC;
+
+		return $DIC->language()->txt("cron_mail_notification_desc");
 	}
 	
 	public function getDefaultScheduleType()
@@ -85,20 +75,26 @@ class ilMailCronNotification extends ilCronJob
 
 	public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
 	{
-		$cb = new ilCheckboxInputGUI($this->lng->txt("cron_mail_notification_message"), "mail_notification_message");
-		$cb->setInfo($this->lng->txt("cron_mail_notification_message_info"));
-		$cb->setChecked($this->settings->get("mail_notification_message"));
+		global $DIC;
+
+		$cb = new ilCheckboxInputGUI($DIC->language()->txt("cron_mail_notification_message"), "mail_notification_message");
+		$cb->setInfo($DIC->language()->txt("cron_mail_notification_message_info"));
+		$cb->setChecked($DIC->settings()->get("mail_notification_message"));
 		$a_form->addItem($cb);
 	}
 
 	public function saveCustomSettings(ilPropertyFormGUI $a_form)
 	{
-		$this->settings->set('mail_notification_message', $_POST['mail_notification_message'] ? 1 : 0);
+		global $DIC;
+
+		$DIC->settings()->set('mail_notification_message', $_POST['mail_notification_message'] ? 1 : 0);
 		return true;
 	}
 
 	public function activationWasToggled($a_currently_active)
 	{
-		$this->settings->set('mail_notification', (bool)$a_currently_active);
+		global $DIC;
+
+		$DIC->settings()->set('mail_notification', (bool)$a_currently_active);
 	}
 }
