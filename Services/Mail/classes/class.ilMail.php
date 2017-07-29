@@ -771,7 +771,7 @@ class ilMail
 		$mbox = new ilMailbox();
 		if(!$a_use_placeholders)
 		{
-			$rcp_ids = $this->getUserIds(trim($a_rcp_to) . ',' . trim($a_rcp_cc) . ',' . trim($a_rcp_bcc));
+			$rcp_ids = $this->getUserIds(array($a_rcp_to, $a_rcp_cc, $a_rcp_bcc));
 
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
 				"Parsed TO/CC/BCC user ids from given recipients: %s", implode(', ', $rcp_ids)
@@ -816,7 +816,7 @@ class ilMail
 
 				if($a_attachments)
 				{
-					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id, $a_attachments);
+					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id);
 				}
 			}
 
@@ -842,8 +842,8 @@ class ilMail
 		}
 		else
 		{
-			$rcp_ids_replace    = $this->getUserIds(trim($a_rcp_to));
-			$rcp_ids_no_replace = $this->getUserIds(trim($a_rcp_cc).','.trim($a_rcp_bcc));
+			$rcp_ids_replace    = $this->getUserIds(array($a_rcp_to));
+			$rcp_ids_no_replace = $this->getUserIds(array($a_rcp_cc, $a_rcp_bcc));
 
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
 				"Parsed TO user ids from given recipients for serial letter notification: %s", implode(', ', $rcp_ids_replace)
@@ -894,7 +894,7 @@ class ilMail
 
 				if($a_attachments)
 				{
-					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id, $a_attachments);
+					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id);
 				}
 			}
 
@@ -947,7 +947,7 @@ class ilMail
 
 				if($a_attachments)
 				{
-					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id, $a_attachments);
+					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id);
 				}
 			}
 
@@ -961,12 +961,14 @@ class ilMail
 	}
 
 	/**
-	 * @param  string $a_recipients recipients seperated by ','
+	 * @param  string[] $a_recipients
 	 * @return int[]
 	 */
-	protected function getUserIds($a_recipients)
+	protected function getUserIds(array $a_recipients)
 	{
 		$usr_ids = array();
+
+		$a_recipients = implode(',', array_filter(array_map('trim', $a_recipients)));
 
 		require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressTypeFactory.php';  
 		$recipients = $this->parseAddresses($a_recipients);
@@ -1195,7 +1197,7 @@ class ilMail
 			$externalMailRecipientsBcc = $this->getEmailRecipients($rcp_bc);
 
 			ilLoggerFactory::getLogger('mail')->debug(
-				"Parsed external mail addresses from given recipients:" .
+				"Parsed external email addresses from given recipients:" .
 				" To: " . $externalMailRecipientsTo .
 				" | CC: " . $externalMailRecipientsCc .
 				" | BCC: " . $externalMailRecipientsBcc .
@@ -1214,7 +1216,7 @@ class ilMail
 		}
 		else
 		{
-			ilLoggerFactory::getLogger('mail')->debug("No external mail addresses given in recipient string");
+			ilLoggerFactory::getLogger('mail')->debug("No external email addresses given in recipient string");
 		}
 
 		if(in_array('system', $a_type) && !$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'system', $a_use_placeholders))
