@@ -18,14 +18,14 @@ class Factory implements G\Factory {
 	 * @inheritdoc
 	 */
 	public function collapse($action = null) {
-		return new Glyph(G\Glyph::COLLAPSE, "collapse_content", $action);
+		return new Glyph(G\Glyph::COLLAPSE, "collapse", $action);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function expand($action = null) {
-		return new Glyph(G\Glyph::EXPAND, "expand_content", $action);
+		return new Glyph(G\Glyph::EXPAND, "expand", $action);
 	}
 
 	/**
