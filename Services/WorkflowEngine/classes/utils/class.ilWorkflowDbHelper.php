@@ -325,8 +325,8 @@ class ilWorkflowDbHelper
 			AND context_type = ' . $ilDB->quote($context_type, 'text') . '
 			AND (context_id = ' . $ilDB->quote($context_id, 'integer') . ' OR context_id = ' . $ilDB->quote(0, 'integer') . ')
 			AND (listening_start = ' . $ilDB->quote(0, 'integer') . ' 
-				 OR (listening_start < ' . $ilDB->quote($now, 'integer') . ' AND listening_end = '. $ilDB->quote(0, 'integer') . ') 
-				 OR listening_end > ' . $ilDB->quote($now, 'integer') . ')'
+				 OR listening_start <= ' . $ilDB->quote($now, 'integer') . ') AND (listening_end = '. $ilDB->quote(0, 'integer') . '
+				 OR listening_end >= ' . $ilDB->quote($now, 'integer') . ')'
 		);
 
 		while ($row = $ilDB->fetchAssoc($result))
