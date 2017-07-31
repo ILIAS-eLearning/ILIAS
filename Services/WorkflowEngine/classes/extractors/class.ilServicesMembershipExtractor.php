@@ -23,14 +23,6 @@ class ilServicesMembershipExtractor extends ilBaseExtractor
 	{
 		$this->ilExtractedParams->setSubjectType('membership');
 
-		switch($event)
-		{
-			case 'addParticipant':
-			case 'deleteParticipant':
-				$this->extractWithUser($parameters);
-				break;
-		}
-
 		return $this->ilExtractedParams;
 	}
 }
