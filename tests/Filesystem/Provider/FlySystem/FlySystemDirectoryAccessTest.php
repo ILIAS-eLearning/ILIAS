@@ -184,8 +184,12 @@ class FlySystemDirectoryAccessTest extends TestCase {
 
 		$this->assertSame($contentList[0]['type'], $content[0]->getType());
 		$this->assertSame($contentList[0]['path'], $content[0]->getPath());
+		$this->assertTrue($content[0]->isFile());
+		$this->assertFalse($content[0]->isDir());
 		$this->assertSame($contentList[1]['type'], $content[1]->getType());
 		$this->assertSame($contentList[1]['path'], $content[1]->getPath());
+		$this->assertTrue($content[1]->isDir());
+		$this->assertFalse($content[1]->isFile());
 	}
 
 	/**
@@ -537,4 +541,5 @@ class FlySystemDirectoryAccessTest extends TestCase {
 
 		$this->subject->deleteDir($path);
 	}
+
 }
