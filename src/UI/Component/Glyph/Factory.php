@@ -53,7 +53,7 @@ interface Factory {
 	 *          The Collapse Glyph MUST indicate if the toggled Container Collection is visible or not.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be ‘Collapse Content'.
+	 *          The aria-label MUST be ‘Collapse'.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
@@ -81,8 +81,8 @@ interface Factory {
 	 *          The Expand Glyph MUST indicate if the toggled Container Collection is visible or not.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be ‘Expand Content'.
-	 * ---
+	 *          The aria-label MUST be ‘Expand'.
+	 ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
