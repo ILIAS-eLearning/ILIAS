@@ -118,8 +118,8 @@ class ilStaticMethodCallActivityTest extends PHPUnit_Framework_TestCase
 	
 	public static function executionTargetMethod($context, $param)
 	{
-		$parameters = $parameters = array(
-			'homer' => 'homer', 0 => 'homer',
+		$parameters = array(
+		  'homer' => 'homer', 0 => 'homer',
 		  'marge' => 'marge', 1 => 'marge',
 		  'bart' => 'bart', 2 => 'bart',
 		  'lisa' => 'lisa', 3 => 'lisa',
