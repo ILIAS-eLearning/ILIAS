@@ -82,7 +82,7 @@ interface Factory {
 	 *   accessibility:
 	 *       1: >
 	 *          The aria-label MUST be ‘Expand'.
-	 ---
+	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
