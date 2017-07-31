@@ -11668,7 +11668,7 @@ div.ilPCMyCoursesPath {
   display: block;
   height: 14px;
   width: 14px;
-  background: url("../../Services/OnScreenChat/templates/default/images/emoticons_trigger.png") no-repeat;
+  background: url("images/emoticons_trigger.png") no-repeat;
   background-size: cover;
   z-index: 1000;
 }
