@@ -30,9 +30,9 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI {
 	protected $maxFiles = 0;
 
 	/**
-	 * @var int
+	 * @var \ILIAS\Data\DataSize
 	 */
-	protected $maxFileSize = 0;
+	protected $maxFileSize;
 
 	/**
 	 * @var string
@@ -70,16 +70,16 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI {
 	}
 
 	/**
-	 * @return int
+	 * @return \ILIAS\Data\DataSize
 	 */
 	public function getMaxFileSize() {
 		return $this->maxFileSize;
 	}
 
 	/**
-	 * @param int $maxFileSize
+	 * @param \ILIAS\Data\DataSize $maxFileSize
 	 */
-	public function setMaxFileSize($maxFileSize) {
+	public function setMaxFileSize(\ILIAS\Data\DataSize $maxFileSize) {
 		$this->maxFileSize = $maxFileSize;
 	}
 
@@ -104,9 +104,11 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI {
 		$dropzone = $factory->dropzone()->file()->standard($this->getUploadUrl())
 			->withIdentifier($this->getPostVar())
 			->withMaxFiles($this->getMaxFiles())
-			->withFileSizeLimit($this->getMaxFileSize())
 			->withMessage($this->getDropzoneMessage())
 			->withAllowedFileTypes($this->getSuffixes());
+		if ($this->getMaxFileSize()) {
+			$dropzone = $dropzone->withFileSizeLimit($this->getMaxFileSize());
+		}
 		$n = ++self::$count;
 		$out = "<div id='ilFileStandardDropzoneInputGUIWrapper{$n}'>" . $renderer->render($dropzone) . '</div>';
 		// We need some javascript magic

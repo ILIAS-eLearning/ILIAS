@@ -2,6 +2,7 @@
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
+use ILIAS\Data\DataSize;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Droppable;
 
@@ -61,17 +62,17 @@ interface File extends Component, Droppable {
 	public function getMaxFiles();
 
 	/**
-	 * Get a dropzone like this, restricting the max file size of the files to the given limit (in bytes).
+	 * Get a dropzone like this, restricting the max file size of the files to the given limit.
 	 *
-	 * @param int $limit Max size for any file uploaded in bytes
+	 * @param DataSize $limit
 	 * @return $this
 	 */
-	public function withFileSizeLimit($limit);
+	public function withFileSizeLimit(DataSize $limit);
 
 	/**
-	 * Get the max file size limit in bytes.
+	 * Get the max file size.
 	 *
-	 * @return int
+	 * @return DataSize
 	 */
 	public function getFileSizeLimit();
 
@@ -89,7 +90,7 @@ interface File extends Component, Droppable {
 	 *
 	 * @return bool
 	 */
-	public function allowCustomFileNames();
+	public function allowsCustomFileNames();
 
 	/**
 	 * Get a dropzone like this, allowing to set a description for each file being uploaded.
@@ -105,7 +106,7 @@ interface File extends Component, Droppable {
 	 *
 	 * @return bool
 	 */
-	public function allowFileDescriptions();
+	public function allowsFileDescriptions();
 
 	/**
 	 * Get a dropzone like this where each uploaded file is identified over a given identifier.

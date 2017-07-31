@@ -14,6 +14,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
+use ILIAS\Data\DataSize;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Triggerer;
@@ -36,9 +37,9 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 	protected $allowed_file_types = [];
 
 	/**
-	 * @var int
+	 * @var DataSize
 	 */
-	protected $file_size_limit = 0;
+	protected $file_size_limit;
 
 	/**
 	 * @var int
@@ -121,8 +122,8 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 	/**
 	 * @inheritdoc
 	 */
-	public function withFileSizeLimit($limit) {
-		$this->checkIntArg('limit', $limit);
+	public function withFileSizeLimit(DataSize $limit) {
+		$this->checkArgInstanceOf('limit', $limit, DataSize::class);
 		$clone = clone $this;
 		$clone->file_size_limit = $limit;
 		return $clone;
@@ -147,7 +148,7 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 	/**
 	 * @inheritdoc
 	 */
-	public function allowCustomFileNames() {
+	public function allowsCustomFileNames() {
 		return $this->custom_file_names;
 	}
 
@@ -163,7 +164,7 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 	/**
 	 * @inheritdoc
 	 */
-	public function allowFileDescriptions() {
+	public function allowsFileDescriptions() {
 		return $this->file_descriptions;
 	}
 

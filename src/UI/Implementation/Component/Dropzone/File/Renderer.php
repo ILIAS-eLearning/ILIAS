@@ -3,6 +3,7 @@
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Implementation\Component\TriggeredSignalInterface;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -134,7 +135,7 @@ class Renderer extends AbstractComponentRenderer {
 			'registeredSignals' => $signals,
 			'uploadUrl' => $dropzone->getUploadUrl(),
 			'allowedFileTypes' => $dropzone->getAllowedFileTypes(),
-			'fileSizeLimit' => $dropzone->getFileSizeLimit(),
+			'fileSizeLimit' => $dropzone->getFileSizeLimit() ? $dropzone->getFileSizeLimit()->getSize() * $dropzone->getFileSizeLimit()->getUnit() : 0,
 			'maxFiles' => $dropzone->getMaxFiles(),
 			'identifier' => $dropzone->getIdentifier(),
 		]);
@@ -155,10 +156,10 @@ class Renderer extends AbstractComponentRenderer {
 		if ($this->renderMetaData($dropzone)) {
 			$tplUploadFileList->touchBlock('with_edit_button');
 			$tplUploadFileList->setCurrentBlock('with_metadata');
-			if ($dropzone->allowCustomFileNames()) {
+			if ($dropzone->allowsCustomFileNames()) {
 				$tplUploadFileList->touchBlock('with_filename');
 			}
-			if ($dropzone->allowFileDescriptions()) {
+			if ($dropzone->allowsFileDescriptions()) {
 				$tplUploadFileList->touchBlock('with_description');
 			}
 			$tplUploadFileList->parseCurrentBlock();
@@ -171,7 +172,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return bool
 	 */
 	private function renderMetaData(\ILIAS\UI\Component\Dropzone\File\File $dropzone) {
-		return ($dropzone->allowCustomFileNames() || $dropzone->allowFileDescriptions());
+		return ($dropzone->allowsCustomFileNames() || $dropzone->allowsFileDescriptions());
 	}
 
 }

@@ -22,12 +22,11 @@ interface Factory {
 	 *   purpose: >
 	 *      The standard dropzone is used to drop files dragged from outside
 	 *      the browser window. The dropped files are presented to the user and
-	 *      can be uploaded to the server. Standard dropzones CAN be used in
-	 *      forms.
+	 *      can be uploaded to the server.
 	 *   composition: >
 	 *      Standard dropzones consist of a visible area where files can
 	 *      be dropped. They MUST contain a message explaining that it is possible to
-	 *      drop files inside. The dropped files are presented to the user along
+	 *      drop files inside. The dropped files are presented to the user, optionally
 	 *      with some button to start the upload process.
 	 *   effect: >
 	 *      A standard dropzone is highlighted when the user is dragging files
@@ -41,16 +40,17 @@ interface Factory {
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: A page SHOULD contain only one standard dropzone.
-	 *     2: Standard dropzones MUST contain a message.
+	 *     1: Standard dropzones MUST contain a message.
+	 *     2: >
+	 *        The upload button MUST be disabled if there are no files
+	 *        to be uploaded. Only true if the dropzone is NOT used in
+	 *        a form containing other form elements.
 	 *     3: >
+	 *        Standard dropzones MAY be used in forms.
+	 *   accessibility:
+	 *     1: >
 	 *        Standard dropzones MUST offer the possibility to select files
 	 *        manually from the computer.
-	 *     4: >
-	 *        The upload button MUST be disabled if there are no files
-	 *        to be uploaded.
-	 *   responsiveness:
-	 *     1: Standard dropzones SHOULD have a static height.
 	 *
 	 * ---
 	 *
@@ -69,7 +69,10 @@ interface Factory {
 	 *      dropzone is not visible by default. Only the wrapped components are
 	 *      visible. Any wrapper dropzone gets highlighted once the user is dragging
 	 *      files over the browser window. Thus, a user needs to have the knowledge
-	 *      that there are wrapper dropzones present.
+	 *      that there are wrapper dropzones present. They can be introduced to offer
+	 *      additional approaches to complete some workflow more conveniently.
+	 *      Especially in situation where space is scarce such as appointments
+	 *      in the calendar.
 	 *   composition: >
 	 *      A wrapper dropzone contains one or multiple ILIAS UI components.
 	 *      A roundtrip modal is used to present the dropped files and to initialize
@@ -93,11 +96,6 @@ interface Factory {
 	 *     5: >
 	 *        The upload button in the modal MUST be disabled if there are no files
 	 *        to be uploaded.
-	 *   style:
-	 *     1: >
-	 *          The height and the width of a wrapper dropzone MUST
-	 *          be determined by the components inside.
-	 *
 	 * ---
 	 *
 	 * @param string $url The url where the dropped files are being uploaded

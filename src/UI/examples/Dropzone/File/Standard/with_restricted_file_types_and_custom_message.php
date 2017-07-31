@@ -1,5 +1,5 @@
 <?php
-function with_restricted_file_types_and_and_custom_message() {
+function with_restricted_file_types_and_custom_message() {
 
 	global $DIC;
 	$uiFactory = $DIC->ui()->factory();

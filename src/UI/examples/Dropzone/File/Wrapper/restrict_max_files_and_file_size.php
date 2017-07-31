@@ -19,12 +19,11 @@ function restrict_max_files_and_file_size() {
 	$uiFactory = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$content = $uiFactory->legacy('You are not allowed to upload more than 2 files, max file size is 500kB');
+	$content = $uiFactory->legacy('You are not allowed to upload more than 2 files, max file size is 300kB');
 	$uploadUrl = $_SERVER['REQUEST_URI'] . '&example=2';
-
 	$upload = $uiFactory->dropzone()->file()->wrapper($uploadUrl, $content)
 		->withMaxFiles(2)
-		->withFileSizeLimit(300 * 1000);
+		->withFileSizeLimit(new \ILIAS\Data\DataSize(300 * 1000, \ILIAS\Data\DataSize::KB));
 
 	return $renderer->render($upload);
 }
