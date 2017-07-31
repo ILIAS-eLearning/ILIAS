@@ -155,7 +155,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
 
 		$list = (array)$this->context->getContext()->getInstanceVars();
 		$params = array();
-		foreach($this->parameters as $parameter)
+		foreach($this->parameters as $key => $parameter)
 		{
 			$set = false;
 			foreach($list as $instance_var)
@@ -180,6 +180,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
 			if(!$set)
 			{
 				$params[$parameter] = $parameter;
+				$params[$key]       = $parameter;
 			}
 		}
 
