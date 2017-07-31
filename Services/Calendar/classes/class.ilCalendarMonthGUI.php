@@ -1,30 +1,11 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once('Services/Calendar/classes/class.ilDate.php');
 include_once('Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php');
 include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
 include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
+include_once('Services/Calendar/classes/class.ilCalendarViewGUI.php');
 
 
 /** 
@@ -33,12 +14,12 @@ include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
 * @version $Id$
 * 
 * @ilCtrl_Calls ilCalendarMonthGUI: ilCalendarAppointmentGUI
-* 
+* @ilCtrl_Calls ilCalendarMonthGUI: ilCalendarAppointmentPresentationGUI
 * @ingroup ServicesCalendar 
 */
 
 
-class ilCalendarMonthGUI
+class ilCalendarMonthGUI extends ilCalendarViewGUI
 {
 	protected $num_appointments = 1;
 	protected $schedule_filters = array();
@@ -50,6 +31,8 @@ class ilCalendarMonthGUI
 	protected $ctrl;
 	protected $tabs_gui;
 	protected $tpl;
+	protected $ui_factory;
+	protected $ui_renderer;
 	
 	protected $timezone = 'UTC';
 
@@ -62,7 +45,7 @@ class ilCalendarMonthGUI
 	 */
 	public function __construct(ilDate $seed_date)
 	{
-		global $ilCtrl, $lng, $ilUser,$ilTabs,$tpl;
+		global $ilCtrl, $lng, $ilUser,$ilTabs,$tpl, $DIC;
 		
 		$this->seed = $seed_date;
 
@@ -71,6 +54,9 @@ class ilCalendarMonthGUI
 		$this->ctrl = $ilCtrl;
 		$this->tabs_gui = $ilTabs;
 		$this->tabs_gui->setSubTabActive('app_month');
+
+		$this->ui_factory = $DIC->ui()->factory();
+		$this->ui_renderer = $DIC->ui()->renderer();
 		
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
 		$this->app_colors = new ilCalendarAppointmentColors($ilUser->getId());
@@ -322,11 +308,14 @@ class ilCalendarMonthGUI
 	 */
 	protected function showEvents(ilDate $date)
 	{
-		global $tree, $ilUser;
+		//global $tree, $ilUser;
+
+		$f = $this->ui_factory;
+		$r = $this->ui_renderer;
 
 		$count = 0;
 		
-		
+
 		foreach($this->scheduler->getByDay($date,$this->timezone) as $item)
 		{			
 			$this->tpl->setCurrentBlock('panel_code');
@@ -376,7 +365,12 @@ class ilCalendarMonthGUI
 
 				$title .= (' '.$item['event']->getPresentationTitle());				
 			}
-			$this->tpl->setVariable('EVENT_TITLE',$title);
+
+			$shy = $this->getAppointmentShyButton($item);
+
+			//TODO: There is a bug/error here with the headers in the block
+			$this->tpl->setVariable('EVENT_TITLE',$shy.$compl);
+
 			$color = $this->app_colors->getColorByAppointment($item['event']->getEntryId());
 			$this->tpl->setVariable('EVENT_BGCOLOR',$color);
 			$this->tpl->setVariable('EVENT_ADD_STYLES',$item['event']->getPresentationStyle());

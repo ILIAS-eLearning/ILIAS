@@ -8021,6 +8021,9 @@ th.std {
 [dir="rtl"] th.std {
   text-align: right;
 }
+.calstd .btn {
+  white-space: normal;
+}
 th.option,
 td.option {
   background-color: #f5f5f5;

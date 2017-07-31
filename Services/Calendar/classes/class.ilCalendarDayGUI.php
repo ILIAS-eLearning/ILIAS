@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Presentation day view
@@ -380,6 +360,8 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		$comps = [$f->button()->shy($a_app["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal()), $modal];
 		$shy = $r->render($comps);
 
+		$shy = $this->getAppointmentShyButton($a_app);
+
 		$this->tpl->setVariable('F_APP_TITLE',$shy.$compl);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
@@ -397,92 +379,6 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		$this->num_appointments++;
 	}
 
-	//TODO this getModalForApp is copied and adapted from ilCalendarBlockGUI. Refactor this. ilCalendarUtil or base class?¿?
-	/**
-	 * Get modal for appointment (see similar code in ilCalendarAgendaListGUI)
-	 */
-	/*function getModalForApp()
-	{
-		$ui = $this->ui;
-		$ilCtrl = $this->ctrl;
-
-		$f = $ui->factory();
-		$r = $ui->renderer();
-
-		$this->seed = new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
-
-		ilLoggerFactory::getRootLogger()->debug("GET Value".$_GET["app_id"]);
-
-		// @todo: this needs optimization
-		$events = $this->getEvents();
-		foreach ($events as $item)
-		{
-			if ($item["event"]->getEntryId() == (int) $_GET["app_id"])
-			{
-					//$item = new ilCalendarEntry($entry_id);
-					$dates = $this->getDatesForItem($item);
-
-					// content of modal
-					include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
-
-					$next_gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $item);
-					$content = $ilCtrl->getHTML($next_gui);
-
-					$modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]), $f->legacy($content));
-
-					echo $r->renderAsync($modal);
-			}
-		}
-		exit();
-	}*/
-
-	//TODO this function is copied from ilcalendarblockgui move this to ilcalendarutils or base class ?¿?¿
-	/**
-	 * Get start/end date for item
-	 *
-	 * @param array $item item
-	 * @return array
-	 */
-	/*function getDatesForItem($item)
-	{
-		$start = $item["dstart"];
-		$end = $item["dend"];
-		if($item["fullday"])
-		{
-			$start = new ilDate($start, IL_CAL_UNIX);
-			$end = new ilDate($end, IL_CAL_UNIX);
-		}
-		else
-		{
-			$start = new ilDateTime($start, IL_CAL_UNIX);
-			$end = new ilDateTime($end, IL_CAL_UNIX);
-		}
-		return array("start" => $start, "end" => $end);
-	}*/
-
-	/**
-	 * TODO MOVE THIS TO ilCalendarUtils, refactor this
-	 */
-	/**
-	 * Get events
-	 *
-	 * @param
-	 * @return
-	 */
-	/*function getEvents()
-	{
-		$seed = new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
-
-		include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');
-		$schedule = new ilCalendarSchedule($seed, ilCalendarSchedule::TYPE_PD_UPCOMING);
-		$schedule->addSubitemCalendars(true); // #12007
-		$schedule->setEventsLimit(20);
-		$schedule->calculate();
-		$ev = $schedule->getScheduledEvents(); // #13809
-		return ($ev);
-	}*/
-
-	
 	/**
 	 * show appointment
 	 *
@@ -542,6 +438,10 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		$title .= (' '.$a_app['event']->getPresentationTitle(false));
 
 		//todo method for this.
+
+		//$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
+
+
 		$this->ctrl->setParameter($this, "app_id", $a_app["event"]->getEntryId());
 		$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
 		$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);

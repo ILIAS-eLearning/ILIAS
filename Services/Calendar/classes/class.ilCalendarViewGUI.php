@@ -116,6 +116,11 @@ class ilCalendarViewGUI
 	 */
 	function getModalForApp()
 	{
+		global $DIC;
+
+		$f = $DIC->ui()->factory();
+		$r = $DIC->ui()->renderer();
+		$ctrl = $DIC->ctrl();
 
 		// @todo: this needs optimization
 		$events = $this->getEvents();
@@ -127,14 +132,30 @@ class ilCalendarViewGUI
 
 				// content of modal
 				include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
+				ilLoggerFactory::getRootLogger()->debug("seed =".	$this->seed);
 				$next_gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed, IL_CAL_DATE), $item);
-				$content = $this->ctrl->getHTML($next_gui);
-
-				$modal = $this->ui_factory->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),$this->ui_factory->legacy($content));
-				echo $this->ui_renderer->renderAsync($modal);
+				$content = $ctrl->getHTML($next_gui);
+				$modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),$f->legacy($content));
+				echo $r->renderAsync($modal);
 			}
 		}
 		exit();
+	}
+
+	function getAppointmentShyButton($a_appointment)
+	{
+		$f = $this->ui_factory;
+		$r = $this->ui_renderer;
+
+		$this->ctrl->setParameter($this, "app_id", $a_appointment["event"]->getEntryId());
+		$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
+		$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
+
+		$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
+
+		$comps = [$f->button()->shy($a_appointment["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal()), $modal];
+
+		return $r->render($comps);
 	}
 
 }

@@ -1,25 +1,5 @@
 <?php
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 *
@@ -27,6 +7,7 @@
 * @version $Id$
 *
 * @ilCtrl_Calls ilCalendarWeekGUI: ilCalendarAppointmentGUI
+* @ilCtrl_Calls ilCalendarWeekGUI: ilCalendarAppointmentPresentationGUI
 *
 * @ingroup ServicesCalendar 
 */
@@ -35,10 +16,10 @@ include_once('Services/Calendar/classes/class.ilDate.php');
 include_once('Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php');
 include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
 include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
+include_once('Services/Calendar/classes/class.ilCalendarViewGUI.php');
 
 
-
-class ilCalendarWeekGUI
+class ilCalendarWeekGUI extends ilCalendarViewGUI
 {
 	protected $num_appointments = 1;
 	protected $seed = null;
@@ -61,20 +42,24 @@ class ilCalendarWeekGUI
 	 */
 	public function __construct(ilDate $seed_date)
 	{
-		global $ilCtrl, $lng, $ilUser,$ilTabs,$tpl;
-		
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->tabs_gui = $DIC->tabs();
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$this->ui_factory = $DIC->ui()->factory();
+		$this->ui_renderer = $DIC->ui()->renderer();
+
 		$this->seed = $seed_date;
 		$this->seed_info = $this->seed->get(IL_CAL_FKT_GETDATE,'','UTC');
-
-		$this->tpl = $tpl;
-		$this->lng = $lng;
-		$this->ctrl = $ilCtrl;
-		$this->tabs_gui = $ilTabs;
 		
-		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
-		$this->app_colors = new ilCalendarAppointmentColors($ilUser->getId());
+		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
+		$this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
 		
-		$this->timezone = $ilUser->getTimeZone();
+		$this->timezone = $this->user->getTimeZone();
 	}
 	
 	/**
@@ -415,6 +400,9 @@ class ilCalendarWeekGUI
 	 */
 	protected function showFulldayAppointment($a_app)
 	{
+		$f = $this->ui_factory;
+		$r = $this->ui_renderer;
+
 		$this->tpl->setCurrentBlock('panel_code');
 		$this->tpl->setVariable('NUM',$this->num_appointments);
 		$this->tpl->parseCurrentBlock();
@@ -438,7 +426,21 @@ class ilCalendarWeekGUI
 			? " (".$a_app['event']->getCompletion()."%)"
 			: "";
 
-		$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getPresentationTitle().$compl);
+		/*
+		$this->ctrl->setParameter($this, "app_id", $a_app["event"]->getEntryId());
+		$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
+		$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
+
+		$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
+
+		$comps = [$f->button()->shy($a_app["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal()), $modal];
+		$shy = $r->render($comps);
+		*/
+
+		$shy = $this->getAppointmentShyButton($a_app);
+
+		$this->tpl->setVariable('F_APP_TITLE',$shy.$compl);
+		//$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getPresentationTitle().$compl);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$this->tpl->setVariable('F_APP_BGCOLOR',$color);
@@ -461,8 +463,10 @@ class ilCalendarWeekGUI
 	 */
 	protected function showAppointment($a_app)
 	{
-		global $ilUser;
-		
+		$ilUser = $this->user;
+		$f = $this->ui_factory;
+		$r = $this->ui_renderer;
+
 		$this->tpl->setCurrentBlock('panel_code');
 		$this->tpl->setVariable('NUM',$this->num_appointments);
 		$this->tpl->parseCurrentBlock();
@@ -523,8 +527,18 @@ class ilCalendarWeekGUI
 			$title .= (' '.$a_app['event']->getPresentationTitle());		
 			$td_style .= $a_app['event']->getPresentationStyle();
 		}
-		
-		$this->tpl->setVariable('APP_TITLE',$title);
+
+		//todo method for this.
+		$this->ctrl->setParameter($this, "app_id", $a_app["event"]->getEntryId());
+		$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
+		$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
+
+		$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
+
+		$comps = [$f->button()->shy($title, "")->withOnClick($modal->getShowSignal()), $modal];
+		$shy = $r->render($comps);
+
+		$this->tpl->setVariable('APP_TITLE', $shy);
 		$this->tpl->setVariable('LINK_NUM',$this->num_appointments);
 		
 		$this->tpl->setVariable('LINK_STYLE',$style);
