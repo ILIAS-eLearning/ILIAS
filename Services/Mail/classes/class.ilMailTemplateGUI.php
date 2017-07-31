@@ -432,6 +432,9 @@ class ilMailTemplateGUI
 		$message->setRequired(true);
 		$message->setCols(60);
 		$message->setRows(10);
+		// cat-tms-patch start
+		$message->setUseRte(true);
+		// cat-tms-patch end
 		$form->addItem($message);
 
 		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
