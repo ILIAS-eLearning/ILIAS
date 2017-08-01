@@ -1,0 +1,12 @@
+{
+    "maintenance_model": "",
+    "first_maintainer": "",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "",
+    "testcase_writer": ",
+    "path": "Services/MyStaff",
+    "belong_to_component": "MyStaff",
+    "used_in_components": []
+}

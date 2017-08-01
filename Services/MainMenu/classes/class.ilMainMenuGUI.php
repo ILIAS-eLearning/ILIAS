@@ -608,6 +608,17 @@ class ilMainMenuGUI
 				
 				$separator = true;
 			}
+
+			//TODO
+            //if($ilSetting->get("my_staff"))
+            //{
+                // my staff
+                $gl->addEntry($lng->txt("my_staff"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToMyStaff",
+                    "_top", "", "", "mm_pd_wsp", ilHelp::getMainMenuTooltip("mm_pd_mst"),
+                    "left center", "right center", false);
+
+                $separator = true;
+            //}
 			
 			// portfolio
 			if ($ilSetting->get('user_portfolios'))

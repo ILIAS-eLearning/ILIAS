@@ -726,6 +726,12 @@ class ilPersonalDesktopGUI
 		
 		$this->ctrl->redirectByClass("ilpersonalworkspacegui", $cmd);
 	}
+
+	//TODO
+	function jumpToMyStaff()
+	{
+		ilUtil::redirect("/ilias.php?baseClass=ilMyStaffGUI");
+	}
 	
 	/**
 	 * Jump to badges
