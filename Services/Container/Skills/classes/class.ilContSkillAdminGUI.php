@@ -270,13 +270,29 @@ class ilContSkillAdminGUI
 		}
 
 		include_once("./Services/Container/Skills/classes/class.ilContainerMemberSkills.php");
+		$not_changed = array();
 		foreach ($user_ids as $user_id)
 		{
 			$mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $user_id);
-			$mem_skills->publish($this->container->getRefId());
+			if (!$mem_skills->publish($this->container->getRefId()))
+			{
+				$not_changed[] = $user_id;
+			}
 		}
 
-		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		if (count($not_changed) == 0)
+		{
+			ilUtil::sendSuccess($lng->txt("cont_skll_published"), true);
+		}
+		else
+		{
+			$names = array_map(function ($id) {
+				return ilUserUtil::getNamePresentation($id, false, false, "", true);
+			}, $not_changed);
+			ilUtil::sendInfo($lng->txt("cont_skll_published_some_not")." (".implode("; ", $names).")", true);
+		}
+
+
 		$ctrl->redirect($this, "listMembers");
 	}
 

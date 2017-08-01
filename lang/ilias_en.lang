@@ -13585,3 +13585,5 @@ rbac#:#crs_grade#:#Grade Members of Course
 grp#:#grp_no_perm_to_add_create_first#:#You need to create a group first. Please select where to create a new group.
 grp#:#grp_create_new_grp_in#:#Create new group in '%1'.
 obj#:#obj_tool_setting_skills_info#:#Activates competence management and competences assignments to members.
+obj#:#cont_skll_published#:#All assignments have been published.
+obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some selected users did not have any competences being assigned to.

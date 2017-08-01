@@ -16028,3 +16028,5 @@ rbac#:#crs_grade#:#Kursmitglieder bewerten
 grp#:#grp_no_perm_to_add_create_first#:#Sie müssen zunächst eine neue Gruppe erstellen. Bitte wählen Sie den Ort, an dem die neue Gruppe erstellt werden soll.
 grp#:#grp_create_new_grp_in#:#Neue Gruppe in '%1' erstellen.
 obj#:#obj_tool_setting_skills_info#:#Die Funktion ermöglicht es Kompetenzen auszuwählen und Mitgliedern Kompetenzausprägungen zuzuweisen.
+obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
+obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some selected users did not have any competences being assigned to.

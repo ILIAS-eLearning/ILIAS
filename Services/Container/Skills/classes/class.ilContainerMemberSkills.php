@@ -186,8 +186,10 @@ class ilContainerMemberSkills
 	{
 		$db = $this->db;
 
+		$changed = false;
 		foreach ($this->skill_levels as $sk => $l)
 		{
+			$changed = true;
 			$sk = explode(":", $sk);
 			ilBasicSkill::writeUserSkillLevelStatus($l, $this->user_id, $a_ref_id, $sk[1], ilBasicSkill::ACHIEVED,
 				false, false, $this->obj_id);
@@ -197,6 +199,8 @@ class ilContainerMemberSkills
 			" published = ".$db->quote(1, "integer").
 			" WHERE obj_id = ".$db->quote($this->getObjId(), "integer").
 			" AND user_id = ".$db->quote($this->getUserId(), "integer"));
+
+		return $changed;
 	}
 
 

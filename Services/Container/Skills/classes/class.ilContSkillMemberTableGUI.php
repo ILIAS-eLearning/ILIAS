@@ -50,6 +50,8 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
 		$this->tpl = $DIC["tpl"];
 		$this->ui = $DIC->ui();
 
+		$this->setId("cont_skll_mem_".$a_cont_skills->getId());
+
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->skill_tree = new ilSkillTree();
 
@@ -68,6 +70,7 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
 
 		$this->setDefaultOrderField("name");
 		$this->setDefaultOrderDirection("asc");
+		$this->setSelectAllCheckbox("usr_id");
 		
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.cont_member_skill_row.html", "Services/Container/Skills");
