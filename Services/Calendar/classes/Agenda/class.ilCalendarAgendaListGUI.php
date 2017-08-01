@@ -168,7 +168,6 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 			$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
 			$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
 			$modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
-			//$modal = $this->ui_factory->modal()->roundtrip('test', $this->ui_factory->legacy("Hello World."));
 			$shy = $this->ui_factory->button()->shy($e["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal());
 			$modals[] = $modal;
 
