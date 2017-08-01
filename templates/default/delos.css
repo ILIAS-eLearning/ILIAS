@@ -12818,6 +12818,9 @@ div.ilPCMyCoursesPath {
 .modal-body .jstree a {
   display: inline;
 }
+.modal-content {
+  color: #333333;
+}
 /* Services/Badge */
 img.ilBadgeImage {
   max-width: 150px;
