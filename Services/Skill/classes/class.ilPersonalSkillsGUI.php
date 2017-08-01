@@ -26,6 +26,8 @@ class ilPersonalSkillsGUI
 	protected $history_view = false;
 	protected $intro_text = "";
 	protected $hidden_skills = array();
+	protected $obj_id = 0;
+	protected $obj_skills = array();
 	
 	/**
 	 * Contructor
@@ -141,7 +143,20 @@ class ilPersonalSkillsGUI
 		$this->hidden_skills[] = $a_skill_id.":".$a_tref_id;
 	}
 
-	
+	/**
+	 * Set object skills
+	 *
+	 * @param int $a_obj_id object id
+	 * @param array $a_skills skills array
+	 */
+	function setObjectSkills($a_obj_id, $a_skills = null)
+	{
+		$this->obj_id = $a_obj_id;
+		$this->obj_skills = $a_skills;
+	}
+
+
+
 	/**
 	 * Execute command
 	 *
@@ -927,10 +942,12 @@ $bs["tref"] = $bs["tref_id"];
 	function listProfiles()
 	{
 		global $ilCtrl, $ilToolbar, $ilUser, $lng, $tpl;
+
+		$a_user_id = $ilUser->getId();
+
+		$profiles = ilSkillProfile::getProfilesOfUser($a_user_id);
 		
-		$profiles = ilSkillProfile::getProfilesOfUser($ilUser->getId());
-		
-		if (count($profiles) == 0)
+		if (count($profiles) == 0 && $this->obj_skills == null)
 		{
 			return;
 		}
@@ -938,19 +955,35 @@ $bs["tref"] = $bs["tref_id"];
 		// select profiles
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$options = array();
+		if (is_array($this->obj_skills) && $this->obj_id > 0)
+		{
+			$options[0] = $lng->txt("obj_".ilObject::_lookupType($this->obj_id)).": ".ilObject::_lookupTitle($this->obj_id);
+		}
+
 		foreach ($profiles as $p)
 		{
-			$options[$p["id"]] = $p["title"];
+			$options[$p["id"]] = $lng->txt("skmg_profile").": ".$p["title"];
 		}
-		
-		if (!isset($options[$_GET["profile_id"]]))
+
+		$current_profile_id = ($_POST["profile_id"] > 0)
+			? $_POST["profile_id"]
+			: $_GET["profile_id"];
+		//var_dump($_POST);
+		//var_dump($current_profile_id); exit;
+		if (!isset($options[$current_profile_id]))
 		{
-			$_GET["profile_id"] = (int) key($options);
-			$ilCtrl->setParameter($this, "profile_id", $_GET["profile_id"]);
+			if (is_array($this->obj_skills))
+			{
+				$current_profile_id = 0;
+			}
+			else
+			{
+				$current_profile_id = (int)key($options);
+				$ilCtrl->setParameter($this, "profile_id", $current_profile_id);
+			}
 		}
-		$current_profile_id = $_GET["profile_id"];
 		
-		$si = new ilSelectInputGUI($lng->txt("skmg_profile"), "");
+		$si = new ilSelectInputGUI($lng->txt("skmg_profile"), "profile_id");
 		$si->setOptions($options);
 		$si->setValue($current_profile_id);
 		$ilToolbar->addInputItem($si, true);
@@ -960,7 +993,90 @@ $bs["tref"] = $bs["tref_id"];
 		
 		$this->setProfileId($current_profile_id);
 		
-		$tpl->setContent($this->getGapAnalysisHTML());
+		$tpl->setContent($this->getGapAnalysisHTML($a_user_id));
+	}
+
+	/**
+	 * Render gap analysis selection
+	 *
+	 * @param
+	 * @return
+	 */
+	function renderGapAnalysisSelection($a_obj_skills)
+	{
+		global $DIC;
+
+		$user = $DIC->user();
+		$lng = $DIC->language();
+		$ctrl = $DIC->language();
+		$toolbar = $DIC->toolbar();
+
+
+		$skills = array();
+		foreach ($a_obj_skills as $id)
+		{
+			$idarr = explode(":", $id);
+			$skills[$id] = array("id" => $id, "title" => ilBasicSkill::_lookupTitle($idarr[0], $idarr[1]), "profiles" => array(),
+				"base_skill" => $idarr[0], "tref_id" => $idarr[1]);
+		}
+
+
+		// get matching user competence profiles
+		// -> add gap analysis to profile
+		include_once("./Services/Skill/classes/class.ilSkillProfile.php");
+		$profiles = ilSkillProfile::getProfilesOfUser($user->getId());
+		foreach ($profiles as $p)
+		{
+			$prof = new ilSkillProfile($p["id"]);
+			$prof_levels = $prof->getSkillLevels();
+			foreach ($prof_levels as $pl)
+			{
+				if (isset($skills[$pl["base_skill_id"].":".$pl["tref_id"]]))
+				{
+					$skills[$pl["base_skill_id"].":".$pl["tref_id"]]["profiles"][] =
+						$p["id"];
+
+					$eval_modes["gap_".$p["id"]] =
+						$lng->txt("skll_gap_analysis").": ".$prof->getTitle();
+				}
+			}
+		}
+
+		// if one competence does not match any profiles
+		// -> add "competences of survey" alternative
+		reset($skills);
+		foreach ($skills as $sk)
+		{
+			if (count($sk["profiles"]) == 0)
+			{
+				$eval_modes["skills_of_object"] = $lng->txt("skll_competences_of_object");
+			}
+		}
+
+		// final determination of current evaluation mode
+		$comp_eval_mode = $_GET["comp_eval_mode"];
+		if ($_POST["comp_eval_mode"] != "")
+		{
+			$comp_eval_mode = $_POST["comp_eval_mode"];
+		}
+
+		if (!isset($eval_modes[$comp_eval_mode]))
+		{
+			reset($eval_modes);
+			$comp_eval_mode = key($eval_modes);
+			$ctrl->setParameter($this, "comp_eval_mode", $comp_eval_mode);
+		}
+
+		$ctrl->saveParameter($this, "comp_eval_mode");
+
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$mode_sel = new ilSelectInputGUI($lng->txt("svy_analysis"), "comp_eval_mode");
+		$mode_sel->setOptions($eval_modes);
+		$mode_sel->setValue($comp_eval_mode);
+		$toolbar->addInputItem($mode_sel, true);
+
+		$toolbar->addFormButton($lng->txt("select"), "competenceEval");
+
 	}
 
 	/**
@@ -993,11 +1109,18 @@ $bs["tref"] = $bs["tref_id"];
 	 * Get gap analysis html
 	 *
 	 * @param
+	 * @param array $a_skills deprecated, use setObjectSkills and listProfiles instead
 	 * @return
 	 */
 	function getGapAnalysisHTML($a_user_id = 0, $a_skills = null)
 	{
 		global $ilUser, $lng;
+
+
+		if ($a_skills == null)
+		{
+			$a_skills = $this->obj_skills;
+		}
 
 		include_once("./Services/UIComponent/Panel/classes/class.ilPanelGUI.php");
 
@@ -1258,7 +1381,7 @@ $bs["tref"] = $bs["tref_id"];
 	{
 		global $ilCtrl;
 		
-		$ilCtrl->setParameter($this, "profile_id", $_GET["profile_id"]);
+		$ilCtrl->setParameter($this, "profile_id", $_POST["profile_id"]);
 		$ilCtrl->redirect($this, "listProfiles");
 	}
 	

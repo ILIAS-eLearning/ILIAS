@@ -13049,7 +13049,7 @@ badge#:#badge_manual#:#Manual Awarding
 badge#:#badge_user_profile#:#User Profil
 badge#:#badge_badge#:#Badge
 obj#:#obj_tool_setting_badges#:#Badges
-obj#:#obj_tool_setting_badges_info#:#If activated badges can be managed.
+obj#:#obj_tool_setting_badges_info#:#Activates badge management and badge assignments to members.
 badge#:#badge_add_template#:#Add Template
 badge#:#badge_image_template_form#:#Image Template
 badge#:#badge_image_from_upload#:#Upload Image
@@ -13570,7 +13570,7 @@ cont#:#cont_skill_do_not_set#:#Do not set
 cont#:#cont_skill_no_skill#:#No value (Reset)
 cont#:#cont_mem_skills#:#Competences
 cont#:#cont_published#:#Published
-cont#:#cont_assign_competence#:#Assign Competences
+cont#:#cont_assign_competence#:#Assign Competences to Members
 cont#:#cont_deassign_competence#:#Deassign Competences
 cont#:#cont_publish_assignment#:#Publish Assignments
 cont#:#cont_really_deassign_skills#:#Do you really want to deassign all competences from the users?
@@ -13578,9 +13578,10 @@ skll#:#skll_new_skill_achievements#:#You achieved new competence levels in the p
 skll#:#skll_intro_skill_notification_for#:#this is an overview of your latest competence achievements.
 skll#:#skll_skill_notification#:#Competence Notification
 skll#:#skll_skill_notification_desc#:#Informs user on newly set competence levels.
-skll#:#skll_competence_achievements#:#Competence Achievements
+skll#:#skll_competence_achievements#:#New competence achievements and appraisals
 common#:#grade#:#Grade
 rbac#:#grp_grade#:#Grade Members of Group
 rbac#:#crs_grade#:#Grade Members of Course
 grp#:#grp_no_perm_to_add_create_first#:#You need to create a group first. Please select where to create a new group.
 grp#:#grp_create_new_grp_in#:#Create new group in '%1'.
+obj#:#obj_tool_setting_skills_info#:#Activates competence management and competences assignments to members.

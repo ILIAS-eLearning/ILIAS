@@ -7,6 +7,7 @@
  *
  * @author Alex Killing <killing@leifos.de>
  * @ingroup ServicesContainer
+ * @ilCtrl_Calls ilContSkillPresentationGUI: ilPersonalSkillsGUI
  */
 class ilContSkillPresentationGUI
 {
@@ -83,6 +84,10 @@ class ilContSkillPresentationGUI
 
 		switch ($next_class)
 		{
+			case "ilpersonalskillsgui":
+				$ctrl->forwardCommand($this->getPersonalSkillsGUI());
+				break;
+			
 			default:
 				if (in_array($cmd, array("show")))
 				{
@@ -92,39 +97,37 @@ class ilContSkillPresentationGUI
 	}
 
 	/**
-	 * Show
+	 * Get personal skills gui
+	 *
+	 * @return ilPersonalSkillsGUI
 	 */
-	function show()
+	protected function getPersonalSkillsGUI()
 	{
-		$user = $this->user;
-		$tpl = $this->tpl;
 		$lng = $this->lng;
 
 		include_once("./Services/Skill/classes/class.ilPersonalSkillsGUI.php");
 		$gui = new ilPersonalSkillsGUI();
-
-		$gui->setGapAnalysisActualStatusModePerObject($this->container->getId(), $lng->txt('cont_skills'));
-
+		$gui->setGapAnalysisActualStatusModePerObject($this->container->getId());
 		$gui->setHistoryView(true); // NOT IMPLEMENTED YET
-
-		// this is not required, we have no self evals in the test context,
-		// getReachedSkillLevel is a "test evaluation"
-		//$gui->setGapAnalysisSelfEvalLevels($this->getReachedSkillLevels());
-
-		//$gui->setProfileId($this->getSelectedSkillProfile());
-
-
 		$skills = array_map(function ($v) {
 			return array(
 				"base_skill_id" => $v["skill_id"],
 				"tref_id" => $v["tref_id"]
 			);
 		}, $this->container_skills->getSkills());
+		$gui->setObjectSkills($this->container_skills->getId(), $skills);
+		return $gui;
+	}
 
-		$html = $gui->getGapAnalysisHTML($user->getId(), $skills);
 
 
-		$tpl->setContent($html);
+	/**
+	 * Show
+	 */
+	function show()
+	{
+		$gui = $this->getPersonalSkillsGUI();
+		$gui->listProfiles();
 	}
 
 

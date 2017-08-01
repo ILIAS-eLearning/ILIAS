@@ -16013,7 +16013,7 @@ cont#:#cont_skill_do_not_set#:#Nich setzen
 cont#:#cont_skill_no_skill#:#Kein Wert (zurücksetzen)
 cont#:#cont_mem_skills#:#Kompetenzen
 cont#:#cont_published#:#Veröffentlichung
-cont#:#cont_assign_competence#:#Kompetenzen zuweisen
+cont#:#cont_assign_competence#:#Mitgliedern Kompetenzen zuweisen
 cont#:#cont_deassign_competence#:#Kompetenzen zurücksetzen
 cont#:#cont_publish_assignment#:#Zuweisungen veröffentlichen
 cont#:#cont_really_deassign_skills#:#Wollen Sie wirklich alle Kompetenzuweisungen des Benutzers zurücksetzen?
@@ -16021,9 +16021,10 @@ skll#:#skll_new_skill_achievements#:#Sie haben die folgenden Kompetenzausprägun
 skll#:#skll_intro_skill_notification_for#:#nachfolgend eine Übersicht Ihrer letzten Kompetenzänderungen:
 skll#:#skll_skill_notification#:#Benachrichtigung Kompetenzauswertung
 skll#:#skll_skill_notification_desc#:#Benutzer werden über geänderte Kompetenzausprägungen benachrichtigt.
-skll#:#skll_competence_achievements#:#Kompetenzauswertung
+skll#:#skll_competence_achievements#:#Neue Kompetenzbewertungen und -einschätzungen
 common#:#grade#:#Bewerten
 rbac#:#grp_grade#:#Gruppenmitglieder bewerten
 rbac#:#crs_grade#:#Kursmitglieder bewerten
 grp#:#grp_no_perm_to_add_create_first#:#Sie müssen zunächst eine neue Gruppe erstellen. Bitte wählen Sie den Ort, an dem die neue Gruppe erstellt werden soll.
 grp#:#grp_create_new_grp_in#:#Neue Gruppe in '%1' erstellen.
+obj#:#obj_tool_setting_skills_info#:#Die Funktion ermöglicht es Kompetenzen auszuwählen und Mitgliedern Kompetenzausprägungen zuzuweisen.
