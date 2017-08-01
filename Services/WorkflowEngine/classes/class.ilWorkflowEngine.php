@@ -107,6 +107,27 @@ class ilWorkflowEngine
 		{
 			$extracted_params = $extractor->extract($event, $parameter);
 
+			$ilSetting = new ilSetting('wfe');
+			$mappers = json_decode($ilSetting->get('custom_mapper',json_encode(array())), true);
+			foreach((array)$mappers as $mapper)
+			{
+				if(!file_exists($mapper['location']))
+				{
+					continue;
+				}
+
+				include_once $mapper['location'];
+				if(!class_exists($mapper['class']))
+				{
+					continue;
+				}
+
+				$mapper_class = $mapper['class'];
+				$extracted_params 	= $mapper_class::mapParams($component, $event, $parameter, $extracted_params);
+				$component 			= $mapper_class::mapComponent($component, $event, $parameter, $extracted_params);
+				$event 				= $mapper_class::mapEvent($component, $event, $parameter, $extracted_params);
+			}
+
 			$this->processEvent(
 				$component,
 				$event,
