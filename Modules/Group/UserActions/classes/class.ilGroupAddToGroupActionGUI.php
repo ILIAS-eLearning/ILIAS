@@ -202,6 +202,26 @@ class ilGroupAddToGroupActionGUI
 		$tpl = $this->tpl;
 		$lng = $this->lng;
 
+		include_once("./Services/Membership/classes/class.ilParticipants.php");
+		include_once './Services/Membership/classes/class.ilParticipants.php';
+		$participants = ilParticipants::getInstanceByObjId(ilObject::_lookupObjId((int) $_GET["grp_act_ref_id"]));
+		if ($participants->isMember((int) $_GET["user_id"]))
+		{
+			$url = $ctrl->getLinkTarget($this, "selectGroup", "", true, false);
+			$button = $this->ui->factory()->button()->standard($lng->txt("back"), "#")
+				->withOnLoadCode(function ($id) use ($url) {
+					return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url', 'il_grp_action_modal_content');})";
+				});
+
+			echo
+				$tpl->getMessageHTML($lng->txt("grp_user_already_in_group")."<br>".
+					$lng->txt("obj_user").": ".ilUserUtil::getNamePresentation((int) $_GET["user_id"])."<br>".
+					$lng->txt("obj_grp").": ".ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["grp_act_ref_id"])) , "failure").
+				$this->ui->renderer()->renderAsync($button);
+			exit;
+		}
+
+
 		// button create new group
 		$ctrl->setParameter($this, "grp_act_ref_id", $_GET["grp_act_ref_id"]);
 		$url = $ctrl->getLinkTarget($this, "addUser", "", true, false);
@@ -212,7 +232,7 @@ class ilGroupAddToGroupActionGUI
 
 		echo
 			$tpl->getMessageHTML($lng->txt("grp_sure_add_user_to_group")."<br>".
-				$lng->txt("obj_user").": ".ilUserUtil::getNamePresentation($_GET["user_id"])."<br>".
+				$lng->txt("obj_user").": ".ilUserUtil::getNamePresentation((int) $_GET["user_id"])."<br>".
 				$lng->txt("obj_grp").": ".ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["grp_act_ref_id"])) , "question").
 			$this->ui->renderer()->renderAsync($button);
 		exit;
