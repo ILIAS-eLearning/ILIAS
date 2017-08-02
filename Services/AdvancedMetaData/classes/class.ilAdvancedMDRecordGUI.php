@@ -387,9 +387,21 @@ class ilAdvancedMDRecordGUI
 	// Used by list of calendars
 	private function parseAppointmentPresentation()
 	{
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		include_once('Services/ADT/classes/class.ilADTFactory.php');
+		//include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+		//include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		//include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
+		//include_once('Services/ADT/classes/class.ilADTFactory.php');
+		//todo: try to refactor this positions
+		$sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->obj_type);
+
+		$definitions = ilAdvancedMDFieldDefinition::getInstancesByObjType($this->obj_type);
+		$definitions = $sub->sortDefinitions($definitions);
+
+		$positions = array();
+		foreach ($definitions as $position => $value)
+		{
+			$positions[$value->getFieldId()] = $position;
+		}
 
 		$array_elements = array();
 		foreach(ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type, $this->sub_type, $this->sub_id) as $record_id => $a_values)
@@ -402,7 +414,7 @@ class ilAdvancedMDRecordGUI
 			{
 				if(!$element->isNull())
 				{
-					$array_elements[] = array(
+					$array_elements[$positions[$element_id]] = array(
 						"title" => $defs[$element_id]->getTitle(),
 						"value" => ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getHTML()
 					);
@@ -410,6 +422,7 @@ class ilAdvancedMDRecordGUI
 			}
 		}
 
+		ksort($array_elements);
 		return $array_elements;
 	}
 
