@@ -132,7 +132,6 @@ class ilCalendarViewGUI
 
 				// content of modal
 				include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
-				ilLoggerFactory::getRootLogger()->debug("seed =".	$this->seed);
 				$next_gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed, IL_CAL_DATE), $item);
 				$content = $ctrl->getHTML($next_gui);
 				$modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),$f->legacy($content));
