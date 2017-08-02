@@ -472,7 +472,6 @@ class ilObjOrgUnit extends ilContainer {
 		global $DIC;
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 
-		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		$role_emp = ilObjRole::createDefaultRole('il_orgu_employee_'
 		                                         . $this->getRefId(), "Emplyee of org unit obj_no."
 		                                                              . $this->getId(), 'il_orgu_superior', $this->getRefId());
@@ -579,7 +578,6 @@ class ilObjOrgUnit extends ilContainer {
 		}
 
 		// put here category specific stuff
-		include_once('./Services/User/classes/class.ilObjUserFolder.php');
 		ilObjUserFolder::_updateUserFolderAssignment($this->ref_id, USER_FOLDER_ID);
 
 		$query = "DELETE FROM object_translation WHERE obj_id = "

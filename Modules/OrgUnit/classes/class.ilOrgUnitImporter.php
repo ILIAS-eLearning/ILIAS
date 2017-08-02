@@ -135,4 +135,3 @@ class ilOrgUnitImporter extends ilXmlImporter {
 	}
 }
 
-?>

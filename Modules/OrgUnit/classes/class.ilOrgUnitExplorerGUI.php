@@ -217,4 +217,3 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	}
 }
 
-?>

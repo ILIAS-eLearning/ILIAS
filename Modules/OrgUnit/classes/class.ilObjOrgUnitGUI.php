@@ -7,8 +7,6 @@
  * @author            : Oskar Truffer <ot@studer-raimann.ch>
  * @author            : Martin Studer <ms@studer-raimann.ch>
  * @author            : Stefan Wanzenried <sw@studer-raimann.ch>
- * Date: 15/04/14
- * Time: 10:13 AM
  *
  * @ilCtrl_IsCalledBy ilObjOrgUnitGUI: ilAdministrationGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
@@ -187,7 +185,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->ctrl->forwardCommand($ilPermissionGUI);
 				break;
 			case "ilcommonactiondispatchergui":
-				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -201,7 +198,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				}
 				$this->ctrl->saveParameterByClass("illearningprogressgui", "obj_id");
 				$this->ctrl->saveParameterByClass("illearningprogressgui", "recursive");
-				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_ORG_UNIT, $_GET["ref_id"], $_GET['obj_id']);
 				$this->ctrl->forwardCommand($new_gui);
 				break;
@@ -676,5 +672,3 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		return parent::__setTableGUIBasicData($tbl, $result_set, $a_from);
 	}
 }
-
-?>

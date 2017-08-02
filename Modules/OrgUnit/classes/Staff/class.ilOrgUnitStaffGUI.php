@@ -5,8 +5,6 @@
  *
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
- * Date: 4/07/13
- * Time: 1:09 PM
  *
  * @ilCtrl_Calls ilOrgUnitStaffGUI: ilRepositorySearchGUI
  */
@@ -360,7 +358,6 @@ class ilOrgUnitStaffGUI {
 				$param = $_GET["obj_id"];
 				break;
 		}
-		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 		$confirm = new ilConfirmationGUI();
 		$confirm->setFormAction($this->ctrl->getFormAction($this, $nextcmd));
 		$confirm->setHeaderText($this->lng->txt('orgu_staff_deassign'));

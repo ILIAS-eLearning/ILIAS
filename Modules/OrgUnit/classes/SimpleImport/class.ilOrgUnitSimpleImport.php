@@ -64,7 +64,6 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 				$this->addError("ou_id_not_valid", $ou_id?$ou_id:$external_id, $action);
 				return;
 			}
-			include_once("./Services/Repository/classes/class.ilRepUtil.php");
 			$ru = new ilRepUtil($this);
 			try{
 				$ru->deleteObjects($parent_ref_id, array($ref_id)) !== false;

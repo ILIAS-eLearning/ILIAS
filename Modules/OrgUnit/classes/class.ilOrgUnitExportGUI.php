@@ -76,4 +76,3 @@ class ilOrgUnitExportGUI extends ilExportGUI {
 	}
 
 }
-?>

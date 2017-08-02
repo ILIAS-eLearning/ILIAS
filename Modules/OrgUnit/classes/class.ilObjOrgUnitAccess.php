@@ -141,4 +141,3 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 		return false;
 	}
 }
-?>
