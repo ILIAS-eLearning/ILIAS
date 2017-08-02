@@ -125,11 +125,13 @@ class ilCalendarViewGUI
 		// @todo: this needs optimization
 		$events = $this->getEvents();
 
-		$appointment = $this->getCurrentApp();
-		$appointment_start_date = $appointment['dstart'];
+		//item => array containing ilcalendary object, dstart of the event , dend etc.
 		foreach ($events as $item)
 		{
-			if ($item["event"]->getEntryId() == (int) $_GET["app_id"] && $appointment_start_date == (int) $_GET['dt'])
+			$DIC->logger()->cal()->debug(" GET['dt'] => ".$_GET['dt']);
+			$DIC->logger()->cal()->debug("item start => ".$item['dstart']);
+
+			if ($item["event"]->getEntryId() == (int) $_GET["app_id"] && $item['dstart'] == (int) $_GET['dt'])
 			{
 				$dates = $this->getDatesForItem($item);
 				// content of modal
