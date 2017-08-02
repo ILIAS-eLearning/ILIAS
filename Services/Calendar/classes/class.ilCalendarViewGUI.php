@@ -74,7 +74,7 @@ class ilCalendarViewGUI
 		}
 		else
 		{
-			$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_PD_UPCOMING);
+			$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY);
 
 		}
 
