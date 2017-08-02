@@ -61,7 +61,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 			}
 		}
 
-		return self::$role_ids_by_address[$a_sender_id];
+		return self::$may_send_to_global_roles[$a_sender_id];
 	}
 
 	/**
