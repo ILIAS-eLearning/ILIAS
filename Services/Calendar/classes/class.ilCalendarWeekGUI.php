@@ -432,17 +432,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 			? " (".$a_app['event']->getCompletion()."%)"
 			: "";
 
-		/*
-		$this->ctrl->setParameter($this, "app_id", $a_app["event"]->getEntryId());
-		$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
-		$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
-
-		$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
-
-		$comps = [$f->button()->shy($a_app["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal()), $modal];
-		$shy = $r->render($comps);
-		*/
-
 		$shy = $this->getAppointmentShyButton($a_app);
 
 		$this->tpl->setVariable('F_APP_TITLE',$shy.$compl);

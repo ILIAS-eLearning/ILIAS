@@ -147,8 +147,10 @@ class ilCalendarViewGUI
 		$r = $this->ui_renderer;
 
 		$this->ctrl->setParameter($this, "app_id", $a_appointment["event"]->getEntryId());
+		$this->ctrl->setParameter($this,'dt',$a_appointment['dstart']);
 		$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
 		$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
+		$this->ctrl->setParameter($this, "dt", $_GET["dt"]);
 
 		$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
