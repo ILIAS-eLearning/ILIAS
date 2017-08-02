@@ -124,12 +124,14 @@ class ilCalendarViewGUI
 
 		// @todo: this needs optimization
 		$events = $this->getEvents();
+
+		$appointment = $this->getCurrentApp();
+		$appointment_start_date = $appointment['dstart'];
 		foreach ($events as $item)
 		{
-			if ($item["event"]->getEntryId() == (int) $_GET["app_id"])
+			if ($item["event"]->getEntryId() == (int) $_GET["app_id"] && $appointment_start_date == (int) $_GET['dt'])
 			{
 				$dates = $this->getDatesForItem($item);
-
 				// content of modal
 				include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
 				$next_gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed, IL_CAL_DATE), $item);
