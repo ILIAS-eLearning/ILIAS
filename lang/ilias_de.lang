@@ -5087,7 +5087,6 @@ common#:#tst_statistics#:#Statistik
 rbac#:#tst_tst_statistics#:#Zugriff auf Teststatistik
 common#:#tst_upload_file#:#Datei hochladen
 common#:#tst_user_not_invited#:#Sie dürfen an dieser Online-Prüfung nicht teilnehmen.
-common#:#tst_user_wrong_clientip#:#Sie haben nicht die korrekte IP-Adresse, um an der Online-Prüfung teilzunehmen.
 rbac#:#tst_visible#:#Test ist sichtbar
 common#:#tst_warning_test_not_complete#:#Der Test ist nicht vollständig!
 rbac#:#tst_write#:#Test zusammenstellen und Einstellungen bearbeiten

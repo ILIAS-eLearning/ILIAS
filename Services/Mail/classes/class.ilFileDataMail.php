@@ -589,15 +589,15 @@ class ilFileDataMail extends ilFileData
 		// XXX - This method is extremely slow. We should
 		// use a cache to speed it up, for example, we should
 		// store the disk space used in table mail_attachment.
-		global $ilDB, $lng;
+		global $DIC;
 
 		$mail_data_dir = ilUtil::getDataDir('filesystem').DIRECTORY_SEPARATOR."mail";
 
 		$q = "SELECT path ".
 			"FROM mail_attachment ma ".
 			"JOIN mail m ON ma.mail_id=m.mail_id ".
-			"WHERE m.user_id = ".$ilDB->quote($user_id);
-		$result_set = $ilDB->query($q);
+			"WHERE m.user_id = ".$DIC->database()->quote($user_id);
+		$result_set = $DIC->database()->query($q);
 		$size = 0;
 		$count = 0;
 		while($row = $result_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))

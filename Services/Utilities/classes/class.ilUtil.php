@@ -1587,7 +1587,7 @@ class ilUtil
 
 			foreach($sourceList as $item)
 			{
-				if(strcmp($item->getType(), MetadataType::DIRECTORY) === 0)
+				if($item->isDir())
 					continue;
 
 				$itemPath = $targetDir . '/' . substr($item->getPath(), strlen($sourceDir));

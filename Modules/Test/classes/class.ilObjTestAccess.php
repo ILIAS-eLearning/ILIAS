@@ -558,7 +558,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 						$row['clientip'] = str_replace(Array("?","*",","), Array("[0-9]","[0-9]*","|"), $row['clientip']);
 						if (!preg_match("/^".$row['clientip']."$/", $_SERVER["REMOTE_ADDR"])) 
 						{
-							return $lng->txt("tst_user_wrong_clientip");
+							$lng->loadLanguageModule('assessment');
+							return $lng->txt("user_wrong_clientip");
 						}
 						else
 						{

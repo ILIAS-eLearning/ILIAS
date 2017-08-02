@@ -6095,7 +6095,7 @@ class ilObjSurvey extends ilObject
 		include_once "Services/Mail/classes/class.ilMailTemplateDataProvider.php";
 		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";			
 		$mprov = new ilMailTemplateDataProvider();
-		foreach($mprov->getTemplateByContexId(ilSurveyMailTemplateReminderContext::ID) as $tmpl)
+		foreach($mprov->getTemplateByContextId(ilSurveyMailTemplateReminderContext::ID) as $tmpl)
 		{
 			$res[$tmpl->getTplId()] = $tmpl->getTitle();
 		}

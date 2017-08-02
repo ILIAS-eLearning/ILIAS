@@ -3436,7 +3436,6 @@ common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_statistics#:#Statistics
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
-common#:#tst_user_wrong_clientip#:#You don't have the right IP address to access this test.
 rbac#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!
 rbac#:#tst_write#:#User can edit content and settings of test
@@ -7534,7 +7533,7 @@ mail#:#mail_smtp_encryption#:#Encryption
 mail#:#mail_smtp_encryption_tls#:#TLS
 mail#:#mail_smtp_encryption_ssl#:#SSL
 mail#:#mail_external_send_test_usr#:#Send Test Email (User Mail)
-mail#:#mail_external_send_test_sys#:#Test-E-Mail für Systemnachricht schicken
+mail#:#mail_external_send_test_sys#:#Send Test Email (System Mail)
 mail#:#mail_external_test_sent#:#An email was sent to the email address defined in your profile.
 mail#:#mail_smtp_user#:#User
 mail#:#mail_smtp_password#:#Password
@@ -13540,3 +13539,4 @@ rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#stys_sty_write_content#:#Edit Content Styles
 style#:#manage_system_styles#:#Manage System Styles
 style#:#scope#:#Scope
+survey#:#sub_tab_dashboard#:#Dashboard

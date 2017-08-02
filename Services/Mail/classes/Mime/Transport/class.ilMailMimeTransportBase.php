@@ -136,7 +136,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 			" Initiated by: %s (%s) " .
 			"| To: %s | CC: %s | BCC: %s | Subject: %s " .
 			"| From: %s / %s " .
-			"| ReplyTo: %s / %s" .
+			"| ReplyTo: %s / %s " .
 			"| EnvelopeFrom: %s",
 			$GLOBALS['DIC']->user()->getLogin(), $GLOBALS['DIC']->user()->getId(),
 			implode(', ', $mail->getTo()), implode(', ', $mail->getCc()), implode(', ', $mail->getBcc()), $mail->getSubject(),
