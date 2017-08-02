@@ -9845,7 +9845,7 @@ search#:#search_in_result#:#In den Resultaten suchen###deprecated
 search#:#search_inactive#:#Inaktive Benutzer###deprecated 
 search#:#search_index#:#Indizierte Suche
 search#:#search_item_filter#:#Suche nach Typ###deprecated 
-search#:#search_item_filter_form#:#Suche nach Typ
+search#:#search_item_filter_form#:#Detailsuche aktivieren
 search#:#search_item_filter_form_info#:#Beschränkt die Suche auf die ausgewählten Dateitypen
 search#:#search_like_info#:#Wählen Sie diese Suchart, um möglichst genaue Treffer zu erhalten. Auf größeren Installationen kann die Suchgeschwindigkeit jedoch zu langsam sein.
 search#:#search_limit_reached#:#Ihre Suche ergab mehr als %s Treffer. Sie können die Abfrage weiter einschränken, um detailliertere Treffer zu erhalten.
@@ -9900,6 +9900,8 @@ search#:#search_term_combination#:#Kombination
 search#:#search_title_description#:#Titel / Beschreibung
 search#:#search_tst_svy#:#Tests/Umfragen
 search#:#search_type#:#Suchart
+search#:#search_detail_default#:#Detailsuche voreingestellt
+search#:#search_detail_default_info#:#Bei aktivierter Detailsuche wird diese voreingestellt.
 search#:#search_user#:#Benutzer
 search#:#search_user_extended#:#Erweiterte Benutzersuche
 search#:#search_user_simple#:#Einfache Benutzersuche###deprecated 

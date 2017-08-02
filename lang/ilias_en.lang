@@ -8414,6 +8414,8 @@ search#:#search_term_combination#:#Combination
 search#:#search_title_description#:#Title / Description
 search#:#search_tst_svy#:#Tests/Surveys
 search#:#search_type#:#Type
+search#:#search_detail_default#:#preset detail search
+search#:#search_detail_default_info#:#detail search will be preset.
 search#:#search_user_extended#:#Extended User Search
 search#:#search_user_simple#:#Simple User Search###deprecated 
 search#:#search_user#:#Users
@@ -9581,7 +9583,7 @@ dateplaner#:#cal_notification_info#:#If enabled, all course/group participants w
 dateplaner#:#cal_adm_notification_info#:#Choose this option, to send optional mail notifications to course/group participants about changed appointments.
 rbac#:#rbac_add_new_local_role#:#Add New Local Role
 search#:#search_item_filter#:#Search by Type###deprecated 
-search#:#search_item_filter_form#:#Search by Type
+search#:#search_item_filter_form#:#Enable detail search
 search#:#search_item_filter_form_info#:#Search can be restricted to the chosen file types.
 administration#:#group_export#:#Visible in Groups
 tbl#:#tbl_export_csv#:#Export .csv
