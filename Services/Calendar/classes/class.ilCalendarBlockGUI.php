@@ -967,7 +967,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		return ($ev);
 	}
 
-
+    //todo use classes from ilcalendarviewgui -> getAppointmentShyButton etc.
 	function getData()
 	{
 		$lng = $this->lng;
@@ -984,8 +984,10 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			foreach($events as $item)
 			{
 				$this->ctrl->setParameter($this, "app_id", $item["event"]->getEntryId());
+				$this->ctrl->setParameter($this,'dt',$a_appointment['dstart']);
 				$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
 				$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
+				$this->ctrl->setParameter($this, "dt", $_GET["dt"]);
 				$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
 				$dates = $this->getDatesForItem($item);

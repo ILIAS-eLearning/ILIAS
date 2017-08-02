@@ -162,11 +162,14 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 			$properties = array();
 
+			//todo use classes from ilcalendarviewgui -> getAppointmentShyButton etc.
 			// shy button for title
 			$this->ctrl->setParameter($this, 'app_id', $e["event"]->getEntryId());
+			$this->ctrl->setParameter($this,'dt',$e['dstart']);
 			$this->ctrl->setParameter($this, 'seed', $this->seed);
 			$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
 			$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
+			$this->ctrl->setParameter($this, "dt", $_GET["dt"]);
 			$modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 			$shy = $this->ui_factory->button()->shy($e["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal());
 			$modals[] = $modal;
