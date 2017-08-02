@@ -59,8 +59,8 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 
 		$clone = clone $this;
 		$clone->inputs = [];
-		foreach ($this->getInputs() as $input) {
-			$clone->inputs[] = $input->withInput($post_data);
+		foreach ($this->getInputs() as $key => $input) {
+			$clone->inputs[$key] = $input->withInput($post_data);
 		}
 
 		return $clone;
@@ -80,12 +80,12 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	 */
 	public function getData() {
 		$data = [];
-		foreach ($this->getInputs() as $input) {
+		foreach ($this->getInputs() as $key => $input) {
 			$content = $input->getContent();
 			if (!$content->isok()) {
 				return null;
 			}
-			$data[] = $content->value();
+			$data[$key] = $content->value();
 		}
 		if ($this->transformation !== null) {
 			return $this->transformation->transform($data);
@@ -101,8 +101,8 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	 */
 	protected function nameInputs(array $inputs) {
 		$named_inputs = [];
-		foreach($inputs as $input) {
-			$named_inputs[] = $input->withNameFrom($this);
+		foreach($inputs as $key => $input) {
+			$named_inputs[$key] = $input->withNameFrom($this);
 		}
 		// TODO: This might be cached, as it will mostly be used
 		// twice on every request, once for rendering, once for
