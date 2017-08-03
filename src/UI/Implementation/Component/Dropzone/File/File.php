@@ -18,11 +18,13 @@ use ILIAS\Data\DataSize;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Triggerer;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 
 	use Triggerer;
 	use ComponentHelper;
+	use JavaScriptBindable;
 
 	const DROP_EVENT = "drop";
 

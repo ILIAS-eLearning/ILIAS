@@ -69,7 +69,9 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	private function renderStandard(\ILIAS\UI\Component\Dropzone\File\Standard $dropzone) {
-		$dropzoneId = $this->createId();
+		$dropzone = $this->registerSignals($dropzone);
+		$dropzoneId = $this->bindJavaScript($dropzone);
+
 		$tpl = $this->getTemplate("tpl.standard-dropzone.html", true, true);
 		$tpl->setVariable("ID", $dropzoneId);
 		// Set default message if empty
@@ -88,7 +90,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable('FILELIST', $tplUploadFileList->get());
 		$tpl->setVariable('DIVIDER_MESSAGE', $this->txt('logic_or'));
 		$tpl->setVariable('SELECT_FILES_LABEL', $this->txt('select_files_from_computer'));
-		$this->initializeJavascript($dropzone, $dropzoneId);
+
 		return $tpl->get();
 	}
 
@@ -97,7 +99,9 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	private function renderWrapper(\ILIAS\UI\Component\Dropzone\File\Wrapper $dropzone) {
-		$dropzoneId = $this->createId();
+		$dropzone = $this->registerSignals($dropzone);
+		$dropzoneId = $this->bindJavaScript($dropzone);
+
 		$tplUploadFileList = $this->getFileListTemplate($dropzoneId, $dropzone);
 		// Create the roundtrip modal which displays the uploaded files
 		$uploadButton = $this->getUIFactory()->button()->primary($this->txt('upload'), '')
@@ -112,38 +116,44 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable('ID', $dropzoneId);
 		$tpl->setVariable('CONTENT', $this->renderer->render($dropzone->getContent()));
 		$tpl->setVariable('MODAL', $this->renderer->render($modal));
-		$dropzone = $dropzone->withOnDrop($modal->getShowSignal());
-		$this->initializeJavascript($dropzone, $dropzoneId);
+		// $dropzone = $dropzone->withOnDrop($modal->getShowSignal());
+
 		return $tpl->get();
 	}
 
+
 	/**
 	 * @param \ILIAS\UI\Component\Dropzone\File\File $dropzone
-	 * @param $id
+	 *
+	 * @return \ILIAS\UI\Component\JavaScriptBindable
 	 */
-	private function initializeJavascript(\ILIAS\UI\Component\Dropzone\File\File $dropzone, $id) {
+	protected function registerSignals(\ILIAS\UI\Component\Dropzone\File\File $dropzone) {
 		$signals = array_map(function ($triggeredSignal) {
 			/** @var $triggeredSignal TriggeredSignalInterface */
 			return array(
-				'id' => $triggeredSignal->getSignal()->getId(),
-				'options' => $triggeredSignal->getSignal()->getOptions()
+				'id'      => $triggeredSignal->getSignal()->getId(),
+				'options' => $triggeredSignal->getSignal()->getOptions(),
 			);
 		}, $dropzone->getTriggeredSignals());
 
-		$options = json_encode([
-			'id' => $id,
-			'registeredSignals' => $signals,
-			'uploadUrl' => $dropzone->getUploadUrl(),
-			'allowedFileTypes' => $dropzone->getAllowedFileTypes(),
-			'fileSizeLimit' => $dropzone->getFileSizeLimit() ? $dropzone->getFileSizeLimit()->getSize() * $dropzone->getFileSizeLimit()->getUnit() : 0,
-			'maxFiles' => $dropzone->getMaxFiles(),
-			'identifier' => $dropzone->getIdentifier(),
-		]);
-		$type = get_class($dropzone);
-		$this->getJavascriptBinding()->addOnLoadCode(
-			"il.UI.dropzone.initializeDropzone('{$type}', JSON.parse('{$options}'));"
-		);
+		return $dropzone->withAdditionalOnLoadCode(function ($id) use ($dropzone, $signals) {
+			$options = json_encode([
+				'id'                => $id,
+				'registeredSignals' => $signals,
+				'uploadUrl'         => $dropzone->getUploadUrl(),
+				'allowedFileTypes'  => $dropzone->getAllowedFileTypes(),
+				'fileSizeLimit'     => $dropzone->getFileSizeLimit() ? $dropzone->getFileSizeLimit()->getSize()
+				                                                       * $dropzone->getFileSizeLimit()->getUnit() : 0,
+				'maxFiles'          => $dropzone->getMaxFiles(),
+				'identifier'        => $dropzone->getIdentifier(),
+			]);
+			$reflect = new \ReflectionClass($dropzone);
+			$type = $reflect->getShortName();
+
+			return "il.UI.dropzone.initializeDropzone('{$type}', JSON.parse('{$options}'));";
+		});
 	}
+
 
 	/**
 	 * @param string $uploadId
@@ -156,10 +166,10 @@ class Renderer extends AbstractComponentRenderer {
 		if ($this->renderMetaData($dropzone)) {
 			$tplUploadFileList->touchBlock('with_edit_button');
 			$tplUploadFileList->setCurrentBlock('with_metadata');
-			if ($dropzone->allowsCustomFileNames()) {
+			if ($dropzone->allowsUserDefinedFileNames()) {
 				$tplUploadFileList->touchBlock('with_filename');
 			}
-			if ($dropzone->allowsFileDescriptions()) {
+			if ($dropzone->allowsUserDefinedFileDescriptions()) {
 				$tplUploadFileList->touchBlock('with_description');
 			}
 			$tplUploadFileList->parseCurrentBlock();
@@ -172,7 +182,9 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return bool
 	 */
 	private function renderMetaData(\ILIAS\UI\Component\Dropzone\File\File $dropzone) {
-		return ($dropzone->allowsCustomFileNames() || $dropzone->allowsFileDescriptions());
+		return ($dropzone->allowsUserDefinedFileNames() || $dropzone->allowsUserDefinedFileDescriptions());
 	}
+
+
 
 }

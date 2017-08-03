@@ -39,8 +39,8 @@ il.UI = il.UI || {};
 		 * e.g. ILIAS\UI\Component\Dropzone\Standard -> ILIASUIComponentDropzoneStandard
 		 */
 		var DROPZONE = {
-			"standard": "ILIASUIImplementationComponentDropzoneFileStandard",
-			"wrapper": "ILIASUIImplementationComponentDropzoneFileWrapper"
+			"standard": "Standard",
+			"wrapper": "Wrapper"
 		};
 
 		var _darkenedBackground = false;
@@ -175,12 +175,14 @@ il.UI = il.UI || {};
 			if ($selectFilesButton.length) {
 				options.selectFilesButton = $selectFilesButton;
 			}
+
 			options.fileListContainer = $dropzone.nextAll('.il-upload-file-list');
 
 			il.UI.uploader.init(options.id, options);
 
 			$dropzone.dragster({
 				enter: function (dragsterEvent, event) {
+                    console.log("!!!");
 					$(this).addClass(CSS.dropzoneDragHover);
 				},
 				leave: function (dragsterEvent, event) {

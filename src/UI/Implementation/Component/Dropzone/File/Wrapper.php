@@ -19,14 +19,15 @@ class Wrapper extends File implements \ILIAS\UI\Component\Dropzone\File\Wrapper 
 	 */
 	protected $components;
 
+
 	/**
-	 * @param string $url
+	 * @param string                $url
 	 * @param Component[]|Component $content Component(s) being wrapped by this dropzone
 	 */
 	public function __construct($url, $content) {
 		parent::__construct($url);
 		$this->components = $this->toArray($content);
-		$types = array(Component::class);
+		$types = array( Component::class );
 		$this->checkArgListElements('content', $this->components, $types);
 		$this->checkEmptyArray($this->components);
 	}
@@ -38,9 +39,10 @@ class Wrapper extends File implements \ILIAS\UI\Component\Dropzone\File\Wrapper 
 	public function withContent($content) {
 		$clone = clone $this;
 		$clone->components = $this->toArray($content);
-		$types = array(Component::class);
+		$types = array( Component::class );
 		$this->checkArgListElements('content', $clone->components, $types);
 		$this->checkEmptyArray($clone->components);
+
 		return $clone;
 	}
 
@@ -57,6 +59,7 @@ class Wrapper extends File implements \ILIAS\UI\Component\Dropzone\File\Wrapper 
 	 * Checks if the passed array contains at least one element, throws a LogicException otherwise.
 	 *
 	 * @param array $array
+	 *
 	 * @throws \LogicException if the passed in argument counts 0
 	 */
 	private function checkEmptyArray(array $array) {

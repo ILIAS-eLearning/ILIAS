@@ -18,11 +18,11 @@ class Standard extends File implements \ILIAS\UI\Component\Dropzone\File\Standar
 	 * @var string
 	 */
 	protected $message = "";
-
 	/**
 	 * @var Button
 	 */
 	protected $upload_button;
+
 
 	/**
 	 * @inheritdoc
@@ -31,8 +31,10 @@ class Standard extends File implements \ILIAS\UI\Component\Dropzone\File\Standar
 		$this->checkStringArg("message", $message);
 		$clone = clone $this;
 		$clone->message = $message;
+
 		return $clone;
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -41,14 +43,17 @@ class Standard extends File implements \ILIAS\UI\Component\Dropzone\File\Standar
 		return $this->message;
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
 	public function withUploadButton(Button $button) {
 		$clone = clone $this;
 		$clone->upload_button = $button;
+
 		return $clone;
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -56,5 +61,4 @@ class Standard extends File implements \ILIAS\UI\Component\Dropzone\File\Standar
 	public function getUploadButton() {
 		return $this->upload_button;
 	}
-
 }
