@@ -347,6 +347,35 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	}
 
 	/**
+	 * Get target gui class path (for presenting the calendar)
+	 *
+	 * @param
+	 * @return
+	 */
+	function getTargetGUIClassPath()
+	{
+		$target_class = array();
+		if (!$this->getRepositoryMode())
+		{
+			$target_class = array("ilpersonaldesktopgui", "ilcalendarpresentationgui");
+		}
+		else
+		{
+			switch (ilObject::_lookupType((int) $_GET["ref_id"], true))
+			{
+				case "crs":
+					$target_class = array("ilobjcoursegui", "ilcalendarpresentationgui");
+					break;
+
+				case "grp":
+					$target_class = array("ilobjgroupgui", "ilcalendarpresentationgui");
+					break;
+			}
+		}
+		return $target_class;
+	}
+
+	/**
 	* Add mini version of monthly overview
 	* (Maybe extracted to another class, if used in pd calendar tab
 	*/
@@ -439,27 +468,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			
 			$month_day = $day;
 
-			$target_class = array();
-			if (!$this->getRepositoryMode())
-			{
-				$target_class = array("ilpersonaldesktopgui", "ilcalendarpresentationgui");
-			}
-			else
-			{
-				switch (ilObject::_lookupType((int) $_GET["ref_id"], true))
-				{
-					case "crs":
-						$target_class = array("ilobjcoursegui", "ilcalendarpresentationgui");
-						break;
-
-					case "grp":
-						$target_class = array("ilobjgroupgui", "ilcalendarpresentationgui");
-						break;
-				}
-			}
-
-			$ilCtrl->setParameterByClass(end($target_class),'seed',$date->get(IL_CAL_DATE));
-			$a_tpl->setVariable('OPEN_DAY_VIEW', $ilCtrl->getLinkTargetByClass($target_class,''));
+			$ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()),'seed',$date->get(IL_CAL_DATE));
+			$a_tpl->setVariable('OPEN_DAY_VIEW', $ilCtrl->getLinkTargetByClass($this->getTargetGUIClassPath(), ''));
 
 			$a_tpl->setVariable('MONTH_DAY',$month_day);
 
@@ -655,12 +665,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 						}
 
 						 //@todo fix this - now we lose the sidebar with the marginal calendar and so.
-						$this->addBlockCommand(
+						/*$this->addBlockCommand(
 							$ilCtrl->getLinkTargetByClass(
 								"ilCalendarMonthGUI",
 								""),
 							$lng->txt("cal_consultation_hours_for").' '. ilObjUser::_lookupFullname($user_id)
-						);
+						);*/
 
 						$this->cal_footer[] = array(
 							'link' => $ilCtrl->getLinkTargetByClass('ilCalendarMonthGUI',''),

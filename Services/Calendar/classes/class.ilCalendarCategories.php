@@ -624,8 +624,8 @@ class ilCalendarCategories
 		
 		$this->readPublicCalendars();
 		$this->readPrivateCalendars();
-		$this->readConsultationHoursCalendar();
-
+		//$this->readConsultationHoursCalendar($this->root_ref_id);
+		$this->readAllConsultationHoursCalendarOfContainer($this->root_ref_id);
 
 
 
@@ -787,7 +787,28 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['remote'] = ($row->loc_type == ilCalendarCategory::LTYPE_REMOTE);
 		}
 	}
-	
+
+	/**
+	 * Read personal consultation hours calendar of all tutors for a container
+	 * @param int $a_container_ref_id container ref id
+	 */
+	public function readAllConsultationHoursCalendarOfContainer($a_container_ref_id)
+	{
+		include_once "Modules/Course/classes/class.ilCourseParticipants.php";
+		$obj_id = ilObject::_lookupObjId($a_container_ref_id);
+		$participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
+		$users = array_unique(array_merge($participants->getTutors(), $participants->getAdmins()));
+		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+		$users = ilBookingEntry::lookupBookableUsersForObject($obj_id, $users);
+		$old_ch = $this->getCHUserId();
+		foreach ($users as $user)
+		{
+			$this->setCHUserId($user);
+			$this->readConsultationHoursCalendar($a_container_ref_id);
+		}
+		$this->setCHUserId($old_ch);
+	}
+
 	/**
 	 * Read personal consultation hours calendar
 	 * @param	int	$user_id
@@ -795,8 +816,8 @@ class ilCalendarCategories
 	 */
 	public function readConsultationHoursCalendar($a_target_ref_id = NULL)
 	{
-		global $ilDB;
-		
+		global $ilDB, $lng;
+
 		if(!$this->getCHUserId())
 		{
 			$this->setCHUserId($this->user_id);
@@ -832,7 +853,7 @@ class ilCalendarCategories
 					$this->categories[] = $row->cat_id;
 					$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
 					$this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
-					$this->categories_info[$row->cat_id]['title'] = $row->title;
+					$this->categories_info[$row->cat_id]['title'] = $lng->txt("cal_consultation_hours_for").' '.ilObjUser::_lookupFullname($this->getCHUserId());
 					$this->categories_info[$row->cat_id]['color'] = $row->color;
 					$this->categories_info[$row->cat_id]['type'] = $row->type;
 					$this->categories_info[$row->cat_id]['editable'] = false;

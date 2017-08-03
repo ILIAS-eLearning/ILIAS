@@ -274,7 +274,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 			{
 				if ($type == self::CAL_GRP_CURRENT_CONT)
 				{
-					$txt = $lng->txt("cal_grp_curr_crs");
+					$txt = $lng->txt("cal_grp_curr_".ilObject::_lookupType($this->obj_id));
 				}
 				if ($type == self::CAL_GRP_CURRENT_CONT_CONS)
 				{
