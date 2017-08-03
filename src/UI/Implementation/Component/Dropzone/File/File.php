@@ -139,7 +139,7 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 	/**
 	 * @inheritdoc
 	 */
-	public function withCustomFileNames($state) {
+	public function withCustomFileNamesEnabled($state) {
 		$clone = clone $this;
 		$clone->custom_file_names = (bool)$state;
 		return $clone;
@@ -155,7 +155,7 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 	/**
 	 * @inheritdoc
 	 */
-	public function withFileDescriptions($state) {
+	public function withCustomFileDescriptionsEnabled($state) {
 		$clone = clone $this;
 		$clone->file_descriptions = (bool)$state;
 		return $clone;
@@ -196,7 +196,7 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 	/**
 	 * @inheritDoc
 	 */
-	public function appendOnDrop(Signal $signal) {
+	public function withAdditionalDrop(Signal $signal) {
 		return $this->appendTriggeredSignal($signal, self::DROP_EVENT);
 	}
 }
