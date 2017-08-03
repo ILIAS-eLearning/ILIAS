@@ -9,6 +9,11 @@
  */
 class ilCalendarViewGUI
 {
+	const CAL_PRESENTATION_DAY = 1;
+	const CAL_PRESENTATION_WEEK = 2;
+	const CAL_PRESENTATION_MONTH = 3;
+	const CAL_PRESENTATION_AGENDA_LIST = 9;
+
 	/**
 	 * @var \ILIAS\UI\Factory
 	 */
@@ -24,13 +29,27 @@ class ilCalendarViewGUI
 	 */
 	protected $ctrl;
 
-	function __construct()
+	/**
+	 * @var integer
+	 */
+	protected $presentation_type;
+	
+	/**
+	 * View initialization
+	 * @param integer $a_calendar_presentation_type
+	 */
+	function initialize($a_calendar_presentation_type)
 	{
 		global $DIC;
-
 		$this->ui_factory = $DIC->ui()->factory();
 		$this->ui_renderer = $DIC->ui()->renderer();
 		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->tabs_gui = $DIC->tabs();
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$this->presentation_type = $a_calendar_presentation_type;
 	}
 
 	/**
@@ -66,17 +85,21 @@ class ilCalendarViewGUI
 
 		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_PD_UPCOMING);
 
-		//todo: mmm find a best conditional. if period end day we are using a list otherwise day,month,week
-		if($this->period_end_day)
+		switch ($this->presentation_type)
 		{
-			$schedule->setPeriod(new ilDate($this->seed, IL_CAL_DATE),
-				new ilDate($this->period_end_day, IL_CAL_DATE));
-		}
-		else
-		{
-			//todo: day, week month??¿?
-			$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK);
-
+			case self::CAL_PRESENTATION_AGENDA_LIST:
+				$schedule->setPeriod(new ilDate($this->seed, IL_CAL_DATE),
+					new ilDate($this->period_end_day, IL_CAL_DATE));
+				break;
+			case self::CAL_PRESENTATION_DAY:
+				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY);
+				break;
+			case self::CAL_PRESENTATION_WEEK:
+				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK);
+				break;
+			case self::CAL_PRESENTATION_MONTH:
+				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_MONTH);
+				break;
 		}
 
 		//return $schedule->getChangedEvents(true);
@@ -118,9 +141,9 @@ class ilCalendarViewGUI
 	{
 		global $DIC;
 
-		$f = $DIC->ui()->factory();
-		$r = $DIC->ui()->renderer();
-		$ctrl = $DIC->ctrl();
+		$f = $this->ui_factory;
+		$r = $this->ui_renderer;
+		$ctrl = $this->ctrl;
 
 		// @todo: this needs optimization
 		$events = $this->getEvents();

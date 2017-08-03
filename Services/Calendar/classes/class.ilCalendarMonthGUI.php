@@ -33,6 +33,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 	protected $tpl;
 	protected $ui_factory;
 	protected $ui_renderer;
+	protected $user;
 	
 	protected $timezone = 'UTC';
 
@@ -45,23 +46,18 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 	 */
 	public function __construct(ilDate $seed_date)
 	{
-		global $ilCtrl, $lng, $ilUser,$ilTabs,$tpl, $DIC;
-		
+		//$DIC elements initialization
+		$this->initialize(ilCalendarViewGUI::CAL_PRESENTATION_MONTH);
+
 		$this->seed = $seed_date;
 
-		$this->tpl = $tpl;
-		$this->lng = $lng;
-		$this->ctrl = $ilCtrl;
-		$this->tabs_gui = $ilTabs;
 		$this->tabs_gui->setSubTabActive('app_month');
 
-		$this->ui_factory = $DIC->ui()->factory();
-		$this->ui_renderer = $DIC->ui()->renderer();
 		
-		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
-		$this->app_colors = new ilCalendarAppointmentColors($ilUser->getId());
+		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
+		$this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
 		
-		$this->timezone = $ilUser->getTimeZone();
+		$this->timezone = $this->user->getTimeZone();
 	}
 	
 	/**
@@ -128,8 +124,6 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 	 */
 	public function show()
 	{
-		global $tpl, $ilUser;
-
 		$this->tpl = new ilTemplate('tpl.month_view.html',true,true,'Services/Calendar');
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
@@ -154,15 +148,15 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 		}
 		else
 		{
-			if($ilUser->getId() == ANONYMOUS_USER_ID)
+			if($this->user->getId() == ANONYMOUS_USER_ID)
 			{
-				$user_id = $ilUser->getId();
+				$user_id = $this->user->getId();
 				$disable_empty = false;
 				$no_add = true;
 			}
 			else
 			{
-				$user_id = $ilUser->getId();
+				$user_id = $this->user->getId();
 				$disable_empty = false;
 				$no_add = false;
 			}			
@@ -314,7 +308,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 	 */
 	protected function showEvents(ilDate $date)
 	{
-		//global $tree, $ilUser;
+		global $tree;
 
 		$f = $this->ui_factory;
 		$r = $this->ui_renderer;

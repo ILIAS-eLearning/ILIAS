@@ -46,18 +46,10 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 	 */
 	function __construct()
 	{
-		global $DIC;
-
-		$this->ctrl = $DIC->ctrl();
-		$this->ui_factory = $DIC->ui()->factory();
-		$this->ui_renderer = $DIC->ui()->renderer();
-		$this->user = $DIC->user();
-		$this->lng = $DIC->language();
-
-		$this->tpl = $DIC["tpl"];
+		//$DIC elements initialization
+		$this->initialize(ilCalendarViewGUI::CAL_PRESENTATION_AGENDA_LIST);
 
 		$this->ctrl->saveParameter($this, "cal_agenda_per");
-
 
 		//$qp = $DIC->http()->request()->getQueryParams();
 		$qp = $_GET;
@@ -162,7 +154,6 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 			$properties = array();
 
-			//todo use classes from ilcalendarviewgui -> getAppointmentShyButton etc.
 			// shy button for title
 			$this->ctrl->setParameter($this, 'app_id', $e["event"]->getEntryId());
 			$this->ctrl->setParameter($this,'dt',$e['dstart']);
