@@ -41,7 +41,7 @@ class ilBTPopOverGUI {
 	 * @return \ILIAS\UI\Component\Component[]
 	 */
 	public function getPopOverContent($user_id, $redirect_uri) {
-		assert(is_int($user_id));
+		//		assert(is_int($user_id), "User-ID is not an integer, '$user_id' given");
 
 		global $DIC;
 
