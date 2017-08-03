@@ -22,13 +22,12 @@ class ilForumAppEventListener
 	static function handleEvent($a_component, $a_event, $a_parameter)
 	{
 		/**
-		 * @var $ilSetting ilSetting
 		 * @var $post ilForumPost
 		 */
-		global $ilSetting;
+		global $DIC;
 
 		// 0 = no notifications, 1 = direct, 2 = cron job
-		$immediate_notifications_enabled = $ilSetting->get('forum_notification', 0) == 1;
+		$immediate_notifications_enabled = $DIC->settings()->get('forum_notification', 0) == 1;
 
 		switch($a_component)
 		{

@@ -141,12 +141,8 @@ class ilForumAuthorInformation
 	 */
 	protected function isCurrentUserSessionLoggedIn()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
-
-		return !$ilUser->isAnonymous();
+		global $DIC;
+		return !$DIC->user()->isAnonymous();
 	}
 
 	/**
@@ -186,10 +182,8 @@ class ilForumAuthorInformation
 	 */
 	protected function init()
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
+		global $DIC; 
+		$lng = $DIC->language();
 
 		include_once 'Modules/Forum/classes/class.ilObjForumAccess.php';
 

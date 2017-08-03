@@ -20,7 +20,7 @@ class ilObjForumSubItemListGUI extends ilSubItemListGUI
 	 */
 	public function getHTML()
 	{
-		global $lng;
+		global $DIC; 
 		
 		foreach($this->getSubItemIds(true) as $sub_item)
 		{
@@ -31,7 +31,7 @@ class ilObjForumSubItemListGUI extends ilSubItemListGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock('subitem');
-			$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('thread'));
+			$this->tpl->setVariable('SUBITEM_TYPE', $DIC->language()->txt('thread'));
 			$this->tpl->setVariable('SEPERATOR',':');
 			
 			$this->getItemListGUI()->setChildId($sub_item);
@@ -55,4 +55,3 @@ class ilObjForumSubItemListGUI extends ilSubItemListGUI
 		return $this->tpl->get();	 
 	}
 }
-?>

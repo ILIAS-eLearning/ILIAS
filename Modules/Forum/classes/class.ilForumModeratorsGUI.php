@@ -9,27 +9,20 @@ include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
 
 /**
  * Class ilForumModeratorsGUI
- * @author Nadia Ahmad <nahmad@databay.de>
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  * @ilCtrl_Calls ilForumModeratorsGUI: ilRepositorySearchGUI
  * @ingroup ModulesForum
  */
 class ilForumModeratorsGUI
 {
-	/**
-	 * @var ilCtrl
-	 */
 	private $ctrl;
-
-	/**
-	 * @var ilTemplate
-	 */
 	private $tpl;
-
-	/**
-	 * @var ilLanguage
-	 */
 	private $lng;
-
+	private $tabs;
+	private $error;
+	private $user;
+	private $toolbar;
+	
 	/**
 	 * @var ilForumModerators
 	 */
@@ -39,26 +32,22 @@ class ilForumModeratorsGUI
 
 	public function __construct()
 	{
-		/**
-		 * @var $ilCtrl   ilCtrl
-		 * @var $tpl      ilTemplate
-		 * @var $lng      ilLanguage
-		 * @var $ilTabs   ilTabsGUI
-		 * @var $ilAccess ilAccessHandler
-		 * @var $ilias    ilias
-		 *  */
-		global $ilCtrl, $tpl, $lng, $ilTabs, $ilAccess, $ilias;
-
-		$this->ctrl = $ilCtrl;
-		$this->tpl  = $tpl;
-		$this->lng  = $lng;
-
-		$ilTabs->setTabActive('frm_moderators');
+		global $DIC;
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC->ui()->mainTemplate();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->tabs = $DIC->tabs();
+		$this->error = $DIC['ilErr']; 	
+		$this->user = $DIC->user();
+		$this->toolbar = $DIC->toolbar();
+		
+		$this->tabs->activateTab('frm_moderators');
 		$this->lng->loadLanguageModule('search');
 
-		if(!$ilAccess->checkAccess('write', '', (int)$_GET['ref_id']))
+		if(!$this->access->checkAccess('write', '', (int)$_GET['ref_id']))
 		{
-			$ilias->raiseError($this->lng->txt('permission_denied'), $ilias->error_obj->MESSAGE);
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
 		$this->oForumModerators = new ilForumModerators((int)$_GET['ref_id']);
@@ -98,8 +87,6 @@ class ilForumModeratorsGUI
 	 */
 	public function addModerator($users = array())
 	{
-		global $ilUser;
-		
 		if(!$users)
 		{
 			ilUtil::sendFailure($this->lng->txt('frm_moderators_select_one'));
@@ -119,7 +106,7 @@ class ilForumModeratorsGUI
 			{
 				$tmp_frm_noti = new ilForumNotification($this->ref_id);
 				$tmp_frm_noti->setUserId((int)$user_id);
-				$tmp_frm_noti->setUserIdNoti($ilUser->getId());
+				$tmp_frm_noti->setUserIdNoti($this->user->getId());
 				$tmp_frm_noti->setUserToggle((int)$objFrmProps->getUserToggleNoti());
 				$tmp_frm_noti->setAdminForce((int)$objFrmProps->getAdminForceNoti());
 
@@ -154,9 +141,6 @@ class ilForumModeratorsGUI
 
 		if($isCrsGrp)
 		{
-			global $tree;
-			$parent_ref_id = $tree->getParentId($this->ref_id);
-
 			include_once "Services/Membership/classes/class.ilParticipants.php";
 		}
 
@@ -190,19 +174,13 @@ class ilForumModeratorsGUI
 	 */
 	public function showModerators()
 	{
-		/**
-		 * @var $ilToolbar ilToolbarGUI
-		 * @var $lng       ilLanguage
-		 */
-		global $ilToolbar, $lng;
-
 		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 		ilRepositorySearchGUI::fillAutoCompleteToolbar(
 			$this,
-			$ilToolbar,
+			$this->toolbar,
 			array(
-				'auto_complete_name' => $lng->txt('user'),
-				'submit_name'        => $lng->txt('add'),
+				'auto_complete_name' => $this->lng->txt('user'),
+				'submit_name'        => $this->lng->txt('add'),
 				'add_search'         => true,
 				'add_from_container' => $this->oForumModerators->getRefId()
 			)

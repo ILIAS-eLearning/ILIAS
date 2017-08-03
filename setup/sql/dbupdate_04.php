@@ -18800,3 +18800,7 @@ if(!$ilDB->tableColumnExists('chatroom_bans', 'actor_id'))
 	);
 }
 ?>
+<#5094>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
