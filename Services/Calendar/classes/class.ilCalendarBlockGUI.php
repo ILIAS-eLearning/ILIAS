@@ -984,7 +984,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			foreach($events as $item)
 			{
 				$this->ctrl->setParameter($this, "app_id", $item["event"]->getEntryId());
-				$this->ctrl->setParameter($this,'dt',$a_appointment['dstart']);
+				$this->ctrl->setParameter($this,'dt',$item['dstart']);
 				$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
 				$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
 				$this->ctrl->setParameter($this, "dt", $_GET["dt"]);
@@ -1045,6 +1045,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 	/**
 	 * Get modal for appointment (see similar code in ilCalendarAgendaListGUI)
+	 * todo use all this methods from ilcalendarviewgui.php
 	 */
 	function getModalForApp()
 	{
@@ -1058,7 +1059,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$events = $this->getEvents();
 		foreach ($events as $item)
 		{
-			if ($item["event"]->getEntryId() == (int) $_GET["app_id"])
+			if ($item["event"]->getEntryId() == (int) $_GET["app_id"] && $item['dstart'] == (int) $_GET['dt'])
 			{
 				$dates = $this->getDatesForItem($item);
 
