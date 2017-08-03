@@ -35,7 +35,6 @@ class ilAppointmentPresentationFactory
 			return ilAppointmentPresentationMilestoneGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
 		}
 
-		ilLoggerFactory::getRootLogger()->debug("type = >>>>>".$cat_info['type']);
 		switch($cat_info['type'])
 		{
 			case ilCalendarCategory::TYPE_OBJ:

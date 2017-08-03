@@ -73,20 +73,11 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 	 */
 	public function __construct(ilDate $seed_date)
 	{
-		global $DIC;
-
-		$this->ctrl = $DIC->ctrl();
-		$this->lng = $DIC->language();
-		$this->user = $DIC->user();
-		$this->tabs_gui = $DIC->tabs();
-		$this->tpl = $DIC["tpl"];
-		$this->toolbar = $DIC->toolbar();
-		$this->ui_factory = $DIC->ui()->factory();
-		$this->ui_renderer = $DIC->ui()->renderer();
+		//$DIC elements initialization
+		$this->initialize(ilCalendarViewGUI::CAL_PRESENTATION_DAY);
 
 		$this->seed = $seed_date;
 		$this->seed_info = $this->seed->get(IL_CAL_FKT_GETDATE);
-
 
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 		$this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
@@ -433,8 +424,6 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		}
 
 		$title .= (' '.$a_app['event']->getPresentationTitle(false));
-
-		//$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
 
 		$shy = $this->getAppointmentShyButton($a_app);
 

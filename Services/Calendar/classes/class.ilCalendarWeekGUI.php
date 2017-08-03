@@ -42,16 +42,8 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	 */
 	public function __construct(ilDate $seed_date)
 	{
-		global $DIC;
-
-		$this->ctrl = $DIC->ctrl();
-		$this->lng = $DIC->language();
-		$this->user = $DIC->user();
-		$this->tabs_gui = $DIC->tabs();
-		$this->tpl = $DIC["tpl"];
-		$this->toolbar = $DIC->toolbar();
-		$this->ui_factory = $DIC->ui()->factory();
-		$this->ui_renderer = $DIC->ui()->renderer();
+		//$DIC elements initialization
+		$this->initialize(ilCalendarViewGUI::CAL_PRESENTATION_WEEK);
 
 		$this->seed = $seed_date;
 		$this->seed_info = $this->seed->get(IL_CAL_FKT_GETDATE,'','UTC');
@@ -523,15 +515,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 			$td_style .= $a_app['event']->getPresentationStyle();
 		}
 
-		//todo method for this.
-		$this->ctrl->setParameter($this, "app_id", $a_app["event"]->getEntryId());
-		$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
-		$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
-
-		$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
-
-		$comps = [$f->button()->shy($title, "")->withOnClick($modal->getShowSignal()), $modal];
-		$shy = $r->render($comps);
+		$shy = $this->getAppointmentShyButton($a_app);
 
 		$this->tpl->setVariable('APP_TITLE', $shy);
 		$this->tpl->setVariable('LINK_NUM',$this->num_appointments);
