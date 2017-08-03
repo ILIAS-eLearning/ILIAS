@@ -22,12 +22,9 @@ class ilMailTemplateGenericContext extends ilMailTemplateContext
 	 */
 	public function getTitle()
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
+		global $DIC;
 
-		return $lng->txt('please_choose');
+		return $DIC->language()->txt('please_choose');
 	}
 
 	/**
@@ -35,12 +32,9 @@ class ilMailTemplateGenericContext extends ilMailTemplateContext
 	 */
 	public function getDescription()
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
+		global $DIC;
 
-		return $lng->txt('please_choose');
+		return $DIC->language()->txt('please_choose');
 	}
 
 	/**

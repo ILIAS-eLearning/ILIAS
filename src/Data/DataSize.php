@@ -18,23 +18,23 @@ final class DataSize {
 
 	//binary
 	const KiB = 1024;
-	const MiB = 1024 ** 2;      //pow(1024, 2)
-	const GiB = 1024 ** 3;
-	const TiB = 1024 ** 4;
-	const PiB = 1024 ** 5;
-	const EiB = 1024 ** 6;
-	const ZiB = 1024 ** 7;
-	const YiB = 1024 ** 8;
+	const MiB = 1048576;      //pow(1024, 2)
+	const GiB = 1073741824;
+	const TiB = 1099511627776;
+	const PiB = 1125899906842624;
+	const EiB = 1152921504606846976;
+	const ZiB = 1180591620717411303424;
+	const YiB = 1208925819614629174706176;
 
 	//decimal
-	const KB = 1000;            //kilobyte
-	const MB = 1000 ** 2;       //megabyte
-	const GB = 1000 ** 3;       //gigabyte
-	const TB = 1000 ** 4;       //terabyte
-	const PB = 1000 ** 5;       //petabyte
-	const EB = 1000 ** 6;       //exabyte
-	const ZB = 1000 ** 7;       //zettabyte
-	const YB = 1000 ** 8;       //yottabyte
+	const KB = 1000;                            //kilobyte
+	const MB = 1000000;                         //megabyte
+	const GB = 1000000000;                      //gigabyte
+	const TB = 1000000000000;                   //terabyte
+	const PB = 1000000000000000;                //petabyte
+	const EB = 1000000000000000000;             //exabyte
+	const ZB = 1000000000000000000000;          //zettabyte
+	const YB = 1000000000000000000000000;       //yottabyte
 	/**
 	 * @var string[] $suffixMap
 	 */

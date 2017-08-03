@@ -1,5 +1,4 @@
 <?php
-require_once "Services/Cron/classes/class.ilCronJob.php";
 
 /**
  * Class ilCronUpdateOrgUnitPaths
@@ -90,7 +89,6 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob {
 	 * @return ilCronJobResult
 	 */
 	public function run() {
-		require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
 		foreach (ilOrgUnitPathStorage::getAllOrguRefIds() as $ref_id) {
 			ilOrgUnitPathStorage::writePathByRefId($ref_id);
 		}

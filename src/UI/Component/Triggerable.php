@@ -12,7 +12,7 @@ namespace ILIAS\UI\Component;
  *
  * @package ILIAS\UI\Component
  */
-interface Triggerable {
+interface Triggerable extends JavaScriptBindable {
 
 	/**
 	 * Get a component like this but reset (regenerate) its signals.

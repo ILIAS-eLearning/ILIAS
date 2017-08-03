@@ -27,7 +27,7 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) {
-		// TODO: Tt would be nice if we could use <button> for rendering a button
+		// TODO: It would be nice if we could use <button> for rendering a button
 		// instead of <a>. This was not done atm, as there is no attribute on a
 		// button to make it open an URL. This would require JS.
 
@@ -101,11 +101,6 @@ class Renderer extends AbstractComponentRenderer {
 
 	protected function maybeRenderId(Component\Component $component, $tpl) {
 		$id = $this->bindJavaScript($component);
-		// Check if the button is acting as triggerer
-		if ($component instanceof Component\Triggerer && count($component->getTriggeredSignals())) {
-			$id = ($id === null) ? $this->createId() : $id;
-			$this->triggerRegisteredSignals($component, $id);
-		}
 		if ($id !== null) {
 			$tpl->setCurrentBlock("with_id");
 			$tpl->setVariable("ID", $id);
@@ -128,11 +123,6 @@ class Renderer extends AbstractComponentRenderer {
 
 		$id = $this->bindJavaScript($component);
 
-		// Check if the button is acting as triggerer
-		if ($component instanceof Component\Triggerer && count($component->getTriggeredSignals())) {
-			$id = ($id === null) ? $this->createId() : $id;
-			$this->triggerRegisteredSignals($component, $id);
-		}
 		if ($id !== null) {
 			$tpl->setCurrentBlock("with_id");
 			$tpl->setVariable("ID", $id);

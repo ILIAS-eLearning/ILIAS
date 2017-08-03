@@ -50,8 +50,6 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
  	 */
 	public function getCertificateVariablesForPreview()
 	{
-		global $lng, $ilUser;
-		
 		$old = ilDatePresentation::useRelativeDates();
 		ilDatePresentation::setUseRelativeDates(false);
 		
@@ -80,9 +78,7 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateVariablesForPresentation($params = array())
 	{
-		global $lng;
-		
-		$lng->loadLanguageModule('certificate');
+		$this->lng->loadLanguageModule('certificate');
 		
 		$user_data = $params["user_data"];
 		
@@ -124,14 +120,12 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateVariablesDescription()
 	{
-		global $lng;
-
-		$lng->loadLanguageModule("skmg");
+		$this->lng->loadLanguageModule("skmg");
 		
 		$vars = $this->getBaseVariablesDescription();
-		$vars["SKILL_TITLE"] = $lng->txt("skmg_cert_skill_title");
-		$vars["SKILL_LEVEL_TITLE"] = $lng->txt("skmg_cert_skill_level_title");
-		$vars["SKILL_TRIGGER_TITLE"] = $lng->txt("skmg_cert_skill_trigger_title");
+		$vars["SKILL_TITLE"] = $this->lng->txt("skmg_cert_skill_title");
+		$vars["SKILL_LEVEL_TITLE"] = $this->lng->txt("skmg_cert_skill_level_title");
+		$vars["SKILL_TRIGGER_TITLE"] = $this->lng->txt("skmg_cert_skill_trigger_title");
 		
 		$template = new ilTemplate("tpl.certificate_edit.html", TRUE, TRUE, "Services/Skill");
 		$template->setCurrentBlock("items");
@@ -142,7 +136,7 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 			$template->parseCurrentBlock();
 		}
 
-		$template->setVariable("PH_INTRODUCTION", $lng->txt("certificate_ph_introduction"));
+		$template->setVariable("PH_INTRODUCTION", $this->lng->txt("certificate_ph_introduction"));
 
 		return $template->get();
 	}
@@ -158,29 +152,6 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function addAdditionalFormElements(&$form, $form_fields)
 	{
-		global $lng;
-		/*$short_name = new ilTextInputGUI($lng->txt("certificate_short_name"), "short_name");
-		$short_name->setRequired(TRUE);
-		require_once "./Services/Utilities/classes/class.ilStr.php";
-		$short_name->setValue(strlen($form_fields["short_name"]) ? $form_fields["short_name"] : ilStr::subStr($this->object->getTitle(), 0, 30));
-		$short_name->setSize(30);
-		if (strlen($form_fields["short_name"])) {
-			$short_name->setInfo(str_replace("[SHORT_TITLE]", $form_fields["short_name"], $lng->txt("certificate_short_name_description")));
-		} else {
-			$short_name->setInfo($lng->txt("certificate_short_name_description"));
-		}
-		if (count($_POST)) $short_name->checkInput();
-		$form->addItem($short_name);
-
-		$visibility = new ilCheckboxInputGUI($lng->txt("certificate_enabled_scorm"), "certificate_enabled_scorm");
-		$visibility->setInfo($lng->txt("certificate_enabled_scorm_introduction"));
-		$visibility->setValue(1);
-		if ($form_fields["certificate_enabled_scorm"])
-		{
-			$visibility->setChecked(TRUE);
-		}
-		if (count($_POST)) $visibility->checkInput();
-		$form->addItem($visibility);*/
 	}
 	
 	/**
@@ -193,8 +164,6 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function addFormFieldsFromPOST(&$form_fields)
 	{
-		//$form_fields["certificate_enabled_scorm"] = $_POST["certificate_enabled_scorm"];
-		//$form_fields["short_name"] = $_POST["short_name"];
 	}
 
 	/**
@@ -207,10 +176,6 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function addFormFieldsFromObject(&$form_fields)
 	{
-		global $ilSetting;
-		//$scormSetting = new ilSetting("scorm");
-		//$form_fields["certificate_enabled_scorm"] = $scormSetting->get("certificate_" . $this->object->getId());
-		//$form_fields["short_name"] = $scormSetting->get("certificate_short_name_" . $this->object->getId());
 	}
 	
 	/**
@@ -222,10 +187,6 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function saveFormFields(&$form_fields)
 	{
-		global $ilSetting;
-		//$scormSetting = new ilSetting("scorm");
-		//$scormSetting->set("certificate_" . $this->object->getId(), $form_fields["certificate_enabled_scorm"]);
-		//$scormSetting->set("certificate_short_name_" . $this->object->getId(), $form_fields["short_name"]);
 	}
 
 	/**
@@ -258,15 +219,13 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateFilename($params = array())
 	{
-		global $lng;
-		
 		$basename = parent::getCertificateFilename($params);
 		
 		$user_data = $params["user_data"];
 		if (!is_array($user_data))
 		{
 			$short_title = $this->skill->getShortTitleForCertificate();
-			return strftime("%y%m%d", time()) . "_" . $lng->txt("certificate_var_user_lastname") . "_" . $short_title . "_" . $basename;
+			return strftime("%y%m%d", time()) . "_" . $this->lng->txt("certificate_var_user_lastname") . "_" . $short_title . "_" . $basename;
 		}
 		else
 		{
@@ -281,9 +240,6 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function deleteCertificate()
 	{
-		global $ilSetting;
-		//$scormSetting = new ilSetting("scorm");
-		//$scormSetting->delete("certificate_" . $this->object->getId());
 	}
 }
 

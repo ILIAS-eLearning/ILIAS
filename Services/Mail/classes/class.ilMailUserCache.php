@@ -32,10 +32,7 @@ class ilMailUserCache
 	 */
 	public static function preloadUserObjects(array $usr_ids)
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
 
 		$usr_ids_to_request              = array_diff($usr_ids, self::$requested_usr_ids);
 		self::$requested_usr_ids         = array_merge(self::$requested_usr_ids, $usr_ids_to_request);
@@ -43,7 +40,7 @@ class ilMailUserCache
 
 		if($usr_ids_to_request)
 		{
-			$in    = $ilDB->in('ud.usr_id', $usr_ids_to_request, false, 'integer');
+			$in    = $DIC->database()->in('ud.usr_id', $usr_ids_to_request, false, 'integer');
 			$query = "
 				SELECT ud.usr_id, login, firstname, lastname, title, gender, pprof.value public_profile,pup.value public_upload, pupgen.value public_gender
 				FROM usr_data ud
@@ -53,13 +50,13 @@ class ilMailUserCache
 				WHERE $in
 			";
 
-			$res = $ilDB->queryF(
+			$res = $DIC->database()->queryF(
 				$query,
 				array('text', 'text', 'text'),
 				array('public_profile', 'public_gender', 'public_upload')
 			);
 
-			while($row = $ilDB->fetchAssoc($res))
+			while($row = $DIC->database()->fetchAssoc($res))
 			{
 				$user = new ilObjUser;
 				$user->setId($row['usr_id']);

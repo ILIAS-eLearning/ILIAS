@@ -7,6 +7,6 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Services/LDAP",
-    "belong_to_component": "None",
+    "belong_to_component": "Login, Auth & Registration",
     "used_in_components": []
 }

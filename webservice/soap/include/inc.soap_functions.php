@@ -20,7 +20,7 @@
  | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
  +-----------------------------------------------------------------------------+
  */
-
+use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 
 /**
  * soap server
@@ -761,6 +761,19 @@ class ilSoapFunctions {
 
 		return $soa->copyObject($sid, $copy_settings_xml);
 
+	}
+
+
+	/**
+	 * @param $sid
+	 *
+	 * @return bool
+	 */
+	public static function startBackgroundTaskWorker($sid) {
+		require_once("./Services/BackgroundTasks/classes/class.ilSoapBackgroundTasksAdministration.php");
+		$soa = new ilSoapBackgroundTasksAdministration();
+
+		return $soa->runAsync($sid);
 	}
 	
  	/** move object in repository

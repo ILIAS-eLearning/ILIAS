@@ -1,7 +1,5 @@
 <?php
 
-require_once("./Services/Component/classes/class.ilPlugin.php");
-require_once("Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
 
 /**
  * Class ilOrgUnitExtensionPlugin
