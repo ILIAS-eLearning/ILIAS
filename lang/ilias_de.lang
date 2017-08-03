@@ -14,13 +14,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
-mail#:#second_email_missing_info#:#Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde
-mail#:#mail_first_email#:#Erste E-Mail-Adresse
-mail#:#mail_second_email#:#Zweite E-Mail-Adresse
-mail#:#mail_both_email#:#Beide E-Mail-Adressen
-common#:#second_email_not_valid#:#Die eingegebene zweite E-Mail-Adresse ist nicht gültig!
-common#:#second_email#:#Zweite E-Mail
 forum#:#delete_drafts_successfully#:#Die Entwürfe wurden erfolgreich gelöscht.
 forum#:#sure_delete_drafts#:#Sind Sie sicher, dass Sie die gewählten Entwürfe löschen möchten?
 forum#:#restore#:#Wiederherstellen
@@ -15994,3 +15987,10 @@ rbac#:#file_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen
 rbac#:#stys_sty_write_content#:#Content-Styles bearbeiten
 style#:#manage_system_styles#:#System Styles verwalten
 style#:#scope#:#Gültigkeitsbereich
+mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
+mail#:#second_email_missing_info#:#Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde
+mail#:#mail_first_email#:#Erste E-Mail-Adresse
+mail#:#mail_second_email#:#Zweite E-Mail-Adresse
+mail#:#mail_both_email#:#Beide E-Mail-Adressen
+common#:#second_email_not_valid#:#Die eingegebene zweite E-Mail-Adresse ist nicht gültig!
+common#:#second_email#:#Zweite E-Mail
