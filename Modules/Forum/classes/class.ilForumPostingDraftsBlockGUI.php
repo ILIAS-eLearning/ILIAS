@@ -17,12 +17,20 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 	 */
 	public static $block_type = 'pdfrmpostdraft';
 	/**
+	 * @var \ilLanguage
+	 */
+	private $lng;
+	/**
+	 * @var \ilObjUser
+	 */
+	private $user;
+	/**
+	 * @var \ilCtrl
+	 */
+	private $ctrl;
+	/**
 	 * @var ilSetting
 	 */
-	
-	private $lng;
-	private $user;
-	private $ctrl;
 	private $settings;
 
 	/**
@@ -37,7 +45,6 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 		$this->lng = $DIC->language();
 		$this->user = $DIC->user();
 		$this->ctrl = $DIC->ctrl();
-
 		$this->settings = $DIC->settings();
 		
 		$this->lng->loadLanguageModule('forum');
