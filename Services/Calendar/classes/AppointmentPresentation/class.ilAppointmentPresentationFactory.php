@@ -34,6 +34,8 @@ class ilAppointmentPresentationFactory
 			require_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationMilestoneGUI.php";
 			return ilAppointmentPresentationMilestoneGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
 		}
+
+		ilLoggerFactory::getRootLogger()->debug("type = >>>>>".$cat_info['type']);
 		switch($cat_info['type'])
 		{
 			case ilCalendarCategory::TYPE_OBJ:
@@ -65,10 +67,9 @@ class ilAppointmentPresentationFactory
 				require_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationUserGUI.php";
 				return ilAppointmentPresentationUserGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
 				break;
-			//TYPE GLOBAL uses the same code/data as TYPE_USR
 			case ilCalendarCategory::TYPE_GLOBAL:
-				require_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationUserGUI.php";
-				return ilAppointmentPresentationUserGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
+				require_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationPublicGUI.php";
+				return ilAppointmentPresentationPublicGUI::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
 				break;
 			case ilCalendarCategory::TYPE_CH:
 				require_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationConsultationHoursGUI.php";

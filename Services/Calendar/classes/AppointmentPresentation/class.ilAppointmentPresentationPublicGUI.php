@@ -3,16 +3,16 @@ include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPres
 include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
 
 /**
- * ilAppointmentPresentationUserGUI class presents modal information for personal appointments.
+ * ilAppointmentPresentationPublicGUI class presents modal information for public appointments.
  *
  * @author Jesús López Reyes <lopez@leifos.com>
  * @version $Id$
  *
- * @ilCtrl_IsCalledBy ilAppointmentPresentationUserGUI: ilCalendarAppointmentPresentationGUI
+ * @ilCtrl_IsCalledBy ilAppointmentPresentationPublicGUI: ilCalendarAppointmentPresentationGUI
  *
  * @ingroup ServicesCalendar
  */
-class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
+class ilAppointmentPresentationPublicGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
 	protected $seed;
 
@@ -30,16 +30,7 @@ class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI impl
 
 		$a_app = $this->appointment;
 
-
-		$f = $DIC->ui()->factory();
-		$r = $DIC->ui()->renderer();
-
-		$ctrl = $DIC->ctrl();
-
 		$cat_info = $this->getCatInfo();
-
-		// common info: title, description, location, calendar
-		//$this->addCommonSection($a_app, 0, $cat_info);
 
 		// event title
 		$this->addInfoSection($a_app["event"]->getPresentationTitle());
@@ -53,11 +44,11 @@ class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI impl
 			$this->addCalendarInfo($cat_info);
 		}
 
-		// owner
-		$this->addInfoProperty($this->lng->txt("cal_owner"), $this->getUserName($cat_info['obj_id']));
-		$this->addListItemProperty($this->lng->txt("cal_owner"), $this->getUserName($cat_info['obj_id']));
+		// Public calendar doesn't belongs to anyone.
+		//$this->addInfoProperty($this->lng->txt("cal_owner"), $this->getUserName($cat_info['obj_id']));
+		//$this->addListItemProperty($this->lng->txt("cal_owner"), $this->getUserName($cat_info['obj_id']));
 
-		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id']))."_info"));
+		$this->addInfoSection($this->lng->txt("cal_app_info"));
 
 		// event location
 		$this->addEventLocation($a_app);
