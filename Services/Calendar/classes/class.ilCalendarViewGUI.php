@@ -74,7 +74,8 @@ class ilCalendarViewGUI
 		}
 		else
 		{
-			$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY);
+			//todo: day, week month??¿?
+			$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK);
 
 		}
 
@@ -85,7 +86,6 @@ class ilCalendarViewGUI
 		$ev = $schedule->getScheduledEvents();
 		return $ev;
 	}
-
 
 
 	/**
@@ -129,6 +129,7 @@ class ilCalendarViewGUI
 		foreach ($events as $item)
 		{
 			$DIC->logger()->cal()->debug(" GET['dt'] => ".$_GET['dt']);
+			$DIC->logger()->cal()->debug("item start => ".$item['event']->getTitle());
 			$DIC->logger()->cal()->debug("item start => ".$item['dstart']);
 
 			if ($item["event"]->getEntryId() == (int) $_GET["app_id"] && $item['dstart'] == (int) $_GET['dt'])
@@ -152,9 +153,11 @@ class ilCalendarViewGUI
 
 		$this->ctrl->setParameter($this, "app_id", $a_appointment["event"]->getEntryId());
 		$this->ctrl->setParameter($this,'dt',$a_appointment['dstart']);
+		$this->ctrl->setParameter($this,'seed',$this->seed->get(IL_CAL_DATE));
 		$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
 		$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
 		$this->ctrl->setParameter($this, "dt", $_GET["dt"]);
+		$this->ctrl->setParameter($this,'seed',$_GET["seed"]);
 
 		$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
