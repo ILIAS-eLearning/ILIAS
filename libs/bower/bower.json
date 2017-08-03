@@ -18,7 +18,8 @@
   "dependencies": {
     "jquery": "3.2.1",
     "bootstrap": "3.3.7",
-    "jquery-ui": "1.12.0"
+    "jquery-ui": "1.12.0",
+    "fine-uploader": "5.13.0"
   },
   "extra": {
     "jquery": {
@@ -30,6 +31,10 @@
       "introduced-by": "fschmid"
     },
     "jquery-ui": {
+      "introduction": "03.08.2017",
+      "introduced-by": "fschmid"
+    },
+    "fine-uploader": {
       "introduction": "03.08.2017",
       "introduced-by": "fschmid"
     }
