@@ -20,10 +20,12 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
 	 * ilIncomingMailInputGUI constructor.
 	 * @param string $title
 	 * @param string $post_var
+	 * @param bool   $freeOptionChoice
 	 */
-	public function __construct($title = '', $post_var = '')
+	public function __construct($title = '', $post_var = '', $freeOptionChoice = true)
 	{
 		parent::__construct($title, $post_var);
+		$this->setFreeOptionChoice($freeOptionChoice);
 		$this->addSubOptions();
 	}
 
@@ -91,17 +93,25 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
 			if(!strlen($DIC->user()->getEmail()))
 			{
 				$sub_mail_opt1->setDisabled(true);
+				$sub_mail_opt1->setInfo($DIC->language()->txt('first_email_missing_info'));
 				$sub_mail_opt3->setDisabled(true);
+				$sub_mail_opt3->setInfo($DIC->language()->txt('first_email_missing_info'));
 				$sub_both_opt1->setDisabled(true);
+				$sub_both_opt1->setInfo($DIC->language()->txt('first_email_missing_info'));
 				$sub_both_opt3->setDisabled(true);
+				$sub_both_opt3->setInfo($DIC->language()->txt('first_email_missing_info'));
 			}
 
 			if(!strlen($DIC->user()->getSecondEmail()))
 			{
 				$sub_mail_opt2->setDisabled(true);
+				$sub_mail_opt2->setInfo($DIC->language()->txt('second_email_missing_info'));
 				$sub_mail_opt3->setDisabled(true);
+				$sub_mail_opt3->setInfo($DIC->language()->txt('second_email_missing_info'));
 				$sub_both_opt2->setDisabled(true);
+				$sub_both_opt2->setInfo($DIC->language()->txt('second_email_missing_info'));
 				$sub_both_opt3->setDisabled(true);
+				$sub_both_opt3->setInfo($DIC->language()->txt('second_email_missing_info'));
 			}
 		}
 

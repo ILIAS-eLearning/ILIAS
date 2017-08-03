@@ -23,3 +23,5 @@ if(!$ilDB->tableColumnExists('mail_options', 'mail_address_option'))
 		      'default' => 3
 		));
 }
+
+// 	$ilCtrlStructureReader->getStructure();

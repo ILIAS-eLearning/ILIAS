@@ -81,8 +81,7 @@ class ilMailOptionsFormGUI extends \ilPropertyFormGUI
 		if($this->settings->get('usr_settings_hide_mail_incoming_mail') != '1')
 		{
 			require_once 'Services/Mail/classes/Form/class.ilIncomingMailInputGUI.php';
-			$incoming_mail_gui = new ilIncomingMailInputGUI($this->lng->txt('mail_incoming'), 'incoming_type');
-			$incoming_mail_gui->setFreeOptionChoice(false);
+			$incoming_mail_gui = new ilIncomingMailInputGUI($this->lng->txt('mail_incoming'), 'incoming_type', false);
 			$this->addItem($incoming_mail_gui);
 		}
 

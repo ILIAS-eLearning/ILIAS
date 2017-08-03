@@ -14,6 +14,8 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+mail#:#first_email_missing_info#:#Selection not possible because no e-mail address has been entered
+mail#:#second_email_missing_info#:#Selection not possible because no second e-mail address has been entered
 mail#:#mail_first_email#:#First E-Mail-Address
 mail#:#mail_second_email#:#Second E-Mail-Address
 mail#:#mail_both_email#:#Both E-Mail-Addresses
