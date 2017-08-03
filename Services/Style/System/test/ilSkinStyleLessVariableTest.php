@@ -37,8 +37,8 @@ class ilSkinStyleLessVariableTest extends PHPUnit_Framework_TestCase {
 	public function testNastyHack() {
 		$variable = new ilSystemStyleLessVariable("name", "value", "comment","category_name", ["references_id"]);
 
-		$variable->setValue("\"../../Services/UICore/lib/bootstrap-3.2.0/fonts/\"");
-		$this->assertEquals("\"../../../../Services/UICore/lib/bootstrap-3.2.0/fonts/\"", $variable->getValue());
+		$variable->setValue("\"../../libs/bower/bower_components/bootstrap/fonts/\"");
+		$this->assertEquals("\"../../../../libs/bower/bower_components/bootstrap/fonts/\"", $variable->getValue());
 	}
 
 	public function testToString(){

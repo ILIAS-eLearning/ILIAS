@@ -15,15 +15,9 @@ class ilFileDataForumDrafts extends ilFileData
 	protected $obj_id = 0;
 	protected $draft_id = 0;
 	protected $drafts_path = '';
-	private $lng;
-	private $error;
 
 	public function __construct($obj_id = 0, $draft_id)
 	{
-		global $DIC;
-		$this->lng = $DIC->language();
-		$this->error = $DIC['ilErr'];
-		
 		$this->obj_id = $obj_id;
 		$this->draft_id = $draft_id;
 		
@@ -363,7 +357,7 @@ class ilFileDataForumDrafts extends ilFileData
 		}
 		else
 		{
-			$this->error->raiseError("Forum directory is not readable/writable by webserver",$this->error->FATAL);
+			$this->ilias->raiseError("Forum directory is not readable/writable by webserver",$this->ilias->error_obj->FATAL);
 		}
 	}
 	/**
@@ -411,7 +405,8 @@ class ilFileDataForumDrafts extends ilFileData
 	{
 		if(!$path = $this->getFileDataByMD5Filename($file))
 		{
-			return ilUtil::sendFailure($this->lng->txt('error_reading_file'), true);
+			global $lng;
+			return ilUtil::sendFailure($lng->txt('error_reading_file'), true);
 		}
 		else
 		{
@@ -421,10 +416,15 @@ class ilFileDataForumDrafts extends ilFileData
 
 	public function deliverZipFile()
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng, $ilUser;
+
 		$zip_file = $this->createZipFile();
 		if(!$zip_file)
 		{
-			ilUtil::sendFailure($this->lng->txt('error_reading_file'), true);
+			ilUtil::sendFailure($lng->txt('error_reading_file'), true);
 			return false;
 		}
 		else

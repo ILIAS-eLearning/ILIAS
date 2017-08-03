@@ -58,7 +58,10 @@ class ilObjForumAccess extends ilObjectAccess
 	 */
 	public static function _checkGoto($a_target)
 	{
-		global $DIC;
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 */
+		global $ilAccess;
 
 		$t_arr = explode('_', $a_target);
 
@@ -67,7 +70,7 @@ class ilObjForumAccess extends ilObjectAccess
 			return false;
 		}
 
-		if($DIC->access()->checkAccess('read', '', $t_arr[1]))
+		if($ilAccess->checkAccess('read', '', $t_arr[1]))
 		{
 			return true;
 		}
@@ -83,8 +86,10 @@ class ilObjForumAccess extends ilObjectAccess
 	 */
 	public static function _getThreadForPosting($a_pos_id)
 	{
-		global $DIC; 
-		$ilDB = $DIC->database();
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
+		global $ilDB;
 
 		$res = $ilDB->queryF(
 			'SELECT pos_thr_fk FROM frm_posts WHERE pos_pk = %s',
@@ -105,8 +110,10 @@ class ilObjForumAccess extends ilObjectAccess
 	 */
 	public static function _lookupDiskUsage($a_obj_id)
 	{
-		global $DIC;
-		$ilDB = $DIC->database();
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
+		global $ilDB;
 
 		require_once 'Modules/Forum/classes/class.ilFileDataForum.php';
 

@@ -2,11 +2,15 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author Nadia Matuschek <nmatuschek@databay.de> 
- * Class ilForumPostsTree
+ * @author Nadia Ahmad <nahmad@databay.de>
+ * @version $Id$
+ *
+ * @ingroup ModulesForum
  */
+
 class ilForumPostsTree
 {
+
 	private $thr_fk = 0;
 	private $pos_fk = 0;
 	private $parent_pos = 0;
@@ -16,8 +20,6 @@ class ilForumPostsTree
 	
 	private $source_thread_id = 0;
 	private $target_thread_id = 0;
-	
-	private $db;
 
 	public function setDepth($depth)
 	{
@@ -101,13 +103,14 @@ class ilForumPostsTree
 	
 	public function __construct()
 	{
-		global $DIC;
-		$this->db = $DIC->database();
+		
 	}
 	
 	public function mergeParentPos()
 	{
-		$this->db->update('frm_posts_tree',
+		global $ilDB;
+		
+		$ilDB->update('frm_posts_tree',
 			array(
 				'parent_pos' => array('integer', $this->getParentPos()),
 				'lft'        => array('integer', $this->getLft()),
@@ -123,7 +126,8 @@ class ilForumPostsTree
 	}
 	public function merge()
 	{
-		$this->db->update('frm_posts_tree',
+		global $ilDB;
+		$ilDB->update('frm_posts_tree',
 			array(
 				'lft'        => array('integer', $this->getLft()),
 				'rgt'        => array('integer', $this->getRgt()),
@@ -143,8 +147,7 @@ class ilForumPostsTree
 	 */
 	public static function updateTargetRootRgt($root_node_id, $rgt)
 	{
-		global $DIC; 
-		$ilDB = $DIC->database();
+		global $ilDB;
 		
 		$ilDB->update('frm_posts_tree',
 		array(

@@ -16,31 +16,24 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 	 * @var string
 	 */
 	public static $block_type = 'pdfrmpostdraft';
-	
-	private $lng;
-	private $user;
-	private $ctrl;
-	private $settings;
 
 	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
-		global $DIC;
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
 
 		parent::__construct();
-		
-		$this->lng = $DIC->language();
-		$this->user = $DIC->user();
-		$this->ctrl = $DIC->ctrl();
-		$this->settings = $DIC->settings();
-		
-		$this->lng->loadLanguageModule('forum');
+
+		$lng->loadLanguageModule('forum');
 
 		$this->setLimit(5);
 		$this->setImage(ilUtil::getImagePath('icon_frm.svg'));
-		$this->setTitle($this->lng->txt('frm_my_posting_drafts'));
+		$this->setTitle($lng->txt('frm_my_posting_drafts'));
 		$this->setAvailableDetailLevels(3);
 		$this->allow_moving = true;
 	}
@@ -50,7 +43,13 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 	 */
 	public function executeCommand()
 	{
-		$cmd = $this->ctrl->getCmd('getHTML');
+		/**
+		 * @var $ilCtrl ilCtrl
+		 */
+		global $ilCtrl;
+
+		$cmd = $ilCtrl->getCmd('getHTML');
+
 		return $this->$cmd();
 	}
 
@@ -75,7 +74,12 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 	 */
 	public function getHTML()
 	{
-		if($this->getCurrentDetailLevel() == 0 || !$this->settings->get('save_post_drafts', 0) || !$this->settings->get('block_activated_pdfrmpostdraft', 0))
+		/**
+		 * @var $ilSetting ilSetting
+		 */
+		global $ilSetting;
+
+		if($this->getCurrentDetailLevel() == 0 || !$ilSetting->get('save_post_drafts', 0) || !$ilSetting->get('block_activated_pdfrmpostdraft', 0))
 		{
 			return '';
 		}
@@ -104,11 +108,13 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 	 */
 	public function fillDataSection()
 	{
+		global $ilUser;
+		
 		require_once './Modules/Forum/classes/class.ilForumPostDraft.php';
 		require_once './Modules/Forum/classes/class.ilForumUtil.php';
 		require_once './Services/Link/classes/class.ilLink.php';
 		
-		$drafts_instances = ilForumPostDraft::getDraftInstancesByUserId($this->user->getId());
+		$drafts_instances = ilForumPostDraft::getDraftInstancesByUserId($ilUser->getId());
 		
 		$draft_as_array = array();
 		$data = array();
@@ -176,16 +182,21 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 	 */
 	protected function getOverview()
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
+
 		$tpl = new ilTemplate('tpl.pd_frm_posting_drafts_row.html', true, true, 'Modules/Forum');
 		$tpl->setCurrentBlock('overview');
 		$tpl->setVariable('NUM_FRM_POSTING_DRAFTS', count($this->data));
 		if(count($this->data) == 1)
 		{
-			$tpl->setVariable('TXT_FRM_POSTING_DRAFTS', $this->lng->txt('frm_posting_draft'));
+			$tpl->setVariable('TXT_FRM_POSTING_DRAFTS', $lng->txt('frm_posting_draft'));
 		}
 		else
 		{
-			$tpl->setVariable('TXT_FRM_POSTING_DRAFTS', $this->lng->txt('frm_posting_drafts'));
+			$tpl->setVariable('TXT_FRM_POSTING_DRAFTS', $lng->txt('frm_posting_drafts'));
 		}
 		$tpl->parseCurrentBlock();
 

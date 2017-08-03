@@ -33,8 +33,10 @@ class ilForumAuthorInformationCache
 	 */
 	public static function preloadUserObjects(array $usr_ids)
 	{
-		global $DIC; 
-		$ilDB = $DIC->database();
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
+		global $ilDB;
 
 		$usr_ids_to_request              = array_diff($usr_ids, self::$requested_usr_ids);
 		self::$requested_usr_ids         = array_merge(self::$requested_usr_ids, $usr_ids_to_request);

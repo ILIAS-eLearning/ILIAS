@@ -74,22 +74,17 @@ class ilForumPostsDeleted
 	 * @var bool
 	 */
 	protected $thread_deleted = false;
-	
-	private $user;
-	private $db;
 
 	/**
 	 * @param ilObjForumNotificationDataProvider|NULL $provider
 	 */
 	public function __construct(ilObjForumNotificationDataProvider $provider = NULL)
 	{
-		global $DIC;
-		$this->user = $DIC->user();
-		$this->db = $DIC->database();
-		
 		if(is_object($provider))
 		{
-			$this->setDeletedBy($this->user->getLogin());
+			global $ilUser;
+
+			$this->setDeletedBy($ilUser->getLogin());
 			$this->setDeletedDate(date('Y-m-d H:i:s'));
 			$this->setForumTitle($provider->getForumTitle());
 			$this->setThreadTitle($provider->getThreadTitle());
@@ -119,9 +114,11 @@ class ilForumPostsDeleted
 	 */
 	public function insert()
 	{
-		$next_id = $this->db->nextId('frm_posts_deleted');
+		global $ilDB;
 
-		$this->db->insert('frm_posts_deleted', array(
+		$next_id = $ilDB->nextId('frm_posts_deleted');
+
+		$ilDB->insert('frm_posts_deleted', array(
 			'deleted_id'   => array('integer', $next_id),
 			'deleted_date' => array('timestamp', $this->getDeletedDate()),
 			'deleted_by'   => array('text', $this->getDeletedBy()),
@@ -146,7 +143,9 @@ class ilForumPostsDeleted
 	 */
 	public function deleteNotifiedEntries()
 	{
-		$this->db->manipulateF('DELETE FROM frm_posts_deleted WHERE deleted_id > %s', array('integer'), array(0));
+		global $ilDB;
+
+		$ilDB->manipulateF('DELETE FROM frm_posts_deleted WHERE deleted_id > %s', array('integer'), array(0));
 	}
 
 

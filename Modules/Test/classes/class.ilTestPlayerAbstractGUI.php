@@ -2584,7 +2584,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		if( $this->object->getKioskMode() )
 		{
-			$this->tpl->addJavaScript('Services/UICore/lib/bootstrap-3.2.0/dist/js/bootstrap.min.js', true);
+			$this->tpl->addJavaScript(ilUIFramework::BOWER_BOOTSTRAP_JS, true);
 		}
 	}
 	
