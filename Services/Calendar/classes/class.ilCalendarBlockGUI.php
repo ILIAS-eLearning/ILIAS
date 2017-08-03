@@ -89,14 +89,14 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$this->setAvailableDetailLevels(1);
 		$this->setEnableNumInfo(false);
 
-		if(!isset($_GET["bkid"]))
-		{
+		//if(!isset($_GET["bkid"]))
+		//{
 			$title = $lng->txt("calendar");
-		}
-		else
-		{
-			$title = $lng->txt("cal_consultation_hours_for")." ".ilObjUser::_lookupFullname($_GET["bkid"]);
-		}
+		//}
+		//else
+		//{
+		//	$title = $lng->txt("cal_consultation_hours_for")." ".ilObjUser::_lookupFullname($_GET["bkid"]);
+		//}
 				
 		$this->setTitle($title);
 		//$this->setData($data);
@@ -653,7 +653,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 							$next_app = $entry;
 							break;
 						}
-						
+
+						/*
 						$ilCtrl->setParameter($this, "bkid", $user_id);
 						if($next_app)
 						{
@@ -662,21 +663,32 @@ class ilCalendarBlockGUI extends ilBlockGUI
 								'seed',
 								(string) $next_app->getStart()->get(IL_CAL_DATE)
 							);
+						}*/
+
+						//$ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "bkid", $user_id);
+
+						$ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "ch_user_id", $user_id);
+
+						if($next_app)
+						{
+							// this does not work correctly
+							/*$ilCtrl->setParameterByClass(
+								end($this->getTargetGUIClassPath()),
+								'seed',
+								(string) $next_app->getStart()->get(IL_CAL_DATE)
+							);*/
 						}
 
-						 //@todo fix this - now we lose the sidebar with the marginal calendar and so.
-						/*$this->addBlockCommand(
-							$ilCtrl->getLinkTargetByClass(
-								"ilCalendarMonthGUI",
-								""),
-							$lng->txt("cal_consultation_hours_for").' '. ilObjUser::_lookupFullname($user_id)
-						);*/
+						if (!$this->getForceMonthView())
+						{
+							$this->cal_footer[] = array(
+								'link' => $ilCtrl->getLinkTargetByClass($this->getTargetGUIClassPath(), 'selectCHCalendarOfUser'),
+								'txt' => $lng->txt("cal_consultation_hours_for") . ' ' . ilObjUser::_lookupFullname($user_id)
+							);
+						}
 
-						$this->cal_footer[] = array(
-							'link' => $ilCtrl->getLinkTargetByClass('ilCalendarMonthGUI',''),
-							'txt' => $lng->txt("cal_consultation_hours_for").' '.ilObjUser::_lookupFullname($user_id)
-						);
-						
+						$ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "bkid", $_GET["bkid"]);
+						$ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "seed", $_GET["seed"]);
 					}
 				}
 				$ilCtrl->setParameter($this, "bkid", "");
@@ -758,16 +770,23 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 
-		if(!isset($_GET['bkid']))
+		//if(!isset($_GET['bkid']))
+		//{
+		if ($this->getForceMonthView)	// in full container calendar presentation (allows selection of other calendars)
 		{
-			ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY,(int) $_GET['ref_id'],true);
+			ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY, (int)$_GET['ref_id'], true);
 		}
-		else
+		else							// side block in container content view -> focus on container events only
 		{
-			// display consultation hours only (in course/group)
-			ilCalendarCategories::_getInstance()->setCHUserId((int) $_GET['bkid']);
-			ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_CONSULTATION,(int) $_GET['ref_id'],true);
+			ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY_CONTAINER_ONLY, (int)$_GET['ref_id'], true);
 		}
+		//}
+		//else
+		//{
+		//	// display consultation hours only (in course/group)
+		//	ilCalendarCategories::_getInstance()->setCHUserId((int) $_GET['bkid']);
+		//	ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_CONSULTATION,(int) $_GET['ref_id'],true);
+		//}
 	}
 	
 	/**

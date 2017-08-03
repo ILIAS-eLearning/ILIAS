@@ -36,7 +36,7 @@ include_once './Services/Calendar/classes/class.ilCalendarCache.php';
 
 class ilCalendarCategories
 {
-	const MODE_REPOSITORY = 2;
+	const MODE_REPOSITORY = 2;						// course/group full calendar view (allows to select other calendars)
 	const MODE_REMOTE_ACCESS = 3;
 	const MODE_PERSONAL_DESKTOP_MEMBERSHIP = 4;
 	const MODE_PERSONAL_DESKTOP_ITEMS = 5; 
@@ -44,6 +44,7 @@ class ilCalendarCategories
 	const MODE_CONSULTATION = 7;
 	const MODE_PORTFOLIO_CONSULTATION = 8;
 	const MODE_REMOTE_SELECTED = 9;
+	const MODE_REPOSITORY_CONTAINER_ONLY = 10;		// course/group content view (side block, focus on course/group appointments only)
 	
 	protected static $instance = null;
 	
@@ -326,6 +327,12 @@ class ilCalendarCategories
 				$this->root_ref_id = $a_source_ref_id;
 				$this->root_obj_id = ilObject::_lookupObjId($this->root_ref_id);
 				$this->readReposCalendars();
+				break;
+
+			case self::MODE_REPOSITORY_CONTAINER_ONLY:
+				$this->root_ref_id = $a_source_ref_id;
+				$this->root_obj_id = ilObject::_lookupObjId($this->root_ref_id);
+				$this->readReposCalendars(true);
 				break;
 
 			case self::MODE_MANAGE:
@@ -617,15 +624,18 @@ class ilCalendarCategories
 	 * @param
 	 * @return
 	 */
-	protected function readReposCalendars()
+	protected function readReposCalendars($a_container_only = false)
 	{
 		global $ilAccess,$tree;
 		global $ilDB;
-		
-		$this->readPublicCalendars();
-		$this->readPrivateCalendars();
-		//$this->readConsultationHoursCalendar($this->root_ref_id);
-		$this->readAllConsultationHoursCalendarOfContainer($this->root_ref_id);
+
+		if (!$a_container_only)
+		{
+			$this->readPublicCalendars();
+			$this->readPrivateCalendars();
+			//$this->readConsultationHoursCalendar($this->root_ref_id);
+			$this->readAllConsultationHoursCalendarOfContainer($this->root_ref_id);
+		}
 
 
 
@@ -682,9 +692,11 @@ class ilCalendarCategories
 		$this->addSubitemCalendars();
 
 
-		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'crs'));
-		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'grp'));
-
+		if (!$a_container_only)
+		{
+			$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, 'crs'));
+			$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, 'grp'));
+		}
 	}
 	
 	/**
@@ -853,7 +865,7 @@ class ilCalendarCategories
 					$this->categories[] = $row->cat_id;
 					$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
 					$this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
-					$this->categories_info[$row->cat_id]['title'] = $lng->txt("cal_consultation_hours_for").' '.ilObjUser::_lookupFullname($this->getCHUserId());
+					$this->categories_info[$row->cat_id]['title'] = ilObjUser::_lookupFullname($this->getCHUserId());
 					$this->categories_info[$row->cat_id]['color'] = $row->color;
 					$this->categories_info[$row->cat_id]['type'] = $row->type;
 					$this->categories_info[$row->cat_id]['editable'] = false;

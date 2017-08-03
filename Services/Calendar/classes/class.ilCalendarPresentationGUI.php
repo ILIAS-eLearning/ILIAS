@@ -114,6 +114,8 @@ class ilCalendarPresentationGUI
 		{
 			$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS);
 		}
+
+		$this->cats = $cats;
 	}
 
 	/**
@@ -146,6 +148,31 @@ class ilCalendarPresentationGUI
 
 		$this->initSeed();
 		$this->prepareOutput();
+
+		if ($this->ctrl->getNextClass() == "")
+		{
+			switch ($this->ctrl->getCmd())
+			{
+				case "selectCHCalendarOfUser":
+					include_once("./Services/Calendar/classes/class.ilCalendarVisibility.php");
+					$visibility = ilCalendarVisibility::_getInstanceByUserId($ilUser->getId(), $this->ref_id);
+					foreach ($this->cats->getCategoriesInfo() as $info)
+					{
+						if ($info["type"] == ilCalendarCategory::TYPE_CH && $info["obj_id"] == $_GET["ch_user_id"])
+						{
+							$v = $visibility->getVisible();
+							if (!in_array($info["cat_id"], $v))
+							{
+								$v[] = $info["cat_id"];
+							}
+							$visibility->showSelected($v);
+							$visibility->save();
+							$this->ctrl->redirect($this, "");
+						}
+					}
+					break;
+			}
+		}
 
 		$next_class = $this->getNextClass();
 
@@ -240,6 +267,10 @@ class ilCalendarPresentationGUI
 				}
 				else
 				{
+					if ($this->getRepositoryMode())
+					{
+						$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, ""));
+					}
 					$this->tabs_gui->activateTab($_SESSION['cal_last_tab']);
 					$this->showSideBlocks();
 					break;
