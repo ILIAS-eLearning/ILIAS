@@ -46,10 +46,7 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
 	 */
 	function isNodeClickable($a_node)
 	{
-		/**
-		 * @var $ilAccess ilAccessHandler
-		 */
-		global $ilAccess;
+		global $DIC; 
 
 		if($a_node['type'] == 'frm')
 		{
@@ -58,7 +55,7 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
 				return false;
 			}
 
-			return $ilAccess->checkAccess('moderate_frm', '', $a_node['child']) && parent::isNodeClickable($a_node);
+			return $DIC->access()->checkAccess('moderate_frm', '', $a_node['child']) && parent::isNodeClickable($a_node);
 		}
 
 		return false;
@@ -77,11 +74,8 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
 	 */
 	protected function isNodeSelectable($a_node)
 	{
-		/**
-		 * @var $ilAccess ilAccessHandler
-		 */
-		global $ilAccess;
-
+		global $DIC;
+		
 		if($a_node['type'] == 'frm')
 		{
 			if($this->getCurrentFrmRefId() && $this->getCurrentFrmRefId() == $a_node['child'])
@@ -89,7 +83,7 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
 				return false;
 			}
 
-			return $ilAccess->checkAccess('moderate_frm', '', $a_node['child']) && parent::isNodeSelectable($a_node);
+			return $DIC->access()->checkAccess('moderate_frm', '', $a_node['child']) && parent::isNodeSelectable($a_node);
 		}
 
 		return false;

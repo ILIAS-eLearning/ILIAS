@@ -120,9 +120,9 @@ class ilForumProperties
 	
 	protected function __construct($a_obj_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
 
-		$this->db = $ilDB;
+		$this->db = $DIC->database();
 		$this->obj_id = $a_obj_id;
 		$this->read();
 	}
@@ -312,7 +312,8 @@ class ilForumProperties
 	}		
 	static function _isAnonymized($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		$result = $ilDB->queryf("SELECT anonymized FROM frm_settings WHERE obj_id = %s",
 		     	 	array('integer'),array($a_obj_id));
@@ -365,7 +366,8 @@ class ilForumProperties
 
 	static function _isAdminForceNoti($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		$res = $ilDB->queryF("SELECT admin_force_noti FROM frm_settings WHERE obj_id = %s",
 		     	 	array('integer'),
@@ -380,7 +382,8 @@ class ilForumProperties
 
 	static function _isUserToggleNoti($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		$res = $ilDB->queryF("SELECT user_toggle_noti FROM frm_settings WHERE obj_id = %s",
 		     	 	array('integer'),
@@ -532,12 +535,8 @@ class ilForumProperties
 	 */
 	public static function isFileUploadGloballyAllowed()
 	{
-		/**
-		 * @var $ilSetting;
-		 */
-		global $ilSetting;
-
-		return $ilSetting->get('file_upload_allowed_fora', self::FILE_UPLOAD_GLOBALLY_ALLOWED) == self::FILE_UPLOAD_GLOBALLY_ALLOWED;
+		global $DIC;
+		return $DIC->settings()->get('file_upload_allowed_fora', self::FILE_UPLOAD_GLOBALLY_ALLOWED) == self::FILE_UPLOAD_GLOBALLY_ALLOWED;
 	}
 	
 	/**
@@ -545,11 +544,7 @@ class ilForumProperties
 	 */
 	public static function isSendAttachmentsByMailEnabled()
 	{
-		/**
-		 * @var $ilSetting;
-		 */
-		global $ilSetting;
-		
-		return $ilSetting->get('send_attachments_by_mail') == true ? true : false;
+		global $DIC;
+		return $DIC->settings()->get('send_attachments_by_mail') == true ? true : false;
 	}
 }
