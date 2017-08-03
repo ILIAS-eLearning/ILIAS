@@ -28,12 +28,12 @@ interface Droppable extends Triggerer {
 
 	/**
 	 * Get a component like this, triggering a signal of another component when files have been dropped.
-	 * In contrast to withOnClick, the signal is appended to existing signals for the click event.
+	 * In contrast to withOnDrop, the signal is appended to existing signals for the click event.
 	 *
 	 * @param Signal $signal a ILIAS UI signal which is used on drop event
 	 *
 	 * @return $this
 	 */
-	public function appendOnDrop(Signal $signal);
+	public function withAdditionalDrop(Signal $signal);
 
 }
