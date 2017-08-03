@@ -13542,7 +13542,7 @@ style#:#scope#:#Scope
 survey#:#sub_tab_dashboard#:#Dashboard
 mail#:#first_email_missing_info#:#Selection not possible because no email address has been entered
 mail#:#second_email_missing_info#:#Selection not possible because no second email address has been entered
-mail#:#mail_first_email#:#First E-Mail-Address
-mail#:#mail_second_email#:#Second E-Mail-Address
-mail#:#mail_both_email#:#Both E-Mail-Addresses
-common#:#second_email#:#Second E-Mail
+mail#:#mail_first_email#:#First Email Address
+mail#:#mail_second_email#:#Second Email -Address
+mail#:#mail_both_email#:#Both Email Addresses
+common#:#second_email#:#Second Email
