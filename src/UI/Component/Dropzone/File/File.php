@@ -83,14 +83,14 @@ interface File extends Component, Droppable {
 	 * @param bool $state True to enable custom file names
 	 * @return $this
 	 */
-	public function withCustomFileNames($state);
+	public function withUserDefinedFileNamesEnabled($state);
 
 	/**
 	 * Check if the dropzone supports to enter custom file names for each file being uploaded.
 	 *
 	 * @return bool
 	 */
-	public function allowsCustomFileNames();
+	public function allowsUserDefinedFileNames();
 
 	/**
 	 * Get a dropzone like this, allowing to set a description for each file being uploaded.
@@ -99,14 +99,14 @@ interface File extends Component, Droppable {
 	 * @param bool $state True to enable file descriptions
 	 * @return $this
 	 */
-	public function withFileDescriptions($state);
+	public function withUserDefinedDescriptionEnabled($state);
 
 	/**
 	 * Check if the dropzone supports to enter file descriptions for each file being uploaded.
 	 *
 	 * @return bool
 	 */
-	public function allowsFileDescriptions();
+	public function allowsUserDefinedFileDescriptions();
 
 	/**
 	 * Get a dropzone like this where each uploaded file is identified over a given identifier.

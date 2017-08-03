@@ -22,8 +22,8 @@ function with_custom_file_metadata() {
 
 	$uploadUrl = $_SERVER['REQUEST_URI'] . '&example=2';
 	$dropzone = $factory->dropzone()->file()->standard($uploadUrl)
-		->withCustomFileNames(true)
-		->withFileDescriptions(true)
+		->withUserDefinedFileNamesEnabled(true)
+		->withUserDefinedDescriptionEnabled(true)
 		->withUploadButton($factory->button()->standard('Upload', ''));
 
 	return $renderer->render($dropzone);
