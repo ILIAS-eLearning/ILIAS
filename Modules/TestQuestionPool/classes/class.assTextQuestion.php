@@ -1094,7 +1094,9 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 		$max_chars = $this->getMaxNumOfChars();
 		if($max_chars)
 		{
-			$char_count = strlen(trim(strip_tags($submit)));
+			$stripped = trim(strip_tags($submit));
+			$stripped = str_replace(array("\n", "\r\n", "\r"), '', $stripped);
+			$char_count = strlen($stripped);
 			if($char_count > $max_chars)
 			{
 				$failureMsg = sprintf($this->lng->txt('ass_txt_char_lim_exhausted_hint'),
