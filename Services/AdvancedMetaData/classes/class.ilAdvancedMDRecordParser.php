@@ -49,6 +49,8 @@ class ilAdvancedMDRecordParser extends ilSaxParser
 	private $error_msg = array();
 	
 	protected $context; // [array]
+	
+	protected $scopes = [];
 
 	/**
 	 * @var ilLogger
@@ -137,6 +139,24 @@ class ilAdvancedMDRecordParser extends ilSaxParser
 				// Nothing to do
 				break;
 			
+			case 'Scope':
+				$this->scopes = [];
+				break;
+			
+			case 'ScopeEntry':
+				$parsed_id = ilUtil::parseImportId($a_attribs['id']);
+				if(
+					$parsed_id['inst_id'] == IL_INST_ID &&
+					ilObject::_exists($parsed_id['id'],true, $parsed_id['type'])
+				)
+				{
+					$scope = new ilAdvancedMDRecordScope();
+					$scope->setRefId($parsed_id['id']);
+					$this->scopes[] = $scope;
+				}
+				break;
+				
+			
 			case 'Record':
 				$this->fields = array();
 				$this->current_field = null;
@@ -193,6 +213,10 @@ class ilAdvancedMDRecordParser extends ilSaxParser
 				
 			case 'Record':
 				$this->storeRecords();
+				break;
+			
+			case 'Scope':
+				$this->getCurrentRecord()->setScopes($this->scopes);
 				break;
 				
 			case 'Title':

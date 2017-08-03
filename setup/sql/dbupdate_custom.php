@@ -229,3 +229,30 @@ foreach($sessions as $idx => $sess_info)
 	$ilDB->manipulate($insert);
 }
 ?>
+<#9>
+<?php
+
+if(!$ilDB->tableExists('adv_md_record_scope'))
+{
+	$ilDB->createTable('adv_md_record_scope', array(
+		'scope_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'record_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+		)
+	));
+	$ilDB->addPrimaryKey('adv_md_record_scope', ['scope_id']);
+	$ilDB->createSequence('adv_md_record_scope');
+}
+?>

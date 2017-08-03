@@ -60,13 +60,20 @@ class ilAdvancedMDValues
 			$a_obj_type = ilObject::_lookupType($a_obj_id);
 		}
 		
-		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
-		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($a_obj_type, $a_obj_id, $a_sub_type) as $record)
+		// @todo refactor
+		$refs = ilObject::_getAllReferences($a_obj_id);
+		foreach($refs as $ref_id)
 		{
-			$id = $record->getRecordId();
-			$res[$id] = new self($id, $a_obj_id, $a_sub_type, $a_sub_id);
+			include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
+			foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($a_obj_type, $ref_id, $a_sub_type) as $record)
+			{
+				$id = $record->getRecordId();
+				
+				if(!isset($res[$id])) {
+					$res[$id] = new self($id, $a_obj_id, $a_sub_type, $a_sub_id);
+				}
+			}
 		}
-	
 		return $res;
 	}
 	

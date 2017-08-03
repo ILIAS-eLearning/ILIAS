@@ -16,6 +16,8 @@
 <!-- language file start -->
 rbac#:#il_sess_participant#:#Sitzungsteilnehmer
 rbac#:#il_sess_status_closed#:#Nicht-Teilnehmer geschlossene Sitzung
+meta#:#md_adv_scope#:#Gültigkeitsbereich
+meta#:#meta_local#:#Lokal
 sess#:#sess_mem_tbl_header#:#Sitzungsteilnehmer
 sess#:#objs_crs_role#:#Kursrollen
 sess#:#objs_grp_role#:#Gruppenrollen

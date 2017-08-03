@@ -12,11 +12,14 @@
 class ilObjectMetaDataGUI
 {
 	protected $object; // [ilObject]
+	protected $ref_id;
 	protected $obj_id; // [int]
 	protected $obj_type; // [string]
 	protected $sub_type; // [string]
 	protected $sub_id; // [int]
 	protected $md_observers; // [array]
+	
+	private $logger = null;
 	
 	/**
 	 * Construct
@@ -29,11 +32,25 @@ class ilObjectMetaDataGUI
 	{
 		global $lng;
 		
+		$this->logger = $GLOBALS['DIC']->logger()->obj();
+		
 		if($a_object)
 		{
 			$this->object = $a_object;
 			$this->obj_id = $a_object->getId();
 			$this->obj_type = $a_object->getType();
+			$this->ref_id = $a_object->getRefId();
+			
+			if(!$a_object->withReferences())
+			{
+				$this->logger->warning('ObjectMetaDataGUI called without valid reference id.');
+			}
+			
+			if(!$this->ref_id)
+			{
+				$this->logger->warning('ObjectMetaDataGUI called without valid reference id.');
+			}
+			
 		}
 		$this->sub_type = $a_sub_type;
 		$this->sub_id = $a_sub_id;
@@ -79,7 +96,7 @@ class ilObjectMetaDataGUI
 			case 'iladvancedmdsettingsgui':	
 				$this->setSubTabs("advmddef");	
 				include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php';
-				$advmdgui = new ilAdvancedMDSettingsGUI($this->obj_id, $this->obj_type, $this->sub_type);				
+				$advmdgui = new ilAdvancedMDSettingsGUI($this->ref_id, $this->obj_type, $this->sub_type);				
 				$ilCtrl->forwardCommand($advmdgui);							
 				break;				
 			
@@ -166,10 +183,18 @@ class ilObjectMetaDataGUI
 			false);	
 	}		
 	
+	/**
+	 * check if active records exist in current path anf for object type
+	 * @return type
+	 */
 	protected function hasActiveRecords()
 	{
 		include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
-		return (bool)sizeof(ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type));
+		return 
+		(bool) sizeof(ilAdvancedMDRecord::_getSelectedRecordsByObject(
+			$this->obj_type, 
+			$this->ref_id,
+			$this->sub_type));
 	}
 	
 	protected function canEdit()
@@ -304,7 +329,8 @@ class ilObjectMetaDataGUI
 		global $lng, $ilCtrl;
 		
 		$form = $this->initEditForm();
-		if($form->checkInput() &&
+		if(
+			$form->checkInput() && 
 			$this->record_gui->importEditFormPostValues())
 		{
 			$this->record_gui->writeEditForm();
@@ -339,10 +365,10 @@ class ilObjectMetaDataGUI
 		include_once "Services/Object/classes/class.ilObjectMetaDataBlockGUI.php";	
 		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
 		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php";
-		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type) as $record)			
+		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->ref_id, $this->sub_type) as $record)			
 		{				
 			$block = new ilObjectMetaDataBlockGUI($record, $a_callback);
-			$block->setValues(new ilAdvancedMDValues($record->getRecordId(), $this->obj_id, $this->sub_type, $this->sub_id));			
+			$block->setValues(new ilAdvancedMDValues($record->getRecordId(), $this->ref_id, $this->sub_type, $this->sub_id));			
 			if($a_cmds)
 			{
 				foreach($a_cmds as $caption => $url)
@@ -372,9 +398,9 @@ class ilObjectMetaDataGUI
 
 		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
 		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php";
-		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type) as $record)
+		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->ref_id, $this->sub_type) as $record)
 		{
-			$vals = new ilAdvancedMDValues($record->getRecordId(), $this->obj_id, $this->sub_type, $this->sub_id);
+			$vals = new ilAdvancedMDValues($record->getRecordId(), $this->ref_id, $this->sub_type, $this->sub_id);
 
 
 			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');

@@ -85,7 +85,7 @@ class ilAdvancedMDRecordScope
 		else
 		{
 			// update (update of record ids not supported)
-			$query = 'UPDATE adv_md_record_id '.
+			$query = 'UPDATE adv_md_record_scope '.
 				'SET ref_id = ' . $this->db->quote($this->ref_id, 'integer').' '.
 				'WHERE scope_id = '.$this->db->quote($this->scope_id, 'integer');
 			$this->db->manipulate($query);
