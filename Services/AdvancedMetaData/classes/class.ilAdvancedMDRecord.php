@@ -555,7 +555,7 @@ class ilAdvancedMDRecord
 		foreach($this->getScopes() as $scope)
 		{
 			$scope->setRecordId($this->getRecordId());
-			$scope->persist();
+			$scope->save();
 		}
 	}
 	
@@ -597,7 +597,7 @@ class ilAdvancedMDRecord
 		foreach($this->getScopes() as $scope)
 		{
 			$scope->setRecordId($this->getRecordId());
-			$scope->persist();
+			$scope->save();
 		}
 	}
 	

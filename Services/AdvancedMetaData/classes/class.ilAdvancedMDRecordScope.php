@@ -23,12 +23,18 @@ class ilAdvancedMDRecordScope
 	
 	
 	/**
+	 * @var ilLogger
+	 */
+	private $logger = null;
+	
+	/**
 	 * Constructor
 	 * @param integer $a_scope_id
 	 */
 	public function __construct($a_scope_id = 0)
 	{
 		$this->db = $GLOBALS['DIC']->database();
+		$this->logger = $GLOBALS['DIC']->logger()->amet();
 		
 		$this->scope_id = $a_scope_id;
 		$this->read();
@@ -64,34 +70,34 @@ class ilAdvancedMDRecordScope
 		return $this->ref_id;
 	}
 	
-	/**
-	 * write to db
-	 */
-	public function persist()
+	
+	public function save()
 	{
-		if(!$this->entry_exists)
-		{
-			// create
-			$this->scope_id = $this->db->nextId('adv_md_record_scope');
-			$query = 'INSERT INTO adv_md_record_scope (scope_id, record_id, ref_id) '.
-				'VALUES ( '.
-				$this->db->quote($this->scope_id, 'integer').', '.
-				$this->db->quote($this->record_id,'integer').', '.
-				$this->db->quote($this->ref_id, 'integer').
-				')';
-			$this->db->manipulate($query);
-			$this->entry_exists = true;
-		}
-		else
-		{
-			// update (update of record ids not supported)
-			$query = 'UPDATE adv_md_record_scope '.
-				'SET ref_id = ' . $this->db->quote($this->ref_id, 'integer').' '.
-				'WHERE scope_id = '.$this->db->quote($this->scope_id, 'integer');
-			$this->db->manipulate($query);
-		}
-		return true;
+		$this->logger->debug('Create new entry.');
+		// create
+		$this->scope_id = $this->db->nextId('adv_md_record_scope');
+		$query = 'INSERT INTO adv_md_record_scope (scope_id, record_id, ref_id) '.
+			'VALUES ( '.
+			$this->db->quote($this->scope_id, 'integer').', '.
+			$this->db->quote($this->record_id,'integer').', '.
+			$this->db->quote($this->ref_id, 'integer').
+			')';
+		$this->db->manipulate($query);
+		$this->entry_exists = true;
+		
 	}
+	
+	public function update()
+	{
+		$this->logger->debug('Update entry.');
+		// update (update of record ids not supported)
+		$query = 'UPDATE adv_md_record_scope '.
+			'SET ref_id = ' . $this->db->quote($this->ref_id, 'integer').' '.
+			'WHERE scope_id = '.$this->db->quote($this->scope_id, 'integer');
+		$this->db->manipulate($query);
+	}
+	
+	
 	
 	/**
 	 * Delete one entry
@@ -101,6 +107,7 @@ class ilAdvancedMDRecordScope
 		$query = 'DELETE FROM adv_md_record_scope '.
 			'WHERE scope_id = '.$this->db->quote($this->scope_id, 'integer');
 		$this->db->manipulate($query);
+		$this->entry_exists = false;
 		return true;
 	}
 	
