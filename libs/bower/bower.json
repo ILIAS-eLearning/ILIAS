@@ -19,7 +19,8 @@
     "jquery": "3.2.1",
     "bootstrap": "3.3.7",
     "jquery-ui": "1.12.0",
-    "fine-uploader": "5.13.0"
+    "fine-uploader": "5.13.0",
+    "jquery-dragster": "^1.0.3"
   },
   "extra": {
     "jquery": {
@@ -35,6 +36,10 @@
       "introduced-by": "fschmid"
     },
     "fine-uploader": {
+      "introduction": "03.08.2017",
+      "introduced-by": "fschmid"
+    },
+    "jquery-dragster": {
       "introduction": "03.08.2017",
       "introduced-by": "fschmid"
     }
