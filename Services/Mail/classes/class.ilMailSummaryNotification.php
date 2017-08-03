@@ -15,20 +15,39 @@ include_once 'Services/Mail/classes/class.ilMail.php';
 class ilMailSummaryNotification extends ilMailNotification
 {
 	/**
+	 * @var \ilLanguage
+	 */
+	protected $lng;
+	
+	/**
+	 * @var \ilDBInterface
+	 */
+	protected $db;
+
+	/**
+	 * @var \ilSetting
+	 */
+	protected $settings;
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function __construct($a_is_personal_workspace = false)
 	{
+		global $DIC;
+
+		$this->db       = $DIC->database();
+		$this->lng      = $DIC->language();
+		$this->settings = $DIC->settings();
+
 		parent::__construct($a_is_personal_workspace);
 	}
 
 	public function send()
 	{
-		global $ilDB, $lng, $ilSetting;
-		
-		$is_message_enabled = $ilSetting->get("mail_notification_message");
+		$is_message_enabled = $this->settings->get("mail_notification_message");
 
-		$res = $ilDB->queryF('SELECT mail.* FROM mail_options
+		$res = $this->db->queryF('SELECT mail.* FROM mail_options
 						INNER JOIN mail ON mail.user_id = mail_options.user_id
 						INNER JOIN mail_obj_data ON mail_obj_data.obj_id = mail.folder_id
 						WHERE cronjob_notification = %s
@@ -41,7 +60,7 @@ class ilMailSummaryNotification extends ilMailNotification
 		$users = array();
 		$user_id = 0;
 
-		while($row = $ilDB->fetchAssoc($res))
+		while($row = $this->db->fetchAssoc($res))
 		{
 			if($user_id == 0 || $row['user_id'] != $user_id)
 			{
@@ -57,14 +76,14 @@ class ilMailSummaryNotification extends ilMailNotification
 		foreach($users as $user_id => $mail_data)
 		{
 			$this->initLanguage($user_id);
-			$user_lang = $this->getLanguage() ? $this->getLanguage() : $lng;
+			$user_lang = $this->getLanguage() ? $this->getLanguage() : $this->lng;
 
 			$this->initMail();
 
 			$this->setRecipients(array($user_id));
 			$this->setSubject($this->getLanguageText('mail_notification_subject'));
 
-			$this->setBody(ilMail::getSalutation($user_id, $this->getLanguage()));
+			$this->setBody(ilMail::getSalutation($user_id, $user_lang));
 			$this->appendBody("\n\n");
 			if(count($mail_data) == 1)
 			{

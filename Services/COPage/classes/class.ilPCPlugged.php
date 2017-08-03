@@ -218,6 +218,7 @@ class ilPCPlugged extends ilPageContent
 	        {
 				$plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage",
 					"pgcp", $plugin_name);
+				$plugin_obj->setPageObj($this->getPage());
 				$gui_obj = $plugin_obj->getUIClassInstance();
 				$plugin_html = $gui_obj->getElementHTML($a_mode, $properties, $plugin_version);
 			}
@@ -259,6 +260,7 @@ class ilPCPlugged extends ilPageContent
 		{
 			$plugin = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE,
 				"COPage", "pgcp", $pl_name);
+			$plugin->setPageObj($this->getPage());
 			$pl_dir = $plugin->getDirectory();
 			
 			$pl_js_files = $plugin->getJavascriptFiles($a_mode);
@@ -293,6 +295,7 @@ class ilPCPlugged extends ilPageContent
 		{
 			$plugin = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE,
 				"COPage", "pgcp", $pl_name);
+			$plugin->setPageObj($this->getPage());
 			$pl_dir = $plugin->getDirectory();
 			
 			$pl_css_files = $plugin->getCssFiles($a_mode);

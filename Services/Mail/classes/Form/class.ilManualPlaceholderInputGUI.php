@@ -40,18 +40,31 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $adviseText = '';
 
 	/**
+	 * @var \ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var \ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 * ilManualPlaceholderInputGUI constructor.
 	 * @param string $dependencyElementId
 	 */
 	public function __construct($dependencyElementId)
 	{	
-		global $tpl;
-		
+		global $DIC;
+
+		$this->tpl = $DIC->ui()->mainTemplate();
+		$this->lng = $DIC->language();
+
 		parent::__construct('');
 
 		$this->dependencyElementId = $dependencyElementId;
 
-		$tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
+		$this->tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
 	}
 
 	/**
@@ -140,10 +153,8 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 	 */
 	public function render($ajax = false)
 	{
-		global $lng;
-		
 		$subtpl = new ilTemplate("tpl.mail_manual_placeholders.html", true, true, "Services/Mail");
-		$subtpl->setVariable('TXT_USE_PLACEHOLDERS', $lng->txt('mail_nacc_use_placeholder'));
+		$subtpl->setVariable('TXT_USE_PLACEHOLDERS', $this->lng->txt('mail_nacc_use_placeholder'));
 		if($this->getAdviseText())
 		{
 			$subtpl->setVariable('TXT_PLACEHOLDERS_ADVISE', $this->getAdviseText());

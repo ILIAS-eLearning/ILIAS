@@ -47,18 +47,34 @@ class Renderer extends AbstractComponentRenderer {
 	 * @param Component\Modal\Modal $modal
 	 * @param string $id
 	 */
-	protected function registerSignals(Component\Modal\Modal $modal, $id) {
+	protected function registerSignals(Component\Modal\Modal $modal) {
 		$show = $modal->getShowSignal();
 		$close = $modal->getCloseSignal();
-		$js = $this->getJavascriptBinding();
 		$options = json_encode(array(
 			'ajaxRenderUrl' => $modal->getAsyncRenderUrl(),
 			'keyboard' => $modal->getCloseWithKeyboard(),
 		));
-		$js->addOnLoadCode("
-			$(document).on('{$show}', function() { il.UI.modal.showModal('{$id}', {$options}); return false; });
-			$(document).on('{$close}', function() { il.UI.modal.closeModal('{$id}'); return false; });"
-		);
+		// ATTENTION, ATTENTION:
+		// with(Additional)OnLoadCode opens a wormhole into the future, where some unspecified
+		// entity magically created an id for the component that can be used to refer to it
+		// via javascript.
+		// This replaced a pattern, where an id was created manually and the java script
+		// code was manually inserted to the (now internal) js-binding of the
+		// AbstractComponentRenderer. (see commit 192144fd1f0e040cadc0149c3dc15fbc4b67858e).
+		// The wormhole solution is considered superior over the manual creation of ids because:
+		// * withAdditionalOnLoadCode introduces no new principles to the UI framework but reuses
+		//   an existing one
+		// * withAdditionalOnLoadCode does not require it to expose internals (js-binding) from
+		//   the AbstractComponentRenderer and thus does have less coupling
+		// * withAdditionalOnLoadCode allows the framework to decide, when ids are actually
+		//   created
+		// * since withAdditionalOnLoadCode refers to some yet unknown future, it disencourages
+		//   tempering with the id _here_.
+		return $modal->withAdditionalOnLoadCode(function($id) use ($show, $close, $options) {
+			return
+				"$(document).on('{$show}', function() { il.UI.modal.showModal('{$id}', {$options}); return false; });".
+				"$(document).on('{$close}', function() { il.UI.modal.closeModal('{$id}'); return false; });";
+		});
 	}
 
 	/**
@@ -66,8 +82,8 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderAsync(Component\Modal\Modal $modal) {
-		$id = $this->createId();
-		$this->registerSignals($modal, $id);
+		$modal = $this->registerSignals($modal);
+		$id = $this->bindJavaScript($modal);
 		return "<span id='{$id}'></span>";
 	}
 
@@ -79,9 +95,8 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderInterruptive(Component\Modal\Interruptive $modal, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate('tpl.interruptive.html', true, true);
-		$id = $this->createId();
-		$this->registerSignals($modal, $id);
-		$this->triggerRegisteredSignals($modal, $id);
+		$modal = $this->registerSignals($modal);
+		$id = $this->bindJavaScript($modal);
 		$tpl->setVariable('ID', $id);
 		$tpl->setVariable('FORM_ACTION', $modal->getFormAction());
 		$tpl->setVariable('TITLE', $modal->getTitle());
@@ -113,9 +128,8 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderRoundTrip(Component\Modal\RoundTrip $modal, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate('tpl.roundtrip.html', true, true);
-		$id = $this->createId();
-		$this->registerSignals($modal, $id);
-		$this->triggerRegisteredSignals($modal, $id);
+		$modal = $this->registerSignals($modal);
+		$id = $this->bindJavaScript($modal);
 		$tpl->setVariable('ID', $id);
 		$tpl->setVariable('TITLE', $modal->getTitle());
 		foreach ($modal->getContent() as $content) {
@@ -141,11 +155,10 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderLightbox(Component\Modal\Lightbox $modal, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate('tpl.lightbox.html', true, true);
-		$id = $this->createId();
-		$this->registerSignals($modal, $id);
-		$this->triggerRegisteredSignals($modal, $id);
+		$modal = $this->registerSignals($modal);
+		$id = $this->bindJavaScript($modal);
 		$tpl->setVariable('ID', $id);
-		$id_carousel = $this->createId();
+		$id_carousel = "{$id}_carousel";
 		$pages = $modal->getPages();
 		$tpl->setVariable('TITLE', $pages[0]->getTitle());
 		$tpl->setVariable('ID_CAROUSEL', $id_carousel);

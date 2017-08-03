@@ -23,39 +23,49 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate('tpl.popover.html', true, true);
 		$tpl->setVariable('FORCE_RENDERING', '');
 		/** @var Component\Popover\Popover $component */
+
 		$options = array(
 			'title'     => $this->escape($component->getTitle()),
 			'placement' => $component->getPosition(),
 			'multi'     => true,
 			'template'  => str_replace('"', '\"', $tpl->get()),
 		);
-		// Check if the content is rendered async or via DOM
-		$content_id = $this->createId();
-		if ($component->getAsyncContentUrl()) {
+
+		$is_async = $component->getAsyncContentUrl();
+		if ($is_async) {
 			$options['type'] = 'async';
 			$options['url'] = $component->getAsyncContentUrl();
-		} else {
-			$options['url'] = "#{$content_id}";
 		}
-		$options = json_encode($options);
+
 		$show = $component->getShowSignal();
-		$this->getJavascriptBinding()->addOnLoadCode("
-			$(document).on('{$show}', function(event, signalData) { 
-				il.UI.popover.showFromSignal(signalData, JSON.parse('{$options}'));
-			});");
 		$replace = $component->getReplaceContentSignal();
-		$this->getJavascriptBinding()->addOnLoadCode("
-			$(document).on('{$replace}', function(event, signalData) { 
-				il.UI.popover.replaceContentFromSignal('{$show}', signalData);
-			});");
+
+		$component = $component->withAdditionalOnLoadCode(function($id) use ($options, $show, $replace, $is_async) {
+			if (!$is_async) {
+				$options["url"] = "#{$id}";
+			}
+			$options = json_encode($options);
+
+			return
+				"$(document).on('{$show}', function(event, signalData) {
+					il.UI.popover.showFromSignal(signalData, JSON.parse('{$options}'));
+				});".
+				"$(document).on('{$replace}', function(event, signalData) {
+					il.UI.popover.replaceContentFromSignal('{$show}', signalData);
+				});";
+		});
+
+		$id = $this->bindJavaScript($component);
+
 		if ($component->getAsyncContentUrl()) {
 			return '';
 		}
+
 		if ($component instanceof Component\Popover\Standard) {
-			return $this->renderStandardPopover($component, $default_renderer, $content_id);
+			return $this->renderStandardPopover($component, $default_renderer, $id);
 		} else {
 			if ($component instanceof Component\Popover\Listing) {
-				return $this->renderListingPopover($component, $default_renderer, $content_id);
+				return $this->renderListingPopover($component, $default_renderer, $id);
 			}
 		}
 

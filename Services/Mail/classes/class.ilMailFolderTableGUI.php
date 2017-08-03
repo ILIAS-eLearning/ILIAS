@@ -13,8 +13,20 @@ require_once 'Services/Mail/classes/class.ilMailBoxQuery.php';
  */
 class ilMailFolderTableGUI extends ilTable2GUI
 {
-	protected $lng = null;
-	protected $ctrl = null;
+	/**
+	 * @var \ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var \ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var \ilObjUser
+	 */
+	protected $user;
 
 	protected $_folderNode = array();
 	protected $_parentObject = null;
@@ -38,21 +50,18 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	/**
 	 * Constructor
 	 * @access	public
-	 * @param	ilObjectGUI		$a_parent_obj		   Pass an instance of ilObjectGUI
+	 * @param			        $a_parent_obj		   Pass an instance of ilObjectGUI
 	 * @param	integer			$a_current_folder_id	Id of the current mail box folder
 	 * @param	string			 $a_parent_cmd		   Command for the parent class
 	 *
 	 */
 	public function __construct($a_parent_obj, $a_current_folder_id, $a_parent_cmd = '')
 	{
-		/**
-		 * @var $lng	ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $lng, $ilCtrl;
+		global $DIC;
 
-		$this->lng  = $lng;
-		$this->ctrl = $ilCtrl;
+		$this->lng  = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
 
 		$this->_currentFolderId = $a_current_folder_id;
 		$this->_parentObject = $a_parent_obj;
@@ -86,8 +95,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	 */
 	final public function prepareHTML()
 	{
-		global $ilUser;
-
 		$this->addColumn('', '', '1px', true);
 		$this->addColumn($this->lng->txt('personal_picture'), '', '10%');
 		if($this->isDraftFolder() || $this->isSentFolder())
@@ -106,7 +113,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('date'), 'send_time', '20%');
 
 		// init folder data
-		$mtree = new ilTree($ilUser->getId());
+		$mtree = new ilTree($this->user->getId());
 		$mtree->setTableNames('mail_tree', 'mail_obj_data');
 		$this->_folderNode = $mtree->getNodeData($this->_currentFolderId);
 
@@ -254,7 +261,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	/**
 	 * Get all selected items
 	 * @access	public
-	 * @return	integer	selected items
+	 * @return	array
 	 *
 	 */
 	public function getSelectedItems()
@@ -275,19 +282,11 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	}
 
 	/**
-	 * fetchTableData
-	 * @access	protected
-	 * @return	ilMailFolderTableGUI
-	 *
+	 * @return $this
+	 * @throws Exception
 	 */
 	protected function fetchTableData()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
-
-		// table title
 		if($this->_folderNode['m_type'] == 'user_folder')
 		{
 			$txt_folder = $this->_folderNode['title'];
@@ -318,7 +317,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 				require_once 'Services/Mail/classes/class.ilMailSearchResult.php';
 				$result = new ilMailSearchResult();
 				$searcher = new ilMailLuceneSearcher($query_parser, $result);
-				$searcher->search($ilUser->getId(), $this->_currentFolderId);
+				$searcher->search($this->user->getId(), $this->_currentFolderId);
 
 				if(!$result->getIds())
 				{
@@ -336,7 +335,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 			$this->determineOffsetAndOrder();
 	
 			ilMailBoxQuery::$folderId       = $this->_currentFolderId;
-			ilMailBoxQuery::$userId         = $ilUser->getId();
+			ilMailBoxQuery::$userId         = $this->user->getId();
 			ilMailBoxQuery::$limit          = $this->getLimit();
 			ilMailBoxQuery::$offset         = $this->getOffset();
 			ilMailBoxQuery::$orderDirection = $this->getOrderDirection();

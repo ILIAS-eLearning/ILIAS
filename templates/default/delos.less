@@ -225,20 +225,54 @@ span.ilAlert {
 
 // The dropdown menu (ul)
 .dropdown-menu {
-	background-color: #fafafa;
+	
+	li > a {
+		
+	}
+}
+
+.dropdown-header {
+	padding: 3px 10px;
+	background-color: @dropdown-header-bg;
+}
+.dropdown-menu {
+	background-color: @dropdown-bg;
+	font-weight: normal;
+	border: 0 none;
+    .box-shadow(3px 9px 9px 0 rgba(0,0,0,0.3));
 	// Links within the dropdown menu
 	li > a {
 		display: block;
-		padding: 3px 20px;
 		clear: both;
+		padding: 3px 10px;
 		font-weight: normal;
+		font-size: @il-font-size-dropdown;
 		line-height: @line-height-base;
+		background-color: @dropdown-link-bg;
 		color: @dropdown-link-color;
-		white-space: nowrap // prevent links from randomly breaking onto new lines
+		white-space: nowrap; // prevent links from randomly breaking onto new lines
+		&:hover,
+		&:focus {
+			text-decoration: none;
+			color: @dropdown-link-hover-color;
+			background-color: @dropdown-link-hover-bg;
+		}
+	}
+	img {
+		border: 0;
+		width: 22px;
+		height: 22px;
+		margin: 0 3px 0 0;
+		display: @il-nav-icons;
 	}
 }
 [dir="rtl"] .dropdown-menu {
 	padding: 5px 0;
+}
+// must be like dropdown-menu img
+.ilAdvNoImg {
+	display: inline-block;
+	width: 22px;
 }
 .yamm .dropdown-menu {
 	li > a {
@@ -248,34 +282,6 @@ span.ilAlert {
 
 .btn-group.open .dropdown-toggle {
     .box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.05));
-}
-
-.dropdown-header {
-	background-color: #f3f3f3;
-}
-
-.dropdown-menu img {
-	border: 0;
-	width: 22px;
-	height: 22px;
-	margin: 0 3px 0 0;
-	display: @il-nav-icons;
-}
-
-// must be like dropdown-menu img
-.ilAdvNoImg {
-	display: inline-block;
-	width: 22px;
-}
-
-// Hover/Focus state
-.dropdown-menu li > a {
-	&:hover,
-	&:focus {
-		text-decoration: none;
-		color: @dropdown-link-hover-color;
-		background-color: @dropdown-link-hover-bg;
-	}
 }
 
 /* BS tables */
@@ -367,33 +373,6 @@ div.ilFrame {
 	border-right: none;
 	border-left: 3px solid lighten(@mid-gray, 33%);
 }
-
-/* search */
-#ilMMSearch ul li {
-	padding: 5px;
-}
-
-#ilMMSearch ul li label {
-	font-weight: normal;
-}
-
-#ilMMSearchMenu p {
-	white-space: nowrap;
-}
-
-#main_menu_search {
-	width: 200px;
-}
-
-#ilTopBarNav .dropdown-menu #ilMMSearchMenu a {
-	&,
-	&:hover,
-	&:active,
-	&:focus {
-		color: lighten(@mid-gray, 70%);
-	}
-}
-
 
 /* --------------------------------------------------------------
 	"Classic" delos part
@@ -600,14 +579,6 @@ div.ilFrame {
 .registration {
   margin: 5px auto 0;
   width: 700px;
-}
-
-.ilFixedTopSpacer {
-	padding-top: @il-header-height;
-}
-
-.ilFixedTopSpacerBarOnly {
-	padding-top: @il-top-bar-height;
 }
 
 div#mainspacekeeper {
@@ -1080,20 +1051,20 @@ footer.ilFooter {
 	margin: 0 auto;
 	padding: 20px 0 0;
 	text-align: left;
-	color: white;
-	background-color: @brand-primary;
+	background-color: @il-footer-bg-color;
+	color: @il-footer-color;
 	div.ilFooterContainer {
-		color: white;
+		color: @il-footer-color;
 		//float: left;
 		line-height: 1.75;
 		padding: 0 15px;
 	}
 	a.permalink_label,
 	div.ilFooterContainer > a {
-		color: white;
+		color: @il-footer-color;
 		white-space: nowrap;
 		&:hover {
-			color: white;
+			color: @il-footer-color;
 		}
 	}
 }
@@ -1453,13 +1424,13 @@ div.ilBox {
 
 /* Top-Bar */
 div.ilTopBar {
-  background-color: #444;
-  color: white;
-  padding: 5px 10px;
+	background-color: @il-top-bar-bg;
+	color: @il-top-bar-color;
+	padding: 5px 10px;
 }
 
 div.ilTopBar a {
-	color: white;
+	color: @il-top-bar-link-color;
 }
 
 div.ilTopBarLeft {
@@ -1486,10 +1457,6 @@ div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
 [dir="rtl"] div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
 	margin-right: 0;
 	margin-left: 25px;
-}
-
-div.ilTopBarRight td.il_adv_sel {
-	background-color: #444;
 }
 
 div.ilSideBarHead{
@@ -1849,8 +1816,6 @@ table.mceToolbar {
 		-webkit-text-size-adjust: none;
 	}
 
-    div#mainscrolldiv {
-    }
 
 	.ilContainerWidth {
 		padding: 0 15px;
@@ -1893,17 +1858,6 @@ table.mceToolbar {
 		width: 100%;
 	}
 
-	div.ilLeftNav {
-
-	}
-
-	div.ilLeftNavSpace {
-
-	}
-
-	div.ilContentFixed {
-	}
-
 	.ilFrameFixedWidthHeader div.ilHeaderBanner {
 		max-width: 100%;
 		height: 40px !important;
@@ -1936,15 +1890,13 @@ table.mceToolbar {
 		margin-right: 7px;
 	}
 
-	/* @import "less/Services/MainMenu/delos_sm.less"; */
-	/* @import "less/Services/UIComponent/Tabs/delos_sm.less"; */
-	/* @import "less/Services/Form/delos_sm.less"; */
+	//@import "less/Services/UIComponent/Tabs/delos_sm.less";
+	//@import "less/Services/Form/delos_sm.less";
 	@import "less/Modules/Forum/delos_sm.less";
 	@import "less/Services/Init/delos_sm.less";
-	@import "less/Services/MainMenu/delos_sm.less";
+	//@import "less/Services/MainMenu/delos_sm.less";
 	@import "less/Services/COPage/delos_sm.less";
 	@import "less/Services/News/delos_sm.less";
-
 
 	div.ilGoogleMap {
 		max-width: 100%;

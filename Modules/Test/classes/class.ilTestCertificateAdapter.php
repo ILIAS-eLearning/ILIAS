@@ -19,9 +19,9 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 	*
 	* @param object $object A reference to a test object
 	*/
-	function __construct(&$object)
+	function __construct($object)
 	{
-		$this->object =& $object;
+		$this->object = $object;
 		parent::__construct();
 	}
 
@@ -43,15 +43,13 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateVariablesForPreview()
 	{
-		global $lng;
-		
 		$vars = $this->getBaseVariablesForPreview(false);
-		$vars["RESULT_PASSED"] = ilUtil::prepareFormOutput($lng->txt("certificate_var_result_passed"));
-		$vars["RESULT_POINTS"] = ilUtil::prepareFormOutput($lng->txt("certificate_var_result_points"));
-		$vars["RESULT_PERCENT"] = ilUtil::prepareFormOutput($lng->txt("certificate_var_result_percent"));
-		$vars["MAX_POINTS"] = ilUtil::prepareFormOutput($lng->txt("certificate_var_max_points"));
-		$vars["RESULT_MARK_SHORT"] = ilUtil::prepareFormOutput($lng->txt("certificate_var_result_mark_short"));
-		$vars["RESULT_MARK_LONG"] = ilUtil::prepareFormOutput($lng->txt("certificate_var_result_mark_long"));
+		$vars["RESULT_PASSED"] = ilUtil::prepareFormOutput($this->lng->txt("certificate_var_result_passed"));
+		$vars["RESULT_POINTS"] = ilUtil::prepareFormOutput($this->lng->txt("certificate_var_result_points"));
+		$vars["RESULT_PERCENT"] = ilUtil::prepareFormOutput($this->lng->txt("certificate_var_result_percent"));
+		$vars["MAX_POINTS"] = ilUtil::prepareFormOutput($this->lng->txt("certificate_var_max_points"));
+		$vars["RESULT_MARK_SHORT"] = ilUtil::prepareFormOutput($this->lng->txt("certificate_var_result_mark_short"));
+		$vars["RESULT_MARK_LONG"] = ilUtil::prepareFormOutput($this->lng->txt("certificate_var_result_mark_long"));
 		$vars["TEST_TITLE"] = ilUtil::prepareFormOutput($this->object->getTitle());
 		
 		$insert_tags = array();
@@ -73,8 +71,6 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateVariablesForPresentation($params = array())
 	{
-		global $lng;
-		
 		$active_id = $params["active_id"];
 		$pass = $params["pass"];
 		$userfilter = array_key_exists("userfilter", $params) ? $params["userfilter"] : "";
@@ -88,7 +84,7 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 			$result_array =& $this->object->getTestResult($active_id);
 		}
 		if (($passedonly) && ($result_array["test"]["passed"] == FALSE)) return "";
-		$passed = $result_array["test"]["passed"] ? $lng->txt("certificate_passed") : $lng->txt("certificate_failed");
+		$passed = $result_array["test"]["passed"] ? $this->lng->txt("certificate_passed") : $this->lng->txt("certificate_failed");
 		if (!$result_array["test"]["total_max_points"])
 		{
 			$percentage = 0;
@@ -144,16 +140,14 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateVariablesDescription()
 	{
-		global $lng;
-		
 		$vars = $this->getBaseVariablesDescription(false);
-		$vars["RESULT_PASSED"] = $lng->txt("certificate_ph_passed");
-		$vars["RESULT_POINTS"] = $lng->txt("certificate_ph_resultpoints");
-		$vars["RESULT_PERCENT"] = $lng->txt("certificate_ph_resultpercent");		
-		$vars["MAX_POINTS"] = $lng->txt("certificate_ph_maxpoints");
-		$vars["RESULT_MARK_SHORT"] = $lng->txt("certificate_ph_markshort");
-		$vars["RESULT_MARK_LONG"] = $lng->txt("certificate_ph_marklong");
-		$vars["TEST_TITLE"] = $lng->txt("certificate_ph_testtitle");
+		$vars["RESULT_PASSED"] = $this->lng->txt("certificate_ph_passed");
+		$vars["RESULT_POINTS"] = $this->lng->txt("certificate_ph_resultpoints");
+		$vars["RESULT_PERCENT"] = $this->lng->txt("certificate_ph_resultpercent");		
+		$vars["MAX_POINTS"] = $this->lng->txt("certificate_ph_maxpoints");
+		$vars["RESULT_MARK_SHORT"] = $this->lng->txt("certificate_ph_markshort");
+		$vars["RESULT_MARK_LONG"] = $this->lng->txt("certificate_ph_marklong");
+		$vars["TEST_TITLE"] = $this->lng->txt("certificate_ph_testtitle");
 				
 		$template = new ilTemplate("tpl.il_as_tst_certificate_edit.html", TRUE, TRUE, "Modules/Test");	
 		$template->setCurrentBlock("items");
@@ -165,7 +159,7 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 		}
 
 		
-		$template->setVariable("PH_INTRODUCTION", $lng->txt("certificate_ph_introduction"));
+		$template->setVariable("PH_INTRODUCTION", $this->lng->txt("certificate_ph_introduction"));
 
 		return $template->get();
 	}
@@ -181,13 +175,11 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function addAdditionalFormElements(&$form, $form_fields)
 	{
-		global $lng;
-		
-		$visibility = new ilRadioGroupInputGUI($lng->txt("certificate_visibility"), "certificate_visibility");
-		$visibility->addOption(new ilRadioOption($lng->txt("certificate_visibility_always"), 0));
-		$visibility->addOption(new ilRadioOption($lng->txt("certificate_visibility_passed"), 1));
-		$visibility->addOption(new ilRadioOption($lng->txt("certificate_visibility_never"), 2));
-		$visibility->setInfo($lng->txt("certificate_visibility_introduction"));
+		$visibility = new ilRadioGroupInputGUI($this->lng->txt("certificate_visibility"), "certificate_visibility");
+		$visibility->addOption(new ilRadioOption($this->lng->txt("certificate_visibility_always"), 0));
+		$visibility->addOption(new ilRadioOption($this->lng->txt("certificate_visibility_passed"), 1));
+		$visibility->addOption(new ilRadioOption($this->lng->txt("certificate_visibility_never"), 2));
+		$visibility->setInfo($this->lng->txt("certificate_visibility_introduction"));
 		$visibility->setValue($form_fields["certificate_visibility"]);
 		if (count($_POST)) $visibility->checkInput();
 		$form->addItem($visibility);

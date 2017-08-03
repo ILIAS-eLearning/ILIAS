@@ -30,7 +30,7 @@
 *
 * @package ilias
 */
-
+include_once './libs/composer/vendor/autoload.php';
 use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 
 include_once './webservice/soap/lib/nusoap.php';

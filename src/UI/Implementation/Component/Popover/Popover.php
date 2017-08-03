@@ -5,6 +5,7 @@ namespace ILIAS\UI\Implementation\Component\Popover;
 use \ILIAS\UI\Component;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
@@ -16,6 +17,8 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 abstract class Popover implements Component\Popover\Popover {
 
 	use ComponentHelper;
+	use JavaScriptBindable;
+
 	/**
 	 * @var string
 	 */
