@@ -603,6 +603,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		{
 			if(!isset($_GET["bkid"]))
 			{
+				/*
 				if($ilAccess->checkAccess('edit_event','',(int) $_GET['ref_id']))
 				{
 					$ilCtrl->setParameter($this, "add_mode", "block");
@@ -611,7 +612,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 							"add"),
 						$lng->txt("add_appointment"));
 					$ilCtrl->setParameter($this, "add_mode", "");
-				}
+				}*/
 
 				include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 				$obj_id = $ilObjDataCache->lookupObjId((int) $_GET['ref_id']);
