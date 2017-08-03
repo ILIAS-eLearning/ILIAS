@@ -29,45 +29,67 @@
 *
 * @ingroup ServicesCalendar
 */
-class ilCalendarHidden
+class ilCalendarVisibility
 {
+	const HIDDEN = 0;
+	const VISIBLE = 1;
+
+	/**
+	 * @var array
+	 */
 	protected static $instances = array();
-	
+
+	/**
+	 * @var int
+	 */
 	protected $user_id;
+
+	/**
+	 * @var array hidden cal cats
+	 */
 	protected $hidden = array();
-	
+
+	/**
+	 * @var array visible cal cats
+	 */
+	protected $visible = array();
+
+	/**
+	 * @var ilDBInterface
+	 */
 	protected $db;
 
 	/**
-	 * Singleton constructor
+	 * Constructor
 	 *
-	 * @access private
+	 * @param int $a_user_id user id
+	 * @param int $a_ref_id object ref id
 	 * @param int user id
 	 */
-	private function __construct($a_user_id)
+	private function __construct($a_user_id, $a_ref_id = 0)
 	{
-		global $ilDB;
-		
-		$this->db = $ilDB;
+		global $DIC;
+		$this->db = $DIC->database();
 		$this->user_id = $a_user_id;
+		$this->ref_id = $a_ref_id;
+		$this->obj_id = ilObject::_lookupObjId($a_ref_id);
 		$this->read();
 	}
 	
 	/**
 	 * get instance by user id
 	 *
-	 * @access public
-	 * @param int user id
-	 * @return object 
-	 * @static
+	 * @param int $a_user_id user id
+	 * @param int $a_ref_id object ref id
+	 * @return ilCalendarVisibility
 	 */
-	public static function _getInstanceByUserId($a_user_id)
+	public static function _getInstanceByUserId($a_user_id, $a_ref_id = 0)
 	{
-		if(isset(self::$instances[$a_user_id]))
+		if (!isset(self::$instances[$a_user_id][$a_ref_id]))
 		{
-			return self::$instances[$a_user_id];
+			self::$instances[$a_user_id][$a_ref_id] = new ilCalendarVisibility($a_user_id, $a_ref_id);
 		}
-		return self::$instances[$a_user_id] = new ilCalendarHidden($a_user_id); 
+		return self::$instances[$a_user_id][$a_ref_id];
 	}
 	
 	/**
@@ -79,28 +101,31 @@ class ilCalendarHidden
 	 */
 	public static function _deleteCategories($a_cat_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
-		$query = "DELETE FROM cal_categories_hidden ".
+		$query = "DELETE FROM cal_cat_visibility ".
 			"WHERE cat_id = ".$ilDB->quote($a_cat_id ,'integer')." ";
-		$res = $ilDB->manipulate($query);
+		$ilDB->manipulate($query);
 	}
 	
 	/**
 	 * Delete by user
 	 *
 	 * @access public
-	 * @param int user_id
-	 * @return
+	 * @param int $a_user_id user_id
 	 * @static
 	 */
 	public static function _deleteUser($a_user_id)
 	{
-		global $ilDB;
-		
-		$query = "DELETE FROM cal_categories_hidden ".
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$query = "DELETE FROM cal_cat_visibility ".
 			"WHERE user_id = ".$ilDB->quote($a_user_id ,'integer')." ";
-		$res = $ilDB->manipulate($query);
+		$ilDB->manipulate($query);
 	}
 	
 	/**
@@ -114,7 +139,7 @@ class ilCalendarHidden
 		$hidden = array();
 		foreach($category_info as $cat_id => $info)
 		{
-			if($this->isHidden($cat_id))
+			if($this->isHidden($cat_id, $info))
 			{
 				$hidden = array_merge((array) $hidden,(array) $info['subitem_ids'],array($cat_id));
 			}
@@ -127,9 +152,23 @@ class ilCalendarHidden
 	 * @param object $a_cat_id
 	 * @return 
 	 */
-	public function isHidden($a_cat_id)
+	protected function isHidden($a_cat_id, $info)
 	{
-		return in_array($a_cat_id, $this->hidden);
+		// personal desktop
+		if ($this->obj_id == 0)
+		{
+			return in_array($a_cat_id, $this->hidden);
+		}
+
+		// crs/grp, always show current object and objects that have been selected due to
+		// current container ref id
+		if ($info["type"] == ilCalendarCategory::TYPE_OBJ && ($info["obj_id"] == $this->obj_id
+			|| $info["source_ref_id"] == $this->ref_id))
+		{
+			return false;
+		}
+
+		return !in_array($a_cat_id, $this->visible);
 	}
 	
 	/**
@@ -163,8 +202,18 @@ class ilCalendarHidden
 	{
 		return $this->hidden ? $this->hidden : array();
 	}
-	
-	
+
+	/**
+	 * get visible categories
+	 *
+	 * @access public
+	 * @return array array of category ids
+	 */
+	public function getVisible()
+	{
+		return $this->visible ? $this->visible : array();
+	}
+
 	
 	/**
 	 * hide selected
@@ -178,7 +227,20 @@ class ilCalendarHidden
 		$this->hidden = $a_hidden;
 		return true;
 	}
-	
+
+	/**
+	 * Show selected
+	 *
+	 * @access public
+	 * @param array array of visible categories
+	 * @return bool
+	 */
+	public function showSelected($a_visible)
+	{
+		$this->visible = $a_visible;
+		return true;
+	}
+
 	/**
 	 * save hidden selection
 	 *
@@ -187,17 +249,32 @@ class ilCalendarHidden
 	 */
 	public function save()
 	{
-		global $ilDB;
-		
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
 		$this->delete();
 		foreach($this->hidden as $hidden)
 		{
-			$query = "INSERT INTO cal_categories_hidden (user_id,cat_id) ".
+			$query = "INSERT INTO cal_cat_visibility (user_id, cat_id, obj_id, visible) ".
 				"VALUES ( ".
 				$this->db->quote($this->user_id ,'integer').", ".
-				$this->db->quote($hidden ,'integer')." ".
+				$this->db->quote($hidden ,'integer').", ".
+				$this->db->quote($this->obj_id ,'integer').", ".
+				$this->db->quote(self::HIDDEN ,'integer').
 				")";
-			$res = $ilDB->manipulate($query);
+			$ilDB->manipulate($query);
+		}
+		foreach($this->visible as $visible)
+		{
+			$query = "INSERT INTO cal_cat_visibility (user_id, cat_id, obj_id, visible) ".
+				"VALUES ( ".
+				$this->db->quote($this->user_id ,'integer').", ".
+				$this->db->quote($visible ,'integer').", ".
+				$this->db->quote($this->obj_id ,'integer').", ".
+				$this->db->quote(self::VISIBLE ,'integer').
+				")";
+			$ilDB->manipulate($query);
 		}
 		return true;
 	}
@@ -206,25 +283,25 @@ class ilCalendarHidden
 	 * delete 
 	 *
 	 * @access public
-	 * @param int cat id (if empty all categories are deleted)
+	 * @param int $a_cat_id cat id (if empty all categories are deleted)
 	 * @return bool
 	 */
 	public function delete($a_cat_id = null)
 	{
-		global $ilDB;
-		
 		if($a_cat_id)
 		{
-			$query = "DELETE FROM cal_categories_hidden ".
+			$query = "DELETE FROM cal_cat_visibility ".
 				"WHERE user_id = ".$this->db->quote($this->user_id ,'integer')." ".
+				"AND obj_id = ".$this->db->quote($this->obj_id ,'integer')." ".
 				"AND cat_id = ".$this->db->quote($a_cat_id ,'integer')." ";
 		}
 		else
 		{
-			$query = "DELETE FROM cal_categories_hidden ".
-				"WHERE user_id = ".$this->db->quote($this->user_id ,'integer')." ";
+			$query = "DELETE FROM cal_cat_visibility ".
+				"WHERE user_id = ".$this->db->quote($this->user_id ,'integer')." ".
+				"AND obj_id = ".$this->db->quote($this->obj_id ,'integer');
 		}
-		$res = $ilDB->manipulate($query);
+		$this->db->manipulate($query);
 		return true;
 	}
 	
@@ -236,14 +313,20 @@ class ilCalendarHidden
 	 */
 	protected function read()
 	{
-		global $ilDB;
-		
-		$query = "SELECT * FROM cal_categories_hidden ".
-			"WHERE user_id = ".$this->db->quote($this->user_id ,'integer')." ";
+		$query = "SELECT * FROM cal_cat_visibility ".
+			"WHERE user_id = ".$this->db->quote($this->user_id ,'integer')." ".
+			" AND obj_id = ".$this->db->quote($this->obj_id ,'integer');
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			$this->hidden[] = $row->cat_id;
+			if ($row->visible == self::HIDDEN)
+			{
+				$this->hidden[] = $row->cat_id;
+			}
+			if ($row->visible == self::VISIBLE)
+			{
+				$this->visible[] = $row->cat_id;
+			}
 		}
 		return true;
 	}

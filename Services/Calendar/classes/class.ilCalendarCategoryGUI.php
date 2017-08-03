@@ -54,15 +54,17 @@ class ilCalendarCategoryGUI
 	 * @param int user id
 	 * @return
 	 */
-	public function __construct($a_user_id,$seed)
+	public function __construct($a_user_id, $seed, $a_ref_id = 0)
 	{
 		global $lng,$ilCtrl;
-		
+
 		$this->user_id = $a_user_id;
 		$this->seed = $seed;
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('dateplaner');
 		$this->ctrl = $ilCtrl;
+		$this->ref_id = $a_ref_id;
+		$this->obj_id = ilObject::_lookupObjId($a_ref_id);
 	}
 	
 	/**
@@ -472,7 +474,7 @@ class ilCalendarCategoryGUI
 		global $ilUser;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarVisibility.php');
 			
 		$selected_cat_ids = $_POST['selected_cat_ids'] ? $_POST['selected_cat_ids'] : array();
 		$shown_cat_ids = $_POST['shown_cat_ids'] ? $_POST['shown_cat_ids'] : array();
@@ -480,70 +482,66 @@ class ilCalendarCategoryGUI
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
 		$cat_ids = $cats->getCategories();
 		
-		$hidden_cats = ilCalendarHidden::_getInstanceByUserId($ilUser->getId());
-		$hidden_cat_ids = $hidden_cats->getHidden();
-		
-		$hidden = array();
-		
-		foreach($hidden_cat_ids as $hidden_cat_id)
+		$cat_visibility = ilCalendarVisibility::_getInstanceByUserId($ilUser->getId(), $this->ref_id);
+
+
+
+		if ($this->obj_id > 0)
 		{
-			if( !in_array($hidden_cat_id,$shown_cat_ids) )
+			$old_selection = $cat_visibility->getVisible();
+		}
+		else
+		{
+			$old_selection = $cat_visibility->getHidden();
+		}
+
+
+		$new_selection = array();
+
+		// put all entries from the old selection into the new one
+		// that are not presented on the screen
+		foreach($old_selection as $cat_id)
+		{
+			if(!in_array($cat_id,$shown_cat_ids))
 			{
-				$hidden[] = $hidden_cat_id;
+				$new_selection[] = $cat_id;
 			}
 		}
-		
+
 		foreach($shown_cat_ids as $shown_cat_id)
 		{
 			$shown_cat_id = (int)$shown_cat_id;
-			if( !in_array($shown_cat_id, $selected_cat_ids) )
+			if ($this->obj_id > 0)
 			{
-				$hidden[] = $shown_cat_id;
+				if (in_array($shown_cat_id, $selected_cat_ids))
+				{
+					$new_selection[] = $shown_cat_id;
+				}
+			}
+			else
+			{
+				if (!in_array($shown_cat_id, $selected_cat_ids))
+				{
+					$new_selection[] = $shown_cat_id;
+				}
 			}
 		}
-		
-		$hidden_categories = ilCalendarHidden::_getInstanceByUserId($this->user_id);
-		$hidden_categories->hideSelected($hidden);
-		$hidden_categories->save();
+
+		if ($this->obj_id > 0)
+		{
+			$cat_visibility->showSelected($new_selection);
+		}
+		else
+		{
+			$cat_visibility->hideSelected($new_selection);
+		}
+
+		$cat_visibility->save();
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		$this->ctrl->returnToParent($this);	
 	}
-	
-	/**
-	 * 
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function showCategories()
-	{
-		include_once('./Services/Calendar/classes/class.ilCalendarCategoryTableGUI.php');
-		$table_gui = new ilCalendarCategoryTableGUI($this,$this->seed);
-		$nav_parameter = $table_gui->getNavParameter();
 
-		if($_POST[$nav_parameter] != "")
-		{
-			if($_POST[$nav_parameter."1"] != $_POST[$nav_parameter])
-			{
-				$nav_value = $_POST[$nav_parameter."1"];
-			}
-			elseif($_POST[$nav_parameter."2"] != $_POST[$nav_parameter])
-			{
-				$nav_value = $_POST[$nav_parameter."2"];
-			}
-		}
-		else
-		{
-			$nav_value = $_GET[$nav_parameter];
-		}
-
-		$_SESSION[$nav_parameter] = $nav_value;
-
-		$this->ctrl->returnToParent($this);
-	}
-	
 	/**
 	 * share calendar
 	 *
@@ -1196,7 +1194,7 @@ class ilCalendarCategoryGUI
 		global $ilUser, $ilCtrl;
 
 		include_once("./Services/Calendar/classes/class.ilCalendarSelectionBlockGUI.php");
-		$block_gui = new ilCalendarSelectionBlockGUI($this->seed);
+		$block_gui = new ilCalendarSelectionBlockGUI($this->seed, $this->ref_id);
 		$html = $ilCtrl->getHTML($block_gui);
 		return $html;
 	}

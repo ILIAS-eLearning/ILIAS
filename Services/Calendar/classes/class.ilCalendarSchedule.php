@@ -25,7 +25,7 @@ include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
 include_once('./Services/Calendar/classes/class.ilDateTime.php');
 include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php');
 include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
-include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
+include_once('./Services/Calendar/classes/class.ilCalendarVisibility.php');
 
 /** 
 * Represents a list of calendar appointments (including recurring events) for a specific user

@@ -393,8 +393,8 @@ class ilCalendarCategory
 			"WHERE cat_id = ".$this->db->quote($this->cat_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 
-		include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
-		ilCalendarHidden::_deleteCategories($this->cat_id);
+		include_once('./Services/Calendar/classes/class.ilCalendarVisibility.php');
+		ilCalendarVisibility::_deleteCategories($this->cat_id);
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 		foreach(ilCalendarCategoryAssignments::_getAssignedAppointments(array($this->cat_id)) as $app_id)

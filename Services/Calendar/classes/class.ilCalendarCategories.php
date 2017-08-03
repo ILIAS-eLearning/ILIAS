@@ -252,6 +252,26 @@ class ilCalendarCategories
 	}
 
 	/**
+	 * Set source ref id
+	 *
+	 * @param int $a_val ref id of current context/source
+	 */
+	function setSourceRefId($a_val)
+	{
+		$this->root_ref_id = $a_val;
+	}
+
+	/**
+	 * Get source ref id
+	 *
+	 * @return int ref id of current context/source
+	 */
+	function getSourceRefId()
+	{
+		return $this->root_ref_id;
+	}
+
+	/**
 	 * initialize visible categories
 	 *
 	 * @access public
@@ -275,8 +295,7 @@ class ilCalendarCategories
 				}
 			}
 		}
-		
-		
+
 		switch($this->getMode())
 		{
 			case self::MODE_REMOTE_ACCESS:
@@ -607,6 +626,9 @@ class ilCalendarCategories
 		$this->readPrivateCalendars();
 		$this->readConsultationHoursCalendar();
 
+
+
+
 		#$query = "SELECT ref_id,obd.obj_id obj_id FROM tree t1 ".
 		#	"JOIN object_reference obr ON t1.child = obr.ref_id ".
 		#	"JOIN object_data obd ON obd.obj_id = obr.obj_id ".
@@ -614,40 +636,55 @@ class ilCalendarCategories
 		#	"AND t1.lft <= (SELECT rgt FROM tree WHERE child = ".$this->db->quote($this->root_ref_id,'integer')." ) ".
 		#	"AND ".$ilDB->in('type',array('crs','grp','sess'),false,'text')." ".
 		#	"AND tree = 1";
-		
-		$subtree_query = $GLOBALS['tree']->getSubTreeQuery(
-				$this->root_ref_id,
-				array('object_reference.ref_id','object_data.obj_id'),
-				array('crs','grp','sess','exc')
-		);
-		
-		$res = $ilDB->query($subtree_query);
-		$obj_ids = array();
-		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+
+		// alternative 1: do not aggregate items of current course
+		if (!true)		//
 		{
-			if($tree->isDeleted($row->ref_id))
+			$subtree_query = $GLOBALS['tree']->getSubTreeQuery(
+				$this->root_ref_id,
+				array('object_reference.ref_id', 'object_data.obj_id'),
+				array('crs', 'grp', 'sess', 'exc')
+			);
+
+			$res = $ilDB->query($subtree_query);
+			$obj_ids = array();
+			while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
-				continue;
-			}
-			
-			$obj_type = ilObject::_lookupType($row->obj_id);
-			if($obj_type == 'crs' or $obj_type == 'grp')
-			{
-				//Added for calendar revision --> https://goo.gl/CXGTRF
-				//In 5.2-trunk, the booking pools did not appear in the marginal calendar.
-				$this->readBookingCalendar();
-				// Check for global/local activation
-				if(!ilCalendarSettings::_getInstance()->lookupCalendarActivated($row->obj_id))
+				if ($tree->isDeleted($row->ref_id))
 				{
 					continue;
 				}
+
+				$obj_type = ilObject::_lookupType($row->obj_id);
+				if ($obj_type == 'crs' or $obj_type == 'grp')
+				{
+					//Added for calendar revision --> https://goo.gl/CXGTRF
+					//In 5.2-trunk, the booking pools did not appear in the marginal calendar.
+					$this->readBookingCalendar();
+					// Check for global/local activation
+					if (!ilCalendarSettings::_getInstance()->lookupCalendarActivated($row->obj_id))
+					{
+						continue;
+					}
+				}
+				if ($ilAccess->checkAccess('read', '', $row->ref_id))
+				{
+					$obj_ids[] = $row->obj_id;
+				}
 			}
-			if($ilAccess->checkAccess('read','',$row->ref_id))
-			{
-				$obj_ids[] = $row->obj_id;
-			}
+			$this->readSelectedCategories($obj_ids, $this->root_ref_id);
 		}
-		$this->readSelectedCategories($obj_ids);
+		else	// alternative 2: aggregate items of current course (discussion with timon 3.8.3017: this is the current preference)
+		{
+			$this->readSelectedCategories(array($this->root_obj_id), $this->root_ref_id);
+		}
+
+		$this->addSubitemCalendars();
+
+
+		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'crs'));
+		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'grp'));
+
 	}
 	
 	/**
@@ -864,7 +901,7 @@ class ilCalendarCategories
 	 * @access protected
 	 * @return
 	 */
-	protected function readSelectedCategories($a_obj_ids)
+	protected function readSelectedCategories($a_obj_ids, $a_source_ref_id = 0)
 	{
 		global $ilAccess,$tree;
 		global $ilDB;
@@ -922,7 +959,7 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['obj_type'] = ilObject::_lookupType($row->obj_id);
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['remote'] = false;
-			
+			$this->categories_info[$row->cat_id]['source_ref_id'] = $a_source_ref_id;
 		}
 	}
 	

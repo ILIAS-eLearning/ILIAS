@@ -16,8 +16,8 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 {
 	static $block_type = "cal_sel";
 
-	const CAL_GRP_CURRENT_CRS_CONS = "curr_crs_cons";
-	const CAL_GRP_CURRENT_CRS = "curr_crs";
+	const CAL_GRP_CURRENT_CONT_CONS = "curr_cont_cons";
+	const CAL_GRP_CURRENT_CONT = "curr_cont";
 	const CAL_GRP_PERSONAL = "personal";
 	const CAL_GRP_OTHERS = "others";
 
@@ -26,9 +26,19 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 	protected $calendars = array();
 
 	/**
+	 * @var int container ref id (0 for personal desktop)
+	 */
+	protected $ref_id = 0;
+
+	/**
+	 * @var int container obj id (0 for personal desktop)
+	 */
+	protected $obj_id = 0;
+
+	/**
 	 * Constructor
 	 */
-	function __construct($a_seed)
+	function __construct($a_seed, $a_ref_id = 0)
 	{
 		global $ilCtrl, $lng;
 		
@@ -36,6 +46,8 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		parent::__construct();
 		$lng->loadLanguageModule('pd');
 		$lng->loadLanguageModule('dateplaner');
+		$this->ref_id = $a_ref_id;
+		$this->obj_id = ilObject::_lookupObjId($this->ref_id);
 		
 		$this->setLimit(5);
 		$this->allow_moving = false;
@@ -67,8 +79,8 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 			);
 
 		$this->calendar_groups = array(
-			self::CAL_GRP_CURRENT_CRS_CONS => $lng->txt("cal_grp_".self::CAL_GRP_CURRENT_CRS_CONS),
-			self::CAL_GRP_CURRENT_CRS => $lng->txt("cal_grp_".self::CAL_GRP_CURRENT_CRS),
+			self::CAL_GRP_CURRENT_CONT_CONS => $lng->txt("cal_grp_".self::CAL_GRP_CURRENT_CONT_CONS),
+			self::CAL_GRP_CURRENT_CONT => $lng->txt("cal_grp_".self::CAL_GRP_CURRENT_CONT),
 			self::CAL_GRP_PERSONAL => $lng->txt("cal_grp_".self::CAL_GRP_PERSONAL),
 			self::CAL_GRP_OTHERS => $lng->txt("cal_grp_".self::CAL_GRP_OTHERS)
 		);
@@ -129,10 +141,11 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		global $ilUser,$tree;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarVisibility.php');
 		
-		$hidden_obj = ilCalendarHidden::_getInstanceByUserId($ilUser->getId());
+		$hidden_obj = ilCalendarVisibility::_getInstanceByUserId($ilUser->getId(), $this->ref_id);
 		$hidden = $hidden_obj->getHidden();
+		$visible = $hidden_obj->getVisible();
 		
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
 		$all = $cats->getCategoriesInfo();
@@ -140,11 +153,15 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		$categories = array();
 		foreach($all as $category)
 		{
+			//if ($category["obj_id"] == 255)
+			//{var_dump($category); exit;}
 			$tmp_arr['obj_id'] = $category['obj_id'];
 			$tmp_arr['id'] = $category['cat_id'];
 			$tmp_arr['hidden'] = (bool) in_array($category['cat_id'],$hidden);
+			$tmp_arr['visible'] = (bool) in_array($category['cat_id'],$visible);
 			$tmp_arr['title'] = $category['title'];
 			$tmp_arr['type'] = $category['type'];
+			$tmp_arr['source_ref_id'] = $category['source_ref_id'];
 			
 			// Append object type to make type sortable
 			$tmp_arr['type_sortable'] = ilCalendarCategory::lookupCategorySortIndex($category['type']);
@@ -182,20 +199,21 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		$path_categories = ilUtil::sortArray($path_categories, 'title', "asc");
 
 
-		$this->calendars[self::CAL_GRP_CURRENT_CRS_CONS] = array();
-		$this->calendars[self::CAL_GRP_CURRENT_CRS] = array();
+		$this->calendars[self::CAL_GRP_CURRENT_CONT_CONS] = array();
+		$this->calendars[self::CAL_GRP_CURRENT_CONT] = array();
 		$this->calendars[self::CAL_GRP_PERSONAL] = array();
 		$this->calendars[self::CAL_GRP_OTHERS] = array();
 
 		foreach ($path_categories as $cal)
 		{
-			if ($cal["type"] == ilCalendarCategory::TYPE_CH)
+			if ($cal["type"] == ilCalendarCategory::TYPE_CH && $this->obj_id > 0)
 			{
-				$this->calendars[self::CAL_GRP_CURRENT_CRS_CONS][] = $cal;
+				$this->calendars[self::CAL_GRP_CURRENT_CONT_CONS][] = $cal;
 			}
-			else if ($cal["type"] == ilCalendarCategory::TYPE_OBJ && ilObject::_lookupType($cal["obj_id"]) == "crs")
+			else if ($cal["type"] == ilCalendarCategory::TYPE_OBJ && ($this->obj_id > 0 && ($cal["obj_id"] == $this->obj_id
+				|| $this->ref_id == $cal["source_ref_id"])))
 			{
-				$this->calendars[self::CAL_GRP_CURRENT_CRS][] = $cal;
+				$this->calendars[self::CAL_GRP_CURRENT_CONT][] = $cal;
 			}
 			else if ($cal["type"] == ilCalendarCategory::TYPE_USR || $cal["type"] == ilCalendarCategory::TYPE_BOOK)
 			{
@@ -254,13 +272,21 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 			}
 			if (count($this->calendars[$type]) > 0)
 			{
+				if ($type == self::CAL_GRP_CURRENT_CONT)
+				{
+					$txt = $lng->txt("cal_grp_curr_crs");
+				}
+				if ($type == self::CAL_GRP_CURRENT_CONT_CONS)
+				{
+					$txt = $lng->txt("cal_grp_curr_crs_cons");
+				}
 				$tpl->setCurrentBlock("item_grp");
 				$tpl->setVariable("GRP_HEAD", $txt);
 				$tpl->parseCurrentBlock();
 			}
 		}
 		
-		$tpl->setVariable("TXT_SHOW", $lng->txt("select"));
+		$tpl->setVariable("TXT_SHOW", $lng->txt("refresh"));
 		$tpl->setVariable("CMD_SHOW", "saveSelection");
 		$tpl->setVariable("TXT_ACTION", $lng->txt("select"));
 		$tpl->setVariable("SRC_ACTION", ilUtil::getImagePath("arrow_downright.svg"));
@@ -289,9 +315,24 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		$a_tpl->setCurrentBlock("item");
 		
 		$a_tpl->setVariable('VAL_ID',$a_set['id']);
-		if(!$a_set['hidden'])
+		if($this->obj_id == 0)
 		{
-			$a_tpl->setVariable('VAL_CHECKED','checked="checked"');
+			if (!$a_set['hidden'])
+			{
+				$a_tpl->setVariable('VAL_CHECKED', 'checked="checked"');
+			}
+		}
+		else						// if calendar is shown and repo object id (course group given)
+		{
+			if ($a_set["obj_id"] == $this->obj_id)
+			{
+				$a_tpl->setVariable('VAL_CHECKED', 'checked="checked"');
+				$a_tpl->setVariable('VAL_DISABLED', 'disabled');
+			}
+			else if ($a_set['visible'])
+			{
+				$a_tpl->setVariable('VAL_CHECKED', 'checked="checked"');
+			}
 		}
 		$a_tpl->setVariable('VAL_TITLE',$a_set['title']);
 		$a_tpl->setVariable('BGCOLOR',$a_set['color']);
