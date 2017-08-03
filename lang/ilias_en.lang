@@ -13540,3 +13540,9 @@ rbac#:#stys_sty_write_content#:#Edit Content Styles
 style#:#manage_system_styles#:#Manage System Styles
 style#:#scope#:#Scope
 survey#:#sub_tab_dashboard#:#Dashboard
+mail#:#first_email_missing_info#:#Selection not possible because no email address has been entered
+mail#:#second_email_missing_info#:#Selection not possible because no second email address has been entered
+mail#:#mail_first_email#:#First E-Mail-Address
+mail#:#mail_second_email#:#Second E-Mail-Address
+mail#:#mail_both_email#:#Both E-Mail-Addresses
+common#:#second_email#:#Second E-Mail

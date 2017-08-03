@@ -24,7 +24,7 @@ class ilUserDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.3.0", "4.5.0", "5.1.0", "5.2.0");
+		return array("4.3.0", "4.5.0", "5.1.0", "5.2.0", "5.3.0");
 	}
 	
 	/**
@@ -55,6 +55,7 @@ class ilUserDataSet extends ilDataSet
 				case "4.5.0":
 				case "5.1.0":
 				case "5.2.0":
+				case "5.3.0":
 					return array(
 						"Id" => "integer",
 						"Username" => "text",
@@ -75,6 +76,7 @@ class ilUserDataSet extends ilDataSet
 						"PhoneMobile" => "text",
 						"Fax" => "text",
 						"Email" => "text",
+						"SecondEmail" => "text",
 						"Hobby" => "text",
 						"ReferralComment" => "text",
 						"Matriculation" => "text",
@@ -93,6 +95,7 @@ class ilUserDataSet extends ilDataSet
 				case "4.5.0":
 				case "5.1.0":
 				case "5.2.0":
+				case "5.3.0":
 					return array(
 						"UserId" => "integer",
 						"Keyword" => "text",
@@ -109,6 +112,7 @@ class ilUserDataSet extends ilDataSet
 				case "4.5.0":
 				case "5.1.0":
 				case "5.2.0":
+				case "5.3.0":
 					return array(
 						"Id" => "integer"
 					);
@@ -122,6 +126,7 @@ class ilUserDataSet extends ilDataSet
 				case "4.5.0":
 				case "5.1.0":
 				case "5.2.0":
+				case "5.3.0":
 					return array(
 						"UserId" => "integer",
 						"FieldId" => "text",
@@ -199,6 +204,7 @@ class ilUserDataSet extends ilDataSet
 				case "4.5.0":
 				case "5.1.0":
 				case "5.2.0":
+				case "5.3.0":
 					$this->data = array();
 					foreach ($a_ids as $id)
 					{
@@ -233,6 +239,15 @@ class ilUserDataSet extends ilDataSet
 						"WHERE ".
 						$ilDB->in("u.usr_id", $a_ids, false, "integer"));
 					break;
+				case "5.3.0":
+					$this->getDirectDataFromQuery("SELECT usr_id id, login username, firstname, lastname, ".
+						" title, birthday, gender, institution, department, street, city, zipcode, country, sel_country, ".
+						" phone_office, phone_home, phone_mobile, fax, email, second_email, hobby, referral_comment, matriculation, ".
+						" latitude, longitude".
+						" FROM usr_data u ".
+						"WHERE ".
+						$ilDB->in("u.usr_id", $a_ids, false, "integer"));
+					break;
 			}
 		}
 		
@@ -244,9 +259,10 @@ class ilUserDataSet extends ilDataSet
 				case "4.5.0":
 				case "5.1.0":
 				case "5.2.0":
+				case "5.3.0":
 					// for all user ids get data from usr_pref and mail options, create records user_id/name/value
 					$prefs = array("date_format", "day_end", "day_start", "bs_allow_to_contact_me", "chat_osc_accept_msg", "hide_own_online_status", "hits_per_page", "language",
-						"public_birthday", "puplic_city", "public_country", "public_delicious", "public_department", "public_email",
+						"public_birthday", "puplic_city", "public_country", "public_delicious", "public_department", "public_email", "public_second_email",
 						"public_fax", "public_gender", "public_hobby", "public_im_aim", "public_im_icq", "public_im_jabber",
 						"public_im_msn", "public_im_skype", "public_im_voip", "public_im_yahoo", "public_institution", "public_location",
 						"public_matriculation", "public_phone_home", "public_phone_mobile", "public_phone_office",
