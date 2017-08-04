@@ -12657,7 +12657,7 @@ trac#:#trac_lp_list_gui#:#Persönlicher Schreibtisch, Magazin, Suche
 trac#:#trac_lp_list_gui_info#:#Wenn aktiviert, wird der Lernfortschrittsstatus in Objekt-Listen angezeigt.
 common#:#hide_all_details#:#Alle Details ausblenden
 common#:#show_all_details#:#Alle Details anzeigen
-common#:#select_files_from_computer#:#Wählen Sie die Dateien von Ihrem Computer aus
+common#:#select_files_from_computer#:#Dateien wählen
 common#:#drag_files_here#:#Ziehen Sie die Dateien in diesen Bereich
 common#:#selected_files#:#Ausgewählte Dateien
 common#:#num_of_selected_files#:#%s Datei(en) ausgewählt

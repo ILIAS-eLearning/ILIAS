@@ -10403,7 +10403,7 @@ trac#:#trac_lp_list_gui#:#Personal Desktop, Repository, Search
 trac#:#trac_lp_list_gui_info#:#If activated, the learning progress status is included in objects lists.
 common#:#hide_all_details#:#Hide all details
 common#:#show_all_details#:#Show all details
-common#:#select_files_from_computer#:#Select the files from your computer
+common#:#select_files_from_computer#:#Select Files
 common#:#drag_files_here#:#Drag-and-drop your files here
 common#:#selected_files#:#Selected files
 common#:#num_of_selected_files#:#%s file(s) selected
