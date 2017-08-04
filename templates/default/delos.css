@@ -6278,6 +6278,44 @@ button.close {
   padding-left: 5px;
   padding-right: 5px;
 }
+.il-dropzone.standard {
+  min-height: 150px;
+  background: white;
+  border: 3px dashed #C0C0C0;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+}
+.il-dropzone.standard .dz-message {
+  text-align: center;
+  line-height: 150px;
+}
+.il-dropzone.wrapper {
+  padding: 1px;
+}
+.il-dropzone.darkened-highlight {
+  z-index: 1100;
+  position: relative;
+  border: 3px dashed #C0C0C0;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  background: #FFFFD6;
+}
+.il-dropzone.default-highlight {
+  border: 3px dashed #C0C0C0;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  background: #FFFFD6;
+}
+.il-dropzone.drag-hover {
+  border: 3px dashed #606060;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  background-color: #FFF9BC;
+}
 .btn {
   font-size: 12px;
 }
