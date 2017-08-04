@@ -18,25 +18,17 @@ class ilCalendarSubscriptionGUI
 	 * Constructor
 	 * @param int $a_clendar_id
 	 */
-	public function __construct($a_calendar_id)
+	public function __construct($a_calendar_id, $a_ref_id = 0)
 	{
+		global $DIC;
+
 		$this->cal_id = $a_calendar_id;
+		$this->ref_id = $a_ref_id;
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
+
 		include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
-		$this->calendar = new ilCalendarCategory($this->cal_id);
-	}
-
-	/**
-	 * Get current calendar id
-	 * @return <type>
-	 */
-	public function getCalendarId()
-	{
-		return $this->cal_id;
-	}
-
-	public function getCalendar()
-	{
-		return $this->calendar ? $this->calendar : new ilCalendarCategory();
 	}
 
 	/**
@@ -63,41 +55,50 @@ class ilCalendarSubscriptionGUI
 	 */
 	protected function show()
 	{
-		$token = $this->createToken();
-		
-		ilUtil::sendInfo($GLOBALS['lng']->txt('cal_subscription_info'));
+		ilUtil::sendInfo($this->lng->txt('cal_subscription_info'));
 
 		include_once './Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
 		$info = new ilInfoScreenGUI($this);
 		$info->setFormAction($GLOBALS['ilCtrl']->getFormAction($this));
 
-		$hash = $this->createToken();
-		$url = ILIAS_HTTP_PATH.'/calendar.php?client_id='.CLIENT_ID.'&token='.$hash;
-		$info->addSection($this->getCalendar()->getTitle());
-		$info->addProperty($GLOBALS['lng']->txt('cal_ical_url'), $url, $url);
+		if ($this->cal_id > 0)
+		{
+			$selection = ilCalendarAuthenticationToken::SELECTION_CALENDAR;
+			$id = $this->cal_id;
+		}
+		else if ($this->ref_id > 0)
+		{
+			$selection = ilCalendarAuthenticationToken::SELECTION_CATEGORY;
+			$id = ilObject::_lookupObjId((int) $this->ref_id);
+		}
+		else
+		{
+			$selection = ilCalendarAuthenticationToken::SELECTION_PD;
+			$id = 0;
+		}
 
-		$GLOBALS['tpl']->setContent($info->getHTML());
+		$hash = $this->createToken($this->user->getID(), $selection, $id);
+		$url = ILIAS_HTTP_PATH.'/calendar.php?client_id='.CLIENT_ID.'&token='.$hash;
+		$info->addSection($this->lng->txt("cal_subscription"));
+		$info->addProperty($this->lng->txt('cal_ical_url'), $url, $url);
+
+		$this->tpl->setContent($info->getHTML());
 	}
 
 	/**
 	 * Create calendar token
 	 */
-	private function createToken()
+	private function createToken($user_id, $selection, $id)
 	{
 		include_once './Services/Calendar/classes/class.ilCalendarAuthenticationToken.php';
-		$hash = ilCalendarAuthenticationToken::lookupAuthToken(
-			$GLOBALS['ilUser']->getId(),
-			ilCalendarAuthenticationToken::SELECTION_CALENDAR,
-			$this->getCalendarId()
-		);
+		$hash = ilCalendarAuthenticationToken::lookupAuthToken($user_id, $selection, $id);
 		if(strlen($hash))
 		{
 			return $hash;
 		}
-
-		$token = new ilCalendarAuthenticationToken($GLOBALS['ilUser']->getId());
-		$token->setSelectionType(ilCalendarAuthenticationToken::SELECTION_CALENDAR);
-		$token->setCalendar($this->getCalendarId());
+		$token = new ilCalendarAuthenticationToken($user_id);
+		$token->setSelectionType($selection);
+		$token->setCalendar($id);
 		return $token->add();
 	}
 

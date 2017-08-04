@@ -7136,7 +7136,7 @@ dateplaner#:#cal_search#:#Suchbegriff
 dateplaner#:#cal_search_info_share#:#Bitte geben Sie den Namen der Person/Rolle ein, für die Sie diesen Kalender freigeben möchten.
 dateplaner#:#cal_second#:#Zweiten
 dateplaner#:#cal_server_tz#:#Server-Zeitzone
-dateplaner#:#cal_share#:#Kalender freigeben
+dateplaner#:#cal_share#:#Freigabe
 dateplaner#:#cal_share_accept#:#Einladung annehmen
 dateplaner#:#cal_share_cal#:#Kalender freigeben (Lesezugriff)
 dateplaner#:#cal_share_cal_editable#:#Kalender freigeben (Lese- und Schreibzugriff)
@@ -16013,3 +16013,4 @@ dateplaner#:#cal_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an
 dateplaner#:#cal_usr_show_weeks#:#Anzeige Wochenspalte
 dateplaner#:#cal_usr_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an.
 dateplaner#:#cal_grp_curr_grp#:#Aktuelle Gruppe
+dateplaner#:#cal_subscription#:#Abonnieren

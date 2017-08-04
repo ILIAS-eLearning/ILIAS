@@ -41,30 +41,53 @@ class ilCalendarCategoryGUI
 	
 	protected $user_id;
 	protected $tpl;
+
+	/**
+	 * @var ilCtrl
+	 */
 	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
 	protected $lng;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
 	
 	protected $editable = false;
 	protected $visible = false;
 
 	/**
+	 * @var int
+	 */
+	protected $category_id = 0;
+
+	/**
 	 * Constructor
 	 *
 	 * @access public
-	 * @param int user id
-	 * @return
+	 * @param int $a_user_id user id
+	 * @param int $seed seed
+	 * @param int $a_ref_id container ref id
 	 */
 	public function __construct($a_user_id, $seed, $a_ref_id = 0)
 	{
-		global $lng,$ilCtrl;
+		global $DIC;
 
 		$this->user_id = $a_user_id;
 		$this->seed = $seed;
-		$this->lng = $lng;
+		$this->lng = $DIC->language();
 		$this->lng->loadLanguageModule('dateplaner');
-		$this->ctrl = $ilCtrl;
+		$this->ctrl = $DIC->ctrl();
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = ilObject::_lookupObjId($a_ref_id);
+		$this->tabs = $DIC->tabs();
+
+		$this->category_id = (int) $_GET['category_id'];
+
 	}
 	
 	/**
@@ -112,6 +135,7 @@ class ilCalendarCategoryGUI
 	{
 		$this->ctrl->returnToParent($this);
 	}
+
 	
 	/**
 	 * add new calendar
@@ -209,9 +233,13 @@ class ilCalendarCategoryGUI
 	 */
 	protected function edit()
 	{
-		global $tpl, $ilTabs;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+		$tabs = $DIC->tabs();
+		$tabs->activateTab("edit");
 		
-		if(!$_GET['category_id'])
+		if(!$this->category_id)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
@@ -227,8 +255,7 @@ class ilCalendarCategoryGUI
 			return false;
 		}
 
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt("cal_back_to_list"),  $this->ctrl->getLinkTarget($this, "manage"));
+
 
 		$this->initFormCategory('edit');
 	    $tpl->setContent($this->form->getHTML());
@@ -238,13 +265,12 @@ class ilCalendarCategoryGUI
 	 * show calendar details
 	 *
 	 * @access protected
-	 * @return
 	 */
 	protected function details()
 	{
 		global $tpl;
 
-		if(!$_GET['category_id'])
+		if(!$this->category_id)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
@@ -253,7 +279,8 @@ class ilCalendarCategoryGUI
 		$this->readPermissions();
 		$this->checkVisible();
 
-		$category = new ilCalendarCategory((int) $_GET['category_id']);
+		/*
+		$category = new ilCalendarCategory($this->category_id);
 		if(!in_array($category->getType(), array(ilCalendarCategory::TYPE_CH, ilCalendarCategory::TYPE_BOOK)))
 		{
 			include_once "./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php";
@@ -265,7 +292,7 @@ class ilCalendarCategoryGUI
 				$toolbar->addButton($this->lng->txt("cal_import_appointments"), $this->ctrl->getLinkTarget($this, "importAppointments"));
 			}
 			$toolbar = $toolbar->getHTML();
-		}
+		}*/
 		
 		// Non editable category
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
@@ -274,52 +301,29 @@ class ilCalendarCategoryGUI
 
 		$info->addSection($this->lng->txt('cal_cal_details'));
 
-		// Calendar Name
-		$info->addProperty($this->lng->txt('cal_calendar_name'),$category->getTitle());
-		switch($category->getType())
-		{
-			case ilCalendarCategory::TYPE_USR:
-				$info->addProperty($this->lng->txt('cal_cal_type'),$this->lng->txt('cal_type_personal'));
-				break;
-
-			case ilCalendarCategory::TYPE_GLOBAL:
-				$info->addProperty($this->lng->txt('cal_cal_type'),$this->lng->txt('cal_type_system'));
-				break;
-
-			case ilCalendarCategory::TYPE_OBJ:
-				$info->addProperty($this->lng->txt('cal_cal_type'),$this->lng->txt('cal_type_'.$category->getObjType()));
-
-				$info->addSection($this->lng->txt('additional_info'));
-				$info->addProperty($this->lng->txt('perma_link'),$this->addReferenceLinks($category->getObjId()));
-				break;
-
-			case ilCalendarCategory::TYPE_CH:
-			case ilCalendarCategory::TYPE_BOOK:
-				// nothing to do
-				break;
-		}
-
 		// Ical link
+		/*
 		include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
-		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','cal_id',(int) $_GET['category_id']);
+		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','cal_id', $this->category_id);
 		$info->addProperty(
 			$this->lng->txt('cal_ical_infoscreen'),
 			ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_ICAL),
 			$this->ctrl->getLinkTargetByClass(array('ilcalendarpresentationgui','ilcalendarsubscriptiongui'))
-		);
+		);*/
 
 		$tpl->setContent($toolbar.$info->getHTML().$this->showAssignedAppointments());
+
 	}
 	
 	protected function synchroniseCalendar()
 	{
-		if(!$_GET['category_id'])
+		if(!$this->category_id)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
 		
-		$category = new ilCalendarCategory((int) $_GET['category_id']);
+		$category = new ilCalendarCategory($this->category_id);
 
 		try {
 			$this->doSynchronisation($category);
@@ -354,7 +358,7 @@ class ilCalendarCategoryGUI
 	 */
 	protected function update()
 	{
-		if(!$_GET['category_id'])
+		if(!$this->category_id)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
@@ -368,7 +372,7 @@ class ilCalendarCategoryGUI
 		}
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
-		$category = new ilCalendarCategory((int) $_GET['category_id']);
+		$category = new ilCalendarCategory($this->category_id);
 		$category->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$category->setColor('#'.ilUtil::stripSlashes($_POST['color']));
 		$category->update();
@@ -551,9 +555,12 @@ class ilCalendarCategoryGUI
 	 */
 	public function shareSearch()
 	{
-		global $tpl, $ilTabs;
+		global $tpl, $DIC;
 
-		if(!$_GET['category_id'])
+		$tabs = $DIC->tabs();
+		$tabs->activateTab("share");
+
+		if(!$this->category_id)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
@@ -567,9 +574,7 @@ class ilCalendarCategoryGUI
 			return false;
 		}
 
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt("cal_back_to_list"),  $this->ctrl->getLinkTarget($this, "manage"));
-		
+
 		$_SESSION['cal_query'] = '';
 		
 		$this->ctrl->saveParameter($this,'category_id');
@@ -578,7 +583,7 @@ class ilCalendarCategoryGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarSharedListTableGUI.php');
 		$table = new ilCalendarSharedListTableGUI($this,'shareSearch');
 		$table->setTitle($this->lng->txt('cal_shared_header'));
-		$table->setCalendarId((int) $_GET['category_id']);
+		$table->setCalendarId($this->category_id);
 		$table->parse();
 		
 		$tpl->setContent($this->form->getHTML().'<br />'.$table->getHTML());
@@ -592,11 +597,14 @@ class ilCalendarCategoryGUI
 	 */
 	public function sharePerformSearch()
 	{
-		global $ilTabs;
-		
+		global $DIC;
+
+		$tabs = $DIC->tabs();
+		$tabs->activateTab("share");
+
 		$this->lng->loadLanguageModule('search');
 		
-		if(!$_GET['category_id'])
+		if(!$this->category_id)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
@@ -676,9 +684,7 @@ class ilCalendarCategoryGUI
 			return true;
 		}
 
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt("cal_back_to_search"),  $this->ctrl->getLinkTarget($this, "shareSearch"));
-	
+
 		switch($type)
 		{
 			case self::SEARCH_USER:
@@ -709,7 +715,7 @@ class ilCalendarCategoryGUI
 	{
 		global $ilUser;
 		
-		if(!$_GET['category_id'])
+		if(!$this->category_id)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
@@ -731,7 +737,7 @@ class ilCalendarCategoryGUI
 		
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
-		$shared = new ilCalendarShared((int) $_GET['category_id']);
+		$shared = new ilCalendarShared($this->category_id);
 		
 		foreach($_POST['user_ids'] as $user_id)
 		{
@@ -763,7 +769,7 @@ class ilCalendarCategoryGUI
 	{
 		global $ilUser;
 		
-		if(!$_GET['category_id'])
+		if(!$this->category_id)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
@@ -784,7 +790,7 @@ class ilCalendarCategoryGUI
 		}
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
-		$shared = new ilCalendarShared((int) $_GET['category_id']);
+		$shared = new ilCalendarShared($this->category_id);
 		
 		foreach($_POST['role_ids'] as $role_id)
 		{
@@ -803,7 +809,7 @@ class ilCalendarCategoryGUI
 	 */
 	public function shareDeassign()
 	{
-		if(!$_GET['category_id'])
+		if(!$this->category_id)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
@@ -825,7 +831,7 @@ class ilCalendarCategoryGUI
 		
 
 		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
-		$shared = new ilCalendarShared((int) $_GET['category_id']);
+		$shared = new ilCalendarShared($this->category_id);
 		
 		foreach($_POST['obj_ids'] as $obj_id)
 		{
@@ -957,14 +963,14 @@ class ilCalendarCategoryGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo((int) $_GET['category_id']);
+		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($this->category_id);
 		
 		$this->form = new ilPropertyFormGUI();
 		#$this->form->setTableWidth('40%');
 		switch($a_mode)
 		{
 			case 'edit':
-				$category = new ilCalendarCategory((int) $_GET['category_id']);	
+				$category = new ilCalendarCategory($this->category_id);
 				$this->form->setTitle($this->lng->txt('cal_edit_category'));
 				$this->ctrl->saveParameter($this,array('seed','category_id'));
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
@@ -1078,7 +1084,7 @@ class ilCalendarCategoryGUI
 	{
 		global $ilUser;
 		
-		if(!$_GET['category_id'])
+		if(!$this->category_id)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
@@ -1091,13 +1097,13 @@ class ilCalendarCategoryGUI
 		$status = new ilCalendarSharedStatus($ilUser->getId());
 
 		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
-		if(!ilCalendarShared::isSharedWithUser($ilUser->getId(), $_GET['category_id']))
+		if(!ilCalendarShared::isSharedWithUser($ilUser->getId(), $this->category_id))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->inbox();
 			return false;
 		}
-		$status->decline($_GET['category_id']);
+		$status->decline($this->category_id);
 
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
 		$this->ctrl->redirect($this, 'manage');
@@ -1115,11 +1121,11 @@ class ilCalendarCategoryGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentsTableGUI.php');
 		
-		$table_gui = new ilCalendarAppointmentsTableGUI($this, 'details', (int)$_GET['category_id']);
+		$table_gui = new ilCalendarAppointmentsTableGUI($this, 'details', $this->category_id);
 		$table_gui->setTitle($this->lng->txt('cal_assigned_appointments'));
 		$table_gui->setAppointments(
 			ilCalendarCategoryAssignments::_getAssignedAppointments(
-				ilCalendarCategories::_getInstance()->getSubitemCategories((int) $_GET['category_id'])));
+				ilCalendarCategories::_getInstance()->getSubitemCategories($this->category_id)));
 		return $table_gui->getHTML();
 	}
 	
@@ -1143,7 +1149,7 @@ class ilCalendarCategoryGUI
 		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 		$confirmation_gui = new ilConfirmationGUI();
 		
-		$this->ctrl->setParameter($this,'category_id',(int) $_GET['category_id']);
+		$this->ctrl->setParameter($this,'category_id',$this->category_id);
 		$confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
 		$confirmation_gui->setHeaderText($this->lng->txt('cal_del_app_sure'));
 		$confirmation_gui->setConfirm($this->lng->txt('delete'),'deleteAppointments');
@@ -1279,7 +1285,7 @@ class ilCalendarCategoryGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
 		
 		$shared = ilCalendarShared::getSharedCalendarsForUser($ilUser->getId());
-		$cat = new ilCalendarCategory((int) $_GET['category_id']);
+		$cat = new ilCalendarCategory($this->category_id);
 		
 		switch($cat->getType())
 		{
@@ -1407,7 +1413,7 @@ class ilCalendarCategoryGUI
 	protected function manage($a_reset_offsets = false)
 	{
 		global $lng, $ilCtrl, $tpl;
-		
+
 		include_once('./Services/Calendar/classes/class.ilCalendarManageTableGUI.php');
 		$table_gui = new ilCalendarManageTableGUI($this);
 		
@@ -1433,13 +1439,13 @@ class ilCalendarCategoryGUI
 	{
 		global $ilTabs, $tpl;
 		
-		if(!$_GET['category_id'])
+		if(!$this->category_id)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
 		
-		$this->ctrl->setParameter($this,'category_id',(int) $_GET['category_id']);
+		$this->ctrl->setParameter($this,'category_id',$this->category_id);
 
 		// Check permissions
 		$this->readPermissions();

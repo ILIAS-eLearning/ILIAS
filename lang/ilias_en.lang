@@ -4697,7 +4697,7 @@ dateplaner#:#cal_share_decline#:#Decline Invitation
 dateplaner#:#cal_share_search_header#:#Share Calendar
 dateplaner#:#cal_share_search_role_header#:#Role Selection
 dateplaner#:#cal_share_search_usr_header#:#User Selection
-dateplaner#:#cal_share#:#Share Calendar
+dateplaner#:#cal_share#:#Share
 dateplaner#:#cal_shared_calendars#:#Shared Calendars (Invitations)
 dateplaner#:#cal_shared_header#:#Shared Calendars
 dateplaner#:#cal_shared_selected_usr#:#The calendar has been shared with the selected users/roles.
@@ -13570,3 +13570,4 @@ dateplaner#:#cal_usr_show_weeks#:#Show Week Column
 dateplaner#:#cal_usr_show_weeks_info#:#Activates weeks column in calendar side block.
 dateplaner#:#cal_repo_obj#:#Repository Objects
 dateplaner#:#cal_grp_curr_grp#:#Current Group
+dateplaner#:#cal_subscription#:#Subscription

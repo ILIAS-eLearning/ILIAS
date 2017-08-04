@@ -337,8 +337,9 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		$a_tpl->setVariable('VAL_TITLE',$a_set['title']);
 		$a_tpl->setVariable('BGCOLOR',$a_set['color']);
 		
-		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'category_id',$a_set['id']);
-		$a_tpl->setVariable('EDIT_LINK',$ilCtrl->getLinkTargetByClass("ilcalendarcategorygui", 'details'));
+		$ilCtrl->setParameterByClass("ilcalendarpresentationgui",'category_id',$a_set['id']);
+		$a_tpl->setVariable('EDIT_LINK',$ilCtrl->getLinkTargetByClass("ilcalendarpresentationgui", ''));
+		$ilCtrl->setParameterByClass("ilcalendarpresentationgui",'category_id',$_GET["category_id"]);
 		$a_tpl->setVariable('TXT_EDIT',$this->lng->txt('edit'));
 
 		switch($a_set['type'])

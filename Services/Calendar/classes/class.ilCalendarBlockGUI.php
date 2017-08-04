@@ -53,7 +53,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	*
 	* @param	boolean		skip initialisation (is called by derived PDCalendarBlockGUI class)
 	*/
-	function __construct($a_skip_init = false)
+	function __construct()
 	{
 		global $DIC;
 
@@ -79,7 +79,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		if (!$a_skip_init)
 		{
-			$this->initCategories();
 			$this->setBlockId($ilCtrl->getContextObjId());
 		}
 
@@ -573,6 +572,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	*/
 	function getHTML()
 	{
+		$this->initCategories();
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 		$ilAccess = $this->access;
@@ -590,9 +590,16 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		if($this->mode == ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS or
 			$this->mode == ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP)
 		{
-			include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
+			/*include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
 			$this->addBlockCommand(
 				$this->ctrl->getLinkTarget($this,'showCalendarSubscription'),
+				$lng->txt('ical_export'),
+				"", "", true, false, ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_ICAL)
+			);*/
+
+			include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
+			$this->addBlockCommand(
+				$this->ctrl->getLinkTargetByClass(array('ilcalendarpresentationgui','ilcalendarsubscriptiongui')),
 				$lng->txt('ical_export'),
 				"", "", true, false, ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_ICAL)
 			);
@@ -773,9 +780,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		//if(!isset($_GET['bkid']))
 		//{
-		if ($this->getForceMonthView)	// in full container calendar presentation (allows selection of other calendars)
+		if ($this->getForceMonthView())	// in full container calendar presentation (allows selection of other calendars)
 		{
-			ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY, (int)$_GET['ref_id'], true);
+			//ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY, (int)$_GET['ref_id'], true);
 		}
 		else							// side block in container content view -> focus on container events only
 		{
@@ -832,10 +839,15 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		$ilCtrl->returnToParent($this);
 	}
-	
-	
+
+
+	/**
+	 * @deprecated ilCalendarSubscriptionGUI should be used
+	 * @return string
+	 */
 	public function showCalendarSubscription()
 	{
+		return;
 		$lng = $this->lng;
 		$ilUser = $this->user;
 

@@ -35,6 +35,11 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 class ilCalendarManageTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilCalendarActions
+	 */
+	protected $actions;
+
+	/**
 	 * Constructor
 	 *
 	 * @access public
@@ -46,7 +51,10 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 	 	global $lng, $ilCtrl, $ilUser;
 
 		$this->setId("calmng");
-	 	
+
+		include_once("./Services/Calendar/classes/class.ilCalendarActions.php");
+		$this->actions = ilCalendarActions::getInstance();
+
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('dateplaner');
 	 	$this->ctrl = $ilCtrl;
@@ -110,15 +118,11 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		
 		$this->ctrl->setParameter($this->getParentObject(),'category_id',$a_set['id']);
 
-		// repository calendars cannot be edited
-		if($a_set['editable'] && 
-				!in_array($a_set['type'], array(
-					ilCalendarCategory::TYPE_OBJ, 
-					ilCalendarCategory::TYPE_CH, 
-					ilCalendarCategory::TYPE_BOOK)))
+		// edit
+		if ($this->actions->checkEditCal($a_set['id']))
 		{
 			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'edit');
-			$current_selection_list->addItem($this->lng->txt('edit'), '', $url);
+			$current_selection_list->addItem($this->lng->txt('settings'), '', $url);
 
 			$this->tpl->setCurrentBlock("checkbox");
 			$this->tpl->setVariable('VAL_ID',$a_set['id']);
@@ -126,27 +130,28 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		}
 		
 		// import (ics appointments)
-		if($a_set['editable'] &&
-				!in_array($a_set['type'], array(
-					ilCalendarCategory::TYPE_CH,
-					ilCalendarCategory::TYPE_BOOK)))
+		if ($this->actions->checkAddEvent($a_set['id']))
 		{
 			$url = $this->ctrl->getLinkTarget($this->getParentObject(),'importAppointments');
 			$current_selection_list->addItem($this->lng->txt('cal_import_appointments'),'', $url);
 		}
 
-		if($a_set['accepted'])
+		// unshare
+		if ($this->actions->checkUnshareCal($a_set['id']))
 		{
 			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'unshare');
 			$current_selection_list->addItem($this->lng->txt('cal_unshare'), '', $url);
 		}
-		else if($a_set['type'] == ilCalendarCategory::TYPE_USR)
+
+		// share
+		if ($this->actions->checkShareCal($a_set['id']))
 		{
 			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'shareSearch');
 			$current_selection_list->addItem($this->lng->txt('cal_share'), '', $url);
 		}
-		
-		if($a_set['remote'])
+
+		// synchronize
+		if ($this->actions->checkSynchronizeCal($a_set['id']))
 		{
 			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'synchroniseCalendar');
 			$current_selection_list->addItem($this->lng->txt('cal_cal_synchronize'),'',$url);
@@ -185,19 +190,20 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		}
 		
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
-		$this->ctrl->setParameter(
-				$this->getParentObject(),
+		$this->ctrl->setParameterByClass(
+				"ilcalendarpresentationgui",
 				'category_id',
 				$a_set['id']
 			);
 		$this->tpl->setVariable(
 				'EDIT_LINK',
-				$this->ctrl->getLinkTarget(
-						$this->getParentObject(),
-						'details'
+				$this->ctrl->getLinkTargetByClass(
+						"ilcalendarpresentationgui",
+						''
 					)
 			);
-		
+		$this->ctrl->setParameterByClass("ilcalendarpresentationgui",'category_id',	$_GET["category_id"]);
+
 		$this->tpl->setVariable('BGCOLOR',$a_set['color']);
 		$this->tpl->setVariable("ACTIONS", $current_selection_list->getHTML());
 		
@@ -221,7 +227,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
-		$cats->initialize(ilCalendarCategories::MODE_MANAGE);
+		//$cats->initialize(ilCalendarCategories::MODE_MANAGE);
 	
 		$tmp_title_counter = array();
 		$categories = array();

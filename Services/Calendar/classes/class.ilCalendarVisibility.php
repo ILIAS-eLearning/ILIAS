@@ -213,7 +213,6 @@ class ilCalendarVisibility
 	{
 		return $this->visible ? $this->visible : array();
 	}
-
 	
 	/**
 	 * hide selected
@@ -330,5 +329,21 @@ class ilCalendarVisibility
 		}
 		return true;
 	}
+
+	/**
+	 * Force visibility
+	 *
+	 * @param
+	 */
+	function forceVisibility($a_cat_id)
+	{
+		if (($key = array_search($a_cat_id, $this->hidden)) !== false) {
+			unset($this->hidden[$key]);
+		}
+		if (!in_array($a_cat_id, $this->visible)) {
+			$this->visible[] = $a_cat_id;
+		}
+	}
+
 }
 ?>

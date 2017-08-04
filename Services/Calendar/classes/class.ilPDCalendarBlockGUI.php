@@ -28,7 +28,6 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 	{
 		parent::__construct(true);
 		$this->allow_moving = true;
-		$this->initCategories();
 		$this->setBlockId(0);
 	}
 
@@ -81,9 +80,12 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 		{
 			$this->mode = ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS;
 		}
-		
-		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		ilCalendarCategories::_getInstance()->initialize($this->mode,(int)$_GET['ref_id'],true);
+
+		if (!$this->getForceMonthView())
+		{
+			include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+			ilCalendarCategories::_getInstance()->initialize($this->mode, (int)$_GET['ref_id'], true);
+		}
 	}
 
 	/**

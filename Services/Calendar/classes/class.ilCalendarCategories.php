@@ -45,6 +45,7 @@ class ilCalendarCategories
 	const MODE_PORTFOLIO_CONSULTATION = 8;
 	const MODE_REMOTE_SELECTED = 9;
 	const MODE_REPOSITORY_CONTAINER_ONLY = 10;		// course/group content view (side block, focus on course/group appointments only)
+	const MODE_SINGLE_CALENDAR = 11;
 	
 	protected static $instance = null;
 	
@@ -280,8 +281,14 @@ class ilCalendarCategories
 	 * @param int ref_id of root node
 	 * @return
 	 */
-	public function initialize($a_mode,$a_source_ref_id = 0,$a_use_cache = false)
+	public function initialize($a_mode, $a_source_ref_id = 0, $a_use_cache = false, $a_cat_id = 0)
 	{
+		if ($this->getMode() != 0)
+		{
+			include_once("./Services/Calendar/exceptions/class.ilCalCategoriesInitializedMultipleException.php");
+			throw new ilCalCategoriesInitializedMultipleException("ilCalendarCategories is initialized multiple times for user ".$this->user_id.".");
+		}
+
 		$this->setMode($a_mode);
 		if($a_use_cache)
 		{
@@ -348,6 +355,10 @@ class ilCalendarCategories
 			
 			case self::MODE_PORTFOLIO_CONSULTATION:
 				$this->readConsultationHoursCalendar();
+				break;
+
+			case self::MODE_SINGLE_CALENDAR:
+				$this->readSingleCalendar($a_cat_id);
 				break;
 		}
 		
@@ -698,6 +709,33 @@ class ilCalendarCategories
 			$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, 'grp'));
 		}
 	}
+
+	function readSingleCalendar($a_cat_id)
+	{
+		include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
+		$cat = new ilCalendarCategory($a_cat_id);
+		switch ($cat->getType())
+		{
+			case ilCalendarCategory::TYPE_OBJ:
+				$this->readSelectedCalendar($a_cat_id);
+				break;
+
+			case ilCalendarCategory::TYPE_GLOBAL:
+				$this->readPublicCalendars(array($a_cat_id));
+				break;
+
+			case ilCalendarCategory::TYPE_USR:
+				$this->readPrivateCalendars(array($a_cat_id));
+				break;
+
+			case ilCalendarCategory::TYPE_CH:
+				$this->readConsultationHoursCalendar();
+				break;
+
+			case ilCalendarCategory::TYPE_BOOK:
+				break;
+		}
+	}
 	
 	/**
 	 * Read public calendars
@@ -705,13 +743,19 @@ class ilCalendarCategories
 	 * @access protected
 	 * @return
 	 */
-	protected function readPublicCalendars()
+	protected function readPublicCalendars($cat_ids = null)
 	{
 		global $rbacsystem,$ilAccess;
-		
+
+		$in = "";
+		if (is_array($cat_ids))
+		{
+			$in = " AND ".$this->db->in('cat_id', $cat_ids, false, 'integer')." ";
+		}
+
 		// global categories
 		$query = "SELECT * FROM cal_categories ".
-			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_GLOBAL ,'integer')." ".
+			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_GLOBAL ,'integer')." ".$in.
 			"ORDER BY title ";
 
 		$res = $this->db->query($query);
@@ -737,15 +781,21 @@ class ilCalendarCategories
 	 * @access protected
 	 * @return
 	 */
-	protected function readPrivateCalendars()
+	protected function readPrivateCalendars($cat_ids = null)
 	{
 		global $ilUser;
 		global $ilDB;
 
+		$in = "";
+		if (is_array($cat_ids))
+		{
+			$in = " AND ".$this->db->in('cat_id', $cat_ids, false, 'integer')." ";
+		}
+
 		// First read private calendars of user
 		$query = "SELECT cat_id FROM cal_categories ".
 			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_USR ,'integer')." ".
-			"AND obj_id = ".$this->db->quote($ilUser->getId(),'integer')." ";
+			"AND obj_id = ".$this->db->quote($ilUser->getId(),'integer')." ".$in;
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
