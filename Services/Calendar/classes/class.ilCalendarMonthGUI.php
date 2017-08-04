@@ -128,8 +128,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
 		ilYuiUtil::initDragDrop();
-		ilYuiUtil::initPanel();
-		
+
 		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::MONTH);
 		$this->tpl->setVariable('NAVIGATION',$navigation->getHTML());
 		
@@ -317,11 +316,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 		
 
 		foreach($this->scheduler->getByDay($date,$this->timezone) as $item)
-		{			
-			$this->tpl->setCurrentBlock('panel_code');
-			$this->tpl->setVariable('NUM',$this->num_appointments);
-			$this->tpl->parseCurrentBlock();
-
+		{
 			// milestone icon
 			if ($item['event']->isMilestone())
 			{
@@ -332,10 +327,6 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 			}
 
 			$this->tpl->setCurrentBlock('il_event');
-
-			include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-			$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($item));
-			$this->tpl->setVariable('PANEL_NUM',$this->num_appointments);
 
 			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$item['event']->getEntryId());

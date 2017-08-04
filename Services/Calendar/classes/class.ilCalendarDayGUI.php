@@ -156,7 +156,6 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
 		ilYuiUtil::initDragDrop();
-		ilYuiUtil::initPanel();
 
 		if(isset($_GET["bkid"]))
 		{
@@ -326,10 +325,6 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		$f = $this->ui_factory;
 		$r = $this->ui_renderer;
 
-		$this->tpl->setCurrentBlock('panel_code');
-		$this->tpl->setVariable('NUM',$this->num_appointments);
-		$this->tpl->parseCurrentBlock();
-
 		// milestone icon
 		if ($a_app['event']->isMilestone())
 		{
@@ -340,9 +335,6 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		}
 
 		$this->tpl->setCurrentBlock('fullday_app');
-		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-		//$this->tpl->setVariable('PANEL_F_DAY_DATA',ilCalendarAppointmentPresentationGUI::_getInstance($this->seed)->getHTML($a_app));
-		$this->tpl->setVariable('F_DAY_ID',$this->num_appointments);
 		
 		$compl = ($a_app['event']->isMilestone() && $a_app['event']->getCompletion() > 0)
 			? " (".$a_app['event']->getCompletion()."%)"
@@ -376,10 +368,6 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 	protected function showAppointment($a_app)
 	{
 		$ilUser = $this->user;
-
-		$this->tpl->setCurrentBlock('panel_code');
-		$this->tpl->setVariable('NUM',$this->num_appointments);
-		$this->tpl->parseCurrentBlock();
 		
 		if (!$ilUser->prefs["screen_reader_optimization"])
 		{
@@ -389,10 +377,6 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		{
 			$this->tpl->setCurrentBlock('scrd_app');
 		}
-
-		//include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-		//$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
-		//$this->tpl->setVariable('PANEL_NUM',$this->num_appointments);
 
 		$this->tpl->setVariable('APP_ROWSPAN',$a_app['rowspan']);
 		$this->tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle(false));

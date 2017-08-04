@@ -129,8 +129,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
 		ilYuiUtil::initDragDrop();
-		ilYuiUtil::initPanel();
-		
 		
 		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::WEEK);
 		$this->tpl->setVariable('NAVIGATION',$navigation->getHTML());
@@ -400,10 +398,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	{
 		$f = $this->ui_factory;
 		$r = $this->ui_renderer;
-
-		$this->tpl->setCurrentBlock('panel_code');
-		$this->tpl->setVariable('NUM',$this->num_appointments);
-		$this->tpl->parseCurrentBlock();
 		
 		// milestone icon
 		if ($a_app['event']->isMilestone())
@@ -415,10 +409,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		}
 
 		$this->tpl->setCurrentBlock('fullday_app');
-		
-		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-		$this->tpl->setVariable('PANEL_F_DAY_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
-		$this->tpl->setVariable('F_DAY_ID',$this->num_appointments);
 		
 		$compl = ($a_app['event']->isMilestone() && $a_app['event']->getCompletion() > 0)
 			? " (".$a_app['event']->getCompletion()."%)"
@@ -453,10 +443,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		$ilUser = $this->user;
 		$f = $this->ui_factory;
 		$r = $this->ui_renderer;
-
-		$this->tpl->setCurrentBlock('panel_code');
-		$this->tpl->setVariable('NUM',$this->num_appointments);
-		$this->tpl->parseCurrentBlock();
 		
 		if (!$ilUser->prefs["screen_reader_optimization"])
 		{
@@ -466,9 +452,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		{
 			$this->tpl->setCurrentBLock('scrd_not_empty');
 		}
-
-		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-		$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
