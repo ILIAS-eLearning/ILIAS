@@ -94,7 +94,7 @@ class ilPublicSectionSettings
 	public function save()
 	{
 		$this->settings->set('pub_section', $this->isEnabled());
-		$this->settings->set('pub_section_domains', $this->getDomains());
+		$this->settings->set('pub_section_domains', serialize($this->getDomains()));
 	}
 	
 	/**
