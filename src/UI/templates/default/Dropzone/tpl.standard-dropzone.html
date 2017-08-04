@@ -1,13 +1,17 @@
-<div id="{ID}" class="il-dropzone standard">
-	<div class="dz-default dz-message">
-		<span>{MESSAGE}</span>
-	</div>
-</div>
-<div class="text-center il-dropzone-standard-divider-message">- {DIVIDER_MESSAGE} -</div>
-<div class="il-dropzone-standard-select-files-wrapper text-center">
-	<a href="" class="il-dropzone-standard-select-files">{SELECT_FILES_LABEL}</a>
-</div>
+<div class="clearfix hidden-sm-up"></div>
 {FILELIST}
+<div class="container-fluid">
+	<div id="{ID}" class="il-dropzone standard clearfix row">
+		<div class="col-xs-12 col-md-9 col-sm-12 col-lg-9 col-no-padding">
+			<span class="pull-left dz-default dz-message">{MESSAGE}</span>
+		</div>
+		<div class="col-xs-12 col-md-3 col-sm-12 col-lg-3 il-dropzone-standard-select-files-wrapper text-right col-no-padding">
+			<!--<a class="il-dropzone-standard-select-files btn btn-link pull-right">{SELECT_FILES_LABEL}</a>-->
+			{SHY_BUTTON}
+		</div>
+	</div>
+	<div class="clearfix hidden-sm-up"></div>
+</div>
 <!-- BEGIN with_upload_button -->
 {BUTTON}
 <!-- END with_upload_button -->

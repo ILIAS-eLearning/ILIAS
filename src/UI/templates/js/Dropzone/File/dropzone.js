@@ -170,19 +170,18 @@ il.UI = il.UI || {};
 		var _initStandardDropzone = function (options) {
 			var $dropzone = $("#" + options.id);
 			// Find the element acting as "Select Files" button/link
-			var $selectFilesButton = $dropzone.nextAll('.il-dropzone-standard-select-files-wrapper')
-				.children('.il-dropzone-standard-select-files');
+			var $selectFilesButton = $dropzone.find('.il-dropzone-standard-select-files-wrapper')
+				.children('a.btn');
 			if ($selectFilesButton.length) {
 				options.selectFilesButton = $selectFilesButton;
 			}
 
-			options.fileListContainer = $dropzone.nextAll('.il-upload-file-list');
+			options.fileListContainer = $dropzone.parent().prevAll('.il-upload-file-list');
 
 			il.UI.uploader.init(options.id, options);
 
 			$dropzone.dragster({
 				enter: function (dragsterEvent, event) {
-                    console.log("!!!");
 					$(this).addClass(CSS.dropzoneDragHover);
 				},
 				leave: function (dragsterEvent, event) {

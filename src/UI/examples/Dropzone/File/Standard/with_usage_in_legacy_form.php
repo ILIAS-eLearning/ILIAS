@@ -27,7 +27,7 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI {
 	/**
 	 * @var int
 	 */
-	protected $maxFiles = 0;
+	protected $maxFiles = 1;
 
 	/**
 	 * @var \ILIAS\Data\DataSize

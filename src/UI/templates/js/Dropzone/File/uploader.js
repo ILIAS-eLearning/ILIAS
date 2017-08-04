@@ -45,6 +45,7 @@ il.UI = il.UI || {};
 		 * @param fileId
 		 */
 		var renderAddFile = function (uploadId, file, fileId) {
+			// console.log("Append new fle to list");
 			var $container = getFileListContainer(uploadId);
 			var $items = $container.find('.il-upload-file-items');
 			var $template = $container.find('.il-upload-file-item-template');
@@ -423,12 +424,14 @@ il.UI = il.UI || {};
 
 $(function () {
 	var $uploadFileLists = $('.il-upload-file-list');
-	$uploadFileLists.on('click', '.edit-file-metadata', function () {
+	$uploadFileLists.on('click', '[aria-label="edit_metadata"]', function () {
 		$(this).parents('.il-upload-file-item').find('.metadata').toggle();
+        return false;
 	});
-	$uploadFileLists.on('click', '.delete-file', function () {
+	$uploadFileLists.on('click', '[aria-label="delete_file"]', function () {
 		var uploadId = $(this).parents('.il-upload-file-list').attr('data-upload-id');
 		var fileId = parseInt($(this).parents('.il-upload-file-item').attr('data-file-id'));
 		il.UI.uploader.removeFile(uploadId, fileId);
+		return false;
 	});
 });

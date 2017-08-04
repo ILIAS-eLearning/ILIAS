@@ -6278,17 +6278,47 @@ button.close {
   padding-left: 5px;
   padding-right: 5px;
 }
-.il-dropzone.standard {
-  min-height: 150px;
+.il-upload-file-item.row [class*="col-"].col-no-padding {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.il-upload-file-item.standard {
   background: white;
-  border: 3px dashed #C0C0C0;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
+  border: 1px solid #C0C0C0;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  margin-bottom: 4px;
+}
+.il-upload-file-item.standard .file-info {
+  padding: 3px 8px;
+  line-height: 1.42857143;
+  border-radius: 0;
+  font-size: 12px;
+  border: 1px solid transparent;
+  color: #333333;
+  display: inline-block;
+}
+.il-dropzone.row [class*="col-"].col-no-padding {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.il-dropzone.standard {
+  background: white;
+  border: 1px dashed #C0C0C0;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  margin-bottom: 4px;
 }
 .il-dropzone.standard .dz-message {
-  text-align: center;
-  line-height: 150px;
+  padding: 3px 8px;
+  line-height: 1.42857143;
+  border-radius: 0;
+  font-size: 12px;
+  border: 1px solid transparent;
+  color: #C0C0C0;
+  display: inline-block;
 }
 .il-dropzone.wrapper {
   padding: 1px;
@@ -6296,24 +6326,24 @@ button.close {
 .il-dropzone.darkened-highlight {
   z-index: 1100;
   position: relative;
-  border: 3px dashed #C0C0C0;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
+  border: 1px dashed #C0C0C0;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
   background: #FFFFD6;
 }
 .il-dropzone.default-highlight {
-  border: 3px dashed #C0C0C0;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
+  border: 1px dashed #C0C0C0;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
   background: #FFFFD6;
 }
 .il-dropzone.drag-hover {
-  border: 3px dashed #606060;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
+  border: 1px dashed #606060;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
   background-color: #FFF9BC;
 }
 .btn {

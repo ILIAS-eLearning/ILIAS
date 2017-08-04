@@ -1,0 +1,53 @@
+<div class="il-upload-file-list" data-upload-id="{UPLOAD_ID}">
+	<li class="list-group-item il-upload-file-item il-upload-file-item-template hidden">
+		<div class="filename"><!-- File name is inserted with javascript here --></div>
+		<div class="filesize small"><!-- File size is inserted with javascript here --></div>
+		<div class="btn-group" style="position: absolute; right: 16px; top: 16px">
+			<!-- BEGIN with_edit_button -->
+			<button type="button" class="btn btn-default edit-file-metadata" aria-label="Edit File">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+			</button>
+			<!-- END with_edit_button -->
+			<button type="button" class="btn btn-default delete-file" aria-label="Remove File">
+				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			</button>
+		</div>
+		<div class="progress" style="margin: 10px 0; display: none;">
+			<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0"
+			     aria-valuemin="0"
+			     aria-valuemax="100">
+			</div>
+		</div>
+		<div class="file-error-message alert alert-danger" role="alert" style="display: none;">
+			<!-- Error message for file is inserted with javascript here -->
+		</div>
+		<div class="file-success-message alert alert-success" role="alert" style="display: none;">
+			<!-- Success message for file is inserted with javascript here -->
+		</div>
+		<!-- BEGIN with_metadata -->
+		<div class="metadata small"
+		     style="display:none; border-top: 1px solid #cccccc; padding-top: 15px; margin-top: 10px;">
+			<!-- BEGIN with_filename -->
+			<div class="form-group">
+				<label>Title</label>
+				<input type="text" class="form-control filename-input">
+			</div>
+			<!-- END with_filename -->
+			<!-- BEGIN with_description -->
+			<div class="form-group">
+				<label>Description</label>
+				<textarea class="form-control description-input" rows="3"></textarea>
+			</div>
+			<!-- END with_description -->
+		</div>
+		<!-- END with_metadata -->
+	</li>
+	<div class="error-messages" style="display: none;">
+		<div class="alert alert-danger" role="alert">
+			<!-- General error messages are inserted here with javascript -->
+		</div>
+	</div>
+	<ul class="list-group il-upload-file-items">
+
+	</ul>
+</div>
