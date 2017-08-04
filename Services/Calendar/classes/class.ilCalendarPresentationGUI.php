@@ -568,6 +568,11 @@ class ilCalendarPresentationGUI
 	 */
 	protected function prepareOutput()
 	{
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+		//$tpl->setHeaderActionMenu(null);
+
 		$rbacsystem = $this->rbacsystem;
 		$ilHelp = $this->help;
 
@@ -640,7 +645,15 @@ class ilCalendarPresentationGUI
 			$tabs->clearTargets();
 			$ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", "");
 			$ctrl->setParameterByClass("ilcalendarpresentationgui", "category_id", "");
-			$tabs->setBackTarget($lng->txt("back"), $ctrl->getLinkTargetByClass("ilcalendarpresentationgui", ""));
+
+			if ($this->ref_id > 0)
+			{
+				$tabs->setBackTarget($lng->txt("back"), $ctrl->getLinkTargetByClass("ilcalendarpresentationgui", ""));
+			}
+			else
+			{
+				$tabs->setBackTarget($lng->txt("back"), $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "manage"));
+			}
 			$ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $_GET["category_id"]);
 			$ctrl->setParameterByClass("ilcalendarpresentationgui", "category_id", $_GET["category_id"]);
 
@@ -654,7 +667,7 @@ class ilCalendarPresentationGUI
 			}
 
 			// edit settings
-			if ($this->actions->checkEditCal($this->category_id))
+			if ($this->actions->checkSettingsCal($this->category_id))
 			{
 				$tabs->addTab("edit", $lng->txt("settings"), $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "edit"));
 			}

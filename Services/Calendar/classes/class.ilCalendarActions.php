@@ -64,19 +64,10 @@ class ilCalendarActions
 	 * @param int $a_cat_id calendar category id
 	 * @return bool
 	 */
-	function checkEditCal($a_cat_id)
+	function checkSettingsCal($a_cat_id)
 	{
 		$info = $this->cats->getCategoryInfo($a_cat_id);
-		if ($info['editable'] &&
-			!in_array($info['type'], array(
-				ilCalendarCategory::TYPE_OBJ,
-				ilCalendarCategory::TYPE_CH,
-				ilCalendarCategory::TYPE_BOOK)))
-		{
-			return true;
-		}
-
-		return false;
+		return $info['settings'];
 	}
 
 	/**
@@ -139,13 +130,30 @@ class ilCalendarActions
 	function checkAddEvent($a_cat_id)
 	{
 		$info = $this->cats->getCategoryInfo($a_cat_id);
-		if ($info['editable'] && !in_array($info["type"], array(ilCalendarCategory::TYPE_CH, ilCalendarCategory::TYPE_BOOK)))
+		return $info['editable'];
+	}
+
+	/**
+	 * Check if adding an event is possible
+	 *
+	 * @param int $a_cat_id calendar category id
+	 * @return bool
+	 */
+	function checkDeleteCal($a_cat_id)
+	{
+		$info = $this->cats->getCategoryInfo($a_cat_id);
+		if ($info['type'] == ilCalendarCategory::TYPE_USR && $info['obj_id'] == $this->user_id)
+		{
+			return true;
+		}
+		if ($info['type'] == ilCalendarCategory::TYPE_GLOBAL && $info['settings'])
 		{
 			return true;
 		}
 
 		return false;
 	}
+
 
 }
 

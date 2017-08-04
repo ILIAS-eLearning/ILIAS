@@ -768,6 +768,7 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['color'] = $row->color;
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['editable'] = $rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
+			$this->categories_info[$row->cat_id]['settings'] = $rbacsystem->checkAccess('write',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
 			$this->categories_info[$row->cat_id]['accepted'] = false;
 			$this->categories_info[$row->cat_id]['remote'] = ($row->loc_type == ilCalendarCategory::LTYPE_REMOTE);
 		}
@@ -844,6 +845,14 @@ class ilCalendarCategories
 			{
 				$this->categories_info[$row->cat_id]['editable'] = true;
 			}
+			if ($ilUser->getId() == $row->obj_id)
+			{
+				$this->categories_info[$row->cat_id]['settings'] = true;
+			}
+			else
+			{
+				$this->categories_info[$row->cat_id]['settings'] = false;
+			}
 			
 			$this->categories_info[$row->cat_id]['accepted'] = in_array($row->cat_id, $accepted_ids);
 			$this->categories_info[$row->cat_id]['remote'] = ($row->loc_type == ilCalendarCategory::LTYPE_REMOTE);
@@ -919,6 +928,7 @@ class ilCalendarCategories
 					$this->categories_info[$row->cat_id]['color'] = $row->color;
 					$this->categories_info[$row->cat_id]['type'] = $row->type;
 					$this->categories_info[$row->cat_id]['editable'] = false;
+					$this->categories_info[$row->cat_id]['settings'] = false;
 					$this->categories_info[$row->cat_id]['accepted'] = false;
 					$this->categories_info[$row->cat_id]['remote'] = false;
 				}
@@ -939,6 +949,7 @@ class ilCalendarCategories
 				$this->categories_info[$row->cat_id]['color'] = $row->color;
 				$this->categories_info[$row->cat_id]['type'] = $row->type;
 				$this->categories_info[$row->cat_id]['editable'] = false;
+				$this->categories_info[$row->cat_id]['settings'] = false;
 				$this->categories_info[$row->cat_id]['accepted'] = false;
 				$this->categories_info[$row->cat_id]['remote'] = false;
 			}
@@ -973,6 +984,7 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['color'] = $row->color;
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['editable'] = false;
+			$this->categories_info[$row->cat_id]['settings'] = false;
 			$this->categories_info[$row->cat_id]['accepted'] = false;
 			$this->categories_info[$row->cat_id]['remote'] = false;
 		}
@@ -1014,8 +1026,13 @@ class ilCalendarCategories
 		
 			$editable = false;
 			$exists = false;
+			$settings = false;
 			foreach(ilObject::_getAllReferences($row->obj_id) as $ref_id)
 			{
+				if($ilAccess->checkAccess('edit_event','',$ref_id))
+				{
+					$settings = true;
+				}
 				if($ilAccess->checkAccess('edit_event','',$ref_id))
 				{
 					$exists = true;
@@ -1032,6 +1049,7 @@ class ilCalendarCategories
 				continue;
 			}
 			$this->categories_info[$row->cat_id]['editable'] = $editable;
+			$this->categories_info[$row->cat_id]['settings'] = $settings;
 			
 			$this->categories[] = $row->cat_id;
 			$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;

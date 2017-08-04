@@ -119,16 +119,12 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		$this->ctrl->setParameter($this->getParentObject(),'category_id',$a_set['id']);
 
 		// edit
-		if ($this->actions->checkEditCal($a_set['id']))
+		if ($this->actions->checkSettingsCal($a_set['id']))
 		{
 			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'edit');
 			$current_selection_list->addItem($this->lng->txt('settings'), '', $url);
-
-			$this->tpl->setCurrentBlock("checkbox");
-			$this->tpl->setVariable('VAL_ID',$a_set['id']);
-			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		// import (ics appointments)
 		if ($this->actions->checkAddEvent($a_set['id']))
 		{
@@ -155,6 +151,17 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		{
 			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'synchroniseCalendar');
 			$current_selection_list->addItem($this->lng->txt('cal_cal_synchronize'),'',$url);
+		}
+
+		// delete
+		if ($this->actions->checkDeleteCal($a_set['id']))
+		{
+			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDelete');
+			$current_selection_list->addItem($this->lng->txt('delete'),'',$url);
+
+			$this->tpl->setCurrentBlock("checkbox");
+			$this->tpl->setVariable('VAL_ID',$a_set['id']);
+			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->ctrl->setParameter($this->getParentObject(),'category_id','');

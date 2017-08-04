@@ -2204,6 +2204,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				ilLink::_getLink($_GET["ref_id"], "crs"), "crs");
 		}
 
+		$header_action = true;
+
 		switch($next_class)
 		{
 			case 'ilcoursemembershipgui':
@@ -2314,6 +2316,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once('./Services/Calendar/classes/class.ilCalendarPresentationGUI.php');
 				$cal = new ilCalendarPresentationGUI($this->object->getRefId());
 				$ret = $this->ctrl->forwardCommand($cal);
+				$header_action = false;
 				break;
 
 			case 'ilcoursecontentinterface':
@@ -2611,8 +2614,11 @@ class ilObjCourseGUI extends ilContainerGUI
 
                 break;
 		}
-		
-		$this->addHeaderAction();
+
+		if ($header_action)
+		{
+			$this->addHeaderAction();
+		}
 
 		return true;
 	}

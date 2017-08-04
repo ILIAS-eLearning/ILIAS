@@ -587,9 +587,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		// add edit commands
 		#if ($this->getEnableEdit())
 		
-		if($this->mode == ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS or
-			$this->mode == ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP)
-		{
+		//if($this->mode == ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS or
+		//	$this->mode == ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP)
+		//{
 			/*include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
 			$this->addBlockCommand(
 				$this->ctrl->getLinkTarget($this,'showCalendarSubscription'),
@@ -598,12 +598,14 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			);*/
 
 			include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
+			$gui_path = $this->getTargetGUIClassPath();
+			$gui_path[] = "ilcalendarsubscriptiongui";
 			$this->addBlockCommand(
-				$this->ctrl->getLinkTargetByClass(array('ilcalendarpresentationgui','ilcalendarsubscriptiongui')),
+				$this->ctrl->getLinkTargetByClass($gui_path),
 				$lng->txt('ical_export'),
 				"", "", true, false, ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_ICAL)
 			);
-		}
+		//}
 		
 		
 		if($this->mode == ilCalendarCategories::MODE_REPOSITORY)

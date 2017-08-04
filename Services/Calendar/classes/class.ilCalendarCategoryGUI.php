@@ -86,7 +86,25 @@ class ilCalendarCategoryGUI
 		$this->obj_id = ilObject::_lookupObjId($a_ref_id);
 		$this->tabs = $DIC->tabs();
 
-		$this->category_id = (int) $_GET['category_id'];
+		if (in_array($this->ctrl->getNextClass(), array("", "ilcalendarcategorygui")) && $this->ctrl->getCmd() == "manage")
+		{
+			if ($a_ref_id > 0)		// no manage screen in repository
+			{
+				$this->ctrl->returnToParent($this);
+			}
+			if ((int)$_GET['category_id'] > 0)
+			{
+				// reset category id on manage screen (redirect needed to initialize categories correctly)
+				$this->ctrl->setParameter($this, "category_id", "");
+				$this->ctrl->setParameterByClass("ilcalendarpresentationgui", "category_id", "");
+				$this->ctrl->redirect($this, "manage");
+			}
+		}
+
+		$this->category_id = (int)$_GET['category_id'];
+
+		include_once("./Services/Calendar/classes/class.ilCalendarActions.php");
+		$this->actions = ilCalendarActions::getInstance();
 
 	}
 	
@@ -221,15 +239,13 @@ class ilCalendarCategoryGUI
 		}
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
-		// $this->ctrl->returnToParent($this);
-		$this->manage(true);
+		$this->ctrl->redirect($this, "manage");
 	}
 	
 	/**
 	 * edit category
 	 *
 	 * @access protected
-	 * @return
 	 */
 	protected function edit()
 	{
@@ -238,24 +254,20 @@ class ilCalendarCategoryGUI
 		$tpl = $DIC["tpl"];
 		$tabs = $DIC->tabs();
 		$tabs->activateTab("edit");
-		
+
+		$this->readPermissions();
+
 		if(!$this->category_id)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
 
-		$this->readPermissions();
-		$this->checkVisible();
-
-		if(!$this->isEditable())
+		if(!$this->actions->checkSettingsCal($this->category_id))
 		{
-			ilUtil::sendFailure($this->lng->txt('permission_denied'));
-			$this->manage();
-			return false;
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+			$this->ctrl->returnToParent($this);
 		}
-
-
 
 		$this->initFormCategory('edit');
 	    $tpl->setContent($this->form->getHTML());
@@ -373,13 +385,22 @@ class ilCalendarCategoryGUI
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 		$category = new ilCalendarCategory($this->category_id);
-		$category->setTitle(ilUtil::stripSlashes($_POST['title']));
+		if ($category->getType() != ilCalendarCategory::TYPE_OBJ)
+		{
+			$category->setTitle(ilUtil::stripSlashes($_POST['title']));
+		}
 		$category->setColor('#'.ilUtil::stripSlashes($_POST['color']));
 		$category->update();
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
-		// $this->ctrl->returnToParent($this);
-	    $this->manage();
+		if ($this->ref_id > 0)
+		{
+			$this->ctrl->returnToParent($this);
+		}
+		else
+		{
+			$this->ctrl->redirect($this, "manage");
+		}
 	}
 	
 	/**
@@ -391,8 +412,12 @@ class ilCalendarCategoryGUI
 	protected function confirmDelete()
 	{
 		global $tpl;
-		
-		if(!$_POST['selected_cat_ids'])
+
+		$cat_ids = (is_array($_POST['selected_cat_ids']) && count($_POST['selected_cat_ids']) > 0)
+			? $_POST['selected_cat_ids']
+			: ($_GET["category_id"] > 0 ? array($_GET["category_id"]) : null);
+
+		if(!is_array($cat_ids))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->manage();
@@ -417,7 +442,7 @@ class ilCalendarCategoryGUI
 		$confirmation_gui->setCancel($this->lng->txt('cancel'),'manage');
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
-		foreach($_POST['selected_cat_ids'] as $cat_id)
+		foreach($cat_ids as $cat_id)
 		{
 			$category = new ilCalendarCategory((int)$cat_id);
 			$confirmation_gui->addItem('category_id[]',$cat_id,$category->getTitle());
@@ -582,7 +607,7 @@ class ilCalendarCategoryGUI
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarSharedListTableGUI.php');
 		$table = new ilCalendarSharedListTableGUI($this,'shareSearch');
-		$table->setTitle($this->lng->txt('cal_shared_header'));
+		$table->setTitle($this->lng->txt('cal_cal_shared_with'));
 		$table->setCalendarId($this->category_id);
 		$table->parse();
 		
@@ -1004,7 +1029,10 @@ class ilCalendarCategoryGUI
 		$title = new ilTextInputGUI($this->lng->txt('cal_calendar_name'),'title');
 		if($a_mode == 'edit')
 		{
-			$title->setDisabled(!$this->isEditable());
+			if (!$this->isEditable() || $category->getType() == ilCalendarCategory::TYPE_OBJ)
+			{
+				$title->setDisabled(true);
+			}
 		}
 		$title->setRequired(true);
 		$title->setMaxLength(64);
@@ -1029,7 +1057,7 @@ class ilCalendarCategoryGUI
 			$this->form->addItem($type);
 		}
 		
-		
+		// color
 		$color = new ilColorPickerInputGUI($this->lng->txt('cal_calendar_color'),'color');
 		$color->setValue($category->getColor());
 		if(!$this->isEditable())
@@ -1072,7 +1100,23 @@ class ilCalendarCategoryGUI
 		$pass->setRetype(false);
 		$pass->setInfo($this->lng->txt('remote_pass_info'));
 		$location_remote->addSubItem($pass);
-		
+
+		// permalink
+		if ($a_mode == "edit" && $category->getType() == ilCalendarCategory::TYPE_OBJ)
+		{
+			$ne = new ilNonEditableValueGUI($this->lng->txt("perma_link"), "", true);
+			$ne->setValue($this->addReferenceLinks($category->getObjId()));
+			$this->form->addItem($ne);
+		}
+
+		// owner
+		if ($a_mode == "edit" && $category->getType() == ilCalendarCategory::TYPE_USR)
+		{
+			$ne = new ilNonEditableValueGUI($this->lng->txt("cal_owner"), "", true);
+			$ne->setValue(ilUserUtil::getNamePresentation($category->getObjId()));
+			$this->form->addItem($ne);
+		}
+
 		$this->form->addItem($location);
 		
 	}
@@ -1277,8 +1321,9 @@ class ilCalendarCategoryGUI
 	private function readPermissions()
 	{
 		global $ilUser,$rbacsystem,$ilAccess;
-		
+
 		$this->editable = false;
+
 		$this->visible = false;
 		$this->importable = false;
 		
@@ -1321,6 +1366,10 @@ class ilCalendarCategoryGUI
 					if($ilAccess->checkAccess('edit_event','',$ref))
 					{
 						$this->importable = true;
+					}
+					if($ilAccess->checkAccess('write','',$ref))
+					{
+						$this->editable = true;
 					}
 				}
 				break;
@@ -1390,13 +1439,13 @@ class ilCalendarCategoryGUI
 			$title = ilObject::_lookupTitle($a_obj_id);
 			
 			$tpl->setCurrentBlock('reference');
-			$tpl->setVariable('PIMG_SRC',ilUtil::getTypeIconPath($parent_type,$parent_obj_id,'tiny'));
-			$tpl->setVariable('PIMG_ALT',$this->lng->txt('obj_'.$parent_type));
+			//$tpl->setVariable('PIMG_SRC',ilUtil::getTypeIconPath($parent_type,$parent_obj_id,'tiny'));
+			//$tpl->setVariable('PIMG_ALT',$this->lng->txt('obj_'.$parent_type));
 			$tpl->setVariable('PARENT_TITLE',$parent_title);
 			$tpl->setVariable('PARENT_HREF',ilLink::_getLink($parent_ref_id));
 			 
-			$tpl->setVariable('SRC',ilUtil::getTypeIconPath($type,$a_obj_id,'tiny'));
-			$tpl->setVariable('ALT',$this->lng->txt('obj_'.$type));
+			//$tpl->setVariable('SRC',ilUtil::getTypeIconPath($type,$a_obj_id,'tiny'));
+			//$tpl->setVariable('ALT',$this->lng->txt('obj_'.$type));
 			$tpl->setVariable('TITLE',$title);
 			$tpl->setVariable('HREF',ilLink::_getLink($ref_id));
 			$tpl->parseCurrentBlock();
@@ -1453,13 +1502,12 @@ class ilCalendarCategoryGUI
 		
 		if(!$this->isImportable())
 		{
-			ilUtil::sendFailure($this->lng->txt('permission_denied'));
-			$this->manage();
-			return false;
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+			$this->ctrl->returnToParent($this);
 		}
 
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt("cal_back_to_list"),  $this->ctrl->getLinkTarget($this, "manage"));
+		$ilTabs->setBackTarget($this->lng->txt("back"),  $this->ctrl->getLinkTarget($this, "cancel"));
 
 
 		if(!$form instanceof ilPropertyFormGUI)
