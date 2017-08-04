@@ -1283,7 +1283,6 @@ class ilInitialisation
 			ilLoggerFactory::getLogger('init')->debug('Expired session found -> redirect to login page');
 			return self::goToLogin();
 		}
-		include_once './Services/Init/classes/class.ilPublicSectionSettings.php';
 		if(ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']))
 		{
 			ilLoggerFactory::getLogger('init')->debug('Redirect to public section.');

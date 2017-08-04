@@ -1054,7 +1054,6 @@ class ilStartUpGUI
 			$rtpl->parseCurrentBlock();
 		}
 
-		include_once './Services/Init/classes/class.ilPublicSectionSettings.php';		
 		if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
 			$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", ROOT_FOLDER_ID))
 		{
@@ -1510,7 +1509,6 @@ class ilStartUpGUI
 		//instantiate logout template
 		self::initStartUpTemplate("tpl.logout.html");
 		
-		include_once './Services/Init/classes/class.ilPublicSectionSettings.php';		
 		if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']))
 		{
 			$tpl->setCurrentBlock("homelink");
@@ -1833,7 +1831,6 @@ class ilStartUpGUI
 			return $this->showClientList();
 		}
 
-		include_once './Services/Init/classes/class.ilPublicSectionSettings.php';		
 		if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']))
 		{
 			return ilInitialisation::goToPublicSection();

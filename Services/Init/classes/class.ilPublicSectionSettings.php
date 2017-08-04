@@ -29,7 +29,7 @@ class ilPublicSectionSettings
 	 */
 	private function __construct()
 	{
-		$this->settings = $GLOBALS['ilSetting'];
+		$this->settings = $GLOBALS['DIC']->settings();
 		$this->read();
 	}
 	

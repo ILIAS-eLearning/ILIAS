@@ -1107,9 +1107,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ti->setInfo($this->lng->txt("short_inst_name_info"));
 		$this->form->addItem($ti);
 
-		// public section
-		include_once './Services/Init/classes/class.ilPublicSectionSettings.php';
-		
 		
 		$cb = new ilCheckboxInputGUI($this->lng->txt("pub_section"), "pub_section");
 		$cb->setInfo($lng->txt("pub_section_info"));
@@ -1119,7 +1116,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}				
 		$this->form->addItem($cb);
 		
-		// begin-patch bghw
 		$this->lng->loadLanguageModule('administration');
 		$domains = new ilTextInputGUI($this->lng->txt('adm_pub_section_domain_filter'), 'public_section_domains');
 		$domains->setInfo($this->lng->txt('adm_pub_section_domain_filter_info'));
@@ -1239,20 +1235,15 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$ilSetting->set("short_inst_name", $_POST["short_inst_name"]);
 			
-			include_once './Services/Init/classes/class.ilPublicSectionSettings.php';
-			
 			$public_section = ilPublicSectionSettings::getInstance();
 			$public_section->setEnabled($this->form->getInput('pub_section'));
 			$public_section->setDomains((array) $this->form->getInput('public_section_domains'));
-			
-			ilLoggerFactory::getLogger('root')->dump($this->form->getInput('public_section_domains'),  ilLogLevel::DEBUG);
-			
 			$public_section->save();
 			
-				$global_profiles = ($_POST["pub_section"])
-					? (int)$_POST['enable_global_profiles']
-					: 0;				
-				$ilSetting->set('enable_global_profiles', $global_profiles);
+			$global_profiles = ($_POST["pub_section"])
+				? (int)$_POST['enable_global_profiles']
+				: 0;				
+			$ilSetting->set('enable_global_profiles', $global_profiles);
 								
 			$ilSetting->set("open_google", $_POST["open_google"]);			
 			$ilSetting->set("locale", $_POST["locale"]);
