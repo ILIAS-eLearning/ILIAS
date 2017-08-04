@@ -40,9 +40,8 @@ class ilBTPopOverGUI {
 	 *
 	 * @return \ILIAS\UI\Component\Component[]
 	 */
-	public function getPopOverContent($user_id, $redirect_uri) {
+	public function getPopOverContent($user_id, $redirect_uri, $replace_url = '') {
 		//		assert(is_int($user_id), "User-ID is not an integer, '$user_id' given");
-
 		global $DIC;
 
 		$renderer = $DIC->ui()->renderer();
@@ -57,25 +56,31 @@ class ilBTPopOverGUI {
 			return $meta->getState() == State::USER_INTERACTION;
 		}));
 
-		$template = new ilTemplate("tpl.popover_content.html", true, true, "Services/BackgroundTasks");
-		$template->setVariable("BACKGROUND_TASKS_TOTAL", count($metas));
-		$template->setVariable("BACKGROUND_TASKS_USER_INTERACTION", $numberOfUserInteractions);
+		$panel_wrapper = new ilTemplate("tpl.popover_content.html", true, true, "Services/BackgroundTasks");
+		$panel_wrapper->setVariable("BACKGROUND_TASKS_TOTAL", count($metas));
+		$panel_wrapper->setVariable("BACKGROUND_TASKS_USER_INTERACTION", $numberOfUserInteractions);
 
-		// TODO implement the content with UI-Service components
+		$bucket = new ilTemplate("tpl.bucket.html", true, true, "Services/BackgroundTasks");
+
 		foreach ($observers as $observer) {
 			if ($observer->getState() != State::USER_INTERACTION) {
 				$content = $this->getDefaultCardContent($observer);
 			} else {
 				$content = $this->getUserInteractionContent($observer, $redirect_uri);
 			}
-			$template->setCurrentBlock("bucket");
+			$bucket->setCurrentBlock("bucket");
 			$bucket_title = $observer->getTitle() . ($observer->getState()
 			                                         == State::SCHEDULED ? " ({$this->lng->txt("scheduled")})" : "");
-			$template->setVariable("BUCKET_TITLE", $bucket_title);
-			$template->setVariable("BUCKET_CONTENT", $renderer->render($content));
-			$template->parseCurrentBlock();
+			$bucket->setVariable("BUCKET_TITLE", $bucket_title);
+			$bucket->setVariable("BUCKET_CONTENT", $renderer->render($content));
+			$bucket->parseCurrentBlock();
 		}
-		$uiElement = $factory->legacy($template->get());
+
+		$panel = $factory->panel()->standard($DIC->language()->txt("background_tasks"), $factory->legacy($bucket->get()));
+
+		$panel_wrapper->setVariable("CONTENT", $renderer->render($panel));
+
+		$uiElement = $factory->legacy($panel_wrapper->get());
 
 		return [ $uiElement ];
 	}

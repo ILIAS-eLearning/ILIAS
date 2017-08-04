@@ -1140,7 +1140,7 @@ class ilMainMenuGUI
 		/** @var ilBTPopOverGUI $popoverGUI */
 		//$popoverGUI = $DIC->injector()->createInstance(ilBTPopOverGUI::class);
 
-		$popover = $factory->popover()->standard($factory->legacy(''))->withTitle($DIC->language()->txt("background_tasks"));
+		$popover = $factory->popover()->listing(array()); // needs to have empty content
 		$DIC->ctrl()->clearParametersByClass(ilBTControllerGUI::class);
 		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($this->full_url($_SERVER)));
 		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class, "replaceSignal", $popover->getReplaceContentSignal()->getId());
