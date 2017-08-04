@@ -1,193 +1,243 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-define("IL_MAIL_LOCAL", 0);
-define("IL_MAIL_EMAIL", 1);
-define("IL_MAIL_BOTH", 2);
-
 /**
-* Class UserMail
+* Class ilMailOptions
 * this class handles user mails 
-* 
-*  
 * @author	Stefan Meyer <meyer@leifos.com>
 * @version $Id$
-* 
 */
 class ilMailOptions
 {
-	var $ilias;
+	const INCOMING_LOCAL = 0;
+	const INCOMING_EMAIL = 1;
+	const INCOMING_BOTH  = 2;
 
-	// SOME QUASI STATIC CONSTANTS (possible values of incoming type)
-	var $LOCAL = 0;
-	var $EMAIL = 1;
-	var $BOTH = 2;
+	const FIRST_EMAIL  = 3;
+	const SECOND_EMAIL = 4;
+	const BOTH_EMAIL   = 5;
 
-	/**
-	* linebreak
-	* @var integer
-	* @access public
-	*/
-	var $linebreak;
+	const DEFAULT_LINE_BREAK = 60;
 
 	/**
-	* signature
-	* @var string signature
-	* @access public
-	*/
-	var $signature;
-	var $incoming_type;
-	var $cronjob_notification;
+	 * @var \ILIAS
+	 */
+	protected $ilias;
 
 	/**
-	* Constructor
-	* setup an mail object
-	* @param int user_id
-	* @access	public
-	*/
+	 * @var \ilDBInterface
+	 */
+	protected $db;
+
+	/**
+	 * @var int
+	 */
+	protected $user_id;
+
+	/**
+	 * @var \ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var string
+	 */
+	protected $table_mail_options = 'mail_options';
+
+	/**
+	 * @var int
+	 */
+	protected $linebreak;
+
+	/**
+	 * @var string
+	 */
+	protected $signature;
+
+	/**
+	 * @var int
+	 */
+	protected $cronjob_notification;
+
+	/**
+	 * @var int
+	 */
+	protected $incoming_type = self::INCOMING_LOCAL;
+
+	/**
+	 * @var int
+	 */
+	protected $mail_address_option = self::FIRST_EMAIL;
+
+	/**
+	 * @param int $a_user_id
+	 */
 	public function __construct($a_user_id)
 	{
-		global $ilias;
-
-		define("DEFAULT_LINEBREAK",60);
-
-		$this->ilias = $ilias;
-		$this->table_mail_options = 'mail_options';
+		global $DIC;
 
 		$this->user_id = $a_user_id;
-		$this->getOptions();
+
+		$this->ilias    = $DIC['ilias'];
+		$this->db       = $DIC->database();
+		$this->settings = $DIC->settings();
+
+		$this->read();
 	}
 
 	/**
 	 * create entry in table_mail_options for a new user
 	 * this method should only be called from createUser()
-	 * @return bool
 	 */
-    public function createMailOptionsEntry()
-    {
-    	global $ilDB, $ilSetting;
-    		
-	    $incomingMail = $ilSetting->get('mail_incoming_mail') ? $ilSetting->get('mail_incoming_mail'): IL_MAIL_LOCAL;
-	    $ilDB->insert('mail_options',
-				array(
-						'user_id'              => array('integer', $this->user_id),
-						'linebreak'            => array('integer', DEFAULT_LINEBREAK),
-						'signature'            => array('text', NULL),
-						'incoming_type'        => array('integer', $incomingMail),
-						'cronjob_notification' => array('integer', 0)
-				));
-	    
-		return true;
-    }
-
-	/**
-	* get options of user and set variables $signature and $linebreak
-	* this method shouldn't bew called from outside
-	* use getSignature() and getLinebreak()
-	* @access	private
-	* @return	boolean
-	*/
-	function getOptions()
+	public function createMailOptionsEntry()
 	{
-		global $ilDB;
+		$incomingMail        = strlen($this->settings->get('mail_incoming_mail'))  ? (int)$this->settings->get('mail_incoming_mail') : self::INCOMING_LOCAL;
+		$mail_address_option = strlen($this->settings->get('mail_address_option')) ? (int)$this->settings->get('mail_address_option') : self::FIRST_EMAIL;
 
-		$res = $ilDB->queryf('
-			SELECT * FROM '.$this->table_mail_options.'
-			WHERE user_id = %s',
-			array('integer'), array($this->user_id));
-		
-		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-		
-		$this->cronjob_notification = stripslashes($row->cronjob_notification);
-		$this->signature = stripslashes($row->signature);
-		$this->linebreak = stripslashes($row->linebreak);
-		$this->incoming_type = $row->incoming_type;
-		
-		if(!strlen(ilObjUser::_lookupEmail($this->user_id)))
-		{
-			$this->incoming_type = $this->LOCAL;
-		}
-
-		return true;
+		$this->db->insert(
+			$this->table_mail_options,
+			array(
+				'user_id'              => array('integer', $this->user_id),
+				'linebreak'            => array('integer', self::DEFAULT_LINE_BREAK),
+				'signature'            => array('text', null),
+				'incoming_type'        => array('integer', $incomingMail),
+				'mail_address_option'  => array('integer', $mail_address_option),
+				'cronjob_notification' => array('integer', 0)
+			)
+		);
 	}
 
 	/**
-	* update user options
-	* @param string Signature
-	* @param int linebreak
-	* @param int incoming_type
-	* @param int cronjob_notification
-	* @return	boolean
-	*/
-	public function updateOptions($a_signature, $a_linebreak, $a_incoming_type, $a_cronjob_notification)
+	 * 
+	 */
+	protected function read()
 	{
-		/**
-		 * @var $ilDB      ilDBInterface
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilDB, $ilSetting;
-
-		$this->cronjob_notification = $a_cronjob_notification;
-		$this->signature            = $a_signature;
-		$this->linebreak            = $a_linebreak;
-		$this->incoming_type        = $a_incoming_type;
-
-		$data = array(
-			'signature'     => array('text', $this->signature),
-			'linebreak'     => array('integer', $this->linebreak),
-			'incoming_type' => array('integer', $this->incoming_type)
+		$res = $this->db->queryF(
+			'SELECT * FROM ' . $this->table_mail_options . ' WHERE user_id = %s',
+			array('integer'),
+			array($this->user_id)
 		);
-		if($ilSetting->get('mail_notification'))
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+
+		$this->cronjob_notification = $row->cronjob_notification;
+		$this->signature            = $row->signature;
+		$this->linebreak            = $row->linebreak;
+		$this->incoming_type        = $row->incoming_type;
+		$this->mail_address_option  = strlen($row->mail_address_option) ? $row->mail_address_option : self::FIRST_EMAIL;
+
+		if(!strlen(ilObjUser::_lookupEmail($this->user_id)))
 		{
-			$data['cronjob_notification']  = array('integer', $this->cronjob_notification);
+			$this->incoming_type = self::INCOMING_LOCAL;
+		}
+	}
+
+	/**
+	*/
+	public function updateOptions()
+	{
+		$data = array(
+			'signature'           => array('text', $this->getSignature()),
+			'linebreak'           => array('integer', $this->getLinebreak()),
+			'incoming_type'       => array('integer', $this->getIncomingType()),
+			'mail_address_option' => array('integer', $this->getMailAddressOption())
+		);
+
+		if($this->settings->get('mail_notification'))
+		{
+			$data['cronjob_notification']  = array('integer', $this->getCronjobNotification());
 		}
 		else
 		{
 			$data['cronjob_notification']  = array('integer', self::lookupNotificationSetting($this->user_id));
 		}
 
-		$ilDB->replace(
+		$this->db->replace(
 			$this->table_mail_options,
 			array(
 				'user_id' => array('integer', $this->user_id)
 			),
 			$data
 		);
-
-		return true;
 	}
+
 	/**
-	* get linebreak of user
-	* @access	public
-	* @return	array	mails
+	* @return string
 	*/
-	function getLinebreak()
+	public function getLinebreak()
 	{
 		return $this->linebreak;
 	}
 
 	/**
-	* get signature of user
-	* @access	public
-	* @return	array	mails
-	*/
-	function getSignature()
+	 * @return string
+	 */
+	public function getSignature()
 	{
 		return $this->signature;
 	}
 
-	function getIncomingType()
+	/**
+	 * @return int
+	 */
+	public function getIncomingType()
 	{
 		return $this->incoming_type;
 	}
-	
-	function setCronjobNotification()
+
+	/**
+	 * @param int $linebreak
+	 */
+	public function setLinebreak($linebreak)
+	{
+		$this->linebreak = $linebreak;
+	}
+
+	/**
+	 * @param string $signature
+	 */
+	public function setSignature($signature)
+	{
+		$this->signature = $signature;
+	}
+
+	/**
+	 * @param int $incoming_type
+	 */
+	public function setIncomingType($incoming_type)
+	{
+		$this->incoming_type = $incoming_type;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function setCronjobNotification($cronjob_notification)
+	{
+		$this->cronjob_notification = $cronjob_notification;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getCronjobNotification()
 	{
 		return $this->cronjob_notification;
 	}
-	function getCronjobNotification()
+	
+	/**
+	 * @return int
+	 */
+	public function getMailAddressOption()
 	{
-		return $this->cronjob_notification;
+		return $this->mail_address_option;
+	}
+	
+	/**
+	 * @param int $mail_address_option
+	 */
+	public function setMailAddressOption($mail_address_option)
+	{
+		$this->mail_address_option = $mail_address_option;
 	}
 
 	/**
@@ -196,14 +246,86 @@ class ilMailOptions
 	 */
 	protected static function lookupNotificationSetting($usr_id)
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
 
-		$query = "SELECT cronjob_notification FROM mail_options WHERE user_id = " . $ilDB->quote($usr_id, 'integer');
-		$row   = $ilDB->fetchAssoc($ilDB->query($query));
+		$query = "SELECT cronjob_notification FROM mail_options WHERE user_id = " . $DIC->database()->quote($usr_id, 'integer');
+		$row   = $DIC->database()->fetchAssoc($DIC->database()->query($query));
 		return (int)$row['cronjob_notification'];
 	}
-} // END class.ilFormatMail
-?>
+	
+	/**
+	 * @param ilObjUser     $user
+	 * @param ilMailOptions $mail_options
+	 * @return string[]
+	 */
+	protected static function lookupExternalEmails(ilObjUser $user, ilMailOptions $mail_options)
+	{
+		$emailAddresses = array();
+
+		switch($mail_options->getMailAddressOption())
+		{
+			case self::SECOND_EMAIL:
+				if(strlen($user->getSecondEmail()))
+				{
+					$emailAddresses[] = $user->getSecondEmail();
+				}
+				else if(strlen($user->getEmail()))
+				{
+					// fallback, use first email address
+					$emailAddresses[] = $user->getEmail();
+				}
+				break;
+			
+			case self::BOTH_EMAIL:
+				if(strlen($user->getEmail()))
+				{
+					$emailAddresses[] = $user->getEmail();
+				}
+				if(strlen($user->getSecondEmail()))
+				{
+					$emailAddresses[] = $user->getSecondEmail();
+				}
+				break;
+			
+			case self::FIRST_EMAIL:
+			default:
+				if(strlen($user->getEmail()))
+				{
+					$emailAddresses[] = $user->getEmail();
+				}
+				else if(strlen($user->getSecondEmail()))
+				{
+					// fallback, use first email address
+					$emailAddresses[] = $user->getSecondEmail();
+				}
+				break;
+		}
+		
+		return $emailAddresses;
+	}
+	
+	/**
+	 * @param ilObjUser     $user
+	 * @param ilMailOptions $mail_options
+	 * @return string[]
+	 */
+	public static function getExternalEmailsByUser(ilObjUser $user, ilMailOptions $mail_options = NULL)
+	{
+		if(!($mail_options instanceof ilMailOptions))
+		{
+			$mail_options = new self($user->getId());
+		}
+
+		return self::lookupExternalEmails($user, $mail_options);
+	}
+	
+	/**
+	 * @param int $user_id
+	 * @param ilMailOptions|NULL $mail_options
+	 * @return string[]
+	 */
+	public static function getExternalEmailsByUserId($user_id, ilMailOptions $mail_options = NULL)
+	{
+		return self::getExternalEmailsByUser(new ilObjUser($user_id), $mail_options);
+	}
+} 
