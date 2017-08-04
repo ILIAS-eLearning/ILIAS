@@ -618,26 +618,25 @@ class ilCalendarPresentationGUI
 			switch($category->getType())
 			{
 				case ilCalendarCategory::TYPE_USR:
-					$header = $this->lng->txt('cal_type_personal').": ";
+					$header = $this->lng->txt('cal_type_personal').": ".$category->getTitle();
 					break;
 
 				case ilCalendarCategory::TYPE_GLOBAL:
-					$header = $this->lng->txt('cal_type_system').": ";
+					$header = $this->lng->txt('cal_type_system').": ".$category->getTitle();
 					break;
 
 				case ilCalendarCategory::TYPE_OBJ:
-					$header = $this->lng->txt('cal_type_'.$category->getObjType()).": ";
-
-					//$info->addSection($this->lng->txt('additional_info'));
-					//$info->addProperty($this->lng->txt('perma_link'),$this->addReferenceLinks($category->getObjId()));
+					$header = $this->lng->txt('cal_type_'.$category->getObjType()).": ".$category->getTitle();
 					break;
 
 				case ilCalendarCategory::TYPE_CH:
+					$header = str_replace("%1", ilObjUser::_lookupFullname($category->getObjId()), $lng->txt("cal_consultation_hours_for_user"));
+					break;
+
 				case ilCalendarCategory::TYPE_BOOK:
-					// nothing to do
+					$header = $category->getTitle();
 					break;
 			}
-			$header .= $category->getTitle();
 			$tpl->setTitleIcon(ilUtil::getImagePath("icon_cal.svg"));
 			$tpl->setTitle($header);
 

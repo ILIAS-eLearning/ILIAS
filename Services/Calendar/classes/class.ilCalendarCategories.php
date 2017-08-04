@@ -729,7 +729,7 @@ class ilCalendarCategories
 				break;
 
 			case ilCalendarCategory::TYPE_CH:
-				$this->readConsultationHoursCalendar();
+				$this->readConsultationHoursCalendar($this->root_ref_id, $a_cat_id);
 				break;
 
 			case ilCalendarCategory::TYPE_BOOK:
@@ -782,15 +782,15 @@ class ilCalendarCategories
 	 * @access protected
 	 * @return
 	 */
-	protected function readPrivateCalendars($cat_ids = null)
+	protected function readPrivateCalendars($only_cat_ids = null)
 	{
 		global $ilUser;
 		global $ilDB;
 
 		$in = "";
-		if (is_array($cat_ids))
+		if (is_array($only_cat_ids))
 		{
-			$in = " AND ".$this->db->in('cat_id', $cat_ids, false, 'integer')." ";
+			$in = " AND ".$this->db->in('cat_id', $only_cat_ids, false, 'integer')." ";
 		}
 
 		// First read private calendars of user
@@ -810,8 +810,14 @@ class ilCalendarCategories
 		{
 			return true;
 		}
-		
-		
+
+		if (is_array($only_cat_ids))
+		{
+			$cat_ids = array_filter($cat_ids, function ($id) use ($only_cat_ids) {
+				return in_array($id, $only_cat_ids);
+			});
+		}
+
 		// user categories
 		$query = "SELECT * FROM cal_categories ".
 			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_USR ,'integer')." ".
@@ -885,7 +891,7 @@ class ilCalendarCategories
 	 * @param	int	$user_id
 	 * @return 
 	 */
-	public function readConsultationHoursCalendar($a_target_ref_id = NULL)
+	public function readConsultationHoursCalendar($a_target_ref_id = NULL, $a_cat_id = 0)
 	{
 		global $ilDB, $lng;
 
@@ -903,15 +909,23 @@ class ilCalendarCategories
 					'JOIN cal_entries ce ON be.booking_id = ce.context_id '.
 					'JOIN cal_cat_assignments ca ON ce.cal_id = ca.cal_id '.
 					'JOIN cal_categories cc ON ca.cat_id = cc.cat_id '.
-					'WHERE ((bo.target_obj_id IS NULL) OR bo.target_obj_id = '.$ilDB->quote($target_obj_id,'integer').' ) '.
-					'AND cc.obj_id = '.$ilDB->quote($this->getCHUserId(),'integer');
+					'WHERE ((bo.target_obj_id IS NULL) OR bo.target_obj_id = '.$ilDB->quote($target_obj_id,'integer').' ) ';
+
+			// limit only to user if no cat id is given
+			if ($a_cat_id == 0)
+			{
+				$query.= 'AND cc.obj_id = ' . $ilDB->quote($this->getCHUserId(), 'integer');
+			}
 			
 
 			$res = $ilDB->query($query);
 			$categories = array();
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
-				$categories[] = $row->cat_id;
+				if ($a_cat_id == 0 || $row->cat_id == $a_cat_id)
+				{
+					$categories[] = $row->cat_id;
+				}
 			}
 
 			if($categories)
@@ -924,7 +938,7 @@ class ilCalendarCategories
 					$this->categories[] = $row->cat_id;
 					$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
 					$this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
-					$this->categories_info[$row->cat_id]['title'] = ilObjUser::_lookupFullname($this->getCHUserId());
+					$this->categories_info[$row->cat_id]['title'] = ilObjUser::_lookupFullname($row->obj_id);
 					$this->categories_info[$row->cat_id]['color'] = $row->color;
 					$this->categories_info[$row->cat_id]['type'] = $row->type;
 					$this->categories_info[$row->cat_id]['editable'] = false;
@@ -936,9 +950,12 @@ class ilCalendarCategories
 		}
 		else // no category given
 		{
+			$filter = ($a_cat_id > 0)
+				? " AND cat_id = ".$ilDB->quote($a_cat_id, "integer")
+				: " AND obj_id = ".$ilDB->quote($this->getCHUserId(),'integer');
+
 			$query = "SELECT *  FROM cal_categories cc ".
-			"WHERE type = ".$ilDB->quote(ilCalendarCategory::TYPE_CH,'integer').' '.
-			"AND obj_id = ".$ilDB->quote($this->getCHUserId(),'integer');
+			"WHERE type = ".$ilDB->quote(ilCalendarCategory::TYPE_CH,'integer').' '.$filter;
 			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{

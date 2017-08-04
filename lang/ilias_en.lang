@@ -13572,3 +13572,4 @@ dateplaner#:#cal_repo_obj#:#Repository Objects
 dateplaner#:#cal_grp_curr_grp#:#Current Group
 dateplaner#:#cal_subscription#:#Subscription
 dateplaner#:#cal_cal_shared_with#:#Users calendar is shared with
+dateplaner#:#cal_consultation_hours_for_user#:#Consultation Hours for %1

@@ -693,7 +693,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 						{
 							$this->cal_footer[] = array(
 								'link' => $ilCtrl->getLinkTargetByClass($this->getTargetGUIClassPath(), 'selectCHCalendarOfUser'),
-								'txt' => $lng->txt("cal_consultation_hours_for") . ' ' . ilObjUser::_lookupFullname($user_id)
+								'txt' => str_replace("%1", ilObjUser::_lookupFullname($user_id), $lng->txt("cal_consultation_hours_for_user"))
 							);
 						}
 
