@@ -9952,6 +9952,10 @@ a.callink:visited {
 .callink .glyphicon:hover {
   color: #557196;
 }
+.calevent .btn.btn-link,
+.il_calevent .btn.btn-link {
+  color: inherit;
+}
 /* Modules/Wiki */
 a.ilWikiPageMissing:link,
 a.ilWikiPageMissing:visited {
