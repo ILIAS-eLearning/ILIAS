@@ -19,6 +19,8 @@ rbac#:#il_sess_status_closed#:#Non-Participant Closed Session
 didactic#:#didactic_scope#:#Scope
 meta#:#md_adv_scope#:#Scope
 meta#:#meta_local#:#Local
+didactic#:#didactic_scope_list_header#:#Limited to:
+meta#:#md_adv_scope_list_header#:#Limited to:
 sess#:#sess_mem_tbl_header#:#Session Participants
 sess#:#objs_crs_role#:#Course Roles
 sess#:#objs_grp_role#:#Group Roles
