@@ -123,11 +123,20 @@ class ilMailOptions
 		$this->signature            = $row->signature;
 		$this->linebreak            = $row->linebreak;
 		$this->incoming_type        = $row->incoming_type;
-		$this->mail_address_option  = strlen($row->mail_address_option) ? $row->mail_address_option : self::FIRST_EMAIL;
-
+		$this->mail_address_option  = (int)$row->mail_address_option >= 3 ? $row->mail_address_option : self::FIRST_EMAIL;
+		
+		// verify saved mail option
+		if(!strlen(ilObjUser::_lookupSecondEmail($this->user_id)) && $this->incoming_type >= self::INCOMING_EMAIL)
+		{
+			// reset to default value
+			$this->mail_address_option = self::FIRST_EMAIL;
+			$this->updateOptions();
+		}
 		if(!strlen(ilObjUser::_lookupEmail($this->user_id)))
 		{
+			// reset to default value
 			$this->incoming_type = self::INCOMING_LOCAL;
+			$this->updateOptions();
 		}
 	}
 
