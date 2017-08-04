@@ -148,6 +148,10 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 		
 		if(count($set['scope']))
 		{
+			$this->tpl->setCurrentBlock('scope_txt');
+			$this->tpl->setVariable('LOCAL_OR_GLOBAL', $this->lng->txt('didactic_scope_list_header'));
+			$this->tpl->parseCurrentBlock();
+			
 			foreach($set['scope'] as $ref_id)
 			{
 				$this->tpl->setCurrentBlock('scope_entry');
