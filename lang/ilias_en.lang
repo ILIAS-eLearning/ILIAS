@@ -2772,6 +2772,7 @@ common#:#notes_and_comments#:#Notes and Comments
 common#:#notes#:#Notes
 common#:#notifications#:#Notifications
 common#:#num_users#:#Number of Users
+common#:#edit_metadata#:#Edit Metadata
 rbac#:#nwss_edit_permission#:#User can change permission settings in News and Web Feeds administration
 rbac#:#nwss_read#:#User has read access to ews and Web Feeds administration
 rbac#:#nwss_visible#:#News and Web Feeds administration is visible

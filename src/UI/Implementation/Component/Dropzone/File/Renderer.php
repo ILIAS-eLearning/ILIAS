@@ -175,20 +175,16 @@ class Renderer extends AbstractComponentRenderer {
 
 		// Actions
 		$items = array(
-			$f->button()->shy("remove", "")->withAriaLabel("delete_file"),
+			$f->button()->shy($this->txt("remove"), "")->withAriaLabel("delete_file"),
 		);
 		if ($this->renderMetaData($dropzone)) {
 			$tplUploadFileList->setCurrentBlock("with_metadata");
-			$items[] = $f->button()->shy("edit", "")->withAriaLabel("edit_metadata");
+			$items[] = $f->button()->shy($this->txt("edit_metadata"), "")->withAriaLabel("edit_metadata");
 			if ($dropzone->allowsUserDefinedFileNames()) {
-				//				$tplUploadFileList->setCurrentBlock('with_filename');
 				$tplUploadFileList->setVariable("LABEL_FILENAME", $this->txt("filename"));
-				//				$tplUploadFileList->parseCurrentBlock();
 			}
 			if ($dropzone->allowsUserDefinedFileDescriptions()) {
-				//				$tplUploadFileList->setCurrentBlock('with_description');
 				$tplUploadFileList->setVariable("LABEL_DESCRIPTION", $this->txt("description"));
-				//				$tplUploadFileList->parseCurrentBlock();
 			}
 			$tplUploadFileList->parseCurrentBlock();
 		}

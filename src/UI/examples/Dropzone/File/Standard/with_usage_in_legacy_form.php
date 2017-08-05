@@ -18,26 +18,23 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI {
 	 * @var int
 	 */
 	static $count = 0;
-
 	/**
 	 * @var string
 	 */
 	protected $uploadUrl = '';
-
 	/**
 	 * @var int
 	 */
 	protected $maxFiles = 1;
-
 	/**
 	 * @var \ILIAS\Data\DataSize
 	 */
 	protected $maxFileSize;
-
 	/**
 	 * @var string
 	 */
 	protected $dropzoneMessage = '';
+
 
 	/**
 	 * @return string
@@ -46,14 +43,18 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI {
 		return $this->uploadUrl;
 	}
 
+
 	/**
 	 * @param string $uploadUrl
+	 *
 	 * @return $this
 	 */
 	public function setUploadUrl($uploadUrl) {
 		$this->uploadUrl = $uploadUrl;
+
 		return $this;
 	}
+
 
 	/**
 	 * @return int
@@ -62,12 +63,14 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI {
 		return $this->maxFiles;
 	}
 
+
 	/**
 	 * @param int $maxFiles
 	 */
 	public function setMaxFiles($maxFiles) {
 		$this->maxFiles = $maxFiles;
 	}
+
 
 	/**
 	 * @return \ILIAS\Data\DataSize
@@ -76,12 +79,14 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI {
 		return $this->maxFileSize;
 	}
 
+
 	/**
 	 * @param \ILIAS\Data\DataSize $maxFileSize
 	 */
 	public function setMaxFileSize(\ILIAS\Data\DataSize $maxFileSize) {
 		$this->maxFileSize = $maxFileSize;
 	}
+
 
 	/**
 	 * @return string
@@ -90,6 +95,7 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI {
 		return $this->dropzoneMessage;
 	}
 
+
 	/**
 	 * @param string $dropzoneMessage
 	 */
@@ -97,35 +103,36 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI {
 		$this->dropzoneMessage = $dropzoneMessage;
 	}
 
+
 	function render($a_mode = "") {
 		global $DIC;
 		$factory = $DIC->ui()->factory();
 		$renderer = $DIC->ui()->renderer();
-		$dropzone = $factory->dropzone()->file()->standard($this->getUploadUrl())
-			->withIdentifier($this->getPostVar())
-			->withMaxFiles($this->getMaxFiles())
-			->withMessage($this->getDropzoneMessage())
-			->withAllowedFileTypes($this->getSuffixes());
+
+		$dropzone = $factory->dropzone()->file()->standard($this->getUploadUrl())->withIdentifier($this->getPostVar())->withMaxFiles($this->getMaxFiles())->withMessage($this->getDropzoneMessage())->withAllowedFileTypes($this->getSuffixes());
 		if ($this->getMaxFileSize()) {
 			$dropzone = $dropzone->withFileSizeLimit($this->getMaxFileSize());
 		}
-		$n = ++self::$count;
-		$out = "<div id='ilFileStandardDropzoneInputGUIWrapper{$n}'>" . $renderer->render($dropzone) . '</div>';
+		$n = ++ self::$count;
+		$out = "<div id='ilFileStandardDropzoneInputGUIWrapper{$n}'>" . $renderer->render($dropzone)
+		       . '</div>';
 		// We need some javascript magic
 		/** @var ilTemplate $tpl */
 		$tpl = $DIC['tpl'];
 		$tpl->addJavaScript('./src/UI/examples/Dropzone/File/Standard/ilFileStandardDropzoneInputGUI.js');
 		$tpl->addOnLoadCode("ilFileStandardDropzoneInputGUI.init('ilFileStandardDropzoneInputGUIWrapper{$n}');");
+
 		return $out;
 	}
+
 
 	function checkInput() {
 		if ($this->getRequired() && !isset($_FILES[$this->getPostVar()])) {
 			return false;
 		}
+
 		return true;
 	}
-
 }
 
 function with_usage_in_legacy_form() {
@@ -146,7 +153,7 @@ function with_usage_in_legacy_form() {
 	$form->addItem($item);
 	$item = new ilFileStandardDropzoneInputGUI('Files', 'files');
 	$item->setUploadUrl($form->getFormAction());
-	$item->setSuffixes(['jpg', 'gif', 'png', 'pdf']);
+	$item->setSuffixes([ 'jpg', 'gif', 'png', 'pdf' ]);
 	$item->setInfo('Allowed file types: ' . implode(', ', $item->getSuffixes()));
 	$item->setDropzoneMessage('For the purpose of this demo, any PDF file will fail to upload');
 	$form->addItem($item);
@@ -168,9 +175,9 @@ function with_usage_in_legacy_form() {
 						return ($uploadResult->getMimeType() == 'application/pdf');
 					});
 					$uploadResult = count($uploadedPDFs) == 0;
-					echo json_encode(array('success' => $uploadResult));
+					echo json_encode(array( 'success' => $uploadResult ));
 				} catch (Exception $e) {
-					echo json_encode(array('success' => false));
+					echo json_encode(array( 'success' => false ));
 				}
 				exit();
 			}
