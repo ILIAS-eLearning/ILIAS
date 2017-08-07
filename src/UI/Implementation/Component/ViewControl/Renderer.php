@@ -121,10 +121,13 @@ class Renderer extends AbstractComponentRenderer
 		}
 
 		//setup entries
+		global $DIC;
+		$uri = $DIC->http()->request()->getRequestTarget();
+
 		$items = array();
 		foreach ($options as $val => $label) {
 			if($label !== $init_label) {
-				$act = $_SERVER[REQUEST_URI]
+				$act = $uri
 					.'&'.$component_identifier
 					.'='.$val;
 				array_push($items, $f->button()->shy($label, $act));
