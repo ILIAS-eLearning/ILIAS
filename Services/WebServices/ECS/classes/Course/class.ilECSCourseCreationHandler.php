@@ -179,15 +179,20 @@ class ilECSCourseCreationHandler
 		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMappingRule.php';
 		foreach(ilECSCourseMappingRule::getRuleRefIds($this->getServer()->getServerId(), $this->getMid()) as $ref_id)
 		{
-			if(ilECSCourseMappingRule::isMatching(
+			$matching_index = ilECSCourseMappingRule::isMatching(
 					$course,
 					$this->getServer()->getServerId(),
 					$this->getMid(),
-					$ref_id))
+					$ref_id);
+			if(strcmp($matching_index, '0') !== 0)
 			{
-				$matching_rules[] = $ref_id;
+				$matching_rules[$matching_index] = $ref_id;
 			}
 		}
+		ksort($matching_rules);
+		
+		$this->log->dump($matching_rules);
+		
 		if(!count($matching_rules))
 		{
 			// Put course in default category
