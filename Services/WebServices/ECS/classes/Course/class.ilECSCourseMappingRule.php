@@ -85,7 +85,17 @@ class ilECSCourseMappingRule
 		{
 			$ref_ids[] = $row->ref_id;
 		}
-		return $ref_ids;
+		// check if ref_ids are in tree
+		$checked_ref_ids = [];
+		foreach($ref_ids as $ref_id)
+		{
+			if(
+				$GLOBALS['DIC']->repositoryTree()->isInTree($ref_id))
+			{
+				$checked_ref_ids[] = $ref_id;
+			}
+		}
+		return $checked_ref_ids;
 	}
 	
 	/**
@@ -94,6 +104,7 @@ class ilECSCourseMappingRule
 	 * @param type $a_sid
 	 * @param type $a_mid
 	 * @param type $a_ref_id
+	 * @return int[]
 	 */
 	public static function getRulesOfRefId($a_sid, $a_mid, $a_ref_id)
 	{
