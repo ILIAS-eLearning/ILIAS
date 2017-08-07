@@ -12,12 +12,12 @@ class Sortation implements C\ViewControl\Sortation {
 	/**
 	 * @var string
 	 */
-	protected $label="Sort By";
+	protected $label = '';
 
 	/**
 	 * @var string
 	 */
-	protected $parameter_name="sortation";
+	protected $identifier="sortation";
 
 	/**
 	 * @var string
@@ -54,18 +54,18 @@ class Sortation implements C\ViewControl\Sortation {
 	/**
 	 * @inheritdoc
 	 */
-	public function withParameterName($param) {
-		$this->checkStringArg("param", $param);
+	public function withIdentifier($identifier) {
+		$this->checkStringArg("identifier", $identifier);
 		$clone = clone $this;
-		$clone->parameter_name = $param;
+		$clone->identifier = $identifier;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getParameterName() {
-		return $this->parameter_name;
+	public function getIdentifier() {
+		return $this->identifier;
 	}
 
 	/**

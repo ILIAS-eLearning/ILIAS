@@ -111,9 +111,9 @@ class Renderer extends AbstractComponentRenderer
 
 	protected function renderSortation(Component\ViewControl\Sortation $component, RendererInterface $default_renderer) {
 		$f = $this->getUIFactory();
-		$param = $component->getParameterName();
+		$component_identifier = $component->getIdentifier();
 		$options = $component->getOptions();
-		$sort_value = @$_GET[$param];
+		$sort_value = @$_GET[$component_identifier];
 		$init_label = $component->getLabel();
 
 		if($sort_value && array_key_exists($sort_value, $options)) {
@@ -125,16 +125,16 @@ class Renderer extends AbstractComponentRenderer
 		foreach ($options as $val => $label) {
 			if($label !== $init_label) {
 				$act = $_SERVER[REQUEST_URI]
-					.'&'.$component->getParameterName()
+					.'&'.$component_identifier
 					.'='.$val;
 				array_push($items, $f->button()->shy($label, $act));
 			}
 		}
 
-		//get renderer of Dropdown and append classname
+		//get renderer of Dropdown and append block to be touched
 		$dd_class = 'ILIAS\\UI\\Implementation\\Component\\Dropdown\\';
 		$dd_renderer = $default_renderer->instantiateRendererFor($dd_class)
-			->withAdditionalClassname('sortation');
+			->withBlocksToBeTouched('sortation');
 
 	    return $dd_renderer->render(
 	    	$f->dropdown()->standard($items)->withLabel($init_label),

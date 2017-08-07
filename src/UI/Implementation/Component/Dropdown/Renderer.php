@@ -14,7 +14,7 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * @var string
 	 */
-	private $class_name = 'dropdown';
+	private $touch_blocks = array();
 
 	/**
 	 * @inheritdoc
@@ -30,8 +30,6 @@ class Renderer extends AbstractComponentRenderer {
 		// get template
 		$tpl_name = "tpl.standard.html";
 		$tpl = $this->getTemplate($tpl_name, true, true);
-
-		$tpl->setVariable("CLASSNAME", $this->class_name);
 
 		// render items
 		$items = $component->getItems();
@@ -50,6 +48,11 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		$this->maybeRenderId($component, $tpl, "with_id", "ID");
+
+		foreach ($this->touch_blocks as $block) {
+			$tpl->touchBlock($block);
+		}
+
 		return $tpl->get();
 	}
 
@@ -85,16 +88,16 @@ class Renderer extends AbstractComponentRenderer {
 
 
 	/**
-	 * Append classname and return cloned instance
+	 * Append a block to touch during rendering and return cloned instance
 	 *
-	 * @param string 	$class_name
+	 * @param string 	$block
 	 *
 	 * @return Renderer
 	 */
-	public function withAdditionalClassname($class_name) {
-		assert('is_string($class_name)');
+	public function withBlocksToBeTouched($block) {
+		assert('is_string($block)');
 		$clone = clone $this;
-		$clone->class_name = $clone->class_name .' ' .$class_name;
+		$clone->touch_blocks[] = $block;
 		return $clone;
 	}
 

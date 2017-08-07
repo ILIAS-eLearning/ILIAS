@@ -12,15 +12,18 @@ function base() {
 	);
 
 	$s = $f->viewControl()->sortation($options)
-		->withLabel("ordering")
-		->withParameterName("ord");
+		->withIdentifier("ord");
+
+	$s2 = $s->withLabel($DIC->language()->txt('sortation_std_label'))
+		->withIdentifier("ord2");
 
 	//pre-selected
-	$s2 = $f->viewControl()->sortation($options)
+	$s3 = $f->viewControl()->sortation($options)
 		->withLabel("Most Recent");
 
 	return implode('<hr>', array(
 		$renderer->render($s),
-		$renderer->render($s2)
+		$renderer->render($s2),
+		$renderer->render($s3)
 	));
 }

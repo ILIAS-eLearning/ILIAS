@@ -25,20 +25,22 @@ interface Sortation extends Component {
 	public function getLabel();
 
 	/**
-	 * Set the parameter name to something other than "sortation".
+	 * Get a Sortation with a specific identifier; this is necessary if
+	 * there is more than one instance on the page. Defaults to "sortation".
+	 * The identifier equals the request parameter that indicates the sorting order.
 	 *
-	 * @param 	string 	$param
+	 * @param 	string 	$identifier
 	 *
 	 * @return \Sortation
 	 */
-	public function withParameterName($param);
+	public function withIdentifier($identifier);
 
 	/**
-	 * Get the parameter name.
+	 * Get the identifier of this instance.
 	 *
 	 * @return 	string
 	 */
-	public function getParameterName();
+	public function getIdentifier();
 
 	/**
 	 * Get the sorting-options.

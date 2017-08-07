@@ -70,24 +70,19 @@ interface Factory {
 	 *   purpose: >
 	 *      The sortation view control enables users to change the order in which
 	 *      some data is presented.
-	 *      The common table-sorting mechanism, e.g., in which a column header is clicked,
-	 *      requires the column to be visible. Visibility and sorting can be decoupled
-	 *      by a control next to the actual table.
-	 *      This concept is used by many pages, notably in shops like e.g. amazon, and can
-	 *      be applied to not only tables but all kinds of data-listings.
+	 *      This control applies to all sorts of _structured_ data, like tables and lists.
 	 *   composition: >
 	 *      Sortation uses a Dropdown to display a collection of shy-buttons.
 	 *   effect: >
 	 *      A click on an option will change the ordering of the associated data-list
-	 *      by calling the current page with the parameter "sortation" and its
-	 *      value according to the selected option.
+	 *      by calling the current page with a parameter according to the selected option.
 	 *      The label displayed in the dropdown will be set to the selected sorting.
 	 *
 	 * rules:
 	 *   usage:
 	 *      1: A Sortation MUST NOT be used standalone.
 	 *      2: Sortations MUST BE visually close to the list or table their operation will have effect upon.
-	 *      3: There SHOULD NOT be more than one Sortation per page.
+	 *      3: There SHOULD NOT be more than one Sortation per view.
 	 *   accessibility:
 	 *      1: Sortation MUST be operable via keyboard only.
 	 *
