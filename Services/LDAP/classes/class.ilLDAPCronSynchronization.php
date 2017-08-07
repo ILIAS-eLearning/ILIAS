@@ -104,6 +104,8 @@ class ilLDAPCronSynchronization extends ilCronJob
 						$ilLog->write("LDAP: Finished update/creation");
 						
 						$offset += $limit;
+
+						ilCronManager::ping($this->getId());
 					}					
 					$this->counter++;
 		 		}
