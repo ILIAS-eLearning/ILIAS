@@ -30,7 +30,6 @@ class ilInternalLinkGUI
 	function __construct($a_default_type, $a_default_obj)
 	{
 		global $lng, $ilias, $ilCtrl, $tree;
-
 		$lng->loadLanguageModule("link");
 
 		$this->initLinkTypes();
@@ -73,6 +72,7 @@ class ilInternalLinkGUI
 			"Media_FAQ" => $lng->txt("cont_lk_media_faq"),
 			"Media_New" => $lng->txt("cont_lk_media_new"),
 			"WikiPage" => $lng->txt("cont_wiki_page"),
+			"PortfolioPage" => $lng->txt("cont_portf_page"),
 			"File" => $lng->txt("cont_lk_file"),
 			"RepositoryItem" => $lng->txt("cont_repository_item")
 			);		
@@ -269,6 +269,13 @@ class ilInternalLinkGUI
 					$_SESSION["il_link_wiki"] = $this->default_obj;
 				}
 				break;
+
+			case "PortfolioPage":
+				if  (empty($_SESSION["il_link_prtf"]) && $def_type == "prtf")
+				{
+					$_SESSION["il_link_prtf"] = $this->default_obj;
+				}
+				break;
 		}
 
 		/*
@@ -291,10 +298,17 @@ class ilInternalLinkGUI
 		}
 		if(($this->link_type == "WikiPage") &&
 			(empty($_SESSION["il_link_wiki"]) ||
-			!in_array(ilObject::_lookupType($_SESSION["il_link_wiki"], true),
-				array("wiki"))))
+				!in_array(ilObject::_lookupType($_SESSION["il_link_wiki"], true),
+					array("wiki"))))
 		{
 			$this->changeTargetObject("wiki");
+		}
+		if(($this->link_type == "PortfolioPage") &&
+			(empty($_SESSION["il_link_prtf"]) ||
+				!in_array(ilObject::_lookupType($_SESSION["il_link_prtf"], true),
+					array("prtf", "prtt"))))
+		{
+			$this->changeTargetObject("prtf");
 		}
 		if(($this->link_type == "PageObject" || $this->link_type == "StructureObject") &&
 			(empty($_SESSION["il_link_cont_obj"]) ||
@@ -332,20 +346,18 @@ class ilInternalLinkGUI
 				$this->ctrl->setParameter($this, "target_type", "wiki");
 				break;
 
+			case "PortfolioPage":
+				$this->ctrl->setParameter($this, "target_type", "prtf");
+				break;
+
 			default:
 				break;
 		}
-//echo "<br><br>:".$this->ctrl->getFormAction($this).":";
-//echo "<br>link_type:".$this->link_type;
-//echo "<br>cont_obj:".$_SESSION["il_link_cont_obj"];
-//echo "<br>link_mep".$_SESSION["il_link_mep"];
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "changeLinkType", "", true));
 		$tpl->setVariable("FORMACTION2", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_HELP_HEADER", $this->lng->txt("cont_link_select"));
 		$tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_link_type"));
 
-
-//echo "<br><br>".$ltype;
 
 		$select_ltype = ilUtil::formSelect ($ltype,
 			"ltype", $this->ltypes, false, true, "0", "", array("id" => "ilIntLinkTypeSelector"));
@@ -353,15 +365,8 @@ class ilInternalLinkGUI
 		$tpl->setVariable("CMD_CHANGETYPE", "changeLinkType");
 		$tpl->setVariable("BTN_CHANGETYPE", $this->lng->txt("cont_change_type"));
 		
-/*		if ($this->isEnabledJavaScript())
-		{
-			$tpl->setVariable("BTN_CLOSE_JS", $this->lng->txt("close"));
-		}
-		else 
-		{*/
-			$tpl->setVariable("CMD_CLOSE", "closeLinkHelp");
-			$tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
-//		}
+		$tpl->setVariable("CMD_CLOSE", "closeLinkHelp");
+		$tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
 
 		$chapterRowBlock = "chapter_row";
 		$anchor_row_block = "anchor_link";
@@ -655,7 +660,7 @@ class ilInternalLinkGUI
 				}
 				break;
 
-			// glossary item link
+			// wiki page link
 			case "WikiPage":
 				$wiki_id = ilObject::_lookupObjId($_SESSION["il_link_wiki"]);
 				require_once("./Modules/Wiki/classes/class.ilWikiPage.php");
@@ -677,6 +682,32 @@ class ilInternalLinkGUI
 						"WikiPage", "wpage", "wpage");
 				}
 				
+				$tpl->setCurrentBlock("chapter_list");
+				$tpl->parseCurrentBlock();
+				break;
+
+			// Portfolio page link
+			case "PortfolioPage":
+				$prtf_id = ilObject::_lookupObjId($_SESSION["il_link_prtf"]);
+				require_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
+				$ppages = ilPortfolioPage::getAllPortfolioPages($prtf_id);
+
+				// get all glossary items
+				$tpl->setCurrentBlock("chapter_list");
+				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("obj_".ilObject::_lookupType($prtf_id)));
+				$tpl->setVariable("TXT_CONT_TITLE", ilObject::_lookupTitle($prtf_id));
+				$tpl->setVariable("THEAD", $this->lng->txt("link_portpages"));
+				$tpl->setCurrentBlock("change_cont_obj");
+				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
+				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
+				$tpl->parseCurrentBlock();
+
+				foreach($ppages as $ppage)
+				{
+					$this->renderLink($tpl, $ppage["title"], $ppage["id"],
+						"PortfolioPage", "ppage", "ppage");
+				}
+
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->parseCurrentBlock();
 				break;
@@ -882,6 +913,13 @@ class ilInternalLinkGUI
 				$exp->setClickableType("wiki");
 				break;
 
+			case "prtf":
+				$white[] = "prtf";
+				$white[] = "prtt";
+				$exp->setClickableType("prtf");
+				$exp->setClickableType("prtt");
+				break;
+
 			case "mep":
 				$white[] = "mep";
 				$exp->setClickableType("mep");
@@ -926,6 +964,10 @@ class ilInternalLinkGUI
 					$_SESSION["il_link_wiki"] = $_GET["sel_id"];
 					break;
 
+				case "prtf":
+					$_SESSION["il_link_prtf"] = $_GET["sel_id"];
+					break;
+
 				default:
 					$_SESSION["il_link_cont_obj"] = $_GET["sel_id"];
 					break;
@@ -956,6 +998,10 @@ class ilInternalLinkGUI
 				{
 					$a_type = "wiki";
 				}
+				if ($this->link_type == "PortfolioPage")
+				{
+					$a_type = "prtf";
+				}
 			}
 		}
 
@@ -970,6 +1016,10 @@ class ilInternalLinkGUI
 		else if ($a_type == "wiki")
 		{
 			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_wiki"));
+		}
+		else if ($a_type == "prtf")
+		{
+			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_prtf"));
 		}
 		else if ($a_type == "mep")
 		{
