@@ -40,4 +40,12 @@ class Presentation implements T\Presentation {
 		return $this->title;
 	}
 
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getRows() {
+		return $this->rows;
+	}
+
 }

@@ -7,8 +7,21 @@ function base() {
 
 	$data = array(
 		array(
-			'title'=>'',
-			'type'=>'',
+			'title'=>'row-1',
+			'type'=>'webinar',
+			'begin_date'=>'',
+			'bookings_available'=>'',
+			'target_group'=>'',
+			'goals'=>'',
+			'topics'=>'',
+			'date' => '',
+			'location'=>'',
+			'address' => '',
+			'fee' => ''
+		),
+		array(
+			'title'=>'second',
+			'type'=>'f2f',
 			'begin_date'=>'',
 			'bookings_available'=>'',
 			'target_group'=>'',

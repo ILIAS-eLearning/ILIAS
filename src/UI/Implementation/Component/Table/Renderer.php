@@ -36,16 +36,42 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	/**
-	 *
+	 * @param Component\Table\Presentation $component
+	 * @param RendererInterface $default_renderer
+	 * @return mixed
 	 */
 	protected function renderPresentationTable(Component\Table\Presentation $component, RendererInterface $default_renderer) {
+		$tpl = $this->getTemplate("tpl.presentationtable.html", true, true);
 
-		return 'table';
+		foreach ($component->getRows() as $row) {
+			$tpl->setCurrentBlock("row");
+			$tpl->setVariable("ROW", $default_renderer->render($row));
+			$tpl->parseCurrentBlock();
+		}
+
+		return $tpl->get();
 	}
 
+	/**
+	 * @param Component\Table\Presentation $component
+	 * @param RendererInterface $default_renderer
+	 * @return mixed
+	 */
 	protected function renderPresentationRow(Component\Table\PresentationRow $component, RendererInterface $default_renderer) {
-		return 'row';
+		$data = $component->getData();
 
+		$tpl = $this->getTemplate("tpl.presentationrow.html", true, true);
+		$tpl->setVariable("TITLE", $data[$component->getTitleField()]);
+		$tpl->setVariable("SUBTITLE", $data[$component->getSubtitleField()]);
+
+
+		foreach ($component->getButtons() as $button) {
+			$tpl->setCurrentBlock("button");
+			$tpl->setVariable("BUTTON", $default_renderer->render($button));
+			$tpl->parseCurrentBlock();
+		}
+
+		return $tpl->get();
 	}
 
 }

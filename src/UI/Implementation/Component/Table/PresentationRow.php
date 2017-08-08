@@ -14,6 +14,21 @@ class PresentationRow implements T\PresentationRow {
 	 */
 	private $title_field;
 
+	/**
+	 * @var	string
+	 */
+	private $subtitle_field;
+
+	/**
+	 * @var	array
+	 */
+	private $data;
+
+	/**
+	 * @var	array
+	 */
+	private $buttons;
+
 
 	public function __construct($title_field) {
 		$this->checkStringArg("string", $title_field);
@@ -30,10 +45,18 @@ class PresentationRow implements T\PresentationRow {
 	/**
 	 * @inheritdoc
 	 */
-	public function withSubtitleField() {
+	public function withSubtitleField($subtitle_field) {
+		$this->checkStringArg("string", $subtitle_field);
 		$clone = clone $this;
-		//$clone->abbreviation = $abbreviation;
+		$clone->subtitle_field = $subtitle_field;
 		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getSubtitleField() {
+		return $this->subtitle_field;
 	}
 
 	/**
@@ -66,19 +89,32 @@ class PresentationRow implements T\PresentationRow {
 	/**
 	 * @inheritdoc
 	 */
-	public function withData() {
+	public function withData($data) {
 		$clone = clone $this;
-		//$clone->abbreviation = $abbreviation;
+		$clone->data = $data;
+		return $clone;
+	}
+	/**
+	 * @inheritdoc
+	 */
+	public function getData() {
+		return $this->data;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withButtons(array $buttons) {
+		$clone = clone $this;
+		$clone->buttons = $buttons;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withButtons() {
-		$clone = clone $this;
-		//$clone->abbreviation = $abbreviation;
-		return $clone;
+	public function getButtons() {
+		return $this->buttons;
 	}
 
 
