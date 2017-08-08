@@ -298,7 +298,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 			'unmarkAccreditedMulti' => $this->lng->txt('prg_multi_unmark_accredited'),
 			'removeUserMulti' => $this->lng->txt('prg_multi_remove_user'),
 			'markRelevantMulti' => $this->lng->txt('prg_multi_mark_relevant'),
-			'unmarkRelevantMulti' => $this->lng->txt('prg_mulit_unmark_relevant'),
+			'markNotRelevantMulti' => $this->lng->txt('prg_mulit_unmark_relevant'),
 			'updateFromPlanMulti' => $this->lng->txt('prg_mulit_update_from_current_plan')
 		);
 	}

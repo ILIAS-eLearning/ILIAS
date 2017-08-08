@@ -128,6 +128,8 @@ class ilObjStudyProgrammeMembersGUI {
 					case "removeUser":
 					case "removeUserMulti":
 					case "addUsersWithAcknowledgedCourses":
+					case "markNotRelevantMulti":
+					case "markRelevantMulti":
 						$cont = $this->$cmd();
 						break;
 					default:
@@ -259,21 +261,16 @@ class ilObjStudyProgrammeMembersGUI {
 	public function markAccreditedMulti()
 	{
 		$prgrs_ids = $_POST["prgs_ids"];
-		$not_removed = array();
 		foreach ($prgrs_ids as $key => $prgrs_id) {
-			try {
-				$this->accredit((int)$prgrs_id);
-			} catch (ilException $e) {
-				$not_removed[] = $prgrs_id;
-			}
+			$this->accredit((int)$prgrs_id);
 		}
 		$this->showSuccessMessage("mark_accredited_multi_success");
 		$this->ctrl->redirect($this, "view");
 	}
 
-	protected function accredit($prgs_id)
+	protected function accredit($prgrs_id)
 	{
-		$prgrs = $this->getProgressObject($prgs_id);
+		$prgrs = $this->getProgressObject($prgrs_id);
 		$prgrs->markAccredited($this->user->getId());
 	}
 
@@ -286,24 +283,45 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ctrl->redirect($this, "view");
 	}
 
-	protected function deaccredit($prgs_id)
+	protected function deaccredit($prgrs_id)
 	{
-		$prgrs = $this->getProgressObject($prgs_id);
+		$prgrs = $this->getProgressObject($prgrs_id);
 		$prgrs->unmarkAccredited();
 	}
 
 	public function unmarkAccreditedMulti()
 	{
 		$prgrs_ids = $_POST["prgs_ids"];
-		$not_removed = array();
 		foreach ($prgrs_ids as $key => $prgrs_id) {
-			try {
-				$this->deaccredit((int)$prgrs_id);
-			} catch (ilException $e) {
-				$not_removed[] = $prgrs_id;
-			}
+			$this->deaccredit((int)$prgrs_id);
 		}
 		$this->showSuccessMessage("unmark_accredited_success");
+		$this->ctrl->redirect($this, "view");
+	}
+
+	public function markRelevantMulti()
+	{
+		$prgrs_ids = $_POST["prgs_ids"];
+
+		foreach ($prgrs_ids as $key => $prgrs_id) {
+			$prgrs = $this->getProgressObject((int)$prgrs_id);
+			$prgrs->markRelevant($this->user->getId());
+		}
+
+		$this->showSuccessMessage("mark_relevant_multi_success");
+		$this->ctrl->redirect($this, "view");
+	}
+
+	public function markNotRelevantMulti()
+	{
+		$prgrs_ids = $_POST["prgs_ids"];
+
+		foreach ($prgrs_ids as $key => $prgrs_id) {
+			$prgrs = $this->getProgressObject((int)$prgrs_id);
+			$prgrs->markNotRelevant($this->user->getId());
+		}
+
+		$this->showSuccessMessage("mark_not_relevant_multi_success");
 		$this->ctrl->redirect($this, "view");
 	}
 
