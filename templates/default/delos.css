@@ -7223,7 +7223,7 @@ ul.breadcrumb li:hover {
   background-clip: padding-box;
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
+  border-radius: 0px;
   -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
@@ -7327,7 +7327,7 @@ ul.breadcrumb li:hover {
   line-height: 18px;
   background-color: white;
   border-bottom: 1px solid #f2f2f2;
-  border-radius: 5px 5px 0 0;
+  border-radius: -1px -1px 0 0;
 }
 .webui-popover-content {
   padding: 9px 14px;
@@ -7530,6 +7530,18 @@ ul.breadcrumb li:hover {
 }
 .il-popover i.icon-refresh {
   background: url("../../src/UI/templates/libs/node_modules/webui-popover/img/loading.gif") no-repeat;
+  height: 30px;
+}
+.il-popover .il-popover-title-container {
+  background-color: #F0F0F0;
+}
+.il-popover .il-popover-title-container h4.il-popover-title {
+  font-size: 17px;
+  font-weight: normal;
+  padding: 8px 14px;
+  background-color: transparent;
+  text-transform: uppercase;
+  color: #909090;
 }
 .bg-primary {
   color: white;
@@ -13446,6 +13458,17 @@ span.ilProfileBadge {
 }
 .input-group.date .input-group-addon {
   cursor: pointer;
+}
+.il-item-task {
+  padding: 8px 14px;
+  border-top: 1px #ddd solid;
+  min-width: 250px;
+  margin-top: -1px;
+  background-color: white;
+}
+.il-item-task .il-item-task-title h4 {
+  font-size: 14px;
+  font-weight: bold;
 }
 .noMargin {
   margin: 0;

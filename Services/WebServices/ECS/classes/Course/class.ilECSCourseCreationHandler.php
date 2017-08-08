@@ -175,20 +175,25 @@ class ilECSCourseCreationHandler
 		}
 		
 		// Get all rules
-		$matching_rule = 0;
+		$matching_rules =  [];
 		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMappingRule.php';
 		foreach(ilECSCourseMappingRule::getRuleRefIds($this->getServer()->getServerId(), $this->getMid()) as $ref_id)
 		{
-			if(ilECSCourseMappingRule::isMatching(
+			$matching_index = ilECSCourseMappingRule::isMatching(
 					$course,
 					$this->getServer()->getServerId(),
 					$this->getMid(),
-					$ref_id))
+					$ref_id);
+			if(strcmp($matching_index, '0') !== 0)
 			{
-				$matching_rule = $ref_id;
+				$matching_rules[$matching_index] = $ref_id;
 			}
 		}
-		if(!$matching_rule)
+		ksort($matching_rules);
+		
+		$this->log->dump($matching_rules);
+		
+		if(!count($matching_rules))
 		{
 			// Put course in default category
 			$this->log->debug('No matching attribute mapping rule found.');
@@ -196,30 +201,44 @@ class ilECSCourseCreationHandler
 			$this->doSync($a_content_id,$course,ilObject::_lookupObjId($this->getMapping()->getDefaultCourseCategory()));
 			return true;
 		}
-		// map according mapping rules
-		$parent_refs = ilECSCourseMappingRule::doMappings($course,$this->getServer()->getServerId(),$this->getMid(),$matching_rule);
 		
-		$this->log->debug('Parent references: ');
-		$this->log->dump($parent_refs);
+		$this->log->debug('Matching rules:');
+		$this->log->dump($matching_rules,  ilLogLevel::DEBUG);
+		
+		$all_parent_refs = [];
+		foreach($matching_rules as $matching_rule)
+		{
+			$this->log->debug('Handling matching rule: '. $matching_rule);
+			$parent_refs = ilECSCourseMappingRule::doMappings($course,$this->getServer()->getServerId(),$this->getMid(),$matching_rule);
+			// map according mapping rules
+			$this->log->debug('Adding parent references: ');
+			$this->log->dump($parent_refs);
+			
+			if(count($parent_refs))
+			{
+				$all_parent_refs = array_unique(array_merge($all_parent_refs,$parent_refs));
+			}
+		}
 		
 		// parent refs are an array of created categories
 		// the first ref should contain the main course or parallel courses.
 		// all other refs wil contain course references.
 		$first = true;
-		foreach($parent_refs as $ref_id)
+		foreach($all_parent_refs as $category_ref)
 		{
 			if($first)
 			{
-				$this->doSync($a_content_id, $course, ilObject::_lookupObjId($ref_id));
+				$this->log->debug('Creating new course instance in: ' . $category_ref);
+				$this->doSync($a_content_id, $course, ilObject::_lookupObjId($category_ref));
 				$first = false;
 				continue;
 			}
 			else
 			{
-				$this->createCourseReferenceObjects($ref_id);
+				$this->log->debug('Creating new course reference instance in: ' . $category_ref);
+				$this->createCourseReferenceObjects($category_ref);
 			}
 		}
-		
 		return true;
 	}
 	
