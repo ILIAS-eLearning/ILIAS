@@ -130,6 +130,7 @@ class ilObjStudyProgrammeMembersGUI {
 					case "addUsersWithAcknowledgedCourses":
 					case "markNotRelevantMulti":
 					case "markRelevantMulti":
+					case "updateFromCurrentPlanMulti":
 						$cont = $this->$cmd();
 						break;
 					default:
@@ -322,6 +323,34 @@ class ilObjStudyProgrammeMembersGUI {
 		}
 
 		$this->showSuccessMessage("mark_not_relevant_multi_success");
+		$this->ctrl->redirect($this, "view");
+	}
+
+	public function updateFromCurrentPlanMulti()
+	{
+		$prgrs_ids = $_POST["prgs_ids"];
+		$not_updated = array();
+
+		foreach ($prgrs_ids as $key => $prgrs_id) {
+			$prgrs = $this->getProgressObject((int)$prgrs_id);
+			$ass = $prgrs->getAssignment();
+			$prg = $ass->getStudyProgramme();
+			if ($prg->getRefId() != $this->ref_id) {
+				$not_updated[] = $prgrs_id;
+				continue;
+			}
+
+			$ass->updateFromProgram();
+		}
+
+		if (count($not_updated) == count($prgrs_ids)) {
+			$this->showInfoMessage("update_from_current_plan_not_possible");
+		} elseif (count($not_updated) > 0) {
+			$this->showSuccessMessage("update_from_current_plan_partitial_success");
+		} else {
+			$this->showSuccessMessage("update_from_current_plan_success");
+		}
+
 		$this->ctrl->redirect($this, "view");
 	}
 
