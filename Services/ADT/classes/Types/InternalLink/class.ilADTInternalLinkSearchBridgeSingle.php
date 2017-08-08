@@ -48,7 +48,6 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 
 		$url = new ilTextInputGUI($this->getTitle(), $this->getElementId());
 		$url->setSize(255);
-		$url->setValue($this->getADT()->getUrl());
 		$this->addToParentElement($url);
 	}
 
@@ -87,7 +86,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 			{
 				return;
 			}
-			$a_value = $this->getADT()->getUrl();
+			$a_value = $this->getADT()->getTargetRefId();
 		}
 
 		switch($a_mode)
@@ -163,7 +162,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 	{
 		if(!$this->isNull() && $this->isValid())
 		{
-			return serialize(array($this->getADT()->getUrl()));
+			return serialize(array($this->getADT()->getTargetRefId()));
 		}
 	}
 
@@ -176,7 +175,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 		$a_value = unserialize($a_value);
 		if(is_array($a_value))
 		{
-			$this->getADT()->setUrl($a_value[0]);
+			$this->getADT()->setTargetRefId($a_value[0]);
 		}
 	}
 
