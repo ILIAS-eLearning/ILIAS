@@ -144,7 +144,12 @@ class ilObjStudyProgrammeMembersGUI {
 		
 		$this->tpl->setContent($cont);
 	}
-	
+
+	/**
+	 * Shows table with all members of the SP
+	 *
+	 * @return string
+	 */
 	protected function view() {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeMembersTableGUI.php");
 		
@@ -161,6 +166,13 @@ class ilObjStudyProgrammeMembersGUI {
 		return $table->getHTML();
 	}
 
+	/**
+	 * Assigns a users to SP
+	 *
+	 * @param int[] 	$a_users
+	 *
+	 * @return null
+	 */
 	public function addUsers($a_users) {
 		$prg = $this->getStudyProgramme();
 
@@ -183,6 +195,14 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ctrl->redirect($this, "view");
 	}
 
+	/**
+	 * Shows list of completed courses for each user if he should be assigned
+	 *
+	 * @param int[] 	$a_completed_courses
+	 * @param int[] 	$a_users
+	 *
+	 * @return null
+	 */
 	public function viewCompletedCourses($a_completed_courses, $a_users) {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI.php");
 
@@ -213,6 +233,11 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->tpl->setContent($tpl->get());
 	}
 
+	/**
+	 * Assign users if they have any completed course
+	 *
+	 * @return null
+	 */
 	public function addUsersWithAcknowledgedCourses() {
 		$users = $_POST["users"];
 		$assignments = $this->_addUsers($users);
@@ -231,6 +256,13 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ctrl->redirect($this, "view");
 	}
 
+	/**
+	 * Add users to SP
+	 *
+	 * @param int[] 	$a_users
+	 *
+	 * @return ilStudyProgrammeUserAssignment[]
+	 */
 	protected function _addUsers($a_users) {
 		$prg = $this->getStudyProgramme();
 
@@ -250,6 +282,11 @@ class ilObjStudyProgrammeMembersGUI {
 		return $assignments;
 	}
 
+	/**
+	 * Mark SP for single user accredited
+	 *
+	 * @return null
+	 */
 	public function markAccredited()
 	{
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
@@ -259,6 +296,11 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ctrl->redirect($this, "view");
 	}
 
+	/**
+	 * Mark SP for users accredited
+	 *
+	 * @return null
+	 */
 	public function markAccreditedMulti()
 	{
 		$prgrs_ids = $_POST["prgs_ids"];
@@ -269,12 +311,24 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ctrl->redirect($this, "view");
 	}
 
+	/**
+	 * Accredited SP
+	 *
+	 * @param int 	$prgrs_id
+	 *
+	 * @return null
+	 */
 	protected function accredit($prgrs_id)
 	{
 		$prgrs = $this->getProgressObject($prgrs_id);
 		$prgrs->markAccredited($this->user->getId());
 	}
 
+	/**
+	 * Unmark SP for single user accredited
+	 *
+	 * @return null
+	 */
 	public function unmarkAccredited()
 	{
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
@@ -284,12 +338,24 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ctrl->redirect($this, "view");
 	}
 
+	/**
+	 * Deaccredited SP
+	 *
+	 * @param int 	$prgrs_id
+	 *
+	 * @return null
+	 */
 	protected function deaccredit($prgrs_id)
 	{
 		$prgrs = $this->getProgressObject($prgrs_id);
 		$prgrs->unmarkAccredited();
 	}
 
+	/**
+	 * Unmark SP for users accredited
+	 *
+	 * @return null
+	 */
 	public function unmarkAccreditedMulti()
 	{
 		$prgrs_ids = $_POST["prgs_ids"];
@@ -300,6 +366,11 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ctrl->redirect($this, "view");
 	}
 
+	/**
+	 * Mark SP as relevant for users
+	 *
+	 * @return null
+	 */
 	public function markRelevantMulti()
 	{
 		$prgrs_ids = $_POST["prgs_ids"];
@@ -313,6 +384,11 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ctrl->redirect($this, "view");
 	}
 
+	/**
+	 * Mark SP as not relevant for users
+	 *
+	 * @return null
+	 */
 	public function markNotRelevantMulti()
 	{
 		$prgrs_ids = $_POST["prgs_ids"];
@@ -326,6 +402,11 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ctrl->redirect($this, "view");
 	}
 
+	/**
+	 * Update user plan from current SP structure if they has no individual plan
+	 *
+	 * @return null
+	 */
 	public function updateFromCurrentPlanMulti()
 	{
 		$prgrs_ids = $_POST["prgs_ids"];
@@ -354,6 +435,11 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ctrl->redirect($this, "view");
 	}
 
+	/**
+	 * Remove single user from SP
+	 *
+	 * @return null
+	 */
 	public function removeUser()
 	{
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
@@ -363,6 +449,11 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ctrl->redirect($this, "view");
 	}
 
+	/**
+	 * Remove user from SP
+	 *
+	 * @return null
+	 */
 	protected function removeUserMulti()
 	{
 		$prgrs_ids = $_POST["prgs_ids"];
@@ -384,6 +475,13 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ctrl->redirect($this, "view");
 	}
 
+	/**
+	 * Rmeove user
+	 *
+	 * @param int 	$prgrs_id
+	 *
+	 * @return null
+	 */
 	protected function remove($prgrs_id)
 	{
 		$prgrs = $this->getProgressObject($prgrs_id);
@@ -395,6 +493,13 @@ class ilObjStudyProgrammeMembersGUI {
 		$ass->deassign();
 	}
 
+	/**
+	 * Get progress object for prgrs id
+	 *
+	 * @param int 	$prgrs_id
+	 *
+	 * @return ilStudyProgrammeUserProgress
+	 */
 	protected function getProgressObject($prgrs_id)
 	{
 		assert('is_int($prgrs_id)');
@@ -405,6 +510,13 @@ class ilObjStudyProgrammeMembersGUI {
 		return $this->progress_object[$prgrs_id];
 	}
 
+	/**
+	 * Get current prgrs_id from URL
+	 *
+	 * @throws ilException 	if no prgrs id is in url
+	 *
+	 * @return int
+	 */
 	protected function getPrgrsId()
 	{
 		if (!is_numeric($_GET["prgrs_id"])) {
@@ -412,12 +524,18 @@ class ilObjStudyProgrammeMembersGUI {
 		}
 		return (int)$_GET["prgrs_id"];
 	}
-	
+
+	/**
+	 * Shows ilutil success message
+	 *
+	 * @return null
+	 */
 	protected function showSuccessMessage($a_lng_var) {
 		require_once("Services/Utilities/classes/class.ilUtil.php");
 		ilUtil::sendSuccess($this->lng->txt("prg_$a_lng_var"), true);
 	}
-	
+
+
 	protected function initSearchGUI() {
 		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeRepositorySearchGUI.php");
 		ilStudyProgrammeRepositorySearchGUI::fillAutoCompleteToolbar(
@@ -430,7 +548,13 @@ class ilObjStudyProgrammeMembersGUI {
 			)
 		);
 	}
-	
+
+	/**
+	 * Get studyprogramm object for ref_id
+	 * Use this ref_id if argument is null
+	 *
+	 * @return ilObjStudyProgramme
+	 */
 	public function getStudyProgramme($a_ref_id = null) {
 		if ($a_ref_id === null) {
 			$a_ref_id = $this->ref_id;
@@ -473,5 +597,3 @@ class ilObjStudyProgrammeMembersGUI {
 		return $link;
 	}
 }
-
-?>
