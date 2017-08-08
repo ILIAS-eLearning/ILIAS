@@ -32,7 +32,7 @@ class ilUIFramework
 	 */
 	static function getCssFiles()
 	{
-		return array("./Services/UICore/lib/yamm3/yamm/yamm.css");
+		return array("./libs/bower/bower_components/Yamm3/yamm/yamm.css");
 	}
 
 	/**

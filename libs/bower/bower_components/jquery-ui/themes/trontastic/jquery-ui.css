@@ -1,4 +1,4 @@
-/*! jQuery UI - v1.12.0 - 2016-07-08
+/*! jQuery UI - v1.12.1 - 2016-09-14
 * http://jqueryui.com
 * Includes: core.css, accordion.css, autocomplete.css, menu.css, button.css, controlgroup.css, checkboxradio.css, datepicker.css, dialog.css, draggable.css, resizable.css, progressbar.css, selectable.css, selectmenu.css, slider.css, sortable.css, spinner.css, tabs.css, tooltip.css, theme.css
 * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Segoe%20UI%2CHelvetica%2CArial%2Csans-serif&fwDefault=bold&fsDefault=1.1em&cornerRadius=6px&bgColorHeader=9fda58&bgTextureHeader=gloss_wave&bgImgOpacityHeader=85&borderColorHeader=000000&fcHeader=222222&iconColorHeader=1f1f1f&bgColorContent=000000&bgTextureContent=gloss_wave&bgImgOpacityContent=55&borderColorContent=4a4a4a&fcContent=ffffff&iconColorContent=9fda58&bgColorDefault=0a0a0a&bgTextureDefault=glass&bgImgOpacityDefault=40&borderColorDefault=1b1613&fcDefault=b8ec79&iconColorDefault=b8ec79&bgColorHover=000000&bgTextureHover=glass&bgImgOpacityHover=60&borderColorHover=000000&fcHover=96f226&iconColorHover=b8ec79&bgColorActive=4c4c4c&bgTextureActive=flat&bgImgOpacityActive=0&borderColorActive=696969&fcActive=ffffff&iconColorActive=ffffff&bgColorHighlight=f1fbe5&bgTextureHighlight=glass&bgImgOpacityHighlight=55&borderColorHighlight=8cce3b&fcHighlight=030303&iconColorHighlight=000000&bgColorError=f6ecd5&bgTextureError=gloss_wave&bgImgOpacityError=95&borderColorError=f1ac88&fcError=74736d&iconColorError=cd0a0a&bgColorOverlay=262626&bgTextureOverlay=diagonals_small&bgImgOpacityOverlay=50&opacityOverlay=30&bgColorShadow=303030&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=50&thicknessShadow=6px&offsetTopShadow=-6px&offsetLeftShadow=-6px&cornerRadiusShadow=12px
@@ -1069,14 +1069,10 @@ a.ui-button:active,
 .ui-widget-header .ui-icon {
 	background-image: url("images/ui-icons_1f1f1f_256x240.png");
 }
-.ui-button .ui-icon {
-	background-image: url("images/ui-icons_b8ec79_256x240.png");
-}
 .ui-state-hover .ui-icon,
 .ui-state-focus .ui-icon,
 .ui-button:hover .ui-icon,
-.ui-button:focus .ui-icon,
-.ui-state-default .ui-icon {
+.ui-button:focus .ui-icon {
 	background-image: url("images/ui-icons_b8ec79_256x240.png");
 }
 .ui-state-active .ui-icon,
@@ -1090,6 +1086,9 @@ a.ui-button:active,
 .ui-state-error .ui-icon,
 .ui-state-error-text .ui-icon {
 	background-image: url("images/ui-icons_cd0a0a_256x240.png");
+}
+.ui-button .ui-icon {
+	background-image: url("images/ui-icons_b8ec79_256x240.png");
 }
 
 /* positioning */

@@ -1,5 +1,5 @@
 /*!
- * jQuery UI CSS Framework 1.12.0
+ * jQuery UI CSS Framework 1.12.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -201,14 +201,10 @@ a.ui-button:active,
 .ui-widget-header .ui-icon {
 	background-image: url("images/ui-icons_1f1f1f_256x240.png");
 }
-.ui-button .ui-icon {
-	background-image: url("images/ui-icons_b8ec79_256x240.png");
-}
 .ui-state-hover .ui-icon,
 .ui-state-focus .ui-icon,
 .ui-button:hover .ui-icon,
-.ui-button:focus .ui-icon,
-.ui-state-default .ui-icon {
+.ui-button:focus .ui-icon {
 	background-image: url("images/ui-icons_b8ec79_256x240.png");
 }
 .ui-state-active .ui-icon,
@@ -222,6 +218,9 @@ a.ui-button:active,
 .ui-state-error .ui-icon,
 .ui-state-error-text .ui-icon {
 	background-image: url("images/ui-icons_cd0a0a_256x240.png");
+}
+.ui-button .ui-icon {
+	background-image: url("images/ui-icons_b8ec79_256x240.png");
 }
 
 /* positioning */
