@@ -16005,3 +16005,4 @@ prg#:#prg_mulit_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren.
 prg#:#prg_remove_users_success#:#Die Benutzer wurden entfernt.
 prg#:#prg_remove_users_not_possible#:#Die Benutzer konnten nicht entfernt werden, da sie nicht an diesem Studienprogramm hinzugefügt wurden.
 prg#:#prg_remove_users_partitial_success#:#Die Benutzer wurden teilweise entfernt. Einige konnten nicht entfernt werden, da sie nicht an diesem Studienprogramm hinzugefügt wurden.
+prg#:#prg_mark_accredited_multi_success#:#Das Programm wurde für die Benutzer erfolgreich akkreditiert.

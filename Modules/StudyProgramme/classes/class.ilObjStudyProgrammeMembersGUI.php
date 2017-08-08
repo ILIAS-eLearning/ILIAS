@@ -122,6 +122,7 @@ class ilObjStudyProgrammeMembersGUI {
 				switch ($cmd) {
 					case "view":
 					case "markAccredited":
+					case "markAccreditedMulti":
 					case "unmarkAccredited":
 					case "removeUser":
 					case "removeUserMulti":
@@ -245,14 +246,36 @@ class ilObjStudyProgrammeMembersGUI {
 		return $assignments;
 	}
 
-	public function markAccredited() {
+	public function markAccredited()
+	{
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
-		$prgrs = $this->getProgressObject();
-		$prgrs->markAccredited($this->user->getId());
+		$prgrs_id = $this->getPrgrsId();
+		$this->accredit($prgrs_id);
 		$this->showSuccessMessage("mark_accredited_success");
 		$this->ctrl->redirect($this, "view");
 	}
-	
+
+	public function markAccreditedMulti()
+	{
+		$prgrs_ids = $_POST["prgs_ids"];
+		$not_removed = array();
+		foreach ($prgrs_ids as $key => $prgrs_id) {
+			try {
+				$this->accredit((int)$prgrs_id);
+			} catch (ilException $e) {
+				$not_removed[] = $prgrs_id;
+			}
+		}
+		$this->showSuccessMessage("mark_accredited_success");
+		$this->ctrl->redirect($this, "view");
+	}
+
+	protected function accredit($prgs_id)
+	{
+		$prgrs = $this->getProgressObject($prgs_id);
+		$prgrs->markAccredited($this->user->getId());
+	}
+
 	public function unmarkAccredited() {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 		$prgrs = $this->getProgressObject();
@@ -260,7 +283,7 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->showSuccessMessage("unmark_accredited_success");
 		$this->ctrl->redirect($this, "view");
 	}
-	
+
 	public function removeUser()
 	{
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
