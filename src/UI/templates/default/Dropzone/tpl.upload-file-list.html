@@ -12,14 +12,18 @@
 		<!-- hidden Template -->
 		<div class="il-upload-file-item il-upload-file-item-template clearfix row standard hidden">
 			<div class="col-xs-12 col-no-padding">
+				<!-- BEGIN with_metadata_toggle -->
+				<span class="file-info  toggle">{TOGGLE}</span>
+				<!-- END with_metadata_toggle -->
 				<!-- Display Filename-->
 				<span class="file-info filename">FILENAME<!-- File name is inserted with javascript here --></span>
 				<!-- Display Filesize-->
 				<span class="file-info filesize">100KB<!-- File size is inserted with javascript here --></span>
 
 				<!-- Dropdown with actions-->
-				<span class="pull-right">
-					{DROPDOWN}
+				<span class="file-info pull-right remove">
+					<!--{DROPDOWN}-->
+					{REMOVE}
 				</span>
 				<!-- Progress Bar-->
 				<div class="progress" style="margin: 10px 0; display: none;">

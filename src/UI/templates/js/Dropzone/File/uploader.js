@@ -429,11 +429,15 @@ il.UI = il.UI || {};
 
 $(function () {
     var $uploadFileLists = $('.il-upload-file-list');
-    $uploadFileLists.on('click', '[aria-label="edit_metadata"]', function () {
+    $uploadFileLists.find('span.toggle .glyph:first').hide();
+    $uploadFileLists.on('click', 'span.toggle .glyph', function () {
+        $(this).parent().find(".glyph").each(function () {
+            $(this).toggle();
+        });
         $(this).parents('.il-upload-file-item').find('.metadata').toggle();
         return false;
     });
-    $uploadFileLists.on('click', '[aria-label="delete_file"]', function () {
+    $uploadFileLists.on('click', 'span.remove button.close', function () {
         var dz = $(this).closest('.il-dropzone-base').find(".il-dropzone");
         var uploadId = dz.data('upload-id');
         var fileId = parseInt($(this).parents('.il-upload-file-item').data('file-id'));

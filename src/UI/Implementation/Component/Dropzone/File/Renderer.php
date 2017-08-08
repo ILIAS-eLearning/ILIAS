@@ -172,13 +172,16 @@ class Renderer extends AbstractComponentRenderer {
 		$f = $this->getUIFactory();
 		$r = $this->renderer;
 		$tplUploadFileList = $this->getTemplate('tpl.upload-file-list.html', true, true);
-		//		$tplUploadFileList->setVariable('UPLOAD_ID', $uploadId);
 
 		// Actions
 		$items = array(
 			$f->button()->shy($this->txt("remove"), "")->withAriaLabel("delete_file"),
 		);
+
+		$tplUploadFileList->setVariable("REMOVE", $r->render([$f->button()->close()]));
+
 		if ($this->renderMetaData($dropzone)) {
+			$tplUploadFileList->setVariable("TOGGLE", $r->render([$f->glyph()->collapse(), $f->glyph()->expand()]));
 			$tplUploadFileList->setCurrentBlock("with_metadata");
 			$items[] = $f->button()->shy($this->txt("edit_metadata"), "")->withAriaLabel("edit_metadata");
 			if ($dropzone->allowsUserDefinedFileNames()) {
