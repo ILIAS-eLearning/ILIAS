@@ -124,7 +124,7 @@ class ilObjStudyProgrammeMembersGUI {
 					case "markAccredited":
 					case "unmarkAccredited":
 					case "removeUser":
-					case "removeUsers":
+					case "removeUserMulti":
 					case "addUsersWithAcknowledgedCourses":
 						$cont = $this->$cmd();
 						break;
@@ -270,7 +270,7 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ctrl->redirect($this, "view");
 	}
 
-	protected function removeUsers()
+	protected function removeUserMulti()
 	{
 		$prgrs_ids = $_POST["prgs_ids"];
 		$not_removed = array();
