@@ -162,6 +162,24 @@ class ilCalendarAppointmentPresentationGUI
 		$f = ilAppointmentPresentationFactory::getInstance($this->appointment, $info_screen, $toolbar, null);
 
 		$this->ctrl->getHTML($f);
+		$content = $info_screen->getHTML();
+
+		foreach($this->getActivePlugins() as $plugin)
+		{
+			//add content
+			$info_screen = $plugin->infoscreenAddContent($info_screen);
+			$extra_content = $plugin->addExtraContent();
+			$content =  $info_screen->getHTML().$extra_content;
+
+			//replace all content
+			//$content = $plugin->replaceContent();
+
+			//add toolbar items
+			$toolbar = $plugin->toolbarAddItems($toolbar);
+
+			//replace toolbar
+			//$toolbar = $plugin->toolbarReplaceContent();
+		}
 
 		// show toolbar
 		$tpl->setCurrentBlock("toolbar");
@@ -170,7 +188,7 @@ class ilCalendarAppointmentPresentationGUI
 
 
 		// show infoscreen
-		$tpl->setVariable("CONTENT", $info_screen->getHTML());
+		$tpl->setVariable("CONTENT", $content);
 
 		return $tpl->get();
 	}
@@ -187,4 +205,18 @@ class ilCalendarAppointmentPresentationGUI
 		$this->list_item = $f->getListItem();
 	}
 
+	protected function getActivePlugins()
+	{
+		global $ilPluginAdmin;
+
+		$res = array();
+
+		foreach($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Calendar", "capm") as $plugin_name)
+		{
+			$res[] = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE,
+			"Calendar", "capm", $plugin_name);
+		}
+
+		return $res;
+	}
 }

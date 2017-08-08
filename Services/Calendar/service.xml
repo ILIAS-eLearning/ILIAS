@@ -18,4 +18,7 @@
 	<crons>
 		<cron id="cal_consultation" class="ilConsultationHourCron" path="Services/Calendar/classes/ConsultationHours/" />
 	</crons>
+	<pluginslots>
+		<pluginslot id="capm" name="AppointmentCustomModal" />
+	</pluginslots>
 </service>
