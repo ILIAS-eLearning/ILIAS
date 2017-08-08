@@ -48,6 +48,10 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
+		$this->addColumn("", "", "1", true);
+		$this->setSelectAllCheckbox("id[]");
+		$this->setEnableAllCommand(true);
+		$this->addMultiCommands();
 
 		if($this->prg_has_lp_children) {
 			$columns = $this->getColumnsLPChildren();
@@ -76,6 +80,10 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 	}
 
 	protected function fillRow($a_set) {
+		$this->tpl->setCurrentBlock("checkb");
+		$this->tpl->setVariable("ID", $a_set["prgrs_id"]);
+		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
 		$this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
 		$this->tpl->setVariable("LOGIN", $a_set["login"]);
@@ -274,6 +282,25 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 						, "prg_custom_plan"		=> array("custom_plan")
 						, "prg_belongs_to"		=> array("belongs_to")
 						);
+	}
+
+	protected function addMultiCommands()
+	{
+		foreach ($this->getMultiCommands() as $cmd => $caption) {
+			$this->addMultiCommand($cmd, $caption);
+		}
+	}
+
+	protected function getMultiCommands()
+	{
+		return array(
+				'accredit' => $this->lng->txt('prg_multi_mark_accredited'),
+				'deaccredit' => $this->lng->txt('prg_multi_unmark_accredited'),
+				'removeUsers' => $this->lng->txt('prg_remove_user'),
+				'markRelevant' => $this->lng->txt('prg_multi_mark_relevant'),
+				'unmarkRelevant' => $this->lng->txt('prg_mulit_unmark_relevant'),
+				'updateFromPlan' => $this->lng->txt('prg_mulit_update_from_current_plan')
+				);
 	}
 }
 

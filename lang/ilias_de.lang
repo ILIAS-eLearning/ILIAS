@@ -15996,3 +15996,9 @@ mail#:#mail_second_email#:#Zweite E-Mail-Adresse
 mail#:#mail_both_email#:#Beide E-Mail-Adressen
 common#:#second_email_not_valid#:#Die eingegebene zweite E-Mail-Adresse ist nicht gültig!
 common#:#second_email#:#Zweite E-Mail
+prg#:#prg_multi_mark_accredited#:#Akkredieren
+prg#:#prg_multi_unmark_accredited#:#Akkreditierung entfernen
+prg#:#prg_multi_remove_user#:#Benutzer entfernen
+prg#:#prg_multi_mark_relevant#:#Als relevant markieren
+prg#:#prg_mulit_unmark_relevant#:#Als unrelevant markieren
+prg#:#prg_mulit_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren.
