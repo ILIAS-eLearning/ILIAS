@@ -28,8 +28,8 @@ class iljQueryUtil {
 	public static function initjQuery($a_tpl = null) {
 		global $tpl;
 
-		self::$min = DEVMODE ? "" : "-min";
-
+		//		self::$min = DEVMODE ? "" : ".min";
+		self::$min = "";
 		if ($a_tpl == null) {
 			$a_tpl = $tpl;
 		}
