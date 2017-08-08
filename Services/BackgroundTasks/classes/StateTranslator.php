@@ -19,7 +19,7 @@ trait StateTranslator {
 	 *
 	 * @return string
 	 */
-	public function translateState($state, $lng) {
+	public function translateState($state, \ilLanguage $lng) {
 		switch ($state) {
 			case State::SCHEDULED;
 				return $lng->txt("observer_state_scheduled");

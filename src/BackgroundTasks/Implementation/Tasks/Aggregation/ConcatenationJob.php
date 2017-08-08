@@ -65,20 +65,4 @@ class ConcatenationJob extends AbstractJob {
 	public function getOutputType() {
 		return new SingleType(StringValue::class);
 	}
-
-
-	/**
-	 * @return bool Returns true iff the job supports giving feedback about the percentage done.
-	 */
-	public function supportsPercentage() {
-		return false;
-	}
-
-
-	/**
-	 * @return int Returns 0 if !supportsPercentage and the percentage otherwise.
-	 */
-	public function getPercentage() {
-		return 0;
-	}
 }

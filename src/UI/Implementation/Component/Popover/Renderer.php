@@ -24,11 +24,18 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable('FORCE_RENDERING', '');
 		/** @var Component\Popover\Popover $component */
 
+		$replacement = array(
+			'"'=> '\"',
+			"\n"=>"",
+			"\t"=>"",
+			"\r"=>"",
+		);
+
 		$options = array(
 			'title'     => $this->escape($component->getTitle()),
 			'placement' => $component->getPosition(),
 			'multi'     => true,
-			'template'  => str_replace('"', '\"', $tpl->get()),
+			'template'  => str_replace(array_keys($replacement), array_values($replacement), $tpl->get()),
 		);
 
 		$is_async = $component->getAsyncContentUrl();

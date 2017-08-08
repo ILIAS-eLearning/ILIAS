@@ -184,6 +184,7 @@ class ilNusoapUserAdministrationAdapter
 												  'title' => array('name' => 'title', 'type' => 'xsd:string'),
 												  'gender' => array('name' => 'gender', 'type' => 'xsd:string'),
 												  'email' => array('name' => 'email', 'type' => 'xsd:string'),
+												  'second_email' => array('name' => 'second_email', 'type' => 'xsd:string'),
 												  'institution' => array('name' => 'institution', 'type' => 'xsd:string'),
 												  'street' => array('name' => 'street', 'type' => 'xsd:string'),
 												  'city' => array('name' => 'city', 'type' => 'xsd:string'),
