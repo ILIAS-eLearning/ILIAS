@@ -248,7 +248,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 	 *
 	 * @return array[] 	$cols
 	 */
-	function getSelectableColumns() {
+	public function getSelectableColumns() {
 		// default fields
 		$cols = array();
 
