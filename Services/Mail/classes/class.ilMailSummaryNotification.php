@@ -2,12 +2,13 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Mail/classes/class.ilMailNotification.php';
+include_once './Services/Mail/classes/class.ilMailOptions.php';
 
 include_once 'Services/Mail/classes/class.ilMimeMail.php';
 include_once 'Services/Mail/classes/class.ilMail.php';
 
 /**
- * @author Nadia Ahmad <nahmad@databay.de>
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  * @version $Id:$
  * 
  * @ingroup ServicesMail
@@ -137,7 +138,7 @@ class ilMailSummaryNotification extends ilMailNotification
 
 			$mmail = new ilMimeMail();
 			$mmail->From($sender);
-			$mmail->To(ilObjUser::_lookupEmail($user_id));
+			$mmail->To(ilMailOptions::getExternalEmailsByUserId($user_id));
 		
 			$mmail->Subject($this->getSubject());
 			$mmail->Body($this->getBody());

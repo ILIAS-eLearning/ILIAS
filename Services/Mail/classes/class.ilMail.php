@@ -794,15 +794,16 @@ class ilMail
 
 				if($user_is_active)
 				{
-					if(!$user_can_read_internal_mails || $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+					if(!$user_can_read_internal_mails 
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
 					{
-						$as_email[] = $tmp_user->getEmail();
-						continue;
-					}
+						$as_email = $as_email + ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
 
-					if($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
-					{
-						$as_email[] = $tmp_user->getEmail();
+						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
+						{
+							continue;
+						}
 					}
 				}
 
@@ -822,7 +823,8 @@ class ilMail
 
 			$to  = array();
 			$bcc = array();
-
+			
+			$as_email = array_unique($as_email);
 			if(count($as_email) == 1)
 			{
 				$to[] = $as_email[0];
@@ -872,15 +874,16 @@ class ilMail
 
 				if($user_is_active)
 				{
-					if(!$user_can_read_internal_mails || $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+					if(!$user_can_read_internal_mails 
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
 					{
-						$as_email[$tmp_user->getId()] = $tmp_user->getEmail();
-						continue;
-					}
-
-					if($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
-					{
-						$as_email[$tmp_user->getId()] = $tmp_user->getEmail();
+						$as_email[$tmp_user->getId()] = ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
+	
+						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
+						{
+							continue;
+						}
 					}
 				}
 
@@ -900,9 +903,15 @@ class ilMail
 
 			if(count($as_email))
 			{
-				foreach($as_email as $id => $email)
+				foreach($as_email as $id => $emails)
 				{
-					$this->sendMimeMail($email, '', '', $a_subject, $this->formatLinebreakMessage($id_to_message_map[$id]), $a_attachments);
+					if(0 == count($emails))
+					{
+						continue;
+					}
+
+					$toEmailAddresses = implode(',', $emails);
+					$this->sendMimeMail($toEmailAddresses, '', '', $a_subject, $this->formatLinebreakMessage($id_to_message_map[$id]), $a_attachments);
 				}
 			}
 
@@ -924,16 +933,18 @@ class ilMail
 					{
 						continue;
 					}
-
-					if(!$user_can_read_internal_mails || $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+					
+					
+					if(!$user_can_read_internal_mails
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
 					{
-						$as_email[] = $tmp_user->getEmail();
-						continue;
-					}
-
-					if($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
-					{
-						$as_email[] = $tmp_user->getEmail();
+						$as_email = $as_email + ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
+						
+						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
+						{
+							continue;
+						}
 					}
 				}
 
