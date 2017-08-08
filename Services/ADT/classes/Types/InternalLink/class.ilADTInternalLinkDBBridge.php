@@ -3,12 +3,12 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Abstract external link db bridge
+ * Abstract internal link db bridge
  *
  * @author Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesADT
  */
-class ilADTExternalLinkDBBridge extends ilADTDBBridge
+class ilADTInternalLinkDBBridge extends ilADTDBBridge
 {
 	/**
 	 * check valid type
@@ -17,7 +17,7 @@ class ilADTExternalLinkDBBridge extends ilADTDBBridge
 	 */
 	protected function isValidADT(ilADT $a_adt)
 	{
-		return $a_adt instanceof ilADTExternalLink;
+		return $a_adt instanceof ilADTInternalLink;
 	}
 	
 	/**
@@ -26,9 +26,7 @@ class ilADTExternalLinkDBBridge extends ilADTDBBridge
 	 */
 	public function readRecord(array $a_row)
 	{
-		$this->getADT()->setUrl($a_row[$this->getElementId().'_value']);
-		$this->getADT()->setTitle($a_row[$this->getElementId().'_title']);
-		
+		$this->getADT()->setTargetRefId($a_row[$this->getElementId()]);
 	}	
 	
 	/**
@@ -37,8 +35,7 @@ class ilADTExternalLinkDBBridge extends ilADTDBBridge
 	 */
 	public function prepareInsert(array &$a_fields)
 	{
-		$a_fields[$this->getElementId().'_value'] = ["text",$this->getADT()->getUrl()];
-		$a_fields[$this->getElementId().'_title'] = ['text',$this->getADT()->getTitle()];
+		$a_fields[$this->getElementId()] = ["integer",$this->getADT()->getTargetRefId()];
 	}	
 }
 ?>

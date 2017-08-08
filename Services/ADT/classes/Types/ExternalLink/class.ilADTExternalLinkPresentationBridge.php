@@ -55,6 +55,7 @@ class ilADTExternalLinkPresentationBridge extends ilADTPresentationBridge
 			return $this->getADT()->getUrl();
 		}
 	}
+	
 
 }
 

@@ -7,7 +7,7 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
 * 
-* @ilCtrl_Calls ilObjectMetaDataGUI: ilMDEditorGUI, ilAdvancedMDSettingsGUI
+* @ilCtrl_Calls ilObjectMetaDataGUI: ilMDEditorGUI, ilAdvancedMDSettingsGUI, ilPropertyFormGUI
 */
 class ilObjectMetaDataGUI
 {

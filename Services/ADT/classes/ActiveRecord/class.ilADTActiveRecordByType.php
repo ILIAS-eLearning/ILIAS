@@ -95,7 +95,8 @@ class ilADTActiveRecordByType
 			"date" => array("Date"),
 			"datetime" => array("DateTime"),
 			"location" => array("Location"),
-			'extlink' => ['ExternalLink']
+			'extlink' => ['ExternalLink'],
+			'intlink' => ['InternalLink']
 		);
 	}
 	

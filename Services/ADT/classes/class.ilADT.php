@@ -31,6 +31,8 @@ abstract class ilADT
 	// date-based
 	const ADT_VALIDATION_DATE = "adt6";
 	
+	// invalid target node for internal link
+	const ADT_VALIDATION_ERROR_INVALID_NODE = 'adt7';	
 	
 	/**
 	 * Constructor

@@ -17,6 +17,7 @@
 rbac#:#il_sess_participant#:#Session Participant
 rbac#:#il_sess_status_closed#:#Non-Participant Closed Session
 meta#:#udf_type_externallink#:#External Link
+meta#:#udf_type_internallink#:#Internal Link
 didactic#:#didactic_scope#:#Scope
 meta#:#md_adv_scope#:#Scope
 meta#:#meta_local#:#Local

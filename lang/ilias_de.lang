@@ -19,6 +19,7 @@ rbac#:#il_sess_status_closed#:#Nicht-Teilnehmer geschlossene Sitzung
 meta#:#md_adv_scope#:#Gültigkeitsbereich
 meta#:#meta_local#:#Lokal
 meta#:#udf_type_externallink#:#Externer Link
+meta#:#udf_type_internallink#:#Interner Link
 didactic#:#didactic_scope_list_header#:#Beschränkt auf:
 meta#:#md_adv_scope_list_header#:#Beschränkt auf:
 didactic#:#didactic_scope#:#Gültigkeitsbereich
