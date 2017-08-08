@@ -256,3 +256,56 @@ if(!$ilDB->tableExists('adv_md_record_scope'))
 	$ilDB->createSequence('adv_md_record_scope');
 }
 ?>
+<#10>
+<?php
+
+if( !$ilDB->tableExists('adv_md_values_extlink') )
+{
+	$ilDB->createTable('adv_md_values_extlink', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'sub_type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true,
+			'default' => "-"
+		),
+		'sub_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'field_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'value' => array(
+			'type' => 'text',
+			'length' => 500,
+			'notnull' => false
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 500,
+			'notnull' => false
+		),
+		'disabled' => [
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0
+		]
+		
+	));
+		
+	$ilDB->addPrimaryKey('adv_md_values_extlink', array('obj_id', 'sub_type', 'sub_id', 'field_id'));
+}
+?>
+
