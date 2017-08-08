@@ -13,10 +13,10 @@ require_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 /**
  * Class ilObjStudyProgrammeMembersTableGUI
  *
- * @author: Richard Klees <richard.klees@concepts-and-training.de>
+ * @author Richard Klees <richard.klees@concepts-and-training.de>
+ * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  *
  */
-
 class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 	protected $prg_obj_id;
 	protected $prg_ref_id;
@@ -121,6 +121,15 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		}
 	}
 
+	/**
+	 * Builds the action menu for each row of the table
+	 *
+	 * @param stirng 	$a_actions
+	 * @param int 	$a_prgrs_id
+	 * @param int 	$a_ass_id
+	 *
+	 * @return ilAdvancedSelectionListGUI
+	 */
 	protected function buildActionDropDown($a_actions, $a_prgrs_id, $a_ass_id) {
 		$l = new ilAdvancedSelectionListGUI();
 		foreach($a_actions as $action) {
@@ -130,10 +139,30 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		return $l->getHTML();
 	}
 
+	/**
+	 * Get ilias link for action
+	 *
+	 * @param stirng 	$a_actions
+	 * @param int 	$a_prgrs_id
+	 * @param int 	$a_ass_id
+	 *
+	 * @return string
+	 */
 	protected function getLinkTargetForAction($a_action, $a_prgrs_id, $a_ass_id) {
 		return $this->getParentObject()->getLinkTargetForAction($a_action, $a_prgrs_id, $a_ass_id);
 	}
 
+	/**
+	 * Get data for table
+	 *
+	 * @param int 	$a_prg_id
+	 * @param int | null 	$limit
+	 * @param int | null 	$offset
+	 * @param string | null 	$order_column
+	 * @param string | null 	$order_directon
+	 *
+	 * @return string[]
+	 */
 	protected function fetchData($a_prg_id, $limit = null, $offset = null, $order_coloumn = null, $order_direction = null) {
 		// TODO: Reimplement this in terms of ActiveRecord when innerjoin
 		// supports the required rename functionality
@@ -215,6 +244,13 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		return $members_list;
 	}
 
+	/**
+	 * Get maximum number of rows the table could have
+	 *
+	 * @param int 	$a_prg_id
+	 *
+	 * @return int
+	 */
 	protected function countFetchData($a_prg_id) {
 		// TODO: Reimplement this in terms of ActiveRecord when innerjoin
 		// supports the required rename functionality
@@ -228,6 +264,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		return $rec["cnt"];
 	}
 
+	/**
+	 * Get the sql part FROM
+	 *
+	 * @return string
+	 */
 	protected function getFrom() {
 		return "  FROM ".ilStudyProgrammeProgress::returnDbTableName()." prgrs"
 				."  JOIN usr_data pcp ON pcp.usr_id = prgrs.usr_id"
@@ -239,6 +280,13 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by";
 	}
 
+	/**
+	 * Get the sql part WHERE
+	 *
+	 * @param int 	$a_prg_id
+	 *
+	 * @return string
+	 */
 	protected function getWhere($a_prg_id) {
 		return " WHERE prgrs.prg_id = ".$this->db->quote($a_prg_id, "integer");
 	}
@@ -261,6 +309,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		return $cols;
 	}
 
+	/**
+	 * Get columns for children if it is a child
+	 *
+	 * @return array<string, string[]>
+	 */
 	protected function getColumnsChildren() {
 		return array( "name" 				=> array("name")
 						, "login" 				=> array("login")
@@ -273,6 +326,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 						);
 	}
 
+	/**
+	 * Get columns for children if it is a lp child
+	 *
+	 * @return array<string, string[]>
+	 */
 	protected function getColumnsLPChildren() {
 		return array( "name" 				=> array("name")
 						, "login" 				=> array("login")
@@ -284,6 +342,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 						);
 	}
 
+	/**
+	 * Add multicommands to table
+	 *
+	 * @return null
+	 */
 	protected function addMultiCommands()
 	{
 		foreach ($this->getMultiCommands() as $cmd => $caption) {
@@ -291,6 +354,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		}
 	}
 
+	/**
+	 * Get possible multicommnds
+	 *
+	 * @return string[]
+	 */
 	protected function getMultiCommands()
 	{
 		return array(
@@ -303,5 +371,3 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		);
 	}
 }
-
-?>
