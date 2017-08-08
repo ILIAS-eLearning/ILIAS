@@ -8,31 +8,14 @@
   background-color: @background;
   border-color: @border;
 
+  &:hover,
   &:focus,
-  &.focus {
-    color: @color;
-    background-color: darken(@background, 10%);
-        border-color: darken(@border, 25%);
-  }
-  &:hover {
-    color: @color;
-    background-color: darken(@background, 10%);
-        border-color: darken(@border, 12%);
-  }
   &:active,
   &.active,
   .open > .dropdown-toggle& {
     color: @color;
     background-color: darken(@background, 10%);
         border-color: darken(@border, 12%);
-
-    &:hover,
-    &:focus,
-    &.focus {
-      color: @color;
-      background-color: darken(@background, 17%);
-          border-color: darken(@border, 25%);
-    }
   }
   &:active,
   &.active,
@@ -42,9 +25,11 @@
   &.disabled,
   &[disabled],
   fieldset[disabled] & {
+    &,
     &:hover,
     &:focus,
-    &.focus {
+    &:active,
+    &.active {
       background-color: @background;
           border-color: @border;
     }

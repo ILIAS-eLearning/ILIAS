@@ -1,8 +1,8 @@
 /* ========================================================================
- * Bootstrap: tab.js v3.3.7
+ * Bootstrap: tab.js v3.2.0
  * http://getbootstrap.com/javascript/#tabs
  * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
+ * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -14,14 +14,10 @@
   // ====================
 
   var Tab = function (element) {
-    // jscs:disable requireDollarBeforejQueryAssignment
     this.element = $(element)
-    // jscs:enable requireDollarBeforejQueryAssignment
   }
 
-  Tab.VERSION = '3.3.7'
-
-  Tab.TRANSITION_DURATION = 150
+  Tab.VERSION = '3.2.0'
 
   Tab.prototype.show = function () {
     var $this    = this.element
@@ -35,30 +31,22 @@
 
     if ($this.parent('li').hasClass('active')) return
 
-    var $previous = $ul.find('.active:last a')
-    var hideEvent = $.Event('hide.bs.tab', {
-      relatedTarget: $this[0]
-    })
-    var showEvent = $.Event('show.bs.tab', {
-      relatedTarget: $previous[0]
+    var previous = $ul.find('.active:last a')[0]
+    var e        = $.Event('show.bs.tab', {
+      relatedTarget: previous
     })
 
-    $previous.trigger(hideEvent)
-    $this.trigger(showEvent)
+    $this.trigger(e)
 
-    if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) return
+    if (e.isDefaultPrevented()) return
 
     var $target = $(selector)
 
     this.activate($this.closest('li'), $ul)
     this.activate($target, $target.parent(), function () {
-      $previous.trigger({
-        type: 'hidden.bs.tab',
-        relatedTarget: $this[0]
-      })
       $this.trigger({
         type: 'shown.bs.tab',
-        relatedTarget: $previous[0]
+        relatedTarget: previous
       })
     })
   }
@@ -67,21 +55,15 @@
     var $active    = container.find('> .active')
     var transition = callback
       && $.support.transition
-      && ($active.length && $active.hasClass('fade') || !!container.find('> .fade').length)
+      && $active.hasClass('fade')
 
     function next() {
       $active
         .removeClass('active')
         .find('> .dropdown-menu > .active')
-          .removeClass('active')
-        .end()
-        .find('[data-toggle="tab"]')
-          .attr('aria-expanded', false)
+        .removeClass('active')
 
-      element
-        .addClass('active')
-        .find('[data-toggle="tab"]')
-          .attr('aria-expanded', true)
+      element.addClass('active')
 
       if (transition) {
         element[0].offsetWidth // reflow for transition
@@ -90,22 +72,17 @@
         element.removeClass('fade')
       }
 
-      if (element.parent('.dropdown-menu').length) {
-        element
-          .closest('li.dropdown')
-            .addClass('active')
-          .end()
-          .find('[data-toggle="tab"]')
-            .attr('aria-expanded', true)
+      if (element.parent('.dropdown-menu')) {
+        element.closest('li.dropdown').addClass('active')
       }
 
       callback && callback()
     }
 
-    $active.length && transition ?
+    transition ?
       $active
         .one('bsTransitionEnd', next)
-        .emulateTransitionEnd(Tab.TRANSITION_DURATION) :
+        .emulateTransitionEnd(150) :
       next()
 
     $active.removeClass('in')
@@ -143,13 +120,9 @@
   // TAB DATA-API
   // ============
 
-  var clickHandler = function (e) {
+  $(document).on('click.bs.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
     e.preventDefault()
     Plugin.call($(this), 'show')
-  }
-
-  $(document)
-    .on('click.bs.tab.data-api', '[data-toggle="tab"]', clickHandler)
-    .on('click.bs.tab.data-api', '[data-toggle="pill"]', clickHandler)
+  })
 
 }(jQuery);
