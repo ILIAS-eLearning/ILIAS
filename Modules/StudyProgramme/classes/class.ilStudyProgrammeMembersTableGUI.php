@@ -294,13 +294,13 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 	protected function getMultiCommands()
 	{
 		return array(
-				'accredit' => $this->lng->txt('prg_multi_mark_accredited'),
-				'deaccredit' => $this->lng->txt('prg_multi_unmark_accredited'),
-				'removeUsers' => $this->lng->txt('prg_remove_user'),
-				'markRelevant' => $this->lng->txt('prg_multi_mark_relevant'),
-				'unmarkRelevant' => $this->lng->txt('prg_mulit_unmark_relevant'),
-				'updateFromPlan' => $this->lng->txt('prg_mulit_update_from_current_plan')
-				);
+			'markAccreditedMulti' => $this->lng->txt('prg_multi_mark_accredited'),
+			'unmarkAccreditedMulti' => $this->lng->txt('prg_multi_unmark_accredited'),
+			'removeUserMulti' => $this->lng->txt('prg_multi_remove_user'),
+			'markRelevantMulti' => $this->lng->txt('prg_multi_mark_relevant'),
+			'unmarkRelevantMulti' => $this->lng->txt('prg_mulit_unmark_relevant'),
+			'updateFromPlanMulti' => $this->lng->txt('prg_mulit_update_from_current_plan')
+		);
 	}
 }
 
