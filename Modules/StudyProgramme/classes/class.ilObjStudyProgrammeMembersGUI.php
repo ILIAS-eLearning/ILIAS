@@ -86,7 +86,7 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ilias = $ilias;
 		$this->lng = $lng;
 		$this->user = $ilUser;
-		$this->progress_object = null;
+		$this->progress_object = array();
 		
 		$this->object = null;
 
@@ -124,6 +124,7 @@ class ilObjStudyProgrammeMembersGUI {
 					case "markAccredited":
 					case "unmarkAccredited":
 					case "removeUser":
+					case "removeUsers":
 					case "addUsersWithAcknowledgedCourses":
 						$cont = $this->$cmd();
 						break;
@@ -260,29 +261,63 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ctrl->redirect($this, "view");
 	}
 	
-	public function removeUser() {
+	public function removeUser()
+	{
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
-		$prgrs = $this->getProgressObject();
+		$prgrs_id = $this->getPrgrsId();
+		$this->remove($prgrs_id);
+		$this->showSuccessMessage("remove_user_success");
+		$this->ctrl->redirect($this, "view");
+	}
+
+	protected function removeUsers()
+	{
+		$prgrs_ids = $_POST["prgs_ids"];
+		$not_removed = array();
+		foreach ($prgrs_ids as $key => $prgrs_id) {
+			try {
+				$this->remove((int)$prgrs_id);
+			} catch (ilException $e) {
+				$not_removed[] = $prgrs_id;
+			}
+		}
+		if (count($not_removed) == count($prgrs_ids)) {
+			$this->showInfoMessage("remove_users_not_possible");
+		} elseif (count($not_removed) > 0) {
+			$this->showSuccessMessage("remove_users_partitial_success");
+		} else {
+			$this->showSuccessMessage("remove_users_success");
+		}
+		$this->ctrl->redirect($this, "view");
+	}
+
+	protected function remove($prgrs_id)
+	{
+		$prgrs = $this->getProgressObject($prgrs_id);
 		$ass = $prgrs->getAssignment();
 		$prg = $ass->getStudyProgramme();
 		if ($prg->getRefId() != $this->ref_id) {
 			throw new ilException("Can only remove users from the node they where assigned to.");
 		}
 		$ass->deassign();
-		$this->showSuccessMessage("remove_user_success");
-		$this->ctrl->redirect($this, "view");
 	}
-	
-	protected function getProgressObject() {
-		if ($this->progress_object === null) {
+
+	protected function getProgressObject($prgrs_id)
+	{
+		assert('is_int($prgrs_id)');
+		if (!array_key_exists($prgrs_id, $this->progress_object)) {
 			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
-			if (!is_numeric($_GET["prgrs_id"])) {
-				throw new ilException("Expected integer 'prgrs_id'");
-			}
-			$id = (int)$_GET["prgrs_id"];
-			$this->progress_object = ilStudyProgrammeUserProgress::getInstanceById($id);
+			$this->progress_object[$prgrs_id] = ilStudyProgrammeUserProgress::getInstanceById($prgrs_id);
 		}
-		return $this->progress_object;
+		return $this->progress_object[$prgrs_id];
+	}
+
+	protected function getPrgrsId()
+	{
+		if (!is_numeric($_GET["prgrs_id"])) {
+			throw new ilException("Expected integer 'prgrs_id'");
+		}
+		return (int)$_GET["prgrs_id"];
 	}
 	
 	protected function showSuccessMessage($a_lng_var) {
