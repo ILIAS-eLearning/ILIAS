@@ -369,8 +369,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		}
 		else
 		{
-			$r = ($status["inactive_reason"] != "")
-				? " (".$status["inactive_reason"].")"
+			$r = ($plugin["inactive_reason"] != "")
+				? " (".$plugin["inactive_reason"].")"
 				: "";
 				
 			$status = $lng->txt("cmps_inactive").$r;
