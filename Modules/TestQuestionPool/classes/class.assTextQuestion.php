@@ -1096,11 +1096,12 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 		{
 			$stripped = trim(strip_tags($submit));
 			$stripped = str_replace(array("\n", "\r\n", "\r"), '', $stripped);
-			$char_count = strlen($stripped);
+			$char_count = ilStr::strLen($stripped, "UTF-8");
+
 			if($char_count > $max_chars)
 			{
 				$failureMsg = sprintf($this->lng->txt('ass_txt_char_lim_exhausted_hint'),
-					$max_chars, $char_count
+					$char_count, $max_chars
 				);
 
 				ilUtil::sendFailure($failureMsg, true);

@@ -130,6 +130,7 @@
 			content = content.replace(/&lt;/ig, "<");
 			content = content.replace(/&gt;/ig, ">");
 			stripped = content.replace(/(<([^>]+)>)/ig, "");
+			stripped = stripped.replace(/&nbsp;/gi, " ");
 			counterblock = YAHOO.util.Dom.get("charcounter");
 			if (counterblock != null && (counter.value > 0 || e.keyCode == 8 || e.keyCode == 46 || (e.ctrlKey && e.keyCode == 88))) {
 				counterblock.style.visibility = 'visible';
@@ -137,7 +138,7 @@
 			}
 
 			// prevent user from entering more characters than allowed
-			if (counter.value < 1 && !(e.keyCode < 47 || (e.ctrlKey && e.keyCode !== 86 && e.keyCode !== 90) || e.altKey || (e.keyCode >= 112 && e.keyCode <= 123))) {  // allow functional keys
+			if (counter.value < 1 && !((e.keyCode < 47 && e.keyCode != 32)|| (e.ctrlKey && e.keyCode !== 86 && e.keyCode !== 90) || e.altKey || (e.keyCode >= 112 && e.keyCode <= 123))) {  // allow functional keys
 				e.preventDefault();
 			}
 
@@ -152,6 +153,7 @@
 		content = content.replace(/&gt;/ig, ">");
 		stripped = content.replace(/(<([^>]+)>)/ig, "");
 		stripped = stripped.replace(/(?:\r\n|\r|\n)/g, '');
+		stripped = stripped.replace(/&nbsp;/gi, " ");
 		counterblock = YAHOO.util.Dom.get("charcounter");
 		if (counterblock != null)
 		{
