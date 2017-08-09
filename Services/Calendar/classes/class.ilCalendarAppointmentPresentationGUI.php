@@ -172,19 +172,19 @@ class ilCalendarAppointmentPresentationGUI
 			//pass only the appointment stuff
 			$plugin->setAppointment($this->appointment);
 
-			//add content
-			$info_screen = $plugin->infoscreenAddContent($info_screen);
-			$extra_content = $plugin->addExtraContent();
-			$content =  $info_screen->getHTML().$extra_content;
+			if($new_content = $plugin->replaceContent()) {
+				$content = $new_content;
+			} else {
+				$info_screen = $plugin->infoscreenAddContent($info_screen);
+				$extra_content = $plugin->addExtraContent();
+				$content =  $info_screen->getHTML().$extra_content;
+			}
 
-			//replace all content
-			//$content = $plugin->replaceContent();
-
-			//add toolbar items
-			$toolbar = $plugin->toolbarAddItems($toolbar);
-
-			//replace toolbar
-			//$toolbar = $plugin->toolbarReplaceContent();
+			if($new_toolbar = $plugin->toolbarReplaceContent()) {
+				$toolbar = $new_toolbar;
+			} else {
+				$toolbar = $plugin->toolbarAddItems($toolbar);
+			}
 		}
 
 		// show toolbar
