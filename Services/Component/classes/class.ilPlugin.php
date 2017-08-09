@@ -733,6 +733,25 @@ abstract class ilPlugin
 	}
 
 	/**
+	 * Install
+	 *
+	 * @return null
+	 */
+	public function install() {
+		global $ilDB;
+
+		ilCachedComponentData::flush();
+		$q = "UPDATE il_plugin SET plugin_id = ".$ilDB->quote($this->getId(), "text").
+					" WHERE component_type = ".$ilDB->quote($this->getComponentType(), "text").
+					" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
+					" AND slot_id = ".$ilDB->quote($this->getSlotId(), "text").
+					" AND name = ".$ilDB->quote($this->getPluginName(), "text");
+
+		$ilDB->manipulate($q);
+		$this->afterInstall();
+	}
+
+	/**
 	 * Activate
 	 */
 	function activate()
@@ -773,6 +792,15 @@ abstract class ilPlugin
 		}
 		ilCachedComponentData::flush();
 		return $result;
+	}
+
+	/**
+	 * After install processing
+	 *
+	 * @return null
+	 */
+	protected function afterInstall()
+	{
 	}
 
 	/**
