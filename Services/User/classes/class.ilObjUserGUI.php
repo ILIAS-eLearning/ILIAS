@@ -720,6 +720,11 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$user->setEmail($this->form_gui->getInput('email'));
 		}
+		// Second Email
+		if($this->isSettingChangeable('second_email'))
+		{
+			$user->setSecondEmail($this->form_gui->getInput('second_email'));
+		}
 		// Hobby
 		if($this->isSettingChangeable('hobby'))
 		{
@@ -1040,6 +1045,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["phone_mobile"] = $this->object->getPhoneMobile();
 		$data["fax"] = $this->object->getFax();
 		$data["email"] = $this->object->getEmail();
+		$data["second_email"] = $this->object->getSecondEmail();
 		$data["hobby"] = $this->object->getHobby();
 		$data["referral_comment"] = $this->object->getComment();
 		
@@ -1522,6 +1528,14 @@ class ilObjUserGUI extends ilObjectGUI
 			$em = new ilEMailInputGUI($lng->txt("email"), "email");
 			$em->setRequired(isset($settings["require_email"]) &&
 				$settings["require_email"]);
+			$this->form_gui->addItem($em);
+		}
+		
+		// second email
+		if($this->isSettingChangeable('second_email'))
+		{
+			$em = new ilEMailInputGUI($lng->txt("second_email"), "second_email");
+			
 			$this->form_gui->addItem($em);
 		}
 
@@ -2397,7 +2411,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$mmail = new ilMimeMail();
 		$mmail->From($senderFactory->system());
-		$mmail->To($this->object->getEmail());
+		$mmail->To(ilMailOptions::getExternalEmailsByUser($this->object));
 
 		// mail subject
 		$subject = $usr_lang->txt("profile_changed");

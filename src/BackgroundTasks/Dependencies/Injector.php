@@ -100,15 +100,17 @@ class Injector {
 	 * @throws InvalidClassException
 	 */
 	protected function getDependency($fullyQualifiedClassName, $parameter, callable $with = null) {
-		if (!$parameter->getType()) {
-			throw new InvalidClassException("The constructor of $fullyQualifiedClassName is not fully type hinted, or the type hints cannot be resolved.");
-		}
+		// These Lines are currently commented while we cant use $parameter->getType() which will be part of PHP7
+		//		if (!$parameter->getType()) {
+		//			throw new InvalidClassException("The constructor of $fullyQualifiedClassName is not fully type hinted, or the type hints cannot be resolved.");
+		//		}
 
-		$type = $parameter->getType()->__toString();
+		//		$type = $parameter->getType()->__toString();
+		$type = $parameter->getClass()->getName();
 
-		if ($parameter->getType()->isBuiltin()) {
-			throw new InvalidClassException("The DI cannot instantiate $fullyQualifiedClassName because some of the constructors arguments are built in types. Only interfaces (and objects) are stored in the DI-Container.");
-		}
+		//		if ($parameter->getType()->isBuiltin()) {
+		//			throw new InvalidClassException("The DI cannot instantiate $fullyQualifiedClassName because some of the constructors arguments are built in types. Only interfaces (and objects) are stored in the DI-Container.");
+		//		}
 
 		if (!$type) {
 			throw new InvalidClassException("The DI cannot instantiate $fullyQualifiedClassName because some of the constructors arguments are not type hinted. Make sure all parameters in the constructor have type hinting.");

@@ -18802,6 +18802,29 @@ if(!$ilDB->tableColumnExists('chatroom_bans', 'actor_id'))
 ?>
 <#5094>
 <?php
+if(!$ilDB->tableColumnExists('usr_data', 'second_email'))
+{
+	$ilDB->addTableColumn('usr_data', 'second_email', 
+		array('type' => 'text',
+		      'length' => 80,
+		      'notnull' => false
+		));
+}
+?>
+<#5095>
+<?php
+if(!$ilDB->tableColumnExists('mail_options', 'mail_address_option'))
+{
+	$ilDB->addTableColumn('mail_options', 'mail_address_option',
+		array('type' => 'integer',
+		      'length' => 1,
+		      'notnull' => true,
+		      'default' => 3
+		));
+}
+?>
+<#5096>
+<?php
 $fields = array(
 	'id' => array(
 		'type' => 'integer',
@@ -18863,4 +18886,8 @@ if (! $ilDB->tableExists('il_orgu_authority')) {
 	
 }
 
+?>
+<#5097>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>
