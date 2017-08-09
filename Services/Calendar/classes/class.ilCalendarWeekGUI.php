@@ -425,15 +425,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$font_color = ilCalendarUtil::calculateFontColor($color);
 
-		//create method to trigger the plugin only once.
-		foreach($this->getActivePlugins() as $plugin)
-		{
-			//todo: This is only one example.
-			$plugin->setAppointment($a_app);
-			$color = $plugin->changeBackgroundColor();
-			$font_color = $plugin->changeFontColor();
-		}
-
 		$this->tpl->setVariable('F_APP_BGCOLOR',$color);
 		$this->tpl->setVariable('F_APP_FONTCOLOR',$font_color);
 		
