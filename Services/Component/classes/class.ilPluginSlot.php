@@ -256,7 +256,7 @@ class ilPluginSlot
 					$plugin["responsible_mail"] = $pdata["responsible_mail"];
 					
 					$plugin["name"] = $file;
-					$plugin["plugin_php_file_status"] = $this->checkPluginPhpFileAvailability($file);
+					$plugin["plugin_php_file_status"] = true;
 					$plugin["class_file_status"] = $this->checkClassFileAvailability($file);
 					$plugin["class_file"] = "class.il".$plugin["name"]."Plugin.php";
 					
