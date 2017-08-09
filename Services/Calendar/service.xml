@@ -20,5 +20,6 @@
 	</crons>
 	<pluginslots>
 		<pluginslot id="capm" name="AppointmentCustomModal" />
+		<pluginslot id="capg" name="AppointmentCustomGrid" />
 	</pluginslots>
 </service>

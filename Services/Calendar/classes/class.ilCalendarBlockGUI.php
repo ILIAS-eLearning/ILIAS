@@ -1011,12 +1011,10 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		return ($ev);
 	}
 
-    //todo use classes from ilcalendarviewgui -> getAppointmentShyButton etc.
 	function getData()
 	{
 		$lng = $this->lng;
 		$ui = $this->ui;
-
 
 		$f = $ui->factory();
 							

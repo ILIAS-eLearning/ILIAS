@@ -420,8 +420,18 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		//$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getPresentationTitle().$compl);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
+		$font_color = ilCalendarUtil::calculateFontColor($color);
+
+		foreach($this->getActivePlugins() as $plugin)
+		{
+			//todo: This is only one example.
+			$plugin->setAppointment($a_app);
+			$color = $plugin->changeBackgroundColor();
+			$font_color = $plugin->changeFontColor();
+		}
+
 		$this->tpl->setVariable('F_APP_BGCOLOR',$color);
-		$this->tpl->setVariable('F_APP_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
+		$this->tpl->setVariable('F_APP_FONTCOLOR',$font_color);
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
@@ -463,20 +473,16 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		$td_style = $style;
 
 		
-		if($a_app['event']->isFullDay())
-		{
-			$title = $a_app['event']->getPresentationTitle();
-		}
-		else
+		if(!$a_app['event']->isFullDay())
 		{
 			switch($this->user_settings->getTimeFormat())
 			{
 				case ilCalendarSettings::TIME_FORMAT_24:
-					$title = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+					$time = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
 					break;
 					
 				case ilCalendarSettings::TIME_FORMAT_12:
-					$title = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+					$time = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
 					break;
 			}
 			// add end time for screen readers
@@ -485,22 +491,41 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 				switch($this->user_settings->getTimeFormat())
 				{
 					case ilCalendarSettings::TIME_FORMAT_24:
-						$title.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+						$time.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
 						break;
 						
 					case ilCalendarSettings::TIME_FORMAT_12:
-						$title.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+						$time.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
 						break;
 				}
 			}
-			
-			$title .= (' '.$a_app['event']->getPresentationTitle());		
+
 			$td_style .= $a_app['event']->getPresentationStyle();
 		}
 
 		$shy = $this->getAppointmentShyButton($a_app);
 
-		$this->tpl->setVariable('APP_TITLE', $shy);
+		$title = $hour.$shy;
+
+		//calendar plugins
+		foreach($this->getActivePlugins() as $plugin)
+		{
+			$plugin->setAppointment($a_app);
+			if($glyph = $plugin->addGlyph())
+			{
+				$title = $glyph." ".$time." ".$shy;
+			}
+			if($new_content = $plugin->replaceContent())
+			{
+				//$title = $new_content;
+			}
+			if($more_content = $plugin->addExtraContent())
+			{
+				$title .= " ".$more_content;
+			}
+		}
+
+		$this->tpl->setVariable('APP_TITLE', $title);
 		$this->tpl->setVariable('LINK_NUM',$this->num_appointments);
 		
 		$this->tpl->setVariable('LINK_STYLE',$style);
@@ -530,8 +555,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		$this->num_appointments++;
 
 	}
-	
-	
 	
 	/**
 	 * calculate overlapping hours 
@@ -694,7 +717,4 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		return $colspans;
 	}
 	
-	
 }
-	
-?>

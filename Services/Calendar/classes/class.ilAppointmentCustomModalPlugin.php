@@ -11,6 +11,40 @@ require_once 'Services/Component/classes/class.ilPlugin.php';
  */
 abstract class ilAppointmentCustomModalPlugin extends ilPlugin
 {
+	protected $appointment;
+
+	/** @var \ilCalendarAppointmentPresentationGUI */
+	//protected $GUIObject;
+
+	/**
+	 * @param \ilCalendarAppointmentPresentationGUI $GUIObject
+	 */
+	//public function setGUIObject($GUIObject)
+	//{
+		//$this->GUIObject = $GUIObject;
+	//}
+
+	/**
+	 * @return \ilCalendarAppointmentPresentationGUI
+	 */
+	//public function getGUIObject()
+	//{
+		//return $this->GUIObject;
+	//}
+
+	/**
+	* @param array $a_appointment
+	* appointment contains the calendarEntry object + relevant information like start date, end date, calendar id etc.
+	*/
+	public function setAppointment($a_appointment)
+	{
+		$this->appointment = $a_appointment;
+	}
+
+	public function getAppointment()
+	{
+		return $this->appointment;
+	}
 
 	final public function getComponentType()
 	{

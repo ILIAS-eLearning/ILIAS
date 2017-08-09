@@ -384,11 +384,11 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		switch($this->user_settings->getTimeFormat())
 		{
 			case ilCalendarSettings::TIME_FORMAT_24:
-				$title = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+				$time = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
 				break;
 				
 			case ilCalendarSettings::TIME_FORMAT_12:
-				$title = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+				$time = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
 				break;
 		}
 		
@@ -398,20 +398,35 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 			switch($this->user_settings->getTimeFormat())
 			{
 				case ilCalendarSettings::TIME_FORMAT_24:
-					$title.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+					$time.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
 					break;
 					
 				case ilCalendarSettings::TIME_FORMAT_12:
-					$title.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+					$time.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
 					break;
 			}
 		}
-
-		$title .= (' '.$a_app['event']->getPresentationTitle(false));
-
 		$shy = $this->getAppointmentShyButton($a_app);
 
-		$this->tpl->setVariable('APP_TITLE',$shy);
+		//demo of plugin execution.
+		foreach($this->getActivePlugins() as $plugin)
+		{
+			$plugin->setAppointment($a_app);
+			if($glyph = $plugin->addGlyph())
+			{
+				$title = $glyph." ".$time." ".$shy;
+			}
+			if($new_content = $plugin->replaceContent())
+			{
+				//$title = $new_content;
+			}
+			if($more_content = $plugin->addExtraContent())
+			{
+				$title .= " ".$more_content;
+			}
+		}
+
+		$this->tpl->setVariable('APP_TITLE',$title);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$this->tpl->setVariable('APP_BGCOLOR',$color);

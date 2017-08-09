@@ -337,30 +337,46 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 				? " (".$item['event']->getCompletion()."%)"
 				: "";
 
-			if($item['event']->isFullDay())
-			{
-				$title = $item['event']->getPresentationTitle().$compl;
-			}
-			else
+			if(!$item['event']->isFullDay())
 			{
 				switch($this->user_settings->getTimeFormat())
 				{
 					case ilCalendarSettings::TIME_FORMAT_24:
-						$title = $item['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+						$time = $item['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
 						break;
 						
 					case ilCalendarSettings::TIME_FORMAT_12:
-						$title = $item['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+						$time = $item['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
 						break;
 				}
-
-				$title .= (' '.$item['event']->getPresentationTitle());				
 			}
 
 			$shy = $this->getAppointmentShyButton($item);
+			$title = $shy;
+			if($time)
+			{
+				$title = $time." ".$title;
+			}
+
+			foreach($this->getActivePlugins() as $plugin)
+			{
+				$plugin->setAppointment($item);
+				if($glyph = $plugin->addGlyph())
+				{
+					$title = $glyph." ".$title;
+				}
+				if($new_content = $plugin->replaceContent())
+				{
+					//$title = $new_content;
+				}
+				if($more_content = $plugin->addExtraContent())
+				{
+					$title .= " ".$more_content;
+				}
+			}
 
 			//TODO: There is a bug/error here with the headers in the block
-			$this->tpl->setVariable('EVENT_TITLE',$shy.$compl);
+			$this->tpl->setVariable('EVENT_TITLE',$title.$compl);
 
 			$color = $this->app_colors->getColorByAppointment($item['event']->getEntryId());
 			$this->tpl->setVariable('EVENT_BGCOLOR',$color);

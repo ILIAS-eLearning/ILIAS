@@ -189,4 +189,20 @@ class ilCalendarViewGUI
 		return $r->render($comps);
 	}
 
+	//get active plugins.
+	public function getActivePlugins()
+	{
+		global $ilPluginAdmin;
+
+		$res = array();
+
+		foreach($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Calendar", "capg") as $plugin_name)
+		{
+			$res[] = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE,
+				"Calendar", "capg", $plugin_name);
+		}
+
+		return $res;
+	}
+
 }
