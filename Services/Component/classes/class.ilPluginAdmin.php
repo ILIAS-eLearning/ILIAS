@@ -47,9 +47,9 @@ class ilPluginAdmin
 	*/
 	private final function getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
-		//DIC->language() is not initialized when constructor is called
-		global $DIC;
-		$this->lng = $DIC->language();
+		//Can not use DIC because it is not initialized if plugin is activated
+		global $lng;
+		$this->lng = $lng;
 
 		if (!isset($this->got_data[$a_ctype][$a_cname][$a_slot_id][$a_pname]))
 		{
@@ -71,7 +71,6 @@ class ilPluginAdmin
 				$this->setMustInstall($plugin_data);
 			} else {
 				$this->setCurrentState($plugin_data, (bool)$plugin_db_data["active"]);
-
 				if($this->pluginSupportCurrentILIAS($plugin_data)) {
 					$this->updateRequired($plugin_data, $plugin_db_data["last_update_version"]);
 				}
@@ -141,7 +140,7 @@ class ilPluginAdmin
 	protected function updateRequired(array &$plugin_data, $last_update_version) {
 		if ($last_update_version == "")
 		{
-			$active = false;
+			$plugin_data["is_active"] = false;
 			if (is_object($this->lng))
 			{
 				$inactive_reason = $this->lng->txt("cmps_needs_update");
@@ -150,12 +149,13 @@ class ilPluginAdmin
 			{
 				$inactive_reason = "Update needed.";
 			}
-			$needs_update = true;
-			$activation_possible = false;
+			$plugin_data["inactive_reason"] = $inactive_reason;
+			$plugin_data["needs_update"] = true;
+			$plugin_data["activation_possible"] = false;
 		}
 		else if (ilComponent::isVersionGreaterString($last_update_version, $plugin_data["version"]))
 		{
-			$active = false;
+			$plugin_data["is_active"] = false;
 			if (is_object($this->lng))
 			{
 				$inactive_reason = $this->lng->txt("cmps_needs_upgrade");
@@ -164,11 +164,12 @@ class ilPluginAdmin
 			{
 				$inactive_reason = "Upgrade needed.";
 			}
-			$activation_possible = false;
+			$plugin_data["inactive_reason"] = $inactive_reason;
+			$plugin_data["activation_possible"] = false;
 		}
 		else if ($last_update_version != $plugin_data["version"])
 		{
-			$active = false;
+			$plugin_data["is_active"] = false;
 			if (is_object($this->lng))
 			{
 				$inactive_reason = $this->lng->txt("cmps_needs_update");
@@ -177,14 +178,10 @@ class ilPluginAdmin
 			{
 				$inactive_reason = "Update needed.";
 			}
-			$needs_update = true;
-			$activation_possible = false;
+			$plugin_data["inactive_reason"] = $inactive_reason;
+			$plugin_data["needs_update"] = true;
+			$plugin_data["activation_possible"] = false;
 		}
-
-		$plugin_data["is_active"] = $active;
-		$plugin_data["inactive_reason"] = $inactive_reason;
-		$plugin_data["needs_update"] = $needs_update;
-		$plugin_data["activation_possible"] = $activation_possible;
 	}
 
 	/**
