@@ -3,7 +3,7 @@
   font-size: @font-size;
   border:    1px solid transparent;
   color:     @font-color;
-  display: inline-block;
+  display:   inline-block;
 }
 
 .no-padding() {
@@ -29,9 +29,12 @@
 	margin-bottom:         4px;
 	.file-info {
 	  .message-style(@text-color; @padding-base-vertical; @padding-base-horizontal; @il-button-font-size; @line-height-base);
-	  //white-space: nowrap;
-	  //overflow: hidden;
-	  //text-overflow: ellipsis;
+	}
+
+	.remove {
+	  button {
+		margin: 3px 5px 0 0;
+	  }
 	}
   }
 }

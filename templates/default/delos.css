@@ -6299,6 +6299,9 @@ button.close {
   color: #333333;
   display: inline-block;
 }
+.il-upload-file-item.standard .remove button {
+  margin: 3px 5px 0 0;
+}
 .il-dropzone.row [class*="col-"].col-no-padding {
   padding-left: 0 !important;
   padding-right: 0 !important;
