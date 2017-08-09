@@ -82,12 +82,16 @@ class Renderer extends AbstractComponentRenderer {
 
 		$expander = $f->glyph()->expand("#")
 			->withOnClick($sig_show);
-		$collapser = $f->glyph()->expand("#")
+		$collapser = $f->glyph()->collapse("#")
 			->withOnClick($sig_hide);
+		$shy_expander = $f->button()->shy("Details","#")
+			->withOnClick($sig_show);
+
 
 		$tpl->setVariable("ID",$id);
 		$tpl->setVariable("EXPANDER", $default_renderer->render($expander));
 		$tpl->setVariable("COLLAPSER", $default_renderer->render($collapser));
+		$tpl->setVariable("SHY_EXPANDER", $default_renderer->render($shy_expander));
 
 
 		$tpl->setVariable("TITLE", $data[$component->getTitleField()]);
