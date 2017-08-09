@@ -228,19 +228,19 @@ class ilPluginSlot
 			{
 				// directories
 				if (@is_dir($pl_dir."/".$file) && substr($file, 0, 1) != "." &&
-					$this->checkPluginPhpFileAvailability($file))
-				{
-					
-					
+					$this->checkPluginPhpFileAvailability($file)
+				) {
 					$plugin = array();
-					
+
 					$plugin = ilPlugin::lookupStoredData($this->getComponentType(),
 						$this->getComponentName(), $this->getSlotId(), $file);
-						
+
 					// create record in il_plugin table (if not existing)
-					ilPlugin::createPluginRecord($this->getComponentType(),
-						$this->getComponentName(), $this->getSlotId(), $file);
-					
+					if(count($plugin) == 0) {
+						ilPlugin::createPluginRecord($this->getComponentType(),
+							$this->getComponentName(), $this->getSlotId(), $file);
+					}
+
 					$pdata = $ilPluginAdmin->getAllData($this->getComponentType(),
 						$this->getComponentName(), $this->getSlotId(), $file);
 
