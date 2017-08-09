@@ -34,7 +34,13 @@ class ilAdvancedMDFieldDefinitionInternalLink extends ilAdvancedMDFieldDefinitio
 	 */
 	public function getValueForXML(\ilADT $element)
 	{
-		return $element->getUrl();
+		$type = ilObject::_lookupType($element->getTargetRefId(), true);
+
+		if($element->getTargetRefId() && strlen($type))
+		{
+			return 'il_'.IL_INST_ID.'_'.$type.'_'.$element->getTargetRefId();
+		}
+		return '';
 	}
 
 	/**
@@ -43,7 +49,15 @@ class ilAdvancedMDFieldDefinitionInternalLink extends ilAdvancedMDFieldDefinitio
 	 */
 	public function importValueFromXML($a_cdata)
 	{
-		$this->getADT()->setUrl($a_cdata);
+		$parsed_import_id = ilUtil::parseImportId($a_cdata);
+		
+		if(
+			(strcmp($parsed_import_id['inst_id'], IL_INST_ID) == 0) &&
+			ilObject::_exists($parsed_import_id['id'], true, $parsed_import_id['type'])
+		)
+		{
+			$this->getADT()->setTargetRefId($parsed_import_id['id']);
+		}
 	}
 
 }

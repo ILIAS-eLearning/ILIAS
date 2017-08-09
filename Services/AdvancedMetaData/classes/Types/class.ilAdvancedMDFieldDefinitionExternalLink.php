@@ -34,7 +34,7 @@ class ilAdvancedMDFieldDefinitionExternalLink extends ilAdvancedMDFieldDefinitio
 	 */
 	public function getValueForXML(\ilADT $element)
 	{
-		return $element->getUrl();
+		return $element->getTitle().'#'.$element->getUrl();
 	}
 
 	/**
@@ -43,9 +43,14 @@ class ilAdvancedMDFieldDefinitionExternalLink extends ilAdvancedMDFieldDefinitio
 	 */
 	public function importValueFromXML($a_cdata)
 	{
-		$this->getADT()->setUrl($a_cdata);
+		$parts = explode("#", $a_cdata);
+		if(count($parts) == 2)
+		{
+			$adt = $this->getADT();
+			$adt->setTitle($parts[0]);
+			$adt->setUrl($parts[1]);
+		}
 	}
-
 }
 
 ?>
