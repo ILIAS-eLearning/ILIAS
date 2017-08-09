@@ -228,7 +228,7 @@ class ilPluginSlot
 			{
 				// directories
 				if (@is_dir($pl_dir."/".$file) && substr($file, 0, 1) != "." &&
-					is_file($pl_dir."/".$file."/plugin.php"))
+					$this->checkPluginPhpFileAvailability($file))
 				{
 					
 					
