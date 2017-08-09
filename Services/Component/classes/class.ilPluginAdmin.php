@@ -47,7 +47,9 @@ class ilPluginAdmin
 	*/
 	private final function getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
-		global $ilDB, $lng;
+		//DIC->language() is not initialized when constructor is called
+		global $DIC;
+		$this->lng = $DIC->language();
 
 		if (!isset($this->got_data[$a_ctype][$a_cname][$a_slot_id][$a_pname]))
 		{
@@ -57,102 +59,190 @@ class ilPluginAdmin
 			$plugin_php_file = "./Customizing/global/plugins/".$a_ctype."/".
 				$a_cname."/".$slot_name."/".$a_pname."/plugin.php";
 
-			$rec = ilPlugin::getPluginRecord($a_ctype, $a_cname, $a_slot_id, $a_pname);
-
-			if (is_file($plugin_php_file))
+			if (!is_file($plugin_php_file))
 			{
-				include_once($plugin_php_file);
-				$this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname] =
-					array("version" => $version, "id" => $id,
-					"ilias_min_version" => $ilias_min_version,
-					"ilias_max_version" => $ilias_max_version,
-					"responsible" => $responsible,
-					"responsible_mail" => $responsible_mail,
-					"learning_progress" => (bool)$learning_progress,
-					"supports_export" => (bool)$supports_export);
+				throw new ilPluginException("No plugin.php file found for Plugin :".$a_pname.".");
 			}
 
-			$active = $rec["active"];
-			$needs_update = false;
-			$activation_possible = !$active;
-			$inactive_reason = "";
+			$plugin_db_data = ilPlugin::getPluginRecord($a_ctype, $a_cname, $a_slot_id, $a_pname);
+			$plugin_data = $this->parsePluginPhp($plugin_php_file);
 
-			// version checks
-			if (ilComponent::isVersionGreaterString($ilias_min_version, ILIAS_VERSION_NUMERIC))
-			{
-				$active = false;
-				if (is_object($lng))
-				{
-					$inactive_reason = $lng->txt("cmps_needs_newer_ilias_version");
+			if($plugin_db_data["plugin_id"] === null) {
+				$this->setMustInstall($plugin_data);
+			} else {
+				$this->setCurrentState($plugin_data, (bool)$plugin_db_data["active"]);
+
+				if($this->pluginSupportCurrentILIAS($plugin_data)) {
+					$this->updateRequired($plugin_data, $plugin_db_data["last_update_version"]);
 				}
-				else
-				{
-					$inactive_reason = "Plugin needs a newer version of ILIAS.";
-				}
-				$activation_possible = false;
-			}
-			else if (ilComponent::isVersionGreaterString(ILIAS_VERSION_NUMERIC, $ilias_max_version))
-			{
-				$active = false;
-				if (is_object($lng))
-				{
-					$inactive_reason = $lng->txt("cmps_needs_newer_plugin_version");
-				}
-				else
-				{
-					$inactive_reason = "Plugin does not support current version of ILIAS. Newer version of plugin needed.";
-				}
-				$activation_possible = false;
-			}
-			else if ($rec["last_update_version"] == "")
-			{
-				$active = false;
-				if (is_object($lng))
-				{
-					$inactive_reason = $lng->txt("cmps_needs_update");
-				}
-				else
-				{
-					$inactive_reason = "Update needed.";
-				}
-				$needs_update = true;
-				$activation_possible = false;
-			}
-			else if (ilComponent::isVersionGreaterString($rec["last_update_version"], $version))
-			{
-				$active = false;
-				if (is_object($lng))
-				{
-					$inactive_reason = $lng->txt("cmps_needs_upgrade");
-				}
-				else
-				{
-					$inactive_reason = "Upgrade needed.";
-				}
-				$activation_possible = false;
-			}
-			else if ($rec["last_update_version"] != $version)
-			{
-				$active = false;
-				if (is_object($lng))
-				{
-					$inactive_reason = $lng->txt("cmps_needs_update");
-				}
-				else
-				{
-					$inactive_reason = "Update needed.";
-				}
-				$needs_update = true;
-				$activation_possible = false;
 			}
 
-			$this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["is_active"] = $active;
-			$this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["inactive_reason"] = $inactive_reason;
-			$this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["needs_update"] = $needs_update;
-			$this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["activation_possible"] = $activation_possible;
-
+			$this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname] = $plugin_data;
 			$this->got_data[$a_ctype][$a_cname][$a_slot_id][$a_pname] = true;
 		}
+	}
+
+	/**
+	 * Plugin supports current ILIAS
+	 *
+	 * @param string[] 	&$plugin_data
+	 *
+	 * @return bool
+	 */
+	protected function pluginSupportCurrentILIAS(array &$plugin_data) {
+		if (ilComponent::isVersionGreaterString($plugin_data["ilias_min_version"], ILIAS_VERSION_NUMERIC))
+		{
+			$plugin_data["is_active"] = false;
+			$plugin_data["needs_update"] = false;
+			$plugin_data["activation_possible"] = false;
+
+			if (is_object($this->lng))
+			{
+				$inactive_reason = $this->lng->txt("cmps_needs_newer_ilias_version");
+			}
+			else
+			{
+				$inactive_reason = "Plugin needs a newer version of ILIAS.";
+			}
+			$plugin_data["inactive_reason"] = $inactive_reason;
+
+			return false;
+		}
+
+		if (ilComponent::isVersionGreaterString(ILIAS_VERSION_NUMERIC, $plugin_data["ilias_max_version"]))
+		{
+			$plugin_data["is_active"] = false;
+			$plugin_data["needs_update"] = false;
+			$plugin_data["activation_possible"] = false;
+			if (is_object($this->lng))
+			{
+				$inactive_reason = $this->lng->txt("cmps_needs_newer_plugin_version");
+			}
+			else
+			{
+				$inactive_reason = "Plugin does not support current version of ILIAS. Newer version of plugin needed.";
+			}
+			$plugin_data["inactive_reason"] = $inactive_reason;
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Should the plugin be updated
+	 *
+	 * @param string[] 	&$plugin_data
+	 * @param string 	$last_update_version
+	 *
+	 * @return null
+	 */
+	protected function updateRequired(array &$plugin_data, $last_update_version) {
+		if ($last_update_version == "")
+		{
+			$active = false;
+			if (is_object($this->lng))
+			{
+				$inactive_reason = $this->lng->txt("cmps_needs_update");
+			}
+			else
+			{
+				$inactive_reason = "Update needed.";
+			}
+			$needs_update = true;
+			$activation_possible = false;
+		}
+		else if (ilComponent::isVersionGreaterString($last_update_version, $plugin_data["version"]))
+		{
+			$active = false;
+			if (is_object($this->lng))
+			{
+				$inactive_reason = $this->lng->txt("cmps_needs_upgrade");
+			}
+			else
+			{
+				$inactive_reason = "Upgrade needed.";
+			}
+			$activation_possible = false;
+		}
+		else if ($last_update_version != $plugin_data["version"])
+		{
+			$active = false;
+			if (is_object($this->lng))
+			{
+				$inactive_reason = $this->lng->txt("cmps_needs_update");
+			}
+			else
+			{
+				$inactive_reason = "Update needed.";
+			}
+			$needs_update = true;
+			$activation_possible = false;
+		}
+
+		$plugin_data["is_active"] = $active;
+		$plugin_data["inactive_reason"] = $inactive_reason;
+		$plugin_data["needs_update"] = $needs_update;
+		$plugin_data["activation_possible"] = $activation_possible;
+	}
+
+	/**
+	 * Set plugin data for intall
+	 *
+	 * @param string[] 	&$plugin_data
+	 *
+	 * @return null
+	 */
+	protected function setMustInstall(array &$plugin_data) {
+		$plugin_data["must_install"] = true;
+		$plugin_data["is_active"] = false;
+		$plugin_data["needs_update"] = false;
+		$plugin_data["activation_possible"] = false;
+
+		if (is_object($this->lng))
+		{
+			$inactive_reason = $this->lng->txt("cmps_must_installed");
+		}
+		else
+		{
+			$inactive_reason = "Plugin must be installed.";
+		}
+		$plugin_data["inactive_reason"] = $inactive_reason;
+	}
+
+	/**
+	 * Set plugin data according current db state
+	 *
+	 * @param string[] &$plugin_data
+	 * @param bool 	$active
+	 *
+	 * @return null
+	 */
+	protected function setCurrentState(array &$plugin_data, $active) {
+		$plugin_data["is_active"] = $active;
+		$plugin_data["activation_possible"] = !$active;
+		$plugin_data["must_install"] = false;
+		$plugin_data["needs_update"] = false;
+		$plugin_data["inactive_reason"] = "";
+	}
+
+	/**
+	 * Get informations from plugin php file
+	 *
+	 * @param string 	$plugin_php_file
+	 *
+	 * @return string[]
+	 */
+	protected function parsePluginPhp($plugin_php_file) {
+		include_once($plugin_php_file);
+		return array("version" => $version, "id" => $id,
+			"ilias_min_version" => $ilias_min_version,
+			"ilias_max_version" => $ilias_max_version,
+			"responsible" => $responsible,
+			"responsible_mail" => $responsible_mail,
+			"learning_progress" => (bool)$learning_progress,
+			"supports_export" => (bool)$supports_export);
 	}
 
 	/**
