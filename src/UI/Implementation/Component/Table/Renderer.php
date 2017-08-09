@@ -76,16 +76,18 @@ class Renderer extends AbstractComponentRenderer {
 		$data = $component->getData();
 
 		$component = $this->registerSignals($component->withResetSignals());
+		$sig_show = $component->getShowSignal();
+		$sig_hide = $component->getCloseSignal();
 		$id = $this->bindJavaScript($component);
-		$sig = $component->getShowSignal();
 
 		$expander = $f->glyph()->expand("#")
-			->withOnClick($sig);
-
+			->withOnClick($sig_show);
+		$collapser = $f->glyph()->expand("#")
+			->withOnClick($sig_hide);
 
 		$tpl->setVariable("ID",$id);
-		$tpl->setVariable("SIG",$sig);
 		$tpl->setVariable("EXPANDER", $default_renderer->render($expander));
+		$tpl->setVariable("COLLAPSER", $default_renderer->render($collapser));
 
 
 		$tpl->setVariable("TITLE", $data[$component->getTitleField()]);
@@ -139,7 +141,8 @@ class Renderer extends AbstractComponentRenderer {
 		return $component->withAdditionalOnLoadCode(function($id) use ($show, $close) {
 			return
 				"$(document).on('{$show}', function() { il.UI.table.presentation.expandRow('{$id}'); return false; });".
-				"$(document).on('{$close}', function() { il.UI.table.presentation.collapseRow('{$id}'); return false; });";
+				"$(document).on('{$close}', function() { il.UI.table.presentation.collapseRow('{$id}'); return false; });".
+				"il.UI.table.presentation.collapseRow('{$id}');";
 		});
 	}
 

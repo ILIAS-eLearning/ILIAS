@@ -1,18 +1,22 @@
 <div class="il-table-presentation-row" id="{ID}">
-#
-	{EXPANDER}
-#
-	<br>
-	{ID}
-	<br>
-	{SIG}
+	<div class="il-table-presentation-row-expander">
+		#
+		{EXPANDER}
+		#
+	</div>
+	<div class="il-table-presentation-row-collapser">
+		#
+		{COLLAPSER}
+		#
+	</div>
+
 	<div class="il-table-presentation-row-header">
 		<b>{TITLE}</b>
 		<br>
 		{SUBTITLE}
 		<br>
 
-		<span>
+		<span class="il-table-presentation-row-header-fields">
 			<!-- BEGIN important_field -->
 			{IMPORTANT_FIELD_LABEL}
 			{IMPORTANT_FIELD_VALUE}

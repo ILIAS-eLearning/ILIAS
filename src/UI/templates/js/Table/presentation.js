@@ -6,13 +6,25 @@ il.UI.table = il.UI.table || {};
 
     UI.table.presentation = (function ($) {
 
-
-
         var expandRow = function (id) {
-            window.top.console.log('EXPAND ' + id);
+            var row = $('#' + id);
+            row.find('.il-table-presentation-row-expander').hide()
+            row.find('.il-table-presentation-row-collapser').show()
+
+            row.find('.il-table-presentation-row-expanded').show()
+            row.find('.il-table-presentation-row-header-fields').hide()
+
         };
 
         var collapseRow = function (id) {
+            var row = $('#' + id);
+            row.find('.il-table-presentation-row-expander').show()
+            row.find('.il-table-presentation-row-collapser').hide()
+
+            row.find('.il-table-presentation-row-expanded').hide()
+            row.find('.il-table-presentation-row-header-fields').show()
+
+
         };
 
         return {
