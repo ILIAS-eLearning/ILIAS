@@ -47,13 +47,14 @@ class ilOrgUnitPosition extends \ActiveRecord {
 	 */
 	protected $description = "";
 	/**
-	 * @var \ilOrguAuthority[]
+	 * @var \ilOrgUnitAuthority[]
 	 */
 	protected $authorities = array();
 
 
 	public function afterObjectLoad() {
-		$this->authorities = ilOrguAuthority::where(array( "position" => $this->getId() ))->get();
+		$this->authorities = ilOrgUnitAuthority::where(array( "position" => $this->getId() ))
+		                                       ->get();
 	}
 
 
@@ -114,7 +115,7 @@ class ilOrgUnitPosition extends \ActiveRecord {
 
 
 	/**
-	 * @return \ilOrguAuthority[]
+	 * @return \ilOrgUnitAuthority[]
 	 */
 	public function getAuthorities() {
 		return $this->authorities;
@@ -122,7 +123,7 @@ class ilOrgUnitPosition extends \ActiveRecord {
 
 
 	/**
-	 * @param \ilOrguAuthority[] $authorities
+	 * @param \ilOrgUnitAuthority[] $authorities
 	 */
 	public function setAuthorities($authorities) {
 		$this->authorities = $authorities;

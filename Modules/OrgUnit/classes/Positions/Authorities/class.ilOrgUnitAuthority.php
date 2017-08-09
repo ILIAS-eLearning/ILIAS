@@ -7,7 +7,7 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilOrguAuthority extends \ActiveRecord {
+class ilOrgUnitAuthority extends \ActiveRecord {
 
 	const EVERYONE = - 1;
 	const DEPTH_SAME_ORGU = 1;
@@ -57,6 +57,7 @@ class ilOrguAuthority extends \ActiveRecord {
 	 * @con_length     1
 	 */
 	protected $position = 0;
+
 
 	/**
 	 * @return string
