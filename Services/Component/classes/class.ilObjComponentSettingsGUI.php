@@ -306,23 +306,10 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 				
 		
 		// toolbar actions
-		
-		if ($plugin["activation_possible"])
-		{
-			$ilToolbar->addButton($lng->txt("cmps_activate"),
-				$ilCtrl->getLinkTarget($this, "activatePlugin"));						
-		}
-
-		// deactivation/refresh languages button
-		if ($plugin["is_active"])
-		{			
-			// refresh languages button
-			if (count($langs) > 0)
-			{
-				$ilToolbar->addButton($lng->txt("cmps_refresh"),
-					$ilCtrl->getLinkTarget($this, "refreshLanguages"));				
-			}
-
+		if($plugin["must_install"]) {
+			$ilToolbar->addButton($lng->txt("cmps_install"),
+					$ilCtrl->getLinkTarget($this, "installPlugin"));
+		} else {
 			// configure button
 			if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $plugin["name"]) &&
 				$ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($plugin["name"])))
@@ -330,20 +317,35 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 				$ilToolbar->addButton($lng->txt("cmps_configure"),
 					$ilCtrl->getLinkTargetByClass(strtolower(ilPlugin::getConfigureClassName($plugin["name"])), "configure"));
 			}
+			// refresh languages button
+			if (count($langs) > 0)
+			{
+				$ilToolbar->addButton($lng->txt("cmps_refresh"),
+					$ilCtrl->getLinkTarget($this, "refreshLanguages"));				
+			}
 			
-			// deactivate button
-			$ilToolbar->addButton($lng->txt("cmps_deactivate"),
-				$ilCtrl->getLinkTarget($this, "deactivatePlugin"));			
+			if ($plugin["activation_possible"])
+			{
+				$ilToolbar->addButton($lng->txt("cmps_activate"),
+					$ilCtrl->getLinkTarget($this, "activatePlugin"));						
+			}
+
+			// deactivation/refresh languages button
+			if ($plugin["is_active"])
+			{			
+				// deactivate button
+				$ilToolbar->addButton($lng->txt("cmps_deactivate"),
+					$ilCtrl->getLinkTarget($this, "deactivatePlugin"));			
+			}
+			
+			// update button
+			if ($plugin["needs_update"])
+			{
+				$ilToolbar->addButton($lng->txt("cmps_update"),
+					$ilCtrl->getLinkTarget($this, "updatePlugin"));
+			}
 		}
-		
-		// update button
-		if ($plugin["needs_update"])
-		{
-			$ilToolbar->addButton($lng->txt("cmps_update"),
-				$ilCtrl->getLinkTarget($this, "updatePlugin"));
-		}
-		
-	
+
 		// info
 		
 		$resp = array();
@@ -466,6 +468,20 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 	}
 	
 	/**
+	 * Install a plugin
+	 *
+	 * @return null
+	 */
+	protected function installPlugin() {
+		include_once("./Services/Component/classes/class.ilPlugin.php");
+		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
+			$_GET["slot_id"], $_GET["pname"]);
+
+		$pl->install();
+		$this->update($pl);
+	}
+
+	/**
 	* Activate a plugin.
 	*/
 	function activatePlugin()
@@ -517,15 +533,26 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
 			$_GET["slot_id"], $_GET["pname"]);
 
-		$result = $pl->update();
-		
+		$this->update($pl);
+	}
+
+	/**
+	 * Execute update and ctrl reload
+	 *
+	 * @param ilPlugin 	$plugin
+	 *
+	 * @return null
+	 */
+	protected function update(ilPlugin $plugin) {
+		$result = $plugin->update();
+
 		if ($result !== true)
 		{
-			ilUtil::sendFailure($pl->message, true);
+			ilUtil::sendFailure($plugin->message, true);
 		}
 		else
 		{
-			ilUtil::sendSuccess($pl->message, true);
+			ilUtil::sendSuccess($plugin->message, true);
 		}
 		
 		// reinitialize control class
@@ -537,11 +564,9 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 		$ilCtrl->setParameterByClass("iladministrationgui", "slot_id", $_GET["slot_id"]);
 		$ilCtrl->setParameterByClass("iladministrationgui", "plugin_id", $_GET["plugin_id"]);
 		$ilCtrl->setTargetScript("ilias.php");
-//		$ilCtrl->callBaseClass();
 		ilUtil::redirect("ilias.php?admin_mode=settings&baseClass=ilAdministrationGUI".
 			"&cmd=jumpToPluginSlot&ref_id=".$_GET["ref_id"]."&ctype=".$_GET["ctype"].
 			"&cname=".$_GET["cname"]."&slot_id=".$_GET["slot_id"]."&plugin_id=".$_GET["plugin_id"]);
-		//$ilCtrl->redirectByClass("iladministrationgui", );
 	}
 
 	/**
