@@ -64,6 +64,7 @@ function base() {
 			'topics' => 'Inhalte'
 		)
 	)
+	->withFurtherFieldsHeadline('Detailed Information')
 	->withFurtherFields(
 		array(
 			'location' => 'Ort: ',
@@ -80,8 +81,7 @@ function base() {
 		$rows[] = $prow->withData($record)
 			->withButtons(
 				array(
-					$f->button()->primary('launch course', '#'),
-					$f->button()->standard('mark course', '#')
+					$f->button()->standard('book course', '#')
 				)
 			);
 	}

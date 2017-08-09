@@ -49,6 +49,11 @@ class PresentationRow implements T\PresentationRow {
 	private $description_fields;
 
 	/**
+	 * @var	string
+	 */
+	private $further_fields_headline;
+
+	/**
 	 * @var	array
 	 */
 	private $further_fields;
@@ -152,6 +157,22 @@ class PresentationRow implements T\PresentationRow {
 	 */
 	public function getDescriptionFields() {
 		return $this->description_fields;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withFurtherFieldsHeadline($headline) {
+		$clone = clone $this;
+		$clone->further_fields_headline = $headline;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getFurtherFieldsHeadline() {
+		return $this->further_fields_headline;
 	}
 
 	/**

@@ -111,6 +111,11 @@ class Renderer extends AbstractComponentRenderer {
 		$desclist = $f->listing()->descriptive($description);
 		$tpl->setVariable("DESCLIST", $default_renderer->render($desclist));
 
+		$further_fields_headline = $component->getFurtherFieldsHeadline();
+		if($further_fields_headline) {
+			$tpl->setVariable("FURTHER_FIELDS_HEADLINE", $further_fields_headline);
+		}
+
 		foreach ($component->getFurtherFields() as $field => $label) {
 			$tpl->setCurrentBlock("further_field");
 			$tpl->setVariable("FIELD_LABEL", $label);
