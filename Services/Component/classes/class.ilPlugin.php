@@ -779,8 +779,7 @@ abstract class ilPlugin
 			// activate plugin
 			if ($result === true)
 			{
-				$q = "UPDATE il_plugin SET active = ".$ilDB->quote(1, "integer").",".
-					" plugin_id = ".$ilDB->quote($this->getId(), "text").
+				$q = "UPDATE il_plugin SET active = ".$ilDB->quote(1, "integer").
 					" WHERE component_type = ".$ilDB->quote($this->getComponentType(), "text").
 					" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
 					" AND slot_id = ".$ilDB->quote($this->getSlotId(), "text").
