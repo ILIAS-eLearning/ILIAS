@@ -7124,6 +7124,7 @@ ul.breadcrumb li:hover {
 }
 .il-table-presentation-row {
   white-space: nowrap;
+  border-top: 1px solid #dddddd;
 }
 .il-table-presentation-row .il-table-presentation-row-controls,
 .il-table-presentation-row .il-table-presentation-row-contents {
