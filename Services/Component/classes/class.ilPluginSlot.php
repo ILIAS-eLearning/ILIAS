@@ -249,7 +249,7 @@ class ilPluginSlot
 					$plugin["name"] = $file;
 					$plugin["plugin_php_file_status"] = true;
 					$plugin["class_file_status"] = $this->checkClassFileAvailability($file);
-					$plugin["class_file"] = "class.il".$plugin["name"]."Plugin.php";
+					$plugin["class_file"] = $this->getPluginClassFileName($file);
 					
 					$plugins[] = $plugin;
 				}
