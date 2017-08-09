@@ -163,10 +163,31 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 			$this->ctrl->setParameter($this, "dt", $_GET["dt"]);
 			$modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 			$shy = $this->ui_factory->button()->shy($e["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal());
+
+			$plugin_values = $this->getContentByPlugins($e, $shy, ilCalendarViewGUI::CAL_PRESENTATION_AGENDA_LIST);
+
+			if($plugin_values['title'] != '')
+			{
+				$title = $plugin_values['title'];
+			}
+			else
+			{
+				$title = $shy;
+			}
+
+			if($plugin_values['description'] != '')
+			{
+				$description = $plugin_values['description'];
+			}
+			else
+			{
+				$description = $e["event"]->getDescription();
+			}
+
 			$modals[] = $modal;
 
-			$li = $this->ui_factory->item()->standard($shy)
-				->withDescription("".$e["event"]->getDescription())
+			$li = $this->ui_factory->item()->standard($title)
+				->withDescription("".$description)
 				->withLeadText(ilDatePresentation::formatPeriod($begin, $end, true))
 				->withProperties($properties)
 				->withColor($df->color('#'.$cat_info["color"]));

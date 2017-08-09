@@ -416,7 +416,9 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
 		$shy = $this->getAppointmentShyButton($a_app);
 
-		$title = $this->getContentByPlugins($a_app, $shy);
+		$plugin_values = $this->getContentByPlugins($a_app, $shy, ilCalendarViewGUI::CAL_PRESENTATION_WEEK);
+
+		$title = $plugin_values['title'];
 
 		$this->tpl->setVariable('F_APP_TITLE',$title.$compl);
 
@@ -514,7 +516,9 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		}
 
 		//calendar plugins
-		$title = $this->getContentByPlugins($a_app, $title);
+		$plugin_values = $this->getContentByPlugins($a_app, $shy, ilCalendarViewGUI::CAL_PRESENTATION_WEEK);
+
+		$title = $plugin_values['title'];
 
 		$this->tpl->setVariable('APP_TITLE', $title);
 		$this->tpl->setVariable('LINK_NUM',$this->num_appointments);

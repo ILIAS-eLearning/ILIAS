@@ -205,32 +205,44 @@ class ilCalendarViewGUI
 		return $res;
 	}
 
-	public function getContentByPlugins($a_app, $a_title)
+	public function getContentByPlugins($a_app, $a_title, $a_view)
 	{
 		$title = $a_title;
+
+		$values = array();
 
 		//demo of plugin execution.
 		foreach($this->getActivePlugins() as $plugin)
 		{
 			$plugin->setAppointment($a_app);
-			if($new_content = $plugin->replaceContent())
+			switch ($a_view)
 			{
-				$title = $new_content;
-			}
-			else
-			{
-				if($glyph = $plugin->addGlyph())
-				{
-					$title = $glyph." ".$title;
-				}
-				if($more_content = $plugin->addExtraContent())
-				{
-					$title .= " ".$more_content;
-				}
+				case self::CAL_PRESENTATION_AGENDA_LIST:
+					$title = $plugin->replaceTitle();
+					$description = $plugin->replaceDescription();
+					break;
+				default:
+					if($new_content = $plugin->replaceContent())
+					{
+						$title = $new_content;
+					}
+					else
+					{
+						if($glyph = $plugin->addGlyph())
+						{
+							$title = $glyph." ".$title;
+						}
+						if($more_content = $plugin->addExtraContent())
+						{
+							$title .= " ".$more_content;
+						}
+					}
 			}
 		}
+		$values["title"] = $title;
+		$values["description"] = $description;
 
-		return $title;
+		return $values;
 	}
 
 }

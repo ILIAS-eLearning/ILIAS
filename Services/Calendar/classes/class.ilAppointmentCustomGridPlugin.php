@@ -56,6 +56,7 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
 	}
 
 	//todo define proper methods here
+	//for day, week, month presentation
 
 	abstract function replaceContent();
 
@@ -63,4 +64,9 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
 
 	abstract function addGlyph();
 
+	//for the list presentation
+
+	abstract function replaceTitle();
+
+	abstract function replaceDescription();
 }
