@@ -5,9 +5,23 @@ namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class PresentationRow implements T\PresentationRow {
 	use ComponentHelper;
+	use JavaScriptBindable;
+
+	/**
+	 * @var Signal
+	 */
+	protected $show_signal;
+
+	/**
+	 * @var Signal
+	 */
+	protected $close_signal;
+
 
 	/**
 	 * @var	string
@@ -22,18 +36,67 @@ class PresentationRow implements T\PresentationRow {
 	/**
 	 * @var	array
 	 */
-	private $data;
+	private $buttons;
 
 	/**
 	 * @var	array
 	 */
-	private $buttons;
+	private $important_fields;
 
+	/**
+	 * @var	array
+	 */
+	private $description_fields;
 
-	public function __construct($title_field) {
+	/**
+	 * @var	array
+	 */
+	private $further_fields;
+
+	/**
+	 * @var	array
+	 */
+	private $data;
+
+	public function __construct($title_field, SignalGeneratorInterface $signal_generator) {
 		$this->checkStringArg("string", $title_field);
 		$this->title_field = $title_field;
+
+		$this->signal_generator = $signal_generator;
+		$this->initSignals();
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withResetSignals() {
+		$clone = clone $this;
+		$clone->initSignals();
+		return $clone;
+	}
+
+	/**
+	 * Set the show and close signals for this modal
+	 */
+	protected function initSignals() {
+		$this->show_signal = $this->signal_generator->create();
+		$this->close_signal = $this->signal_generator->create();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getShowSignal() {
+		return $this->show_signal;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getCloseSignal() {
+		return $this->close_signal;
+	}
+
 
 	/**
 	 * @inheritdoc
@@ -62,28 +125,49 @@ class PresentationRow implements T\PresentationRow {
 	/**
 	 * @inheritdoc
 	 */
-	public function withImportantFields() {
+	public function withImportantFields(array $fields) {
 		$clone = clone $this;
-		//$clone->abbreviation = $abbreviation;
+		$clone->important_fields = $fields;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withDescriptionFields() {
+	public function getImportantFields() {
+		return $this->important_fields;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withDescriptionFields(array $fields) {
 		$clone = clone $this;
-		//$clone->abbreviation = $abbreviation;
+		$clone->description_fields = $fields;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withFurtherFields() {
+	public function getDescriptionFields() {
+		return $this->description_fields;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withFurtherFields(array $fields) {
 		$clone = clone $this;
-		//$clone->abbreviation = $abbreviation;
+		$clone->further_fields = $fields;
 		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getFurtherFields() {
+		return $this->further_fields;
 	}
 
 	/**
@@ -116,7 +200,5 @@ class PresentationRow implements T\PresentationRow {
 	public function getButtons() {
 		return $this->buttons;
 	}
-
-
 
 }

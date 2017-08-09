@@ -175,7 +175,7 @@ class Factory implements \ILIAS\UI\Factory
 	 * @inheritdoc
 	 */
 	public function table()	{
-		return new Component\Table\Factory();
+		return new Component\Table\Factory(new SignalGenerator());
 	}
 
 }

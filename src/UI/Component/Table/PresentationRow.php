@@ -3,10 +3,12 @@
 
 namespace ILIAS\UI\Component\Table;
 
+use ILIAS\UI\Component\Triggerable;
+
 /**
- * This describes a Row use in Presentation Table
+ * This describes a Row used in Presentation Table
  */
-interface PresentationRow extends \ILIAS\UI\Component\Component {
+interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 
 	/**
 	 * Get the name of the field to be used as title.

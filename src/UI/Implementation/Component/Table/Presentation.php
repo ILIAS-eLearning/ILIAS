@@ -48,4 +48,11 @@ class Presentation implements T\Presentation {
 		return $this->rows;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getViewControls() {
+		return $this->view_controls;
+	}
+
 }

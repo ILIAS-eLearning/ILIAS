@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
@@ -43,6 +44,18 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderPresentationTable(Component\Table\Presentation $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.presentationtable.html", true, true);
 
+		$tpl->setVariable("TITLE", $component->getTitle());
+
+		$vcs = $component->getViewControls();
+		if($vcs) {
+			$tpl->touchBlock("viewcontrols");
+			foreach ($vcs as $vc) {
+				$tpl->setCurrentBlock("vc");
+				$tpl->setVariable("VC", $default_renderer->render($vc));
+				$tpl->parseCurrentBlock();
+			}
+		}
+
 		foreach ($component->getRows() as $row) {
 			$tpl->setCurrentBlock("row");
 			$tpl->setVariable("ROW", $default_renderer->render($row));
@@ -58,12 +71,46 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return mixed
 	 */
 	protected function renderPresentationRow(Component\Table\PresentationRow $component, RendererInterface $default_renderer) {
+		$f = $this->getUIFactory();
+		$tpl = $this->getTemplate("tpl.presentationrow.html", true, true);
 		$data = $component->getData();
 
-		$tpl = $this->getTemplate("tpl.presentationrow.html", true, true);
+		$component = $this->registerSignals($component->withResetSignals());
+		$id = $this->bindJavaScript($component);
+		$sig = $component->getShowSignal();
+
+		$expander = $f->glyph()->expand("#")
+			->withOnClick($sig);
+
+
+		$tpl->setVariable("ID",$id);
+		$tpl->setVariable("SIG",$sig);
+		$tpl->setVariable("EXPANDER", $default_renderer->render($expander));
+
+
 		$tpl->setVariable("TITLE", $data[$component->getTitleField()]);
 		$tpl->setVariable("SUBTITLE", $data[$component->getSubtitleField()]);
 
+		foreach ($component->getImportantFields() as $field => $label) {
+			$tpl->setCurrentBlock("important_field");
+			$tpl->setVariable("IMPORTANT_FIELD_LABEL", $label);
+			$tpl->setVariable("IMPORTANT_FIELD_VALUE", $data[$field]);
+			$tpl->parseCurrentBlock();
+		}
+
+		$description = array();
+		foreach ($component->getDescriptionFields() as $field => $label) {
+			$description[$label] = $data[$field];
+		}
+		$desclist = $f->listing()->descriptive($description);
+		$tpl->setVariable("DESCLIST", $default_renderer->render($desclist));
+
+		foreach ($component->getFurtherFields() as $field => $label) {
+			$tpl->setCurrentBlock("further_field");
+			$tpl->setVariable("FIELD_LABEL", $label);
+			$tpl->setVariable("FIELD_VALUE", $data[$field]);
+			$tpl->parseCurrentBlock();
+		}
 
 		foreach ($component->getButtons() as $button) {
 			$tpl->setCurrentBlock("button");
@@ -72,6 +119,28 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		return $tpl->get();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function registerResources(ResourceRegistry $registry) {
+		parent::registerResources($registry);
+		$registry->register('./src/UI/templates/js/Table/presentation.js');
+	}
+
+	/**
+	 * @param Component\Modal\Modal $modal
+	 * @param string $id
+	 */
+	protected function registerSignals(Component\Table\PresentationRow $component) {
+		$show = $component->getShowSignal();
+		$close = $component->getCloseSignal();
+		return $component->withAdditionalOnLoadCode(function($id) use ($show, $close) {
+			return
+				"$(document).on('{$show}', function() { il.UI.table.presentation.expandRow('{$id}'); return false; });".
+				"$(document).on('{$close}', function() { il.UI.table.presentation.collapseRow('{$id}'); return false; });";
+		});
 	}
 
 }

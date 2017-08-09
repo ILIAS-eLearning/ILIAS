@@ -9,18 +9,31 @@ function base() {
 		array(
 			'title'=>'row-1',
 			'type'=>'webinar',
-			'begin_date'=>'',
+			'begin_date'=>'30.09.2017',
+			'bookings_available'=>'3',
+			'target_group'=>'Angestellter Aussendienst, Innenvertrieb',
+			'goals'=>'Lorem Ipsum....',
+			'topics'=>'<li>Warentransportversicherung</li><li>Europapolice</li>',
+			'date' => '30.09.2017 - 02.10.2017',
+			'location'=>'Bernried',
+			'address' => 'Hauptstraße 123',
+			'fee' => '380 €'
+		),
+		array(
+			'title'=>'second',
+			'type'=>'f2f',
+			'begin_date'=>'12.12.2017',
 			'bookings_available'=>'',
 			'target_group'=>'',
 			'goals'=>'',
 			'topics'=>'',
 			'date' => '',
-			'location'=>'',
+			'location'=>'dfd',
 			'address' => '',
 			'fee' => ''
 		),
 		array(
-			'title'=>'second',
+			'title'=>'third',
 			'type'=>'f2f',
 			'begin_date'=>'',
 			'bookings_available'=>'',
@@ -73,10 +86,21 @@ function base() {
 			);
 	}
 
+	//build viewcontrols
+	$actions = array (
+		"All" => "#",
+		"Upcoming events" => "#",
+	);
+
+	$aria_label = "change_the_currently_displayed_mode";
+	$view_control = $f->viewControl()->mode($actions, $aria_label)->withActive("All");
+
 	//build table
 	$ptable = $f->table()->presentation(
 		'Presentation Table',
-		array(), //view controls
+		array(
+			$view_control
+		),
 		$rows
 	);
 
