@@ -199,11 +199,19 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		$this->setParameter($a_set);
 
 		$actions = array();
+		$this->ctrl->setParameter($this->parent_obj, "plugin_id", $a_set["plugin_id"]);
 		$this->addCommandToActions($actions, "info", "showPlugin");
+		$this->ctrl->setParameter($this->parent_obj, "plugin_id", null);
 
 		if($a_set["must_install"]) {
 			$this->addCommandToActions($actions, "cmps_install", "installPlugin");
 		} else {
+			if ($a_set["config_class"])
+			{
+				$actions[$this->lng->txt("cmps_configure")] =
+					$this->ctrl->getLinkTargetByClass($a_set["config_class"], "configure");
+			}
+
 			if ($a_set["has_lang"])
 			{
 				$this->addCommandToActions($actions, "cmps_refresh", "refreshLanguages");
@@ -217,12 +225,6 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 			if ($a_set["activation_possible"])
 			{
 				$this->addCommandToActions($actions, "cmps_activate", "activatePlugin");
-			}
-
-			if ($a_set["config_class"])
-			{
-				$actions[$this->lng->txt("cmps_configure")] = 
-					$this->ctrl->getLinkTargetByClass($a_set["config_class"], "configure");
 			}
 
 			// update button
@@ -251,7 +253,6 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		$this->ctrl->setParameter($this->parent_obj, "ctype", $a_set["component_type"]);
 		$this->ctrl->setParameter($this->parent_obj, "cname", $a_set["component_name"]);
 		$this->ctrl->setParameter($this->parent_obj, "slot_id", $a_set["slot_id"]);
-		$this->ctrl->setParameter($this->parent_obj, "plugin_id", $plugin_id);
 		$this->ctrl->setParameter($this->parent_obj, "pname", $a_set["plugin_name"]);
 	}
 
@@ -264,7 +265,6 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		$this->ctrl->setParameter($this->parent_obj, "ctype", null);
 		$this->ctrl->setParameter($this->parent_obj, "cname", null);
 		$this->ctrl->setParameter($this->parent_obj, "slot_id", null);
-		$this->ctrl->setParameter($this->parent_obj, "plugin_id", null);
 		$this->ctrl->setParameter($this->parent_obj, "pname", null);
 	}
 
