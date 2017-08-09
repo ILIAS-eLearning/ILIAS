@@ -644,7 +644,7 @@ class ilLuceneAdvancedSearchFields
 						$res = array();
 						foreach($adv_query as $adv_query_item)
 						{
-							$res[] = 'advancedMetaData_'.$field_id.': '.$adv_query_item;				
+							$res[] = 'advancedMetaData_'.$field_id.': '.$adv_query_item;			
 						}
 						return '('.implode(' OR ', $res).')';
 					}

@@ -745,22 +745,19 @@ class ilADTActiveRecordByType
 		}			
 		if($found)
 		{				
-			$res = array();
+			$objects = [];
 			
 			$sql = "SELECT *".$a_additional_fields.
 				" FROM ".$a_table."_".$found.
 				" WHERE field_id = ".$ilDB->quote($a_field_id, "integer").
 				" AND ".$a_condition;
-			$set = $ilDB->query($sql);
-			
-			ilLoggerFactory::getLogger('amet')->debug($sql);
-			
-			while($row = $ilDB->fetchAssoc($set))
+			$res = $ilDB->query($sql);
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 			{
-				$res[] = $row;
+				$objects[] = $row;
 			}
 			
-			return $res;
+			return $objects;
 		}				
 	}
 }

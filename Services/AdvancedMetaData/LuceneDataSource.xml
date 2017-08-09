@@ -361,4 +361,152 @@
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
+	<DataSource type="JDBC" action="append">		
+		<Query>
+			<!-- extlink global required -->
+			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value, val.title
+			FROM adv_md_values_extlink val
+			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
+			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
+			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id) 
+			WHERE robj.optional = 0 
+			AND robj.sub_type = '-'
+			AND rec.active = 1 
+			AND def.searchable = 1
+			AND rec.parent_obj IS NULL
+			AND robj.obj_type IN (?)
+			AND val.obj_id IN (?);
+		</Query>
+		<Param format="list" type="string" value="objType" />
+		<Param format="list" type="int" value="objId" />
+		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
+		<Field store="YES" index="ANALYZED" column="title" type="text" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="title" type="text" name="metaData" />
+	</DataSource>
+	<DataSource type="JDBC" action="append">
+		<Query>
+			<!-- extlink global optional -->
+			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value, val.title
+			FROM adv_md_values_extlink val
+			JOIN object_data obj ON (obj.obj_id = val.obj_id)
+			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
+			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
+			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id) 
+			JOIN container_settings cont ON (cont.id = val.obj_id)
+			WHERE robj.optional = 1 
+			AND robj.sub_type = '-'
+			AND rec.active = 1 
+			AND def.searchable = 1
+			AND cont.keyword = 'cont_custom_md'
+			AND cont.value = 1
+			AND rec.parent_obj IS NULL
+			AND robj.obj_type IN (?)
+			AND val.obj_id IN (?);
+		</Query>
+		<Param format="list" type="string" value="objType" />
+		<Param format="list" type="int" value="objId" />
+		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
+		<Field store="YES" index="ANALYZED" column="title" type="text" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="title" type="text" name="metaData" />
+	</DataSource>
+	<DataSource type="JDBC" action="append">
+		<Query>
+			<!-- extlink local -->
+			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value, val.title
+			FROM adv_md_values_extlink val
+			JOIN object_data obj ON (obj.obj_id = val.obj_id)
+			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
+			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
+			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id) 
+			JOIN container_settings cont ON (cont.id = val.obj_id)
+			WHERE robj.optional = 0 
+			AND robj.sub_type = '-'
+			AND rec.active = 1 
+			AND def.searchable = 1
+			AND cont.keyword = 'cont_custom_md'
+			AND cont.value = 1
+			AND rec.parent_obj = val.obj_id
+			AND robj.obj_type IN (?)
+			AND val.obj_id IN (?);
+		</Query>
+		<Param format="list" type="string" value="objType" />
+		<Param format="list" type="int" value="objId" />
+		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
+		<Field store="YES" index="ANALYZED" column="title" type="text" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="title" type="text" name="metaData" />
+	</DataSource>
+	<DataSource type="JDBC" action="append">		
+		<Query>
+			<!-- intlink global required -->
+			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
+			FROM adv_md_values_intlink val
+			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
+			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
+			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id) 
+			WHERE robj.optional = 0 
+			AND robj.sub_type = '-'
+			AND rec.active = 1 
+			AND def.searchable = 1
+			AND rec.parent_obj IS NULL
+			AND robj.obj_type IN (?)
+			AND val.obj_id IN (?);
+		</Query>
+		<Param format="list" type="string" value="objType" />
+		<Param format="list" type="int" value="objId" />
+		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
+	</DataSource>
+	<DataSource type="JDBC" action="append">
+		<Query>
+			<!-- intlink global optional -->
+			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
+			FROM adv_md_values_intlink val
+			JOIN object_data obj ON (obj.obj_id = val.obj_id)
+			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
+			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
+			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id) 
+			JOIN container_settings cont ON (cont.id = val.obj_id)
+			WHERE robj.optional = 1 
+			AND robj.sub_type = '-'
+			AND rec.active = 1 
+			AND def.searchable = 1
+			AND cont.keyword = 'cont_custom_md'
+			AND cont.value = 1
+			AND rec.parent_obj IS NULL
+			AND robj.obj_type IN (?)
+			AND val.obj_id IN (?);
+		</Query>
+		<Param format="list" type="string" value="objType" />
+		<Param format="list" type="int" value="objId" />
+		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
+	</DataSource>
+	<DataSource type="JDBC" action="append">
+		<Query>
+			<!-- intlink local -->
+			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
+			FROM adv_md_values_intlink val
+			JOIN object_data obj ON (obj.obj_id = val.obj_id)
+			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
+			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
+			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id) 
+			JOIN container_settings cont ON (cont.id = val.obj_id)
+			WHERE robj.optional = 0 
+			AND robj.sub_type = '-'
+			AND rec.active = 1 
+			AND def.searchable = 1
+			AND cont.keyword = 'cont_custom_md'
+			AND cont.value = 1
+			AND rec.parent_obj = val.obj_id
+			AND robj.obj_type IN (?)
+			AND val.obj_id IN (?);
+		</Query>
+		<Param format="list" type="string" value="objType" />
+		<Param format="list" type="int" value="objId" />
+		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
+	</DataSource>
 </DataSources>

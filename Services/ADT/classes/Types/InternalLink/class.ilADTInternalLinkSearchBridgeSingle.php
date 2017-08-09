@@ -27,6 +27,20 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 	}
 
 
+	/*	
+	 * Add search property to form
+	 */
+	public function addToForm()
+	{	
+		$title = new ilTextInputGUI($this->getTitle(), $this->getElementId());
+		$title->setSize(255);
+		$this->addToParentElement($title);
+	}
+	
+
+	/**
+
+
 	/**
 	 * Load from filter
 	 */
@@ -35,20 +49,8 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 		$value = $this->readFilter();
 		if($value !== null)
 		{
-			$this->getADT()->setUrl($value);
+			$this->getADT()->setTargetRefId($value);
 		}
-	}
-
-	/**
-	 * add external link property to form 
-	 */
-	public function addToForm()
-	{
-		$def = $this->getADT()->getCopyOfDefinition();
-
-		$url = new ilTextInputGUI($this->getTitle(), $this->getElementId());
-		$url->setSize(255);
-		$this->addToParentElement($url);
 	}
 
 	/**
@@ -63,11 +65,11 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 		{
 			$item = $this->getForm()->getItemByPostVar($this->getElementId());
 			$item->setValue($post);
-			$this->getADT()->setUrl($post);
+			$this->getADT()->setTargetRefId($post);
 		}
 		else
 		{
-			$this->getADT()->setUrl();
+			$this->getADT()->setTargetRefId(null);
 		}
 	}
 
@@ -79,7 +81,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 	public function getSQLCondition($a_element_id, $a_mode = self::SQL_LIKE, $a_value = null)
 	{
 		$db = $GLOBALS['DIC']->database();
-
+		
 		if(!$a_value)
 		{
 			if($this->isNull() || !$this->isValid())
@@ -88,56 +90,12 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 			}
 			$a_value = $this->getADT()->getTargetRefId();
 		}
-
-		switch($a_mode)
-		{
-			case self::SQL_STRICT:
-				if(!is_array($a_value))
-				{
-					return $a_element_id . " = " . $db->quote($a_value, "text");
-				}
-				else
-				{
-					return $db->in($a_element_id, $a_value, "", "text");
-				}
-				break;
-
-			case self::SQL_LIKE:
-				if(!is_array($a_value))
-				{
-					return $db->like($a_element_id, "text", "%" . $a_value . "%");
-				}
-				else
-				{
-					$tmp = array();
-					foreach($a_value as $word)
-					{
-						if($word)
-						{
-							$tmp[] = $db->like($a_element_id, "text", "%" . $word . "%");
-						}
-					}
-					if(sizeof($tmp))
-					{
-						return "(" . implode(" OR ", $tmp) . ")";
-					}
-				}
-				break;
-
-			case self::SQL_LIKE_END:
-				if(!is_array($a_value))
-				{
-					return $db->like($a_element_id, "text", $a_value . "%");
-				}
-				break;
-
-			case self::SQL_LIKE_START:
-				if(!is_array($a_value))
-				{
-					return $db->like($a_element_id, "text", "%" . $a_value);
-				}
-				break;
-		}
+		
+		$subselect = $a_element_id .' IN '.
+			'( select ref_id from object_reference obr join object_data obd on obr.obj_id = obd.obj_id '.
+			'where '.$db->like('title','text',$a_value.'%').' '.
+			')';
+		return $subselect;
 	}
 
 	/**

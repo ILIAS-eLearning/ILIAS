@@ -116,7 +116,14 @@ class ilAdvancedMDSearch extends ilAbstractSearch
 		
 		$search_type = strtolower(substr(get_class($this), 12, -6));
 		
-		$res_field = $this->getDefinition()->searchObjects($this->getSearchElement(), $this->query_parser, $this->getFilter(), $locate, $search_type);							 	
+		$res_field = $this->getDefinition()->searchObjects(
+			$this->getSearchElement(), 
+			$this->query_parser, 
+			$this->getFilter(), 
+			$locate, 
+			$search_type
+		);
+		
 		if(is_array($res_field))
 		{			
 			foreach($res_field as $row)

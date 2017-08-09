@@ -31,7 +31,7 @@
 * 
 * @ilCtrl_Calls ilAdvancedSearchGUI: ilObjectGUI, ilContainerGUI
 * @ilCtrl_Calls ilAdvancedSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
-* @ilCtrl_Calls ilAdvancedSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilAdvancedSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI, ilPropertyFormGUI
 *
 * @package ilias-search
 *
@@ -96,6 +96,8 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 		switch($next_class)
 		{
+			case "ilpropertyformgui":
+			
 			
 			case 'ilobjectcopygui':
 				$this->prepareOutput();
@@ -917,7 +919,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 			$field = ilAdvancedMDFieldDefinition::getInstance($field_id);
 		
 			$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);							
-			$field_form->setElementId("query[".$key."]");			
+			$field_form->setElementId("query[".$key."]");
 			$field_form->setForm($this->form);
 		
 			// reload search values			
@@ -1033,6 +1035,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 			case 'all':
 			default:
+				$this->filter[] = 'sess';
 				$this->filter[] = 'webr';
 				$this->filter[] = 'crs';
 				$this->filter[] = 'mep';
@@ -1061,7 +1064,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 						 'mep' => $this->lng->txt('objs_mep'),
 						 'tst' => $this->lng->txt('search_tst_svy'),
 						 'file'=> $this->lng->txt('objs_file'),
-						 'webr' => $this->lng->txt('objs_webr'));
+						 'webr' => $this->lng->txt('objs_webr'),
+						 'sess' => $this->lng->txt('objs_sess')
+			);
 
 
 		return ilUtil::formSelect($this->options['type'],'search_adv[type]',$options,false,true);
