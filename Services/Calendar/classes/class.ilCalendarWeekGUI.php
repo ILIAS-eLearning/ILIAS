@@ -416,12 +416,14 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
 		$shy = $this->getAppointmentShyButton($a_app);
 
-		$this->tpl->setVariable('F_APP_TITLE',$shy.$compl);
-		//$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getPresentationTitle().$compl);
+		$title = $this->getContentByPlugins($a_app, $shy);
+
+		$this->tpl->setVariable('F_APP_TITLE',$title.$compl);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$font_color = ilCalendarUtil::calculateFontColor($color);
 
+		//create method to trigger the plugin only once.
 		foreach($this->getActivePlugins() as $plugin)
 		{
 			//todo: This is only one example.
@@ -505,25 +507,14 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
 		$shy = $this->getAppointmentShyButton($a_app);
 
-		$title = $hour.$shy;
+		$title = $shy;
+		if($time)
+		{
+			$title = $time." ".$title;
+		}
 
 		//calendar plugins
-		foreach($this->getActivePlugins() as $plugin)
-		{
-			$plugin->setAppointment($a_app);
-			if($glyph = $plugin->addGlyph())
-			{
-				$title = $glyph." ".$time." ".$shy;
-			}
-			if($new_content = $plugin->replaceContent())
-			{
-				//$title = $new_content;
-			}
-			if($more_content = $plugin->addExtraContent())
-			{
-				$title .= " ".$more_content;
-			}
-		}
+		$title = $this->getContentByPlugins($a_app, $title);
 
 		$this->tpl->setVariable('APP_TITLE', $title);
 		$this->tpl->setVariable('LINK_NUM',$this->num_appointments);

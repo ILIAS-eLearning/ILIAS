@@ -358,22 +358,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 				$title = $time." ".$title;
 			}
 
-			foreach($this->getActivePlugins() as $plugin)
-			{
-				$plugin->setAppointment($item);
-				if($glyph = $plugin->addGlyph())
-				{
-					$title = $glyph." ".$title;
-				}
-				if($new_content = $plugin->replaceContent())
-				{
-					//$title = $new_content;
-				}
-				if($more_content = $plugin->addExtraContent())
-				{
-					$title .= " ".$more_content;
-				}
-			}
+			$title = $this->getContentByPlugins($item, $title);
 
 			//TODO: There is a bug/error here with the headers in the block
 			$this->tpl->setVariable('EVENT_TITLE',$title.$compl);

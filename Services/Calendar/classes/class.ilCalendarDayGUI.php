@@ -342,7 +342,11 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
 		$shy = $this->getAppointmentShyButton($a_app);
 
-		$this->tpl->setVariable('F_APP_TITLE',$shy.$compl);
+		$title = $shy;
+
+		$title = $this->getContentByPlugins($a_app, $title);
+
+		$this->tpl->setVariable('F_APP_TITLE',$title.$compl);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$this->tpl->setVariable('F_APP_BGCOLOR',$color);
@@ -408,23 +412,13 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		}
 		$shy = $this->getAppointmentShyButton($a_app);
 
-		//demo of plugin execution.
-		foreach($this->getActivePlugins() as $plugin)
+		$title = $shy;
+		if($time)
 		{
-			$plugin->setAppointment($a_app);
-			if($glyph = $plugin->addGlyph())
-			{
-				$title = $glyph." ".$time." ".$shy;
-			}
-			if($new_content = $plugin->replaceContent())
-			{
-				//$title = $new_content;
-			}
-			if($more_content = $plugin->addExtraContent())
-			{
-				$title .= " ".$more_content;
-			}
+			$title = $time." ".$title;
 		}
+
+		$title = $this->getContentByPlugins($a_app, $title);
 
 		$this->tpl->setVariable('APP_TITLE',$title);
 

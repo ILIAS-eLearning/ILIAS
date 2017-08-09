@@ -205,4 +205,32 @@ class ilCalendarViewGUI
 		return $res;
 	}
 
+	public function getContentByPlugins($a_app, $a_title)
+	{
+		$title = $a_title;
+
+		//demo of plugin execution.
+		foreach($this->getActivePlugins() as $plugin)
+		{
+			$plugin->setAppointment($a_app);
+			if($new_content = $plugin->replaceContent())
+			{
+				$title = $new_content;
+			}
+			else
+			{
+				if($glyph = $plugin->addGlyph())
+				{
+					$title = $glyph." ".$title;
+				}
+				if($more_content = $plugin->addExtraContent())
+				{
+					$title .= " ".$more_content;
+				}
+			}
+		}
+
+		return $title;
+	}
+
 }
