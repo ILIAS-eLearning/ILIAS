@@ -15996,3 +15996,4 @@ mail#:#mail_second_email#:#Zweite E-Mail-Adresse
 mail#:#mail_both_email#:#Beide E-Mail-Adressen
 common#:#second_email_not_valid#:#Die eingegebene zweite E-Mail-Adresse ist nicht gültig!
 common#:#second_email#:#Zweite E-Mail
+cmps#:#cmps_must_installed#:#Plugin muss installiert werden.
