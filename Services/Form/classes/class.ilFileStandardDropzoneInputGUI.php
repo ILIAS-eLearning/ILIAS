@@ -1,15 +1,10 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php';
-include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-
 /**
  * This class represents a file property in a property form.
  *
- * @author     Alex Killing <alex.killing@gmx.de>
- * @version    $Id$
- * @ingroup    ServicesForm
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbarItem {
 
@@ -21,36 +16,36 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 	/**
 	 * @var string
 	 */
-	protected $uploadUrl = '';
+	protected $upload_url = '';
 	/**
 	 * @var int
 	 */
-	protected $maxFiles = 1;
+	protected $max_files = 1;
 	/**
 	 * @var \ILIAS\Data\DataSize
 	 */
-	protected $maxFileSize;
+	protected $max_file_size;
 	/**
 	 * @var string
 	 */
-	protected $dropzoneMessage = '';
+	protected $dropzone_message = '';
 
 
 	/**
 	 * @return string
 	 */
 	public function getUploadUrl() {
-		return $this->uploadUrl;
+		return $this->upload_url;
 	}
 
 
 	/**
-	 * @param string $uploadUrl
+	 * @param string $upload_url
 	 *
 	 * @return $this
 	 */
-	public function setUploadUrl($uploadUrl) {
-		$this->uploadUrl = $uploadUrl;
+	public function setUploadUrl($upload_url) {
+		$this->upload_url = $upload_url;
 
 		return $this;
 	}
@@ -60,31 +55,31 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 	 * @return int
 	 */
 	public function getMaxFiles() {
-		return $this->maxFiles;
+		return $this->max_files;
 	}
 
 
 	/**
-	 * @param int $maxFiles
+	 * @param int $max_files
 	 */
-	public function setMaxFiles($maxFiles) {
-		$this->maxFiles = $maxFiles;
+	public function setMaxFiles($max_files) {
+		$this->max_files = $max_files;
 	}
 
 
 	/**
 	 * @return \ILIAS\Data\DataSize
 	 */
-	public function getMaxFileSize() {
-		return $this->maxFileSize;
+	public function getMaxFilesize() {
+		return $this->max_file_size;
 	}
 
 
 	/**
-	 * @param \ILIAS\Data\DataSize $maxFileSize
+	 * @param \ILIAS\Data\DataSize $max_file_size
 	 */
-	public function setMaxFileSize(\ILIAS\Data\DataSize $maxFileSize) {
-		$this->maxFileSize = $maxFileSize;
+	public function setMaxFilesize(\ILIAS\Data\DataSize $max_file_size) {
+		$this->max_file_size = $max_file_size;
 	}
 
 
@@ -92,15 +87,15 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 	 * @return string
 	 */
 	public function getDropzoneMessage() {
-		return $this->dropzoneMessage;
+		return $this->dropzone_message;
 	}
 
 
 	/**
-	 * @param string $dropzoneMessage
+	 * @param string $dropzone_message
 	 */
-	public function setDropzoneMessage($dropzoneMessage) {
-		$this->dropzoneMessage = $dropzoneMessage;
+	public function setDropzoneMessage($dropzone_message) {
+		$this->dropzone_message = $dropzone_message;
 	}
 
 
@@ -144,6 +139,9 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 	}
 
 
+	/**
+	 * @return bool
+	 */
 	public function checkInput() {
 		global $DIC;
 
@@ -193,8 +191,8 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 	 * @return ILIAS\UI\Component\Dropzone\File\Standard
 	 */
 	protected function handleMaxFileSize($dropzone) {
-		if ($this->getMaxFileSize()) {
-			$dropzone = $dropzone->withFileSizeLimit($this->getMaxFileSize());
+		if ($this->getMaxFilesize()) {
+			$dropzone = $dropzone->withFileSizeLimit($this->getMaxFilesize());
 		}
 
 		return $dropzone;
