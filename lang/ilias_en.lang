@@ -23,6 +23,7 @@ forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be save
 forum#:#edit_thread_draft#:#Edit thread draft
 common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'
 common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.
+forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.
 forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.
 forum#:#save_draft_successfully#:#The draft was saved successfully.
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?
@@ -12404,9 +12405,6 @@ exc#:#exc_criteria_catalogue_default#:#No Catalogue
 exc#:#exc_peer_review_text#:#Text Input
 exc#:#exc_crit_cat_protected_assignment#:#Active Peer Feedback
 exc#:#exc_crit_cat_protected_assignment_info#:#Criteria catalogues of assignments with active peer feedback cannot be edited anymore.
-survey#:#svy_print_title_only#:#Show only titles
-survey#:#svy_print_label_only#:#Show only labels
-survey#:#svy_print_title_label#:#Show titles and labels
 content#:#cont_mycourses_sortorder#:#Default Sorting
 content#:#cont_mycourses_sortorder_alphabetical#:#Alphabetical
 content#:#cont_mycourses_sortorder_location#:#By Location
@@ -13551,3 +13549,5 @@ mail#:#mail_first_email#:#First Email Address
 mail#:#mail_second_email#:#Second Email Address
 mail#:#mail_both_email#:#Both Email Addresses
 common#:#second_email#:#Second Email
+survey#:#svy_print_show_labels#:#Show labels
+survey#:#svy_print_hide_labels#:#Hide labels

@@ -17,5 +17,7 @@ class ilMailMimeTransportNull implements ilMailMimeTransport
 		ilLoggerFactory::getLogger('mail')->debug(sprintf(
 			'Suppressed delegation of external email delivery according to global setting.'
 		));
+
+		return true;
 	}
 }

@@ -63,7 +63,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 	}
 
 	/**
-	 * @param ilMimeMail $mail
+	 * @inheritdoc
 	 */
 	final public function send(ilMimeMail $mail)
 	{
@@ -161,5 +161,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 				'Could not deliver external email: %s', $this->getMailer()->ErrorInfo
 			));
 		}
+
+		return $result;
 	}
 }
