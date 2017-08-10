@@ -36,10 +36,15 @@ var ilFileStandardDropzoneInputGUI = (function ($) {
 
                     il.UI.uploader.setUploadParams(uploadId, params);
                     il.UI.uploader.onError(uploadId, function (xmlHttpRequest) {
-                        console.log(xmlHttpRequest);
+                        // console.log(xmlHttpRequest);
                         // il.UI.uploader.reset(uploadId);
-                        if(xmlHttpRequest.response.message) {
 
+                        if (xmlHttpRequest.response.message) {
+
+                        } else {
+                            // console.log(xmlHttpRequest);
+                            // window.location.replace(xmlHttpRequest.responseURL);
+                            // $('body').html(xmlHttpRequest.response);
                         }
                         handledUpload = true;
                         return false;

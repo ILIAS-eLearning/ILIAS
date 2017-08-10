@@ -14,7 +14,7 @@ il.UI = il.UI || {};
             fileSizeLimit: 0, // Max file size in bytes
             identifier: 'files', // Input name used when sending files back to the server. Corresponds to the key in $_FILES array
             selectFilesButton: null, // A JQuery object acting as select files button. Cannot be a <button>
-            interceptSubmit:false
+            interceptSubmit: false
         };
 
         // Stores all the different upload instances with a unique uploadId
@@ -228,7 +228,6 @@ il.UI = il.UI || {};
                     },
                     onComplete: function (fileId, fileName, response, xmlHttpRequest) {
                         // Errors are rendered in the onError callback
-                        console.log(response);
                         if (response.success && response.redirect_url) {
                             window.location.replace(response.redirect_url);
                         }
@@ -263,10 +262,16 @@ il.UI = il.UI || {};
                         }
                     },
                     onError: function (fileId, fileName, errorReason, xmlHttpRequest) {
-                        var response = JSON.parse(xmlHttpRequest.response);
+                        var response;
+                        try {
+                            response = JSON.parse(xmlHttpRequest.response);
+                        } catch (e) {
+                            console.log(xmlHttpRequest);
+                            response = {};
+                            response.message = null;
+                        }
                         if (fileId !== null) {
                             errorReason = response.message || errorReason;
-
                             renderFileError(uploadId, fileId, errorReason);
                         } else {
                             renderError(uploadId, errorReason);

@@ -118,9 +118,15 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 		$f = $DIC->ui()->factory();
 		$r = $DIC->ui()->renderer();
 
-		$dropzone = $f->dropzone()->file()->standard($this->getUploadUrl())->withIdentifier($this->getPostVar())->withMaxFiles($this->getMaxFiles())->withMessage($this->getDropzoneMessage())->withAllowedFileTypes($this->getSuffixes());
+		$dropzone = $f->dropzone()
+		              ->file()
+		              ->standard($this->getUploadUrl())
+		              ->withIdentifier($this->getPostVar())
+		              ->withMaxFiles($this->getMaxFiles())
+		              ->withMessage($this->getDropzoneMessage())
+		              ->withAllowedFileTypes($this->getSuffixes());
 		$dropzone = $this->handleMaxFileSize($dropzone);
-		if($this->isFileNameSelectionEnabled()) {
+		if ($this->isFileNameSelectionEnabled()) {
 			$dropzone = $dropzone->withUserDefinedFileNamesEnabled(true);
 		}
 
@@ -168,8 +174,8 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 				$parentWrapper = $parentWrapper->getParent();
 			}
 
-			$this->setUploadUrl(str_replace("&amp;", "&", $parentWrapper->getFormAction())
-			                    . "&async=true");
+			$str_replace = str_replace("&amp;", "&", $parentWrapper->getFormAction());
+			$this->setUploadUrl($str_replace . "&" . self::ASYNC_FILEUPLOAD . "=true");
 		}
 	}
 
