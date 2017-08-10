@@ -67,21 +67,28 @@
       "introduced-by": "Jour Fixe",
       "developer": "unknown",
       "purpose": "",
-      "last-update-for-ilias": 5.3
+      "last-update-for-ilias": null
     },
     "jqueryui-touch-punch": {
       "introduction": "unknown",
       "introduced-by": "Jour Fixe",
       "developer": "unknown",
       "purpose": "",
-      "last-update-for-ilias": 5.3
+      "last-update-for-ilias": null
     },
     "jquery-outside-events": {
       "introduction": "unknown",
       "introduced-by": "Jour Fixe",
       "developer": "unknown",
       "purpose": "",
-      "last-update-for-ilias": 5.3
+      "last-update-for-ilias": null
+    },
+    "yui": {
+      "introduction": "unknown",
+      "introduced-by": "Jour Fixe",
+      "developer": "unknown",
+      "purpose": "",
+      "last-update-for-ilias": null
     }
   }
 }
