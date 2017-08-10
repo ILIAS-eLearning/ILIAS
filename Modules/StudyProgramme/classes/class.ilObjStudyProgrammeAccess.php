@@ -96,7 +96,6 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
 	 */
 	public static function getConditionOperators()
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 		return array(
 			ilConditionHandler::OPERATOR_ACCREDITED_OR_PASSED
 		);
@@ -113,24 +112,18 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
 	 */
 	public static function checkCondition($a_obj_id,$a_operator,$a_value,$a_usr_id)
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
-		include_once "./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php";
+		if ($a_operator === ilConditionHandler::OPERATOR_ACCREDITED_OR_PASSED) {
+			$valid_progress = array(
+				ilStudyProgrammeProgress::STATUS_COMPLETED,
+				ilStudyProgrammeProgress::STATUS_ACCREDITED
+			);
 
-		switch($a_operator) {
-			case ilConditionHandler::OPERATOR_ACCREDITED_OR_PASSED:
-				$valid_progress = array(
-					ilStudyProgrammeProgress::STATUS_COMPLETED,
-					ilStudyProgrammeProgress::STATUS_ACCREDITED
-				);
-
-				$prg_user_progress = ilStudyProgrammeUserProgress::getInstancesForUser($a_obj_id, $a_usr_id);
-				foreach ($prg_user_progress as $progress) {
-					if( in_array($progress->getStatus(), $valid_progress)) {
-						return true;
-					}
+			$prg_user_progress = ilStudyProgrammeUserProgress::getInstancesForUser($a_obj_id, $a_usr_id);
+			foreach ($prg_user_progress as $progress) {
+				if( in_array($progress->getStatus(), $valid_progress)) {
+					return true;
 				}
-				break;
-
+			}
 		}
 		return false;
 	}
