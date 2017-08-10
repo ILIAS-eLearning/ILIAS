@@ -24,12 +24,23 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
 	{
+		global $DIC;
+
+		$f        = $DIC->ui()->factory();
+		$renderer = $DIC->ui()->renderer();
+
 		$this->setId('saml_idp_list');
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
 		$this->ctrl = $GLOBALS['DIC']->ctrl();
 
 		$this->setTitle($this->lng->txt('auth_saml_idps'));
+
+		$this->setDescription(sprintf(
+			$this->lng->txt('auth_saml_idps_info'),
+			SimpleSAML_Configuration::getInstance()->resolvePath(SimpleSAML_Configuration::getInstance()->getString('metadatadir', 'metadata/')) . '/',
+			$renderer->render($f->link()->standard('https://simplesamlphp.org/docs/stable/simplesamlphp-sp', 'https://simplesamlphp.org/docs/stable/simplesamlphp-sp'))
+		));
 		$this->setRowTemplate('tpl.saml_idp_row.html','Services/Saml');
 
 		$this->addColumn($this->lng->txt('saml_tab_head_idp'), '','80%');

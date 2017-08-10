@@ -13569,6 +13569,7 @@ auth#:#err_auth_saml_no_ilias_user#:#Authentication failed. Please contact your 
 auth#:#auth_saml_login_form#:#Button on Login Page
 auth#:#auth_saml_login_form_info#:#If activated and there is at least one active IDP, a button appears on the login page. A click on this button initiates a SAML request.
 auth#:#auth_saml_idps#:#SAML IDP List
+auth#:#auth_saml_idps_info#:#New IDPs have to be defined in the corresponding SimpleSAMLphp configuration: %s. Once an IDP is added there, it appears in the table below and can be further configured. Please read the manual for further explanations %s. 
 auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#Configure SAML IDP: %s
 auth#:#saml_tab_head_idp#:#IDP
