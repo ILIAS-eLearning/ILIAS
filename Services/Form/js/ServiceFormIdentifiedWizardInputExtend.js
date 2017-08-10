@@ -20,7 +20,7 @@ var ilIdentifiedWizardInputExtend;
 		{
 			if(parameters)
 			{
-				if( $(parameters.fieldContainerSelector).size() )
+				if( $(parameters.fieldContainerSelector).length )
 				{
 					this.tag_container = parameters.fieldContainerSelector;
 				}
