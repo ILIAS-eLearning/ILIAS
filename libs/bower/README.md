@@ -1,6 +1,7 @@
 # How to add dependencies with bower in ILIAS
 
-**New dependencies need to be approved by the Jour Fixe of the ILIAS society.**
+**New dependencies need to be approved by the Jour Fixe of the ILIAS society or on behalf of 
+the Technical Board.**
 
 ## Dependencies for production
 - Comment all lines in libs/.gitignore which begin with bower/
@@ -8,11 +9,13 @@
 - Add a section in "extra" with the following metadata":
 ```json
  "jquery": {
-      "introduction": "03.08.2017",
-      "introduced-by": "fschmid"
+      "introduction-date": "03.08.2017",
+      "introduced-by": "Technical Board", // "Technical Board" or "Jour Fixe"
+      "purpose": "Describe the reason why this library is needed in ILIAS.",
+      "last-update-for-ilias": 5.3
     },
 ```
-- Run "bower install --no-dev"
+- Run "bower install"
 - Add all files to ILIAS git-repository and commit
 
 ## Dependencies for development
