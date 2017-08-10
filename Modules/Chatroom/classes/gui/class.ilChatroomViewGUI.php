@@ -75,7 +75,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		$tpl->addJavaScript('Modules/Chatroom/js/colorpicker/jquery.colorPicker.js');
 		$tpl->addJavaScript('Modules/Chatroom/js/chat.js');
 		$tpl->addJavaScript('Modules/Chatroom/js/iliaschat.jquery.js');
-		$tpl->addJavaScript('Services/jQuery/js/jquery.outside.events.min.js');
+		$tpl->addJavaScript('libs/bower/bower_components/jquery-outside-events/jquery.ba-outside-events.min.js');
 		$tpl->addJavaScript('Modules/Chatroom/js/json2.js');
 
 		$tpl->addJavaScript('./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js');
