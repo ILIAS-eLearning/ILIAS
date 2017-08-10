@@ -41,7 +41,6 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         ),
         'I' => 
         array (
-            'IMSGlobal\\LTI\\' => 14,
             'ILIAS\\' => 6,
         ),
         'G' => 
@@ -79,9 +78,6 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
-        'IMSGlobal\\LTI\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/imsglobal/lti/src',
         'League\\Flysystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/flysystem/src',
@@ -2318,6 +2314,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilAuthFrontendCredentials' => __DIR__ . '/../..' . '/../../Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentials.php',
         'ilAuthFrontendCredentialsApache' => __DIR__ . '/../..' . '/../../Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsApache.php',
         'ilAuthFrontendCredentialsHTTP' => __DIR__ . '/../..' . '/../../Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsHTTP.php',
+        'ilAuthFrontendCredentialsLTI' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilAuthFrontendCredentialsLTI.php',
         'ilAuthFrontendCredentialsShibboleth' => __DIR__ . '/../..' . '/../../Services/AuthShibboleth/classes/class.ilAuthFrontendCredentialsShibboleth.php',
         'ilAuthFrontendFactory' => __DIR__ . '/../..' . '/../../Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php',
         'ilAuthFrontendHTTP' => __DIR__ . '/../..' . '/../../Services/Authentication/classes/Frontend/class.ilAuthFrontendHTTP.php',
@@ -2340,6 +2337,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilAuthProviderFactory' => __DIR__ . '/../..' . '/../../Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php',
         'ilAuthProviderInterface' => __DIR__ . '/../..' . '/../../Services/Authentication/interfaces/interface.ilAuthProviderInterface.php',
         'ilAuthProviderLDAP' => __DIR__ . '/../..' . '/../../Services/LDAP/classes/class.ilAuthProviderLDAP.php',
+        'ilAuthProviderLTI' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php',
         'ilAuthProviderRadius' => __DIR__ . '/../..' . '/../../Services/Radius/classes/class.ilAuthProviderRadius.php',
         'ilAuthProviderShibboleth' => __DIR__ . '/../..' . '/../../Services/AuthShibboleth/classes/class.ilAuthProviderShibboleth.php',
         'ilAuthSOAP' => __DIR__ . '/../..' . '/../../Services/WebServices/SOAP/classes/class.ilAuthSOAP.php',
@@ -2785,6 +2783,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilContextApacheSSO' => __DIR__ . '/../..' . '/../../Services/Context/classes/class.ilContextApacheSSO.php',
         'ilContextCron' => __DIR__ . '/../..' . '/../../Services/Context/classes/class.ilContextCron.php',
         'ilContextIcal' => __DIR__ . '/../..' . '/../../Services/Context/classes/class.ilContextIcal.php',
+        'ilContextLTIProvider' => __DIR__ . '/../..' . '/../../Services/Context/classes/class.ilContextLTIProvider.php',
         'ilContextRest' => __DIR__ . '/../..' . '/../../Services/Context/classes/class.ilContextRest.php',
         'ilContextRss' => __DIR__ . '/../..' . '/../../Services/Context/classes/class.ilContextRss.php',
         'ilContextRssAuth' => __DIR__ . '/../..' . '/../../Services/Context/classes/class.ilContextRssAuth.php',
@@ -3655,6 +3654,9 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilLPStatusWrapper' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilLPStatusWrapper.php',
         'ilLPTableBaseGUI' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilLPTableBaseGUI.php',
         'ilLPXmlWriter' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilLPXmlWriter.php',
+        'ilLTIDataConnector' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilLTIDataConnector.php',
+        'ilLTIToolConsumer' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilLTIToolConsumer.php',
+        'ilLTIToolProvider' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilLTIToolProvider.php',
         'ilLangDeprecated' => __DIR__ . '/../..' . '/../../Services/Language/classes/class.ilLangDeprecated.php',
         'ilLanguage' => __DIR__ . '/../..' . '/../../Services/Language/classes/class.ilLanguage.php',
         'ilLanguageDetection' => __DIR__ . '/../..' . '/../../Services/Language/classes/class.ilLanguageDetection.php',
@@ -4238,6 +4240,10 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilObjItemGroupAccess' => __DIR__ . '/../..' . '/../../Modules/ItemGroup/classes/class.ilObjItemGroupAccess.php',
         'ilObjItemGroupGUI' => __DIR__ . '/../..' . '/../../Modules/ItemGroup/classes/class.ilObjItemGroupGUI.php',
         'ilObjItemGroupListGUI' => __DIR__ . '/../..' . '/../../Modules/ItemGroup/classes/class.ilObjItemGroupListGUI.php',
+        'ilObjLTIAdministration' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilObjLTIAdministration.php',
+        'ilObjLTIAdministrationAccess' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilObjLTIAdministrationAccess.php',
+        'ilObjLTIAdministrationGUI' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilObjLTIAdministrationGUI.php',
+        'ilObjLTIConsumer' => __DIR__ . '/../..' . '/../../Services/LTI/classes/Consumer/class.ilObjLTIConsumerGUI.php',
         'ilObjLanguage' => __DIR__ . '/../..' . '/../../Services/Language/classes/class.ilObjLanguage.php',
         'ilObjLanguageAccess' => __DIR__ . '/../..' . '/../../Services/Language/classes/class.ilObjLanguageAccess.php',
         'ilObjLanguageExt' => __DIR__ . '/../..' . '/../../Services/Language/classes/class.ilObjLanguageExt.php',
@@ -4516,6 +4522,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilObjectActivationGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectActivationGUI.php',
         'ilObjectAddNewItemGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectAddNewItemGUI.php',
         'ilObjectBadgeTableGUI' => __DIR__ . '/../..' . '/../../Services/Badge/classes/class.ilObjectBadgeTableGUI.php',
+        'ilObjectConsumerTableGUI' => __DIR__ . '/../..' . '/../../Services/LTI/classes/Consumer/class.ilLTIConsumerTableGUI.php',
         'ilObjectCopyCourseGroupSelectionTableGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectCopyCourseGroupSelectionTableGUI.php',
         'ilObjectCopyGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectCopyGUI.php',
         'ilObjectCopyProgressTableGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectCopyProgressTableGUI.php',
@@ -5806,6 +5813,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilZipBackgroundTaskHandler' => __DIR__ . '/../..' . '/../../Services/BackgroundTask/classes/class.ilZipBackgroundTaskHandler.php',
         'ilindividualAssessmentExporter' => __DIR__ . '/../..' . '/../../Modules/IndividualAssessment/classes/class.ilIndividualAssessmentExporter.php',
         'iljQueryUtil' => __DIR__ . '/../..' . '/../../Services/jQuery/classes/class.iljQueryUtil.php',
+        'illTIProviderObjectSetting' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilLTIProviderObjSetting.php',
         'ilvCard' => __DIR__ . '/../..' . '/../../Services/User/classes/class.ilvCard.php',
         'ntlm_sasl_client_class' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/ntlm_sasl_client.php',
         'nusoap_base' => __DIR__ . '/../..' . '/../../Services/SOAPAuth/include/nusoap.php',
