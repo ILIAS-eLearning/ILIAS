@@ -18831,7 +18831,7 @@ if(!$ilDB->tableColumnExists('mail_options', 'mail_address_option'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-<#5094>
+<#5098>
 <?php
 if(!$ilDB->tableExists('saml_attribute_mapping'))
 {
@@ -18858,11 +18858,11 @@ if(!$ilDB->tableExists('saml_attribute_mapping'))
 	);
 }
 ?>
-<#5095>
+<#5099>
 <?php
 $ilDB->addPrimaryKey('saml_attribute_mapping', array('idp_id', 'attribute'));
 ?>
-<#5096>
+<#5100>
 <?php
 if(!$ilDB->tableColumnExists('saml_attribute_mapping', 'idp_attribute'))
 {
@@ -18874,7 +18874,7 @@ if(!$ilDB->tableColumnExists('saml_attribute_mapping', 'idp_attribute'))
 	));
 }
 ?>
-<#5097>
+<#5101>
 <?php
 if(!$ilDB->tableColumnExists('saml_attribute_mapping', 'update_automatically'))
 {
@@ -18886,11 +18886,11 @@ if(!$ilDB->tableColumnExists('saml_attribute_mapping', 'update_automatically'))
 	));
 }
 ?>
-<#5098>
+<#5102>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-<#5099>
+<#5103>
 <?php
 if(!$ilDB->tableExists('saml_idp_settings'))
 {
@@ -18911,11 +18911,11 @@ if(!$ilDB->tableExists('saml_idp_settings'))
 	);
 }
 ?>
-<#5100>
+<#5104>
 <?php
 $ilDB->addPrimaryKey('saml_idp_settings', array('idp_id'));
 ?>
-<#5101>
+<#5105>
 <?php
 if(!$ilDB->tableColumnExists('saml_idp_settings', 'allow_local_auth'))
 {
@@ -18984,21 +18984,21 @@ if(!$ilDB->tableColumnExists('saml_idp_settings', 'account_migr_status'))
 	);
 }
 ?>
-<#5102>
+<#5106>
 <?php
 if(!$ilDB->tableExists('auth_ext_attr_mapping') && $ilDB->tableExists('saml_attribute_mapping'))
 {
 	$ilDB->renameTable('saml_attribute_mapping', 'auth_ext_attr_mapping');
 }
 ?>
-<#5103>
+<#5107>
 <?php
 if(!$ilDB->tableColumnExists('auth_ext_attr_mapping', 'auth_src_id') && $ilDB->tableColumnExists('auth_ext_attr_mapping', 'idp_id'))
 {
 	$ilDB->renameTableColumn('auth_ext_attr_mapping', 'idp_id', 'auth_src_id');
 }
 ?>
-<#5104>
+<#5108>
 <?php
 if(!$ilDB->tableColumnExists('auth_ext_attr_mapping', 'auth_mode'))
 {
@@ -19009,20 +19009,20 @@ if(!$ilDB->tableColumnExists('auth_ext_attr_mapping', 'auth_mode'))
 	));
 }
 ?>
-<#5105>
+<#5109>
 <?php
 // This migrates existing records
 $ilDB->manipulate('UPDATE auth_ext_attr_mapping SET auth_mode = ' . $ilDB->quote('saml', 'text'));
 ?>
-<#5106>
+<#5110>
 <?php
 $ilDB->dropPrimaryKey('auth_ext_attr_mapping');
 ?>
-<#5107>
+<#5111>
 <?php
 $ilDB->addPrimaryKey('auth_ext_attr_mapping', array('auth_mode', 'auth_src_id', 'attribute'));
 ?>
-<#5108>
+<#5112>
 <?php
 if(!$ilDB->tableColumnExists('auth_ext_attr_mapping', 'ext_attribute') && $ilDB->tableColumnExists('auth_ext_attr_mapping', 'idp_attribute'))
 {
