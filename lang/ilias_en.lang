@@ -12405,9 +12405,6 @@ exc#:#exc_criteria_catalogue_default#:#No Catalogue
 exc#:#exc_peer_review_text#:#Text Input
 exc#:#exc_crit_cat_protected_assignment#:#Active Peer Feedback
 exc#:#exc_crit_cat_protected_assignment_info#:#Criteria catalogues of assignments with active peer feedback cannot be edited anymore.
-survey#:#svy_print_title_only#:#Show only titles
-survey#:#svy_print_label_only#:#Show only labels
-survey#:#svy_print_title_label#:#Show titles and labels
 content#:#cont_mycourses_sortorder#:#Default Sorting
 content#:#cont_mycourses_sortorder_alphabetical#:#Alphabetical
 content#:#cont_mycourses_sortorder_location#:#By Location
@@ -13552,3 +13549,5 @@ mail#:#mail_first_email#:#First Email Address
 mail#:#mail_second_email#:#Second Email Address
 mail#:#mail_both_email#:#Both Email Addresses
 common#:#second_email#:#Second Email
+survey#:#svy_print_show_labels#:#Show labels
+survey#:#svy_print_hide_labels#:#Hide labels
