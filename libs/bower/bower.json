@@ -30,70 +30,70 @@
   "extra": {
     "jquery": {
       "introduction-date": "unknown",
-      "introduced-by": "Jour Fixe",
+      "approved-by": "Jour Fixe",
       "developer": "unknown",
       "purpose": "We use jQuery for most JS-related actions in ILIAS.",
       "last-update-for-ilias": 5.3
     },
     "bootstrap": {
-      "introduction": "unknown",
-      "introduced-by": "Jour Fixe",
+      "introduction-date": "unknown",
+      "approved-by": "Jour Fixe",
       "developer": "unknown",
       "purpose": "Bootstrap is ILIAS' Client-Side UI-Framework since 5.0",
       "last-update-for-ilias": 5.3
     },
     "Yamm3": {
-      "introduction": "unknown",
-      "introduced-by": "Jour Fixe",
+      "introduction-date": "unknown",
+      "approved-by": "Jour Fixe",
       "developer": "unknown",
       "purpose": "",
       "last-update-for-ilias": 5.3
     },
     "jquery-ui": {
-      "introduction": "unknown",
-      "introduced-by": "Jour Fixe",
+      "introduction-date": "unknown",
+      "approved-by": "Jour Fixe",
       "developer": "unknown",
       "purpose": "",
       "last-update-for-ilias": 5.3
     },
     "maphilight": {
-      "introduction": "unknown",
-      "introduced-by": "Jour Fixe",
+      "introduction-date": "unknown",
+      "approved-by": "Jour Fixe",
       "developer": "unknown",
       "purpose": "",
       "last-update-for-ilias": 5.3
     },
     "nestable": {
-      "introduction": "unknown",
-      "introduced-by": "Jour Fixe",
+      "introduction-date": "unknown",
+      "approved-by": "Jour Fixe",
       "developer": "unknown",
       "purpose": "",
       "last-update-for-ilias": null
     },
     "jqueryui-touch-punch": {
-      "introduction": "unknown",
-      "introduced-by": "Jour Fixe",
+      "introduction-date": "unknown",
+      "approved-by": "Jour Fixe",
       "developer": "unknown",
       "purpose": "",
       "last-update-for-ilias": null
     },
     "jquery-outside-events": {
-      "introduction": "unknown",
-      "introduced-by": "Jour Fixe",
+      "introduction-date": "unknown",
+      "approved-by": "Jour Fixe",
       "developer": "unknown",
       "purpose": "",
       "last-update-for-ilias": null
     },
     "yui": {
-      "introduction": "unknown",
-      "introduced-by": "Jour Fixe",
+      "introduction-date": "unknown",
+      "approved-by": "Jour Fixe",
       "developer": "unknown",
       "purpose": "",
       "last-update-for-ilias": null
     },
     "jstree": {
-      "introduction": "unknown",
-      "introduced-by": "Jour Fixe",
+      "introduction-date": "unknown",
+      "approved-by": "Jour Fixe",
       "developer": "unknown",
       "purpose": "",
       "last-update-for-ilias": null,

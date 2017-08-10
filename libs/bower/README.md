@@ -10,7 +10,8 @@ the Technical Board.**
 ```json
  "jquery": {
       "introduction-date": "03.08.2017",
-      "introduced-by": "Technical Board", // "Technical Board" or "Jour Fixe"
+      "approved-by": "Technical Board", // "Technical Board" or "Jour Fixe"
+      "developer": "Username of the developer which introduced to Library",
       "purpose": "Describe the reason why this library is needed in ILIAS.",
       "last-update-for-ilias": 5.3
     },
