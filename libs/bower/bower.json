@@ -23,23 +23,23 @@
   "extra": {
     "jquery": {
       "introduction-date": "unknown",
-      "introduced-by": "Jour Fixe",
+      "approved-by": "Jour Fixe",
       "developer": "unknown",
-      "reason": "We use jQuery for most JS-related actions in ILIAS.",
+      "purpose": "We use jQuery for most JS-related actions in ILIAS.",
       "last-update-for-ilias": 5.3
     },
     "bootstrap": {
-      "introduction": "unknown",
-      "introduced-by": "Jour Fixe",
+      "introduction-date": "unknown",
+      "approved-by": "Jour Fixe",
       "developer": "unknown",
-      "reason": "We use jQuery for most JS-related actions in ILIAS.",
+      "purpose": "We use jQuery for most JS-related actions in ILIAS.",
       "last-update-for-ilias": 5.3
     },
     "jquery-ui": {
-      "introduction": "unknown",
-      "introduced-by": "Jour Fixe",
+      "introduction-date": "unknown",
+      "approved-by": "Jour Fixe",
       "developer": "unknown",
-      "reason": "We use jQuery UI for most JS-related actions in ILIAS.",
+      "purpose": "We use jQuery UI for most JS-related actions in ILIAS.",
       "last-update-for-ilias": 5.3
     }
   }
