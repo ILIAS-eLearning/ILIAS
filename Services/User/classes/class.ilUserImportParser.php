@@ -542,8 +542,20 @@ class ilUserImportParser extends ilSaxParser
 					{
 						case "default":
 						case "local":
+						case "saml":
 						case "ldap":
-							
+							if(strcmp('saml', $a_attribs['type']) === 0)
+							{
+								require_once './Services/Saml/classes/class.ilSamlIdp.php';
+								$list = ilSamlIdp::getActiveIdpList();
+								if(count($list) == 1)
+								{
+									$this->auth_mode_set = true;
+									$ldap_id = current($list);
+									$this->userObj->setAuthMode('saml_' . $ldap_id);
+								}
+								break;
+							}
 							if(strcmp('ldap', $a_attribs['type']) === 0)
 							{
 								// no server id provided => use default server
@@ -559,7 +571,6 @@ class ilUserImportParser extends ilSaxParser
 							break;
 							
 						case "radius":
-						case "saml":
 						case "shibboleth":
 						case "script":
 						case "cas":
@@ -685,8 +696,20 @@ class ilUserImportParser extends ilSaxParser
 					{
 						case "default":
 						case "local":
+						case "saml":
 						case "ldap":
-							
+							if(strcmp('saml', $a_attribs['type']) === 0)
+							{
+								require_once './Services/Saml/classes/class.ilSamlIdp.php';
+								$list = ilSamlIdp::getActiveIdpList();
+								if(count($list) != 1)
+								{
+									$this->logFailure(
+										$this->userObj->getImportId(),
+										sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"AuthMode","type",$a_attribs['type']));
+								}
+								break;
+							}
 							if(strcmp('ldap', $a_attribs['type']) === 0)
 							{
 								// no server id provided
@@ -702,7 +725,6 @@ class ilUserImportParser extends ilSaxParser
 							break;
 							
 						case "radius":
-						case "saml":
 						case "shibboleth":
 						case "script":
 						case "cas":
