@@ -21,7 +21,8 @@
     "Yamm3": "yamm3#1.1.0",
     "jquery-ui": "1.12.0",
     "maphilight": "^1.3.0",
-    "nestable": "*"
+    "nestable": "*",
+    "jqueryui-touch-punch": "*"
   },
   "extra": {
     "jquery": {
