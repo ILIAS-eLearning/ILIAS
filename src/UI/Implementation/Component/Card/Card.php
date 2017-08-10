@@ -30,6 +30,15 @@ class Card implements C\Card {
 	 */
 	protected $image;
 
+	/**
+	 * @var string
+	 */
+	protected $title_url = '';
+
+	/**
+	 * @var boolean
+	 */
+	protected $highlight = false;
 
 	/**
 	 * @param $title
@@ -95,5 +104,40 @@ class Card implements C\Card {
 	public function getSections(){
 		return $this->content_sections;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withTitleAction($url) {
+		$this->checkStringArg("title_url", $url);
+
+		$clone = clone $this;
+		$clone->title_url = $url;
+
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getTitleAction() {
+		return $this->title_url;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withHighlight($status) {
+		$clone = clone $this;
+		$clone->highlight = $status;
+
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isHighlighted() {
+		return $this->highlight;
+	}
 }
-?>

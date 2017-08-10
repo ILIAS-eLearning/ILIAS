@@ -38,12 +38,7 @@ class ilXMLResultSet
 {
 		private $colspecs = array();
 		private $rows = array();
-
-
-		function ilXMLResultSet ()
-		{
-		}
-
+	
 		function getColumnName ($index) {
 		    if (is_numeric($index) && ($index < 0 || $index > count($this->colspecs)))
 		    {

@@ -631,12 +631,10 @@ class ilDBMySQL extends ilDB
 			return mysqli_error($this->db->connection);
 		}
 	}
-	
+
+
 	/**
-	 * Query
-	 *
-	 * @param
-	 * @return
+	 * @inheritdoc
 	 */
 	function query($sql, $a_handle_error = true)
 	{

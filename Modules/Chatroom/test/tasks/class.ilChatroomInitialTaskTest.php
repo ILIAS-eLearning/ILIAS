@@ -10,7 +10,7 @@ class ilChatroomInitialTaskTest extends ilChatroomAbstractTaskTest
 {
 
 	/**
-	 * @var PHPUnit_Framework_MockObject_MockObject|ilChatroomInitialTask;
+	 * @var PHPUnit_Framework_MockObject_MockObject|ilChatroomInitialGUI;
 	 */
 	protected $task;
 
@@ -18,13 +18,13 @@ class ilChatroomInitialTaskTest extends ilChatroomAbstractTaskTest
 	{
 		parent::setUp();
 
-		require_once './Modules/Chatroom/classes/tasks/class.ilChatroomInitialTask.php';
+		require_once './Modules/Chatroom/classes/gui/class.ilChatroomInitialGUI.php';
 
 		$this->createIlObjChatroomMock(15);
 		$this->createIlObjChatroomGUIMock($this->object);
 
-		$this->task = $this->getMock(
-			'ilChatroomInitialTask',
+		$this->task = $this->createMock(
+			'ilChatroomInitialGUI',
 			array('sendResponse', 'getRoomByObjectId', 'redirectIfNoPermission'),
 			array($this->gui)
 		);

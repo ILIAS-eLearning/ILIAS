@@ -33,13 +33,26 @@ abstract class ilDataSet
 	const EXPORT_ID_ILIAS_REMOTE_INVALID = 5;
 	const EXPORT_ID = 6;
 	const EXPORT_ID_INVALID = 7;
-		
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $ds_log;
 	
 	/**
 	 * Constructor
 	 */
 	function __construct()
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->ds_log = ilLoggerFactory::getLogger('ds');
 	}
 	
 	/**
@@ -278,17 +291,21 @@ abstract class ilDataSet
 //			$atts["xmlns:".$prefix] = $ns;
 			$cnt++;
 		}
-		
+
+		$this->ds_log->debug("Start writing Dataset, entity: ".$a_entity.", schema version: ".$a_schema_version.
+			", ids: ".print_r($a_ids, true));
 		$writer->xmlStartTag($this->getDSPrefixString().'DataSet', $atts);
 		
 		// add types
 		if (!$a_omit_types)
 		{
+			$this->ds_log->debug("...write types");
 			$this->addTypesXml($writer, $a_entity, $a_schema_version);
 		}
 		
 		// add records
-		$this->addRecordsXml($writer, $prefixes, $a_entity, $a_schema_version, $a_ids, $a_field = "");
+		$this->ds_log->debug("...write records");
+		$this->addRecordsXml($writer, $prefixes, $a_entity, $a_schema_version, $a_ids, $a_field);
 		
 		
 		$writer->xmlEndTag($this->getDSPrefixString()."DataSet");
@@ -309,8 +326,10 @@ abstract class ilDataSet
 	function addRecordsXml($a_writer, $a_prefixes, $a_entity, $a_schema_version, $a_ids, $a_field = "")
 	{
 		$types = $this->getXmlTypes($a_entity, $a_schema_version);
-		
+
+		$this->ds_log->debug("...read data");
 		$this->readData($a_entity, $a_schema_version, $a_ids, $a_field);
+		$this->ds_log->debug("...data: ".print_r($this->data, true));
 		if (is_array($this->data))
 		{		
 			foreach ($this->data as $d)
@@ -349,8 +368,10 @@ abstract class ilDataSet
 				
 				$this->afterXmlRecordWriting($a_entity, $a_schema_version, $d);
 
-				// foreach record records of dependent entities (no record)
+				// foreach record records of dependent entities
+				$this->ds_log->debug("...get dependencies");
 				$deps = $this->getDependencies($a_entity, $a_schema_version, $rec, $a_ids);
+				$this->ds_log->debug("...dependencies: ".print_r($deps, true));
 				if (is_array($deps))
 				{
 					foreach ($deps as $dp => $par)
@@ -363,6 +384,7 @@ abstract class ilDataSet
 		else if ($this->data === false)
 		{
 			// false -> add records of dependent entities (no record)
+			$this->ds_log->debug("...get dependencies (no record)");
 			$deps = $this->getDependencies($a_entity, $a_schema_version, null, $a_ids);
 			if (is_array($deps))
 			{

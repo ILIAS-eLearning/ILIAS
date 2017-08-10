@@ -48,8 +48,28 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 					$assigned = TRUE;
 					break;
 				
-				default:
+				case $this->getParentObject()->getDefaultMemberRole();
 					$this->getMembersObject()->add($new_member, IL_GRP_MEMBER);
+					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+					$this->getMembersObject()->sendNotification(
+						ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
+						$new_member
+					);
+					$assigned = TRUE;
+					break;
+					
+				default:
+					if(in_array($a_type,$this->getParentObject()->getLocalGroupRoles(true)))
+					{
+						$this->getMembersObject()->add($new_member,IL_GRP_MEMBER);
+						$this->getMembersObject()->updateRoleAssignments($new_member,(array) $a_type);
+					}
+					else
+					{
+						ilLoggerFactory::getLogger('crs')->notice('Can not find role with id .' . $a_type. ' to assign users.');
+						ilUtil::sendFailure($this->lng->txt("crs_cannot_find_role"),true);
+						return false;
+					}
 					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 					$this->getMembersObject()->sendNotification(
 						ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
@@ -177,6 +197,38 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 	{
 		return $this->getParentGUI()->object->getDefaultMemberRole();
 	}
+	
+	/**
+	 * @param array $a_members
+	 * @return array
+	 */
+	public function getPrintMemberData($a_members)
+	{
+		$member_data = $this->readMemberData($a_members, array());
+		$member_data = $this->getParentGUI()->addCustomData($member_data);
+		
+		$this->logger->dump($member_data);
+		
+		return $member_data;
+	}
+	
+	/**
+	 * Callback from attendance list
+	 * @param int $a_user_id
+	 * @return array
+	 */
+	public function getAttendanceListUserData($a_user_id)
+	{		
+		$data = $this->member_data[$a_user_id];
+		
+		$this->logger->dump($data);
+		
+		$data['access'] = $data['access_time'];
+		$data['progress'] = $this->lng->txt($data['progress']);
+		
+		return $data;
+	}
+	
 
 
 }

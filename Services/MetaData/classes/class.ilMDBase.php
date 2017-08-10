@@ -54,6 +54,11 @@ class ilMDBase
 	 */
 	var $export_mode = false;
 
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
 	/*
 	 * constructor
 	 *
@@ -67,7 +72,7 @@ class ilMDBase
 					  $a_obj_id = 0,
 					  $a_type = 0)
 	{
-		global $ilDB,$ilLog;
+		global $ilDB;
 
 		if ($a_obj_id == 0)
 		{
@@ -75,7 +80,7 @@ class ilMDBase
 		}
 
 		$this->db = $ilDB;
-		$this->log = $ilLog;
+		$this->log = ilLoggerFactory::getLogger("meta");
 
 		$this->rbac_id = $a_rbac_id;
 		$this->obj_id = $a_obj_id;

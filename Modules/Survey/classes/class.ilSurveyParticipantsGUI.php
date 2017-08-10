@@ -193,7 +193,7 @@ class ilSurveyParticipantsGUI
 		// not used in 360° mode
 	
 		// maintenance
-		$ilTabs->addSubTabTarget("results",
+		$ilTabs->addSubTabTarget("sub_tab_dashboard",
 			 $this->ctrl->getLinkTarget($this,'maintenance'),
 			 array("maintenance", "deleteAllUserData"),					 
 			 "");
@@ -1857,7 +1857,12 @@ class ilSurveyParticipantsGUI
 		include_once "Modules/Survey/classes/tables/class.ilSurveyParticipantsTableGUI.php";
 		$tbl = new ilSurveyParticipantsTableGUI($this, "listParticipants", $this->object);
 		$this->tpl->setContent($tbl->getHTML());
-   } 
+   }
+
+	public function getObject()
+	{
+		return $this->object;
+	}
 }
 
 ?>

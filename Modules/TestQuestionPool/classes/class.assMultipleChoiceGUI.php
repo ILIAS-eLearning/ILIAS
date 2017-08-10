@@ -64,6 +64,34 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 	}
 
 	/**
+	 * Get the single/multiline editing of answers
+	 * - The settings of an already saved question is preferred
+	 * - A new question will use the setting of the last edited question by the user
+	 * @param bool	$checkonly	get the setting for checking a POST
+	 * @return bool
+	 */
+	protected function getEditAnswersSingleLine($checkonly = false)
+	{
+		if ($checkonly)
+		{
+			// form posting is checked
+			return ($_POST['types'] == 0) ? true : false;
+		}
+
+		$lastChange = $this->object->getLastChange();
+		if (empty($lastChange) && !isset($_POST['types']))
+		{
+			// a new question is edited
+			return $this->object->getMultilineAnswerSetting() ? false : true;
+		}
+		else
+		{
+			// a saved question is edited
+			return $this->object->isSingleline;
+		}
+	}
+
+	/**
 	 * Creates an output of the edit form for the question
 	 *
 	 * @param bool $checkonly
@@ -77,8 +105,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		
 		$form = $this->buildEditForm();
 
-		$isSingleline = ($this->object->lastChange == 0 && !array_key_exists('types', $_POST)) ? (($this->object->getMultilineAnswerSetting()) ? false : true) : $this->object->isSingleline;
-		if ($checkonly) $isSingleline = ($_POST['types'] == 0) ? true : false;
+		$isSingleline = $this->getEditAnswersSingleLine($checkonly);
 		if ($isSingleline)
 		{
 			$form->setMultipart(TRUE);
@@ -361,7 +388,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			{
 				if (strcmp($mc_solution, $answer_id) == 0)
 				{
-					if( $this->isPdfOutputMode() || $this->isUserInputOutputMode() )
+					if( $this->renderPurposeSupportsFormHtml() )
 					{
 						$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_checked.png")));
 						$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
@@ -378,7 +405,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			}
 			if (!$checked)
 			{
-				if( $this->isPdfOutputMode() || $this->isUserInputOutputMode() )
+				if( $this->renderPurposeSupportsFormHtml() )
 				{
 					$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
 					$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
@@ -517,7 +544,9 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 	 */
 	function getTestOutput(
 		$active_id, 
-		$pass = NULL, 
+		// hey: prevPassSolutions - will be always available from now on
+		$pass, 
+		// hey.
 		$is_postponed = FALSE, 
 		$use_post_solutions = FALSE, 
 		$show_feedback = FALSE
@@ -530,19 +559,35 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		$user_solution = array();
 		if ($active_id)
 		{
-			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
-			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+			// hey: prevPassSolutions - obsolete due to central check
+			#$solutions = NULL;
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			#{
+			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			#}
+			$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
+			// hey.
 			foreach ($solutions as $idx => $solution_value)
 			{
-				array_push($user_solution, $solution_value["value1"]);
+// fau: testNav - don't add the dummy entry for 'none of the above' to the user options
+				if ( $solution_value["value1"] == 'mc_none_above')
+				{
+					$this->setUseEmptySolutionInputChecked(true);
+					continue;
+				}
+				
+				$user_solution[] = $solution_value["value1"];
+// fau.
+			}
+			
+			if( empty($user_solution) && $this->object->getTestPresentationConfig()->isWorkedThrough() )
+			{
+				$this->setUseEmptySolutionInputChecked(true);
 			}
 		}
 		// generate the question output
+		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		foreach ($keys as $answer_id)
@@ -604,21 +649,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			}
 			$template->parseCurrentBlock();
 		}
-
-// fau: testNav - add 'none of the above', if needed by the deprecated test setting to score empty answers
-		if ($this->withNoneAbove)
-		{
-			$this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
-			$template->setCurrentBlock('none_above');
-			$template->setVariable('LABEL_NONE_ABOVE', $this->lng->txt('tst_mc_label_none_above'));
-			if ($this->isAnswered && empty($user_solution))
-			{
-				$template->setVariable('CHECKED_NONE_ABOVE', " checked=\"checked\"");
-			}
-			$template->parseCurrentBlock();
-		}
-// fau.
-
+			
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$template->setVariable("QUESTION_ID", $this->object->getId());
@@ -639,6 +670,41 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		$questionoutput = $template->get();
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;
+	}
+	
+	protected $useEmptySolutionInputChecked = false;
+	
+	public function isUseEmptySolutionInputChecked()
+	{
+		return $this->useEmptySolutionInputChecked;
+	}
+	
+	public function setUseEmptySolutionInputChecked($useEmptySolutionInputChecked)
+	{
+		$this->useEmptySolutionInputChecked = $useEmptySolutionInputChecked;
+	}
+	
+	protected function getUseUnchangedAnswerCheckboxHtml()
+	{
+		// hey: prevPassSolutions - use abstracted template to share with other purposes of this kind
+		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
+		
+		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
+		
+		// HEY: affects next if (!) /// noneAboveChecked repaired but disabled because the checked input ..
+		if(false) // .. makes the qstEditController initialize the "edit" instead of the "answered" state
+		if( $this->isUseEmptySolutionInputChecked() )
+		{
+			$tpl->setCurrentBlock('checked');
+			$tpl->touchBlock('checked');
+			$tpl->parseCurrentBlock();
+		}
+		
+		$tpl->setCurrentBlock('checkbox');
+		$tpl->setVariable('TXT_FORCE_FORM_DIFF_LABEL', $this->object->getTestPresentationConfig()->getUseUnchangedAnswerLabel());
+		$tpl->parseCurrentBlock();
+		// hey.
+		return $tpl->get();
 	}
 	
 	public function populateJavascriptFilesRequiredForWorkForm(ilTemplate $tpl)
@@ -782,7 +848,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 					if (in_array( $suffix, array( "jpg", "jpeg", "png", "gif" ) ))
 					{
 						// upload image
-						$filename = $this->object->createNewImageFileName( $file_org_name );
+						$filename = $this->object->buildHashedImageFilename( $file_org_name );
 						if ($this->object->setImageFile( $filename, $file_temp_name ) == 0)
 						{
 							$picturefile = $filename;
@@ -840,11 +906,10 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			$form->addItem( $hidden );
 		}
 
+		$isSingleline = $this->getEditAnswersSingleLine();
+
 		if (!$this->object->getSelfAssessmentEditingMode())
 		{
-			$isSingleline = ($this->object->lastChange == 0 && !array_key_exists( 'types',
-																				  $_POST
-				)) ? (($this->object->getMultilineAnswerSetting()) ? false : true) : $this->object->isSingleline;
 			// Answer types
 			$types = new ilSelectInputGUI($this->lng->txt( "answer_types" ), "types");
 			$types->setRequired( false );
@@ -881,9 +946,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		$choices = new ilMultipleChoiceWizardInputGUI($this->lng->txt( "answers" ), "choice");
 		$choices->setRequired( true );
 		$choices->setQuestionObject( $this->object );
-		$isSingleline = ($this->object->lastChange == 0 && !array_key_exists( 'types',
-																			  $_POST
-			)) ? (($this->object->getMultilineAnswerSetting()) ? false : true) : $this->object->isSingleline;
+		$isSingleline = $this->getEditAnswersSingleLine();
 		$choices->setSingleline( $isSingleline );
 		$choices->setAllowMove( false );
 		if ($this->object->getSelfAssessmentEditingMode())
@@ -1037,24 +1100,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 	}
 
 	// fau: testNav - new functions setWithNoneAbove() and setIsAnswered()
-
-	/**
-	 * Enable the 'None above' addition in a test run
-	 * @param bool
-	 */
-	public function setWithNoneAbove($a_with_none_above)
-	{
-		$this->withNoneAbove = (bool) $a_with_none_above;
-	}
-
-	/**
-	 * Show the question as answered in a test run
-	 * @param bool
-	 */
-	public function setIsAnswered($a_is_answered)
-	{
-		$this->isAnswered = (bool) $a_is_answered;
-	}
+		// moved functionality to ilTestQuestionPresentationConfig	
 	// fau.
 	
 	/**

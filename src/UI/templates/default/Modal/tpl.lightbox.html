@@ -1,0 +1,56 @@
+<div class="modal fade il-modal-lightbox" tabindex="-1" role="dialog" id="{ID}">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content il-modal-lightbox-page">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">{TITLE}</h4>
+			</div>
+			<div class="modal-body">
+				<div id="{ID_CAROUSEL}" class="carousel slide" data-ride="carousel" data-interval="false">
+
+					<!-- BEGIN has_indicators -->
+					<ol class="carousel-indicators">
+						<!-- BEGIN indicators -->
+						<li data-target="#{ID_CAROUSEL2}" data-slide-to="{INDEX}" class="{CLASS_ACTIVE}"></li>
+						<!-- END indicators -->
+					</ol>
+					<!-- END has_indicators -->
+
+					<div class="carousel-inner" role="listbox">
+						<!-- BEGIN pages -->
+						<div class="item{CLASS_ACTIVE}" data-title="{TITLE2}">
+							{CONTENT}
+							<div class="carousel-caption">
+								{DESCRIPTION}
+							</div>
+						</div>
+						<!-- END pages -->
+					</div>
+
+					<!-- BEGIN controls -->
+					<a class="left carousel-control" href="#{ID_CAROUSEL3}" role="button" data-slide="prev">
+						<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="right carousel-control" href="#{ID_CAROUSEL3}" role="button" data-slide="next">
+						<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+					<!-- END controls -->
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(function() {
+		$('#{ID}').on('shown.bs.modal', function() {
+			$('.modal-backdrop.in').css('opacity', '0.9');
+		});
+		$('#{ID_CAROUSEL4}').on('slid.bs.carousel', function() {
+			var title = $(this).find('.carousel-inner .item.active').attr('data-title');
+			$('#{ID}').find('.modal-title').text(title);
+		});
+	});
+</script>

@@ -566,9 +566,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			array($this->getId())
 		);
 
-		$source_qst_id = $original_id;
-		$target_qst_id = $this->getId();
-
 		foreach($this->variables as $variable)
 		{
 			$next_id      = $ilDB->nextId('il_qpl_qst_fq_var');
@@ -650,33 +647,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			}
 		}
 
-
-		// copy category/unit-process:
-		// if $source_qst_id = '' -> nothing to copy because this is a new question
-		// if $source_qst_id == $target_qst_id -> nothing to copy because this is just an update-process
-		// if $source_qst_id != $target_qst_id -> copy categories and untis because this is a copy-process
-		// @todo: Nadia wtf?
-		if($source_qst_id != $target_qst_id && $source_qst_id > 0)
-		{
-			$res = $ilDB->queryF('
-				SELECT * FROM il_qpl_qst_fq_ucat WHERE question_fi = %s',
-				array('integer'), array($source_qst_id));
-
-			$cp_cats = array();
-			while($row = $ilDB->fetchAssoc($res))
-			{
-				$cp_cats[] = $row['category_id'];
-			}
-
-			foreach($cp_cats as $old_category_id)
-			{
-				// copy admin-categorie to custom-category (with question_fi)
-				$new_cat_id = $this->unitrepository->copyCategory($old_category_id, $target_qst_id);
-
-				// copy units to custom_category
-				$this->unitrepository->copyUnitsByCategories($old_category_id, $new_cat_id, $target_qst_id);
-			}
-		}
 		parent::saveToDb();
 	}
 
@@ -979,6 +949,23 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
 		return $points;
 	}
+	
+	protected function isValidSolutionResultValue($submittedValue)
+	{
+		$submittedValue = str_replace(',', '.', $submittedValue);
+		
+		if( is_numeric($submittedValue) )
+		{
+			return true;
+		}
+		
+		if( preg_match('/^\d+\/\d+$/', $submittedValue) )
+		{
+			return true;
+		}
+		
+		return false;
+	}
 
 	/**
 	 * Saves the learners input of the question to the database
@@ -998,25 +985,10 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		}
 
 		$entered_values = false;
-
+		
 		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $ilDB, $active_id, $pass, $authorized) {
-
+			
 			$solutionSubmit = $this->getSolutionSubmit();
-
-			$tmp            = $solutionSubmit;
-			$solutionSubmit = array();
-			foreach($tmp as $key => $val)
-			{
-				if(is_numeric($val) || is_numeric(str_replace(',', '.', $val)) || strlen($val) == 0)
-				{
-					$solutionSubmit[$key] = $val;
-				}
-				else
-				{
-					$solutionSubmit[$key] = '';
-				}
-			}
-
 			foreach($solutionSubmit as $key => $value)
 			{
 				$matches = null;
@@ -1082,7 +1054,73 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
 		return true;
 	}
-	
+
+// fau: testNav - overridden function lookupForExistingSolutions (specific for formula question: don't lookup variables)
+	/**
+	 * Lookup if an authorized or intermediate solution exists
+	 * @param 	int 		$activeId
+	 * @param 	int 		$pass
+	 * @return 	array		['authorized' => bool, 'intermediate' => bool]
+	 */
+	public function lookupForExistingSolutions($activeId, $pass)
+	{
+		global $ilDB;
+
+		$return = array(
+			'authorized' => false,
+			'intermediate' => false
+		);
+
+		$query = "
+			SELECT authorized, COUNT(*) cnt
+			FROM tst_solutions
+			WHERE active_fi = " . $ilDB->quote($activeId, 'integer') ."
+			AND question_fi = ". $ilDB->quote($this->getId(), 'integer') ."
+			AND pass = " .$ilDB->quote($pass, 'integer') ."
+			AND value1 like '\$r%'
+			AND value2 is not null
+			AND value2 <> ''
+			GROUP BY authorized
+		";
+		$result = $ilDB->query($query);
+
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			if ($row['authorized']) {
+				$return['authorized'] = $row['cnt'] > 0;
+			}
+			else
+			{
+				$return['intermediate'] = $row['cnt'] > 0;
+			}
+		}
+		return $return;
+	}
+// fau.
+
+// fau: testNav - Remove an existing solution (specific for formula question: don't delete variables)
+	/**
+	 * Remove an existing solution without removing the variables
+	 * @param 	int 		$activeId
+	 * @param 	int 		$pass
+	 * @return int
+	 */
+	public function removeExistingSolutions($activeId, $pass)
+	{
+		global $ilDB;
+
+		$query = "
+			DELETE FROM tst_solutions
+			WHERE active_fi = " . $ilDB->quote($activeId, 'integer') ."
+			AND question_fi = ". $ilDB->quote($this->getId(), 'integer') ."
+			AND pass = " .$ilDB->quote($pass, 'integer') ."
+			AND value1 like '\$r%'
+		";
+
+		return $ilDB->manipulate($query);
+	}
+// fau.
+
 	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
 	{
 		$userSolution = $previewSession->getParticipantsSolution();
@@ -1356,8 +1394,16 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		{
 			if(preg_match("/^result_(\\\$r\\d+)$/", $k))
 			{
-				$solutionSubmit[$k] = $v;
-			} elseif(preg_match("/^result_(\\\$r\\d+)_unit$/", $k))
+				if( $this->isValidSolutionResultValue($v) )
+				{
+					$solutionSubmit[$k] = $v;
+				}
+				else
+				{
+					$solutionSubmit[$k] = '';
+				}
+			}
+			elseif(preg_match("/^result_(\\\$r\\d+)_unit$/", $k))
 			{
 				$solutionSubmit[$k] = $v;
 			}

@@ -290,27 +290,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				);
 				break;
 
-
-			case 'Archive':
-				$this->in_archive = true;
-				switch($a_attribs['Access'])
-				{
-					case 'Disabled':
-						$this->course_obj->setArchiveType(IL_CRS_ARCHIVE_NONE);
-						break;
-
-					case 'Read':
-						$this->course_obj->setArchiveType(IL_CRS_ARCHIVE_NONE);
-						#$this->course_obj->setViewMode(IL_CRS_VIEW_ARCHIVE);
-						break;
-
-					case 'Download':
-						#$this->course_obj->setViewMode(IL_CRS_VIEW_ARCHIVE);
-						$this->course_obj->setArchiveType(IL_CRS_ARCHIVE_DOWNLOAD);
-						break;
-				}
-				break;
-
 			case 'Disabled':
 				$this->course_obj->getSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
 				break;
@@ -573,9 +552,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				$this->in_registration = false;
 				break;
 
-			case 'Archive':
-				$this->in_archive = false;
-				break;
 
 			case 'Start':
 				if($this->in_availability)
@@ -585,10 +561,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				if($this->in_registration)
 				{
 					$this->course_obj->setSubscriptionStart(trim($this->cdata));
-				}
-				if($this->in_archive)
-				{
-					$this->course_obj->setArchiveStart(trim($this->cdata));
 				}
 				if($this->in_period)
 				{
@@ -607,10 +579,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				if($this->in_registration)
 				{
 					$this->course_obj->setSubscriptionEnd(trim($this->cdata));
-				}
-				if($this->in_archive)
-				{
-					$this->course_obj->setArchiveEnd(trim($this->cdata));
 				}
 				if($this->in_period)
 				{

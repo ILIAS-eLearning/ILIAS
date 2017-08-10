@@ -68,7 +68,8 @@ class ilBackgroundTask
 	
 	public static function getActiveByUserId($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$res = array();
 		
@@ -313,7 +314,8 @@ class ilBackgroundTask
 	
 	protected function doRead($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$this->log->debug($this->getHandlerId()."/".$a_id);
 		
@@ -356,7 +358,8 @@ class ilBackgroundTask
 	
 	protected function doCreate()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 						
 		$this->setId($ilDB->nextId(self::DB_NAME));		
 		$this->setStartDate(new ilDateTime(time(), IL_CAL_UNIX));
@@ -371,7 +374,8 @@ class ilBackgroundTask
 	
 	protected function doUpdate()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$ilDB->update(
 			self::DB_NAME, 
@@ -385,7 +389,8 @@ class ilBackgroundTask
 	 */
 	protected function doDelete()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		return $ilDB->manipulateF(
 		    "DELETE FROM " . self::DB_NAME . " WHERE id=%s",

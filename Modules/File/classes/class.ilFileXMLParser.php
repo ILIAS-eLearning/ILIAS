@@ -136,9 +136,11 @@ class ilFileXMLParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-		global $ilErr;
+		global $DIC;
+		$ilErr = $DIC['ilErr'];
 
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		
 		switch($a_name)
 		{
@@ -204,7 +206,7 @@ class ilFileXMLParser extends ilSaxParser
 	{
 	    $this->cdata = trim($this->cdata);
 
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$this->cdata);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$this->cdata);
 
 		switch($a_name)
 		{
@@ -215,7 +217,7 @@ class ilFileXMLParser extends ilSaxParser
 			    if (strlen($this->cdata) == 0)
 			          throw new ilFileException("Filename ist missing!");
 			    
-			    $this->file->setFilename($this->cdata);
+			    $this->file->setFilename(basename(self::normalizeRelativePath($this->cdata)));
 			    $this->file->setTitle($this->cdata);
 			    
 				break;
@@ -229,19 +231,19 @@ class ilFileXMLParser extends ilSaxParser
 			    $this->file->setRating((bool)$this->cdata);
 				break;
 			case 'Content':
-				$GLOBALS['ilLog']->write($this->mode);
+				$GLOBALS['DIC']['ilLog']->write($this->mode);
 				$this->isReadingFile = false;
 				$baseDecodedFilename = ilUtil::ilTempnam();
 				if ($this->mode == ilFileXMLParser::$CONTENT_COPY)
 				{
-					$this->tmpFilename = $this->getImportDirectory()."/".$this->cdata;
+					$this->tmpFilename = $this->getImportDirectory()."/".self::normalizeRelativePath($this->cdata);
 				}
 				// begin-patch fm
 				elseif($this->mode == ilFileXMLParser::$CONTENT_REST)
 				{
 					include_once './Services/WebServices/Rest/classes/class.ilRestFileStorage.php';
 					$storage = new ilRestFileStorage();
-					$this->tmpFilename = $storage->getStoredFilePath($this->cdata);
+					$this->tmpFilename = $storage->getStoredFilePath(self::normalizeRelativePath($this->cdata));
 					if(!ilFileUtils::fastBase64Decode($this->tmpFilename, $baseDecodedFilename))
 					{
 						throw new ilFileException("Base64-Decoding failed", ilFileException::$DECOMPRESSION_FAILED);
@@ -286,7 +288,8 @@ class ilFileXMLParser extends ilSaxParser
 				// if no file type is given => lookup mime type
 				if(!$this->file->getFileType())
 				{
-					global $ilLog;
+					global $DIC;
+					$ilLog = $DIC['ilLog'];
 					
 					#$ilLog->write(__METHOD__.': Trying to detect mime type...');
 					include_once('./Services/Utilities/classes/class.ilFileUtils.php');
@@ -330,10 +333,6 @@ class ilFileXMLParser extends ilSaxParser
 	 */
 	public function setFileContents ()
 	{
-		global $ilLog;
-		
-		#$ilLog->write(__METHOD__.' '.filesize($this->tmpFilename));
-
 		if(!file_exists($this->tmpFilename))
 		{
 			ilLoggerFactory::getLogger('file')->error(__METHOD__.' "'.$this->tmpFilename. '" file not found.');
@@ -345,7 +344,6 @@ class ilFileXMLParser extends ilSaxParser
 		}
 
 		$filedir = $this->file->getDirectory($this->file->getVersion());
-		#$ilLog->write(__METHOD__.' '.$filedir);
 		
 		if (!is_dir($filedir))
 		{
@@ -354,11 +352,11 @@ class ilFileXMLParser extends ilSaxParser
 		}
 		   
 		$filename = $filedir."/".$this->file->getFileName();
+
 		if (file_exists($filename))
 			unlink($filename);
-//echo "-".$this->tmpFilename."-".$filename."-"; exit;
+
 		return rename($this->tmpFilename, $filename);
-	   // @file_put_contents($filename, $this->content);
 	}
 
 
@@ -389,5 +387,41 @@ class ilFileXMLParser extends ilSaxParser
 	    return $this->result > 0;
 	}
 
+
+	/**
+	 * Normalize relative directories in a path.
+	 *
+	 * Source: https://github.com/thephpleague/flysystem/blob/master/src/Util.php#L96
+	 *  Workaround until we have
+	 *
+	 * @param string $path
+	 *
+	 * @throws LogicException
+	 *
+	 * @return string
+	 */
+	public static function normalizeRelativePath($path) {
+		$path = str_replace('\\', '/', $path);
+
+		while (preg_match('#\p{C}+|^\./#u', $path)) {
+			$path = preg_replace('#\p{C}+|^\./#u', '', $path);
+		}
+
+		$parts = [];
+		foreach (explode('/', $path) as $part) {
+			switch ($part) {
+				case '':
+				case '.':
+					break;
+				case '..':
+					array_pop($parts);
+					break;
+				default:
+					$parts[] = $part;
+					break;
+			}
+		}
+
+		return implode('/', $parts);
+	}
 }
-?>

@@ -2708,10 +2708,6 @@ assessment#:#cannot_maintain_test#:#Du er ikke i besiddelse af de rigtige rettig
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
 assessment#:#cannot_save_metaobject#:#Du er ikke i besiddelse af de rigtige rettigheder til at gemme meta data!
 common#:#certificate#:#Certifikat
-certificate#:#certificate_top#:#Top
-certificate#:#certificate_right#:#Højre
-certificate#:#certificate_bottom#:#Bund
-certificate#:#certificate_left#:#Venstre
 certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
 certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
@@ -2723,14 +2719,8 @@ certificate#:#certificate_edit#:#Lav/ret diplom skabelon
 certificate#:#certificate_export#:#Eksporter diplom
 certificate#:#certificate_page_format#:#Sideformat
 certificate#:#certificate_background_image#:#Baggrundsbillede
-certificate#:#certificate_padding_top#:#Top Padding###10 10 2006 new variable
 certificate#:#certificate_margin_body#:#Body Margin###10 10 2006 new variable
 certificate#:#certificate_not_well_formed#:#Diplomteksten er ikke formatteret korrekt. Indtast gyldig XHTML i diplomets tekst.
-certificate#:#certificate_show#:#Vis diplom
-certificate#:#certificate_status#:#Status
-certificate#:#certificate_status_complete#:#Diplomet er færdigt og kan anvendes
-certificate#:#certificate_status_incomplete#:#Diplomet er ufuldstændigt
-certificate#:#certificate_delete#:#Slet diplomdata
 certificate#:#certificate_preview#:#Vis diplomeksempel
 certificate#:#certificate_text#:#Diplomtekst
 certificate#:#certificate_var_user_fullname#:#Hr. Jesper Gødvad
@@ -2746,8 +2736,6 @@ certificate#:#certificate_passed#:#bestået
 certificate#:#certificate_failed#:#ikke bestået
 certificate#:#certificate_pageheight#:#Sidehøjde
 certificate#:#certificate_pagewidth#:#Sidevidde
-certificate#:#certificate_wrong_unit#:#Du har indtastet en forkert enhed
-certificate#:#certificate_wrong_units#:#You have entered a wrong set of units###10 10 2006 new variable
 certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?###10 10 2006 new variable
 certificate#:#certificate_ph_introduction#:#Nedenstående pladsholdere kan bruges
 certificate#:#certificate_ph_fullname#:#Brugerens fulde navn (titel, fornavn og efternavn)
@@ -3426,118 +3414,6 @@ assessment#:#worked_through#:#Besvaret
 assessment#:#working_time#:#Tidsforbrug
 assessment#:#working_time_avg#:#Gns. arbejdstid
 assessment#:#you_received_a_of_b_points#:#Du fik %s af %s mulige point
-barometer#:#options#:#Options
-barometer#:#statistics#:#Statistik
-barometer#:#anonymous#:#Anonymitet
-barometer#:#barometer_title#:#Feedback
-barometer#:#best#:#Bedste
-barometer#:#change_course#:#Ændre kursus
-barometer#:#chart_type#:#Diagram type
-barometer#:#chart_users#:#Diagram bruger
-barometer#:#chart_votes#:#Diagram stemmer
-barometer#:#bar_create#:#Lav ny feedback
-barometer#:#day#:#Dag
-barometer#:#days#:#Dage
-barometer#:#delete#:#Slet
-barometer#:#duration#:#Periode
-barometer#:#edit#:#Rediger
-barometer#:#edit_barometer#:#Ret feedback
-barometer#:#every#:#every
-barometer#:#feedb_edit_feedback#:#Edit Feedback
-barometer#:#feedb_feedback_list#:#Feedback List
-barometer#:#feedb_feedback_settings#:#Feedbackindstillinger
-barometer#:#feedb_time#:#Time
-barometer#:#first_vote#:#1. stemme er
-barometer#:#from#:#Fra
-barometer#:#hours#:#Timer
-barometer#:#lines#:#Linjer
-barometer#:#login#:#Login
-barometer#:#missing_fields#:#Udfyld venligst al den krævede information.
-barometer#:#month#:#Måned
-barometer#:#months#:#Måneder
-barometer#:#new_vote#:#Ny svarmulighed
-barometer#:#note#:#Kommentar
-barometer#:#optional#:#Valgfri
-barometer#:#pie#:#Lagkage
-barometer#:#repeat#:#Gentag
-barometer#:#required#:#Krævet
-barometer#:#save#:#Gem
-barometer#:#save_vote#:#Afgiv stemme
-barometer#:#skip#:#Skip
-barometer#:#status#:#Status
-barometer#:#table#:#Table
-barometer#:#text#:#Tekst
-barometer#:#text_answer#:#Tekstsvar
-barometer#:#time#:#Running
-barometer#:#title#:#Titel
-barometer#:#type#:#Type
-barometer#:#until#:#Indtil
-barometer#:#user#:#Bruger
-barometer#:#vote#:#Vote
-barometer#:#votes#:#Stemmer
-barometer#:#weeks#:#Uger
-barometer#:#worst#:#Værst
-barometer#:#year#:#År
-barometer#:#barometer_add#:#Tilføj feedback
-barometer#:#barometer_conflict_anon_req#:#Anonymization can not be combined with type 'Required'. Please choose one of these options.###16 08 2007 new variable
-bibitem#:#bibitem_add#:#Tilføj
-bibitem#:#bibitem_author#:#Forfatter
-bibitem#:#bibitem_av#:#AV###21 Apr 2005 new variable
-bibitem#:#bibitem_bibitem#:#Biblografisk information
-bibitem#:#bibitem_book#:#Bog
-bibitem#:#bibitem_booktitle#:#Bogtitel
-bibitem#:#bibitem_catalog#:#Katalog
-bibitem#:#bibitem_choose_index#:#Vælg venligst bibliografisk information:
-bibitem#:#bibitem_cross_reference#:#Krydsreferencer
-bibitem#:#bibitem_delete#:#Slet
-bibitem#:#bibitem_dissertation#:#Dissertation###21 Apr 2005 new variable
-bibitem#:#bibitem_edition#:#ændring
-bibitem#:#bibitem_editor#:#ændring lavet af
-bibitem#:#bibitem_entry#:#Indgang
-bibitem#:#bibitem_first_name#:#Fornavn
-bibitem#:#bibitem_grey_literature#:#Grå litteratur
-bibitem#:#bibitem_how_published#:#Hvordan publiceret
-bibitem#:#bibitem_identifier#:#Identifier###21 Apr 2005 new variable
-bibitem#:#bibitem_inbook#:#I bog
-bibitem#:#bibitem_inproceedings#:#Under arbejde
-bibitem#:#bibitem_institution#:#Institution
-bibitem#:#bibitem_internet#:#Internet
-bibitem#:#bibitem_isbn#:#ISBN
-bibitem#:#bibitem_issn#:#ISSN###21 Apr 2005 new variable
-bibitem#:#bibitem_journal#:#Journal###21 Apr 2005 new variable
-bibitem#:#bibitem_journal_article#:#Journal artikel
-bibitem#:#bibitem_keyword#:#Nøgleord
-bibitem#:#bibitem_label#:#Karakter
-bibitem#:#bibitem_language#:#sprog
-bibitem#:#bibitem_last_name#:#Efternavn
-bibitem#:#bibitem_manual#:#Manual###21 Apr 2005 new variable
-bibitem#:#bibitem_master_thesis#:#Mester these
-bibitem#:#bibitem_middle_name#:#Mellemnavn
-bibitem#:#bibitem_month#:#Måned
-bibitem#:#bibitem_new_element#:#Nyt element
-bibitem#:#bibitem_newspaper_article#:#Avisartikel
-bibitem#:#bibitem_not_found#:#Ingen bibliografiske informationer tilgængelige.
-bibitem#:#bibitem_note#:#Note
-bibitem#:#bibitem_number#:#Nummer
-bibitem#:#bibitem_organization#:#Organisation
-bibitem#:#bibitem_pages#:#Sider
-bibitem#:#bibitem_phd_thesis#:#PhD these
-bibitem#:#bibitem_please_select#:#Vælg venligst
-bibitem#:#bibitem_print#:#Udskriv
-bibitem#:#bibitem_proceedings#:#Præsis
-bibitem#:#bibitem_publisher#:#Udgiver
-bibitem#:#bibitem_save#:#Gem
-bibitem#:#bibitem_school#:#Skole
-bibitem#:#bibitem_series#:#Serie
-bibitem#:#bibitem_series_editor#:#Redaktør
-bibitem#:#bibitem_series_title#:#Serie titel
-bibitem#:#bibitem_series_volume#:#Lydstyrke
-bibitem#:#bibitem_technical_report#:#Teknisk report
-bibitem#:#bibitem_type#:#Type###21 Apr 2005 new variable
-bibitem#:#bibitem_unpublished#:#Ikke udgivet
-bibitem#:#bibitem_url#:#URL
-bibitem#:#bibitem_where_published#:#hvor udgivet
-bibitem#:#bibitem_year#:#år
 form#:#form_msg_file_size_exceeds#:#Den uploadede fil overstiger den maksimale filstørrelse.
 form#:#form_msg_file_partially_uploaded#:#Hele filen kunne ikke uploades.
 form#:#form_msg_file_no_upload#:#This input is required. Please select a file for upload.###02 04 2007 new variable
@@ -4112,7 +3988,6 @@ crs#:#crs_add_objective#:#Tilføj emne
 crs#:#crs_add_remove_from_desktop#:#Tilføj/Fjern fra skriveborg
 crs#:#crs_add_remove_from_desktop_info#:#Tillad kursister at tilføje kursusobjekter på deres 'Mit Skrivebord'
 crs#:#crs_add_starter#:#Vælg startmateriale
-crs#:#crs_add_subscribers#:#Tilføj abonent
 crs#:#crs_added_member#:#Tilmelding til "%s"
 crs#:#crs_added_member_body#:#Du er nu registreret som tilmeldt på kurset "%s".
 crs#:#crs_added_new_archive#:#Et nyt arkiv er blevet tilføjet.
@@ -4120,21 +3995,7 @@ crs#:#crs_added_objective#:#Der er blevet lavet et nyt læremål.
 crs#:#crs_added_starters#:#Tildelt(e) startobjekt(er)
 crs#:#crs_added_to_list#:#Du er blevet optaget på venteliste som nr. % på dette kursus.
 crs#:#crs_admin#:#Administrator
-crs#:#crs_admin_no_notify#:#Administrator (ingen underettelse)
-crs#:#crs_admin_notify#:#Administrator (underettelse)
 crs#:#crs_administrators#:#Kursusadministratorer
-crs#:#crs_allow_abo#:#Tillad abonnementer på kursusmaterialer
-crs#:#crs_already_assigned_to_list#:#Du er allerede sat på ventelisten.
-crs#:#crs_archive#:#Arkiver
-crs#:#crs_archive_disabled#:#Deaktiveret
-crs#:#crs_archive_download#:#Download
-crs#:#crs_archive_info#:#Hvis arkivoversigten aktiveres bliver alt kursusmaterialet suspenderet. Kun HTML arkiver af kurset vil være tilgængeligt for kursusmedlemmerne.
-crs#:#crs_archive_lang#:#Sprog
-crs#:#crs_archive_read#:#Læserettighed
-crs#:#crs_archive_select_type#:#Arkiv adgangstype
-crs#:#crs_archive_type#:#Arkiv type
-crs#:#crs_archive_type_disabled#:#Ingen adgang
-crs#:#crs_archives_deleted#:#Arkivet/Arkiverne er blevet slettet
 crs#:#crs_auto_fill#:#Automatisk udfyldning
 crs#:#crs_availability_limitless_info#:#Vælg denne indstilling for at gøre kurset tilgængeligt for brugere. Adgangen afhænger af indstillingerne nedenfor.
 crs#:#crs_availability_until_info#:#Vælg denne indstilling før at gøre kurset tilgængeligt for brugere/kursuster i en begrænset periode.
@@ -4215,10 +4076,6 @@ crs#:#crs_header_delete_subscribers#:#Slet abonnenter
 crs#:#crs_header_edit_members#:#Rediger medlem
 crs#:#crs_header_members#:#Kursusdeltagere
 crs#:#crs_header_remove_from_waiting_list#:#Venteliste: sæt bruger af
-crs#:#crs_hide_link_lms#:#Skjul undervisningsmaterialer
-crs#:#crs_hide_link_objectives#:#Skjul mål
-crs#:#crs_hide_link_or#:#Skjul andre resurser
-crs#:#crs_hide_link_tst#:#Skjul tests
 crs#:#crs_html#:#HTML
 crs#:#crs_important_info#:#Vigtig information
 crs#:#crs_info_download#:#Filer til download
@@ -4255,9 +4112,6 @@ crs#:#crs_members_footer_passed#:#bestået
 crs#:#crs_members_print_title#:#Kursusdeltagere
 crs#:#crs_members_table#:#Kursusdeltagere
 crs#:#crs_members_title#:#Kursusdeltagere
-crs#:#crs_move_down#:#Ryk ned
-crs#:#crs_move_up#:#Ryk op
-crs#:#crs_moved_item#:#Rykket kursus
 crs#:#crs_moved_objective#:#Flyttet læreobjekt
 crs#:#crs_new_search#:#Ny søgning
 crs#:#crs_new_subscription#:#Ny tilmelding "%s"
@@ -4589,7 +4443,6 @@ crs#:#crs_objective_assigned_qst#:#Tildelte spørgsmål
 crs#:#crs_objective_add_mat#:#Tildel materialer
 crs#:#crs_objective_add_qst#:#Tildel spørgsmål
 crs#:#crs_show_link_session#:#Vis sessioner
-crs#:#crs_hide_link_session#:#Skjul sessioner
 crs#:#save_status#:#Gem status
 crs#:#crs_selected_users#:#Valgte deltagere
 crs#:#event_select_one#:#Vælg venligst en session
@@ -4615,21 +4468,6 @@ dateplaner#:#today#:#idag
 dateplaner#:#week#:#uge
 dateplaner#:#DateText#:#Besked
 dateplaner#:#Day_long#:#Dagsoversigt
-dateplaner#:#ERROR_DATE_EXISTS#:#Denne aftale eksisterer allerede.
-dateplaner#:#ERROR_DB#:#Kunne ikke skrive til Database!
-dateplaner#:#ERROR_DB_CONNECT#:#Databasen er ikke forbundet
-dateplaner#:#ERROR_DEL_MSG#:#Dette er en rotationsaftale. Vil du slette en eller alle aftaler?
-dateplaner#:#ERROR_ENDDATE#:#Forkert slutdatoinput. Format: dd/mm/yyyy
-dateplaner#:#ERROR_ENDTIME#:#Forkert sluttidspunkt. Format: tt:mm
-dateplaner#:#ERROR_END_START#:#Forkert slutdatoinput. Slutdato er før startdato.
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Brug en gyldig csvfil.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Din browser understøtter ikke Javascript. <BR> Luk dette vindue efter manuel indsætning. <BR> Tak</CENTER></B>
-dateplaner#:#ERROR_ROTATIONEND#:#Forkert rækkefølge slutdatoinput. Format: dd/mm/yyyy
-dateplaner#:#ERROR_ROT_END_START#:#Forkert rækkefølge. Slutdato er før startdato.
-dateplaner#:#ERROR_SHORTTEXT#:#Forkert korttekst input. Korttekst er påkrævet.
-dateplaner#:#ERROR_STARTDATE#:#Forkert startdato input. Format: dd/mm/yyyy
-dateplaner#:#ERROR_STARTTIME#:#Forkert starttidspunkt. Format: tt:mm
-dateplaner#:#ERROR_TS#:#Ukorrekt dato format
 dateplaner#:#Fr_long#:#Fredag
 dateplaner#:#Fr_short#:#Fr###21 Apr 2005 new variable
 dateplaner#:#Language_file#:#engelsk
@@ -4671,85 +4509,12 @@ dateplaner#:#del_all#:#Slet alle aftaler
 dateplaner#:#del_one#:#Slet en aftale
 dateplaner#:#deletedDates#:#Slettede aftaler
 dateplaner#:#discard#:#Afvis
-dateplaner#:#dv_Grouptime#:#Find ledig tid
-dateplaner#:#dv_button_cancel#:#Fortryd
-dateplaner#:#dv_button_delete#:#Slet
-dateplaner#:#dv_button_insert#:#Opret###Indsæt
-dateplaner#:#dv_button_update#:#Opdater
-dateplaner#:#dv_date_begin#:#Startdato:
-dateplaner#:#dv_date_end#:#Slutdato:
-dateplaner#:#dv_date_hm#:#timer: minutter
-dateplaner#:#dv_enddate#:#Slutdato:
-dateplaner#:#dv_groupselect#:#Valg af gruppe:
-dateplaner#:#dv_groupview#:#Gruppeaftale:
-dateplaner#:#dv_groupview_text#:#Gruppe:<br>
-dateplaner#:#dv_keywords#:#Søgeord:
-dateplaner#:#dv_keywordselect#:#Valg af søgeord:
-dateplaner#:#dv_message#:#Indkaldelse
-dateplaner#:#dv_noGroup#:#[Privat/ingen gruppe]
-dateplaner#:#dv_noKey#:#inten søgeord
-dateplaner#:#dv_preview#:#<b>(nuværende tekst)</b>
-dateplaner#:#dv_rotation#:#Rækkefølge:
-dateplaner#:#dv_rotation_date#:#Rotationsdato###Rækkefølge dato:
-dateplaner#:#dv_rotation_end#:#Rotation slutter:
-dateplaner#:#dv_shorttext#:#Emne:
-dateplaner#:#dv_startdate#:#Startdato:
-dateplaner#:#dv_text#:#Tekst:
-dateplaner#:#dv_whole_day#:#Hele dagen:
-dateplaner#:#dv_whole_rotation#:#Vil du slette hele rotationaftalen? (marker checkboxen)
 dateplaner#:#end_date#:#Slut
 dateplaner#:#endtime_for_view#:#Sluttidspunkt
-dateplaner#:#error_minical_img#:#kan ikke oprette GD-picture-stream
 dateplaner#:#extra_dates#:#Heldagsaftaler
 dateplaner#:#free#:#ledig
 dateplaner#:#freetime#:#Ledig tid i gruppen
 dateplaner#:#group#:#gruppe
-dateplaner#:#help_day#:#Dagoversigt
-dateplaner#:#help_day_l#:#I dagoversigten er alle aftaler for en given dag vist.
-dateplaner#:#help_enddate#:#Slutdato - syntax[dd/mm/yyyy]
-dateplaner#:#help_enddate_l#:#Indeholder sluttiden for en aftale. <br> Symbolet åbner en lille kalender hvor man kan vælge den rigtige dato.
-dateplaner#:#help_endrotation#:#Sluttidspunkt syntax[dd/mm/yyyy]
-dateplaner#:#help_endrotation_l#:#På denne dag vil repetatioen slutte.<br> Symbolet åbner en lille kalender hvor man kan vælge den rigtige dato
-dateplaner#:#help_endtime#:#Sluttidspunkt - syntax[hh/mm] 24timers format
-dateplaner#:#help_endtime_l#:#Indeholder sluttidspunktet for en aftale bruger 24-timers formatet.
-dateplaner#:#help_filename#:#dp_help_en.html###21 Apr 2005 new variable
-dateplaner#:#help_fullday#:#Heldagsaftale - syntax[on/off]
-dateplaner#:#help_fullday_l#:#Hvis datoen strækker sig over hele dagen så vælg denne mulighed<br> Dette vil skjule starttidspunktet, sluttidspunktet og slutdatoen.
-dateplaner#:#help_further#:#<br> <b>Klik her for mere information.</b>
-dateplaner#:#help_group#:#Valg af gruppeaftaler
-dateplaner#:#help_group_l#:#Indeholder gruppen som bruger har administratorrettigheder til, hvor man kan oprette nye datoer <br> Efter valget er det muligt at se ikke-skemalagt tid for en gruppe.
-dateplaner#:#help_inbox#:#Gruppeaftaler
-dateplaner#:#help_inbox_l#:#Her er alle nye, ændrede og slettede gruppeaftaler vist.
-dateplaner#:#help_keyword#:#Valg af nøgleord
-dateplaner#:#help_keywordUse#:#Valg af nøgleord
-dateplaner#:#help_keywordUse_l#:#Vælg et eller flere nøgleord fra dialog boksen. <br>TIP: Brug CTRL tasten for at markere flere ord.
-dateplaner#:#help_keyword_l#:#Indeholder nøgleordet som bruger har oprettet. Henvis til en dato og der kan senere sorteres aftaler efter egne nøgleord.
-dateplaner#:#help_list#:#Aftalekalender
-dateplaner#:#help_list_l#:#I aftalelisten er alle aftaler over en given periode vist.
-dateplaner#:#help_month#:#Månedsoversigt
-dateplaner#:#help_month_l#:#I månedsoversigten er alle aftaler for en given måned vist.
-dateplaner#:#help_properties_alt#:#ændrer nøgleordet
-dateplaner#:#help_properties_alt_l#:#Vælg et nøgleord fra dialogbokesen.<br>ændre nøgleordet I tekstfeltet. Vigtigt: max. 20 Karaktere.
-dateplaner#:#help_properties_del#:#Sletter nøgleord
-dateplaner#:#help_properties_del_l#:#Vælg et nøgleord fra dialogboksen, klik på knappen for at slette nøgleordet.
-dateplaner#:#help_properties_import#:#Importering af Outlook-CSV-Files
-dateplaner#:#help_properties_import_l#:#Her kan en CSC-fil - som indeholder Outlookaftaler - vælges. Disse aftaler vil blive importeret til ILIAS.
-dateplaner#:#help_properties_new#:#Tilføjer et nyt nøgleord, max. 20 Karakterer
-dateplaner#:#help_properties_new_l#:#Tilføjer et ny nøgleord til feltet "ny". Vigtigt: max. 20 Karakterer.
-dateplaner#:#help_properties_time#:#Viser tid for dagoversigt/ugeoversigt
-dateplaner#:#help_properties_time_l#:#Standard visningstid for dagsoversigten og uge oversigten kan ændres. Hvis dato er udenfor visningstiden for en given dag eller uge, Tidspunktet vil så blive ændret for denne dato/uge. Standard er 8 timer - 18timer.
-dateplaner#:#help_rotation#:#Rækkefølge
-dateplaner#:#help_rotation_l#:#Angiver hyppigheden af rotation / repetition.
-dateplaner#:#help_shorttext#:#Kort tekst med max 50 karakterer
-dateplaner#:#help_shorttext_l#:#Her kan du skrive en lille tekst for en given dato.
-dateplaner#:#help_startdate#:#Startdato - syntax[dd/mm/yyyy]
-dateplaner#:#help_startdate_l#:#Indeholder starttidspunktet for en aftale <br> Dette symbol åbner en lille kalender hvor man kan vælge den rigtige dato.
-dateplaner#:#help_starttime#:#Starttime - syntax[hh/mm] 24-timers format
-dateplaner#:#help_starttime_l#:#Indeholder starttidspunktet for en aftale, hvor der bliver brugt 24-timerformat
-dateplaner#:#help_text#:#Tekst
-dateplaner#:#help_text_l#:#Her kan du skrive en given tekst.
-dateplaner#:#help_week#:#Ugeoversigt
-dateplaner#:#help_week_l#:#I ugeoversigten er alle aftaler fra en given uge vist.
 dateplaner#:#importDates#:#Importer aftaler fra Microsoft Outlook
 dateplaner#:#insertImportDates#:#Disse aftaler er registreret:
 dateplaner#:#k_alldates#:#Alle aftaler
@@ -4833,9 +4598,7 @@ forum#:#forums_all_threads_marked_read#:#Alle tråde er markeret som læst
 forum#:#forums_attachments#:#Vedhæftninger
 forum#:#forums_attachments_add#:#Vedhæft fil
 forum#:#forums_censor_comment#:#Moderators kommentar
-forum#:#forums_count#:#Antal fora
 forum#:#forums_count_art#:#Antal indlæg
-forum#:#forums_count_thr#:#Antal tråde
 forum#:#forums_created_by#:#Oprettet af
 forum#:#forums_delete_file#:#Slet vedhæftning
 forum#:#forums_disable_notification#:#Deaktiver advisering
@@ -4847,11 +4610,9 @@ forum#:#forums_info_censor_post#:#Er du sikker på du vil skjule dette indlæg?
 forum#:#forums_info_delete_post#:#Er du sikker på at du vil slette dette indlæg inkl. eventuelle svar på det?
 forum#:#forums_mark_read#:#Marker alle som læst
 forum#:#forums_new_thread#:#Nyt emne
-forum#:#forums_notification#:#Advisering
 forum#:#forums_notification_enabled#:#Advisering er aktiveret
 forum#:#forums_notification_intro#:#Denne e-mail blev automatisk sendt til dig fra ILIAS installationen %s, %s
 forum#:#forums_notification_show_post#:#Vis indlæg: %s
-forum#:#forums_notification_subject#:#Nyt indlæg i emnetråd
 forum#:#forums_post_deleted#:#Indlægget er blevet slettet
 forum#:#forums_post_modified#:#Indlægget er blevet ændret
 forum#:#forums_post_new_entry#:#Nyt indlæg oprettet
@@ -4861,7 +4622,6 @@ forum#:#forums_print_thread#:#Print tråd
 forum#:#forums_subject#:#Emne
 forum#:#forums_the_post#:#Indlæg
 forum#:#forums_thread#:#Emne
-forum#:#forums_thread_create_date#:#Oprettet den
 forum#:#forums_thread_create_from#:#Oprettet af
 forum#:#forums_thread_marked#:#Denne tråd er markeret som læst.
 forum#:#forums_thread_new_entry#:#Nyt emne er oprettet
@@ -4950,56 +4710,32 @@ jscalendar#:#select_date#:#Vælg dato
 jscalendar#:#time_part#:#(Shift-)klik eller træk for at ændre værdi
 jscalendar#:#tt_date_format#:#%a, %b %e###21 Apr 2005 new variable
 jscalendar#:#wk#:#wk###21 Apr 2005 new variable
-mail#:#also_as_email#:#Også som Email
 mail#:#bc#:#BCC
 mail#:#forward#:#Videresend
 mail#:#linebreak#:#Karakterer før linieskift
 mail#:#mail_account_mail#:#Account Mail
-mail#:#mail_account_mail_check#:#Send Account Mail
 mail#:#mail_add_recipient#:#Indtast en modtager
 mail#:#mail_add_subfolder#:#Tilføj undermappe
 mail#:#mail_add_subject#:#Indtast et emne
-mail#:#mail_add_to_addressbook#:#Tilføj til adressebog
-mail#:#mail_add_type#:#Vælg venligst hvilken type mail du vil sende
-mail#:#mail_addr_entries#:#Emne
 mail#:#mail_assign_entry_to_mailing_list#:#Tilføj en bruger fra dit adressekortotek til mailinglisten
 mail#:#mail_attachments#:#Vedhæftninger
-mail#:#mail_bc_not_valid#:#BCC modtageren er ikke gyldig
-mail#:#mail_bc_search#:#BCC søgning
-mail#:#mail_byte#:#Bytes
-mail#:#mail_cc_not_valid#:#CC modtageren er ugyldig
-mail#:#mail_cc_search#:#CC søgning
 mail#:#mail_change_to_folder#:#Skift til mappe:
-mail#:#mail_check_your_email_addr#:#Din email adresse er ugyldig
-mail#:#mail_compose#:#Ny meddelelse
 mail#:#mail_deleted#:#Mailen er slettet
 mail#:#mail_deleted_entry#:#Emnet er slettet
-mail#:#mail_email_forbidden#:#Du har ikke tilladelse til at sende mail
-mail#:#mail_enter_login_or_email_addr#:#Venligst angiv et gyldigt login navn eller email.
-mail#:#mail_enter_valid_email_addr#:#Venligst angiv gyldig email.
-mail#:#mail_enter_valid_login#:#Venligst angiv et gyldigt login navn.
-mail#:#mail_entry_added#:#Tilføjet nyt emne
-mail#:#mail_entry_changed#:#Emnet er ændret
-mail#:#mail_entry_exists#:#Der eksisterer allerede en indgang med det angivne logon eller email-adresse
 mail#:#mail_file_name#:#Filnavn
 mail#:#mail_file_size#:#Fil størrelse
 mail#:#mail_files_deleted#:#Filen/filerne er slettet
-mail#:#mail_folder_edit#:#Rediger folder
 mail#:#mail_folder_created#:#Ny mappe oprettet
 mail#:#mail_folder_deleted#:#Mappe slettet
 mail#:#mail_folder_exists#:#En mappe med samme navn eksisterer i forvejen
-mail#:#mail_folder_name#:#Mappe navn
 mail#:#mail_folder_name_changed#:#Mappen er blevet omdøbt
-mail#:#mail_folder_options#:#Mappe Egenskaber
 mail#:#mail_following_rcp_not_valid#:#Følgende modtagere er ikke gyldige:
-mail#:#mail_global_options#:#Overordnede mail indstillinger
 mail#:#mail_incoming#:#Levering af indgående post
 mail#:#mail_incoming_both#:#Gem lokalt og videresend kopi
 mail#:#mail_incoming_local#:#Lokal levering
 mail#:#mail_incoming_smtp#:#Videresend til min email
 mail#:#mail_insert_folder_name#:#Indtast venligst et mappe navn
 mail#:#mail_insert_query#:#Indsæt venligst en forespørgsel
-mail#:#mail_intern#:#Intern
 mail#:#mail_mark_read#:#Marker mailen som læst
 mail#:#mail_mark_unread#:#Marker mailen som ulæst
 mail#:#mail_maxsize_attachment_error#:#Upload grænsen er:
@@ -5021,55 +4757,36 @@ mail#:#mail_nacc_target_block#:#This text is only included, if a target item is 
 mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.
 mail#:#mail_nacc_target_type#:#Type of target item, e.g. "Course" for a course item.
 mail#:#mail_nacc_use_placeholder#:#Nedenstående felterstatninger kan anvendes
-mail#:#mail_new_file#:#Tilføj ny fil:
-mail#:#mail_no_attach_allowed#:#Ikke tilladt med vedhæftninger i systembeskeder
-mail#:#mail_no_attachments_found#:#Ingen vedhæftninger fundet
 mail#:#mail_no_permissions_write_smtp#:#Du har ikke tilladelse til at skrive eksterne mails
 mail#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.###02 04 2007 new variable
 mail#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s###02 04 2007 new variable
-mail#:#mail_options_of#:#Egenskaber
 mail#:#mail_options_saved#:#Egenskaber gemt
-mail#:#mail_recipient_not_valid#:#Modtageren er ugyldig
 mail#:#mail_s#:#Mail
-mail#:#mail_s_unread#:#Ulæste Mail
 mail#:#mail_salutation_female#:#Velkomst, kvinder
 mail#:#mail_salutation_general#:#Velkomst, generelt
 mail#:#mail_salutation_male#:#Velkomst, mænd
 mail#:#mail_saved#:#Meddelelsen er gemt
 mail#:#mail_select_one_entry#:#Du skal vælge et emne
 mail#:#mail_select_one_file#:#Du skal vælge en fil
-mail#:#mail_send_with_system_address#:#Send With System Address
 mail#:#mail_sure_delete#:#Er du sikker på du vil slette de/den markerede mail
 mail#:#mail_sure_delete_entry#:#Er du sikker på du vil slette følgende emne
 mail#:#mail_sure_delete_file#:#Filen vil blive slettet permanent
 mail#:#mail_sure_delete_folder#:#Mappen og dens indhold vil blive slettet permant
 mail#:#mail_to#:#Til
-mail#:#mail_user_addr_n_valid#:#Følgende brugere har ingen gyldig email adresse
 mail#:#mail_empty_trash#:#Tøm skraldespanden
 mail#:#mail_empty_trash_confirmation#:#Er du sikker på du vil tømme skraldespanden og dermed slette beskederne for evigt?
 mail#:#mail_cronjob_notification_info#:#Du kan aktivere periodiske adviseringer omkring nye beskeder her.
-mail#:#mail_received_x_new_mails#:#Du har modtaget %s nye beskeder.
-mail#:#search_bc_recipient#:#Søg BCC modtager
-mail#:#search_cc_recipient#:#Søg CC modtager
 mail#:#send_mail_to#:#Mail til
 mail#:#mail_no_valid_mailing_list#:#Ingen gyldig mailingliste
 mail#:#mail_list_members#:#Liste over medlemmer
-mail#:#mail_members_added_addressbook#:#Medlemmer tilføjet til adressebog
-mail#:#mail_in_addressbook#:#Er allerede i adressebog.
-mail#:#mail_select_only_one_entry#:#Vælg venlist kun en kontakt
 mail#:#mail_select_course#:#Vælg venligst mindst ete kursus
 mail#:#mail_select_group#:#Vælg venligst mindst en gruppe
-mail#:#mail_my_entries#:#Mine kontakter
 mail#:#mail_my_courses#:#Mine kurser
 mail#:#mail_my_groups#:#Mine grupper
 mail#:#mail_my_mailing_lists#:#Mine maillister
 mail#:#mail_mailing_lists#:#Maillister
 mail#:#mail_mailing_list#:#Mailliste
 mail#:#mail_members_of_mailing_list#:#Modtagere på mailinglisten
-mail#:#mail_into_addressbook#:#Put i adressebog
-mail#:#mail_group_members#:#Gruppemedlemmer
-mail#:#mail_new_entry#:#Ny kontakt
-mail#:#mail_edit_entry#:#Ret kontakt
 mail#:#mail_select_attachment#:#Please select an attachment for download.###25 02 2007 new variable
 meta#:#md_days#:#Dage:
 meta#:#md_months#:#Måned:
@@ -5206,7 +4923,7 @@ meta#:#meta_c_LI#:#Luxemborg
 meta#:#meta_c_LK#:#Sri Lanka
 meta#:#meta_c_LR#:#Liberia###21 Apr 2005 new variable
 meta#:#meta_c_LS#:#Lesotho###21 Apr 2005 new variable
-meta#:#meta_c_LT#:#Lithunia###21 Apr 2005 new variable
+meta#:#meta_c_LT#:#Lithuania###21 Apr 2005 new variable
 meta#:#meta_c_LU#:#Luxembourg###21 Apr 2005 new variable
 meta#:#meta_c_LV#:#Latvia###21 Apr 2005 new variable
 meta#:#meta_c_LY#:#Libyan Arab Jamahiriya###21 Apr 2005 new variable
@@ -6240,96 +5957,6 @@ trac#:#newUT_settings#:#Learning Module Statistics
 trac#:#obj_types#:#Object types:###23 Dec 2005 new variable
 trac#:#search_terms#:#Søgeudtryk
 trac#:#select_one#:#Please select one object###23 Dec 2005 new variable
-trac#:#stats_access#:#Access
-trac#:#stats_accesses#:#Accesses
-trac#:#stats_all#:#All
-trac#:#stats_chapter#:#Chapter
-trac#:#stats_chapter_average_page_number#:#Average Number of Pages per Chapter
-trac#:#stats_chapter_depth_coverage#:#Degree of Coverage with Depth
-trac#:#stats_chapter_fewest_access#:#Fewest Access
-trac#:#stats_chapter_listing#:#Chapter Listing
-trac#:#stats_chapter_longest_total_dwell_time_depth#:#Total Dwell Time Depth
-trac#:#stats_chapter_most_access_depth#:#Most Access with Depth
-trac#:#stats_chapter_most_pages#:#Most Pages
-trac#:#stats_chapter_number#:#Number of Chapters
-trac#:#stats_chapter_statisics#:#Kapitelstatistik
-trac#:#stats_chapter_stubbiest_total_dwell_time#:#Stubbiest Total Dwell Time
-trac#:#stats_chapter_top#:#Top-Chapter (variance, access, etc.)
-trac#:#stats_chapter_total_statistic#:#Total-Chapter-Statistic
-trac#:#stats_choice#:#Selection
-trac#:#stats_current#:#Currently
-trac#:#stats_depth#:#Depth
-trac#:#stats_duration#:#Duration
-trac#:#stats_equivalent#:#is equivalent to
-trac#:#stats_hits#:#Hits
-trac#:#stats_hour#:#h
-trac#:#stats_interval#:#Interval
-trac#:#stats_interval_dwell_time#:#Interval of Dwell Time
-trac#:#stats_interval_page_access#:#Interval of Access to Pages
-trac#:#stats_last#:#Sidste
-trac#:#stats_legend#:#Legend
-trac#:#stats_measurable_hits#:#Measurable Hits (Hits within a Session)
-trac#:#stats_minute#:#m
-trac#:#stats_navigation#:#Navigation/Observation Model (requires JRE 1.5 or higher)
-trac#:#stats_new_selection#:#New Selection
-trac#:#stats_occurrence#:#Occurrence
-trac#:#stats_of#:#of
-trac#:#stats_page#:#Page
-trac#:#stats_page_average_access#:#Average of Access to pages
-trac#:#stats_page_average_dwell_time#:#Average of Dwell Time to Pages
-trac#:#stats_page_deviation_access#:#Deviation of Access to Pages
-trac#:#stats_page_deviation_dwell_time#:#Deviation of Dwell Time to Pages
-trac#:#stats_page_fewest_access#:#Fewest Access
-trac#:#stats_page_highest_deviation#:#Highest Deviation
-trac#:#stats_page_highest_varcoeff#:#Highest Variation Coefficient
-trac#:#stats_page_least_deviation#:#Least Deviation
-trac#:#stats_page_listing#:#Page Listing
-trac#:#stats_page_longest_average_dwell_time#:#Average Dwell Time
-trac#:#stats_page_longest_total_dwell_time#:#Total Dwell Time
-trac#:#stats_page_lowest_varcoeff#:#Lowest Variation Coefficient
-trac#:#stats_page_median_access#:#Median of Access to Pages
-trac#:#stats_page_median_dwell_time#:#Median of Dwell Time to Pages
-trac#:#stats_page_mode_access#:#Mode of Access to Pages
-trac#:#stats_page_most_access#:#Most Accesses
-trac#:#stats_page_number#:#Number of Pages
-trac#:#stats_page_number_access#:#Number of Access to Pages
-trac#:#stats_page_range_access#:#Range of Access to Pages
-trac#:#stats_page_range_dwell_time#:#Range of Dwell Time to Pages
-trac#:#stats_page_stubbiest_average_dwell_time#:#Stubbiest Average Dwell Time
-trac#:#stats_page_stubbiest_total_dwell_time#:#Stubbiest Total Dwell Time
-trac#:#stats_page_total_dwell_time#:#Total-Pages-Dwell time
-trac#:#stats_page_total_statistic#:#Total-Pages-Statistic
-trac#:#stats_page_varcoeff_access#:#Variation Coefficient of Access to Pages
-trac#:#stats_page_varcoeff_dwell_time#:#Variation Coefficient of Dwell time to Pages
-trac#:#stats_page_variance_access#:#Variance of Access to Pages
-trac#:#stats_page_variance_dwell_time#:#Variance of Dwell Time to Pages
-trac#:#stats_pages#:#Pages
-trac#:#stats_pages_statisics#:#Sidestatistik
-trac#:#stats_sec#:#sec
-trac#:#stats_sel_lng#:#English
-trac#:#stats_session#:#Session
-trac#:#stats_session_average_length#:#Gennemsnitlig sessionslængde
-trac#:#stats_session_average_page_access#:#Average Access to Pages per Session
-trac#:#stats_session_evaluable#:#Evaluable Sessions
-trac#:#stats_session_evaluable_access#:#Evaluable Session Access
-trac#:#stats_session_evaluable_usr#:#Evaluable User
-trac#:#stats_session_involved_usr#:#Number of involved Users
-trac#:#stats_session_listing#:#Session Listing
-trac#:#stats_session_longest#:#Longest Session
-trac#:#stats_session_longest_total_duration_usr#:#Longest Total Duration per User
-trac#:#stats_session_most#:#Most Sessions
-trac#:#stats_session_number#:#Number of Sessions
-trac#:#stats_session_total_duration#:#Total Duration of all Sessions
-trac#:#stats_session_total_statistic#:#Total-Session-Statistic
-trac#:#stats_sessions#:#Sessions
-trac#:#stats_sessions_statisics#:#Session Statistics
-trac#:#stats_start#:#Start
-trac#:#stats_summation#:#Summation
-trac#:#stats_tracked_user#:#Valgte brugere
-trac#:#stats_until#:#until
-trac#:#stats_user#:#User(s)
-trac#:#stats_user_selected#:#User selected
-trac#:#stats_with#:#with
 trac#:#total_dwell_time#:#Total Dwell Time
 trac#:#trac_activated#:#Sporing aktiveret
 trac#:#trac_active_both#:#Brugersporing og lærefremgang aktiveret
@@ -6394,7 +6021,6 @@ trac#:#trac_mode_test_finished#:#Test afsluttet
 trac#:#trac_mode_test_passed#:#Test bestået
 trac#:#trac_mode_tlt#:#Typisk læretid
 trac#:#trac_mode_visits#:#Antal besøg
-trac#:#trac_modifications_saved#:#Indstillingerne blev gemt
 trac#:#trac_modus#:#Metode
 trac#:#trac_no_attempted#:#Ikke forsøgt
 trac#:#trac_no_content#:#Der er ikke lagret information om lærefremskridt.
@@ -6481,7 +6107,6 @@ ldap#:#ldap_global_role_assignment#:#ILIAS rolle tildeling
 ldap#:#ldap_group_member#:#Group Member Attribute###08 12 2006 new variable
 ldap#:#ldap_scope_one#:#En
 ldap#:#ldap_scope_sub#:#Sub###08 12 2006 new variable
-ldap#:#ldap_scope_base#:#Base###08 12 2006 new variable
 ldap#:#ldap_server_name_info#:#Vælg et navn til denne LDAP serverkonfiguration.
 ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldap://ldap.ilias.de:389"###08 12 2006 new variable
 ldap#:#ldap_server_version_info#:#LDAP version der skal anvendes, normalt 3.
@@ -6711,7 +6336,6 @@ news#:#news_1_file_created#:#1 fil tilføjet
 news#:#news_1_file_updated#:#1 fil opdateret
 news#:#news_x_postings#:#%s indlæg er blevet tilføjet
 news#:#news_1_postings#:#1 indlæg er blevet tilføjet
-forum#:#forums_post_and_children_were_activated#:#The post and all its child posts were activated.###23 10 2007 new variable
 forum#:#forums_post_was_activated#:#Indlæget er aktiveret
 forum#:#forums_post_needs_to_be_activated#:#A new article has been created, but it needs to be activated by a moderator.###23 10 2007 new variable
 forum#:#forums_no_posts_available#:#Dette emne har ingen indlæg eller moderatoren har deaktiveret det første indlæg.
@@ -6911,7 +6535,6 @@ rbac#:#cals_write#:#Ret kalenderindstillinger
 common#:#obj_cat_duplicate#:#Kopier kategori
 common#:#obj_cat_select#:#-- Vælg venligst en kategori --
 common#:#cat_wizard_page#:#Kopier kategori (Skridt 2/2)
-mail#:#advice_mail_body_secured#:#ILIAS har fjernet nogle elementer fra din besked af sikkerhedshensyn. Gennemgå den sikrede besked og send igen.
 common#:#webfolder#:#Webfolder
 common#:#mount_webfolder#:#Åben som webfolder
 common#:#obj_file_inline#:#Læremodul fil
@@ -7077,8 +6700,6 @@ trac#:#trac_show_repository_views#:#Ændringer i oversigten
 common#:#webdav_pear_auth_http_needed#:#Det er nødvendigt du installerer Pear Auth_HTTP for at bruge denne funktion. For at gøre dette skal du taste <code>pear install Auth_HTTP</code> i din terminal. Hvis du ikke ved hvad du laver, så lad være.
 dateplaner#:#cal_table_categories#:#Kalenderudvalg
 dateplaner#:#cal_type_usr#:#Personlig kalender
-dateplaner#:#yui_cal_choose_month#:#Måned:
-dateplaner#:#yui_cal_choose_year#:#År: 
 dateplaner#:#cal_edit_appointment#:#Ret aftale
 dateplaner#:#cal_what#:#Titel
 dateplaner#:#cal_category_selection#:#Kalender valg
@@ -7205,7 +6826,6 @@ common#:#mem_waiting_list#:#Brugere på venteliste:
 common#:#mem_alert_no_places#:#Der er ingen gratis pladser frie.
 common#:#mem_reg_expired#:#Indmeldelsesperioden er udløbet.
 common#:#mem_unlimited#:#Ubegrænset
-common#:#mail_attachments#:#Mail vedhæftninger
 common#:#forum_attachments#:#Forum vedhæftninger
 grp#:#grp_set_on_waiting_list#:#Du kan få din anmodning på ventelisten. Du vil i så fald modtage en besked fra gruppeadministrator når du godkendes eller afvises.
 grp#:#grp_added_to_list#:#Du er blevet sat på ventelisten som nummer %s.
@@ -7558,7 +7178,6 @@ content#:#cont_first_row_style#:#Første række stilark
 content#:#cont_selected_items_have_been_copied#:#Valgte elementer er kopieret til udklipsholder. Vælg de tilsvarende pladsholdere for at indsætte dem i læremodulet.
 content#:#cont_selected_items_have_been_cut#:#Valgte elementer er klippet til udklipsholder. Klik relevante pladsholdere for at indsætte dem i læremodulet.
 content#:#cont_choose_pages_or_chapters_only#:#Vælg enten sider eller kapitler.
-crs#:#crs_archive_language_selection#:#Valg af sprog
 common#:#zip_test_failed#:#Zip-testen fejlede. Du kan evt. kontakte systemadministrator.
 common#:#ext_link#:#Link
 pd#:#pd_enable_my_offers#:#Aktiver 'Valgte elementer'
@@ -7602,7 +7221,6 @@ crs#:#crs_suggested_sections#:#Suggested Sections###15 09 2008 new variable
 forum#:#frm_statistics#:#Statistik
 mail#:#mail_crs_list_members_not_available#:#Det er ikke muligt at liste medlemmer af de valgte kurser.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Medlemmerne af mindst et af de valgte kurser kan ikke listes.
-chatroom#:#chat_new_invitation_sound_status#:#Afspil en lyd hvis brugeren modtager en chatinvitation
 assessment#:#reset_pictures#:#Ryd billedpositioner
 assessment#:#reset_definitions#:#Ryd definitionspositioner
 administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed ILIAS version to the folder of local language files. The current language file is automatically copied when you save your local language file on the 'Maintain' tab. ###19 09 2008 new variable
@@ -7629,7 +7247,6 @@ common#:#enable_download_folder#:#Aktiver download af foldere
 common#:#enable_download_folder_info#:#Tillader download af foldere inklusiv understrukturer leveret i en pakket zip-fil.
 rbac#:#crsr_edit_permission#:#Ændre rettinghedsindstillinger
 rbac#:#crsr_visible#:#Kursusreference er synlig
-rbac#:#crsr_read#:#Læseadgang til kursusreference
 rbac#:#crsr_delete#:#Slet kursusreference
 rbac#:#crsr_write#:#Ret kursusreference
 rbac#:#crsr_copy#:#Kopier kursusreference
@@ -7637,7 +7254,6 @@ common#:#obj_crsr#:#Kursusreference
 common#:#objs_crsr#:#Kursusreference
 rbac#:#catr_edit_permission#:#Ændre rettighedsindstillinger
 rbac#:#catr_visible#:#Kategorireference er synlig
-rbac#:#catr_read#:#Læseadgang til kategorireference
 rbac#:#catr_delete#:#Slet kategorireference
 rbac#:#catr_write#:#Ret kategorireference
 rbac#:#catr_copy#:#Kopier kategorireference
@@ -8085,8 +7701,6 @@ mail#:#chat_users_without_permission#:#De følgende brugere har ikke adgang til 
 mail#:#chat_users_have_been_invited#:#Brugerne er inviteret.
 mail#:#goto_invitation_chat#:#Gå til chatrum
 mail#:#chat_users_without_login#:#De følgende brugere har ikke en konto på ILIAS og kan derfor ikke inviteres til et chatrum.
-chatroom#:#chat_new_message_sound_status#:#Afspil en lyd når der kommer en ny besked
-chatroom#:#chat_message_notify_activate#:#Activate Message Notify###30 04 2009 new variable
 chatroom#:#chat_enable_autoscroll#:#Aktiver autoscroll
 common#:#content_frame#:#Indholdsramme
 common#:#side_frame#:#Sideramme
@@ -9070,31 +8684,12 @@ ecs#:#ecs_published_for#:#Published for:###26 03 2010 new variable
 auth#:#auth_account_migration_name#:#Migrering
 auth#:#auth_account_migration_keep#:#Migrer eksisterende brugerkonto
 auth#:#auth_account_migration_new#:#Lav ny brugerkonto
-auth#:#auth_openid#:#OpenId
-auth#:#auth_openid_configure#:#Configure OpenId-Authentication###26 03 2010 new variable
-auth#:#auth_openid_enable#:#Aktiver understøttelse af OpenId
-auth#:#auth_openid_sync#:#Bruger synkronisering
-auth#:#auth_openid_sync_info#:#If enabled new user accounts will be created automatically after successful authentication.###26 03 2010 new variable
-auth#:#auth_openid_role_select#:#Rolle:
-auth#:#auth_openid_migration#:#Account Migration:###26 03 2010 new variable
-auth#:#auth_openid_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to OpenId authentication.###26 03 2010 new variable
 common#:#auth_openid#:#OpenId
 common#:#login_to_ilias_via_openid#:#Login på ILIAS med OpenID
 content#:#cont_glo_create#:#Create Glossary###26 03 2010 new variable
 content#:#cont_glo_assign#:#Assign Glossary###26 03 2010 new variable
 content#:#cont_glo_detach#:#Detach Glossary###26 03 2010 new variable
 content#:#glo_usages#:#Glossary is used in...###26 03 2010 new variable
-auth#:#auth_openid_settings#:#OpenId Settings###26 03 2010 new variable
-auth#:#auth_openid_provider#:#Provider Selection###26 03 2010 new variable
-auth#:#auth_openid_login#:#Dit OpenID
-auth#:#auth_openid_provider_tbl#:#OpenID Provider###26 03 2010 new variable
-auth#:#auth_openid_provider_add#:#Add Provider###26 03 2010 new variable
-auth#:#auth_openid_provider_edit#:#Edit Provider###26 03 2010 new variable
-auth#:#auth_openid_url_info#:#Enter an OpenID url and replace the username with "%s". For example: http://%s.myopenid.com###26 03 2010 new variable
-auth#:#auth_openid_deleted_provider#:#Deleted selected OpenID provider###26 03 2010 new variable
-auth#:#auth_openid_uncontrolled_selection#:#Uncontrolled Provider Selection###26 03 2010 new variable
-auth#:#auth_openid_uncontrolled_selection_info#:#If enabled, any OpenID Provider can be used for authentication. Otherwise the provider has to be chosen from a list of valid providers.###26 03 2010 new variable
-auth#:#auth_openid_login_info_a#:#Please enter your OpenID username and choose a provider###26 03 2010 new variable
 common#:#db_need_hotfix#:#Hotfix findes. Gå til setup-programmet.
 common#:#mm_dd_yyyy#:#MM/DD/ÅÅÅÅ###16 07 2010 new variable
 common#:#dd_mm_yyyy#:#DD.MM.ÅÅÅÅ###16 07 2010 new variable
@@ -9235,7 +8830,6 @@ user#:#enable_local_user_administration_info#:#If enabled, local user accounts c
 user#:#restrict_user_access#:#Begrænset adgang til brugerkonti
 user#:#restrict_user_access_info#:#If enabled, the access to user account is restricted. The access depends on the permission "Read Access to Local User Account" in "User Accounts" and "Categories". ###16 07 2010 new variable
 common#:#backto_lua#:#Back to Local User Administration###16 07 2010 new variable
-common#:#sort_activation_header#:#Nach Zeitvorgaben###16 07 2010 new variable
 common#:#sort_inherit_prefix#:#Standard
 common#:#sorting_info_inherit#:#The sorting mode is adpated from a parent course.###16 07 2010 new variable
 content#:#cont_alignment#:#Justeringt
@@ -9612,7 +9206,6 @@ trac#:#create_date_max#:#Latest Registration###06 08 2010 new variable
 trac#:#read_count_avg#:#Gns. sidevisninger
 grp#:#grp_export_members#:#Eksporter medlemmer
 grp#:#grp_role_status#:#Role/Status###06 08 2010 new variable
-grp#:#grp_subscriber#:#Subscriber###06 08 2010 new variable
 grp#:#grp_agreement_required#:#You have to accept the user agreement, if you want to access the group content.###06 08 2010 new variable
 content#:#cont_new_page#:#New Page###06 08 2010 new variable
 content#:#cont_new_chap#:#New Chapter###06 08 2010 new variable
@@ -9695,7 +9288,6 @@ common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the IL
 common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s###10 09 2010 new variable
 trac#:#trac_learning_progress_settings_info#:#Activate the display of the following values inside the Learning Progress tables:###10 09 2010 new variable
 fold#:#fold_import#:#Importer mappe
-mail#:#mail_select_recipients#:#Vælg modtagere
 grp#:#grp_import#:#Importer gruppe
 crs#:#crs_grp_assignments#:#Tildeling af deltagere til grupper
 assessment#:#ordering_answer_sequence_info#:#Rækkefølgen ovenfor skal være den korrekte besvarelse.
@@ -10509,22 +10101,15 @@ common#:#objs_chtr#:#Chater
 common#:#obj_chta#:#Chatrum
 chatroom#:#history_by_day#:#Dagshistorik
 chatroom#:#history_by_session#:#Session history###06 08 2011 new variable
-chatroom#:#connected#:#Connection established###06 08 2011 new variable
 chatroom#:#period#:#Periode
-chatroom#:#disconnected#:#Connection closed###06 08 2011 new variable
 chatroom#:#allow_anonymous#:#Allow anonymous login###06 08 2011 new variable
 chatroom#:#autogen_usernames#:#Auto generated usernames###06 08 2011 new variable
 chatroom#:#allow_custom_usernames#:#Allow custom usernames###06 08 2011 new variable
 chatroom#:#enable_history#:#Enable history###06 08 2011 new variable
-chatroom#:#restrict_history#:#Restrict history###06 08 2011 new variable
-chatroom#:#restrict_history_info#:#No entries generated during absence from chatroom###06 08 2011 new variable
-chatroom#:#allow_private_rooms#:#Allow private rooms###06 08 2011 new variable
 chatroom#:#settings_general#:#General###06 08 2011 new variable
-chatroom#:#settings_privacy#:#Privacy###06 08 2011 new variable
 chatroom#:#autogen_usernames_info#:#Pattern for auto generated usernames. '#' will be automatically replaced by a number###06 08 2011 new variable
 chatroom#:#bans#:#Bans###06 08 2011 new variable
 chatroom#:#permissions#:#Permissions###06 08 2011 new variable
-chatroom#:#remark#:#Bemærkning
 chatroom#:#session#:#Session###06 08 2011 new variable
 chatroom#:#fontcolor#:#Skriftfarve
 chatroom#:#fontstyle#:#Skrifttype
@@ -10545,9 +10130,7 @@ chatroom#:#chat_message_to_all#:#til alle
 chatroom#:#chat_message_options#:#Display###06 08 2011 new variable
 chatroom#:#chat_message_display#:#Valgmuligheder
 chatroom#:#chat_mainroom#:#Main room###06 08 2011 new variable
-chatroom#:#chat_leave#:#Leave###06 08 2011 new variable
 chatroom#:#chat_join#:#Join###06 08 2011 new variable
-chatroom#:#chat_delete#:#Delete###06 08 2011 new variable
 chatroom#:#chat_invite#:#Inviter
 chatroom#:#chat_kick#:#Kick###06 08 2011 new variable
 chatroom#:#chat_ban#:#Ban###06 08 2011 new variable
@@ -10555,13 +10138,8 @@ chatroom#:#chat_address#:#Address###06 08 2011 new variable
 chatroom#:#chat_whisper#:#Whisper###06 08 2011 new variable
 chatroom#:#chat_connection_established#:#Connection established###06 08 2011 new variable
 chatroom#:#chat_connection_disconnected#:#Disconnected###06 08 2011 new variable
-chatroom#:#chat_invite_users#:#Invite users###06 08 2011 new variable
-chatroom#:#chat_right_box_user#:#User###06 08 2011 new variable
-chatroom#:#chat_create_new_private_room#:#Create new private room###06 08 2011 new variable
-chatroom#:#chat_private_room#:#Private room###06 08 2011 new variable
 chatroom#:#chat_to_mainroom#:#To main room###06 08 2011 new variable
 chatroom#:#chat_create_private_room_button#:#Create private room###06 08 2011 new variable
-chatroom#:#moderate#:#Moderate###06 08 2011 new variable
 chatroom#:#chatroom_smiley_keyword#:#Keyword###06 08 2011 new variable
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name#####06 08 2011 new variable
 chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.###06 08 2011 new variable
@@ -10580,7 +10158,6 @@ chatroom_adm#:#chatroom_smiley_keywords#:#Søgeord
 chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#Et søgeord pr. linje
 chatroom_adm#:#chatroom_upload_smiley#:#Upload smiley###06 08 2011 new variable
 chatroom_adm#:#protocol#:#Protocol###06 08 2011 new variable
-chatroom_adm#:#instance#:#Instance###06 08 2011 new variable
 chatroom_adm#:#smiley#:#Smilies###06 08 2011 new variable
 chatroom_adm#:#chatroom_edit_smiley#:#Edit smiley###06 08 2011 new variable
 chatroom_adm#:#chatroom_current_smiley_image_path#:#Current smiley###06 08 2011 new variable
@@ -10588,24 +10165,18 @@ chatroom_adm#:#chatroom_current_smiley_image#:#Current smiley icon###06 08 2011 
 chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Choose a new smiley icon only if the current one is to be replaced.###06 08 2011 new variable
 chatroom_adm#:#server_settings#:#Server settings###06 08 2011 new variable
 chatroom_adm#:#client_settings#:#Client settings###06 08 2011 new variable
-chatroom_adm#:#priv_hosts#:#Privileged hosts###06 08 2011 new variable
 chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#chat_enabled#:#Aktiver chat
 chatroom_adm#:#enable_osd#:#Aktiver live adviseringer
-chatroom_adm#:#hash#:#Hash###06 08 2011 new variable
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)###06 08 2011 new variable
 chatroom_adm#:#chatroom_confirm_delete_smiley#:#Er du sikker på du vil slette den valgte smiley?
 chatroom_adm#:#chat_smilies_dir_not_exists#:#Smily-mappe eksisterer ikke.
 chatroom_adm#:#chat_smilies_initialized#:#Chat smilies initialiseret.
-chatroom#:#soap_must_be_enabled#:#You must active SOAP support in the general settings to enable the chat.###06 08 2011 new variable
 chatroom#:#auto_scroll#:#Rul til bunden
 chatroom#:#public_chat_created#:#Det offentlige chatrum er blevet tilføjet oversigten.
 chatroom#:#lost_connection#:#The connection to the chatserver was interrupted.###06 08 2011 new variable
 chatroom#:#banned#:#Du er blevet banlyst fra chatten. Farvel!
 chatroom#:#unban#:#Unban###06 08 2011 new variable
-chatroom_adm#:#keystore#:#Keystore###06 08 2011 new variable
-chatroom_adm#:#keypass#:#Keypass###06 08 2011 new variable
-chatroom_adm#:#storepass#:#Storepass###06 08 2011 new variable
 chatroom_adm#:#settings_has_been_saved#:#Indstillingerne blev gemt.
 common#:#obj_chtr#:#Chatrum
 chatroom#:#unable_to_connect#:#The connection to the chatserver could not be established.###06 08 2011 new variable
@@ -10825,8 +10396,6 @@ skmg#:#skmg_create_skill_template_reference#:#Create Skill Template Reference###
 skmg#:#skmg_create_skill_category#:#Create Skill Category###02 09 2011 new variable
 common#:#notice#:#Notice###02 09 2011 new variable
 common#:#public_room#:#Public room###02 09 2011 new variable
-chatroom#:#chtr_moderate#:#Moderate###02 09 2011 new variable
-chatroom#:#unkown_private_room#:#Unknown private room###02 09 2011 new variable
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.###02 09 2011 new variable
 chatroom#:#chtr_new#:#New Chatroom###02 09 2011 new variable
 chatroom#:#chtr_add#:#Add Chatroom###02 09 2011 new variable
@@ -10927,13 +10496,8 @@ didactic#:#didactic_template_applied#:#Applied didactic template.###14 09 2011 n
 didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the chosen didactic template? All current permission settings will get lost!###14 09 2011 new variable
 chatroom#:#chatserver_address#:#IP-Adress of the Chatservers###14 09 2011 new variable
 chatroom#:#chatserver_port#:#Port of the Chatservers###14 09 2011 new variable
-chatroom#:#instance_name#:#Unique Identifier###14 09 2011 new variable
-chatroom#:#ilias_url#:#Base-URL of your ILIAS Installation###14 09 2011 new variable
-chatroom#:#soap_user#:#Name of the SOAP-User###14 09 2011 new variable
-chatroom#:#soap_user_password#:#Password of the SOAP-User###14 09 2011 new variable
 chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.###14 09 2011 new variable
 chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the webserver must handle.###14 09 2011 new variable
-chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chatserver to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.###14 09 2011 new variable
 chatroom#:#enable_smilies#:#Enable Smilies###14 09 2011 new variable
 chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smilies tab for configuration.###14 09 2011 new variable
 chatroom#:#display_past_msgs#:#Number of Past Messages###14 09 2011 new variable
@@ -10966,7 +10530,6 @@ notes#:#comments_feature_currently_not_activated_for_object#:#Annonyme offentlig
 chatroom#:#layout#:#Layout
 chatroom#:#show_settings#:#Vis indstillinger
 chatroom#:#hide_settings#:#Skjul indstillinger
-chatroom_adm#:#soap_user_hint#:#This user is used to send information from the chatserver to the ilias installation. No special permissions are required.<br/>If you create a new accout, please make sure that you are able to login with this user (e.g. accept licence aggreement).###01 10 2011 new variable
 chatroom#:#private_rooms_enabled#:#Allow Private Rooms###01 10 2011 new variable
 chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.###01 10 2011 new variable
 chatroom#:#no_further_users#:#Ingen andre brugere til stede
@@ -11928,7 +11491,7 @@ survey#:#svy_activation_limited_visibility_info#:#If chosen, the survey is visib
 mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.###28 09 2012 new variable
 mathjax#:#mathjax_enable_mathjax#:#Aktiver MathJax
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.###28 09 2012 new variable
+mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.###28 09 2012 new variable
 mathjax#:#mathjax_path_to_mathjax#:#URL til MathJax
 mathjax#:#mathjax_settings#:#MathJax indstillinger
 mathjax#:#mathjax_limiter#:#Inline Delimiters###28 09 2012 new variable
@@ -12266,12 +11829,7 @@ rbac#:#chtr_delete#:#User can move or delete course###16 09 2013 new variable
 ecs#:#ecs_role_mappings#:#Course/Group Role Mappings###16 09 2013 new variable
 ecs#:#ecs_role_mapping_value#:#Attribute Value###16 09 2013 new variable
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads ###16 09 2013 new variable
-forum#:#frm_sorting_threads#:#Thread Sorting###16 09 2013 new variable
-forum#:#frm_sorting_posts#:#Posts Sorting###16 09 2013 new variable
 forum#:#sticky_threads_always_on_top#:#"Sticky Threads" are always listed at the top of the list of threads. Within the "Sticky Threads" you are able to sort the threads manually, if you have chosen this option.###16 09 2013 new variable
-mail#:#cron_update_addressbook#:#Synchronize address book entries automatically###16 09 2013 new variable
-mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cronjob. Only data that was released by the User, will be updated.###16 09 2013 new variable
-mail#:#auto_update#:#Update###16 09 2013 new variable
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting###16 09 2013 new variable
 blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.###16 09 2013 new variable
 forum#:#merge#:#Merge###16 09 2013 new variable
@@ -12562,7 +12120,6 @@ dateplaner#:#cal_ch_cron_reminder_days#:#Number of Days###16 09 2013 new variabl
 dateplaner#:#cal_ch_delete_booking_info#:#"Delete Booking" will not notify users by email. If you want to notify users, please choose the action "Cancele Booking".###16 09 2013 new variable
 dateplaner#:#cal_ch_cancel_booking_info#:#"Cancel Booking" sends notification mails to the users. If you do not want to notify the users, choose the option "Delete Booking".###16 09 2013 new variable
 dateplaner#:#cal_ch_delete_app_booking_info#:#The following appointments have existing bookings. If you delete these appointments, the users will not be notified.###16 09 2013 new variable
-dateplaner#:#cal_ch_user_assignment_success#:#The users have been assigned to the chosen appointments.###16 09 2013 new variable
 dateplaner#:#cal_ch_user_assignment_failed_info#:#The following users could not be assigned to appointments, since the maximum number of bookings is exceeded.###16 09 2013 new variable
 dateplaner#:#cal_booking_failed_info#:#This appointment is booked out. Please choose another appointment.###16 09 2013 new variable
 registration#:#registration_codes_override_info#:#This setting overrides any values defined in "Registration Settings".###16 09 2013 new variable
@@ -12771,7 +12328,6 @@ exc#:#exc_feedback_notification_subject#:#Feedback is available for assignment o
 exc#:#exc_feedback_notification_salutation#:#Hello %s,###16 09 2013 new variable
 exc#:#exc_feedback_notification_body#:#Feedback is now available for the following assignment.###16 09 2013 new variable
 exc#:#exc_feedback_notification_link#:#Link to exercise###16 09 2013 new variable
-mail#:#system_notification_installation_signature#:#This email has been sent automatically by the ILIAS installation###16 09 2013 new variable
 mail#:#system_notification_installation_changed_by#:#Changed By###16 09 2013 new variable
 exc#:#exc_feedback_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.###16 09 2013 new variable
 exc#:#exc_team_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.###16 09 2013 new variable
@@ -14075,7 +13631,6 @@ sess#:#sess_reg_max_members_short#:#Number of Members###26 09 2014 new variable
 sess#:#sess_reg_max_members#:#Limited Number of Members###26 09 2014 new variable
 sess#:#sess_reg_max_members_info#:#Define the maximum number of users that can participate to this session.###26 09 2014 new variable
 sess#:#sess_reg_waiting_list#:#Waiting List###26 09 2014 new variable
-sess#:#sess_reg_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###26 09 2014 new variable
 wiki#:#wiki_page_exists#:#Existing Page###26 09 2014 new variable
 sess#:#sess_section_reg#:#Registration Settings###26 09 2014 new variable
 assessment#:#save_and_next#:#Save and Continue###26 09 2014 new variable
@@ -14123,7 +13678,6 @@ crs#:#crs_objective_status_materials#:#Create New Course Materials###26 09 2014 
 crs#:#crs_objective_status_itest#:#Configure Initial Test###26 09 2014 new variable
 crs#:#crs_objective_status_qtest#:#Configure Qualifying Test###26 09 2014 new variable
 crs#:#crs_objective_status_objectives#:#Configure Learning Objectives###26 09 2014 new variable
-crs#:#crs_objective_status_start#:#Define Start Objects###26 09 2014 new variable
 crs#:#crs_objective_status_fullfilled#:#OK###26 09 2014 new variable
 crs#:#crs_objective_action_materials#:#Material Assignment###26 09 2014 new variable
 crs#:#crs_objective_action_qtest#:#Question Assignment Qualifying###26 09 2014 new variable
@@ -14131,8 +13685,6 @@ crs#:#crs_objective_action_itest#:#Question Assignemnt Initial Test###26 09 2014
 crs#:#crs_loc_qt_visibility#:#Visibility of Qualifying Test###26 09 2014 new variable
 crs#:#crs_loc_qt_visibility_all#:#Show Qualifying Test about all Objectives###26 09 2014 new variable
 crs#:#crs_loc_qt_visibility_lo#:#Show Qualifying Test for each Objective###26 09 2014 new variable
-crs#:#crs_loc_limited_passes#:#Limited Test Passes###26 09 2014 new variable
-crs#:#crs_loc_passes#:#Number of Passes###26 09 2014 new variable
 crs#:#crs_loc_passes_info#:#Maximum Number of test passes###26 09 2014 new variable
 crs#:#crs_loc_err_stat_no_materials#:#No Course Materials available###26 09 2014 new variable
 crs#:#crs_loc_err_stat_no_qt#:#No Qualifying Test available###26 09 2014 new variable
@@ -14147,8 +13699,6 @@ crs#:#crs_loc_settings_tbl#:#Settings for the Learning Objective Oriented Course
 crs#:#crs_loc_settings_type#:#Course Type###26 09 2014 new variable
 crs#:#crs_loc_type_initial_all#:#Kurs startet mit Einstiegstest zu allen Lernzielen###26 09 2014 new variable
 crs#:#crs_loc_type_initial_sel#:#Kurs startet mit Einstiegstest zu ausgewähltem Lernziel###26 09 2014 new variable
-crs#:#crs_loc_type_qualified#:#Kurs startet mit qualifizierendem Test###26 09 2014 new variable
-crs#:#crs_loc_type_practise#:#Kurs startet mit Lern- und Übungsteil###26 09 2014 new variable
 crs#:#crs_loc_tab_materials#:#Materials###26 09 2014 new variable
 crs#:#crs_loc_tab_itest#:#Initial Test###26 09 2014 new variable
 crs#:#crs_loc_tab_qtest#:#Qualifying Test###26 09 2014 new variable
@@ -14376,7 +13926,6 @@ administration#:#language_merge_local_changes_info#:#Merge all local changes and
 administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s_lang.local and change the language status from "Installed With Local" to "Installed". The changes in the database are not touched.###07 11 2014 new variable
 crs#:#crs_loc_type_initial_all_info#:#todo###07 11 2014 new variable
 crs#:#crs_loc_type_qualified_info#:#todo###07 11 2014 new variable
-crs#:#crs_loc_type_practise_info#:#todo###07 11 2014 new variable
 assessment#:#out_of_range#:#Out of range###27 01 2015 new variable
 assessment#:#use_ects_fx#:#Use the 'FX' grade###27 01 2015 new variable
 assessment#:#ects_fx_threshold#:#Threshold###27 01 2015 new variable
@@ -15056,8 +14605,6 @@ trac#:#trac_mode_collection_mobs#:#Collection of Media Objects###30 08 2015 new 
 trac#:#trac_mode_collection_mobs_info#:#The learning progress status will be determined by the viewing status of selected media objects.###30 08 2015 new variable
 trac#:#trac_lp_determination_info_mob#:#Select the items that determine the overall learning progress status of the Mediacast###30 08 2015 new variable
 trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Parent Objects###30 08 2015 new variable
-trac#:#trac_lp_settings_info_parent_usage#:#Determines Learning Progress###30 08 2015 new variable
-trac#:#trac_lp_settings_info_parent_group#:#Other objects in grouping###30 08 2015 new variable
 book#:#book_bobj#:#Booking Object###30 08 2015 new variable
 crs#:#crs_subscription_min_members#:#Minimum Number###30 08 2015 new variable
 crs#:#crs_subscription_min_members_info#:#See cron job "Cancellation Limit".###30 08 2015 new variable
@@ -15078,8 +14625,6 @@ grp#:#grp_wrong_min_max_members#:#Please check the minimum and maximum number of
 grp#:#reg_grp_min_members#:#Minimum Number of Members###30 08 2015 new variable
 grp#:#grp_cancellation_end#:#Cancellation Limit###30 08 2015 new variable
 grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###30 08 2015 new variable
-sess#:#sess_reg_min_members#:#Minimum of Users###30 08 2015 new variable
-sess#:#sess_reg_min_members_info#:#A minimum number of users has to register.###30 08 2015 new variable
 grp#:#grp_waiting_list_no_autofill#:#Without Auto-Fill###30 08 2015 new variable
 grp#:#grp_waiting_list_autofill#:#With Auto-Fill###30 08 2015 new variable
 grp#:#grp_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.###30 08 2015 new variable
@@ -15256,8 +14801,6 @@ ldap#:#add_ldap_server#:#Add Server###30 08 2015 new variable
 ldap#:#ldap_username_filter#:#Username Filter###30 08 2015 new variable
 ldap#:#ldap_username_filter_info#:#Use * as wildcard.###30 08 2015 new variable
 search#:#search_filter_cd#:#Filter by Creation Date###30 08 2015 new variable
-search#:#search_filter_date#:#Search by Date###30 08 2015 new variable
-search#:#search_filter_duration#:#Search by Duration###30 08 2015 new variable
 search#:#search_created_before#:#Objects created before...###30 08 2015 new variable
 search#:#search_created_after#:#Objects created after###30 08 2015 new variable
 search#:#search_created_on#:#Objects create on...###30 08 2015 new variable
@@ -15364,7 +14907,6 @@ prg#:#prg_view#:#View###30 08 2015 new variable
 prg#:#prg_update_from_current_plan#:#Update from current Plan###30 08 2015 new variable
 prg#:#prg_update_successful#:#Saved changes successfully!###30 08 2015 new variable
 prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!###30 08 2015 new variable
-prg#:#prg_warning_img_alt#:#Warning!###30 08 2015 new variable
 prg#:#prg_successful_img_alt#:#successful###30 08 2015 new variable
 prg#:#prg_in_progress_img_alt#:#in progress###30 08 2015 new variable
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.###30 08 2015 new variable
@@ -15548,13 +15090,10 @@ forum#:#restore#:#Restore###25 10 2016 new variable
 forum#:#restore_draft_from_autosave#:#Restore draft###25 10 2016 new variable
 forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>###25 10 2016 new variable
 forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>###25 10 2016 new variable
-forum#:#publishThreadDrafts#:#Publish Thread Draft###25 10 2016 new variable
-forum#:#deleteThreadDrafts#:#Delete Thread Draft###25 10 2016 new variable
 forum#:#edit_thread_draft#:#Edit thread draft###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'###25 10 2016 new variable
 common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.###25 10 2016 new variable
 pd#:#block_show_pdfrmpostdraft#:#Show 'My Posting Drafts'###25 10 2016 new variable
-forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.###25 10 2016 new variable
 forum#:#save_draft_successfully#:#The draft was saved successfully.###25 10 2016 new variable
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?###25 10 2016 new variable
@@ -15880,7 +15419,6 @@ common#:#objs_grpr#:#Group References###25 10 2016 new variable
 rbac#:#grpr_copy#:#User can copy group reference###25 10 2016 new variable
 rbac#:#grpr_delete#:#User can move or delete group reference###25 10 2016 new variable
 rbac#:#grpr_edit_permission#:#User can change permission settings###25 10 2016 new variable
-rbac#:#grpr_read#:#Read access to Group Reference###25 10 2016 new variable
 rbac#:#grpr_visible#:#Group reference is visible###25 10 2016 new variable
 rbac#:#grpr_write#:#User can edit settings of group reference###25 10 2016 new variable
 rbac#:#rbac_create_grpr#:#Create Group Reference###25 10 2016 new variable
@@ -16236,81 +15774,67 @@ awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the �
 exc#:#exc_tbl_filter_submission#:#Submission###25 10 2016 new variable
 exc#:#exc_tbl_filter_has_submission#:#Has submitted###25 10 2016 new variable
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet###25 10 2016 new variable
-mass#:#general#:#General Information###25 10 2016 new variable
-mass#:#mass_content#:#Assessment content description###25 10 2016 new variable
-mass#:#mass_record_template#:#Record template###25 10 2016 new variable
-mass#:#mass_graded_by#:#Graded by###25 10 2016 new variable
-mass#:#mass_usr_remove#:#Remove user from object###25 10 2016 new variable
-mass#:#mass_usr_edit#:#Edit user record and learning progress###25 10 2016 new variable
-mass#:#mass_usr_view#:#User record###25 10 2016 new variable
-mass#:#mass_edit_record#:#User record###25 10 2016 new variable
-mass#:#mass_record#:#Record note###25 10 2016 new variable
-mass#:#mass_internal_note#:#Internal record note (should not be seen by examinee)###25 10 2016 new variable
-mass#:#mass_status_completed#:#Completed###25 10 2016 new variable
-mass#:#mass_status_failed#:#Failed###25 10 2016 new variable
-mass#:#mass_status_pending#:#Status pending###25 10 2016 new variable
-mass#:#mass_notify#:#Notify user after finalization###25 10 2016 new variable
-mass#:#mass_finalize#:#Finalize###25 10 2016 new variable
-mass#:#il_mass_member#:#Individual Assessment examinee###25 10 2016 new variable
-mass#:#edit_members#:#Edit examinees###25 10 2016 new variable
-mass#:#mass_edit_members#:#Edit examinees###25 10 2016 new variable
-mass#:#mass_visible#:#Visible###25 10 2016 new variable
-mass#:#mass_read#:#Read###25 10 2016 new variable
-mass#:#mass_copy#:#Copy###25 10 2016 new variable
-mass#:#mass_write#:#Edit Settings###25 10 2016 new variable
-mass#:#mass_delete#:#Delete###25 10 2016 new variable
-mass#:#mass_read_learning_progress#:#View learning progress of other users###25 10 2016 new variable
-mass#:#mass_edit_permissions#:#Change Permissions###25 10 2016 new variable
-mass#:#mass_edit_learning_progress#:#Edit learning progress###25 10 2016 new variable
-mass#:#mass_may_not_finalize#:#Examinee may not be finalised.###25 10 2016 new variable
-mass#:#mass_subj_notification_completed#:#%s: Individual Assessment completed.###25 10 2016 new variable
-mass#:#mass_subj_notification_failed#:#%s: Individual Assessment failed.###25 10 2016 new variable
-trac#:#trac_mode_manual_assessment#:#Graded manually by tutor or trainer###25 10 2016 new variable
-common#:#obj_mass#:#Individual Assessment###25 10 2016 new variable
-common#:#objs_mass#:#Individual Assessments###25 10 2016 new variable
-common#:#obj_mass_duplicate#:#Copy Manual Assessment###25 10 2016 new variable
-common#:#obj_mass_select#:#-- Please select one manual assessment --###25 10 2016 new variable
-trac#:#trac_mode_manual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete manual assessment.###25 10 2016 new variable
-common#:#il_mass_member#:#Manual Assessment Examinee###25 10 2016 new variable
-common#:#mass_new#:#Create Manual Assessment###25 10 2016 new variable
-common#:#mass_import#:#Import Manual Assessment###25 10 2016 new variable
-rbac#:#mass_visible#:#Manual Assessment is visible###25 10 2016 new variable
-rbac#:#mass_read#:#Read content of a Manual Assessment###25 10 2016 new variable
-rbac#:#mass_read_learning_progress#:#View learning progress information of a Manual Assessment###25 10 2016 new variable
-rbac#:#mass_edit_learning_progress#:#Edit learning progress information of a Manual Assessment###25 10 2016 new variable
-rbac#:#mass_copy#:#Copy a Manual Assessment###25 10 2016 new variable
-rbac#:#mass_write#:#Edit a Manual Assessment###25 10 2016 new variable
-rbac#:#mass_delete#:#Delete a Manual Assessment###25 10 2016 new variable
-rbac#:#mass_edit_members#:#Edit members of a Manual Assessment###25 10 2016 new variable
-rbac#:#mass_edit_permission#:#Edit permissions of a Manual Assessment###25 10 2016 new variable
-mass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.###25 10 2016 new variable
-mass#:#mass_edit#:#Settings###25 10 2016 new variable
-mass#:#mass_add#:#Create Individual Assessment###25 10 2016 new variable
-mass#:#mass_membership_finalized#:#Record finalised###25 10 2016 new variable
-mass#:#mass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
-mass#:#mass_return#:#Back to overview###25 10 2016 new variable
-mass#:#mass_remove_user_qst#:#Should the examinee really be removed?###25 10 2016 new variable
-mass#:#mass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.###25 10 2016 new variable
-mass#:#mass_settings_saved#:#Settings saved.###25 10 2016 new variable
-mass#:#mass_add_user_failure#:#One or more user could not be added.###25 10 2016 new variable
-mass#:#mass_add_user_success#:#User added as examinee.###25 10 2016 new variable
-mass#:#grading#:#Grading###25 10 2016 new variable
-mass#:#grading_info#:#Grading info###25 10 2016 new variable
-mass#:#grading_record#:#Grading record###25 10 2016 new variable
-mass#:#mass_content_explanation#:#Contents of the assessment, e.g., relevant topics.###25 10 2016 new variable
-mass#:#mass_record_template_explanation#:#Template for examinee grading record. Will be used automatically for any new examinee.###25 10 2016 new variable
-mass#:#mass_notify_explanation#:#The examinee will be notified via email after finalisation and will get access to her or his record on the Info screen.###25 10 2016 new variable
-mass#:#mass_contact#:#Name###25 10 2016 new variable
-mass#:#mass_responsibility#:#Responsibility###25 10 2016 new variable
-mass#:#mass_phone#:#Phone###25 10 2016 new variable
-mass#:#mass_mails#:#Mails###25 10 2016 new variable
-mass#:#mass_info_emails_expl#:#You may provide several addresses separated by a coma.###25 10 2016 new variable
-mass#:#mass_consultation_hours#:#Consultation Hours###25 10 2016 new variable
-mass#:#mass_edit_info#:#Info Settings###25 10 2016 new variable
-mass#:#mass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:###25 10 2016 new variable
-mass#:#mass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:###25 10 2016 new variable
-mass#:#mass_contact_info#:#Contact information###25 10 2016 new variable
-mass#:#mass_added#:#Individual Assessment added###25 10 2016 new variable
+iass#:#general#:#General Information###25 10 2016 new variable
+iass#:#iass_content#:#Assessment content description###25 10 2016 new variable
+iass#:#iass_record_template#:#Record template###25 10 2016 new variable
+iass#:#iass_graded_by#:#Graded by###25 10 2016 new variable
+iass#:#iass_usr_remove#:#Remove user from object###25 10 2016 new variable
+iass#:#iass_usr_edit#:#Edit user record and learning progress###25 10 2016 new variable
+iass#:#iass_usr_view#:#User record###25 10 2016 new variable
+iass#:#iass_edit_record#:#User record###25 10 2016 new variable
+iass#:#iass_record#:#Record note###25 10 2016 new variable
+iass#:#iass_internal_note#:#Internal record note (should not be seen by examinee)###25 10 2016 new variable
+iass#:#iass_status_completed#:#Completed###25 10 2016 new variable
+iass#:#iass_status_failed#:#Failed###25 10 2016 new variable
+iass#:#iass_status_pending#:#Status pending###25 10 2016 new variable
+iass#:#iass_notify#:#Notify user after finalization###25 10 2016 new variable
+iass#:#iass_finalize#:#Finalize###25 10 2016 new variable
+iass#:#il_iass_member#:#Individual Assessment examinee###25 10 2016 new variable
+iass#:#iass_may_not_finalize#:#Examinee may not be finalised.###25 10 2016 new variable
+iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.###25 10 2016 new variable
+iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.###25 10 2016 new variable
+trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer###25 10 2016 new variable
+trac#:#trac_mode_individual_assessment_info#:#The record of a user has to be finalized by the tutor in order to complete individual assessment.###25 10 2016 new variable
+common#:#il_iass_member#:#Individual Assessment Examinee###25 10 2016 new variable
+common#:#iass_new#:#Create Individual Assessment###25 10 2016 new variable
+common#:#iass_import#:#Import Individual Assessment###25 10 2016 new variable
+rbac#:#iass_visible#:#Individual Assessment is visible###25 10 2016 new variable
+rbac#:#iass_read#:#Read content of a Individual Assessment###25 10 2016 new variable
+rbac#:#iass_read_learning_progress#:#View learning progress information of a Individual Assessment###25 10 2016 new variable
+rbac#:#iass_edit_learning_progress#:#Edit learning progress information of a Individual Assessment###25 10 2016 new variable
+rbac#:#iass_copy#:#Copy a Individual Assessment###25 10 2016 new variable
+rbac#:#iass_write#:#Edit a Individual Assessment###25 10 2016 new variable
+rbac#:#iass_delete#:#Delete a Individual Assessment###25 10 2016 new variable
+rbac#:#iass_edit_members#:#Edit members of a Individual Assessment###25 10 2016 new variable
+rbac#:#iass_edit_permission#:#Edit permissions of a Individual Assessment###25 10 2016 new variable
+iass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.###25 10 2016 new variable
+iass#:#iass_edit#:#Settings###25 10 2016 new variable
+iass#:#iass_add#:#Create Individual Assessment###25 10 2016 new variable
+iass#:#iass_membership_finalized#:#Record finalised###25 10 2016 new variable
+iass#:#iass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
+iass#:#iass_return#:#Back to overview###25 10 2016 new variable
+iass#:#iass_remove_user_qst#:#Should the examinee really be removed?###25 10 2016 new variable
+iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.###25 10 2016 new variable
+iass#:#iass_settings_saved#:#Settings saved.###25 10 2016 new variable
+iass#:#iass_add_user_failure#:#One or more user could not be added.###25 10 2016 new variable
+iass#:#iass_add_user_success#:#User added as examinee.###25 10 2016 new variable
+iass#:#grading#:#Grading###25 10 2016 new variable
+iass#:#grading_info#:#Grading info###25 10 2016 new variable
+iass#:#grading_record#:#Grading record###25 10 2016 new variable
+iass#:#iass_content_explanation#:#Contents of the assessment, e.g., relevant topics.###25 10 2016 new variable
+iass#:#iass_record_template_explanation#:#Template for examinee grading record. Will be used automatically for any new examinee.###25 10 2016 new variable
+iass#:#iass_notify_explanation#:#The examinee will be notified via email after finalisation and will get access to her or his record on the Info screen.###25 10 2016 new variable
+iass#:#iass_contact#:#Name###25 10 2016 new variable
+iass#:#iass_responsibility#:#Responsibility###25 10 2016 new variable
+iass#:#iass_phone#:#Phone###25 10 2016 new variable
+iass#:#iass_mails#:#Mails###25 10 2016 new variable
+iass#:#iass_info_emails_expl#:#You may provide several addresses separated by a coma.###25 10 2016 new variable
+iass#:#iass_consultation_hours#:#Consultation Hours###25 10 2016 new variable
+iass#:#iass_edit_info#:#Info Settings###25 10 2016 new variable
+iass#:#iass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:###25 10 2016 new variable
+iass#:#iass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:###25 10 2016 new variable
+iass#:#iass_contact_info#:#Contact information###25 10 2016 new variable
+iass#:#iass_added#:#Individual Assessment added###25 10 2016 new variable
 registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:###25 10 2016 new variable
 chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.###25 10 2016 new variable
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).###25 10 2016 new variable
@@ -16355,3 +15879,38 @@ copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elem
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.###25 10 2016 new variable
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.###25 10 2016 new variable
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.###25 10 2016 new variable
+grp#:#grp_members_deleted#:#Deleted members###07 02 2017 new variable
+cron#:#cro_job_rc_job_no_result#:#NO RESULT###deprecated 
+cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY###07 02 2017 new variable
+cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED###07 02 2017 new variable
+prg#:#warning#:#Warning!###07 02 2017 new variable
+iass#:#il_iass_members#:#Participants###07 02 2017 new variable
+common#:#obj_iass#:#Individual Assessment###07 02 2017 new variable
+common#:#objs_iass#:#Individual Assessments###07 02 2017 new variable
+common#:#obj_iass_duplicate#:#Copy Individual Assessment###07 02 2017 new variable
+common#:#obj_iass_select#:#-- Please select one individual assessment --###07 02 2017 new variable
+iass#:#iass_record_info#:#Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too.###07 02 2017 new variable
+iass#:#iass_internal_note_info#:#Internal notes are only visible for tutors but not for examinees.###07 02 2017 new variable
+common#:#sahs_export_file#:#ILIAS exported SCORM archive file###07 02 2017 new variable
+content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.###07 02 2017 new variable
+survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>###07 02 2017 new variable
+content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.###07 02 2017 new variable
+grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration###07 02 2017 new variable
+auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###07 02 2017 new variable
+lng#:#lng_download_deprecated#:#Download Deprecated List###07 02 2017 new variable
+rbac#:#edit_members#:#Manage members###07 02 2017 new variable
+rbac#:#prg_manage_members#:#Manage members of Study Programme###07 02 2017 new variable
+rbac#:#rbac_create_iass#:#Create Individual Assessment###07 02 2017 new variable
+survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###07 02 2017 new variable
+wsp#:#share_content#:#Share Object###07 02 2017 new variable
+wsp#:#share_with#:#Username###07 02 2017 new variable
+wsp#:#element_already_shared#:#This object is already shared with this user.###07 02 2017 new variable
+wsp#:#search_no_match#:#Your search did not match any results.###07 02 2017 new variable
+wsp#:#element_shared#:#Object shared.###07 02 2017 new variable
+wsp#:#share#:#Share###07 02 2017 new variable
+copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###07 02 2017 new variable
+auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.###07 02 2017 new variable
+crs#:#crs_edit_lo_introduction#:#Edit Introduction###07 02 2017 new variable
+rbac#:#grp_manage_members#:#Manage Members of Group###07 02 2017 new variable
+rbac#:#crs_manage_members#:#Manage Members of Course###07 02 2017 new variable
+survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.###07 02 2017 new variable

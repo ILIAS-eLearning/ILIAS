@@ -332,26 +332,6 @@ class ilCourseXMLWriter extends ilXmlWriter
 		}
 		$this->xmlEndTag('Registration');
 
-		// Archives
-		$attr = array();
-		if($this->course_obj->getViewMode() != IL_CRS_VIEW_ARCHIVE)
-		{
-			$attr['Access'] = 'Disabled';
-		}
-		elseif($this->course_obj->getViewMode() == IL_CRS_VIEW_ARCHIVE)
-		{
-			$attr['Access'] = 'Read';
-		}
-		if($this->course_obj->getArchiveType() == IL_CRS_ARCHIVE_DOWNLOAD)
-		{
-			$attr['Access'] = 'Download';
-		}
-		$this->xmlStartTag('Archive',$attr);
-
-		$this->xmlElement('Start',null,$this->course_obj->getArchiveStart());
-		$this->xmlElement('End',null,$this->course_obj->getArchiveEnd());
-
-		$this->xmlEndTag('Archive');
 		
 		$this->xmlStartTag('Period');
 		$this->xmlElement('Start',null,($this->course_obj->getCourseStart() && !$this->course_obj->getCourseStart()->isNull()) ? $this->course_obj->getCourseStart()->get(IL_CAL_UNIX) : null);

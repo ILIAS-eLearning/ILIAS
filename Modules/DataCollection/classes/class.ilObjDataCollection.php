@@ -1,10 +1,7 @@
 <?php
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('./Services/Object/classes/class.ilObject2.php');
-require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
-require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
-require_once('./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.php');
+
 
 /**
  * Class ilObjDataCollection
@@ -55,6 +52,7 @@ class ilObjDataCollection extends ilObject2 {
 			$main_table->setDeletePerm(1);
 			$main_table->setEditByOwner(1);
 			$main_table->setLimited(0);
+			$main_table->setIsVisible(true);
 			$main_table->doCreate();
 		}
 
@@ -83,7 +81,7 @@ class ilObjDataCollection extends ilObject2 {
 		$ilDB = $DIC['ilDB'];
 
 		foreach ($this->getTables() as $table) {
-			$table->doDelete();
+			$table->doDelete(false, true);
 		}
 
 		$query = "DELETE FROM il_dcl_data WHERE id = " . $ilDB->quote($this->getId(), "integer");
@@ -132,8 +130,7 @@ class ilObjDataCollection extends ilObject2 {
 		$obj_dcl = $obj_table->getCollectionObject();
 
 		// recipients
-		require_once('./Services/Notification/classes/class.ilNotification.php');
-		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), true);
+				$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), true);
 		if (! sizeof($users)) {
 			return;
 		}
@@ -141,19 +138,13 @@ class ilObjDataCollection extends ilObject2 {
 		ilNotification::updateNotificationTime(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), $users);
 
 		//FIXME  $_GET['ref_id]
-		require_once('./Services/Link/classes/class.ilLink.php');
-		$link = ilLink::_getLink($_GET['ref_id']);
+				$link = ilLink::_getLink($_GET['ref_id']);
 
 		// prepare mail content
 		// use language of recipient to compose message
-		require_once('./Services/Language/classes/class.ilLanguageFactory.php');
 
 		// send mails
-		require_once('./Services/Mail/classes/class.ilMail.php');
-		require_once('./Services/User/classes/class.ilObjUser.php');
-		require_once('./Services/Language/classes/class.ilLanguageFactory.php');
-		require_once('./Services/User/classes/class.ilUserUtil.php');
-		foreach (array_unique($users) as $idx => $user_id) {
+										foreach (array_unique($users) as $idx => $user_id) {
 			// the user responsible for the action should not be notified
 			// FIXME  $_GET['ref_id]
 			if ($user_id != $ilUser->getId() && $ilAccess->checkAccessOfUser($user_id, 'read', '', $_GET['ref_id'])) {
@@ -176,12 +167,25 @@ class ilObjDataCollection extends ilObject2 {
 					}
 					//					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id.":\n";
 					$t = "";
-					foreach ($record->getTable()->getFields() as $field) {
-						if ($record->getRecordField($field->getId())) {
-							$t .= $field->getTitle() . ": " . $record->getRecordField($field->getId())->getPlainText() . "\n";
+					if ($tableview_id = $record->getTable()->getFirstTableViewId($_GET['ref_id'], $user_id)) {
+						$visible_fields = ilDclTableView::find($tableview_id)->getVisibleFields();
+						if (empty($visible_fields)) {
+							continue;
+						}
+						/** @var ilDclBaseFieldModel $field */
+						foreach ($visible_fields as $field) {
+							if ($field->isStandardField()) {
+								$value = $record->getStandardFieldHTML($field->getId());
+							} elseif ($record_field = $record->getRecordField($field->getId())) {
+								$value = $record_field->getPlainText();
+							}
+
+							if ($value) {
+								$t .= $field->getTitle() . ": " . $value . "\n";
+							}
 						}
 					}
-					$message .= $t . "\n";
+					$message .= $t;
 				}
 				$message .= "------------------------------------\n";
 				$message .= $ulng->txt('dcl_changed_by') . ": " . $ilUser->getFullname() . " " . ilUserUtil::getNamePresentation($ilUser->getId())
@@ -256,7 +260,7 @@ class ilObjDataCollection extends ilObject2 {
 	 *
 	 * @return ilObjPoll
 	 */
-	public function doCloneObject($new_obj, $a_target_id, $a_copy_id = NULL) {
+	public function doCloneObject($new_obj, $a_target_id, $a_copy_id = NULL, $a_omit_tree = false) {
 
 		//copy online status if object is not the root copy object
 		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -327,31 +331,11 @@ class ilObjDataCollection extends ilObject2 {
 			$new_table->cloneStructure($table);
 		}
 
-		// Set new field-ID of referenced fields
-		foreach ($original->getTables() as $origTable) {
-			foreach ($origTable->getCustomFields() as $origField) {
-				if ($origField->getDatatypeId() == ilDclDatatype::INPUTFORMAT_REFERENCE) {
-					$origFieldRefObj = $origField->getFieldRef();
-					$origRefTable = ilDclCache::getTableCache($origFieldRefObj->getTableId());
-					// Lookup the new ID of the referenced field in the actual DC
-					$newRefTableId = ilDclTable::_getTableIdByTitle($origRefTable->getTitle(), $this->getId());
-					$newRefFieldId = ilDclBaseFieldModel::_getFieldIdByTitle($origFieldRefObj->getTitle(), $newRefTableId);
-					// Set the new refID in the actual DC
-					$newTableId = ilDclTable::_getTableIdByTitle($origTable->getTitle(), $this->getId());
-					$newFieldId = ilDclBaseFieldModel::_getFieldIdByTitle($origField->getTitle(), $newTableId);
-					$newField = ilDclCache::getFieldCache($newFieldId);
-					$newField->setProperty(ilDclBaseFieldModel::PROP_REFERENCE, $newRefFieldId);
-					$newField->updateProperties();
-
-					// get the reference-values by the values we set previously set
-					foreach (ilDclCache::getTableCache($newTableId)->getRecords() as $record) {
-						/** @var ilDclReferenceRecordFieldModel $record_field */
-						$record_field = ilDclCache::getRecordFieldCache($record, $newField);
-						$record_field->setValue($record_field->getReferenceFromValue($record_field->getValue()));
-						$record_field->doUpdate();
-					}
-				}
-			}
+		// mandatory for all cloning functions
+		ilDclCache::setCloneOf($original_id, $this->getId(), ilDclCache::TYPE_DATACOLLECTION);
+		
+		foreach ($this->getTables() as $table) {
+			$table->afterClone();
 		}
 	}
 

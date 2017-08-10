@@ -43,6 +43,21 @@
 		</DataSource>
 		<DataSource type="JDBC" action="append">
 			<Query>
+				SELECT second_email FROM usr_data u
+				JOIN usr_pref p ON u.usr_id = p.usr_id
+				JOIN usr_pref q ON u.usr_id = q.usr_id
+				WHERE u.usr_id IN (?) AND
+				p.keyword = 'public_second_email' AND
+				p.value = 'y' AND
+				q.keyword = 'public_profile' AND
+				(q.value = 'y' OR q.value = 'g')
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="second_email" type="text" name="uSecondEmail" />
+			<Field store="YES" index="ANALYZED" column="second_email" type="text" name="uPropertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
 				SELECT institution FROM usr_data u 
 				JOIN usr_pref p ON u.usr_id = p.usr_id
 				JOIN usr_pref q ON u.usr_id = q.usr_id
@@ -133,21 +148,6 @@
 		</DataSource>
 		<DataSource type="JDBC" action="append">
 			<Query>
-				SELECT email FROM usr_data u 
-				JOIN usr_pref p ON u.usr_id = p.usr_id
-				JOIN usr_pref q ON u.usr_id = q.usr_id
-				WHERE u.usr_id IN (?) AND
-				p.keyword = 'public_email' AND
-				p.value = 'y'  AND
-				q.keyword = 'public_profile' AND
-				(q.value = 'y' OR q.value = 'g')
-			</Query>
-			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="email" type="text" name="uEmail" />
-			<Field store="YES" index="ANALYZED" column="email" type="text" name="uPropertyHigh" />
-		</DataSource>
-		<DataSource type="JDBC" action="append">
-			<Query>
 				SELECT hobby FROM usr_data u 
 				JOIN usr_pref p ON u.usr_id = p.usr_id
 				JOIN usr_pref q ON u.usr_id = q.usr_id
@@ -224,6 +224,17 @@
 			<Field store="YES" index="ANALYZED" column="value" type="text" name="uInterestsHelpOffered" />
 			<Field store="YES" index="ANALYZED" column="value" type="text" name="uPropertyHigh" />
 		</DataSource>
+                <DataSource type="JDBC" action="append">
+                    <Query>
+                        SELECT object_reference.ref_id FROM rbac_ua 
+                        JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id 
+                        JOIN object_reference ON rbac_fa.parent = object_reference.ref_id 
+                        JOIN object_data ON object_data.obj_id = object_reference.obj_id 
+                        WHERE rbac_ua.usr_id = ? AND object_data.type = 'orgu'
+                    </Query>
+                    <Param format="list" type="int" value="objId" />
+                    <Field store="YES" index="ANALYZED" column="ref_id" type="integer" name="orgUnit" />
+                </DataSource>
 	</Document>
 	<Document type="subItem">
 		<xi:include href="../../Services/Mail/LuceneDataSource.xml" />

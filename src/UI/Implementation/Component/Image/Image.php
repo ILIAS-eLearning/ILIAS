@@ -30,6 +30,11 @@ class Image implements C\Image\Image {
 	private  $alt;
 
 	/**
+	 * @var string
+	 */
+	protected $url = '';
+
+	/**
 	 * @var []
 	 */
 	private static $types = [
@@ -93,5 +98,23 @@ class Image implements C\Image\Image {
 	public function getAlt() {
 		return $this->alt;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withAction($url) {
+		$this->checkStringArg("url", $url);
+
+		$clone = clone $this;
+		$clone->url = $url;
+
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAction() {
+		return $this->url;
+	}
 }
-?>

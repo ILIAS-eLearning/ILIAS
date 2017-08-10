@@ -79,13 +79,13 @@ il.Util = {
 	 	}
 		if(do_check)
 		{
-			$("#" + parent_el).find("input:checkbox" + name_sel).attr('checked', 'checked');
-			$('[name="' + parent_el + '"]').find("input:checkbox" + name_sel).attr('checked', 'checked');
+			$("#" + parent_el).find("input:checkbox" + name_sel).prop('checked', true);
+			$('[name="' + parent_el + '"]').find("input:checkbox" + name_sel).prop('checked', true);
 		}
 		else
 		{
-			$("#" + parent_el).find("input:checkbox" + name_sel).removeAttr('checked');
-			$('[name="' + parent_el + '"]').find("input:checkbox" + name_sel).removeAttr('checked');
+			$("#" + parent_el).find("input:checkbox" + name_sel).prop('checked', false);
+			$('[name="' + parent_el + '"]').find("input:checkbox" + name_sel).prop('checked', false);
 		}
 	  return true;
 	},
@@ -503,8 +503,14 @@ il.UICore = {
 		if (el && bc) {
 			el_reg = il.Util.getRegion(el);
 			bc_reg = il.Util.getRegion(bc);
-			il.Util.setX(bc, el_reg.right);
+			if ($(el).is(':visible')) {
+				il.Util.setX(bc, el_reg.right);
+			} else if (sm) {
+				sm_reg = il.Util.getRegion(sm);
+				il.Util.setX(bc, sm_reg.left);		// #0019851
+			}
 		}
+
 		if (bc && sm) {
 			sm_reg = il.Util.getRegion(sm);
 			bc_reg = il.Util.getRegion(bc);

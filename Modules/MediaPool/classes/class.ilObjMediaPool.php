@@ -580,9 +580,9 @@ class ilObjMediaPool extends ilObject
 	 * @param int target ref_id
 	 * @param int copy id
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 	 	
 		$new_obj->setTitle($this->getTitle());
 		$new_obj->setDescription($this->getDescription());
@@ -631,6 +631,7 @@ class ilObjMediaPool extends ilObject
 					$item->create();
 					$page = new ilMediaPoolPage($node["child"]);
 					$new_page = new ilMediaPoolPage();
+					$new_page->setParentId($a_new_obj->getId());
 					$new_page->setId($item->getId());
 					$new_page->create();
 					

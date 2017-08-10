@@ -472,17 +472,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			));
 		}
 		
-		// archive
-		if($this->object->getViewMode() == IL_CRS_VIEW_ARCHIVE)
-		{		
-			if($this->object->getArchiveType() != IL_CRS_ARCHIVE_NONE)
-			{
-				$info->addProperty($this->lng->txt("crs_archive"),
-					ilDatePresentation::formatPeriod(
-						new ilDateTime($this->object->getArchiveStart(),IL_CAL_UNIX),
-						new ilDateTime($this->object->getArchiveStart(),IL_CAL_UNIX)));
-			}
-		}
 		// Confirmation
 		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$privacy = ilPrivacySettings::_getInstance();
@@ -810,56 +799,69 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 
-	function updateObject()
+	
+	/**
+	 * Update course settings
+	 * @global type $ilUser
+	 * @return boolean
+	 */
+	public function updateObject()
 	{
 		$form = $this->initEditForm();
-		$form->checkInput();
-		
-		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST['desc']));		
-					
-		/*
-		$archive_start = $this->loadDate('archive_start');
-		$archive_end = $this->loadDate('archive_end');				 
-		*/
-		$period = $form->getItemByPostVar("access_period");										
-		$sub_period = $form->getItemByPostVar("subscription_period");	
-		
-		// $act_type->setChecked($this->object->getActivationType() == IL_CRS_ACTIVATION_LIMITED);
-		
-		if($period->getStart() || $period->getEnd())
+
+		if(!$form->checkInput())
 		{
-			// if start or end is missing validation will fail, setting values for reload
+			$form->setValuesByPost();
+			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('err_check_input'));
+			return $this->editObject($form);
+		}
+
+		// check successful
+
+		// title/desc
+		$this->object->setTitle($form->getInput('title'));
+		$this->object->setDescription($form->getInput('desc'));
+
+		// period
+		$crs_period = $form->getItemByPostVar("period");
+		$this->object->setCourseStart($crs_period->getStart());
+		$this->object->setCourseEnd($crs_period->getEnd());
+
+		// activation/online
+		$this->object->setOfflineStatus((bool) !$form->getInput('activation_online'));
+
+		// activation period
+		$period = $form->getItemByPostVar("access_period");
+		if($period->getStart() && $period->getEnd())
+		{
 			$this->object->setActivationType(IL_CRS_ACTIVATION_LIMITED);
-			$this->object->setActivationStart($period->getStart() ? $period->getStart()->get(IL_CAL_UNIX) : null);
-			$this->object->setActivationEnd($period->getEnd() ? $period->getEnd()->get(IL_CAL_UNIX) : null);			
-			$this->object->setActivationVisibility((int)$_POST['activation_visibility']);		
+			$this->object->setActivationStart($period->getStart()->get(IL_CAL_UNIX));
+			$this->object->setActivationEnd($period->getEnd()->get(IL_CAL_UNIX));
+			$this->object->setActivationVisibility((int) $form->getInput('activation_visibility'));
 		}
 		else
 		{
 			$this->object->setActivationType(IL_CRS_ACTIVATION_UNLIMITED);
 			$this->object->setActivationStart(null);
 			$this->object->setActivationEnd(null);			
-			// $this->object->setActivationVisibility(false);		
-		}		
-		
-		$this->object->setOfflineStatus(!(bool)$_POST['activation_online']);		
-				
-		$this->object->setSubscriptionPassword(ilUtil::stripSlashes($_POST['subscription_password']));		
+		}
+			
+		// subscription settings
+		$this->object->setSubscriptionPassword($form->getInput('subscription_password'));
 		$this->object->setSubscriptionStart(null);
-		$this->object->setSubscriptionEnd(null);		
+		$this->object->setSubscriptionEnd(null);
+			
+		$sub_type = $form->getInput('subscription_type');
+		$sub_period = $form->getItemByPostVar('subscription_period');
 		
-		$sub_type = (int)$_POST['subscription_type'];
+		$this->object->setSubscriptionType($sub_type);
 		if($sub_type != IL_CRS_SUBSCRIPTION_DEACTIVATED)
-		{		
-			$this->object->setSubscriptionType($sub_type);
-						
-			if($sub_period->getStart() &&
-				$sub_period->getEnd())
+		{
+			if($sub_period->getStart() && $sub_period->getEnd())
 			{
 				$this->object->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_LIMITED);
 				$this->object->setSubscriptionStart($sub_period->getStart()->get(IL_CAL_UNIX));
-				$this->object->setSubscriptionEnd($sub_period->getEnd()->get(IL_CAL_UNIX));		
+				$this->object->setSubscriptionEnd($sub_period->getEnd()->get(IL_CAL_UNIX));
 			}
 			else
 			{
@@ -868,22 +870,23 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		else
 		{
-			$this->object->setSubscriptionType(IL_CRS_SUBSCRIPTION_DIRECT);  // see ilObjCourse::__createDefaultSettings()
+			$this->object->setSubscriptionType(IL_CRS_SUBSCRIPTION_DIRECT);
 			$this->object->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
-		}		
+		}
 		
-		$this->object->enableRegistrationAccessCode((int) $_POST['reg_code_enabled']);
-		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
+		// registration code
+		$this->object->enableRegistrationAccessCode((int) $form->getInput('reg_code_enabled'));
+		$this->object->setRegistrationAccessCode($form->getInput('reg_code'));
 		
-		$this->object->setCancellationEnd($form->getItemByPostVar("cancel_end")->getDate());		
-				
-		$this->object->enableSubscriptionMembershipLimitation((int) $_POST['subscription_membership_limitation']);		
-		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);		
-		$this->object->setSubscriptionMinMembers((int)$_POST['subscription_min']);
+		// cancellation end
+		$this->object->setCancellationEnd($form->getItemByPostVar("cancel_end")->getDate());	
 		
+		// waiting list
+		$this->object->enableSubscriptionMembershipLimitation((int) $form->getInput('subscription_membership_limitation'));
+		$this->object->setSubscriptionMaxMembers((int) $form->getInput('subscription_max'));		
+		$this->object->setSubscriptionMinMembers((int) $form->getInput('subscription_min'));
 		$old_autofill = $this->object->hasWaitingListAutoFill();
-		
-		switch((int) $_POST['waiting_list'])
+		switch((int) $form->getInput('waiting_list'))
 		{
 			case 2:
 				$this->object->enableWaitingList(true);
@@ -900,15 +903,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->object->setWaitingListAutoFill(false);
 				break;
 		}
-				
-		#$this->object->setSubscriptionNotify((int) $_POST['subscription_notification']);
-					
-		$crs_period = $form->getItemByPostVar("period");				
-		$this->object->setCourseStart($crs_period->getStart());
-		$this->object->setCourseEnd($crs_period->getEnd());		
 		
-		$this->object->setViewMode((int) $_POST['view_mode']);
-
+		// view mode settings
+		$this->object->setViewMode((int) $form->getInput('view_mode'));
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
 		{
 			$this->object->setOrderType(ilContainer::SORT_ACTIVATION);
@@ -919,94 +916,81 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		$this->saveSortingSettings($form);
 		
-		/*
-		$this->object->setArchiveStart($archive_start->get(IL_CAL_UNIX));
-		$this->object->setArchiveEnd($archive_end->get(IL_CAL_UNIX));		
-		$this->object->setArchiveType($_POST['archive_type']);
-		 */
-		$this->object->setAboStatus((int) $_POST['abo']);
-		$this->object->setShowMembers((int) $_POST['show_members']);
-		$this->object->setMailToMembersType((int) $_POST['mail_type']);
+		$this->object->setAboStatus((int) $form->getInput('abo'));
+		$this->object->setShowMembers((int) $form->getInput('show_members'));
+		$this->object->setMailToMembersType((int) $form->getInput('mail_type'));
 		
-		$this->object->enableSessionLimit((int) $_POST['sl']);
-		$this->object->setNumberOfPreviousSessions(is_numeric($_POST['sp']) ? (int) $_POST['sp'] : -1 );
-		$this->object->setNumberOfnextSessions(is_numeric($_POST['sn']) ? (int) $_POST['sn'] : -1 );
+		$this->object->enableSessionLimit((int) $form->getInput('sl'));
+		
+		$session_sp = $form->getInput('sp');
+		$this->object->setNumberOfPreviousSessions(is_numeric($session_sp) ? (int) $session_sp : -1 );
+		$session_sn = $form->getInput('sn');
+		$this->object->setNumberOfnextSessions(is_numeric($session_sn) ? (int) $session_sn : -1 );
+		$this->object->setAutoNotification($form->getInput('auto_notification') == 1 ? true : false);
 
-		$this->object->setAutoNotification($_POST['auto_notification'] == 1 ? true : false);
-		
-		
+		// lp sync
 		$show_lp_sync_confirmation = false;
 		
 		// could be hidden in form
 		if(isset($_POST['status_dt']))
 		{
-			if($this->object->getStatusDetermination() != ilObjCourse::STATUS_DETERMINATION_LP &&
-				(int)$_POST['status_dt'] == ilObjCourse::STATUS_DETERMINATION_LP)
+			if(
+				$this->object->getStatusDetermination() != ilObjCourse::STATUS_DETERMINATION_LP &&
+				(int)$_POST['status_dt'] == ilObjCourse::STATUS_DETERMINATION_LP
+			)
 			{
 				$show_lp_sync_confirmation = true;
 			}
 			else
 			{
-				$this->object->setStatusDetermination((int)$_POST['status_dt']);		
+				$this->object->setStatusDetermination((int) $form->getInput('status_dt'));
 			}
-		}	
+		}
+		
+		if(!$old_autofill && $this->object->hasWaitingListAutoFill())
+		{
+			$this->object->handleAutoFill();
+		}
+		$this->object->update();
+		
+		
+		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+		ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+			$this->object->getId(),
+			$form,
+			array(
+				ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+				ilObjectServiceSettingsGUI::USE_NEWS,
+				ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,				
+				ilObjectServiceSettingsGUI::TAG_CLOUD,
+				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+				ilObjectServiceSettingsGUI::BADGES,
+				ilObjectServiceSettingsGUI::LTI_RELEASE
+			)
+		);
+		
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		global $ilUser;
+		ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+		ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());			
 
-		if($this->object->validate())
+		// lp sync confirmation required
+		if($show_lp_sync_confirmation)
 		{
-			$this->object->update();
-			
-			// if autofill has been activated trigger process
-			if(!$old_autofill &&
-				$this->object->hasWaitingListAutoFill())
-			{
-				$this->object->handleAutoFill();
-			}
-			
-			// BEGIN ChangeEvent: Record write event
-			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			global $ilUser;
-			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
-			ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());			
-			// END ChangeEvent: Record write event
-			
-			
-			include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
-			ilObjectServiceSettingsGUI::updateServiceSettingsForm(
-				$this->object->getId(),
-				$form,
-				array(
-					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
-					ilObjectServiceSettingsGUI::USE_NEWS,
-					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,				
-					ilObjectServiceSettingsGUI::TAG_CLOUD,
-					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-					ilObjectServiceSettingsGUI::BADGES,
-					ilObjectServiceSettingsGUI::LTI_RELEASE
-				)
-			);
-			
-			// Update ecs export settings
-			include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';	
-			$ecs = new ilECSCourseSettings($this->object);			
-			if(!$ecs->handleSettingsUpdate())
-			{
-				$this->editObject();
-				return false;
-			}			
-			
-			if($show_lp_sync_confirmation)
-			{
-				return $this->confirmLPSync();
-			}
-			
-			return $this->afterUpdate();
+			return $this->confirmLPSync();
 		}
-		else
+		
+		// Update ecs export settings
+		include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';	
+		$ecs = new ilECSCourseSettings($this->object);			
+		if(!$ecs->handleSettingsUpdate())
 		{
-			ilUtil::sendFailure($this->object->getMessage());
-			$this->editObject();
-			return false;
-		}
+			$form->setValuesByPost();
+			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('err_check_input'));
+			return $this->editObject($form);
+		}			
+
+		return $this->afterUpdate();
 	}
 	
 	protected function confirmLPSync()
@@ -1040,12 +1024,20 @@ class ilObjCourseGUI extends ilContainerGUI
 	 * @access public
 	 * @return
 	 */
-	public function editObject()
+	public function editObject(ilPropertyFormGUI $form = null)
 	{
-		parent::editObject();
-		
 		$this->setSubTabs('properties');
 		$this->tabs_gui->setSubTabActive('crs_settings');
+
+		if($form instanceof ilPropertyFormGUI)
+		{
+			$GLOBALS['tpl']->setContent($form->getHTML());
+			return true;
+		}
+		else
+		{
+			parent::editObject();
+		}
 	}
 	
 	/**
@@ -1491,6 +1483,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 		$this->setSubTabs("properties");
 		$this->tabs_gui->setTabActive('settings');
+		$this->tabs_gui->activateSubTab('icon_settings');
 		
 		if(!$a_form)
 		{
@@ -1708,43 +1701,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
 		ilUtil::redirect($this->getReturnLocation("save",
 			$this->ctrl->getLinkTarget($this, "edit", "", false, false)));
-	}
-	
-	function downloadArchivesObject()
-	{
-		global $rbacsystem;
-
-		$_POST["archives"] = $_POST["archives"] ? $_POST["archives"] : array();
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		$this->checkPermission('read');
-		/*
-		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-		*/
-		if(!count($_POST['archives']))
-		{
-			ilUtil::sendFailure($this->lng->txt('crs_no_archive_selected'));
-			$this->archiveObject();
-
-			return false;
-		}
-		if(count($_POST['archives']) > 1)
-		{
-			ilUtil::sendFailure($this->lng->txt('crs_select_one_archive'));
-			$this->archiveObject();
-
-			return false;
-		}
-
-		$this->object->initCourseArchiveObject();
-		
-		$abs_path = $this->object->archives_obj->getArchiveFile((int) $_POST['archives'][0]);
-		$basename = basename($abs_path);
-
-		ilUtil::deliverFile($abs_path,$basename);
 	}
 	
 	/**
@@ -2237,274 +2193,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 	}
 	
-	function fetchPrintSubscriberData($a_members)
-	{
-		foreach($a_members as $member_id)
-		{
-			
-			$member_data = $this->object->getMembersObject()->getSubscriberData($member_id);
-
-			if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
-			{
-				$print_member[$member_id]['login'] = $tmp_obj->getLogin();
-				$print_member[$member_id]['name'] = $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();
-				$print_member[$member_id]['time'] = ilDatePresentation::formatDate(new ilDateTime($member_data['time'],IL_CAL_UNIX));
-			}
-		}
-		switch($_SESSION['crs_print_sort'])
-		{
-			case 'lastname':
-				return ilUtil::sortArray($print_member,'name',$_SESSION['crs_print_order'], false, true);
-				
-			case 'login':
-				return ilUtil::sortArray($print_member,'login',$_SESSION['crs_print_order'], false, true);
-			
-			case 'sub_time':
-				return ilUtil::sortArray($print_member,'time',$_SESSION['crs_print_order'], false, true);
-			
-			default:
-				return ilUtil::sortArray($print_member,'name',$_SESSION['crs_print_order'], false, true);
-		}
-	}
-	
-	function fetchPrintMemberData($a_members)
-	{
-		global $ilAccess,$lng;
-
-		$lng->loadLanguageModule('trac');
-
-		#$is_admin = (bool) $ilAccess->checkAccess("write",'',$this->object->getRefId());
-		$is_admin = true;
-		
-		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-		$privacy = ilPrivacySettings::_getInstance();
-
-		if($privacy->enabledCourseAccessTimes())
-		{
-			include_once('./Services/Tracking/classes/class.ilLearningProgress.php');
-			$progress = ilLearningProgress::_lookupProgressByObjId($this->object->getId());
-		}
-		
-		if($this->show_tracking)
-		{
-			include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
-			$completed = ilLPStatusWrapper::_lookupCompletedForObject($this->object->getId());
-			$in_progress = ilLPStatusWrapper::_lookupInProgressForObject($this->object->getId());
-			$failed = ilLPStatusWrapper::_lookupFailedForObject($this->object->getId());
-		}
-		
-		$profile_data = ilObjUser::_readUsersProfileData($a_members);
-
-		// course defined fields
-		include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
-		$cdfs = ilCourseUserData::_getValuesByObjId($this->object->getId());
-
-		foreach($a_members as $member_id)
-		{
-			// GET USER OBJ
-			if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
-			{
-				// udf
-				include_once './Services/User/classes/class.ilUserDefinedData.php';
-				$udf_data = new ilUserDefinedData($member_id);
-				foreach($udf_data->getAll() as $field => $value)
-				{
-					list($f,$field_id) = explode('_', $field);
-					$print_member[$member_id]['udf_'.$field_id] = (string) $value;
-				}
-				
-				foreach((array) $cdfs[$member_id] as $cdf_field => $cdf_value)
-				{
-					$print_member[$member_id]['cdf_'.$cdf_field] = (string) $cdf_value;
-				}
-
-				foreach((array) $profile_data[$member_id] as $field => $value)
-				{
-					$print_member[$member_id][$field] = $value;
-				}
-				
-				$print_member[$member_id]['login'] = $tmp_obj->getLogin();
-				$print_member[$member_id]['name'] = $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();
-
-				if($this->object->getMembersObject()->isAdmin($member_id))
-				{
-					$print_member[$member_id]['role'] = $this->lng->txt("il_crs_admin");
-				}
-				elseif($this->object->getMembersObject()->isTutor($member_id))
-				{
-					$print_member[$member_id]['role'] = $this->lng->txt("il_crs_tutor");
-				}
-				elseif($this->object->getMembersObject()->isMember($member_id))
-				{
-					$print_member[$member_id]['role'] = $this->lng->txt("il_crs_member");
-				}
-				if($this->object->getMembersObject()->isAdmin($member_id) or $this->object->getMembersObject()->isTutor($member_id))
-				{
-					if($this->object->getMembersObject()->isNotificationEnabled($member_id))
-					{
-						$print_member[$member_id]['status'] = $this->lng->txt("crs_notify");
-					}
-					else
-					{
-						$print_member[$member_id]['status'] = $this->lng->txt("crs_no_notify");
-					}
-				}
-				else
-				{
-					if($this->object->getMembersObject()->isBlocked($member_id))
-					{
-						$print_member[$member_id]['status'] = $this->lng->txt("crs_blocked");
-					}
-					else
-					{
-						$print_member[$member_id]['status'] = $this->lng->txt("crs_unblocked");
-					}
-				}
-	
-				if($is_admin)
-				{
-					$print_member[$member_id]['passed'] = $this->object->getMembersObject()->hasPassed($member_id) ?
-									  $this->lng->txt('crs_member_passed') :
-									  $this->lng->txt('crs_member_not_passed');
-					
-				}
-				if($privacy->enabledCourseAccessTimes())
-				{
-					if(isset($progress[$member_id]['ts']) and $progress[$member_id]['ts'])
-					{
-						ilDatePresentation::setUseRelativeDates(false);
-						$print_member[$member_id]['access'] = ilDatePresentation::formatDate(new ilDateTime($progress[$member_id]['ts'],IL_CAL_UNIX));
-						ilDatePresentation::setUseRelativeDates(true);
-					}
-					else
-					{
-						$print_member[$member_id]['access'] = $this->lng->txt('no_date');
-					}
-				}
-				if($this->show_tracking)
-				{
-					if(in_array($member_id,$completed))
-					{
-						$print_member[$member_id]['progress'] = $this->lng->txt(ilLPStatus::LP_STATUS_COMPLETED);
-					}
-					elseif(in_array($member_id,$in_progress))
-					{
-						$print_member[$member_id]['progress'] = $this->lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS);
-					}
-					elseif(in_array($member_id,$failed))
-					{
-						$print_member[$member_id]['progress'] = $this->lng->txt(ilLPStatus::LP_STATUS_FAILED);
-					}
-					else
-					{
-						$print_member[$member_id]['progress'] = $this->lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED);
-					}
-				}
-				
-			}
-		}
-		
-		switch($_SESSION['crs_print_sort'])
-		{
-			case 'progress':
-				return ilUtil::sortArray($print_member,'progress',$_SESSION['crs_print_order'], false, true);
-			
-			case 'access_time':
-				return ilUtil::sortArray($print_member,'access',$_SESSION['crs_print_order'], false, true);
-			
-			case 'lastname':
-				return ilUtil::sortArray($print_member,'name',$_SESSION['crs_print_order'], false, true);
-				
-			case 'login':
-				return ilUtil::sortArray($print_member,'login',$_SESSION['crs_print_order'], false, true);
-			
-			case 'passed':
-				return ilUtil::sortArray($print_member,'passed',$_SESSION['crs_print_order'], false, true);
-			
-			case 'blocked':
-			case 'notification':
-				return ilUtil::sortArray($print_member,'status',$_SESSION['crs_print_order'], false, true);
-			
-			default:
-				return ilUtil::sortArray($print_member,'name',$_SESSION['crs_print_order'], false, true);
-		}
-	}
-		
-	function printMembersObject()
-	{		
-		global $ilTabs;
-		
-		$this->checkPermission('manage_members');
-		
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt('back'),
-			$this->ctrl->getLinkTarget($this, 'members'));
-		
-		$list = $this->initAttendanceList();
-		$form = $list->initForm('printMembersOutput');
-		$this->tpl->setContent($form->getHTML());	
-	}
-	
-	protected function initAttendanceList()
-	{
-		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->object->getId());
-		
-		include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
-		$waiting_list = new ilCourseWaitingList($this->object->getId());
-		
-		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
-		$list = new ilAttendanceList($this, $members_obj, $waiting_list);		
-		$list->setId('crsmemlst');
-	
-		$list->setTitle($this->lng->txt('crs_members_print_title'),
-			$this->lng->txt('obj_crs').': '.$this->object->getTitle());
-				
-		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
-		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
-			ilObjUserTracking::_enabledUserRelatedData());
-		if($this->show_tracking)
-		{
-			include_once('./Services/Object/classes/class.ilObjectLP.php');
-			$olp = ilObjectLP::getInstance($this->object->getId());
-			$this->show_tracking = $olp->isActive();
-		}
-		if($this->show_tracking)
-		{
-			$list->addPreset('progress', $this->lng->txt('learning_progress'), true);
-		}
-		
-		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-		$privacy = ilPrivacySettings::_getInstance();
-		if($privacy->enabledCourseAccessTimes())
-		{
-			$list->addPreset('access', $this->lng->txt('last_access'), true);
-		}
-		
-		$list->addPreset('status', $this->lng->txt('crs_status'), true);
-		$list->addPreset('passed', $this->lng->txt('crs_passed'), true);
-		
-		return $list;
-	}
-	
-	public function getAttendanceListUserData($a_user_id)
-	{		
-		return $this->members_data[$a_user_id];
-	}
-	
-	function printMembersOutputObject()
-	{		
-		$list = $this->initAttendanceList();		
-		$list->initFromForm();
-		$list->setCallback(array($this, 'getAttendanceListUserData'));	
-		
-		$this->members_data = $this->fetchPrintMemberData($this->object->getMembersObject()->getParticipants());	
-		$list->getNonMemberUserData($this->members_data);
-		
-		$list->getFullscreenHTML();
-		exit();
-	
-	}
 
 	function executeCommand()
 	{

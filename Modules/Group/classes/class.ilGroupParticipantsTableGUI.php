@@ -97,7 +97,9 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		$this->addMultiCommand('editParticipants', $this->lng->txt('edit'));
 		$this->addMultiCommand('confirmDeleteParticipants', $this->lng->txt('remove'));
 		$this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
-
+		$this->lng->loadLanguageModule('user');
+		$this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
+		
 		$this->setSelectAllCheckbox('participants');
 		$this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
 	}
@@ -271,6 +273,13 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		$this->determineOffsetAndOrder(true);
 		
 		$part = ilGroupParticipants::_getInstanceByObjId($this->getRepositoryObject()->getId())->getParticipants();
+		
+		if(!$part)
+		{
+			$this->setData(array());
+			return;
+		}
+		
 
 		$group_user_data = (array) $this->getParentObject()->readMemberData(
 			$part,

@@ -14,14 +14,38 @@ require_once("./Services/Preview/classes/class.ilPreview.php");
  */
 class ilPreviewGUI
 {
+
+	/**
+	 * @var int|null
+	 */
 	private $node_id = null;
+	/**
+	 * @var int|null
+	 */
 	private $obj_id = null;
+	/**
+	 * @var \ilPreview|null
+	 */
 	private $preview = null;
+	/**
+	 * @var \ilWorkspaceAccessHandler|null|object
+	 */
 	private $access_handler = null;
+	/**
+	 * @var int|null
+	 */
 	private $context = null;
+	/**
+	 * @var ilCtrl
+	 */
 	private $ctrl = null;
+	/**
+	 * @var \ilLanguage
+	 */
 	private $lng = null;
-	
+	/**
+	 * @var bool
+	 */
 	private static $initialized = false;
 
 	const CONTEXT_REPOSITORY = 1;
@@ -36,7 +60,10 @@ class ilPreviewGUI
 	 */
 	public function __construct($a_node_id = null, $a_context = self::CONTEXT_REPOSITORY, $a_obj_id = null, $a_access_handler = null) 
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		// if we are the base class, get the id's from the query string
 		if (strtolower($_GET["baseClass"]) == "ilpreviewgui")
@@ -126,6 +153,7 @@ class ilPreviewGUI
 	 */
 	public function getPreviewHTML()
 	{
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 		// load the template
 		$tmpl = new ilTemplate("tpl.preview.html", true, true, "Services/Preview");
 		$tmpl->setVariable("PREVIEW_ID", $this->getHtmlId());
@@ -143,7 +171,7 @@ class ilPreviewGUI
 				foreach ($images as $image)
 				{
 					$tmpl->setCurrentBlock("preview_item");
-					$tmpl->setVariable("IMG_URL", $image["url"]);
+					$tmpl->setVariable("IMG_URL", ilWACSignedPath::signFile($image["url"]));
 					$tmpl->setVariable("WIDTH", $image["width"]);
 					$tmpl->setVariable("HEIGHT", $image["height"]);
 					$tmpl->parseCurrentBlock();
@@ -257,7 +285,7 @@ class ilPreviewGUI
 		$tmpl->setCurrentBlock("preview_action");
 		$tmpl->setVariable("CLICK_ACTION", "il.Preview.$a_cmd($script_args);");
 		$tmpl->setVariable("ACTION_CLASS", "$action_class");
-		$tmpl->setVariable("ACTION_ID", "preview_{$a_cmd}_" . $this->node_id);
+		$tmpl->setVariable("ACTION_ID", "preview_{$a_cmd}_" . $preview_html_id);
 		$tmpl->setVariable("TXT_ACTION", $this->lng->txt($btn_topic));
 		$tmpl->parseCurrentBlock();
 	}
@@ -332,7 +360,10 @@ class ilPreviewGUI
 		if (self::$initialized)
 			return;
 		
-		global $tpl, $lng, $ilCtrl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		
 		// jquery

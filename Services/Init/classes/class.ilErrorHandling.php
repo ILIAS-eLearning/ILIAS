@@ -361,7 +361,6 @@ class ilErrorHandling extends PEAR
 		// php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
 		return new CallbackHandler(function($exception, Inspector $inspector, Run $run) {
 			global $lng;
-			$lng->loadLanguageModule('logging');
 
 			require_once("Services/Logging/classes/error/class.ilLoggingErrorSettings.php");
 			require_once("Services/Logging/classes/error/class.ilLoggingErrorFileStorage.php");
@@ -377,10 +376,20 @@ class ilErrorHandling extends PEAR
 				$lwriter->write();
 			}
 
-			$message = sprintf($lng->txt("log_error_message"), $file_name);
+			//Use $lng if defined or fallback to english
+			if($lng !== null) {
+				$lng->loadLanguageModule('logging');
+				$message = sprintf($lng->txt("log_error_message"), $file_name);
 
-			if($logger->mail()) {
-				$message .= " ".sprintf($lng->txt("log_error_message_send_mail"), $logger->mail(), $file_name, $logger->mail());
+				if($logger->mail()) {
+					$message .= " ".sprintf($lng->txt("log_error_message_send_mail"), $logger->mail(), $file_name, $logger->mail());
+				}
+			} else {
+				$message = "Error ".$file_name." occurred.";
+
+				if($logger->mail()) {
+					$message .= ' '.'Please send a mail to <a href="mailto:'.$logger->mail().'?subject=code: '.$file_name.'">'.$logger->mail().'%s</a>';
+				}
 			}
 
 			ilUtil::sendFailure($message, true);
@@ -425,9 +434,8 @@ class ilErrorHandling extends PEAR
 			global $ilLog;
 
 			if(is_object($ilLog)) {
-				// ak: default log level of write() is INFO, which is not appropriate -> set this to warning
-				include_once './Services/Logging/classes/public/class.ilLogLevel.php';
-				$ilLog->write('ERROR (' . $exception->getCode() .') ' . $exception->getMessage(), ilLogLevel::WARNING);
+				$message = $exception->getMessage().' in '.$exception->getFile().":".$exception->getLine();
+				$ilLog->error($exception->getCode().' '.$message);
 			}
 			
 			// Send to system logger

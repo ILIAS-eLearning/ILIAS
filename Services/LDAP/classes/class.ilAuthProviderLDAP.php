@@ -59,8 +59,10 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		}
 		try 
 		{
-			// fetch user
-			$users = $query->fetchUser($this->getCredentials()->getUsername());
+			// Read user data, which does ensure a sucessful authentication.
+			$users = $query->fetchUser(
+				$this->getCredentials()->getUsername()
+			);
 			
 			if(!$users)
 			{
@@ -69,7 +71,19 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 			}
 			if(!array_key_exists($this->changeKeyCase($this->getCredentials()->getUsername()), $users))
 			{
+				$this->getLogger()->warning('Cannot find user: '. $this->changeKeyCase($this->getCredentials()->getUsername()));
+				$this->handleAuthenticationFail($status, 'auth_err_ldap_exception');
+				return false;
+			}
+			
+			// check group membership
+			if(!$query->checkGroupMembership(
+				$this->getCredentials()->getUsername(),
+				$users[$this->changeKeyCase($this->getCredentials()->getUsername())]
+			))
+			{
 				$this->handleAuthenticationFail($status, 'err_wrong_login');
+				return false;
 			}
 		} 
 		catch (ilLDAPQueryException $e) {
@@ -79,13 +93,14 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		}
 		try 
 		{
+			// now bind with login credentials
 			$query->bind(IL_LDAP_BIND_AUTH, $users[$this->changeKeyCase($this->getCredentials()->getUsername())]['dn'], $this->getCredentials()->getPassword());
 		} 
 		catch (ilLDAPQueryException $e) {
 			$this->handleAuthenticationFail($status, 'err_wrong_login');
 			return false;
 		}
-
+		
 		// authentication success update profile
 		return $this->updateAccount($status, $users[$this->changeKeyCase($this->getCredentials()->getUsername())]);
 	}
@@ -169,7 +184,9 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		try 
 		{
 			// fetch user
-			$users = $query->fetchUser($this->getCredentials()->getUsername());
+			$users = $query->fetchUser(
+				$this->getCredentials()->getUsername()
+			);
 			if(!$users)
 			{
 				$this->handleAuthenticationFail($status, 'err_wrong_login');
@@ -178,6 +195,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 			if(!array_key_exists($this->changeKeyCase($this->getCredentials()->getUsername()), $users))
 			{
 				$this->handleAuthenticationFail($status, 'err_wrong_login');
+				return false;
 			}
 		} 
 		catch (ilLDAPQueryException $e) {

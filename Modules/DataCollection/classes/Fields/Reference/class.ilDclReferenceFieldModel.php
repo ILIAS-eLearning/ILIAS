@@ -1,6 +1,4 @@
 <?php
-require_once("./Modules/DataCollection/classes/Fields/Fileupload/class.ilDclFileuploadFieldModel.php");
-require_once("./Modules/DataCollection/classes/Helpers/class.ilDclRecordQueryObject.php");
 
 /**
  * Class ilDclReferenceFieldModel
@@ -102,5 +100,17 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel {
 	
 	public function getFieldRef() {
 		return ilDclCache::getFieldCache((int)$this->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+	}
+
+
+	public function afterClone($records) {
+		/** @var ilDclReferenceFieldModel $clone */
+		$clone = ilDclCache::getCloneOf($this->getId(), ilDclCache::TYPE_FIELD);
+		$reference_clone = ilDclCache::getCloneOf((int)$clone->getProperty(ilDclBaseFieldModel::PROP_REFERENCE), ilDclCache::TYPE_FIELD);
+		if ($reference_clone) {
+			$this->setProperty(ilDclBaseFieldModel::PROP_REFERENCE, $reference_clone->getId());
+			$this->updateProperties();
+		}
+		parent::afterClone($records);
 	}
 }

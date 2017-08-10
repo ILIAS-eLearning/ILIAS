@@ -5,8 +5,6 @@
 require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordFieldModel.php';
 require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordModel.php';
 require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php';
-require_once("./Services/Link/classes/class.ilLink.php");
-require_once("./Modules/DataCollection/classes/class.ilDataCollectionImporter.php");
 
 /**
  * Class ilDclBaseFieldModel
@@ -151,6 +149,19 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 		}
 
 		return $record_id;
+	}
+
+
+	public function afterClone() {
+		$field_clone = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
+		$record_clone = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);
+
+		if ($field_clone && $record_clone) {
+			$record_field_clone = ilDclCache::getRecordFieldCache($record_clone, $field_clone);
+			$clone_reference = $record_field_clone->getValue();
+			$this->setValue(ilDclCache::getCloneOf($clone_reference, ilDclCache::TYPE_RECORD)->getId()); // reference fields store the id of the reference's record as their value
+			$this->doUpdate();
+		}
 	}
 }
 

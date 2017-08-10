@@ -1,7 +1,5 @@
 <?php
-require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableViewFieldsTableGUI.php");
-require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableViewEditFormGUI.php");
-require_once("./Services/AccessControl/classes/class.ilObjRole.php");
+
 /**
  * Class ilDclTableViewEditGUI
  *
@@ -103,8 +101,7 @@ class ilDclTableViewEditGUI
         {
             case 'ildcldetailedviewdefinitiongui':
                 $this->setTabs('detailed_view');
-                require_once('./Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewDefinitionGUI.php');
-                $recordedit_gui = new ilDclDetailedViewDefinitionGUI($this->tableview->getId());
+                                $recordedit_gui = new ilDclDetailedViewDefinitionGUI($this->tableview->getId());
                 $ret = $this->ctrl->forwardCommand($recordedit_gui);
                 if ($ret != "") {
                     $this->tpl->setContent($ret);
@@ -209,11 +206,11 @@ class ilDclTableViewEditGUI
             $key = 'filter_' . $setting->getField();
             if ($_POST[$key] != null)
             {
-                $setting->setFilterValue(array($key => $_POST[$key]));
+                $setting->setFilterValue($_POST[$key]);
             }
             elseif ($_POST[$key . '_from'] != null && $_POST[$key . '_to'] != null)
             {
-                $setting->setFilterValue( array( $key . "_from" => $_POST[$key . '_from'], $key . "_to" => $_POST[$key . '_to'] ) );
+                $setting->setFilterValue( array( "from" => $_POST[$key . '_from'], "to" => $_POST[$key . '_to'] ) );
             }
             else
             {

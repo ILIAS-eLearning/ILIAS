@@ -190,13 +190,13 @@ class ilDclTable {
 	 *
 	 * @param boolean $delete_main_table true to delete table anyway
 	 */
-	public function doDelete($delete_only_content = false) {
+	public function doDelete($delete_only_content = false, $omit_notification = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
 		/** @var $ilDB ilDB */
 		foreach ($this->getRecords() as $record) {
-			$record->doDelete();
+			$record->doDelete($omit_notification);
 		}
 
 		foreach ($this->getRecordFields() as $field) {
@@ -363,26 +363,26 @@ class ilDclTable {
 	 * @return ilDclBaseRecordModel[]
 	 */
 	public function getRecords() {
-		$this->loadRecords();
+		if ($this->records == NULL) {
+			$this->loadRecords();
+		}
 
 		return $this->records;
 	}
 
-	protected function loadRecords() {
-		if ($this->records == NULL) {
-			global $DIC;
-			$ilDB = $DIC['ilDB'];
+	public function loadRecords() {
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
-			$records = array();
-			$query = "SELECT id FROM il_dcl_record WHERE table_id = " . $ilDB->quote($this->id, "integer");
-			$set = $ilDB->query($query);
+		$records = array();
+		$query = "SELECT id FROM il_dcl_record WHERE table_id = " . $ilDB->quote($this->id, "integer");
+		$set = $ilDB->query($query);
 
-			while ($rec = $ilDB->fetchAssoc($set)) {
-				$records[$rec['id']] = ilDclCache::getRecordCache($rec['id']);
-			}
-
-			$this->records = $records;
+		while ($rec = $ilDB->fetchAssoc($set)) {
+			$records[$rec['id']] = ilDclCache::getRecordCache($rec['id']);
 		}
+
+		$this->records = $records;
 	}
 
 	/**
@@ -556,10 +556,11 @@ class ilDclTable {
 	 * For current user
 	 *
 	 * @param int $ref_id DataCollections reference
+	 * @param int $user_id
 	 * @return ilDclTableView[]
 	 */
-	public function getVisibleTableViews($ref_id, $with_active_detailedview = false) {
-		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id) && !$with_active_detailedview)
+	public function getVisibleTableViews($ref_id, $with_active_detailedview = false, $user_id = 0) {
+		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id, $user_id) && !$with_active_detailedview)
 		{
 			return $this->getTableViews();
 		}
@@ -567,7 +568,7 @@ class ilDclTable {
 		$visible_views = array();
 		foreach ($this->getTableViews() as $tableView)
 		{
-			if (ilObjDataCollectionAccess::hasAccessToTableView($tableView))
+			if (ilObjDataCollectionAccess::hasAccessToTableView($tableView, $user_id))
 			{
 				if (!$with_active_detailedview || ilDclDetailedViewDefinition::isActive($tableView->getId()))
 				{
@@ -582,10 +583,11 @@ class ilDclTable {
 	 * get id of first (for current user) available view
 	 *
 	 * @param $ref_id
+	 * @param int $user_id
 	 * @return bool
 	 */
-	public function getFirstTableViewId($ref_id) {
-		$tableview = array_shift($this->getVisibleTableViews($ref_id));
+	public function getFirstTableViewId($ref_id, $user_id = 0) {
+		$tableview = array_shift($this->getVisibleTableViews($ref_id, false, $user_id));
 		return $tableview ? $tableview->getId() : false;
 	}
 	
@@ -1289,6 +1291,19 @@ class ilDclTable {
 			$new_tableview->setTableId($this->getId());
 			$new_tableview->cloneStructure($orig_tableview, $new_fields);
 
+		}
+
+		// mandatory for all cloning functions
+		ilDclCache::setCloneOf($original->getId(), $this->getId(), ilDclCache::TYPE_TABLE);
+	}
+
+
+	/**
+	 *
+	 */
+	public function afterClone() {
+		foreach ($this->getFields() as $field) {
+			$field->afterClone($this->getRecords());
 		}
 	}
 

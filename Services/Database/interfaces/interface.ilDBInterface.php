@@ -114,7 +114,7 @@ interface ilDBInterface {
 	/**
 	 * @param $query string
 	 *
-	 * @return \ilDBStatement
+	 * @return \ilPDOStatement
 	 */
 	public function query($query);
 
@@ -181,7 +181,7 @@ interface ilDBInterface {
 
 
 	/**
-	 * @param $query_result PDOStatement
+	 * @param $query_result ilDBStatement
 	 *
 	 * @return mixed
 	 */
@@ -404,7 +404,8 @@ interface ilDBInterface {
 	/**
 	 * @param $stmt
 	 * @param array $data
-	 * @return bool
+	 * @throws ilDatabaseException
+	 * @return ilDBStatement
 	 */
 	public function execute($stmt, $data = array());
 
@@ -738,7 +739,7 @@ interface ilDBPdoInterface {
 	 * @param $query
 	 * @param null $types
 	 * @param null $result_types
-	 * @return bool
+	 * @return ilDBStatement
 	 */
 	public function prepare($query, $types = null, $result_types = null);
 
@@ -782,13 +783,13 @@ interface ilDBPdoInterface {
 	 * Generate an insert, update or delete query and call prepare() and execute() on it
 	 *
 	 * @param string $tablename of the table
-	 * @param array $fields     ($key=>$value) where $key is a field name and $value its value
-	 * @param int $mode         of query to build
+	 * @param array $fields ($key=>$value) where $key is a field name and $value its value
+	 * @param int $mode of query to build
 	 *                          ilDBConstants::MDB2_AUTOQUERY_INSERT
 	 *                          ilDBConstants::MDB2_AUTOQUERY_UPDATE
 	 *                          ilDBConstants::MDB2_AUTOQUERY_DELETE
 	 *                          ilDBConstants::MDB2_AUTOQUERY_SELECT
-	 * @param string $where     (in case of update and delete queries, this string will be put after the sql WHERE statement)
+	 * @param string $where (in case of update and delete queries, this string will be put after the sql WHERE statement)
 	 *
 	 * @deprecated Will be removed in ILIAS 5.3
 	 * @return bool

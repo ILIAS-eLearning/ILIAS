@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="bibl">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+	</Document>
+	<Document type="subItem">
+		<DataSource type="JDBC" action="create">
+			<Query>
+				SELECT attribute.value value
+				FROM il_bibl_entry entry
+				INNER JOIN il_bibl_attribute attribute ON attribute.entry_id = entry.id
+				AND attribute.name IN ('title', 'author', 'isbn', 'year', 'ST', 'T1', 'T2', 'T3', 'TI', 'TT', 'A1', 'A2', 'A3', 'A4', 'AU', 'SN', 'PY')
+				WHERE entry.data_id in (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="value" type="text" name="propertyMedium" />
+		</DataSource>
+	</Document>
+</ObjectDefinition>

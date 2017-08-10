@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Services/Export/classes/class.ilExportGUI.php');
-require_once('./Modules/DataCollection/classes/class.ilDclExportTableGUI.php');
-
 /**
  * Export User Interface Class
  * 
@@ -40,7 +37,9 @@ class ilDclExportGUI extends ilExportGUI
 	 * @return bool
 	 */
 	protected function checkForExportableFields() {
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		foreach ($this->obj->getTables() as $tbl) {
 			/** @var $tbl ilDclTable */
 			foreach ($tbl->getFields() as $field) {

@@ -2,6 +2,10 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\BackgroundTasks\BucketMeta;
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
+use ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal;
+
 include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 
 /**
@@ -230,6 +234,7 @@ class ilMainMenuGUI
 			$this->renderOnScreenChatMenu();
 			$this->populateWithBuddySystem();
 			$this->populateWithOnScreenChat();
+			$this->renderBackgroundTasks();
 			$this->renderAwareness();
 		}
 
@@ -386,6 +391,7 @@ class ilMainMenuGUI
 		$this->tpl->setVariable("TXT_MAIN_MENU", $lng->txt("main_menu"));
 		
 		$this->tpl->parseCurrentBlock();
+
 	}
 	
 	/**
@@ -393,17 +399,20 @@ class ilMainMenuGUI
 	 */
 	public function renderStatusBox($a_tpl)
 	{
-		global $ilUser, $lng, $DIC;
+		global $ilUser, $DIC;
 		$ui_factory = $DIC->ui()->factory();
 		$ui_renderer = $DIC->ui()->renderer();
 
-		if ($this->mail && ($new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId())) > 0) {
+		if ($this->mail) {
+			$new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId());
+
 			$a_tpl->setCurrentBlock('status_box');
 
-			$glyph = $ui_factory->glyph()->mail("ilias.php?baseClass=ilMailGUI")
-				->withCounter(
-					$ui_factory->counter()->novelty($new_mails)
-				);
+			$glyph = $ui_factory->glyph()->mail("ilias.php?baseClass=ilMailGUI");
+
+			if ($new_mails > 0) {
+				$glyph = $glyph->withCounter($ui_factory->counter()->novelty($new_mails));
+			}
 
 			$a_tpl->setVariable('GLYPH', $ui_renderer->render($glyph));
 			$a_tpl->parseCurrentBlock();
@@ -536,10 +545,12 @@ class ilMainMenuGUI
 				"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSelectedItems",
 				"_top", "", "", "mm_pd_sel_items", ilHelp::getMainMenuTooltip("mm_pd_sel_items"),
 					"left center", "right center", false);
-			
+
+			require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
+			$pdItemsViewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user());
+
 			// my groups and courses, if both is available
-			if($ilSetting->get('disable_my_offers') == 0 &&
-				$ilSetting->get('disable_my_memberships') == 0)
+			if($pdItemsViewSettings->allViewsEnabled())
 			{
 				$gl->addEntry($lng->txt("my_courses_groups"),
 					"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToMemberships",
@@ -1109,7 +1120,53 @@ class ilMainMenuGUI
 		}
 		
 		return $url;
-	}	
+	}
+
+	protected function renderBackgroundTasks()
+	{
+		global $DIC;
+		$DIC->language()->loadLanguageModule("background_tasks");
+		$factory = $DIC->ui()->factory();
+		$persistence = $DIC->backgroundTasks()->persistence();
+		$metas = $persistence->getBucketMetaOfUser($DIC->user()->getId());
+		if(!count($metas))
+			return;
+
+		$numberOfUserInteractions = count(array_filter($metas, function(BucketMeta $meta) {
+			return $meta->getState() == State::USER_INTERACTION;
+		}));
+		$numberOfNotUserInteractions = count($metas) - $numberOfUserInteractions;
+
+		$popover = $factory->popover()
+		                   ->listing(array())
+		                   ->withTitle($DIC->language()->txt("background_tasks_running")); // needs to have empty content
+		$DIC->ctrl()->clearParametersByClass(ilBTControllerGUI::class);
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
+			"from_url",
+			urlencode(ilUtil::_getHttpPath())
+		);
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
+			"replaceSignal",
+			$popover->getReplaceContentSignal()->getId()
+		);
+
+		$url = $DIC->ctrl()->getLinkTargetByClass([ ilBTControllerGUI::class ], "getPopoverContent", "", true);
+		$popover = $popover->withAsyncContentUrl($url);
+
+		$glyph = $factory->glyph()
+		                 ->briefcase()
+		                 ->withOnClick($popover->getShowSignal())
+		                 ->withCounter($factory->counter()->novelty($numberOfUserInteractions))
+		                 ->withCounter($factory->counter()->status($numberOfNotUserInteractions));
+
+		$DIC['tpl']->addJavascript('./Services/BackgroundTasks/js/background_task_refresh.js');
+
+		$this->tpl->setVariable('BACKGROUNDTASKS',
+			$DIC->ui()->renderer()->render([$glyph, $popover])
+		);
+
+		$this->tpl->setVariable('BACKGROUNDTASKS_REFRESH_URI', $url);
+	}
 }
 
 ?>

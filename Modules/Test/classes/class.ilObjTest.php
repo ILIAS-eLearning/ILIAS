@@ -750,7 +750,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		}
 
 		// put here object specific stuff
-
+		$this->updateMetaData();
 		return true;
 	}
 
@@ -1542,7 +1542,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$newsItem = new ilNewsItem();
 			$newsItem->setContext($this->getId(), 'tst');
 			$newsItem->setPriority(NEWS_NOTICE);
-			$newsItem->setTitle($this->lng->txt('new_test_online'));
+			$newsItem->setTitle('new_test_online');
+			$newsItem->setContentIsLangVar(true);
 			$newsItem->setContent('');
 			$newsItem->setUserId($ilUser->getId());
 			$newsItem->setVisibility(NEWS_USERS);
@@ -1558,7 +1559,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			if($newsId > 0)
 			{
 				$newsItem = new ilNewsItem($newsId);
-				$newsItem->setTitle($this->lng->txt('new_test_online'));
+				$newsItem->setTitle('new_test_online');
+				$newsItem->setContentIsLangVar(true);
 				$newsItem->setContent('');
 				$newsItem->update();
 			}
@@ -2895,6 +2897,14 @@ function getAnswerFeedbackPoints()
 		}
 		return 0;
 	}
+	
+	// hey: prevPassSolutions - serious (nonstatic) identifier, for use in high level controller gui
+	public function isPreviousSolutionReuseEnabled($activeId)
+	{
+		// checks if allowed in general and if enabled by participant
+		return self::_getUsePreviousAnswers($activeId, true);
+	}
+	// hey.
 
 /**
 * Returns if the previous results should be hidden for a learner
@@ -3411,6 +3421,7 @@ function getAnswerFeedbackPoints()
 			/* @var ilTestLP $testLP */
 			require_once 'Services/Object/classes/class.ilObjectLP.php';
 			$testLP = ilObjectLP::getInstance($this->getId());
+			$testLP->setTestObject($this);
 			$testLP->resetLPDataForUserIds($participantData->getUserIds(), false);
 		}
 
@@ -3705,25 +3716,36 @@ function getAnswerFeedbackPoints()
 		return $titles;
 	}
 
+// fau: testNav - add number parameter (to show if title should not be shown)
 	/**
-	* Returns the title of a test question and checks if the title output is allowed.
-	* If not, the localized text "question" will be returned.
-	*
-	* @param string $title The original title of the question
-	* @return string The title for the question title output
-	* @access public
-	*/
-	function getQuestionTitle($title)
+	 * Returns the title of a test question and checks if the title output is allowed.
+	 * If not, the localized text "question" will be returned.
+	 *
+	 * @param string $title The original title of the question
+	 * @param integer $nr The number of the question in the sequence
+	 * @return string The title for the question title output
+	 * @access public
+	 */
+	function getQuestionTitle($title, $nr =  null)
 	{
 		if ($this->getTitleOutput() == 2)
 		{
-			return $this->lng->txt("ass_question");
+			if (isset($nr))
+			{
+				return $this->lng->txt("ass_question"). ' ' . $nr;
+			}
+			else
+			{
+				return $this->lng->txt("ass_question");
+			}
+
 		}
 		else
 		{
 			return $title;
 		}
 	}
+// fau.
 
 /**
 * Returns the dataset for a given question id
@@ -6776,6 +6798,14 @@ function getAnswerFeedbackPoints()
 	 */
 	public function canEditEctsGrades()
 	{
+		return $this->canShowEctsGrades() && $this->canEditMarks();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function canShowEctsGrades()
+	{
 		return $this->getReportingDate();
 	}
 
@@ -7084,7 +7114,7 @@ function getAnswerFeedbackPoints()
 	* @param int copy id
 	* @return object new test object
 	*/
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $ilLog, $tree, $ilDB, $ilPluginAdmin;
 
@@ -7092,7 +7122,7 @@ function getAnswerFeedbackPoints()
 
 		// Copy settings
 		/** @var $newObj ilObjTest */
-		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
+		$newObj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$newObj->setTmpCopyWizardCopyId($a_copy_id);
 		$this->cloneMetaData($newObj);
 
@@ -9792,7 +9822,8 @@ function getAnswerFeedbackPoints()
 			'highscore_own_table'     => $this->getHighscoreOwnTable(),
 			'highscore_top_table'     => $this->getHighscoreTopTable(),
 			'highscore_top_num'       => $this->getHighscoreTopNum(),
-			'use_previous_answers' => (string)$this->getUsePreviousAnswers()
+			'use_previous_answers' => (string)$this->getUsePreviousAnswers(),
+			'pass_waiting'          => $this->getPassWaiting()
 		);
 		
 		$next_id = $ilDB->nextId('tst_test_defaults');
@@ -9942,6 +9973,7 @@ function getAnswerFeedbackPoints()
 		$this->setActivationStartingTime($testsettings['activation_start_time']);
 		$this->setActivationEndingTime($testsettings['activation_end_time']);
 		$this->setActivationVisibility($testsettings['activation_visibility']);
+		$this->setPassWaiting($testsettings['pass_waiting']);
 		
 		$this->saveToDb();
 

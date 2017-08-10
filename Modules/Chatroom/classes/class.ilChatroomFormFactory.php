@@ -25,27 +25,7 @@ class ilChatroomFormFactory
 	 */
 	public static function applyValues(ilPropertyFormGUI $form, array $values)
 	{
-		foreach($values as $key => $value)
-		{
-			$field = $form->getItemByPostVar($key);
-			if(!$field)
-			{
-				continue;
-			}
-
-			switch(strtolower(get_class($field)))
-			{
-				case 'ilcheckboxinputgui':
-					if($value)
-					{
-						$field->setChecked(true);
-					}
-					break;
-
-				default:
-					$field->setValue($value);
-			}
-		}
+		$form->setValuesByArray($values);
 	}
 
 	/**
@@ -101,6 +81,8 @@ class ilChatroomFormFactory
 		 */
 		global $lng;
 
+		$lng->loadLanguageModule('rep');
+
 		$form  = new ilPropertyFormGUI();
 		$title = new ilTextInputGUI($lng->txt('title'), 'title');
 		$title->setRequired(true);
@@ -133,6 +115,24 @@ class ilChatroomFormFactory
 		$cb = new ilCheckboxInputGUI($lng->txt('private_rooms_enabled'), 'private_rooms_enabled');
 		$cb->setInfo($lng->txt('private_rooms_enabled_info'));
 		$form->addItem($cb);
+
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($lng->txt('rep_activation_availability'));
+		$form->addItem($section);
+
+		$online = new ilCheckboxInputGUI($lng->txt('rep_activation_online'), 'online_status');
+		$online->setInfo($lng->txt('chtr_activation_online_info'));
+		$form->addItem($online);
+
+		require_once 'Services/Form/classes/class.ilDateDurationInputGUI.php';
+		$dur = new ilDateDurationInputGUI($lng->txt('rep_time_period'), 'access_period');
+		$dur->setShowTime(true);
+		$form->addItem($dur);
+
+		$visible = new ilCheckboxInputGUI($lng->txt('rep_activation_limited_visibility'), 'access_visibility');
+		$visible->setValue(1);
+		$visible->setInfo($lng->txt('chtr_activation_limited_visibility_info'));
+		$dur->addSubItem($visible);
 
 		return $form;
 	}
@@ -355,6 +355,44 @@ class ilChatroomFormFactory
 		$chatServerClientUrl->setRequired(true);
 		$chatServerClientUrl->setInfo($lng->txt('connection_url_info'));
 		$clientProxy->addSubItem($chatServerClientUrl);
+		
+		$deletion_section = new ilFormSectionHeaderGUI();
+		$deletion_section->setTitle($lng->txt('chat_deletion_section_head'));
+		$form->addItem($deletion_section);
+
+		$deletion_options = new ilRadioGroupInputGUI($lng->txt('chat_deletion_section_head'), 'deletion_mode');
+
+		$deletion_mode_deactivated = new ilRadioOption($lng->txt('chat_deletion_disabled'), 0);
+		$deletion_options->addOption($deletion_mode_deactivated);
+
+		$chat_deletion_interval = new ilRadioOption($lng->txt('chat_deletion_interval'), 1);
+		$chat_deletion_interval->setInfo($lng->txt('chat_deletion_interval_info'));
+		$interval_unit = new ilSelectInputGUI($lng->txt('chat_deletion_interval_unit'), 'deletion_unit');
+		$interval_unit->setRequired(true);
+		$interval_unit->setOptions(array(
+			'days'  => $lng->txt('days'),
+			'weeks' => $lng->txt('weeks'),
+			'month' => $lng->txt('months'),
+			'years' => $lng->txt('years'),
+		));
+		$chat_deletion_interval->addSubItem($interval_unit);
+
+		require_once 'Modules/Chatroom/classes/form/class.ilChatroomMessageDeletionThresholdInputGUI.php';
+		$interval_value = new ilChatroomMessageDeletionThresholdInputGUI($lng->txt('chat_deletion_interval_value'), 'deletion_value', $interval_unit);
+		$interval_value->allowDecimals(false);
+		$interval_value->setMinValue(1);
+		$interval_value->setRequired(true);
+		$chat_deletion_interval->addSubItem($interval_value);
+
+		$runAtTime = new ilTextInputGUI($lng->txt('chat_deletion_interval_run_at'), 'deletion_time');
+		$runAtTime->setInfo($lng->txt('chat_deletion_interval_run_at_info'));
+		$runAtTime->setRequired(true);
+		$runAtTime->setValidationRegexp('/([01][0-9]|[2][0-3]):[0-5][0-9]/');
+		$chat_deletion_interval->addSubItem($runAtTime);
+
+		$deletion_options->addOption($chat_deletion_interval);
+
+		$form->addItem($deletion_options);
 
 		return $form;
 	}

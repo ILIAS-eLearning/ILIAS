@@ -318,50 +318,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$cb->setInfo($this->lng->txt("enable_custom_icons_info"));
 		$cb->setChecked($ilSetting->get("custom_icons"));
 		$form->addItem($cb);
-		
-		/*
-		$size_big = new ilCombinationInputGUI($this->lng->txt("custom_icon_size_big"));
-		$form->addItem($size_big);
-		
-		$width = new ilNumberInputGUI("", "custom_icon_big_width");
-		$width->setSize(3);
-		$width->setValue($ilSetting->get("custom_icon_big_width"));
-		$size_big->addCombinationItem("bgw", $width, $this->lng->txt("width"));
-		
-		$height = new ilNumberInputGUI("", "custom_icon_big_height");
-		$height->setSize(3);
-		$height->setValue($ilSetting->get("custom_icon_big_height"));
-		$size_big->addCombinationItem("bgh", $height, $this->lng->txt("height"));
-		
-		
-		$size_small = new ilCombinationInputGUI($this->lng->txt("custom_icon_size_standard"));
-		$form->addItem($size_small);
-		
-		$width = new ilNumberInputGUI("", "custom_icon_small_width");
-		$width->setSize(3);
-		$width->setValue($ilSetting->get("custom_icon_small_width"));
-		$size_small->addCombinationItem("smw", $width, $this->lng->txt("width"));
-		
-		$height = new ilNumberInputGUI("", "custom_icon_small_height");
-		$height->setSize(3);
-		$height->setValue($ilSetting->get("custom_icon_small_height"));
-		$size_small->addCombinationItem("smh", $height, $this->lng->txt("height"));
-		
-		
-		$size_tiny = new ilCombinationInputGUI($this->lng->txt("custom_icon_size_tiny"));
-		$form->addItem($size_tiny);
-		
-		$width = new ilNumberInputGUI("", "custom_icon_tiny_width");
-		$width->setSize(3);
-		$width->setValue($ilSetting->get("custom_icon_tiny_width"));
-		$size_tiny->addCombinationItem("tnw", $width, $this->lng->txt("width"));
-		
-		$height = new ilNumberInputGUI("", "custom_icon_tiny_height");
-		$height->setSize(3);
-		$height->setValue($ilSetting->get("custom_icon_tiny_height"));
-		$size_tiny->addCombinationItem("tnh", $height, $this->lng->txt("height"));
-		*/
-		
+
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
 			$form->addCommandButton('saveCustomIcons', $this->lng->txt('save'));
@@ -379,18 +336,10 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "customIcons");
 		}
 	
-		$form = $this->initSettingsForm();
+		$form = $this->initCustomIconsForm();
 		if ($form->checkInput())
 		{
 			$ilSetting->set("custom_icons", (int)$form->getInput("custom_icons"));
-			/*
-			$ilSetting->set("custom_icon_big_width", (int)$form->getInput("custom_icon_big_width"));
-			$ilSetting->set("custom_icon_big_height", (int)$form->getInput("custom_icon_big_height"));
-			$ilSetting->set("custom_icon_small_width", (int)$form->getInput("custom_icon_small_width"));
-			$ilSetting->set("custom_icon_small_height", (int)$form->getInput("custom_icon_small_height"));
-			$ilSetting->set("custom_icon_tiny_width", (int)$form->getInput("custom_icon_tiny_width"));
-			$ilSetting->set("custom_icon_tiny_height", (int)$form->getInput("custom_icon_tiny_height"));
-			*/
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "customIcons");
 		}

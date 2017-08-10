@@ -17,7 +17,8 @@ interface Factory {
 	 *   purpose: >
 	 *      Standard Panels are used in the Center Content section to group content.
 	 *   composition: >
-	 *      Standard consist of a title and a content section. The structure of this content might be varying from Standard
+	 *      Standard Panels consist of a title and a content section. The
+	 *      structure of this content might be varying from Standard
 	 *      Panel to Standard Panel. Standard Panels may contain Sub Panels.
 	 *   rivals:
 	 *      Cards: >
@@ -46,7 +47,7 @@ interface Factory {
 	 *      Standard Panel: >
 	 *        The Standard Panel might contain a Sub Panel.
 	 *      Card: >
-	 *        The Sub Panels may contain one card.
+	 *        The Sub Panels may contain one Card.
 	 *
 	 * rules:
 	 *   usage:
@@ -70,7 +71,8 @@ interface Factory {
 	 *       filled with user-generated content harvested by that very structure (i.e. participants’ answers to
 	 *       the question, self-evaluation of competence).
 	 *   composition: >
-	 *       They are composed of a Standard Panel which contains several Block Panels. They might also contain
+	 *       They are composed of a Standard Panel which contains several Sub
+	 *       Panels. They might also contain
 	 *       a card to display information meta information in their first block.
 	 *   effect: >
 	 *       Report Panels are predominantly used for displaying data. They may however comprise links or buttons.
@@ -92,4 +94,34 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Panel\Report
 	 */
 	public function report($title,$sub_panels);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Listing Panels are used to list items following all one
+	 *       single template.
+	 *   composition: >
+	 *       Listing Panels are composed of several titled Item Groups.
+	 *       They further may contain a filter.
+	 *   effect: >
+	 *       The List Items of Listing Panels may contain a dropdown
+	 *       offering options to interact with the item. Further Listing Panels
+	 *       may be filtered and the number of sections or items to be displayed
+	 *       may be configurable.
+	 *   rivals:
+	 *      Report Panels: >
+	 *        Report Panels contain sections as Sub Panels each displaying
+	 *        different aspects of one item.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: >
+	 *         Listing Panels SHOULD be used, if a large number of items using
+	 *         the same template are to be displayed in an inviting way
+	 *         not using a Table.
+	 * ---
+	 * @return \ILIAS\UI\Component\Panel\Listing\Factory
+	 */
+	public function listing();
 }

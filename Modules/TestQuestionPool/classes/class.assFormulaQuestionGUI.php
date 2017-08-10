@@ -1135,7 +1135,9 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	// hey: prevPassSolutions - pass will be always available from now on
+	function getTestOutput($active_id, $pass, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	// hey.
 	{
 		ilUtil::sendInfo($this->lng->txt('enter_valid_values'));
 		// get the solution of the user for the active pass or from the last pass if allowed
@@ -1143,12 +1145,16 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		if($active_id)
 		{
 			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if(is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			// hey: prevPassSolutions - obsolete due to central check
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if(is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			// hey.
 
 			$user_solution["active_id"] = $active_id;
 			$user_solution["pass"]      = $pass;
-			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+			// hey: prevPassSolutions - obsolete due to central check
+			$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
+			// hey.
 
 			foreach($solutions as $idx => $solution_value)
 			{
@@ -1174,6 +1180,17 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				}
 			}
 		}
+
+// fau: testNav - take question variables always from authorized solution because they are saved with this flag, even if an authorized solution is not saved
+		$solutions = $this->object->getSolutionValues($active_id, $pass, true);
+		foreach($solutions as $idx => $solution_value)
+		{
+			if (preg_match("/^(\\\$v\\d+)$/", $solution_value["value1"], $matches))
+			{
+				$user_solution[$matches[1]] = $solution_value["value2"];
+			}
+		}
+// fau.
 
 		// generate the question output
 		$template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output.html", true, true, 'Modules/TestQuestionPool');

@@ -235,7 +235,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->object->getStyleSheetId(), $this->object->getType()));
 
 		$page_gui->setTemplateTargetVar("ADM_CONTENT");
-		$page_gui->setLinkXML($link_xml);
 		$page_gui->setFileDownloadLink("");
 		$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
 		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
@@ -2843,7 +2842,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function allowBlocksMoving()
 	{
-		true;
+		return true;
 	}
 
 	/**
@@ -2851,7 +2850,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function allowBlocksConfigure()
 	{
-		true;
+		return true;
 	}
 	
 	/**

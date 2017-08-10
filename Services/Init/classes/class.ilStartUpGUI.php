@@ -172,14 +172,6 @@ class ilStartUpGUI
 			return;
 		}
 		
-		// if authentication of soap user failed, but email address is
-		// known, show users and ask for password
-		if ($status == AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL)
-		{
-			$this->showUserMappingSelection();
-			return;
-		}
-
 		// check for session cookies enabled
 		if (!isset($_COOKIE['iltest']))
 		{
@@ -596,6 +588,7 @@ class ilStartUpGUI
 		$form->addItem($ti);
 
 		$pi = new ilPasswordInputGUI($this->lng->txt("password"), "password");
+		$pi->setUseStripSlashes(false);
 		$pi->setRetype(false);
 		$pi->setSkipSyntaxCheck(true);
 		$pi->setSize(20);
@@ -659,7 +652,7 @@ class ilStartUpGUI
 				return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
 
 			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-				ilUtil::sendFailure($GLOBALS['lng']->txt($status->getReason()),true);
+				ilUtil::sendFailure($status->getTranslatedReason(),true);
 				$GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
 				return false;
 		}
@@ -730,18 +723,18 @@ class ilStartUpGUI
 	protected function doApacheAuthentication()
 	{
 		$this->getLogger()->debug('Trying apache authentication');
-		
+
 		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsApache.php';
 		$credentials = new ilAuthFrontendCredentialsApache();
 		$credentials->initFromRequest();
-		
+
 		include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
 		$provider_factory = new ilAuthProviderFactory();
 		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_APACHE);
-		
+
 		include_once './Services/Authentication/classes/class.ilAuthStatus.php';
 		$status = ilAuthStatus::getInstance();
-		
+
 		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
 		$frontend_factory = new ilAuthFrontendFactory();
 		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
@@ -751,35 +744,38 @@ class ilStartUpGUI
 			$credentials,
 			array($provider)
 		);
-			
+
 		$frontend->authenticate();
-		
+
 		switch($status->getStatus())
 		{
 			case ilAuthStatus::STATUS_AUTHENTICATED:
 				ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
-				include_once './Services/Init/classes/class.ilInitialisation.php';
-				ilInitialisation::redirectToStartingPage();
+				if($credentials->hasValidTargetUrl())
+				{
+					ilUtil::redirect($credentials->getTargetUrl());
+				}
+				else
+				{
+					require_once './Services/Init/classes/class.ilInitialisation.php';
+					ilInitialisation::redirectToStartingPage();
+				}
 				return;
-					
+
 			case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
 				return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
 
 			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-				ilUtil::sendFailure($GLOBALS['lng']->txt($status->getReason()),true);
-				$GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
+				ilUtil::sendFailure($status->getTranslatedReason(), true);
+				ilUtil::redirect(ilUtil::appendUrlParameterString($GLOBALS['ilCtrl']->getLinkTarget($this, 'showLoginPage'), 'passed_sso=1'));
 				return false;
 		}
-		
+
 		ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
 		$this->showLoginPage();
 		return false;
-		
-		
-		
 	}
-	
-	
+
 	/**
 	 * Check form input; authenticate user
 	 */
@@ -838,7 +834,7 @@ class ilStartUpGUI
 					return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
 
 				case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-					ilUtil::sendFailure($GLOBALS['lng']->txt($status->getReason()));
+					ilUtil::sendFailure($status->getTranslatedReason());
 					return $this->showLoginPage($form);
 			}
 			
@@ -1112,7 +1108,7 @@ class ilStartUpGUI
 			$rtpl->parseCurrentBlock();
 		}
 
-		if ($ilSetting->get("pub_section") &&
+		if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
 			$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", ROOT_FOLDER_ID))
 		{
 			$rtpl->setCurrentBlock("homelink");
@@ -1547,10 +1543,18 @@ class ilStartUpGUI
 	*/
 	function showLogout()
 	{
-		global $tpl, $ilSetting, $ilAuth, $lng, $ilIliasIniFile;
+		global $tpl, $ilSetting, $lng, $ilIliasIniFile;
 		
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
 		$GLOBALS['DIC']['ilAuthSession']->logout();
+		
+		$GLOBALS['ilAppEventHandler']->raise(
+			'Services/Authentication', 
+			'afterLogout',
+			array(
+				'username' => $GLOBALS['DIC']->user()->getLogin()
+			)
+		);
 
 		// reset cookie
 		$client_id = $_COOKIE["ilClientId"];
@@ -1559,7 +1563,7 @@ class ilStartUpGUI
 		//instantiate logout template
 		self::initStartUpTemplate("tpl.logout.html");
 		
-		if ($ilSetting->get("pub_section"))
+		if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']))
 		{
 			$tpl->setCurrentBlock("homelink");
 			$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$lng->getLangKey());
@@ -1871,11 +1875,7 @@ class ilStartUpGUI
 			ilInitialisation::redirectToStartingPage();
 			return;
 		}
-		else
-		{
-			
-		}
-
+		
 		// no valid session => show client list, if no client info is given
 		if (
 			!isset($_GET["client_id"]) &&
@@ -1885,14 +1885,15 @@ class ilStartUpGUI
 			return $this->showClientList();
 		}
 
-		if($GLOBALS['ilSetting']->get('pub_section', false)
-		)
+		if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']))
 		{
 			return ilInitialisation::goToPublicSection();
 		}
-		
+
 		// otherwise show login page
 		return $this->showLoginPage();
+		
+		
 	}
 
 
@@ -2129,7 +2130,13 @@ class ilStartUpGUI
 			{
 				$lng = new ilLanguage($usr_lang);
 			}
-			
+
+			$target = $oUser->getPref('reg_target');
+			if(strlen($target) > 0)
+			{
+				$_GET['target'] = $target;
+			}
+
 			// send email
 			// try individual account mail in user administration
 			include_once("Services/Mail/classes/class.ilAccountMail.php");
@@ -2248,7 +2255,8 @@ class ilStartUpGUI
 			$tpl->setVariable('LINK_URL', 'login.php?cmd=force_login&'.$param);
 			$tpl->parseCurrentBlock();
 
-			if($ilSetting->get('pub_section') &&
+			include_once './Services/Init/classes/class.ilPublicSectionSettings.php';
+			if(ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
 				$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID))
 			{
 				$tpl->setVariable('LINK_URL', 'index.php?'.$param);

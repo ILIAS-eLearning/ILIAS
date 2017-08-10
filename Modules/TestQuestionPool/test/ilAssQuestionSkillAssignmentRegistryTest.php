@@ -103,7 +103,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends PHPUnit_Framework_TestCas
 	 * @param callable $post
 	 * @return array
 	 */
-	protected function getProvidedData(callable $pre, callable $post)
+	protected function getTestData(callable $pre, callable $post)
 	{
 		$data = [];
 
@@ -156,6 +156,6 @@ class ilAssQuestionSkillAssignmentRegistryTest extends PHPUnit_Framework_TestCas
 			return \unserialize($value);
 		};
 
-		return $this->getProvidedData($pre, $post);
+		return $this->getTestData($pre, $post);
 	}
 }

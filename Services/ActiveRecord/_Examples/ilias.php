@@ -5,7 +5,9 @@ require_once("./Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 
-global $ilCtrl, $tpl;
+global $DIC;
+$ilCtrl = $DIC['ilCtrl'];
+$tpl = $DIC['tpl'];
 /**
  * @var $ilCtrl ilCtrl
  * @var $tpl    ilTemplate
@@ -13,7 +15,7 @@ global $ilCtrl, $tpl;
 $tpl->getStandardTemplate();
 $tpl->setVariable('BASE', '/');
 
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Demo/StorageRecord/class.arStorageRecordGUI.php');
+require_once('./Services/ActiveRecord/_Examples/StorageRecord/class.arStorageRecordGUI.php');
 
 $arTestRecordGUI = new arStorageRecordGUI();
 $arTestRecordGUI->executeCommand();

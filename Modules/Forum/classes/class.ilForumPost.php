@@ -57,9 +57,13 @@ class ilForumPost
 	
 	private $loginname = '';
 	
+	/**
+	 * @var ilForumTopic
+	 */
 	private $objThread = null;
 	
 	private $db = null;
+	private $lng = null;
 
 	/**
 	 *  current user in a forum
@@ -77,11 +81,20 @@ class ilForumPost
 	
 	private $pos_author_id = 0;
 	
+	private $post_activation_date = null;
+	
+	/**
+	 * ilForumPost constructor.
+	 * @param int  $a_id
+	 * @param bool $a_is_moderator
+	 * @param bool $preventImplicitRead
+	 */
 	public function __construct($a_id = 0, $a_is_moderator = false, $preventImplicitRead = false)
 	{
-		global $ilDB;
+		global $DIC;
 
-		$this->db = $ilDB;
+		$this->db = $DIC->database();
+		$this->lng = $DIC->language();
 		$this->id = $a_id;
 
 		if( !$preventImplicitRead )
@@ -98,13 +111,11 @@ class ilForumPost
 	
 	public function insert()
 	{
-		global $ilDB;
-		
 		if ($this->forum_id && $this->thread_id)
 		{
-			$this->id = $this->db->nextId('frm_posts');	
+			$this->id = $this->db->nextId('frm_posts');
 			
-			$ilDB->insert('frm_posts', array(
+			$this->db->insert('frm_posts', array(
 				'pos_pk'		=> array('integer', $this->id),
 				'pos_top_fk'	=> array('integer', $this->forum_id),
 				'pos_thr_fk'	=> array('integer', $this->thread_id),
@@ -120,7 +131,8 @@ class ilForumPost
 				'import_name'	=> array('text', (string)$this->import_name),
 				'pos_status'	=> array('integer', (int)$this->status),
 				'pos_author_id' => array('integer', (int)$this->pos_author_id),
-				'is_author_moderator' 	=> array('integer', $this->is_author_moderator)
+				'is_author_moderator' => array('integer', $this->is_author_moderator),
+				'pos_activation_date' => array('timestamp', $this->createdate) 
 			));
 			
 			return true;
@@ -131,11 +143,9 @@ class ilForumPost
 	
 	public function update()
 	{
-		global $ilDB;
-
 		if($this->id)
 		{
-			$ilDB->update('frm_posts',
+			$this->db->update('frm_posts',
 				array(
 					'pos_top_fk'	=> array('integer', $this->forum_id),
 					'pos_thr_fk'	=> array('integer', $this->thread_id),
@@ -152,7 +162,7 @@ class ilForumPost
 				array(
 					'pos_pk'		=> array('integer', (int)$this->id)
 				)
-			);			 
+			);
 			
 			if($this->objThread->getFirstPostId() == $this->id)
 			{
@@ -171,7 +181,7 @@ class ilForumPost
 	{	
 		if ($this->id)
 		{
-			$res = $this->db->queryf('
+			$res = $this->db->queryF('
 				SELECT * FROM frm_posts
 				INNER JOIN frm_posts_tree ON pos_fk = pos_pk
 				WHERE pos_pk = %s',
@@ -203,6 +213,7 @@ class ilForumPost
 				$this->depth              = $row->depth;
 				$this->pos_author_id      = $row->pos_author_id;
 				$this->is_author_moderator = $row->is_author_moderator;
+				$this->post_activation_date = $row->pos_activation_date;
 				$this->getUserData();
 				
 				$this->objThread = new ilForumTopic($this->thread_id, $this->is_moderator);
@@ -220,7 +231,7 @@ class ilForumPost
 	{
 		if ($this->id)
 		{
-			$res = $this->db->queryf('
+			$res = $this->db->queryF('
 				SELECT * FROM frm_posts_tree
 				INNER JOIN frm_posts ON pos_pk = pos_fk
 				WHERE pos_status = %s
@@ -237,8 +248,6 @@ class ilForumPost
 	
 	protected function buildUserRelatedData($row)
 	{
-		global $lng;
-		
 		if ($row['pos_display_user_id'] && $row['pos_pk'])
 		{
 			require_once 'Services/User/classes/class.ilObjUser.php';
@@ -251,16 +260,12 @@ class ilForumPost
 			$this->fullname = $tmp_user->getFullname();
 			$this->loginname = $tmp_user->getLogin();
 		
-			$this->fullname = $this->fullname ? $this->fullname : ($this->import_name ? $this->import_name : $lng->txt('unknown'));
-			
-			return true;
+			$this->fullname = $this->fullname ? $this->fullname : ($this->import_name ? $this->import_name : $this->lng->txt('unknown'));
 		}
 	}
 	
 	private function getUserData()
 	{
-		global $lng;
-		
 		if ($this->id && $this->display_user_id)
 		{
 			require_once("Modules/Forum/classes/class.ilObjForumAccess.php");
@@ -271,7 +276,7 @@ class ilForumPost
 				unset($tmp_user);
 			}
 		
-			$this->fullname = $this->fullname ? $this->fullname : ($this->import_name ? $this->import_name : $lng->txt('unknown'));
+			$this->fullname = $this->fullname ? $this->fullname : ($this->import_name ? $this->import_name : $this->lng->txt('unknown'));
 			
 			return true;
 		}
@@ -305,12 +310,16 @@ class ilForumPost
 	{		
 		if ($this->id)
 		{
+			$now = date("Y-m-d H:i:s");
 			$this->db->update('frm_posts',
-					array('pos_status'	=>	array('integer', 1)),
-					array('pos_pk'		=>	array('integer', $this->id)));
+				array('pos_status'	=>	array('integer', 1),
+				      'pos_activation_date' => array('timestamp', $now)),
+				array('pos_pk'		=>	array('integer', $this->id))
+			);
 
 			$this->activateParentPosts();
-			
+			$this->setPostActivationDate($now);
+			$this->setStatus(1);
 			return true;
 		}
 		
@@ -332,11 +341,14 @@ class ilForumPost
 				array($this->id)
 			);
 
+			$now = date("Y-m-d H:i:s");
 			while($row = $this->db->fetchAssoc($result))
 			{
 				$this->db->update('frm_posts',
-					array('pos_status'	=>	array('integer', 1)),
-					array('pos_pk'		=>	array('integer', $row['pos_pk'])));
+					array('pos_status'	=>	array('integer', 1),
+					      'pos_activation_date' => array('timestamp', $now)),
+					array('pos_pk'		=>	array('integer', $row['pos_pk']))
+				);
 			}
 			
 			$this->activateParentPosts();
@@ -360,39 +372,14 @@ class ilForumPost
 				array($this->lft, $this->rgt, $this->thread_id)
 			);
 			
+			$now = date("Y-m-d H:i:s");
 			while($row = $this->db->fetchAssoc($result))
 			{
 				$this->db->update('frm_posts',
-					array('pos_status'	=>	array('integer', 1)),
-					array('pos_pk'		=>	array('integer', $row['pos_pk'])));
-			}
-			
-			return true;
-		}
-		
-		return false;
-	}
-
-	public function deactivatePostAndChildPosts()
-	{
-		if ($this->id)
-		{
-			$query = "SELECT pos_pk FROM frm_posts_tree treea "
-			       . "INNER JOIN frm_posts_tree treeb ON treeb.thr_fk = treea.thr_fk "
-				   . "AND treeb.lft BETWEEN treea.lft AND treea.rgt "
-				   . "INNER JOIN frm_posts ON pos_pk = treeb.pos_fk "
-				   . "WHERE treea.pos_fk = %s";
-			$result = $this->db->queryF(
-				$query,
-				array('integer'),
-				array($this->id)
-			);
-			
-			while($row = $this->db->fetchAssoc($result))
-			{
-				$this->db->update('frm_posts',
-					array('pos_status'	=>	array('integer', 0)),
-					array('pos_pk'		=>	array('integer', $row['pos_pk'])));
+					array('pos_status'	=>	array('integer', 1),
+					      'pos_activation_date' => array('timestamp', $now)),
+					array('pos_pk'		=>	array('integer', $row['pos_pk']))
+				);
 			}
 			
 			return true;
@@ -411,7 +398,7 @@ class ilForumPost
 		if ($a_user_id && $this->id)
 		{
 
-			$res = $this->db->queryf('
+			$res = $this->db->queryF('
 				SELECT * FROM frm_user_read 
 			  	WHERE usr_id = %s
 			 	AND post_id = %s',
@@ -428,7 +415,7 @@ class ilForumPost
 	{
 		if ($this->id && $this->rgt && $this->lft)
 		{
-			$res = $this->db->queryf('
+			$res = $this->db->queryF('
 				SELECT * FROM frm_posts_tree			  		 
 		  	 	WHERE lft > %s AND rgt < %s
 		  	  	AND thr_fk = %s',
@@ -672,6 +659,22 @@ class ilForumPost
 	{
 		return $this->censored_date;
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getPostActivationDate()
+	{
+		return $this->post_activation_date;
+	}
+	
+	/**
+	 * @param string $post_activation_date
+	 */
+	public function setPostActivationDate($post_activation_date)
+	{
+		$this->post_activation_date = $post_activation_date;
+	}
 
 	/**
 	 * @param string $censored_date
@@ -681,6 +684,9 @@ class ilForumPost
 		$this->censored_date = $censored_date;
 	}
 	
+	/**
+	 * @param $row
+	 */
 	public function assignData($row)
 	{
 		$this->setUserAlias($row['pos_usr_alias']);
@@ -709,14 +715,17 @@ class ilForumPost
 		$this->buildUserRelatedData($row);
 	}
 	
+	/**
+	 * @param $source_thread_id
+	 * @param $target_thread_id
+	 */
 	public static function mergePosts($source_thread_id, $target_thread_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		$ilDB->update('frm_posts',
 		array('pos_thr_fk' => array('integer', $target_thread_id)),
 		array('pos_thr_fk' => array('integer', $source_thread_id)));
 	}
-	
 }
-?>

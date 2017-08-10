@@ -569,14 +569,13 @@ class ilRegistrationSettingsGUI
 		
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 
+		$this->access_limitations_obj->resetAccessLimitations();
 		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
 		{
 			$this->access_limitations_obj->setMode($_POST['access_limitation_mode_'.$role['id']],$role['id']);
 			$this->access_limitations_obj->setAbsolute($_POST['access_limitation_absolute_'.$role['id']],$role['id']);
 			$this->access_limitations_obj->setRelative($_POST['access_limitation_relative_'.$role['id']],$role['id']);
 		}
-		
-		//var_dump("<pre>",$_POST,$this->access_limitations_obj->getAbsolute(4),time(),"</pre>");exit;
 		
 		if($err = $this->access_limitations_obj->validate())
 		{
@@ -1019,12 +1018,13 @@ class ilRegistrationSettingsGUI
 			switch($limit)
 			{
 				case "absolute":
-					$date_input = $this->form_gui->getItemByPostVar("abs_date");	
-					if($date_input->getDate()->get(IL_CAL_DATE) < date("Y-m-d"))
+					$date_input = $this->form_gui->getItemByPostVar("abs_date");
+					$date = $date_input->getDate()->get(IL_CAL_DATE);
+					if($date < date("Y-m-d"))
 					{						
 						$date_input->setAlert($this->lng->txt("form_msg_wrong_date"));
 						$valid = false;
-					}				
+					}
 					break;
 				
 				case "relative":

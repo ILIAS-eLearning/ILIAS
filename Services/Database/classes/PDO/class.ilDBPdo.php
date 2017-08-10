@@ -104,6 +104,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 			$options = $this->getAttributes();
 			$this->pdo = new PDO($this->getDSN(), $this->getUsername(), $this->getPassword(), $options);
 			$this->initHelpers();
+			$this->initSQLMode();
 		} catch (Exception $e) {
 			$this->error_code = $e->getCode();
 			if ($return_false_for_error) {
@@ -117,6 +118,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	abstract public function initHelpers();
+
+
+	protected function initSQLMode() {
+	}
 
 
 	/**
@@ -210,7 +215,9 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	public function generateDSN() {
-		$this->dsn = 'mysql:host=' . $this->getHost() . ($this->getDbname() ? ';dbname=' . $this->getDbname() : '') . ';charset='
+		$this->dsn = 'mysql:host=' . $this->getHost() . ($this->getPort() ? ";port="
+		                                                                    . $this->getPort() : "")
+		             . ($this->getDbname() ? ';dbname=' . $this->getDbname() : '') . ';charset='
 		             . $this->getCharset();
 	}
 
@@ -244,9 +251,9 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 			$stmt->closeCursor();
 			$next_id = $rows['sequence'] + 1;
 			$stmt = $this->pdo->prepare("DELETE FROM $sequence_table_name");
-			$stmt->execute(array( "next_id" => $next_id ));
+			$stmt->execute(array("next_id" => $next_id));
 			$stmt = $this->pdo->prepare("INSERT INTO $sequence_table_name (sequence) VALUES (:next_id)");
-			$stmt->execute(array( "next_id" => $next_id ));
+			$stmt->execute(array("next_id" => $next_id));
 
 			return $next_id;
 		}
@@ -266,12 +273,12 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	public function createTable($table_name, $fields, $drop_table = false, $ignore_erros = false) {
 		// check table name
 		if (!$this->checkTableName($table_name) && !$ignore_erros) {
-			throw new ilDatabaseException("ilDB Error: createTable(" . $table_name . ")");
+			throw new ilDatabaseException(" Error: createTable(" . $table_name . ")");
 		}
 
 		// check definition array
 		if (!$this->checkTableColumns($fields) && !$ignore_erros) {
-			throw new ilDatabaseException("ilDB Error: createTable(" . $table_name . ")");
+			throw new ilDatabaseException(" Error: createTable(" . $table_name . ")");
 		}
 
 		if ($drop_table) {
@@ -349,7 +356,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		}
 		$definition = array(
 			'primary' => true,
-			'fields'  => $fields,
+			'fields' => $fields,
 		);
 		$this->manager->createConstraint($table_name, $this->constraintName($table_name, $this->getPrimaryKeyIdentifier()), $definition);
 
@@ -401,7 +408,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 */
 	public function tableExists($table_name) {
 		$result = $this->pdo->prepare("SHOW TABLES LIKE :table_name");
-		$result->execute(array( 'table_name' => $table_name ));
+		$result->execute(array('table_name' => $table_name));
 		$return = $result->rowCount();
 		$result->closeCursor();
 
@@ -451,17 +458,26 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	/**
 	 * @param $table_name
 	 * @param bool $error_if_not_existing
-	 * @return int
+	 * @return bool
+	 * @throws \ilDatabaseException
 	 */
 	public function dropTable($table_name, $error_if_not_existing = true) {
-		try {
-			$this->pdo->exec("DROP TABLE $table_name");
-		} catch (PDOException $PDOException) {
-			if ($error_if_not_existing) {
-				throw $PDOException;
-			}
+		$ilDBPdoManager = $this->loadModule(ilDBConstants::MODULE_MANAGER);
+		$tables = $ilDBPdoManager->listTables();
+		$table_exists = in_array($table_name, $tables);
+		if (!$table_exists && $error_if_not_existing) {
+			throw new ilDatabaseException("Table {$table_name} does not exist");
+		}
 
-			return false;
+		// drop sequence
+		$sequences = $ilDBPdoManager->listSequences();
+		if (in_array($table_name, $sequences)) {
+			$ilDBPdoManager->dropSequence($table_name);
+		}
+
+		// drop table
+		if ($table_exists) {
+			$ilDBPdoManager->dropTable($table_name);
 		}
 
 		return true;
@@ -591,7 +607,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	/**
-	 * @param $query_result PDOStatement
+	 * @param $query_result ilPDOStatement
 	 *
 	 * @return mixed|null
 	 */
@@ -701,7 +717,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	/**
-	 * @param $query_result PDOStatement
+	 * @param $query_result ilPDOStatement
 	 *
 	 * @return mixed
 	 */
@@ -1251,9 +1267,9 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param int $a_len
 	 * @return string
 	 */
-	public function substr($a_exp, $a_pos = 1, $a_len = - 1) {
+	public function substr($a_exp, $a_pos = 1, $a_len = -1) {
 		$lenstr = "";
-		if ($a_len > - 1) {
+		if ($a_len > -1) {
 			$lenstr = ", " . $a_len;
 		}
 
@@ -1264,10 +1280,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	/**
 	 * @param $query
 	 * @param null $types
-	 * @return \ilDBStatement
+	 * @return \ilPDOStatement
 	 */
 	public function prepareManip($query, $types = null) {
-		return $this->pdo->prepare($query);
+		return new ilPDOStatement($this->pdo->prepare($query));
 	}
 
 
@@ -1275,10 +1291,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param $query
 	 * @param null $types
 	 * @param null $result_types
-	 * @return \PDOStatement
+	 * @return \ilPDOStatement
 	 */
 	public function prepare($query, $types = null, $result_types = null) {
-		return $this->pdo->prepare($query, $types, $result_types);
+		return new ilPDOStatement($this->pdo->prepare($query));
 	}
 
 
@@ -1293,19 +1309,24 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	/**
 	 * @param $stmt
 	 * @param array $data
-	 * @return bool
+	 * @throws ilDatabaseException
+	 * @return ilDBStatement
 	 */
 	public function execute($stmt, $data = array()) {
 		/**
-		 * @var $stmt PDOStatement
+		 * @var $stmt ilPDOStatement
 		 */
-		return $stmt->execute($data);
+		$result = $stmt->execute($data);
+		if ($result === false) {
+			throw new ilDatabaseException(implode(', ', $stmt->errorInfo()), $stmt->errorCode());
+		}
+		return $stmt;
 	}
 
 
 	/**
 	 * @param $a_table
-	 * @return \PDOStatement
+	 * @return \ilDBStatement
 	 * @throws \ilDatabaseException
 	 */
 	public function optimizeTable($a_table) {
@@ -1515,12 +1536,12 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 			throw new ilDatabaseException("ilDB Error: renameTable(" . $a_name . "," . $a_new_name . ")<br />" . $e->getMessage());
 		}
 
-		$this->manager->alterTable($a_name, array( "name" => $a_new_name ), false);
+		$this->manager->alterTable($a_name, array("name" => $a_new_name), false);
 
-        // The abstraction_progress is no longer used in ILIAS, see http://www.ilias.de/mantis/view.php?id=19513
-        //		$query = "UPDATE abstraction_progress " . "SET table_name = " . $this->quote($a_new_name, 'text') . " " . "WHERE table_name = "
-        //		         . $this->quote($a_name, 'text');
-        //		$this->pdo->query($query);
+		// The abstraction_progress is no longer used in ILIAS, see http://www.ilias.de/mantis/view.php?id=19513
+		//		$query = "UPDATE abstraction_progress " . "SET table_name = " . $this->quote($a_new_name, 'text') . " " . "WHERE table_name = "
+		//		         . $this->quote($a_name, 'text');
+		//		$this->pdo->query($query);
 
 		return true;
 	}
@@ -1804,7 +1825,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @return bool
 	 */
 	public function uniqueConstraintExists($table, array $fields) {
-		require_once('../Services/Database/classes/class.ilDBAnalyzer.php');
+		require_once('./Services/Database/classes/class.ilDBAnalyzer.php');
 		$analyzer = new ilDBAnalyzer();
 		$cons = $analyzer->getConstraintsInformation($table);
 		foreach ($cons as $c) {
@@ -1839,7 +1860,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param $a_data
 	 */
 	public function executeMultiple($stmt, $a_data) {
-		for ($i = 0, $j = count($a_data); $i < $j; $i ++) {
+		for ($i = 0, $j = count($a_data); $i < $j; $i++) {
 			$stmt->execute($a_data[$i]);
 		}
 	}
@@ -1867,13 +1888,13 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * Generate an insert, update or delete query and call prepare() and execute() on it
 	 *
 	 * @param string $tablename of the table
-	 * @param array $fields     ($key=>$value) where $key is a field name and $value its value
-	 * @param int $mode         of query to build
+	 * @param array $fields ($key=>$value) where $key is a field name and $value its value
+	 * @param int $mode of query to build
 	 *                          ilDBConstants::MDB2_AUTOQUERY_INSERT
 	 *                          ilDBConstants::MDB2_AUTOQUERY_UPDATE
 	 *                          ilDBConstants::MDB2_AUTOQUERY_DELETE
 	 *                          ilDBConstants::MDB2_AUTOQUERY_SELECT
-	 * @param bool $where       (in case of update and delete queries, this string will be put after the sql WHERE statement)
+	 * @param bool $where (in case of update and delete queries, this string will be put after the sql WHERE statement)
 	 *
 	 * @deprecated Will be removed in ILIAS 5.3
 	 * @return bool

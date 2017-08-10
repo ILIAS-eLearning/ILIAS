@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Triggerer;
 use ILIAS\UI\Factory;
 
 /**
@@ -73,6 +74,10 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		return $this->lng->txt($id);
 	}
 
+	final public function toJS($key) {
+		$this->lng->toJS($key);
+	}
+
 	/**
 	 * Get template of component this renderer is made for.
 	 *
@@ -101,6 +106,19 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 * @return	string|null
 	 */
 	final protected function bindJavaScript(JavaScriptBindable $component) {
+		if ($component instanceof Triggerer) {
+			$component = $this->addTriggererOnLoadCode($component);
+		}
+		return $this->bindOnloadCode($component);
+	}
+
+	/**
+	 * Bind the JavaScript onload-code.
+	 *
+	 * @param	JavaScriptBindable	$component
+	 * @return	string|null
+	 */
+	private function bindOnloadCode(JavaScriptBindable $component) {
 		$binder = $component->getOnLoadCode();
 		if ($binder === null) {
 			return null;
@@ -116,6 +134,38 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		return $id;
 	}
 
+	/**
+	 * Add onload-code for triggerer.
+	 *
+	 * @param	Triggerer	$triggerer
+	 * @return 	Triggerer
+	 */
+	private function addTriggererOnLoadCode(Triggerer $triggerer) {
+		$triggered_signals = $triggerer->getTriggeredSignals();
+		if (count($triggered_signals) == 0) {
+			return $triggerer;
+		}
+		return $triggerer->withAdditionalOnLoadCode(function($id) use ($triggered_signals) {
+			$code = "";
+			foreach ($triggered_signals as $triggered_signal) {
+				$signal = $triggered_signal->getSignal();
+				$event = $triggered_signal->getEvent();
+				$options = json_encode($signal->getOptions());
+				$code .=
+					"$('#{$id}').{$event}( function(event) {
+						$(this).trigger('{$signal}',
+							{
+								'id' : '{$signal}', 'event' : '{$event}',
+								'triggerer' : $(this),
+								'options' : JSON.parse('{$options}')
+							}
+						);
+						return false;
+					});";
+			}
+			return $code;
+		});
+	}
 
 	/**
 	 * Check if a given component fits this renderer and throw \LogicError if that is not

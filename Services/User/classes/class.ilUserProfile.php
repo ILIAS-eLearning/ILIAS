@@ -46,7 +46,7 @@ class ilUserProfile
 	private static $user_field = array(
 		"username" => array(
 						"input" => "login",
-						"maxlength" => 32,
+						"maxlength" => 64,
 						"size" => 40,
 						"method" => "getLogin",
 						"course_export_fix_value" => 1,
@@ -235,6 +235,12 @@ class ilUserProfile
 						"size" => 40,
 						"method" => "getEmail",
 						"group" => "contact_data"),
+		"second_email" => array(
+						"input" => "second_email",
+						"maxlength" => 40,
+						"size" => 40,
+						"method" => "getSecondEmail",
+						"group" => "contact_data"),
 		"hobby" => array(
 						"input" => "textarea",
 						"rows" => 3,
@@ -343,9 +349,9 @@ class ilUserProfile
 						"input" => "selection",
 						"default" => "y",
 						"options" => array(
-							IL_MAIL_LOCAL => "mail_incoming_local",
-							IL_MAIL_EMAIL => "mail_incoming_smtp",
-							IL_MAIL_BOTH => "mail_incoming_both"),
+							ilMailOptions::INCOMING_LOCAL => "mail_incoming_local",
+							ilMailOptions::INCOMING_EMAIL => "mail_incoming_smtp",
+							ilMailOptions::INCOMING_BOTH  => "mail_incoming_both"),
 						"required_hide" => true,
 						"visib_reg_hide" => true,
 						"course_export_hide" => true,
@@ -512,7 +518,7 @@ class ilUserProfile
 						{
 							$val->setValue($a_user->getLogin());
 						}
-						$val->setMaxLength(32);
+						$val->setMaxLength($p['maxlength']);
 						$val->setSize(40);
 						$val->setRequired(true);
 					}
@@ -708,7 +714,26 @@ class ilUserProfile
 						$a_form->addItem($em);
 					}
 					break;
-					
+				case "second_email":
+					if (ilUserProfile::userSettingVisible($f))
+					{
+						$em = new ilEMailInputGUI($lng->txt($lv), "usr_".$f);
+						if($a_user)
+						{
+							$em->setValue($a_user->$m());
+						}
+						$em->setRequired($ilSetting->get("require_".$f));
+						if(!$em->getRequired() || $em->getValue())
+						{
+							$em->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+						}
+						if(self::MODE_REGISTRATION == self::$mode)
+						{
+							$em->setRetype(true);
+						}
+						$a_form->addItem($em);
+					}
+					break;	
 				case "textarea":
 					if (ilUserProfile::userSettingVisible($f))
 					{
@@ -895,7 +920,7 @@ class ilUserProfile
 		if($a_include_udf)
 		{
 			$user_defined_data = $a_user->getUserDefinedData();
-						
+			
 			include_once './Services/User/classes/class.ilUserDefinedFields.php';
 			$user_defined_fields = ilUserDefinedFields::_getInstance();						
 			foreach($user_defined_fields->getRequiredDefinitions() as $field => $definition)
@@ -908,6 +933,7 @@ class ilUserProfile
 				
 				if(!$user_defined_data["f_".$field])
 				{
+					ilLoggerFactory::getLogger('user')->info('Profile is incomplete due to missing required udf.');
 					return true;
 				}				
 			}					

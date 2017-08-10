@@ -513,7 +513,14 @@ class ilCourseObjectiveResult
 		return (($reached_points / $max_points * 100) >= $objective_data['tst_limit']) ? true : false;
 	}
 
-	function __updatePassed($a_user_id,$objective_ids)
+	/**
+	 * can be protected?
+	 * 
+	 * @global type $ilDB
+	 * @param type $a_user_id
+	 * @param type $objective_ids
+	 */
+	static function __updatePassed($a_user_id,$objective_ids)
 	{
 		global $ilDB;
 

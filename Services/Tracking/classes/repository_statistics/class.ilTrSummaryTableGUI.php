@@ -402,8 +402,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			{
 				$valid = false;
 				foreach($result["ref_ids"] as $check_ref_id)
-				{					
-					if($rbacsystem->checkAccess("read_learning_progress", $check_ref_id))
+				{
+					include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+					if(ilLearningProgressAccess::checkPermission('read_learning_progress', $check_ref_id))
 					{
 						$valid = true;
 						break;
@@ -574,7 +575,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				$id = substr($id, 0, $pos);
 			}
 		}
-
+		
 		if(trim($value) == "")
 		{
 			if($id == "title")
@@ -753,7 +754,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 	protected function isArrayColumn($a_name)
 	{
-		if(in_array($a_name, array("country", "gender", "city", "language", "status", "mark")))
+		if(in_array($a_name, array("country", "gender", "city", "language", "status", "mark", 'sel_country')))
 		{
 			return true;
 		}
@@ -847,7 +848,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			}
 			else
 			{
-				foreach($a_set[$c] as $idx => $value)
+				foreach((array) $a_set[$c] as $idx => $value)
 				{
 					if($c == "status")
 					{
@@ -943,7 +944,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			}
 			else
 			{
-				foreach($a_set[$c] as $idx => $value)
+				foreach((array) $a_set[$c] as $idx => $value)
 				{
 					if($c != "status")
 					{

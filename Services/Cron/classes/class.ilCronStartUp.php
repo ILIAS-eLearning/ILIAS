@@ -33,7 +33,8 @@ class ilCronStartUp
 		ilContext::init(ilContext::CONTEXT_CRON);
 		
 		// define client
-		$_COOKIE['client_id'] = $this->client;
+		// @see mantis 20371
+		$_GET['client_id'] = $this->client;
 		
 		include_once './include/inc.header.php';
 	}
@@ -82,9 +83,17 @@ class ilCronStartUp
 			default:
 			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
 				include_once './Services/Cron/exceptions/class.ilCronException.php';
-				throw new ilCronException($GLOBALS['DIC']['lng']->txt($status->getReason()));
+				throw new ilCronException($status->getTranslatedReason());
 		}				
 		return true;
 	}
+
+	/**
+	 * Closes the current auth session
+	 */
+	public function logout()
+	{
+		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
+		$GLOBALS['DIC']['ilAuthSession']->logout();
+	}
 }
-?>

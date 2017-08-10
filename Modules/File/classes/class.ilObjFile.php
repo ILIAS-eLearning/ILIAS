@@ -1,22 +1,20 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/Object/classes/class.ilObject2.php";
-include_once('Modules/File/classes/class.ilFSStorageFile.php');
-
-/** @defgroup ModulesFile Modules/File
- */
+require_once("Services/Object/classes/class.ilObject2.php");
+require_once('Modules/File/classes/class.ilFSStorageFile.php');
 
 /**
-* Class ilObjFile
-*
-* @author Sascha Hofmann <shofmann@databay.de> 
-* @version $Id$
-*
-* @ingroup ModulesFile
-*/
-class ilObjFile extends ilObject2
-{
+ * Class ilObjFile
+ *
+ * @author  Sascha Hofmann <shofmann@databay.de>
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @version $Id$
+ *
+ * @ingroup ModulesFile
+ */
+class ilObjFile extends ilObject2 {
+
 	var $filename;
 	var $filetype;
 	var $filemaxsize = "20000000";	// not used yet
@@ -29,13 +27,12 @@ class ilObjFile extends ilObject2
 
 
 	/**
-	* Constructor
-	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
-	*/
-	function __construct($a_id = 0,$a_call_by_reference = true)
-	{
+	 * ilObjFile constructor.
+	 *
+	 * @param int $a_id ID of the object, ref_id or obj_id possible
+	 * @param bool $a_call_by_reference defines the $a_id a ref_id
+	 */
+	public function __construct($a_id = 0, $a_call_by_reference = true) {
 		$this->version = 0;
 		$this->raise_upload_error = true;
 
@@ -79,7 +76,9 @@ class ilObjFile extends ilObject2
 	 */
 	function createProperties($a_upload = false)
 	{
-		global $ilDB,$tree;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$tree = $DIC['tree'];
 		
 		// Create file directory
 		$this->initFileStorage();
@@ -322,7 +321,8 @@ class ilObjFile extends ilObject2
 	 */
 	public function deleteVersions($a_hist_entry_ids = null)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		require_once("./Services/History/classes/class.ilHistory.php");
 		
@@ -391,7 +391,8 @@ class ilObjFile extends ilObject2
 	*/
 	protected function doRead()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
 		$r = $this->ilias->db->query($q);
@@ -423,7 +424,9 @@ class ilObjFile extends ilObject2
 	*/
 	protected function doUpdate()
 	{
-		global $ilDB, $ilLog;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 		
 		//$ilLog->write(__METHOD__.' File type: '.$this->getFileType());
 		
@@ -486,7 +489,8 @@ class ilObjFile extends ilObject2
 
 	function setFileType($a_type)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		
 		
 		$this->filetype = $a_type;
@@ -575,7 +579,8 @@ class ilObjFile extends ilObject2
 
 	static function _writeFileType($a_id ,$a_format)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$q = "UPDATE file_data SET ".
 			" file_type = ".$ilDB->quote($a_format ,'text').
@@ -586,7 +591,8 @@ class ilObjFile extends ilObject2
 
 	static function _lookupFileName($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
@@ -677,17 +683,32 @@ class ilObjFile extends ilObject2
 
 		if (@is_file($file))
 		{
-			global $ilClientIniFile;
-			
+			global $DIC;
+			$ilClientIniFile = $DIC['ilClientIniFile'];
+			/**
+			 * @var $ilClientIniFile ilIniFile
+			 */
+			require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
+
+			$ilFileDelivery = new ilFileDelivery($file);
+			$ilFileDelivery->setDisposition($this->isInline() ? ilFileDelivery::DISP_INLINE : ilFileDelivery::DISP_ATTACHMENT);
+			$ilFileDelivery->setMimeType($this->guessFileType($file));
+			$ilFileDelivery->setConvertFileNameToAsci(true);
+
 			// also returning the 'real' filename if a history file is delivered
-			if ($ilClientIniFile->readVariable('file_access','download_with_uploaded_filename') != '1' && is_null($a_hist_entry_id))
-			{
-				ilUtil::deliverFile($file, $this->getTitle(), $this->guessFileType($file), $this->isInline());
+			if ($ilClientIniFile->readVariable('file_access', 'download_with_uploaded_filename') != '1' && is_null($a_hist_entry_id)) {
+				$ilFileDelivery->setDownloadFileName($this->getTitle());
+			} else {
+				// $download_file_name = basename($file);
+				/* FSX Info: basename has a Bug with Japanese and other characters, see:
+				 * http://stackoverflow.com/questions/32115609/basename-fail-when-file-name-start-by-an-accent
+				 * Therefore we can no longer use basename();
+				 */
+				$download_file_name = end(explode(DIRECTORY_SEPARATOR, $file));
+				$ilFileDelivery->setDownloadFileName($download_file_name);
 			}
-			else
-			{
-				ilUtil::deliverFile($file, basename($file), $this->guessFileType($file), $this->isInline());
-			}
+			$ilFileDelivery->deliver();
+
 			return true;
 		}
 
@@ -791,7 +812,8 @@ class ilObjFile extends ilObject2
 	 */
 	protected function doCloneObject($a_new_obj,$a_target_id,$a_copy_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 	 	$a_new_obj->createDirectory();
 	 	$this->cloneMetaData($a_new_obj);
@@ -832,7 +854,8 @@ class ilObjFile extends ilObject2
 	
 	protected function beforeDelete()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		// check, if file is used somewhere
 		$usages = $this->getUsages();
@@ -845,7 +868,8 @@ class ilObjFile extends ilObject2
 
 	protected function doDelete()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		// delete file data entry
 		$q = "DELETE FROM file_data WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
@@ -900,7 +924,8 @@ class ilObjFile extends ilObject2
 	*/
 	static function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$and_hist = ($a_usage_hist_nr !== false)
 			? " AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer")
@@ -934,7 +959,8 @@ class ilObjFile extends ilObject2
 	*/
 	static function _saveUsage($a_file_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// #15143
 		$ilDB->replace("file_usage",
@@ -956,7 +982,8 @@ class ilObjFile extends ilObject2
 	*/
 	function getUsages()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// get usages in learning modules
 		$q = "SELECT * FROM file_usage WHERE id = ".$ilDB->quote($this->getId(), "integer");
@@ -983,7 +1010,8 @@ class ilObjFile extends ilObject2
 	*/
 	static function _getFilesOfObject($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$lstr = "";
 		if ($a_usage_lang != "")
@@ -1010,7 +1038,8 @@ class ilObjFile extends ilObject2
 	// TODO: What is this function good for??
 	function getXMLZip()
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 
 		$zip = PATH_TO_ZIP;
 
@@ -1028,7 +1057,8 @@ class ilObjFile extends ilObject2
                 }
                 // END WebDAV Suppress news notification for hidden files
                 
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		
 		// Add Notification to news
 		include_once("./Services/News/classes/class.ilNewsItem.php");
@@ -1200,7 +1230,9 @@ class ilObjFile extends ilObject2
 	 */
 	public function rollback($version_id)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		
 		$source = $this->getSpecificVersion($version_id);
 		if ($source === false)

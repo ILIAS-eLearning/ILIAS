@@ -22,7 +22,7 @@
             "composer/composer": "~1.0",
             "phpunit/phpunit": "~4.6"
         },
-        "time": "2016-03-28 18:54:21",
+        "time": "2016-03-28T18:54:21+00:00",
         "type": "composer-plugin",
         "extra": {
             "class": "cweagans\\Composer\\Patches"
@@ -63,7 +63,7 @@
         "require": {
             "php": ">=5.2"
         },
-        "time": "2016-07-16 12:58:58",
+        "time": "2016-07-16T12:58:58+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -139,7 +139,7 @@
             "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
             "sentry/sentry": "Allow sending log messages to a Sentry server"
         },
-        "time": "2016-07-29 03:23:52",
+        "time": "2016-07-29T03:23:52+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -172,68 +172,6 @@
         ]
     },
     {
-        "name": "phpmailer/phpmailer",
-        "version": "v5.2.16",
-        "version_normalized": "5.2.16.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "reference": "1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a",
-            "reference": "1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.0.0"
-        },
-        "require-dev": {
-            "phpdocumentor/phpdocumentor": "*",
-            "phpunit/phpunit": "4.7.*"
-        },
-        "suggest": {
-            "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
-        },
-        "time": "2016-06-06 09:09:37",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "class.phpmailer.php",
-                "class.phpmaileroauth.php",
-                "class.phpmaileroauthgoogle.php",
-                "class.smtp.php",
-                "class.pop3.php",
-                "extras/EasyPeasyICS.php",
-                "extras/ntlm_sasl_client.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "LGPL-2.1"
-        ],
-        "authors": [
-            {
-                "name": "Jim Jagielski",
-                "email": "jimjag@gmail.com"
-            },
-            {
-                "name": "Marcus Bointon",
-                "email": "phpmailer@synchromedia.co.uk"
-            },
-            {
-                "name": "Andy Prevost",
-                "email": "codeworxtech@users.sourceforge.net"
-            },
-            {
-                "name": "Brent R. Matzelle"
-            }
-        ],
-        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
-    },
-    {
         "name": "phpoffice/phpexcel",
         "version": "1.8.1",
         "version_normalized": "1.8.1.0",
@@ -253,7 +191,7 @@
             "ext-xmlwriter": "*",
             "php": ">=5.2.0"
         },
-        "time": "2015-05-01 07:00:55",
+        "time": "2015-05-01T07:00:55+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -310,7 +248,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2015-09-11 15:10:35",
+        "time": "2015-09-11T15:10:35+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -358,7 +296,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2012-03-14 16:36:15",
+        "time": "2012-03-14T16:36:15+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -403,7 +341,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2015-09-12 10:08:34",
+        "time": "2015-09-12T10:08:34+00:00",
         "type": "library",
         "extra": {
             "patches_applied": {
@@ -499,7 +437,7 @@
             "ptachoire/cssembed": "Assetic provides the integration with phpcssembed to embed data uris",
             "twig/twig": "Assetic provides the integration with the Twig templating engine"
         },
-        "time": "2015-11-12 13:51:40",
+        "time": "2015-11-12T13:51:40+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -558,7 +496,7 @@
             "composer/composer": "1.*@alpha",
             "phpunit/phpunit": "4.*"
         },
-        "time": "2015-08-10 12:35:38",
+        "time": "2015-08-10T12:35:38+00:00",
         "type": "composer-plugin",
         "extra": {
             "branch-alias": {
@@ -604,7 +542,7 @@
             "ext-exif": "EXIF extension is required for graphic modules.",
             "ext-rar": "RAR extension is required for RAR archive module."
         },
-        "time": "2012-12-04 17:31:30",
+        "time": "2012-12-04T17:31:30+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -658,7 +596,13 @@
             "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
             "whoops/soap": "Formats errors as SOAP responses"
         },
-        "time": "2016-05-06 18:25:35",
+        "time": "2016-05-06 18:25:35"
+        },
+        "suggest": {
+            "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
+            "whoops/soap": "Formats errors as SOAP responses"
+        },
+        "time": "2016-05-06T18:25:35+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -711,7 +655,7 @@
         "require": {
             "php": ">=5.5.9"
         },
-        "time": "2016-07-28 11:13:48",
+        "time": "2016-07-28T11:13:48+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -762,7 +706,7 @@
         "require": {
             "robloach/component-installer": "*"
         },
-        "time": "2016-07-04 06:39:29",
+        "time": "2016-07-04T06:39:29+00:00",
         "type": "component",
         "extra": {
             "component": {
@@ -815,7 +759,11 @@
             "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
             "shasum": ""
         },
+<<<<<<< HEAD
         "time": "2012-12-21 11:40:51",
+=======
+        "time": "2012-12-21T11:40:51+00:00",
+>>>>>>> origin/trunk
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -858,7 +806,11 @@
         "require": {
             "php": ">=5.5.9"
         },
+<<<<<<< HEAD
         "time": "2016-07-17 14:02:08",
+=======
+        "time": "2016-07-17T14:02:08+00:00",
+>>>>>>> origin/trunk
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -883,6 +835,7 @@
                 "name": "Fabien Potencier",
                 "email": "fabien@symfony.com"
             },
+<<<<<<< HEAD
             {
                 "name": "Symfony Community",
                 "homepage": "https://symfony.com/contributors"
@@ -1037,18 +990,106 @@
         },
         "time": "2015-06-21 13:59:46",
         "type": "library",
-        "installation-source": "dist",
+=======
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Yaml Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "geshi/geshi",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/GeSHi/geshi-1.0.git",
+            "reference": "ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/GeSHi/geshi-1.0/zipball/ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc",
+            "reference": "ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc",
+            "shasum": ""
+        },
+        "time": "2016-02-01T23:14:34+00:00",
+        "type": "library",
+        "installation-source": "source",
         "autoload": {
             "classmap": [
-                "src/"
+                "src/geshi/",
+                "src/geshi.php"
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "BSD-3-Clause"
+            "GPL-2.0+"
         ],
         "authors": [
             {
+                "name": "Benny Baumann",
+                "email": "BenBE@geshi.org",
+                "homepage": "http://blog.benny-baumann.de/",
+                "role": "Developer"
+            }
+        ],
+        "description": "Generic Syntax Highlighter",
+        "homepage": "http://qbnz.com/highlighter/"
+    },
+    {
+        "name": "phpmailer/phpmailer",
+        "version": "v5.2.22",
+        "version_normalized": "5.2.22.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPMailer/PHPMailer.git",
+            "reference": "b18cb98131bd83103ccb26a888fdfe3177b8a663"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/b18cb98131bd83103ccb26a888fdfe3177b8a663",
+            "reference": "b18cb98131bd83103ccb26a888fdfe3177b8a663",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.0.0"
+        },
+        "require-dev": {
+            "phpdocumentor/phpdocumentor": "*",
+            "phpunit/phpunit": "4.7.*"
+        },
+        "suggest": {
+            "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
+        },
+        "time": "2017-01-09T09:33:47+00:00",
+        "type": "library",
+        "extra": {
+            "patches_applied": {
+                "ILIAS PhpMailer Patches": "patches/phpmailer.patch"
+            }
+        },
+>>>>>>> origin/trunk
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "class.phpmailer.php",
+                "class.phpmaileroauth.php",
+                "class.phpmaileroauthgoogle.php",
+                "class.smtp.php",
+                "class.pop3.php",
+                "extras/EasyPeasyICS.php",
+                "extras/ntlm_sasl_client.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+<<<<<<< HEAD
                 "name": "Sebastian Bergmann",
                 "email": "sebastian@phpunit.de",
                 "role": "lead"
@@ -1082,6 +1123,44 @@
             "ext-uopz": "*"
         },
         "time": "2015-10-12 03:26:01",
+=======
+                "name": "Jim Jagielski",
+                "email": "jimjag@gmail.com"
+            },
+            {
+                "name": "Marcus Bointon",
+                "email": "phpmailer@synchromedia.co.uk"
+            },
+            {
+                "name": "Andy Prevost",
+                "email": "codeworxtech@users.sourceforge.net"
+            },
+            {
+                "name": "Brent R. Matzelle"
+            }
+        ],
+        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+    },
+    {
+        "name": "psr/http-message",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/http-message.git",
+            "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
+            "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-08-06T14:39:51+00:00",
+>>>>>>> origin/trunk
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1090,9 +1169,15 @@
         },
         "installation-source": "dist",
         "autoload": {
+<<<<<<< HEAD
             "classmap": [
                 "src/"
             ]
+=======
+            "psr-4": {
+                "Psr\\Http\\Message\\": "src/"
+            }
+>>>>>>> origin/trunk
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -1100,6 +1185,7 @@
         ],
         "authors": [
             {
+<<<<<<< HEAD
                 "name": "Sebastian Bergmann",
                 "email": "sebastian@phpunit.de"
             }
@@ -1364,6 +1450,49 @@
             "phpunit/phpunit": "~4.4"
         },
         "time": "2015-07-26 15:48:44",
+=======
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for HTTP messages",
+        "homepage": "https://github.com/php-fig/http-message",
+        "keywords": [
+            "http",
+            "http-message",
+            "psr",
+            "psr-7",
+            "request",
+            "response"
+        ]
+    },
+    {
+        "name": "guzzlehttp/psr7",
+        "version": "1.4.2",
+        "version_normalized": "1.4.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/guzzle/psr7.git",
+            "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/guzzle/psr7/zipball/f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
+            "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0",
+            "psr/http-message": "~1.0"
+        },
+        "provide": {
+            "psr/http-message-implementation": "1.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0"
+        },
+        "time": "2017-03-20T17:10:46+00:00",
+>>>>>>> origin/trunk
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1372,16 +1501,20 @@
         },
         "installation-source": "dist",
         "autoload": {
-            "classmap": [
-                "src/"
+            "psr-4": {
+                "GuzzleHttp\\Psr7\\": "src/"
+            },
+            "files": [
+                "src/functions_include.php"
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "BSD-3-Clause"
+            "MIT"
         ],
         "authors": [
             {
+<<<<<<< HEAD
                 "name": "Jeff Welch",
                 "email": "whatthejeff@gmail.com"
             },
@@ -1475,6 +1608,53 @@
             "squizlabs/php_codesniffer": "~2.0"
         },
         "time": "2015-06-14 21:17:01",
+=======
+                "name": "Michael Dowling",
+                "email": "mtdowling@gmail.com",
+                "homepage": "https://github.com/mtdowling"
+            },
+            {
+                "name": "Tobias Schultze",
+                "homepage": "https://github.com/Tobion"
+            }
+        ],
+        "description": "PSR-7 message implementation that also provides common utility methods",
+        "keywords": [
+            "http",
+            "message",
+            "request",
+            "response",
+            "stream",
+            "uri",
+            "url"
+        ]
+    },
+    {
+        "name": "dflydev/fig-cookies",
+        "version": "v1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/dflydev/dflydev-fig-cookies.git",
+            "reference": "883233c159d00d39e940bd12cfe42c0d23420c1c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/dflydev/dflydev-fig-cookies/zipball/883233c159d00d39e940bd12cfe42c0d23420c1c",
+            "reference": "883233c159d00d39e940bd12cfe42c0d23420c1c",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4",
+            "psr/http-message": "~1.0"
+        },
+        "require-dev": {
+            "codeclimate/php-test-reporter": "~0.1@dev",
+            "phpunit/phpunit": "~4.5",
+            "squizlabs/php_codesniffer": "~2.3"
+        },
+        "time": "2016-03-28T09:10:18+00:00",
+>>>>>>> origin/trunk
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1484,7 +1664,11 @@
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
+<<<<<<< HEAD
                 "Doctrine\\Instantiator\\": "src/Doctrine/Instantiator/"
+=======
+                "Dflydev\\FigCookies\\": "src/Dflydev/FigCookies"
+>>>>>>> origin/trunk
             }
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -1493,6 +1677,7 @@
         ],
         "authors": [
             {
+<<<<<<< HEAD
                 "name": "Marco Pivetta",
                 "email": "ocramius@gmail.com",
                 "homepage": "http://ocramius.github.com/"
@@ -1543,6 +1728,47 @@
         "autoload": {
             "classmap": [
                 "src/"
+=======
+                "name": "Beau Simensen",
+                "email": "beau@dflydev.com"
+            }
+        ],
+        "description": "Cookies for PSR-7 HTTP Message Interface.",
+        "keywords": [
+            "cookies",
+            "psr-7",
+            "psr7"
+        ]
+    },
+    {
+        "name": "ralouphie/getallheaders",
+        "version": "2.0.5",
+        "version_normalized": "2.0.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ralouphie/getallheaders.git",
+            "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
+            "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~3.7.0",
+            "satooshi/php-coveralls": ">=1.0"
+        },
+        "time": "2016-02-11T07:05:27+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "src/getallheaders.php"
+>>>>>>> origin/trunk
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -1551,6 +1777,7 @@
         ],
         "authors": [
             {
+<<<<<<< HEAD
                 "name": "Sebastian Bergmann",
                 "email": "sb@sebastian-bergmann.de",
                 "role": "lead"
@@ -1591,6 +1818,67 @@
             "classmap": [
                 "src/"
             ]
+=======
+                "name": "Ralph Khattar",
+                "email": "ralph.khattar@gmail.com"
+            }
+        ],
+        "description": "A polyfill for getallheaders."
+    },
+    {
+        "name": "league/flysystem",
+        "version": "1.0.40",
+        "version_normalized": "1.0.40.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thephpleague/flysystem.git",
+            "reference": "3828f0b24e2c1918bb362d57a53205d6dc8fde61"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/3828f0b24e2c1918bb362d57a53205d6dc8fde61",
+            "reference": "3828f0b24e2c1918bb362d57a53205d6dc8fde61",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.9"
+        },
+        "conflict": {
+            "league/flysystem-sftp": "<1.0.6"
+        },
+        "require-dev": {
+            "ext-fileinfo": "*",
+            "mockery/mockery": "~0.9",
+            "phpspec/phpspec": "^2.2",
+            "phpunit/phpunit": "~4.8"
+        },
+        "suggest": {
+            "ext-fileinfo": "Required for MimeType",
+            "league/flysystem-aws-s3-v2": "Allows you to use S3 storage with AWS SDK v2",
+            "league/flysystem-aws-s3-v3": "Allows you to use S3 storage with AWS SDK v3",
+            "league/flysystem-azure": "Allows you to use Windows Azure Blob storage",
+            "league/flysystem-cached-adapter": "Flysystem adapter decorator for metadata caching",
+            "league/flysystem-copy": "Allows you to use Copy.com storage",
+            "league/flysystem-eventable-filesystem": "Allows you to use EventableFilesystem",
+            "league/flysystem-rackspace": "Allows you to use Rackspace Cloud Files",
+            "league/flysystem-sftp": "Allows you to use SFTP server storage via phpseclib",
+            "league/flysystem-webdav": "Allows you to use WebDAV storage",
+            "league/flysystem-ziparchive": "Allows you to use ZipArchive adapter",
+            "spatie/flysystem-dropbox": "Allows you to use Dropbox storage"
+        },
+        "time": "2017-04-28T10:15:08+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.1-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "League\\Flysystem\\": "src/"
+            }
+>>>>>>> origin/trunk
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -1598,6 +1886,7 @@
         ],
         "authors": [
             {
+<<<<<<< HEAD
                 "name": "Sebastian Bergmann",
                 "email": "sb@sebastian-bergmann.de",
                 "role": "lead"
@@ -2114,5 +2403,31 @@
             "testing",
             "xunit"
         ]
+=======
+                "name": "Frank de Jonge",
+                "email": "info@frenky.net"
+            }
+        ],
+        "description": "Filesystem abstraction: Many filesystems, one API.",
+        "keywords": [
+            "Cloud Files",
+            "WebDAV",
+            "abstraction",
+            "aws",
+            "cloud",
+            "copy.com",
+            "dropbox",
+            "file systems",
+            "files",
+            "filesystem",
+            "filesystems",
+            "ftp",
+            "rackspace",
+            "remote",
+            "s3",
+            "sftp",
+            "storage"
+        ]
+>>>>>>> origin/trunk
     }
 ]

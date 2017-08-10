@@ -49,6 +49,7 @@ class ilExParticipantTableGUI extends ilExerciseSubmissionTableGUI
 		if(!$this->user)
 		{
 			$ilCtrl->setParameter($this->getParentObject(), "member_id", "");
+			$ilCtrl->setParameter($this->getParentObject(), "part_id", ""); // #20073
 			$ilCtrl->redirect($this->getParentObject(), $this->getParentCmd());
 		}
 		

@@ -1,11 +1,4 @@
 <?php
-require_once('./Modules/DataCollection/classes/Fields/Reference/class.ilDclReferenceRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/Rating/class.ilDclRatingRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/IliasReference/class.ilDclIliasReferenceRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/Formula/class.ilDclFormulaRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/Text/class.ilDclTextRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/NReference/class.ilDclNReferenceRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/class.ilDclFieldFactory.php');
 
 /**
  * Class ilDclCache
@@ -14,6 +7,12 @@ require_once('./Modules/DataCollection/classes/Fields/class.ilDclFieldFactory.ph
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilDclCache {
+
+	const TYPE_DATACOLLECTION = 'dcl';
+	const TYPE_TABLE = 'table';
+	const TYPE_FIELD = 'field';
+	const TYPE_RECORD = 'record';
+	const TYPE_TABLEVIEW = 'tableview';
 
 	/**
 	 * @var ilDclTable[]
@@ -52,6 +51,71 @@ class ilDclCache {
 	 * @var ilDclDatatype
 	 */
 	protected static $datatype_cache;
+
+	/**
+	 * used when cloning datacollections, contains mappings of all components
+	 * form:
+	 * array(
+	 *      'dcl' => ($old_id1 => $new_id1, ...),
+	 *      'table' => ($old_id1 => $new_id1, ...),
+	 *      'field' => " "
+	 *      'record' => " "
+	 *      'tableview' => " "
+	 * )
+	 *
+	 * @var array[]
+	 */
+	protected static $clone_mapping;
+
+	public static function setCloneOf($old, $new, $type) {
+		if (!self::$clone_mapping) {
+			self::initCloneMapping();
+		}
+		self::$clone_mapping[$type][$old] = $new;
+	}
+
+	protected static function initCloneMapping() {
+		self::$clone_mapping = array(
+			self::TYPE_DATACOLLECTION => array(),
+			self::TYPE_TABLE => array(),
+			self::TYPE_FIELD => array(),
+			self::TYPE_RECORD => array(),
+			self::TYPE_TABLEVIEW => array(),
+		);
+	}
+
+	public static function getCloneOf($id, $type) {
+		$type_cache = self::$clone_mapping[$type];
+		if (!is_array($type_cache)) {
+			return false;
+		}
+
+		if (isset($type_cache[$id])) {
+			$clone_id = $type_cache[$id];
+		} else {
+			foreach ($type_cache as $key => $mapping) {
+				if ($mapping == $id) {
+					$clone_id = $key;
+				}
+			}
+		}
+
+		if (!$clone_id) {
+			return false;
+		}
+
+
+		switch ($type) {
+			case self::TYPE_DATACOLLECTION:
+				return new ilObjDataCollection($clone_id);
+			case self::TYPE_FIELD:
+				return self::getFieldCache($clone_id);
+			case self::TYPE_TABLE:
+				return self::getTableCache($clone_id);
+			case self::TYPE_RECORD:
+				return self::getRecordCache($clone_id);
+		}
+	}
 
 	/**
 	 * @param int $table_id

@@ -144,7 +144,7 @@ class assClozeTestExport extends assQuestionExport
 						$a_xml_writer->xmlStartTag("render_choice", $attrs);
 
 						// add answers
-						foreach ($gap->getItems(new ilArrayElementShuffler) as $answeritem)
+						foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answeritem)
 						{
 							$attrs = array(
 								"ident" => $answeritem->getOrder()
@@ -261,7 +261,7 @@ class assClozeTestExport extends assQuestionExport
 			switch ($gap->getType())
 			{
 				case CLOZE_SELECT:
-					foreach ($gap->getItems(new ilArrayElementShuffler) as $answer)
+					foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answer)
 					{
 						$attrs = array(
 							"continue" => "Yes"

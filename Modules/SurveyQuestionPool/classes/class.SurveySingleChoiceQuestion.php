@@ -299,10 +299,9 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	*
 	* @param object $a_xml_writer The XMLWriter object
 	* @param boolean $a_include_header Determines wheather or not the XML should be used
-	* @param string $obligatory_state The value of the obligatory state
 	* @access public
 	*/
-	function insertXML(&$a_xml_writer, $a_include_header = TRUE, $obligatory_state = "")
+	function insertXML(&$a_xml_writer, $a_include_header = TRUE)
 	{
 		$attrs = array(
 			"id" => $this->getId(),
@@ -558,10 +557,16 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		if (strlen($entered_value) == 0) return;
 		
 		$next_id = $ilDB->nextId('svy_answer');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-			array('integer','integer','integer','float','text','integer'),
-			array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : null, time())
-		);
+		#20216
+		$fields = array();
+		$fields['answer_id'] = array("integer", $next_id);
+		$fields['question_fi'] = array("integer", $this->getId());
+		$fields['active_fi'] = array("integer", $active_id);
+		$fields['value'] = array("float", (strlen($entered_value)) ? $entered_value : NULL);
+		$fields['textanswer'] = array("clob", ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : null);
+		$fields['tstamp'] = array("integer", time());
+		
+		$affectedRows = $ilDB->insert("svy_answer", $fields);
 
 		$debug_value = (strlen($entered_value)) ? $entered_value : "NULL";
 		$debug_answer = ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : "NULL";

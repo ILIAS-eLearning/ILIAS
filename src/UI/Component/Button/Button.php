@@ -4,12 +4,15 @@
 
 namespace ILIAS\UI\Component\Button;
 
+use ILIAS\UI\Component\Clickable;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Hoverable;
 use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes commonalities between standard and primary buttons. 
  */
-interface Button extends \ILIAS\UI\Component\Component, JavaScriptBindable {
+interface Button extends Component, JavaScriptBindable, Clickable, Hoverable {
 	/**
 	 * Get the label on the button.
 	 *
@@ -48,4 +51,33 @@ interface Button extends \ILIAS\UI\Component\Component, JavaScriptBindable {
 	 * @return Button
 	 */
 	public function withUnavailableAction();
+
+	/**
+	 * Get a button like this, but with an additional/replaced aria-label.
+	 *
+	 * @param	string	$aria_label
+	 * @return	Button
+	 */
+	public function withAriaLabel($aria_label);
+
+	/**
+	 * Get the aria-label on the button.
+	 *
+	 * @return	string
+	 */
+	public function getAriaLabel();
+
+	/**
+	 * Get a button like this, but setting the aria-checked value as true
+	 *
+	 * @return Button
+	 */
+	public function withAriaChecked();
+
+	/**
+	 * Get to know if the button has the aria-checked attribute
+	 *
+	 * @return 	bool
+	 */
+	public function isAriaChecked();
 }

@@ -190,6 +190,16 @@ class ilTestQuestionSideListGUI
 			else
 			{
 			*/
+// fau: testNav - show mark icon in side list
+			if ($row['marked'])
+			{
+				$tpl->setCurrentBlock("mark_icon");
+				$tpl->setVariable("ICON_SRC", ilUtil::getImagePath('marked.svg'));
+				$tpl->setVariable("ICON_TEXT",  $this->lng->txt('tst_question_marked'));
+				$tpl->setVariable("ICON_CLASS", 'ilTestMarkQuestionIcon');
+				$tpl->parseCurrentBlock();
+			}
+// fau.
 				$tpl->setCurrentBlock('linked_entry');
 				$tpl->setVariable('HREF', $this->buildLink($row['sequence']));
 				$tpl->setVariable('NEXTCMD', ilTestPlayerCommands::SHOW_QUESTION);

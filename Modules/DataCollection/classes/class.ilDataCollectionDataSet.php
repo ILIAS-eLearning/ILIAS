@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/DataSet/classes/class.ilDataSet.php");
-require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
-require_once('class.ilObjDataCollection.php');
 
 /**
  * DataCollection dataset class
@@ -630,7 +627,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 
 				$set = $this->db->query($sql);
 				while ($rec = $this->db->fetchObject($set)) {
-					$this->record_field_ids_2_storage[$rec->id] = $rec->storage_location;
+					$this->record_field_ids_2_storage[$rec->id] = ilDclCache::getFieldCache($rec->field_id)->getStorageLocation();
 				}
 				// Also build a cache of all values, no matter in which table they are (il_dcl_stloc(1|2|3)_value)
 				$sql =

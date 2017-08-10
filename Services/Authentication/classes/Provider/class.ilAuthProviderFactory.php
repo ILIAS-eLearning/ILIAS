@@ -99,6 +99,11 @@ class ilAuthProviderFactory
 				$this->getLogger()->debug('Using lti provider authentication.');
 				include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
 				return new ilAuthProviderLTI($credentials);
+
+			case AUTH_ECS:
+				$this->getLogger()->debug('Using ecs authentication.');
+				include_once './Services/WebServices/ECS/classes/class.ilAuthProviderECS.php';
+				return new ilAuthProviderECS($credentials);
 				
 		}
 		return null;

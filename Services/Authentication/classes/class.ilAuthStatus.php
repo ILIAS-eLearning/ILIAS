@@ -22,6 +22,7 @@ class ilAuthStatus
 	
 	private $status = self::STATUS_UNDEFINED;
 	private $reason = '';
+	private $translated_reason = '';
 	private $auth_user_id = 0;
 	
 	
@@ -58,7 +59,7 @@ class ilAuthStatus
 	
 	/**
 	 * Set auth status
-	 * @param type $a_status
+	 * @param int $a_status
 	 */
 	public function setStatus($a_status)
 	{
@@ -84,6 +85,15 @@ class ilAuthStatus
 	}
 	
 	/**
+	 * Set translated reason
+	 * @param string $a_reason
+	 */
+	public function setTranslatedReason($a_reason)
+	{
+		$this->translated_reason = $a_reason;
+	}
+	
+	/**
 	 * Get reason for authentication success, fail, migration...
 	 * @return string 
 	 */
@@ -91,6 +101,19 @@ class ilAuthStatus
 	{
 		return $this->reason;
 	}
+	
+	/**
+	 * Get translated reason
+	 */
+	public function getTranslatedReason()
+	{
+		if(strlen($this->translated_reason))
+		{
+			return $this->translated_reason;
+		}
+		return $GLOBALS['DIC']->language()->txt($this->getReason());
+	}
+	
 	
 	public function setAuthenticatedUserId($a_id)
 	{

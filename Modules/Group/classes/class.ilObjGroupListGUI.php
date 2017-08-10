@@ -155,6 +155,19 @@ class ilObjGroupListGUI extends ilObjectListGUI
 			);
 		}
 		
+		// course period
+		$info = ilObjGroupAccess::lookupPeriodInfo($this->obj_id);
+		if(is_array($info))
+		{
+			$props[] = array(
+				'alert' => false,
+				'newline' => true,
+				'property' => $info['property'],
+				'value' => $info['value']
+			);
+		}				
+		
+		
 
 		return $props;
 	}

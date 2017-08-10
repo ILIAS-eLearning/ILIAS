@@ -50,7 +50,7 @@ class ilObjectXMLParser extends ilSaxParser
 	* @param	string		$a_subdir			subdirectory in import directory
 	* @access	public
 	*/
-	function ilObjectXMLParser($a_xml_data = '', $throwException = false)
+	function __construct($a_xml_data = '', $throwException = false)
 	{
 		parent::__construct('', $throwException);
 		$this->setXMLContent($a_xml_data);

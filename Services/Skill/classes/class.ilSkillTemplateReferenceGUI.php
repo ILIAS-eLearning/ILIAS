@@ -208,16 +208,18 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 		$cb->setInfo($lng->txt("skmg_selectable_info"));
 		$this->form->addItem($cb);
 
-		if ($a_mode == "create")
+		if ($this->checkPermissionBool("write"))
 		{
-			$this->form->addCommandButton("save", $lng->txt("save"));
-			$this->form->addCommandButton("cancel", $lng->txt("cancel"));
-			$this->form->setTitle($lng->txt("skmg_new_sktr"));
-		}
-		else
-		{
-			$this->form->addCommandButton("updateSkillTemplateReference", $lng->txt("save"));
-			$this->form->setTitle($lng->txt("skmg_edit_sktr"));
+			if ($a_mode == "create")
+			{
+				$this->form->addCommandButton("save", $lng->txt("save"));
+				$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+				$this->form->setTitle($lng->txt("skmg_new_sktr"));
+			} else
+			{
+				$this->form->addCommandButton("updateSkillTemplateReference", $lng->txt("save"));
+				$this->form->setTitle($lng->txt("skmg_edit_sktr"));
+			}
 		}
 		
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -242,6 +244,11 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	 */
 	function saveItem()
 	{
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$sktr = new ilSkillTemplateReference();
 		$sktr->setTitle($_POST["title"]);
 		$sktr->setSkillTemplateId($_POST["skill_template_id"]);
@@ -273,6 +280,11 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	function updateSkillTemplateReference()
 	{
 		global $lng, $ilCtrl, $tpl;
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
 
 		$this->initForm("edit");
 		if ($this->form->checkInput())

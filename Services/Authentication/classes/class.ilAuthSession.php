@@ -39,11 +39,11 @@ class ilAuthSession
 	 */
 	public static function getInstance()
 	{
-		if(static::$instance)
+		if(self::$instance)
 		{
-			return new static::$instance;
+			return self::$instance;
 		}
-		return static::$instance = new self();
+		return self::$instance = new self();
 	}
 	
 	/**
@@ -157,8 +157,6 @@ class ilAuthSession
 		ilSession::set(self::SESSION_AUTH_EXPIRED, (int) $a_status);
 	}
 	
-	
-	
 	/**
 	 * Set authenticated user id
 	 * @param type $a_id
@@ -192,10 +190,11 @@ class ilAuthSession
 		if(time() > ilSession::lookupExpireTime($this->getId()))
 		{
 			$this->setExpired(true);
+			return false;
 		}
+		return true;
 	}
-
-
+	
 	public function setId($a_id)
 	{
 		$this->id = $a_id;

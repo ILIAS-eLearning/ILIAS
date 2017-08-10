@@ -369,9 +369,7 @@ class ilAdministrationGUI
 	 */
 	function getDropDown()
 	{
-		global $tree, $rbacsystem, $lng, $ilSetting, $objDefinition;
-
-		$tpl = new ilTemplate("tpl.admin_drop_down.html", true, true, "Services/Administration");
+		global $tree, $rbacsystem, $lng;
 
 		$objects = $tree->getChilds(SYSTEM_FOLDER_ID);
 
@@ -379,9 +377,9 @@ class ilAdministrationGUI
 		{
 			$new_objects[$object["title"].":".$object["child"]]
 				= $object;
-			//have to set it manually as translation type of main node cannot be "sys" as this type is a orgu itself.
+			// have to set it manually as translation type of main node cannot be "sys" as this type is a orgu itself.
 			if($object["type"] == "orgu")
-				$new_objects[$object["title"].":".$object["child"]]["title"] = $lng->txt("obj_orgu");
+				$new_objects[$object["title"].":".$object["child"]]["title"] = $lng->txt("objs_orgu");
 		}
 
 		// add entry for switching to repository admin
@@ -398,8 +396,6 @@ class ilAdministrationGUI
 			"desc" => $lng->txt("repository_admin_desc"),
 			);
 
-//$nd = $tree->getNodeData(SYSTEM_FOLDER_ID);
-//var_dump($nd);
 		$new_objects[$lng->txt("general_settings").":".SYSTEM_FOLDER_ID] =
 			array(
 			"tree" => 1,
@@ -445,7 +441,6 @@ class ilAdministrationGUI
 			$items[] = $c;
 		}
 
-		$cnt = 0;
 		$titems = array();
 		foreach ($items as $i)
 		{
@@ -559,8 +554,6 @@ class ilAdministrationGUI
 				}
 			}
 		}
-		
-		//$gl->addSeparator();
 
 		echo $gl->getHTML();
 		exit;

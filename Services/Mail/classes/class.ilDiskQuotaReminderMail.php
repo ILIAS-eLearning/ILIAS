@@ -97,15 +97,15 @@ class ilDiskQuotaReminderMail
 	*/
 	function send()
 	{
-		global $ilSetting;
+		global $DIC;
 		
 		// determine language and get account mail data
 		// fall back to default language if acccount mail data is not given for user language.
 		$amail = $this->readMailTemplate($this->data['language']);
 		if ($amail['body'] == '' || $amail['subject'] == '')
 		{
-			$amail = $this->readMailTemplate($ilSetting->get('language'));
-			$lang = $ilSetting->get('language');			
+			$amail = $this->readMailTemplate($DIC->settings()->get('language'));
+			$lang = $DIC->settings()->get('language');			
 		}
 		else
 		{
@@ -137,13 +137,15 @@ class ilDiskQuotaReminderMail
 			// replace placeholders
 			$mail_subject = $this->replacePlaceholders($amail['subject'], $amail, $lang);
 			$mail_body = $this->replacePlaceholders($amail['body'], $amail, $lang);
-		}	
-		
+		}
+
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+
 		// send the mail
 		include_once 'Services/Mail/classes/class.ilMimeMail.php';
 		$mmail = new ilMimeMail();
-		$mmail->autoCheck(false);
-		$mmail->From($ilSetting->get('admin_email'));																		
+		$mmail->From($senderFactory->system());
 		$mmail->Subject($mail_subject);
 		$mmail->To($this->data['email']);
 		$mmail->Body($mail_body);
@@ -168,7 +170,7 @@ class ilDiskQuotaReminderMail
 	
 	function replacePlaceholders($a_string, $a_amail, $a_lang)
 	{
-		global $ilSetting, $tree;
+		global $DIC;
 
 		$tmp_lang = $this->getLng($a_lang);
 		
@@ -192,7 +194,7 @@ class ilDiskQuotaReminderMail
 		$a_string  = str_replace("[ILIAS_URL]",
 			ILIAS_HTTP_PATH."/login.php?client_id=".CLIENT_ID, $a_string);
 		$a_string  = str_replace("[CLIENT_NAME]", CLIENT_NAME, $a_string);
-		$a_string  = str_replace("[ADMIN_MAIL]", $ilSetting->get("admin_email"),
+		$a_string  = str_replace("[ADMIN_MAIL]", $DIC->settings()->get("admin_email"),
 			$a_string);
 
 		$a_string = str_replace("[DISK_QUOTA]", ilUtil::formatSize($this->data['disk_quota'],'short',$tmp_lang), $a_string);

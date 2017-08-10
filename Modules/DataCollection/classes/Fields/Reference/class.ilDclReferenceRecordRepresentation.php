@@ -1,5 +1,4 @@
 <?php
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordRepresentation.php');
 
 /**
  * Class ilDclReferenceRecordRepresentation
@@ -50,7 +49,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 			$html .= '<br>';
 		}
 
-		$html = rtrim($html, '<br>');
+		$html = substr($html, 0, -4); // cut away last <br>
 
 		return $html;
 	}

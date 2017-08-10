@@ -45,18 +45,12 @@ class ilMailTemplateGUI
 	 */
 	public function __construct()
 	{
-		/**
-		 * @var $tpl       ilTemplate
-		 * @var $ilCtrl    ilCtrl
-		 * @var $lng       ilLanguage
-		 * @var $ilToolbar ilToolbarGUI
-		 */
-		global $tpl, $ilCtrl, $lng, $ilToolbar;
+		global $DIC;
 
-		$this->tpl     = $tpl;
-		$this->ctrl    = $ilCtrl;
-		$this->lng     = $lng;
-		$this->toolbar = $ilToolbar;
+		$this->tpl     = $DIC->ui()->mainTemplate();
+		$this->ctrl    = $DIC->ctrl();
+		$this->lng     = $DIC->language();
+		$this->toolbar = $DIC->toolbar();
 
 		$this->lng->loadLanguageModule('meta');
 
@@ -352,9 +346,11 @@ class ilMailTemplateGUI
 
 	public function getAjaxPlaceholdersById()
 	{
-		$context_id = ilUtil::stripSlashes($_GET['context_id']);
+		$context_id = ilUtil::stripSlashes($_GET['triggerValue']);
 		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
-		$placeholders = new ilManualPlaceholderInputGUI($this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false));
+		$placeholders = new ilManualPlaceholderInputGUI('m_message');
+		$placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
+		$placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
 		$context = ilMailTemplateService::getTemplateContextById($context_id);
 		foreach( $context->getPlaceholders() as $key => $value)
 		{
@@ -429,6 +425,7 @@ class ilMailTemplateGUI
 		$form->addItem($hidde_language);
 
 		$subject = new ilTextInputGUI($this->lng->txt('subject'), 'm_subject');
+		$subject->setRequired(true);
 		$subject->setSize(50);
 		$form->addItem($subject);
 
@@ -439,8 +436,10 @@ class ilMailTemplateGUI
 		$form->addItem($message);
 
 		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
-		$placeholders = new ilManualPlaceholderInputGUI($this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false));
-		
+		$placeholders = new ilManualPlaceholderInputGUI('m_message');
+		$placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
+		$placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
+		$placeholders->supportsRerenderSignal('context', $this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false));
 		if( $template === null )
 		{
 			$context_id = $generic_context->getId();

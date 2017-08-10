@@ -86,7 +86,11 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function details()
 	{
-		global $ilToolbar,$ilCtrl,$rbacsystem;
+		global $ilToolbar,$ilCtrl,$rbacsystem, $ilAccess;
+
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 */
 
 		// Show back button to crs if called from crs. Otherwise if called from personal desktop or administration
 		// show back to list
@@ -127,8 +131,10 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			{
 				if($collection instanceof ilLPCollectionOfRepositoryObjects)
 				{
-					$obj_ids[ilObject::_lookupObjectId($item_id)] = array($item_id);
-					
+					$obj_id = ilObject::_lookupObjectId($item_id);
+					if ($ilAccess->checkAccessOfUser($this->tracked_user->getId(), 'visible', '', $item_id)) {
+						$obj_ids[$obj_id] = array( $item_id );
+					}
 				}
 				else
 				{
@@ -141,7 +147,8 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		if(sizeof($obj_ids))
 		{
 			// seems obsolete
-			$personal_only = !$rbacsystem->checkAccess('read_learning_progress',$this->getRefId());
+			include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+			$personal_only = !ilLearningProgressAccess::checkPermission('read_learning_progress', $this->getRefId());
 
 			include_once("./Services/Tracking/classes/repository_statistics/class.ilLPProgressTableGUI.php");
 			$lp_table = new ilLPProgressTableGUI($this, "details", $this->tracked_user, $obj_ids, true, $this->details_mode, $personal_only, $this->details_obj_id, $this->details_id);

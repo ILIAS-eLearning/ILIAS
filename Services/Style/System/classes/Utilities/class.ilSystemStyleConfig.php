@@ -40,6 +40,13 @@ class ilSystemStyleConfig
 	 */
 	protected $delos_path = "./templates/default/delos";
 
+	/**
+	 * Relative delos path from Customizing dir to delos css and less files
+	 *
+	 * @var string
+	 */
+	protected $rel_delos_path = "../../../../templates/default/delos";
+
 
 	/**
 	 * Path to variables less file of delos
@@ -219,4 +226,22 @@ class ilSystemStyleConfig
 	{
 		$this->customizing_skin_path = $customizing_skin_path;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getRelDelosPath()
+	{
+		return $this->rel_delos_path;
+	}
+
+	/**
+	 * @param string $rel_delos_path
+	 */
+	public function setRelDelosPath($rel_delos_path)
+	{
+		$this->rel_delos_path = $rel_delos_path;
+	}
+
+
 }

@@ -94,7 +94,7 @@ class ilCOPageDataSet extends ilDataSet
 	 */
 	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
-		global $ilDB;
+		$db = $this->db;
 
 		if (!is_array($a_ids))
 		{
@@ -111,7 +111,7 @@ class ilCOPageDataSet extends ilDataSet
 						" style_id, special_page ".
 						" FROM page_layout ".
 						"WHERE ".
-						$ilDB->in("layout_id", $a_ids, false, "integer"));
+						$db->in("layout_id", $a_ids, false, "integer"));
 					break;
 			}
 		}	

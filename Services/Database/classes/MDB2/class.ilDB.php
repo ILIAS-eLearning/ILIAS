@@ -11,9 +11,6 @@ require_once('./Services/Database/lib/PEAR/MDB2.php');
 require_once 'Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php';
 require_once 'Services/Database/interfaces/interface.ilDBInterface.php';
 
-define("DB_FETCHMODE_ASSOC", MDB2_FETCHMODE_ASSOC);
-define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
-
 //echo "-".ilDBConstants::FETCHMODE_ASSOC."-";
 //echo "+".ilDBConstants::FETCHMODE_OBJECT."+";
 
@@ -1413,7 +1410,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	* For multiple similar queries/manipulations you may use prepare() and execute().
 	*
 	* @param string
-	* @return object DB
+	* @return ilPDOStatement DB
 	*/
 	function query($sql, $a_handle_error = true)
 	{
@@ -1838,7 +1835,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	/**
 	* Fetch row as associative array from result set
 	*
-	* @param	object	result set
+	* @param	mixed	result set
 	*/
 	function fetchAssoc($a_set)
 	{

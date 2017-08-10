@@ -104,8 +104,11 @@ class ilMemberAgreementGUI
 	{
 		global $ilUser;
 		
-		$form = $this->initFormAgreement($form);
-		self::setCourseDefinedFieldValues($form, $this->obj_id, $ilUser->getId());
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$form = $this->initFormAgreement($form);
+			self::setCourseDefinedFieldValues($form, $this->obj_id, $ilUser->getId());
+		}
 		
 		$this->tpl->setContent($form->getHTML());
 		return true;
@@ -320,8 +323,7 @@ class ilMemberAgreementGUI
 		$form = $this->initFormAgreement();
 		
 		// #14715 - checkInput() does not work for checkboxes
-		if($this->checkAgreement() &&
-			$form->checkInput())
+		if($this->checkAgreement() && $form->checkInput())
 		{
 			self::saveCourseDefinedFields($form, $this->obj_id);
 

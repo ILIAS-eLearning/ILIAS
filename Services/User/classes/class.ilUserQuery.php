@@ -36,6 +36,7 @@ class ilUserQuery
 		"firstname", 
 		"lastname", 
 		"email",
+		"second_email",
 		"time_limit_until", 
 		"time_limit_unlimited", 
 		"time_limit_owner", 
@@ -310,6 +311,7 @@ class ilUserQuery
 			$add = $where." (".$ilDB->like("usr_data.login", "text", "%".$this->text_filter."%")." ".
 				"OR ".$ilDB->like("usr_data.firstname", "text", "%".$this->text_filter."%")." ".
 				"OR ".$ilDB->like("usr_data.lastname", "text", "%".$this->text_filter."%")." ".
+				"OR ".$ilDB->like("usr_data.second_email", "text", "%".$this->text_filter."%")." ".
 				"OR ".$ilDB->like("usr_data.email", "text", "%".$this->text_filter."%").") ";
 			$query.= $add;
 			$count_query.= $add;

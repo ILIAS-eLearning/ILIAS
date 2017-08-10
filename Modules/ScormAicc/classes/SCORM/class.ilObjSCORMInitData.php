@@ -21,7 +21,7 @@ class ilObjSCORMInitData
 	}
 
 	static function getIliasScormVars($slm_obj) {
-		global $ilias, $ilLog, $ilUser, $lng, $ilDB;
+		global $ilias, $ilLog, $ilUser, $lng, $ilDB, $ilSetting;
 //		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
 		//variables to set in administration interface
@@ -42,9 +42,13 @@ class ilObjSCORMInitData
 		if ($_GET["autolaunch"] != "") $launchId=$_GET["autolaunch"];
 		$session_timeout = 0; //unlimited sessions
 		if ($slm_obj->getSession()) {
-			// $session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
 			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
-			$session_timeout = (int)ilWACSignedPath::getCookieMaxLifetimeInSeconds()-1;
+			$session_timeout = (int)ilWACSignedPath::getCookieMaxLifetimeInSeconds();
+			$max_idle = (int)ilSession::getIdleValue();
+			if ($session_timeout > $max_idle) $session_timeout = $max_idle;
+			$min_idle = (int)$ilSetting->get('session_min_idle', ilSessionControl::DEFAULT_MIN_IDLE) * 60;
+			if ($session_timeout > $min_idle) $session_timeout = $min_idle;
+			$session_timeout -= 10; //buffer
 		}
 		$b_autoReview='false';
 		if ($slm_obj->getAutoReview()) $b_autoReview='true';
@@ -266,7 +270,7 @@ class ilObjSCORMInitData
 	// hash for storing data without session
 	private static function setHash($a_packageId,$a_user_id) {
 		global $ilDB;
-		$hash = mt_rand(1000000000,9999999999);
+		$hash = mt_rand(1000000000,2147483647);
 		$endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d')+1, date('Y')));
 
 		$res = $ilDB->queryF('SELECT count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s',

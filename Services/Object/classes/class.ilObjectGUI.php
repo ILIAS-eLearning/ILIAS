@@ -1564,10 +1564,6 @@ class ilObjectGUI
 						unset($tmp_obj);
 						$visible = false;
 					}
-					if(($crs_id != $a_ref_id) and $tmp_obj->isArchived())
-					{
-						$visible = false;
-					}					
 				}
 			}
 		}
@@ -2077,7 +2073,7 @@ class ilObjectGUI
 	 */
 	static function _gotoRepositoryRoot($a_raise_error = false)
 	{
-		global $ilAccess, $ilErr;
+		global $ilAccess, $ilErr, $lng;
 		
 		if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{

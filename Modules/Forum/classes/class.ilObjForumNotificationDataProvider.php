@@ -2,10 +2,11 @@
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Modules/Forum/interfaces/interface.ilForumNotificationMailData.php';
+include_once './Modules/Forum/classes/class.ilForumProperties.php';
 
 /**
  * Class ilObjForumNotificationDataProvider
- * @author Nadia Ahmad <nahmad@databay.de>
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  */
 class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 {
@@ -23,7 +24,10 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 * @var string $post_user_name
 	 */
 	protected $post_user_name = '';
-
+	/**
+	 * @var int
+	 */
+	public $pos_author_id = 0;
 	/**
 	 * @var int
 	 */
@@ -49,12 +53,21 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public $objPost;
 
+	private $db;
+	private $access;
+	private $user;
+	
 	/**
 	 * @param ilForumPost $objPost
 	 * @param int         $ref_id
 	 */
 	public function __construct(ilForumPost $objPost, $ref_id)
 	{
+		global $DIC;
+		$this->db = $DIC->database();
+		$this->access = $DIC->access();
+		$this->user = $DIC->user();
+		
 		$this->objPost = $objPost;
 		$this->ref_id  = $ref_id;
 		$this->obj_id  = ilObject::_lookupObjId($ref_id);
@@ -142,7 +155,8 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	}
 
 	/**
-	 * @return string
+	 * @param ilLanguage $user_lang
+	 * @return bool|string
 	 */
 	public function getPostUserName($user_lang)
 	{
@@ -181,11 +195,31 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	}
 
 	/**
-	 * @return string login
+	 * @param ilLanguage $user_lang
+	 * @return bool|string
 	 */
-	public function getPostUpdateUserName()
+	public function getPostUpdateUserName($user_lang)
 	{
-		return ilObjUser::_lookupLogin($this->objPost->getUpdateUserId());
+		// GET AUTHOR OF UPDATED POST
+		if($this->objPost->getUpdateUserId() > 0)
+		{
+			$this->post_user_name = ilObjUser::_lookupLogin($this->objPost->getUpdateUserId());
+		}
+		
+		if($this->objPost->getDisplayUserId() == 0 && $this->objPost->getPosAuthorId() == $this->objPost->getUpdateUserId())
+		{
+			if(strlen($this->objPost->getUserAlias()))
+			{
+				$this->post_user_name = $this->objPost->getUserAlias() . ' (' . $user_lang->txt('frm_pseudonym') . ')';
+			}
+			
+			if($this->post_user_name == '')
+			{
+				$this->post_user_name = $user_lang->txt('forums_anonymous');
+			}
+		}
+		
+		return $this->post_user_name;
 	}
 
 	/**
@@ -240,14 +274,12 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	private function readThreadTitle()
 	{
-		global $ilDB;
-
-		$result = $ilDB->queryf('
+		$result = $this->db->queryf('
 			SELECT thr_subject FROM frm_threads 
 			WHERE thr_pk = %s',
 			array('integer'), array($this->objPost->getThreadId()));
 
-		$row = $ilDB->fetchAssoc($result);
+		$row = $this->db->fetchAssoc($result);
 		$this->thread_title = $row['thr_subject'];
 	}
 
@@ -256,14 +288,12 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	private function readForumData()
 	{
-		global $ilDB;
-
-		$result = $ilDB->queryf('
+		$result = $this->db->queryf('
 			SELECT top_pk, top_name FROM frm_data
 			WHERE top_frm_fk = %s',
 			array('integer'), array($this->getObjId()));
 
-		$row = $ilDB->fetchAssoc($result);
+		$row = $this->db->fetchAssoc($result);
 		$this->forum_id    = $row['top_pk'];
 		$this->forum_title = $row['top_name'];
 	}
@@ -273,17 +303,20 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	private function readAttachments()
 	{
-		require_once 'Modules/Forum/classes/class.ilFileDataForum.php';
-		$fileDataForum = new ilFileDataForum($this->getObjId(), $this->objPost->getId());
-		$filesOfPost   = $fileDataForum->getFilesOfPost();
-
-		require_once 'Services/Mail/classes/class.ilFileDataMail.php';
-		$fileDataMail = new ilFileDataMail(ANONYMOUS_USER_ID);
-
-		foreach($filesOfPost as $attachment)
+		if(ilForumProperties::isSendAttachmentsByMailEnabled())
 		{
-			$this->attachments[$attachment['path']] = $attachment['name'];
-			$fileDataMail->copyAttachmentFile($attachment['path'], $attachment['name']);
+			require_once 'Modules/Forum/classes/class.ilFileDataForum.php';
+			$fileDataForum = new ilFileDataForum($this->getObjId(), $this->objPost->getId());
+			$filesOfPost   = $fileDataForum->getFilesOfPost();
+			
+			require_once 'Services/Mail/classes/class.ilFileDataMail.php';
+			$fileDataMail = new ilFileDataMail(ANONYMOUS_USER_ID);
+			
+			foreach($filesOfPost as $attachment)
+			{
+				$this->attachments[$attachment['path']] = $attachment['name'];
+				$fileDataMail->copyAttachmentFile($attachment['path'], $attachment['name']);
+			}
 		}
 	}
 
@@ -292,26 +325,24 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getForumNotificationRecipients()
 	{
-		global $ilDB, $ilAccess, $ilUser;
-
-		$res = $ilDB->queryf('
+		$res = $this->db->queryf('
 			SELECT frm_notification.user_id FROM frm_notification, frm_data 
 			WHERE frm_data.top_pk = %s
 			AND frm_notification.frm_id = frm_data.top_frm_fk 
 			AND frm_notification.user_id <> %s
 			GROUP BY frm_notification.user_id',
 			array('integer', 'integer'),
-			array($this->getForumId(), $ilUser->getId()));
+			array($this->getForumId(), $this->user->getId()));
 
 		// get all references of obj_id
 		$frm_references = ilObject::_getAllReferences($this->getObjId());
 		$rcps = array();
-		while($row = $ilDB->fetchAssoc($res))
+		while($row = $this->db->fetchAssoc($res))
 		{
 			// do rbac check before sending notification
 			foreach((array)$frm_references as $ref_id)
 			{
-				if($ilAccess->checkAccessOfUser($row['user_id'], 'read', '', $ref_id))
+				if($this->access->checkAccessOfUser($row['user_id'], 'read', '', $ref_id))
 				{
 					$rcps[] = $row['user_id'];
 				}
@@ -327,25 +358,23 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getThreadNotificationRecipients()
 	{
-		global $ilDB, $ilAccess, $ilUser;
-
 		// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
-		$res = $ilDB->queryf('
+		$res = $this->db->queryf('
 			SELECT user_id FROM frm_notification 
 			WHERE thread_id = %s
 			AND user_id <> %s',
 			array('integer', 'integer'),
-			array($this->getThreadId(), $GLOBALS['DIC']['ilUser']->getId()));
+			array($this->getThreadId(), $this->user->getId()));
 
 		// get all references of obj_id
 		$frm_references = ilObject::_getAllReferences($this->getObjId());
 		$rcps = array();
-		while($row = $ilDB->fetchAssoc($res))
+		while($row = $this->db->fetchAssoc($res))
 		{
 			// do rbac check before sending notification
 			foreach((array)$frm_references as $ref_id)
 			{
-				if($ilAccess->checkAccessOfUser($row['user_id'], 'read', '', $ref_id))
+				if($this->access->checkAccessOfUser($row['user_id'], 'read', '', $ref_id))
 				{
 					$rcps[] = $row['user_id'];
 				}
@@ -377,5 +406,21 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 		// get moderators to notify about needed activation
 		$rcps =  ilForum::_getModerators($this->getRefId());
 		return  (array)$rcps;
+	}
+	
+	/**
+	 * @param $pos_author_id
+	 */
+	public function setPosAuthorId($pos_author_id)
+	{
+		$this->pos_author_id = $pos_author_id;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getPosAuthorId()
+	{
+		return $this->pos_author_id;
 	}
 }

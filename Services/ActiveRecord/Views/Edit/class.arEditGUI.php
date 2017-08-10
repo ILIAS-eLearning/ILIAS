@@ -1,7 +1,7 @@
 <?php
 require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Edit/class.arEditField.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Edit/class.arEditFields.php');
+require_once('./Services/ActiveRecord/Views/Edit/class.arEditField.php');
+require_once('./Services/ActiveRecord/Views/Edit/class.arEditFields.php');
 
 /**
  * GUI-Class arEditGUI
@@ -43,7 +43,8 @@ class arEditGUI extends ilPropertyFormGUI {
 	 * @param ActiveRecord $ar
 	 */
 	public function __construct(arGUI $parent_gui, ActiveRecord $ar) {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->ar = $ar;
 		$this->parent_gui = $parent_gui;
@@ -308,7 +309,8 @@ class arEditGUI extends ilPropertyFormGUI {
 		if (!$this->beforeSave()) {
 			return false;
 		}
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		/**
 		 * @var ilObjUser $ilUser
 		 */

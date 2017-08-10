@@ -14,6 +14,10 @@ include_once("./setup/classes/class.ilDBConnections.php");
 */
 class ilSetup
 {
+
+	/**
+	 * @var ilIniFile
+	 */
 	var $ini;			// ini file object
 	var $ini_file_path;	// full path to setup.ini, containing the client list
 	var $error = "";	// error text
@@ -22,7 +26,7 @@ class ilSetup
 	var $ini_client_exists = false; // control flag client.ini
 
 	var $setup_defaults;			// ilias.master.ini
-	var $ilias_nic_server = "http://www.ilias.de/ilias-nic/index.php";	// URL to ilias nic server
+	var $ilias_nic_server = "https://www.ilias.de/ilias-nic/index.php";	// URL to ilias nic server
 
 	var $preliminaries_result = array();	// preliminaries check results
 	var $preliminaries = true;				//
@@ -1493,6 +1497,12 @@ class ilSetup
 				$this->error = "no_path_log";
 				return false;
 			}
+			
+			if(is_dir($log_path))
+			{
+				$this->error = 'could_not_create_logfile';
+				return false;
+			}
 
 			if (!@touch($log_path))
 			{
@@ -2128,5 +2138,21 @@ class ilSetup
 
 		return ($ini_get === 1 OR $ini_get === '1' OR strtolower($ini_get) === 'on');
 	}
+
+	/**
+	 * Is valid client id
+	 *
+	 * @param
+	 * @return
+	 */
+	function isValidClientId($a_client_id)
+	{
+		if (!preg_match("/^[A-Za-z0-9]+$/", $a_client_id))
+		{
+			return false;
+		}
+		return true;
+	}
+
 }
 

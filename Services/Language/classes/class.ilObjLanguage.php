@@ -55,6 +55,31 @@ class ilObjLanguage extends ilObject
 		$this->comment_separator = $lng->comment_separator;
 	}
 
+
+	/**
+	 * Get the language objects of the installed languages
+	 * @return self[]
+	 */
+	public static function getInstalledLanguages()
+	{
+		$objects = array();
+		$languages = ilObject::_getObjectsByType("lng");
+		foreach ($languages as $lang)
+		{
+			$langObj = new ilObjLanguage($lang["obj_id"], false);
+			if ($langObj->isInstalled())
+			{
+				$objects[] = $langObj;
+			}
+			else
+			{
+				unset($langObj);
+			}
+		}
+		return $objects;
+	}
+
+
 	/**
 	 * get language key
 	 *
@@ -209,47 +234,71 @@ class ilObjLanguage extends ilObject
 		}
 		return "";
 	}
-	
+
+
+	/**
+	 * refresh current language
+	 * @return bool
+	 */
+	function refresh()
+	{
+		if ($this->isInstalled() == true)
+		{
+			if ($this->check())
+			{
+				$this->flush('keep_local');
+				$this->insert();
+				$this->setTitle($this->getKey());
+				$this->setDescription($this->getStatus());
+				$this->update();
+				$this->optimizeData();
+
+				if ($this->isLocal() == true)
+				{
+					if ($this->check('local'))
+					{
+						$this->insert('local');
+						$this->setTitle($this->getKey());
+						$this->setDescription($this->getStatus());
+						$this->update();
+						$this->optimizeData();
+					}
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	* Refresh all installed languages
 	*/
 	static function refreshAll()
 	{
-		global $ilPluginAdmin;
-		
 		$languages = ilObject::_getObjectsByType("lng");
+		$refreshed = array();
 
 		foreach ($languages as $lang)
 		{
 			$langObj = new ilObjLanguage($lang["obj_id"],false);
-
-			if ($langObj->isInstalled() == true)
+			if ($langObj->refresh())
 			{
-				if ($langObj->check())
-				{
-					$langObj->flush('keep_local');
-					$langObj->insert();
-					$langObj->setTitle($langObj->getKey());
-					$langObj->setDescription($langObj->getStatus());
-					$langObj->update();
-					$langObj->optimizeData();
-
-					if ($langObj->isLocal() == true)
-					{
-						if ($langObj->check('local'))
-						{
-							$langObj->insert('local');
-							$langObj->setTitle($langObj->getKey());
-							$langObj->setDescription($langObj->getStatus());
-							$langObj->update();
-							$langObj->optimizeData();
-						}
-					}
-				}
+				$refreshed[] = $langObj->getKey();
 			}
-
 			unset($langObj);
 		}
+
+		self::refreshPlugins($refreshed);
+	}
+
+
+	/**
+	 * Refresh languages of activated plugins
+	 * @var array|null	keys of languages to be refreshed (not yet supported, all available will be refreshed)
+	 */
+	public static function refreshPlugins($a_lang_keys = null)
+	{
+		global $ilPluginAdmin;
 
 		// refresh languages of activated plugins
 		include_once("./Services/Component/classes/class.ilPluginSlot.php");
@@ -265,19 +314,19 @@ class ilObjLanguage extends ilObject
 					$slot["component_name"], $slot["slot_id"], $plugin);
 				if (is_object($pl))
 				{
-					$pl->updateLanguages();
+					$pl->updateLanguages($a_lang_keys);
 				}
 			}
 		}
 	}
-	
+
 
 	/**
 	* Delete languge data
 	*
 	* @param	string		lang key
 	*/
-	static function _deleteLangData($a_lang_key, $a_keep_local_change)
+	static function _deleteLangData($a_lang_key, $a_keep_local_change = false)
 	{
 		global $ilDB;
 		if (!$a_keep_local_change)
@@ -371,6 +420,31 @@ class ilObjLanguage extends ilObject
 
 
 	/**
+	 * Get the local changes of a language module
+	 * @param string	$a_key		Language key
+	 * @param string	$a_module 	Module key
+	 * @return array	identifier => value
+	 */
+	static function _getLocalChangesByModule($a_key, $a_module)
+	{
+		/** @var ilDB $ilDB */
+		global $ilDB;
+
+		$changes = array();
+		$result = $ilDB->queryF("SELECT * FROM lng_data WHERE lang_key = %s AND module = %s AND local_change IS NOT NULL",
+
+			array('text', 'text'),
+			array($a_key, $a_module));
+
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$changes[$row['identifier']] = $row['value'];
+		}
+		return $changes;
+	}
+
+
+	/**
 	 * insert language data from file into database
 	 * 
 	 * @param   string  $scope  empty (global) or "local"
@@ -397,12 +471,9 @@ class ilObjLanguage extends ilObject
 			$path = $this->cust_lang_path;
 		}
 
-		$tmpPath = getcwd();
-		chdir($path);
+		$lang_file = $path. "/ilias_" . $this->key . ".lang" . $scopeExtension;
 
-		$lang_file = "ilias_" . $this->key . ".lang" . $scopeExtension;
-
-		if ($lang_file)
+		if (is_file($lang_file))
 		{
 			// initialize the array for updating lng_modules below
 			$lang_array = array();
@@ -533,8 +604,6 @@ class ilObjLanguage extends ilObject
 				ilObjLanguage::replaceLangModule($this->key, $module, $lang_arr);
 			}
 		}
-
-		chdir($tmpPath);
 	}
 
 	/**
@@ -542,7 +611,8 @@ class ilObjLanguage extends ilObject
 	*/
 	static final function replaceLangModule($a_key, $a_module, $a_array)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		ilGlobalCache::flushAll();
 
@@ -553,11 +623,27 @@ class ilObjLanguage extends ilObject
 			"(%s,%s,%s)", $ilDB->quote($a_key, "text"),
 			$ilDB->quote($a_module, "text"),
 			$ilDB->quote(serialize($a_array), "clob")));*/
-		$ilDB->insert("lng_modules", array(
+        $ilDB->insert("lng_modules", array(
 			"lang_key" => array("text", $a_key),
 			"module" => array("text", $a_module),
-			"lang_array" => array("clob", serialize($a_array))
+			"lang_array" => array("clob", serialize((array) $a_array))
 			));
+
+		// check if the module is correctly saved
+		// see mantis #20046 and #19140
+		$result = $ilDB->queryF("SELECT lang_array FROM lng_modules WHERE lang_key = %s AND module = %s",
+			array('text','text'), array($a_key, $a_module));
+		$row = $ilDB->fetchAssoc($result);
+
+		$unserialied = unserialize($row['lang_array']);
+		if (!is_array($unserialied))
+		{
+			/** @var ilErrorHandling $ilErr */
+			$ilErr = $DIC['ilErr'];
+            $ilErr->raiseError("Data for module '" . $a_module . "' of  language '" . $a_key . "' is not correctly saved. ".
+				"Please check the collation of your database tables lng_data and lng_modules. It must be utf8_unicode_ci.",
+				$ilErr->MESSAGE);
+		}
 	}
 
 	/**

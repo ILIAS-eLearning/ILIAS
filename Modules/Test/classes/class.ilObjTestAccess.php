@@ -558,7 +558,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 						$row['clientip'] = str_replace(Array("?","*",","), Array("[0-9]","[0-9]*","|"), $row['clientip']);
 						if (!preg_match("/^".$row['clientip']."$/", $_SERVER["REMOTE_ADDR"])) 
 						{
-							return $lng->txt("tst_user_wrong_clientip");
+							$lng->loadLanguageModule('assessment');
+							return $lng->txt("user_wrong_clientip");
 						}
 						else
 						{
@@ -686,7 +687,12 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 		$passed_users = array();
 		// Maybe SELECT DISTINCT(tst_active.user_fi)... ?
 		$userresult = $ilDB->queryF("
-			SELECT tst_active.active_id, COUNT(tst_sequence.active_fi) sequences
+			SELECT tst_active.active_id, COUNT(tst_sequence.active_fi) sequences, tst_active.last_finished_pass,
+				CASE WHEN
+					(tst_tests.nr_of_tries - 1) = tst_active.last_finished_pass
+				THEN '1'
+				ELSE '0'
+				END is_last_pass
 			FROM tst_tests
 			INNER JOIN tst_active
 			ON tst_active.test_fi = tst_tests.test_id
@@ -699,11 +705,16 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 		);
 		$all_participants = array();
 		$notAttempted = array();
+		$lastPassUsers = array();
 		while ($row = $ilDB->fetchAssoc($userresult))
 		{
 			if($row['sequences'] == 0)
 			{
 				$notAttempted[$row['active_id']] = $row['active_id'];
+			}
+			if($row['is_last_pass'])
+			{
+				$lastPassUsers[$row['active_id']] = $row['active_id'];
 			}
 
 			$all_participants[$row['active_id']] = $row['active_id'];
@@ -735,6 +746,14 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 			{
 				$data['failed'] = 0;
 				$data['passed'] = 0;
+				$data['not_attempted'] = 1;
+			}
+			
+			if( $data['failed'] && !isset($lastPassUsers[$data['active_fi']]) )
+			{
+				$data['passed'] = 0;
+				$data['failed'] = 0;
+				$data['in_progress'] = 1;
 			}
 
 			$data['user_id'] = $data['user_fi'];

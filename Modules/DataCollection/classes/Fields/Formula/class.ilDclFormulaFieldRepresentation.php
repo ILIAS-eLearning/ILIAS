@@ -1,5 +1,4 @@
 <?php
-require_once ('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldRepresentation.php');
 
 /**
  * Class ilDclDateTimeREpresentation
@@ -13,7 +12,8 @@ class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation {
 		$input = new ilTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
 		$input->setDisabled(true);
 		$input->setValue('-');
-		$input->setInfo($this->lng->txt('dcl_formula_detail_desc'));
+		$input->setInfo($this->getField()->getDescription() . '<br>' . $this->lng->txt('dcl_formula_detail_desc'));
+
 
 		return $input;
 	}

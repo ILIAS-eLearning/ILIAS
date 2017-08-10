@@ -30,6 +30,8 @@
 *
 * @package ilias
 */
+include_once './libs/composer/vendor/autoload.php';
+use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 
 include_once './webservice/soap/lib/nusoap.php';
 include_once './webservice/soap/include/inc.soap_functions.php';
@@ -42,7 +44,7 @@ class ilNusoapUserAdministrationAdapter
 	var $server = null;
 
 
-    function ilNusoapUserAdministrationAdapter($a_use_wsdl = true)
+    function __construct($a_use_wsdl = true)
     {
 		define('SERVICE_NAME','ILIASSoapWebservice');
 		define('SERVICE_NAMESPACE','urn:ilUserAdministration');
@@ -148,9 +150,18 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS login function via LDAP');
 
+		// loginStudipUser()
+		$this->server->register('loginStudipUser',
+								array('sid' => 'xsd:string',
+									'user_id' => 'xsd:int'),
+								array('sid' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#loginStudipUser',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS login function for Stud.IP-Connection. DEPRECATED: this method will be removed in ILIAS 5.3.');
 
-
-								// logout()
+		// logout()
 		$this->server->register('logout',
 								array('sid' => 'xsd:string'),
 								array('success' => 'xsd:boolean'),
@@ -173,6 +184,7 @@ class ilNusoapUserAdministrationAdapter
 												  'title' => array('name' => 'title', 'type' => 'xsd:string'),
 												  'gender' => array('name' => 'gender', 'type' => 'xsd:string'),
 												  'email' => array('name' => 'email', 'type' => 'xsd:string'),
+												  'second_email' => array('name' => 'second_email', 'type' => 'xsd:string'),
 												  'institution' => array('name' => 'institution', 'type' => 'xsd:string'),
 												  'street' => array('name' => 'street', 'type' => 'xsd:string'),
 												  'city' => array('name' => 'city', 'type' => 'xsd:string'),
@@ -261,6 +273,16 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS deleteCourse(). Deletes a course. Delete courses are stored in "Trash" and can be undeleted in '.
 								' the ILIAS administration. ');
+		// startBackgroundTaskWorker()
+		$this->server->register(AsyncTaskManager::CMD_START_WORKER,
+			array('sid' => 'xsd:string'),
+			array('success' => 'xsd:boolean'),
+			SERVICE_NAMESPACE,
+			SERVICE_NAMESPACE . '#' . AsyncTaskManager::CMD_START_WORKER,
+			SERVICE_STYLE,
+			SERVICE_USE,
+			'ILIAS ' . AsyncTaskManager::CMD_START_WORKER . '().');
+
 		// assignCourseMember()
 		$this->server->register('assignCourseMember',
 								array('sid' => 'xsd:string',
