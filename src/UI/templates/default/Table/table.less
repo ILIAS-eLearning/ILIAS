@@ -11,14 +11,18 @@
 }
 /*end of fix*/
 
-.il-table-presentation-viewcontrols div {
-	display: table;
-  	margin: 0 auto;
+.il-table-presentation-viewcontrols{
+	margin-bottom: 10px;
+	div {
+		display: table;
+	  	margin: 0 auto;
+	}
 }
 
 .il-table-presentation-row {
 	white-space: nowrap;
 	border-top: 1px solid @table-border-color;
+	padding-top: 5px;
 
 	.il-table-presentation-row-controls,
 	.il-table-presentation-row-contents {
@@ -50,13 +54,13 @@
 		.il-table-presentation-details {
 			display: inline-block;
 			vertical-align: top;
+			white-space: normal;
 		}
 
 		.il-table-presentation-desclist {
 			width: 60%;
 		}
 		.il-table-presentation-details {
-			white-space: normal;
 			width: 40%;
 
 			.il-table-presentation-fields {
@@ -70,8 +74,5 @@
 			}
 		}
 	}
-
-
-
 
 }

@@ -668,13 +668,6 @@ interface Factory {
 	 *   purpose: >
 	 *     Tables present a set of uniformly structured data.
 	 *
-	 * rules:
-	 *   usage:
-	 *     1: >
-	 *       A record MAY be sublemented by a clickable (e.g. button, dropdown) or graphical element.
-	 *       If so, the element MUST be in a separate column.
-	 *   style:
-	 *      1: ...
 	 * ---
 	 * @return \ILIAS\UI\Component\Table\Factory
 	 */

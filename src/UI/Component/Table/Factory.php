@@ -12,7 +12,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       This presents some data from the system in a pleasant way.
+	 *       The Presentation Table lists some data from the system in a pleasant way.
 	 *       The user should be able to get a quick overview over records in a
 	 *       dataset as simple as possible; for this, only most relevant fields of
 	 *       a record are being displayed at first glance.
@@ -22,12 +22,13 @@ interface Factory {
 	 *       single records may only be explored in this way,
 	 *   composition: >
 	 *       The Presentation Table consists of a title, a slot for View Controls
-	 *       and the data-area with Rows.
+	 *       and Presentation Rows.
 	 *   effect: >
-	 *        --operation of view controls
+	 *       Rows can be expanded and collapsed to show/hide more extensive and detailed information per record.
+	 *        The ordering or the contents of the table itself can be adjusted with view controls.
 	 *   rivals:
 	 *     1: >
-	 *       Data Table: A datatable shows some dataset and offers tools to
+	 *       Data Table: A data-table shows some dataset and offers tools to
 	 *       explore it in a user defined way. Instead of aiming at simplicity
 	 *       it aims at maximum explorability.
 	 *     2: >
@@ -36,9 +37,10 @@ interface Factory {
 	 *
 	 * rules:
 	 *   usage:
-	 *       1: >
-	 *          x
-	 *          x
+	 *       1: Data-rows in the table SHOULD be of the same structure (i.e. have the same fields)
+	 *   interaction:
+	 *       1: View Controls used here MUST only affect the table itself.
+	 *
 	 * ---
 	 * @param	string		$title
 	 * @param	array		$view_controls 	a list of view controls
@@ -57,21 +59,17 @@ interface Factory {
 	 *       a choice of record-fields.
 	 *       The row is prefixed by an expander-button.
 	 *       The expanded view of a row consists of a descriptive list,
-	 *       a list of buttons and a list of further record-fields.
+	 *       a list of buttons and a list of (further) record-fields.
 	 *   effect: >
 	 *        A click on the expander will enlarge the row vertically to
-	 *        show the complete record. The fields in the collapsed row will be
+	 *        show the complete record. Fields that were shown in the collapsed row will be
 	 *        hidden except for title and subtitle.
-	 *   rivals:
-	 *     1: >
-	 *
-	 *     2: >
 	 *
 	 * rules:
 	 *   usage:
-	 *       1: >
-	 *          x
-	 *          x
+	 *       1: Presentaion Rows MUST only be used in Presentation Tables.
+	 *   interaction:
+	 *       1: Clicking the expander MUST only expand the row. It MUST NOT trigger any other action.
 	 * ---
 	 * @param	string		$title_field
 	 * @return  \ILIAS\UI\Component\Table\PresentationRow

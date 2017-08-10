@@ -14,13 +14,10 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdoc
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
-
 		$this->checkComponent($component);
-
 		if ($component instanceof Component\Table\Presentation) {
 				return $this->renderPresentationTable($component, $default_renderer);
 		}
-
 		if ($component instanceof Component\Table\PresentationRow) {
 				return $this->renderPresentationRow($component, $default_renderer);
 		}
@@ -87,12 +84,10 @@ class Renderer extends AbstractComponentRenderer {
 		$shy_expander = $f->button()->shy("Details","#")
 			->withOnClick($sig_show);
 
-
 		$tpl->setVariable("ID",$id);
 		$tpl->setVariable("EXPANDER", $default_renderer->render($expander));
 		$tpl->setVariable("COLLAPSER", $default_renderer->render($collapser));
 		$tpl->setVariable("SHY_EXPANDER", $default_renderer->render($shy_expander));
-
 
 		$tpl->setVariable("TITLE", $data[$component->getTitleField()]);
 		$tpl->setVariable("SUBTITLE", $data[$component->getSubtitleField()]);

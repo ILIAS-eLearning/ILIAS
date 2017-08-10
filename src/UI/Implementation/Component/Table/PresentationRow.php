@@ -22,7 +22,6 @@ class PresentationRow implements T\PresentationRow {
 	 */
 	protected $close_signal;
 
-
 	/**
 	 * @var	string
 	 */
@@ -102,7 +101,6 @@ class PresentationRow implements T\PresentationRow {
 		return $this->close_signal;
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
@@ -163,6 +161,7 @@ class PresentationRow implements T\PresentationRow {
 	 * @inheritdoc
 	 */
 	public function withFurtherFieldsHeadline($headline) {
+		$this->checkStringArg("string", $headline);
 		$clone = clone $this;
 		$clone->further_fields_headline = $headline;
 		return $clone;
@@ -194,7 +193,7 @@ class PresentationRow implements T\PresentationRow {
 	/**
 	 * @inheritdoc
 	 */
-	public function withData($data) {
+	public function withData(array $data) {
 		$clone = clone $this;
 		$clone->data = $data;
 		return $clone;

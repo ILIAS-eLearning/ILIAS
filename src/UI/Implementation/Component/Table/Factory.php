@@ -30,7 +30,6 @@ class Factory implements T\Factory {
 		return new Presentation($title, $view_controls, $rows);
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */

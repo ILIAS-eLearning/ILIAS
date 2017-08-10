@@ -15,4 +15,18 @@ interface Presentation extends \ILIAS\UI\Component\Component {
 	 */
 	public function getTitle();
 
+	/**
+	 * Get all rows of the table.
+	 *
+	 * @return ILIAS\UI\Component\Table\PresentationRow[]
+	 */
+	public function getRows();
+
+	/**
+	 * Get view controls to be shown in the header of the table.
+	 *
+	 * @return ILIAS\UI\Component\ViewControl[]
+	 */
+	public function getViewControls();
+
 }
