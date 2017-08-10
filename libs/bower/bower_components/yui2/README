@@ -1,0 +1,35 @@
+YUI 2.x is deprecated. This code is preserved here as a legacy archive for any
+poor soul who needs to work with it. Please use YUI 3.x (http://www.yuilibrary.com).
+
+* Documentation: http://yui.github.io/yui2/
+* License: http://yuilibrary.com/license/
+* Latest Stable Release: http://yui.github.io/yui2/
+* Discuss: http://yuilibrary.com/forum/
+* Contributor Info: http://yuilibrary.com/contribute/
+
+The source tree for YUI 2.x includes the following directories:
+
+* api: Generated API docs for the entire library in HTML format.  These
+     documents are build using YUI Doc from the contents of the src
+     directory.
+* build: Generated/built YUI files.  The built files are generated from
+     the contents of the src directory.  Files are provided in full,
+     commented form (suitable for debugging) and in minified form
+     (suitable for deployment and use).
+* sandbox: The sandbox directory contains works-in-progress, including
+     unreleased future components, as well as experimental and/or
+     demonstration code created by library authors.
+* src: This directory contains the source code (JavaScript, CSS, image
+     assets, ActionScript files) for the library. src also contains
+     all module documentation, tests and examples. The
+     src/common directory contains documentation, tests and examples
+     that are not for a specific YUI component. All modifications to
+     the library and its documentation should take place in this
+     directory.
+
+     The src directory also contains build.xml files, which can be
+     used to build individual modules using the also-deprecated YUI
+     Builder tool (http://github.com/yui/builder). The README in the
+     componentbuild directory of the builder project
+     covers installation and use of the build tool.
+

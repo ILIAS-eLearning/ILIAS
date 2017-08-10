@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="YuiBuild" default="local">
+
+    <description>SWF Build File</description>
+
+    <property file="build.properties" />
+    <import file="${builddir}/2.x/bootstrap.xml" description="Default Build Properties and Targets" />
+
+    <!-- custom properties -->
+
+	<property name="flexbin" value="/flex_sdk_4.1/bin"/>
+	<property name="astra.srcdir" value="{$component.basedir}/as"/>
+		
+	<target name="build" depends="YuiModuleTargets.build, swfbuild" />
+	<target name="deploybuild" depends="YuiSharedTargets.deploybuild, swfdeploy" />
+	
+	<target name="swfbuild" description="Uploader SWF build">
+		    
+        <!-- build the uploader.swf -->
+        <!-- TODO: Make MXMLC a property -->
+
+        <exec executable="${flexbin}/mxmlc" failonerror="true">
+	
+            <!-- Flash Platform -->
+            <arg line="-source-path+='../charts/as'"/>
+
+            <!-- Output SWF -->
+            <arg line="-output './build_tmp/assets/uploader.swf'"/>
+            
+            <!-- Document Class -->
+            <arg line="'./as/Uploader.as'"/>
+        </exec>
+
+    </target>
+   
+    <target name="swfdeploy" description="Copy SWF to destination">
+        <copy file="${component.builddir}/assets/uploader.swf" todir="${global.build.component.assets}" />
+    </target>
+
+</project>

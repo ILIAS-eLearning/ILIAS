@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!-- http://10.72.112.142/dev/gitroot/yui2/src/tabview/tests/functional/html/VerticalTabs.html -->
+<containers>
+  <container locator="demo-top">
+      <tab tabClickLocator="//a[@href='#tab1-top']" tabLiLocator="//div[@id='demo-top']//ul/li[1]" contentLocator="tab1-top" selected="false"></tab>
+      <tab tabClickLocator="//a[@href='#tab2-top']" tabLiLocator="//div[@id='demo-top']//ul/li[2]" contentLocator="tab2-top" selected="false"></tab>
+      <tab tabClickLocator="//a[@href='#tab3-top']" tabLiLocator="//div[@id='demo-top']//ul/li[3]" contentLocator="tab3-top" selected="true"></tab>
+  </container>
+  <container locator="demo-left">
+      <tab tabClickLocator="//a[@href='#tab1-left']" tabLiLocator="//div[@id='demo-left']//ul/li[1]" contentLocator="tab1-left" selected="false"></tab>
+      <tab tabClickLocator="//a[@href='#tab2-left']" tabLiLocator="//div[@id='demo-left']//ul/li[2]" contentLocator="tab2-left" selected="false"></tab>
+      <tab tabClickLocator="//a[@href='#tab3-left']" tabLiLocator="//div[@id='demo-left']//ul/li[3]" contentLocator="tab3-left" selected="true"></tab>
+  </container>
+  <container locator="demo-right">
+      <tab tabClickLocator="//a[@href='#tab1-right']" tabLiLocator="//div[@id='demo-right']//ul/li[1]" contentLocator="tab1-right" selected="false"></tab>
+      <tab tabClickLocator="//a[@href='#tab2-right']" tabLiLocator="//div[@id='demo-right']//ul/li[2]" contentLocator="tab2-right" selected="false"></tab>
+      <tab tabClickLocator="//a[@href='#tab3-right']" tabLiLocator="//div[@id='demo-right']//ul/li[3]" contentLocator="tab3-right" selected="true"></tab>
+  </container>
+  <container locator="demo-bottom">
+      <tab tabClickLocator="//a[@href='#tab1-bottom']" tabLiLocator="//div[@id='demo-bottom']//ul/li[1]" contentLocator="tab1-bottom" selected="false"></tab>
+      <tab tabClickLocator="//a[@href='#tab2-bottom']" tabLiLocator="//div[@id='demo-bottom']//ul/li[2]" contentLocator="tab2-bottom" selected="false"></tab>
+      <tab tabClickLocator="//a[@href='#tab3-bottom']" tabLiLocator="//div[@id='demo-bottom']//ul/li[3]" contentLocator="tab3-bottom" selected="true"></tab>
+  </container>
+</containers>

@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="../../../../build/reset/reset-min.css">
+        <link type="text/css" rel="stylesheet" href="../../../../build/fonts/fonts-min.css">
+        <link type="text/css" rel="stylesheet" href="../../../../build/calendar/assets/skins/sam/calendar.css">
+        
+        <script type="text/javascript" src="../../../../build/yahoo/yahoo.js"></script>
+        <script type="text/javascript" src="../../../../build/event/event.js"></script>
+        <script type="text/javascript" src="../../../../build/dom/dom.js"></script>
+        <script type="text/javascript" src="../../../../build/calendar/calendar.js"></script>
+
+        <script type="text/javascript">
+        YAHOO.util.Event.onDOMReady(function() {
+            var cal = new YAHOO.widget.Calendar("cal", {pagedate: "2/2011", oom_select:true, hide_blank_weeks:false, multi_select:true});
+            cal.selectEvent.subscribe(function() {
+                console.log(cal.getSelectedDates())
+            });
+            cal.render();
+
+            var cal2 = new YAHOO.widget.CalendarGroup("calgrp", {pagedate: "2/2011", oom_select:true, hide_blank_weeks:false, multi_select:true, mindate:"02/15/2011", maxdate:"03/15/2011"});
+            cal2.render();
+            cal2.selectEvent.subscribe(function() {
+                console.log(cal2.getSelectedDates())
+            });
+            
+            YAHOO.util.Event.on("oomselect", "change", function() {
+                cal.cfg.setProperty("oom_select", this.checked);
+                cal2.cfg.setProperty("oom_select", this.checked);
+
+                cal.render();
+                cal2.render();
+            });
+
+             YAHOO.util.Event.on("hideblankweeks", "change", function() {
+                cal.cfg.setProperty("hide_blank_weeks", this.checked);
+                cal2.cfg.setProperty("hide_blank_weeks", this.checked);
+                
+                cal.render();
+                cal2.render();
+            }); 
+
+        });
+        </script>
+        
+        <style>
+            #controls {
+                margin:10px;
+            }
+        </style>
+    </head>
+    <body class="yui-skin-sam">
+        <div id="controls">
+            <label>OOM Select: <input type="checkbox" id="oomselect" checked="checked"></label>
+            <label>Hide Blank Weeks: <input type="checkbox" id="hideblankweeks"></label>
+        </div>
+        <div id="cal"></div>
+        <div id="calgrp"></div>
+    </body>
+</html>

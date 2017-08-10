@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!-- http://presentbright.corp.yahoo.com/yui2/latest_build/examples/tabview/frommarkup_clean.html -->
+<containers>
+  <container locator="//div[@id='demo']">
+      <tab tabClickLocator="//a[@href='#tab1']" tabLiLocator="//ul/li[1]" contentLocator="//div[@id='tab1']" selected="false"></tab>
+      <tab tabClickLocator="//a[@href='#tab2']" tabLiLocator="//ul/li[2]" contentLocator="//div[@id='tab2']" selected="true"></tab>
+      <tab tabClickLocator="//a[@href='#tab3']" tabLiLocator="//ul/li[3]" contentLocator="//div[@id='tab3']" selected="false"></tab>
+  </container>
+</containers>

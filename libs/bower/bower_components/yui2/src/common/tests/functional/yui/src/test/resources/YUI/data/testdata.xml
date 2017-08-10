@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ComposeTests SYSTEM "src/test/resources/YUI/data/testdata.dtd">
+<Myproject1Tests>
+	<common>
+		<inputElements>
+			<username>&testuser;</username>
+			<password>&testuserpassword;</password>
+		</inputElements>
+	</common>
+
+</Myproject1Tests>

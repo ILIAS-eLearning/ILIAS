@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="YuiBuildEditor" default="local">
+    <description>Editor Build File</description>
+    <property file="build.properties" />
+    <import file="${builddir}/2.x/bootstrap.xml" />
+
+    <target name="build" depends="YuiModuleTargets.build">
+       <ant antfile="${buildfile.dir}/build.simple.xml" target="simpleeditor_build_subtask" inheritAll="false" />
+    </target>
+ 
+    <target name="deployskins" depends="YuiSharedTargets.deployskins">
+       <ant antfile="${buildfile.dir}/build.simple.xml" target="simpleeditor_deployskins_subtask" inheritAll="false" />
+    </target>
+</project>

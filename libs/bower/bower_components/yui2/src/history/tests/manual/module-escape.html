@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>History Manager module name escaping bug</title>
+</head>
+<body>
+<!--
+Thanks to David Rehfeldt for reporting this bug and providing the test
+case: http://yuilibrary.com/projects/yui2/ticket/2529015
+-->
+
+<h1>History Manager module name escaping bug</h1>
+
+<input type="hidden" id="yui-history-field" />
+<iframe id="yui-history-iframe" style="display: none;"></iframe>
+
+<button id="simulate">Simulate error</button>
+
+<script src="../../../../build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script src="../../../../build/history/history-min.js"></script>
+<script>
+YAHOO.util.Event.addListener('simulate', 'click', function () {
+    var module = '퐥퐒퐭퐚퐭퐞';
+
+    // Register a module with Korean characters.
+    YAHOO.util.History.register(module, 'x=y', function () {});
+    YAHOO.util.History.initialize('yui-history-field', 'yui-history-iframe');
+
+    // Try to navigate; will throw a 'Module is not registered' error.
+    try {
+        YAHOO.util.History.navigate(module, 'x=z');
+        alert('It worked!');
+    } catch (e) {
+        alert('Error: ' + e.message);
+    }
+});
+</script>
+
+</body>
+</html>

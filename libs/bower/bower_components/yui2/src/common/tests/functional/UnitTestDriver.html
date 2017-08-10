@@ -1,0 +1,150 @@
+<html>
+<head>
+
+    <title>Unit Test Master Test Page</title>
+    <link type="text/css" rel="stylesheet" href="../../../../build/fonts/fonts.css" />
+    <link type="text/css" rel="stylesheet" href="../../../../build/logger/assets/logger.css" />
+    <link type="text/css" rel="stylesheet" href="../../../../build/yuitest/assets/testlogger.css" />
+    
+    <script type="text/javascript" src="../../../../build/yahoo/yahoo.js"></script>
+    <script type="text/javascript" src="../../../../build/dom/dom.js"></script>
+    <script type="text/javascript" src="../../../../build/event/event.js"></script>
+    <script type="text/javascript" src="../../../../build/logger/logger.js"></script>
+    <script type="text/javascript" src="../../../../build/json/json.js"></script>
+    <script type="text/javascript" src="../../../../build/yuitest/yuitest.js"></script>
+    
+    <style>
+        #out {
+        }
+    </style>
+
+</head>
+<body class="yui-skin-sam">
+<h1>Unit Test Master Test Page</h1>
+<script type="text/javascript">
+
+(function() {
+
+    var theTests = {
+
+"animation" : "../../../animation/tests/animation.html",
+"autocomplete" : "../../../autocomplete/tests/autocomplete.html", 
+//"button" :
+"calendar" : "../../../calendar/tests/calendar.html",
+//"carousel" :
+//"charts" :
+//"colorpicker" :
+//"connection" :
+"container-config" : "../../../container/tests/config.html",
+"container-module" : "../../../container/tests/module.html",
+"cookie" : "../../../cookie/tests/cookie.html",
+"datasource" : "../../../datasource/tests/datasource.html",
+"datatable" : "../../../datatable/tests/datatable.html",
+"datemath" : "../../../calendar/tests/datemath.html",
+"dom" : "../../../dom/tests/dom.html",
+"dragdrop" : "../../../dragdrop/tests/index.html",
+"editor" : "../../../editor/tests/editor.html",
+"element" : "../../../element/tests/element.html",
+//"element-delegate" :
+//"event" :
+//"event-delegate" :
+//"event-mouseenter" :
+//"event-simulate" :
+//"fonts" :
+//"get" :
+//"grids" :
+//"history" :
+//"imagecropper" :
+"imageloader" : "../../../imageloader/tests/imageloader.html",
+"json" : "../../../json/test/jason.html",
+//"layout" :
+"logger" : "../../../logger/tests/logger.html",
+//"menu" :
+//"paginator" :
+"profiler" : "../../../profiler/tests/profiler.html",
+//"profilerviewer" :
+//"progressbar" :
+//"reset" :
+//"resize" :
+//"selector" :
+//"slider" :
+//"storage" :
+//"stylesheet" :
+//"swf" :
+//"swfdetect" :
+//"swfstore" :
+"tabview" :  "../../../tabview/tests/tabview.html",
+//"treeview" :
+//"uploader" :
+"yahoo" : "../../../yahoo/tests/yahoo.html",
+"yuiloader" : "../../../yuiloader/tests/yuiloader.html",
+"yuiloader-config" : "../../../yuiloader/tests/yuiloader_config.html",
+"yuiloader-rollup" : "../../../yuiloader/tests/yuiloader_rollup.html",
+"yuitest" : "../../../yuitest/tests/yuitest.html"
+
+    };
+
+    function log(msg) {
+        var d=document, b=d.getElementById("out"), n=d.createElement("div");
+        if (b) {
+            n.appendChild(d.createTextNode(msg));
+            b.appendChild(n);
+        }
+    }
+
+    function logPre(msg) {
+        var d=document, b=d.getElementById("out"), n=d.createElement("pre");
+        if (b) {
+            n.appendChild(d.createTextNode(msg));
+            b.appendChild(n);
+        }
+    }
+
+    var query = window.location.search;
+    var testPage = "";
+    if (query) {
+      query = query.substring(1,query.length);
+      var regx = /^.*item=([^&#]*)/;
+      try {
+        var res = regx.exec(query)[1];
+        //console.log("res: ", res, theTests[res]);
+        testPage = theTests[res];
+      } catch(e) { }
+    }
+
+    var TM = YAHOO.tool.TestManager;
+
+    YAHOO.util.Event.onDOMReady(function() {
+        log("onDOMReady event");
+        YAHOO.namespace("Functional.TestManager");
+
+        YAHOO.tool.TestManager.setPages([ testPage ]);
+
+        TM.subscribe(TM.TEST_MANAGER_COMPLETE_EVENT, function(o) {
+            log("Test completed event");
+            YAHOO.Functional.TestManager.results = YAHOO.lang.JSON.stringify(o);
+
+            log("# of pages passed: " + o.passedPages.length);
+            log("# of pages failed: " + o.failedPages.length + ": " + o.failedPages.join(", "));
+            log("# of tests passed: " + o.passed);
+            log("# of tests failed: " + o.failed);
+
+            log("");
+            log("Results:");
+            logPre(YAHOO.lang.JSON.stringify(o,null,4));
+
+        });
+
+        TM.start();
+
+    });
+
+})();
+
+</script>
+
+<div id="out"></div>
+
+</body>
+</html>
+<!-- svn202.dt.corp.sp1.yahoo.com compressed/chunked Thu Oct  8 22:41:54 PDT 2009 -->

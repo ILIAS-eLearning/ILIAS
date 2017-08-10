@@ -1,0 +1,16 @@
+<pages>
+   <page name='Login'> 
+      <uielements>         
+         <uiobject name="username_edt" type="text"><locator>username</locator></uiobject>   
+         <uiobject name="password_edt" type="text"><locator>passwd</locator></uiobject>   
+      </uielements>
+      <otherElements>         
+         <uiobject name="SignIn_Btn" type="button"><locator>xpath=//input[@value='Sign In']</locator></uiobject>      
+      </otherElements>
+   </page>
+   <page name='Header'> 
+      <otherElements>   
+         <uiobject name="SignOut_Btn" type="button"><locator>link=&ZhMsg_UH_SignOut;</locator></uiobject>   
+      </otherElements>
+   </page>
+</pages>

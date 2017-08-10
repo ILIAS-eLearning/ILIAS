@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.yahoo.test.SelNG</groupId>
+  <artifactId>YUI</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>building project</name>
+  <url>http://twiki.corp.yahoo.com/view/Quality/SelNG</url>
+ <repositories>
+   <repository>
+     <id>groups</id>
+     <url>http://maven.grp.corp.sp2.yahoo.com:8081/artifactory/repo</url>
+     <snapshots>
+       <enabled>true</enabled>
+     </snapshots>
+     <releases>
+       <enabled>true</enabled>
+     </releases>
+   </repository>
+</repositories>
+<profiles>
+<profile>
+<id>local</id>
+ <activation>
+	<activeByDefault>true</activeByDefault>
+</activation> 
+<properties>
+	<maven.test.failure.ignore>true</maven.test.failure.ignore>
+</properties>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+
+      
+       <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <executions>
+                        <execution>
+                         <id>email</id>
+                        <phase>test</phase>
+                        <goals><goal>java</goal></goals>
+                        <configuration>
+                                <classpathScope>test</classpathScope>
+                                <includeProjectDependencies>true</includeProjectDependencies>
+                                <executable>java</executable>
+                                <mainClass>com.yahoo.test.SelNG.framework.util.SimpleEmailSender</mainClass>
+                                <arguments>
+                                <argument>-T</argument>
+                                <argument>youremailid@yahoo-inc.com</argument>
+                                <argument>-F</argument>
+                                <argument>youremailid@yahoo-inc.com</argument>
+                                <argument>-S</argument>
+                                <argument>SelNG  Report</argument>
+                                <argument>-A</argument>
+                                <argument>${basedir}/target/surefire-reports/SelNGEmailReport.html</argument>
+                                </arguments>
+                        </configuration>
+                        </execution>
+                </executions>
+          </plugin>
+          
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <suiteXmlFiles>
+            <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+          </suiteXmlFiles>
+          <properties>
+
+		   </properties>
+	   </configuration>
+      </plugin>
+      
+      
+      
+      
+    </plugins>
+  </build>
+</profile>
+<profile>
+<id>dynamic</id>
+<properties>
+	<maven.test.failure.ignore>true</maven.test.failure.ignore>
+</properties>
+<build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+      <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-jar-plugin</artifactId>
+       <version>2.2</version>
+       <executions>
+         <execution>
+           <goals>
+             <goal>test-jar</goal>
+           </goals>
+         </execution>
+       </executions>
+     </plugin>
+ 	
+ 	 <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <executions>
+                  <execution>
+                        <phase>test-compile</phase>
+                        <goals><goal>java</goal></goals>
+                        <configuration>
+                                <classpathScope>test</classpathScope>
+                                <includeProjectDependencies>true</includeProjectDependencies>
+                                <executable>java</executable>
+                                <mainClass>com.yahoo.test.SelNG.framework.util.GenerateConfigAndTestNG</mainClass>
+
+                        </configuration>
+                  </execution>
+                        <execution>
+                         <id>email</id>
+                        <phase>test</phase>
+                        <goals><goal>java</goal></goals>
+                        <configuration>
+                                <classpathScope>test</classpathScope>
+                                <includeProjectDependencies>true</includeProjectDependencies>
+                                <executable>java</executable>
+                                <mainClass>com.yahoo.test.SelNG.framework.util.SimpleEmailSender</mainClass>
+                                <arguments>
+                                <argument>-T</argument>
+                                <argument>${env.SELNG_TOEMAIL}</argument>
+                                <argument>-F</argument>
+                                <argument>${env.SELNG_TESTERSEMAIL}</argument>
+                                <argument>-S</argument>
+                                <argument>SelNG </argument>
+                                <argument>-A</argument>
+                                <argument>${basedir}/target/surefire-reports/SelNGEmailReport.html</argument>
+                                </arguments>
+                        </configuration>
+                        </execution>
+                </executions>
+          </plugin>
+
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <suiteXmlFiles>
+            <suiteXmlFile>src/test/resources/hudsonng.dynamic.xml</suiteXmlFile>
+          </suiteXmlFiles>
+          <properties>
+
+			<property>
+				<name>listener</name>
+
+				<value>
+				com.yahoo.test.SelNG.framework.util.MethodSorter,com.yahoo.test.SelNG.framework.util.SelNGEmailReporter,org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter,com.yahoo.test.SelNG.framework.util.TMReporter</value>
+			</property>
+ 		  </properties> 
+        </configuration>
+      </plugin>
+
+ 	 </plugins>
+    </build>
+   </profile>
+   
+   
+    <profile>
+
+<id>rerun</id>
+<properties>
+	<maven.test.failure.ignore>true</maven.test.failure.ignore>
+</properties>
+  <build>
+    <plugins>
+ 	 <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <executions>
+                        <execution>
+                         <id>email</id>
+                        <phase>test</phase>
+                        <goals><goal>java</goal></goals>
+                        <configuration>
+                                <classpathScope>test</classpathScope>
+                                <includeProjectDependencies>true</includeProjectDependencies>
+                                <executable>java</executable>
+                                <mainClass>com.yahoo.test.SelNG.framework.util.SimpleEmailSender</mainClass>
+                                <arguments>
+                                <argument>-T</argument>
+                                <argument>${env.SELNG_TOEMAIL}</argument>
+                                <argument>-F</argument>
+                                <argument>${env.SELNG_TESTERSEMAIL}</argument>
+                                <argument>-S</argument>
+                                <argument>Automation Failed Test Report for test</argument>
+                                <argument>-A</argument>
+                                <argument>${basedir}/target/surefire-reports/failed-rerun/SelNGEmailReport.html</argument>
+                                </arguments>
+                        </configuration>
+                        </execution>
+                </executions>
+          </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <reportsDirectory>target/surefire-reports/failed-rerun</reportsDirectory>
+          <suiteXmlFiles>
+            <suiteXmlFile>target/surefire-reports/testng-failed.xml</suiteXmlFile>
+          </suiteXmlFiles>
+          <properties>
+          	<property>
+          	<name>listener</name>
+          	<value>com.yahoo.test.SelNG.framework.util.MethodSorter,com.yahoo.test.SelNG.framework.util.SelNGEmailReporter,org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter,com.yahoo.test.SelNG.framework.util.TMReporter</value>
+			</property>
+ 		  </properties> 
+        </configuration>
+      </plugin>
+ 	 </plugins>
+    </build>
+  
+   <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.4.2</version>
+        <configuration>
+           <outputDirectory>${basedir}/target/newsite</outputDirectory>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+  </profile>
+   
+   
+   
+  </profiles>
+
+  <dependencies>
+    <dependency>
+      <groupId>yahoo.yinst.selng_plugin</groupId>
+      <artifactId>selng_plugin</artifactId>
+      <version>1.0.10_01</version>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>5.8</version>
+      <classifier>jdk15</classifier>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>yahoo.yinst.selng</groupId>
+      <artifactId>framework</artifactId>
+      <version>1.0.8_09</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>yahoo.yinst.yjava_log4j</groupId>
+      <artifactId>yjava_log4j</artifactId>
+      <version>1.2.14</version>
+    </dependency>
+     <dependency>
+     <groupId>org.openqa.selenium.server</groupId>
+     <artifactId>selenium-server</artifactId>
+     <version>1.0-SNAPSHOT</version>
+   </dependency>
+   <dependency>
+     <groupId>org.openqa.selenium.client-drivers</groupId>
+     <artifactId>selenium-java-client-driver</artifactId>
+     <version>1.0-SNAPSHOT</version>
+   </dependency>
+  </dependencies>
+
+</project>
+
+<!-- twiki201.dt.corp.sp1.yahoo.com Wed May 20 22:56:43 PST 2009 -->
+
+<!-- twiki201.dt.corp.sp1.yahoo.com Tue Jul 28 18:17:56 PST 2009 -->

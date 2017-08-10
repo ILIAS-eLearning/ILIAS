@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<suite data-provider-thread-count="10" junit="false" name="SelNG Test" parallel="false" skipfailedinvocationCounts="false" thread-count="5">
+    <parameter name="config-file_YUI" value="src/test/resources/config.properties"/>
+    
+	<listeners>
+       	<listener class-name="com.yahoo.test.SelNG.framework.util.MethodSorter"/>
+  		<listener class-name="com.yahoo.test.SelNG.framework.util.SelNGEmailReporter"/>
+  		<listener class-name="org.uncommons.reportng.HTMLReporter"/>
+        <listener class-name="org.uncommons.reportng.JUnitXMLReporter"/>
+  		<listener class-name="com.yahoo.test.SelNG.framework.util.TMReporter"/>
+  		<listener class-name="com.yahoo.test.SelNG.framework.util.Customreport"/>
+    </listeners>
+    
+  <test annotations="JDK" junit="false" name="YUI" skipfailedinvocationCounts="false" verbose="5">
+    <parameter name="config-file" value="src/test/resources/config.properties"/>
+    <groups>
+      <run>
+        <include name="abstract"/>
+        <exclude name="grid"/>
+        <include name="demo"/>
+      </run>
+    </groups>
+	
+    <classes>
+      <!--
+
+        <class name="com.yahoo.test.SelNG.YUI.tests.TabViewTestBuildFromMarkup"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.TabViewTestBuildFromScript"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.TabViewTestAddingTabs"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.TabViewTestRemovingTabs"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.TabViewTestOrientations"/>
+      	<class name="com.yahoo.test.SelNG.YUI.tests.TabViewTestExternalSource"/>
+
+        <class name="com.yahoo.test.SelNG.YUI.tests.DragAndDropTestHandles"/>
+		<class name="com.yahoo.test.SelNG.YUI.tests.DragAndDropTestBasic"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.DragAndDropTestRegion"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.DragAndDropTestReorder"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.DragAndDropTestOnTop"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.DragAndDropTestGroups"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.DragAndDropTestCircle"/>
+
+        <class name="com.yahoo.test.SelNG.YUI.tests.DragAndDropTestDdRows"/>
+
+        <class name="com.yahoo.test.SelNG.YUI.tests.ContainerTestDialogQuickstart"/>                
+        <class name="com.yahoo.test.SelNG.YUI.tests.ContainerTestDialogQuickstartForm"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.ContainerTestKeyListener"/> 
+        <class name="com.yahoo.test.SelNG.YUI.tests.ContainerTestModule"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.ContainerTestOverlay"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.ContainerTestOverlayManager"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.ContainerTestPanel"/>        
+        <class name="com.yahoo.test.SelNG.YUI.tests.ContainerTestPanelResize"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.ContainerTestPanelLoading"/>        
+        <class name="com.yahoo.test.SelNG.YUI.tests.ContainerTestSimpleDialogQuickstart"/>        
+        <class name="com.yahoo.test.SelNG.YUI.tests.ContainerTestTooltip"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.ContainerTestTooltipMulti"/>
+
+        <class name="com.yahoo.test.SelNG.YUI.tests.AutoCompleteTestBasicLocal"/>
+        
+        <class name="com.yahoo.test.SelNG.YUI.tests.ButtonTestPushButton"/>
+        <class name="com.yahoo.test.SelNG.YUI.tests.ButtonTestCheckboxButton"/>        
+
+      -->
+
+        <class name="com.yahoo.test.SelNG.YUI.tests.DragAndDropTestShim"/>
+          
+    </classes>
+
+  </test>
+
+</suite>

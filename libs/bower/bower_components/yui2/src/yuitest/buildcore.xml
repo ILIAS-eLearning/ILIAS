@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="YuiBuildYuiTestCore" default="local">
+    <description>Component Build File</description>
+    <property file="buildcore.properties" />
+    <import file="${builddir}/2.x/bootstrap.xml" />
+    <target name="yuitest_build_subtask" depends="build, minify" />
+</project>
+

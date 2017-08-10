@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="get" default="local">
+    <description>Get Build File</description>
+    <property file="build.properties" />
+    <import file="${builddir}/2.x/bootstrap.xml" description="Default Build Properties and Targets" />
+</project>

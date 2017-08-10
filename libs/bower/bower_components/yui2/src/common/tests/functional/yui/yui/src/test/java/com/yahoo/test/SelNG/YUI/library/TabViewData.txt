@@ -1,0 +1,12 @@
+tabData = {
+  containers : [
+    locator : "LocatorId",
+    container : {
+      locator : "containerId",
+      tabs : [
+        tabLocator : "tabId",
+        contentLocator : "contentId"
+      ]
+    }
+  ]
+}

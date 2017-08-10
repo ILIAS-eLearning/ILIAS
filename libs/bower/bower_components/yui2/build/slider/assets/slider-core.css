@@ -1,0 +1,11 @@
+.yui-h-slider,
+.yui-v-slider,
+.yui-region-slider {
+    position: relative;
+}
+.yui-h-slider .yui-slider-thumb,
+.yui-v-slider .yui-slider-thumb,
+.yui-region-slider .yui-slider-thumb {
+    position: absolute;
+    cursor: default;
+}

@@ -1,0 +1,1130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: datatable  YAHOO.util.ColumnResizer   (YUI Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css" />
+
+    <script type="text/javascript" src="assets/api-js"></script>
+    <script type="text/javascript" src="assets/ac-js"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="http://developer.yahoo.com/yui/" title="Yahoo! UI Library">Yahoo! UI Library</a></h1>
+        <h3>DataTable Widget&nbsp; <span class="subtitle">2.8.2r1</span></h3>
+        <a href="./index.html" title="Yahoo! UI Library">Yahoo! UI Library</a> 
+            &gt; <a href="./module_datatable.html" title="datatable">datatable</a>
+                 &gt; YAHOO.util.ColumnResizer 
+                
+        <form onsubmit="return false">
+            <div id="propertysearch">
+                Search: <input autocomplete="off" id="searchinput" />
+                <div id="searchresults">
+                    &nbsp;
+                </div>
+            </div>
+        </form>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div class="yui-b">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <h2>
+                        
+
+                        
+                        
+                            Class <b property="yui:name">YAHOO.util.ColumnResizer</b>
+                        <span class="extends">
+                           - extends <a href="YAHOO.util.DDProxy.html" title="YAHOO.util.DDProxy">YAHOO.util.DDProxy</a>
+                        </span>
+
+                    </h2>
+                    <!-- class tree goes here -->
+                    
+                
+  
+
+                    <div class="summary description" property="yui:description">
+                        ColumnResizer subclasses DragDrop to support resizeable Columns.
+                    </div>
+
+                        <div class="section constructor details" rel="yui:constructor" resource="#constructor">
+                        <h3 id="constructor">Constructor</h3>
+                        <div class="content">
+                            <div class="detail">
+                                <strong property="yui:name">YAHOO.util.ColumnResizer</strong>
+                                <code>
+                                    (
+  
+                                        
+                                                
+                                                oDataTable
+
+                                                , 
+                                                oColumn
+
+                                                , 
+                                                elTh
+
+                                                , 
+                                                sHandleElId
+
+                                                , 
+                                                elProxy
+                                    )
+                                </code>
+                                <div class="description">
+                                        <dl rel="yui:parameters">
+                                            <dt>Parameters:</dt>
+                                                <dd rel="yui:parameter">
+                                                    <code><span property="yui:name">oDataTable</span>
+                                                    &lt;<span property="yui:type">YAHOO.widget.DataTable</span>&gt;
+                                                    </code>
+                                                    <span property="yui:description">  DataTable instance.</span>
+                                                </dd>
+                                                <dd rel="yui:parameter">
+                                                    <code><span property="yui:name">oColumn</span>
+                                                    &lt;<span property="yui:type">YAHOO.widget.Column</span>&gt;
+                                                    </code>
+                                                    <span property="yui:description">  Column instance.</span>
+                                                </dd>
+                                                <dd rel="yui:parameter">
+                                                    <code><span property="yui:name">elTh</span>
+                                                    &lt;<span property="yui:type">HTMLElement</span>&gt;
+                                                    </code>
+                                                    <span property="yui:description">  TH element reference.</span>
+                                                </dd>
+                                                <dd rel="yui:parameter">
+                                                    <code><span property="yui:name">sHandleElId</span>
+                                                    &lt;<span property="yui:type">String</span>&gt;
+                                                    </code>
+                                                    <span property="yui:description">  DOM ID of the handle element that causes the resize.</span>
+                                                </dd>
+                                                <dd rel="yui:parameter">
+                                                    <code><span property="yui:name">elProxy</span>
+                                                    &lt;<span property="yui:type">HTMLElement</span>&gt;
+                                                    </code>
+                                                    <span property="yui:description">  Resizer proxy element.</span>
+                                                </dd>
+                                        </dl>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div rel="yui:properties" resource="#properties">
+                        <div class="section field details">
+                            <h3 id="properties">Properties</h3>
+                            <div class="content">
+                                    <div class=" deprecated" rel="yui:property" resource="#property_editorOptions">
+                                    <h4><a name="property_editorOptions" property="yui:name">editorOptions</a>
+                                        - <code><span property="yui:type">object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            
+                                        </div>
+                                    </div>
+     
+                                        
+
+                                    <div class="deprecated" property="yui:deprecated">
+                                        <strong>Deprecated:</strong> Pass configs directly to CellEditor constructor.
+                                    </div>        
+
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                        <div rel="yui:inheritance">
+                        <div class="section field inheritance" rel="yui:superclass"  resource="YAHOO.util.DDProxy.html">
+                            <h4>Properties inherited from <a href="YAHOO.util.DDProxy.html" property="yui:name" title="YAHOO.util.DDProxy">YAHOO.util.DDProxy</a>:</h4>
+                            <div class="content" rel="yui:properties">
+                                <code>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DDProxy.html#property_centerFrame">
+                                        <a class="" href="YAHOO.util.DDProxy.html#property_centerFrame" property="yui:name" title="centerFrame">centerFrame</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DDProxy.html#property_resizeFrame">
+                                        <a class="" href="YAHOO.util.DDProxy.html#property_resizeFrame" property="yui:name" title="resizeFrame">resizeFrame</a>
+                                        </span>
+                                    
+                                </code>
+                            </div>
+                        </div>
+                        <div class="section field inheritance" rel="yui:superclass"  resource="YAHOO.util.DD.html">
+                            <h4>Properties inherited from <a href="YAHOO.util.DD.html" property="yui:name" title="YAHOO.util.DD">YAHOO.util.DD</a>:</h4>
+                            <div class="content" rel="yui:properties">
+                                <code>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DD.html#property_scroll">
+                                        <a class="" href="YAHOO.util.DD.html#property_scroll" property="yui:name" title="scroll">scroll</a>
+                                        </span>
+                                    
+                                </code>
+                            </div>
+                        </div>
+                        <div class="section field inheritance" rel="yui:superclass"  resource="YAHOO.util.DragDrop.html">
+                            <h4>Properties inherited from <a href="YAHOO.util.DragDrop.html" property="yui:name" title="YAHOO.util.DragDrop">YAHOO.util.DragDrop</a>:</h4>
+                            <div class="content" rel="yui:properties">
+                                <code>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property___ygDragDrop">
+                                        <a class="private" href="YAHOO.util.DragDrop.html#property___ygDragDrop" property="yui:name" title="__ygDragDrop">__ygDragDrop</a><span class="private">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property__domRef">
+                                        <a class="private" href="YAHOO.util.DragDrop.html#property__domRef" property="yui:name" title="_domRef">_domRef</a><span class="private">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_available">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_available" property="yui:name" title="available">available</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_config">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_config" property="yui:name" title="config">config</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_constrainX">
+                                        <a class="private" href="YAHOO.util.DragDrop.html#property_constrainX" property="yui:name" title="constrainX">constrainX</a><span class="private">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_constrainY">
+                                        <a class="private" href="YAHOO.util.DragDrop.html#property_constrainY" property="yui:name" title="constrainY">constrainY</a><span class="private">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_cursorIsOver">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_cursorIsOver" property="yui:name" title="cursorIsOver">cursorIsOver</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_deltaX">
+                                        <a class="private" href="YAHOO.util.DragDrop.html#property_deltaX" property="yui:name" title="deltaX">deltaX</a><span class="private">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_deltaY">
+                                        <a class="private" href="YAHOO.util.DragDrop.html#property_deltaY" property="yui:name" title="deltaY">deltaY</a><span class="private">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_dragElId">
+                                        <a class="private" href="YAHOO.util.DragDrop.html#property_dragElId" property="yui:name" title="dragElId">dragElId</a><span class="private">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_dragOnly">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_dragOnly" property="yui:name" title="dragOnly">dragOnly</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_events">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_events" property="yui:name" title="events">events</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_groups">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_groups" property="yui:name" title="groups">groups</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_handleElId">
+                                        <a class="private" href="YAHOO.util.DragDrop.html#property_handleElId" property="yui:name" title="handleElId">handleElId</a><span class="private">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_hasOuterHandles">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_hasOuterHandles" property="yui:name" title="hasOuterHandles">hasOuterHandles</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_id">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_id" property="yui:name" title="id">id</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_invalidHandleClasses">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_invalidHandleClasses" property="yui:name" title="invalidHandleClasses">invalidHandleClasses</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_invalidHandleIds">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_invalidHandleIds" property="yui:name" title="invalidHandleIds">invalidHandleIds</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_invalidHandleTypes">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_invalidHandleTypes" property="yui:name" title="invalidHandleTypes">invalidHandleTypes</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_isTarget">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_isTarget" property="yui:name" title="isTarget">isTarget</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_locked">
+                                        <a class="private" href="YAHOO.util.DragDrop.html#property_locked" property="yui:name" title="locked">locked</a><span class="private">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_maintainOffset">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_maintainOffset" property="yui:name" title="maintainOffset">maintainOffset</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_maxX">
+                                        <a class="private" href="YAHOO.util.DragDrop.html#property_maxX" property="yui:name" title="maxX">maxX</a><span class="private">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_maxY">
+                                        <a class="private" href="YAHOO.util.DragDrop.html#property_maxY" property="yui:name" title="maxY">maxY</a><span class="private">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_minX">
+                                        <a class="private" href="YAHOO.util.DragDrop.html#property_minX" property="yui:name" title="minX">minX</a><span class="private">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_minY">
+                                        <a class="private" href="YAHOO.util.DragDrop.html#property_minY" property="yui:name" title="minY">minY</a><span class="private">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_overlap">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_overlap" property="yui:name" title="overlap">overlap</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_padding">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_padding" property="yui:name" title="padding">padding</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_primaryButtonOnly">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_primaryButtonOnly" property="yui:name" title="primaryButtonOnly">primaryButtonOnly</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_startPageX">
+                                        <a class="private" href="YAHOO.util.DragDrop.html#property_startPageX" property="yui:name" title="startPageX">startPageX</a><span class="private">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_startPageY">
+                                        <a class="private" href="YAHOO.util.DragDrop.html#property_startPageY" property="yui:name" title="startPageY">startPageY</a><span class="private">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_useShim">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_useShim" property="yui:name" title="useShim">useShim</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_xTicks">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_xTicks" property="yui:name" title="xTicks">xTicks</a><span class="">,</span>
+                                        </span>
+                                    
+                                        <span rel="yui:property" resource="YAHOO.util.DragDrop.html#property_yTicks">
+                                        <a class="" href="YAHOO.util.DragDrop.html#property_yTicks" property="yui:name" title="yTicks">yTicks</a>
+                                        </span>
+                                    
+                                </code>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div rel="yui:methods" resource="#methods">
+                        <div class="section method details">
+                            <h3 id="methods">Methods</h3>
+                            <div class="content">
+                                    <div class="private" rel="yui:method" resource="#method_clickValidator">
+                                    <h4>
+                                        <a name="method_clickValidator">clickValidator</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">clickValidator</strong>
+                                           (
+                                                
+                                                        
+                                                         e
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Custom clickValidator to ensure Column is not in hidden state.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">e</span>
+                                                        &lt;<span property="yui:type">Event</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"></span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_onDrag">
+                                    <h4>
+                                        <a name="method_onDrag">onDrag</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">onDrag</strong>
+                                           (
+                                                
+                                                        
+                                                         e
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Handles drag events on the Column resizer.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">e</span>
+                                                        &lt;<span property="yui:type">string</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The drag event</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_onMouseDown">
+                                    <h4>
+                                        <a name="method_onMouseDown">onMouseDown</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">onMouseDown</strong>
+                                           (
+                                                
+                                                        
+                                                         e
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Handles mousedown events on the Column resizer.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">e</span>
+                                                        &lt;<span property="yui:type">string</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The mousedown event</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_onMouseUp">
+                                    <h4>
+                                        <a name="method_onMouseUp">onMouseUp</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">onMouseUp</strong>
+                                           (
+                                                
+                                                        
+                                                         e
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Handles mouseup events on the Column resizer.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">e</span>
+                                                        &lt;<span property="yui:type">string</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The mouseup event</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_resetResizerEl">
+                                    <h4>
+                                        <a name="method_resetResizerEl">resetResizerEl</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">resetResizerEl</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Resets resizer element.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_startDrag">
+                                    <h4>
+                                        <a name="method_startDrag">startDrag</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">startDrag</strong>
+                                           (
+                                                
+                                                        
+                                                         e
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Handles start drag on the Column resizer.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">e</span>
+                                                        &lt;<span property="yui:type">string</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The drag event</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                        <div rel="yui:inheritance">                    
+                            <div class="section field inheritance" rel="yui:superclass"  resource="YAHOO.util.DDProxy.html">
+                                <h4>Methods inherited from <a href="YAHOO.util.DDProxy.html" property="yui:name" title="YAHOO.util.DDProxy">YAHOO.util.DDProxy</a>:</h4>
+                                <div class="content" rel="yui:methods">
+                                    <code>
+                                            <span rel="yui:method" resource="YAHOO.util.DDProxy.html#method__resizeProxy">                                        
+                                            <a class="private" href="YAHOO.util.DDProxy.html#method__resizeProxy" property="yui:name" title="_resizeProxy">_resizeProxy</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DDProxy.html#method_createFrame">                                        
+                                            <a class="" href="YAHOO.util.DDProxy.html#method_createFrame" property="yui:name" title="createFrame">createFrame</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DDProxy.html#method_initFrame">                                        
+                                            <a class="" href="YAHOO.util.DDProxy.html#method_initFrame" property="yui:name" title="initFrame">initFrame</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DDProxy.html#method_showFrame">                                        
+                                            <a class="private" href="YAHOO.util.DDProxy.html#method_showFrame" property="yui:name" title="showFrame">showFrame</a>
+                                            </span>
+                                    </code>
+                                </div>
+                            </div>
+                            <div class="section field inheritance" rel="yui:superclass"  resource="YAHOO.util.DD.html">
+                                <h4>Methods inherited from <a href="YAHOO.util.DD.html" property="yui:name" title="YAHOO.util.DD">YAHOO.util.DD</a>:</h4>
+                                <div class="content" rel="yui:methods">
+                                    <code>
+                                            <span rel="yui:method" resource="YAHOO.util.DD.html#method_alignElWithMouse">                                        
+                                            <a class="" href="YAHOO.util.DD.html#method_alignElWithMouse" property="yui:name" title="alignElWithMouse">alignElWithMouse</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DD.html#method_autoOffset">                                        
+                                            <a class="" href="YAHOO.util.DD.html#method_autoOffset" property="yui:name" title="autoOffset">autoOffset</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DD.html#method_autoScroll">                                        
+                                            <a class="private" href="YAHOO.util.DD.html#method_autoScroll" property="yui:name" title="autoScroll">autoScroll</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DD.html#method_cachePosition">                                        
+                                            <a class="" href="YAHOO.util.DD.html#method_cachePosition" property="yui:name" title="cachePosition">cachePosition</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DD.html#method_setDelta">                                        
+                                            <a class="" href="YAHOO.util.DD.html#method_setDelta" property="yui:name" title="setDelta">setDelta</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DD.html#method_setDragElPos">                                        
+                                            <a class="" href="YAHOO.util.DD.html#method_setDragElPos" property="yui:name" title="setDragElPos">setDragElPos</a>
+                                            </span>
+                                    </code>
+                                </div>
+                            </div>
+                            <div class="section field inheritance" rel="yui:superclass"  resource="YAHOO.util.DragDrop.html">
+                                <h4>Methods inherited from <a href="YAHOO.util.DragDrop.html" property="yui:name" title="YAHOO.util.DragDrop">YAHOO.util.DragDrop</a>:</h4>
+                                <div class="content" rel="yui:methods">
+                                    <code>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_addInvalidHandleClass">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_addInvalidHandleClass" property="yui:name" title="addInvalidHandleClass">addInvalidHandleClass</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_addInvalidHandleId">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_addInvalidHandleId" property="yui:name" title="addInvalidHandleId">addInvalidHandleId</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_addInvalidHandleType">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_addInvalidHandleType" property="yui:name" title="addInvalidHandleType">addInvalidHandleType</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_addToGroup">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_addToGroup" property="yui:name" title="addToGroup">addToGroup</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_applyConfig">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_applyConfig" property="yui:name" title="applyConfig">applyConfig</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_b4Drag">                                        
+                                            <a class="private" href="YAHOO.util.DragDrop.html#method_b4Drag" property="yui:name" title="b4Drag">b4Drag</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_b4DragDrop">                                        
+                                            <a class="private" href="YAHOO.util.DragDrop.html#method_b4DragDrop" property="yui:name" title="b4DragDrop">b4DragDrop</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_b4DragOut">                                        
+                                            <a class="private" href="YAHOO.util.DragDrop.html#method_b4DragOut" property="yui:name" title="b4DragOut">b4DragOut</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_b4DragOver">                                        
+                                            <a class="private" href="YAHOO.util.DragDrop.html#method_b4DragOver" property="yui:name" title="b4DragOver">b4DragOver</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_b4EndDrag">                                        
+                                            <a class="private" href="YAHOO.util.DragDrop.html#method_b4EndDrag" property="yui:name" title="b4EndDrag">b4EndDrag</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_b4MouseDown">                                        
+                                            <a class="private" href="YAHOO.util.DragDrop.html#method_b4MouseDown" property="yui:name" title="b4MouseDown">b4MouseDown</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_b4StartDrag">                                        
+                                            <a class="private" href="YAHOO.util.DragDrop.html#method_b4StartDrag" property="yui:name" title="b4StartDrag">b4StartDrag</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_clearConstraints">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_clearConstraints" property="yui:name" title="clearConstraints">clearConstraints</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_clearTicks">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_clearTicks" property="yui:name" title="clearTicks">clearTicks</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_clickValidator">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_clickValidator" property="yui:name" title="clickValidator">clickValidator</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_endDrag">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_endDrag" property="yui:name" title="endDrag">endDrag</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_getDragEl">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_getDragEl" property="yui:name" title="getDragEl">getDragEl</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_getEl">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_getEl" property="yui:name" title="getEl">getEl</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_getTargetCoord">                                        
+                                            <a class="private" href="YAHOO.util.DragDrop.html#method_getTargetCoord" property="yui:name" title="getTargetCoord">getTargetCoord</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_getTick">                                        
+                                            <a class="private" href="YAHOO.util.DragDrop.html#method_getTick" property="yui:name" title="getTick">getTick</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_handleMouseDown">                                        
+                                            <a class="private" href="YAHOO.util.DragDrop.html#method_handleMouseDown" property="yui:name" title="handleMouseDown">handleMouseDown</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_handleOnAvailable">                                        
+                                            <a class="private" href="YAHOO.util.DragDrop.html#method_handleOnAvailable" property="yui:name" title="handleOnAvailable">handleOnAvailable</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_init">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_init" property="yui:name" title="init">init</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_initTarget">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_initTarget" property="yui:name" title="initTarget">initTarget</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_isLocked">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_isLocked" property="yui:name" title="isLocked">isLocked</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_isValidHandleChild">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_isValidHandleChild" property="yui:name" title="isValidHandleChild">isValidHandleChild</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_lock">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_lock" property="yui:name" title="lock">lock</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_on">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_on" property="yui:name" title="on">on</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_onAvailable">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_onAvailable" property="yui:name" title="onAvailable">onAvailable</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_onDrag">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_onDrag" property="yui:name" title="onDrag">onDrag</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_onDragDrop">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_onDragDrop" property="yui:name" title="onDragDrop">onDragDrop</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_onDragEnter">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_onDragEnter" property="yui:name" title="onDragEnter">onDragEnter</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_onDragOut">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_onDragOut" property="yui:name" title="onDragOut">onDragOut</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_onDragOver">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_onDragOver" property="yui:name" title="onDragOver">onDragOver</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_onInvalidDrop">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_onInvalidDrop" property="yui:name" title="onInvalidDrop">onInvalidDrop</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_onMouseDown">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_onMouseDown" property="yui:name" title="onMouseDown">onMouseDown</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_onMouseUp">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_onMouseUp" property="yui:name" title="onMouseUp">onMouseUp</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_removeFromGroup">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_removeFromGroup" property="yui:name" title="removeFromGroup">removeFromGroup</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_removeInvalidHandleClass">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_removeInvalidHandleClass" property="yui:name" title="removeInvalidHandleClass">removeInvalidHandleClass</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_removeInvalidHandleId">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_removeInvalidHandleId" property="yui:name" title="removeInvalidHandleId">removeInvalidHandleId</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_removeInvalidHandleType">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_removeInvalidHandleType" property="yui:name" title="removeInvalidHandleType">removeInvalidHandleType</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_resetConstraints">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_resetConstraints" property="yui:name" title="resetConstraints">resetConstraints</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_setDragElId">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_setDragElId" property="yui:name" title="setDragElId">setDragElId</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_setHandleElId">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_setHandleElId" property="yui:name" title="setHandleElId">setHandleElId</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_setInitialPosition">                                        
+                                            <a class="private" href="YAHOO.util.DragDrop.html#method_setInitialPosition" property="yui:name" title="setInitialPosition">setInitialPosition</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_setOuterHandleElId">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_setOuterHandleElId" property="yui:name" title="setOuterHandleElId">setOuterHandleElId</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_setPadding">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_setPadding" property="yui:name" title="setPadding">setPadding</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_setStartPosition">                                        
+                                            <a class="private" href="YAHOO.util.DragDrop.html#method_setStartPosition" property="yui:name" title="setStartPosition">setStartPosition</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_setXConstraint">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_setXConstraint" property="yui:name" title="setXConstraint">setXConstraint</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_setXTicks">                                        
+                                            <a class="private" href="YAHOO.util.DragDrop.html#method_setXTicks" property="yui:name" title="setXTicks">setXTicks</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_setYConstraint">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_setYConstraint" property="yui:name" title="setYConstraint">setYConstraint</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_setYTicks">                                        
+                                            <a class="private" href="YAHOO.util.DragDrop.html#method_setYTicks" property="yui:name" title="setYTicks">setYTicks</a><span class="private">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_startDrag">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_startDrag" property="yui:name" title="startDrag">startDrag</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_toString">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_toString" property="yui:name" title="toString">toString</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_unlock">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_unlock" property="yui:name" title="unlock">unlock</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="YAHOO.util.DragDrop.html#method_unreg">                                        
+                                            <a class="" href="YAHOO.util.DragDrop.html#method_unreg" property="yui:name" title="unreg">unreg</a>
+                                            </span>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div rel="yui:events" resource="#events">
+
+
+                        <div rel="yui:inheritance">                    
+                        <div class="section field inheritance" rel="yui:superclass"  resource="YAHOO.util.DDProxy.html">
+                            <h4>Events inherited from <a href="YAHOO.util.DDProxy.html" property="yui:name" title="YAHOO.util.DDProxy">YAHOO.util.DDProxy</a>:</h4>
+                            <div class="content" rel="yui:events">
+                                <code>
+                                        <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_b4DragDropEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_b4DragDropEvent" property="yui:name" title="b4DragDropEvent">b4DragDropEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_b4DragEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_b4DragEvent" property="yui:name" title="b4DragEvent">b4DragEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_b4DragOutEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_b4DragOutEvent" property="yui:name" title="b4DragOutEvent">b4DragOutEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_b4DragOverEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_b4DragOverEvent" property="yui:name" title="b4DragOverEvent">b4DragOverEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_b4EndDragEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_b4EndDragEvent" property="yui:name" title="b4EndDragEvent">b4EndDragEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_b4MouseDownEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_b4MouseDownEvent" property="yui:name" title="b4MouseDownEvent">b4MouseDownEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_b4StartDragEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_b4StartDragEvent" property="yui:name" title="b4StartDragEvent">b4StartDragEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_dragDropEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_dragDropEvent" property="yui:name" title="dragDropEvent">dragDropEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_dragEnterEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_dragEnterEvent" property="yui:name" title="dragEnterEvent">dragEnterEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_dragEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_dragEvent" property="yui:name" title="dragEvent">dragEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_dragOutEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_dragOutEvent" property="yui:name" title="dragOutEvent">dragOutEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_dragOverEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_dragOverEvent" property="yui:name" title="dragOverEvent">dragOverEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_endDragEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_endDragEvent" property="yui:name" title="endDragEvent">endDragEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_invalidDropEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_invalidDropEvent" property="yui:name" title="invalidDropEvent">invalidDropEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_mouseDownEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_mouseDownEvent" property="yui:name" title="mouseDownEvent">mouseDownEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_mouseUpEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_mouseUpEvent" property="yui:name" title="mouseUpEvent">mouseUpEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DDProxy.html#event_startDragEvent">
+                                        <a class="" href="YAHOO.util.DDProxy.html#event_startDragEvent" property="yui:name" title="startDragEvent">startDragEvent</a>
+                                        </span>
+                                    
+                                </code>
+                            </div>
+                        </div>
+                        <div class="section field inheritance" rel="yui:superclass"  resource="YAHOO.util.DD.html">
+                            <h4>Events inherited from <a href="YAHOO.util.DD.html" property="yui:name" title="YAHOO.util.DD">YAHOO.util.DD</a>:</h4>
+                            <div class="content" rel="yui:events">
+                                <code>
+                                        <span rel="yui:event" resource="YAHOO.util.DD.html#event_b4DragDropEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_b4DragDropEvent" property="yui:name" title="b4DragDropEvent">b4DragDropEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_b4DragEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_b4DragEvent" property="yui:name" title="b4DragEvent">b4DragEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_b4DragOutEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_b4DragOutEvent" property="yui:name" title="b4DragOutEvent">b4DragOutEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_b4DragOverEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_b4DragOverEvent" property="yui:name" title="b4DragOverEvent">b4DragOverEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_b4EndDragEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_b4EndDragEvent" property="yui:name" title="b4EndDragEvent">b4EndDragEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_b4MouseDownEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_b4MouseDownEvent" property="yui:name" title="b4MouseDownEvent">b4MouseDownEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_b4StartDragEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_b4StartDragEvent" property="yui:name" title="b4StartDragEvent">b4StartDragEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_dragDropEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_dragDropEvent" property="yui:name" title="dragDropEvent">dragDropEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_dragEnterEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_dragEnterEvent" property="yui:name" title="dragEnterEvent">dragEnterEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_dragEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_dragEvent" property="yui:name" title="dragEvent">dragEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_dragOutEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_dragOutEvent" property="yui:name" title="dragOutEvent">dragOutEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_dragOverEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_dragOverEvent" property="yui:name" title="dragOverEvent">dragOverEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_endDragEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_endDragEvent" property="yui:name" title="endDragEvent">endDragEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_invalidDropEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_invalidDropEvent" property="yui:name" title="invalidDropEvent">invalidDropEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_mouseDownEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_mouseDownEvent" property="yui:name" title="mouseDownEvent">mouseDownEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_mouseUpEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_mouseUpEvent" property="yui:name" title="mouseUpEvent">mouseUpEvent</a>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DD.html#event_startDragEvent">
+                                        <a class="" href="YAHOO.util.DD.html#event_startDragEvent" property="yui:name" title="startDragEvent">startDragEvent</a>
+                                        </span>
+                                    
+                                </code>
+                            </div>
+                        </div>
+                        <div class="section field inheritance" rel="yui:superclass"  resource="YAHOO.util.DragDrop.html">
+                            <h4>Events inherited from <a href="YAHOO.util.DragDrop.html" property="yui:name" title="YAHOO.util.DragDrop">YAHOO.util.DragDrop</a>:</h4>
+                            <div class="content" rel="yui:events">
+                                <code>
+                                        <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_b4DragDropEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_b4DragDropEvent" property="yui:name" title="b4DragDropEvent">b4DragDropEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_b4DragEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_b4DragEvent" property="yui:name" title="b4DragEvent">b4DragEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_b4DragOutEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_b4DragOutEvent" property="yui:name" title="b4DragOutEvent">b4DragOutEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_b4DragOverEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_b4DragOverEvent" property="yui:name" title="b4DragOverEvent">b4DragOverEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_b4EndDragEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_b4EndDragEvent" property="yui:name" title="b4EndDragEvent">b4EndDragEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_b4MouseDownEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_b4MouseDownEvent" property="yui:name" title="b4MouseDownEvent">b4MouseDownEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_b4StartDragEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_b4StartDragEvent" property="yui:name" title="b4StartDragEvent">b4StartDragEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_dragDropEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_dragDropEvent" property="yui:name" title="dragDropEvent">dragDropEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_dragEnterEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_dragEnterEvent" property="yui:name" title="dragEnterEvent">dragEnterEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_dragEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_dragEvent" property="yui:name" title="dragEvent">dragEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_dragOutEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_dragOutEvent" property="yui:name" title="dragOutEvent">dragOutEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_dragOverEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_dragOverEvent" property="yui:name" title="dragOverEvent">dragOverEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_endDragEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_endDragEvent" property="yui:name" title="endDragEvent">endDragEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_invalidDropEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_invalidDropEvent" property="yui:name" title="invalidDropEvent">invalidDropEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_mouseDownEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_mouseDownEvent" property="yui:name" title="mouseDownEvent">mouseDownEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_mouseUpEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_mouseUpEvent" property="yui:name" title="mouseUpEvent">mouseUpEvent</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="YAHOO.util.DragDrop.html#event_startDragEvent">
+                                        <a class="" href="YAHOO.util.DragDrop.html#event_startDragEvent" property="yui:name" title="startDragEvent">startDragEvent</a><span class="">,</span>
+                                        </span>
+                                    
+                                </code>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div rel="yui:attributes" resource="#configattributes">
+
+                    </div>
+
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_animation.html" title="animation">animation</a></li>
+                                <li class=""><a href="module_autocomplete.html" title="autocomplete">autocomplete</a></li>
+                                <li class=""><a href="module_button.html" title="button">button</a></li>
+                                <li class=""><a href="module_calendar.html" title="calendar">calendar</a></li>
+                                <li class=""><a href="module_carousel.html" title="carousel">carousel</a></li>
+                                <li class=""><a href="module_charts.html" title="charts">charts</a></li>
+                                <li class=""><a href="module_colorpicker.html" title="colorpicker">colorpicker</a></li>
+                                <li class=""><a href="module_connection.html" title="connection">connection</a></li>
+                                <li class=""><a href="module_container.html" title="container">container</a></li>
+                                <li class=""><a href="module_cookie.html" title="cookie">cookie</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class="selected"><a href="module_datatable.html" title="datatable">datatable</a></li>
+                                <li class=""><a href="module_datemath.html" title="datemath">datemath</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_dragdrop.html" title="dragdrop">dragdrop</a></li>
+                                <li class=""><a href="module_editor.html" title="editor">editor</a></li>
+                                <li class=""><a href="module_element.html" title="element">element</a></li>
+                                <li class=""><a href="module_element-delegate.html" title="element-delegate">element-delegate</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class=""><a href="module_event-delegate.html" title="event-delegate">event-delegate</a></li>
+                                <li class=""><a href="module_event-mouseenter.html" title="event-mouseenter">event-mouseenter</a></li>
+                                <li class=""><a href="module_event-simulate.html" title="event-simulate">event-simulate</a></li>
+                                <li class=""><a href="module_get.html" title="get">get</a></li>
+                                <li class=""><a href="module_history.html" title="history">history</a></li>
+                                <li class=""><a href="module_imagecropper.html" title="imagecropper">imagecropper</a></li>
+                                <li class=""><a href="module_imageloader.html" title="imageloader">imageloader</a></li>
+                                <li class=""><a href="module_json.html" title="json">json</a></li>
+                                <li class=""><a href="module_layout.html" title="layout">layout</a></li>
+                                <li class=""><a href="module_logger.html" title="logger">logger</a></li>
+                                <li class=""><a href="module_menu.html" title="menu">menu</a></li>
+                                <li class=""><a href="module_paginator.html" title="paginator">paginator</a></li>
+                                <li class=""><a href="module_profiler.html" title="profiler">profiler</a></li>
+                                <li class=""><a href="module_profilerviewer.html" title="profilerviewer">profilerviewer</a></li>
+                                <li class=""><a href="module_progressbar.html" title="progressbar">progressbar</a></li>
+                                <li class=""><a href="module_resize.html" title="resize">resize</a></li>
+                                <li class=""><a href="module_selector.html" title="selector">selector</a></li>
+                                <li class=""><a href="module_slider.html" title="slider">slider</a></li>
+                                <li class=""><a href="module_storage.html" title="Storage">Storage</a></li>
+                                <li class=""><a href="module_stylesheet.html" title="stylesheet">stylesheet</a></li>
+                                <li class=""><a href="module_swf.html" title="swf">swf</a></li>
+                                <li class=""><a href="module_swfdetect.html" title="swfdetect">swfdetect</a></li>
+                                <li class=""><a href="module_swfstore.html" title="swfstore">swfstore</a></li>
+                                <li class=""><a href="module_tabview.html" title="tabview">tabview</a></li>
+                                <li class=""><a href="module_treeview.html" title="treeview">treeview</a></li>
+                                <li class=""><a href="module_uploader.html" title="uploader">uploader</a></li>
+                                <li class=""><a href="module_yahoo.html" title="yahoo">yahoo</a></li>
+                                <li class=""><a href="module_yuiloader.html" title="yuiloader">yuiloader</a></li>
+                                <li class=""><a href="module_yuitest.html" title="yuitest">yuitest</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="YAHOO.util.Chain.html" title="YAHOO.util.Chain">YAHOO.util.Chain</a></li>
+                                <li class=""><a href="YAHOO.util.ColumnDD.html" title="YAHOO.util.ColumnDD">YAHOO.util.ColumnDD</a></li>
+                                <li class="selected"><a href="YAHOO.util.ColumnResizer.html" title="YAHOO.util.ColumnResizer">YAHOO.util.ColumnResizer</a></li>
+                                <li class=""><a href="YAHOO.util.Sort.html" title="YAHOO.util.Sort">YAHOO.util.Sort</a></li>
+                                <li class=""><a href="YAHOO.widget.BaseCellEditor.html" title="YAHOO.widget.BaseCellEditor">YAHOO.widget.BaseCellEditor</a></li>
+                                <li class=""><a href="YAHOO.widget.CellEditor.html" title="YAHOO.widget.CellEditor">YAHOO.widget.CellEditor</a></li>
+                                <li class=""><a href="YAHOO.widget.CheckboxCellEditor.html" title="YAHOO.widget.CheckboxCellEditor">YAHOO.widget.CheckboxCellEditor</a></li>
+                                <li class=""><a href="YAHOO.widget.Column.html" title="YAHOO.widget.Column">YAHOO.widget.Column</a></li>
+                                <li class=""><a href="YAHOO.widget.ColumnSet.html" title="YAHOO.widget.ColumnSet">YAHOO.widget.ColumnSet</a></li>
+                                <li class=""><a href="YAHOO.widget.DataTable.html" title="YAHOO.widget.DataTable">YAHOO.widget.DataTable</a></li>
+                                <li class=""><a href="YAHOO.widget.DateCellEditor.html" title="YAHOO.widget.DateCellEditor">YAHOO.widget.DateCellEditor</a></li>
+                                <li class=""><a href="YAHOO.widget.DropdownCellEditor.html" title="YAHOO.widget.DropdownCellEditor">YAHOO.widget.DropdownCellEditor</a></li>
+                                <li class=""><a href="YAHOO.widget.RadioCellEditor.html" title="YAHOO.widget.RadioCellEditor">YAHOO.widget.RadioCellEditor</a></li>
+                                <li class=""><a href="YAHOO.widget.Record.html" title="YAHOO.widget.Record">YAHOO.widget.Record</a></li>
+                                <li class=""><a href="YAHOO.widget.RecordSet.html" title="YAHOO.widget.RecordSet">YAHOO.widget.RecordSet</a></li>
+                                <li class=""><a href="YAHOO.widget.ScrollingDataTable.html" title="YAHOO.widget.ScrollingDataTable">YAHOO.widget.ScrollingDataTable</a></li>
+                                <li class=""><a href="YAHOO.widget.TextareaCellEditor.html" title="YAHOO.widget.TextareaCellEditor">YAHOO.widget.TextareaCellEditor</a></li>
+                                <li class=""><a href="YAHOO.widget.TextboxCellEditor.html" title="YAHOO.widget.TextboxCellEditor">YAHOO.widget.TextboxCellEditor</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="CellEditor.js.html" title="CellEditor.js">CellEditor.js</a></li>
+                                <li class=""><a href="Chain.js.html" title="Chain.js">Chain.js</a></li>
+                                <li class=""><a href="ColumnSet.js.html" title="ColumnSet.js">ColumnSet.js</a></li>
+                                <li class=""><a href="DataTable.js.html" title="DataTable.js">DataTable.js</a></li>
+                                <li class=""><a href="RecordSet.js.html" title="RecordSet.js">RecordSet.js</a></li>
+                                <li class=""><a href="ScrollingDataTable.js.html" title="ScrollingDataTable.js">ScrollingDataTable.js</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="propertyList" class="module">
+                        <h4>Properties</h4>
+                        <ul class="content">        
+                                <li class=" deprecated"><a href="#property_editorOptions" title="editorOptions">editorOptions</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="methodsList" class="module">
+                        <h4>Methods</h4>
+                        <ul class="content">        
+                                <li class="private"><a href="#method_clickValidator" title="clickValidator">clickValidator</a></li>
+                                <li class=""><a href="#method_onDrag" title="onDrag">onDrag</a></li>
+                                <li class=""><a href="#method_onMouseDown" title="onMouseDown">onMouseDown</a></li>
+                                <li class=""><a href="#method_onMouseUp" title="onMouseUp">onMouseUp</a></li>
+                                <li class=""><a href="#method_resetResizerEl" title="resetResizerEl">resetResizerEl</a></li>
+                                <li class=""><a href="#method_startDrag" title="startDrag">startDrag</a></li>
+                        </ul>
+                    </div>
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+        <hr />
+        Copyright &copy; 2010 Yahoo! Inc. All rights reserved.
+	</div>
+</div>
+<script type="text/javascript">
+
+    var ALL_YUI_PROPS = [{"access": "", "host": "YAHOO.widget.Column", "name": "abbr", "url": "YAHOO.widget.Column.html#property_abbr", "type": "property"}, {"access": "", "host": "YAHOO.util.Chain", "name": "add", "url": "YAHOO.util.Chain.html#method_add", "type": "method"}, {"access": "private", "host": "YAHOO.widget.ColumnSet", "name": "_aDefinitions", "url": "YAHOO.widget.ColumnSet.html#property__aDefinitions", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "asyncSubmitter", "url": "YAHOO.widget.BaseCellEditor.html#property_asyncSubmitter", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "attach", "url": "YAHOO.widget.BaseCellEditor.html#method_attach", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "block", "url": "YAHOO.widget.BaseCellEditor.html#method_block", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "blurEvent", "url": "YAHOO.widget.BaseCellEditor.html#event_blurEvent", "type": "event"}, {"access": "", "host": "YAHOO.widget.DateCellEditor", "name": "calendar", "url": "YAHOO.widget.DateCellEditor.html#property_calendar", "type": "property"}, {"access": "", "host": "YAHOO.widget.DateCellEditor", "name": "calendarOptions", "url": "YAHOO.widget.DateCellEditor.html#property_calendarOptions", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "cancel", "url": "YAHOO.widget.BaseCellEditor.html#method_cancel", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "cancelEvent", "url": "YAHOO.widget.BaseCellEditor.html#event_cancelEvent", "type": "event"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "CellEditor.CLASS_CELLEDITOR", "url": "YAHOO.widget.BaseCellEditor.html#property_CellEditor.CLASS_CELLEDITOR", "type": "property"}, {"access": "private", "host": "YAHOO.widget.BaseCellEditor", "name": "CellEditor._nCount", "url": "YAHOO.widget.BaseCellEditor.html#property_CellEditor._nCount", "type": "property"}, {"access": "", "host": "YAHOO.widget.CheckboxCellEditor", "name": "checkboxes", "url": "YAHOO.widget.CheckboxCellEditor.html#property_checkboxes", "type": "property"}, {"access": "", "host": "YAHOO.widget.CheckboxCellEditor", "name": "checkboxOptions", "url": "YAHOO.widget.CheckboxCellEditor.html#property_checkboxOptions", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "children", "url": "YAHOO.widget.Column.html#property_children", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "className", "url": "YAHOO.widget.Column.html#property_className", "type": "property"}, {"access": "private", "host": "YAHOO.util.ColumnResizer", "name": "clickValidator", "url": "YAHOO.util.ColumnResizer.html#method_clickValidator", "type": "method"}, {"access": "private", "host": "YAHOO.widget.Column", "name": "Column._nCount", "url": "YAHOO.widget.Column.html#property_Column._nCount", "type": "property"}, {"access": "private", "host": "YAHOO.widget.ColumnSet", "name": "ColumnSet._nCount", "url": "YAHOO.widget.ColumnSet.html#property_ColumnSet._nCount", "type": "property"}, {"access": "", "host": "YAHOO.util.Sort", "name": "compare", "url": "YAHOO.util.Sort.html#method_compare", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "currencyOptions", "url": "YAHOO.widget.Column.html#property_currencyOptions", "type": "property"}, {"access": "", "host": "YAHOO.widget.TextboxCellEditor", "name": "DataTable.Editors", "url": "YAHOO.widget.TextboxCellEditor.html#property_DataTable.Editors", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "dateOptions", "url": "YAHOO.widget.Column.html#property_dateOptions", "type": "property"}, {"access": "private", "host": "YAHOO.widget.Column", "name": "_dd", "url": "YAHOO.widget.Column.html#property__dd", "type": "property"}, {"access": "private", "host": "YAHOO.widget.Column", "name": "_ddResizer", "url": "YAHOO.widget.Column.html#property__ddResizer", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "defaultValue", "url": "YAHOO.widget.BaseCellEditor.html#property_defaultValue", "type": "property"}, {"access": "", "host": "YAHOO.widget.DateCellEditor", "name": "defaultValue", "url": "YAHOO.widget.DateCellEditor.html#property_defaultValue", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "destroy", "url": "YAHOO.widget.BaseCellEditor.html#method_destroy", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "disableBtns", "url": "YAHOO.widget.BaseCellEditor.html#property_disableBtns", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "doAfterRender", "url": "YAHOO.widget.BaseCellEditor.html#method_doAfterRender", "type": "method"}, {"access": "", "host": "YAHOO.widget.DropdownCellEditor", "name": "dropdown", "url": "YAHOO.widget.DropdownCellEditor.html#property_dropdown", "type": "property"}, {"access": "", "host": "YAHOO.widget.DropdownCellEditor", "name": "dropdownOptions", "url": "YAHOO.widget.DropdownCellEditor.html#property_dropdownOptions", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "dropdownOptions", "url": "YAHOO.widget.Column.html#property_dropdownOptions", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "editor", "url": "YAHOO.widget.Column.html#property_editor", "type": "property"}, {"access": "", "host": "YAHOO.util.ColumnResizer", "name": "editorOptions", "url": "YAHOO.util.ColumnResizer.html#property_editorOptions", "type": "property"}, {"access": "private", "host": "YAHOO.widget.BaseCellEditor", "name": "_elCancelBtn", "url": "YAHOO.widget.BaseCellEditor.html#property__elCancelBtn", "type": "property"}, {"access": "private", "host": "YAHOO.widget.BaseCellEditor", "name": "_elContainer", "url": "YAHOO.widget.BaseCellEditor.html#property__elContainer", "type": "property"}, {"access": "private", "host": "YAHOO.widget.Column", "name": "_elResizer", "url": "YAHOO.widget.Column.html#property__elResizer", "type": "property"}, {"access": "private", "host": "YAHOO.widget.BaseCellEditor", "name": "_elSaveBtn", "url": "YAHOO.widget.BaseCellEditor.html#property__elSaveBtn", "type": "property"}, {"access": "private", "host": "YAHOO.widget.BaseCellEditor", "name": "_elTd", "url": "YAHOO.widget.BaseCellEditor.html#property__elTd", "type": "property"}, {"access": "private", "host": "YAHOO.widget.Column", "name": "_elTh", "url": "YAHOO.widget.Column.html#property__elTh", "type": "property"}, {"access": "private", "host": "YAHOO.widget.Column", "name": "_elThLabel", "url": "YAHOO.widget.Column.html#property__elThLabel", "type": "property"}, {"access": "private", "host": "YAHOO.widget.Column", "name": "_elThLiner", "url": "YAHOO.widget.Column.html#property__elThLiner", "type": "property"}, {"access": "", "host": "YAHOO.util.Chain", "name": "end", "url": "YAHOO.util.Chain.html#event_end", "type": "event"}, {"access": "", "host": "YAHOO.widget.Column", "name": "field", "url": "YAHOO.widget.Column.html#property_field", "type": "property"}, {"access": "", "host": "YAHOO.widget.ColumnSet", "name": "flat", "url": "YAHOO.widget.ColumnSet.html#property_flat", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "focus", "url": "YAHOO.widget.BaseCellEditor.html#method_focus", "type": "method"}, {"access": "", "host": "YAHOO.widget.CheckboxCellEditor", "name": "focus", "url": "YAHOO.widget.CheckboxCellEditor.html#method_focus", "type": "method"}, {"access": "", "host": "YAHOO.widget.DateCellEditor", "name": "focus", "url": "YAHOO.widget.DateCellEditor.html#method_focus", "type": "method"}, {"access": "", "host": "YAHOO.widget.DropdownCellEditor", "name": "focus", "url": "YAHOO.widget.DropdownCellEditor.html#method_focus", "type": "method"}, {"access": "", "host": "YAHOO.widget.RadioCellEditor", "name": "focus", "url": "YAHOO.widget.RadioCellEditor.html#method_focus", "type": "method"}, {"access": "", "host": "YAHOO.widget.TextareaCellEditor", "name": "focus", "url": "YAHOO.widget.TextareaCellEditor.html#method_focus", "type": "method"}, {"access": "", "host": "YAHOO.widget.TextboxCellEditor", "name": "focus", "url": "YAHOO.widget.TextboxCellEditor.html#method_focus", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "formatter", "url": "YAHOO.widget.Column.html#property_formatter", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "getColEl", "url": "YAHOO.widget.Column.html#method_getColEl", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "getColspan", "url": "YAHOO.widget.Column.html#method_getColspan", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "getColumn", "url": "YAHOO.widget.BaseCellEditor.html#method_getColumn", "type": "method"}, {"access": "", "host": "YAHOO.widget.ColumnSet", "name": "getColumn", "url": "YAHOO.widget.ColumnSet.html#method_getColumn", "type": "method"}, {"access": "", "host": "YAHOO.widget.ColumnSet", "name": "getColumnById", "url": "YAHOO.widget.ColumnSet.html#method_getColumnById", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "getContainerEl", "url": "YAHOO.widget.BaseCellEditor.html#method_getContainerEl", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "getDataTable", "url": "YAHOO.widget.BaseCellEditor.html#method_getDataTable", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "getDefinition", "url": "YAHOO.widget.Column.html#method_getDefinition", "type": "method"}, {"access": "", "host": "YAHOO.widget.ColumnSet", "name": "getDefinitions", "url": "YAHOO.widget.ColumnSet.html#method_getDefinitions", "type": "method"}, {"access": "", "host": "YAHOO.widget.ColumnSet", "name": "getDescendants", "url": "YAHOO.widget.ColumnSet.html#method_getDescendants", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "getField", "url": "YAHOO.widget.Column.html#method_getField", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "getId", "url": "YAHOO.widget.BaseCellEditor.html#method_getId", "type": "method"}, {"access": "", "host": "YAHOO.widget.ColumnSet", "name": "getId", "url": "YAHOO.widget.ColumnSet.html#method_getId", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "getId", "url": "YAHOO.widget.Column.html#method_getId", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "getInputValue", "url": "YAHOO.widget.BaseCellEditor.html#method_getInputValue", "type": "method"}, {"access": "", "host": "YAHOO.widget.CheckboxCellEditor", "name": "getInputValue", "url": "YAHOO.widget.CheckboxCellEditor.html#method_getInputValue", "type": "method"}, {"access": "", "host": "YAHOO.widget.DateCellEditor", "name": "getInputValue", "url": "YAHOO.widget.DateCellEditor.html#method_getInputValue", "type": "method"}, {"access": "", "host": "YAHOO.widget.DropdownCellEditor", "name": "getInputValue", "url": "YAHOO.widget.DropdownCellEditor.html#method_getInputValue", "type": "method"}, {"access": "", "host": "YAHOO.widget.RadioCellEditor", "name": "getInputValue", "url": "YAHOO.widget.RadioCellEditor.html#method_getInputValue", "type": "method"}, {"access": "", "host": "YAHOO.widget.TextareaCellEditor", "name": "getInputValue", "url": "YAHOO.widget.TextareaCellEditor.html#method_getInputValue", "type": "method"}, {"access": "", "host": "YAHOO.widget.TextboxCellEditor", "name": "getInputValue", "url": "YAHOO.widget.TextboxCellEditor.html#method_getInputValue", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "getKey", "url": "YAHOO.widget.Column.html#method_getKey", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "getKeyIndex", "url": "YAHOO.widget.Column.html#method_getKeyIndex", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "getParent", "url": "YAHOO.widget.Column.html#method_getParent", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "getRecord", "url": "YAHOO.widget.BaseCellEditor.html#method_getRecord", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "getResizerEl", "url": "YAHOO.widget.Column.html#method_getResizerEl", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "getRowspan", "url": "YAHOO.widget.Column.html#method_getRowspan", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "getSanitizedKey", "url": "YAHOO.widget.Column.html#method_getSanitizedKey", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "getTdEl", "url": "YAHOO.widget.BaseCellEditor.html#method_getTdEl", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "getThEl", "url": "YAHOO.widget.Column.html#method_getThEl", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "getThLInerEl", "url": "YAHOO.widget.Column.html#method_getThLInerEl", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "getTreeIndex", "url": "YAHOO.widget.Column.html#method_getTreeIndex", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "handleDisabledBtns", "url": "YAHOO.widget.BaseCellEditor.html#method_handleDisabledBtns", "type": "method"}, {"access": "", "host": "YAHOO.widget.CheckboxCellEditor", "name": "handleDisabledBtns", "url": "YAHOO.widget.CheckboxCellEditor.html#method_handleDisabledBtns", "type": "method"}, {"access": "", "host": "YAHOO.widget.DateCellEditor", "name": "handleDisabledBtns", "url": "YAHOO.widget.DateCellEditor.html#method_handleDisabledBtns", "type": "method"}, {"access": "", "host": "YAHOO.widget.DropdownCellEditor", "name": "handleDisabledBtns", "url": "YAHOO.widget.DropdownCellEditor.html#method_handleDisabledBtns", "type": "method"}, {"access": "", "host": "YAHOO.widget.RadioCellEditor", "name": "handleDisabledBtns", "url": "YAHOO.widget.RadioCellEditor.html#method_handleDisabledBtns", "type": "method"}, {"access": "", "host": "YAHOO.widget.TextareaCellEditor", "name": "handleDisabledBtns", "url": "YAHOO.widget.TextareaCellEditor.html#method_handleDisabledBtns", "type": "method"}, {"access": "", "host": "YAHOO.widget.ColumnSet", "name": "headers", "url": "YAHOO.widget.ColumnSet.html#property_headers", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "hidden", "url": "YAHOO.widget.Column.html#property_hidden", "type": "property"}, {"access": "private", "host": "YAHOO.util.Chain", "name": "id", "url": "YAHOO.util.Chain.html#property_id", "type": "property"}, {"access": "private", "host": "YAHOO.widget.ColumnSet", "name": "_init", "url": "YAHOO.widget.ColumnSet.html#method__init", "type": "method"}, {"access": "private", "host": "YAHOO.widget.BaseCellEditor", "name": "_initConfigs", "url": "YAHOO.widget.BaseCellEditor.html#method__initConfigs", "type": "method"}, {"access": "private", "host": "YAHOO.widget.BaseCellEditor", "name": "_initEvents", "url": "YAHOO.widget.BaseCellEditor.html#method__initEvents", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "invalidDataEvent", "url": "YAHOO.widget.BaseCellEditor.html#event_invalidDataEvent", "type": "event"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "isActive", "url": "YAHOO.widget.BaseCellEditor.html#property_isActive", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "key", "url": "YAHOO.widget.Column.html#property_key", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "keydownEvent", "url": "YAHOO.widget.BaseCellEditor.html#event_keydownEvent", "type": "event"}, {"access": "", "host": "YAHOO.widget.ColumnSet", "name": "keys", "url": "YAHOO.widget.ColumnSet.html#property_keys", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "label", "url": "YAHOO.widget.Column.html#property_label", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "LABEL_CANCEL", "url": "YAHOO.widget.BaseCellEditor.html#property_LABEL_CANCEL", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "LABEL_SAVE", "url": "YAHOO.widget.BaseCellEditor.html#property_LABEL_SAVE", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "maxAutoWidth", "url": "YAHOO.widget.Column.html#property_maxAutoWidth", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "minWidth", "url": "YAHOO.widget.Column.html#property_minWidth", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "move", "url": "YAHOO.widget.BaseCellEditor.html#method_move", "type": "method"}, {"access": "", "host": "YAHOO.widget.TextareaCellEditor", "name": "move", "url": "YAHOO.widget.TextareaCellEditor.html#method_move", "type": "method"}, {"access": "", "host": "YAHOO.widget.TextboxCellEditor", "name": "move", "url": "YAHOO.widget.TextboxCellEditor.html#method_move", "type": "method"}, {"access": "", "host": "YAHOO.widget.DropdownCellEditor", "name": "multiple", "url": "YAHOO.widget.DropdownCellEditor.html#property_multiple", "type": "property"}, {"access": "private", "host": "YAHOO.widget.Column", "name": "_nColspan", "url": "YAHOO.widget.Column.html#property__nColspan", "type": "property"}, {"access": "private", "host": "YAHOO.widget.Column", "name": "_nKeyIndex", "url": "YAHOO.widget.Column.html#property__nKeyIndex", "type": "property"}, {"access": "private", "host": "YAHOO.widget.Column", "name": "_nRowspan", "url": "YAHOO.widget.Column.html#property__nRowspan", "type": "property"}, {"access": "private", "host": "YAHOO.widget.Column", "name": "_nTreeIndex", "url": "YAHOO.widget.Column.html#property__nTreeIndex", "type": "property"}, {"access": "private", "host": "YAHOO.widget.Column", "name": "_nWidth", "url": "YAHOO.widget.Column.html#property__nWidth", "type": "property"}, {"access": "private", "host": "YAHOO.widget.BaseCellEditor", "name": "_oColumn", "url": "YAHOO.widget.BaseCellEditor.html#property__oColumn", "type": "property"}, {"access": "private", "host": "YAHOO.widget.BaseCellEditor", "name": "_oDataTable", "url": "YAHOO.widget.BaseCellEditor.html#property__oDataTable", "type": "property"}, {"access": "", "host": "YAHOO.util.ColumnResizer", "name": "onDrag", "url": "YAHOO.util.ColumnResizer.html#method_onDrag", "type": "method"}, {"access": "", "host": "YAHOO.util.ColumnResizer", "name": "onMouseDown", "url": "YAHOO.util.ColumnResizer.html#method_onMouseDown", "type": "method"}, {"access": "", "host": "YAHOO.util.ColumnResizer", "name": "onMouseUp", "url": "YAHOO.util.ColumnResizer.html#method_onMouseUp", "type": "method"}, {"access": "private", "host": "YAHOO.widget.Column", "name": "_oParent", "url": "YAHOO.widget.Column.html#property__oParent", "type": "property"}, {"access": "private", "host": "YAHOO.widget.BaseCellEditor", "name": "_oRecord", "url": "YAHOO.widget.BaseCellEditor.html#property__oRecord", "type": "property"}, {"access": "", "host": "YAHOO.util.Chain", "name": "pause", "url": "YAHOO.util.Chain.html#method_pause", "type": "method"}, {"access": "private", "host": "YAHOO.util.Chain", "name": "q", "url": "YAHOO.util.Chain.html#property_q", "type": "property"}, {"access": "", "host": "YAHOO.widget.RadioCellEditor", "name": "radioOptions", "url": "YAHOO.widget.RadioCellEditor.html#property_radioOptions", "type": "property"}, {"access": "", "host": "YAHOO.widget.RadioCellEditor", "name": "radios", "url": "YAHOO.widget.RadioCellEditor.html#property_radios", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "render", "url": "YAHOO.widget.BaseCellEditor.html#method_render", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "renderBtns", "url": "YAHOO.widget.BaseCellEditor.html#method_renderBtns", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "renderForm", "url": "YAHOO.widget.BaseCellEditor.html#method_renderForm", "type": "method"}, {"access": "", "host": "YAHOO.widget.CheckboxCellEditor", "name": "renderForm", "url": "YAHOO.widget.CheckboxCellEditor.html#method_renderForm", "type": "method"}, {"access": "", "host": "YAHOO.widget.DateCellEditor", "name": "renderForm", "url": "YAHOO.widget.DateCellEditor.html#method_renderForm", "type": "method"}, {"access": "", "host": "YAHOO.widget.DropdownCellEditor", "name": "renderForm", "url": "YAHOO.widget.DropdownCellEditor.html#method_renderForm", "type": "method"}, {"access": "", "host": "YAHOO.widget.RadioCellEditor", "name": "renderForm", "url": "YAHOO.widget.RadioCellEditor.html#method_renderForm", "type": "method"}, {"access": "", "host": "YAHOO.widget.TextareaCellEditor", "name": "renderForm", "url": "YAHOO.widget.TextareaCellEditor.html#method_renderForm", "type": "method"}, {"access": "", "host": "YAHOO.widget.TextboxCellEditor", "name": "renderForm", "url": "YAHOO.widget.TextboxCellEditor.html#method_renderForm", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "resetForm", "url": "YAHOO.widget.BaseCellEditor.html#method_resetForm", "type": "method"}, {"access": "", "host": "YAHOO.widget.CheckboxCellEditor", "name": "resetForm", "url": "YAHOO.widget.CheckboxCellEditor.html#method_resetForm", "type": "method"}, {"access": "", "host": "YAHOO.widget.DateCellEditor", "name": "resetForm", "url": "YAHOO.widget.DateCellEditor.html#method_resetForm", "type": "method"}, {"access": "", "host": "YAHOO.widget.DropdownCellEditor", "name": "resetForm", "url": "YAHOO.widget.DropdownCellEditor.html#method_resetForm", "type": "method"}, {"access": "", "host": "YAHOO.widget.RadioCellEditor", "name": "resetForm", "url": "YAHOO.widget.RadioCellEditor.html#method_resetForm", "type": "method"}, {"access": "", "host": "YAHOO.widget.TextareaCellEditor", "name": "resetForm", "url": "YAHOO.widget.TextareaCellEditor.html#method_resetForm", "type": "method"}, {"access": "", "host": "YAHOO.widget.TextboxCellEditor", "name": "resetForm", "url": "YAHOO.widget.TextboxCellEditor.html#method_resetForm", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "resetInvalidData", "url": "YAHOO.widget.BaseCellEditor.html#property_resetInvalidData", "type": "property"}, {"access": "", "host": "YAHOO.util.ColumnResizer", "name": "resetResizerEl", "url": "YAHOO.util.ColumnResizer.html#method_resetResizerEl", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "resizeable", "url": "YAHOO.widget.Column.html#property_resizeable", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "revertEvent", "url": "YAHOO.widget.BaseCellEditor.html#event_revertEvent", "type": "event"}, {"access": "", "host": "YAHOO.util.Chain", "name": "run", "url": "YAHOO.util.Chain.html#method_run", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "save", "url": "YAHOO.widget.BaseCellEditor.html#method_save", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "saveEvent", "url": "YAHOO.widget.BaseCellEditor.html#event_saveEvent", "type": "event"}, {"access": "", "host": "YAHOO.widget.Column", "name": "selected", "url": "YAHOO.widget.Column.html#property_selected", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "show", "url": "YAHOO.widget.BaseCellEditor.html#method_show", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "showEvent", "url": "YAHOO.widget.BaseCellEditor.html#event_showEvent", "type": "event"}, {"access": "private", "host": "YAHOO.widget.BaseCellEditor", "name": "_sId", "url": "YAHOO.widget.BaseCellEditor.html#property__sId", "type": "property"}, {"access": "private", "host": "YAHOO.widget.ColumnSet", "name": "_sId", "url": "YAHOO.widget.ColumnSet.html#property__sId", "type": "property"}, {"access": "private", "host": "YAHOO.widget.Column", "name": "_sId", "url": "YAHOO.widget.Column.html#property__sId", "type": "property"}, {"access": "", "host": "YAHOO.widget.DropdownCellEditor", "name": "size", "url": "YAHOO.widget.DropdownCellEditor.html#property_size", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "sortable", "url": "YAHOO.widget.Column.html#property_sortable", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "sortOptions.defaultDir", "url": "YAHOO.widget.Column.html#property_sortOptions.defaultDir", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "sortOptions.defaultOrder", "url": "YAHOO.widget.Column.html#property_sortOptions.defaultOrder", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "sortOptions.field", "url": "YAHOO.widget.Column.html#property_sortOptions.field", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "sortOptions.sortFunction", "url": "YAHOO.widget.Column.html#property_sortOptions.sortFunction", "type": "property"}, {"access": "", "host": "YAHOO.util.ColumnResizer", "name": "startDrag", "url": "YAHOO.util.ColumnResizer.html#method_startDrag", "type": "method"}, {"access": "", "host": "YAHOO.util.Chain", "name": "stop", "url": "YAHOO.util.Chain.html#method_stop", "type": "method"}, {"access": "private", "host": "YAHOO.widget.BaseCellEditor", "name": "_sType", "url": "YAHOO.widget.BaseCellEditor.html#property__sType", "type": "property"}, {"access": "", "host": "YAHOO.widget.TextareaCellEditor", "name": "textarea", "url": "YAHOO.widget.TextareaCellEditor.html#property_textarea", "type": "property"}, {"access": "", "host": "YAHOO.widget.TextboxCellEditor", "name": "textbox", "url": "YAHOO.widget.TextboxCellEditor.html#property_textbox", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "toString", "url": "YAHOO.widget.BaseCellEditor.html#method_toString", "type": "method"}, {"access": "", "host": "YAHOO.widget.ColumnSet", "name": "toString", "url": "YAHOO.widget.ColumnSet.html#method_toString", "type": "method"}, {"access": "", "host": "YAHOO.widget.Column", "name": "toString", "url": "YAHOO.widget.Column.html#method_toString", "type": "method"}, {"access": "", "host": "YAHOO.widget.ColumnSet", "name": "tree", "url": "YAHOO.widget.ColumnSet.html#property_tree", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "unblock", "url": "YAHOO.widget.BaseCellEditor.html#method_unblock", "type": "method"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "validator", "url": "YAHOO.widget.BaseCellEditor.html#property_validator", "type": "property"}, {"access": "", "host": "YAHOO.widget.BaseCellEditor", "name": "value", "url": "YAHOO.widget.BaseCellEditor.html#property_value", "type": "property"}, {"access": "", "host": "YAHOO.widget.CheckboxCellEditor", "name": "value", "url": "YAHOO.widget.CheckboxCellEditor.html#property_value", "type": "property"}, {"access": "", "host": "YAHOO.widget.Column", "name": "width", "url": "YAHOO.widget.Column.html#property_width", "type": "property"}];
+</script>
+</body>
+</html>

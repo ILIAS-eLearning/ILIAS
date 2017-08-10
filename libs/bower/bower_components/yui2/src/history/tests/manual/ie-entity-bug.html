@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>TabView Control</title>
+ 
+    <link rel="stylesheet" type="text/css" href="../../../../build/fonts/fonts-min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../build/tabview/assets/skins/sam/tabview.css" />
+
+    <!-- <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+    <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/element/element-min.js"></script>
+    <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/TabView/TabView-min.js"></script>
+    <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/history/history-min.js"></script> -->
+    
+    <script src="../../../../build/yahoo/yahoo.js"></script>
+    <script src="../../../../build/dom/dom.js"></script>
+    <script src="../../../../build/event/event.js"></script>
+    <script src="../../../../build/element/element.js"></script>
+    <script src="../../../../build/tabview/tabview.js"></script>
+    <script src="../../../../build/history/history.js"></script>
+</head>
+ 
+<body class=" yui-skin-sam">
+ 
+ 
+<h1>TabView Control</h1>
+ 
+<div class="exampleIntro">
+	<p>
+  This example demonstrates how to use the Browser History Manager
+  to remember which tabs have been visited with the TabView widget
+  and dynamically update it when the user presses the browser's
+  back/forward buttons.
+</p>
+ 
+</div>
+ 
+<style>
+ 
+</style>
+ 
+<iframe id="yui-history-iframe" src="blank.html"></iframe>
+ 
+<input id="yui-history-field" type="hidden">
+ 
+<div id="demo" class="yui-navset yui-navset-top">
+  <ul class="yui-nav">
+    <li><a href="#tab1"><em>Tab One Label</em></a></li>
+    <li title="active" class="selected"><a href="#tab2"><em>Tab Two Label</em></a></li>
+    <li title="" class=""><a href="#tab3"><em>Tab Three Label</em></a></li>
+  </ul>
+ 
+  <div class="yui-content">
+    <div id="tab1"><p>Tab One Content</p></div>
+    <div id="tab2"><p>Tab Two Content</p></div>
+    <div id="tab3"><p>Tab Three Content</p></div>
+  </div>
+  <button onclick="alert(YAHOO.util.History.getCurrentState('foo'));">Click to see foo's value</button>
+</div>
+ 
+<script>
+    var fooState = YAHOO.util.History.getBookmarkedState("foo");
+    YAHOO.util.History.register("foo", "bar", function (state) {/*do nothing*/});
+ 
+    var bookmarkedTabViewState = YAHOO.util.History.getBookmarkedState("section");
+    var initialTabViewState = bookmarkedTabViewState || "tab0";
+ 
+    var tabView;
+ 
+    YAHOO.util.History.register("section", initialTabViewState, function (state) {
+        tabView.set("activeIndex", state.substr(3));
+    });
+ 
+    function handleTabViewActiveTabChange (e) {
+        var newState, currentState;
+ 
+        newState = "tab" + this.getTabIndex(e.newValue);
+ 
+        try {
+            currentState = YAHOO.util.History.getCurrentState("section");
+            if (newState != currentState) {
+                YAHOO.util.History.navigate("section", newState);
+            }
+        } catch (e) {
+            tabView.set("activeIndex", newState.substr(3));
+        }
+    }
+ 
+    function initTabView () {
+        tabView = new YAHOO.widget.TabView("demo");
+        tabView.addListener("activeTabChange", handleTabViewActiveTabChange);
+    }
+ 
+    // Use the Browser History Manager onReady method to instantiate the TabView widget.
+    YAHOO.util.History.onReady(function () {
+        var currentState;
+        initTabView();
+        currentState = YAHOO.util.History.getCurrentState("section");
+        tabView.set("activeIndex", currentState.substr(3));
+    });
+ 
+    // Initialize the browser history management library.
+    try {
+        YAHOO.util.History.initialize("yui-history-field", "yui-history-iframe");
+    } catch (e) {
+        initTabView();
+    }
+ 
+ 
+</script>
+ 
+</body>
+</html>
