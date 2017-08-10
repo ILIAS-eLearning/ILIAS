@@ -7,7 +7,7 @@
 class ilMimeMail
 {
 	/**
-	 * @var ilMailMimeTransport|null
+	 * @var \ilMailMimeTransport|null
 	 */
 	protected static $defaultTransport;
 
@@ -24,12 +24,12 @@ class ilMimeMail
 	/**
 	 * @var string
 	 */
-	protected $final_body = '';
+	protected $finalBody = '';
 
 	/**
 	 * @var string
 	 */
-	protected $final_body_alt = '';
+	protected $finalBodyAlt = '';
 
 	/**
 	 * list of To addresses
@@ -74,7 +74,7 @@ class ilMimeMail
 	protected $adisplay = array();
 
 	/**
-	 * @var ilMailMimeSender
+	 * @var \ilMailMimeSender
 	 */
 	protected $sender; 
 
@@ -85,7 +85,7 @@ class ilMimeMail
 	{
 		global $DIC;
 
-		if(!(self::getDefaultTransport() instanceof ilMailMimeTransport))
+		if(!(self::getDefaultTransport() instanceof \ilMailMimeTransport))
 		{
 			$factory = $DIC["mail.mime.transport.factory"];
 			self::setDefaultTransport($factory->getTransport());
@@ -109,7 +109,7 @@ class ilMimeMail
 	}
 
 	/**
-	 * @return ilMailMimeTransport|null
+	 * @return \ilMailMimeTransport|null
 	 */
 	public static function getDefaultTransport()
 	{
@@ -230,9 +230,6 @@ class ilMimeMail
 	public function Body($body)
 	{
 		$this->body = $body;
-
-		$this->final_body     = '';
-		$this->final_body_alt = '';
 	}
 
 	/**
@@ -240,7 +237,7 @@ class ilMimeMail
 	 */
 	public function getFinalBody()
 	{
-		return $this->final_body;
+		return $this->finalBody;
 	}
 
 	/**
@@ -248,7 +245,7 @@ class ilMimeMail
 	 */
 	public function getFinalBodyAlt()
 	{
-		return $this->final_body_alt;
+		return $this->finalBodyAlt;
 	}
 
 	/**
@@ -318,87 +315,113 @@ class ilMimeMail
 	 */
 	protected function build()
 	{
-		/**
-		 * @var $ilUser          ilObjUser
-		 * @var $ilSetting       ilSetting
-		 * @var $ilClientIniFile ilIniFile
-		 */
-		global $ilSetting, $ilClientIniFile;
+		global $DIC;
 
-		$this->images = array();
+		$this->finalBodyAlt = '';
+		$this->finalBody    = '';
+		$this->images       = array();
 
-		if($ilSetting->get('mail_send_html', 0))
+		if($DIC->settings()->get('mail_send_html', 0))
 		{
-			$skin = $ilClientIniFile->readVariable('layout', 'skin');
+			$skin = $DIC['ilClientIniFile']->readVariable('layout', 'skin');
 
-			$bracket_path = './Services/Mail/templates/default/tpl.html_mail_template.html';
-			if($skin != 'default')
-			{
-				$tplpath = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
-
-				if(@file_exists($tplpath))
-				{
-					$bracket_path = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
-				}
-			}
-			$bracket = file_get_contents($bracket_path);
-
-			if(!$this->body)
-			{
-				$this->body  = ' ';
-			}
-
-			$this->final_body_alt = $this->body;
-
-			if(strip_tags($this->body, '<b><u><i><a>') == $this->body)
-			{
-				// Let's assume that there is no HTML, so convert "\n" to "<br>" 
-				$this->body = nl2br($this->body);
-			}
-			$this->final_body = str_replace('{PLACEHOLDER}', ilUtil::makeClickable($this->body), $bracket);
-
-			$directory = './Services/Mail/templates/default/img/';
-			if($skin != 'default')
-			{
-				$directory = './Customizing/global/skin/' . $skin . '/Services/Mail/img/';
-			}
-			$directory_handle  = @opendir($directory);
-			$files = array();
-			if($directory_handle)
-			{
-				while ($filename = @readdir($directory_handle))
-				{
-					$files[] = $filename;
-				}
-
-				$images = preg_grep('/\.jpg$/i', $files);
-				foreach($images as $image)
-				{
-					$this->images[] = array(
-						'path' => $directory . $image,
-						'cid'  => 'img/' . $image,
-						'name' => $image
-					);
-				}
-			}
+			$this->buildBodyParts($skin);
+			$this->buildHtmlInlineImages($skin);
 		}
 		else
 		{
-			$this->final_body = $this->body;
+			$this->finalBody = $this->body;
 		}
 	}
 
 	/**
-	 * @param $transport ilMailMimeTransport|null
+	 * @param string $skin
+	 */
+	protected function buildBodyParts($skin)
+	{
+		if(0 == strlen($this->body))
+		{
+			$this->body = ' ';
+		}
+
+		if(strip_tags($this->body, '<b><u><i><a>') == $this->body)
+		{
+			// Let's assume(!) that there is no HTML (except certain tags, e.g. used for object title formatting, where the consumer is not aware of this), so convert "\n" to "<br>"
+			$this->finalBodyAlt = $this->body;
+			$this->body         = \ilUtil::makeClickable(nl2br($this->body));
+		}
+		else
+		{
+			// if there is HTML, convert "<br>" to "\n" and strip tags for plain text alternative
+			$this->finalBodyAlt = strip_tags(str_ireplace(array("<br />", "<br>", "<br/>"), "\n", $this->body));
+		}
+
+		$this->finalBody = str_replace('{PLACEHOLDER}', $this->body, $this->getHtmlEnvelope($skin));
+	}
+
+	/**
+	 * @param string $skin
+	 * @return string
+	 */
+	protected function getHtmlEnvelope($skin)
+	{
+		$bracket_path = './Services/Mail/templates/default/tpl.html_mail_template.html';
+
+		if($skin != 'default')
+		{
+			$tplpath = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
+
+			if(file_exists($tplpath))
+			{
+				$bracket_path = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
+			}
+		}
+
+		return file_get_contents($bracket_path);
+	}
+
+	/**
+	 * @param string $skin
+	 */
+	protected function buildHtmlInlineImages($skin)
+	{
+		$directory = './Services/Mail/templates/default/img';
+		if($skin != 'default')
+		{
+			$skinDirectory = './Customizing/global/skin/' . $skin . '/Services/Mail/img';
+			if(is_dir($skinDirectory) && is_readable($skinDirectory))
+			{
+				$directory = $skinDirectory;
+			}
+		}
+
+		foreach(new \RegexIterator(new \DirectoryIterator($directory), '/\.jpg$/i') as $file)
+		{
+			/**
+			 * @var $file \SplFileInfo
+			 */
+
+			$this->images[] = array(
+				'path' => $file->getPathname(),
+				'cid'  => 'img/' . $file->getFilename(),
+				'name' => $file->getFilename()
+			);
+		}
+	}
+
+	/**
+	 * @param $transport \ilMailMimeTransport|null
+	 * @return bool A boolean flag whether or not the transport might be successful
 	 */
 	public function Send($transport = null)
 	{
-		if(!($transport instanceof ilMailMimeTransport))
+		if(!($transport instanceof \ilMailMimeTransport))
 		{
 			$transport = self::getDefaultTransport();
 		}
 
 		$this->build();
-		$transport->send($this);
+
+		return $transport->send($this);
 	}
 }

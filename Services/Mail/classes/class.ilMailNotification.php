@@ -46,18 +46,18 @@ abstract class ilMailNotification
 	 */
 	public function __construct($a_is_personal_workspace = false)
 	{
-		global $lng, $ilUser;
-		
+		global $DIC;
+
 		$this->is_in_wsp = (bool)$a_is_personal_workspace;
 
 		$this->setSender(ANONYMOUS_USER_ID);
-		$this->language = ilLanguageFactory::_getLanguage($lng->getDefaultLanguage());
+		$this->language = ilLanguageFactory::_getLanguage($DIC->language()->getDefaultLanguage());
 		
 		if($this->is_in_wsp)
 		{			
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";			
-			$this->wsp_tree = new ilWorkspaceTree($ilUser->getId()); // owner of tree is irrelevant
+			$this->wsp_tree = new ilWorkspaceTree($DIC->user()->getId()); // owner of tree is irrelevant
 			$this->wsp_access_handler = new ilWorkspaceAccessHandler($this->wsp_tree); 					
 		}
 	}
@@ -450,14 +450,14 @@ abstract class ilMailNotification
 	 */
 	protected function isRefIdAccessible($a_user_id, $a_ref_id, $a_permission = "read")
 	{
-		global $ilAccess;
-		
+		global $DIC;
+
 		// no given permission == accessible
 		
 		if(!$this->is_in_wsp)
 		{												
 			if(trim($a_permission) &&
-				!$ilAccess->checkAccessOfUser($a_user_id, $a_permission, "", $a_ref_id, $this->getObjType()))
+				!$DIC->access()->checkAccessOfUser($a_user_id, $a_permission, "", $a_ref_id, $this->getObjType()))
 			{
 				return false;
 			}

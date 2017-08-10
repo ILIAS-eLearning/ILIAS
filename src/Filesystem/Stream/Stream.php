@@ -18,7 +18,7 @@ class Stream implements FileStream {
 
 	const MASK_ACCESS_READ = 01;
 	const MASK_ACCESS_WRITE = 02;
-	const MASK_ACCESS_READ_WRITE = self::MASK_ACCESS_READ | self::MASK_ACCESS_WRITE;
+	const MASK_ACCESS_READ_WRITE = 03;
 
 	private static $accessMap = [
 		'r'     => self::MASK_ACCESS_READ,

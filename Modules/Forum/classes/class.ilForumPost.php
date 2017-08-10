@@ -63,6 +63,7 @@ class ilForumPost
 	private $objThread = null;
 	
 	private $db = null;
+	private $lng = null;
 
 	/**
 	 *  current user in a forum
@@ -90,9 +91,10 @@ class ilForumPost
 	 */
 	public function __construct($a_id = 0, $a_is_moderator = false, $preventImplicitRead = false)
 	{
-		global $ilDB;
+		global $DIC;
 
-		$this->db = $ilDB;
+		$this->db = $DIC->database();
+		$this->lng = $DIC->language();
 		$this->id = $a_id;
 
 		if( !$preventImplicitRead )
@@ -109,13 +111,11 @@ class ilForumPost
 	
 	public function insert()
 	{
-		global $ilDB;
-		
 		if ($this->forum_id && $this->thread_id)
 		{
-			$this->id = $this->db->nextId('frm_posts');	
+			$this->id = $this->db->nextId('frm_posts');
 			
-			$ilDB->insert('frm_posts', array(
+			$this->db->insert('frm_posts', array(
 				'pos_pk'		=> array('integer', $this->id),
 				'pos_top_fk'	=> array('integer', $this->forum_id),
 				'pos_thr_fk'	=> array('integer', $this->thread_id),
@@ -143,11 +143,9 @@ class ilForumPost
 	
 	public function update()
 	{
-		global $ilDB;
-
 		if($this->id)
 		{
-			$ilDB->update('frm_posts',
+			$this->db->update('frm_posts',
 				array(
 					'pos_top_fk'	=> array('integer', $this->forum_id),
 					'pos_thr_fk'	=> array('integer', $this->thread_id),
@@ -250,8 +248,6 @@ class ilForumPost
 	
 	protected function buildUserRelatedData($row)
 	{
-		global $lng;
-		
 		if ($row['pos_display_user_id'] && $row['pos_pk'])
 		{
 			require_once 'Services/User/classes/class.ilObjUser.php';
@@ -264,14 +260,12 @@ class ilForumPost
 			$this->fullname = $tmp_user->getFullname();
 			$this->loginname = $tmp_user->getLogin();
 		
-			$this->fullname = $this->fullname ? $this->fullname : ($this->import_name ? $this->import_name : $lng->txt('unknown'));
+			$this->fullname = $this->fullname ? $this->fullname : ($this->import_name ? $this->import_name : $this->lng->txt('unknown'));
 		}
 	}
 	
 	private function getUserData()
 	{
-		global $lng;
-		
 		if ($this->id && $this->display_user_id)
 		{
 			require_once("Modules/Forum/classes/class.ilObjForumAccess.php");
@@ -282,7 +276,7 @@ class ilForumPost
 				unset($tmp_user);
 			}
 		
-			$this->fullname = $this->fullname ? $this->fullname : ($this->import_name ? $this->import_name : $lng->txt('unknown'));
+			$this->fullname = $this->fullname ? $this->fullname : ($this->import_name ? $this->import_name : $this->lng->txt('unknown'));
 			
 			return true;
 		}
@@ -727,7 +721,8 @@ class ilForumPost
 	 */
 	public static function mergePosts($source_thread_id, $target_thread_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		$ilDB->update('frm_posts',
 		array('pos_thr_fk' => array('integer', $target_thread_id)),

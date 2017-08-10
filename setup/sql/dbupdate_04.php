@@ -18772,4 +18772,62 @@ if (! $ilDB->tableExists('il_bt_value_to_task')) {
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5092>
+<?php
+if(!$ilDB->tableColumnExists('chatroom_settings','online_status'))
+{
+	$ilDB->addTableColumn('chatroom_settings', 'online_status', array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
 
+$ilDB->manipulateF("UPDATE chatroom_settings SET online_status = %s", array('integer'), array(1));
+?>
+<#5093>
+<?php
+if(!$ilDB->tableColumnExists('chatroom_bans', 'actor_id'))
+{
+	$ilDB->addTableColumn('chatroom_bans', 'actor_id',
+		array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+?>
+<#5094>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5095>
+<?php
+if(!$ilDB->tableColumnExists('usr_data', 'second_email'))
+{
+	$ilDB->addTableColumn('usr_data', 'second_email', 
+		array('type' => 'text',
+		      'length' => 80,
+		      'notnull' => false
+		));
+}
+?>
+<#5096>
+<?php
+if(!$ilDB->tableColumnExists('mail_options', 'mail_address_option'))
+{
+	$ilDB->addTableColumn('mail_options', 'mail_address_option',
+		array('type' => 'integer',
+		      'length' => 1,
+		      'notnull' => true,
+		      'default' => 3
+		));
+}
+?>
+<#5097>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

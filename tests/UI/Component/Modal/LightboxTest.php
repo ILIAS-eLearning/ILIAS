@@ -45,7 +45,7 @@ class LightboxTest extends ModalBase {
 				<h4 class="modal-title">title</h4>
 			</div>
 			<div class="modal-body">
-				<div id="id_2" class="carousel slide" data-ride="carousel" data-interval="false">
+				<div id="id_1_carousel" class="carousel slide" data-ride="carousel" data-interval="false">
 
 
 
@@ -76,7 +76,7 @@ class LightboxTest extends ModalBase {
 		$('#id_1').on('shown.bs.modal', function() {
 			$('.modal-backdrop.in').css('opacity', '0.9');
 		});
-		$('#id_2').on('slid.bs.carousel', function() {
+		$('#id_1_carousel').on('slid.bs.carousel', function() {
 			var title = $(this).find('.carousel-inner .item.active').attr('data-title');
 			$('#id_1').find('.modal-title').text(title);
 		});

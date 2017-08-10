@@ -14,7 +14,9 @@ class ilForumUtil
 	 */
 	public static function getPublicUserAlias($user_alias, $is_anonymized = false)
 	{
-		global $ilUser, $lng;
+		global $DIC; 
+		$ilUser = $DIC->user(); 
+		$lng = $DIC->language();
 		
 		if($is_anonymized)
 		{
@@ -30,7 +32,8 @@ class ilForumUtil
 
 	public static function collectPostInformationByPostId($post_id)
 	{
-		global $ilDB;
+		global $DIC; 
+		$ilDB = $DIC->database();
 		
 		$res = $ilDB->queryF('
 		SELECT frm.top_name, thr.thr_subject, pos.pos_subject FROM frm_data frm

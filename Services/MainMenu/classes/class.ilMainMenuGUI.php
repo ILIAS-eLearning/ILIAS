@@ -1125,30 +1125,39 @@ class ilMainMenuGUI
 	protected function renderBackgroundTasks()
 	{
 		global $DIC;
+		$DIC->language()->loadLanguageModule("background_tasks");
 		$factory = $DIC->ui()->factory();
 		$persistence = $DIC->backgroundTasks()->persistence();
 		$metas = $persistence->getBucketMetaOfUser($DIC->user()->getId());
 		if(!count($metas))
 			return;
-		require_once("./Services/BackgroundTasks/classes/class.ilBTPopOverGUI.php");
 
 		$numberOfUserInteractions = count(array_filter($metas, function(BucketMeta $meta) {
 			return $meta->getState() == State::USER_INTERACTION;
 		}));
 		$numberOfNotUserInteractions = count($metas) - $numberOfUserInteractions;
 
-		/** @var ilBTPopOverGUI $popoverGUI */
-		//$popoverGUI = $DIC->injector()->createInstance(ilBTPopOverGUI::class);
-
-		$popover = $factory->popover()->standard($factory->legacy(''))->withTitle($DIC->language()->txt("background_tasks"));
+		$popover = $factory->popover()
+		                   ->listing(array())
+		                   ->withTitle($DIC->language()->txt("background_tasks_running")); // needs to have empty content
 		$DIC->ctrl()->clearParametersByClass(ilBTControllerGUI::class);
-		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($this->full_url($_SERVER)));
-		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class, "replaceSignal", $popover->getReplaceContentSignal()->getId());
-		$popover = $popover->withAsyncContentUrl($DIC->ctrl()->getLinkTargetByClass([ ilBTControllerGUI::class ], "getPopoverContent", "", true));
-		$glyph = $factory->glyph()->briefcase()->withOnClick($popover->getShowSignal());
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
+			"from_url",
+			urlencode(ilUtil::_getHttpPath())
+		);
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
+			"replaceSignal",
+			$popover->getReplaceContentSignal()->getId()
+		);
 
-		$glyph = $glyph->withCounter($factory->counter()->novelty($numberOfUserInteractions));
-		$glyph = $glyph->withCounter($factory->counter()->status($numberOfNotUserInteractions));
+		$url = $DIC->ctrl()->getLinkTargetByClass([ ilBTControllerGUI::class ], "getPopoverContent", "", true);
+		$popover = $popover->withAsyncContentUrl($url);
+
+		$glyph = $factory->glyph()
+		                 ->briefcase()
+		                 ->withOnClick($popover->getShowSignal())
+		                 ->withCounter($factory->counter()->novelty($numberOfUserInteractions))
+		                 ->withCounter($factory->counter()->status($numberOfNotUserInteractions));
 
 		$DIC['tpl']->addJavascript('./Services/BackgroundTasks/js/background_task_refresh.js');
 
@@ -1156,24 +1165,7 @@ class ilMainMenuGUI
 			$DIC->ui()->renderer()->render([$glyph, $popover])
 		);
 
-		$this->tpl->setVariable('BACKGROUNDTASKS_REFRESH_URI', $DIC->ctrl()->getLinkTargetByClass([ilBTControllerGUI::class], "getPopoverContent", "", true));
-	}
-
-	protected function url_origin( $s, $use_forwarded_host = false )
-	{
-		$ssl      = ( ! empty( $s['HTTPS'] ) && $s['HTTPS'] == 'on' );
-		$sp       = strtolower( $s['SERVER_PROTOCOL'] );
-		$protocol = substr( $sp, 0, strpos( $sp, '/' ) ) . ( ( $ssl ) ? 's' : '' );
-		$port     = $s['SERVER_PORT'];
-		$port     = ( ( ! $ssl && $port=='80' ) || ( $ssl && $port=='443' ) ) ? '' : ':'.$port;
-		$host     = ( $use_forwarded_host && isset( $s['HTTP_X_FORWARDED_HOST'] ) ) ? $s['HTTP_X_FORWARDED_HOST'] : ( isset( $s['HTTP_HOST'] ) ? $s['HTTP_HOST'] : null );
-		$host     = isset( $host ) ? $host : $s['SERVER_NAME'] . $port;
-		return $protocol . '://' . $host;
-	}
-
-	public function full_url( $s, $use_forwarded_host = false )
-	{
-		return $this->url_origin( $s, $use_forwarded_host ) . $s['REQUEST_URI'];
+		$this->tpl->setVariable('BACKGROUNDTASKS_REFRESH_URI', $url);
 	}
 }
 

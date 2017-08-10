@@ -72,10 +72,11 @@ class ilForumTopic
 	*/
 	public function __construct($a_id = 0, $a_is_moderator = false, $preventImplicitRead = false)
 	{
-		global $ilDB;
+		global $DIC;
 
 		$this->is_moderator = $a_is_moderator;
-		$this->db = $ilDB;
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
 		$this->id = $a_id;
 		
 		if(!$preventImplicitRead)
@@ -159,7 +160,7 @@ class ilForumTopic
 	{
 		if ($this->id)
 		{		
-			$statement = $this->db->manipulateF('
+			$this->db->manipulateF('
 				UPDATE frm_threads
 				SET thr_top_fk = %s,
 					thr_subject = %s,
@@ -194,7 +195,6 @@ class ilForumTopic
 	*/
 	private function read()
 	{
-
 		if ($this->id)
 		{
 			$res = $this->db->queryf('
@@ -277,7 +277,7 @@ class ilForumTopic
 		{
 			$_SESSION['frm_visit_frm_threads_'.$this->id] = time();		
 		
-			$statement = $this->db->manipulateF('
+			$this->db->manipulateF('
 				UPDATE frm_threads
 				SET	visits = visits + 1
 				WHERE thr_pk = %s',
@@ -316,15 +316,13 @@ class ilForumTopic
 	*/
 	public function countActivePosts()
 	{
-		global $ilUser;
-
 		$res = $this->db->queryf('
 			SELECT COUNT(*) cnt
 			FROM frm_posts
 			WHERE (pos_status = %s
 				 OR (pos_status = %s AND pos_display_user_id = %s))
 			AND pos_thr_fk = %s',
-			array('integer', 'integer', 'integer', 'integer'), array('1', '0', $ilUser->getId(), $this->id));
+			array('integer', 'integer', 'integer', 'integer'), array('1', '0', $this->user->getId(), $this->id));
 			
 		$rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 			
@@ -387,8 +385,6 @@ class ilForumTopic
 	*/
 	public function getLastActivePost()
 	{
-		global $ilUser;
-		
 		if ($this->id)
 		{
 			$this->db->setLimit(1);
@@ -400,7 +396,7 @@ class ilForumTopic
 					(pos_status = %s AND pos_display_user_id = %s))							 
 				ORDER BY pos_date DESC',
 				array('integer', 'integer', 'integer', 'integer'),
-				array($this->id, '1', '0', $ilUser->getId()));
+				array($this->id, '1', '0', $this->user->getId()));
 			
 			$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 			
@@ -442,8 +438,6 @@ class ilForumTopic
 	*/
 	public function getPostTree(ilForumPost $a_post_node)
 	{
-		global $ilUser;
-
 		$posts = array();
 	    
 		$data = array();
@@ -457,7 +451,7 @@ class ilForumTopic
 							import_name, fpt_pk, parent_pos, lft, depth,
 							(CASE
 							WHEN fur.post_id IS NULL '.
-								($ilUser->getId() == ANONYMOUS_USER_ID ? ' AND 1 = 2 ' : '').'
+								($this->user->getId() == ANONYMOUS_USER_ID ? ' AND 1 = 2 ' : '').'
 							THEN 0
 							ELSE 1
 							END) post_read,
@@ -480,7 +474,7 @@ class ilForumTopic
 				AND 		thr_fk = %s';
 		
 		array_push($data_types, 'integer', 'integer', 'integer', 'integer');
-		array_push($data, $ilUser->getId(), $a_post_node->getLft(), $a_post_node->getRgt(), $a_post_node->getThreadId());
+		array_push($data, $this->user->getId(), $a_post_node->getLft(), $a_post_node->getRgt(), $a_post_node->getThreadId());
 
 		if($this->orderField != "")
 		{
@@ -499,7 +493,7 @@ class ilForumTopic
 
 		 	if (!$this->is_moderator)
 		 	{
-				if (!$tmp_object->isActivated() && $tmp_object->getDisplayUserId() != $ilUser->getId())
+				if (!$tmp_object->isActivated() && $tmp_object->getDisplayUserId() != $this->user->getId())
 			 	{
 			 		$deactivated[] = $tmp_object;
 			 		unset($tmp_object);
@@ -549,8 +543,6 @@ class ilForumTopic
 	*/
 	public function movePosts($old_obj_id, $old_pk, $new_obj_id, $new_pk)
 	{
-		global $ilDB;
-		
 		if ($this->id)
 		{
 			$nodes = $this->getAllPosts();
@@ -567,7 +559,7 @@ class ilForumTopic
 
 			$current_id = $this->id;
 
-			$ilAtomQuery = $ilDB->buildAtomQuery();
+			$ilAtomQuery = $this->db->buildAtomQuery();
 			$ilAtomQuery->addTableLock('frm_user_read');
 			$ilAtomQuery->addTableLock('frm_thread_access');
 
@@ -609,7 +601,7 @@ class ilForumTopic
 				array($new_pk, $this->id));
 			
 			// update all related news
-			$posts = $ilDB->queryf('
+			$posts = $this->db->queryf('
 				SELECT * FROM frm_posts WHERE pos_thr_fk = %s',
 				array('integer'), array($this->id));
 			
@@ -636,8 +628,6 @@ class ilForumTopic
 	
 	public function getNestedSetPostChildren($pos_id = null, $levels = null)
 	{
-		global $ilUser;
-
 		$data = null;
 		$objProperties = ilForumProperties::getInstance($this->getFrmObjId());
 		$is_post_activation_enabled = $objProperties->isPostActivationEnabled();
@@ -674,7 +664,7 @@ class ilForumTopic
 							fur.post_id,
 							(CASE
 							WHEN fur.post_id IS NULL '.
-								($ilUser->getId() == ANONYMOUS_USER_ID ? ' AND 1 = 2 ' : '').'
+								($this->user->getId() == ANONYMOUS_USER_ID ? ' AND 1 = 2 ' : '').'
 							THEN 0
 							ELSE 1
 							END) post_read,
@@ -695,7 +685,7 @@ class ilForumTopic
 			LEFT JOIN		frm_user_read fur
 				ON			fur.thread_id = fp.pos_thr_fk
 				AND			fur.post_id = fp.pos_pk
-				AND			fur.usr_id = '.$this->db->quote($ilUser->getId(), 'integer').'
+				AND			fur.usr_id = '.$this->db->quote($this->user->getId(), 'integer').'
 
 			LEFT JOIN		usr_data ud
 				ON			ud.usr_id = fp.pos_display_user_id
@@ -709,7 +699,7 @@ class ilForumTopic
 		}
 		if($is_post_activation_enabled && !$this->is_moderator)
 		{
-			$query .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = ' . $this->db->quote($ilUser->getId(), 'integer') . ') ';
+			$query .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = ' . $this->db->quote($this->user->getId(), 'integer') . ') ';
 		}
 
 		if( $data && is_numeric($levels) )
@@ -744,7 +734,7 @@ class ilForumTopic
 
 		if($is_post_activation_enabled && !$this->is_moderator)
 		{
-			$queryCounter .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = ' . $this->db->quote($ilUser->getId(), 'integer') . ') ';
+			$queryCounter .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = ' . $this->db->quote($this->user->getId(), 'integer') . ') ';
 		}
 		$queryCounter .= ' ORDER BY fpt.rgt DESC';
 
@@ -816,7 +806,7 @@ class ilForumTopic
 			if (!$this->isNotificationEnabled($a_user_id))
 			{
 				$nextId = $this->db->nextId('frm_notification');
-				$statement = $this->db->manipulateF('
+				$this->db->manipulateF('
 					INSERT INTO frm_notification
 					(	notification_id,
 						user_id,
@@ -844,7 +834,7 @@ class ilForumTopic
 	{
 		if ($this->id && $a_user_id)
 		{
-			$statement = $this->db->manipulateF('
+			$this->db->manipulateF('
 				DELETE FROM frm_notification
 				WHERE user_id = %s
 				AND thread_id = %s',
@@ -867,7 +857,7 @@ class ilForumTopic
 	{
 		if ($this->id && !$this->is_sticky)
 		{
-			$statement = $this->db->manipulateF('
+			$this->db->manipulateF('
 				UPDATE frm_threads 
 				SET is_sticky = %s
 				WHERE thr_pk = %s',
@@ -892,7 +882,7 @@ class ilForumTopic
 	{
 		if ($this->id && $this->is_sticky)
 		{
-			$statement = $this->db->manipulateF('
+			$this->db->manipulateF('
 				UPDATE frm_threads 
 				SET is_sticky = %s
 				WHERE thr_pk = %s',
@@ -917,7 +907,7 @@ class ilForumTopic
 	{ 
 		if ($this->id && !$this->is_closed)
 		{
-			$statement = $this->db->manipulateF('
+			$this->db->manipulateF('
 				UPDATE frm_threads 
 				SET is_closed = %s
 				WHERE thr_pk = %s',
@@ -942,7 +932,7 @@ class ilForumTopic
 	{
 		if ($this->id && $this->is_closed)
 		{
-			$statement = $this->db->manipulateF('
+			$this->db->manipulateF('
 				UPDATE frm_threads 
 				SET is_closed = %s
 				WHERE thr_pk = %s',
@@ -1121,7 +1111,8 @@ class ilForumTopic
 	*/
 	public static function _lookupTitle($a_topic_id)
 	{
-		global $ilDB;
+		global $DIC; 
+		$ilDB = $DIC->database();
 		
 		$res = $ilDB->queryf('
 			SELECT thr_subject
@@ -1140,9 +1131,7 @@ class ilForumTopic
 
 	public function updateThreadTitle()
 	{
-		global $ilDB;
-
-		$ilDB->update('frm_threads',
+		$this->db->update('frm_threads',
 			array('thr_subject' => array('text',$this->getSubject())),
 			array('thr_pk'=> array('integer', $this->getId()))
 		);
@@ -1238,7 +1227,8 @@ class ilForumTopic
 	
 	public static function lookupForumIdByTopicId($a_topic_id)
 	{
-		global $ilDB;
+		global $DIC; 
+		$ilDB = $DIC->database();
 
 		$res = $ilDB->queryF('SELECT thr_top_fk FROM frm_threads WHERE thr_pk = %s',
 			array('integer'), array($a_topic_id));
@@ -1254,9 +1244,7 @@ class ilForumTopic
 	}
 	public function updateMergedThread()
 	{
-		global $ilDB;
-
-		$ilDB->update('frm_threads',
+		$this->db->update('frm_threads',
 			array(
 				'thr_num_posts' => array('integer', $this->getNumPosts()),
 				'visits' 		=> array('integer', $this->getVisits()),
@@ -1268,9 +1256,8 @@ class ilForumTopic
 
 	public static function deleteByThreadId($thr_id)
 	{
-		global $ilDB;
-
-		$ilDB->manipulateF('DELETE FROM frm_threads WHERE thr_pk = %s',
+		global $DIC; 
+		$DIC->database()->manipulateF('DELETE FROM frm_threads WHERE thr_pk = %s',
 			array('integer'), array($thr_id));
 	}
 
@@ -1281,7 +1268,8 @@ class ilForumTopic
 	 */
 	public static function _lookupDate($thread_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		$res = $ilDB->queryF('SELECT thr_date FROM frm_threads WHERE thr_pk = %s',
 		array('integer'), array((int)$thread_id));

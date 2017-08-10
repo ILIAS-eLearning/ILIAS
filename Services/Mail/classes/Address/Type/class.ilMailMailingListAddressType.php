@@ -28,13 +28,12 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
 	 */
 	protected static function initMailingLists()
 	{
-		/** @var $ilUser ilObjUser */
-		global $ilUser;
+		global $DIC;
 
 		if(self::$maling_lists === null)
 		{
 			require_once 'Services/Contact/classes/class.ilMailingLists.php';
-			self::$maling_lists = new ilMailingLists($ilUser);
+			self::$maling_lists = new ilMailingLists($DIC->user());
 		}
 	}
 

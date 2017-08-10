@@ -207,22 +207,16 @@ class ilObjMailGUI extends ilObjectGUI
 		$cb->setInfo($this->lng->txt('mail_allow_external_info'));
 		$cb->setValue(1);
 		$form->addItem($cb);
-
-		require_once 'Services/Mail/classes/class.ilMailOptions.php';
-		$options = array(
-			IL_MAIL_LOCAL => $this->lng->txt('mail_incoming_local'),
-			IL_MAIL_EMAIL => $this->lng->txt('mail_incoming_smtp'),
-			IL_MAIL_BOTH  => $this->lng->txt('mail_incoming_both')
-		);
-		$si = new ilSelectInputGUI($this->lng->txt('mail_incoming'), 'mail_incoming_mail');
-		$si->setOptions($options);
+		
+		include_once 'Services/Mail/classes/Form/class.ilIncomingMailInputGUI.php';
+		$incoming_mail_gui = new ilIncomingMailInputGUI($this->lng->txt('mail_incoming'), 'incoming_type');
 		$this->ctrl->setParameterByClass('ilobjuserfoldergui', 'ref_id', USER_FOLDER_ID);
-		$si->setInfo(sprintf(
+		$incoming_mail_gui->setInfo(sprintf(
 			$this->lng->txt('mail_settings_incoming_type_see_also'),
 			$this->ctrl->getLinkTargetByClass('ilobjuserfoldergui', 'settings')
 		));
 		$this->ctrl->clearParametersByClass('ilobjuserfoldergui');
-		$form->addItem($si);
+		$form->addItem($incoming_mail_gui);
 
 		$ti = new ilNumberInputGUI($this->lng->txt('mail_maxsize_attach'), 'mail_maxsize_attach');
 		$ti->setSuffix($this->lng->txt('kb'));
@@ -263,7 +257,9 @@ class ilObjMailGUI extends ilObjectGUI
 	{
 		$form->setValuesByArray(array(
 			'mail_allow_external'          => $this->settings->get('mail_allow_external'),
-			'mail_incoming_mail'           => (int)$this->settings->get('mail_incoming_mail'),
+			'incoming_type'                => (int)$this->settings->get('mail_incoming_mail'),
+			'mail_address_option'          => strlen($this->settings->get('mail_address_option')) ? $this->settings->get('mail_address_option') : ilMailOptions::FIRST_EMAIL,
+			'mail_address_option_both'     => strlen($this->settings->get('mail_address_option')) ? $this->settings->get('mail_address_option') : ilMailOptions::FIRST_EMAIL,
 			'mail_maxsize_attach'          => $this->settings->get('mail_maxsize_attach'),
 			'mail_notification'            => $this->settings->get('mail_notification')
 		));
@@ -282,8 +278,21 @@ class ilObjMailGUI extends ilObjectGUI
 		$form = $this->getGeneralSettingsForm();
 		if($form->checkInput())
 		{
+			$incoming_type = (int)$form->getInput('incoming_type');
+
+			$mail_address_option = ilMailOptions::FIRST_EMAIL;
+			if($incoming_type ==  ilMailOptions::INCOMING_EMAIL)
+			{
+				$mail_address_option = (int)$form->getInput('mail_address_option'); 
+			}
+			else if($incoming_type == ilMailOptions::INCOMING_BOTH)
+			{
+				$mail_address_option = (int)$form->getInput('mail_address_option_both');
+			}
+
 			$this->settings->set('mail_allow_external', (int)$form->getInput('mail_allow_external'));
-			$this->settings->set('mail_incoming_mail', (int)$form->getInput('mail_incoming_mail'));
+			$this->settings->set('mail_incoming_mail', $incoming_type);
+			$this->settings->set('mail_address_option', $mail_address_option); 
 			$this->settings->set('mail_maxsize_attach', $form->getInput('mail_maxsize_attach'));
 			$this->settings->set('mail_notification', (int)$form->getInput('mail_notification'));
 
