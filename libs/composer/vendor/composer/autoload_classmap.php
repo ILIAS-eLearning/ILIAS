@@ -3154,6 +3154,7 @@ return array(
     'ilFileLP' => $baseDir . '/../../Modules/File/classes/class.ilFileLP.php',
     'ilFileNewsRendererGUI' => $baseDir . '/../../Modules/File/classes/class.ilFileNewsRendererGUI.php',
     'ilFilePreviewRenderer' => $baseDir . '/../../Services/Preview/classes/class.ilFilePreviewRenderer.php',
+    'ilFileStandardDropzoneInputGUI' => $baseDir . '/../../Services/Form/classes/class.ilFileStandardDropzoneInputGUI.php',
     'ilFileSystemGUI' => $baseDir . '/../../Services/FileSystem/classes/class.ilFileSystemGUI.php',
     'ilFileSystemStorage' => $baseDir . '/../../Services/FileSystem/classes/class.ilFileSystemStorage.php',
     'ilFileSystemTableGUI' => $baseDir . '/../../Services/FileSystem/classes/class.ilFileSystemTableGUI.php',

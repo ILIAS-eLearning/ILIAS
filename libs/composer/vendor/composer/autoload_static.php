@@ -3298,6 +3298,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilFileLP' => __DIR__ . '/../..' . '/../../Modules/File/classes/class.ilFileLP.php',
         'ilFileNewsRendererGUI' => __DIR__ . '/../..' . '/../../Modules/File/classes/class.ilFileNewsRendererGUI.php',
         'ilFilePreviewRenderer' => __DIR__ . '/../..' . '/../../Services/Preview/classes/class.ilFilePreviewRenderer.php',
+        'ilFileStandardDropzoneInputGUI' => __DIR__ . '/../..' . '/../../Services/Form/classes/class.ilFileStandardDropzoneInputGUI.php',
         'ilFileSystemGUI' => __DIR__ . '/../..' . '/../../Services/FileSystem/classes/class.ilFileSystemGUI.php',
         'ilFileSystemStorage' => __DIR__ . '/../..' . '/../../Services/FileSystem/classes/class.ilFileSystemStorage.php',
         'ilFileSystemTableGUI' => __DIR__ . '/../..' . '/../../Services/FileSystem/classes/class.ilFileSystemTableGUI.php',
