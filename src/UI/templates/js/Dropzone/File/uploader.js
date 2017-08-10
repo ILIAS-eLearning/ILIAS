@@ -13,7 +13,8 @@ il.UI = il.UI || {};
             maxFiles: 0, // Max number of files to upload, 0 = infinity
             fileSizeLimit: 0, // Max file size in bytes
             identifier: 'files', // Input name used when sending files back to the server. Corresponds to the key in $_FILES array
-            selectFilesButton: null // A JQuery object acting as select files button. Cannot be a <button>
+            selectFilesButton: null, // A JQuery object acting as select files button. Cannot be a <button>
+            interceptSubmit:false
         };
 
         // Stores all the different upload instances with a unique uploadId
@@ -210,7 +211,7 @@ il.UI = il.UI || {};
             var uploader = new qq.FineUploaderBasic({
                 autoUpload: options.autoUpload,
                 button: options.selectFilesButton ? options.selectFilesButton[0] : null,
-                debug: true,
+                debug: false,
                 request: {
                     endpoint: options.uploadUrl,
                     inputName: options.identifier
@@ -227,6 +228,10 @@ il.UI = il.UI || {};
                     },
                     onComplete: function (fileId, fileName, response, xmlHttpRequest) {
                         // Errors are rendered in the onError callback
+                        console.log(response);
+                        if (response.success && response.redirect_url) {
+                            window.location.replace(response.redirect_url);
+                        }
                         if (response.success) {
                             console.log('Successfully uploaded file ' + fileName);
                             renderFileSuccess(uploadId, fileId);
@@ -239,6 +244,7 @@ il.UI = il.UI || {};
                         var failedFiles = failed.map(function (fileId) {
                             return uploader.getFile(fileId).name;
                         });
+
                         console.log('Successfully uploaded files: ' + succeededFiles.join(', '));
                         console.log('Failed to upload files: ' + failedFiles.join(', '));
                         // Execute and custom callbacks if all files were uploaded successfully
@@ -248,17 +254,29 @@ il.UI = il.UI || {};
                             $.each(callbacks, function (index, callback) {
                                 callback();
                             });
+                        } else {
+                            toggleBoundUploadButtons(uploadId, false);
+                            var failedCallbacks = instances[uploadId].callbacks['onAllUploadCompletedFailed'];
+                            $.each(failedCallbacks, function (index, callback) {
+                                callback();
+                            });
                         }
                     },
                     onError: function (fileId, fileName, errorReason, xmlHttpRequest) {
-                        console.log('Error: ' + errorReason + ', fileId=' + fileId + ', fileName=' + fileName);
+                        var response = JSON.parse(xmlHttpRequest.response);
                         if (fileId !== null) {
-                            var response = JSON.parse(xmlHttpRequest.response);
                             errorReason = response.message || errorReason;
+
                             renderFileError(uploadId, fileId, errorReason);
                         } else {
                             renderError(uploadId, errorReason);
                         }
+                        // Calling Callbacks
+                        var callbacks = instances[uploadId].callbacks['onError'];
+                        $.each(callbacks, function (index, callback) {
+                            callback(xmlHttpRequest);
+                        });
+                        return false;
                     },
                     onCancel: function (fileId, fileName) {
                         var nonCanceledFiles = uploader.getUploads().filter(function (file) {
@@ -277,12 +295,13 @@ il.UI = il.UI || {};
                         console.log('status changed' + fileId + '; old=' + oldStatus + ', new=' + newStatus);
                     },
                     onSubmitted: function (fileId, name) {
-                        renderAddFile(uploadId, uploader.getFile(fileId), fileId);
+                        var file = uploader.getFile(fileId);
+                        renderAddFile(uploadId, file, fileId);
                         // Set any bound upload button to active, as we now have at least one valid file to upload
                         toggleBoundUploadButtons(uploadId, true);
                         var callbacks = instances[uploadId].callbacks['onSubmitFile'];
                         $.each(callbacks, function (index, callback) {
-                            callback();
+                            callback(file);
                         });
                     }
                 }
@@ -293,11 +312,13 @@ il.UI = il.UI || {};
                 'options': options,
                 'callbacks': {
                     'onAllUploadCompleted': [],
-                    'onSubmitFile': []
+                    'onAllUploadCompletedFailed': [],
+                    'onSubmitFile': [],
+                    'onError': []
                 },
                 'uploadButtons': []
             };
-            console.log(options);
+
             if (options.uploadButton !== null) {
                 bindUploadButton(uploadId, options.uploadButton);
             }
@@ -394,10 +415,20 @@ il.UI = il.UI || {};
          * Attach a callback function when all files have been successfully uploaded.
          * Note: The callback is only executed if all files in the queue succeeded
          * @param uploadId
+         * @param success callback
+         * @param failed callback
+         */
+        var onAllUploadCompleted = function (uploadId, success, failed) {
+            instances[uploadId].callbacks['onAllUploadCompleted'].push(success);
+            instances[uploadId].callbacks['onAllUploadCompletedFailed'].push(failed);
+        };
+        /**
+         * Attach a callback function when any Error occurs.
+         * @param uploadId
          * @param callback
          */
-        var onAllUploadCompleted = function (uploadId, callback) {
-            instances[uploadId].callbacks['onAllUploadCompleted'].push(callback);
+        var onError = function (uploadId, callback) {
+            instances[uploadId].callbacks['onError'].push(callback);
         };
 
         /**
@@ -408,6 +439,16 @@ il.UI = il.UI || {};
          */
         var onSubmitFile = function (uploadId, callback) {
             instances[uploadId].callbacks['onSubmitFile'].push(callback);
+        };
+
+        /**
+         * Attach a callback function when the uploader receives a new file to be uploaded.
+         * Note: Only executed for valid files!
+         * @param uploadId
+         * @param callback
+         */
+        var onFileAdded = function (uploadId, callback) {
+            instances[uploadId].callbacks['onFileAdded'].push(callback);
         };
 
         return {
@@ -421,6 +462,7 @@ il.UI = il.UI || {};
             reset: reset,
             bindUploadButton: bindUploadButton,
             onAllUploadCompleted: onAllUploadCompleted,
+            onError: onError,
             onSubmitFile: onSubmitFile
         }
     })($);
