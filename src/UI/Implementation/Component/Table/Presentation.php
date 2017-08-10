@@ -15,7 +15,7 @@ class Presentation implements T\Presentation {
 	private $title;
 
 	/**
-	 * @var array
+	 * @var ILIAS\UI\Component\ViewControl[]
 	 */
 	private $view_controls;
 
@@ -23,7 +23,6 @@ class Presentation implements T\Presentation {
 	 * @var T\PresentationRow[]
 	 */
 	private $rows;
-
 
 	public function __construct($title, array $view_controls, array $rows) {
 		$this->checkStringArg("string", $title);
@@ -39,7 +38,6 @@ class Presentation implements T\Presentation {
 	public function getTitle() {
 		return $this->title;
 	}
-
 
 	/**
 	 * @inheritdoc

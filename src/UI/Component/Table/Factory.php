@@ -42,10 +42,10 @@ interface Factory {
 	 *       1: View Controls used here MUST only affect the table itself.
 	 *
 	 * ---
-	 * @param	string		$title
-	 * @param	array		$view_controls 	a list of view controls
-	 * @param 	\ILIAS\UI\Component\Table\PresentationRow[] $rows
-	 * @return  \ILIAS\UI\Component\Table\Presentation
+	 * @param string	$title
+	 * @param array		$view_controls 	a list of view controls
+	 * @param \ILIAS\UI\Component\Table\PresentationRow[] 	$rows
+	 * @return \ILIAS\UI\Component\Table\Presentation
 	 */
 	public function presentation($title, array $view_controls, array $rows);
 
@@ -71,8 +71,8 @@ interface Factory {
 	 *   interaction:
 	 *       1: Clicking the expander MUST only expand the row. It MUST NOT trigger any other action.
 	 * ---
-	 * @param	string		$title_field
-	 * @return  \ILIAS\UI\Component\Table\PresentationRow
+	 * @param string 	$title_field
+	 * @return \ILIAS\UI\Component\Table\PresentationRow
 	 */
 	public function presentationRow($title_field);
 

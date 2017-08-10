@@ -6,7 +6,10 @@ namespace ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Triggerable;
 
 /**
- * This describes a Row used in Presentation Table
+ * This describes a Row used in Presentation Table.
+ * A row consists (potentially) of title, subtitle, important fields (in the
+ * collapased row) and further fields to be shown in the expanded row.
+ * The fields of a data-record are to be mapped to the row by their keys.
  */
 interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 
@@ -18,9 +21,10 @@ interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 	public function getTitleField();
 
 	/**
-	 * Set the record-field to be used as subtitle.
+	 * Get a row like this with the record-field to be used as subtitle.
 	 *
 	 * @param string 	$subtitle_field
+	 * @return \ILIAS\UI\Component\Table\PresentationRow
 	 */
 	public function withSubtitleField($subtitle_field);
 
@@ -32,9 +36,11 @@ interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 	public function getSubtitleField();
 
 	/**
-	 * Set the record-fields and labels to be shown in the collapsed row.
+	 * Get a row like this with the record-fields and labels
+	 * to be shown in the collapsed row.
 	 *
-	 * @param array<string, string> 	$fields
+	 * @param array<string,string> 	$fields
+	 * @return \ILIAS\UI\Component\Table\PresentationRow
 	 */
 	public function withImportantFields(array $fields);
 
@@ -47,10 +53,11 @@ interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 	public function getImportantFields();
 
 	/**
-	 * Set the record-fields and labels to be shown in the description list
-	 * of the expanded row.
+	 * Get a row like this with the record-fields and labels to be shown
+	 * in the description list of the expanded row.
 	 *
-	 * @param array<string, string> 	$fields
+	 * @param array<string,string> 	$fields
+	 * @return \ILIAS\UI\Component\Table\PresentationRow
 	 */
 	public function withDescriptionFields(array $fields);
 
@@ -63,9 +70,10 @@ interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 	public function getDescriptionFields();
 
 	/**
-	 * Set a headline for the field-list in the expanded row.
+	 * Get a row like this with a headline for the field-list in the expanded row.
 	 *
 	 * @param string 	$headline
+	 * @return \ILIAS\UI\Component\Table\PresentationRow
 	 */
 	public function withFurtherFieldsHeadline($headline);
 
@@ -77,10 +85,11 @@ interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 	public function getFurtherFieldsHeadline();
 
 	/**
-	 * Set the record-fields and labels to be shown in the list
-	 * of the expanded row.
+	 * Get a row like this with the record-fields and labels to be shown
+	 * in the list of the expanded row.
 	 *
-	 * @param array<string, string> 	$fields
+	 * @param array<string,string> 	$fields
+	 * @return \ILIAS\UI\Component\Table\PresentationRow
 	 */
 	public function withFurtherFields(array $fields);
 
@@ -92,9 +101,10 @@ interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 	public function getFurtherFields();
 
 	/**
-	 * Apply a record to the row.
+	 * Get a row like this with data from a record applied to it.
 	 *
-	 * @param array<string, mixed> 	$data
+	 * @param array<string,mixed> 	$data
+	 * @return \ILIAS\UI\Component\Table\PresentationRow
 	 */
 	public function withData(array $data);
 
@@ -106,9 +116,10 @@ interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 	public function getData();
 
 	/**
-	 * Add buttons for actions in the expanded row.
+	 * Get a row like this with buttons for actions in the expanded row.
 	 *
 	 * @param ILIAS\UI\Component\Button\Button[] 	$buttons
+	 * @return \ILIAS\UI\Component\Table\PresentationRow
 	 */
 	public function withButtons(array $buttons);
 

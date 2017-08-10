@@ -9,9 +9,9 @@ namespace ILIAS\UI\Component\Table;
 interface Presentation extends \ILIAS\UI\Component\Component {
 
 	/**
-	 * Get the title of the Table.
+	 * Get the title of the table.
 	 *
-	 * @return	string
+	 * @return string
 	 */
 	public function getTitle();
 
