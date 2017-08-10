@@ -89,7 +89,9 @@ interface Factory {
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: Most pages SHOULD NOT contain a wrapper dropzone.
+	 *     1: >
+	 *        Most pages SHOULD NOT contain a wrapper dropzone. Whenever you want to introduce a
+	 *        new usage of the Wrapper-Dropzone, propose it to the Jour Fixe.
 	 *     2: Wrapper dropzones MUST contain one or more ILIAS UI components.
 	 *     3: Wrapper dropzones MUST NOT contain any other file dropzones.
 	 *     4: Wrapper dropzones MUST NOT be used in modals.
@@ -100,6 +102,7 @@ interface Factory {
 	 *
 	 * @param string $url The url where the dropped files are being uploaded
 	 * @param Component[]|Component $content Component(s) wrapped by the dropzone
+	 *
 	 * @return \ILIAS\UI\Component\Dropzone\File\Wrapper
 	 */
 	public function wrapper($url, $content);
