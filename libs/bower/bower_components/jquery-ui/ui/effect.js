@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Effects 1.12.1
+ * jQuery UI Effects 1.12.0
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -1068,7 +1068,7 @@ if ( $.uiBackCompat !== false ) {
 }
 
 $.extend( $.effects, {
-	version: "1.12.1",
+	version: "1.12.0",
 
 	define: function( name, mode, effect ) {
 		if ( !effect ) {

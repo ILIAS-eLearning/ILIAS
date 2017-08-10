@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>jQuery maphilight documentation</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="../jquery.maphilight.js"></script>
+    <script>$(function() {
+        $('.map').maphilight({
+            fillColor: '008800'
+        });
+        $('#hilightlink').mouseover(function(e) {
+            $('#square2').mouseover();
+        }).mouseout(function(e) {
+            $('#square2').mouseout();
+        }).click(function(e) { e.preventDefault(); });
+        $('#starlink').click(function(e) {
+            e.preventDefault();
+            var data = $('#star').data('maphilight') || {};
+            data.neverOn = !data.neverOn;
+            $('#star').data('maphilight', data);
+        });
+        $('#star,#starlink2').click(function(e) {
+            e.preventDefault();
+            var data = $('#star').mouseout().data('maphilight') || {};
+            data.alwaysOn = !data.alwaysOn;
+            $('#star').data('maphilight', data).trigger('alwaysOn.maphilight');
+        });
+    });</script>
+</head>
+<body>
+<h1>Assorted features</h1>
+<p>This is an assortment of feature-demonstrations.</p>
+<p>
+<img src="demo_features.png" width="300" height="301" class="map" usemap="#features">
+<map name="features">
+    <area id="arrow" shape="poly" style="display:none;" coords="211,3,121,67,112,53,95,103,146,108,136,92,229,25" href="#" alt="arrow">
+    <area id="star" shape="poly" coords="78,83,70,100,52,104,64,115,61,133,78,124,94,133,91,116,104,102,87,101,79,88" href="#" alt="star" class="group" data-maphilight='{"strokeColor":"0000ff","strokeWidth":5,"fillColor":"ff0000","fillOpacity":0.6}'>
+    <area id="square1" shape="poly" coords="248,126,222,150,202,122,233,105,239,118,249,125,250,128" href="#" alt="a square" data-maphilight='{"alwaysOn":true,"stroke":false}'>
+    <area id="square2" shape="poly" coords="151,249,175,225,182,222,167,193,136,221,153,250" href="#" alt="another square" class="group" data-maphilight='{"groupBy":".group"}'>
+    <area id="shadowed" shape="rect" coords="250,250,290,290" href="#" alt="Shadow for some" data-maphilight='{"fillColor":"00ff00","shadow":true,"shadowBackground":"ffffff","alwaysOn":true}'>
+</map>
+</p>
+<p>Features:</p>
+    <ul>
+        <li>The star uses a <code>data-maphilight</code> attribute to adjust how it looks</li>
+        <li>The right-hand square uses a <code>data-maphilight</code> attribute to always be visible, to have no border, and to have a greenish fill</li>
+        <li>The lower-left square is linked to the star using groupBy. When you mouse over it the star will hilight as well.</li>
+        <li>The lower-right square has a shadow.</li>
+        <li><a id="hilightlink" href="#">Mouse over this to trigger a hilight from an external element!</a></li>
+        <li><a id="starlink" href="#">Click this to toggle whether or not the star will hilight</a></li>
+        <li><a id="starlink2" href="#">Click this to toggle whether or not the star is always hilighted; or click the star itself</a></li>
+    </ul>
+<small>The image is <a href="http://www.openclipart.org/detail/3325">Ruffled Map by midkiffaries</a></small><br/>
+<a href="./">Back to the index</a>
+</body>
+</html>

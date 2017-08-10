@@ -1,0 +1,24 @@
+{
+  "name": "maphilight",
+  "version": "1.3.0",
+  "homepage": "http://davidlynch.org/js/maphilight",
+  "description": "Maphilight is a jQuery plugin that adds visual hilights to image maps",
+  "main": "jquery.maphilight.min.js",
+  "keywords": [
+    "maphilight",
+    "map",
+    "hilight",
+    "image"
+  ],
+  "authors": [
+    "David Lynch"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

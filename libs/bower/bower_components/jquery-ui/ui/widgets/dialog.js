@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Dialog 1.12.1
+ * jQuery UI Dialog 1.12.0
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -44,7 +44,7 @@
 }( function( $ ) {
 
 $.widget( "ui.dialog", {
-	version: "1.12.1",
+	version: "1.12.0",
 	options: {
 		appendTo: "body",
 		autoOpen: true,
@@ -500,23 +500,13 @@ $.widget( "ui.dialog", {
 			buttonOptions = {
 				icon: props.icon,
 				iconPosition: props.iconPosition,
-				showLabel: props.showLabel,
-
-				// Deprecated options
-				icons: props.icons,
-				text: props.text
+				showLabel: props.showLabel
 			};
 
 			delete props.click;
 			delete props.icon;
 			delete props.iconPosition;
 			delete props.showLabel;
-
-			// Deprecated options
-			delete props.icons;
-			if ( typeof props.text === "boolean" ) {
-				delete props.text;
-			}
 
 			$( "<button></button>", props )
 				.button( buttonOptions )

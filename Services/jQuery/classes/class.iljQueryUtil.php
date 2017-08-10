@@ -12,10 +12,6 @@
 class iljQueryUtil {
 
 	/**
-	 * @var string Currently used MapHighlight-Plugin Version
-	 */
-	private static $maphilight_ver = "14_03_20";
-	/**
 	 * @var string Suffix for minified File
 	 */
 	private static $min = ".min";
@@ -23,12 +19,13 @@ class iljQueryUtil {
 
 	/**
 	 * inits and adds the jQuery JS-File to the global or a passed template
+	 *
 	 * @param \ilTemplate $a_tpl global $tpl is used when null
 	 */
 	public static function initjQuery($a_tpl = null) {
 		global $tpl;
 
-		//		self::$min = DEVMODE ? "" : ".min";
+		// self::$min = DEVMODE ? "" : ".min";
 		self::$min = "";
 		if ($a_tpl == null) {
 			$a_tpl = $tpl;
@@ -60,8 +57,7 @@ class iljQueryUtil {
 	/**
 	 * @return string local path of jQuery UI file
 	 */
-	static function getLocaljQueryUIPath()
-	{
+	public static function getLocaljQueryUIPath() {
 		return "./libs/bower/bower_components/jquery-ui/jquery-ui" . self::$min . ".js";
 	}
 
@@ -70,10 +66,9 @@ class iljQueryUtil {
 	//
 
 	/**
-	 * Init maphilight
+	 * Inits and add maphilight to the general template
 	 */
-	static function initMaphilight()
-	{
+	public static function initMaphilight() {
 		global $tpl;
 
 		$tpl->addJavaScript(self::getLocalMaphilightPath(), true, 1);
@@ -83,8 +78,7 @@ class iljQueryUtil {
 	/**
 	 * Get local path of maphilight file
 	 */
-	static function getLocalMaphilightPath()
-	{
-		return "./Services/jQuery/js/maphilight_" . self::$maphilight_ver . "/maphilight.js";
+	public static function getLocalMaphilightPath() {
+		return "./libs/bower/bower_components/maphilight/jquery.maphilight.min.js";
 	}
 }

@@ -407,7 +407,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 			iljQueryUtil::initjQuery();
 			iljQueryUtil::initjQueryUI();
 			
-			$this->getGlobalTpl()->addJavaScript('Services/jQuery/js/jquery.nestable.js');
+			$this->getGlobalTpl()->addJavaScript('./libs/bower/bower_components/nestable/jquery.nestable.js');
 			
 			return $this->renderMainList() . $this->renderJsInit();
 		}

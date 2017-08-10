@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Draggable 1.12.1
+ * jQuery UI Draggable 1.12.0
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -37,7 +37,7 @@
 }( function( $ ) {
 
 $.widget( "ui.draggable", $.ui.mouse, {
-	version: "1.12.1",
+	version: "1.12.0",
 	widgetEventPrefix: "drag",
 	options: {
 		addClasses: true,
@@ -103,6 +103,8 @@ $.widget( "ui.draggable", $.ui.mouse, {
 	_mouseCapture: function( event ) {
 		var o = this.options;
 
+		this._blurActiveElement( event );
+
 		// Among others, prevent a drag on a resizable-handle
 		if ( this.helper || o.disabled ||
 				$( event.target ).closest( ".ui-resizable-handle" ).length > 0 ) {
@@ -114,8 +116,6 @@ $.widget( "ui.draggable", $.ui.mouse, {
 		if ( !this.handle ) {
 			return false;
 		}
-
-		this._blurActiveElement( event );
 
 		this._blockFrames( o.iframeFix === true ? "iframe" : o.iframeFix );
 
@@ -147,10 +147,11 @@ $.widget( "ui.draggable", $.ui.mouse, {
 		var activeElement = $.ui.safeActiveElement( this.document[ 0 ] ),
 			target = $( event.target );
 
-		// Don't blur if the event occurred on an element that is within
-		// the currently focused element
+		// Only blur if the event occurred on an element that is:
+		// 1) within the draggable handle
+		// 2) but not within the currently focused element
 		// See #10527, #12472
-		if ( target.closest( activeElement ).length ) {
+		if ( this._getHandle( event ) && target.closest( activeElement ).length ) {
 			return;
 		}
 

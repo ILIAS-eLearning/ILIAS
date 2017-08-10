@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Slider 1.12.1
+ * jQuery UI Slider 1.12.0
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -35,7 +35,7 @@
 }( function( $ ) {
 
 return $.widget( "ui.slider", $.ui.mouse, {
-	version: "1.12.1",
+	version: "1.12.0",
 	widgetEventPrefix: "slide",
 
 	options: {
@@ -117,9 +117,7 @@ return $.widget( "ui.slider", $.ui.mouse, {
 		this.handle = this.handles.eq( 0 );
 
 		this.handles.each( function( i ) {
-			$( this )
-				.data( "ui-slider-handle-index", i )
-				.attr( "tabIndex", 0 );
+			$( this ).data( "ui-slider-handle-index", i );
 		} );
 	},
 
