@@ -88,6 +88,7 @@ class ilObjUser extends ilObject
 	var $phone_mobile;
 	var $fax;
 	var $email;
+	protected $second_email = null;
 	var $hobby;
 	var $matriculation;
 	var $referral_comment;
@@ -372,6 +373,7 @@ class ilObjUser extends ilObject
 		$this->setFax($a_data["fax"]);
 		$this->setMatriculation($a_data["matriculation"]);
 		$this->setEmail($a_data["email"]);
+		$this->setSecondEmail($a_data["second_email"]);
 		$this->setHobby($a_data["hobby"]);
 		$this->setClientIP($a_data["client_ip"]);
 		$this->setPasswordEncodingType($a_data['passwd_enc_type']);
@@ -471,6 +473,7 @@ class ilObjUser extends ilObject
 			"title" => array("text", $this->utitle),
 			"gender" => array("text", $this->gender),
 			"email" => array("text", trim($this->email)),
+			"second_email" => array("text", trim($this->second_email)),
 			"hobby" => array("text", (string) $this->hobby),
 			"institution" => array("text", $this->institution),
 			"department" => array("text", $this->department),
@@ -564,6 +567,7 @@ class ilObjUser extends ilObject
 			"firstname" => array("text", $this->firstname),
 			"lastname" => array("text", $this->lastname),
 			"email" => array("text", trim($this->email)),
+			"second_email" => array("text", trim($this->second_email)),
 			"birthday" => array('date', $this->getBirthday()),
 			"hobby" => array("text", $this->hobby),
 			"institution" => array("text", $this->institution),
@@ -711,6 +715,16 @@ class ilObjUser extends ilObject
 	static function _lookupEmail($a_user_id)
 	{
 		return ilObjUser::_lookup($a_user_id, "email");
+	}
+	
+	/**
+	 * Lookup second e-mail
+	 * @param $a_user_id
+	 * @return null|string
+	 */
+	static function _lookupSecondEmail($a_user_id)
+	{
+		return ilObjUser::_lookup($a_user_id, "second_email");
 	}
 
 	/**
@@ -1894,7 +1908,23 @@ class ilObjUser extends ilObject
 	{
 		return $this->email;
 	}
-
+	
+	/**
+	 * @return null|string
+	 */
+	public function getSecondEmail()
+	{
+		return $this->second_email;
+	}
+	
+	/**
+	 * @param null|string $second_email
+	 */
+	public function setSecondEmail($second_email)
+	{
+		$this->second_email = $second_email;
+	}
+	
 	/**
 	* set hobby
 	* @access	public
@@ -4238,6 +4268,10 @@ class ilObjUser extends ilObject
 		if(strlen($this->getEmail()))
 		{
 			$body .= ($language->txt("email").": ".$this->getEmail()."\n");
+		}
+		if(strlen($this->getSecondEmail()))
+		{
+			$body .= ($language->txt("second_email").": ".$this->getSecondEmail()."\n");
 		}
 		if(strlen($this->getHobby()))
 		{

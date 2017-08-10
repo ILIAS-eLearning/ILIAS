@@ -97,7 +97,7 @@ class Container extends \Pimple\Container {
 	/**
 	 * Get interface to the i18n service.
 	 *
-	 * @return	\ilLanguage
+	 * @return	\ilTabsGUI
 	 */
 	public function tabs() {
 		return $this["ilTabs"];

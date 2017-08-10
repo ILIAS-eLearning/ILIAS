@@ -15,7 +15,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
 	 */
 	public function checkInput()
 	{
-		global $lng;
+		global $DIC;
 
 		$ok = parent::checkInput();
 
@@ -34,13 +34,15 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
 		}
 		catch(Exception $e)
 		{
-			$this->setAlert($lng->txt($e->getMessage()));
+			$this->setAlert($DIC->language()->txt($e->getMessage()));
 			return false;
 		}
 	}
 
 	public function render($a_mode = "")
 	{
+		global $DIC;
+
 		$tpl = new ilTemplate("tpl.prop_mail_quick_filter_input.html", true, true, "Services/Mail");
 		if (strlen($this->getValue()))
 		{
@@ -132,14 +134,9 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
 
 		if(is_array($this->sub_items) && $this->sub_items)
 		{
-			/**
-			 * @var $lng ilLanguage
-			 */
-			global $lng;
-			
 			$tpl->setVariable("FIELD_ID", $this->getFieldId());
-			$tpl->setVariable("TXT_PLACEHOLDER", $lng->txt('mail_filter_field_placeholder'));
-			$tpl->setVariable("TXT_FILTER_MESSAGES_BY", $lng->txt('mail_filter_txt'));
+			$tpl->setVariable("TXT_PLACEHOLDER", $DIC->language()->txt('mail_filter_field_placeholder'));
+			$tpl->setVariable("TXT_FILTER_MESSAGES_BY", $DIC->language()->txt('mail_filter_txt'));
 
 			$subitem_html = '';
 			foreach($this->sub_items as $item)

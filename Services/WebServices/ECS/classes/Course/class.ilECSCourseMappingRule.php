@@ -85,7 +85,17 @@ class ilECSCourseMappingRule
 		{
 			$ref_ids[] = $row->ref_id;
 		}
-		return $ref_ids;
+		// check if ref_ids are in tree
+		$checked_ref_ids = [];
+		foreach($ref_ids as $ref_id)
+		{
+			if(
+				$GLOBALS['DIC']->repositoryTree()->isInTree($ref_id))
+			{
+				$checked_ref_ids[] = $ref_id;
+			}
+		}
+		return $checked_ref_ids;
 	}
 	
 	/**
@@ -94,6 +104,7 @@ class ilECSCourseMappingRule
 	 * @param type $a_sid
 	 * @param type $a_mid
 	 * @param type $a_ref_id
+	 * @return int[]
 	 */
 	public static function getRulesOfRefId($a_sid, $a_mid, $a_ref_id)
 	{
@@ -128,6 +139,7 @@ class ilECSCourseMappingRule
 	 * Check if rule matches
 	 * @param type $course
 	 * @param type $a_start_rule_id
+	 * @return string 0 if not matches; otherwise rule_id_index @see matches
 	 */
 	public static function isMatching($course, $a_sid, $a_mid, $a_ref_id)
 	{
@@ -139,20 +151,43 @@ class ilECSCourseMappingRule
 				'AND ref_id = '.$ilDB->quote($a_ref_id,'integer').' '.
 				'ORDER BY rid';
 		$res = $ilDB->query($query);
-		$matches = false;
+		
+		$does_match = false;
+		$sortable_index = '';
+		$last_rule_id = 0;
+		$last_level = 0;
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
+			$last_level++;
+			$last_rule_id = $row->rid;
 			$rule = new ilECSCourseMappingRule($row->rid);
-			if(!$rule->matches($course))
+			$matches = $rule->matches($course);
+			if($matches == -1)
 			{
-				return false;
+				return '0';
+			}
+			elseif(
+				$matches > 0 &&
+				!$sortable_index
+			)
+			{
+				$does_match = true;
+				$sortable_index = (string) $last_level.'_'.$matches;
 			}
 			else
 			{
-				$matches = true;
+				$does_match = true;
 			}
 		}
-		return $matches;
+		if($does_match)
+		{
+			if($sortable_index)
+			{
+				return (string) $sortable_index.'_'.$last_rule_id;
+			}
+			return (string) $last_level.'_'.$last_rule_id;
+		}
+		return '0';
 	}
 	
 	/**
@@ -272,7 +307,7 @@ class ilECSCourseMappingRule
 	/**
 	 * Check if rule matches
 	 * @param type $course
-	 * @return boolean
+	 * @return int -1 does not match, 0 matches with disabled filter, >0 matches xth index in course attribute value.
 	 */
 	public function matches($course)
 	{
@@ -280,21 +315,25 @@ class ilECSCourseMappingRule
 		{
 			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
 			$values = ilECSMappingUtils::getCourseValueByMappingAttribute($course, $this->getAttribute());
+			$this->logger->dump($values);
+			$index = 0;
 			foreach($values as $value)
 			{
+				$index++;
 				foreach($this->getFilterElements() as $filter_element)
 				{
 					$this->logger->debug('Comparing ' . $value . ' with ' . $filter_element);
 					if(strcmp(trim($value), trim($filter_element)) === 0)
 					{
 						$this->logger->debug($value . ' matches ' . $filter_element);
-						return true;
+						$this->logger->debug('Found index: ' . $index);
+						return $index;
 					}
 				}
 			}
-			return false;
+			return -1;
 		}
-		return true;
+		return 0;
 	}
 	
 	
@@ -525,10 +564,10 @@ class ilECSCourseMappingRule
 	protected function parseFilter()
 	{
 		$filter = $this->getFilter();
-		$this->logger->debug('Original filter: ' . $filter);
+		//$this->logger->debug('Original filter: ' . $filter);
 		
 		$escaped_filter = str_replace('\,', '#:#', $filter);
-		$this->logger->debug('Escaped filter: ' . $escaped_filter);
+		//$this->logger->debug('Escaped filter: ' . $escaped_filter);
 		
 		$filter_elements = explode(',', $escaped_filter);
 		foreach((array) $filter_elements as $filter_element)
@@ -539,7 +578,7 @@ class ilECSCourseMappingRule
 				$this->filter_elements[] = $replaced;
 			}
 		}
-		$this->logger->dump($this->filter_elements);
+		//$this->logger->dump($this->filter_elements);
 	}
 }
 ?>

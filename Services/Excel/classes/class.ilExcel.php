@@ -410,13 +410,12 @@ class ilExcel
 				$a_mime_type = ilMimeTypeUtil::APPLICATION__OCTET_STREAM;
 				break;
 		}
-		$ilPHPOutputDelivery = new ilPHPOutputDelivery();
-		$ilPHPOutputDelivery->start($a_file_name, $a_mime_type);
+		$tmp_name = ilUtil::ilTempnam();
 
 		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->format);
-		$writer->save(ilFileDelivery::DIRECT_PHP_OUTPUT);
+		$writer->save($tmp_name);
 
-		$ilPHPOutputDelivery->stop();
+		ilFileDelivery::deliverFileAttached($tmp_name, $a_file_name, $a_mime_type, true);
 	}
 	
 	/**

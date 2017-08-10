@@ -5510,10 +5510,10 @@ button.close {
 .tooltip-inner {
   max-width: 200px;
   padding: 3px 8px;
-  color: white;
+  color: #fff;
   text-align: center;
   text-decoration: none;
-  background-color: black;
+  background-color: #000;
   border-radius: 0px;
 }
 .tooltip-arrow {
@@ -5528,52 +5528,52 @@ button.close {
   left: 50%;
   margin-left: -5px;
   border-width: 5px 5px 0;
-  border-top-color: black;
+  border-top-color: #000;
 }
 .tooltip.top-left .tooltip-arrow {
   bottom: 0;
   left: 5px;
   border-width: 5px 5px 0;
-  border-top-color: black;
+  border-top-color: #000;
 }
 .tooltip.top-right .tooltip-arrow {
   bottom: 0;
   right: 5px;
   border-width: 5px 5px 0;
-  border-top-color: black;
+  border-top-color: #000;
 }
 .tooltip.right .tooltip-arrow {
   top: 50%;
   left: 0;
   margin-top: -5px;
   border-width: 5px 5px 5px 0;
-  border-right-color: black;
+  border-right-color: #000;
 }
 .tooltip.left .tooltip-arrow {
   top: 50%;
   right: 0;
   margin-top: -5px;
   border-width: 5px 0 5px 5px;
-  border-left-color: black;
+  border-left-color: #000;
 }
 .tooltip.bottom .tooltip-arrow {
   top: 0;
   left: 50%;
   margin-left: -5px;
   border-width: 0 5px 5px;
-  border-bottom-color: black;
+  border-bottom-color: #000;
 }
 .tooltip.bottom-left .tooltip-arrow {
   top: 0;
   left: 5px;
   border-width: 0 5px 5px;
-  border-bottom-color: black;
+  border-bottom-color: #000;
 }
 .tooltip.bottom-right .tooltip-arrow {
   top: 0;
   right: 5px;
   border-width: 0 5px 5px;
-  border-bottom-color: black;
+  border-bottom-color: #000;
 }
 .popover {
   position: absolute;
@@ -6390,7 +6390,7 @@ fieldset[disabled] .btn:active,
 fieldset[disabled] .btn.active {
   background-color: #b0b0b0;
   border-color: #e0e0e0;
-  color: #b0b0b0;
+  color: white;
   cursor: default;
 }
 button > .glyphicon {
@@ -6398,8 +6398,9 @@ button > .glyphicon {
 }
 a.btn-link.ilSubmitInactive,
 a.btn-link.ilSubmitInactive:hover {
-  background-color: inherit;
-  color: #333333;
+  background-color: #b0b0b0;
+  color: white;
+  border-color: #e0e0e0;
   padding: 0;
 }
 .il-btn-month .dropdown-menu {
@@ -7154,7 +7155,7 @@ ul.breadcrumb li:hover {
   background-clip: padding-box;
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
+  border-radius: 0px;
   -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
@@ -7258,7 +7259,7 @@ ul.breadcrumb li:hover {
   line-height: 18px;
   background-color: white;
   border-bottom: 1px solid #f2f2f2;
-  border-radius: 5px 5px 0 0;
+  border-radius: -1px -1px 0 0;
 }
 .webui-popover-content {
   padding: 9px 14px;
@@ -7461,6 +7462,18 @@ ul.breadcrumb li:hover {
 }
 .il-popover i.icon-refresh {
   background: url("../../src/UI/templates/libs/node_modules/webui-popover/img/loading.gif") no-repeat;
+  height: 30px;
+}
+.il-popover .il-popover-title-container {
+  background-color: #F0F0F0;
+}
+.il-popover .il-popover-title-container h4.il-popover-title {
+  font-size: 17px;
+  font-weight: normal;
+  padding: 8px 14px;
+  background-color: transparent;
+  text-transform: uppercase;
+  color: #909090;
 }
 .bg-primary {
   color: white;
@@ -12129,39 +12142,17 @@ div#il_startup_logo img {
   }
 }
 /* Services/UIComponent/Tooltip */
-.ui-tooltip-rounded,
-.ui-tooltip-rounded .ui-tooltip-content,
-.ui-tooltip-tipsy,
-.ui-tooltip-tipsy .ui-tooltip-content,
-.ui-tooltip-youtube,
-.ui-tooltip-youtube .ui-tooltip-content {
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-}
-.ui-tooltip-shadow {
-  -webkit-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
-  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
-}
 .qtip-default {
   font-size: 12px;
   line-height: 1.5;
-}
-/*.qtip-default {
-	background-color: lighten(@brand-warning, 25%);
-	border-color: lighten(@brand-warning, 25%);
-	color: #303030;
-}
-
-.qtip-default {
-	background-color: darken(@brand-secondary, 10%);
-	border-color: darken(@brand-secondary, 10%);
-	color: white;
-}*/
-.qtip-default {
   background-color: #607ea5;
   border-color: #607ea5;
   color: white;
+  -webkit-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 }
 /* Services/Rating */
 img.ilRatingIcon {
@@ -12868,7 +12859,7 @@ div.ilPCMyCoursesPath {
   display: block;
   height: 14px;
   width: 14px;
-  background: url("../../Services/OnScreenChat/templates/default/images/emoticons_trigger.png") no-repeat;
+  background: url("images/emoticons_trigger.png") no-repeat;
   background-size: cover;
   z-index: 1000;
 }
@@ -13399,6 +13390,17 @@ span.ilProfileBadge {
 }
 .input-group.date .input-group-addon {
   cursor: pointer;
+}
+.il-item-task {
+  padding: 8px 14px;
+  border-top: 1px #ddd solid;
+  min-width: 250px;
+  margin-top: -1px;
+  background-color: white;
+}
+.il-item-task .il-item-task-title h4 {
+  font-size: 14px;
+  font-weight: bold;
 }
 .noMargin {
   margin: 0;

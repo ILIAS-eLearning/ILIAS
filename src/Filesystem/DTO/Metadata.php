@@ -70,12 +70,38 @@ final class Metadata {
 	/**
 	 * The type of the subject which can be FILE or DIRECTORY.
 	 *
+	 * Use isDir or isFile in consumer-code and do not compare yourself against
+	 * MetadataType::DIRECTORY or MetadataType::FILE
+	 *
 	 * @return string
 	 * @since 5.3
+	 * @internal
 	 *
 	 * @see MetadataType
 	 */
 	public function getType() {
 		return $this->type;
+	}
+
+
+	/**
+	 * The path is a directory
+	 *
+	 * @return bool
+	 * @since 5.3
+	 */
+	public function isDir() {
+		return (strcmp($this->getType(), MetadataType::DIRECTORY) === 0);
+	}
+
+
+	/**
+	 * The path is a file
+	 *
+	 * @return bool
+	 * @since 5.3
+	 */
+	public function isFile() {
+		return (strcmp($this->getType(), MetadataType::FILE) === 0);
 	}
 }

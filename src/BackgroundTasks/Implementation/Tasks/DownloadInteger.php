@@ -46,6 +46,8 @@ class DownloadInteger extends AbstractUserInteraction {
 	public function interaction(Array $input, Option $user_selected_option, Bucket $bucket) {
 		/** @var IntegerValue $a */
 		$integerValue = $input[0];
+		global $DIC;
+
 
 		if ($user_selected_option->getValue() == "download") {
 			$outputter = new \ilPHPOutputDelivery();

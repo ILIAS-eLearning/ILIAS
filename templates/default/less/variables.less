@@ -69,9 +69,6 @@
 @pagination-active-color: white;
 @pagination-disabled-bg: white;
 
-@tooltip-color: white;
-@tooltip-bg: black;
-
 @popover-bg: white;
 @popover-arrow-color: white;
 
@@ -175,6 +172,8 @@
 @il-main-header-height:		30px + @il-logo-height;
 //** controls the height of the border underneath the main header.
 @il-header-border-bottom-height: 3px;
+//** controls the color of the border underneath the main header.
+@il-header-border-bottom-color: @body-bg;
 //** that is the height of the complete header, that is that thingy upon the real content of the page.
 @il-header-height:			ceil((@il-main-header-height + @il-top-bar-height - @il-header-border-bottom-height));
 //** controls the bg color of the main header.
@@ -239,7 +238,7 @@
 @il-btn-primary-border:          @brand-secondary;
 
 //** Text color of inactive buttons
-@il-disabled-btn-color:          #b0b0b0;
+@il-disabled-btn-color:          white;
 //** Background color of inactive buttons
 @il-disabled-btn-bg:             #b0b0b0;
 //** Border color of inactive buttons
@@ -462,6 +461,20 @@
 @il-popover-arrow-background-color: @il-popover-background-color;
 //** z-index used for the Popover
 @il-popover-z-index: 9999;
+
+//== Tooltips
+//
+//## Tooltips displayed by the online help
+//** Text color of those tooltips
+@il-tooltip-color:		  white;
+//** Background color of those tooltips
+@il-tooltip-bg-color:	  lighten(@brand-primary, 10%);
+//** Border color of those tooltips
+@il-tooltip-border-color: lighten(@brand-primary, 10%);
+//** Border radius of those tooltips
+@il-tooltip-border-radius: 4px;
+//** Shadow of those tooltips
+@il-tooltip-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
 
 //== Divider
 //

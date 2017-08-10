@@ -14,16 +14,15 @@ include_once("Services/Mail/classes/class.ilPDMailBlockGUI.php");
 class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 {
 	static $block_type = "pdsysmess";
-	
+
 	/**
-	* Constructor
-	*/
+	 * Constructor
+	 */
 	public function __construct()
 	{
-		global $lng;
 		parent::__construct();
 
-		$this->setTitle($lng->txt("show_system_messages"));
+		$this->setTitle($this->lng->txt("show_system_messages"));
 		$this->setAvailableDetailLevels(3);
 		$this->mail_mode = "system";
 		$this->allow_moving = false;
@@ -73,14 +72,10 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 	*/
 	function getMails()
 	{
-		global $ilUser;
-		
-		// BEGIN MAILS
-		$umail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
-		$mbox = new ilMailBox($GLOBALS['DIC']['ilUser']->getId());
+		$umail = new ilMail($this->user->getId());
+		$mbox  = new ilMailBox($this->user->getId());
 		$inbox = $mbox->getInboxFolder();
-		
-		//SHOW MAILS FOR EVERY USER
+
 		$this->mails = $umail->getMailsOfFolder($inbox, array('status' => 'unread', 'type' => 'system'));
 	}
 
@@ -89,11 +84,6 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 	*/
 	function getOverview()
 	{
-		global $ilUser, $lng, $ilCtrl;
-				
-		return '<div class="small">'.((int) count($this->mails))." ".$lng->txt("system_message")."</div>";
+		return '<div class="small">'.((int) count($this->mails))." ".$this->lng->txt("system_message")."</div>";
 	}
-
 }
-
-?>

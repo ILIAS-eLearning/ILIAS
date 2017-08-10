@@ -23,6 +23,7 @@ forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be save
 forum#:#edit_thread_draft#:#Edit thread draft
 common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'
 common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.
+forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.
 forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.
 forum#:#save_draft_successfully#:#The draft was saved successfully.
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?
@@ -54,6 +55,8 @@ acc#:#acc_previous#:#Previous
 acc#:#acc_reply#:#Reply
 acc#:#acc_tree_off#:#Tree Off
 acc#:#acc_tree_on#:#Tree On
+administration#:#adm_pub_section_domain_filter#:#Domain Filter
+administration#:#adm_pub_section_domain_filter_info#:#Domain filters granting anonymous access. Enter one ore more domains, which allow anonymous access. 
 administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the repository, are loaded asynchronously. This increases performance in general, but slows down loading of action command lists a little bit.
 administration#:#adm_item_cmd_asynch#:#Load Resource Action Lists Asynchronously
 administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.
@@ -7533,7 +7536,7 @@ mail#:#mail_smtp_encryption#:#Encryption
 mail#:#mail_smtp_encryption_tls#:#TLS
 mail#:#mail_smtp_encryption_ssl#:#SSL
 mail#:#mail_external_send_test_usr#:#Send Test Email (User Mail)
-mail#:#mail_external_send_test_sys#:#Test-E-Mail für Systemnachricht schicken
+mail#:#mail_external_send_test_sys#:#Send Test Email (System Mail)
 mail#:#mail_external_test_sent#:#An email was sent to the email address defined in your profile.
 mail#:#mail_smtp_user#:#User
 mail#:#mail_smtp_password#:#Password
@@ -13528,8 +13531,11 @@ form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.
 common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
 ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
-common#:#background_tasks#:#Background Tasks
-common#:#scheduled#:#Scheduled
+background_tasks#:#background_tasks#:#Background Tasks
+background_tasks#:#background_tasks_running#:#Running Tasks
+background_tasks#:#scheduled#:#Scheduled
+background_tasks#:#dismiss#:#Quit
+background_tasks#:#completed#:#Completed
 grp#:#grp_period#:#Period of Event
 grp#:#grp_period_info#:#Information about the start and end date of the event, which is supported by the group
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.
@@ -13567,3 +13573,10 @@ auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#Configure SAML IDP: %s
 auth#:#saml_tab_head_idp#:#IDP
 auth#:#auth_saml_idp_settings#:#IDP Settings
+survey#:#sub_tab_dashboard#:#Dashboard
+mail#:#first_email_missing_info#:#Selection not possible because no email address has been entered
+mail#:#second_email_missing_info#:#Selection not possible because no second email address has been entered
+mail#:#mail_first_email#:#First Email Address
+mail#:#mail_second_email#:#Second Email Address
+mail#:#mail_both_email#:#Both Email Addresses
+common#:#second_email#:#Second Email

@@ -162,7 +162,7 @@ class FlySystemDirectoryAccess implements DirectoryAccess {
 		foreach ($contentList as $content) {
 
 			//ignore the directories and only copy the files
-			if($content->getType() === MetadataType::FILE) {
+			if($content->isFile()) {
 
 				//create destination path
 				$position = strpos($content->getPath(), $source);

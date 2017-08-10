@@ -30,17 +30,13 @@ class ilMailBoxQuery
 	 */
 	public static function _getMailBoxListData()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-		
-		// initialize array
+		global $DIC;
+
 		$mails = array('cnt' => 0, 'cnt_unread' => 0, 'set' => array());
 
 		$filter = array(
 			'mail_filter_sender'     => 'CONCAT(CONCAT(firstname, lastname), login)',
-			'mail_filter_recipients' => ($ilDB->getDBType() == 'oracle' ?
+			'mail_filter_recipients' => ($DIC->database()->getDBType() == 'oracle' ?
 				"CONCAT(CONCAT(CAST(rcp_to AS VARCHAR2(4000)), CAST(rcp_cc AS VARCHAR2(4000))), CAST(rcp_bcc AS VARCHAR2(4000))))" :
 				"CONCAT(CONCAT(rcp_to, rcp_cc), rcp_bcc)"),
 			'mail_filter_subject'    => 'm_subject',
@@ -54,7 +50,7 @@ class ilMailBoxQuery
 			{
 				if(strlen($column) && isset(self::$filter[$key]) && (int)self::$filter[$key])
 				{
-					$filter_parts[] = $ilDB->like($column, 'text', '%%'.self::$filter['mail_filter'].'%%', false);
+					$filter_parts[] = $DIC->database()->like($column, 'text', '%%'.self::$filter['mail_filter'].'%%', false);
 				}
 			}
 		}
@@ -81,16 +77,16 @@ class ilMailBoxQuery
 		
 		if(self::$filtered_ids)
 		{
-			$queryCount .= ' AND '.$ilDB->in('mail_id', self::$filtered_ids, false, 'integer').' ';
+			$queryCount .= ' AND '.$DIC->database()->in('mail_id', self::$filtered_ids, false, 'integer').' ';
 		}
 		
-		$res = $ilDB->queryf(
+		$res = $DIC->database()->queryf(
 			$queryCount,
 			array('integer', 'integer', 'integer', 'integer', 'text'),
 			array(self::$userId, self::$folderId, self::$userId, self::$folderId, 'unread')
 		);
 		$counter = 0;
-		while($cnt_row = $ilDB->fetchAssoc($res))
+		while($cnt_row = $DIC->database()->fetchAssoc($res))
 		{
 			if($counter == 0)
 			{
@@ -109,7 +105,7 @@ class ilMailBoxQuery
 		}	
 		
 		$sortColumn = '';
-		if(self::$orderColumn == 'rcp_to' && $ilDB->getDBType() == 'oracle')
+		if(self::$orderColumn == 'rcp_to' && $DIC->database()->getDBType() == 'oracle')
 		{
 			$sortColumn = ", CAST(rcp_to AS VARCHAR2(4000)) SORTCOL";
 		}
@@ -121,7 +117,7 @@ class ilMailBoxQuery
 			$firstname = '
 				,(CASE
 					WHEN (usr_id = '.ANONYMOUS_USER_ID.') THEN firstname 
-					ELSE '.$ilDB->quote(ilMail::_getIliasMailerName(), 'text').'
+					ELSE '.$DIC->database()->quote(ilMail::_getIliasMailerName(), 'text').'
 				END) fname
 			';
 		}
@@ -136,7 +132,7 @@ class ilMailBoxQuery
 
 		if(self::$filtered_ids)
 		{
-			$query .= ' AND '.$ilDB->in('mail_id', self::$filtered_ids, false, 'integer').' ';
+			$query .= ' AND '.$DIC->database()->in('mail_id', self::$filtered_ids, false, 'integer').' ';
 		}
 		
 		// order direction
@@ -151,7 +147,7 @@ class ilMailBoxQuery
 		}			   
 			  
 		// order column
-		if(self::$orderColumn == 'rcp_to' && $ilDB->getDBType() == 'oracle')
+		if(self::$orderColumn == 'rcp_to' && $DIC->database()->getDBType() == 'oracle')
 		{
 			$query .= ' ORDER BY SORTCOL '.$orderDirection;
 		}
@@ -166,7 +162,7 @@ class ilMailBoxQuery
 		else if(strlen(self::$orderColumn))
 		{
 			if(!in_array(strtolower(self::$orderColumn), array('m_subject', 'send_time', 'rcp_to')) &&
-			   !$ilDB->tableColumnExists('mail', strtolower(self::$orderColumn)))
+			   !$DIC->database()->tableColumnExists('mail', strtolower(self::$orderColumn)))
 			{
 				// @todo: Performance problem...
 				self::$orderColumn = 'send_time';
@@ -178,14 +174,14 @@ class ilMailBoxQuery
 		{
 			$query .= ' ORDER BY send_time DESC';
 		}
-		
-		$ilDB->setLimit(self::$limit, self::$offset);
-		$res = $ilDB->queryF(
+
+		$DIC->database()->setLimit(self::$limit, self::$offset);
+		$res = $DIC->database()->queryF(
 			$query,
 			array('integer', 'integer'),
 			array(self::$userId, self::$folderId)
 		);
-		while($row = $ilDB->fetchAssoc($res))
+		while($row = $DIC->database()->fetchAssoc($res))
 		{
 			$row['attachments'] = unserialize(stripslashes($row['attachments']));
 			$row['m_type'] = unserialize(stripslashes($row['m_type']));			
