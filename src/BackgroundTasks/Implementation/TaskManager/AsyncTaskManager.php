@@ -24,6 +24,7 @@ class AsyncTaskManager extends BasicTaskManager {
 		global $DIC;
 
 		$bucket->setState(State::SCHEDULED);
+		$bucket->setCurrentTask($bucket->getTask());
 		$DIC->backgroundTasks()->persistence()->saveBucketAndItsTasks($bucket);
 
 		$DIC->logger()->root()->info("[BackgroundTasks] Trying to call webserver");

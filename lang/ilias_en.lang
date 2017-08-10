@@ -13533,6 +13533,8 @@ background_tasks#:#background_tasks_running#:#Running Tasks
 background_tasks#:#scheduled#:#Scheduled
 background_tasks#:#dismiss#:#Quit
 background_tasks#:#completed#:#Completed
+background_tasks#:#waiting#:#Waiting
+background_tasks#:#proceed_job#:#Proceed
 grp#:#grp_period#:#Period of Event
 grp#:#grp_period_info#:#Information about the start and end date of the event, which is supported by the group
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.

@@ -36,7 +36,7 @@ class ilBTPopOverGUI {
 	/**
 	 * Get the content for the popover as ui element. DOES NOT DO ANY PERMISSION CHECKS.
 	 *
-	 * @param int $user_id
+	 * @param int  $user_id
 	 * @param null $redirect_uri
 	 *
 	 * @return \ILIAS\UI\Component\Component[]
@@ -68,13 +68,16 @@ class ilBTPopOverGUI {
 			} else {
 				$bucket->setVariable("INTERACTIONS", $r->render([
 					$this->getProgressbar($observer),
-					$this->getUserInteractionContent($observer, $redirect_uri)
+					$this->getUserInteractionContent($observer, $redirect_uri),
 				]));
 			}
 			$bucket->setCurrentBlock("bucket");
 			$bucket_title = $observer->getTitle() . ($observer->getState()
-			== State::SCHEDULED ? " ({$this->lng->txt("scheduled")})" : "");
+			                                         == State::SCHEDULED ? " ({$this->lng->txt("scheduled")})" : "");
 			$bucket->setVariable("BUCKET_TITLE", $bucket_title);
+			if ($observer->getDescription()) {
+				$bucket->setVariable("BUCKET_DESCRIPTION", $observer->getDescription());
+			}
 			$bucket->parseCurrentBlock();
 		}
 		$po_content->setVariable("CONTENT", $bucket->get());
@@ -118,7 +121,8 @@ class ilBTPopOverGUI {
 			$this->ctrl->setParameterByClass(ilBTControllerGUI::class, "observer_id", $persistence->getBucketContainerId($observer));
 			$this->ctrl->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($redirect_uri));
 
-			return $renderer->render($factory->button()->standard($language->txt($option->getLangVar()), $this->ctrl->getLinkTargetByClass([ ilBTControllerGUI::class ], "userInteraction")));
+			return $renderer->render($factory->button()
+			                                 ->standard($language->txt($option->getLangVar()), $this->ctrl->getLinkTargetByClass([ ilBTControllerGUI::class ], "userInteraction")));
 		}, $options);
 
 		$options = implode(" ", $buttons);
@@ -135,14 +139,24 @@ class ilBTPopOverGUI {
 	protected function getProgressbar(Bucket $observer) {
 		global $DIC;
 		$percentage = $observer->getOverallPercentage();
-		if ($observer->getState() == State::USER_INTERACTION || $percentage === 100) {
-			$content = $this->lng->txt("completed");
-		}else {
-			$content = "{$percentage}%";
+
+		switch (true) {
+			case ((int)$percentage === 100):
+				$running = "";
+				$content = $this->lng->txt("completed");
+				break;
+			case ((int)$observer->getState() === State::USER_INTERACTION):
+				$running = "";
+				$content = $this->lng->txt("waiting");
+				break;
+			default:
+				$running = "active";
+				$content = "{$percentage}%";
+				break;
 		}
 
 		return $DIC->ui()->factory()->legacy(" <div class='progress'>
-                    <div class='progress-bar progress-bar-striped' role='progressbar' aria-valuenow='{$percentage}'
+                    <div class='progress-bar progress-bar-striped {$running}' role='progressbar' aria-valuenow='{$percentage}'
                         aria-valuemin='0' aria-valuemax='100' style='width:{$percentage}%'>
                         {$content}
                     </div>

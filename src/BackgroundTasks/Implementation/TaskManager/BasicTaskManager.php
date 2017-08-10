@@ -107,6 +107,7 @@ class BasicTaskManager implements TaskManager {
 	 */
 	public function run(Bucket $bucket) {
 		$task = $bucket->getTask();
+		$bucket->setCurrentTask($task);
 		$observer = new NonPersistingObserver($bucket);
 
 		try {
@@ -130,9 +131,7 @@ class BasicTaskManager implements TaskManager {
 	public function continueTask(Bucket $bucket, Option $option) {
 		// We do the user interaction
 		$bucket->userInteraction($option);
-		if ($bucket->getState()
-		    != State::FINISHED
-		) // The job is not done after the user interaction, so we continue to run it.
+		if ($bucket->getState() != State::FINISHED) // The job is not done after the user interaction, so we continue to run it.
 		{
 			$this->run($bucket);
 		} else {

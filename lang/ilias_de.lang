@@ -15980,6 +15980,8 @@ background_tasks#:#background_tasks_running#:#Laufende Aufgaben
 background_tasks#:#scheduled#:#Geplant
 background_tasks#:#dismiss#:#Beenden
 background_tasks#:#completed#:#Abgeschlossen
+background_tasks#:#waiting#:#Warten
+background_tasks#:#proceed_job#:#Weiter
 grp#:#grp_period#:#Veranstaltungszeitraum
 grp#:#grp_period_info#:#Information zum Start und Ende der Veranstaltung, die mit der Gruppe unterstützt werden soll.
 exc#:#exc_settings_feedback_mail_info#:#Tutoren geben ihre Rückmeldungen zur Abgabe in ein Mail-Formular ein. Die Mail wird dem entsprechenden Teilnehmer gesendet.
