@@ -23,7 +23,8 @@ forum#:#autosave_post_draft_info#:#<span class="asterisk">Dieser Beitrag wird al
 forum#:#edit_thread_draft#:#Themenentwurf bearbeiten
 common#:#pd_enable_pdfrmpostdraft#:#'Meine Beitragsentwürfe' aktivieren
 common#:#pd_enable_pdfrmpostdraft_info#:#Sofern aktiviert, wird auf dem Persönlichen Schreibtisch ein Block 'Meine Beitragsentwürfe' angezeigt, in welchem die Beitragsentwürfe des Benutzers in Foren aufgelistet werden.
-pd#:#block_show_pdfrmpostdraft#:#'Meine Beitragsentwürfe' anzeigen###deprecated 
+pd#:#block_show_pdfrmpostdraft#:#'Meine Beitragsentwürfe' anzeigen
+forum#:#forums_thread_drafts_deleted#:#Das gewählte Thema einschließlich aller dazugehörigen Beiträge und evtl. Beitragsentwürfe wurde gelöscht.
 forum#:#forums_threads_drafts_deleted#:#Die gewählten Themen einschließlich aller dazugehörigen Beiträge und evtl. Beitragsentwürfe wurden gelöscht.
 forum#:#save_draft_successfully#:#Der Entwurf wurde erfolgreich gespeichert. 
 forum#:#forums_info_delete_draft#:#Sind Sie sicher, dass Sie diesen Entwurf löschen möchten?
