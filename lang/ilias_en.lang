@@ -23,6 +23,7 @@ forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be save
 forum#:#edit_thread_draft#:#Edit thread draft
 common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'
 common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.
+forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.
 forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.
 forum#:#save_draft_successfully#:#The draft was saved successfully.
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?
