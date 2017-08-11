@@ -639,6 +639,31 @@ class ilCalendarPresentationGUI
 			$tpl->setTitleIcon(ilUtil::getImagePath("icon_cal.svg"));
 			$tpl->setTitle($header);
 
+			$this->action_menu = new ilAdvancedSelectionListGUI();
+			$this->action_menu->setAsynch(false);
+			$this->action_menu->setAsynchUrl('');
+			$this->action_menu->setListTitle($lng->txt('actions'));
+			$this->action_menu->setId('act_cal');
+			$this->action_menu->setSelectionHeaderClass('small');
+			$this->action_menu->setItemLinkClass('xsmall');
+			$this->action_menu->setLinksMode('il_ContainerItemCommand2');
+			$this->action_menu->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
+			$this->action_menu->setUseImages(false);
+
+			// iCal-Url
+			$ctrl->setParameterByClass("ilcalendarsubscriptiongui", "category_id", $this->category_id);
+			$this->action_menu->addItem($lng->txt("cal_ical_url"), "", $ctrl->getLinkTargetByClass("ilcalendarsubscriptiongui", ""));
+
+			// delete action
+			if ($this->actions->checkDeleteCal($this->category_id))
+			{
+				$ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $this->category_id);
+				$ctrl->setParameterByClass("ilcalendarcategorygui", "backv", "1");
+				$this->action_menu->addItem($lng->txt("cal_delete_cal"), "", $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "confirmDelete"));
+			}
+
+			$tpl->setHeaderActionMenu($this->action_menu->getHTML());
+
 
 			$tabs->clearTargets();
 			$ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", "");
