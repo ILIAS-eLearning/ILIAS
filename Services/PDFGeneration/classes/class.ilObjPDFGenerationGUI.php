@@ -5,7 +5,6 @@ require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
 require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 require_once 'Services/Object/classes/class.ilObject2GUI.php';
 require_once 'Services/PDFGeneration/classes/factory/class.ilHtmlToPdfTransformerFactory.php';
-require_once 'Services/PDFGeneration/classes/factory/class.ilHtmlToPdfTransformerGUIFactory.php';
 require_once 'Services/PDFGeneration/classes/class.ilPDFGeneratorUtils.php';
 require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 
@@ -21,11 +20,6 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 	 * @var ilHtmlToPdfTransformerFactory
 	 */
 	protected $transformer_factory;
-
-	/**
-	 * @var ilHtmlToPdfTransformerGUIFactory
-	 */
-	protected $transformer_gui_factory;
 
 	protected $active_tab;
 
@@ -54,7 +48,6 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 		$this->lng->loadLanguageModule('pdfgen');
 		$this->transformer_factory		= new ilHtmlToPdfTransformerFactory();
-		$this->transformer_gui_factory	= new ilHtmlToPdfTransformerGUIFactory();
 		$this->pdf_transformer_settings	= new ilSetting('pdf_transformer');
 		$this->toolbar 					= $DIC['ilToolbar'];
 		$this->ctrl 					= $DIC['ilCtrl'];
@@ -248,13 +241,13 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 		$purpose 	= $_POST['purpose'];
 
 		/** @var ilRendererConfig $renderer */
-		$renderer = ilPDFGeneratorUtils::getRendererInstance($renderer);
-		$renderer->addConfigElementsToForm($form, $service, $purpose);
+		$renderer_obj = ilPDFGeneratorUtils::getRendererInstance($renderer);
+		$renderer_obj->addConfigElementsToForm($form, $service, $purpose);
 
 		$form->setValuesByPost();
-		if($renderer->validateConfigInForm($form,$service,$purpose))
+		if($renderer_obj->validateConfigInForm($form,$service,$purpose))
 		{
-			$config = $renderer->getConfigFromForm($form,$service,$purpose);
+			$config = $renderer_obj->getConfigFromForm($form,$service,$purpose);
 			ilPDFGeneratorUtils::saveRendererPurposeConfig($service, $purpose, $renderer, $config);
 			ilUtil::sendSuccess('saved', true);
 			$this->ctrl->redirect($this, "view");
@@ -276,8 +269,6 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 		{
 			$this->tabs->addTarget('settings', $this->ctrl->getLinkTarget($this, 'view'), array(), __CLASS__);
 		}
-
-		$this->transformer_gui_factory->addTabs($this->tabs);
 
 		if($this->checkPermissionBool('edit_permission'))
 		{

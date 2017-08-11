@@ -49,8 +49,9 @@ class ilHtmlToPdfTransformerFactory
 	 * @param $output
 	 * @param $delivery_type
 	 */
-	public function deliverPDFFromHTMLString($src, $output, $delivery_type)
+	public function deliverPDFFromHTMLString($src, $output, $delivery_type, $service, $purpose)
 	{
+		$map = ilPDFGeneratorUtils::getRendererMapForPurpose($service, $purpose);
 		$class_name = $this->pdf_transformer_settings->get('selected_transformer');
 		$this->transformer = new $class_name;
 		if($this->transformer->isActive())

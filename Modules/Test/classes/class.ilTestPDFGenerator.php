@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once './Services/PDFGeneration/classes/factory/class.ilHtmlToPdfTransformerFactory.php';
+require_once './Services/PDFGeneration/classes/class.ilPDFGeneratorUtils.php';
+
 /**
  * Class ilTestPDFGenerator
  * 
@@ -16,6 +19,8 @@ class ilTestPDFGenerator
 	const PDF_OUTPUT_INLINE = 'I';
 	const PDF_OUTPUT_FILE = 'F';
 
+	const service = "Test";
+
 	private static function buildHtmlDocument($contentHtml, $styleHtml)
 	{
 		return "
@@ -28,7 +33,7 @@ class ilTestPDFGenerator
 			</html>
 		";
 	}
-	
+
 	/**
 	 * @param $html
 	 * @return string
@@ -100,28 +105,17 @@ class ilTestPDFGenerator
 	public static function generatePDF($pdf_output, $output_mode, $filename=null)
 	{
 		$pdf_output = self::preprocessHTML($pdf_output);
-		
+
 		if (substr($filename, strlen($filename) - 4, 4) != '.pdf')
 		{
 			$filename .= '.pdf';
 		}
-		
-		require_once './Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-		
-		$job = new ilPDFGenerationJob();
-		$job->setAutoPageBreak(true)
-			->setCreator('ILIAS Test')
-			->setFilename($filename)
-			->setMarginLeft('20')
-			->setMarginRight('20')
-			->setMarginTop('20')
-			->setMarginBottom('20')
-			->setOutputMode($output_mode)
-			->addPage($pdf_output);
-		
-		ilPDFGeneration::doJob($job);
+		$purpose = "UserResult";
+		$pdf_factory = new ilHtmlToPdfTransformerFactory();
+		$pdf_factory->deliverPDFFromHTMLString($pdf_output, $filename, $output_mode, self::service, $purpose);
+
 	}
-	
+
 	public static function preprocessHTML($html)
 	{
 		$pdf_css_path = self::getTemplatePath('test_pdf.css');

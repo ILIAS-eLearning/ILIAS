@@ -118,7 +118,7 @@ class ilPDFGeneratorUtils
 		else
 		{
 			$row = $ilDB->fetchAssoc($result);
-			return unserialize($row);
+			return unserialize($row['config']);
 		}
 	}
 
@@ -180,4 +180,21 @@ class ilPDFGeneratorUtils
 		);
 	}
 
+	public static function getRendererMapForPurpose($service, $purpose)
+	{
+		global $DIC;
+		/** @var ilDB $ilDB */
+		$ilDB = $DIC['ilDB'];
+
+		$result = $ilDB->query('SELECT preferred, selected FROM pdfgen_map WHERE
+		service = ' . $ilDB->quote($service, 'text') . ' AND purpose=' . $ilDB->quote($purpose, 'text'));
+
+		if($ilDB->numRows($result) == 0)
+		{
+			throw new Exception('No such map - given: ' . $service . ' / ' . $purpose);
+		}
+		$row = $ilDB->fetchAssoc($result);
+
+		return $row;
+	}
 }
