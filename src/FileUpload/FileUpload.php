@@ -44,6 +44,19 @@ interface FileUpload {
 
 
 	/**
+	 * Moves a single UploadResult to the given destination.
+	 *
+	 * @param UploadResult $UploadResult    Which upload result do you want to move?
+	 * @param string       $destination     Where do you want to move the file?
+	 * @param int          $location        Location::[STORAGE|WEB|CUSTOMIZING]
+	 * @param string       $file_name       Do you want to rename the file?
+	 *
+	 * @return void
+	 */
+	public function moveOneFileTo(UploadResult $UploadResult, $destination, $location = Location::STORAGE, $file_name = '');
+
+
+	/**
 	 * Returns the current upload size limit in bytes.
 	 *
 	 * @return int
@@ -100,4 +113,13 @@ interface FileUpload {
 	 * @since 5.3
 	 */
 	public function hasUploads();
+
+	/**
+	 * Return (bool)true if the current upload has already been processed
+	 *
+	 * @return bool
+	 *
+	 * @since 5.3
+	 */
+	public function hasBeenProcessed();
 }
