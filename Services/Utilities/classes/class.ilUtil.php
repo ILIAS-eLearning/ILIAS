@@ -4132,35 +4132,22 @@ class ilUtil
 	 *
 	 * @see \ILIAS\DI\Container::upload()
 	 */
+
+	protected static $uploadedFiles = array();
+
 	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded")
 	{
 		global $DIC;
 
+		// Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup/....)
+		list($targetFilesystem, $targetDir) = self::sanitateTargetPath($a_target);
+
 		$upload = $DIC->upload();
 
-		$preProcessor = new \ILIAS\FileUpload\Processor\FilenameOverridePreProcessor($a_name ? $a_name : basename($a_target));
-		$upload->register($preProcessor);
-
-		switch(true) {
-			case strpos($a_target, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
-			case strpos($a_target, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
-			case strpos($a_target, CLIENT_WEB_DIR) === 0:
-				$targetFilesystem =  \ILIAS\FileUpload\Location::WEB;
-				break;
-			case strpos($a_target, CLIENT_DATA_DIR) === 0:
-				$targetFilesystem =  \ILIAS\FileUpload\Location::STORAGE;
-				break;
-			case strpos($a_target, ILIAS_ABSOLUTE_PATH . '/Customizing') === 0:
-				$targetFilesystem =  \ILIAS\FileUpload\Location::CUSTOMIZING;
-				break;
-			default:
-				throw new InvalidArgumentException("Can not move files to \"$a_target\" because path can not be mapped to web, storage or customizing location.");
+		// If the upload has not yet been processed make sure he gets processed now.
+		if(!$upload->hasBeenProcessed()) {
+			$upload->process();
 		}
-
-		$absTargetDir = dirname($a_target);
-		$targetDir = LegacyPathHelper::createRelativePath($absTargetDir);
-
-		$upload->process();
 
 		try {
 			if (!$upload->hasUploads()) {
@@ -4169,7 +4156,7 @@ class ilUtil
 			/**
 			 * @var \ILIAS\FileUpload\DTO\UploadResult $UploadResult
 			 */
-			$UploadResult = $upload->getResults()[0];
+			$UploadResult = $upload->getResults()[$a_file];
 			$ProcessingStatus = $UploadResult->getStatus();
 			if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
 				throw new ilException($ProcessingStatus->getMessage());
@@ -4184,7 +4171,7 @@ class ilUtil
 			return false;
 		}
 
-		$upload->moveFilesTo($targetDir, $targetFilesystem);
+		$upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $a_name);
 
 		return true;
 	}
@@ -4425,6 +4412,36 @@ class ilUtil
 		}
 		return $ref_ids ? $ref_ids : array();
 	}
+
+
+	/**
+	 * @param $a_target
+	 *
+	 * @return array
+	 */
+	protected static function sanitateTargetPath($a_target): array {
+		switch (true) {
+			case strpos($a_target, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
+			case strpos($a_target, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
+			case strpos($a_target, CLIENT_WEB_DIR) === 0:
+				$targetFilesystem = \ILIAS\FileUpload\Location::WEB;
+				break;
+			case strpos($a_target, CLIENT_DATA_DIR) === 0:
+				$targetFilesystem = \ILIAS\FileUpload\Location::STORAGE;
+				break;
+			case strpos($a_target, ILIAS_ABSOLUTE_PATH . '/Customizing') === 0:
+				$targetFilesystem = \ILIAS\FileUpload\Location::CUSTOMIZING;
+				break;
+			default:
+				throw new InvalidArgumentException("Can not move files to \"$a_target\" because path can not be mapped to web, storage or customizing location.");
+		}
+
+		$absTargetDir = dirname($a_target);
+		$targetDir = LegacyPathHelper::createRelativePath($absTargetDir);
+
+		return array( $targetFilesystem, $targetDir );
+	}
+
 
 	/**
 	 * Include Mathjax

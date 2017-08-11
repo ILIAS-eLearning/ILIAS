@@ -51,7 +51,11 @@ final class FileUploadImpl implements FileUpload {
 	 */
 	private $uploadResult;
 	/**
-	 * @var FileStream[] $uploadStreams
+	 * @var UploadResult[] $uploadResult
+	 */
+	private $rejectedUploadResult;
+	/**
+	 * @var FileStream[] $uploadStreams The uploaded streams have their temp urls (->getMetadata('uri') as an identifier.
 	 */
 	private $uploadStreams;
 
@@ -72,6 +76,31 @@ final class FileUploadImpl implements FileUpload {
 		$this->processed = false;
 		$this->moved = false;
 		$this->uploadResult = [];
+		$this->rejectedUploadResult = [];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function moveOneFileTo(UploadResult $uploadResult, $destination, $location = Location::STORAGE, $file_name = '') {
+		if($this->processed === false) {
+			throw new \RuntimeException('Can not move unprocessed files.');
+		}
+		$filesystem = $this->selectFilesystem($location);
+		$tempResults = [];
+
+		if ($uploadResult->getStatus()->getCode() == ProcessingStatus::REJECTED) {
+			return false;
+		}
+
+		try {
+			$path = $destination . '/' . ($file_name == '' ? $uploadResult->getName() : $file_name);
+			$filesystem->writeStream($path, Streams::ofPsr7Stream($this->uploadStreams[$uploadResult->getPath()]));
+			$tempResults[] = $this->regenerateUploadResultWithPath($uploadResult, $path);
+		}
+		catch (IOException $ex) {
+			$this->regenerateUploadResultWithCopyError($uploadResult, $ex->getMessage());
+		}
 	}
 
 
@@ -204,18 +233,23 @@ final class FileUploadImpl implements FileUpload {
 			throw new IllegalStateException('Can not reprocess the uploaded files.');
 
 		/**
-		 * @var UploadedFileInterface[] $uploadedFiles
+		 * @var UploadedFileInterface[] $collectFilesFromNestedFields
 		 */
 		$uploadedFiles = $this->globalHttpState->request()->getUploadedFiles();
-		foreach ($uploadedFiles as $file) {
+		$collectFilesFromNestedFields = $this->flattenUploadedFiles($uploadedFiles);
+		foreach ($collectFilesFromNestedFields as $file) {
 			$metadata = new Metadata($file->getClientFilename(), $file->getSize(), $file->getClientMediaType());
 			try {
 				$stream = Streams::ofPsr7Stream($file->getStream());
 			} catch (\RuntimeException $e) {
-				$this->rejectFailedUpload($metadata);
+				$this->rejectFailedUpload($file, $metadata);
 				continue;
 			}
-			$this->uploadStreams[] = $stream;
+
+			// we take the temporary file name as an identifier as it is the only unique attribute.
+			$identifier = $file->getStream()->getMetadata('uri');
+
+			$this->uploadStreams[$identifier] = $stream;
 
 			if($file->getError() === UPLOAD_ERR_OK) {
 				$processingResult = $this->processorManager->process($stream, $metadata);
@@ -225,13 +259,13 @@ final class FileUploadImpl implements FileUpload {
 					$metadata->getMimeType(),
 					new ImmutableMapWrapper($metadata->additionalMetaData()),
 					$processingResult,
-					''
+					is_string($identifier)?$identifier:''
 				);
-				$this->uploadResult[] = $result;
+				$this->uploadResult[$identifier] = $result;
 			}
 			else
 			{
-				$this->rejectFailedUpload($metadata);
+				$this->rejectFailedUpload($file, $metadata);
 			}
 		}
 
@@ -242,10 +276,12 @@ final class FileUploadImpl implements FileUpload {
 	/**
 	 * Reject a failed upload with the given metadata.
 	 *
-	 * @param Metadata $metadata    The metadata used to create the rejected result.
+	 * @param UploadedFileInterface $file
+	 * @param Metadata              $metadata The metadata used to create the rejected result.
+	 *
 	 * @return void
 	 */
-	private function rejectFailedUpload(Metadata $metadata) {
+	private function rejectFailedUpload(UploadedFileInterface $file, Metadata $metadata) {
 		//reject failed upload
 		$processingStatus = new ProcessingStatus(ProcessingStatus::REJECTED, 'Upload failed');
 		$extraMetadata = new ImmutableMapWrapper(new EntryLockingStringMap());
@@ -258,7 +294,7 @@ final class FileUploadImpl implements FileUpload {
 			''
 		);
 
-		$this->uploadResult[] = $result;
+		$this->rejectedUploadResult[] = $result;
 	}
 
 
@@ -267,7 +303,7 @@ final class FileUploadImpl implements FileUpload {
 	 */
 	public function getResults() {
 		if($this->processed)
-			return $this->uploadResult;
+			return array_merge($this->uploadResult, $this->rejectedUploadResult);
 
 		throw new IllegalStateException('Can not fetch results without processing the uploads.');
 	}
@@ -284,10 +320,38 @@ final class FileUploadImpl implements FileUpload {
 		/**
 		 * @var $uploadedFile UploadedFileInterface
 		 */
-		foreach ($this->globalHttpState->request()->getUploadedFiles() as $uploadedFile) {
+		$collectFilesFromNestedFields = $this->flattenUploadedFiles($this->globalHttpState->request()->getUploadedFiles());
+		foreach ($collectFilesFromNestedFields as $uploadedFile) {
 			$size += $uploadedFile->getSize();
 		}
 
 		return ($size > 0);
+	}
+
+
+	/**
+	 * @param $uploadedFiles
+	 *
+	 * @return array
+	 */
+	protected function flattenUploadedFiles($uploadedFiles) {
+		$collectFilesFromNestedFields = array();
+		foreach ($uploadedFiles as $file) {
+			if (is_array($file)) {
+				$collectFilesFromNestedFields = array_merge($collectFilesFromNestedFields, $file);
+			} else {
+				array_push($collectFilesFromNestedFields, $file);
+			}
+		}
+
+		return $collectFilesFromNestedFields;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasBeenProcessed() {
+		return $this->processed;
 	}
 }
