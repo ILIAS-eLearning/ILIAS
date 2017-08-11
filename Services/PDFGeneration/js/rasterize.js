@@ -1,13 +1,13 @@
 var ilPhantomJsWrapper =  (function () {
 	'use strict';
 
-	var pub = {}, 
+	var pub = {},
 		pro = {
-		phantom_page	: {},
-		status			: '',
-		out_file		: '',
-		delay			: 500
-	};
+			phantom_page	: {},
+			status			: '',
+			out_file		: '',
+			delay			: 500
+		};
 
 	pub.exitPhantom = function(exit_code)
 	{
@@ -32,13 +32,13 @@ var ilPhantomJsWrapper =  (function () {
 	pub.configureViewport = function(viewport)
 	{
 		pro.phantom_page.viewportSize =
-		{
-			width:  viewport[0],
-			height: viewport[1]
-		};
+			{
+				width:  viewport[0],
+				height: viewport[1]
+			};
 		pro.phantom_page.clipRect = {top: 0, left: 0, width: viewport[0], height: viewport[1]};
 	};
-	
+
 	pub.renderPageObject = function(src_file, out_file, delay)
 	{
 		pro.out_file	= out_file;
@@ -59,7 +59,7 @@ var ilPhantomJsWrapper =  (function () {
 				}, pro.delay);
 			}
 		});
-		
+
 	};
 	pub.protect = pro;
 	return pub;
@@ -172,8 +172,8 @@ var ilPhantomJsHelper =  (function () {
 					footer:      pro.appendFooterCallback()
 				};
 			}
-		ilPhantomJsWrapper.configurePageObject(page_object);
-		return page_object;
+			ilPhantomJsWrapper.configurePageObject(page_object);
+			return page_object;
 		}
 	};
 

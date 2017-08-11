@@ -64,16 +64,16 @@ class ilHtmlToPdfTransformerFactory
 
 		/** @var ilPhantomJSRenderer $renderer */
 		$renderer->generatePDF($service, $purpose, $config, $job);
+		$this->deliverPDF($output, $delivery_type);
 
-
-		$class_name = $this->pdf_transformer_settings->get('selected_transformer');
+	/*	$class_name = $this->pdf_transformer_settings->get('selected_transformer');
 		$this->transformer = new $class_name;
 		if($this->transformer->isActive())
 		{
 			$this->transformer->createPDFFileFromHTMLString($src, $output);
-			$this->deliverPDF($output, $delivery_type);
+
 		}
-	}
+*/	}
 
 
 	/**

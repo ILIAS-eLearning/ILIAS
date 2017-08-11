@@ -221,9 +221,12 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 			{
 				ilPDFGeneratorUtils::removePrintMediaDefinitionsFromStyleFile(dirname($a_path_to_file) . '/style/');
 			}
+			$config['viewport'] = null;
+			$config['header'] = null;
+			$config['footer'] = null;
 			$temp_file = $this->getPdfTempName();
-			$args = ' ' . $a_path_to_file .' ' . $temp_file . ' ' . json_encode($config) .'';
-			$return_value = ilUtil::execQuoted( $config['path'] . ' ' . $this->path_to_rasterize. ' ', $args);
+			$args = ' ' . $a_path_to_file .' ' . $temp_file . ' ' . "'" . json_encode($config) . "'".'';
+			$return_value = ilUtil::execQuoted( $config['path'] . ' ' .  $this->path_to_rasterize  . ' ', $args);
 
 			$ilLog->write('ilPhantomJsHtmlToPdfTransformer command line config: ' . $args);
 			foreach($return_value as $key => $value)
@@ -234,7 +237,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 			if(file_exists($temp_file))
 			{
 				$ilLog->write('ilWebkitHtmlToPdfTransformer file exists: ' . $temp_file . ' file size is :' . filesize($temp_file) . ' bytes, will be renamed to '. $a_target);
-				rename($temp_file, $a_target);
+				rename($temp_file, $job->getFilename());
 			}
 			else
 			{
