@@ -51,7 +51,7 @@ class ilIndividualAssessmentMemberGUI {
 			case 'saveAmend':
 				break;
 			default:
-				$a_parent_gui->handleAccessViolation();
+				$this->parent_gui->handleAccessViolation();
 		}
 		$this->$cmd();
 	}

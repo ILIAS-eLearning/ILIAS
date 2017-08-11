@@ -34,7 +34,8 @@ class ilIndividualAssessmentMembersGUI {
 	public function executeCommand() {
 		if(!$this->iass_access->mayEditMembers()
 			&& !$this->iass_access->mayGradeUser()
-			&& !$this->iass_access->mayViewUser() ) {
+			&& !$this->iass_access->mayViewUser()
+		) {
 			$this->parent_gui->handleAccessViolation();
 		}
 		$cmd = $this->ctrl->getCmd();
@@ -119,7 +120,7 @@ class ilIndividualAssessmentMembersGUI {
 	public function addUsers(array $user_ids) {
 
 		if(!$this->iass_access->mayEditMembers()) {
-			$a_parent_gui->handleAccessViolation();
+			$this->parent_gui->handleAccessViolation();
 		}
 		$iass = $this->object;
 		$members = $iass->loadMembers();
@@ -143,7 +144,7 @@ class ilIndividualAssessmentMembersGUI {
 
 	protected function removeUserConfirmation() {
 		if(!$this->iass_access->mayEditMembers()) {
-			$a_parent_gui->handleAccessViolation();
+			$this->parent_gui->handleAccessViolation();
 		}
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
@@ -162,7 +163,7 @@ class ilIndividualAssessmentMembersGUI {
 	 */
 	public function removeUser() {
 		if(!$this->iass_access->mayEditMembers()) {
-			$a_parent_gui->handleAccessViolation();
+			$this->parent_gui->handleAccessViolation();
 		}
 		$usr_id = $_POST['usr_id'];
 		$iass = $this->object;
