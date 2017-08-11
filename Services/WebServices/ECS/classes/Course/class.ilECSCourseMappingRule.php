@@ -154,40 +154,22 @@ class ilECSCourseMappingRule
 		
 		$does_match = false;
 		$sortable_index = '';
-		$last_rule_id = 0;
-		$last_level = 0;
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			$last_level++;
-			$last_rule_id = $row->rid;
 			$rule = new ilECSCourseMappingRule($row->rid);
 			$matches = $rule->matches($course);
 			if($matches == -1)
 			{
 				return '0';
 			}
-			elseif(
-				$matches > 0 &&
-				!$sortable_index
-			)
-			{
-				$does_match = true;
-				$sortable_index = (string) $last_level.'_'.$matches;
-			}
-			else
-			{
-				$does_match = true;
-			}
+			$does_match = true;
+			$sortable_index .= str_pad($matches, 4, '0' ,STR_PAD_LEFT);
 		}
 		if($does_match)
 		{
-			if($sortable_index)
-			{
-				return (string) $sortable_index.'_'.$last_rule_id;
-			}
-			return (string) $last_level.'_'.$last_rule_id;
+			return $sortable_index;
 		}
-		return '0';
+		return "0";
 	}
 	
 	/**

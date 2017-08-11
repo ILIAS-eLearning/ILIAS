@@ -513,12 +513,13 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				case 1:
 					$row_title = ilUtil::prepareFormOutput($rowobj->title);
 					break;
-
-				case 2:
+				#19448 matrix rows always contains the titles.(never only labels because they are optional)
+				/*case 2:
 					$row_title = ilUtil::prepareFormOutput($rowobj->label);
 					break;
 
-				case 3:
+				case 3:*/
+				default:
 					$row_title = ilUtil::prepareFormOutput($rowobj->title);
 					if(trim($rowobj->label))
 					{
