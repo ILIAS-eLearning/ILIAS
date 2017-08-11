@@ -16001,3 +16001,4 @@ common#:#second_email_not_valid#:#Die eingegebene zweite E-Mail-Adresse ist nich
 common#:#second_email#:#Zweite E-Mail
 rbac#:#amend_grading#:#Dokumentation nach Finalisierung ändern
 rbac#:#iass_amend_grading#:#Benutzer darf die Prüfungsdaten nach Finalisierung ändern.
+iass#:#iass_usr_amend#:#Dokumentation nach Finalisierung ändern

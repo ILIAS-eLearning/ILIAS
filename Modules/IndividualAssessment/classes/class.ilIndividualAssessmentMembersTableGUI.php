@@ -163,7 +163,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 
 		if($finalized && $this->userMayAmendGrades()) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'amend');
-			$l->addItem($this->lng->txt('mass_usr_amend'), 'amend', $target);
+			$l->addItem($this->lng->txt('iass_usr_amend'), 'amend', $target);
 		}
 		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', null);
 		return $l->getHTML();
