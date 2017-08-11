@@ -19,7 +19,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		global $DIC;
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->lng = $DIC['lng'];
-		$this->viewer_id = $DIC['ilUser']->getId();
+		$this->viewer_id = (int)$DIC['ilUser']->getId();
 
 		$this->setEnableTitle(true);
 		$this->setTopCommands(true);
@@ -141,10 +141,10 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		$l->setListTitle($this->lng->txt("actions"));
 
 		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', $a_set['usr_id']);
-		$edited_by_viewer = $this->setWasEditedByViewer((int)$set[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID]);
-		$finalized = $a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED];
+		$edited_by_viewer = $this->setWasEditedByViewer((int)$a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID]);
+		$finalized = (bool)$a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED];
 
-		if (($finalized && $this->userMayEditGrades() && $edited_by_viewer) || $this->userMayViewGrades()) {
+		if ($finalized && (($this->userMayEditGrades() && $edited_by_viewer) || $this->userMayViewGrades())) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','view');
 			$l->addItem($this->lng->txt('iass_usr_view'), 'view', $target);
 		}
@@ -177,7 +177,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 	 * @return bool
 	 */
 	protected function setWasEditedByViewer($examiner_id) {
-		return 0 !== $examiner_id && $examiner_id === $this->viewer_id;
+		return $examiner_id === $this->viewer_id || 0 === $examiner_id;
 	}
 
 	/**
