@@ -6,100 +6,13 @@ require_once './Services/PDFGeneration/interfaces/interface.ilPDFRenderer.php';
 
 class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 {
-	/**
-	 * @var string
-	 */
-	protected $path;
-
-	/**
-	 * @var string
-	 */
-	protected $page_size;
-
-	/**
-	 * @var float
-	 */
-	protected $zoom;
-
-	/**
-	 * @var int
-	 */
-	protected $is_active;
-
-	/**
-	 * @var string
-	 */
-	protected $orientation;
-
-	/**
-	 * @var string
-	 */
-	protected $margin;
-
-	/**
-	 * @var int
-	 */
-	protected $javascript_delay;
-
-	/**
-	 * @var int
-	 */
-	protected $print_media_type;
-
-	/**
-	 * @var int
-	 */
-	protected $header_type;
-
-	/**
-	 * @var int
-	 */
-	protected $footer_type;
-
-	/**
-	 * @var string
-	 */
-	protected $header_text;
-
-	/**
-	 * @var string
-	 */
-	protected $header_height;
-
-	/**
-	 * @var bool
-	 */
-	protected $header_show_pages;
-
-	/**
-	 * @var string
-	 */
-	protected $footer_text;
-
-	/**
-	 * @var string
-	 */
-	protected $footer_height;
-
-	/**
-	 * @var bool
-	 */
-	protected $footer_show_pages;
-
 	/** @var ilLanguage $lng */
 	protected $lng;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $path_to_rasterize = './Services/PDFGeneration/js/rasterize.js';
+	//protected $path_to_rasterize = 'Services\PDFGeneration\js\rasterize.js';
 
-
-	/**
-	 * from ilPlugin
-	 *
-	 * ilDummyRendererPlugin constructor.
-	 */
 	public function __construct()
 	{
 		global $DIC;
@@ -107,8 +20,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	}
 
 	/**
-	 * from ilPlugin
-	 *
 	 * @return string
 	 */
 	public function getPluginName()
@@ -247,7 +158,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		return $config;
 	}
 
-
 	/**
 	 * from ilRendererConfig
 	 *
@@ -291,38 +201,29 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	 */
 	public function generatePDF($service, $purpose, $config, $job)
 	{
-		return "Works.";
-	}
-
-	/**
-	 * @param string $a_string
-	 * @param string $a_target
-	 */
-	public function createPDFFileFromHTMLString($a_string, $a_target)
-	{
 		$html_file	= $this->getHtmlTempName();
-		file_put_contents($html_file, $a_string);
-		$this->createPDFFileFromHTMLFile($html_file, $a_target);
+		file_put_contents($html_file, implode('',$job->getPages()));
+		$this->createPDFFileFromHTMLFile($html_file, $config, $job);
 	}
 
 	/**
 	 * @param string $a_path_to_file
 	 * @param string $a_target
 	 */
-	public function createPDFFileFromHTMLFile($a_path_to_file, $a_target)
+	public function createPDFFileFromHTMLFile($a_path_to_file, $config, $job)
 	{
 		/** @var ilLog $ilLog */
 		global $ilLog;
 
 		if(file_exists($a_path_to_file))
 		{
-			if( ! $this->isPrintMediaType())
+			if( $config['print_media_type'] != 1)
 			{
 				ilPDFGeneratorUtils::removePrintMediaDefinitionsFromStyleFile(dirname($a_path_to_file) . '/style/');
 			}
 			$temp_file = $this->getPdfTempName();
-			$args = ' ' . $a_path_to_file .' ' . $temp_file . ' ' . $this->getCommandLineConfig() .'';
-			$return_value = ilUtil::execQuoted( $this->getPhantomJsPath() . ' ' . $this->path_to_rasterize. ' ', $args);
+			$args = ' ' . $a_path_to_file .' ' . $temp_file . ' ' . json_encode($config) .'';
+			$return_value = ilUtil::execQuoted( $config['path'] . ' ' . $this->path_to_rasterize. ' ', $args);
 
 			$ilLog->write('ilPhantomJsHtmlToPdfTransformer command line config: ' . $args);
 			foreach($return_value as $key => $value)
@@ -374,6 +275,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		}
 		return $header_show_pages;
 	}
+
 	/**
 	 * @return ilTextInputGUI
 	 */
@@ -415,7 +317,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$pdf_phantom_set = $this->getSettingObject();
 		$pdf_phantom_set->set('is_active', $state);
 	}
-
 
 	/**
 	 * @return ilSelectInputGUI

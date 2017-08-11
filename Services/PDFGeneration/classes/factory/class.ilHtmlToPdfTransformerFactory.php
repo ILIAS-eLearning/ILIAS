@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once __DIR__ . '/../class.ilAbstractHtmlToPdfTransformer.php';
+require_once './Services/PDFGeneration/classes/class.ilPDFGenerationJob.php';
+
 /**
  * Class ilHtmlToPdfTransformerFactory
  * @author Michael Jansen <mjansen@databay.de>
@@ -33,7 +35,7 @@ class ilHtmlToPdfTransformerFactory
 	 * @param $output
 	 * @param $delivery_type
 	 */
-	public function deliverPDFFromHTMLFile($src, $output, $delivery_type)
+	public function deliverPDFFromHTMLFile($src, $output, $delivery_type, $service, $purpose)
 	{
 		$class_name = $this->pdf_transformer_settings->get('selected_transformer');
 		$this->transformer = new $class_name;
@@ -52,6 +54,18 @@ class ilHtmlToPdfTransformerFactory
 	public function deliverPDFFromHTMLString($src, $output, $delivery_type, $service, $purpose)
 	{
 		$map = ilPDFGeneratorUtils::getRendererMapForPurpose($service, $purpose);
+		$renderer = ilPDFGeneratorUtils::getRendererInstance($map['preferred']);
+		$config = ilPDFGeneratorUtils::getRendererConfig($service, $purpose, $map['preferred']);
+
+		$job = new ilPDFGenerationJob();
+		$job->setFilename($output);
+		$job->addPage($src);
+		$job->setOutputMode($delivery_type);
+
+		/** @var ilPhantomJSRenderer $renderer */
+		$renderer->generatePDF($service, $purpose, $config, $job);
+
+
 		$class_name = $this->pdf_transformer_settings->get('selected_transformer');
 		$this->transformer = new $class_name;
 		if($this->transformer->isActive())
@@ -61,42 +75,6 @@ class ilHtmlToPdfTransformerFactory
 		}
 	}
 
-	/**
-	 * @param $src
-	 * @param $output
-	 * @param $delivery_type
-	 */
-	public function deliverPDFFromFilesArray($src, $output, $delivery_type)
-	{
-		$class_name = $this->pdf_transformer_settings->get('selected_transformer');
-		$this->transformer = new $class_name;
-		if($this->transformer->isActive())
-		{
-			if(is_array($src) && $this->transformer->supportMultiSourcesFiles())
-			{
-				$this->transformer->createPDFFileFromHTMLFile($src, $output);
-			}
-			else
-			{
-				$this->transformer->createPDFFileFromHTMLFile($this->createOneFileFromArray($src), $output);
-			}
-			self::deliverPDF($output, $delivery_type);
-		}
-	}
-
-	/**
-	 * @param $output
-	 */
-	public function deliverTestingPDFFromTestingHTMLFile($output)
-	{
-		$class_name = $this->pdf_transformer_settings->get('selected_transformer');
-		$this->transformer = new $class_name;
-		if($this->transformer->isActive())
-		{
-			$this->transformer->createPDFFileFromHTMLFile($this->transformer->getPathToTestHTML(), $output);
-			self::deliverPDF($output, self::PDF_OUTPUT_DOWNLOAD);
-		}
-	}
 
 	/**
 	 * @param $file
