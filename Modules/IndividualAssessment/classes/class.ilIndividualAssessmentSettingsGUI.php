@@ -26,6 +26,7 @@ class ilIndividualAssessmentSettingsGUI {
 		$this->lng = $DIC['lng'];
 		$this->tabs_gui = $a_parent_gui->tabsGUI();
 		$this->getSubTabs($this->tabs_gui);
+		$this->iass_access = $this->object->accessHandler();
 	}
 	
 	protected function getSubTabs(ilTabsGUI $tabs) {
@@ -45,7 +46,7 @@ class ilIndividualAssessmentSettingsGUI {
 			case 'cancel':
 			case 'editInfo':
 			case 'updateInfo':
-				if(!$this->object->accessHandler()->checkAccessToObj($this->object,'write')) {
+				if(!$this->iass_access->mayEditIass()) {
 					$this->parent_gui->handleAccessViolation();
 				}
 				$this->$cmd();

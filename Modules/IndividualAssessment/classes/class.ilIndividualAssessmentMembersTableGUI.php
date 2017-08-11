@@ -5,9 +5,11 @@ require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAss
 require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 require_once 'Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 require_once 'Services/Tracking/classes/class.ilLPStatus.php';
+
 class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 	public function __construct($a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+
 		global $DIC;
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->lng = $DIC['lng'];
@@ -18,12 +20,15 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		$this->setExternalSegmentation(true);
 		$this->setRowTemplate("tpl.members_table_row.html", "Modules/IndividualAssessment");
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "view"));
-		$this->parent_obj = $a_parent_obj;
+
+		$this->iass_access = $this->parent_obj->object->accessHandler();
 		$this->may_edit = $this->userMayEditGrades();
 		$this->may_view = $this->userMayViewGrades();
 		$this->may_book = $this->userMayEditMembers();
 		$this->columns = $this->visibleColumns();
 		$this->viewer_id = $DIC['ilUser']->getId();
+
+
 		foreach ($this->columns as $lng_var => $params) {
 			$this->addColumn($this->lng->txt($lng_var), $params[0]);
 		}
@@ -127,17 +132,14 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 	}
 
 	protected function userMayEditGrades() {
-		return $this->parent_obj->object->accessHandler()
-			->checkAccessToObj($this->parent_obj->object,'edit_learning_progress');
+		return $this->iass_access->mayGradeUser();
 	}
 
 	protected function userMayViewGrades() {
-		return $this->parent_obj->object->accessHandler()
-			->checkAccessToObj($this->parent_obj->object,'read_learning_progress');
+		return $this->iass_access->mayViewUser();
 	}
 
 	protected function userMayEditMembers() {
-		return $this->parent_obj->object->accessHandler()
-			->checkAccessToObj($this->parent_obj->object,'edit_members');
+		return $this->iass_access->mayEditMembers();
 	}
 }

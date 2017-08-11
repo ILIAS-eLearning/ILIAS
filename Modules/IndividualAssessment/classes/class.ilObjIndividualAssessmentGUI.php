@@ -29,6 +29,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 	const TAB_MEMBERS = 'members';
 	const TAB_LP = 'learning_progress';
 	const TAB_EXPORT = 'export';
+
 	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true) {
 
 		global $DIC;
@@ -43,7 +44,10 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 		$this->lng->loadLanguageModule('iass');
 		$this->tpl->getStandardTemplate();
 		$this->locator = $DIC['ilLocator'];
+
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+
+		$this->iass_access = $this->object->accessHandler();
 	}
 
 	public function addLocatorItems() {
@@ -58,6 +62,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
 		$this->addToNavigationHistory();
+
 		switch($next_class) {
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive(self::TAB_PERMISSION);
@@ -81,7 +86,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 				$this->ctrl->forwardCommand($info);
 				break;
 			case 'illearningprogressgui':
-				if(!$this->object->access_handler->checkAccessToObj($this->object,'read')) {
+				if(!$this->iass_access->mayViewIass()) {
 					$this->handleAccessViolation();
 				}
 				require_once 'Services/Tracking/classes/class.ilLearningProgressGUI.php';
@@ -107,7 +112,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 			default:
 				if(!$cmd) {
 					$cmd = 'view';
-					if($this->object->access_handler->checkAccessToObj($this->object, 'edit_members')) {
+					if($this->iass_access->mayEditMembers()) {
 						$this->ctrl->setCmdClass('ilIndividualassessmentmembersgui');
 						$cmd = 'members';
 					}
@@ -184,54 +189,53 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 		return $info;
 	}
 
-protected function shouldShowContactInfo(ilIndividualAssessmentInfoSettings $info_settings) {
-	$val = $info_settings->contact();
-	if($val !== null && $val !== '') {
-		return true;
+	protected function shouldShowContactInfo(ilIndividualAssessmentInfoSettings $info_settings) {
+		$val = $info_settings->contact();
+		if($val !== null && $val !== '') {
+			return true;
+		}
+		$val = $info_settings->responsibility();
+		if($val !== null && $val !== '') {
+			return true;
+		}
+		$val = $info_settings->phone();
+		if($val !== null && $val !== '') {
+			return true;
+		}
+		$val = $info_settings->mails();
+		if($val !== null && $val !== '') {
+			return true;
+		}
+		$val = $info_settings->consultationHours();
+		if($val !== null && $val !== '') {
+			return true;
+		}
+		return false;
 	}
-	$val = $info_settings->responsibility();
-	if($val !== null && $val !== '') {
-		return true;
-	}
-	$val = $info_settings->phone();
-	if($val !== null && $val !== '') {
-		return true;
-	}
-	$val = $info_settings->mails();
-	if($val !== null && $val !== '') {
-		return true;
-	}
-	$val = $info_settings->consultationHours();
-	if($val !== null && $val !== '') {
-		return true;
-	}
-	return false;
-}
 
-public function getTabs() {
-		$access_handler = $this->object->accessHandler();
-		if($access_handler->checkAccessToObj($this->object,'read')) {
+	public function getTabs() {
+		if($this->iass_access->mayViewIass()) {
 			$this->tabs_gui->addTab( self::TAB_INFO
 									, $this->lng->txt('info_short')
 									, $this->getLinkTarget('info')
 									);
 		}
-		if($access_handler->checkAccessToObj($this->object,'write')) {
+		if($this->iass_access->mayEditIass()) {
 			$this->tabs_gui->addTab( self::TAB_SETTINGS
 									, $this->lng->txt('settings')
 									, $this->getLinkTarget('settings')
 									);
 		}
-		if($access_handler->checkAccessToObj($this->object,'edit_members')
-			|| $access_handler->checkAccessToObj($this->object,'edit_learning_progress')
-			|| $access_handler->checkAccessToObj($this->object,'read_learning_progress') ) {
+		if($this->iass_access->mayEditMembers()
+			|| $this->iass_access->mayGradeUser()
+			|| $this->iass_accessr->mayViewUser()) {
 			$this->tabs_gui->addTab( self::TAB_MEMBERS
 									, $this->lng->txt('il_iass_members')
 									, $this->getLinkTarget('members')
 									);
 		}
-		if(($access_handler->checkAccessToObj($this->object,'read_learning_progress')
-			|| $access_handler->checkAccessToObj($this->object,'edit_learning_progress')
+		if(($this->iass_access->mayViewUser()
+			|| $this->iass_access->mayGradeUser()
 			|| ($this->object->loadMembers()->userAllreadyMember($this->usr)
 			&& $this->object->isActiveLP()))
 			&& ilObjUserTracking::_enabledLearningProgress()) {
@@ -241,7 +245,7 @@ public function getTabs() {
 									);
 		}
 
-		if($access_handler->checkAccessToObj($this->object,'write'))
+		if($this->iass_access->mayEditIass())
 		{
 			$this->tabs_gui->addTarget(
 				self::TAB_EXPORT,
@@ -251,7 +255,7 @@ public function getTabs() {
 			);
 		}
 
-		if($access_handler->checkAccessToObj($this->object,'edit_permission')) {
+		if($this->iass_access->mayEditPermissionsIass()) {
 			$this->tabs_gui->addTarget(self::TAB_PERMISSION
 									, $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm')
 									, array()
@@ -312,8 +316,7 @@ public function getTabs() {
 
 	public function addToNavigationHistory() {
 		if(!$this->getCreationMode()) {
-			$access_handler = $this->object->accessHandler();
-			if($access_handler->checkAccessToObj($this->object,'read')) {
+			if($this->iass_access->mayViewIass()) {
 				$link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");
 				$this->ilNavigationHistory->addItem($_GET['ref_id'], $link, 'iass');
 			}

@@ -35,6 +35,7 @@ class ilIndividualAssessmentMemberGUI {
 			$this->setTabs($DIC['ilTabs']);
 			$this->member = $this->object->membersStorage()
 								->loadMember($this->object, $this->examinee);
+			$this->access = $this->object->accessHandler();
 	}
 
 	public function executeCommand() {
@@ -403,7 +404,7 @@ class ilIndividualAssessmentMemberGUI {
 	 */
 	protected function userCanGrade()
 	{
-		return !$this->targetWasEditedByOtherUser($this->member) && $this->object->accessHandler()->checkAccessToObj($this->object, 'edit_learning_progress');
+		return !$this->targetWasEditedByOtherUser($this->member) && $this->access->mayGradeUser();
 	}
 
 	/**
@@ -413,7 +414,7 @@ class ilIndividualAssessmentMemberGUI {
 	 */
 	protected function userCanView()
 	{
-		return $this->object->accessHandler()->checkAccessToObj($this->object, 'read_learning_progress');
+		return $this->access->mayViewUser();
 	}
 
 	/**
@@ -423,7 +424,7 @@ class ilIndividualAssessmentMemberGUI {
 	 */
 	protected function userCanAmend()
 	{
-		return $this->object->accessHandler()->checkAccessToObj($this->object, 'amend_grading');
+		return $this->access->mayAmendGradeUser();
 	}
 
 	/**
