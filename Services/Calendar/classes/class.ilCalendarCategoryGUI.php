@@ -603,16 +603,16 @@ class ilCalendarCategoryGUI
 		$_SESSION['cal_query'] = '';
 		
 		$this->ctrl->saveParameter($this,'category_id');
-		$this->initFormSearch();
-		
+
 		include_once('./Services/Calendar/classes/class.ilCalendarSharedListTableGUI.php');
 		$table = new ilCalendarSharedListTableGUI($this,'shareSearch');
 		$table->setTitle($this->lng->txt('cal_cal_shared_with'));
 		$table->setCalendarId($this->category_id);
 		$table->parse();
-		
-		$tpl->setContent($this->form->getHTML().'<br />'.$table->getHTML());
-	}                            
+
+		$this->getSearchToolbar();
+		$tpl->setContent($table->getHTML());
+	}
 	
 	/**
 	 * share perform search
@@ -654,7 +654,8 @@ class ilCalendarCategoryGUI
 			$this->shareSearch();
 			return false;
 		}
-		
+
+		$this->getSearchToolbar();
 
 		include_once 'Services/Search/classes/class.ilQueryParser.php';
 		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
@@ -917,52 +918,48 @@ class ilCalendarCategoryGUI
 		
 		$tpl->setContent($table->getHTML());
 	}
-	
+
 	/**
-	 * init form search
+	 * Get search toolbar
 	 *
-	 * @access protected
 	 * @param
-	 * @return
 	 */
-	protected function initFormSearch()
+	function getSearchToolbar()
 	{
-		global $lng;
-		
+		global $DIC;
+
+		$tb = $DIC->toolbar();
+		$lng = $DIC->language();
+
 		$lng->loadLanguageModule('search');
-		
-		if(!is_object($this->form))
-		{
-			include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
-			$this->form = new ilPropertyFormGUI();
-			$this->form->setFormAction($this->ctrl->getFormAction($this));
-			$this->form->setTitle($this->lng->txt('cal_share_search_header'));
-		}
-		
-		$type = new ilRadioGroupInputGUI($this->lng->txt('search_type'),'query_type');
-		$type->setValue($_POST['query_type'] ? $_POST['query_type'] : self::SEARCH_USER);
-		$type->setRequired(true);
-		
-		$user = new ilRadioOption($this->lng->txt('obj_user'),self::SEARCH_USER);
-		$type->addOption($user);
-		
-		$role = new ilRadioOption($this->lng->txt('obj_role'),self::SEARCH_ROLE);
-		$type->addOption($role);
-		
-		$this->form->addItem($type);
-		
+
+		$tb->setFormAction($this->ctrl->getFormAction($this));
+
+		// search term
 		$search = new ilTextInputGUI($this->lng->txt('cal_search'),'query');
 		$search->setValue($_POST['query']);
 		$search->setSize(16);
 		$search->setMaxLength(128);
-		$search->setRequired(true);
-		$search->setInfo($this->lng->txt('cal_search_info_share'));
-		
-		$this->form->addItem($search);
-		$this->form->addCommandButton('sharePerformSearch',$this->lng->txt('search'));
-		// $this->form->addCommandButton('manage',$this->lng->txt('cancel'));
+
+		$tb->addInputItem($search, true);
+
+		// search type
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$options = array(
+			self::SEARCH_USER => $this->lng->txt('obj_user'),
+			self::SEARCH_ROLE => $this->lng->txt('obj_role'),
+			);
+		$si = new ilSelectInputGUI($this->lng->txt('search_type'), "query_type");
+		$si->setValue($_POST['query_type']);
+		$si->setOptions($options);
+		$si->setInfo($this->lng->txt(""));
+		$tb->addInputItem($si);
+
+
+		$tb->addFormButton($this->lng->txt('search'), "sharePerformSearch");
 	}
-	
+
+
 	/**
 	 * init edit/create category form 
 	 *
