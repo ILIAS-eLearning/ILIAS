@@ -232,14 +232,27 @@ class ilPluginAdmin
 	 * @return string[]
 	 */
 	protected function parsePluginPhp($plugin_php_file) {
-		include_once($plugin_php_file);
-		return array("version" => $version, "id" => $id,
-			"ilias_min_version" => $ilias_min_version,
-			"ilias_max_version" => $ilias_max_version,
-			"responsible" => $responsible,
-			"responsible_mail" => $responsible_mail,
-			"learning_progress" => (bool)$learning_progress,
-			"supports_export" => (bool)$supports_export);
+		$lines = file($plugin_php_file);
+		$lines = array_filter($lines, function ($l) {
+			$needle = "$";
+			$length = strlen($needle);
+			if(substr($l, 0, $length) === $needle) {
+				return $l;
+			}
+		});
+
+		$values = array();
+		foreach ($lines as $key => $l) {
+			$vals = explode("=", $l);
+
+			$key = trim($vals[0]);
+			$key = substr($key, 1, strlen($key)-1);
+
+			$value = preg_replace('/[;"]/i', '', trim($vals[1])); 
+			$values[$key] = $value;
+		}
+
+		return $values;
 	}
 
 	/**
