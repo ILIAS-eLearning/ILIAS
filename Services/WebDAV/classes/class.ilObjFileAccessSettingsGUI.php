@@ -750,6 +750,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 			$count++;
 		}
+		$tbl->disable('icon');
+		$tbl->disable('title');
 		$tbl->render();
 
 		// Add table to page
