@@ -108,7 +108,7 @@ final class FileUploadImpl implements FileUpload {
 	 * @inheritDoc
 	 */
 	public function moveFilesTo($destination, $location = Location::STORAGE) {
-		
+
 		if($this->processed === false) {
 			throw new \RuntimeException('Can not move unprocessed files.');
 		}
@@ -249,6 +249,8 @@ final class FileUploadImpl implements FileUpload {
 			// we take the temporary file name as an identifier as it is the only unique attribute.
 			$identifier = $file->getStream()->getMetadata('uri');
 
+			$identifier = is_array($identifier) ? '' : $identifier;
+			
 			$this->uploadStreams[$identifier] = $stream;
 
 			if($file->getError() === UPLOAD_ERR_OK) {
