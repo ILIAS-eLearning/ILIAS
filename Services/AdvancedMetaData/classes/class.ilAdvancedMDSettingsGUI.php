@@ -1270,15 +1270,20 @@ class ilAdvancedMDSettingsGUI
 
 			$subitems = new ilRepositorySelector2InputGUI($this->lng->txt("objects"), "scope_containers", true);
 			$subitems->setValue($this->record->getScopeRefIds());
-			$exp = $subitems->getExplorerGUI();	
-			$exp->setTypeWhiteList(
-				[
-					'root',
-					'cat',
-					'prg',
-					'adm',
-				]
-			);
+			$exp = $subitems->getExplorerGUI();
+			
+			$definition = $GLOBALS['objDefinition'];
+			$white_list = [];
+			foreach($definition->getAllRepositoryTypes() as $type)
+			{
+				if($definition->isContainer($type))
+				{
+					$white_list[] = $type;
+				}
+			}
+			
+			
+			$exp->setTypeWhiteList($white_list);
 			$exp->setSkipRootNode(false);
 			$exp->setRootId(ROOT_FOLDER_ID);
 			$scope->addSubItem($subitems);
