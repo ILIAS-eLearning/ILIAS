@@ -201,7 +201,6 @@ class ilCalendarPresentationGUI
 
 		$next_class = $this->getNextClass();
 
-
 		switch($next_class)
 		{
 			case 'ilcalendarinboxgui':
@@ -228,10 +227,10 @@ class ilCalendarPresentationGUI
 				return true;
 			
 			case 'ilcalendarmonthgui':
-				$this->showSideBlocks();
 				$this->tabs_gui->activateTab('cal_agenda');
 				$this->forwardToClass('ilcalendarmonthgui');
 				$this->showViewSelection("app_month");
+				$this->showSideBlocks();
 				break;
 				
 			case 'ilcalendarweekgui':
@@ -439,7 +438,7 @@ class ilCalendarPresentationGUI
 	protected function forwardToClass($a_class)
 	{
 		$ilUser = $this->user;
-		
+
 		switch($a_class)
 		{
 			case 'ilcalendarmonthgui':
