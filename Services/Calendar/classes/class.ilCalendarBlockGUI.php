@@ -696,7 +696,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 								'txt' => str_replace("%1", ilObjUser::_lookupFullname($user_id), $lng->txt("cal_consultation_hours_for_user"))
 							);
 						}
-
+						$ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "ch_user_id", "");
 						$ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "bkid", $_GET["bkid"]);
 						$ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "seed", $_GET["seed"]);
 					}
@@ -952,6 +952,15 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				$ilCtrl->getLinkTarget($this, "setPdModeMonth", "", true),
 				"block_" . $this->getBlockType() . "_" . $this->block_id,
 				false, false, ($this->display_mode == 'mmon'));
+
+			if ($this->getRepositoryMode())
+			{
+				$this->addFooterLink($lng->txt("cal_open_calendar"),
+					$ilCtrl->getLinkTargetByClass($this->getTargetGUIClassPath(), ""),
+					"",
+					"block_" . $this->getBlockType() . "_" . $this->block_id,
+					false, false);
+			}
 		}
 	}
 	
