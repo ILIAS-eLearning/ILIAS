@@ -228,7 +228,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 		}
 		if($this->iass_access->mayEditMembers()
 			|| $this->iass_access->mayGradeUser()
-			|| $this->iass_accessr->mayViewUser()) {
+			|| $this->iass_access->mayViewUser()) {
 			$this->tabs_gui->addTab( self::TAB_MEMBERS
 									, $this->lng->txt('il_iass_members')
 									, $this->getLinkTarget('members')
