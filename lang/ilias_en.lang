@@ -13561,7 +13561,7 @@ cont#:#cont_skill_publish_manual_info#:#Competence assignments for members must 
 cont#:#cont_skill_publish_auto_info#:#Competence assignments for members are immediately visible for members.
 cont#:#cont_skill_publish_auto#:#Automatic
 cont#:#cont_add_skill#:#Add Competence
-cont#:#cont_cont_skills#:#Assigned Competences
+cont#:#cont_cont_skills#:#Assigned Competences of Members
 cont#:#cont_skill#:#Competence
 cont#:#cont_path#:#Path
 cont#:#cont_really_remove_skill_from_course#:#Do you really want to remove these competences from the list?
@@ -13586,5 +13586,5 @@ grp#:#grp_no_perm_to_add_create_first#:#You need to create a group first. Please
 grp#:#grp_create_new_grp_in#:#Create new group in '%1'.
 obj#:#obj_tool_setting_skills_info#:#Activates competence management and competences assignments to members.
 obj#:#cont_skll_published#:#All assignments have been published.
-obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some selected users did not have any competences being assigned to.
+obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
 grp#:#grp_user_already_in_group#:#The selected user is already member of the group.
