@@ -193,7 +193,10 @@ class ilSamlSettingsGUI
 					$this->initUserAttributeMapping();
 				}
 
-				if(in_array(strtolower($cmd), array_map('strtolower', (self::$globalCommands + array('deactivateIdp', 'activateIdp')))))
+				if(
+					in_array(strtolower($cmd), array_map('strtolower', self::$globalCommands)) ||
+					in_array(strtolower($cmd), array_map('strtolower', array('deactivateIdp', 'activateIdp')))
+				)
 				{
 					$this->setSubTabs(self::VIEW_MODE_GLOBAL);
 				}
@@ -518,7 +521,7 @@ class ilSamlSettingsGUI
 		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveIdpSettings'));
-		$form->setTitle(sprintf($this->lng->txt('auth_saml_configure_idp'), $this->idp->getAuthId()));
+		$form->setTitle(sprintf($this->lng->txt('auth_saml_configure_idp'), $this->idp->getIdp()));
 
 		$idp = new ilTextInputGUI($this->lng->txt('auth_saml_idp'), 'idp');
 		$idp->setDisabled(true);
