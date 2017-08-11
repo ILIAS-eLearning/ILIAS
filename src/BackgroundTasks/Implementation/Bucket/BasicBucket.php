@@ -108,7 +108,6 @@ class BasicBucket implements Bucket {
 	public function setTask(Task $task) {
 		$this->tasks = $task->unfoldTask();
 		$this->totalNumberOfTasks = count($this->tasks);
-		$this->currentTask = $task;
 		$this->rootTask = $task;
 		foreach ($this->tasks as $subTask) {
 			$this->percentages[spl_object_hash($subTask)] = 0;
