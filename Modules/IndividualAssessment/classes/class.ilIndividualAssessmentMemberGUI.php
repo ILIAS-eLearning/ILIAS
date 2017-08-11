@@ -361,9 +361,7 @@ class ilIndividualAssessmentMemberGUI {
 	 * @return bool
 	 */
 	protected function mayBeEdited() {
-		if (!$this->isFinalized()
-				&& ($this->userCanGrade() || $this->superiorCanGrade() || $this->mayGradeSelf() || $this->adminCanGrade())
-		) {
+		if (!$this->isFinalized() && $this->userCanGrade()) {
 			return true;
 		}
 
@@ -377,12 +375,7 @@ class ilIndividualAssessmentMemberGUI {
 	 */
 	protected function mayBeViewed()
 	{
-		if (($this->isFinalized() &&
-			($this->userCanGrade() || $this->superiorCanGrade() || $this->mayGradeSelf()))
-			|| $this->userCanView()
-			|| $this->superiorCanView()
-			|| $this->mayViewSelf()
-		) {
+		if ($this->isFinalized() && ($this->userCanGrade() || $this->userCanView())) {
 			return true;
 		}
 
@@ -396,8 +389,7 @@ class ilIndividualAssessmentMemberGUI {
 	 */
 	protected function mayBeAmended()
 	{
-		if ($this->isFinalized()
-				&& $this->userCanAmend()) {
+		if ($this->isFinalized() && $this->userCanAmend()) {
 			return true;
 		}
 
