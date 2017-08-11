@@ -4132,9 +4132,6 @@ class ilUtil
 	 *
 	 * @see \ILIAS\DI\Container::upload()
 	 */
-
-	protected static $uploadedFiles = array();
-
 	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded")
 	{
 		global $DIC;
@@ -4419,7 +4416,7 @@ class ilUtil
 	 *
 	 * @return array
 	 */
-	protected static function sanitateTargetPath($a_target): array {
+	protected static function sanitateTargetPath($a_target) {
 		switch (true) {
 			case strpos($a_target, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
 			case strpos($a_target, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
