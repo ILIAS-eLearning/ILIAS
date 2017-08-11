@@ -18831,3 +18831,19 @@ if(!$ilDB->tableColumnExists('mail_options', 'mail_address_option'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5098>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$iass_type_id = ilDBUpdateNewObjectType::getObjectTypeId('iass');
+if ($iass_type_id) {
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation(
+		'amend_grading',
+		'Amend grading',
+		'object',
+		8200
+	);
+	if ($new_ops_id) {
+		ilDBUpdateNewObjectType::addRBACOperation($iass_type_id, $new_ops_id);
+	}
+}
+?>

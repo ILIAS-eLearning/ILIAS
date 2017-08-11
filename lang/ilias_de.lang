@@ -15999,3 +15999,5 @@ mail#:#mail_second_email#:#Zweite E-Mail-Adresse
 mail#:#mail_both_email#:#Beide E-Mail-Adressen
 common#:#second_email_not_valid#:#Die eingegebene zweite E-Mail-Adresse ist nicht gültig!
 common#:#second_email#:#Zweite E-Mail
+rbac#:#amend_grading#:#Dokumentation nach Finalisierung ändern
+rbac#:#iass_amend_grading#:#Benutzer darf die Prüfungsdaten nach Finalisierung ändern.
