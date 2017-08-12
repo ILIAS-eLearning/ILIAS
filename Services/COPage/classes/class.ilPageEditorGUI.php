@@ -331,21 +331,15 @@ exit;
 			case "ilinternallinkgui":
 				$link_gui = new ilInternalLinkGUI(
 					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultType(),
-					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultId());
-				$link_gui->setMode("normal");
+					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultId(),
+					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultIdIsRef());
 				$link_gui->setFilterWhiteList(
 					$this->page_gui->getPageConfig()->getIntLinkFilterWhiteList());
 				foreach ($this->page_gui->getPageConfig()->getIntLinkFilters() as $filter)
 				{
 					$link_gui->filterLinkType($filter);
 				}
-//				$link_gui->setSetLinkTargetScript(
-//					$this->ctrl->getLinkTarget($this, "setInternalLink"));
 				$link_gui->setReturn($this->int_link_return);
-				if ($ilCtrl->isAsynch())
-				{
-					$link_gui->setMode("asynch");
-				}
 
 				$ret = $this->ctrl->forwardCommand($link_gui);
 				break;

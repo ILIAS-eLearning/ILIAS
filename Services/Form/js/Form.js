@@ -157,7 +157,7 @@ il.Form = {
 	},
 	
 	// set internal link in form item
-	addInternalLink: function (link, title, input_id, ev) {
+	addInternalLink: function (link, title, input_id, ev, c) {
 		var type, id, part, target = "";
 
 		input_id = il.Form.escapeSelector(input_id);

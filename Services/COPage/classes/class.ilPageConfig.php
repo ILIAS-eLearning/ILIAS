@@ -11,7 +11,7 @@
  */
 abstract class ilPageConfig
 {
-	protected $int_link_filter = array("File");
+	protected $int_link_filter = array("File", "PortfolioPage");
 	protected $prevent_rte_usage = false;
 	protected $use_attached_content = false;
 	protected $pc_defs = array();
@@ -346,9 +346,10 @@ abstract class ilPageConfig
 	 *
 	 * @param int $a_val default object if	
 	 */
-	function setIntLinkHelpDefaultId($a_val)
+	function setIntLinkHelpDefaultId($a_val, $a_is_ref = true)
 	{
 		$this->int_link_def_id = $a_val;
+		$this->int_link_def_id_is_ref = $a_is_ref;
 	}
 	
 	/**
@@ -360,7 +361,17 @@ abstract class ilPageConfig
 	{
 		return $this->int_link_def_id;
 	}
-	
+
+	/**
+	 * Get internal link default id
+	 *
+	 * @return int default object if
+	 */
+	function getIntLinkHelpDefaultIdIsRef()
+	{
+		return $this->int_link_def_id_is_ref;
+	}
+
 	/**
 	 * Set enabled actication
 	 *

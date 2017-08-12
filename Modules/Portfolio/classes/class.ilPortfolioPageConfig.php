@@ -27,6 +27,7 @@ class ilPortfolioPageConfig extends ilPageConfig
 		$this->setIntLinkFilterWhiteList(true);
 		$this->addIntLinkFilter("PortfolioPage");
 		$this->removeIntLinkFilter("File");
+		$this->setIntLinkHelpDefaultId($_GET["prt_id"], false);
 		$this->setIntLinkHelpDefaultType("PortfolioPage");
 		$this->setEnablePCType("Profile", true);
 		

@@ -1043,15 +1043,13 @@ return;
 				$this->lng->loadLanguageModule("content");
 				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 				$link_gui = new ilInternalLinkGUI("Media_Media", 0);
-				//$link_gui->filterLinkType("RepositoryItem");
-				
+
 				$link_gui->filterLinkType("PageObject_FAQ");
 				$link_gui->filterLinkType("GlossaryItem");
 				$link_gui->filterLinkType("Media_Media");
 				$link_gui->filterLinkType("Media_FAQ");
 				
 				$link_gui->setFilterWhiteList(true);
-				$link_gui->setMode("asynch");
 				$this->ctrl->forwardCommand($link_gui);
 				break;
 
@@ -1583,7 +1581,7 @@ return;
 		//$content = $this->obj->getXMLFromDom(false, true, true,
 		//	$this->getLinkXML().$this->getQuestionXML().$this->getComponentPluginsXML());
 		$link_xml = $this->getLinkXML();
-
+//echo "<br>-".htmlentities($link_xml)."-"; exit;
 		// disable/enable auto margins
 		if ($this->getStyleId() > 0)
 		{
@@ -2477,6 +2475,11 @@ return;
 					case "WikiPage":
 						include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 						$href = ilWikiPage::getGotoForWikiPageTarget($target_id);
+						break;
+
+					case "PortfolioPage":
+						include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
+						$href = ilPortfolioPage::getGotoForPortfolioPageTarget($target_id, ($this->getOutputMode() == "offline"));
 						break;
 
 					case "RepositoryItem":

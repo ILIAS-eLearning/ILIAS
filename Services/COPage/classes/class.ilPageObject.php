@@ -2237,6 +2237,11 @@ abstract class ilPageObject
 					$res->nodeset[$i]->set_attribute("Target", "il__st_".$a_from_to[$obj_id]);
 					$changed = true;
 				}
+				if ($type == "PortfolioPage")
+				{
+					$res->nodeset[$i]->set_attribute("Target", "il__ppage_".$a_from_to[$obj_id]);
+					$changed = true;
+				}
 			}
 		}
 		unset($xpc);
@@ -3119,6 +3124,10 @@ abstract class ilPageObject
 
 				case "WikiPage":
 					$t_type = "wpage";
+					break;
+
+				case "PortfolioPage":
+					$t_type = "ppage";
 					break;
 
 				case "User":
