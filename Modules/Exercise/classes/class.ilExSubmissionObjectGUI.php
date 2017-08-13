@@ -464,7 +464,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		{
 			$ctrl->setParameterByClass("ilObjPortfolioGUI", "prtt", $template_object_id);
 		}
-
+		$ctrl->setParameterByClass("ilobjportfoliogui", "exc_back_ref_id", (int) $_GET["ref_id"]);
 		$ctrl->redirectByClass(array("ilPersonalDesktopGUI", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromAssignment");
 	}
 
@@ -517,6 +517,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 				$this->ctrl->setParameterByClass("ilObjPortfolioGUI", "ass_id", $this->assignment->getId());
 				$this->ctrl->setParameterByClass("ilObjPortfolioGUI", "pt", $title);
 				$this->ctrl->setParameterByClass("ilObjPortfolioGUI", "prtt", $prtt);
+				$this->ctrl->setParameterByClass("ilobjportfoliogui", "exc_back_ref_id", (int) $_GET["ref_id"]);
 				$this->ctrl->redirectByClass(array("ilPersonalDesktopGUI", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromTemplate");
 			}
 			else
