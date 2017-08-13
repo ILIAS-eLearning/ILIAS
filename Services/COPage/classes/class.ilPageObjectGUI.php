@@ -611,6 +611,16 @@ class ilPageObjectGUI
 		return $this->view_page_target;
 	}
 
+	/**
+	 * get view page text
+	 *
+	 * @return string
+	 */
+	function getViewPageText()
+	{
+		return $this->lng->txt("cont_presentation_view");
+	}
+
 	function setActivationListener(&$a_obj, $a_meth)
 	{
 		$this->act_obj = $a_obj;
@@ -1232,7 +1242,7 @@ return;
 				// presentation view
 				if ($this->getViewPageLink() != "")
 				{
-					$this->tabs_gui->addNonTabbedLink("pres_view", $this->lng->txt("cont_presentation_view"),
+					$this->tabs_gui->addNonTabbedLink("pres_view", $this->getViewPageText(),
 						$this->getViewPageLink(), $this->getViewPageTarget());
 				}
 
@@ -2945,6 +2955,14 @@ return;
 	function insertJSAtPlaceholder()
 	{
 		global $tpl;
+		
+		if ($_GET["pl_hier_id"] == "")
+		{
+			$this->obj->buildDom();
+			$this->obj->addHierIDs();
+			$hid = $this->obj->getHierIdsForPCIds(array($_GET["pl_pc_id"]));
+			$_GET["pl_hier_id"] = $hid[$_GET["pl_pc_id"]];
+		}
 		
 //		  'pl_hier_id' => string '2_1_1_1' (length=7)
 //  'pl_pc_id' => string '1f77eb1d8a478497d69b99d938fda8f' (length=31)
