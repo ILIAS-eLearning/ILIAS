@@ -6269,8 +6269,8 @@ notes#:#notes_show_comments#:#Show Comments
 pd#:#pd_enable_block_moving_info#:#Allow users to reorganize the content blocks on the personal desktop.
 pd#:#pd_enable_block_moving#:#Enable Block Moving
 pd#:#pd_enable_bookmarks#:#Enable Bookmarks
-pd#:#pd_enable_my_memberships_info#:#‘My Courses and Groups’ contains all courses and groups the user is assigned to as a member.
-pd#:#pd_enable_my_memberships#:#Enable ‘My Courses and Groups’
+pd#:#pd_enable_my_memberships_info#:#‘Courses and Groups’ contains all courses and groups the user is assigned to as a member.
+pd#:#pd_enable_my_memberships#:#Enable ‘Courses and Groups’
 pd#:#pd_enable_my_offers_info#:#The view ‘Selected Items’ contains all objects which are placed on the user's Personal Desktop.
 pd#:#pd_enable_my_offers#:#Enable ‘Selected Items’
 pd#:#pd_enable_notes#:#Enable Notes
@@ -8126,8 +8126,8 @@ content#:#cont_layout_template#:#Layout Template
 content#:#cont_special_page#:#Special Content Page
 wiki#:#wiki_public_comments#:#Public Comments
 trac#:#trac_learning_progress_of#:#Learning Progress of %s
-common#:#personal_workspace#:#My Workspace
-wsp#:#wsp_personal_workspace#:#My Workspace
+common#:#personal_workspace#:#Workspace
+wsp#:#wsp_personal_workspace#:#Workspace
 wsp#:#wsp_personal_workspace_description#:#Here you can manage your private files, blogs and artifacts.
 wsp#:#wsp_type_file#:#File
 wsp#:#wsp_type_wfld#:#Folder
@@ -8622,7 +8622,7 @@ blog#:#blog_preview#:#Preview
 ecs#:#ecs_field_community#:#Community
 skmg#:#skmg_new_sktr#:#New Competence Template Reference
 skmg#:#skmg_edit_sktr#:#Edit Competence Template Reference
-common#:#skills#:#My Competences
+common#:#skills#:#Competences
 skmg#:#skmg_list_skills#:#List Competences
 skmg#:#skmg_assign_materials#:#Assign Materials
 skmg#:#skmg_add_skill#:#Add Competence
@@ -9011,7 +9011,7 @@ scormdebug#:#debugwindow_download#:#Download
 scormdebug#:#debugwindow_open#:#Open
 common#:#password_multiple_errors#:#Multiple criteria are not satisfied:
 common#:#password_contains_invalid_chars#:#The password contains invalid characters
-content#:#cont_file_from_workspace#:#File From My Workspace
+content#:#cont_file_from_workspace#:#File From Workspace
 skmg#:#skmg_create_skill_template#:#Create Competence Template
 skmg#:#skmg_create_skill_template_category#:#Create Competence Template Category
 skmg#:#skmg_save_order#:#Save Order
@@ -9035,7 +9035,7 @@ exc#:#exc_select_blog_change#:#Use different blog
 exc#:#exc_select_portfolio_change#:#Use different portfolio
 exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
-common#:#my_courses_groups#:#My Courses and Groups
+common#:#my_courses_groups#:#Courses and Groups
 content#:#cont_sc_auto_continue#:#Redirect Users
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
 blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.

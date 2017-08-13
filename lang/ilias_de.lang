@@ -4072,7 +4072,7 @@ common#:#msg_wrong_format#:#Der Wert, den Sie eingegeben haben, erfüllt nicht d
 common#:#multimedia#:#Multimedia
 common#:#my_bms#:#Meine Bookmarks
 common#:#my_courses#:#Meine Kurse
-common#:#my_courses_groups#:#Meine Kurse und Gruppen
+common#:#my_courses_groups#:#Kurse und Gruppen
 common#:#my_frms#:#Meine Foren
 common#:#my_grps#:#Meine Gruppen
 common#:#my_los#:#Meine Lernobjekte
@@ -4468,7 +4468,7 @@ common#:#personal_desktop#:#Persönlicher Schreibtisch
 common#:#personal_picture#:#Profilbild
 common#:#personal_profile#:#Persönliche Daten und Profil
 common#:#personal_settings#:#Einstellungen
-common#:#personal_workspace#:#Mein Arbeitsraum
+common#:#personal_workspace#:#Arbeitsraum
 common#:#persons#:#Personen
 common#:#pg_a#:#eine Seite
 common#:#pg_add#:#Seite anlegen
@@ -4891,7 +4891,7 @@ common#:#side_frame#:#Rahmen Baumansicht
 common#:#signature#:#Signatur
 common#:#simultaneous_login_detected#:#Der Zugang zum System wird verweigert, da sich bereits ein Benutzer mit diesen Zugangsdaten in einer ILIAS-Sitzung befindet.
 common#:#size#:#Größe
-common#:#skills#:#Meine Kompetenzen
+common#:#skills#:#Kompetenzen
 common#:#skin_style#:#Standard-Skin / -Style
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Administration über SOAP
@@ -9053,12 +9053,12 @@ pd#:#pd_enable_bookmarks#:#Bookmarks aktivieren
 pd#:#pd_enable_comments#:#Kommentare aktivieren
 pd#:#pd_enable_global_profiles#:#Öffentliche Profile aktivieren
 pd#:#pd_enable_global_profiles_info#:#Die Option ermöglicht Benutzern, ihr Profil global (im Internet) zugänglich zu machen.
-pd#:#pd_enable_my_memberships#:#'Meine Kurse und Gruppen' aktivieren
+pd#:#pd_enable_my_memberships#:#'Kurse und Gruppen' aktivieren
 pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
 pd#:#pd_enable_my_offers#:#'Ausgewählte Angebote' aktivieren
 pd#:#pd_enable_my_offers_info#:#Die Sicht 'Ausgewählte Angebote' enthält alle Objekte, die sich auf dem Persönlichen Schreibtisch des Benutzers befinden.
 pd#:#pd_enable_notes#:#Notizen aktivieren
-pd#:#pd_enable_personal_workspace#:#Mein Arbeitsraum aktivieren
+pd#:#pd_enable_personal_workspace#:#Arbeitsraum aktivieren
 pd#:#pd_enable_prtf#:#Portfolios aktivieren
 pd#:#pd_enable_user_publish#:#Veröffentlichung Inhalte von Benutzern aktivieren
 pd#:#pd_enable_user_publish_info#:#Die Option ermöglicht Benutzern, ihr Profil, Arbeitsrauminhalte und Portfolios global (im Internet) zugänglich zu machen.
@@ -9075,7 +9075,7 @@ pd#:#pd_personal_items_default_view_info#:#Wählen Sie hier die Standard-Sicht f
 pd#:#pd_settings#:#Einstellungen
 pd#:#pd_time_before_removal#:#Maximaler Zeitraum für Inaktivität (in Minuten)
 pd#:#pd_time_before_removal_info#:#Nach Ablauf dieses Zeitraums, werden Benutzer aus der Liste der "Aktiven Benutzer" entfernt.
-pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Meine Kurse und Gruppen'.
+pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Kurse und Gruppen'.
 pdesk#:#bm_num_bookmark_folders#:#Ordner
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)
 pdesk#:#pdesk_feedback_request#:#Feedback-Anfrage
@@ -11482,10 +11482,10 @@ wsp#:#wsp_permission_all_pw_info#:#Nach Eingabe des Passworts ist dieses Objekt 
 wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten Benutzer freigegeben.
 wsp#:#wsp_permission_removed#:#Der Eintrag wurde gelöscht.
 wsp#:#wsp_permissions#:#Freigabe
-wsp#:#wsp_personal_workspace#:#Mein Arbeitsraum
+wsp#:#wsp_personal_workspace#:#Arbeitsraum
 wsp#:#wsp_personal_workspace_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
 wsp#:#wsp_remove_permission#:#Freigabe entfernen
-wsp#:#wsp_root_folder#:#Mein Arbeitsraum
+wsp#:#wsp_root_folder#:#Arbeitsraum
 wsp#:#wsp_set_permission_all#:#Internet/WWW
 wsp#:#wsp_set_permission_all_password#:#Internet/WWW mit Passwort
 wsp#:#wsp_set_permission_course#:#Kursmitglieder
@@ -13080,7 +13080,7 @@ rep#:#rep_object_lists#:#Objektlisten
 rep#:#rep_custom_icons#:#Angepasste Icons
 cmps#:#cmps_enable_creation#:#Erstellung einschalten
 cmps#:#cmps_slots#:#Slots
-pd#:#pd_personal_workspace#:#Mein Arbeitsraum
+pd#:#pd_personal_workspace#:#Arbeitsraum
 common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#Allgemeine Einstellungen für Weblinks
 common#:#obj_crss#:#Kurs

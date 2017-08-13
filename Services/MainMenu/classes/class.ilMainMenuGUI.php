@@ -624,6 +624,18 @@ class ilMainMenuGUI
 				$separator = true;
 			}
 
+			require_once 'Services/Badge/classes/class.ilBadgeHandler.php';
+			if(ilBadgeHandler::getInstance()->isActive())
+			{
+				$gl->addEntry($lng->txt('obj_bdga'),
+					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBadges', '_top'
+					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_badges"),
+					"left center", "right center", false);
+
+				$separator = true;
+			}
+
+
 			// Learning Progress
 			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 			if (ilObjUserTracking::_enabledLearningProgress() && 
@@ -678,23 +690,14 @@ class ilMainMenuGUI
 				
 				$separator = true;
 			}
-			
+
+			/*
 			if($separator)
 			{
 				$gl->addSeparator();
 			}
 			
-			require_once 'Services/Badge/classes/class.ilBadgeHandler.php';
-			if(ilBadgeHandler::getInstance()->isActive())
-			{
-				$gl->addEntry($lng->txt('obj_bdga'),
-					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBadges', '_top'
-					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_badges"),
-					"left center", "right center", false);
-				
-				$gl->addSeparator();
-			}
-			
+
 			// profile
 			$gl->addEntry($lng->txt("personal_profile"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
 				"_top", "", "", "mm_pd_profile", ilHelp::getMainMenuTooltip("mm_pd_profile"),
@@ -703,7 +706,7 @@ class ilMainMenuGUI
 			// settings
 			$gl->addEntry($lng->txt("personal_settings"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSettings",
 				"_top", "", "", "mm_pd_sett", ilHelp::getMainMenuTooltip("mm_pd_sett"),
-					"left center", "right center", false);
+					"left center", "right center", false);*/
 
 			$a_tpl->setVariable("DESK_CONT_OV", $gl->getHTML());
 		}
