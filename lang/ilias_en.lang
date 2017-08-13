@@ -13576,3 +13576,11 @@ user#:#user_profile_info_text_info#:#This text is presented on top of the form f
 user#:#user_make_profile_public#:#Publish Profile
 content#:#cont_prtf_page#:#Portfolio Page
 content#:#cont_prtt_page#:#Portfolio Tempalte Page
+svy#:#svy_user_added_360_appraisee#:#360° Survey '%1'
+svy#:#svy_user_added_360_appraisee_mail#:#You have been added to the survey as an appraisee.
+svy#:#svy_user_added_360_rater#:#360° Survey '%1'
+svy#:#svy_user_added_360_rater_mail#:#You have been added as a rater to the survey.
+svy#:#svy_user_added_360_appraisee_close_mail#:#The 360° survey has been closed for your raters.
+svy#:#survey_360_appraisees_remind_info#:#If self evaluation is activated, appraisees that have not yet finished the survey will be reminded.
+svy#:#survey_360_raters_remind_info#:#Raters that have not yet finished the survey will be reminded.
+svy#:#svy_user_added_360_rater_reminder_mail#:#Please finish to rate the following appraisees:

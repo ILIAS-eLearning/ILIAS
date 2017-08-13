@@ -16021,3 +16021,11 @@ user#:#user_profile_info_text_info#:#Dieser Text erscheint über dem Eingabeform
 user#:#user_make_profile_public#:#Profil veröffentlichen
 content#:#cont_prtf_page#:#Portfolioseite
 content#:#cont_prtt_page#:#Portfoliovorlagenseite
+svy#:#svy_user_added_360_appraisee#:#360°-Umfrage '%1'
+svy#:#svy_user_added_360_appraisee_mail#:#Sie wurden der Umfrage als Feedback-Nehmer hinzugefügt.
+svy#:#svy_user_added_360_rater#:#360°-Umfrage '%1'
+svy#:#svy_user_added_360_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
+svy#:#svy_user_added_360_appraisee_close_mail#:#Die 360°-Umfrage wurde für Ihre Feedback-Geber geschlossen.
+svy#:#survey_360_appraisees_remind_info#:#Falls die Selbsteinschätzung aktiviert ist, erhalten Feedback-Nehmer, die die Umfrage noch nicht abgeschlossen haben, eine Erinnerungsnachricht.
+svy#:#survey_360_raters_remind_info#:#Feedback-Geber, die die Umfrage noch nicht abgeschlossen haben, erhalten eine Erinnerungsnachricht.
+svy#:#svy_user_added_360_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
