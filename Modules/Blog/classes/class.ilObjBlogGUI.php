@@ -1575,6 +1575,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			
 			if(!$is_active)
 			{
+				$wtpl->setCurrentBlock("draft_text");
+				$wtpl->setVariable("DRAFT_TEXT", $lng->txt("blog_draft_text"));
+				$wtpl->parseCurrentBlock();
 				$wtpl->setVariable("DRAFT_CLASS", " ilBlogListItemDraft");
 			}
 			

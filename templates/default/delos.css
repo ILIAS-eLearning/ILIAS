@@ -10571,7 +10571,7 @@ div.ilBlogListItem {
   margin-bottom: 35px;
 }
 div.ilBlogListItem.ilBlogListItemDraft {
-  padding: 3px;
+  padding: 8px;
 }
 div.ilBlogListItemTitle {
   border-bottom: 1px solid #e0e0e0;
@@ -10629,6 +10629,14 @@ div.ilBlogSideBlockNavigationSelection {
 }
 .ilBlogListItemDraft {
   border: 2px dotted red;
+}
+.ilBlogDraftText {
+  color: red;
+  position: absolute;
+  font-size: 12px;
+  margin-top: -20px;
+  padding: 2px 5px;
+  background-color: white;
 }
 .ilBlogNavigationItemDraft {
   margin-right: 50px;
