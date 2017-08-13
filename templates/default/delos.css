@@ -9475,6 +9475,14 @@ div.il_editarea_disabled {
   border: 2px dotted #fa8228;
   min-height: 20px;
 }
+.ilCopgDisabledText {
+  color: #fa8228;
+  position: absolute;
+  font-size: 12px;
+  margin-top: -22px;
+  padding: 2px 5px;
+  background-color: white;
+}
 div.il_editarea_active {
   border: 1px solid #909090;
   min-height: 20px;
@@ -10628,10 +10636,10 @@ div.ilBlogSideBlockNavigationSelection {
   margin-bottom: 5px;
 }
 .ilBlogListItemDraft {
-  border: 2px dotted red;
+  border: 2px dotted #fa8228;
 }
 .ilBlogDraftText {
-  color: red;
+  color: #fa8228;
   position: absolute;
   font-size: 12px;
   margin-top: -20px;

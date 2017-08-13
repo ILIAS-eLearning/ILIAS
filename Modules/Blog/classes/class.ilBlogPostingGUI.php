@@ -865,7 +865,19 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			(int)round($src_width*$shrink_ratio), 
 			(int)round($src_height*$shrink_ratio)
 		);
-	}	
+	}
+
+	/**
+	 * Get disabled text
+	 *
+	 * @param
+	 * @return
+	 */
+	function getDisabledText()
+	{
+		return $this->lng->txt("blog_draft_text");
+	}
+
 }
 
 ?>

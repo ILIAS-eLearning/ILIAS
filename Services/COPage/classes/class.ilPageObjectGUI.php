@@ -869,7 +869,19 @@ return;
 	{
 		return $this->render_page_container;
 	}
-	
+
+	/**
+	 * Get disabled text
+	 *
+	 * @param
+	 * @return
+	 */
+	function getDisabledText()
+	{
+		return $this->lng->txt("inactive");
+	}
+
+
 	/**
 	* Activate meda data editor
 	*
@@ -1856,7 +1868,7 @@ return;
 		if($this->getOutputMode() == "edit" &&
 			!$this->getPageObject()->getActive($this->getPageConfig()->getEnableScheduledActivation()))
 		{
-			$output = '<div class="il_editarea_disabled">'.$output.'</div>';
+			$output = '<div class="il_editarea_disabled"><div class="ilCopgDisabledText">'.$this->getDisabledText().'</div>'.$output.'</div>';
 		}
 		
 		// for all page components...
@@ -1972,6 +1984,10 @@ return;
 	 */
 	function addActionsMenu($a_tpl, $sel_media_mode, $sel_html_mode, $sel_js_mode)
 	{
+		global $DIC;
+		
+		$ui = $DIC->ui();
+		
 		// actions
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
@@ -1982,8 +1998,10 @@ return;
 		$entries = false;
 		if ($this->getPageConfig()->getEnableActivation())
 		{
+			
 			$entries = true;
-			$captions = $this->getActivationCaptions();			
+			$captions = $this->getActivationCaptions();
+
 			if ($this->getPageObject()->getActive())
 			{
 				$list->addItem($captions["deactivatePage"], "",
@@ -2014,7 +2032,16 @@ return;
 		
 		if ($entries)
 		{
-			$a_tpl->setVariable("PAGE_ACTIONS", $list->getHTML());
+			$items = $list->getItems();
+			if (count($items) > 1)
+			{
+				$a_tpl->setVariable("PAGE_ACTIONS", $list->getHTML());
+			}
+			else if (count($items) == 1)
+			{
+				$b = $ui->factory()->button()->standard($items[0]["title"], $items[0]["link"]);
+				$a_tpl->setVariable("PAGE_ACTIONS", $ui->renderer()->render($b));
+			}
 		}
 
 		$this->lng->loadLanguageModule("content");
