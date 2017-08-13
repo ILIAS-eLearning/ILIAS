@@ -13584,3 +13584,6 @@ svy#:#svy_user_added_360_appraisee_close_mail#:#The 360° survey has been closed
 svy#:#survey_360_appraisees_remind_info#:#If self evaluation is activated, appraisees that have not yet finished the survey will be reminded.
 svy#:#survey_360_raters_remind_info#:#Raters that have not yet finished the survey will be reminded.
 svy#:#svy_user_added_360_rater_reminder_mail#:#Please finish to rate the following appraisees:
+prtf#:#prtf_add_new_blog#:#Add New Blog
+prtf#:#prtf_add_new_blog_info#:#The new blog will be added to your personal workspace.
+prtf#:#prtf_add_existing_blog#:#Use Existing Blog

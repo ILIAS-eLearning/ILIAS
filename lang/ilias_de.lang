@@ -16029,3 +16029,6 @@ svy#:#svy_user_added_360_appraisee_close_mail#:#Die 360°-Umfrage wurde für Ihr
 svy#:#survey_360_appraisees_remind_info#:#Falls die Selbsteinschätzung aktiviert ist, erhalten Feedback-Nehmer, die die Umfrage noch nicht abgeschlossen haben, eine Erinnerungsnachricht.
 svy#:#survey_360_raters_remind_info#:#Feedback-Geber, die die Umfrage noch nicht abgeschlossen haben, erhalten eine Erinnerungsnachricht.
 svy#:#svy_user_added_360_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
+prtf#:#prtf_add_new_blog#:#Neues Blog hinzufügen
+prtf#:#prtf_add_new_blog_info#:#Das neue Blog wird Ihrem persönlichen Arbeitsraum hinzugefügt.
+prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen

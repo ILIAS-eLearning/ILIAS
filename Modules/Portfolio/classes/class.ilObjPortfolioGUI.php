@@ -599,23 +599,32 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			}
 			asort($options);	
 		}
-		
-		// no blogs to add?
-		if(!sizeof($options))
+
+		// add blog
+		$radg = new ilRadioGroupInputGUI($this->lng->txt("obj_blog"), "creation_mode");
+		$radg->setInfo($this->lng->txt(""));
+		$radg->setValue("new");
+		$radg->setInfo($this->lng->txt(""));
+
+		$op1 = new ilRadioOption($this->lng->txt("prtf_add_new_blog"), "new" ,$this->lng->txt("prtf_add_new_blog_info"));
+		$radg->addOption($op1);
+		$form->addItem($radg);
+
+		// Blog title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setRequired(true);
+		$op1->addSubItem($ti);
+
+
+		if(sizeof($options))
 		{
-			// #17218
-			$this->lng->loadLanguageModule('pd');
-			$url = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumpToWorkspace");
-			$url = '<a href="'.$url.'">'.$this->lng->txt("pd_personal_workspace").'</a>';
-					
-			ilUtil::sendInfo(sprintf($this->lng->txt("prtf_no_blogs_info"), $url), true);
-			$this->ctrl->redirect($this, "view");
+			$op2 = new ilRadioOption($this->lng->txt("prtf_add_existing_blog"), "existing");
+			$radg->addOption($op2);
+
+			$obj = new ilSelectInputGUI($this->lng->txt("obj_blog"), "blog");
+			$obj->setOptions($options);
+			$op2->addSubItem($obj);
 		}
-		
-		$obj = new ilSelectInputGUI($this->lng->txt("obj_blog"), "blog");
-		$obj->setRequired(true);
-		$obj->setOptions($options);
-		$form->addItem($obj);
 
 		$form->setTitle($this->lng->txt("prtf_add_blog").": ".
 			$this->object->getTitle());
@@ -629,14 +638,39 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	 * Create new portfolio blog page
 	 */
 	public function saveBlog()
-	{		
+	{
+		global $DIC;
+
+		$ilUser = $DIC->user();
+
 		$form = $this->initBlogForm();
 		if ($form->checkInput() && $this->checkPermissionBool("write"))
 		{
-			$page = $this->getPageInstance();
-			$page->setType(ilPortfolioPage::TYPE_BLOG);		
-			$page->setTitle($form->getInput("blog"));									
-			$page->create();
+			if ($form->getInput("creation_mode") == "existing")
+			{
+				$page = $this->getPageInstance();
+				$page->setType(ilPortfolioPage::TYPE_BLOG);
+				$page->setTitle($form->getInput("blog"));
+				$page->create();
+			}
+			else
+			{
+				$blog = new ilObjBlog();
+				$blog->setTitle($form->getInput("title"));
+				$blog->create();
+
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+				$tree = new ilWorkspaceTree($ilUser->getId());
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+				$access_handler = new ilWorkspaceAccessHandler($tree);
+				$node_id = $tree->insertObject($tree->readRootId(), $blog->getId());
+				$access_handler->setPermissions($tree->readRootId(), $node_id);
+
+				$page = $this->getPageInstance();
+				$page->setType(ilPortfolioPage::TYPE_BLOG);
+				$page->setTitle($blog->getId());
+				$page->create();
+			}
 
 			ilUtil::sendSuccess($this->lng->txt("prtf_blog_page_created"), true);
 			$this->ctrl->redirect($this, "view");
