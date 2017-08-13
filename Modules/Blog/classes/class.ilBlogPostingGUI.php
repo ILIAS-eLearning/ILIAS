@@ -47,6 +47,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
 		// needed for notification
 		$this->getBlogPosting()->setBlogNodeId($this->node_id, $this->isInWorkspace());
+		$this->getBlogPosting()->getPageConfig()->setEditLockSupport(!$this->isInWorkspace());
 		
 		// #11151
 		$this->may_contribute = (bool)$a_may_contribute;
