@@ -31,8 +31,8 @@ class ilIndividualAssessmentMember {
 		$this->finalized = $data[ilIndividualAssessmentMembers::FIELD_FINALIZED] ? true : false;
 		$this->lp_status = $data[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS];
 		$this->notification_ts = $data[ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS];
-		$this->place = $data[ilManualAssessmentMembers::FIELD_PLACE];
-		$this->event_time = new ilDateTime($data[ilManualAssessmentMembers::FIELD_EVENTTIME], IL_CAL_UNIX);
+		$this->place = $data[ilIndividualAssessmentMembers::FIELD_PLACE];
+		$this->event_time = new ilDateTime($data[ilIndividualAssessmentMembers::FIELD_EVENTTIME], IL_CAL_UNIX);
 		$this->iass = $iass;
 		$this->usr = $usr;
 	}
