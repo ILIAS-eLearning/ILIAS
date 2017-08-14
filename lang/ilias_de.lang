@@ -9887,7 +9887,7 @@ search#:#search_lucene_info#:#Wenn aktiviert, kann auch in HTML-Lernmodulen sowi
 search#:#search_lucene_port#:#Lucene-Port
 search#:#search_lucene_readme#:#Zur Installationsanleitung
 search#:#search_meta#:#Metadaten
-search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein
+search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein.
 search#:#search_move_folder_not_allowed#:#Ordner können nicht verschoben werden.
 search#:#search_move_to#:#Verschieben nach:
 search#:#search_my_search_results#:#Meine Suchergebnisse
@@ -15986,3 +15986,5 @@ style#:#manage_system_styles#:#System Styles verwalten
 style#:#scope#:#Gültigkeitsbereich
 common#:#edit_page_meta#:#Seitenmetadaten bearbeiten
 rbac#:#wiki_edit_page_meta#:#Wikiseitenmetadaten bearbeiten
+content#:#cont_user#:#Benutzer
+content#:#cont_user_search_did_not_match#:#Es wurde kein Benutzer gefunden.

@@ -546,7 +546,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 						case "previewFullscreen":		
 							$this->addHeaderActionForCommand($cmd);	
 							$this->filterInactivePostings();
-							$nav = $this->renderNavigation($this->items, "preview", $cmd);							
+							$nav = $this->renderNavigation($this->items, "preview", $cmd);
+							$this->renderToolbarNavigation($this->items, true);
 							$this->renderFullScreen($ret, $nav);
 							break;
 							
@@ -1019,7 +1020,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		if($list_items)
 		{									
 			$list = $this->renderList($list_items, "previewFullscreen");
-			$nav = $this->renderNavigation($this->items, "preview", "previewFullscreen");		
+			$nav = $this->renderNavigation($this->items, "preview", "previewFullscreen");
+			$this->renderToolbarNavigation($this->items);
 		}
 						
 		$this->renderFullScreen($list, $nav);
@@ -1924,7 +1926,178 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			return $wtpl->get();
 		}
 	}
-	
+
+	/**
+	 * Toolbar navigation
+	 *
+	 * @param
+	 * @return
+	 */
+	function renderToolbarNavigation($a_items, $single_posting = false)
+	{
+		global $DIC;
+
+		$toolbar = $DIC->toolbar();
+		$lng = $DIC->language();
+		$ctrl = $DIC->ctrl();
+
+		$f = $DIC->ui()->factory();
+
+		if ($single_posting)	// single posting view
+		{
+			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+			$title = ilBlogPosting::lookupTitle((int) $_GET["blpg"]);
+			$mb = $f->button()->standard($title, "#")->withUnavailableAction();
+			$prev_posting = $this->getPreviousPosting($a_items);
+			if ($prev_posting != "")
+			{
+				$ctrl->setParameterByClass("ilblogpostinggui", "blpg", $prev_posting);
+				$pb = $f->button()->standard($lng->txt("previous"),
+					$ctrl->getLinkTargetByClass("ilblogpostinggui", "previewFullscreen"));
+			} else
+			{
+				$pb = $f->button()->standard($lng->txt("previous"), "#")->withUnavailableAction();
+			}
+			$next_posting = $this->getNextPosting($a_items);
+			if ($next_posting != "")
+			{
+				$ctrl->setParameterByClass("ilblogpostinggui", "blpg", $next_posting);
+				$nb = $f->button()->standard($lng->txt("next"),
+					$ctrl->getLinkTargetByClass("ilblogpostinggui", "previewFullscreen"));
+			} else
+			{
+				$nb = $f->button()->standard($lng->txt("next"), "#")->withUnavailableAction();
+			}
+			$ctrl->setParameter($this, "blpg", $_GET["blpg"]);
+			$vc = $f->viewControl()->section($pb, $mb, $nb);
+			$toolbar->addComponent($vc);
+		}
+		else		// month view
+		{
+			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+			$title = ilCalendarUtil::_numericMonthToString((int)substr($this->month, 5)) .
+				" " . substr($this->month, 0, 4);
+			$mb = $f->button()->standard($title, "#")->withUnavailableAction();
+			$prev_month = $this->getPreviousMonth($a_items);
+			if ($prev_month != "")
+			{
+				$ctrl->setParameter($this, "bmn", $prev_month);
+				$pb = $f->button()->standard($lng->txt("previous"), $ctrl->getLinkTarget($this, "preview"));
+			} else
+			{
+				$pb = $f->button()->standard($lng->txt("previous"), "#")->withUnavailableAction();
+			}
+			$next_month = $this->getNextMonth($a_items);
+			if ($next_month != "")
+			{
+				$ctrl->setParameter($this, "bmn", $next_month);
+				$nb = $f->button()->standard($lng->txt("next"), $ctrl->getLinkTarget($this, "preview"));
+			} else
+			{
+				$nb = $f->button()->standard($lng->txt("next"), "#")->withUnavailableAction();
+			}
+			$ctrl->setParameter($this, "bmn", $_GET["bmn"]);
+			$vc = $f->viewControl()->section($pb, $mb, $nb);
+			$toolbar->addComponent($vc);
+		}
+	}
+
+	/**
+	 * Get next month
+	 *
+	 * @param array $a_items item array
+	 * @return string
+	 */
+	function getNextMonth($a_items)
+	{
+		reset($a_items);
+		$found = "";
+		foreach ($a_items as $month => $items)
+		{
+			if ($month > $this->month)
+			{
+				$found = $month;
+			}
+		}
+		return $found;
+	}
+
+	/**
+	 * Get next month
+	 *
+	 * @param array $a_items item array
+	 * @return string
+	 */
+	function getPreviousMonth($a_items)
+	{
+		reset($a_items);
+		$found = "";
+		foreach ($a_items as $month => $items)
+		{
+			if ($month < $this->month && $found == "")
+			{
+				$found = $month;
+			}
+		}
+		return $found;
+	}
+
+	/**
+	 * Get next posting
+	 *
+	 * @param array $a_items item array
+	 * @return int page id
+	 */
+	function getNextPosting($a_items)
+	{
+		reset($a_items);
+		$found = "";
+		$next_blpg = 0;
+		foreach ($a_items as $month => $items)
+		{
+			foreach ($items as $item)
+			{
+				if ($item["id"] == $_GET["blpg"])
+				{
+					$found = true;
+				}
+				if (!$found)
+				{
+					$next_blpg = $item["id"];
+				}
+			}
+		}
+		return $next_blpg;
+	}
+
+	/**
+	 * Get previous posting
+	 *
+	 * @param array $a_items item array
+	 * @return int page id
+	 */
+	function getPreviousPosting($a_items)
+	{
+		reset($a_items);
+		$found = "";
+		$prev_blpg = 0;
+		foreach ($a_items as $month => $items)
+		{
+			foreach ($items as $item)
+			{
+				if ($found && $prev_blpg == "")
+				{
+					$prev_blpg = $item["id"];
+				}
+				if ($item["id"] == $_GET["blpg"])
+				{
+					$found = true;
+				}
+			}
+		}
+		return $prev_blpg;
+	}
+
 	/**
 	 * Build navigation blocks
 	 *
@@ -1937,8 +2110,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 */
 	function renderNavigation(array $a_items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false)
 	{
-		global $ilCtrl, $ilSetting;
-		
+		global $ilCtrl, $ilSetting, $DIC;
+
 		if($this->object->getOrder())
 		{
 			$order = array_flip($this->object->getOrder());

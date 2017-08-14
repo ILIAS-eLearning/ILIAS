@@ -74,7 +74,8 @@ class ilInternalLinkGUI
 			"Media_New" => $lng->txt("cont_lk_media_new"),
 			"WikiPage" => $lng->txt("cont_wiki_page"),
 			"File" => $lng->txt("cont_lk_file"),
-			"RepositoryItem" => $lng->txt("cont_repository_item")
+			"RepositoryItem" => $lng->txt("cont_repository_item"),
+			"User" => $lng->txt("cont_user"),
 			);		
 	}
 	
@@ -698,7 +699,12 @@ class ilInternalLinkGUI
 					exit;
 				}
 				break;
-				
+
+			// file download link
+			case "User":
+				$tpl->setVariable("LINK_HELP_CONTENT", $this->addUser());
+				break;
+
 		}
 
 		if ($ilCtrl->isAsynch())
@@ -1195,6 +1201,137 @@ class ilInternalLinkGUI
 		$tpl->parseCurrentBlock();
 
 	}
+
+	/**
+	 * Add user
+	 *
+	 * @param
+	 * @return
+	 */
+	function addUser()
+	{
+		$form = $this->initUserSearchForm();
+		return $form->getHTML().$this->getUserSearchResult();
+	}
+
+	/**
+	 * Init user search form.
+	 */
+	public function initUserSearchForm()
+	{
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setId("link_user_search_form");
+
+		//
+		$ti = new ilTextInputGUI($this->lng->txt("obj_user"), "usr_search_str");
+		$ti->setValue($_POST["usr_search_str"]);
+		//$ti->setInfo($this->lng->txt("cont_usr_search_"));
+		$form->addItem($ti);
+
+
+		$form->addCommandButton("searchUser", $this->lng->txt("search"));
+
+		return $form;
+	}
+
+	/**
+	 * Search user
+	 *
+	 * @param
+	 * @return
+	 */
+	function getUserSearchResult()
+	{
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+
+		if (strlen($_POST["usr_search_str"]) < 3)
+		{
+			if (strlen($_POST["usr_search_str"]) > 0)
+			{
+				$lng->loadLanguageModule("search");
+				return $tpl->getMessageHTML($lng->txt("search_minimum_three"), "info");
+			}
+
+			return "";
+		}
+
+		$form = $this->initUserSearchForm();
+		$form->checkInput();
+
+		$rbacsys = $DIC->rbac()->system();
+
+		$admin = ($rbacsys->checkAccess("read", USER_FOLDER_ID));
+
+		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
+		$relations = ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations();
+		$users = array();
+		if ($admin || count($relations))
+		{
+			$result = new ilSearchResult();
+
+			$query_parser = new ilQueryParser($form->getInput("usr_search_str"), '%_');
+			$query_parser->setCombination(QP_COMBINATION_AND);
+			$query_parser->setMinWordLength(3);
+			$query_parser->parse();
+
+			$user_search = ilObjectSearchFactory::_getUserSearchInstance($query_parser);
+			$user_search->enableActiveCheck(true);
+			$user_search->setFields(array('login'));
+			$result_obj = $user_search->performSearch();
+			$result->mergeEntries($result_obj);
+
+			$user_search->setFields(array('firstname'));
+			$result_obj = $user_search->performSearch();
+			$result->mergeEntries($result_obj);
+
+			$user_search->setFields(array('lastname'));
+			$result_obj = $user_search->performSearch();
+			$result->mergeEntries($result_obj);
+
+			$result->setMaxHits(100000);
+			$result->preventOverwritingMaxhits(true);
+			$result->filter(ROOT_FOLDER_ID, true);
+
+			// Filter users (depends on setting in user accounts)
+			include_once 'Services/User/classes/class.ilUserFilter.php';
+			$users = ilUserFilter::getInstance()->filter($result->getResultIds());
+			if (!$admin)
+			{
+				$users = array_intersect($users, $relations->getKeys());
+			}
+		}
+
+
+		if (count($users) == 0)
+		{
+			return $tpl->getMessageHTML($lng->txt("cont_user_search_did_not_match"), "info");
+		}
+
+		$f = $DIC->ui()->factory();
+		$r = $DIC->ui()->renderer();
+		$lng = $DIC->language();
+		$cards = array();
+		foreach ($users as $user)
+		{
+			$b = $f->button()->standard($lng->txt("insert"),"#")
+				->withOnLoadCode(function($id) use ($user){
+					return
+					'$("#'.$id."\").click(function(ev) { il.IntLink.addInternalLink('[iln user=\"".
+					ilObjUser::_lookupLogin($user)."\"/]', '', ev); return false;});";
+				});
+			$name = ilUserUtil::getNamePresentation($user);
+			$cards[] = $f->card($name, $f->image()->responsive(ilObjUser::_getPersonalPicturePath($user, "small") , $name))
+				->withSections(array($b));
+		}
+		$deck = $f->deck($cards)->withCardsSize(ILIAS\UI\Component\Deck\Deck::SIZE_L);
+
+		return $r->renderAsync($deck);
+	}
+
 
 }
 ?>

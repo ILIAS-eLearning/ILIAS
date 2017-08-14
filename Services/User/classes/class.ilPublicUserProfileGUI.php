@@ -120,7 +120,7 @@ class ilPublicUserProfileGUI
 	protected function handleBackUrl($a_is_portfolio = false)
 	{
 		global $ilMainMenu, $ilTabs, $lng;
-				
+
 		$back = ($this->getBackUrl() != "")
 			? $this->getBackUrl()
 			: $_GET["back_url"];
