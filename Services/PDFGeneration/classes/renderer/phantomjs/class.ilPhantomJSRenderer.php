@@ -172,7 +172,8 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$form->getItemByPostVar('page_size')->setValue($config['page_size']);
 		$form->getItemByPostVar('zoom')->setValue($config['zoom']);
 		$form->getItemByPostVar('margin')->setValue($config['margin']);
-		$form->getItemByPostVar('print_media_type')->setValue($config['print_media_type']);
+		$form->getItemByPostVar('print_media_type')->setValue(1);
+		$form->getItemByPostVar('print_media_type')->setChecked($config['print_media_type']);
 		$form->getItemByPostVar('javascript_delay')->setValue($config['javascript_delay']);
 		$form->getItemByPostVar('orientation')->setValue($config['orientation']);
 		$form->getItemByPostVar('header_select')->setValue($config['header_type']);
@@ -183,6 +184,8 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$form->getItemByPostVar('footer_text')->setValue($config['footer_text']);
 		$form->getItemByPostVar('footer_height')->setValue($config['footer_height']);
 		$form->getItemByPostVar('footer_show_pages')->setValue($config['footer_show_pages']);
+
+		ilPDFGeneratorUtils::setCheckedIfTrue($form);
 	}
 
 	/**
@@ -220,7 +223,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$config['page_size'] = $form->getItemByPostVar('page_size')->getValue();
 		$config['zoom'] = $form->getItemByPostVar('zoom')->getValue();
 		$config['margin'] =$form->getItemByPostVar('margin')->getValue();
-		$config['print_media_type'] = $form->getItemByPostVar('print_media_type')->getValue();
+		$config['print_media_type'] = $form->getItemByPostVar('print_media_type')->getChecked();
 		$config['javascript_delay'] = $form->getItemByPostVar('javascript_delay')->getValue();
 		$config['orientation'] = $form->getItemByPostVar('orientation')->getValue();
 		$config['header_type'] = $form->getItemByPostVar('header_select')->getValue();
@@ -415,11 +418,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	protected function buildPrintMediaTypeForm()
 	{
 		$print_media = new ilCheckboxInputGUI($this->lng->txt('print_media_type'), 'print_media_type');
-		if($this->print_media_type == 1)
-		{
-			$print_media->setChecked(true);
-			return $print_media;
-		}
 		return $print_media;
 	}
 

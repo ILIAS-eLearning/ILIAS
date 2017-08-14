@@ -1,9 +1,10 @@
 <?php
 
-
+/**
+ * Class ilPDFGeneratorUtils
+ */
 class ilPDFGeneratorUtils
 {
-	// --
 
 	public static function getTestPdfDir()
 	{
@@ -15,6 +16,9 @@ class ilPDFGeneratorUtils
 		return $iliasPDFTestPath;
 	}
 
+	/**
+	 * @param string $path
+	 */
 	public static function removePrintMediaDefinitionsFromStyleFile($path)
 	{
 		foreach (glob($path . '*.css') as $filename)
@@ -25,6 +29,9 @@ class ilPDFGeneratorUtils
 		}
 	}
 
+	/**
+	 * @param string $path
+	 */
 	public static function removeWrongPathFromStyleFiles($path)
 	{
 		foreach (glob($path . '*.css') as $filename)
@@ -35,7 +42,22 @@ class ilPDFGeneratorUtils
 		}
 	}
 
-	// --
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public static function setCheckedIfTrue(\ilPropertyFormGUI $form)
+	{
+		foreach($form->getItems() as $item)
+		{
+			if($item instanceof ilCheckboxInputGUI)
+			{
+				if($item->getChecked() != null && ($item->getValue() == true || $item->getValue() == '1'))
+				{
+					$item->setChecked(true);
+				}
+			}
+		}
+	}
 
 	public static function getPurposeMap()
 	{
@@ -87,6 +109,11 @@ class ilPDFGeneratorUtils
 		return $renderers;
 	}
 
+	/**
+	 * @param string $service
+	 * @param string $purpose
+	 * @param string $renderer
+	 */
 	public static function updateRendererSelection($service, $purpose, $renderer)
 	{
 		global $DIC;
@@ -101,6 +128,12 @@ class ilPDFGeneratorUtils
 		);
 	}
 
+	/**
+	 * @param string $service
+	 * @param string $purpose
+	 * @param string $renderer
+	 * @return array
+	 */
 	public static function getRendererConfig($service, $purpose, $renderer)
 	{
 		global $DIC;
@@ -122,6 +155,12 @@ class ilPDFGeneratorUtils
 		}
 	}
 
+	/**
+	 * @param string $service
+	 * @param string $purpose
+	 * @param string $renderer
+	 * @return array
+	 */
 	public static function getRendererDefaultConfig($service, $purpose, $renderer)
 	{
 		/** @var ilRendererConfig $class_instance */
@@ -130,6 +169,11 @@ class ilPDFGeneratorUtils
 		return $class_instance->getDefaultConfig($service, $purpose);
 	}
 
+	/**
+	 * @param $renderer
+	 * @return ilPDFRenderer
+	 * @throws Exception
+	 */
 	public static function getRendererInstance($renderer)
 	{
 		global $DIC;
@@ -145,8 +189,16 @@ class ilPDFGeneratorUtils
 		$row = $ilDB->fetchAssoc($result);
 
 		include_once $row['path'];
-		$classname = 'il'.$renderer.'Renderer';
-		if(!class_exists($classname))
+		if(self::isRendererPlugin($row['path']))
+		{
+			$classname = 'il'.$renderer.'RendererPlugin';
+		}
+		else
+		{
+			$classname = 'il'.$renderer.'Renderer';
+		}
+
+		if(false && !class_exists($classname))
 		{
 			throw new Exception(
 				'Class failed loading, including path ' . $row['path']
@@ -157,6 +209,23 @@ class ilPDFGeneratorUtils
 		return $class_instance;
 	}
 
+	/**
+	 * @param $path
+	 * @return bool
+	 */
+	protected static function isRendererPlugin($path)
+	{
+		$needle = 'Plugin.php';
+		$length = strlen($needle);
+		return (substr($path, -$length) === $needle);
+	}
+
+	/**
+	 * @param string $service
+	 * @param string $purpose
+	 * @param string $renderer
+	 * @param $config
+	 */
 	public static function saveRendererPurposeConfig($service, $purpose, $renderer, $config)
 	{
 		global $DIC;
@@ -180,6 +249,11 @@ class ilPDFGeneratorUtils
 		);
 	}
 
+	/**
+	 * @param string $service
+	 * @param string $purpose
+	 * @return array|mixed
+	 */
 	public static function getRendererMapForPurpose($service, $purpose)
 	{
 		global $DIC;
