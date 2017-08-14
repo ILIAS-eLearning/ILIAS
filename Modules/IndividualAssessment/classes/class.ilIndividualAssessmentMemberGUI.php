@@ -183,6 +183,8 @@ class ilIndividualAssessmentMemberGUI {
 	protected function updateDataInMemberByArray(ilIndividualAssessmentMember $member, $data) {
 		$member = $member->withRecord($data['record'])
 					->withInternalNote($data['internal_note'])
+					->withPlace($data['place'])
+					->withEventTime($this->createDatetime($data['event_time']))
 					->withLPStatus($data['learning_progress'])
 					->withExaminerId($this->examiner->getId())
 					->withNotify(($data['notify']  == 1 ? true : false));
@@ -250,10 +252,16 @@ class ilIndividualAssessmentMemberGUI {
 	}
 
 	protected function fillForm(ilPropertyFormGUI $a_form, ilIndividualAssessmentMember $member) {
+		$dt = $member->eventTime()->get(IL_CAL_DATETIME);
+		$dt = explode(" ", $dt);
+		$event_time = ["date" => $dt[0], "time" => $dt[1]];
+
 		$a_form->setValuesByArray(array(
 			  'name' => $member->name()
 			, 'record' => $member->record()
 			, 'internal_note' => $member->internalNote()
+			, 'place' => $member->place()
+			, 'event_time' => $event_time
 			, 'notify' => $member->notify()
 			, 'learning_progress' => (int)$member->LPStatus()
 			));
@@ -263,5 +271,10 @@ class ilIndividualAssessmentMemberGUI {
 	protected function targetWasEditedByOtherUser(ilIndividualAssessmentMember $member) {
 		return (int)$member->examinerId() !== (int)$this->examiner->getId()
 				&& 0 !== (int)$member->examinerId();
+	}
+
+	private function createDatetime(array $datetime)
+	{
+		return new ilDateTime($datetime["date"]." ".$datetime["time"], IL_CAL_DATETIME);
 	}
 }
