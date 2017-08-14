@@ -18831,3 +18831,14 @@ if(!$ilDB->tableColumnExists('mail_options', 'mail_address_option'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5098>
+<?php
+if (!$ilDB->tableColumnExists('iass_settings', 'event_time_place_required')) {
+	$ilDB->addTableColumn('iass_settings', 'event_time_place_required', array(
+	"type" => "integer",
+	"length" => 1,
+	"notnull" => true,
+	"default" => 0
+	));
+}
+?>
