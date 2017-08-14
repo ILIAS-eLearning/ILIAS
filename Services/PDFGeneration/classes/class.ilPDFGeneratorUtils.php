@@ -191,7 +191,7 @@ class ilPDFGeneratorUtils
 
 		if($ilDB->numRows($result) == 0)
 		{
-			throw new Exception('No such map - given: ' . $service . ' / ' . $purpose);
+			return array('selected' => 'TCPDF', 'preferred' => 'TCPDF');
 		}
 		$row = $ilDB->fetchAssoc($result);
 
