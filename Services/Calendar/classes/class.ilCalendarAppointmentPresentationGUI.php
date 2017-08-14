@@ -20,6 +20,10 @@ class ilCalendarAppointmentPresentationGUI
 
 	protected $mode = self::MODE_MODAL;
 
+	protected $toolbar;
+	protected $info_screen;
+
+
 	/**
 	 * @var \ILIAS\UI\Component\Item\Standard|null
 	 */
@@ -45,6 +49,9 @@ class ilCalendarAppointmentPresentationGUI
 		$this->appointment = $a_app;
 
 		$this->tpl = $DIC["tpl"];
+
+		$this->info_screen = new ilInfoScreenGUI($this);
+		$this->toolbar = new ilToolbarGUI();
 	}
 	
 	/**
@@ -152,38 +159,17 @@ class ilCalendarAppointmentPresentationGUI
 
 		$tpl = new ilTemplate('tpl.appointment_presentation.html',true,true,'Services/Calendar');
 
-		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
-		$info_screen = new ilInfoScreenGUI($this);
+		$info_screen = $this->info_screen;
 		$info_screen->setFormAction($this->ctrl->getFormAction($this));
 
-		include_once("./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php");
-		$toolbar = new ilToolbarGUI();
+		$toolbar = $this->toolbar;
 
 		$f = ilAppointmentPresentationFactory::getInstance($this->appointment, $info_screen, $toolbar, null);
 
 		$this->ctrl->getHTML($f);
 		$content = $info_screen->getHTML();
 
-		//TODO move this to a proper method
-		foreach($this->getActivePlugins() as $plugin)
-		{
-			//pass only the appointment stuff
-			$plugin->setAppointment($this->appointment['event'], $this->appointment['dstart']);
-
-			if($new_content = $plugin->replaceContent()) {
-				$content = $new_content;
-			} else {
-				$info_screen = $plugin->infoscreenAddContent($info_screen);
-				$extra_content = $plugin->addExtraContent();
-				$content =  $info_screen->getHTML().$extra_content;
-			}
-
-			if($new_toolbar = $plugin->toolbarReplaceContent()) {
-				$toolbar = $new_toolbar;
-			} else {
-				$toolbar = $plugin->toolbarAddItems($toolbar);
-			}
-		}
+		$content = $this->getContentByPlugins($content);
 
 		// show toolbar
 		$tpl->setCurrentBlock("toolbar");
@@ -222,5 +208,31 @@ class ilCalendarAppointmentPresentationGUI
 		}
 
 		return $res;
+	}
+
+	protected function getContentByPlugins($a_content)
+	{
+		$content = $a_content;
+		foreach($this->getActivePlugins() as $plugin)
+		{
+			//pass only the appointment stuff
+			$plugin->setAppointment($this->appointment['event'], $this->appointment['dstart']);
+
+			if($new_content = $plugin->replaceContent()) {
+				$content = $new_content;
+			} else {
+				$this->info_screen = $plugin->infoscreenAddContent($this->info_screen);
+				$extra_content = $plugin->addExtraContent();
+				$content =  $this->info_screen->getHTML().$extra_content;
+			}
+
+			if($new_toolbar = $plugin->toolbarReplaceContent()) {
+				$this->toolbar = $new_toolbar;
+			} else {
+				$this->toolbar = $plugin->toolbarAddItems($this->toolbar);
+			}
+		}
+
+		return $content;
 	}
 }
