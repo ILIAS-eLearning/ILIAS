@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("Services/AccessControl/classes/class.ilAccessInfo.php");
-
 /** @defgroup ServicesAccessControl Services/AccessControl
  */
 
@@ -17,14 +15,13 @@ require_once("Services/AccessControl/classes/class.ilAccessInfo.php");
 *
 * @ingroup ServicesAccessControl
 */
-class ilAccessHandler
-{
+class ilAccessHandler implements ilRBACAccessHandler, ilOrgUnitPositionAccessHandler {
 	protected $stored_rbac_access = array();
 	
 	/**
 	* constructor
 	*/
-	function __construct()
+	public function __construct()
 	{
 		global $rbacsystem;
 
@@ -44,16 +41,10 @@ class ilAccessHandler
         $this->obj_tree_cache=array();
 	}
 
+
 	/**
-	* store access result
-	*
-	* @access	private
-	* @param	string		$a_permission			permission
-	* @param	string		$a_cmd					command string
-	* @param	int			$a_ref_id				reference id
-	* @param	boolean		$a_access_granted		true if access is granted
-	* @param	int			$a_user_id				user id (if no id passed, current user id)
-	*/
+	 * @inheritdoc
+	 */
 	function storeAccessResult($a_permission, $a_cmd, $a_ref_id, $a_access_granted, $a_user_id = "",$a_info = "")
 	{
 		global $ilUser;
@@ -87,37 +78,24 @@ class ilAccessHandler
 	}
 
 	/**
-	* Set prevent caching last result.
-	*
-	* @param	boolean		true if last result should not be cached
-	*/
+	 * @inheritdoc
+	 */
 	function setPreventCachingLastResult($a_val)
 	{
 		$this->prevent_caching_last_result = $a_val;
 	}
-	
+
 	/**
-	* Get prevent caching last result.
-	*
-	* @return	boolean		true if last result should not be cached
-	*/
+	 * @inheritdoc
+	 */
 	function getPreventCachingLastResult()
 	{
 		return $this->prevent_caching_last_result;
 	}
 
 	/**
-	* get stored access result
-	*
-	* @access	private
-	* @param	string		$a_permission			permission
-	* @param	string		$a_cmd					command string
-	* @param	int			$a_ref_id				reference id
-	* @param	int			$a_user_id				user id (if no id passed, current user id)
-	* @return	array		result array:
-	*						"granted" (boolean) => true if access is granted
-	*						"info" (object) 	=> info object
-	*/
+	 * @inheritdoc
+	 */
 	function getStoredAccessResult($a_permission, $a_cmd, $a_ref_id, $a_user_id = "")
 	{
 		global $ilUser;
@@ -138,7 +116,9 @@ class ilAccessHandler
 		}
 		return false;
 	}
-
+	/**
+	 * @inheritdoc
+	 */
 	function storeCache()
 	{
 		global $ilDB, $ilUser;
@@ -152,7 +132,9 @@ class ilAccessHandler
 			'result'	=>	array('clob',serialize($this->results))
 			));
 	}
-	
+	/**
+	 * @inheritdoc
+	 */
 	function readCache($a_secs = 0)
 	{
 		global $ilUser, $ilDB;
@@ -172,37 +154,32 @@ class ilAccessHandler
 		}
 		return false;
 	}
-
+	/**
+	 * @inheritdoc
+	 */
 	function getResults()
 	{
 		return $this->results;
 	}
-	
+	/**
+	 * @inheritdoc
+	 */
 	function setResults($a_results)
 	{
 		$this->results = $a_results;
 	}
-	
+
 	/**
-	* add an info item to current info object
-	*/
+	 * @inheritdoc
+	 */
 	function addInfoItem($a_type, $a_text, $a_data = "")
 	{
 		$this->current_info->addInfoItem($a_type, $a_text, $a_data);
 	}
 
 	/**
-	* check access for an object
-	* (provide $a_type and $a_obj_id if available for better performance)
-	*
-	* @param	string		$a_permission
-	* @param	string		$a_cmd
-	* @param	int			$a_ref_id
-	* @param	string		$a_type (optional)
-	* @param	int			$a_obj_id (optional)
-	* @param	int			$a_tree_id (optional)
-	*
-	*/
+	 * @inheritdoc
+	 */
 	function checkAccess($a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "", $a_tree_id="")
 	{
 		global $ilUser;
@@ -211,18 +188,8 @@ class ilAccessHandler
 	}
 
 	/**
-	* check access for an object
-	* (provide $a_type and $a_obj_id if available for better performance)
-	* 
-	* @param	integer		$a_user_id
-	* @param	string		$a_permission
-	* @param	string		$a_cmd
-	* @param	int			$a_ref_id
-	* @param	string		$a_type (optional)
-	* @param	int			$a_obj_id (optional)
-	* @param	int			$a_tree_id (optional)
-	*
-	*/
+	 * @inheritdoc
+	 */
 	function checkAccessOfUser($a_user_id,$a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "", $a_tree_id="")
 	{
 		global $ilBench, $lng;
@@ -347,8 +314,8 @@ class ilAccessHandler
 	}
 
 	/**
-	* get last info object
-	*/
+	 * @inheritdoc
+	 */
 	function getInfo()
 	{
 		//return $this->last_result;
@@ -356,15 +323,17 @@ class ilAccessHandler
 		//var_dump("<pre>",$this->results,"</pre>");
 		return is_object($this->last_info) ? $this->last_info->getInfoItems() : array();
 	}
-	
+
 	/**
-	* get last info object
-	*/
+	 * @inheritdoc
+	 */
 	function getResultLast()
 	{
 		return $this->last_result;
 	}
-	
+	/**
+	 * @inheritdoc
+	 */
 	function getResultAll($a_ref_id = "")
 	{
 		if ($a_ref_id == "")
@@ -374,10 +343,9 @@ class ilAccessHandler
 		
 		return $this->results[$a_ref_id];
 	}
-	
+
 	/**
-	 * look if result for current query is already in cache
-	 * 
+	 * @inheritdoc
 	 */
 	function doCacheCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id)
 	{
@@ -401,10 +369,9 @@ class ilAccessHandler
 		return array("hit" => false, "granted" => false,
 			"prevent_db_cache" => false);
 	}
-	
+
 	/**
-	 * check if object is in tree and not deleted
-	 * 
+	 * @inheritdoc
 	 */
 	function doTreeCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id)
 	{
@@ -461,10 +428,9 @@ class ilAccessHandler
 		$ilBench->stop("AccessControl", "2000_checkAccess_in_tree");
 		return true;
 	}
-	
+
 	/**
-	 * rbac check for current object
-	 * -> type should be used for create permission
+	 * @inheritdoc
 	 */
 	function doRBACCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_type)
 	{
@@ -510,10 +476,9 @@ class ilAccessHandler
 
 		return $access;
 	}
-	
+
 	/**
-	 * check read permission for all parents
-	 * 
+	 * @inheritdoc
 	 */
 	function doPathCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_all = false)
 	{
@@ -559,8 +524,7 @@ class ilAccessHandler
 	}
 
 	/**
-	 * check for course activation 
-	 * 
+	 * @inheritdoc
 	 */
 	function doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_all = false)
 	{
@@ -640,10 +604,9 @@ class ilAccessHandler
 		$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 		return false;
 	}
-	
+
 	/**
-	 * condition check (currently only implemented for read permission)
-	 * 
+	 * @inheritdoc
 	 */
 	function doConditionCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id, $a_obj_id, $a_type)
 	{
@@ -698,10 +661,9 @@ class ilAccessHandler
 
 		return true;
 	}
-	
+
 	/**
-	 * object type specific check
-	 * 
+	 * @inheritdoc
 	 */
 	function doStatusCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id, $a_obj_id, $a_type)
 	{
@@ -747,8 +709,8 @@ class ilAccessHandler
 	}
 
 	/**
-	* check for available licenses
-	*/
+	 * @inheritdoc
+	 */
 	function doLicenseCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id, $a_obj_id, $a_type)
 	{
 		global $lng;
@@ -795,7 +757,9 @@ class ilAccessHandler
 			return false;
 		}
 	}
-	
+	/**
+	 * @inheritdoc
+	 */
 	function clear()
 	{
 		$this->results = array();
@@ -803,9 +767,32 @@ class ilAccessHandler
 		$this->current_info = new ilAccessInfo();
 		$this->stored_rbac_access = [];
 	}
-	
+	/**
+	 * @inheritdoc
+	 */
 	function enable($a_str,$a_bool)
 	{
 		$this->$a_str = $a_bool;
+	}
+
+
+
+	//
+	// OrgUnit Positions
+	//
+	/**
+	 * @inheritdoc
+	 */
+	public function filterUserIdsForCurrentUsersPositions(array $user_ids) {
+		// TODO implement the filter
+		return $user_ids;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function filterUserIdsForUsersPositions(array $user_ids, $for_user_id) {
+		// TODO implement the filter
+		return $user_ids;
 	}
 }
