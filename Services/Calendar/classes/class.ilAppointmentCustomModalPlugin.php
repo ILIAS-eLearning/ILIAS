@@ -11,7 +11,15 @@ require_once 'Services/Component/classes/class.ilPlugin.php';
  */
 abstract class ilAppointmentCustomModalPlugin extends ilPlugin
 {
+	/**
+	 * @var ilCalendarEntry $appointment
+	 */
 	protected $appointment;
+
+	/**
+	 * @var DateTime $start_date
+	 */
+	protected $start_date;
 
 	/** @var \ilCalendarAppointmentPresentationGUI */
 	//protected $GUIObject;
@@ -33,17 +41,31 @@ abstract class ilAppointmentCustomModalPlugin extends ilPlugin
 	//}
 
 	/**
-	* @param array $a_appointment
+	* @param ilCalendarEntry $a_appointment
+	* @param $a_start_date //todo date format here.
 	* appointment contains the calendarEntry object + relevant information like start date, end date, calendar id etc.
 	*/
-	public function setAppointment($a_appointment)
+	public function setAppointment(ilCalendarEntry $a_appointment, $a_start_date)
 	{
 		$this->appointment = $a_appointment;
+		$this->start_date = $a_start_date;
 	}
 
 	public function getAppointment()
 	{
 		return $this->appointment;
+	}
+
+	/**
+	 * @return DateTime
+	 * This is the date of the calendar entry, it's not the appointment start date.
+	 * This is important because an appointment can be recursive (e.g. 11 july, 12 july, 13, july)
+	 * The appointment start date is always 11 July but for an entry it can be 11,12 or 13)
+	 * When routing it is used to set up the parameter "dt"
+	 */
+	public function getStartDate()
+	{
+		return $this->start_date;
 	}
 
 	final public function getComponentType()

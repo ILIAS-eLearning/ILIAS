@@ -12,22 +12,33 @@ require_once 'Services/Component/classes/class.ilPlugin.php';
 abstract class ilAppointmentCustomGridPlugin extends ilPlugin
 {
 	/**
-	 * @var array
+	 * @var ilCalendarEntry $appointment
 	 */
 	protected $appointment;
 
 	/**
-	 * @param array $a_appointment
-	 * appointment contains the calendarEntry object + relevant information like start date, end date, calendar id etc.
+	 * @var DateTime $start_date
 	 */
-	public function setAppointment($a_appointment)
+	protected $start_date;
+
+	/**
+	 * @param ilCalendarEntry $a_appointment
+	 * @param $a_start_date //todo: should be a date format
+	 */
+	public function setAppointment(ilCalendarEntry $a_appointment, $a_start_date)
 	{
 		$this->appointment = $a_appointment;
+		$this->start_date = $a_start_date;
 	}
 
 	public function getAppointment()
 	{
 		return $this->appointment;
+	}
+
+	public function getStartDate()
+	{
+		return $this->start_date;
 	}
 
 	final public function getComponentType()
@@ -55,18 +66,23 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
 		//nothing to do here.
 	}
 
-	//todo define proper methods here
-	//for day, week, month presentation
-
+	//Day, Week and Month views.
 	abstract function replaceContent();
 
 	abstract function addExtraContent();
 
 	abstract function addGlyph();
 
-	//for the list presentation
+	//List view.
+	//abstract function replaceTitle();
 
-	abstract function replaceTitle();
+	//abstract function replaceDescription();
 
-	abstract function replaceDescription();
+	/**
+	 * @param $shy
+	 * @param $properties
+	 * @param $color
+	 * @return mixed
+	 */
+	abstract function editAgendaItem($shy, $properties, $color);
 }

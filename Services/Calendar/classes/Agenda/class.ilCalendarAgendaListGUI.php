@@ -164,33 +164,19 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 			$modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 			$shy = $this->ui_factory->button()->shy($e["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal());
 
-			$plugin_values = $this->getContentByPlugins($e, $shy, ilCalendarViewGUI::CAL_PRESENTATION_AGENDA_LIST);
-
-			if($plugin_values['title'] != '')
-			{
-				$title = $plugin_values['title'];
-			}
-			else
-			{
-				$title = $shy;
-			}
-
-			if($plugin_values['description'] != '')
-			{
-				$description = $plugin_values['description'];
-			}
-			else
-			{
-				$description = $e["event"]->getDescription();
-			}
-
 			$modals[] = $modal;
 
-			$li = $this->ui_factory->item()->standard($title)
-				->withDescription("".$description)
+			$li = $this->ui_factory->item()->standard($shy)
+				->withDescription("".$e["event"]->getDescription())
 				->withLeadText(ilDatePresentation::formatPeriod($begin, $end, true))
 				->withProperties($properties)
 				->withColor($df->color('#'.$cat_info["color"]));
+
+			//ui elements are unmutable
+			if($li_edited_by_plugin = $this->getPluginAgendaItem($shy, $e['event'], $properties, $cat_info['color']))
+			{
+				$li = $li_edited_by_plugin;
+			}
 
 			// add type specific actions/properties
 			include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
@@ -234,6 +220,26 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 		return $this->ui_renderer->render($comps);
 
+	}
+
+	/**
+	 * @param $shy
+	 * @param $appointment
+	 * @param $properties
+	 * @param $color
+	 * @return ILIAS\UI\Component\Item\Item
+	 */
+	function getPluginAgendaItem($shy, $appointment, $properties, $color)
+	{
+		//ui elements are no mutable
+		$li = false;
+		foreach($this->getActivePlugins() as $plugin)
+		{
+			$plugin->setAppointment($appointment,$appointment->getStart());
+			$li = $plugin->editAgendaItem($shy, $properties, $color);
+		}
+
+		return $li;
 	}
 
 }

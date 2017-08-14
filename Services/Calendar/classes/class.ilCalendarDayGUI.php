@@ -342,11 +342,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
 		$shy = $this->getAppointmentShyButton($a_app);
 
-		$title = $shy;
-
-		$plugin_values = $this->getContentByPlugins($a_app, $shy, ilCalendarViewGUI::CAL_PRESENTATION_DAY);
-
-		$title = $plugin_values['title'];
+		$title = ($new_title = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $shy))? $new_title : $shy;
 
 		$this->tpl->setVariable('F_APP_TITLE',$title.$compl);
 
@@ -414,14 +410,9 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		$shy = $this->getAppointmentShyButton($a_app);
 
 		$title = $shy;
-		if($time)
-		{
-			$title = $time." ".$title;
-		}
+		$title = ($time != "")? $time." ".$title : $title;
 
-		$plugin_values = $this->getContentByPlugins($a_app, $shy, ilCalendarViewGUI::CAL_PRESENTATION_DAY);
-
-		$title = $plugin_values['title'];
+		$title = ($new_title = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $shy))? $new_title : $title;
 
 		$this->tpl->setVariable('APP_TITLE',$title);
 

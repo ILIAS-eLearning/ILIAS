@@ -352,19 +352,11 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 			}
 
 			$shy = $this->getAppointmentShyButton($item);
-			$title = $shy;
-			if($time)
-			{
-				$title = $time." ".$title;
-			}
 
-			$plugin_values = $this->getContentByPlugins($item, $shy, ilCalendarViewGUI::CAL_PRESENTATION_MONTH);
-			if($plugin_values['title'] != "")
-			{
-				$title = $plugin_values['title'];
-			}
+			$title = ($time != "")? $time." ".$shy : $shy;
 
-			//TODO: There is a bug/error here with the headers in the block
+			$title = ($new_title = $this->getContentByPlugins($item['event'], $item['dstart'], $shy))? $new_title : $title;
+			
 			$this->tpl->setVariable('EVENT_TITLE',$title.$compl);
 
 			$color = $this->app_colors->getColorByAppointment($item['event']->getEntryId());

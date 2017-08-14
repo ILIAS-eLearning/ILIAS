@@ -164,13 +164,14 @@ class ilCalendarAppointmentPresentationGUI
 		$this->ctrl->getHTML($f);
 		$content = $info_screen->getHTML();
 
+		//TODO move this to a proper method
 		foreach($this->getActivePlugins() as $plugin)
 		{
 			//pass this presentation class to the plugin.
 			//$plugin->setGUIObject($this);
 
 			//pass only the appointment stuff
-			$plugin->setAppointment($this->appointment);
+			$plugin->setAppointment($this->appointment['event'], $this->appointment['dstart']);
 
 			if($new_content = $plugin->replaceContent()) {
 				$content = $new_content;
@@ -226,8 +227,8 @@ class ilCalendarAppointmentPresentationGUI
 		return $res;
 	}
 
-	function getAppointment()
-	{
-		return $this->appointment;
-	}
+	//function getAppointment()
+	//{
+	//	return $this->appointment;
+	//}
 }

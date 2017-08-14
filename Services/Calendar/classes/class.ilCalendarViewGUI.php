@@ -152,8 +152,10 @@ class ilCalendarViewGUI
 		foreach ($events as $item)
 		{
 			$DIC->logger()->cal()->debug(" GET['dt'] => ".$_GET['dt']);
-			$DIC->logger()->cal()->debug("item start => ".$item['event']->getTitle());
+			$DIC->logger()->cal()->debug("calendar entry start => ".$item['event']->getTitle());
 			$DIC->logger()->cal()->debug("item start => ".$item['dstart']);
+			$DIC->logger()->cal()->debug("calendar entry start => ".$item['event']->getStart());
+
 
 			if ($item["event"]->getEntryId() == (int) $_GET["app_id"] && $item['dstart'] == (int) $_GET['dt'])
 			{
@@ -205,44 +207,38 @@ class ilCalendarViewGUI
 		return $res;
 	}
 
-	public function getContentByPlugins($a_app, $a_title, $a_view)
+	/**
+	 * @param $a_cal_entry
+	 * @param $a_start_date
+	 * @param $a_title
+	 * @return string
+	 */
+	public function getContentByPlugins($a_cal_entry, $a_start_date, $a_title)
 	{
-		$title = $a_title;
-
-		$values = array();
+		$content = $a_title;
 
 		//demo of plugin execution.
 		foreach($this->getActivePlugins() as $plugin)
 		{
-			$plugin->setAppointment($a_app);
-			switch ($a_view)
+			$plugin->setAppointment($a_cal_entry, $a_start_date);
+			if($new_content = $plugin->replaceContent())
 			{
-				case self::CAL_PRESENTATION_AGENDA_LIST:
-					$title = $plugin->replaceTitle();
-					$description = $plugin->replaceDescription();
-					break;
-				default:
-					if($new_content = $plugin->replaceContent())
-					{
-						$title = $new_content;
-					}
-					else
-					{
-						if($glyph = $plugin->addGlyph())
-						{
-							$title = $glyph." ".$title;
-						}
-						if($more_content = $plugin->addExtraContent())
-						{
-							$title .= " ".$more_content;
-						}
-					}
+				$content = $new_content;
+			}
+			else
+			{
+				if($glyph = $plugin->addGlyph())
+				{
+					$content = $glyph." ".$title;
+				}
+				if($more_content = $plugin->addExtraContent())
+				{
+					$content .= " ".$more_content;
+				}
 			}
 		}
-		$values["title"] = $title;
-		$values["description"] = $description;
 
-		return $values;
+		return $content;
 	}
 
 }
