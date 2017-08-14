@@ -16001,3 +16001,5 @@ common#:#second_email_not_valid#:#Die eingegebene zweite E-Mail-Adresse ist nich
 common#:#second_email#:#Zweite E-Mail
 iass#:#iass_event_time_place_required#:#Verpflichtende Angabe von Datum und Ort
 iass#:#iass_event_time_place_required_info#:#In der Dokumentation zu einem Teilnehmer müssen Datum und Ort angegeben werden.
+iass#:#iass_place#:#Ort der Durchführung
+iass#:#iass_event_time#:#Datum der Durchführung

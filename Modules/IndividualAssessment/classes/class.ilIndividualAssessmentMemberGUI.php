@@ -223,6 +223,18 @@ class ilIndividualAssessmentMemberGUI {
 		$learning_progress->setDisabled(!$may_be_edited);
 		$form->addItem($learning_progress);
 
+		$settings = $this->object->getSettings();
+		$txt = new ilTextInputGUI($this->lng->txt('iass_place'), 'place');
+		$txt->setRequired($settings->eventTimePlaceRequired());
+		$txt->setDisabled(!$may_be_edited);
+		$form->addItem($txt);
+
+		$date = new ilDateTimeInputGUI($this->lng->txt('iass_event_time'), 'event_time');
+		$date->setShowTime(false);
+		$date->setRequired($settings->eventTimePlaceRequired());
+		$date->setDisabled(!$may_be_edited);
+		$form->addItem($date);
+
 		// notify examinee
 		$notify = new ilCheckboxInputGUI($this->lng->txt('iass_notify'), 'notify');
 		$notify->setInfo($this->lng->txt('iass_notify_explanation'));
