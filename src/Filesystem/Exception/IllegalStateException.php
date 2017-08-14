@@ -13,6 +13,8 @@ namespace ILIAS\Filesystem\Exception;
  * its internal state. The reason why the exception is called illegal state is due to the fact that the state "play + seek" would be illegal.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
+ * @since 5.3
+ * @version 1.0
  */
 class IllegalStateException extends \RuntimeException {
 

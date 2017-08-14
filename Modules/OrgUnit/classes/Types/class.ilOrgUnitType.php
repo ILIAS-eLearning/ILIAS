@@ -1,8 +1,4 @@
 <?php
-require_once('class.ilOrgUnitTypeTranslation.php');
-require_once('./Modules/OrgUnit/exceptions/class.ilOrgUnitTypeException.php');
-require_once('./Modules/OrgUnit/exceptions/class.ilOrgUnitTypePluginException.php');
-require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 
 /**
  * Class ilOrgUnitType

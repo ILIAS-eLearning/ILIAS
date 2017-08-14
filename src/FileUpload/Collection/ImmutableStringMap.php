@@ -3,7 +3,6 @@
 namespace ILIAS\FileUpload\Collection;
 
 use ILIAS\FileUpload\Collection\Exception\NoSuchElementException;
-use ILIAS\FileUpload\Exception\IllegalArgumentException;
 
 /**
  * Class ImmutableStringMap
@@ -26,7 +25,7 @@ interface ImmutableStringMap {
 	 * @return string
 	 *
 	 * @throws NoSuchElementException   Thrown if the entry is not found with the given key.
-	 * @throws IllegalArgumentException Thrown if the key type is not of the type string.
+	 * @throws \InvalidArgumentException Thrown if the key type is not of the type string.
 	 *
 	 * @since 5.3
 	 */
@@ -50,7 +49,7 @@ interface ImmutableStringMap {
 	 *
 	 * @return bool
 	 *
-	 * @throws IllegalArgumentException Thrown if the key type is not of the type string.
+	 * @throws \InvalidArgumentException Thrown if the key type is not of the type string.
 	 *
 	 * @since 5.3
 	 */

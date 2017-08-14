@@ -26,18 +26,16 @@ abstract class ilBibliograficFileReaderBase implements ilBibliograficFileReader 
 	 * @return bool
 	 */
 	public function readContent($path_to_file) {
+		global $DIC;
+		/**
+		 * @var $filesystem \ILIAS\Filesystem\Filesystems
+		 */
+		$filesystem = $DIC["filesystem"];
 		$this->setPathToFile($path_to_file);
-		//		$this->convertFiletoUTF8();
-		$this->setFileContent($this->convertStringToUTF8(file_get_contents($path_to_file)));
+		$this->setFileContent($this->convertStringToUTF8($filesystem->storage()->read($path_to_file)));
 
 		return true;
 	}
-
-
-	protected function convertFiletoUTF8() {
-		file_put_contents($this->getPathToFile(), $this->convertStringToUTF8(file_get_contents($this->getPathToFile())));
-	}
-
 
 	/**
 	 * @param $string

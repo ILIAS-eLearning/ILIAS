@@ -156,6 +156,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 		// Write the workflow to the database, so detectors find a parent id to save with them.
 		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
 		$this->active = true;
+		ilWorkflowDbHelper::writeWorkflow($this);
 		$this->onStartWorkflow();
 
 		// Figure out, if there is a start-node set - or nodes at all.
@@ -170,6 +171,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 			}
 		}
 		$this->start_node->activate();
+		ilWorkflowDbHelper::writeWorkflow($this);
 	}
 
 	/**
@@ -431,30 +433,33 @@ abstract class ilBaseWorkflow implements ilWorkflow
 	 */
 	public static function autoload($class_name)
 	{
-		// Activities
-		if (strtolower(substr($class_name, strlen($class_name)-8, 8)) == 'activity')
+		switch(true)
 		{
-			require_once './Services/WorkflowEngine/classes/activities/class.'.$class_name.'.php';
+			case strtolower(substr($class_name, strlen($class_name) - 8, 8)) == 'activity':
+				$componentDirectory = 'activities';
+				break;
+
+			case strtolower(substr($class_name, strlen($class_name) - 8, 8)) == 'detector':
+				$componentDirectory = 'detectors';
+				break;
+
+			case strtolower(substr($class_name, strlen($class_name) - 7, 7)) == 'emitter':
+				$componentDirectory = 'emitters';
+				break;
+
+			case strtolower(substr($class_name, strlen($class_name) - 4, 4)) == 'node':
+				$componentDirectory = 'node';
+				break;
+				
+			default:
+				return;
 		}
 
-		// Detectors
-		if (strtolower(substr($class_name, strlen($class_name)-8, 8)) == 'detector')
+		$filename = './Services/WorkflowEngine/classes/' . $componentDirectory . '/class.'.$class_name.'.php';
+		if(file_exists($filename))
 		{
-			require_once './Services/WorkflowEngine/classes/detectors/class.'.$class_name.'.php';
+			require_once $filename;
 		}
-
-		// Emitters
-		if (strtolower(substr($class_name, strlen($class_name)-7, 7)) == 'emitter')
-		{
-			require_once './Services/WorkflowEngine/classes/emitters/class.'.$class_name.'.php';
-		}
-
-		// Nodes
-		if (strtolower(substr($class_name, strlen($class_name)-4, 4)) == 'node')
-		{
-			require_once './Services/WorkflowEngine/classes/nodes/class.'.$class_name.'.php';
-		}
-
 	}
 
 	/**

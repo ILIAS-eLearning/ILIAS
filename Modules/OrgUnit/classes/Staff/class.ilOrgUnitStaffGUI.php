@@ -1,8 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/Search/classes/class.ilRepositorySearchGUI.php");
-require_once("class.ilOrgUnitStaffTableGUI.php");
-require_once("class.ilOrgUnitOtherRolesTableGUI.php");
 /**
  * Class ilOrgUnitStaffGUI
  *
@@ -430,4 +427,3 @@ class ilOrgUnitStaffGUI {
 	}
 
 }
-?>

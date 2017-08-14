@@ -27,6 +27,7 @@ class ilChatroom
 	 */
 	private $availableSettings = array(
 		'object_id'              => 'integer',
+		'online_status'          => 'integer',
 		'allow_anonymous'        => 'boolean',
 		'allow_custom_usernames' => 'boolean',
 		'enable_history'         => 'boolean',
@@ -43,56 +44,109 @@ class ilChatroom
 
 	/**
 	 * Checks user permissions by given array and ref_id.
-	 * @global  Rbacsystem $rbacsystem
-	 * @param   mixed      $permissions
-	 * @param   integer    $ref_id
+	 * @param string|array  $permissions
+	 * @param integer       $ref_id
+	 * @param bool          $send_info
+	 * @return bool
 	 */
 	public static function checkUserPermissions($permissions, $ref_id, $send_info = true)
 	{
-		global $rbacsystem, $lng;
+		global $DIC;
 
 		if(!is_array($permissions))
 		{
 			$permissions = array($permissions);
 		}
 
-		foreach($permissions as $permission)
+		$hasPermissions = self::checkPermissions($DIC->user()->getId(), $ref_id, $permissions);
+		if(!$hasPermissions && $send_info)
 		{
-			if(!$rbacsystem->checkAccess($permission, $ref_id))
-			{
-				if($send_info)
-				{
-					ilUtil::sendFailure($lng->txt("permission_denied"), true);
-				}
-				return false;
-			}
+			ilUtil::sendFailure($DIC->language()->txt('permission_denied'), true);
+
+			return false;
 		}
 
-		return true;
+		return $hasPermissions;
 	}
 
 	/**
 	 * Checks user permissions in question for a given user id in relation
 	 * to a given ref_id.
-	 * @global ilRbacSystem $rbacsystem
-	 * @global ilLanguage   $lng
 	 * @param integer       $usr_id
-	 * @param mixed         $permissions
+	 * @param array|string  $permissions
 	 * @param integer       $ref_id
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function checkPermissionsOfUser($usr_id, $permissions, $ref_id)
 	{
-		global $rbacsystem, $lng;
-
 		if(!is_array($permissions))
 		{
 			$permissions = array($permissions);
 		}
 
+		return self::checkPermissions($usr_id, $ref_id, $permissions);
+	}
+
+	/**
+	 * @param int   $usrId
+	 * @param int   $refId
+	 * @param array $permissions
+	 * @return bool
+	 */
+	protected static function checkPermissions($usrId, $refId, array $permissions)
+	{
+		global $DIC;
+
+		require_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
+		$pub_ref_id = ilObjChatroom::_getPublicRefId();
+
 		foreach($permissions as $permission)
 		{
-			if(!$rbacsystem->checkAccessOfUser($usr_id, $permission, $ref_id))
+			if($pub_ref_id == $refId)
+			{
+				$hasAccess = $DIC->rbac()->system()->checkAccessOfUser($usrId, $permission, $refId);
+				if($hasAccess)
+				{
+					$hasWritePermission = $DIC->rbac()->system()->checkAccessOfUser($usrId, 'write', $refId);
+					if($hasWritePermission)
+					{
+						continue;
+					}
+
+					$visible  = null;
+					$a_obj_id = ilObject::_lookupObjId($refId);
+					$active   = ilObjChatroomAccess::isActivated($refId, $a_obj_id, $visible);
+
+					switch($permission)
+					{
+						case 'visible':
+							if(!$active)
+							{
+								$GLOBALS['DIC']->access()->addInfoItem(IL_NO_OBJECT_ACCESS, $GLOBALS['DIC']->language()->txt('offline'));
+							}
+
+							if(!$active && !$visible)
+							{
+								return false;
+							}
+							break;
+
+						case 'read':
+							if(!$active)
+							{
+								$GLOBALS['DIC']->access()->addInfoItem(IL_NO_OBJECT_ACCESS, $GLOBALS['DIC']->language()->txt('offline'));
+								return false;
+							}
+							break;
+					}
+				}
+			}
+			else
+			{
+				$hasAccess = $DIC->access()->checkAccessOfUser($usrId, $permission, '', $refId);
+			}
+
+			if(!$hasAccess)
 			{
 				return false;
 			}
@@ -388,14 +442,17 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		$subRoom = 0;
+		$subRoom   = 0;
+		$timestamp = 0;
 		if(is_array($message))
 		{
-			$subRoom = (int)$message['sub'];
+			$subRoom   = (int)$message['sub'];
+			$timestamp = (int)$message['timestamp'];
 		}
 		else if(is_object($message))
 		{
-			$subRoom = (int)$message->sub;
+			$subRoom   = (int)$message->sub;
+			$timestamp = (int)$message->timestamp;
 		}
 
 		$id = $ilDB->nextId(self::$historyTable);
@@ -406,7 +463,7 @@ class ilChatroom
 				'room_id'   => array('integer', $this->roomId),
 				'sub_room'  => array('integer', $subRoom),
 				'message'   => array('text', json_encode($message)),
-				'timestamp' => array('integer', time()),
+				'timestamp' => array('integer', ($timestamp > 0 ? $timestamp : time())),
 			)
 		);
 	}
@@ -464,13 +521,14 @@ class ilChatroom
 	 * Returns an array of user objects containing all users having an entry
 	 * in userTable, matching the roomId.
 	 * @global ilDBInterface $ilDB
+	 * @param bool $only_data
 	 * @return array
 	 */
-	public function getConnectedUsers()
+	public function getConnectedUsers($only_data = true)
 	{
 		global $ilDB;
 
-		$query  = 'SELECT userdata FROM ' . self::$userTable . ' WHERE room_id = %s';
+		$query  = 'SELECT ' . ($only_data ? 'userdata' : '*') . ' FROM ' . self::$userTable . ' WHERE room_id = %s';
 		$types  = array('integer');
 		$values = array($this->roomId);
 		$rset   = $ilDB->queryF($query, $types, $values);
@@ -478,7 +536,7 @@ class ilChatroom
 
 		while($row = $ilDB->fetchAssoc($rset))
 		{
-			$users[] = json_decode($row['userdata']);
+			$users[] = $only_data ? json_decode($row['userdata']) : $row;
 		}
 
 		return $users;
@@ -633,9 +691,10 @@ class ilChatroom
 	 * @param ilDateTime     $from
 	 * @param ilDateTime     $to
 	 * @param integer        $restricted_session_userid
+	 * @param bool           $respect_target
 	 * @return array
 	 */
-	public function getHistory(ilDateTime $from = null, ilDateTime $to = null, $restricted_session_userid = null, $proom_id = 0)
+	public function getHistory(ilDateTime $from = null, ilDateTime $to = null, $restricted_session_userid = null, $proom_id = 0, $respect_target = true)
 	{
 		global $ilDB, $ilUser;
 
@@ -656,7 +715,10 @@ class ilChatroom
 			'FROM ' . self::$historyTable . ' historyTable ' . $join . ' ' .
 			'WHERE historyTable.room_id = ' . $this->getRoomId();
 
-		$query .= ' AND historyTable.sub_room = ' . $ilDB->quote($proom_id, 'integer');
+		if($proom_id !== null)
+		{
+			$query .= ' AND historyTable.sub_room = ' . $ilDB->quote($proom_id, 'integer');
+		}
 
 		$filter = array();
 
@@ -681,7 +743,12 @@ class ilChatroom
 		{
 			$row['message']            = json_decode($row['message']);
 			$row['message']->timestamp = $row['timestamp'];
-			if($row['message']->target !== null && !$row['message']->target->public && !in_array($ilUser->getId(), explode(',', $row['recipients'])))
+			if(
+				$respect_target &&
+				$row['message']->target !== null &&
+				!$row['message']->target->public &&
+				!in_array($ilUser->getId(), explode(',', $row['recipients']))
+			)
 			{
 				continue;
 			}
@@ -748,9 +815,10 @@ class ilChatroom
 	 * Inserts user into banTable, using given $user_id
 	 * @global ilDBInterface $ilDB
 	 * @param integer        $user_id
+	 * @param integer        $actor_id
 	 * @param string         $comment
 	 */
-	public function banUser($user_id, $comment = '')
+	public function banUser($user_id, $actor_id, $comment = '')
 	{
 		global $ilDB;
 
@@ -761,6 +829,7 @@ class ilChatroom
 				'user_id' => array('integer', $user_id)
 			),
 			array(
+				'actor_id'  => array('integer', $actor_id),
 				'timestamp' => array('integer', time()),
 				'remark'    => array('text', $comment)
 			)
@@ -845,6 +914,8 @@ class ilChatroom
 						'firstname' => $user->getFirstname(),
 						'lastname'  => $user->getLastname(),
 						'login'     => $user->getLogin(),
+						'timestamp' => $row['timestamp'],
+						'actor_id'  => $row['actor_id'],
 						'remark'    => $row['remark']
 					);
 
@@ -926,7 +997,8 @@ class ilChatroom
 				'parent_id' => array('integer', $this->roomId),
 				'title'     => array('text', $title),
 				'owner'     => array('integer', $owner->getUserId()),
-				'created'   => array('integer', time()),
+				'closed'    => array('integer', (isset($settings['closed']) ? $settings['closed'] : 0)),
+				'created'   => array('integer', (isset($settings['created']) ? $settings['created'] : time())),
 				'is_public' => array('integer', $settings['public']),
 			)
 		);
@@ -1114,16 +1186,10 @@ class ilChatroom
 		 */
 		global $ilDB;
 
-		$query  = 'DELETE FROM ' . self::$privateRoomsAccessTable . ' WHERE user_id = %s AND proom_id = %s';
-		$types  = array('integer', 'integer');
-		$values = array($user_id, $proom_id);
-
-		$ilDB->manipulateF($query, $types, $values);
-
-		$ilDB->insert(self::$privateRoomsAccessTable, array(
+		$ilDB->replace(self::$privateRoomsAccessTable, array(
 			'user_id'  => array('integer', $user_id),
 			'proom_id' => array('integer', $proom_id)
-		));
+		), array());
 	}
 
 	public function getActivePrivateRooms($userid)
@@ -1245,6 +1311,44 @@ class ilChatroom
 			return $row['cnt'];
 
 		return 0;
+	}
+
+	public function getPrivateRooms()
+	{
+		global $ilDB;
+
+		$query = 'SELECT * FROM ' . self::$privateRoomsTable . ' WHERE parent_id = %s';
+		$rset  = $ilDB->queryF($query, array('integer'), array($this->roomId));
+
+		$rooms = array();
+
+		while($row = $ilDB->fetchAssoc($rset))
+		{
+			$rooms[] = $row;
+		}
+
+		return $rooms;
+	}
+
+	/**
+	 * @param int $subRoomId
+	 * @return int[]
+	 */
+	public function getPrivilegedUsersForPrivateRoom($subRoomId)
+	{
+		global $ilDB;
+
+		$query = 'SELECT user_id FROM ' . self::$privateRoomsAccessTable . ' WHERE proom_id = %s';
+		$rset  = $ilDB->queryF($query, array('integer'), array($subRoomId));
+
+		$userIds = array();
+
+		while($row = $ilDB->fetchAssoc($rset))
+		{
+			$userIds[] = $row['user_id'];
+		}
+
+		return $userIds;
 	}
 
 	public function getUniquePrivateRoomTitle($title)
@@ -1450,7 +1554,10 @@ class ilChatroom
 
 		\usort($results, function ($a, $b)
 		{
-			return $b->timestamp - $a->timestamp;
+			$a_timestamp = strlen($a->timestamp) == 13 ? substr($a->timestamp, 0, -3) : $a->timestamp;
+			$b_timestamp = strlen($b->timestamp) == 13 ? substr($b->timestamp, 0, -3) : $b->timestamp;
+
+			return $b_timestamp - $a_timestamp;
 		});
 
 		return $results;

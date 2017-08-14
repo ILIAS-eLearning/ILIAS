@@ -801,6 +801,7 @@ class ilAccessHandler
 		$this->results = array();
 		$this->last_result = "";
 		$this->current_info = new ilAccessInfo();
+		$this->stored_rbac_access = [];
 	}
 	
 	function enable($a_str,$a_bool)

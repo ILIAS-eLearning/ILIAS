@@ -90,6 +90,9 @@ interface FileReadAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 *
+	 * @throws IOException              Thrown if the file is not accessible or the underlying filesystem adapter failed.
+	 * @throws FileNotFoundException    Thrown if the specified file was not found.
+	 *
 	 * @see     DataSize
 	 */
 	public function getSize($path, $fileSizeUnit);

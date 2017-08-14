@@ -18,7 +18,7 @@ interface TaskManager {
 	/**
 	 * Actually executes a task.
 	 *
-	 * @param Task   $task
+	 * @param Task     $task
 	 * @param Observer $observer
 	 *
 	 * @return mixed

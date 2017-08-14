@@ -108,11 +108,15 @@ class ilObjBibliographic extends ilObject2 {
 	public function doUpdate() {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		$file_changed = !empty($_FILES['bibliographic_file']['name']);
-		if ($file_changed) {
+
+		$upload = $DIC->upload();
+		if ($upload->hasUploads()) {
+			$upload->process();
 			$this->deleteFile();
-			$this->moveFile();
+			$this->moveUploadedFile($upload);
 		}
+
+
 		// Delete the object, but leave the db table 'il_bibl_data' for being able to update it using WHERE, and also leave the file
 		$this->doDelete(true, true);
 		$ilDB->manipulate("UPDATE il_bibl_data SET " . "filename = "
@@ -155,55 +159,57 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return string the folder is: $ILIAS-data-folder/bibl/$id
 	 */
 	public function getFileDirectory() {
-		return ilUtil::getDataDir() . DIRECTORY_SEPARATOR . $this->getType() . DIRECTORY_SEPARATOR
-		       . $this->getId();
+		return "{$this->getType()}/{$this->getId()}";
 	}
 
 
 	/**
-	 * @param bool|false $file_to_copy
-	 *
-	 * @throws Exception
+	 * @param \ILIAS\FileUpload\FileUpload $upload
 	 */
-	public function moveFile($file_to_copy = false) {
-		$target_dir = $this->getFileDirectory();
-		if (!is_dir($target_dir)) {
-			ilUtil::makeDirParents($target_dir);
+	protected function moveUploadedFile(\ILIAS\FileUpload\FileUpload $upload) {
+		$result = $upload->getResults()[0];
+		if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+			$this->deleteFile();
+			$upload->moveFilesTo($this->getFileDirectory(), \ILIAS\FileUpload\Location::STORAGE);
+			$this->setFilename($result->getName());
 		}
-		if ($_FILES['bibliographic_file']['name']) {
-			$filename = $_FILES['bibliographic_file']['name'];
-		} elseif ($file_to_copy) {
-			//file is not uploaded, but a clone is made out of another bibl
-			$split_path = explode(DIRECTORY_SEPARATOR, $file_to_copy);
-			$filename = $split_path[sizeof($split_path) - 1];
-		} else {
-			throw new Exception("Either a file must be delivered via \$_POST/\$_FILE or the file must be delivered via the method argument file_to_copy");
-		}
-		$target_full_filename = $target_dir . DIRECTORY_SEPARATOR . $filename;
-		//If there is no file_to_copy (which is used for clones), copy the file from the temporary upload directory (new creation of object).
-		//Therefore, a warning predicates nothing and can be suppressed.
-		if (@!copy($file_to_copy, $target_full_filename)) {
-			if (!empty($_FILES['bibliographic_file']['tmp_name'])) {
-				ilUtil::moveUploadedFile($_FILES['bibliographic_file']['tmp_name'], $_FILES['bibliographic_file']['name'], $target_full_filename);
-			} else {
-				throw new Exception("The file delivered via the method argument file_to_copy could not be copied. The file '{$file_to_copy}' does probably not exist.");
-			}
-		}
-		$this->setFilename($filename);
-		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
 	}
 
 
-	function deleteFile() {
-		$path = $this->getFilePath(true);
-		self::__force_rmdir($path);
+	public function copyFile($file_to_copy) {
+		$this->getFileSystem()->copy($file_to_copy, $this->getFilePath(true));
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	protected function deleteFile() {
+		$path = $this->getFileDirectory();
+		try {
+			$this->getFileSystem()->deleteDir($path);
+		} catch (\ILIAS\Filesystem\Exception\IOException $e) {
+			return false;
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * @return \ILIAS\Filesystem\Filesystem
+	 */
+	private function getFileSystem() {
+		global $DIC;
+
+		return $DIC["filesystem"]->storage();
 	}
 
 
 	/**
 	 * @param bool $without_filename
 	 *
-	 * @return array with all filepath
+	 * @return string
 	 */
 	public function getFilePath($without_filename = false) {
 		global $DIC;
@@ -279,37 +285,6 @@ class ilObjBibliographic extends ilObject2 {
 		return $overviewModels;
 	}
 
-
-	/**
-	 * remove a directory recursively
-	 *
-	 * @param $path
-	 *
-	 * @return bool
-	 */
-	protected static function __force_rmdir($path) {
-		if (!file_exists($path)) {
-			return false;
-		}
-		if (is_file($path) || is_link($path)) {
-			return unlink($path);
-		}
-		if (is_dir($path)) {
-			$path = rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-			$result = true;
-			$dir = new DirectoryIterator($path);
-			foreach ($dir as $file) {
-				if (!$file->isDot()) {
-					$result &= self::__force_rmdir($path . $file->getFilename(), false);
-				}
-			}
-			$result &= rmdir($path);
-
-			return $result;
-		}
-	}
-
-
 	/**
 	 * Clone BIBL
 	 *
@@ -345,7 +320,7 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	public function cloneStructure($original_id) {
 		$original = new ilObjBibliographic($original_id);
-		$this->moveFile($original->getFileAbsolutePath());
+		$this->copyFile($original->getFilePath());
 		$this->setDescription($original->getDescription());
 		$this->setTitle($original->getTitle());
 		$this->setType($original->getType());

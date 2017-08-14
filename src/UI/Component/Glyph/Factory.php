@@ -340,6 +340,26 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
+	 *       The briefcase symbolize some ongoing work that is done. Momentarily in the background tasks.
+	 *   composition: >
+	 *       The briefcase Glyph uses glyphicon-briefcase.
+	 *   effect: >
+	 *       The click on the briefcase opens a popup to the background tasks.
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be ‘Background Tasks'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function briefcase($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
 	 *       The User Glyph triggers the “Who is online?” Popover in the Top Navigation.
 	 *       The User Glyph indicates the number of pending contact requests and users online via the the Novelty Counter and Status Counter respectively.
 	 *   composition: >

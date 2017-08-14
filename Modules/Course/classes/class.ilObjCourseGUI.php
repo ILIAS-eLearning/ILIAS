@@ -22,7 +22,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMailMemberSearchGUI, ilBadgeManagementGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilCalendarPresentationGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilCalendarPresentationGUI, ilPropertyFormGUI
  *
  * @extends ilContainerGUI
  */

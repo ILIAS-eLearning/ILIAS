@@ -17,7 +17,6 @@ define ("IL_SOAPMODE_INTERNAL", 1);
 
 // php7 only SOAPMODE_INTERNAL
 define('IL_SOAPMODE', IL_SOAPMODE_INTERNAL);
-
 include_once "Services/Context/classes/class.ilContext.php";
 ilContext::init(ilContext::CONTEXT_SOAP);
 
@@ -39,15 +38,18 @@ if ((bool)$ilIliasIniFile->readVariable('https', 'auto_https_detect_enabled'))
 
 if(IL_SOAPMODE == IL_SOAPMODE_INTERNAL && strcasecmp($_SERVER["REQUEST_METHOD"], "post") == 0 )
 {
-	// called by webservice
-	//ini_set("soap.wsdl_cache_enabled", "1"); 
+	// This is a SOAP request
 	include_once('webservice/soap/include/inc.soap_functions.php');
-	$soapServer = new SoapServer(ilSoapFunctions::buildHTTPPath()."/webservice/soap/nusoapserver.php?wsdl");
-	$soapServer->setClass("ilSoapFunctions");
-	$soapServer->handle();				
-} 
+	$uri = ilSoapFunctions::buildHTTPPath() . '/webservice/soap/server.php';
+	if (isset($_GET['client_id'])) {
+		$uri .= '?client_id=' . $_GET['client_id'];
+	}
+	$soapServer = new SoapServer(null, array('uri' => $uri));
+	$soapServer->setObject(new ilSoapFunctions());
+	$soapServer->handle();
+}
 else 
 {
-	include ('webservice/soap/nusoapserver.php');	
+	// This is a request to display the available SOAP methods or WSDL...
+	include ('webservice/soap/nusoapserver.php');
 }
-?>

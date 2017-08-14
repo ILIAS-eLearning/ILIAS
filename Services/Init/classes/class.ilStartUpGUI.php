@@ -1054,7 +1054,7 @@ class ilStartUpGUI
 			$rtpl->parseCurrentBlock();
 		}
 
-		if ($ilSetting->get("pub_section") &&
+		if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
 			$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", ROOT_FOLDER_ID))
 		{
 			$rtpl->setCurrentBlock("homelink");
@@ -1509,7 +1509,7 @@ class ilStartUpGUI
 		//instantiate logout template
 		self::initStartUpTemplate("tpl.logout.html");
 		
-		if ($ilSetting->get("pub_section"))
+		if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']))
 		{
 			$tpl->setCurrentBlock("homelink");
 			$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$lng->getLangKey());
@@ -1821,11 +1821,7 @@ class ilStartUpGUI
 			ilInitialisation::redirectToStartingPage();
 			return;
 		}
-		else
-		{
-			
-		}
-
+		
 		// no valid session => show client list, if no client info is given
 		if (
 			!isset($_GET["client_id"]) &&
@@ -1835,14 +1831,15 @@ class ilStartUpGUI
 			return $this->showClientList();
 		}
 
-		if($GLOBALS['ilSetting']->get('pub_section', false)
-		)
+		if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']))
 		{
 			return ilInitialisation::goToPublicSection();
 		}
-		
+
 		// otherwise show login page
 		return $this->showLoginPage();
+		
+		
 	}
 
 
@@ -2204,7 +2201,8 @@ class ilStartUpGUI
 			$tpl->setVariable('LINK_URL', 'login.php?cmd=force_login&'.$param);
 			$tpl->parseCurrentBlock();
 
-			if($ilSetting->get('pub_section') &&
+			include_once './Services/Init/classes/class.ilPublicSectionSettings.php';
+			if(ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
 				$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID))
 			{
 				$tpl->setVariable('LINK_URL', 'index.php?'.$param);

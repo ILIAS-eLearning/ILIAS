@@ -18,6 +18,10 @@ class ilTestQuestionConfig
 	protected $solutionInitiallyPrefilled = false;
 	// hey.
 
+	protected $scoreEmptyMcSolutionsEnabled = false;
+	
+	protected $workedThrough = false;
+	
 	/**
 	 * ilTestQuestionConfig constructor.
 	 */
@@ -149,5 +153,41 @@ class ilTestQuestionConfig
 		return $this;
 		// hey.
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isScoreEmptyMcSolutionsEnabled()
+	{
+		return $this->scoreEmptyMcSolutionsEnabled;
+	}
+	
+	/**
+	 * @param bool $scoreEmptyMcSolutionsEnabled
+	 */
+	public function setScoreEmptyMcSolutionsEnabled($scoreEmptyMcSolutionsEnabled)
+	{
+		$this->scoreEmptyMcSolutionsEnabled = $scoreEmptyMcSolutionsEnabled;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isWorkedThrough()
+	{
+		return $this->workedThrough;
+	}
+	
+	/**
+	 * @param bool $workedThrough
+	 * @return $this
+	 */
+	public function setWorkedThrough($workedThrough)
+	{
+		$this->workedThrough = $workedThrough;
+		return $this;
+	}
 	// hey.
+	
+	
 }

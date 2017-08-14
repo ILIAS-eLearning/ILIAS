@@ -15,6 +15,7 @@ class GlyphFactoryTest extends AbstractFactoryTest {
 		, "comment"			=> array("context" => false)
 		, "sortAscending"	=> array("context" => false)
 		, "sortDescending"	=> array("context" => false)
+		, "briefcase"	    => array("context" => false)
 		);
 
 	public $factory_title = 'ILIAS\\UI\\Component\\Glyph\\Factory';

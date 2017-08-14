@@ -12,6 +12,17 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
  */
 class ilObjectImporter extends ilXmlImporter
 {
+	private $logger = null;
+	
+	
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->logger = $GLOBALS['DIC']->logger()->obj();
+	}
 
 	/**
 	 * Initialisation

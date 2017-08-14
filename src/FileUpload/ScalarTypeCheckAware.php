@@ -2,8 +2,6 @@
 
 namespace ILIAS\FileUpload;
 
-use ILIAS\FileUpload\Exception\IllegalArgumentException;
-
 /**
  * Trait ScalarTypeCheckAware
  *
@@ -26,13 +24,13 @@ trait ScalarTypeCheckAware {
 	 * @param string $variable The variable which should be tested.
 	 * @param string $name     The name of the variable which is tested.
 	 *
-	 * @throws IllegalArgumentException Thrown if the variable is not of the type string.
+	 * @throws \InvalidArgumentException Thrown if the variable is not of the type string.
 	 * @since 5.3
 	 */
 	private function stringTypeCheck($variable, $name) {
 		if (!is_string($variable)) {
 			$varType = gettype($variable);
-			throw new IllegalArgumentException("The $name must be of type string but $varType was given.");
+			throw new \InvalidArgumentException("The $name must be of type string but $varType was given.");
 		}
 	}
 
@@ -43,13 +41,13 @@ trait ScalarTypeCheckAware {
 	 * @param string $variable The variable which should be tested.
 	 * @param string $name     The name of the variable which is tested.
 	 *
-	 * @throws IllegalArgumentException Thrown if the variable is not of the type int.
+	 * @throws \InvalidArgumentException Thrown if the variable is not of the type int.
 	 * @since 5.3
 	 */
 	private function intTypeCheck($variable, $name) {
 		if (!is_int($variable)) {
 			$varType = gettype($variable);
-			throw new IllegalArgumentException("The $name must be of type integer but $varType was given.");
+			throw new \InvalidArgumentException("The $name must be of type integer but $varType was given.");
 		}
 	}
 }

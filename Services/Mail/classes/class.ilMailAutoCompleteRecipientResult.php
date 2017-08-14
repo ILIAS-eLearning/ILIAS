@@ -25,14 +25,10 @@ class ilMailAutoCompleteRecipientResult
 	 */
 	public function __construct($mode)
 	{
-		/**
-		 * @var $ilUser     ilObjUser
-		 * @var $rbacsystem ilRbacSystem
-		 */
-		global $ilUser, $rbacsystem;
+		global $DIC;
 
-		$this->allow_smtp               = $rbacsystem->checkAccess('smtp_mail', MAIL_SETTINGS_ID);
-		$this->user_id                  = $ilUser->getId();
+		$this->allow_smtp               = $DIC->rbac()->system()->checkAccess('smtp_mail', MAIL_SETTINGS_ID);
+		$this->user_id                  = $DIC->user()->getId();
 		$this->max_entries              = ilSearchSettings::getInstance()->getAutoCompleteLength();
 		
 		$this->result['items']          = array();
