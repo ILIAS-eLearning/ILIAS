@@ -118,14 +118,10 @@ class Renderer extends AbstractComponentRenderer
 		if($triggeredSignals) {
 
 			$signal_select = $component->getSelectSignal();
+			$signal = $triggeredSignals[0]->getSignal();
+			$options = json_encode($signal->getOptions());
 
-			$signal = '';
-			if($triggeredSignals) {
-				$signal = $triggeredSignals[0]->getSignal();
-				//append options...
-			}
-
-			$component = $component->withOnLoadCode(function($id) use ($signal_select, $signal) {
+			$component = $component->withOnLoadCode(function($id) use ($signal_select, $signal, $options) {
 				return "
 				$(document).on('{$signal_select}', function(event, signalData) {
 
@@ -141,13 +137,15 @@ class Renderer extends AbstractComponentRenderer
 					dd.dropdown('toggle');
 					dd.contents()[0].data = signalData.triggerer.contents()[0].data  + ' ';
 
+					var options = JSON.parse('{$options}');
+					options.sortation = param;
+
 					//trigger sort-signal
 					sortation.trigger('{$signal}',
 						{
 							'id' : '{$signal}', 'event' : 'sort',
 							'triggerer' : sortation,
-							'options' : {'sort' : param}
-							//append options instead of resetting...
+							'options' : options
 						}
 					);
 					return false;
