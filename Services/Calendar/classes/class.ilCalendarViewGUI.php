@@ -171,13 +171,14 @@ class ilCalendarViewGUI
 		exit();
 	}
 
-	function getAppointmentShyButton($a_appointment)
+	//$a_title_forced used in plugins for rename the shy button title.
+	function getAppointmentShyButton($a_calendar_entry, $a_dstart, $a_title_forced = "")
 	{
 		$f = $this->ui_factory;
 		$r = $this->ui_renderer;
 
-		$this->ctrl->setParameter($this, "app_id", $a_appointment["event"]->getEntryId());
-		$this->ctrl->setParameter($this,'dt',$a_appointment['dstart']);
+		$this->ctrl->setParameter($this, "app_id", $a_calendar_entry->getEntryId());
+		$this->ctrl->setParameter($this,'dt',$a_dstart);
 		$this->ctrl->setParameter($this,'seed',$this->seed->get(IL_CAL_DATE));
 		$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
 		$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
@@ -186,7 +187,9 @@ class ilCalendarViewGUI
 
 		$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
-		$comps = [$f->button()->shy($a_appointment["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal()), $modal];
+		$title = ($a_title_forced == "")? $a_calendar_entry->getPresentationTitle() : $a_title_forced;
+
+		$comps = [$f->button()->shy($title, "")->withOnClick($modal->getShowSignal()), $modal];
 
 		return $r->render($comps);
 	}
@@ -227,10 +230,16 @@ class ilCalendarViewGUI
 			}
 			else
 			{
+				if($new_title = $plugin->editShyButtonTitle())
+				{
+					$content = $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $new_title);
+				}
+
 				if($glyph = $plugin->addGlyph())
 				{
-					$content = $glyph." ".$title;
+					$content = $glyph." ".$content;
 				}
+
 				if($more_content = $plugin->addExtraContent())
 				{
 					$content .= " ".$more_content;

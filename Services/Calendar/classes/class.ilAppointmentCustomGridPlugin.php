@@ -85,4 +85,6 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
 	 * @return mixed
 	 */
 	abstract function editAgendaItem($shy, $properties, $color);
+
+	abstract function editShyButtonTitle();
 }

@@ -351,7 +351,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 				}
 			}
 
-			$shy = $this->getAppointmentShyButton($item);
+			$shy = $this->getAppointmentShyButton($item['event'], $item['dstart']);
 
 			$title = ($time != "")? $time." ".$shy : $shy;
 

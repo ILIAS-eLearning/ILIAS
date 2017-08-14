@@ -413,7 +413,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 			? " (".$a_app['event']->getCompletion()."%)"
 			: "";
 
-		$shy = $this->getAppointmentShyButton($a_app);
+		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart']);
 
 		$title = ($new_title = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $shy))? $new_title : $shy;
 
@@ -495,7 +495,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 			$td_style .= $a_app['event']->getPresentationStyle();
 		}
 
-		$shy = $this->getAppointmentShyButton($a_app);
+		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart']);
 
 		$title = ($time != "")? $time." ".$shy : $shy;
 
