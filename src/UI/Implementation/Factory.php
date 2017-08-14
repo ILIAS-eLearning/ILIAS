@@ -153,7 +153,7 @@ class Factory implements \ILIAS\UI\Factory
 	 */
 	public function viewControl()
 	{
-		return new Component\ViewControl\Factory();
+		return new Component\ViewControl\Factory(new SignalGenerator());
 	}
 
 	/**

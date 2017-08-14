@@ -10,12 +10,6 @@ use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 class Renderer extends AbstractComponentRenderer {
-
-	/**
-	 * @var string
-	 */
-	private $touch_blocks = array();
-
 	/**
 	 * @inheritdoc
 	 */
@@ -48,10 +42,6 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		$this->maybeRenderId($component, $tpl, "with_id", "ID");
-
-		foreach ($this->touch_blocks as $block) {
-			$tpl->touchBlock($block);
-		}
 
 		return $tpl->get();
 	}

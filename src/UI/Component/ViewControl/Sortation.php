@@ -3,10 +3,12 @@
 namespace ILIAS\UI\Component\ViewControl;
 
 use \ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Triggerer;
 /**
  * This describes a Sortation Control
  */
-interface Sortation extends Component {
+interface Sortation extends Component, JavaScriptBindable, Triggerer {
 
 	/**
 	 * Set the initial, non-functional entry
@@ -25,22 +27,30 @@ interface Sortation extends Component {
 	public function getLabel();
 
 	/**
-	 * Get a Sortation with a specific identifier; this is necessary if
-	 * there is more than one instance on the page. Defaults to "sortation".
-	 * The identifier equals the request parameter that indicates the sorting order.
+	 * Get a Sortation with this target-url.
+	 * Shy-Buttons in this control will link to this url
+	 * and add $parameter_name with the selected value.
 	 *
-	 * @param 	string 	$identifier
+	 * @param 	string 	$url
+	 * @param 	string 	$paramer_name
 	 *
 	 * @return \Sortation
 	 */
-	public function withIdentifier($identifier);
+	public function withTargetURL($url, $paramter_name);
+
+	/**
+	 * Get the url this instance should trigger.
+	 *
+	 * @return 	string
+	 */
+	public function getTargetURL();
 
 	/**
 	 * Get the identifier of this instance.
 	 *
 	 * @return 	string
 	 */
-	public function getIdentifier();
+	public function getParameterName();
 
 	/**
 	 * Get the sorting-options.
@@ -48,5 +58,14 @@ interface Sortation extends Component {
 	 * @return 	array<string,string> 	value=>title
 	 */
 	public function getOptions();
+
+	/**
+	 * Get a component like this, triggering a signal of another component.
+	 *
+	 * @param Signal $signal A signal of another component
+	 *
+	 * @return $this
+	 */
+	public function withOnSort(\Signal $signal);
 
 }

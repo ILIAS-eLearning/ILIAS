@@ -111,42 +111,78 @@ class Renderer extends AbstractComponentRenderer
 
 	protected function renderSortation(Component\ViewControl\Sortation $component, RendererInterface $default_renderer) {
 		$f = $this->getUIFactory();
-		$component_identifier = $component->getIdentifier();
-		$options = $component->getOptions();
-		$sort_value = @$_GET[$component_identifier];
-		$init_label = $component->getLabel();
+		$tpl = $this->getTemplate("tpl.sortation.html", true, true);
 
-		if($sort_value && array_key_exists($sort_value, $options)) {
-			$init_label = $options[$sort_value];
+		$component = $component->withResetSignals();
+		$triggeredSignals = $component->getTriggeredSignals();
+		if($triggeredSignals) {
+
+			$signal_select = $component->getSelectSignal();
+
+			$signal = '';
+			if($triggeredSignals) {
+				$signal = $triggeredSignals[0]->getSignal();
+				//append options...
+			}
+
+			$component = $component->withOnLoadCode(function($id) use ($signal_select, $signal) {
+				return "
+				$(document).on('{$signal_select}', function(event, signalData) {
+
+					var triggerer = signalData.triggerer[0], 			//the shy-button within the dropdown
+						param = triggerer.getAttribute('data-action'), 	//the sortation-value
+						id = '{$id}',									//id of sortation control to be used
+																		//as triggerer for others
+						sortation = $('#' + id),
+						dd = sortation.find('.dropdown-toggle')			//the dropdown
+						;
+
+					//close dropdown and set current value
+					dd.dropdown('toggle');
+					dd.contents()[0].data = signalData.triggerer.contents()[0].data  + ' ';
+
+					//trigger sort-signal
+					sortation.trigger('{$signal}',
+						{
+							'id' : '{$signal}', 'event' : 'sort',
+							'triggerer' : sortation,
+							'options' : {'sort' : param}
+							//append options instead of resetting...
+						}
+					);
+					return false;
+				});
+				";
+
+			});
+			//maybeRenderId does not return id
+			$id = $this->bindJavaScript($component);
+			$tpl->setVariable('ID', $id);
 		}
 
 		//setup entries
-		global $DIC;
-		$uri = $DIC->http()->request()->getRequestTarget();
-
+		$options = $component->getOptions();
+		$init_label = $component->getLabel();
 		$items = array();
 		foreach ($options as $val => $label) {
-			if($label !== $init_label) {
-				$act = $uri
-					.'&'.$component_identifier
-					.'='.$val;
-				array_push($items, $f->button()->shy($label, $act));
+			if($triggeredSignals) {
+				$shy = $f->button()->shy($label, $val)->withOnClick($signal_select);
+			} else {
+				$url = $component->getTargetURL();
+				$url .= (strpos($url, '?') === false) ?  '?' : '&';
+				$url .= $component->getParameterName() .'=' .$val;
+				$shy = $f->button()->shy($label, $url);
 			}
+			$items[] = $shy;
 		}
 
-		//get renderer of Dropdown and append block to be touched
-		$dd_class = 'ILIAS\\UI\\Implementation\\Component\\Dropdown\\';
-		$dd_renderer = $default_renderer->instantiateRendererFor($dd_class)
-			->withBlocksToBeTouched('sortation');
+		$dd = $f->dropdown()->standard($items)
+			->withLabel($init_label);
 
-	    return $dd_renderer->render(
-	    	$f->dropdown()->standard($items)->withLabel($init_label),
-	    	$default_renderer
-	    );
-
-
-
+		$tpl->setVariable('SORTATION_DROPDOWN', $default_renderer->render($dd));
+	    return $tpl->get();
 	}
+
 
 	protected function maybeRenderId(Component\Component $component, $tpl, $block, $template_var) {
 		$id = $this->bindJavaScript($component);
