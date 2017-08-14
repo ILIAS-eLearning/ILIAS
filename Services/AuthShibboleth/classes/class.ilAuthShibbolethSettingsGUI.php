@@ -168,6 +168,7 @@ class ilAuthShibbolethSettingsGUI {
 		$defaultrole->setValue($settings["shib_user_default_role"]);
 		// Administrator must activate new user accounts
 		$activate_new = new ilCheckboxInputGUI($this->lng->txt("shib_activate_new"), "shib[activate_new]");
+		$activate_new->setInfo($this->lng->txt("shib_activate_new_info"));
 		$activate_new->setChecked($settings["shib_activate_new"]);
 		//set name of federation
 		$name = new ilTextInputGUI();

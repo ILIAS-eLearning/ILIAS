@@ -9974,6 +9974,8 @@ shib#:#shib_rules_tables#:#Aktive Regeln für die Rollenzuordnung
 shib#:#shib_settings#:#Shibboleth-Einstellungen
 shib#:#shib_update_role_ass_table#:#Regel zur Rollenzuordnung bearbeiten
 shib#:#shib_update_roles#:#Rollenzuordnungen
+shib#:#shib_activate_new#:#Neue Accounts mit Freischaltung
+shib#:#shib_activate_new_info#:#Wenn aktiviert, werden neue Benutzeraccounts inaktiv angelegt und müssen von einem Administrator aktiviert werden.
 skmg#:#scat#:#Kategorie
 skmg#:#skll#:#Basiskompetenz
 skmg#:#skmg_add_level#:#Ausprägung hinzufügen

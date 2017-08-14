@@ -6730,6 +6730,8 @@ shib#:#shib_rules_tables#:#Active Role Assignment Rules
 shib#:#shib_settings#:#Shibboleth Settings
 shib#:#shib_update_role_ass_table#:#Edit Role Assignment Rule
 shib#:#shib_update_roles#:#Role Assignments
+shib#:#shib_activate_new#:#New Accounts with Approval
+shib#:#shib_activate_new_info#:#If checked any new account creation has to be approved by an administrator.
 style#:#sty_acopy#:#Copy
 style#:#sty_add_characteristic#:#Add Style Class
 style#:#sty_add_color#:#Add Color
