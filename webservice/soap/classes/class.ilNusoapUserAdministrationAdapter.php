@@ -1368,7 +1368,7 @@ class ilNusoapUserAdministrationAdapter
 	protected function handleSoapPlugins() {
 		// Note: We need a context that does not handle authentication at this point, because this is
 		// handled by an actual SOAP request which always contains the session ID and client
-		ilContext::init(ilContext::CONTEXT_REST);
+		ilContext::init(ilContext::CONTEXT_SOAP_NO_AUTH);
 		ilInitialisation::initILIAS();
 		ilContext::init(ilContext::CONTEXT_SOAP);
 
