@@ -15,11 +15,26 @@ class ilMailCronOrphanedMailsDeletionProcessor
 	protected $collector;
 
 	/**
+	 * @var \ilDBInterface
+	 */
+	protected $db;
+
+	/**
+	 * @var \ilSetting
+	 */
+	protected $settings;
+
+	/**
 	 * @param ilMailCronOrphanedMailsDeletionCollector $collector
 	 */
 	public function __construct(ilMailCronOrphanedMailsDeletionCollector $collector)
 	{
+		global $DIC;
+
 		$this->collector = $collector;
+
+		$this->settings  = $DIC->settings();
+		$this->db        = $DIC->database();
 	}
 	
 	/**
@@ -27,23 +42,20 @@ class ilMailCronOrphanedMailsDeletionProcessor
 	 */
 	private function deleteAttachments()
 	{
-		global $ilDB;
-
 		$attachment_paths = array();
 
-		$res = $ilDB->query('
+		$res = $this->db->query('
 				SELECT path, COUNT(mail_id) cnt_mail_ids
 				FROM mail_attachment 
-				WHERE '. $ilDB->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer').'
+				WHERE '. $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer').'
 				GROUP BY path');
 		
-		while($row = $ilDB->fetchAssoc($res))
+		while($row = $this->db->fetchAssoc($res))
 		{
-			$usage_res = $ilDB->queryF('SELECT mail_id, path FROM mail_attachment WHERE path = %s', 
+			$usage_res = $this->db->queryF('SELECT mail_id, path FROM mail_attachment WHERE path = %s', 
 				array('text'), array($row['path']));
-			
-			$num_rows = $ilDB->numRows($usage_res);
-			
+
+			$num_rows = $this->db->numRows($usage_res);
 			if($row['cnt_mail_ids'] >= $num_rows)
 			{
 				// collect path to delete attachment file
@@ -68,28 +80,37 @@ class ilMailCronOrphanedMailsDeletionProcessor
 					$path_name = $file->getPathname();
 					if($file->isDir())
 					{
-						@rmdir($path_name);
+						ilUtil::delDir($path_name);
 						ilLoggerFactory::getLogger('mail')->info(sprintf(
-							'Attachment directory (%s) deleted for mail_id:  %s', $path_name, $mail_id
+							'Attachment directory (%s) deleted for mail_id: %s', $path_name, $mail_id
 						));
 					}
 					else
 					{
-						@unlink($path_name);
-						ilLoggerFactory::getLogger('mail')->info(sprintf(
-							'Attachment file (%s) deleted for mail_id:  %s', $path_name, $mail_id
-						));
+						if(file_exists($path_name) && unlink($path_name))
+						{
+							ilLoggerFactory::getLogger('mail')->info(sprintf(
+								'Attachment file (%s) deleted for mail_id: %s', $path_name, $mail_id
+							));
+						}
+						else
+						{
+							ilLoggerFactory::getLogger('mail')->info(sprintf(
+								'Attachment file (%s) for mail_id could not be deleted due to missing file system permissions: %s', $path_name, $mail_id
+							));
+						}
 					}
 				}
-				@rmdir($path);
+
+				ilUtil::delDir($path);
 				ilLoggerFactory::getLogger('mail')->info(sprintf(
-					'Attachment directory (%s) deleted for mail_id:  %s', $path, $mail_id
+					'Attachment directory (%s) deleted for mail_id: %s', $path, $mail_id
 				));
 			}
 			catch(Exception $e) { }
 		}
 
-		$ilDB->manipulate('DELETE FROM mail_attachment WHERE '. $ilDB->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
+		$this->db->manipulate('DELETE FROM mail_attachment WHERE '. $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
 	}
 	
 	/**
@@ -97,9 +118,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
 	 */
 	private function deleteMails()
 	{
-		global $ilDB;
-		
-		$ilDB->manipulate('DELETE FROM mail WHERE ' . $ilDB->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
+		$this->db->manipulate('DELETE FROM mail WHERE ' . $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
 	}
 	
 	/**
@@ -107,15 +126,13 @@ class ilMailCronOrphanedMailsDeletionProcessor
 	 */
 	private function deleteMarkedAsNotified()
 	{
-		global $ilDB, $ilSetting;
-	
-		if((int)$ilSetting->get('mail_notify_orphaned') >= 1)
+		if((int)$this->settings->get('mail_notify_orphaned') >= 1)
 		{
-			$ilDB->manipulate('DELETE FROM mail_cron_orphaned WHERE ' . $ilDB->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
+			$this->db->manipulate('DELETE FROM mail_cron_orphaned WHERE ' . $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
 		}
 		else
 		{
-			$ilDB->manipulate('DELETE FROM mail_cron_orphaned');
+			$this->db->manipulate('DELETE FROM mail_cron_orphaned');
 		}
 	}
 	

@@ -10,9 +10,19 @@ require_once 'Services/Mail/interfaces/interface.ilMailAddressType.php';
 abstract class ilBaseMailAddressType implements ilMailAddressType
 {
 	/**
-	 * @var ilMailAddress
+	 * @var \ilMailAddress
 	 */
 	protected $address;
+
+	/**
+	 * @var \ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var \ilRbacReview
+	 */
+	protected $rbacreview;
 
 	/**
 	 * @var array
@@ -21,10 +31,15 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
 
 	/**
 	 * ilBaseMailAddressType constructor.
-	 * @param ilMailAddress $a_address
+	 * @param \ilMailAddress $a_address
 	 */
-	public function __construct(ilMailAddress $a_address)
+	public function __construct(\ilMailAddress $a_address)
 	{
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->rbacreview = $DIC->rbac()->review();
+
 		$this->address = $a_address;
 		$this->init();
 	}

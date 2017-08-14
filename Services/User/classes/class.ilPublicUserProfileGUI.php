@@ -500,7 +500,7 @@ class ilPublicUserProfileGUI
 		// contact
 		$val_arr = array(
 			"getPhoneOffice" => "phone_office", "getPhoneHome" => "phone_home",
-			"getPhoneMobile" => "phone_mobile", "getFax" => "fax", "getEmail" => "email");
+			"getPhoneMobile" => "phone_mobile", "getFax" => "fax", "getEmail" => "email", "getSecondEmail" => "second_email");
 		$v = $sep = "";
 		foreach ($val_arr as $key => $value)
 		{

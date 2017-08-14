@@ -162,7 +162,12 @@ class ilUserTableGUI extends ilTable2GUI
 				"txt" => $lng->txt("email"),
 				"default" => true);
 		}
-		
+		if(isset($ufs["second_email"]))
+		{
+			$cols["second_email"] = array(
+				"txt" => $lng->txt("second_email"),
+				"default" => true);
+		}
 		// other user profile fields
 		foreach ($ufs as $f => $fd)
 		{
@@ -228,6 +233,7 @@ class ilUserTableGUI extends ilTable2GUI
 		unset($additional_fields["firstname"]);
 		unset($additional_fields["lastname"]);
 		unset($additional_fields["email"]);
+		unset($additional_fields["second_email"]);
 		unset($additional_fields["last_login"]);
 		unset($additional_fields["access_until"]);
 		unset($additional_fields['org_units']);

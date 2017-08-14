@@ -104,6 +104,7 @@ class ilUserSearchOptions
 				case 'firstname':	
 				case 'lastname':	
 				case 'email':	
+				case 'second_email':	
 					$fields[$counter]['autoComplete'] = true;
 					break;
 				
@@ -200,6 +201,7 @@ class ilUserSearchOptions
 					 'country',
 					 'sel_country',
 					 'email',
+					 'second_email',
 					 'hobby',
 					 'org_units',
 					 // begin-patch lok

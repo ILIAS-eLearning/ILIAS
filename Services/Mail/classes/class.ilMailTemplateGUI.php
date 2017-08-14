@@ -45,18 +45,12 @@ class ilMailTemplateGUI
 	 */
 	public function __construct()
 	{
-		/**
-		 * @var $tpl       ilTemplate
-		 * @var $ilCtrl    ilCtrl
-		 * @var $lng       ilLanguage
-		 * @var $ilToolbar ilToolbarGUI
-		 */
-		global $tpl, $ilCtrl, $lng, $ilToolbar;
+		global $DIC;
 
-		$this->tpl     = $tpl;
-		$this->ctrl    = $ilCtrl;
-		$this->lng     = $lng;
-		$this->toolbar = $ilToolbar;
+		$this->tpl     = $DIC->ui()->mainTemplate();
+		$this->ctrl    = $DIC->ctrl();
+		$this->lng     = $DIC->language();
+		$this->toolbar = $DIC->toolbar();
 
 		$this->lng->loadLanguageModule('meta');
 

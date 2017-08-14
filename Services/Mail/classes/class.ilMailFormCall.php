@@ -73,6 +73,8 @@ class ilMailFormCall
 	 */
 	protected static function getTargetUrl($argument_separator, $gui, $cmd, array $gui_params = array(), array $mail_params = array(), array $context_params = array())
 	{
+		global $DIC;
+
 		$mparams = '';
 		$referer = '';
 
@@ -95,11 +97,7 @@ class ilMailFormCall
 
 		if(is_object($gui))
 		{
-			/**
-			 * @var $ilCtrl ilCtrl
-			 */
-			global $ilCtrl;
-			$ilCtrlTmp = clone $ilCtrl;
+			$ilCtrlTmp = clone $DIC->ctrl();
 			foreach($gui_params as $key => $value)
 			{
 				$ilCtrlTmp->setParameter($gui, $key, $value);

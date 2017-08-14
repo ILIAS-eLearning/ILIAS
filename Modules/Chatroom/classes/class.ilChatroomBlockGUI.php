@@ -210,11 +210,10 @@ class ilChatroomBlockGUI extends ilBlockGUI
 	protected function getMessages()
 	{
 		/**
-		 * @var $rbacsystem ilRbacSystem
 		 * @var $ilUser     ilObjUser
 		 * @var $lng        ilLanguage
 		 */
-		global $rbacsystem, $ilUser, $lng;
+		global $ilUser, $lng;
 
 		$result     = new stdClass();
 		$result->ok = false;
@@ -229,7 +228,7 @@ class ilChatroomBlockGUI extends ilBlockGUI
 		 * @var $object ilObjChatroom
 		 */
 		$object = ilObjectFactory::getInstanceByRefId((int)$_REQUEST['ref_id'], false);
-		if(!$object || !$rbacsystem->checkAccess('read', (int)$_REQUEST['ref_id']))
+		if(!$object || !ilChatroom::checkUserPermissions('read', (int)$_REQUEST['ref_id'], false))
 		{
 			ilObjUser::_writePref
 			(

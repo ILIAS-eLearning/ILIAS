@@ -105,7 +105,7 @@ class FileUploadImplTest extends TestCase {
 				->andReturn(UPLOAD_ERR_OK)
 				->getMock()
 			->shouldReceive('getStream')
-				->once()
+				->twice()
 				->andReturn(Streams::ofString("Text file content."));
 
 		$uploadedFiles = [
@@ -147,7 +147,7 @@ class FileUploadImplTest extends TestCase {
 			->once()
 			->andReturn(UPLOAD_ERR_PARTIAL)
 			->shouldReceive('getStream')
-			->once()
+			->twice()
 			->andReturn(Streams::ofString("Text file content."));
 
 		$uploadedFiles = [

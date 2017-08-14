@@ -21,39 +21,81 @@ class ilMailFolderGUI
 	private $current_select_cmd;
 	private $current_selected_cmd;
 
-	private $tpl = null;
-	private $ctrl = null;
-	private $lng = null;
-	
-	public $umail = null;
-	public $mbox = null;
+	/**
+	 * @var \ilTemplate
+	 */
+	private $tpl;
 
+	/**
+	 * @var \ilCtrl
+	 */
+	private $ctrl;
+
+	/**
+	 * @var \ilLanguage
+	 */
+	private $lng;
+
+	/**
+	 * @var \ilToolbarGUI
+	 */
+	private $toolbar;
+
+	/**
+	 * @var \ilTabsGUI
+	 */
+	private $tabs;
+
+	/**
+	 * @var \ilObjUser
+	 */
+	private $user;
+
+	/**
+	 * @var \ilMail
+	 */
+	public $umail;
+
+	/**
+	 * @var \ilMailBox
+	 */
+	public $mbox;
+
+	/**
+	 * @var bool
+	 */
 	private $errorDelete = false;
 
+	/**
+	 * ilMailFolderGUI constructor.
+	 */
 	public function __construct()
 	{
-		global $tpl, $ilCtrl, $lng, $ilUser;
+		global $DIC;
 
-		$this->tpl = $tpl;
-		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
-		
-		$this->umail = new ilMail($ilUser->getId());
-		$this->mbox = new ilMailBox($ilUser->getId());
+		$this->tpl      = $DIC->ui()->mainTemplate();
+		$this->ctrl     = $DIC->ctrl();
+		$this->lng      = $DIC->language();
+		$this->toolbar  = $DIC->toolbar();
+		$this->user     = $DIC->user();
+		$this->tabs     = $DIC->tabs();
+
+		$this->umail = new ilMail($this->user->getId());
+		$this->mbox  = new ilMailBox($this->user->getId());
 
 		if(isset($_POST['mobj_id']) && (int)$_POST['mobj_id'])
 		{
 			$_GET['mobj_id'] = $_POST['mobj_id'];
 		}
-		// IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE
+
 		if(!(int)$_GET['mobj_id'])
 		{
 			$_GET['mobj_id'] = $this->mbox->getInboxFolder();
 		}
 		$_GET['mobj_id'] = (int)$_GET['mobj_id'];
-		$ilCtrl->saveParameter($this, 'mobj_id');
-		$ilCtrl->setParameter($this, 'mobj_id', $_GET['mobj_id']);
-		
+
+		$this->ctrl->saveParameter($this, 'mobj_id');
+		$this->ctrl->setParameter($this, 'mobj_id', $_GET['mobj_id']);
 	}
 
 	public function executeCommand()
@@ -104,6 +146,7 @@ class ilMailFolderGUI
 				break;
 
 			case 'ilmailoptionsgui':
+				$this->tpl->setTitle($this->lng->txt('mail'));
 				include_once 'Services/Mail/classes/class.ilMailOptionsGUI.php';
 
 				$this->ctrl->forwardCommand(new ilMailOptionsGUI());
@@ -169,13 +212,10 @@ class ilMailFolderGUI
 	
 	public function showUser()
 	{
-		global $ilCtrl, $ilToolbar;
-		
 		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
-		
+
 		$this->tpl->setTitle($this->lng->txt("mail"));
-		//$ilToolbar->addButton($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "showMail"));
-		
+
 		$this->tpl->setVariable("TBL_TITLE", $this->lng->txt("profile_of")." ".
 			ilObjUser::_lookupLogin($_GET["user"]));
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_usr.svg"));
@@ -184,28 +224,27 @@ class ilMailFolderGUI
 		include_once './Services/User/classes/class.ilPublicUserProfileGUI.php';		
 		$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
 		$profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, "showMail"));
-		$this->tpl->setContent($ilCtrl->getHTML($profile_gui));
+		$this->tpl->setContent($this->ctrl->getHTML($profile_gui));
 		$this->tpl->show();
-		
+
 		return true;
-	}	
+	}
 
 	public function addSubfolderCommands($check_uf = false)
 	{
-		global $ilToolbar;
-
 		if('tree' != ilSession::get(ilMailGUI::VIEWMODE_SESSION_KEY))
 		{
-			$ilToolbar->addSeparator();
+			$this->toolbar->addSeparator();
 		}
-		
-		$ilToolbar->addButton($this->lng->txt('mail_add_subfolder'), $this->ctrl->getLinkTarget($this, 'addSubFolder'));
 
-		if($check_uf == true)
+		$this->toolbar->addButton($this->lng->txt('mail_add_subfolder'), $this->ctrl->getLinkTarget($this, 'addSubFolder'));
+
+		if($check_uf)
 		{
-			$ilToolbar->addButton($this->lng->txt('rename'), $this->ctrl->getLinkTarget($this, 'renameSubFolder'));
-			$ilToolbar->addButton($this->lng->txt('delete'), $this->ctrl->getLinkTarget($this, 'deleteSubFolder'));
+			$this->toolbar->addButton($this->lng->txt('rename'), $this->ctrl->getLinkTarget($this, 'renameSubFolder'));
+			$this->toolbar->addButton($this->lng->txt('delete'), $this->ctrl->getLinkTarget($this, 'deleteSubFolder'));
 		}
+
 		return true;
 	}
 	/**
@@ -213,12 +252,6 @@ class ilMailFolderGUI
 	*/
 	public function showFolder($a_show_confirmation = false)
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 * @var $ilToolbar ilToolbarGUI
-		 */
-		global $ilUser, $ilToolbar;
-
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
 		$this->tpl->setTitle($this->lng->txt('mail'));
 
@@ -246,7 +279,7 @@ class ilMailFolderGUI
 		}
 
 		$folders = $this->mbox->getSubFolders();
-		$mtree = new ilTree($ilUser->getId());
+		$mtree = new ilTree($this->user->getId());
 		$mtree->setTableNames('mail_tree', 'mail_obj_data');
 
 		$check_uf = false;
@@ -333,15 +366,15 @@ class ilMailFolderGUI
 		{
 			if('tree' != ilSession::get(ilMailGUI::VIEWMODE_SESSION_KEY))
 			{
-				$ilToolbar->addText($this->lng->txt('mail_change_to_folder'));
+				$this->toolbar->addText($this->lng->txt('mail_change_to_folder'));
 				include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 				$si = new ilSelectInputGUI("", "mobj_id");
 				$si->setOptions($folder_options);
 				$si->setValue($_GET['mobj_id']);
-				$ilToolbar->addInputItem($si);
+				$this->toolbar->addInputItem($si);
 
-				$ilToolbar->addFormButton($this->lng->txt('change'),'showFolder');
-				$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'showFolder'));
+				$this->toolbar->addFormButton($this->lng->txt('change'),'showFolder');
+				$this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'showFolder'));
 			}
 			if($check_local == true || $check_uf == true)
 			{
@@ -430,19 +463,13 @@ class ilMailFolderGUI
 
 	public function addSubFolder()
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 * @var $tpl    ilTemplate
-		 */
-		global $ilCtrl, $tpl;
-
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
-		$tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
-		$tpl->setTitle($this->lng->txt('mail'));
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
+		$this->tpl->setTitle($this->lng->txt('mail'));
 
 		$oForm = new ilPropertyFormGUI();
-		$oForm->setFormAction($ilCtrl->getFormAction($this, 'performAddSubFolder'));
+		$oForm->setFormAction($this->ctrl->getFormAction($this, 'performAddSubFolder'));
 		$oForm->setTitle($this->lng->txt('mail_add_folder'));
 
 		//title
@@ -454,27 +481,21 @@ class ilMailFolderGUI
 		$oForm->addCommandButton('performAddSubFolder', $this->lng->txt('save'));
 		$oForm->addCommandButton('showFolder', $this->lng->txt('cancel'));
 
-		$tpl->setVariable('FORM', $oForm->getHTML());
-		$tpl->show();
+		$this->tpl->setVariable('FORM', $oForm->getHTML());
+		$this->tpl->show();
 
 		return true;
 	}
 
 	public function renameSubFolder()
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 * @var $tpl    ilTemplate
-		 */
-		global $ilCtrl, $tpl;
-
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
-		$tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
-		$tpl->setTitle($this->lng->txt('mail'));
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
+		$this->tpl->setTitle($this->lng->txt('mail'));
 
 		$oForm = new ilPropertyFormGUI();
-		$oForm->setFormAction($ilCtrl->getFormAction($this, 'performRenameSubFolder'));
+		$oForm->setFormAction($this->ctrl->getFormAction($this, 'performRenameSubFolder'));
 		$oForm->setTitle($this->lng->txt('mail_rename_folder'));
 
 		//title
@@ -487,8 +508,8 @@ class ilMailFolderGUI
 
 		$oForm->addCommandButton('performRenameSubFolder', $this->lng->txt('save'));
 		$oForm->addCommandButton('showFolder', $this->lng->txt('cancel'));
-		$tpl->setVariable('FORM', $oForm->getHTML());
-		$tpl->show();
+		$this->tpl->setVariable('FORM', $oForm->getHTML());
+		$this->tpl->show();
 
 		return true;
 	}
@@ -665,21 +686,14 @@ class ilMailFolderGUI
 	 */
 	public function showMail()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 * @var $ilToolbar ilToolbarGUI
-		 * @var $ilTabs ilTabsGUI
-		 */
-		global $ilUser, $ilToolbar, $ilTabs;
-
 		if($_SESSION['mail_id'])
 		{
 			$_GET['mail_id']     = $_SESSION['mail_id'];
 			$_SESSION['mail_id'] = '';
 		}
 
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt('back_to_folder'), $this->ctrl->getFormAction($this, 'showFolder'));
+		$this->tabs->clearTargets();
+		$this->tabs->setBackTarget($this->lng->txt('back_to_folder'), $this->ctrl->getFormAction($this, 'showFolder'));
 
 		$this->umail->markRead(array((int)$_GET['mail_id']));
 		$mailData = $this->umail->getMail((int)$_GET['mail_id']);
@@ -713,23 +727,23 @@ class ilMailFolderGUI
 			$this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int)$_GET['mail_id']);
 			$this->ctrl->setParameterByClass('ilmailformgui', 'type', 'reply');
 			$this->ctrl->clearParametersByClass('iliasmailformgui');
-			$ilToolbar->addButton($this->lng->txt('reply'), $this->ctrl->getLinkTargetByClass('ilmailformgui'), '', ilAccessKey::REPLY);
+			$this->toolbar->addButton($this->lng->txt('reply'), $this->ctrl->getLinkTargetByClass('ilmailformgui'), '', ilAccessKey::REPLY);
 			$this->ctrl->clearParameters($this);
 		}
 
 		$this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int)$_GET['mail_id']);
 		$this->ctrl->setParameterByClass('ilmailformgui', 'type', 'forward');
 		$this->ctrl->clearParametersByClass('iliasmailformgui');
-		$ilToolbar->addButton($this->lng->txt('forward'), $this->ctrl->getLinkTargetByClass('ilmailformgui'), '', ilAccessKey::FORWARD_MAIL);
+		$this->toolbar->addButton($this->lng->txt('forward'), $this->ctrl->getLinkTargetByClass('ilmailformgui'), '', ilAccessKey::FORWARD_MAIL);
 		$this->ctrl->clearParameters($this);
 
 		$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
-		$ilToolbar->addButton($this->lng->txt('print'), $this->ctrl->getLinkTarget($this, 'printMail'), '_blank');
+		$this->toolbar->addButton($this->lng->txt('print'), $this->ctrl->getLinkTarget($this, 'printMail'), '_blank');
 		$this->ctrl->clearParameters($this);
 
 		$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
 		$this->ctrl->setParameter($this, 'selected_cmd', 'deleteMails');
-		$ilToolbar->addButton($this->lng->txt('delete'), $this->ctrl->getLinkTarget($this), '', ilAccessKey::DELETE);
+		$this->toolbar->addButton($this->lng->txt('delete'), $this->ctrl->getLinkTarget($this), '', ilAccessKey::DELETE);
 		$this->ctrl->clearParameters($this);
 
 		if($sender && $sender->getId() && $sender->getId() != ANONYMOUS_USER_ID)
@@ -855,8 +869,8 @@ class ilMailFolderGUI
 		{
 			$txt_folder = $this->lng->txt('mail_' . $current_folder_data['title']);
 		}
-		$ilToolbar->addSeparator();
-		$ilToolbar->addText(sprintf($this->lng->txt('current_folder'), $txt_folder));
+		$this->toolbar->addSeparator();
+		$this->toolbar->addText(sprintf($this->lng->txt('current_folder'), $txt_folder));
 
 		if(is_array($selectOptions) && count($selectOptions))
 		{
@@ -864,9 +878,9 @@ class ilMailFolderGUI
 			$actions = new ilSelectInputGUI('', 'selected_cmd');
 			$actions->setOptions($selectOptions);
 			$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
-			$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'showMail'));
-			$ilToolbar->addInputItem($actions);
-			$ilToolbar->addFormButton($this->lng->txt('submit'), 'changeFolder');
+			$this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'showMail'));
+			$this->toolbar->addInputItem($actions);
+			$this->toolbar->addFormButton($this->lng->txt('submit'), 'changeFolder');
 		}
 
 		// Navigation
@@ -874,19 +888,19 @@ class ilMailFolderGUI
 		$nextMail = $this->umail->getNextMail((int)$_GET['mail_id']);
 		if(is_array($prevMail) || is_array($nextMail))
 		{
-			$ilToolbar->addSeparator();
+			$this->toolbar->addSeparator();
 
 			if($prevMail['mail_id'])
 			{
 				$this->ctrl->setParameter($this, 'mail_id', $prevMail['mail_id']);
-				$ilToolbar->addButton($this->lng->txt('previous'), $this->ctrl->getLinkTarget($this, 'showMail'));
+				$this->toolbar->addButton($this->lng->txt('previous'), $this->ctrl->getLinkTarget($this, 'showMail'));
 				$this->ctrl->clearParameters($this);
 			}
 
 			if($nextMail['mail_id'])
 			{
 				$this->ctrl->setParameter($this, 'mail_id', $nextMail['mail_id']);
-				$ilToolbar->addButton($this->lng->txt('next'), $this->ctrl->getLinkTarget($this, 'showMail'));
+				$this->toolbar->addButton($this->lng->txt('next'), $this->ctrl->getLinkTarget($this, 'showMail'));
 				$this->ctrl->clearParameters($this);
 			}
 		}
@@ -900,13 +914,8 @@ class ilMailFolderGUI
 	 */
 	public function printMail()
 	{
-		/**
-		 * @var $tpl ilTemplate
-		 */
-		global $tpl;
-
 		$tplprint = new ilTemplate('tpl.mail_print.html', true, true, 'Services/Mail');
-		$tplprint->setVariable('JSPATH', $tpl->tplPath);
+		$tplprint->setVariable('JSPATH', $this->tpl->tplPath);
 
 		$mailData = $this->umail->getMail((int)$_GET['mail_id']);
 

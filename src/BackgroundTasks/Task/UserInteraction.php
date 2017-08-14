@@ -21,7 +21,7 @@ interface UserInteraction extends Task {
 	 *
 	 * @return Option[] Options are buttons the user can press on this interaction.
 	 */
-	public function getOptions(Array $input);
+	public function getOptions(array $input);
 
 
 	/**
@@ -32,5 +32,5 @@ interface UserInteraction extends Task {
 	 *
 	 * @return Value
 	 */
-	public function interaction(Array $input, Option $user_selected_option, Bucket $bucket);
+	public function interaction(array $input, Option $user_selected_option, Bucket $bucket);
 }
