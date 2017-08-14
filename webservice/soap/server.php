@@ -41,7 +41,7 @@ if(IL_SOAPMODE == IL_SOAPMODE_INTERNAL && strcasecmp($_SERVER["REQUEST_METHOD"],
 	// This is a SOAP request
 	include_once('webservice/soap/include/inc.soap_functions.php');
 	$uri = ilSoapFunctions::buildHTTPPath() . '/webservice/soap/server.php';
-	if (isset($_GET['ref_id'])) {
+	if (isset($_GET['client_id'])) {
 		$uri .= '?client_id=' . $_GET['client_id'];
 	}
 	$soapServer = new SoapServer(null, array('uri' => $uri));
