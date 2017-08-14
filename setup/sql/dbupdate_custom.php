@@ -106,3 +106,7 @@ if(!$ilDB->tableColumnExists('notification','activated'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#8>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
