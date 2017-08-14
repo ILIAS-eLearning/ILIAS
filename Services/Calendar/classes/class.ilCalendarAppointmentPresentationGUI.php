@@ -226,9 +226,4 @@ class ilCalendarAppointmentPresentationGUI
 
 		return $res;
 	}
-
-	//function getAppointment()
-	//{
-	//	return $this->appointment;
-	//}
 }
