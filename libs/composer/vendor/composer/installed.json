@@ -567,7 +567,8 @@
             "getid3",
             "metadata",
             "tags"
-        ]
+        ],
+        "abandoned": "james-heinrich/getid3"
     },
     {
         "name": "filp/whoops",

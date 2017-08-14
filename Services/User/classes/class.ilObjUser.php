@@ -3752,47 +3752,53 @@ class ilObjUser extends ilObject
 	*
 	* @static
 	*/
-	public static function _checkExternalAuthAccount($a_auth, $a_account)
+	public static function _checkExternalAuthAccount($a_auth, $a_account, $tryFallback = true)
 	{
-		global $ilDB,$ilSetting;
+		$db       = $GLOBALS['DIC']->database();
+		$settings = $GLOBALS['DIC']->settings();
 
 		// Check directly with auth_mode
-		$r = $ilDB->queryF("SELECT * FROM usr_data WHERE ".
+		$r = $db->queryF("SELECT * FROM usr_data WHERE ".
 			" ext_account = %s AND auth_mode = %s",
 			array("text", "text"),
 			array($a_account, $a_auth));
-		if ($usr = $ilDB->fetchAssoc($r))
+		if ($usr = $db->fetchAssoc($r))
 		{
 			return $usr["login"];
 		}
 
+		if(!$tryFallback)
+		{
+			return false;
+		}
+
 		// For compatibility, check for login (no ext_account entry given)
-		$res = $ilDB->queryF("SELECT login FROM usr_data ".
+		$res = $db->queryF("SELECT login FROM usr_data ".
 			"WHERE login = %s AND auth_mode = %s AND ext_account IS NULL ",
 			array("text", "text"),
 			array($a_account, $a_auth));
-		if($usr = $ilDB->fetchAssoc($res))
+		if($usr = $db->fetchAssoc($res))
 		{
 			return $usr['login'];
 		}
 
 		// If auth_default == $a_auth => check for login
-		if(ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode')) == $a_auth)
+		if(ilAuthUtils::_getAuthModeName($settings->get('auth_mode')) == $a_auth)
 		{
-			$res = $ilDB->queryF("SELECT login FROM usr_data WHERE ".
+			$res = $db->queryF("SELECT login FROM usr_data WHERE ".
 				" ext_account = %s AND auth_mode = %s",
 				array("text", "text"),
 				array($a_account, "default"));
-			if ($usr = $ilDB->fetchAssoc($res))
+			if ($usr = $db->fetchAssoc($res))
 			{
 				return $usr["login"];
 			}
 			// Search for login (no ext_account given)
-			$res = $ilDB->queryF("SELECT login FROM usr_data ".
+			$res = $db->queryF("SELECT login FROM usr_data ".
 				"WHERE login = %s AND (ext_account IS NULL OR ext_account = '') AND auth_mode = %s",
 				array("text", "text"),
 				array($a_account, "default"));
-			if($usr = $ilDB->fetchAssoc($res))
+			if($usr = $db->fetchAssoc($res))
 			{
 				return $usr["login"];
 			}
