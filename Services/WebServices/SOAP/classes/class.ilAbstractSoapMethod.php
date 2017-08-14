@@ -44,7 +44,7 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
 		$this->initAuth($session_id);
 		$this->initIlias();
 		if (!$this->__checkSession($session_id)) {
-			throw new ilSoapPluginException('Invalid session-ID provided');
+			throw new ilSoapPluginException($this->__getMessage());
 		}
 	}
 
