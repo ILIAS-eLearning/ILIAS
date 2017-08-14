@@ -97,6 +97,8 @@ class ilIndividualAssessmentMemberGUI {
 					$confirm->addHiddenItem('internal_note', $_POST['internal_note']);
 					$confirm->addHiddenItem('notify', $_POST['notify']);
 					$confirm->addHiddenItem('learning_progress',$_POST['learning_progress']);
+					$confirm->addHiddenItem('place', $_POST['place']);
+					$confirm->addHiddenItem('event_time',$_POST['event_time']);
 					$confirm->setHeaderText($this->lng->txt('iass_finalize_user_qst'));
 					$confirm->setFormAction($this->ctrl->getFormAction($this));
 					$confirm->setConfirm($this->lng->txt('iass_finalize'), 'finalize');
@@ -252,16 +254,12 @@ class ilIndividualAssessmentMemberGUI {
 	}
 
 	protected function fillForm(ilPropertyFormGUI $a_form, ilIndividualAssessmentMember $member) {
-		$dt = $member->eventTime()->get(IL_CAL_DATETIME);
-		$dt = explode(" ", $dt);
-		$event_time = ["date" => $dt[0], "time" => $dt[1]];
-
 		$a_form->setValuesByArray(array(
 			  'name' => $member->name()
 			, 'record' => $member->record()
 			, 'internal_note' => $member->internalNote()
 			, 'place' => $member->place()
-			, 'event_time' => $event_time
+			, 'event_time' => $member->eventTime()
 			, 'notify' => $member->notify()
 			, 'learning_progress' => (int)$member->LPStatus()
 			));
@@ -273,8 +271,8 @@ class ilIndividualAssessmentMemberGUI {
 				&& 0 !== (int)$member->examinerId();
 	}
 
-	private function createDatetime(array $datetime)
+	private function createDatetime($datetime)
 	{
-		return new ilDateTime($datetime["date"]." ".$datetime["time"], IL_CAL_DATETIME);
+		return new ilDateTime($datetime." 00:00:00", IL_CAL_DATETIME);
 	}
 }
