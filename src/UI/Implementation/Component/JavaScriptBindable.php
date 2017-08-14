@@ -25,6 +25,21 @@ trait JavaScriptBindable {
 	}
 
 	/**
+	 * @see \ILIAS\UI\Component\JavaScriptBindable::withAdditionalOnLoadCode
+	 */
+	public function withAdditionalOnLoadCode(\Closure $binder) {
+		$current_binder = $this->getOnLoadCode();
+		if ($current_binder === null) {
+			return $this->withOnLoadCode($binder);
+		}
+
+		$this->checkBinder($binder);
+		return $this->withOnLoadCode(function($id) use ($current_binder, $binder) {
+			return $current_binder($id)."\n".$binder($id);
+		});		
+	}
+
+	/**
 	 * @see \ILIAS\UI\Component\JavaScriptBindable::getOnLoadCode
 	 */
 	public function getOnLoadCode() {

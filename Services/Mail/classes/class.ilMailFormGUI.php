@@ -16,37 +16,84 @@ require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 */
 class ilMailFormGUI
 {
-	private $tpl = null;
-	private $ctrl = null;
-	private $lng = null;
-	
-	private $umail = null;
-	private $mbox = null;
-	private $mfile = null;
+	/**
+	 * @var \ilTemplate
+	 */
+	private $tpl;
+
+	/**
+	 * @var \ilCtrl
+	 */
+	private $ctrl;
+
+	/**
+	 * @var \ilLanguage
+	 */
+	private $lng;
+
+	/**
+	 * @var \ilObjUser
+	 */
+	private $user;
+
+	/**
+	 * @var \ilTabsGUI
+	 */
+	private $tabs;
+
+	/**
+	 * @var \ilToolbarGUI
+	 */
+	private $toolbar;
+
+	/**
+	 * @var \ilRbacSystem
+	 */
+	private $rbacsystem;
+
+	/**
+	 * @var \ilFormatMail
+	 */
+	private $umail;
+
+	/**
+	 * @var \ilMailBox
+	 */
+	private $mbox;
+
+	/**
+	 * @var \ilFileDataMail
+	 */
+	private $mfile;
 
 	public function __construct()
 	{
-		global $tpl, $ilCtrl, $lng, $ilUser;
+		global $DIC;
 
-		$this->tpl = $tpl;
-		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
-		
-		$this->umail = new ilFormatMail($ilUser->getId());
-		$this->mfile = new ilFileDataMail($ilUser->getId());
-		$this->mbox = new ilMailBox($ilUser->getId());
-		
+		$this->tpl        = $DIC->ui()->mainTemplate();
+		$this->ctrl       = $DIC->ctrl();
+		$this->lng        = $DIC->language();
+		$this->user       = $DIC->user();
+		$this->tabs       = $DIC->tabs();
+		$this->toolbar    = $DIC->toolbar();
+		$this->rbacsystem = $DIC->rbac()->system();
+
+		$this->umail = new ilFormatMail($this->user->getId());
+		$this->mfile = new ilFileDataMail($this->user->getId());
+		$this->mbox  = new ilMailBox($this->user->getId());
+
 		if(isset($_POST['mobj_id']) && (int)$_POST['mobj_id'])
 		{
 			$_GET['mobj_id'] = $_POST['mobj_id'];
 		}
-		// IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE
+
 		if(!(int)$_GET['mobj_id'])
 		{
 			$_GET['mobj_id'] = $this->mbox->getInboxFolder();
 		}
 		$_GET['mobj_id'] = (int)$_GET['mobj_id'];
-		$this->ctrl->saveParameter($this, 'mobj_id');		
+
+		$this->ctrl->saveParameter($this, 'mobj_id');
 	}
 
 	public function executeCommand()
@@ -117,7 +164,7 @@ class ilMailFormGUI
 
 		foreach($files as $value)
 		{
-			if(is_file($this->mfile->getMailPath() . '/' . $GLOBALS['DIC']->user()->getId() . '_' . urldecode($value)))
+			if(is_file($this->mfile->getMailPath() . '/' . $this->user->getId() . '_' . urldecode($value)))
 			{
 				$decodedFiles[] = urldecode($value);
 			}
@@ -152,7 +199,7 @@ class ilMailFormGUI
 		}
 		else
 		{
-			$this->umail->savePostData($GLOBALS['DIC']->user()->getId(), array(), "", "", "", "", "", "", "", "");			
+			$this->umail->savePostData($this->user->getId(), array(), "", "", "", "", "", "", "", "");			
 			
 			$this->ctrl->setParameterByClass('ilmailgui', 'type', 'message_sent');
 
@@ -175,8 +222,8 @@ class ilMailFormGUI
 			$_POST['m_subject'] = 'No title';
 		}
 
-		$draftsId = $this->mbox->getDraftsFolder();
-		$files    = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
+		$draftFolderId = $this->mbox->getDraftsFolder();
+		$files         = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
 
 		if($errors = $this->umail->validateRecipients(
 			ilUtil::securePlainString($_POST['rcp_to']),
@@ -192,68 +239,40 @@ class ilMailFormGUI
 
 		if(isset($_SESSION["draft"]))
 		{
-			// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-			$this->umail->updateDraft($draftsId, $files,
-				ilUtil::securePlainString($_POST["rcp_to"]),
-				ilUtil::securePlainString($_POST["rcp_cc"]),
-				ilUtil::securePlainString($_POST["rcp_bcc"]),
-				$_POST["m_type"],
-				ilUtil::securePlainString($_POST["m_email"]),
-				ilUtil::securePlainString($_POST["m_subject"]),
-				ilUtil::securePlainString($_POST["m_message"]),
-				(int)$_SESSION["draft"],
-				(int)$_POST['use_placeholders'],
-				ilMailFormCall::getContextId(),
-				ilMailFormCall::getContextParameters()
-				
-			);
+			$draftId = (int)$_SESSION['draft'];
 			unset($_SESSION['draft']);
-			ilUtil::sendInfo($this->lng->txt("mail_saved"), true);
-			
-            if(ilMailFormCall::isRefererStored())
-                ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
-            else
-               $this->ctrl->redirectByClass("ilmailfoldergui");
 		}
 		else
 		{
-			if ($this->umail->sendInternalMail($draftsId,$GLOBALS['DIC']->user()->getId(),$files,
-					// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-					ilUtil::securePlainString($_POST["rcp_to"]),
-					ilUtil::securePlainString($_POST["rcp_cc"]),
-					ilUtil::securePlainString($_POST["rcp_bcc"]),
-					'read',
-					$_POST["m_type"],
-					ilUtil::securePlainString($_POST["m_email"]),
-					ilUtil::securePlainString($_POST["m_subject"]),
-					ilUtil::securePlainString($_POST["m_message"]),
-					$GLOBALS['DIC']['ilUser']->getId(),
-					0,
-					ilMailFormCall::getContextId(),
-					ilMailFormCall::getContextParameters()
-					)
-			)
-			{
-				ilUtil::sendInfo($this->lng->txt("mail_saved"),true);
-
-                if(ilMailFormCall::isRefererStored())
-                    ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
-                else
-                   $this->ctrl->redirectByClass("ilmailfoldergui");
-			}
-			else
-			{
-				ilUtil::sendInfo($this->lng->txt("mail_send_error"));
-			}
+			$draftId = $this->umail->getNewDraftId($this->user->getId(), $draftFolderId);
 		}
-		
+
+		$this->umail->updateDraft($draftFolderId, $files,
+			ilUtil::securePlainString($_POST['rcp_to']),
+			ilUtil::securePlainString($_POST['rcp_cc']),
+			ilUtil::securePlainString($_POST['rcp_bcc']),
+			$_POST['m_type'],
+			ilUtil::securePlainString($_POST['m_email']),
+			ilUtil::securePlainString($_POST['m_subject']),
+			ilUtil::securePlainString($_POST['m_message']),
+			$draftId,
+			(int)$_POST['use_placeholders'],
+			ilMailFormCall::getContextId(),
+			ilMailFormCall::getContextParameters()
+		);
+
+		ilUtil::sendInfo($this->lng->txt('mail_saved'), true);
+
+		if(ilMailFormCall::isRefererStored())
+			ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
+		else
+			$this->ctrl->redirectByClass("ilmailfoldergui");
+
 		$this->showForm();
 	}
 
 	public function searchUsers($save = true)
 	{
-		global $ilUser, $ilCtrl;
-		
 		$this->tpl->setTitle($this->lng->txt("mail"));
 
 		if ($save)
@@ -269,7 +288,7 @@ class ilMailFormGUI
 			}
 			
 			// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-			$this->umail->savePostData($ilUser->getId(),
+			$this->umail->savePostData($this->user->getId(),
 										 $files,
 										 ilUtil::securePlainString($_POST["rcp_to"]),
 										 ilUtil::securePlainString($_POST["rcp_cc"]),
@@ -287,11 +306,11 @@ class ilMailFormGUI
 		$form = new ilPropertyFormGUI();
 		$form->setId('search_rcp');
 		$form->setTitle($this->lng->txt('search_recipients'));
-		$form->setFormAction($ilCtrl->getFormAction($this, 'search'));
+		$form->setFormAction($this->ctrl->getFormAction($this, 'search'));
 		
 		$inp = new ilTextInputGUI($this->lng->txt("search_for"), 'search');
 		$inp->setSize(30);
-		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', true, false);
+		$dsDataLink = $this->ctrl->getLinkTarget($this, 'lookupRecipientAsync', '', true, false);
 		$inp->setDataSource($dsDataLink);
 		
 		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
@@ -377,7 +396,7 @@ class ilMailFormGUI
 		}
 		
 		// Note: For security reasons, ILIAS only allows Plain text messages.
-		$this->umail->savePostData($GLOBALS['DIC']['ilUser']->getId(),
+		$this->umail->savePostData($this->user->getId(),
 									$files,
 									ilUtil::securePlainString($_POST["rcp_to"]),
 									ilUtil::securePlainString($_POST["rcp_cc"]),
@@ -450,7 +469,7 @@ class ilMailFormGUI
 			$template_provider = new ilMailTemplateDataProvider();
 			$template = $template_provider->getTemplateById($template_id);
 			$context = ilMailTemplateService::getTemplateContextById($template->getContext());
-			echo ilJsonUtil::encode(array(
+			echo json_encode(array(
 				'm_subject' => $template->getSubject(),
 				'm_message' => $template->getMessage()
 			));
@@ -463,18 +482,15 @@ class ilMailFormGUI
 
 	public function showForm()
 	{
-		/**
-		 * @var $ilToolbar ilToolbarGUI
-		 */
-		global $rbacsystem, $ilUser, $ilCtrl, $lng, $ilTabs, $ilToolbar;
-
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_new.html", "Services/Mail");
 		$this->tpl->setTitle($this->lng->txt("mail"));
 		
 		$this->lng->loadLanguageModule("crs");
 
-        if(ilMailFormCall::isRefererStored())
-            $ilTabs->setBackTarget($lng->txt('back'), $ilCtrl->getLinkTarget($this, 'cancelMail'));
+		if(ilMailFormCall::isRefererStored())
+		{
+			$this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'cancelMail'));
+		}
 
 		switch($_GET["type"])
 		{
@@ -650,30 +666,30 @@ class ilMailFormGUI
 		$btn->setForm('form_' . $form_gui->getName())
 			->setName('searchUsers')
 			->setCaption('search_recipients');
-		$ilToolbar->addStickyItem($btn);
+		$this->toolbar->addStickyItem($btn);
 
 		$btn = ilButton::getInstance();
 		$btn->setButtonType(ilButton::BUTTON_TYPE_SUBMIT)
 			->setName('searchCoursesTo')
 			->setForm('form_' . $form_gui->getName())
 			->setCaption('mail_my_courses');
-		$ilToolbar->addButtonInstance($btn);
+		$this->toolbar->addButtonInstance($btn);
 
 		$btn = ilButton::getInstance();
 		$btn->setButtonType(ilButton::BUTTON_TYPE_SUBMIT)
 			->setName('searchGroupsTo')
 			->setForm('form_' . $form_gui->getName())
 			->setCaption('mail_my_groups');
-		$ilToolbar->addButtonInstance($btn);
+		$this->toolbar->addButtonInstance($btn);
 		
 		$btn = ilButton::getInstance();
 		$btn->setButtonType(ilButton::BUTTON_TYPE_SUBMIT)
 			->setName('searchMailingListsTo')
 			->setForm('form_' . $form_gui->getName())
 			->setCaption('mail_my_mailing_lists');
-		$ilToolbar->addButtonInstance($btn);
+		$this->toolbar->addButtonInstance($btn);
 
-		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', true);
+		$dsDataLink = $this->ctrl->getLinkTarget($this, 'lookupRecipientAsync', '', true);
 		
 		// RECIPIENT
 		$inp = new ilTextInputGUI($this->lng->txt('mail_to'), 'rcp_to');
@@ -715,11 +731,11 @@ class ilMailFormGUI
 		{
 			foreach($mailData["attachments"] as $data)
 			{
-				if(is_file($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . $data))
+				if(is_file($this->mfile->getMailPath() . '/' . $this->user->getId() . "_" . $data))
 				{
 					$hidden = new ilHiddenInputGUI('attachments[]');
 					$form_gui->addItem($hidden);
-					$size = filesize($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . $data);
+					$size = filesize($this->mfile->getMailPath() . '/' . $this->user->getId() . "_" . $data);
 					$label = $data . " [" . ilUtil::formatSize($size) . "]";
 					$att->addItem($label);
 					$hidden->setValue(urlencode($data));
@@ -729,7 +745,7 @@ class ilMailFormGUI
 		$form_gui->addItem($att);
 
 		// ONLY IF SYSTEM MAILS ARE ALLOWED
-		if($rbacsystem->checkAccess("system_message",$this->umail->getMailObjectReferenceId()))
+		if($this->rbacsystem->checkAccess("system_message",$this->umail->getMailObjectReferenceId()))
 		{
 			$chb = new ilCheckboxInputGUI($this->lng->txt('type'), 'm_type[]');
 			$chb->setOptionTitle($this->lng->txt('system_message'));
@@ -755,7 +771,7 @@ class ilMailFormGUI
 
 				require_once 'Services/Mail/classes/class.ilMailTemplateDataProvider.php';
 				$template_provider = new ilMailTemplateDataProvider();
-				$templates = $template_provider->getTemplateByContexId($context->getId());
+				$templates = $template_provider->getTemplateByContextId($context->getId());
 
 				if(count($templates))
 				{
@@ -809,7 +825,9 @@ class ilMailFormGUI
 		}
 		
 		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
-		$placeholders = new ilManualPlaceholderInputGUI($this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false));
+		$placeholders = new ilManualPlaceholderInputGUI('m_message');
+		$placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
+		$placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
 		foreach($context->getPlaceholders() as $key => $value)
 		{
 			$placeholders->addPlaceholder($value['placeholder'], $value['label'] );
@@ -855,25 +873,21 @@ class ilMailFormGUI
 		exit;
 	}
 
-    public function cancelMail()
-    {
-        if(ilMailFormCall::isRefererStored())
-            ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
-        else
-            return $this->showForm();
-    }
+	public function cancelMail()
+	{
+		if(ilMailFormCall::isRefererStored())
+		{
+			ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
+		}
+
+		$this->showForm();
+	}
 
 	/**
 	 *
 	 */
 	protected function saveMailBeforeSearch()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
-
-		// decode post values
 		$files = array();
 		if(is_array($_POST['attachments']))
 		{
@@ -883,7 +897,7 @@ class ilMailFormGUI
 			}
 		}
 
-		$this->umail->savePostData($ilUser->getId(),
+		$this->umail->savePostData($this->user->getId(),
 			$files,
 			ilUtil::securePlainString($_POST['rcp_to']),
 			ilUtil::securePlainString($_POST['rcp_cc']),
@@ -907,21 +921,6 @@ class ilMailFormGUI
 
 		$this->ctrl->setParameterByClass('ilmailinglistsgui', 'ref', 'mail');
 		$this->ctrl->redirectByClass('ilmailinglistsgui');
-	}
-
-	public function getAjaxPlaceholdersById()
-	{
-		$context_id = ilUtil::stripSlashes($_GET['context_id']);
-		require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
-		$placeholders = new ilManualPlaceholderInputGUI($this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false));
-		$context = ilMailTemplateService::getTemplateContextById($context_id);
-		foreach($context->getPlaceholders() as $key => $value)
-		{
-			$placeholders->addPlaceholder($value['placeholder'], $value['label'] );
-		}
-		$placeholders->render(true);
-		exit();
 	}
 
 	/**

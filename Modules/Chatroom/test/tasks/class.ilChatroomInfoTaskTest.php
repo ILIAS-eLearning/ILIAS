@@ -32,7 +32,7 @@ class ilChatroomInfoTaskTest extends ilChatroomAbstractTaskTest
 		$this->createIlObjChatroomMock(15);
 		$this->createIlObjChatroomGUIMock($this->object);
 
-		$this->task = $this->getMock(
+		$this->task = $this->createMock(
 			'ilChatroomInfoGUI',
 			array('sendResponse', 'getRoomByObjectId', 'redirectIfNoPermission', 'createInfoScreenGUI'),
 			array($this->gui)
@@ -44,7 +44,7 @@ class ilChatroomInfoTaskTest extends ilChatroomAbstractTaskTest
 		$_GET['ref_id'] = 99; // if not set causes error of undefined index
 
 		require_once './Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
-		$infoScreenMock = $this->getMock('ilInfoScreenGUI', array('addMetaDataSections'), array($this->gui));
+		$infoScreenMock = $this->createMock('ilInfoScreenGUI', array('addMetaDataSections'), array($this->gui));
 		$infoScreenMock->expects($this->any())->method('addMetaDataSections')->with(
 			$this->equalTo(15), 0, null
 		);

@@ -28,9 +28,15 @@ class Color {
 
 
 	public function __construct($r, $g, $b) {
-		assert('is_integer($r)');
-		assert('is_integer($g)');
-		assert('is_integer($b)');
+		if (!is_integer($r) or $r < 0 || $r > 255) {
+			throw new \InvalidArgumentException("Unexpected value for \$r: '$r'");
+		}
+		if (!is_integer($g) or $g < 0 || $g > 255) {
+			throw new \InvalidArgumentException("Unexpected value for \$g: '$g'");
+		}
+		if (!is_integer($b) or $b < 0 || $b > 255) {
+			throw new \InvalidArgumentException("Unexpected value for \$b: '$b'");
+		}
 		$this->r = $r;
 		$this->g = $g;
 		$this->b = $b;

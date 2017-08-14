@@ -3,6 +3,9 @@
 	"description": "Dependencies of ILIAS",
 	"license": "GPL v3",
 	"authors": [],
+	"config": {
+		"optimize-autoloader": true
+	},
 	"require": {
 		"cweagans/composer-patches": "~1.0",
 		"filp/whoops": "^2.0",
@@ -20,16 +23,19 @@
 		"guzzlehttp/psr7": "^1.4",
 		"psr/http-message": "^1.0",
 		"dflydev/fig-cookies": "^1.0",
-		"ralouphie/getallheaders": "^2.0"
+		"ralouphie/getallheaders": "^2.0",
+		"league/flysystem": "^1.0"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "^1.6",
-		"phpunit/phpunit": "^4.8",
-		"phpunit/php-code-coverage": "^2.2",
+		"phpunit/phpunit": "^5.7",
+		"phpunit/php-code-coverage": "^4.0",
 		"mockery/mockery": "^0.9.9"
 	},
 	"autoload": {
-		"psr-4" : { "ILIAS\\" : "../../src" }
+		"psr-4" : { "ILIAS\\" : "../../src" },
+		"classmap": ["../../Services/", "../../Modules"],
+		"exclude-from-classmap": ["../../Services/Migration", "../../*/*/lib", "../../*/*/test", "../../Services/CAS/phpcas"]
 	},
 	"extra": {
 		"cweagans/composer-patches" : {
@@ -182,6 +188,14 @@
 			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
 			"wrapped_by": null,
 			"last_update": "2017-03-26",
+			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>"
+		},
+		"league/flysystem" : {
+			"source": "https://github.com/thephpleague/flysystem",
+			"used_version": "v1.0.40",
+			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
+			"wrapped_by": "Filesystem Service",
+			"last_update": "2017-06-23",
 			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>"
 		},
 		"patches": {

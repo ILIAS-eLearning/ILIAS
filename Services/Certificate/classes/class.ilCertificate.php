@@ -460,10 +460,9 @@ class ilCertificate
 		if (count($insert_tags) == 0)
 		{
 			$insert_tags = $this->getAdapter()->getCertificateVariablesForPreview();
-			
 			foreach (self::getCustomCertificateFields() as $k => $f)
 			{
-				$insert_tags[$f["ph"]] = $f["name"];
+				$insert_tags[$f["ph"]] = ilUtil::prepareFormOutput($f["name"]);
 			}
 		}
 		foreach ($insert_tags as $var => $value)
@@ -492,7 +491,7 @@ class ilCertificate
 		$cust_data = $cust_data->getAll();
 		foreach (self::getCustomCertificateFields() as $k => $f)
 		{
-			$insert_tags[$f["ph"]] = $cust_data["f_".$k];
+			$insert_tags[$f["ph"]] = ilUtil::prepareFormOutput($cust_data["f_".$k]);
 		}
 
 		$xslfo = file_get_contents($this->getXSLPath());

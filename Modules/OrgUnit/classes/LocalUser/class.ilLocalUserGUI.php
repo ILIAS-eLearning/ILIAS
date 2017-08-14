@@ -1,9 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/User/classes/class.ilUserTableGUI.php");
-require_once("./Services/User/classes/class.ilLocalUser.php");
-require_once("./Services/User/classes/class.ilObjUserGUI.php");
-require_once("./Services/User/classes/class.ilObjUserFolderGUI.php");
 /**
  * Class ilLocalUserGUI
  *

@@ -52,15 +52,5 @@ class ModalTest extends ModalBase {
 
 }
 
-class IncrementalSignalGenerator extends \ILIAS\UI\Implementation\Component\SignalGenerator {
-
-	protected $id = 0;
-
-	protected function createId() {
-		return 'signal_' . ++$this->id;
-	}
-
-}
-
 class ModalMock extends \ILIAS\UI\Implementation\Component\Modal\Modal {
 }

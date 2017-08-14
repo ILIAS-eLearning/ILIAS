@@ -97,22 +97,18 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 	 */
 	protected function getFromPart()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
 
 		$joins = array();
 
 		$joins[] = '
 			LEFT JOIN usr_pref profpref
 			ON profpref.usr_id = usr_data.usr_id
-			AND profpref.keyword = ' . $ilDB->quote('public_profile', 'text');
+			AND profpref.keyword = ' . $this->db->quote('public_profile', 'text');
 
 		$joins[] = '
 			LEFT JOIN usr_pref pubemail
 			ON pubemail.usr_id = usr_data.usr_id
-			AND pubemail.keyword = ' . $ilDB->quote('public_email', 'text');
+			AND pubemail.keyword = ' . $this->db->quote('public_email', 'text');
 
 		if($joins)
 		{
@@ -130,13 +126,8 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 	 */
 	protected function getWherePart($search_query)
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-
 		$outer_conditions   = array();
-		$outer_conditions[] = 'usr_data.usr_id != ' . $ilDB->quote(ANONYMOUS_USER_ID, 'integer');
+		$outer_conditions[] = 'usr_data.usr_id != ' . $this->db->quote(ANONYMOUS_USER_ID, 'integer');
 
 		$field_conditions = array();
 		foreach($this->getFields() as $field)
@@ -149,7 +140,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 				// respected (in every user context, no matter if the user is 'logged in' or 'anonymous'). 
 				$email_query        = array();
 				$email_query[]      = $field_condition;
-				$email_query[]      = 'pubemail.value = ' . $ilDB->quote('y', 'text');
+				$email_query[]      = 'pubemail.value = ' . $this->db->quote('y', 'text');
 				$field_conditions[] = '(' . implode(' AND ', $email_query) . ')';
 			}
 			else
@@ -167,9 +158,9 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 			$fields = implode(' OR ', $field_conditions);
 
 			$field_conditions[] = '(' . implode(' AND ', array(
-					$fields,
-					$ilDB->in('profpref.value', array('y', 'g'), false, 'text')
-				)) . ')';
+				$fields,
+				$this->db->in('profpref.value', array('y', 'g'), false, 'text')
+			)) . ')';
 		}
 
 		// The login field must be searchable regardless (for 'logged in' users) of any privacy settings.
@@ -180,7 +171,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 		if(ilUserAccountSettings::getInstance()->isUserAccessRestricted())
 		{
 			include_once './Services/User/classes/class.ilUserFilter.php';
-			$outer_conditions[] = $ilDB->in('time_limit_owner', ilUserFilter::getInstance()->getFolderIds(), false, 'integer');
+			$outer_conditions[] = $this->db->in('time_limit_owner', ilUserFilter::getInstance()->getFolderIds(), false, 'integer');
 		}
 
 		if($field_conditions)
@@ -206,12 +197,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 	 */
 	protected function getQueryConditionByFieldAndValue($field, $a_str)
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-
-		return $ilDB->like($field, 'text', $a_str . '%');
+		return $this->db->like($field, 'text', $a_str . '%');
 	}
 
 	/**

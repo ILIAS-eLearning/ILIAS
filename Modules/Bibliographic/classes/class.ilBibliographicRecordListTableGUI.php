@@ -10,7 +10,7 @@ require_once './Services/Table/classes/class.ilTable2GUI.php';
  * @version $Id:
  *
  */
-class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
+class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 	/**
 	 * @var ilCtrl
@@ -22,7 +22,7 @@ class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
 	 * @param ilObjBibliographicGUI $a_parent_obj
 	 * @param string                $a_parent_cmd
 	 */
-	public function  __construct(ilObjBibliographicGUI $a_parent_obj, $a_parent_cmd) {
+	public function __construct(ilObjBibliographicGUI $a_parent_obj, $a_parent_cmd) {
 		global $DIC;
 		$lng = $DIC['lng'];
 		$ilCtrl = $DIC['ilCtrl'];

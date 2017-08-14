@@ -1,5 +1,4 @@
 <?php
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordRepresentation.php');
 
 /**
  * Class ilDclDateTimeRecordRepresentation

@@ -228,7 +228,7 @@ class ilEventDetectorTest extends PHPUnit_Framework_TestCase
 		$detector = new ilEventDetector($this->node);
 
 		require_once './Services/Database/classes/class.ilDBMySQL.php';
-		$ilDB_mock = $this->getMock('ilDBMySQL',array('nextID','quote','insert'),array(),'', FALSE);
+		$ilDB_mock = $this->createMock('ilDBMySQL',array('nextID','quote','insert'),array(),'', FALSE);
 
 		$ilDB_mock->expects($this->once())->method('nextID')->with($this->equalTo('wfe_det_listening'))->will($this->returnValue(234));
 		$ilDB_mock->expects($this->any())->method('quote')->will($this->returnArgument(0));
@@ -271,7 +271,7 @@ class ilEventDetectorTest extends PHPUnit_Framework_TestCase
 		// Arrange
 		$detector = new ilEventDetector($this->node);
 		require_once './Services/Database/classes/class.ilDBMySQL.php';
-		$ilDB_mock = $this->getMock('ilDBMySQL',array('quote','manipulate'),array(),'', FALSE);
+		$ilDB_mock = $this->createMock('ilDBMySQL',array('quote','manipulate'),array(),'', FALSE);
 
 		$ilDB_mock->expects($this->any())->method('quote')->will($this->returnValue(234));
 		$ilDB_mock->expects($this->any())->method('manipulate')->with(
@@ -302,7 +302,7 @@ class ilEventDetectorTest extends PHPUnit_Framework_TestCase
 		$detector = new ilEventDetector($this->node);
 
 		require_once './Services/Database/classes/class.ilDBMySQL.php';
-		$ilDB_mock = $this->getMock('ilDBMySQL',array('nextID','quote','insert'),array(),'', FALSE);
+		$ilDB_mock = $this->createMock('ilDBMySQL',array('nextID','quote','insert'),array(),'', FALSE);
 
 		$ilDB_mock->expects($this->once())->method('nextID')->with($this->equalTo('wfe_det_listening'))->will($this->returnValue(234));
 		$ilDB_mock->expects($this->any())->method('quote')->will($this->returnArgument(0));
@@ -345,7 +345,7 @@ class ilEventDetectorTest extends PHPUnit_Framework_TestCase
 		$detector = new ilEventDetector($this->node);
 
 		require_once './Services/Database/classes/class.ilDBMySQL.php';
-		$ilDB_mock = $this->getMock('ilDBMySQL',array('quote','manipulate'),array(),'', FALSE);
+		$ilDB_mock = $this->createMock('ilDBMySQL',array('quote','manipulate'),array(),'', FALSE);
 
 		$ilDB_mock->expects($this->any())->method('quote')->will($this->returnValue(234));
 		$ilDB_mock->expects($this->any())->method('manipulate')->with(

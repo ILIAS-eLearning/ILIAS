@@ -675,7 +675,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 			}
 
 // fau: testNav - write a dummy entry for the evil mc questions with "None of the above" checked
-			if (!empty($_POST['mc_none_above']))
+			if (!empty($_POST['tst_force_form_diff_input']))
 			{
 				$this->saveCurrentSolution($active_id, $pass, 'mc_none_above', null, $authorized);
 				$entered_values++;
@@ -1439,5 +1439,12 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		{
 			return $this->getAnswers();
 		}
+	}
+	
+	protected function buildTestPresentationConfig()
+	{
+		$config = parent::buildTestPresentationConfig();
+		$config->setUseUnchangedAnswerLabel($this->lng->txt('tst_mc_label_none_above'));
+		return $config;
 	}
 }

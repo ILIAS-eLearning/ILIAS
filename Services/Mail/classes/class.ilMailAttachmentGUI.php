@@ -27,6 +27,16 @@ class ilMailAttachmentGUI
 	private $lng;
 
 	/**
+	 * @var \ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var \ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
 	 * @var ilFormatMail
 	 */
 	private $umail;
@@ -38,22 +48,18 @@ class ilMailAttachmentGUI
 
 	public function __construct()
 	{
-		/**
-		 * @var $tpl	ilTemplate
-		 * @var $ilCtrl ilCtrl
-		 * @var $lng	ilLanguage
-		 * @var $ilUser ilObjUser
-		 */
-		global $tpl, $ilCtrl, $lng, $ilUser;
+		global $DIC;
 
-		$this->tpl  = $tpl;
-		$this->ctrl = $ilCtrl;
-		$this->lng  = $lng;
+		$this->tpl     = $DIC->ui()->mainTemplate();
+		$this->ctrl    = $DIC->ctrl();
+		$this->lng     = $DIC->language();
+		$this->user    = $DIC->user();
+		$this->toolbar = $DIC->toolbar();
 
 		$this->ctrl->saveParameter($this, 'mobj_id');
 
-		$this->umail = new ilFormatMail($ilUser->getId());
-		$this->mfile = new ilFileDataMail($ilUser->getId());
+		$this->umail = new ilFormatMail($DIC->user()->getId());
+		$this->mfile = new ilFileDataMail($DIC->user()->getId());
 	}
 
 	public function executeCommand()
@@ -75,11 +81,6 @@ class ilMailAttachmentGUI
 
 	public function saveAttachments()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
-
 		$files = array();
 
 		// Important: Do not check for uploaded files here, otherwise it is no more possible to remove files (please ignore bug reports like 10137)
@@ -89,10 +90,10 @@ class ilMailAttachmentGUI
 		{
 			foreach($_POST['filename'] as $file)
 			{
-				if(file_exists($this->mfile->getMailPath() . '/' . basename($ilUser->getId() . '_' . urldecode($file))))
+				if(file_exists($this->mfile->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode($file))))
 				{
 					$files[] = urldecode($file);
-					$size_of_selected_files += filesize($this->mfile->getMailPath() . '/' . basename($ilUser->getId() . '_' . urldecode($file)));
+					$size_of_selected_files += filesize($this->mfile->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode($file)));
 				}
 			}
 		}
@@ -103,7 +104,8 @@ class ilMailAttachmentGUI
 		)
 		{
 			ilUtil::sendFailure($this->lng->txt('mail_max_size_attachments_total_error') . ' ' . ilUtil::formatSize($this->mfile->getAttachmentsTotalSizeLimit()));
-			return $this->showAttachments();
+			$this->showAttachments();
+			return;
 		}
 
 		$this->umail->saveAttachments($files);
@@ -201,22 +203,17 @@ class ilMailAttachmentGUI
 
 	public function uploadFile()
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
 		if(strlen(trim($_FILES['userfile']['name'])))
 		{
 			$form = $this->getToolbarForm();
 			if($form->checkInput())
 			{
 				$this->mfile->storeUploadedFile($_FILES['userfile']);
-				ilUtil::sendSuccess($lng->txt('saved_successfully'));
+				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 			}
 			else
 			{
-				if($form->getItemByPostVar('userfile')->getAlert() != $lng->txt("form_msg_file_size_exceeds"))
+				if($form->getItemByPostVar('userfile')->getAlert() != $this->lng->txt("form_msg_file_size_exceeds"))
 				{
 					ilUtil::sendFailure($form->getItemByPostVar('userfile')->getAlert());
 				}
@@ -236,20 +233,15 @@ class ilMailAttachmentGUI
 
 	public function showAttachments()
 	{
-		/**
-		 * @var $ilToolbar ilToolbarGUI
-		 */
-		global $ilToolbar;
-
 		$this->tpl->setTitle($this->lng->txt('mail'));
 
 		require_once 'Services/Form/classes/class.ilFileInputGUI.php';
 		$attachment = new ilFileInputGUI($this->lng->txt('upload'), 'userfile');
 		$attachment->setRequired(true);
 		$attachment->setSize(20);
-		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'uploadFile'), true);
-		$ilToolbar->addInputItem($attachment);
-		$ilToolbar->addFormButton($this->lng->txt('upload'), 'uploadFile');
+		$this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'uploadFile'), true);
+		$this->toolbar->addInputItem($attachment);
+		$this->toolbar->addFormButton($this->lng->txt('upload'), 'uploadFile');
 
 		require_once 'Services/Mail/classes/class.ilMailAttachmentTableGUI.php';
 		$table = new ilMailAttachmentTableGUI($this, 'showAttachments');

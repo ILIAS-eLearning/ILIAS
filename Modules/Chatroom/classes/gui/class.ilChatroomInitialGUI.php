@@ -35,7 +35,7 @@ class ilChatroomInitialGUI extends ilChatroomGUIHandler
 		$result->users         = $room->getConnectedUsers();
 		$result->private_rooms = $room->getActivePrivateRooms($ilUser->getId());
 		$result->userinfo      = array(
-			'moderator' => $rbacsystem->checkAccess('moderate', (int)$_GET['ref_id']),
+			'moderator' => ilChatroom::checkUserPermissions('moderate', (int)$_GET['ref_id'], false),
 			'userid'    => $chat_user->getUserId()
 		);
 

@@ -39,9 +39,9 @@ class ilExerciseCertificateAdapter extends ilCertificateAdapter
 	*
 	* @param object $object A reference to a test object
 	*/
-	function __construct(&$object)
+	function __construct($object)
 	{
-		$this->object =& $object;
+		$this->object = $object;
 		parent::__construct();
 	}
 
@@ -63,11 +63,9 @@ class ilExerciseCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateVariablesForPreview()
 	{
-		global $lng;
-		
 		$vars = $this->getBaseVariablesForPreview(false);
-		$vars["RESULT_PASSED"] = ilUtil::prepareFormOutput($lng->txt("certificate_var_result_passed"));
-		$vars["RESULT_MARK"] = ilUtil::prepareFormOutput($lng->txt("certificate_var_result_mark_short"));
+		$vars["RESULT_PASSED"] = ilUtil::prepareFormOutput($this->lng->txt("certificate_var_result_passed"));
+		$vars["RESULT_MARK"] = ilUtil::prepareFormOutput($this->lng->txt("certificate_var_result_mark_short"));
 		$vars["EXERCISE_TITLE"] = ilUtil::prepareFormOutput($this->object->getTitle());
 		
 		$insert_tags = array();
@@ -88,8 +86,6 @@ class ilExerciseCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateVariablesForPresentation($params = array())
 	{
-		global $lng;
-		
 		$user_id = $params["user_id"];
 		
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
@@ -101,7 +97,7 @@ class ilExerciseCertificateAdapter extends ilCertificateAdapter
 		$completion_date = $this->getUserCompletionDate($user_id);		
 		
 		$vars = $this->getBaseVariablesForPresentation($user_data, null, $completion_date);		
-		$vars["RESULT_PASSED"] = ilUtil::prepareFormOutput($lng->txt("exc_".$status));
+		$vars["RESULT_PASSED"] = ilUtil::prepareFormOutput($this->lng->txt("exc_".$status));
 		$vars["RESULT_MARK"] = ilUtil::prepareFormOutput($mark);
 		$vars["EXERCISE_TITLE"] = ilUtil::prepareFormOutput($this->object->getTitle());
 		
@@ -120,12 +116,10 @@ class ilExerciseCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateVariablesDescription()
 	{
-		global $lng;
-		
 		$vars = $this->getBaseVariablesDescription(false);
-		$vars["RESULT_PASSED"] = $lng->txt("certificate_ph_passed_exercise");
-		$vars["RESULT_MARK"] = $lng->txt("certificate_ph_mark");
-		$vars["EXERCISE_TITLE"] = $lng->txt("certificate_ph_exercisetitle");
+		$vars["RESULT_PASSED"] = $this->lng->txt("certificate_ph_passed_exercise");
+		$vars["RESULT_MARK"] = $this->lng->txt("certificate_ph_mark");
+		$vars["EXERCISE_TITLE"] = $this->lng->txt("certificate_ph_exercisetitle");
 				
 		$template = new ilTemplate("tpl.certificate_edit.html", TRUE, TRUE, "Modules/Exercise");	
 		$template->setCurrentBlock("items");
@@ -136,19 +130,17 @@ class ilExerciseCertificateAdapter extends ilCertificateAdapter
 			$template->parseCurrentBlock();
 		}
 
-		$template->setVariable("PH_INTRODUCTION", $lng->txt("certificate_ph_introduction"));
+		$template->setVariable("PH_INTRODUCTION", $this->lng->txt("certificate_ph_introduction"));
 
 		return $template->get();
 	}
 	
 	public function addAdditionalFormElements(&$form, $form_fields)
 	{
-		global $lng;
-		
-		$visibility = new ilRadioGroupInputGUI($lng->txt("certificate_visibility"), "certificate_visibility");
-		$visibility->addOption(new ilRadioOption($lng->txt("certificate_visibility_always"), 0));
-		$visibility->addOption(new ilRadioOption($lng->txt("certificate_visibility_passed_exercise"), 1));
-		$visibility->addOption(new ilRadioOption($lng->txt("certificate_visibility_never"), 2));
+		$visibility = new ilRadioGroupInputGUI($this->lng->txt("certificate_visibility"), "certificate_visibility");
+		$visibility->addOption(new ilRadioOption($this->lng->txt("certificate_visibility_always"), 0));
+		$visibility->addOption(new ilRadioOption($this->lng->txt("certificate_visibility_passed_exercise"), 1));
+		$visibility->addOption(new ilRadioOption($this->lng->txt("certificate_visibility_never"), 2));
 		$visibility->setValue($form_fields["certificate_visibility"]);
 		if (count($_POST)) $visibility->checkInput();
 		$form->addItem($visibility);

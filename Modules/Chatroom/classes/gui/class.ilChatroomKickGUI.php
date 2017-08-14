@@ -92,7 +92,7 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
 		{
 			if(!$room->isOwnerOfPrivateRoom($ilUser->getId(), $_REQUEST['sub']))
 			{
-				if(!ilChatroom::checkPermissionsOfUser($ilUser->getId(), array('read', 'moderate'), $this->gui->ref_id))
+				if(!ilChatroom::checkUserPermissions(array('read', 'moderate'), $this->gui->ref_id))
 				{
 					$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
 					$ilCtrl->redirectByClass("ilrepositorygui", "");
@@ -109,36 +109,6 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
 				$response  = $connector->sendKick($roomId, $subRoomId, $userToKick);
 				$this->sendResponse($response);
 			}
-
-			/*
-			if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
-			{
-			//$room->addHistoryEntry( $message, $recipient, $publicMessage );
-			}
-
-
-
-			$message = json_encode(array(
-										'type'  => 'userjustkicked',
-										'user'  => $params['user'],
-										'sub'   => $params['sub']
-								   ));
-
-			$connector->sendMessage($room->getRoomId(), $message, array(
-																	   'public'  => 1,
-																	   'sub'     => 0
-																  ));
-		}
-		else
-		{
-			$response = json_encode(array(
-										 'success'  => true,
-										 'message'  => 'was not in room'
-									));
-		}
-
-		echo $response;
-		exit;*/
 		}
 	}
 }

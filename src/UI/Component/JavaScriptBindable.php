@@ -37,9 +37,20 @@ interface JavaScriptBindable {
 	 *		});
 	 *
 	 * @param	\Closure	$binder
-	 * @param	self
+	 * @return	self
 	 */
 	public function withOnLoadCode(\Closure $binder);
+
+	/**
+	 * Add some onload-code to the component instead of replacing the existing one.
+	 *
+	 * Must work like getOnLoadCode was called and the result of the existing binder
+	 * (if any) and the result of the new binder are concatenated in a new binder.
+	 *
+	 * @param	\Closure	$binder
+	 * @return	self
+	 */
+	public function withAdditionalOnLoadCode(\Closure $binder);
 
 	/**
 	 * Get the currently bound on load code.

@@ -26,14 +26,14 @@ class assErrorTextGUITest extends PHPUnit_Framework_TestCase
 		}
 
 		require_once './Services/UICore/classes/class.ilCtrl.php';
-		$ilCtrl_mock = $this->getMock('ilCtrl');
+		$ilCtrl_mock = $this->createMock('ilCtrl');
 		$ilCtrl_mock->expects( $this->any() )->method( 'saveParameter' );
 		$ilCtrl_mock->expects( $this->any() )->method( 'saveParameterByClass' );
 		global $ilCtrl;
 		$ilCtrl = $ilCtrl_mock;
 
 		require_once './Services/Language/classes/class.ilLanguage.php';
-		$lng_mock = $this->getMock('ilLanguage', array('txt'), array(), '', false);
+		$lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
 		//$lng_mock->expects( $this->once() )->method( 'txt' )->will( $this->returnValue('Test') );
 		global $lng;
 		$lng = $lng_mock;

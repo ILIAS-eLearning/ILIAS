@@ -2,6 +2,10 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\BackgroundTasks\BucketMeta;
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
+use ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal;
+
 include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 
 /**
@@ -230,6 +234,7 @@ class ilMainMenuGUI
 			$this->renderOnScreenChatMenu();
 			$this->populateWithBuddySystem();
 			$this->populateWithOnScreenChat();
+			$this->renderBackgroundTasks();
 			$this->renderAwareness();
 		}
 
@@ -386,6 +391,7 @@ class ilMainMenuGUI
 		$this->tpl->setVariable("TXT_MAIN_MENU", $lng->txt("main_menu"));
 		
 		$this->tpl->parseCurrentBlock();
+
 	}
 	
 	/**
@@ -1114,7 +1120,53 @@ class ilMainMenuGUI
 		}
 		
 		return $url;
-	}	
+	}
+
+	protected function renderBackgroundTasks()
+	{
+		global $DIC;
+		$DIC->language()->loadLanguageModule("background_tasks");
+		$factory = $DIC->ui()->factory();
+		$persistence = $DIC->backgroundTasks()->persistence();
+		$metas = $persistence->getBucketMetaOfUser($DIC->user()->getId());
+		if(!count($metas))
+			return;
+
+		$numberOfUserInteractions = count(array_filter($metas, function(BucketMeta $meta) {
+			return $meta->getState() == State::USER_INTERACTION;
+		}));
+		$numberOfNotUserInteractions = count($metas) - $numberOfUserInteractions;
+
+		$popover = $factory->popover()
+		                   ->listing(array())
+		                   ->withTitle($DIC->language()->txt("background_tasks_running")); // needs to have empty content
+		$DIC->ctrl()->clearParametersByClass(ilBTControllerGUI::class);
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
+			"from_url",
+			urlencode(ilUtil::_getHttpPath())
+		);
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
+			"replaceSignal",
+			$popover->getReplaceContentSignal()->getId()
+		);
+
+		$url = $DIC->ctrl()->getLinkTargetByClass([ ilBTControllerGUI::class ], "getPopoverContent", "", true);
+		$popover = $popover->withAsyncContentUrl($url);
+
+		$glyph = $factory->glyph()
+		                 ->briefcase()
+		                 ->withOnClick($popover->getShowSignal())
+		                 ->withCounter($factory->counter()->novelty($numberOfUserInteractions))
+		                 ->withCounter($factory->counter()->status($numberOfNotUserInteractions));
+
+		$DIC['tpl']->addJavascript('./Services/BackgroundTasks/js/background_task_refresh.js');
+
+		$this->tpl->setVariable('BACKGROUNDTASKS',
+			$DIC->ui()->renderer()->render([$glyph, $popover])
+		);
+
+		$this->tpl->setVariable('BACKGROUNDTASKS_REFRESH_URI', $url);
+	}
 }
 
 ?>

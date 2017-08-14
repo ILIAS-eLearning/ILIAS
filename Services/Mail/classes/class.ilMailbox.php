@@ -14,79 +14,73 @@ require_once("Services/Mail/classes/class.ilMail.php");
 class ilMailbox
 {
 	/**
-	* ilias object
-	* @var		object ilias
-	* @access	private
-	*/
-	var $ilias;
+	 * @var \ILIAS
+	 */
+	protected $ilias;
 
 	/**
-	* lng object
-	* @var		object language
-	* @access	private
-	*/
-	var $lng;
+	 * @var \ilLanguage
+	 */
+	protected $lng;
 
 	/**
-	* tree object
-	* @var		object tree
-	* @access	private
-	*/
-	var $mtree;
+	 * @var \ilDBInterface
+	 */
+	protected $db;
 
 	/**
-	* user_id
-	* @var		integer	user_id
-	* @access	private
-	*/
-	var $user_id;
+	 * @var \ilTree
+	 */
+	protected $mtree;
 
 	/**
-	* actions
-	*
-	* @var		array contains all possible actions
-	* @access	private
-	*/	
-	var $actions;
+	 * user_id
+	 * @var integer
+	 */
+	protected $user_id;
 
 	/**
-	* default folders which are created for every new user
-	* @var		array
-	* @access	private
-	*/
-	var $default_folder;
+	 * actions
+	 * @var array
+	 */
+	protected $actions = array();
 
 	/**
-	* table name of table mail object data
-	* @var		string
-	* @access	private
-	*/
-	var $table_mail_obj_data;
+	 * default folders which are created for every new user
+	 * @var array
+	 */
+	protected $default_folder = array();
 
 	/**
-	* table name of tree table
-	* @var		string
-	* @access	private
-	*/
-	var $table_tree;
+	 * table name of table mail object data
+	 * @var string
+	 */
+	protected $table_mail_obj_data;
 
 	/**
-	* Constructor
-	* @param	integer user_id of mailbox
-	* @access	public
-	*/
+	 * table name of tree table
+	 * @var string
+	 */
+	protected $table_tree;
+
+	/**
+	 * ilMailbox constructor.
+	 * @param int $a_user_id
+	 */
 	public function __construct($a_user_id = 0)
 	{
-		global $ilias,$lng;
+		global $DIC;
 
-		$this->ilias = $ilias;
-		$this->lng = $lng;
+		$this->ilias = $DIC['ilias'];
+		$this->lng   = $DIC->language();
+		$this->db    = $DIC->database();
+
 		$this->user_id = $a_user_id;
 
 		$this->table_mail_obj_data = 'mail_obj_data';
 		$this->table_tree = 'mail_tree';
 
-		if ($a_user_id)
+		if($a_user_id)
 		{
 			$this->mtree = new ilTree($this->user_id);
 			$this->mtree->setTableNames($this->table_tree,$this->table_mail_obj_data);
@@ -115,18 +109,13 @@ class ilMailbox
 			"z_local"     => "local");
 
 	}
+
 	/**
-	* get Id of the inbox folder of an user
-	* @access	public
-	*/
+	 * get Id of the inbox folder of an user
+	 */
 	public function getInboxFolder()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-
-		$res = $ilDB->queryF('
+		$res = $this->db->queryF('
 			SELECT obj_id FROM '.$this->table_mail_obj_data.'
 			WHERE user_id = %s
 			AND m_type = %s',
@@ -134,23 +123,17 @@ class ilMailbox
 			array($this->user_id, 'inbox')
 		);
 
-		$row = $ilDB->fetchAssoc($res);
+		$row = $this->db->fetchAssoc($res);
 
 		return $row['obj_id'];
 	}
 
 	/**
-	* get Id of the inbox folder of an user
-	* @access	public
-	*/
+	 * get Id of the inbox folder of an user
+	 */
 	public function getDraftsFolder()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-
-		$res = $ilDB->queryF('
+		$res = $this->db->queryF('
 			SELECT obj_id FROM '.$this->table_mail_obj_data.'
 			WHERE user_id = %s
 			AND m_type = %s',
@@ -158,23 +141,17 @@ class ilMailbox
 			array($this->user_id, 'drafts')
 		);
 
-		$row = $ilDB->fetchAssoc($res);
+		$row = $this->db->fetchAssoc($res);
 
 		return $row['obj_id'];
 	}
 
 	/**
-	* get Id of the trash folder of an user
-	* @access	public
-	*/
+	 * get Id of the trash folder of an user
+	 */
 	public function getTrashFolder()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-
-		$res = $ilDB->queryf('
+		$res = $this->db->queryf('
 			SELECT obj_id FROM '.$this->table_mail_obj_data.'
 			WHERE user_id = %s
 			AND m_type = %s',
@@ -182,23 +159,17 @@ class ilMailbox
 			array($this->user_id, 'trash')
 		);
 
-		$row = $ilDB->fetchAssoc($res);
+		$row = $this->db->fetchAssoc($res);
 
 		return $row['obj_id'];
 	}
 
 	/**
-	* get Id of the sent folder of an user
-	* @access	public
-	*/
+	 * get Id of the sent folder of an user
+	 */
 	public function getSentFolder()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-
-		$res = $ilDB->queryf('
+		$res = $this->db->queryf('
 			SELECT obj_id FROM '.$this->table_mail_obj_data.'
 			WHERE user_id = %s
 			AND m_type = %s',
@@ -206,15 +177,14 @@ class ilMailbox
 			array($this->user_id, 'sent')
 		);
 
-		$row = $ilDB->fetchAssoc($res);
+		$row = $this->db->fetchAssoc($res);
 
 		return $row['obj_id'];
 	}
 
 	/**
-	* get Id of the root folder of an user
-	* @access	public
-	*/
+	 * get Id of the root folder of an user
+	 */
 	function getRootFolderId()
 	{
 		return $this->mtree->getRootID($this->user_id);
@@ -248,10 +218,8 @@ class ilMailbox
 	 */
 	public function createDefaultFolder()
 	{
-		global $ilDB;
-
-		$root_id = $ilDB->nextId($this->table_mail_obj_data);
-		$ilDB->manipulateF('
+		$root_id = $this->db->nextId($this->table_mail_obj_data);
+		$this->db->manipulateF('
 			INSERT INTO '. $this->table_mail_obj_data .' 
 			(	obj_id,
 				user_id,
@@ -266,8 +234,8 @@ class ilMailbox
 
 		foreach($this->default_folder as $key => $folder)
 		{
-			$last_id = $ilDB->nextId($this->table_mail_obj_data);
-			$ilDB->manipulateF('
+			$last_id = $this->db->nextId($this->table_mail_obj_data);
+			$this->db->manipulateF('
 				INSERT INTO '. $this->table_mail_obj_data .' 
 				(	obj_id,
 					user_id,
@@ -290,15 +258,13 @@ class ilMailbox
 	 */
 	public function addFolder($a_parent_id, $a_folder_name)
 	{
-		global $ilDB;
-
 		if($this->folderNameExists($a_folder_name))
 		{
 			return 0;
 		}
 
-		$next_id = $ilDB->nextId($this->table_mail_obj_data);
-		$ilDB->manipulateF('
+		$next_id = $this->db->nextId($this->table_mail_obj_data);
+		$this->db->manipulateF('
 			INSERT INTO '. $this->table_mail_obj_data .'
 			(	obj_id,
 			 	user_id,
@@ -322,14 +288,12 @@ class ilMailbox
 	 */
 	public function renameFolder($a_obj_id, $a_new_folder_name)
 	{
-		global $ilDB;
-
 		if($this->folderNameExists($a_new_folder_name))
 		{
 			return false;
 		}
 
-		$ilDB->manipulateF('
+		$this->db->manipulateF('
 			UPDATE '. $this->table_mail_obj_data .'
 			SET title = %s
 			WHERE obj_id = %s AND user_id = %s',
@@ -347,16 +311,14 @@ class ilMailbox
 	 */
 	protected function folderNameExists($a_folder_name)
 	{
-		global $ilDB;
-
-		$res = $ilDB->queryF('
+		$res = $this->db->queryF('
 			SELECT obj_id FROM '. $this->table_mail_obj_data .'
 			WHERE user_id = %s
 			AND title = %s',
 			array('integer', 'text'),
 			array($this->user_id, $a_folder_name)
 		);
-		$row = $ilDB->fetchAssoc($res);
+		$row = $this->db->fetchAssoc($res);
 
 		return is_array($row) && $row['obj_id'] > 0 ? true : false;
 	}
@@ -368,15 +330,13 @@ class ilMailbox
 	 */
 	public function deleteFolder($a_folder_id)
 	{
-		global $ilDB;
-
-		$query = $ilDB->queryf('
+		$query = $this->db->queryf('
 			SELECT obj_id, title FROM mail_obj_data
 			WHERE obj_id = %s AND user_id = %s',
 			array('integer', 'integer'),
 			array($a_folder_id, $this->user_id)
 		);
-		$row = $ilDB->fetchAssoc($query);
+		$row = $this->db->fetchAssoc($query);
 
 		if(!is_array($row) || array_key_exists($row['title'], $this->default_folder))
 		{
@@ -400,7 +360,7 @@ class ilMailbox
 
 			$umail->deleteMails($mail_ids);
 
-			$ilDB->manipulateF('
+			$this->db->manipulateF('
 				DELETE FROM '. $this->table_mail_obj_data .' 
 				WHERE obj_id = %s AND user_id = %s',
 				array('integer', 'integer'),
@@ -418,16 +378,14 @@ class ilMailbox
 	 */
 	public function getFolderData($a_obj_id)
 	{
-		global $ilDB;
-
-		$res = $ilDB->queryF('
+		$res = $this->db->queryF('
 			SELECT * FROM ' . $this->table_mail_obj_data . ' 
 			WHERE user_id = %s
 			AND obj_id = %s',
 			array('integer', 'integer'),
 			array($this->user_id, $a_obj_id)
 		);
-		$row = $ilDB->fetchAssoc($res);
+		$row = $this->db->fetchAssoc($res);
 
 		return array(
 			'obj_id' => $row['obj_id'],
@@ -443,15 +401,13 @@ class ilMailbox
 	 */
 	public function getParentFolderId($a_obj_id)
 	{
-		global $ilDB;
-
-		$res = $ilDB->queryF('
+		$res = $this->db->queryF('
 			SELECT * FROM  '. $this->table_tree .' 
 			WHERE child = %s AND tree = %s',
 			array('integer', 'integer'),
 			array($a_obj_id, $this->user_id)
 		);
-		$row = $ilDB->fetchAssoc($res);
+		$row = $this->db->fetchAssoc($res);
 
 		return is_array($row) ? $row['parent'] : 0;
 	}
@@ -464,8 +420,6 @@ class ilMailbox
 	 */
 	public function getSubFolders($a_folder = 0, $a_folder_parent = 0)
 	{
-		global $ilDB;
-
 		if(!$a_folder)
 		{
 			$a_folder = $this->getRootFolderId();
@@ -475,7 +429,7 @@ class ilMailbox
 
 		foreach($this->default_folder as $key => $value)
 		{
-			$res = $ilDB->queryF('
+			$res = $this->db->queryF('
 				SELECT obj_id, m_type
 				FROM ' . $this->table_mail_obj_data . ' 
 				WHERE user_id = %s
@@ -483,7 +437,7 @@ class ilMailbox
 				array('integer', 'text'),
 				array($this->user_id, $key)
 			);
-			$row = $ilDB->fetchAssoc($res);
+			$row = $this->db->fetchAssoc($res);
 
 			$user_folder[] = array(
 				'title'  => $key,
@@ -492,7 +446,7 @@ class ilMailbox
 			);
 		}
 
-		$res = $ilDB->queryF('
+		$res = $this->db->queryF('
 			SELECT * FROM ' . $this->table_tree . ', ' . $this->table_mail_obj_data . '
 			WHERE ' . $this->table_mail_obj_data . '.obj_id = ' . $this->table_tree . '.child 
 			AND ' . $this->table_tree . '.depth  > %s
@@ -501,7 +455,7 @@ class ilMailbox
 			array('integer', 'integer'),
 			array(2, $this->user_id)
 		);
-		while($row = $ilDB->fetchAssoc($res))
+		while($row = $this->db->fetchAssoc($res))
 		{
 			$user_folder[] = array(
 				'title'  => $row['title'],
@@ -529,27 +483,22 @@ class ilMailbox
 	*/
 	public function delete()
 	{
-		/**
- 		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-		
-		$ilDB->manipulateF('
+		$this->db->manipulateF('
 			DELETE FROM mail_obj_data WHERE user_id = %s',
 			array('integer'), array($this->user_id)
 		);
 
-		$ilDB->manipulateF('
+		$this->db->manipulateF('
 			DELETE FROM mail_options WHERE user_id = %s',
 			array('integer'), array($this->user_id)
 		);
 
-		$ilDB->manipulateF('
+		$this->db->manipulateF('
 			DELETE FROM mail_saved WHERE user_id = %s',
 			array('integer'), array($this->user_id)
 		);
-		
-		$ilDB->manipulateF('
+
+		$this->db->manipulateF('
 			DELETE FROM mail_tree WHERE tree = %s',
 			array('integer'), array($this->user_id)
 		);
@@ -560,7 +509,7 @@ class ilMailbox
 		$fdm->onUserDelete();
 		
 		// Delete mails of deleted user
-		$ilDB->manipulateF(
+		$this->db->manipulateF(
 			'DELETE FROM mail WHERE user_id = %s',
 			array('integer'),
 			array($this->user_id)
@@ -576,12 +525,7 @@ class ilMailbox
 	 */
 	public function updateMailsOfDeletedUser($nameToShow)
 	{
-		/**
- 		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-
-		$ilDB->manipulateF('
+		$this->db->manipulateF('
 			UPDATE mail 
 			SET sender_id = %s, import_name = %s
 			WHERE sender_id = %s',

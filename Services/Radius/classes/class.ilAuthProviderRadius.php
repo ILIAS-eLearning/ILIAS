@@ -14,6 +14,9 @@ include_once './Services/Authentication/interfaces/interface.ilAuthProviderAccou
  */
 class ilAuthProviderRadius extends ilAuthProvider implements ilAuthProviderInterface, ilAuthProviderAccountMigrationInterface
 {
+	const CONNECT_TIMEOUT = 3;
+	const RETRIES = 1;
+	
 	/**
 	 * @var ilRadiusSettings
 	 */
@@ -48,16 +51,18 @@ class ilAuthProviderRadius extends ilAuthProvider implements ilAuthProviderInter
 	{
 		$radius = radius_auth_open();
 		
-		$server = radius_add_server(
-			$radius,
-			$this->settings->getServersAsString(),
-			$this->settings->getPort(),
-			$this->settings->getSecret(),
-			5,
-			3
-		);
-		
-		$this->getLogger()->debug('Using: ' . $this->settings->getServersAsString().':'. $this->settings->getPort());
+		foreach($this->settings->getServers() as $server)
+		{
+			$this->getLogger()->debug('Using: ' . $server.':'. $this->settings->getPort());
+			radius_add_server(
+				$radius,
+				trim($server),
+				$this->settings->getPort(),
+				$this->settings->getSecret(),
+				self::CONNECT_TIMEOUT,
+				self::RETRIES
+			);
+		}
 		
 		radius_create_request($radius, RADIUS_ACCESS_REQUEST);
 		radius_put_attr($radius, RADIUS_USER_NAME, $this->getCredentials()->getUsername());
@@ -78,7 +83,7 @@ class ilAuthProviderRadius extends ilAuthProvider implements ilAuthProviderInter
 				return true;
 				
 			case RADIUS_ACCESS_REJECT:
-				$this->getLogger()->info('Radius authentication failed with message: ' . radius_strerror($radius));
+				$this->getLogger()->info('Radius authentication rejected with message: ' . radius_strerror($radius));
 				$this->handleAuthenticationFail($status, 'err_wrong_login');
 				return false;
 				
@@ -87,13 +92,13 @@ class ilAuthProviderRadius extends ilAuthProvider implements ilAuthProviderInter
 				$this->handleAuthenticationFail($status, 'err_wrong_login');
 				return false;
 				
-				default:
-					$this->getLogger()->info('Radius authentication failed with message: ' . radius_strerror($radius));
+			default:
+				$this->getLogger()->error('Radius authentication failed with message: ' . radius_strerror($radius));
 				$this->handleAuthenticationFail($status, 'err_wrong_login');
 				return false;
 		}
 	}
-
+	
 	/**
 	 * get external account name
 	 * @return string Get external account for accoun migration

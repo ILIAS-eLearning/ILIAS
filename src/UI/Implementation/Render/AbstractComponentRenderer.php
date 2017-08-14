@@ -74,11 +74,8 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		return $this->lng->txt($id);
 	}
 
-	/**
-	 * @return JavaScriptBinding
-	 */
-	final protected function getJavascriptBinding() {
-		return $this->js_binding;
+	final public function toJS($key) {
+		$this->lng->toJS($key);
 	}
 
 	/**
@@ -109,11 +106,24 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 * @return	string|null
 	 */
 	final protected function bindJavaScript(JavaScriptBindable $component) {
-        $binder = $component->getOnLoadCode();
+		if ($component instanceof Triggerer) {
+			$component = $this->addTriggererOnLoadCode($component);
+		}
+		return $this->bindOnloadCode($component);
+	}
+
+	/**
+	 * Bind the JavaScript onload-code.
+	 *
+	 * @param	JavaScriptBindable	$component
+	 * @return	string|null
+	 */
+	private function bindOnloadCode(JavaScriptBindable $component) {
+		$binder = $component->getOnLoadCode();
 		if ($binder === null) {
 			return null;
 		}
-		$id = $this->createId();
+		$id = $this->js_binding->createId();
 		$on_load_code = $binder($id);
 		if (!is_string($on_load_code)) {
 			throw new \LogicException(
@@ -121,35 +131,40 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 				" (used component: ".get_class($component).")");
 		}
 		$this->js_binding->addOnLoadCode($on_load_code);
-        return $id;
-	}
-
-
-	/**
-	 * Create an ID
-	 *
-	 * @return string
-	 */
-	final protected function createId() {
-		$id = $this->js_binding->createId();
 		return $id;
 	}
 
 	/**
-	 * Renderers of components acting as triggerer can use this method to trigger the registered signals
+	 * Add onload-code for triggerer.
 	 *
-	 * @param Triggerer $triggerer
-	 * @param string $id The generated ID for the triggerer component
+	 * @param	Triggerer	$triggerer
+	 * @return 	Triggerer
 	 */
-	protected function triggerRegisteredSignals(Triggerer $triggerer, $id) {
-		foreach ($triggerer->getTriggeredSignals() as $triggered_signal) {
-			$signal = $triggered_signal->getSignal();
-			$event = $triggered_signal->getEvent();
-			$this->js_binding->addOnLoadCode("$('#{$id}').{$event}( function(event) { 
-					$('#{$id}').trigger('{$signal}');
-					if (typeof event.preventDefault === 'function') { event.preventDefault(); }
-				});");
+	private function addTriggererOnLoadCode(Triggerer $triggerer) {
+		$triggered_signals = $triggerer->getTriggeredSignals();
+		if (count($triggered_signals) == 0) {
+			return $triggerer;
 		}
+		return $triggerer->withAdditionalOnLoadCode(function($id) use ($triggered_signals) {
+			$code = "";
+			foreach ($triggered_signals as $triggered_signal) {
+				$signal = $triggered_signal->getSignal();
+				$event = $triggered_signal->getEvent();
+				$options = json_encode($signal->getOptions());
+				$code .=
+					"$('#{$id}').{$event}( function(event) {
+						$(this).trigger('{$signal}',
+							{
+								'id' : '{$signal}', 'event' : '{$event}',
+								'triggerer' : $(this),
+								'options' : JSON.parse('{$options}')
+							}
+						);
+						return false;
+					});";
+			}
+			return $code;
+		});
 	}
 
 	/**

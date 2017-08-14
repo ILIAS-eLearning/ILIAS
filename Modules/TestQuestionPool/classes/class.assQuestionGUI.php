@@ -596,7 +596,7 @@ abstract class assQuestionGUI
 	}
 	
 // fau: testNav - get the html of the "use unchanged answer checkbox"
-	private function getUseUnchangedAnswerCheckboxHtml()
+	protected function getUseUnchangedAnswerCheckboxHtml()
 	{
 		// hey: prevPassSolutions - use abstracted template to share with other purposes of this kind
 		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');

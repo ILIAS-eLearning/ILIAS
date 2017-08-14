@@ -2,9 +2,6 @@
 
 require_once "./Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
 require_once "./Modules/Bibliographic/classes/Admin/class.ilBibliographicSetting.php";
-require_once('./Modules/Bibliographic/classes/Types/BibTex/class.ilBibTex.php');
-require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-require_once('./Modules/Bibliographic/classes/Types/Ris/class.ilRis.php');
 
 /**
  * Class ilBibliographicDetailsGUI
@@ -107,7 +104,8 @@ class ilBibliographicDetailsGUI {
 			$ci->setHtml($set->getButton($this->bibl_obj, $this->entry));
 			$form->addItem($ci);
 		}
-		$tpl->setPermanentLink("bibl", $this->bibl_obj->getRefId(), "_" . $_GET[ilObjBibliographicGUI::P_ENTRY_ID]);
+		$tpl->setPermanentLink("bibl", $this->bibl_obj->getRefId(), "_"
+		                                                            . $_GET[ilObjBibliographicGUI::P_ENTRY_ID]);
 
 		// set content and title
 		return $form->getHTML();
@@ -119,15 +117,14 @@ class ilBibliographicDetailsGUI {
 	 * This feature has to be discussed by JF first
 	 *
 	 * @param $string
+	 *
 	 * @return string
 	 */
 	public static function prepareLatex($string) {
 		return $string;
 		static $init;
-		require_once('./Services/MathJax/classes/class.ilMathJax.php');
 		$ilMathJax = ilMathJax::getInstance();
 		if (!$init) {
-			require_once('./Services/MathJax/classes/class.ilMathJax.php');
 			$ilMathJax->init();
 			$init = true;
 		}

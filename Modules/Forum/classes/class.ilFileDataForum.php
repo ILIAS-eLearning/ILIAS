@@ -27,6 +27,8 @@ class ilFileDataForum extends ilFileData
 	* @access private
 	*/
 	var $forum_path;
+	
+	private $error; 
 
 	/**
 	* Constructor
@@ -37,6 +39,9 @@ class ilFileDataForum extends ilFileData
 	*/
 	public function __construct($a_obj_id = 0,$a_pos_id = 0)
 	{
+		global $DIC;
+		$this->error = $DIC['ilErr'];
+		
 		define('FORUM_PATH', 'forum');
 		parent::__construct();
 		$this->forum_path = parent::getPath()."/".FORUM_PATH;
@@ -402,7 +407,7 @@ class ilFileDataForum extends ilFileData
 		}
 		else
 		{
-			$this->ilias->raiseError("Forum directory is not readable/writable by webserver",$this->ilias->error_obj->FATAL);
+			$this->error->raiseError("Forum directory is not readable/writable by webserver",$this->error->FATAL);
 		}
 	}
 	/**
@@ -464,15 +469,12 @@ class ilFileDataForum extends ilFileData
 	 */
 	public function deliverZipFile()
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
+		global $DIC;
+		
 		$zip_file = $this->createZipFile();
 		if(!$zip_file)
 		{
-			ilUtil::sendFailure($lng->txt('error_reading_file'), true);
+			ilUtil::sendFailure($DIC->language()->txt('error_reading_file'), true);
 			return false;
 		}
 		else

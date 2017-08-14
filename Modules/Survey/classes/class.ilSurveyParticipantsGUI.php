@@ -193,7 +193,7 @@ class ilSurveyParticipantsGUI
 		// not used in 360° mode
 	
 		// maintenance
-		$ilTabs->addSubTabTarget("results",
+		$ilTabs->addSubTabTarget("sub_tab_dashboard",
 			 $this->ctrl->getLinkTarget($this,'maintenance'),
 			 array("maintenance", "deleteAllUserData"),					 
 			 "");

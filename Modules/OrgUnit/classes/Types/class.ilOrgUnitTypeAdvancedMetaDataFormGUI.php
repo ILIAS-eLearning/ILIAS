@@ -1,7 +1,4 @@
 <?php
-require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-require_once('./Services/Form/classes/class.ilMultiSelectInputGUI.php');
 
 /**
  * Class ilOrgUnitTypeAdvancedMetaDataFormGUI

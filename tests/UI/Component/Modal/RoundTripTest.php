@@ -54,7 +54,7 @@ class RoundTripTest extends ModalBase {
 			]);
 		$expected = $this->normalizeHTML($this->getExpectedHTML());
 		$actual = $this->normalizeHTML($this->getDefaultRenderer()->render($roundtrip));
-		$this->assertEquals($expected, $actual);
+		$this->assertHTMLEquals($expected, $actual);
 	}
 
 

@@ -1,10 +1,5 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/Object/classes/class.ilObjectGUI.php");
-require_once("./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminLibrariesFormGUI.php");
-require_once("./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminTableGUI.php");
-require_once("./Modules/Bibliographic/classes/Admin/class.ilBibliographicSetting.php");
-require_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
 
 /**
  * Bibliographic Administration Settings.
@@ -116,10 +111,10 @@ class ilObjBibliographicAdminLibrariesGUI {
 		$result = array();
 		foreach ($settings as $set) {
 			$result[] = array(
-				"id" => $set->getId(),
+				"id"   => $set->getId(),
 				"name" => $set->getName(),
-				"url" => $set->getUrl(),
-				"img" => $set->getImg()
+				"url"  => $set->getUrl(),
+				"img"  => $set->getImg(),
 			);
 		}
 		$table->setData($result);

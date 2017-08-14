@@ -30,6 +30,8 @@
 *
 * @package ilias
 */
+include_once './libs/composer/vendor/autoload.php';
+use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 
 include_once './webservice/soap/lib/nusoap.php';
 include_once './webservice/soap/include/inc.soap_functions.php';
@@ -182,6 +184,7 @@ class ilNusoapUserAdministrationAdapter
 												  'title' => array('name' => 'title', 'type' => 'xsd:string'),
 												  'gender' => array('name' => 'gender', 'type' => 'xsd:string'),
 												  'email' => array('name' => 'email', 'type' => 'xsd:string'),
+												  'second_email' => array('name' => 'second_email', 'type' => 'xsd:string'),
 												  'institution' => array('name' => 'institution', 'type' => 'xsd:string'),
 												  'street' => array('name' => 'street', 'type' => 'xsd:string'),
 												  'city' => array('name' => 'city', 'type' => 'xsd:string'),
@@ -270,6 +273,16 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS deleteCourse(). Deletes a course. Delete courses are stored in "Trash" and can be undeleted in '.
 								' the ILIAS administration. ');
+		// startBackgroundTaskWorker()
+		$this->server->register(AsyncTaskManager::CMD_START_WORKER,
+			array('sid' => 'xsd:string'),
+			array('success' => 'xsd:boolean'),
+			SERVICE_NAMESPACE,
+			SERVICE_NAMESPACE . '#' . AsyncTaskManager::CMD_START_WORKER,
+			SERVICE_STYLE,
+			SERVICE_USE,
+			'ILIAS ' . AsyncTaskManager::CMD_START_WORKER . '().');
+
 		// assignCourseMember()
 		$this->server->register('assignCourseMember',
 								array('sid' => 'xsd:string',

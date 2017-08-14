@@ -1,0 +1,16 @@
+ul.breadcrumb {
+	margin: 0;
+	font-weight: @breadcrumb-font-weight;
+	padding-left: @padding-large-horizontal;
+	font-size: @font-size-small;
+	li {
+		color: @breadcrumb-color;
+		&:hover {
+			color: @breadcrumb-active-color;
+		}
+	}
+}
+
+[dir="rtl"] ul.breadcrumb {
+	padding-right: @padding-large-horizontal;
+}

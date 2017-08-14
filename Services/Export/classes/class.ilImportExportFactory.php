@@ -44,7 +44,7 @@ class ilImportExportFactory
 			}
 		}
 			
-		throw InvalidArgumentException('Invalid exporter type given');
+		throw new InvalidArgumentException('Invalid exporter type given');
 	}
 	
 	public static function getComponentForExport($a_type)
@@ -94,7 +94,7 @@ class ilImportExportFactory
 			}
 		}
 			
-		throw InvalidArgumentException('Invalid importer type given');
+		throw new InvalidArgumentException('Invalid importer type given');
 	}
 }
 ?>

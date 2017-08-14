@@ -1,17 +1,14 @@
 /* Services/UIComponent/Button */
 
-.btn {
-	font-size: @ilButtonFontSize;
-}
+/*
+Important: those classes and less are deprecated. Relevant Button less has been moved
+the respective place in UI src/UI/templates/default/Button/button.less
 
-input.btn,
-button.btn:not(.btn-link) > span:first-child:not(:empty) {
-	display: inline-block;
-	min-width: 60px;
-	vertical-align: top;
-}
+Do NOT add any code here.
 
-/* buttons */
+@Todo: This code needs to be (re)-moved. Are gradient-button btn-info and btn-link needed anymore?
+*/
+
 .gradient-button(@color, @borderColor, @startColor, @endColor, @startPercent, @endPercent, @degradeColor: @startColor) {
 	color: @color;
 	border-color: @borderColor;
@@ -44,12 +41,6 @@ button.btn:not(.btn-link) > span:first-child:not(:empty) {
 
 //overwrite buttons styles + add new one
 //@color @background @border
-.btn-default {
-  .button-variant(white; lighten(@brand-primary, 15%); lighten(@brand-primary, 15%));
-}
-.btn-primary {
-  .button-variant(white; @brand-secondary; @brand-secondary);
-}
 .btn-info {
   .button-variant(@link-color; white; lighten(@link-color, 35%));
 }
@@ -66,30 +57,13 @@ button.btn:not(.btn-link) > span:first-child:not(:empty) {
   }
 }
 
-.btn {
-    &.disabled,
-    &[disabled],
-    fieldset[disabled] & {
-        &,
-        &:hover,
-        &:focus,
-        &:active,
-        &.active {
-            background-color: @disabled-btn-bg;
-            border-color: @disabled-btn-border;
-            color: @disabled-btn-color;
-            cursor: default;
-        }
-    }
-}
-
 /* old stuff */
 
 input.ilSubmitInactive, input.ilSubmitInactive:hover, input.ilSubmitInactive:active,
 a.ilSubmitInactive, a.ilSubmitInactive:hover , a.ilSubmitInactive:active {
-	color: #e0e0e0;
-	background-color: #b0b0b0;
-	border-color: #b0b0b0;
+	background-color: @il-disabled-btn-bg;
+	border-color: @il-disabled-btn-border;
+	color: @il-disabled-btn-color;
 	cursor: default;
 }
 
@@ -110,7 +84,12 @@ a.ilSubmitInactive, a.ilSubmitInactive:hover , a.ilSubmitInactive:active {
 	}
 }
 
-// #16322
-button > .glyphicon {
-   pointer-events: none;
+button.btn:not(.btn-link) > span:first-child:not(:empty) {
+	display: inline-block;
+	min-width: @il-button-min-width;
+	vertical-align: top;
+
+	@media (max-width: @grid-float-breakpoint-max) {
+			min-width: 0;
+	}
 }

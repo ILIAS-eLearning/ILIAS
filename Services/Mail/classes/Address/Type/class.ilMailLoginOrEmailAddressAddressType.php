@@ -14,8 +14,6 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 	 */
 	protected function isValid($a_sender_id)
 	{
-		/** @var $rbacsystem ilRbacSystem */
-		global $rbacsystem;
 
 		if($this->address->getHost() == ilMail::ILIAS_HOST)
 		{
@@ -33,7 +31,7 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 		}
 
 		require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
-		if($usr_id && !$rbacsystem->checkAccessOfUser($usr_id, 'internal_mail', ilMailGlobalServices::getMailObjectRefId()))
+		if($usr_id && !$this->rbacsystem->checkAccessOfUser($usr_id, 'internal_mail', ilMailGlobalServices::getMailObjectRefId()))
 		{
 			$this->errors[] = array('user_cant_receive_mail', $this->address->getMailbox());
 			return false;

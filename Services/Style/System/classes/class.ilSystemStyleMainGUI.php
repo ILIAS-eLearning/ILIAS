@@ -81,7 +81,16 @@ class ilSystemStyleMainGUI
 	 */
 	function executeCommand()
 	{
+		/**
+		 * @var ilHelpGUI $ilHelp
+		 */
+		global $ilHelp;
+
 		$next_class = $this->ctrl->getNextClass($this);
+
+		$ilHelp->setScreenIdComponent("sty");
+		$ilHelp->setScreenId("system_styles");
+
 
 		$this->ctrl->setParameterByClass('ilsystemstylesettingsgui','skin_id',$_GET["skin_id"]);
 		$this->ctrl->setParameterByClass('ilsystemstylesettingsgui','style_id',$_GET["style_id"]);
@@ -97,6 +106,7 @@ class ilSystemStyleMainGUI
 			{
 
 				case "ilsystemstylesettingsgui":
+					$ilHelp->setSubScreenId("settings");
 					$this->checkPermission("sty_management");
 					$this->setUnderworldTabs('settings');
 					$this->setUnderworldTitle();
@@ -105,6 +115,7 @@ class ilSystemStyleMainGUI
 					$this->ctrl->forwardCommand($system_styles_settings);
 					break;
 				case "ilsystemstylelessgui":
+					$ilHelp->setSubScreenId("less");
 					$this->checkPermission("sty_management");
 					$this->setUnderworldTabs('less');
 					$this->setUnderworldTitle();
@@ -113,6 +124,7 @@ class ilSystemStyleMainGUI
 					$this->ctrl->forwardCommand($system_styles_less);
 					break;
 				case "ilsystemstyleiconsgui":
+					$ilHelp->setSubScreenId("icons");
 					$this->checkPermission("sty_management");
 					$this->setUnderworldTabs('icons');
 					$this->setUnderworldTitle();
@@ -121,6 +133,7 @@ class ilSystemStyleMainGUI
 					$this->ctrl->forwardCommand($system_styles_icons);
 					break;
 				case "ilsystemstyledocumentationgui":
+					$ilHelp->setSubScreenId("documentation");
 					$this->checkPermission("sty_management");
 					$this->setUnderworldTabs('documentation');
 					$this->setUnderworldTitle();
@@ -130,6 +143,7 @@ class ilSystemStyleMainGUI
 					break;
 				case "ilsystemstyleoverviewgui":
 				default:
+					$ilHelp->setSubScreenId("overview");
 					$this->checkPermission("visible,read");
 					include_once("Overview/class.ilSystemStyleOverviewGUI.php");
 					$system_styles_overview = new ilSystemStyleOverviewGUI(!$this->checkPermission("sty_write_system",false)
@@ -194,8 +208,17 @@ class ilSystemStyleMainGUI
 	 * @param string $active
 	 */
 	protected function setUnderworldTabs($active = "") {
+		/**
+		 * @var ilHelpGUI $ilHelp
+		 */
+		global $ilHelp;
 		$this->tabs->clearTargets();
 
+		/**
+		 * Since clearTargets also clears the help screen ids
+		 */
+		$ilHelp->setScreenIdComponent("sty");
+		$ilHelp->setScreenId("system_styles");
 		$this->tabs->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTarget($this));
 		$this->tabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass('ilsystemstylesettingsgui'));
 		$this->tabs->addTab('less', $this->lng->txt('less'), $this->ctrl->getLinkTargetByClass('ilsystemstylelessgui'));

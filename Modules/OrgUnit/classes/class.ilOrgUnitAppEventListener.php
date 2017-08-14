@@ -1,6 +1,4 @@
 <?php
-require_once('./Modules/OrgUnit/classes/class.ilObjOrgUnit.php');
-require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
 
 /**
  * Class ilOrgUnitAppEventListener

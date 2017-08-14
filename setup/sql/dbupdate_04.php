@@ -18497,3 +18497,337 @@ while ($rec = $ilDB->fetchAssoc($set))
         array('text','text'), array($new, $old)
     );
 ?>
+<#5088>
+<?php
+	require_once('./Services/Component/classes/class.ilPluginAdmin.php');
+	require_once('./Services/Component/classes/class.ilPlugin.php');
+	require_once('./Services/UICore/classes/class.ilCtrl.php');
+
+	// Mantis #17842
+	/** @var $ilCtrl ilCtrl */
+	global $ilCtrl, $ilPluginAdmin;
+	if (is_null($ilPluginAdmin)) {
+		$GLOBALS['ilPluginAdmin'] = new ilPluginAdmin();
+	}
+	if (is_null($ilCtrl)) {
+		$GLOBALS['ilCtrl'] = new ilCtrl();
+	}
+	global $ilCtrl;
+
+	function writeCtrlClassEntry(ilPluginSlot $slot, array $plugin_data) {
+		global $ilCtrl;
+		$prefix = $slot->getPrefix() . '_' . $plugin_data['id'];
+		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($plugin_data['name']), $prefix);
+	}
+
+	include_once("./Services/Component/classes/class.ilModule.php");
+	$modules = ilModule::getAvailableCoreModules();
+	foreach ($modules as $m) {
+		$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_MODULE, $m["subdir"]);
+		foreach ($plugin_slots as $ps) {
+			include_once("./Services/Component/classes/class.ilPluginSlot.php");
+			$slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
+			foreach ($slot->getPluginsInformation() as $p) {
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+					writeCtrlClassEntry($slot, $p);
+				}
+			}
+		}
+	}
+	include_once("./Services/Component/classes/class.ilService.php");
+	$services = ilService::getAvailableCoreServices();
+	foreach ($services as $s) {
+		$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_SERVICE, $s["subdir"]);
+		foreach ($plugin_slots as $ps) {
+			$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
+			foreach ($slot->getPluginsInformation() as $p) {
+				if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $p["name"]) && $ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($p["name"]))) {
+					writeCtrlClassEntry($slot, $p);
+				}
+			}
+		}
+	}
+?>
+<#5089>
+<?php
+$signature = "\n\n* * * * *\n";
+$signature .= "[CLIENT_NAME]\n";
+$signature .= "[CLIENT_DESC]\n";
+$signature .= "[CLIENT_URL]\n";
+
+$ilSetting = new ilSetting();
+
+$prevent_smtp_globally        = $ilSetting->get('prevent_smtp_globally', 0);
+$mail_system_sender_name      = $ilSetting->get('mail_system_sender_name', '');
+$mail_external_sender_noreply = $ilSetting->get('mail_external_sender_noreply', '');
+$mail_system_return_path      = $ilSetting->get('mail_system_return_path', '');
+
+$ilSetting->set('mail_allow_external', !(int)$prevent_smtp_globally);
+
+$ilSetting->set('mail_system_usr_from_addr', $mail_external_sender_noreply);
+$ilSetting->set('mail_system_usr_from_name', $mail_system_sender_name);
+$ilSetting->set('mail_system_usr_env_from_addr', $mail_system_return_path);
+
+$ilSetting->set('mail_system_sys_from_addr', $mail_external_sender_noreply);
+$ilSetting->set('mail_system_sys_from_name', $mail_system_sender_name);
+$ilSetting->set('mail_system_sys_reply_to_addr', $mail_external_sender_noreply);
+$ilSetting->set('mail_system_sys_env_from_addr', $mail_system_return_path);
+
+$ilSetting->set('mail_system_sys_signature', $signature);
+
+$ilSetting->delete('prevent_smtp_globally');
+$ilSetting->delete('mail_system_return_path');
+$ilSetting->delete('mail_system_sender_name');
+$ilSetting->delete('mail_external_sender_noreply');
+?>
+<#5090>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'user_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'root_task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'current_task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'state' => array(
+		'type' => 'integer',
+		'length' => '2',
+
+	),
+	'total_number_of_tasks' => array(
+		'type' => 'integer',
+		'length' => '4',
+
+	),
+	'percentage' => array(
+		'type' => 'integer',
+		'length' => '2',
+
+	),
+	'title' => array(
+		'type' => 'text',
+		'length' => '255',
+
+	),
+	'description' => array(
+		'type' => 'text',
+		'length' => '255',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_bucket')) {
+	$ilDB->createTable('il_bt_bucket', $fields);
+	$ilDB->addPrimaryKey('il_bt_bucket', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_bucket')) {
+		$ilDB->createSequence('il_bt_bucket');
+	}
+
+}
+
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'type' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_path' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_name' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'bucket_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_task')) {
+	$ilDB->createTable('il_bt_task', $fields);
+	$ilDB->addPrimaryKey('il_bt_task', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_task')) {
+		$ilDB->createSequence('il_bt_task');
+	}
+
+}
+
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'has_parent_task' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+	'parent_task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'hash' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'type' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_path' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'class_name' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'serialized' => array(
+		'type' => 'clob',
+
+	),
+	'bucket_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_value')) {
+	$ilDB->createTable('il_bt_value', $fields);
+	$ilDB->addPrimaryKey('il_bt_value', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_value')) {
+		$ilDB->createSequence('il_bt_value');
+	}
+
+}
+
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'task_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'value_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'bucket_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bt_value_to_task')) {
+	$ilDB->createTable('il_bt_value_to_task', $fields);
+	$ilDB->addPrimaryKey('il_bt_value_to_task', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bt_value_to_task')) {
+		$ilDB->createSequence('il_bt_value_to_task');
+	}
+
+}
+?>
+<#5091>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5092>
+<?php
+if(!$ilDB->tableColumnExists('chatroom_settings','online_status'))
+{
+	$ilDB->addTableColumn('chatroom_settings', 'online_status', array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+
+$ilDB->manipulateF("UPDATE chatroom_settings SET online_status = %s", array('integer'), array(1));
+?>
+<#5093>
+<?php
+if(!$ilDB->tableColumnExists('chatroom_bans', 'actor_id'))
+{
+	$ilDB->addTableColumn('chatroom_bans', 'actor_id',
+		array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+?>
+<#5094>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5095>
+<?php
+if(!$ilDB->tableColumnExists('usr_data', 'second_email'))
+{
+	$ilDB->addTableColumn('usr_data', 'second_email', 
+		array('type' => 'text',
+		      'length' => 80,
+		      'notnull' => false
+		));
+}
+?>
+<#5096>
+<?php
+if(!$ilDB->tableColumnExists('mail_options', 'mail_address_option'))
+{
+	$ilDB->addTableColumn('mail_options', 'mail_address_option',
+		array('type' => 'integer',
+		      'length' => 1,
+		      'notnull' => true,
+		      'default' => 3
+		));
+}
+?>
+<#5097>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

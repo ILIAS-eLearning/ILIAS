@@ -261,7 +261,7 @@ class ilObjDefReader extends ilSaxParser
 				
 				case 'systemcheck_task':
 					include_once './Services/SystemCheck/classes/class.ilSCGroups.php';
-					$group_id = ilSCGroups::lookupGroupByComponentId($this->getComponentId());
+					$group_id = ilSCGroups::getInstance()->lookupGroupByComponentId($this->getComponentId());
 					
 					include_once './Services/SystemCheck/classes/class.ilSCTasks.php';
 					$tasks = ilSCTasks::getInstanceByGroupId($group_id);

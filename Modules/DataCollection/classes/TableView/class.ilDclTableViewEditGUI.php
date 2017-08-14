@@ -1,7 +1,5 @@
 <?php
-require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableViewFieldsTableGUI.php");
-require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableViewEditFormGUI.php");
-require_once("./Services/AccessControl/classes/class.ilObjRole.php");
+
 /**
  * Class ilDclTableViewEditGUI
  *
@@ -103,8 +101,7 @@ class ilDclTableViewEditGUI
         {
             case 'ildcldetailedviewdefinitiongui':
                 $this->setTabs('detailed_view');
-                require_once('./Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewDefinitionGUI.php');
-                $recordedit_gui = new ilDclDetailedViewDefinitionGUI($this->tableview->getId());
+                                $recordedit_gui = new ilDclDetailedViewDefinitionGUI($this->tableview->getId());
                 $ret = $this->ctrl->forwardCommand($recordedit_gui);
                 if ($ret != "") {
                     $this->tpl->setContent($ret);

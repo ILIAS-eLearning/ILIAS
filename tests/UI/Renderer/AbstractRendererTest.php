@@ -81,6 +81,9 @@ namespace {
 		public function render($component) {
 			return "";
 		}
+		public function renderAsync($component) {
+			return '';
+		}
 	}
 
 	class AbstractRendererTest extends ILIAS_UI_TestBase {

@@ -208,6 +208,11 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
 	 */
 	public function trigger($params)
 	{
+		if (!$this->isListening())
+		{
+			return;
+		}
+
 		if ($this->event_type !== $params[0])
 		{
 			// Wrong event type -> no action here.
@@ -248,12 +253,13 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
 		if ($this->getDetectorState() == false)
 		{
 			// X -> ilNode     -> ilWorkflow -> Method...
-			$this->setDetectorState(true);
-			$this->was_activated = true;
 			foreach($params as $key => $value)
 			{
 				$this->getContext()->setRuntimeVar($key, $value);
 			}
+			$this->getContext()->setRuntimeVar('current_event', $params);
+			$this->was_activated = true;
+			$this->setDetectorState(true);
 			return true;
 		}
 
@@ -275,10 +281,10 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
 
 		// Listening started?
 		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
-		if ($this->listening_start < ilWorkflowUtils::time())
+		if ($this->listening_start <= ilWorkflowUtils::time())
 		{
 			// Listening not ended or infinite?
-			if ($this->listening_end > ilWorkflowUtils::time() 
+			if ($this->listening_end >= ilWorkflowUtils::time() 
 				|| $this->listening_end == 0)
 			{
 				return true;

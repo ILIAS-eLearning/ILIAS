@@ -6,29 +6,28 @@
  *
  */
 
-ilClasses = Classes with name:"il.*"
-assClasses = Classes with name:"ass.*"
-WholeIliasCodebase = {ilClasses, assClasses}
-_GUIClasses = Classes with name:".*GUI.*"
-GUIClasses = {_GUIClasses, Methods in: _GUIClasses}
+IlClasses = Classes with name:"il.*"
+AssClasses = Classes with name:"ass.*"
+WholeIliasCodebase = {IlClasses, AssClasses}
+GUIClassesOnly = Classes with name:".*GUI.*"
+GUIClasses = {GUIClassesOnly, Methods in: GUIClassesOnly}
 GlobalsExceptDIC = {Globals} except {Globals with name:"DIC"}
-triggerError = Functions with name:"trigger_error"
-raiseError = Functions with name:"raiseError"
-exitOrDie = {Exit, Die}
-ilTopLevelException = Classes with name:"ilException"
-ilExceptions = Classes with name:"il.*Exception*"
-ilExceptionsWithoutTopLevelException = {ilExceptions} except {ilTopLevelException} 
-ilDBClass = Classes with name:"ilDB"
-ilDBGlobal = Globals with name:"ilDB"
-ilDB = {ilDBClass, ilDBGlobal}
-ilTemplateClass = Classes with name:"ilTemplate"
-ilTemplateGlobal = Globals with name:"tpl"
-ilTemplate = {ilTemplateClass, ilTemplateGlobal}
-ilTabsClass = Classes with name:"ilTabsGUI"
-ilTabsGlobal = Globals with name:"ilTabs"
-ilTabs = {ilTabsClass, ilTabsGlobal}
-ilInitialisation = Classes with name:"ilInitialisation"
-WholeIliasCodebaseExceptInitialisation = WholeIliasCodebase except ilInitialisation
+TriggerError = Functions with name:"trigger_error"
+RaiseError = Functions with name:"raiseError"
+IlTopLevelException = Classes with name:"ilException"
+IlExceptions = Classes with name:"il.*Exception*"
+IlExceptionsWithoutTopLevelException = {IlExceptions} except {IlTopLevelException}
+IlDBClass = Classes with name:"ilDB"
+IlDBGlobal = Globals with name:"ilDB"
+IlDB = {IlDBClass, IlDBGlobal}
+IlTemplateClass = Classes with name:"ilTemplate"
+IlTemplateGlobal = Globals with name:"tpl"
+IlTemplate = {IlTemplateClass, IlTemplateGlobal}
+IlTabsClass = Classes with name:"ilTabsGUI"
+IlTabsGlobal = Globals with name:"ilTabs"
+IlTabs = {IlTabsClass, IlTabsGlobal}
+IlInitialisation = Classes with name:"ilInitialisation"
+WholeIliasCodebaseExceptInitialisation = WholeIliasCodebase except IlInitialisation
 SetErrorHandler = Functions with name:"set_error_handler"
 SetExceptionHandler = Functions with name:"set_exception_handler"
 SetErrorOrExceptionHandler = {SetExceptionHandler, SetErrorHandler}
@@ -39,7 +38,7 @@ IliasTemplateFiles = Files with name:"tpl[.].*[.]html"
  * The global php function trigger_error is a procedural concept. Please 
  * ommit this php function and use an ILIAS exception instead.
  */
-WholeIliasCodebase cannot invoke triggerError
+WholeIliasCodebase cannot invoke: TriggerError
 
 /**
  * Exit and die are a bad idea in both development and production: In
@@ -52,12 +51,12 @@ WholeIliasCodebase cannot invoke triggerError
  * Exception: Currently if you want to output json you most likely have
  * to use exit() at the moment.
  */
-WholeIliasCodebase cannot invoke exitOrDie
+WholeIliasCodebase cannot invoke: ExitOrDie
 
 /**
  * The error and exception handler of ILIAS should not be overridden!
  */
-WholeIliasCodebase cannot invoke SetErrorOrExceptionHandler
+WholeIliasCodebase cannot invoke: SetErrorOrExceptionHandler
 
 /**
  * The php function Eval() is not good practice. Its use often comes with
@@ -67,7 +66,7 @@ WholeIliasCodebase cannot invoke SetErrorOrExceptionHandler
  * it obfuscates control flow. Last but not least, it does not work with HHVM
  * in the special "RepoAuthoritative" mode, which makes PHP run extra-fast.
  */
-WholeIliasCodebase cannot invoke Eval
+WholeIliasCodebase cannot invoke: Eval
 
 
 /**
@@ -75,50 +74,50 @@ WholeIliasCodebase cannot invoke Eval
  * uneccessarily harder to debug if the currently suppressed error changes
  * into a real show-stopper bug. Try to handle the possible warnings and errors.
  */
-WholeIliasCodebase cannot depend on ErrorSuppressor
+WholeIliasCodebase cannot depend on: ErrorSuppressor
 
 /**
  * The GUI-Layer should not itself interact with the database. Try to build
  * reusable Model classes, adding a layer of abstraction instead of accessing
  * the database.
  */
-GUIClasses cannot depend on ilDB
+GUIClasses cannot depend on: IlDB
 
 /**
  * Only the GUI-Layer should use the global variable ilTabs and the class
  * ilTabsGUI. If you use them in a Model the model cannot be used for e.g.
  * SOAP requests without unnecessary overhead.
  */
-only GUIClasses can depend on ilTabs
+only GUIClasses can depend on: IlTabs
 
 /**
  * Only the GUI-Layer should use the global variable ilTemplate and the
  * class ilTemplate itself. If you use ilTemplate in the model it cannot be
  * used by calls that do not initiate global ilTemplate for example SOAP.
  */
-only GUIClasses can depend on ilTemplate
+only GUIClasses can depend on: IlTemplate
 
 /**
- * ILIAS should not rely on PEAR::raiseError. We would like to introduce
+ * ILIAS should not rely on PEAR::RaiseError. We would like to introduce
  * exceptions instead.
  */
-WholeIliasCodebase cannot invoke raiseError
+WholeIliasCodebase cannot invoke: RaiseError
 
 /**
  * Used to detect HTML <script>-Tags.
  */
-IliasTemplateFiles cannot contain text "<script"
+IliasTemplateFiles cannot contain text: "<script"
 
 /**
  * Used to detect JavaScript in e.g. HTML attributes, e.g.
  * <a href="javascript:void(0);">x</a>
  */
-IliasTemplateFiles cannot contain text "javascript\s*:"
+IliasTemplateFiles cannot contain text: "javascript\s*:"
 
 /**
  * Used to detect inline JavaScript events, e.g. <a onclick="alert('HelloWorld');">x</a>
  */
-IliasTemplateFiles cannot contain text "on(blur|change|click|dblclick|focus|keydown|keypress|keyup|load|mousemove|mouseup|mousedown|mouseenter|mouseleave|mouseout|mouseover|mousewheel|resize|select|submit|unload|wheel|scroll)"
+IliasTemplateFiles cannot contain text: "on(blur|change|click|dblclick|focus|keydown|keypress|keyup|load|mousemove|mouseup|mousedown|mouseenter|mouseleave|mouseout|mouseover|mousewheel|resize|select|submit|unload|wheel|scroll)"
 
 /**
  * ILIAS uses a lot of globals to make system wide services accessible from
@@ -134,4 +133,4 @@ IliasTemplateFiles cannot contain text "on(blur|change|click|dblclick|focus|keyd
  *
  * Decision by JF 2015-08-03: http://www.ilias.de/docu/goto.php?target=wiki_1357_JourFixe-2015-08-03#ilPageTocA123
  */
-WholeIliasCodebaseExceptInitialisation cannot depend on GlobalsExceptDIC
+WholeIliasCodebaseExceptInitialisation cannot depend on: GlobalsExceptDIC
