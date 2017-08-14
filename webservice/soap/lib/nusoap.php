@@ -5487,13 +5487,18 @@ class wsdl extends nusoap_base {
 		} 
 		// services
 		$xml .= "\n<service name=\"" . $this->serviceName . '">';
+		$has_client = isset($_GET['client_id']);
 		if (count($this->ports) >= 1) {
 			foreach($this->ports as $pName => $attrs) {
 				$xml .= "\n" . '  <port name="' . $pName . '" binding="tns:' . $attrs['binding'] . '">';
-				$xml .= "\n" . '    <soap:address location="' . $attrs['location'] . ($debug ? '?debug=1' : '') . '"/>';
+				$address = $attrs['location'] . ($debug || $has_client ? "?" : "")
+				           . ($debug ? 'debug=1' : '') . ($debug && $has_client ? "&amp;" : "")
+				           . ($has_client ? 'client_id=' . $_GET['client_id'] : '');
+				$xml .= "\n" . '    <soap:address location="' . $address. '"/>';
 				$xml .= "\n" . '  </port>';
-			} 
-		} 
+			}
+		}
+
 		$xml .= "\n" . '</service>';
 		return $xml . "\n</definitions>";
 	} 

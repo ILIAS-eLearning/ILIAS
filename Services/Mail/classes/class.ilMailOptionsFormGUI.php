@@ -56,7 +56,7 @@ class ilMailOptionsFormGUI extends \ilPropertyFormGUI
 
 		parent::__construct();
 
-		assert("method_exists($parentGui), 'executeCommand')");
+		assert("method_exists($parentGui, 'executeCommand')");
 
 		$this->ctrl     = $DIC->ctrl();
 		$this->settings = $DIC->settings();
