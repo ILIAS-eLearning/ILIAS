@@ -13598,6 +13598,7 @@ pdfgen#:#preferred_renderer#:#Preferred Renderer
 pdfgen#:#selected_renderer#:#Selected Renderer
 pdfgen#:#configure#:#Configure Renderer
 prtf#:#pdf_export#:#PDF Export
+pdfgen#:#image_scale#:#Image Scale
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.
 crs#:#crs_edit_lo_introduction#:#Edit Introduction

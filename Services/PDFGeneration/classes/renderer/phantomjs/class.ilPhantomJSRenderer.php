@@ -225,8 +225,10 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 			$config['header'] = null;
 			$config['footer'] = null;
 			$temp_file = $this->getPdfTempName();
-			$args = ' ' . $a_path_to_file .' ' . $temp_file . ' ' . "'" . json_encode($config) . "'".'';
-			$return_value = ilUtil::execQuoted( $config['path'] . ' ' .  $this->path_to_rasterize  . ' ', $args);
+			$jconfig = str_replace('"', '\"', json_encode($config));
+
+			$args = ' ' . $a_path_to_file .' ' . $temp_file . ' ' . "" . $jconfig . "".'';
+			$return_value = ilUtil::execQuoted( $config['path'] , ' ' .  $this->path_to_rasterize  . ' ' . $args);
 
 			$ilLog->write('ilPhantomJsHtmlToPdfTransformer command line config: ' . $args);
 			foreach($return_value as $key => $value)

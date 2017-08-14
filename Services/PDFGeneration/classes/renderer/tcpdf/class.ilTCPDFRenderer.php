@@ -20,16 +20,6 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 	}
 
 	/**
-	 * from ilPlugin
-	 *
-	 * @return string
-	 */
-	public function getPluginName()
-	{
-		return $this->lng->txt('pdfgen_renderer_dummyrender_plugname');
-	}
-
-	/**
 	 * from ilRendererConfig
 	 *
 	 * @param \ilPropertyFormGUI $form
@@ -38,8 +28,20 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 	 */
 	public function addConfigElementsToForm(\ilPropertyFormGUI $form, $service, $purpose)
 	{
-		$input = new ilTextInputGUI($this->lng->txt('number'), 'number');
-		$form->addItem($input);
+		$margin_left = new ilTextInputGUI($this->lng->txt('margin_left'), 'margin_left');
+		$form->addItem($margin_left);
+
+		$margin_top = new ilTextInputGUI($this->lng->txt('margin_top'), 'margin_top');
+		$form->addItem($margin_top);
+
+		$margin_right = new ilTextInputGUI($this->lng->txt('margin_right'), 'margin_right');
+		$form->addItem($margin_right);
+
+		$margin_bottom = new ilTextInputGUI($this->lng->txt('margin_bottom'), 'margin_bottom');
+		$form->addItem($margin_bottom);
+
+		$image_scale = new ilTextInputGUI($this->lng->txt('image_scale'), 'image_scale');
+		$form->addItem($image_scale);
 	}
 
 	/**
@@ -52,7 +54,11 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 	 */
 	public function populateConfigElementsInForm(\ilPropertyFormGUI $form, $service, $purpose, $config)
 	{
-		$form->getItemByPostVar('number')->setValue($config['number']);
+		$form->getItemByPostVar('margin_left')->setValue($config['margin_left']);
+		$form->getItemByPostVar('margin_right')->setValue($config['margin_right']);
+		$form->getItemByPostVar('margin_top')->setValue($config['margin_top']);
+		$form->getItemByPostVar('margin_bottom')->setValue($config['margin_bottom']);
+		$form->getItemByPostVar('image_scale')->setValue($config['image_scale']);
 	}
 
 	/**
@@ -79,7 +85,15 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 	 */
 	public function getConfigFromForm(\ilPropertyFormGUI $form, $service, $purpose)
 	{
-		return array('number' => $form->getItemByPostVar('number')->getValue());
+		$retval = array(
+			'margin_left'		=> $form->getItemByPostVar('margin_left')->getValue(),
+			'margin_right'		=> $form->getItemByPostVar('margin_right')->getValue(),
+			'margin_top'		=> $form->getItemByPostVar('margin_top')->getValue(),
+			'margin_bottom'		=> $form->getItemByPostVar('margin_bottom')->getValue(),
+			'image_scale'		=> $form->getItemByPostVar('image_scale')->getValue(),
+		);
+
+		return $retval;
 	}
 
 
@@ -91,7 +105,13 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 	 */
 	public function getDefaultConfig($service, $purpose)
 	{
-		return array('number' => 42);
+		$retval = array(
+			'margin_left'		=> '0',
+			'margin_top'		=> '0',
+			'margin_right'		=> '0',
+			'margin_bottom'		=> '0',
+			'image_scale'		=> '1',
+		);
 	}
 
 	/**
@@ -109,34 +129,17 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 		// create new PDF document
 		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-		// set document information
-		$pdf->SetCreator( $job->getCreator() );
-		$pdf->SetAuthor( $job->getAuthor() );
-		$pdf->SetTitle( $job->getTitle() );
-		$pdf->SetSubject( $job->getSubject() );
-		$pdf->SetKeywords( $job->getKeywords() );
+		$pdf->SetMargins($config['margin_left'], $config['margin_top'], $config['margin_right']);
+		$pdf->SetAutoPageBreak('auto', $config['margin_buttom']);
+		$pdf->setImageScale($config['image_scale']);
 
-		//$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 006', PDF_HEADER_STRING); // TODO
 		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN)); // TODO
 		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA)); // TODO
 		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED); // TODO
-		$pdf->SetMargins($job->getMarginLeft(), $job->getMarginTop(), $job->getMarginRight());
 		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER); // TODO
 		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER); // TODO
-		$pdf->SetAutoPageBreak($job->getAutoPageBreak(), $job->getMarginBottom());
-		$pdf->setImageScale($job->getImageScale());
 		$pdf->SetFont('dejavusans', '', 10); // TODO
-
 		$pdf->setSpacesRE('/[^\S\xa0]/'); // Fixing unicode/PCRE-mess #17547
-
-		/* // TODO
-		// set some language-dependent strings (optional)
-		if (file_exists(dirname(__FILE__).'/lang/eng.php')) {
-			require_once(dirname(__FILE__).'/lang/eng.php');
-			$pdf->setLanguageArray($l);
-		}
-		*/
-		// set font
 
 		foreach ($job->getPages() as $page)
 		{
