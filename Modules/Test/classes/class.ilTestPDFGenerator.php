@@ -102,7 +102,7 @@ class ilTestPDFGenerator
 		return $cleaned_html;
 	}
 
-	public static function generatePDF($pdf_output, $output_mode, $filename=null)
+	public static function generatePDF($pdf_output, $output_mode, $filename=null, $purpose = null)
 	{
 		$pdf_output = self::preprocessHTML($pdf_output);
 
@@ -110,7 +110,6 @@ class ilTestPDFGenerator
 		{
 			$filename .= '.pdf';
 		}
-		$purpose = "UserResult";
 		$pdf_factory = new ilHtmlToPdfTransformerFactory();
 		$pdf_factory->deliverPDFFromHTMLString($pdf_output, $filename, $output_mode, self::service, $purpose);
 

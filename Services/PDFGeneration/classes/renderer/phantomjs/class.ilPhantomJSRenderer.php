@@ -20,6 +20,91 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	}
 
 	/**
+	 * @var bool
+	 */
+	protected $use_default_config;
+
+	/**
+	 * @var string
+	 */
+	protected $page_size;
+
+	/**
+	 * @var float
+	 */
+	protected $zoom;
+
+	/**
+	 * @var string
+	 */
+	protected $orientation;
+
+	/**
+	 * @var string
+	 */
+	protected $margin;
+
+	/**
+	 * @var int
+	 */
+	protected $javascript_delay;
+
+	/**
+	 * @var string
+	 */
+	protected $viewport;
+
+	/**
+	 * @var bool
+	 */
+	protected $print_media_type;
+
+	/**
+	 * @var int
+	 */
+	protected $header_type;
+
+	/**
+	 * @var int
+	 */
+	protected $footer_type;
+
+	/**
+	 * @var string
+	 */
+	protected $header_text;
+
+	/**
+	 * @var string
+	 */
+	protected $header_height;
+
+	/**
+	 * @var bool
+	 */
+	protected $header_show_pages;
+
+	/**
+	 * @var string
+	 */
+	protected $footer_text;
+
+	/**
+	 * @var string
+	 */
+	protected $footer_height;
+
+	/**
+	 * @var bool
+	 */
+	protected $footer_show_pages;
+
+	/**
+	 * @var string
+	 */
+	protected $path;
+	
+	/**
 	 * @return string
 	 */
 	public function getPluginName()
@@ -41,13 +126,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$path = new ilTextInputGUI($this->lng->txt('path'), 'path');
 		$path->setValue($this->path);
 		$form->addItem($path);
-
-		$active = new ilCheckboxInputGUI($this->lng->txt('is_active'), 'is_active');
-		if($this->is_active == true || $this->is_active == 1)
-		{
-			$active->setChecked(true);
-		}
-		$form->addItem($active);
 
 		$form->addItem($this->buildJavascriptDelayForm());
 		$form->addItem($this->buildPageSettingsHeader());
@@ -93,7 +171,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$form->getItemByPostVar('path')->setValue($config['path']);
 		$form->getItemByPostVar('page_size')->setValue($config['page_size']);
 		$form->getItemByPostVar('zoom')->setValue($config['zoom']);
-		$form->getItemByPostVar('is_active')->setValue($config['is_active']);
 		$form->getItemByPostVar('margin')->setValue($config['margin']);
 		$form->getItemByPostVar('print_media_type')->setValue($config['print_media_type']);
 		$form->getItemByPostVar('javascript_delay')->setValue($config['javascript_delay']);
@@ -123,6 +200,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		{
 			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -141,7 +219,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$config['path'] =$form->getItemByPostVar('path')->getValue();
 		$config['page_size'] = $form->getItemByPostVar('page_size')->getValue();
 		$config['zoom'] = $form->getItemByPostVar('zoom')->getValue();
-		$config['is_active'] = $form->getItemByPostVar('is_active')->getValue();
 		$config['margin'] =$form->getItemByPostVar('margin')->getValue();
 		$config['print_media_type'] = $form->getItemByPostVar('print_media_type')->getValue();
 		$config['javascript_delay'] = $form->getItemByPostVar('javascript_delay')->getValue();
@@ -172,7 +249,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$config['path'] = '/usr/local/bin/phantomjs';
 		$config['page_size'] = 'A4';
 		$config['zoom'] = 1;
-		$config['is_active'] = 1;
 		$config['margin'] = '1cm';
 		$config['print_media_type'] = 1;
 		$config['javascript_delay'] = 200;
@@ -207,8 +283,9 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	}
 
 	/**
-	 * @param string $a_path_to_file
-	 * @param string $a_target
+	 * @param $a_path_to_file
+	 * @param $config
+	 * @param ilPDFGenerationJob $job
 	 */
 	public function createPDFFileFromHTMLFile($a_path_to_file, $config, $job)
 	{
@@ -223,7 +300,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 			}
 			$temp_file = $this->getPdfTempName();
 
-			$args = ' ' . $a_path_to_file .' ' . $temp_file . ' ' .  $this->getCommandLineConfig($config);
+			$args = ' ' . $a_path_to_file .' ' . $temp_file . ' ' . $this->getCommandLineConfig($config);
 			$return_value = ilUtil::execQuoted( $config['path'] , ' ' . $this->path_to_rasterize . ' ' . $args);
 
 			$ilLog->write('ilPhantomJsHtmlToPdfTransformer command line config: ' . $args);
@@ -265,7 +342,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	}
 
 	/**
-	 * @return ilTextInputGUI
+	 * @return ilCheckboxInputGUI
 	 */
 	protected function buildHeaderPageNumbersForm()
 	{
@@ -298,7 +375,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	}
 
 	/**
-	 * @return ilTextInputGUI
+	 * @return ilCheckboxInputGUI
 	 */
 	protected function buildFooterPageNumbersForm()
 	{
@@ -308,15 +385,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 			$footer_show_pages->setChecked(true);
 		}
 		return $footer_show_pages;
-	}
-
-	/**
-	 * @param $state
-	 */
-	protected function setActiveState($state)
-	{
-		$pdf_phantom_set = $this->getSettingObject();
-		$pdf_phantom_set->set('is_active', $state);
 	}
 
 	/**
@@ -460,6 +528,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$r_config['header']			= $h_config;
 		$r_config['footer']			= $f_config;
 
-		return "'" . json_encode($r_config) ."'";
+		return json_encode(json_encode($r_config));
 	}
 }

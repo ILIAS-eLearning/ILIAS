@@ -13597,6 +13597,8 @@ pdfgen#:#xsl#:#Path to XSL file
 pdfgen#:#preferred_renderer#:#Preferred Renderer
 pdfgen#:#selected_renderer#:#Selected Renderer
 pdfgen#:#configure#:#Configure Renderer
+pdfgen#:#config_saved#:#Saved successfully
+pdfgen#:#config_not_saved#:#Saving failed
 prtf#:#pdf_export#:#PDF Export
 pdfgen#:#image_scale#:#Image Scale
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.

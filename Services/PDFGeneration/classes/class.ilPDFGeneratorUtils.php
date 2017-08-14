@@ -118,7 +118,7 @@ class ilPDFGeneratorUtils
 		else
 		{
 			$row = $ilDB->fetchAssoc($result);
-			return unserialize($row['config']);
+			return json_decode($row['config'], true);
 		}
 	}
 
@@ -175,7 +175,7 @@ class ilPDFGeneratorUtils
 				'renderer'	=> array('text', $renderer),
 				'service'	=> array('text', $service),
 				'purpose'	=> array('text', $purpose),
-				'config'	=> array('clob', serialize($config))
+				'config'	=> array('clob', json_encode($config))
 			)
 		);
 	}

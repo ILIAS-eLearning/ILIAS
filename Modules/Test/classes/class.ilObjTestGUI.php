@@ -899,7 +899,7 @@ class ilObjTestGUI extends ilObjectGUI
 			require_once 'class.ilTestPDFGenerator.php';
 
 			ilTestPDFGenerator::generatePDF(
-				$template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle()
+				$template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), 'UserResult'
 			);
 		}
 		else
@@ -3232,7 +3232,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if( $isPdfDeliveryRequest )
 		{
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), 'PrintViewOfQuestions');
 		}
 		else
 		{
@@ -3311,7 +3311,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if($isPdfDeliveryRequest)
 		{
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), 'PrintViewOfQuestions');
 		}
 		else
 		{

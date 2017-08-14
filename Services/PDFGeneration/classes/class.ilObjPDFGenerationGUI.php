@@ -249,12 +249,12 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 		{
 			$config = $renderer_obj->getConfigFromForm($form,$service,$purpose);
 			ilPDFGeneratorUtils::saveRendererPurposeConfig($service, $purpose, $renderer, $config);
-			ilUtil::sendSuccess('saved', true);
+			ilUtil::sendSuccess($this->lng->txt('config_saved'), true);
 			$this->ctrl->redirect($this, "view");
 		}
 		else
 		{
-			ilUtil::sendFailure('not_saved', true); // TODO: Needs better handling.
+			ilUtil::sendFailure($this->lng->txt('config_not_saved'), true); // TODO: Needs better handling.
 			$this->ctrl->redirect($this, "view");
 		}
 
