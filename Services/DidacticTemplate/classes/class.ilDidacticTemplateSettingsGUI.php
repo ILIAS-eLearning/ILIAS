@@ -463,7 +463,16 @@ class ilDidacticTemplateSettingsGUI
 			include_once("./Services/Form/classes/class.ilRepositorySelector2InputGUI.php");
 			$effrom = new ilRepositorySelector2InputGUI($this->lng->txt("effective_form"), "effective_from", true);
 			//$effrom->setMulti(true);
-			$effrom->getExplorerGUI()->setTypeWhiteList(array("root", "cat", "grp", "fold", "crs"));
+			$definition = $GLOBALS['objDefinition'];
+			$white_list = [];
+			foreach($definition->getAllRepositoryTypes() as $type)
+			{
+				if($definition->isContainer($type))
+				{
+					$white_list[] = $type;
+				}
+			}
+			$effrom->getExplorerGUI()->setTypeWhiteList($white_list);
 			$effrom->setValue($set->getEffectiveFrom());
 
 			$lokal_templates->addSubItem($effrom);
