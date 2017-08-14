@@ -31,53 +31,96 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
 		$this->start_date = $a_start_date;
 	}
 
+	/**
+	 * Get the calendar entry (appointment['event'])
+	 * @return ilCalendarEntry
+	 */
 	public function getAppointment()
 	{
 		return $this->appointment;
 	}
 
+	/**
+	 * Get the specific start date of the calendar entry, not the appointment starting date.
+	 * @return DateTime
+	 */
 	public function getStartDate()
 	{
 		return $this->start_date;
 	}
 
+	/**
+	 * Get component type
+	 * @return string
+	 */
 	final public function getComponentType()
 	{
 		return IL_COMP_SERVICE;
 	}
 
+	/**
+	 * Get component Name
+	 * @return string
+	 */
 	final public function getComponentName()
 	{
 		return "Calendar";
 	}
 
+	/**
+	 * Get slot name
+	 * @return string
+	 */
 	final public function getSlot()
 	{
 		return "AppointmentCustomGrid";
 	}
 
+	/**
+	 * Get slot Id
+	 * @return string
+	 */
 	final public function getSlotId()
 	{
 		return "capg";
 	}
 
+	/**
+	 * empty
+	 */
 	final public function slotInit()
 	{
 		//nothing to do here.
 	}
 
 	//Day, Week and Month views.
+
+	/**
+	 * Replaces the complete content in a calendar Grid.
+	 * @return mixed
+	 */
 	abstract function replaceContent();
 
+	/**
+	 * Add extra content in the grid after the event title
+	 * @return mixed
+	 */
 	abstract function addExtraContent();
 
+	/**
+	 * Add glyph before the appointment title.
+	 * @return mixed
+	 */
 	abstract function addGlyph();
 
+	/**
+	 * Edit the shy button title.
+	 * @return mixed
+	 */
+	abstract function editShyButtonTitle();
+
+
 	//List view.
-	//abstract function replaceTitle();
-
-	//abstract function replaceDescription();
-
 	/**
 	 * @param $shy
 	 * @param $properties
@@ -86,5 +129,4 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
 	 */
 	abstract function editAgendaItem($shy, $properties, $color);
 
-	abstract function editShyButtonTitle();
 }

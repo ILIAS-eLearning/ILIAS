@@ -21,25 +21,6 @@ abstract class ilAppointmentCustomModalPlugin extends ilPlugin
 	 */
 	protected $start_date;
 
-	/** @var \ilCalendarAppointmentPresentationGUI */
-	//protected $GUIObject;
-
-	/**
-	 * @param \ilCalendarAppointmentPresentationGUI $GUIObject
-	 */
-	//public function setGUIObject($GUIObject)
-	//{
-		//$this->GUIObject = $GUIObject;
-	//}
-
-	/**
-	 * @return \ilCalendarAppointmentPresentationGUI
-	 */
-	//public function getGUIObject()
-	//{
-		//return $this->GUIObject;
-	//}
-
 	/**
 	* @param ilCalendarEntry $a_appointment
 	* @param $a_start_date //todo date format here.
@@ -51,6 +32,9 @@ abstract class ilAppointmentCustomModalPlugin extends ilPlugin
 		$this->start_date = $a_start_date;
 	}
 
+	/**
+	 * @return ilCalendarEntry
+	 */
 	public function getAppointment()
 	{
 		return $this->appointment;
@@ -68,39 +52,80 @@ abstract class ilAppointmentCustomModalPlugin extends ilPlugin
 		return $this->start_date;
 	}
 
+	/**
+	 * Get component type
+	 * @return string
+	 */
 	final public function getComponentType()
 	{
 		return IL_COMP_SERVICE;
 	}
 
+	/**
+	 * Get component Name
+	 * @return string
+	 */
 	final public function getComponentName()
 	{
 		return "Calendar";
 	}
 
+	/**
+	 * Get slot
+	 * @return string
+	 */
 	final public function getSlot()
 	{
 		return "AppointmentCustomModal";
 	}
 
+	/**
+	 * Get Slot id
+	 * @return string
+	 */
 	final public function getSlotId()
 	{
 		return "capm";
 	}
 
+	/**
+	 * empty
+	 */
 	final public function slotInit()
 	{
 		//nothing to do here.
 	}
 
+	/**
+	 * Replace the content inside the modal.
+	 * @return mixed
+	 */
 	abstract function replaceContent();
 
+	/**
+	 * Add content after the Infoscreen
+	 * @return mixed
+	 */
 	abstract function addExtraContent();
 
+	/**
+	 * Add elements in the infoscreen
+	 * @param ilInfoScreenGUI $a_info
+	 * @return mixed
+	 */
 	abstract function infoscreenAddContent(ilInfoScreenGUI $a_info);
 
+	/**
+	 * Add elements in the toolbar
+	 * @param ilToolbarGUI $a_toolbar
+	 * @return mixed
+	 */
 	abstract function toolbarAddItems(ilToolbarGUI $a_toolbar);
 
+	/**
+	 * Replace the toolbar for another one.
+	 * @return mixed
+	 */
 	abstract function toolbarReplaceContent();
 
 }

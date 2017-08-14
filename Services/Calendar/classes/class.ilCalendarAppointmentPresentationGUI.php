@@ -167,9 +167,6 @@ class ilCalendarAppointmentPresentationGUI
 		//TODO move this to a proper method
 		foreach($this->getActivePlugins() as $plugin)
 		{
-			//pass this presentation class to the plugin.
-			//$plugin->setGUIObject($this);
-
 			//pass only the appointment stuff
 			$plugin->setAppointment($this->appointment['event'], $this->appointment['dstart']);
 
