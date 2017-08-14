@@ -221,14 +221,10 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 			{
 				ilPDFGeneratorUtils::removePrintMediaDefinitionsFromStyleFile(dirname($a_path_to_file) . '/style/');
 			}
-			$config['viewport'] = null;
-			$config['header'] = null;
-			$config['footer'] = null;
 			$temp_file = $this->getPdfTempName();
-			$jconfig = str_replace('"', '\"', json_encode($config));
 
-			$args = ' ' . $a_path_to_file .' ' . $temp_file . ' ' . "" . $jconfig . "".'';
-			$return_value = ilUtil::execQuoted( $config['path'] , ' ' .  $this->path_to_rasterize  . ' ' . $args);
+			$args = ' ' . $a_path_to_file .' ' . $temp_file . ' ' .  $this->getCommandLineConfig($config);
+			$return_value = ilUtil::execQuoted( $config['path'] , ' ' . $this->path_to_rasterize . ' ' . $args);
 
 			$ilLog->write('ilPhantomJsHtmlToPdfTransformer command line config: ' . $args);
 			foreach($return_value as $key => $value)
@@ -422,5 +418,48 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	protected function getTempFileName($file_type)
 	{
 		return ilUtil::ilTempnam() . '.' . $file_type;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getCommandLineConfig($config)
+	{
+		$r_config = array();
+
+		if($config['header_type'] == ilPDFGenerationConstants::HEADER_TEXT)
+		{
+			$h_config = array(
+				'text'			=> $config['header_text'],
+				'height'		=> $config['header_height'],
+				'show_pages'	=> $config['header_show_pages']);
+		}
+		else
+		{
+			$h_config = null;
+		}
+
+		if($config['footer_type'] == ilPDFGenerationConstants::FOOTER_TEXT)
+		{
+			$f_config = array(
+				'text'			=> $config['footer_text'],
+				'height'		=> $config['footer_height'],
+				'show_pages'	=> $config['footer_show_pages']);
+		}
+		else
+		{
+			$f_config = null;
+		}
+
+		$r_config['page_size']		= $config['page_size'];
+		$r_config['zoom']			= $config['zoom'];
+		$r_config['orientation']	= $config['orientation'];
+		$r_config['margin']			= $config['margin'];
+		$r_config['delay']			= $config['delay'];
+		$r_config['viewport']		= $config['viewport'];
+		$r_config['header']			= $h_config;
+		$r_config['footer']			= $f_config;
+
+		return "'" . json_encode($r_config) ."'";
 	}
 }

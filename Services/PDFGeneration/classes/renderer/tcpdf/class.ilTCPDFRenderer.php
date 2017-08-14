@@ -25,6 +25,8 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 	 * @param \ilPropertyFormGUI $form
 	 * @param string             $service
 	 * @param string             $purpose
+	 *
+	 * @return \ilPropertyFormGUI|void
 	 */
 	public function addConfigElementsToForm(\ilPropertyFormGUI $form, $service, $purpose)
 	{
@@ -51,6 +53,8 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 	 * @param string             $service
 	 * @param string             $purpose
 	 * @param array              $config
+	 *
+	 * @return \ilPropertyFormGUI|void
 	 */
 	public function populateConfigElementsInForm(\ilPropertyFormGUI $form, $service, $purpose, $config)
 	{
@@ -67,6 +71,8 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 	 * @param \ilPropertyFormGUI $form
 	 * @param string             $service
 	 * @param string             $purpose
+	 *
+	 * @return bool
 	 */
 	public function validateConfigInForm(\ilPropertyFormGUI $form, $service, $purpose)
 	{
@@ -82,6 +88,8 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 	 * @param \ilPropertyFormGUI $form
 	 * @param string             $service
 	 * @param string             $purpose
+	 *
+	 * @return array
 	 */
 	public function getConfigFromForm(\ilPropertyFormGUI $form, $service, $purpose)
 	{
@@ -102,16 +110,20 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 	 *
 	 * @param string $service
 	 * @param string $purpose
+	 *
+	 * @return array
 	 */
 	public function getDefaultConfig($service, $purpose)
 	{
 		$retval = array(
-			'margin_left'		=> '0',
-			'margin_top'		=> '0',
-			'margin_right'		=> '0',
-			'margin_bottom'		=> '0',
+			'margin_left'		=> '10',
+			'margin_top'		=> '10',
+			'margin_right'		=> '10',
+			'margin_bottom'		=> '10',
 			'image_scale'		=> '1',
 		);
+
+		return $retval;
 	}
 
 	/**
@@ -133,12 +145,12 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 		$pdf->SetAutoPageBreak('auto', $config['margin_buttom']);
 		$pdf->setImageScale($config['image_scale']);
 
-		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN)); // TODO
-		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA)); // TODO
-		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED); // TODO
-		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER); // TODO
-		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER); // TODO
-		$pdf->SetFont('dejavusans', '', 10); // TODO
+		$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+		$pdf->SetFont('dejavusans', '', 10);
 		$pdf->setSpacesRE('/[^\S\xa0]/'); // Fixing unicode/PCRE-mess #17547
 
 		foreach ($job->getPages() as $page)
