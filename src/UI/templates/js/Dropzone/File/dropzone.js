@@ -225,8 +225,6 @@ il.UI = il.UI || {};
             options.fileListContainer = $dropzone.find('.il-modal-roundtrip').find('.il-upload-file-list');
             options.uploadButton = $dropzone.find('.modal-footer a.btn-primary:first');
 
-            console.log(options);
-
             il.UI.uploader.init(options.id, options);
 
             /*
