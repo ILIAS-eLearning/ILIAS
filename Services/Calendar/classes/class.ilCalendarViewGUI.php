@@ -151,10 +151,10 @@ class ilCalendarViewGUI
 		//item => array containing ilcalendary object, dstart of the event , dend etc.
 		foreach ($events as $item)
 		{
-			$DIC->logger()->cal()->debug(" GET['dt'] => ".$_GET['dt']);
-			$DIC->logger()->cal()->debug("calendar entry start => ".$item['event']->getTitle());
-			$DIC->logger()->cal()->debug("item start => ".$item['dstart']);
-			$DIC->logger()->cal()->debug("calendar entry start => ".$item['event']->getStart());
+			//$DIC->logger()->cal()->debug(" GET['dt'] => ".$_GET['dt']);
+			//$DIC->logger()->cal()->debug("calendar entry start => ".$item['event']->getTitle());
+			//$DIC->logger()->cal()->debug("item start => ".$item['dstart']);
+			//$DIC->logger()->cal()->debug("calendar entry start => ".$item['event']->getStart());
 
 
 			if ($item["event"]->getEntryId() == (int) $_GET["app_id"] && $item['dstart'] == (int) $_GET['dt'])
@@ -164,7 +164,12 @@ class ilCalendarViewGUI
 				include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
 				$next_gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed, IL_CAL_DATE), $item);
 				$content = $ctrl->getHTML($next_gui);
-				$modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),$f->legacy($content));
+
+				if($_GET['modal_title'] != "") {
+					$modal = $f->modal()->roundtrip(rawurldecode($_GET['modal_title']) ,$f->legacy($content));
+				} else {
+					$modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),$f->legacy($content));
+				}
 				echo $r->renderAsync($modal);
 			}
 		}
@@ -172,7 +177,7 @@ class ilCalendarViewGUI
 	}
 
 	//$a_title_forced used in plugins for rename the shy button title.
-	function getAppointmentShyButton($a_calendar_entry, $a_dstart, $a_title_forced = "")
+	function getAppointmentShyButton($a_calendar_entry, $a_dstart, $a_title_forced = "", $a_new_modal_title = "")
 	{
 		$f = $this->ui_factory;
 		$r = $this->ui_renderer;
@@ -180,10 +185,15 @@ class ilCalendarViewGUI
 		$this->ctrl->setParameter($this, "app_id", $a_calendar_entry->getEntryId());
 		$this->ctrl->setParameter($this,'dt',$a_dstart);
 		$this->ctrl->setParameter($this,'seed',$this->seed->get(IL_CAL_DATE));
+		if($a_new_modal_title != "")
+		{
+			$this->ctrl->setParameter($this,'modal_title',rawurlencode($a_new_modal_title));
+		}
 		$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
 		$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
 		$this->ctrl->setParameter($this, "dt", $_GET["dt"]);
 		$this->ctrl->setParameter($this,'seed',$_GET["seed"]);
+		$this->ctrl->setParameter($this,'modal_title',$_GET["modal_title"]);
 
 		$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
@@ -230,10 +240,10 @@ class ilCalendarViewGUI
 			}
 			else
 			{
-				if($new_title = $plugin->editShyButtonTitle())
-				{
-					$content = $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $new_title);
-				}
+				$shy_title = ($new_title = $plugin->editShyButtonTitle())? $new_title : "";
+				$modal_title = ($new_title = $plugin->editModalTitle())? $new_title : "";
+
+				$content = $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $shy_title, $modal_title);
 
 				if($glyph = $plugin->addGlyph())
 				{
