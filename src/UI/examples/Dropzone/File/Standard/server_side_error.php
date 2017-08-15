@@ -6,6 +6,7 @@ function server_side_error() {
 	$renderer = $DIC->ui()->renderer();
 
 	if (isset($_GET['example']) && $_GET['example'] == 4) {
+		// The File-Dropzones will expect a valid json-Status (success true or false).
 		echo json_encode(['success' => false, 'message' => 'Unable to store file on server']);
 		exit(0);
 	}

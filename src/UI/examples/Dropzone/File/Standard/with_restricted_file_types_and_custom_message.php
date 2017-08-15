@@ -9,9 +9,12 @@ function with_restricted_file_types_and_custom_message() {
 		$upload = $DIC->upload();
 		try {
 			$upload->process();
-			// $upload->moveFilesTo('/myPath/');
+			// $upload->moveFilesTo('/myPath/'); // Since we are in an example here, we do not move the files. But this would be the way wou move files using the FileUpload-Service
+
+			// The File-Dropzones will expect a valid json-Status (success true or false).
 			echo json_encode(['success' => true, 'message' => 'Successfully uploaded file']);
 		} catch (Exception $e) {
+			// See above
 			echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 		}
 		exit();
