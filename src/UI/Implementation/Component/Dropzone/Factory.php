@@ -5,8 +5,6 @@
  * Default implementation for File Dropzone factory.
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
- * @date    22.05.17
- * @version 0.0.1
  *
  * @package UI\Implementation\Component\Dropzone
  */

@@ -6,8 +6,6 @@
  * for all dropzones.
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
- * @date    05.05.17
- * @version 0.0.3
  *
  * @package ILIAS\UI\Implementation\Component\Dropzone\File
  */
