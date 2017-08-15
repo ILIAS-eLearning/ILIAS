@@ -29,23 +29,29 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 	const ASYNC_FILEUPLOAD = "async_fileupload";
 	/**
-	 * @var int
+	 * @var int if there are more than one  ilFileStandardDropzoneInputGUI in the same Form, this
+	 *      value will be incremented during rendering to make sure all Inputs will be handled
+	 *      correctly
 	 */
-	static $count = 0;
+	protected static $count = 0;
 	/**
-	 * @var string
+	 * @var string Set it to the URL (using ilCtrl->getFormAction() ) to override the Endpoint the
+	 *      Form will be sent to. If not set, the ilFileStandardDropzoneInputGUI will get the
+	 *      Form-Action of it's nearest form
 	 */
 	protected $upload_url = '';
 	/**
-	 * @var int
+	 * @var int The amount of files which can be uploaded. Standard is 1 since the old
+	 *      ilFileInputGUI in most cases allows one.
 	 */
 	protected $max_files = 1;
 	/**
-	 * @var \ILIAS\Data\DataSize
+	 * @var \ILIAS\Data\DataSize only files beneath this size will be accepted to upload. Currently
+	 *      this uses the defined valued of the php.ini
 	 */
 	protected $max_file_size;
 	/**
-	 * @var string
+	 * @var string The message which will be rendered within the dropzone.
 	 */
 	protected $dropzone_message = '';
 
@@ -59,6 +65,10 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 
 	/**
+	 * Set the URL (using ilCtrl->getFormAction() ) to override the Endpoint the
+	 *      Form will be sent to. If not set, the ilFileStandardDropzoneInputGUI will get the
+	 *      Form-Action of it's nearest form
+	 *
 	 * @param string $upload_url
 	 *
 	 * @return $this
@@ -71,7 +81,7 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 
 	/**
-	 * @return int
+	 * @return int Amount of allowed files in this input
 	 */
 	public function getMaxFiles() {
 		return $this->max_files;
@@ -79,7 +89,8 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 
 	/**
-	 * @param int $max_files
+	 * @param int $max_files The amount of files which can be uploaded. Standard is 1 since the old
+	 *                       ilFileInputGUI in most cases allows one.
 	 */
 	public function setMaxFiles($max_files) {
 		$this->max_files = $max_files;
@@ -87,7 +98,7 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 
 	/**
-	 * @return \ILIAS\Data\DataSize
+	 * @return \ILIAS\Data\DataSize allowed size of files which can be uploaded
 	 */
 	public function getMaxFilesize() {
 		return $this->max_file_size;
@@ -95,7 +106,9 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 
 	/**
-	 * @param \ILIAS\Data\DataSize $max_file_size
+	 * @param \ILIAS\Data\DataSize $max_file_size only files beneath this size will be accepted to
+	 *                                            upload. Currently this uses the defined valued of
+	 *                                            the php.ini
 	 */
 	public function setMaxFilesize(\ILIAS\Data\DataSize $max_file_size) {
 		$this->max_file_size = $max_file_size;
@@ -103,7 +116,7 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 
 	/**
-	 * @return string
+	 * @return string The message which will be rendered within the dropzone.
 	 */
 	public function getDropzoneMessage() {
 		return $this->dropzone_message;
@@ -111,7 +124,7 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 
 	/**
-	 * @param string $dropzone_message
+	 * @param string $dropzone_message The message which will be rendered within the dropzone.
 	 */
 	public function setDropzoneMessage($dropzone_message) {
 		$this->dropzone_message = $dropzone_message;
@@ -119,9 +132,7 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 
 	/**
-	 * @param string $a_mode
-	 *
-	 * @return string
+	 * @inheritdoc
 	 */
 	public function render($a_mode = "") {
 		global $DIC;
@@ -159,7 +170,7 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 
 	/**
-	 * @return bool
+	 * @inheritdoc
 	 */
 	public function checkInput() {
 		global $DIC;
@@ -171,7 +182,6 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 		if ($hasUploads) {
 			try {
-				//				$DIC->upload()->process();
 				$_POST[$this->getPostVar()] = $_FILES[$this->getPostVar()];
 			} catch (Exception $e) {
 				return false;
@@ -205,7 +215,7 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 
 	/**
-	 * @param $dropzone
+	 * @param ILIAS\UI\Component\Dropzone\File\Standard $dropzone
 	 *
 	 * @return ILIAS\UI\Component\Dropzone\File\Standard
 	 */
