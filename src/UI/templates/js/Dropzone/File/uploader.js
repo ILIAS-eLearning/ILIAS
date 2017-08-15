@@ -132,7 +132,7 @@ il.UI = il.UI || {};
          * @param errorReason
          */
         var renderError = function (uploadId, errorReason) {
-            console.log('renderError ' + errorReason);
+            // console.log('renderError ' + errorReason);
             var $container = getFileListContainer(uploadId);
             var $alert = $container.find('.error-messages')
                 .fadeIn()
@@ -232,7 +232,7 @@ il.UI = il.UI || {};
                             window.location.replace(response.redirect_url);
                         }
                         if (response.success) {
-                            console.log('Successfully uploaded file ' + fileName);
+                            // console.log('Successfully uploaded file ' + fileName);
                             renderFileSuccess(uploadId, fileId);
                         }
                     },
@@ -244,8 +244,8 @@ il.UI = il.UI || {};
                             return uploader.getFile(fileId).name;
                         });
 
-                        console.log('Successfully uploaded files: ' + succeededFiles.join(', '));
-                        console.log('Failed to upload files: ' + failedFiles.join(', '));
+                        // console.log('Successfully uploaded files: ' + succeededFiles.join(', '));
+                        // console.log('Failed to upload files: ' + failedFiles.join(', '));
                         // Execute and custom callbacks if all files were uploaded successfully
                         if (!failed.length) {
                             toggleBoundUploadButtons(uploadId, false);
@@ -266,7 +266,7 @@ il.UI = il.UI || {};
                         try {
                             response = JSON.parse(xmlHttpRequest.response);
                         } catch (e) {
-                            console.log(xmlHttpRequest);
+                            // console.log(xmlHttpRequest);
                             response = {};
                             response.message = null;
                         }
@@ -292,12 +292,12 @@ il.UI = il.UI || {};
                         }
                     },
                     onProgress: function (fileId, fileName, uploadedBytes, totalBytes) {
-                        console.log('progress for ' + fileId + ': ' + uploadedBytes + '/' + totalBytes);
+                        // console.log('progress for ' + fileId + ': ' + uploadedBytes + '/' + totalBytes);
                         var progress = (totalBytes > 0 && uploadedBytes > 0) ? Math.round(100 / totalBytes * uploadedBytes) : 0;
                         renderProgress(uploadId, fileId, progress);
                     },
                     onStatusChange: function (fileId, oldStatus, newStatus) {
-                        console.log('status changed' + fileId + '; old=' + oldStatus + ', new=' + newStatus);
+                        // console.log('status changed' + fileId + '; old=' + oldStatus + ', new=' + newStatus);
                     },
                     onSubmitted: function (fileId, name) {
                         var file = uploader.getFile(fileId);
