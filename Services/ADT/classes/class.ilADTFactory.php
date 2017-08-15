@@ -38,8 +38,11 @@ class ilADTFactory
 	 */
 	public function getValidTypes()
 	{
-		return array("Float", "Integer", "Location", "Text", "Boolean", 
-			"MultiText", "Date", "DateTime", "Enum", "MultiEnum", "Group");	
+		return array(
+			"Float", "Integer", "Location", "Text", "Boolean", 
+			"MultiText", "Date", "DateTime", "Enum", "MultiEnum", "Group",
+			'ExternalLink','InternalLink'
+		);
 	}
 	
 	/**
@@ -74,7 +77,7 @@ class ilADTFactory
 			}			
 		}
 		
-		throw new Exception("ilADTFactory unknown type");
+		throw new Exception("ilADTFactory unknown type: " . $a_type.' -> '. $file);
 	}
 	
 	/**

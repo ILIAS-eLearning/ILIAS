@@ -12,9 +12,12 @@ class ilRis extends ilBibliograficFileReaderBase implements ilBibliograficFileRe
 	 * @return array
 	 */
 	public function parseContent() {
+		global $DIC;
 		$ilRisWrapper = new ilRisWrapper();
 
-		return $ilRisWrapper->parseFile($this->path_to_file);
+		return $ilRisWrapper->parseContent($DIC->filesystem()
+		                                       ->storage()
+		                                       ->read($this->path_to_file));
 	}
 
 

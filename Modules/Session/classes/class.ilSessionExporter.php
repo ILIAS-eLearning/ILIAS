@@ -24,7 +24,95 @@ class ilSessionExporter extends ilXmlExporter
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 		$this->ds->setDSPrefix("ds");
 	}
+	
+	/**
+	 * Get tail dependencies
+	 * @param type $a_entity
+	 * @param type $a_target_release
+	 * @param type $a_ids
+	 * @return string
+	 */
+	public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+	{
+		$deps = [];
+		
+		$advmd_ids = array();
+		foreach($a_ids as $id)
+		{
+			$rec_ids = $this->getActiveAdvMDRecords($id);
+			if(sizeof($rec_ids))
+			{
+				foreach($rec_ids as $rec_id)
+				{
+					$advmd_ids[] = $id.":".$rec_id;
+				}
+			}				
+		}
+		if(sizeof($advmd_ids))
+		{
+			$deps[] = array(
+				"component" => "Services/AdvancedMetaData",
+				"entity" => "advmd",
+				"ids" => $advmd_ids
+			);	
+		}
+		
+		$md_ids = array();
+		foreach ($a_ids as $sess_id)
+		{
+			$md_ids[] = $sess_id.":0:sess";
+		}
+		if($md_ids)
+		{
+			$deps[] = 
+				array(
+					"component" => "Services/MetaData",
+					"entity" => "md",
+					"ids" => $md_ids
+				);
+		}
 
+		// service settings
+		$deps[] = array(
+			"component" => "Services/Object",
+			"entity" => "service_settings",
+			"ids" => $a_ids);
+		
+		return $deps;
+	}
+
+	/**
+	 * get activated adv md records
+	 * @param type $a_id
+	 * @return type
+	 */
+	protected function getActiveAdvMDRecords($a_id)
+	{			
+		$active = array();
+		
+		foreach(ilAdvancedMDRecord::_getActivatedRecordsByObjectType('sess') as $record_obj)
+		{
+			foreach($record_obj->getAssignedObjectTypes() as $obj_info)
+			{
+				// global activation
+				if($obj_info['obj_type'] == 'sess' && $obj_info['optional'] == 0)
+				{
+					$active[] = $record_obj->getRecordId();
+				}
+				// local activation
+				if(
+					$obj_info['obj_type'] == 'sess' && 
+					$obj_info['optional'] == 1 &&
+					$a_id == $record_obj->getParentObject()
+				)
+				{
+					$active[] = $record_obj->getRecordId();
+				}
+			}
+		}
+		return $active;
+	}
+	
 
 	/**
 	 * Get xml representation

@@ -69,6 +69,31 @@ class ilMembershipGUI
 	}
 	
 	/**
+	 * @return ilLanguage
+	 */
+	protected function getLanguage()
+	{
+		return $this->lng;
+	}
+	
+	/**
+	 * @return ilCtrl
+	 */
+	protected function getCtrl()
+	{
+		return $this->ctrl;
+	}
+	
+	/**
+	 * @return ilLogger
+	 */
+	protected function getLogger()
+	{
+		return $this->logger;
+	}
+
+
+	/**
 	 * Get parent gui
 	 * @return ilObjectGUI
 	 */
@@ -247,7 +272,7 @@ class ilMembershipGUI
 				$this->setSubTabs($GLOBALS['ilTabs']);
 
 				include_once './Services/Membership/classes/class.ilParticipants.php';
-				$prt = ilParticipants::getInstanceByObjId($this->getParentObject()->getId());
+				$prt = ilParticipants::getInstance($this->getParentObject()->getRefId());
 			
 				include_once('./Modules/Session/classes/class.ilSessionOverviewGUI.php');
 				$overview = new ilSessionOverviewGUI($this->getParentObject()->getRefId(), $prt);
@@ -347,6 +372,8 @@ class ilMembershipGUI
 	 */
 	protected function participantsResetFilter()
 	{
+		ilLoggerFactory::getLogger('root')->dump($_POST);
+		
 		$table = $this->initParticipantTableGUI();
 		$table->resetOffset();
 		$table->resetFilter();
@@ -681,6 +708,20 @@ class ilMembershipGUI
 
 		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		require_once 'Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
+		
+		$context_options = [];
+		
+		// @todo refactor
+		if($this->getParentObject()->getType() == 'crs')
+		{
+			$context_options = 
+				array(
+					ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
+					'ref_id' => $this->getParentObject()->getRefId(),
+					'ts'     => time()
+			);
+		}
+		
 
 		ilMailFormCall::setRecipients($rcps);
 		ilUtil::redirect(
@@ -692,11 +733,7 @@ class ilMembershipGUI
 					'type'   => 'new',
 					'sig' => $this->createMailSignature()
 				),
-				array(
-					ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
-					'ref_id' => $this->getParentObject()->getRefId(),
-					'ts'     => time()
-				)
+				$context_options
 			)
 		);		
 	}
@@ -1095,13 +1132,21 @@ class ilMembershipGUI
 				{
 					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER, $usr_id);
 				}
-				else
+				if($this instanceof ilGroupMembershipGUI)
 				{
 					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 					$this->getMembersObject()->sendNotification(
 						ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
 						$usr_id
 					);
+				}
+				if($this instanceof ilSessionMembershipGUI)
+				{
+					$noti = new ilSessionMembershipMailNotification();
+					$noti->setRefId($this->getParentObject()->getRefId());
+					$noti->setRecipients(array($usr_id));
+					$noti->setType(ilSessionMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER);
+					$noti->send();
 				}
 			}
 		}
@@ -1128,11 +1173,6 @@ class ilMembershipGUI
 		
 		if(!$this->getMembersObject()->assignSubscribers($_POST["subscribers"]))
 		{
-						$this->object->members_obj->add($usr_id,IL_GRP_MEMBER);
-			$this->object->members_obj->deleteSubscriber($usr_id);
-
-			
-			
 			ilUtil::sendFailure($ilErr->getMessage(),true);
 			$this->ctrl->redirect($this, 'participants');
 		}
@@ -1145,13 +1185,23 @@ class ilMembershipGUI
 					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
 					$this->getParentObject()->checkLPStatusSync($usr_id);
 				}
-				else
+				if($this instanceof ilGroupMembershipGUI)
 				{
 					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 					$this->getMembersObject()->sendNotification(
 						ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
 						$usr_id
 					);
+				}
+				if($this instanceof ilSessionMembershipGUI)
+				{
+					// todo refactor to participants
+					include_once './Modules/Session/classes/class.ilSessionMembershipMailNotification.php';
+					$noti = new ilSessionMembershipMailNotification();
+					$noti->setRefId($this->getParentObject()->getRefId());
+					$noti->setRecipients(array($usr_id));
+					$noti->setType(ilSessionMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER);
+					$noti->send();
 				}
 			}
 		}
@@ -1249,7 +1299,7 @@ class ilMembershipGUI
 				$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id,true);
 				$this->getParentObject()->checkLPStatusSync($user_id);
 			}
-			else
+			if($this instanceof ilGroupMembershipGUI)
 			{
 				include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 				$this->getMembersObject()->add($user_id,IL_GRP_MEMBER);
@@ -1259,6 +1309,16 @@ class ilMembershipGUI
 					true
 				);
 			}
+			if($this instanceof ilSessionMembershipGUI)
+			{
+				$this->getMembersObject()->register($user_id);
+				$noti = new ilSessionMembershipMailNotification();
+				$noti->setRefId($this->getParentObject()->getRefId());
+				$noti->setRecipients(array($user_id));
+				$noti->setType(ilSessionMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER);
+				$noti->send();
+			}
+			
 			$waiting_list->removeFromList($user_id);
 			++$added_users;
 		}
@@ -1320,8 +1380,6 @@ class ilMembershipGUI
 	 */
 	protected function refuseFromList()
 	{
-		global $ilUser;
-		
 		if(!count($_POST['waiting']))
 		{
 			ilUtil::sendFailure($this->lng->txt('no_checkbox'),true);
@@ -1338,7 +1396,7 @@ class ilMembershipGUI
 			{
 				$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,$user_id,true);
 			}
-			else
+			if($this instanceof ilGroupMembershipGUI)
 			{
 				include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 				$this->getMembersObject()->sendNotification(
@@ -1346,6 +1404,16 @@ class ilMembershipGUI
 					$user_id,
 					true
 				);
+			}
+			if($this instanceof ilSessionMembershipGUI)
+			{
+				include_once './Modules/Session/classes/class.ilSessionMembershipMailNotification.php';
+				$noti = new ilSessionMembershipMailNotification();
+				$noti->setRefId($this->getParentObject()->getRefId());
+				$noti->setRecipients(array($user_id));
+				$noti->setType(ilSessionMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER);
+				$noti->send();
+				
 			}
 			
 		}
@@ -1409,7 +1477,7 @@ class ilMembershipGUI
 		 */
 		$ilAccess = $GLOBALS['DIC']['ilAccess'];
 
-		if(!$ilAccess->checkAccess($a_permission, $a_cmd, $this->getParentGUI()->ref_id))
+		if(!$ilAccess->checkAccess($a_permission, $a_cmd, $this->getParentObject()->getRefId()))
 		{
 			ilUtil::sendFailure($this->lng->txt('no_permission'), true);
 			$this->ctrl->redirect($this->getParentGUI());
@@ -1464,14 +1532,29 @@ class ilMembershipGUI
 		 */
 		$waiting_list = $this->initWaitingList();
 
-		
-		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
-		$list = new ilAttendanceList(
-			$this,
-			$this->getParentObject(),
-			$this->getMembersObject(), 
-			$waiting_list
-		);		
+		if($this instanceof ilSessionMembershipGUI)
+		{
+			$parent_ref = $GLOBALS['DIC']->repositoryTree()->getParentId($this->getParentObject()->getRefId());
+			$part = ilParticipants::getInstance($parent_ref);
+			
+			$list = new ilAttendanceList(
+				$this,
+				$this->getParentObject(),
+				$part,
+				$waiting_list
+			);
+		}
+		else
+		{
+			include_once 'Services/Membership/classes/class.ilAttendanceList.php';
+			$list = new ilAttendanceList(
+				$this,
+				$this->getParentObject(),
+				$this->getMembersObject(), 
+				$waiting_list
+			);		
+			
+		}
 		$list->setId($this->getParentObject()->getType().'_memlist_'.$this->getParentObject()->getId());
 	
 		$list->setTitle(
@@ -1507,6 +1590,19 @@ class ilMembershipGUI
 			case 'crs':
 				$list->addPreset('status', $this->lng->txt('crs_status'), true);
 				$list->addPreset('passed', $this->lng->txt('crs_passed'), true);
+				break;
+
+			case 'sess':
+				$list->addPreset('mark', $this->lng->txt('trac_mark'), true);
+				$list->addPreset('comment', $this->lng->txt('trac_comment'), true);		
+				if($this->getParentObject()->enabledRegistration())
+				{
+					$list->addPreset('registered', $this->lng->txt('event_tbl_registered'), true);			
+				}	
+				$list->addPreset('participated', $this->lng->txt('event_tbl_participated'), true);		
+				$list->addBlank($this->lng->txt('sess_signature'));
+		
+				$list->addUserFilter('registered', $this->lng->txt('event_list_registered_only'));
 				break;
 
 			case 'grp':
