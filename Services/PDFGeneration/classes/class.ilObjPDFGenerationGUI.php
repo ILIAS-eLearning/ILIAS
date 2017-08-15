@@ -17,13 +17,10 @@ require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 class ilObjPDFGenerationGUI extends ilObject2GUI
 {
 	/**
-	 * @var ilHtmlToPdfTransformerFactory
+	 * @var string
 	 */
-	protected $transformer_factory;
-
 	protected $active_tab;
 
-	protected $pdf_transformer_settings;
 	/**
 	 * @var ilToolbarGUI
 	 */
@@ -47,8 +44,6 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 		/** @var $ilias ILIAS */
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 		$this->lng->loadLanguageModule('pdfgen');
-		$this->transformer_factory		= new ilHtmlToPdfTransformerFactory();
-		$this->pdf_transformer_settings	= new ilSetting('pdf_transformer');
 		$this->toolbar 					= $DIC['ilToolbar'];
 		$this->ctrl 					= $DIC['ilCtrl'];
 		$this->tabs						= $DIC['ilTabs'];
@@ -148,20 +143,8 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 	}
 
 	/**
-	 * @param $transformer
+	 * @param bool $redirect_after
 	 */
-	public function showInfoButton($transformer)
-	{
-		$transformer_instance = new $transformer;
-		if($transformer_instance->hasInfoInterface())
-		{
-			$button = ilLinkButton::getInstance();
-			$button->setCaption('show_info');
-			$button->setUrl($this->ctrl->getLinkTarget($this, 'showInfo&pdf_transformer=' . $transformer));
-			$this->toolbar->addButtonInstance($button);
-		}
-	}
-
 	public function saveSettings($redirect_after = true)
 	{
 		$form = new ilPropertyFormGUI();
@@ -190,6 +173,9 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 
 	}
 
+	/**
+	 * @param $command
+	 */
 	protected function handleSaveAndConf($command)
 	{
 		$this->saveSettings(false);
@@ -240,7 +226,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 		$service 	= $_POST['service'];
 		$purpose 	= $_POST['purpose'];
 
-		/** @var ilRendererConfig $renderer */
+		/** @var ilRendererConfig $renderer_obj */
 		$renderer_obj = ilPDFGeneratorUtils::getRendererInstance($renderer);
 		$renderer_obj->addConfigElementsToForm($form, $service, $purpose);
 
@@ -279,42 +265,11 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 
 	}
 
+	/**
+	 * @param string $tab
+	 */
 	protected function setActiveTab($tab = '')
 	{
-		$this->tabs->setTabActive($tab == '' ? $this->active_tab: $tab);
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function getSelectedTransformer()
-	{
-		return $this->pdf_transformer_settings->get('selected_transformer');
-	}
-
-	/**
-	 * @param $selected_transformer
-	 */
-	protected function setSelectedTransformer($selected_transformer)
-	{
-		$this->pdf_transformer_settings->set('selected_transformer', $selected_transformer);
-	}
-
-	/*
-	 * 
-	 */
-	protected function createTestPdf()
-	{
-		$dir		= ilPDFGeneratorUtils::getTestPdfDir();
-		$factory	= new ilHtmlToPdfTransformerFactory();
-		$factory->deliverTestingPDFFromTestingHTMLFile($dir. 'test.pdf');
-	}
-
-	protected function showInfo()
-	{
-		$transformer = ilUtil::stripSlashes($_GET['pdf_transformer']);
-		$transformer_instance = new $transformer;
-		ilUtil::sendInfo($transformer_instance->showInfo());
-		$this->configForm();
+		$this->tabs->setTabActive($tab == '' ? $this->active_tab : $tab);
 	}
 }
