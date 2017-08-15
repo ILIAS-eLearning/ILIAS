@@ -1513,9 +1513,6 @@ class ilStartUpGUI
 
 		if((int)$GLOBALS['DIC']->user()->getAuthMode(true) == AUTH_SAML && ilSession::get('used_external_auth'))
 		{
-			ilSession::set('used_external_auth', false);
-			ilUtil::setCookie("SAMLSESSID","");
-			ilUtil::setCookie("SimpleSAMLAuthToken","");
 			ilUtil::redirect('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
 		}
 
@@ -2316,10 +2313,46 @@ class ilStartUpGUI
 	 */
 	protected function doSamlAuthentication()
 	{
+		global $DIC;
+
 		$this->getLogger()->debug('Trying saml authentication');
 
+		$request = $DIC->http()->request();
+		$params  = $request->getQueryParams();
+
+		require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
+		$factory = new ilSamlAuthFactory();
+		$auth = $factory->auth('default-sp'); // Could be read from database
+
+		if(isset($params['action']) && $params['action'] == 'logout')
+		{
+			$auth->logout(isset($params['logout_url']) ? $params['logout_url'] : '');
+		}
+
+		if(isset($params['target']) && !isset($params['returnTo']))
+		{
+			$params['returnTo'] = $params['target'];
+		}
+		if(isset($params['returnTo']))
+		{
+			$auth->storeParam('target', $params['returnTo']);
+		}
+
+		if(!$auth->isAuthenticated())
+		{
+			if(isset($_GET['idpentityid']))
+			{
+				$entitiyId= $_GET['idpentityid'];
+			}
+				
+		}
+
+		$auth->protectResource();
+
+		$_GET['target'] = $auth->popParam('target');
+
 		require_once 'Services/Saml/classes/class.ilAuthFrontendCredentialsSaml.php';
-		$credentials = new ilAuthFrontendCredentialsSaml();
+		$credentials = new ilAuthFrontendCredentialsSaml($auth);
 		$credentials->initFromRequest();
 
 		require_once 'Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';

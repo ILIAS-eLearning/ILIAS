@@ -996,7 +996,7 @@ class ilAuthUtils
 				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
 				$idp_id = ilSamlIdp::getIdpIdByAuthMode($a_auth_key);
 				$idp = ilSamlIdp::getInstanceByIdpId($idp_id);
-				return $idp->getName();
+				return $idp->getIdp();
 
 			default:
 				return $lng->txt('auth_'.self::_getAuthModeName($a_auth_key));

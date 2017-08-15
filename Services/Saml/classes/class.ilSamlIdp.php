@@ -23,19 +23,9 @@ class ilSamlIdp
 	protected $idp_id;
 
 	/**
-	 * @var string
-	 */
-	protected $auth_id = '';
-
-	/**
 	 * @var bool
 	 */
 	protected $is_active = false;
-
-	/**
-	 * @var string
-	 */
-	protected $name = '';
 
 	/**
 	 * @var bool
@@ -108,39 +98,20 @@ class ilSamlIdp
 
 			try
 			{
-				$idp_remote_auth_sources = array();
+				require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
+				$factory = new ilSamlAuthFactory();
+				$auth = $factory->auth('default-sp'); // Could be read from database
 
-				$sources = SimpleSAML_Auth_Source::getSources();
-				$i       = -1;
-				foreach($sources as $id)
+				$idpDisco = $auth->getIdpDiscovery();
+				$idps     = $idpDisco->getList();
+
+				$i = 0;
+				foreach($idps as $idp)
 				{
-					$i++;
-					if($i === 0)
-					{
-						continue;
-					}
-
-					$as                                                                            = new SimpleSAML_Auth_Simple($id);
-					$idp_remote_auth_sources[$as->getAuthSource()->getMetadata()->getValue('idp')] = array(
-						'id'      => $id,
-						'auth_id' => $as->getAuthSource()->getAuthId(),
-						'idp'     => $as->getAuthSource()->getMetadata()->getValue('idp')
+					$idp_data[$i + 1] = array(
+						'idp_id' => $i + 1,
+						'idp'    => $idp['entityid']
 					);
-				}
-
-				$i        = 0;
-				$metadata = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
-				foreach($metadata->getList('saml20-idp-remote') as $idp)
-				{
-					if(isset($idp_remote_auth_sources[$idp['entityid']]))
-					{
-						$idp_data[$i + 1] = array(
-							'idp_id'  => $i + 1,
-							'name'    => $idp_remote_auth_sources[$idp['entityid']]['id'] . ' (' . $idp['entityid'] . ')',
-							'idp'     => $idp_remote_auth_sources[$idp['entityid']]['idp'],
-							'auth_id' => $idp_remote_auth_sources[$idp['entityid']]['auth_id']
-						);
-					}
 
 					++$i;
 				}
@@ -199,8 +170,6 @@ class ilSamlIdp
 
 		if(isset(self::$parsed_idps[$this->getIdpId()]))
 		{
-			$this->setName(self::$parsed_idps[$this->getIdpId()]['name']);
-			$this->setAuthId(self::$parsed_idps[$this->getIdpId()]['auth_id']);
 			$this->setIdp(self::$parsed_idps[$this->getIdpId()]['idp']);
 		}
 	}
@@ -233,7 +202,6 @@ class ilSamlIdp
 	{
 		return array(
 			'idp_id'              => $this->getIdpId(),
-			'name'                => $this->getName(),
 			'is_active'           => $this->isActive(),
 			'default_role_id'     => $this->getDefaultRoleId(),
 			'uid_claim'           => $this->getUidClaim(),
@@ -366,22 +334,6 @@ class ilSamlIdp
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
-
-	/**
-	 * @param string $name
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
-	}
-
-	/**
 	 * @return boolean
 	 */
 	public function isActive()
@@ -507,22 +459,6 @@ class ilSamlIdp
 	public function setAccountMigrationStatus($migr)
 	{
 		$this->account_migration_status = (int)$migr;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getAuthId()
-	{
-		return $this->auth_id;
-	}
-
-	/**
-	 * @param string $auth_id
-	 */
-	public function setAuthId($auth_id)
-	{
-		$this->auth_id = $auth_id;
 	}
 
 	/**

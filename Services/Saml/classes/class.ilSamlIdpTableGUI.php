@@ -38,7 +38,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 
 		$this->setDescription(sprintf(
 			$this->lng->txt('auth_saml_idps_info'),
-			SimpleSAML_Configuration::getInstance()->resolvePath(SimpleSAML_Configuration::getInstance()->getString('metadatadir', 'metadata/')) . '/',
+			'auth/saml/config/config.php',
 			$renderer->render($f->link()->standard('https://simplesamlphp.org/docs/stable/simplesamlphp-sp', 'https://simplesamlphp.org/docs/stable/simplesamlphp-sp'))
 		));
 		$this->setRowTemplate('tpl.saml_idp_row.html','Services/Saml');
@@ -81,7 +81,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('TXT_OK', $this->lng->txt('inactive'));
 		}
 
-		$this->tpl->setVariable('NAME', $a_set['name']);
+		$this->tpl->setVariable('NAME', $a_set['idp']);
 
 		$list = new ilAdvancedSelectionListGUI();
 		$list->setSelectionHeaderClass('small');

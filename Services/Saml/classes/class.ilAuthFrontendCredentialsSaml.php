@@ -12,11 +12,6 @@ class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials implements
 	/**
 	 * @var array
 	 */
-	protected static $_requestAttributes = array();
-
-	/**
-	 * @var array
-	 */
 	protected $attributes = array();
 
 	/**
@@ -25,11 +20,20 @@ class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials implements
 	protected $return_to = '';
 
 	/**
-	 * ilAuthFrontendCredentialsSaml constructor.
+	 * @var ilSamlAuth
 	 */
-	public function __construct()
+	protected $auth;
+
+	/**
+	 * ilAuthFrontendCredentialsSaml constructor.
+	 * @param ilSamlAuth $auth
+	 */
+	public function __construct(ilSamlAuth $auth)
 	{
 		parent::__construct();
+
+		$this->auth = $auth;
+		$this->setAttributes($this->auth->getAttributes());
 	}
 
 	/**
@@ -40,24 +44,25 @@ class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials implements
 		$this->setUsername('dummy');
 		$this->setPassword('');
 
-		$this->setAttributes(self::$_requestAttributes);
+		/*$state = $session->getAuthState();
+		$stateIdp   = $state['saml:sp:IdP'];
+		$metadata   = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
+		$i          = 1;
+		$idpIndex   = 1;
+		foreach($metadata->getList('saml20-idp-remote') as $idp)
+		{
+			if($idp['entityid'] == $stateIdp)
+			{
+				$idpIndex = $i;
+				break;
+			}
+
+			++$i;
+		}*/
+
+		$_POST['auth_mode'] = AUTH_SAML . "1"; // @todo: Set
+
 		$this->setReturnTo(isset($_GET['target']) ? $_GET['target'] : '');
-	}
-
-	/**
-	 * @return array
-	 */
-	public static function getRequestAttributes()
-	{
-		return self::$_requestAttributes;
-	}
-
-	/**
-	 * @param array $requestAttributes
-	 */
-	public static function setRequestAttributes($requestAttributes)
-	{
-		self::$_requestAttributes = $requestAttributes;
 	}
 
 	/**
