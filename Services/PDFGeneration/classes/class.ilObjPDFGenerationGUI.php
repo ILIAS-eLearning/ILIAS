@@ -217,8 +217,19 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 
 		$form->addCommandButton("saveConfig", $this->lng->txt("save"));
 		$form->addCommandButton("view", $this->lng->txt("cancel"));
+		$form->addCommandButton("resetSettings", $this->lng->txt("reset_to_default"));
 		$this->tpl->setContent($form->getHTML());
 		$this->setActiveTab('settings');
+	}
+	
+	public function resetSettings()
+	{
+		$renderer 	= ilUtil::stripSlashes($_POST['renderer']);
+		$service 	= ilUtil::stripSlashes($_POST['service']);
+		$purpose 	= ilUtil::stripSlashes($_POST['purpose']);
+
+		ilPDFGeneratorUtils::removeRendererConfig($service, $purpose, $renderer);
+		$this->ctrl->redirect($this, "view");
 	}
 
 	protected function saveConfig()

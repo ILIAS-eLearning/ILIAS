@@ -13564,6 +13564,7 @@ pdfgen#:#margin_top#:#Margin top
 pdfgen#:#margin_right#:#Margin right
 pdfgen#:#margin_bottom#:#Margin bottom
 pdfgen#:#image_scale#:#Image scale
+pdfgen#:#reset_to_default#:#Reset settings to default
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.
 crs#:#crs_edit_lo_introduction#:#Edit Introduction

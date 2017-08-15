@@ -170,6 +170,22 @@ class ilPDFGeneratorUtils
 	}
 
 	/**
+	 * @param string $service
+	 * @param string $purpose
+	 * @param string $renderer
+	 */
+	public static function removeRendererConfig($service, $purpose, $renderer)
+	{
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+
+		$query = 'DELETE FROM pdfgen_conf WHERE renderer = ' . $ilDB->quote($renderer, 'text') .
+			' AND service = ' . $ilDB->quote($service, 'text') . ' AND purpose = ' . $ilDB->quote($purpose, 'text');
+
+		$ilDB->manipulate($query);
+	}
+
+	/**
 	 * @param $renderer
 	 * @return ilPDFRenderer
 	 * @throws Exception
