@@ -53,7 +53,7 @@ class ilOrgUnitPosition extends \ActiveRecord {
 
 
 	public function afterObjectLoad() {
-		$this->authorities = ilOrgUnitAuthority::where(array( "position" => $this->getId() ))
+		$this->authorities = ilOrgUnitAuthority::where(array( ilOrgUnitAuthority::POSITION_ID => $this->getId() ))
 		                                       ->get();
 	}
 

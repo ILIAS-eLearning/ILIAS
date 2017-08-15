@@ -9,9 +9,27 @@
  */
 class ilOrgUnitAuthority extends \ActiveRecord {
 
-	const EVERYONE = - 1;
-	const DEPTH_SAME_ORGU = 1;
-	const DEPTH_SUBSEQUENT_ORGUS = 2;
+	const OVER_EVERYONE = - 1;
+	const POSITION_ID = "position_id";
+	const SCOPE_SAME_ORGU = 1;
+	const SCOPE_SUBSEQUENT_ORGUS = 2;
+	const SCOPE_ALL_ORGUS = 3;
+	/**
+	 * @var array
+	 */
+	protected static $scopes = array(
+		self::SCOPE_SAME_ORGU,
+		self::SCOPE_SUBSEQUENT_ORGUS,
+		self::SCOPE_ALL_ORGUS,
+	);
+
+
+	/**
+	 * @return array
+	 */
+	public static function getScopes() {
+		return self::$scopes;
+	}
 
 
 	/**
@@ -40,7 +58,7 @@ class ilOrgUnitAuthority extends \ActiveRecord {
 	 * @con_fieldtype  integer
 	 * @con_length     1
 	 */
-	protected $over = self::EVERYONE;
+	protected $over = self::OVER_EVERYONE;
 	/**
 	 * @var int
 	 *
@@ -48,7 +66,7 @@ class ilOrgUnitAuthority extends \ActiveRecord {
 	 * @con_fieldtype  integer
 	 * @con_length     1
 	 */
-	protected $depth = self::DEPTH_SAME_ORGU;
+	protected $scope = self::SCOPE_SAME_ORGU;
 	/**
 	 * @var int
 	 *
@@ -56,14 +74,36 @@ class ilOrgUnitAuthority extends \ActiveRecord {
 	 * @con_fieldtype  integer
 	 * @con_length     1
 	 */
-	protected $position = 0;
+	protected $position_id = 0;
+	/**
+	 * @var \Closure
+	 */
+	protected static $name_render;
+
+
+	public function __construct($primary_key = 0, \arConnector $connector = null) {
+		parent::__construct($primary_key, $connector);
+		self::$name_render = function ($id) {
+			return $id;
+		};
+	}
+
+
+	/**
+	 * @param \Closure $closure
+	 */
+	public static function replaceNameRenderer(Closure $closure) {
+		self::$name_render = $closure;
+	}
 
 
 	/**
 	 * @return string
 	 */
 	public function __toString() {
-		return "HELLOOOO";
+		$renderer = self::$name_render;
+
+		return $renderer($this->getId());
 	}
 
 
@@ -92,6 +132,8 @@ class ilOrgUnitAuthority extends \ActiveRecord {
 
 
 	/**
+	 * This is either an ID of a position or ilOrgUnitAuthority::OVER_EVERYONE
+	 *
 	 * @param int $over
 	 */
 	public function setOver($over) {
@@ -102,31 +144,39 @@ class ilOrgUnitAuthority extends \ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getDepth() {
-		return $this->depth;
+	public function getScope() {
+		return $this->scope;
 	}
 
 
 	/**
-	 * @param int $depth
+	 * This is either ilOrgUnitAuthority::SCOPE_SAME_ORGU, ilOrgUnitAuthority::SCOPE_ALL_ORGUS or
+	 * ilOrgUnitAuthority::SCOPE_SUBSEQUENT_ORGUS
+	 *
+	 * @param int $scope
+	 *
+	 * @throws \ilException
 	 */
-	public function setDepth($depth) {
-		$this->depth = $depth;
+	public function setScope($scope) {
+		if (!in_array($scope, self::$scopes)) {
+			throw new ilException('Selected Scop in ' . self::class . ' not allowed');
+		}
+		$this->scope = $scope;
 	}
 
 
 	/**
 	 * @return int
 	 */
-	public function getPosition() {
-		return $this->position;
+	public function getPositionId() {
+		return $this->position_id;
 	}
 
 
 	/**
-	 * @param int $position
+	 * @param int $position_id
 	 */
-	public function setPosition($position) {
-		$this->position = $position;
+	public function setPositionId($position_id) {
+		$this->position_id = $position_id;
 	}
 }

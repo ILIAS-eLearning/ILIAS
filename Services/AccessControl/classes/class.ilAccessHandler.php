@@ -783,16 +783,48 @@ class ilAccessHandler implements ilRBACAccessHandler, ilOrgUnitPositionAccessHan
 	/**
 	 * @inheritdoc
 	 */
-	public function filterUserIdsForCurrentUsersPositions(array $user_ids) {
-		// TODO implement the filter
+	public function filterUserIdsForCurrentUsersPositionsAndAnyPermission(array $user_ids) {
+		// TODO: Implement filterUserIdsForCurrentUsersPositionsAndAnyPermission() method.
 		return $user_ids;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function filterUserIdsForUsersPositions(array $user_ids, $for_user_id) {
-		// TODO implement the filter
+	public function filterUserIdsForUsersPositionsAndAnyPermission(array $user_ids, $for_user_id) {
+		// TODO: Implement filterUserIdsForUsersPositionsAndAnyPermission() method.
 		return $user_ids;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, $permission) {
+		// TODO: Implement filterUserIdsForCurrentUsersPositionsAndPermission() method.
+		return $user_ids;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, $for_user_id, $permission) {
+		// TODO: Implement filterUserIdsForUsersPositionsAndPermission() method.
+		return $user_ids;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isCurrentUserBasedOnPositionsAllowedTo($permission, array $on_user_ids) {
+		// TODO: Implement isCurrentUserAllowedTo() method.
+		return false;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isUserBasedOnPositionsAllowedTo($which_user_id, $permission, array $on_user_ids) {
+		// TODO: Implement isUserAllowedTo() method.
+		return false;
 	}
 }

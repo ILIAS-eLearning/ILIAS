@@ -10,6 +10,8 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 class ilOrgUnitPositionGUI extends BaseCommands {
 
 	protected function index() {
+//		ilOrgUnitPosition::updateDB();
+//		ilOrgUnitAuthority::updateDB();
 		$b = ilLinkButton::getInstance();
 		$b->setUrl($this->ctrl()->getLinkTarget($this, self::CMD_ADD));
 		$b->setCaption(self::CMD_ADD);
