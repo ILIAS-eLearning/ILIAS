@@ -12,8 +12,6 @@ var ilFileStandardDropzoneInputGUI = (function ($) {
 
         form.on('submit', function (event) {
             if (handledUpload) {
-                console.log("upload abgeschlossen");
-                // event.stopPropagation();
                 return;
             }
             if ($(this)[0].checkValidity()) {
@@ -22,7 +20,7 @@ var ilFileStandardDropzoneInputGUI = (function ($) {
                     event.preventDefault();
 
                     var params = {};
-                    console.log($(this).serializeArray());
+
                     $.each($(this).serializeArray(), function (_, kv) {
                         if (params.hasOwnProperty(kv.name)) {
                             params[kv.name] = $.makeArray(params[kv.name]);
@@ -36,26 +34,14 @@ var ilFileStandardDropzoneInputGUI = (function ($) {
 
                     il.UI.uploader.setUploadParams(uploadId, params);
                     il.UI.uploader.onError(uploadId, function (xmlHttpRequest) {
-                        // console.log(xmlHttpRequest);
-                        // il.UI.uploader.reset(uploadId);
-
-                        if (xmlHttpRequest.response.message) {
-
-                        } else {
-                            // console.log(xmlHttpRequest);
-                            // window.location.replace(xmlHttpRequest.responseURL);
-                            // $('body').html(xmlHttpRequest.response);
-                        }
                         handledUpload = true;
                         return false;
                     });
                     il.UI.uploader.onAllUploadCompleted(uploadId, function () {
                         handledUpload = true;
                         return true;
-                        // form.trigger('submit');
                     }, function () {
                         handledUpload = true;
-                        // form.trigger('submit');
                         return false;
                     });
 
