@@ -2,7 +2,26 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * This class represents a file property in a property form.
+ * Class ilFileStandardDropzoneInputGUI
+ *
+ * A ilFileStandardDropzoneInputGUI is used in a (legacy) Form to upload Files using the Dropzone
+ * of the UI-Framework introduced with ILIAS 5.3. In some cases this can be used as a
+ * Drop-In-Replacement of the ilFileInputGUI, but check your usecase after. If you need an example
+ * how to use it, see e.g. in UI/examples/Dropzone/File/Standard/with_usage_in_legacy_form.php
+ *
+ * Why make it a Drop-In-Replacement and not just replace ilFileInputGUI?
+ * - There are a lot of different ways a form is handled in ILIAS, sometimes only checkInput is
+ * called, sometime developers send their own error-messages and so on. The
+ * ilFileStandardDropzoneInputGUI excepts some standard-behavior and would fail in some cases when
+ * just replacing the ilFileInputGUI
+ * - There are a lot of options in ilFileInputGUI which would be difficult to reimplement in
+ * ilFileStandardDropzoneInputGUI without discussing them with all devs.
+ * - Beside ilFileInputGUI there are many other File-InputGUIs with different functionality. We
+ * should consolidate their use-cases first.
+ *
+ * Attention: This ilFileStandardDropzoneInputGUI changes the behaviour of your form when used: The
+ * Form will be sent asynchronously due to limitations of dropped files (see
+ * https://stackoverflow.com/questions/1017224/dynamically-set-value-of-a-file-input )
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
