@@ -15982,55 +15982,21 @@ wsp#:#share#:#Freigeben
 common#:#obj_pdfg#:#PDF-Erstellung
 common#:#obj_pdfg_desc#:#Administrationseinstellungen für die PDF-Erstellung
 common#:#building_export_file#:#Erstelle Export Datei...
-pdfgen#:#fop#:#FOP
 pdfgen#:#phantomjs#:#PhantomJS
-pdfgen#:#webkit#:#wkhtmltopdf
 pdfgen#:#tcpdf#:#TCPDF
-pdfgen#:#select_pdf_generator#:#PDF Generator
 pdfgen#:#path#:#Pfad zum Programm
-pdfgen#:#wkhtml_config#:#Konfiguration für WKHTML
 pdfgen#:#fop_config#:#Konfiguration für Fop
 pdfgen#:#phantomjs_config#:#Konfiguration für PhantomJs
-pdfgen#:#tcpdf_config#:#Konfiguration für TCPDF
 pdfgen#:#page_settings#:#Seiteneinstellungen
-pdfgen#:#zoom#:#Vergrößerungsfaktor
-pdfgen#:#external_links#:#Externe Links
-pdfgen#:#enable_forms#:#Formulare aktivieren
-pdfgen#:#user_stylesheet#:#Benutzer Stylesheet
-pdfgen#:#page_size#:#Seitengröße
-pdfgen#:#is_active#:#Aktiviert
-pdfgen#:#pdf_config#:#PDF Service Konfiguration
-pdfgen#:#create_test_pdf#:#Test PDF erzeugen
-pdfgen#:#low_quality#:#Niedrige Qualität
-pdfgen#:#greyscale#:#Graustufen
 pdfgen#:#orientation#:#Orientierung
 pdfgen#:#print_media_type#:#Benutze Druck Media Type anstatt Bildschirm
 pdfgen#:#output_options#:#Ausgabe Optionen
-pdfgen#:#javascript_delay#:#Javascript Wartezeit
 pdfgen#:#margin#:#Rand
 pdfgen#:#show_info#:#Zeige Informationen
-pdfgen#:#margin_left#:#Rand Links
-pdfgen#:#margin_right#:#Rand Rechts
-pdfgen#:#margin_top#:#Rand Oben
-pdfgen#:#margin_bottom#:#Rand Unten
 pdfgen#:#header_type#:#Kopfzeile
 pdfgen#:#text#:#Text
-pdfgen#:#header_text_left#:#Text Links
-pdfgen#:#header_text_center#:#Text Mitte
-pdfgen#:#header_text_right#:#Text Rechts
 pdfgen#:#footer_type#:#Fußzeile
-pdfgen#:#footer_text_left#:#Text Links
-pdfgen#:#footer_text_center#:#Text Mitte
-pdfgen#:#footer_text_right#:#Text Rechts
 pdfgen#:#spacing#:#Abstand
-pdfgen#:#header_line#:#Trennlinie
-pdfgen#:#footer_line#:#Trennlinie
-pdfgen#:#html#:#HTML
-pdfgen#:#header_html#:#Pfad zur HTML Datei
-pdfgen#:#checkbox_svg#:#Pfad zum Checkbox SVG
-pdfgen#:#checkbox_checked_svg#:#Pfad zum ausgewähltem Checkbox SVG
-pdfgen#:#radio_button_svg#:#Pfad zum Radiobutton SVG
-pdfgen#:#radio_button_checked_svg#:#Pfad zum ausgewähltem Radiobutton SVG
 pdfgen#:#head_text#:#Text
 pdfgen#:#header_height#:#Höhe Kopfzeile
 pdfgen#:#header_show_pages#:#Zeige Seitenzahlen
@@ -16045,6 +16011,8 @@ pdfgen#:#configure#:#Konfiguriere Renderer
 pdfgen#:#image_scale#:#Bildskalierung
 pdfgen#:#config_saved#:#Speichern erfolgreich.
 pdfgen#:#config_not_saved#:#Speichern fehlgeschlagen.
+pdfgen#:#print_media_type#:#Benutze Druck Media Type anstatt Bildschirm
+pdfgen#:#javascript_delay#:#Javascript Wartezeit
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Loginversuche deaktiviert. 
 crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten
