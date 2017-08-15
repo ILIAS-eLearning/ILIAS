@@ -15995,6 +15995,10 @@ common#:#auth_saml#:#SAML
 common#:#saml_login_form_txt#:#Bei ILIAS anmelden über SAML
 common#:#saml_login_form_info_txt#:#Um sich ber SAML anzumelden, klicken Sie bitte den 'Anmelde'-Button.
 auth#:#auth_saml_configure#:#SAML-Unterstützung konfigurieren
+auth#:#auth_saml_add_idp_btn#:#Identity Provider Hinzufügen
+auth#:#auth_saml_add_idp_md_label#:#Identity Provider SAML Metadaten
+auth#:#auth_saml_add_idp_md_info#:#Bitte fügen Sie hier die Metadaten des Identity Provider als XML-formatierte Zeichenkette ein.
+auth#:#auth_saml_add_idp_md_error#:#Der eingegeben Wert entsprach leider nicht einem wohlgeformten XML-Dokument. Bitte stellen Sie sicher, dass das XML einen gültigen Identity Provider enthält.
 auth#:#auth_saml_enable#:#SAML-Unterstützung aktivieren
 auth#:#auth_saml_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten, eventuell vorhandene ILIAS Benutzerkonten auf SAML-Authentifizierung umzustellen.
 auth#:#auth_saml_migration#:#Account-Migration:

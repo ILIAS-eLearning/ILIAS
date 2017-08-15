@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Saml/classes/class.ilSamlSettings.php';
+require_once 'Services/Saml/classes/class.ilSamlIdp.php';
 
 /**
  * Class ilSamlSettingsGUI
@@ -18,7 +19,7 @@ class ilSamlSettingsGUI
 	 * @var array
 	 */
 	protected static $globalCommands = array(
-		'showAddIdpForm', self::DEFAULT_CMD, 'showSettings', 'saveSettings'
+		'showAddIdpForm', self::DEFAULT_CMD, 'showSettings', 'saveSettings', 'showNewIdpForm', 'saveNewIdp'
 	);
 
 	/**
@@ -79,6 +80,11 @@ class ilSamlSettingsGUI
 	protected $toolbar;
 
 	/**
+	 * @var \ilHelpGUI
+	 */
+	protected $help;
+
+	/**
 	 * @var ilExternalAuthAttributeMapping
 	 */
 	protected $mapping;
@@ -104,6 +110,7 @@ class ilSamlSettingsGUI
 		$this->tabs          = $DIC->tabs();
 		$this->rbacreview    = $DIC->rbac()->review();
 		$this->toolbar       = $DIC['ilToolbar'];
+		$this->help          = $DIC['ilHelp'];
 
 		$this->lng->loadLanguageModule('auth');
 		$this->ref_id = $ref_id;
@@ -157,7 +164,6 @@ class ilSamlSettingsGUI
 	 */
 	protected function initIdp()
 	{
-		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
 		$this->idp = ilSamlIdp::getInstanceByIdpId((int)$_REQUEST['saml_idp_id']);
 	}
 
@@ -167,6 +173,8 @@ class ilSamlSettingsGUI
 	public function executeCommand()
 	{
 		$this->ensureReadAccess();
+
+		$this->help->setScreenIdComponent('auth');
 
 		switch($this->ctrl->getNextClass())
 		{
@@ -215,6 +223,13 @@ class ilSamlSettingsGUI
 	 */
 	protected function listIdps()
 	{
+		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+		$addIdpButton = ilLinkButton::getInstance();
+		$addIdpButton->setCaption('auth_saml_add_idp_btn');
+		$addIdpButton->setUrl($this->ctrl->getLinkTarget($this, 'showNewIdpForm'));
+
+		$this->toolbar->addStickyItem($addIdpButton);
+
 		require_once 'Services/Saml/classes/class.ilSamlIdpTableGUI.php';
 		$table = new ilSamlIdpTableGUI($this, self::DEFAULT_CMD);
 		$this->tpl->setContent($table->getHTML());
@@ -260,7 +275,7 @@ class ilSamlSettingsGUI
 				$this->tabs->addSubTabTarget(
 					'auth_saml_idps',
 					$this->ctrl->getLinkTarget($this, self::DEFAULT_CMD),
-					array(self::DEFAULT_CMD, 'activateIdp', 'deactivateIdp'), get_class($this)
+					array(self::DEFAULT_CMD, 'activateIdp', 'deactivateIdp', 'showNewIdpForm', 'saveNewIdp'), get_class($this)
 				);
 
 				$this->tabs->addSubTabTarget(
@@ -527,6 +542,8 @@ class ilSamlSettingsGUI
 		$idp->setDisabled(true);
 		$form->addItem($idp);
 
+		$this->addMetadataElement($form);
+
 		$local = new ilCheckboxInputGUI($this->lng->txt('auth_allow_local'), 'allow_local_auth');
 		$local->setValue(1);
 		$local->setInfo($this->lng->txt('auth_allow_local_info'));
@@ -580,15 +597,24 @@ class ilSamlSettingsGUI
 	{
 		$this->tabs->setSubTabActive('auth_saml_idp_settings');
 
-		if(!($form instanceof ilPropertyFormGUI))
+		if(null === $form)
 		{
 			$form = $this->getIdpSettingsForm();
 			$form->setValuesByArray($this->idp->toArray());
 		}
+		else
+		{
+			$form->setValuesByPost();
+		}
+
+		$this->help->setSubScreenId('edit_idp');
 
 		$this->tpl->setContent($form->getHTML());
 	}
-	
+
+	/**
+	 * 
+	 */
 	protected function saveIdpSettings()
 	{
 		$this->ensureWriteAccess();
@@ -599,10 +625,98 @@ class ilSamlSettingsGUI
 			$this->idp->bindForm($form);
 			$this->idp->persist();
 			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+
+			require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
+			$factory = new ilSamlAuthFactory();
+			file_put_contents($factory->getMetadaDirectory() . '/' . $this->idp->getIdpId() . '.xml', $form->getInput('metadata'));
 		}
 
-		$form->setValuesByPost();
-
 		$this->showIdpSettings($form);
+	}
+
+	/**
+	 * @return ilPropertyFormGUI
+	 */
+	protected function getIdpForm()
+	{
+		$form = new \ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, 'saveNewIdp'));
+		$form->setTitle($this->lng->txt('auth_saml_add_idp_btn'));
+
+		$this->addMetadataElement($form);
+
+		$form->addCommandButton('saveNewIdp', $this->lng->txt('save'));
+		$form->addCommandButton('listIdps', $this->lng->txt('cancel'));
+
+		return $form;
+	}
+
+	/**
+	 * 
+	 */
+	protected function saveNewIdp()
+	{
+		$this->ensureWriteAccess();
+
+		$form = $this->getIdpForm();
+		if($form->checkInput())
+		{
+			$idp = new ilSamlIdp();
+			$idp->bindForm($form);
+			$idp->persist();
+
+			require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
+			$factory = new ilSamlAuthFactory();
+			file_put_contents($factory->getMetadaDirectory() . '/' . $idp->getIdpId() . '.xml', $form->getInput('metadata'));
+
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+			$this->ctrl->setParameter($this, 'saml_idp_id', $idp->getIdp());
+			$this->ctrl->redirect($this, 'showIdpSettings');
+		}
+
+		$this->showNewIdpForm($form);
+	}
+
+	/**
+	 * @param ilPropertyFormGUI|null $form
+	 */
+	public function showNewIdpForm(\ilPropertyFormGUI $form = null)
+	{
+		$this->ensureWriteAccess();
+
+		if(null === $form)
+		{
+			$form = $this->getIdpForm();
+		}
+		else
+		{
+			$form->setValuesByPost();
+		}
+
+		$this->help->setSubScreenId('create_idp');
+
+		$this->tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * @param \ilPropertyFormGUI $form
+	 */
+	protected function addMetadataElement(\ilPropertyFormGUI $form)
+	{
+		require_once 'Services/Saml/classes/form/class.ilSamlIdpMetadataInputGUI.php';
+		require_once 'Services/Saml/classes/form/class.ilSamlIdpMetadataPurifier.php';
+		require_once 'Services/Html/classes/class.ilHtmlPurifierComposite.php';
+
+		$metadata = new \ilSamlIdpMetadataInputGUI($this->lng->txt('auth_saml_add_idp_md_label'), 'metadata');
+		$metadata->setInfo($this->lng->txt('auth_saml_add_idp_md_info'));
+		$metadata->setRows(20);
+		$metadata->setRequired(true);
+
+		$purifier = new ilHtmlPurifierComposite();
+		$purifier->addPurifier(new ilSamlIdpMetadataPurifier());
+
+		$metadata->setPurifier($purifier);
+		$metadata->usePurifier(true);
+		$form->addItem($metadata);
 	}
 }

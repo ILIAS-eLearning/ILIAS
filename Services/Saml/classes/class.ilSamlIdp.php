@@ -75,7 +75,7 @@ class ilSamlIdp
 	/**
 	 * @param int $a_idp_id
 	 */
-	protected function __construct($a_idp_id = 0)
+	public function __construct($a_idp_id = 0)
 	{
 		$this->db     = $GLOBALS['DIC']->database();
 		$this->idp_id = $a_idp_id;
@@ -179,6 +179,11 @@ class ilSamlIdp
 	 */
 	public function persist()
 	{
+		if(!$this->getIdpId())
+		{
+			$this->setIdp($this->db->nextId('saml_idp_settings'));
+		}
+
 		$this->db->replace(
 			'saml_idp_settings',
 			array(

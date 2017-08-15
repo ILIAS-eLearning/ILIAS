@@ -19029,3 +19029,10 @@ if(!$ilDB->tableColumnExists('auth_ext_attr_mapping', 'ext_attribute') && $ilDB-
 	$ilDB->renameTableColumn('auth_ext_attr_mapping', 'idp_attribute', 'ext_attribute');
 }
 ?>
+<#5113>
+<?php
+if(!$ilDB->sequenceExists('saml_idp_settings'))
+{
+	$ilDB->createSequence('saml_idp_settings');
+}
+?>
