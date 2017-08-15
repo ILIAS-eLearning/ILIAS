@@ -30,7 +30,10 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
-	
+
+	/**
+	 * @var ilTabsGUI
+	 */
 	protected $tabs;
 
 	/**

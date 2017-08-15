@@ -16012,7 +16012,11 @@ pdfgen#:#image_scale#:#Bildskalierung
 pdfgen#:#config_saved#:#Speichern erfolgreich.
 pdfgen#:#config_not_saved#:#Speichern fehlgeschlagen.
 pdfgen#:#print_media_type#:#Benutze Druck Media Type anstatt Bildschirm
-pdfgen#:#javascript_delay#:#Javascript Wartezeit
+pdfgen#:#margin_left#:#Margin Links
+pdfgen#:#margin_top#:#Margin Oben
+pdfgen#:#margin_right#:#Margin Rechts
+pdfgen#:#margin_bottom#:#Margin Unten
+pdfgen#:#image_scale#:#Bildskalierung
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Loginversuche deaktiviert. 
 crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten
