@@ -5443,6 +5443,10 @@ crs#:#event_tutor_data#:#Präsentation von
 crs#:#event_unregister#:#Abmelden
 crs#:#event_unregistered#:#Sie wurden abgemeldet.
 crs#:#event_updated#:#Die Änderungen wurden gespeichert
+crs#:#event_tutor_source#:#Tutor
+crs#:#event_tutor_selection#:#Tutoren
+crs#:#event_tutor_source_manually#:#Eingabe
+crs#:#event_tutor_source_from_course#:#Aus dem Kurs
 crs#:#events#:#Sitzungen
 crs#:#export_members#:#Teilnehmerexport
 crs#:#grouping_change_assignment#:#Zuordnungen ändern
@@ -8185,6 +8189,7 @@ search#:#search_user_extended#:#Erweiterte Benutzersuche
 search#:#search_users#:#Benutzer suchen
 search#:#until#:#bis
 sess#:#sess_import#:#Sitzung importieren
+sess#:#sess_no_tutor_select#:#Es wurde kein Tutor ausgewählt.
 shib#:#shib_add_missing#:#Fehlende Rollen zuordnen
 shib#:#shib_add_remove#:#Rollen hinzufügen/entfernen
 shib#:#shib_assignment_type#:#Art der Zuordnung
