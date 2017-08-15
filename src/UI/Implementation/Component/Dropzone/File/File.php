@@ -59,7 +59,7 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 	/**
 	 * @var string
 	 */
-	protected $identifier = 'files';
+	protected $parameter_name = 'files';
 
 	/**
 	 * @param string $url
@@ -171,18 +171,18 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 	/**
 	 * @inheritdoc
 	 */
-	public function withIdentifier($identifier) {
-		$this->checkStringArg('identifier', $identifier);
+	public function withParameterName($parameter_name) {
+		$this->checkStringArg('identifier', $parameter_name);
 		$clone = clone $this;
-		$clone->identifier = $identifier;
+		$clone->parameter_name = $parameter_name;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getIdentifier() {
-		return $this->identifier;
+	public function getParameterName() {
+		return $this->parameter_name;
 	}
 
 

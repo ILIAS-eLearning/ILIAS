@@ -116,16 +116,17 @@ interface File extends Component, Droppable {
 	 * Note: If you use multiple file dropzones on the same page, you MUST use identifier in
 	 * order to identify an uploaded file. The default identifier is 'files'.
 	 *
-	 * @param string $identifier
+	 * @param string $parameter_name
+	 *
 	 * @return $this
 	 */
-	public function withIdentifier($identifier);
+	public function withParameterName($parameter_name);
 
 	/**
 	 * Get the identifier used to retrieve and identify an uploaded file server side.
 	 *
 	 * @return string
 	 */
-	public function getIdentifier();
+	public function getParametername();
 
 }

@@ -146,7 +146,7 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 		$dropzone = $f->dropzone()
 		              ->file()
 		              ->standard($this->getUploadUrl())
-		              ->withIdentifier($this->getPostVar())
+		              ->withParameterName($this->getPostVar())
 		              ->withMaxFiles($this->getMaxFiles())
 		              ->withMessage($this->getDropzoneMessage())
 		              ->withAllowedFileTypes($this->getSuffixes());

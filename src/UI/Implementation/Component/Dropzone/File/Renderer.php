@@ -152,7 +152,7 @@ class Renderer extends AbstractComponentRenderer {
 				'fileSizeLimit'     => $dropzone->getFileSizeLimit() ? $dropzone->getFileSizeLimit()->getSize()
 				                                                       * $dropzone->getFileSizeLimit()->getUnit() : 0,
 				'maxFiles'          => $dropzone->getMaxFiles(),
-				'identifier'        => $dropzone->getIdentifier(),
+				'identifier'        => $dropzone->getParametername(),
 			]);
 			$reflect = new \ReflectionClass($dropzone);
 			$type = $reflect->getShortName();
