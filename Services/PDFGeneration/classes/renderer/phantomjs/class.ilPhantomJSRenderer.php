@@ -11,7 +11,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 
 	/** @var string */
 	protected $path_to_rasterize = './Services/PDFGeneration/js/rasterize.js';
-	//protected $path_to_rasterize = 'Services\PDFGeneration\js\rasterize.js';
 
 	public function __construct()
 	{
@@ -314,7 +313,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 
 			if(file_exists($temp_file))
 			{
-				$ilLog->write('ilWebkitHtmlToPdfTransformer file exists: ' . $temp_file . ' file size is :' . filesize($temp_file) . ' bytes, will be renamed to '. $a_target);
+				$ilLog->write('ilWebkitHtmlToPdfTransformer file exists: ' . $temp_file . ' file size is :' . filesize($temp_file) . ' bytes, will be renamed to '. $a_path_to_file);
 				rename($temp_file, $job->getFilename());
 			}
 			else
@@ -483,10 +482,19 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	 */
 	protected function getTempFileName($file_type)
 	{
-		return ilUtil::ilTempnam() . '.' . $file_type;
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && $file_type == 'html')
+		{
+			return 'file:///' . str_replace(':/','://', ilUtil::ilTempnam()) . '.' . $file_type;
+		}
+		else
+		{
+			return ilUtil::ilTempnam() . '.' . $file_type;
+		}
 	}
 
 	/**
+	 * @param $config
+	 *
 	 * @return string
 	 */
 	protected function getCommandLineConfig($config)
@@ -526,6 +534,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$r_config['header']			= $h_config;
 		$r_config['footer']			= $f_config;
 
-		return json_encode(json_encode($r_config));
+		return json_encode( json_encode($r_config) );
+
 	}
 }
