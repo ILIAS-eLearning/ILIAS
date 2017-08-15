@@ -162,7 +162,7 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 		// We need some javascript magic
 		/** @var ilTemplate $tpl */
 		$tpl = $DIC['tpl'];
-		$tpl->addJavaScript('./src/UI/examples/Dropzone/File/Standard/ilFileStandardDropzoneInputGUI.js');
+		$tpl->addJavaScript('./Services/Form/js/ilFileStandardDropzoneInputGUI.js');
 		$tpl->addOnLoadCode("ilFileStandardDropzoneInputGUI.init('ilFileStandardDropzoneInputGUIWrapper{$n}');");
 
 		return $out;
