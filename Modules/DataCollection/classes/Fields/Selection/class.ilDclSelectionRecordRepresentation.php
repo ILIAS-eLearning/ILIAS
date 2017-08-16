@@ -8,6 +8,10 @@
  */
 abstract class ilDclSelectionRecordRepresentation extends ilDclBaseRecordRepresentation {
 
+	// those should be overwritten by subclasses
+	const PROP_SELECTION_TYPE = '';
+	const PROP_SELECTION_OPTIONS = '';
+
 	/**
 	 * @param bool $link
 	 *
@@ -15,19 +19,8 @@ abstract class ilDclSelectionRecordRepresentation extends ilDclBaseRecordReprese
 	 */
 	public function getHTML($link = true) {
 		$record_field_value = $this->getRecordField()->getValue();
-		$options = $this->getField()->getProperty(static::PROP_SELECTION_OPTIONS);
-
-		if ($this->getField()->isMulti()) {
-			$values = array();
-			foreach ($options as $k => $v) {
-				if (in_array($k, $record_field_value)) {
-					$values[] = $v;
-				}
-			}
-			return implode('<br>', $values);
-		}
-
-		return $options[$record_field_value];
+		$values = ilDclSelectionOption::getValues($this->getField()->getId(), $record_field_value);
+		return is_array($values) ? implode('<br>', $values) : $values;
 	}
 
 

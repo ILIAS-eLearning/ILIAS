@@ -311,7 +311,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 		$_GET[self::GET_VIEW_ID] = $id[1];
 		$_GET[self::GET_DCL_GTR] = $id[2]; //recordID
 		$_GET["cmd"] = "listRecords";
-				exit;
+		require_once('./ilias.php');
+		exit;
 	}
 
 

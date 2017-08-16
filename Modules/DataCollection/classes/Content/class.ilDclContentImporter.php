@@ -31,7 +31,9 @@ class ilDclContentImporter
 		ilDclDatatype::INPUTFORMAT_REFERENCE,
 		ilDclDatatype::INPUTFORMAT_TEXT,
 		ilDclDatatype::INPUTFORMAT_DATETIME,
-		ilDclDatatype::INPUTFORMAT_PLUGIN
+		ilDclDatatype::INPUTFORMAT_PLUGIN,
+		ilDclDataType::INPUTFORMAT_TEXT_SELECTION,
+		ilDclDatatype::INPUTFORMAT_DATE_SELECTION
 	);
 
 	protected $warnings;

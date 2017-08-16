@@ -11686,10 +11686,12 @@ dcl#:#dcl_table_edit#:#Speichern
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_datatype#:#Datentyp
 dcl#:#dcl_number#:#Ganze Zahlen
-dcl#:#dcl_text#:#Text
-dcl#:#dcl_reference#:#Auswahlmenü
+dcl#:#dcl_text#:#Texteingabe
+dcl#:#dcl_text_selection#:#Auswahlmenü Text
+dcl#:#dcl_reference#:#Referenz
 dcl#:#dcl_boolean#:#Checkbox
-dcl#:#dcl_datetime#:#Datum
+dcl#:#dcl_datetime#:#Datumseingabe
+dcl#:#dcl_date_selection#:#Auwahlmenü Datum
 dcl#:#dcl_fileupload#:#Datei-Upload
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_required#:#Verpflichtend
@@ -14632,8 +14634,10 @@ meta#:#md_adv_confirm_definition_select_option_all_action#:#Neuer Wert
 file#:#file_import#:#Dateiimport
 dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
 dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
+dcl#:#dcl_text_selection_desc#:#Bereitstellen von Auswahloptionen (Text)
 dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen (maximal 9 Ziffern). Nicht erlaubt sind Brüche und Dezimalzahlen.
 dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender
+dcl#:#dcl_date_selection_desc#:#Bereitstellen von Auswahloptionen (Datum)
 dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
 dcl#:#dcl_fileupload_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
 dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden
@@ -14646,6 +14650,11 @@ dcl#:#dcl_formula_detail_desc#:#Einträge in diesem Feld generieren sich automat
 dcl#:#dcl_text_email_detail_desc#:#Bitte geben Sie eine gültige E-Mail-Adresse oder eine URL ein.
 dcl#:#dcl_text_email_title#:#Titel
 dcl#:#dcl_text_email_title_info#:#Titel für die URL oder E-Mail-Adresse (optional).
+dcl#:#dcl_selection_options#:#Optionen
+dcl#:#dcl_selection_type#:#Typ
+dcl#:#dcl_selection_type_single#:#Einfachauswahl
+dcl#:#dcl_selection_type_multi#:#Mehrfachauswahl
+dcl#:#dcl_selection_type_combobox#:#Combobox (Dropdown)
 adve#:#adve_auto_url_linking#:#URL Auto-Linking
 adve#:#adve_auto_url_linking_info#:#ILIAS durchsucht Textparagraphen nach URLs (z.B. "http://..") und verlinkt diese entsprechend automatisch.
 content#:#cont_auto_time#:#Wartezeit Animation

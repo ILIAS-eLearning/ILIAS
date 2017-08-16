@@ -18772,4 +18772,32 @@ if (! $ilDB->tableExists('il_bt_value_to_task')) {
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5092>
+<?php
+// "make place" for two new datatypes, text_selection comes after text, date_selection comes after datetime
+$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = (sort + 10) WHERE title in ('number', 'boolean', 'datetime')");
+$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = (sort + 20) WHERE title not in ('text', 'number', 'boolean', 'datetime')");
 
+
+
+// Datacollection: Add text_selection fieldtype
+$ilDB->insert('il_dcl_datatype', array(
+        'id' => array('integer', ilDclDatatype::INPUTFORMAT_TEXT_SELECTION),
+        'title' => array('text', 'text_selection'),
+        'ildb_type' => array('text', 'text'),
+        'storage_location' => array('integer', 1),
+        'sort' => array('integer', 10),
+    ));
+// Datacollection: Add date_selection fieldtype
+$ilDB->insert('il_dcl_datatype', array(
+	'id' => array('integer', ilDclDatatype::INPUTFORMAT_DATE_SELECTION),
+	'title' => array('text', 'date_selection'),
+	'ildb_type' => array('text', 'text'),
+	'storage_location' => array('integer', 1),
+	'sort' => array('integer', 50),
+));
+?>
+<#5093>
+<?php
+ilDclSelectionOption::updateDB();
+?>
