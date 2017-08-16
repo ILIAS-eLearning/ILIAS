@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2017 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+* Copyright (c) 1998-2017 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -14,6 +14,21 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+rbac#:#il_sess_participant#:#Session Participant
+rbac#:#il_sess_status_closed#:#Non-Participant Closed Session
+meta#:#udf_type_externallink#:#External Link
+meta#:#udf_type_internallink#:#Internal Link
+didactic#:#didactic_scope#:#Scope
+meta#:#md_adv_scope#:#Scope
+meta#:#meta_local#:#Local
+didactic#:#didactic_scope_list_header#:#Limited to:
+meta#:#md_adv_scope_list_header#:#Limited to:
+sess#:#sess_mem_tbl_header#:#Session Participants
+sess#:#objs_crs_role#:#Course Roles
+sess#:#objs_grp_role#:#Group Roles
+sess#:#sess_part_filter_registered#:#Only Registered
+sess#:#sess_part_filter_participated#:#Only Attended 
+sess#:#sess_print_list#:#Generate List
 forum#:#delete_drafts_successfully#:#The drafts were deleted successfully.
 forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?
 forum#:#restore#:#Restore
@@ -5114,6 +5129,8 @@ grp#:#grp_cancel_subscr_request#:#Delete Membership Request
 grp#:#grp_change_type#:#Change Group Type
 didactic#:#grp_closed_info#:#Group is not visible for non-members.
 didactic#:#grp_closed#:#Closed Group
+didactic#:#sess_closed_info#:#Session is not visible for non-participants.
+didactic#:#sess_closed#:#Closed Session
 grp#:#grp_edit_members#:#Edit Participants
 grp#:#grp_enable_map#:#Enable Group Map
 grp#:#grp_general_informations#:#General Information
@@ -6730,6 +6747,8 @@ shib#:#shib_rules_tables#:#Active Role Assignment Rules
 shib#:#shib_settings#:#Shibboleth Settings
 shib#:#shib_update_role_ass_table#:#Edit Role Assignment Rule
 shib#:#shib_update_roles#:#Role Assignments
+shib#:#shib_activate_new#:#New Accounts with Approval
+shib#:#shib_activate_new_info#:#If checked any new account creation has to be approved by an administrator.
 style#:#sty_acopy#:#Copy
 style#:#sty_add_characteristic#:#Add Style Class
 style#:#sty_add_color#:#Add Color
@@ -9409,6 +9428,7 @@ cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable f
 certificate#:#certificate_file_basename#:#Certificate
 grp#:#grp_print_list#:#Generate List
 grp#:#grp_members_print_title#:#Group Members
+sess#:#sess_members_print_title#:#Session Participants
 trac#:#trac_closed_misc#:#Misc.
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.
 rep#:#rep_no_permission_to_delete#:#No permission to delete
@@ -13533,6 +13553,8 @@ background_tasks#:#background_tasks_running#:#Running Tasks
 background_tasks#:#scheduled#:#Scheduled
 background_tasks#:#dismiss#:#Quit
 background_tasks#:#completed#:#Completed
+background_tasks#:#waiting#:#Waiting
+background_tasks#:#proceed_job#:#Proceed
 grp#:#grp_period#:#Period of Event
 grp#:#grp_period_info#:#Information about the start and end date of the event, which is supported by the group
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.
