@@ -8,10 +8,7 @@ require_once(__DIR__ . "/../../../Base.php");
 /**
  * Class FileDropzoneRendererTest
  *
- * @author  nmaerchy
- * @date    08.05.17
- * @version 0.0.1
- *
+ * @author  nmaerchy <nm@studer-raimann.ch>
  */
 class DropzoneRendererTest extends ILIAS_UI_TestBase {
 
