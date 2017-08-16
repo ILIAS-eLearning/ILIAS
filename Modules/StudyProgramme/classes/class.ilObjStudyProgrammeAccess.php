@@ -19,6 +19,23 @@ require_once('./Services/AccessControl/interfaces/interface.ilConditionHandling.
 class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHandling{
 
 	/**
+	 * @var ilStudyProgrammeUserProgressDB
+	 */
+	protected $sp_user_progress_db;
+
+	/**
+	* Get a (cached) instance of ilStudyProgrammeUserProgressDB
+	*
+	* @return ilStudyProgrammeUserProgressDB
+	*/
+	private function getStudyProgrammeUserProgressDB() {
+		if(! $this->sp_user_progress_db) {
+			 $this->sp_user_progress_db = ilObjStudyProgramme::getNewStudyProgrammeUserProgressDB();
+		}
+		return $this->sp_user_progress_db;
+	}
+
+	/**
 	* Checks wether a user may invoke a command or not
 	* (this method is called by ilAccessHandler::checkAccess)
 	*
@@ -118,7 +135,7 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
 				ilStudyProgrammeProgress::STATUS_ACCREDITED
 			);
 
-			$prg_user_progress = ilStudyProgrammeUserProgress::getInstancesForUser($a_obj_id, $a_usr_id);
+			$prg_user_progress = $this->getStudyProgrammeUserProgressDB()->getInstancesForUser($a_obj_id, $a_usr_id);
 			foreach ($prg_user_progress as $progress) {
 				if( in_array($progress->getStatus(), $valid_progress)) {
 					return true;
