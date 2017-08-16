@@ -79,7 +79,7 @@ class ilObjSessionAccess extends ilObjectAccess
 			$a_user_id = $ilUser->getId();
 		}
 		include_once './Modules/Session/classes/class.ilSessionParticipants.php';
-		$part = ilSessionParticipants::getInstanceByObjId($a_obj_id);
+		$part = ilSessionParticipants::getInstance($a_ref_id);
 		
 		switch($a_cmd)
 		{

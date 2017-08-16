@@ -212,6 +212,13 @@ section.  Later those values can be reassigned to other variables, but the value
   **il-modal-bg: darken(@il-primary-container-bg, 15%)** or similar.
 * Shortforms MUST be used in less and CSS. E.g. **#efe**, instead of **#eeffee**.
 * Only use lowercase for color codes in less and CSS. E.g. **#efe**, instead of **#EFE**.
+* You SHOULD use the extended color variants (see variables.less) to generate colors
+for components displaying areas or labels that need to be differentiated by colors such as
+charts.
+* You MAY use the given less variables to generate own classes or you MAY use the
+classes given in colors.less. If generating own classes you MAY use colors.less as an
+example on how to use mixins in less to reduce the amount of code needed to generate
+such classes in less.
 
 #### Customize
 * Note that custom variables in a custom variables.less file have the be included after

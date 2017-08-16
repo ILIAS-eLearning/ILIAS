@@ -85,17 +85,15 @@ class ilAuthProviderShibboleth extends ilAuthProvider implements ilAuthProviderI
 				$shibUser = ilShibbolethPluginWrapper::getInstance()->afterUpdateUser($shibUser);
 				ilShibbolethRoleAssignmentRules::updateAssignments($shibUser->getId(), $_SERVER);
 			}
-			
-			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
-			$status->setAuthenticatedUserId(ilObjUser::_lookupId($shibUser->getLogin()));
-			
-			
-			
-			#$this->setAuth($shibUser->getLogin(), $shibUser);
-			#ilObjUser::_updateLastLogin($shibUser->getId());
-			#if ($_GET['target'] != '') {
-			#	ilUtil::redirect('goto.php?target=' . $_GET['target'] . '&client_id=' . CLIENT_ID);
-			#}
+
+			$c = shibConfig::getInstance();
+			if(($newUser && !$c->isActivateNew()) || !$newUser) {
+				$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
+				$status->setAuthenticatedUserId(ilObjUser::_lookupId($shibUser->getLogin()));
+			}elseif($newUser && $c->isActivateNew()) {
+				$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+				$status->setReason('err_inactive');
+			}
 		} 
 		else 
 		{
@@ -106,4 +104,3 @@ class ilAuthProviderShibboleth extends ilAuthProvider implements ilAuthProviderI
 		
 	}
 }
-?>
