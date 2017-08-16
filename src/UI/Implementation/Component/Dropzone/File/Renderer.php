@@ -71,6 +71,9 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	private function renderStandard(\ILIAS\UI\Component\Dropzone\File\Standard $dropzone) {
+		/**
+		 * @var $dropzone \ILIAS\UI\Component\Dropzone\File\Standard
+		 */
 		$dropzone = $this->registerSignals($dropzone);
 		$dropzoneId = $this->bindJavaScript($dropzone);
 		$f = $this->getUIFactory();
@@ -89,7 +92,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		// Upload-Button
 		if ($button) {
-			$button = $button->withUnavailableAction()->withOnLoadCode(function ($id) use ($dropzoneId) {
+			$button = $button->withUnavailableAction()->withAdditionalOnLoadCode(function ($id) use ($dropzoneId) {
 				return "$ (function() {il.UI.uploader.bindUploadButton('{$dropzoneId}', $('#{$id}'));});";
 			});
 			$tpl->setCurrentBlock('with_upload_button');
