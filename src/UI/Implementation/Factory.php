@@ -171,4 +171,12 @@ class Factory implements \ILIAS\UI\Factory
 		return new Component\Chart\Factory();
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function floatable()
+	{
+		throw new NotImplementedException();
+	}
+
 }

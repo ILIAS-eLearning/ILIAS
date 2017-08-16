@@ -40,6 +40,7 @@ class NoUIFactory implements Factory {
 	public function viewControl() {}
 	public function breadcrumbs(array $crumbs) {}
 	public function chart() {}
+	public function floatable() {}
 }
 
 class LoggingRegistry implements ResourceRegistry {
