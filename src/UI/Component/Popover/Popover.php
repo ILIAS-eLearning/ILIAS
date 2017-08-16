@@ -101,7 +101,8 @@ interface Popover extends Component, Triggerable {
 
 
 	/**
-	 * Get a popover which can be used in fixed places such as the main menu
+	 * Get a popover which can be used in fixed places such as the main menu.
+	 * This popover will stay fixed when scrolling and therefore remain on the screen.
 	 *
 	 * @return $this
 	 */
