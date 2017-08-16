@@ -57,7 +57,7 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 
 	/**
-	 * @return string
+	 * @return string the URL where the form will be sent to.
 	 */
 	public function getUploadUrl() {
 		return $this->upload_url;
