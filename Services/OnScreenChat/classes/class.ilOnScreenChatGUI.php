@@ -106,6 +106,9 @@ class ilOnScreenChatGUI
 	{
 		global $DIC;
 
+		require_once 'Services/Authentication/classes/class.ilSession.php';
+		ilSession::enableWebAccessWithoutSession(true);
+
 		echo json_encode(array(
 			'loggedIn' => $DIC->user() && !$DIC->user()->isAnonymous()
 		));
@@ -184,6 +187,9 @@ class ilOnScreenChatGUI
 				'profile_image' => $public_image
 			);
 		}
+
+		require_once 'Services/Authentication/classes/class.ilSession.php';
+		ilSession::enableWebAccessWithoutSession(true);
 
 		echo json_encode($response);
 		exit();

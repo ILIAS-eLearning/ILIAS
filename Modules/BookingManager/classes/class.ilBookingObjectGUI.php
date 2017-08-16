@@ -4,11 +4,12 @@
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 /**
-* Class ilBookingObjectGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*/
+ * Class ilBookingObjectGUI
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @version $Id$
+ * @ilCtrl_Calls ilBookingObjectGUI: ilPropertyFormGUI
+ */
 class ilBookingObjectGUI
 {
 	protected $ref_id; // [int]

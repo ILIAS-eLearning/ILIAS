@@ -29,72 +29,72 @@
   },
   "extra": {
     "jquery": {
-      "introduction-date": "unknown",
+      "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": "unknown",
+      "developer": null,
       "purpose": "We use jQuery for most JS-related actions in ILIAS.",
-      "last-update-for-ilias": 5.3
+      "last-update-for-ilias": "5.3.0"
     },
     "bootstrap": {
-      "introduction-date": "unknown",
+      "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": "unknown",
+      "developer": null,
       "purpose": "Bootstrap is ILIAS' Client-Side UI-Framework since 5.0",
-      "last-update-for-ilias": 5.3
+      "last-update-for-ilias": "5.3.0"
     },
     "Yamm3": {
-      "introduction-date": "unknown",
+      "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": "unknown",
+      "developer": null,
       "purpose": "",
-      "last-update-for-ilias": 5.3
+      "last-update-for-ilias": "5.3.0"
     },
     "jquery-ui": {
-      "introduction-date": "unknown",
+      "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": "unknown",
+      "developer": null,
       "purpose": "",
-      "last-update-for-ilias": 5.3
+      "last-update-for-ilias": "5.3.0"
     },
     "maphilight": {
-      "introduction-date": "unknown",
+      "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": "unknown",
+      "developer": null,
       "purpose": "",
-      "last-update-for-ilias": 5.3
+      "last-update-for-ilias": "5.3.0"
     },
     "nestable": {
-      "introduction-date": "unknown",
+      "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": "unknown",
+      "developer": null,
       "purpose": "",
       "last-update-for-ilias": null
     },
     "jqueryui-touch-punch": {
-      "introduction-date": "unknown",
+      "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": "unknown",
+      "developer": null,
       "purpose": "",
       "last-update-for-ilias": null
     },
     "jquery-outside-events": {
-      "introduction-date": "unknown",
+      "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": "unknown",
+      "developer": null,
       "purpose": "",
       "last-update-for-ilias": null
     },
     "yui": {
-      "introduction-date": "unknown",
+      "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": "unknown",
+      "developer": null,
       "purpose": "",
       "last-update-for-ilias": null
     },
     "jstree": {
-      "introduction-date": "unknown",
+      "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": "unknown",
+      "developer": null,
       "purpose": "",
       "last-update-for-ilias": null,
       "note": "This packages has been patched since it uses .size() a lot which has been removed in newer jQuery-Versions. Please do not override and commit the patch"

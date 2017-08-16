@@ -411,6 +411,7 @@ class ilMimeMail
 
 	/**
 	 * @param $transport \ilMailMimeTransport|null
+	 * @return bool A boolean flag whether or not the transport might be successful
 	 */
 	public function Send($transport = null)
 	{
@@ -420,6 +421,7 @@ class ilMimeMail
 		}
 
 		$this->build();
-		$transport->send($this);
+
+		return $transport->send($this);
 	}
 }

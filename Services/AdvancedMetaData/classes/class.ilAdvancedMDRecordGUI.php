@@ -29,6 +29,7 @@ class ilAdvancedMDRecordGUI
 	private $obj_type;
 	private $sub_type;
 	private $obj_id;
+	private $ref_id = null;
 	
 	private $form;
 	private $search_values = array();
@@ -53,6 +54,13 @@ class ilAdvancedMDRecordGUI
 	 	$this->obj_id = $a_obj_id;
 	 	$this->sub_type = $a_sub_type;
 	 	$this->sub_id = $a_sub_id;
+		
+		if($a_obj_id)
+		{
+			$refs = ilObject::_getAllReferences($a_obj_id);
+			$this->ref_id = end($refs);
+		}
+		
 	}
 	
 	/**
@@ -639,7 +647,7 @@ class ilAdvancedMDRecordGUI
 	protected function getActiveRecords()
 	{
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		return ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
+		return ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->ref_id, $this->sub_type);
 	}
 	
 	/**
