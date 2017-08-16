@@ -127,4 +127,6 @@ abstract class ilAppointmentCustomModalPlugin extends ilPlugin
 	 */
 	abstract function toolbarReplaceContent();
 
+	abstract function editModalTitle();
+
 }

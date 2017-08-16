@@ -413,7 +413,9 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 			? " (".$a_app['event']->getCompletion()."%)"
 			: "";
 
-		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart']);
+		//plugins can change the modal title.
+		$modal_title = $this->getModalTitleByPlugins();
+		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'], "", $modal_title);
 
 		$title = ($new_title = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $shy))? $new_title : $shy;
 
@@ -494,8 +496,9 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
 			$td_style .= $a_app['event']->getPresentationStyle();
 		}
-
-		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart']);
+		//plugins can change the modal title.
+		$modal_title = $this->getModalTitleByPlugins();
+		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'], "", $modal_title);
 
 		$title = ($time != "")? $time." ".$shy : $shy;
 

@@ -208,20 +208,37 @@ class ilCalendarViewGUI
 		return $r->render($comps);
 	}
 
+	public function getAgendaShyButton()
+	{
+
+	}
+
 	//get active plugins.
-	public function getActivePlugins()
+	public function getActivePlugins($a_slot_id)
 	{
 		global $ilPluginAdmin;
 
 		$res = array();
 
-		foreach($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Calendar", "capg") as $plugin_name)
+		foreach($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Calendar", $a_slot_id) as $plugin_name)
 		{
 			$res[] = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE,
-				"Calendar", "capg", $plugin_name);
+				"Calendar", $a_slot_id, $plugin_name);
 		}
 
 		return $res;
+	}
+
+	public function getModalTitleByPlugins()
+	{
+		$modal_title = "";
+		//demo of plugin execution.
+		//"capm" is the plugin slot id for Appointment presentations (modals)
+		foreach($this->getActivePlugins("capm") as $plugin)
+		{
+			$modal_title = ($new_title = $plugin->editModalTitle())? $new_title : "";
+		}
+		return $modal_title;
 	}
 
 	/**
@@ -233,9 +250,8 @@ class ilCalendarViewGUI
 	public function getContentByPlugins($a_cal_entry, $a_start_date, $a_title)
 	{
 		$content = $a_title;
-
-		//demo of plugin execution.
-		foreach($this->getActivePlugins() as $plugin)
+		//"capg" is the plugin slot id for AppointmentCustomGrid
+		foreach($this->getActivePlugins("capg") as $plugin)
 		{
 			$plugin->setAppointment($a_cal_entry, new ilDateTime($a_start_date));
 			if($new_content = $plugin->replaceContent())
@@ -245,9 +261,7 @@ class ilCalendarViewGUI
 			else
 			{
 				$shy_title = ($new_title = $plugin->editShyButtonTitle())? $new_title : "";
-				$modal_title = ($new_title = $plugin->editModalTitle())? $new_title : "";
-
-				$content = $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $shy_title, $modal_title);
+				$content = $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $shy_title);
 
 				if($glyph = $plugin->addGlyph())
 				{

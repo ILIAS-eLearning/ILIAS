@@ -154,13 +154,24 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 			$properties = array();
 
+			/*TODO:
+			 * All this code related with the ctrl and shy button can be centralized in
+			 * ilCalendarViewGUI refactoring the method getAppointmentShyButton or
+			 * if we want extend this class from ilCalendarInboxGUI we can just keep it here.
+			 */
+			//plugins can change the modal title.
+			$modal_title = $this->getModalTitleByPlugins();
 			// shy button for title
 			$this->ctrl->setParameter($this, 'app_id', $e["event"]->getEntryId());
 			$this->ctrl->setParameter($this,'dt',$e['dstart']);
 			$this->ctrl->setParameter($this, 'seed', $this->seed);
+			if($modal_title != "") {
+				$this->ctrl->setParameter($this,'modal_title',rawurlencode($modal_title));
+			}
 			$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
 			$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
 			$this->ctrl->setParameter($this, "dt", $_GET["dt"]);
+			$this->ctrl->setParameter($this,'modal_title',$_GET["modal_title"]);
 			$modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 			$shy = $this->ui_factory->button()->shy($e["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal());
 
@@ -233,7 +244,8 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 	{
 		//ui elements are no mutable
 		$li = false;
-		foreach($this->getActivePlugins() as $plugin)
+		//"capg" is the plugin slot id for AppointmentCustomGrid
+		foreach($this->getActivePlugins("capg") as $plugin)
 		{
 			$plugin->setAppointment($appointment,$appointment->getStart());
 			$li = $plugin->editAgendaItem($shy, $properties, $color);

@@ -129,7 +129,4 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
 	 */
 	abstract function editAgendaItem($shy, $properties, $color);
 
-	//find a way to move this to the modal plugin slot. This title is defined during the grid creation.
-	abstract function editModalTitle();
-
 }
