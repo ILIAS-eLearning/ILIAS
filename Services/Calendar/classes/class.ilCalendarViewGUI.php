@@ -33,7 +33,12 @@ class ilCalendarViewGUI
 	 * @var integer
 	 */
 	protected $presentation_type;
-	
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
 	/**
 	 * View initialization
 	 * @param integer $a_calendar_presentation_type
@@ -82,7 +87,6 @@ class ilCalendarViewGUI
 	{
 //		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
 //		initialize($a_mode,$a_source_ref_id = 0,$a_use_cache = false)
-
 		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_PD_UPCOMING);
 
 		switch ($this->presentation_type)
@@ -259,5 +263,35 @@ class ilCalendarViewGUI
 
 		return $content;
 	}
+
+	/**
+	 * Add download link to toolbar
+	 *
+	 * @param
+	 * @return
+	 */
+	function addToolbarActions()
+	{
+		$toolbar = $this->toolbar;
+		$f = $this->ui_factory;
+		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+
+		// file download
+		$add_button = $f->button()->standard($lng->txt("cal_download_files"),
+			$ctrl->getLinkTarget($this, "downloadFiles"));
+		$toolbar->addSeparator();
+		$toolbar->addComponent($add_button);
+	}
+
+	/**
+	 * Download files
+	 */
+	function downloadFiles()
+	{
+		include_once("./Services/Calendar/classes/FileHandler/class.ilCalendarFileHandler.php");
+		ilCalendarFileHandler::getInstance()->downloadFilesForEvents($this->getEvents());
+	}
+
 
 }

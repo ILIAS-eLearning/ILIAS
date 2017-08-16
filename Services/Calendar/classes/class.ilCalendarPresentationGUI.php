@@ -205,9 +205,11 @@ class ilCalendarPresentationGUI
 		{
 			case 'ilcalendarinboxgui':
 				$this->tabs_gui->activateTab('cal_agenda');
-				$this->forwardToClass('ilcalendarinboxgui');
+				$inbox_gui = $this->forwardToClass('ilcalendarinboxgui');
 				$this->showViewSelection("cal_list");
 				$this->showSideBlocks();
+				// this would require ilcalendarinboxgui being derived from ilCalendarViewGUI, not ilCalendarAgendaListGUI
+				//$inbox_gui->addToolbarActions();
 				break;
 				
 			case 'ilconsultationhoursgui':
@@ -228,23 +230,26 @@ class ilCalendarPresentationGUI
 			
 			case 'ilcalendarmonthgui':
 				$this->tabs_gui->activateTab('cal_agenda');
-				$this->forwardToClass('ilcalendarmonthgui');
+				$month_gui = $this->forwardToClass('ilcalendarmonthgui');
 				$this->showViewSelection("app_month");
 				$this->showSideBlocks();
+				$month_gui->addToolbarActions();
 				break;
 				
 			case 'ilcalendarweekgui':
 				$this->tabs_gui->activateTab('cal_agenda');
-				$this->forwardToClass('ilcalendarweekgui');
+				$week_gui = $this->forwardToClass('ilcalendarweekgui');
 				$this->showViewSelection("app_week");
 				$this->showSideBlocks();
+				$week_gui->addToolbarActions();
 				break;
 
 			case 'ilcalendardaygui':
 				$this->tabs_gui->activateTab('cal_agenda');
-				$this->forwardToClass('ilcalendardaygui');
+				$day_gui = $this->forwardToClass('ilcalendardaygui');
 				$this->showViewSelection("app_day");
 				$this->showSideBlocks();
+				$day_gui->addToolbarActions();
 				break;
 
 			case 'ilcalendarusersettingsgui':
@@ -448,6 +453,7 @@ class ilCalendarPresentationGUI
 				include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
 				$month_gui = new ilCalendarMonthGUI($this->seed);
 				$this->ctrl->forwardCommand($month_gui);
+				return $month_gui;
 				break;
 				
 			case 'ilcalendarweekgui':
@@ -457,6 +463,7 @@ class ilCalendarPresentationGUI
 				include_once('./Services/Calendar/classes/class.ilCalendarWeekGUI.php');
 				$week_gui = new ilCalendarWeekGUI($this->seed);
 				$this->ctrl->forwardCommand($week_gui);
+				return $week_gui;
 				break;
 
 			case 'ilcalendardaygui':
@@ -466,6 +473,7 @@ class ilCalendarPresentationGUI
 				include_once('./Services/Calendar/classes/class.ilCalendarDayGUI.php');
 				$day_gui = new ilCalendarDayGUI($this->seed);
 				$this->ctrl->forwardCommand($day_gui);
+				return $day_gui;
 				break;
 				
 			case 'ilcalendarinboxgui':
@@ -475,6 +483,7 @@ class ilCalendarPresentationGUI
 				include_once('./Services/Calendar/classes/class.ilCalendarInboxGUI.php');
 				$inbox_gui = new ilCalendarinboxGUI($this->seed);
 				$this->ctrl->forwardCommand($inbox_gui);
+				return $inbox_gui;
 				break;
 		}
 	}
