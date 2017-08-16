@@ -44,16 +44,12 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
 	 */
 	public function __construct($quoted_term, $term)
 	{
-		/**
-		 * @var $ilDB   ilDBInterface
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilDB, $ilUser;
+		global $DIC;
 
-		$this->db          = $ilDB;
+		$this->db          = $DIC->database();
 		$this->quoted_term = $quoted_term;
 		$this->term        = $term;
-		$this->user_id     = $ilUser->getId();
+		$this->user_id     = $DIC->user()->getId();
 	}
 
 	/**

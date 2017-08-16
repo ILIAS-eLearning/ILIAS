@@ -60,7 +60,7 @@ class ilCategoryImporter extends ilXmlImporter
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
 		}
-		catch(Excpetion $e)
+		catch(Exception $e)
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
 		}

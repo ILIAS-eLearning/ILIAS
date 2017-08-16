@@ -13,12 +13,9 @@ class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTable
 	 */
 	public function parse()
 	{
-		/**
-		 * @var $ilObjDataCache ilObjectDataCache 
-		 */
-		global $ilCtrl, $ilObjDataCache;
+		global $DIC;
 
-		$valid_threads = ilForum::_getThreads($ilObjDataCache->lookupObjId($this->ref_id));
+		$valid_threads = ilForum::_getThreads($DIC['ilObjDataCache']->lookupObjId($this->ref_id));
 
 		$rows = array();
 		foreach($this->getResults()->getResults() as $result_set)
@@ -32,8 +29,8 @@ class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTable
 
 			$row['title'] = $valid_threads[$result_set['item_id']];
 
-			$ilCtrl->setParameterByClass('ilObjForumGUI', 'thr_pk', $result_set['item_id']);
-			$row['link'] = $ilCtrl->getLinkTargetByClass('ilObjForumGUI', 'viewThread');
+			$DIC->ctrl()->setParameterByClass('ilObjForumGUI', 'thr_pk', $result_set['item_id']);
+			$row['link'] = $DIC->ctrl()->getLinkTargetByClass('ilObjForumGUI', 'viewThread');
 
 			$row['relevance'] = $result_set['relevance'];
 			$row['content']   = $result_set['content'];

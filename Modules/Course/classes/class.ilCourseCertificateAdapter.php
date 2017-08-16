@@ -40,9 +40,9 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 	*
 	* @param object $object A reference to a test object
 	*/
-	function __construct(&$object)
+	function __construct($object)
 	{
-		$this->object =& $object;
+		$this->object = $object;
 		parent::__construct();
 	}
 
@@ -64,8 +64,6 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateVariablesForPreview()
 	{
-		global $lng;
-		
 		$vars = $this->getBaseVariablesForPreview(false);
 		$vars["COURSE_TITLE"] = ilUtil::prepareFormOutput($this->object->getTitle());
 		
@@ -87,8 +85,6 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateVariablesForPresentation($params = array())
 	{
-		global $lng;
-	
 		$user_id = $params["user_id"];
 		
 		include_once './Services/User/classes/class.ilObjUser.php';
@@ -116,10 +112,8 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateVariablesDescription()
 	{
-		global $lng;
-		
 		$vars = $this->getBaseVariablesDescription(false);
-		$vars["COURSE_TITLE"] = $lng->txt("crs_title");
+		$vars["COURSE_TITLE"] = $this->lng->txt("crs_title");
 				
 		$template = new ilTemplate("tpl.il_as_tst_certificate_edit.html", TRUE, TRUE, "Modules/Test");	
 		$template->setCurrentBlock("items");
@@ -130,7 +124,7 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 			$template->parseCurrentBlock();
 		}
 
-		$template->setVariable("PH_INTRODUCTION", $lng->txt("certificate_ph_introduction"));
+		$template->setVariable("PH_INTRODUCTION", $this->lng->txt("certificate_ph_introduction"));
 
 		return $template->get();
 	}
@@ -167,8 +161,6 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 	 */
 	static function _preloadListData($a_usr_ids, $a_obj_ids)
 	{
-		global $ilDB;
-		
 		if (!is_array($a_usr_ids))
 		{
 			$a_usr_ids = array($a_usr_ids);

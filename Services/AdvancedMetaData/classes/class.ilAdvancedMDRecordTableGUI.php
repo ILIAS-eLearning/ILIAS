@@ -38,8 +38,9 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 	 	$this->addColumn('','',1);
 	 	$this->addColumn($this->lng->txt('title'),'title');
 	 	$this->addColumn($this->lng->txt('md_fields'),'fields');
+		$this->addColumn($this->lng->txt('md_adv_scope'),'scope');
+		$this->addColumn($this->lng->txt('md_obj_types'),'obj_types');
 	 	$this->addColumn($this->lng->txt('md_adv_active'),'active');
-		$this->addColumn($this->lng->txt('md_obj_types'),'obj_types');		
 		
 	 	$this->addColumn($this->lng->txt('actions'));
 	 	
@@ -131,9 +132,26 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		if($a_set["readonly"] && !$a_set["local"])
+		$record = ilAdvancedMDRecord::_getInstanceByRecordId($a_set['id']);
+		if(!$a_set['local'] && count($record->getScopeRefIds()))
 		{
-			$a_set['description'] .= ' <span class="il_ItemAlertProperty">'.$this->lng->txt("meta_global").'</span>';
+			$this->tpl->setCurrentBlock('scope_txt');
+			$this->tpl->setVariable('LOCAL_OR_GLOBAL', $this->lng->txt('md_adv_scope_list_header'));
+			$this->tpl->parseCurrentBlock();
+			
+			foreach($record->getScopeRefIds() as $ref_id)
+			{
+				$this->tpl->setCurrentBlock('scope_entry');
+				$this->tpl->setVariable('LINK_HREF',ilLink::_getLink($ref_id));
+				$this->tpl->setVariable('LINK_NAME', ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock('scope_txt');
+			$this->tpl->setVariable('LOCAL_OR_GLOBAL', $a_set['local'] ? $this->lng->txt('meta_local') : $this->lng->txt('meta_global'));
+			$this->tpl->parseCurrentBlock();
 		}
 		
 		if(!$a_set["readonly"] || $a_set["local"])

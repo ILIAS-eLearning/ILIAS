@@ -108,7 +108,7 @@ class ilMail
 	 */
 	protected $properties = array();
 	
-	/** @var array<ilObjUser> */
+	/** @var ilObjUser[] */
 	protected static $userInstances = array();
 
 	/**
@@ -116,19 +116,15 @@ class ilMail
 	 */
 	public function __construct($a_user_id)
 	{
-		/**
-		 * @var $lng  ilLanguage
-		 * @var $ilDB ilDBInterface
-		 */
-		global $lng, $ilDB;
+		global $DIC;
 
 		require_once 'Services/Mail/classes/class.ilFileDataMail.php';
 		require_once 'Services/Mail/classes/class.ilMailOptions.php';
 
-		$lng->loadLanguageModule("mail");
+		$this->lng              = $DIC->language();
+		$this->db               = $DIC->database();
 
-		$this->lng              = $lng;
-		$this->db               = $ilDB;
+		$this->lng->loadLanguageModule('mail');
 
 		$this->table_mail       = 'mail';
 		$this->table_mail_saved = 'mail_saved';
@@ -158,8 +154,7 @@ class ilMail
 	 */
 	public function __get($name)
 	{
-		/** @var $ilUser ilObjUser */
-		global $ilUser;
+		global $DIC;
 
 		if(isset($this->properties[$name]))
 		{
@@ -168,10 +163,10 @@ class ilMail
 
 		if($name == 'mlists')
 		{
-			if(is_object($ilUser))
+			if(is_object($DIC->user()))
 			{
 				require_once 'Services/Contact/classes/class.ilMailingLists.php';
-				$this->properties[$name] = new ilMailingLists($ilUser);
+				$this->properties[$name] = new ilMailingLists($DIC->user());
 				return $this->properties[$name];
 			}
 		}
@@ -228,10 +223,9 @@ class ilMail
 	 */
 	public function isSOAPEnabled()
 	{
-		/** @var $ilSetting ilSetting */
-		global $ilSetting;
+		global $DIC;
 
-		if(!extension_loaded('curl') || !$ilSetting->get('soap_user_administration'))
+		if(!extension_loaded('curl') || !$DIC->settings()->get('soap_user_administration'))
 		{
 			return false;
 		}
@@ -285,8 +279,7 @@ class ilMail
 	 */
 	public function formatNamesForOutput($a_recipients)
 	{
-		/** @var $ilUser ilObjUser */
-		global $ilUser;
+		global $DIC;
 
 		$a_recipients = trim($a_recipients);
 		if(!strlen($a_recipients))
@@ -303,7 +296,7 @@ class ilMail
 			if($usr_id > 0)
 			{
 				$pp = ilObjUser::_lookupPref($usr_id, 'public_profile');
-				if($pp == 'y' || ($pp == 'g' && !$ilUser->isAnonymous()))
+				if($pp == 'y' || ($pp == 'g' && !$DIC->user()->isAnonymous()))
 				{
 					$user    = self::getCachedUserInstance($usr_id);
 					$names[] = $user->getFullname() . ' [' . $recipient . ']';
@@ -659,7 +652,7 @@ class ilMail
 	* @param    string $a_rcp_cc
 	* @param    string $a_rcp_bcc
 	* @param    string $a_status
-	* @param    string $a_m_type
+	* @param    array  $a_m_type
 	* @param    integer $a_m_email
 	* @param    string $a_m_subject
 	* @param    string $a_m_message
@@ -778,7 +771,7 @@ class ilMail
 		$mbox = new ilMailbox();
 		if(!$a_use_placeholders)
 		{
-			$rcp_ids = $this->getUserIds(trim($a_rcp_to) . ',' . trim($a_rcp_cc) . ',' . trim($a_rcp_bcc));
+			$rcp_ids = $this->getUserIds(array($a_rcp_to, $a_rcp_cc, $a_rcp_bcc));
 
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
 				"Parsed TO/CC/BCC user ids from given recipients: %s", implode(', ', $rcp_ids)
@@ -801,15 +794,16 @@ class ilMail
 
 				if($user_is_active)
 				{
-					if(!$user_can_read_internal_mails || $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+					if(!$user_can_read_internal_mails 
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
 					{
-						$as_email[] = $tmp_user->getEmail();
-						continue;
-					}
+						$as_email = $as_email + ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
 
-					if($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
-					{
-						$as_email[] = $tmp_user->getEmail();
+						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
+						{
+							continue;
+						}
 					}
 				}
 
@@ -823,13 +817,14 @@ class ilMail
 
 				if($a_attachments)
 				{
-					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id, $a_attachments);
+					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id);
 				}
 			}
 
 			$to  = array();
 			$bcc = array();
-
+			
+			$as_email = array_unique($as_email);
 			if(count($as_email) == 1)
 			{
 				$to[] = $as_email[0];
@@ -849,8 +844,8 @@ class ilMail
 		}
 		else
 		{
-			$rcp_ids_replace    = $this->getUserIds(trim($a_rcp_to));
-			$rcp_ids_no_replace = $this->getUserIds(trim($a_rcp_cc).','.trim($a_rcp_bcc));
+			$rcp_ids_replace    = $this->getUserIds(array($a_rcp_to));
+			$rcp_ids_no_replace = $this->getUserIds(array($a_rcp_cc, $a_rcp_bcc));
 
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
 				"Parsed TO user ids from given recipients for serial letter notification: %s", implode(', ', $rcp_ids_replace)
@@ -879,15 +874,16 @@ class ilMail
 
 				if($user_is_active)
 				{
-					if(!$user_can_read_internal_mails || $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+					if(!$user_can_read_internal_mails 
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
 					{
-						$as_email[$tmp_user->getId()] = $tmp_user->getEmail();
-						continue;
-					}
-
-					if($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
-					{
-						$as_email[$tmp_user->getId()] = $tmp_user->getEmail();
+						$as_email[$tmp_user->getId()] = ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
+	
+						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
+						{
+							continue;
+						}
 					}
 				}
 
@@ -901,15 +897,21 @@ class ilMail
 
 				if($a_attachments)
 				{
-					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id, $a_attachments);
+					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id);
 				}
 			}
 
 			if(count($as_email))
 			{
-				foreach($as_email as $id => $email)
+				foreach($as_email as $id => $emails)
 				{
-					$this->sendMimeMail($email, '', '', $a_subject, $this->formatLinebreakMessage($id_to_message_map[$id]), $a_attachments);
+					if(0 == count($emails))
+					{
+						continue;
+					}
+
+					$toEmailAddresses = implode(',', $emails);
+					$this->sendMimeMail($toEmailAddresses, '', '', $a_subject, $this->formatLinebreakMessage($id_to_message_map[$id]), $a_attachments);
 				}
 			}
 
@@ -931,16 +933,18 @@ class ilMail
 					{
 						continue;
 					}
-
-					if(!$user_can_read_internal_mails || $tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+					
+					
+					if(!$user_can_read_internal_mails
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
+						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
 					{
-						$as_email[] = $tmp_user->getEmail();
-						continue;
-					}
-
-					if($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
-					{
-						$as_email[] = $tmp_user->getEmail();
+						$as_email = $as_email + ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
+						
+						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
+						{
+							continue;
+						}
 					}
 				}
 
@@ -954,7 +958,7 @@ class ilMail
 
 				if($a_attachments)
 				{
-					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id, $a_attachments);
+					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id);
 				}
 			}
 
@@ -968,12 +972,14 @@ class ilMail
 	}
 
 	/**
-	 * @param  string $a_recipients recipients seperated by ','
+	 * @param  string[] $a_recipients
 	 * @return int[]
 	 */
-	protected function getUserIds($a_recipients)
+	protected function getUserIds(array $a_recipients)
 	{
 		$usr_ids = array();
+
+		$a_recipients = implode(',', array_filter(array_map('trim', $a_recipients)));
 
 		require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressTypeFactory.php';  
 		$recipients = $this->parseAddresses($a_recipients);
@@ -991,11 +997,9 @@ class ilMail
 	 * @param    string $a_rcp_cc
 	 * @param    string $a_rcp_bcc
 	 * @param    string $a_m_subject
-	 * @param    string $a_m_message
-	 * @param    string $a_type
 	 * @return   array message
 	 */
-	protected function checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_type)
+	protected function checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject)
 	{
 		$errors =  array();
 		foreach(array(
@@ -1132,10 +1136,7 @@ class ilMail
 	 */
 	public function sendMail($a_rcp_to, $a_rcp_cc, $a_rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $a_type, $a_use_placeholders = 0)
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 */
-		global $rbacsystem;
+		global $DIC;
 
 		ilLoggerFactory::getLogger('mail')->debug(
 			"New mail system task:" .
@@ -1148,7 +1149,7 @@ class ilMail
 		$this->mail_to_global_roles = true;
 		if(!$this->isSystemMail())
 		{
-			$this->mail_to_global_roles = $rbacsystem->checkAccessOfUser($this->user_id, 'mail_to_global_roles', $this->mail_obj_ref_id);
+			$this->mail_to_global_roles = $DIC->rbac()->system()->checkAccessOfUser($this->user_id, 'mail_to_global_roles', $this->mail_obj_ref_id);
 		}
 
 		if(in_array('system', $a_type))
@@ -1161,7 +1162,7 @@ class ilMail
 			return array(array('mail_attachment_file_not_exist', $a_attachment));
 		}
 
-		$errors = $this->checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bc, $a_m_subject, $a_m_message, $a_type);
+		$errors = $this->checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bc, $a_m_subject);
 		if(count($errors) > 0)
 		{
 			return $errors;
@@ -1181,7 +1182,7 @@ class ilMail
 
 		if(
 			$c_emails && !$this->isSystemMail() &&
-			!$rbacsystem->checkAccessOfUser($this->user_id, 'smtp_mail', $this->mail_obj_ref_id)
+			!$DIC->rbac()->system()->checkAccessOfUser($this->user_id, 'smtp_mail', $this->mail_obj_ref_id)
 		)
 		{
 			return array(array('mail_no_permissions_write_smtp'));
@@ -1207,7 +1208,7 @@ class ilMail
 			$externalMailRecipientsBcc = $this->getEmailRecipients($rcp_bc);
 
 			ilLoggerFactory::getLogger('mail')->debug(
-				"Parsed external mail addresses from given recipients:" .
+				"Parsed external email addresses from given recipients:" .
 				" To: " . $externalMailRecipientsTo .
 				" | CC: " . $externalMailRecipientsCc .
 				" | BCC: " . $externalMailRecipientsBcc .
@@ -1226,7 +1227,7 @@ class ilMail
 		}
 		else
 		{
-			ilLoggerFactory::getLogger('mail')->debug("No external mail addresses given in recipient string");
+			ilLoggerFactory::getLogger('mail')->debug("No external email addresses given in recipient string");
 		}
 
 		if(in_array('system', $a_type) && !$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'system', $a_use_placeholders))
@@ -1281,7 +1282,7 @@ class ilMail
 	 * @param string $a_rcp_to
 	 * @param string $a_rcp_cc
 	 * @param string $a_rcp_bcc
-	 * @param string $a_type
+	 * @param array  $a_type
 	 * @param string $a_m_subject
 	 * @param string $a_m_message
 	 * @return int mail id
@@ -1520,10 +1521,7 @@ class ilMail
 	 */
 	public static function _getAutoGeneratedMessageString(ilLanguage $lang = null)
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
+		global $DIC;
 
 		if(!($lang instanceof ilLanguage))
 		{
@@ -1535,7 +1533,7 @@ class ilMail
 
 		return sprintf(
 			$lang->txt('mail_auto_generated_info'),
-			$ilSetting->get('inst_name','ILIAS 5'),
+			$DIC->settings()->get('inst_name','ILIAS 5'),
 			ilUtil::_getHttpPath()
 		). "\n\n";
 	}
@@ -1573,13 +1571,9 @@ class ilMail
 	 */
 	public static function _getInstallationSignature()
 	{
-		/**
-		 * @var $ilSetting       ilSetting
-		 * @var $ilClientIniFile ilIniFile
-		 */
-		global $ilSetting, $ilClientIniFile;
+		global $DIC;
 
-		$signature = $ilSetting->get('mail_system_sys_signature');
+		$signature = $DIC->settings()->get('mail_system_sys_signature');
 
 		$clientUrl = ilUtil::_getHttpPath();
 		$clientdirs = glob(ILIAS_WEB_DIR . '/*', GLOB_ONLYDIR);
@@ -1588,8 +1582,8 @@ class ilMail
 			$clientUrl .= '/login.php?client_id=' . CLIENT_ID; // #18051
 		}
 
-		$signature = str_ireplace('[CLIENT_NAME]', $ilClientIniFile->readVariable('client', 'name'), $signature);
-		$signature = str_ireplace('[CLIENT_DESC]', $ilClientIniFile->readVariable('client', 'description'), $signature);
+		$signature = str_ireplace('[CLIENT_NAME]', $DIC['ilClientIniFile']->readVariable('client', 'name'), $signature);
+		$signature = str_ireplace('[CLIENT_DESC]', $DIC['ilClientIniFile']->readVariable('client', 'description'), $signature);
 		$signature = str_ireplace('[CLIENT_URL]', $clientUrl, $signature);
 
 		if(!preg_match('/^[\n\r]+/', $signature))
@@ -1606,10 +1600,9 @@ class ilMail
 	 */
 	public static function getSubjectPrefix()
 	{
-		/** @var $ilSetting ilSetting */
-		global $ilSetting;
+		global $DIC;
 
-		return $ilSetting->get('mail_subject_prefix', '');
+		return $DIC->settings()->get('mail_subject_prefix', '');
 	}
 
 	/**
@@ -1619,10 +1612,9 @@ class ilMail
 	 */
 	public static function getSalutation($a_usr_id, ilLanguage $a_language = null)
 	{
-		/** @var $lng ilLanguage */
-		global $lng;
+		global $DIC;
 
-		$lang = ($a_language instanceof ilLanguage) ? $a_language : $lng;
+		$lang = ($a_language instanceof ilLanguage) ? $a_language : $DIC->language();
 		$lang->loadLanguageModule('mail');
 
 		$gender = ilObjUser::_lookupGender($a_usr_id);

@@ -989,7 +989,7 @@ class HTTP_WebDAV_Server
         if (isset($_SERVER['HTTP_RANGE'])) {
 
             // we only support standard "bytes" range specifications for now
-            if (ereg("bytes[[:space:]]*=[[:space:]]*(.+)", $_SERVER['HTTP_RANGE'], $matches)) {
+            if (preg_match("/bytes[[:space:]]*=[[:space:]]*(.+)/", $_SERVER['HTTP_RANGE'], $matches)) {
                 $options["ranges"] = array();
 
                 // ranges are comma separated
@@ -1159,6 +1159,10 @@ class HTTP_WebDAV_Server
                     $this->http_status("501 not implemented"); 
                     echo "The service does not support content MD5 checksum verification"; 
                     return;
+                    
+                case 'HTTP_CONTENT_LENGTH':
+                	// defined on IIS and has the same value as CONTENT_LENGTH
+                	break;
 
                 default: 
                     // any other unknown Content-* headers
@@ -1796,7 +1800,7 @@ class HTTP_WebDAV_Server
                     // but if opaquelocktokens are used (RFC2518 6.4)
                     // we have to check the format (litmus tests this)
                     if (!strncmp($condition, "<opaquelocktoken:", strlen("<opaquelocktoken"))) {
-                        if (!ereg("^<opaquelocktoken:[[:xdigit:]]{8}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{12}>$", $condition)) {
+                        if (!preg_match("/^<opaquelocktoken:[[:xdigit:]]{8}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{12}>$/", $condition)) {
                             return false;
                         }
                     }

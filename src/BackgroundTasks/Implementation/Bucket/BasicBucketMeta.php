@@ -9,7 +9,7 @@ use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 
 /**
- * Class EmptyBucket
+ * Class BasicBucketMeta
  *
  * @package ILIAS\BackgroundTasks\Implementation\Bucket
  *

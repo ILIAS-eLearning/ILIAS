@@ -20,14 +20,10 @@ $(document).ready(function () {
                     popover_content.replaceWith(data);
                 }
             });
-
-        } else {
-            // console.log("BT popover not extended... do not update! :-)");
         }
-
         // do some stuff
         setTimeout(arguments.callee, 2000);
-    }
+    };
 
     setTimeout(refresh, 2000);
 });

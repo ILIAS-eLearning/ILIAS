@@ -25,11 +25,7 @@ class ilChatroomPostMessageGUI extends ilChatroomGUIHandler
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 		require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
-		if(!ilChatroom::checkUserPermissions('read', $this->gui->ref_id))
-		{
-			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
-			$ilCtrl->redirectByClass("ilrepositorygui", "");
-		}
+		$this->redirectIfNoPermission('read');
 
 		$room = ilChatroom::byObjectId($this->gui->object->getId());
 

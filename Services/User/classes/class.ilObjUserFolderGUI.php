@@ -242,7 +242,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		include_once './Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
-		$auto->setSearchFields(array('login','firstname','lastname','email'));
+		$auto->setSearchFields(array('login','firstname','lastname','email', 'second_email'));
 		$auto->enableFieldSearchableCheck(false);
 		$auto->setMoreLinkAvailable(true);
 

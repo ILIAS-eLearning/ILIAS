@@ -41,22 +41,6 @@ class SlowPlusJob extends AbstractJob {
 
 
 	/**
-	 * @return bool Returns true iff the job supports giving feedback about the percentage done.
-	 */
-	public function supportsPercentage() {
-		return false;
-	}
-
-
-	/**
-	 * @return int Returns 0 if !supportsPercentage and the percentage otherwise.
-	 */
-	public function getPercentage() {
-		return 0;
-	}
-
-
-	/**
 	 * @param Value[]  $input
 	 * @param Observer $observer Notify the bucket about your progress!
 	 *
@@ -68,13 +52,13 @@ class SlowPlusJob extends AbstractJob {
 		/** @var IntegerValue $b */
 		$b = $input[1];
 
-		sleep(5);
+		sleep(3);
 		$observer->notifyPercentage($this, 20);
-		sleep(5);
+		sleep(3);
 		$observer->notifyPercentage($this, 40);
-		sleep(5);
+		sleep(3);
 		$observer->notifyPercentage($this, 60);
-		sleep(5);
+		sleep(3);
 		$observer->notifyPercentage($this, 80);
 
 		$output = new IntegerValue();
