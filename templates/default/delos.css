@@ -6279,8 +6279,8 @@ button.close {
   padding-right: 5px;
 }
 .il-upload-file-item.row [class*="col-"].col-no-padding {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  padding-left: 0;
+  padding-right: 0;
 }
 .il-upload-file-item.standard {
   background: white;
@@ -6303,8 +6303,8 @@ button.close {
   margin: 2px 7px 0 0;
 }
 .il-dropzone.row [class*="col-"].col-no-padding {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  padding-left: 0;
+  padding-right: 0;
 }
 .il-dropzone.standard {
   background: white;
