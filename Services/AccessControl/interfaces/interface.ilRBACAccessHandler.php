@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class ilAccessHandler
+ * Interface ilRBACAccessHandler
  *
  * Checks access for ILIAS objects
  *
