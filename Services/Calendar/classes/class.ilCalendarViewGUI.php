@@ -233,7 +233,7 @@ class ilCalendarViewGUI
 		//demo of plugin execution.
 		foreach($this->getActivePlugins() as $plugin)
 		{
-			$plugin->setAppointment($a_cal_entry, $a_start_date);
+			$plugin->setAppointment($a_cal_entry, new ilDateTime($a_start_date));
 			if($new_content = $plugin->replaceContent())
 			{
 				$content = $new_content;

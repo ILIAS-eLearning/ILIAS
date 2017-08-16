@@ -23,9 +23,9 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
 
 	/**
 	 * @param ilCalendarEntry $a_appointment
-	 * @param $a_start_date //todo: should be a date format
+	 * @param ilDateTime $a_start_date
 	 */
-	public function setAppointment(ilCalendarEntry $a_appointment, $a_start_date)
+	public function setAppointment(ilCalendarEntry $a_appointment, ilDateTime $a_start_date)
 	{
 		$this->appointment = $a_appointment;
 		$this->start_date = $a_start_date;
@@ -42,7 +42,7 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
 
 	/**
 	 * Get the specific start date of the calendar entry, not the appointment starting date.
-	 * @return DateTime
+	 * @return ilDateTime
 	 */
 	public function getStartDate()
 	{
@@ -129,6 +129,7 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
 	 */
 	abstract function editAgendaItem($shy, $properties, $color);
 
+	//find a way to move this to the modal plugin slot. This title is defined during the grid creation.
 	abstract function editModalTitle();
 
 }

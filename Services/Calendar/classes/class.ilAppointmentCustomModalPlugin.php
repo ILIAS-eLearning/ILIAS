@@ -23,10 +23,9 @@ abstract class ilAppointmentCustomModalPlugin extends ilPlugin
 
 	/**
 	* @param ilCalendarEntry $a_appointment
-	* @param $a_start_date //todo date format here.
-	* appointment contains the calendarEntry object + relevant information like start date, end date, calendar id etc.
+	* @param ilDateTime $a_start_date
 	*/
-	public function setAppointment(ilCalendarEntry $a_appointment, $a_start_date)
+	public function setAppointment(ilCalendarEntry $a_appointment, ilDateTime $a_start_date)
 	{
 		$this->appointment = $a_appointment;
 		$this->start_date = $a_start_date;
@@ -41,7 +40,7 @@ abstract class ilAppointmentCustomModalPlugin extends ilPlugin
 	}
 
 	/**
-	 * @return DateTime
+	 * @return ilDateTime
 	 * This is the date of the calendar entry, it's not the appointment start date.
 	 * This is important because an appointment can be recursive (e.g. 11 july, 12 july, 13, july)
 	 * The appointment start date is always 11 July but for an entry it can be 11,12 or 13)

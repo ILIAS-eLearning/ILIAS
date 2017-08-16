@@ -216,7 +216,7 @@ class ilCalendarAppointmentPresentationGUI
 		foreach($this->getActivePlugins() as $plugin)
 		{
 			//pass only the appointment stuff
-			$plugin->setAppointment($this->appointment['event'], $this->appointment['dstart']);
+			$plugin->setAppointment($this->appointment['event'], new ilDateTime($this->appointment['dstart']));
 
 			if($new_content = $plugin->replaceContent()) {
 				$content = $new_content;
