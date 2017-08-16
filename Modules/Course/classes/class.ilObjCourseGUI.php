@@ -964,7 +964,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,				
 				ilObjectServiceSettingsGUI::TAG_CLOUD,
 				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-				ilObjectServiceSettingsGUI::BADGES
+				ilObjectServiceSettingsGUI::BADGES,
+				ilObjectServiceSettingsGUI::EXTENDED_USER_ACCESS
 			)
 		);
 		
@@ -1402,7 +1403,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 					ilObjectServiceSettingsGUI::TAG_CLOUD,
 					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-					ilObjectServiceSettingsGUI::BADGES
+					ilObjectServiceSettingsGUI::BADGES,
+					ilObjectServiceSettingsGUI::EXTENDED_USER_ACCESS
 				)
 			);
 

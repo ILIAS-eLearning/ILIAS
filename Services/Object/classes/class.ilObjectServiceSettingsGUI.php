@@ -27,6 +27,7 @@ class ilObjectServiceSettingsGUI
 	const TAG_CLOUD = 'cont_tag_cloud';
 	const CUSTOM_METADATA = 'cont_custom_md';
 	const BADGES = 'cont_badges';
+	const EXTENDED_USER_ACCESS = 'cont_user_access';
 	
 	private $gui = null;
 	private $modes = array();
@@ -231,7 +232,20 @@ class ilObjectServiceSettingsGUI
 					));
 				$form->addItem($bdg);		
 			}
-		}		
+		}	
+		if(in_array(self::EXTENDED_USER_ACCESS, $services))
+		{
+			$lia = new ilCheckboxInputGUI($GLOBALS['DIC']->language()->txt('obj_extended_user_access'), self::EXTENDED_USER_ACCESS);
+			$lia->setInfo($GLOBALS['DIC']->language()->txt('obj_extended_user_access_info'));
+			$lia->setValue(1);
+			$lia->setChecked(
+				ilContainer::_lookupContainerSetting(
+					$a_obj_id,
+					self::EXTENDED_USER_ACCESS,
+					false
+			));
+			$form->addItem($lia);
+		}
 		
 		return $form;
 	}
@@ -320,7 +334,11 @@ class ilObjectServiceSettingsGUI
 				ilContainer::_writeContainerSetting($a_obj_id,self::BADGES,(int) $form->getInput(self::BADGES));
 			}
 		}
-		
+		// extended user access
+		if(in_array(self::EXTENDED_USER_ACCESS, $services))
+		{
+			ilContainer::_writeContainerSetting($a_obj_id,self::EXTENDED_USER_ACCESS,(int) $form->getInput(self::EXTENDED_USER_ACCESS));
+		}
 		return true;
 	}
 

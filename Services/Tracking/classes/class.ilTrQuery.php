@@ -280,6 +280,14 @@ class ilTrQuery
 		// users
 		$left = "";
 		$a_users = self::getParticipantsForObject($a_ref_id);
+		
+		// begin-patch ouf
+		$a_users = $GLOBALS['DIC']->access()->filterUsersByAccess(
+			'read_learning_progress',
+			'read_learning_progress',
+			$a_ref_id,
+			$a_users
+		);
 
 		$obj_id = ilObject::_lookupObjectId($a_ref_id);
 		self::refreshObjectsStatus(array($obj_id), $a_users);
@@ -746,6 +754,15 @@ class ilTrQuery
 
 		// users
 		$a_users = self::getParticipantsForObject($a_ref_id);
+		
+		// begin-patch ouf
+		$a_users = $GLOBALS['DIC']->access()->filterUsersByAccess(
+			'read_learning_progress',
+			'read_learning_progress',
+			$a_ref_id,
+			$a_users
+		);
+		
 		$left = "";
 		if (is_array($a_users)) // #14840
 		{
@@ -865,18 +882,21 @@ class ilTrQuery
 		$obj_id = ilObject::_lookupObjectId($a_ref_id);		
 		$obj_type = ilObject::_lookupType($obj_id);
 
+		$members = [];
+		
 		// try to get participants from (parent) course/group
 		switch($obj_type)
 		{
 			case "crs":
 				include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 				$member_obj = ilCourseParticipants::_getInstanceByObjId($obj_id);
-				return $member_obj->getMembers();
+				$members = $member_obj->getMembers();
+				break;
 
 			case "grp":
 				include_once "Modules/Group/classes/class.ilGroupParticipants.php";
 				$member_obj = ilGroupParticipants::_getInstanceByObjId($obj_id);
-				return $member_obj->getMembers();
+				break;
 
 			/* Mantis 19296: Individual Assessment can be subtype of crs.
 		 	 * But for LP view only his own members should be displayed.
@@ -884,7 +904,7 @@ class ilTrQuery
 			case "iass":
 				include_once("Modules/IndividualAssessment/classes/class.ilObjIndividualAssessment.php");
 				$iass = new ilObjIndividualAssessment($obj_id, false);
-				return $iass->loadMembers()->membersIds();
+				$members = $iass->loadMembers()->membersIds();
 				break;
 
 			default:				
@@ -896,11 +916,18 @@ class ilTrQuery
 					$type = ilObject::_lookupType($path_ref_id, true);
 					if($type == "crs" || $type == "grp")
 					{
-						return self::getParticipantsForObject($path_ref_id);
+						$members = self::getParticipantsForObject($path_ref_id);
 					}
 				}
 				break;
 		}
+		// begin-patch ouf
+		return $GLOBALS['DIC']->access()->filterUsersByAccess(
+			'read_learning_progress',
+			'read_learning_progress',
+			$a_ref_id,
+			$members
+		);
 		
 		$a_users = null;
 		
@@ -961,6 +988,17 @@ class ilTrQuery
 				// no sensible data: return null
 				break;
 		}
+		
+		// begin-patch ouf
+		return $GLOBALS['DIC']->access()->filterUsersByAccess(
+			'read_learning_progress',
+			'read_learning_progress',
+			$a_ref_id,
+			$a_users
+		);
+		
+		
+		
 		
 		return $a_users;
 	}

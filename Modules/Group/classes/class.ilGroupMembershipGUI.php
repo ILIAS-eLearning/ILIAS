@@ -220,9 +220,6 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 	public function getAttendanceListUserData($a_user_id)
 	{		
 		$data = $this->member_data[$a_user_id];
-		
-		$this->logger->dump($data);
-		
 		$data['access'] = $data['access_time'];
 		$data['progress'] = $this->lng->txt($data['progress']);
 		

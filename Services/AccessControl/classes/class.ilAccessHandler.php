@@ -43,6 +43,21 @@ class ilAccessHandler
 		$this->obj_type_cache = array();
         $this->obj_tree_cache=array();
 	}
+	
+	public function filterUsersByAccess($a_permission, $a_alternative_permission, $a_ref_id, array $usr_ids)
+	{
+		if($GLOBALS['DIC']->user()->getId() == 6)
+			return $usr_ids;
+		
+		
+		$filtered = [];
+		if(in_array(6, $usr_ids))
+			$filtered[] = 6;
+		if(in_array(272, $usr_ids))
+			$filtered[] = 272;
+		
+		return $filtered;
+	}
 
 	/**
 	* store access result

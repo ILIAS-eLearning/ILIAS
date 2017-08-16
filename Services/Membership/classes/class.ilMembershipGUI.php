@@ -55,16 +55,12 @@ class ilMembershipGUI
 		$this->repository_gui = $repository_gui;
 		$this->repository_object = $repository_obj;
 		
-		$this->lng = $GLOBALS['DIC']['lng'];
+		$this->lng = $GLOBALS['DIC']->language();
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule($this->getParentObject()->getType());
-		
-		$this->tpl = $GLOBALS['DIC']['tpl'];
-		
-		$this->ctrl = $GLOBALS['DIC']['ilCtrl'];
-		
+		$this->tpl = $GLOBALS['DIC']->ui()->mainTemplate();
+		$this->ctrl = $GLOBALS['DIC']->ctrl();
 		$this->logger = ilLoggerFactory::getLogger($this->getParentObject()->getType());
-		
 		$this->access = $GLOBALS['DIC']->access();
 	}
 	
@@ -139,6 +135,17 @@ class ilMembershipGUI
 			$a_ref_id = $this->getParentObject()->getRefId();
 		}
 		return $this->access->checkAccess($a_permission, $a_cmd, $a_ref_id);
+	}
+	
+	
+	/**
+	 * Filter user ids by access 
+	 * @param int[] $a_usr_ids
+	 * @return int[]
+	 */
+	protected function filterUsersByAccess($a_usr_ids)
+	{
+		return $a_usr_ids;
 	}
 	
 	/**
@@ -1020,15 +1027,17 @@ class ilMembershipGUI
 	 */
 	protected function parseSubscriberTable()
 	{
-		if(!$this->getMembersObject()->getSubscribers())
+		$subscribers = $this->getMembersObject()->getSubscribers();
+		$filtered_subscribers = $this->filterUsersByAccess($subscribers);
+		if(!count($filtered_subscribers))
 		{
-			ilLoggerFactory::getLogger('mmbr')->debug('No subscriber found');
 			return null;
 		}
-		include_once './Services/Membership/classes/class.ilSubscriberTableGUI.php';
 		$subscriber = new ilSubscriberTableGUI($this, $this->getParentObject(),true);
 		$subscriber->setTitle($this->lng->txt('group_new_registrations'));
-		$subscriber->readSubscriberData();
+		$subscriber->readSubscriberData(
+			$filtered_subscribers
+		);
 		return $subscriber;
 	}
 	
@@ -1217,14 +1226,18 @@ class ilMembershipGUI
 	{
 		$wait = $this->initWaitingList();
 		
-		if(!$wait->getCountUsers())
+		$wait_users = $this->filterUsersByAccess($wait->getUserIds());
+		if(!count($wait_users))
 		{
 			return null;
 		}
-		
+
 		include_once './Services/Membership/classes/class.ilWaitingListTableGUI.php';
 		$waiting_table = new ilWaitingListTableGUI($this, $this->getParentObject(), $wait);
-		$waiting_table->setUsers($wait->getAllUsers());
+		$waiting_table->setUserIds(
+			$wait_users
+		);
+		$waiting_table->readUserData();
 		$waiting_table->setTitle($this->lng->txt('crs_waiting_list'));
 		
 		return $waiting_table;
@@ -1513,7 +1526,12 @@ class ilMembershipGUI
 		$list = $this->initAttendanceList();		
 		$list->initFromForm();
 		$list->setCallback(array($this, 'getAttendanceListUserData'));	
-		$this->member_data = $this->getPrintMemberData($this->getMembersObject()->getParticipants());
+		$this->member_data = $this->getPrintMemberData(
+			$this->filterUsersByAccess(
+				$this->getMembersObject()->getParticipants()
+			)
+		);
+		
 		$list->getNonMemberUserData($this->member_data);
 		
 		$list->getFullscreenHTML();
