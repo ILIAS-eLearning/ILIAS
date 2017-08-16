@@ -8,6 +8,12 @@
 class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiValuesItem {
 
 	/**
+	 * @var ilOrgUnitAuthority[]
+	 */
+	protected $value;
+
+
+	/**
 	 * ilOrgUnitAuthorityInputGUI constructor.
 	 *
 	 * @param string $a_title
@@ -55,10 +61,18 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
 
 
 	/**
-	 * @param $a_value
+	 * @param $a_value \ilOrgUnitAuthority[]
 	 */
 	public function setValue($a_value) {
 		$this->value = $a_value;
+	}
+
+
+	/**
+	 * @return \ilOrgUnitAuthority[]
+	 */
+	public function getValue() {
+		return $this->value;
 	}
 
 
@@ -110,14 +124,10 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
 
 		$tpl->touchBlock("inline_in_bl");
 		$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());
-
-		// Global JS
-		$globalTpl = $GLOBALS['DIC'] ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
-		$globalTpl->addJavascript("./Modules/OrgUnit/templates/default/authority.js");
+		$this->initJS();
 
 		return $tpl->get();
 	}
-
 
 
 	/**
@@ -148,6 +158,19 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
 	 */
 	public function getMulti() {
 		return false;
+	}
+
+
+	protected function initJS() {
+		// Global JS
+		/**
+		 * @var $globalTpl \ilTemplate
+		 */
+		$globalTpl = $GLOBALS['DIC'] ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
+		$globalTpl->addJavascript("./Modules/OrgUnit/templates/default/authority.js");
+		$config = json_encode(array());
+		$data = json_encode($this->getValue());
+		$globalTpl->addOnLoadCode("ilOrgUnitAuthorityInput.init({$config}, {$data});");
 	}
 }
 

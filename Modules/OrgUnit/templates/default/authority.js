@@ -1,11 +1,13 @@
+var ilOrgUnitAuthorityInput = {
+    settings: {},
+    data: {},
+    init: function (settings, data) {
+        // console.log(settings);
+        console.log(data);
+        console.log(JSON.parse(data));
+    }
+};
 (function ($) {
-    var ilOrgUnitAuthorityInput = {
-        settings: {},
-        data: {},
-        init: function (settings) {
-            alert(settings);
-        }
-    };
     $.fn.ilOrgUnitAuthorityInput = function (options) {
         var settings = $.extend({
             // These are the defaults.
