@@ -300,6 +300,7 @@ interface Factory {
 	 */
 	public function panel();
 
+
 	/**
 	 * ---
 	 * description:
@@ -461,6 +462,27 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Link\Factory
 	 */
 	public function link();
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Dropzones are containers used to drop either files or other HTML elements.
+	 *   composition: >
+	 *     A dropzone is a container on the page. Depending on the type of the dropzone,
+	 *     the container is visible by default or it gets highlighted once the user
+	 *     starts to drag the elements over the browser window.
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       Dropzones MUST be highlighted if the user is dragging compatible elements
+	 *       inside or over the browser window.
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Dropzone\Factory
+	 */
+	public function dropzone();
 
 	/**
 	 * ---
@@ -661,5 +683,6 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Chart\Factory
 	 */
 	public function chart();
+
 
 }
