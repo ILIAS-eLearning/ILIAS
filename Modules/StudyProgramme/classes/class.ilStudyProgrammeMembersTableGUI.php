@@ -24,9 +24,10 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 	/**
 	 * @var ilStudyProgrammeUserProgressDB
 	 */
-	protected $sp_user_progress_db;
+	private $sp_user_progress_db;
 
 	public function __construct($a_prg_obj_id, $a_prg_ref_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="", \ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
+
 		$this->setId("sp_member_list");
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
@@ -53,7 +54,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
-
 		if($this->prg_has_lp_children) {
 			$columns = $this->getColumnsLPChildren();
 		} else {
@@ -75,11 +75,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$oder = $this->getOrderField();
 		$dir = $this->getOrderDirection();
 
+		$this->sp_user_progress_db = $sp_user_progress_db;
+
 		$members_list = $this->fetchData($a_prg_obj_id, $this->getLimit(), $this->getOffset(), $this->getOrderField(), $this->getOrderDirection());
 		$this->setMaxCount($this->countFetchData($a_prg_obj_id));
 		$this->setData($members_list);
-
-		$this->sp_user_progress_db = $sp_user_progress_db;
 	}
 
 	protected function fillRow($a_set) {

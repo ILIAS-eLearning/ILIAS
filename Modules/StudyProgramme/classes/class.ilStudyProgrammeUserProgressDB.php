@@ -9,6 +9,7 @@ require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgres
  * @author : Nils Haagen <Nils Haagen@concepts-and-training.de>
  */
 class ilStudyProgrammeUserProgressDB {
+
 	/**
 	 * Get an instance. Just wraps constructor.
 	 *
@@ -141,6 +142,12 @@ class ilStudyProgrammeUserProgressDB {
 		throw new ilException("Unknown status: '$a_status'");
 	}
 
+
+
+	const ACTION_MARK_ACCREDITED = "mark_accredited";
+	const ACTION_UNMARK_ACCREDITED = "unmark_accredited";
+	const ACTION_SHOW_INDIVIDUAL_PLAN = "show_individual_plan";
+	const ACTION_REMOVE_USER = "remove_user";
 	/**
 	 * Get a list with possible actions on a progress record.
 	 *

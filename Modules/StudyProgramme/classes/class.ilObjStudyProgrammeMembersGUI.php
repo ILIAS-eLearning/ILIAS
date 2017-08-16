@@ -105,7 +105,7 @@ class ilObjStudyProgrammeMembersGUI {
 	*/
 	public function getStudyProgrammeUserProgressDB() {
 		if(! $this->sp_user_progress_db) {
-			 $this->sp_user_progress_db = ilObjStudyProgramme::getNewStudyProgrammeUserProgressDB()
+			 $this->sp_user_progress_db = ilObjStudyProgramme::getNewStudyProgrammeUserProgressDB();
 		}
 		return $this->sp_user_progress_db;
 	}
@@ -340,16 +340,16 @@ class ilObjStudyProgrammeMembersGUI {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 
 		switch ($a_action) {
-			case ilStudyProgrammeUserProgress::ACTION_MARK_ACCREDITED:
+			case ilStudyProgrammeUserProgressDB::ACTION_MARK_ACCREDITED:
 				$target_name = "markAccredited";
 				break;
-			case ilStudyProgrammeUserProgress::ACTION_UNMARK_ACCREDITED:
+			case ilStudyProgrammeUserProgressDB::ACTION_UNMARK_ACCREDITED:
 				$target_name = "unmarkAccredited";
 				break;
-			case ilStudyProgrammeUserProgress::ACTION_SHOW_INDIVIDUAL_PLAN:
+			case ilStudyProgrammeUserProgressDB::ACTION_SHOW_INDIVIDUAL_PLAN:
 				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeIndividualPlanGUI.php");
 				return ilObjStudyProgrammeIndividualPlanGUI::getLinkTargetView($this->ctrl, $a_ass_id);
-			case ilStudyProgrammeUserProgress::ACTION_REMOVE_USER:
+			case ilStudyProgrammeUserProgressDB::ACTION_REMOVE_USER:
 				$target_name = "removeUser";
 				break;
 			default:
