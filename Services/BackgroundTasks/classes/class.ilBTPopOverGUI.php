@@ -66,8 +66,8 @@ class ilBTPopOverGUI {
 			if ($observer->getState() != State::USER_INTERACTION) {
 				$bucket->setVariable("CONTENT", $r->render($this->getDefaultCardContent($observer)));
 			} else {
+				$bucket->setVariable("CONTENT", $r->render($this->getProgressbar($observer)));
 				$bucket->setVariable("INTERACTIONS", $r->render([
-					$this->getProgressbar($observer),
 					$this->getUserInteractionContent($observer, $redirect_uri),
 				]));
 			}

@@ -13589,6 +13589,9 @@ span.ilProfileBadge {
   font-size: 14px;
   font-weight: bold;
 }
+.il-item-task .il-item-task-content .progress {
+  margin-bottom: 8px;
+}
 .noMargin {
   margin: 0;
 }
