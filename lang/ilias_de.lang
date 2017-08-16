@@ -15994,6 +15994,7 @@ auth#:#auth_saml#:#SAML
 common#:#auth_saml#:#SAML
 common#:#saml_login_form_txt#:#Bei ILIAS anmelden über SAML
 common#:#saml_login_form_info_txt#:#Um sich ber SAML anzumelden, klicken Sie bitte den 'Anmelde'-Button.
+common#:#login_to_ilias_via_saml#:#Bei ILIAS via SAML-Authentifizierung anmelden
 auth#:#auth_saml_configure#:#SAML-Unterstützung konfigurieren
 auth#:#auth_saml_enable#:#SAML-Unterstützung aktivieren
 auth#:#auth_saml_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten, eventuell vorhandene ILIAS Benutzerkonten auf SAML-Authentifizierung umzustellen.
