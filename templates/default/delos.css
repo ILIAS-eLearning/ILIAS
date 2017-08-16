@@ -7460,6 +7460,10 @@ ul.breadcrumb li:hover {
 .il-popover .webui-popover-content > div:first-child {
   width: 100%;
 }
+.il-popover .il-popover-inner {
+  max-height: 500px;
+  overflow: scroll;
+}
 .il-popover i.icon-refresh {
   background: url("../../src/UI/templates/libs/node_modules/webui-popover/img/loading.gif") no-repeat;
   height: 30px;
@@ -7474,6 +7478,9 @@ ul.breadcrumb li:hover {
   background-color: transparent;
   text-transform: uppercase;
   color: #909090;
+}
+.il-popover.webui-popover-fixed {
+  position: fixed;
 }
 .extended-color-variant-1.il-extended-color-variant-standard {
   color: #7f7207;
