@@ -3,7 +3,7 @@
 /**
  * Interface ilAccessHandler
  *
- * This interface combines all available interfaces whic can be called via global $ilAccess
+ * This interface combines all available interfaces which can be called via global $ilAccess
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
