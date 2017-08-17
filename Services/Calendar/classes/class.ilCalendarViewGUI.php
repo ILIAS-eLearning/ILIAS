@@ -286,16 +286,21 @@ class ilCalendarViewGUI
 	 */
 	function addToolbarActions()
 	{
-		$toolbar = $this->toolbar;
-		$f = $this->ui_factory;
-		$lng = $this->lng;
-		$ctrl = $this->ctrl;
 
-		// file download
-		$add_button = $f->button()->standard($lng->txt("cal_download_files"),
-			$ctrl->getLinkTarget($this, "downloadFiles"));
-		$toolbar->addSeparator();
-		$toolbar->addComponent($add_button);
+		$settings = ilCalendarSettings::_getInstance();
+		if($settings->isBatchFileDownloadsEnabled())
+		{
+			$toolbar = $this->toolbar;
+			$f = $this->ui_factory;
+			$lng = $this->lng;
+			$ctrl = $this->ctrl;
+
+			// file download
+			$add_button = $f->button()->standard($lng->txt("cal_download_files"),
+				$ctrl->getLinkTarget($this, "downloadFiles"));
+			$toolbar->addSeparator();
+			$toolbar->addComponent($add_button);
+		}
 	}
 
 	/**
