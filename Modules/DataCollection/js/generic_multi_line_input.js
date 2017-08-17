@@ -42,7 +42,7 @@
 
 
 				$(line).find('.add_button').on('click', function (e) {
-					var $length = $('.multi_input_line').size();
+					var $length = $('.multi_input_line').length;
 					if (limit == 0 || $length < limit) {
 						var new_line = clone_line.clone();
 						new_line.show();

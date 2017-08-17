@@ -19208,4 +19208,4 @@ $ilDB->insert('il_dcl_datatype', array(
 
 // install db for selection options
 ilDclSelectionOption::updateDB();
-
+?>
