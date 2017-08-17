@@ -9,17 +9,11 @@ require_once __DIR__ .'/../classes/class.ilPDFGenerationConstants.php';
  */
 class ilPdfGeneratorConstantsTest  extends PHPUnit_Framework_TestCase
 {
-	/**
-	 *
-	 */
 	public function testInstanceCanBeCreated()
 	{
 		$this->assertInstanceOf('ilPDFGenerationConstants', new ilPDFGenerationConstants());
 	}
 
-	/**
-	 *
-	 */
 	public function testGetOrientations()
 	{
 		$this->assertCount(2, ilPDFGenerationConstants::getOrientations());

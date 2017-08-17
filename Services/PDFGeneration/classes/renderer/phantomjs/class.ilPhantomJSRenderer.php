@@ -15,7 +15,15 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	public function __construct()
 	{
 		global $DIC;
-		$this->lng = $DIC['lng'];
+		$this->setLanguage($DIC['lng']);
+	}
+
+	/**
+	 * @param $lng
+	 */
+	protected function setLanguage($lng)
+	{
+		$this->lng = $lng;
 	}
 
 	/**
