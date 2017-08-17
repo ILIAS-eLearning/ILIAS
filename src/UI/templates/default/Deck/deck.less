@@ -5,5 +5,19 @@
   > div{
     padding-left: @padding-xs-horizontal;
     padding-right: @padding-xs-horizontal;
+    margin-bottom: @padding-large-vertical;
+  }
+}
+@media (min-width: @screen-md-min) {
+  .row-eq-height {
+
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+
+    > div {
+      display: flex;
+    }
   }
 }

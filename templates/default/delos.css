@@ -6250,9 +6250,14 @@ button.close {
 }
 .il-card {
   padding: 0;
+  width: 100%;
+  background-color: white;
 }
 .il-card img {
   width: 100%;
+}
+.il-card .thumbnail {
+  margin-bottom: 0px;
 }
 .il-card .card-highlight {
   background-color: #fa8228;
@@ -6270,6 +6275,18 @@ button.close {
 .il-card .caption:nth-of-type(1n+3) {
   border-top: 1px solid #ddd;
 }
+.il-panel-report .il-card {
+  background-color: #f9f9f9;
+}
+@media (min-width: 992px) {
+  .row-eq-height .il-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .row-eq-height .il-card :nth-child(4) {
+    flex-grow: 2;
+  }
+}
 .il-deck .row {
   margin-left: 0;
   margin-right: 0;
@@ -6277,6 +6294,18 @@ button.close {
 .il-deck .row > div {
   padding-left: 5px;
   padding-right: 5px;
+  margin-bottom: 6px;
+}
+@media (min-width: 992px) {
+  .row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .row-eq-height > div {
+    display: flex;
+  }
 }
 .il-upload-file-item.row [class*="col-"].col-no-padding {
   padding-left: 0;
