@@ -175,7 +175,8 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->settings->enableWebCalSync((bool) $_POST['webcal']);
 		$this->settings->setWebCalSyncHours((int) $_POST['webcal_hours']);
 		$this->settings->setShowWeeks((int) $_POST['show_weeks']);
-		
+		$this->settings->enableBatchFileDownloads((bool) $_POST['batch_files']);
+
 		if(((int) $_POST['den']) < (int) $_POST['dst'])
 		{
 			ilUtil::sendFailure($this->lng->txt('cal_dstart_dend_warn'));
@@ -301,7 +302,12 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		
 		$this->form->addItem($sync);
 
-
+		//Batch File Downloads in Calendar
+		$batch_files_download = new ilCheckboxInputGUI($this->lng->txt('cal_batch_file_downloads'), "batch_files");
+		$batch_files_download->setValue(1);
+		$batch_files_download->setChecked($this->settings->isBatchFileDownloadsEnabled());
+		$batch_files_download->setInfo($this->lng->txt('cal_batch_file_downloads_info'));
+		$this->form->addItem($batch_files_download);
 
 		// enable milestone planning in groups
 		$mil = new ilFormSectionHeaderGUI();

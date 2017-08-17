@@ -84,6 +84,8 @@ class ilCalendarSettings
 	private $webcal_sync_hours = 2;
 	private $show_weeks = false;
 
+	private $batch_file_downloads = false;
+
 	/**
 	 * singleton contructor
 	 *
@@ -530,6 +532,16 @@ class ilCalendarSettings
 	{
 		return $this->show_weeks;
 	}
+
+	public function enableBatchFileDownloads($a_stat)
+	{
+		$this->batch_file_downloads = $a_stat;
+	}
+
+	function isBatchFileDownloadsEnabled()
+	{
+		return $this->batch_file_downloads;
+	}
 	
 		/**
 	 * save 
@@ -559,6 +571,7 @@ class ilCalendarSettings
 		$this->storage->set('webcal_sync',(int) $this->isWebCalSyncEnabled());
 		$this->storage->set('webcal_sync_hours',(int) $this->getWebCalSyncHours());
 		$this->storage->set('show_weeks',(int) $this->getShowWeeks());
+		$this->storage->set('batch_files',(int) $this->isBatchFileDownloadsEnabled());
 	}
 
 	/**
@@ -591,6 +604,7 @@ class ilCalendarSettings
 		$this->enableWebCalSync($this->storage->get('webcal_sync',$this->isWebCalSyncEnabled()));
 		$this->setWebCalSyncHours($this->storage->get('webcal_sync_hours',$this->getWebCalSyncHours()));
 		$this->setShowWeeks($this->storage->get('show_weeks',$this->getShowWeeks()));
+		$this->enableBatchFileDownloads($this->storage->get('batch_files', $this->isBatchFileDownloadsEnabled()));
 	}
 	
 	/**
