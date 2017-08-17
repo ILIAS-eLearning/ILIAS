@@ -181,7 +181,7 @@ class ilSamlIdp
 	{
 		if(!$this->getIdpId())
 		{
-			$this->setIdp($this->db->nextId('saml_idp_settings'));
+			$this->setIdpId($this->db->nextId('saml_idp_settings'));
 		}
 
 		$this->db->replace(

@@ -2322,7 +2322,7 @@ class ilStartUpGUI
 
 		require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
 		$factory = new ilSamlAuthFactory();
-		$auth = $factory->auth('default-sp'); // Could be read from database
+		$auth = $factory->auth();
 
 		if(isset($params['action']) && $params['action'] == 'logout')
 		{
@@ -2340,13 +2340,28 @@ class ilStartUpGUI
 
 		if(!$auth->isAuthenticated())
 		{
-			if(isset($_GET['idpentityid']))
+			if(!isset($_GET['idpentityid']))
 			{
-				$entitiyId= $_GET['idpentityid'];
+				$activeIdps = ilSamlIdp::getActiveIdpList();
+				if(1 == count($activeIdps))
+				{
+					$idp = current($activeIdps);
+					$_GET['idpentityid'] = $idp->getIdp();
+				}
+				else if(0 == count($activeIdps))
+				{
+					$GLOBALS['DIC']->ctrl()->redirect($this, 'showLoginPage');
+				}
+				else
+				{
+					$this->showSamlIdpSelection($auth, $activeIdps);
+					return;
+				}
 			}
-				
 		}
 
+		// re-init
+		$auth = $factory->auth();
 		$auth->protectResource();
 
 		$_GET['target'] = $auth->popParam('target');
@@ -2394,5 +2409,42 @@ class ilStartUpGUI
 		$this->showLoginPage();
 
 		return false;
+	}
+
+	/**
+	 * @param \ilSamlAuth  $auth
+	 * @param \ilSamlIdp[] $idps
+	 */
+	protected function showSamlIdpSelection(\ilSamlAuth $auth, array $idps)
+	{
+		global $DIC;
+
+		self::initStartUpTemplate(array('tpl.saml_idp_selection.html', 'Services/Saml'));
+
+		$mainTpl  = $DIC->ui()->mainTemplate();
+		$factory  = $DIC->ui()->factory();
+		$renderer = $DIC->ui()->renderer();
+
+		$DIC->ctrl()->setTargetScript('saml.php');
+
+		$items = [];
+
+		$idpDisco = $auth->getIdpDiscovery();
+		$idpDisco->getList();
+
+		foreach($idps as $idp)
+		{
+			$DIC->ctrl()->setParameter($this, 'idpentityid', urlencode($idp->getIdp()));
+			$item = $factory->link()->standard($idp->getIdp(), $DIC->ctrl()->getLinkTarget($this, 'doSamlAuthentication'));
+
+			$items[] = $item;
+		}
+
+		$mainTpl->setVariable('CONTENT', $renderer->render($factory->listing()->ordered($items)));
+
+		$mainTpl->fillWindowTitle();
+		$mainTpl->fillCssFiles();
+		$mainTpl->fillJavaScriptFiles();
+		$mainTpl->show('DEFAULT', false);
 	}
 }
