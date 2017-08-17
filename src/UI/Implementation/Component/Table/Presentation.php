@@ -5,9 +5,15 @@ namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Presentation implements T\Presentation {
 	use ComponentHelper;
+
+	/**
+	 * @var SignalGeneratorInterface
+	 */
+	protected $signal_generator;
 
 	/**
 	 * @var	string
@@ -20,16 +26,35 @@ class Presentation implements T\Presentation {
 	private $view_controls;
 
 	/**
-	 * @var T\PresentationRow[]
+	 * @var \Closure
 	 */
-	private $rows;
+	private $row_mapping;
 
-	public function __construct($title, array $view_controls, array $rows) {
+	/**
+	 * @var array<mixed>
+	 */
+	private $records;
+
+	/**
+	 * @var array<string,mixed>
+	 */
+	private $environment;
+
+
+
+	public function __construct($title, array $view_controls, \Closure $row_mapping, SignalGeneratorInterface $signal_generator) {
 		$this->checkStringArg("string", $title);
 		$this->title = $title;
-
 		$this->view_controls = $view_controls;
-		$this->rows = $rows;
+		$this->row_mapping = $row_mapping;
+		$this->signal_generator = $signal_generator;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getSignalGenerator() {
+		return $this->signal_generator;
 	}
 
 	/**
@@ -42,15 +67,46 @@ class Presentation implements T\Presentation {
 	/**
 	 * @inheritdoc
 	 */
-	public function getRows() {
-		return $this->rows;
+	public function getViewControls() {
+		return $this->view_controls;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getViewControls() {
-		return $this->view_controls;
+	public function getRowMapping() {
+		return $this->row_mapping;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function withEnvironment(array $environment) {
+		$clone = clone $this;
+		$clone->environment = $records;;
+		return $clone;
+	}
+	/**
+	 * @inheritdoc
+	 */
+	public function getEnvironment() {
+		return $this->environment;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withData(array $records){
+		$clone = clone $this;
+		$clone->records = $records;;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getData() {
+		return $this->records;
+
+	}
 }

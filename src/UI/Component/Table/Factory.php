@@ -16,16 +16,23 @@ interface Factory {
 	 *       The user should be able to get a quick overview over records in a
 	 *       dataset as simple as possible; for this, only most relevant fields of
 	 *       a record are being displayed at first glance.
-	 *       Records can be expanded to show more extensive fields and data
+	 *       Rows can be expanded to show more extensive fields and data
 	 *       less important for the identification of a record.
 	 *       The purpose of the presentation and exploration is known, and
 	 *       single records may only be explored in this way,
 	 *   composition: >
 	 *       The Presentation Table consists of a title, a slot for View Controls
 	 *       and Presentation Rows.
+	 *       Rows again will be prefixed by an expander-button and consist of a
+	 *       title, a subtitle and a choice of recors-fields.
+	 *       The expanded row will show a lists of further fields and, optionally, buttons.
 	 *   effect: >
-	 *       Rows can be expanded and collapsed to show/hide more extensive and detailed information per record.
-	 *        The ordering or the contents of the table itself can be adjusted with view controls.
+	 *       Rows can be expanded and collapsed to show/hide more extensive and
+	 *       detailed information per record.
+	 *       A click on the expander will enlarge the row vertically to
+	 *       show the complete record. Fields that were shown in the collapsed row will be
+	 *       hidden except for title and subtitle.
+	 *       The ordering or the contents of the table itself can be adjusted with view controls.
 	 *   rivals:
 	 *     1: >
 	 *       Data Table: A data-table shows some dataset and offers tools to
@@ -37,43 +44,19 @@ interface Factory {
 	 *
 	 * rules:
 	 *   usage:
-	 *       1: Data-rows in the table SHOULD be of the same structure (i.e. have the same fields)
+	 *       1: Rows in the table SHOULD be of the same structure
 	 *   interaction:
 	 *       1: View Controls used here MUST only affect the table itself.
+	 *       2: Clicking the expander MUST only expand the row. It MUST NOT trigger any other action.
 	 *
 	 * ---
 	 * @param string	$title
 	 * @param array		$view_controls 	a list of view controls
-	 * @param \ILIAS\UI\Component\Table\PresentationRow[] 	$rows
+	 * @param \Closure 	$row_mapping  	the closure MUST accept and return a \PresentationRow as parameter
 	 * @return \ILIAS\UI\Component\Table\Presentation
 	 */
-	public function presentation($title, array $view_controls, array $rows);
+	public function presentation($title, array $view_controls, \Closure $row_mapping);
 
-	/**
-	 * ---
-	 * description:
-	 *   purpose: >
-	 *       A Presentation Row is a record-entry for Presentation Tables.
-	 *   composition: >
-	 *       The Presentation Row consists of a title, a subtitle and
-	 *       a choice of record-fields.
-	 *       The row is prefixed by an expander-button.
-	 *       The expanded view of a row consists of a descriptive list,
-	 *       a list of buttons and a list of (further) record-fields.
-	 *   effect: >
-	 *        A click on the expander will enlarge the row vertically to
-	 *        show the complete record. Fields that were shown in the collapsed row will be
-	 *        hidden except for title and subtitle.
-	 *
-	 * rules:
-	 *   usage:
-	 *       1: Presentaion Rows MUST only be used in Presentation Tables.
-	 *   interaction:
-	 *       1: Clicking the expander MUST only expand the row. It MUST NOT trigger any other action.
-	 * ---
-	 * @param string 	$title_field
-	 * @return \ILIAS\UI\Component\Table\PresentationRow
-	 */
-	public function presentationRow($title_field);
+
 
 }

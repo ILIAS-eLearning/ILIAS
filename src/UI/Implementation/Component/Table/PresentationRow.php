@@ -25,12 +25,12 @@ class PresentationRow implements T\PresentationRow {
 	/**
 	 * @var	string
 	 */
-	private $title_field;
+	private $title;
 
 	/**
 	 * @var	string
 	 */
-	private $subtitle_field;
+	private $subtitle;
 
 	/**
 	 * @var	array
@@ -43,9 +43,9 @@ class PresentationRow implements T\PresentationRow {
 	private $important_fields;
 
 	/**
-	 * @var	array
+	 * @var
 	 */
-	private $description_fields;
+	private $content;
 
 	/**
 	 * @var	string
@@ -62,10 +62,7 @@ class PresentationRow implements T\PresentationRow {
 	 */
 	private $data;
 
-	public function __construct($title_field, SignalGeneratorInterface $signal_generator) {
-		$this->checkStringArg("string", $title_field);
-		$this->title_field = $title_field;
-
+	public function __construct(SignalGeneratorInterface $signal_generator) {
 		$this->signal_generator = $signal_generator;
 		$this->initSignals();
 	}
@@ -80,7 +77,7 @@ class PresentationRow implements T\PresentationRow {
 	}
 
 	/**
-	 * Set the show and close signals for this modal
+	 * Set the show and close signals for this component
 	 */
 	protected function initSignals() {
 		$this->show_signal = $this->signal_generator->create();
@@ -101,28 +98,39 @@ class PresentationRow implements T\PresentationRow {
 		return $this->close_signal;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getTitleField() {
-		return $this->title_field;
-	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withSubtitleField($subtitle_field) {
-		$this->checkStringArg("string", $subtitle_field);
+	public function withTitle($title) {
+		$this->checkStringArg("string", $title);
 		$clone = clone $this;
-		$clone->subtitle_field = $subtitle_field;
+		$clone->title = $title;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getSubtitleField() {
-		return $this->subtitle_field;
+	public function getTitle() {
+		return $this->title;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withSubtitle($subtitle) {
+		$this->checkStringArg("string", $subtitle);
+		$clone = clone $this;
+		$clone->subtitle = $subtitle;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getSubtitle() {
+		return $this->subtitle;
 	}
 
 	/**
@@ -141,21 +149,23 @@ class PresentationRow implements T\PresentationRow {
 		return $this->important_fields;
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
-	public function withDescriptionFields(array $fields) {
+	public function withContent($content) {
 		$clone = clone $this;
-		$clone->description_fields = $fields;
+		$clone->content = $content;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getDescriptionFields() {
-		return $this->description_fields;
+	public function getContent() {
+		return $this->content;
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -190,20 +200,6 @@ class PresentationRow implements T\PresentationRow {
 		return $this->further_fields;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withData(array $data) {
-		$clone = clone $this;
-		$clone->data = $data;
-		return $clone;
-	}
-	/**
-	 * @inheritdoc
-	 */
-	public function getData() {
-		return $this->data;
-	}
 
 	/**
 	 * @inheritdoc

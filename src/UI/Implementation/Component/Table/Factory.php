@@ -26,15 +26,8 @@ class Factory implements T\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function presentation($title, array $view_controls, array $rows) {
-		return new Presentation($title, $view_controls, $rows);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function presentationRow($title_field) {
-		return new PresentationRow($title_field, $this->signal_generator);
+	public function presentation($title, array $view_controls, \Closure $row_mapping) {
+		return new Presentation($title, $view_controls, $row_mapping, $this->signal_generator);
 	}
 
 }

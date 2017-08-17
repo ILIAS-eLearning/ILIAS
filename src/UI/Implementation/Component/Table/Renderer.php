@@ -53,10 +53,22 @@ class Renderer extends AbstractComponentRenderer {
 			}
 		}
 
-		foreach ($component->getRows() as $row) {
+		$row_mapping = $component->getRowMapping();
+		$data =  $component->getData();
+		foreach ($data as $record) {
+
+			$row = $row_mapping(
+				new PresentationRow($component->getSignalGenerator()),
+				$record,
+				$this->getUIFactory(),
+				$component->getEnvironment()
+			);
+
 			$tpl->setCurrentBlock("row");
 			$tpl->setVariable("ROW", $default_renderer->render($row));
 			$tpl->parseCurrentBlock();
+
+
 		}
 
 		return $tpl->get();
@@ -70,7 +82,6 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderPresentationRow(Component\Table\PresentationRow $component, RendererInterface $default_renderer) {
 		$f = $this->getUIFactory();
 		$tpl = $this->getTemplate("tpl.presentationrow.html", true, true);
-		$data = $component->getData();
 
 		$component = $this->registerSignals($component->withResetSignals());
 		$sig_show = $component->getShowSignal();
@@ -89,32 +100,27 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("COLLAPSER", $default_renderer->render($collapser));
 		$tpl->setVariable("SHY_EXPANDER", $default_renderer->render($shy_expander));
 
-		$tpl->setVariable("TITLE", $data[$component->getTitleField()]);
-		$tpl->setVariable("SUBTITLE", $data[$component->getSubtitleField()]);
+		$tpl->setVariable("TITLE", $component->getTitle());
+		$tpl->setVariable("SUBTITLE", $component->getSubtitle());
 
-		foreach ($component->getImportantFields() as $field => $label) {
+		foreach ($component->getImportantFields() as $value => $label) {
 			$tpl->setCurrentBlock("important_field");
 			$tpl->setVariable("IMPORTANT_FIELD_LABEL", $label);
-			$tpl->setVariable("IMPORTANT_FIELD_VALUE", $data[$field]);
+			$tpl->setVariable("IMPORTANT_FIELD_VALUE", $value);
 			$tpl->parseCurrentBlock();
 		}
 
-		$description = array();
-		foreach ($component->getDescriptionFields() as $field => $label) {
-			$description[$label] = $data[$field];
-		}
-		$desclist = $f->listing()->descriptive($description);
-		$tpl->setVariable("DESCLIST", $default_renderer->render($desclist));
+		$tpl->setVariable("DESCLIST", $default_renderer->render($component->getContent()));
 
 		$further_fields_headline = $component->getFurtherFieldsHeadline();
 		if($further_fields_headline) {
 			$tpl->setVariable("FURTHER_FIELDS_HEADLINE", $further_fields_headline);
 		}
 
-		foreach ($component->getFurtherFields() as $field => $label) {
+		foreach ($component->getFurtherFields() as $value => $label) {
 			$tpl->setCurrentBlock("further_field");
 			$tpl->setVariable("FIELD_LABEL", $label);
-			$tpl->setVariable("FIELD_VALUE", $data[$field]);
+			$tpl->setVariable("FIELD_VALUE", $value);
 			$tpl->parseCurrentBlock();
 		}
 
@@ -136,8 +142,7 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	/**
-	 * @param Component\Modal\Modal $modal
-	 * @param string $id
+	 * @param Component\Table\PresentationRow $component
 	 */
 	protected function registerSignals(Component\Table\PresentationRow $component) {
 		$show = $component->getShowSignal();

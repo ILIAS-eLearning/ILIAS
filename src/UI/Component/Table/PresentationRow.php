@@ -9,7 +9,6 @@ use ILIAS\UI\Component\Triggerable;
  * This describes a Row used in Presentation Table.
  * A row consists (potentially) of title, subtitle, important fields (in the
  * collapased row) and further fields to be shown in the expanded row.
- * The fields of a data-record are to be mapped to the row by their keys.
  */
 interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 
@@ -18,22 +17,22 @@ interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 	 *
 	 * @return string
 	 */
-	public function getTitleField();
+	public function getTitle();
 
 	/**
 	 * Get a row like this with the record-field to be used as subtitle.
 	 *
-	 * @param string 	$subtitle_field
+	 * @param string 	$subtitle
 	 * @return \ILIAS\UI\Component\Table\PresentationRow
 	 */
-	public function withSubtitleField($subtitle_field);
+	public function withSubtitle($subtitle);
 
 	/**
 	 * Get the name of the field to be used as subtitle.
 	 *
 	 * @return string
 	 */
-	public function getSubtitleField();
+	public function getSubtitle();
 
 	/**
 	 * Get a row like this with the record-fields and labels
@@ -51,23 +50,6 @@ interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 	 * @return array<string,string>
 	 */
 	public function getImportantFields();
-
-	/**
-	 * Get a row like this with the record-fields and labels to be shown
-	 * in the description list of the expanded row.
-	 *
-	 * @param array<string,string> 	$fields
-	 * @return \ILIAS\UI\Component\Table\PresentationRow
-	 */
-	public function withDescriptionFields(array $fields);
-
-	/**
-	 * Get the names and labels of the fields to be used in the description list
-	 * in the expanded row.
-	 *
-	 * @return array<string,string>
-	 */
-	public function getDescriptionFields();
 
 	/**
 	 * Get a row like this with a headline for the field-list in the expanded row.
@@ -99,21 +81,6 @@ interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 	 * @return array<string,string>
 	 */
 	public function getFurtherFields();
-
-	/**
-	 * Get a row like this with data from a record applied to it.
-	 *
-	 * @param array<string,mixed> 	$data
-	 * @return \ILIAS\UI\Component\Table\PresentationRow
-	 */
-	public function withData(array $data);
-
-	/**
-	 * Get the record associated with this row.
-	 *
-	 * @return array<string,mixed>
-	 */
-	public function getData();
 
 	/**
 	 * Get a row like this with buttons for actions in the expanded row.
