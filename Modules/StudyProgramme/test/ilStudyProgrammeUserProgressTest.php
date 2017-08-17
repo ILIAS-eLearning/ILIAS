@@ -657,4 +657,30 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		);
 	}
 
+	//get progress instance via DB-class
+	public function testGetInstance() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+
+		$sp_user_progress_db = new ilStudyProgrammeUserProgressDB();
+		$inst = $sp_user_progress_db->getInstance(
+			$ass->getId(),
+			$this->root->getId(),
+			$user->getId()
+		);
+		$this->assertInstanceOf(ilStudyProgrammeUserProgress::class, $inst);
+		$this->assertEquals(
+			$this->root->getProgressesOf($user->getId()),
+			$sp_user_progress_db->getInstancesForUser($this->root->getId(), $user->getId())
+		);
+
+		$up = $this->root->getProgressesOf($user->getId())[0];
+		$this->assertEquals(
+			$up,
+			$sp_user_progress_db->getInstanceById($up->getId())
+		);
+
+	}
 }
