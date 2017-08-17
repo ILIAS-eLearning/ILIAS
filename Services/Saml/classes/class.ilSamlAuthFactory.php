@@ -25,7 +25,14 @@ class ilSamlAuthFactory
 	{
 		global $DIC;
 
-		$DIC->filesystem()->storage()->createDir("auth/saml/config");
+		$fs = $DIC->filesystem()->storage();
+
+		$fs->createDir("auth/saml/config");
+
+		if(!$fs->has('auth/saml/config/config.php'))
+		{
+			$fs->put('auth/saml/config/config.php', file_get_contents('./Services/Saml/lib/config.php.dist'));
+		}
 
 		return ilUtil::getDataDir() . '/auth/saml/config';
 	}
@@ -33,7 +40,7 @@ class ilSamlAuthFactory
 	/**
 	 * @return string
 	 */
-	public function getMetadaDirectory()
+	public function getMetadataDirectory()
 	{
 		global $DIC;
 

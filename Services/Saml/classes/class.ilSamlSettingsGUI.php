@@ -628,7 +628,7 @@ class ilSamlSettingsGUI
 
 			require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
 			$factory = new ilSamlAuthFactory();
-			file_put_contents($factory->getMetadaDirectory() . '/' . $this->idp->getIdpId() . '.xml', $form->getInput('metadata'));
+			file_put_contents($factory->getMetadataDirectory() . '/' . $this->idp->getIdpId() . '.xml', $form->getInput('metadata'));
 		}
 
 		$this->showIdpSettings($form);
@@ -667,7 +667,7 @@ class ilSamlSettingsGUI
 
 			require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
 			$factory = new ilSamlAuthFactory();
-			file_put_contents($factory->getMetadaDirectory() . '/' . $idp->getIdpId() . '.xml', $form->getInput('metadata'));
+			file_put_contents($factory->getMetadataDirectory() . '/' . $idp->getIdpId() . '.xml', $form->getInput('metadata'));
 
 			ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 			$this->ctrl->setParameter($this, 'saml_idp_id', $idp->getIdp());
