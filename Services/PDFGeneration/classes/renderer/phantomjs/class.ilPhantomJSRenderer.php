@@ -12,10 +12,13 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	/** @var string */
 	protected $path_to_rasterize = './Services/PDFGeneration/js/rasterize.js';
 
-	public function __construct()
+	public function __construct($phpunit = false)
 	{
-		global $DIC;
-		$this->setLanguage($DIC['lng']);
+		if(!$phpunit)
+		{
+			global $DIC;
+			$this->setLanguage($DIC['lng']);
+		}
 	}
 
 	/**

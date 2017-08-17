@@ -19,6 +19,12 @@ class ilPhantomJSRendererUiTest  extends PHPUnit_Framework_TestCase
 
 	protected $form;
 
+	protected function setUp()
+	{
+		$this->form = new ilPhantomJSRenderer(true);
+		$this->callMethod($this->form, 'setLanguage', array($this->lng));
+	}
+
 	/**
 	 * ilPhantomJSRenderer constructor.
 	 */
@@ -39,16 +45,10 @@ class ilPhantomJSRendererUiTest  extends PHPUnit_Framework_TestCase
 	}
 
 	public static function callMethod($obj, $name, array $args) {
-		$class = new \ReflectionClass($obj);
+		$class = new ReflectionClass($obj);
 		$method = $class->getMethod($name);
 		$method->setAccessible(true);
 		return $method->invokeArgs($obj, $args);
-	}
-
-	protected function setUp()
-	{
-		$this->form = new ilPhantomJSRenderer();
-		$this->callMethod($this->form, 'setLanguage', array($this->lng));
 	}
 
 	public function testBuildJavascriptDelayForm()

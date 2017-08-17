@@ -51,14 +51,14 @@ class ilPhantomJSRendererTest  extends PHPUnit_Framework_TestCase
 
 	public function testInstanceCanBeCreated()
 	{
-		$transformer = new ilPhantomJSRenderer();
+		$transformer = new ilPhantomJSRenderer(true);
 		$this->assertInstanceOf('ilPhantomJSRenderer', $transformer);
 	}
 
 
 	public function testGetSettings()
 	{
-		$obj = new ilPhantomJSRenderer();
+		$obj = new ilPhantomJSRenderer(true);
 		$config = $obj->getDefaultConfig('Bla', 'Blubb');
 		$this->assertSame($this->default_config ,  $config);
 	}
@@ -66,7 +66,7 @@ class ilPhantomJSRendererTest  extends PHPUnit_Framework_TestCase
 	public function testBeckerscheSettingsText()
 	{
 		$transformer = self::getMethod('getCommandLineConfig');
-		$obj = new ilPhantomJSRenderer();
+		$obj = new ilPhantomJSRenderer(true);
 		$config = $this->beckersche_config;
 		$this->assertSame('"{\"page_size\":\"A4\",\"zoom\":1,\"orientation\":\"Portrait\",\"margin\":\"1cm\",\"delay\":200,\"viewport\":\"\",\"header\":null,\"footer\":null}"' ,  $transformer->invokeArgs($obj, array($config)));
 	}
@@ -74,7 +74,7 @@ class ilPhantomJSRendererTest  extends PHPUnit_Framework_TestCase
 	public function testHeaderSettingsWithoutPageNumber()
 	{
 		$transformer = self::getMethod('getCommandLineConfig');
-		$obj = new ilPhantomJSRenderer();
+		$obj = new ilPhantomJSRenderer(true);
 		$config = $this->beckersche_config;
 		$config['pagesize'] = 'A4';
 		$config['header_text'] = 'Hello';
@@ -88,7 +88,7 @@ class ilPhantomJSRendererTest  extends PHPUnit_Framework_TestCase
 	public function testFooterSettingsText()
 	{
 		$transformer = self::getMethod('getCommandLineConfig');
-		$obj = new ilPhantomJSRenderer();
+		$obj = new ilPhantomJSRenderer(true);
 		$config = $this->beckersche_config;
 		$config['pagesize'] = 'A4';
 		$config['footer_text'] = 'Hello';
@@ -102,7 +102,7 @@ class ilPhantomJSRendererTest  extends PHPUnit_Framework_TestCase
 	public function testFooterSettingsTextWithoutPageNumber()
 	{
 		$transformer = self::getMethod('getCommandLineConfig');
-		$obj = new ilPhantomJSRenderer();
+		$obj = new ilPhantomJSRenderer(true);
 		$config = $this->beckersche_config;
 		$config['pagesize'] = 'A4';
 		$config['footer_text'] = 'Hello';

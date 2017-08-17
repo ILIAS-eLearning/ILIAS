@@ -6,7 +6,7 @@
  * Class ilPDFGenerationSuite
  * @package ilPdfGenerator
  */
-class ilPDFGenerationSuite extends PHPUnit_Framework_TestSuite
+class ilServicesPDFGenerationSuite extends PHPUnit_Framework_TestSuite
 {
 	/**
 	 * @return self
