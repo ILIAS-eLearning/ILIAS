@@ -33,6 +33,10 @@ class ilSamlAuthSimpleSAMLphpWrapper implements ilSamlAuth
 		{
 			$fs->put('auth/saml/config/config.php', file_get_contents('./Services/Saml/lib/config.php.dist'));
 		}
+		if(!$fs->has('auth/saml/config/authsources.php'))
+		{
+			$fs->put('auth/saml/config/authsources.php', file_get_contents('./Services/Saml/lib/authsources.php.dist'));
+		}
 		SimpleSAML_Configuration::setConfigDir($configurationPath);
 
 		$this->config   = SimpleSAML_Configuration::getInstance();
