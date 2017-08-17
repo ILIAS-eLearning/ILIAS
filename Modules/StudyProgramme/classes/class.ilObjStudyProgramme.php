@@ -1039,7 +1039,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return ilStudyProgrammUserProgress[]
 	 */
 	public function getProgressesOf($a_user_id) {
-		return $this->getStudyProgrammeUserProgressDB()->getInstancesForUser($this->getId(), $a_user_id);;
+		return $this->getStudyProgrammeUserProgressDB()->getInstancesForUser($this->getId(), $a_user_id);
 	}
 
 	/**
