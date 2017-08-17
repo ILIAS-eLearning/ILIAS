@@ -100,7 +100,7 @@ class ilSamlIdp
 			{
 				require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
 				$factory = new ilSamlAuthFactory();
-				$auth = $factory->auth('default-sp'); // Could be read from database
+				$auth = $factory->auth(); // Could be read from database
 
 				$idpDisco = $auth->getIdpDiscovery();
 				$idps     = $idpDisco->getList();

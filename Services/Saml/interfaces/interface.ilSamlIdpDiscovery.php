@@ -11,4 +11,15 @@ interface ilSamlIdpDiscovery
 	 * @return array
 	 */
 	public function getList();
+
+	/**
+	 * @param int $idpId
+	 * @param string $metadata
+	 */
+	public function storeIdpMetadata($idpId, $metadata);
+
+	/**
+	 * @return string $metadata
+	 */
+	public function fetchIdpMetadata($idpId);
 }

@@ -6,11 +6,13 @@
  */
 class ilSamlAuthFactory
 {
+	const METADATA_PATH = 'auth/saml/config';
+
 	/**
 	 * @param string $authSourceName
 	 * @return ilSamlAuth
 	 */
-	public function auth($authSourceName)
+	public function auth($authSourceName = 'default-sp')
 	{
 		require_once 'Services/Saml/classes/class.ilSamlAuthSimpleSAMLphpWrapper.php';
 		return new ilSamlAuthSimpleSAMLphpWrapper(
@@ -27,25 +29,8 @@ class ilSamlAuthFactory
 
 		$fs = $DIC->filesystem()->storage();
 
-		$fs->createDir("auth/saml/config");
+		$fs->createDir(self::METADATA_PATH);
 
-		if(!$fs->has('auth/saml/config/config.php'))
-		{
-			$fs->put('auth/saml/config/config.php', file_get_contents('./Services/Saml/lib/config.php.dist'));
-		}
-
-		return ilUtil::getDataDir() . '/auth/saml/config';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getMetadataDirectory()
-	{
-		global $DIC;
-
-		$DIC->filesystem()->storage()->createDir("auth/saml/metadata");
-
-		return ilUtil::getDataDir() . '/auth/saml/metadata';
+		return rtrim(ilUtil::getDataDir(), '/') . '/' . self::METADATA_PATH;
 	}
 }

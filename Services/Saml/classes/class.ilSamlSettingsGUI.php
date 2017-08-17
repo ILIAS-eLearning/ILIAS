@@ -600,7 +600,9 @@ class ilSamlSettingsGUI
 		if(null === $form)
 		{
 			$form = $this->getIdpSettingsForm();
-			$form->setValuesByArray($this->idp->toArray());
+			$data = $this->idp->toArray();
+			$this->populateWithMetadata($this->idp, $data);
+			$form->setValuesByArray($data);
 		}
 		else
 		{
@@ -626,9 +628,7 @@ class ilSamlSettingsGUI
 			$this->idp->persist();
 			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 
-			require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
-			$factory = new ilSamlAuthFactory();
-			file_put_contents($factory->getMetadataDirectory() . '/' . $this->idp->getIdpId() . '.xml', $form->getInput('metadata'));
+			$this->storeMetadata($this->idp, $form->getInput('metadata'));
 		}
 
 		$this->showIdpSettings($form);
@@ -665,9 +665,7 @@ class ilSamlSettingsGUI
 			$idp->bindForm($form);
 			$idp->persist();
 
-			require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
-			$factory = new ilSamlAuthFactory();
-			file_put_contents($factory->getMetadataDirectory() . '/' . $idp->getIdpId() . '.xml', $form->getInput('metadata'));
+			$this->storeMetadata($idp, $form->getInput('metadata'));
 
 			ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 			$this->ctrl->setParameter($this, 'saml_idp_id', $idp->getIdp());
@@ -718,5 +716,30 @@ class ilSamlSettingsGUI
 		$metadata->setPurifier($purifier);
 		$metadata->usePurifier(true);
 		$form->addItem($metadata);
+	}
+
+	protected function populateWithMetadata(\ilSamlIdp $idp, &$data)
+	{
+		require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
+		$factory = new ilSamlAuthFactory();
+		$as = $factory->auth();
+
+		$idpDisco = $as->getIdpDiscovery();
+
+		$data['metadata'] = $idpDisco->fetchIdpMetadata($idp->getIdpId());
+	}
+
+	/**
+	 * @param ilSamlIdp $idp
+	 * @param string $metadata
+	 */
+	protected function storeMetadata(\ilSamlIdp $idp, $metadata)
+	{
+		require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
+		$factory = new ilSamlAuthFactory();
+		$as = $factory->auth();
+
+		$idpDisco = $as->getIdpDiscovery();
+		$idpDisco->storeIdpMetadata($idp->getIdpId(), $metadata);
 	}
 }

@@ -8,6 +8,8 @@ require_once 'Services/Saml/interfaces/interface.ilSamlIdpDiscovery.php';
  */
 class ilSimpleSamlIdpDiscovery extends SimpleSAML_XHTML_IdPDisco implements ilSamlIdpDiscovery
 {
+	const METADATA_PATH = 'auth/saml/metadata';
+
 	/**
 	 * ilSimpleSamlIdpDiscovery constructor.
 	 */
@@ -21,10 +23,42 @@ class ilSimpleSamlIdpDiscovery extends SimpleSAML_XHTML_IdPDisco implements ilSa
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getMetadataPath()
+	{
+		return self::METADATA_PATH;
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	public function getList()
 	{
 		return $this->getIdPList();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function storeIdpMetadata($idpId, $metadata)
+	{
+		global $DIC;
+
+		$fs = $DIC->filesystem()->storage();
+
+		$fs->put($this->getMetadataPath() . '/' . $idpId . '.xml', $metadata);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function fetchIdpMetadata($idpId)
+	{
+		global $DIC;
+
+		$fs = $DIC->filesystem()->storage();
+
+		return $fs->read($this->getMetadataPath() . '/' . $idpId . '.xml');
 	}
 }

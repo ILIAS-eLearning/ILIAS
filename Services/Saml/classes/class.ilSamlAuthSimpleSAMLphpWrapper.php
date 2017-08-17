@@ -26,9 +26,16 @@ class ilSamlAuthSimpleSAMLphpWrapper implements ilSamlAuth
 	 */
 	public function __construct($authSourceName, $configurationPath)
 	{
-		SimpleSAML_Configuration::init($configurationPath);
+		global $DIC;
 
-		$this->config = SimpleSAML_Configuration::getInstance();
+		$fs = $DIC->filesystem()->storage();
+		if(!$fs->has('auth/saml/config/config.php'))
+		{
+			$fs->put('auth/saml/config/config.php', file_get_contents('./Services/Saml/lib/config.php.dist'));
+		}
+		SimpleSAML_Configuration::setConfigDir($configurationPath);
+
+		$this->config   = SimpleSAML_Configuration::getInstance();
 		$sessionHandler = $this->config->getString('session.handler', false);
 		$storageType    = $this->config->getString('store.type', false);
 		if($storageType == 'phpsession' || $sessionHandler == 'phpsession' || (empty($storageType) && empty($sessionHandler)))
