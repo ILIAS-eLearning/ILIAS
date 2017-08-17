@@ -90,7 +90,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
         );
 		return $stdfields;
 	}
-	
+
 	/*
 	 * _getStandardFields
 	 */
@@ -109,13 +109,13 @@ class ilDclStandardField extends ilDclBaseFieldModel
 	}
 
 	/**
-	 * @return array all possible standardfield titles, in all languages (used for excel-import);
+	 * @return array all possible titles of non-importable (excel import) standardfields (atm all except owner), in all languages;
 	 */
-	static function _getAllStandardFieldTitles() {
+	static function _getNonImportableStandardFieldTitles() {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 		$identifiers = '';
-		foreach (array('dcl_id', 'dcl_creation_date', 'dcl_last_update', 'dcl_owner', 'dcl_last_edited_by', 'dcl_comments') as $id) {
+		foreach (array('dcl_id', 'dcl_creation_date', 'dcl_last_update', 'dcl_last_edited_by', 'dcl_comments') as $id) {
 			$identifiers .= $ilDB->quote($id, 'text') . ',';
 		}
 		$identifiers = rtrim($identifiers, ',');
@@ -123,6 +123,26 @@ class ilDclStandardField extends ilDclBaseFieldModel
 		$titles = array();
 		while ($rec = $ilDB->fetchAssoc($sql)) {
 			$titles[] = $rec['value'];
+		}
+		return $titles;
+	}
+
+
+	/**
+	 * @return array all possible titles of importable (excel import) standardfields (atm exclusively owner), in all languages;
+	 */
+	static function _getImportableStandardFieldTitle() {
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$identifiers = '';
+		foreach (array('dcl_owner') as $id) {
+			$identifiers .= $ilDB->quote($id, 'text') . ',';
+		}
+		$identifiers = rtrim($identifiers, ',');
+		$sql = $ilDB->query('SELECT value, identifier FROM lng_data WHERE identifier IN (' . $identifiers . ')');
+		$titles = array();
+		while ($rec = $ilDB->fetchAssoc($sql)) {
+			$titles[$rec['identifier']][] = $rec['value'];
 		}
 		return $titles;
 	}
@@ -280,6 +300,33 @@ class ilDclStandardField extends ilDclBaseFieldModel
 	public function allowFilterInListView() {
 		//comments are filterable if they are enabled in the tables settings
 		return $this->id != 'comments' || ilDclCache::getTableCache($this->getTableId())->getPublicCommentsEnabled();
+	}
+
+
+	public function fillHeaderExcel(ilExcel $worksheet, &$row, &$col) {
+		parent::fillHeaderExcel($worksheet, $row, $col);
+		if ($this->getId() == 'owner') {
+			global $DIC;
+			$lng = $DIC['lng'];
+			$worksheet->setCell($row, $col, $lng->txt("dcl_owner_name"));
+			$col++;
+		}
+	}
+
+
+	/**
+	 * @param $excel ilExcel
+	 * @param $row
+	 * @param $col
+	 */
+	public function getValueFromExcel($excel, $row, $col) {
+		$value = $excel->getCell($row, $col);
+		switch ($this->id) {
+			case 'owner':
+				return ilObjUser::_lookupId($value);
+			default:
+				return $value;
+		}
 	}
 }
 

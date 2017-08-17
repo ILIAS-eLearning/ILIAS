@@ -10342,6 +10342,7 @@ dcl#:#dcl_creation_date_description#:#The date on which the entry was created.
 dcl#:#dcl_last_update#:#Last Edited
 dcl#:#dcl_last_update_description#:#The date the entry was last edited.
 dcl#:#dcl_owner#:#Owner
+dcl#:#dcl_owner_name#:#Owner (Name)
 dcl#:#dcl_owner_description#:#The owner of the entry.
 dcl#:#dcl_last_edited_by#:#Last edited by
 dcl#:#dcl_last_edit_by#:#Last edited by

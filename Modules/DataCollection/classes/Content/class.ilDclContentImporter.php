@@ -131,16 +131,20 @@ class ilDclContentImporter
 				$fields_failed = 0;
 				foreach ($fields as $col => $field) {
 					try {
-						$value = $record->getRecordFieldValueFromExcel($excel, $i, $col, $field);
+						if ($field->isStandardField()) {
+							$record->setStandardFieldValueFromExcel($excel, $i, $col, $field);
+						} else {
+							$value = $record->getRecordFieldValueFromExcel($excel, $i, $col, $field);
 
-						if (is_array($value) && isset($value['warning'])) {
-							$this->warnings[] = $value['warning'];
-							$value = '';
-						}
+							if (is_array($value) && isset($value['warning'])) {
+								$this->warnings[] = $value['warning'];
+								$value = '';
+							}
 
-						$field->checkValidity($value, $record->getId());
-						if (!$simulate) {
-							$record->setRecordFieldValue($field->getId(), $value);
+							$field->checkValidity($value, $record->getId());
+							if (!$simulate) {
+								$record->setRecordFieldValue($field->getId(), $value);
+							}
 						}
 					} catch (ilDclInputException $e) {
 						$fields_failed++;
@@ -200,18 +204,28 @@ class ilDclContentImporter
 		$import_fields = array();
 		foreach ($fields as $field) {
 			if ($this->checkImportType($field)) {
-				// the fields will add themselves to $import_fields if their title is in $titles
+				// the fields will add themselves to $import_fields (at the correct position) if their title is in $titles
 				$field->checkTitlesForImport($titles, $import_fields);
 			}
 		}
 
 		foreach ($titles as $key => $value) {
-			$std_field_titles = ilDclStandardField::_getAllStandardFieldTitles();
-			if (in_array($value, $std_field_titles)) {
+			$not_importable_titles = ilDclStandardField::_getNonImportableStandardFieldTitles();
+			$importable_titles = ilDclStandardField::_getImportableStandardFieldTitle();
+			foreach ($importable_titles as $identifier => $values) {
+				if (in_array($value, $values)) {
+					$std_field = new ilDclStandardField();
+					$std_field->setId(substr($identifier, 4));
+					$import_fields[$key] = $std_field;
+					continue 2;
+				}
+			}
+			if (in_array($value, $not_importable_titles)) {
 				$this->warnings[] = "(1, " . ilDataCollectionImporter::getExcelCharForInteger($key) . ") \"" . $value . "\" " . $this->lng->txt("dcl_std_field_not_importable");
 			} else if (!isset($import_fields[$key])) {
 				$this->warnings[] = "(1, " . ilDataCollectionImporter::getExcelCharForInteger($key+1) . ") \"" . $value . "\" " . $this->lng->txt("dcl_row_not_found");
 			}
+
 		}
 
 		return $import_fields;

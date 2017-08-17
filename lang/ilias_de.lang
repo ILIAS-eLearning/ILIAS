@@ -12610,6 +12610,7 @@ dcl#:#dcl_creation_date_description#:#Das Datum, an dem dieser Eintrag erstellt 
 dcl#:#dcl_last_update#:#Letzte Änderung
 dcl#:#dcl_last_update_description#:#Das Datum, an dem dieser Eintrag zuletzt geändert wurde.
 dcl#:#dcl_owner#:#Besitzer
+dcl#:#dcl_owner_name#:#Besitzer (Name)
 dcl#:#dcl_owner_description#:#Der Besitzer dieses Eintrages.
 dcl#:#dcl_last_edited_by#:#Zuletzt geändert von
 dcl#:#dcl_last_edit_by#:#Zuletzt geändert von
