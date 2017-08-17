@@ -599,7 +599,7 @@ $config = array(
      */
      // ilias-patch: begin
     'metadata.sources' => $metadataSources,
-    // ilias-patch: ebd
+     // ilias-patch: ebd
 
     /*
      * Configure the datastore for simpleSAMLphp.
