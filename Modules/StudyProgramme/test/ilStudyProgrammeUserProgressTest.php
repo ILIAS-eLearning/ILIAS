@@ -681,6 +681,22 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 			$up,
 			$sp_user_progress_db->getInstanceById($up->getId())
 		);
+	}
+
+	public function testGetInstanceCalls() {
+		$sp_user_progress_db = new ilStudyProgrammeUserProgressDB();
+		try {
+			$sp_user_progress_db->getInstanceById(-1);
+			$this->assertFalse("This should not happen");
+		}
+		catch (ilException $e) {$this->assertTrue(true);}
+
+
+		try {
+			$sp_user_progress_db->getInstancesForAssignment(-1);
+			$this->assertFalse("This should not happen");
+		}
+		catch (ilStudyProgrammeNoProgressForAssignmentException $e) {$this->assertTrue(true);}
 
 	}
 }
