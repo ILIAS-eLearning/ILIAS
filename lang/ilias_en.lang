@@ -11748,7 +11748,7 @@ content#:#cont_no_page_access_unansw_q#:#You need to answer all questions of pre
 classification#:#clsfct_block_title#:#Selection by Topics
 classification#:#clsfct_block_info#:#Your Selection filters the objects.
 classification#:#clsfct_content_title#:#Objects matching your selection
-classification#:#clsfct_content_no_match#:#No hits
+classification#:#clsfct_content_no_match#:#No objects match your selected criteria.
 cntr#:#sorting_new_items_position#:#Position for New Objects
 cntr#:#sorting_new_items_at_top#:#Top
 cntr#:#sorting_new_items_at_bottom#:#Bottom
@@ -13606,3 +13606,5 @@ mail#:#mail_both_email#:#Both Email Addresses
 common#:#second_email#:#Second Email
 survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_print_hide_labels#:#Hide labels
+classification#:#clsfct_selected_objects#:#Selected Objects
+classification#:#clsfct_back_to_cat#:#Back to Category
