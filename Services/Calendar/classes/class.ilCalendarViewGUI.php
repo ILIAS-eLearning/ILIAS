@@ -304,7 +304,10 @@ class ilCalendarViewGUI
 	function downloadFiles()
 	{
 		include_once("./Services/Calendar/classes/FileHandler/class.ilCalendarFileHandler.php");
-		ilCalendarFileHandler::getInstance()->downloadFilesForEvents($this->getEvents());
+		$file_handler = new ilCalendarFileHandler();
+		$file_handler->setEvents($this->getEvents());
+		$file_handler->run();
+		
 	}
 
 

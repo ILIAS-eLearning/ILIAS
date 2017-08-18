@@ -9,23 +9,14 @@
  */
 class ilCalendarFileHandler
 {
+	
+	
 	/**
 	 * Constructor
 	 */
-	protected function __construct()
+	public function __construct()
 	{
 
-	}
-
-	/**
-	 * Get instance
-	 *
-	 * @param
-	 * @return
-	 */
-	static function getInstance()
-	{
-		return new self();
 	}
 
 	/**
