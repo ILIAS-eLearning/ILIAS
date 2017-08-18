@@ -143,8 +143,6 @@ class ilCalendarViewGUI
 	 */
 	function getModalForApp()
 	{
-		global $DIC;
-
 		$f = $this->ui_factory;
 		$r = $this->ui_renderer;
 		$ctrl = $this->ctrl;
@@ -155,12 +153,6 @@ class ilCalendarViewGUI
 		//item => array containing ilcalendary object, dstart of the event , dend etc.
 		foreach ($events as $item)
 		{
-			//$DIC->logger()->cal()->debug(" GET['dt'] => ".$_GET['dt']);
-			//$DIC->logger()->cal()->debug("calendar entry start => ".$item['event']->getTitle());
-			//$DIC->logger()->cal()->debug("item start => ".$item['dstart']);
-			//$DIC->logger()->cal()->debug("calendar entry start => ".$item['event']->getStart());
-
-
 			if ($item["event"]->getEntryId() == (int) $_GET["app_id"] && $item['dstart'] == (int) $_GET['dt'])
 			{
 				$dates = $this->getDatesForItem($item);
@@ -281,21 +273,26 @@ class ilCalendarViewGUI
 	/**
 	 * Add download link to toolbar
 	 *
+	 * //TODO rename this method to something like addToolbarDonwloadFiles
 	 * @param
 	 * @return
 	 */
 	function addToolbarActions()
 	{
-		$toolbar = $this->toolbar;
-		$f = $this->ui_factory;
-		$lng = $this->lng;
-		$ctrl = $this->ctrl;
+		$settings = ilCalendarSettings::_getInstance();
+		if($settings->isBatchFileDownloadsEnabled())
+		{
+			$toolbar = $this->toolbar;
+			$f = $this->ui_factory;
+			$lng = $this->lng;
+			$ctrl = $this->ctrl;
 
-		// file download
-		$add_button = $f->button()->standard($lng->txt("cal_download_files"),
-			$ctrl->getLinkTarget($this, "downloadFiles"));
-		$toolbar->addSeparator();
-		$toolbar->addComponent($add_button);
+			// file download
+			$add_button = $f->button()->standard($lng->txt("cal_download_files"),
+				$ctrl->getLinkTarget($this, "downloadFiles"));
+			$toolbar->addSeparator();
+			$toolbar->addComponent($add_button);
+		}
 	}
 
 	/**

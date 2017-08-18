@@ -9,7 +9,7 @@ include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPres
  *
  * @ingroup ServicesCalendar
  */
-class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
+class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalendarAppointmentPresentation
 {
 	protected static $instance; // [ilCalendarAppointmentPresentationFactory]
 
@@ -236,6 +236,18 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 		$toolbar = $this->getToolbar();
 		if ($toolbar instanceof ilToolbarGUI)
 		{
+			//todo: duplicated from ilcalendarviewgui.
+			$settings = ilCalendarSettings::_getInstance();
+			if($settings->isBatchFileDownloadsEnabled())
+			{
+				// file download
+				$add_button = $this->ui->factory()->button()->standard($this->lng->txt("cal_download_files"),
+					$this->ctrl->getLinkTarget($this, "downloadFiles"));
+
+				$toolbar->addComponent($add_button);
+				$toolbar->addSeparator();
+			}
+
 			foreach ($this->actions as $a)
 			{
 				$btn = ilLinkButton::getInstance();

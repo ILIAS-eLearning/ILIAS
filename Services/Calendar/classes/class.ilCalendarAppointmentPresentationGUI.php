@@ -116,7 +116,7 @@ class ilCalendarAppointmentPresentationGUI
 					if (in_array("ilCalendarAppointmentPresentation", class_implements($class_name)))
 					{
 						// forward command to class
-						$gui_class = new $class_name();
+						$gui_class = new $class_name($this->appointment,$this->info_screen,$this->toolbar,null);
 						$this->ctrl->forwardCommand($gui_class);
 					}
 				}

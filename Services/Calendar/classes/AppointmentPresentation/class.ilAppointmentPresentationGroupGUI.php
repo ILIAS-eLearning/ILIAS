@@ -39,7 +39,7 @@ class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI imp
 		}
 
 		//example download all files
-		$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
+		//$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
 
 		$this->addAction($this->lng->txt("grp_grp_open"), ilLink::_getStaticLink($grp_ref_id, "grp"));
 	}
