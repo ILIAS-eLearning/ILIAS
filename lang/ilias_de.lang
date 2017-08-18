@@ -16011,7 +16011,6 @@ pdfgen#:#configure#:#Konfiguriere Renderer
 pdfgen#:#image_scale#:#Bildskalierung
 pdfgen#:#config_saved#:#Speichern erfolgreich.
 pdfgen#:#config_not_saved#:#Speichern fehlgeschlagen.
-pdfgen#:#print_media_type#:#Benutze Druck Media Type anstatt Bildschirm
 pdfgen#:#margin_left#:#Margin Links
 pdfgen#:#margin_top#:#Margin Oben
 pdfgen#:#margin_right#:#Margin Rechts
