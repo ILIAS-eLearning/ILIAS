@@ -7,6 +7,11 @@
 interface ilSamlAuth
 {
 	/**
+	 * @return mixed
+	 */
+	public function getAuthId();
+
+	/**
 	 * Protect a script resource with a SAML auth.
 	 */
 	public function protectResource();

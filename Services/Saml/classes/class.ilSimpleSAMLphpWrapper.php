@@ -54,6 +54,14 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 	/**
 	 * @inheritdoc
 	 */
+	public function getAuthId()
+	{
+		return $this->authSource->getAuthSource()->getAuthId();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function protectResource()
 	{
 		$this->authSource->requireAuth();

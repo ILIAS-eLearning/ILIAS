@@ -2343,6 +2343,8 @@ class ilStartUpGUI
 			if(!isset($_GET['idpentityid']))
 			{
 				$activeIdps = ilSamlIdp::getActiveIdpList();
+				$this->showSamlIdpSelection($auth, $activeIdps);
+				return;
 				if(1 == count($activeIdps))
 				{
 					$idp = current($activeIdps);
