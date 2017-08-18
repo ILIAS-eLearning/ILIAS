@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+// ilias-patch: begin
+$idpentityid  = isset($_GET['idpentityid']) ? $_GET['idpentityid'] : NULL;
+// ilias-patch: end
 $config = array(
 
     // This is a authentication source which handles admin authentication.
@@ -25,7 +27,7 @@ $config = array(
 
         // XXX hard code this so that no IdP disco happens
         // ilias-patch: begin
-        'idp' => isset($_GET['idpentityid']) ? $_GET['idpentityid'] : NULL,
+        'idp' => $idpentityid,
         // ilias-patch: end
 
         // The URL to the discovery service.
