@@ -79,11 +79,22 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 	/**
 	 * @inheritdoc
 	 */
-	public function popParam($key)
+	public function getParam($key)
 	{
 		$session = SimpleSAML_Session::getSessionFromRequest();
 
 		$value = $session->getData('ilias', $key);
+
+		return $value;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function popParam($key)
+	{
+		$session = SimpleSAML_Session::getSessionFromRequest();
+		$value = $this->getParam($key);
 		$session->deleteData('ilias', $key);
 
 		return $value;

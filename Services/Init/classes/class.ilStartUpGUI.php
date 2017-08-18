@@ -2340,13 +2340,14 @@ class ilStartUpGUI
 
 		if(!$auth->isAuthenticated())
 		{
-			if(!isset($_GET['idpentityid']))
+			if(!isset($_GET['idpentityid']) || !isset($_GET['saml_idp_id']))
 			{
 				$activeIdps = ilSamlIdp::getActiveIdpList();
 				if(1 == count($activeIdps))
 				{
 					$idp = current($activeIdps);
 					$_GET['idpentityid'] = $idp->getEntityId();
+					$_GET['saml_idp_id'] = $idp->getIdpId();
 				}
 				else if(0 == count($activeIdps))
 				{
@@ -2358,6 +2359,7 @@ class ilStartUpGUI
 					return;
 				}
 			}
+			$auth->storeParam('idpId', (int)$_GET['saml_idp_id']);
 		}
 
 		// re-init
@@ -2369,6 +2371,8 @@ class ilStartUpGUI
 		require_once 'Services/Saml/classes/class.ilAuthFrontendCredentialsSaml.php';
 		$credentials = new ilAuthFrontendCredentialsSaml($auth);
 		$credentials->initFromRequest();
+
+		$_POST['auth_mode'] = AUTH_SAML . '_' . ((int)$auth->getParam('idpId'));
 
 		require_once 'Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
 		$provider_factory = new ilAuthProviderFactory();
@@ -2434,6 +2438,7 @@ class ilStartUpGUI
 
 		foreach($idps as $idp)
 		{
+			$DIC->ctrl()->setParameter($this, 'saml_idp_id', $idp->getIdpId());
 			$DIC->ctrl()->setParameter($this, 'idpentityid', urlencode($idp->getEntityId()));
 
 			$items[] = [

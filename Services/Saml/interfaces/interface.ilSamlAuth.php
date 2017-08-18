@@ -34,6 +34,12 @@ interface ilSamlAuth
 	public function popParam($key);
 
 	/**
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getParam($key);
+
+	/**
 	 * @return array
 	 */
 	public function getAttributes();
