@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5d7425262af77df07d2e9f141ea6418",
+    "content-hash": "eaa09141186e4fab978cac71b9021301",
     "packages": [
         {
             "name": "cweagans/composer-patches",
@@ -1115,6 +1115,11 @@
                 "satooshi/php-coveralls": "^1.0"
             },
             "type": "project",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "SimpleSAML": "lib/"
