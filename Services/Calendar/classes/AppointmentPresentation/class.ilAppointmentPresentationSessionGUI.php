@@ -94,7 +94,7 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 		}
 
 		//example download all files
-		$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
+		//$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
 
 		$this->addAction($this->lng->txt("sess_open"), ilLink::_getStaticLink($ref_id));
 

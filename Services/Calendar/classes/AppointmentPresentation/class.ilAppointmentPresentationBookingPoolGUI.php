@@ -93,7 +93,7 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 		}
 
 		//example download all files
-		$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
+		//$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
 
 		if (count($refs) > 0)
 		{

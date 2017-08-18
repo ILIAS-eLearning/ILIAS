@@ -26,6 +26,7 @@ include_once('Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php'
 include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
 include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
 include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');
+include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
 
 
 
@@ -38,7 +39,7 @@ include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');
 * 
 * @ingroup ServicesCalendar
 */
-class ilCalendarInboxGUI
+class ilCalendarInboxGUI extends ilCalendarViewGUI
 {
 	protected $seed = null;
 	protected $user_settings = null;
@@ -47,7 +48,8 @@ class ilCalendarInboxGUI
 	protected $ctrl;
 	protected $tabs_gui;
 	protected $tpl;
-	
+	protected $user;
+	protected $toolbar;
 	protected $timezone = 'UTC';
 
 	/**
@@ -59,19 +61,11 @@ class ilCalendarInboxGUI
 	 */
 	public function __construct(ilDate $seed_date)
 	{
-		global $ilCtrl, $lng, $ilUser,$ilTabs,$tpl;
-		
+		$this->initialize(ilCalendarViewGUI::CAL_PRESENTATION_AGENDA_LIST);
 		$this->seed = $seed_date;
-
-		$this->tpl = $tpl;
-		$this->lng = $lng;
-		$this->ctrl = $ilCtrl;
-		$this->tabs_gui = $ilTabs;
-		
-		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
-		$this->app_colors = new ilCalendarAppointmentColors($ilUser->getId());
-		
-		$this->timezone = $ilUser->getTimeZone();
+		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
+		$this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
+		$this->timezone = $this->user->getTimeZone();
 	}
 	
 	/**

@@ -82,7 +82,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		}
 
 		//example download all files
-		$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
+		//$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
 
 		//go to the exercise.
 		$this->addAction($this->lng->txt("cal_exc_open"), ilLink::_getStaticLink($exc_ref, "exc"));

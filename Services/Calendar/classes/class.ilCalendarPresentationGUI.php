@@ -209,7 +209,7 @@ class ilCalendarPresentationGUI
 				$this->showViewSelection("cal_list");
 				$this->showSideBlocks();
 				// this would require ilcalendarinboxgui being derived from ilCalendarViewGUI, not ilCalendarAgendaListGUI
-				//$inbox_gui->addToolbarActions();
+				$inbox_gui->addToolbarActions();
 				break;
 				
 			case 'ilconsultationhoursgui':
