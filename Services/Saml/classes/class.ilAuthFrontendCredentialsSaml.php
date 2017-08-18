@@ -33,6 +33,7 @@ class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials implements
 		parent::__construct();
 
 		$this->auth = $auth;
+
 		$this->setAttributes($this->auth->getAttributes());
 	}
 
@@ -41,27 +42,6 @@ class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials implements
 	 */
 	public function initFromRequest()
 	{
-		$this->setUsername('dummy');
-		$this->setPassword('');
-
-		/*$state = $session->getAuthState();
-		$stateIdp   = $state['saml:sp:IdP'];
-		$metadata   = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
-		$i          = 1;
-		$idpIndex   = 1;
-		foreach($metadata->getList('saml20-idp-remote') as $idp)
-		{
-			if($idp['entityid'] == $stateIdp)
-			{
-				$idpIndex = $i;
-				break;
-			}
-
-			++$i;
-		}*/
-
-		$_POST['auth_mode'] = AUTH_SAML . "1"; // @todo: Set
-
 		$this->setReturnTo(isset($_GET['target']) ? $_GET['target'] : '');
 	}
 

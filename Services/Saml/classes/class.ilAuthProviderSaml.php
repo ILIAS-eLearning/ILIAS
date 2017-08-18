@@ -43,10 +43,10 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 
 	/**
 	 * ilAuthProviderSaml constructor.
-	 * @param ilAuthFrontendCredentialsSaml $credentials
+	 * @param \ilAuthFrontendCredentials|\ilAuthFrontendCredentialsSaml $credentials
 	 * @param null                          $a_idp_id
 	 */
-	public function __construct(\ilAuthFrontendCredentialsSaml $credentials, $a_idp_id = null)
+	public function __construct(\ilAuthFrontendCredentials $credentials, $a_idp_id = null)
 	{
 		parent::__construct($credentials);
 
@@ -64,8 +64,11 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 			$this->idp = ilSamlIdp::getInstanceByIdpId($a_idp_id);
 		}
 
-		$this->attributes = $credentials->getAttributes();
-		$this->return_to  = $credentials->getReturnTo();
+		if($credentials instanceof \ilAuthFrontendCredentialsSaml)
+		{
+			$this->attributes = $credentials->getAttributes();
+			$this->return_to  = $credentials->getReturnTo();
+		}
 	}
 
 	/**
@@ -214,7 +217,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 	 */
 	public function createNewAccount(\ilAuthStatus $status)
 	{
-		if(ilSession::get('tmp_external_account') && ilSession::get('tmp_attributes'))
+		if(ilSession::get('tmp_attributes') && $this->getCredentials()->getUsername())
 		{
 			$this->uid        = $this->getCredentials()->getUsername();
 			$this->attributes = ilSession::get('tmp_attributes');
@@ -480,9 +483,16 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 				$value = $a_user_data[$ruleAttr][$attrIndex];
 			}
 		}
-		else
+		else if(isset($a_user_data[$rule->getExternalAttribute()]))
 		{
-			$value = current($a_user_data[$rule->getExternalAttribute()]);
+			if(is_array($a_user_data[$rule->getExternalAttribute()]))
+			{
+				$value = current($a_user_data[$rule->getExternalAttribute()]);
+			}
+			else
+			{
+				$value = $a_user_data[$rule->getExternalAttribute()];
+			}
 		}
 
 		return $value;

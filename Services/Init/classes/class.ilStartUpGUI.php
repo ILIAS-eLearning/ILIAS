@@ -2368,11 +2368,11 @@ class ilStartUpGUI
 
 		$_GET['target'] = $auth->popParam('target');
 
+		$_POST['auth_mode'] = AUTH_SAML . '_' . ((int)$auth->getParam('idpId'));
+
 		require_once 'Services/Saml/classes/class.ilAuthFrontendCredentialsSaml.php';
 		$credentials = new ilAuthFrontendCredentialsSaml($auth);
 		$credentials->initFromRequest();
-
-		$_POST['auth_mode'] = AUTH_SAML . '_' . ((int)$auth->getParam('idpId'));
 
 		require_once 'Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
 		$provider_factory = new ilAuthProviderFactory();
