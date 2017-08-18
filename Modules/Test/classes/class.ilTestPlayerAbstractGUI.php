@@ -1236,15 +1236,18 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 // fau: testNav - add special checkbox for mc question
-		if ($questionGui instanceof assMultipleChoiceGUI)
-		{
-			$questionGui->setWithNoneAbove($this->object->getMCScoring());
-			$questionGui->setIsAnswered($isQuestionWorkedThrough);
-		}
+		// moved to another patch block
 // fau.
 		
 		// hey: prevPassSolutions - determine solution pass index and configure gui accordingly
 		$qstConfig = $questionGui->object->getTestPresentationConfig();
+		
+		if ($questionGui instanceof assMultipleChoiceGUI)
+		{
+			$qstConfig->setWorkedThrough($isQuestionWorkedThrough);
+			$qstConfig->setIsUnchangedAnswerPossible($this->object->getMCScoring());
+		}
+
 		if( $qstConfig->isPreviousPassSolutionReuseAllowed() )
 		{
 			$passIndex = $this->determineSolutionPassIndex($questionGui); // last pass having solution stored

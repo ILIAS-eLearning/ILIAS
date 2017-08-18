@@ -104,6 +104,13 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
+	public function dropzone() {
+		return new Component\Dropzone\Factory();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function popover()
 	{
 		return new Component\Popover\Factory(new SignalGenerator());

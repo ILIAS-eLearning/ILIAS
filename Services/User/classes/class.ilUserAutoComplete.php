@@ -273,7 +273,13 @@ class ilUserAutoComplete
 		{
 			$add_email = false;
 		}
-
+		
+		$add_second_email = true;
+		if($this->isFieldSearchableCheckEnabled() && !ilUserSearchOptions::_isEnabled("second_email"))
+		{
+			$add_second_email = false;
+		}
+		
 		include_once './Services/Search/classes/class.ilSearchSettings.php';
 		$max = $this->getLimit() ? $this->getLimit() : ilSearchSettings::getInstance()->getAutoCompleteLength();
 		$cnt    = 0;
@@ -294,7 +300,12 @@ class ilUserAutoComplete
 			{
 				$label .= ', ' . $rec['email'];
 			}
-
+			
+			if($add_second_email && $rec['second_email'] && (self::PRIVACY_MODE_RESPECT_USER_SETTING != $this->getPrivacyMode() || 'y' == $rec['second_email_value']))
+			{
+				$label .= ', ' . $rec['second_email'];
+			}
+			
 			$result[$cnt]['value'] = (string)$rec[$this->result_field];
 			$result[$cnt]['label'] = $label;
 			$result[$cnt]['id']    = $rec['usr_id'];
@@ -321,13 +332,15 @@ class ilUserAutoComplete
 			'ud.login',
 			'ud.firstname',
 			'ud.lastname',
-			'ud.email'
+			'ud.email',
+			'ud.second_email'
 		);
 
 		if(self::PRIVACY_MODE_RESPECT_USER_SETTING == $this->getPrivacyMode())
 		{
 			$fields[] = 'profpref.value profile_value';
 			$fields[] = 'pubemail.value email_value';
+			$fields[] = 'pubsecondemail.value second_email_value';
 		}
 
 		return implode(', ', $fields);
@@ -354,6 +367,10 @@ class ilUserAutoComplete
 			$joins[] = 'LEFT JOIN usr_pref pubemail
 				ON pubemail.usr_id = ud.usr_id
 				AND pubemail.keyword = ' . $ilDB->quote('public_email', 'text');
+			
+			$joins[] = 'LEFT JOIN usr_pref pubsecondemail
+				ON pubsecondemail.usr_id = ud.usr_id
+				AND pubsecondemail.keyword = ' . $ilDB->quote('public_second_email', 'text');
 		}
 
 		if($joins)
@@ -412,6 +429,15 @@ class ilUserAutoComplete
 				$email_query        = array();
 				$email_query[]      = $field_condition;
 				$email_query[]      = 'pubemail.value = ' . $ilDB->quote('y', 'text');
+				$field_conditions[] = '(' . implode(' AND ', $email_query) . ')';
+			}
+			else if('second_email' == $field && self::PRIVACY_MODE_RESPECT_USER_SETTING == $this->getPrivacyMode())
+			{
+				// If privacy should be respected, the profile setting of every user concerning the email address has to be
+				// respected (in every user context, no matter if the user is 'logged in' or 'anonymous'). 
+				$email_query        = array();
+				$email_query[]      = $field_condition;
+				$email_query[]      = 'pubsecondemail.value = ' . $ilDB->quote('y', 'text');
 				$field_conditions[] = '(' . implode(' AND ', $email_query) . ')';
 			}
 			else

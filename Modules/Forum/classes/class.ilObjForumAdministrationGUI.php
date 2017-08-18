@@ -14,12 +14,19 @@ require_once 'Modules/Forum/classes/class.ilForumProperties.php';
  */
 class ilObjForumAdministrationGUI extends ilObjectGUI
 {
+	private $rbac;
+	private $settings;
+	
 	/**
 	 * Contructor
 	 * @access public
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $DIC;
+		$this->rbac = $DIC->rbac();
+		$this->settings = $DIC->settings();
+		
 		$this->type = 'frma';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->lng->loadLanguageModule('forum');
@@ -60,19 +67,14 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 */
-		global $rbacsystem;
-
-		if($rbacsystem->checkAccess('visible,read', $this->object->getRefId()))
+		if($this->rbac->system()->checkAccess('visible,read', $this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget('settings',
 				$this->ctrl->getLinkTarget($this, 'editSettings'),
 				array('editSettings', 'view'));
 		}
 
-		if($rbacsystem->checkAccess('edit_permission', $this->object->getRefId()))
+		if($this->rbac->system()->checkAccess('edit_permission', $this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget('perm_settings',
 				$this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'),
@@ -85,7 +87,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 	 */
 	public function editSettings(ilPropertyFormGUI $form = null)
 	{
-		$this->tabs_gui->setTabActive('settings');
+		$this->tabs_gui->activateTab('settings');
 
 		if(!$form)
 		{
@@ -101,11 +103,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 	 */
 	public function saveSettings()
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
-
 		$this->checkPermission("write");
 
 		$form = $this->getSettingsForm();
@@ -118,23 +115,23 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 
 		$frma_set = new ilSetting('frma');
 		$frma_set->set('forum_overview', $form->getInput('forum_overview'));
-		$ilSetting->set('file_upload_allowed_fora',  (int)$form->getInput('file_upload_allowed_fora'));
-		$ilSetting->set('send_attachments_by_mail', (int)$form->getInput('send_attachments_by_mail'));
-		$ilSetting->set('enable_fora_statistics', (int)$form->getInput('fora_statistics'));
-		$ilSetting->set('enable_anonymous_fora', (int)$form->getInput('anonymous_fora'));
+		$this->settings->set('file_upload_allowed_fora',  (int)$form->getInput('file_upload_allowed_fora'));
+		$this->settings->set('send_attachments_by_mail', (int)$form->getInput('send_attachments_by_mail'));
+		$this->settings->set('enable_fora_statistics', (int)$form->getInput('fora_statistics'));
+		$this->settings->set('enable_anonymous_fora', (int)$form->getInput('anonymous_fora'));
 
 		require_once 'Services/Cron/classes/class.ilCronManager.php';
 		if(!ilCronManager::isJobActive('frm_notification'))
 		{
-			$ilSetting->set('forum_notification', (int)$form->getInput('forum_notification'));
+			$this->settings->set('forum_notification', (int)$form->getInput('forum_notification'));
 		}
 
 		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 		ilCaptchaUtil::setActiveForForum((bool)$form->getInput('activate_captcha_anonym'));
 
-		$ilSetting->set('save_post_drafts', (int)$form->getInput('save_post_drafts'));
-		$ilSetting->set('autosave_drafts', (int)$form->getInput('autosave_drafts'));
-		$ilSetting->set('autosave_drafts_ival', (int)$form->getInput('autosave_drafts_ival'));
+		$this->settings->set('save_post_drafts', (int)$form->getInput('save_post_drafts'));
+		$this->settings->set('autosave_drafts', (int)$form->getInput('autosave_drafts'));
+		$this->settings->set('autosave_drafts_ival', (int)$form->getInput('autosave_drafts_ival'));
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$form->setValuesByPost();
@@ -146,26 +143,21 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 	 */
 	protected function populateForm(ilPropertyFormGUI $form)
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
-
 		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 
 		$frma_set = new ilSetting('frma');
 
 		$form->setValuesByArray(array(
 			'forum_overview'           => (bool)$frma_set->get('forum_overview', false),
-			'fora_statistics'          => (bool)$ilSetting->get('enable_fora_statistics', false),
-			'anonymous_fora'           => (bool)$ilSetting->get('enable_anonymous_fora', false),
-			'forum_notification'       => (int)$ilSetting->get('forum_notification') === 1 ? true : false,
+			'fora_statistics'          => (bool)$this->settings->get('enable_fora_statistics', false),
+			'anonymous_fora'           => (bool)$this->settings->get('enable_anonymous_fora', false),
+			'forum_notification'       => (int)$this->settings->get('forum_notification') === 1 ? true : false,
 			'activate_captcha_anonym'  => ilCaptchaUtil::isActiveForForum(),
-			'file_upload_allowed_fora' => (int)$ilSetting->get('file_upload_allowed_fora', ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED),
-			'save_post_drafts'         => (int)$ilSetting->get('save_post_drafts', 0),
-			'autosave_drafts'          => (int)$ilSetting->get('autosave_drafts', 0),
-			'autosave_drafts_ival'     => (int)$ilSetting->get('autosave_drafts_ival', 30),
-			'send_attachments_by_mail' => (bool)$ilSetting->get('send_attachments_by_mail', false)
+			'file_upload_allowed_fora' => (int)$this->settings->get('file_upload_allowed_fora', ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED),
+			'save_post_drafts'         => (int)$this->settings->get('save_post_drafts', 0),
+			'autosave_drafts'          => (int)$this->settings->get('autosave_drafts', 0),
+			'autosave_drafts_ival'     => (int)$this->settings->get('autosave_drafts_ival', 30),
+			'send_attachments_by_mail' => (bool)$this->settings->get('send_attachments_by_mail', false)
 		));
 	}
 
@@ -262,18 +254,13 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 	 */
 	public function addToExternalSettingsForm($a_form_id)
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
-
 		switch($a_form_id)
 		{
 			case ilAdministrationSettingsFormHandler::FORM_PRIVACY:
 
 				$fields = array(
-					'enable_fora_statistics' => array($ilSetting->get('enable_fora_statistics', false), ilAdministrationSettingsFormHandler::VALUE_BOOL),
-					'enable_anonymous_fora'  => array($ilSetting->get('enable_anonymous_fora', false), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+					'enable_fora_statistics' => array($this->settings->get('enable_fora_statistics', false), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+					'enable_anonymous_fora'  => array($this->settings->get('enable_anonymous_fora', false), ilAdministrationSettingsFormHandler::VALUE_BOOL)
 				);
 
 				return array(array("editSettings", $fields));

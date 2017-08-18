@@ -110,7 +110,10 @@ class Renderer extends AbstractComponentRenderer
 
 
 	protected function renderSortation(Component\ViewControl\Sortation $component, RendererInterface $default_renderer) {
-		$f = $this->getUIFactory();
+		$f = new \ILIAS\UI\Implementation\Factory(
+			new \ILIAS\UI\Implementation\Component\SignalGenerator()
+		);
+
 		$tpl = $this->getTemplate("tpl.sortation.html", true, true);
 
 		$component = $component->withResetSignals();
@@ -184,11 +187,6 @@ class Renderer extends AbstractComponentRenderer
 
 	protected function maybeRenderId(Component\Component $component, $tpl, $block, $template_var) {
 		$id = $this->bindJavaScript($component);
-		// Check if the component is acting as triggerer
-		if ($component instanceof Component\Triggerer && count($component->getTriggeredSignals())) {
-			$id = ($id === null) ? $this->createId() : $id;
-			$this->triggerRegisteredSignals($component, $id);
-		}
 		if ($id !== null) {
 			$tpl->setCurrentBlock($block);
 			$tpl->setVariable($template_var, $id);

@@ -2,13 +2,14 @@
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 namespace ILIAS\UI\Component\ViewControl;
 
-use \ILIAS\UI\Component\Component;
+
+use \ILIAS\UI\Component as C;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Triggerer;
 /**
  * This describes a Sortation Control
  */
-interface Sortation extends Component, JavaScriptBindable, Triggerer {
+interface Sortation extends C\Component, JavaScriptBindable, Triggerer {
 
 	/**
 	 * Set the initial, non-functional entry
@@ -66,6 +67,13 @@ interface Sortation extends Component, JavaScriptBindable, Triggerer {
 	 *
 	 * @return $this
 	 */
-	public function withOnSort(\Signal $signal);
+	public function withOnSort(C\Signal $signal);
 
+
+	/**
+	 * Get the Signal for the selection of a option
+	 *
+	 * @return Signal
+	 */
+	public function getSelectSignal();
 }

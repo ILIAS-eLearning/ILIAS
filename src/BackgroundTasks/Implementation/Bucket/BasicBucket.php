@@ -108,7 +108,6 @@ class BasicBucket implements Bucket {
 	public function setTask(Task $task) {
 		$this->tasks = $task->unfoldTask();
 		$this->totalNumberOfTasks = count($this->tasks);
-		$this->currentTask = $task;
 		$this->rootTask = $task;
 		foreach ($this->tasks as $subTask) {
 			$this->percentages[spl_object_hash($subTask)] = 0;
@@ -122,12 +121,19 @@ class BasicBucket implements Bucket {
 	 * @return int
 	 */
 	public function calculateOverallPercentage() {
-		// TODO: Task percentage up to first user interaction.
-		//		global $ilLog;
-		//		$tasks = array_slice($this->rootTask->unfoldTask(), 1);
-		//		$percentages = array_map(function($task) { return $this->percentages[spl_object_hash($task)]; }, $tasks);
+		$countable_tasks = 0;
+		/**
+		 * @var $task Task\UserInteraction\
+		 */
+		foreach ($this->tasks as $task) {
+			switch (true) {
+				case ($task instanceof Task\Job):
+					$countable_tasks ++;
+					break;
+			}
+		}
 
-		$this->percentage = array_sum($this->percentages) / $this->totalNumberOfTasks;
+		$this->percentage = array_sum($this->percentages) / $countable_tasks;
 	}
 
 
@@ -209,7 +215,7 @@ class BasicBucket implements Bucket {
 		$inputs = $currentTask->getInput();
 		$resulting_value = $currentTask->interaction($inputs, $option, $this);
 
-		if ($currentTask == $this->rootTask) {
+		if ($currentTask === $this->rootTask) {
 			// If this user interaction was the last thing to do, we set the state to finished. We can throw away the resulting value.
 			$this->setState(State::FINISHED);
 		} else {

@@ -31,14 +31,11 @@ class ilForumDraftsTableGUI extends ilTable2GUI
 	 * @param string $a_template_context
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_template_context)
-	{	/**
-	 * @var $ilCtrl ilCtrl
-	 * @var $lng    ilLanguage
-	 */
-		global $ilCtrl, $lng;
+	{	
+		global $DIC;
 		
-		$this->lng  = $lng;
-		$this->ctrl = $ilCtrl;
+		$this->lng  = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
 		$this->parent_cmd = $a_parent_cmd;
 
 		$this->setId('frm_drafts_' . substr(md5($this->parent_cmd), 0, 3).'_'.$a_parent_obj->object->getId() );

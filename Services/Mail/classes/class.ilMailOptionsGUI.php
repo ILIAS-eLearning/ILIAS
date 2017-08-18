@@ -1,9 +1,10 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "Services/Mail/classes/class.ilMailbox.php";
 require_once "Services/Mail/classes/class.ilFormatMail.php";
 require_once 'Services/Mail/classes/class.ilMailOptions.php';
+require_once 'Services/Mail/classes/class.ilMailOptionsFormGUI.php';
 
 /**
 * @author Jens Conze
@@ -13,195 +14,123 @@ require_once 'Services/Mail/classes/class.ilMailOptions.php';
 */
 class ilMailOptionsGUI
 {
-	private $tpl = null;
-	private $ctrl = null;
-	private $lng = null;
-	
-	private $umail = null;
-	private $mbox = null;
+	/**
+	 * @var \ilTemplate
+	 */
+	private $tpl;
 
-	private $errorDelete = false;
+	/**
+	 * @var \ilCtrl
+	 */
+	private $ctrl;
 
+	/**
+	 * @var \ilLanguage
+	 */
+	private $lng;
+
+	/**
+	 * @var \ilSetting
+	 */
+	private $settings;
+
+	/**
+	 * @var \ilObjUser
+	 */
+	private $user;
+
+	/**
+	 * @var \ilFormatMail
+	 */
+	private $umail;
+
+	/**
+	 * @var ilMailBox|null
+	 */
+	private $mbox;
+
+	/**
+	 * ilMailOptionsGUI constructor.
+	 */
 	public function __construct()
 	{
-		global $tpl, $ilCtrl, $lng, $ilUser;
+		global $DIC;
 
-		$this->tpl = $tpl;
-		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
-		
-		$this->ctrl->saveParameter($this, "mobj_id");
+		$this->tpl      = $DIC->ui()->mainTemplate();
+		$this->ctrl     = $DIC->ctrl();
+		$this->settings = $DIC->settings();
+		$this->lng      = $DIC->language();
+		$this->user     = $DIC->user();
 
-		$this->umail = new ilFormatMail($ilUser->getId());
-		$this->mbox = new ilMailBox($ilUser->getId());
+		$this->lng->loadLanguageModule('mail');
+
+		$this->ctrl->saveParameter($this, 'mobj_id');
+
+		$this->umail = new ilFormatMail($this->user->getId());
+		$this->mbox  = new ilMailBox($this->user->getId());
 	}
 
 	public function executeCommand()
 	{
-		$forward_class = $this->ctrl->getNextClass($this);
-		switch($forward_class)
+		$nextClass = $this->ctrl->getNextClass($this);
+		switch($nextClass)
 		{
 			default:
-				if (!($cmd = $this->ctrl->getCmd()))
+				if(!($cmd = $this->ctrl->getCmd()))
 				{
-					$cmd = "showOptions";
+					$cmd = 'showOptions';
 				}
 
 				$this->$cmd();
 				break;
 		}
-		return true;
+	}
+
+	/**
+	 * @return ilMailOptionsFormGUI
+	 */
+	protected function getForm()
+	{
+		return new ilMailOptionsFormGUI(
+			new ilMailOptions($this->user->getId()),
+			$this, 'saveOptions'
+		);
 	}
 
 	/** 
-	* Called if the user pushes the submit button of the mail options form.
-	* Passes the post data to the mail options model instance to store them.
-	* 
-	* @access public
-	* 
-	*/
+	 * Called if the user pushes the submit button of the mail options form.
+	 * Passes the post data to the mail options model instance to store them.
+	 */
 	public function saveOptions()
 	{
-		global $lng, $ilUser, $ilSetting;
-		
-		$this->tpl->setTitle($lng->txt('mail'));
-		$this->initMailOptionsForm();
-		
-		$mailOptions = new ilMailOptions($ilUser->getId());			
-		if($ilSetting->get('usr_settings_hide_mail_incoming_mail') != '1' && 
-		   $ilSetting->get('usr_settings_disable_mail_incoming_mail') != '1')
+		$this->tpl->setTitle($this->lng->txt('mail'));
+
+		$form = $this->getForm();
+		if($form->save())
 		{
-			$incoming_type = (int)$_POST['incoming_type'];
+			ilUtil::sendSuccess($this->lng->txt('mail_options_saved'));
+		}
+
+		$this->showOptions($form);
+	}
+
+	/** 
+	 * Called to display the mail options form
+	 * @param $form ilMailOptionsFormGUI|null
+	 */
+	public function showOptions(ilMailOptionsFormGUI $form = null)
+	{
+		if(null === $form)
+		{
+			$form = $this->getForm();
+			$form->populate();
 		}
 		else
 		{
-			$incoming_type = $mailOptions->getIncomingType();
-		}		
-		
-		if($this->form->checkInput())
-		{			
-			$mailOptions->updateOptions(
-				ilUtil::stripSlashes($_POST['signature']),
-				(int)$_POST['linebreak'],
-				$incoming_type,
-				(int)$_POST['cronjob_notification']
-			);
-			
-			ilUtil::sendSuccess($lng->txt('mail_options_saved'));			
+			$form->setValuesByPost();
 		}
-		
-		$this->form->setValuesByPost();
-		
-		$this->tpl->setContent($this->form->getHTML());
-		$this->tpl->show();
-	}
 
-	/** 
-	* Called to display the mail options form
-	* 
-	* @access public
-	* 
-	*/
-	public function showOptions()
-	{
-		global $lng;
-		
-		$this->tpl->setTitle($lng->txt('mail'));
-		
-		$this->initMailOptionsForm();
-		$this->setMailOptionsValuesByDB();		
-		
-		$this->tpl->setContent($this->form->getHTML());
+		$this->tpl->setContent($form->getHTML());
 		$this->tpl->show();
-	}
-	
-	/** 
-	* Fetches data from model and loads this data into form
-	* 
-	* @access private
-	* 
-	*/
-	private function setMailOptionsValuesByDB()
-	{
-		global $ilUser, $ilSetting;		
-		
-		$mailOptions = new ilMailOptions($ilUser->getId());
-		
-		$data= array(
-			'linebreak' => $mailOptions->getLinebreak(),
-			'signature' => $mailOptions->getSignature(),
-			'cronjob_notification' => $mailOptions->getCronjobNotification()
-		);
-		
-		if($ilSetting->get('usr_settings_hide_mail_incoming_mail') != '1')
-		{		
-			$data['incoming_type'] = $mailOptions->getIncomingType();
-		}
-		
-		$this->form->setValuesByArray($data);	
-	}
-
-	/** 
-	* Initialises the mail options form
-	* 
-	* @access private
-	* 
-	*/
-	private function initMailOptionsForm()
-	{
-		global $ilCtrl, $ilSetting, $lng, $ilUser;	
-		
-		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-		$this->form = new ilPropertyFormGUI();
-		
-		$this->form->setFormAction($ilCtrl->getFormAction($this, 'saveOptions'));
-		$this->form->setTitle($lng->txt('mail_settings'));
-			
-		// BEGIN INCOMING
-		if($ilSetting->get('usr_settings_hide_mail_incoming_mail') != '1')
-		{
-			$options = array(
-				IL_MAIL_LOCAL => $lng->txt('mail_incoming_local'), 
-				IL_MAIL_EMAIL => $lng->txt('mail_incoming_smtp'),
-				IL_MAIL_BOTH => $lng->txt('mail_incoming_both')
-			);		
-			$si = new ilSelectInputGUI($lng->txt('mail_incoming'), 'incoming_type');
-			$si->setOptions($options);
-			if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())) ||
-			   $ilSetting->get('usr_settings_disable_mail_incoming_mail') == '1')
-			{
-				$si->setDisabled(true);
-			}		
-			$this->form->addItem($si);
-		}
-		
-		// BEGIN LINEBREAK_OPTIONS
-		$options = array();
-		for($i = 50; $i <= 80; $i++)
-		{
-			$options[$i] = $i; 
-		}	
-		$si = new ilSelectInputGUI($lng->txt('linebreak'), 'linebreak');
-		$si->setOptions($options);			
-		$this->form->addItem($si);
-		
-		// BEGIN SIGNATURE
-		$ta = new ilTextAreaInputGUI($lng->txt('signature'), 'signature');
-		$ta->setRows(10);
-		$ta->setCols(60);			
-		$this->form->addItem($ta);
-		
-		// BEGIN CRONJOB NOTIFICATION
-		if($ilSetting->get('mail_notification'))
-		{
-			$cb = new ilCheckboxInputGUI($lng->txt('cron_mail_notification'), 'cronjob_notification');			
-			$cb->setInfo($lng->txt('mail_cronjob_notification_info'));
-			$cb->setValue(1);
-			$this->form->addItem($cb);
-		}		
-		
-		$this->form->addCommandButton('saveOptions', $lng->txt('save'));
 	}
 }
-
-?>

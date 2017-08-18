@@ -466,6 +466,8 @@ class ilLOSettings
 				$ilDB->quote($this->getPassedObjectiveMode(),'integer').' '.
 				') ';
 		$ilDB->manipulate($query);
+		
+		$this->entry_exists = true;
 	}
 
 	

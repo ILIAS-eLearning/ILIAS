@@ -1205,7 +1205,9 @@ class ilObjSurvey extends ilObject
 */
 	public function getShowQuestionTitles() 
 	{
-		return ($this->display_question_titles) ? 1 : 0;
+		//return ($this->display_question_titles) ? 1 : 0;
+		#19448 Question title is always shown. All calls to this method remain available (just in case)
+		return 1;
 	}
 
 	/**
@@ -6095,7 +6097,7 @@ class ilObjSurvey extends ilObject
 		include_once "Services/Mail/classes/class.ilMailTemplateDataProvider.php";
 		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";			
 		$mprov = new ilMailTemplateDataProvider();
-		foreach($mprov->getTemplateByContexId(ilSurveyMailTemplateReminderContext::ID) as $tmpl)
+		foreach($mprov->getTemplateByContextId(ilSurveyMailTemplateReminderContext::ID) as $tmpl)
 		{
 			$res[$tmpl->getTplId()] = $tmpl->getTitle();
 		}

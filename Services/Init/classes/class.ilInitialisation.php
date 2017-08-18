@@ -836,8 +836,8 @@ class ilInitialisation
 		self::initGlobal("rbacadmin", "ilRbacAdmin",
 			 "./Services/AccessControl/classes/class.ilRbacAdmin.php");
 		
-		self::initGlobal("ilAccess", "ilAccessHandler", 
-			 "./Services/AccessControl/classes/class.ilAccessHandler.php");
+		self::initGlobal("ilAccess", "ilAccess",
+			 "./Services/AccessControl/classes/class.ilAccess.php");
 		
 		require_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 	}
@@ -1283,7 +1283,7 @@ class ilInitialisation
 			ilLoggerFactory::getLogger('init')->debug('Expired session found -> redirect to login page');
 			return self::goToLogin();
 		}
-		if($ilSetting->get('pub_section'))
+		if(ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']))
 		{
 			ilLoggerFactory::getLogger('init')->debug('Redirect to public section.');
 			return self::goToPublicSection();

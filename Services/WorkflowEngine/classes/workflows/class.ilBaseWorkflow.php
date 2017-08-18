@@ -171,6 +171,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 			}
 		}
 		$this->start_node->activate();
+		ilWorkflowDbHelper::writeWorkflow($this);
 	}
 
 	/**
