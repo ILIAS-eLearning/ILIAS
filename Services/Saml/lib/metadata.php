@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 // ilias-patch: begin
 chdir(dirname(__FILE__));
 $ilias_main_directory = './';
@@ -123,12 +122,12 @@ foreach ($assertionsconsumerservices as $services) {
 		case 'urn:oasis:names:tc:SAML:1.0:profiles:browser-post':
 			$acsArray['Binding'] = 'urn:oasis:names:tc:SAML:1.0:profiles:browser-post';
 			// ilias-patch: begin
-			$acsArray['Location'] = $iliasHttpPath . "/saml1-acs.php//{$sourceId}?cliend_id=" . CLIENT_ID;
+			$acsArray['Location'] = $iliasHttpPath . "/saml1-acs.php/{$sourceId}?cliend_id=" . CLIENT_ID;
 			break;
 		case 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact':
 			$acsArray['Binding'] = 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact';
 			// ilias-patch: begin
-			$acsArray['Location'] = $iliasHttpPath . "/saml2-acs.php//$sourceId}?cliend_id=" . CLIENT_ID;
+			$acsArray['Location'] = $iliasHttpPath . "/saml2-acs.php/{$sourceId}?cliend_id=" . CLIENT_ID;
 			// ilias-patch: end
 			break;
 		case 'urn:oasis:names:tc:SAML:1.0:profiles:artifact-01':
