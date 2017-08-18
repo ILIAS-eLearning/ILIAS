@@ -1,4 +1,6 @@
 <?php
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 // ilias-patch: begin
 $metadataFiles = glob(rtrim(realpath(__DIR__ . '/../metadata'), '/') . '/*.xml');
 $metadataSources = array();

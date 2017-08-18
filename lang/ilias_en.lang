@@ -13556,6 +13556,8 @@ auth#:#auth_saml_sure_delete_idp#:#Are you sure you want to delete the selected 
 auth#:#auth_saml_deleted_idp#:#The Identity Provider has been deleted.
 auth#:#auth_saml_unknow_idp#:#The passed Identity Provider does not exist.
 auth#:#auth_saml_add_idp_md_label#:#Identity Provider SAML Metadata
+auth#:#auth_saml_idp_selection_table_title#:#Identity Provider Selection
+auth#:#auth_saml_idp_selection_table_desc#:#Bitte wählen Sie den Identity Provider mit dem Sie sich anmelden möchten.
 auth#:#auth_saml_add_idp_md_info#:#Please enter the XML formatted metadata for the Identity Provider.
 auth#:#auth_saml_add_idp_md_error#:#The given value was not a valid XML document. Ensure the XML contains a valid Identity Provider.
 auth#:#auth_saml_enable#:#Enable SAML Support

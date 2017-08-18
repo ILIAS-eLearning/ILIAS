@@ -2343,8 +2343,6 @@ class ilStartUpGUI
 			if(!isset($_GET['idpentityid']))
 			{
 				$activeIdps = ilSamlIdp::getActiveIdpList();
-				$this->showSamlIdpSelection($auth, $activeIdps);
-				return;
 				if(1 == count($activeIdps))
 				{
 					$idp = current($activeIdps);
@@ -2431,18 +2429,20 @@ class ilStartUpGUI
 
 		$items = [];
 
-		$idpDisco = $auth->getIdpDiscovery();
-		$idpDisco->getList();
+		require_once 'Services/Saml/classes/class.ilSamlIdpSelectionTableGUI.php';
+		$table = new ilSamlIdpSelectionTableGUI($this, 'doSamlAuthentication');
 
 		foreach($idps as $idp)
 		{
 			$DIC->ctrl()->setParameter($this, 'idpentityid', urlencode($idp->getEntityId()));
-			$item = $factory->link()->standard($idp->getEntityId(), $DIC->ctrl()->getLinkTarget($this, 'doSamlAuthentication'));
 
-			$items[$idp->getEntityId()] = $item;
+			$items[] = [
+				'idp_link' => $renderer->render($factory->link()->standard($idp->getEntityId(), $DIC->ctrl()->getLinkTarget($this, 'doSamlAuthentication')))
+			];
 		}
 
-		$mainTpl->setVariable('CONTENT', $renderer->render($factory->listing()->descriptive($items)));
+		$table->setData($items);
+		$mainTpl->setVariable('CONTENT', $table->getHtml());
 
 		$mainTpl->fillWindowTitle();
 		$mainTpl->fillCssFiles();

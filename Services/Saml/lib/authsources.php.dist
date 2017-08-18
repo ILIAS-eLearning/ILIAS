@@ -1,4 +1,6 @@
 <?php
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 $config = array(
 
     // This is a authentication source which handles admin authentication.

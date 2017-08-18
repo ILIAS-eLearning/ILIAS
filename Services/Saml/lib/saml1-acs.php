@@ -1,4 +1,6 @@
 <?php
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 chdir(dirname(__FILE__));
 $ilias_main_directory = './';
 $i = 0;
