@@ -15996,6 +15996,9 @@ common#:#saml_login_form_txt#:#Bei ILIAS anmelden über SAML
 common#:#saml_login_form_info_txt#:#Um sich ber SAML anzumelden, klicken Sie bitte den 'Anmelde'-Button.
 auth#:#auth_saml_configure#:#SAML-Unterstützung konfigurieren
 auth#:#auth_saml_add_idp_btn#:#Identity Provider Hinzufügen
+auth#:#auth_saml_sure_delete_idp#:#Sind Sie sicher, dass Sie den gewählten Identity Provider unwiederruflich löschen möchten? Für die betroffenen Benutzerkonten wird anschließend die Standard-Authentifizierung gewählt.
+auth#:#auth_saml_deleted_idp#:#Der Identity Provider wurde gelöscht.
+auth#:#auth_saml_unknow_idp#:#Der Identity Provider existiert nicht.
 auth#:#auth_saml_add_idp_md_label#:#Identity Provider SAML Metadaten
 auth#:#auth_saml_add_idp_md_info#:#Bitte fügen Sie hier die Metadaten des Identity Provider als XML-formatierte Zeichenkette ein.
 auth#:#auth_saml_add_idp_md_error#:#Der eingegeben Wert entsprach leider nicht einem wohlgeformten XML-Dokument. Bitte stellen Sie sicher, dass das XML einen gültigen Identity Provider enthält.
@@ -16017,7 +16020,7 @@ auth#:#err_auth_saml_no_ilias_user#:#Die Authentifizierung ist fehlgeschlagen. B
 auth#:#auth_saml_login_form#:#Anzeige im Anmeldeformular
 auth#:#auth_saml_login_form_info#:#Falls aktiviert und es mindestens einen aktiven IDP gibt, wird auf der Anmeldeseite von ILIAS ein Button angezeigt, der bei Klick einen SAML-Request initiert.
 auth#:#auth_saml_idps#:#SAML IDP Liste
-auth#:#auth_saml_idps_info#:#Neue IDPs müssen in der entsprechenden Metadatendatei hinzugefügt werden, die Sie in der Konfiguration %s (externes Datenverzeichnis) angegeben haben. Sofern ein IDP dort ergänzt wurde, wird dieser in der Tabelle unten aufgelistet und kann weiter konfiguriert werden. Bitte lesen Sie dazu auch die folgende Dokumentation: %s.
+auth#:#auth_saml_idps_info#:#Bitte kontrollieren Sie vor dem Hinzufügen eines Identity Provider die SimpleSAMLphp Konfiguration in den Dateien '<strong>%s</strong>' und '<strong>%s</strong>' (externes Datenverzeichnis) und passen Sie diese an. Bitte lesen Sie dazu auch die folgende Dokumentation: %s.
 auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#SAML-IDP konfigurieren: %s
 auth#:#saml_tab_head_idp#:#IDP

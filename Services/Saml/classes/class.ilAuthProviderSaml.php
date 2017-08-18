@@ -274,7 +274,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 	{
 		require_once 'Services/Xml/classes/class.ilXmlWriter.php';
 
-		$mapping = new ilExternalAuthAttributeMapping($this->idp->getIdpId());
+		$mapping = new ilExternalAuthAttributeMapping('saml', $this->idp->getIdpId());
 
 		$xml_writer = new ilXmlWriter();
 		$xml_writer->xmlStartTag('Users');

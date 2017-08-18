@@ -39,6 +39,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 		$this->setDescription(sprintf(
 			$this->lng->txt('auth_saml_idps_info'),
 			'auth/saml/config/config.php',
+			'auth/saml/config/authsources.php',
 			$renderer->render($f->link()->standard('https://simplesamlphp.org/docs/stable/simplesamlphp-sp', 'https://simplesamlphp.org/docs/stable/simplesamlphp-sp'))
 		));
 		$this->setRowTemplate('tpl.saml_idp_row.html','Services/Saml');
@@ -81,7 +82,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('TXT_OK', $this->lng->txt('inactive'));
 		}
 
-		$this->tpl->setVariable('NAME', $a_set['idp']);
+		$this->tpl->setVariable('NAME', $a_set['entity_id']);
 
 		$list = new ilAdvancedSelectionListGUI();
 		$list->setSelectionHeaderClass('small');
@@ -99,6 +100,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 		{
 			$list->addItem($this->lng->txt('activate'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'activateIdp'));
 		}
+		$list->addItem($this->lng->txt('delete'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteIdp'));
 		$this->ctrl->setParameter($this->getParentObject(),'saml_idp_id', '');
 
 		$this->tpl->setVariable('ACTIONS',$list->getHTML());

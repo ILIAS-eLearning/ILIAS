@@ -5,9 +5,9 @@ require_once 'libs/composer/vendor/autoload.php';
 require_once 'Services/Saml/interfaces/interface.ilSamlAuth.php';
 
 /**
- * Class ilSamlAuthSimpleSAMLphpWrapper
+ * Class ilSimpleSAMLphpWrapper
  */
-class ilSamlAuthSimpleSAMLphpWrapper implements ilSamlAuth
+class ilSimpleSAMLphpWrapper implements ilSamlAuth
 {
 	/**
 	 * @var SimpleSAML_Configuration
@@ -20,7 +20,7 @@ class ilSamlAuthSimpleSAMLphpWrapper implements ilSamlAuth
 	protected $authSource;
 
 	/**
-	 * ilSamlAuthSimpleSAMLphpWrapper constructor.
+	 * ilSimpleSAMLphpWrapper constructor.
 	 * @param string $authSourceName
 	 * @param string $configurationPath
 	 */
@@ -37,6 +37,7 @@ class ilSamlAuthSimpleSAMLphpWrapper implements ilSamlAuth
 		{
 			$fs->put('auth/saml/config/authsources.php', file_get_contents('./Services/Saml/lib/authsources.php.dist'));
 		}
+
 		SimpleSAML_Configuration::setConfigDir($configurationPath);
 
 		$this->config   = SimpleSAML_Configuration::getInstance();
@@ -123,7 +124,7 @@ class ilSamlAuthSimpleSAMLphpWrapper implements ilSamlAuth
 	 */
 	public function getIdpDiscovery()
 	{
-		require_once 'Services/Saml/classes/class.ilSimpleSamlIdpDiscovery.php';
-		return new ilSimpleSamlIdpDiscovery();
+		require_once 'Services/Saml/classes/class.ilSimpleSAMLphplIdpDiscovery.php';
+		return new ilSimpleSAMLphplIdpDiscovery();
 	}
 }

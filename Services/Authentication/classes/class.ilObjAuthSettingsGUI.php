@@ -109,7 +109,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			else if(ilSamlIdp::isAuthModeSaml($mode))
 			{
 				$idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($mode));
-				$this->tpl->setVariable('AUTH_NAME', $idp->getIdp());
+				$this->tpl->setVariable('AUTH_NAME', $idp->getEntityId());
 				$this->tpl->setVariable('AUTH_ACTIVE', $idp->isActive() ? $icon_ok : $icon_not_ok);
 			}
 			else
@@ -192,7 +192,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				else if($id = ilSamlIdp::getIdpIdByAuthMode($auth_key))
 				{
 					$idp = ilSamlIdp::getInstanceByIdpId($id);
-					$name = $idp->getIdp();
+					$name = $idp->getEntityId();
 				}
 				else
 				{

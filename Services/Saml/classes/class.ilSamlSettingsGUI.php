@@ -25,6 +25,13 @@ class ilSamlSettingsGUI
 	/**
 	 * @var array
 	 */
+	protected static $globalEntityCommands = array(
+		'deactivateIdp', 'activateIdp', 'confirmDeleteIdp', 'deleteIdp'
+	);
+
+	/**
+	 * @var array
+	 */
 	protected static $ignoredUserFields = array(
 		'mail_incoming_mail', 'preferences', 'hide_own_online_status',
 		'show_users_online', 'hits_per_page',
@@ -164,7 +171,16 @@ class ilSamlSettingsGUI
 	 */
 	protected function initIdp()
 	{
-		$this->idp = ilSamlIdp::getInstanceByIdpId((int)$_REQUEST['saml_idp_id']);
+		try
+		{
+			$this->idp = ilSamlIdp::getInstanceByIdpId((int)$_REQUEST['saml_idp_id']);
+		}
+		catch(\Exception $e)
+		{
+			ilUtil::sendFailure($this->lng->txt('auth_saml_unknow_idp'), true);
+			$this->ctrl->setParameter($this, 'saml_idp_id', null);
+			$this->ctrl->redirect($this, self::DEFAULT_CMD);
+		}
 	}
 
 	/**
@@ -203,7 +219,7 @@ class ilSamlSettingsGUI
 
 				if(
 					in_array(strtolower($cmd), array_map('strtolower', self::$globalCommands)) ||
-					in_array(strtolower($cmd), array_map('strtolower', array('deactivateIdp', 'activateIdp')))
+					in_array(strtolower($cmd), array_map('strtolower', self::$globalEntityCommands))
 				)
 				{
 					$this->setSubTabs(self::VIEW_MODE_GLOBAL);
@@ -275,7 +291,7 @@ class ilSamlSettingsGUI
 				$this->tabs->addSubTabTarget(
 					'auth_saml_idps',
 					$this->ctrl->getLinkTarget($this, self::DEFAULT_CMD),
-					array(self::DEFAULT_CMD, 'activateIdp', 'deactivateIdp', 'showNewIdpForm', 'saveNewIdp'), get_class($this)
+					array_merge(self::$globalEntityCommands, array(self::DEFAULT_CMD, 'showNewIdpForm', 'saveNewIdp')), get_class($this)
 				);
 
 				$this->tabs->addSubTabTarget(
@@ -310,7 +326,7 @@ class ilSamlSettingsGUI
 	private function initUserAttributeMapping()
 	{
 		require_once 'Services/Saml/classes/class.ilExternalAuthAttributeMapping.php';
-		$this->mapping = new ilExternalAuthAttributeMapping($this->idp->getIdpId());
+		$this->mapping = new ilExternalAuthAttributeMapping('saml', $this->idp->getIdpId());
 	}
 
 	/**
@@ -536,9 +552,9 @@ class ilSamlSettingsGUI
 		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveIdpSettings'));
-		$form->setTitle(sprintf($this->lng->txt('auth_saml_configure_idp'), $this->idp->getIdp()));
+		$form->setTitle(sprintf($this->lng->txt('auth_saml_configure_idp'), $this->idp->getEntityId()));
 
-		$idp = new ilTextInputGUI($this->lng->txt('auth_saml_idp'), 'idp');
+		$idp = new ilTextInputGUI($this->lng->txt('auth_saml_idp'), 'entity_id');
 		$idp->setDisabled(true);
 		$form->addItem($idp);
 
@@ -668,7 +684,7 @@ class ilSamlSettingsGUI
 			$this->storeMetadata($idp, $form->getInput('metadata'));
 
 			ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
-			$this->ctrl->setParameter($this, 'saml_idp_id', $idp->getIdp());
+			$this->ctrl->setParameter($this, 'saml_idp_id', $idp->getIdpId());
 			$this->ctrl->redirect($this, 'showIdpSettings');
 		}
 
@@ -678,7 +694,7 @@ class ilSamlSettingsGUI
 	/**
 	 * @param ilPropertyFormGUI|null $form
 	 */
-	public function showNewIdpForm(\ilPropertyFormGUI $form = null)
+	protected function showNewIdpForm(\ilPropertyFormGUI $form = null)
 	{
 		$this->ensureWriteAccess();
 
@@ -703,9 +719,13 @@ class ilSamlSettingsGUI
 	{
 		require_once 'Services/Saml/classes/form/class.ilSamlIdpMetadataInputGUI.php';
 		require_once 'Services/Saml/classes/form/class.ilSamlIdpMetadataPurifier.php';
+		require_once 'Services/Saml/classes/class.ilSamlIdpXmlMetadataParser.php';
 		require_once 'Services/Html/classes/class.ilHtmlPurifierComposite.php';
 
-		$metadata = new \ilSamlIdpMetadataInputGUI($this->lng->txt('auth_saml_add_idp_md_label'), 'metadata');
+		$metadata = new \ilSamlIdpMetadataInputGUI(
+			$this->lng->txt('auth_saml_add_idp_md_label'), 'metadata',
+			new ilSamlIdpXmlMetadataParser()
+		);
 		$metadata->setInfo($this->lng->txt('auth_saml_add_idp_md_info'));
 		$metadata->setRows(20);
 		$metadata->setRequired(true);
@@ -741,5 +761,44 @@ class ilSamlSettingsGUI
 
 		$idpDisco = $as->getIdpDiscovery();
 		$idpDisco->storeIdpMetadata($idp->getIdpId(), $metadata);
+	}
+
+	/**
+	 * 
+	 */
+	protected function confirmDeleteIdp()
+	{
+		$this->ensureWriteAccess();
+
+		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirmation = new \ilConfirmationGUI();
+		$confirmation->setFormAction($this->ctrl->getFormAction($this, 'deleteIdp'));
+		$confirmation->setConfirm($this->lng->txt('confirm'), 'deleteIdp');
+		$confirmation->setCancel($this->lng->txt('cancel'), self::DEFAULT_CMD);
+		$confirmation->setHeaderText($this->lng->txt('auth_saml_sure_delete_idp'));
+
+		$this->tpl->setContent($confirmation->getHTML());
+	}
+
+	/**
+	 * 
+	 */
+	protected function deleteIdp()
+	{
+		$this->ensureWriteAccess();
+		
+		require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
+		$factory = new ilSamlAuthFactory();
+		$as = $factory->auth();
+
+		$idpDisco = $as->getIdpDiscovery();
+		$idpDisco->deleteIdpMetadata($this->idp->getIdpId());
+
+		$this->idp->delete();
+
+		ilUtil::sendSuccess($this->lng->txt('auth_saml_deleted_idp'), true);
+
+		$this->ctrl->setParameter($this, 'saml_idp_id', null);
+		$this->ctrl->redirect($this, self::DEFAULT_CMD);
 	}
 }

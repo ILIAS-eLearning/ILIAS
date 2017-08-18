@@ -4,14 +4,14 @@
 require_once 'Services/Saml/interfaces/interface.ilSamlIdpDiscovery.php';
 
 /**
- * Class ilSimpleSamlIdpDiscovery
+ * Class ilSimpleSAMLphplIdpDiscovery
  */
-class ilSimpleSamlIdpDiscovery extends SimpleSAML_XHTML_IdPDisco implements ilSamlIdpDiscovery
+class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML_XHTML_IdPDisco implements ilSamlIdpDiscovery
 {
-	const METADATA_PATH = 'auth/saml/metadata';
+	const METADATA_DIRECTORY = 'auth/saml/metadata';
 
 	/**
-	 * ilSimpleSamlIdpDiscovery constructor.
+	 * ilSimpleSAMLphplIdpDiscovery constructor.
 	 */
 	public function __construct()
 	{
@@ -25,9 +25,9 @@ class ilSimpleSamlIdpDiscovery extends SimpleSAML_XHTML_IdPDisco implements ilSa
 	/**
 	 * @return string
 	 */
-	public function getMetadataPath()
+	public function getMetadataDirectory()
 	{
-		return self::METADATA_PATH;
+		return self::METADATA_DIRECTORY;
 	}
 
 	/**
@@ -39,6 +39,15 @@ class ilSimpleSamlIdpDiscovery extends SimpleSAML_XHTML_IdPDisco implements ilSa
 	}
 
 	/**
+	 * @param int $idpId
+	 * @return string
+	 */
+	protected function getMetadataPath($idpId)
+	{
+		return $this->getMetadataDirectory() . '/' . $idpId . '.xml';
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	public function storeIdpMetadata($idpId, $metadata)
@@ -47,7 +56,7 @@ class ilSimpleSamlIdpDiscovery extends SimpleSAML_XHTML_IdPDisco implements ilSa
 
 		$fs = $DIC->filesystem()->storage();
 
-		$fs->put($this->getMetadataPath() . '/' . $idpId . '.xml', $metadata);
+		$fs->put($this->getMetadataPath($idpId), $metadata);
 	}
 
 	/**
@@ -59,6 +68,26 @@ class ilSimpleSamlIdpDiscovery extends SimpleSAML_XHTML_IdPDisco implements ilSa
 
 		$fs = $DIC->filesystem()->storage();
 
-		return $fs->read($this->getMetadataPath() . '/' . $idpId . '.xml');
+		if(!$fs->has($this->getMetadataPath($idpId)))
+		{
+			return '';
+		}
+
+		return $fs->read($this->getMetadataPath($idpId));
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function deleteIdpMetadata($idpId)
+	{
+		global $DIC;
+
+		$fs = $DIC->filesystem()->storage();
+
+		if($fs->has($this->getMetadataPath($idpId)))
+		{
+			$fs->delete($this->getMetadataPath($idpId));
+		}
 	}
 }

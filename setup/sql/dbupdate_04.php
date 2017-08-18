@@ -19036,3 +19036,17 @@ if(!$ilDB->sequenceExists('saml_idp_settings'))
 	$ilDB->createSequence('saml_idp_settings');
 }
 ?>
+<#5114>
+<?php
+if(!$ilDB->tableColumnExists('saml_idp_settings', 'entity_id'))
+{
+	$ilDB->addTableColumn('saml_idp_settings', 'entity_id',
+		array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+?>

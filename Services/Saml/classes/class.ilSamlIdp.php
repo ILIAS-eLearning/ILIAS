@@ -55,17 +55,12 @@ class ilSamlIdp
 	/**
 	 * @var string
 	 */
-	protected $idp = '';
+	protected $entity_id = '';
 
 	/**
 	 * @var bool
 	 */
 	protected $account_migration_status = false;
-
-	/**
-	 * @var array|null
-	 */
-	protected static $parsed_idps = null;
 
 	/**
 	 * @var array
@@ -82,46 +77,7 @@ class ilSamlIdp
 
 		if($this->idp_id > 0)
 		{
-			self::parseIdps();
 			$this->read();
-		}
-	}
-
-	/**
-	 *
-	 */
-	private static function parseIdps()
-	{
-		if(self::$parsed_idps === null)
-		{
-			$idp_data = array();
-
-			try
-			{
-				require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
-				$factory = new ilSamlAuthFactory();
-				$auth = $factory->auth(); // Could be read from database
-
-				$idpDisco = $auth->getIdpDiscovery();
-				$idps     = $idpDisco->getList();
-
-				$i = 0;
-				foreach($idps as $idp)
-				{
-					$idp_data[$i + 1] = array(
-						'idp_id' => $i + 1,
-						'idp'    => $idp['entityid']
-					);
-
-					++$i;
-				}
-			}
-			catch(Exception $e)
-			{
-				$GLOBALS['DIC']->logger()->auth()->write($e->getMessage());
-			}
-
-			self::$parsed_idps = $idp_data;
 		}
 	}
 
@@ -165,13 +121,10 @@ class ilSamlIdp
 		while($record = $this->db->fetchAssoc($res))
 		{
 			$this->bindDbRecord($record);
-			break;
+			return;
 		}
 
-		if(isset(self::$parsed_idps[$this->getIdpId()]))
-		{
-			$this->setIdp(self::$parsed_idps[$this->getIdpId()]['idp']);
-		}
+		throw new \ilException('Could not find idp');
 	}
 
 	/**
@@ -194,10 +147,30 @@ class ilSamlIdp
 				'default_role_id'     => array('integer', $this->getDefaultRoleId()),
 				'uid_claim'           => array('text', $this->getUidClaim()),
 				'login_claim'         => array('text', $this->getLoginClaim()),
+				'entity_id'           => array('text', $this->getEntityId()),
 				'sync_status'         => array('integer', $this->isSynchronizationEnabled()),
+				'allow_local_auth'    => array('integer', $this->allowLocalAuthentication()),
 				'account_migr_status' => array('integer', $this->isAccountMigrationEnabled())
 			)
 		);
+	}
+
+	/**
+	 * Deletes an idp with all relvant mapping rules. Furthermore the auth_mode of the relevant user accounts will be switched to 'default'
+	 */
+	public function delete()
+	{
+		require_once 'Services/Saml/classes/class.ilExternalAuthAttributeMapping.php';
+		$mapping = new ilExternalAuthAttributeMapping('saml', $this->getIdpId());
+		$mapping->delete();
+
+		$this->db->manipulateF(
+			'UPDATE usr_data SET auth_mode = %s WHERE auth_mode = %s',
+			array('text', 'text'),
+			array('default', AUTH_SAML . '_' . $this->getIdpId())
+		);
+
+		$this->db->manipulate('DELETE FROM saml_idp_settings WHERE idp_id = ' . $this->db->quote($this->getIdpId(), 'integer'));
 	}
 
 	/**
@@ -213,7 +186,8 @@ class ilSamlIdp
 			'login_claim'         => $this->getLoginClaim(),
 			'sync_status'         => $this->isSynchronizationEnabled(),
 			'account_migr_status' => $this->isAccountMigrationEnabled(),
-			'idp'                 => $this->getIdp(),
+			'allow_local_auth'    => $this->allowLocalAuthentication(),
+			'entity_id'           => $this->getEntityId()
 		);
 	}
 
@@ -229,6 +203,8 @@ class ilSamlIdp
 		$this->setLoginClaim($record['login_claim']);
 		$this->setSynchronizationStatus((bool)$record['sync_status']);
 		$this->setAccountMigrationStatus((bool)$record['account_migr_status']);
+		$this->setLocalLocalAuthenticationStatus((bool)$record['allow_local_auth']);
+		$this->setEntityId($record['entity_id']);
 	}
 
 	/**
@@ -240,7 +216,14 @@ class ilSamlIdp
 		$this->setUidClaim($form->getInput('uid_claim'));
 		$this->setLoginClaim($form->getInput('login_claim'));
 		$this->setSynchronizationStatus((bool)$form->getInput('sync_status'));
+		$this->setLocalLocalAuthenticationStatus((bool)$form->getInput('allow_local_auth'));
 		$this->setAccountMigrationStatus((bool)$form->getInput('account_migr_status'));
+
+		/**
+		 * @var $metadata ilSamlIdpMetadataInputGUI
+		 */
+		$metadata = $form->getItemByPostVar('metadata');
+		$this->setEntityId($metadata->getIdpMetadataParser()->getEntityId());
 	}
 
 	/**
@@ -297,12 +280,17 @@ class ilSamlIdp
 	 */
 	public static function getAllIdps()
 	{
-		$idps = array();
+		global $DIC;
 
-		self::parseIdps();
-		foreach(self::$parsed_idps as $idp_data)
+		$res = $DIC->database()->query('SELECT * FROM saml_idp_settings');
+
+		$idps = array();
+		while($row = $DIC->database()->fetchAssoc($res))
 		{
-			$idps[] = new self($idp_data['idp_id']);
+			$idp = new self();
+			$idp->bindDbRecord($row);
+
+			$idps[] = $idp;
 		}
 
 		return $idps;
@@ -336,6 +324,22 @@ class ilSamlIdp
 		}
 
 		return AUTH_SAML;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getEntityId()
+	{
+		return $this->entity_id;
+	}
+
+	/**
+	 * @param string $entity_id
+	 */
+	public function setEntityId($entity_id)
+	{
+		$this->entity_id = $entity_id;
 	}
 
 	/**
@@ -459,26 +463,10 @@ class ilSamlIdp
 	}
 
 	/**
-	 * @param boolean $migr
+	 * @param boolean $status
 	 */
-	public function setAccountMigrationStatus($migr)
+	public function setAccountMigrationStatus($status)
 	{
-		$this->account_migration_status = (int)$migr;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getIdp()
-	{
-		return $this->idp;
-	}
-
-	/**
-	 * @param string $idp
-	 */
-	public function setIdp($idp)
-	{
-		$this->idp = $idp;
+		$this->account_migration_status = (int)$status;
 	}
 }

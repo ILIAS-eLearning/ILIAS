@@ -13552,6 +13552,9 @@ common#:#saml_login_form_txt#:#Login to ILIAS via SAML
 common#:#saml_login_form_info_txt#:#You can log in using the “Direct Login” button without having to enter your username or password.
 auth#:#auth_saml_configure#:#Configure SAML Authentication
 auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider
+auth#:#auth_saml_sure_delete_idp#:#Are you sure you want to delete the selected Identity Provider? This cannot be undone. The affected user accounts will be switched to the default authentication.
+auth#:#auth_saml_deleted_idp#:#The Identity Provider has been deleted.
+auth#:#auth_saml_unknow_idp#:#The passed Identity Provider does not exist.
 auth#:#auth_saml_add_idp_md_label#:#Identity Provider SAML Metadata
 auth#:#auth_saml_add_idp_md_info#:#Please enter the XML formatted metadata for the Identity Provider.
 auth#:#auth_saml_add_idp_md_error#:#The given value was not a valid XML document. Ensure the XML contains a valid Identity Provider.
@@ -13573,7 +13576,7 @@ auth#:#err_auth_saml_no_ilias_user#:#Authentication failed. Please contact your 
 auth#:#auth_saml_login_form#:#Button on Login Page
 auth#:#auth_saml_login_form_info#:#If activated and there is at least one active IDP, a button appears on the login page. A click on this button initiates a SAML request.
 auth#:#auth_saml_idps#:#SAML IDP List
-auth#:#auth_saml_idps_info#:#New IDPs have to be defined in the corresponding metadata file, defined in your SimpleSAMLphp configuration: %s (external data directory). Once an IDP is added there, it appears in the table below and can be further configured. Please read the manual for further explanations %s. 
+auth#:#auth_saml_idps_info#:#Please check and edit the SimpleSAMLphp configuration in '<strong>%s</strong>' and '</strong>%s<strong>' (external data directory). Please read the manual for further explanations %s. 
 auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#Configure SAML IDP: %s
 auth#:#saml_tab_head_idp#:#IDP

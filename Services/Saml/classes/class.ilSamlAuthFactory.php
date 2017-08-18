@@ -14,8 +14,8 @@ class ilSamlAuthFactory
 	 */
 	public function auth($authSourceName = 'default-sp')
 	{
-		require_once 'Services/Saml/classes/class.ilSamlAuthSimpleSAMLphpWrapper.php';
-		return new ilSamlAuthSimpleSAMLphpWrapper(
+		require_once 'Services/Saml/classes/class.ilSimpleSAMLphpWrapper.php';
+		return new ilSimpleSAMLphpWrapper(
 			$authSourceName, $this->getConfigDirectory() 
 		);
 	}

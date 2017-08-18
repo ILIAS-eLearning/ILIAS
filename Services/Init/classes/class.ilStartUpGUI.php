@@ -2346,7 +2346,7 @@ class ilStartUpGUI
 				if(1 == count($activeIdps))
 				{
 					$idp = current($activeIdps);
-					$_GET['idpentityid'] = $idp->getIdp();
+					$_GET['idpentityid'] = $idp->getEntityId();
 				}
 				else if(0 == count($activeIdps))
 				{
@@ -2434,13 +2434,13 @@ class ilStartUpGUI
 
 		foreach($idps as $idp)
 		{
-			$DIC->ctrl()->setParameter($this, 'idpentityid', urlencode($idp->getIdp()));
-			$item = $factory->link()->standard($idp->getIdp(), $DIC->ctrl()->getLinkTarget($this, 'doSamlAuthentication'));
+			$DIC->ctrl()->setParameter($this, 'idpentityid', urlencode($idp->getEntityId()));
+			$item = $factory->link()->standard($idp->getEntityId(), $DIC->ctrl()->getLinkTarget($this, 'doSamlAuthentication'));
 
-			$items[] = $item;
+			$items[$idp->getEntityId()] = $item;
 		}
 
-		$mainTpl->setVariable('CONTENT', $renderer->render($factory->listing()->ordered($items)));
+		$mainTpl->setVariable('CONTENT', $renderer->render($factory->listing()->descriptive($items)));
 
 		$mainTpl->fillWindowTitle();
 		$mainTpl->fillCssFiles();
