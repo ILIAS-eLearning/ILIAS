@@ -105,6 +105,26 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 *
+	 */
+	public function testDivisionsByZero()
+	{
+		$this->setExpectedException(ilMathDivisionByZeroException::class);
+
+		$this->mathAdapter->div(1, 0);
+	}
+
+	/**
+	 *
+	 */
+	public function testModuloByZero()
+	{
+		$this->setExpectedException(ilMathDivisionByZeroException::class);
+
+		$this->mathAdapter->mod(1, 0);
+	}
+
+	/**
 	 * @return array
 	 */
 	public function addData()
