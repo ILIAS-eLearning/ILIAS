@@ -24,4 +24,14 @@ class ilMathBCAdapterTest extends ilMathBaseAdapterTest
 		$this->mathAdapter = new ilMathBCMathAdapter();
 		parent::setUp();
 	}
+
+	/**
+	 * @return array
+	 */
+	public function powData()
+	{
+		return array_merge([
+			['2', '64', '18446744073709551616', self::DEFAULT_SCALE],
+		], parent::powData());
+	}
 }

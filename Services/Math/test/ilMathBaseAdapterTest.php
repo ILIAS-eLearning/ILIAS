@@ -173,8 +173,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	public function powData()
 	{
 		return [
-			['3', '2', '9', self::DEFAULT_SCALE],
-			['2', '64', '18446744073709551616', self::DEFAULT_SCALE]
+			['3', '2', '9', self::DEFAULT_SCALE]
 		];
 	}
 
