@@ -231,8 +231,8 @@ class assFormulaQuestionResult
 		include_once "./Services/Math/classes/class.ilMath.php";
 		if(is_object($this->getUnit()))
 		{
-			$range_min = ilMath::_div($range_min, $this->getUnit()->getFactor(), 50);
-			$range_max = ilMath::_div($range_max, $this->getUnit()->getFactor(), 50);
+			$range_min = ilMath::_div($range_min, $this->getUnit()->getFactor());
+			$range_max = ilMath::_div($range_max, $this->getUnit()->getFactor());
 		}
 		$this->setRangeMin(ilMath::_mul($range_min, 1, $this->getPrecision()));
 		$this->setRangeMax(ilMath::_mul($range_max, 1, $this->getPrecision()));
