@@ -14,7 +14,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface {
 	 * @return bool
 	 */
 	public function supportsTransactions() {
-		return true;
+		return false;
 	}
 
 
@@ -22,6 +22,11 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface {
 		$this->manager = new ilDBPdoManager($this->pdo, $this);
 		$this->reverse = new ilDBPdoReverse($this->pdo, $this);
 		$this->field_definition = new ilDBPdoMySQLFieldDefinition($this);
+	}
+
+
+	protected function initSQLMode() {
+		$this->pdo->query("SET SESSION sql_mode = 'IGNORE_SPACE,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';");
 	}
 
 
@@ -48,7 +53,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface {
 	 * @param string $engine
 	 * @return array
 	 */
-	public function migrateAllTablesToEngine($engine = ilDBConstants::ENGINE_INNODB) {
+	public function migrateAllTablesToEngine($engine = ilDBConstants::MYSQL_ENGINE_INNODB) {
 		$engines = $this->queryCol('SHOW ENGINES');
 		if (!in_array($engine, $engines)) {
 			return array();
@@ -64,6 +69,32 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface {
 		}
 
 		return $errors;
+	}
+
+
+	/**
+	 * @param string $table_name
+	 * @return int
+	 */
+	public function nextId($table_name) {
+		$sequence_name = $this->quoteIdentifier($this->getSequenceName($table_name), true);
+		$seqcol_name = 'sequence';
+		$query = "INSERT INTO $sequence_name ($seqcol_name) VALUES (NULL)";
+		try {
+			$this->pdo->exec($query);
+		} catch (PDOException $e) {
+			// no such table check
+		}
+
+		$result = $this->query('SELECT LAST_INSERT_ID() AS next');
+		$value = $result->fetchObject()->next;
+
+		if (is_numeric($value)) {
+			$query = "DELETE FROM $sequence_name WHERE $seqcol_name < $value";
+			$this->pdo->exec($query);
+		}
+
+		return $value;
 	}
 }
 

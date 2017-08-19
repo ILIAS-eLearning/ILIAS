@@ -240,7 +240,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 	
 	/**
 	 * Get Recurrence
-	 * @return 
+	 * @return ilCalendarRecurrence
 	 */
 	public function getRecurrence()
 	{

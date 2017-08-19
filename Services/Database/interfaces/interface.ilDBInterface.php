@@ -63,6 +63,13 @@ interface ilDBInterface {
 
 
 	/**
+	 * @param $table_name
+	 * @return string
+	 */
+	public function getSequenceName($table_name);
+
+
+	/**
 	 * @param $table_name string
 	 *
 	 * @return bool
@@ -107,7 +114,7 @@ interface ilDBInterface {
 	/**
 	 * @param $query string
 	 *
-	 * @return \ilDBStatement
+	 * @return \ilPDOStatement
 	 */
 	public function query($query);
 
@@ -174,7 +181,7 @@ interface ilDBInterface {
 
 
 	/**
-	 * @param $query_result PDOStatement
+	 * @param $query_result ilDBStatement
 	 *
 	 * @return mixed
 	 */
@@ -237,6 +244,7 @@ interface ilDBInterface {
 	/**
 	 * Abstraction of lock table
 	 *
+	 * @deprecated Use ilAtomQuery instead
 	 * @param array table definitions
 	 * @return
 	 */
@@ -246,6 +254,7 @@ interface ilDBInterface {
 	/**
 	 * Unlock tables locked by previous lock table calls
 	 *
+	 * @deprecated Use ilAtomQuery instead
 	 * @return
 	 */
 	public function unlockTables();
@@ -395,7 +404,8 @@ interface ilDBInterface {
 	/**
 	 * @param $stmt
 	 * @param array $data
-	 * @return bool
+	 * @throws ilDatabaseException
+	 * @return ilDBStatement
 	 */
 	public function execute($stmt, $data = array());
 
@@ -442,6 +452,12 @@ interface ilDBInterface {
 	 * @return bool
 	 */
 	public function supportsSlave();
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsTransactions();
 
 	//
 	//
@@ -615,6 +631,12 @@ interface ilDBInterface {
 	 * @return string
 	 */
 	public function getStorageEngine();
+
+
+	/**
+	 * @return \ilAtomQuery
+	 */
+	public function buildAtomQuery();
 }
 
 /**
@@ -666,7 +688,7 @@ interface ilDBPdoInterface {
 	 * @param string $engine
 	 * @return array of failed tables
 	 */
-	public function migrateAllTablesToEngine($engine = ilDBConstants::ENGINE_INNODB);
+	public function migrateAllTablesToEngine($engine = ilDBConstants::MYSQL_ENGINE_INNODB);
 
 
 	/**
@@ -711,4 +733,74 @@ interface ilDBPdoInterface {
 	 * @return int
 	 */
 	public function getLastInsertId();
+
+
+	/**
+	 * @param $query
+	 * @param null $types
+	 * @param null $result_types
+	 * @return ilDBStatement
+	 */
+	public function prepare($query, $types = null, $result_types = null);
+
+
+	/**
+	 * @param $table
+	 * @param array $fields
+	 * @return bool
+	 */
+	public function uniqueConstraintExists($table, array $fields);
+
+
+	/**
+	 * @param $table_name
+	 */
+	public function dropPrimaryKey($table_name);
+
+
+	/**
+	 * @param $stmt
+	 * @param $data
+	 */
+	public function executeMultiple($stmt, $data);
+
+
+	/**
+	 * @param $expr
+	 * @param bool $to_text
+	 * @return string
+	 */
+	public function fromUnixtime($expr, $to_text = true);
+
+
+	/**
+	 * @return string
+	 */
+	public function unixTimestamp();
+
+
+	/**
+	 * Generate an insert, update or delete query and call prepare() and execute() on it
+	 *
+	 * @param string $tablename of the table
+	 * @param array $fields ($key=>$value) where $key is a field name and $value its value
+	 * @param int $mode of query to build
+	 *                          ilDBConstants::MDB2_AUTOQUERY_INSERT
+	 *                          ilDBConstants::MDB2_AUTOQUERY_UPDATE
+	 *                          ilDBConstants::MDB2_AUTOQUERY_DELETE
+	 *                          ilDBConstants::MDB2_AUTOQUERY_SELECT
+	 * @param string $where (in case of update and delete queries, this string will be put after the sql WHERE statement)
+	 *
+	 * @deprecated Will be removed in ILIAS 5.3
+	 * @return bool
+	 */
+	public function autoExecute($tablename, $fields, $mode = ilDBConstants::MDB2_AUTOQUERY_INSERT, $where = false);
+
+
+	/**
+	 * returns the Version of the Database (e.g. MySQL 5.6)
+	 *
+	 * @return string
+	 */
+	public function getDBVersion();
 }

@@ -1,6 +1,10 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * Class ilObjUserTest
+ * @group needsInstalledILIAS
+ */
 class ilObjUserTest extends PHPUnit_Framework_TestCase
 {
 	protected $backupGlobals = FALSE;
@@ -86,17 +90,17 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 		
 		// activation
 		$user->setActive(false);
-		if (!ilObjUser::getStoredActive($id));
+		if (!ilObjUser::getStoredActive($id))
 		{
 			$value.= "act1-";
 		}
 		$user->setActive(true);
-		if (ilObjUser::getStoredActive($id));
+		if (ilObjUser::getStoredActive($id))
 		{
 			$value.= "act2-";
 		}
 		ilObjUser::_toggleActiveStatusOfUsers(array($id), false);
-		if (!ilObjUser::getStoredActive($id));
+		if (!ilObjUser::getStoredActive($id))
 		{
 			$value.= "act3-";
 		}

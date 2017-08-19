@@ -2,13 +2,16 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Password/classes/encoders/class.ilBcryptPasswordEncoder.php';
+require_once 'Services/Password/test/ilPasswordBaseTest.php';
+
+use org\bovigo\vfs;
 
 /**
  * Class ilBcryptPasswordEncoderTest
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
  */
-class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
+class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 {
 	/**
 	 * @var string
@@ -36,12 +39,17 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	const PASSWORD_SALT = 'salt';
 
 	/**
-	 * @var vfsStreamDirectory
+	 * @var vfs\vfsStreamDirectory
 	 */
 	protected $test_directory;
+	
+	/**
+	 * @var string
+	 */
+	protected $test_directory_url;
 
 	/**
-	 * @return vfsStreamDirectory
+	 * @return vfs\vfsStreamDirectory
 	 */
 	public function getTestDirectory()
 	{
@@ -49,7 +57,7 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @param vfsStreamDirectory $test_directory
+	 * @param vfs\vfsStreamDirectory $test_directory
 	 */
 	public function setTestDirectory($test_directory)
 	{
@@ -57,11 +65,19 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @return bool
+	 * @return string
 	 */
-	private function isVsfStreamInstalled()
+	public function getTestDirectoryUrl()
 	{
-		return @include_once('vfsStream.php');
+		return $this->test_directory_url;
+	}
+
+	/**
+	 * @param string $test_directory_url
+	 */
+	public function setTestDirectoryUrl($test_directory_url)
+	{
+		$this->test_directory_url = $test_directory_url;
 	}
 
 	/**
@@ -69,21 +85,47 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		if($this->isVsfStreamInstalled())
-		{
-			vfsStream::setup();
-			$this->setTestDirectory(vfsStream::newDirectory('tests')->at(vfsStreamWrapper::getRoot()));
-			if(!defined('CLIENT_DATA_DIR'))
-			{
-				define('CLIENT_DATA_DIR', vfsStream::url('root/tests'));
-			}
-		}
-		else if(!defined('CLIENT_DATA_DIR'))
-		{
-			define('CLIENT_DATA_DIR', '/tmp');
-		}
+		vfs\vfsStream::setup();
+		$this->setTestDirectory(vfs\vfsStream::newDirectory('tests')->at(vfs\vfsStreamWrapper::getRoot()));
+		$this->setTestDirectoryUrl(vfs\vfsStream::url('root/tests'));
 
 		parent::setUp();
+	}
+
+	/**
+	 *
+	 */
+	private function skipIfPhpVersionIsNotSupported()
+	{
+		if(version_compare(phpversion(), '5.3.7', '<'))
+		{
+			$this->markTestSkipped('Requires PHP >= 5.3.7');
+		}
+	}
+
+	/**
+	 * @return array
+	 */
+	public function costsProvider()
+	{
+		$data = array();
+		for($i = 4; $i <= 31; $i++)
+		{
+			$data[] = array($i);
+		}
+		return $data;
+	}
+
+	/**
+	 * @return ilBcryptPasswordEncoder
+	 */
+	private function getInstanceWithConfiguredDataDirectory()
+	{
+		$encoder = new ilBcryptPasswordEncoder(array(
+			'data_directory' => $this->getTestDirectoryUrl()
+		));
+
+		return $encoder;
 	}
 
 	/**
@@ -92,22 +134,26 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	public function testInstanceCanBeCreated()
 	{
 		$security_flaw_ignoring_encoder = new ilBcryptPasswordEncoder(array(
-			'ignore_security_flaw' => true
+			'ignore_security_flaw' => true,
+			'data_directory'       => $this->getTestDirectoryUrl()
 		));
 		$this->assertTrue($security_flaw_ignoring_encoder->isSecurityFlawIgnored());
 
 		$security_flaw_respecting_encoder = new ilBcryptPasswordEncoder(array(
-			'ignore_security_flaw' => false
+			'ignore_security_flaw' => false,
+			'data_directory'       => $this->getTestDirectoryUrl()
 		));
 		$this->assertFalse($security_flaw_respecting_encoder->isSecurityFlawIgnored());
 
 		$encoder = new ilBcryptPasswordEncoder(array(
-			'cost' => self::VALID_COSTS
+			'cost'           => self::VALID_COSTS,
+			'data_directory' => $this->getTestDirectoryUrl()
 		));
 		$this->assertInstanceOf('ilBcryptPasswordEncoder', $encoder);
 		$this->assertEquals(self::VALID_COSTS, $encoder->getCosts());
 		$this->assertFalse($encoder->isSecurityFlawIgnored());
 		$encoder->setClientSalt(self::CLIENT_SALT);
+
 		return $encoder;
 	}
 
@@ -126,6 +172,7 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCostsCannotBeSetAboveRange(ilBcryptPasswordEncoder $encoder)
 	{
+		$this->assertException(ilPasswordException::class);
 		$encoder->setCosts(32);
 	}
 
@@ -135,6 +182,7 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCostsCannotBeSetBelowRange(ilBcryptPasswordEncoder $encoder)
 	{
+		$this->assertException(ilPasswordException::class);
 		$encoder->setCosts(3);
 	}
 
@@ -145,19 +193,6 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	public function testCostsCanBeSetInRange($costs, ilBcryptPasswordEncoder $encoder)
 	{
 		$encoder->setCosts($costs);
-	}
-
-	/**
-	 * @return array
-	 */
-	public function costsProvider()
-	{
-		$data = array();
-		for($i = 4; $i <= 31; $i++)
-		{
-			$data[] = array($i);
-		}
-		return $data;
 	}
 
 	/**
@@ -178,6 +213,7 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(ilBcryptPasswordEncoder $encoder)
 	{
+		$this->assertException(ilPasswordException::class);
 		$encoder->setCosts(self::VALID_COSTS);
 		$encoder->encodePassword(str_repeat('a', 5000), self::PASSWORD_SALT);
 	}
@@ -192,11 +228,36 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @depends testInstanceCanBeCreated
+	 */
+	public function testEncoderReliesOnSalts(ilBcryptPasswordEncoder $encoder)
+	{
+		$this->assertTrue($encoder->requiresSalt());
+	}
+
+	/**
+	 * @depends testInstanceCanBeCreated
+	 */
+	public function testEncoderDoesNotSupportReencoding(ilBcryptPasswordEncoder $encoder)
+	{
+		$this->assertFalse($encoder->requiresReencoding('hello'));
+	}
+
+	/**
+	 * @depends testInstanceCanBeCreated
+	 */
+	public function testNameShouldBeBcrypt(ilBcryptPasswordEncoder $encoder)
+	{
+		$this->assertEquals('bcrypt', $encoder->getName());
+	}
+
+	/**
 	 * @expectedException ilPasswordException
 	 */
 	public function testExceptionIsRaisedIfSaltIsMissingIsOnEncoding()
 	{
-		$encoder = new ilBcryptPasswordEncoder();
+		$this->assertException(ilPasswordException::class);
+		$encoder = $this->getInstanceWithConfiguredDataDirectory();
 		$encoder->setClientSalt(null);
 		$encoder->setCosts(self::VALID_COSTS);
 		$encoder->encodePassword(self::PASSWORD, self::PASSWORD_SALT);
@@ -207,7 +268,8 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testExceptionIsRaisedIfSaltIsMissingIsOnVerification()
 	{
-		$encoder = new ilBcryptPasswordEncoder();
+		$this->assertException(ilPasswordException::class);
+		$encoder = $this->getInstanceWithConfiguredDataDirectory();
 		$encoder->setClientSalt(null);
 		$encoder->setCosts(self::VALID_COSTS);
 		$encoder->isPasswordValid('12121212', self::PASSWORD, self::PASSWORD_SALT);
@@ -216,56 +278,35 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	/**
 	 *
 	 */
-	public function testExceptionIsRaisedIfAGeneratedClientSaltCouldNotBeStoredOnEncoderSelection()
-	{
-		$this->skipIfvfsStreamNotSupported();
-
-		$encoder = new ilBcryptPasswordEncoder();
-		$this->assertNull($encoder->getClientSalt());
-
-		try
-		{
-			$this->getTestDirectory()->chmod(0000);
-			$encoder->onSelection();
-			$this->fail('An expected exception has not been raised.');
-		}
-		catch(Exception $e)
-		{
-			$this->assertNull($encoder->getClientSalt());
-			$this->assertFileNotExists(vfsStream::url('root/tests/' . ilBcryptPasswordEncoder::SALT_STORAGE_FILENAME));
-		}
-	}
-
-	/**
-	 *
-	 */
-	public function testClientSaltIsGeneratedAndStoredOnEncoderSelection()
-	{
-		$this->skipIfvfsStreamNotSupported();
-
-		$this->getTestDirectory()->chmod(0777);
-
-		$encoder = new ilBcryptPasswordEncoder();
-		$this->assertNull($encoder->getClientSalt());
-
-		$encoder->onSelection();
-
-		$this->assertNotNull($encoder->getClientSalt());
-		$this->assertFileExists(vfsStream::url('root/tests/' . ilBcryptPasswordEncoder::SALT_STORAGE_FILENAME));
-	}
-
-	/**
-	 *
-	 */
 	public function testInstanceCanBeCreatedAndInitializedWithClientSalt()
 	{
-		$this->skipIfvfsStreamNotSupported();
-
 		$this->getTestDirectory()->chmod(0777);
-		vfsStream::newFile(ilBcryptPasswordEncoder::SALT_STORAGE_FILENAME)->withContent(self::CLIENT_SALT)->at($this->getTestDirectory());
+		vfs\vfsStream::newFile(ilBcryptPasswordEncoder::SALT_STORAGE_FILENAME)->withContent(self::CLIENT_SALT)->at($this->getTestDirectory());
 
-		$encoder = new ilBcryptPasswordEncoder();
+		$encoder = $this->getInstanceWithConfiguredDataDirectory();
 		$this->assertEquals(self::CLIENT_SALT, $encoder->getClientSalt());
+	}
+
+	/**
+	 *
+	 */
+	public function testClientSaltIsGeneratedWhenNoClientSaltExistsYet()
+	{
+		$this->getTestDirectory()->chmod(0777);
+
+		$encoder = $this->getInstanceWithConfiguredDataDirectory();
+		$this->assertNotNull($encoder->getClientSalt());
+	}
+
+	/**
+	 * @expectedException ilPasswordException
+	 */
+	public function testExceptionIsRaisedWhenClientSaltCouldNotBeGeneratedInCaseNoClientSaltExistsYet()
+	{
+		$this->assertException(ilPasswordException::class);
+		$this->getTestDirectory()->chmod(0000);
+
+		$encoder = $this->getInstanceWithConfiguredDataDirectory();
 	}
 
 	/**
@@ -273,7 +314,7 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBackwardCompatibilityCanBeRetrievedWhenBackwardCompatibilityIsSet()
 	{
-		$encoder = new ilBcryptPasswordEncoder();
+		$encoder = $this->getInstanceWithConfiguredDataDirectory();
 		$encoder->setBackwardCompatibility(true);
 		$this->assertTrue($encoder->isBackwardCompatibilityEnabled());
 		$encoder->setBackwardCompatibility(false);
@@ -287,14 +328,14 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	{
 		$this->skipIfPhpVersionIsNotSupported();
 
-		$encoder = new ilBcryptPasswordEncoder();
+		$encoder = $this->getInstanceWithConfiguredDataDirectory();
 		$encoder->setClientSalt(self::CLIENT_SALT);
 		$encoder->setBackwardCompatibility(true);
 		$encoded_password = $encoder->encodePassword(self::PASSWORD, self::PASSWORD_SALT);
 		$this->assertTrue($encoder->isPasswordValid($encoded_password, self::PASSWORD, self::PASSWORD_SALT));
 		$this->assertEquals('$2a$', substr($encoded_password, 0, 4));
 
-		$another_encoder = new ilBcryptPasswordEncoder();
+		$another_encoder = $this->getInstanceWithConfiguredDataDirectory();
 		$another_encoder->setClientSalt(self::CLIENT_SALT);
 		$another_encoder->setBackwardCompatibility(false);
 		$another_encoded_password = $another_encoder->encodePassword(self::PASSWORD, self::PASSWORD_SALT);
@@ -303,33 +344,12 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * 
-	 */
-	private function skipIfPhpVersionIsNotSupported()
-	{
-		if(version_compare(phpversion(), '5.3.7', '<'))
-		{
-			$this->markTestSkipped('Requires PHP >= 5.3.7');
-		}
-	}
-
-	/**
-	 *
-	 */
-	private function skipIfvfsStreamNotSupported()
-	{
-		if(!$this->isVsfStreamInstalled())
-		{
-			$this->markTestSkipped('Requires vfsStream (http://vfs.bovigo.org)');
-		}
-	}
-
-	/**
 	 * @expectedException ilPasswordException
 	 */
 	public function testExceptionIsRaisedIfTheRawPasswordContainsA8BitCharacterAndBackwardCompatibilityIsEnabled()
 	{
-		$encoder = new ilBcryptPasswordEncoder();
+		$this->assertException(ilPasswordException::class);
+		$encoder = $this->getInstanceWithConfiguredDataDirectory();
 		$encoder->setClientSalt(self::CLIENT_SALT);
 		$encoder->setBackwardCompatibility(true);
 		$encoder->encodePassword(self::PASSWORD . chr(195), self::PASSWORD_SALT);
@@ -340,19 +360,10 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testExceptionIsNotRaisedIfTheRawPasswordContainsA8BitCharacterAndBackwardCompatibilityIsEnabledWithIgnoredSecurityFlaw()
 	{
-		$encoder = new ilBcryptPasswordEncoder();
+		$encoder = $this->getInstanceWithConfiguredDataDirectory();
 		$encoder->setClientSalt(self::CLIENT_SALT);
 		$encoder->setBackwardCompatibility(true);
 		$encoder->setIsSecurityFlawIgnored(true);
 		$encoder->encodePassword(self::PASSWORD . chr(195), self::PASSWORD_SALT);
-	}
-
-	/**
-	 *
-	 */
-	public function testNameShouldBeBcrypt()
-	{
-		$encoder = new ilBcryptPasswordEncoder();
-		$this->assertEquals('bcrypt', $encoder->getName());
 	}
 }

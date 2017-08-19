@@ -35,6 +35,11 @@ abstract class ilPageConfig
 	protected $question_html = array();
 	protected $use_stored_tries = false;
 	protected $enable_user_links = false;
+
+	/**
+	 * @var bool
+	 */
+	protected $enable_permission_checks = false;
 	
 	/**
 	 * Constructor
@@ -557,5 +562,24 @@ abstract class ilPageConfig
 		return $this->use_stored_tries;
 	}
 
+	/**
+	 * Set enable permission checks
+	 *
+	 * @param bool $a_val enable permission checks
+	 */
+	function setEnablePermissionChecks($a_val)
+	{
+		$this->enable_permission_checks = $a_val;
+	}
+
+	/**
+	 * Get enable permission checks
+	 *
+	 * @return bool enable permission checks
+	 */
+	function getEnablePermissionChecks()
+	{
+		return $this->enable_permission_checks;
+	}
 }
 ?>

@@ -200,11 +200,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $filter_module = $table_gui->getFilterItemByPostVar('module')->getValue();
             $filter_module = $filter_module == 'all' ? '' : $filter_module;
             $filter_modules = $filter_module ? array($filter_module) : array();
+			$filter_identifier = $table_gui->getFilterItemByPostVar('identifier')->getValue();
+			$filter_topics = $filter_identifier ? array($filter_identifier) : array();
 
 			if (!isset($compare_content))
 			{
 				$compare_content = ilObjLanguageExt::_getValues(
-				            		$compare, $filter_modules);
+				            		$compare, $filter_modules, $filter_topics);
 
 				$compare_comments = ilObjLanguageExt::_getRemarks($compare);
 			}
@@ -213,47 +215,47 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 			{
 				case "changed":
 					$translations = $this->object->getChangedValues(
-					        		$filter_modules, $filter_pattern);
+					        		$filter_modules, $filter_pattern, $filter_topics);
 					break;
 
 				case "added":   //langmode only
 					$translations = $this->object->getAddedValues(
-					        		$filter_modules, $filter_pattern);
+					        		$filter_modules, $filter_pattern, $filter_topics);
 					break;
 
 				case "unchanged":
 					$translations = $this->object->getUnchangedValues(
-					            	$filter_modules, $filter_pattern);
+					            	$filter_modules, $filter_pattern, $filter_topics);
 					break;
 					
 				case "commented":
                     $translations = $this->object->getCommentedValues(
-					            	$filter_modules, $filter_pattern);
+					            	$filter_modules, $filter_pattern, $filter_topics);
 					break;
 
 				case "dbremarks":
                     $translations = $this->object->getAllValues(
-					            	$filter_modules, $filter_pattern);
+					            	$filter_modules, $filter_pattern, $filter_topics);
 
 					$translations = array_intersect_key($translations, $remarks);
 					break;
 
 				case "equal":
                     $translations = $this->object->getAllValues(
-					            	$filter_modules, $filter_pattern);
+					            	$filter_modules, $filter_pattern, $filter_topics);
 
 					$translations = array_intersect_assoc($translations, $compare_content);
 					break;
 
 				case "different":
                     $translations = $this->object->getAllValues(
-					            	$filter_modules, $filter_pattern);
+					            	$filter_modules, $filter_pattern, $filter_topics);
 
 					$translations = array_diff_assoc($translations, $compare_content);
 					break;
 
 				case "conflicts":
-				    $former_file = $this->object->getCustLangPath() . '/ilias_' . $this->object->key . '.lang';
+				    $former_file = $this->object->getDataPath() . '/ilias_' . $this->object->key . '.lang';
 					if (!is_readable($former_file))
 					{
                         ilUtil::sendFailure(sprintf($this->lng->txt("language_former_file_missing"), $former_file)
@@ -275,7 +277,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                         break;
 					}
 					$translations = $this->object->getChangedValues(
-					        		$filter_modules, $filter_pattern);
+					        		$filter_modules, $filter_pattern, $filter_topics);
 
 					$translations = array_intersect_key($translations, $global_changes);
 				    break;
@@ -283,7 +285,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 				case "all":
 				default:
 					$translations = $this->object->getAllValues(
-					            	$filter_modules, $filter_pattern);
+					            	$filter_modules, $filter_pattern, $filter_topics);
 			}
         }
 
@@ -542,27 +544,27 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $form->addCommandButton('maintainExecute',$this->lng->txt("language_process_maintenance"));
 
         $rg = new ilRadioGroupInputGUI($this->lng->txt("language_maintain_local_changes"), "maintain");
-        $ro = new ilRadioOption($this->lng->txt("language_save_local_changes"), "save");
-        $ro->setInfo(sprintf($this->lng->txt("language_save_local_changes_info"),$this->object->key));
-        $rg->addOption($ro);
         $ro = new ilRadioOption($this->lng->txt("language_load_local_changes"), "load");
         $ro->setInfo(sprintf($this->lng->txt("language_load_local_changes_info"),$this->object->key));
         $rg->addOption($ro);
         $ro = new ilRadioOption($this->lng->txt("language_clear_local_changes"), "clear");
         $ro->setInfo(sprintf($this->lng->txt("language_clear_local_changes_info"),$this->object->key));
         $rg->addOption($ro);
-        if ($this->langmode)
+		if ($this->langmode)
         {
             $ro = new ilRadioOption($this->lng->txt("language_delete_local_additions"), "delete_added");
             $ro->setInfo(sprintf($this->lng->txt("language_delete_local_additions_info"), $this->object->key));
             $rg->addOption($ro);
-            $ro = new ilRadioOption($this->lng->txt("language_merge_local_changes"), "merge");
+			$ro = new ilRadioOption($this->lng->txt("language_remove_local_file"), "remove_local_file");
+			$ro->setInfo(sprintf($this->lng->txt("language_remove_local_file_info"), $this->object->key));
+			$rg->addOption($ro);
+			$ro = new ilRadioOption($this->lng->txt("language_merge_local_changes"), "merge");
             $ro->setInfo(sprintf($this->lng->txt("language_merge_local_changes_info"), $this->object->key));
             $rg->addOption($ro);
-            $ro = new ilRadioOption($this->lng->txt("language_remove_local_file"), "remove_local_file");
-            $ro->setInfo(sprintf($this->lng->txt("language_remove_local_file_info"), $this->object->key));
-            $rg->addOption($ro);
         }
+		$ro = new ilRadioOption($this->lng->txt("language_save_dist"), "save_dist");
+		$ro->setInfo(sprintf($this->lng->txt("language_save_dist_info"),$this->object->key));
+		$rg->addOption($ro);
         $rg->setValue($this->session["maintain"]);
         $form->addItem($rg);
 
@@ -579,39 +581,20 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         switch ($_POST["maintain"])
         {
-            // save the local changes to the local language file
-            case "save":
-                $lang_file = $this->object->getCustLangPath() . '/ilias_' . $this->object->key . '.lang.local';
+            // save the global language file for merge after
+            case "save_dist":
 
-                if ((is_file($lang_file) and is_writable($lang_file))
-                    or (!file_exists($lang_file) and is_writable($this->object->getCustLangPath())))
-                {
-                    // save a copy of the distributed language file
-                    $orig_file = $this->object->getLangPath() . '/ilias_' . $this->object->key . '.lang';
-                    $copy_file = $this->object->getCustLangPath() . '/ilias_' . $this->object->key . '.lang';
-                    @copy($orig_file, $copy_file);
-
-                    // save a backup of the old local language file
-                    @rename($lang_file, $lang_file.".bak");
-
-                    // create and write the new local language file
-                    $global_file_obj = $this->object->getGlobalLanguageFile();
-                    $local_file_obj = new ilLanguageFile($lang_file, $this->object->key, 'local');
-                    $local_file_obj->setParam('based_on', $global_file_obj->getParam('version'));
-                    $local_file_obj->setAllValues($this->object->getChangedValues());
-                    if ($this->langmode)
-                    {
-                        $local_file_obj->setAllComments($this->object->getAllRemarks());
-                    }
-                    $local_file_obj->write();
-
-                    $this->object->setLocal(true);
-                    ilUtil::sendSuccess($this->lng->txt("language_saved_local") , true);
-                }
-                else
-                {
-                    ilUtil::sendFailure($this->lng->txt("language_error_write_local") , true);
-                }
+				// save a copy of the distributed language file
+				$orig_file = $this->object->getLangPath() . '/ilias_' . $this->object->key . '.lang';
+				$copy_file = $this->object->getDataPath() . '/ilias_' . $this->object->key . '.lang';
+				if (@copy($orig_file, $copy_file))
+				{
+					ilUtil::sendSuccess($this->lng->txt("language_saved_dist") , true);
+				}
+				else
+				{
+					ilUtil::sendFailure($this->lng->txt("language_save_dist_failed") , true);
+				}
                 break;
 
             // load the content of the local language file

@@ -18,7 +18,8 @@ include_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @version	$Id$
  * 
  * @ingroup ModulesTestQuestionPool
-*/
+ * @ilCtrl_Calls assJavaAppletGUI: ilFormPropertyDispatchGUI
+ */
 class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
 	/**
@@ -121,6 +122,8 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
+		$this->editForm = $form;
+
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(true);
@@ -365,7 +368,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		{
 			$solutions = NULL;
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			$info = $this->object->getReachedInformation($active_id, $pass);
+			$info = $this->object->getSolutionValues($active_id, $pass);
 			foreach ($info as $kk => $infodata)
 			{
 				$template->setCurrentBlock("appletparam");
@@ -520,7 +523,9 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		return $questionoutput;
 	}
 	
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	// hey: prevPassSolutions - pass will be always available from now on
+	function getTestOutput($active_id, $pass, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	// hey.
 	{
 		$userdata = $this->object->getActiveUserData($active_id);
 		// generate the question output
@@ -587,13 +592,15 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
 		if ($active_id)
 		{
-			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
-			$info = $this->object->getReachedInformation($active_id, $pass);
+			// hey: prevPassSolutions - obsolete due to central check
+			#$solutions = NULL;
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			#{
+			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			#}
+			$info = $this->object->getTestOutputSolutions($active_id, $pass);
+			// hey.
 			foreach ($info as $kk => $infodata)
 			{
 				$template->setCurrentBlock("appletparam");

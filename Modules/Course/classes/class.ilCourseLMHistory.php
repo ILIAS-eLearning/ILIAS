@@ -122,7 +122,13 @@ class ilCourseLMHistory
 		return $lm ? $lm : array();
 	}
 
-	function _deleteUser($a_usr_id)
+	/**
+	 * Delete user
+	 * @global type $ilDB
+	 * @param type $a_usr_id
+	 * @return boolean
+	 */
+	public static function _deleteUser($a_usr_id)
 	{
 		global $ilDB;
 

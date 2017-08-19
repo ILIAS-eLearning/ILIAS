@@ -1,10 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'classes/class.ilSaxParser.php';
 include_once 'Services/Tracking/classes/class.ilChangeEvent.php';
-include_once 'Modules/Exercise/classes/class.ilExerciseException.php';
 include_once 'Modules/Exercise/classes/class.ilExerciseXMLWriter.php';
+include_once './Services/Xml/classes/class.ilSaxParser.php';
 
 /**
 * Exercise XML Parser which completes/updates a given exercise by an xml string.

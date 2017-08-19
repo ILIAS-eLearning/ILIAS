@@ -200,10 +200,10 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
 		}
 		if ($this->useUnits())
 		{
-			if ((!preg_match("/\\d+(cm|mm|in|pt|pc|px|em)/", $_POST[$this->getPostVar()]["left"])) ||
-			 	(!preg_match("/\\d+(cm|mm|in|pt|pc|px|em)/", $_POST[$this->getPostVar()]["right"])) ||
-				(!preg_match("/\\d+(cm|mm|in|pt|pc|px|em)/", $_POST[$this->getPostVar()]["bottom"])) ||
-				(!preg_match("/\\d+(cm|mm|in|pt|pc|px|em)/", $_POST[$this->getPostVar()]["top"])))
+			if ((!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar()]["left"])) ||
+			 	(!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar()]["right"])) ||
+				(!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar()]["bottom"])) ||
+				(!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $_POST[$this->getPostVar()]["top"])))
 			{
 				$this->setAlert($lng->txt("msg_unit_is_required"));
 				return false;

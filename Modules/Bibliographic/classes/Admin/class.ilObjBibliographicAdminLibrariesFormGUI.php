@@ -1,12 +1,11 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-require_once('./Modules/Bibliographic/classes/class.ilObjBibliographicAdminGUI.php');
+
 /**
  * Bibliographic Settings Form.
  *
- * @author Theodor Truffer
- * @author Martin Studer <ms@studer-raimann.ch>
+ * @author       Theodor Truffer
+ * @author       Martin Studer <ms@studer-raimann.ch>
  *
  * @ilCtrl_Calls ilObjBibliographicAdminLibrariesFormGUI: ilObjBibliographicAdminGUI
  *
@@ -41,7 +40,9 @@ class ilObjBibliographicAdminLibrariesFormGUI extends ilPropertyFormGUI {
 	 *
 	 */
 	public function __construct($parent_gui, $bibl_setting) {
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		$this->parent_gui = $parent_gui;
@@ -94,16 +95,16 @@ class ilObjBibliographicAdminLibrariesFormGUI extends ilPropertyFormGUI {
 
 	private function fillForm() {
 		$this->setValuesByArray(array(
-			'name' => $this->bibl_setting->getName(),
-			'url' => $this->bibl_setting->getUrl(),
-			'img' => $this->bibl_setting->getImg(),
-			'show_in_list' => $this->bibl_setting->getShowInList()
+			'name'         => $this->bibl_setting->getName(),
+			'url'          => $this->bibl_setting->getUrl(),
+			'img'          => $this->bibl_setting->getImg(),
+			'show_in_list' => $this->bibl_setting->getShowInList(),
 		));
 	}
 
 
 	public function saveObject() {
-		if (! $this->checkInput()) {
+		if (!$this->checkInput()) {
 			return false;
 		}
 		$this->bibl_setting->setName($this->getInput("name"));

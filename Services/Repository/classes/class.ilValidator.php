@@ -8,7 +8,7 @@
 * @version	$Id$
 *
 */
-class ilValidator extends PEAR
+class ilValidator
 {
 	protected $media_pool_ids = null;
 	
@@ -117,13 +117,10 @@ class ilValidator extends PEAR
 	{
 		global $objDefinition, $ilDB;
 		
-		$this->PEAR();
 		$this->db =& $ilDB;
 		$this->rbac_object_types = "'".implode("','",$objDefinition->getAllRBACObjects())."'";
 		$this->rbac_object_types = $objDefinition->getAllRBACObjects();
 
-        $this->setErrorHandling(PEAR_ERROR_CALLBACK,array(&$this, 'handleErr'));
-		
 		if ($a_log === true)
 		{
 			$this->logging = true;

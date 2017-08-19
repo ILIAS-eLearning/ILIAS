@@ -11,6 +11,11 @@ include_once './Services/WebServices/ECS/interfaces/interface.ilECSCommandQueueH
  */
 class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 {
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+	
 	private $server = null;
 	private $mid = 0;
 	
@@ -20,6 +25,8 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 	 */
 	public function __construct(ilECSSetting $server)
 	{
+		$this->log = $GLOBALS['DIC']->logger()->wsrv();
+		
 		$this->server = $server;
 		$this->init();
 	}
@@ -44,16 +51,24 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSDirectoryTreeConnector.php';
+		
+		$this->log->debug('ECS cms tree create');
+		
 
 		try 
 		{
 			$dir_reader = new ilECSDirectoryTreeConnector($this->getServer());
 			$res = $dir_reader->getDirectoryTree($a_content_id);
 			$nodes = $res->getResult();
+			
+			if($this->log->isHandling(ilLogLevel::DEBUG))
+			{
+				$this->log->dump($nodes, ilLogLevel::DEBUG);
+			}
 		}
 		catch(ilECSConnectorException $e) 
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Tree creation failed  with mesage ' . $e->getMessage());
+			$this->log->error('Tree creation failed  with mesage ' . $e->getMessage());
 			return false;
 		}
 		
@@ -106,6 +121,8 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 	 */
 	public function handleDelete(ilECSSetting $server, $a_content_id)
 	{
+		$this->log->debug('ECS cms tree delete');
+		
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
 		$data = new ilECSCmsData();
 		$data->setServerId($this->getServer()->getServerId());
@@ -133,6 +150,9 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 	 */
 	public function handleUpdate(ilECSSetting $server, $a_content_id)
 	{
+		$this->log->debug('ECS cms tree update');
+		
+		
 		// 1)  Mark all nodes as deleted
 		// 2a) Delete cms tree
 		// 2)  Add cms tree table entries
@@ -146,6 +166,11 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 			$dir_reader = new ilECSDirectoryTreeConnector($this->getServer());
 			$res = $dir_reader->getDirectoryTree($a_content_id);
 			$nodes = $res->getResult();
+			if($this->log->isHandling(ilLogLevel::DEBUG))
+			{
+				$this->log->dump($nodes, ilLogLevel::DEBUG);
+			}
+			
 		}
 		catch(ilECSConnectorException $e) 
 		{
@@ -164,8 +189,12 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 		{
 			$old_nodes = $tree->getSubTree($root_node,true);
 		}
-
-		//$GLOBALS['ilLog']->write(__METHOD__.': OLD TREE DATA ........'.print_r($old_nodes,true));
+		
+		if($this->log->isHandling(ilLogLevel::DEBUG))
+		{
+			$this->log->debug('Old tree data... ');
+			$this->log->dump($old_nodes, ilLogLevel::DEBUG);
+		}
 
 		// Delete old cms tree
 		ilECSCmsTree::deleteByTreeId($a_content_id);

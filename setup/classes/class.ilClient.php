@@ -102,12 +102,22 @@ class ilClient
 		define("SYSTEM_ROLE_ID", 2);
 
 		$this->db_exists = $this->getDBSetup()->isConnectable();
-		$this->db_installed = $this->getDBSetup()->isDatabaseInstalled();
+				$this->getDBSetup()->provideGlobalDB();
 		if ($this->db_exists) {
-			$this->getDBSetup()->provideGlobalDB();
+			$this->db_installed = $this->getDBSetup()->isDatabaseInstalled();
 		}
 
 		return true;
+	}
+
+
+	public function provideGlobalDB() {
+		$this->getDBSetup()->provideGlobalDB();
+	}
+
+
+	public function revokeGlobalDB() {
+		$this->getDBSetup()->provideGlobalDB();
 	}
 
 	/**
@@ -543,33 +553,6 @@ class ilClient
 
 
 	/**
-	 * Checks whether the db-connection can be established
-	 * @return bool
-	 */
-	public function checkDatabaseHost() {
-		global $lng;
-		switch ($this->getDbType()) {
-			case ilDBConstants::TYPE_ORACLE:
-				return true;
-			case ilDBConstants::TYPE_INNODB_LEGACY:
-			case ilDBConstants::TYPE_MYSQL_LEGACY:
-			case ilDBConstants::TYPE_POSTGRES_LEGACY:
-				$db = $this->db_connections->connectHost($this->dsn_host);
-				if (class_exists('MDB2')) {
-					if (MDB2::isError($db)) {
-						//$this->error = $db->getMessage()."! Please check database hostname, username & password.";
-						$this->error = $db->getMessage() . " - " . $db->getUserInfo() . " - " . $lng->txt("db_error_please_check");
-
-						return false;
-					}
-				}
-			default:
-				$this->db_connections->connectHost($this->dsn_host);
-				return true;
-		}
-	}
-
-	/**
 	* check database connection with database name
 	* @return	boolean
 	*/
@@ -606,19 +589,22 @@ class ilClient
 		$this->connect();
 	}
 
+
 	/**
-	* read one value from settings table
-	* @access	public
-	* @param	string	keyword
-	* @return	string	value
-	*/
-	function getSetting($a_keyword)
-	{
-		if(!$this->getDBSetup()->isDatabaseInstalled()) {
+	 * read one value from settings table
+	 *
+	 * @access    public
+	 * @param    string    keyword
+	 * @return    string    value
+	 */
+	public function getSetting($a_keyword) {
+		global $ilDB;
+		if (!$this->getDBSetup()->isDatabaseInstalled() || !$ilDB) {
 			return false;
 		}
 		include_once './Services/Administration/classes/class.ilSetting.php';
 		$set = new ilSetting("common", true);
+
 		return $set->get($a_keyword);
 	}
 
@@ -692,28 +678,45 @@ class ilClient
 	*/
 	function updateNIC($a_nic_url)
 	{
+		$max_redirects = 5;
+		$socket_timeout = 5;
+
+		require_once(__DIR__."/../../Services/WebServices/Curl/classes/class.ilCurlConnection.php");
+		if (!ilCurlConnection::_isCurlExtensionLoaded()) {
+			$this->setError("CURL-extension not loaded.");
+			return false;
+		}
+
+		$url = $this->getURLStringForNIC($a_nic_url);
+		$req = new ilCurlConnection($url);
+		$req->init();
+
 		$settings = $this->getAllSettings();
 		if((bool)$settings['proxy_status'] && strlen($settings['proxy_host']) && strlen($settings['proxy_port']))
 		{
-			$proxy_options = array(
-				'proxy_host' => $settings['proxy_host'],
-				'proxy_port' => $settings['proxy_port']
-			);
-		}
-		else
-		{
-			$proxy_options = array();
+			$req->setOpt(CURLOPT_HTTPPROXYTUNNEL, true);
+			$req->setOpt(CURLOPT_PROXY, $settings["proxy_host"]);
+			$req->setOpt(CURLOPT_PROXYPORT, $settings["proxy_port"]);
 		}
 
-		include_once('HTTP/Request.php');
-		$url = $this->getURLStringForNIC($a_nic_url);
-		$req = new HTTP_Request($url, $proxy_options);
+		$req->setOpt(CURLOPT_HEADER, 1);
+		$req->setOpt(CURLOPT_RETURNTRANSFER, 1);
+		$req->setOpt(CURLOPT_CONNECTTIMEOUT, $socket_timeout);
+		$req->setOpt(CURLOPT_MAXREDIRS, $max_redirects);
+		$response = $req->exec();
+		
+		$req->parseResponse($response);
+		$response_body = $req->getResponseBody();
 
-		$req->sendRequest();
-		$response = $req->getResponseBody();
-		$response = explode("\n", $response);
+		$info = $req->getInfo();
+		if ($info["http_code"] != "200") {
+			$this->setError("Could not connect to NIC-Server at '".$url."'");
+			return false;
+		}
 
-		$this->nic_status = $response;
+		$this->nic_status = explode("\n", $response_body);
+		
+		ilLoggerFactory::getLogger('setup')->dump($nic_status);
 
 		return true;
 	}

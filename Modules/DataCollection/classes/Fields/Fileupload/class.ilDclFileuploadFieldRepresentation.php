@@ -1,5 +1,4 @@
 <?php
-require_once ('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldRepresentation.php');
 
 /**
  * Class ilDclFileuploadFieldRepresentaion
@@ -16,6 +15,7 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation {
 		$input = new ilFileInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
 
 		$input->setSuffixes($this->getField()->getSupportedExtensions());
+		$input->setAllowDeletion(true);
 
 		$this->requiredWorkaroundForInputField($input, $record_id);
 

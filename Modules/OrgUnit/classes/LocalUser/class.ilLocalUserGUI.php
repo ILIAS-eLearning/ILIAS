@@ -1,9 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/User/classes/class.ilUserTableGUI.php");
-require_once("./Services/User/classes/class.ilLocalUser.php");
-require_once("./Services/User/classes/class.ilObjUserGUI.php");
-require_once("./Services/User/classes/class.ilObjUserFolderGUI.php");
 /**
  * Class ilLocalUserGUI
  *
@@ -51,7 +47,14 @@ class ilLocalUserGUI {
 	 */
 	//TODO MST 14.11.2013 - we should split this class into ilLocalUserTableGUI and ilLocalUserRoleGUI
 	function __construct($parent_gui) {
-		global $tpl, $ilCtrl, $ilTabs, $ilToolbar, $lng, $rbacsystem, $ilAccess;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilAccess = $DIC['ilAccess'];
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->parent_gui = $parent_gui;
@@ -114,7 +117,10 @@ class ilLocalUserGUI {
 
 
 	function index($show_delete = false) {
-		global $ilUser, $rbacreview, $rbacsystem;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$rbacreview = $DIC['rbacreview'];
+		$rbacsystem = $DIC['rbacsystem'];
 		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.cat_admin_users.html',
 			"Modules/Category");
 		if (count($rbacreview->getGlobalAssignableRoles())
@@ -170,7 +176,8 @@ class ilLocalUserGUI {
 	 * Delete User
 	 */
 	function performDeleteUsers() {
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		include_once './Services/User/classes/class.ilLocalUser.php';
 		$this->checkPermission("cat_administrate_users");
 		foreach ($_POST['user_ids'] as $user_id) {
@@ -217,7 +224,8 @@ class ilLocalUserGUI {
 
 
 	function assignRoles() {
-		global $rbacreview;
+		global $DIC;
+		$rbacreview = $DIC['rbacreview'];
 		if (! $this->ilAccess->checkAccess("cat_administrate_users", "", $_GET["ref_id"])) {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this, "");
@@ -261,7 +269,9 @@ class ilLocalUserGUI {
 
 
 	function assignSave() {
-		global $rbacreview, $rbacadmin;
+		global $DIC;
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 		if (! $this->ilAccess->checkAccess("cat_administrate_users", "", $_GET["ref_id"])) {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this, "");
@@ -300,7 +310,9 @@ class ilLocalUserGUI {
 
 
 	function __checkGlobalRoles($new_assigned) {
-		global $rbacreview, $ilUser;
+		global $DIC;
+		$rbacreview = $DIC['rbacreview'];
+		$ilUser = $DIC['ilUser'];
 		if (! $this->ilAccess->checkAccess("cat_administrate_users", "", $_GET["ref_id"])) {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this, "");
@@ -337,7 +349,9 @@ class ilLocalUserGUI {
 
 
 	function __getAssignableRoles() {
-		global $rbacreview, $ilUser;
+		global $DIC;
+		$rbacreview = $DIC['rbacreview'];
+		$ilUser = $DIC['ilUser'];
 		// check local user
 		$tmp_obj =& ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
 		// Admin => all roles

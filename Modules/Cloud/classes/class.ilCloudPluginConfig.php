@@ -88,7 +88,8 @@ class ilCloudPluginConfig
      */
     public function setValue($key, $value)
     {
-        global $ilDB;
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
 
         if(!$ilDB->tableExists($this->table_name))
         {
@@ -112,7 +113,8 @@ class ilCloudPluginConfig
      */
     public function getValue($key)
     {
-        global $ilDB;
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
 
 
         if (!$this->tableExists($this->table_name))
@@ -137,7 +139,8 @@ class ilCloudPluginConfig
      */
     public function initDB()
     {
-        global $ilDB;
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
 
         if (!$ilDB->tableExists($this->getTableName()))
         {
@@ -190,7 +193,8 @@ class ilCloudPluginConfig
 
     public function tableExists()
     {
-        global $ilDB;
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
         $result = $ilDB->query("show tables like '".$this->getTableName()."'");
 
         if ($result->numRows() == 0)

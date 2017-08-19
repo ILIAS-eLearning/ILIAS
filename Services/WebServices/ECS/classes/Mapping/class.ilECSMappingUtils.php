@@ -13,11 +13,10 @@ class ilECSMappingUtils
 	const MAPPED_MANUAL = 2;
 	const MAPPED_UNMAPPED = 3;
 	
-	const PARALLEL_UNDEFINED = 0;
-	const PARALLEL_ONE_COURSE = 1;
-	const PARALLEL_GROUPS_IN_COURSE = 2;
-	const PARALLEL_ALL_COURSES = 3;
-	const PARALLEL_COURSES_FOR_LECTURERS = 4;
+	const PARALLEL_ONE_COURSE = 0;
+	const PARALLEL_GROUPS_IN_COURSE = 1;
+	const PARALLEL_ALL_COURSES = 2;
+	const PARALLEL_COURSES_FOR_LECTURERS = 3;
 
 	/**
 	 * Lookup mapping status
@@ -61,6 +60,7 @@ class ilECSMappingUtils
 		foreach(
 			array(
 				'organisation',
+				'orgunit',
 				'term',
 				'title',
 				'lecturer',
@@ -93,58 +93,71 @@ class ilECSMappingUtils
 	 * Get course value by mapping
 	 * @param type $course
 	 * @param type $a_field
+	 * @return array
 	 */
 	public static function getCourseValueByMappingAttribute($course, $a_field)
 	{
 		switch($a_field)
 		{
 			case 'organisation':
-				return (string) $course->organisation;
+				return array((string) $course->organisation);
 				
 			case 'term':
-				return (string) $course->term;
+				return array((string) $course->term);
 				
 			case 'title':
-				return (string) $course->title;
+				return array((string) $course->title);
+				
+			case 'orgunit':
+				$units = array();
+				foreach((array) $course->organisationalUnits as $unit)
+				{
+					$units[] = (string) $unit->title;
+				}
+				return $units;
 				
 			case 'lecturer':
+				$lecturers = array();
 				foreach((array) $course->groups as $group)
 				{
 					foreach((array) $group->lecturers as $lecturer)
 					{
-						return (string) ($lecturer->lastName.', '. $lecturer->firstName);
+						$lecturers[] =  (string) ($lecturer->lastName.', '. $lecturer->firstName);
 					}
 				}
-				return '';
+				return $lecturers;
 				
 			case 'courseType':
 				return (string) $course->lectureType;
 				
 			case 'degreeProgramme':
+				$degree_programmes = array();
 				foreach((array) $course->degreeProgrammes as $prog)
 				{
-					return (string) $prog->title;
+					$degree_programmes[] = (string) $prog->title;
 				}
-				return '';
+				return $degree_programmes;
 				
 			case 'module':
+				$modules = array();
 				foreach((array) $course->modules as $mod)
 				{
-					return (string) $mod->title;
+					$modules[] = (string) $mod->title;
 				}
-				return '';
+				return $modules;
 				
 			case 'venue':
+				$venues[] = array();
 				foreach((array) $course->groups as $group)
 				{
 					foreach((array) $group->datesAndVenues as $venue)
 					{
-						return (string) $venue->venue;
+						$venues[] = (string) $venue->venue;
 					}
 				}
-				return '';
+				return $venues;
 		}
-		return '';
+		return array();
 	}
 	
 	
@@ -194,9 +207,23 @@ class ilECSMappingUtils
 		{
 			return $roles[$a_role_type_info];
 		}
+	}
+	
+	/**
+	 * Get auth mode selection
+	 */
+	public static function getAuthModeSelection()
+	{
+		$options[0] = $GLOBALS['lng']->txt('select_one');
+		$options['local'] = $GLOBALS['lng']->txt('auth_local');
 		
-		
-		
+		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
+		foreach(ilLDAPServer::getServerIds() as $sid)
+		{
+			$server = ilLDAPServer::getInstanceByServerId($sid);
+			$options['ldap_'.$server->getServerId()] = 'LDAP (' . $server->getName().')';
+		}
+		return $options;
 	}
 
 }

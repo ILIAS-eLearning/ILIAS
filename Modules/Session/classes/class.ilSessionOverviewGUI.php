@@ -94,7 +94,7 @@ class ilSessionOverviewGUI
 	{
 		global $ilToolbar,$ilErr,$ilAccess;
 
-		if(!$ilAccess->checkAccess('write','',$this->course_ref_id))
+		if(!$ilAccess->checkAccess('manage_members','',$this->course_ref_id))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
 		}

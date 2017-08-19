@@ -43,6 +43,11 @@ class ilLOSettings
 	
 	private static $instances = array();
 	
+	/**
+	 * @var ilLogger
+	 */
+	private $logger = null;
+	
 	
 	// settings 5.1
 	private $it_type = self::TYPE_INITIAL_PLACEMENT_ALL;
@@ -70,6 +75,8 @@ class ilLOSettings
 	 */
 	protected function __construct($a_cont_id)
 	{
+		$this->logger = $GLOBALS['DIC']->logger()->crs();
+		
 		$this->container_id = $a_cont_id;
 		$this->read();
 	}
@@ -459,6 +466,8 @@ class ilLOSettings
 				$ilDB->quote($this->getPassedObjectiveMode(),'integer').' '.
 				') ';
 		$ilDB->manipulate($query);
+		
+		$this->entry_exists = true;
 	}
 
 	
@@ -536,8 +545,10 @@ class ilLOSettings
 				
 			default:
 
+				$this->logger->debug('Type initial default');
 				if($start->exists($this->getInitialTest()))
 				{
+					$this->logger->debug('Old start object exists. Trying to delete');
 					$start->deleteItem($this->getInitialTest());
 				}
 				break;

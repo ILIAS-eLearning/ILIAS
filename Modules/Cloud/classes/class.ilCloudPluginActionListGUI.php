@@ -37,7 +37,9 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI {
 	 */
 	public function getSelectionListItemsHTML($delete_item = false, $delete_folder = false, ilCloudFileNode $node) {
 
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		/**
 		 * @var ilCtrl $ilCtrl
@@ -72,7 +74,8 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI {
 	 * @param $delete_folder
 	 */
 	protected function addSelectionListItems($delete_item, $delete_folder) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$this->addItemsBefore();
 		if (($delete_item && !$this->node->getIsDir()) || ($delete_folder && $this->node->getIsDir())) {
 			$this->selection_list->addItem($lng->txt("delete"), "delete_item", "javascript:il.CloudFileList.deleteItem(\'" . $this->node->getId()
@@ -89,7 +92,8 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI {
 	 * @param ilCloudFileNode $node
 	 */
 	public function asyncGetContent($delete_item = false, $delete_folder = false, ilCloudFileNode $node) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$this->node = $node;
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$this->selection_list = new ilAdvancedSelectionListGUI();

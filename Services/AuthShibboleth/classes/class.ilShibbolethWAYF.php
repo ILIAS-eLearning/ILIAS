@@ -195,7 +195,8 @@ class ShibWAYF {
 	 * @description Generate array of IdPs from ILIAS Shibboleth settings
 	 */
 	public function getIdplist() {
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 		$idp_list = array();
 		$idp_raw_list = explode("\n", $ilSetting->get("shib_idp_list"));
 		foreach ($idp_raw_list as $idp_line) {

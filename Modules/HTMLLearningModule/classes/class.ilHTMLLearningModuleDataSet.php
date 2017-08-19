@@ -144,7 +144,7 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
 				$newObj->setStartFile($a_rec["StartFile"], true);
-				$newObj->update();
+				$newObj->update(true);
 				$this->current_obj = $newObj;
 
 				$dir = str_replace("..", "", $a_rec["Dir"]);

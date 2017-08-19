@@ -2,11 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.php');
-require_once('./Modules/DataCollection/classes/class.ilObjDataCollectionGUI.php');
-require_once('./Modules/DataCollection/classes/Content/class.ilDclRecordListGUI.php');
-require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
-require_once ('./Services/Export/classes/class.ilExport.php');
 
 
 
@@ -124,15 +119,7 @@ class ilDclContentExporter
 
 		foreach ($table->getFields() as $field) {
 			if ($field->getExportable()) {
-				$worksheet->setCell($row, $col, $field->getTitle());
-				$col++;
-
-				if ($field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_TEXT) {
-					if ($field->getProperty(ilDclBaseFieldModel::PROP_URL)) {
-						$worksheet->setCell($row, $col, $field->getTitle() . '_title');
-						$col++;
-					}
-				}
+				$field->fillHeaderExcel($worksheet, $row, $col);
 			}
 		}
 	}
@@ -272,8 +259,7 @@ class ilDclContentExporter
 		else
 		{
 			$ilLog->warning('SOAP clone call failed. Calling clone method manually');
-			require_once('./webservice/soap/include/inc.soap_functions.php');
-			if(method_exists('ilSoapFunctions', $method)) {
+						if(method_exists('ilSoapFunctions', $method)) {
 				$res = ilSoapFunctions::$method($new_session_id.'::'.$client_id, $soap_params);
 			} else {
 				throw new ilDclException("SOAP call ".$method." does not exists!");

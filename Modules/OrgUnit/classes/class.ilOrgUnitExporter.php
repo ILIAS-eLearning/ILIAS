@@ -1,8 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Modules/Category/classes/class.ilCategoryExporter.php");
-require_once("./Services/Xml/classes/class.ilXmlWriter.php");
-require_once("./Services/Export/classes/class.ilExport.php");
 /**
  * Class ilOrgUnitExporter
  *
@@ -17,6 +14,7 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 	public function simpleExport($orgu_ref_id){
 		$nodes = $this->getStructure($orgu_ref_id);
 		$writer = new ilXmlWriter();
+		$writer->xmlHeader();
 		$writer->xmlStartTag("OrgUnits");
 		foreach($nodes as $orgu_ref_id){
 			$orgu = new ilObjOrgUnit($orgu_ref_id);
@@ -48,7 +46,6 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 	public function simpleExportExcel($orgu_ref_id) {
 		// New File and Sheet
 		$file_name = "org_unit_export_" . $orgu_ref_id;
-		require_once('./Services/Excel/classes/class.ilExcel.php');
 		$worksheet = new ilExcel();
 		$worksheet->addSheet('org_units');
 		$row = 1;
@@ -129,7 +126,8 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 	}
 
 	private function getStructure($root_node_ref){
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		$open = array($root_node_ref);
 		$closed = array();
 		while(count($open)){
@@ -148,7 +146,8 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 	 * @return array
 	 */
 	private function getAttributesForOrgu($orgu){
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		$parent_ref = $tree->getParentId($orgu->getRefId());
 		if($parent_ref != ilObjOrgUnit::getRootOrgRefId()){
 			$ou_parent_id = $this->buildExternalId($parent_ref);

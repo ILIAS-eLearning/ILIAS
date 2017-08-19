@@ -60,11 +60,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				break;
 
 			case 'ilobjectmetadatagui':
-				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
-				{
-					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
-				}
-				
+				$this->checkPermission('write'); // #18563
 				$this->prepareOutput();	
 				$ilTabs->activateTab('id_meta_data');
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
@@ -1268,16 +1264,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	function refreshLinkCheck()
 	{
 		$this->__initLinkChecker();
-
-		if(!$this->link_checker_obj->checkPear())
-		{
-			ilUtil::sendFailure($this->lng->txt('missing_pear_library'));
-			$this->linkChecker();
-
-			return false;
-		}
-
-
 		$this->object->initLinkResourceItemsObject();
 
 		// Set all link to valid. After check invalid links will be set to invalid
@@ -1407,12 +1393,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		if ($this->checkPermissionBool('write'))
 		{
 			// Check if pear library is available
-			if(@include_once('HTTP/Request.php'))
-			{
-				$ilTabs->addTab("id_link_check",
-					$lng->txt("link_check"),
-					$this->ctrl->getLinkTarget($this, "linkChecker"));
-			}
+			$ilTabs->addTab("id_link_check",
+				$lng->txt("link_check"),
+				$this->ctrl->getLinkTarget($this, "linkChecker"));
 		}
 
 		if ($this->checkPermissionBool('write'))
@@ -1564,6 +1547,44 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			ilUtil::redirect($a_url);
 		}		
 	}
+		
+	public function exportHTML()
+	{
+		global $ilSetting;
+		
+		$tpl = new ilTemplate("tpl.export_html.html", true, true, "Modules/WebResource");
+		
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+		$items = new ilLinkResourceItems($this->object->getId());
+		foreach($items->getAllItems() as $item)
+		{
+			if(!$item["active"])
+			{
+				continue;
+			}
+			
+			$target = $this->handleSubItemLinks($item["target"]);
+			
+			$tpl->setCurrentBlock("link_bl");
+			$tpl->setVariable("LINK_URL", $target);
+			$tpl->setVariable("LINK_TITLE", $item["title"]);
+			$tpl->setVariable("LINK_DESC", $item["description"]);
+			$tpl->setVariable("LINK_CREATE", $item["create_date"]);
+			$tpl->setVariable("LINK_UPDATE", $item["last_update"]);
+			$tpl->parseCurrentBlock();
+		}
+		
+		$tpl->setVariable("CREATE_DATE", $this->object->getCreateDate());
+		$tpl->setVariable("LAST_UPDATE", $this->object->getLastUpdateDate());
+		$tpl->setVariable("TXT_TITLE", $this->object->getTitle());
+		$tpl->setVariable("TXT_DESC", $this->object->getLongDescription());
+		
+		$tpl->setVariable("INST_ID", ($ilSetting->get('short_inst_name') != "")
+			? $ilSetting->get('short_inst_name')
+			: "ILIAS");			
+		
+		ilUtil::deliverData($tpl->get(), "bookmarks.html");
+	}	
 
 	public static function _goto($a_target, $a_additional = null)
 	{
@@ -1602,5 +1623,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}
+	
 } // END class.ilObjLinkResource
 ?>

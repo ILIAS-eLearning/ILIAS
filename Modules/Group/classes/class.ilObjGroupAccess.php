@@ -327,20 +327,25 @@ class ilObjGroupAccess extends ilObjectAccess
 		
 		if($info['reg_info_mem_limit'] && $info['reg_info_max_members'] && $registration_possible)
 		{
-			// Check if users are on waiting list
-			// @todo
-			
-			
 			// Check for free places
 			include_once './Modules/Group/classes/class.ilGroupParticipants.php';
 			$part = ilGroupParticipants::_getInstanceByObjId($a_obj_id);
-			if($part->getCountMembers() <= $info['reg_info_max_members'])
+
+			include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
+			$info['reg_info_list_size'] = ilCourseWaitingList::lookupListSize($a_obj_id);
+			if($info['reg_info_list_size'])
+			{
+				$info['reg_info_free_places'] = 0;
+			}
+			else
+			{
+				$info['reg_info_free_places'] = max(0,$info['reg_info_max_members'] - $part->getCountMembers());
+			}
+
+			if($info['reg_info_free_places'])
 			{
 				$info['reg_info_list_prop_limit']['property'] = $lng->txt('grp_list_reg_limit_places');
-				$info['reg_info_list_prop_limit']['value'] = max(
-						0,
-						$info['reg_info_max_members'] - $part->getCountMembers()
-					);
+				$info['reg_info_list_prop_limit']['value'] = $info['reg_info_free_places'];
 			}
 			else
 			{
@@ -351,6 +356,43 @@ class ilObjGroupAccess extends ilObjectAccess
 
 		return $info;
 	}
+	
+	/**
+	 * Lookup course period info
+	 * 
+	 * @param int $a_obj_id
+	 * @return array
+	 */
+	public static function lookupPeriodInfo($a_obj_id)
+	{
+		global $ilDB, $lng;
+		
+		$start = $end = null;
+		
+		$query = 'SELECT grp_start, grp_end FROM grp_settings'.
+			' WHERE obj_id = '.$ilDB->quote($a_obj_id);
+		$set = $ilDB->query($query);		
+		while($row = $ilDB->fetchAssoc($set))
+		{			
+			$start = $row['grp_start'] 
+				? new ilDate($row['grp_start'], IL_CAL_UNIX)
+				: null;
+			$end = $row['grp_end'] 
+				? new ilDate($row['grp_end'], IL_CAL_UNIX)
+				: null;
+		}
+		
+		if($start && $end)
+		{
+			$lng->loadLanguageModule('grp');
+			
+			return array(
+				'property' => $lng->txt('grp_period'),
+				'value' => ilDatePresentation::formatPeriod($start, $end)
+			);
+		}
+	}
+	
 
 	/**
 	 * Using Registration code

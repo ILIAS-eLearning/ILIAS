@@ -261,6 +261,8 @@ class ilPCQuestion extends ilPageContent
 	{
 		global $lng;
 
+		$qhtml = "";
+
 		if ($this->getPage()->getPageConfig()->getEnableSelfAssessment())
 		{
 			// #14154
@@ -296,6 +298,20 @@ class ilPCQuestion extends ilPageContent
 		{
 			// set by T&A components
 			$qhtml = $this->getPage()->getPageConfig()->getQuestionHTML();
+
+			// address #19788
+			if (!is_array($qhtml) || count($qhtml) == 0)
+			{
+				// #14154
+				$q_ids = $this->getPage()->getQuestionIds();
+				if(sizeof($q_ids))
+				{
+					foreach ($q_ids as $k)
+					{
+						$a_output = str_replace("{{{{{Question;il__qst_$k"."}}}}}", " ".$lng->txt("copg_questions_not_supported_here"), $a_output);
+					}
+				}
+			}
 		}
 
 		if (is_array($qhtml))

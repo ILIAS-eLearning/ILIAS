@@ -4,7 +4,7 @@
 			<tr>
 				<th>{ANSWER_TEXT}</th>
 				<th>{POINTS_TEXT}</th>
-				<!-- <th>{COMMANDS_TEXT}</th> -->
+				<th><!-- {COMMANDS_TEXT} --></th>
 			</tr>
 		</thead>
 		<tbody class="answwzd">
@@ -20,8 +20,8 @@
 				</td>
 				<td style="ilValignTop">
 <!-- BEGIN addremove -->
-					<button type="button" value="" name="{CMD_ADD}" class="answerwizard_add btn btn-link" id="add_{ID}" >{ADD_BUTTON}</button>
-					<button type="button" value="" name="{CMD_REMOVE}" class="answerwizard_remove btn btn-link" id="remove_{ID}" onclick="javascript: void(0); return false;">{REMOVE_BUTTON}</button>
+					<button type="button" value="" name="{CMD_ADD}" class="answerwizard_add btn btn-link" id="add_{ADD_REMOVE_ID}" >{ADD_BUTTON}</button>
+					<button type="button" value="" name="{CMD_REMOVE}" class="answerwizard_remove btn btn-link" id="remove_{ADD_REMOVE_ID}" onclick="javascript: void(0); return false;">{REMOVE_BUTTON}</button>
 <!-- END addremove -->
 <!-- BEGIN move -->
 					<button type="button" name="{CMD_UP}" class="answerwizard_up btn btn-link" id="up_{MOVE_ID}" onclick="javascript: void(0); return false;">{UP_BUTTON}</button>

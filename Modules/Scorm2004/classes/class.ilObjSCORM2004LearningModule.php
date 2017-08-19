@@ -74,8 +74,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	{	
 		global $ilias, $lng ,$ilDB;
 		
-		//check for MYSQL 4.1 and json_encode,json_decode 
-		if (!function_exists('json_encode') ||  !function_exists('json_decode') || ($ilDB->getDBType() == 'mysql' && !$ilDB->isMysql4_1OrHigher())) {
+		//check for json_encode,json_decode 
+		if (!function_exists('json_encode') ||  !function_exists('json_decode') ) {
 			$ilias->raiseError($lng->txt('scplayer_phpmysqlcheck'),$ilias->error_obj->WARNING);
 		}
 
@@ -409,7 +409,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		FROM cp_node, cmi_node 
 		WHERE slm_id = %s
 		AND cp_node.cp_node_id = cmi_node.cp_node_id 
-		ORDER BY cp_node.cp_node_id ',
+		ORDER BY cmi_node.cp_node_id ',
 		array('integer'),
 		array($this->getId()));
 		
@@ -479,8 +479,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 					}
 					if ($data_rec["scaled"] != null) $score .= ($data_rec["scaled"]*100)."%";
 					$title = self::_lookupItemTitle($data_rec["cp_node_id"]);
-					$last_access=ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'],IL_CAL_UNIX));
-					 $data[] = array("user_id" => $data_rec["user_id"], "sco_id"=>$data_rec["cp_node_id"],
+					$last_access=ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'],IL_CAL_DATETIME));
+					$data[] = array("user_id" => $data_rec["user_id"], "sco_id"=>$data_rec["cp_node_id"],
 						"score" => $score, "time" => $time, "status" => $status,"last_access"=>$last_access,"title"=>$title);
 				}
 				else

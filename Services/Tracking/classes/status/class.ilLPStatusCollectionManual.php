@@ -143,7 +143,7 @@ class ilLPStatusCollectionManual extends ilLPStatus
 		return self::LP_STATUS_NOT_ATTEMPTED_NUM;
 	}
 	
-	function _getObjectStatus($a_obj_id, $a_user_id = null)
+	static function _getObjectStatus($a_obj_id, $a_user_id = null)
 	{
 		global $ilDB;
 		
@@ -172,7 +172,7 @@ class ilLPStatusCollectionManual extends ilLPStatus
 		return $res;				
 	}
 	
-	function _setObjectStatus($a_obj_id, $a_user_id, array $a_completed = null)
+	static function _setObjectStatus($a_obj_id, $a_user_id, array $a_completed = null)
 	{
 		global $ilDB;
 		

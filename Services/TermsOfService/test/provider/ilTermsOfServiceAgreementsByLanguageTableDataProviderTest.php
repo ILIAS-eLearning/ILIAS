@@ -1,35 +1,20 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/TermsOfService/test/ilTermsOfServiceBaseTest.php';
+
+use org\bovigo\vfs;
+
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_Framework_TestCase
+class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends ilTermsOfServiceBaseTest
 {
 	/**
 	 * @var bool
 	 */
 	protected $backupGlobals = false;
-
-	/**
-	 * @return bool
-	 */
-	private function isVsfStreamInstalled()
-	{
-		return @include_once('vfsStream.php');
-	}
-
-	/**
-	 *
-	 */
-	private function skipIfvfsStreamNotSupported()
-	{
-		if(!$this->isVsfStreamInstalled())
-		{
-			$this->markTestSkipped('Requires vfsStream (http://vfs.bovigo.org)');
-		}
-	}
 
 	/**
 	 *
@@ -41,11 +26,8 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 			define('CLIENT_ID', 'phpunit');
 		}
 
-		if($this->isVsfStreamInstalled())
-		{
-			vfsStreamWrapper::register();
-		}
-		
+		vfs\vfsStreamWrapper::register();
+
 		parent::setUp();
 	}
 
@@ -56,7 +38,7 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	{
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceTableDataProviderFactory.php';
 		$factory = new ilTermsOfServiceTableDataProviderFactory();
-		$factory->setLanguageAdapter($this->getMockBuilder('ilLanguage')->setMethods(array('toJSON'))->disableOriginalConstructor()->getMock());
+		$factory->setLanguageAdapter($this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages'))->disableOriginalConstructor()->getMock());
 		$provider = $factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE);
 
 		$this->assertInstanceOf('ilTermsOfServiceAgreementByLanguageProvider', $provider);
@@ -71,28 +53,26 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	 */
 	public function testProviderReturnsAResultForEveryInstalledLanguage(ilTermsOfServiceAgreementByLanguageProvider $provider)
 	{
-		$this->skipIfvfsStreamNotSupported();
-
 		$client_rel_path = implode('/', array('clients', 'default', 'agreement'));
 		$global_rel_path = implode('/', array('global', 'agreement'));
 
-		$root = vfsStreamWrapper::setRoot(new vfsStreamDirectory('root'));
-		$customizing_dir = vfsStream::newDirectory('Customizing')->at($root);
+		$root = vfs\vfsStreamWrapper::setRoot(new vfs\vfsStreamDirectory('root'));
+		$customizing_dir = vfs\vfsStream::newDirectory('Customizing')->at($root);
 
-		$client_dir = vfsStream::newDirectory($client_rel_path)->at($customizing_dir);
-		vfsStream::newFile('agreement_de.html', 0777)->at($client_dir);
-		file_put_contents(vfsStream::url('root/Customizing/' . $client_rel_path . '/agreement_de.html'), 'phpunit');
+		$client_dir = vfs\vfsStream::newDirectory($client_rel_path)->at($customizing_dir);
+		vfs\vfsStream::newFile('agreement_de.html', 0777)->at($client_dir);
+		file_put_contents(vfs\vfsStream::url('root/Customizing/' . $client_rel_path . '/agreement_de.html'), 'phpunit');
 
-		$global_dir = vfsStream::newDirectory($global_rel_path)->at($customizing_dir);
-		vfsStream::newFile('agreement_en.html', 0777)->at($global_dir);
-		file_put_contents(vfsStream::url('root/Customizing/' . $global_rel_path . '/agreement_en.html'), 'phpunit');
+		$global_dir = vfs\vfsStream::newDirectory($global_rel_path)->at($customizing_dir);
+		vfs\vfsStream::newFile('agreement_en.html', 0777)->at($global_dir);
+		file_put_contents(vfs\vfsStream::url('root/Customizing/' . $global_rel_path . '/agreement_en.html'), 'phpunit');
 
 		$provider->setSourceDirectories(array(
-			vfsStream::url('root/Customizing/' . $client_rel_path),
-			vfsStream::url('root/Customizing/' . $global_rel_path)
+			vfs\vfsStream::url('root/Customizing/' . $client_rel_path),
+			vfs\vfsStream::url('root/Customizing/' . $global_rel_path)
 		));
 
-		$lng                 = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON'))->disableOriginalConstructor()->getMock();
+		$lng                 = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages'))->disableOriginalConstructor()->getMock();
 		$installed_languages = array('en', 'de', 'fr');
 		$lng->expects($this->once())->method('getInstalledLanguages')->will($this->onConsecutiveCalls($installed_languages));
 		$provider->setLanguageAdapter($lng);
@@ -127,7 +107,7 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	 */
 	public function testProviderShouldReturnLanguageAdapterWhenLanguageAdapterIsSet(ilTermsOfServiceAgreementByLanguageProvider $provider)
 	{
-		$expected = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON'))->disableOriginalConstructor()->getMock();
+		$expected = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON', 'getInstalledLanguages'))->disableOriginalConstructor()->getMock();
 
 		$provider->setLanguageAdapter($expected);
 		$this->assertEquals($expected, $provider->getLanguageAdapter());

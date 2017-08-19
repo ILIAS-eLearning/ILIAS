@@ -30,12 +30,8 @@ public class RPCTransformationHandler {
 
     protected static Logger logger = Logger.getLogger(RPCTransformationHandler.class);
 	
-    private FO2PDF fo2pdf;
-    
-
     public RPCTransformationHandler() {
         
-        fo2pdf = FO2PDF.getInstance();
 
     }
     
@@ -46,12 +42,16 @@ public class RPCTransformationHandler {
     
     public byte[] ilFO2PDF(String foString) { 
         
+	FO2PDF fo = null;
+
     	try {
-			
-    		fo2pdf.clearCache();
-			fo2pdf.setFoString(foString);
-			fo2pdf.transform();
-			return fo2pdf.getPdf();
+		
+		fo = new FO2PDF();
+		fo.clearCache();
+		fo.setFoString(foString);
+		fo.transform();
+		
+		return fo.getPdf();
 		} 
 		catch (TransformationException e) {
 			

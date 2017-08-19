@@ -46,7 +46,7 @@ class ilUserProfile
 	private static $user_field = array(
 		"username" => array(
 						"input" => "login",
-						"maxlength" => 32,
+						"maxlength" => 64,
 						"size" => 40,
 						"method" => "getLogin",
 						"course_export_fix_value" => 1,
@@ -151,6 +151,20 @@ class ilUserProfile
 						"group_export_hide" => true,
 						"lists_hide" => true,								
 						"group" => "interests"),
+		"org_units" => array(
+						"input" => "noneditable",
+						"lang_var" => "objs_orgu",
+						"required_hide" => true,
+						"visib_reg_hide" => true,
+						"course_export_hide" => false,
+						"group_export_hide" => false,
+						"export_hide" => true,
+						"changeable_hide" => true,
+						"changeable_fix_value" => 0,
+						"changeable_lua_hide" => true,
+						"changeable_lua_fix_value" => 0,
+						"method" => "getOrgUnitsRepresentation",
+						"group" => "contact_data"),
 		"institution" => array(
 						"input" => "text",
 						"maxlength" => 80,
@@ -221,6 +235,12 @@ class ilUserProfile
 						"size" => 40,
 						"method" => "getEmail",
 						"group" => "contact_data"),
+		"second_email" => array(
+						"input" => "second_email",
+						"maxlength" => 40,
+						"size" => 40,
+						"method" => "getSecondEmail",
+						"group" => "contact_data"),
 		"hobby" => array(
 						"input" => "textarea",
 						"rows" => 3,
@@ -237,27 +257,11 @@ class ilUserProfile
 						"group_export_hide" => true,
 						"lists_hide" => true,
 						"group" => "contact_data"),	
-		"instant_messengers" => array(
-						"input" => "messenger",
-						"types" => array("icq","yahoo","msn","aim","skype","jabber","voip"), 
-						"maxlength" => 40,
-						"size" => 40,
-						"course_export_hide" => true,
-						"group_export_hide" => true,
-						"lists_hide" => true,
-						"required_hide" => true, // #17302
-						"group" => "instant_messengers"),
 		"matriculation" => array(
 						"input" => "text",
 						"maxlength" => 40,
 						"size" => 40,
 						"method" => "getMatriculation",
-						"group" => "other"),
-		"delicious" => array(
-						"input" => "text",
-						"maxlength" => 40,
-						"size" => 40,
-						"method" => "getDelicious",
 						"group" => "other"),
 		"language" => array(
 						"input" => "language",
@@ -312,7 +316,27 @@ class ilUserProfile
 			"visib_reg_hide" => true,
 			"course_export_hide" => true,
 			"group_export_hide" => true,
-			"group" => "settings"),
+			"group" => "settings",
+			"default" => "y",
+			"options" => array(
+				"n" => "buddy_allow_to_contact_me_no",
+				"y" => "buddy_allow_to_contact_me_yes"
+			)
+		),
+		"chat_osc_accept_msg" => array(
+			"input" => "selection",
+			"lang_var" => "chat_osc_accept_msg",
+			"required_hide" => true,
+			"visib_reg_hide" => true,
+			"course_export_hide" => true,
+			"group_export_hide" => true,
+			"group" => "settings",
+			"default" => "y",
+			"options" => array(
+				"n" => "chat_osc_accepts_messages_no",
+				"y" => "chat_osc_accepts_messages_yes"
+			)
+		),
 		"preferences" => array(
 						"visible_fix_value" => 1,
 						"changeable_fix_value" => 1,
@@ -325,9 +349,9 @@ class ilUserProfile
 						"input" => "selection",
 						"default" => "y",
 						"options" => array(
-							IL_MAIL_LOCAL => "mail_incoming_local",
-							IL_MAIL_EMAIL => "mail_incoming_smtp",
-							IL_MAIL_BOTH => "mail_incoming_both"),
+							ilMailOptions::INCOMING_LOCAL => "mail_incoming_local",
+							ilMailOptions::INCOMING_EMAIL => "mail_incoming_smtp",
+							ilMailOptions::INCOMING_BOTH  => "mail_incoming_both"),
 						"required_hide" => true,
 						"visib_reg_hide" => true,
 						"course_export_hide" => true,
@@ -494,7 +518,7 @@ class ilUserProfile
 						{
 							$val->setValue($a_user->getLogin());
 						}
-						$val->setMaxLength(32);
+						$val->setMaxLength($p['maxlength']);
 						$val->setSize(40);
 						$val->setRequired(true);
 					}
@@ -690,7 +714,26 @@ class ilUserProfile
 						$a_form->addItem($em);
 					}
 					break;
-					
+				case "second_email":
+					if (ilUserProfile::userSettingVisible($f))
+					{
+						$em = new ilEMailInputGUI($lng->txt($lv), "usr_".$f);
+						if($a_user)
+						{
+							$em->setValue($a_user->$m());
+						}
+						$em->setRequired($ilSetting->get("require_".$f));
+						if(!$em->getRequired() || $em->getValue())
+						{
+							$em->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+						}
+						if(self::MODE_REGISTRATION == self::$mode)
+						{
+							$em->setRetype(true);
+						}
+						$a_form->addItem($em);
+					}
+					break;	
 				case "textarea":
 					if (ilUserProfile::userSettingVisible($f))
 					{
@@ -707,29 +750,6 @@ class ilUserProfile
 							$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						}
 						$a_form->addItem($ta);
-					}
-					break;
-					
-				case "messenger":
-					if (ilUserProfile::userSettingVisible("instant_messengers"))
-					{
-						$im_arr = $p["types"];
-						foreach ($im_arr as $im_name)
-						{
-							$im = new ilTextInputGUI($lng->txt("im_".$im_name), "usr_im_".$im_name);
-							if($a_user)
-							{
-								$im->setValue($a_user->getInstantMessengerId($im_name));
-							}
-							$im->setMaxLength($p["maxlength"]);
-							$im->setSize($p["size"]);
-							// $im->setRequired($ilSetting->get("require_"."instant_messengers"));
-							if(!$im->getRequired() || $im->getValue())
-							{
-								$im->setDisabled($ilSetting->get("usr_settings_disable_"."instant_messengers"));
-							}
-							$a_form->addItem($im);
-						}
 					}
 					break;
 					
@@ -798,6 +818,13 @@ class ilUserProfile
 							$ti->setDataSource($this->ajax_href."&f=".$f);
 						}
 						$a_form->addItem($ti);
+					}
+					break;
+				case "noneditable":
+					if (self::$mode == self::MODE_DESKTOP && ilUserProfile::userSettingVisible($f)) {
+						$ne = new ilNonEditableValueGUI($lng->txt($lv));
+						$ne->setValue($a_user->$m());
+						$a_form->addItem($ne);
 					}
 					break;
 			}
@@ -893,7 +920,7 @@ class ilUserProfile
 		if($a_include_udf)
 		{
 			$user_defined_data = $a_user->getUserDefinedData();
-						
+			
 			include_once './Services/User/classes/class.ilUserDefinedFields.php';
 			$user_defined_fields = ilUserDefinedFields::_getInstance();						
 			foreach($user_defined_fields->getRequiredDefinitions() as $field => $definition)
@@ -906,6 +933,7 @@ class ilUserProfile
 				
 				if(!$user_defined_data["f_".$field])
 				{
+					ilLoggerFactory::getLogger('user')->info('Profile is incomplete due to missing required udf.');
 					return true;
 				}				
 			}					

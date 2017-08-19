@@ -281,8 +281,27 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             }
         }
 
+        $name_orig = $name;
         $name = $db->quoteIdentifier($name, true);
         if (!empty($changes['name'])) {
+            $indexes = $this->listTableIndexes($name_orig);
+            foreach ($indexes as $index) {
+                $new_name = str_replace($name_orig, $changes['name'], $index);
+                $result = $db->exec("ALTER INDEX {$index}_idx RENAME TO {$new_name}_idx");
+                if (PEAR::isError($result)) {
+//                    return $result;
+                }
+            }
+
+            $constraints = $this->listTableConstraints($name_orig);
+            foreach ($constraints as $constraint) {
+                $new_name = str_replace($name_orig, $changes['name'], $constraint);
+                $result = $db->exec("ALTER TABLE {$name_orig} RENAME CONSTRAINT {$constraint}_idx TO {$new_name}_idx;");
+                if (PEAR::isError($result)) {
+//                    return $result;
+                }
+            }
+
             $change_name = $db->quoteIdentifier($changes['name'], true);
             $result = $db->exec("ALTER TABLE $name RENAME TO ".$change_name);
             if (PEAR::isError($result)) {

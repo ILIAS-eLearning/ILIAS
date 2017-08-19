@@ -31,4 +31,5 @@
 		<secure_path path="usr_images" checking-class="ilObjUserAccess" />
 	</web_access_checker>
 	<logging />
+	<badges />
 </service>

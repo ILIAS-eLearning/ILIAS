@@ -42,9 +42,9 @@ class ilObjCourseDAV extends ilObjectDAV
 	*
 	* @param refid A refid to the object.
 	*/
-	function ilObjCourseDAV($refid) 
+	function __construct($refid) 
 	{
-		$this->ilObjectDAV($refid);
+		parent::__construct($refid);
 	}
 	
 	/**

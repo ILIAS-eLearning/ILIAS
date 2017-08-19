@@ -707,7 +707,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 					break;
 				// end-patch fm
 				case 'lm':
-				case 'dbk':
 					$newObj->createLMTree();
 					break;
 				case 'cat':
@@ -821,6 +820,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				case 'crs':
 					include_once('./Modules/CourseReference/classes/class.ilObjCourseReference.php');
 					$new_ref = new ilObjCourseReference();
+					break;
+				case 'grp':
+					include_once('./Modules/GroupReference/classes/class.ilObjGroupReference.php');
+					$new_ref = new ilObjGroupReference();
 					break;
 			}
 			$new_ref->create();
@@ -1227,11 +1230,13 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			$clientid = substr($sid, strpos($sid, "::") + 2);
 			$sessionid = str_replace("::".$clientid, "", $sid);
 			// call container clone
-			return $source_object->cloneAllObject($sessionid, $clientid,
+			$ret = $source_object->cloneAllObject($sessionid, $clientid,
 				$source_object_type,
 				$target_id,
 				$source_id,
 				$options, true);
+
+			return $ret['ref_id'];
 			
 		} else {
 			// create copy wizard settings

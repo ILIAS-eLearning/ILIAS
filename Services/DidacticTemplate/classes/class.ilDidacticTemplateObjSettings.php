@@ -99,6 +99,64 @@ class ilDidacticTemplateObjSettings
 		$ilDB->manipulate($query);
 		return true;
 	}
+	/**
+	 * Lookup template id
+	 * @global ilDB $ilDB
+	 * @param int $a_tpl_id
+	 * @return array[]
+	 */
+	public static function getAssignmentsByTemplateID($a_tpl_id)
+	{
+		global $ilDB;
 
+		$query = 'SELECT * FROM didactic_tpl_objs '.
+			'WHERE tpl_id = '.$ilDB->quote($a_tpl_id, 'integer');
+		$res = $ilDB->query($query);
+		$assignments = array();
+
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$assignments[] = array("ref_id" => $row->ref_id, "obj_id" => $row->obj_id);
+		}
+		return $assignments;
+	}
+
+
+	/**
+	 * transfer auto generated flag if source is auto generated
+	 *
+	 * @param int $a_src
+	 * @param int $a_dest
+	 * @return bool
+	 */
+	public static function transferAutoGenerateStatus($a_src, $a_dest)
+	{
+		global $ilDB;
+
+		$query = 'SELECT auto_generated FROM didactic_tpl_settings '.
+			'WHERE id = '.$ilDB->quote($a_src, 'integer');
+		$res = $ilDB->query($query);
+
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+
+		if($row->auto_generated == 0)
+		{
+			return false;
+		}
+
+		$query = 'UPDATE didactic_tpl_settings '.
+			'SET '.
+			'auto_generated = '.$ilDB->quote(1,'integer').
+			' WHERE id = '.$ilDB->quote($a_dest,'integer');
+		$ilDB->manipulate($query);
+
+		$query = 'UPDATE didactic_tpl_settings '.
+			'SET '.
+			'auto_generated = '.$ilDB->quote(0,'integer').
+			' WHERE id = '.$ilDB->quote($a_src,'integer');
+		$ilDB->manipulate($query);
+
+		return true;
+	}
 }
 ?>

@@ -1,11 +1,13 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
+
 /**
  * Class ilBuddySystemBaseStateTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-abstract class ilBuddySystemBaseStateTest extends PHPUnit_Framework_TestCase
+abstract class ilBuddySystemBaseStateTest extends ilBuddySystemBaseTest
 {
 	const RELATION_OWNER_ID = -1;
 	const RELATION_BUDDY_ID = -2;

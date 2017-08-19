@@ -15,6 +15,16 @@ include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
 class ilSkillTreeNodeGUI
 {
 	var $node_object;
+	var $in_use = false;
+	var $use_checked = false;
+	/**
+	 * @var ilAccessHandler
+	 */
+	var $access;
+	/**
+	 * @var int
+	 */
+	var $ref_id;
 
 	/**
 	* constructor
@@ -23,7 +33,11 @@ class ilSkillTreeNodeGUI
 	*/
 	function __construct($a_node_id = 0)
 	{
+		global $ilAccess;
+
 		$this->node_object = null;
+		$this->access = $ilAccess;
+		$this->ref_id = (int) $_GET["ref_id"];
 
 		if ($a_node_id > 0 &&
 			$this->getType() == ilSkillTreeNode::_lookupType($a_node_id))
@@ -31,6 +45,48 @@ class ilSkillTreeNodeGUI
 			$this->readNodeObject((int) $a_node_id);
 		}
 	}
+
+	/**
+	 * Is in use?
+	 *
+	 * @param
+	 * @return
+	 */
+	function isInUse()
+	{
+		if (!is_object($this->node_object))
+		{
+			return false;
+		}
+		if ($this->use_checked)
+		{
+			return $this->in_use;
+		}
+		$cskill_ids = ilSkillTreeNode::getAllCSkillIdsForNodeIds(array($this->node_object->getId()));
+		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
+		$u = new ilSkillUsage();
+		$usages = $u->getAllUsagesInfoOfSubtrees($cskill_ids);
+		if (count($usages) > 0)
+		{
+			$this->in_use = true;
+		} else
+		{
+			$this->in_use = false;
+		}
+		return $this->in_use;
+	}
+
+	/**
+	 * Check permission pool
+	 *
+	 * @param string $a_perm
+	 * @return bool
+	 */
+	function checkPermissionBool($a_perm)
+	{
+		return $this->access->checkAccess($a_perm, "", $this->ref_id);
+	}
+
 
 	/**
 	* Set Parent GUI class
@@ -188,7 +244,12 @@ class ilSkillTreeNodeGUI
 	function confirmedDelete()
 	{
 		global $ilCtrl;
-		
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$this->getParentGUI()->confirmedDelete(false);
 		ilSkillTreeNode::saveChildsOrder((int) $_GET["obj_id"], array(),
 			$_GET["tmpmode"]);
@@ -302,8 +363,13 @@ class ilSkillTreeNodeGUI
 	 */
 	function editProperties()
 	{
-		global $tpl;
-		
+		global $tpl, $lng;
+
+		if ($this->isInUse())
+		{
+			ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
+		}
+
 		$this->initForm("edit");
 		$this->getPropertyValues();
 		$tpl->setContent($this->form->getHTML());
@@ -331,7 +397,12 @@ class ilSkillTreeNodeGUI
 	public function save()
 	{
 		global $tpl, $lng, $ilCtrl;
-	
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$this->initForm("create");
 		if ($this->form->checkInput())
 		{
@@ -364,7 +435,12 @@ class ilSkillTreeNodeGUI
 	public function update()
 	{
 		global $tpl, $lng, $ilCtrl;
-	
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$this->initForm("edit");
 		if ($this->form->checkInput())
 		{
@@ -416,18 +492,19 @@ class ilSkillTreeNodeGUI
 		$this->form->addItem($ni);
 		
 		// save and cancel commands
-		if ($a_mode == "create")
+		if ($this->checkPermissionBool("write"))
 		{
-			$this->form->addCommandButton("save", $lng->txt("save"));
-			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
-			$this->form->setTitle($lng->txt("skmg_create_".$this->getType()));
+			if ($a_mode == "create")
+			{
+				$this->form->addCommandButton("save", $lng->txt("save"));
+				$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
+				$this->form->setTitle($lng->txt("skmg_create_" . $this->getType()));
+			} else
+			{
+				$this->form->addCommandButton("update", $lng->txt("save"));
+				$this->form->setTitle($lng->txt("skmg_edit_" . $this->getType()));
+			}
 		}
-		else
-		{
-			$this->form->addCommandButton("update", $lng->txt("save"));
-			$this->form->setTitle($lng->txt("skmg_edit_".$this->getType()));
-		}
-
 		
 		$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -495,7 +572,12 @@ class ilSkillTreeNodeGUI
 	function saveOrder()
 	{
 		global $ilCtrl, $lng;
-		
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		ilSkillTreeNode::saveChildsOrder((int) $_GET["obj_id"], $_POST["order"],
 			(int) $_GET["tmpmode"]);
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -624,6 +706,28 @@ class ilSkillTreeNodeGUI
 
 		$tpl->setContent($html);
 	}
+	
+	/**
+	 * Export seleced nodes
+	 */
+	function exportSelectedNodes()
+	{
+		global $ilCtrl;
+
+		if (!is_array($_POST["id"]) || count($_POST["id"]) == 0)
+		{
+			$this->redirectToParent();
+		}
+
+		include_once("./Services/Export/classes/class.ilExport.php");
+		$exp = new ilExport();
+		$conf = $exp->getConfig("Services/Skill");
+		$conf->setSelectedNodes($_POST["id"]);
+		$exp->exportObject("skmg", ilObject::_lookupObjId((int) $_GET["ref_id"]));
+
+		$ilCtrl->redirectByClass(array("iladministrationgui", "ilobjskillmanagementgui", "ilexportgui"), "");
+	}
+	
 
 }
 ?>

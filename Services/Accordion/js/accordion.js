@@ -220,6 +220,39 @@ il.Accordion = {
 
 		return false;
 	},
+	
+	preparePrint: function() {	
+		for(var id in il.Accordion.data) {
+			
+			var a = il.Accordion.data[id];		
+			
+			$("#" + id).children().children("." + a.content_class).each(function () {
+				t = $(this);
+				if (t.hasClass("ilAccHideContent")) {
+
+					if (a.active_head_class) {
+						$(this.parentNode).children("div:first").children("div:first").
+							addClass(a.active_head_class);
+					}
+
+					// fade in the accordion (currentAccordion)
+					options = il.Accordion.prepareShow(a, t);
+					$(t).animate(options, 0, function () {
+
+						$(t).css("height", "auto");
+
+						// set the currently shown accordion
+						a.last_opened_acc = t;
+						il.Accordion.rerenderMathJax(t);
+
+						a.animating = false;
+					});
+				}
+			});
+
+			il.Accordion.saveAllAsOpenedTabs(a, id);			
+		};
+	},
 
 	hideAll: function (e) {
 		var id = e.data.id;

@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "",
+    "second_maintainer": "",
+    "implicit_maintainers": [
+        "smeyer(119)"
+    ],
+    "coordinator": "",
+    "tester": "",
+    "testcase_writer": "",
+    "path": "Services/Http",
+    "belong_to_component": "None",
+    "used_in_components": []
+}

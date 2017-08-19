@@ -127,6 +127,13 @@ abstract class arConnector {
 	 * @param ActiveRecord $ar
 	 */
 	abstract public function updateIndices(ActiveRecord $ar);
-}
 
-?>
+
+	/**
+	 * @param $value
+	 * @return string
+	 */
+	public function fixDate($value) {
+		return $value;
+	}
+}

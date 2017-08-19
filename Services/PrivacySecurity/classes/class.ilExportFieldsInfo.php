@@ -147,8 +147,13 @@ class ilExportFieldsInfo
 					$fields['login']['txt'] = $lng->txt('login');
 					$fields['login']['default'] = 1;
 					break;
+				
 				default:
-					$fields[$field]['txt'] = $lng->txt($field);
+					// #18795
+					$caption = ($field == "title")
+						? "person_title"
+						: $field;
+					$fields[$field]['txt'] = $lng->txt($caption);				
 					$fields[$field]['default'] = 0;
 					break;
 			}

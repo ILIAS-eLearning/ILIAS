@@ -37,6 +37,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt(""), "", "1");
 		$this->addColumn($this->lng->txt("user_order"));
 		$this->addColumn($this->lng->txt("title"));
+		$this->addColumn($this->lng->txt("type"));
 		$this->addColumn($this->lng->txt("actions"));
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -105,13 +106,14 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("CMD_EDIT",
 					$ilCtrl->getLinkTargetByClass($this->page_gui, "edit"));	
 				$this->tpl->parseCurrentBlock();
+				$this->tpl->setVariable("TYPE", $lng->txt("page"));
 				break;
 			
 			case ilPortfolioPage::TYPE_BLOG:
 				if(!$this->is_template)
 				{
 					$this->tpl->setCurrentBlock("title_static");
-					$this->tpl->setVariable("VAL_TITLE_STATIC", $lng->txt("obj_blog").": ".ilObjBlog::_lookupTitle($a_set["title"]));
+					$this->tpl->setVariable("VAL_TITLE_STATIC", ilObjBlog::_lookupTitle($a_set["title"]));
 					$this->tpl->parseCurrentBlock();
 
 					$obj_id = (int)$a_set["title"];
@@ -130,6 +132,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 						$this->tpl->setVariable("CMD_EDIT", $link);	
 						$this->tpl->parseCurrentBlock();
 					}
+					$this->tpl->setVariable("TYPE", $lng->txt("obj_blog"));
 				}
 				break;
 				
@@ -142,8 +145,9 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 					$this->tpl->parseCurrentBlock();
 					
 					$this->tpl->setCurrentBlock("title_static");
-					$this->tpl->setVariable("VAL_TITLE_STATIC", $lng->txt("obj_blog"));
+					//$this->tpl->setVariable("VAL_TITLE_STATIC", $lng->txt("obj_blog"));
 					$this->tpl->parseCurrentBlock();
+					$this->tpl->setVariable("TYPE", $lng->txt("obj_blog"));
 				}
 				break;
 		}

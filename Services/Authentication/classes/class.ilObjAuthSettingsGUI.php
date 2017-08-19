@@ -1037,7 +1037,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				'apache_auth_username_direct_mapping_fieldname',
 				'apache_default_role', 'apache_auth_target_override_login_page',
 				'apache_auth_enable_override_login_page',
-				'apache_auth_authenticate_on_login_page'
+				'apache_auth_authenticate_on_login_page',
+				'apache_ldap_sid'
 //				'apache_auth_username_by_function_functionname',
 			);
 
@@ -1097,6 +1098,27 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 		$chb_ldap = new ilCheckboxInputGUI($this->lng->txt('apache_enable_ldap'), 'apache_enable_ldap');
 		$chb_ldap->setInfo($this->lng->txt('apache_ldap_hint_ldap_must_be_configured'));
+		
+		$GLOBALS['lng']->loadLanguageModule('auth');
+		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
+		$servers = ilLDAPServer::getServerIds();
+		if(count($servers))
+		{
+			$ldap_server_select = new ilSelectInputGUI($this->lng->txt('auth_ldap_server_ds'), 'apache_ldap_sid');
+			$options[0] = $this->lng->txt('select_one');
+			foreach($servers as $server_id)
+			{
+				$ldap_server = new ilLDAPServer($server_id);
+				$options[$server_id] = $ldap_server->getName();
+			}
+			$ldap_server_select->setOptions($options);
+			$ldap_server_select->setRequired(true);
+
+			$ds = ilLDAPServer::getDataSource(AUTH_APACHE);
+			$ldap_server_select->setValue($ds);
+
+			$chb_ldap->addSubItem($ldap_server_select);
+		}
 		$form->addItem($chb_ldap);
 
 		$txt = new ilTextInputGUI($this->lng->txt('apache_auth_indicator_name'), 'apache_auth_indicator_name');

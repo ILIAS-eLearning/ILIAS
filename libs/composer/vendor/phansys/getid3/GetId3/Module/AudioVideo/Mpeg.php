@@ -1,5 +1,11 @@
 <?php
 
+namespace GetId3\Module\AudioVideo;
+
+use GetId3\Handler\BaseHandler;
+use GetId3\Lib\Helper;
+use GetId3\Module\Audio\Mp3;
+
 /////////////////////////////////////////////////////////////////
 /// GetId3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -20,9 +26,9 @@
  * @author James Heinrich <info@getid3.org>
  * @link http://getid3.sourceforge.net
  * @link http://www.getid3.org
- * @uses GetId3_Module_Audio_Mp3
+ * @uses GetId3\Module\Audio_Mp3
  */
-class GetId3_Module_AudioVideo_Mpeg extends GetId3_Handler_BaseHandler
+class Mpeg extends BaseHandler
 {
     const GETID3_MPEG_VIDEO_PICTURE_START = "\x00\x00\x01\x00";
     const GETID3_MPEG_VIDEO_USER_DATA_START = "\x00\x00\x01\xB2";
@@ -37,12 +43,13 @@ class GetId3_Module_AudioVideo_Mpeg extends GetId3_Handler_BaseHandler
      *
      * @return boolean
      */
-    public function Analyze()
+    public function analyze()
     {
         $info = &$this->getid3->info;
 
         if ($info['avdataend'] <= $info['avdataoffset']) {
             $info['error'][] = '"avdataend" (' . $info['avdataend'] . ') is unexpectedly less-than-or-equal-to "avdataoffset" (' . $info['avdataoffset'] . ')';
+
             return false;
         }
         $info['fileformat'] = 'mpeg';
@@ -80,17 +87,17 @@ class GetId3_Module_AudioVideo_Mpeg extends GetId3_Handler_BaseHandler
 
             $VideoChunkOffset += (strlen(self::GETID3_MPEG_VIDEO_SEQUENCE_HEADER) - 1);
 
-            $FrameSizeDWORD = GetId3_Lib_Helper::BigEndian2Int(substr($MPEGstreamData,
+            $FrameSizeDWORD = Helper::BigEndian2Int(substr($MPEGstreamData,
                                                                       $VideoChunkOffset,
                                                                       3));
             $VideoChunkOffset += 3;
 
-            $AspectRatioFrameRateDWORD = GetId3_Lib_Helper::BigEndian2Int(substr($MPEGstreamData,
+            $AspectRatioFrameRateDWORD = Helper::BigEndian2Int(substr($MPEGstreamData,
                                                                                  $VideoChunkOffset,
                                                                                  1));
             $VideoChunkOffset += 1;
 
-            $assortedinformation = GetId3_Lib_Helper::BigEndian2Bin(substr($MPEGstreamData,
+            $assortedinformation = Helper::BigEndian2Bin(substr($MPEGstreamData,
                                                                            $VideoChunkOffset,
                                                                            4));
             $VideoChunkOffset += 4;
@@ -107,35 +114,35 @@ class GetId3_Module_AudioVideo_Mpeg extends GetId3_Handler_BaseHandler
             $info['mpeg']['video']['pixel_aspect_ratio_text'] = $this->MPEGvideoAspectRatioTextLookup($info['mpeg']['video']['raw']['pixel_aspect_ratio']);
             $info['mpeg']['video']['frame_rate'] = $this->MPEGvideoFramerateLookup($info['mpeg']['video']['raw']['frame_rate']);
 
-            $info['mpeg']['video']['raw']['bitrate'] = GetId3_Lib_Helper::Bin2Dec(substr($assortedinformation,
+            $info['mpeg']['video']['raw']['bitrate'] = Helper::Bin2Dec(substr($assortedinformation,
                                                                                          0,
                                                                                          18));
-            $info['mpeg']['video']['raw']['marker_bit'] = (bool) GetId3_Lib_Helper::Bin2Dec(substr($assortedinformation,
+            $info['mpeg']['video']['raw']['marker_bit'] = (bool) Helper::Bin2Dec(substr($assortedinformation,
                                                                                                    18,
                                                                                                    1));
-            $info['mpeg']['video']['raw']['vbv_buffer_size'] = GetId3_Lib_Helper::Bin2Dec(substr($assortedinformation,
+            $info['mpeg']['video']['raw']['vbv_buffer_size'] = Helper::Bin2Dec(substr($assortedinformation,
                                                                                                  19,
                                                                                                  10));
-            $info['mpeg']['video']['raw']['constrained_param_flag'] = (bool) GetId3_Lib_Helper::Bin2Dec(substr($assortedinformation,
+            $info['mpeg']['video']['raw']['constrained_param_flag'] = (bool) Helper::Bin2Dec(substr($assortedinformation,
                                                                                                                29,
                                                                                                                1));
-            $info['mpeg']['video']['raw']['intra_quant_flag'] = (bool) GetId3_Lib_Helper::Bin2Dec(substr($assortedinformation,
+            $info['mpeg']['video']['raw']['intra_quant_flag'] = (bool) Helper::Bin2Dec(substr($assortedinformation,
                                                                                                          30,
                                                                                                          1));
             if ($info['mpeg']['video']['raw']['intra_quant_flag']) {
 
                 // read 512 bits
-                $info['mpeg']['video']['raw']['intra_quant'] = GetId3_Lib_Helper::BigEndian2Bin(substr($MPEGstreamData,
+                $info['mpeg']['video']['raw']['intra_quant'] = Helper::BigEndian2Bin(substr($MPEGstreamData,
                                                                                                        $VideoChunkOffset,
                                                                                                        64));
                 $VideoChunkOffset += 64;
 
-                $info['mpeg']['video']['raw']['non_intra_quant_flag'] = (bool) GetId3_Lib_Helper::Bin2Dec(substr($info['mpeg']['video']['raw']['intra_quant'],
+                $info['mpeg']['video']['raw']['non_intra_quant_flag'] = (bool) Helper::Bin2Dec(substr($info['mpeg']['video']['raw']['intra_quant'],
                                                                                                                  511,
                                                                                                                  1));
-                $info['mpeg']['video']['raw']['intra_quant'] = GetId3_Lib_Helper::Bin2Dec(substr($assortedinformation,
+                $info['mpeg']['video']['raw']['intra_quant'] = Helper::Bin2Dec(substr($assortedinformation,
                                                                                                  31,
-                                                                                                 1)) . substr(GetId3_Lib_Helper::BigEndian2Bin(substr($MPEGstreamData,
+                                                                                                 1)) . substr(Helper::BigEndian2Bin(substr($MPEGstreamData,
                                                                                                                                                       $VideoChunkOffset,
                                                                                                                                                       64)),
                                                                                                                                                       0,
@@ -149,7 +156,7 @@ class GetId3_Module_AudioVideo_Mpeg extends GetId3_Handler_BaseHandler
                 }
             } else {
 
-                $info['mpeg']['video']['raw']['non_intra_quant_flag'] = (bool) GetId3_Lib_Helper::Bin2Dec(substr($assortedinformation,
+                $info['mpeg']['video']['raw']['non_intra_quant_flag'] = (bool) Helper::Bin2Dec(substr($assortedinformation,
                                                                                                                  31,
                                                                                                                  1));
                 if ($info['mpeg']['video']['raw']['non_intra_quant_flag']) {
@@ -161,7 +168,7 @@ class GetId3_Module_AudioVideo_Mpeg extends GetId3_Handler_BaseHandler
             }
 
             if ($info['mpeg']['video']['raw']['bitrate'] == 0x3FFFF) { // 18 set bits
-                $info['warning'][] = 'This version of GetId3() [' . $this->getid3->version() . '] cannot determine average bitrate of VBR MPEG video files';
+                $info['warning'][] = 'This version of GetId3Core() [' . $this->getid3->version() . '] cannot determine average bitrate of VBR MPEG video files';
                 $info['mpeg']['video']['bitrate_mode'] = 'vbr';
             } else {
 
@@ -195,7 +202,6 @@ class GetId3_Module_AudioVideo_Mpeg extends GetId3_Handler_BaseHandler
             $info['video']['codec'] = 'MPEG-1';
         }
 
-
         $AudioChunkOffset = 0;
         while (true) {
             while (substr($MPEGstreamData, $AudioChunkOffset++, 4) !== self::GETID3_MPEG_AUDIO_START) {
@@ -204,10 +210,10 @@ class GetId3_Module_AudioVideo_Mpeg extends GetId3_Handler_BaseHandler
                 }
             }
 
-            $getid3_temp = new GetId3_GetId3();
+            $getid3_temp = new GetId3Core();
             $getid3_temp->openfile($this->getid3->filename);
             $getid3_temp->info = $info;
-            $getid3_mp3 = new GetId3_Module_Audio_Mp3($getid3_temp);
+            $getid3_mp3 = new Mp3($getid3_temp);
             for ($i = 0; $i <= 7; $i++) {
                 // some files have the MPEG-audio header 8 bytes after the end of the $00 $00 $01 $C0 signature, some have it up to 13 bytes (or more?) after
                 // I have no idea why or what the difference is, so this is a stupid hack.
@@ -266,8 +272,8 @@ class GetId3_Module_AudioVideo_Mpeg extends GetId3_Handler_BaseHandler
 
     /**
      *
-     * @param type $VideoBitrate
-     * @param type $AudioBitrate
+     * @param  type $VideoBitrate
+     * @param  type $AudioBitrate
      * @return type
      */
     public function MPEGsystemNonOverheadPercentage($VideoBitrate, $AudioBitrate)
@@ -322,34 +328,37 @@ class GetId3_Module_AudioVideo_Mpeg extends GetId3_Handler_BaseHandler
 
     /**
      *
-     * @param type $rawframerate
+     * @param  type $rawframerate
      * @return type
      */
     public function MPEGvideoFramerateLookup($rawframerate)
     {
         $MPEGvideoFramerateLookup = array(0, 23.976, 24, 25, 29.97, 30, 50, 59.94, 60);
+
         return (isset($MPEGvideoFramerateLookup[$rawframerate]) ? (float) $MPEGvideoFramerateLookup[$rawframerate] : (float) 0);
     }
 
     /**
      *
-     * @param type $rawaspectratio
+     * @param  type $rawaspectratio
      * @return type
      */
     public function MPEGvideoAspectRatioLookup($rawaspectratio)
     {
         $MPEGvideoAspectRatioLookup = array(0, 1, 0.6735, 0.7031, 0.7615, 0.8055, 0.8437, 0.8935, 0.9157, 0.9815, 1.0255, 1.0695, 1.0950, 1.1575, 1.2015, 0);
+
         return (isset($MPEGvideoAspectRatioLookup[$rawaspectratio]) ? (float) $MPEGvideoAspectRatioLookup[$rawaspectratio] : (float) 0);
     }
 
     /**
      *
-     * @param type $rawaspectratio
+     * @param  type $rawaspectratio
      * @return type
      */
     public function MPEGvideoAspectRatioTextLookup($rawaspectratio)
     {
         $MPEGvideoAspectRatioTextLookup = array('forbidden', 'square pixels', '0.6735', '16:9, 625 line, PAL', '0.7615', '0.8055', '16:9, 525 line, NTSC', '0.8935', '4:3, 625 line, PAL, CCIR601', '0.9815', '1.0255', '1.0695', '4:3, 525 line, NTSC, CCIR601', '1.1575', '1.2015', 'reserved');
+
         return (isset($MPEGvideoAspectRatioTextLookup[$rawaspectratio]) ? $MPEGvideoAspectRatioTextLookup[$rawaspectratio] : '');
     }
 }

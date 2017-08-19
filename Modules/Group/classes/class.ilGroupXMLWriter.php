@@ -101,6 +101,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 			$this->__buildGroup();
 			$this->__buildTitleDescription();
 			$this->__buildRegistration();
+			$this->__buildPeriod();
 			include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
 			ilContainerSortingSettings::_exportContainerSortingSettings($this,$this->group_obj->getId());
 			ilContainer::_exportContainerSettings($this, $this->group_obj->getId());
@@ -163,7 +164,25 @@ class ilGroupXMLWriter extends ilXmlWriter
 		
 		$this->xmlElement('information',null,$this->group_obj->getInformation());
 	}
-
+	
+	/**
+	 * Build group period
+	 */
+	protected function __buildPeriod()
+	{
+		if(
+			$this->group_obj->getStart() instanceof ilDate && 
+			$this->group_obj->getEnd() instanceof ilDate
+		) 
+		{
+			$this->xmlStartTag('period');
+			$this->xmlElement('start',null,$this->group_obj->getStart()->get(IL_CAL_UNIX));
+			$this->xmlElement('end',null, $this->group_obj->getEnd()->get(IL_CAL_UNIX));
+			$this->xmlEndTag('period');
+		}
+		return;
+	}
+	
 	function __buildRegistration()
 	{
 		
@@ -208,10 +227,11 @@ class ilGroupXMLWriter extends ilXmlWriter
 		$attrs = array();
 		$attrs['enabled'] = $this->group_obj->isMembershipLimited() ? 'Yes' : 'No';
 		$this->xmlElement('maxMembers',$attrs,$this->group_obj->getMaxMembers());
-		
 		$this->xmlElement('minMembers',null,(int)$this->group_obj->getMinMembers());			
 		$this->xmlElement('WaitingListAutoFill',null,(int)$this->group_obj->hasWaitingListAutoFill());
 		$this->xmlElement('CancellationEnd',null,($this->group_obj->getCancellationEnd() && !$this->group_obj->getCancellationEnd()->isNull()) ? $this->group_obj->getCancellationEnd()->get(IL_CAL_UNIX) : null);			
+		
+		$this->xmlElement('mailMembersType', null, (string) $this->group_obj->getMailToMembersType());
 
 		$this->xmlEndTag('registration');
 	}

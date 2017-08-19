@@ -66,6 +66,15 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 	}
 	
 	/**
+	 * no activation for links
+	 * @return type
+	 */
+	public function insertTimingsCommand()
+	{
+		return;
+	}
+	
+	/**
 	* initialisation
 	*/
 	function init()

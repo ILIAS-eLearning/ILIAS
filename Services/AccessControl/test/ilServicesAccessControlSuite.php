@@ -5,6 +5,9 @@ class ilServicesAccessControlSuite extends PHPUnit_Framework_TestSuite
 {
     public static function suite()
     {
+		
+        PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+		
 		$suite = new ilServicesAccessControlSuite();
 		
 		include_once("./Services/AccessControl/test/ilRBACTest.php");

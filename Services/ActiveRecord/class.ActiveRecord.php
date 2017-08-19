@@ -108,10 +108,10 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @param arConnector $connector
 	 */
 	public function __construct($primary_key = 0, arConnector $connector = null) {
-		if ($connector == null) {
-			$connector = new arConnectorDB();
-		}
-		arConnectorMap::register($this, $connector);
+//		if ($connector == null) {
+//			$connector = new arConnectorDB();
+//		}
+//		arConnectorMap::register($this, $connector);
 
 		$arFieldList = arFieldCache::get($this);
 
@@ -257,6 +257,20 @@ abstract class ActiveRecord implements arStorageInterface {
 
 	/**
 	 * @param $field_name
+	 * @param $value
+	 * @return string
+	 */
+	public function fixDateField($field_name, $value) {
+		if ($this->getArFieldList()->getFieldByName($field_name)->isDateField()) {
+			return $this->getArConnector()->fixDate($value);
+		}
+
+		return $value;
+	}
+
+
+	/**
+	 * @param $field_name
 	 *
 	 * @return mixed
 	 */
@@ -292,11 +306,9 @@ abstract class ActiveRecord implements arStorageInterface {
 		$data = array();
 		foreach ($this->getArFieldList()->getFields() as $field) {
 			$field_name = $field->getName();
-			if ($this->sleep($field_name) === null) {
-				$data[$field_name] = array( $field->getFieldType(), $this->{$field_name} );
-			} else {
-				$data[$field_name] = array( $field->getFieldType(), $this->sleep($field_name) );
-			}
+			$sleeped = $this->sleep($field_name);
+			$var = ($sleeped === null) ? ($this->{$field_name}) : $sleeped;
+			$data[$field_name] = array( $field->getFieldType(), $var );
 		}
 
 		return $data;
@@ -442,7 +454,10 @@ abstract class ActiveRecord implements arStorageInterface {
 	// CRUD
 	//
 	public function store() {
-		if (!$this->getId()) {
+		$primary_fieldname = arFieldCache::getPrimaryFieldName($this);
+		$primary_value = $this->getPrimaryFieldValue();
+
+		if (!self::where(array( $primary_fieldname => $primary_value ))->hasSets()) {
 			$this->create();
 		} else {
 			$this->update();
@@ -457,7 +472,8 @@ abstract class ActiveRecord implements arStorageInterface {
 
 	public function create() {
 		if ($this->getArFieldList()->getPrimaryField()->getSequence()) {
-			$this->id = $this->getArConnector()->nextID($this);
+			$primary_fieldname = arFieldCache::getPrimaryFieldName($this);
+			$this->{$primary_fieldname} = $this->getArConnector()->nextID($this);
 		}
 
 		$this->getArConnector()->create($this, $this->getArrayForConnector());
@@ -493,6 +509,7 @@ abstract class ActiveRecord implements arStorageInterface {
 		} elseif (count($records) == 0 AND $this->ar_safe_read == false) {
 			$this->is_new = true;
 		}
+		$records = is_array($records) ? $records : array();
 		foreach ($records as $rec) {
 			foreach ($this->getArrayForConnector() as $k => $v) {
 				if ($this->wakeUp($k, $rec->{$k}) === null) {

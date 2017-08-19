@@ -127,6 +127,12 @@ class ilGlossaryExporter extends ilXmlExporter
 				"ids" => $obj_ids
 			);
 
+			// service settings
+			$deps[] = array(
+				"component" => "Services/Object",
+				"entity" => "service_settings",
+				"ids" => $a_ids);
+
 			return $deps;
 		}
 		return array();

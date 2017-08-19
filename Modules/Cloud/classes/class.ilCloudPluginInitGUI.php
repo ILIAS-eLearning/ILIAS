@@ -210,7 +210,10 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI {
 	 * @param               $perm_folders_visible
 	 */
 	public function initGUI(ilObjCloudGUI $gui_class, $perm_create_folder, $perm_upload_items, $perm_delete_files, $perm_delete_folders, $perm_download, $perm_files_visible, $perm_folders_visible) {
-		global $ilTabs, $lng, $tpl;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 
 		$ilTabs->activateTab("content");
 
@@ -244,10 +247,10 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI {
 
 				$this->addToolbar($file_tree->getRootNode());
 
-				$this->tpl_file_tree->setVariable("ASYNC_GET_BLOCK", json_encode($this->getGUIClass()->ctrl->getLinkTargetByClass("ilobjcloudgui", "asyncGetBlock", true)));
-				$this->tpl_file_tree->setVariable("ASYNC_CREATE_FOLDER", json_encode($this->getGUIClass()->ctrl->getLinkTargetByClass("ilcloudplugincreatefoldergui", "asyncCreateFolder", true)));
-				$this->tpl_file_tree->setVariable("ASYNC_UPLOAD_FILE", json_encode($this->getGUIClass()->ctrl->getLinkTargetByClass("ilcloudpluginuploadgui", "asyncUploadFile", true)));
-				$this->tpl_file_tree->setVariable("ASYNC_DELETE_ITEM", json_encode($this->getGUIClass()->ctrl->getLinkTargetByClass("ilcloudplugindeletegui", "asyncDeleteItem", true)));
+				$this->tpl_file_tree->setVariable("ASYNC_GET_BLOCK", json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilobjcloudgui", "asyncGetBlock", true)));
+				$this->tpl_file_tree->setVariable("ASYNC_CREATE_FOLDER", json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilcloudplugincreatefoldergui", "asyncCreateFolder", true)));
+				$this->tpl_file_tree->setVariable("ASYNC_UPLOAD_FILE", json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilcloudpluginuploadgui", "asyncUploadFile", true)));
+				$this->tpl_file_tree->setVariable("ASYNC_DELETE_ITEM", json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilcloudplugindeletegui", "asyncDeleteItem", true)));
 				$this->tpl_file_tree->setVariable("ROOT_ID", json_encode($file_tree->getRootNode()->getId()));
 				$this->tpl_file_tree->setVariable("ROOT_PATH", json_encode($file_tree->getRootNode()->getPath()));
 				if (isset($_POST["path"])) {
@@ -307,7 +310,10 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI {
 	 * @param $root_node
 	 */
 	public function addToolbar($root_node) {
-		global $lng, $ilToolbar, $ilLog;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilLog = $DIC['ilLog'];
 
 		$create_list_gui = ilCloudConnector::getItemCreationListGUIClass($this->getService());
 
@@ -344,5 +350,3 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI {
 
 	public function afterInitGUI() { }
 }
-
-?>

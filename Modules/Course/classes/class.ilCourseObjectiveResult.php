@@ -407,7 +407,7 @@ class ilCourseObjectiveResult
 		return $objectives ? $objectives : array();
 	}
 
-	function _updateObjectiveStatus($a_user_id,$objectives)
+	static function _updateObjectiveStatus($a_user_id,$objectives)
 	{
 		global $ilDB,$ilUser;
 
@@ -490,7 +490,7 @@ class ilCourseObjectiveResult
 		return true;
 	}
 
-	function __isFullfilled($question_points,$objective_data)
+	public static function __isFullfilled($question_points,$objective_data)
 	{
 		if(!is_array($objective_data['questions']))
 		{
@@ -513,7 +513,14 @@ class ilCourseObjectiveResult
 		return (($reached_points / $max_points * 100) >= $objective_data['tst_limit']) ? true : false;
 	}
 
-	function __updatePassed($a_user_id,$objective_ids)
+	/**
+	 * can be protected?
+	 * 
+	 * @global type $ilDB
+	 * @param type $a_user_id
+	 * @param type $objective_ids
+	 */
+	static function __updatePassed($a_user_id,$objective_ids)
 	{
 		global $ilDB;
 

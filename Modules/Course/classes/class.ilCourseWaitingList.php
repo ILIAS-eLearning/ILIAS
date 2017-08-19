@@ -33,11 +33,38 @@ class ilCourseWaitingList extends ilWaitingList
 				"Modules/Course", 
 				'addToWaitingList', 
 				array(
-					'obj_id' => $this->obj_id,
+					'obj_id' => $this->getObjId(),
 					'usr_id' => $a_usr_id
 				)
 			);
 		return TRUE;
 	}
+
+
+	/**
+	 * Remove from waiting list and raise event
+	 * @param int $a_usr_id
+	 */
+	public function removeFromList($a_usr_id)
+	{
+		global $ilAppEventHandler, $ilLog;
+
+		if(!parent::removeFromList($a_usr_id))
+		{
+			return FALSE;
+		}
+
+		$ilLog->write(__METHOD__ . ': Raise new event: Modules/Course removeFromList');
+		$ilAppEventHandler->raise(
+			"Modules/Course", 'removeFromWaitingList',
+			array(
+				'obj_id' => $this->getObjId(),
+				'usr_id' => $a_usr_id
+			)
+		);
+		return TRUE;
+	}
+
 }
+
 ?>

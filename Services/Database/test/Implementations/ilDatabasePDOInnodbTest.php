@@ -21,22 +21,26 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once('ilDBBaseTest.php');
+require_once('ilDatabaseImplementationBaseTest.php');
 
 /**
  * TestCase for the ilDatabasePDOInnodbTest
  *
+ * @group   needsInstalledILIAS
+ *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilDatabasePDOInnodbTest extends ilDBBaseTest {
+class ilDatabasePDOInnodbTest extends ilDatabaseImplementationBaseTest {
 
 	/**
 	 * @return \ilDBPdoMySQLInnoDB
 	 * @throws \ilDatabaseException
 	 */
 	protected function getDBInstance() {
-		return ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_INNODB);
+		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLInnoDB.php');
+
+		return new ilDBPdoMySQLInnoDB();
 	}
 
 

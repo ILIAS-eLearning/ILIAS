@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
+
 /**
 * Global event handler
 *
@@ -135,7 +137,9 @@ class ilAppEventHandler
 				"evhk", $pl);
 			$plugin->handleEvent($a_component, $a_event, $a_parameter);	
 		}
-		
+
+		$workflow_engine = new ilWorkflowEngine(false);
+		$workflow_engine->handleEvent($a_component, $a_event, $a_parameter);
 	}
 }
 ?>

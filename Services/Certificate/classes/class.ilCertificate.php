@@ -36,13 +36,6 @@ class ilCertificate
 	protected $ilias;
 
 	/**
-	* The reference to the Template class
-	*
-	* @var ilTemplate
-	*/
-	protected $tpl;
-
-	/**
 	* The reference to the Language class
 	*
 	* @var ilLanguage
@@ -85,7 +78,6 @@ class ilCertificate
 		global $DIC;
 
 		$this->lng      = $DIC['lng'];
-		$this->tpl      = $DIC['tpl'];
 		$this->ctrl     = $DIC['ilCtrl'];
 		$this->ilias    = $DIC['ilias'];
 		$this->tree     = $DIC['tree'];
@@ -95,14 +87,32 @@ class ilCertificate
 
 		$this->adapter = $adapter;
 	}
+
+	/**
+	 * @param string $a_number
+	 * @return float
+	 */
+	public function formatNumberString($a_number)
+	{
+		return str_replace(',', '.', $a_number);
+	}
 	
 	/**
 	* Returns the filesystem path of the background image
-	*
+	* @param  bool $asRelative
 	* @return string The filesystem path of the background image
 	*/
-	public function getBackgroundImagePath()
+	public function getBackgroundImagePath($asRelative = false)
 	{
+		if($asRelative)
+		{
+			return str_replace(
+				array(CLIENT_WEB_DIR, '//'),
+				array('[CLIENT_WEB_DIR]', '/'),
+				$this->getAdapter()->getCertificatePath() . $this->getBackgroundImageName()
+			);
+		}
+
 		return $this->getAdapter()->getCertificatePath() . $this->getBackgroundImageName();
 	}
 
@@ -420,12 +430,17 @@ class ilCertificate
 			$pagewidth = $pageformats[$form_data["pageformat"]]["width"];
 		}
 		include_once "./Services/Certificate/classes/class.ilObjCertificateSettingsAccess.php";
-		$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImagePath() : ((ilObjCertificateSettingsAccess::hasBackgroundImage()) ? ilObjCertificateSettingsAccess::getBackgroundImagePath() : "");
+		$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImagePath(true) : ((ilObjCertificateSettingsAccess::hasBackgroundImage()) ? ilObjCertificateSettingsAccess::getBackgroundImagePath(true) : "");
 		$params = array(
-			"pageheight" => $pageheight, 
-			"pagewidth" => $pagewidth,
+			"pageheight"      => $pageheight,
+			"pagewidth"       => $pagewidth,
 			"backgroundimage" => $backgroundimage,
-			"marginbody" => $form_data["margin_body_top"] . " " . $form_data["margin_body_right"] . " " . $form_data["margin_body_bottom"] . " " . $form_data["margin_body_left"]
+			"marginbody"      => implode(' ', array(
+				$form_data["margin_body_top"],
+				$form_data["margin_body_right"],
+				$form_data["margin_body_bottom"],
+				$form_data["margin_body_left"]
+			))
 		);
 		$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, $params);
 		xslt_error($xh);
@@ -445,16 +460,18 @@ class ilCertificate
 		if (count($insert_tags) == 0)
 		{
 			$insert_tags = $this->getAdapter()->getCertificateVariablesForPreview();
-			
 			foreach (self::getCustomCertificateFields() as $k => $f)
 			{
-				$insert_tags[$f["ph"]] = $f["name"];
+				$insert_tags[$f["ph"]] = ilUtil::prepareFormOutput($f["name"]);
 			}
 		}
 		foreach ($insert_tags as $var => $value)
 		{
 			$certificate_text = str_replace($var, $value, $certificate_text);
 		}
+
+		$certificate_text = str_replace('[CLIENT_WEB_DIR]', CLIENT_WEB_DIR, $certificate_text);
+
 		return $certificate_text;
 	}
 	
@@ -474,10 +491,17 @@ class ilCertificate
 		$cust_data = $cust_data->getAll();
 		foreach (self::getCustomCertificateFields() as $k => $f)
 		{
-			$insert_tags[$f["ph"]] = $cust_data["f_".$k];
+			$insert_tags[$f["ph"]] = ilUtil::prepareFormOutput($cust_data["f_".$k]);
 		}
 
 		$xslfo = file_get_contents($this->getXSLPath());
+
+        // render tex as fo graphics
+		require_once('Services/MathJax/classes/class.ilMathJax.php');
+		$xslfo = ilMathJax::getInstance()
+			->init(ilMathJax::PURPOSE_PDF)
+			->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
+			->insertLatexImages($xslfo);
 
 		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
 		try
@@ -512,6 +536,13 @@ class ilCertificate
 		ilDatePresentation::setUseRelativeDates(false);
 
 		$xslfo = file_get_contents($this->getXSLPath());
+
+        // render tex as fo graphics
+		require_once('Services/MathJax/classes/class.ilMathJax.php');
+		$xslfo = ilMathJax::getInstance()
+			->init(ilMathJax::PURPOSE_PDF)
+			->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
+			->insertLatexImages($xslfo);
 
 		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
 		try

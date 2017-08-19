@@ -22,21 +22,18 @@ class ilLink
 		{
 			$a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
 		}
+		$param_string = '';
 		if(count($a_params))
 		{
-			$param_string;
 			foreach($a_params as $name => $value)
 			{
 				$param_string .= ('&'.$name.'='.$value);
 			}
 		}
-		else
-		{
-			$param_string = '';
-		}
 		switch($a_type)
 		{
 			case 'git':
+			//case 'pg':
 				return ILIAS_HTTP_PATH.'/'.IL_INTERNAL_LINK_SCRIPT.'?client_id='.CLIENT_ID.$param_string.$append;
 			
 			default:

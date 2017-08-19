@@ -27,6 +27,7 @@ path =
 file = 
 enabled = 1
 level = WARNING
+error_path = 
 
 [debian]
 data_dir = /var/opt/ilias

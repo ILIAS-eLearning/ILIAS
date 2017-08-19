@@ -12,8 +12,12 @@ include_once("./setup/classes/class.ilDBConnections.php");
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-class ilSetup extends PEAR
+class ilSetup
 {
+
+	/**
+	 * @var ilIniFile
+	 */
 	var $ini;			// ini file object
 	var $ini_file_path;	// full path to setup.ini, containing the client list
 	var $error = "";	// error text
@@ -22,7 +26,7 @@ class ilSetup extends PEAR
 	var $ini_client_exists = false; // control flag client.ini
 
 	var $setup_defaults;			// ilias.master.ini
-	var $ilias_nic_server = "http://www.ilias.de/ilias-nic/index.php";	// URL to ilias nic server
+	var $ilias_nic_server = "https://www.ilias.de/ilias-nic/index.php";	// URL to ilias nic server
 
 	var $preliminaries_result = array();	// preliminaries check results
 	var $preliminaries = true;				//
@@ -68,7 +72,6 @@ class ilSetup extends PEAR
 	{
 		global $lng;
 
-//		$this->PEAR();
 		$this->lng = $lng;
 
 		$this->db_connections = new ilDBConnections();
@@ -83,10 +86,6 @@ class ilSetup extends PEAR
 		{
 			$this->safe_mode_exec_dir = ilFile::deleteTrailingSlash(ini_get("safe_mode_exec_dir"));
 		}
-
-		// Error Handling
-		$this->error_obj = new ilErrorHandling();
-		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
 
 		// set path to ilias.ini
 		$this->ini_file_path = ILIAS_ABSOLUTE_PATH."/ilias.ini.php";
@@ -195,18 +194,18 @@ class ilSetup extends PEAR
 	{
 		return true;
 		//var_dump("<pre>",$this->client,"</pre>");exit;
-
+		//Error Handling disabled!! caused by missing PEAR
 		if ($a_old_client_id != $this->client->getId())
 		{
 			// check for existing client dir
 			if (file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->client->getId()))
 			{
-				$this->raiseError($this->lng->txt("client_id_already_exists"),$this->error_obj->MESSAGE);
+				//$this->raiseError($this->lng->txt("client_id_already_exists"),$this->error_obj->MESSAGE);
 			}
 
 			if (!$this->saveNewClient())
 			{
-				$this->raiseError($this->lng->txt("save_error"),$this->error_obj->MESSAGE);
+				//$this->raiseError($this->lng->txt("save_error"),$this->error_obj->MESSAGE);
 			}
 
 			ilUtil::delDir(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$a_old_client_id);
@@ -231,33 +230,8 @@ class ilSetup extends PEAR
 			return false;
 		}
 
-	return $this->client->getDBSetup()->createDatabase($a_collation);
-
-
-//
-//
-//		//create database
-//		$db = $this->client->getDB();
-//		if (MDB2::isError($db))
-//		{
-//			$this->error = "connection_failed";
-//			return false;
-//		}
-//
-//		$r = $db->createDatabase($this->client->getdbName(),
-//			"utf8", $a_collation);
-//
-//		if (MDB2::isError($r))
-//		{
-//			$this->error = "create_database_failed";
-//			return false;
-//		}
-//
-//		//database is created, now disconnect and reconnect
-//		$db->disconnect();
-//
-//		$this->client->db_exists = true;
-//		return true;
+		$db_setup = $this->client->getDBSetup();
+		return $db_setup->createDatabase($a_collation);
 	}
 
 	/**
@@ -279,101 +253,6 @@ class ilSetup extends PEAR
 
 		return false;
 	}
-
-//	function getline( $fp, $delim )
-//	{
-//		$result = "";
-//		while( !feof( $fp ) )
-//		{
-//			$tmp = fgetc( $fp );
-//			if( $tmp == $delim )
-//				return $result;
-//			$result .= $tmp;
-//		}
-//		return $result;
-//	}
-//
-//	/**
-//	* execute a query
-//	* @param	string
-//	* @param	string
-//	* @return	boolean	ture if query was processed successfully
-//	*/
-//	function readDump($db, $file)
-//	{
-//		// mysql (old procedure)
-//		if ($db->getDBType() == "mysql")
-//		{
-//			$fp = fopen($file, 'r');
-//
-//			while(!feof($fp))
-//			{
-//				//$line = trim(fgets($fp, 200000));
-//				$line = trim($this->getline($fp, "\n"));
-//
-//				if ($line != "" && substr($line,0,1)!="#"
-//					&& substr($line,0,1)!="-")
-//				{
-//					//take line per line, until last char is ";"
-//					if (substr($line,-1)==";")
-//					{
-//						//query is complete
-//						$q .= " ".substr($line,0,-1);
-//						$r = $db->query($q);
-//
-//						if ($db->getErrorNo() > 0)
-//						{
-//							echo "<br />ERROR: ".$db->getError().
-//								"<br />SQL: $q";
-//							return false;
-//						}
-//						unset($q);
-//						unset($line);
-//					} //if
-//					else
-//					{
-//						$q .= " ".$line;
-//					} //else
-//				} //if
-//			} //for
-//
-//			fclose($fp);
-//		}
-//
-//		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
-//		if (in_array($db->getDBType(), array("oracle", "postgres", "innodb")))
-//		{
-//			if(@is_dir('./setup/sql/ilDBTemplate'))
-//			{
-//				include_once './Services/Database/classes/class.ilArrayTableDataParser.php';
-//				include_once './Services/Xml/exceptions/class.ilSaxParserException.php';
-//				$reader = new tmpDirectoyIterator('./setup/sql/ilDBTemplate');
-//				foreach($reader as $file)
-//				{
-//					eval(file_get_contents('./setup/sql/ilDBTemplate/'.$file));
-//					try
-//					{
-//						$parser = new ilArrayTableDataParser('./setup/sql/ilDBTemplate/'.$file.'_inserts');
-//						#$parser = new ilSimpleXMLTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.xml');
-//						$parser->startParsing();
-//						#echo 'Table: '.$file.', memory: '.memory_get_peak_usage().' peak: '.memory_get_peak_usage().'<br />';flush();
-//
-//					}
-//					catch(ilSaxParserException $e)
-//					{
-//						die($e);
-//					}
-//				}
-//			}
-//			else
-//			{
-//				include_once("./setup/sql/ilDBTemplate.php");
-//				setupILIASDatabase();
-//			}
-//		}
-//		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
-//		return true;
-//	}
 
 
 	/**
@@ -745,7 +624,7 @@ class ilSetup extends PEAR
 			return false;
 		}
 
-		if (!$this->newClient($a_auth_data["client_id"]))
+		if (!$this->newClient($a_auth_data["client_id"])) //TT: comment out to get around null db
 		{
 			$this->error = "unknown_client_id";
 			unset($this->client);
@@ -901,9 +780,6 @@ class ilSetup extends PEAR
 			$status["proxy"]["status"] = false;
 			$status["proxy"]["comment"] = $status["db"]["comment"];
 
-			$status["passwd"]["status"] = false;
-			$status["passwd"]["comment"] = $status["db"]["comment"];
-
 			$status["nic"]["status"] = false;
 			$status["nic"]["comment"] = $status["db"]["comment"];
 		}
@@ -913,7 +789,6 @@ class ilSetup extends PEAR
 			$status["lang"] = $this->checkClientLanguages($client);
 			$status["contact"] = $this->checkClientContact($client);
 			$status["proxy"] = $this->checkClientProxySettings($client);
-			$status["passwd"] = $this->checkClientPasswordSettings($client);
 			$status["nic"] = $this->checkClientNIC($client);
 			$status["finish"] = $this->checkFinish($client);
 			$status["access"] = $this->checkAccess($client);
@@ -984,68 +859,68 @@ class ilSetup extends PEAR
 		return $arr;
 	}
 
+
 	/**
-	* check client db status
-	* @param	object	client
-	* @return	boolean
-	*/
-	function checkClientDatabase(&$client)
-	{
-		if (!$arr["status"] = $client->db_exists)
-		{
+	 * @param \ilClient $client
+	 * @return array
+	 */
+	public function checkClientDatabase(ilClient $client) {
+		$arr = array();
+		$client->provideGlobalDB();
+		if (!$arr["status"] = $client->db_exists) {
 			$arr["comment"] = $this->lng->txt("no_database");
+
 			return $arr;
 		}
 
-		if (!$arr["status"] = $client->db_installed)
-		{
+		if (!$arr["status"] = $client->db_installed) {
 			$arr["comment"] = $this->lng->txt("db_not_installed");
+
 			return $arr;
 		}
-
 		// TODO: move this to client class!!
-		$client->setup_ok = (bool) $client->getSetting("setup_ok");
+		$client->setup_ok = (bool)$client->getSetting("setup_ok");
 
-		//$this->lng->setDbHandler($client->db);
 		include_once "./Services/Database/classes/class.ilDBUpdate.php";
-		$ilDB = $client->db;
 		$this->lng->setDbHandler($client->db);
 		$dbupdate = new ilDBUpdate($client->db);
 
-		if (!$arr["status"] = $dbupdate->getDBVersionStatus())
-		{
+		if (!$arr["status"] = $dbupdate->getDBVersionStatus()) {
 			$arr["comment"] = $this->lng->txt("db_needs_update");
 			$arr["update"] = true;
+
 			return $arr;
-		}
-		else if ($dbupdate->hotfixAvailable())
-		{
-			$arr["status"] = false;
-			$arr["comment"] = $this->lng->txt("hotfix_available");
-			$arr["update"] = true;
-			return $arr;
-		}
-		else if ($dbupdate->customUpdatesAvailable())
-		{
-			$arr["status"] = false;
-			$arr["comment"] = $this->lng->txt("custom_updates_available");
-			$arr["update"] = true;
-			return $arr;
+		} else {
+			if ($dbupdate->hotfixAvailable()) {
+				$arr["status"] = false;
+				$arr["comment"] = $this->lng->txt("hotfix_available");
+				$arr["update"] = true;
+
+				return $arr;
+			} else {
+				if ($dbupdate->customUpdatesAvailable()) {
+					$arr["status"] = false;
+					$arr["comment"] = $this->lng->txt("custom_updates_available");
+					$arr["update"] = true;
+
+					return $arr;
+				}
+			}
 		}
 
 		// check control information
-
+		global $ilDB;
 		$cset = $ilDB->query("SELECT count(*) as cnt FROM ctrl_calls");
 		$crec = $ilDB->fetchAssoc($cset);
-		if ($crec["cnt"] == 0)
-		{
+		$client->revokeGlobalDB();
+		if ($crec["cnt"] == 0) {
 			$arr["status"] = false;
 			$arr["comment"] = $this->lng->txt("db_control_structure_missing");
 			$arr["update"] = true;
+
 			return $arr;
 		}
 
-		//$arr["comment"] = "version ".$dbupdate->getCurrentVersion();
 		return $arr;
 	}
 
@@ -1090,72 +965,65 @@ class ilSetup extends PEAR
 		return $arr;
 	}
 
+
 	/**
-	 * check client session config status
-	 * @param    object    client
+	 * @param \ilClient $client
+	 * @return array
 	 */
-	function checkClientProxySettings(&$client)
-	{
+	public function checkClientProxySettings(ilClient $client) {
+		$client->provideGlobalDB();
 		global $ilDB;
-		$db = $ilDB;
+		$arr = array();
+		$fields = array( 'proxy_status', 'proxy_host', 'proxy_port' );
 
-		$fields = array('proxy_status','proxy_host','proxy_port');
-
-		$query = "SELECT keyword, value FROM settings WHERE ".$db->in('keyword', $fields, false, 'text');
-		$res = $db->query($query);
+		$query = "SELECT keyword, value FROM settings WHERE " . $ilDB->in('keyword', $fields, false, 'text');
+		$res = $ilDB->query($query);
 
 		$proxy_settings = array();
 		$already_saved = false;
-		while($row = $db->fetchAssoc($res))
-		{
+		while ($row = $ilDB->fetchAssoc($res)) {
 			$already_saved = true;
 			$proxy_settings[$row['keyword']] = $row['value'];
 		}
 
-		if(!$already_saved)
-		{
+		if (!$already_saved) {
 			$arr["status"] = false;
 			$arr["comment"] = $this->lng->txt("proxy");
 			$arr["text"] = $this->lng->txt("proxy");
+		} else {
+			if ((bool)$proxy_settings["proxy_status"] == false) {
+				$arr["status"] = true;
+				$arr["comment"] = $this->lng->txt("proxy_disabled");
+				$arr["text"] = $this->lng->txt("proxy_disabled");
+			} else {
+				$arr["status"] = true;
+				$arr["comment"] = $this->lng->txt("proxy_activated_configurated");
+				$arr["text"] = $this->lng->txt("proxy_activated_configurated");
+			}
 		}
-		else if((bool)$proxy_settings["proxy_status"] == false)
-		{
-			$arr["status"] = true;
-			$arr["comment"] = $this->lng->txt("proxy_disabled");
-			$arr["text"] = $this->lng->txt("proxy_disabled");
-		}
-		else
-		{
-			$arr["status"] = true;
-			$arr["comment"] = $this->lng->txt("proxy_activated_configurated");
-			$arr["text"] = $this->lng->txt("proxy_activated_configurated");
 
-		}
 		return $arr;
 	}
 
+
 	/**
-	* check client installed languages status
-	* @param	object	client
-	* @return	boolean
-	*/
-	function checkClientLanguages(&$client)
-	{
+	 * @param \ilClient $client
+	 * @return array
+	 */
+	public function checkClientLanguages(ilClient $client) {
+		$client->provideGlobalDB();
 		$installed_langs = $this->lng->getInstalledLanguages();
 
 		$count = count($installed_langs);
-
-		if ($count < 1)
-		{
+		$arr = array();
+		if ($count < 1) {
 			$arr["status"] = false;
 			$arr["comment"] = $this->lng->txt("lang_none_installed");
-		}
-		else
-		{
+		} else {
 			$arr["status"] = true;
 			//$arr["comment"] = $count." ".$this->lng->txt("languages_installed");
 		}
-
+		$client->revokeGlobalDB();
 		return $arr;
 	}
 
@@ -1288,6 +1156,7 @@ class ilSetup extends PEAR
 		$form_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["log_path"])));
 		$log_path = substr($form_log_path,0,strrpos($form_log_path,"/"));
 		$log_file = substr($form_log_path,strlen($log_path)+1);
+		$error_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["error_log_path"])));
 
  		$this->ini->setVariable("server","http_path",ILIAS_HTTP_PATH);
 		$this->ini->setVariable("server","absolute_path",ILIAS_ABSOLUTE_PATH);
@@ -1304,10 +1173,14 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "vscantype", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["vscanner_type"])));
 		$this->ini->setVariable("tools", "scancommand", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["scan_command"])));
 		$this->ini->setVariable("tools", "cleancommand", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["clean_command"])));
+		$this->ini->setVariable("tools", "enable_system_styles_management", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["enable_system_styles_management"])));
+		$this->ini->setVariable("tools", "lessc", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["lessc_path"])));
+
 		$this->ini->setVariable("setup", "pass", md5($a_formdata["setup_pass"]));
 		$this->ini->setVariable("log", "path", $log_path);
 		$this->ini->setVariable("log", "file", $log_file);
 		$this->ini->setVariable("log", "enabled", ($a_formdata["chk_log_status"]) ? "0" : 1);
+		$this->ini->setVariable("log", "error_path", $error_log_path);
 
 		$this->ini->setVariable("https","auto_https_detect_enabled", ($a_formdata["auto_https_detect_enabled"]) ? 1 : 0);
 		$this->ini->setVariable("https","auto_https_detect_header_name", $a_formdata["auto_https_detect_header_name"]);
@@ -1346,6 +1219,8 @@ class ilSetup extends PEAR
 		$scan_type = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["vscanner_type"]));
 		$scan_command = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["scan_command"]));
 		$clean_command = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["clean_command"]));
+		$enable_system_styles_management = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["enable_system_styles_management"]));
+		$lessc_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["lessc_path"]));
 
 		$this->ini->setVariable("tools", "convert", $convert_path);
 		$this->ini->setVariable("tools", "zip", $zip_path);
@@ -1359,14 +1234,19 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "vscantype", $scan_type);
 		$this->ini->setVariable("tools", "scancommand", $scan_command);
 		$this->ini->setVariable("tools", "cleancommand", $clean_command);
+		$this->ini->setVariable("tools", "lessc", $lessc_path);
+		$this->ini->setVariable("tools", "enable_system_styles_management", $enable_system_styles_management);
 
 		$form_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["log_path"])));
 		$log_path = substr($form_log_path,0,strrpos($form_log_path,"/"));
 		$log_file = substr($form_log_path,strlen($log_path)+1);
 
+		$error_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["error_log_path"])));
+
 		$this->ini->setVariable("log", "path", $log_path);
 		$this->ini->setVariable("log", "file", $log_file);
 		$this->ini->setVariable("log", "enabled", ($a_formdata["chk_log_status"]) ? "0" : 1);
+		$this->ini->setVariable("log", "error_path", $error_log_path);
 		$this->ini->setVariable("server","timezone",preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["time_zone"])));
 
 		$this->ini->setVariable("https","auto_https_detect_enabled",($a_formdata["auto_https_detect_enabled"]) ? 1 : 0);
@@ -1617,10 +1497,37 @@ class ilSetup extends PEAR
 				$this->error = "no_path_log";
 				return false;
 			}
+			
+			if(is_dir($log_path))
+			{
+				$this->error = 'could_not_create_logfile';
+				return false;
+			}
 
 			if (!@touch($log_path))
 			{
 				$this->error = "could_not_create_logfile";
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * check error log path
+	 *
+	 * @param	string	$error_log_path		path to save error log files
+	 *
+	 * @return	boolean
+	 */
+	public function checkErrorLogSetup($error_log_path) {
+		// remove trailing slash & convert backslashes to forwardslashes
+		$clean_error_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($error_log_path)));
+
+		if (!empty($clean_error_log_path)) {
+			if (!ilUtil::makeDirParents($clean_error_log_path)) {
+				$this->error = "could_not_create_error_directory";
 				return false;
 			}
 		}
@@ -2156,28 +2063,24 @@ class ilSetup extends PEAR
 		{
 			try
 			{
-				/**
-				 *
-				 * Verifies the proxy server connection
-				*/
+				$err_str = false;
+				$wait_timeout = 100;
 
-				require_once 'Services/PEAR/lib/Net/Socket.php';
+				$fp = @fsockopen($settings['proxy_host'], $settings['proxy_port'],$err_code,$err_str,$wait_timeout);
 
-				$socket = new Net_Socket();
-				$socket->setErrorHandling(PEAR_ERROR_RETURN);
-				$response = $socket->connect($settings['proxy_host'], $settings['proxy_port']);
-				if(!is_bool($response))
+				if($err_str)
 				{
-					global $lng;
-					throw new ilProxyException(strlen($response) ? $response : $lng->txt('proxy_not_connectable'));
+					throw new ilProxyException($err_str);
 				}
+
+				fclose($fp);
 
 				ilUtil::sendSuccess($this->lng->txt('proxy_connectable'));
 
 			}
-			catch(ilProxyException $e)
+			catch(Exception $e)
 			{
-				ilUtil::sendFailure($this->lng->txt('proxy_pear_net_socket_error').': '.$e->getMessage());
+				ilUtil::sendFailure($this->lng->txt('proxy_not_connectable') . ": " . $e->getMessage());
 			}
 		}
 
@@ -2228,48 +2131,6 @@ class ilSetup extends PEAR
 	}
 
 	/**
-	 * @param array $passwd_settings
-	 */
-	public function savePasswordSettings(array $passwd_settings)
-	{
-		$this->getClient()->ini->setVariable('auth', 'password_encoder', $passwd_settings['default_encoder']);
-		$this->getClient()->ini->write();
-	}
-
-	/**
-	 * Reads password settings from persitance layer
-	 * @return array
-	 */
-	public function getPasswordSettings()
-	{
-		return array(
-			'default_encoder' =>
-				$this->getClient()->ini->readVariable('auth', 'password_encoder') ?
-				$this->getClient()->ini->readVariable('auth', 'password_encoder') :
-				'md5'
-		);
-	}
-
-	/**
-	 * @param $client ilClient
-	 * @return array
-	 */
-	public function checkClientPasswordSettings(ilClient $client)
-	{
-		$arr['status'] = strlen($client->ini->readVariable('auth', 'password_encoder'));
-		if($arr['status'])
-		{
-			$arr['comment'] = $this->lng->txt('passwd_encoding_configured');
-		}
-		else
-		{
-			$arr['comment'] = $this->lng->txt('session_management_not_configured');
-		}
-		return $arr;
-	}
-
-
-	/**
 	 * @return bool
 	 */
 	public function hasOpCacheEnabled() {
@@ -2277,5 +2138,21 @@ class ilSetup extends PEAR
 
 		return ($ini_get === 1 OR $ini_get === '1' OR strtolower($ini_get) === 'on');
 	}
+
+	/**
+	 * Is valid client id
+	 *
+	 * @param
+	 * @return
+	 */
+	function isValidClientId($a_client_id)
+	{
+		if (!preg_match("/^[A-Za-z0-9]+$/", $a_client_id))
+		{
+			return false;
+		}
+		return true;
+	}
+
 }
 

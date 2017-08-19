@@ -22,7 +22,14 @@ il.LearningModule = {
 	},
 
 	showContentFrame: function (e, target) {
-		return il.LearningModule.loadContentFrame(e.target.href, target);
+		var href = e.target.href;
+		if (!href) {
+			href = $(e.target).parents("[href]").attr("href");
+		}
+		console.log(href);
+		if (href != "") {
+			return il.LearningModule.loadContentFrame(href, target);
+		}
 	},
 	
 	initContentFrame: function (href, target) {

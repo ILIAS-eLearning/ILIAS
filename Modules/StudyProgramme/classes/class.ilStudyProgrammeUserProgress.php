@@ -162,7 +162,8 @@ class ilStudyProgrammeUserProgress {
 	 * Get a user readable representation of a status.
 	 */
 	static public function statusToRepr($a_status) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$lng->loadLanguageModule("prg");
 		
 		if ($a_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
@@ -575,7 +576,7 @@ class ilStudyProgrammeUserProgress {
 		if (!$achieved_points) {
 			$achieved_points = 0;
 		}
-		$successful = $achieved_points >= $this->getAmountOfPoints();
+		$successful = $achieved_points >= $this->getAmountOfPoints() && $this->hasSuccessfullChildren();
 		$status = $this->getStatus();
 		
 		$this->progress->setCurrentAmountOfPoints($achieved_points);
@@ -590,6 +591,16 @@ class ilStudyProgrammeUserProgress {
 		$this->progress->update();
 		$this->refreshLPStatus();
 		$this->updateParentStatus();
+	}
+
+	protected function hasSuccessfullChildren()
+	{
+		foreach($this->getChildrenProgress() as $child) {
+			if($child->isSuccessful()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -639,10 +650,8 @@ class ilStudyProgrammeUserProgress {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
 		ilStudyProgrammeEvents::userSuccessful($this);
 		
-		$parent = $this->getParentProgress();
-		if ($parent) {
-			$parent->updateStatus();
-		}
+		$this->refreshLPStatus();
+		$this->updateParentStatus();
 	}
 	
 	/**

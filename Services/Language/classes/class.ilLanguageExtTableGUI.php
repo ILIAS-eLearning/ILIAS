@@ -125,6 +125,15 @@ class ilLanguageExtTableGUI extends ilTable2GUI
                 $si->setValue('administration');
             }
 
+            // identifier
+            include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+            $ti = new ilTextInputGUI(ucfirst($lng->txt("identifier")), "identifier");
+            $ti->setParent($this->parent_obj);
+            $ti->setMaxLength(64);
+            $ti->setSize(20);
+            $this->addFilterItem($ti);
+            $ti->readFromSession();
+
             // mode
             $options = array();
             $options["all"] = $lng->txt("language_scope_global");

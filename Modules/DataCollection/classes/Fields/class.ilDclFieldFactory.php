@@ -1,8 +1,4 @@
 <?php
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordRepresentation.php');
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/Plugin/class.ilDclFieldTypePlugin.php');
-require_once('./Modules/DataCollection/exceptions/class.ilDclException.php');
 
 /**
  * Class ilDclFieldFactory
@@ -177,7 +173,7 @@ class ilDclFieldFactory {
 	 *
 	 * @param ilDclBaseRecordFieldModel $record_field
 	 *
-	 * @return null
+	 * @return ilDclBaseRecordRepresentation
 	 * @throws ilDclException
 	 */
 	public static function getRecordRepresentationInstance(ilDclBaseRecordFieldModel $record_field) {

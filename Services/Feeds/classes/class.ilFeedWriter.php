@@ -30,6 +30,14 @@ class ilFeedWriter
 	var $ch_link = "";
 	var $ch_description = "";
 	var $items = array();
+
+	/**
+	 * ilFeedWriter constructor.
+	 */
+	function __construct()
+	{
+
+	}
 	
 	/**
 	* Set feed encoding. Default is UTF-8.

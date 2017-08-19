@@ -1,0 +1,12 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "smeyer(191)",
+    "second_maintainer": "akill(149)",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "berggold(22199)",
+    "testcase_writer": "",
+    "path": "Services/Calendar",
+    "belong_to_component": "Calendar",
+    "used_in_components": []
+}

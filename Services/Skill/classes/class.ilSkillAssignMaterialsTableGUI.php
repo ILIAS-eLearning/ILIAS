@@ -57,7 +57,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 		$this->setLimit(9999);
 		
 		$this->addColumn($this->lng->txt("skmg_skill_level"));
-		$this->addColumn($this->lng->txt("description"), "", "60%");
+		$this->addColumn($this->lng->txt("description"));
 		$this->addColumn($this->lng->txt("skmg_materials"));
 		$this->addColumn($this->lng->txt("actions"));
 		

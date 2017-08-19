@@ -14,6 +14,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 {
 	protected $values = array();
 	protected $allowMove = false;
+	protected $allowAddRemove = true;
 	protected $singleline = true;
 	protected $qstObject = null;
 	protected $minvalue = false;
@@ -132,6 +133,22 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 	function getAllowMove()
 	{
 		return $this->allowMove;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isAddRemoveAllowed()
+	{
+		return $this->allowAddRemove;
+	}
+
+	/**
+	 * @param bool $allowAddRemove
+	 */
+	public function setAllowAddRemove($allowAddRemove)
+	{
+		$this->allowAddRemove = $allowAddRemove;
 	}
 
 	/**
@@ -318,14 +335,18 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 			$tpl->setVariable("ROW_NUMBER", $i);
 			$tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
 			$tpl->setVariable("POINTS_ID", $this->getPostVar() . "[points][$i]");
-			$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
-			$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
+			if($this->isAddRemoveAllowed())
+			{
+				$tpl->setVariable("ADD_REMOVE_ID", $this->getPostVar() . "[$i]");
+				$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
+				$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
+				$tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
+				$tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+			}
 			if ($this->getDisabled())
 			{
 				$tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
 			}
-			$tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
-			$tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
 			$tpl->parseCurrentBlock();
 			$i++;
 		}

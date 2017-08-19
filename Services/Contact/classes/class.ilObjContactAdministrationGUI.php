@@ -83,10 +83,18 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->lng->txt('settings'));
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveConfigurationForm'));
-		
+
 		$enabled = new ilCheckboxInputGUI($this->lng->txt('buddy_enable'), 'enable');
+		$enabled->setValue(1);
 		$enabled->setInfo($this->lng->txt('buddy_enable_info'));
 		$enabled->setDisabled(!$this->checkPermissionBool('write'));
+
+		$notification = new ilCheckboxInputGUI($this->lng->txt('buddy_use_osd'), 'use_osd');
+		$notification->setValue(1);
+		$notification->setInfo($this->lng->txt('buddy_use_osd_info'));
+		$notification->setDisabled(!$this->checkPermissionBool('write'));
+		$enabled->addSubItem($notification);
+
 		$form->addItem($enabled);
 
 		$form->addCommandButton('saveConfigurationForm', $this->lng->txt('save'));
@@ -103,9 +111,13 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 		
 		if(!($form instanceof ilPropertyFormGUI))
 		{
+			require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
+			$cfg = ilNotificationDatabaseHandler::loadUserConfig(-1);
+
 			$form = $this->getConfigurationForm();
 			$form->setValuesByArray(array(
-				'enable' => (bool)ilBuddySystem::getInstance()->getSetting('enabled', 0)
+				'enable'  => (bool)ilBuddySystem::getInstance()->getSetting('enabled', 0),
+				'use_osd' => isset($cfg['buddysystem_request']) && array_search('osd', $cfg['buddysystem_request']) !== false
 			));
 		}
 
@@ -128,6 +140,35 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 		}
 
 		ilBuddySystem::getInstance()->setSetting('enabled', (bool)$form->getInput('enable') ? 1 : 0);
+
+		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
+		$cfg = ilNotificationDatabaseHandler::loadUserConfig(-1);
+
+		$new_cfg = array();
+		foreach($cfg as $type => $channels)
+		{
+			$new_cfg[$type] = array();
+			foreach($channels as $channel)
+			{
+				$new_cfg[$type][$channel] = true;
+			}
+		}
+
+		if(!isset($new_cfg['buddysystem_request']) || !is_array($new_cfg['buddysystem_request']))
+		{
+			$new_cfg['buddysystem_request'] = array();
+		}
+
+		if((bool)$form->getInput('use_osd') && !array_key_exists('osd', $new_cfg['buddysystem_request']))
+		{
+			$new_cfg['buddysystem_request']['osd'] = true;
+		}
+		else if(!(bool)$form->getInput('use_osd') && array_key_exists('osd', $new_cfg['buddysystem_request']))
+		{
+			$new_cfg['buddysystem_request']['osd'] = false;
+		}
+
+		ilNotificationDatabaseHandler::setUserConfig(-1, $new_cfg);
 
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 		$this->ctrl->redirect($this);

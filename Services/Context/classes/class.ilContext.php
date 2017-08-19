@@ -21,6 +21,7 @@ class ilContext
 	const CONTEXT_RSS = "ilContextRss";
 	const CONTEXT_ICAL = "ilContextIcal";
 	const CONTEXT_SOAP = "ilContextSoap";
+	const CONTEXT_SOAP_NO_AUTH = 'ilContextSoapNoAuth';
 	const CONTEXT_WEBDAV = "ilContextWebdav";
 	const CONTEXT_RSS_AUTH = "ilContextRssAuth";
 	const CONTEXT_WEB_ACCESS_CHECK = "ilContextWebAccessCheck";
@@ -30,6 +31,9 @@ class ilContext
 	const CONTEXT_REST = "ilContextRest";
 	const CONTEXT_SCORM = "ilContextScorm";
 	const CONTEXT_WAC = "ilContextWAC";
+	const CONTEXT_APACHE_SSO = 'ilContextApacheSSO';
+	const CONTEXT_SHIBBOLETH = 'ilContextShibboleth';
+	
 	
 	/**
 	 * Init context by type
@@ -147,6 +151,18 @@ class ilContext
 	public static function getType()
 	{
 		return self::$type;
+	}
+	
+	/**
+	 * Check if context supports persistent
+	 * session handling.
+	 * false for cli context
+	 * 
+	 * @return bool
+	 */
+	public static function supportsPersistentSessions()
+	{
+		return (bool) self::callContext('supportsPersistentSessions');
 	}
 }
 

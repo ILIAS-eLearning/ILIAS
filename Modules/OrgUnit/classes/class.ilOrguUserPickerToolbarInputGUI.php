@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Modules/OrgUnit/classes/class.ilMultiUserToolbarInputGUI.php");
 /**
  * Class ilOrguUserPickerToolbarInputGUI
  *
@@ -23,7 +22,8 @@ class ilOrguUserPickerToolbarInputGUI extends ilMultiUserToolbarInputGUI {
 	}
 
 	protected function getSelectHTML(){
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$html = "
 		<select name='".$this->searchPostVar()."_role"."'>
 			<option value='employee'>".$lng->txt("employee")."</option>

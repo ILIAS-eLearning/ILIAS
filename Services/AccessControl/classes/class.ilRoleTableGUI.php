@@ -28,6 +28,7 @@ class ilRoleTableGUI extends ilTable2GUI
 
 	private $type = self::TYPE_VIEW;
 	private $role_title_filter = '';
+	private $role_folder_id = 0;
 
 	/**
 	 * Constructor
@@ -112,7 +113,11 @@ class ilRoleTableGUI extends ilTable2GUI
 				$this->addColumn($this->lng->txt('context'),'','40%');
 				$this->addColumn($this->lng->txt('actions'),'','10%');
 				$this->setTitle($this->lng->txt('objs_role'));
-				$this->addMultiCommand('confirmDelete',$this->lng->txt('delete'));
+				
+				if($GLOBALS['rbacsystem']->checkAccess('delete', $this->getParentObject()->object->getRefId()))
+				{
+					$this->addMultiCommand('confirmDelete',$this->lng->txt('delete'));
+				}
 				break;
 			
 			case self::TYPE_SEARCH:
@@ -290,14 +295,17 @@ class ilRoleTableGUI extends ilTable2GUI
 
 		if($this->getType() == self::TYPE_VIEW and $set['obj_id'] != SYSTEM_ROLE_ID)
 		{
-			// Copy role
-			$this->tpl->setVariable('COPY_TEXT',$this->lng->txt('rbac_role_rights_copy'));
-			$this->ctrl->setParameter($this->getParentObject(), "copy_source", $set["obj_id"]);
-			$link = $this->ctrl->getLinkTarget($this->getParentObject(),'roleSearch');
-			$this->tpl->setVariable(
-				'COPY_LINK',
-				$link
-			);
+			if($GLOBALS['rbacsystem']->checkAccess('write',$this->role_folder_id))
+			{
+				// Copy role
+				$this->tpl->setVariable('COPY_TEXT',$this->lng->txt('rbac_role_rights_copy'));
+				$this->ctrl->setParameter($this->getParentObject(), "copy_source", $set["obj_id"]);
+				$link = $this->ctrl->getLinkTarget($this->getParentObject(),'roleSearch');
+				$this->tpl->setVariable(
+					'COPY_LINK',
+					$link
+				);
+			}
 		}
 
 	}
@@ -309,6 +317,8 @@ class ilRoleTableGUI extends ilTable2GUI
 	public function parse($role_folder_id)
 	{
 		global $rbacreview,$ilUser;
+		
+		$this->role_folder_id = $role_folder_id;
 
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		

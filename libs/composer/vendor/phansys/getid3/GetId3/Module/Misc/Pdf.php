@@ -1,4 +1,9 @@
 <?php
+
+namespace GetId3\Module\Misc;
+
+use GetId3\Handler\BaseHandler;
+
 /////////////////////////////////////////////////////////////////
 /// GetId3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -20,21 +25,23 @@
  * @link http://getid3.sourceforge.net
  * @link http://www.getid3.org
  */
-class GetId3_Module_Misc_Pdf extends GetId3_Handler_BaseHandler
+class Pdf extends BaseHandler
 {
 
     /**
      *
      * @return boolean
      */
-	public function Analyze() {
-		$info = &$this->getid3->info;
+    public function analyze()
+    {
+        $info = &$this->getid3->info;
 
-		$info['fileformat'] = 'pdf';
+        $info['fileformat'] = 'pdf';
 
-		$info['error'][] = 'PDF parsing not enabled in this version of GetId3() ['.$this->getid3->version().']';
-		return false;
+        $info['error'][] = 'PDF parsing not enabled in this version of GetId3Core() ['.$this->getid3->version().']';
 
-	}
+        return false;
+
+    }
 
 }

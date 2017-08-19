@@ -289,19 +289,20 @@ class ilCronManagerGUI
 	function confirmedReset()
 	{
 		global $ilCtrl, $lng;
-		
-		$job_id = $_GET["jid"];
-		if($job_id)
+
+		$jobs = $this->getMultiActionData();
+		if($jobs)
 		{
-			$job = ilCronManager::getJobInstanceById($job_id);
-			if($job)
+			foreach($jobs as $job)
 			{
-				ilCronManager::resetJob($job);
-				
-				ilUtil::sendSuccess($lng->txt("cron_action_reset_success"), true);	
+				if(ilCronManager::isJobActive($job->getId()))
+				{
+					ilCronManager::resetJob($job);
+				}
 			}
-		}		
-		
+			ilUtil::sendSuccess($lng->txt("cron_action_reset_success"), true);
+		}
+
 		$ilCtrl->redirect($this, "render");
 	}
 	

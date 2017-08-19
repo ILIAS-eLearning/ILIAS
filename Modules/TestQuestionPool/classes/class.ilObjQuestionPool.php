@@ -157,7 +157,11 @@ class ilObjQuestionPool extends ilObject
 
 		//put here your module specific stuff
 		$this->deleteQuestionpool();
-
+		
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
+		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->getId());
+		$qsaImportFails->deleteRegisteredImportFails();
+		
 		return true;
 	}
 
@@ -490,7 +494,7 @@ class ilObjQuestionPool extends ilObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportPagesXML(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog, $questions)
+	function objectToXmlWriter(ilXmlWriter &$a_xml_writer, $a_inst, $a_target_dir, &$expLog, $questions)
 	{
 		global $ilBench;
 		
@@ -528,7 +532,32 @@ class ilObjQuestionPool extends ilObject
 		$ilBench->stop("ContentObjectExport", "exportFileItems");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export File Items");
 
+		// skill assignments
+		$this->populateQuestionSkillAssignmentsXml($a_xml_writer, $questions);
+
 		$a_xml_writer->xmlEndTag("ContentObject");
+	}
+	
+	/**
+	 * @param ilXmlWriter $a_xml_writer
+	 * @param $questions
+	 */
+	protected function populateQuestionSkillAssignmentsXml(ilXmlWriter &$a_xml_writer, $questions)
+	{
+		global $ilDB;
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
+		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
+		$assignmentList->setParentObjId($this->getId());
+		$assignmentList->loadFromDb();
+		$assignmentList->loadAdditionalSkillData();
+		
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentExporter.php';
+		$skillQuestionAssignmentExporter = new ilAssQuestionSkillAssignmentExporter();
+		$skillQuestionAssignmentExporter->setXmlWriter($a_xml_writer);
+		$skillQuestionAssignmentExporter->setQuestionIds($questions);
+		$skillQuestionAssignmentExporter->setAssignmentList($assignmentList);
+		$skillQuestionAssignmentExporter->export();
 	}
 
 	/**
@@ -856,7 +885,7 @@ class ilObjQuestionPool extends ilObject
 	* @return string The QTI xml representation of the questions
 	* @access public
 	*/
-	function toXML($questions)
+	function questionsToXML($questions)
 	{
 		$xml = "";
 		// export button was pressed
@@ -989,7 +1018,7 @@ class ilObjQuestionPool extends ilObject
 	* @param integer $a_obj_id Object id of the question pool
 	* @access private
 	*/
-	function _hasEqualPoints($a_obj_id, $is_reference = FALSE)
+	public static function _hasEqualPoints($a_obj_id, $is_reference = FALSE)
 	{
 		global $ilDB;
 		
@@ -1387,11 +1416,11 @@ class ilObjQuestionPool extends ilObject
 *
 * @access public
 */
-	function cloneObject($a_target_id,$a_copy_id = 0)
+	function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $ilLog;
 
-		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
+		$newObj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 
 		//copy online status if object is not the root copy object
 		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -1619,17 +1648,29 @@ class ilObjQuestionPool extends ilObject
 	* @param string $a_pname The plugin name
 	* @access public
 	*/
-	function isPluginActive($a_pname)
+	function isPluginActive($questionType)
 	{
+		/* @var ilPluginAdmin $ilPluginAdmin */
 		global $ilPluginAdmin;
-		if ($ilPluginAdmin->isActive(IL_COMP_MODULE, "TestQuestionPool", "qst", $a_pname))
+		
+		$plugins = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
+		foreach($plugins as $pluginName)
 		{
-			return TRUE;
+			if( $pluginName == $questionType ) // plugins having pname == qtype
+			{
+				return true;
+			}
+			
+			/* @var ilQuestionsPlugin $plugin */
+			$plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pluginName);
+			
+			if($plugin->getQuestionType() == $questionType) // plugins havin an independent name
+			{
+				return true;
+			}
 		}
-		else
-		{
-			return FALSE;
-		}
+		
+		return false;
 	}
 	
 	/*

@@ -1,8 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/Table/classes/class.ilTable2GUI.php");
-require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-require_once("./Services/Tracking/classes/class.ilObjUserTracking.php");
 /**
  * Class ilOrgUnitStaffTableGUI
  *
@@ -21,7 +18,10 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 	public function __construct($parent_obj, $parent_cmd, $staff = "employee", $recursive = false, $template_context = ""){
 
 
-		global $lng, $ilCtrl, $ilTabs;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
 		/**
 		 * @var $ilCtrl ilCtrl
 		 * @var $ilTabs ilTabsGUI
@@ -108,7 +108,11 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 	}
 
 	function fillRow($set){
-		global $ilUser, $Access, $lng, $ilAccess;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
 		$this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
 		$this->tpl->setVariable("LAST_NAME", $set["last_name"]);
         if ($this->recursive) {
@@ -160,4 +164,3 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 
 
 }
-?>

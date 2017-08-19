@@ -1,7 +1,4 @@
 <?php
-require_once ('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordRepresentation.php');
-require_once('./Modules/DataCollection/classes/Fields/Fileupload/class.ilDclFileuploadRecordRepresentation.php');
 
 /**
  * Class ilDclMobRecordRepresentation
@@ -22,8 +19,8 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation {
 		$value = $this->getRecordField()->getValue();
 
 		// the file is only temporary uploaded. Still need to be confirmed before stored
-		if(is_array($value) && isset($_SESSION['record_form_values']['ilfilehash'])) {
-			$this->ctrl->setParameterByClass("ildclrecordlistgui", "ilfilehash", $_SESSION['record_form_values']['ilfilehash']);
+		if(is_array($value) && $_POST['ilfilehash']) {
+			$this->ctrl->setParameterByClass("ildclrecordlistgui", "ilfilehash", $_POST['ilfilehash']);
 			$this->ctrl->setParameterByClass("ildclrecordlistgui", "field_id", $this->getRecordField()->getField()->getId());
 
 			return '<a href="' . $this->ctrl->getLinkTargetByClass("ildclrecordlistgui", "sendFile") . '">' . $value['name'] . '</a>';

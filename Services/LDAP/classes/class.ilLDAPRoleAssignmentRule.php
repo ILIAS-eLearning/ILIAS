@@ -211,7 +211,7 @@ class ilLDAPRoleAssignmentRule
 	 * @access public
 	 * @return ilLDAPRoleAssignmentRule
 	 */
-	public function _getRules($a_server_id)
+	public static function _getRules($a_server_id)
 	{
 	 	global $ilDB;
 	 	

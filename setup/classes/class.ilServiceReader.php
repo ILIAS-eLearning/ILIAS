@@ -35,9 +35,9 @@ include_once("./setup/classes/class.ilObjDefReader.php");
 class ilServiceReader extends ilObjDefReader
 {
 
-	function ilServiceReader($a_path, $a_name, $a_type)
+	function __construct($a_path, $a_name, $a_type)
 	{
-		parent::ilObjDefReader($a_path, $a_name, $a_type);
+		parent::__construct($a_path, $a_name, $a_type);
 	}
 	
 	function getServices()

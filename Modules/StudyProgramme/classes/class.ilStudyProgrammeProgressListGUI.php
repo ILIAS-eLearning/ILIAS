@@ -52,7 +52,9 @@ class ilStudyProgrammeProgressListGUI {
 	protected $only_relevant = false;
 
 	function __construct(ilStudyProgrammeUserProgress $a_progress) {
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		$this->il_lng = $lng;
 		$this->il_lng->loadLanguageModule("prg");
 		$this->il_ctrl = $ilCtrl;

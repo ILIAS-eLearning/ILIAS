@@ -14,8 +14,8 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $size = 20;
 	protected $validateauthpost = "";
 	protected $requiredonauth = false;
-	protected $preselection = false;
 	protected $maxlength = false;
+	protected $use_strip_slashes = true;
 
 	/**
 	 * @var bool Flag whether the html autocomplete attribute should be set to "off" or not
@@ -126,26 +126,6 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
-	* Set preselection
-	*
-	* @param	boolean		preselection of five passwords true/false
-	*/
-	function setPreSelection($a_val)
-	{
-		$this->preselection = $a_val;
-	}
-	
-	/**
-	* Get preselection
-	*
-	* @return	boolean		preselection of five passwords true/false
-	*/
-	function getPreSelection()
-	{
-		return $this->preselection;
-	}
-	
-	/**
 	* Set value by array
 	*
 	* @param	array	$a_values	value array
@@ -247,6 +227,26 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 	
 	/**
+	 * En/disable use of stripslashes. e.g on login screen.
+	 * Otherwise passwords containing "<" are stripped and therefor authentication 
+	 * fails against external authentication services.
+	 * @param type $a_stat
+	 */
+	public function setUseStripSlashes($a_stat)
+	{
+		$this->use_strip_slashes = $a_stat;
+	}
+	
+	/**
+	 * 
+	 * @return type
+	 */
+	public function getUseStripSlashes()
+	{
+		return $this->use_strip_slashes;
+	}
+	
+	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*
 	* @return	boolean		Input ok, true/false
@@ -255,8 +255,11 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	{
 		global $lng;
 		
-		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-		$_POST[$this->getPostVar()."_retype"] = ilUtil::stripSlashes($_POST[$this->getPostVar()."_retype"]);
+		if($this->getUseStripSlashes())
+		{
+			$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+			$_POST[$this->getPostVar()."_retype"] = ilUtil::stripSlashes($_POST[$this->getPostVar()."_retype"]);
+		}
 		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
 		{
 			$this->setAlert($lng->txt("msg_input_is_required"));
@@ -285,7 +288,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 				return false;
 			}
 		}
-		if ($this->getRetype() && !$this->getPreSelection() &&
+		if ($this->getRetype() &&
 			($_POST[$this->getPostVar()] != $_POST[$this->getPostVar()."_retype"]))
 		{
 			$this->setAlert($lng->txt("passwd_not_match"));
@@ -314,75 +317,56 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 		
 		$ptpl = new ilTemplate("tpl.prop_password.html", true, true, "Services/Form");
 		
-		if (!$this->getPreSelection())
+		if ($this->getRetype())
 		{
-			if ($this->getRetype())
-			{
-				$ptpl->setCurrentBlock("retype");
-				$ptpl->setVariable("RSIZE", $this->getSize());
-				$ptpl->setVariable("RID", $this->getFieldId());
-				$ptpl->setVariable("RMAXLENGTH", $this->getMaxLength());
-				$ptpl->setVariable("RPOST_VAR", $this->getPostVar());
-				
-				if($this->isHtmlAutoCompleteDisabled())
-				{
-					$ptpl->setVariable("RAUTOCOMPLETE", "autocomplete=\"off\"");
-				}
-				
-				// this is creating an "auto entry" in the setup, if the retype is missing
-				/*$retype_value = ($this->getRetypeValue() != "")
-					? $this->getRetypeValue()
-					: $this->getValue();*/
-				$retype_value = $this->getRetypeValue();
-				$ptpl->setVariable("PROPERTY_RETYPE_VALUE", ilUtil::prepareFormOutput($retype_value));
-				if ($this->getDisabled())
-				{
-					$ptpl->setVariable("RDISABLED",
-						" disabled=\"disabled\"");
-				}
-				$ptpl->setVariable("TXT_RETYPE", $lng->txt("form_retype_password"));
-				$ptpl->parseCurrentBlock();
-			}
-			
-			if (strlen($this->getValue()))
-			{
-				$ptpl->setCurrentBlock("prop_password_propval");
-				$ptpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
-				$ptpl->parseCurrentBlock();
-			}
-			$ptpl->setVariable("POST_VAR", $this->getPostVar());
-			$ptpl->setVariable("ID", $this->getFieldId());
-			$ptpl->setVariable("SIZE", $this->getSize());
-			$ptpl->setVariable("MAXLENGTH", $this->getMaxLength());
-			if ($this->getDisabled())
-			{
-				$ptpl->setVariable("DISABLED",
-					" disabled=\"disabled\"");
-			}
+			$ptpl->setCurrentBlock("retype");
+			$ptpl->setVariable("RSIZE", $this->getSize());
+			$ptpl->setVariable("RID", $this->getFieldId());
+			$ptpl->setVariable("RMAXLENGTH", $this->getMaxLength());
+			$ptpl->setVariable("RPOST_VAR", $this->getPostVar());
+
 			if($this->isHtmlAutoCompleteDisabled())
 			{
-				$ptpl->setVariable("AUTOCOMPLETE", "autocomplete=\"off\"");
-			}
-			if($this->getRequired())
-			{
-				$ptpl->setVariable("REQUIRED", "required=\"required\"");
-			}
-		}
-		else
-		{
-			// preselection
-			$passwd_list = ilUtil::generatePasswords(5);
-			foreach ($passwd_list as $passwd)
-			{
-				$i++;
-				$ptpl->setCurrentBlock("select_input");
-				$ptpl->setVariable("POST_VAR", $this->getPostVar());
-				$ptpl->setVariable("OP_ID", $this->getPostVar()."_".$i);
-				$ptpl->setVariable("VAL_RADIO_OPTION", $passwd);
-				$ptpl->setVariable("TXT_RADIO_OPTION", $passwd);
-				$ptpl->parseCurrentBlock();
+				$ptpl->setVariable("RAUTOCOMPLETE", "autocomplete=\"off\"");
 			}
 
+			// this is creating an "auto entry" in the setup, if the retype is missing
+			/*$retype_value = ($this->getRetypeValue() != "")
+				? $this->getRetypeValue()
+				: $this->getValue();*/
+			$retype_value = $this->getRetypeValue();
+			$ptpl->setVariable("PROPERTY_RETYPE_VALUE", ilUtil::prepareFormOutput($retype_value));
+			if ($this->getDisabled())
+			{
+				$ptpl->setVariable("RDISABLED",
+					" disabled=\"disabled\"");
+			}
+			$ptpl->setVariable("TXT_RETYPE", $lng->txt("form_retype_password"));
+			$ptpl->parseCurrentBlock();
+		}
+
+		if (strlen($this->getValue()))
+		{
+			$ptpl->setCurrentBlock("prop_password_propval");
+			$ptpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+			$ptpl->parseCurrentBlock();
+		}
+		$ptpl->setVariable("POST_VAR", $this->getPostVar());
+		$ptpl->setVariable("ID", $this->getFieldId());
+		$ptpl->setVariable("SIZE", $this->getSize());
+		$ptpl->setVariable("MAXLENGTH", $this->getMaxLength());
+		if ($this->getDisabled())
+		{
+			$ptpl->setVariable("DISABLED",
+				" disabled=\"disabled\"");
+		}
+		if($this->isHtmlAutoCompleteDisabled())
+		{
+			$ptpl->setVariable("AUTOCOMPLETE", "autocomplete=\"off\"");
+		}
+		if($this->getRequired())
+		{
+			$ptpl->setVariable("REQUIRED", "required=\"required\"");
 		}
 		return $ptpl->get();
 	}

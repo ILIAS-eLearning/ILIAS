@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once ('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
 
 /**
  * Class ilDclFieldListTableGUI
@@ -72,8 +70,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI {
 		$this->setEnableTitle(true);
 		$this->setDefaultOrderDirection('asc');
 
-		require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclDatatype.php'); //ist dies benötigt?
-		$this->setTitle($lng->txt('dcl_table_list_fields'));
+				$this->setTitle($lng->txt('dcl_table_list_fields'));
 		$this->setRowTemplate('tpl.field_list_row.html', 'Modules/DataCollection');
 		$this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
 
@@ -162,7 +159,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI {
 			$alist->setId($a_set->getId());
 			$alist->setListTitle($lng->txt('actions'));
 
-			if ($this->table->hasPermissionToFields($this->parent_obj->parent_obj->ref_id)) {
+			if ($this->table->hasPermissionToFields($this->parent_obj->getDataCollectionObject()->ref_id)) {
 				$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'edit'));
 				$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'confirmDelete'));
 			}

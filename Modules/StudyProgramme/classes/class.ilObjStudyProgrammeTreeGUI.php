@@ -85,7 +85,17 @@ class ilObjStudyProgrammeTreeGUI {
 	public $toolbar;
 
 	public function __construct($a_ref_id) {
-		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilLocator = $DIC['ilLocator'];
+		$tree = $DIC['tree'];
+		$lng = $DIC['lng'];
+		$ilLog = $DIC['ilLog'];
+		$ilias = $DIC['ilias'];
+		$ilSetting = $DIC['ilSetting'];
 
 		$this->ref_id = $a_ref_id;
 		$this->tpl = $tpl;
@@ -97,6 +107,7 @@ class ilObjStudyProgrammeTreeGUI {
 		$this->log = $ilLog;
 		$this->ilias = $ilias;
 		$this->lng = $lng;
+		$this->ilSetting = $ilSetting;
 		$this->modal_id = "tree_modal";
 		$this->async_output_handler = new ilAsyncOutputHandler();
 
@@ -235,7 +246,9 @@ class ilObjStudyProgrammeTreeGUI {
 				$node_obj->moveTo($parent_node);
 			} else {
 				// TODO: implement a method on ilObjStudyProgramme to move leafs
-				global $tree, $rbacadmin;
+				global $DIC;
+				$tree = $DIC['tree'];
+				$rbacadmin = $DIC['rbacadmin'];
 
 				$tree->moveTree($node_obj->getRefId(), $parent_node->getRefId());
 				$rbacadmin->adjustMovedObjectPermissions($node_obj->getRefId(), $parent_node->getRefId());
@@ -354,8 +367,10 @@ class ilObjStudyProgrammeTreeGUI {
 				$added_slides++;
 			}
 
-			// only allow adding new LP-Children if there are no other StudyProgrammes
-			if(!$parent->hasChildren()) {
+			/* only allow adding new LP-Children if there are no other StudyProgrammes
+			 * AND creating crs references is activated in administration
+			 */
+			if(!$parent->hasChildren() && $this->ilSetting->get("obj_dis_creation_crsr") === "") {
 				$content_new_leaf = $this->tpl->getMessageHTML($this->lng->txt('prg_please_select_a_course_for_creating_a_leaf'));
 				$content_new_leaf .= $this->getContainerSelectionExplorer();
 
@@ -383,7 +398,8 @@ class ilObjStudyProgrammeTreeGUI {
 	 * @throws ilException
 	 */
 	protected function delete() {
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 
 		$this->checkAccessOrFail("delete");
 

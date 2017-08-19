@@ -54,7 +54,7 @@ class ilContainerSelectionExplorer extends ilExplorer
 		 
 		$this->addFilter("root");
 		$this->addFilter("cat");
-		#$this->addFilter("grp");
+		$this->addFilter("grp");
 		#$this->addFilter("fold");
 		$this->addFilter("crs");
 

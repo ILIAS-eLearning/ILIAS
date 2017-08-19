@@ -1,5 +1,4 @@
 <?php
-require_once ('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldRepresentation.php');
 
 /**
  * Class ilDclDateTimeREpresentation
@@ -11,7 +10,10 @@ class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation {
 
 	public function getInputField(ilPropertyFormGUI $form, $record_id = 0) {
 		$input = new ilNumberInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-
+		// 9 is the maximum number of digits for an integer
+		$input->setMaxLength(9);
+		$input->setInfo($this->lng->txt('dcl_max_digits') . ": 9");
+		$this->setupInputField($input, $this->getField());
 		return $input;
 	}
 
@@ -39,7 +41,6 @@ class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation {
 	 */
 	protected function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create') {
 		$opt = parent::buildFieldCreationInput($dcl, $mode);
-
 		return $opt;
 	}
 }

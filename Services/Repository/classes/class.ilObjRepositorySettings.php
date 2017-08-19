@@ -240,12 +240,12 @@ class ilObjRepositorySettings extends ilObject
 		$res = array();
 								
 		$groups = array(
-			"organisation" => array("fold", "sess", "cat", "catr", "crs", "crsr", "grp", "itgr", "book", "prg"),
+			"organisation" => array("fold", "sess", "cat", "catr", "crs", "crsr", "grp", "grpr", "itgr", "book", "prg"),
 			"communication" => array("frm", "chtr"), 
 			"breaker1" => null,
 			"content" => array("file", "webr", "feed", "wiki", "blog", "lm", "htlm", "sahs", "glo", "dcl", "bibl", "mcst", "mep"), 
 			"breaker2" => null,			
-			"assessment" => array("exc", "tst", "qpl"), 
+			"assessment" => array("exc", "tst", "qpl", "iass"),
 			"feedback" => array("poll", "svy", "spl"),
 			"templates" => array("prtt")
 		);

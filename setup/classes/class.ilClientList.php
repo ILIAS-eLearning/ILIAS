@@ -35,7 +35,7 @@ class ilClientList
 	var $path;			// clients base dir
 	var $error = "";	// error text
 	
-	function ilClientList($a_db_connections)
+	function __construct($a_db_connections)
 	{		
 		$this->db_connections = $a_db_connections;
 		$this->path = ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR;
@@ -72,11 +72,11 @@ class ilClientList
 
 //		chdir($tmpPath);
 	}
-	
+
+
 	/**
-	* get all clients
-	* @return	array	array with client objects
-	*/
+	 * @return ilClient[]
+	 */
 	function getClients()
 	{
 		return ($this->clients) ? $this->clients : array();

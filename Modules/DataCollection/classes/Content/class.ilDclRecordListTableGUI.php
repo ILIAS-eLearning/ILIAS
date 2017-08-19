@@ -2,15 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once('./Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewGUI.php');
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php');
-require_once('./Services/Tracking/classes/class.ilLPStatus.php');
-require_once('./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php');
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclDatatype.php');
-require_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
-require_once('./Services/Table/classes/class.ilTablePropertiesStorage.php');
-require_once('class.ilDclContentExporter.php');
 
 /**
  * Class ilDclBaseFieldModel
@@ -273,7 +264,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("ACTIONS", $record_data["_actions"]);
 
 		if ($this->mode == ilDclRecordListGUI::MODE_MANAGE) {
-			if ($record_obj->getOwner() == $ilUser->getId() || $ilAccess->checkAccess('write', '', $_GET['ref_id'])) {
+			if ($record_obj->hasPermissionToDelete($this->parent_obj->parent_obj->ref_id)) {
 				$this->tpl->setCurrentBlock('mode_manage');
 				$this->tpl->setVariable('RECORD_ID', $record_obj->getId());
 				$this->tpl->parseCurrentBlock();
@@ -312,12 +303,11 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$field = $field_set->getFieldObject();
 			ilDclCache::getFieldRepresentation($field)->addFilterInputFieldToTable($this);
 
-			//Disable filters
+			//set filter values
 			$filter = &end($this->filters);
 			$value = $field_set->getFilterValue();
 			$filter->setValueByArray($value);
-
-			$this->applyFilter($field->getId(), $filter->getValue());
+			$this->applyFilter($field->getId(), empty(array_filter($value)) ? null : $filter->getValue());
 
 			//Disable filters
 			if (!$field_set->isFilterChangeable())

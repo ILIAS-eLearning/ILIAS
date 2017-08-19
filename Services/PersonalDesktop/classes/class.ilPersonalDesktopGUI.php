@@ -19,6 +19,7 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilContactGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPortfolioRepositoryGUI, ilPersonalSkillsGUI, ilObjChatroomGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilBadgeProfileGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -55,7 +56,7 @@ class ilPersonalDesktopGUI
 		$this->lng->loadLanguageModule("pd"); // #16813
 		
 		// catch hack attempts
-		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+		if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_not_available_for_anon"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -96,11 +97,7 @@ class ilPersonalDesktopGUI
 				}				
 				include_once("./Services/Bookmarks/classes/class.ilBookmarkAdministrationGUI.php");
 				$bookmark_gui = new ilBookmarkAdministrationGUI();
-				if ($bookmark_gui->getMode() == 'tree') {
-					$this->getTreeModeTemplates();
-				} else {
-					$this->getStandardTemplates();
-				}
+				$this->getStandardTemplates();
 				$this->setTabs();
 				$ret = $this->ctrl->forwardCommand($bookmark_gui);
 				break;
@@ -143,7 +140,7 @@ class ilPersonalDesktopGUI
 			
 				// pd notes
 			case "ilpdnotesgui":
-				if ($ilSetting->get('disable_notes'))
+				if ($ilSetting->get('disable_notes') && $ilSetting->get('disable_comments'))
 				{
 					ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
 					ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
@@ -226,6 +223,15 @@ class ilPersonalDesktopGUI
 				$this->tpl->show();
 				break;
 			
+			case 'ilbadgeprofilegui':		
+				$this->getStandardTemplates();
+				$this->setTabs();
+				include_once './Services/Badge/classes/class.ilBadgeProfileGUI.php';
+				$bgui = new ilBadgeProfileGUI();
+				$ret = $this->ctrl->forwardCommand($bgui);
+				$this->tpl->show();
+				break;
+			
 			case 'redirect':
 				$this->redirect();
 				break;
@@ -265,19 +271,6 @@ class ilPersonalDesktopGUI
 	function getStandardTemplates()
 	{
 		$this->tpl->getStandardTemplate();
-		// add template for content
-//		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-//		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-	}
-	
-	/**
-	* get tree mode templates
-	*/
-	function getTreeModeTemplates()
-	{
-		// add template for content
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 	}
 	
 	/**
@@ -569,17 +562,12 @@ class ilPersonalDesktopGUI
 	 */
 	public function jumpToMemberships()
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
-
-		if(!$ilSetting->get('disable_my_memberships'))
+		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
+		$viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
+		if($viewSettings->enabledMemberships())
 		{
-			require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php';
-			$_GET['view'] = ilPDSelectedItemsBlockGUI::VIEW_MY_MEMBERSHIPS;
+			$_GET['view'] = $viewSettings->getMembershipsView();
 		}
-
 		$this->show();
 	}
 
@@ -588,17 +576,12 @@ class ilPersonalDesktopGUI
 	 */
 	public function jumpToSelectedItems()
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
-
-		if(!$ilSetting->get('disable_my_offers'))
+		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
+		$viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
+		if($viewSettings->enabledSelectedItems())
 		{
-			require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php';
-			$_GET['view'] = ilPDSelectedItemsBlockGUI::VIEW_SELECTED_ITEMS;
+			$_GET['view'] = $viewSettings->getSelectedItemsView();
 		}
-
 		$this->show();
 	}
 
@@ -672,6 +655,21 @@ class ilPersonalDesktopGUI
 	}
 
 	/**
+	 * workaround for menu in calendar only
+	 */
+	function jumpToComments()
+	{
+		if ($this->ilias->getSetting('disable_comments'))
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+			return;
+		}
+
+		$this->ctrl->redirectByClass("ilpdnotesgui", "showPublicComments");
+	}
+
+	/**
 	* workaround for menu in calendar only
 	*/
 	function jumpToNews()
@@ -727,6 +725,14 @@ class ilPersonalDesktopGUI
 		}
 		
 		$this->ctrl->redirectByClass("ilpersonalworkspacegui", $cmd);
+	}
+	
+	/**
+	 * Jump to badges
+	 */
+	function jumpToBadges()
+	{
+		$this->ctrl->redirectByClass("ilbadgeprofilegui");
 	}
 	
 	/**

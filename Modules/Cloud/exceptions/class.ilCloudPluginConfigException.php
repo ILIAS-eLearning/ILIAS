@@ -21,7 +21,8 @@ class ilCloudPluginConfigException extends ilCloudException
 
     protected function assignMessageToCode()
     {
-        global $lng;
+        global $DIC;
+        $lng = $DIC['lng'];
         switch ($this->code)
         {
             case self::TABLE_DOES_NOT_EXIST:

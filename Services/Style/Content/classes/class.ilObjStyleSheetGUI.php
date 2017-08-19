@@ -162,7 +162,23 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				ilObjStyleSheet::getContentStylePath($this->object->getId()));
 		$this->tpl->parseCurrentBlock();
 	}
-	
+
+
+	/**
+	 * Check write
+	 *
+	 * @param
+	 * @return
+	 */
+	public function checkWrite()
+	{
+		global $rbacsystem;
+
+		return ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"])
+		 || $rbacsystem->checkAccess("sty_write_content", (int) $_GET["ref_id"]));
+	}
+
+
 	/**
 	* edit style sheet
 	*/
@@ -204,7 +220,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				$expandable = true;
 			}
 		}
-		if ($expandable && $rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($expandable && $this->checkWrite())
 		{
 			$ilToolbar->addButton($lng->txt("sty_add_characteristic"),
 				$ilCtrl->getLinkTarget($this, "addCharacteristicForm"));
@@ -311,7 +327,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 		else
 		{
-			if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+			if ($this->checkWrite())
 			{
 				$this->form->addCommandButton("update", $lng->txt("save"));
 			}
@@ -1310,7 +1326,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $tpl, $ilToolbar, $ilCtrl, $lng, $rbacsystem;
 		
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->checkWrite())
 		{
 			$ilToolbar->addButton($lng->txt("sty_add_image"),
 				$ilCtrl->getLinkTarget($this, "addImage"));
@@ -1767,7 +1783,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $tpl, $rbacsystem, $ilToolbar, $ilCtrl;
 		
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->checkWrite())
 		{
 			$ilToolbar->addButton($this->lng->txt("sty_add_color"),
 				$ilCtrl->getLinkTarget($this, "addColor"));
@@ -1993,7 +2009,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $tpl, $rbacsystem, $ilToolbar, $ilCtrl;
 
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->checkWrite())
 		{
 			$ilToolbar->addButton($this->lng->txt("sty_add_media_query"),
 				$ilCtrl->getLinkTarget($this, "addMediaQuery"));
@@ -2157,7 +2173,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $rbacsystem;
 
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]) && is_array($_POST["mq_id"]))
+		if ($this->checkWrite() && is_array($_POST["mq_id"]))
 		{
 			foreach ($_POST["mq_id"] as $id)
 			{
@@ -2495,7 +2511,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		if ($this->form_gui->checkInput())
 		{
 			if ($this->object->templateExists($_POST["name"]) &&
-				$_POST["name"] != ilObjStyleSheet::lookupTemplateName($_GET["t_id"]))
+				$_POST["name"] != ilObjStyleSheet::_lookupTemplateName($_GET["t_id"]))
 			{
 				$name_input = $this->form_gui->getItemByPostVar("name");
 				$name_input->setAlert($lng->txt("sty_template_already_exists"));
@@ -2710,7 +2726,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->form_gui->addItem($bl_input);
 		
 		// top bottom padding
-		include_once("./Services/Style/classes/class.ilNumericStyleValueInputGUI.php");
+		include_once("./Services/Style/Content/classes/class.ilNumericStyleValueInputGUI.php");
 		$num_input = new ilNumericStyleValueInputGUI($lng->txt("sty_top_bottom_padding"), "tb_padding");
 		$num_input->setAllowPercentage(false);
 		$num_input->setValue("3px");

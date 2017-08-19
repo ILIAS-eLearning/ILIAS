@@ -72,8 +72,14 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
 	 */
 	public function executeCommand()
 	{
+		/**
+		 * @var $ilHelp ilHelpGUI
+		 */
+		global $ilHelp;
+
 		$this->ctrl->saveParameter($this, self::REQUEST_PARAM_SUB_CONTEXT_ID);
-		
+
+		$ilHelp->setScreenIdComponent('qpl');
 		parent::executeCommand();
 	}
 

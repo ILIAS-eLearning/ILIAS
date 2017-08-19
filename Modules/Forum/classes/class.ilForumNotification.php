@@ -4,11 +4,10 @@
 require_once 'Modules/Forum/classes/class.ilObjForum.php';
 require_once 'Modules/Forum/classes/class.ilForum.php';
 
-
 /**
 * Class ilForumNotification
 *
-* @author Nadia Ahmad <nahmad@databay.de>
+* @author Nadia Matuschek <nmatuschek@databay.de>
 * @version $Id:$
 *
 * @ingroup ModulesForum
@@ -25,7 +24,8 @@ class ilForumNotification
 	private $user_toggle;
 	
 	private $ref_id;
-	
+	private $db;
+	private $user;
 	
 	
 	/**
@@ -34,13 +34,13 @@ class ilForumNotification
 	 */
 	public function __construct($ref_id)
 	{
-		global $ilObjDataCache,$lng,$ilias;
-
-		$this->lng = $lng;
-		$this->ilias = $ilias;
-		$this->ref_id = $ref_id;
-		$this->forum_id = $ilObjDataCache->lookupObjId($ref_id);
+		global $DIC;
 		
+		$this->lng = $DIC->language();
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
+		$this->ref_id = $ref_id;
+		$this->forum_id = $DIC['ilObjDataCache']->lookupObjId($ref_id);
 	}
 
 	public function setNotificationId($a_notification_id)
@@ -120,9 +120,7 @@ class ilForumNotification
 	
 	public function isAdminForceNotification()
 	{
-		global $ilDB;
-
-		$res = $ilDB->queryF('
+		$res = $this->db->queryF('
 			SELECT admin_force_noti FROM frm_notification
 			WHERE user_id = %s 
 			AND frm_id = %s
@@ -130,16 +128,15 @@ class ilForumNotification
 		array('integer','integer', 'integer'),
 		array($this->getUserId(), $this->getForumId(), 0));
 			
-		while($row = $ilDB->fetchAssoc($res))
+		while($row = $this->db->fetchAssoc($res))
 		{
 			return $row['admin_force_noti'];
 		}
 	}
+	
 	public function isUserToggleNotification()
 	{
-		global $ilDB;
-	
-		$res = $ilDB->queryF('
+		$res = $this->db->queryF('
 			SELECT user_toggle_noti FROM frm_notification
 			WHERE user_id = %s 
 			AND frm_id = %s
@@ -147,31 +144,26 @@ class ilForumNotification
 		array('integer', 'integer', 'integer'),
 		array($this->getUserId(), $this->getForumId(), 0 ));
 				
-		while($row = $ilDB->fetchAssoc($res))
+		while($row = $this->db->fetchAssoc($res))
 		{
 			return $row['user_toggle_noti'];
 		}
-				
 	}
 	
 	public function insertAdminForce()
 	{
-		global $ilDB, $ilUser;
-
-		$next_id = $ilDB->nextId('frm_notification');
-		$res = $ilDB->manipulateF('
+		$next_id = $this->db->nextId('frm_notification');
+		$this->db->manipulateF('
 			INSERT INTO frm_notification
 				(notification_id, user_id, frm_id, admin_force_noti, user_toggle_noti, user_id_noti)
 			VALUES(%s,%s,%s,%s,%s,%s)',
 		array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
-		array($next_id, $this->getUserId(), $this->getForumId(), $this->getAdminForce(), $this->getUserToggle(), $ilUser->getId()));
-
+		array($next_id, $this->getUserId(), $this->getForumId(), $this->getAdminForce(), $this->getUserToggle(), $this->user->getId()));
 	}
+	
 	public function deleteAdminForce()
 	{
-		global $ilDB;
-		
-		$res = $ilDB->manipulateF('
+		$this->db->manipulateF('
 			DELETE FROM frm_notification
 			WHERE 	user_id = %s
 			AND		frm_id = %s 
@@ -183,9 +175,7 @@ class ilForumNotification
 
 	public function deleteUserToggle()
 	{
-		global $ilDB, $ilUser;
-
-		$res = $ilDB->manipulateF('
+		$this->db->manipulateF('
 			DELETE FROM frm_notification
 			WHERE 	user_id = %s
 			AND		frm_id = %s 
@@ -194,14 +184,11 @@ class ilForumNotification
 			AND		user_id_noti > %s' ,
 			array('integer', 'integer','integer','integer', 'integer'),
 			array($this->getUserId(),$this->getForumId(),1,1, 0 )); 
-		
 	}
 	
 	public function updateUserToggle()
 	{
-		global $ilDB;
-		
-		$res = $ilDB->manipulateF('
+		$this->db->manipulateF('
 			UPDATE frm_notification 
 			SET user_toggle_noti = %s
 			WHERE user_id = %s
@@ -217,7 +204,8 @@ class ilForumNotification
 	 * */
 	public static function checkForumsExistsInsert($ref_id, $user_id = 0)
 	{
-		global $ilUser;
+		global $DIC; 
+		$ilUser = $DIC->user();
 			
 		include_once 'Modules/Forum/classes/class.ilForumProperties.php';
 		
@@ -253,7 +241,8 @@ class ilForumNotification
 	
 	public static function checkForumsExistsDelete($ref_id, $user_id = 0)
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC->user();
 
 		$node_data = self::getCachedNodeData($ref_id);
 		
@@ -282,34 +271,43 @@ class ilForumNotification
 
 	/**
 	 * @param $ref_id
+	 * @return mixed
 	 */
 	public static function getCachedNodeData($ref_id)
 	{
 		if(!array_key_exists($ref_id, self::$node_data_cache))
 		{
-			global $tree;
-			self::$node_data_cache[$ref_id] = $tree->getChildsByType($ref_id, 'frm');
+			global $DIC; 
+			self::$node_data_cache[$ref_id] = $DIC->repositoryTree()->getChildsByType($ref_id, 'frm');
 		}
 		
 		return self::$node_data_cache[$ref_id];
 	}
 	
+	/**
+	 * @param $a_ref_id
+	 * @return bool
+	 */
 	public static function _isParentNodeGrpCrs($a_ref_id)
 	{
-		global $tree;
+		global $DIC;
     	
-		$parent_ref_id = $tree->getParentId($a_ref_id);
+		$parent_ref_id = $DIC->repositoryTree()->getParentId($a_ref_id);
 		$parent_obj = ilObjectFactory::getInstanceByRefId($parent_ref_id);
 
 		if($parent_obj->getType() == 'crs' || $parent_obj->getType() == 'grp')
 		return $parent_obj->getType();
 		else return false;		
-	}   	
+	}
 	
-	
+	/**
+	 * @param $a_parameter
+	 */
  	public static function _clearForcedForumNotifications($a_parameter)
  	{
- 		global  $ilDB, $ilObjDataCache;
+ 		global $DIC;  
+	    $ilDB = $DIC->database(); 
+	    $ilObjDataCache = $DIC['ilObjDataCache'];
 		 
 		if(!$a_parameter['tree'] == 'tree')
 		{
@@ -332,9 +330,14 @@ class ilForumNotification
 		}
  	}
 	
+	/**
+	 * @param $ref_id
+	 * @return array
+	 */
 	public static function checkParentNodeTree($ref_id)
     {
-    	global $tree;
+    	global $DIC;
+    	$tree = $DIC->repositoryTree();
     	
 		$parent_ref_id = $tree->getParentId($ref_id);
 		$parent_obj = ilObjectFactory::getInstanceByRefId($parent_ref_id);
@@ -364,9 +367,7 @@ class ilForumNotification
 
 	public function update()
 	{
-		global $ilDB;
-
-		$res = $ilDB->manipulateF('
+		$this->db->manipulateF('
 			UPDATE frm_notification
 			SET admin_force_noti = %s,
 				user_toggle_noti = %s
@@ -378,9 +379,7 @@ class ilForumNotification
 
 	public function deleteNotificationAllUsers()
 	{
-		global $ilDB;
-
-		$res = $ilDB->manipulateF('
+		$this->db->manipulateF('
 			DELETE FROM frm_notification
 			WHERE frm_id = %s
 			AND user_id_noti > %s',
@@ -390,26 +389,30 @@ class ilForumNotification
 
 	public function read()
 	{
-		global $ilDB;
 		$result = array();
 	
-		$query = $ilDB->queryF('
+		$query = $this->db->queryF('
 			SELECT * FROM frm_notification WHERE
 			frm_id = %s',
 			array('integer'),
 			array($this->getForumId()));
 
-		while($row = $ilDB->fetchAssoc($query))
+		while($row = $this->db->fetchAssoc($query))
 		{
 			$result[$row['user_id']] = $row;
 		}
 		return $result;
 	}
 	
+	/**
+	 * @param $merge_source_thread_id
+	 * @param $merge_target_thread_id
+	 */
 	public static function mergeThreadNotificiations($merge_source_thread_id, $merge_target_thread_id)
 	{
 		// check notifications etc..
-		global $ilDB;
+		global $DIC; 
+		$ilDB = $DIC->database();
 
 		$res = $ilDB->queryF('SELECT notification_id, user_id FROM frm_notification 
 		WHERE frm_id = %s 
@@ -448,9 +451,7 @@ class ilForumNotification
 	 */
 	public function existsNotification()
 	{
-		global $ilDB;
-
-		$res = $ilDB->queryF('
+		$res = $this->db->queryF('
 			SELECT * FROM frm_notification 
 			WHERE user_id = %s
 			AND frm_id = %s 
@@ -458,7 +459,7 @@ class ilForumNotification
 			array('integer', 'integer', 'integer'),
 			array($this->getUserId(), $this->getForumId(), $this->getAdminForce()));
 
-		if($row = $ilDB->numRows($res) > 0)
+		if($row = $this->db->numRows($res) > 0)
 		{
 			return true;
 		}

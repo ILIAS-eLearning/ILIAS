@@ -17,12 +17,14 @@ class ilHTTPS
 	
 	private static $instance = null;
 
-	var $enabled = false;
-	var $protected_scripts = array();
+	protected $enabled = false;
 
-	var $automaticHTTPSDetectionEnabled = false;
-	var $headerName = false;
-	var $headerValue = false;
+	protected $protected_classes = array();
+	protected $protected_scripts = array();
+
+	protected $automaticHTTPSDetectionEnabled = false;
+	protected $headerName = false;
+	protected $headerValue = false;
 
 	/**
 	 * @deprected use <code>ilHTTPS::getInstance()</code>
@@ -169,7 +171,7 @@ class ilHTTPS
 	* @access	public
 	* @return	boolean
 	*/
-	function _checkHTTPS()
+	public static function _checkHTTPS()
 	{
 		// only check standard port in the moment
 		$port = 443;

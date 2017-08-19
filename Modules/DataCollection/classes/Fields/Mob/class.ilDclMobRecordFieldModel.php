@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/Fileupload/class.ilDclFileuploadRecordFieldModel.php');
 /**
  * Class ilDclMobRecordFieldModel
  *
@@ -40,7 +38,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 			$title = $file_name;
 			$location = $file_name;
 			if($has_save_confirmation) {
-				$move_file = ilDclPropertyFormGUI::getTempFilename($_POST['ilfilehash'], 'field_'.$this->getField()->getId(), $file["name"], $file["type"]);
+				$move_file = ilDclPropertyFormGUI::getTempFilename($_POST['ilfilehash'], 'field_'.$this->getField()->getId(), $media["name"], $media["type"]);
 				ilUtil::moveUploadedFile($move_file, $file_name, $file);
 			} else {
 				ilUtil::moveUploadedFile($media['tmp_name'], $file_name, $file);
@@ -93,7 +91,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 			$mob->update();
 			$return = $mob->getId();
 			// handover for save-confirmation
-		} else if(is_array($media) && isset($media['tmp_name'])) {
+		} else if(is_array($media) && isset($media['tmp_name']) && $media['tmp_name'] != '') {
 			$return = $media;
 		}else {
 			$return = $this->getValue();
@@ -121,6 +119,17 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 		return $file;
 	}
 
+	/**
+	 * @param ilConfirmationGUI $confirmation
+	 */
+	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {
+		if (is_array($this->getValue())) {
+			foreach($this->getValue() as $key=>$value) {
+				$confirmation->addHiddenItem('field_'.$this->field->getId().'['.$key.']', $value);
+			}
+		}
+	}
+
 
 	/**
 	 * Returns sortable value for the specific field-types
@@ -146,5 +155,22 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 			$value = - 1;
 		}
 		$this->setValue($value);
+	}
+
+
+	public function afterClone() {
+		$field = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
+		$record = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);
+		$record_field = ilDclCache::getRecordFieldCache($record, $field);
+
+		if (!$record_field || !$record_field->getValue()) {
+			return;
+		}
+
+		$mob_old = new ilObjMediaObject($record_field->getValue());
+		$mob_new = $mob_old->duplicate();
+
+		$this->setValue($mob_new->getId(), true);
+		$this->doUpdate();
 	}
 }

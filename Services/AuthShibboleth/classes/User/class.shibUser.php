@@ -125,6 +125,19 @@ class shibUser extends ilObjUser {
 
 
 	public function create() {
+		$c = shibConfig::getInstance();
+		if($c->isActivateNew()) {
+			$this->setActive(false);
+			require_once('./Services/Registration/classes/class.ilRegistrationMailNotification.php');
+			require_once('./Services/Registration/classes/class.ilRegistrationSettings.php');
+			$ilRegistrationSettings = new ilRegistrationSettings();
+			$mail = new ilRegistrationMailNotification();
+			$mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_CONFIRMATION);
+			$mail->setRecipients($ilRegistrationSettings->getApproveRecipients());
+			$mail->setAdditionalInformation(array('usr' => $this));
+			$mail->send();
+		}
+
 		if ($this->getLogin() != '' AND $this->getLogin() != '.') {
 			parent::create();
 		} else {
@@ -191,7 +204,8 @@ class shibUser extends ilObjUser {
 	 * @return bool
 	 */
 	private static function loginExists($login, $usr_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		/**
 		 * @var $ilDB ilDB
 		 */
@@ -208,7 +222,8 @@ class shibUser extends ilObjUser {
 	 * @return bool
 	 */
 	protected static function getUsrIdByExtId($ext_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		/**
 		 * @var $ilDB ilDB
 		 */

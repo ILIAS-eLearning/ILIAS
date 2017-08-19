@@ -49,7 +49,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	 * @param int $a_user_id
 	 * @param int $a_skill_node_id
 	 */
-	function addPersonalSkill($a_user_id, $a_skill_node_id)
+	static function addPersonalSkill($a_user_id, $a_skill_node_id)
 	{
 		global $ilDB;
 		
@@ -73,7 +73,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	 * @param int $a_user_id user id
 	 * @param int $a_skill_node_id the "selectable" top skill
 	 */
-	function removeSkill($a_user_id, $a_skill_node_id)
+	static function removeSkill($a_user_id, $a_skill_node_id)
 	{
 		global $ilDB;
 		
@@ -203,42 +203,18 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	 */
 	static function saveSelfEvaluation($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill, $a_level)
 	{
-		global $ilDB;
-
 		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
-		ilBasicSkill::writeUserSkillLevelStatus($a_level, $a_user_id,
-			0, $a_tref_id, ilBasicSkill::ACHIEVED, false,
-			1);
-
-		return;
-		
-		$set = $ilDB->query("SELECT * FROM skl_self_eval_level ".
-			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
-			" AND top_skill_id = ".$ilDB->quote($a_top_skill, "integer").
-			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
-			" AND skill_id = ".$ilDB->quote($a_basic_skill, "integer"));
-		if (!$ilDB->fetchAssoc($set))
+		if ($a_level > 0)
 		{
-			$ilDB->manipulate("INSERT INTO skl_self_eval_level ".
-				"(user_id, top_skill_id, tref_id, skill_id, level_id, last_update) VALUES (".
-				$ilDB->quote($a_user_id, "integer").",".
-				$ilDB->quote($a_top_skill, "integer").",".
-				$ilDB->quote((int) $a_tref_id, "integer").",".
-				$ilDB->quote($a_basic_skill, "integer").",".
-				$ilDB->quote($a_level, "integer").",".
-				$ilDB->quote(ilUtil::now(), "timestamp").
-				")");
+			ilBasicSkill::writeUserSkillLevelStatus($a_level, $a_user_id,
+				0, $a_tref_id, ilBasicSkill::ACHIEVED, false,
+				1);
 		}
 		else
 		{
-			$ilDB->manipulate("UPDATE skl_self_eval_level SET ".
-				" level_id = ".$ilDB->quote($a_level, "integer").", ".
-				" last_update = ".$ilDB->quote(ilUtil::now(), "timestamp").
-				" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
-				" AND top_skill_id = ".$ilDB->quote($a_top_skill, "integer").
-				" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
-				" AND skill_id = ".$ilDB->quote($a_basic_skill, "integer"));
+			ilBasicSkill::resetUserSkillLevelStatus($a_user_id, $a_basic_skill, $a_tref_id, 0, true);
 		}
+
 	}
 
 	/**
@@ -252,21 +228,9 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	 */
 	static function getSelfEvaluation($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill)
 	{
-		global $ilDB;
-
 		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 		$bs = new ilBasicSkill($a_basic_skill);
 		return $bs->getLastLevelPerObject($a_tref_id, 0, $a_user_id, 1);
-		
-		$set = $ilDB->query("SELECT level_id FROM skl_self_eval_level ".
-			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
-			" AND top_skill_id = ".$ilDB->quote($a_top_skill, "integer").
-			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
-			" AND skill_id = ".$ilDB->quote($a_basic_skill, "integer")
-			);
-		$rec  = $ilDB->fetchAssoc($set);
-		
-		return (int) $rec["level_id"];
 	}
 
 	/**
@@ -280,21 +244,9 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	 */
 	static function getSelfEvaluationDate($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill)
 	{
-		global $ilDB;
-
 		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 		$bs = new ilBasicSkill($a_basic_skill);
 		return $bs->getLastUpdatePerObject($a_tref_id, 0, $a_user_id, 1);
-
-		$set = $ilDB->query("SELECT last_update FROM skl_self_eval_level ".
-			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
-			" AND top_skill_id = ".$ilDB->quote($a_top_skill, "integer").
-			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
-			" AND skill_id = ".$ilDB->quote($a_basic_skill, "integer")
-			);
-		$rec  = $ilDB->fetchAssoc($set);
-		
-		return $rec["last_update"];
 	}
 
 	/**

@@ -44,7 +44,8 @@ class ilCloudPluginItemCreationListGUI extends ilCloudPluginListGUI {
 	 * @return ilCloudGroupedListGUI
 	 */
 	public function getGroupedListItems($show_upload = false, $show_create_folders = false) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$this->gl = new ilCloudGroupedListGUI();
 

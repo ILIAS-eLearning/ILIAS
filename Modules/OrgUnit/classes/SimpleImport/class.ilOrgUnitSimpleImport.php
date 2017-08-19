@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Modules/OrgUnit/classes/class.ilOrgUnitImporter.php");
 /**
  * Class ilOrgUnitSimpleImport
  *
@@ -11,7 +10,8 @@ require_once("./Modules/OrgUnit/classes/class.ilOrgUnitImporter.php");
 class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 
 	public function simpleImport($file_path){
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$this->stats = array("created" => 0, "updated" => 0, "deleted" => 0);
 		$a = file_get_contents($file_path, "r");
 		$xml = new SimpleXMLElement($a);
@@ -27,7 +27,10 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 	}
 
 	public function simpleImportElement(SimpleXMLElement $o){
-		global $tree, $tpl, $ilUser;
+		global $DIC;
+		$tree = $DIC['tree'];
+		$tpl = $DIC['tpl'];
+		$ilUser = $DIC['ilUser'];
 		$title = $o->title;
 		$description = $o->description;
 		$external_id = $o->external_id;
@@ -125,7 +128,8 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 	 * @param $external_id mixed This is only needed for displaying the warning.
 	 */
 	protected function moveObject($ref_id, $parent_ref_id, $ou_id, $external_id) {
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		if($parent_ref_id != $tree->getParentId($ref_id)){
 			try{
 				$path = $tree->getPathId($parent_ref_id);
@@ -135,7 +139,8 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 					$tree->moveTree($ref_id, $parent_ref_id);
 				}
 			}catch(Exception $e){
-				global $ilLog;
+				global $DIC;
+				$ilLog = $DIC['ilLog'];
 				$this->addWarning("not_movable", $ou_id?$ou_id:$external_id, "update");
 				$ilLog->write($e->getMessage()."\\n".$e->getTraceAsString());
 				error_log($e->getMessage()."\\n".$e->getTraceAsString());
@@ -143,4 +148,3 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 		}
 	}
 }
-?>

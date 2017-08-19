@@ -3,13 +3,14 @@
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once 'Modules/Test/classes/class.ilTestExpressPage.php';
+require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
+require_once 'Modules/Test/classes/class.ilTestExpressPage.php';
+require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
 
 /**
 * Basic GUI class for assessment questions
 *
 * The assQuestionGUI class encapsulates basic GUI functions for assessment questions.
-*
-* @ilCtrl_Calls assQuestionGUI: ilAssQuestionPageGUI
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @author		Björn Heyser <bheyser@databay.de>
@@ -31,7 +32,7 @@ abstract class assQuestionGUI
 	*
 	* A reference to the matching question object
 	*
-	* @var object
+	* @var assQuestion
 	*/
 	var $object;
 
@@ -73,14 +74,37 @@ abstract class assQuestionGUI
 	 */
 	private $presentationContext = null;
 
-	const OUTPUT_MODE_SCREEN = 'outModeScreen';
-	const OUTPUT_MODE_PDF = 'outModePdf';
+	const RENDER_PURPOSE_PLAYBACK = 'renderPurposePlayback';
+	const RENDER_PURPOSE_DEMOPLAY = 'renderPurposeDemoplay';
+	const RENDER_PURPOSE_PREVIEW = 'renderPurposePreview';
+	const RENDER_PURPOSE_PRINT_PDF = 'renderPurposePrintPdf';
+	const RENDER_PURPOSE_INPUT_VALUE = 'renderPurposeInputValue';
 	
 	/**
 	 * @var string
 	 */
-	private $outputMode = self::OUTPUT_MODE_SCREEN;
+	private $renderPurpose = self::RENDER_PURPOSE_PLAYBACK;
+
+	const EDIT_CONTEXT_AUTHORING = 'authoring';
+	const EDIT_CONTEXT_ADJUSTMENT = 'adjustment';
 	
+	/**
+	 * @var string
+	 */
+	private $editContext = self::EDIT_CONTEXT_AUTHORING;
+	
+	// hey: prevPassSolutions - flag to indicate that a previous answer is shown
+	/**
+	 * @var bool
+	 */
+	private $previousSolutionPrefilled = false;
+	// hey.
+	
+	/**
+	 * @var \ilPropertyFormGUI
+	 */
+	protected $editForm;
+
 	/**
 	* assQuestionGUI constructor
 	*/
@@ -116,7 +140,7 @@ abstract class assQuestionGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd("editQuestion");
 		$next_class = $this->ctrl->getNextClass($this);
@@ -125,8 +149,17 @@ abstract class assQuestionGUI
 
 		switch($next_class)
 		{
+			case 'ilformpropertydispatchgui':
+				$form = $this->buildEditForm();
+
+				require_once 'Services/Form/classes/class.ilFormPropertyDispatchGUI.php';
+				$form_prop_dispatch = new ilFormPropertyDispatchGUI();
+				$form_prop_dispatch->setItem($form->getItemByPostVar(ilUtil::stripSlashes($_GET['postvar'])));
+				return $this->ctrl->forwardCommand($form_prop_dispatch);
+				break;
+
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 		return $ret;
@@ -166,25 +199,115 @@ abstract class assQuestionGUI
 		return $this->getPresentationContext() == self::PRESENTATION_CONTEXT_TEST;
 	}
 
+	// hey: previousPassSolutions - setter/getter for Previous Solution Prefilled flag
+	/**
+	 * @return boolean
+	 */
+	public function isPreviousSolutionPrefilled()
+	{
+		return $this->previousSolutionPrefilled;
+	}
+	
+	/**
+	 * @param boolean $previousSolutionPrefilled
+	 */
+	public function setPreviousSolutionPrefilled($previousSolutionPrefilled)
+	{
+		$this->previousSolutionPrefilled = $previousSolutionPrefilled;
+	}
+	// hey.
+
 	/**
 	 * @return string
 	 */
-	public function getOutputMode()
+	public function getRenderPurpose()
 	{
-		return $this->outputMode;
+		return $this->renderPurpose;
 	}
 
 	/**
-	 * @param string $outputMode
+	 * @param string $renderPurpose
 	 */
-	public function setOutputMode($outputMode)
+	public function setRenderPurpose($renderPurpose)
 	{
-		$this->outputMode = $outputMode;
+		$this->renderPurpose = $renderPurpose;
 	}
-
-	public function isPdfOutputMode()
+	
+	public function isRenderPurposePrintPdf()
 	{
-		return $this->getOutputMode() == self::OUTPUT_MODE_PDF;
+		return $this->getRenderPurpose() == self::RENDER_PURPOSE_PRINT_PDF;
+	}
+	
+	public function isRenderPurposePreview()
+	{
+		return $this->getRenderPurpose() == self::RENDER_PURPOSE_PREVIEW;
+	}
+	
+	public function isRenderPurposeInputValue()
+	{
+		return $this->getRenderPurpose() == self::RENDER_PURPOSE_INPUT_VALUE;
+	}
+	
+	public function isRenderPurposePlayback()
+	{
+		return $this->getRenderPurpose() == self::RENDER_PURPOSE_PLAYBACK;
+	}
+	
+	public function isRenderPurposeDemoplay()
+	{
+		return $this->getRenderPurpose() == self::RENDER_PURPOSE_DEMOPLAY;
+	}
+	
+	public function renderPurposeSupportsFormHtml()
+	{
+		if( $this->isRenderPurposePrintPdf() )
+		{
+			return false;
+		}
+		
+		if( $this->isRenderPurposeInputValue() )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getEditContext()
+	{
+		return $this->editContext;
+	}
+	
+	/**
+	 * @param string $editContext
+	 */
+	public function setEditContext($editContext)
+	{
+		$this->editContext = $editContext;
+	}
+	
+	/**
+	 * @param bool $isAuthoringEditContext
+	 */
+	public function isAuthoringEditContext()
+	{
+		return $this->getEditContext() == self::EDIT_CONTEXT_AUTHORING;
+	}
+	
+	/**
+	 * @param bool $isAdjustmentEditContext
+	 */
+	public function isAdjustmentEditContext()
+	{
+		return $this->getEditContext() == self::EDIT_CONTEXT_ADJUSTMENT;
+	}
+	
+	public function setAdjustmentEditContext()
+	{
+		return $this->setEditContext(self::EDIT_CONTEXT_ADJUSTMENT);
 	}
 	
 	/**
@@ -235,6 +358,16 @@ abstract class assQuestionGUI
 	{
 		$this->questionHeaderBlockBuilder = $questionHeaderBlockBuilder;
 	}
+
+// fau: testNav - get the question header block bulder (for tweaking)
+	/**
+	 * @return \ilQuestionHeaderBlockBuilder $questionHeaderBlockBuilder
+	 */
+	public function getQuestionHeaderBlockBuilder()
+	{
+		return $this->questionHeaderBlockBuilder;
+	}
+// fau.
 
 	public function setQuestionActionCmd($questionActionCmd)
 	{
@@ -356,11 +489,16 @@ abstract class assQuestionGUI
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		$this->question =& assQuestionGUI::_getQuestionGUI($question_type, $question_id);
 	}
+	
+	public function populateJavascriptFilesRequiredForWorkForm(ilTemplate $tpl)
+	{
+		$tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
+	}
 
 	/**
 	* get question template
 	*/
-	function getQuestionTemplate()
+	public function getQuestionTemplate()
 	{
 		// @todo Björn: Maybe this has to be changed for PHP 7/ILIAS 5.2.x (ilObjTestGUI::executeCommand, switch -> default case -> $this->prepareOutput(); already added a template to the CONTENT variable wrapped in a block named content)
 		if(!$this->tpl->blockExists('content'))
@@ -377,6 +515,15 @@ abstract class assQuestionGUI
 		{
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", "Modules/TestQuestionPool");
 		}
+	}
+	
+	/**
+	 * @param $form
+	 */
+	protected function renderEditForm($form)
+	{
+		$this->getQuestionTemplate();
+		$this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 	}
 
 	/**
@@ -401,33 +548,79 @@ abstract class assQuestionGUI
 	*/
 	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
 	{
+		// hey: prevPassSolutions - add the "use previous answer"
+		// hey: prevPassSolutions - refactored identifiers
+		if( $this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled() )
+		// hey
+		{
+			ilUtil::sendInfo($this->getPreviousSolutionProvidedMessage());
+			$html .= $this->getPreviousSolutionConfirmationCheckboxHtml();
+		}
+		else // (!) --> if ($this->object->getTestQuestionConfig()->isUnchangedAnswerPossible())
+		// hey.
+// fau: testNav - add the "use unchanged answer checkbox"
+		// hey: prevPassSolutions - refactored identifiers
+		if ($this->object->getTestPresentationConfig()->isUnchangedAnswerPossible())
+		// hey.
+		{
+			$html .= $this->getUseUnchangedAnswerCheckboxHtml();
+		}
+// fau.
+
 		$this->lng->loadLanguageModule("content");
 
-		if( $this->getNavigationGUI() )
-		{
-			$html = $this->getNavigationGUI()->getHTML().$html;
-		}
-		
-		$postponed = "";
-		if ($a_postponed)
-		{
-			$postponed = " (" . $this->lng->txt("postponed") . ")";
-		}
-
+// fau: testNav - add question buttons below question, add actions menu
 		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
 		$page_gui = new ilAssQuestionPageGUI($this->object->getId());
 		$page_gui->setOutputMode("presentation");
 		$page_gui->setTemplateTargetVar($a_temp_var);
+
+		if( $this->getNavigationGUI() )
+		{
+			$html .= $this->getNavigationGUI()->getHTML();
+			$page_gui->setQuestionActionsHTML($this->getNavigationGUI()->getActionsHTML());
+		}
+// fau.
 
 		if( strlen($html) )
 		{
 			$page_gui->setQuestionHTML(array($this->object->getId() => $html));
 		}
 
-		$page_gui->setPresentationTitle($this->questionHeaderBlockBuilder->getHTML());
+// fau: testNav - fill the header with subtitle blocks for question info an actions
+		$page_gui->setPresentationTitle($this->questionHeaderBlockBuilder->getPresentationTitle());
+		$page_gui->setQuestionInfoHTML($this->questionHeaderBlockBuilder->getQuestionInfoHTML());
+// fau.
 
 		return $page_gui->presentation();
 	}
+	
+// fau: testNav - get the html of the "use unchanged answer checkbox"
+	protected function getUseUnchangedAnswerCheckboxHtml()
+	{
+		// hey: prevPassSolutions - use abstracted template to share with other purposes of this kind
+		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
+		$tpl->setVariable('TXT_FORCE_FORM_DIFF_LABEL', $this->object->getTestPresentationConfig()->getUseUnchangedAnswerLabel());
+		// hey.
+		return $tpl->get();
+	}
+// fau.
+
+	// hey: prevPassSolutions - build prev solution message / build "use previous answer checkbox" html
+	protected function getPreviousSolutionProvidedMessage()
+	{
+		return $this->lng->txt('use_previous_solution_advice');
+	}
+	
+	protected function getPreviousSolutionConfirmationCheckboxHtml()
+	{
+		$tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
+		// hey: prevPassSolutions - use abtract template
+		$tpl->setVariable('TXT_FORCE_FORM_DIFF_LABEL', $this->lng->txt('use_previous_solution'));
+		// hey.
+		return $tpl->get();
+	}
+	// hey.
 	
 	/**
 	* cancel action
@@ -1108,19 +1301,26 @@ abstract class assQuestionGUI
 			$sectHeader = new ilFormSectionHeaderGUI();
 			$sectHeader->setTitle($this->lng->txt('qpl_qst_edit_form_taxonomy_section'));
 			$form->addItem($sectHeader);
-			
-			require_once 'Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php';
-			
+
+			require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
+
 			foreach($this->getTaxonomyIds() as $taxonomyId)
 			{
 				$taxonomy = new ilObjTaxonomy($taxonomyId);
 				$label = sprintf($this->lng->txt('qpl_qst_edit_form_taxonomy'), $taxonomy->getTitle());
 				$postvar = "tax_node_assign_$taxonomyId";
 
-				$taxNodeAssign = new ilTaxAssignInputGUI($taxonomy->getId(), true, $label, $postvar);
-				// TODO: determine tst/qpl when tax assigns become maintainable within tests
-				$taxNodeAssign->setCurrentValues('qpl', $this->object->getObjId(), 'quest', $this->object->getId());
-				$form->addItem($taxNodeAssign);
+				$taxSelect = new ilTaxSelectInputGUI($taxonomy->getId(), $postvar, true);
+				$taxSelect->setTitle($label);
+
+				require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
+				$taxNodeAssignments = new ilTaxNodeAssignment(ilObject::_lookupType($this->object->getObjId()), $this->object->getObjId(), 'quest', $taxonomyId);
+				$assignedNodes = $taxNodeAssignments->getAssignmentsOfItem($this->object->getId());
+
+				$taxSelect->setValue(array_map(function($assignedNode) {
+					return $assignedNode['node_id'];
+				}, $assignedNodes));
+				$form->addItem($taxSelect);
 			}
 		}
 	}
@@ -1129,7 +1329,7 @@ abstract class assQuestionGUI
 	 * Get tags allowed in question tags in self assessment mode
 	 * @return array array of tags
 	 */
-	function getSelfAssessmentTags()
+	static function getSelfAssessmentTags()
 	{
 		// set tags we allow in self assessment mode
 		$st = ilUtil::getSecureTags();
@@ -1286,10 +1486,14 @@ abstract class assQuestionGUI
 		} 
 		elseif ((strcmp($_POST["solutiontype"], "text") == 0) && (strcmp($solution_array["type"], "text") != 0))
 		{
+			$oldOutputMode = $this->getRenderPurpose();
+			$this->setRenderPurpose(self::RENDER_PURPOSE_INPUT_VALUE);
+			
 			$solution_array = array(
 				"type" => "text",
 				"value" => $this->getSolutionOutput(0, NULL, FALSE, FALSE, TRUE, FALSE, TRUE)
 			);
+			$this->setRenderPurpose($oldsaveSuggestedSolutionOutputMode);
 		}
 		if ($save && strlen($_POST["filename"]))
 		{
@@ -1389,8 +1593,11 @@ abstract class assQuestionGUI
 			}
 			else if (strcmp($solution_array["type"], "text") == 0)
 			{
+				$solutionContent = $solution_array['value'];
+				$solutionContent = $this->object->fixSvgToPng($solutionContent);
+				$solutionContent = $this->object->fixUnavailableSkinImageSources($solutionContent);
 				$question = new ilTextAreaInputGUI($this->lng->txt("solutionText"), "solutiontext");
-				$question->setValue($this->object->prepareTextareaOutput($solution_array["value"]));
+				$question->setValue($this->object->prepareTextareaOutput($solutionContent));
 				$question->setRequired(TRUE);
 				$question->setRows(10);
 				$question->setCols(80);
@@ -1957,7 +2164,7 @@ abstract class assQuestionGUI
 			array('ilAssQuestionPreviewGUI')
 		);
 	}
-	
+
 	abstract public function getSolutionOutput(
 		$active_id,
 		$pass = NULL,
@@ -2005,7 +2212,9 @@ abstract class assQuestionGUI
 	final public function outQuestionForTest(
 		$formaction,
 		$active_id,
-		$pass = NULL,
+		// hey: prevPassSolutions - pass will be always available from now on
+		$pass,
+		// hey.
 		$is_question_postponed = FALSE,
 		$user_post_solutions = FALSE,
 		$show_specific_inline_feedback = FALSE
@@ -2029,7 +2238,9 @@ abstract class assQuestionGUI
 		$this->tpl->setVariable("FORM_TIMESTAMP", time());
 	}
 	
-	protected function completeTestOutputFormAction($formAction, $active_id, $pass = NULL)
+	// hey: prevPassSolutions - $pass will be passed always from now on
+	protected function completeTestOutputFormAction($formAction, $active_id, $pass)
+	// hey.
 	{
 		return $formAction;
 	}
@@ -2137,5 +2348,14 @@ abstract class assQuestionGUI
 	{
 		global $ilCtrl;
 		$ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
-	}	
+	}
+
+	/**
+	 * 
+	 */
+	protected function buildEditForm()
+	{
+		$errors = $this->editQuestion(true); // TODO bheyser: editQuestion should be added to the abstract base class with a unified signature
+		return $this->editForm;
+	}
 }

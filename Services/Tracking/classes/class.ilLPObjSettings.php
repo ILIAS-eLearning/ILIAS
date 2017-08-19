@@ -45,6 +45,7 @@ class ilLPObjSettings
 	const LP_MODE_DOWNLOADED = 20;
 	const LP_MODE_COLLECTION_MOBS = 21;
 	const LP_MODE_STUDY_PROGRAMME = 22;
+	const LP_MODE_INDIVIDUAL_ASSESSMENT = 23;
 
 	const LP_DEFAULT_VISITS = 30; // ???
 	
@@ -117,6 +118,9 @@ class ilLPObjSettings
 		
 		,self::LP_MODE_STUDY_PROGRAMME => array('ilLPStatusStudyProgramme',
 			'trac_mode_study_programme', '')
+
+		,self::LP_MODE_INDIVIDUAL_ASSESSMENT => array('ilLPStatusIndividualAssessment',
+			'trac_mode_individual_assessment', 'trac_mode_individual_assessment_info')
 	);
 
 	function __construct($a_obj_id)
@@ -255,7 +259,7 @@ class ilLPObjSettings
 		ilLPStatusWrapper::_refreshStatus($this->getObjId());
 	}
 
-	function _delete($a_obj_id)
+	static function _delete($a_obj_id)
 	{
 		global $ilDB;
 
@@ -268,7 +272,7 @@ class ilLPObjSettings
 
 	// Static
 	
-	function _lookupVisits($a_obj_id)
+	static function _lookupVisits($a_obj_id)
 	{
 		global $ilDB;
 

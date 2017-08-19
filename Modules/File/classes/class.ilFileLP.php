@@ -10,9 +10,14 @@ require_once 'Services/Object/classes/class.ilObjectLP.php';
  */
 class ilFileLP extends ilObjectLP
 {
-	/**
-	 * @return int
-	 */
+	public static function getDefaultModes($a_lp_active)
+	{		
+		return array(
+			ilLPObjSettings::LP_MODE_DEACTIVATED,
+			ilLPObjSettings::LP_MODE_DOWNLOADED
+		);		
+	}
+	
 	public function getDefaultMode()
 	{
 		return ilLPObjSettings::LP_MODE_DEACTIVATED;

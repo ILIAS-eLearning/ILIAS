@@ -573,8 +573,12 @@ function LMSSetValue(s_el,value){
 		if (value=='suspend') b_result=setValueIntern(sco_id,'cmi.core.entry',"resume",true);
 		else b_result=setValueIntern(sco_id,'cmi.core.entry',"",true);
 	}
-	//since 5.1 for no-credit/browse
-	if (b_scoCredit==false && (s_el.indexOf("score")>-1 || s_el.indexOf("status")>-1)) return setreturn(0,"");
+	//since 5.2
+	if (iv.lesson_mode == 'browse'){
+		b_storeDB=false;
+	} else {
+		if (b_scoCredit==false && (s_el.indexOf("score")>-1 || s_el.indexOf("status")>-1)) return setreturn(0,"");
+	}
 
 	if (iv.b_storeInteractions==false && s_el.indexOf("cmi.interactions")>-1) b_storeDB=false;
 	else if (iv.b_storeObjectives==false && s_el.indexOf("cmi.objectives")>-1) b_storeDB=false;

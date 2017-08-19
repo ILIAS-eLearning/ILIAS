@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordFieldModel.php');
 
 /**
  * Class ilDclBaseFieldModel
@@ -16,6 +15,11 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel {
 	public function parseValue($value) {
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
+
+		if ($value == -1) //marked for deletion.
+		{
+			return 0;
+		}
 
 		$file = $value;
 
@@ -51,6 +55,18 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel {
 
 		return $return;
 	}
+
+	/**
+	 * @param ilConfirmationGUI $confirmation
+	 */
+	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {
+		if (is_array($this->getValue())) {
+			foreach($this->getValue() as $key=>$value) {
+				$confirmation->addHiddenItem('field_'.$this->field->getId().'['.$key.']', $value);
+			}
+		}
+	}
+
 
 	/**
 	 * Set value for record field
@@ -112,6 +128,17 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel {
 		}
 		$file_obj = new ilObjFile($value, false);
 		return $file_obj->getTitle();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setValueFromForm($form) {
+		$value = $form->getInput("field_" . $this->getField()->getId());
+		if ($form->getItemByPostVar("field_" . $this->getField()->getId())->getDeletionFlag()) {
+			$value = - 1;
+		}
+		$this->setValue($value);
 	}
 	
 	

@@ -240,7 +240,7 @@ class ilCourseFile
 		return true;
 	}
 		
-	function _deleteByCourse($a_course_id)
+	static function _deleteByCourse($a_course_id)
 	{
 		global $ilDB;
 

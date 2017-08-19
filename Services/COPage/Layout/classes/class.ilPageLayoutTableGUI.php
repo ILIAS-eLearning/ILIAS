@@ -32,7 +32,7 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("actions"));
 		
 		// show command buttons, if write permission is given
-		if ($a_parent_obj->checkPermission("write", false))
+		if ($a_parent_obj->checkPermission("sty_write_page_layout", false))
 		{
 			$this->addMultiCommand("activate", $lng->txt("activate"));
 			$this->addMultiCommand("deactivate", $lng->txt("deactivate"));
@@ -78,11 +78,16 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 		
 		// action
 		$ilCtrl->setParameter($this->parent_obj, "layout_id", $a_set['layout_id']);
-		$this->tpl->setCurrentBlock("action");
-		$this->tpl->setVariable("HREF_ACTION",
-			$ilCtrl->getLinkTarget($this->parent_obj, "exportLayout"));
-		$this->tpl->setVariable("TXT_ACTION", $lng->txt("export"));
-		$this->tpl->parseCurrentBlock();
+
+		if ($this->parent_obj->checkPermission("sty_write_page_layout", false))
+		{
+			$this->tpl->setCurrentBlock("action");
+			$this->tpl->setVariable("HREF_ACTION",
+				$ilCtrl->getLinkTarget($this->parent_obj, "exportLayout"));
+			$this->tpl->setVariable("TXT_ACTION", $lng->txt("export"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$ilCtrl->setParameter($this->parent_obj, "layout_id", "");
 		
 		// modules
@@ -113,7 +118,10 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("CHECKBOX_ID", $a_set['layout_id']);
 		
 		$ilCtrl->setParameter($this->parent_obj, "obj_id", $a_set['layout_id']);
-		$this->tpl->setVariable("HREF_EDIT_PGLAYOUT",$ilCtrl->getLinkTarget($this->parent_obj, "editPg"));
+		if ($this->parent_obj->checkPermission("sty_write_page_layout", false))
+		{
+			$this->tpl->setVariable("HREF_EDIT_PGLAYOUT", $ilCtrl->getLinkTarget($this->parent_obj, "editPg"));
+		}
 		
 		$pgl_obj = new ilPageLayout($a_set['layout_id']);
 		$this->tpl->setVariable("VAL_PREVIEW_HTML",$pgl_obj->getPreview());

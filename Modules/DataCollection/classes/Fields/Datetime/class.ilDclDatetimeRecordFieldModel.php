@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordFieldModel.php');
 
 /**
  * Class ilDclBaseFieldModel
@@ -27,12 +26,7 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel {
 
 		$value = parent::getValueFromExcel($excel, $row, $col);
 
-		$value = array(
-			'date' => date('Y-m-d', strtotime($value)),
-			'time' => '00:00:00',
-		);
-
-		return $value;
+		return date('Y-m-d', strtotime($value));
 	}
 
 

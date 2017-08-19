@@ -68,7 +68,7 @@ class ilTermsOfServiceHelper
 	 */
 	public static function trackAcceptance(ilObjUser $user, ilTermsOfServiceSignableDocument $document)
 	{
-		if(self::isEnabled())
+		if(self::isEnabled() && $document->exists())
 		{
 			$entity       = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
 			$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');

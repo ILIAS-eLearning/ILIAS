@@ -30,6 +30,13 @@ class ilTestQuestionNavigationGUI
 	 */
 	private $submitSolutionCommand = '';
 
+// fau: testNav - new variable for 'revert changes' link target
+	/**
+	 * @var string
+	 */
+	private $revertChangesLinkTarget = '';
+// fau.
+
 	/**
 	 * @var bool
 	 */
@@ -70,10 +77,12 @@ class ilTestQuestionNavigationGUI
 	 */
 	private $hintRequestsExist = false;
 
+// fau: testNav - change question mark command to link target
 	/**
 	 * @var string
 	 */
-	private $questionMarkCommand = '';
+	private $questionMarkLinkTarget = '';
+// fau.
 
 	/**
 	 * @var bool
@@ -145,6 +154,24 @@ class ilTestQuestionNavigationGUI
 	{
 		$this->submitSolutionCommand = $submitSolutionCommand;
 	}
+
+// fau: testNav - get/set revertChangesCommand
+	/**
+	 * @return string
+	 */
+	public function getRevertChangesLinkTarget()
+	{
+		return $this->revertChangesLinkTarget;
+	}
+
+	/**
+	 * @param string
+	 */
+	public function setRevertChangesLinkTarget($revertChangesLinkTarget)
+	{
+		$this->revertChangesLinkTarget = $revertChangesLinkTarget;
+	}
+// fau.
 
 	/**
 	 * @return bool
@@ -274,21 +301,23 @@ class ilTestQuestionNavigationGUI
 		$this->hintRequestsExist = $hintRequestsExist;
 	}
 
+// fau: testNav - change setter/getter of question mark command to link target
 	/**
 	 * @return string
 	 */
-	public function getQuestionMarkCommand()
+	public function getQuestionMarkLinkTarget()
 	{
-		return $this->questionMarkCommand;
+		return $this->questionMarkLinkTarget;
 	}
 
 	/**
-	 * @param string $questionMarkCommand
+	 * @param string $questionMarkLinkTarget
 	 */
-	public function setQuestionMarkCommand($questionMarkCommand)
+	public function setQuestionMarkLinkTarget($questionMarkLinkTarget)
 	{
-		$this->questionMarkCommand = $questionMarkCommand;
+		$this->questionMarkLinkTarget = $questionMarkLinkTarget;
 	}
+// fau.
 
 	/**
 	 * @return boolean
@@ -338,13 +367,96 @@ class ilTestQuestionNavigationGUI
 		$this->charSelectorEnabled = $charSelectorEnabled;
 	}
 	
+// fau: testNav - generate question actions menu
+	/**
+	 * Get the HTML of an actions menu below the title
+	 * @return string
+	 */
+	public function getActionsHTML()
+	{
+		$tpl = $this->getTemplate('actions');
+
+		include_once("Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
+		$actions = new ilGroupedListGUI();
+		$actions->setAsDropDown(true, true);
+
+		if( $this->getQuestionMarkLinkTarget() )
+		{
+			$actions->addEntry($this->getQuestionMarkActionLabel(), $this->getQuestionMarkLinkTarget(),
+				'','','ilTestQuestionAction','tst_mark_question_action');
+			$actions->addSeparator();
+		}
+
+		if( $this->getRevertChangesLinkTarget() )
+		{
+			$actions->addEntry($this->lng->txt('tst_revert_changes'), $this->getRevertChangesLinkTarget(),
+				'','','ilTestQuestionAction ilTestRevertChangesAction','tst_revert_changes_action');
+		}
+		else {
+			$actions->addEntry($this->lng->txt('tst_revert_changes'), '#',
+				'','','ilTestQuestionAction ilTestRevertChangesAction disabled','tst_revert_changes_action');
+		}
+
+		if( $this->isDiscardSolutionButtonEnabled() )
+		{
+			$actions->addEntry($this->lng->txt('discard_answer'),'#',
+				'','','ilTestQuestionAction ilTestDiscardSolutionAction','tst_discard_solution_action');
+		}
+		else
+		{
+			$actions->addEntry($this->lng->txt('discard_answer'),'#',
+				'','','ilTestQuestionAction ilTestDiscardSolutionAction disabled','tst_discard_solution_action');
+		}
+
+		if( $this->getSkipQuestionLinkTarget() )
+		{
+			$actions->addEntry($this->lng->txt('postpone_question'), $this->getSkipQuestionLinkTarget(),
+				'','','ilTestQuestionAction','tst_skip_question_action');
+		}
+		else
+		{
+			$actions->addEntry($this->lng->txt('postpone_question'), '#',
+				'','','ilTestQuestionAction disabled','tst_skip_question_action');
+		}
+
+		if( $this->isCharSelectorEnabled() )
+		{
+			$actions->addSeparator();
+			$actions->addEntry($this->lng->txt('char_selector_btn_label'),'#',
+				'','','ilTestQuestionAction ilCharSelectorMenuToggle','ilCharSelectorMenuToggleLink');
+		}
+
+		// render the mark icon
+		if( $this->getQuestionMarkLinkTarget() )
+		{
+			$this->renderActionsIcon(
+				$tpl, $this->getQuestionMarkIconSource(), $this->getQuestionMarkIconLabel(), 'ilTestMarkQuestionIcon'
+			);
+		}
+
+		// render the action menu
+		include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+		$list = new ilAdvancedSelectionListGUI();
+		$list->setSelectionHeaderClass('btn-primary');
+		$list->setId('QuestionActions');
+		$list->setListTitle($this->lng->txt("actions"));
+		$list->setStyle(1);
+		$list->setGroupedList($actions);
+		$tpl->setVariable('ACTION_MENU',$list->getHTML());
+
+		return $tpl->get();
+	}
+// fau.
+
+
 	/**
 	 * @return string
 	 */
 	public function getHTML()
 	{
-		$tpl = $this->getTemplate();
-		
+// fau: testNav - add parameter for toolbar template purpose
+		$tpl = $this->getTemplate('toolbar');
+// fau.
 		if( $this->getEditSolutionCommand() )
 		{
 			$this->renderSubmitButton(
@@ -352,27 +464,15 @@ class ilTestQuestionNavigationGUI
 			);
 		}
 		
-		if( $this->getSubmitSolutionCommand() )
+// fau: testNav - don't show the standard submit button.
+// fau: testNav - discard answer is moved to the actions menu.
+// fau: testNav - skip question (postpone) is moved to the actions menu.
+
+		if( $this->getInstantFeedbackCommand())
 		{
 			$this->renderSubmitButton(
-				$tpl, $this->getSubmitSolutionCommand(), $this->getSubmitSolutionButtonLabel(), true
-			);
-		}
-
-		if( $this->isDiscardSolutionButtonEnabled() )
-		{
-			$this->renderJsLinkedButton($tpl, 'tst_discard_answer_button', 'discard_answer', '');
-		}
-		
-		if( $this->getSkipQuestionLinkTarget() )
-		{
-			$this->renderLinkButton($tpl, $this->getSkipQuestionLinkTarget(), 'skip_question');
-		}
-
-		if( $this->getInstantFeedbackCommand() && !$this->isForceInstantResponseEnabled() )
-		{
-			$this->renderSubmitButton(
-				$tpl, $this->getInstantFeedbackCommand(), $this->getCheckButtonLabel()
+				$tpl, $this->getInstantFeedbackCommand(), $this->getCheckButtonLabel(),
+				$this->isForceInstantResponseEnabled()
 			);
 		}
 
@@ -390,20 +490,8 @@ class ilTestQuestionNavigationGUI
 			);
 		}
 
-		if( $this->getQuestionMarkCommand() )
-		{
-			$this->renderIcon(
-				$tpl, $this->getQuestionMarkCommand(), $this->getQuestionMarkIconSource(),
-				$this->getQuestionMarkIconLabel(), 'ilTstMarkQuestionButton'
-			);
-		}
-		
-		if( $this->isCharSelectorEnabled() )
-		{
-			$this->renderJsLinkedButton($tpl,
-				'charselectorbutton', 'char_selector_btn_label', 'ilCharSelectorToggle'
-			);
-		}
+// fau: testNav - question mark is moved to the actions menu.
+// fau: testNav - char selector is moved to the actions menu.
 		
 		if( $this->isAnythingRendered() )
 		{
@@ -430,7 +518,9 @@ class ilTestQuestionNavigationGUI
 			return 'submit_and_check';
 		}
 
-		return 'submit_answer';
+// fau: testNav - rename the submit button to simply "Save"
+		return 'save';
+// fau.
 	}
 	
 	private function getCheckButtonLabel()
@@ -453,7 +543,8 @@ class ilTestQuestionNavigationGUI
 		return 'button_request_question_hint';
 	}
 
-	private function getQuestionMarkIconLabel()
+// fau: testNav - adjust mark icon and action labels
+	private function getQuestionMarkActionLabel()
 	{
 		if( $this->isQuestionMarked() )
 		{
@@ -462,6 +553,18 @@ class ilTestQuestionNavigationGUI
 
 		return $this->lng->txt('tst_question_mark');
 	}
+
+
+	private function getQuestionMarkIconLabel()
+	{
+		if( $this->isQuestionMarked() )
+		{
+			return $this->lng->txt('tst_question_marked');
+		}
+
+		return$this->lng->txt('tst_question_not_marked');
+	}
+// fau.
 
 	private function getQuestionMarkIconSource()
 	{
@@ -473,15 +576,28 @@ class ilTestQuestionNavigationGUI
 		return ilUtil::getImagePath('marked_.svg');
 	}
 
+// fau: testNav - add parameter for template purpose
 	/**
+	 * Get the template
+	 * @param	string	$a_purpose ('toolbar' | 'actions')
 	 * @return ilTemplate
 	 */
-	private function getTemplate()
+	private function getTemplate($a_purpose = 'toolbar')
 	{
+		switch ($a_purpose)
+		{
+			case 'toolbar':
 		return new ilTemplate(
 			'tpl.tst_question_navigation.html', true, true, 'Modules/Test'
 		);
+
+			case 'actions':
+				return new ilTemplate(
+					'tpl.tst_question_actions.html', true, true, 'Modules/Test'
+				);
 	}
+	}
+// fau.
 
 	/**
 	 * @param ilTemplate $tpl
@@ -581,4 +697,15 @@ class ilTestQuestionNavigationGUI
 		$this->parseButtonsBlock($tpl);
 		$this->setAnythingRendered();
 	}
+
+// fau: testNav - render an icon beneath the actions menu
+	private function renderActionsIcon(ilTemplate $tpl, $iconSrc, $label, $cssClass)
+	{
+		$tpl->setCurrentBlock("actions_icon");
+		$tpl->setVariable("ICON_SRC", $iconSrc);
+		$tpl->setVariable("ICON_TEXT", $label);
+		$tpl->setVariable("ICON_CLASS", $cssClass);
+		$tpl->parseCurrentBlock();
+	}
+// fau.
 }

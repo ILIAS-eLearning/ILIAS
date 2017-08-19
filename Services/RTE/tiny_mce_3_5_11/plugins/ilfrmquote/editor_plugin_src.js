@@ -59,7 +59,7 @@
 
 			function rep(re, str) {
 				s = s.replace(re, str);
-			};
+			}
 
 			var startZ = this.substr_count(s, "<blockquote");
 			var endZ = this.substr_count(s, "</blockquote>");
@@ -77,7 +77,7 @@
 				}
 			}
 			rep(/<blockquote[\s]*?class="ilForumQuote"[\s]*?>[\s]*?<div[\s]*?class="ilForumQuoteHead"[\s]*?>[\s\S]*?\(([\s\S]*?)\)<\/div>/gi, "[quote=\"$1\"]");
-			rep(/<blockquote(.*?)class="ilForumQuote"(.*?)>/gi, "[quote]");
+			rep(/<blockquote(.*?)>/gi, "[quote]");
 			rep(/<\/blockquote>/gi, "[/quote]");
 			return s;
 		},
@@ -87,7 +87,7 @@
 
 			function rep(re, str) {
 				s = s.replace(re, str);
-			};
+			}
 
 			var startZ = this.substr_count(s, "[quote");
 			var endZ = this.substr_count(s, "[/quote]");

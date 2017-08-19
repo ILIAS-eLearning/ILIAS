@@ -19,7 +19,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @ingroup 	ModulesTestQuestionPool
  * 
  * @ilctrl_iscalledby assErrorTextGUI: ilObjQuestionPoolGUI
- * 
+ * @ilCtrl_Calls assErrorTextGUI: ilFormPropertyDispatchGUI
  */
 class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
@@ -106,6 +106,8 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
+		$this->editForm = $form;
+
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(FALSE);
@@ -322,7 +324,9 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 	function getTestOutput(
 				$active_id, 
-				$pass = NULL, 
+				// hey: prevPassSolutions - will be always available from now on
+				$pass,
+				// hey.
 				$is_postponed = FALSE, 
 				$use_post_solutions = FALSE, 
 				$show_feedback = FALSE
@@ -332,13 +336,15 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$template = new ilTemplate("tpl.il_as_qpl_errortext_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		if ($active_id)
 		{
-			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
-			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+			// hey: prevPassSolutions - obsolete due to central check
+			#$solutions = NULL;
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			#{
+			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			#}
+			$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
+			// hey.
 		}
 		$errortext_value = "";
 		$selections = array();

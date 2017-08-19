@@ -44,9 +44,12 @@ a#ilHelpClose {
 	padding: 5px 10px 5px 20px;
 }
 
-div#il_screen_id {
+#il_screen_id {
 	position: fixed;
 	right: 0;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		display: none;
+	}
 }
 
 #mm_help li a span:first-child {

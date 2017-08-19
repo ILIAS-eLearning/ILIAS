@@ -15,11 +15,52 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	static $block_type = 'pdmail';
 
 	/**
+	 * @var \ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var \ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var \ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var \ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var \ilSetting
+	 */
+	protected $setting;
+
+	/**
+	 * @var array
+	 */
+	protected $mails = array();
+
+	/**
+	 * @var int
+	 */
+	protected $inbox;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng        = $DIC->language();
+		$this->user       = $DIC->user();
+		$this->ctrl       = $DIC->ctrl();
+		$this->setting    = $DIC->settings();
+		$this->rbacsystem = $DIC->rbac()->system();
 
 		include_once 'Services/User/classes/class.ilObjUser.php';
 		include_once 'Services/Mail/classes/class.ilMailbox.php';
@@ -29,7 +70,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
 		$this->setLimit(5);
 		$this->setImage(ilUtil::getImagePath('icon_mail.svg'));
-		$this->setTitle($lng->txt('mail'));
+		$this->setTitle($this->lng->txt('mail'));
 		$this->setAvailableDetailLevels(3);
 	}
 
@@ -73,19 +114,15 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl;
-
-		$cmd = $ilCtrl->getCmd('getHTML');
+		$cmd = $this->ctrl->getCmd('getHTML');
 
 		return $this->$cmd();
 	}
 
 	public function getHTML()
 	{
-		global $ilUser, $rbacsystem;
-
-		$umail = new ilMail($ilUser->getId());
-		if(!$rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId()))
+		$umail = new ilMail($this->user->getId());
+		if(!$this->rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId()))
 		{
 			return '';
 		}
@@ -106,17 +143,17 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	 */
 	protected function getMails()
 	{
-		global $ilUser;
+		require_once 'Services/Mail/classes/class.ilObjMail.php';
 
-		$umail       = new ilMail($ilUser->getId());
-		$mbox        = new ilMailBox($ilUser->getId());
+		$umail       = new ilMail($this->user->getId());
+		$mbox        = new ilMailBox($this->user->getId());
 		$this->inbox = $mbox->getInboxFolder();
 
 		$this->mails = $umail->getMailsOfFolder(
 			$this->inbox,
 			array(
 				 'status'  => 'unread',
-				 'type'	=> 'normal'
+				 'type'	=> ((int)$this->setting->get('pd_sys_msg_mode')) != ilObjMail::PD_SYS_MSG_MAIL_BLOCK ? 'normal' : ''
 			)
 		);
 	}
@@ -154,8 +191,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	 */
 	public function fillRow($mail)
 	{
-		global $ilCtrl, $lng;
-
 		$user = ilMailUserCache::getUserObjectById($mail['sender_id']);
 		
 		if($this->getCurrentDetailLevel() > 2)
@@ -165,11 +200,11 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			{
 				$this->tpl->setVariable('PUBLIC_NAME_LONG', $user->getPublicName());
 				$this->tpl->setVariable('IMG_SENDER', $user->getPersonalPicturePath('xxsmall'));
-				$this->tpl->setVariable('ALT_SENDER', $user->getPublicName());
+				$this->tpl->setVariable('ALT_SENDER', htmlspecialchars($user->getPublicName()));
 			}
 			else if(!$user)
 			{
-				$this->tpl->setVariable('PUBLIC_NAME_LONG', $mail['import_name'] . ' (' . $lng->txt('user_deleted') . ')');
+				$this->tpl->setVariable('PUBLIC_NAME_LONG', $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
 				
 				$this->tpl->setCurrentBlock('image_container');
 				$this->tpl->touchBlock('image_container');
@@ -179,7 +214,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			{
 				$this->tpl->setVariable('PUBLIC_NAME_LONG', ilMail::_getIliasMailerName());
 				$this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIconAvatar.svg'));
-				$this->tpl->setVariable('ALT_SENDER', ilMail::_getIliasMailerName());
+				$this->tpl->setVariable('ALT_SENDER', htmlspecialchars(ilMail::_getIliasMailerName()));
 			}
 
 			$this->tpl->setVariable('NEW_MAIL_DATE', ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_DATE)));
@@ -192,7 +227,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			}
 			else if(!$user)
 			{
-				$this->tpl->setVariable('PUBLIC_NAME_SHORT', $mail['import_name'] . ' (' . $lng->txt('user_deleted') . ')');
+				$this->tpl->setVariable('PUBLIC_NAME_SHORT', $mail['import_name'] . ' (' .  $this->lng->txt('user_deleted') . ')');
 			}
 			else
 			{
@@ -201,11 +236,11 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		}
 
 		$this->tpl->setVariable('NEW_MAIL_SUBJ', htmlentities($mail['m_subject'], ENT_NOQUOTES, 'UTF-8'));
-		$ilCtrl->setParameter($this, 'mobj_id', $this->inbox);
-		$ilCtrl->setParameter($this, 'mail_id', $mail['mail_id']);
-		$ilCtrl->setParameter($this, 'mail_mode', $this->mail_mode);
-		$this->tpl->setVariable('NEW_MAIL_LINK_READ', $ilCtrl->getLinkTarget($this, 'showMail'));
-		$ilCtrl->clearParameters($this);
+		$this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
+		$this->ctrl->setParameter($this, 'mail_id', $mail['mail_id']);
+		$this->ctrl->setParameter($this, 'mail_mode', $this->mail_mode);
+		$this->tpl->setVariable('NEW_MAIL_LINK_READ', $this->ctrl->getLinkTarget($this, 'showMail'));
+		$this->ctrl->clearParameters($this);
 	}
 
 	/**
@@ -213,9 +248,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	 */
 	protected function getOverview()
 	{
-		global $lng;
-
-		return '<div class="small">' . ((int)count($this->mails)) . " " . $lng->txt("mails_pl") . "</div>";
+		return '<div class="small">' . ((int)count($this->mails)) . " " . $this->lng->txt("mails_pl") . "</div>";
 	}
 
 	/**
@@ -223,8 +256,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	 */
 	protected function showMail()
 	{
-		global $lng, $ilCtrl;
-
 		include_once("./Services/Mail/classes/class.ilPDMailGUI.php");
 		$mail_gui = new ilPDMailGUI();
 
@@ -232,34 +263,32 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($mail_gui->getPDMailHTML($_GET["mail_id"],
 			$_GET["mobj_id"]));
-		$content_block->setTitle($lng->txt("message"));
+		$content_block->setTitle($this->lng->txt("message"));
 		$content_block->setColSpan(2);
 		$content_block->setImage(ilUtil::getImagePath("icon_mail.svg"));
-		$content_block->addHeaderCommand($ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"),
-			$lng->txt("selected_items_back"));
+		$content_block->addHeaderCommand($this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"),
+			$this->lng->txt("selected_items_back"));
 
 		if($_GET["mail_mode"] != "system")
 		{
 			$content_block->addBlockCommand("ilias.php?baseClass=ilMailGUI&mail_id=" .
 					$_GET["mail_id"] . "&mobj_id=" . $_GET["mobj_id"] . "&type=reply",
-				$lng->txt("reply"));
+				$this->lng->txt("reply"));
 			$content_block->addBlockCommand("ilias.php?baseClass=ilMailGUI&mail_id=" .
 					$_GET["mail_id"] . "&mobj_id=" . $_GET["mobj_id"] . "&type=read",
-				$lng->txt("inbox"));
+				$this->lng->txt("inbox"));
 
-			$ilCtrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
-			$content_block->addBlockCommand($ilCtrl->getLinkTarget($this, 'deleteMail'), $lng->txt('delete'));
-
-
+			$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
+			$content_block->addBlockCommand($this->ctrl->getLinkTarget($this, 'deleteMail'), $this->lng->txt('delete'));
 		}
 		else
 		{
-			$ilCtrl->setParameter($this, "mail_id", $_GET["mail_id"]);
-			$ilCtrl->setParameter($this, "mobj_id", $_GET["mobj_id"]);
+			$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
+			$this->ctrl->setParameter($this, "mobj_id", $_GET["mobj_id"]);
 			$content_block->addBlockCommand(
-				$ilCtrl->getLinkTarget($this, "deleteMail"),
-				$lng->txt("delete"));
-			$ilCtrl->clearParameters($this);
+				$this->ctrl->getLinkTarget($this, "deleteMail"),
+				$this->lng->txt("delete"));
+			$this->ctrl->clearParameters($this);
 		}
 
 		return $content_block->getHTML();
@@ -270,12 +299,10 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	 */
 	public function deleteMail()
 	{
-		global $lng, $ilCtrl;
+		$this->lng->loadLanguageModule('mail');
 
-		$lng->loadLanguageModule('mail');
-
-		$umail = new ilMail($_SESSION['AccountId']);
-		$mbox  = new ilMailBox($_SESSION['AccountId']);
+		$umail = new ilMail($this->user->getId());
+		$mbox  = new ilMailBox($this->user->getId());
 
 		if(!$_GET['mobj_id'])
 		{
@@ -286,13 +313,13 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			$mbox->getTrashFolder())
 		)
 		{
-			ilUtil::sendInfo($lng->txt('mail_moved_to_trash'), true);
+			ilUtil::sendInfo($this->lng->txt('mail_moved_to_trash'), true);
 		}
 		else
 		{
-			ilUtil::sendInfo($lng->txt('mail_move_error'), true);
+			ilUtil::sendInfo($this->lng->txt('mail_move_error'), true);
 		}
-		$ilCtrl->redirectByClass('ilpersonaldesktopgui', 'show');
+		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
 	}
 
 	/**

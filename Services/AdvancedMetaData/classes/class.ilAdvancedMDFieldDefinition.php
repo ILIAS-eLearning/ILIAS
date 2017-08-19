@@ -32,6 +32,8 @@ abstract class ilAdvancedMDFieldDefinition
 	const TYPE_FLOAT = 6;
 	const TYPE_LOCATION = 7;
 	const TYPE_SELECT_MULTI = 8;
+	const TYPE_EXTERNAL_LINK = 9;
+	const TYPE_INTERNAL_LINK = 10;
 	
 	/**
 	 * Constructor
@@ -92,7 +94,9 @@ abstract class ilAdvancedMDFieldDefinition
 			self::TYPE_FLOAT => "Float",
 			self::TYPE_LOCATION => "Location",
 			self::TYPE_INTEGER => "Integer",				
-			self::TYPE_SELECT_MULTI => "SelectMulti"				
+			self::TYPE_SELECT_MULTI => "SelectMulti"	,
+			self::TYPE_EXTERNAL_LINK => 'ExternalLink',
+			self::TYPE_INTERNAL_LINK => 'InternalLink'
 		);	
 		$map = array_flip($map);
 		if(array_key_exists($a_type, $map))
@@ -246,9 +250,18 @@ abstract class ilAdvancedMDFieldDefinition
 	 */
 	public static function getValidTypes()
 	{
-		return array(self::TYPE_TEXT, self::TYPE_DATE, self::TYPE_DATETIME,
-			self::TYPE_SELECT, self::TYPE_INTEGER, self::TYPE_FLOAT,
-			self::TYPE_LOCATION, self::TYPE_SELECT_MULTI);
+		return array(
+			self::TYPE_TEXT, 
+			self::TYPE_DATE, 
+			self::TYPE_DATETIME,
+			self::TYPE_SELECT, 
+			self::TYPE_INTEGER, 
+			self::TYPE_FLOAT,
+			self::TYPE_LOCATION, 
+			self::TYPE_SELECT_MULTI,
+			self::TYPE_EXTERNAL_LINK,
+			self::TYPE_INTERNAL_LINK
+		);
 	}
 	
 	/**
@@ -287,7 +300,9 @@ abstract class ilAdvancedMDFieldDefinition
 				self::TYPE_FLOAT => "Float",
 				self::TYPE_LOCATION => "Location",
 				self::TYPE_INTEGER => "Integer",			
-				self::TYPE_SELECT_MULTI => "SelectMulti"				
+				self::TYPE_SELECT_MULTI => "SelectMulti"	,
+				self::TYPE_EXTERNAL_LINK => 'ExternalLink',
+				self::TYPE_INTERNAL_LINK => 'InternalLink'
 			);		
 			return $map[$a_type];
 		}		
@@ -779,7 +794,7 @@ abstract class ilAdvancedMDFieldDefinition
 	 * @param int $a_field_id
 	 * @return string
 	 */
-	protected function generateImportId($a_field_id)
+	public function generateImportId($a_field_id)
 	{
 		return 'il_'.IL_INST_ID.'_adv_md_field_'.$a_field_id;
 	}
@@ -859,7 +874,7 @@ abstract class ilAdvancedMDFieldDefinition
 	/**
 	 * Create new field entry
 	 */
-	public function save()
+	public function save($a_keep_pos = false)
 	{
 		global $ilDB;
 		
@@ -871,7 +886,10 @@ abstract class ilAdvancedMDFieldDefinition
 		$next_id = $ilDB->nextId("adv_mdf_definition");
 		
 		// append		
-		$this->setPosition($this->getLastPosition()+1);
+		if(!$a_keep_pos)
+		{
+			$this->setPosition($this->getLastPosition()+1);
+		}
 		
 		// needs unique import id
 		if(!$this->getImportId())
@@ -1169,6 +1187,28 @@ abstract class ilAdvancedMDFieldDefinition
 	public function prepareElementForSearch(ilADTSearchBridge $a_bridge)
 	{
 		// type-specific		
+	}
+	
+	/**
+	 * Clone field definition
+	 * 
+	 * @param type $a_new_record_id
+	 * @return self
+	 */	
+	public function _clone($a_new_record_id)
+	{
+		$class = get_class($this);
+		$obj = new $class();
+		$obj->setRecordId($a_new_record_id);		
+		$obj->setTitle($this->getTitle());
+		$obj->setDescription($this->getDescription());
+		$obj->setRequired($this->isRequired());
+		$obj->setPosition($this->getPosition());
+		$obj->setSearchable($this->isSearchable());
+		$obj->importFieldDefinition($this->getFieldDefinition());
+		$obj->save(true);
+		
+		return $obj;		
 	}
 }
 

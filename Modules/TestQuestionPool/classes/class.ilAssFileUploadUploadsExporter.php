@@ -209,7 +209,13 @@ class ilAssFileUploadUploadsExporter
 					$uploadedFileDir = $this->question->getFileUploadPath(
 						$this->getTestId(), $activeId, $this->question->getId()
 					);
-					
+
+					// #20317
+					if(!is_file($uploadedFileDir . $file['value1']))
+					{
+						continue;
+					}
+
 					$destinationDir = $this->tempDirPath.'/'.$this->mainFolderName.'/';
 					$destinationDir .= $participantData->getFileSystemCompliantFullnameByActiveId($activeId).'/';
 					$destinationDir .= $this->getPassSubDirName($file['pass']).'/';

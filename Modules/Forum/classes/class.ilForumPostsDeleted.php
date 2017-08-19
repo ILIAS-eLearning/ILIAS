@@ -3,7 +3,7 @@
 
 /**
  * Class ilForumPostsDeleted
- * @author Nadia Ahmad <nahmad@databay.de>
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  */
 class ilForumPostsDeleted
 {
@@ -74,22 +74,36 @@ class ilForumPostsDeleted
 	 * @var bool
 	 */
 	protected $thread_deleted = false;
+	
+	private $user;
+	private $db;
 
 	/**
 	 * @param ilObjForumNotificationDataProvider|NULL $provider
 	 */
 	public function __construct(ilObjForumNotificationDataProvider $provider = NULL)
 	{
+		global $DIC;
+		$this->user = $DIC->user();
+		$this->db = $DIC->database();
+		
 		if(is_object($provider))
 		{
-			global $ilUser;
-
-			$this->setDeletedBy($ilUser->getLogin());
+			$this->setDeletedBy($this->user->getLogin());
 			$this->setDeletedDate(date('Y-m-d H:i:s'));
 			$this->setForumTitle($provider->getForumTitle());
 			$this->setThreadTitle($provider->getThreadTitle());
 			$this->setPostTitle($provider->getPostTitle());
-			$this->setPostMessage($provider->getPostMessage());
+			
+			if($provider->getPostCensored() == 1)
+			{
+				$this->setPostMessage($provider->getCensorshipComment());	
+			}	
+			else
+			{	
+				$this->setPostMessage($provider->getPostMessage());
+			}
+			
 			$this->setPostDate($provider->getPostDate());
 			$this->setObjId($provider->getObjId());
 			$this->setRefId($provider->getRefId());
@@ -105,11 +119,9 @@ class ilForumPostsDeleted
 	 */
 	public function insert()
 	{
-		global $ilDB;
+		$next_id = $this->db->nextId('frm_posts_deleted');
 
-		$next_id = $ilDB->nextId('frm_posts_deleted');
-
-		$ilDB->insert('frm_posts_deleted', array(
+		$this->db->insert('frm_posts_deleted', array(
 			'deleted_id'   => array('integer', $next_id),
 			'deleted_date' => array('timestamp', $this->getDeletedDate()),
 			'deleted_by'   => array('text', $this->getDeletedBy()),
@@ -134,9 +146,7 @@ class ilForumPostsDeleted
 	 */
 	public function deleteNotifiedEntries()
 	{
-		global $ilDB;
-
-		$ilDB->manipulateF('DELETE FROM frm_posts_deleted WHERE deleted_id > %s', array('integer'), array(0));
+		$this->db->manipulateF('DELETE FROM frm_posts_deleted WHERE deleted_id > %s', array('integer'), array(0));
 	}
 
 
@@ -380,6 +390,4 @@ class ilForumPostsDeleted
 	{
 		$this->thread_deleted = $thread_deleted;
 	}
-
-
 }

@@ -150,7 +150,7 @@ class ilObjSessionListGUI extends ilObjectListGUI
 		include_once './Modules/Session/classes/class.ilObjSession.php';
 		$session_data = new ilObjSession($this->obj_id, false);
 		include_once './Modules/Session/classes/class.ilSessionParticipants.php';
-		$part = ilSessionParticipants::_getInstanceByObjId($this->obj_id);
+		$part = ilSessionParticipants::getInstance($this->ref_id);
 
 		if($session_data->isRegistrationUserLimitEnabled()) {
 			if ($part->getCountMembers() <= $session_data->getRegistrationMaxUsers()) {
@@ -267,7 +267,7 @@ class ilObjSessionListGUI extends ilObjectListGUI
 				'WHERE event_id = '.$ilDB->quote($a_sess_id,'integer').' '.
 				'AND tree > 0';
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$items[] = $row->item_id;
 		}

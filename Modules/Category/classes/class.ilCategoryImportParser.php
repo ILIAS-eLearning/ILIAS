@@ -35,6 +35,8 @@ class ilCategoryImportParser extends ilSaxParser
 {
 	var $parent;		// current parent ref id
 	var $withrol;          // must have value '1' when creating a hierarchy of local roles
+
+	protected $cat_log;
  
 
 	/**
@@ -50,6 +52,7 @@ class ilCategoryImportParser extends ilSaxParser
 		$this->parent[$this->parent_cnt] = $a_parent;
 		$this->parent_cnt++;
 		$this->withrol = $withrol;
+		
 		parent::__construct($a_xml_file);
 	}
 

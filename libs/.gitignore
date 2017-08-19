@@ -1,0 +1,12 @@
+# Composer
+composer/vendor/bin/phpunit
+composer/vendor/doctrine
+composer/vendor/mikey179
+composer/vendor/phpdocumentor
+composer/vendor/phpspec
+composer/vendor/phpunit
+composer/vendor/sebastian
+composer/vendor/webmozart
+composer/vendor/mockery
+composer/vendor/hamcrest
+composer/vendor/myclabs

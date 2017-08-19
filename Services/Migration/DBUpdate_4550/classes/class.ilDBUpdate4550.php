@@ -14,7 +14,7 @@ class ilDBUpdate4550
 		global $ilDB;
 
 		// Delete orphaned rooms
-		if($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
+		if($ilDB->getDBType() == '' || $ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
 		{
 			$ilDB->manipulate('
 			DELETE c1
@@ -44,7 +44,7 @@ class ilDBUpdate4550
 		}
 
 		// Delete orphaned private rooms
-		if($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
+		if($ilDB->getDBType() == '' || $ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
 		{
 			$ilDB->manipulate('
 			DELETE c1
@@ -87,7 +87,7 @@ class ilDBUpdate4550
 		}
 
 		// Delete orphaned bans
-		if($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
+		if($ilDB->getDBType() == '' || $ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
 		{
 			$ilDB->manipulate('
 			DELETE c1
@@ -117,7 +117,7 @@ class ilDBUpdate4550
 		}
 
 		// Delete orphaned history entries
-		if($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
+		if($ilDB->getDBType() == '' || $ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
 		{
 			$ilDB->manipulate('
 			DELETE c1
@@ -147,7 +147,7 @@ class ilDBUpdate4550
 		}
 
 		// Delete orphaned users
-		if($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
+		if($ilDB->getDBType() == '' || $ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
 		{
 			$ilDB->manipulate('
 			DELETE c1
@@ -177,7 +177,7 @@ class ilDBUpdate4550
 		}
 
 		// Delete orphaned sessions
-		if($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
+		if($ilDB->getDBType() == '' || $ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
 		{
 			$ilDB->manipulate('
 			DELETE c1
@@ -207,7 +207,7 @@ class ilDBUpdate4550
 		}
 
 		// Delete orphaned private sessions
-		if($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
+		if($ilDB->getDBType() == '' || $ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
 		{
 			$ilDB->manipulate('
 			DELETE c1
@@ -237,7 +237,7 @@ class ilDBUpdate4550
 		}
 
 		// Delete orphaned private access
-		if($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
+		if($ilDB->getDBType() == '' || $ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
 		{
 			$ilDB->manipulate('
 			DELETE c1
@@ -267,7 +267,7 @@ class ilDBUpdate4550
 		}
 
 		// Delete private room history
-		if($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
+		if($ilDB->getDBType() == '' || $ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
 		{
 			$ilDB->manipulate('
 			DELETE c1

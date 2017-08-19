@@ -16,6 +16,11 @@ class ilECSMappingSettingsGUI
 {
 	const TAB_DIRECTORY = 1;
 	const TAB_COURSE = 2;
+	
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
 
 	private $container = null;
 	private $server = null;
@@ -31,6 +36,8 @@ class ilECSMappingSettingsGUI
 	public function __construct($settingsContainer, $server_id, $mid)
 	{
 		global $lng,$ilCtrl;
+		
+		$this->log = $GLOBALS['DIC']->logger()->wsrv();
 
 		$this->container = $settingsContainer;
 		$this->server = ilECSSetting::getInstanceByServerId($server_id);
@@ -577,6 +584,13 @@ class ilECSMappingSettingsGUI
 		$rm->setTitle($this->lng->txt('ecs_role_mappings'));
 		$form->addItem($rm);
 		
+		// auth type
+		$auth_type = new ilSelectInputGUI($this->lng->txt('ecs_member_auth_type'), 'auth_mode');
+		$auth_type->setOptions(ilECSMappingUtils::getAuthModeSelection());
+		$auth_type->setRequired(true);
+		$auth_type->setValue(ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(), $this->getMid())->getAuthMode());
+		$form->addItem($auth_type);
+		
 		$mapping_defs = ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(),$this->getMid())->getRoleMappings();
 		
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
@@ -589,7 +603,6 @@ class ilECSMappingSettingsGUI
 			$role_map->setRequired($info['required']);
 			$form->addItem($role_map);
 		}
-		
 		
 		$form->addCommandButton('cUpdateSettings',$this->lng->txt('save'));
 		$form->addCommandButton('cSettings', $this->lng->txt('cancel'));
@@ -636,6 +649,8 @@ class ilECSMappingSettingsGUI
 			$settings->enableAllInOne($form->getInput('allinone'));
 			$settings->setAllInOneCategory($form->getInput('allinone_cat'));
 			$settings->enableAttributeMapping($form->getInput('multiple'));
+			$settings->setAuthMode($form->getInput('auth_mode'));
+			
 			
 			$role_mappings = array();
 			foreach(ilECSMappingUtils::getRoleMappingInfo() as $name => $info)
@@ -1029,11 +1044,16 @@ class ilECSMappingSettingsGUI
 	protected function dSynchronizeTrees()
 	{
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSDirectoryTreeConnector.php';
+
+		$this->log->dump('Start synchronizing cms directory trees');
 		
 		try
 		{
 			$connector = new ilECSDirectoryTreeConnector($this->getServer());
 			$res = $connector->getDirectoryTrees();
+			
+			$this->log->dump($res, ilLogLevel::DEBUG);
+			
 			foreach((array) $res->getLinkIds() as $cms_id)
 			{
 				include_once './Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php';

@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Services/Export/classes/class.ilExportGUI.php');
-require_once('./Services/Export/classes/class.ilExport.php');
-require_once('./Services/Export/classes/class.ilExportTableGUI.php');
 
 /**
  * Export User Interface Class
@@ -77,7 +74,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
 		foreach($this->getCustomColumns() as $c)
 		{
 			$this->tpl->setCurrentBlock('custom');
-			$this->tpl->setVariable('VAL_CUSTOM', $c['obj']->$c['func']($a_set['type'], $a_set['file']).' ');
+			$this->tpl->setVariable('VAL_CUSTOM', $c['obj']->{$c['func']}($a_set['type'], $a_set['file']) . ' ');
 			$this->tpl->parseCurrentBlock();
 		}
 

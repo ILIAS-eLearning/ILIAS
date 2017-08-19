@@ -15,7 +15,25 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * @ingroup ingroup ModulesWiki
  */
 class ilWikiDataSet extends ilDataSet
-{	
+{
+	/**
+	 * @var ilLogger
+	 */
+	protected $wiki_log;
+
+	/**
+	 * construct
+	 *
+	 * @param
+	 * @return
+	 */
+	function __construct()
+	{
+		parent::__construct();
+		$this->wiki_log = ilLoggerFactory::getLogger('wiki');
+	}
+
+
 	/**
 	 * Get supported versions
 	 *
@@ -24,7 +42,7 @@ class ilWikiDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.1.0", "4.3.0");
+		return array("4.1.0", "4.3.0", "4.4.0", "5.1.0");
 	}
 	
 	/**
@@ -92,6 +110,25 @@ class ilWikiDataSet extends ilDataSet
 						"RatingNew" => "integer",
 						"RatingExt" => "integer",
 						"RatingOverall" => "integer");
+
+				case "5.1.0":
+					return array(
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"StartPage" => "text",
+						"Short" => "text",
+						"Introduction" => "text",
+						"Rating" => "integer",
+						"PublicNotes" => "integer",
+						// "ImpPages" => "integer",
+						"PageToc" => "integer",
+						"RatingSide" => "integer",
+						"RatingNew" => "integer",
+						"RatingExt" => "integer",
+						"RatingOverall" => "integer",
+						"LinkMdValues" => "integer"
+						);
 			}
 		}
 
@@ -106,6 +143,8 @@ class ilWikiDataSet extends ilDataSet
 						"WikiId" => "integer");
 					
 				case "4.3.0":
+				case "4.4.0":
+				case "5.1.0":
 					return array(
 						"Id" => "integer",
 						"Title" => "text",
@@ -115,6 +154,19 @@ class ilWikiDataSet extends ilDataSet
 			}
 		}
 
+		if ($a_entity == "wiki_imp_page")
+		{
+			switch ($a_version)
+			{
+				case "5.1.0":
+					return array(
+						"WikiId" => "integer",
+						"PageId" => "integer",
+						"Ord" => "integer",
+						"Indent" => "integer");
+			}
+		}
+		return array();
 	}
 
 	/**
@@ -158,6 +210,14 @@ class ilWikiDataSet extends ilDataSet
 						" FROM il_wiki_data JOIN object_data ON (il_wiki_data.id = object_data.obj_id)".
 						" WHERE ".$ilDB->in("id", $a_ids, false, "integer"));
 					break;
+
+				case "5.1.0":
+					$this->getDirectDataFromQuery("SELECT id, title, description,".
+						" startpage start_page, short, rating, rating_overall, introduction,". // imp_pages,
+						" public_notes, page_toc, rating_side, rating_new, rating_ext, link_md_values".
+						" FROM il_wiki_data JOIN object_data ON (il_wiki_data.id = object_data.obj_id)".
+						" WHERE ".$ilDB->in("id", $a_ids, false, "integer"));
+					break;
 			}
 		}
 
@@ -172,6 +232,8 @@ class ilWikiDataSet extends ilDataSet
 					break;
 				
 				case "4.3.0":
+				case "4.4.0":
+				case "5.1.0":
 					$this->getDirectDataFromQuery("SELECT id, title, wiki_id,".
 						" blocked, rating". 
 						" FROM il_wiki_page".
@@ -180,6 +242,17 @@ class ilWikiDataSet extends ilDataSet
 			}
 		}
 
+		if ($a_entity == "wiki_imp_page")
+		{
+			switch ($a_version)
+			{
+				case "5.1.0":
+					$this->getDirectDataFromQuery("SELECT wiki_id, page_id, ord, indent ".
+						" FROM il_wiki_imp_pages ".
+						" WHERE ".$ilDB->in("wiki_id", $a_ids, false, "integer"));
+					break;
+			}
+		}
 	}
 	
 	/**
@@ -191,7 +264,8 @@ class ilWikiDataSet extends ilDataSet
 		{
 			case "wiki":
 				return array (
-					"wpg" => array("ids" => $a_rec["Id"])
+					"wpg" => array("ids" => $a_rec["Id"]),
+					"wiki_imp_page" => array("ids" => $a_rec["Id"])
 				);
 		}
 
@@ -244,10 +318,12 @@ class ilWikiDataSet extends ilDataSet
 					$newObj->setRatingForNewPages($a_rec["RatingNew"]);
 					$newObj->setRatingCategories($a_rec["RatingExt"]);			
 				}
+				$newObj->setLinkMetadataValues($a_rec["LinkMdValues"]);
 				
 				$newObj->update(true);
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Modules/Wiki", "wiki", $a_rec["Id"], $newObj->getId());
+				$a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
 				$a_mapping->addMapping("Services/Rating", "rating_category_parent_id", $a_rec["Id"], $newObj->getId());
 				$a_mapping->addMapping("Services/AdvancedMetaData", "parent", $a_rec["Id"], $newObj->getId());
 				break;
@@ -271,6 +347,15 @@ class ilWikiDataSet extends ilDataSet
 				$a_mapping->addMapping("Modules/Wiki", "wpg", $a_rec["Id"], $wpage->getId());
 				$a_mapping->addMapping("Services/COPage", "pg", "wpg:".$a_rec["Id"], "wpg:".$wpage->getId());
 				$a_mapping->addMapping("Services/AdvancedMetaData", "advmd_sub_item", "advmd:wpg:".$a_rec["Id"], $wpage->getId());
+				break;
+
+			case "wiki_imp_page":
+				$wiki_id = $a_mapping->getMapping("Modules/Wiki", "wiki", $a_rec["WikiId"]);
+				$page_id = $a_mapping->getMapping("Modules/Wiki", "wpg", $a_rec["PageId"]);
+				if ($wiki_id > 0 && $page_id > 0 && is_object($this->current_obj) && $this->current_obj->getId() == $wiki_id)
+				{
+					$this->current_obj->addImportantPage($page_id, $a_rec["Ord"], $a_rec["Indent"]);
+				}
 				break;
 		}
 	}

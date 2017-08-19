@@ -101,6 +101,13 @@ interface ilDBManager {
 	 */
 	public function dropConstraint($table, $name, $primary = false);
 
+
+	/**
+	 * @param $name Table-name
+	 * @return mixed
+	 */
+	public function dropTable($name);
+
 	//
 	// NOT YET IMPLEMENTED
 	//

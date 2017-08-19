@@ -196,6 +196,7 @@ class ilUserXMLWriter extends ilXmlWriter
 
 		$this->__addElement ("Gender", $row["gender"]);
 		$this->__addElement ("Email", $row["email"]);
+		$this->__addElement ("SecondEmail", $row["second_email"], null, "second_email");
 		$this->__addElement ("Birthday", $row["birthday"]);
 		$this->__addElement ("Institution", $row["institution"]);
 		$this->__addElement ("Street", $row["street"]);
@@ -252,10 +253,7 @@ class ilUserXMLWriter extends ilXmlWriter
 		$udf_data = new ilUserDefinedData($row['usr_id']);
 		$udf_data->addToXML($this, $this->settings);
 
-		$msgrs = array ("skype" => "im_skype", "yahoo" => "im_yahoo", "msn"=>"im_msn", "aim"=>"im_aim", "icq"=>"im_icq", "delicious" => "delicious", "external" => "ext_account", "jabber" => "im_jabber", "voip" => "im_voip");
-		foreach ($msgrs as $type => $fieldname) {
-			$this->__addElement("AccountInfo", $row[$fieldname], array("Type" => $type), "instant_messengers");
-		}
+		$this->__addElement("AccountInfo", $row["ext_account"], array("Type" => "external"));
 
 		$this->__addElement("GMapsInfo", null, array (
 			"longitude" => $row["longitude"],
@@ -273,10 +271,11 @@ class ilUserXMLWriter extends ilXmlWriter
 	
 	private function __handlePreferences ($prefs, $row) 
 	{		
-		
+		//todo nadia: test mail_address_option 
 		include_once ("Services/Mail/classes/class.ilMailOptions.php");
 		$mailOptions = new ilMailOptions($row["usr_id"]);
 		$prefs["mail_incoming_type"] = $mailOptions->getIncomingType();		
+		$prefs["mail_address_option"] = $mailOptions->getMailAddressOption();		
 		$prefs["mail_signature"] = $mailOptions->getSignature();
 		$prefs["mail_linebreak"] = $mailOptions->getLinebreak();
 		if (count($prefs))
@@ -394,6 +393,7 @@ class ilUserXMLWriter extends ilXmlWriter
 				'public_country',
 				'public_department',
 				'public_email',
+				'public_second_email',
 				'public_fax',
 				'public_hobby',
 				'public_institution',
@@ -410,6 +410,7 @@ class ilUserXMLWriter extends ilXmlWriter
 				/*'show_users_online',*/
 				'hide_own_online_status',
 				'bs_allow_to_contact_me',
+				'chat_osc_accept_msg',
 				'user_tz',
 				'weekstart',
 				'mail_incoming_type',

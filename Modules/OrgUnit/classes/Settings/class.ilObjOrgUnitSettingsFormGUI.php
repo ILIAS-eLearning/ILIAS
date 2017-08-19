@@ -1,5 +1,4 @@
 <?php
-require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 
 /**
  * Class ilObjOrgUnitSettingsFormGUI
@@ -40,7 +39,11 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI {
 
 
     public function __construct($parent_gui, ilObjOrgUnit $obj_orgu) {
-        global $tpl, $ilCtrl, $lng, $ilUser;
+        global $DIC;
+        $tpl = $DIC['tpl'];
+        $ilCtrl = $DIC['ilCtrl'];
+        $lng = $DIC['lng'];
+        $ilUser = $DIC['ilUser'];
         $this->parent_gui = $parent_gui;
         $this->obj_orgu = $obj_orgu;
         $this->tpl = $tpl;

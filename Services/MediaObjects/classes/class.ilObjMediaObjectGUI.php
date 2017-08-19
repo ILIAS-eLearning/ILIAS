@@ -160,6 +160,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			case "ilfilesystemgui":
 				include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 				$fs_gui = new ilFileSystemGUI(ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId());
+				$fs_gui->setAllowedSuffixes(ilObjMediaObject::getRestrictedFileTypes());
+				$fs_gui->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
 				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
 				$fs_gui->setTableId("mobfs".$this->object->getId());
 				$fs_gui->labelFile($this->object->getMediaItem("Standard")->getLocation(),
@@ -171,7 +173,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				}
 				$fs_gui->addCommand($this, "assignStandardObject", $this->lng->txt("cont_assign_std"));
 				$fs_gui->addCommand($this, "assignFullscreenObject", $this->lng->txt("cont_assign_full"));
+				ilObjMediaObject::renameExecutables(ilObjMediaObject::_getDirectory($this->object->getId()));	// see #20187
 				$ret = $this->ctrl->forwardCommand($fs_gui);
+				ilObjMediaObject::renameExecutables(ilObjMediaObject::_getDirectory($this->object->getId()));	// see #20187
+				include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
+				ilMediaSvgSanitizer::sanitizeDir(ilObjMediaObject::_getDirectory($this->object->getId()));	// see #20339
 				break;
 
 
@@ -235,6 +241,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$op1 = new ilRadioOption($lng->txt("cont_file"), "File");
 			$up = new ilFileInputGUI("", "standard_file");
 			$up->setSuffixes(ilObjMediaObject::getRestrictedFileTypes());
+			$up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
 			$up->setInfo("");
 			$op1->addSubItem($up);
 			$radio_prop->addOption($op1);
@@ -360,6 +367,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$op2 = new ilRadioOption($lng->txt("cont_file"), "File");
 			$up = new ilFileInputGUI("", "full_file");
 			$up->setSuffixes(ilObjMediaObject::getRestrictedFileTypes());
+			$up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
 			$up->setInfo("");
 			$op2->addSubItem($up);
 		$radio_prop2->addOption($op2);
@@ -510,10 +518,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		if ($orig_size = $std_item->getOriginalSize())
 		{
-			if ($orig_size["width"] == $std_item->getWidth() &&
-				$orig_size["height"] == $std_item->getHeight())
+			//if ($orig_size["width"] == $std_item->getWidth() &&
+			//	$orig_size["height"] == $std_item->getHeight())
+			if ($std_item->getWidth() == "" && $std_item->getHeight() == "")
 			{
 				$values["standard_size"] = "original";
+				$values["standard_width_height"]["width"] = $orig_size["width"];
+				$values["standard_width_height"]["height"] = $orig_size["height"];
 			}
 		}
 		$values["standard_caption"] = $std_item->getCaption();
@@ -789,7 +800,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		}
 	
-		ilUtil::renameExecutables($mob_dir);
+		ilObjMediaObject::renameExecutables($mob_dir);
+		include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
+		ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
 		$a_mob->update();		
 	}
 	
@@ -869,7 +882,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		if ($std_item->getLocationType() == "LocalFile")
 		{
 			$file = $mob_dir."/".$std_item->getLocation();
-			$size = getimagesize($file);
+
+			include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
+			$size = ilMediaImageUtil::getImageSize($file);
+
 			$std_item->setWidth($size[0]);
 			$std_item->setHeight($size[1]);
 			$this->object->update();
@@ -889,7 +905,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		if ($full_item->getLocationType() == "LocalFile")
 		{
 			$file = $mob_dir."/".$full_item->getLocation();
-			$size = getimagesize($file);
+			include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
+			$size = ilMediaImageUtil::getImageSize($file);
 			$full_item->setWidth($size[0]);
 			$full_item->setHeight($size[1]);
 			$this->object->update();
@@ -959,7 +976,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$std_item->setLocationType("LocalFile");
 			}
 			$this->object->setDescription($format);
-			
 			// determine width and height of known image types
 			$wh = ilObjMediaObject::_determineWidthHeight($format,
 				$_POST["standard_type"], $mob_dir."/".$location, $std_item->getLocation(),
@@ -969,7 +985,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			{
 				ilUtil::sendInfo($wh["info"], true);
 			}
-
 			$std_item->setWidth($wh["width"]);
 			$std_item->setHeight($wh["height"]);
 
@@ -1134,8 +1149,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				}
 			}
 
-			ilUtil::renameExecutables(ilObjMediaObject::_getDirectory($this->object->getId()));
-			
+			ilObjMediaObject::renameExecutables(ilObjMediaObject::_getDirectory($this->object->getId()));
+			include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
+			ilMediaSvgSanitizer::sanitizeDir(ilObjMediaObject::_getDirectory($this->object->getId()));	// see #20339
+
 			$this->object->update();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "edit");
@@ -1379,7 +1396,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$file_name, $file);
 
 		}
-		ilUtil::renameExecutables($mob_dir);
+		ilObjMediaObject::renameExecutables($mob_dir);
+		include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
+		ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
+
 		$this->ctrl->saveParameter($this, "cdir");
 		$this->ctrl->redirect($this, "editFiles");
 	}

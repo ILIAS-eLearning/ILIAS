@@ -94,6 +94,10 @@ class ilExcel
 		
 		$a_name = str_replace($invalid, "", $a_name);
 		
+		// #19056 - phpExcel only allows 31 chars
+		// see https://github.com/PHPOffice/PHPExcel/issues/79
+		$a_name = ilUtil::shortenText($a_name, 31); 
+		
 		$sheet = new PHPExcel_Worksheet($this->workbook, $a_name);
 		$this->workbook->addSheet($sheet);
 		$new_index = $this->workbook->getSheetCount()-1;
@@ -154,26 +158,60 @@ class ilExcel
 		// :TODO: does this make sense?
 		if(is_bool($a_value))
 		{
-			$a_value = $a_value
-				? $lng->txt("yes")
-				: $lng->txt("no");
+			$a_value = $this->prepareBooleanValue($a_value);
 		}
-		else if($a_value instanceof ilDate)
-		{
-			$a_value = PHPExcel_Shared_Date::stringToExcel($a_value->get(IL_CAL_DATE));			
-		}	
 		else if($a_value instanceof ilDateTime)
 		{
-			$a_value = PHPExcel_Shared_Date::stringToExcel($a_value->get(IL_CAL_DATETIME));
-		}
+			$a_value = $this->prepareDateValue($a_value);
+		}	
 		else if(is_string($a_value))
 		{
-			$a_value = strip_tags($a_value); // #14542
+			$a_value = $this->prepareString($a_value);
 		}
 		
 		return $a_value;
 	}
-	
+
+	/**
+	 * @param ilDateTime $a_value
+	 * @return string
+	 */
+	protected function prepareDateValue(ilDateTime $a_value)
+	{
+		switch(true)
+		{
+			case $a_value instanceof ilDate:
+				$a_value = PHPExcel_Shared_Date::stringToExcel($a_value->get(IL_CAL_DATE));
+				break;
+
+			default:
+				$a_value = PHPExcel_Shared_Date::stringToExcel($a_value->get(IL_CAL_DATETIME));
+				break;
+		}
+
+		return $a_value;
+	}
+
+	/**
+	 * @param bool $a_value
+	 * @return string
+	 */
+	protected function prepareBooleanValue($a_value)
+	{
+		global $lng;
+
+		return $a_value ? $lng->txt('yes') : $lng->txt('no');
+	}
+
+	/**
+	 * @param string $a_value
+	 * @return string
+	 */
+	protected function prepareString($a_value)
+	{
+		return strip_tags($a_value); // #14542
+	}
+
 	/**
 	 * Set date format
 	 * 
@@ -372,13 +410,12 @@ class ilExcel
 				$a_mime_type = ilMimeTypeUtil::APPLICATION__OCTET_STREAM;
 				break;
 		}
-		$ilPHPOutputDelivery = new ilPHPOutputDelivery();
-		$ilPHPOutputDelivery->start($a_file_name, $a_mime_type);
+		$tmp_name = ilUtil::ilTempnam();
 
 		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->format);
-		$writer->save(ilFileDelivery::DIRECT_PHP_OUTPUT);
+		$writer->save($tmp_name);
 
-		$ilPHPOutputDelivery->stop();
+		ilFileDelivery::deliverFileAttached($tmp_name, $a_file_name, $a_mime_type, true);
 	}
 	
 	/**

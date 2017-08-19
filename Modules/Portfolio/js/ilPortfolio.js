@@ -3,7 +3,7 @@ ilPortfolio = {
 	img_open: "templates/default/images/tree_exp.svg",
 	init: function()
 	{
-		$("a.ilPCMyCoursesToggle").bind('click', function(e) {			
+		$("a.ilPCMyCoursesToggle").on('click', function(e) {			
 			
 			// #15509
 			e.preventDefault();

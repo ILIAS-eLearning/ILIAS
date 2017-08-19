@@ -277,6 +277,12 @@ class ilGlossaryTerm
 			$def_obj = new ilGlossaryDefinition($def["id"]);
 			$def_obj->delete();
 		}
+
+		// delete term references
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
+		ilGlossaryTermReferences::deleteReferencesOfTerm($this->getId());
+
+		// delete glossary_term record
 		$ilDB->manipulate("DELETE FROM glossary_term ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 	}
@@ -352,9 +358,11 @@ class ilGlossaryTerm
 	 * @return	array			array of terms 
 	 */
 	static function getTermList($a_glo_id, $searchterm = "", $a_first_letter = "", $a_def = "",
-		$a_tax_node = 0, $a_add_amet_fields = false, array $a_amet_filter = null)
+		$a_tax_node = 0, $a_add_amet_fields = false, array $a_amet_filter = null, $a_include_references = false)
 	{
 		global $ilDB;
+
+		$join = $in = "";
 
 		$terms = array();
 
@@ -404,33 +412,53 @@ class ilGlossaryTerm
 		{
 			$searchterm.= " AND ".$ilDB->upper($ilDB->substr("term", 1, 1))." = ".$ilDB->upper($ilDB->quote($a_first_letter, "text"))." ";
 		}
-		
+
+		// include references
+		$where_glo_id_or = "";
+		if ($a_include_references)
+		{
+			$join.= " LEFT JOIN glo_term_reference tr ON (gt.id = tr.term_id) ";
+			if (is_array($a_glo_id))
+			{
+				$where_glo_id_or = " OR ".$ilDB->in("tr.glo_id", $a_glo_id, false, "integer");
+			}
+			else
+			{
+				$where_glo_id_or = " OR tr.glo_id = ".$ilDB->quote($a_glo_id, "integer");
+			}
+		}
+
 		// meta glossary
 		if (is_array($a_glo_id))
 		{
-			$where = $ilDB->in("glo_id", $a_glo_id, false, "integer");
+			$where = "(".$ilDB->in("gt.glo_id", $a_glo_id, false, "integer").$where_glo_id_or.")";
 		}
 		else
 		{
-			$where = " glo_id = ".$ilDB->quote($a_glo_id, "integer")." ";
+			$where = "(gt.glo_id = ".$ilDB->quote($a_glo_id, "integer").$where_glo_id_or.")";
 		}
 		
 		$where.= $in;
-		
+
+
 		$q = "SELECT DISTINCT(gt.term), gt.id, gt.glo_id, gt.language FROM glossary_term gt ".$join." WHERE ".$where.$searchterm." ORDER BY term";
+
+		//echo $q; exit;
+
 		$term_set = $ilDB->query($q);
-//var_dump($q);
+		$glo_ids = array();
 		while ($term_rec = $ilDB->fetchAssoc($term_set))
 		{
 			$terms[] = array("term" => $term_rec["term"],
 				"language" => $term_rec["language"], "id" => $term_rec["id"], "glo_id" => $term_rec["glo_id"]);
+			$glo_ids[] = $term_rec["glo_id"];
 		}
-		
+
 		// add advanced metadata
 		if ($a_add_amet_fields || is_array($a_amet_filter))
 		{			
 			include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
-			$terms = ilAdvancedMDValues::queryForRecords($a_glo_id, "term", $terms, "glo_id", "id", $a_amet_filter);
+			$terms = ilAdvancedMDValues::queryForRecords($glo_ids, "term", $terms, "glo_id", "id", $a_amet_filter);
 		}
 		return $terms;
 	}
@@ -534,7 +562,19 @@ class ilGlossaryTerm
 	static function getUsages($a_term_id)
 	{
 		include_once("./Services/Link/classes/class.ilInternalLink.php");
-		return (ilInternalLink::_getSourcesOfTarget("git", $a_term_id, 0));
+		$usages = (ilInternalLink::_getSourcesOfTarget("git", $a_term_id, 0));
+
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
+		foreach (ilGlossaryTermReferences::lookupReferencesOfTerm($a_term_id) as $glo_id)
+		{
+			$usages["glo:termref:".$glo_id.":-"] = array(
+				"type" => "glo:termref",
+				"id" => $glo_id,
+				"lang" => "-"
+			);
+		}
+
+		return $usages;
 	}	
 	
 	/**
@@ -586,7 +626,52 @@ class ilGlossaryTerm
 			//$new_def->getPageObject()->update();
 			
 		}
-		
+
+		// adv metadata
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+		$old_recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("glo", $old_term->getGlossaryId(), "term");
+		$new_recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("glo", $a_glossary_id, "term");
+		foreach($old_recs as $old_record_obj)
+		{
+			reset($new_recs);
+			foreach ($new_recs as $new_record_obj)
+			{
+				if ($old_record_obj->getRecordId() == $new_record_obj->getRecordId())
+				{
+					foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($old_record_obj->getRecordId()) as $def)
+					{
+						// now we need to copy $def->getFieldId() values from old term to new term
+						// how?
+						// clone values
+
+						$source_primary = array("obj_id"=>array("integer", $old_term->getGlossaryId()));
+						$source_primary["sub_type"] = array("text", "term");
+						$source_primary["sub_id"] = array("integer", $old_term->getId());
+						$source_primary["field_id"] = array("integer", $def->getFieldId());
+						$target_primary = array("obj_id"=>array("integer", $new_term->getGlossaryId()));
+						$target_primary["sub_type"] = array("text", "term");
+						$target_primary["sub_id"] = array("integer", $new_term->getId());
+
+						ilADTFactory::getInstance()->initActiveRecordByType();
+						$has_cloned = ilADTActiveRecordByType::cloneByPrimary(
+							"adv_md_values",
+							array(
+								"obj_id" => "integer",
+								"sub_type" => "text",
+								"sub_id" => "integer",
+								"field_id" => "integer"
+							),
+							$source_primary,
+							$target_primary,
+							array("disabled"=>"integer"));
+
+					}
+				}
+			}
+		}
+
+
 		return $new_term->getId();
 	}
 

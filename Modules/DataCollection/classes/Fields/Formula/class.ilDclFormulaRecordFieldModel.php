@@ -2,10 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordFieldModel.php');
-require_once('class.ilDclStack.php');
-require_once('class.ilDclExpressionParser.php');
-require_once('class.ilDclTokenizer.php');
 
 /**
  * Class ilDclBaseFieldModel
@@ -36,6 +32,14 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel {
 		parent::__construct($record, $field);
 
 		$this->expression = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
+	}
+
+
+	/**
+	 * @param ilConfirmationGUI $confirmation
+	 */
+	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {
+		return;
 	}
 
 

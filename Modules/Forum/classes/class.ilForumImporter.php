@@ -31,7 +31,7 @@ class ilForumImporter extends ilXmlImporter
 		{
 			$newObj = new ilObjForum();
 			$newObj->setType('frm');
-			$newObj->create(true);
+			$newObj->create();
 		}
 
 		include_once 'Modules/Forum/classes/class.ilForumXMLParser.php';

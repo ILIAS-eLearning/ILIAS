@@ -634,7 +634,10 @@ abstract class ilExplorerBaseGUI
 		$container_id = $this->getContainerId();
 		$container_outer_id = "il_expl2_jstree_cont_out_".$this->getId();
 
-		$tpl->addOnLoadCode($this->getOnLoadCode());
+		if (!$ilCtrl->isAsynch())
+		{
+			$tpl->addOnLoadCode($this->getOnLoadCode());
+		}
 
 		$etpl = new ilTemplate("tpl.explorer2.html", true, true, "Services/UIComponent/Explorer2");
 

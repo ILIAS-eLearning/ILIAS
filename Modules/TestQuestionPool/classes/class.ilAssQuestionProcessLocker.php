@@ -9,63 +9,155 @@
  */
 abstract class ilAssQuestionProcessLocker
 {
-	public function requestPersistWorkingStateLock()
+	/**
+	 * @param callable $operation
+	 */
+	protected function executeOperation(callable $operation)
 	{
-		// overwrite method in concrete locker if something to do
-	}
-	
-	public function releasePersistWorkingStateLock()
-	{
-		// overwrite method in concrete locker if something to do
+		$operation();
 	}
 
-	public function requestUserSolutionUpdateLock()
+	/**
+	 * @param callable $operation
+	 */
+	final public function executePersistWorkingStateLockOperation(callable $operation)
 	{
-		// overwrite method in concrete locker if something to do
-	}
-	
-	public function releaseUserSolutionUpdateLock()
-	{
-		// overwrite method in concrete locker if something to do
-	}
-
-	public function requestUserQuestionResultUpdateLock()
-	{
-		// overwrite method in concrete locker if something to do
-	}
-	
-	public function releaseUserQuestionResultUpdateLock()
-	{
-		// overwrite method in concrete locker if something to do
+		$this->onBeforeExecutingPersistWorkingStateOperation();
+		$this->executeOperation($operation);
+		$this->onAfterExecutingPersistWorkingStateOperation();
 	}
 
-	public function requestUserPassResultUpdateLock()
+	/**
+	 *
+	 */
+	protected function onBeforeExecutingPersistWorkingStateOperation()
 	{
-		// overwrite method in concrete locker if something to do
-	}
-	
-	public function releaseUserPassResultUpdateLock()
-	{
-		// overwrite method in concrete locker if something to do
 	}
 
-	public function requestUserTestResultUpdateLock()
+	/**
+	 *
+	 */
+	protected function onAfterExecutingPersistWorkingStateOperation()
 	{
-		// overwrite method in concrete locker if something to do
-	}
-	
-	public function releaseUserTestResultUpdateLock()
-	{
-		// overwrite method in concrete locker if something to do
-	}
-	
-	public function requestUserSolutionAdoptLock()
-	{
-		// overwrite method in concrete locker if something to do
 	}
 
-	public function releaseUserSolutionAdoptLock()
+	/**
+	 * @param callable $operation
+	 */
+	final public function executeUserSolutionUpdateLockOperation(callable $operation)
 	{
-		// overwrite method in concrete locker if something to do
+		$this->onBeforeExecutingUserSolutionUpdateOperation();
+		$this->executeOperation($operation);
+		$this->onAfterExecutingUserSolutionUpdateOperation();
+	}
+
+	/**
+	 *
+	 */
+	protected function onBeforeExecutingUserSolutionUpdateOperation()
+	{
+	}
+
+	/**
+	 *
+	 */
+	protected function onAfterExecutingUserSolutionUpdateOperation()
+	{
+	}
+
+	/**
+	 * @param callable $operation
+	 */
+	final public function executeUserQuestionResultUpdateOperation(callable $operation)
+	{
+		$this->onBeforeExecutingUserQuestionResultUpdateOperation();
+		$this->executeOperation($operation);
+		$this->onAfterExecutingUserQuestionResultUpdateOperation();
+	}
+
+	/**
+	 *
+	 */
+	protected function onBeforeExecutingUserQuestionResultUpdateOperation()
+	{
+	}
+
+	/**
+	 *
+	 */
+	protected function onAfterExecutingUserQuestionResultUpdateOperation()
+	{
+	}
+
+	/**
+	 * @param callable $operation
+	 */
+	final public function executeUserPassResultUpdateLockOperation(callable $operation)
+	{
+		$this->onBeforeExecutingUserPassResultUpdateOperation();
+		$this->executeOperation($operation);
+		$this->onAfterExecutingUserPassResultUpdateOperation();
+	}
+
+	/**
+	 *
+	 */
+	protected function onBeforeExecutingUserPassResultUpdateOperation()
+	{
+	}
+
+	/**
+	 *
+	 */
+	protected function onAfterExecutingUserPassResultUpdateOperation()
+	{
+	}
+
+	/**
+	 * @param callable $operation
+	 */
+	final public function executeUserTestResultUpdateLockOperation(callable $operation)
+	{
+		$this->onBeforeExecutingUserTestResultUpdateOperation();
+		$this->executeOperation($operation);
+		$this->onAfterExecutingUserTestResultUpdateOperation();
+	}
+
+	/**
+	 *
+	 */
+	protected function onBeforeExecutingUserTestResultUpdateOperation()
+	{
+	}
+
+	/**
+	 *
+	 */
+	protected function onAfterExecutingUserTestResultUpdateOperation()
+	{
+	}
+
+	/**
+	 * @param callable $operation
+	 */
+	final public function executeUserSolutionAdoptLockOperation(callable $operation)
+	{
+		$this->onBeforeExecutingUserSolutionAdoptOperation();
+		$this->executeOperation($operation);
+		$this->onAfterExecutingUserSolutionAdoptOperation();
+	}
+
+	/**
+	 *
+	 */
+	protected function onBeforeExecutingUserSolutionAdoptOperation()
+	{
+	}
+
+	/**
+	 *
+	 */
+	protected function onAfterExecutingUserSolutionAdoptOperation()
+	{
 	}
 }

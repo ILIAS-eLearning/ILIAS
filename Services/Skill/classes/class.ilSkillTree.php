@@ -123,6 +123,42 @@ class ilSkillTree extends ilTree
 		return (int) $path[1];
 	}
 
+	/**
+	 * Get max order nr
+	 *
+	 * @param int $a_par_id parent id
+	 * @param bool $a_templates templates? true/false
+	 * @return int max order nr
+	 */
+	function getMaxOrderNr($a_par_id, $a_templates = false)
+	{
+		if ($a_par_id != $this->readRootId())
+		{
+			$childs = $this->getChilds($a_par_id);
+		}
+		else
+		{
+			if ($a_templates)
+			{
+				$childs = $this->getChildsByTypeFilter($a_par_id,
+						array("skrt", "sktp", "sctp"));
+			}
+			else
+			{
+				$childs = $this->getChildsByTypeFilter($a_par_id,
+						array("skrt", "skll", "scat", "sktr"));
+			}
+		}
+
+		$max = 0;
+		foreach ($childs as $k => $c)
+		{
+			$max = max(array($c["order_nr"], $max));
+		}
+
+		return $max;
+	}
+
 
 }
 

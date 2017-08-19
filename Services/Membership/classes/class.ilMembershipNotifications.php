@@ -465,14 +465,18 @@ class ilMembershipNotifications
 	public static function getActiveUsersforAllObjects()
 	{
 		global $ilDB, $tree;
-		
+
+		$log = ilLoggerFactory::getLogger("mmbr");
+
+
 		$res = array();
 				
 		if(self::isActive())
 		{			
 			$objects = array();
 			
-			// user-preference data (MODE_SELF) 																		
+			// user-preference data (MODE_SELF)
+			$log->debug("read usr_pref");
 			$set = $ilDB->query("SELECT DISTINCT(keyword) keyword".
 				" FROM usr_pref".
 				" WHERE ".$ilDB->like("keyword", "text", "grpcrs_ntf_%").
@@ -480,15 +484,16 @@ class ilMembershipNotifications
 			while($row = $ilDB->fetchAssoc($set))
 			{
 				$ref_id = substr($row["keyword"], 11);					
-				$objects[] = (int)$ref_id;																
+				$objects[(int)$ref_id] = (int)$ref_id;
 			}			
 			
 			// all other modes
+			$log->debug("read member_noti");
 			$set = $ilDB->query("SELECT ref_id".
 				" FROM member_noti");
 			while($row = $ilDB->fetchAssoc($set))
 			{					
-				$objects[] = (int)$row["ref_id"];
+				$objects[(int)$row["ref_id"]] = (int)$row["ref_id"];
 			}
 			
 			// this might be slow but it is to be used in CRON JOB ONLY!
@@ -497,6 +502,7 @@ class ilMembershipNotifications
 				// :TODO: enough checking?
 				if(!$tree->isDeleted($ref_id))
 				{
+					$log->debug("get active users");
 					$noti = new self($ref_id);
 					$active = $noti->getActiveUsers();
 					if(sizeof($active))

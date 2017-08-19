@@ -6,7 +6,7 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ilCtrl_Calls ilPersonalSettingsGUI:
+ * @ilCtrl_Calls ilPersonalSettingsGUI: ilMailOptionsGUI
  */
 class ilPersonalSettingsGUI
 {
@@ -44,13 +44,36 @@ class ilPersonalSettingsGUI
 	*/
 	function executeCommand()
 	{
-		global $ilUser, $ilCtrl, $tpl, $ilTabs, $lng;
-		
+		global $DIC;
+
 		$next_class = $this->ctrl->getNextClass();
 
 		switch($next_class)
 		{
-			
+			case 'ilmailoptionsgui':
+				require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
+				if(!$DIC->rbac()->system()->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
+				{
+					$this->ilias->raiseError($DIC->language()->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+				}
+
+				$this->__initSubTabs('showMailOptions');
+				$DIC->tabs()->activateTab('mail_settings');
+				$this->setHeader();
+
+				require_once 'Services/Mail/classes/class.ilMailOptionsGUI.php';
+				$this->ctrl->forwardCommand(new ilMailOptionsGUI());
+				break;
+
+			case 'ilpersonalchatsettingsformgui':
+				$this->__initSubTabs($this->ctrl->getCmd());
+				$this->setHeader();
+
+				require_once 'Modules/Chatroom/classes/class.ilPersonalChatSettingsFormGUI.php';
+				$chatSettingsGui = new ilPersonalChatSettingsFormGUI();
+				$this->ctrl->forwardCommand($chatSettingsGui);
+				break;
+
 			default:
 				$cmd = $this->ctrl->getCmd("showGeneralSettings");
 				$this->$cmd();
@@ -59,234 +82,6 @@ class ilPersonalSettingsGUI
 		return true;
 	}
 
-	/** 
-	 * Called if the user pushes the submit button of the mail options form.
-	 * Passes the post data to the mail options model instance to store them.
-	 */
-	public function saveMailOptions()
-	{
-		/**
-		 * @var $ilTabs ilTabsGUI
-		 * @var $lng ilLanguage
-		 * @var $rbacsystem ilRbacSystem
-		 * @var $ilUser ilObjUser
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilUser, $lng, $ilTabs, $ilSetting, $rbacsystem;
-
-		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
-		if(!$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
-		{
-			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-		}
-		
-		$lng->loadLanguageModule('mail');
-		
-		$this->__initSubTabs('showMailOptions');
-		$ilTabs->activateTab('mail_settings');
-		
-		$this->setHeader();
-		
-		require_once 'Services/Mail/classes/class.ilMailOptions.php';
-		$mailOptions = new ilMailOptions($ilUser->getId());
-		if($ilSetting->get('usr_settings_hide_mail_incoming_mail') != '1' && 
-		   $ilSetting->get('usr_settings_disable_mail_incoming_mail') != '1')
-		{
-			$incoming_type = (int)$_POST['incoming_type'];
-		}
-		else
-		{
-			$incoming_type = $mailOptions->getIncomingType();
-		}			
-		
-		$this->initMailOptionsForm();
-		if($this->form->checkInput())
-		{		
-			$mailOptions->updateOptions(
-				ilUtil::stripSlashes($_POST['signature']),
-				(int)$_POST['linebreak'],
-				$incoming_type,
-				(int)$_POST['cronjob_notification']
-			);
-			
-			ilUtil::sendSuccess($lng->txt('mail_options_saved'));			
-		}
-		
-		if(!isset($_POST['incoming_type']))
-		{
-			$_POST['incoming_type'] = $mailOptions->getIncomingType();
-		}
-		
-		$this->form->setValuesByPost();
-		
-		$this->tpl->setContent($this->form->getHTML());
-		$this->tpl->show();
-	}
-
-	/** 
-	 * Initialises the mail options form
-	 */
-	private function initMailOptionsForm()
-	{
-		global $ilCtrl, $ilSetting, $lng, $ilUser;	
-		
-		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-		$this->form = new ilPropertyFormGUI();
-		
-		$this->form->setFormAction($ilCtrl->getFormAction($this, 'saveMailOptions'));
-		$this->form->setTitle($lng->txt('mail_settings'));
-			
-		// BEGIN INCOMING
-		include_once 'Services/Mail/classes/class.ilMailOptions.php';
-		if($ilSetting->get('usr_settings_hide_mail_incoming_mail') != '1')
-		{
-			$options = array(
-				IL_MAIL_LOCAL => $this->lng->txt('mail_incoming_local'), 
-				IL_MAIL_EMAIL => $this->lng->txt('mail_incoming_smtp'),
-				IL_MAIL_BOTH => $this->lng->txt('mail_incoming_both')
-			);
-			$si = new ilSelectInputGUI($lng->txt('mail_incoming'), 'incoming_type');
-			$si->setOptions($options);
-			if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())) ||
-			   $ilSetting->get('usr_settings_disable_mail_incoming_mail') == '1')
-			{
-				$si->setDisabled(true);	
-			}
-			$this->form->addItem($si);
-		}
-		
-		// BEGIN LINEBREAK_OPTIONS
-		$options = array();
-		for($i = 50; $i <= 80; $i++)
-		{
-			$options[$i] = $i; 
-		}	
-		$si = new ilSelectInputGUI($lng->txt('linebreak'), 'linebreak');
-		$si->setOptions($options);			
-		$this->form->addItem($si);
-		
-		// BEGIN SIGNATURE
-		$ta = new ilTextAreaInputGUI($lng->txt('signature'), 'signature');
-		$ta->setRows(10);
-		$ta->setCols(60);			
-		$this->form->addItem($ta);
-		
-		// BEGIN CRONJOB NOTIFICATION
-		if($ilSetting->get('mail_notification'))
-		{
-			$cb = new ilCheckboxInputGUI($lng->txt('cron_mail_notification'), 'cronjob_notification');			
-			$cb->setInfo($lng->txt('mail_cronjob_notification_info'));
-			$cb->setValue(1);
-			$this->form->addItem($cb);
-		}		
-		
-		$this->form->addCommandButton('saveMailOptions', $lng->txt('save'));
-	}
-	
-	/** 
-	 * Fetches data from model and loads this data into form
-	 */
-	private function setMailOptionsValuesByDB()
-	{
-		global $ilUser, $ilSetting;		
-		
-		require_once 'Services/Mail/classes/class.ilMailOptions.php';
-		$mailOptions = new ilMailOptions($ilUser->getId());
-		
-		$data = array(
-			'linebreak' => $mailOptions->getLinebreak(),
-			'signature' => $mailOptions->getSignature(),
-			'cronjob_notification' => $mailOptions->getCronjobNotification()
-		);
-		
-		if($ilSetting->get('usr_settings_hide_mail_incoming_mail') != '1')
-		{		
-			$data['incoming_type'] = $mailOptions->getIncomingType();
-		}
-		
-		$this->form->setValuesByArray($data);
-	}
-
-	/** 
-	 * Called to display the mail options form
-	 */
-	public function showMailOptions()
-	{
-		/**
-		 * @var $ilTabs ilTabsGUI
-		 * @var $lng ilLanguage
-		 * @var $rbacsystem ilRbacSystem
-		 */
-		global $ilTabs, $lng, $rbacsystem;
-
-		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
-		if(!$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
-		{
-			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-		}
-		
-		$lng->loadLanguageModule('mail');
-		
-		$this->__initSubTabs('showMailOptions');
-		$ilTabs->activateTab('mail_settings');
-
-		$this->setHeader();
-
-		$this->initMailOptionsForm();
-		$this->setMailOptionsValuesByDB();
-
-		$this->tpl->setContent($this->form->getHTML());
-		$this->tpl->show();
-	}
-
-/*	function showjsMath()
-	{
-		global $lng, $ilCtrl, $tpl, $ilUser;
-
-		$this->__initSubTabs("showjsMath");
-		$this->setHeader();
-
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($ilCtrl->getFormAction($this));
-		$form->setTitle($lng->txt("jsmath_settings"));
-
-		// Enable jsMath
-		include_once "./Services/Administration/classes/class.ilSetting.php";
-		$jsMathSetting = new ilSetting("jsMath");
-		$enable = new ilCheckboxInputGUI($lng->txt("jsmath_enable_user"), "enable");
-		$checked = ($ilUser->getPref("js_math") === FALSE) ? $jsMathSetting->get("makedefault") : $ilUser->getPref("js_math");
-		$enable->setChecked($checked);
-		$enable->setInfo($lng->txt("jsmath_enable_user_desc"));
-		$form->addItem($enable);
-
-		$form->addCommandButton("savejsMath", $lng->txt("save"));
-		$form->addCommandButton("showjsMath", $lng->txt("cancel"));
-
-		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-		$this->tpl->show();
-	}
-
-	function savejsMath()
-	{
-		global $ilCtrl, $ilUser;
-
-		include_once "./Services/Administration/classes/class.ilSetting.php";
-		$jsMathSetting = new ilSetting("jsMath");
-		if ($jsMathSetting->get("enable"))
-		{
-			if ($_POST["enable"])
-			{
-				$ilUser->writePref("js_math", "1");
-			}
-			else
-			{
-				$ilUser->writePref("js_math", "0");
-			}
-		}
-		$ilCtrl->redirect($this, "showjsMath");
-	}
-*/
 	// init sub tabs
 	function __initSubTabs($a_cmd)
 	{
@@ -299,9 +94,6 @@ class ilPersonalSettingsGUI
 		
 		$showPassword = ($a_cmd == 'showPassword') ? true : false;
 		$showGeneralSettings = ($a_cmd == 'showGeneralSettings') ? true : false;
-		$showMailOptions = ($a_cmd == 'showMailOptions') ? true : false;
-//		$showjsMath = ($a_cmd == 'showjsMath') ? true : false;
-		$showChatOptions = ($a_cmd == 'showChatOptions') ? true : false;
 
 		// old profile
 
@@ -316,30 +108,26 @@ class ilPersonalSettingsGUI
 				"", "", "", $showPassword);
 		}
 
-		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
+		require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 		if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
 		{
-			$ilTabs->addTarget("mail_settings", $this->ctrl->getLinkTarget($this, "showMailOptions"), "", "", "", $showMailOptions);
+			$ilTabs->addTarget(
+				"mail_settings",
+				$this->ctrl->getLinkTargetByClass('ilMailOptionsGUI'), "", array('ilMailOptionsGUI')
+			);
 		}
 
-		$chatSettings = new ilSetting('chatroom');
-		$notificationSettings = new ilSetting('notifications');
-		if(
-			$chatSettings->get('chat_enabled', false) &&
-			$notificationSettings->get('enable_osd', false) &&
-			$chatSettings->get('play_invitation_sound', false)
-		)
-		{		
-			$ilTabs->addTarget('chat_settings', $this->ctrl->getLinkTarget($this, 'showChatOptions'), '', '', '', $showChatOptions);
+		require_once 'Modules/Chatroom/classes/class.ilPersonalChatSettingsFormGUI.php';
+		$chatSettingsGui = new ilPersonalChatSettingsFormGUI(false);
+		if($chatSettingsGui->isAccessible())
+		{
+			/** @var $ilTabs ilTabsGUI */
+			$ilTabs->addTarget(
+				'chat_settings', $this->ctrl->getLinkTarget($chatSettingsGui, 'showChatOptions'), '', 'ilPersonalChatSettingsFormGUI', '', method_exists($chatSettingsGui, $a_cmd)
+			);
 		}
 
 		include_once "./Services/Administration/classes/class.ilSetting.php";
-/*		$jsMathSetting = new ilSetting("jsMath");
-		if ($jsMathSetting->get("enable"))
-		{
-			$ilTabs->addTarget("jsmath_extt_jsmath", $this->ctrl->getLinkTarget($this, "showjsMath"),
-									 "", "", "", $showjsMath);
-		}*/
 		
 		if((bool)$ilSetting->get('user_delete_own_account') &&
 			$ilUser->getId() != SYSTEM_USER_ID)
@@ -350,120 +138,12 @@ class ilPersonalSettingsGUI
 	}
 
 	/**
-	 * @return ilPropertyFormGUI
-	 */
-	private function getChatSettingsForm()
-	{
-		/**
-		 * @var $ilSetting ilSetting
-		 * @var $lng       ilLanguage
-		 */
-		global $lng;
-
-		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-		$form = new ilPropertyFormGUI();
-
-		$form->setFormAction($this->ctrl->getFormAction($this, 'saveChatOptions'));
-		$form->setTitle($lng->txt("chat_settings"));
-
-		$chb = new ilCheckboxInputGUI('', 'play_invitation_sound');
-		$chb->setOptionTitle($this->lng->txt('play_invitation_sound'));
-		$form->addItem($chb);
-
-		$form->addCommandButton("saveChatOptions", $lng->txt("save"));
-
-		return $form;
-	}
-
-	/**
-	 *
-	 */
-	public function saveChatOptions()
-	{
-		/**
-		 * @var $ilUser    ilObjUser
-		 * @var $ilSetting ilSetting
-		 * @var $lng       ilLanguage
-		 * @var $ilCtrl    ilCtrl
-		 */
-		global $ilUser, $lng, $ilCtrl;
-
-		$chatSettings         = new ilSetting('chatroom');
-		$notificationSettings = new ilSetting('notifications');
-		if(!(
-			$chatSettings->get('chat_enabled', false) &&
-			$notificationSettings->get('enable_osd', false) &&
-			$chatSettings->get('play_invitation_sound', false)
-		)
-		)
-		{
-			$ilCtrl->redirect($this);
-		}
-
-		$form = $this->getChatSettingsForm();
-		if(!$form->checkInput())
-		{
-			$this->showChatOptions($form);
-			return;
-		}
-
-		$ilUser->setPref('chat_play_invitation_sound', (int)$form->getInput('play_invitation_sound'));
-		$ilUser->writePrefs();
-
-		ilUtil::sendSuccess($lng->txt('saved_successfully'));
-		$this->showChatOptions($form);
-	}
-
-	/**
 	 * Set header
 	 */
 	public function setHeader()
 	{
 		$this->tpl->setVariable('HEADER', $this->lng->txt('personal_settings'));
 	}
-
-	/**
-	 * @param ilPropertyFormGUI $form
-	 */
-	public function showChatOptions(ilPropertyFormGUI $form = null)
-	{
-		/**
-		 * @var $ilUser ilObjUser
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $ilUser, $ilCtrl;
-
-		$chatSettings = new ilSetting('chatroom');
-		$notificationSettings = new ilSetting('notifications');
-		if(!(
-			$chatSettings->get('chat_enabled', false) &&
-			$notificationSettings->get('enable_osd', false) &&
-			$chatSettings->get('play_invitation_sound', false)
-		))
-		{
-			$ilCtrl->redirect($this);
-		}
-
-		$this->__initSubTabs('showChatOptions');
-		$this->setHeader();
-
-		if($form)
-		{
-			$form->setValuesByPost();
-		}
-		else
-		{
-			$form = $this->getChatSettingsForm();
-			$form->setValuesByArray(array(
-				'play_invitation_sound' => $ilUser->getPref('chat_play_invitation_sound')
-			));
-		}
-
-		$this->tpl->setContent($form->getHTML());
-		$this->tpl->show();
-	}
-	
-	
 	//
 	//
 	//	PASSWORD FORM
@@ -545,19 +225,8 @@ class ilPersonalSettingsGUI
 			$ipass->setRequired(true);
 			$ipass->setInfo(ilUtil::getPasswordRequirementsInfo());
 
-			if ($ilSetting->get("passwd_auto_generate") == 1)	// auto generation list
-			{
-				$ipass->setPreSelection(true);
-				
-				$this->form->addItem($ipass);
-				$this->form->addCommandButton("savePassword", $lng->txt("save"));
-				$this->form->addCommandButton("showPassword", $lng->txt("new_list_password"));
-			}
-			else  								// user enters password
-			{
-				$this->form->addItem($ipass);
-				$this->form->addCommandButton("savePassword", $lng->txt("save"));
-			}
+			$this->form->addItem($ipass);
+			$this->form->addCommandButton("savePassword", $lng->txt("save"));
 			
 			switch ($ilUser->getAuthMode(true))
 			{
@@ -650,17 +319,7 @@ class ilPersonalSettingsGUI
 				}
 			}
 
-			// select password from auto generated passwords
-			if ($this->ilias->getSetting("passwd_auto_generate") == 1 &&
-				(!ilUtil::isPassword($_POST["new_password"])))
-			{
-				$error = true;
-				$np->setAlert($this->lng->txt("passwd_not_selected"));
-			}
-				
-	
-			if ($this->ilias->getSetting("passwd_auto_generate") != 1 &&
-				!ilUtil::isPassword($_POST["new_password"],$custom_error))
+			if(!ilUtil::isPassword($_POST["new_password"],$custom_error))
 			{
 				$error = true;
 				if ($custom_error != '')
@@ -673,18 +332,15 @@ class ilPersonalSettingsGUI
 				}
 			}
 			$error_lng_var = '';
-			if(
-				$this->ilias->getSetting("passwd_auto_generate") != 1 &&
-				!ilUtil::isPasswordValidForUserContext($_POST["new_password"], $ilUser, $error_lng_var)
-			)
+			if(!ilUtil::isPasswordValidForUserContext($_POST["new_password"], $ilUser, $error_lng_var))
 			{
 				ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 				$np->setAlert($this->lng->txt($error_lng_var));
 				$error = true;
 			}
-			if ($this->ilias->getSetting("passwd_auto_generate") != 1 &&
+			if(
 				($ilUser->isPasswordExpired() || $ilUser->isPasswordChangeDemanded()) &&
-				($_POST["current_password"] == $_POST["new_password"]))
+				$_POST["current_password"] == $_POST["new_password"])
 			{
 				$error = true;
 				$np->setAlert($this->lng->txt("new_pass_equals_old_pass"));
@@ -775,12 +431,8 @@ class ilPersonalSettingsGUI
 	*/
 	function showGeneralSettings($a_no_init = false)
 	{
-		global $ilTabs, $ilToolbar, $ilCtrl;
-		
-		// test to other base class
-//		$ilToolbar->addButton("test",
-//			$ilCtrl->getLinkTargetByClass(array("ilmailgui","ilmailformgui"), "mailUser"));
-		
+		global $ilTabs;
+
 		$this->__initSubTabs("showPersonalData");
 		$ilTabs->activateTab("general_settings");
 
@@ -826,29 +478,23 @@ class ilPersonalSettingsGUI
 		// skin/style
 		if ($this->userSettingVisible("skin_style"))
 		{
-			$templates = $styleDefinition->getAllTemplates();
-			if (is_array($templates))
-			{ 
+			$skins = $styleDefinition->getAllSkins();
+			if (is_array($skins))
+			{
 				$si = new ilSelectInputGUI($this->lng->txt("skin_style"), "skin_style");
-				
-				$options = array();
-				foreach($templates as $template)
-				{
-					// get styles information of template
-					$styleDef = new ilStyleDefinition($template["id"]);
-					$styleDef->startParsing();
-					$styles = $styleDef->getStyles();
 
-					foreach($styles as $style)
+				$options = array();
+				foreach($skins as $skin)
+				{
+					foreach($skin->getStyles() as $style)
 					{
 						include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
-						if (!ilSystemStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+						if (!ilSystemStyleSettings::_lookupActivatedStyle($skin->getId(),$style->getId()) || $style->isSubstyle())
 						{
 							continue;
 						}
 
-						$options[$template["id"].":".$style["id"]] =
-							$styleDef->getTemplateName()." / ".$style["name"];
+						$options[$skin->getId().":".$style->getId()] = $skin->getName()." / ".$style->getName();
 					}
 				}
 				$si->setOptions($options);
@@ -1199,7 +845,7 @@ class ilPersonalSettingsGUI
 			$user_settings->setTimeFormat((int)$this->form->getInput("time_format"));
 			$user_settings->save();
 						
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			ilUtil::sendSuccess($lng->txtlng("common", "msg_obj_modified", $ilUser->getLanguage()), true);
 			$ilCtrl->redirect($this, "showGeneralSettings");
 		}
 
@@ -1281,8 +927,7 @@ class ilPersonalSettingsGUI
 				
 		// see ilStartupGUI::showLogout()
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
-		$ilAuth->logout();
-		session_destroy();
+		$GLOBALS['DIC']['ilAuthSession']->logout();
 		
 		ilUtil::redirect("login.php?target=usr_".md5("usrdelown"));		
 	}
@@ -1372,9 +1017,7 @@ class ilPersonalSettingsGUI
 		$ilUser->delete();
 
 		// terminate session
-		$ilAuth->logout();
-		session_destroy();		
-		
+		$GLOBALS['DIC']['ilAuthSession']->logout();
 		ilUtil::redirect("login.php?accdel=1");		 		
 	}
 }

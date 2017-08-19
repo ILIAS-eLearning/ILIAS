@@ -73,9 +73,14 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			if($rbacsystem->checkAccess("internal_mail", $mail->getMailObjectReferenceId()))
 			{							
 				$this->addMultiCommand("mailselectedusers", $this->lng->txt("send_mail"));
-				$this->addColumn("", "", 1);
-				$this->has_multi = true;
-			}			
+			}
+			$this->lng->loadLanguageModule('user');
+			$this->addMultiCommand(
+				'addToClipboard',
+				$this->lng->txt('clipboard_add_btn')
+			);
+			$this->addColumn("", "", 1);
+			$this->has_multi = true;
 		}
 
 		$labels = $this->getSelectableColumns();
@@ -94,7 +99,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		{
 			$this->addColumn($this->lng->txt("actions"), "");
 		}
-
+		$this->setSelectAllCheckbox('uid');
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
@@ -115,7 +120,8 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$this->getItems();
 		
 		// #13807
-		$this->has_edit = $rbacsystem->checkAccess('edit_learning_progress',$this->ref_id);
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		$this->has_edit = ilLearningProgressAccess::checkPermission('edit_learning_progress', $this->ref_id);
 		
 		/* currently not active, needs to be revised
 		include_once "Services/Object/classes/class.ilObjectLP.php";

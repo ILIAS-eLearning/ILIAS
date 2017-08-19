@@ -341,7 +341,12 @@ class EvalMath {
                 if (in_array($fnn, $this->fb)) { // built-in function:
                     if (is_null($op1 = $stack->pop())) return $this->trigger("internal error");
                     $fnn = preg_replace("/^arc/", "a", $fnn); // for the 'arc' trig synonyms
-                    if ($fnn == 'ln') $fnn = 'log';
+                    if ($fnn == 'log') {
+                    	$fnn = 'log10';
+                    } elseif ($fnn == 'ln') {
+                    	$fnn = 'log';
+                    }
+                    
                     $stack->push($fnn($op1)); // 'eval()' can be easily avoided here
                 } elseif (array_key_exists($fnn, $this->f)) { // user function
                     // get args

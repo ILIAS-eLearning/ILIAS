@@ -1,10 +1,5 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/Object/classes/class.ilObjectGUI.php");
-require_once("./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminLibrariesFormGUI.php");
-require_once("./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminTableGUI.php");
-require_once("./Modules/Bibliographic/classes/Admin/class.ilBibliographicSetting.php");
-require_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
 
 /**
  * Bibliographic Administration Settings.
@@ -36,7 +31,9 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 * @param ilObjBibliographicAdminGUI $parent_gui
 	 */
 	public function __construct($parent_gui) {
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		$this->parent_gui = $parent_gui;
@@ -50,7 +47,8 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 *
 	 */
 	public function executeCommand() {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$cmd = $ilCtrl->getCmd();
 		switch ($cmd) {
 			case 'view':
@@ -84,7 +82,8 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 * @return bool
 	 */
 	public function view() {
-		global $ilToolbar;
+		global $DIC;
+		$ilToolbar = $DIC['ilToolbar'];
 		/**
 		 * @var $ilToolbar ilToolbarGUI;
 		 */
@@ -112,10 +111,10 @@ class ilObjBibliographicAdminLibrariesGUI {
 		$result = array();
 		foreach ($settings as $set) {
 			$result[] = array(
-				"id" => $set->getId(),
+				"id"   => $set->getId(),
 				"name" => $set->getName(),
-				"url" => $set->getUrl(),
-				"img" => $set->getImg()
+				"url"  => $set->getUrl(),
+				"img"  => $set->getImg(),
 			);
 		}
 		$table->setData($result);
@@ -130,7 +129,7 @@ class ilObjBibliographicAdminLibrariesGUI {
 	public function add() {
 		$form = new ilObjBibliographicAdminLibrariesFormGUI($this, new ilBibliographicSetting());
 		$this->parent_gui->tpl->setContent($form->getHTML());
-		$this->parent_gui->tabs_gui->setTabActive('settings');
+		$this->parent_gui->getTabsGui()->setTabActive('settings');
 	}
 
 
@@ -189,5 +188,3 @@ class ilObjBibliographicAdminLibrariesGUI {
 		$this->parent_gui->tpl->setContent($form->getHTML());
 	}
 }
-
-?>

@@ -27,7 +27,9 @@ class ilFileVersionTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $confirmDelete = false)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -86,7 +88,10 @@ class ilFileVersionTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		$hist_id = $a_set["hist_entry_id"];
 		

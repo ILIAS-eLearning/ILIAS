@@ -81,11 +81,6 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		}
 
 		// delete meta data of scorm content object
-/*
-		$nested = new ilNestedSetXML();
-		$nested->init($this->getId(), $this->getType());
-		$nested->deleteAllDBData();
-*/
 		$this->deleteMetaData();
 
 		// delete data directory

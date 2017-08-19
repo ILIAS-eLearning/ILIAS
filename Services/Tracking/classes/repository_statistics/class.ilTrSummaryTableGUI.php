@@ -20,7 +20,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_print_mode = false)
 	{
 		global $ilCtrl, $objDefinition;
-
+		
 		$this->setId("trsmy");
 
 		$this->ref_id = $a_ref_id;
@@ -67,12 +67,12 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$this->addColumn($this->lng->txt("action"));
 		}
 		
-		$this->initFilter();
-
+		
 		// $this->setExternalSorting(true);
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormActionByClass(get_class($this)));
 		$this->setRowTemplate("tpl.trac_summary_row.html", "Services/Tracking");
+		$this->initFilter();
 		
 		$this->getItems($a_parent_obj->getObjId(), $a_ref_id);
 	}
@@ -205,7 +205,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		
 		if($this->is_root)
 		{
-			return parent::initFilter(true, false);
+			return parent::initBaseFilter(true, false);
 		}
 		
 		// show only if extended data was activated in lp settings
@@ -333,7 +333,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	function getItems($a_object_id, $a_ref_id)
 	{
 		global $lng, $rbacsystem;
-
+		
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 
 		$preselected_obj_ids = $filter = NULL;
@@ -348,7 +348,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			// using summary filters
 			$filter = $this->getCurrentFilter();
 		}
-
+		
 		$data = ilTrQuery::getObjectsSummaryForObject(
 				$a_object_id,
 				$a_ref_id,
@@ -402,8 +402,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			{
 				$valid = false;
 				foreach($result["ref_ids"] as $check_ref_id)
-				{					
-					if($rbacsystem->checkAccess("read_learning_progress", $check_ref_id))
+				{
+					include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+					if(ilLearningProgressAccess::checkPermission('read_learning_progress', $check_ref_id))
 					{
 						$valid = true;
 						break;
@@ -574,7 +575,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				$id = substr($id, 0, $pos);
 			}
 		}
-
+		
 		if(trim($value) == "")
 		{
 			if($id == "title")
@@ -753,7 +754,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 	protected function isArrayColumn($a_name)
 	{
-		if(in_array($a_name, array("country", "gender", "city", "language", "status", "mark")))
+		if(in_array($a_name, array("country", "gender", "city", "language", "status", "mark", 'sel_country')))
 		{
 			return true;
 		}
@@ -847,7 +848,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			}
 			else
 			{
-				foreach($a_set[$c] as $idx => $value)
+				foreach((array) $a_set[$c] as $idx => $value)
 				{
 					if($c == "status")
 					{
@@ -943,7 +944,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			}
 			else
 			{
-				foreach($a_set[$c] as $idx => $value)
+				foreach((array) $a_set[$c] as $idx => $value)
 				{
 					if($c != "status")
 					{

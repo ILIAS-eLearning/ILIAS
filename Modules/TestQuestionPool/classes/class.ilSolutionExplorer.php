@@ -113,7 +113,7 @@ class ilSolutionExplorer extends ilExplorer
 		return '';
 	}
 
-	function isClickable($a_type, $a_ref_id)
+	function isClickable($a_type, $a_ref_id = 0)
 	{
 		return $a_type == $this->selectable_type and $a_ref_id != $this->ref_id;
 	}

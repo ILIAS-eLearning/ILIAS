@@ -61,7 +61,7 @@ class ilPersonalProfileGUI
 				$ilCtrl->forwardCommand($pub_profile_gui);
 				$tpl->show();
 				break;
-
+			
 			default:
 				$this->setTabs();
 				$cmd = $this->ctrl->getCmd("showPersonalData");							
@@ -229,7 +229,7 @@ class ilPersonalProfileGUI
 		// if check on Institute
 		$val_array = array("institution", "department", "upload", "street",
 			"zip", "city", "country", "phone_office", "phone_home", "phone_mobile",
-			"fax", "email", "hobby", "matriculation");
+			"fax", "email", "second_email", "hobby", "matriculation");
 
 		// set public profile preferences
 		foreach($val_array as $key => $value)
@@ -243,20 +243,6 @@ class ilPersonalProfileGUI
 				$ilUser->setPref("public_".$value,"n");
 			}
 		}
-
-		$d_set = new ilSetting("delicious");
-		if ($d_set->get("user_profile"))
-		{
-			if (($_POST["chk_delicious"]) == "on")
-			{
-				$ilUser->setPref("public_delicious","y");
-			}
-			else
-			{
-				$ilUser->setPref("public_delicious","n");
-			}
-		}
-
 
 		// check dynamically required fields
 		foreach($this->settings as $key => $val)
@@ -300,6 +286,15 @@ class ilPersonalProfileGUI
 			if (!ilUtil::is_email($_POST["usr_email"]) and !empty($_POST["usr_email"]) and $form_valid)
 			{
 				ilUtil::sendFailure($this->lng->txt("email_not_valid"));
+				$form_valid = false;
+			}
+		}
+		// check second email
+		if ($this->workWithUserSetting("second_email"))
+		{
+			if (!ilUtil::is_email($_POST["usr_second_email"]) and !empty($_POST["usr_second_email"]) and $form_valid)
+			{
+				ilUtil::sendFailure($this->lng->txt("second_email_not_valid"));
 				$form_valid = false;
 			}
 		}
@@ -366,6 +361,10 @@ class ilPersonalProfileGUI
 		{
 			$ilUser->setEmail(ilUtil::stripSlashes($_POST["usr_email"]));
 		}
+		if ($this->workWithUserSetting("second_email"))
+		{
+			$ilUser->setSecondEmail(ilUtil::stripSlashes($_POST["usr_second_email"]));
+		}
 		if ($this->workWithUserSetting("hobby"))
 		{
 			$ilUser->setHobby(ilUtil::stripSlashes($_POST["usr_hobby"]));
@@ -377,25 +376,6 @@ class ilPersonalProfileGUI
 		if ($this->workWithUserSetting("matriculation"))
 		{
 			$ilUser->setMatriculation(ilUtil::stripSlashes($_POST["usr_matriculation"]));
-		}
-
-		// delicious
-		$d_set = new ilSetting("delicious");
-		if ($d_set->get("user_profile"))
-		{
-			$ilUser->setDelicious(ilUtil::stripSlashes($_POST["usr_delicious"]));
-		}
-
-		// set instant messengers
-		if ($this->workWithUserSetting("instant_messengers"))
-		{
-			$ilUser->setInstantMessengerId('icq',ilUtil::stripSlashes($_POST["usr_im_icq"]));
-			$ilUser->setInstantMessengerId('yahoo',ilUtil::stripSlashes($_POST["usr_im_yahoo"]));
-			$ilUser->setInstantMessengerId('msn',ilUtil::stripSlashes($_POST["usr_im_msn"]));
-			$ilUser->setInstantMessengerId('aim',ilUtil::stripSlashes($_POST["usr_im_aim"]));
-			$ilUser->setInstantMessengerId('skype',ilUtil::stripSlashes($_POST["usr_im_skype"]));
-			$ilUser->setInstantMessengerId('jabber',ilUtil::stripSlashes($_POST["usr_im_jabber"]));
-			$ilUser->setInstantMessengerId('voip',ilUtil::stripSlashes($_POST["usr_im_voip"]));
 		}
 
 		// Set user defined data
@@ -507,7 +487,6 @@ class ilPersonalProfileGUI
 				// feedback
 				ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);	
 				$this->ctrl->redirect($this, "");
-				//$this->tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
 			}
 			else
 			{
@@ -600,7 +579,7 @@ class ilPersonalProfileGUI
 		$ilTabs->addTab("personal_data", 
 			$this->lng->txt("personal_data"),
 			$this->ctrl->getLinkTarget($this, "showPersonalData"));
-
+		
 		// public profile
 		$ilTabs->addTab("public_profile",
 			$this->lng->txt("public_profile"),
@@ -831,7 +810,7 @@ class ilPersonalProfileGUI
 	*/
 	public function savePersonalData()
 	{
-		global $tpl, $lng, $ilCtrl, $ilUser, $ilSetting, $ilAuth;
+		global $tpl, $lng, $ilCtrl, $ilUser, $ilSetting;
 	
 		$this->initPersonalDataForm();
 		if ($this->form->checkInput())
@@ -869,7 +848,9 @@ class ilPersonalProfileGUI
 								? $value->get(IL_CAL_DATE)
 								: "");							
 							break;
-					
+						case "second_email":
+							$ilUser->setSecondEmail($value);
+							break;
 						default:
 							$m = ucfirst($f);
 							if(isset($map[$f]))
@@ -882,18 +863,6 @@ class ilPersonalProfileGUI
 				}
 			}		
 			$ilUser->setFullname();
-
-			// set instant messengers
-			if ($this->workWithUserSetting("instant_messengers"))
-			{
-				$ilUser->setInstantMessengerId('icq', $this->form->getInput("usr_im_icq"));
-				$ilUser->setInstantMessengerId('yahoo', $this->form->getInput("usr_im_yahoo"));
-				$ilUser->setInstantMessengerId('msn', $this->form->getInput("usr_im_msn"));
-				$ilUser->setInstantMessengerId('aim', $this->form->getInput("usr_im_aim"));
-				$ilUser->setInstantMessengerId('skype', $this->form->getInput("usr_im_skype"));
-				$ilUser->setInstantMessengerId('jabber', $this->form->getInput("usr_im_jabber"));
-				$ilUser->setInstantMessengerId('voip', $this->form->getInput("usr_im_voip"));
-			}
 
 			// check map activation
 			include_once("./Services/Maps/classes/class.ilMapUtil.php");
@@ -947,8 +916,6 @@ class ilPersonalProfileGUI
 					try 
 					{
 						$ilUser->updateLogin($ilUser->getLogin());
-						$ilAuth->setAuth($ilUser->getLogin());
-						$ilAuth->start();
 					}
 					catch (ilUserException $e)
 					{
@@ -972,7 +939,7 @@ class ilPersonalProfileGUI
 				$ilUser->setDescription($ilUser->getEmail());
 	
 				$ilUser->update();
-
+				
 				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 
 				if(ilSession::get('orig_request_target'))
@@ -1159,6 +1126,7 @@ class ilPersonalProfileGUI
 			"interests_general" => $ilUser->getGeneralInterestsAsText(),
 			"interests_help_offered" => $ilUser->getOfferingHelpAsText(),
 			"interests_help_looking" => $ilUser->getLookingForHelpAsText(),
+			"org_units" => $ilUser->getOrgUnitsRepresentation(),
 			"institution" => $ilUser->getInstitution(),
 			"department" => $ilUser->getDepartment(),			
 			"street" => $ilUser->getStreet(),
@@ -1171,10 +1139,10 @@ class ilPersonalProfileGUI
 			"phone_mobile" => $ilUser->getPhoneMobile(),
 			"fax" => $ilUser->getFax(),
 			"email" => $ilUser->getEmail(),
-			"hobby" => $ilUser->getHobby(),			
-			"matriculation" => $ilUser->getMatriculation(),
-			"delicious" => $ilUser->getDelicious()
-			);
+			"second_email" => $ilUser->getSecondEmail(),
+			"hobby" => $ilUser->getHobby(),
+			"matriculation" => $ilUser->getMatriculation()
+		);
 		
 		// location
 		include_once("./Services/Maps/classes/class.ilMapUtil.php");
@@ -1192,15 +1160,21 @@ class ilPersonalProfileGUI
 			
 			if ($this->userSettingVisible($key))
 			{
-				// public setting
-				if ($key == "upload")
+				// #18795 - we should use ilUserProfile 
+				switch($key)
 				{
-					$cb = new ilCheckboxInputGUI($this->lng->txt("personal_picture"), "chk_".$key);
-				}
-				else
-				{
-					$cb = new ilCheckboxInputGUI($this->lng->txt($key), "chk_".$key);
-				}
+					case "upload":
+						$caption = "personal_picture";
+						break;
+					
+					case "title":
+						$caption = "person_title";
+						break;
+					
+					default:
+						$caption = $key;							
+				}				
+				$cb = new ilCheckboxInputGUI($this->lng->txt($caption), "chk_".$key);							
 				if ($prefs["public_".$key] == "y")
 				{
 					$cb->setChecked(true);
@@ -1208,31 +1182,6 @@ class ilPersonalProfileGUI
 				//$cb->setInfo($value);
 				$cb->setOptionTitle($value);
 
-				if(!$parent)
-				{
-					$form->addItem($cb);
-				}
-				else
-				{
-					$parent->addSubItem($cb);
-				}
-			}
-		}
-
-		$im_arr = array("icq","yahoo","msn","aim","skype","jabber","voip");
-		if ($this->userSettingVisible("instant_messengers"))
-		{
-			foreach ($im_arr as $im)
-			{
-				// public setting
-				$cb = new ilCheckboxInputGUI($this->lng->txt("im_".$im), "chk_im_".$im);
-				//$cb->setInfo($ilUser->getInstantMessengerId($im));
-				$cb->setOptionTitle($ilUser->getInstantMessengerId($im));
-				if ($prefs["public_im_".$im] != "n")
-				{
-					$cb->setChecked(true);
-				}
-				
 				if(!$parent)
 				{
 					$form->addItem($cb);
@@ -1269,6 +1218,46 @@ class ilPersonalProfileGUI
 				$parent->addSubItem($cb);
 			}
 		}
+		
+		// :TODO: badges
+		if(!$anonymized)
+		{
+			include_once "Services/Badge/classes/class.ilBadgeHandler.php";
+			$handler = ilBadgeHandler::getInstance();
+			if($handler->isActive())
+			{		
+				$badge_options = array();
+
+				include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+				include_once "Services/Badge/classes/class.ilBadge.php";
+				foreach(ilBadgeAssignment::getInstancesByUserId($ilUser->getId()) as $ass)
+				{
+					// only active
+					if($ass->getPosition())
+					{
+						$badge = new ilBadge($ass->getBadgeId());
+						$badge_options[] = $badge->getTitle();
+					}								
+				}
+
+				if(sizeof($badge_options) > 1)
+				{
+					$badge_order = new ilNonEditableValueGUI($this->lng->txt("obj_bdga"), "bpos");		
+					$badge_order->setMultiValues($badge_options);
+					$badge_order->setValue(array_shift($badge_options));
+					$badge_order->setMulti(true, true, false);
+
+					if(!$parent)
+					{
+						$form->addItem($badge_order);
+					}
+					else
+					{
+						$parent->addSubItem($badge_order);
+					}
+				}
+			}
+		}
 	}
 	
 	/**
@@ -1289,9 +1278,9 @@ class ilPersonalProfileGUI
 			}
 
 			// if check on Institute
-			$val_array = array("title", "birthday", "gender", "institution", "department", "upload", "street",
-				"zipcode", "city", "country", "sel_country", "phone_office", "phone_home", "phone_mobile",
-				"fax", "email", "hobby", "matriculation", "location", 
+			$val_array = array("title", "birthday", "gender", "org_units", "institution", "department", "upload",
+				"street", "zipcode", "city", "country", "sel_country", "phone_office", "phone_home", "phone_mobile",
+				"fax", "email", "second_email", "hobby", "matriculation", "location",
 				"interests_general", "interests_help_offered", "interests_help_looking");
 	
 			// set public profile preferences
@@ -1307,35 +1296,6 @@ class ilPersonalProfileGUI
 				}
 			}
 	
-			$im_arr = array("icq","yahoo","msn","aim","skype","jabber","voip");
-			if ($this->userSettingVisible("instant_messengers"))
-			{
-				foreach ($im_arr as $im)
-				{
-					if (($_POST["chk_im_".$im]))
-					{
-						$ilUser->setPref("public_im_".$im,"y");
-					}
-					else
-					{
-						$ilUser->setPref("public_im_".$im,"n");
-					}
-				}
-			}
-
-//			$d_set = new ilSetting("delicious");
-//			if ($d_set->get("user_profile"))
-//			{
-				if (($_POST["chk_delicious"]))
-				{
-					$ilUser->setPref("public_delicious","y");
-				}
-				else
-				{
-					$ilUser->setPref("public_delicious","n");
-				}
-//			}
-			
 			// additional defined user data fields
 			foreach($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
 			{
@@ -1351,6 +1311,18 @@ class ilPersonalProfileGUI
 
 			$ilUser->update();
 			
+			// :TODO: badges
+			include_once "Services/Badge/classes/class.ilBadgeHandler.php";
+			$handler = ilBadgeHandler::getInstance();
+			if($handler->isActive())
+			{		
+				if(sizeof($_POST["bpos"]))
+				{
+					include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+					ilBadgeAssignment::updatePositions($ilUser->getId(), $_POST["bpos"]);
+				}				
+			}
+			
 			// update lucene index
 			include_once './Services/Search/classes/Lucene/class.ilLuceneIndexer.php';
 			ilLuceneIndexer::updateLuceneIndex(array((int) $GLOBALS['ilUser']->getId()));
@@ -1360,6 +1332,9 @@ class ilPersonalProfileGUI
 		}
 		$this->form->setValuesByPost();
 		$tpl->showPublicProfile(true);
+		
+		
+		
 	}
 	
 	/**

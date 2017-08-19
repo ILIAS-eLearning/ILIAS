@@ -345,7 +345,7 @@ class ilDBMySQL extends ilDB
 	*/
 	function now()
 	{
-		return "now()";
+		return "NOW()";
 	}
 
 	/**
@@ -541,6 +541,7 @@ class ilDBMySQL extends ilDB
 	 * @param array $a_tables
 	 * @param int $a_mode
 	 * @param string $a_alias
+	 * @deprecated Use ilAtomQuery instead
 	 * @return 
 	 */
 	public function lockTables($a_tables)
@@ -593,6 +594,7 @@ class ilDBMySQL extends ilDB
 	
 	/**
 	 * Unlock tables
+	 * @deprecated Use ilAtomQuery instead
 	 * @return 
 	 */
 	public function unlockTables()
@@ -629,12 +631,10 @@ class ilDBMySQL extends ilDB
 			return mysqli_error($this->db->connection);
 		}
 	}
-	
+
+
 	/**
-	 * Query
-	 *
-	 * @param
-	 * @return
+	 * @inheritdoc
 	 */
 	function query($sql, $a_handle_error = true)
 	{

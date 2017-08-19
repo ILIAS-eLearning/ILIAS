@@ -1,6 +1,5 @@
 <?php
-require_once('./Services/ActiveRecord/class.ActiveRecord.php');
-require_once('./Modules/DataCollection/classes/TableView/class.ilDclTableViewFieldSetting.php');
+
 /**
  * Class ilDclTableView
  *
@@ -50,7 +49,7 @@ class ilDclTableView extends ActiveRecord
      * @db_fieldtype        text
      * @db_length           256
      */
-    protected $roles;
+    protected $roles = array();
 
     /**
      * @var string
@@ -184,7 +183,7 @@ class ilDclTableView extends ActiveRecord
      */
     public function getRoles()
     {
-        return $this->roles;
+        return (array) $this->roles;
     }
 
     /**
@@ -303,10 +302,16 @@ class ilDclTableView extends ActiveRecord
     {
         $table = ilDclCache::getTableCache($this->table_id);
 
-        foreach ($table->getFieldIds(true) as $field_id)
+        foreach ($table->getFieldIds() as $field_id)
         {
             $this->createFieldSetting($field_id);
         }
+
+	    //ilDclTable->getFieldIds won't reuturn comments if they are disabled,
+	    //still we have to create a fieldsetting for this field
+	    if (!$table->getPublicCommentsEnabled()) {
+		    $this->createFieldSetting('comments');
+	    }
     }
 
     /**
@@ -359,6 +364,9 @@ class ilDclTableView extends ActiveRecord
             $orig_pageobject = new ilDclDetailedViewDefinition($orig->getId());
             $orig_pageobject->copy($this->getId());
         }
+
+	    // mandatory for all cloning functions
+	    ilDclCache::setCloneOf($orig->getId(), $this->getId(), ilDclCache::TYPE_TABLEVIEW);
     }
 
     /**
@@ -389,6 +397,14 @@ class ilDclTableView extends ActiveRecord
         if ($standardview = self::where(array('table_id' => $table_id))->orderBy('tableview_order')->first()) {
             return $standardview;
         }
+
+        global $DIC;
+        $rbacreview = $DIC['rbacreview'];
+        $roles = array();
+        foreach ($rbacreview->getParentRoleIds($_GET['ref_id']) as $role_array) {
+            $roles[] = $role_array['obj_id'];
+        }
+
         $view = new self();
 
 

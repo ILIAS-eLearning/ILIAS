@@ -144,7 +144,7 @@ class assClozeTestExport extends assQuestionExport
 						$a_xml_writer->xmlStartTag("render_choice", $attrs);
 
 						// add answers
-						foreach ($gap->getItems(new ilArrayElementShuffler) as $answeritem)
+						foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answeritem)
 						{
 							$attrs = array(
 								"ident" => $answeritem->getOrder()
@@ -186,7 +186,8 @@ class assClozeTestExport extends assQuestionExport
 						$attrs = array(
 							"fibtype" => "String",
 							"prompt" => "Box",
-							"columns" => $gap->getGapSize()
+							"columns" => $gap->getMaxWidth(),
+							"maxchars" => $gap->getGapSize()
 						);
 						$a_xml_writer->xmlStartTag("render_fib", $attrs);
 						$a_xml_writer->xmlEndTag("render_fib");
@@ -222,7 +223,8 @@ class assClozeTestExport extends assQuestionExport
 						$attrs = array(
 							"fibtype" => "Decimal",
 							"prompt" => "Box",
-							"columns" => $gap->getGapSize()
+							"columns" => $gap->getMaxWidth(),
+							"maxchars" => $gap->getGapSize()
 						);
 						if (is_object($answeritem))
 						{
@@ -259,7 +261,7 @@ class assClozeTestExport extends assQuestionExport
 			switch ($gap->getType())
 			{
 				case CLOZE_SELECT:
-					foreach ($gap->getItems(new ilArrayElementShuffler) as $answer)
+					foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answer)
 					{
 						$attrs = array(
 							"continue" => "Yes"

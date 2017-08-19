@@ -41,7 +41,7 @@ class ilTemplate extends HTML_Template_ITX
 	private $addFooter; // creates an output of the ILIAS footer
 
 	protected static $il_cache = array();
-	protected $message = "";
+	protected $message = array();
 	
 	protected $title_desc = "";	
 	protected $title_url = "";
@@ -57,6 +57,7 @@ class ilTemplate extends HTML_Template_ITX
 	protected $title_alerts = array();
 	protected $header_action;
 	protected $lightbox = array();
+	protected $standard_template_loaded = false;
 
 	protected $translation_linked = false; // fix #9992: remember if a translation link is added
 
@@ -70,7 +71,7 @@ class ilTemplate extends HTML_Template_ITX
 	* @access	public
 	*/
 	function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
-		$plugin = false, $a_use_cache = false)
+		$plugin = false, $a_use_cache = true)
 	{
 		global $ilias;
 //echo "<br>-".$file."-";
@@ -708,6 +709,11 @@ class ilTemplate extends HTML_Template_ITX
 		if (is_object($ilSetting))		// maybe this one can be removed
 		{
 			$vers = "vers=".str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
+			
+			if(DEVMODE)
+			{
+				$vers .= '-'.time();
+			}
 		}
 		if ($this->blockExists("js_file"))
 		{
@@ -861,8 +867,13 @@ class ilTemplate extends HTML_Template_ITX
 		global $ilias, $ilClientIniFile, $ilCtrl, $ilDB, $ilSetting, $lng;
 		
 		$ftpl = new ilTemplate("tpl.footer.html", true, true, "Services/UICore");
-		
-		$ftpl->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version"));
+
+		$php = "";
+		if (DEVMODE)
+		{
+			$php = ", PHP ".phpversion();
+		}
+		$ftpl->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version").$php);
 		
 		$link_items = array();
 		
@@ -883,21 +894,21 @@ class ilTemplate extends HTML_Template_ITX
 				
 		if (DEVMODE)
 		{
-			$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=xhtml")] = array("Validate", true);
-			$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility")] = array("Accessibility", true);			
+			if (function_exists("tidy_parse_string"))
+			{
+				$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=xhtml")] = array("Validate", true);
+				$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility")] = array("Accessibility", true);
+			}
 		}
 
-        // output translation link (extended language maintenance)
-        if ($ilSetting->get("lang_ext_maintenance") == "1")
-        {
-            include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
-            if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation())
-            {
-				// fix #9992: remember linked translation instead of saving language usages here
-				$this->translation_linked = true;
-                $link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
-            }
-        }
+        // output translation link
+		include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
+		if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation())
+		{
+			// fix #9992: remember linked translation instead of saving language usages here
+			$this->translation_linked = true;
+			$link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
+		}
 
         $cnt = 0;
 		foreach($link_items as $url => $caption)
@@ -942,20 +953,6 @@ class ilTemplate extends HTML_Template_ITX
 			{
 				$ftpl->setVariable("MEMORY_USAGE", "<br>".implode(" | ", $mem_usage));
 			}
-
-            // uses protected variable _sessionName.
-//			if (is_object($ilAuth) && isset($_SESSION[$ilAuth->_sessionName]) &&
-//				isset($_SESSION[$ilAuth->_sessionName]["timestamp"]))
-//			{
-//				$ftpl->setVariable("SESS_INFO", "<br />maxlifetime: ".
-//					ini_get("session.gc_maxlifetime")." (".
-//					(ini_get("session.gc_maxlifetime")/60)."), id: ".session_id()."<br />".
-//					"timestamp: ".date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["timestamp"]).
-//					", idle: ".date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["idle"]).
-//					"<br />expire: ".($exp = $ilClientIniFile->readVariable("session","expire")).
-//					" (".($exp/60)."), session ends at: ".
-//					date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["idle"] + $exp));
-//			}
 			
 			if (!empty($_GET["do_dev_validate"]) && $ftpl->blockExists("xhtml_validation"))
 			{
@@ -1520,6 +1517,18 @@ class ilTemplate extends HTML_Template_ITX
 				$fname = "./".$module_path."templates/default/".basename($a_tplname);
 			}
 		}
+		else if(strpos($a_tplname,"src/UI")===0)
+		{
+			if (class_exists("ilStyleDefinition") // for testing
+			&& ilStyleDefinition::getCurrentSkin() != "default")
+			{
+				$fname = "./Customizing/global/skin/".ilStyleDefinition::getCurrentSkin()."/".str_replace("src/UI/templates/default","UI",$a_tplname);
+			}
+			if($fname == "" || !file_exists($fname))
+			{
+				$fname = $a_tplname;
+			}
+		}
 		else
 		{
 			$fname = $a_tplname;
@@ -1597,6 +1606,11 @@ class ilTemplate extends HTML_Template_ITX
 
 	function getStandardTemplate()
 	{
+		if ($this->standard_template_loaded)
+		{
+			return;
+		}
+
 		// always load jQuery
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery();
@@ -1611,6 +1625,8 @@ class ilTemplate extends HTML_Template_ITX
 
 		$this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+
+		$this->standard_template_loaded = true;
 	}
 	
 	/**
@@ -2145,7 +2161,7 @@ class ilTemplate extends HTML_Template_ITX
 		if ($this->mount_webfolder != "")
 		{
 			require_once('Services/WebDAV/classes/class.ilDAVServer.php');
-			$davServer = new ilDAVServer();
+			$davServer = ilDAVServer::getInstance();
 			$a_ref_id = $this->mount_webfolder;
 			$a_link =  $davServer->getMountURI($a_ref_id);
 			$a_folder = $davServer->getFolderURI($a_ref_id);
@@ -2405,13 +2421,15 @@ class ilTemplate extends HTML_Template_ITX
 		}
 	}
 	
-	function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "")
+	function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "")
 	{
 		$this->permanent_link = array(
 			"type" => $a_type,
 			"id" => $a_id,
 			"append" => $a_append,
-			"target" => $a_target);
+			"target" => $a_target,
+			"title" => $a_title);
+
 	}
 	
 	/**
@@ -2427,6 +2445,10 @@ class ilTemplate extends HTML_Template_ITX
 				$this->permanent_link["id"],
 				$this->permanent_link["append"],
 				$this->permanent_link["target"]);
+			if ($this->permanent_link["title"] != "")
+			{
+				$plinkgui->setTitle($this->permanent_link["title"]);
+			}
 			$this->setVariable("PRMLINK", $plinkgui->getHTML());
 		}
 	}
@@ -2537,7 +2559,7 @@ class ilTemplate extends HTML_Template_ITX
 			}
 		}
 		// personal workspace
-		else if ($_GET["wsp_id"] != "")
+		else if ($_GET["wsp_id"] != "" && $_GET["wsp_id"] > 0)
 		{
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";			
 			$tree = new ilWorkspaceTree($ilUser->getId());									

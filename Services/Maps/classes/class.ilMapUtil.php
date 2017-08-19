@@ -94,15 +94,25 @@ class ilMapUtil
 	{
 		return self::settings()->get("std_longitude");
 	}
-	
-	static function setStdZoom($a_zoom) 
+
+	static function setStdZoom($a_zoom)
 	{
 		self::settings()->set("std_zoom", $a_zoom);
 	}
-	
-	static function getStdZoom() 
+
+	static function getStdZoom()
 	{
 		return self::settings()->get("std_zoom");
+	}
+
+	static function setApiKey($a_api_key)
+	{
+		self::settings()->set("api_key", $a_api_key);
+	}
+
+	static function getApiKey()
+	{
+		return self::settings()->get("api_key");
 	}
 
 	static function setStdTileServers($a_tile)
@@ -180,7 +190,8 @@ class ilMapUtil
 	*/
 	static public function getAvailableMapTypes()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$lng->loadLanguageModule("maps");
 		return array( "openlayers" 	=> $lng->txt("maps_open_layers_maps")
 					, "googlemaps"	=> $lng->txt("maps_google_maps")

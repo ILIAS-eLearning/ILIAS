@@ -21,21 +21,14 @@ class ilChatroomTabGUIFactory
 	private $lng;
 
 	/**
-	 * Constructor
-	 * Sets $this->gui using given $gui.
-	 * Sets $this->lng and $this->access
 	 * @param ilObjectGUI $gui
 	 */
 	public function __construct(ilObjectGUI $gui)
 	{
-		/**
-		 * @var $lng      ilLanguage
-		 * @var $ilAccess ilAccessHandler
-		 */
-		global $lng;
+		global $DIC;
 
 		$this->gui = $gui;
-		$this->lng = $lng;
+		$this->lng = $DIC->language();
 	}
 
 	/**
@@ -56,7 +49,7 @@ class ilChatroomTabGUIFactory
 
 		if($upper_case_first === FALSE)
 		{
-			$value = strtolower($value, 0, 1) . substr($value, 1);
+			$value = strtolower(substr($value, 0, 1)) . substr($value, 1);
 		}
 
 		return $value;
@@ -69,12 +62,7 @@ class ilChatroomTabGUIFactory
 	 */
 	public function getAdminTabsForCommand($command)
 	{
-		/**
-		 * @var $ilTabs ilTabsGUI
-		 * @var $ilCtrl ilCtrl
-		 * @var $ilDB   ilDBInterface
-		 */
-		global $ilTabs, $ilCtrl, $ilDB;
+		global $DIC;
 
 		$command      = $this->convertLowerCamelCaseToUnderscoreCaseConversion($command);
 		$stopCommands = array('create');
@@ -87,72 +75,72 @@ class ilChatroomTabGUIFactory
 		$settings        = new ilSetting('chatroom');
 		$public_room_ref = $settings->get('public_room_ref');
 
-		$query     = 'SELECT ref_id FROM object_reference INNER JOIN object_data ON object_data.obj_id = object_reference.obj_id WHERE type = ' . $ilDB->quote('chta', 'text');
-		$rset      = $ilDB->query($query);
-		$data      = $ilDB->fetchAssoc($rset);
-		$admin_ref = $data['ref_id'];
+		$objIds     = ilObject::_getObjectsByType('chta');
+		$firstObjId = current(array_keys($objIds));
+		$refIds     = ilObject::_getAllReferences($firstObjId);
+		$admin_ref  = current($refIds);
 
-		$ilCtrl->setParameterByClass('ilObjChatroomAdminGUI', 'ref_id', $admin_ref);
+		$DIC->ctrl()->setParameterByClass('ilObjChatroomAdminGUI', 'ref_id', $admin_ref);
 
 		$config = array(
 			'view'   => array(
 				'lng'        => 'settings',
-				'link'       => $ilCtrl->getLinkTargetByClass('ilObjChatroomAdminGUI', 'view-clientsettings'),
+				'link'       => $DIC->ctrl()->getLinkTargetByClass('ilObjChatroomAdminGUI', 'view-clientsettings'),
 				'permission' => 'read',
 				'subtabs'    => array(
 					'clientsettings' => array(
 						'lng'        => 'client_settings',
-						'link'       => $ilCtrl->getLinkTargetByClass('ilObjChatroomAdminGUI', 'view-clientsettings'),
+						'link'       => $DIC->ctrl()->getLinkTargetByClass('ilObjChatroomAdminGUI', 'view-clientsettings'),
 						'permission' => 'read'
 					),
 					'serversettings' => array(
 						'lng'        => 'server_settings',
-						'link'       => $ilCtrl->getLinkTargetByClass('ilObjChatroomAdminGUI', 'view-serversettings'),
+						'link'       => $DIC->ctrl()->getLinkTargetByClass('ilObjChatroomAdminGUI', 'view-serversettings'),
 						'permission' => 'read'
 					)
 				)
 			),
 			'smiley' => array(
 				'lng'        => 'smiley',
-				'link'       => $ilCtrl->getLinkTargetByClass('ilObjChatroomAdminGUI', 'smiley'),
+				'link'       => $DIC->ctrl()->getLinkTargetByClass('ilObjChatroomAdminGUI', 'smiley'),
 				'permission' => 'read'
 			)
 		);
-		$ilCtrl->setParameterByClass('ilObjChatroomGUI', 'ref_id', $public_room_ref);
+		$DIC->ctrl()->setParameterByClass('ilObjChatroomGUI', 'ref_id', $public_room_ref);
 
 		$config['settings'] = array(
 			'lng'        => 'public_chat_settings',
-			'link'       => $ilCtrl->getLinkTargetByClass('ilObjChatroomGUI', 'settings-general'),
+			'link'       => $DIC->ctrl()->getLinkTargetByClass('ilObjChatroomGUI', 'settings-general'),
 			'permission' => 'write',
 			'subtabs'    => array(
 				'settings' => array(
 					'lng'        => 'settings',
-					'link'       => $ilCtrl->getLinkTarget($this->gui, 'settings-general'),
+					'link'       => $DIC->ctrl()->getLinkTarget($this->gui, 'settings-general'),
 					'permission' => 'write'
 				),
 				'ban'      => array(
 					'lng'        => 'bans',
-					'link'       => $ilCtrl->getLinkTargetByClass('ilObjChatroomGUI', 'ban-show'),
+					'link'       => $DIC->ctrl()->getLinkTargetByClass('ilObjChatroomGUI', 'ban-show'),
 					'permission' => 'moderate'
 				)
 			)
 		);
 
-		$ilCtrl->setParameterByClass('ilPermissionGUI', 'ref_id', $public_room_ref);
+		$DIC->ctrl()->setParameterByClass('ilPermissionGUI', 'ref_id', $public_room_ref);
 		$config['perm'] = array(
 			'lng'        => 'public_chat_permissions',
-			'link'       => $ilCtrl->getLinkTargetByClass('ilPermissionGUI', 'perm'),
+			'link'       => $DIC->ctrl()->getLinkTargetByClass('ilPermissionGUI', 'perm'),
 			'permission' => 'write',
 		);
-		$ilCtrl->clearParametersByClass('ilPermissionGUI');
+		$DIC->ctrl()->clearParametersByClass('ilPermissionGUI');
 
-		$ilCtrl->setParameterByClass('ilPermissionGUI', 'ref_id', $admin_ref);
+		$DIC->ctrl()->setParameterByClass('ilPermissionGUI', 'ref_id', $admin_ref);
 		$config['perm_settings'] = array(
 			'lng'        => 'perm_settings',
-			'link'       => $ilCtrl->getLinkTargetByClass('ilpermissiongui', 'perm'),
+			'link'       => $DIC->ctrl()->getLinkTargetByClass('ilpermissiongui', 'perm'),
 			'permission' => 'write',
 		);
-		$ilCtrl->clearParametersByClass('ilPermissionGUI');
+		$DIC->ctrl()->clearParametersByClass('ilPermissionGUI');
 
 		$commandParts = explode('_', $command, 2);
 		if($command == 'ban_show')
@@ -175,18 +163,18 @@ class ilChatroomTabGUIFactory
 			$commandParts[0] = 'view';
 			$commandParts[1] = 'clientsettings';
 		}
-		else if($ilCtrl->getCmdClass() == 'ilpermissiongui' && $_REQUEST['ref_id'] == $public_room_ref)
+		else if($DIC->ctrl()->getCmdClass() == 'ilpermissiongui' && $_REQUEST['ref_id'] == $public_room_ref)
 		{
 			$commandParts[0] = 'perm';
-			$ilCtrl->setParameterByClass('ilPermissionGUI', 'ref_id', $public_room_ref);
+			$DIC->ctrl()->setParameterByClass('ilPermissionGUI', 'ref_id', $public_room_ref);
 		}
-		else if($ilCtrl->getCmdClass() == 'ilpermissiongui' && $_REQUEST['ref_id'] == $admin_ref)
+		else if($DIC->ctrl()->getCmdClass() == 'ilpermissiongui' && $_REQUEST['ref_id'] == $admin_ref)
 		{
 			$commandParts[0] = 'perm_settings';
-			$ilCtrl->setParameterByClass('ilPermissionGUI', 'ref_id', $admin_ref);
+			$DIC->ctrl()->setParameterByClass('ilPermissionGUI', 'ref_id', $admin_ref);
 		}
 
-		$this->buildTabs($ilTabs, $config, $commandParts);
+		$this->buildTabs($DIC->tabs(), $config, $commandParts, false);
 		$this->activateTab($commandParts, $config);
 	}
 
@@ -206,18 +194,20 @@ class ilChatroomTabGUIFactory
 	 * @param ilTabsGUI $tabs
 	 * @param array     $config
 	 * @param array     $command
+	 * @param bool      $inRoom
 	 */
-	private function buildTabs(ilTabsGUI $tabs, $config, $command)
+	private function buildTabs(ilTabsGUI $tabs, $config, $command, $inRoom = true)
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 */
-		global $rbacsystem;
+		global $DIC;
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 		foreach($config as $id => $tabDefinition)
 		{
-			if(!ilChatroom::checkUserPermissions($tabDefinition['permission'], $this->gui->getRefId(), false))
+			if(!$inRoom && !$DIC->rbac()->system()->checkAccess($tabDefinition['permission'], $this->gui->getRefId()))
+			{
+				continue;
+			}
+			else if($inRoom && !ilChatroom::checkUserPermissions($tabDefinition['permission'], $this->gui->getRefId(), false))
 			{
 				continue;
 			}
@@ -234,7 +224,11 @@ class ilChatroomTabGUIFactory
 			{
 				foreach($tabDefinition['subtabs'] as $subid => $subTabDefinition)
 				{
-					if(!$rbacsystem->checkAccess($subTabDefinition['permission'], $this->gui->getRefId()))
+					if(!$inRoom && !$DIC->rbac()->system()->checkAccess($tabDefinition['permission'], $this->gui->getRefId()))
+					{
+						continue;
+					}
+					else if($inRoom && !ilChatroom::checkUserPermissions($subTabDefinition['permission'], $this->gui->getRefId()))
 					{
 						continue;
 					}
@@ -276,26 +270,23 @@ class ilChatroomTabGUIFactory
 	 */
 	private function activateTab(array $commandParts, $config)
 	{
-		/**
-		 * @var $ilTabs ilTabsGUI
-		 */
-		global $ilTabs;
+		global $DIC;
 
 		if(count($commandParts) > 1)
 		{
 			if(isset($config[$commandParts[0]]))
 			{
-				$ilTabs->activateTab($commandParts[0]);
+				$DIC->tabs()->activateTab($commandParts[0]);
 
 				if(isset($config[$commandParts[0]]['subtabs'][$commandParts[1]]))
 				{
-					$ilTabs->activateSubTab($commandParts[1]);
+					$DIC->tabs()->activateSubTab($commandParts[1]);
 				}
 			}
 		}
 		else if(count($commandParts) == 1)
 		{
-			$ilTabs->activateTab($commandParts[0]);
+			$DIC->tabs()->activateTab($commandParts[0]);
 		}
 	}
 
@@ -306,11 +297,7 @@ class ilChatroomTabGUIFactory
 	 */
 	public function getTabsForCommand($command)
 	{
-		/**
-		 * @var $ilTabs ilTabsGUI
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $ilTabs, $ilCtrl;
+		global $DIC;
 
 		$command      = $this->convertLowerCamelCaseToUnderscoreCaseConversion($command);
 		$stopCommands = array('create');
@@ -326,71 +313,76 @@ class ilChatroomTabGUIFactory
 		$config = array(
 			'view'     => array(
 				'lng'        => 'view',
-				'link'       => $ilCtrl->getLinkTarget($this->gui, 'view'),
+				'link'       => $DIC->ctrl()->getLinkTarget($this->gui, 'view'),
 				'permission' => 'read'
 			),
 			'history'  => array(
 				'lng'        => 'history',
-				'link'       => $ilCtrl->getLinkTarget($this->gui, 'history-byday'),
+				'link'       => $DIC->ctrl()->getLinkTarget($this->gui, 'history-byday'),
 				'permission' => 'read',
 				'enabled'    => $room ? $room->getSetting('enable_history') : false,
 				'subtabs'    => array(
 					'byday'     => array(
 						'lng'        => 'history_by_day',
-						'link'       => $ilCtrl->getLinkTarget($this->gui, 'history-byday'),
+						'link'       => $DIC->ctrl()->getLinkTarget($this->gui, 'history-byday'),
 						'permission' => 'read'
 					),
 					'bysession' => array(
 						'lng'        => 'history_by_session',
-						'link'       => $ilCtrl->getLinkTarget($this->gui, 'history-bysession'),
+						'link'       => $DIC->ctrl()->getLinkTarget($this->gui, 'history-bysession'),
 						'permission' => 'read'
 					)
 				)
 			),
 			'info'     => array(
 				'lng'        => 'info_short',
-				'link'       => $ilCtrl->getLinkTargetByClass(array(get_class($this->gui), 'ilinfoscreengui'), 'info'),
+				'link'       => $DIC->ctrl()->getLinkTargetByClass(array(get_class($this->gui), 'ilinfoscreengui'), 'info'),
 				'permission' => 'read'
 			),
 			'settings' => array(
 				'lng'        => 'settings',
-				'link'       => $ilCtrl->getLinkTarget($this->gui, 'settings-general'),
+				'link'       => $DIC->ctrl()->getLinkTarget($this->gui, 'settings-general'),
 				'permission' => 'write',
 				'subtabs'    => array(
 					'general' => array(
 						'lng'        => 'settings_general',
-						'link'       => $ilCtrl->getLinkTarget($this->gui, 'settings-general'),
+						'link'       => $DIC->ctrl()->getLinkTarget($this->gui, 'settings-general'),
 						'permission' => 'write'
 					)
 				)
 			),
 			'ban'      => array(
 				'lng'        => 'bans',
-				'link'       => $ilCtrl->getLinkTarget($this->gui, 'ban-show'),
+				'link'       => $DIC->ctrl()->getLinkTarget($this->gui, 'ban-show'),
 				'permission' => 'moderate',
 				'subtabs'    => array(
 					'show' => array(
 						'lng'        => 'bans_table',
-						'link'       => $ilCtrl->getLinkTarget($this->gui, 'ban-show'),
+						'link'       => $DIC->ctrl()->getLinkTarget($this->gui, 'ban-show'),
 						'permission' => 'moderate'
 					)
 				)
 			),
+			'export'  => array(
+				'lng'        => 'export',
+				'link'       =>  $DIC->ctrl()->getLinkTargetByClass('ilexportgui', ''),
+				'permission' => 'write'
+			),
 			'perm'     => array(
 				'lng'        => 'permissions',
-				'link'       => $ilCtrl->getLinkTargetByClass('ilpermissiongui', 'perm'),
+				'link'       => $DIC->ctrl()->getLinkTargetByClass('ilpermissiongui', 'perm'),
 				'permission' => 'write'
 			)
 		);
 
 		$commandParts = explode('_', $command, 2);
 
-		if($ilCtrl->getCmdClass() == 'ilpermissiongui')
+		if($DIC->ctrl()->getCmdClass() == 'ilpermissiongui')
 		{
 			$commandParts[0] = 'perm';
 		}
 
-		$this->buildTabs($ilTabs, $config, $commandParts);
+		$this->buildTabs($DIC->tabs(), $config, $commandParts);
 		$this->activateTab($commandParts, $config);
 	}
 }

@@ -70,7 +70,8 @@ class ilCourseAppEventListener
 		
 		if($a_event == 'deassignUser')
 		{
-			self::doAutoFill($a_parameters['obj_id']);
+			$self = new self();
+			$self->doAutoFill($a_parameters['obj_id']);
 		}
 	}
 	
@@ -79,12 +80,23 @@ class ilCourseAppEventListener
 	 * 
 	 * @param int $a_obj_id
 	 */
-	protected static function doAutoFill($a_obj_id)
+	protected function doAutoFill($a_obj_id)
 	{
+		$this->getLogger()->debug('Handling event deassign user -> waiting list auto fill');
+		
 		// #16694
 		include_once("./Modules/Course/classes/class.ilObjCourse.php");
-		$ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));			
-		$course = new ilObjCourse($ref_id);
+		$ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));	
+		
+		include_once './Services/Object/classes/class.ilObjectFactory.php';
+		$factory = new ilObjectFactory();
+		
+		$course = $factory->getInstanceByRefId($ref_id,false);
+		if(!$course instanceof ilObjCourse)
+		{
+			$this->getLogger()->warning('Cannot handle event deassign user since passed obj_id is not of type course: ' . $a_obj_id);
+		}
+		
 		$course->handleAutoFill();
 	}	
 
@@ -95,7 +107,7 @@ class ilCourseAppEventListener
 	* @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
 	* @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
 	*/
-	static function handleEvent($a_component, $a_event, $a_parameter)
+	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
 		if($a_component == 'Services/AccessControl')
 		{

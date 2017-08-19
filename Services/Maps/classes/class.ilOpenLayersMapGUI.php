@@ -68,7 +68,10 @@ class ilOpenLayersMapGUI extends ilMapGUI
 
 	function getHtml()
 	{
-		global $tpl, $lng, $https;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$https = $DIC['https'];
 
 		$this->tpl = new ilTemplate("tpl.openlayers_map.html",
 			true, true, "Services/Maps");

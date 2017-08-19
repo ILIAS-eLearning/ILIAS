@@ -173,8 +173,9 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		// #13807
 		foreach($tr_data["set"] as $idx => $row)
 		{						
+			include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 			if($row["ref_id"] && 
-				!$rbacsystem->checkAccess("read_learning_progress", $row["ref_id"]))
+				!ilLearningProgressAccess::checkPermission('read_learning_progress', $row['ref_id']))
 			{
 				foreach(array_keys($row) as $col_id)
 				{
@@ -433,8 +434,9 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		}
 
 		// #13807 / #17069
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if($data["ref_id"] &&
-			$rbacsystem->checkAccess('edit_learning_progress', $data["ref_id"]))
+			ilLearningProgressAccess::checkPermission('edit_learning_progress', $data['ref_id']))
 		{		
 			if(!in_array($data["type"], array("sco", "lobj")) && !$this->getPrintMode())
 			{

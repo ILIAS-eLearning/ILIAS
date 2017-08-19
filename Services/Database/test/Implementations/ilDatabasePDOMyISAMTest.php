@@ -21,22 +21,26 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once('ilDBBaseTest.php');
+require_once('ilDatabaseImplementationBaseTest.php');
 
 /**
  * TestCase for the ilDatabasePDOMyISAMTest
  *
+ * @group   needsInstalledILIAS
+ *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilDatabasePDOMyISAMTest extends ilDBBaseTest {
+class ilDatabasePDOMyISAMTest extends ilDatabaseImplementationBaseTest {
 
 	/**
-	 * @return \ilDBPdoMySQLInnoDB
+	 * @return \ilDBPdoMySQLMyISAM
 	 * @throws \ilDatabaseException
 	 */
 	protected function getDBInstance() {
-		return ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_MYISAM);
+		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLMyISAM.php');
+
+		return new ilDBPdoMySQLMyISAM();
 	}
 
 

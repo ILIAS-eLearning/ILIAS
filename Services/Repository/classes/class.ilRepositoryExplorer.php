@@ -103,6 +103,11 @@ class ilRepositoryExplorer extends ilExplorer
 				$link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjgroupgui"), "");
 				$ilCtrl->setParameterByClass("ilobjgroupgui", "ref_id", $_GET["ref_id"]);
 				return $link;
+			case "grpr":
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
+				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+				return $link;
 
 			case "crs":
 				$ilCtrl->setParameterByClass("ilobjcoursegui", "ref_id", $a_node_id);
@@ -159,6 +164,10 @@ class ilRepositoryExplorer extends ilExplorer
 				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "grp");
 				return $t_frame;
 
+			case "grpr":
+				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "grpr");
+				return $t_frame;
+
 			case "crs":
 				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "crs");
 				return $t_frame;
@@ -193,7 +202,7 @@ class ilRepositoryExplorer extends ilExplorer
 		return parent::getImage($a_name);
 	}
 
-	function isClickable($a_type, $a_ref_id,$a_obj_id = 0)
+	function isClickable($a_type, $a_ref_id = 0,$a_obj_id = 0)
 	{
 		global $rbacsystem,$tree,$ilDB,$ilUser,$ilAccess;
 
@@ -251,7 +260,7 @@ class ilRepositoryExplorer extends ilExplorer
 					return false;
 				}
 				break;
-				
+			case 'grpr':
 			case 'crsr':
 			case 'catr':
 				include_once('./Services/ContainerReference/classes/class.ilContainerReferenceAccess.php');
@@ -396,7 +405,7 @@ class ilRepositoryExplorer extends ilExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader(&$tpl, $a_obj_id,$a_option)
+	function formatHeader($tpl, $a_obj_id,$a_option)
 	{
 		global $lng, $ilias, $tree, $ilCtrl;
 

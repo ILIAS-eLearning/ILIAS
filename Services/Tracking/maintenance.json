@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "smeyer(191)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "suittenpointner(3458)",
+    "testcase_writer": "bromberger(198)",
+    "path": "Services/Tracking",
+    "belong_to_component": "Statistics and Learning Progress",
+    "used_in_components": [
+        "Test & Assessment"
+    ]
+}

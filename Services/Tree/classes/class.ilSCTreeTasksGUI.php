@@ -446,8 +446,8 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 	protected function confirmRepairMissingTreeEntries()
 	{
 		return $this->showSimpleConfirmation(
-				$this->getLang()->txt('sysc_message_tree_missing_tree_confirm'),
-				$this->getLang()->txt('sysc_btn_tree_missing_tree'),
+				$this->getLang()->txt('sysc_message_tree_missing_confirm'),
+				$this->getLang()->txt('sysc_btn_tree_missing'),
 				'repairMissingTreeEntries'
 		);
 	}

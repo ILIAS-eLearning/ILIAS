@@ -11,12 +11,33 @@ require_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.p
 * @version $Id$
 */
 class ilMailExplorer extends ilTreeExplorerGUI
-{	
+{
+	/**
+	 * @var \ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var \ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * ilMailExplorer constructor.
+	 * @param $a_parent_obj
+	 * @param $a_parent_cmd
+	 * @param $a_user_id
+	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_user_id)
-	{		
+	{
+		global $DIC;
+
+		$this->lng  = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+
 		$this->tree = new ilTree($a_user_id);
 		$this->tree->setTableNames('mail_tree','mail_obj_data');
-		
+
 		parent::__construct("mail_exp", $a_parent_obj, $a_parent_cmd, $this->tree);				
 		
 		$this->setSkipRootNode(false);
@@ -26,16 +47,14 @@ class ilMailExplorer extends ilTreeExplorerGUI
 	
 	function getNodeContent($a_node)
 	{
-		global $lng;
-		
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
-			return $lng->txt("mail_folders");
+			return $this->lng->txt("mail_folders");
 		}
 		
 		if($a_node["depth"] < 3)
 		{			
-			return $lng->txt("mail_".$a_node["title"]);			
+			return $this->lng->txt("mail_".$a_node["title"]);			
 		}
 		
 		return $a_node["title"];
@@ -58,31 +77,27 @@ class ilMailExplorer extends ilTreeExplorerGUI
 	
 	function getNodeIconAlt($a_node)
 	{
-		global $lng;
-		
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
-			return $lng->txt("icon")." ".$lng->txt("mail_folders");
+			return $this->lng->txt("icon")." ".$this->lng->txt("mail_folders");
 		}
 		else
 		{
-			return $lng->txt("icon")." ".$lng->txt($a_node["m_type"]);
+			return $this->lng->txt("icon")." ".$this->lng->txt($a_node["m_type"]);
 		}
 	}
 		
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl;
-		
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
 			$a_node["child"] = 0;
 		}
-		
-		$ilCtrl->setParameter($this->parent_obj, "mobj_id", $a_node["child"]);
-		$href = $ilCtrl->getLinkTargetByClass("ilMailFolderGUI");
-		$ilCtrl->setParameter($this->parent_obj, "mobj_id",  $_GET["mobj_id"]);
-		
+
+		$this->ctrl->setParameter($this->parent_obj, "mobj_id", $a_node["child"]);
+		$href = $this->ctrl->getLinkTargetByClass("ilMailFolderGUI");
+		$this->ctrl->setParameter($this->parent_obj, "mobj_id",  $_GET["mobj_id"]);
+
 		return $href;
 	}
 	
@@ -95,6 +110,4 @@ class ilMailExplorer extends ilTreeExplorerGUI
 		}
 		return false;
 	}	
-} // END class.ilMailExplorer
-
-?>
+}

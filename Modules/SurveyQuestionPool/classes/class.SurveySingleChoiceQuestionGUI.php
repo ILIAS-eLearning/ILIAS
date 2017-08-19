@@ -86,10 +86,11 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 	
 	protected function importEditFormValues(ilPropertyFormGUI $a_form)
 	{
+		$this->log->debug("importing edit values");
+
 		$this->object->setOrientation($a_form->getInput("orientation"));
 		
 		$this->object->categories->flushCategories();
-
 		foreach ($_POST['answers']['answer'] as $key => $value) 
 		{
 			if (strlen($value)) $this->object->getCategories()->addCategory($value, $_POST['answers']['other'][$key], 0, null, $_POST['answers']['scale'][$key]);
@@ -273,6 +274,10 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$cat = $this->object->categories->getCategory($i);
+
+					$debug_scale = ($cat->scale) ? ($cat->scale - 1) : $i;
+					$this->log->debug("Vertical orientation - Original scale = ".$cat->scale." If(scale) scale -1 else i. The new scale value is = ".$debug_scale);
+
 					if ($cat->other)
 					{
 						$template->setCurrentBlock("other_row");
@@ -334,6 +339,10 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$cat = $this->object->categories->getCategory($i);
+
+					$debug_scale = ($cat->scale) ? ($cat->scale - 1) : $i;
+					$this->log->debug("Horizontal orientation - Original NEUTRAL scale = ".$cat->scale." If(scale) scale -1 else i. The new scale value is = ".$debug_scale);
+
 					$template->setCurrentBlock("radio_col");
 					if ($cat->neutral) $template->setVariable('COLCLASS', ' neutral');
 					$template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale - 1) : $i);
@@ -359,6 +368,10 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$cat = $this->object->categories->getCategory($i);
+
+					$debug_scale = ($cat->scale) ? ($cat->scale - 1) : $i;
+					$this->log->debug("Horizontal orientation - Original scale = ".$cat->scale." If(scale) scale -1 else i. The new scale value is = ".$debug_scale);
+
 					if ($cat->other)
 					{
 						$template->setCurrentBlock("text_other_col");
@@ -400,6 +413,10 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$cat = $this->object->categories->getCategory($i);
+
+					$debug_scale = ($cat->scale) ? ($cat->scale - 1) : $i;
+					$this->log->debug("Combobox - Original scale = ".$cat->scale." If(scale) scale -1 else i. The new scale value is = ".$debug_scale);
+
 					$template->setCurrentBlock("comborow");
 					$template->setVariable("TEXT_SC", $cat->title);
 					$template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale - 1) : $i);
@@ -436,125 +453,6 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 			$this->outQuestionText($template);
 		}
 		$template->parseCurrentBlock();
-		return $template->get();
-	}
-
-	
-	//
-	// EVALUTION
-	// 
-	
-	/**
-	* Creates the detailed output of the cumulated results for the question
-	*
-	* @param integer $survey_id The database ID of the survey
-	* @param integer $counter The counter of the question position in the survey
-	* @return string HTML text with the cumulated results
-	* @access private
-	*/
-	function getCumulatedResultsDetails($survey_id, $counter, $finished_ids)
-	{
-		if (count($this->cumulated) == 0)
-		{
-			if(!$finished_ids)
-			{
-				include_once "./Modules/Survey/classes/class.ilObjSurvey.php";			
-				$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
-			}
-			else
-			{
-				$nr_of_users = sizeof($finished_ids);
-			}
-			$this->cumulated =& $this->object->getCumulatedResults($survey_id, $nr_of_users, $finished_ids);
-		}
-		$output = "";
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_svy_svy_cumulated_results_detail.html", TRUE, TRUE, "Modules/Survey");
-
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("question"));
-		$questiontext = $this->object->getQuestiontext();
-		$template->setVariable("TEXT_OPTION_VALUE", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("question_type"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt($this->getQuestionType()));
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_answered"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["USERS_ANSWERED"]);
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["USERS_SKIPPED"]);
-		$template->parseCurrentBlock();
-		/*
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("mode"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["MODE"]);
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("mode_nr_of_selections"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["MODE_NR_OF_SELECTIONS"]);
-		$template->parseCurrentBlock();
-		*/
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("median"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["MEDIAN"]);
-		$template->parseCurrentBlock();
-		
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("categories"));
-		$table = array();
-		$idx = $selsum = 0;
-		foreach ($this->cumulated["variables"] as $key => $value)
-		{
-			$table[] = array(
-				(++$idx).".",
-				$value["title"], 
-				$value["selected"], 
-				sprintf("%.2f", 100*$value["percentage"])."%"
-			);			
-			$selsum += (int)$value["selected"];
-		}
-		$head = array(
-			"", 
-			$this->lng->txt("title"), 
-			$this->lng->txt("category_nr_selected"), 
-			$this->lng->txt("percentage_of_selections")
-		);
-		$foot = array(null, null, $selsum, null);
-		$template->setVariable("TEXT_OPTION_VALUE", 
-			$this->renderStatisticsDetailsTable($head, $table, $foot));
-		$template->parseCurrentBlock();
-		
-		// add text answers to detailed results
-		if (is_array($this->cumulated["textanswers"]))
-		{
-			$template->setCurrentBlock("detail_row");
-			$template->setVariable("TEXT_OPTION", $this->lng->txt("freetext_answers"));	
-			$html = "";		
-			foreach ($this->cumulated["textanswers"] as $key => $answers)
-			{
-				$html .= $this->cumulated["variables"][$key]["title"] ."\n";
-				$html .= "<ul>\n";
-				foreach ($answers as $answer)
-				{
-					$html .= "<li>" . preg_replace("/\n/", "<br>\n", $answer) . "</li>\n";
-				}
-				$html .= "</ul>\n";
-			}
-			$template->setVariable("TEXT_OPTION_VALUE", $html);
-			$template->parseCurrentBlock();
-		}			
-				
-		// chart 
-		$template->setCurrentBlock("detail_row");				
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("chart"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->renderChart("svy_ch_".$this->object->getId(), $this->cumulated["variables"]));
-		$template->parseCurrentBlock();
-		
-		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
 		return $template->get();
 	}
 }

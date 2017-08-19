@@ -53,7 +53,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		{
 			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "view"),
-				array("editMaps", "editMathJax", "editSocialBookmarks", ""), "", "");
+				array("editMaps", "editMathJax", ""), "", "");
 			$this->lng->loadLanguageModule('ecs');
 		}
 
@@ -63,319 +63,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
-
-	function addSocialBookmarkObject()
-	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl;
-		
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		
-		$this->__initSubTabs("editSocialBookmarks");
-
-		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
-		$form = ilSocialBookmarks::_initForm($this, 'create');
-		$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
-	}
-
-	function createSocialBookmarkObject()
-	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl;
-		
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
-		$form = ilSocialBookmarks::_initForm($this, 'create');
-		if ($form->checkInput())
-		{
-			$title = $form->getInput('title');
-			$link = $form->getInput('link');
-			$file = $form->getInput('image_file');
-			$active = $form->getInput('activate');
-
-			$extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-			$icon_path = ilUtil::getWebspaceDir() . DIRECTORY_SEPARATOR . 'social_bm_icons' . DIRECTORY_SEPARATOR . time() . '.' . $extension;
-
-			$path = ilUtil::getWebspaceDir() . DIRECTORY_SEPARATOR . 'social_bm_icons';
-			if (!is_dir($path))	
-				ilUtil::createDirectory($path);
-
-			ilSocialBookmarks::_insertSocialBookmark($title, $link, $active, $icon_path);
-
-			ilUtil::moveUploadedFile($file['tmp_name'], $file['name'], $icon_path);
-
-			$this->editSocialBookmarksObject();
-		}
-		else
-		{
-			$this->__initSubTabs("editSocialBookmarks");
-			$form->setValuesByPost();
-			$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
-		}
-	}
-
-	function updateSocialBookmarkObject()
-	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl;
-		
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
-		$form = ilSocialBookmarks::_initForm($this, 'update');
-		if ($form->checkInput())
-		{
-			$title = $form->getInput('title');
-			$link = $form->getInput('link');
-			$file = $form->getInput('image_file');
-			$active = $form->getInput('activate');
-			$id = $form->getInput('sbm_id');
-
-			if (!$file['name'])
-				ilSocialBookmarks::_updateSocialBookmark($id, $title, $link, $active);
-			else
-			{
-				$extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-				$icon_path = ilUtil::getWebspaceDir() . DIRECTORY_SEPARATOR . 'social_bm_icons' . DIRECTORY_SEPARATOR . time() . '.' . $extension;
-
-				$path = ilUtil::getWebspaceDir() . DIRECTORY_SEPARATOR . 'social_bm_icons';
-				if (!is_dir($path))	
-					ilUtil::createDirectory($path);
-
-				ilSocialBookmarks::_deleteImage($id);
-				ilSocialBookmarks::_updateSocialBookmark($id, $title, $link, $active, $icon_path);	
-				ilUtil::moveUploadedFile($file['tmp_name'], $file['name'], $icon_path);
-			}
-
-			$this->editSocialBookmarksObject();
-		}
-		else
-		{
-			$this->__initSubTabs("editSocialBookmarks");
-			$form->setValuesByPost();
-			$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
-		}
-	}
-
-	/**
-	* edit a social bookmark
-	* 
-	* @access	public
-	*/
-	function editSocialBookmarkObject()
-	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl;
-
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		
-		$this->__initSubTabs("editSocialBookmarks");
-
-		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';		
-		$row = ilSocialBookmarks::_getEntry($_GET['sbm_id']);
-		$dset = array
-		(
-			'sbm_id' => $row->sbm_id,
-			'title' => $row->sbm_title,
-			'link' => $row->sbm_link,
-			'activate' => $row->sbm_active
-		);
-
-		$form = ilSocialBookmarks::_initForm($this, 'update');
-		$form->setValuesByArray($dset);
-		$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
-	}
-
-	function enableSocialBookmarksObject()
-	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl;
-
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$ids = ((int)$_GET['sbm_id']) ? array((int)$_GET['sbm_id']) : $_POST['sbm_id'];
-		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
-		ilSocialBookmarks::_setActive($ids, true);
-		$this->editSocialBookmarksObject();
-	}
-
-	function disableSocialBookmarksObject()
-	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl;
-
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-
-		}
-		$ids = ((int)$_GET['sbm_id']) ? array((int)$_GET['sbm_id']) : $_POST['sbm_id'];
-		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
-		ilSocialBookmarks::_setActive($ids, false);
-		$this->editSocialBookmarksObject();
-	}
-
-	function deleteSocialBookmarksObject()
-	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl;
-		
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-
-		}
-
-		$this->__initSubTabs("editSocialBookmarks");
-
-		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$c_gui = new ilConfirmationGUI();
-		
-		$ids = ((int)$_GET['sbm_id']) ? array((int)$_GET['sbm_id']) : $_POST['sbm_id'];
-
-		// set confirm/cancel commands
-		$c_gui->setFormAction($ilCtrl->getFormAction($this, "confirmDeleteSocialBookmarks"));
-		$c_gui->setHeaderText($lng->txt("socialbm_sure_delete_entry"));
-		$c_gui->setCancel($lng->txt("cancel"), "editSocialBookmarks");
-		$c_gui->setConfirm($lng->txt("confirm"), "confirmDeleteSocialBookmarks");
-		
-		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
-		// add items to delete
-		foreach($ids as $id)
-		{
-			$entry = ilSocialBookmarks::_getEntry($id);
-			$c_gui->addItem("sbm_id[]", $id, $entry->sbm_title . ' (' . str_replace('{', '&#123;', $entry->sbm_link) . ')');
-		}
-		
-		$this->tpl->setVariable('ADM_CONTENT', $c_gui->getHTML());
-	}
-
-	function confirmDeleteSocialBookmarksObject()
-	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl;
-		
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-
-		$ids = ((int)$_GET['sbm_id']) ? array((int)$_GET['sbm_id']) : $_POST['sbm_id'];
-		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
-		ilSocialBookmarks::_delete($ids, false);
-		$this->editSocialBookmarksObject();
-	}
-
-	/**
-	* Configure social bookmark settings
-	* 
-	* @access	public
-	*/
-	function editSocialBookmarksObject()
-	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl;
-		
-		$this->__initSubTabs("editSocialBookmarks");
-				
-		$has_write = $ilAccess->checkAccess('write','',$this->object->getRefId());
-	
-		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-
-		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
-		$rset = ilSocialBookmarks::_getEntry();
-
-		$counter = 0;
-		foreach($rset as $idx => $row)
-		{
-			$dset[$idx] = array
-			(			
-				'TITLE' => $row->sbm_title,
-				'LINK' => str_replace('{', '&#123;', $row->sbm_link),
-				'ICON' => $row->sbm_icon,				
-			);
-			
-			if($has_write)
-			{
-				$current_selection_list = new ilAdvancedSelectionListGUI();
-				$current_selection_list->setListTitle($lng->txt("actions"));
-				$current_selection_list->setId("act_".$counter++);
-
-				$ilCtrl->setParameter($this, 'sbm_id', $row->sbm_id);
-
-				$current_selection_list->addItem($lng->txt("edit"), '', $ilCtrl->getLinkTarget($this, "editSocialBookmark"));
-				$current_selection_list->addItem($lng->txt("delete"), '', $ilCtrl->getLinkTarget($this, "deleteSocialBookmarks"));
-
-				$toggle_action = '';
-				if ($row->sbm_active)
-				{
-					$current_selection_list->addItem($lng->txt("socialbm_disable"), '', $toggle_action = $ilCtrl->getLinkTarget($this, "disableSocialBookmarks"));
-				}
-				else
-				{
-					$current_selection_list->addItem($lng->txt("socialbm_enable"), '', $toggle_action = $ilCtrl->getLinkTarget($this, "enableSocialBookmarks"));
-				}
-				
-				$ilCtrl->clearParameters($this);
-				
-				$dset[$idx]['CHECK'] = ilUtil::formCheckbox(0, 'sbm_id[]', $row->sbm_id);
-				$dset[$idx]['ID'] = $row->sbm_id;
-				$dset[$idx]['ACTIONS'] = $current_selection_list->getHTML();
-				$dset[$idx]['TOGGLE_LINK'] = $toggle_action;
-				$dset[$idx]['ACTIVE'] = $row->sbm_active ? $lng->txt('enabled') : $lng->txt('disabled');
-			}		
-			else
-			{
-				$dset[$idx]['ACTIVE_STATIC'] = $row->sbm_active ? $lng->txt('enabled') : $lng->txt('disabled');
-			}
-		}
-
-		require_once 'Services/Table/classes/class.ilTable2GUI.php';
-		$table = new ilTable2GUI($this, 'editSocialBookmarks');
-		$table->setFormName('smtable');
-		$table->setId('smtable');
-		$table->setPrefix('sm');
-		$table->setFormAction($ilCtrl->getFormAction($this, 'saveSocialBookmarks'));
-		if($has_write)
-		{
-			$table->addColumn('', 'check', '', true);
-		}
-		$table->addColumn($lng->txt('icon'), '');
-		$table->addColumn($lng->txt('title'), 'TITLE');
-		$table->addColumn($lng->txt('link'), 'LINK');
-		$table->addColumn($lng->txt('active'), 'ACTIVE');
-		if($has_write)
-		{			
-			$table->addColumn($lng->txt('actions'), '');
-		}
-		$table->setTitle($lng->txt('bm_manage_social_bm'));
-		$table->setData($dset);
-		$table->setRowTemplate('tpl.social_bookmarking_row.html', 'Services/Administration');		
-
-		$table->setDefaultOrderField("title");
-		$table->setDefaultOrderDirection("asc");
-
-		if($has_write)
-		{
-			$table->addMultiCommand('enableSocialBookmarks', $lng->txt('socialbm_enable'));
-			$table->addMultiCommand('disableSocialBookmarks', $lng->txt('socialbm_disable'));
-			$table->addMultiCommand('deleteSocialBookmarks', $lng->txt('delete'));
-			$table->setSelectAllCheckbox('sbm_id');
-
-			$table->addCommandButton('addSocialBookmark', $lng->txt('create'));
-		}
-		
-		$this->tpl->setVariable('ADM_CONTENT', $table->getHTML());
-	}
-
 
 	/**
 	 * Configure MathJax settings
@@ -395,11 +82,12 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$form->setTitle($lng->txt("mathjax_settings"));
 		
 		// Enable MathJax
-		$enable = new ilCheckboxInputGUI($lng->txt("mathjax_enable_mathjax"), "enable");
+		$enable = new ilCheckboxInputGUI($lng->txt("mathjax_enable_client"), "enable");
 		$enable->setChecked($mathJaxSetting->get("enable"));
-		$enable->setInfo($lng->txt("mathjax_enable_mathjax_info")." <a target='blank' href='http://www.mathjax.org/'>MathJax</a>");
+		$enable->setInfo($lng->txt("mathjax_enable_mathjax_info")." <a target='blank' href='http://www.mathjax.org/'>"
+			.$lng->txt("mathjax_home_link")."</a>");
 		$form->addItem($enable);
-		
+
 		// Path to mathjax
 		$text_prop = new ilTextInputGUI($lng->txt("mathjax_path_to_mathjax"), "path_to_mathjax");
 		$text_prop->setInfo($lng->txt("mathjax_path_to_mathjax_desc"));
@@ -411,7 +99,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		
 		// mathjax limiter
 		$options = array(
-			0 => '\(...\)',
+			0 => '\&#8203;(...\&#8203;)',
 			1 => '[tex]...[/tex]',
 			2 => '&lt;span class="math"&gt;...&lt;/span&gt;'
 			);
@@ -420,6 +108,68 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$si->setValue($mathJaxSetting->get("limiter"));
 		$si->setInfo($this->lng->txt("mathjax_limiter_info"));
 		$enable->addSubItem($si);
+
+		include_once './Services/MathJax/classes/class.ilMathJax.php';
+		$install_link = ' <a target="_blank" href="Services/MathJax/docs/Install-MathJax-Server.txt">'
+			.$lng->txt("mathjax_server_installation").'</a>';
+		$clear_cache_link = ' <a href="'.$this->ctrl->getLinkTarget($this,'clearMathJaxCache').'"">'
+			.$lng->txt("mathjax_server_clear_cache").'</a>';
+
+		// Enable Server MathJax
+		$server = new ilCheckboxInputGUI($lng->txt("mathjax_enable_server"), "enable_server");
+		$server->setChecked($mathJaxSetting->get("enable_server"));
+		$server->setInfo($lng->txt("mathjax_enable_server_info").$install_link);
+
+		$form->addItem($server);
+
+		// Path to Server MathJax
+		$text_prop = new ilTextInputGUI($lng->txt("mathjax_server_address"), "server_address");
+		$text_prop->setInfo($lng->txt("mathjax_server_address_info"));
+		$text_prop->setValue($mathJaxSetting->get("server_address"));
+		$text_prop->setRequired(true);
+		$text_prop->setMaxLength(400);
+		$text_prop->setSize(100);
+		$server->addSubItem($text_prop);
+
+		// Server Timeout
+		$number_prop = new ilNumberInputGUI($lng->txt("mathjax_server_timeout"), "server_timeout");
+		$number_prop->setInfo($lng->txt("mathjax_server_timeout_info"));
+		$number_prop->setValue($mathJaxSetting->get("server_timeout") ? (int) $mathJaxSetting->get("server_timeout") : 5);
+		$number_prop->setRequired(true);
+		$number_prop->setSize(3);
+		$server->addSubItem($number_prop);
+
+		// Server for Browser
+		$checkbox = new ilCheckboxInputGUI($lng->txt("mathjax_server_for_browser"),"server_for_browser");
+		$checkbox->setInfo($lng->txt("mathjax_server_for_browser_info"));
+		$checkbox->setChecked((bool) $mathJaxSetting->get("server_for_browser"));
+		$server->addSubItem($checkbox);
+
+		// Server for HTML Export
+		$checkbox = new ilCheckboxInputGUI($lng->txt("mathjax_server_for_export"),"server_for_export");
+		$checkbox->setInfo($lng->txt("mathjax_server_for_export_info"));
+		$checkbox->setChecked((bool) $mathJaxSetting->get("server_for_export"));
+		$server->addSubItem($checkbox);
+
+		// Server for PDF
+		$checkbox = new ilCheckboxInputGUI($lng->txt("mathjax_server_for_pdf"),"server_for_pdf");
+		$checkbox->setInfo($lng->txt("mathjax_server_for_pdf_info"));
+		$checkbox->setChecked((bool) $mathJaxSetting->get("server_for_pdf"));
+		$server->addSubItem($checkbox);
+
+		// Cache Size / Clear Cache
+		$size = new ilNonEditableValueGUI($lng->txt("mathjax_server_cache_size"));
+		$size->setInfo($lng->txt("mathjax_server_cache_size_info") . $clear_cache_link);
+		$size->setValue(ilMathJax::getInstance()->getCacheSize());
+		$server->addSubItem($size);
+
+		// Test expression
+		$test = new ilCustomInputGUI($lng->txt("mathjax_test_expression"));
+		include_once './Services/MathJax/classes/class.ilMathJax.php';
+		$html = ilMathJax::getInstance()->insertLatexImages('[tex]f(x)=\int_{-\infty}^x e^{-t^2}dt[/tex]');
+		$test->setHtml($html);
+		$test->setInfo($lng->txt('mathjax_test_expression_info'));
+		$form->addItem($test);
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -438,17 +188,44 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			$path_to_mathjax = ilUtil::stripSlashes($_POST["path_to_mathjax"]);
 			$mathJaxSetting = new ilSetting("MathJax");
+			// Client settings
+			$path_to_mathjax = ilUtil::stripSlashes($_POST["path_to_mathjax"]);
 			if ($_POST["enable"])
 			{
 				$mathJaxSetting->set("path_to_mathjax", $path_to_mathjax);
 				$mathJaxSetting->set("limiter", (int) $_POST["limiter"]);
 			}
 			$mathJaxSetting->set("enable", ilUtil::stripSlashes($_POST["enable"]));
+
+			// Server settings
+			if ($_POST["enable_server"])
+			{
+				$mathJaxSetting->set("server_address",ilUtil::stripSlashes($_POST["server_address"]));
+				$mathJaxSetting->set("server_timeout", (int) ilUtil::stripSlashes($_POST["server_timeout"]));
+				$mathJaxSetting->set("server_for_browser", (bool) ilUtil::stripSlashes($_POST["server_for_browser"]));
+				$mathJaxSetting->set("server_for_export", (bool) ilUtil::stripSlashes($_POST["server_for_export"]));
+				$mathJaxSetting->set("server_for_pdf", (bool) ilUtil::stripSlashes($_POST["server_for_pdf"]));
+			}
+			$mathJaxSetting->set("enable_server", (bool) ilUtil::stripSlashes($_POST["enable_server"]));
+
 			ilUtil::sendInfo($lng->txt("msg_obj_modified"));
 		}
 		$ilCtrl->redirect($this, "editMathJax");
+	}
+
+	/**
+	 * Clear the directory with cached LaTeX graphics
+	 */
+	function clearMathJaxCacheObject()
+	{
+		global $lng;
+
+		include_once './Services/MathJax/classes/class.ilMathJax.php';
+		ilMathJax::getInstance()->clearCache();
+
+		ilUtil::sendSuccess($lng->txt('mathjax_server_cache_cleared'), true);
+		$this->ctrl->redirect($this, 'editMathJax');
 	}
 
 	/**
@@ -497,6 +274,12 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 			$form->addItem($tile);
 			$form->addItem($geolocation);
+		} else {
+			// api key for google
+			$key = new ilTextInputGUI("Google API Key", "api_key");
+			$key->setMaxLength(200);
+			$key->setValue(ilMapUtil::getApiKey());
+			$form->addItem($key);
 		}
 
 		// location property
@@ -529,6 +312,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		if(ilUtil::stripSlashes($_POST["type"]) == 'openlayers' && 'openlayers' == ilMapUtil::getType()) {
 			ilMapUtil::setStdTileServers(ilUtil::stripSlashes($_POST["tile"]));
 			ilMapUtil::setStdGeolocationServer(ilUtil::stripSlashes($_POST["geolocation"]));
+		} else {
+			ilMapUtil::setApiKey(ilUtil::stripSlashes(trim($_POST["api_key"])));
 		}
 
 		ilMapUtil::setActivated(ilUtil::stripSlashes($_POST["enable"]) == "1");
@@ -544,14 +329,11 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	{
 		$maps = ($a_cmd == 'editMaps') ? true : false;
 		$mathjax = ($a_cmd == 'editMathJax') ? true : false;
-		$socialbookmarks = ($a_cmd == 'editSocialBookmarks') ? true : false;
 
 		$this->tabs_gui->addSubTabTarget("maps_extt_maps", $this->ctrl->getLinkTarget($this, "editMaps"),
 										 "", "", "", $maps);
 		$this->tabs_gui->addSubTabTarget("mathjax_mathjax", $this->ctrl->getLinkTarget($this, "editMathJax"),
 											"", "", "", $mathjax);
-		$this->tabs_gui->addSubTabTarget("socialbm_extt_social_bookmarks", $this->ctrl->getLinkTarget($this, "editSocialBookmarks"),
-											"", "", "", $socialbookmarks);
 	}
 	
 	function executeCommand()

@@ -2,6 +2,10 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\BackgroundTasks\BucketMeta;
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
+use ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal;
+
 include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 
 /**
@@ -227,7 +231,10 @@ class ilMainMenuGUI
 			// online help
 			$this->renderHelpButtons();
 
+			$this->renderOnScreenChatMenu();
 			$this->populateWithBuddySystem();
+			$this->populateWithOnScreenChat();
+			$this->renderBackgroundTasks();
 			$this->renderAwareness();
 		}
 
@@ -256,7 +263,7 @@ class ilMainMenuGUI
 				: "";
 		
 			// login stuff
-			if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+			if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
 			{
 				include_once 'Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
 				if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
@@ -302,9 +309,6 @@ class ilMainMenuGUI
 					 */
 					global $tpl;
 
-					// php7-workaround JL start
-					// the frequent polling messes up the log files
-					/* 
 					$this->tpl->touchBlock('osd_container');
 
 					include_once "Services/jQuery/classes/class.iljQueryUtil.php";
@@ -324,8 +328,6 @@ class ilMainMenuGUI
 					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
 					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '60');
 					$this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
-					*/
-					// php7-workaround end
 				}
 
 				$this->tpl->setCurrentBlock("userisloggedin");
@@ -361,7 +363,7 @@ class ilMainMenuGUI
 			{
 				$this->tpl->setCurrentBlock("header_top_title");
 				// php7-workaround alex: added phpversion() to help during development of php7 compatibility
-				$this->tpl->setVariable("TXT_HEADER_TITLE", $header_top_title." PHP ".phpversion());
+				$this->tpl->setVariable("TXT_HEADER_TITLE", $header_top_title);
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -386,52 +388,33 @@ class ilMainMenuGUI
 		
 		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
 
-		// set link to return to desktop, not depending on a specific position in the hierarchy
-		//$this->tpl->setVariable("SCRIPT_START", $this->getScriptTarget("start.php"));
-		
-		/*
-		else
-		{
-			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
-			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
-		}
-		*/
-		
 		$this->tpl->setVariable("TXT_MAIN_MENU", $lng->txt("main_menu"));
 		
 		$this->tpl->parseCurrentBlock();
+
 	}
 	
 	/**
 	 * Render status box
 	 */
-	function renderStatusBox($a_tpl)
+	public function renderStatusBox($a_tpl)
 	{
-		global $ilUser, $lng;
-		
-		$box = false;
-		
-		// new mails?
-		if($this->mail)
-		{
+		global $ilUser, $DIC;
+		$ui_factory = $DIC->ui()->factory();
+		$ui_renderer = $DIC->ui()->renderer();
+
+		if ($this->mail) {
 			$new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId());
-			if($new_mails > 0)
-			{
-				$a_tpl->setCurrentBlock('status_text');
-				$a_tpl->setVariable('STATUS_TXT', $new_mails);
-				$a_tpl->parseCurrentBlock();
+
+			$a_tpl->setCurrentBlock('status_box');
+
+			$glyph = $ui_factory->glyph()->mail("ilias.php?baseClass=ilMailGUI");
+
+			if ($new_mails > 0) {
+				$glyph = $glyph->withCounter($ui_factory->counter()->novelty($new_mails));
 			}
-			$a_tpl->setCurrentBlock('status_item');
-			$a_tpl->setVariable('STATUS_IMG', ilUtil::getImagePath('icon_mail.svg'));
-			$a_tpl->setVariable('STATUS_IMG_ALT', $lng->txt("mail"));
-			$a_tpl->setVariable('STATUS_HREF', 'ilias.php?baseClass=ilMailGUI');
-			$a_tpl->parseCurrentBlock();
-			$box = true;
-		}
-		
-		if ($box)
-		{
-			$a_tpl->setCurrentBlock("status_box");
+
+			$a_tpl->setVariable('GLYPH', $ui_renderer->render($glyph));
 			$a_tpl->parseCurrentBlock();
 		}
 	}
@@ -448,7 +431,7 @@ class ilMainMenuGUI
 		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting, $ilAccess;
 
 		// personal desktop
-		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		if ($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID)
 		{
 			$this->renderEntry($a_tpl, "desktop",
 				$lng->txt("personal_desktop"), "#");
@@ -464,7 +447,7 @@ class ilMainMenuGUI
 			{
 				$title = $lng->txt("repository");
 			}
-			if($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+			if($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID)
 			{
 				$this->renderEntry($a_tpl, "repository",
 					$title, "#");
@@ -562,10 +545,12 @@ class ilMainMenuGUI
 				"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSelectedItems",
 				"_top", "", "", "mm_pd_sel_items", ilHelp::getMainMenuTooltip("mm_pd_sel_items"),
 					"left center", "right center", false);
-			
+
+			require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
+			$pdItemsViewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user());
+
 			// my groups and courses, if both is available
-			if($ilSetting->get('disable_my_offers') == 0 &&
-				$ilSetting->get('disable_my_memberships') == 0)
+			if($pdItemsViewSettings->allViewsEnabled())
 			{
 				$gl->addEntry($lng->txt("my_courses_groups"),
 					"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToMemberships",
@@ -582,9 +567,21 @@ class ilMainMenuGUI
 			}
 			
 			// private notes
-			if (!$this->ilias->getSetting("disable_notes"))
+			if (!$this->ilias->getSetting("disable_notes") || !$ilSetting->get("disable_comments"))
 			{
-				$gl->addEntry($lng->txt("notes_and_comments"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNotes",
+				$lng->loadLanguageModule("notes");
+				$t = $lng->txt("notes");
+				$c = "jumpToNotes";
+				if (!$this->ilias->getSetting("disable_notes") && !$ilSetting->get("disable_comments"))
+				{
+					$t = $lng->txt("notes_and_comments");
+				}
+				if ($this->ilias->getSetting("disable_notes"))
+				{
+					$t = $lng->txt("notes_comments");
+					$c = "jumpToComments";
+				}
+				$gl->addEntry($t, "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=".$c,
 					"_top", "", "", "mm_pd_notes", ilHelp::getMainMenuTooltip("mm_pd_notes"),
 					"left center", "right center", false);
 			}
@@ -693,6 +690,17 @@ class ilMainMenuGUI
 				$gl->addSeparator();
 			}
 			
+			require_once 'Services/Badge/classes/class.ilBadgeHandler.php';
+			if(ilBadgeHandler::getInstance()->isActive())
+			{
+				$gl->addEntry($lng->txt('obj_bdga'),
+					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBadges', '_top'
+					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_badges"),
+					"left center", "right center", false);
+				
+				$gl->addSeparator();
+			}
+			
 			// profile
 			$gl->addEntry($lng->txt("personal_profile"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
 				"_top", "", "", "mm_pd_profile", ilHelp::getMainMenuTooltip("mm_pd_profile"),
@@ -748,17 +756,7 @@ class ilMainMenuGUI
 	*/
 	function getScriptTarget($a_script)
 	{
-		global $ilias;
-
 		$script = "./".$a_script;
-
-		//if ($this->start_template == true)
-		//{
-			//if(is_file("./templates/".$ilias->account->skin."/tpl.start.html"))
-			//{
-	//			$script = "./start.php?script=".rawurlencode($script);
-			//}
-		//}
 		if (defined("ILIAS_MODULE"))
 		{
 			$script = ".".$script;
@@ -1072,6 +1070,22 @@ class ilMainMenuGUI
 		}
 	}
 
+	protected function populateWithOnScreenChat()
+	{
+		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChat.php';
+		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php';
+
+		ilOnScreenChatGUI::initializeFrontend();
+	}
+
+	protected function renderOnScreenChatMenu()
+	{
+		require_once 'Services/OnScreenChat/classes/class.ilOnScreenChatMenuGUI.php';
+
+		$menu = new ilOnScreenChatMenuGUI();
+		$this->tpl->setVariable('ONSCREENCHAT', $menu->getMainMenuHTML());
+	}
+
 	/**
 	 * Render awareness tool
 	 */
@@ -1106,7 +1120,53 @@ class ilMainMenuGUI
 		}
 		
 		return $url;
-	}	
+	}
+
+	protected function renderBackgroundTasks()
+	{
+		global $DIC;
+		$DIC->language()->loadLanguageModule("background_tasks");
+		$factory = $DIC->ui()->factory();
+		$persistence = $DIC->backgroundTasks()->persistence();
+		$metas = $persistence->getBucketMetaOfUser($DIC->user()->getId());
+		if(!count($metas))
+			return;
+
+		$numberOfUserInteractions = count(array_filter($metas, function(BucketMeta $meta) {
+			return $meta->getState() == State::USER_INTERACTION;
+		}));
+		$numberOfNotUserInteractions = count($metas) - $numberOfUserInteractions;
+
+		$popover = $factory->popover()
+		                   ->listing(array())
+		                   ->withTitle($DIC->language()->txt("background_tasks_running")); // needs to have empty content
+		$DIC->ctrl()->clearParametersByClass(ilBTControllerGUI::class);
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
+			"from_url",
+			urlencode(ilUtil::_getHttpPath())
+		);
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
+			"replaceSignal",
+			$popover->getReplaceContentSignal()->getId()
+		);
+
+		$url = $DIC->ctrl()->getLinkTargetByClass([ ilBTControllerGUI::class ], "getPopoverContent", "", true);
+		$popover = $popover->withAsyncContentUrl($url);
+
+		$glyph = $factory->glyph()
+		                 ->briefcase()
+		                 ->withOnClick($popover->getShowSignal())
+		                 ->withCounter($factory->counter()->novelty($numberOfUserInteractions))
+		                 ->withCounter($factory->counter()->status($numberOfNotUserInteractions));
+
+		$DIC['tpl']->addJavascript('./Services/BackgroundTasks/js/background_task_refresh.js');
+
+		$this->tpl->setVariable('BACKGROUNDTASKS',
+			$DIC->ui()->renderer()->render([$glyph, $popover])
+		);
+
+		$this->tpl->setVariable('BACKGROUNDTASKS_REFRESH_URI', $url);
+	}
 }
 
 ?>

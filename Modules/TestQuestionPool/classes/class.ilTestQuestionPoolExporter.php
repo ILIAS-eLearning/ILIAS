@@ -50,7 +50,8 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
 	{
 		include_once './Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
 		$qpl = new ilObjQuestionPool($a_id,false);
-
+		$qpl->loadFromDb();
+		
 		include_once("./Modules/TestQuestionPool/classes/class.ilQuestionpoolExport.php");
 		$qpl_exp = new ilQuestionpoolExport($qpl, 'xml');
 		$zip = $qpl_exp->buildExportFile();

@@ -17,4 +17,5 @@
 	<crons>
 		<cron id="lp_object_statistics" class="ilLPCronObjectStatistics" />
 	</crons>
+	<logging />
 </service>

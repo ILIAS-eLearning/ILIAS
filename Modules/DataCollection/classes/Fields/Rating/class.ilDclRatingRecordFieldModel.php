@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once ('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordFieldModel.php');
-require_once ('./Services/Rating/classes/class.ilRating.php');
 
 /**
  * Class ilDclBaseFieldModel
@@ -34,6 +32,12 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel {
 		$dclTable = ilDclCache::getTableCache($this->getField()->getTableId());
 		$this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
 	}
+
+
+	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {
+		return;
+	}
+
 
 	/**
 	 * override the loadValue.

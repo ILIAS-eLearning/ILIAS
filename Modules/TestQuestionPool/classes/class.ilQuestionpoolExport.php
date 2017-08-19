@@ -144,12 +144,12 @@ class ilQuestionpoolExport
 		
 		// write qti file
 		$qti_file = fopen($this->export_dir."/".$this->subdir."/".$this->qti_filename, "w");
-		fwrite($qti_file, $this->qpl_obj->toXML($this->questions));
+		fwrite($qti_file, $this->qpl_obj->questionsToXML($this->questions));
 		fclose($qti_file);
 
 		// get xml content
 		$ilBench->start("QuestionpoolExport", "buildExportFile_getXML");
-		$this->qpl_obj->exportPagesXML($this->xml, $this->inst_id,
+		$this->qpl_obj->objectToXmlWriter($this->xml, $this->inst_id,
 			$this->export_dir."/".$this->subdir, $expLog, $this->questions);
 		$ilBench->stop("QuestionpoolExport", "buildExportFile_getXML");
 

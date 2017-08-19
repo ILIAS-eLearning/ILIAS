@@ -3301,7 +3301,7 @@ if (!$ilDB->tableColumnExists('tst_tests', 'mailnottype'))
 // copy permission id
 $query = "SELECT * FROM rbac_operations WHERE operation = ".$ilDB->quote('copy','text');
 $res = $ilDB->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $ops_id = $row->ops_id;
 
 $all_types = array('spl','qpl');
@@ -3309,7 +3309,7 @@ foreach($all_types as $type)
 {
 	$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = ".$ilDB->quote($type,'text');
 	$res = $ilDB->query($query);
-	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 	$query = "INSERT INTO rbac_ta (typ_id,ops_id) ".
 		"VALUES( ".
@@ -3575,7 +3575,7 @@ $ilDB->renameTableColumn("svy_svy", "enddate_tmp", "enddate");
 		"WHERE assign = ".$ilDB->quote('y','text').' '.
 		"GROUP BY rol_id HAVING count(*) > 1";
 	$res = $ilDB->query($query);
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$role_id = $row->rol_id;
 		
@@ -3586,7 +3586,7 @@ $ilDB->renameTableColumn("svy_svy", "enddate_tmp", "enddate");
 			"ORDER BY depth, fa.parent";
 		$assignable_res = $ilDB->query($query);
 		$first = true;
-		while($assignable_row = $assignable_res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($assignable_row = $assignable_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if($first)
 			{
@@ -5070,7 +5070,7 @@ if(!$ilDB->tableExists('usr_portf_acl'))
 	$res = $ilDB->query($query);
 
 	$ecs = array();
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$ecs[$row->keyword] = $row->value;
 	}
@@ -5833,7 +5833,7 @@ foreach($old as $key=>$value)
 
 	if($res->numRows())
 	{
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		$query = 'UPDATE ecs_import SET server_id = '.$ilDB->quote($row->server_id);
 		$ilDB->manipulate($query);
 	}
@@ -5872,7 +5872,7 @@ $ilDB->addTableColumn("sahs_lm", "localization", array(
 
 	if($res->numRows())
 	{
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		$query = 'UPDATE ecs_export SET server_id = '.$ilDB->quote($row->server_id);
 		$ilDB->manipulate($query);
 	}
@@ -5946,7 +5946,7 @@ $ilDB->addTableColumn("sahs_lm", "localization", array(
 
 	if($res->numRows())
 	{
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		$query = 'UPDATE ecs_events SET server_id = '.$ilDB->quote($row->server_id);
 		$ilDB->manipulate($query);
 	}
@@ -6710,19 +6710,19 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 	// Crs typ-id
 	$query = 'SELECT obj_id FROM object_data WHERE type = '.$ilDB->quote('typ','text').' AND title = '.$ilDB->quote('crs');
 	$res = $ilDB->query($query);
-	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 	$typ_id = $row->obj_id;
 
 	// operation create_crsr
 	$query = 'SELECT * FROM rbac_operations WHERE operation = '.$ilDB->quote('create_crsr');
 	$res = $ilDB->query($query);
-	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 	$crs_create_id = $row->ops_id;
 
 	// operation create_catr
 	$query = 'SELECT * FROM rbac_operations WHERE operation = '.$ilDB->quote('create_catr');
 	$res = $ilDB->query($query);
-	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 	$cat_create_id = $row->ops_id;
 
 	$query = 'SELECT * FROM rbac_ta WHERE typ_id = '.$ilDB->quote($typ_id,'integer').' AND ops_id = '.$ilDB->quote($crs_create_id,'integer');
@@ -12088,7 +12088,7 @@ if(!$ilDB->tableColumnExists('cmi_node', 'additional_tables'))
 if($ilDB->tableColumnExists('cmi_node', 'cp_node_id'))
 {
 	$ilDB->query("DELETE from cmi_node where cp_node_id is null");
-	$reverse = $ilDB->db->loadModule('Reverse');
+	$reverse = $ilDB->loadModule('Reverse');
 	$def = $reverse->getTableFieldDefinition("cmi_node", "cp_node_id");
 	if($def[0]['notnull'] == false)
 	{
@@ -12106,7 +12106,7 @@ if($ilDB->tableColumnExists('cmi_node', 'cp_node_id'))
 if($ilDB->tableColumnExists('cmi_node', 'user_id'))
 {
 	$ilDB->query("DELETE from cmi_node where user_id is null");
-	$reverse = $ilDB->db->loadModule('Reverse');
+	$reverse = $ilDB->loadModule('Reverse');
 	$def = $reverse->getTableFieldDefinition("cmi_node", "user_id");
 	if($def[0]['notnull'] == false)
 	{
@@ -15411,7 +15411,7 @@ if(!$ilDB->tableExists('booking_obj_assignment'))
 
 $query = 'SELECT * FROM booking_entry ';
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 
         if($row->target_obj_id)

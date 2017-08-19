@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * TableGUI class for learning progress
@@ -154,7 +155,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 			if($objDefinition->isPluginTypeName($type))
 			{
 				include_once("./Services/Component/classes/class.ilPlugin.php");
-				$data[$type]["title"] = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+				$data[$type]["title"] = ilObjectPlugin::lookupTxtById($type, "obj_".$type);
 				$data[$type]["icon"] = ilObject::_getIcon("", "tiny", $type);
 			}			
 			else 
@@ -189,7 +190,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 				if($objDefinition->isPluginTypeName($type))
 				{
 					include_once("./Services/Component/classes/class.ilPlugin.php");
-					$data[$type]["title"] = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+					$data[$type]["title"] = ilObjectPlugin::lookupTxtById($type, "obj_".$type);
 					$data[$type]["icon"] = ilObject::_getIcon("", "tiny", $type);
 				}			
 				else

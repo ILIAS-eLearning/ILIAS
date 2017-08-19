@@ -605,9 +605,10 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
+		$participantSolution = $previewSession->getParticipantsSolution();
 		foreach ($this->answers as $key => $answer)
 		{
-			if( $key == $previewSession->getParticipantsSolution() )
+			if( is_numeric($participantSolution) && $key == $participantSolution )
 			{
 				return $answer->getPoints();
 			}
@@ -634,43 +635,44 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($active_id);
 		}
+
 		$entered_values = 0;
 
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $ilDB, $active_id, $pass, $authorized) {
 
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
-		$row = $ilDB->fetchAssoc($result);
-		$update = $row["solution_id"];
-		
-		if ($update)
-		{
-			if (strlen($_POST["multiple_choice_result"]))
+			$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
+			$row    = $ilDB->fetchAssoc($result);
+			$update = $row["solution_id"];
+
+			if($update)
 			{
-				$this->updateCurrentSolution($update, $_POST["multiple_choice_result"], null, $authorized);
-				$entered_values++;
+				if(strlen($_POST["multiple_choice_result"]))
+				{
+					$this->updateCurrentSolution($update, $_POST["multiple_choice_result"], null, $authorized);
+					$entered_values++;
+				}
+				else
+				{
+					$this->removeSolutionRecordById($update);
+				}
 			}
 			else
 			{
-				$this->removeSolutionRecordById($update);
+				if(strlen($_POST["multiple_choice_result"]))
+				{
+					$this->saveCurrentSolution($active_id, $pass, $_POST['multiple_choice_result'], null, $authorized);
+					$entered_values++;
+				}
 			}
-		}
-		else
-		{
-			if (strlen($_POST["multiple_choice_result"]))
-			{
-				$this->saveCurrentSolution($active_id, $pass, $_POST['multiple_choice_result'], null, $authorized);
-				$entered_values++;
-			}
-		}
 
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
-		
+		});
+
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 		else
@@ -678,7 +680,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 		
@@ -760,15 +762,6 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
 	{
 		// nothing to rework!
-	}
-
-	function syncWithOriginal()
-	{
-		if ($this->getOriginalId())
-		{
-			$this->syncImages();
-			parent::syncWithOriginal();
-		}
 	}
 
 	/**
@@ -903,7 +896,9 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 
 	function copyImages($question_id, $source_questionpool)
 	{
+		/** @var $ilLog ilLogger */
 		global $ilLog;
+
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
 		$imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
@@ -912,21 +907,32 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 			$filename = $answer->getImage();
 			if (strlen($filename))
 			{
-				if (!file_exists($imagepath))
+				if(!file_exists($imagepath))
 				{
 					ilUtil::makeDirParents($imagepath);
 				}
-				if (!@copy($imagepath_original . $filename, $imagepath . $filename))
+
+				if(file_exists($imagepath_original . $filename))
 				{
-					$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
-					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
-				}
-				if (@file_exists($imagepath_original. $this->getThumbPrefix(). $filename))
-				{
-					if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename))
+					if(!copy($imagepath_original . $filename, $imagepath . $filename))
 					{
-						$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
-						$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
+						$ilLog->warning(sprintf(
+							"Could not clone source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
+							$imagepath_original . $filename, $imagepath . $filename,
+							$question_id, $this->id, $source_questionpool, $this->obj_id
+						));
+					}
+				}
+
+				if(file_exists($imagepath_original. $this->getThumbPrefix(). $filename))
+				{
+					if(!copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename))
+					{
+						$ilLog->warning(sprintf(
+							"Could not clone thumbnail source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
+							$imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename,
+							$question_id, $this->id, $source_questionpool, $this->obj_id
+						));
 					}
 				}
 			}
@@ -1013,8 +1019,12 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		{
 			$worksheet->setCell($startrow + $i, 0,$answer->getAnswertext());
 			$worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
-			
-			if ($id == $solution[0]["value1"])
+			if(
+				count($solution) > 0 &&
+				isset($solution[0]) &&
+				is_array($solution[0]) &&
+				strlen($solution[0]['value1']) > 0 && $id == $solution[0]['value1']
+			)
 			{
 				$worksheet->setCell($startrow + $i, 1, 1);
 			}
@@ -1289,6 +1299,24 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		else
 		{
 			return $this->getAnswers();
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
+	{
+		parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
+
+		$origImagePath = $this->buildImagePath($origQuestionId, $origParentObjId);
+		$dupImagePath  = $this->buildImagePath($dupQuestionId, $dupParentObjId);
+
+		ilUtil::delDir($origImagePath);
+		if(is_dir($dupImagePath))
+		{
+			ilUtil::makeDirParents($origImagePath);
+			ilUtil::rCopy($dupImagePath, $origImagePath);
 		}
 	}
 }

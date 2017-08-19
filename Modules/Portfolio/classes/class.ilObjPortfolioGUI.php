@@ -30,7 +30,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	}
 	
 	protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_node_id = null)
-	{				
+	{
 		if($a_perm == "create")
 		{
 			return true;
@@ -43,9 +43,11 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	}
 	
 	function executeCommand()
-	{					
+	{
 		global $lng;
 		
+		$this->checkPermission("read");
+
 		// goto link to portfolio page
 		if($_GET["gtp"])
 		{		
@@ -137,7 +139,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 			
-			default:		
+			default:
+
 				if($cmd != "preview")
 				{
 					$this->addLocator();
@@ -533,8 +536,13 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		return "ilportfoliopagegui";
 	}
 	
-	protected function initCopyPageFormOptions(ilFormPropertyGUI $a_tgt)
+	protected function initCopyPageFormOptions(ilPropertyFormGUI $a_form)
 	{
+
+		$a_tgt = new ilRadioGroupInputGUI($this->lng->txt("target"), "target");
+		$a_tgt->setRequired(true);
+		$a_form->addItem($a_tgt);
+
 		$old = new ilRadioOption($this->lng->txt("prtf_existing_portfolio"), "old");
 		$a_tgt->addOption($old);
 

@@ -392,8 +392,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 	 */
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
-		/** @var $ilDB ilDBInterface */
-		global $ilDB;
+		/** @var ilDBInterface $ilDB */
+		$ilDB = $GLOBALS['DIC']['ilDB'];
 
 		if (is_null($pass))
 		{
@@ -403,26 +403,26 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
 		$entered_values = 0;
 
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $active_id, $pass, $authorized) {
 
-		$this->removeCurrentSolution($active_id, $pass, $authorized);
+			$this->removeCurrentSolution($active_id, $pass, $authorized);
 
-		$solutionSubmit = $this->getSolutionSubmit();
+			$solutionSubmit = $this->getSolutionSubmit();
 
-		foreach($solutionSubmit as $answerIndex => $answerValue)
-		{
-			$this->saveCurrentSolution($active_id, $pass, (int)$answerIndex, (int)$answerValue, $authorized);
-			$entered_values++;
-		}
+			foreach($solutionSubmit as $answerIndex => $answerValue)
+			{
+				$this->saveCurrentSolution($active_id, $pass, (int)$answerIndex, (int)$answerValue, $authorized);
+				$entered_values++;
+			}
 
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+		});
 
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 		else
@@ -430,7 +430,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 
@@ -661,7 +661,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 			ilUtil::makeDirParents($imagePath);
 		}
 		
-		$filename = $this->createNewImageFileName($fileData['name'], true);
+		$filename = $this->buildHashedImageFilename($fileData['name'], true);
 
 		$answer->setImageFsDir($imagePath);
 		$answer->setImageFile($filename);
@@ -899,8 +899,9 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
 	protected function cloneAnswerImages($sourceQuestionId, $sourceParentId, $targetQuestionId, $targetParentId)
 	{
+		/** @var $ilLog ilLogger */
 		global $ilLog;
-		
+
 		$sourcePath = $this->buildImagePath($sourceQuestionId, $sourceParentId);
 		$targetPath = $this->buildImagePath($targetQuestionId, $targetParentId);
 
@@ -910,23 +911,32 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 			
 			if (strlen($filename))
 			{
-				if (!file_exists($targetPath))
+				if(!file_exists($targetPath))
 				{
 					ilUtil::makeDirParents($targetPath);
 				}
-				
-				if (!@copy($sourcePath.$filename, $targetPath.$filename))
+
+				if(file_exists($sourcePath . $filename))
 				{
-					$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
-					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
-				}
-				
-				if (@file_exists($sourcePath.$this->getThumbPrefix().$filename))
-				{
-					if (!@copy($sourcePath.$this->getThumbPrefix().$filename, $targetPath.$this->getThumbPrefix().$filename))
+					if(!copy($sourcePath . $filename, $targetPath . $filename))
 					{
-						$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
-						$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
+						$ilLog->warning(sprintf(
+							"Could not clone source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
+							$sourcePath . $filename, $targetPath . $filename,
+							$sourceQuestionId, $targetQuestionId, $sourceParentId, $targetParentId
+						));
+					}
+				}
+
+				if(file_exists($sourcePath . $this->getThumbPrefix() . $filename))
+				{
+					if(!copy($sourcePath . $this->getThumbPrefix() . $filename, $targetPath . $this->getThumbPrefix() . $filename))
+					{
+						$ilLog->warning(sprintf(
+							"Could not clone thumbnail source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
+							$sourcePath . $this->getThumbPrefix() . $filename, $targetPath . $this->getThumbPrefix() . $filename,
+							$sourceQuestionId, $targetQuestionId, $sourceParentId, $targetParentId
+						));
 					}
 				}
 			}

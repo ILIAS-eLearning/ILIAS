@@ -145,6 +145,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 
 		$index = 1;
 
+		// TODO bheyser: There might be "sequence" gaps which lead to issues with tst_sequence when deleting/adding questions before any participant starts the test
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			$this->questions[$index++] = $data["question_fi"];
@@ -670,7 +671,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 					'isAnswered' => $question->isAnswered($this->active_id, $this->pass)
 				);
 				
-				if( !$obligationsFilter || $row['obligatory'] )
+				if( !$obligationsFilterEnabled || $row['obligatory'] )
 				{
 					array_push($result_array, $row);
 				}

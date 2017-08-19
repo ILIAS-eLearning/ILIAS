@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ilias="http://www.ilias.de/Services/WorkflowEngine/2015/bpmn2extensions" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="_QfHJcNx0EeW0s917QneenA" targetNamespace="http://activiti.org/bpmn">
+  <bpmn2:process id="UI_Task_CreateExamCourse" isExecutable="false">
+    <bpmn2:ioSpecification id="InputOutputSpecification_1">
+      <bpmn2:dataInput id="DataInput_1">
+        <bpmn2:documentation>Source Course Ref</bpmn2:documentation>
+        <bpmn2:extensionElements>
+    <ilias:properties>
+        <ilias:inputproperty name="type" value="robjselect" />
+        <ilias:inputproperty name="allowedtype" value="crs" />
+        <ilias:inputproperty name="requirement" value="required" />
+        <ilias:inputproperty name="caption" value="Lernkurs für die Prüfung" />
+        <ilias:inputproperty name="description" value="Bitte wählen Sie den Kurs für den Prozess aus, für dein ein Prüfungskurs erstellt werden soll." />
+    </ilias:properties>
+</bpmn2:extensionElements>
+      </bpmn2:dataInput>
+      <bpmn2:dataInput id="DataInput_2">
+        <bpmn2:documentation>Target Course Location Ref</bpmn2:documentation>
+        <bpmn2:extensionElements>
+    <ilias:properties>
+        <ilias:inputproperty name="type" value="robjselect" />
+        <ilias:inputproperty name="allowedtype" value="cat" />
+        <ilias:inputproperty name="requirement" value="required" />
+        <ilias:inputproperty name="caption" value="Zielkategorie für den Prüfungskurs" />
+        <ilias:inputproperty name="description" value="Bitte wählen Sie die Kategorie aus, in der der Prüfungskurs erstellt werden soll." />
+    </ilias:properties>
+</bpmn2:extensionElements>
+      </bpmn2:dataInput>
+      <bpmn2:dataInput id="DataInput_3">
+        <bpmn2:documentation>Target Course Title</bpmn2:documentation>
+        <bpmn2:extensionElements>
+    <ilias:properties>
+        <ilias:inputproperty name="type" value="text" />
+        <ilias:inputproperty name="requirement" value="required" />
+        <ilias:inputproperty name="caption" value="Titel des Prüfungskurses" />
+        <ilias:inputproperty name="description" value="Geben Sie bitte einen Titel für den Prüfungskurs an." />
+    </ilias:properties>
+</bpmn2:extensionElements>
+      </bpmn2:dataInput>
+    </bpmn2:ioSpecification>
+    <bpmn2:dataObject id="DataObject_1" name="Data Object 1"/>
+    <bpmn2:dataObject id="DataObject_2" name="Data Object 2"/>
+    <bpmn2:startEvent id="StartEvent_1">
+      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" name="" sourceRef="StartEvent_1" targetRef="CallActivity_1"/>
+    <bpmn2:dataObject id="DataObject_3" name="Data Object 3"/>
+    <bpmn2:callActivity id="CallActivity_1" name="ReadLearnersFromCourse">
+      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_1">
+        <bpmn2:sourceRef>DataInput_2</bpmn2:sourceRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_1">
+        <bpmn2:targetRef>DataObjectReference_1</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:extensionElements>
+    <ilias:properties>
+        <ilias:libraryCall
+            location="Services/WorkflowEngine/classes/tasks/class.ilModulesCourseTasks.php"
+            api="ilModulesCourseTasks"
+            method="readLearnersFromCourse"
+            />
+    </ilias:properties>
+</bpmn2:extensionElements>
+    </bpmn2:callActivity>
+    <bpmn2:dataObjectReference id="DataObjectReference_1" name="Data Object 1 Reference (Learners)&#xD;&#xA;" dataObjectRef="DataObject_1"/>
+    <bpmn2:dataObjectReference id="DataObjectReference_2" name="Data Object 2 Reference (Tutors)&#xD;&#xA;" dataObjectRef="DataObject_2"/>
+    <bpmn2:dataObjectReference id="DataObjectReference_3" name="Data Object 3 Reference (Admins)" dataObjectRef="DataObject_3"/>
+    <bpmn2:callActivity id="CallActivity_2" name="ReadTutorsFromCourse">
+      <bpmn2:incoming>SequenceFlow_2</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_3</bpmn2:outgoing>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_2">
+        <bpmn2:sourceRef>DataInput_2</bpmn2:sourceRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_2">
+        <bpmn2:targetRef>DataObjectReference_2</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:extensionElements>
+    <ilias:properties>
+        <ilias:libraryCall
+            location="Services/WorkflowEngine/classes/tasks/class.ilModulesCourseTasks.php"
+            api="ilModulesCourseTasks"
+            method="readTutorsFromCourse"
+            />
+    </ilias:properties>
+</bpmn2:extensionElements>
+    </bpmn2:callActivity>
+    <bpmn2:sequenceFlow id="SequenceFlow_2" name="" sourceRef="CallActivity_1" targetRef="CallActivity_2"/>
+    <bpmn2:callActivity id="CallActivity_3" name="ReadAdminsFromCourse">
+      <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_4</bpmn2:outgoing>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_3">
+        <bpmn2:sourceRef>DataInput_2</bpmn2:sourceRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_3">
+        <bpmn2:targetRef>DataObjectReference_3</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:extensionElements>
+    <ilias:properties>
+        <ilias:libraryCall
+            location="Services/WorkflowEngine/classes/tasks/class.ilModulesCourseTasks.php"
+            api="ilModulesCourseTasks"
+            method="readAdminsFromCourse"
+            />
+    </ilias:properties>
+</bpmn2:extensionElements>
+    </bpmn2:callActivity>
+    <bpmn2:sequenceFlow id="SequenceFlow_3" name="" sourceRef="CallActivity_2" targetRef="CallActivity_3"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_4" name="" sourceRef="CallActivity_3" targetRef="CallActivity_4"/>
+    <bpmn2:callActivity id="CallActivity_4" name="CreateCourse">
+      <bpmn2:incoming>SequenceFlow_4</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_5</bpmn2:outgoing>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_4">
+        <bpmn2:sourceRef>DataInput_1</bpmn2:sourceRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_5">
+        <bpmn2:sourceRef>DataInput_3</bpmn2:sourceRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:extensionElements>
+    <ilias:properties>
+        <ilias:libraryCall
+            location="Services/WorkflowEngine/classes/tasks/class.ilModulesCourseTasks.php"
+            api="ilModulesCourseTasks"
+            method="createCourse"
+            />
+    </ilias:properties>
+</bpmn2:extensionElements>
+    </bpmn2:callActivity>
+    <bpmn2:sequenceFlow id="SequenceFlow_5" name="" sourceRef="CallActivity_4" targetRef="CallActivity_5"/>
+    <bpmn2:callActivity id="CallActivity_5" name="AssignAdminsToCourse">
+      <bpmn2:incoming>SequenceFlow_5</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_6</bpmn2:outgoing>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_6">
+        <bpmn2:sourceRef>DataObjectReference_4</bpmn2:sourceRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:extensionElements>
+    <ilias:properties>
+        <ilias:libraryCall
+            location="Services/WorkflowEngine/classes/tasks/class.ilModulesCourseTasks.php"
+            api="ilModulesCourseTasks"
+            method="assignAdminsToCourse"
+            />
+    </ilias:properties>
+</bpmn2:extensionElements>
+    </bpmn2:callActivity>
+    <bpmn2:dataObjectReference id="DataObjectReference_4" name="Data Object 3 Reference (Admins)" dataObjectRef="DataObject_3"/>
+    <bpmn2:callActivity id="CallActivity_6" name="AssignTutorsToCourse">
+      <bpmn2:incoming>SequenceFlow_6</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_7</bpmn2:outgoing>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_7">
+        <bpmn2:sourceRef>DataObjectReference_5</bpmn2:sourceRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:extensionElements>
+    <ilias:properties>
+        <ilias:libraryCall
+            location="Services/WorkflowEngine/classes/tasks/class.ilModulesCourseTasks.php"
+            api="ilModulesCourseTasks"
+            method="assignTutorsToCourse"
+            />
+    </ilias:properties>
+</bpmn2:extensionElements>
+    </bpmn2:callActivity>
+    <bpmn2:sequenceFlow id="SequenceFlow_6" name="" sourceRef="CallActivity_5" targetRef="CallActivity_6"/>
+    <bpmn2:dataObjectReference id="DataObjectReference_5" name="Data Object 2 Reference (Tutors)" dataObjectRef="DataObject_2"/>
+    <bpmn2:callActivity id="CallActivity_7" name="AssignLearnersToCourse">
+      <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_8">
+        <bpmn2:sourceRef>DataObjectReference_6</bpmn2:sourceRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:extensionElements>
+    <ilias:properties>
+        <ilias:libraryCall
+            location="Services/WorkflowEngine/classes/tasks/class.ilModulesCourseTasks.php"
+            api="ilModulesCourseTasks"
+            method="assignLearnersToCourse"
+            />
+    </ilias:properties>
+</bpmn2:extensionElements>
+    </bpmn2:callActivity>
+    <bpmn2:sequenceFlow id="SequenceFlow_7" name="" sourceRef="CallActivity_6" targetRef="CallActivity_7"/>
+    <bpmn2:dataObjectReference id="DataObjectReference_6" name="Data Object 1 Reference (Learners)&#xD;&#xA;" dataObjectRef="DataObject_1"/>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="_BPMNShape_DataInput_3" bpmnElement="DataInput_1">
+        <dc:Bounds height="50.0" width="36.0" x="96.0" y="64.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_DataInput_4" bpmnElement="DataInput_2">
+        <dc:Bounds height="50.0" width="36.0" x="97.0" y="276.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="115.0" y="331.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_3" bpmnElement="StartEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="94.0" y="382.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="112.0" y="423.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_2" bpmnElement="CallActivity_1">
+        <dc:Bounds height="80.0" width="100.0" x="204.0" y="360.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1" sourceElement="_BPMNShape_StartEvent_3" targetElement="_BPMNShape_CallActivity_2">
+        <di:waypoint xsi:type="dc:Point" x="130.0" y="400.0"/>
+        <di:waypoint xsi:type="dc:Point" x="204.0" y="400.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="6.0" width="6.0" x="152.0" y="400.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_DataObjectReference_3" bpmnElement="DataObjectReference_1">
+        <dc:Bounds height="50.0" width="36.0" x="360.0" y="120.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="22.0" width="220.0" x="268.0" y="175.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_DataObjectReference_4" bpmnElement="DataObjectReference_2">
+        <dc:Bounds height="50.0" width="36.0" x="552.0" y="195.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="22.0" width="206.0" x="467.0" y="250.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_DataObjectReference_5" bpmnElement="DataObjectReference_3">
+        <dc:Bounds height="50.0" width="36.0" x="708.0" y="276.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="22.0" width="204.0" x="624.0" y="331.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_DataInputAssociation_1" bpmnElement="DataInputAssociation_1" sourceElement="_BPMNShape_DataInput_4" targetElement="_BPMNShape_CallActivity_2">
+        <di:waypoint xsi:type="dc:Point" x="133.0" y="301.0"/>
+        <di:waypoint xsi:type="dc:Point" x="177.0" y="301.0"/>
+        <di:waypoint xsi:type="dc:Point" x="223.0" y="360.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_DataOutputAssociation_1" bpmnElement="DataOutputAssociation_1" sourceElement="_BPMNShape_CallActivity_2" targetElement="_BPMNShape_DataObjectReference_3">
+        <di:waypoint xsi:type="dc:Point" x="254.0" y="360.0"/>
+        <di:waypoint xsi:type="dc:Point" x="254.0" y="145.0"/>
+        <di:waypoint xsi:type="dc:Point" x="360.0" y="145.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_3" bpmnElement="CallActivity_2">
+        <dc:Bounds height="80.0" width="100.0" x="354.0" y="360.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_2" sourceElement="_BPMNShape_CallActivity_2" targetElement="_BPMNShape_CallActivity_3">
+        <di:waypoint xsi:type="dc:Point" x="304.0" y="400.0"/>
+        <di:waypoint xsi:type="dc:Point" x="354.0" y="400.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_DataInputAssociation_2" bpmnElement="DataInputAssociation_2" sourceElement="_BPMNShape_DataInput_4" targetElement="_BPMNShape_CallActivity_3">
+        <di:waypoint xsi:type="dc:Point" x="133.0" y="301.0"/>
+        <di:waypoint xsi:type="dc:Point" x="286.0" y="301.0"/>
+        <di:waypoint xsi:type="dc:Point" x="356.0" y="360.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_DataOutputAssociation_2" bpmnElement="DataOutputAssociation_2" sourceElement="_BPMNShape_CallActivity_3" targetElement="_BPMNShape_DataObjectReference_4">
+        <di:waypoint xsi:type="dc:Point" x="404.0" y="360.0"/>
+        <di:waypoint xsi:type="dc:Point" x="404.0" y="220.0"/>
+        <di:waypoint xsi:type="dc:Point" x="552.0" y="220.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_4" bpmnElement="CallActivity_3">
+        <dc:Bounds height="80.0" width="100.0" x="504.0" y="360.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="SequenceFlow_3" sourceElement="_BPMNShape_CallActivity_3" targetElement="_BPMNShape_CallActivity_4">
+        <di:waypoint xsi:type="dc:Point" x="454.0" y="400.0"/>
+        <di:waypoint xsi:type="dc:Point" x="504.0" y="400.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_DataInputAssociation_3" bpmnElement="DataInputAssociation_3" sourceElement="_BPMNShape_DataInput_4" targetElement="_BPMNShape_CallActivity_4">
+        <di:waypoint xsi:type="dc:Point" x="133.0" y="301.0"/>
+        <di:waypoint xsi:type="dc:Point" x="427.0" y="301.0"/>
+        <di:waypoint xsi:type="dc:Point" x="504.0" y="361.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_DataOutputAssociation_3" bpmnElement="DataOutputAssociation_3" sourceElement="_BPMNShape_CallActivity_4" targetElement="_BPMNShape_DataObjectReference_5">
+        <di:waypoint xsi:type="dc:Point" x="554.0" y="360.0"/>
+        <di:waypoint xsi:type="dc:Point" x="554.0" y="301.0"/>
+        <di:waypoint xsi:type="dc:Point" x="708.0" y="301.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_5" bpmnElement="CallActivity_4">
+        <dc:Bounds height="80.0" width="100.0" x="864.0" y="360.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_4" bpmnElement="SequenceFlow_4" sourceElement="_BPMNShape_CallActivity_4" targetElement="_BPMNShape_CallActivity_5">
+        <di:waypoint xsi:type="dc:Point" x="604.0" y="400.0"/>
+        <di:waypoint xsi:type="dc:Point" x="864.0" y="400.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="6.0" width="6.0" x="626.0" y="400.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_DataInputAssociation_4" bpmnElement="DataInputAssociation_4" sourceElement="_BPMNShape_DataInput_3" targetElement="_BPMNShape_CallActivity_5">
+        <di:waypoint xsi:type="dc:Point" x="132.0" y="89.0"/>
+        <di:waypoint xsi:type="dc:Point" x="716.0" y="89.0"/>
+        <di:waypoint xsi:type="dc:Point" x="889.0" y="360.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_DataInput_5" bpmnElement="DataInput_3">
+        <dc:Bounds height="50.0" width="36.0" x="94.0" y="0.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="112.0" y="55.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_DataInputAssociation_5" bpmnElement="DataInputAssociation_5" sourceElement="_BPMNShape_DataInput_5" targetElement="_BPMNShape_CallActivity_5">
+        <di:waypoint xsi:type="dc:Point" x="130.0" y="25.0"/>
+        <di:waypoint xsi:type="dc:Point" x="716.0" y="24.0"/>
+        <di:waypoint xsi:type="dc:Point" x="893.0" y="360.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_6" bpmnElement="CallActivity_5">
+        <dc:Bounds height="80.0" width="100.0" x="204.0" y="492.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_5" bpmnElement="SequenceFlow_5" sourceElement="_BPMNShape_CallActivity_5" targetElement="_BPMNShape_CallActivity_6">
+        <di:waypoint xsi:type="dc:Point" x="964.0" y="400.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1046.0" y="400.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1046.0" y="462.0"/>
+        <di:waypoint xsi:type="dc:Point" x="157.0" y="462.0"/>
+        <di:waypoint xsi:type="dc:Point" x="157.0" y="533.0"/>
+        <di:waypoint xsi:type="dc:Point" x="204.0" y="533.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="6.0" width="6.0" x="986.0" y="400.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_DataObjectReference_6" bpmnElement="DataObjectReference_4">
+        <dc:Bounds height="50.0" width="36.0" x="236.0" y="612.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="22.0" width="148.0" x="180.0" y="667.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_DataInputAssociation_6" bpmnElement="DataInputAssociation_6" sourceElement="_BPMNShape_DataObjectReference_6" targetElement="_BPMNShape_CallActivity_6">
+        <di:waypoint xsi:type="dc:Point" x="254.0" y="612.0"/>
+        <di:waypoint xsi:type="dc:Point" x="254.0" y="572.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_7" bpmnElement="CallActivity_6">
+        <dc:Bounds height="80.0" width="100.0" x="354.0" y="492.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_6" bpmnElement="SequenceFlow_6" sourceElement="_BPMNShape_CallActivity_6" targetElement="_BPMNShape_CallActivity_7">
+        <di:waypoint xsi:type="dc:Point" x="304.0" y="532.0"/>
+        <di:waypoint xsi:type="dc:Point" x="354.0" y="532.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_DataObjectReference_7" bpmnElement="DataObjectReference_5">
+        <dc:Bounds height="50.0" width="36.0" x="386.0" y="696.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="22.0" width="196.0" x="306.0" y="751.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_DataInputAssociation_7" bpmnElement="DataInputAssociation_7" sourceElement="_BPMNShape_DataObjectReference_7" targetElement="_BPMNShape_CallActivity_7">
+        <di:waypoint xsi:type="dc:Point" x="404.0" y="696.0"/>
+        <di:waypoint xsi:type="dc:Point" x="404.0" y="572.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_8" bpmnElement="CallActivity_7">
+        <dc:Bounds height="80.0" width="100.0" x="504.0" y="492.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_7" bpmnElement="SequenceFlow_7" sourceElement="_BPMNShape_CallActivity_7" targetElement="_BPMNShape_CallActivity_8">
+        <di:waypoint xsi:type="dc:Point" x="454.0" y="532.0"/>
+        <di:waypoint xsi:type="dc:Point" x="504.0" y="532.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_DataObjectReference_8" bpmnElement="DataObjectReference_6">
+        <dc:Bounds height="50.0" width="36.0" x="536.0" y="612.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="22.0" width="148.0" x="480.0" y="667.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_DataInputAssociation_8" bpmnElement="DataInputAssociation_8" sourceElement="_BPMNShape_DataObjectReference_8" targetElement="_BPMNShape_CallActivity_8">
+        <di:waypoint xsi:type="dc:Point" x="554.0" y="612.0"/>
+        <di:waypoint xsi:type="dc:Point" x="554.0" y="572.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

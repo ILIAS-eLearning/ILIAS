@@ -38,12 +38,19 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
 	{
 		return $this->objects;
 	}
+	
+	public function setRedirectionUrl($a_url)
+	{
+		$GLOBALS['tpl']->addOnLoadCode('il.CopyRedirection.setRedirectUrl("'.$a_url.'")');
+	}
 
 	/**
 	 * Init Table
 	 */
 	public function init()
 	{
+		$GLOBALS['tpl']->addJavaScript('./Services/CopyWizard/js/ilCopyRedirection.js');
+		$GLOBALS['tpl']->addOnLoadCode('il.CopyRedirection.checkDone()');
 		$this->setExternalSorting(TRUE);
 		$this->setFormAction($GLOBALS['ilCtrl']->getFormAction($this->getParentObject()));
 

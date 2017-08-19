@@ -19,6 +19,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @version	$Id$
  *
  * @ingroup ModulesTestQuestionPool
+ * @ilCtrl_Calls assTextSubsetGUI: ilFormPropertyDispatchGUI
  */
 class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
@@ -68,6 +69,8 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
 		require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
+		$this->editForm = $form;
+
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(FALSE);
@@ -280,11 +283,13 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		if ($active_id)
 		{
 			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
+			// hey: prevPassSolutions - obsolete due to central check
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			#{
+			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			#}
+			// hey.
 			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 		}
 		

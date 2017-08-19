@@ -20,6 +20,8 @@ class ilTestResultsImportParser extends ilSaxParser
 	private $user_criteria_type;
 	private $user_criteria_checked = false;
 	
+	protected $src_pool_def_id_mapping;
+	
 	/**
 	* Constructor
 	*/
@@ -31,6 +33,39 @@ class ilTestResultsImportParser extends ilSaxParser
 		$this->active_id_mapping = array();
 		$this->question_id_mapping = array();
 		$this->user_criteria_checked = false;
+		$this->src_pool_def_id_mapping = array();
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getQuestionIdMapping()
+	{
+		return $this->question_id_mapping;
+	}
+
+	/**
+	 * @param array $question_id_mapping
+	 */
+	public function setQuestionIdMapping($question_id_mapping)
+	{
+		$this->question_id_mapping = $question_id_mapping;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getSrcPoolDefIdMapping()
+	{
+		return $this->src_pool_def_id_mapping;
+	}
+
+	/**
+	 * @param array $src_pool_def_id_mapping
+	 */
+	public function setSrcPoolDefIdMapping($src_pool_def_id_mapping)
+	{
+		$this->src_pool_def_id_mapping = $src_pool_def_id_mapping;
 	}
 
 	/**
@@ -110,19 +145,20 @@ class ilTestResultsImportParser extends ilSaxParser
 						));
 						$this->active_id_mapping[$a_attribs['active_id']] = $next_id;
 						break;
-					case 'tst_test_question':
-						$questions = $this->tst_obj->getQuestions();
-						$id = $questions[$a_attribs['sequence']];
-						if ($id > 0)
-						{
-							$this->question_id_mapping[$a_attribs['question_fi']] = $id;
-						}
-						else
-						{
-							$this->question_id_mapping[$a_attribs['question_fi']] = $a_attribs['question_fi'];
-							global $ilLog;
-							$ilLog->write("Error: Could not find question for sequence " . $a_attribs['sequence'] . " of test id " . $this->tst_obj->getTestId());
-						}
+					case 'tst_test_rnd_qst':
+						$nextId = $ilDB->nextId('tst_test_rnd_qst');
+						$newActiveId = $this->active_id_mapping[$a_attribs['active_fi']];
+						$newQuestionId = $this->question_id_mapping[$a_attribs['question_fi']];
+						$newSrcPoolDefId = $this->src_pool_def_id_mapping[$a_attribs['src_pool_def_fi']];
+						$ilDB->insert('tst_test_rnd_qst', array(
+							'test_random_question_id' => array('integer', $nextId),
+							'active_fi' => array('integer', $newActiveId),
+							'question_fi' => array('integer', $newQuestionId),
+							'sequence' => array('integer', $a_attribs['sequence']),
+							'pass' => array('integer', $a_attribs['pass']),
+							'tstamp' => array('integer', $a_attribs['tstamp']),
+							'src_pool_def_fi' => array('integer', $newSrcPoolDefId)
+						));
 						break;
 					case 'tst_pass_result':
 						$affectedRows = $ilDB->manipulateF("INSERT INTO tst_pass_result (active_fi, pass, points, maxpoints, questioncount, answeredquestions, workingtime, tstamp) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",

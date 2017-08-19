@@ -12,6 +12,11 @@ include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php'
  */
 class ilLOTestQuestionAdapter
 {
+	/**
+	 * @var ilLogger
+	 */
+	protected $logger = null;
+
 	protected $settings = NULL;
 	protected $assignments = null;
 	
@@ -27,6 +32,8 @@ class ilLOTestQuestionAdapter
 	 */
 	public function __construct($a_user_id, $a_course_id)
 	{
+		$this->logger = $GLOBALS['DIC']->logger()->crs();
+		
 		$this->user_id = $a_user_id;
 		$this->container_id = $a_course_id;
 		
@@ -107,7 +114,7 @@ class ilLOTestQuestionAdapter
 		$results = new ilLOUserResults($a_container_id,$a_user_id);
 		
 		$passed = $results->getCompletedObjectiveIds();
-		$GLOBALS['ilLog']->write(__METHOD__.': Passed objectives are '.print_r($passed,TRUE).' test_type = '.$test_type);
+		$this->logger->debug('Passed objectives are ' . print_r($passed,true). ' for test type: ' . $test_type);
 		
 		
 		// all completed => show all objectives
@@ -140,7 +147,7 @@ class ilLOTestQuestionAdapter
 				$a_test_session->getRefId(),
 				$a_test_session->getUserId()
 		);
-		$GLOBALS['ilLog']->write(__METHOD__.': Notify test start ' . print_r($relevant_objectives,TRUE));
+		$this->logger->debug('Notify test start: '. print_r($relevant_objectives,true));
 
 		// delete test runs
 		include_once './Modules/Course/classes/Objectives/class.ilLOTestRun.php';
@@ -152,7 +159,7 @@ class ilLOTestQuestionAdapter
 		
 		foreach((array) $relevant_objectives as $oid)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Adding new run for objective with id '.$oid);
+			$this->logger->debug('Adding new run for objective with id: ' . $oid);
 			$run = new ilLOTestRun(
 				$a_test_session->getObjectiveOrientedContainerId(),
 				$a_test_session->getUserId(),
@@ -173,6 +180,8 @@ class ilLOTestQuestionAdapter
 	 */
 	public function prepareTestPass(ilTestSession $a_test_session, ilTestSequence $a_test_sequence)
 	{
+		$this->logger->debug('Prepare test pass called');
+		
 		$this->updateQuestions($a_test_session, $a_test_sequence);
 
 		if($this->getSettings()->getPassedObjectiveMode() == ilLOSettings::MARK_PASSED_OBJECTIVE_QST)
@@ -333,15 +342,22 @@ class ilLOTestQuestionAdapter
 					$run->getMaxPoints()
 			);
 
-			$max_attempts = ilLOUtils::lookupMaxAttempts($this->container_id, $run->getObjectiveId());
+			$max_attempts = ilLOUtils::lookupMaxAttempts(
+				$this->container_id, 
+				$run->getObjectiveId(),
+				$session->getRefId()
+			);
+			
+			$this->logger->debug('Max attempts = ' . $max_attempts);
+			
 			if($max_attempts)
 			{
 				// check if current test is start object and fullfilled
 				// if yes => do not increase tries.
-				$GLOBALS['ilLog']->write(__METHOD__.': check for qualified...');
+				$this->logger->debug('Checking for qualified test...');
 				if(!$is_qualified_run)
 				{
-					$GLOBALS['ilLog']->write(__METHOD__.': and increase attempts');
+					$this->logger->debug(' and increasing attempts.');
 					++$old_result['tries'];
 				}
 				$old_result['is_final'] = ($old_result['tries'] >= $max_attempts);
@@ -369,19 +385,19 @@ class ilLOTestQuestionAdapter
 	{
 		if($this->getAssignments()->getTypeByTest($session->getRefId()) == ilLOSettings::TYPE_TEST_INITIAL)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': is initial');
+			$this->logger->debug('Initial test');
 			return false;
 		}
 		
 		if($session->getRefId() != $this->getSettings()->getQualifiedTest())
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': is not qualified');
+			$this->logger->debug('No qualified test run');
 			return false;
 		}
 		include_once './Services/Container/classes/class.ilContainerStartObjects.php';
 		if(!ilContainerStartObjects::isStartObject($this->getContainerId(), $session->getRefId()))
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': no start object');
+			$this->logger->debug('No start object');
 			return false;
 		}
 		// Check if start object is fullfilled
@@ -395,11 +411,10 @@ class ilLOTestQuestionAdapter
 		);
 		if($start->isFullfilled($this->getUserId(),$session->getRefId()))
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': is fullfilled');
-
+			$this->logger->debug('Is fullfilled');
 			return false;
 		}
-		$GLOBALS['ilLog']->write(__METHOD__.': is not fullfilled');
+		$this->logger->debug('Is not fullfilled');
 		return true;
 	}
 	

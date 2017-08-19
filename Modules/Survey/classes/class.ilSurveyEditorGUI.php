@@ -1271,15 +1271,17 @@ class ilSurveyEditorGUI
 		{
 			$_POST["export_label"] = $this->object->getShowQuestionTitles();
 		}
-		$current_title = (int)$_REQUEST["export_label"];
+		$current_title = (int)$_POST["export_label"];
 		
 		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
 		$label = new ilSelectInputGUI($this->lng->txt("title")."/".$this->lng->txt("label"), "export_label");
+
+		#19448 comment none and label only options.
 		$label->setOptions(array(
-			0 => $this->lng->txt('none'), 
-			1 => $this->lng->txt('svy_print_title_only'), 
-			2 => $this->lng->txt('svy_print_label_only'), 			
-			3 => $this->lng->txt('svy_print_title_label')
+			//0 => $this->lng->txt('none'),
+			1 => $this->lng->txt('svy_print_hide_labels'),
+			//2 => $this->lng->txt('svy_print_label_only'),
+			3 => $this->lng->txt('svy_print_show_labels')
 			));
 		$label->setValue($current_title);
 		$ilToolbar->addStickyItem($label, true);
@@ -1317,7 +1319,13 @@ class ilSurveyEditorGUI
 			$ilToolbar->addButtonInstance($button);	
 		}
 		
-		
+        // defer rendering of tex to fo processing
+		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
+		{
+			require_once('Services/MathJax/classes/class.ilMathJax.php');
+			ilMathJax::getInstance()->init(ilMathJax::PURPOSE_DEFERRED_PDF);
+		}
+
 		$template = new ilTemplate("tpl.il_svy_svy_printview.html", TRUE, TRUE, "Modules/Survey");
 	
 		$pages =& $this->object->getSurveyPages();
@@ -1367,7 +1375,7 @@ class ilSurveyEditorGUI
 			$template->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
 		}			
 		
-		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
+		// $this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
 		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
 		{
 			$printbody = new ilTemplate("tpl.il_as_tst_print_body.html", TRUE, TRUE, "Modules/Test");
@@ -1376,6 +1384,14 @@ class ilSurveyEditorGUI
 			$printoutput = $printbody->get();
 			$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);		
 			$fo = $this->object->processPrintoutput2FO($printoutput);
+
+            // render tex as fo graphics
+			require_once('Services/MathJax/classes/class.ilMathJax.php');
+			$fo = ilMathJax::getInstance()
+				->init(ilMathJax::PURPOSE_PDF)
+				->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
+				->insertLatexImages($fo);
+
 			// #11436
 			if(!$fo || !$this->object->deliverPDFfromFO($fo))
 			{

@@ -31,7 +31,7 @@ var AppContainer = function AppContainer() {
 
 	var _server;
 
-	var _timeouts = [];
+	var _timeouts = {};
 
 	/**
 	 * @type {Logger}
@@ -84,23 +84,16 @@ var AppContainer = function AppContainer() {
 	this.setServer = function(server) { _server = server; };
 	this.getServer = function() { return _server; };
 
-	this.setTimeout = function(subscriberId, timeout) {
+	this.setTimeout = function(subscriberId, callback, delay) {
+		var timeout = setTimeout(callback, delay);
+
 		_timeouts[subscriberId] = timeout;
 	};
 
-	this.getTimeout = function(subscriberId) {
-		for(var index in _timeouts) {
-			if(index == subscriberId) {
-				return _timeouts[subscriberId];
-			}
-		}
-	};
-
 	this.removeTimeout = function(subscriberId) {
-		for(var index in _timeouts) {
-			if(index == subscriberId) {
-				delete _timeouts[subscriberId];
-			}
+		if (_timeouts.hasOwnProperty(subscriberId)) {
+			clearTimeout(_timeouts[subscriberId]);
+			delete _timeouts[subscriberId];
 		}
 	};
 

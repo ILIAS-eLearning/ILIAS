@@ -420,7 +420,10 @@ class ilMDEditorGUI
 		$ti = new ilTextInputGUI($this->lng->txt("title"), "gen_title");
 		$ti->setMaxLength(200);
 		$ti->setSize(50);
-		$ti->setRequired(true);
+		if($this->md_obj->getObjType() != 'sess')
+		{
+			$ti->setRequired(true);
+		}
 		$ti->setValue($this->md_section->getTitle());
 		$this->form->addItem($ti);
 		
@@ -548,10 +551,14 @@ class ilMDEditorGUI
 		}
 		$this->form->addItem($tlt);
 		
-		// (parent) container taxonomies?
-		include_once "Services/Taxonomy/classes/class.ilTaxMDGUI.php";		
-		$tax_gui = new ilTaxMDGUI($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType());
-		$tax_gui->addToMDForm($this->form);
+		// #18563
+		if(!$_REQUEST["wsp_id"])
+		{
+			// (parent) container taxonomies?
+			include_once "Services/Taxonomy/classes/class.ilTaxMDGUI.php";		
+			$tax_gui = new ilTaxMDGUI($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType());
+			$tax_gui->addToMDForm($this->form);
+		}
 		
 		$this->form->addCommandButton("updateQuickEdit", $lng->txt("save"));
 		$this->form->setTitle($this->lng->txt("meta_quickedit"));
@@ -602,9 +609,12 @@ class ilMDEditorGUI
 		
 		if(!trim($_POST['gen_title']))
 		{
-			ilUtil::sendFailure($this->lng->txt('title_required'));
-			$this->listQuickEdit();
-			return false;
+			if($this->md_obj->getObjType() != 'sess')
+			{
+				ilUtil::sendFailure($this->lng->txt('title_required'));
+				$this->listQuickEdit();
+				return false;
+			}
 		}
 
 		// General values
@@ -783,10 +793,14 @@ class ilMDEditorGUI
 		}
 		$this->callListeners('Lifecycle');
 		
-		// (parent) container taxonomies?
-		include_once "Services/Taxonomy/classes/class.ilTaxMDGUI.php";		
-		$tax_gui = new ilTaxMDGUI($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType());
-		$tax_gui->updateFromMDForm();
+		// #18563
+		if(!$_REQUEST["wsp_id"])
+		{
+			// (parent) container taxonomies?
+			include_once "Services/Taxonomy/classes/class.ilTaxMDGUI.php";		
+			$tax_gui = new ilTaxMDGUI($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType());
+			$tax_gui->updateFromMDForm();
+		}
 		
 		// Redirect here to read new title and description
 		// Otherwise ('Lifecycle' 'technical' ...) simply call listSection()
@@ -1495,9 +1509,12 @@ class ilMDEditorGUI
 		
 		if(!strlen(trim($_POST['gen_title'])))
 		{
-			ilUtil::sendFailure($this->lng->txt('title_required'));
-			$this->listGeneral();
-			return false;
+			if($this->md_obj->getObjType() != 'sess')
+			{
+				ilUtil::sendFailure($this->lng->txt('title_required'));
+				$this->listGeneral();
+				return false;
+			}
 		}
 		
 		// General values

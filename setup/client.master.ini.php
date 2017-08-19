@@ -9,7 +9,7 @@ description =
 access = 0
 
 [db]
-type = mysql
+type = "pdo-mysql-innodb"
 host = localhost
 user = root
 pass =
@@ -43,3 +43,6 @@ DEBUG = 0
 [cache]
 activate_global_cache = 0
 global_cache_service_type = 0
+
+[log]
+error_recipient = 

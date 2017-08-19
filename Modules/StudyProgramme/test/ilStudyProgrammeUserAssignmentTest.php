@@ -6,7 +6,8 @@ require_once(__DIR__."/mocks.php");
 
 /**
  * TestCase for the assignment of users to a programme.
- *
+ * @group needsInstalledILIAS
+ *        
  * @author Michael Herren <mh@studer-raimann.ch>
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @version 1.0.0
@@ -37,7 +38,8 @@ class ilStudyProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		$this->node1->addLeaf($this->leaf1);
 		$this->node2->addLeaf($this->leaf2);
 		
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		$this->tree = $tree;
 	}
 	
@@ -239,7 +241,8 @@ class ilStudyProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		$this->root->delete();
 		$this->root = null;
 		
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$res = $ilDB->query( "SELECT COUNT(*) cnt "
 							." FROM ".ilStudyProgrammeAssignment::returnDbTableName()
 							." WHERE root_prg_id = ".$root_id
@@ -254,7 +257,8 @@ class ilStudyProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		$ass1 = $this->root->assignUser($user->getId());
 		$ass1->deassign();
 		
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$res = $ilDB->query( "SELECT COUNT(*) cnt "
 							." FROM ".ilStudyProgrammeAssignment::returnDbTableName()
 							." WHERE id = ".$ass1->getId()

@@ -2,7 +2,7 @@ GetId3
 ======
 [![Build Status](https://secure.travis-ci.org/phansys/GetId3.png?branch=master)](http://travis-ci.org/phansys/GetId3)
 
-This release of GetId3 library updates to [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) CS and makes it Symfony2 installable by deps or composer mechanisms.
+This version of GetId3 library **only works in PHP >= 5.3** and updates to [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) CS and makes it Symfony2 installable by deps or composer mechanisms.
 
 * [Main site] http://www.getid3.org
 * [Support] http://support.getid3.org/
@@ -45,7 +45,7 @@ Add the `GetId3` namespace to your autoloader:
 
 $loader->registerPrefixes(array(
     // ...
-        'GetId3_' => __DIR__.'/../vendor/phansys/getid3/GetId3',
+        'GetId3' => __DIR__.'/../vendor/phansys/getid3/GetId3',
         ));
 ```
 ___
@@ -57,7 +57,7 @@ ___
 Add following lines to your `composer.json` `"require"` definitions:
 
 ``` json
-"phansys/getid3": "master"
+"phansys/getid3": "v2.0.0.x-dev"
 ```
 
 ##### Step 2: Run composer
@@ -76,7 +76,7 @@ Quick use example reading audio properties
 <?php
 namespace My\Project;
 
-use \GetId3_GetId3 as GetId3;
+use \GetId3\GetId3Core as GetId3;
 
 class MyClass
 {

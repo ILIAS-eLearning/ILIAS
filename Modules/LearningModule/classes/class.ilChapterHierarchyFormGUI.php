@@ -302,9 +302,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	{
 		global $lng, $ilCtrl;
 		
-		$lm_class = ($this->lm_type == "lm")
-			? "ilobjlearningmodulegui"
-			: "ilobjdlbookgui";
+		$lm_class = "ilobjlearningmodulegui";
 		
 		$commands = array();
 		switch ($a_item["type"])

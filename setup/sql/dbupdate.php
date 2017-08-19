@@ -449,7 +449,7 @@ $query = "SELECT ref_id FROM object_reference ".
 		 "WHERE object_data.type='ldap'";
 $res = $this->db->query($query);
 
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$ref_id = $row->ref_id;
 }
@@ -464,7 +464,7 @@ $query = "SELECT * FROM tree ".
      "AND tree = '1'";
 $res = $this->db->query($query);
 
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$left = $row->lft;
 	$lft = $left + 1;
@@ -505,7 +505,7 @@ $res = $this->db->query($query);
 
 $users = array();
 
-while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$users[] = $row->usr_id;
 }
@@ -570,7 +570,7 @@ $query = "SELECT DISTINCT(ops_id) AS id FROM rbac_operations ".
 	"WHERE operation IN('visible','read','write','create','delete','edit permission')";
 
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$ops_ids[] = $row->id;
 }
@@ -580,7 +580,7 @@ $query = "SELECT obj_id FROM object_data ".
 	"AND title = 'exc'";
 
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$type_id = $row->obj_id;
 }
@@ -723,7 +723,7 @@ if ($migrate)
 	$query = "SELECT * FROM settings";
 	$res = $this->db->query($query);
 
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$settings[$row->keyword] = $row->value;
 	}
@@ -831,7 +831,7 @@ CREATE TABLE int_link
 // get LDAP node data
 //$query = "SELECT * FROM tree WHERE child=13 AND tree=1";
 //$res = $this->db->query($query);
-//$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+//$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // take out node in main tree
 //$query = "update tree SET tree='-13' WHERE child=13";
@@ -1157,7 +1157,7 @@ $query = "SELECT ref_id FROM object_reference ".
 		 "LEFT JOIN object_data ON object_reference.obj_id=object_data.obj_id ".
 		 "WHERE object_data.type = 'ldap'";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // check if ldap node was found
 if ($row->ref_id > 0)
@@ -1182,7 +1182,7 @@ if ($row->ref_id > 0)
 $query = "SELECT obj_id FROM object_data ".
 		 "WHERE type='typ' AND title='file'";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 $query = "DELETE FROM rbac_ta WHERE typ_id='".$row->obj_id."'";
 $this->db->query($query);
@@ -1208,7 +1208,7 @@ $query = "SELECT rbac_pa.ops_id, rbac_pa.rol_id, rbac_pa.obj_id as ref_id, objec
 		 "LEFT JOIN object_data ON object_reference.obj_id=object_data.obj_id";
 $res = $this->db->query($query);
 
-while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$arr_pa_entries[] = array(
 								"ref_id"	=>	$row->ref_id,
@@ -1294,7 +1294,7 @@ $query = "SELECT ta.typ_id,obj.title,ops.ops_id,ops.operation FROM rbac_ta AS ta
 		 "LEFT JOIN rbac_operations AS ops ON ops.ops_id=ta.ops_id";
 $res = $this->db->query($query);
 
-while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
 									    "type"		=> $row->title
@@ -1312,7 +1312,7 @@ foreach ($rbac_objects as $key => $obj_data)
 $query = "SELECT * FROM rbac_fa";
 $res = $this->db->query($query);
 
-while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$arr_roles[] = array(
 						"rol_id"	=>	$row->rol_id,
@@ -1605,7 +1605,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // INSERT NEW OPERATIONS
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','1')";
@@ -1627,7 +1627,7 @@ $this->db->query($query);
 // ADD CREATE PERMISSION FOR TYPE 'cat','grp'
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND ( title = 'cat' OR title = 'grp') ";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$query = "INSERT INTO rbac_ta VALUES('".$row->obj_id."','29')";
 	$this->db->query($query);
@@ -1642,7 +1642,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // INSERT NEW OPERATIONS
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','1')";
@@ -1662,7 +1662,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // create object reference entry
 $query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
@@ -1670,7 +1670,7 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
@@ -1987,7 +1987,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // create object reference entry
 $query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
@@ -1995,7 +1995,7 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
@@ -2102,14 +2102,14 @@ $query = "SELECT * FROM object_data NATURAL JOIN object_reference ".
 		"WHERE type = 'mail'";
 
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$ref_id = $row->ref_id;
 }
 // GET ALL ROLE_IDS
 $query = "SELECT DISTINCT(rol_id) FROM rbac_pa";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$role_ids[] = $row->rol_id;
 }
@@ -2298,7 +2298,7 @@ ALTER  TABLE  `qpl_answers`  ADD  `cloze_type` ENUM(  '0',  '1'  )  AFTER  `gap_
 // save the cloze type from the qpl_questions table into the qpl_answers table
 $query = "SELECT * FROM qpl_questions WHERE cloze_type >= 0";
 $res = $this->db->query($query);
-while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$update_query = sprintf("UPDATE qpl_answers SET cloze_type = %s WHERE question_fi = %s",
 		$this->db->quote("$row->cloze_type"),
@@ -2318,7 +2318,7 @@ $res = $this->db->query($query);
 
 $tree = new ilTree(ROOT_FOLDER_ID);
 
-while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	if ($row->tree > 0)
 	{
@@ -2340,7 +2340,7 @@ $this->db->query($query);
 <?php
 $query = "SELECT * FROM `qpl_questions` WHERE  NOT isnull(start_tag)";
 $res = $this->db->query($query);
-while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$new_text = preg_replace("/" . preg_quote($row->start_tag) . "(.*?)" . preg_quote($row->end_tag) . "/", "<gap>$1</gap>", $row->question_text);
 	$update_query = sprintf("UPDATE qpl_questions SET question_text = %s WHERE question_id = %s",
@@ -2448,7 +2448,7 @@ foreach ($ops_data as $type => $ops)
 $query = "SELECT obj_id FROM object_data WHERE type='role' AND title LIKE 'il_grp_member%'";
 $res = $this->db->query($query);
 
-while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$dest_role_id = $row->obj_id;
 	$rolf_arr = $rbacreview->getFoldersAssignedToRole($dest_role_id,true);
@@ -2562,7 +2562,7 @@ foreach ($ops_data as $type => $ops)
 $query = "SELECT obj_id FROM object_data WHERE type='role' AND title LIKE 'il_grp_admin%'";
 $res = $this->db->query($query);
 
-while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$dest_role_id = $row->obj_id;
 	$rolf_arr = $rbacreview->getFoldersAssignedToRole($dest_role_id,true);
@@ -2959,7 +2959,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // INSERT NEW OPERATIONS
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','1')";
@@ -2981,7 +2981,7 @@ $this->db->query($query);
 // ADD CREATE PERMISSION FOR TYPE 'adm'
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'adm' ";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$query = "INSERT INTO rbac_ta VALUES('".$row->obj_id."','44')";
 	$this->db->query($query);
@@ -2994,7 +2994,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // INSERT NEW OPERATIONS
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','1')";
@@ -3014,7 +3014,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // create object reference entry
 $query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
@@ -3022,7 +3022,7 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
@@ -3056,7 +3056,7 @@ INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('46', 'partic
 // retrieve survey object data
 $query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='svy'";
 $result = $this->db->query($query);
-$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $typ_id = $row->obj_id;
 
 // append operation assignment to survey object definition
@@ -3567,7 +3567,7 @@ ALTER  TABLE  `qpl_questions`  ADD  `original_id` INT AFTER  `created` ;
 // duplicate all test questions. work with duplicates instead of references
 $query = "SELECT test_question_id, question_fi, test_fi FROM tst_test_question";
 $search_result = $this->db->query($query);
-while ($result_row = $search_result->fetchRow(DB_FETCHMODE_OBJECT))
+while ($result_row = $search_result->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$question_id = $result_row->question_fi;
 	$query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
@@ -3577,7 +3577,7 @@ while ($result_row = $search_result->fetchRow(DB_FETCHMODE_OBJECT))
   if (strcmp(get_class($result), db_result) == 0) {
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, points, start_tag, end_tag, matching_type, ordering_type, cloze_type, choice_response, materials, image_file, params, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$this->db->quote("$row->question_type_fi"),
 				$this->db->quote("$row->ref_fi"),
@@ -3608,7 +3608,7 @@ while ($result_row = $search_result->fetchRow(DB_FETCHMODE_OBJECT))
 				$this->db->quote($question_id)
 			);
 			$result = $this->db->query($query);
-			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$insertquery = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, name, shuffle, answertext, points, aorder, correctness, solution_order, matchingtext, matching_order, gap_id, cloze_type, coords, area, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 					$this->db->quote("$duplicate_id"),
@@ -3634,7 +3634,7 @@ while ($result_row = $search_result->fetchRow(DB_FETCHMODE_OBJECT))
 				$this->db->quote($question_id)
 			);
 			$result = $this->db->query($query);
-			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$insertquery = sprintf("INSERT INTO qpl_question_material (material_id, question_id, materials, materials_file, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
 					$this->db->quote("$duplicate_id"),
@@ -3845,7 +3845,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // create object reference entry
 $query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
@@ -3853,7 +3853,7 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
@@ -3932,7 +3932,7 @@ $this->db->query($query);
 // Get id of admin_template
 $query = "SELECT obj_id FROM object_data WHERE type = 'rolt' AND title = 'il_crs_admin'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$admin_id = $row->obj_id;
 }
@@ -3967,7 +3967,7 @@ $this->db->query($query);
 // Get id of admin_template
 $query = "SELECT obj_id FROM object_data WHERE type = 'rolt' AND title = 'il_crs_tutor'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$tutor_id = $row->obj_id;
 }
@@ -4001,7 +4001,7 @@ $this->db->query($query);
 // Get id of admin_template
 $query = "SELECT obj_id FROM object_data WHERE type = 'rolt' AND title = 'il_crs_member'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$member_id = $row->obj_id;
 }
@@ -4225,13 +4225,13 @@ DELETE FROM chat_user;
 // add operation create_file to categories
 $query = "SELECT ops_id FROM rbac_operations WHERE operation = 'create_file'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$ops_id = $row->ops_id;
 }
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'cat'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$obj_id = $row->obj_id;
 }
@@ -4244,7 +4244,7 @@ if($obj_id and $ops_id)
 $query = "SELECT obj_id FROM object_data ".
 	"WHERE type = 'rolt' AND title = 'Author'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$role_id = $row->obj_id;
 }
@@ -4264,7 +4264,7 @@ if($role_id and $ops_id)
 <?php
 $query = "SELECT ops_id FROM rbac_ta WHERE typ_id = '20'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$ops_id = $row->ops_id;
 }
@@ -4284,7 +4284,7 @@ if ($res->numRows() > 1)
 {
 	$tree = new ilTree(ROOT_FOLDER_ID);
 
-	while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$query = "SELECT * FROM tree WHERE child='".$row->ref_id."' AND parent='9'";
 		$res2 = $this->db->query($query);
@@ -4315,7 +4315,7 @@ ALTER TABLE usr_data ADD COLUMN `time_limit_message` int(2) default '0';
 <?php
 $query = "SELECT ops_id FROM rbac_ta WHERE typ_id = '20'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$ops_id = $row->ops_id;
 
@@ -4410,7 +4410,7 @@ PRIMARY KEY ( `vendor_id` )
 $query = "SELECT obj_id FROM object_data ".
 		 "WHERE type='typ' AND title='alm'";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 if ($row->obj_id > 0)
 {
 	$query = "DELETE FROM rbac_ta WHERE typ_id='".$row->obj_id."'";
@@ -4423,7 +4423,7 @@ $this->db->query($query);
 $query = "SELECT obj_id FROM object_data ".
 		 "WHERE type='typ' AND title='hlm'";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 if ($row->obj_id > 0)
 {
@@ -4561,7 +4561,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() AS ops_id";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$admin_ops = $row->ops_id;
 }
@@ -4572,21 +4572,21 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() AS ops_id";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$read_ops = $row->ops_id;
 }
 
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'cat'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$cat_id = $row->obj_id;
 }
 
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'usrf'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$usrf_id = $row->obj_id;
 }
@@ -5081,13 +5081,13 @@ CREATE TABLE `frm_user_read` (
 
 $query = "SELECT pos_pk,pos_usr_id,pos_thr_fk,pos_top_fk FROM frm_posts";
 $res = $this->db->query($query);
-while($row1 = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row1 = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$query = "SELECT top_frm_fk FROM frm_data ".
 		"WHERE top_pk = '".$row1->pos_top_fk."'";
 
 	$res2 = $this->db->query($query);
-	while($row2 = $res2->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row2 = $res2->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$query = "INSERT INTO frm_user_read ".
 			"SET usr_id = '".$row1->pos_usr_id."', ".
@@ -5161,7 +5161,7 @@ CREATE TABLE `link_check` (
 // convert all single response mc questions and remove the 'when not set' option 
 $query = "SELECT qpl_answers.answer_id FROM qpl_answers, qpl_questions WHERE qpl_answers.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = 1";
 $res = $this->db->query($query);
-while($row1 = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row1 = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$query = sprintf("UPDATE qpl_answers SET correctness = '1', points = 0 WHERE answer_id = %s AND correctness = '0'",
 		$this->db->quote($row1->answer_id . "")
@@ -5172,7 +5172,7 @@ while($row1 = $res->fetchRow(DB_FETCHMODE_OBJECT))
 // convert all imagemap questions and remove the 'when not set' option 
 $query = "SELECT qpl_answers.answer_id FROM qpl_answers, qpl_questions WHERE qpl_answers.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = 6";
 $res = $this->db->query($query);
-while($row1 = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row1 = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$query = sprintf("UPDATE qpl_answers SET correctness = '1', points = 0 WHERE answer_id = %s AND correctness = '0'",
 		$this->db->quote($row1->answer_id . "")
@@ -5183,7 +5183,7 @@ while($row1 = $res->fetchRow(DB_FETCHMODE_OBJECT))
 // convert all close questions and remove the 'when not set' option 
 $query = "SELECT qpl_answers.answer_id FROM qpl_answers, qpl_questions WHERE qpl_answers.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = 6 AND qpl_answers.cloze_type = '1'";
 $res = $this->db->query($query);
-while($row1 = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row1 = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$query = sprintf("UPDATE qpl_answers SET correctness = '1', points = 0 WHERE answer_id = %s AND correctness = '0'",
 		$this->db->quote($row1->answer_id . "")
@@ -5311,7 +5311,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // create object reference entry
 $query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
@@ -5319,7 +5319,7 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
@@ -5439,7 +5439,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // insert operations for style folder type
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','1')";
@@ -5460,7 +5460,7 @@ $this->db->query($query);
 // get style folder number
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $sty_folder_id = $row->id;
 
 // create object reference entry
@@ -5469,7 +5469,7 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
@@ -5727,7 +5727,7 @@ $this->db->query($query);
 // ADD new permission push desktop items
 $query = "SELECT * FROM object_data WHERE type = 'typ' AND title = 'usrf'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$type_id = $row->obj_id;
 }
@@ -6225,7 +6225,7 @@ include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
 $webr_ids = array();
 $query = "SELECT * FROM object_data WHERE type = 'webr'";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$webr_ids[$row->obj_id]['title'] = $row->title;
 	$webr_ids[$row->obj_id]['desc'] = $row->description;
@@ -6237,7 +6237,7 @@ foreach($webr_ids as $id => $data)
 	$query = "SELECT ref_id FROM object_reference WHERE obj_id = '".$id."'";
 
 	$res = $ilDB->query($query);
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$md_creator = new ilMDCreator($row->ref_id,$id,'webr');
 		$md_creator->setTitle($data['title']);
@@ -6268,7 +6268,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // insert operations for style folder type
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','1')";
@@ -6289,7 +6289,7 @@ $this->db->query($query);
 // get style folder number
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $sty_folder_id = $row->id;
 
 // create object reference entry
@@ -6298,7 +6298,7 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
@@ -6312,14 +6312,14 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as ops_id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 $ops_id = $row->ops_id;
 
   // Add permission tu use search
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'seas'";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 $obj_id = $row->obj_id;
 
@@ -6387,7 +6387,7 @@ ilMD::_deleteAllByType('webr');
 $webr_ids = array();
 $query = "SELECT * FROM object_data WHERE type = 'webr'";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$webr_ids[$row->obj_id]['title'] = $row->title;
 	$webr_ids[$row->obj_id]['desc'] = $row->description;
@@ -6840,7 +6840,7 @@ $nested = new ilNestedSetXML();
 
 // Get last processes mob object
 $res = $ilDB->query("SELECT MAX(obj_id) as max_id FROM tmp_migration ");
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$max_id = $row->max_id;
 }
@@ -6852,7 +6852,7 @@ $res = $ilDB->query("SELECT * FROM object_data WHERE type = 'mob' AND obj_id >= 
 $log->write("MetaData (Migration type 'mob'): Number of objects: ".$res->numRows());
 
 $counter = 0;
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	if(!(++$counter%100))
 	{
@@ -6959,7 +6959,7 @@ $nested = new ilNestedSetXML();
 
 // Get last processed lm object
 $res = $ilDB->query("SELECT MAX(obj_id) as max_id FROM tmp_migration ");
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
         $max_id = $row->max_id;
 }
@@ -6971,7 +6971,7 @@ $res = $ilDB->query("SELECT * FROM object_data WHERE type = 'lm' AND obj_id >= '
 $log->write("MetaData (Migration type 'lm,st,pg'): Number of lm's: ".$res->numRows());
 
 $counter = 0;
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$log->write("MetaData (Migration type 'lm'): Processing obj number: ".$row->obj_id);
 
@@ -7009,7 +7009,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 
 	// Now migrate all pages and chapters
 	$res_pg = $ilDB->query("SELECT * FROM lm_data WHERE lm_id = '".$row->obj_id."' AND (type = 'pg' OR type = 'st')");
-	while($row_pg = $res_pg->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row_pg = $res_pg->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		if(function_exists('memory_get_usage'))
 		{
@@ -7080,7 +7080,7 @@ $nested = new ilNestedSetXML();
 
 // Get last processed lm object
 $res = $ilDB->query("SELECT MAX(obj_id) as max_id FROM tmp_migration ");
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
         $max_id = $row->max_id;
 }
@@ -7092,7 +7092,7 @@ $res = $ilDB->query("SELECT * FROM object_data WHERE type = 'glo' AND obj_id >= 
 $log->write("MetaData (Migration type 'glo'): Number of glossaries: ".$res->numRows());
 
 $counter = 0;
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$log->write("MetaData (Migration type 'glo'): Processing obj number: ".$row->obj_id);
 
@@ -7131,7 +7131,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	// Now migrate all glossary definitions
 	$res_gdf = $ilDB->query("select gd.id as gdid,term from glossary_definition as gd, glossary_term as gt where gd.term_id = gt.id".
 							" and glo_id = '".$row->obj_id."'");
-	while($row_gdf = $res_gdf->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row_gdf = $res_gdf->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		if(function_exists('memory_get_usage'))
 		{
@@ -7203,7 +7203,7 @@ $nested = new ilNestedSetXML();
 
 // Get last processed object
 $res = $ilDB->query("SELECT MAX(obj_id) as max_id FROM tmp_migration ");
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
         $max_id = $row->max_id;
 }
@@ -7216,7 +7216,7 @@ $res = $ilDB->query("SELECT * FROM object_data WHERE type IN ('tst','svy','qpl',
 $log->write("MetaData (Migration): Number of objects: ".$res->numRows());
 
 $counter = 0;
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$log->write("MetaData (Migration type '".$row->type."'): Processing obj number: ".$row->obj_id);
 
@@ -7627,7 +7627,7 @@ ADD `typical_age_range_max` TINYINT( 3 ) DEFAULT '-1' NOT NULL ;
 <?php
 $query = "SELECT * FROM il_meta_typical_age_range ";
 $res =& $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	if(preg_match("/\s*(\d*)\s*(-?)\s*(\d*)/",$row->typical_age_range,$matches))
 	{
@@ -7700,14 +7700,14 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as ops_id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 $ops_id = $row->ops_id;
 
   // Add permission tu use search
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'chat'";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 $obj_id = $row->obj_id;
 
@@ -7722,21 +7722,21 @@ $query = "SELECT rol_id FROM rbac_fa ".
 	"WHERE parent = '".ROLE_FOLDER_ID."'";
 
 $res = $this->db->query($query);
-while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$rol_ids[] = $row->rol_id;
 }
 // Get searchSettings ref_id
 $query = "SELECT ref_id from object_data od ,object_reference as orf where od.obj_id = orf.obj_id and type = 'seas'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$ref_id = $row->ref_id;
 }
 // Get serach operation id
 $query = "SELECT * FROM rbac_operations where operation = 'search'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$search_ops = $row->ops_id;
 }
@@ -7746,7 +7746,7 @@ foreach($rol_ids as $role_id)
 	$query = "SELECT ops_id FROM rbac_pa where rol_id = '".$role_id."' and ref_id = '".$ref_id."'";
 	$res = $this->db->query($query);
 	$ops = array();
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$ops = unserialize(stripslashes($row->ops_id));
 	}
@@ -7841,7 +7841,7 @@ $res = $ilDB->query("SELECT page_id,parent_id FROM page_object ORDER BY page_id,
 $log->write("Page object migration: Number of objects: ".$res->numRows());
 
 $counter = 0;
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$log->write("Page object migration: Processing page_id, parent_id: ".$row->page_id.", ".$row->parent_id);
 
@@ -7864,7 +7864,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$prefix .= "?xml version=\"1.0\" encoding=\"UTF-8\" ?";
 	$prefix .= ">";
 
-	while($row2 = $res2->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row2 = $res2->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$content = $row2->content;
 	}
@@ -7963,7 +7963,7 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as ops_id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 $ops_id = $row->ops_id;
 
@@ -7971,7 +7971,7 @@ $ops_id = $row->ops_id;
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title IN ('cat','grp','fold','crs')";
 $res = $this->db->query($query);
 
-while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$obj_ids[] = $row->obj_id;
 }
@@ -7991,14 +7991,14 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as ops_id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $icla_ops_id = $row->ops_id;
 
 // Add operation to icrs 
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title IN ('icrs')";
 $res = $this->db->query($query);
 
-while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$obj_ids[] = $row->obj_id;
 }
@@ -8014,7 +8014,7 @@ foreach ($obj_ids as $obj_id)
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'icrs'";
 $res = $this->db->query($query);
 
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $obj_id = $row->obj_id;
 
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$obj_id."','7')";
@@ -8030,7 +8030,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as obj_id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $obj_id = $row->obj_id;
 
 $admin = array();
@@ -8053,7 +8053,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as obj_id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $obj_id = $row->obj_id;
 
 $admin = array();
@@ -8198,7 +8198,7 @@ if (count($icrs_nodes) != 0)
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'icla'";
 $res = $this->db->query($query);
 
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $obj_id = $row->obj_id;
 
 $query = "DELETE FROM rbac_ta WHERE typ_id = '".$obj_id."'";
@@ -8431,7 +8431,7 @@ $query = "SELECT obd.obj_id as objid,obr.ref_id as refid FROM object_data as obd
 	"AND type = 'chat'";
 
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	if($tree->isInTree($row->refid) and !count($tree->getChilds($row->refid)))
 	{
@@ -8548,7 +8548,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as obj_id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $obj_id = $row->obj_id;
 
 $rbacadmin = new ilRbacAdmin();
@@ -8591,7 +8591,7 @@ function _lookupObjId($a_id)
 	$query = "SELECT obj_id FROM object_reference ".
 		"WHERE ref_id = '".$a_id."'";
 	$res = $ilDB->query($query);
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		return $row->obj_id;
 	}
@@ -8601,21 +8601,21 @@ function _lookupObjId($a_id)
   // Fix chat reference bug
 $query = "SELECT * FROM chat_records ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$ilDB->query("UPDATE chat_records SET chat_id = '".
 				 _lookupObjId($row->chat_id)."' WHERE record_id = '".$row->record_id."'");
 }
 $query = "SELECT * FROM chat_room_messages ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$ilDB->query("UPDATE chat_room_messages SET chat_id = '".
 				 _lookupObjId($row->chat_id)."' WHERE entry_id = '".$row->entry_id."'");
 }
 $query = "SELECT * FROM chat_rooms ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$ilDB->query("UPDATE chat_rooms SET chat_id = '".
 				 _lookupObjId($row->chat_id)."' WHERE room_id = '".$row->room_id."'");
@@ -8642,7 +8642,7 @@ $GLOBALS["DIC"]["ilLog"] = function($c) {
   // Get chat settings id
 $query = "SELECT * FROM object_data LEFT JOIN object_reference USING(obj_id) WHERE type = 'chac'";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$chac_ref_id = $row->ref_id;
 }
@@ -9273,7 +9273,7 @@ $query = "SELECT obj_id FROM object_data WHERE title IN ('lm','dbk','sahs','htlm
 	"AND type = 'typ'";
 
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$type_ids[] = $row->obj_id;
 }
@@ -9291,7 +9291,7 @@ $query = "SELECT obj_id FROM object_data WHERE title IN ('il_crs_admin','Author'
 	"AND type = 'rolt'";
 
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$rolt_ids[] = $row->obj_id;
 }
@@ -9506,7 +9506,7 @@ CREATE TABLE `usr_defined_data` (
 <?php
 $query = "SELECT DISTINCT usr_id FROM usr_data";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$query = "INSERT INTO usr_defined_data ".
 		"SET usr_id = '".$row->usr_id."'";
@@ -10558,7 +10558,7 @@ ALTER TABLE `exc_returned` CHANGE `TIMESTAMP` `timestamp` timestamp(14);
   // Update registration settings
 $query = "SELECT value FROM settings WHERE keyword='auto_registration'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	if($row->value)
 	{
@@ -10569,7 +10569,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 
 $query = "SELECT value FROM settings WHERE keyword='enable_registration'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	if(!$row->value)
 	{
@@ -10937,7 +10937,7 @@ $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // create object reference entry
 $query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
@@ -10945,7 +10945,7 @@ $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
@@ -11174,7 +11174,7 @@ PRIMARY KEY ( `item_id` , `usr_id` )
 $tree = new ilTree(ROOT_FOLDER_ID);
 $query = "SELECT ut.obj_id AS obj_id,type,item_id FROM ut_lp_collections AS ut INNER JOIN object_data AS od ON od.obj_id = ut.obj_id";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	if($row->type != 'crs' and
 	   $row->type != 'fold' and
@@ -11185,14 +11185,14 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	// get container ref_id
 	$query = "SELECT * FROM object_reference WHERE obj_id = '".$row->obj_id."'";
 	$ref_res = $this->db->query($query);
-	while($ref_row = $ref_res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($ref_row = $ref_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$container_ref_id = $ref_row->ref_id;
 	}
 	// get item ref ids
 	$query = "SELECT * FROM object_reference WHERE obj_id = '".$row->item_id."'";
 	$item_res = $this->db->query($query);
-	while($item_row = $item_res->fetchRow(DB_FETCHMODE_OBJECT))
+	while($item_row = $item_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		// is child node
 		if($tree->isGrandChild($container_ref_id,$item_row->ref_id))
@@ -11222,7 +11222,7 @@ ALTER TABLE `crs_settings` ADD `activation_type` TINYINT( 1 ) DEFAULT '0' NOT NU
 
 $query = "SELECT * FROM crs_settings ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	if($row->activation_unlimited)
 	{
@@ -11255,7 +11255,7 @@ ALTER TABLE `crs_settings` ADD `subscription_limitation_type` TINYINT( 1 ) NOT N
 
 $query = "SELECT * FROM crs_settings ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	if($row->subscription_unlimited)
 	{
@@ -11287,7 +11287,7 @@ ALTER TABLE `crs_settings` ADD `view_mode` TINYINT( 1 ) NOT NULL AFTER `subscrip
 
 $query = "SELECT * FROM crs_settings ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	if($row->archive_type != 1)
 	{
@@ -11350,7 +11350,7 @@ CREATE TABLE IF NOT EXISTS `crs_objective_status_pretest` (
 
 $query = "SELECT * FROM crs_objective_status WHERE status = 0";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$query = "INSERT INTO crs_objective_status_pretest ".
 		"SET objective_id = '".$row->objective_id."', ".
@@ -11394,7 +11394,7 @@ ALTER TABLE `ut_lp_marks` CHANGE `comment` `comment` TEXT NOT NULL;
 
 $query = "SELECT * FROM rbac_operations WHERE operation = 'edit_learning_progress'";
 												   $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$ops_id = $row->ops_id;
 }
@@ -11404,7 +11404,7 @@ $query = "SELECT obj_id FROM object_data WHERE title IN ('exc','grp','fold') ".
 	"AND type = 'typ'";
 
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$type_ids[] = $row->obj_id;
 }
@@ -11422,7 +11422,7 @@ $query = "SELECT obj_id FROM object_data WHERE title IN ('il_grp_admin','il_crs_
 	"AND type = 'rolt'";
 
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$rolt_ids[] = $row->obj_id;
 }
@@ -11481,7 +11481,7 @@ CREATE TABLE `tmp_migration` (
   // Get all objectives
 $query = "SELECT objective_id FROM crs_objectives ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	// check if objective is already processed
 	$res_passed = $ilDB->query("SELECT objective_id FROM tmp_migration WHERE objective_id = '".$row->objective_id."' AND passed = '1'");
@@ -11497,7 +11497,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 
 	$obj_info = $ilDB->query($query);
 	$objective_info = array();
-	while($obj_row = $obj_info->fetchRow(DB_FETCHMODE_OBJECT))
+	while($obj_row = $obj_info->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	{
 		$objective_info[$obj_row->obj_id]['questions'][] = $obj_row->question_id;
 		$objective_info[$obj_row->obj_id]['limit'] = $obj_row->tst_limit;
@@ -11510,7 +11510,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		$query = "SELECT SUM(points) as reachable FROM qpl_questions WHERE ".
 			"question_id IN('".implode("','",$data['questions'])."')";
 		$reachable_res = $ilDB->query($query);
-		while($reachable_row = $reachable_res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($reachable_row = $reachable_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$objective_info[$test_id]['reachable'] = $reachable_row->reachable;
 		}
@@ -11520,7 +11520,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			"GROUP BY question_fi,user_fi";
 		$user_reached_res = $ilDB->query($query);
 		$objective_info[$test_id]['users'] = array();
-		while($user_reached_row = $user_reached_res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($user_reached_row = $user_reached_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$objective_info[$test_id]['users'][$user_reached_row->user_fi] += $user_reached_row->reached;
 		}
@@ -11714,7 +11714,7 @@ INSERT INTO rbac_operations (ops_id,operation,class,description) VALUES ('56', '
 // retrieve test object data
 $query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='tst'";
 $result = $ilDB->query($query);
-$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+$row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $typ_id = $row->obj_id;
 
 // append operation assignment to test object definition

@@ -22,6 +22,11 @@ abstract class ilAwarenessUserProvider
 	protected $online_user_filter = false;
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
 	 * Constructor
 	 */
 	function __construct()
@@ -31,6 +36,7 @@ abstract class ilAwarenessUserProvider
 		$this->lng = $lng;
 		$this->db = $ilDB;
 		$this->settings = new ilSetting("awrn");
+		$this->log = ilLoggerFactory::getLogger('awrn');
 	}
 	
 	/**

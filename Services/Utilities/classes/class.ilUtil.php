@@ -1,8 +1,12 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @defgroup ServicesUtilities Services/Utilities
+/**
+ * @defgroup ServicesUtilities Services/Utilities
  */
+use ILIAS\Filesystem\Util\LegacyPathHelper;
+use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\Filesystem\MetadataType;
 
 /**
 * Util class
@@ -91,9 +95,7 @@ class ilUtil
 		
 		if (is_object($styleDefinition))
 		{
-			$image_dir = $styleDefinition->getImageDirectory(
-				ilStyleDefinition::getCurrentMasterStyle(),
-				$current_style);
+			$image_dir = $styleDefinition->getImageDirectory($current_style);
 		}
 		if ($current_skin == "default")
 		{
@@ -1487,16 +1489,19 @@ class ilUtil
 		return $a_str;
 	}
 
+
 	/**
-	* Ensure that the maximum word lenght within a text is not longer
-	* than $a_len
-	*
-	* @param	string		input string
-	* @param	integer		max. word length
-	* @param	boolean		append "..." to shortened words
-	* @static
-	* 
-	*/
+	 * Ensure that the maximum word lenght within a text is not longer
+	 * than $a_len
+	 *
+	 * @param    string    $a_str     input string
+	 * @param    integer   $a_len     max. word length
+	 * @param    boolean   $a_dots    append "..." to shortened words
+	 *
+	 * @static
+	 *
+	 * @return string
+	 */
 	public static function shortenWords($a_str, $a_len = 30, $a_dots = true)
 	{
 		include_once("./Services/Utilities/classes/class.ilStr.php");
@@ -1550,73 +1555,68 @@ class ilUtil
 	}
 
 	/**
-	* Copies content of a directory $a_sdir recursively to a directory $a_tdir
-	* @param	string	$a_sdir		source directory
-	* @param	string	$a_tdir		target directory
-	* @param 	boolean $preserveTimeAttributes	if true, ctime will be kept.
-	*
-	* @return	boolean	TRUE for sucess, FALSE otherwise
-	* @access	public
-	* @static
-	* 
-	*/
+	 * Copies content of a directory $a_sdir recursively to a directory $a_tdir
+	 * @param	string	$a_sdir		source directory
+	 * @param	string	$a_tdir		target directory
+	 * @param 	boolean $preserveTimeAttributes	if true, ctime will be kept.
+	 *
+	 * @return	boolean	TRUE for sucess, FALSE otherwise
+	 * @access	public
+	 * @static
+	 *
+	 * @deprecated in favour of Filesystem::copyDir() located at the filesystem service.
+	 * @see Filesystem::copyDir()
+	 *
+	 */
 	public static function rCopy ($a_sdir, $a_tdir, $preserveTimeAttributes = false)
 	{
-		// check if arguments are directories
-		if (!@is_dir($a_sdir) or
-		!@is_dir($a_tdir))
-		{
-			return FALSE;
-		}
+		try {
+			$sourceFS = LegacyPathHelper::deriveFilesystemFrom($a_sdir);
+			$targetFS = LegacyPathHelper::deriveFilesystemFrom($a_tdir);
 
-		// read a_sdir, copy files and copy directories recursively
-		$dir = opendir($a_sdir);
+			$sourceDir = LegacyPathHelper::createRelativePath($a_sdir);
+			$targetDir = LegacyPathHelper::createRelativePath($a_tdir);
 
-		while($file = readdir($dir))
-		{
-			if ($file != "." and
-			$file != "..")
+			// check if arguments are directories
+			if (!$sourceFS->hasDir($sourceDir))
 			{
-				// directories
-				if (@is_dir($a_sdir."/".$file))
-				{
-					if (!@is_dir($a_tdir."/".$file))
-					{
-						if (!ilUtil::makeDir($a_tdir."/".$file))
-						return FALSE;
-
-						//chmod($a_tdir."/".$file, 0775);
-					}
-
-					if (!ilUtil::rCopy($a_sdir."/".$file,$a_tdir."/".$file))
-					{
-						return FALSE;
-					}
-				}
-
-				// files
-				if (@is_file($a_sdir."/".$file))
-				{
-					if (!copy($a_sdir."/".$file,$a_tdir."/".$file))
-					{
-						return FALSE;
-					}
-					if ($preserveTimeAttributes)
-						touch($a_tdir."/".$file, filectime($a_sdir."/".$file));
-				}
+				return false;
 			}
+
+			$sourceList = $sourceFS->listContents($sourceDir, true);
+
+			foreach($sourceList as $item)
+			{
+				if($item->isDir())
+					continue;
+
+				$itemPath = $targetDir . '/' . substr($item->getPath(), strlen($sourceDir));
+				$stream = $sourceFS->readStream($sourceDir);
+				$targetFS->writeStream($itemPath, $stream);
+			}
+			return true;
 		}
-		return TRUE;
+		catch (\Exception $exception) {
+			return false;
+		}
 	}
 
+
 	/**
-	* get webspace directory
-	*
-	* @param	string		$mode		use "filesystem" for filesystem operations
-	*									and "output" for output operations, e.g. images
-	* @static
-	*
-	*/
+	 * get webspace directory
+	 *
+	 * @param    string $mode             use "filesystem" for filesystem operations
+	 *                                    and "output" for output operations, e.g. images
+	 *
+	 * @static
+	 *
+	 * @return string
+	 *
+	 * @deprecated in favour of the filesystem service which should be used for operations on the web dir.
+	 *
+	 * @see \ILIAS\DI\Container::filesystem()
+	 * @see Filesystems::web()
+	 */
 	public static function getWebspaceDir($mode = "filesystem")
 	{
 		global $ilias;
@@ -1636,22 +1636,21 @@ class ilUtil
 				return "./".ILIAS_WEB_DIR."/".$ilias->client_id;
 			}
 		}
-
-		//return $ilias->ini->readVariable("server","webspace_dir");
 	}
 
 	/**
-	* get data directory (outside webspace)
-	* 
-	* @static
-	* 
-	*/
+	 * get data directory (outside webspace)
+	 *
+	 * @static
+	 *
+	 * @deprecated in favour of the filesystem service which should be used to operate on the storage directory.
+	 *
+	 * @see \ILIAS\DI\Container::filesystem()
+	 * @see \ILIAS\Filesystem\Filesystems::storage()
+	 */
 	public static function getDataDir()
 	{
 		return CLIENT_DATA_DIR;
-		//global $ilias;
-
-		//return $ilias->ini->readVariable("server", "data_dir");
 	}
 
 	/**
@@ -1719,14 +1718,19 @@ class ilUtil
 		return $temp_name;
 	}
 
+
 	/**
-	* create directory
-	*
-	* deprecated use makeDir() instead!
-	* 
-	* @static
-	* 
-	*/
+	 * create directory
+	 *
+	 * @param string    $a_dir
+	 * @param int       $a_mod
+	 *
+	 * @static
+	 *
+	 * @deprecated in favour of Filesystem::createDir() located at the filesystem service.
+	 *
+	 * @see        \ILIAS\Filesystem\Filesystem::createDir()
+	 */
 	public static function createDirectory($a_dir, $a_mod = 0755)
 	{
 		ilUtil::makeDir($a_dir);
@@ -1745,6 +1749,10 @@ class ilUtil
 	*/
 	public static function unzip($a_file, $overwrite = false, $a_flat = false)
 	{
+		global $DIC;
+
+		$log = $DIC->logger()->root();
+
 		if (!is_file($a_file))
 		{
 			return;
@@ -1819,7 +1827,23 @@ class ilUtil
 		ilUtil::execQuoted($unzip, $unzipcmd);
 
 		chdir($cdir);
-		
+
+		// remove all sym links
+		clearstatcache();			// prevent is_link from using cache
+		$dir_realpath = realpath($dir);
+		foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)) as $name => $f)
+		{
+			if (is_link($name))
+			{
+				$target = readlink($name);
+				if (substr($target, 0, strlen($dir_realpath)) != $dir_realpath)
+				{
+					unlink($name);
+					$log->info("Removed symlink " . $name);
+				}
+			}
+		}
+
 		// if flat, get all files and move them to original directory
 		if ($a_flat)
 		{
@@ -2062,15 +2086,15 @@ class ilUtil
 		$img = '<img src="'.$a_src.'"';
 		if ($a_alt != "")
 		{
-			$img.= ' alt="'.$a_alt.'" title="'.$a_alt.'"';
+			$img.= ' alt="'.htmlspecialchars($a_alt).'" title="'.htmlspecialchars($a_alt).'"';
 		}
 		if ($a_width != "")
 		{
-			$img.= ' width="'.$a_width.'"';
+			$img.= ' width="'.htmlspecialchars($a_width).'"';
 		}
 		if ($a_height != "")
 		{
-			$img.= ' height="'.$a_height.'"';
+			$img.= ' height="'.htmlspecialchars($a_height).'"';
 		}
 		if ($a_class != "")
 		{
@@ -2369,6 +2393,9 @@ class ilUtil
 	* @return	boolean
 	* @static
 	*
+	* @deprecated in favour of Filesystem::createDir() located at the filesystem service.
+	*
+	* @see \ILIAS\Filesystem\Filesystem::createDir()
 	*/
 	public static function makeDir($a_dir)
 	{
@@ -2393,19 +2420,24 @@ class ilUtil
 
 
 	/**
-	* Create a new directory and all parent directories
-	*
-	* Creates a new directory and inherits all filesystem permissions of the parent directory
-	* If the parent directories doesn't exist, they will be created recursively.
-	* The directory name NEEDS TO BE an absolute path, because it seems that relative paths
-	* are not working with PHP's file_exists function.
-	*
-	* @author Helmut Schottmüller <hschottm@tzi.de>
-	* @param string $a_dir The directory name to be created
-	* @access public
-	* @static
-	* 
-	*/
+	 * Create a new directory and all parent directories
+	 *
+	 * Creates a new directory and inherits all filesystem permissions of the parent directory
+	 * If the parent directories doesn't exist, they will be created recursively.
+	 * The directory name NEEDS TO BE an absolute path, because it seems that relative paths
+	 * are not working with PHP's file_exists function.
+	 *
+	 * @author Helmut Schottmüller <hschottm@tzi.de>
+	 * @param string $a_dir The directory name to be created
+	 * @access public
+	 * @static
+	 *
+	 * @return bool
+	 *
+	 * @deprecated in favour of Filesystem::createDir() located at the filesystem service.
+	 *
+	 * @see \ILIAS\Filesystem\Filesystem::createDir()
+	 */
 	public static function makeDirParents($a_dir)
 	{
 		$dirs = array($a_dir);
@@ -2468,15 +2500,22 @@ class ilUtil
 		return true;
 	}
 
+
 	/**
-	* removes a dir and all its content (subdirs and files) recursively
-	*
-	* @access	public
-	* @param	string	dir to delete
-	* @author	Unknown <flexer@cutephp.com> (source: http://www.php.net/rmdir)
-	* @static
-	* 
-	*/
+	 * removes a dir and all its content (subdirs and files) recursively
+	 *
+	 * @access    public
+	 *
+	 * @param string    $a_dir          dir to delete
+	 * @param bool      $a_clean_only
+	 *
+	 * @author    Unknown <flexer@cutephp.com> (source: http://www.php.net/rmdir)
+	 * @static
+	 *
+	 * @deprecated in favour of Filesystem::deleteDir() located at the filesystem service.
+	 *
+	 * @see \ILIAS\Filesystem\Filesystem::deleteDir()
+	 */
 	public static function delDir($a_dir, $a_clean_only = false)
 	{
 		if (!is_dir($a_dir) || is_int(strpos($a_dir, "..")))
@@ -2519,11 +2558,20 @@ class ilUtil
 
 
 	/**
-	* get directory
-	* 
-	* @static
-	* 
-	*/
+	 * get directory
+	 *
+	 * @static
+	 *
+	 * @param        $a_dir
+	 * @param bool   $a_rec
+	 * @param string $a_sub_dir
+	 *
+	 * @return array
+	 *
+	 * @deprecated in favour of Filesystem::listContents() located at the filesystem service.
+	 *
+	 * @see \ILIAS\Filesystem\Filesystem::listContents()
+	 */
 	public static function getDir($a_dir, $a_rec = false, $a_sub_dir = "")
 	{
 		$current_dir = opendir($a_dir.$a_sub_dir);
@@ -3053,6 +3101,32 @@ class ilUtil
 		$a_str = str_replace("\\", "&#92;", $a_str);
 		return $a_str;
 	}
+
+	/**
+	 * Prepare secure href attribute
+	 *
+	 * @param
+	 * @return
+	 */
+	static function secureUrl($url)
+	{
+		// check if url is valid (absolute or relative)
+		if (filter_var($url, FILTER_VALIDATE_URL) === false &&
+			filter_var("http://".$url, FILTER_VALIDATE_URL) === false &&
+			filter_var("http:".$url, FILTER_VALIDATE_URL) === false &&
+			filter_var("http://de.de".$url, FILTER_VALIDATE_URL) === false &&
+			filter_var("http://de.de/".$url, FILTER_VALIDATE_URL) === false)
+		{
+			return "";
+		}
+		if (trim(strtolower(parse_url($url, PHP_URL_SCHEME))) == "javascript")
+		{
+			return "";
+		}
+		$url = htmlspecialchars($url, ENT_QUOTES);
+		return $url;
+	}
+
 
 
 	/**
@@ -4042,69 +4116,61 @@ class ilUtil
 
 
 	/**
-	* move uploaded file
-	* 
-	* @static
-	* 
-	*/
-	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true,
-		$a_mode = "move_uploaded")
+	 * move uploaded file
+	 *
+	 * @static
+	 *
+	 * @param string $a_file
+	 * @param string $a_name
+	 * @param string $a_target
+	 * @param bool   $a_raise_errors
+	 * @param string $a_mode
+	 *
+	 * @return bool
+	 *
+	 * @deprecated in favour of the FileUpload service.
+	 *
+	 * @see \ILIAS\DI\Container::upload()
+	 */
+	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded")
 	{
-		global $lng, $ilias;
-//echo "<br>ilUtli::moveuploadedFile($a_name)";
+		global $DIC;
 
-		if (!is_file($a_file))
-		{
-			if ($a_raise_errors)
-			{
-				$ilias->raiseError($lng->txt("upload_error_file_not_found"), $ilias->error_obj->MESSAGE);
+		// Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup/....)
+		list($targetFilesystem, $targetDir) = self::sanitateTargetPath($a_target);
+
+		$upload = $DIC->upload();
+
+		// If the upload has not yet been processed make sure he gets processed now.
+		if(!$upload->hasBeenProcessed()) {
+			$upload->process();
+		}
+
+		try {
+			if (!$upload->hasUploads()) {
+				throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
 			}
-			else
-			{
-				ilUtil::sendFailure($lng->txt("upload_error_file_not_found"), true);
+			/**
+			 * @var \ILIAS\FileUpload\DTO\UploadResult $UploadResult
+			 */
+			$UploadResult = $upload->getResults()[$a_file];
+			$ProcessingStatus = $UploadResult->getStatus();
+			if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
+				throw new ilException($ProcessingStatus->getMessage());
 			}
+		} catch (ilException $e) {
+			if ($a_raise_errors) {
+				throw $e;
+			} else {
+				ilUtil::sendFailure($e->getMessage(), true);
+			}
+
 			return false;
 		}
 
-		// virus handling
-		$vir = ilUtil::virusHandling($a_file, $a_name);
-		if (!$vir[0])
-		{
-			unlink($a_file);
-			if ($a_raise_errors)
-			{
-				$ilias->raiseError($lng->txt("file_is_infected")."<br />".
-					$vir[1],
-					$ilias->error_obj->MESSAGE);
-			}
-			else
-			{
-				ilUtil::sendFailure($lng->txt("file_is_infected")."<br />".
-					$vir[1], true);
-			}
-			return false;
-		}
-		else
-		{
-			if ($vir[1] != "")
-			{
-				ilUtil::sendInfo($vir[1], true);
-			}
-			switch ($a_mode)
-			{
-				case "rename":
-					return rename($a_file, $a_target);
-					break;
+		$upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $a_name);
 
-				case "copy":
-					return copy($a_file, $a_target);
-					break;
-
-				default:
-					return move_uploaded_file($a_file, $a_target);
-					break;
-			}
-		}
+		return true;
 	}
 
 
@@ -4346,179 +4412,63 @@ class ilUtil
 
 
 	/**
-	 * Include Mathjax
+	 * @param $a_target
 	 *
-	 * @param
-	 * @return
+	 * @return array
+	 */
+	protected static function sanitateTargetPath($a_target) {
+		switch (true) {
+			case strpos($a_target, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
+			case strpos($a_target, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
+			case strpos($a_target, CLIENT_WEB_DIR) === 0:
+				$targetFilesystem = \ILIAS\FileUpload\Location::WEB;
+				break;
+			case strpos($a_target, CLIENT_DATA_DIR) === 0:
+				$targetFilesystem = \ILIAS\FileUpload\Location::STORAGE;
+				break;
+			case strpos($a_target, ILIAS_ABSOLUTE_PATH . '/Customizing') === 0:
+				$targetFilesystem = \ILIAS\FileUpload\Location::CUSTOMIZING;
+				break;
+			default:
+				throw new InvalidArgumentException("Can not move files to \"$a_target\" because path can not be mapped to web, storage or customizing location.");
+		}
+
+		$absTargetDir = dirname($a_target);
+		$targetDir = LegacyPathHelper::createRelativePath($absTargetDir);
+
+		return array( $targetFilesystem, $targetDir );
+	}
+
+
+	/**
+	 * Include Mathjax
+	 * @deprecated
 	 */
 	function includeMathjax($a_tpl = null)
 	{
-		global $tpl;
-
-		if ($a_tpl == null)
-		{
-			$a_tpl = $tpl;
+		include_once './Services/MathJax/classes/class.ilMathJax.php';
+		ilMathJax::getInstance()->includeMathJax($a_tpl);
 		}
-
-		// - take care of html exports (-> see buildLatexImages)
-		include_once "./Services/Administration/classes/class.ilSetting.php";
-		$mathJaxSetting = new ilSetting("MathJax");
-		$use_mathjax = $mathJaxSetting->get("enable");
-		if ($use_mathjax)
-		{
-			$a_tpl->addJavaScript($mathJaxSetting->get("path_to_mathjax"));
-		}
-	}
-
 
 	/**
-	* replace [text]...[/tex] tags with formula image code
-	*
-	* added additional parameters to make this method usable
-	* for other start and end tags as well
-	* 
-	* @static
-	* 
+	 * replace [tex]...[/tex] tags with formula image code
+	 * @deprecated
 	*/
-	public static function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]")
+	public static function insertLatexImages($a_text, $a_start = '[tex]', $a_end = '[/tex]')
 	{
-		global $tpl, $lng, $ilUser;
-
-		$cgi = URL_TO_LATEX;
-
-		// - take care of html exports (-> see buildLatexImages)
-		include_once "./Services/Administration/classes/class.ilSetting.php";
-		$mathJaxSetting = new ilSetting("MathJax");
-		$use_mathjax = $mathJaxSetting->get("enable");
-		if ($use_mathjax)
-		{
-			$a_text = preg_replace("/\\\\([RZN])([^a-zA-Z]|<\/span>)/", "\\mathbb{"."$1"."}"."$2", $a_text);
-			$tpl->addJavaScript($mathJaxSetting->get("path_to_mathjax"));
-		}
-		
-		// this is a fix for bug5362
-		$cpos = 0;
-		$o_start = $a_start;
-		$o_end = $a_end;
-		$a_start = str_replace("\\", "", $a_start);
-		$a_end = str_replace("\\", "", $a_end);
-
-		while (is_int($spos = stripos($a_text, $a_start, $cpos)))	// find next start
-		{
-			if (is_int ($epos = stripos($a_text, $a_end, $spos + 1)))
-			{
-				$tex = substr($a_text, $spos + strlen($a_start), $epos - $spos - strlen($a_start));
-
-				// replace, if tags do not go across div borders
-				if (!is_int(strpos($tex, "</div>")))
-				{
-					if (!$use_mathjax)
-					{
-						$a_text = substr($a_text, 0, $spos).
-							"<img alt=\"".htmlentities($tex)."\" src=\"".$cgi."?".
-							rawurlencode(str_replace('&amp;', '&', str_replace('&gt;', '>', str_replace('&lt;', '<', $tex))))."\" ".
-							" />".
-							substr($a_text, $epos + strlen($a_end));
-					}
-					else
-					{
-						$tex = $a_start.$tex.$a_end;
-						
-						switch ((int) $mathJaxSetting->get("limiter"))
-						{
-							case 1:
-								$mj_start = "[tex]";
-								$mj_end = "[/tex]";
-								break;
-
-							case 2:
-								$mj_start = '<span class="math">';
-								$mj_end = '</span>';
-								break;
-								
-							default:
-								$mj_start = "\(";
-								$mj_end = "\)";
-								break;
-						}
-						
-						$replacement = 
-							preg_replace('/' . $o_start . '(.*?)' . $o_end . '/ie',
-							"'".$mj_start."' . preg_replace('/[\\\\\\\\\\]{2}/', '\\cr', str_replace('<', '&lt;', str_replace('<br/>', '', str_replace('<br />', '', str_replace('<br>', '', '$1'))))) . '".$mj_end."'", $tex);
-						// added special handling for \\ -> \cr, < -> $lt; and removal of <br/> tags in jsMath expressions, H. Schottmüller, 2007-09-09
-						$a_text = substr($a_text, 0, $spos).
-							$replacement.
-							substr($a_text, $epos + strlen($a_end));
-					}
-				}
-			}
-			$cpos = $spos + 1;
-		}
-		
-		$result_text = $a_text;
-
-		return $result_text;
+		include_once './Services/MathJax/classes/class.ilMathJax.php';
+		return ilMathJax::getInstance()->insertLatexImages($a_text, $a_start, $a_end);
 	}
 
 	/**
-	* replace [text]...[/tex] tags with formula image code
-	* ////////
-	* added additional parameters to make this method usable
-	* for other start and end tags as well
-	* 
-	* @static
-	* 
+	 * replace [tex]...[/tex] tags with formula image code for offline use
+	 * @deprecated
 	*/
 	public static function buildLatexImages($a_text, $a_dir)
 	{
-		$result_text = $a_text;
-		
-		$start = "\[tex\]";
-		$end = "\[\/tex\]";
-
-		$cgi = URL_TO_LATEX;
-		
-		if ($cgi != "")
-		{
-			while (preg_match('/' . $start . '(.*?)' . $end . '/ie', $result_text, $found))
-			{
-				$cnt = (int) $GLOBALS["teximgcnt"]++;
-				// get image from cgi and write it to file
-				$fpr = @fopen($cgi."?".rawurlencode($found[1]), "r");
-				$lcnt = 0;
-				if ($fpr)
-				{
-					while(!feof($fpr))
-					{
-						$buf = fread($fpr, 1024);
-						if ($lcnt == 0)
-						{
-							if (is_int(strpos(strtoupper(substr($buf, 0, 5)), "GIF")))
-							{
-								$suffix = "gif";
-							}
-							else
-							{
-								$suffix = "png";
-							}
-							$fpw = fopen($a_dir."/teximg/img".$cnt.".".$suffix, "w");
-						}
-						$lcnt++;
-						fwrite($fpw, $buf);
-					}
-					fclose($fpw);
-					fclose($fpr);
-				}
-
-				// replace tex-tag
-				$img_str = "./teximg/img".$cnt.".".$suffix;
-				$result_text = str_replace($found[0],
-					'<img alt="'.$found[1].'" src="'.$img_str.'" />', $result_text);
-			}
-		}
-
-		return $result_text;
-	}
+		include_once './Services/MathJax/classes/class.ilMathJax.php';
+		return ilMathJax::getInstance()->insertLatexImages($a_text, '[tex]','[/tex]', $a_dir.'/teximg', './teximg');
+    }
 
 	/**
 	* Prepares a string for a text area output where latex code may be in it
@@ -4535,8 +4485,9 @@ class ilUtil
 
 		if ($prepare_for_latex_output)
 		{
-			$result = ilUtil::insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
-			$result = ilUtil::insertLatexImages($result, "\[tex\]", "\[\/tex\]");
+			include_once './Services/MathJax/classes/class.ilMathJax.php';
+			$result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
+			$result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
 		}
 
 		// removed: did not work with magic_quotes_gpc = On
@@ -4999,6 +4950,11 @@ class ilUtil
 		// Temporary fix for feed.php 
 		if(!(bool)$a_set_cookie_invalid) $expire = 0;
 		else $expire = time() - (365*24*60*60);
+		
+		if(!defined('IL_COOKIE_SECURE'))
+		{
+			define('IL_COOKIE_SECURE', false);
+		}
 
 		setcookie( $a_cookie_name, $a_cookie_value, $expire,
 			IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
@@ -5257,43 +5213,34 @@ class ilUtil
 	{
 		global $lng;
 
-
-		if ($a_dec_point == null)
-		{
-			$a_dec_point = $lng->txt('lang_sep_decimal');
+		if ($a_dec_point == null) {
 			{
 				$a_dec_point = ".";
 			}
 		}
-		if ($a_dec_point == '-lang_sep_decimal-')
-		{
+		if ($a_dec_point == '-lang_sep_decimal-') {
 			$a_dec_point = ".";
 		}
 
-		if ($a_thousands_sep == null)
-		{
+		if ($a_thousands_sep == null) {
 			$a_thousands_sep = $lng->txt('lang_sep_thousand');
-			{
-				$a_th = ",";
-			}
 		}
-		if ($a_thousands_sep == '-lang_sep_thousand-')
-		{
+		if ($a_thousands_sep == '-lang_sep_thousand-') {
 			$a_thousands_sep = ",";
 		}
-		
+
 		$txt = number_format($a_float, $a_decimals, $a_dec_point, $a_thousands_sep);
-		
+
 		// remove trailing ".0" 
-		if (($a_suppress_dot_zero == 0 || $a_decimals == 0) &&
-			substr($txt,-2) == $a_dec_point.'0')
-		{
+		if (($a_suppress_dot_zero == 0 || $a_decimals == 0)
+		    && substr($txt, - 2) == $a_dec_point . '0'
+		) {
 			$txt = substr($txt, 0, strlen($txt) - 2);
 		}
-		if ($a_float == 0 and $txt == "")
-		{
+		if ($a_float == 0 and $txt == "") {
 			$txt = "0";
 		}
+
 		return $txt;
 	}
 	
@@ -5320,40 +5267,34 @@ class ilUtil
 			$a_lng = $lng;
 		}
 
-		$result;
 		$mag = self::_getSizeMagnitude();
 
-		$scaled_size;
-		$scaled_unit;
-
-		if ($size >= $mag * $mag * $mag)
-		{
-			$scaled_size = $size/$mag/$mag/$mag;
+		if ($size >= $mag * $mag * $mag) {
+			$scaled_size = $size / $mag / $mag / $mag;
 			$scaled_unit = 'lang_size_gb';
-		}
-		else if ($size >= $mag * $mag)
-		{
-			$scaled_size = $size/$mag/$mag;
-			$scaled_unit = 'lang_size_mb';
-		}
-		else if ($size >= $mag)
-		{
-			$scaled_size = $size/$mag;
-			$scaled_unit = 'lang_size_kb';
-		}
-		else
-		{
-			$scaled_size = $size;
-			$scaled_unit = 'lang_size_bytes';
+		} else {
+			if ($size >= $mag * $mag) {
+				$scaled_size = $size / $mag / $mag;
+				$scaled_unit = 'lang_size_mb';
+			} else {
+				if ($size >= $mag) {
+					$scaled_size = $size / $mag;
+					$scaled_unit = 'lang_size_kb';
+				} else {
+					$scaled_size = $size;
+					$scaled_unit = 'lang_size_bytes';
+				}
+			}
 		}
 
-		$result = self::fmtFloat($scaled_size,($scaled_unit == 'lang_size_bytes') ? 0:1, $a_lng->txt('lang_sep_decimal'), $a_lng->txt('lang_sep_thousand'), true).' '.$a_lng->txt($scaled_unit);
-		if ($a_mode == 'long' && $size > $mag)
-		{
-			$result .= ' ('.
-				self::fmtFloat($size,0,$a_lng->txt('lang_sep_decimal'),$a_lng->txt('lang_sep_thousand')).
-				' '.$a_lng->txt('lang_size_bytes').')';
+		$result = self::fmtFloat($scaled_size, ($scaled_unit
+		                                        == 'lang_size_bytes') ? 0 : 1, $a_lng->txt('lang_sep_decimal'), $a_lng->txt('lang_sep_thousand'), true)
+		          . ' ' . $a_lng->txt($scaled_unit);
+		if ($a_mode == 'long' && $size > $mag) {
+			$result .= ' (' . self::fmtFloat($size, 0, $a_lng->txt('lang_sep_decimal'), $a_lng->txt('lang_sep_thousand')) . ' '
+			           . $a_lng->txt('lang_size_bytes') . ')';
 		}
+
 		return $result;
 	}
 	

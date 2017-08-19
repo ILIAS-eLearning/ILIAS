@@ -67,7 +67,6 @@ class ilLPStatusManual extends ilLPStatus
 		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 		switch ($ilObjDataCache->lookupType($a_obj_id))
 		{
-			case 'dbk':
 			case 'lm':
 			case 'htlm':
 				include_once("./Services/Tracking/classes/class.ilChangeEvent.php");

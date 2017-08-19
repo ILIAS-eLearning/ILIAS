@@ -8,4 +8,5 @@
 	<pluginslots>
 		<pluginslot id="amdc" name="AdvancedMDClaiming" />
 	</pluginslots>
+	<logging/>
 </service>

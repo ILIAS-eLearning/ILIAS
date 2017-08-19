@@ -13,7 +13,7 @@ class ilVirusScannerFactory
 	 */
 	static public function _getInstance()
 	{
-		// create global virus scanner class instance 
+		// create global virus scanner class instance
 		switch(IL_VIRUS_SCANNER)
 		{
 			case "Sophos":

@@ -24,17 +24,21 @@
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesGroup
-*/
-
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ModulesGroup
+ */
 class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 {
 	public $container = null;
 	
+	/**
+	 * @var ilObject
+	 */
+	protected $rep_object = null;
+
 	/**
 	 * Constructor
 	 *
@@ -42,7 +46,7 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 	 * @param object parent gui object
 	 * @return void
 	 */
-	public function __construct($a_parent_obj)
+	public function __construct($a_parent_obj, $rep_object)
 	{
 	 	global $lng,$ilCtrl;
 	 	
@@ -51,11 +55,13 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 	 	$this->ctrl = $ilCtrl;
 	 	
 	 	$this->container = $a_parent_obj;
+		
+		$this->rep_object = $rep_object;
 	 	
 	 	include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 	 	$this->privacy = ilPrivacySettings::_getInstance();
 	 	
-	 	$this->participants = ilGroupParticipants::_getInstanceByObjId($a_parent_obj->object->getId());
+	 	$this->participants = ilGroupParticipants::_getInstanceByObjId($this->rep_object->getId());
 	 	
 		parent::__construct($a_parent_obj,'editMembers');
 		$this->setFormName('participants');
@@ -71,8 +77,8 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 	 	$this->addColumn($this->lng->txt('grp_notification'),'notification');
 	 	$this->addColumn($this->lng->txt('objs_role'),'roles');
 
-		$this->addCommandButton('updateMembers',$this->lng->txt('save'));
-		$this->addCommandButton('members',$this->lng->txt('cancel'));
+		$this->addCommandButton('updateParticipants',$this->lng->txt('save'));
+		$this->addCommandButton('participants',$this->lng->txt('cancel'));
 	 	
 		$this->setRowTemplate("tpl.edit_participants_row.html","Modules/Group");
 		
@@ -106,7 +112,7 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('NUM_ROLES',count($this->participants->getRoles()));
 		
 		$assigned = $this->participants->getAssignedRoles($a_set['usr_id']);
-		foreach($this->container->object->getLocalGroupRoles(true) as $name => $role_id)
+		foreach($this->rep_object->getLocalGroupRoles(true) as $name => $role_id)
 		{
 			$this->tpl->setCurrentBlock('roles');
 			$this->tpl->setVariable('ROLE_ID',$role_id);

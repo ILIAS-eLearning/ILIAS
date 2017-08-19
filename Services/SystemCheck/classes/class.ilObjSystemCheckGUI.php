@@ -36,12 +36,6 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 		$this->type = 'sysc';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->lng->loadLanguageModule('sysc');
-		$GLOBALS['ilLog']->write($this->lng->txt('sysc_overview'));
-		$GLOBALS['ilLog']->write($this->lng->txt('sysc_trash_restore'));
-		
-		
-		
-		
 	}
 
 	/**
@@ -272,7 +266,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 		if($form->checkInput())
 		{
 			$trash = new ilSystemCheckTrash();
-						
+			$trash->setMode(ilSystemCheckTrash::MODE_TRASH_REMOVE);
 			$dt = $form->getItemByPostVar('age')->getDate();			
 			if($dt)
 			{

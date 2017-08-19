@@ -14,17 +14,115 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 	 */
 	protected $placeholders = array();
 
-	protected $url;
 	/**
-	 * 
+	 * @var string
 	 */
-	public function __construct($url)
+	protected $rerenderUrl;
+
+	/**
+	 * @var string
+	 */
+	protected $rerenderTriggerElementName;
+
+	/**
+	 * @var string
+	 */
+	protected $dependencyElementId;
+
+	/**
+	 * @var string
+	 */
+	protected $instructionText = '';
+
+	/**
+	 * @var string
+	 */
+	protected $adviseText = '';
+
+	/**
+	 * @var \ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var \ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * ilManualPlaceholderInputGUI constructor.
+	 * @param string $dependencyElementId
+	 */
+	public function __construct($dependencyElementId)
 	{	
-		global $tpl;
-		
+		global $DIC;
+
+		$this->tpl = $DIC->ui()->mainTemplate();
+		$this->lng = $DIC->language();
+
 		parent::__construct('');
-		$this->url = $url;
-		$tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
+
+		$this->dependencyElementId = $dependencyElementId;
+
+		$this->tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRerenderUrl()
+	{
+		return $this->rerenderUrl;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRerenderTriggerElementName()
+	{
+		return $this->rerenderTriggerElementName;
+	}
+
+	/**
+	 * @param string $elementId
+	 * @param string $url
+	 */
+	public function supportsRerenderSignal($elementId, $url)
+	{
+		$this->rerenderTriggerElementName = $elementId;
+		$this->rerenderUrl                = $url;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAdviseText()
+	{
+		return $this->adviseText;
+	}
+
+	/**
+	 * @param string $adviseText
+	 */
+	public function setAdviseText($adviseText)
+	{
+		$this->adviseText = $adviseText;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getInstructionText()
+	{
+		return $this->instructionText;
+	}
+
+	/**
+	 * @param string $instructionText
+	 */
+	public function setInstructionText($instructionText)
+	{
+		$this->instructionText = $instructionText;
 	}
 
 	/**
@@ -55,32 +153,38 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 	 */
 	public function render($ajax = false)
 	{
-		global $lng;
-		
 		$subtpl = new ilTemplate("tpl.mail_manual_placeholders.html", true, true, "Services/Mail");
-		$subtpl->setVariable('TXT_USE_PLACEHOLDERS', $lng->txt('mail_nacc_use_placeholder'));
-		$subtpl->setVariable('TXT_PLACEHOLDERS_ADVISE', sprintf($lng->txt('placeholders_advise'), '<br />'));
+		$subtpl->setVariable('TXT_USE_PLACEHOLDERS', $this->lng->txt('mail_nacc_use_placeholder'));
+		if($this->getAdviseText())
+		{
+			$subtpl->setVariable('TXT_PLACEHOLDERS_ADVISE', $this->getAdviseText());
+		}
+
 		if(count($this->placeholders) > 0)
 		{
 			foreach($this->placeholders as $placeholder)
 			{
 				$subtpl->setCurrentBlock('man_placeholder');
+				$subtpl->setVariable('DEPENDENCY_ELM_ID', $this->dependencyElementId);
 				$subtpl->setVariable('MANUAL_PLACEHOLDER', $placeholder['placeholder']);
 				$subtpl->setVariable('TXT_MANUAL_PLACEHOLDER', $placeholder['title']);
 				$subtpl->parseCurrentBlock();
 			}
 		}
+
+		if($this->getRerenderTriggerElementName() && $this->getRerenderUrl())
+		{
+			$subtpl->setVariable('RERENDER_URL', $this->getRerenderUrl());
+			$subtpl->setVariable('RERENDER_TRIGGER_ELM_NAME', $this->getRerenderTriggerElementName());
+		}
+
 		if($ajax)
 		{
 			echo $subtpl->get();
 			exit();
 		}
-		else
-		{
-			$subtpl->setVariable('URL', $this->url);
-			return $subtpl->get();
-		}
 
+		return $subtpl->get();
 	}
 
 	/**
@@ -113,4 +217,3 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 }
-	

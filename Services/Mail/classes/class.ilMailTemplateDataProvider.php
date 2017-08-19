@@ -14,8 +14,20 @@ class ilMailTemplateDataProvider
 	 */
 	protected $mail_templates = array();
 
+	/**
+	 * @var \ilDBInterface
+	 */
+	protected $db;
+
+	/**
+	 * ilMailTemplateDataProvider constructor.
+	 */
 	public function __construct()
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+
 		$this->read();
 	}
 
@@ -24,10 +36,8 @@ class ilMailTemplateDataProvider
 	 */
 	private function read()
 	{
-		global $ilDB;
-
-		$res = $ilDB->query('SELECT * FROM mail_man_tpl');
-		while($row = $ilDB->fetchAssoc($res))
+		$res = $this->db->query('SELECT * FROM mail_man_tpl');
+		while($row = $this->db->fetchAssoc($res))
 		{
 			$this->mail_templates[$row['tpl_id']] = new ilMailTemplate($row);
 		}
@@ -65,7 +75,7 @@ class ilMailTemplateDataProvider
 	 * @param int $context_id
 	 * @return ilMailTemplate[]
 	 */
-	public function getTemplateByContexId($context_id)
+	public function getTemplateByContextId($context_id)
 	{
 		return array_filter($this->mail_templates, function(ilMailTemplate $template) use ($context_id) {
 			return $context_id === $template->getContext();
@@ -77,14 +87,12 @@ class ilMailTemplateDataProvider
 	 */
 	public function deleteTemplates($tpl_ids = array())
 	{
-		global $ilDB;
-
 		if(count($tpl_ids) > 0)
 		{
-			$ilDB->manipulate('
-			DELETE FROM mail_man_tpl WHERE ' .
-				$ilDB->in('tpl_id', $tpl_ids, false, 'integer')
+			$this->db->manipulate('
+				DELETE FROM mail_man_tpl WHERE ' .
+				$this->db->in('tpl_id', $tpl_ids, false, 'integer')
 			);
-		}			
+		}
 	}
 }

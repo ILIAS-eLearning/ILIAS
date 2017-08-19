@@ -146,4 +146,3 @@ class ilCloudPluginService
         return isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'HTTPS' : 'HTTP';
     }
 }
-?>

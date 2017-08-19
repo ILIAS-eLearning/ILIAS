@@ -52,7 +52,7 @@ class ilFileUtils
 	 * @throws ilFileUtilsException
 	 */
 	 
-	function processZipFile ($a_directory, $a_file, $structure, $ref_id = null, $containerType = null, $tree = null, $access_handler = null) {
+	public static function processZipFile ($a_directory, $a_file, $structure, $ref_id = null, $containerType = null, $tree = null, $access_handler = null) {
 
 		global $lng;
 		
@@ -194,7 +194,7 @@ class ilFileUtils
 	 * @param string containerType object type of created containerobjects (folder or category)
 	 * @return integer errorcode
 	 */	
-	function createObjects($dir, $structure, $ref_id, $containerType, $tree = null, $access_handler = null)
+	public static function createObjects($dir, $structure, $ref_id, $containerType, $tree = null, $access_handler = null)
 	{
 		$dirlist = opendir($dir);
 		
@@ -240,7 +240,7 @@ class ilFileUtils
 	 * @param string $containerType Fold or Cat
 	 * @return integer ref_id of containerobject
 	 */
-	function createContainer($name, $ref_id, $containerType, $tree = null, $access_handler = null) 
+	public static function createContainer($name, $ref_id, $containerType, $tree = null, $access_handler = null)
 	{
 		switch($containerType)
 		{
@@ -301,9 +301,9 @@ class ilFileUtils
 	 * @param string $path Path to file 
 	 * @param integer $ref_id ref_id of parent
 	 */
-	function createFile ($filename, $path, $ref_id, $tree = null, $access_handler = null)
+	public static function createFile ($filename, $path, $ref_id, $tree = null, $access_handler = null)
 	{
-		global $rbacsystem;	
+		global $rbacsystem, $lng, $ilErr;
 		
 		if(!$access_handler)
 		{
@@ -318,7 +318,7 @@ class ilFileUtils
 			// create and insert file in grp_tree
 			include_once("./Modules/File/classes/class.ilObjFile.php");
 			$fileObj = new ilObjFile();
-			$fileObj->setType($this->type);
+			$fileObj->setType('file');
 			$fileObj->setTitle(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
 			$fileObj->setFileName(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
 		
@@ -348,7 +348,7 @@ class ilFileUtils
 			$fileObj->storeUnzipedFile($path. "/" . $filename,ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
 		}
 		else {
-			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"),$ilErr->MESSAGE);
 		}
 	}
 	
@@ -365,7 +365,7 @@ class ilFileUtils
 	 * @param string $string String to encode
 	 * @return string utf-8-encoded string
 	 */
-	function utf8_encode($string) {
+	public static function utf8_encode($string) {
 	   
 		// From http://w3.org/International/questions/qa-forms-utf-8.html
 		return (preg_match('%^(?:
@@ -486,27 +486,38 @@ class ilFileUtils
     
     return true;
 	}
-  
+	
 	/**
-	 * @param string file absolute path to file
+	 * @param string $content
+	 * @return string $mimeType
 	 */
-	public static function _lookupMimeType($a_file)
+	public static function lookupContentMimeType($content)
+	{
+		$finfo = new finfo(FILEINFO_MIME);
+		return $finfo->buffer($content);
+	}
+	
+	/**
+	 * @param string $a_file
+	 * @return string $mimeType
+	 */
+	public static function lookupFileMimeType($a_file)
 	{
 		if(!file_exists($a_file) or !is_readable($a_file))
 		{
 			return false;
 		}
 		
-		if(class_exists('finfo'))
-		{
-			$finfo = new finfo(FILEINFO_MIME);
-			return $finfo->buffer(file_get_contents($a_file));
-		}
-		if(function_exists('mime_content_type'))
-		{
-			return mime_content_type($a_file);
-		}
-		return 'application/octet-stream';
+		return self::lookupContentMimeType(file_get_contents($a_file));
+	}
+  
+	/**
+	 * @param string file absolute path to file
+	 * @return string $mimeType
+	 */
+	public static function _lookupMimeType($a_file)
+	{
+		return self::lookupFileMimeType($a_file);
 	}
 	
 } // END class.ilFileUtils

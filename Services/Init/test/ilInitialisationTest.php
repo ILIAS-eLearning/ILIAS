@@ -1,7 +1,8 @@
 <?php
 /**
  * TestCase for the ilContext
- *
+ * @group needsInstalledILIAS
+ *        
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
 class ilInitialisationTest extends PHPUnit_Framework_TestCase {
@@ -54,12 +55,15 @@ class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 			, array("ilRbacSystem", function ($DIC) { return $DIC->rbac()->system(); })
 			, array("ilRbacAdmin", function ($DIC) { return $DIC->rbac()->admin(); })
 			, array("ilRbacReview", function ($DIC) { return $DIC->rbac()->review(); })
-			, array("ilAccessHandler", function ($DIC) { return $DIC->access(); })
+			, array("ilAccess", function ($DIC) { return $DIC->access(); })
 			, array("ilTree", function ($DIC) { return $DIC->repositoryTree(); })
 			, array("ilLanguage", function ($DIC) { return $DIC->language(); })
 			// TODO: Can't test these until context for unit tests does not have HTML.
+			//, array("ilTemplate", function ($DIC) { return $DIC->ui()->mainTemplate(); })
 			//, array("ilToolbarGUI", function ($DIC) { return $DIC->toolbar(); })
 			//, array("ilTabsGUI", function ($DIC) { return $DIC->tabs(); })
+			//, array("ILIAS\\UI\\Factory", function ($DIC) { return $DIC->ui()->factory();})
+			//, array("ILIAS\\UI\\Renderer", function ($DIC) { return $DIC->ui()->renderer();})
 			, array("ilLogger", function ($DIC) { return $DIC->logger()->root(); })
 			, array("ilLogger", function ($DIC) { return $DIC->logger()->grp(); })
 			, array("ilLogger", function ($DIC) { return $DIC->logger()->crs(); })

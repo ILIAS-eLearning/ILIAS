@@ -880,7 +880,7 @@ class ilCourseObjectiveQuestion
 	 * @param
 	 * @return
 	 */
-	public function _hasTests($a_course_id)
+	public static function _hasTests($a_course_id)
 	{
 		global $ilDB;
 		
@@ -892,7 +892,7 @@ class ilCourseObjectiveQuestion
 	}
 	
 	
-	function _isAssigned($a_objective_id,$a_tst_ref_id,$a_question_id)
+	static function _isAssigned($a_objective_id,$a_tst_ref_id,$a_question_id)
 	{
 		global $ilDB;
 

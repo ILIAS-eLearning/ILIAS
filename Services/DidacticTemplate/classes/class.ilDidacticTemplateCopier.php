@@ -87,7 +87,10 @@ class ilDidacticTemplateCopier
 			$new->save();
 		}
 
-
+		$trans = $orig->getTranslationObject();
+		$copy_trans = $trans->copy($this->new_tpl_id);
+		$copy_trans->addLanguage($trans->getDefaultLanguage(),$copy->getTitle(), $copy->getDescription(), true, true);
+		$copy_trans->save();
 	}
 }
 ?>

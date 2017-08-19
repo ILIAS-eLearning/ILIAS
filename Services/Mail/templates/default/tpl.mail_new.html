@@ -25,21 +25,5 @@
 			return;
 		}
 
-		$("button[form=" + $form.attr("id") + "][type=submit]").on('click', function(e) {
-			var $elm = $(this);
-
-			e.preventDefault();
-			e.stopPropagation();
-
-			$('<input/>')
-				.attr("type", "hidden")
-				.attr("name", $elm.attr("name"))
-				.val(1)
-				.appendTo($form);
-			
-			$form.find('input[type="submit"]').prop("disabled", true);
-			$form.submit();
-		});
-
 	})(jQuery);	
 </script>

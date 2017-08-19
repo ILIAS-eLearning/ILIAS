@@ -43,6 +43,10 @@ var ilKprimChoiceWizardInputTemplate = {
 				that.handleId(this, 'id', rowindex);
 				that.handleId(this, 'name', rowindex);
 			});
+			// hidden file
+			$(this).find('input:hidden[name*="[imagename]"]').each(function() {
+				that.handleId(this, 'name', rowindex);
+			});
 
 			// submit upload
 			$(this).find('input:submit[name*="[uploadImage]"]').each(function() {

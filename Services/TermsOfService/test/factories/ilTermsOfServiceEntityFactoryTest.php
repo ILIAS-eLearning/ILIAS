@@ -3,12 +3,13 @@
 
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceEntityFactory.php';
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceDataGatewayFactory.php';
+require_once 'Services/TermsOfService/test/ilTermsOfServiceBaseTest.php';
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilTermsOfServiceEntityFactoryTest extends PHPUnit_Framework_TestCase
+class ilTermsOfServiceEntityFactoryTest extends ilTermsOfServiceBaseTest
 {
 	/**
 	 * @var bool
@@ -37,6 +38,7 @@ class ilTermsOfServiceEntityFactoryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testExceptionIsRaisedWhenUnknowEntityIsRequested()
 	{
+		$this->assertException(InvalidArgumentException::class);
 		$factory = new ilTermsOfServiceEntityFactory();
 		$factory->getByName('PHP Unit');
 	}

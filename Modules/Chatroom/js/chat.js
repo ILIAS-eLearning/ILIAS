@@ -127,7 +127,7 @@
 		var content = $('<a class="" href="#">'+(icon ? ('<img style="margin-right: 8px" src="'+icon+'"/>'): '')+'<span class="xsmall">'+label+'</span></a>');
 		line.append(content);
 		if (callback) {
-			line.bind('click', function(ev) {
+			line.on('click', function(ev) {
 				$(this).parents('.menu').hide();
 				callback.call($(this).parents('.menu'));
 				ev.preventDefault();
@@ -184,6 +184,182 @@
 			return methods.init.apply( this, arguments );
 		} else {
 			$.error( 'Method ' +  method + ' does not exist on jQuery.ilChatList' );
+		}
+	};
+
+	$.fn.ilChatUserList = function(method) {
+		function getUserRow(user) {
+			var tpl = $('#ilChatUserRowTemplate').html();
+			tpl = tpl.replace(/\[\[USERNAME\]\]/g, user.label);
+			
+			tpl = $(tpl.replace(/\[\[INDEX\]\]/g, user.type + '_' + user.id));
+			tpl.find(".media-object").attr("src", user.image.src);
+
+			return $(tpl)
+				.addClass(user.type + "_" + user.id)
+				.addClass("online_user");
+		}
+		
+		function getUserActionRow(label, callback) {
+			var tpl = $('#ilChatUserRowAction').html();
+
+			tpl = $(tpl.replace(/\[\[LABEL\]\]/g, label));
+
+			if ($.isFunction(callback)) {
+				tpl.find("a").on("click", function(e) {
+					e.stopPropagation();
+					e.preventDefault();
+					callback.call($(this).closest(".dropdown-menu").data("ilChat").context);
+				});
+			}
+
+			return tpl;
+		}
+
+		var methods = {
+			init: function (menuitems) {
+				$(this).data('ilChatUserList', {
+					_index:     {},
+					_menuitems: menuitems
+				});
+			},
+			add: function(options) {
+				if ($(this).data('ilChatUserList')._index['id_' + options.id]) {
+					if (options.label != undefined) {
+						$(this).data('ilChatUserList')._index['id_' + options.id].find('.media-heading').html(options.label);
+					}
+					return $(this);
+				}
+
+				var line = $(getUserRow(options));
+
+				if (typeof options.hide != 'undefined' && options.hide == true) {
+					line.addClass('hidden_entry');
+				}
+
+				line.data('ilChatUserList', options);
+
+				var $this = $(this);
+
+				$this.data('ilChatUserList')._index['id_' + options.id] = line;
+
+				if (personalUserInfo.userid == options.id) {
+					line.addClass('self');
+				}
+				
+				var menu = line.find(".dropdown-menu");
+
+				menu.find("li").remove();
+				$.each($this.data('ilChatUserList')._menuitems, function(i) {
+					if (this.permission == undefined) {
+						menu.append(function(row) {
+							if (i === 0) {
+								row.find(".arrow-down").removeClass("ilNoDisplay");
+							}
+							return row;
+						}(getUserActionRow(this.label, this.callback)));
+					}
+					else if (
+						(personalUserInfo.moderator && inArray(this.permission, 'moderator') >= 0) ||
+						(personalUserInfo.userid == data.owner && inArray(this.permission, 'owner') >= 0)
+					) {
+						menu.append(function(row) {
+							if (i === 0) {
+								row.find(".arrow-down").removeClass("ilNoDisplay");
+							}
+							return row;
+						}(getUserActionRow(this.label, this.callback)));
+					}
+				});
+				menu.data('ilChat', {
+					context: line.data('ilChatUserList')
+				});
+
+				$(this).append(line);
+
+				if (line.hasClass('hidden_entry')) {
+					line.hide();
+				}
+
+				if ($('.online_user:visible').length == 0) {
+					$('.no_users').show();
+				}
+				else {
+					$('.no_users').hide();
+				}
+
+				return $(this).ilChatUserList('sort');
+			},
+			sort: function() {
+				var tmp = [];
+
+				$.each($(this).data('ilChatUserList')._index, function(i) {
+					tmp.push({id: i, data: this});
+				});
+
+				tmp.sort(function(a, b) {
+					return (a.data.data('ilChatUserList').label < b.data.data('ilChatUserList').label) ? -1 : 1;
+				});
+
+				for(var i = 0; i < tmp.length; ++i) {
+					$(this).append(tmp[i].data);
+				}
+
+				return $(this);
+			},
+			removeById: function(id) {
+				var line = $(this).data('ilChatUserList')._index['id_' + id];
+				if (line) {
+					var data = line.data('ilChatUserList');
+					$(data.type + '_' + id).remove();
+					if ($('.online_user:visible').length == 0) {
+						$('.no_users').show();
+					}
+					else {
+						$('.no_users').hide();
+					}
+					delete $(this).data('ilChatUserList')._index['id_' + id];
+				}
+				return $(this);
+			},
+			getDataById: function(id) {
+				return $(this).data('ilChatUserList')._index['id_' + id] ? $(this).data('ilChatUserList')._index['id_' + id].data('ilChatUserList') : undefined;
+			},
+			setNewEvents: function(id, newEvents) {
+				var data = $(this).data('ilChatUserList')._index['id_' + id].data('ilChatUserList');
+				if (data) {
+					data.new_events = newEvents;
+				}
+			},
+			getAll: function() {
+				var result = [];
+
+				$.each($(this).data('ilChatUserList')._index, function() {
+					result.push(this.data('ilChatUserList'));
+				});
+
+				result.sort(function(a, b) {
+					return (a.label < b.label) ? -1 : 1;
+				});
+
+				return result;
+			},
+			clear: function() {
+				$('#chat_users').find('div').remove();
+
+				$(this).data('ilChatUserList', {
+					_index: {},
+					_menuitems: $(this).data('ilChatUserList')._menuitems
+				});
+			}
+		};
+
+		if (methods[method]) {
+			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+		} else if (typeof method === 'object' || !method) {
+			return methods.init.apply(this, arguments);
+		} else {
+			$.error('Method ' + method + ' does not exist on jQuery.ilChatUserList');
 		}
 	};
 
@@ -247,14 +423,9 @@
 					e.preventDefault();
 					e.stopPropagation();
 
-					$("#chat_users .menu").hide();
-
 					menuContainer.find('li').remove();
 
 					var data = line.data('ilChatList');
-					if (data.type == 'user' && data.id == personalUserInfo.userid) {
-						return;
-					}
 
 					$.each($this.data('ilChatList')._menuitems, function() {
 
@@ -280,13 +451,7 @@
 					menuContainer.show();
 				});
 
-				if (options.type == 'user' && personalUserInfo.userid == options.id) {
-					line.addClass('self');
-				}
-				else if (options.type == 'user') {
-					// Deleted line according to mantis: #14831
-				}
-				else if (options.type == 'room' && options.owner == personalUserInfo.userid) {
+				if (options.type == 'room' && options.owner == personalUserInfo.userid) {
 					line.addClass('self');
 				}
 
@@ -294,16 +459,7 @@
 				if (line.hasClass('hidden_entry')) {
 					line.hide();
 				}
-				
-				if (options.type == 'user') {
-					if ($('.online_user:visible').length == 0) {
-						$('.no_users').show();
-					}
-					else {
-						$('.no_users').hide();
-					}
-				}
-				
+
 				return $(this).ilChatList('sort');
 			},
 			sort: function() {
@@ -323,20 +479,11 @@
 			},
 			removeById: function(id) {
 				var line = $(this).data('ilChatList')._index['id_' + id];
-				console.log(line);
 				if (line) {
 					var data = line.data('ilChatList');
 					//line.remove();
-					if (data.type == 'user' || data.type == '') {
+					if (data.type == '') {
 						$(data.type + '_' + id).remove();
-						if (data.type == 'user') {
-							if ($('.online_user:visible').length == 0) {
-								$('.no_users').show();
-							}
-							else {
-								$('.no_users').hide();
-							}
-						}
 					}
 					delete $(this).data('ilChatList')._index['id_' + id];
 				}
@@ -366,13 +513,13 @@
 				return result;
 			},
 			clear: function() {
-				$('#chat_users').find('div').not('.no_users').remove();
 				menuContainer.html('');
 				$(this).data('ilChatList', {
-					_index: {}
+					_index: {},
+					_menuitems: $(this).data('ilChatList')._menuitems
 				});
-			},
-		}
+			}
+		};
 	
 		if ( methods[method] ) {
 			return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
@@ -384,9 +531,8 @@
   
 	};
 
-	var lastHandledDate = new Object();
+	var lastHandledDate = {};
 	$.fn.ilChatMessageArea = function( method ) {
-    
 		var methods = {
 			init: function() {
 				$(this).data('ilChatMessageArea', {
@@ -396,7 +542,6 @@
 			addScope: function(scope_id, scope) {
 				var tmp = $('<div class="messageContainer">');
 				$(this).data('ilChatMessageArea')._scopes['id_' + scope_id] = tmp;
-				//console.log($(this).data('ilChatMessageArea')._scopes);
 				$(this).append(tmp);
 				tmp.data('ilChatMessageArea', scope);
 				tmp.hide();
@@ -420,26 +565,21 @@
                     var line = $('<div class="messageLine chat"></div>')
 							.addClass((message.target != undefined && !message.target.public) ? 'private' : 'public');
 
-					/*if (message.message && message.message.content) {
-					    message = message.message;
-					}*/
-
 					switch(message.type) {
 						case 'message':
 							var content = message.content;
-							/*var content;
-							try {
-							    content = JSON.parse(message.message);
-								console.log(content);
+
+							if(message.from == undefined) {
+								var legacyMessage = JSON.parse(message.message);
+								content = legacyMessage.content;
+								message.format = legacyMessage.format;
+								message.from = message.user;
+
+								if(message.timestamp.toString().length > 13) { // Max 32-Bit Integer.
+									message.timestamp = parseInt(message.timestamp.toString().substring(0,13));
+								}
 							}
-							catch (ex) {
-							    console.log(ex);
-							    return true;
-							}*/
 
-
-
-							
 							var messageDate =  new Date(message.timestamp);
 
 							if (typeof lastHandledDate.scope == "undefined" ||
@@ -462,33 +602,12 @@
 									line.append($('<span class="chat recipient">@</span>').append('unkown'))
 								}
 							}
-							/*if (message.recipients) {
-								var parts = message.recipients.split(',');
-								for (var i in parts) {
-									if (parts[i] != message.username.id) {
-										var data = $('#chat_users').ilChatList('getDataById', parts[i]);
-										if (data) {
-											line.append($('<span class="chat recipient">@</span>').append(data.label))
-										}
-										else {
-											line.append($('<span class="chat recipient">@</span>').append('unkown'))
-										}
-									}
-								}
-							}*/
 
 							var messageSpan = $('<span class="chat content message"></span>');
 								messageSpan.text(messageSpan.text(content).text())
 									.html(smileys.replace(messageSpan.text()));
 							line.append($('<span class="chat content messageseparator">:</span>'))
 								.append(messageSpan);
-
-							for(var i in message.format) {
-								if (i != 'color')
-									messageSpan.addClass( i + '_' + message.format[i]);
-							}
-
-							messageSpan.css('color', message.format.color);
 
 							if (message.subRoomId != subRoomId) {
 								$('.room_' + message.subRoomId).addClass('new_events');
@@ -497,11 +616,6 @@
 							break;
 						case 'connected':
 							if (message.login || (message.users[0] && message.users[0].login)) {
-							    /*line
-							    .append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp || message.message.timestamp) + ') '))
-							    .append($('<span class="chat content username"></span>').append(message.login || message.message.users[0].login))
-							    .append($('<span class="chat content messageseparator">:</span>'))
-							    .append($('<span class="chat content message"></span>').append(translate('connect')));*/
 								line
 								    .append($('<span class="chat"></span>').append(translate('connect', {username: message.users[0].login})));
 								line.addClass('notice');
@@ -509,11 +623,6 @@
 							break;
 						case 'disconnected':
 							if (message.login || (message.users[0] && message.users[0].login)) {
-							    /*line
-							    .append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp || message.message.timestamp) + ') '))
-							    .append($('<span class="chat content username"></span>').append(message.login || message.message.users[0].login))
-							    .append($('<span class="chat content messageseparator">:</span>'))
-							    .append($('<span class="chat content message"></span>').append(translate('disconnected')));*/
 								line
 								    .append($('<span class="chat"></span>').append(translate('disconnected', {username: message.users[0].login})));
 								line.addClass('notice');
@@ -595,34 +704,6 @@
 				}
 				else {
 					$('#chat_users').find('.online_user').hide();
-
-					/*$.get(
-						posturl.replace(/postMessage/, 'privateRoom-listUsers') + '&sub=' + id,
-						function(response)
-						{
-							$('#chat_users').css('visibility', 'hidden');
-							response = typeof response == 'object' ? response : $.getAsObject(response);
-
-							$.each(response, function() {
-								var element = $('#chat_users').find('.user_' + this);
-								if (!element.hasClass('hidden_entry')) {
-									element.show();
-								}
-								else {
-									element.hide();
-								}
-							});
-							$('.hidden_entry').hide();
-							if ($('.online_user:visible').length == 0) {
-								$('.no_users').show();
-							}
-							else {
-								$('.no_users').hide();
-							}
-							$('#chat_users').css('visibility', 'visible');
-						},
-						'json'
-					);*/
 				}
 
 				if ($('.online_user:visible').length == 0) {
@@ -636,7 +717,7 @@
 
 				return $(this);
 			}
-		}
+		};
 	
 		if ( methods[method] ) {
 			return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));

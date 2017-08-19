@@ -22,19 +22,25 @@ class ilForumAppEventListener
 	static function handleEvent($a_component, $a_event, $a_parameter)
 	{
 		/**
-		 * @var $ilSetting ilSetting
 		 * @var $post ilForumPost
 		 */
-		global $ilSetting;
+		global $DIC;
 
 		// 0 = no notifications, 1 = direct, 2 = cron job
-		$immediate_notifications_enabled = $ilSetting->get('forum_notification', 0) == 1;
+		$immediate_notifications_enabled = $DIC->settings()->get('forum_notification', 0) == 1;
 
 		switch($a_component)
 		{
 			case 'Modules/Forum':
 				switch($a_event)
 				{
+					case 'mergedThreads':
+						include_once './Modules/Forum/classes/class.ilForumPostDraft.php';
+						ilForumPostDraft::moveDraftsByMergedThreads($a_parameter['source_thread_id'], $a_parameter['target_thread_id']);
+						break;
+					case 'movedThreads':
+						ilForumPostDraft::moveDraftsByMovedThread($a_parameter['thread_ids'], $a_parameter['source_ref_id'], $a_parameter['target_ref_id']);
+						break;
 					case 'createdPost':
 						require_once 'Modules/Forum/classes/class.ilForumMailNotification.php';
 						require_once 'Modules/Forum/classes/class.ilObjForumNotificationDataProvider.php';
@@ -67,6 +73,19 @@ class ilForumAppEventListener
 									self::delegateNotification($provider, ilForumMailNotification::TYPE_POST_ANSWERED);
 								}
 							}
+						}
+						break;
+
+					case 'activatedPost':
+						require_once 'Modules/Forum/classes/class.ilForumMailNotification.php';
+						require_once 'Modules/Forum/classes/class.ilObjForumNotificationDataProvider.php';
+						require_once 'Services/Cron/classes/class.ilCronManager.php';
+						
+						$post = $a_parameter['post'];
+						if($immediate_notifications_enabled && $post->isActivated())
+						{
+							$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id']);
+							self::delegateNotification($provider, ilForumMailNotification::TYPE_POST_NEW);
 						}
 						break;
 
@@ -143,6 +162,38 @@ class ilForumAppEventListener
 							}
 						}
 						break;
+					case 'savedAsDraft':
+					case 'updatedDraft':
+					case 'deletedDraft':
+						require_once './Modules/Forum/classes/class.ilForumDraftsHistory.php';
+						
+						/**
+						 * var $draftObj ilForumPostDraft
+						 */
+						$draftObj   = $a_parameter['draftObj'];
+						$obj_id     = $a_parameter['obj_id'];
+						$is_fileupload_allowed = (bool)$a_parameter['is_file_upload_allowed'];
+						
+						$historyObj = new ilForumDraftsHistory();
+						$historyObj->deleteHistoryByDraftIds(array($draftObj->getDraftId()));
+						
+						break;
+					case 'publishedDraft':
+						require_once './Modules/Forum/classes/class.ilForumDraftsHistory.php';
+						require_once './Modules/Forum/classes/class.ilForumPostDraft.php';
+						/**
+						 * var $draftObj ilForumPostDraft
+						 */
+						$draftObj   = $a_parameter['draftObj'];
+						$obj_id     = $a_parameter['obj_id'];
+						$is_fileupload_allowed = (bool)$a_parameter['is_file_upload_allowed'];
+						
+						$historyObj = new ilForumDraftsHistory();
+						$historyObj->deleteHistoryByDraftIds(array($draftObj->getDraftId()));
+						
+						ilForumPostDraft::deleteMobsOfDraft($draftObj->getDraftId());
+						
+						break;
 				}
 				break;
 			case "Services/News":
@@ -218,6 +269,15 @@ class ilForumAppEventListener
 							ilForumNotification::checkForumsExistsDelete($ref_id, $a_parameter['usr_id']);
 							break;
 						}
+						break;
+				}
+				break;
+			case 'Services/User':
+				switch($a_event)
+				{
+					case 'deleteUser':  
+						include_once './Modules/Forum/classes/class.ilForumPostDraft.php';
+						ilForumPostDraft::deleteDraftsByUserId($a_parameter['usr_id']);
 						break;
 				}
 				break;

@@ -1,4 +1,27 @@
-/* Services/Search */
+#ilMMSearch ul li {
+	padding: 5px;
+	label {
+		font-weight: normal;
+	}
+}
+
+#ilMMSearchMenu p {
+	white-space: nowrap;
+}
+
+#main_menu_search {
+	width: 200px;
+}
+
+#ilTopBarNav .dropdown-menu #ilMMSearchMenu a {
+	&,
+	&:hover,
+	&:active,
+	&:focus {
+		background-color: @il-top-bar-dropdown-link-bg;
+		color: @il-top-bar-dropdown-link-color;
+	}
+}
 
 div.ilMainMenuSearch {
 	padding: 0 10px 3px;
@@ -13,38 +36,37 @@ input.ilMainMenuSearch {
 	width: 150px;
 	padding: 2px 4px 1px;
 	margin: 0;
-	background-color: #FFF;
+	background-color: white;
 	min-height: 16px;
-	box-shadow: inset 1px 1px 2px #A0A0A0;
+    .box-shadow(inset 1px 1px 2px #a0a0a0);
 	line-height: 1;
 }
 
 #mm_search_menu_head {
-	background-color: #F8F8F8;
+	background-color: #f8f8f8;
 	padding: 5px;
 	font-size: 85%;
+	p {
+		margin: 0;
+	}
+	input {
+		margin: 0;
+		padding: 0;
+	}
 }
 
-#mm_search_menu_head p {
-	margin: 0px;
-}
-
-#mm_search_menu_head input {
-	margin: 0;
-	padding: 0;
-}
-
-#il_search_toolbar div.ilFormOption {
-	width: auto;
-}
-
-#il_search_toolbar div.ilFormFooter {
-	display: none;
+#il_search_toolbar {
+	div.ilFormOption {
+		width: auto;
+	}
+	div.ilFormFooter {
+		display: none;
+	}
 }
 
 #mm_search_menu_ac .ui-menu {
-	border: none;
-	box-shadow: none;
+	border: 0 none;
+    .box-shadow(none);
 	color: @text-color;
 }
 

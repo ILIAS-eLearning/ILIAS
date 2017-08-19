@@ -49,6 +49,11 @@ interface ilEctsGradesEnabled
 	public function canEditEctsGrades();
 
 	/**
+	 * @return boolean
+	 */
+	public function canShowEctsGrades();
+
+	/**
 	 * Returns the ECTS grade for a number of reached points
 	 * @param array  $passed_array   An array with the points of all users who passed the test
 	 * @param double $reached_points The points reached in the test

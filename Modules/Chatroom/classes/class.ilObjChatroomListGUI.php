@@ -85,7 +85,13 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 
 			if(!self::$chat_enabled)
 			{
-				$props[] = array('alert' => true, 'property' => $lng->txt('status'), 'value' => $lng->txt('server_disabled'));
+				$props[] = array('alert' => true, 'property' => $lng->txt('chtr_server_status'), 'value' => $lng->txt('server_disabled'));
+			}
+
+			if(!$room->getSetting('online_status'))
+			{
+				$props[] = array('alert' => true, 'property' => $lng->txt('status'),
+								 'value' => $lng->txt('offline'));
 			}
 		}
 

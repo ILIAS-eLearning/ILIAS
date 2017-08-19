@@ -19,6 +19,11 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 	/**
 	 * @var bool
 	 */
+	private $loadSkillPointsFromRequest = false;
+
+	/**
+	 * @var bool
+	 */
 	private $manipulationsEnabled;
 
 	public function setSkillQuestionAssignmentList(ilAssQuestionSkillAssignmentList $assignmentList)
@@ -73,6 +78,14 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 				ilAssQuestionSkillAssignmentsGUI::CMD_SAVE_SKILL_POINTS, $this->lng->txt('tst_save_comp_points')
 			);
 		}
+	}
+
+	/**
+	 * @param bool $loadSkillPointsFromRequest
+	 */
+	public function loadSkillPointsFromRequest($loadSkillPointsFromRequest)
+	{
+		$this->loadSkillPointsFromRequest = $loadSkillPointsFromRequest;
 	}
 
 	private function initColumns()
@@ -250,7 +263,16 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 			$assignment->getSkillBaseId(), $assignment->getSkillTrefId(), $assignment->getQuestionId()
 		));
 
-		return "<input type\"text\" size=\"2\" name=\"skill_points[{$assignmentKey}]\" value=\"{$assignment->getSkillPoints()}\" />";
+		if($this->loadSkillPointsFromRequest)
+		{
+			$points = isset($_POST['skill_points'][$assignmentKey]) ? ilUtil::stripSlashes($_POST['skill_points'][$assignmentKey]) : '';
+		}
+		else
+		{
+			$points = $assignment->getSkillPoints();
+		}
+
+		return "<input type\"text\" size=\"2\" name=\"skill_points[{$assignmentKey}]\" value=\"{$points}\" />";
 	}
 	
 	private function isSkillPointInputRequired(ilAssQuestionSkillAssignment $assignment)

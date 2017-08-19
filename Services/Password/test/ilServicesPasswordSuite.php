@@ -1,8 +1,10 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'libs/composer/vendor/autoload.php';
 require_once 'Services/Utilities/classes/class.ilUtil.php';
 require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+require_once 'Services/Password/exceptions/class.ilPasswordException.php';
 
 /**
  * Class ilPasswordTestSuite
@@ -26,6 +28,9 @@ class ilServicesPasswordSuite extends PHPUnit_Framework_TestSuite
 
 		require_once dirname(__FILE__) . '/encoders/ilBcryptPasswordEncoderTest.php';
 		$suite->addTestSuite('ilBcryptPasswordEncoderTest');
+
+		require_once dirname(__FILE__) . '/encoders/ilBcryptPhpPasswordEncoderTest.php';
+		$suite->addTestSuite('ilBcryptPhpPasswordEncoderTest');
 
 		return $suite;
 	}

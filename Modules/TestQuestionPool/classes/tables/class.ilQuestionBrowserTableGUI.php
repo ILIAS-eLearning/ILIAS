@@ -33,7 +33,16 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $confirmdelete = false, $taxIds = array())
 	{
-		$this->setId("qpl_qst_brows_" . $a_parent_obj->object->getRefId());
+		// Bugfix: #0019539 
+		if($confirmdelete)
+		{
+			$this->setId("qpl_confirm_del_". $a_parent_obj->object->getRefId());
+		}	
+		else
+		{
+			$this->setId("qpl_qst_brows_" . $a_parent_obj->object->getRefId());	
+		}
+		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		global $lng, $ilCtrl;

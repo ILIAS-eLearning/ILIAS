@@ -28,13 +28,12 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
 	 */
 	protected static function initMailingLists()
 	{
-		/** @var $ilUser ilObjUser */
-		global $ilUser;
+		global $DIC;
 
 		if(self::$maling_lists === null)
 		{
 			require_once 'Services/Contact/classes/class.ilMailingLists.php';
-			self::$maling_lists = new ilMailingLists($ilUser);
+			self::$maling_lists = new ilMailingLists($DIC->user());
 		}
 	}
 
@@ -68,6 +67,16 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
 			{
 				$usr_ids[] = $entry['usr_id'];
 			}
+
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Found the following user ids for address (mailing list title) '%s': %s", $this->address->getMailbox(), implode(', ', array_unique($usr_ids))
+			));
+		}
+		else
+		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Did not find any user ids for address (mailing list title) '%s'", $this->address->getMailbox()
+			));
 		}
 
 		return array_unique($usr_ids);

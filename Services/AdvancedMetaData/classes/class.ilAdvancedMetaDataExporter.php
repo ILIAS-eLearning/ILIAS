@@ -99,7 +99,7 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
 					{
 						$def = $defs[$element_id];							
 						$items[$rec_id][] =array(
-							'id' => $def->getImportId(),
+							'id' => $def->generateImportId($def->getFieldId()),
 							'sub_type' => $sub_type,
 							'sub_id' => $sub_id,
 							'value' => $def->getValueForXML($element)

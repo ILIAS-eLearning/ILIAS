@@ -67,7 +67,8 @@ class ilGroupAppEventListener
 		
 		if($a_event == 'deassignUser')
 		{
-			self::doAutoFill($a_parameters['obj_id']);
+			$self = new self();
+			$self->doAutoFill($a_parameters['obj_id']);
 		}
 	}
 	
@@ -78,9 +79,17 @@ class ilGroupAppEventListener
 	 */
 	protected static function doAutoFill($a_obj_id)
 	{
-		include_once("./Modules/Group/classes/class.ilObjGroup.php");
-		$ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));			
-		$group = new ilObjGroup($ref_id);
+		$ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));	
+		
+		include_once './Services/Object/classes/class.ilObjectFactory.php';
+		$factory = new ilObjectFactory();
+		
+		$group = $factory->getInstanceByRefId($ref_id,false);
+		if(!$group instanceof ilObjGroup)
+		{
+			$this->getLogger()->warning('Cannot handle event deassign user since passed obj_id is not of type group: ' . $a_obj_id);
+		}
+		
 		$group->handleAutoFill();
 	}	
 

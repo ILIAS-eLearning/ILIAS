@@ -275,12 +275,6 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 		
 		$this->points = (int)$a_points;
 
-		// If the amount of required points is zero, the status is completed
-		// for sure.
-		if ($this->points == 0) {
-			$this->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED);
-		}
-
 		$this->updateLastChange();
 		return $this;
 	}

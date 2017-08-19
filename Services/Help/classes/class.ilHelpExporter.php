@@ -35,34 +35,31 @@ class ilHelpExporter extends ilXmlExporter
 	 */
 	function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
 	{
-		if ($a_target_release == "4.3.0")
+		if ($a_entity == "help")
 		{
-			if ($a_entity == "help")
+			$lm_node_ids = array();
+			include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+			foreach($a_ids as $lm_id)
 			{
-				$lm_node_ids = array();
-				include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-				foreach($a_ids as $lm_id)
+				$chaps = ilLMObject::getObjectList($lm_id, "st");
+				foreach ($chaps as $chap)
 				{
-					$chaps = ilLMObject::getObjectList($lm_id, "st");
-					foreach ($chaps as $chap)
-					{
-						$lm_node_ids[] = $chap["obj_id"];
-					}
+					$lm_node_ids[] = $chap["obj_id"];
 				}
-					
-				return array (
-					array(
-						"component" => "Services/Help",
-						"entity" => "help_map",
-						"ids" => $lm_node_ids),
-					array(
-						"component" => "Services/Help",
-						"entity" => "help_tooltip",
-						"ids" => $a_ids)
-					);
 			}
+
+			return array (
+				array(
+					"component" => "Services/Help",
+					"entity" => "help_map",
+					"ids" => $lm_node_ids),
+				array(
+					"component" => "Services/Help",
+					"entity" => "help_tooltip",
+					"ids" => $a_ids)
+				);
 		}
-		
+
 		return array();
 	}
 

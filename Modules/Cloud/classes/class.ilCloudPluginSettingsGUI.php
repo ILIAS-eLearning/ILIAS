@@ -38,7 +38,10 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
      */
     function editSettings()
     {
-        global $tpl, $ilTabs, $lng;
+        global $DIC;
+        $tpl = $DIC['tpl'];
+        $ilTabs = $DIC['ilTabs'];
+        $lng = $DIC['lng'];
 
         $ilTabs->activateTab("settings");
 
@@ -55,7 +58,9 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
 
     public function initSettingsForm()
     {
-        global $ilCtrl, $lng;
+        global $DIC;
+        $ilCtrl = $DIC['ilCtrl'];
+        $lng = $DIC['lng'];
 
         $this->form = new ilPropertyFormGUI();
 
@@ -95,7 +100,8 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     {
         if(get_class($this) != "ilCloudPluginSettingsGUI" && $this->getMakeOwnPluginSection())
         {
-            global $lng;
+            global $DIC;
+            $lng = $DIC['lng'];
             $section = new ilFormSectionHeaderGUI();
             $section->setTitle($this->cloud_object->getServiceName()." ".$lng->txt("cld_service_specific_settings"));
             $this->form->addItem($section);
@@ -129,7 +135,11 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
      */
     public function updateSettings()
     {
-        global $tpl, $lng, $ilCtrl, $ilTabs;
+        global $DIC;
+        $tpl = $DIC['tpl'];
+        $lng = $DIC['lng'];
+        $ilCtrl = $DIC['ilCtrl'];
+        $ilTabs = $DIC['ilTabs'];
 
         $ilTabs->activateTab("settings");
 

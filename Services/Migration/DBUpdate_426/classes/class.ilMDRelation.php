@@ -126,7 +126,7 @@ class ilMDRelation extends ilMDBase
 	{
 		if($this->db->autoExecute('il_meta_relation',
 								  $this->__getFields(),
-								  DB_AUTOQUERY_INSERT))
+								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
 		{
 			$this->setMetaId($this->db->getLastInsertId());
 
@@ -143,7 +143,7 @@ class ilMDRelation extends ilMDBase
 		{
 			if($this->db->autoExecute('il_meta_relation',
 									  $this->__getFields(),
-									  DB_AUTOQUERY_UPDATE,
+									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
 									  "meta_relation_id = ".$ilDB->quote($this->getMetaId())))
 			{
 				return true;

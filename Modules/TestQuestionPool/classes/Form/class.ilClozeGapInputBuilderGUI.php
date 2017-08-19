@@ -72,9 +72,9 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 
 	public function checkInput()
 	{
-		$error        = false;
-		$json         = json_decode(ilUtil::stripSlashes($_POST['gap_json_post']));
-		$_POST['gap'] = ilUtil::stripSlashesRecursive($_POST['gap']);
+		$error			= false;
+		$json			= ilUtil::stripSlashesRecursive(json_decode($_POST['gap_json_post']), false);
+		$_POST['gap']	= ilUtil::stripSlashesRecursive($_POST['gap']);
 		$gaps_used_in_combination = array();
 		if(array_key_exists('gap_combination', $_POST))
 		{
@@ -127,7 +127,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 				$select_at_least_on_positive 		= false;
 				if($getType == CLOZE_TEXT || $getType == CLOZE_SELECT)
 				{
-					$_POST['gap_' . $key] = ilUtil::stripSlashesRecursive($_POST['gap_' . $key]);
+					$_POST['gap_' . $key] = ilUtil::stripSlashesRecursive($_POST['gap_' . $key], false);
 					$gapText              = $_POST['gap_' . $key];
 					foreach($gapText['answer'] as $row => $answer)
 					{

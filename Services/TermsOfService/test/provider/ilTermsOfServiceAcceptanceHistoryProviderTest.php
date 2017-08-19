@@ -3,12 +3,13 @@
 
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceTableDataProviderFactory.php';
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceTableDatabaseDataProvider.php';
+require_once 'Services/TermsOfService/test/ilTermsOfServiceBaseTest.php';
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilTermsOfServiceAcceptanceHistoryProviderTest extends PHPUnit_Framework_TestCase
+class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBaseTest
 {
 	/**
 	 * @var bool

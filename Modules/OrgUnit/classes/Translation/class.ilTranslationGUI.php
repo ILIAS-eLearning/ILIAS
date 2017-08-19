@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/Object/classes/class.ilObjectTranslationTableGUI.php");
 /**
  * Class ilTranslationGUI
  *
@@ -39,7 +38,12 @@ class ilTranslationGUI {
 
 	function __construct(ilObjOrgUnitGUI $ilObjOrgUnitGUI)
     {
-		global $tpl, $ilCtrl, $ilDB, $lng, $ilAccess;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
 		/**
 		 * @var $tpl    ilTemplate
 		 * @var $ilCtrl ilCtrl
@@ -198,4 +202,3 @@ class ilTranslationGUI {
         $this->saveTranslations();
     }
 }
-?>

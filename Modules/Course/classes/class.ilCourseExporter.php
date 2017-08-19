@@ -20,12 +20,18 @@ class ilCourseExporter extends ilXmlExporter
 	const ENTITY_MAIN = 'crs';
 	
 	private $writer = null;
+	
+	/**
+	 * @var ilLogger
+	 */
+	protected $logger = null;
 
 	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
+		$this->logger = $GLOBALS['DIC']->logger()->crs();
 	}
 	
 	/**
@@ -130,14 +136,16 @@ class ilCourseExporter extends ilXmlExporter
 				return $writer->getXml();
 			} 
 			catch (Exception $ex) {
-				return '';
+				$this->logger->error('Export failed with message: ' . $ex->getMessage());
+				// and throw
+				throw $ex;
 			}
 		}
 		// end-patch optes_lok_export
 		
 		if(!$course instanceof ilObjCourse)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__. $a_id . ' is not instance of type course');
+			$this->logger->warning($a_id .' is not id of course instance.');
 			return ''; 
 		}
 		

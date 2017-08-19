@@ -34,7 +34,7 @@
 include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 
-class ilAdvancedMDRecordParser extends ilSAXParser
+class ilAdvancedMDRecordParser extends ilSaxParser
 {
 	const MODE_UPDATE = 1;
 	const MODE_INSERT = 2;
@@ -50,6 +50,13 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 	
 	protected $context; // [array]
 	
+	protected $scopes = [];
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
 	/**
 	 * Constructor
 	 *
@@ -60,6 +67,7 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 	public function __construct($a_file)
 	{
 	 	parent::__construct($a_file,true);
+		$this->log = ilLoggerFactory::getLogger('amet');
 	}
 	
 	/**
@@ -131,6 +139,24 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 				// Nothing to do
 				break;
 			
+			case 'Scope':
+				$this->scopes = [];
+				break;
+			
+			case 'ScopeEntry':
+				$parsed_id = ilUtil::parseImportId($a_attribs['id']);
+				if(
+					$parsed_id['inst_id'] == IL_INST_ID &&
+					ilObject::_exists($parsed_id['id'],true, $parsed_id['type'])
+				)
+				{
+					$scope = new ilAdvancedMDRecordScope();
+					$scope->setRefId($parsed_id['id']);
+					$this->scopes[] = $scope;
+				}
+				break;
+				
+			
 			case 'Record':
 				$this->fields = array();
 				$this->current_field = null;
@@ -187,6 +213,10 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 				
 			case 'Record':
 				$this->storeRecords();
+				break;
+			
+			case 'Scope':
+				$this->getCurrentRecord()->setScopes($this->scopes);
 				break;
 				
 			case 'Title':
@@ -387,6 +417,8 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 					$field->save();
 					
 					// see getRecordMap()
+					$this->log->debug("add to record map, rec id: ".$this->getCurrentRecord()->getRecordId().
+						", import id: ".$field->getImportId().", field id:".$field->getFieldId());
 					$this->rec_map[$this->getCurrentRecord()->getRecordId()][$field->getImportId()] = $field->getFieldId();
 					break;
 			}			

@@ -25,8 +25,11 @@ class ilMailGroupAddressType extends ilBaseMailAddressType
 	{
 		$usr_ids = array();
 
+		$possibleGroupTitle = substr($this->address->getMailbox(), 1);
+		$possibleGroupObjId = ilObjGroup::_lookupIdByTitle($possibleGroupTitle);
+
 		$grp_object = null;
-		foreach(ilObject::_getAllReferences(ilObjGroup::_lookupIdByTitle(substr($this->address->getMailbox(), 1))) as $ref_id)
+		foreach(ilObject::_getAllReferences($possibleGroupObjId) as $ref_id)
 		{
 			$grp_object = ilObjectFactory::getInstanceByRefId($ref_id);
 			break;
@@ -38,6 +41,16 @@ class ilMailGroupAddressType extends ilBaseMailAddressType
 			{
 				$usr_ids[] = $usr_id;
 			}
+
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Found the following group member user ids for address (object title) '%s' and obj_id %s: %s", $possibleGroupTitle, $possibleGroupObjId, implode(', ', array_unique($usr_ids))
+			));
+		}
+		else
+		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Did not find any group object for address (object title) '%s'", $possibleGroupTitle
+			));
 		}
 
 		return array_unique($usr_ids);

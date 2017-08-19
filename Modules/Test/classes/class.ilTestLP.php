@@ -12,6 +12,20 @@ include_once "Services/Object/classes/class.ilObjectLP.php";
  */
 class ilTestLP extends ilObjectLP
 {
+	/**
+	 * @var \ilObjTest
+	 */
+	protected $testObj;
+
+	public static function getDefaultModes($a_lp_active)
+	{
+		return array(
+			ilLPObjSettings::LP_MODE_DEACTIVATED,
+			ilLPObjSettings::LP_MODE_TEST_FINISHED, 
+			ilLPObjSettings::LP_MODE_TEST_PASSED
+		);
+	}
+	
 	public function getDefaultMode()
 	{		
 		return ilLPObjSettings::LP_MODE_TEST_PASSED;
@@ -32,29 +46,53 @@ class ilTestLP extends ilObjectLP
 		return (bool)ilObjTest::_lookupAnonymity($this->obj_id);
 	}
 
+	/**
+	 * @param ilObjTest $test
+	 */
+	public function setTestObject(\ilObjTest $test)
+	{
+		$this->testObj = $test;
+	}
+
 	protected function resetCustomLPDataForUserIds(array $a_user_ids, $a_recursive = true)
 	{
 		/* @var ilObjTest $testOBJ */
-		require_once 'Services/Object/classes/class.ilObjectFactory.php';
-		$testOBJ = ilObjectFactory::getInstanceByObjId($this->obj_id);
+		if($this->testObj)
+		{
+			// #19247
+			$testOBJ = $this->testObj;
+		}
+		else
+		{
+			require_once 'Services/Object/classes/class.ilObjectFactory.php';
+			$testOBJ = ilObjectFactory::getInstanceByObjId($this->obj_id);
+		}
 		$testOBJ->removeTestResultsByUserIds($a_user_ids);
-		
+
 		// :TODO: there has to be a better way
-		$test_ref_id = (int)$_REQUEST["ref_id"];		
+		$test_ref_id = (int)$_REQUEST["ref_id"];
+		if($this->testObj && $this->testObj->getRefId())
+		{
+			$test_ref_id = $this->testObj->getRefId();
+		}
 		if($test_ref_id)
 		{
 			require_once "Modules/Course/classes/Objectives/class.ilLOSettings.php";
 			$course_obj_id = ilLOSettings::isObjectiveTest($test_ref_id);
 			if($course_obj_id)
-			{
-				// is test initial and/or qualified?
-				$lo_settings = ilLOSettings::getInstanceByObjId($course_obj_id);				
-				$is_i = ($lo_settings->getInitialTest() == $test_ref_id);
-				$is_q = ($lo_settings->getQualifiedTest() == $test_ref_id);		
-				
+			{													
 				// remove objective results data
+				$lo_settings = ilLOSettings::getInstanceByObjId($course_obj_id);		
+				
 				require_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";
-				ilLOUserResults::deleteResultsFromLP($course_obj_id, $a_user_ids, $is_i, $is_q);
+				include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+				ilLOUserResults::deleteResultsFromLP(
+					$course_obj_id, 
+					$a_user_ids, 
+					($lo_settings->getInitialTest() == $test_ref_id), 
+					($lo_settings->getQualifiedTest() == $test_ref_id), 
+					ilLOTestAssignments::lookupObjectivesForTest($test_ref_id)
+				);					
 				
 				// refresh LP - see ilLPStatusWrapper::_updateStatus()
 				require_once "Services/Tracking/classes/class.ilLPStatusFactory.php";

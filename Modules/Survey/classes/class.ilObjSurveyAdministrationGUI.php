@@ -91,61 +91,30 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 
 
 	/**
-	* save object
-	* @access	public
-	*/
-	function saveObject()
-	{
-		global $rbacadmin;
-
-		// create and insert forum in objecttree
-		$newObj = parent::saveObject();
-
-		// put here object specific stuff
-
-		// always send a message
-		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
-
-		$this->ctrl->redirect($this);
-	}
-
-	function searchObject()
-	{
-		unset($_SESSION["survey_adm_found_users"]);
-		if (strlen($_POST["search"]) < 2)
-		{
-			ilUtil::sendInfo($this->lng->txt("adm_search_string_too_small"), TRUE);
-		}
-		else
-		{
-			include_once "./Services/User/classes/class.ilObjUser.php";
-			$found = ilObjUser::searchUsers($_POST["search"], $active = 1, $a_return_ids_only = false, $filter_settings = FALSE);
-			if (count($found))
-			{
-				$_SESSION["survey_adm_found_users"] = $found;
-			}
-			else
-			{
-				ilUtil::sendInfo($this->lng->txt("adm_no_users_found"), TRUE);
-				
-			}
-		}
-		$this->ctrl->redirect($this, "specialusers");
-	}
-
-	/**
 	* display survey settings form
 	* 
 	* Default settings tab for Survey settings
 	*
 	* @access	public
 	*/
-	function settingsObject()
+	function settingsObject(ilPropertyFormGUI $a_form = null)
 	{
-		global $lng, $ilCtrl, $tpl, $ilTabs;
-
+		global $tpl, $ilTabs;
+		
 		$ilTabs->activateTab("settings");
 		
+		if(!$a_form)
+		{
+			$a_form = $this->initSettingsForm();
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	protected function initSettingsForm()
+	{
+		global $ilAccess, $lng, $ilCtrl;
+
 		$surveySetting = new ilSetting("survey");
 		$unlimited_invitation = array_key_exists("unlimited_invitation", $_GET) ? $_GET["unlimited_invitation"] : $surveySetting->get("unlimited_invitation");	
 		$use_anonymous_id = array_key_exists("use_anonymous_id", $_GET) ? $_GET["use_anonymous_id"] : $surveySetting->get("use_anonymous_id");
@@ -187,13 +156,25 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		$skipped_cust_value->setSize(15);
 		$skipped_cust_value->setValue($surveySetting->get("skipped_custom_value", ""));
 		$skipped_cust->addSubItem($skipped_cust_value);
+		
+		$anon_part = new ilCheckboxInputGUI($lng->txt("svy_anonymous_participants"), "anon_part");
+		$anon_part->setInfo($lng->txt("svy_anonymous_participants_info"));
+		$anon_part->setChecked($surveySetting->get("anonymous_participants", false));
+		$form->addItem($anon_part);		
+		
+		$anon_part_min = new ilNumberInputGUI($lng->txt("svy_anonymous_participants_min"), "anon_part_min");
+		$anon_part_min->setInfo($lng->txt("svy_anonymous_participants_min_info"));
+		$anon_part_min->setSize(4);
+		$anon_part_min->setMinValue(1);
+		$anon_part_min->setValue($surveySetting->get("anonymous_participants_min", null));
+		$anon_part->addSubItem($anon_part_min);
 
-		if ($this->checkPermissionBool("write"))
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			$form->addCommandButton("saveSettings", $lng->txt("save"));
 		}
 		
-		$tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return $form;
 	}
 	
 	/**
@@ -201,26 +182,38 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	*/
 	function saveSettingsObject()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilAccess;
 		
-		$this->checkPermission("write");
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId())) 
+		{
+			$ilCtrl->redirect($this, "settings");
+		}
+		
+		$form = $this->initSettingsForm();
+		if($form->checkInput())
+		{					
+			$surveySetting = new ilSetting("survey");
+			$surveySetting->set("unlimited_invitation", ($_POST["unlimited_invitation"]) ? "1" : "0");
+			$surveySetting->set("use_anonymous_id", ($_POST["use_anonymous_id"]) ? "1" : "0");
+			$surveySetting->set("anonymous_participants", ($_POST["anon_part"]) ? "1" : "0");
+			$surveySetting->set("anonymous_participants_min", (trim($_POST["anon_part_min"])) ? (int)$_POST["anon_part_min"] : null);
 
-		$surveySetting = new ilSetting("survey");
-		$surveySetting->set("unlimited_invitation", ($_POST["unlimited_invitation"]) ? "1" : "0");
-		$surveySetting->set("use_anonymous_id", ($_POST["use_anonymous_id"]) ? "1" : "0");
-		
-		if($_POST["skcust"] == "lng")
-		{
-			$surveySetting->set("skipped_is_custom", false);
+			if($_POST["skcust"] == "lng")
+			{
+				$surveySetting->set("skipped_is_custom", false);
+			}
+			else
+			{
+				$surveySetting->set("skipped_is_custom", true);
+				$surveySetting->set("skipped_custom_value", trim($_POST["cust_value"]));
+			}
+
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "settings");
 		}
-		else
-		{
-			$surveySetting->set("skipped_is_custom", true);
-			$surveySetting->set("skipped_custom_value", trim($_POST["cust_value"]));
-		}
 		
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-		$ilCtrl->redirect($this, "settings");
+		$form->setValuesByPost();
+		$this->settingsObject($form);
 	}
 	
 	function getAdminTabs()

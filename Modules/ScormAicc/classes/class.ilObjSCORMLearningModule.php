@@ -80,7 +80,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				$sc_item = new ilSCORMItem($child["obj_id"]);
 				if ($sc_item->getIdentifierRef() != "")
 				{
-					$items[count($items)] =& $sc_item;
+					$items[count($items)] = $sc_item;
 				}
 			}
 		}
@@ -273,7 +273,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			$sc_item = new ilSCORMItem($sco_rec["sco_id"]);
 			if ($sc_item->getIdentifierRef() != "")
 			{
-				$items[count($items)] =& $sc_item;
+				$items[count($items)] = $sc_item;
 			}
 		}
 
@@ -662,7 +662,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			if ($data["Login"]) $user_id = $this->get_user_id($data["Login"]);
 			if ($data["login"]) $user_id = $this->get_user_id($data["login"]);
 			//add mail in future
-			if ($data["user"] && is_int($data["user"])) $user_id = $data["user"];
+			if ($data["user"] && is_numeric($data["user"])) $user_id = (int)$data["user"];
+
 			if ($user_id>0) {
 					
 				$last_access = ilUtil::now();
@@ -788,7 +789,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				'percentage_completed'	=> array('integer', $percentage_completed),
 				'sco_total_time_sec'	=> array('integer', $sco_total_time_sec)
 			));
-		}							
+		}
+
+		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
+		ilChangeEvent::_recordReadEvent("sahs", (int)$_GET["ref_id"], $this->getID(), $user_id, false, $attempts, $sco_total_time_sec);
 	}
 
 	/**

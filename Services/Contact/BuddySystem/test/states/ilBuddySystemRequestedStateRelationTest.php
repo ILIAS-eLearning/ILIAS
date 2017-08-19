@@ -74,6 +74,7 @@ class ilBuddySystemRequestedStateRelationTest extends ilBuddySystemBaseStateTest
 	 */
 	public function testCanBeRequested()
 	{
+		$this->assertException(ilBuddySystemRelationStateException::class);
 		$this->relation->request();
 	}
 

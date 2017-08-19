@@ -1,7 +1,5 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/Table/classes/class.ilTable2GUI.php");
-require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
 /**
  * Bibliographic ilObjBibliographicAdminTableGUI
@@ -17,7 +15,7 @@ class ilObjBibliographicAdminTableGUI extends ilTable2GUI {
 	/**
 	 * @var ilObjChatroomAdminGUI|null
 	 */
-	protected $gui = NULL;
+	protected $gui = null;
 
 
 	/**
@@ -30,7 +28,9 @@ class ilObjBibliographicAdminTableGUI extends ilTable2GUI {
 	 * @param string                              $cmd
 	 */
 	public function __construct(ilObjBibliographicAdminLibrariesGUI $parent_gui, $cmd) {
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		parent::__construct($parent_gui, $cmd);
 		$this->gui = $parent_gui;
@@ -54,15 +54,19 @@ class ilObjBibliographicAdminTableGUI extends ilTable2GUI {
 	 * @param array    $a_set
 	 */
 	public function fillRow($a_set) {
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$this->tpl->setVariable('VAL_LIBRARY_NAME', $a_set['name']);
 		$this->tpl->setVariable('VAL_LIBRARY_URL', $a_set['url']);
 		$this->tpl->setVariable('VAL_LIBRARY_IMG', $a_set['img']);
 		$current_selection_list = new ilAdvancedSelectionListGUI();
 		$current_selection_list->setListTitle($this->lng->txt("actions"));
 		$current_selection_list->setId($a_set['id']);
-		$current_selection_list->addItem($this->lng->txt("edit"), "", $ilCtrl->getLinkTarget($this->gui, 'edit') . "&lib_id=" . $a_set['id']);
-		$current_selection_list->addItem($this->lng->txt("delete"), "", $ilCtrl->getLinkTarget($this->gui, 'delete') . "&lib_id=" . $a_set['id']);
+		$current_selection_list->addItem($this->lng->txt("edit"), "", $ilCtrl->getLinkTarget($this->gui, 'edit')
+		                                                              . "&lib_id=" . $a_set['id']);
+		$current_selection_list->addItem($this->lng->txt("delete"), "", $ilCtrl->getLinkTarget($this->gui, 'delete')
+		                                                                . "&lib_id="
+		                                                                . $a_set['id']);
 		$this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
 	}
 }

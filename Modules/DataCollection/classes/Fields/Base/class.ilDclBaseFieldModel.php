@@ -1,12 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclFieldProperty.php');
-require_once('./Services/Exceptions/classes/class.ilException.php');
-require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
-require_once('./Modules/DataCollection/classes/Helpers/class.ilDclRecordQueryObject.php');
-require_once('./Modules/DataCollection/classes/Table/class.ilDclTableFieldSetting.php');
-
 /**
  * Class ilDclBaseFieldModel
  *
@@ -117,11 +111,11 @@ class ilDclBaseFieldModel {
 	 *
 	 * @return string
 	 */
-	public static function _getTitleValidChars($a_as_regex = true) {
+	public static function _getTitleInvalidChars($a_as_regex = true) {
 		if ($a_as_regex) {
-			return '/^[a-zA-Z\d \/\-.,äöüÄÖÜàéèÀÉÈç¢]*$/i';
+			return '/^[^<>\\\\"]*$/i';
 		} else {
-			return 'A-Z a-z 0-9 /-.,';
+			return '\ < > "';
 		}
 	}
 
@@ -399,6 +393,7 @@ class ilDclBaseFieldModel {
 		$this->setUnique($rec["is_unique"]);
 		$this->setLocked($rec["is_locked"]);
 		$this->loadProperties();
+		$this->loadTableFieldSetting();
 	}
 
 
@@ -506,7 +501,7 @@ class ilDclBaseFieldModel {
 	/**
 	 * Update properties of this field in Database
 	 */
-	protected function updateProperties() {
+	public function updateProperties() {
 		foreach ($this->property as $prop) {
 			$prop->store();
 		}
@@ -514,14 +509,13 @@ class ilDclBaseFieldModel {
 
 
 	/**
-	 * updateViewDefinition
+	 * update exportable and fieldorder
 	 *
-	 * @param $view int use constant VIEW_VIEW or EDIT_VIEW
 	 */
 	protected function updateTableFieldSetting() {
 		$tablefield_setting = ilDclTableFieldSetting::getInstance($this->getTableId(), $this->getId());
-		$tablefield_setting->setExportable($this->getExportable());
-		$tablefield_setting->setFieldOrder($this->getOrder());
+		$tablefield_setting->setExportable($this->exportable);
+		$tablefield_setting->setFieldOrder($this->order);
 		$tablefield_setting->store();
 	}
 
@@ -555,7 +549,7 @@ class ilDclBaseFieldModel {
 	 * @return int
 	 */
 	public function getOrder() {
-		if (! isset($this->order)) {
+		if ($this->order == null) {
 			$this->loadTableFieldSetting();
 		}
 
@@ -628,6 +622,7 @@ class ilDclBaseFieldModel {
 	 * @param $value
 	 */
 	public function setProperty($key, $value) {
+		$this->loadProperties();
 		if(isset($this->property[$key])) {
 			$this->property[$key]->setValue($value);
 		} else {
@@ -667,6 +662,14 @@ class ilDclBaseFieldModel {
 	}
 
 
+	/**
+	 * @param ilPropertyFormGUI $form
+	 * @param null              $record_id
+	 */
+	public function checkValidityFromForm(ilPropertyFormGUI &$form, $record_id = NULL) {
+		$value = $form->getInput('field_' . $this->getId());
+		$this->checkValidity($value, $record_id);
+	}
 	/**
 	 * Check if input is valid
 	 * @param      $value
@@ -726,8 +729,20 @@ class ilDclBaseFieldModel {
 		$this->setExportable($original->getExportable());
 		$this->doCreate();
 		$this->cloneProperties($original);
+
+		// mandatory for all cloning functions
+		ilDclCache::setCloneOf($original_id, $this->getId(), ilDclCache::TYPE_FIELD);
 	}
 
+
+	/**
+	 * @param $records
+	 */
+	public function afterClone($records) {
+		foreach ($records as $rec) {
+			ilDclCache::getRecordFieldCache($rec, $this)->afterClone();
+		}
+	}
 
 	/**
 	 * @param ilDclBaseFieldModel $originalField
@@ -750,7 +765,7 @@ class ilDclBaseFieldModel {
 			}
 
 			$fieldprop_obj->setValue($value);
-			$fieldprop_obj->doCreate();
+			$fieldprop_obj->create();
 		}
 	}
 
@@ -854,5 +869,32 @@ class ilDclBaseFieldModel {
 	 */
 	public function setStorageLocationOverride($storage_location_override) {
 		$this->storage_location_override = $storage_location_override;
+	}
+
+
+	/**
+	 * @param ilExcel $worksheet
+	 * @param         $row
+	 * @param         $col
+	 */
+	public function fillHeaderExcel(ilExcel $worksheet, &$row, &$col) {
+		$worksheet->setCell($row, $col, $this->getTitle());
+		$col++;
+	}
+
+
+	/**
+	 * @param array $titles
+	 * @param array $import_fields
+	 */
+	public function checkTitlesForImport(array &$titles, array &$import_fields) {
+		foreach ($titles as $k => $title) {
+			if (!ilStr::isUtf8($title)) {
+				$title = utf8_encode($title);
+			}
+			if ($title == $this->getTitle()) {
+				$import_fields[$k] = $this;
+			}
+		}
 	}
 }

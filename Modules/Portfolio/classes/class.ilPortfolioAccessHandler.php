@@ -53,8 +53,14 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 	public function checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_node_id, $a_type = "")
 	{
 		global $rbacreview, $ilUser, $ilSetting;
-		
-		// #12059
+
+		// #20310
+		if(!$ilSetting->get("enable_global_profiles") && $ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			return false;
+		}
+
+			// #12059
 		if (!$ilSetting->get('user_portfolios'))
 		{
 			return false;
@@ -84,7 +90,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 		if($a_permission == "read" || $a_permission == "visible")
 		{
 			// get all objects with explicit permission
-			$objects = $this->getPermissions($a_node_id);
+			$objects = self::_getPermissions($a_node_id);
 			if($objects)
 			{
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
@@ -226,6 +232,17 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 	 * @return array
 	 */
 	public function getPermissions($a_node_id)
+	{
+		return self::_getPermissions($a_node_id);
+	}
+
+	/**
+	 * Get all permissions to node
+	 *
+	 * @param int $a_node_id
+	 * @return array
+	 */
+	public static function _getPermissions($a_node_id)
 	{
 		global $ilDB;
 

@@ -191,8 +191,20 @@ class ilRadiusSettingsGUI
 			);
 			$ldap->setInfo($this->lng->txt('auth_radius_ldap_info'));
 			$sync->addOption($ldap);
-
-			// TODO Handle more than one LDAP configuration
+			
+			$ldap_server_select = new ilSelectInputGUI($this->lng->txt('auth_ldap_server_ds'), 'ldap_sid');
+			$options[0] = $this->lng->txt('select_one');
+			foreach($server_ids as $ldap_sid)
+			{
+				$ldap_server = new ilLDAPServer($ldap_sid);
+				$options[$ldap_sid] = $ldap_server->getName();
+			}
+			$ldap_server_select->setOptions($options);
+			$ldap_server_select->setRequired(true);
+			$ds = ilLDAPServer::getDataSource(AUTH_RADIUS);
+			$ldap_server_select->setValue($ds);
+			
+			$ldap->addSubItem($ldap_server_select);
 		}
 
 		if(ilLDAPServer::isDataSourceActive(AUTH_RADIUS))
@@ -252,16 +264,22 @@ class ilRadiusSettingsGUI
 		switch((int) $_POST['sync'])
 		{
 			case ilRadiusSettings::SYNC_DISABLED:
-				ilLDAPServer::toggleDataSource(AUTH_RADIUS,false);
+				ilLDAPServer::disableDataSourceForAuthMode(AUTH_RADIUS);
 				break;
 
 			case ilRadiusSettings::SYNC_RADIUS:
-				ilLDAPServer::toggleDataSource(AUTH_RADIUS,false);
+				ilLDAPServer::disableDataSourceForAuthMode(AUTH_RADIUS);
 				break;
 
 			case ilRadiusSettings::SYNC_LDAP:
-				// TODO: handle multiple ldap configurations
-				ilLDAPServer::toggleDataSource(AUTH_RADIUS,true);
+				if(!(int) $_REQUEST['ldap_sid'])
+				{
+					ilUtil::sendFailure($this->lng->txt('err_check_input'));
+					$this->settings();
+					return false;
+				}
+				
+				ilLDAPServer::toggleDataSource((int) $_REQUEST['ldap_sid'], AUTH_RADIUS,true);
 				break;
 		}
 

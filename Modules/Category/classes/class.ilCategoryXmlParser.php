@@ -45,7 +45,12 @@ class ilCategoryXmlParser extends ilSaxParser
 	
 	private $current_translation = array();
 	private $current_container_setting;
-	
+
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $cat_log;
 
 	/**
 	 * Constructor
@@ -62,6 +67,8 @@ class ilCategoryXmlParser extends ilSaxParser
 		$this->mode = ilCategoryXmlParser::MODE_CREATE;
 		$this->parent_id = $a_parent_id;
 		$this->setXMLContent($a_xml);
+
+		$this->cat_log = ilLoggerFactory::getLogger("cat");
 	}
 	
 	/**
@@ -194,11 +201,17 @@ class ilCategoryXmlParser extends ilSaxParser
 			case 'ContainerSetting':
 				if($this->current_container_setting)
 				{
+					$this->cat_log->debug("Write container Setting, ID: ".$this->getCategory()->getId().", setting: ".
+						$this->current_container_setting.", data: ".$this->cdata);
 					ilContainer::_writeContainerSetting(
 						$this->getCategory()->getId(), 
 						$this->current_container_setting, 
 						$this->cdata);
 				}
+				break;
+
+			case 'ContainerSettings':
+				$this->cat->readContainerSettings();	// read container settings to member vars (call getter/setter), see #0019870
 				break;
 		}
 		$this->cdata = '';

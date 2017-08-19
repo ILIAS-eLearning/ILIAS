@@ -16,6 +16,40 @@ class ilTestPlayerNavButton extends ilLinkButton
 	 */
 	private $nextCommand = '';
 
+// fau: testNav - add glyphicon support for navigation buttons
+	private $leftGlyph = '';
+	private $rightGlyph = '';
+
+	public function setLeftGlyph($glyph)
+	{
+		$this->leftGlyph = $glyph;
+	}
+
+	public function setRightGlyph($glyph)
+	{
+		$this->rightGlyph = $glyph;
+	}
+
+	protected function renderCaption()
+	{
+		$caption = '';
+
+		if ($this->leftGlyph)
+		{
+			$caption .= '<span class="'.$this->leftGlyph.'"></span> ';
+		}
+
+		$caption .= parent::renderCaption();
+
+		if ($this->rightGlyph)
+		{
+			$caption .= ' <span class="'.$this->rightGlyph.'"></span>';
+		}
+
+		return $caption;
+	}
+// fau.
+
 	/**
 	 * @return string
 	 */

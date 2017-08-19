@@ -931,13 +931,16 @@ class HTML_Template_IT
         }
 
 
+        /* performance patch, 6.4.2017
         return preg_replace_callback(
             "#<!-- INCLUDE (.*) -->#im",
             function ($hit) {
                 return $this->getFile($hit[1]);
             },
             $content
-        );
+        );*/
+
+        return $content;
     } // end func getFile
 
     /**

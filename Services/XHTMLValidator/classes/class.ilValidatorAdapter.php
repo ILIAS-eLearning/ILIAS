@@ -26,7 +26,7 @@ require_once './Services/XHTMLValidator/validator/validator.inc';
 class ilValidatorAdapter
 {
 	
-	function validate($a_html, $a_mode)
+	static function validate($a_html, $a_mode)
 	{
 		// while php 5.1 isn't released we must keep compatibility with php 5.0
 		if (!defined('UPLOAD_ERR_CANT_WRITE'))

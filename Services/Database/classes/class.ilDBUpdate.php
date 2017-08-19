@@ -106,16 +106,7 @@ class ilDBUpdate
 	{
 		// 
 	}
-	
-    /**
-	* destructor
-	* 
-	* @return boolean
-	*/
-	function _DBUpdate()
-	{
-		$this->db->disconnect();
-	}
+
 
 	function readDBUpdateFile()
 	{
@@ -145,7 +136,6 @@ class ilDBUpdate
 
 	function getCurrentVersion()
 	{
-		$GLOBALS["ilDB"] = $this->db;
 		include_once './Services/Administration/classes/class.ilSetting.php';
 		$set = new ilSetting("common", true);
 		$this->currentVersion = (integer) $set->get("db_version");
@@ -408,7 +398,7 @@ class ilDBUpdate
 		//search for desired $nr
 		reset($this->filecontent);
 		
-		if (!$hotfix)
+		if (!$hotfix && !$custom_update)
 		{
 			$this->setRunningStatus($nr);
 		}
@@ -633,7 +623,6 @@ class ilDBUpdate
 			return;
 		}
 		include_once './Services/Administration/classes/class.ilSetting.php';
-		$GLOBALS["ilDB"] = $this->db;
 		$this->hotfix_setting = new ilSetting("common", true);
 		$ilias_version = ILIAS_VERSION_NUMERIC;
 		$version_array = explode(".", $ilias_version);
@@ -760,7 +749,7 @@ class ilDBUpdate
 			return;
 		}
 		include_once './Services/Administration/classes/class.ilSetting.php';
-		$GLOBALS["ilDB"] = $this->db;
+
 		$this->custom_updates_setting = new ilSetting();
 		$custom_updates_file = $this->PATH."setup/sql/dbupdate_custom.php";
 		if (is_file($custom_updates_file))

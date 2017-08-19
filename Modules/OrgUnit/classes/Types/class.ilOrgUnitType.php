@@ -1,8 +1,4 @@
 <?php
-require_once('class.ilOrgUnitTypeTranslation.php');
-require_once('./Modules/OrgUnit/exceptions/class.ilOrgUnitTypeException.php');
-require_once('./Modules/OrgUnit/exceptions/class.ilOrgUnitTypePluginException.php');
-require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 
 /**
  * Class ilOrgUnitType
@@ -99,7 +95,12 @@ class ilOrgUnitType {
 	 * @throws ilOrgUnitTypeException
 	 */
 	public function __construct($a_id = 0) {
-		global $ilDB, $ilLog, $ilUser, $ilPluginAdmin, $lng;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
+		$ilUser = $DIC['ilUser'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		$lng = $DIC['lng'];
 		$this->db = $ilDB;
 		$this->log = $ilLog;
 		$this->user = $ilUser;
@@ -148,7 +149,8 @@ class ilOrgUnitType {
 	 * @return array
 	 */
 	public static function getAllTypes() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$sql = 'SELECT id FROM ' . self::TABLE_NAME;
 		$set = $ilDB->query($sql);
 		$types = array();

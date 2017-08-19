@@ -23,6 +23,10 @@ require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php'
  */
 class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
 {
+	// hey: prevPassSolutions - wtf is imagemap ^^
+	public $currentSolution = array();
+	// hey.
+	
 	const MODE_SINGLE_CHOICE   = 0;
 	const MODE_MULTIPLE_CHOICE = 1;
 
@@ -308,6 +312,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	function duplicateImage($question_id, $objectId = null)
 	{
+		global $ilLog;
+
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
 		
@@ -315,13 +321,24 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			$imagepath_original = str_replace("/$this->obj_id/", "/$objectId/", $imagepath_original);
 		}
-		
-		if (!file_exists($imagepath)) {
+
+		if(!file_exists($imagepath))
+		{
 			ilUtil::makeDirParents($imagepath);
 		}
 		$filename = $this->getImageFilename();
-		if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
-			print "image could not be duplicated!!!! ";
+
+		// #18755
+		if(!file_exists($imagepath_original . $filename))
+		{
+			$ilLog->write("Could not find an image map file when trying to duplicate image: " . $imagepath_original . $filename);
+			$imagepath_original = str_replace("/$this->obj_id/", "/$objectId/", $imagepath_original);
+			$ilLog->write("Using fallback source directory:" . $imagepath_original);
+		}
+
+		if(!file_exists($imagepath_original . $filename) || !copy($imagepath_original . $filename, $imagepath . $filename))
+		{
+			$ilLog->write("Could not duplicate image for image map question: " . $imagepath_original . $filename);
 		}
 	}
 
@@ -401,31 +418,24 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 
 	/**
-	* Uploads an image map and takes over the areas
-	*
-	* @param string $imagemap_filename Imagemap filename
-	* @return integer number of areas added
-	*/
-	function uploadImagemap($imagemap_filename = "") 
+	 * Uploads an image map and takes over the areas
+	 *
+	 * @param ASS_AnswerImagemap[] $shapes
+	 * @return integer number of areas added
+	 */
+	public function uploadImagemap(array $shapes) 
 	{
 		$added = 0;
-		if (!empty($imagemap_filename)) 
+
+		if(count($shapes) > 0)
 		{
-			$fp = fopen($imagemap_filename, "r");
-			$contents = fread($fp, filesize($imagemap_filename));
-			fclose($fp);
-			if (preg_match_all("/<area(.+)>/siU", $contents, $matches)) 
+			foreach($shapes as $shape)
 			{
-				for ($i=0; $i< count($matches[1]); $i++) 
-				{
-					preg_match("/alt\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $alt);
-					preg_match("/coords\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $coords);
-					preg_match("/shape\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $shape);
-					$this->addAnswer($alt[1], 0.0, count($this->answers), $coords[1], $shape[1]);
-					$added++;
-				}
+				$this->addAnswer($shape->getAnswertext(), 0.0, count($this->answers), $shape->getCoords(), $shape->getArea());
+				$added++;
 			}
 		}
+
 		return $added;
 	}
 
@@ -681,7 +691,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
-		return $this->calculateReachedPointsForSolution(array_values($previewSession->getParticipantsSolution()));
+		$solutionData = $previewSession->getParticipantsSolution();
+		return $this->calculateReachedPointsForSolution(is_array($solutionData) ? array_values($solutionData) : array());
 	}
 
 	public function isAutosaveable()
@@ -707,62 +718,79 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$pass = ilObjTest::_getPass($active_id);
 		}
 
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+		$solutionSelectionChanged = false;
 
-		if($this->is_multiple_choice && strlen($_GET['remImage']))
-		{
-			$query  = "DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s AND authorized = %s";
-			$types  = array("integer", "integer", "integer", "integer", 'integer');
-			$values = array($active_id, $this->getId(), $pass, $_GET['remImage'], (int)$authorized);
-			
-			if( $this->getStep() !== NULL )
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$solutionSelectionChanged, $ilDB, $active_id, $pass, $authorized) {
+
+			if( $authorized )
 			{
-				$query .= " AND step = %s ";
-				$types[]  = 'integer';
-				$values[] = $this->getStep();
+				// remove the dummy record of the intermediate solution
+				$this->deleteDummySolutionRecord($active_id, $pass);
+				
+				// delete the authorized solution and make the intermediate solution authorized (keeping timestamps)
+				$this->removeCurrentSolution($active_id, $pass, true);
+				$this->updateCurrentSolutionsAuthorization($active_id, $pass, true, true);
+				
+				$solutionSelectionChanged = true;
 			}
-			$affectedRows = $ilDB->manipulateF($query, $types, $values);
-		}
-		elseif(!$this->is_multiple_choice)
-		{
-			$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
-		}
-
-		if (strlen($_GET["selImage"]))
-		{
-			$imageWasSelected = true;
-			
-			$types = array('integer', 'integer', 'integer', 'integer', 'integer');
-			$values = array($active_id, $this->getId(), $pass,  (int)$_GET['selImage'], (int)$authorized);
-			$query = 'DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s AND authorized = %s';
-			if($this->getStep() != null)
+			else
 			{
-				$types[] = 'integer';
-				$values[] = $this->getStep();
-				$query .= ' AND step = %s';
+				$this->forceExistingIntermediateSolution(
+					$active_id, $pass, $this->is_multiple_choice
+				);
+				
+				if( $this->isReuseSolutionSelectionRequest() )
+				{
+					$selection = $this->getReuseSolutionSelectionParameter();
+					
+					foreach($selection as $selectedIndex)
+					{
+						$this->saveCurrentSolution($active_id, $pass, (int)$selectedIndex, null, $authorized);
+						$solutionSelectionChanged = true;
+					}
+				}
+				elseif( $this->isRemoveSolutionSelectionRequest() )
+				{
+					$selection = $this->getRemoveSolutionSelectionParameter();
+					
+					$this->deleteSolutionRecordByValues($active_id, $pass, $authorized, array(
+						'value1' => (int)$selection
+					));
+					
+					$solutionSelectionChanged = true;
+				}
+				elseif( $this->isAddSolutionSelectionRequest() )
+				{
+					$selection = $this->getAddSolutionSelectionParameter();
+
+					if( $this->is_multiple_choice )
+					{
+						$this->deleteSolutionRecordByValues($active_id, $pass, $authorized, array(
+							'value1' => (int)$_GET['selImage']
+						));
+					}
+					else
+					{
+						$this->removeCurrentSolution($active_id, $pass, $authorized);
+					}
+
+					$this->saveCurrentSolution($active_id, $pass, $_GET['selImage'], null, $authorized);
+					
+					$solutionSelectionChanged = true;
+				}
 			}
-
-			$ilDB->manipulateF($query, $types, $values);
-
-			$affectedRows = $this->saveCurrentSolution($active_id, $pass, $_GET['selImage'], null, $authorized);
-		}
-		else
-		{
-			$imageWasSelected = false;
-		}
-
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+		});
 
 		require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
 		if( ilObjAssessmentFolder::_enabledAssessmentLogging() )
 		{
-			if( $imageWasSelected )
+			if( $solutionSelectionChanged )
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 			else
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 
@@ -1060,4 +1088,103 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			return $this->getAnswers();
 		}
 	}
+	
+	// hey: prevPassSolutions - wtf is imagemap ^^
+	public function getTestOutputSolutions($activeId, $pass)
+	{
+		$solution = parent::getTestOutputSolutions($activeId, $pass);
+		
+		$this->currentSolution = array();
+		foreach($solution as $record)
+		{
+			$this->currentSolution[] = $record['value1'];
+		}
+		
+		return $solution;
+	}
+	protected function getAddSolutionSelectionParameter()
+	{
+		if( !$this->isAddSolutionSelectionRequest() )
+		{
+			return null;
+		}
+		
+		return $_GET["selImage"];
+	}
+	protected function isAddSolutionSelectionRequest()
+	{
+		if( !isset($_GET["selImage"]) )
+		{
+			return false;
+		}
+		
+		if( !strlen($_GET["selImage"]) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	protected function getRemoveSolutionSelectionParameter()
+	{
+		if( !$this->isRemoveSolutionSelectionRequest() )
+		{
+			return null;
+		}
+		
+		return $_GET["remImage"];
+	}
+	protected function isRemoveSolutionSelectionRequest()
+	{
+		if( !$this->is_multiple_choice )
+		{
+			return false;
+		}
+		
+		if( !isset($_GET["remImage"]) )
+		{
+			return false;
+		}
+		
+		if( !strlen($_GET["remImage"]) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	protected function getReuseSolutionSelectionParameter()
+	{
+		if( !$this->isReuseSolutionSelectionRequest() )
+		{
+			return null;
+		}
+		
+		return assQuestion::explodeKeyValues($_GET["reuseSelection"]);
+	}
+	protected function isReuseSolutionSelectionRequest()
+	{
+		if( !$this->getTestPresentationConfig()->isPreviousPassSolutionReuseAllowed() )
+		{
+			return false;
+		}
+		
+		if( !isset($_GET["reuseSelection"]) )
+		{
+			return false;
+		}
+		
+		if( !strlen($_GET["reuseSelection"]) )
+		{
+			return false;
+		}
+		
+		if( !preg_match('/\d(,\d)*/', $_GET["reuseSelection"]) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	// hey.
 }

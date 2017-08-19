@@ -21,22 +21,26 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once('ilDBBaseTest.php');
+require_once('ilDatabaseImplementationBaseTest.php');
 
 /**
  * TestCase for the ilDatabaseMDB2InnodbTest
  *
+ * @group   needsInstalledILIAS
+ *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilDatabaseMDB2InnodbTest extends ilDBBaseTest {
+class ilDatabaseMDB2InnodbTest extends ilDatabaseImplementationBaseTest {
 
 	/**
-	 * @return \ilDBPdoMySQLInnoDB
+	 * @return \ilDBInnoDB
 	 * @throws \ilDatabaseException
 	 */
 	protected function getDBInstance() {
-		return ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_INNODB_LEGACY);
+		require_once("./Services/Database/classes/MDB2/class.ilDBInnoDB.php");
+
+		return new ilDBInnoDB();
 	}
 
 

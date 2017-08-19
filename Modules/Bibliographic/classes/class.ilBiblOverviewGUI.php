@@ -40,7 +40,7 @@ class ilBiblOverviewGUI {
 		//get design for specific entry type or get filetypes default design if type is not specified
 		$entryType = $this->getEntry()->getType();
 		//if there is no model for the specific entrytype (book, article, ....) the entry overview will be structured by the default entrytype from the given filetype (ris, bib, ...)
-		if (! $overviewModels[$this->getEntry()->getFileType()][$entryType]) {
+		if (!$overviewModels[$this->getEntry()->getFileType()][$entryType]) {
 			$entryType = 'default';
 		}
 		$single_entry = $overviewModels[$this->getEntry()->getFileType()][$entryType];
@@ -51,19 +51,22 @@ class ilBiblOverviewGUI {
 			//cut a moedel attribute like |bib_default_title|. in three pieces while $cuts[1] is the attribute key for the actual value and $cuts[0] is what comes before respectively $cuts[2] is what comes after the value if it is not empty.
 			$cuts = explode('|', $placeholder);
 			//if attribute key does not exist, because it comes from the default entry (e.g. ris_default_u2), we replace 'default' with the entrys type (e.g. ris_book_u2)
-			if (! $attributes[$cuts[1]]) {
+			if (!$attributes[$cuts[1]]) {
 				$attribute_elements = explode('_', $cuts[1]);
 				$attribute_elements[1] = strtolower($this->getEntry()->getType());
 				$cuts[1] = implode('_', $attribute_elements);
 			}
 			if ($attributes[$cuts[1]]) {
 				//if the attribute for the attribute key exists, replace one attribute in the overview text line of a single entry with its actual value and the text before and after the value given by the model
-				$single_entry = str_replace($placeholders[0][$key], $cuts[0] . $attributes[$cuts[1]] . $cuts[2], $single_entry);
+				$single_entry = str_replace($placeholders[0][$key], $cuts[0] . $attributes[$cuts[1]]
+				                                                    . $cuts[2], $single_entry);
 				// replace the <emph> tags with a span, in order to make text italic by css
 				do {
-					$first_sign_after_begin_emph_tag = strpos(strtolower($single_entry), '<emph>') + 6;
+					$first_sign_after_begin_emph_tag = strpos(strtolower($single_entry), '<emph>')
+					                                   + 6;
 					$last_sign_after_end_emph_tag = strpos(strtolower($single_entry), '</emph>');
-					$italic_text_length = $last_sign_after_end_emph_tag - $first_sign_after_begin_emph_tag;
+					$italic_text_length = $last_sign_after_end_emph_tag
+					                      - $first_sign_after_begin_emph_tag;
 					//would not be true if there is no <emph> tag left
 					if ($last_sign_after_end_emph_tag) {
 						$italic_text = substr($single_entry, $first_sign_after_begin_emph_tag, $italic_text_length);
@@ -73,9 +76,12 @@ class ilBiblOverviewGUI {
 						$it_tpl->setVariable('ITALIC_STRING', $italic_text);
 						$it_tpl->parseCurrentBlock();
 						//replace the emph tags and the text between with the parsed text from il_tpl
-						$text_before_emph_tag = substr($single_entry, 0, $first_sign_after_begin_emph_tag - 6);
-						$text_after_emph_tag = substr($single_entry, $last_sign_after_end_emph_tag + 7);
-						$single_entry = $text_before_emph_tag . $it_tpl->get() . $text_after_emph_tag;
+						$text_before_emph_tag = substr($single_entry, 0, $first_sign_after_begin_emph_tag
+						                                                 - 6);
+						$text_after_emph_tag = substr($single_entry, $last_sign_after_end_emph_tag
+						                                             + 7);
+						$single_entry = $text_before_emph_tag . $it_tpl->get()
+						                . $text_after_emph_tag;
 					}
 				} while ($last_sign_after_end_emph_tag);
 			} else {

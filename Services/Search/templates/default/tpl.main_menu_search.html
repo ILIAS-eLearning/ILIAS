@@ -33,7 +33,7 @@
 							{
 								// we must bind the blur event before the autocomplete
 								// item is added
-								$("#main_menu_search").bind("blur", function(e) {
+								$("#main_menu_search").on("blur", function(e) {
 									// prevent that the autocomplete list disappears when blur occurs
 									e.stopImmediatePropagation();
 								});

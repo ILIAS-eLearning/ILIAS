@@ -4,7 +4,7 @@
 
 require_once("Services/Block/classes/class.ilBlockGUI.php");
 require_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAdmin.php');
-require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php';
+require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockGUI.php';
 
 /**
  * Personal Desktop-Presentation for the Study Programme
@@ -52,7 +52,11 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	protected $show_info_message;
 
 	public function __construct() {
-		global $lng, $ilUser, $ilAccess, $ilSetting;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilSetting = $DIC['ilSetting'];
 		$this->il_lng = $lng;
 		$this->il_user = $ilUser;
 		$this->il_access = $ilAccess;
@@ -163,7 +167,9 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	}
 
 	protected function readToShowInfoMessage() {
-		$this->show_info_message = ($_GET['view'] == ilPDSelectedItemsBlockGUI::VIEW_MY_STUDYPROGRAMME);
+		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
+		$viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
+		$this->show_info_message = $viewSettings->isStudyProgrammeViewActive();
 	}
 
 	protected function isVisible(ilStudyProgrammeUserAssignment $assignment) {
@@ -179,7 +185,11 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	}
 	
 	protected function shouldShowThisList() {
-		return $_GET["cmd"] == "jumpToSelectedItems" && !$_GET["expand"];
+		global $DIC;
+		$ctrl = $DIC->ctrl();
+		return ($_GET["cmd"] == "jumpToSelectedItems" ||
+				($ctrl->getCmdClass() == "ilpersonaldesktopgui" && $ctrl->getCmd() == "show")
+			) && !$_GET["expand"];
 	}
 	
 	protected function readUsersAssignments() {

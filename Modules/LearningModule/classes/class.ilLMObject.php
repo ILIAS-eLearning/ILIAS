@@ -722,8 +722,6 @@ class ilLMObject
 	{
 		global $ilDB;
 		
-		include_once './Services/Xml/classes/class.ilNestedSetXML.php';
-
 		$query = "SELECT * FROM lm_data ".
 			"WHERE lm_id= ".$ilDB->quote($a_cobj->getId(), "integer");
 		$obj_set = $ilDB->query($query);
@@ -836,7 +834,7 @@ class ilLMObject
 	/**
 	* Copy a set of chapters/pages into the clipboard
 	*/
-	function clipboardCut($a_cont_obj_id, $a_ids)
+	static function clipboardCut($a_cont_obj_id, $a_ids)
 	{
 		$tree = ilLMObject::getTree($a_cont_obj_id);
 		
@@ -1028,9 +1026,12 @@ class ilLMObject
 		}
 		if (is_array($a_titles))
 		{
+			include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
 			include_once("./Services/MetaData/classes/class.ilMD.php");
 			foreach($a_titles as $id => $title)
 			{
+				// see #20375
+				$title = ilFormPropertyGUI::removeProhibitedCharacters($title);
 				if ($a_lang == "-")
 				{
 					$lmobj = ilLMObjectFactory::getInstance($a_lm, $id, false);

@@ -30,9 +30,13 @@
 *
 * @package ilias
 */
+include_once './libs/composer/vendor/autoload.php';
+use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 
 include_once './webservice/soap/lib/nusoap.php';
 include_once './webservice/soap/include/inc.soap_functions.php';
+require_once('./Services/WebServices/SOAP/classes/class.ilSoapHook.php');
+require_once('./Services/Init/classes/class.ilInitialisation.php');
 
 class ilNusoapUserAdministrationAdapter 
 {
@@ -42,7 +46,7 @@ class ilNusoapUserAdministrationAdapter
 	var $server = null;
 
 
-    function ilNusoapUserAdministrationAdapter($a_use_wsdl = true)
+    function __construct($a_use_wsdl = true)
     {
 		define('SERVICE_NAME','ILIASSoapWebservice');
 		define('SERVICE_NAMESPACE','urn:ilUserAdministration');
@@ -148,9 +152,18 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS login function via LDAP');
 
+		// loginStudipUser()
+		$this->server->register('loginStudipUser',
+								array('sid' => 'xsd:string',
+									'user_id' => 'xsd:int'),
+								array('sid' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#loginStudipUser',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS login function for Stud.IP-Connection. DEPRECATED: this method will be removed in ILIAS 5.3.');
 
-
-								// logout()
+		// logout()
 		$this->server->register('logout',
 								array('sid' => 'xsd:string'),
 								array('success' => 'xsd:boolean'),
@@ -173,6 +186,7 @@ class ilNusoapUserAdministrationAdapter
 												  'title' => array('name' => 'title', 'type' => 'xsd:string'),
 												  'gender' => array('name' => 'gender', 'type' => 'xsd:string'),
 												  'email' => array('name' => 'email', 'type' => 'xsd:string'),
+												  'second_email' => array('name' => 'second_email', 'type' => 'xsd:string'),
 												  'institution' => array('name' => 'institution', 'type' => 'xsd:string'),
 												  'street' => array('name' => 'street', 'type' => 'xsd:string'),
 												  'city' => array('name' => 'city', 'type' => 'xsd:string'),
@@ -225,44 +239,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#getUser',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS getUser(): get complete set of user data.');
-		// updateUser()
-		$this->server->register('updateUser',
-								array('sid' => 'xsd:string',
-									  'user_data' => 'tns:ilUserData'),
-								array('success' => 'xsd:boolean'),
-								SERVICE_NAMESPACE,
-								SERVICE_NAMESPACE.'#updateUser',
-								SERVICE_STYLE,
-								SERVICE_USE,
-								'ILIAS updateUser(). DEPRECATED: Use importUsers() for modifications of user data. Updates all user data. '.
-								'Use getUser(), then modify desired fields and finally start the updateUser() call.');
-		// Update password
-		$this->server->register('updatePassword',
-								array('sid' => 'xsd:string',
-									  'user_id' => 'xsd:int',
-									  'new_password' => 'xsd:string'),
-								array('success' => 'xsd:boolean'),
-								SERVICE_NAMESPACE,
-								SERVICE_NAMESPACE.'#updatePassword',
-								SERVICE_STYLE,
-								SERVICE_USE,
-								'ILIAS updatePassword(). Updates password of given user. Password must be MD5 hash. DEPRECATED: Use importUsers() for modifications of user data.');
-
-
-		// addUser()
-		$this->server->register('addUser',
-								array('sid' => 'xsd:string',
-									  'user_data' => 'tns:ilUserData',
-									  'global_role_id' => 'xsd:int'),
-								array('user_id' => 'xsd:int'),
-								SERVICE_NAMESPACE,
-								SERVICE_NAMESPACE.'#addUser',
-								SERVICE_STYLE,
-								SERVICE_USE,
-								'ILIAS addUser() user. DEPRECATED: Since it is not possible to add new user data fields '.
-								'without breaking the backward compatability, this method is deprecated. Please use importUser() instead. '.
-								'Add new ILIAS user. Requires complete or subset of user_data structure');
+								'ILIAS getUser(): get complete set of user data. DEPRECATED with release 5.2, will be deleted with 5.3. Use searchUsers() instead.');
 
 		// deleteUser()
 		$this->server->register('deleteUser',
@@ -298,6 +275,16 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS deleteCourse(). Deletes a course. Delete courses are stored in "Trash" and can be undeleted in '.
 								' the ILIAS administration. ');
+		// startBackgroundTaskWorker()
+		$this->server->register(AsyncTaskManager::CMD_START_WORKER,
+			array('sid' => 'xsd:string'),
+			array('success' => 'xsd:boolean'),
+			SERVICE_NAMESPACE,
+			SERVICE_NAMESPACE . '#' . AsyncTaskManager::CMD_START_WORKER,
+			SERVICE_STYLE,
+			SERVICE_USE,
+			'ILIAS ' . AsyncTaskManager::CMD_START_WORKER . '().');
+
 		// assignCourseMember()
 		$this->server->register('assignCourseMember',
 								array('sid' => 'xsd:string',
@@ -1351,11 +1338,65 @@ class ilNusoapUserAdministrationAdapter
 			SERVICE_USE,
 			'Generate DataCollectionContent Export'
 		);
+		
+		$this->server->register(
+			'processBackgroundTask',
+			array(
+				'sid' => 'xsd:string',
+				'task_id' => 'xsd:int'
+			),
+			array('status' => 'xsd:boolean'),
+			SERVICE_NAMESPACE,
+			SERVICE_NAMESPACE . '#processBackgroundTask',
+			SERVICE_STYLE,
+			SERVICE_USE,
+			'Process task in background'
+		);
 
+		// If a client ID is submitted, there might be some SOAP plugins registering methods/types
+		if (isset($_GET['client_id'])) {
+			$this->handleSoapPlugins();
+		}
 
 		return true;
 
 	}
 
+	/**
+	 * Register any methods and types of SOAP plugins to the SOAP server
+	 */
+	protected function handleSoapPlugins() {
+		// Note: We need a context that does not handle authentication at this point, because this is
+		// handled by an actual SOAP request which always contains the session ID and client
+		ilContext::init(ilContext::CONTEXT_SOAP_NO_AUTH);
+		ilInitialisation::initILIAS();
+		ilContext::init(ilContext::CONTEXT_SOAP);
+
+		global $ilPluginAdmin;
+		$soapHook = new ilSoapHook($ilPluginAdmin);
+		foreach ($soapHook->getWsdlTypes() as $type) {
+			$this->server->wsdl->addComplexType(
+				$type->getName(),
+				$type->getTypeClass(),
+				$type->getPhpType(),
+				$type->getCompositor(),
+				$type->getRestrictionBase(),
+				$type->getElements(),
+				$type->getAttributes(),
+				$type->getArrayType()
+			);
+		}
+		foreach ($soapHook->getSoapMethods() as $method) {
+			$this->server->register(
+				$method->getName(),
+				$method->getInputParams(),
+				$method->getOutputParams(),
+				$method->getServiceNamespace(),
+				$method->getServiceNamespace() . '#' . $method->getName(),
+				$method->getServiceStyle(),
+				$method->getServiceUse(),
+				$method->getDocumentation()
+			);
+		}
+	}
 }
-?>

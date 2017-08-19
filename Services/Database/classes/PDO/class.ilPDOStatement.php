@@ -87,4 +87,28 @@ class ilPDOStatement implements ilDBStatement {
 	public function numRows() {
 		return $this->pdo_statement->rowCount();
 	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function execute($a_data = null) {
+		$this->pdo_statement->execute($a_data);
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function errorCode() {
+		return $this->pdo_statement->errorCode();
+	}
+
+	/**
+	 * @return array
+	 */
+	public function errorInfo() {
+		return $this->pdo_statement->errorInfo();
+	}
 }

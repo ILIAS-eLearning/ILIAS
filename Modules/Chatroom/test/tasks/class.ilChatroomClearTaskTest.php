@@ -10,7 +10,7 @@ class ilChatroomClearTaskTest extends ilChatroomAbstractTaskTest
 {
 
 	/**
-	 * @var PHPUnit_Framework_MockObject_MockObject|ilChatroomClearTask;
+	 * @var PHPUnit_Framework_MockObject_MockObject|ilChatroomClearGUI;
 	 */
 	protected $task;
 
@@ -18,7 +18,7 @@ class ilChatroomClearTaskTest extends ilChatroomAbstractTaskTest
 	{
 		parent::setUp();
 
-		require_once './Modules/Chatroom/classes/tasks/class.ilChatroomClearTask.php';
+		require_once './Modules/Chatroom/classes/gui/class.ilChatroomClearGUI.php';
 		require_once './Modules/Chatroom/classes/class.ilChatroomServerSettings.php';
 
 		$settings = new ilChatroomServerSettings();
@@ -34,8 +34,8 @@ class ilChatroomClearTaskTest extends ilChatroomAbstractTaskTest
 		$this->createIlObjChatroomGUIMock($this->object);
 		$this->createIlObjChatroomGUIGetConnectorMock($this->ilChatroomServerConnectorMock);
 
-		$this->task = $this->getMock(
-			'ilChatroomClearTask',
+		$this->task = $this->createMock(
+			'ilChatroomClearGUI',
 			array('sendResponse', 'getRoomByObjectId', 'redirectIfNoPermission'),
 			array($this->gui)
 		);

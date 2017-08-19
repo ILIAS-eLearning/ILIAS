@@ -1,10 +1,10 @@
 /* --- Services/COPage ---*/
 
 a.ilEditSubmit {
-	background: url("@{background-images-path}ButtonsBack.png") repeat-x bottom #FFF;
+	background: url("@{background-images-path}ButtonsBack.png") repeat-x bottom white;
 	padding: 2px;
 	margin: 0;
-	border: 1px solid #BABABA;
+	border: 1px solid #bababa;
 	border-bottom-color: #808080;
 	border-right-color: #808080;
 	text-decoration: none;
@@ -14,44 +14,44 @@ a.ilEditSubmit {
 }
 
 input.ilEditSubmit {
-	color: #2255A0;
+	color: #2255a0;
 	padding: 1px;
 	margin: 0;
 	font-size: 12px;
 	line-height: 14px;
 	cursor: pointer;
-	background: url("@{background-images-path}ButtonsBack.png") repeat-x bottom #FFF;
-	border: 1px solid #BABABA;
+	background: url("@{background-images-path}ButtonsBack.png") repeat-x bottom white;
+	border: 1px solid #bababa;
 	border-bottom-color: #808080;
 	border-right-color: #808080;
 	&:hover {
-		color: #000;
+		color: black;
 	}
 }
 
 div.ilEditHelpline {
-	margin: 3px 0px;
+	margin: 3px 0;
 	padding: 0;
 	font-size: 80%;
-	background-color: #FFF;
-	color: #000;
+	background-color: white;
+	color: black;
 }
 
 select.ilEditSelect {
-	background: none #FFF;
-	border: 1px solid #BBB;
+	background: none white;
+	border: 1px solid #bbb;
 	padding: 1px;
 	text-decoration: none;
 	font-size: 12px;
 }
 
 div.il_droparea {
-	padding: 1px 5px 1px 5px;
-	border: 1px #D0D0D0 dashed;
-	color: #D0D0D0;
+	padding: 1px 5px;
+	border: 1px dashed #d0d0d0;
+	color: #d0d0d0;
 	text-align: center;
 	font-size: @font-size-small;
-	background-color: #FCFCFC;
+	background-color: #fcfcfc;
 	cursor: pointer;
 }
 
@@ -62,8 +62,8 @@ div.il_droparea:hover, div.ilCOPGDropActice, .il_droparea_valid_target {
 }
 
 div.ilCOPGNoPageContent {
-	padding: 20px 5px 20px 5px;
-	color: #A0A0A0;
+	padding: 20px 5px;
+	color: #a0a0a0;
 }
 
 
@@ -73,6 +73,7 @@ div.il_editarea_nojs {
 
 div.il_editarea {
 	border: 1px solid transparent;
+	min-height: 20px;
 }
 
 div.ilc_page_Page > div.il_editarea_disabled {
@@ -81,28 +82,33 @@ div.ilc_page_Page > div.il_editarea_disabled {
 
 div.il_editarea_disabled {
 	border: 2px dotted @brand-warning;
+	min-height: 20px;
 }
 
 div.il_editarea_active {
 	border: 1px solid #909090;
+	min-height: 20px;
 }
 
 div.il_editarea_selected {
 	border: 2px solid @brand-secondary;
+	min-height: 20px;
 }
 
 div.il_editarea_disabled_selected
 {
 	border: 2px solid @brand-warning;
+	min-height: 20px;
 }
 
 div.il_editarea_active_selected {
-	border: 2px solid #000;
+	border: 2px solid black;
+	min-height: 20px;
 }
 
 .il_editmenu {
-	background-color: #FFF;
-	color: #000;
+	background-color: white;
+	color: black;
 	font-weight: normal;
 	text-align: left;
 	font-style: normal;
@@ -118,7 +124,7 @@ table.il_editmenu td {
 
 div.ilEditLabel {
 	position: absolute;
-	background-color: #F5F5F5;
+	background-color: #f5f5f5;
 	font-size: 70%;
 	padding: 1px 3px;
 	border-style: solid;
@@ -132,14 +138,14 @@ div.ilEditVAccordCntr {
 }
 
 div.ilEditVAccordICntr {
-	background-color: #FFF;
+	background-color: white;
 	margin-bottom: 15px;
-	border: 1px solid #9EADBA;
+	border: 1px solid #9eadba;
 }
 
 div.ilEditVAccordIHead {
 	padding: 3px;
-	background-color: #E2EAF4;
+	background-color: #e2eaf4;
 	text-align: left;
 	background-repeat: no-repeat;
 	background-position: 3px 4px;
@@ -147,13 +153,13 @@ div.ilEditVAccordIHead {
 
 div.ilEditVAccordICont {
 	padding: 10px;
-	background-color: #FFF;
+	background-color: white;
 }
 
 div.ilTinyMenuSection {
 	float: left;
 	white-space: nowrap;
-	border-right: 1px solid #E0E0E0;
+	border-right: 1px solid #e0e0e0;
 	padding: 0 10px 4px 0;
 	margin-right: 10px;
 }
@@ -161,7 +167,7 @@ div.ilTinyMenuSection {
 [dir="rtl"] div.ilTinyMenuSection {
 	float: right;
     border-right: none;
-    border-left: 1px solid #E0E0E0;
+    border-left: 1px solid #e0e0e0;
     padding: 0 0 4px 10px;
 	margin-right: 0;
 	margin-left: 10px;
@@ -183,11 +189,11 @@ div.ilTinyMenuSection {
 #iltinymenu {
 	z-index: 1040 !important;
 	position: fixed;
-	left: 0px;
-	right: 0px;
-	top: 0px;
+	left: 0;
+	right: 0;
+	top: 0;
 	background-color: @il-secondary-container-bg;
-	box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.176);
+    .box-shadow(3px 9px 9px 0 rgba(0, 0, 0, 0.176));
 }
 
 #iltinymenu_bd {
@@ -234,8 +240,8 @@ a.ilTinyMenuDropDown {
 div.ilc_page_toc_PageTOC {
 	font-size: 90%;
 	padding: 5px 5px 10px;
-	background-color: #FAFAFA;
-	border: 1px solid #F0F0F0;
+	background-color: #fafafa;
+	border: 1px solid #f0f0f0;
 	float: left;
 }
 
@@ -260,13 +266,13 @@ li.ilc_page_toc_PageTOCItem {
 }
 
 a.ilc_page_toc_PageTOCLink {
-	color: #03A;
+	color: #03a;
 	font-weight: normal;
 	text-decoration: none;
 }
 
 a.ilc_page_toc_PageTOCLink:hover {
-	color: #000;
+	color: black;
 }
 
 a.ilc_page_toc_PageTOCLink:visited {
@@ -276,20 +282,20 @@ a.ilc_page_toc_PageTOCLink:visited {
 /* --- content styles (will move to content.css) --- */
 td.ilc_PageDisabled {
 	padding: 20px;
-	border: 1px solid #9EADBA;
+	border: 1px solid #9eadba;
 	margin-bottom: 0;
 	border-left: 3px dotted red;
 }
 
 div.ilc_DefinitionHeader {
-	margin: 10px 0;
+	margin: 20px 0 10px 0;
 	padding: 5px 0;
-	border: 1px solid #000;
+	border: 1px solid black;
 	border-width: 1px 0;
 }
 
 table.ilc_Fullscreen {
-	background-color: #FFF;
+	background-color: white;
 	position: absolute;
 	margin: 0;
 	padding: 0;
@@ -314,16 +320,16 @@ div.ilc_LMMenu {
 a.ilc_LMMenu {
 	padding: 1px 5px;
 	margin: 2px 0;
-	border: 1px solid #B0B0B0;
-	background-color: #E6ECF8;
+	border: 1px solid #b0b0b0;
+	background-color: #e6ecf8;
 	white-space: nowrap;
 }
 
 div.ilc_TableOfContents {
-	background-color: #FFF;
+	background-color: white;
 	padding: 20px;
 	border-spacing: 1px;
-	border: 1px solid #EEE;
+	border: 1px solid #eee;
 	margin-bottom: 0;
 }
 
@@ -339,9 +345,9 @@ h1.il_LMHead {
 
 table.ilc_Table {
 	border-collapse: collapse;
-	background-color: #FFF;
-	margin: 10px 0px;
-	border-color: #9EADBA;
+	background-color: white;
+	margin: 10px 0;
+	border-color: #9eadba;
 }
 
 /* COPage Comparison */
@@ -379,11 +385,11 @@ span.ilDiffIns {
 
 a.nostyle:link, a.nostyle:visited {
 	text-decoration: none;
-	color: #000;
+	color: black;
 }
 
 a.nostyle:hover {
-	color: #000;
+	color: black;
 }
 
 #ilEditorPanel_c {
@@ -415,16 +421,16 @@ a.nostyle:hover {
 #ilPageEditLegend .il_droparea, #ilPageEditLegend .il_droparea:hover {
 	display: inline-block;
 	width: 40px;
-	border-color: #D0D0D0;
-	color: #D0D0D0;
-	background-color: #FCFCFC;
+	border-color: #d0d0d0;
+	color: #d0d0d0;
+	background-color: #fcfcfc;
 	cursor: default;
 	height: 21px;
 }
 
 .ilPageEditLegendElement {
 	width: 40px;
-	border: 1px solid #D0D0D0;
+	border: 1px solid #d0d0d0;
 	height: 21px;
 	display: inline-block;
 	font-size: 12px;
@@ -456,4 +462,13 @@ a.nostyle:hover {
 ul#ilAdvSelListTable_style_selection {
 	overflow: auto;
 	max-height: 400px;
+}
+
+a.ilCOPageSection {
+	color: inherit;
+	text-decoration: inherit;
+}
+
+#ilAdvSelListAnchorText_char_style_selection > span {
+	min-width: auto;
 }

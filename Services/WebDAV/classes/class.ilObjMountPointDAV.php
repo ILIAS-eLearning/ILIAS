@@ -45,9 +45,9 @@ class ilObjMountPointDAV extends ilObjectDAV
 	*
 	* @param refid A refid to the object.
 	*/
-	function ilObjMountPointDAV() 
+	function __construct() 
 	{
-		$this->ilObjectDAV(-1);
+		parent::__construct(-1);
 	}
 	
 	/**
@@ -165,11 +165,12 @@ class ilObjMountPointDAV extends ilObjectDAV
 	 */
 	function children()
 	{
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		
 		$childrenDAV = array();
 		$data =& $tree->getNodeData($tree->getRootId());
-		$childDAV =& $this->createObject($data['ref_id'],'root');
+		$childDAV =& ilObjectDAV::createObject($data['ref_id'],'root');
 		if (! is_null($childDAV))
 		{
 			// Note: We must not assign with =& here, because this will cause trouble

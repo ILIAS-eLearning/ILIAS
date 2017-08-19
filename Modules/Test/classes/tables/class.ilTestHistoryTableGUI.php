@@ -35,11 +35,10 @@ class ilTestHistoryTableGUI extends ilTable2GUI
 		$this->setFormName('questionbrowser');
 		$this->setStyle('table', 'fullwidth');
 
-		$this->addColumn($this->lng->txt("assessment_log_datetime"),'datetime', '');
-		$this->addColumn($this->lng->txt("user"),'user', '');
-		$this->addColumn($this->lng->txt("assessment_log_text"),'log', '');
-		$this->addColumn($this->lng->txt("location"),'location', '');
-	
+		$this->addColumn($this->lng->txt("assessment_log_datetime"),'datetime', '25%');
+		$this->addColumn($this->lng->txt("user"),'user', '25%');
+		$this->addColumn($this->lng->txt("assessment_log_text"),'log', '50%');
+
 		$this->setRowTemplate("tpl.il_as_tst_history_row.html", "Modules/Test");
 
 		$this->setDefaultOrderField("datetime");
@@ -68,12 +67,6 @@ class ilTestHistoryTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("DATETIME", ilDatePresentation::formatDate(new ilDateTime($data["tstamp"],IL_CAL_UNIX)));
 		$this->tpl->setVariable("USER", $username);
 		$this->tpl->setVariable("LOG", trim(ilUtil::prepareFormOutput($data["logtext"])));
-		$location = '';
-		if (strlen($data["ref_id"]) && strlen($data["href"]))
-		{
-			$location = '<a href="' . $data['href'] . '">' . $this->lng->txt("perma_link") . '</a>';
-		}
-		$this->tpl->setVariable("LOCATION", $location);
 	}
 }
 ?>

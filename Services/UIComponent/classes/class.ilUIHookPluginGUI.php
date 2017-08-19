@@ -98,7 +98,7 @@ class ilUIHookPluginGUI
 	 *
 	 * Can be used to interfere with the goto script behaviour
 	 */
-	function checkGotoHook()
+	function checkGotoHook($a_target)
 	{
 		return array("target" => false);
 	}

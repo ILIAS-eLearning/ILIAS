@@ -163,11 +163,12 @@ class ilSCCronTrash extends ilCronJob
 	{
 		include_once './Services/SystemCheck/classes/class.ilSystemCheckTrash.php';
 		$trash = new ilSystemCheckTrash();
+		$trash->setMode(ilSystemCheckTrash::MODE_TRASH_REMOVE);
 			
 		include_once './Services/Administration/classes/class.ilSetting.php';
 		$settings = new ilSetting('sysc');
 		
-		$trash->setNumberLimit($settings->get('number',0));
+		$trash->setNumberLimit($settings->get('num',0));
 		$trash->setTypesLimit((array) $settings->get('types'));
 		
 		$age = $settings->get('age',0);

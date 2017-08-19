@@ -15,10 +15,10 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author		Björn Heyser <bheyser@databay.de>
  * @author		Maximilian Becker <mbecker@databay.de>
- * 
  * @version	$Id$
  * 
  * @ingroup ModulesTestQuestionPool
+ * @ilCtrl_Calls assMatchingQuestionGUI: ilFormPropertyDispatchGUI
  */
 class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
@@ -27,6 +27,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 *
 	 * The constructor takes possible arguments an creates an instance of the assMatchingQuestionGUI object.
 	 *
+	 * @param integer $id The database id of a image map question object
 	 * @param integer $id The database id of a image map question object
 	 * 
 	 * @return \assMatchingQuestionGUI
@@ -231,6 +232,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
+		$this->editForm = $form;
+
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(true);
@@ -610,7 +613,17 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		$solutions = is_object($this->getPreviewSession()) ? (array)$this->getPreviewSession()->getParticipantsSolution() : array();
 
-		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/jquery-ui-1-10-3-fixed.js');
+		if($GLOBALS['ilBrowser']->isMobile() || $GLOBALS['ilBrowser']->isIpad())
+		{
+			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+			iljQueryUtil::initjQuery();
+			iljQueryUtil::initjQueryUI();
+			$this->tpl->addJavaScript('./Services/jQuery/js/jquery.ui.touch-punch.min.js');
+		}
+		else
+		{
+			$this->tpl->addJavaScript('Modules/TestQuestionPool/js/jquery-ui-1-10-3-fixed.js');
+		}
 		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'Modules/TestQuestionPool'));
 
@@ -770,9 +783,21 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		return $neworder;
 	}
 
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE, $inlineFeedback = false)
+	// hey: prevPassSolutions - pass will be always available from now on
+	function getTestOutput($active_id, $pass, $is_postponed = FALSE, $user_post_solution = FALSE, $inlineFeedback = false)
+	// hey.
 	{
-		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/jquery-ui-1-10-3-fixed.js');
+		if($GLOBALS['ilBrowser']->isMobile() || $GLOBALS['ilBrowser']->isIpad())
+		{
+			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+			iljQueryUtil::initjQuery();
+			iljQueryUtil::initjQueryUI();
+			$this->tpl->addJavaScript('./Services/jQuery/js/jquery.ui.touch-punch.min.js');
+		}
+		else
+		{
+			$this->tpl->addJavaScript('Modules/TestQuestionPool/js/jquery-ui-1-10-3-fixed.js');
+		}
 		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'Modules/TestQuestionPool'));
 
@@ -780,12 +805,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		if ($active_id)
 		{
-			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
+			// hey: prevPassSolutions - obsolete due to central check
+			#$solutions = NULL;
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			#{
+			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			#}
+			// hey.
 			if (is_array($user_post_solution))
 			{
 				$solutions = array();
@@ -796,7 +823,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			}
 			else
 			{
-				$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+				// hey: prevPassSolutions - obsolete due to central check
+				$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
+				// hey.
 			}
 
 			$counter = 0;

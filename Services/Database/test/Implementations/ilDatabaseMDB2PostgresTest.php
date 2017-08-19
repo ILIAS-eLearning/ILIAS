@@ -21,15 +21,17 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once('ilDBBaseTest.php');
+require_once('ilDatabaseImplementationBaseTest.php');
 
 /**
  * TestCase for the ilDatabaseMDB2PostgresTest
  *
+ * @group   needsInstalledILIAS
+ *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilDatabaseMDB2PostgresTest extends ilDBBaseTest {
+class ilDatabaseMDB2PostgresTest extends ilDatabaseImplementationBaseTest {
 
 	/**
 	 * @var string
@@ -38,11 +40,13 @@ class ilDatabaseMDB2PostgresTest extends ilDBBaseTest {
 
 
 	/**
-	 * @return \ilDBPdoMySQLInnoDB
+	 * @return \ilDBPostgreSQL
 	 * @throws \ilDatabaseException
 	 */
 	protected function getDBInstance() {
-		return ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_POSTGRES_LEGACY);
+		include_once("./Services/Database/classes/MDB2/class.ilDBPostgreSQL.php");
+
+		return new ilDBPostgreSQL();
 	}
 
 

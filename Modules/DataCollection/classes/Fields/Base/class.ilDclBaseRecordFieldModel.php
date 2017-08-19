@@ -166,7 +166,7 @@ class ilDclBaseRecordFieldModel {
 
 
 	/**
-	 * @return string
+	 * @return string|array
 	 */
 	public function getValue() {
 		$this->loadValue();
@@ -294,6 +294,20 @@ class ilDclBaseRecordFieldModel {
 		return $this->parseSortingValue($this->getValue(), $this, $link);
 	}
 
+
+	/**
+	 * @param ilConfirmationGUI $confirmation
+	 */
+	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {;
+		if (!is_array($this->getValue())) {
+			$confirmation->addHiddenItem('field_'.$this->field->getId(), $this->getValue());
+		} else {
+			foreach ($this->getValue() as $key => $value) {
+				$confirmation->addHiddenItem('field_'.$this->field->getId() . "[$key]", $value);
+			}
+		}
+	}
+
 	/**
 	 * Returns sortable value for the specific field-types
 	 *
@@ -325,6 +339,23 @@ class ilDclBaseRecordFieldModel {
 				$this->value = $value;
 			}
 		}
+	}
+
+
+	/**
+	 * @param ilDclBaseRecordFieldModel $old_record_field
+	 */
+	public function cloneStructure(ilDclBaseRecordFieldModel $old_record_field) {
+		$this->setValue($old_record_field->getValue());
+		$this->doUpdate();
+	}
+
+
+	/**
+	 *
+	 */
+	public function afterClone(){
+
 	}
 
 

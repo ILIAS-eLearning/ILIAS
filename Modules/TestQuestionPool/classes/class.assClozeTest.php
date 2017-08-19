@@ -401,7 +401,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 								$item->getPoints(),
 								$item->getOrder(),
 								$gap->getType(),
-								$gap->getGapSize()
+								(int)$gap->getGapSize()
 							)
 		);
 	}
@@ -481,7 +481,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 								) > 0) ? $item->getLowerBound() : $item->getAnswertext(),
 								($eval->e( $item->getUpperBound() !== FALSE ) && strlen( $item->getUpperBound()
 								) > 0) ? $item->getUpperBound() : $item->getAnswertext(),
-								$gap->getGapSize()
+								(int)$gap->getGapSize()
 							)
 		);
 	}
@@ -983,11 +983,14 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		{
 			$clone->setTitle($title);
 		}
+
+		$clone->saveToDb();
+
 		if($this->gap_combinations_exists)
 		{
 			$this->copyGapCombination($original_id, $clone->getId());
+			$clone->saveToDb();
 		}
-		$clone->saveToDb();
 
 		// copy question page content
 		$clone->copyPageOfQuestion($original_id);
@@ -1316,38 +1319,38 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($active_id);
 		}
-		
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
-
-		$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
 
 		$entered_values = 0;
-		
-		foreach($this->getSolutionSubmit() as $val1 => $val2)
-		{
-			$value = trim(ilUtil::stripSlashes($val2, FALSE));
-			if (strlen($value))
+
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use (&$entered_values, $active_id, $pass, $authorized) {
+
+			$this->removeCurrentSolution($active_id, $pass, $authorized);
+
+			foreach($this->getSolutionSubmit() as $val1 => $val2)
 			{
-				$gap = $this->getGap(trim(ilUtil::stripSlashes($val1)));
-				if (is_object($gap))
+				$value = trim(ilUtil::stripSlashes($val2, FALSE));
+				if (strlen($value))
 				{
-					if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1)))
+					$gap = $this->getGap(trim(ilUtil::stripSlashes($val1)));
+					if (is_object($gap))
 					{
-						$affectedRows = $this->saveCurrentSolution($active_id,$pass, $val1, $value, $authorized);
-						$entered_values++;
+						if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1)))
+						{
+							$this->saveCurrentSolution($active_id,$pass, $val1, $value, $authorized);
+							$entered_values++;
+						}
 					}
 				}
 			}
-		}
 
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+		});
 
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 		else
@@ -1355,7 +1358,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
 		

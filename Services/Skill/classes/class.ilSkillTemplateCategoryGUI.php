@@ -111,11 +111,19 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	 */
 	function listItems()
 	{
-		global $tpl;
-		
-		if ($this->tref_id == 0)
+		global $tpl, $lng;
+
+		if ($this->isInUse())
 		{
-			self::addCreationButtons();
+			ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
+		}
+
+		if ($this->checkPermissionBool("write"))
+		{
+			if ($this->tref_id == 0)
+			{
+				self::addCreationButtons();
+			}
 		}
 
 		$this->setTabs("content");
@@ -187,6 +195,11 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	 */
 	function saveItem()
 	{
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$it = new ilSkillTemplateCategory();
 		$it->setTitle($this->form->getInput("title"));
 		$it->setOrderNr($this->form->getInput("order_nr"));
@@ -199,6 +212,11 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	 */
 	function updateItem()
 	{
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
 		$this->node_object->setTitle($this->form->getInput("title"));
 		$this->node_object->setOrderNr($this->form->getInput("order_nr"));
 		$this->node_object->setSelfEvaluation($_POST["self_eval"]);

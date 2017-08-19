@@ -37,7 +37,10 @@ class ilObjCloudAccess extends ilObjectAccess {
 	 * @return bool
 	 */
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") {
-		global $ilUser, $rbacsystem, $rbacreview;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$rbacreview = $DIC['rbacreview'];
 
 		$object = new ilObjCloud($a_ref_id);
 
@@ -81,7 +84,8 @@ class ilObjCloudAccess extends ilObjectAccess {
 	 */
 	public static function _checkGoto($a_target) {
 
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		$t_arr = explode("_", $a_target);
 
@@ -98,7 +102,8 @@ class ilObjCloudAccess extends ilObjectAccess {
 	 * @return mixed
 	 */
 	static function checkOnline($a_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if (!isset(self::$access_cache[$a_id]["online"])) {
 			$set = $ilDB->query("SELECT is_online FROM il_cld_data " . " WHERE id = " . $ilDB->quote($a_id, "integer"));
@@ -115,7 +120,8 @@ class ilObjCloudAccess extends ilObjectAccess {
 	 * @return mixed
 	 */
 	static function checkAuthStatus($a_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if (!isset(self::$access_cache[$a_id]["auth_status"])) {
 			$set = $ilDB->query("SELECT auth_complete FROM il_cld_data " . " WHERE id = " . $ilDB->quote($a_id, "integer"));

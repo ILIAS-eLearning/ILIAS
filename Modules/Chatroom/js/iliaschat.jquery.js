@@ -110,7 +110,7 @@ var Logger = function Logger()
 	};
 
 	function _log(type, message) {
-		console.log(type, message);
+		//console.log(type, message);
 	}
 };
 
@@ -143,6 +143,47 @@ var Translation = function Translation(_lang) {
 		return '#' + key + '#';
 	}
 };
+
+var ProfileImageLoader = function(_userId, _onFinishCallback) {
+	var requestUserImages = function(userIds) {
+		var difference = [];
+
+		$.grep(userIds, function(el) {
+			if ($.inArray(el, Object.keys(ProfileImageLoader._imagesByUserId)) == -1) difference.push(el);
+		});
+
+		if (difference.length > 0) {
+			$.get(
+				initial.profile_image_url + '&usr_ids=' + userIds.join(','),
+				function (response) {
+					$.each(response, function (id, item) {
+						var img = new Image();
+						img.src = item.profile_image;
+
+						ProfileImageLoader._imagesByUserId[id] = img;
+					});
+					_onFinishCallback()
+				},
+				'json'
+			);
+		} else {
+			_onFinishCallback()
+		}
+	};
+
+	requestUserImages(_userId);
+
+	this.getProfileImage = function(_userId) {
+		if (ProfileImageLoader._imagesByUserId.hasOwnProperty(_userId)) {
+			return ProfileImageLoader._imagesByUserId[_userId];
+		}
+
+		var img = new Image();
+		img.src = initial.no_profile_image_url;
+		return img;
+	};
+};
+ProfileImageLoader._imagesByUserId = {};
 
 /**
  * This class renders the smiley selection for ChatActions.
@@ -187,9 +228,7 @@ var Smileys = function Smileys(_smileys) {
 
 			$("#submit_message_text").css("paddingLeft", "25px").after($emoticons_panel);
 
-			if ($.browser.chrome || $.browser.safari) {
-				$emoticons_panel.css("top", "3px");
-			}
+			$emoticons_panel.css("top", "3px");
 
 			var $emoticons_table = $("<table></table>");
 			var $emoticons_row = null;
@@ -219,15 +258,17 @@ var Smileys = function Smileys(_smileys) {
 			}
 			$emoticons_flyout.append($emoticons_table);
 
-			$emoticons_flyout_trigger.click(function (e) {
+			$emoticons_flyout_trigger.on('click', function (e) {
 				$emoticons_flyout.toggle();
-			}).toggle(function () {
-				$(this).addClass("active");
-			}, function () {
-				$(this).removeClass("active");
+				
+				if ($(this).hasClass("active")) {
+					$(this).removeClass("active");
+				} else {
+					$(this).addClass("active");
+				}
 			});
 
-			$emoticons_panel.bind('clickoutside', function (event) {
+			$emoticons_panel.on('clickoutside', function (event) {
 				if ($emoticons_flyout_trigger.hasClass("active")) {
 					$emoticons_flyout_trigger.click();
 				}
@@ -251,18 +292,6 @@ var GUI = function GUI(_translation) {
 
 	var _prevSize = {width: 0, height: 0};
 	var _$anchor = $('#chat_messages');
-
-	this.showOptionsBindClick = function() {
-		$('#show_options').click(function () {
-			if ($(this).next().is(':visible')) {
-				$(this).text(_translation.translate('show_settings'));
-			}
-			else {
-				$(this).text(_translation.translate('hide_settings'));
-			}
-			$(this).siblings().toggle();
-		});
-	};
 
 	this.renderHeaderAndActionButton = function() {
 		$('<div id="tttt" style="white-space:nowrap;"></div>')
@@ -498,7 +527,7 @@ var ChatUsers = function ChatUsers(selector, _translator, _connector) {
 		if(personalUserInfo.moderator == true || (subRoomId > 0 && (room = $('#private_rooms').ilChatList('getDataById', subRoomId)).owner == personalUserInfo.id )) {
 			actions.push(_addBanAction());
 		}
-		_$anchor.ilChatList(actions);
+		_$anchor.ilChatUserList(actions);
 	};
 
 	/**
@@ -511,7 +540,6 @@ var ChatUsers = function ChatUsers(selector, _translator, _connector) {
 		return {
 			label: _translator.translate('address'),
 			callback: function() {
-				//alert('SELECT Aroom_332DDRESS');
 				setRecipientOptions(this.id, 1); // @TODO setRecipientOptions(this.id, 1);
 			}
 		};
@@ -527,7 +555,6 @@ var ChatUsers = function ChatUsers(selector, _translator, _connector) {
 		return {
 			label: _translator.translate('whisper'),
 			callback: function() {
-				//alert('SELECT WHISPER');
 				setRecipientOptions(this.id, 0); // @TODO setRecipientOptions(this.id, 0);
 			}
 		};
@@ -781,7 +808,6 @@ var ChatActions = function ChatActions(selector, _translation, _connector, _priv
 
 								$('#invite_user_text').keyup(function(){
 									if($(this).val().length > 2) {
-										// @TODO Move this to ILIASConnector.
 										$.get(
 												posturl.replace(/postMessage/, 'inviteUsersToPrivateRoom-getUserList') + '&q=' + $('#invite_user_text').val(),
 												function(response){
@@ -815,7 +841,7 @@ var ChatActions = function ChatActions(selector, _translation, _connector, _priv
 									}
 								});
 
-								if($(availableUsers).children().size() == 0) {
+								if($(availableUsers).children().length == 0) {
 									$('#invite_users_in_room').remove();
 									$('#radioText').remove();
 									$('#invite_users_global').prop('checked', 'checked').click();
@@ -894,13 +920,6 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 	this.createPrivateRoom = function(response) {
 		logger.logILIASResponse('createPrivateRoom');
 		return !_validate(response);
-		/*$('#chat_messages').ilChatMessageArea('addScope', response.subRoomId, response);
-		 $('#private_rooms').ilChatList('add', {
-		 id:    response.subRoomId,
-		 label: response.title,
-		 type:  'room',
-		 owner: response.owner
-		 });*/
 	};
 
 	/**
@@ -1148,8 +1167,6 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 
 		_socket.on('message', _onMessage);
 		_socket.on('connect', function(){
-			console.log(user.login);
-			console.log(user.id);
 			_socket.emit('login', user.login, user.id);
 		});
 		_socket.on('user_invited', _onUserInvited);
@@ -1164,13 +1181,12 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 		_socket.on('notice', _onNotice);
 		_socket.on('userlist', _onUserlist);
 		_socket.on('shutdown', function(){
-			console.log('shutdown received');
 			_socket.removeAllListeners();
 			_socket.close();
 			window.location.href = redirectUrl;
 		});
 
-		$(window).bind('beforeunload',function() {
+		$(window).on('beforeunload',function() {
 			_socket.close();
 		});
 
@@ -1193,7 +1209,6 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	 */
 	this.onLoggedIn = function(callback) {
 		_socket.on('loggedIn', function(){
-			console.log("loggedIn");
 			callback();
 		});
 	};
@@ -1276,8 +1291,6 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	 * @private
 	 */
 	function _onPrivateRoomLeft(messageObject){
-		console.log('private_room_left', messageObject);
-
 		if (messageObject.sub && messageObject.sub == subRoomId) {
 			$('#chat_users').find('.user_' + messageObject.user).hide();
 		}
@@ -1334,8 +1347,6 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	 * @private
 	 */
 	function _onPrivateRoomDeleted(messageObject){
-		console.log('private_room_deleted');
-
 		$('#private_rooms').ilChatList('removeById', messageObject.subRoomId);
 		$('#chat_actions').find('span.room_'+messageObject.subRoomId).closest('li').remove();
 
@@ -1346,25 +1357,28 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	}
 
 	function _onConnected(messageObject){
-		console.log('connected');
-		$(messageObject.users).each(function (i) {
-			var data = {
-				id:    this.id,
-				label: this.login,
-				type:  'user'
-			};
-			$('#chat_users').ilChatList('add', data);
+		var loader = new ProfileImageLoader($.map(messageObject.users, function(val) {
+			return val.id;
+		}), function() {
+			$(messageObject.users).each(function (i) {
+				var data = {
+					id:    this.id,
+					label: this.login,
+					type:  'user',
+					image: loader.getProfileImage(this.id)
+				};
+				$('#chat_users').ilChatUserList('add', data);
 
-			userManager.add(data, 0);
-			if (subRoomId) {
-				$('.user_' + this.id).hide();
-			}
+				userManager.add(data, 0);
+				if (subRoomId) {
+					$('.user_' + this.id).hide();
+				}
 
-
-			$('#chat_messages').ilChatMessageArea('addMessage', 0, {
-				login:     data.label,
-				timestamp: messageObject.timestamp,
-				type:      'connected'
+				$('#chat_messages').ilChatMessageArea('addMessage', 0, {
+					login:     data.label,
+					timestamp: messageObject.timestamp,
+					type:      'connected'
+				});
 			});
 		});
 	}
@@ -1388,14 +1402,11 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 		userManager.remove(user.id, messageObject.subRoomId);
 
 		// If user is kicked from sub room, redirect to main room
-		if(messageObject.subRoomId > 0) {
-
+		if (messageObject.subRoomId > 0) {
 			currentRoom = 0;
 			gui.showChatMessageArea(0);
-		}
-		else
-		{
-			$('#chat_users').ilChatList('removeById', user.id);
+		} else {
+			$('#chat_users').ilChatUserList('removeById', user.id);
 			window.location.href = redirectUrl + "&msg=kicked";
 		}
 	}
@@ -1414,7 +1425,6 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	 * @private
 	 */
 	function _onUserBanned(messageObject){
-		console.log('bann received');
 		if (_socket) {
 			_socket.removeAllListeners();
 			_socket.close();
@@ -1479,91 +1489,58 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	function _onUserlist(messageObject) {
 		logger.logServerResponse("onUserlist");
 		var users = messageObject.users;
-		console.log(users);
 
 		userManager.clear(messageObject.subRoomId);
 
 		if(messageObject.subRoomId == currentRoom) {
-			$('#chat_users').ilChatList('clear');
+			$('#chat_users').ilChatUserList('clear');
 		}
 
-		for(var key in users) {
-			if(users.hasOwnProperty(key)) {
-				var chatUser = {
-					id: users[key].id,
-					label: users[key].username,
-					type: 'user',
-					hide: users[key].id == user.id
-				};
+		var loader = new ProfileImageLoader($.map(users, function(val) {
+			return val.id;
+		}), function() {
+			for(var key in users) {
+				if(users.hasOwnProperty(key)) {
+					var chatUser = {
+						id: users[key].id,
+						label: users[key].username,
+						type: 'user',
+						hide: users[key].id == user.id,
+						image: loader.getProfileImage(users[key].id)
+					};
 
-				userManager.add(chatUser, messageObject.subRoomId);
+					userManager.add(chatUser, messageObject.subRoomId);
 
-				if(messageObject.subRoomId == currentRoom) {
-					$('#chat_users').ilChatList('add', chatUser, chatUser.id, {hide: chatUser.hide});
-				}
+					if(messageObject.subRoomId == currentRoom) {
+						$('#chat_users').ilChatUserList('add', chatUser, chatUser.id, {hide: chatUser.hide});
+					}
 
-				if (chatUser.id != user.id) {
-					$('.user_' + chatUser.id).show();
-				} else {
-					$('.user_' + chatUser.id).hide();
-				}
-			}
-		}
-
-		// remove old users
-		var currentUsersInRoom = userManager.getUsersInRoom(messageObject.subRoomId);
-		for(var key in currentUsersInRoom) {
-			var userId = currentUsersInRoom[key].id;
-			if(!isIdInArray(userId, users)) {
-				userManager.remove(userId, messageObject.subRoomId);
-				if (messageObject.subRoomId == currentRoom) {
-					$('#chat_users').ilChatList('removeById', userId);
+					if (chatUser.id != user.id) {
+						$('.user_' + chatUser.id).show();
+					} else {
+						$('.user_' + chatUser.id).hide();
+					}
 				}
 			}
-		}
 
-
-
-
-		/*
-		console.log(users);
-
-		var currentUsersInRoom = userManager.getUsersInRoom(messageObject.subRoomId);
-
-		// add new users;
-		for(var key in users) {
-			var userData = users[key];
-			var hidden = userData.id == user.id;
-			var chatUser = {
-				id:    userData.id,
-				label: userData.username,
-				type:  'user',
-				hide: hidden
-			};
-
-			if(!isIdInArray(userData.id, currentUsersInRoom))
-			{
-				userManager.add(chatUser, messageObject.subRoomId);
-				$('#chat_users').ilChatList('add', chatUser, userData.id, {hide: hidden});
+			// remove old users
+			var currentUsersInRoom = userManager.getUsersInRoom(messageObject.subRoomId);
+			for(var key in currentUsersInRoom) {
+				var userId = currentUsersInRoom[key].id;
+				if(!isIdInArray(userId, users)) {
+					userManager.remove(userId, messageObject.subRoomId);
+					if (messageObject.subRoomId == currentRoom) {
+						$('#chat_users').ilChatUserList('removeById', userId);
+					}
+				}
 			}
 
-			if(messageObject.subRoomId == currentRoom && userData.id != user.id)
-			{
-				$('.user_' + userData.id).show();
+			if ($('.online_user:visible').length == 0) {
+				$('.no_users').show();
+			} else {
+				$('.no_users').hide();
 			}
-			else
-			{
-				$('.user_' + userData.id).hide();
-			}
-		}
-
-		*/
-
-		if ($('.online_user:visible').length == 0) {
-			$('.no_users').show();
-		} else {
-			$('.no_users').hide();
-		}
+		});
 	}
 
 	/**
@@ -1572,13 +1549,18 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	 * @private
 	 */
 	function _initSubmit() {
-		$('#submit_message').click( function() {
+		$('#submit_message').click(function(e) {
+			e.preventDefault();
+			e.stopPropagation();
 			_sendMessage();
 		});
 
 		// when the client hits ENTER on their keyboard
 		$('#submit_message_text').keypress(function(e) {
 			if(e.which == 13) {
+				e.preventDefault();
+				e.stopPropagation();
+
 				$(this).blur();
 				_sendMessage();
 			}
@@ -1597,17 +1579,12 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 		{
 			var message = {
 				content: content,
-				format:  {
-					color:  $('#colorpicker').val(),
-					style:  $('#fontstyle').val(),
-					size:   $('#fontsize').val(),
-					family: $('#fontfamily').val()
-				}
+				format: {}
 			};
 
 			if(messageOptions['recipient'] != undefined && messageOptions['recipient'] != false) {
 				message.target = {
-					username: $('#chat_users').ilChatList('getDataById', messageOptions['recipient']).label,
+					username: $('#chat_users').ilChatUserList('getDataById', messageOptions['recipient']).label,
 					id: messageOptions['recipient'],
 					public:  messageOptions['public']
 				}
@@ -1637,11 +1614,11 @@ function setRecipientOptions(recipient, isPublic) {
 
 	$('#message_recipient_info').children().remove();
 	if (recipient) {
-		messageOptions['recipient_name'] = $('#chat_users').ilChatList('getDataById', recipient).label;
+		messageOptions['recipient_name'] = $('#chat_users').ilChatUserList('getDataById', recipient).label;
 		$('#message_recipient_info_all').hide();
 		$('#message_recipient_info').html(
 				$('<span>' + translation.translate(isPublic ? 'speak_to' : 'whisper_to', {
-							user:   $('#chat_users').ilChatList('getDataById', recipient).label,
+							user:   $('#chat_users').ilChatUserList('getDataById', recipient).label,
 							myname: personalUserInfo.name
 						}) + '</span>')
 						.append(
@@ -1721,8 +1698,6 @@ il.Util.addOnLoad(function () {
 
 			smileys.render();
 
-			// Toggle Options menu
-			gui.showOptionsBindClick();
 			// Insert Chatheader into HTML next to AKTION-Button
 			gui.renderHeaderAndActionButton();
 			// When private rooms are disabled, dont show chat header
@@ -1779,16 +1754,20 @@ il.Util.addOnLoad(function () {
 			});
 			$('#tab_users').click();
 
-			// Add users from inial to Chatlist
-			$(initial.users).each(function () {
-				var tmp = {
-					id:    this.id,
-					label: this.login,
-					type:  'user',
-					hide: this.id == personalUserInfo.id
-				};
-				$('#chat_users').ilChatList('add', tmp, {hide: true});
-				userManager.add(tmp, 0);
+			var loader = new ProfileImageLoader($.map(initial.users, function(val) {
+				return val.id;
+			}), function() {
+				$(initial.users).each(function () {
+					var tmp = {
+						id:    this.id,
+						label: this.login,
+						type:  'user',
+						hide: this.id == personalUserInfo.id,
+						image: loader.getProfileImage(this.id)
+					};
+					$('#chat_users').ilChatUserList('add', tmp, {hide: true});
+					userManager.add(tmp, 0);
+				});
 			});
 
 			// Add initial private rooms to Chatlist
@@ -1870,7 +1849,6 @@ il.Util.addOnLoad(function () {
 						type:    'notice',
 						message: messageObject.type
 					});
-					console.log(messageObject);
 				}
 
 				//@todo was passiert hier?

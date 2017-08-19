@@ -21,4 +21,9 @@
 		</object>
 	</objects>
 	<logging />
+
+	<web_access_checker>
+		<secure_path path="previews" checking-class="ilObjFileAccess" in-sec-folder='0'/>
+	</web_access_checker>
+
 </module>

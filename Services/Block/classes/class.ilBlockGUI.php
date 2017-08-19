@@ -41,6 +41,11 @@ abstract class ilBlockGUI
 	protected $dropdown;
 
 	/**
+	 * @var ilTemplate|null
+	 */
+	protected $tpl;
+
+	/**
 	* Constructor
 	*
 	* @param

@@ -42,7 +42,7 @@ class assClozeTestImport extends assQuestionImport
 		$questiontext = null;
 		if( !$packageIliasVersion || version_compare($packageIliasVersion, '5.0.0', '<') )
 		{
-			$questiontext = '&nbsp';
+			$questiontext = '&nbsp;';
 		}
 		elseif($seperate_question_field)
 		{
@@ -95,7 +95,7 @@ class assClozeTestImport extends assQuestionImport
 											"answers" => array(), 
 											"minnumber" => $response->getRenderType()->getMinnumber(), 
 											"maxnumber" => $response->getRenderType()->getMaxnumber(),
-											'gap_size' => $response->getRenderType()->getColumns()
+											'gap_size' => $response->getRenderType()->getMaxchars()
 										)
 									);
 									break;
@@ -105,7 +105,7 @@ class assClozeTestImport extends assQuestionImport
 										array("ident" => $response->getIdent(), 
 											  "type" => CLOZE_TEXT, 
 											  "answers" => array(),
-											  'gap_size' => $response->getRenderType()->getColumns()
+											  'gap_size' => $response->getRenderType()->getMaxchars()
 										));
 									break;
 							}

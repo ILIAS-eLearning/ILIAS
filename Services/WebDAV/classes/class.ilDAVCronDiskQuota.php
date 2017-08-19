@@ -18,7 +18,8 @@ class ilDAVCronDiskQuota extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule("file");		
 		return $lng->txt("repository_disk_quota");
@@ -26,7 +27,8 @@ class ilDAVCronDiskQuota extends ilCronJob
 	
 	public function getDescription()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule("file");		
 		return $lng->txt("repository_disk_quota_info");
@@ -83,7 +85,8 @@ class ilDAVCronDiskQuota extends ilCronJob
 	
 	public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule("file");
 		
@@ -125,7 +128,8 @@ class ilDAVCronDiskQuota extends ilCronJob
 	
 	public function addToExternalSettingsForm($a_form_id, array &$a_fields, $a_is_active)
 	{				
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule("file");
 		

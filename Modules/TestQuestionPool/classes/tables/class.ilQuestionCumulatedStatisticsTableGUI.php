@@ -67,12 +67,14 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
 		{
 			$rows[] = array(
 				'result' => $this->lng->txt('qpl_assessment_total_of_answers'),
-				'value'  => $total_of_answers
+				'value'  => $total_of_answers,
+				'is_percent' => false
 			);
 
 			$rows[] = array(
 				'result' => $this->lng->txt('qpl_assessment_total_of_right_answers'),
-				'value'  => assQuestion::_getTotalRightAnswers($this->question->getId()) * 100.0
+				'value'  => assQuestion::_getTotalRightAnswers($this->question->getId()) * 100.0,
+				'is_percent' => true
 			);
 		}
 		else
@@ -103,6 +105,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
 	public function fillRow($row)
 	{
 		$this->tpl->setVariable('VAL_RESULT', $row['result']);
-		$this->tpl->setVariable('VAL_VALUE', sprintf("%2.2f",  $row['value']) . ' %');
+		$this->tpl->setVariable('VAL_VALUE', $row['is_percent'] ? sprintf("%2.2f", $row['value'])
+		                                                          . ' %' : $row['value']);
 	}
 }

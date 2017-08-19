@@ -89,7 +89,17 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 
 
 	public function __construct() {
-		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias, $ilHelp;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilLocator = $DIC['ilLocator'];
+		$tree = $DIC['tree'];
+		$lng = $DIC['lng'];
+		$ilLog = $DIC['ilLog'];
+		$ilias = $DIC['ilias'];
+		$ilHelp = $DIC['ilHelp'];
 
 		parent::__construct(array(), (int) $_GET['ref_id'], true, false);
 
@@ -656,7 +666,10 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	 * @param string $a_target
 	 */
 	public static function _goto($a_target) {
-		global $ilAccess, $ilErr, $ilCtrl;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
+		$ilCtrl = $DIC['ilCtrl'];
 		$id = explode("_", $a_target);
 		$ilCtrl->setTargetScript("ilias.php");
 		$ilCtrl->initBaseClass("ilRepositoryGUI");
@@ -666,7 +679,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	}
 
 	public function addToNavigationHistory(){
-		global $ilNavigationHistory;
+		global $DIC;
+		$ilNavigationHistory = $DIC['ilNavigationHistory'];
 		
 		if(!$this->getCreationMode() &&
 			$this->ilAccess->checkAccess('read', '', $_GET['ref_id']))

@@ -1,6 +1,4 @@
 <?php
-require_once("./Modules/DataCollection/classes/Fields/Formula/class.ilDclFormulaRecordQueryObject.php");
-require_once("./Modules/DataCollection/classes/Helpers/class.ilDclRecordQueryObject.php");
 
 /**
  * Class ilDclFormulaFieldModel
@@ -28,10 +26,10 @@ class ilDclFormulaFieldModel extends ilDclBaseFieldModel {
 		return array(ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
 	}
 
-//	/**
-//	 * @return bool
-//	 */
-//	public function allowFilterInListView() {
-//		return false;
-//	}
+	/**
+	 * @return bool
+	 */
+	public function allowFilterInListView() {
+		return false;
+	}
 }

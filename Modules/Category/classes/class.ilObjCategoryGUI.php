@@ -252,6 +252,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 					$cmd = "render";
 				}
 				$cmd .= "Object";
+				$this->tabs_gui->activateTab("view_content");	// see #19868
 				$this->$cmd();
 
 				break;
@@ -319,7 +320,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->tabs_gui->addTab("meta_data",
 					$this->lng->txt("meta_data"),
 					$mdtab);
-			}	
+			}
 			
 			include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
 			if(ilContainer::_lookupContainerSetting(
@@ -368,6 +369,16 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$ret =  parent::renderObject();
 		return $ret;
 
+	}
+
+	function viewObject()
+	{
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+		{
+			parent::viewObject();
+			return true;
+		}
+		return $this->renderObject();
 	}
 
 	protected function initCreationForms($a_new_type)
@@ -982,7 +993,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	/**
 	* get user import directory name
 	*/
-	function _getImportDir()
+	static function _getImportDir()
 	{
 		return ilUtil::getDataDir()."/cat_import";
 	}

@@ -221,7 +221,7 @@ class ilPostgresQueryUtils extends ilQueryUtils {
 	 * @return string
 	 */
 	public function now() {
-		return "NOW()";
+		return "now()";
 	}
 
 

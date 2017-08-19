@@ -1,6 +1,4 @@
 <?php
-require_once ('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldRepresentation.php');
-require_once("./Services/Rating/classes/class.ilRatingGUI.php");
 
 /**
  * Class ilDclDateTimeREpresentation
@@ -14,6 +12,7 @@ class ilDclRatingFieldRepresentation extends ilDclBaseFieldRepresentation {
 		$input = new ilTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
 		$input->setValue($this->lng->txt("dcl_editable_in_table_gui"));
 		$input->setDisabled(true);
+		$this->setupInputField($input, $this->getField());
 
 		return $input;
 	}

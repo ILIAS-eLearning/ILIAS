@@ -62,8 +62,6 @@ class ilSoapUserAdministrationAdapter
 		include_once './webservice/soap/include/inc.soap_functions.php';
 
 		$this->server->addFunction(SOAP_FUNCTIONS_ALL);
-		var_dump("<pre>",$this->server->getFunctions(),"<pre>");
-
 	}
 }
 ?>

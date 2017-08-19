@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("class.ilOrgUnitSimpleImport.php");
 /**
  * Class ilOrgUnitSimpleImportGUI
  *
@@ -43,7 +42,14 @@ class ilOrgUnitSimpleImportGUI {
 	 * @param $parent_gui
 	 */
 	function __construct($parent_gui) {
-		global $tpl, $ilCtrl, $ilTabs, $ilToolbar, $lng, $ilAccess, $ilLog;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilLog = $DIC['ilLog'];
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->parent_gui = $parent_gui;
@@ -183,4 +189,3 @@ class ilOrgUnitSimpleImportGUI {
 
 
 }
-?>

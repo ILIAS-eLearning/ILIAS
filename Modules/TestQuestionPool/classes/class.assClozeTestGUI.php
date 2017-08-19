@@ -18,6 +18,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoring
  * @version		$Id$
  * 
  * @ingroup 	ModulesTestQuestionPool
+ * @ilCtrl_Calls assClozeTestGUI: ilFormPropertyDispatchGUI          
  */
 class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
@@ -244,6 +245,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
+		$this->editForm = $form;
+
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(FALSE);
@@ -420,10 +423,33 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$form->addItem($cloze_text);
 
 		$tpl = new ilTemplate("tpl.il_as_qpl_cloze_gap_button_code.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		$tpl->setVariable('INSERT_GAP', $this->lng->txt('insert_gap'));
-		$tpl->setVariable('CREATE_GAPS', $this->lng->txt('create_gaps'));
-		$tpl->parseCurrentBlock();
+
 		$button = new ilCustomInputGUI('&nbsp;','');
+		require_once 'Services/UIComponent/SplitButton/classes/class.ilSplitButtonGUI.php';
+		require_once 'Services/UIComponent/Button/classes/class.ilJsLinkButton.php';
+		$action_button = ilSplitButtonGUI::getInstance();
+
+		$sb_text_gap = ilJsLinkButton::getInstance();
+		$sb_text_gap->setCaption('text_gap');
+		$sb_text_gap->setName('gapbutton');
+		$sb_text_gap->setId('gaptrigger_text');
+		$action_button->setDefaultButton($sb_text_gap);
+
+		$sb_sel_gap = ilJsLinkButton::getInstance();
+		$sb_sel_gap->setCaption('select_gap');
+		$sb_sel_gap->setName('gapbutton_select');
+		$sb_sel_gap->setId('gaptrigger_select');
+		$action_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($sb_sel_gap));
+
+		$sb_num_gap = ilJsLinkButton::getInstance();
+		$sb_num_gap->setCaption('numeric_gap');
+		$sb_num_gap->setName('gapbutton_numeric');
+		$sb_num_gap->setId('gaptrigger_numeric');
+		$action_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($sb_num_gap));
+
+		$tpl->setVariable('BUTTON', $action_button->render());
+		$tpl->parseCurrentBlock();
+
 		$button->setHtml($tpl->get());
 		$form->addItem($button);
 
@@ -1223,7 +1249,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	
 	function getTestOutput(
 				$active_id, 
-				$pass = NULL, 
+				// hey: prevPassSolutions - will be always available from now on
+				$pass,
+				// hey.
 				$is_postponed = FALSE, 
 				$use_post_solutions = FALSE, 
 				$show_feedback = FALSE
@@ -1233,12 +1261,14 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$user_solution = array();
 		if ($active_id)
 		{
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
-			$user_solution = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+			// hey: prevPassSolutions - obsolete due to central check
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			#{
+			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			#}
+			$user_solution = $this->object->getTestOutputSolutions($active_id, $pass);
+			// hey.
 			if (!is_array($user_solution)) 
 			{
 				$user_solution = array();
@@ -1501,7 +1531,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		{
 			if ($gap->type == CLOZE_SELECT)
 			{
-				$html .= '<p>Gap '.$i . ' - SELECT</p>';
+				$html .= '<p>Gap '. ($i+1) . ' - SELECT</p>';
 				$html .= '<ul>';
 				$j = 0;
 				foreach($gap->getItems($this->object->getShuffler()) as $gap_item)
@@ -1515,19 +1545,35 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 			if($gap->type == CLOZE_TEXT)
 			{
-				$html .= '<p>Gap '.$i . ' - TEXT</p>';
+				$present_elements = array();
+				foreach($gap->getItems(new ilArrayElementShuffler()) as $item)
+				{
+					/** @var assAnswerCloze $item */
+					$present_elements[] = $item->getAnswertext();
+				}
+
+				$html .= '<p>Gap ' . ($i+1) . ' - TEXT</p>';
 				$html .= '<ul>';
 				$aggregate = (array)$aggregation[$i];
 				foreach($aggregate as $answer => $count)
 				{
-					$html .= '<li>' . $answer . ' - ' . $count . '</li>';
+					$show_mover = '';
+					if(in_array($answer, $present_elements))
+					{
+						$show_mover = ' style="display: none;" ';
+					}
+
+					$html .= '<li>' . $answer . ' - ' . $count
+						. '&nbsp;<button class="clone_fields_add btn btn-link" ' . $show_mover . ' data-answer="'.$answer.'" name="add_gap_'.$i.'_0">
+						<span class="sr-only"></span><span class="glyphicon glyphicon-plus"></span></button>
+						</li>';
 				}
 				$html .= '</ul>';
 			}
 
 			if($gap->type == CLOZE_NUMERIC)
 			{
-				$html .= '<p>Gap '.$i . ' - NUMERIC</p>';
+				$html .= '<p>Gap ' . ($i+1) . ' - NUMERIC</p>';
 				$html .= '<ul>';
 				$j = 0;
 				foreach($gap->getItems($this->object->getShuffler()) as $gap_item)
@@ -1582,7 +1628,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 */
 	private function populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext)
 	{
-		if ($_GET['pdf'])
+		if( $this->renderPurposeSupportsFormHtml() )
 		{
 			$gaptemplate->setCurrentBlock('gap_span');
 			$gaptemplate->setVariable('SPAN_SOLUTION', $solutiontext);

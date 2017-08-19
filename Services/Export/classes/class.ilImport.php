@@ -34,7 +34,7 @@ class ilImport
 	{
 		include_once("./Services/Export/classes/class.ilImportMapping.php");
 		$this->mapping = new ilImportMapping();
-		$this->mapping->setTagetId($a_target_id);
+		$this->mapping->setTargetId($a_target_id);
 		$this->log = ilLoggerFactory::getLogger('exp');
 	}
 
@@ -198,7 +198,6 @@ class ilImport
 		
 		// delete temporary directory
 		ilUtil::delDir($tmpdir);
-		
 		return $new_id;
 	}
 
@@ -246,22 +245,13 @@ class ilImport
 	 * @param	string		absolute filename of temporary upload file
 	 */
 	protected function doImportObject($dir, $a_type, $a_component = "", $a_tmpdir = "")
-	{
-		global $objDefinition, $tpl;
-
+	{		
 		if ($a_component == "")
 		{
-			$comp = $objDefinition->getComponentForType($a_type);
-			$class = $objDefinition->getClassName($a_type);
-		}
-		else
-		{
-			$comp = $a_component;
-			$c = explode("/", $comp);
-			$class = $c[count($c) - 1];
-		}
-
-		$this->comp = $comp;
+			include_once("./Services/Export/classes/class.ilImportExportFactory.php");
+			$a_component = ilImportExportFactory::getComponentForExport($a_type);		
+		}		
+		$this->comp = $a_component;
 
 		// get import class
 		$success = true;
@@ -295,14 +285,15 @@ class ilImport
 		$expfiles = $parser->getExportFiles();
 		
 		include_once("./Services/Export/classes/class.ilExportFileParser.php");
+		include_once("./Services/Export/classes/class.ilImportExportFactory.php");	
 		$all_importers = array();
 		foreach ($expfiles as $expfile)
-		{
+		{								
 			$comp = $expfile["component"];
-			$comp_arr = explode("/", $comp);
-			$import_class_file = "./".$comp."/classes/class.il".$comp_arr[1]."Importer.php";
-			$class = "il".$comp_arr[1]."Importer";
-			include_once($import_class_file);
+			$class = ilImportExportFactory::getImporterClass($comp);
+
+			$this->log->debug("create new class = $class");
+
 			$this->importer = new $class();
 			$this->importer->setImport($this);
 			$all_importers[] = $this->importer;
@@ -330,7 +321,6 @@ class ilImport
 		// we should only get on mapping here
 		$top_mapping = $this->mapping->getMappingsOfEntity($this->comp, $a_type);
 		$new_id = (int) current($top_mapping);
-		
 		return array(
 			'new_id' => $new_id,
 			'importers' => (array) $all_importers

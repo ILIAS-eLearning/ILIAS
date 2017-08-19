@@ -20,6 +20,7 @@ abstract class ilChart
 	protected $shadow; // [int]
 	protected $colors; // [array]
 	protected $auto_resize; // [bool]
+	protected $stacked; // [bool]
 
 	const TYPE_GRID = 1;
 	const TYPE_PIE = 2;
@@ -211,7 +212,7 @@ abstract class ilChart
 	public function setShadow($a_value)
 	{
 		$this->shadow = (int)$a_value;
-	}
+	}		
 
 	/**
 	 * Get shadow
@@ -234,6 +235,16 @@ abstract class ilChart
 	}
 	
 	/**
+	 * Toggle stacking
+	 * 
+	 * @param bool $a_value
+	 */
+	public function setStacked($a_value)
+	{
+		$this->stacked = (bool)$a_value;
+	}
+	
+	/**
 	 * Init JS script files
 	 */
 	protected function initJS()
@@ -250,6 +261,11 @@ abstract class ilChart
 		{
 			// #13108
 			$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.resize.min.js");
+		}
+		
+		if((bool)$this->stacked)
+		{
+			$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.stack.min.js");
 		}
 		
 		$this->addCustomJS();
@@ -328,7 +344,8 @@ abstract class ilChart
 		$json_options->series = new stdClass();
 		$json_options->series->shadowSize = (int)$this->getShadow();
 		$json_options->series->lines = new stdClass();
-		$json_options->series->lines->show = false;
+		$json_options->series->lines->show = false;		
+		$json_options->series->stack = (bool)$this->stacked;
 		
 		foreach($this->data as $series)
 		{

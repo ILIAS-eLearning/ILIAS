@@ -32,7 +32,7 @@ class ilSessionWaitingList extends ilWaitingList
 				"Modules/Session", 
 				'addToWaitingList', 
 				array(
-					'obj_id' => $this->obj_id,
+					'obj_id' => $this->getObjId(),
 					'usr_id' => $a_usr_id
 				)
 			);

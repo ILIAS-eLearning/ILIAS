@@ -27,16 +27,14 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $ilCtrl;
+		global $DIC;
 
-		$this->ctrl = $ilCtrl;
+		$this->ctrl = $DIC->ctrl();
 
 		$this->setId('mail_man_tpl');
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
+		$this->setTitle($this->lng->txt('mail_templates'));
 		$this->setDefaultOrderDirection('ASC');
 		$this->setDefaultOrderField('title');
 

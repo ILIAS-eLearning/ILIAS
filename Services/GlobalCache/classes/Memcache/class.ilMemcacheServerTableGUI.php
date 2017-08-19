@@ -20,7 +20,8 @@ class ilMemcacheServerTableGUI extends ilTable2GUI {
 
 
 	public function __construct() {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		parent::__construct(null, '');
 		$this->setTitle($lng->txt('memcache_servers'));
 		$this->setLimit(9999);

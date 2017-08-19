@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * @group needsInstalledILIAS
+ */
 class ilObjectTest extends PHPUnit_Framework_TestCase
 {
 	protected $backupGlobals = FALSE;

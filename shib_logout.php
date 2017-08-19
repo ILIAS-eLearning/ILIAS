@@ -31,11 +31,9 @@ if (
 	// Load all the IILIAS stuff
 	require_once "include/inc.header.php";
 	
-	global $ilAuth;
-	
 	// Logout out user from application
 	// Destroy application session/cookie etc
-	$ilAuth->logout();
+	$GLOBALS['DIC']['ilAuthSession']->logout();
 	
 	// Finally, send user to the return URL
 	ilUtil::redirect($_GET['return']);

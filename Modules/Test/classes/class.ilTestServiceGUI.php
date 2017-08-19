@@ -374,7 +374,7 @@ class ilTestServiceGUI
 					{
 						if( $this->isPdfDeliveryRequest() )
 						{
-							$question_gui->setOutputMode(assQuestionGUI::OUTPUT_MODE_PDF);
+							$question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PRINT_PDF);
 						}
 						
 						if($anchorNav)
@@ -438,16 +438,23 @@ class ilTestServiceGUI
 				}
 			}
 		}
-		
-		if($pass !== null)
+
+		if($testResultHeaderLabelBuilder !== null)
 		{
-			$headerText = $testResultHeaderLabelBuilder->getListOfAnswersHeaderLabel($pass + 1);
+			if($pass !== null)
+			{
+				$headerText = $testResultHeaderLabelBuilder->getListOfAnswersHeaderLabel($pass + 1);
+			}
+			else
+			{
+				$headerText = $testResultHeaderLabelBuilder->getVirtualListOfAnswersHeaderLabel();
+			}
 		}
 		else
 		{
-			$headerText = $testResultHeaderLabelBuilder->getVirtualListOfAnswersHeaderLabel();
+			$headerText = '';
 		}
-		
+
 		$maintemplate->setVariable("RESULTS_OVERVIEW", $headerText);
 		return $maintemplate->get();
 	}
@@ -712,7 +719,7 @@ class ilTestServiceGUI
 
 		if( $this->isPdfDeliveryRequest() )
 		{
-			$question_gui->setOutputMode(assQuestionGUI::OUTPUT_MODE_PDF);
+			$question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PRINT_PDF);
 		}
 
 		$template = new ilTemplate("tpl.il_as_tst_correct_solution_output.html", TRUE, TRUE, "Modules/Test");
@@ -954,6 +961,10 @@ class ilTestServiceGUI
 	 */
 	public function getQuestionResultForTestUsers($question_id, $test_id)
 	{
+        // prepare generation before contents are processed (for mathjax)
+		require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+		ilPDFGeneration::prepareGeneration();
+
 		// REQUIRED, since we call this object regardless of the loop
 		$question_gui = $this->object->createQuestionGUI("", $question_id);
 
@@ -974,6 +985,7 @@ class ilTestServiceGUI
 					// check if re-instantiation is really neccessary
 					$question_gui = $this->object->createQuestionGUI("", $passes[$i]["qid"]);
 					$output .= $this->getResultsHeadUserAndPass($active_id, $resultpass + 1);
+					$question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PRINT_PDF);
 					$output .= $question_gui->getSolutionOutput(
 						$active_id,
 						$resultpass,

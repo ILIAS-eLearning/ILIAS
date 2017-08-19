@@ -1,7 +1,5 @@
 <?php
-require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableViewFieldsTableGUI.php");
-require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableViewEditFormGUI.php");
-require_once("./Services/AccessControl/classes/class.ilObjRole.php");
+
 /**
  * Class ilDclTableViewEditGUI
  *
@@ -70,6 +68,7 @@ class ilDclTableViewEditGUI
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
         $ilTabs = $DIC['ilTabs'];
+	    $locator = $DIC['ilLocator'];
         $this->table = $table;
         $this->tpl = $tpl;
         $this->lng = $lng;
@@ -77,6 +76,11 @@ class ilDclTableViewEditGUI
         $this->parent_obj = $parent_obj;
         $this->tableview = $tableview;
         $this->tabs_gui = $ilTabs;
+
+	    $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
+	    $this->ctrl->saveParameter($this, 'tableview_id');
+	    $locator->addItem($this->tableview->getTitle(), $this->ctrl->getLinkTarget($this, 'show'));
+	    $this->tpl->setLocator();
     }
 
 
@@ -88,6 +92,7 @@ class ilDclTableViewEditGUI
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->clearSubTabs();
         $this->tabs_gui->setBackTarget($this->lng->txt('dcl_tableviews'), $this->ctrl->getLinkTarget($this->parent_obj));
+        $this->tabs_gui->setBack2Target($this->lng->txt('dcl_tables'), $this->ctrl->getLinkTarget($this->parent_obj->parent_obj));
 
         $cmd = $this->ctrl->getCmd('show');
         $next_class = $this->ctrl->getNextClass($this);
@@ -96,8 +101,7 @@ class ilDclTableViewEditGUI
         {
             case 'ildcldetailedviewdefinitiongui':
                 $this->setTabs('detailed_view');
-                require_once('./Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewDefinitionGUI.php');
-                $recordedit_gui = new ilDclDetailedViewDefinitionGUI($this->tableview->getId());
+                                $recordedit_gui = new ilDclDetailedViewDefinitionGUI($this->tableview->getId());
                 $ret = $this->ctrl->forwardCommand($recordedit_gui);
                 if ($ret != "") {
                     $this->tpl->setContent($ret);
@@ -200,17 +204,22 @@ class ilDclTableViewEditGUI
 
             //Filter Value
             $key = 'filter_' . $setting->getField();
-            if (isset($_POST[$key]))
+            if ($_POST[$key] != null)
             {
-                $setting->setFilterValue(array($key => $_POST[$key]));
+                $setting->setFilterValue($_POST[$key]);
             }
-            elseif (isset($_POST[$key . '_from']) && isset($_POST[$key . '_to']))
+            elseif ($_POST[$key . '_from'] != null && $_POST[$key . '_to'] != null)
             {
-                $setting->setFilterValue( array( $key . "_from" => $_POST[$key . '_from'], $key . "_to" => $_POST[$key . '_to'] ) );
+                $setting->setFilterValue( array( "from" => $_POST[$key . '_from'], "to" => $_POST[$key . '_to'] ) );
+            }
+            else
+            {
+            	$setting->setFilterValue(null);
             }
 
             $setting->update();
         }
+        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
         $this->ctrl->saveParameter($this->parent_obj, 'tableview_id');
         $this->ctrl->redirect($this, 'editFieldSettings');
     }

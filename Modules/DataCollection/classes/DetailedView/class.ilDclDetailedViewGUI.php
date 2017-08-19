@@ -2,17 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
-require_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordModel.php');
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php');
-require_once('class.ilDclDetailedViewDefinition.php');
-require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
-require_once('./Modules/DataCollection/classes/Content/class.ilDclRecordEditGUI.php');
-require_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
-require_once("./Modules/DataCollection/classes/Content/class.ilDclRecordListTableGUI.php");
-require_once("./Modules/DataCollection/classes/Content/class.ilDclRecordListGUI.php");
-require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableViewTableGUI.php");
 
 /**
  *
@@ -417,7 +406,7 @@ class ilDclDetailedViewGUI {
     private function loadSession()
     {
         // We need the default sorting etc. to dertermine on which position we currently are, thus we instantiate the table gui.
-        $list = new ilDclRecordListTableGUI(new ilDclRecordListGUI($this->dcl_gui_object, $this->table->getId()), "listRecords", $this->table);
+        $list = new ilDclRecordListTableGUI(new ilDclRecordListGUI($this->dcl_gui_object, $this->table->getId()), "listRecords", $this->table, $this->tableview_id);
         //we then partially load the records. note that this also fills up session data.
         $this->table->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $list->getLimit(), $list->getOffset(), $list->getFilter());
     }

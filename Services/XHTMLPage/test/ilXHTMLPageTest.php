@@ -21,6 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
+/**
+ * Class ilXHTMLPageTest
+ * @group needsInstalledILIAS 
+ */
 class ilXHTMLPageTest extends PHPUnit_Framework_TestCase
 {
 	protected $backupGlobals = FALSE;

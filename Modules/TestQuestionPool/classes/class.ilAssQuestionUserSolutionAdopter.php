@@ -162,9 +162,11 @@ class ilAssQuestionUserSolutionAdopter
 			$this->processLockerFactory->setQuestionId($questionId);
 			$processLocker = $this->processLockerFactory->getLocker();
 
-			$processLocker->requestUserSolutionAdoptLock();
-			$this->adoptQuestionAnswer($questionId);
-			$processLocker->releaseUserSolutionAdoptLock();
+			$processLocker->executeUserTestResultUpdateLockOperation(function() use ($questionId) {
+
+				$this->adoptQuestionAnswer($questionId);
+
+			});
 		}
 	}
 

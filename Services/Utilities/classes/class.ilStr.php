@@ -155,7 +155,7 @@ class ilStr
 	{
 		if (function_exists("mb_detect_encoding"))
 		{
-			if (mb_detect_encoding($a_str, "UTF-8") == "UTF-8")
+			if (mb_detect_encoding($a_str, "UTF-8", true) == "UTF-8")
 			{
 				return true;
 			}

@@ -23,4 +23,22 @@ class ilPDFGeneration
 		require_once 'class.ilTCPDFGenerator.php';
 		ilTCPDFGenerator::generatePDF($job);
 	}
+
+	/**
+	 * Prepare the PDF generation
+	 * This initializes the purpose for MathJax rendering
+	 * It has to be called before any content is processed
+	 */
+	public static function prepareGeneration()
+	{
+		include_once './Services/MathJax/classes/class.ilMathJax.php';
+
+		// TCPDF supports only embedded PNG images
+		// use high dpi to get a good result when the PDF is zoomed
+		// zoom factor is adjusted to get the same image size as with SVG in the browser
+		ilMathJax::getInstance()
+			->init(ilMathJax::PURPOSE_PDF)
+			->setDpi(600)
+			->setZoomFactor(0.17);
+	}
 }

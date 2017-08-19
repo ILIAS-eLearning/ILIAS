@@ -38,7 +38,7 @@ class ilStyleImageTableGUI extends ilTable2GUI
 		$this->getItems();
 
 		// action commands
-		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		if ($this->parent_obj->checkWrite())
 		{
 			$this->addMultiCommand("deleteImage", $lng->txt("delete"));
 		}

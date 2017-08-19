@@ -11,6 +11,9 @@
  */
 class ilPasswordAssistanceGUI
 {
+	const PERMANENT_LINK_TARGET_PW   = 'pwassist';
+	const PERMANENT_LINK_TARGET_NAME = 'nameassist';
+
 	/**
 	 * @var ilCtrl
 	 */
@@ -79,9 +82,10 @@ class ilPasswordAssistanceGUI
 		// check hack attempts
 		if(!$this->settings->get('password_assistance')) // || AUTH_DEFAULT != AUTH_LOCAL)
 		{
-			if(empty($_SESSION['AccountId']) && $_SESSION['AccountId'] !== false)
+			// 
+			#if(empty($_SESSION['AccountId']) && $_SESSION['AccountId'] !== false)
 			{
-				$this->ilias->error_obj->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->WARNING);
+				#$this->ilias->error_obj->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->WARNING);
 			}
 		}
 
@@ -177,6 +181,7 @@ class ilPasswordAssistanceGUI
 			$form = $this->getAssistanceForm();
 		}
 		$this->tpl->setVariable('FORM', $form->getHTML());
+		$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
 		$this->tpl->show();
 	}
 
@@ -276,6 +281,8 @@ class ilPasswordAssistanceGUI
 	 */
 	public function sendPasswordAssistanceMail(ilObjUser $userObj)
 	{
+		global $DIC;
+
 		require_once 'Services/Mail/classes/class.ilMailbox.php';
 		require_once 'Services/Mail/classes/class.ilMail.php';
 		require_once 'Services/Mail/classes/class.ilMimeMail.php';
@@ -319,11 +326,13 @@ class ilPasswordAssistanceGUI
 			. $delimiter . 'lang=' . $this->lng->getLangKey()
 			. $delimiter . 'key=' . $pwassist_session['pwassist_id'];
 
-		$contact_address = ilMail::getIliasMailerAddress();
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $DIC["mail.mime.sender.factory"];
+		$sender        = $senderFactory->system();
 
 		$mm = new ilMimeMail();
 		$mm->Subject($this->lng->txt('pwassist_mail_subject'));
-		$mm->From($contact_address);
+		$mm->From($sender);
 		$mm->To($userObj->getEmail());
 		$mm->Body
 		(
@@ -338,7 +347,7 @@ class ilPasswordAssistanceGUI
 					$server_url,
 					$_SERVER['REMOTE_ADDR'],
 					$userObj->getLogin(),
-					'mailto:' . $contact_address[0],
+					'mailto:' .  $sender->getFromAddress(),
 					$alternative_pwassist_url
 				)
 			)
@@ -421,6 +430,7 @@ class ilPasswordAssistanceGUI
 				$form = $this->getAssignPasswordForm($pwassist_id);
 			}
 			$this->tpl->setVariable('FORM', $form->getHTML());
+			$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
 			$this->tpl->show();
 		}
 	}
@@ -594,6 +604,7 @@ class ilPasswordAssistanceGUI
 			$form = $this->getUsernameAssistanceForm();
 		}
 		$this->tpl->setVariable('FORM', $form->getHTML());
+		$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
 		$this->tpl->show();
 	}
 
@@ -678,6 +689,8 @@ class ilPasswordAssistanceGUI
 	 */
 	public function sendUsernameAssistanceMail($email, array $logins)
 	{
+		global $DIC;
+
 		require_once 'Services/Mail/classes/class.ilMailbox.php';
 		require_once 'Services/Mail/classes/class.ilMail.php';
 		require_once 'Services/Mail/classes/class.ilMimeMail.php';
@@ -687,11 +700,14 @@ class ilPasswordAssistanceGUI
 
 		$server_url      = $protocol . $_SERVER['HTTP_HOST'] . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/')) . '/';
 		$login_url       = $server_url . 'pwassist.php' . '?client_id=' . $this->ilias->getClientId() . '&lang=' . $this->lng->getLangKey();
-		$contact_address = ilMail::getIliasMailerAddress();
+
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $DIC["mail.mime.sender.factory"];
+		$sender        = $senderFactory->system();
 
 		$mm = new ilMimeMail();
 		$mm->Subject($this->lng->txt('pwassist_mail_subject'));
-		$mm->From($contact_address);
+		$mm->From($sender);
 		$mm->To($email);
 		$mm->Body
 		(
@@ -706,7 +722,7 @@ class ilPasswordAssistanceGUI
 					$server_url,
 					$_SERVER['REMOTE_ADDR'],
 					$email,
-					'mailto:' . $contact_address[0],
+					'mailto:' . $sender->getFromAddress(),
 					$login_url
 				)
 			)
@@ -725,6 +741,15 @@ class ilPasswordAssistanceGUI
 		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
 
 		$this->tpl->setVariable('TXT_TEXT', str_replace("\\n", '<br />', $text));
+		$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
 		$this->tpl->show();
+	}
+
+	/**
+	 * @param string $context
+	 */
+	protected function fillPermanentLink($context)
+	{
+		$this->tpl->setPermanentLink('usr', null, $context);
 	}
 }

@@ -8,7 +8,7 @@ require_once 'Services/Rating/classes/class.ilRatingGUI.php';
 
 /**
  * Class ilForumTopicTableGUI
- * @author  Nadia Ahmad <nahmad@databay.de>
+ * @author  Nadia Matuschek <nmatuschek@databay.de>
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  * @ingroup ModulesForum
@@ -54,6 +54,14 @@ class ilForumTopicTableGUI extends ilTable2GUI
 	 * @var int for displaying thread_sorting position 
 	 */
 	public $position = 1;
+	
+	/**
+	 * @var bool
+	 */
+	public $is_post_draft_allowed = FALSE;
+	
+	private $user;
+	private $settings;
 
 	/**
 	 * @param        $a_parent_obj
@@ -65,15 +73,14 @@ class ilForumTopicTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd = '', $template_context = '', $ref_id = 0, $topicData = array(), $is_moderator = false, $overview_setting = '')
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 * @var $lng    ilLanguage
-		 * @var $tpl    ilTemplate
-		 */
-		global $ilCtrl, $lng, $tpl;
+		global $DIC;
 
-		$this->lng  = $lng;
-		$this->ctrl = $ilCtrl;
+		$this->lng  = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC->ui()->mainTemplate();
+		$this->user = $DIC->user();
+		$this->settings = $DIC->settings();
+		
 		$this->parent_cmd = $a_parent_cmd;
 		$this->setIsModerator($is_moderator);
 		$this->setOverviewSetting($overview_setting);
@@ -93,7 +100,9 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd, $template_context);
 
 		// Add global css for table styles
-		$tpl->addCss('./Modules/Forum/css/forum_table.css');
+		$this->tpl->addCss('./Modules/Forum/css/forum_table.css');
+		
+		$this->is_post_draft_allowed = ilForumPostDraft::isSavePostDraftAllowed();
 	}
 	
 	public function init()
@@ -113,11 +122,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
 	 */
 	public function initTopicsOverviewTable()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
-
 		if($this->parent_cmd  == "showThreads")
 		{
 			$this->setSelectAllCheckbox('thread_ids');
@@ -132,6 +136,12 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('forums_created_by'), '');
 		$this->addColumn($this->lng->txt('forums_articles'), 'num_posts');
 		$this->addColumn($this->lng->txt('visits'), 'num_visit');
+		
+		if($this->is_post_draft_allowed)
+		{
+			$this->addColumn($this->lng->txt('drafts',''));
+		}
+		
 		$this->addColumn($this->lng->txt('forums_last_post'), 'post_date');
 		if('showThreads' == $this->parent_cmd && $this->parent_obj->objProperties->isIsThreadRatingEnabled())
 		{
@@ -152,7 +162,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		{
 			// Multi commands
 			$this->addMultiCommand('', $this->lng->txt('please_choose'));
-			if($this->ilias->getSetting('forum_notification') > 0  && !$ilUser->isAnonymous())
+			if($this->settings->get('forum_notification') > 0  && !$this->user->isAnonymous())
 			{
 				$this->addMultiCommand('enable_notifications', $this->lng->txt('forums_enable_notification'));
 				$this->addMultiCommand('disable_notifications', $this->lng->txt('forums_disable_notification'));
@@ -185,6 +195,10 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('forums_created_by'), 'author');
 		$this->addColumn($this->lng->txt('forums_articles'), 'num_posts');
 		$this->addColumn($this->lng->txt('visits'), 'num_visit');
+		if($this->is_post_draft_allowed)
+		{
+			$this->addColumn($this->lng->txt('drafts',''));
+		}
 		$this->addColumn($this->lng->txt('forums_last_post'), 'lp_date');
 	
 		// Disable sorting
@@ -211,11 +225,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($thread)
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
-
 		$this->ctrl->setParameter($this->getParentObject(), 'thr_pk', $thread->getId());
 		if('mergeThreads' == $this->parent_cmd)
 		{
@@ -234,7 +243,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 			{
 				$rating = new ilRatingGUI();
 				$rating->setObject($this->parent_obj->object->getId(), $this->parent_obj->object->getType(), $thread->getId(), 'thread');
-				$rating->setUserId($ilUser->getId());
+				$rating->setUserId($this->user->getId());
 				$this->tpl->setVariable('VAL_RATING', $rating->getHTML());
 			}
 		}
@@ -262,8 +271,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
 			$subject .= '<span class="light">[' . $this->lng->txt('topic_close') . ']</span> ';
 		}
 
-		if(!$ilUser->isAnonymous() &&
-			$this->ilias->getSetting('forum_notification') != 0 &&
+		if(!$this->user->isAnonymous() &&
+			$this->settings->get('forum_notification') != 0 &&
 			$thread->getUserNotificationEnabled()
 		)
 		{
@@ -301,7 +310,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_AUTHOR', $authorinfo->getLinkedAuthorName());
 
 		$topicStats = $num_posts;
-		if(!$ilUser->isAnonymous())
+		if(!$this->user->isAnonymous())
 		{
 			if($num_unread > 0)
 			{
@@ -315,7 +324,11 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable('VAL_ARTICLE_STATS', $topicStats);
 		$this->tpl->setVariable('VAL_NUM_VISIT', $thread->getVisits());
-
+		if($this->is_post_draft_allowed)
+		{
+			$draft_statistics = ilForumPostDraft::getDraftsStatisticsByRefId($this->getRefId());
+			$this->tpl->setVariable('VAL_DRAFTS', (int)$draft_statistics[$thread->getId()]);
+		}
 		// Last posting
 		if($num_posts > 0)
 		{
@@ -394,14 +407,11 @@ class ilForumTopicTableGUI extends ilTable2GUI
 			$excluded_ids[] = $this->getSelectedThread()->getId();
 		}
 		
-		$direction = $this->getOrderDirection();
-		$field     = $this->getOrderField();
-
 		$params = array(
 			'is_moderator'    => $this->getIsModerator(),
 			'excluded_ids'    => $excluded_ids,
-			'order_column'    => $field,
-			'order_direction' => $direction
+			'order_column'    => $this->getOrderField(),
+			'order_direction' => $this->getOrderDirection()
 		);
 
 		$data = $this->getMapper()->getAllThreads($this->topicData['top_pk'], $params, (int)$this->getLimit(), (int)$this->getOffset());

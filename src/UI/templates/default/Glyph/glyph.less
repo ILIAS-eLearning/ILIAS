@@ -1,0 +1,21 @@
+.glyph {
+	color: @il-glyph-color;
+
+	&.highlighted{
+		color: @il-glyph-highlighted-color;
+		&:hover{
+			color: @il-glyph-highlighted-hover-color;
+		}
+	}
+
+	&:hover{
+		color: @il-glyph-hover-color;
+	}
+
+	.il-counter-spacer {
+		margin-left: @il-counter-margin-left;
+		font-size: @il-counter-font-size;
+		padding: @il-counter-padding;
+		visibility: hidden;
+	}
+}

@@ -34,6 +34,8 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 */
 class ilWaitingListTableGUI extends ilTable2GUI
 {
+	protected $rep_object = null;
+	
 	protected $waiting_list = null;
 	protected $wait = array();
 	protected $wait_user_ids = array();
@@ -49,7 +51,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj,$waiting_list,$show_content = true)
+	public function __construct($a_parent_obj,ilObject $rep_object, $waiting_list,$show_content = true)
 	{
 	 	global $lng,$ilCtrl;
 	 	
@@ -59,12 +61,14 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		$this->lng->loadLanguageModule('sess');
 		$this->lng->loadLanguageModule('ps');
 	 	$this->ctrl = $ilCtrl;
+		
+		$this->rep_object = $rep_object;
 	 	
-		$this->setId('crs_wait_'. $a_parent_obj->object->getId());
-		parent::__construct($a_parent_obj,'members');
+		$this->setId('crs_wait_'. $this->getRepositoryObject()->getId());
+		parent::__construct($a_parent_obj,'participants');
 
 		$this->setFormName('waiting');
-		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj,'members'));
+		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj,'participants'));
 
 	 	$this->addColumn('','f',"1");
 	 	$this->addColumn($this->lng->txt('name'),'lastname','20%');
@@ -105,8 +109,17 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		$this->waiting_list = $waiting_list;
 		
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-		self::$has_odf_definitions = ilCourseDefinedFieldDefinition::_hasFields($this->getParentObject()->object->getId());
+		self::$has_odf_definitions = ilCourseDefinedFieldDefinition::_hasFields($this->getRepositoryObject()->getId());
 		
+	}
+	
+	/**
+	 * Get repository object
+	 * @return ilObject
+	 */
+	protected function getRepositoryObject()
+	{
+		return $this->rep_object;
 	}
 	
 	/**
@@ -139,8 +152,8 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		}
 
 		include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
-		$ef = ilExportFieldsInfo::_getInstanceByType($this->getParentObject()->object->getType());
-		self::$all_columns = $ef->getSelectableFieldsInfo($this->getParentObject()->object->getId());
+		$ef = ilExportFieldsInfo::_getInstanceByType($this->getRepositoryObject()->getType());
+		self::$all_columns = $ef->getSelectableFieldsInfo($this->getRepositoryObject()->getId());
 		return self::$all_columns;
 	}
 	
@@ -159,10 +172,10 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		include_once('./Services/Calendar/classes/class.ilDateTime.php');
 		include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
 		
-		if(!ilObjCourseGrouping::_checkGroupingDependencies($this->getParentObject()->object,$a_set['usr_id']) and
+		if(!ilObjCourseGrouping::_checkGroupingDependencies($this->getRepositoryObject(),$a_set['usr_id']) and
 			($ids = ilObjCourseGrouping::getAssignedObjects()))
 		{
-			$prefix = $this->getParentObject()->object->getType();
+			$prefix = $this->getRepositoryObject()->getType();
 			$this->tpl->setVariable('ALERT_MSG',
 				sprintf($this->lng->txt($prefix.'_lim_assigned'),
 				ilObject::_lookupTitle(current($ids))
@@ -193,6 +206,13 @@ class ilWaitingListTableGUI extends ilTable2GUI
 				
 				case 'odf_last_update':
 					$this->tpl->setVariable('VAL_CUST',(string) $a_set['odf_info_txt']);
+					break;
+				
+				case 'org_units':
+					$this->tpl->setCurrentBlock('custom_fields');
+					include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
+					$this->tpl->setVariable('VAL_CUST', (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+					$this->tpl->parseCurrentBlock();
 					break;
 				
 
@@ -231,6 +251,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		unset($additional_fields["lastname"]);
 		unset($additional_fields["last_login"]);
 		unset($additional_fields["access_until"]);
+		unset($additional_fields['org_units']);
 
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)
@@ -272,7 +293,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		}
 
 		// merge course data
-		$course_user_data = $this->getParentObject()->readMemberData($usr_ids,$this->type == 'admin');
+		$course_user_data = $this->getParentObject()->readMemberData($usr_ids,array());
 		$a_user_data = array();
 		foreach((array) $usr_data['set'] as $ud)
 		{			
@@ -301,7 +322,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		if($odf_ids)
 		{
 			include_once './Modules/Course/classes/Export/class.ilCourseUserData.php';
-			$data = ilCourseUserData::_getValuesByObjId($this->getParentObject()->object->getId());
+			$data = ilCourseUserData::_getValuesByObjId($this->getRepositoryObject()->getId());
 			foreach($data as $usr_id => $fields)
 			{
 				// #7264: as we get data for all course members filter against user data
@@ -318,7 +339,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 			
 			// add last edit date
 			include_once './Services/Membership/classes/class.ilObjectCustomUserFieldHistory.php';
-			foreach(ilObjectCustomUserFieldHistory::lookupEntriesByObjectId($this->getParentObject()->object->getId()) as $usr_id => $edit_info)
+			foreach(ilObjectCustomUserFieldHistory::lookupEntriesByObjectId($this->getRepositoryObject()->getId()) as $usr_id => $edit_info)
 			{
 				if(!isset($a_user_data[$usr_id]))
 				{
@@ -330,7 +351,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 				{
 					$a_user_data[$usr_id]['odf_last_update'] = '';
 					$a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['lng']->txt('cdf_edited_by_self');
-					if(ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getParentObject()->object->getType()))
+					if(ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getRepositoryObject()->getType()))
 					{
 						$a_user_data[$usr_id]['odf_last_update'] .= ('_'.$edit_info['editing_time']->get(IL_CAL_UNIX));
 						$a_user_data[$usr_id]['odf_info_txt'] .= (', '.ilDatePresentation::formatDate($edit_info['editing_time']));
@@ -397,12 +418,12 @@ class ilWaitingListTableGUI extends ilTable2GUI
 
 		$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'member_id',$a_set['usr_id']);
 		$this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
-		$trans = $this->lng->txt($this->getParentObject()->object->getType().'_mem_send_mail');
+		$trans = $this->lng->txt($this->getRepositoryObject()->getType().'_mem_send_mail');
 		$link = $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()),'sendMailToSelectedUsers');
 		$list->addItem($trans, '', $link,'sendMailToSelectedUsers');
 		
 		$this->ctrl->setParameterByClass('ilobjectcustomuserfieldsgui','member_id',$a_set['usr_id']);
-		$trans = $this->lng->txt($this->getParentObject()->object->getType().'_cdf_edit_member');
+		$trans = $this->lng->txt($this->getRepositoryObject()->getType().'_cdf_edit_member');
 		$list->addItem($trans, '', $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui','editMember'));
 		
 		$this->tpl->setVariable('ACTION_USER',$list->getHTML());

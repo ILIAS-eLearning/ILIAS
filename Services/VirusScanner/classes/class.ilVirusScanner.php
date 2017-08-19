@@ -126,7 +126,10 @@ class ilVirusScanner
 	 */
 	public function __construct($a_scancommand, $a_cleancommand)
 	{
-		global $ilias, $lng, $log;
+		global $DIC;
+		$ilias = $DIC['ilias'];
+		$lng = $DIC['lng'];
+		$log = $DIC['log'];
 
 		$this->ilias        = $ilias;
 		$this->lng          = $lng;
@@ -137,7 +140,47 @@ class ilVirusScanner
 		$this->type         = "simulate";
 		$this->scanZipFiles = false;
 	}
-
+	
+	/**
+	 * @param string $buffer (any data, binary)
+	 * @return bool $infected
+	 */
+	public function scanBuffer($buffer)
+	{
+		return $this->scanFileFromBuffer($buffer);
+	}
+	
+	/**
+	 * @param string $buffer (any data, binary)
+	 * @return bool $infected
+	 */
+	protected function scanFileFromBuffer($buffer)
+	{
+		$bufferFile = $this->createBufferFile($buffer);
+		$isInfected = $this->scanFile($bufferFile);
+		$this->removeBufferFile($bufferFile);
+		return $isInfected;
+	}
+	
+	/**
+	 * @param string $buffer (any data, binary)
+	 * @return string $bufferFile
+	 */
+	protected function createBufferFile($buffer)
+	{
+		$bufferFile = ilUtil::ilTempnam();
+		file_put_contents($bufferFile, $buffer);
+		return $bufferFile;
+	}
+	
+	/**
+	 * @param string $bufferFile
+	 */
+	protected function removeBufferFile($bufferFile)
+	{
+		unlink($bufferFile);
+	}
+	
 	/**
 	 * scan a file for viruses
 	 * needs to be redefined in child classes

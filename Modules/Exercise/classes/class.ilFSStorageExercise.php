@@ -148,7 +148,8 @@ class ilFSStorageExercise extends ilFileSystemStorage
 	 */
 	function getPeerReviewUploadPath($a_peer_id, $a_giver_id, $a_crit_id)
 	{
-		$path = $this->peer_review_upload_path."/".$a_peer_id."/".$a_giver_id;
+		$path = $this->peer_review_upload_path."/".$a_peer_id."/".$a_giver_id."/";
+
 		if((int)$a_crit_id)
 		{
 			$path .= (int)$a_crit_id."/";

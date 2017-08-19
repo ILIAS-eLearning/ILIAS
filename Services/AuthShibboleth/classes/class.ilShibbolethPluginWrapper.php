@@ -27,7 +27,9 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt {
 
 
 	protected function __construct() {
-		global $ilPluginAdmin, $ilLog;
+		global $DIC;
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		$ilLog = $DIC['ilLog'];
 		$this->log = $ilLog;
 		$this->plugin_admin = $ilPluginAdmin;
 		if (self::$active_plugins == NULL) {

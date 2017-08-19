@@ -268,7 +268,7 @@ class ilObjStyleSheet extends ilObject
 
 	// these types are expandable, i.e. the user can define new style classes
 	public static $expandable_types = array (
-			"text_block", "section", "media_cont", "table", "table_cell", "flist_li", "table_caption",
+			"text_block", "text_inline", "section", "media_cont", "table", "table_cell", "flist_li", "table_caption",
 				"list_o", "list_u",
 				"va_cntr", "va_icntr", "va_ihead", "va_iheada", "va_ihcap", "va_icont",
 				"ha_cntr", "ha_icntr", "ha_ihead", "ha_iheada", "ha_ihcap", "ha_icont",
@@ -294,7 +294,7 @@ class ilObjStyleSheet extends ilObject
 		"table" => "table",
 		"table_cell" => "td",
 		"table_caption" => "caption",
-		"media_cont" => "table",
+		"media_cont" => "figure",
 		"media_caption" => "div",
 		"iim" => "div",
 		"marker" => "a",
@@ -401,6 +401,8 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "link", "class" => "FileLink"),
 			array("type" => "link", "class" => "GlossaryLink"),
 			array("type" => "media_cont", "class" => "MediaContainer"),
+			array("type" => "media_cont", "class" => "MediaContainerMax50"),
+			array("type" => "media_cont", "class" => "MediaContainerFull100"),
 			array("type" => "table", "class" => "StandardTable"),
 			array("type" => "media_caption", "class" => "MediaCaption"),
 			array("type" => "iim", "class" => "ContentPopup"),
@@ -794,6 +796,10 @@ class ilObjStyleSheet extends ilObject
 			{
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 				$obj_ids = ilObjContentObject::_lookupContObjIdByStyleId($style_rec["id"]);
+				if (count($obj_ids) == 0)
+				{
+					$obj_ids = self::lookupObjectForStyle($style_rec["id"]);
+				}
 				foreach($obj_ids as $id)
 				{
 					$ref = ilObject::_getAllReferences($id);
@@ -812,6 +818,9 @@ class ilObjStyleSheet extends ilObject
 					ilObject::_lookupTitle($style_rec["id"]);
 			}
 		}
+
+		asort($clonable_styles);
+
 		return $clonable_styles;
 	}
 
@@ -1088,7 +1097,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	 * Get characteristics
 	 */
-	function getCharacteristics($a_type = "", $a_no_hidden = false)
+	function getCharacteristics($a_type = "", $a_no_hidden = false, $a_include_core = true)
 	{
 		$chars = array();
 		
@@ -1098,7 +1107,13 @@ class ilObjStyleSheet extends ilObject
 		}
 		if (is_array($this->chars_by_type[$a_type]))
 		{
-			$chars = $this->chars_by_type[$a_type];
+			foreach ($this->chars_by_type[$a_type] as $c)
+			{
+				if ($a_include_core || !self::isCoreStyle($a_type, $c))
+				{
+					$chars[] = $c;
+				}
+			}
 		}
 		
 		if ($a_no_hidden)
@@ -1617,6 +1632,8 @@ class ilObjStyleSheet extends ilObject
 					continue;
 				}
 				fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
+//				echo "<br>";
+//				var_dump($tag[0]["type"]);
 				if ($tag[0]["tag"] == "td")
 				{
 					fwrite ($css_file, ",th".".ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
@@ -1625,6 +1642,10 @@ class ilObjStyleSheet extends ilObject
 				{
 					fwrite ($css_file, ",div.ilc_text_block_".$tag[0]["class"]."\n");
 					fwrite ($css_file, ",body.ilc_text_block_".$tag[0]["class"]."\n");
+				}
+				if ($tag[0]["type"] == "section")	// sections can use a tags, if links are used
+				{
+					fwrite ($css_file, ",a.ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
 				}
 				if ($tag[0]["type"] == "text_block")
 				{
@@ -1749,7 +1770,7 @@ class ilObjStyleSheet extends ilObject
 			}
 		}
 		fclose($css_file);
-		
+//	exit;
 		$this->setUpToDate(true);
 		$this->_writeUpToDate($this->getId(), true);
 	}
@@ -1833,9 +1854,12 @@ class ilObjStyleSheet extends ilObject
 				$style = new ilObjStyleSheet($a_style_id);
 				$style->writeCSSFile();
 			}
-			
-			return ilUtil::getWebspaceDir("output").
-				"/css/style_".$a_style_id.".css?dummy=$rand";
+
+			$path = ilUtil::getWebspaceDir("output") . "/css/style_" . $a_style_id . ".css?dummy=$rand";
+			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+			$path = ilWACSignedPath::signFile($path);
+
+			return $path;
 		}
 		else		// todo: work this out
 		{
@@ -2490,6 +2514,25 @@ class ilObjStyleSheet extends ilObject
 		}
 		return $c_styles;
 	}
+	
+	/**
+	 * Is core style
+	 *
+	 * @param
+	 * @return
+	 */
+	static function isCoreStyle($a_type, $a_class)
+	{
+		foreach (self::$core_styles as $s)
+		{
+			if ($s["type"] == $a_type && $s["class"] == $a_class)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	/**
 	* Get template class types
@@ -3527,9 +3570,17 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
+	 * Lookup table template name for template ID
+	 */
+	function lookupTemplateName($a_t_id)
+	{
+		return self::_lookupTemplateName($a_t_id);
+	}
+
+	/**
 	* Lookup table template name for template ID
 	*/
-	function lookupTemplateName($a_t_id)
+	static function _lookupTemplateName($a_t_id)
 	{
 		global $ilDB;
 		
@@ -3736,7 +3787,32 @@ class ilObjStyleSheet extends ilObject
 		
 		return 0;
 	}
-	
+
+	/**
+	 * Lookup object style
+	 */
+	static function lookupObjectForStyle($a_style_id)
+	{
+		global $ilDB;
+
+		$obj_ids = array();
+		if (ilObject::_lookupType($a_style_id) == "sty")
+		{
+			$set = $ilDB->query("SELECT DISTINCT obj_id FROM style_usage " .
+				" WHERE style_id = " . $ilDB->quote($a_style_id, "integer")
+			);
+
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				$obj_ids[] = $rec["obj_id"];
+			}
+
+			return $obj_ids;
+		}
+
+		return 0;
+	}
+
 
 }
 ?>

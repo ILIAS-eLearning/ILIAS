@@ -115,7 +115,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	
 	function editAssignmentTextObject(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilUser;
 
 		if(!$this->submission->canSubmit())				
 		{
@@ -125,15 +125,17 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 		
 		$deadline = max($this->assignment->getDeadline(), $this->assignment->getExtendedDeadline());
 		if($deadline)
-		{									
+		{			
+			$deadline = $this->assignment->getPersonalDeadline($ilUser->getId());
+			
 			// extended deadline date should not be presented anywhere
 			// see ilExAssignmentGUI::addSchedule()
-			$dl_info = ilDatePresentation::formatDate(new ilDateTime($this->assignment->getDeadline(), IL_CAL_UNIX));
+			$dl_info = ilDatePresentation::formatDate(new ilDateTime($deadline, IL_CAL_UNIX));
 					
 			// #16151 - extended deadline warning (only after deadline passed)
-			if($this->assignment->getDeadline() < time())
+			if($deadline < time())
 			{							
-				$dl = ilDatePresentation::formatDate(new ilDateTime($this->assignment->getDeadline(),IL_CAL_UNIX));
+				$dl = ilDatePresentation::formatDate(new ilDateTime($deadline, IL_CAL_UNIX));
 				$dl = '<br /><span class="warning">'.sprintf($this->lng->txt("exc_late_submission_warning"), $dl).'</span>';							
 				$dl_info .= $dl;
 			}

@@ -17,7 +17,19 @@ var ilCOPage =
 	tds: {},
 	user: "",
 
-	////
+	text_formats: {
+		Strong: {inline : 'span', classes : 'ilc_text_inline_Strong'},
+		Emph: {inline : 'span', classes : 'ilc_text_inline_Emph'},
+		Important: {inline : 'span', classes : 'ilc_text_inline_Important'},
+		Comment: {inline : 'span', classes : 'ilc_text_inline_Comment'},
+		Quotation: {inline : 'span', classes : 'ilc_text_inline_Quotation'},
+		Accent: {inline : 'span', classes : 'ilc_text_inline_Accent'},
+		Sup: {inline : 'sup', classes : 'ilc_sup_Sup'},
+		Sub: {inline : 'sub', classes : 'ilc_sub_Sub'}
+	},
+
+
+////
 	//// Debug/Error Functions
 	////
 
@@ -144,6 +156,12 @@ var ilCOPage =
 	getInsertStatus: function()
 	{
 		return this.insert_status;
+	},
+
+	addTextFormat: function(f)
+	{
+		var t = ilCOPage;
+		t.text_formats[f] = {inline : 'span', classes : 'ilc_text_inline_' + f};
 	},
 
 
@@ -307,6 +325,10 @@ var ilCOPage =
 			case "Code":
 				this.cmdCode();
 				break;
+
+			default:
+				this.cmdSpan(i.hid_val);
+				break;
 		}
 		return false;
 	},
@@ -315,7 +337,6 @@ var ilCOPage =
 	{
 		var stype = {Strong: '0', Emph: '1', Important: '2', Comment: '3',
 			Quotation: '4', Accent: '5'};
-
 		var ed = tinyMCE.get('tinytarget');
 		/*
 		 var st_sel = ed.controlManager.get('styleselect');
@@ -1875,6 +1896,7 @@ function extractHierId(id)
  */
 function doMouseClick(e, id, type, char)
 {
+	console.log(ilCOPage);
 	if (ilCOPage.getInsertStatus())
 	{
 		return;
@@ -2156,16 +2178,7 @@ function editParagraph(div_id, mode, switched)
 			forced_root_block : 'p',
 			entity_encoding : "raw",
 			paste_remove_styles: true,
-			formats : {
-				Strong: {inline : 'span', classes : 'ilc_text_inline_Strong'},
-				Emph: {inline : 'span', classes : 'ilc_text_inline_Emph'},
-				Important: {inline : 'span', classes : 'ilc_text_inline_Important'},
-				Comment: {inline : 'span', classes : 'ilc_text_inline_Comment'},
-				Quotation: {inline : 'span', classes : 'ilc_text_inline_Quotation'},
-				Accent: {inline : 'span', classes : 'ilc_text_inline_Accent'},
-				Sup: {inline : 'sup', classes : 'ilc_sup_Sup'},
-				Sub: {inline : 'sub', classes : 'ilc_sub_Sub'}
-			},
+			formats : ilCOPage.text_formats,
 			/* not found in 4 code or docu (the configs for p/br are defaults for 3, so this should be ok) */
 			removeformat_selector : 'span,code',
 			remove_linebreaks : true,

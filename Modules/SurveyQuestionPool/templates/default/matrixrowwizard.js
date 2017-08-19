@@ -13,7 +13,7 @@ var ilMatrixRowWizardInputTemplate = {
 	},	
 	
 	cleanRow: function(row) {
-		$(row).find('input:text').attr('value', '');
+		$(row).find('input:text').val('');
 		$(row).find('input:checkbox').prop('checked', false);
 	},
 	

@@ -13,7 +13,11 @@ class ilSurveySkill
 {
 	protected $q_skill = array();	// key: question id, value:
 									// array("base_skill_id" =>..., "tref_id" =>... )
-	
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
 	/**
 	 * Constructor
 	 *
@@ -24,6 +28,7 @@ class ilSurveySkill
 	{
 		$this->survey = $a_survey;
 		$this->read();
+		$this->log = ilLoggerFactory::getLogger("svy");
 	}
 	
 	/**
@@ -283,9 +288,11 @@ class ilSurveySkill
 		}
 
 		$results = $this->survey->getUserSpecificResults($finished_ids);
+		$this->log->debug("Finished IDS: ".print_r($finished_ids, true));
 		foreach ($skills as $k => $s)
 		{
 			$q_ids = $this->getQuestionsForSkill($s["base_skill_id"], $s["tref_id"]);
+			$this->log->debug("Skill: ".$s["base_skill_id"].":".$s["tref_id"].", Questions: ".implode(",",$q_ids));
 			$mean_sum = 0;
 			foreach ($q_ids as $q_id)
 			{
@@ -294,20 +301,25 @@ class ilSurveySkill
 				{
 					$cnt = 0;
 					$sum = 0;
-					foreach ($results[$q_id] as $r)
+					foreach ($results[$q_id] as $uid => $answer)	// answer of user $uid for question $q_id
 					{
-						// this is a workaround, since we only get arrays from
-						// getUserSpecificResults() 
-						$r = explode(" - ", $r);
-						$sum+= (int) $r[0];
-						$cnt++;
+						// $answer has the scale values as keys and the answer texts as values.
+						// In case of single choice this is an array with one key => value pair.
+						// For multiple choice questions (currently not supported for being used for competences)
+						// multiple elements may be in the array (in the future).
+						$scale_values = array_keys($answer); // scale values of the answer
+						$this->log->debug("User answer (scale values): ".print_r($scale_values, true));
+						$sum += array_sum($scale_values);
+						$cnt += sizeof($scale_values); // nr of answers (always one in the case of single choice)
 					}
 					if ($cnt > 0)
 					{
 						$qmean = $sum/$cnt;
 					}
+					$this->log->debug("MEAN: ".$qmean);
 				}
-				$mean_sum+= $qmean;
+				$mean_sum += $qmean;
+				$this->log->debug("MEAN SUM: ".$mean_sum);
 			}
 			$skills[$k]["mean_sum"] = $mean_sum;
 			
@@ -324,7 +336,6 @@ class ilSurveySkill
 				}
 			}
 		}
-		
 		return $skills;
 	}
 	

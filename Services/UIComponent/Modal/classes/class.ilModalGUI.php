@@ -19,6 +19,7 @@ class ilModalGUI
 	const TYPE_SMALL = "small";
 
 	protected $type = self::TYPE_MEDIUM;
+	protected $buttons = array();
 
 	/**
 	 * Constructor
@@ -119,6 +120,27 @@ class ilModalGUI
 	}
 
 	/**
+	 * Add button
+	 *
+	 * @param ilButtonBase $but button
+	 */
+	function addButton(ilButtonBase $but)
+	{
+		$this->buttons[] = $but;
+	}
+
+	/**
+	 * Get buttons
+	 *
+	 * @return ilButtonBase[]
+	 */
+	function getButtons()
+	{
+		return $this->buttons;
+	}
+
+
+	/**
 	 * Get HTML
 	 *
 	 * @return string html
@@ -126,6 +148,18 @@ class ilModalGUI
 	function getHTML()
 	{
 		$tpl = new ilTemplate("tpl.modal.html", true, true, "Services/UIComponent/Modal");
+
+		if (count($this->getButtons()) > 0)
+		{
+			foreach ($this->getButtons() as $b)
+			{
+				$tpl->setCurrentBlock("button");
+				$tpl->setVariable("BUTTON", $b->render());
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->setCurrentBlock("footer");
+			$tpl->parseCurrentBlock();
+		}
 
 		$tpl->setVariable("HEADING", $this->getHeading());
 

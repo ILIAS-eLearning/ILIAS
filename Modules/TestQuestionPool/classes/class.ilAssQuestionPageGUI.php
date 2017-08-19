@@ -21,6 +21,11 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
 	
 	private $originalPresentationTitle = '';
 	
+// fau: testNav - variables for info and actions HTML
+	private $questionInfoHTML = '';
+	private $questionActionsHTML = '';
+// fau.
+
 	/**
 	 * Constructor
 	 *
@@ -56,6 +61,11 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
 		
 		$this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
 		
+// fau: testNav - enable page toc as placeholder for info and actions block (see self::insertPageToc)
+		$config = $this->getPageConfig();
+		$config->setEnablePageToc('y');
+		$this->setPageConfig($config);
+// fau.
 		return parent::showPage();
 	}
 
@@ -69,5 +79,51 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
 		
 		return $output;
 	}
-} 
+
+// fau: testNav - support the addition of question info and actions below the title
+
+	/**
+	 * Set the HTML of a question info block below the title (number, status, ...)
+	 * @param string	$a_html
+	 */
+	public function setQuestionInfoHTML($a_html)
+	{
+		$this->questionInfoHTML = $a_html;
+	}
+
+	/**
+	 * Set the HTML of a question actions block below the title
+	 * @param string 	$a_html
+	 */
+	public function setQuestionActionsHTML($a_html)
+	{
+		$this->questionActionsHTML = $a_html;
+	}
+
+	/**
+	 * Replace page toc placeholder with question info and actions
+	 * @todo: 	support question info and actions in the page XSL directly
+	 * 			the current workaround avoids changing the COPage service
+	 *
+	 * @param $a_output
+	 * @return mixed
+	 */
+	function insertPageToc($a_output)
+	{
+		if (!empty($this->questionInfoHTML) || !empty($this->questionActionsHTML))
+		{
+			$tpl = new ilTemplate('tpl.tst_question_subtitle_blocks.html', true, true, 'Modules/TestQuestionPool');
+			$tpl->setVariable('QUESTION_INFO',$this->questionInfoHTML);
+			$tpl->setVariable('QUESTION_ACTIONS',$this->questionActionsHTML);
+			$a_output = str_replace("{{{{{PageTOC}}}}}",  $tpl->get(), $a_output);
+		}
+		else
+		{
+			$a_output = str_replace("{{{{{PageTOC}}}}}",  '', $a_output);
+		}
+		return $a_output;
+	}
+// fau.
+
+}
 

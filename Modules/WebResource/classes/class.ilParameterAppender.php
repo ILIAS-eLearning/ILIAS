@@ -275,7 +275,7 @@ class ilParameterAppender
 		return '';
 	}
 
-	function _deleteAll($a_webr_id)
+	static function _deleteAll($a_webr_id)
 	{
 		global $ilDB;
 

@@ -53,7 +53,12 @@
 		if ((avail <= 0) && unsaved)
 		{
 			unsaved = false;
-			saveformOnTimeReached();
+// fau: testNav - call saveOnTimeReached in the new control script
+            if (typeof il.TestPlayerQuestionEditControl != 'undefined')
+            {
+                il.TestPlayerQuestionEditControl.saveOnTimeReached();
+            }
+// fau.
 		}
 		var avail_m = Math.floor(avail / 60);
 		var avail_s = avail - (avail_m * 60);

@@ -52,11 +52,11 @@
  * @author      Lukas Smith <smith@pooteeweet.org>
  */
 
-//require_once 'PEAR.php';
-
 // PATCH
-require_once('./Services/PEAR/lib/PEAR.php');
-set_include_path("./Services/Database/lib/PEAR" . PATH_SEPARATOR .  ini_get('include_path'));
+set_include_path("./Services/Database/lib/PEAR" . PATH_SEPARATOR . ini_get('include_path'));
+if (!class_exists('PEAR')) {
+	require_once 'PEAR.php';
+}
 // END PATCH
 
 // {{{ Error constants
@@ -968,13 +968,13 @@ class MDB2_Error extends PEAR_Error
      * @param   int     what error level to use for $mode & PEAR_ERROR_TRIGGER
      * @param   smixed   additional debug info, such as the last query
      */
-    function MDB2_Error($code = MDB2_ERROR, $mode = PEAR_ERROR_RETURN,
+    function __construct($code = MDB2_ERROR, $mode = PEAR_ERROR_RETURN,
               $level = E_USER_NOTICE, $debuginfo = null)
     {
         if (is_null($code)) {
             $code = MDB2_ERROR;
         }
-        $this->PEAR_Error('MDB2 Error: '.MDB2::errorMessage($code), $code,
+        parent::__construct('MDB2 Error: '.MDB2::errorMessage($code), $code,
             $mode, $level, $debuginfo);
     }
 
@@ -1409,7 +1409,13 @@ class MDB2_Driver_Common extends PEAR
      * @access  public
      * @see     PEAR_Error
      */
-    function &raiseError($code = null, $mode = null, $options = null, $userinfo = null, $method = null)
+    function &raiseError($message = null,
+	    $code = null,
+	    $mode = null,
+	    $options = null,
+	    $userinfo = null,
+	    $error_class = null,
+	    $skipmsg = false)
     {
         $userinfo = "[Error message: $userinfo]\n";
         // The error is yet a MDB2 error object
@@ -3831,6 +3837,18 @@ class MDB2_Result_Common extends MDB2_Result implements ilDBStatement
     }
 
     // }}}
+	/**
+	 * @param array $a_data
+	 * @return mixed
+	 * @throws ilDatabaseException
+	 */
+	public function execute($a_data = null) {
+		$res = $this->result->execute($a_data);
+		if (MDB2::isError($res)) {
+			throw new ilDatabaseException("There was an MDB2 error executing the prepared query: ".$this->result->getMessage());
+		}
+		return $res;
+	}
 }
 
 // }}}

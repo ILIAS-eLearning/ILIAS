@@ -5,11 +5,6 @@ require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecord
 require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclDatatype.php';
 require_once './Services/Exceptions/classes/class.ilException.php';
 require_once './Services/User/classes/class.ilUserUtil.php';
-require_once('./Services/Object/classes/class.ilCommonActionDispatcherGUI.php');
-require_once('./Modules/DataCollection/classes/class.ilObjDataCollection.php');
-require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
-require_once('./Services/Notes/classes/class.ilNote.php');
-require_once('./Services/Notes/classes/class.ilNoteGUI.php');
 
 /**
  * Class ilDclBaseRecordModel
@@ -77,22 +72,38 @@ class ilDclBaseRecordModel {
 
 
 	/**
+	 * @param $value
+	 * @return string
+	 */
+	private function fixDate($value) {
+		global $DIC;
+		if ($DIC['ilDB']->getDBType() != ilDBConstants::TYPE_ORACLE) {
+			return $value;
+		}
+
+		$date = explode(' ', $value);
+
+		return $date[0];
+	}
+
+
+	/**
 	 * doUpdate
 	 */
-	public function doUpdate() {
+	public function doUpdate($omit_notification = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		$ilDB->update("il_dcl_record", array(
-			"table_id" => array(
+		$values = array(
+			"table_id"     => array(
 				"integer",
 				$this->getTableId()
 			),
-			"last_update" => array(
+			"last_update"  => array(
 				"date",
-				$this->getLastUpdate()
+				$this->fixDate($this->getLastUpdate())
 			),
-			"owner" => array(
+			"owner"        => array(
 				"text",
 				$this->getOwner()
 			),
@@ -100,7 +111,8 @@ class ilDclBaseRecordModel {
 				"text",
 				$this->getLastEditBy()
 			)
-		), array(
+		);
+		$ilDB->update("il_dcl_record", $values, array(
 			"id" => array(
 				"integer",
 				$this->id
@@ -112,7 +124,9 @@ class ilDclBaseRecordModel {
 		}
 
 		//TODO: add event raise
-		ilObjDataCollection::sendNotification("update_record", $this->getTableId(), $this->id);
+		if (!$omit_notification) {
+			ilObjDataCollection::sendNotification("update_record", $this->getTableId(), $this->id);
+		}
 	}
 
 
@@ -165,8 +179,9 @@ class ilDclBaseRecordModel {
 		$this->loadRecordFields();
 		foreach ($this->getRecordFields() as $recordField) {
 			$recordField->doCreate();
-
 		}
+
+		$this->getTable()->loadRecords();
 	}
 
 
@@ -359,7 +374,6 @@ class ilDclBaseRecordModel {
 
 		return $return;
 	}
-
 
 	/**
 	 * Get Field Value
@@ -569,7 +583,7 @@ class ilDclBaseRecordModel {
 	 *
 	 * @return array|string
 	 */
-	private function getStandardFieldHTML($field_id, array $options = array()) {
+	public function getStandardFieldHTML($field_id, array $options = array()) {
 		switch ($field_id) {
 			case 'id':
 				return $this->getId();
@@ -636,8 +650,10 @@ class ilDclBaseRecordModel {
 
 	/**
 	 * Delete
+	 *
+	 * @param bool $omit_notification
 	 */
-	public function doDelete() {
+	public function doDelete($omit_notification = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
@@ -659,16 +675,21 @@ class ilDclBaseRecordModel {
 		$query = "DELETE FROM il_dcl_record WHERE id = " . $ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 
-		ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
+		$this->table->loadRecords();
 
-		$ilAppEventHandler->raise('Modules/DataCollection',
-			'deleteRecord',
-			array(
-				'dcl' => ilDclCache::getTableCache($this->getTableId())->getCollectionObject(),
-				'table_id' => $this->table_id,
-				'record_id' => $this->getId(),
-				'record' => $this,
-			));
+		if (!$omit_notification) {
+			ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
+
+			$ilAppEventHandler->raise('Modules/DataCollection',
+				'deleteRecord',
+				array(
+					'dcl' => ilDclCache::getTableCache($this->getTableId())->getCollectionObject(),
+					'table_id' => $this->table_id,
+					'record_id' => $this->getId(),
+					'record' => $this,
+				));
+		}
+
 	}
 
 
@@ -686,11 +707,13 @@ class ilDclBaseRecordModel {
 		$this->doCreate();
 		foreach($new_fields as $old => $new){
 			$old_rec_field = $original->getRecordField($old);
-			$new_rec_field = new ilDclBaseRecordFieldModel($this, $new);
-			$new_rec_field->setValue($old_rec_field->getValue());
-			$new_rec_field->doUpdate();
+			$new_rec_field = ilDclCache::getRecordFieldCache($this, $new);
+			$new_rec_field->cloneStructure($old_rec_field);
 			$this->recordfields[] = $new_rec_field;
 		}
+
+		// mandatory for all cloning functions
+		ilDclCache::setCloneOf($original_id, $this->getId(), ilDclCache::TYPE_RECORD);
 	}
 
 	/**

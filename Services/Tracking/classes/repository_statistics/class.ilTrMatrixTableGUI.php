@@ -70,9 +70,15 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		if($rbacsystem->checkAccess("internal_mail", $mail->getMailObjectReferenceId()))		
 		{							
 			$this->addMultiCommand("mailselectedusers", $this->lng->txt("send_mail"));
-			$this->addColumn("", "", 1);
-			$this->has_multi = true;
-		}		
+		}
+
+		$this->lng->loadLanguageModule('user');
+		$this->addMultiCommand(
+			'addToClipboard',
+			$this->lng->txt('clipboard_add_btn')
+		);
+		$this->addColumn("", "", 1);
+		$this->has_multi = true;
 		
 		$this->addColumn($this->lng->txt("login"), "login");
 
@@ -165,8 +171,9 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					$no_perm = false;
 					
 					$ref_id = $this->ref_ids[$obj_id];
+					include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 					if($ref_id &&
-						!$rbacsystem->checkAccess('read_learning_progress', $ref_id))
+						!ilLearningProgressAccess::checkPermission('read_learning_progress', $ref_id))
 					{
 						$no_perm = true;
 						$this->privacy_cols[] = $obj_id;
@@ -392,16 +399,23 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			if($data["set"])
 			{
 				$this->perc_map = array();
-				foreach($data["set"] as $row)
+				foreach($data["set"] as $row_idx => $row)
 				{		
 					foreach($row as $column => $value)
 					{						
 						if(substr($column, -5) == "_perc")
-						{							
-							if((int)$value > 0)
+						{				
+							$obj_id = explode("_", $column);
+							$obj_id = (int)$obj_id[1];
+							
+							// #18673
+							if(!$this->isPercentageAvailable($obj_id) || 
+								!(int)$value)
 							{
-								$obj_id = explode("_", $column);
-								$obj_id = (int)$obj_id[1];
+								unset($data["set"][$row_idx][$column]);
+							}
+							else 
+							{								
 								$this->perc_map[$obj_id] = true;
 							}	
 						}

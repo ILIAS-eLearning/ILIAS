@@ -87,14 +87,14 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 		include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
 		$participantStatus = new ilSelectInputGUI($lng->txt('tst_participant_status'), 'participant_status');
 
-		$statusOptions = array();
-		$statusOptions[ ilTestScoringGUI::PART_FILTER_ALL_USERS ]				= $lng->txt("all_users");
-		$statusOptions[ ilTestScoringGUI::PART_FILTER_ACTIVE_ONLY ]			= $lng->txt("usr_active_only");
-		$statusOptions[ ilTestScoringGUI::PART_FILTER_INACTIVE_ONLY ]			= $lng->txt("usr_inactive_only");
-		$statusOptions[ ilTestScoringGUI::PART_FILTER_MANSCORING_DONE ]		= $lng->txt("manscoring_done");
-		$statusOptions[ ilTestScoringGUI::PART_FILTER_MANSCORING_NONE ]		= $lng->txt("manscoring_none");
+		$statusOptions                                                = array();
+		$statusOptions[ilTestScoringGUI::PART_FILTER_ALL_USERS]       = $lng->txt("all_users");
+		$statusOptions[ilTestScoringGUI::PART_FILTER_MANSCORING_NONE] = $lng->txt("manscoring_none");
+		$statusOptions[ilTestScoringGUI::PART_FILTER_MANSCORING_DONE] = $lng->txt("manscoring_done");
+		$statusOptions[ilTestScoringGUI::PART_FILTER_ACTIVE_ONLY]     = $lng->txt("usr_active_only");
+		$statusOptions[ilTestScoringGUI::PART_FILTER_INACTIVE_ONLY]   = $lng->txt("usr_inactive_only");
 		//$statusOptions[ ilTestScoringGUI::PART_FILTER_MANSCORING_PENDING ]	= $lng->txt("manscoring_pending");
-		
+
 		$participantStatus->setOptions($statusOptions);
 
 		$this->addFilterItem($participantStatus);
@@ -103,9 +103,8 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 		
 		if(!$participantStatus->getValue())
 		{
-			$participantStatus->setValue(ilTestScoringGUI::PART_FILTER_ALL_USERS);
+			$participantStatus->setValue(ilTestScoringGUI::PART_FILTER_MANSCORING_NONE);
 		}
-
 	}
 
 	/**

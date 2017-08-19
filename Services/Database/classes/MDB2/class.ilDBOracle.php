@@ -422,6 +422,7 @@ class ilDBOracle extends ilDB
 	 * @param string $a_name
 	 * @param int $a_mode
 	 * @param string $a_alias
+	 * @deprecated Use ilAtomQuery instead
 	 * @return 
 	 */
 	public function lockTables($a_tables)
@@ -463,6 +464,7 @@ class ilDBOracle extends ilDB
 
 	/**
 	 * Unlock tables
+	 * @deprecated Use ilAtomQuery instead
 	 * @return 
 	 */
 	public function unlockTables()

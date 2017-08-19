@@ -68,31 +68,33 @@ class ilFormatMail extends ilMail
 	*/
 	function formatReplyRecipientsForCC()
 	{
-		global $ilUser;
-		
+		global $DIC;
+
 		if(empty($this->mail_data))
 		{
 			return '';
 		}
-		
+
 		$newCC = array();
-		
-		foreach (explode(',', $this->mail_data['rcp_to']) as $to)
+
+		$currentUserLogin = $DIC->user()->getLogin();
+
+		foreach(explode(',', $this->mail_data['rcp_to']) as $to)
 		{
-			if (trim($to) != '' && $ilUser->getLogin() != trim($to))
+			if(trim($to) != '' && $currentUserLogin != trim($to))
 			{
 				$newCC[] = trim($to);
 			}
 		}
-		
-		foreach (explode(',', $this->mail_data['rcp_cc']) as $cc)
+
+		foreach(explode(',', $this->mail_data['rcp_cc']) as $cc)
 		{
-			if (trim($cc) != '' && $ilUser->getLogin() != trim($cc))
+			if(trim($cc) != '' && $currentUserLogin != trim($cc))
 			{
 				$newCC[] = trim($cc);
 			}
 		}
-		
+
 		return ($this->mail_data['rcp_cc'] = implode(', ', $newCC));
 	}
 	
@@ -179,13 +181,12 @@ class ilFormatMail extends ilMail
 	* @access	public
 	* @return string formatted message
 	*/
-	function formatLinebreakMessage($a_message)
+	public function formatLinebreakMessage($a_message)
 	{
 		$formatted = array();
 
-#		debug($a_message);
 		$linebreak = $this->mail_options->getLinebreak();
-		// SPLIT INTO LINES returns always an array
+
 		$lines = explode(chr(10),$a_message);
 		for($i=0;$i<count($lines);$i++)
 		{
@@ -199,7 +200,7 @@ class ilFormatMail extends ilMail
 			}
 		}
 		$formatted = implode(chr(10),$formatted);
-#		debug($formatted);
+
 		return $formatted;
 	}
 					

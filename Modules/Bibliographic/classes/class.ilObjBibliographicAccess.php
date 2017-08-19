@@ -26,11 +26,15 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 	 *    );
 	 */
 	public static function _getCommands() {
-		$commands = array
-		(
-			array( "permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true ),
+		$commands = array(
+			array(
+				"permission" => "read",
+				"cmd"        => "render",
+				"lang_var"   => "show",
+				"default"    => true,
+			),
 			array( "permission" => "write", "cmd" => "view", "lang_var" => "edit_content" ),
-			array( "permission" => "write", "cmd" => "edit", "lang_var" => "settings" )
+			array( "permission" => "write", "cmd" => "edit", "lang_var" => "settings" ),
 		);
 
 		return $commands;
@@ -43,7 +47,9 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 	 * @return bool
 	 */
 	public static function _checkGoto($a_target) {
-		global $ilAccess, $lng;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
 		$t_arr = explode('_', $a_target);
 		if ($t_arr[0] != 'bibl' || ((int)$t_arr[1]) <= 0) {
 			return false;
@@ -60,23 +66,27 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 	 * checks wether a user may invoke a command or not
 	 * (this method is called by ilAccessHandler::checkAccess)
 	 *
-	 * @param    string  $a_cmd        command (not permission!)
+	 * @param    string  $a_cmd command (not permission!)
 	 * @param    string  $a_permission permission
-	 * @param    int     $a_ref_id     reference id
-	 * @param    int     $a_obj_id     object id
-	 * @param int|string $a_user_id    user id (if not provided, current user is taken)
+	 * @param    int     $a_ref_id reference id
+	 * @param    int     $a_obj_id object id
+	 * @param int|string $a_user_id user id (if not provided, current user is taken)
 	 *
 	 * @return    boolean        true, if everything is ok
 	 */
 	public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") {
-		global $ilUser, $lng, $rbacsystem, $ilAccess;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilAccess = $DIC['ilAccess'];
 		if ($a_user_id == "") {
 			$a_user_id = $ilUser->getId();
 		}
 		switch ($a_cmd) {
 			case "view":
-				if (! self::_lookupOnline($a_obj_id)
-					&& ! $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)
+				if (!self::_lookupOnline($a_obj_id)
+				    && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)
 				) {
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
@@ -85,7 +95,7 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 				break;
 			// for permission query feature
 			case "infoScreen":
-				if (! self::_lookupOnline($a_obj_id)) {
+				if (!self::_lookupOnline($a_obj_id)) {
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 				} else {
 					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
@@ -95,8 +105,8 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 		switch ($a_permission) {
 			case "read":
 			case "visible":
-				if (! self::_lookupOnline($a_obj_id)
-					&& (! $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
+				if (!self::_lookupOnline($a_obj_id)
+				    && (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
 				) {
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
@@ -115,9 +125,9 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 	 * @param    int $a_id bibl id
 	 */
 	public static function _lookupOnline($a_id) {
-		global $ilDB;
-		$q = "SELECT is_online FROM il_bibl_data WHERE id = " .
-			$ilDB->quote($a_id, "integer");
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$q = "SELECT is_online FROM il_bibl_data WHERE id = " . $ilDB->quote($a_id, "integer");
 		$bibl_set = $ilDB->query($q);
 		$bibl_rec = $ilDB->fetchAssoc($bibl_set);
 

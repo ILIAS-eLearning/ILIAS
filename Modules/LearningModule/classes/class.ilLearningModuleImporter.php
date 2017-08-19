@@ -188,6 +188,19 @@ class ilLearningModuleImporter extends ilXmlImporter
 				}
 			}
 		}
+
+		// assign style
+		$alls_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "lm_style");
+		foreach ($alls_map as $new_lm_id => $old_style_id)
+		{
+			$new_style_id = (int) $a_mapping->getMapping("Services/Style", "sty", $old_style_id);
+			if ($new_lm_id > 0 && $new_style_id > 0)
+			{
+				include_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
+				$lm = new ilObjLearningModule($new_lm_id, false);
+				$lm->writeStyleSheetId($new_style_id);
+			}
+		}
 	}
 }
 

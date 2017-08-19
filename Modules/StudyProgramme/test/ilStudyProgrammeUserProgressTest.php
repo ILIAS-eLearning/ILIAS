@@ -6,7 +6,8 @@ require_once(__DIR__."/mocks.php");
 
 /**
  * TestCase for the progress of users at a programme.
- *
+ * @group needsInstalledILIAS
+ *        
  * @author Michael Herren <mh@studer-raimann.ch>
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @version 1.0.0
@@ -37,10 +38,12 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->node1->addLeaf($this->leaf1);
 		$this->node2->addLeaf($this->leaf2);
 		
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		$this->tree = $tree;	
 		
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$this->user = $ilUser;
 	}
 	

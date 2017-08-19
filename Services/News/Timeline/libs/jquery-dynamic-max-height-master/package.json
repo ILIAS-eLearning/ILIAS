@@ -1,0 +1,32 @@
+{
+  "name": "dynamic-max-height",
+  "version": "2.0.0",
+  "description": "Dynamic max height plugin for jQuery with CSS animation",
+  "main": "build/jquery.dynamicmaxheight.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JoanClaret/jquery-dynamic-max-height"
+  },
+  "keywords": [
+    "jquery",
+    "animation",
+    "css",
+    "max-height",
+    "height",
+    "CSS3"
+  ],
+  "author": "joanclaret <dpam23@gmail.com> (https://www.github.com/JoanClaret)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JoanClaret/jquery-dynamic-max-height/issues"
+  },
+  "homepage": "https://github.com/JoanClaret/jquery-dynamic-max-height",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.2"
+  }
+}

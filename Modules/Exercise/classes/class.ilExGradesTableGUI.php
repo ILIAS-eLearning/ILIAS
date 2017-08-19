@@ -70,7 +70,8 @@ class ilExGradesTableGUI extends ilTable2GUI
 		$ilCtrl->setParameter($this->parent_obj, "ass_id", "");
 		
 		$this->addColumn($this->lng->txt("exc_total_exc"), "");
-		$this->addColumn($this->lng->txt("exc_comment_for_learner"), "", "1%");
+		$this->lng->loadLanguageModule("trac");
+		$this->addColumn($this->lng->txt("trac_comment"));
 		
 //		$this->addColumn($this->lng->txt("exc_grading"), "solved_time");
 //		$this->addColumn($this->lng->txt("mail"), "feedback_time");

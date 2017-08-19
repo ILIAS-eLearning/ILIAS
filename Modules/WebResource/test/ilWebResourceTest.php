@@ -23,7 +23,8 @@
 
 /** 
 * Unit tests for tree table
-* 
+* @group needsInstalledILIAS
+*
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 

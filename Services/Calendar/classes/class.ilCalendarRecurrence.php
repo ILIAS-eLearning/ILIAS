@@ -113,8 +113,16 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 		ilCalendarRecurrenceExclusions::delete($a_cal_id);
 	}
 	
+	/**
+	 * Get ical presentation for calendar recurrence
+	 * @param type $a_user_id
+	 * @return string
+	 */
 	public function toICal($a_user_id)
 	{
+		include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
+		$entry = new ilCalendarEntry($this->getEntryId());
+
 		$ical = 'RRULE:';
 		$ical .= ('FREQ='.$this->getFrequenceType());
 		
@@ -128,7 +136,15 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 		}
 		elseif($this->getFrequenceUntilDate())
 		{
-			$ical .= (';UNTIL='.$this->getFrequenceUntilDate()->get(IL_CAL_FKT_DATE,'Ymd'));
+			if($entry->isFullday())
+			{
+				$ical .= (';UNTIL='.$this->getFrequenceUntilDate()->get(IL_CAL_FKT_DATE,'Ymd'));
+			}
+			else
+			{
+				$his = $entry->getStart()->get(IL_CAL_FKT_DATE, 'His');
+				$ical .= (';UNTIL='.$this->getFrequenceUntilDate()->get(IL_CAL_FKT_DATE,'Ymd').'T'.$his);
+			}
 		}
 		if($this->getBYMONTH())
 		{
@@ -218,6 +234,15 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 	public function setEntryId($a_id)
 	{
 	 	$this->cal_id = $a_id;
+	}
+	
+	/**
+	 * Get calendar entry id
+	 * @return int
+	 */
+	public function getEntryId()
+	{
+		return $this->cal_id;
 	}
 	
 	/**

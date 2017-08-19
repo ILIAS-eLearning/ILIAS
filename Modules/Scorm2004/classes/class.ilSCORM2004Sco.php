@@ -67,6 +67,8 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
 			")");
 	}
 
+
+
 	/**
 	 * Read data from database
 	 */

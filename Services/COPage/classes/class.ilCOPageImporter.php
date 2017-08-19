@@ -44,6 +44,7 @@ class ilCOPageImporter extends ilXmlImporter
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
+		$this->log->debug("entity: ".$a_entity.", id: ".$a_id);
 
 		if ($a_entity == "pgtp")
 		{
@@ -55,6 +56,8 @@ class ilCOPageImporter extends ilXmlImporter
 		if ($a_entity == "pg")
 		{
 			$pg_id = $a_mapping->getMapping("Services/COPage", "pg", $a_id);
+
+			$this->log->debug("mapping id: ".$pg_id);
 
 			if ($pg_id != "")
 			{
@@ -81,6 +84,8 @@ class ilCOPageImporter extends ilXmlImporter
 						{
 							$lstr = "-";
 						}
+						// see bug #0019049
+						$next_xml = str_replace("&amp;", "&", $next_xml);
 						if ($this->config->getUpdateIfExists() && ilPageObject::_exists($id[0], $id[1], $lstr))
 						{
 							$page = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $lstr);
@@ -120,6 +125,7 @@ class ilCOPageImporter extends ilXmlImporter
 				}
 			}
 		}
+		$this->log->debug("done");
 	}
 
 	/**

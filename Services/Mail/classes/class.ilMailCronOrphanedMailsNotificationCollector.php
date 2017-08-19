@@ -11,15 +11,30 @@ include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsFolderMailObj
 class ilMailCronOrphanedMailsNotificationCollector
 {
 	/**
-	 * @var array ilMailCronOrphanedMailsNotificationCollectionObj
+	 * @var array ilMailCronOrphanedMailsNotificationCollectionObj[]
 	 */
 	protected $collection = array();
+
+	/**
+	 * @var \ilDBInterface
+	 */
+	protected $db;
+
+	/**
+	 * @var \ilSetting
+	 */
+	protected $setting;
 
 	/**
 	 * 
 	 */
 	public function __construct()
 	{
+		global $DIC;
+
+		$this->db      = $DIC->database();
+		$this->setting = $DIC->settings();
+
 		$this->collect();
 	}
 
@@ -28,12 +43,10 @@ class ilMailCronOrphanedMailsNotificationCollector
 	 */
 	public function collect()
 	{
-		global $ilDB, $ilSetting;
-
-		$mail_notify_orphaned = (int)$ilSetting->get('mail_notify_orphaned');
-		$mail_threshold = (int)$ilSetting->get('mail_threshold');
+		$mail_notify_orphaned = (int)$this->setting->get('mail_notify_orphaned');
+		$mail_threshold       = (int)$this->setting->get('mail_threshold');
 		
-		if($mail_threshold > $mail_notify_orphaned )
+		if($mail_threshold > $mail_notify_orphaned)
 		{
 			$notify_days_before = $mail_threshold - $mail_notify_orphaned;
 		}
@@ -42,17 +55,16 @@ class ilMailCronOrphanedMailsNotificationCollector
 			$notify_days_before = 1;
 		}
 
-		$ts_notify = strtotime("- ".$notify_days_before." days");
+		$ts_notify           = strtotime("- ".$notify_days_before." days");
 		$ts_for_notification = date('Y-m-d', $ts_notify).' 23:59:59';
 
-		$res = $ilDB->query('SELECT mail_id FROM mail_cron_orphaned');
+		$res = $this->db->query('SELECT mail_id FROM mail_cron_orphaned');
 		$already_notified = array();
-		while($row = $ilDB->fetchAssoc($res))
+		while($row = $this->db->fetchAssoc($res))
 		{
-			$already_notified[] = $row['mail_id'];
+			$already_notified[$row['mail_id']] = $row['mail_id'];
 		}
 
-		//.. überprüfen ob es bereits einen Eintrag in "mail_cron_orphaned" gibt
 		$types = array('timestamp');
 		$data  = array($ts_for_notification);
 
@@ -62,22 +74,21 @@ class ilMailCronOrphanedMailsNotificationCollector
 				INNER JOIN 	mail_obj_data mdata ON obj_id = folder_id
 				WHERE 		send_time <= %s";
 
-		if((int)$ilSetting->get('mail_only_inbox_trash') > 0)
+		if((int)$this->setting->get('mail_only_inbox_trash') > 0)
 		{
 			$notification_query .= " AND (mdata.m_type = %s OR mdata.m_type = %s)";
 			$types = array('timestamp', 'text', 'text');
 			$data  = array($ts_for_notification, 'inbox', 'trash');
 		}
 
-		$notification_query .= " AND " . $ilDB->in('mail_id', $already_notified, true, 'integer')
+		$notification_query .= " AND " . $this->db->in('mail_id', array_values($already_notified), true, 'integer')
 			. " ORDER BY m.user_id, folder_id, mail_id";
 
-		$res = $ilDB->queryF($notification_query, $types, $data);
+		$collection_obj = null;
+		$folder_obj     = null;
 
-		$collection_obj = NULL;
-		$folder_obj = NULL;
-
-		while($row = $ilDB->fetchAssoc($res))
+		$res = $this->db->queryF($notification_query, $types, $data);
+		while($row = $this->db->fetchAssoc($res))
 		{
 			if(!$this->existsCollectionObjForUserId($row['user_id']))
 			{
@@ -85,14 +96,14 @@ class ilMailCronOrphanedMailsNotificationCollector
 				{
 					$this->addCollectionObject($collection_obj);
 					unset($collection_obj);
-				}	
+				}
 			}
-			
+
 			if(!is_object($collection_obj))
 			{
 				$collection_obj = new ilMailCronOrphanedMailsNotificationCollectionObj($row['user_id']);
-			}	
-			
+			}
+
 			if(is_object($collection_obj))
 			{
 				if(!$folder_obj = $collection_obj->getFolderObjectById($row['folder_id']))
@@ -101,7 +112,7 @@ class ilMailCronOrphanedMailsNotificationCollector
 					$folder_obj->setFolderTitle($row['title']);
 					$collection_obj->addFolderObject($folder_obj);
 				}
-				
+
 				if(is_object($folder_obj))
 				{
 					$orphaned_mail_obj = new ilMailCronOrphanedMailsFolderMailObject($row['mail_id'], $row['m_subject']);
@@ -109,6 +120,7 @@ class ilMailCronOrphanedMailsNotificationCollector
 				}
 			}
 		}
+
 		if(is_object($collection_obj))
 		{
 			$this->addCollectionObject($collection_obj);
@@ -133,15 +145,16 @@ class ilMailCronOrphanedMailsNotificationCollector
 		if(isset($this->collection[$user_id]))
 		{
 			return true;
-		}	 
-		return false;	 
+		}
+
+		return false;
 	}
 
 	/**
-	 * @return array ilMailCronOrphanedMailsNotificationCollectionObj
+	 * @return ilMailCronOrphanedMailsNotificationCollectionObj[] 
 	 */
 	public function getCollection()
 	{
 		return $this->collection;
-	}	
+	}
 }

@@ -184,7 +184,7 @@ class ilExSubmissionTeamGUI
 		// #13414
 		$read_only = !$this->canEditTeam();
 				
-		if ($this->submission->getAssignment()->afterDeadlineStrict())
+		if ($this->submission->getAssignment()->afterDeadlineStrict(false))
 		{
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}

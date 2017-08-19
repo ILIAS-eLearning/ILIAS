@@ -1,5 +1,5 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Index/class.arIndexTableAction.php');
+require_once('./Services/ActiveRecord/Views/Index/class.arIndexTableAction.php');
 
 /**
  * GUI-Class arIndexTableActions

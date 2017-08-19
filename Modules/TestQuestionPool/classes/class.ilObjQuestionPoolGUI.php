@@ -178,6 +178,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 				$q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+				$q_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
 				$q_gui->setQuestionTabs();
 				$q_gui->outAdditionalOutput();
 				$q_gui->object->setObjId($this->object->getId());
@@ -192,6 +193,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setReturnByClass("ilAssQuestionPageGUI", "view");
 				$this->ctrl->setReturn($this, "questions");
 				$page_gui = new ilAssQuestionPageGUI($_GET["q_id"]);
+				$page_gui->obj->addUpdateListener(
+					$question,
+					'updateTimestamp'
+				);
 				$page_gui->setEditPreview(true);
 				$page_gui->setEnabledTabs(false);
 				if (strlen($this->ctrl->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) // workaround for page edit imagemaps, keep in mind
@@ -342,6 +347,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setReturn($this, "questions");
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 				$q_gui = assQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
+				$q_gui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
 				$q_gui->object->setObjId($this->object->getId());
 				if($this->object->getType() == 'qpl')
 				{
@@ -508,17 +514,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$_SESSION["qpl_import_xml_file"] = $xml_file;
 		$_SESSION["qpl_import_qti_file"] = $qti_file;
 		$_SESSION["qpl_import_subdir"] = $subdir;
-		// display of found questions
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_import_verification.html",
-			"Modules/TestQuestionPool");
-		$row_class = array("tblrow1", "tblrow2");
-		$counter = 0;
-		foreach ($founditems as $item)
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_import_verification.html", "Modules/TestQuestionPool");
+
+		require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolImportVerificationTableGUI.php';
+		$table = new ilQuestionPoolImportVerificationTableGUI($this, 'uploadQplObject');
+		$rows  = array();
+
+		foreach($founditems as $item)
 		{
-			$this->tpl->setCurrentBlock("verification_row");
-			$this->tpl->setVariable("ROW_CLASS", $row_class[$counter++ % 2]);
-			$this->tpl->setVariable("QUESTION_TITLE", $item["title"]);
-			$this->tpl->setVariable("QUESTION_IDENT", $item["ident"]);
+			$row = array(
+				'title' => $item['title'],
+				'ident' => $item['ident'],
+			);
+
 			include_once "./Services/QTI/classes/class.ilQTIItem.php";
 			switch ($item["type"])
 			{
@@ -576,10 +585,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					}
 				}
 			}
-			$this->tpl->setVariable("QUESTION_TYPE", $type);
-			$this->tpl->parseCurrentBlock();
+
+			$row['type'] = $type;
+
+			$rows[] = $row;
 		}
-		
+		$table->setData($rows);
+
 		$this->tpl->setCurrentBlock("import_qpl");
 		if (is_file($xml_file))
 		{
@@ -596,8 +608,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 		
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("question_title"));
 		$this->tpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("qpl_import_verify_found_questions"));
 		if ($questions_only)
 		{
@@ -610,15 +620,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			
 			$this->ctrl->setParameter($this, "new_type", $this->type);
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-			//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$this->type));
 		}
-		$this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.svg"));
-		$this->tpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
-		$this->tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
+
 		$value_questions_only = 0;
 		if ($questions_only) $value_questions_only = 1;
 		$this->tpl->setVariable("VALUE_QUESTIONS_ONLY", $value_questions_only);
+		$this->tpl->setVariable("VERIFICATION_TABLE", $table->getHtml());
+		$this->tpl->setVariable("VERIFICATION_FORM_NAME", $table->getFormName());
 
 		$this->tpl->parseCurrentBlock();
 		
@@ -682,9 +690,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$contParser = new ilContObjParser($newObj, $_SESSION["qpl_import_xml_file"], $_SESSION["qpl_import_subdir"]);
 				$contParser->setQuestionMapping($qtiParser->getImportMapping());
 				$contParser->startParsing();
-			}
 
-			$newObj->fromXML($_SESSION["qpl_import_xml_file"]);
+				// #20494
+				$newObj->fromXML($_SESSION["qpl_import_xml_file"]);
+			}
 
 			// set another question pool name (if possible)
 			if( isset($_POST["qpl_new"]) && strlen($_POST["qpl_new"]) )
@@ -960,6 +969,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->questionsObject();
 	}
 	
+	protected function renoveImportFailsObject()
+	{
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
+		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
+		$qsaImportFails->deleteRegisteredImportFails();
+		
+		$this->ctrl->redirect($this, 'infoScreen');
+	}
+	
 	/**
 	* list questions of question pool
 	*/
@@ -1000,6 +1018,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->object->purgeQuestions();
 		// reset test_id SESSION variable
 		$_SESSION["test_id"] = "";
+		
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
+		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
+		if( $qsaImportFails->failedImportsRegistered() )
+		{
+			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+			$button = ilLinkButton::getInstance();
+			$button->setUrl($this->ctrl->getLinkTarget($this, 'renoveImportFails'));
+			$button->setCaption('ass_skl_import_fails_remove_btn');
+			
+			ilUtil::sendFailure($qsaImportFails->getFailedImportsMessage($this->lng).'<br />'.$button->render());
+		}
 		
 		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
 		$taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());
@@ -1344,14 +1374,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 				$this->tpl->setTitle($title);
 				$this->tpl->setDescription($q_gui->object->getComment());
-				if($this->object instanceof ilObjectPlugin)
-				{
-					$this->tpl->setTitleIcon($this->object->plugin->getImagePath("icon_".$this->object->getType().".svg"), $this->lng->txt("obj_" . $this->object->getType()));
-				}
-				else
-				{
-					$this->tpl->setTitleIcon(ilObject::_getIcon("", "big", $this->object->getType()));
-				}
+				$this->tpl->setTitleIcon(ilObject2::_getIcon("", "big", $this->object->getType()));
 			}
 			else
 			{
@@ -1364,7 +1387,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->tpl->setTitle($this->object->getTitle());
 			$this->tpl->setDescription($this->object->getLongDescription());
-			$this->tpl->setTitleIcon(ilObject::_getIcon("", "big", $this->object->getType()));
+			$this->tpl->setTitleIcon(ilObject2::_getIcon("", "big", $this->object->getType()));
 		}
 	}
 
@@ -1648,7 +1671,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 				
 				$taxId = substr($item->getPostVar(), strlen('tax_'));
-				$questionList->addTaxonomyFilter($taxId, $item->getValue());
+				
+				$questionList->addTaxonomyFilter(
+					$taxId, $item->getValue(), $this->object->getId(), $this->object->getType()
+				);
 			}
 			elseif( $item->getValue() !== false )
 			{
@@ -1658,7 +1684,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		
 		if( $this->object->isNavTaxonomyActive() && (int)$_GET['tax_node'] )
 		{
-			$questionList->addTaxonomyFilter( $this->object->getNavTaxonomyId(), array((int)$_GET['tax_node']) );
+			$questionList->addTaxonomyFilter(
+				$this->object->getNavTaxonomyId(), array((int)$_GET['tax_node']),
+				$this->object->getId(), $this->object->getType()
+			);
 		}
 
 		$questionList->load();

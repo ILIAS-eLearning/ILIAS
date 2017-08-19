@@ -14,6 +14,16 @@ require_once("Services/Table/classes/class.ilTableGUI.php");
 */
 class ilTable2GUI extends ilTableGUI
 {
+	/**
+	 * @var object
+	 */
+	protected $parent_obj;
+
+	/**
+	 * @var string
+	 */
+	protected $parent_cmd;
+
 	protected $close_command = "";
 	private $unique_id;
 	private $headerHTML;
@@ -71,6 +81,7 @@ class ilTable2GUI extends ilTableGUI
 	const FILTER_DATE_RANGE = 6;
 	const FILTER_DURATION_RANGE = 7;
 	const FILTER_DATETIME_RANGE = 8;
+	const FILTER_CHECKBOX = 9;
 
 	const EXPORT_EXCEL = 1;
 	const EXPORT_CSV = 2;
@@ -656,6 +667,10 @@ class ilTable2GUI extends ilTableGUI
 
 		switch($type)
 		{
+			case self::FILTER_CHECKBOX:
+				$item = new ilCheckboxInputGUI($caption, $id);
+				break;
+			
 			case self::FILTER_SELECT:
 				include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 				$item = new ilSelectInputGUI($caption, $id);

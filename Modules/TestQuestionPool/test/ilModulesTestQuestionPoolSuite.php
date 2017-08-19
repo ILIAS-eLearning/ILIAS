@@ -237,6 +237,9 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 		require_once("./Modules/TestQuestionPool/test/assAnswerTrueFalseTest.php");
 		$suite->addTestSuite("assAnswerTrueFalseTest");
 
+		require_once("./Modules/TestQuestionPool/test/ilAssQuestionSkillAssignmentRegistryTest.php");
+		$suite->addTestSuite("ilAssQuestionSkillAssignmentRegistryTest");
+
 		return $suite;
 	}
 }

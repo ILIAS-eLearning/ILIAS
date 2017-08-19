@@ -1,6 +1,6 @@
 {
     "name": "phansys/getid3",
-    "description": "This package integrates the GetId3 library with the Symfony2 project, emulating the PSR-0 CS",
+    "description": "This release of GetId3 library updates to PSR-0 CS, add namespaces and makes it Symfony 2.x installable by deps or composer mechanisms.",
     "keywords": ["getid3", "tags", "metadata"],
     "type": "library",
     "license": "GPL",
@@ -13,10 +13,11 @@
         }     
     ],
     "suggest": {
+        "ext-rar": "RAR extension is required for RAR archive module.",
         "ext-exif": "EXIF extension is required for graphic modules."
     },
     "autoload": {
-        "psr-0": { "GetId3_": "" }
+        "psr-0": { "GetId3": "" }
     },
     "target-dir": "GetId3"
 }

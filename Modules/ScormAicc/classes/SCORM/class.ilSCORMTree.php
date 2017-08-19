@@ -54,6 +54,7 @@ class ilSCORMTree extends ilTree
 	* @param	string		sort order of returned childs, optional (possible values: 'title','desc','last_update' or 'type')
 	* @param	string		sort direction, optional (possible values: 'DESC' or 'ASC'; defalut is 'ASC')
 	* @return	array		with node data of all childs or empty array
+	* @throws InvalidArgumentException
 	*/
 	function getChilds($a_node_id, $a_order = "", $a_direction = "ASC")
 	{
@@ -61,8 +62,9 @@ class ilSCORMTree extends ilTree
 		
 		if (!isset($a_node_id))
 		{
-			$message = get_class($this)."::getChilds(): No node_id given!";
-			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+			$message = "No node_id given!";
+			$this->log->error($message);
+			throw new InvalidArgumentException($message);
 		}
 
 		// init childs

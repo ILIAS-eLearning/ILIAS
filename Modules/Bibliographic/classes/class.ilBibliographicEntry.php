@@ -1,5 +1,4 @@
 <?php
-require_once('./Modules/Bibliographic/classes/class.ilBiblOverviewGUI.php');
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -84,12 +83,14 @@ class ilBibliographicEntry {
 
 
 	public function doCreate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		//auto-increment il_bibl_entry
 		$this->setEntryId($ilDB->nextID('il_bibl_entry'));
 		//table il_bibl_entry
-		$ilDB->manipulate("INSERT INTO il_bibl_entry " . "(data_id, id, type) VALUES (" . $ilDB->quote($this->getBibliographicObjId(), "integer")
-		                  . "," . // data_id
+		$ilDB->manipulate("INSERT INTO il_bibl_entry " . "(data_id, id, type) VALUES ("
+		                  . $ilDB->quote($this->getBibliographicObjId(), "integer") . ","
+		                  . // data_id
 		                  $ilDB->quote($this->getEntryId(), "integer") . "," . // id
 		                  $ilDB->quote($this->getType(), "text") . // type
 		                  ")");
@@ -97,8 +98,9 @@ class ilBibliographicEntry {
 		foreach ($this->getAttributes() as $attribute) {
 			//auto-increment il_bibl_attribute
 			$id = $ilDB->nextID('il_bibl_attribute');
-			$ilDB->manipulate("INSERT INTO il_bibl_attribute " . "(entry_id, name, value, id) VALUES (" . $ilDB->quote($this->getEntryId(), "integer")
-			                  . "," . // entry_id
+			$ilDB->manipulate("INSERT INTO il_bibl_attribute "
+			                  . "(entry_id, name, value, id) VALUES ("
+			                  . $ilDB->quote($this->getEntryId(), "integer") . "," . // entry_id
 			                  $ilDB->quote($attribute['name'], "text") . "," . // name
 			                  $ilDB->quote($attribute['value'], "text") . "," . // value
 			                  $ilDB->quote($id, "integer") . // id
@@ -108,9 +110,11 @@ class ilBibliographicEntry {
 
 
 	public function doRead() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		//table il_bibl_entry
-		$set = $ilDB->query("SELECT * FROM il_bibl_entry " . " WHERE id = " . $ilDB->quote($this->getEntryId(), "integer"));
+		$set = $ilDB->query("SELECT * FROM il_bibl_entry " . " WHERE id = "
+		                    . $ilDB->quote($this->getEntryId(), "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			$this->setType($rec['type']);
 		}
@@ -120,25 +124,32 @@ class ilBibliographicEntry {
 
 
 	public function doUpdate() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		//table il_bibl_entry
-		$ilDB->manipulate($up = "UPDATE il_bibl_entry SET " . " type = " . $ilDB->quote($this->getType(), "integer") . // type
+		$ilDB->manipulate($up = "UPDATE il_bibl_entry SET " . " type = "
+		                        . $ilDB->quote($this->getType(), "integer") . // type
 		                        " WHERE id = " . $ilDB->quote($this->getEntryId(), "integer"));
 		//table il_bibl_attribute
 		foreach ($this->getAttributes() as $attribute) {
-			$ilDB->manipulate($up = "UPDATE il_bibl_attribute SET " . " name = " . $ilDB->quote($attribute['name'], "integer") . "," . // name
-			                        " value = " . $ilDB->quote($attribute['value'], "integer") . "," . // value
+			$ilDB->manipulate($up = "UPDATE il_bibl_attribute SET " . " name = "
+			                        . $ilDB->quote($attribute['name'], "integer") . "," . // name
+			                        " value = " . $ilDB->quote($attribute['value'], "integer") . ","
+			                        . // value
 			                        " WHERE id = " . $ilDB->quote($attribute['id'], "integer"));
 		}
 	}
 
 
 	public function doDelete() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$this->emptyCache();
 		$this->deleteOptions();
-		$ilDB->manipulate("DELETE FROM il_bibl_entry WHERE id = " . $ilDB->quote($this->getEntryId(), "integer"));
-		$ilDB->manipulate("DELETE FROM il_bibl_attribute WHERE entry_id = " . $ilDB->quote($this->getEntryId(), "integer"));
+		$ilDB->manipulate("DELETE FROM il_bibl_entry WHERE id = "
+		                  . $ilDB->quote($this->getEntryId(), "integer"));
+		$ilDB->manipulate("DELETE FROM il_bibl_attribute WHERE entry_id = "
+		                  . $ilDB->quote($this->getEntryId(), "integer"));
 	}
 
 
@@ -148,10 +159,12 @@ class ilBibliographicEntry {
 	 * @return array Attributes of an entry
 	 */
 	protected function loadAttributes() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$all_attributes = array();
 		//table il_bibl_attribute
-		$set = $ilDB->query("SELECT * FROM il_bibl_attribute " . " WHERE entry_id = " . $ilDB->quote($this->getEntryId(), "integer"));
+		$set = $ilDB->query("SELECT * FROM il_bibl_attribute " . " WHERE entry_id = "
+		                    . $ilDB->quote($this->getEntryId(), "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			$all_attributes[$rec['name']] = $rec['value'];
 		}
@@ -283,9 +296,11 @@ class ilBibliographicEntry {
 	 * @return array
 	 */
 	static function getAllEntries($object_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$entries = array();
-		$set = $ilDB->query("SELECT id FROM il_bibl_entry " . " WHERE data_id = " . $ilDB->quote($object_id, "integer"));
+		$set = $ilDB->query("SELECT id FROM il_bibl_entry " . " WHERE data_id = "
+		                    . $ilDB->quote($object_id, "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			$entries[]['entry_id'] = $rec['id'];
 		}

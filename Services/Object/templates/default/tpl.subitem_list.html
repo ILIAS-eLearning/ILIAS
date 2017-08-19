@@ -13,10 +13,14 @@
 			<!-- END is_type -->
 		</td>
 		<td>
-			<a href="{LINK}" target="{TARGET}">{TITLE}</a>
+			<a href="{LINK}" target="{TARGET}"> {TITLE}</a>
 		</td>
 		<td width="20%" align="right">
-			{SUB_REL}
+                    <!-- BEGIN relevance -->
+                    <div style="width:100px;">
+                            {REL_PBAR}
+                    </div>
+                    <!-- END relevance -->
 		</td>
 	</tr>
 	<tr>

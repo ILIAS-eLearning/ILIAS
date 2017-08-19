@@ -504,19 +504,8 @@ class ilContainerSorting
 			return true;
 	 	}
 		
-		$this->sorting_settings = ilContainerSortingSettings::getInstanceByObjId($this->obj_id);
-		if($this->getSortingSettings()->getSortMode() == ilContainer::SORT_INHERIT)
-		{
-			// lookup settings of parent course
-			$ref_ids = ilObject::_getAllReferences($this->obj_id);
-			$ref_id = end($ref_ids);
-			$crs_ref_id = $tree->checkForParentType($ref_id,'crs');
-			$crs_obj_id = ilObject::_lookupObjId($crs_ref_id);
-			
-			$crs_settings = ilContainerSortingSettings::getInstanceByObjId($crs_obj_id);
-			$this->sorting_settings = clone $crs_settings;
-			
-		}
+		$sorting_settings = ilContainerSortingSettings::getInstanceByObjId($this->obj_id);
+		$this->sorting_settings = $sorting_settings->loadEffectiveSettings();
 	 	$query = "SELECT * FROM container_sorting ".
 	 		"WHERE obj_id = ".$this->db->quote($this->obj_id ,'integer')." ORDER BY position";
 	 	$res = $this->db->query($query);

@@ -18,4 +18,5 @@
 	<pluginslots>
 		<pluginslot id="svyq" name="SurveyQuestions" />
 	</pluginslots>
+	<logging />
 </module>

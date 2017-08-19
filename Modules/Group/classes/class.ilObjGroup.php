@@ -34,6 +34,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 {
 	const CAL_REG_START = 1;
 	const CAL_REG_END 	= 2;
+	const CAL_START		= 3;
+	const CAL_END		= 4;
 	
 	const GRP_MEMBER = 1;
 	const GRP_ADMIN = 2;
@@ -45,9 +47,13 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	const ERR_WRONG_REG_TIME_LIMIT = 'grp_wrong_reg_time_limit';
 	const ERR_MISSING_MIN_MAX_MEMBERS = 'grp_wrong_min_max_members';
 	const ERR_WRONG_MIN_MAX_MEMBERS = 'grp_max_and_min_members_invalid';
+	const ERR_WRONG_REGISTRATION_LIMITED = 'grp_err_registration_limited';
 	
 	const MAIL_ALLOWED_ALL = 1;
 	const MAIL_ALLOWED_TUTORS = 2;
+
+	public $SHOW_MEMBERS_ENABLED = 1;
+	public $SHOW_MEMBERS_DISABLED = 0;
 	
 	protected $information;
 	protected $group_type = null;
@@ -63,6 +69,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	protected $waiting_list = false;
 	protected $auto_fill_from_waiting; // [bool]
 	protected $leave_end; // [ilDate]
+	protected $show_members;
+	
+	
+	protected $start = null;
+	protected $end = null;
 	
 	
 	// Map
@@ -174,26 +185,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	public function getGroupType()
 	{
 		return $this->group_type;
-	}
-	
-	/**
-	 * check if group type is modified
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function isGroupTypeModified($a_old_type)
-	{
-		if($a_old_type == GRP_TYPE_UNKNOWN)
-		{
-			$group_type = $this->readGroupStatus();
-		}
-		else
-		{
-			$group_type = $a_old_type;
-		}
-		return $group_type != $this->getGroupType(); 
 	}
 	
 	/**
@@ -494,6 +485,15 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	}
 
 	/**
+	 * Type independent wrapper
+	 * @return type
+	 */
+	public function getEnableMap()
+	{
+		return $this->getEnableGroupMap();
+	}
+	
+	/**
 	* Get Enable Group Map.
 	*
 	* @return	boolean	Enable Group Map
@@ -568,7 +568,52 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	function getCancellationEnd()
 	{		
 		return $this->leave_end;
-	}	
+	}
+
+	function setShowMembers($a_status)
+	{
+		$this->show_members = $a_status;
+	}
+	function getShowMembers()
+	{
+		return $this->show_members;
+	}
+	
+	/**
+	 * Get group start
+	 * @return ilDate
+	 */
+	public function getStart()
+	{
+		return $this->start;
+	}
+	
+	/**
+	 * Set start
+	 * @param ilDate $start
+	 */
+	public function setStart(ilDate $start = null)
+	{
+		$this->start = $start;
+	}
+	
+	/**
+	 * Get end
+	 * @return ilDate
+	 */
+	public function getEnd()
+	{
+		return $this->end;
+	}
+	
+	/**
+	 * Set end
+	 * @param ilDate $end
+	 */
+	public function setEnd(ilDate $end = null)
+	{
+		$this->end = $end;
+	}
 	
 	/**
 	 * validate group settings
@@ -584,10 +629,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$this->title = '';
 			$ilErr->appendMessage($this->lng->txt(self::ERR_MISSING_TITLE));
-		}
-		if(!$this->getGroupType())
-		{
-			$ilErr->appendMessage($this->lng->txt(self::ERR_MISSING_GROUP_TYPE));
 		}
 		if($this->getRegistrationType() == GRP_REGISTRATION_PASSWORD and !strlen($this->getPassword()))
 		{
@@ -614,6 +655,15 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 				$ilErr->appendMessage($this->lng->txt(self::ERR_WRONG_MIN_MAX_MEMBERS));
 			}
 		}
+		if(
+			($this->getRegistrationStart() && !$this->getRegistrationEnd()) ||
+			(!$this->getRegistrationStart() && $this->getRegistrationEnd()) ||
+			$this->getRegistrationEnd() <= $this->getRegistrationStart()
+		)
+		{
+			$ilErr->appendMessage($this->lng->txt((self::ERR_WRONG_REGISTRATION_LIMITED)));
+		}
+		
 		return strlen($ilErr->getMessage()) == 0;
 	}
 	
@@ -635,7 +685,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$query = "INSERT INTO grp_settings (obj_id,information,grp_type,registration_type,registration_enabled,".
 			"registration_unlimited,registration_start,registration_end,registration_password,registration_mem_limit,".
 			"registration_max_members,waiting_list,latitude,longitude,location_zoom,enablemap,reg_ac_enabled,reg_ac,view_mode,mail_members_type,".
-			"leave_end,registration_min_members,auto_wait) ".
+			"leave_end,registration_min_members,auto_wait, grp_start, grp_end) ".
 			"VALUES(".
 			$ilDB->quote($this->getId() ,'integer').", ".
 			$ilDB->quote($this->getInformation() ,'text').", ".
@@ -659,7 +709,9 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->getMailToMembersType(),'integer').', '.				
 			$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
 			$ilDB->quote($this->getMinMembers(),'integer').', '.
-			$ilDB->quote($this->hasWaitingListAutoFill(),'integer').' '.
+			$ilDB->quote($this->hasWaitingListAutoFill(),'integer').', '.
+			$ilDB->quote($this->getStart() instanceof ilDate ? $this->getStart()->get(IL_CAL_UNIX) : null, 'integer').', '.
+			$ilDB->quote($this->getEnd() instanceof ilDate ? $this->getEnd()->get(IL_CAL_UNIX) : null, 'integer').' '.
 			")";
 		$res = $ilDB->manipulate($query);
 
@@ -707,7 +759,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			'mail_members_type = '.$ilDB->quote($this->getMailToMembersType(),'integer').', '.				
 			'leave_end = '.$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
 			"registration_min_members = ".$ilDB->quote($this->getMinMembers() ,'integer').", ".
-			"auto_wait = ".$ilDB->quote($this->hasWaitingListAutoFill() ,'integer')." ".
+			"auto_wait = ".$ilDB->quote($this->hasWaitingListAutoFill() ,'integer').", ".
+			"show_members = ".$ilDB->quote((int) $this->getShowMembers() ,'integer').", ".
+			'grp_start = '.$ilDB->quote($this->getStart() instanceof ilDate ? $this->getStart()->get(IL_CAL_UNIX) : null).', '.
+			'grp_end = '.$ilDB->quote($this->getEnd() instanceof ilDate ? $this->getEnd()->get(IL_CAL_UNIX) : null).' '.
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer');
 		$res = $ilDB->manipulate($query);
 		
@@ -790,7 +845,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$this->setMailToMembersType($row->mail_members_type);			
 			$this->setCancellationEnd($row->leave_end ? new ilDate($row->leave_end, IL_CAL_UNIX) : null);
 			$this->setMinMembers($row->registration_min_members);
-			$this->setWaitingListAutoFill($row->auto_wait);			
+			$this->setWaitingListAutoFill($row->auto_wait);
+			$this->setShowMembers($row->show_members);
+			$this->setStart($row->grp_start ? new ilDate($row->grp_start, IL_CAL_UNIX) : null);
+			$this->setEnd($row->grp_end ? new ilDate($row->grp_end, IL_CAL_UNIX) : null);
 		}
 		$this->initParticipants();
 		
@@ -807,11 +865,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	 * @param int copy id
 	 *
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $ilDB,$ilUser, $ilSetting;
 
-	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 	 	$new_obj->setGroupType($this->getGroupType());
 	 	$new_obj->initGroupStatus($this->getGroupType() ? $this->getGroupType() : $this->readGroupStatus());
 
@@ -826,7 +884,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->enableMembershipLimitation($this->isMembershipLimited());
 		$new_obj->setMaxMembers($this->getMaxMembers());
 		$new_obj->enableWaitingList($this->isWaitingListEnabled());
-		
+		$new_obj->setShowMembers($this->getShowMembers());
+
 		// map
 		$new_obj->setLatitude($this->getLatitude());
 		$new_obj->setLongitude($this->getLongitude());
@@ -843,13 +902,14 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->setMinMembers($this->getMinMembers());
 		$new_obj->setWaitingListAutoFill($this->hasWaitingListAutoFill());
 		
+		$new_obj->setStart($this->getStart());
+		$new_obj->setEnd($this->getEnd());
+		
 		$new_obj->update();
 		
 		// #13008 - Group Defined Fields
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 		ilCourseDefinedFieldDefinition::_clone($this->getId(),$new_obj->getId());
-		
-		ilLoggerFactory::getLogger('grp')->debug('Starting add user');
 		
 		// Assign user as admin
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
@@ -950,7 +1010,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	* returns object id of created default member role
 	* @access	public
 	*/
-	function getDefaultMemberRole()
+	public function getDefaultMemberRole()
 	{
 		$local_group_Roles = $this->getLocalGroupRoles();
 
@@ -961,7 +1021,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	* returns object id of created default adminstrator role
 	* @access	public
 	*/
-	function getDefaultAdminRole()
+	public function getDefaultAdminRole()
 	{
 		$local_group_Roles = $this->getLocalGroupRoles();
 
@@ -1275,7 +1335,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$query = 'SELECT obj_id FROM object_data WHERE type = '.$ilDB->quote('rolt','text').' AND title = '.$ilDB->quote('il_grp_status_open','text');
 		}
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		
 		return isset($row['obj_id']) ? $row['obj_id'] : 0;
 	}
@@ -1554,9 +1614,33 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			return false;
 		}
 	}
-
-
-
+	
+	/**
+	 * This method is called before "initDefaultRoles".
+	 * Therefore now local course roles are created.
+	 * 
+	 * Grants permissions on the course object for all parent roles.
+	 * Each permission is granted by computing the intersection of the 
+	 * template il_crs_non_member and the permission template of the parent role.
+	 * @param type $a_parent_ref
+	 */
+	public function setParentRolePermissions($a_parent_ref)
+	{
+		global $rbacadmin, $rbacreview;
+		
+		$parent_roles = $rbacreview->getParentRoleIds($a_parent_ref);
+		foreach((array) $parent_roles as $parent_role)
+		{
+			$rbacadmin->initIntersectionPermissions(
+				$this->getRefId(),
+				$parent_role['obj_id'],
+				$parent_role['parent'],
+				$this->getGrpStatusOpenTemplateId(),
+				ROLE_FOLDER_ID
+			);
+		}
+	}
+	
 	/**
 	* init default roles settings
 	* @access	public
@@ -1583,6 +1667,23 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		
 		return array();
 	}
+	
+	/**
+	 * Apply template
+	 * @param int $a_tpl_id
+	 */
+	public function applyDidacticTemplate($a_tpl_id)
+	{
+		parent::applyDidacticTemplate($a_tpl_id);
+		
+		if(!$a_tpl_id)
+		{
+			// init default type
+			$this->setParentRolePermissions($this->getRefId());
+		}
+		
+	}
+	
 
 	public static function _lookupIdByTitle($a_title)
 	{
@@ -1802,10 +1903,33 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			case 'create':
 			case 'update':
+				
+				$apps = array();
+				if($this->getStart() && $this->getEnd())
+				{
+					$app = new ilCalendarAppointmentTemplate(self::CAL_START);
+					$app->setTitle($this->getTitle());
+					$app->setSubtitle('grp_start');
+					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+					$app->setDescription($this->getLongDescription());	
+					$app->setStart($this->getStart());
+					$app->setFullday(true);
+					$apps[] = $app;
+
+					$app = new ilCalendarAppointmentTemplate(self::CAL_END);
+					$app->setTitle($this->getTitle());
+					$app->setSubtitle('grp_end');
+					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+					$app->setDescription($this->getLongDescription());	
+					$app->setStart($this->getEnd());
+					$app->setFullday(true);
+					$apps[] = $app;
+				}
 				if($this->isRegistrationUnlimited())
 				{
-					return array();
+					return $apps;
 				}
+				
 				$app = new ilCalendarAppointmentTemplate(self::CAL_REG_START);
 				$app->setTitle($this->getTitle());
 				$app->setSubtitle('grp_cal_reg_start');
@@ -1821,6 +1945,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 				$app->setDescription($this->getLongDescription());
 				$app->setStart($this->getRegistrationEnd());
 				$apps[] = $app;
+				
 				
 				return $apps;
 				
@@ -1984,7 +2109,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 						continue;
 					}
 					$this->getMembersObject()->add($user_id,IL_GRP_MEMBER); // #18213
-					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
+					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+					$this->getMembersObject()->sendNotification(ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,$user_id,true);
 					$waiting_list->removeFromList($user_id);
 
 					$now++;

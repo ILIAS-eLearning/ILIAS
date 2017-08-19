@@ -188,13 +188,14 @@ class ilSCORMOfflineMode
 		$result=true;
 
 		if ($this->type == 'scorm2004') {
-			$lm_set = $ilDB->queryF('SELECT default_lesson_mode, interactions, objectives, comments FROM sahs_lm WHERE id = %s', array('integer'),array($this->obj_id));
+			$lm_set = $ilDB->queryF('SELECT default_lesson_mode, interactions, objectives, comments, time_from_lms FROM sahs_lm WHERE id = %s', array('integer'),array($this->obj_id));
 			while($lm_rec = $ilDB->fetchAssoc($lm_set))
 			{
 				$defaultLessonMode=($lm_rec["default_lesson_mode"]);
 				$interactions=(ilUtil::yn2tf($lm_rec["interactions"]));
 				$objectives=(ilUtil::yn2tf($lm_rec["objectives"]));
 				$comments=(ilUtil::yn2tf($lm_rec["comments"]));
+				$time_from_lms=(ilUtil::yn2tf($lm_rec["time_from_lms"]));
 			}
 			include_once './Modules/Scorm2004/classes/class.ilSCORM2004StoreData.php';
 			$data = json_decode($in);
@@ -215,7 +216,7 @@ class ilSCORMOfflineMode
 				}
 			}
 			if ($result==true) {
-				$result=ilSCORM2004StoreData::syncGlobalStatus($userId, $this->obj_id, $data, $data->now_global_status);
+				$result=ilSCORM2004StoreData::syncGlobalStatus($userId, $this->obj_id, $data, $data->now_global_status, $time_from_lms);
 			}
 		} else {
 			include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php";
@@ -291,7 +292,7 @@ class ilSCORMOfflineMode
 		}
 	}
 	
-	public function checkIfAnyoneIsInOfflineMode($obj_id) {
+	public static function checkIfAnyoneIsInOfflineMode($obj_id) {
 		global $ilDB;
 		$res = $ilDB->queryF("SELECT count(*) cnt FROM sahs_user WHERE obj_id=%s AND offline_mode = 'offline'",
 			array('integer'),
@@ -302,7 +303,7 @@ class ilSCORMOfflineMode
 		return true;
 	}
 
-	public function usersInOfflineMode($obj_id) {
+	public static function usersInOfflineMode($obj_id) {
 		global $ilDB;
 		$users = array();
 		$res = $ilDB->queryF("SELECT user_id, lastname, firstname FROM sahs_user, usr_data "
@@ -317,7 +318,7 @@ class ilSCORMOfflineMode
 		return $users;
 	}
 
-	public function stopOfflineModeForUser($obj_id,$user_id) {
+	public static function stopOfflineModeForUser($obj_id,$user_id) {
 		global $ilDB;
 		$res = $ilDB->queryF("UPDATE sahs_user SET offline_mode='online' WHERE obj_id=%s AND user_id=%s",
 			array('integer','integer'),

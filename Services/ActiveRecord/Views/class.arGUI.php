@@ -1,7 +1,7 @@
 <?php
 include_once("./Services/Component/classes/class.ilPluginConfigGUI.php");
-include_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecordList.php');
-include_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Index/class.arIndexTableGUI.php');
+include_once('./Services/ActiveRecord/class.ActiveRecordList.php');
+include_once('./Services/ActiveRecord/Views/Index/class.arIndexTableGUI.php');
 include_once('./Services/UICore/classes/class.ilTemplate.php');
 
 /**
@@ -50,7 +50,11 @@ class arGUI {
 	 * @param ilPlugin $plugin_object
 	 */
 	public function __construct($record_type, ilPlugin $plugin_object = NULL) {
-		global $tpl, $ilCtrl, $ilAccess, $lng;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
 
 		$this->lng = $lng;
 

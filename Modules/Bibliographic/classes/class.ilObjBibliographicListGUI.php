@@ -2,6 +2,7 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 include_once "Services/Object/classes/class.ilObjectListGUI.php";
+
 /**
  * Class ilObjDataCollectionListGUI
  *
@@ -39,14 +40,16 @@ class ilObjBibliographicListGUI extends ilObjectListGUI {
 	 *                    "value" (string) => property value
 	 */
 	public function getProperties() {
-		global $lng, $ilUser;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 		$props = array();
 		include_once("./Modules/Bibliographic/classes/class.ilObjBibliographicAccess.php");
-		if (! ilObjBibliographicAccess::_lookupOnline($this->obj_id)) {
+		if (!ilObjBibliographicAccess::_lookupOnline($this->obj_id)) {
 			$props[] = array(
-				"alert" => true,
+				"alert"    => true,
 				"property" => $lng->txt("status"),
-				"value" => $lng->txt("offline")
+				"value"    => $lng->txt("offline"),
 			);
 		}
 

@@ -10,7 +10,7 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
 class ilMailAttachmentTableGUI extends ilTable2GUI
 {
 	/**
-	 * @var ilCtrl
+	 * @var \ilCtrl
 	 */
 	protected $ctrl;
 
@@ -20,12 +20,9 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $ilCtrl;
+		global $DIC;
 
-		$this->ctrl = $ilCtrl;
+		$this->ctrl = $DIC->ctrl();
 
 		// Call this immediately in constructor
 		$this->setId('mail_attachments');
@@ -58,17 +55,17 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
 	}
 
 	/**
-	 * @param array $file_data
+	 * @inheritdoc
 	 */
-	protected function fillRow(Array $file_data)
+	protected function fillRow($a_set)
 	{
 		/**
 		 * We need to encode this because of filenames with the following format: "anystring".txt (with ")
 		 */
-		$this->tpl->setVariable('VAL_CHECKBOX', ilUtil::formCheckbox($file_data['checked'], 'filename[]', urlencode($file_data['filename'])));
-		$this->tpl->setVariable('VAL_FILENAME', $this->formatValue('filename', $file_data['filename']));
-		$this->tpl->setVariable('VAL_FILESIZE', $this->formatValue('filesize', $file_data['filesize']));
-		$this->tpl->setVariable('VAL_FILECREATEDATE', $this->formatValue('filecreatedate', $file_data['filecreatedate']));
+		$this->tpl->setVariable('VAL_CHECKBOX', ilUtil::formCheckbox($a_set['checked'], 'filename[]', urlencode($a_set['filename'])));
+		$this->tpl->setVariable('VAL_FILENAME', $this->formatValue('filename', $a_set['filename']));
+		$this->tpl->setVariable('VAL_FILESIZE', $this->formatValue('filesize', $a_set['filesize']));
+		$this->tpl->setVariable('VAL_FILECREATEDATE', $this->formatValue('filecreatedate', $a_set['filecreatedate']));
 	}
 
 	/**

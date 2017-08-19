@@ -15,6 +15,12 @@ class ilStudyProgrammeLP extends ilObjectLP {
 	 */
 	protected $prg = null;
 	
+	public static function getDefaultModes($a_lp_active) {		
+		return array(
+			ilLPObjSettings::LP_MODE_DEACTIVATED
+		);		
+	}
+	
 	public function getDefaultMode() {
 		return ilLPObjSettings::LP_MODE_STUDY_PROGRAMME;
 	}

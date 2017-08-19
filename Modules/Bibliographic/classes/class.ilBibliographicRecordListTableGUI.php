@@ -10,7 +10,7 @@ require_once './Services/Table/classes/class.ilTable2GUI.php';
  * @version $Id:
  *
  */
-class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
+class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 	/**
 	 * @var ilCtrl
@@ -22,8 +22,10 @@ class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
 	 * @param ilObjBibliographicGUI $a_parent_obj
 	 * @param string                $a_parent_cmd
 	 */
-	public function  __construct(ilObjBibliographicGUI $a_parent_obj, $a_parent_cmd) {
-		global $lng, $ilCtrl;
+	public function __construct(ilObjBibliographicGUI $a_parent_obj, $a_parent_cmd) {
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		$this->setId('tbl_bibl_overview');
 		$this->setPrefix('tbl_bibl_overview');
 		$this->setFormName('tbl_bibl_overview');
@@ -53,7 +55,7 @@ class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
 	 */
 	public function fillRow($a_set) {
 		$il_obj_entry = ilBibliographicEntry::getInstance($this->parent_obj->object->getFiletype(), $a_set['entry_id']);
-		$this->tpl->setVariable('SINGLE_ENTRY', $il_obj_entry->getOverview());
+		$this->tpl->setVariable('SINGLE_ENTRY', ilBibliographicDetailsGUI::prepareLatex($il_obj_entry->getOverview()));
 		//Detail-Link
 		$this->ctrl->setParameter($this->parent_obj, ilObjBibliographicGUI::P_ENTRY_ID, $a_set['entry_id']);
 		$this->tpl->setVariable('DETAIL_LINK', $this->ctrl->getLinkTarget($this->parent_obj, 'showDetails'));
@@ -81,5 +83,3 @@ class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
 		$this->setData($entries);
 	}
 }
-
-?>

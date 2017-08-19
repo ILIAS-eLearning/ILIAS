@@ -151,9 +151,9 @@ class ilContactGUI
 
 				$this->tabs_gui->activateSubTab('buddy_view_gallery');
 				$this->activateTab('my_contacts');
-				require_once 'Services/User/classes/class.ilUsersGalleryUsers.php';
-				require_once 'Services/User/classes/class.ilUsersGalleryGUI.php';
-				$this->ctrl->forwardCommand(new ilUsersGalleryGUI(new ilUsersGalleryUsers()));
+				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryContacts.php';
+				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryGUI.php';
+				$this->ctrl->forwardCommand(new ilUsersGalleryGUI(new ilUsersGalleryContacts()));
 				$this->tpl->show();
 				break;
 

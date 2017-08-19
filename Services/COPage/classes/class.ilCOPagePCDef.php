@@ -25,12 +25,14 @@ class ilCOPagePCDef
 	 */
 	static function init()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$db = $DIC->database();
 		
 		if (self::$pc_def == null)
 		{
-			$set = $ilDB->query("SELECT * FROM copg_pc_def ");
-			while ($rec = $ilDB->fetchAssoc($set))
+			$set = $db->query("SELECT * FROM copg_pc_def ");
+			while ($rec = $db->fetchAssoc($set))
 			{
 				$rec["pc_class"] = "ilPC".$rec["name"];
 				$rec["pc_gui_class"] = "ilPC".$rec["name"]."GUI";

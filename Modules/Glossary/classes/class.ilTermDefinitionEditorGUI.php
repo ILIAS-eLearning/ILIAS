@@ -41,6 +41,7 @@ class ilTermDefinitionEditorGUI
 		$this->glossary = new ilObjGlossary($_GET["ref_id"], true);
 		$this->definition = new ilGlossaryDefinition($_GET["def"]);
 		$this->term = new ilGlossaryTerm($this->definition->getTermId());
+		$this->term_glossary = new ilObjGlossary(ilGlossaryTerm::_lookGlossaryID($this->definition->getTermId()), false);
 		$this->tabs_gui = $ilTabs;
 
 		$this->ctrl->saveParameter($this, array("def"));
@@ -57,7 +58,7 @@ class ilTermDefinitionEditorGUI
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
+			ilObjStyleSheet::getContentStylePath($this->term_glossary->getStyleSheetId()));
 		$this->tpl->parseCurrentBlock();
 
 		// syntax style
@@ -119,7 +120,7 @@ class ilTermDefinitionEditorGUI
 				// metadata
 				// ... set title to term, if no title is given
 				include_once("./Services/MetaData/classes/class.ilMD.php");
-				$md = new ilMD($this->glossary->getId(), $this->definition->getId(), "gdf");
+				$md = new ilMD($this->term_glossary->getId(), $this->definition->getId(), "gdf");
 				$md_gen = $md->getGeneral();
 				if ($md_gen->getTitle() == "")
 				{
@@ -127,13 +128,13 @@ class ilTermDefinitionEditorGUI
 					$md_gen->update();
 				}
 
-				$page_gui->activateMetaDataEditor($this->glossary, "gdf", $this->definition->getId());
+				$page_gui->activateMetaDataEditor($this->term_glossary, "gdf", $this->definition->getId());
 				
 				$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 				$page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");
-				$page_gui->setStyleId($this->glossary->getStyleSheetId());
+				$page_gui->setStyleId($this->term_glossary->getStyleSheetId());
 				$page_gui->setLocator($gloss_loc);
 				$page_gui->setIntLinkReturn($this->ctrl->getLinkTargetByClass("ilobjglossarygui", "quickList",
 					"", false, false));

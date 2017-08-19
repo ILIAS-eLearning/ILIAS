@@ -14,7 +14,27 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilPresentationListTableGUI extends ilTable2GUI
 {
+
+	/**
+	 * @var ilObjGlossary
+	 */
+	protected $glossary;
+
+	/**
+	 * @var array
+	 */
 	protected $adv_cols_order = array();
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 
 	/**
 	 * Constructor
@@ -22,8 +42,11 @@ class ilPresentationListTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_glossary, $a_offline,
 		$a_tax_node, $a_tax_id = 0)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
-		
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+
 		$this->glossary = $a_glossary;
 		$this->offline = $a_offline;
 		$this->tax_node = $a_tax_node;
@@ -36,11 +59,11 @@ class ilPresentationListTableGUI extends ilTable2GUI
 
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		//$this->setTitle($lng->txt("cont_terms"));
+		//$this->setTitle($this->lng->txt("cont_terms"));
 
 		if ($this->glossary->getPresentationMode() == "full_def")
 		{
-			$this->addColumn($lng->txt("cont_terms"));
+			$this->addColumn($this->lng->txt("cont_terms"));
 		}
 		else
 		{
@@ -51,7 +74,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 			{
 				if ($c["id"] == 0)
 				{
-					$this->addColumn($lng->txt("cont_term"), "term");
+					$this->addColumn($this->lng->txt("cont_term"), "term");
 				}
 				else
 				{
@@ -60,17 +83,17 @@ class ilPresentationListTableGUI extends ilTable2GUI
 			}
 						
 
-			$this->addColumn($lng->txt("cont_definitions"));
+			$this->addColumn($this->lng->txt("cont_definitions"));
 			if ($this->glossary->isVirtual())
 			{
-				$this->addColumn($lng->txt("obj_glo"));
+				$this->addColumn($this->lng->txt("obj_glo"));
 			}
 		}
 		
 		$this->setEnableHeader(true);
 		if (!$this->offline)
 		{
-			$this->setFormAction($ilCtrl->getFormAction($this->parent_obj));
+			$this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
 		}
 		else
 		{
@@ -95,7 +118,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		//$this->setDefaultOrderField("login");
 		//$this->setDefaultOrderDirection("asc");
 		$this->setData($this->glossary->getTermList($this->filter["term"], $_GET["letter"],
-				$this->filter["definition"], $this->tax_node, false, true, $this->record_gui->getFilterElements()));
+				$this->filter["definition"], $this->tax_node, false, true, $this->record_gui->getFilterElements(), false, true));
 //		$this->setData(array());	
 	}
 	
@@ -114,11 +137,9 @@ class ilPresentationListTableGUI extends ilTable2GUI
 	 */
 	function initFilter()
 	{
-		global $lng, $rbacreview, $ilUser, $ilDB;
-		
 		// term
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-		$ti = new ilTextInputGUI($lng->txt("cont_term"), "term");
+		$ti = new ilTextInputGUI($this->lng->txt("cont_term"), "term");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
 		$ti->setSubmitFormOnEnter(true);
@@ -127,10 +148,10 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		$this->filter["term"] = $ti->getValue();
 		
 		// definition
-		if ($ilDB->getDBType() != "oracle")
+		if ($this->glossary->supportsLongTextQuery())
 		{
 			include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-			$ti = new ilTextInputGUI($lng->txt("cont_definition"), "defintion");
+			$ti = new ilTextInputGUI($this->lng->txt("cont_definition"), "defintion");
 			$ti->setMaxLength(64);
 			$ti->setSize(20);
 			$ti->setSubmitFormOnEnter(true);
@@ -163,10 +184,8 @@ class ilPresentationListTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($term)
 	{
-		global $lng, $ilCtrl;
-
 		$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
-		$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
+		$this->ctrl->setParameter($this->parent_obj, "term_id", $term["id"]);
 
 		if ($this->glossary->getPresentationMode() == "full_def")
 		{
@@ -184,8 +203,27 @@ class ilPresentationListTableGUI extends ilTable2GUI
 					$def = $defs[$j];
 					if (count($defs) > 1)
 					{
+						if (!$this->offline)
+						{
+							if (!empty ($filter))
+							{
+								$this->ctrl->setParameter($this->parent_obj, "term", $filter);
+								$this->ctrl->setParameter($this->parent_obj, "oldoffset", $_GET["oldoffset"]);
+							}
+							$this->ctrl->setParameter($this->parent_obj, "term_id", $term["id"]);
+							$this->ctrl->setParameter($this->parent_obj, "offset", $_GET["offset"]);
+							$def_href = $this->ctrl->getLinkTarget($this->parent_obj, "listDefinitions");
+							$this->ctrl->clearParameters($this->parent_obj);
+						}
+						else
+						{
+							$def_href = "term_".$term["id"].".html";
+						}
+						$this->tpl->parseCurrentBlock();
+
 						$this->tpl->setCurrentBlock("definition");
-						$this->tpl->setVariable("DEF_TEXT", $lng->txt("cont_definition")." ".($j + 1));
+						$this->tpl->setVariable("DEF_TEXT", $this->lng->txt("cont_definition")." ".($j + 1));
+						$this->tpl->setVariable("HREF_DEF", $def_href."#ilPageTocDef".($j + 1));
 						$this->tpl->parseCurrentBlock();
 					}
 
@@ -215,15 +253,18 @@ class ilPresentationListTableGUI extends ilTable2GUI
 						$ltexe = strpos($short_str, "[/tex]", $ltexs);
 						$short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
 					}
+
+					include_once './Services/MathJax/classes/class.ilMathJax.php';
 					if (!$this->offline)
 					{
-						$short_str = ilUtil::insertLatexImages($short_str);
+						$short_str = ilMathJax::getInstance()->insertLatexImages($short_str);
 					}
 					else
 					{
-						$short_str = ilUtil::buildLatexImages($short_str,
-							$this->parent_obj->getOfflineDirectory());
+						$short_str = ilMathJax::getInstance()->insertLatexImages($short_str, '[tex]', '[/tex]',
+							$this->parent_obj->getOfflineDirectory().'/teximg','./teximg');
 					}
+
 					$short_str = ilPCParagraph::xml2output($short_str);
 
 					$this->tpl->setVariable("DEF_SHORT", $short_str);
@@ -248,8 +289,8 @@ class ilPresentationListTableGUI extends ilTable2GUI
 			}
 
 		}
-		
-		$ilCtrl->clearParameters($this->parent_obj);
+
+		$this->ctrl->clearParameters($this->parent_obj);
 
 		// advanced metadata
 		foreach ($this->adv_cols_order as $c)
@@ -261,14 +302,14 @@ class ilPresentationListTableGUI extends ilTable2GUI
 				{
 					if (!empty ($filter))
 					{
-						$ilCtrl->setParameter($this->parent_obj, "term", $filter);
-						$ilCtrl->setParameter($this->parent_obj, "oldoffset", $_GET["oldoffset"]);
+						$this->ctrl->setParameter($this->parent_obj, "term", $filter);
+						$this->ctrl->setParameter($this->parent_obj, "oldoffset", $_GET["oldoffset"]);
 					}
-					$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
-					$ilCtrl->setParameter($this->parent_obj, "offset", $_GET["offset"]);
+					$this->ctrl->setParameter($this->parent_obj, "term_id", $term["id"]);
+					$this->ctrl->setParameter($this->parent_obj, "offset", $_GET["offset"]);
 					$this->tpl->setVariable("LINK_VIEW_TERM",
-						$ilCtrl->getLinkTarget($this->parent_obj, "listDefinitions"));
-					$ilCtrl->clearParameters($this->parent_obj);
+						$this->ctrl->getLinkTarget($this->parent_obj, "listDefinitions"));
+					$this->ctrl->clearParameters($this->parent_obj);
 				}
 				else
 				{

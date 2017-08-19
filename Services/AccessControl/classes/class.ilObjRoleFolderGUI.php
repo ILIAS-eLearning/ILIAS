@@ -104,23 +104,36 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 		}
 
-		$this->ctrl->setParameter($this,'new_type','role');
-		$ilToolbar->addButton(
-			$this->lng->txt('rolf_create_role'),
-			$this->ctrl->getLinkTarget($this,'create')
-		);
 		
-		$this->ctrl->setParameter($this,'new_type','rolt');
-		$ilToolbar->addButton(
-			$this->lng->txt('rolf_create_rolt'),
-			$this->ctrl->getLinkTarget($this,'create')
-		);
-		$this->ctrl->clearParameters($this);
+		if($rbacsystem->checkAccess('create_role', $this->object->getRefId()))
+		{
+			$this->ctrl->setParameter($this,'new_type','role');
+			$ilToolbar->addButton(
+				$this->lng->txt('rolf_create_role'),
+				$this->ctrl->getLinkTarget($this,'create')
+			);
+		}
+		if($rbacsystem->checkAccess('create_rolt', $this->object->getRefId()))
+		{
 
-		$ilToolbar->addButton(
-				$this->lng->txt('rbac_import_role'),
-				$this->ctrl->getLinkTargetByClass('ilPermissionGUI','displayImportRoleForm')
-		);
+			$this->ctrl->setParameter($this,'new_type','rolt');
+			$ilToolbar->addButton(
+				$this->lng->txt('rolf_create_rolt'),
+				$this->ctrl->getLinkTarget($this,'create')
+			);
+			$this->ctrl->clearParameters($this);
+		}
+
+		if(
+			$rbacsystem->checkAccess('create_rolt', $this->object->getRefId()) ||
+			$rbacsystem->checkAccess('create_rolt', $this->object->getRefId())
+		)
+		{
+			$ilToolbar->addButton(
+					$this->lng->txt('rbac_import_role'),
+					$this->ctrl->getLinkTargetByClass('ilPermissionGUI','displayImportRoleForm')
+			);
+		}
 
 		include_once './Services/AccessControl/classes/class.ilRoleTableGUI.php';
 		$table = new ilRoleTableGUI($this,'view');
@@ -368,6 +381,12 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 				$target,
 				$rbacreview->getRoleFolderOfRole($target)
 		);
+		
+		if($change_existing)
+		{
+			$target_obj = $rbacreview->getRoleFolderOfRole($target);
+			$this->doChangeExistingObjects($target_obj, $target);
+		}
 	}
 	
 	/**
@@ -404,12 +423,22 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	{
 		global $rbacadmin, $rbacreview;
 		
+		ilLoggerFactory::getLogger('ac')->debug('Remove permission source: ' . $source);
+		ilLoggerFactory::getLogger('ac')->debug('Remove permission target: ' . $target);
+		ilLoggerFactory::getLogger('ac')->debug('Remove permission change existing: ' . $change_existing);
+		
 		$rbacadmin->copyRolePermissionSubtract(
 				$source,
 				$this->object->getRefId(),
 				$target,
 				$rbacreview->getRoleFolderOfRole($target)
 		);
+		
+		if($change_existing)
+		{
+			$target_obj = $rbacreview->getRoleFolderOfRole($target);
+			$this->doChangeExistingObjects($target_obj, $target);
+		}
 	}
 	
 	
@@ -465,6 +494,44 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			);
 		}
 	}
+	
+	/**
+	 * Do change existing objects
+	 * @global type $rbacreview
+	 * @param type $a_start_obj
+	 * @param type $a_source_role
+	 */
+	protected function doChangeExistingObjects($a_start_obj, $a_target_role)
+	{
+		global $rbacreview;
+		
+		if(!$a_start_obj)
+		{
+			// todo error handling
+		}
+		
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		if($rbacreview->isProtected($this->object->getRefId(),$a_source_role))
+		{
+			$mode = ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES;
+		}
+		else
+		{
+			$mode = ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES;
+		}
+
+		if($a_start_obj)
+		{
+			$role = new ilObjRole($a_target_role);
+			$role->changeExistingObjects(
+				$a_start_obj,
+				$mode,
+				array('all')
+			);
+		}
+		
+	}
+	
 
 	/**
 	 * Apply role filter

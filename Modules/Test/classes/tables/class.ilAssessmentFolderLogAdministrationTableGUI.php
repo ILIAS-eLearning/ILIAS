@@ -35,9 +35,10 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
 		$this->setStyle('table', 'fullwidth');
 
 		$this->addColumn('','','1%', true);
-		$this->addColumn($this->lng->txt("title"),'title', '');
-		$this->addColumn($this->lng->txt("ass_log_count_datasets"),'nr', '');
-	
+		$this->addColumn($this->lng->txt("title"),'title', '50%');
+		$this->addColumn($this->lng->txt("ass_log_count_datasets"),'nr', '15%');
+		$this->addColumn($this->lng->txt("ass_location"), '', '30%');
+
 		$this->setRowTemplate("tpl.il_as_tst_assessment_log_administration_row.html", "Modules/Test");
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -71,6 +72,15 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($data['title']));
 		$this->tpl->setVariable("NR", $data['nr']);
 		$this->tpl->setVariable("TEST_ID", $data['id']);
+		$this->tpl->setVariable("LOCATION_HREF", $data['location_href']);
+		$this->tpl->setVariable("LOCATION_TXT", $data['location_txt']);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function numericOrdering($a_field)
+	{
+		return 'nr' == $a_field;
 	}
 }
-?>

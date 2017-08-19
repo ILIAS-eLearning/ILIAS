@@ -1,14 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once ("./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordModel.php");
-require_once ("./Modules/DataCollection/classes/Table/class.ilDclTable.php");
-require_once ("./Modules/DataCollection/classes/Fields/Base/class.ilDclDatatype.php");
-require_once ('class.ilDclRecordListTableGUI.php');
-require_once ("./Modules/DataCollection/classes/Helpers/class.ilDclLinkButton.php");
-require_once ('class.ilDclRecordListTableGUI.php');
-require_once ('class.ilDclContentImporter.php');
-
 /**
  *
  * @author  Martin Studer <ms@studer-raimann.ch>
@@ -183,7 +175,7 @@ class ilDclRecordListGUI {
 		$tpl->setPermanentLink("dcl", $this->parent_obj->ref_id . "_" . $this->tableview_id);
 
 		if ($desc = $this->table_obj->getDescription()) {
-			$desc = "<div class='ilDclTableDescription'>{$desc}</div>";
+			$desc = "<div class='ilDclTableDescription'>".nl2br($desc)."</div>";
 		}
 		$tpl->setContent($desc . $list->getHTML());
 	}
@@ -508,6 +500,7 @@ class ilDclRecordListGUI {
 
 		$list->setExternalSegmentation(true);
 		$list->setExternalSorting(true);
+		$list->determineOffsetAndOrder();
 
 		$limit = $list->getLimit();
 		$offset = $list->getOffset();
@@ -580,7 +573,8 @@ class ilDclRecordListGUI {
 	 */
 	protected function checkAccess()
 	{
-		return ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id) || ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id);
+		return ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id) ||
+		(ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id) && ilObjDataCollectionAccess::hasAccessToTable($this->table_id));
 	}
 
 }

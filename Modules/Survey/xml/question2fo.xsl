@@ -42,9 +42,9 @@
 	
 	<xsl:template match="title"></xsl:template>
 	
-	<xsl:template match="//div">
-		<xsl:choose>
-			<xsl:when test="@class='solutionbox'">
+	<xsl:template match="//span">
+		<xsl:choose>			
+			<xsl:when test="contains(@class, 'solutionbox')">
 				<fo:block>
 					<xsl:attribute name="border-width">1</xsl:attribute>
 					<xsl:attribute name="border-style">solid</xsl:attribute>
@@ -60,6 +60,17 @@
 					<xsl:apply-templates select="node()"></xsl:apply-templates>
 				</fo:block>
 			</xsl:when>
+			<xsl:when test="@class='questionLabel'">		
+				<fo:inline>
+					<xsl:attribute name="font-style">italic</xsl:attribute>
+					<xsl:apply-templates/>
+				</fo:inline>			
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	
+	<xsl:template match="//div">
+		<xsl:choose>			
 			<xsl:when test="@class='surveySheet'">
 				<fo:block>
 					<!-- <xsl:attribute name="page-break-inside">avoid</xsl:attribute> -->
@@ -82,7 +93,7 @@
 					<xsl:attribute name="margin-bottom">0.5em</xsl:attribute>
 					<xsl:apply-templates select="node()"></xsl:apply-templates>
 				</fo:block>
-			</xsl:when>
+			</xsl:when>			
 			<xsl:when test="@class='questionblockTitle'">
 				<fo:block>
 					<xsl:attribute name="text-align">center</xsl:attribute>

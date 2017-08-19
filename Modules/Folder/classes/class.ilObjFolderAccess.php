@@ -15,11 +15,7 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 class ilObjFolderAccess extends ilObjectAccess
 {
     private static $folderSettings; 
-    
-    function _construct () {
-        parent::__construct();
-    }
-    
+
     private static function getFolderSettings() {
         if (is_null (ilObjFolderAccess::$folderSettings))
         {
@@ -62,7 +58,7 @@ class ilObjFolderAccess extends ilObjectAccess
 		//$commands[] = array("permission" => "read", "cmd" => "showSummary", "lang_var" => "info_short", "enable_anonymous" => "false");
 		if (ilObjFolderAccess::hasDownloadAction($_GET["ref_id"]))
 		{
-		    $commands[] = array("permission" => "read", "cmd" => "downloadFolder", "lang_var" => "download", "enable_anonymous" => "false");
+		    $commands[] = array("permission" => "read", "cmd" => "downloadFolder", "lang_var" => "download"); // #18805
 		}
 		// BEGIN WebDAV: Mount Webfolder.
 		include_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');

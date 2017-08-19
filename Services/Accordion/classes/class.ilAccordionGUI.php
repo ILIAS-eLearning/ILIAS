@@ -333,9 +333,11 @@ class ilAccordionGUI
 
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQueryUI();
-		$tpl->addJavaScript("./Services/Accordion/js/accordion.js", true, 3);
 
-		$tpl->addJavascript(self::$owl_path.self::$owl_js_path);
+		foreach (self::getLocalJavascriptFiles() as $f)
+		{
+			$tpl->addJavaScript($f, true, 3);
+		}
 	}
 	
 	/**
@@ -344,10 +346,33 @@ class ilAccordionGUI
 	static function addCss()
 	{
 		global $tpl;
-		
-		$tpl->addCss("./Services/Accordion/css/accordion.css");
 
-		$tpl->addCss(self::$owl_path.self::$owl_css_path);
+		foreach (self::getLocalCssFiles() as $f)
+		{
+			$tpl->addCss($f);
+		}
+	}
+
+	/**
+	 * @return array
+	 */
+	static function getLocalJavascriptFiles()
+	{
+		return array(
+			"./Services/Accordion/js/accordion.js",
+			self::$owl_path.self::$owl_js_path
+		);
+	}
+
+	/**
+	 * @return array
+	 */
+	static function getLocalCssFiles()
+	{
+		return array(
+			"./Services/Accordion/css/accordion.css",
+			self::$owl_path.self::$owl_css_path
+		);
 	}
 
 	/**

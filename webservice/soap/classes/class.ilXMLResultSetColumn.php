@@ -36,7 +36,7 @@ class ilXMLResultSetColumn {
 	var $name;
 	var $index;
 
-	function ilXMLResultSetColumn ($index, $name)
+	function __construct($index, $name)
 	{
 		$this->name = $name;
 		$this->index = $index;

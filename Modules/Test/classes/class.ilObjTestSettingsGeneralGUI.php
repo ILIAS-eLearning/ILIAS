@@ -36,7 +36,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	/** @var ilCtrl $ctrl */
 	protected $ctrl = null;
 
-	/** @var ilAccess $access */
+	/** @var ilAccessHandler $access */
 	protected $access = null;
 
 	/** @var ilLanguage $lng */
@@ -790,6 +790,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$password = new ilTextInputGUI($this->lng->txt("tst_password_enter"), "password");
 		$password->setRequired(true);
 		$password->setSize(20);
+		$password->setMaxLength(20);
 		$password->setValue($this->testOBJ->getPassword());
 		$pwEnabled->addSubItem($password);
 		$form->addItem($pwEnabled);
@@ -838,17 +839,20 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	 */
 	private function saveTestAccessProperties(ilPropertyFormGUI $form)
 	{
-		// starting time
-		$starting_time = $form->getItemByPostVar('starting_time')->getDate();
-		if($starting_time instanceof ilDateTime)
+		if( !$this->testOBJ->participantDataExist() )
 		{
-			$this->testOBJ->setStartingTime($starting_time->getUnixtime());
-			$this->testOBJ->setStartingTimeEnabled(true);
-		}
-		else
-		{
-			$this->testOBJ->setStartingTime(null);
-			$this->testOBJ->setStartingTimeEnabled(false);
+			// starting time
+			$starting_time = $form->getItemByPostVar('starting_time')->getDate();
+			if($starting_time instanceof ilDateTime)
+			{
+				$this->testOBJ->setStartingTime($starting_time->getUnixtime());
+				$this->testOBJ->setStartingTimeEnabled(true);
+			}
+			else
+			{
+				$this->testOBJ->setStartingTime(null);
+				$this->testOBJ->setStartingTimeEnabled(false);
+			}
 		}
 
 		// ending time
@@ -928,6 +932,29 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$limitPasses->addSubItem($nr_of_tries);
 		$form->addItem($limitPasses);
 
+		// pass_waiting time between testruns
+		$pass_waiting_enabled = new ilCheckboxInputGUI($this->lng->txt('tst_pass_waiting_enabled'), 'pass_waiting_enabled');
+		$pass_waiting_enabled->setInfo($this->lng->txt('tst_pass_waiting_info'));
+		$pass_waiting_enabled->setChecked($this->testOBJ->isPassWaitingEnabled());
+
+		// pass_waiting
+		$duration = new ilDurationInputGUI($this->lng->txt("tst_pass_waiting_time"), "pass_waiting");
+		
+		$duration->setShowMonths(TRUE);
+		$duration->setShowDays(TRUE);
+		$duration->setShowHours(TRUE);
+		$duration->setShowMinutes(TRUE);
+		
+		$pw_time_array = explode(':', $this->testOBJ->getPassWaiting());
+		$duration->setMonths($pw_time_array[0]);
+		$duration->setDays($pw_time_array[1]);
+		$duration->setHours($pw_time_array[2]);
+		$duration->setMinutes($pw_time_array[3]);
+		$duration->setRequired(FALSE);
+		$pass_waiting_enabled->addSubItem($duration);
+		
+		$form->addItem($pass_waiting_enabled);
+		
 		// enable max. processing time
 		$processing = new ilCheckboxInputGUI($this->lng->txt("tst_processing_time"), "chb_processing_time");
 		$processing->setInfo($this->lng->txt("tst_processing_time_desc"));
@@ -964,6 +991,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$processing->setDisabled(true);
 			$processingtime->setDisabled(true);
 			$resetprocessing->setDisabled(true);
+			
+			$duration->setDisabled(true);
+			$pass_waiting_enabled->setDisabled(true);
 		}
 
 		// kiosk mode
@@ -1011,6 +1041,28 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 				}
 			}
 
+			// pass_waiting
+			if($form->getItemByPostVar('pass_waiting_enabled') instanceof ilFormPropertyGUI)
+			{
+				if ($form->getItemByPostVar('pass_waiting_enabled')->getChecked())
+				{
+					$pass_waiting_values = $form->getItemByPostVar('pass_waiting');
+					
+					$pass_waiting_duration[] = sprintf("%'.02d", $pass_waiting_values->getMonths());
+					$pass_waiting_duration[] = sprintf("%'.03d",$pass_waiting_values->getDays());
+					$pass_waiting_duration[] = sprintf("%'.02d", $pass_waiting_values->getHours());
+					$pass_waiting_duration[] = sprintf("%'.02d", $pass_waiting_values->getMinutes());
+					$pass_waiting_duration[] = sprintf("%'.02d", $pass_waiting_values->getSeconds());
+
+					$pass_waiting_string = implode(':', $pass_waiting_duration);
+					$this->testOBJ->setPassWaiting($pass_waiting_string);
+				}
+				else
+				{
+					$this->testOBJ->setPassWaiting("00:000:00:00:00");
+				}
+			}
+			
 			$this->testOBJ->setEnableProcessingTime($form->getItemByPostVar('chb_processing_time')->getChecked());
 			if ($this->testOBJ->getEnableProcessingTime())
 			{
@@ -1131,6 +1183,10 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$radioGroup = new ilRadioGroupInputGUI(
 			$this->lng->txt('tst_instant_feedback_handling'), 'instant_feedback_handling'
 		);
+		if( $this->testOBJ->participantDataExist() )
+		{
+			$radioGroup->setDisabled(true);
+		}
 		$radioOption = new ilRadioOption(
 			$this->lng->txt('tst_instant_feedback_handling_none'),
 			self::INST_FB_HANDLING_OPT_NONE
@@ -1214,7 +1270,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$this->testOBJ->setScoringFeedbackOptionsByArray($form->getItemByPostVar('instant_feedback')->getValue());
 		}
 
-		if ($this->formPropertyExists($form, 'instant_feedback_handling'))
+		if (!$this->testOBJ->participantDataExist() && $this->formPropertyExists($form, 'instant_feedback_handling'))
 		{
 			$this->saveInstFbHandlingSettings($form->getItemByPostVar('instant_feedback_handling')->getValue());
 		}

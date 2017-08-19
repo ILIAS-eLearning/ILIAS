@@ -1,0 +1,29 @@
+<!-- fau: testNav - new template for question info. -->
+<!-- BEGIN position_points -->
+<div class="small text-muted">{TXT_POSITION_POINTS}</div>
+<!-- END position_points -->
+
+<!-- BEGIN objectives -->
+<div class="small text-muted">{TXT_OBJECTIVES}</div>
+<!-- END objectives -->
+
+<!-- BEGIN obligatory -->
+<div class="small text-muted">{TXT_OBLIGATORY}</div>
+<!-- END obligatory -->
+
+<!-- BEGIN answer_status -->
+<div id="ilTestQuestionHeaderAnswerStatus" class="small text-muted">
+    <!--
+    <img class="ilTestAnswerStatusIcon ilTestAnswerStatusAnswered {HIDDEN_ANSWERED}" src="{SRC_ANSWERED}" alt="" title="" />
+    <img class="ilTestAnswerStatusIcon ilTestAnswerStatusNotAnswered {HIDDEN_NOT_ANSWERED}" src="{SRC_NOT_ANSWERED}" alt="" title="" />
+    -->
+    <span class="ilTestAnswerStatusAnswered {HIDDEN_ANSWERED}">{TXT_ANSWERED}</span>
+    <span class="ilTestAnswerStatusNotAnswered {HIDDEN_NOT_ANSWERED}">{TXT_NOT_ANSWERED}</span>
+    <span class="ilTestAnswerStatusEditing hidden">{TXT_EDITING}</span>
+
+    <!-- BEGIN postponed -->
+    <span>{TXT_POSTPONED}</span>
+    <!-- END postponed -->
+</div>
+<!-- END answer_status -->
+

@@ -30,7 +30,40 @@ class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass {
 	/**
 	 * check whether goto script will succeed
 	 */
-	static function _checkGoto($a_target) {
+	static function _checkGoto($a_target)
+	{
+		$settings = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']->settings() : $GLOBALS['ilSetting'];
+
+		if('usr_registration' == $a_target)
+		{
+			require_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
+			$regSeetings = new ilRegistrationSettings();
+			if($regSeetings->getRegistrationType() == IL_REG_DISABLED)
+			{
+				$GLOBALS['DIC']->language()->loadLanguageModule('registration');
+				ilUtil::sendFailure(sprintf($GLOBALS['DIC']->language()->txt('registration_disabled_no_access'), $settings->get('admin_email')), true);
+				return false;
+			}
+		}
+		else if('usr_nameassist' == $a_target)
+		{
+			if(!$settings->get('password_assistance'))
+			{
+				$GLOBALS['DIC']->language()->loadLanguageModule('pwassist');
+				ilUtil::sendFailure(sprintf($GLOBALS['DIC']->language()->txt('unassist_disabled_no_access'), $settings->get('admin_email')), true);
+				return false;
+			}
+		}
+		else if('usr_pwassist' == $a_target)
+		{
+			if(!$settings->get('password_assistance'))
+			{
+				$GLOBALS['DIC']->language()->loadLanguageModule('pwassist');
+				ilUtil::sendFailure(sprintf($GLOBALS['DIC']->language()->txt('pwassist_disabled_no_access'), $settings->get('admin_email')), true);
+				return false;
+			}
+		}
+
 		return true;
 	}
 

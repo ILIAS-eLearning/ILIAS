@@ -746,4 +746,91 @@ class ilUnitConfigurationRepository
 			}
 		}
 	}
+
+	/**
+	 * @param int $a_from_consumer_id
+	 * @param int $a_to_consumer_id
+	 */
+	public function cloneUnits($a_from_consumer_id, $a_to_consumer_id)
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+
+		$category_mapping = array();
+
+		$res = $ilDB->queryF("SELECT * FROM il_qpl_qst_fq_ucat WHERE question_fi = %s", array('integer'), array($a_from_consumer_id));
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$new_category_id = $this->copyCategory($row['category_id'], $a_to_consumer_id);
+			$category_mapping[$row['category_id']] = $new_category_id;
+		}
+
+		foreach($category_mapping as $old_category_id => $new_category_id)
+		{
+			$res   = $ilDB->queryF(
+				'SELECT * FROM il_qpl_qst_fq_unit WHERE category_fi = %s',
+				array('integer'),
+				array($old_category_id)
+			);
+
+			$i     = 0;
+			$units = array();
+			while($row = $ilDB->fetchAssoc($res))
+			{
+				$next_id = $ilDB->nextId('il_qpl_qst_fq_unit');
+
+				$units[$i]['old_unit_id'] = $row['unit_id'];
+				$units[$i]['new_unit_id'] = $next_id;
+
+				$ilDB->insert('il_qpl_qst_fq_unit',
+					array(
+						'unit_id'     => array('integer', $next_id),
+						'unit'        => array('text', $row['unit']),
+						'factor'      => array('float', $row['factor']),
+						'baseunit_fi' => array('integer', (int)$row['baseunit_fi']),
+						'category_fi' => array('integer', (int)$new_category_id),
+						'sequence'    => array('integer', (int)$row['sequence']),
+						'question_fi' => array('integer', (int)$a_to_consumer_id)
+					));
+				$i++;
+			}
+
+			foreach($units as $unit)
+			{
+				//update unit : baseunit_fi
+				$ilDB->update('il_qpl_qst_fq_unit',
+					array('baseunit_fi' => array('integer', (int)$unit['new_unit_id'])),
+					array(
+						'baseunit_fi' => array('integer', (int)$unit['old_unit_id']),
+						'question_fi' => array('integer', (int)$a_to_consumer_id)
+					));
+
+				//update var : unit_fi
+				$ilDB->update('il_qpl_qst_fq_var',
+					array('unit_fi' => array('integer', (int)$unit['new_unit_id'])),
+					array(
+						'unit_fi'     => array('integer', (int)$unit['old_unit_id']),
+						'question_fi' => array('integer', (int)$a_to_consumer_id)
+					));
+
+				//update res : unit_fi
+				$ilDB->update('il_qpl_qst_fq_res',
+					array('unit_fi' => array('integer', (int)$unit['new_unit_id'])),
+					array(
+						'unit_fi'     => array('integer', (int)$unit['old_unit_id']),
+						'question_fi' => array('integer', (int)$a_to_consumer_id)
+					));
+
+				//update res_unit : unit_fi
+				$ilDB->update('il_qpl_qst_fq_res_unit',
+					array('unit_fi' => array('integer', (int)$unit['new_unit_id'])),
+					array(
+						'unit_fi'     => array('integer', (int)$unit['old_unit_id']),
+						'question_fi' => array('integer', (int) $a_to_consumer_id)
+					));
+			}
+		}
+	}
 }

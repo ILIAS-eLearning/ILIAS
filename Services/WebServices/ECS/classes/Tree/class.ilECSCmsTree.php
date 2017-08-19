@@ -46,7 +46,8 @@ class ilECSCmsTree extends ilTree
 	public static function deleteByTreeId($a_tree_id)
 	{
 		global $ilDB;
-		
+
+		$GLOBALS['DIC']->logger()->wsrv()->debug('Deleting cms tree: ' . $a_tree_id);
 		$query = 'DELETE FROM ecs_cms_tree '.
 				'WHERE tree = '.$ilDB->quote($a_tree_id,'integer');
 		$ilDB->manipulate($query);

@@ -1,5 +1,9 @@
 <?php
 
+namespace GetId3\Module\AudioVideo;
+
+use GetId3\Lib\Helper;
+
 /////////////////////////////////////////////////////////////////
 /// GetId3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
@@ -23,7 +27,7 @@
  * @link http://getid3.sourceforge.net
  * @link http://www.getid3.org
  */
-class GetId3_Module_AudioVideo_AVCSequenceParameterSetReader
+class AVCSequenceParameterSetReader
 {
     public $sps;
     public $start = 0;
@@ -125,16 +129,17 @@ class GetId3_Module_AudioVideo_AVCSequenceParameterSetReader
      */
     public function getBit()
     {
-        $result = (GetId3_Lib_Helper::BigEndian2Int(substr($this->sps,
+        $result = (Helper::BigEndian2Int(substr($this->sps,
                                                            $this->currentBytes,
                                                            1)) >> (7 - $this->currentBits)) & 0x01;
         $this->skipBits(1);
+
         return $result;
     }
 
     /**
      *
-     * @param type $bits
+     * @param  type $bits
      * @return type
      */
     public function getBits($bits)
@@ -143,6 +148,7 @@ class GetId3_Module_AudioVideo_AVCSequenceParameterSetReader
         for ($i = 0; $i < $bits; $i++) {
             $result = ($result << 1) + $this->getBit();
         }
+
         return $result;
     }
 
@@ -163,6 +169,7 @@ class GetId3_Module_AudioVideo_AVCSequenceParameterSetReader
                 return 0;
             }
         }
+
         return (1 << $significantBits) + $this->getBits($significantBits) - 1;
     }
 

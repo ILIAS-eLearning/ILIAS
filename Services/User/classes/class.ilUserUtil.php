@@ -69,7 +69,7 @@ class ilUserUtil
 				WHERE ' . $ilDB->in('a.usr_id', $a_user_id, false, 'integer');
 		
 		$userrow = $ilDB->queryF($sql, array('text', 'text'), array('public_profile', 'public_title'));
-		
+
 		$names = array();
 
 		$data = array();
@@ -78,8 +78,8 @@ class ilUserUtil
 			$pres = '';
 			$d = array("id" => $row->usr_id, "title" => "", "lastname" => "", "firstname" => "", "img" => "", "link" => "",
 				"public_profile" => "");
-			if ($a_force_first_lastname ||
-				$has_public_profile = in_array($row->public_profile, array("y", "g")))
+			$has_public_profile = in_array($row->public_profile, array("y", "g"));
+			if ($a_force_first_lastname || $has_public_profile)
 			{
 				$title = "";
 				if($row->public_title == "y" && $row->title)
@@ -115,7 +115,7 @@ class ilUserUtil
 			{
 				$pres.= "[".$row->login."]";
 			}
-			
+
 			if ($a_profile_link && $has_public_profile)
 			{
 				$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $row->usr_id);

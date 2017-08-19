@@ -22,15 +22,17 @@
 */
 
 include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGUI.php');
-/** 
-* 
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-* @ilCtrl_Calls ilObjCourseReferenceGUI: ilPermissionGUI, ilInfoScreenGUI
-* @ingroup ModulesCourseReference
-*/
+/**
+ * 
+ * 
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * 
+ * @ilCtrl_Calls ilObjCourseReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
+ * @ilCtrl_Calls ilObjCourseReferenceGUI: ilCommonActionDispatcherGUI
+ * 
+ * @ingroup ModulesCourseReference
+ */
 class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 {
 	protected $target_type = 'crs';
@@ -54,31 +56,7 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess;
-
-		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
-
-		$this->prepareOutput();
-
-		switch($next_class)
-		{
-			case 'ilpermissiongui':
-				$this->tabs_gui->setTabActive('perm_settings');
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$this->ctrl->forwardCommand(new ilPermissionGUI($this));
-				break;
-
-			default:
-				if(!$cmd || $cmd == 'view')
-				{
-					$cmd = "edit";
-				}
-				$cmd .= "Object";
-				$this->$cmd();
-				break;
-		}
-		return true;
+		parent::executeCommand();
 	}
 	
 	
@@ -96,7 +74,7 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$this->tabs_gui->addTarget("edit",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"),
 				array(),
 				"");

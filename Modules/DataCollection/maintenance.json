@@ -1,0 +1,19 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "fschmid(21087)",
+    "second_maintainer": "",
+    "implicit_maintainers": [
+        "mstuder(8473)",
+        "gcomte(27130)",
+        "otruffer(29130)",
+        "ttruffer(42894)",
+        "mherren(42714)",
+        "swanzenried(36442)"
+    ],
+    "coordinator": "",
+    "tester": "kim.schmidt(28720)",
+    "testcase_writer": "mstuder(8473)",
+    "path": "Modules/DataCollection",
+    "belong_to_component": "Data Collection",
+    "used_in_components": []
+}

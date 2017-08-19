@@ -13,7 +13,7 @@ require_once('./Services/Environment/classes/class.ilRuntime.php');
  */
 class ilApc extends ilGlobalCacheService {
 
-	const MIN_MEMORY = 64;
+	const MIN_MEMORY = 16;
 	const CACHE_ID = 'user';
 
 
@@ -23,10 +23,10 @@ class ilApc extends ilGlobalCacheService {
 	 * @return bool
 	 */
 	public function exists($key) {
-		if (function_exists('apc_exists')) {
-			return apc_exists($this->returnKey($key));
+		if (function_exists('apcu_exists')) {
+			return apcu_exists($this->returnKey($key));
 		} else {
-			return apc_fetch($this->returnKey($key)) !== null;
+			return apcu_fetch($this->returnKey($key));
 		}
 	}
 
@@ -39,7 +39,7 @@ class ilApc extends ilGlobalCacheService {
 	 * @return array|bool
 	 */
 	public function set($key, $serialized_value, $ttl = 0) {
-		return apc_store($this->returnKey($key), $serialized_value, $ttl);
+		return apcu_store($this->returnKey($key), $serialized_value, $ttl);
 	}
 
 
@@ -49,7 +49,7 @@ class ilApc extends ilGlobalCacheService {
 	 * @return mixed
 	 */
 	public function get($key) {
-		return apc_fetch($this->returnKey($key));
+		return apcu_fetch( $this->returnKey($key));
 	}
 
 
@@ -59,7 +59,7 @@ class ilApc extends ilGlobalCacheService {
 	 * @return bool|string[]
 	 */
 	public function delete($key) {
-		return apc_delete($this->returnKey($key));
+		return apcu_delete( $this->returnKey($key));
 	}
 
 
@@ -67,7 +67,7 @@ class ilApc extends ilGlobalCacheService {
 	 * @return bool
 	 */
 	public function flush() {
-		return apc_clear_cache(self::CACHE_ID);
+		return apcu_clear_cache();
 	}
 
 
@@ -125,7 +125,7 @@ class ilApc extends ilGlobalCacheService {
 
 
 	protected function getActive() {
-		return function_exists('apc_store');
+		return function_exists('apcu_store');
 	}
 
 
@@ -133,7 +133,7 @@ class ilApc extends ilGlobalCacheService {
 	 * @return bool
 	 */
 	protected function getInstallable() {
-		return function_exists('apc_store');
+		return function_exists('apcu_store');
 	}
 
 
@@ -155,6 +155,8 @@ class ilApc extends ilGlobalCacheService {
 	protected function getMinMemory() {
 		return self::MIN_MEMORY;
 	}
+
+
+
 }
 
-?>

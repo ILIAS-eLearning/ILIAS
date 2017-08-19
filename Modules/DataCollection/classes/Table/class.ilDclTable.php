@@ -190,30 +190,30 @@ class ilDclTable {
 	 *
 	 * @param boolean $delete_main_table true to delete table anyway
 	 */
-	public function doDelete($delete_main_table = false) {
+	public function doDelete($delete_only_content = false, $omit_notification = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
 		/** @var $ilDB ilDB */
 		foreach ($this->getRecords() as $record) {
-			$record->doDelete();
+			$record->doDelete($omit_notification);
 		}
 
 		foreach ($this->getRecordFields() as $field) {
 			$field->doDelete();
 		}
 
-		// SW: Fix #12794 und #11405
-		// Problem is that when the DC object gets deleted, $this::getCollectionObject() tries to load the DC but it's not in the DB anymore
-		// If $delete_main_table is true, avoid getting the collection object
-		$exec_delete = false;
-		if ($delete_main_table) {
-			$exec_delete = true;
-		}
-		if (!$exec_delete && $this->getCollectionObject()->getMainTableId() != $this->getId()) {
-			$exec_delete = true;
-		}
-		if ($exec_delete) {
+//		// SW: Fix #12794 und #11405
+//		// Problem is that when the DC object gets deleted, $this::getCollectionObject() tries to load the DC but it's not in the DB anymore
+//		// If $delete_main_table is true, avoid getting the collection object
+//		$exec_delete = false;
+//		if ($delete_main_table) {
+//			$exec_delete = true;
+//		}
+//		if (!$exec_delete && $this->getCollectionObject()->getFirstVisibleTableId() != $this->getId()) {
+//			$exec_delete = true;
+//		}
+		if (!$delete_only_content) {
 			$query = "DELETE FROM il_dcl_table WHERE id = " . $ilDB->quote($this->getId(), "integer");
 			$ilDB->manipulate($query);
 		}
@@ -363,26 +363,26 @@ class ilDclTable {
 	 * @return ilDclBaseRecordModel[]
 	 */
 	public function getRecords() {
-		$this->loadRecords();
+		if ($this->records == NULL) {
+			$this->loadRecords();
+		}
 
 		return $this->records;
 	}
 
-	protected function loadRecords() {
-		if ($this->records == NULL) {
-			global $DIC;
-			$ilDB = $DIC['ilDB'];
+	public function loadRecords() {
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
-			$records = array();
-			$query = "SELECT id FROM il_dcl_record WHERE table_id = " . $ilDB->quote($this->id, "integer");
-			$set = $ilDB->query($query);
+		$records = array();
+		$query = "SELECT id FROM il_dcl_record WHERE table_id = " . $ilDB->quote($this->id, "integer");
+		$set = $ilDB->query($query);
 
-			while ($rec = $ilDB->fetchAssoc($set)) {
-				$records[$rec['id']] = ilDclCache::getRecordCache($rec['id']);
-			}
-
-			$this->records = $records;
+		while ($rec = $ilDB->fetchAssoc($set)) {
+			$records[$rec['id']] = ilDclCache::getRecordCache($rec['id']);
 		}
+
+		$this->records = $records;
 	}
 
 	/**
@@ -421,9 +421,9 @@ class ilDclTable {
 	 * @param bool $force_include_comments
 	 * @return array
 	 */
-	public function getFieldIds($force_include_comments = false) {
+	public function getFieldIds() {
 		$field_ids = array();
-		foreach ($this->getFields($force_include_comments) as $field)
+		foreach ($this->getFields() as $field)
 		{
 			if ($field->getId())
 			{
@@ -434,18 +434,29 @@ class ilDclTable {
 	}
 
 
-	protected function loadFields() {
+	protected function loadCustomFields() {
 		if (!$this->fields) {
 			global $DIC;
 			$ilDB = $DIC['ilDB'];
+			/**
+			 * @var $ilDB ilDBInterface
+			 */
+			$desc = $ilDB->getDBType() == 'oracle' ? '' : 'il_dcl_field.description, ';
+			$query = "SELECT DISTINCT il_dcl_field.*
+						    FROM il_dcl_field
+						         INNER JOIN il_dcl_tfield_set
+						            ON (    il_dcl_tfield_set.field NOT IN ('owner',
+						                                                    'last_update',
+						                                                    'last_edit_by',
+						                                                    'id',
+						                                                    'create_date')
+						                AND il_dcl_tfield_set.table_id = il_dcl_field.table_id
+						                AND il_dcl_tfield_set.field = il_dcl_field.id)
+						   WHERE il_dcl_field.table_id = %s
+						ORDER BY il_dcl_tfield_set.field_order ASC";
 
-			$query = "SELECT DISTINCT field.* FROM il_dcl_field AS field
-			          INNER JOIN il_dcl_tfield_set AS setting ON (setting.table_id = field.table_id AND field.id = setting.field)
-			          WHERE field.table_id =" . $ilDB->quote($this->getId(), "integer") . "
-			          ORDER BY setting.field_order ASC";
+			$set = $ilDB->queryF($query, array('integer'), array((int)$this->getId()));
 			$fields = array();
-			$set = $ilDB->query($query);
-
 			while ($rec = $ilDB->fetchAssoc($set)) {
 				$field = ilDclCache::buildFieldFromRecord($rec);
 				$fields[] = $field;
@@ -454,6 +465,13 @@ class ilDclTable {
 
 			ilDclCache::preloadFieldProperties(array_keys($fields));
 		}
+	}
+
+	public function getCustomFields() {
+		if (!$this->fields) {
+			$this->loadCustomFields();
+		}
+		return $this->fields;
 	}
 
 
@@ -479,7 +497,7 @@ class ilDclTable {
 	 */
 	public function getNewTableviewOrder() 
 	{
-		return ilDclTableView::getCountForTableId($this->getId()) + 1;
+		return (ilDclTableView::getCountForTableId($this->getId()) + 1) * 10;
 	}
 
 	/**
@@ -509,18 +527,22 @@ class ilDclTable {
 	 * @param bool $force_include_comments by default false, so comments will only load when enabled in tablesettings
 	 * @return ilDclBaseFieldModel[]
 	 */
-	public function getFields($force_include_comments = false) {
+	public function getFields() {
 		if($this->all_fields == null) {
-			$this->loadFields();
-			$this->stdFields = $force_include_comments ? ilDclStandardField::_getStandardFields($this->id) : $this->getStandardFields();
-			$fields = array_merge($this->fields, $this->stdFields);
-
-			$this->sortByOrder($fields);
-
-			$this->all_fields = $fields;
+			$this->reloadFields();
 		}
 
 		return $this->all_fields;
+	}
+
+	public function reloadFields() {
+		$this->loadCustomFields();
+		$this->stdFields = $this->getStandardFields();
+		$fields = array_merge($this->fields, $this->stdFields);
+
+		$this->sortByOrder($fields);
+
+		$this->all_fields = $fields;
 	}
 
 	/**
@@ -534,10 +556,11 @@ class ilDclTable {
 	 * For current user
 	 *
 	 * @param int $ref_id DataCollections reference
+	 * @param int $user_id
 	 * @return ilDclTableView[]
 	 */
-	public function getVisibleTableViews($ref_id, $with_active_detailedview = false) {
-		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id))
+	public function getVisibleTableViews($ref_id, $with_active_detailedview = false, $user_id = 0) {
+		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id, $user_id) && !$with_active_detailedview)
 		{
 			return $this->getTableViews();
 		}
@@ -545,7 +568,7 @@ class ilDclTable {
 		$visible_views = array();
 		foreach ($this->getTableViews() as $tableView)
 		{
-			if (ilObjDataCollectionAccess::hasAccessToTableView($tableView))
+			if (ilObjDataCollectionAccess::hasAccessToTableView($tableView, $user_id))
 			{
 				if (!$with_active_detailedview || ilDclDetailedViewDefinition::isActive($tableView->getId()))
 				{
@@ -560,10 +583,11 @@ class ilDclTable {
 	 * get id of first (for current user) available view
 	 *
 	 * @param $ref_id
+	 * @param int $user_id
 	 * @return bool
 	 */
-	public function getFirstTableViewId($ref_id) {
-		$tableview = array_shift($this->getVisibleTableViews($ref_id));
+	public function getFirstTableViewId($ref_id, $user_id = 0) {
+		$tableview = array_shift($this->getVisibleTableViews($ref_id, false, $user_id));
 		return $tableview ? $tableview->getId() : false;
 	}
 	
@@ -584,7 +608,7 @@ class ilDclTable {
 			ilDclDatatype::INPUTFORMAT_RATING,
 		);
 
-		$this->loadFields();
+		$this->loadCustomFields();
 		$return = $this->getStandardFields();
 		/**
 		 * @var $field ilDclBaseFieldModel
@@ -630,7 +654,7 @@ class ilDclTable {
 	 * @return ilDclBaseFieldModel[]
 	 */
 	public function getRecordFields() {
-		$this->loadFields();
+		$this->loadCustomFields();
 
 		return $this->fields;
 	}
@@ -771,7 +795,8 @@ class ilDclTable {
 	 * @return bool
 	 */
 	public function hasPermissionToDeleteRecords($ref_id) {
-		return ($this->getDeletePerm() || ilObjDataCollectionAccess::hasWriteAccess($ref_id));
+		return ((ilObjDataCollectionAccess::hasAddRecordAccess($ref_id) && $this->getDeletePerm())
+			|| ilObjDataCollectionAccess::hasWriteAccess($ref_id));
 	}
 
 
@@ -875,7 +900,7 @@ class ilDclTable {
 	 */
 	public function buildOrderFields() {
 		$fields = $this->getFields();
-//		$this->sortByOrder($fields);
+		$this->sortByOrder($fields);
 		$count = 10;
 		$offset = 10;
 		foreach ($fields as $field) {
@@ -1173,7 +1198,7 @@ class ilDclTable {
 	 * @return boolean
 	 */
 	public function hasCustomFields() {
-		$this->loadFields();
+		$this->loadCustomFields();
 
 		return (count($this->fields) > 0) ? true : false;
 	}
@@ -1267,6 +1292,19 @@ class ilDclTable {
 			$new_tableview->cloneStructure($orig_tableview, $new_fields);
 
 		}
+
+		// mandatory for all cloning functions
+		ilDclCache::setCloneOf($original->getId(), $this->getId(), ilDclCache::TYPE_TABLE);
+	}
+
+
+	/**
+	 *
+	 */
+	public function afterClone() {
+		foreach ($this->getFields() as $field) {
+			$field->afterClone($this->getRecords());
+		}
 	}
 
 
@@ -1284,7 +1322,7 @@ class ilDclTable {
 	 * @param $field ilDclBaseFieldModel add an already created field for eg. ordering.
 	 */
 	public function addField($field) {
-		$this->fields[$field->getId()] = $field;
+		$this->all_fields[$field->getId()] = $field;
 	}
 
 
@@ -1416,6 +1454,9 @@ class ilDclTable {
 	public function getPartialRecords($sort, $direction, $limit, $offset, array $filter = array()) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
 		$ilUser = $DIC['ilUser'];
 		$rbacreview = $DIC['rbacreview'];
 
@@ -1462,7 +1503,10 @@ class ilDclTable {
 		if ($select_str) {
 			$sql .= ', ';
 		}
-		$sql .= rtrim($select_str, ',') . " FROM il_dcl_record AS record ";
+
+		$as = $ilDB->getDBType() == 'oracle' ? '' : ' AS ';
+
+		$sql .= rtrim($select_str, ',') . " FROM il_dcl_record {$as} record ";
 		$sql .= $join_str;
 		$sql .= " WHERE record.table_id = " . $ilDB->quote($this->getId(), 'integer');
 

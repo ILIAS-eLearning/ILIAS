@@ -13,11 +13,18 @@ include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdmi
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  *
- * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilPermissionGUI, ilObjBibliographicAdminLibrariesGUI, ilObjBibliographicAdminAttributeOrderGUI
+ * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilPermissionGUI, ilObjBibliographicAdminLibrariesGUI
+ * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilObjBibliographicAdminAttributeOrderGUI
  *
  * @ingroup      ModulesBibliographic
  */
 class ilObjBibliographicAdminGUI extends ilObjectGUI {
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
 
 	/**
 	 * @param      $a_data
@@ -58,7 +65,8 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 
 
 	public function getAdminTabs() {
-		global $rbacsystem;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
 		/**
 		 * @var $rbacsystem ilRbacSystem
 		 */
@@ -66,11 +74,27 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 		if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
 			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass(array(
 				'ilObjBibliographicAdminGUI',
-				'ilObjBibliographicAdminLibrariesGUI'
+				'ilObjBibliographicAdminLibrariesGUI',
 			), 'view'));
 		}
 		if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
 			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'), array(), 'ilpermissiongui');
 		}
+	}
+
+
+	/**
+	 * @return \ilTabsGUI
+	 */
+	public function getTabsGui() {
+		return $this->tabs_gui;
+	}
+
+
+	/**
+	 * @param \ilTabsGUI $tabs_gui
+	 */
+	public function setTabsGui($tabs_gui) {
+		$this->tabs_gui = $tabs_gui;
 	}
 }

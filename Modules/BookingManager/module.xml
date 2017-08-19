@@ -15,4 +15,7 @@
 			<sub_type id="bobj" amet="1" />
 		</object>
 	</objects>
+	<web_access_checker>
+		<secure_path path="ilBookingManager" checking-class="ilObjBookingPoolAccess"/>
+	</web_access_checker>
 </module>

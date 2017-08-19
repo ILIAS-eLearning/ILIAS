@@ -1,8 +1,4 @@
 <?php
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordRepresentation.php');
-require_once("./Services/Rating/classes/class.ilRatingGUI.php");
-require_once("./Services/Link/classes/class.ilLink.php");
-require_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
 
 /**
  * Class ilDclIliasRecordRepresentation

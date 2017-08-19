@@ -26,8 +26,8 @@
 * 
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
-* 
 *
+* @group needsInstalledILIAS
 * @ingroup ServicesTree
 */
 class ilCacheTest extends PHPUnit_Framework_TestCase

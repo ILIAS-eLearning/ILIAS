@@ -1,5 +1,5 @@
 <!-- BEGIN tbl_form_header -->
-<form action="{FORMACTION}" name="{FORMNAME}" method="post" target="{ACTIONTARGET}" class="form-inline<!-- BEGIN pdfs --> preventDoubleSubmission<!-- END pdfs -->" role="form"<!-- BEGIN form_multipart_bl --> enctype="multipart/form-data"<!-- END form_multipart_bl -->>
+<form action="{FORMACTION}" name="{FORMNAME}" id="{FORMNAME}" method="post" target="{ACTIONTARGET}" class="form-inline<!-- BEGIN pdfs --> preventDoubleSubmission<!-- END pdfs -->" role="form"<!-- BEGIN form_multipart_bl --> enctype="multipart/form-data"<!-- END form_multipart_bl -->>
 <!-- END tbl_form_header -->
 <!-- BEGIN outer_start_1 --><div class="ilTableOuter"><!-- END outer_start_1 -->
 <!-- BEGIN tbl_header_title -->
@@ -56,7 +56,7 @@
 <!-- END filter_section -->
 <!-- BEGIN top_navigation -->
 <div class="ilTableNav yui-skin-sam">
-	<table width="100%" border="0" cellpadding="0" cellspacing="0" datatable="0"><tr>
+	<table width="100%" border="0" cellpadding="0" cellspacing="0" datatable="0"><tr class="hidden-print">
 	<td class="ilWhiteSpaceNowrap ilLeft ilValignMiddle" >
 	<!-- BEGIN top_numinfo -->
 	<span class="ilTableFootLight">{NUMINFO}</span>&nbsp;&nbsp;&nbsp;
@@ -141,7 +141,7 @@
 <!-- END tbl_top_action_row -->
 <!-- BEGIN tbl_table_start -->
 <div class="table-responsive">
-<table class="table table-striped" {WIDTH} {ID} datatable="{DATA_TABLE}">
+<table class="table table-striped {CSS_TABLE}" {WIDTH} {ID} datatable="{DATA_TABLE}">
 <!-- END tbl_table_start -->
 <!-- BEGIN tbl_colgroup -->
 <colgroup>
@@ -240,7 +240,7 @@
 <!-- END tbl_action_row -->
 <!-- BEGIN outer_end_2 --></div><!-- END outer_end_2 -->
 <!-- BEGIN tbl_footer -->
-<div class="ilTableNav{BLK_CLASS}">
+<div class="ilTableNav{BLK_CLASS} hidden-print">
 	<div class="ilLeft" style="margin-top:5px;">
 	<!-- BEGIN tbl_footer_numinfo -->
 	<span class="ilTableFootLight">{NUMINFO}</span>&nbsp;&nbsp;&nbsp;

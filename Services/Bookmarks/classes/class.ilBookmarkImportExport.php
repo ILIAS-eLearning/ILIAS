@@ -37,7 +37,7 @@ class ilBookmarkImportExport
 	* @param	int		filepointer
 	* @access	private
 	*/
-	function __parseNetscape(&$fp)
+	static function __parseNetscape(&$fp)
 	{
 		$result=array();
 		$parent=array();
@@ -135,7 +135,7 @@ class ilBookmarkImportExport
 	* @param	bool	true for recursive export
 	* @access	private
 	*/
-	function __parseExport ($object,$depth=1,$recursive = true)
+	static function __parseExport ($object,$depth=1,$recursive = true)
 	{
 		switch ($object['type'])
 		{

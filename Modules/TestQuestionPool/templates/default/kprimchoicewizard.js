@@ -37,10 +37,18 @@ var ilKprimChoiceWizardInputTemplate = {
 				that.handleId(this, 'name', rowindex);
 				that.handleId(this, 'id', rowindex);
 			});
+			$(this).find('textarea[id*="[answer]"]').each(function() {
+				that.handleId(this, 'name', rowindex);
+				that.handleId(this, 'id', rowindex);
+			});
 
 			// fileupload
 			$(this).find('input:file[id*="[image]"]').each(function() {
 				that.handleId(this, 'id', rowindex);
+				that.handleId(this, 'name', rowindex);
+			});
+			// hidden file
+			$(this).find('input:hidden[name*="[imagename]"]').each(function() {
 				that.handleId(this, 'name', rowindex);
 			});
 

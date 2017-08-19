@@ -266,7 +266,7 @@ class ilCalendarAppointmentGUI
 		}
 		else
 		{
-			$deadline = new ilDateTimeInputGUI($this->lng->txt('cal_deadline'),'event[start]');
+			$deadline = new ilDateTimeInputGUI($this->lng->txt('cal_deadline'),'event_start');
 			$deadline->setDate($this->app->getStart());
 			$deadline->setShowTime(false);
 			$deadline->setMinuteStepSize(5);
@@ -294,8 +294,7 @@ class ilCalendarAppointmentGUI
 		{
 			// users responsible
 			$users = $this->app->readResponsibleUsers();
-			$resp = new ilNonEditableValueGUI($this->lng->txt('cal_responsible'),
-				$users);
+			$resp = new ilNonEditableValueGUI($this->lng->txt('cal_responsible'), "", true);
 			$delim = "";
 			foreach($users as $r)
 			{
@@ -1082,12 +1081,11 @@ class ilCalendarAppointmentGUI
 		$this->app->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->app->enableNotification((int) $_POST['not']);
 		
-		$period = $this->form->getItemByPostVar('event');
-		$start = $period->getStart();
-		$end = $period->getEnd();
-	
 		if ($a_as_milestone)	// milestones are always fullday events
-		{
+		{			
+			$start = $this->form->getItemByPostVar('event_start');
+			$start = $start->getDate();
+			
 			$this->app->setFullday(true);
 			
 			// for milestones is end date = start date			
@@ -1096,6 +1094,11 @@ class ilCalendarAppointmentGUI
 		}
 		else
 		{
+			
+			$period = $this->form->getItemByPostVar('event');
+			$start = $period->getStart();
+			$end = $period->getEnd();	
+			
 			$this->app->setFullday($start instanceof ilDate);
 			$this->app->setStart($start);						
 			$this->app->setEnd($end);					
@@ -1294,6 +1297,11 @@ class ilCalendarAppointmentGUI
 		$cat->setType(ilCalendarCategory::TYPE_USR);
 		$cat->setTitle($this->lng->txt('cal_default_calendar'));
 		$cat->setObjId($ilUser->getId());
+		
+		// delete calendar cache
+		include_once './Services/Calendar/classes/class.ilCalendarCache.php';
+		ilCalendarCache::getInstance()->deleteUserEntries($ilUser->getId());
+
 		return $cat->add();
 	}
 	

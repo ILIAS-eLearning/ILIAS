@@ -292,19 +292,26 @@ class ilGlossaryDataSet extends ilDataSet
 
 				include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 				$term_id = (int) $a_mapping->getMapping("Modules/Glossary", "term", $a_rec["TermId"]);
-				$def = new ilGlossaryDefinition();
-				$def->setTermId($term_id);
-				$def->setShortText($a_rec["ShortText"]);
-				$def->setNr($a_rec["Nr"]);
-				$def->setShortTextDirty($a_rec["ShortTextDirty"]);
-				// no metadata, no page creation
-				$def->create(true, true);
+				if ((int) $term_id == 0)
+				{
+					$this->log->debug("ERROR: Did not find glossary term glo_term id '".$a_rec["TermId"]."' for definition id '".$a_rec["Id"]."'.");
+				}
+				else
+				{
+					$def = new ilGlossaryDefinition();
+					$def->setTermId($term_id);
+					$def->setShortText($a_rec["ShortText"]);
+					$def->setNr($a_rec["Nr"]);
+					$def->setShortTextDirty($a_rec["ShortTextDirty"]);
+					// no metadata, no page creation
+					$def->create(true, true);
 
-				$a_mapping->addMapping("Modules/Glossary", "def", $a_rec["Id"], $def->getId());
-				$a_mapping->addMapping("Services/COPage", "pg", "gdf:".$a_rec["Id"],
-					"gdf:".$def->getId());
-				$a_mapping->addMapping("Services/MetaData", "md",
-					$this->old_glo_id.":".$a_rec["Id"].":gdf", $this->current_obj->getId().":".$def->getId().":gdf");
+					$a_mapping->addMapping("Modules/Glossary", "def", $a_rec["Id"], $def->getId());
+					$a_mapping->addMapping("Services/COPage", "pg", "gdf:" . $a_rec["Id"],
+						"gdf:" . $def->getId());
+					$a_mapping->addMapping("Services/MetaData", "md",
+						$this->old_glo_id . ":" . $a_rec["Id"] . ":gdf", $this->current_obj->getId() . ":" . $def->getId() . ":gdf");
+				}
 				break;
 
 			case "glo_advmd_col_order":

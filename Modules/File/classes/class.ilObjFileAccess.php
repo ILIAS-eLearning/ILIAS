@@ -3,18 +3,56 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObjectAccess.php");
+require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClass.php');
 
 /**
-* Access class for file objects.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @author Stefan Born <stefan.born@phzh.ch> 
-* @version $Id$
-*
-* @ingroup ModulesFile
-*/
-class ilObjFileAccess extends ilObjectAccess
-{
+ * Access class for file objects.
+ *
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @author  Stefan Born <stefan.born@phzh.ch>
+ * @version $Id$
+ *
+ * @ingroup ModulesFile
+ */
+class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass {
+
+	/**
+	 * @param $obj_id
+	 * @return bool
+	 */
+	protected function checkAccessToObjectId($obj_id) {
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 */
+		foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
+			if ($ilAccess->checkAccess('read', '', $ref_id)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param \ilWACPath $ilWACPath
+	 * @return bool
+	 */
+	public function canBeDelivered(ilWACPath $ilWACPath) {
+		switch ($ilWACPath->getSecurePathId()) {
+			case 'previews':
+				$re = '/\/previews\/[\d\/]{0,}\/preview_([\d]{0,})\//uU';
+				break;
+		}
+		preg_match($re, $ilWACPath->getPath(), $matches);
+
+		return $this->checkAccessToObjectId($matches[1]);
+	}
+
+
+
 	// BEGIN WebDAV cache inline file extensions
 	/**
 	 * Contains an array of extensions separated by space.
@@ -55,7 +93,8 @@ class ilObjFileAccess extends ilObjectAccess
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 		
 		$t_arr = explode("_", $a_target);
 		
@@ -85,7 +124,8 @@ class ilObjFileAccess extends ilObjectAccess
 	*/
 	static function _lookupFileData($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
@@ -99,7 +139,8 @@ class ilObjFileAccess extends ilObjectAccess
 	*/
 	static function _lookupVersion($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$q = "SELECT version FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
@@ -114,7 +155,8 @@ class ilObjFileAccess extends ilObjectAccess
 	*/
 	public static function _lookupFileSize($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$q = "SELECT file_size FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
@@ -133,7 +175,8 @@ class ilObjFileAccess extends ilObjectAccess
 	*/
 	public static function _lookupFileSizeFromFilesystem($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
@@ -169,7 +212,8 @@ class ilObjFileAccess extends ilObjectAccess
 	{
 		include_once('Modules/File/classes/class.ilFSStorageFile.php');
 		
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		// BEGIN WebDAV: Filename suffix is determined by file title
 		$q = "SELECT * FROM object_data WHERE obj_id = ".$ilDB->quote($a_id ,'integer');
@@ -279,7 +323,8 @@ class ilObjFileAccess extends ilObjectAccess
 	 */
 	public static function _appendNumberOfCopyToFilename($a_file_name, $nth_copy = null, $a_handle_extension = false)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$filenameWithoutExtension= $a_file_name;
                 
@@ -359,7 +404,8 @@ class ilObjFileAccess extends ilObjectAccess
 	
 	public static function _preloadData($a_obj_ids, $a_ref_ids)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		self::$preload_list_gui_data = array();
 		

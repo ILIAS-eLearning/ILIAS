@@ -3,12 +3,13 @@
 
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceAcceptanceDatabaseGateway.php';
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceAcceptanceEntity.php';
+require_once 'Services/TermsOfService/test/ilTermsOfServiceBaseTest.php';
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends PHPUnit_Framework_TestCase
+class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBaseTest
 {
 	/**
 	 * @var bool

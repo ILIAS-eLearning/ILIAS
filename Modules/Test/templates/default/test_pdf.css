@@ -5,7 +5,6 @@ div.questionPrintview {
 .questionTitle {
 	font-weight:normal;
 	font-size:14pt;
-	line-height:1em;
 	border-bottom:1px solid #000;
 }
 td.pdfContent {

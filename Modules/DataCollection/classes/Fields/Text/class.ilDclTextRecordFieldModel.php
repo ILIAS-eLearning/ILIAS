@@ -12,9 +12,9 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function setValueFromForm($form) {
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
-            $value = json_encode(array(
+            $value = array(
                 "link" => $form->getInput("field_" . $this->getField()->getId()),
-                "title" => $form->getInput("field_" . $this->getField()->getId() . '_title')));
+                "title" => $form->getInput("field_" . $this->getField()->getId() . '_title'));
         } else {
             $value = $form->getInput("field_" . $this->getField()->getId());
         }
@@ -45,7 +45,21 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    /**
+
+	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {
+		if ($this->field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
+			$value = $this->getValue();
+			if (is_array($value)) {
+				$confirmation->addHiddenItem('field_'.$this->field->getId(), $value['link']);
+				$confirmation->addHiddenItem('field_'.$this->field->getId().'_title', $value['title']);
+			}
+			return;
+		}
+		parent::addHiddenItemsToConfirmation($confirmation);
+	}
+
+
+	/**
      * @return mixed|string
      */
     public function getExportValue() {
@@ -67,18 +81,18 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
             if ($excel->getCell(1, $col+1) == $this->getField()->getTitle().'_title') {
                 $title = $excel->getCell($row, $col + 1);
             }
-            $value = json_encode(array('link' => $value, 'title' => $title));
+            $value = array('link' => $value, 'title' => $title);
         }
         return $value;
     }
 
     public function parseValue($value) {
-        if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {
-            $return = nl2br($value);
-        } else {
-            $return = $value;
+        if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_TEXTAREA)
+	        && !$this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
+            return nl2br($value);
         }
-        return $return;
+
+        return $value;
     }
 
     /**

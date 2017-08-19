@@ -4,7 +4,7 @@
 include_once './Services/Mail/classes/class.ilMailNotification.php';
 
 /**
- * @author Nadia Ahmad <nahmad@databay.de>
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  * @version $Id$
  *
  */
@@ -47,12 +47,10 @@ class ilForumMailNotification extends ilMailNotification
 	 */
 	public function send()
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 * @var $lng       ilLanguage
-		 * @var $ilUser    ilObjUser
-		 */
-		global $ilSetting, $lng, $ilUser;
+		global $DIC; 
+		$ilSetting = $DIC->settings();
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 
 		if(!$ilSetting->get('forum_notification', 0))
 		{
@@ -175,6 +173,7 @@ class ilForumMailNotification extends ilMailNotification
 							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
 						}
 						$this->appendBody("\n------------------------------------------------------------\n");
+						$this->setAttachments($this->provider->getAttachments());
 					}
 
 					$this->appendBody($this->getPermanentLink());
@@ -237,6 +236,7 @@ class ilForumMailNotification extends ilMailNotification
 							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
 						}
 						$this->appendBody("\n------------------------------------------------------------\n");
+						$this->setAttachments($this->provider->getAttachments());
 					}
 
 					$this->appendBody($this->getPermanentLink());
@@ -299,6 +299,7 @@ class ilForumMailNotification extends ilMailNotification
 							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
 						}
 						$this->appendBody("\n------------------------------------------------------------\n");
+						$this->setAttachments($this->provider->getAttachments());
 					}
 
 					$this->appendBody($this->getPermanentLink());
@@ -325,7 +326,7 @@ class ilForumMailNotification extends ilMailNotification
 
 					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
 					$this->appendBody("\n\n");
-					$this->appendBody(sprintf($this->getLanguageText('post_updated_by'), $this->provider->getPostUpdateUserName(), $this->provider->getForumTitle()));
+					$this->appendBody(sprintf($this->getLanguageText('post_updated_by'), $this->provider->getPostUpdateUserName($this->getLanguage()), $this->provider->getForumTitle()));
 					$this->appendBody("\n\n");
 					$this->appendBody($this->getLanguageText('forum') . ": " . $this->provider->getForumTitle());
 					$this->appendBody("\n\n");
@@ -360,6 +361,7 @@ class ilForumMailNotification extends ilMailNotification
 							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
 						}
 						$this->appendBody("\n------------------------------------------------------------\n");
+						$this->setAttachments($this->provider->getAttachments());
 					}
 
 					$this->appendBody($this->getPermanentLink());
@@ -385,7 +387,7 @@ class ilForumMailNotification extends ilMailNotification
 
 					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
 					$this->appendBody("\n\n");
-					$this->appendBody(sprintf($this->getLanguageText('post_censored_by'), $this->provider->getPostUpdateUserName() ,$this->provider->getForumTitle()));
+					$this->appendBody(sprintf($this->getLanguageText('post_censored_by'), $this->provider->getPostUpdateUserName($this->getLanguage()) ,$this->provider->getForumTitle()));
 					$this->appendBody("\n\n");
 					$this->appendBody($this->getLanguageText('forum') . ": " . $this->provider->getForumTitle());
 					$this->appendBody("\n\n");
@@ -420,6 +422,7 @@ class ilForumMailNotification extends ilMailNotification
 							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
 						}
 						$this->appendBody("\n------------------------------------------------------------\n");
+						$this->setAttachments($this->provider->getAttachments());
 					}
 
 					$this->appendBody($this->getPermanentLink());
@@ -444,7 +447,7 @@ class ilForumMailNotification extends ilMailNotification
 
 					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
 					$this->appendBody("\n\n");
-					$this->appendBody(sprintf($this->getLanguageText('post_uncensored_by'), $this->provider->getPostUpdateUserName()));
+					$this->appendBody(sprintf($this->getLanguageText('post_uncensored_by'), $this->provider->getPostUpdateUserName($this->getLanguage())));
 					$this->appendBody("\n\n");
 					$this->appendBody($this->getLanguageText('forum') . ": " . $this->provider->getForumTitle());
 					$this->appendBody("\n\n");
@@ -473,6 +476,7 @@ class ilForumMailNotification extends ilMailNotification
 							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
 						}
 						$this->appendBody("\n------------------------------------------------------------\n");
+						$this->setAttachments($this->provider->getAttachments());
 					}
 
 					$this->appendBody($this->getPermanentLink());
@@ -573,10 +577,8 @@ class ilForumMailNotification extends ilMailNotification
 	 */
 	private function getPermanentLink($type = self::PERMANENT_LINK_POST)
 	{
-		/**
-		 * @var $ilClientIniFile ilIniFile
-		 */
-		global $ilClientIniFile;
+		global $DIC;
+		$ilClientIniFile = $DIC['ilClientIniFile'];
 
 		if($type == self::PERMANENT_LINK_FORUM)
 		{

@@ -94,12 +94,22 @@ class ilMediaPoolExporter extends ilXmlExporter
 			}
 		}
 
-		return array (
+		$deps = array (
 			array(
 				"component" => "Services/COPage",
 				"entity" => "pg",
 				"ids" => $pg_ids)
 			);
+
+		if (!$this->config->getMasterLanguageOnly())
+		{
+			$deps[] = array(
+				"component" => "Services/Object",
+				"entity" => "transl",
+				"ids" => $a_ids);
+		}
+
+		return $deps;
 	}
 
 	/**

@@ -39,7 +39,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		
 		if($this->object)
 		{									
-			$ilLocator->addItem($this->object->getTitle(),
+			$ilLocator->addItem(strip_tags($this->object->getTitle()),
 				$this->ctrl->getLinkTarget($this, "view"));
 		}		
 				
@@ -619,7 +619,16 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			else
 			{
 				$back = $this->ctrl->getLinkTarget($this, "view");
-				$back_caption = $this->lng->txt("prtf_back_to_portfolio_owner");
+				if($this->getType() == "prtf")
+				{
+					$back_caption = $this->lng->txt("prtf_back_to_portfolio_owner");
+				}
+				else
+				{
+					// #19316
+					$this->lng->loadLanguageModule("prtt");
+					$back_caption = $this->lng->txt("prtt_edit");
+				}
 			}
 		}
 		
@@ -759,6 +768,21 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 */
 	public static function renderFullscreenHeader($a_portfolio, $a_tpl, $a_user_id, $a_export = false)
 	{		
+		global $ilUser;
+		
+		if(!$a_export)
+		{			
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+			ilChangeEvent::_recordReadEvent(
+				$a_portfolio->getType(), 
+				($a_portfolio->getType() == "prtt")
+					? $a_portfolio->getRefId()
+					: $a_portfolio->getId(), 
+				$a_portfolio->getId(),
+				$ilUser->getId()
+			);
+		}
+		
 		$name = ilObjUser::_lookupName($a_user_id);
 		$name = $name["lastname"].", ".($t = $name["title"] ? $t . " " : "").$name["firstname"];
 		
@@ -881,7 +905,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$this->copyPageForm($form);
 	}
 	
-	abstract protected function initCopyPageFormOptions(ilFormPropertyGUI $a_tgt);
+	abstract protected function initCopyPageFormOptions(ilPropertyFormGUI $a_form);
 	
 	function initCopyPageForm()
 	{		
@@ -889,12 +913,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));		
 		$form->setTitle($this->lng->txt("prtf_copy_page"));			
-
-		$tgt = new ilRadioGroupInputGUI($this->lng->txt("target"), "target");
-		$tgt->setRequired(true);
-		$form->addItem($tgt);
 		
-		$this->initCopyPageFormOptions($tgt);
+		$this->initCopyPageFormOptions($form);
 
 		$form->addCommandButton("copyPage", $this->lng->txt("save"));
 		$form->addCommandButton("view", $this->lng->txt("cancel"));

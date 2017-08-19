@@ -129,6 +129,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 			$mset->set("mep_activate_pages", $_POST["activate_pages"]);
 			$mset->set("file_manager_always", $_POST["file_manager_always"]);
 			$mset->set("restricted_file_types", $_POST["restricted_file_types"]);
+			$mset->set("black_list_file_types", $_POST["black_list_file_types"]);
 			$mset->set("upload_dir", $_POST["mob_upload_dir"]);
 			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -166,7 +167,11 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 		//$ta->setRows();
 		$ta->setInfo($this->lng->txt("mobs_restrict_file_types_info"));
 		$this->form->addItem($ta);
-		
+
+		// black lis file types
+		$ta = new ilTextAreaInputGUI($this->lng->txt("mobs_black_list_file_types"), "black_list_file_types");
+		$ta->setInfo($this->lng->txt("mobs_black_list_file_types_info"));
+		$this->form->addItem($ta);
 
 		// Upload dir for learning resources
 		$tx_prop = new ilTextInputGUI($lng->txt("mob_upload_dir"),
@@ -178,7 +183,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 		{
 			$this->form->addCommandButton("saveSettings", $lng->txt("save"));
 		}
-	                
+
 		$this->form->setTitle($lng->txt("settings"));
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	}
@@ -194,8 +199,9 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 		$values["activate_pages"] = $mset->get("mep_activate_pages");
 		$values["file_manager_always"] = $mset->get("file_manager_always");
 		$values["restricted_file_types"] = $mset->get("restricted_file_types");
+		$values["black_list_file_types"] = $mset->get("black_list_file_types");
 		$values["mob_upload_dir"] = $mset->get("upload_dir");
-	
+
 		$this->form->setValuesByArray($values);
 	}
 

@@ -3,6 +3,7 @@
 
 include_once "./Services/Object/classes/class.ilObjectGUI.php";
 include_once './Services/AccessControl/classes/class.ilObjRole.php';
+require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * Class ilObjRoleGUI
@@ -743,7 +744,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			if($objDefinition->isPlugin($subtype))
 			{
-				$translation = ilPlugin::lookupTxt("rep_robj", $subtype,"obj_".$subtype);
+				$translation = ilObjectPlugin::lookupTxtById($subtype,"obj_".$subtype);
 			}
 			elseif($objDefinition->isSystemObject($subtype))
 			{
@@ -764,7 +765,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			if($objDefinition->isPlugin($subtype))
 			{
-				$translation = ilPlugin::lookupTxt("rep_robj", $subtype,"obj_".$subtype);
+				$translation = ilObjectPlugin::lookupTxtById($subtype,"obj_".$subtype);
 			}
 			elseif($objDefinition->isSystemObject($subtype))
 			{
@@ -1773,6 +1774,30 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		return true;
 	}
+	
+	/**
+	 * Add selected users to user clipboard
+	 */
+	protected function addToClipboardObject()
+	{
+		global $lng, $ilCtrl;
+		
+		$users = (array) $_POST['user_id'];
+		if(!count($users))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			$ilCtrl->redirect($this, 'userassignment');
+		}
+		include_once './Services/User/classes/class.ilUserClipboard.php';
+		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip->add($users);
+		$clip->save();
+
+		$lng->loadLanguageModule('user');
+		ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'),true);
+		$ilCtrl->redirect($this, 'userassignment');
+	}
+	
 	
 	
 } // END class.ilObjRoleGUI

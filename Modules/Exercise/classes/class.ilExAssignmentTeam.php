@@ -46,6 +46,7 @@ class ilExAssignmentTeam
 		{
 			$team = new self();
 			$team->id = $team_id;
+			$team->assignment_id = $a_assignment_id;		
 			$team->members = $members;
 			$res[$team_id] = $team;
 		}

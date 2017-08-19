@@ -49,6 +49,10 @@ class ilMemberExportGUI
 	
 	private $fields_info;
 	private $fss_export = null;
+	/**
+	 * @var ilUserFormSettings
+	 */
+	private $exportSettings;
 
 	/**
 	 * Constructor
@@ -215,9 +219,13 @@ class ilMemberExportGUI
 			$chours = new ilCheckboxInputGUI($this->lng->txt('cal_ch_field_ch'), 'export_members[]');
 			$chours->setValue('consultation_hour');
 			$chours->setChecked($this->exportSettings->enabled('consultation_hour'));
-			$form->addItem($chours);		
-		}		 
-		
+			$form->addItem($chours);
+		}
+
+		$grp_membr = new ilCheckboxInputGUI($this->lng->txt('crs_members_groups'), 'export_members[]');
+		$grp_membr->setValue('group_memberships');
+		$grp_membr->setChecked($this->exportSettings->enabled('group_memberships'));
+		$form->addItem($grp_membr);
 		return $form;		
 	}
 	
@@ -462,8 +470,16 @@ class ilMemberExportGUI
 			{
 				continue;
 			}
-			
-			$this->fss_export->deleteMemberExportFile($file['timest'].'_participant_export_'.$file['type'].'_'.$this->obj_id.'.'.$file['type']);
+
+			$ret = $this->fss_export->deleteMemberExportFile($file['timest'].'_participant_export_'.
+				$file['type'].'_'.$this->obj_id.'.'.$file['type']);
+
+			//try xlsx if return is false and type is xls
+			if($file['type'] == "xls" && !$ret)
+			{
+				$this->fss_export->deleteMemberExportFile($file['timest'].'_participant_export_'.
+					$file['type'].'_'.$this->obj_id.'.'."xlsx");
+			}
 		}
 		
 		ilUtil::sendSuccess($this->lng->txt('ps_files_deleted'), true);

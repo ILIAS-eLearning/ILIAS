@@ -45,7 +45,8 @@ class ilUploadFiles
 	*/
 	static function _getUploadDirectory()
 	{
-		global $rbacsystem;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
 		
 		if(!$rbacsystem->checkAccess('write', SYSTEM_FOLDER_ID))
 		{
@@ -120,7 +121,9 @@ class ilUploadFiles
 	*/
 	static function _copyUploadFile($a_file, $a_target, $a_raise_errors = true)
 	{
-		global $lng, $ilias;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilias = $DIC['ilias'];
 
 		$file = self::_getUploadDirectory() . "/". $a_file;
 

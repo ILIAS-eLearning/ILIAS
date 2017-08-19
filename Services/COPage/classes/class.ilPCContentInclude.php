@@ -20,11 +20,19 @@ class ilPCContentInclude extends ilPageContent
 	var $incl_node;
 
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
 	* Init page content component.
 	*/
 	function init()
 	{
+		global $DIC;
+
 		$this->setType("incl");
+		$this->access = $DIC->access();
 	}
 
 	/**
@@ -207,6 +215,96 @@ class ilPCContentInclude extends ilPageContent
 		}
 
 		return $ci_ids;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function modifyPageContentPostXsl($a_html, $a_mode)
+	{
+		global $lng;
+
+		$end = 0;
+		$start = strpos($a_html, "{{{{{ContentInclude;");
+		if (is_int($start))
+		{
+			$end = strpos($a_html, "}}}}}", $start);
+		}
+		$i = 1;
+		while ($end > 0)
+		{
+			$param = substr($a_html, $start + 20, $end - $start - 20);
+			$param = explode(";", $param);
+
+			if ($param[0] == "mep" && is_numeric($param[1]))
+			{
+				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
+				$html = "";
+				$snippet_lang = $this->getPage()->getLanguage();
+				if (!ilPageObject::_exists("mep", $param[1], $snippet_lang))
+				{
+					$snippet_lang = "-";
+				}
+				if (($param[2] <= 0 || $param[2] == IL_INST_ID) && ilPageObject::_exists("mep", $param[1]))
+				{
+					$page_gui = new ilMediaPoolPageGUI($param[1], 0, true, $snippet_lang);
+					if ($a_mode != "offline")
+					{
+						$page_gui->setFileDownloadLink($this->getFileDownloadLink());
+						$page_gui->setFullscreenLink($this->getFullscreenLink());
+						$page_gui->setSourcecodeDownloadScript($this->getSourcecodeDownloadScript());
+					}
+					else
+					{
+						$page_gui->setOutputMode(IL_PAGE_OFFLINE);
+					}
+
+					$html = $page_gui->getRawContent();
+					if ($a_mode == "edit")
+					{
+						include_once("./Services/Link/classes/class.ilLink.php");
+						$par_id = $page_gui->getPageObject()->getParentId();
+						$info = "";
+						foreach (ilObject::_getAllReferences($par_id) as $ref_id)
+						{
+							if ($this->access->checkAccess("write", "", $ref_id))
+							{
+								$info = " ".$lng->txt("title").": ".ilMediaPoolItem::lookupTitle($page_gui->getPageObject()->getId()).
+									", ".$lng->txt("obj_mep").": <a href='".ilLink::_getLink($ref_id)."'>".ilObject::_lookupTitle($par_id)."</a>";
+							}
+						}
+						$html = '<p class="small light">'.$lng->txt("copg_snippet_cannot_be_edited").$info.'</p>'.$html;
+					}
+				}
+				else
+				{
+					if ($a_mode == "edit")
+					{
+						if ($param[2] <= 0)
+						{
+							$html = "// ".$lng->txt("cont_missing_snippet")." //";
+						}
+						else
+						{
+							$html = "// ".$lng->txt("cont_snippet_from_another_installation")." //";
+						}
+					}
+				}
+				$h2 = substr($a_html, 0, $start).
+					$html.
+					substr($a_html, $end + 5);
+				$a_html = $h2;
+				$i++;
+			}
+
+			$start = strpos($a_html, "{{{{{ContentInclude;", $start + 5);
+			$end = 0;
+			if (is_int($start))
+			{
+				$end = strpos($a_html, "}}}}}", $start);
+			}
+		}
+		return $a_html;
 	}
 
 }

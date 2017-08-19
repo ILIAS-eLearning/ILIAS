@@ -55,13 +55,13 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
 	}
 
 	/**
-	 * Returns object definition by calling getDefaultDefinitionWithCustomTaskPath
+	 * Returns object definition by calling getDefaultDefinitionWithCustomGUIPath
 	 * method in ilChatroomObjectDefinition.
 	 * @return ilChatroomObjectDefinition
 	 */
 	protected function getObjectDefinition()
 	{
-		return ilChatroomObjectDefinition::getDefaultDefinitionWithCustomTaskPath(
+		return ilChatroomObjectDefinition::getDefaultDefinitionWithCustomGUIPath(
 			'Chatroom', 'admin'
 		);
 	}

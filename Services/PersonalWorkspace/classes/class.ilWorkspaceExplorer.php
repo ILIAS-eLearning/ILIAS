@@ -95,7 +95,7 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 		return $a_nodes;
 	}
 	
-	public function isClickable($a_type, $a_ref_id, $a_obj_id = 0)
+	public function isClickable($a_type, $a_ref_id = 0, $a_obj_id = 0)
 	{
 		if(is_array($this->clickable) && in_array($a_type, $this->clickable) &&
 			$a_ref_id)
@@ -270,7 +270,7 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader(&$tpl, $a_obj_id,$a_option)
+	function formatHeader($tpl, $a_obj_id,$a_option)
 	{
 		global $lng;
 		

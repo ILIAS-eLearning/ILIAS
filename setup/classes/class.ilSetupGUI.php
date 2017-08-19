@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
+use ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence;
+
 require_once "./setup/classes/class.ilSetup.php";
 require_once('./Services/Database/classes/class.ilDBConstants.php');
 
@@ -39,7 +42,7 @@ class ilSetupGUI
 	 */
 	function __construct()
 	{
-		global $tpl, $lng;
+		global $tpl, $lng, $DIC;
 
 		$this->tpl = $tpl;
 		$this->lng = $lng;
@@ -74,13 +77,6 @@ class ilSetupGUI
 			$client_id = $_POST["client_id"];
 		}
 
-/*if ($_POST["client_id"] == "")
-{
-echo "<br>+".$_GET["client_id"];
-echo "<br>+".$_POST["client_id"];
-echo "<br>+".$_SESSION["ClientId"];
-echo "<br>+".$client_id;
-}*/
 		// for security
 		if (!$this->setup->isAdmin() and $client_id != $_SESSION["ClientId"])
 		{
@@ -373,17 +369,6 @@ echo "<br>+".$client_id;
 				}
 				break;
 
-			case "passwd":
-				if (!isset($_GET["lang"]) and !$this->setup->getClient()->status["finish"]["status"] and $_GET["cmd"] == "passwd")
-				{
-					$this->jumpToFirstUnfinishedSetupStep();
-				}
-				else
-				{
-					$this->displayPassword();
-				}
-				break;
-
 			case "cache":
 				$this->displayCache();
 				break;
@@ -475,6 +460,10 @@ echo "<br>+".$client_id;
 			case "createMemcacheServer":
 			case "updateMemcacheServer":
 			case "flushCache":
+			case "background_tasks":
+			case "edit_background_tasks":
+			case "save_background_tasks":
+			case "kill_waiting_tasks":
 				$this->$cmd();
 				break;
 
@@ -544,11 +533,6 @@ echo "<br>+".$client_id;
 			$num++;
 		}
 
-		if (count($languages) % 2)
-		{
-			$this->tpl->touchBlock("lng_empty_cell");
-		}
-
 		if ($this->cmd != "logout" and $this->setup->isInstalled() and $this->setup->isAuthenticated())
 		{
 			// add client link
@@ -568,6 +552,15 @@ echo "<br>+".$client_id;
 				$this->tpl->setCurrentBlock("display_list");
 				$this->tpl->setVariable("TXT_LIST",ucfirst($this->lng->txt("list_clients")));
 				$this->tpl->setVariable("TAB_CLASS", $class);
+				$this->tpl->parseCurrentBlock();
+
+				// client list link
+				$class = ($this->active_tab == "background_tasks")
+					? "ilSMActive"
+					: "ilSMInactive";
+				$this->tpl->setCurrentBlock("display_list");
+				$this->tpl->setVariable("TXT_BACKGROUND_TASKS",ucfirst($this->lng->txt("background_tasks")));
+				$this->tpl->setVariable("BACKGROUND_TASKS_CLASS", $class);
 				$this->tpl->parseCurrentBlock();
 
 				// edit paths link
@@ -607,7 +600,7 @@ echo "<br>+".$client_id;
 			}
 		}
 
-		$this->tpl->setVariable("VAL_CMD", $_GET["cmd"]);
+		$this->tpl->setVariable("VAL_CMD", htmlspecialchars($_GET["cmd"]));
 		$this->tpl->setVariable("TXT_OK",$this->lng->txt("change"));
 		$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE",$this->lng->txt("choose_language"));
 		$this->tpl->setVariable("PAGETITLE","Setup");
@@ -862,6 +855,25 @@ echo "<br>+".$client_id;
 		$ne->setValue($p ? $p : $this->lng->txt("not_configured"));
 		$this->form->addItem($ne);
 
+
+		// system styles
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($this->lng->txt("system_styles"));
+		$this->form->addItem($sh);
+
+		// system styles activation
+		$ne = new ilNonEditableValueGUI($lng->txt("enable_system_styles_management"), "enable_system_styles_management");
+		$p = $this->setup->ini->readVariable("tools","enable_system_styles_management");
+		$ne->setValue($p ? $this->lng->txt("enabled") : $this->lng->txt("not_enabled"));
+		$this->form->addItem($ne);
+
+		// lessc command
+		$ne = new ilNonEditableValueGUI($lng->txt("lessc"), "lessc");
+		$p = $this->setup->ini->readVariable("tools","lessc");
+		$ne->setValue($p ? $p : $this->lng->txt("not_configured"));
+		$this->form->addItem($ne);
+
+
 		$this->form->setFormAction("setup.php?cmd=gateway");
 	}
 
@@ -1058,6 +1070,11 @@ echo "<br>+".$client_id;
 		$cb = new ilCheckboxInputGUI($lng->txt("disable_logging"), "chk_log_status");
 		$this->form->addItem($cb);
 
+		// path to error log dir
+		$ti = new ilTextInputGUI($lng->txt("error_log_path"), "error_log_path");
+		$ti->setInfo($lng->txt("error_log_path_comment".$lvext));
+		$this->form->addItem($ti);
+
 		// server settings
 		$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($lng->txt("server_settings"));
@@ -1128,11 +1145,6 @@ echo "<br>+".$client_id;
 		$ti->setInfo($lng->txt("ghostscript_path_comment".$lvext));
 		$this->form->addItem($ti);
 
-		// java path
-		$ti = new ilTextInputGUI($lng->txt("java_path"), "java_path");
-		$ti->setInfo($lng->txt("java_path_comment".$lvext));
-		$this->form->addItem($ti);
-
 		// ffmpeg path
 		$ti = new ilTextInputGUI($lng->txt("ffmpeg_path"), "ffmpeg_path");
 		$ti->setInfo($lng->txt("ffmpeg_path_comment"));
@@ -1161,6 +1173,24 @@ echo "<br>+".$client_id;
 		// clean command
 		$ti = new ilTextInputGUI($lng->txt("clean_command"), "clean_command");
 		$this->form->addItem($ti);
+
+		// system styles
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($this->lng->txt("system_styles"));
+		$this->form->addItem($sh);
+
+		// enabled system styles mangesment
+		$check = new ilCheckboxInputGUI($lng->txt('enable_system_styles_management'),'enable_system_styles_management');
+		$check->setInfo($lng->txt('enable_system_styles_management_info'));
+		$check->setValue(1);
+
+		// lessc command
+		$lessc = new ilTextInputGUI($lng->txt("lessc_path"), "lessc_path");
+		$lessc->setInfo($lng->txt("lessc_path_comment"));
+		$check->addSubItem($lessc);
+
+		$this->form->addItem($check);
+
 
 		if ($a_install)
 		{
@@ -1210,7 +1240,6 @@ echo "<br>+".$client_id;
 		$values["zip_path"] = $this->setup->ini->readVariable("tools","zip");
 		$values["unzip_path"] = $this->setup->ini->readVariable("tools","unzip");
 		$values["ghostscript_path"] = $this->setup->ini->readVariable("tools","ghostscript");
-		$values["java_path"] = $this->setup->ini->readVariable("tools","java");
 		//$values["mkisofs_path"] = $this->setup->ini->readVariable("tools","mkisofs");
 		$values["ffmpeg_path"] = $this->setup->ini->readVariable("tools","ffmpeg");
 		$values["latex_url"] = $this->setup->ini->readVariable("tools","latex");
@@ -1218,11 +1247,14 @@ echo "<br>+".$client_id;
 		$values["vscanner_type"] = $this->setup->ini->readVariable("tools", "vscantype");
 		$values["scan_command"] = $this->setup->ini->readVariable("tools", "scancommand");
 		$values["clean_command"] = $this->setup->ini->readVariable("tools", "cleancommand");
+		$values["enable_system_styles_management"] = $this->setup->ini->readVariable("tools", "enable_system_styles_management");
+		$values["lessc_path"] = $this->setup->ini->readVariable("tools", "lessc");
 		$values["log_path"] = $this->setup->ini->readVariable("log","path")."/".
 			$this->setup->ini->readVariable("log","file");
 		$values["chk_log_status"] = !$this->setup->ini->readVariable("log","enabled");
+		$values["error_log_path"] = $this->setup->ini->readVariable("log","error_path");
 		$values["time_zone"] = $this->setup->ini->readVariable("server", "timezone");
-		
+
 		// https settings
 		$values["auto_https_detect_enabled"] = $this->setup->ini->readVariable("https", "auto_https_detect_enabled");
 		$values["auto_https_detect_header_name"] = $this->setup->ini->readVariable("https", "auto_https_detect_header_name");
@@ -1246,13 +1278,12 @@ echo "<br>+".$client_id;
 			if (ilUtil::isWindows())
 			{
 				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
-					"unzip_path", "ghostscript_path", "java_path", "ffmpeg_path");
+					"unzip_path", "ghostscript_path", "ffmpeg_path","lessc_path");
 				foreach ($fs as $f)
 				{
 					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
 				}
 			}
-
 			$_POST["setup_pass"] = $_POST["password"];
 			$_POST["setup_pass2"] = $_POST["password_retype"];
 			if (!$this->setup->checkDataDirSetup($_POST))
@@ -1264,6 +1295,11 @@ echo "<br>+".$client_id;
 			else if (!$this->setup->checkLogSetup($_POST))
 			{
 				$i = $this->form->getItemByPostVar("log_path");
+				$i->setAlert($this->lng->txt($this->setup->getError()));
+				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"),true);
+			}
+			else if(!$this->setup->checkErrorLogSetup($_POST["error_log_path"])) {
+				$i = $this->form->getItemByPostVar("error_log_path");
 				$i->setAlert($this->lng->txt($this->setup->getError()));
 				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"),true);
 			}
@@ -1300,7 +1336,7 @@ echo "<br>+".$client_id;
 			if (ilUtil::isWindows())
 			{
 				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
-					"unzip_path", "ghostscript_path", "java_path", "ffmpeg_path");
+					"unzip_path", "ghostscript_path", "ffmpeg_path","lessc_path");
 				foreach ($fs as $f)
 				{
 					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
@@ -1310,6 +1346,11 @@ echo "<br>+".$client_id;
 			if (!$this->setup->checkLogSetup($_POST))
 			{
 				$i = $this->form->getItemByPostVar("log_path");
+				$i->setAlert($this->lng->txt($this->setup->getError()));
+				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"),true);
+			}
+			else if (!$this->setup->checkErrorLogSetup($_POST["error_log_path"])) {
+				$i = $this->form->getItemByPostVar("error_log_path");
 				$i->setAlert($this->lng->txt($this->setup->getError()));
 				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"),true);
 			}
@@ -1539,16 +1580,14 @@ echo "<br>+".$client_id;
 		{
 			$tools = array("convert" => "convert",
 				"zip" => "zip", "unzip" => "unzip", "ghostscript" => "gs",
-				"java" => "java", "ffmpeg" => "ffmpeg");
+				"java" => "java", "ffmpeg" => "ffmpeg", "lessc"=>"lessc");
 			$dirs = array("/usr/local", "/usr/local/bin", "/usr/bin", "/bin", "/sw/bin", "/usr/bin");
 		}
 		else
 		{
 			$tools = array("convert" => "convert.exe",
 				"zip" => "zip.exe", "unzip" => "unzip.exe");
-			$dirs = array($cwd."/Services/Windows/bin32/zip",
-				$cwd."/Services/Windows/bin32/unzip",
-				$cwd."/Services/Windows/bin32/convert");
+			$dirs = array();
 		}
 		foreach($tools as $k => $tool)
 		{
@@ -1610,7 +1649,7 @@ echo "<br>+".$client_id;
 		$this->form = new ilPropertyFormGUI();
 
 		// db type
-		$options = ilDBConstants::getAvailableTypes();
+		$options = ilDBConstants::getAvailableTypes(true);
 		$si = new ilSelectInputGUI($lng->txt("db_type"), "db_type");
 		$si->setOptions($options);
 		$si->setInfo($lng->txt(""));
@@ -1752,7 +1791,7 @@ echo "<br>+".$client_id;
 
 		$this->form->setValuesByArray($values);
 	}
-
+	
 	/**
 	 * Save client ini form
 	 */
@@ -1761,7 +1800,7 @@ echo "<br>+".$client_id;
 		$this->initClientIniForm();
 		if ($this->form->checkInput()) {
 			if (strlen($_POST["client_id"]) != strlen(urlencode(($_POST["client_id"])))
-			    || is_int(strpos($_POST["client_id"], "_"))
+			    || !$this->setup->isValidClientId($_POST["client_id"])
 			) {
 				$i = $this->form->getItemByPostVar("client_id");
 				$i->setAlert($this->lng->txt("ini_client_id_invalid"));
@@ -1928,7 +1967,6 @@ echo "<br>+".$client_id;
 		$steps["lang"]["text"]    = $this->lng->txt("setup_process_step_lang");
 		$steps["contact"]["text"] = $this->lng->txt("setup_process_step_contact");
 		$steps["proxy"]["text"]   = $this->lng->txt("setup_process_step_proxy");
-		$steps["passwd"]["text"]  = $this->lng->txt("setup_process_step_passwd");
 		$steps["nic"]["text"]     = $this->lng->txt("setup_process_step_nic");
 		$steps["finish"]["text"]  = $this->lng->txt("setup_process_step_finish");
 
@@ -2094,14 +2132,12 @@ echo "<br>+".$client_id;
 
 		$this->checkDisplayMode("setup_database");
 
-		//$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_db.html", "setup");
-
 		// database is intalled
 		if ($this->setup->getClient()->getDBSetup()->isDatabaseInstalled())
 		{
 			$this->setDbSubTabs("db");
 
-			$ilDB = $this->setup->getClient()->db;
+			$ilDB = $this->setup->getClient()->getDB();
 			$this->lng->setDbHandler($ilDB);
 			include_once "./Services/Database/classes/class.ilDBUpdate.php";
 			$dbupdate = new ilDBUpdate($ilDB);
@@ -2134,6 +2170,25 @@ echo "<br>+".$client_id;
 		$this->displaySubTabs();
 	}
 
+
+
+	protected function bt_tabs($edit = false) {
+		$tabs = new ilTemplate("tpl.tabs.html", true, true, "Services/UIComponent/Tabs");
+
+		$tabs->setCurrentBlock("tab");
+		$tabs->setVariable("TAB_TYPE",!$edit? "active" : "");
+		$tabs->setVariable("TAB_TEXT", $this->lng->txt('overview'));
+		$tabs->setVariable("TAB_LINK","setup.php?cmd=background_tasks");
+		$tabs->parseCurrentBlock();
+
+		$tabs->setCurrentBlock("tab");
+		$tabs->setVariable("TAB_TYPE",$edit? "active" : "");
+		$tabs->setVariable("TAB_TEXT", $this->lng->txt('settings'));
+		$tabs->setVariable("TAB_LINK","setup.php?cmd=edit_background_tasks");
+		$tabs->parseCurrentBlock();
+
+		return $tabs;
+	}
 
 	protected function displayCache() {
 		require_once('Services/Form/classes/class.ilPropertyFormGUI.php');
@@ -2488,9 +2543,12 @@ echo "<br>+".$client_id;
 		$this->form->addItem($ne);
 
 		// version
-		if ($this->setup->getClient()->getDBType() == "mysql" ||
-			$this->setup->getClient()->getDBType() == "innodb")
-		{
+		if ($this->setup->getClient()->getDBSetup()->isDatabaseInstalled()
+		    && in_array($this->setup->getClient()->getDbType(), array(
+				ilDBConstants::TYPE_MYSQL,
+				ilDBConstants::TYPE_INNODB,
+			))
+		) {
 			$ne = new ilNonEditableValueGUI($lng->txt("version"), "db_version");
 			$ilDB = $this->setup->getClient()->db;
 			$ne->setValue($ilDB->getDBVersion());
@@ -2674,15 +2732,12 @@ echo "<br>+".$client_id;
 	*/
 	public function getClientDbFormValues($dbupdate = null)
 	{
-		global $lng;
-
 		$values = array();
-
 		$values["db_host"] = $this->setup->getClient()->getDbHost();
 		$values["db_name"] = $this->setup->getClient()->getDbName();
 		$values["db_user"] = $this->setup->getClient()->getDbUser();
 		$values["db_port"] = $this->setup->getClient()->getDbPort();
-		$values["db_type"] = $lng->txt("db_".$this->setup->getClient()->getDbType());
+		$values["db_type"] = ilDBConstants::describe($this->setup->getClient()->getDbType());
 		if (is_object($dbupdate))
 		{
 			$values["update_break"] = $dbupdate->fileVersion;
@@ -3362,7 +3417,7 @@ echo "<br>+".$client_id;
 
 		}
 
-		$this->setButtonPrev("passwd");
+		$this->setButtonPrev("proxy");
 
 		if ($this->setup->getClient()->status["nic"]["status"])
 		{
@@ -3984,8 +4039,8 @@ echo "<br>+".$client_id;
 
 			if ($status["finish"]["status"])
 			{
-				$this->setup->ini->setVariable("clients","default",$client->getId());
 				$this->setup->ini->write();
+				$this->setup->ini->setVariable("clients","default",$client->getId());
 				$message = "default_client_changed";
 			}
 			else
@@ -4061,12 +4116,6 @@ echo "<br>+".$client_id;
 			$this->cmd = "proxy";
 			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
 			$this->displayProxy();
-		}
-		elseif(!$this->setup->getClient()->status['passwd']['status'])
-		{
-			$this->cmd = "passwd";
-			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
-			$this->displayPassword();
 		}
 		elseif (!$this->setup->getClient()->status["nic"]["status"])
 		{
@@ -4298,7 +4347,7 @@ echo "<br>+".$client_id;
 
 		if ($check["status"])
 		{
-			$this->setButtonNext("passwd");
+			$this->setButtonNext("nic");
 		}
 
 		$this->setButtonPrev("contact");
@@ -4403,114 +4452,123 @@ echo "<br>+".$client_id;
 		$this->displayProxy(true);
 	}
 
+	protected function background_tasks() {
+		$this->setDisplayMode("view");
+		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html", "setup");
+
+		include_once("./setup/classes/class.ilBackgroundTaskTableGUI.php");
+		$table = new ilBackgroundTaskTableGUI($this->setup);
+
+		$this->tpl->setVariable("SETUP_CONTENT", $this->bt_tabs()->get() . $table->getHTML());
+
+	}
+
+
 	/**
-	 * @param bool $a_omit_init
+	 * @return ilPropertyFormGUI
 	 */
-	protected function displayPassword($a_omit_init = false)
-	{
-		$this->checkDisplayMode('passwd');
-		$settings = $this->setup->getClient()->getAllSettings();
+	protected function createBackgroundTasksForm() {
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 
-		if(!$a_omit_init)
-		{
-			require_once 'Services/Administration/classes/class.ilSetting.php';
-			$this->buildPasswordForm();
-			$this->form->setValuesByArray($this->setup->getPasswordSettings());
-			if((bool)$settings['passwd_status'])
-			{
-				$this->setup->printPasswordStatus($this->setup->client);
-			}
-		}
-		$this->tpl->setVariable('SETUP_CONTENT', $this->form->getHTML());
-		$this->tpl->setVariable('TXT_INFO', $this->lng->txt('info_text_passwd'));
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('background_task_configuration'));
+		$form->addCommandButton('save_background_tasks', $this->lng->txt('save'));
+		$form->addCommandButton('background_tasks', $this->lng->txt('cancel'));
+		$form->setFormAction('setup.php?cmd=gateway');
 
-		$check = $this->setup->checkClientPasswordSettings($this->setup->client);
+		$rgroup = new ilRadioGroupInputGUI($this->lng->txt("type"), "concurrency");
 
-		$this->setup->getClient()->status['passwd']['status']  = $check['status'];
-		$this->setup->getClient()->status['passwd']['comment'] = $check['comment'];
-		if($check['status'])
-		{
-			$this->setButtonNext('nic');
-		}
+		$cc = new ilRadioOption($this->lng->txt('sync'), 'sync');
+		$rgroup->addOption($cc);
 
-		$this->setButtonPrev('proxy');
-		$this->checkPanelMode();
+		$cc = new ilRadioOption($this->lng->txt('async'), 'async');
+		$rgroup->addOption($cc);
+
+		$form->addItem($rgroup);
+
+		$i = new ilNumberInputGUI($this->lng->txt('max_number_of_concurrent_tasks'), 'number_of_concurrent_tasks');
+		$form->addItem($i);
+
+		return $form;
+	}
+
+	protected function edit_background_tasks() {
+		require_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+		$this->setDisplayMode("view");
+		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html", "setup");
+
+		$form = $this->createBackgroundTasksForm();
+		$this->fillBackgroundTasksForm($form);
+
+		$this->tpl->setVariable("SETUP_CONTENT", $this->bt_tabs(true)->get() . $form->getHTML());
+
 	}
 
 	/**
-	 *
+	 * @param $form ilPropertyFormGUI
 	 */
-	protected function buildPasswordForm()
-	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
+	private function fillBackgroundTasksForm(&$form) {
+		$n_of_tasks = $this->setup->ini->readVariable("background_tasks","number_of_concurrent_tasks");
+		$sync = $this->setup->ini->readVariable("background_tasks","concurrency");
 
-		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction("setup.php?cmd=gateway");
+		$n_of_tasks = $n_of_tasks ? $n_of_tasks : 5;
+		$sync = $sync ? $sync : 'sync'; // The default value is sync.
 
-		require_once 'Services/User/classes/class.ilUserPasswordEncoderFactory.php';
-		$factory = new ilUserPasswordEncoderFactory(array());
-
-		$default_encoder = new ilSelectInputGUI($lng->txt('passwd_default_encoder'), 'default_encoder');
-		$default_encoder->setInfo($lng->txt('passwd_default_encoder_info'));
-		$default_encoder->setRequired(true);
-		$options = array();
-		foreach($factory->getEncoders() as $encoder)
-		{
-			$options[$encoder->getName()] = $lng->txt('passwd_encoder_' . $encoder->getName());
-		}
-		$default_encoder->setOptions($options);
-		$this->form->addItem($default_encoder);
-
-		foreach($factory->getEncoders() as $encoder)
-		{
-			if($encoder instanceof ilPasswordEncoderConfigurationFormAware)
-			{
-				$encoder->buildForm($this->form);
-			}
-		}
-
-		$this->form->addCommandButton('savePassword', $lng->txt('save'));
+		$form->setValuesByArray([
+			'concurrency' => $sync,
+			'number_of_concurrent_tasks' => $n_of_tasks
+		]);
 	}
 
-	/**
-	 *
-	 */
-	protected function savePassword()
-	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
+	public function save_background_tasks() {
+		$form = $this->createBackgroundTasksForm();
+		$form->setValuesByPost();
 
-		$this->buildPasswordForm();
-		if($this->form->checkInput())
-		{
-			require_once 'Services/User/classes/class.ilUserPasswordEncoderFactory.php';
-			$factory         = new ilUserPasswordEncoderFactory(array());
-			$default_encoder = $factory->getEncoderByName(trim($this->form->getInput('default_encoder')));
-			$default_encoder->onSelection();
-			if($default_encoder->validateForm($this->form))
-			{
-				$this->setup->savePasswordSettings(array(
-					'default_encoder' => $default_encoder->getName()
-				));
-
-				ilUtil::sendSuccess($lng->txt('saved_successfully'), true);
-				ilUtil::redirect("setup.php?cmd=displayPassword");
-			}
-			else
-			{
-				ilUtil::sendFailure($lng->txt('form_input_not_valid'));
-			}
+		// If something goes wrong we display the content with warnings again.
+		if (!$form->checkInput()) {
+			$this->tpl->setVariable('CONTENT', $this->bt_tabs(true)->get() . $form->getHTML());
+			return;
 		}
 
-		$this->form->setValuesByPost();
-		$this->tpl->setVariable("SETUP_CONTENT", $this->form->getHTML());
-		$this->displayPassword(true);
+		$this->saveBTFormToIni($form);
+
+		ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+		ilUtil::redirect("setup.php?cmd=edit_background_tasks");
+	}
+
+
+	/**
+	 * @param $form ilPropertyFormGUI
+	 */
+	private function saveBTFormToIni(&$form) {
+
+		if(!$this->setup->ini->groupExists('background_tasks')) {
+			$this->setup->ini->addGroup('background_tasks');
+			var_dump($this->setup->ini->getError());
+			$this->setup->ini->write();
+			var_dump($this->setup->ini->getError());
+		}
+
+		$this->setup->ini->setVariable("background_tasks","concurrency",$form->getInput('concurrency'));
+		$this->setup->ini->setVariable("background_tasks","number_of_concurrent_tasks",$form->getInput('number_of_concurrent_tasks'));
+
+		$this->setup->ini->write();
+	}
+
+	public function kill_waiting_tasks() {
+		$client_id = $_GET['client_id'];
+		$this->setup->newClient($client_id);
+		$client = $this->setup->getClient();
+		$client->provideGlobalDB();
+
+		$persistence = new BasicPersistence();
+		$bucket_ids = $persistence->getBucketIdsByState(State::SCHEDULED);
+		foreach($bucket_ids as $bucket_id) {
+			$persistence->deleteBucketById($bucket_id);
+		}
+
+		ilUtil::sendSuccess($this->lng->txt('terminated_waiting_tasks'), true);
+		ilUtil::redirect("setup.php?cmd=background_tasks");
 	}
 } // END class.ilSetupGUI
 ?>

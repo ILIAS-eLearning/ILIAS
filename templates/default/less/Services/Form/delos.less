@@ -20,11 +20,11 @@ form.form-inline {
 }
 
 .form-horizontal .form-group {
-	margin: 10px 0px;
+	margin: 10px 0;
 }
 
 .form-control, .form-control:focus {
-	box-shadow: 0 0 0;
+	.box-shadow(none);
 }
 
 .form-horizontal input.form-control, .form-horizontal textarea.form-control,
@@ -41,12 +41,43 @@ select.form-control {
 	font-size: 100%;
 }
 
-.form-horizontal .control-label {
-    //padding-top: 0;
-	&.col-sm-3.il_textarea {
-		text-align: left;
-		width: 100%;
+.form-horizontal {
+	.control-label {
+		padding-top: 0;
+		line-height: 24px;
+		&.col-sm-3.il_textarea {
+			text-align: left;
+			width: 100%;
+		}
 	}
+	.form-group {
+		.col-sm-9 {
+			line-height: 24px;
+		}
+	}
+	
+	.radio,
+	.checkbox,
+	.radio-inline,
+	.checkbox-inline {
+		padding-top: 0;
+		line-height: 24px;
+	}
+	.help-block {
+		line-height: normal;
+	}
+}
+
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+	position: static;
+	margin-left: -20px;
+	margin-top: 0;
+	min-height: 24px;
+	vertical-align: top;
+	line-height: 24px;
 }
 
 [dir="rtl"] .form-horizontal .control-label {
@@ -108,7 +139,7 @@ input[type="file"].form-control {
 }
 
 .ilFormFooter {
-	padding: 3px 0px;
+	padding: 3px 0;
 }
 
 .ilFormFooter .ilFormCmds {
@@ -122,7 +153,7 @@ input[type="file"].form-control {
 
 /* jQuery ui autocomplete menu */
 input.ilHFormHighlighted, .ui-state-focus {
-	background-color: #FF9;
+	background-color: #ff9;
 }
 
 div.ilFormExternalSetting {
@@ -140,7 +171,7 @@ div.ilFormExternalSetting ul {
 }
 
 div.ilFormExternalSetting span {
-	color: #C08030;
+	color: #c08030;
 	/* font-style: italic; */
 }
 
@@ -152,15 +183,15 @@ div[id^="ilFormField"] {
 div.ilHFormHeader, div.ilHFormFooter {
 	color: darken(@ilFormColor, 20%);
 	background-color: @body-bg;
-	padding: 4px 0px 4px 22px;
+	padding: 4px 0 4px 22px;
 }
 
 [dir="rtl"] div.ilHFormHeader, [dir="rtl"] div.ilHFormFooter {
-	padding: 4px 22px 4px 0px;
+	padding: 4px 22px 4px 0;
 }
 
 div.ilHFormContent {
-	padding: 20px 0px;
+	padding: 20px 0;
 }
 
 div.ilHFormItem {
@@ -181,7 +212,7 @@ div.ilHFormHeader .ilFormCmds, div.ilHFormFooter .ilFormCmds {
 
 .ilHFormExpIcon, .ilHFormCheckbox, .ilHFormIcon {
 	min-width: 20px;
-	padding: 0 0px;
+	padding: 0;
 }
 
 .ilHFormItemCmd {
@@ -202,7 +233,7 @@ div.ilHFormHeader .ilFormCmds, div.ilHFormFooter .ilFormCmds {
 }
 
 .ilHFormDropArea {
-	margin: 6px 0px;
+	margin: 6px 0;
 	width: auto;
 }
 
@@ -241,6 +272,14 @@ div.ilFormInfo {
 }
 
 input:invalid {
-	background-color: #FFEBEB;
-	border-color: #D08080;
+	background-color: #ffebeb;
+	border-color: #d08080;
+}
+
+.il_non_editable_value {
+	padding-top: 4px;
+}
+
+.bootstrap-datetimepicker-widget {
+	z-index: 2000;
 }

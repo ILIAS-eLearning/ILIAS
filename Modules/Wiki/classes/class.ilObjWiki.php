@@ -904,11 +904,11 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	 * @param int target ref_id
 	 * @param int copy id
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $ilDB, $ilUser, $ilias;
 
-		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 
 		//copy online status if object is not the root copy object
 		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -918,7 +918,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 			$new_obj->setOnline($this->getOnline());
 		}
 	 	
-		$new_obj->setTitle($this->getTitle());
+		//$new_obj->setTitle($this->getTitle());		// see #20074
 		$new_obj->setStartPage($this->getStartPage());
 		$new_obj->setShortTitle($this->getShortTitle());
 		$new_obj->setRatingOverall($this->getRatingOverall());

@@ -76,7 +76,14 @@ class ilPageLayoutAdministrationGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("listLayouts");
 
-		$this->checkPermission("write");
+		if ($cmd == "listLayouts")
+		{
+			$this->checkPermission("read");
+		}
+		else
+		{
+			$this->checkPermission("sty_write_page_layout");
+		}
 
 		switch ($next_class)
 		{
@@ -142,7 +149,7 @@ class ilPageLayoutAdministrationGUI
 	function listLayouts()
 	{
 		// show toolbar, if write permission is given
-		if ($this->checkPermission("write", false))
+		if ($this->checkPermission("sty_write_page_layout", false))
 		{
 			$this->toolbar->addButton($this->lng->txt("sty_add_pgl"),
 				$this->ctrl->getLinkTarget($this, "addPageLayout"));
@@ -399,7 +406,7 @@ class ilPageLayoutAdministrationGUI
 	 */
 	function editPg()
 	{
-		$this->checkPermission("write");
+		$this->checkPermission("sty_write_page_layout");
 
 		$this->ctrl->setCmdClass("ilpagelayoutgui");
 		$this->ctrl->setCmd("edit");

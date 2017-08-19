@@ -4,11 +4,12 @@
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 /**
-* Class ilBookingObjectGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*/
+ * Class ilBookingObjectGUI
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @version $Id$
+ * @ilCtrl_Calls ilBookingObjectGUI: ilPropertyFormGUI
+ */
 class ilBookingObjectGUI
 {
 	protected $ref_id; // [int]
@@ -37,7 +38,7 @@ class ilBookingObjectGUI
 	function executeCommand()
 	{
 		global $ilCtrl;
-
+				
 		$next_class = $ilCtrl->getNextClass($this);
 		
 		switch($next_class)
@@ -98,10 +99,12 @@ class ilBookingObjectGUI
 	function create(ilPropertyFormGUI $a_form = null)
 	{
 		global $ilCtrl, $tpl, $lng, $ilTabs;
-
+		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
 
+		$this->setHelpId('create');		
+		
 		if(!$a_form)
 		{
 			$a_form = $this->initForm();
@@ -118,12 +121,27 @@ class ilBookingObjectGUI
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
+		
+		$this->setHelpId('edit');		
 
 		if(!$a_form)
 		{
 			$a_form = $this->initForm('edit', (int)$_GET['object_id']);
 		}
 		$tpl->setContent($a_form->getHTML());
+	}
+	
+	protected function setHelpId($a_id)
+	{
+		global $ilHelp; 
+		
+		$object_subtype = $this->pool_has_schedule
+			? '-schedule'
+			: '-nonschedule';
+		
+		$ilHelp->setScreenIdComponent('book');
+		$ilHelp->setScreenId('object'.$object_subtype);
+		$ilHelp->setSubScreenId($a_id);
 	}
 
 	/**
@@ -415,6 +433,8 @@ class ilBookingObjectGUI
 		{
 			return;
 		}
+		
+		$this->setHelpId("cancel_booking");	
 		
 		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI();

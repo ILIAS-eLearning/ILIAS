@@ -3,8 +3,8 @@
 div.ilProfile {
 	width: 450px;
 	margin: 0 auto;
-	background: url("@{background-images-path}form_back.png") repeat-y #F6F6F6;
-	border: 1px solid #D0D5EA;
+	background-color: #f6f6f6;
+	border: 1px solid #d0d5ea;
 	padding: 15px;
 }
 
@@ -37,7 +37,7 @@ table.il_user_quota_disk_usage_overview {
 .ilUsersGalleryContainer {
 	div.ilUser {
 		margin: 0 0 20px;
-		background-color: #fff;
+		background-color: white;
 		padding: 20px 0;
 		font-size: 100%;
 		width: 100%;
@@ -65,7 +65,7 @@ table.il_user_quota_disk_usage_overview {
 				float: left;
 			}
 			.btn-default:hover {
-				color: #fff !important;
+				color: white !important;
 			}
 			.mailBtn {
 				height: 37px;
@@ -76,22 +76,14 @@ table.il_user_quota_disk_usage_overview {
 			}
 			.open {
 				.btn {
-					-webkit-box-shadow: 0 0 0 0;
-					box-shadow: 0 0 0 0;
-					-webkit-box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
-					-moz-box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
-					box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
+                    .box-shadow(0 0 0 0 3px 5px rgba(0, 0, 0, 0.5));
 				}
 				.btn-success:hover,
 				.btn-success:focus,
 				.btn-success:active {
 					color: white;
 					background: #626f78;
-					-webkit-box-shadow: 0 0 0 0;
-					box-shadow: 0 0 0 0;
-					-webkit-box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
-					-moz-box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
-					box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
+                    .box-shadow(0 0 0 0 3px 5px rgba(0, 0, 0, 0.5));
 					border: 1px solid #5b6770;
 				}
 			}
@@ -99,9 +91,7 @@ table.il_user_quota_disk_usage_overview {
 				min-width: 170px;
 				padding: 0;
 				margin: 0;
-				-webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-				-moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-				box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+                .box-shadow(1px 1px 1px rgba(0, 0, 0, 0.1));
 				li > a {
 					padding: 8px 10px;
 				}

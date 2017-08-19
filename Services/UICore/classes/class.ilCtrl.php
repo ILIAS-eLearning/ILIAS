@@ -72,7 +72,7 @@ class ilCtrl
 		$this->parent = array();			// parent array (reverse forward)
 		$this->save_parameter = array();	// save parameter array
 		$this->parameter = array();			// save parameter array
-		$this->return = "";					// return commmands
+		$this->return = array();			// return commmands
 		$this->location = array();
 		$this->tab = array();
 		$this->current_node = 0;

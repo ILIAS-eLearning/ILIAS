@@ -1,0 +1,140 @@
+.il-item {
+	background-color: @il-primary-container-bg;
+	position: relative;
+	padding: @il-item-padding;
+
+	h5 {
+		margin: @il-item-h5-margin;
+		font-size: @font-size-h5;
+		float: left;
+	}
+
+	.il-item-divider {
+		clear: both;
+		padding: @il-item-divider-padding;
+		margin: @il-item-divider-margin;
+		border: 0 none;
+		background: none;
+		border-bottom: @il-item-divider-border-bottom;
+	}
+
+	.dropdown {
+		float: right;
+	}
+
+	.il-item-description {
+		padding: @il-item-description-padding;
+		font-size: @font-size-small;
+		clear: both;
+	}
+
+	.il-item-property-name {
+		font-size: @font-size-small;
+	}
+
+	.il-item-property-value {
+		font-size: @font-size-small;
+		color: @il-light-text-color;
+	}
+}
+
+.il-item-marker {
+	border-left: @il-item-marker-border-left;
+}
+
+.il-narrow-content .il-item:hover {
+	background-color: @il-highlight-bg;
+}
+
+.il-item-group h4 {
+	float:left;
+}
+
+.il-item-group .dropdown {
+	float:right;
+}
+
+.il-item-group-items {
+	clear: both;
+}
+
+/* this is currently experimental, could be removed */
+.il-narrow-content .il-item {
+	padding: 0px;
+	display: table;
+	width: 100%;
+
+	h5 {
+		margin-top: 3px;
+		font-size: 100%;
+		float: none;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.il-item-description {
+		padding-top: 1px;
+		font-size: 80%;
+	}
+
+	.il-item-divider, .il-item-property-name, .il-item-property-value {
+		display:none;
+	}
+
+	.row {
+		display: table-row;
+	}
+
+	.col-sm-3 {
+		display: table-cell;
+		height: 100%;
+		padding: 0;
+		float: none;
+		vertical-align: top;
+		width: 45px;
+	}
+
+	.col-sm-3 img {
+		width: 40px;
+	}
+
+	.col-sm-9 {
+		position: static;
+		display: table-cell;
+		padding: 0 5px 0 5px;
+		overflow: hidden;
+		max-width: 0;
+		float: none;
+		zoom: 1;
+		vertical-align: top;
+		width: auto;
+	}
+
+	.dropdown {
+		position:static;
+	}
+
+	.dropdown-menu.pull-right {
+		width:100%;
+	}
+
+	.dropdown-toggle {
+		position: absolute;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		margin-top: -20px;
+		z-index: 1;
+	}
+
+	button.dropdown-toggle {
+		background-color: transparent;
+		border: 0;
+	}
+
+	button.dropdown-toggle > span {
+		display: none;
+	}
+
+}

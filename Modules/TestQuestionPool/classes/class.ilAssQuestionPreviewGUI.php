@@ -102,11 +102,14 @@ class ilAssQuestionPreviewGUI
 
 		$this->questionGUI->setQuestionTabs();
 		$this->questionGUI->outAdditionalOutput();
-
-		$this->questionOBJ->setOutputType(OUTPUT_JAVASCRIPT);
+		
+		$this->questionGUI->populateJavascriptFilesRequiredForWorkForm($this->tpl);
+		$this->questionOBJ->setOutputType(OUTPUT_JAVASCRIPT); // TODO: remove including depending stuff
 			
 		$this->questionGUI->setTargetGui($this);
 		$this->questionGUI->setQuestionActionCmd(self::CMD_HANDLE_QUESTION_ACTION);
+		
+		$this->questionGUI->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_DEMOPLAY);
 	}
 
 	public function initPreviewSettings($parentRefId)

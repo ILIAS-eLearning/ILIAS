@@ -25,7 +25,9 @@ class arConfigFormGUI extends ilPropertyFormGUI {
 	 * @param $parent_gui
 	 */
 	public function __construct($parent_gui) {
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		$this->parent_gui = $parent_gui;
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;

@@ -69,7 +69,7 @@ class ilAuthContainerRadius extends Auth_Container_Radius
 	{
 		return true;
 	}
-	*/
+	 */
 	
 	/**
 	 * Force creation of user accounts

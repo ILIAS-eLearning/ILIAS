@@ -1,9 +1,8 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Demo/StorageRecord/class.arStorageRecord.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Edit/class.arEditGUI.php');
+require_once('./Services/ActiveRecord/_Examples/StorageRecord/class.arStorageRecord.php');
+require_once('./Services/ActiveRecord/Views/Edit/class.arEditGUI.php');
 require_once('./Services/PersonalDesktop/classes/class.ilPersonalDesktopGUI.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Index/class.arIndexTableGUI.php');
-//require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/View/class.ActiveRecordViewGUI.php');
+require_once('./Services/ActiveRecord/Views/Index/class.arIndexTableGUI.php');
 
 /**
  * Class arStorageRecordGUI
@@ -25,7 +24,9 @@ class arStorageRecordGUI {
 
 
 	public function __construct() {
-		global $ilCtrl, $tpl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
 		$this->object = new arStorageRecord();

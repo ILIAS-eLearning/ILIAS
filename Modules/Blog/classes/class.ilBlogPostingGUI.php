@@ -822,9 +822,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 						}						
 						$mob_res = self::parseImage($mob_size["width"],
 							$mob_size["height"], $a_width, $a_height);
+
+
+						$location = $mob_item->getLocationType() == "Reference"
+							? $mob_item->getLocation()
+							: $mob_dir."/".$mob_item->getLocation();
 						
 						return '<img'.
-							' src="'.$mob_dir."/".$mob_item->getLocation().'"'.
+							' src="'.$location.'"'.
 							' width="'.$mob_res[0].'"'.
 							' height="'.$mob_res[1].'"'.
 							' class="ilBlogListItemSnippetPreviewImage ilFloatLeft noMirror"'.

@@ -28,7 +28,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule('notification');
 	}
 	
-	function _forwards()
+	static function _forwards()
 	{
 		return array();
 	}

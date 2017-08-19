@@ -1,6 +1,4 @@
 <?php
-require_once ('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldRepresentation.php');
-require_once("./Modules/DataCollection/classes/Helpers/class.ilDclTreePickInputGUI.php");
 
 
 /**
@@ -13,6 +11,7 @@ class ilDclIliasReferenceFieldRepresentation extends ilDclBaseFieldRepresentatio
 
 	public function getInputField(ilPropertyFormGUI $form, $record_id = 0) {
 		$input = new ilDclTreePickInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
+		$this->setupInputField($input, $this->getField());
 
 		return $input;
 	}

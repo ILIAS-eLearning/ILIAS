@@ -174,11 +174,16 @@ class shibConfig {
 	/**
 	 * @var bool
 	 */
+	protected $activate_new = false;
+	/**
+	 * @var bool
+	 */
 	protected static $cache = null;
 
 
 	protected function __construct() {
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 		/**
 		 * @var $ilSetting ilSetting
 		 */
@@ -871,5 +876,21 @@ class shibConfig {
 	 */
 	public function getUpdateLastname() {
 		return $this->update_lastname;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isActivateNew() {
+		return $this->activate_new;
+	}
+
+
+	/**
+	 * @param bool $activate_new
+	 */
+	public function setActivateNew($activate_new) {
+		$this->activate_new = $activate_new;
 	}
 }

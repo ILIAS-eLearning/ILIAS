@@ -548,7 +548,7 @@ class ilCourseObjective
 	}
 	// end-patch lok
 
-	function _deleteAll($course_id)
+	static function _deleteAll($course_id)
 	{
 		global $ilDB;
 

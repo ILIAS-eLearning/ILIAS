@@ -34,9 +34,10 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
 		$this->setFormName('showlog');
 		$this->setStyle('table', 'fullwidth');
 
-		$this->addColumn($this->lng->txt("assessment_log_datetime"), 'date', '');
-		$this->addColumn($this->lng->txt("user"), 'user', '');
-		$this->addColumn($this->lng->txt("assessment_log_text"), 'message', '');
+		$this->addColumn($this->lng->txt("assessment_log_datetime"), 'date', '10%');
+		$this->addColumn($this->lng->txt("user"), 'user', '20%');
+		$this->addColumn($this->lng->txt("assessment_log_text"), 'message', '50%');
+		$this->addColumn($this->lng->txt("ass_location"), '', '20%');
 	
 		$this->setRowTemplate("tpl.il_as_tst_assessment_log_row.html", "Modules/Test");
 
@@ -74,6 +75,11 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
 			$title = $this->lng->txt("assessment_log_question") . ": " . $title;
 		}
 		$this->tpl->setVariable("MESSAGE", ilUtil::prepareFormOutput($data['logtext']) . ((strlen($title)) ?  " (" . $title . ")" : ''));
+
+		if(strlen($data['location_href']) > 0 && strlen($data['location_txt']) > 0)
+		{
+			$this->tpl->setVariable("LOCATION_HREF", $data['location_href']);
+			$this->tpl->setVariable("LOCATION_TXT", $data['location_txt']);
+		}
 	}
 }
-?>

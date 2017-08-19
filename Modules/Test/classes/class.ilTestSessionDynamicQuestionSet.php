@@ -71,7 +71,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
 		{
 			$user_id = $ilUser->getId();
 		}
-		if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && $this->doesAccessCodeInSessionExists())
+		if (($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) && $this->doesAccessCodeInSessionExists())
 		{
 			$result = $ilDB->queryF("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
 				array('integer','integer','text'),
@@ -87,7 +87,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
 		}
 		else
 		{
-			if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+			if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
 			{
 				return NULL;
 			}
@@ -96,6 +96,10 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
 				array($user_id, $test_id)
 			);
 		}
+
+		// TODO bheyser: Refactor
+		$this->user_id = $user_id;
+
 		if ($result->numRows())
 		{
 			$row = $ilDB->fetchAssoc($result);

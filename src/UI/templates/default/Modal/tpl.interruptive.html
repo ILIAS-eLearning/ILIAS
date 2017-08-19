@@ -1,0 +1,40 @@
+<div class="modal fade il-modal-interruptive" tabindex="-1" role="dialog" id="{ID}">
+	<div class="modal-dialog" role="document">
+		<form action="{FORM_ACTION}" method="POST">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">{TITLE}</h4>
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-warning il-modal-interruptive-message" role="alert">
+						{MESSAGE}
+					</div>
+					<!-- BEGIN with_items -->
+					<div class="il-modal-interruptive-items">
+						<table>
+							<!-- BEGIN item -->
+							<tr>
+								<td>
+									{ITEM_ICON}
+								</td>
+								<td>
+									{ITEM_TITLE}
+									{ITEM_DESCRIPTION}
+									<input type="hidden" name="interruptive_items[]" value="{ITEM_ID}">
+								</td>
+							</tr>
+							<!-- END item -->
+						</table>
+						{ITEMS}
+					</div>
+					<!-- END with_items -->
+				</div>
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-primary" value="{ACTION_BUTTON_LABEL}">
+					<a class="btn btn-default" data-dismiss="modal" aria-label="Close">{CANCEL_BUTTON_LABEL}</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,63 +1,68 @@
-<div class="progress">
-  <div id="progress_div_{PROGRESS_ID}" class="progress-bar {CSS}"  valmax="{MAX}" role="progressbar" aria-valuenow="{CURRENT_INT}" aria-valuemin="{MIN}" aria-valuemax="{MAX}" style="width: {CURRENT_INT}%">
-	<!-- BEGIN hide_caption_in_bl -->
-    <span class="sr-only">
-	<!-- END hide_caption_in_bl -->
-		{CURRENT}% {CAPTION}
-	<!-- BEGIN hide_caption_out_bl -->
-	</span>
-	<!-- END hide_caption_out_bl -->
-  </div>
-	<!-- BEGIN async_status -->
-	<script type="text/javascript">
+<div id="progress_container_{PROGRESS_ID}" class="progress">
+	<div id="progress_div_{PROGRESS_ID}" class="progress-bar {CSS}"  valmax="{MAX}" role="progressbar" aria-valuenow="{CURRENT_INT}" aria-valuemin="{MIN}" aria-valuemax="{MAX}" style="width: {CURRENT_INT}%">
+		<!-- BEGIN hide_caption_in_bl -->
+		<span class="sr-only">
+			<!-- END hide_caption_in_bl -->
+			{CURRENT}% {CAPTION}
+			<!-- BEGIN hide_caption_out_bl -->
+		</span>
+		<!-- END hide_caption_out_bl -->
+	</div>
+</div>	
+<!-- BEGIN async_status -->
+<span id="progress_done_{ASYNC_STATUS_ID}" style="display:none">
+	<img src="{ICON_OK}" />
+</span>
+<script type="text/javascript">
 
-		il.Util.addOnLoad(function() {
+	il.Util.addOnLoad(function() {
 			
-			var interval_reference = null;
+		var interval_reference = null;
 			
-			var refresh = function() {
+		var refresh = function() {
 				
-				var status = $.ajax({
-					type:		'GET',
-					cache:		false,
-					dataType:	'json',
-					url:		'{AJAX_URL}'
+			var status = $.ajax({
+				type:		'GET',
+				cache:		false,
+				dataType:	'json',
+				url:		'{AJAX_URL}'
 
-				});
+			});
 			
-				status.done(function(response) {
+			status.done(function(response) {
 					
-					console.log('progress_div_' + response.id);
-					
-					var max = parseInt($('#progress_div_' + response.id).attr("valmax"));
-					var required_steps = parseInt(response.required_steps);
-					var percentage = 100;
-					
-					//console.log('Required steps: ' + required_steps);
-					//console.log('Max steps: ' + max);
-					
-					if(required_steps > 0) {
-						if(max > 0) {
-							percentage = parseInt(100 - ((required_steps / max) * 100 ));
-						}
+				var max = parseInt($('#progress_div_' + response.id).attr("valmax"));
+				var required_steps = parseInt(response.required_steps);
+				var percentage = 100;
+
+				//console.log('Required steps: ' + required_steps);
+				//console.log('Max steps: ' + max);
+
+				if (required_steps > 0) {
+					if (max > 0) {
+						percentage = parseInt(100 - ((required_steps / max) * 100));
 					}
-					
-					if(percentage >= 100) {
-						console.log('Stop ajax');
-						console.log(interval_reference);
-						clearInterval(interval_reference);
-					}
-					
-					$('#progress_div_' + response.id).css('width',percentage + '%');
-					$('#progress_div_' + response.id).text(percentage + '%');
-					$('#progress_div_' + response.id).attr('aria-valuenow',percentage);
-					
 				}
-			)};
-			
-			interval_reference = setInterval(refresh, '{AJAX_TIMEOUT}');
-		});
-	</script>
-	<!-- END async_status -->
 
-</div>
+				if (percentage >= 100) {
+					console.log('Stop ajax');
+					console.log(interval_reference);
+					clearInterval(interval_reference);
+
+					$('#progress_container_' + response.id).toggle();
+					$('#progress_done_' + response.id).toggle();
+				}
+
+				$('#progress_div_' + response.id).css('width', percentage + '%');
+				$('#progress_div_' + response.id).text(percentage + '%');
+				$('#progress_div_' + response.id).attr('aria-valuenow', percentage);
+
+			}
+			)
+		};
+
+		interval_reference = setInterval(refresh, '{AJAX_TIMEOUT}');
+	});
+</script>
+<!-- END async_status -->
+

@@ -1,5 +1,5 @@
 <?php
-include_once('./Customizing/global/plugins/Libraries/ActiveRecord/Fields/class.arField.php');
+include_once('./Services/ActiveRecord/Fields/class.arField.php');
 
 /**
  * GUI-Class arViewField
@@ -262,9 +262,9 @@ class arViewField extends arField {
 	 * @return arViewField
 	 */
 	static function castFromFieldToViewField(arField $field) {
-		require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Index/class.arIndexTableField.php');
-		require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Edit/class.arEditField.php');
-		require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Display/class.arDisplayField.php');
+		require_once('./Services/ActiveRecord/Views/Index/class.arIndexTableField.php');
+		require_once('./Services/ActiveRecord/Views/Edit/class.arEditField.php');
+		require_once('./Services/ActiveRecord/Views/Display/class.arDisplayField.php');
 
 		$field_class = get_called_class();
 		$obj = new $field_class($field->getName());

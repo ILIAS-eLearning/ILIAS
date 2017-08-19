@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Table/classes/class.ilTable2GUI.php';
+include_once './Services/Cron/classes/class.ilCronJobResult.php';
 
 /**
  * List all active cron jobs
@@ -42,6 +43,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
 		$this->setSelectAllCheckbox("mjid");
 		$this->addMultiCommand("activate", $lng->txt("cron_action_activate"));
 		$this->addMultiCommand("deactivate", $lng->txt("cron_action_deactivate"));
+		$this->addMultiCommand("reset", $lng->txt("cron_action_reset"));
 						
 		$this->setRowTemplate("tpl.cron_job_row.html", "Services/Cron");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -196,7 +198,15 @@ class ilCronManagerTableGUI extends ilTable2GUI
 		}
 		if(DEVMODE && $a_item["job_result_code"]) // #11866
 		{
-			$result_info[] = $a_item["job_result_code"];
+			$resultCode = $a_item["job_result_code"];
+			if(in_array($resultCode, ilCronJobResult::getCoreCodes()))
+			{
+				$result_info[] = $lng->txt('cro_job_rc_' . $resultCode);
+			}
+			else
+			{
+				$result_info[] = $resultCode;
+			}
 		}
 		if(!$a_item["job_result_type"])
 		{

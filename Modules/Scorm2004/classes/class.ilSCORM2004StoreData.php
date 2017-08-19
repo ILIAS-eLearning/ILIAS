@@ -11,8 +11,7 @@
 */
 class ilSCORM2004StoreData
 {
-
-	public function scormPlayerUnload($userId=null, $packageId, $time_from_lms)
+	public static function scormPlayerUnload($userId=null, $packageId, $time_from_lms)
 	{
 		global $ilDB;
 				
@@ -56,7 +55,7 @@ class ilSCORM2004StoreData
 	}
 
 
-	public function persistCMIData($userId=null, $packageId, $defaultLessonMode, $comments, $interactions, $objectives, $time_from_lms, $data = null)
+	public static function persistCMIData($userId=null, $packageId, $defaultLessonMode, $comments, $interactions, $objectives, $time_from_lms, $data = null)
 	{
 		global $ilLog;
 
@@ -102,7 +101,7 @@ class ilSCORM2004StoreData
 		}
 	}
 
-	function checkIfAllowed($packageId,$userId,$hash){
+	public static function checkIfAllowed($packageId,$userId,$hash){
 		global $ilDB;
 		$res = $ilDB->queryF('select hash from sahs_user where obj_id=%s AND user_id=%s AND hash_end>%s',
 			array('integer','integer','timestamp'),
@@ -113,7 +112,7 @@ class ilSCORM2004StoreData
 		else die("not allowed");
 	}
 
-	public function setCMIData($userId, $packageId, $data,$getComments,$getInteractions,$getObjectives) {
+	public static function setCMIData($userId, $packageId, $data,$getComments,$getInteractions,$getObjectives) {
 		global $ilDB, $ilLog;
 
 		$result = array();
@@ -348,7 +347,7 @@ class ilSCORM2004StoreData
 	// }
 
 
-	private function setGlobalObjectives($userId, $packageId, $data) {
+	protected static function setGlobalObjectives($userId, $packageId, $data) {
 		global $ilLog;
 		$changed_seq_utilities=$data->changed_seq_utilities;
 		$ilLog->write("SCORM2004 adl_seq_utilities changed: ".$changed_seq_utilities);
@@ -357,7 +356,7 @@ class ilSCORM2004StoreData
 		}
 	}
 
-	public function syncGlobalStatus($userId, $packageId, $data, $new_global_status, $time_from_lms) {
+	public static function syncGlobalStatus($userId, $packageId, $data, $new_global_status, $time_from_lms) {
 
 		global $ilDB, $ilLog;
 		$saved_global_status=$data->saved_global_status;
@@ -395,7 +394,7 @@ class ilSCORM2004StoreData
 
 	//saves global_objectives to database
 	//$dowrite only if changed adl_seq_utilities
-	public function writeGObjective($g_data, $user, $package)
+	public static function writeGObjective($g_data, $user, $package)
 	{
 		global $ilDB, $ilLog;
 		$ilLog->write("SCORM2004 writeGObjective");

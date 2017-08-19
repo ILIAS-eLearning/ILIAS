@@ -186,12 +186,15 @@ class ilPortfolioHTMLExport
 					$this->co_page_html_export->collectPageElements("prtf:pg", $page["id"]);
 				}
 				
-				 if(!$has_index)
-				 {
-					 copy($this->export_dir."/prtf_".$page["id"].".html", 
-						$this->export_dir."/index.html");
-					 $has_index = true;
-				 }
+				if(!$has_index)
+				{
+				 	if (is_file($this->export_dir."/prtf_".$page["id"].".html"))	// #20144
+					{
+						copy($this->export_dir . "/prtf_" . $page["id"] . ".html",
+							$this->export_dir . "/index.html");
+						$has_index = true;
+					}
+				}
 			}
 		}
 		$this->co_page_html_export->exportPageElements();

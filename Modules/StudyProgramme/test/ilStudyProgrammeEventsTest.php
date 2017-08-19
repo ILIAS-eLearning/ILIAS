@@ -25,7 +25,8 @@ require_once(__DIR__."/mocks.php");
 
 /**
  * TestCase for the ilObjStudyProgramme
- *
+ * @group needsInstalledILIAS
+ *        
  * @author Michael Herren <mh@studer-raimann.ch>
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @version 1.0.0

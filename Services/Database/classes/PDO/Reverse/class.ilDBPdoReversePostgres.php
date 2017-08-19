@@ -192,13 +192,13 @@ class ilDBPdoReversePostgres extends ilDBPdoReverse {
 		$query .= ' AND pg_class.relname = %s';
 		$constraint_name_mdb2 = $db->getIndexName($constraint_name);
 		try {
-			$row = $db->queryRow(sprintf($query, $db->quote($constraint_name_mdb2, 'text')), null, MDB2_FETCHMODE_ASSOC);
+			$row = $db->queryRow(sprintf($query, $db->quote($constraint_name_mdb2, 'text')), null, ilDBConstants::FETCHMODE_ASSOC);
 		} catch (Exception $e) {
 		}
 
 		if ($e instanceof PDOException || empty($row)) {
 			// fallback to the given $index_name, without transformation
-			$row = $db->queryRow(sprintf($query, $db->quote($constraint_name, 'text')), null, MDB2_FETCHMODE_ASSOC);
+			$row = $db->queryRow(sprintf($query, $db->quote($constraint_name, 'text')), null, ilDBConstants::FETCHMODE_ASSOC);
 		}
 
 		if (empty($row)) {

@@ -1,6 +1,4 @@
 <?php
-require_once("./Modules/DataCollection/classes/Fields/Fileupload/class.ilDclFileuploadFieldModel.php");
-require_once("./Modules/DataCollection/classes/Helpers/class.ilDclRecordQueryObject.php");
 
 /**
  * Class ilDclBooleanFieldModel
@@ -50,7 +48,7 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel {
 	public function checkValidity($value, $record_id = NULL) {
 		$valid = parent::checkValidity($value, $record_id);
 
-		if (!is_numeric($value)) {
+		if (!is_numeric($value) && $value != '') {
 			throw new ilDclInputException(ilDclInputException::TYPE_EXCEPTION);
 		}
 		return $valid;

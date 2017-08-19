@@ -9,7 +9,6 @@
 *
 * @extends ilObjectGUI
 *
-* @ilCtrl_Calls ilCourseContentGUI: ilCourseArchivesGUI
 * @ilCtrl_Calls ilCourseContentGUI: ilColumnGUI, ilObjectCopyGUI
 *
 */
@@ -80,14 +79,6 @@ class ilCourseContentGUI
 					break;
 				}
 
-				// forward if archives enabled and not tutor
-				if(!$this->is_tutor = $ilAccess->checkAccess('write','',$this->course_obj->getRefId()) and
-				   $this->course_obj->isArchived())
-				{
-					$this->__forwardToArchivesGUI();
-					break;
-				}
-
 				// forward to objective presentation
 				if((!$this->is_tutor and
 				   $this->container_obj->getType() == 'crs' and
@@ -129,20 +120,6 @@ class ilCourseContentGUI
 			return 'editUserTimings';
 		}
 		return 'view';
-	}
-
-	function __forwardToArchivesGUI()
-	{
-		include_once 'Modules/Course/classes/class.ilCourseArchivesGUI.php';
-
-		$this->ctrl->setReturn($this,'');
-		$archives_gui = new ilCourseArchivesGUI($this->container_gui);
-		$this->ctrl->forwardCommand($archives_gui);
-
-		$this->tabs_gui->setTabActive('view_content');
-		$this->tabs_gui->setSubTabActive('crs_archives');
-
-		return true;
 	}
 
 	function __checkStartObjects()

@@ -30,7 +30,7 @@ class Text_Diff_Renderer {
     /**
      * Constructor.
      */
-    function Text_Diff_Renderer($params = array())
+    function __construct($params = array())
     {
         foreach ($params as $param => $value) {
             $v = '_' . $param;

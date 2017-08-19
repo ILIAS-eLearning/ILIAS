@@ -85,5 +85,14 @@ class ilCalendarCache extends ilCache
 		$this->setExpiresAfter(ilCalendarSettings::_getInstance()->getCacheMinutes());
 		return true;
 	}
+	
+	/**
+	 * Delete user entries in cache
+	 * @param type $a_user_id
+	 */
+	public function deleteUserEntries($a_user_id)
+	{
+		return $this->deleteByAdditionalKeys($a_user_id);
+	}
 }
 ?>

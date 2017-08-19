@@ -22,7 +22,9 @@ class ilFileUploadUtil
 	 */
 	public static function isUploadAllowed($a_ref_id, $a_type = "")
 	{
-		global $objDefinition, $ilAccess;
+		global $DIC;
+		$objDefinition = $DIC['objDefinition'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		if (self::isUploadSupported())
 		{
@@ -50,7 +52,8 @@ class ilFileUploadUtil
 	 */
 	public static function isUploadSupported()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		// right now, only the repository is supported
 		if (strtolower($_GET["baseClass"]) == "ilrepositorygui")
