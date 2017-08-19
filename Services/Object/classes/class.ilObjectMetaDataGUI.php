@@ -7,7 +7,7 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
 * 
-* @ilCtrl_Calls ilObjectMetaDataGUI: ilMDEditorGUI, ilAdvancedMDSettingsGUI, ilPropertyFormGUI
+* @ilCtrl_Calls ilObjectMetaDataGUI: ilMDEditorGUI, ilAdvancedMDSettingsGUI, ilPropertyFormGUI, ilTaxMDGUI, ilObjTaxonomyGUI
 */
 class ilObjectMetaDataGUI
 {
@@ -20,7 +20,12 @@ class ilObjectMetaDataGUI
 	protected $md_observers; // [array]
 	
 	private $logger = null;
-	
+
+	protected $tax_md_gui = null;
+	protected $tax_obj_gui = null;
+	protected $taxonomy_settings_form_manipulator = null;
+	protected $taxonomy_settings_form_saver = null;
+
 	/**
 	 * Construct
 	 * 
@@ -30,10 +35,28 @@ class ilObjectMetaDataGUI
 	 */
 	public function __construct(ilObject $a_object = null, $a_sub_type = null, $a_sub_id = null)
 	{
-		global $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+
 		
 		$this->logger = $GLOBALS['DIC']->logger()->obj();
-		
+
+		$this->in_workspace = (bool) $_REQUEST["wsp_id"];
+
+		$this->sub_type = $a_sub_type;
+		$this->sub_id = $a_sub_id;
+
+
+
+		if(!$this->sub_type)
+		{
+			$this->sub_type = "-";
+		}
+
 		if($a_object)
 		{
 			$this->object = $a_object;
@@ -50,17 +73,25 @@ class ilObjectMetaDataGUI
 			{
 				$this->logger->warning('ObjectMetaDataGUI called without valid reference id.');
 			}
-			
+
+			$this->md_obj = new ilMD((int)$this->obj_id, (int)$this->sub_id, $this->getLOMType());
+
+			if (!$this->in_workspace)
+			{
+				// (parent) container taxonomies?
+				include_once "Services/Taxonomy/classes/class.ilTaxMDGUI.php";
+				$this->tax_md_gui = new ilTaxMDGUI($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType());
+				$tax_ids = $this->tax_md_gui->getSelectableTaxonomies();
+				if(!is_array($tax_ids) || count($tax_ids) == 0)
+				{
+					$this->tax_md_gui = null;
+				}
+			}
+
 		}
-		$this->sub_type = $a_sub_type;
-		$this->sub_id = $a_sub_id;
-		
-		if(!$this->sub_type)
-		{
-			$this->sub_type = "-";
-		}
-		
-		$lng->loadLanguageModule("meta");
+
+		$this->lng->loadLanguageModule("meta");
+		$this->lng->loadLanguageModule("tax");
 	}
 	
 	public function executeCommand()
@@ -92,21 +123,83 @@ class ilObjectMetaDataGUI
 				}
 				$ilCtrl->forwardCommand($md_gui);				
 				break;
-				
-			case 'iladvancedmdsettingsgui':	
-				$this->setSubTabs("advmddef");	
+
+			case 'iladvancedmdsettingsgui':
+				$this->setSubTabs("advmddef");
 				include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php';
-				$advmdgui = new ilAdvancedMDSettingsGUI($this->ref_id, $this->obj_type, $this->sub_type);				
-				$ilCtrl->forwardCommand($advmdgui);							
-				break;				
-			
+				$advmdgui = new ilAdvancedMDSettingsGUI($this->ref_id, $this->obj_type, $this->sub_type);
+				$ilCtrl->forwardCommand($advmdgui);
+				break;
+
+			case 'iltaxmdgui':
+				$this->setSubTabs("tax_assignment");
+				$ilCtrl->forwardCommand($this->tax_md_gui);
+				break;
+
+			case 'ilobjtaxonomygui':
+				$this->setSubTabs("tax_definition");
+				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php");
+				$ilCtrl->forwardCommand($this->tax_obj_gui);
+				break;
+
 			default:
 				$this->setSubTabs("advmd");	
 				$this->$cmd();
 				break;
 		}
 	}	
-	
+
+	/**
+	 * Set taxonomy settings
+	 *
+	 * @param string $a_link link traget
+	 */
+	function setTaxonomySettings(closure $a_form_manipulator, closure $a_form_saver)
+	{
+		$this->taxonomy_settings_form_manipulator = $a_form_manipulator;
+		$this->taxonomy_settings_form_saver = $a_form_saver;
+	}
+
+	/**
+	 * Get taxonomy settings
+	 *
+	 * @return string link traget
+	 */
+	function getTaxonomySettings()
+	{
+		return $this->taxonomy_settings;
+	}
+
+	/**
+	 * Enable taxonomy definition
+	 *
+	 * @param
+	 * @return
+	 */
+	function enableTaxonomyDefinition($a_enable)
+	{
+		if ($a_enable)
+		{
+			$this->tax_obj_gui = new ilObjTaxonomyGUI();
+			$this->tax_obj_gui->setAssignedObject($this->object->getId());
+		}
+		else
+		{
+			$this->tax_obj_gui = null;
+		}
+	}
+
+	/**
+	 * Get taxonomy obj gui
+	 *
+	 * @return ilObjTaxonomyGUI|null
+	 */
+	function getTaxonomyObjGUI()
+	{
+		return $this->tax_obj_gui;
+	}
+
+
 	public function addMDObserver($a_class, $a_method, $a_section)
 	{
 		$this->md_observers[] = array(
@@ -246,7 +339,7 @@ class ilObjectMetaDataGUI
 		return $link;
 	}
 
-	protected function setSubTabs($a_active)
+	public function setSubTabs($a_active)
 	{
 		global $ilTabs, $lng, $ilCtrl;
 				
@@ -278,7 +371,24 @@ class ilObjectMetaDataGUI
 					$ilCtrl->getLinkTargetByClass("iladvancedmdsettingsgui", "showFiles"));
 			}				
 		}
-		
+
+		if ($this->tax_md_gui != null)
+		{
+			$this->tax_md_gui->addSubTab();
+		}
+
+		if ($this->tax_obj_gui != null)
+		{
+			$ilTabs->addSubTab("tax_definition", $lng->txt("cntr_taxonomy_definitions"),
+				$ilCtrl->getLinkTargetByClass("ilobjtaxonomygui", ""));
+		}
+
+		if ($this->taxonomy_settings_form_manipulator != null)
+		{
+			$ilTabs->addSubTab("tax_settings", $lng->txt("tax_tax_settings"),
+				$ilCtrl->getLinkTarget($this, "editTaxonomySettings"));
+		}
+
 		$ilTabs->activateSubTab($a_active);
 	}
 	
@@ -438,6 +548,50 @@ class ilObjectMetaDataGUI
 		ilDatePresentation::setUseRelativeDates($old_dt);
 
 		return $html;
+	}
+
+	protected function editTaxonomySettings()
+	{
+		$this->tabs->activateSubTab("tax_settings");
+
+		$form = $this->initTaxonomySettingsForm();
+		$this->tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * Init taxonomy settings form.
+	 */
+	protected function initTaxonomySettingsForm()
+	{
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this), "saveTaxonomySettings");
+		$form->setTitle($this->lng->txt("tax_tax_settings"));
+		$this->taxonomy_settings_form_manipulator->bindTo($this);
+		call_user_func_array($this->taxonomy_settings_form_manipulator, [$form]);
+		$form->addCommandButton("saveTaxonomySettings", $this->lng->txt("save"));
+
+		return $form;
+	}
+
+	/**
+	 * Save taxonomy settings form
+	 */
+	protected function saveTaxonomySettings()
+	{
+		$form = $this->initTaxonomySettingsForm();
+		if ($form->checkInput())
+		{
+			$this->taxonomy_settings_form_saver->bindTo($this);
+			call_user_func_array($this->taxonomy_settings_form_saver, [$form]);
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			$this->ctrl->redirect($this, "editTaxonomySettings");
+		}
+		else
+		{
+			$form->setValuesByPost();
+			$this->tpl->setContent($form->getHtml());
+		}
 	}
 
 }

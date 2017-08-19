@@ -16052,3 +16052,5 @@ common#:#second_email_not_valid#:#Die eingegebene zweite E-Mail-Adresse ist nich
 common#:#second_email#:#Zweite E-Mail
 classification#:#clsfct_selected_objects#:#Ausgewählte Objekte
 classification#:#clsfct_back_to_cat#:#Zurück zur Kategorie
+tax#:#tax_tax_assignment#:#Taxonomiezuordnung
+tax#:#tax_tax_settings#:#Taxonomieeinstellungen

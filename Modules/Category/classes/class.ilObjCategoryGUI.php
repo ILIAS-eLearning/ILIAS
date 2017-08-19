@@ -215,9 +215,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->checkPermissionBool("write");
 				$this->prepareOutput();		
 				$this->tabs_gui->activateTab('meta_data');
-				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
-				$md_gui = new ilObjectMetaDataGUI($this->object);	
-				$this->ctrl->forwardCommand($md_gui);
+				$this->ctrl->forwardCommand($this->getObjectMetadataGUI());
 				break;
 
 			default:
@@ -262,6 +260,90 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 		return true;
 	}
+
+	/**
+	 * Get object metadata gui
+	 *
+	 * @param
+	 * @return
+	 */
+	function getObjectMetadataGUI()
+	{
+		include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+		$md_gui = new ilObjectMetaDataGUI($this->object);
+		include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
+		if(ilContainer::_lookupContainerSetting(
+			$this->object->getId(),
+			ilObjectServiceSettingsGUI::TAXONOMIES,
+			false
+		))
+		{
+			$md_gui->enableTaxonomyDefinition(true);
+			$tax = $md_gui->getTaxonomyObjGUI();
+			$tax->setMultiple(true);
+			$tax->setListInfo($this->lng->txt("cntr_tax_list_info"));
+			$taxonomies = $this->getTaxonomiesForRefId();
+			if (sizeof($taxonomies))
+			{
+				$md_gui->setTaxonomySettings(function ($form)
+				{
+
+					$tax = $this->getTaxonomiesForRefId();
+					$block = new ilCheckboxGroupInputGUI($this->lng->txt("cntr_taxonomy_show_sideblock"), "sblock");
+					$form->addItem($block);
+
+					$current = $this->getActiveBlocks();
+
+					foreach ($tax as $tax_id => $tax_item)
+					{
+						$option = new ilCheckboxOption($tax_item["title"], $tax_id,
+							ilObject::_lookupDescription($tax_id));
+
+						if ($tax_item["source"] != $this->object->getRefId())
+						{
+							$loc = new ilLocatorGUI();
+							$loc->setTextOnly(true);
+							$loc->addRepositoryItems($tax_item["source"]);
+							$option->setInfo($loc->getHTML());
+						}
+
+						$block->addOption($option);
+
+						if (in_array($tax_id, $current))
+						{
+							$value[] = $tax_id;
+						}
+					}
+
+					$block->setValue($value);
+
+				}, function ($form)
+				{
+					$taxonomies = $this->getTaxonomiesForRefId();
+					if (sizeof($taxonomies))
+					{
+						$sblock = $form->getInput("sblock");
+
+						$prefix = self::CONTAINER_SETTING_TAXBLOCK;
+
+						ilContainer::_deleteContainerSettings($this->object->getId(),
+							$prefix . "%", true);
+
+						if (is_array($sblock))
+						{
+							foreach ($sblock as $tax_id)
+							{
+								ilContainer::_writeContainerSetting($this->object->getId(),
+									$prefix . $tax_id, 1);
+							}
+						}
+					}
+				});
+			}
+		}
+		return $md_gui;
+	}
+
 
 	/**
 	* Get tabs
@@ -1524,80 +1606,29 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 		$res = array();
 		foreach($tree->getPathFull($this->object->getRefId()) as $node)
-		{			
-			// find all defined taxes for parent node, activation is not relevant
-			$node_taxes = ilObjTaxonomy::getUsageOfObject($node["obj_id"], true);
-			if(sizeof($node_taxes))
+		{
+			//if ($node["ref_id"] != $this->object->getRefId())
 			{
-				foreach($node_taxes as $node_tax)
-				{					
-					$res[$node_tax["tax_id"]] = array(
-						"title" => $node_tax["title"]
-						,"source" => $node["child"]
-					);
+				// find all defined taxes for parent node, activation is not relevant
+				$node_taxes = ilObjTaxonomy::getUsageOfObject($node["obj_id"], true);
+				if (sizeof($node_taxes))
+				{
+					foreach ($node_taxes as $node_tax)
+					{
+						$res[$node_tax["tax_id"]] = array(
+							"title" => $node_tax["title"]
+						, "source" => $node["child"]
+						);
+					}
 				}
-			}							
+			}
 		}
 		
 		asort($res);
 		return $res;
 	}
-	
-	protected function initTaxonomyForm(array $tax)
-	{
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this), "editTaxonomySettings");
-		$form->setTitle($this->lng->txt("cntr_taxonomy_sideblock_settings"));
-		
-		$block = new ilCheckboxGroupInputGUI($this->lng->txt("cntr_taxonomy_show_sideblock"), "sblock");
-		$form->addItem($block);
-		
-		$current = $this->getActiveBlocks();
-		
-		foreach($tax as $tax_id => $tax_item)
-		{			
-			$option = new ilCheckboxOption($tax_item["title"], $tax_id,
-				ilObject::_lookupDescription($tax_id));
-			
-			if($tax_item["source"] != $this->object->getRefId())
-			{
-				$loc = new ilLocatorGUI();
-				$loc->setTextOnly(true);
-				$loc->addRepositoryItems($tax_item["source"]);				
-				$option->setInfo($loc->getHTML());
-			}
-			
-			$block->addOption($option);
-			
-			if(in_array($tax_id, $current))
-			{
-				$value[] = $tax_id;
-			}
-		}
-	
-		$block->setValue($value);
-					
-		$form->addCommandButton("updateTaxonomySettings", $this->lng->txt("save"));
-		
-		return $form;
-	}
-	
-	protected function editTaxonomySettingsObject()
-	{				
-		$this->initTaxSubTabs("tax_settings");
-		
-		$taxonomies = $this->getTaxonomiesForRefId();
-		if(!sizeof($taxonomies))
-		{
-			ilUtil::sendFailure($this->lng->txt("cntr_tax_none_available"));
-			return;
-		}
-		
-		$form = $this->initTaxonomyForm($taxonomies);
-		$this->tpl->setContent($form->getHTML());
-	}
-	
+
+
 	protected function getActiveBlocks()
 	{		
 		$res = array();
@@ -1613,36 +1644,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 		
 		return $res;
-	}
-	
-	protected function updateTaxonomySettingsObject()
-	{
-		$taxonomies = $this->getTaxonomiesForRefId();
-		if(sizeof($taxonomies))
-		{		
-			$form = $this->initTaxonomyForm($taxonomies);
-			if($form->checkInput())
-			{
-				$sblock = $form->getInput("sblock");
-				
-				$prefix = self::CONTAINER_SETTING_TAXBLOCK;
-				
-				ilContainer::_deleteContainerSettings($this->object->getId(), 
-					$prefix."%", true);
-				
-				if(is_array($sblock))
-				{
-					foreach($sblock as $tax_id)
-					{					
-						ilContainer::_writeContainerSetting($this->object->getId(),
-							$prefix.$tax_id, 1);											
-					}
-				}
-			
-				ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-			}
-		}
-		$this->ctrl->redirect($this, "editTaxonomySettings");
 	}
 
 } // END class.ilObjCategoryGUI

@@ -13608,3 +13608,5 @@ survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_print_hide_labels#:#Hide labels
 classification#:#clsfct_selected_objects#:#Selected Objects
 classification#:#clsfct_back_to_cat#:#Back to Category
+tax#:#tax_tax_assignment#:#Taxonomy Assignment
+tax#:#tax_tax_settings#:#Taxonomy Settings
