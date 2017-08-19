@@ -21,7 +21,7 @@ class ilMathBCAdapterTest extends ilMathBaseAdapterTest
 		}
 
 		require_once 'Services/Math/classes/class.ilMathBCMathAdapter.php';
-		$this->math_adapter = new ilMathBCMathAdapter();
+		$this->mathAdapter = new ilMathBCMathAdapter();
 		parent::setUp();
 	}
 }

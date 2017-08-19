@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Math/classes/class.ilMath.php';
-require_once 'Services/Math/classes/class.EvalMath.php';
-
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
@@ -15,20 +12,23 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @var ilMathAdapter
 	 */
-	protected $math_adapter;
+	protected $mathAdapter;
 
 	/**
 	 * @var EvalMath
 	 */
-	protected $eval_math;
+	protected $evalMath;
 
 	/**
 	 * @inheritDoc
 	 */
 	protected function setUp()
 	{
-		ilMath::setDefaultAdapter($this->math_adapter);
-		$this->eval_math = new EvalMath();
+		require_once 'Services/Math/classes/class.ilMath.php';
+		require_once 'Services/Math/classes/class.EvalMath.php';
+
+		ilMath::setDefaultAdapter($this->mathAdapter);
+		$this->evalMath = new EvalMath();
 		parent::setUp();
 	}
 
@@ -37,7 +37,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAdd($a, $b, $result, $scale)
 	{
-		$this->assertEquals($result, $this->math_adapter->add($a, $b, $scale));
+		$this->assertEquals($result, $this->mathAdapter->add($a, $b, $scale));
 	}
 
 	/**
@@ -45,7 +45,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSub($a, $b, $result, $scale)
 	{
-		$this->assertEquals($result, $this->math_adapter->sub($a, $b, $scale));
+		$this->assertEquals($result, $this->mathAdapter->sub($a, $b, $scale));
 	}
 
 	/**
@@ -53,7 +53,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testMul($a, $b, $result, $scale)
 	{
-		$this->assertEquals($result, $this->math_adapter->mul($a, $b, $scale));
+		$this->assertEquals($result, $this->mathAdapter->mul($a, $b, $scale));
 	}
 
 	/**
@@ -61,7 +61,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDiv($a, $b, $result, $scale)
 	{
-		$this->assertEquals($result, $this->math_adapter->div($a, $b, $scale));
+		$this->assertEquals($result, $this->mathAdapter->div($a, $b, $scale));
 	}
 
 	/**
@@ -69,7 +69,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSqrt($a, $result, $scale)
 	{
-		$this->assertEquals($result, $this->math_adapter->sqrt($a, $scale));
+		$this->assertEquals($result, $this->mathAdapter->sqrt($a, $scale));
 	}
 
 	/**
@@ -77,7 +77,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testPow($a, $b, $result, $scale)
 	{
-		$this->assertEquals($result, $this->math_adapter->pow($a, $b, $scale));
+		$this->assertEquals($result, $this->mathAdapter->pow($a, $b, $scale));
 	}
 
 	/**
@@ -85,7 +85,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testMod($a, $b, $result)
 	{
-		$this->assertEquals($result, $this->math_adapter->mod($a, $b));
+		$this->assertEquals($result, $this->mathAdapter->mod($a, $b));
 	}
 
 	/**
@@ -93,7 +93,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEquals($a, $b, $result, $scale)
 	{
-		$this->assertEquals($result, $this->math_adapter->equals($a, $b, $scale));
+		$this->assertEquals($result, $this->mathAdapter->equals($a, $b, $scale));
 	}
 
 	/**
@@ -101,7 +101,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCalculation($formula, $result, $scale)
 	{
-		$this->assertEquals($result, ilMath::_applyScale($this->eval_math->evaluate($formula), $scale));
+		$this->assertEquals($result, ilMath::_applyScale($this->evalMath->evaluate($formula), $scale));
 	}
 
 	/**
@@ -173,8 +173,8 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	public function powData()
 	{
 		return [
-			['3', '2', '9', null],
-			['2', '64', '18446744073709551616', null]
+			['3', '2', '9', self::DEFAULT_SCALE],
+			['2', '64', '18446744073709551616', self::DEFAULT_SCALE]
 		];
 	}
 

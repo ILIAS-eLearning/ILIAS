@@ -4,7 +4,7 @@
 require_once 'Services/Math/interfaces/interface.ilMathAdapter.php';
 
 /**
- * Interface ilMathAdapter
+ * Class ilMathBaseAdapter
  * @author Michael Jansen <mjansen@databay.de>
  */
 abstract class ilMathBaseAdapter implements ilMathAdapter
