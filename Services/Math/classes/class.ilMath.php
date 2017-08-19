@@ -41,19 +41,24 @@ class ilMath
 		return $adapter->div($left_operand, $right_operand, $scale);
 	}
 
-	/*
-	* Get modulus of two numbers
-	*/
-	public static function _mod($left_operand, $modulus)
+	/**
+	 * @param int|float $operand
+	 * @param int|float $modulu
+	 * @return int
+	 */
+	public static function _mod($operand, $modulu)
 	{
 		$adapter = static::getDefaultAdapter();
 
-		return $adapter->mod($left_operand, $modulus);
+		return $adapter->mod($operand, $modulu);
 	}
 
-	/*
-	* Multiplicate two numbers
-	*/
+	/**
+	 * @param int|float $left_operand
+	 * @param int|float $right_operand
+	 * @param int $scale
+	 * @return mixed
+	 */
 	public static function _mul($left_operand, $right_operand, $scale = 50)
 	{
 		$adapter = static::getDefaultAdapter();
@@ -61,9 +66,12 @@ class ilMath
 		return $adapter->mul($left_operand, $right_operand, $scale);
 	}
 
-	/*
-	* Raise a number to another
-	*/
+	/**
+	 * @param int|float $left_operand
+	 * @param int|float $right_operand
+	 * @param int $scale
+	 * @return mixed
+	 */
 	public static function _pow($left_operand, $right_operand, $scale = 50)
 	{
 		$adapter = static::getDefaultAdapter();
@@ -71,9 +79,11 @@ class ilMath
 		return $adapter->pow($left_operand, $right_operand, $scale);
 	}
 
-	/*
-	* Get the square root of a number
-	*/
+	/**
+	 * @param int|float $operand
+	 * @param int $scale
+	 * @return mixed
+	 */
 	public static function _sqrt($operand, $scale = 50)
 	{
 		$adapter = static::getDefaultAdapter();
@@ -81,9 +91,12 @@ class ilMath
 		return $adapter->sqrt($operand, $scale);
 	}
 
-	/*
-	* Subtract two numbers
-	*/
+	/**
+	 * @param int|float $left_operand
+	 * @param int|float $right_operand
+	 * @param int $scale
+	 * @return mixed
+	 */
 	public static function _sub($left_operand, $right_operand, $scale = 50)
 	{
 		$adapter = static::getDefaultAdapter();
