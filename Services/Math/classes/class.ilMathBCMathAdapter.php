@@ -49,7 +49,8 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
 	{
 		if($right_operand == 0)
 		{
-			throw new ilMathDevisionByZeroException(sprintf("Division of %s by %s not possible!", $left_operand, $right_operand));
+			require_once 'Services/Math/exceptions/class.ilMathDivisionByZeroException.php';
+			throw new ilMathDivisionByZeroException(sprintf("Division of %s by %s not possible!", $left_operand, $right_operand));
 		}
 
 		return bcdiv($this->normalize($left_operand), $this->normalize($right_operand), $this->normalize($scale));
@@ -62,7 +63,8 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
 	{
 		if($right_operand == 0)
 		{
-			throw new ilMathDevisionByZeroException(sprintf("Division of %s by %s not possible!", $left_operand, $right_operand));
+			require_once 'Services/Math/exceptions/class.ilMathDivisionByZeroException.php';
+			throw new ilMathDivisionByZeroException(sprintf("Division of %s by %s not possible!", $left_operand, $right_operand));
 		}
 
 		return bcmod($this->normalize($left_operand), $this->normalize($right_operand));

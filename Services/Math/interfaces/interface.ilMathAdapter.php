@@ -40,7 +40,7 @@ interface ilMathAdapter
 	 * @param  mixed $right_operand
 	 * @param int $scale
 	 * @return mixed
-	 * @throws ilMathDevisionByZeroException
+	 * @throws ilMathDivisionByZeroException
 	 */
 	public function div($left_operand, $right_operand, $scale = null);
 
@@ -49,7 +49,7 @@ interface ilMathAdapter
 	 * @param  mixed $left_operand
 	 * @param  mixed $right_operand
 	 * @return mixed
-	 * @throws ilMathDevisionByZeroException
+	 * @throws ilMathDivisionByZeroException
 	 */
 	public function mod($left_operand, $right_operand);
 
