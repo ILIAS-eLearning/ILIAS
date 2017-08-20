@@ -49,6 +49,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
+		$tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET",
+			ilObjStyleSheet::getPlaceHolderStylePath());
 		$tpl->parseCurrentBlock();
 	}
 	
