@@ -197,6 +197,7 @@ class ilPageEditorGUI
 		$this->page->buildDom();
 		$this->page->addHierIDs();
 
+
 		// determine command and content object
 		if ($cmdClass != "ilfilesystemgui")
 		{
@@ -207,8 +208,15 @@ class ilPageEditorGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 
+		// special case: placeholders from preview mode come without hier_id
+		if ($next_class == "ilpcplaceholdergui" && $hier_id == "" && $_GET["pl_pc_id"] != "")
+		{
+			$hid = $this->page->getHierIdsForPCIds(array($_GET["pl_pc_id"]));
+			$hier_id = $hid[$_GET["pl_pc_id"]];
+		}
 
-		// determine content type
+
+			// determine content type
 		if ($com[0] == "insert" || $com[0] == "create")
 		{
 			$cmd = $com[0];
