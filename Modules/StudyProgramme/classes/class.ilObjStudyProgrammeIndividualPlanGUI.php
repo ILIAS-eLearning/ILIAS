@@ -62,7 +62,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	 */
 	protected $sp_user_progress_db;
 
-	public function __construct($a_parent_gui, $a_ref_id) {
+	public function __construct($a_parent_gui, $a_ref_id, ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
 		global $DIC;
 		$tpl = $DIC['tpl'];
 		$ilCtrl = $DIC['ilCtrl'];
@@ -88,24 +88,13 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		$this->lng = $lng;
 		$this->user = $ilUser;
 		$this->assignment_object = null;
+		$this->sp_user_progress_db = $sp_user_progress_db;
 
 		$this->object = null;
 
 		$lng->loadLanguageModule("prg");
 
 		$this->tpl->addCss("Modules/StudyProgramme/templates/css/ilStudyProgramme.css");
-	}
-
-	/**
-	* Get a (cached) instance of ilStudyProgrammeUserProgressDB
-	*
-	* @return ilStudyProgrammeUserProgressDB
-	*/
-	private function getStudyProgrammeUserProgressDB() {
-		if(! $this->sp_user_progress_db) {
-			 $this->sp_user_progress_db = ilObjStudyProgramme::_getStudyProgrammeUserProgressDB();
-		}
-		return $this->sp_user_progress_db;
 	}
 
 	public function executeCommand() {
@@ -161,7 +150,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		$ass = $this->getAssignmentObject();
 		$this->ctrl->setParameter($this, "ass_id", $ass->getId());
 		$this->ctrl->setParameter($this, "cmd", "manage");
-		$table = new ilStudyProgrammeIndividualPlanTableGUI($this, $ass, $this->getStudyProgrammeUserProgressDB());
+		$table = new ilStudyProgrammeIndividualPlanTableGUI($this, $ass, $this->sp_user_progress_db);
 		$frame = $this->buildFrame("manage", $table->getHTML());
 		$this->ctrl->setParameter($this, "ass_id", null);
 		return $frame;
@@ -193,7 +182,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		$status_updates = $this->getManualStatusUpdates();
 		$changed = false;
 		foreach ($status_updates as $prgrs_id => $status) {
-			$prgrs = $this->getStudyProgrammeUserProgressDB()->getInstanceById($prgrs_id);
+			$prgrs = $this->sp_user_progress_db->getInstanceById($prgrs_id);
 			$cur_status = $prgrs->getStatus();
 			if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
 				$prgrs->unmarkAccredited($this->user->getId());
@@ -223,7 +212,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		$required_points = $this->getRequiredPointsUpdates($prgrs_id);
 		$changed = false;
 
-		$prgrs = $this->getStudyProgrammeUserProgressDB()->getInstanceById($prgrs_id);
+		$prgrs = $this->sp_user_progress_db->getInstanceById($prgrs_id);
 		$cur_status = $prgrs->getStatus();
 		if ($cur_status != ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
 			return false;

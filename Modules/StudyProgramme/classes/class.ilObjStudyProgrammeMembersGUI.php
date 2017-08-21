@@ -66,7 +66,7 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	protected $sp_user_progress_db;
 
-	public function __construct($a_parent_gui, $a_ref_id) {
+	public function __construct($a_parent_gui, $a_ref_id, ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
 		global $DIC;
 		$tpl = $DIC['tpl'];
 		$ilCtrl = $DIC['ilCtrl'];
@@ -92,22 +92,11 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->lng = $lng;
 		$this->user = $ilUser;
 		$this->progress_object = null;
+		$this->sp_user_progress_db = $sp_user_progress_db;
 
 		$this->object = null;
 
 		$lng->loadLanguageModule("prg");
-	}
-
-	/**
-	* Get a (cached) instance of ilStudyProgrammeUserProgressDB
-	*
-	* @return ilStudyProgrammeUserProgressDB
-	*/
-	public function getStudyProgrammeUserProgressDB() {
-		if(! $this->sp_user_progress_db) {
-			 $this->sp_user_progress_db = ilObjStudyProgramme::_getStudyProgrammeUserProgressDB();
-		}
-		return $this->sp_user_progress_db;
 	}
 
 	public function executeCommand() {
@@ -132,7 +121,7 @@ class ilObjStudyProgrammeMembersGUI {
 				return;
 			case "ilobjstudyprogrammeindividualplangui":
 				require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeIndividualPlanGUI.php");
-				$individual_plan_gui = new ilObjStudyProgrammeIndividualPlanGUI( $this, $this->ref_id);
+				$individual_plan_gui = new ilObjStudyProgrammeIndividualPlanGUI($this, $this->ref_id, $this->sp_user_progress_db);
 				$this->ctrl->forwardCommand($individual_plan_gui);
 				return;
 			case false:
@@ -168,7 +157,7 @@ class ilObjStudyProgrammeMembersGUI {
 		}
 
 		$prg_id = ilObject::_lookupObjId($this->ref_id);
-		$table = new ilStudyProgrammeMembersTableGUI($prg_id, $this->ref_id, $this, "view", "", $this->getStudyProgrammeUserProgressDB());
+		$table = new ilStudyProgrammeMembersTableGUI($prg_id, $this->ref_id, $this, "view", "", $this->sp_user_progress_db);
 		return $table->getHTML();
 	}
 
@@ -296,7 +285,7 @@ class ilObjStudyProgrammeMembersGUI {
 				throw new ilException("Expected integer 'prgrs_id'");
 			}
 			$id = (int)$_GET["prgrs_id"];
-			$this->progress_object = $this->getStudyProgrammeUserProgressDB()->getInstanceById($id);
+			$this->progress_object = $this->sp_user_progress_db->getInstanceById($id);
 
 		}
 		return $this->progress_object;
