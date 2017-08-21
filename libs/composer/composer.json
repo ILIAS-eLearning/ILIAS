@@ -12,7 +12,7 @@
 		"monolog/monolog": "^1.15",
 		"phpoffice/phpexcel": "^1.8.1",
 		"technosophos/LibRIS": "^2.0.2",
-		"ezyang/htmlpurifier": "^4.8.0",
+		"ezyang/htmlpurifier": "4.9.3",
 		"phpmailer/phpmailer": "^5.2.24",
 		"phansys/getid3": "^2.0.0-BETA1",
 		"geshi/geshi": "dev-master",
