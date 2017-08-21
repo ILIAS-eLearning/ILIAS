@@ -49,6 +49,14 @@ interface Factory {
 	 *       1: View Controls used here MUST only affect the table itself.
 	 *       2: Clicking the expander MUST only expand the row. It MUST NOT trigger any other action.
 	 *
+	 *
+	 * The closure $row_mapping MUST accept the following parameter
+	 * \PresentationRow $row
+	 * mixed $record
+	 * \Factory $ui_factory
+	 * mixed $environment
+	 *
+	 * The closure MUST return \PresentationRow
 	 * ---
 	 * @param string	$title
 	 * @param array		$view_controls 	a list of view controls
