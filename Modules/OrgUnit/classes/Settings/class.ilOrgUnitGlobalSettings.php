@@ -49,13 +49,28 @@ class ilOrgUnitGlobalSettings
 	}
 	
 	/**
+	 * Get object position settings by type
+	 * @param string $a_obj_type
+	 * @return ilOrgUnitObjectPositionSetting
+	 * @throws \InvalidArgumentException
+	 */
+	public function getObjectPositionSettingsByType($a_obj_type)
+	{
+		if(!isset($this->position_settings[$a_obj_type]))
+		{
+			throw new \InvalidArgumentException('Object type passed does not support position settings: ' . $a_obj_type);
+		}
+		return $this->position_settings[$a_obj_type];
+	}
+	
+	/**
 	 * read settings
 	 */
 	protected function readSettings()
 	{
 		foreach($this->object_definition->getOrgUnitPermissionTypes() as $type)
 		{
-			$this->position_settings[] = new ilOrgUnitObjectPositionSetting($type);
+			$this->position_settings[$type] = new ilOrgUnitObjectPositionSetting($type);
 		}
 	}
 }
