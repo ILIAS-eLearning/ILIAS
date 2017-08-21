@@ -1,0 +1,93 @@
+.message-style(@font-color; @padding-base-vertical; @padding-base-horizontal; @font-size; @line-height-base) {
+  .button-size(@padding-base-vertical; @padding-base-horizontal; @font-size; @line-height-base; 0);
+  font-size: @font-size;
+  border:    1px solid transparent;
+  color:     @font-color;
+  display:   inline-block;
+}
+
+.no-padding() {
+  [class*="col-"] {
+	&.col-no-padding {
+	  padding-left:  0;
+	  padding-right: 0;
+	}
+  }
+}
+
+.il-upload-file-item {
+  &.row {
+	.no-padding();
+  }
+  // standard dropzone design
+  &.standard {
+	background:            @il-dropzone-bg;
+	border:                @il-dropzone-filelist-border-width @il-dropzone-filelist-border-type @il-dropzone-filelist-border-color;
+	-moz-border-radius:    @il-dropzone-filelist-border-radius;
+	-webkit-border-radius: @il-dropzone-filelist-border-radius;
+	border-radius:         @il-dropzone-filelist-border-radius;
+	margin-bottom:         4px;
+	.file-info {
+	  .message-style(@text-color; @padding-base-vertical; @padding-base-horizontal; @il-button-font-size; @line-height-base);
+	}
+
+	.remove {
+	  button {
+		margin: 2px 7px 0 0;
+	  }
+	}
+  }
+}
+
+.il-dropzone {
+  &.row {
+	.no-padding();
+  }
+  // standard dropzone design
+  &.standard {
+	background:            @il-dropzone-bg;
+	border:                @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
+	-moz-border-radius:    @il-dropzone-border-radius;
+	-webkit-border-radius: @il-dropzone-border-radius;
+	border-radius:         @il-dropzone-border-radius;
+	.dz-message {
+	  .message-style(@il-dropzone-border-color; @padding-base-vertical; @padding-base-horizontal; @il-button-font-size; @line-height-base);
+	}
+	.il-dropzone-standard-select-files-wrapper {
+	  //margin: @il-dropzone-border-radius*-1;
+	}
+	margin-bottom:         4px;
+  }
+  // wrapper dropzone design
+  &.wrapper {
+	padding: 1px
+  }
+  // <- is needed to display a possible margin of the inner elements
+
+  // general dropzone design
+  &.darkened-highlight {
+	z-index:               1100;
+	position:              relative;
+	border:                @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
+	-moz-border-radius:    @il-dropzone-border-radius;
+	-webkit-border-radius: @il-dropzone-border-radius;
+	border-radius:         @il-dropzone-border-radius;
+	background:            @il-dropzone-highlight-bg;
+  }
+
+  &.default-highlight {
+	border:                @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
+	-moz-border-radius:    @il-dropzone-border-radius;
+	-webkit-border-radius: @il-dropzone-border-radius;
+	border-radius:         @il-dropzone-border-radius;
+	background:            @il-dropzone-highlight-bg;
+  }
+
+  &.drag-hover {
+	border:                @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color-hover;
+	-moz-border-radius:    @il-dropzone-border-radius;
+	-webkit-border-radius: @il-dropzone-border-radius;
+	border-radius:         @il-dropzone-border-radius;
+	background-color:      @il-dropzone-hover-bg;
+  }
+}

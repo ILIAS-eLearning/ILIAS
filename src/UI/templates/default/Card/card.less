@@ -1,15 +1,22 @@
 .il-card {
+	padding: 0;
+	width: 100%;
+
+
+	background-color: @il-primary-container-bg;
+
 	img{
 		width: 100%;
 	}
-	padding: 0;
 
+	.thumbnail{
+		margin-bottom: 0px;
+	}
 	.card-highlight {
 		background-color: @brand-warning;
 		height: 3px;
 		width: 100%;
 	}
-
 	.card-no-highlight {
 		background-color: transparent;
 		height: 3px;
@@ -19,10 +26,28 @@
 	.caption{
 		.card-title{
 			overflow-wrap: break-word;
-		}
 
+		}
 		&:nth-of-type(1n+3) {
 			border-top: 1px solid @panel-inner-border;
+		}
+
+	}
+}
+
+.il-panel-report .il-card{
+	background-color: @il-secondary-container-bg;
+}
+
+@media (min-width: @screen-md-min) {
+	.row-eq-height {
+		.il-card {
+			display: flex;
+			flex-direction: column;
+
+			:nth-child(4) {
+				flex-grow: 2;
+			}
 		}
 	}
 }

@@ -1,7 +1,9 @@
 <?php
 
 /**
- * Class ilOrgUnitPositionAccessHandler
+ * Interface  ilOrgUnitPositionAccessHandler
+ *
+ * Provides access checks due to a users OrgUnit-Positions
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -84,4 +86,38 @@ interface ilOrgUnitPositionAccessHandler {
 	 * @return bool
 	 */
 	public function isUserBasedOnPositionsAllowedTo($which_user_id, $permission, array $on_user_ids);
+
+
+	/**
+	 * @param string $pos_perm           See the list of
+	 *                                   available permissions in interface
+	 *                                   ilOrgUnitPositionAccessHandler
+	 * @param int    $ref_id             Reference-ID of the desired Object in the tree
+	 *
+	 * @return bool
+	 */
+	public function checkPositionAccess($pos_perm, $ref_id);
+
+
+	/**
+	 * @param string $pos_perm
+	 * @param int    $ref_id
+	 * @param int[]  $user_ids
+	 *
+	 * @return int[]
+	 */
+	public function filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, array $user_ids);
+
+
+	/**
+	 * @param int    $user_id
+	 * @param string $pos_perm
+	 * @param int    $ref_id
+	 * @param int[]  $user_ids
+	 *
+	 * @return int[]
+	 */
+	public function filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, array $user_ids);
+
+
 }

@@ -1,7 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @defgroup ServicesAccessControl Services/AccessControl
+/**
+ * @defgroup ServicesAccessControl Services/AccessControl
  */
 
 /**
@@ -15,20 +16,69 @@
 *
 * @ingroup ServicesAccessControl
 */
-class ilAccessHandler implements ilRBACAccessHandler, ilOrgUnitPositionAccessHandler {
-	protected $stored_rbac_access = array();
-	
+class ilAccess implements ilAccessHandler {
+
 	/**
-	* constructor
-	*/
-	public function __construct()
-	{
+	 * @var array
+	 */
+	protected $obj_tree_cache;
+	/**
+	 * @var array
+	 */
+	protected $obj_type_cache;
+	/**
+	 * @var array
+	 */
+	protected $obj_id_cache;
+	/**
+	 * @var bool
+	 */
+	protected $status;
+	/**
+	 * @var bool
+	 */
+	protected $path;
+	/**
+	 * @var bool
+	 */
+	protected $condition;
+	/**
+	 * @var bool
+	 */
+	protected $tree;
+	/**
+	 * @var bool
+	 */
+	protected $rbac;
+	/**
+	 * @var bool Whether use cache or not
+	 */
+	protected $cache;
+	/**
+	 * @var \ilAccessInfo
+	 */
+	protected $current_info;
+	/**
+	 * @var array
+	 */
+	protected $results;
+	/**
+	 * @var \ilRbacSystem
+	 */
+	protected $rbacsystem;
+	/**
+	 * @var array
+	 */
+	protected $stored_rbac_access = array();
+
+
+	public function __construct() {
 		global $rbacsystem;
 
 		$this->rbacsystem = $rbacsystem;
 		$this->results = array();
 		$this->current_info = new ilAccessInfo();
-		
+
 		// use function enable to switch on/off tests (only cache is used so far)
 		$this->cache = true;
 		$this->rbac = true;
@@ -38,7 +88,7 @@ class ilAccessHandler implements ilRBACAccessHandler, ilOrgUnitPositionAccessHan
 		$this->status = true;
 		$this->obj_id_cache = array();
 		$this->obj_type_cache = array();
-        $this->obj_tree_cache=array();
+		$this->obj_tree_cache = array();
 	}
 
 
@@ -96,7 +146,7 @@ class ilAccessHandler implements ilRBACAccessHandler, ilOrgUnitPositionAccessHan
 	/**
 	 * @inheritdoc
 	 */
-	function getStoredAccessResult($a_permission, $a_cmd, $a_ref_id, $a_user_id = "")
+	public function getStoredAccessResult($a_permission, $a_cmd, $a_ref_id, $a_user_id = "")
 	{
 		global $ilUser;
 
@@ -104,7 +154,7 @@ class ilAccessHandler implements ilRBACAccessHandler, ilOrgUnitPositionAccessHan
 		{
 			$a_user_id = $ilUser->getId();
 		}
-		
+
 		/*if (is_object($this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id]['info']))
 		{
 			$this->current_info = $this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id]['info'];
@@ -826,5 +876,45 @@ class ilAccessHandler implements ilRBACAccessHandler, ilOrgUnitPositionAccessHan
 	public function isUserBasedOnPositionsAllowedTo($which_user_id, $permission, array $on_user_ids) {
 		// TODO: Implement isUserAllowedTo() method.
 		return false;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function checkPositionAccess($pos_perm, $ref_id) {
+		// TODO: Implement checkPositionAccess() method.
+		return false;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function checkRbacOrPositionPermissionAccess($rbac_perm, $pos_perm, $ref_id) {
+		// TODO: Implement checkRbacOrPositionPermissionAccess() method.
+		return false;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, array $user_ids) {
+		// TODO: Implement filterUserIdsByPositionOfCurrentUser() method.
+		return $user_ids;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, array $user_ids) {
+		// TODO: Implement filterUserIdsByPositionOfUser() method.
+		return $user_ids;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id, array $user_ids) {
+		// TODO: Implement filterUserIdsByRbacOrPositionOfCurrentUser() method.
+		return $user_ids;
 	}
 }
