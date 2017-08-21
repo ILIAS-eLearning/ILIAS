@@ -101,9 +101,11 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("TITLE", $component->getTitle());
 		$tpl->setVariable("SUBTITLE", $component->getSubtitle());
 
-		foreach ($component->getImportantFields() as $value => $label) {
+		foreach ($component->getImportantFields() as $label => $value) {
 			$tpl->setCurrentBlock("important_field");
-			$tpl->setVariable("IMPORTANT_FIELD_LABEL", $label);
+			if(is_string($label)) {
+				$tpl->setVariable("IMPORTANT_FIELD_LABEL", $label);
+			}
 			$tpl->setVariable("IMPORTANT_FIELD_VALUE", $value);
 			$tpl->parseCurrentBlock();
 		}
@@ -115,9 +117,11 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("FURTHER_FIELDS_HEADLINE", $further_fields_headline);
 		}
 
-		foreach ($component->getFurtherFields() as $value => $label) {
+		foreach ($component->getFurtherFields() as $label => $value) {
 			$tpl->setCurrentBlock("further_field");
-			$tpl->setVariable("FIELD_LABEL", $label);
+			if(is_string($label)) {
+				$tpl->setVariable("FIELD_LABEL", $label);
+			}
 			$tpl->setVariable("FIELD_VALUE", $value);
 			$tpl->parseCurrentBlock();
 		}

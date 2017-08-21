@@ -21,9 +21,9 @@ function base() {
 				->withSubTitle($record['type'])
 				->withImportantFields(
 					array(
-						$record['begin_date'] => '',
-						$record['location'] => '',
-						$record['bookings_available'] => 'Available Slots: '
+						$record['begin_date'],
+						$record['location'],
+						'Available Slots: ' => $record['bookings_available']
 					)
 				)
 
@@ -40,11 +40,11 @@ function base() {
 				->withFurtherFieldsHeadline('Detailed Information')
 				->withFurtherFields(
 					array(
-						$record['location'] => 'Location: ',
-						$record['address'] => '',
-						$record['date'] => 'Date: ',
-						$record['bookings_available'] => 'Available Slots: ',
-						$record['fee'] => 'Fee: '
+						'Location: ' => $record['location'],
+						$record['address'],
+						'Date: ' => $record['date'],
+						'Available Slots: ' => $record['bookings_available'],
+						'Fee: ' => $record['fee']
 					)
 				)
 				->withButtons(
