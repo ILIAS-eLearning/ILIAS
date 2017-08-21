@@ -1829,6 +1829,7 @@ common#:#condition_finished#:#Finished
 common#:#condition_not_finished#:#Not finished
 common#:#condition_passed#:#Passed
 common#:#condition_select_object#:#Please select one object.
+common#:#condition_accredited_or_passed#:#Accredited or Passed
 common#:#condition#:#Condition
 common#:#conditions_updated#:#Conditions saved
 common#:#confirm_delete_parameter#:#Do you really want to delete the parameter?
