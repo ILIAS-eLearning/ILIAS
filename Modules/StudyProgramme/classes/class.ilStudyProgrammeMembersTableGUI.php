@@ -185,7 +185,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 
 		$members_list = array();
 		while($rec = $this->db->fetchAssoc($res)) {
-			$rec["actions"] = $this->sp_user_progress_db->getPossibleActions(
+			$rec["actions"] = ilStudyProgrammeUserProgress::getPossibleActions(
 										$a_prg_id, $rec["root_prg_id"], $rec["status"]);
 			$rec['points_current'] = number_format($rec['points_current']);
 			if ($rec["status"] == ilStudyProgrammeProgress::STATUS_COMPLETED) {
@@ -199,7 +199,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				// in the set, this means the completion was achieved by some leaf in
 				// the program tree.
 				if (!$rec["completion_by"]) {
-					require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 					$prgrs = $this->sp_user_progress_db->getInstanceForAssignment( $this->prg_obj_id
 																					  , $rec["assignment_id"]);
 					$rec["completion_by"] = implode(", ", $prgrs->getNamesOfCompletedOrAccreditedChildren());

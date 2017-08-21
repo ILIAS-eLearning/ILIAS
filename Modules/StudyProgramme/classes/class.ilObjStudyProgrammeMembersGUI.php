@@ -326,19 +326,18 @@ class ilObjStudyProgrammeMembersGUI {
 	 * @return	string					The link to the action.
 	 */
 	public function getLinkTargetForAction($a_action, $a_prgrs_id, $a_ass_id) {
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 
 		switch ($a_action) {
-			case ilStudyProgrammeUserProgressDB::ACTION_MARK_ACCREDITED:
+			case ilStudyProgrammeUserProgress::ACTION_MARK_ACCREDITED:
 				$target_name = "markAccredited";
 				break;
-			case ilStudyProgrammeUserProgressDB::ACTION_UNMARK_ACCREDITED:
+			case ilStudyProgrammeUserProgress::ACTION_UNMARK_ACCREDITED:
 				$target_name = "unmarkAccredited";
 				break;
-			case ilStudyProgrammeUserProgressDB::ACTION_SHOW_INDIVIDUAL_PLAN:
+			case ilStudyProgrammeUserProgress::ACTION_SHOW_INDIVIDUAL_PLAN:
 				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeIndividualPlanGUI.php");
 				return ilObjStudyProgrammeIndividualPlanGUI::getLinkTargetView($this->ctrl, $a_ass_id);
-			case ilStudyProgrammeUserProgressDB::ACTION_REMOVE_USER:
+			case ilStudyProgrammeUserProgress::ACTION_REMOVE_USER:
 				$target_name = "removeUser";
 				break;
 			default:
