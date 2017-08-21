@@ -60,6 +60,16 @@ class Presentation implements T\Presentation {
 	/**
 	 * @inheritdoc
 	 */
+	public function withTitle($title) {
+		$this->checkStringArg("string", $title);
+		$clone = clone $this;
+		$clone->title = $title;;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function getTitle() {
 		return $this->title;
 	}
@@ -67,8 +77,26 @@ class Presentation implements T\Presentation {
 	/**
 	 * @inheritdoc
 	 */
+	public function withViewControls(array $view_controls) {
+		$clone = clone $this;
+		$clone->view_controls = $view_controls;;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function getViewControls() {
 		return $this->view_controls;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withRowMapping(\Closure $row_mapping) {
+		$clone = clone $this;
+		$clone->row_mapping = $row_mapping;;
+		return $clone;
 	}
 
 	/**
@@ -86,6 +114,7 @@ class Presentation implements T\Presentation {
 		$clone->environment = $records;;
 		return $clone;
 	}
+
 	/**
 	 * @inheritdoc
 	 */

@@ -9,6 +9,14 @@ namespace ILIAS\UI\Component\Table;
 interface Presentation extends \ILIAS\UI\Component\Component {
 
 	/**
+	 * Get a table like this with title $title.
+	 *
+	 * @param string 	$title
+	 * @return \Presentation
+	 */
+	public function withTitle($title);
+
+	/**
 	 * Get the title of the table.
 	 *
 	 * @return string
@@ -16,11 +24,34 @@ interface Presentation extends \ILIAS\UI\Component\Component {
 	public function getTitle();
 
 	/**
+	 * Get a table like this with these view controls.
+	 *
+	 * @param \ViewControl[] 	$view_controls
+	 * @return \Presentation
+	 */
+	public function withViewControls(array $view_controls);
+
+	/**
 	 * Get view controls to be shown in the header of the table.
 	 *
 	 * @return ILIAS\UI\Component\ViewControl[]
 	 */
 	public function getViewControls();
+
+	/**
+	 * Get a table like this with the closure $row_mapping.
+	 * The closure MUST accept the following parameter
+	 *   \PresentationRow $row
+	 *   mixed $record
+	 *   \Factory $ui_factory
+	 *   mixed $environment
+	 *
+	 * The closure MUST return \PresentationRow
+	 *
+	 * @param \Closure 	$row_mapping
+	 * @return \Presentation
+	 */
+	public function withRowMapping(\Closure $row_mapping);
 
 	/**
 	 * Add a list of objects the mapping-closure needs for processing.
