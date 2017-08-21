@@ -1,7 +1,6 @@
 <?php
 require_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
 
-
 /**
  * Class ilDclGenericMultiInputGUI
  *
@@ -50,27 +49,25 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI {
 	 */
 	protected $show_label = false;
 	/**
-	 * @var
+	 * @var bool
 	 */
-	protected $limit = 0;
-
-
+	protected $show_label_once = false;
 	/**
-	 * @return mixed
+	 * @var array
 	 */
-	public function getLimit() {
-		return $this->limit;
-	}
-
-
+	protected $hidden_inputs = array();
 	/**
-	 * set a limit of possible lines, 0 = no limit
-	 *
-	 * @param mixed $limit
+	 * @var bool
 	 */
-	public function setLimit($limit) {
-		$this->limit = $limit;
-	}
+	protected $position_movable = false;
+	/**
+	 * @var int
+	 */
+	protected $counter = 0;
+	/**
+	 * @var bool
+	 */
+	protected $show_info = false;
 
 
 	/**
@@ -83,6 +80,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI {
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("line_select");
 		$this->setMulti(true);
+		$this->initCSSandJS();
 	}
 
 
@@ -126,10 +124,28 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI {
 	 * @param       $input
 	 * @param array $options
 	 */
-	public function addInput(ilFormPropertyGUI $input, $options = array()) {
+	public function addInput(\ilFormPropertyGUI $input, $options = array()) {
 		$this->inputs[$input->getPostVar()] = $input;
 		$this->input_options[$input->getPostVar()] = $options;
+		$this->counter ++;
 	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getTemplateDir() {
+		return $this->template_dir;
+	}
+
+
+	/**
+	 * @param mixed $template_dir
+	 */
+	public function setTemplateDir($template_dir) {
+		$this->template_dir = $template_dir;
+	}
+
 
 	/**
 	 * @return boolean
@@ -162,7 +178,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI {
 	 */
 	public function setMulti($a_multi, $a_sortable = false, $a_addremove = true) {
 		$this->multi = $a_multi;
-		$this->multi_sortable = $a_sortable;
 	}
 
 
@@ -173,12 +188,10 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI {
 	 */
 	public function setValue($a_value) {
 		foreach ($this->inputs as $key => $item) {
-			if ($item instanceof ilCheckboxInputGUI) {
-				$item->setChecked((bool) $a_value[$key]);
-			} else if ($item instanceof ilDateTimeInputGUI) {
-				$item->setDate(new ilDate($a_value[$key], IL_CAL_DATE));
-			} else if (method_exists($item, 'setValue')) {
+			if (method_exists($item, 'setValue')) {
 				$item->setValue($a_value[$key]);
+			} elseif ($item instanceof \ilDateTimeInputGUI) {
+				$item->setDate(new \ilDate($a_value[$key]['date'], IL_CAL_DATE));
 			}
 		}
 		$this->value = $a_value;
@@ -222,35 +235,31 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI {
 	 */
 	public function checkInput() {
 		global $lng;
-
 		$valid = true;
-
 		// escape data
 		$out_array = array();
 		foreach ($_POST[$this->getPostVar()] as $item_num => $item) {
 			foreach ($this->inputs as $input_key => $input) {
 				if (isset($item[$input_key])) {
-					$out_array[$item_num][$input_key] = (is_string($item[$input_key])) ? ilUtil::stripSlashes($item[$input_key]) : $item[$input_key];
+					$out_array[$item_num][$input_key] = (is_string($item[$input_key])) ? \ilUtil::stripSlashes($item[$input_key]) : $item[$input_key];
 				}
 			}
 		}
 		$_POST[$this->getPostVar()] = $out_array;
-
-		if ($this->getRequired() && ! trim(implode("", $_POST[$this->getPostVar()]))) {
+		if ($this->getRequired() && !trim(implode("", $_POST[$this->getPostVar()]))) {
 			$valid = false;
 		}
-
 		// validate
+
 		foreach ($this->inputs as $input_key => $inputs) {
 			foreach ($out_array as $subitem) {
 				$_POST[$inputs->getPostVar()] = $subitem[$inputs->getPostVar()];
-				if (! $inputs->checkInput()) {
+				if (!$inputs->checkInput()) {
 					$valid = false;
 				}
 			}
 		}
-
-		if (! $valid) {
+		if (!$valid) {
 			$this->setAlert($lng->txt("msg_input_is_required"));
 
 			return false;
@@ -266,7 +275,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI {
 	 * @param bool|false $override
 	 */
 	public function addCustomAttribute($key, $value, $override = false) {
-		if (isset($this->cust_attr[$key]) && ! $override) {
+		if (isset($this->cust_attr[$key]) && !$override) {
 			$this->cust_attr[$key] .= ' ' . $value;
 		} else {
 			$this->cust_attr[$key] = $value;
@@ -283,12 +292,12 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI {
 
 
 	/**
-	 * @param                   $iterator_id
-	 * @param ilFormPropertyGUI $input
+	 * @param                    $iterator_id
+	 * @param \ilFormPropertyGUI $input
 	 *
 	 * @return string
 	 */
-	protected function createInputPostVar($iterator_id, ilFormPropertyGUI $input) {
+	protected function createInputPostVar($iterator_id, \ilFormPropertyGUI $input) {
 		if ($this->getMulti()) {
 			return $this->getPostVar() . '[' . $iterator_id . '][' . $input->getPostVar() . ']';
 		} else {
@@ -303,13 +312,14 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI {
 	 * @param int $iterator_id
 	 *
 	 * @return string
-	 * @throws ilException
+	 * @throws \ilException
 	 */
 	public function render($iterator_id = 0, $clean_render = false) {
+		$first_label = true;
+		//		$tpl = new \ilTemplate("tpl.multi_line_input.html", true, true, 'Customizing/global/plugins/Services/Repository/RepositoryObject/LiveVoting');
 		$tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'Modules/DataCollection');
 
 		$class = 'multi_input_line';
-
 		$this->addCustomAttribute('class', $class, true);
 		foreach ($this->getCustomAttributes() as $key => $value) {
 			$tpl->setCurrentBlock('cust_attr');
@@ -317,75 +327,115 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI {
 			$tpl->setVariable('CUSTOM_ATTR_VALUE', $value);
 			$tpl->parseCurrentBlock();
 		}
-
 		$inputs = $this->inputs;
-
 		foreach ($inputs as $key => $input) {
 			$input = clone $input;
-			if (! method_exists($input, 'render')) {
-				throw new ilException("Method " . get_class($input)
-					. "::render() does not exists! You cannot use this input-type in ilMultiLineInputGUI");
+			$is_hidden = false;
+			$is_ta = false;
+			if (!method_exists($input, 'render')) {
+				switch (true) {
+					case ($input instanceof \ilHiddenInputGUI):
+						$is_hidden = true;
+						break;
+					case ($input instanceof \ilTextAreaInputGUI):
+						$is_ta = true;
+						break;
+					default:
+						throw new \ilException("Method " . get_class($input)
+						                       . "::render() does not exists! You cannot use this input-type in ilMultiLineInputGUI");
+				}
 			}
 
 			$is_disabled_hook = $this->getHook(self::HOOK_IS_INPUT_DISABLED);
-			if ($is_disabled_hook !== false && ! $clean_render) {
+			if ($is_disabled_hook !== false && !$clean_render) {
 				$input->setDisabled($is_disabled_hook($this->getValue()));
 			}
-
 			if ($this->getDisabled()) {
 				$input->setDisabled(true);
 			}
-
-			if ($iterator_id == 0 && ! isset($this->post_var_cache[$key])) {
+			if ($iterator_id == 0 && !isset($this->post_var_cache[$key])) {
 				$this->post_var_cache[$key] = $input->getPostVar();
 			} else {
 				// Reset post var
 				$input->setPostVar($this->post_var_cache[$key]);
 			}
-
 			$post_var = $this->createInputPostVar($iterator_id, $input);
 			$input->setPostVar($post_var);
-
 			$before_render_hook = $this->getHook(self::HOOK_BEFORE_INPUT_RENDER);
-			if ($before_render_hook !== false && ! $clean_render) {
+			if ($before_render_hook !== false && !$clean_render) {
 				$input = $before_render_hook($this->getValue(), $key, $input);
 			}
-
-			//var_dump($input);
-
-			if ($this->isShowLabel()) {
-				$tpl->setCurrentBlock('input_label');
-				$tpl->setVariable('LABEL', $input->getTitle());
-				$tpl->setVariable('CONTENT', $input->render());
-				$tpl->parseCurrentBlock();
-			} else {
-				$tpl->setCurrentBlock('input');
-				$tpl->setVariable('CONTENT', $input->render());
-				$tpl->parseCurrentBlock();
+			switch (true) {
+				case $is_hidden:
+					$tpl->setCurrentBlock('hidden');
+					$tpl->setVariable('NAME', $post_var);
+					$tpl->setVariable('VALUE', \ilUtil::prepareFormOutput($input->getValue()));
+					break;
+				case $is_ta:
+					if ($this->isShowLabel() || ($this->isShowLabelOnce() && $first_label)) {
+						$tpl->setCurrentBlock('input_label');
+						$tpl->setVariable('LABEL', $input->getTitle());
+						$tpl->setVariable('CONTENT', $input->getHTML());
+						$tpl->parseCurrentBlock();
+						$first_label = false;
+					} else {
+						$tpl->setCurrentBlock('input');
+						$tpl->setVariable('CONTENT', $input->getHTML());
+					}
+					break;
+				default:
+					if ($this->isShowLabel() || ($this->isShowLabelOnce() && $first_label)) {
+						$tpl->setCurrentBlock('input_label');
+						$tpl->setVariable('LABEL', $input->getTitle());
+						$tpl->setVariable('CONTENT', $input->render());
+						$first_label = false;
+					} else {
+						$tpl->setCurrentBlock('input');
+						$tpl->setVariable('CONTENT', $input->render());
+					}
+					break;
 			}
-		}
-
-		if ($this->getMulti() && ! $this->getDisabled()) {
-			$tpl->setVariable('IMAGE_MINUS', ilGlyphGUI::get(ilGlyphGUI::REMOVE));
-
-			$show_remove = true;
-			$is_removeable_hook = $this->getHook(self::HOOK_IS_LINE_REMOVABLE);
-			if ($is_removeable_hook !== false && ! $clean_render) {
-				$show_remove = $is_removeable_hook($this->getValue());
-			}
-
-			$image_minus = ($show_remove) ? ilGlyphGUI::get(ilGlyphGUI::REMOVE) : '<span class="glyphicon glyphicon-minus hide"></span>';
-			$tpl->setCurrentBlock('multi_icons');
-			$tpl->setVariable('IMAGE_PLUS', ilGlyphGUI::get(ilGlyphGUI::ADD));
-			$tpl->setVariable('IMAGE_MINUS', $image_minus);
-			if ($this->multi_sortable) {
-				$tpl->setVariable('IMAGE_UP', ilGlyphGUI::get(ilGlyphGUI::UP));
-				$tpl->setVariable('IMAGE_DOWN', ilGlyphGUI::get(ilGlyphGUI::DOWN));
+			if ($this->isShowInfo()) {
+				if ($this->isShowLabel()) {
+					$tpl->setCurrentBlock('input_info_label');
+					$tpl->setVariable('INFO_LABEL', $input->getInfo());
+					$tpl->parseCurrentBlock();
+				} else {
+					$tpl->setCurrentBlock('input_info');
+					$tpl->setVariable('INFO', $input->getInfo());
+					$tpl->parseCurrentBlock();
+				}
 			}
 			$tpl->parseCurrentBlock();
 		}
+		if ($this->getMulti() && !$this->getDisabled()) {
+			$image_plus = ilGlyphGUI::get(ilGlyphGUI::ADD);
+			$show_remove = true;
+			$is_removeable_hook = $this->getHook(self::HOOK_IS_LINE_REMOVABLE);
+			if ($is_removeable_hook !== false && !$clean_render) {
+				$show_remove = $is_removeable_hook($this->getValue());
+			}
+			$show_remove = true;
+			$image_minus = ($show_remove) ? ilGlyphGUI::get(ilGlyphGUI::REMOVE) : '<span class="glyphicon glyphicon-minus hide"></span>';
+			$tpl->setCurrentBlock('multi_icons');
+			$tpl->setVariable('IMAGE_PLUS', $image_plus);
+			$tpl->setVariable('IMAGE_MINUS', $image_minus);
+			$tpl->parseCurrentBlock();
+			if ($this->isPositionMovable()) {
+				$tpl->setCurrentBlock('multi_icons_move');
+				$tpl->setVariable('IMAGE_UP', ilGlyphGUI::get(ilGlyphGUI::UP));
+				$tpl->setVariable('IMAGE_DOWN', ilGlyphGUI::get(ilGlyphGUI::DOWN));
+				$tpl->parseCurrentBlock();
+			}
+		}
 
 		return $tpl->get();
+	}
+
+
+	public function initCSSandJS() {
+		global $tpl;
+		$tpl->addJavascript('Modules/DataCollection/js/generic_multi_line_input.js');
 	}
 
 
@@ -395,35 +445,25 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI {
 	 * @return    int    Size
 	 */
 	public function insert(&$a_tpl) {
-		global $DIC;
-		$tpl = $DIC['tpl'];
-
 		$output = "";
-//		$tpl->addCss($this->getTemplateDir() . '/templates/css/multi_line_input.css');
 
 		$output .= $this->render(0, true);
-
-		if($this->getMulti() && is_array($this->line_values) && count($this->line_values) > 0) {
-			$counter = 0;
-			foreach ($this->line_values as $i => $data) {
+		if ($this->getMulti() && is_array($this->line_values) && count($this->line_values) > 0) {
+			foreach ($this->line_values as $run => $data) {
 				$object = $this;
 				$object->setValue($data);
-				$output .= $object->render($i);
-				$counter++;
+				$output .= $object->render($run);
 			}
 		} else {
-			$output .= $this->render(1, true);
+			$output .= $this->render(0, true);
 		}
-
 		if ($this->getMulti()) {
-			$output = '<div id="' . $this->getFieldId() . '" class="multi_line_input">' . $output . '</div>';
-			$tpl->addJavascript('Modules/DataCollection/js/generic_multi_line_input.js');
-			$output .= '<script type="text/javascript">$("#' . $this->getFieldId() . '").multi_line_input('
-				. json_encode($this->input_options) . ', '
-				. json_encode(array('limit' => $this->limit, 'sortable' => $this->multi_sortable, 'locale' => $DIC->language()->getLangKey()))
-				. ')</script>';
-		}
+			$output = "<div id='{$this->getFieldId()}' class='multi_line_input'>{$output}</div>";
 
+			global $tpl;
+			$options = json_encode($this->input_options);
+			$tpl->addOnLoadCode("$('#{$this->getFieldId()}').multi_line_input({$this->getFieldId()}, '{$options}')");
+		}
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $output);
 		$a_tpl->parseCurrentBlock();
@@ -450,38 +490,51 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI {
 	}
 
 
-//	/**
-//	 * @param bool|false $a_sortable
-//	 *
-//	 * @return string
-//	 */
-//	public function getMultiIconsHTML($a_sortable = false) {
-//
-//		$id = $this->getFieldId();
-//
-//		if (file_exists(ilUtil::getImagePath('edit_add.png'))) {
-//			$html = '<a href="#" style="display: inline-block;" class="add_button"><img src="' . ilUtil::getImagePath('edit_add.png') . '" /></a>';
-//			$html .= '<a href="#" style="display: inline-block;" class="remove_button"><img src="' . ilUtil::getImagePath('edit_remove.png')
-//				. '" /></a>';
-//		} else {
-//			$html = '<a href="#" style="display: inline-block;" class="add_button"><span class="sr-only"></span><span class="glyphicon glyphicon-plus"></span></a>';
-//			$html .= '<a href="#" style="display: inline-block;" class="remove_button"><span class="sr-only"></span><span class="glyphicon glyphicon-minus"></span></a>';
-//		}
-//
-//		/*if($a_sortable)
-//		{
-//			$html .= '&nbsp;<input align="absmiddle" type="image" id="ilMultiDwn~'.$id.'~0"'.
-//				' src="'.ilUtil::getImagePath('icon_down_s.png').'" alt="'.
-//				$lng->txt("down").'" title="'.$lng->txt("down").'" onclick="javascript: return false;" />'.
-//				'<input align="absmiddle" type="image" id="ilMultiUp~'.$id.'~0"'.
-//				' src="'.ilUtil::getImagePath('icon_up_s.png').'" alt="'.$lng->txt("up").
-//				'" title="'.$lng->txt("up").'"  onclick="javascript: return false;" />';
-//		}*/
-//
-//		return $html;
-//	}
+	/**
+	 * @return boolean
+	 */
+	public function isPositionMovable() {
+		return $this->position_movable;
+	}
 
-	public function getSubItems() {
-		return array();
+
+	/**
+	 * @param boolean $position_movable
+	 */
+	public function setPositionMovable($position_movable) {
+		$this->position_movable = $position_movable;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isShowLabelOnce() {
+		return $this->show_label_once;
+	}
+
+
+	/**
+	 * @param boolean $show_label_once
+	 */
+	public function setShowLabelOnce($show_label_once) {
+		$this->setShowLabel(false);
+		$this->show_label_once = $show_label_once;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isShowInfo() {
+		return $this->show_info;
+	}
+
+
+	/**
+	 * @param boolean $show_info
+	 */
+	public function setShowInfo($show_info) {
+		$this->show_info = $show_info;
 	}
 }

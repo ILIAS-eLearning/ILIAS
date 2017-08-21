@@ -26,29 +26,33 @@ class ilOrgUnitPositionFormGUI extends BaseForm {
 		$te = new ilTextAreaInputGUI($this->txt(self::F_DESCRIPTION), self::F_DESCRIPTION);
 		$this->addItem($te);
 
-//		$ilOrgUnitAuthorityFormGUI = new ilOrgUnitAuthorityFormGUI($this->parent_gui, new ilOrgUnitAuthority());
+		$m = new ilDclGenericMultiInputGUI($this->txt(self::F_AUTHORITIES), self::F_AUTHORITIES);
+		$m->setRequired(true);
+		$m->setShowLabel(true);
+		$m->setMulti(true);
 
-//		$c = new ilCustomInputGUI($this->txt('authorities'), 'null');
-//		$f = $this->parent_gui->dic()->ui()->factory();
-//		$r = $this->parent_gui->dic()->ui()->renderer();
-//		$modal = $f->modal()->roundtrip("Modal", $f->legacy($ilOrgUnitAuthorityFormGUI->getHTML()))->withCloseWithKeyboard(false);
-//		$button = $f->button()
-//		            ->shy($this->txt("open_authorities_modal"), '#')
-//		            ->withOnClick($modal->getShowSignal());
-//
-//		$c->setHtml($r->render([ $button, $modal ]));
+		$id = new ilHiddenInputGUI('id');
+		$m->addInput($id);
 
-		$c = new ilOrgUnitAuthorityInputGUI($this->txt(self::F_AUTHORITIES), self::F_AUTHORITIES);
-		$this->addItem($c);
+		$over = new ilSelectInputGUI($this->txt('over'), 'over');
+		$over_options = array();
+		$over_options[ilOrgUnitAuthority::OVER_EVERYONE] = $this->txt('over_'
+		                                                              . ilOrgUnitAuthority::OVER_EVERYONE);
+		$over_options = $over_options + ilOrgUnitPosition::getArray('id', 'title');
+		$over->setOptions($over_options);
+		$m->addInput($over);
 
-//		$m = new ilOrgUnitMultiLineInputGUI($this->txt(self::F_AUTHORITIES), self::F_AUTHORITIES);
-//
-//		$s1 = new ilSelectInputGUI();
-//		$s1->setOptions(array(
-//			1,32,3,4,5
-//		));
-//		$m->addInput($s1);
-//		$this->addItem($m);
+		$available_scopes = array();
+		foreach (ilOrgUnitAuthority::getScopes() as $scope) {
+			$txt = $this->txt('scope_' . $scope);
+			$available_scopes[$scope] = $txt;
+		}
+
+		$scopes = new ilSelectInputGUI($this->txt('scope'), 'scope');
+		$scopes->setOptions($available_scopes);
+		$m->addInput($scopes);
+
+		$this->addItem($m);
 	}
 
 
@@ -56,7 +60,7 @@ class ilOrgUnitPositionFormGUI extends BaseForm {
 		$array = array(
 			self::F_TITLE       => $this->object->getTitle(),
 			self::F_DESCRIPTION => $this->object->getDescription(),
-			self::F_AUTHORITIES => $this->object->getAuthorities(),
+			self::F_AUTHORITIES => $this->object->getAuthoritiesAsArray(),
 		);
 
 		$this->setValuesByArray($array);
@@ -75,6 +79,32 @@ class ilOrgUnitPositionFormGUI extends BaseForm {
 
 		$this->object->setTitle($this->getInput(self::F_TITLE));
 		$this->object->setDescription($this->getInput(self::F_DESCRIPTION));
+
+		$authorities = (array)$this->getInput(self::F_AUTHORITIES);
+		$sent_ids = array();
+		foreach ($authorities as $authority) {
+			/**
+			 * @var $ilOrgUnitAuthority ilOrgUnitAuthority
+			 */
+			$id = $authority["id"];
+			$ilOrgUnitAuthority = ilOrgUnitAuthority::findOrGetInstance($id);
+			$ilOrgUnitAuthority->setPositionId($this->object->getId());
+			$ilOrgUnitAuthority->setScope($authority["scope"]);
+			$ilOrgUnitAuthority->setOver($authority["over"]);
+			if ($id) {
+				$ilOrgUnitAuthority->update();
+			} else {
+				$ilOrgUnitAuthority->create();
+			}
+			$sent_ids[] = $ilOrgUnitAuthority->getId();
+		}
+
+		foreach (ilOrgUnitAuthority::where(array(
+			'id'          => $sent_ids,
+			'position_id' => $this->object->getId(),
+		), array( 'id' => 'NOT IN', 'position_id' => '=' ))->get() as $ilOrgUnitAuthority) {
+			$ilOrgUnitAuthority->delete();
+		}
 
 		return true;
 	}

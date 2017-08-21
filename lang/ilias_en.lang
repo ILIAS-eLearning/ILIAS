@@ -10916,6 +10916,12 @@ common#:#view_learning_progress#:#View Learning Progress
 common#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits
 orgu#:#authorities#:#Permissions
 orgu#:#positions#:#Positions
+orgu#:#scope_1#:#Same Organisational Unit
+orgu#:#scope_2#:#Subsequent Organisational Units
+orgu#:#scope_3#:#All Organisational Units
+orgu#:#over_-1#:#Everyone
+orgu#:#over#:#Over
+orgu#:#scope#:#In
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
 orgu#:#orgu_staff_deassign#:#Are you sure you want to deassign these users from this role?

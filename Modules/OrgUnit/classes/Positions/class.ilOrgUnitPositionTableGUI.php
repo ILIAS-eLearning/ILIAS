@@ -39,20 +39,6 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI {
 		$this->addColumn($this->DIC->language()->txt('action'), '', '100px', false, 'text-right');
 		$this->buildData();
 		$this->setFormAction($this->DIC->ctrl()->getFormAction($this->parent_obj));
-		$lang = $this->DIC->language();
-
-		// TODO insert translations already
-		ilOrgUnitAuthority::replaceNameRenderer(function ($id) use ($lang) {
-			/**
-			 * @var $ilOrgUnitAuthority ilOrgUnitAuthority
-			 */
-			$ilOrgUnitAuthority = ilOrgUnitAuthority::find($id);
-			$over_txt = $lang->txt("over_" . $ilOrgUnitAuthority->getOver());
-			$in_txt = $lang->txt("scope_" . $ilOrgUnitAuthority->getScope());
-
-			return " " . $lang->txt("over") . " " . $over_txt . " " . $lang->txt("in") . " "
-			       . $in_txt;
-		});
 	}
 
 

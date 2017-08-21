@@ -53,8 +53,20 @@ class ilOrgUnitPosition extends \ActiveRecord {
 
 
 	public function afterObjectLoad() {
-		$this->authorities = ilOrgUnitAuthority::where(array( ilOrgUnitAuthority::POSITION_ID => $this->getId() ))
-		                                       ->get();
+		$this->authorities = ilOrgUnitAuthority::where(array( ilOrgUnitAuthority::POSITION_ID => $this->getId() ))->get();
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getAuthoritiesAsArray() {
+		$return = array();
+		foreach ($this->authorities as $authority) {
+			$return[] = $authority->__toArray();
+		}
+
+		return $return;
 	}
 
 
@@ -63,6 +75,30 @@ class ilOrgUnitPosition extends \ActiveRecord {
 	 */
 	public function __toString() {
 		return $this->getTitle();
+	}
+
+
+	/**
+	 * @return array  it's own authorities and also all which use this position
+	 */
+	public function getDependentAuthorities() {
+		$dependent = ilOrgUnitAuthority::where(array( ilOrgUnitAuthority::FIELD_OVER => $this->getId() ))
+		                               ->get();
+
+		$arr = $dependent + $this->authorities;
+
+		return (array)$arr;
+	}
+
+
+	/**
+	 * This deletes the Position, it's Authorities, dependent Authorities and all User-Assignements!
+	 */
+	public function deleteWithAllDependencies() {
+		foreach ($this->getDependentAuthorities() as $authority) {
+			$authority->delete();
+		}
+		parent::delete();
 	}
 
 

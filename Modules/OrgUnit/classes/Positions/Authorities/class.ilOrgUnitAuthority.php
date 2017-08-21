@@ -9,6 +9,7 @@
  */
 class ilOrgUnitAuthority extends \ActiveRecord {
 
+	const FIELD_OVER = 'over';
 	const OVER_EVERYONE = - 1;
 	const POSITION_ID = "position_id";
 	const SCOPE_SAME_ORGU = 1;
@@ -20,7 +21,7 @@ class ilOrgUnitAuthority extends \ActiveRecord {
 	protected static $scopes = array(
 		self::SCOPE_SAME_ORGU,
 		self::SCOPE_SUBSEQUENT_ORGUS,
-		self::SCOPE_ALL_ORGUS,
+		//		self::SCOPE_ALL_ORGUS,
 	);
 
 
@@ -83,9 +84,11 @@ class ilOrgUnitAuthority extends \ActiveRecord {
 
 	public function __construct($primary_key = 0, \arConnector $connector = null) {
 		parent::__construct($primary_key, $connector);
-		self::$name_render = function ($id) {
-			return $id;
-		};
+		if (!self::$name_render) {
+			self::$name_render = function ($id) {
+				return $id;
+			};
+		}
 	}
 
 
@@ -104,6 +107,19 @@ class ilOrgUnitAuthority extends \ActiveRecord {
 		$renderer = self::$name_render;
 
 		return $renderer($this->getId());
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function __toArray() {
+		return array(
+			'id'          => $this->getId(),
+			'over'        => $this->getOver(),
+			'scope'       => $this->getScope(),
+			'position_id' => $this->getPositionId(),
+		);
 	}
 
 
