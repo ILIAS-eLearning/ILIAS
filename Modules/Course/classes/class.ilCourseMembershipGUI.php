@@ -23,9 +23,9 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	 * @param int[] $a_usr_ids
 	 * @return int[]
 	 */
-	protected function filterUsersByAccess($a_usr_ids)
+	protected function filterUserIdsByRbacOrPositionOfCurrentUser($a_usr_ids)
 	{
-		return $GLOBALS['DIC']->access()->filterUsersByAccess(
+		return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'manage_members',
 			'manage_members',
 			$this->getParentObject()->getRefId(),
@@ -415,7 +415,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	 */
 	public function getAttendanceListUserData($a_user_id)
 	{
-		if($this->filterUsersByAccess([$a_user_id]))
+		if($this->filterUserIdsByRbacOrPositionOfCurrentUser([$a_user_id]))
 		{
 			return $this->member_data[$a_user_id];
 		}

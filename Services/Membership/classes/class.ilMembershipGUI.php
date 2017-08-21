@@ -143,7 +143,7 @@ class ilMembershipGUI
 	 * @param int[] $a_usr_ids
 	 * @return int[]
 	 */
-	protected function filterUsersByAccess($a_usr_ids)
+	protected function filterUserIdsByRbacOrPositionOfCurrentUser($a_usr_ids)
 	{
 		return $a_usr_ids;
 	}
@@ -1028,7 +1028,7 @@ class ilMembershipGUI
 	protected function parseSubscriberTable()
 	{
 		$subscribers = $this->getMembersObject()->getSubscribers();
-		$filtered_subscribers = $this->filterUsersByAccess($subscribers);
+		$filtered_subscribers = $this->filterUserIdsByRbacOrPositionOfCurrentUser($subscribers);
 		if(!count($filtered_subscribers))
 		{
 			return null;
@@ -1226,7 +1226,7 @@ class ilMembershipGUI
 	{
 		$wait = $this->initWaitingList();
 		
-		$wait_users = $this->filterUsersByAccess($wait->getUserIds());
+		$wait_users = $this->filterUserIdsByRbacOrPositionOfCurrentUser($wait->getUserIds());
 		if(!count($wait_users))
 		{
 			return null;
@@ -1527,7 +1527,7 @@ class ilMembershipGUI
 		$list->initFromForm();
 		$list->setCallback(array($this, 'getAttendanceListUserData'));	
 		$this->member_data = $this->getPrintMemberData(
-			$this->filterUsersByAccess(
+			$this->filterUserIdsByRbacOrPositionOfCurrentUser(
 				$this->getMembersObject()->getParticipants()
 			)
 		);

@@ -385,7 +385,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		
 		$part = $this->participants->getParticipants();
 		// begin-patch ouf
-		$part = $GLOBALS['DIC']->access()->filterUsersByAccess(
+		$part = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'manage_members', 
 			'manage_members', 
 			$this->getRepositoryObject()->getRefId(), 

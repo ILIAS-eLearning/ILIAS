@@ -235,16 +235,25 @@ class ilObjectServiceSettingsGUI
 		}	
 		if(in_array(self::EXTENDED_USER_ACCESS, $services))
 		{
-			$lia = new ilCheckboxInputGUI($GLOBALS['DIC']->language()->txt('obj_extended_user_access'), self::EXTENDED_USER_ACCESS);
-			$lia->setInfo($GLOBALS['DIC']->language()->txt('obj_extended_user_access_info'));
-			$lia->setValue(1);
-			$lia->setChecked(
-				ilContainer::_lookupContainerSetting(
-					$a_obj_id,
-					self::EXTENDED_USER_ACCESS,
-					false
-			));
-			$form->addItem($lia);
+			$position_settings = ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
+				ilObject::_lookupType($a_obj_id)
+			);
+			if(
+				$position_settings->isActive() &&
+				$position_settings->isChangeableForObject()
+			)
+			{
+				$lia = new ilCheckboxInputGUI($GLOBALS['DIC']->language()->txt('obj_extended_user_access'), self::EXTENDED_USER_ACCESS);
+				$lia->setInfo($GLOBALS['DIC']->language()->txt('obj_extended_user_access_info'));
+				$lia->setValue(1);
+				$lia->setChecked(
+					ilContainer::_lookupContainerSetting(
+						$a_obj_id,
+						self::EXTENDED_USER_ACCESS,
+						false
+				));
+				$form->addItem($lia);
+			}
 		}
 		
 		return $form;

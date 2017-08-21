@@ -95,7 +95,7 @@ class ilMemberExport
 	
 	public function filterUsers($a_usr_ids)
 	{
-		return $GLOBALS['DIC']->access()->filterUsersByAccess(
+		return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'manage_members',
 			'manage_members',
 			$this->ref_id,

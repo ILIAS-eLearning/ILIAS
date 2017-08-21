@@ -929,7 +929,7 @@ class ilAccess implements ilAccessHandler {
 	 * @inheritdoc
 	 */
 	public function filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id, array $user_ids) {
-		// TODO: Implement filterUserIdsByRbacOrPositionOfCurrentUser() method.
-		return $user_ids;
+		
+		return $this->filterUsersByAccess($rbac_perm, $pos_perm, $ref_id, $user_ids);
 	}
 }

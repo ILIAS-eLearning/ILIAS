@@ -282,7 +282,7 @@ class ilTrQuery
 		$a_users = self::getParticipantsForObject($a_ref_id);
 		
 		// begin-patch ouf
-		$a_users = $GLOBALS['DIC']->access()->filterUsersByAccess(
+		$a_users = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'read_learning_progress',
 			'read_learning_progress',
 			$a_ref_id,
@@ -756,7 +756,7 @@ class ilTrQuery
 		$a_users = self::getParticipantsForObject($a_ref_id);
 		
 		// begin-patch ouf
-		$a_users = $GLOBALS['DIC']->access()->filterUsersByAccess(
+		$a_users = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'read_learning_progress',
 			'read_learning_progress',
 			$a_ref_id,
@@ -922,7 +922,7 @@ class ilTrQuery
 				break;
 		}
 		// begin-patch ouf
-		return $GLOBALS['DIC']->access()->filterUsersByAccess(
+		return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'read_learning_progress',
 			'read_learning_progress',
 			$a_ref_id,
@@ -990,7 +990,7 @@ class ilTrQuery
 		}
 		
 		// begin-patch ouf
-		return $GLOBALS['DIC']->access()->filterUsersByAccess(
+		return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'read_learning_progress',
 			'read_learning_progress',
 			$a_ref_id,
