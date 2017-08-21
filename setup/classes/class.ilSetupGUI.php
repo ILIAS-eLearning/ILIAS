@@ -42,7 +42,7 @@ class ilSetupGUI
 	 */
 	function __construct()
 	{
-		global $tpl, $lng;
+		global $tpl, $lng, $DIC;
 
 		$this->tpl = $tpl;
 		$this->lng = $lng;

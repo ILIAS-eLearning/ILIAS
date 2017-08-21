@@ -836,8 +836,8 @@ class ilInitialisation
 		self::initGlobal("rbacadmin", "ilRbacAdmin",
 			 "./Services/AccessControl/classes/class.ilRbacAdmin.php");
 		
-		self::initGlobal("ilAccess", "ilAccessHandler", 
-			 "./Services/AccessControl/classes/class.ilAccessHandler.php");
+		self::initGlobal("ilAccess", "ilAccess",
+			 "./Services/AccessControl/classes/class.ilAccess.php");
 		
 		require_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 	}

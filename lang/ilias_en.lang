@@ -1837,6 +1837,7 @@ common#:#condition_finished#:#Finished
 common#:#condition_not_finished#:#Not finished
 common#:#condition_passed#:#Passed
 common#:#condition_select_object#:#Please select one object.
+common#:#condition_accredited_or_passed#:#Accredited or Passed
 common#:#condition#:#Condition
 common#:#conditions_updated#:#Conditions saved
 common#:#confirm_delete_parameter#:#Do you really want to delete the parameter?
@@ -2798,6 +2799,7 @@ common#:#notes_and_comments#:#Notes and Comments
 common#:#notes#:#Notes
 common#:#notifications#:#Notifications
 common#:#num_users#:#Number of Users
+common#:#edit_metadata#:#Edit Metadata
 rbac#:#nwss_edit_permission#:#User can change permission settings in News and Web Feeds administration
 rbac#:#nwss_read#:#User has read access to ews and Web Feeds administration
 rbac#:#nwss_visible#:#News and Web Feeds administration is visible
@@ -10434,7 +10436,7 @@ trac#:#trac_lp_list_gui#:#Personal Desktop, Repository, Search
 trac#:#trac_lp_list_gui_info#:#If activated, the learning progress status is included in objects lists.
 common#:#hide_all_details#:#Hide all details
 common#:#show_all_details#:#Show all details
-common#:#select_files_from_computer#:#Select the files from your computer
+common#:#select_files_from_computer#:#Select Files
 common#:#drag_files_here#:#Drag-and-drop your files here
 common#:#selected_files#:#Selected files
 common#:#num_of_selected_files#:#%s file(s) selected

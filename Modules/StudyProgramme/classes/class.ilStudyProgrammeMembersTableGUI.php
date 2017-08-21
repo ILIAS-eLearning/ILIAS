@@ -21,7 +21,13 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 	protected $prg_obj_id;
 	protected $prg_ref_id;
 
-	public function __construct($a_prg_obj_id, $a_prg_ref_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
+	/**
+	 * @var ilStudyProgrammeUserProgressDB
+	 */
+	private $sp_user_progress_db;
+
+	public function __construct($a_prg_obj_id, $a_prg_ref_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="", \ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
+
 		$this->setId("sp_member_list");
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
@@ -48,7 +54,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
-
 		if($this->prg_has_lp_children) {
 			$columns = $this->getColumnsLPChildren();
 		} else {
@@ -70,6 +75,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$oder = $this->getOrderField();
 		$dir = $this->getOrderDirection();
 
+		$this->sp_user_progress_db = $sp_user_progress_db;
+
 		$members_list = $this->fetchData($a_prg_obj_id, $this->getLimit(), $this->getOffset(), $this->getOrderField(), $this->getOrderDirection());
 		$this->setMaxCount($this->countFetchData($a_prg_obj_id));
 		$this->setData($members_list);
@@ -79,7 +86,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
 		$this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
 		$this->tpl->setVariable("LOGIN", $a_set["login"]);
-		$this->tpl->setVariable("STATUS", ilStudyProgrammeUserProgress::statusToRepr($a_set["status"]));
+		$this->tpl->setVariable("STATUS", $this->sp_user_progress_db->statusToRepr($a_set["status"]));
 		$this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
 		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points"]);
 
@@ -89,7 +96,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$this->tpl->setVariable("CUSTOM_PLAN", $a_set["last_change_by"] 
+		$this->tpl->setVariable("CUSTOM_PLAN", $a_set["last_change_by"]
 												? $this->lng->txt("yes")
 												: $this->lng->txt("no"));
 		$this->tpl->setVariable("BELONGS_TO", $a_set["belongs_to"]);
@@ -158,7 +165,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				   ."     , CONCAT(pcp.firstname, pcp.lastname) name"
 				   ."     , (prgrs.last_change_by IS NOT NULL) custom_plan"
 				   ;
-		
+
 		$query .= $this->getFrom();
 		$query .= $this->getWhere($a_prg_id);
 
@@ -192,8 +199,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				// in the set, this means the completion was achieved by some leaf in
 				// the program tree.
 				if (!$rec["completion_by"]) {
-					require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
-					$prgrs = ilStudyProgrammeUserProgress::getInstanceForAssignment( $this->prg_obj_id
+					$prgrs = $this->sp_user_progress_db->getInstanceForAssignment( $this->prg_obj_id
 																					  , $rec["assignment_id"]);
 					$rec["completion_by"] = implode(", ", $prgrs->getNamesOfCompletedOrAccreditedChildren());
 				}

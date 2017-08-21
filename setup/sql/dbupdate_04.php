@@ -19182,51 +19182,29 @@ if( !$ilDB->tableExists('adv_md_values_intlink') )
 ?>
 <#5107>
 <?php
-if(!$ilDB->tableColumnExists("il_object_def", "orgu_permissions"))
-{
-	$def = array(
-			'type'    => 'integer',
-			'length'  => 1,
-			'notnull' => true,
-			'default' => 0
-		);
-	$ilDB->addTableColumn("il_object_def", "orgunit_permissions", $def);
-}
+if (!$ilDB->tableColumnExists('iass_settings', 'event_time_place_required')) {
+	$ilDB->addTableColumn('iass_settings', 'event_time_place_required', array(
+	"type" => "integer",
+	"length" => 1,
+	"notnull" => true,
+	"default" => 0
+	));
 ?>
 <#5108>
 <?php
-	$ilCtrlStructureReader->getStructure();
+if (!$ilDB->tableColumnExists('iass_members', 'place')) {
+	$ilDB->addTableColumn('iass_members', 'place', array(
+	"type" => "text",
+	"length" => 255
+	));
+}
 ?>
 <#5109>
 <?php
-if(!$ilDB->tableExists('orgu_obj_type_settings') )
-{
-	$ilDB->createTable('orgu_obj_type_settings', array(
-		'obj_type' => array(
-			'type' => 'text',
-			'length' => 10,
-			'notnull' => true
-		),
-		'active' => array(
-			'type' => 'integer',
-			'length' => 1,
-			'notnull' => false,
-			'default' => 0
-		),
-		'activation_default' => array(
-			'type' => 'integer',
-			'length' => 1,
-			'notnull' => false,
-			'default' => 0
-		),
-		'changeable' => array(
-			'type' => 'integer',
-			'length' => 1,
-			'notnull' => false,
-			'default' => 0
-		)
-		)
-	);
-	$ilDB->addPrimaryKey('orgu_obj_type_settings', array('obj_type'));
+if (!$ilDB->tableColumnExists('iass_members', 'event_time')) {
+	$ilDB->addTableColumn('iass_members', 'event_time', array(
+	"type" => "integer",
+	"length" => 8
+	));
 }
 ?>
