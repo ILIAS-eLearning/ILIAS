@@ -617,43 +617,45 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 
 
 	public function testPossibleActions() {
-		$sp_user_progress_db = new ilStudyProgrammeUserProgressDB();
-
 		//node is root-node, status is "not relevant"
 		$expected = array(
-			ilStudyProgrammeUserProgressDB::ACTION_SHOW_INDIVIDUAL_PLAN,
-			ilStudyProgrammeUserProgressDB::ACTION_REMOVE_USER
+			ilStudyProgrammeUserProgress::ACTION_SHOW_INDIVIDUAL_PLAN,
+			ilStudyProgrammeUserProgress::ACTION_REMOVE_USER
 		);
 		$this->assertEquals( $expected,
-			$sp_user_progress_db->getPossibleActions(1,1, ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
+			ilStudyProgrammeUserProgress::getPossibleActions(1,1,
+				ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
 		);
 
 		//node is root-node, status is "in progress"
 		$expected = array(
-			ilStudyProgrammeUserProgressDB::ACTION_SHOW_INDIVIDUAL_PLAN,
-			ilStudyProgrammeUserProgressDB::ACTION_REMOVE_USER,
-			ilStudyProgrammeUserProgressDB::ACTION_MARK_ACCREDITED
+			ilStudyProgrammeUserProgress::ACTION_SHOW_INDIVIDUAL_PLAN,
+			ilStudyProgrammeUserProgress::ACTION_REMOVE_USER,
+			ilStudyProgrammeUserProgress::ACTION_MARK_ACCREDITED
 		);
 		$this->assertEquals( $expected,
-			$sp_user_progress_db->getPossibleActions(1,1, ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
+			ilStudyProgrammeUserProgress::getPossibleActions(1,1,
+				ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
 		);
 
 		//node is root-node, status is "accredited"
 		$expected = array(
-			ilStudyProgrammeUserProgressDB::ACTION_SHOW_INDIVIDUAL_PLAN,
-			ilStudyProgrammeUserProgressDB::ACTION_REMOVE_USER,
-			ilStudyProgrammeUserProgressDB::ACTION_UNMARK_ACCREDITED
+			ilStudyProgrammeUserProgress::ACTION_SHOW_INDIVIDUAL_PLAN,
+			ilStudyProgrammeUserProgress::ACTION_REMOVE_USER,
+			ilStudyProgrammeUserProgress::ACTION_UNMARK_ACCREDITED
 		);
 		$this->assertEquals( $expected,
-			$sp_user_progress_db->getPossibleActions(1,1, ilStudyProgrammeProgress::STATUS_ACCREDITED)
+			ilStudyProgrammeUserProgress::getPossibleActions(1,1,
+				ilStudyProgrammeProgress::STATUS_ACCREDITED)
 		);
 
 		//node is _not_ root-node, status is "accredited"
 		$expected = array(
-			ilStudyProgrammeUserProgressDB::ACTION_UNMARK_ACCREDITED
+			ilStudyProgrammeUserProgress::ACTION_UNMARK_ACCREDITED
 		);
 		$this->assertEquals( $expected,
-			$sp_user_progress_db->getPossibleActions(0,1, ilStudyProgrammeProgress::STATUS_ACCREDITED)
+			ilStudyProgrammeUserProgress::getPossibleActions(0,1,
+				ilStudyProgrammeProgress::STATUS_ACCREDITED)
 		);
 	}
 
