@@ -300,11 +300,12 @@ class ilCalendarViewGUI
 	 */
 	function downloadFiles()
 	{
-		include_once("./Services/Calendar/classes/FileHandler/class.ilCalendarFileHandler.php");
-		$file_handler = new ilCalendarFileHandler();
-		$file_handler->setEvents($this->getEvents());
-		$file_handler->run();
+		include_once './Services/Calendar/classes/BackgroundTasks/class.ilDownloadFilesBackgroundTask.php';
+		$download_job = new ilDownloadFilesBackgroundTask($GLOBALS['DIC']->user()->getId());
+		$download_job->setEvents($this->getEvents());
+		$download_job->run();
 		
+		$GLOBALS['DIC']->ctrl()->returnToParent($this);
 	}
 
 
