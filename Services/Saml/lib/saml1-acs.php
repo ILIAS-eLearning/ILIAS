@@ -1,10 +1,14 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+$cookie_path          = dirname(str_replace($_SERVER['PATH_INFO'], '', $_SERVER['PHP_SELF']));
+
+$_GET['client_id']    = substr(rtrim($_SERVER['PATH_INFO'], '/'), strrpos($_SERVER['PATH_INFO'], '/') + 1);
+$_SERVER['PATH_INFO'] = substr($_SERVER['PATH_INFO'], 0, strrpos(rtrim($_SERVER['PATH_INFO'], '/'), '/'));
+
 chdir(dirname(__FILE__));
 
 $ilias_main_directory = './';
-$cookie_path          = dirname($_SERVER['PHP_SELF']);
 
 $i = 0;
 while(!file_exists($ilias_main_directory . 'ilias.ini.php') && $i < 20)
