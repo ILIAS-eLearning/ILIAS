@@ -19189,6 +19189,7 @@ if (!$ilDB->tableColumnExists('iass_settings', 'event_time_place_required')) {
 	"notnull" => true,
 	"default" => 0
 	));
+}
 ?>
 <#5108>
 <?php
