@@ -2762,6 +2762,7 @@ common#:#condition_passed#:#Bestanden
 common#:#condition_precondition#:#Vorbedingungen:
 common#:#condition_select_object#:#Bitte wählen Sie das Objekt aus, das für die Vorbedingung genutzt werden soll.
 common#:#condition_select_one#:#-Bitte wählen Sie eine Bedingung aus-
+common#:#condition_accredited_or_passed#:#Akkreditiert oder Bestanden
 common#:#condition_update#:#Speichern
 common#:#conditions_updated#:#Die Bedingungen wurden gespeichert.
 common#:#confirm#:#Bestätigen
