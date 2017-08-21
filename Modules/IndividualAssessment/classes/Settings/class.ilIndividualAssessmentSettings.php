@@ -2,6 +2,9 @@
 /**
  * An object carrying settings of an Individual Assessment obj
  * beyond the standart information
+ *
+ * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de> 
+ * @author Stefan Hecken <stefan.hecken@concepts-and-training.de> 
  */
 class ilIndividualAssessmentSettings {
 	const DEF_CONTENT = "";
@@ -17,10 +20,20 @@ class ilIndividualAssessmentSettings {
 	 */
 	protected $record_template;
 
-	public function __construct(ilObjIndividualAssessment $iass, $content = null, $record_template = null) {
+	/**
+	 * @var bool
+	 */
+	protected $event_time_place_required;
+
+	public function __construct(ilObjIndividualAssessment $iass,
+		$content = null,
+		$record_template = null,
+		$event_time_place_required = false
+	) {
 		$this->id = $iass->getId();
 		$this->content = $content !== null ? $content : self::DEF_CONTENT;
 		$this->record_template = $record_template !== null ? $record_template : self::DEF_RECORD_TEMPLATE;
+		$this->event_time_place_required = $event_time_place_required;
 	}
 
 	/**
@@ -52,6 +65,16 @@ class ilIndividualAssessmentSettings {
 	}
 
 	/**
+	 * Get the value of the checkbox event_time_place_require
+	 *
+	 * @return	integer
+	 */
+	public function eventTimePlaceRequired()
+	{
+		return $this->event_time_place_required;
+	}
+
+	/**
 	 * Set the content of this assessment, e.g. corresponding topics...
 	 *
 	 * @param	string	$content
@@ -73,6 +96,19 @@ class ilIndividualAssessmentSettings {
 	public function setRecordTemplate($record_template) {
 		assert('is_string($record_template)');
 		$this->record_template = $record_template;
+		return $this;
+	}
+
+	/**
+	 * Set the value of the checkbox event_time_place_require
+	 *
+	 * @param	bool	$event_time_place_require
+	 * @return	ilManualAssessment	$this
+	 */
+	public function setEventTimePlaceRequired($event_time_place_required)
+	{
+		assert('is_bool($event_time_place_required)');
+		$this->event_time_place_required = $event_time_place_required;
 		return $this;
 	}
 }
