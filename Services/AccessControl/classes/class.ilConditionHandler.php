@@ -71,6 +71,7 @@ class ilConditionHandler
 	const OPERATOR_NOT_MEMBER = 'not_member';
 	const OPERATOR_FAILED = 'failed';
 	const OPERATOR_LP = 'learning_progress';
+	const OPERATOR_ACCREDITED_OR_PASSED = 'accredited_or_passed';
 	
 	const UNIQUE_CONDITIONS = 1;
 	const SHARED_CONDITIONS = 0;
@@ -434,7 +435,7 @@ class ilConditionHandler
 	{
 		global $objDefinition;
 		
-		$trigger_types =  array('crs','exc','tst','sahs', 'svy', 'lm', 'iass');
+		$trigger_types =  array('crs','exc','tst','sahs', 'svy', 'lm', 'iass', 'prg');
 
 		foreach($objDefinition->getPlugins() as $p_type => $p_info)
 		{
