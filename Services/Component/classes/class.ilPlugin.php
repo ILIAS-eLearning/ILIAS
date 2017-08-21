@@ -857,7 +857,13 @@ abstract class ilPlugin
 				$ilDB->manipulate("DELETE FROM lng_modules".
 					" WHERE module = ".$ilDB->quote($prefix, "text"));
 			}
-			
+
+			// clear the event listening
+			include_once("Services/Component/classes/class.ilPluginReader.php");
+			$reader = new ilPluginReader($this->getDirectory() . '/plugin.xml',
+				$this->getComponentType(), $this->getComponentName(), $this->getSlotId(), $this->getPluginName());
+			$reader->clearEvents();
+
 			// db version is kept in il_plugin - will be deleted, too						
 			
 			$q = "DELETE FROM il_plugin".
@@ -914,6 +920,13 @@ abstract class ilPlugin
 		// add config gui to the ctrl calls
 		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($this->getPluginName()),
 			$this->getPrefix());
+
+		// read the plugin.xml to get the event listening
+		include_once("Services/Component/classes/class.ilPluginReader.php");
+		$reader = new ilPluginReader($this->getDirectory() . '/plugin.xml',
+			$this->getComponentType(), $this->getComponentName(), $this->getSlotId(), $this->getPluginName());
+		$reader->clearEvents();
+		$reader->startParsing();
 
 		// set last update version to current version
 		if ($result === true)
