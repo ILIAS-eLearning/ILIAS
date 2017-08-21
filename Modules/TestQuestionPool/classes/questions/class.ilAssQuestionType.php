@@ -115,7 +115,8 @@ class ilAssQuestionType
 		{
 			return true;
 		}
-		
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilQuestionsPlugin.php';
 		return $this->pluginAdmin->isActive(
 			IL_COMP_MODULE, ilQuestionsPlugin::COMP_NAME, ilQuestionsPlugin::SLOT_ID, $this->getPluginName()
 		);
@@ -125,13 +126,13 @@ class ilAssQuestionType
 	 * @param array $questionTypeData
 	 * @return array
 	 */
-	public static function conmpleteMissingPluginName($questionTypeData)
+	public static function completeMissingPluginName($questionTypeData)
 	{
 		if( $questionTypeData['plugin'] && !strlen($questionTypeData['plugin_name']) )
 		{
 			$questionTypeData['plugin_name'] = $questionTypeData['type_tag'];
 		}
-		
+
 		return $questionTypeData;
 	}
 }
