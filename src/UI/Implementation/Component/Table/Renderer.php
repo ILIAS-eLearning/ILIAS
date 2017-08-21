@@ -67,8 +67,6 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setCurrentBlock("row");
 			$tpl->setVariable("ROW", $default_renderer->render($row));
 			$tpl->parseCurrentBlock();
-
-
 		}
 
 		return $tpl->get();

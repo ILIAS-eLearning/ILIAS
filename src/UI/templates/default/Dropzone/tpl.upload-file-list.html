@@ -1,0 +1,67 @@
+<div class="il-upload-file-list" >
+	<div class="container-fluid il-upload-file-items">
+		<div class="error-messages" style="display: none;">
+			<div class="alert alert-danger" role="alert">
+				<!-- General error messages are inserted here with javascript -->
+			</div>
+		</div>
+		<!-- rows from templates are cloned here with javascript -->
+	</div>
+	<!-- Templates -->
+	<div class="container-fluid" >
+		<!-- hidden Template -->
+		<div class="il-upload-file-item il-upload-file-item-template clearfix row standard hidden">
+			<div class="col-xs-12 col-no-padding">
+				<!-- BEGIN with_metadata_toggle -->
+				<span class="file-info  toggle">{TOGGLE}</span>
+				<!-- END with_metadata_toggle -->
+				<!-- Display Filename-->
+				<span class="file-info filename">FILENAME<!-- File name is inserted with javascript here --></span>
+				<!-- Display Filesize-->
+				<span class="file-info filesize">100KB<!-- File size is inserted with javascript here --></span>
+
+				<!-- Dropdown with actions-->
+				<span class="pull-right remove">
+					<!--{DROPDOWN}-->
+					{REMOVE}
+				</span>
+				<!-- Progress Bar-->
+				<div class="progress" style="margin: 10px 0; display: none;">
+					<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0"
+							aria-valuemin="0"
+							aria-valuemax="100">
+					</div>
+				</div>
+				<!-- Error Messages -->
+				<div class="file-error-message alert alert-danger" role="alert" style="display: none;">
+					<!-- Error message for file is inserted with javascript here -->
+				</div>
+				<div class="file-success-message alert alert-success" role="alert" style="display: none;">
+					<!-- Success message for file is inserted with javascript here -->
+				</div>
+				<!-- BEGIN with_metadata -->
+				<br>
+				<div class="form-horizontal metadata" style="display: none;">
+					<!-- BEGIN with_filename -->
+					<div class="form-group">
+						<label class="col-sm-3 control-label">{LABEL_FILENAME}</label>
+						<div class="col-sm-9"><input type="text" class="form-control filename-input"></div>
+					</div>
+					<!-- END with_filename -->
+					<!-- BEGIN with_description -->
+					<div class="form-group">
+						<label class="col-sm-3 control-label" for="description-input">{LABEL_DESCRIPTION}</label>
+						<div class="col-sm-9"><textarea class="form-control description-input" id="description-input" rows="3"></textarea></div>
+					</div>
+					<!-- END with_description -->
+				</div>
+				<!-- END with_metadata -->
+			</div>
+		</div>
+
+		<!-- li from templates are cloned here with javascript -->
+
+	</div>
+</div>
+
+

@@ -14,6 +14,21 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+rbac#:#il_sess_participant#:#Sitzungsteilnehmer
+rbac#:#il_sess_status_closed#:#Nicht-Teilnehmer geschlossene Sitzung
+meta#:#md_adv_scope#:#Gültigkeitsbereich
+meta#:#meta_local#:#Lokal
+meta#:#udf_type_externallink#:#Externer Link
+meta#:#udf_type_internallink#:#Interner Link
+didactic#:#didactic_scope_list_header#:#Beschränkt auf:
+meta#:#md_adv_scope_list_header#:#Beschränkt auf:
+didactic#:#didactic_scope#:#Gültigkeitsbereich
+sess#:#sess_mem_tbl_header#:#Sitzungsteilnehmer
+sess#:#objs_crs_role#:#Kursrollen
+sess#:#objs_grp_role#:#Gruppenrollen
+sess#:#sess_part_filter_registered#:#Nur Angemeldete
+sess#:#sess_part_filter_participated#:#Nur Teilgenommene
+sess#:#sess_print_list#:#Liste erstellen
 forum#:#delete_drafts_successfully#:#Die Entwürfe wurden erfolgreich gelöscht.
 forum#:#sure_delete_drafts#:#Sind Sie sicher, dass Sie die gewählten Entwürfe löschen möchten?
 forum#:#restore#:#Wiederherstellen
@@ -5296,6 +5311,7 @@ common#:#visitors#:#Besucher
 common#:#visits#:#Besuche
 common#:#web_resources#:#Weblinks
 common#:#webdav#:#WebDAV
+common#:#edit_metadata#:#Metadaten bearbeiten
 common#:#webdav_pear_auth_http_needed#:#Sie benötigen PEAR-Auth_HTTP um diese Funktion zu verwenden. Geben Sie im Terminal-Fenster <code>pear install Auth_HTTP</code> ein.
 common#:#webdav_pwd_instruction#:#Um das ILIAS-Magazin als Webordner außerhalb der aktuellen Sitzung als Webordner zu öffnen, empfehlen wir ein lokales Passwort anzulegen.<br />Dieses Passwort wird nur für die Webordner-Funktionalitäten benötigt, die ILIAS-Anmeldung erfolgt weiterhin mit Ihrem gewohnten Passwort.
 common#:#webdav_pwd_instruction_success#:#Ein neues lokales Passwort wurde angelegt. Sie können nun das Magazin als Webordner öffnen.
@@ -7762,6 +7778,8 @@ grp#:#grp_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 grp#:#grp_change_type#:#Gruppenart ändern
 didactic#:#grp_closed#:#Geschlossene Gruppe
 didactic#:#grp_closed_info#:#Die Gruppe ist für Nicht-Mitglieder unsichtbar.
+didactic#:#sess_closed#:#Geschlossene Sitzung
+didactic#:#sess_closed_info#:#Die Sitzung ist für Nicht-Teilnehmer unsichtbar.
 grp#:#grp_custom_user_fields#:#Gruppenspezifische Benutzerdaten
 grp#:#grp_deactivate_notification#:#Benachrichtigung deaktivieren
 grp#:#grp_delete_member#:#Löschen
@@ -9974,6 +9992,8 @@ shib#:#shib_rules_tables#:#Aktive Regeln für die Rollenzuordnung
 shib#:#shib_settings#:#Shibboleth-Einstellungen
 shib#:#shib_update_role_ass_table#:#Regel zur Rollenzuordnung bearbeiten
 shib#:#shib_update_roles#:#Rollenzuordnungen
+shib#:#shib_activate_new#:#Neue Accounts mit Freischaltung
+shib#:#shib_activate_new_info#:#Wenn aktiviert, werden neue Benutzeraccounts inaktiv angelegt und müssen von einem Administrator aktiviert werden.
 skmg#:#scat#:#Kategorie
 skmg#:#skll#:#Basiskompetenz
 skmg#:#skmg_add_level#:#Ausprägung hinzufügen
@@ -11517,7 +11537,8 @@ cptch#:#cptch_wrong_input#:#Falsche Eingabe
 forum#:#cont_captcha_code#:#Code
 cptch#:#cptch_freetype_support_needed#:#Um diese Funktion zu nutzen benötigen Sie die freetype-Unterstützung von PHP.
 grp#:#grp_print_list#:#Liste erstellen
-grp#:#grp_members_print_title#:#Gruppenmitglieder
+sess#:#sess_members_print_title#:#Gruppenmitglieder
+grp#:#grp_members_print_title#:#Sitzungsteilnehmer
 trac#:#trac_closed_misc#:#Sonstige
 common#:#reg_goto_parent_membership_info#:#Nur Mitglieder können auf das Zielobjekt zugreifen.
 rep#:#rep_no_permission_to_delete#:#Kein Recht zum Löschen
@@ -12660,7 +12681,7 @@ trac#:#trac_lp_list_gui#:#Persönlicher Schreibtisch, Magazin, Suche
 trac#:#trac_lp_list_gui_info#:#Wenn aktiviert, wird der Lernfortschrittsstatus in Objekt-Listen angezeigt.
 common#:#hide_all_details#:#Alle Details ausblenden
 common#:#show_all_details#:#Alle Details anzeigen
-common#:#select_files_from_computer#:#Wählen Sie die Dateien von Ihrem Computer aus
+common#:#select_files_from_computer#:#Dateien wählen
 common#:#drag_files_here#:#Ziehen Sie die Dateien in diesen Bereich
 common#:#selected_files#:#Ausgewählte Dateien
 common#:#num_of_selected_files#:#%s Datei(en) ausgewählt
@@ -15980,6 +16001,8 @@ background_tasks#:#background_tasks_running#:#Laufende Aufgaben
 background_tasks#:#scheduled#:#Geplant
 background_tasks#:#dismiss#:#Beenden
 background_tasks#:#completed#:#Abgeschlossen
+background_tasks#:#waiting#:#Warten
+background_tasks#:#proceed_job#:#Weiter
 grp#:#grp_period#:#Veranstaltungszeitraum
 grp#:#grp_period_info#:#Information zum Start und Ende der Veranstaltung, die mit der Gruppe unterstützt werden soll.
 exc#:#exc_settings_feedback_mail_info#:#Tutoren geben ihre Rückmeldungen zur Abgabe in ein Mail-Formular ein. Die Mail wird dem entsprechenden Teilnehmer gesendet.

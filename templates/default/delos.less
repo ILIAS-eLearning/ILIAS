@@ -1,4 +1,4 @@
-@import "less/font.less";
+@import "less/font.less"; 
  /* rtl-review is this font safe for RTL languages? */
 
  /* rtl-review */
@@ -83,6 +83,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Panel/panel.less";
 @import "@{uibase}Card/card.less";
 @import "@{uibase}Deck/deck.less";
+@import "@{uibase}Dropzone/dropzone.less";
 @import "@{uibase}Button/button.less";
 @import "@{uibase}Button/tag.less";
 @import "@{uibase}Divider/divider.less";
@@ -100,6 +101,10 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 // UI framework components which make use of variables from less/variables.less
 // Note: These files need to be imported after less/variables.less
 @import "@{uibase}Popover/popover.less";
+
+
+//Extended color import depending on variables.less
+@import "less/color.less";             // customized
 
 .bg-primary {
   color: white;

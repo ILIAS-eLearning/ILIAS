@@ -24,7 +24,7 @@ interface Factory {
 	 *       The Presentation Table consists of a title, a slot for View Controls
 	 *       and Presentation Rows.
 	 *       Rows again will be prefixed by an expander-button and consist of a
-	 *       title, a subtitle and a choice of recors-fields.
+	 *       title, a subtitle and a choice of record-fields.
 	 *       The expanded row will show a lists of further fields and, optionally, buttons.
 	 *   effect: >
 	 *       Rows can be expanded and collapsed to show/hide more extensive and
@@ -56,7 +56,5 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Table\Presentation
 	 */
 	public function presentation($title, array $view_controls, \Closure $row_mapping);
-
-
 
 }

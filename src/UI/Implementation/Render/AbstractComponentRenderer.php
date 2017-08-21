@@ -152,7 +152,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 				$event = $triggered_signal->getEvent();
 				$options = json_encode($signal->getOptions());
 				$code .=
-					"$('#{$id}').{$event}( function(event) {
+					"$('#{$id}').on('{$event}', function(event) {
 						$(this).trigger('{$signal}',
 							{
 								'id' : '{$signal}', 'event' : '{$event}',

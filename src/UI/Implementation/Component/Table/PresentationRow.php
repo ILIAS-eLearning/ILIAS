@@ -98,7 +98,6 @@ class PresentationRow implements T\PresentationRow {
 		return $this->close_signal;
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
@@ -153,7 +152,7 @@ class PresentationRow implements T\PresentationRow {
 	/**
 	 * @inheritdoc
 	 */
-	public function withContent($content) {
+	public function withContent(\ILIAS\UI\Component\Listing\Descriptive $content) {
 		$clone = clone $this;
 		$clone->content = $content;
 		return $clone;

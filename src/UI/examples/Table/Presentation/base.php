@@ -14,7 +14,7 @@ function base() {
 	//build table
 	$ptable = $f->table()->presentation(
 		'Presentation Table', //title
-		array($view_controls),
+		$view_controls,
 		function ($row, $record, $ui_factory, $environment) { //mapping-closure
 			return $row
 				->withTitle($record['title'])
