@@ -1,5 +1,6 @@
 <?php
 include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPresentation.php';
+include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
 
 /**
  * @author Jesús López Reyes <lopez@leifos.com>

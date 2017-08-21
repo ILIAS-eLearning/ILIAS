@@ -1100,6 +1100,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	 */
 	function getModalForApp()
 	{
+		$this->initCategories();
 		$ui = $this->ui;
 		$ilCtrl = $this->ctrl;
 
