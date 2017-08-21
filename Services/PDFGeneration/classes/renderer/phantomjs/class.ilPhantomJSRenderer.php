@@ -540,7 +540,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$r_config['zoom']			= $config['zoom'];
 		$r_config['orientation']	= $config['orientation'];
 		$r_config['margin']			= $config['margin'];
-		$r_config['delay']			= $config['delay'];
+		$r_config['delay']			= $config['javascript_delay'];
 		$r_config['viewport']		= $config['viewport'];
 		$r_config['header']			= $h_config;
 		$r_config['footer']			= $f_config;
