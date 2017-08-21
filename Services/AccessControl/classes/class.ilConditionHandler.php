@@ -442,8 +442,8 @@ class ilConditionHandler
 			{
 				include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
 				$name = 'ilObj'.$p_info['class_name'].'Access';
-				$reflection = new ReflectionClass($name);
-				if($reflection->implementsInterface('ilConditionHandling'))
+				$refection = new ReflectionClass($name);
+				if($refection->implementsInterface('ilConditionHandling'))
 				{
 					$trigger_types[] = $p_type;
 				}
