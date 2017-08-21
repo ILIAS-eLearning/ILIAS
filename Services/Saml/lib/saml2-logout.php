@@ -2,12 +2,17 @@
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 chdir(dirname(__FILE__));
+
 $ilias_main_directory = './';
+$cookie_path          = dirname($_SERVER['PHP_SELF']);
+
 $i = 0;
 while(!file_exists($ilias_main_directory . 'ilias.ini.php') && $i < 20)
 {
 	$ilias_main_directory .= '../';
 	++$i;
+
+	$cookie_path = dirname($cookie_path);
 }
 chdir($ilias_main_directory);
 
@@ -16,7 +21,6 @@ if(!file_exists(getcwd() . '/ilias.ini.php'))
 	die('Please ensure ILIAS is installed!');
 }
 
-$cookie_path = dirname($_SERVER['PHP_SELF'], $i + 1);
 $cookie_path .= (!preg_match("/[\/|\\\\]$/", $cookie_path)) ? "/" : "";
 
 if(isset($_GET["client_id"]))
