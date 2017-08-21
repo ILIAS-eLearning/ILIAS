@@ -38,6 +38,8 @@ class ilAssQuestionTypeList implements Iterator
 		
 		while($row = $this->db->fetchAssoc($res))
 		{
+			$row = ilAssQuestionType::completeMissingPluginName($row);
+
 			$qstType = new ilAssQuestionType();
 			$qstType->setId($row['question_type_id']);
 			$qstType->setTag($row['type_tag']);
