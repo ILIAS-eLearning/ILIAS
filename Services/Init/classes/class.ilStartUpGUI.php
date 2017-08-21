@@ -2293,6 +2293,7 @@ class ilStartUpGUI
 
 			$tpl->setVariable('SAML_SCRIPT_URL', './saml.php' . $return);
 			$tpl->setVariable('TXT_LOGIN', $GLOBALS['DIC']->language()->txt('saml_log_in'));
+			$tpl->setVariable('LOGIN_TO_ILIAS_VIA_SAML', $GLOBALS['DIC']->language()->txt('login_to_ilias_via_saml'));
 			$tpl->setVariable('TXT_SAML_LOGIN_TXT', $GLOBALS['DIC']->language()->txt('saml_login_form_txt'));
 			$tpl->setVariable('TXT_SAML_LOGIN_INFO_TXT', $GLOBALS['DIC']->language()->txt('saml_login_form_info_txt'));
 

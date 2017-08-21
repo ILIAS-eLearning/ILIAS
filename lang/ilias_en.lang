@@ -13550,6 +13550,7 @@ common#:#auth_saml#:#SAML
 common#:#saml_log_in#:#Direct login
 common#:#saml_login_form_txt#:#Login to ILIAS via SAML
 common#:#saml_login_form_info_txt#:#You can log in using the “Direct Login” button without having to enter your username or password.
+common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification
 auth#:#auth_saml_configure#:#Configure SAML Authentication
 auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider
 auth#:#auth_saml_sure_delete_idp#:#Are you sure you want to delete the selected Identity Provider? This cannot be undone. The affected user accounts will be switched to the default authentication.
