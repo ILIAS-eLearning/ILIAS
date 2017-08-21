@@ -68,7 +68,7 @@ class SortationTest extends ILIAS_UI_TestBase {
 		);
 	}
 
-		protected function getSortationExpectedHTML()
+	protected function getSortationExpectedHTML()
 	{
 		$expected = <<<EOT
 <div class="il-viewcontrol-sortation" id=""><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button><ul class="dropdown-menu">
