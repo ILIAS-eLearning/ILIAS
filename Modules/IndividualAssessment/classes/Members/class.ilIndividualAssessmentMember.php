@@ -6,6 +6,7 @@ require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAss
 /**
  * Edit the record of a user, set LP.
  * @author	Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
+ * @author	Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class ilIndividualAssessmentMember {
 	protected $iass;
@@ -18,6 +19,8 @@ class ilIndividualAssessmentMember {
 	protected $finalized;
 	protected $notification_ts;
 	protected $lp_status;
+	protected $place;
+	protected $event_time;
 
 	public function __construct(ilObjIndividualAssessment $iass, ilObjUser $usr, array $data) {
 
@@ -28,6 +31,8 @@ class ilIndividualAssessmentMember {
 		$this->finalized = $data[ilIndividualAssessmentMembers::FIELD_FINALIZED] ? true : false;
 		$this->lp_status = $data[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS];
 		$this->notification_ts = $data[ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS];
+		$this->place = $data[ilIndividualAssessmentMembers::FIELD_PLACE];
+		$this->event_time = new ilDateTime($data[ilIndividualAssessmentMembers::FIELD_EVENTTIME], IL_CAL_UNIX);
 		$this->iass = $iass;
 		$this->usr = $usr;
 	}
@@ -165,6 +170,34 @@ class ilIndividualAssessmentMember {
 	}
 
 	/**
+	 * Clone this object and set an internal note
+	 *
+	 * @param	string	$place
+	 * @return	ilManualAssessmentMember
+	 */
+	public function withPlace($place)
+	{
+		assert('is_string($place) || is_null($place)');
+		$clone = clone $this;
+		$clone->place = $place;
+		return $clone;
+	}
+
+	/**
+	 * Clone this object and set an internal note
+	 *
+	 * @param	ilDateTime | null	$internal_note
+	 * @return	ilManualAssessmentMember
+	 */
+	public function withEventTime($event_time)
+	{
+		assert('$event_time instanceof ilDateTime || is_null($event_time)');
+		$clone = clone $this;
+		$clone->event_time = $event_time;
+		return $clone;
+	}
+
+	/**
 	 * Clone this object and set an examiner_id
 	 *
 	 * @param	int|string	$examiner_id
@@ -285,5 +318,25 @@ class ilIndividualAssessmentMember {
 	 */
 	public function notificationTS() {
 		return $this->notification_ts;
+	}
+
+	/**
+	 * Get place where ia was held
+	 *
+	 * @return string
+	 */
+	public function place()
+	{
+		return $this->place;
+	}
+
+	/**
+	 * Get date when ia was
+	 *
+	 * @return ilDateTime
+	 */
+	public function eventTime()
+	{
+		return $this->event_time;
 	}
 }

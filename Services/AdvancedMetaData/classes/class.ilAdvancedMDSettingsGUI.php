@@ -4,13 +4,13 @@
 include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDPermissionHelper.php');
-
+include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordScope.php';
 /** 
  * 
  * @author Stefan Meyer <meyer@leifos.com>
  * @version $Id$
  * 
- * @ilCtrl_Calls ilAdvancedMDSettingsGUI:
+ * @ilCtrl_Calls ilAdvancedMDSettingsGUI: ilPropertyFormGUI
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMDSettingsGUI
@@ -20,9 +20,15 @@ class ilAdvancedMDSettingsGUI
 	protected $ctrl;
 	protected $tabs;
 	protected $permissions; // [ilAdvancedMDPermissionHelper]
-	protected $obj_id; // [int]
-	protected $obj_type; // [string]
-	protected $sub_type; // [string]
+	protected $ref_id = null;
+	protected $obj_id = null; // [int]
+	protected $obj_type = null; // [string]
+	protected $sub_type = null; // [string]
+	
+	/**
+	 * @var ilLogger
+	 */
+	private $logger = null;
 	
 	/**
 	 * Constructor
@@ -30,7 +36,7 @@ class ilAdvancedMDSettingsGUI
 	 * @access public
 	 * 
 	 */
-	public function __construct($a_obj_id = null, $a_obj_type = null, $a_sub_type = null)
+	public function __construct($a_ref_id = null, $a_obj_type = null, $a_sub_type = null)
 	{
 	 	global $tpl,$lng,$ilCtrl,$ilTabs;
 	 	
@@ -40,13 +46,20 @@ class ilAdvancedMDSettingsGUI
 	 	$this->tpl = $tpl;
 	 	$this->tabs_gui = $ilTabs;
 		
-		$this->obj_id = $a_obj_id;
+		$this->logger = $GLOBALS['DIC']->logger()->amet();
+		
+		$this->ref_id = $a_ref_id;
+		if($this->ref_id)
+		{
+			$this->obj_id = ilObject::_lookupObjId($a_ref_id);
+		}
 		$this->obj_type = $a_obj_type;
 		$this->sub_type = $a_sub_type 
 			? $a_sub_type
 			: "-";
 		
-		if($this->obj_id &&
+		if(
+			$this->obj_id &&
 			!$this->obj_type)
 		{
 			$this->obj_type = ilObject::_lookupType($this->obj_id);
@@ -79,6 +92,14 @@ class ilAdvancedMDSettingsGUI
 		
 		switch($next_class)
 		{
+			case "ilpropertyformgui":
+				$this->initRecordObject();
+				$this->initForm(
+					$this->record->getRecordId() > 0 ? 'edit' : 'create'
+				);
+				$GLOBALS['DIC']->ctrl()->forwardCommand($this->form);
+				break;
+			
 			default:
 				if(!$cmd)
 				{
@@ -103,8 +124,8 @@ class ilAdvancedMDSettingsGUI
 			ilAdvancedMDPermissionHelper::CONTEXT_MD,
 			$_REQUEST["ref_id"],
 			array(
-				ilAdvancedMDPermissionHelper::ACTION_MD_CREATE_RECORD
-				,ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS
+				ilAdvancedMDPermissionHelper::ACTION_MD_CREATE_RECORD,
+				ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS
 		));				
 		
 		if($perm[ilAdvancedMDPermissionHelper::ACTION_MD_CREATE_RECORD])
@@ -849,6 +870,8 @@ class ilAdvancedMDSettingsGUI
 	 	}
 	 	$this->initRecordObject();
 	 	$this->loadRecordFormData();
+		
+		$this->logger->dump($_POST);
 	 	
 	 	if(!$this->record->validate())
 	 	{
@@ -982,7 +1005,7 @@ class ilAdvancedMDSettingsGUI
 	{	 	
 	 	$this->initRecordObject();
 	 	$this->loadRecordFormData();
-	 	
+		
 		if($this->obj_type)
 		{			
 			$this->record->setAssignedObjectTypes(array(
@@ -1235,6 +1258,35 @@ class ilAdvancedMDSettingsGUI
 		if(!$perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION])
 		{
 			$check->setDisabled(true);
+		}
+
+		if(!$this->obj_type)
+		{
+			// scope
+			$scope = new ilCheckboxInputGUI($this->lng->txt('md_adv_scope'),'scope');
+			$scope->setChecked($this->record->enabledScope());
+			$scope->setValue(1);
+			$this->form->addItem($scope);
+
+			$subitems = new ilRepositorySelector2InputGUI($this->lng->txt("objects"), "scope_containers", true);
+			$subitems->setValue($this->record->getScopeRefIds());
+			$exp = $subitems->getExplorerGUI();
+			
+			$definition = $GLOBALS['objDefinition'];
+			$white_list = [];
+			foreach($definition->getAllRepositoryTypes() as $type)
+			{
+				if($definition->isContainer($type))
+				{
+					$white_list[] = $type;
+				}
+			}
+			
+			
+			$exp->setTypeWhiteList($white_list);
+			$exp->setSkipRootNode(false);
+			$exp->setRootId(ROOT_FOLDER_ID);
+			$scope->addSubItem($subitems);
 		}
 		
 		if(!$this->obj_type)
@@ -1588,6 +1640,16 @@ class ilAdvancedMDSettingsGUI
 				$this->record->setAssignedObjectTypes($obj_types);
 			}
 		}
+		
+		$scopes = [];
+		foreach((array) $_POST['scope_containers_sel'] as $ref_id)
+		{
+			$scope = new ilAdvancedMDRecordScope();
+			$scope->setRefId($ref_id);
+			$scopes[] = $scope;
+		}
+		$this->record->setScopes($_POST['scope'] ? $scopes : []);
+		$this->record->enableScope($_POST['scope'] ? true : false);
 	}
 	
 	/**
@@ -1670,19 +1732,27 @@ class ilAdvancedMDSettingsGUI
 			}
 			else
 			{
-				// matching parent object?
-				if($parent_id &&
-					$parent_id != $this->obj_id)
+				// does not match current object
+				if($parent_id && $parent_id != $this->obj_id)
 				{
 					continue;
 				}
 				
-				// only globally activated records for object context
-				if(!$parent_id &&
-					!$record->isActive())
+				// inactive records only in administration
+				if(!$parent_id && !$record->isActive())
 				{
 					continue;
 				}
+				// scope needs to match in object context
+				if(
+					ilAdvancedMDRecord::isFilteredByScope(
+						$this->ref_id, 
+						$record->getScopes())
+				)
+				{
+					continue;
+				}
+				
 			}
 			
 			$tmp_arr = array();

@@ -4,6 +4,8 @@
 
 require_once('./Services/Object/classes/class.ilObjectAccess.php');
 require_once('./Services/User/classes/class.ilUserAccountSettings.php');
+require_once('./Services/AccessControl/interfaces/interface.ilConditionHandling.php');
+
 
 /**
  * Class ilObjStudyProgrammeAccess
@@ -14,7 +16,8 @@ require_once('./Services/User/classes/class.ilUserAccountSettings.php');
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
  */
-class ilObjStudyProgrammeAccess extends ilObjectAccess {
+class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHandling {
+
 	/**
 	* Checks wether a user may invoke a command or not
 	* (this method is called by ilAccessHandler::checkAccess)
@@ -47,7 +50,7 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess {
 
 		return parent::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "");
 	}
-	
+
 	/**
 	 * get commands
 	 *
@@ -87,6 +90,43 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess {
 
 		return false;
 	}
+
+	/**
+	 * Get operators
+	 */
+	public static function getConditionOperators()
+	{
+		return array(
+			ilConditionHandler::OPERATOR_ACCREDITED_OR_PASSED
+		);
+	}
+
+	/**
+	 *
+	 * @param type $a_obj_id
+	 * @param type $a_operator
+	 * @param type $a_value
+	 * @param type $a_usr_id
+	 * @return boolean
+	 */
+	public static function checkCondition($a_obj_id,$a_operator,$a_value,$a_usr_id)
+	{
+		if ($a_operator === ilConditionHandler::OPERATOR_ACCREDITED_OR_PASSED) {
+			$valid_progress = array(
+				ilStudyProgrammeProgress::STATUS_COMPLETED,
+				ilStudyProgrammeProgress::STATUS_ACCREDITED
+			);
+
+			$prg_user_progress = ilObjStudyProgramme::_getStudyProgrammeUserProgressDB()->getInstancesForUser($a_obj_id, $a_usr_id);
+			foreach ($prg_user_progress as $progress) {
+				if( in_array($progress->getStatus(), $valid_progress)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 }
 
 ?>

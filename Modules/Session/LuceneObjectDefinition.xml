@@ -2,6 +2,8 @@
 <ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="sess">
 	<Document type="default">
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+		<xi:include href="../../Services/AdvancedMetaData/LuceneDataSource.xml" />
 		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
 		<DataSource type="JDBC" action="append">
 			<Query>

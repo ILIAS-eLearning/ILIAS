@@ -1275,11 +1275,13 @@ class ilSurveyEditorGUI
 		
 		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
 		$label = new ilSelectInputGUI($this->lng->txt("title")."/".$this->lng->txt("label"), "export_label");
+
+		#19448 comment none and label only options.
 		$label->setOptions(array(
-			0 => $this->lng->txt('none'), 
-			1 => $this->lng->txt('svy_print_title_only'), 
-			2 => $this->lng->txt('svy_print_label_only'), 			
-			3 => $this->lng->txt('svy_print_title_label')
+			//0 => $this->lng->txt('none'),
+			1 => $this->lng->txt('svy_print_hide_labels'),
+			//2 => $this->lng->txt('svy_print_label_only'),
+			3 => $this->lng->txt('svy_print_show_labels')
 			));
 		$label->setValue($current_title);
 		$ilToolbar->addStickyItem($label, true);

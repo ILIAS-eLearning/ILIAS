@@ -399,7 +399,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 	{
 		global $ilAccess;
 
-		include_once 'Services/AccessControl/classes/class.ilAccessHandler.php';
+		include_once 'Services/AccessControl/classes/class.ilAccess.php';
 
 		$ilAccess->checkAccessOfUser($this->getUserId(),'read','view',$ref_id,$object->getType(),$object->getId());
 
