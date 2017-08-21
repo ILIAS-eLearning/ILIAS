@@ -83,7 +83,7 @@ $slosvcdefault = array(
 
 $slob = $spconfig->getArray('SingleLogoutServiceBinding', $slosvcdefault);
 // ilias-patch: begin
-$slol = $iliasHttpPath . '/saml2-logout.php/'.$sourceId . '?client_id=' . CLIENT_ID;
+$slol = $iliasHttpPath . '/saml2-logout.php/'.$sourceId . '/' . CLIENT_ID;
 // ilias-patch: end
 
 foreach ($slob as $binding) {
@@ -119,30 +119,30 @@ foreach ($assertionsconsumerservices as $services) {
 		case 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST':
 			$acsArray['Binding'] = SAML2_Const::BINDING_HTTP_POST;
 			// ilias-patch: begin
-			$acsArray['Location'] = $iliasHttpPath . "/saml2-acs.php/{$sourceId}?client_id=" . CLIENT_ID;
+			$acsArray['Location'] = $iliasHttpPath . "/saml2-acs.php/{$sourceId}/" . CLIENT_ID;
 			// ilias-patch: end
 			break;
 		case 'urn:oasis:names:tc:SAML:1.0:profiles:browser-post':
 			$acsArray['Binding'] = 'urn:oasis:names:tc:SAML:1.0:profiles:browser-post';
 			// ilias-patch: begin
-			$acsArray['Location'] = $iliasHttpPath . "/saml1-acs.php/{$sourceId}?client_id=" . CLIENT_ID;
+			$acsArray['Location'] = $iliasHttpPath . "/saml1-acs.php/{$sourceId}/" . CLIENT_ID;
 			break;
 		case 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact':
 			$acsArray['Binding'] = 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact';
 			// ilias-patch: begin
-			$acsArray['Location'] = $iliasHttpPath . "/saml2-acs.php/{$sourceId}?client_id=" . CLIENT_ID;
+			$acsArray['Location'] = $iliasHttpPath . "/saml2-acs.php/{$sourceId}/" . CLIENT_ID;
 			// ilias-patch: end
 			break;
 		case 'urn:oasis:names:tc:SAML:1.0:profiles:artifact-01':
 			$acsArray['Binding'] = 'urn:oasis:names:tc:SAML:1.0:profiles:artifact-01';
 			// ilias-patch: begin
-			$acsArray['Location'] = $iliasHttpPath . "/saml1-acs.php/{$sourceId}/artifact?client_id=" . CLIENT_ID;
+			$acsArray['Location'] = $iliasHttpPath . "/saml1-acs.php/{$sourceId}/artifact/" . CLIENT_ID;
 			// ilias-patch: end
 			break;
 		case 'urn:oasis:names:tc:SAML:2.0:profiles:holder-of-key:SSO:browser':
 			$acsArray['Binding'] = 'urn:oasis:names:tc:SAML:2.0:profiles:holder-of-key:SSO:browser';
 			// ilias-patch: begin
-			$acsArray['Location'] = $iliasHttpPath . "/saml2-acs.php/{$sourceId}?client_id=" . CLIENT_ID;
+			$acsArray['Location'] = $iliasHttpPath . "/saml2-acs.php/{$sourceId}/" . CLIENT_ID;
 			// ilias-patch: end
 			$acsArray['hoksso:ProtocolBinding'] = SAML2_Const::BINDING_HTTP_REDIRECT;
 			break;
@@ -308,7 +308,7 @@ if (array_key_exists('output', $_REQUEST) && $_REQUEST['output'] == 'xhtml') {
 	$t->data['metadata'] = htmlspecialchars($xml);
 	$t->data['metadataflat'] = '$metadata['.var_export($entityId, true).'] = '.var_export($metaArray20, true).';';
 	// ilias-patch: begin
-	$t->data['metaurl'] = $iliasHttpPath . '/metadata.php?client_id=' . CLIENT_ID;
+	$t->data['metaurl'] = $iliasHttpPath . "/metadata.php{$sourceId}/" . CLIENT_ID;
 	// ilias-patch: end
 	$t->show();
 } else {

@@ -188,7 +188,7 @@ class sspmod_saml_Auth_Source_SP extends SimpleSAML_Auth_Source {
 		// ilias-patch: begin
 		// see: https://bugs.launchpad.net/mahara/+bug/1689685
 		// see: https://github.com/simplesamlphp/simplesamlphp/issues/503
-		$ar->setAssertionConsumerServiceURL(ILIAS_HTTP_PATH . '/Services/Saml/lib/saml2-acs.php');
+		$ar->setAssertionConsumerServiceURL(ILIAS_HTTP_PATH . '/Services/Saml/lib/saml2-acs.php/default-sp/' . CLIENT_ID);
 		// ilias-patch: end
 
 		if (isset($state['SimpleSAML_Auth_Source.ReturnURL'])) {
