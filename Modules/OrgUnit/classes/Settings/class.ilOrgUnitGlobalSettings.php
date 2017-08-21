@@ -32,7 +32,7 @@ class ilOrgUnitGlobalSettings
 	protected function __construct()
 	{
 		$this->object_definition = $GLOBALS['DIC']['objDefinition'];
-		$this->read();
+		$this->readSettings();
 	}
 	
 	/**
