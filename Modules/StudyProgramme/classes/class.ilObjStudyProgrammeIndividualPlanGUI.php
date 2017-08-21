@@ -103,7 +103,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	*/
 	private function getStudyProgrammeUserProgressDB() {
 		if(! $this->sp_user_progress_db) {
-			 $this->sp_user_progress_db = ilObjStudyProgramme::getNewStudyProgrammeUserProgressDB();
+			 $this->sp_user_progress_db = ilObjStudyProgramme::_getStudyProgrammeUserProgressDB();
 		}
 		return $this->sp_user_progress_db;
 	}

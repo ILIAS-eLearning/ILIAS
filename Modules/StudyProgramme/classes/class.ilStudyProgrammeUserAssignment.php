@@ -47,7 +47,7 @@ class ilStudyProgrammeUserAssignment {
 	 * @return ilStudyProgrammeUserAssignment
 	 */
 	static public function getInstance($a_id) {
-		return new ilStudyProgrammeUserAssignment($a_id, ilObjStudyProgramme::getNewStudyProgrammeUserProgressDB());
+		return new ilStudyProgrammeUserAssignment($a_id, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB());
 	}
 
 	/**
@@ -67,7 +67,7 @@ class ilStudyProgrammeUserAssignment {
 		//the assignment for the user should not be returned
 		$ret = array();
 		foreach($assignments as $ass) {
-			$ass_obj = new ilStudyProgrammeUserAssignment($ass, ilObjStudyProgramme::getNewStudyProgrammeUserProgressDB());
+			$ass_obj = new ilStudyProgrammeUserAssignment($ass, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB());
 			foreach (ilObject::_getAllReferences($ass_obj->assignment->getRootId()) as $value) {
 				if($tree->isInTree($value)) {
 					$ret[] = $ass_obj;
@@ -89,7 +89,7 @@ class ilStudyProgrammeUserAssignment {
 		$assignments = ilStudyProgrammeAssignment::where(array( "root_prg_id" => $a_program_id ))
 													->get();
 		return array_map(function($ass) {
-			return new ilStudyProgrammeUserAssignment($ass, ilObjStudyProgramme::getNewStudyProgrammeUserProgressDB());
+			return new ilStudyProgrammeUserAssignment($ass, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB());
 
 		}, array_values($assignments)); // use array values since we want keys 0...
 	}

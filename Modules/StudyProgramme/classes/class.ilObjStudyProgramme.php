@@ -74,17 +74,17 @@ class ilObjStudyProgramme extends ilContainer {
 	*/
 	public function getStudyProgrammeUserProgressDB() {
 		if(! $this->sp_user_progress_db) {
-			$this->sp_user_progress_db = static::getNewStudyProgrammeUserProgressDB();
+			$this->sp_user_progress_db = static::_getStudyProgrammeUserProgressDB();
 		}
 		return $this->sp_user_progress_db;
 	}
 
 	/**
-	* Get a new instance of ilStudyProgrammeUserProgressDB
+	* Get an instance of ilStudyProgrammeUserProgressDB
 	*
 	* @return ilStudyProgrammeUserProgressDB
 	*/
-	static public function getNewStudyProgrammeUserProgressDB() {
+	static public function _getStudyProgrammeUserProgressDB() {
 		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgressDB.php");
 		static $sp_user_progress_db = null;
 		if ($sp_user_progress_db === null) {
