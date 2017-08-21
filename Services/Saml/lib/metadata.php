@@ -313,5 +313,7 @@ if (array_key_exists('output', $_REQUEST) && $_REQUEST['output'] == 'xhtml') {
 	$t->show();
 } else {
 	header('Content-Type: application/samlmetadata+xml');
+	$ascii_filename = ilUtil::getASCIIFilename($sourceId);
+	header("Content-Disposition:attachment; filename=\"".$ascii_filename."\"");
 	echo($xml);
 }
