@@ -146,11 +146,17 @@ class ilIndividualAssessmentMemberGUI {
 
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
-		$confirm->addHiddenItem('usr_id', $_GET['usr_id']);
+		$confirm->addHiddenItem('record', $_POST['record']);
+		$confirm->addHiddenItem('internal_note', $_POST['internal_note']);
+		$confirm->addHiddenItem('notify', $_POST['notify']);
+		$confirm->addHiddenItem('learning_progress',$_POST['learning_progress']);
+		$confirm->addHiddenItem('place', $_POST['place']);
+		$confirm->addHiddenItem('event_time',$_POST['event_time']);
 		$confirm->setHeaderText($this->lng->txt('iass_finalize_user_qst'));
 		$confirm->setFormAction($this->ctrl->getFormAction($this));
 		$confirm->setConfirm($this->lng->txt('iass_finalize'), 'finalize');
-		$confirm->setCancel($this->lng->txt('cancel'), 'cancelFinalize');
+		$confirm->setCancel($this->lng->txt('cancel'), 'save');
+		$this->tpl->setContent($confirm->getHTML());
 
 		$this->tpl->setContent($confirm->getHTML());
 	}
@@ -243,6 +249,17 @@ class ilIndividualAssessmentMemberGUI {
 		$this->redirect("amend");
 	}
 
+	protected function updateDataInMemberByArray(ilIndividualAssessmentMember $member, $data) {
+		$member = $member->withRecord($data['record'])
+					->withInternalNote($data['internal_note'])
+					->withPlace($data['place'])
+					->withEventTime($this->createDatetime($data['event_time']))
+					->withLPStatus($data['learning_progress'])
+					->withExaminerId($this->examiner->getId())
+					->withNotify(($data['notify']  == 1 ? true : false));
+		return $member;
+	}
+
 	/**
 	 * Inint form for gradings
 	 *
@@ -284,6 +301,18 @@ class ilIndividualAssessmentMemberGUI {
 		$learning_progress->setDisabled(!$may_be_edited);
 		$form->addItem($learning_progress);
 
+		$settings = $this->object->getSettings();
+		$txt = new ilTextInputGUI($this->lng->txt('iass_place'), 'place');
+		$txt->setRequired($settings->eventTimePlaceRequired());
+		$txt->setDisabled(!$may_be_edited);
+		$form->addItem($txt);
+
+		$date = new ilDateTimeInputGUI($this->lng->txt('iass_event_time'), 'event_time');
+		$date->setShowTime(false);
+		$date->setRequired($settings->eventTimePlaceRequired());
+		$date->setDisabled(!$may_be_edited);
+		$form->addItem($date);
+
 		// notify examinee
 		$notify = new ilCheckboxInputGUI($this->lng->txt('iass_notify'), 'notify');
 		$notify->setInfo($this->lng->txt('iass_notify_explanation'));
@@ -306,6 +335,8 @@ class ilIndividualAssessmentMemberGUI {
 			  'name' => $member->name()
 			, 'record' => $member->record()
 			, 'internal_note' => $member->internalNote()
+			, 'place' => $member->place()
+			, 'event_time' => $member->eventTime()
 			, 'notify' => $member->notify()
 			, 'learning_progress' => (int)$member->LPStatus()
 			));
@@ -487,5 +518,10 @@ class ilIndividualAssessmentMemberGUI {
 		}
 
 		return $member;
+	}
+
+	private function createDatetime($datetime)
+	{
+		return new ilDateTime($datetime." 00:00:00", IL_CAL_DATETIME);
 	}
 }

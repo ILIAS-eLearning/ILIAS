@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordScope.php';
+
 /** 
 * @defgroup ServicesAdvancedMetaData Services/AdvancedMetaData
 * 
@@ -24,7 +26,14 @@ class ilAdvancedMDRecord
 	protected $obj_types = array();
 	protected $db = null;
 	protected $parent_obj; // [int]
+	protected $scope_enabled = false;
+
+	/**
+	 * @var ilAdvancedMDRecordScope[]
+	 */
+	protected $scopes = [];
 	
+
 	/**
 	 * Singleton constructor
 	 * To create an array of new records (without saving them)
@@ -54,6 +63,7 @@ class ilAdvancedMDRecord
 	 * @static
 	 *
 	 * @param int record id
+	 * @return ilAdvancedMDRecord
 	 */
 	public static function _getInstanceByRecordId($a_record_id)
 	{
@@ -203,6 +213,7 @@ class ilAdvancedMDRecord
 	 * @static
 	 *
 	 * @param array array of record objects
+	 * @return ilAdvancedMDRecord[]
 	 */
 	public static function _getRecords()
 	{
@@ -247,6 +258,7 @@ class ilAdvancedMDRecord
 	 * @static
 	 *
 	 * @param string obj_type
+	 * @return ilAdvancedMDRecord[]
 	 */
 	public static function _getActivatedRecordsByObjectType($a_obj_type, $a_sub_type = "", $a_only_optional = false)
 	{
@@ -286,10 +298,10 @@ class ilAdvancedMDRecord
 	 * Get selected records by object
 	 *
 	 * @param string $a_obj_type object type
-	 * @param string $a_obj_id object id
+	 * @param string $a_ref_id reference id
 	 * @param string $a_sub_type sub type
 	 */
-	public static function _getSelectedRecordsByObject($a_obj_type, $a_obj_id, $a_sub_type = "")
+	public static function _getSelectedRecordsByObject($a_obj_type, $a_ref_id, $a_sub_type = "")
 	{		
 		$records = array();
 		
@@ -297,6 +309,8 @@ class ilAdvancedMDRecord
 		{
 			$a_sub_type = "-";
 		}
+		
+		$a_obj_id = ilObject::_lookupObjId($a_ref_id);
 		
 		// object-wide metadata configuration setting		
 		include_once 'Services/Container/classes/class.ilContainer.php';
@@ -309,6 +323,12 @@ class ilAdvancedMDRecord
 		$optional = array();
 		foreach(self::_getActivatedRecordsByObjectType($a_obj_type, $a_sub_type) as $record)
 		{
+			// check scope
+			if(self::isFilteredByScope($a_ref_id, $record->getScopes()))
+			{
+				continue;
+			}
+			
 			foreach($record->getAssignedObjectTypes() as $item)
 			{				
 				if($record->getParentObject())
@@ -356,24 +376,41 @@ class ilAdvancedMDRecord
 			}
 		}
 		
-		/* v1 obsolete		
-		$query = "SELECT amro.record_id record_id FROM adv_md_record_objs amro ".
-			"JOIN adv_md_record amr ON (amr.record_id = amro.record_id) ".
-			"JOIN adv_md_obj_rec_select os ON (amr.record_id = os.rec_id AND amro.sub_type = os.sub_type) ".
-			"WHERE active = 1 ".
-			"AND amro.obj_type = ".$ilDB->quote($a_obj_type ,'text')." ".
-			"AND amro.sub_type = ".$ilDB->quote($a_sub_type ,'text')." ".
-			"AND os.obj_id = ".$ilDB->quote($a_obj_id ,'integer')
-			;
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			$records[] = self::_getInstanceByRecordId($row->record_id);
-		}
-		*/
-		
 		return $records;
+	}
+	
+	/**
+	 * Check if a given ref id is not filtered by scope restriction.
+	 * @param type $a_ref_id
+	 * @param ilAdvancedMDRecordScope[] $scopes
+	 */
+	public static function isFilteredByScope($a_ref_id, array $scopes)
+	{
+		$tree = $GLOBALS['DIC']->repositoryTree();
+		$logger = $GLOBALS['DIC']->logger()->amet();
+		
+		if(!count($scopes))
+		{
+			$logger->debug('No md scope restrictions.');
+			return false;
+		}
+		foreach($scopes as $scope)
+		{
+			$logger->debug('Comparing: ' . $a_ref_id .' with: ' . $scope->getRefId());
+			if($scope->getRefId() == $a_ref_id)
+			{
+				$logger->debug('Elements are equal. No scope restrictions.');
+				return false;
+			}
+			if($tree->getRelation($scope->getRefId(), $a_ref_id) == ilTree::RELATION_PARENT)
+			{
+				$logger->debug('Node is child node. No scope restrictions.');
+				return false;
+			}
+		}
+		$logger->info('Scope filter matches.');
+		
+		return true;
 	}
 	
 	
@@ -414,6 +451,57 @@ class ilAdvancedMDRecord
 	public function delete()
 	{
 	 	ilAdvancedMDRecord::_delete($this->getRecordId());
+		ilAdvancedMDRecordScope::deleteByRecordI($this->getRecordId());
+	}
+	
+	/**
+	 * Is scope enabled
+	 * @return scope
+	 */
+	public function enabledScope()
+	{
+		return $this->scope_enabled;
+	}
+	
+	/**
+	 * Enable scope restrictions
+	 * @param bool $a_stat
+	 */
+	public function enableScope($a_stat)
+	{
+		$this->scope_enabled = $a_stat;
+	}
+	
+	/**
+	 * Set scopes
+	 * @param array $a_scopes
+	 */
+	public function setScopes(array $a_scopes)
+	{
+		$this->scopes = $a_scopes;
+	}
+	
+	/**
+	 * Get scopes
+	 * @return ilAdvancedMDRecordScope[]
+	 */
+	public function getScopes()
+	{
+		return $this->scopes;
+	}
+	
+	/**
+	 * Get scope gef_ids
+	 * @return type
+	 */
+	public function getScopeRefIds()
+	{
+		$ref_ids = [];
+		foreach($this->scopes as $scope)
+		{
+			$ref_ids[] = $scope->getRefId();
+		}
+		return $ref_ids;
 	}
 	
 	/**
@@ -463,6 +551,12 @@ class ilAdvancedMDRecord
 	 			")";
 			$res = $ilDB->manipulate($query);
 	 	}
+		
+		foreach($this->getScopes() as $scope)
+		{
+			$scope->setRecordId($this->getRecordId());
+			$scope->save();
+		}
 	}
 	
 	/**
@@ -499,6 +593,12 @@ class ilAdvancedMDRecord
 	 			")";
 			$res = $ilDB->manipulate($query);
 	 	}
+		ilAdvancedMDRecordScope::deleteByRecordI($this->getRecordId());
+		foreach($this->getScopes() as $scope)
+		{
+			$scope->setRecordId($this->getRecordId());
+			$scope->save();
+		}
 	}
 	
 	/**
@@ -715,6 +815,22 @@ class ilAdvancedMDRecord
 	 			$writer->xmlElement('ObjectType',$optional,$obj_type["obj_type"].":".$obj_type["sub_type"]);
 	 		}
 	 	}
+		
+		// scopes
+		if(count($this->getScopeRefIds()))
+		{
+			$writer->xmlStartTag('Scope');
+		}
+		foreach($this->getScopeRefIds() as $ref_id)
+		{
+			$type = ilObject::_lookupType(ilObject::_lookupObjId($ref_id));
+			$writer->xmlElement('ScopeEntry',['id' => 'il_'.IL_INST_ID.'_'.$type.'_'.$ref_id]);
+		}
+		if(count($this->getScopeRefIds()))
+		{
+			$writer->xmlEndTag('Scope');
+		}
+		
 	 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 	 	foreach(ilAdvancedMDFieldDefinition::getInstancesByRecordId($this->getRecordId()) as $definition)
@@ -757,6 +873,17 @@ class ilAdvancedMDRecord
 				"optional" => (bool)$row->optional
 			);
 	 	}
+		
+		$query = 'SELECT scope_id FROM adv_md_record_scope '.
+			'WHERE record_id = '.$ilDB->quote($this->record_id);
+		$res = $ilDB->query($query);
+		$this->scope_enabled = false;
+		$this->scopes = [];
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$this->scope_enabled = true;
+			$this->scopes[] = new ilAdvancedMDRecordScope($row->scope_id);
+		}
 	}
 	
 	/**
@@ -871,7 +998,7 @@ class ilAdvancedMDRecord
 		{
 			$new_def = $definition->_clone($new_obj->getRecordId());			
 			$a_fields_map[$definition->getFieldId()] = $new_def->getFieldId();
-		}		
+		}	
 
 		return $new_obj;
 	}

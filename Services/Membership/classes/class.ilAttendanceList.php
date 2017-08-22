@@ -79,6 +79,10 @@ class ilAttendanceList
 					$this->addRole($role_id, $lng->txt('event_tbl_member'), 'member');
 					break;
 				
+				case 'il_sess_':
+					$this->addRole($role_id, $lng->txt('event_tbl_member'), 'member');
+					break;
+				
 				// local
 				default:
 					$this->has_local_role = true;
@@ -188,6 +192,8 @@ class ilAttendanceList
 	{
 		$this->role_data[$a_id] = array($a_caption, $a_type);
 	}
+	
+	
 	
 	/**
 	 * Set role selection
