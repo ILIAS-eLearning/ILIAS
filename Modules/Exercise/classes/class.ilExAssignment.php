@@ -1334,8 +1334,8 @@ class ilExAssignment
 		$mems = $exmem->getMembers();
 		
 		$mems = $DIC->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
-			'write',
-			'write',
+			'edit_submissions_grades',
+			'edit_submissions_grades',
 			$exercise->getRefId(),
 			$mems
 		);

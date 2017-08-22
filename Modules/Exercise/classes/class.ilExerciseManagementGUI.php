@@ -109,8 +109,8 @@ class ilExerciseManagementGUI
 				{
 					
 					return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
-						'write',
-						'write',
+						'edit_submissions_grades',
+						'edit_submissions_grades',
 						$ref_id,
 						$a_user_ids
 					);
@@ -519,8 +519,8 @@ class ilExerciseManagementGUI
 		$members = $this->exercise->members_obj->getMembers();
 		
 		$members = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
-			'write',
-			'write',
+			'edit_submissions_grades',
+			'edit_submissions_grades',
 			$this->exercise->getRefId(),
 			$members
 		);
@@ -639,8 +639,8 @@ class ilExerciseManagementGUI
 		$mems = $mem_obj->getMembers();
 		
 		$mems = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
-			'write',
-			'write',
+			'edit_submissions_grades',
+			'edit_submissions_grades',
 			$this->exercise->getRefId(),
 			$mems
 		);
@@ -936,8 +936,8 @@ class ilExerciseManagementGUI
 	{
 		$user_ids = (array) array_keys((array) $_POST['id']);
 		$filtered_user_ids = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
-			'write',
-			'write',
+			'edit_submissions_grades',
+			'edit_submissions_grades',
 			$this->exercise->getRefId(),
 			$user_ids
 		);
