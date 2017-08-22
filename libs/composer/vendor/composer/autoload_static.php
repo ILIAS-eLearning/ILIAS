@@ -4647,6 +4647,8 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilOrgUnitTypeTableGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeTableGUI.php',
         'ilOrgUnitTypeTranslation' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeTranslation.php',
         'ilOrgUnitUserAssignment' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignment.php',
+        'ilOrgUnitUserAssignmentGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignmentGUI.php',
+        'ilOrgUnitUserAssignmentTableGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignmentTableGUI.php',
         'ilOrguUserPickerToolbarInputGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/class.ilOrguUserPickerToolbarInputGUI.php',
         'ilOverlayGUI' => __DIR__ . '/../..' . '/../../Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php',
         'ilPCAMDPageList' => __DIR__ . '/../..' . '/../../Modules/Wiki/classes/class.ilPCAMDPageList.php',

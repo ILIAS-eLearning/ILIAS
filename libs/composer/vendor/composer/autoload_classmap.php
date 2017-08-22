@@ -4503,6 +4503,8 @@ return array(
     'ilOrgUnitTypeTableGUI' => $baseDir . '/../../Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeTableGUI.php',
     'ilOrgUnitTypeTranslation' => $baseDir . '/../../Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeTranslation.php',
     'ilOrgUnitUserAssignment' => $baseDir . '/../../Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignment.php',
+    'ilOrgUnitUserAssignmentGUI' => $baseDir . '/../../Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignmentGUI.php',
+    'ilOrgUnitUserAssignmentTableGUI' => $baseDir . '/../../Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignmentTableGUI.php',
     'ilOrguUserPickerToolbarInputGUI' => $baseDir . '/../../Modules/OrgUnit/classes/class.ilOrguUserPickerToolbarInputGUI.php',
     'ilOverlayGUI' => $baseDir . '/../../Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php',
     'ilPCAMDPageList' => $baseDir . '/../../Modules/Wiki/classes/class.ilPCAMDPageList.php',

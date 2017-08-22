@@ -23,7 +23,9 @@ abstract class BaseCommands {
 	abstract protected function index();
 
 
-	abstract protected function cancel();
+	protected function cancel() {
+		$this->ctrl()->redirect($this, self::CMD_INDEX);
+	}
 
 
 	/***
@@ -49,7 +51,7 @@ abstract class BaseCommands {
 
 	protected function checkRequestReferenceId() {
 		/**
-		 * @var $ilAccess \ilAccessHandler§
+		 * @var $ilAccess \ilAccessHandler
 		 */
 		$http = $this->dic()->http();
 		$ref_id = $http->request()->getQueryParams()["ref_id"];

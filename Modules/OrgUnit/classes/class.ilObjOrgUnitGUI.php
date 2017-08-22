@@ -15,12 +15,14 @@
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilTranslationGUI, ilLocalUserGUI, ilOrgUnitExportGUI, ilOrgUnitStaffGUI, ilExtIdGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitSimpleImportGUI, ilOrgUnitSimpleUserImportGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI, ilOrgUnitPositionGUI
+ * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitUserAssignmentGUI
  */
 class ilObjOrgUnitGUI extends ilContainerGUI {
 
 	const TAB_POSITIONS = 'positions';
 	const TAB_ORGU_TYPES = 'orgu_types';
 	const TAB_SETTINGS = "settings";
+	const TAB_STAFF = 'orgu_staff';
 	/**
 	 * @var ilCtrl
 	 */
@@ -124,7 +126,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				break;
 			case "ilorgunitstaffgui":
 			case "ilrepositorysearchgui":
-				$this->tabs_gui->setTabActive('orgu_staff');
+				$this->tabs_gui->setTabActive(self::TAB_STAFF);
 				$ilOrgUnitStaffGUI = new ilOrgUnitStaffGUI($this);
 				$this->ctrl->forwardCommand($ilOrgUnitStaffGUI);
 				break;
@@ -211,20 +213,25 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->ctrl->forwardCommand($ilOrgUnitExportGUI);
 				break;
 			case strtolower(ilTranslationGUI::class):
-				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+				$this->tabs_gui->activateTab(self::TAB_SETTINGS);
 				$this->setSubTabsSettings('edit_translations');
 				$ilTranslationGui = new ilTranslationGUI($this);
 				$this->ctrl->forwardCommand($ilTranslationGui);
 				break;
 			case strtolower(ilOrgUnitTypeGUI::class):
-				$this->tabs_gui->setTabActive(self::TAB_ORGU_TYPES);
+				$this->tabs_gui->activateTab(self::TAB_ORGU_TYPES);
 				$types_gui = new ilOrgUnitTypeGUI($this);
 				$this->ctrl->forwardCommand($types_gui);
 				break;
 			case strtolower(ilOrgUnitPositionGUI::class):
-				$this->tabs_gui->setTabActive(self::TAB_POSITIONS);
+				$this->tabs_gui->activateTab(self::TAB_POSITIONS);
 				$types_gui = new ilOrgUnitPositionGUI($this);
 				$this->ctrl->forwardCommand($types_gui);
+				break;
+			case strtolower(ilOrgUnitUserAssignmentGUI::class):
+				$this->tabs_gui->activateTab(self::TAB_STAFF);
+				$ilOrgUnitUserAssignmentGUI = new ilOrgUnitUserAssignmentGUI();
+				$this->ctrl->forwardCommand($ilOrgUnitUserAssignmentGUI);
 				break;
 			default:
 				switch ($cmd) {
@@ -435,7 +442,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$write_access_ref_id = $this->ilAccess->checkAccess('write', '', $this->object->getRefId());
 		if ($this->object->getRefId() != ilObjOrgUnit::getRootOrgRefId()) {
 			if (ilObjOrgUnitAccess::_checkAccessStaff($this->object->getRefId())) {
-				$this->tabs_gui->addTab("orgu_staff", $this->lng->txt("orgu_staff"), $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "showStaff"));
+				// $this->tabs_gui->addTab(self::TAB_STAFF, $this->lng->txt(self::TAB_STAFF), $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "showStaff"));
+				$this->tabs_gui->addTab(self::TAB_STAFF, $this->lng->txt(self::TAB_STAFF), $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class, ilOrgUnitUserAssignmentGUI::CMD_INDEX));
 			}
 			if ($write_access_ref_id) {
 				$this->tabs_gui->addTab(self::TAB_SETTINGS, $this->lng->txt(self::TAB_SETTINGS), $this->ctrl->getLinkTarget($this, 'editSettings'));
