@@ -156,9 +156,13 @@ class ilPermissionGUI extends ilPermission2GUI
 	 * show position permission table
 	 * @return 
 	 */
-	public function perm_positions(ilTable2GUI $table = NULL )
+	public function perm_positions()
 	{
 		$this->__initSubTabs("perm_positions");
+
+		$table = new ilObjectPositionPermissionTableGUI($this,'perm',$this->getCurrentObject()->getRefId());
+		$table->collectData();
+		$this->tpl->setContent($table->getHTML());
 	}
 	
 	
@@ -873,4 +877,3 @@ class ilPermissionGUI extends ilPermission2GUI
 		return $blocked_info;
 	}
 }
-?>
