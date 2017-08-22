@@ -19258,3 +19258,7 @@ if(!$ilDB->tableExists('orgu_obj_type_settings') )
 	$ilDB->addPrimaryKey('orgu_obj_type_settings', array('obj_type'));
 }
 ?>
+<#5112>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
