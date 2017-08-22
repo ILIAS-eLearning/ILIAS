@@ -1743,7 +1743,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		// catch feedback message
 		$this->getTabs();
 
-		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
 		$this->tpl->clearHeader();
 		if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject")
 		{
@@ -1768,7 +1767,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		$ilHelp->setScreenIdComponent("mob");
 		
-		//$this->tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
 		if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject"
 			&& $this->object->getId() > 0)
 		{	

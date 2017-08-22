@@ -82,8 +82,6 @@ class ilRepositoryExplorer extends ilExplorer
 	{
 		global $ilCtrl;
 		
-		$ilCtrl->setTargetScript("ilias.php");
-
 		switch($a_type)
 		{
 			case "cat":

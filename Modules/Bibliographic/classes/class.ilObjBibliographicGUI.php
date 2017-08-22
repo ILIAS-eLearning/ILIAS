@@ -196,7 +196,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		global $DIC;
 
 		$id = explode("_", $a_target);
-		$DIC['ilCtrl']->setTargetScript("ilias.php");
 		$DIC['ilCtrl']->initBaseClass("ilRepositoryGUI");
 		$DIC['ilCtrl']->setParameterByClass("ilobjbibliographicgui", "ref_id", $id[0]);
 		// Detail-View

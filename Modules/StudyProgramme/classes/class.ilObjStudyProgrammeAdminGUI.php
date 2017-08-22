@@ -144,7 +144,6 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 
 	public function _goto($ref_id) {
 		$this->ctrl->initBaseClass("ilAdministrationGUI");
-		$this->ctrl->setTargetScript("ilias.php");
 		$this->ctrl->setParameterByClass("ilObjStudyProgrammeAdminGUI", "ref_id", $ref_id);
 		$this->ctrl->setParameterByClass("ilObjStudyProgrammeAdminGUI", "admin_mode", "settings");
 		$this->ctrl->redirectByClass(array( "ilAdministrationGUI", "ilObjStudyProgrammeAdminGUI" ), "view");

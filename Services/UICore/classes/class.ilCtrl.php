@@ -14,20 +14,6 @@ class ilCtrl
 	const IL_RTOKEN_NAME = 'rtoken';
 	
 	/**
-	 * Name of the script to be used when creating URLs.
-	 *
-	 * This always seems to be "ilias.php" (or null for some short init time), as
-	 * grep -r "setTargetScript" reveals.
-	 *
-	 * This is used in: setTargetScript, getTargetScrot
-	 *
-	 * This most likely is superfluous, see getTargetScript and setTargetScript.
-	 *
-	 * @var	string|null
-	 */
-	protected	$target_script = null;
-
-	/**
 	 * Maps lowercase class names to lists of parameter names that saved for them.
 	 *
 	 * See saveParameter/setParameter for difference to save_parameter.
@@ -523,7 +509,6 @@ class ilCtrl
 	 * gui class. Example:
 	 *
 	 *	include_once "classes/class.ilRepositoryGUI.php";
-	 *	$ilCtrl->setTargetScript("ilias.php");
 	 *	$ilCtrl->getCallStructure("ilrepositorygui");
 	 *	$repository_gui = new ilRepositoryGUI();
 	 *	$ilCtrl->forwardCommand($repository_gui);
@@ -571,7 +556,7 @@ class ilCtrl
 	 * gui class. All links that relate to the specified gui object class and
 	 * are build e.g. by using getLinkTarger() or getFormAction() will include
 	 * this parameter. This is the mechanism to add url parameters to the standard
-	 * url (which is set by the setTargetScript() method) target everytime.
+	 * url target everytime.
 	 *
 	 * A typical example is the "ref_id" that should be included in almost every
 	 * link or form action url. So the constructor of ilRepositoryGUI includes
@@ -620,9 +605,9 @@ class ilCtrl
 	 * gui class. All links that relate to the specified gui object class and
 	 * are build e.g. by using getLinkTarger() or getFormAction() will include
 	 * this parameter. This is the mechanism to add url parameters to the standard
-	 * url (which is set by the setTargetScript() method) target. The difference
-	 * to the saveParameter() method is, that setParameter() does not simply
-	 * forward the url parameter of the last request. You can set a spefific value.
+	 * url target. The difference to the saveParameter() method is, that setParameter()
+	 * does not simply forward the url parameter of the last request. You can set
+	 * a spefific value.
 	 *
 	 * If this parameter is also a "saved parameter" (set by saveParameter() method)
 	 * the saved value will be overwritten.
@@ -880,28 +865,13 @@ class ilCtrl
 	}
 
 	/**
-	 * Set target script name.
-	 *
-	 * This is in fact used in various places, but as `grep -r setTargetScript .`
-	 * reveals is always set to "ilias.php". The target script stuff seems to be
-	 * pointless.
-	 *
-	 * @param	string		$a_target_script		target script name
-	 */
-	public function setTargetScript($a_target_script)
-	{
-		$this->target_script = $a_target_script;
-	}
-
-
-	/**
 	 * Get target script name.
 	 *
 	 * @return	string		target script name
 	 */
 	protected function getTargetScript()
 	{
-		return $this->target_script;
+		return "ilias.php";
 	}
 
 
@@ -909,7 +879,7 @@ class ilCtrl
 	 * Initialises new base class
 	 *
 	 * Note: this resets the whole current ilCtrl context completely.
-	 * You can call setTargetScript() and callBaseClass() after that.
+	 * You can call callBaseClass() after that.
 	 *
 	 * @param	string		base class name
 	 */

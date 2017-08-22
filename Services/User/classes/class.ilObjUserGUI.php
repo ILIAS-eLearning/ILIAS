@@ -2463,7 +2463,6 @@ class ilObjUserGUI extends ilObjectGUI
 			if($ilUser->getId() != ANONYMOUS_USER_ID &&
 				$ilUser->hasDeletionFlag())
 			{
-				$ilCtrl->setTargetScript("ilias.php");
 				$ilCtrl->initBaseClass("ilpersonaldesktopgui");
 				$ilCtrl->redirectByClass(array("ilpersonaldesktopgui", "ilpersonalsettingsgui"), "deleteOwnAccount3");						
 			}
@@ -2482,19 +2481,16 @@ class ilObjUserGUI extends ilObjectGUI
 		if('registration' == $a_target)
 		{
 			$_GET["baseClass"] = 'ilStartUpGUI';
-			$ilCtrl->setTargetScript('ilias.php');
 			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilAccountRegistrationGUI'), '');
 		}
 		else if('nameassist' == $a_target)
 		{
 			$_GET["baseClass"] = 'ilStartUpGUI';
-			$ilCtrl->setTargetScript('ilias.php');
 			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), 'showUsernameAssistanceForm');
 		}
 		else if('pwassist' == $a_target)
 		{
 			$_GET["baseClass"] = 'ilStartUpGUI';
-			$ilCtrl->setTargetScript('ilias.php');
 			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), '');
 		}
 
