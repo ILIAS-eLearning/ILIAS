@@ -137,6 +137,21 @@ class ilMembershipGUI
 		return $this->access->checkAccess($a_permission, $a_cmd, $a_ref_id);
 	}
 	
+	/**
+	 * Check if rbac or position access is granted.
+	 * @param string $a_rbac_perm
+	 * @param string $a_pos_perm
+	 * @param int $a_ref_id
+	 */
+	protected function checkRbacOrPositionAccessBool($a_rbac_perm, $a_pos_perm, $a_ref_id = 0)
+	{
+		if(!$a_ref_id)
+		{
+			$a_ref_id = $this->getParentObject()->getRefId();
+		}
+		return $this->access->checkRbacOrPositionPermissionAccess($a_rbac_perm, $a_pos_perm, $a_ref_id);
+	}
+	
 	
 	/**
 	 * Filter user ids by access 
@@ -314,7 +329,7 @@ class ilMembershipGUI
 					$cmd != 'membersMap'
 				)
 				{
-					$this->checkPermission('manage_members');
+					$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
 				}
 				else
 				{
@@ -579,6 +594,14 @@ class ilMembershipGUI
 			ilUtil::sendFailure($this->lng->txt($this->getParentObject()->getType().'_at_least_one_admin'),true);
 			$this->ctrl->redirect($this, 'participants');
 		}
+		
+		// if only position access is granted, show additional info
+		if(!$this->checkPermissionBool('manage_members'))
+		{
+			$this->lng->loadLanguageModule('rbac');
+			ilUtil::sendInfo($this->lng->txt('rbac_info_only_position_access'));
+		}
+		
 		
 		// Access check for admin deletion
 		if(
@@ -892,7 +915,8 @@ class ilMembershipGUI
 		include_once './Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($GLOBALS['ilUser']->getId());
 		
-		if($ilAccess->checkAccess('manage_members', '' , $this->getParentObject()->getRefId()))
+		
+		if($this->checkRbacOrPositionAccessBool('manage_members', 'manage_members', $this->getParentObject()->getRefId()))
 		{
 			$tabs->addTab(
 				'members',
@@ -931,7 +955,7 @@ class ilMembershipGUI
 	{
 		global $ilAccess;
 		
-		if($ilAccess->checkAccess('manage_members','',$this->getParentObject()->getRefId()))
+		if($this->checkRbacOrPositionAccessBool('manage_members', 'manage_members', $this->getParentObject()->getRefId()))
 		{
 			$tabs->addSubTabTarget(
 				$this->getParentObject()->getType()."_member_administration",
@@ -1505,7 +1529,7 @@ class ilMembershipGUI
 	{
 		global $ilTabs;
 		
-		$this->checkPermission('manage_members');
+		$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
 		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget(

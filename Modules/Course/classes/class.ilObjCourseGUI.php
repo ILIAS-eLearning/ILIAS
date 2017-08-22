@@ -1992,7 +1992,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function getTabs()
 	{
-		global $rbacsystem,$ilAccess,$ilUser, $lng, $ilHelp;
+		global $ilAccess,$ilUser, $lng, $ilHelp;
 
 		$ilHelp->setScreenIdComponent("crs");
 		
