@@ -75,7 +75,7 @@ class ilObjOrgUnitTree {
 	 * @return int[] array of user ids.
 	 */
 	public function getEmployees($ref_id, $recursive = false) {
-		return $this->getAssignements($ref_id, new ilOrgUnitPosition(1));
+		// return $this->getAssignements($ref_id, new ilOrgUnitPosition(1));
 		return array_unique(($recursive ? $this->loadStaffRecursive("employee", $ref_id) : $this->loadStaff("employee", $ref_id)));
 	}
 

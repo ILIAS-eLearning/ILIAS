@@ -38,8 +38,8 @@ class ilOrgUnitPosition extends \ActiveRecord {
 		arObjectCache::flush(self::class);
 		$q = "SELECT il_orgu_positions.*
  				FROM il_orgu_positions 
- 				LEFT JOIN il_orgu_ua ON il_orgu_positions.id = il_orgu_ua.position_id 
- 				WHERE (il_orgu_ua.user_id IS NOT NULL AND il_orgu_ua.orgu_id = %s) 
+ 				LEFT JOIN il_orgu_ua ON il_orgu_positions.id = il_orgu_ua.position_id AND il_orgu_ua.orgu_id = %s 
+ 				WHERE il_orgu_ua.user_id IS NOT NULL 
  					OR core_position = 1";
 		$database = $GLOBALS['DIC']->database();
 		$st = $database->queryF($q, array( 'integer' ), array( $orgu_ref_id ));
