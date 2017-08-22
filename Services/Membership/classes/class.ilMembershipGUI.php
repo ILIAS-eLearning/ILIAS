@@ -158,9 +158,9 @@ class ilMembershipGUI
 	 * @param int[] $a_usr_ids
 	 * @return int[]
 	 */
-	protected function filterUserIdsByRbacOrPositionOfCurrentUser($a_usr_ids)
+	public function filterUserIdsByRbacOrPositionOfCurrentUser($a_user_ids)
 	{
-		return $a_usr_ids;
+		return $a_user_ids;
 	}
 	
 	/**
@@ -183,6 +183,7 @@ class ilMembershipGUI
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				include_once './Services/Membership/classes/class.ilParticipants.php';
 				$rep_search = new ilRepositorySearchGUI();
+				$rep_search->addUserAccessFilterCallable([$this,'filterUserIdsByRbacOrPositionOfCurrentUser']);
 
 				$participants = $this->getMembersObject();
 				if(

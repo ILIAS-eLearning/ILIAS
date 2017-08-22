@@ -390,8 +390,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			'manage_members', 
 			$this->getRepositoryObject()->getRefId(), 
 			$part
-		);
-			
+		);			
 		
 		
 		if(!$part)

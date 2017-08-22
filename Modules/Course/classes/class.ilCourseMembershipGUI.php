@@ -20,16 +20,16 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	
 	/**
 	 * Filter user ids by access 
-	 * @param int[] $a_usr_ids
+	 * @param int[] $a_user_ids
 	 * @return int[]
 	 */
-	protected function filterUserIdsByRbacOrPositionOfCurrentUser($a_usr_ids)
+	public function filterUserIdsByRbacOrPositionOfCurrentUser($a_user_ids)
 	{
 		return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'manage_members',
 			'manage_members',
 			$this->getParentObject()->getRefId(),
-			$a_usr_ids
+			$a_user_ids
 		);
 	}
 
