@@ -160,7 +160,7 @@ class ilPermissionGUI extends ilPermission2GUI
 	{
 		$this->__initSubTabs("perm_positions");
 
-		$table = new ilObjectPositionPermissionTableGUI($this,'perm',$this->getCurrentObject()->getRefId());
+		$table = new ilOrgUnitPermissionTableGUI($this,'perm',$this->getCurrentObject()->getRefId());
 		$table->collectData();
 		$this->tpl->setContent($table->getHTML());
 	}

@@ -917,4 +917,15 @@ class ilAccess implements ilAccessHandler {
 		// TODO: Implement filterUserIdsByRbacOrPositionOfCurrentUser() method.
 		return $user_ids;
 	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAvailablePositionRelatedPermissions() {
+		return array(
+			ilOrgUnitPermissionGUI::PERMISSION_VIEW_LEARNING_PROGRESS,
+			ilOrgUnitPermissionGUI::PERMISSION_VIEW_TEST_RESULTS,
+		);
+	}
 }

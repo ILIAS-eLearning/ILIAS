@@ -81,7 +81,7 @@ class ilOrgUnitPositionFormGUI extends BaseForm {
 		$this->object->setDescription($this->getInput(self::F_DESCRIPTION));
 
 		$authorities = (array)$this->getInput(self::F_AUTHORITIES);
-		$sent_ids = array();
+		$ilOrgUnitAuthorities = array();
 		foreach ($authorities as $authority) {
 			/**
 			 * @var $ilOrgUnitAuthority ilOrgUnitAuthority
@@ -91,20 +91,10 @@ class ilOrgUnitPositionFormGUI extends BaseForm {
 			$ilOrgUnitAuthority->setPositionId($this->object->getId());
 			$ilOrgUnitAuthority->setScope($authority["scope"]);
 			$ilOrgUnitAuthority->setOver($authority["over"]);
-			if ($id) {
-				$ilOrgUnitAuthority->update();
-			} else {
-				$ilOrgUnitAuthority->create();
-			}
-			$sent_ids[] = $ilOrgUnitAuthority->getId();
+			$ilOrgUnitAuthorities[] = $ilOrgUnitAuthority;
 		}
 
-		foreach (ilOrgUnitAuthority::where(array(
-			'id'          => $sent_ids,
-			'position_id' => $this->object->getId(),
-		), array( 'id' => 'NOT IN', 'position_id' => '=' ))->get() as $ilOrgUnitAuthority) {
-			// $ilOrgUnitAuthority->delete();
-		}
+		$this->object->setAuthorities($ilOrgUnitAuthorities);
 
 		return true;
 	}
