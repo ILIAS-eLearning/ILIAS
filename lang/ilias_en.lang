@@ -13590,3 +13590,39 @@ skmg#:#skmg_hide_profile_self_eval_info#:#Profile target values will not be show
 skmg#:#skmg_suggested#:#Suggested Resource
 skmg#:#skmg_lp_triggers_level#:#Triggered by Completion
 skmg#:#skmg_save_settings#:#Save Settings
+content#:#cont_pc_grid#:#Column Layout
+content#:#cont_grid_nr_cells#:#Number of Columns
+content#:#cont_ed_insert_grid#:#Insert Column Layout
+content#:#cont_grid_width_s#:#Small
+content#:#cont_grid_width_s_info#:#E.g. smartphone
+content#:#cont_grid_width_m#:#Medium
+content#:#cont_grid_width_m_info#:#E.g. tablet
+content#:#cont_grid_width_l#:#Large
+content#:#cont_grid_width_l_info#:#E.g. desktop
+content#:#cont_grid_width_xl#:#Extra Large
+content#:#cont_grid_width_xl_info#:#E.g. wide desktop
+content#:#cont_add_cell#:#Add Column
+content#:#cont_ed_delete_cell#:#Delete Column
+content#:#cont_ed_cell_left#:#Move Left
+content#:#cont_ed_cell_right#:#Move Right
+content#:#cont_ed_insert_grid_info#:#Adds a responsive column layout based on a grid with 12 units per row.
+content#:#cont_ed_grid_col_width#:#Column Width
+content#:#cont_ed_grid_col_width_info#:#Column width can span multiple 1/12 units of the row and depend on the overall screen size. Devices are given as examples. Their screen size determines the concrete behaviour. 12/12 equals to 100% width.
+content#:#cont_ed_grid_col_widths#:#Column Widths
+content#:#cont_grid_cell_confirm_deletion#:#Do you really want to delete the column(s)?
+content#:#cont_grid_cell#:#Column
+user#:#has_role#:#Role
+user#:#criteria#:#Criteria
+user#:#starting_point#:#Starting Point
+user#:#user_role_starting_point#:#User - Starting Point
+user#:#roles_without_starting_point#:#Roles without defined starting point:
+user#:#all_roles_has_starting_point#:#All the roles have starting points
+user#:#starting_page#:#Starting Point
+user#:#starting_points#:#Starting Points
+user#:#user_chooses_starting_page#:#User Chooses Starting Point
+user#:#save_order#:#Save Order
+user#:#editing_this_role#:#Role
+user#:#create_starting_point#:#Create Rule
+user#:#starting_point_settings#:#Starting Point Settings
+user#:#confirm_delete_starting_point#:#Are you sure you want to delete this rule?
+user#:#back_to_starting_points_list#:#Back to Starting Points

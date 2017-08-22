@@ -20,6 +20,7 @@ include_once ("./Services/COPage/classes/class.ilPageObjectGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCInteractiveImageGUI, ilPCProfileGUI, ilPCVerificationGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCBlogGUI, ilPCQuestionOverviewGUI, ilPCSkillsGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCConsultationHoursGUI, ilPCMyCoursesGUI, ilPCAMDPageListGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCGridGUI, ilPCGridCellGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -190,6 +191,7 @@ class ilPageEditorGUI
 		$first_hier_character = substr($hier_id, 0, 1);
 		if ($first_hier_character == "c" ||
 			$first_hier_character == "r" ||
+			$first_hier_character == "g" ||
 			$first_hier_character == "i")
 		{
 			$hier_id = substr($hier_id, 1);
@@ -206,7 +208,7 @@ class ilPageEditorGUI
 		
 
 		$next_class = $this->ctrl->getNextClass($this);
-
+		$this->log->debug("next class: ".$next_class);
 
 		// determine content type
 		if ($com[0] == "insert" || $com[0] == "create")
@@ -305,6 +307,8 @@ exit;
 		//$next_class = $this->ctrl->getNextClass($this);
 //$this->ctrl->debug("+next_class:".$next_class."+");
 //echo("+next_class:".$next_class."+".$ctype."+"); exit;
+
+		$this->log->debug("(2) next class: ".$next_class.", ctype: ".$ctype);
 
 		if ($next_class == "")
 		{

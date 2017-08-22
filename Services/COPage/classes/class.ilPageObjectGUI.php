@@ -1629,6 +1629,7 @@ return;
 		$col_path = ilUtil::getImagePath("col.svg");
 		$row_path = ilUtil::getImagePath("row.svg");
 		$item_path = ilUtil::getImagePath("item.svg");
+		$cell_path = ilUtil::getImagePath("cell.svg");
 
 		if ($this->getOutputMode() != "offline")
 		{
@@ -1708,6 +1709,7 @@ return;
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path,
 						 'img_col' => $col_path,
 						 'img_row' => $row_path,
+						 'img_cell' => $cell_path,
 						 'img_item' => $item_path,
 						 'enable_split_new' => $enable_split_new,
 						 'enable_split_next' => $enable_split_next,

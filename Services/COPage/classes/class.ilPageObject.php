@@ -75,7 +75,7 @@ abstract class ilPageObject
 	var $xml;
 	var $encoding;
 	var $node;
-	var $cur_dtd = "ilias_pg_5_2.dtd";
+	var $cur_dtd = "ilias_pg_5_3.dtd";
 	var $contains_int_link;
 	var $needs_parsing;
 	var $parent_type;
@@ -153,7 +153,7 @@ abstract class ilPageObject
 		$this->encoding = "UTF-8";		
 		$this->id_elements =
 			array("PageContent", "TableRow", "TableData", "ListItem", "FileItem",
-				"Section", "Tab", "ContentPopup");
+				"Section", "Tab", "ContentPopup", "GridCell");
 		$this->setActive(true);
 		$this->show_page_act_info = false;
 		
@@ -3517,7 +3517,8 @@ abstract class ilPageObject
 		// @todo: try to generalize this
 		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
 			($curr_name == "ListItem") || ($curr_name == "Section")
-			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup"))
+			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup")
+			|| ($curr_name == "GridCell"))
 		{
 			$a_mode = IL_INSERT_CHILD;
 		}
@@ -3622,7 +3623,8 @@ abstract class ilPageObject
 		// @todo: try to generalize
 		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
 			($curr_name == "ListItem") || ($curr_name == "Section")
-			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup"))
+			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup")
+			|| ($curr_name == "GridCell"))
 		{
 			$a_mode = IL_INSERT_CHILD;
 		}

@@ -47,6 +47,7 @@
 <xsl:param name="enlarge_path"/>
 <xsl:param name="img_col"/>
 <xsl:param name="img_row"/>
+<xsl:param name="img_cell"/>
 <xsl:param name="img_item"/>
 <xsl:param name="img_path"/>
 <xsl:param name="med_disabled_path"/>
@@ -655,6 +656,12 @@
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">insert_list</xsl:with-param>
 		<xsl:with-param name="langvar">ed_insert_list</xsl:with-param>
+	</xsl:call-template>
+
+	<!-- insert grid -->
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">insert_grid</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_grid</xsl:with-param>
 	</xsl:call-template>
 
 	<!-- insert section -->
@@ -3711,7 +3718,7 @@
 				</xsl:if>
 			</xsl:when>
 			</xsl:choose>
-			<xsl:attribute name="style"><xsl:value-of select="$cstyle" /></xsl:attribute>
+			<xsl:attribute name="style"><xsl:value-of select="$cstyle" /><xsl:if test="$mode = 'edit'"> overflow:visible;</xsl:if></xsl:attribute>
 			<xsl:if test="$mode != 'edit'">
 				<!-- <xsl:attribute name="id">tab<xsl:number count="Tab" level="any"/></xsl:attribute> -->
 			</xsl:if>
@@ -3750,6 +3757,105 @@
 	</div>
 	<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
 	</div>
+</xsl:template>
+
+
+<!-- Grid -->
+<xsl:template match="Grid">
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_grid']/@value"/></xsl:with-param></xsl:call-template>
+	<xsl:call-template name="EditReturnAnchors"/>
+	<div class="row row-flex row-flex-wrap">
+		<xsl:apply-templates select="GridCell"/>
+		<xsl:if test="$mode = 'edit'">
+			<!-- <xsl:value-of select="../@HierId"/> -->
+			<xsl:if test = "$javascript='disable'">
+				<input type="checkbox" name="target[]">
+					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
+					</xsl:attribute>
+				</input>
+			</xsl:if>
+			<xsl:call-template name="EditMenu">
+				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="pc_id" select="../@PCID" />
+				<xsl:with-param name="edit">y</xsl:with-param>
+			</xsl:call-template>
+			<xsl:if test = "$javascript='disable'">
+				<br/>
+			</xsl:if>
+		</xsl:if>
+	</div>
+</xsl:template>
+
+<!-- GridCell -->
+<xsl:template match="GridCell">
+	<div>
+		<xsl:if test="$mode = 'edit'">
+			<xsl:attribute name="style">border:dashed 1px #C0C0C0;</xsl:attribute>
+		</xsl:if>
+		<xsl:attribute name="class">
+			<xsl:if test="@WIDTH_S != ''"> col-xs-<xsl:value-of select="@WIDTH_S"/></xsl:if>
+			<xsl:if test="@WIDTH_M != ''"> col-sm-<xsl:value-of select="@WIDTH_M"/></xsl:if>
+			<xsl:if test="@WIDTH_L != ''"> col-md-<xsl:value-of select="@WIDTH_L"/></xsl:if>
+			<xsl:if test="@WIDTH_XL != ''"> col-lg-<xsl:value-of select="@WIDTH_XL"/></xsl:if>
+			<xsl:if test="@WIDTH_S = '' and @WIDTH_M = '' and @WIDTH_L = '' and @WIDTH_XL = ''">col-xs-12</xsl:if>
+		</xsl:attribute>
+		<div class="flex-col flex-grow">
+			<xsl:if test="$mode = 'edit'">
+				<xsl:call-template name="EditReturnAnchors"/>
+				<xsl:call-template name="Icon">
+					<xsl:with-param name="img_src"><xsl:value-of select="$img_cell"/></xsl:with-param>
+					<xsl:with-param name="img_id">CONTENTg<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
+				</xsl:call-template>
+				<div class="ilOverlay il_editmenu ilNoDisplay">
+					<xsl:attribute name="id">contextmenu_g<xsl:value-of select="@HierId"/></xsl:attribute>
+					<xsl:call-template name="GridCellMenu"/>
+				</div>
+			</xsl:if>
+			<!-- insert commands -->
+			<!-- <xsl:value-of select="@HierId"/> -->
+			<xsl:if test="$mode = 'edit'">
+				<!-- drop area (js) -->
+				<xsl:if test="$javascript = 'enable'">
+					<xsl:call-template name="DropArea">
+						<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+						<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
+					</xsl:call-template>
+				</xsl:if>
+				<!-- insert dropdown (no js) -->
+				<xsl:if test= "$javascript = 'disable'">
+					<select size="1" class="ilEditSelect">
+						<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+						</xsl:attribute>
+						<xsl:call-template name="EditMenuInsertItems"/>
+					</select>
+					<input class="ilEditSubmit" type="submit">
+						<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
+						<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
+					</input>
+					<br/>
+				</xsl:if>
+			</xsl:if>
+			<xsl:apply-templates select="PageContent"/>
+			<xsl:comment>End of Grid Cell</xsl:comment>
+		</div>
+	</div>
+</xsl:template>
+
+<!-- GridCellMenu -->
+<xsl:template name="GridCellMenu">
+	<xsl:variable name="ni"><xsl:number from="Grid" level="single" count="GridCell"/></xsl:variable>
+	<xsl:if test= "$ni != 1">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveCellLeft</xsl:with-param>
+			<xsl:with-param name="langvar">ed_cell_left</xsl:with-param></xsl:call-template>
+	</xsl:if>
+
+	<xsl:if test= "../GridCell[number($ni + 1)]">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveCellRight</xsl:with-param>
+			<xsl:with-param name="langvar">ed_cell_right</xsl:with-param></xsl:call-template>
+	</xsl:if>
+
+	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">deleteCell</xsl:with-param>
+		<xsl:with-param name="langvar">ed_delete_cell</xsl:with-param></xsl:call-template>
 </xsl:template>
 
 <!-- Plugged -->
