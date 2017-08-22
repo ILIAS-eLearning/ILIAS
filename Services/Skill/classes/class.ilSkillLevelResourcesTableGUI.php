@@ -35,12 +35,14 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("type"), "", "1px");
 		$this->addColumn($this->lng->txt("title"), "");
 		$this->addColumn($this->lng->txt("path"));
+		$this->addColumn($this->lng->txt("skmg_suggested"));
+		$this->addColumn($this->lng->txt("skmg_lp_triggers_level"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.level_resources_row.html", "Services/Skill");
 
 		$this->addMultiCommand("confirmLevelResourcesRemoval", $lng->txt("remove"));
-		//$this->addCommandButton("", $lng->txt(""));
+		$this->addCommandButton("saveResourceSettings", $lng->txt("skmg_save_settings"));
 	}
 	
 	/**
@@ -52,7 +54,25 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
 
 		$ref_id = $a_set["rep_ref_id"];
 		$obj_id = ilObject::_lookupObjId($ref_id);
-		
+		$obj_type = ilObject::_lookupType($obj_id);
+
+		if ($a_set["imparting"])
+		{
+			$this->tpl->touchBlock("sugg_checked");
+		}
+
+		include_once "Services/Object/classes/class.ilObjectLP.php";
+		if (ilObjectLP::isSupportedObjectType($obj_type))
+		{
+			if ($a_set["trigger"])
+			{
+				$this->tpl->touchBlock("trig_checked");
+			}
+			$this->tpl->setCurrentBlock("trigger_checkbox");
+			$this->tpl->setVariable("TR_ID", $ref_id);
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setVariable("TITLE", ilObject::_lookupTitle($obj_id));
 		$this->tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon($obj_id, "tiny")));
 		$this->tpl->setVariable("ID", $ref_id);
