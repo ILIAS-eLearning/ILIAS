@@ -1004,6 +1004,13 @@ abstract class ilPlugin
 
 	/**
 	 * Lookup information data in il_plugin
+	 *
+	 * @param string 	$a_ctype
+	 * @param string 	$a_cname
+	 * @param string 	$a_slot_id
+	 * @param string 	$a_pname
+	 *
+	 * @return string[]
 	 */
 	static function lookupStoredData($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
