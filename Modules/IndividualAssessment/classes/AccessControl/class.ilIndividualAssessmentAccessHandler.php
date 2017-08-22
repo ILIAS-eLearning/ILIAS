@@ -32,6 +32,11 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 	 */
 	protected $user;
 
+	/**
+	 * @var string[]
+	 */
+	protected $mass_global_permissions_cache;
+
 	const DEFAULT_ROLE = 'il_iass_member';
 
 	public function __construct(ilObjIndividualAssessment $iass, ilAccessHandler $handler, ilRbacAdmin $admin, ilRbacReview $review, ilObjUser $usr) {
@@ -40,6 +45,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 		$this->admin = $admin;
 		$this->review = $review;
 		$this->usr = $usr;
+		$this->mass_global_permissions_cache = array();
 	}
 
 	/**
