@@ -2237,6 +2237,11 @@ abstract class ilPageObject
 					$res->nodeset[$i]->set_attribute("Target", "il__st_".$a_from_to[$obj_id]);
 					$changed = true;
 				}
+				if ($type == "PortfolioPage")
+				{
+					$res->nodeset[$i]->set_attribute("Target", "il__ppage_".$a_from_to[$obj_id]);
+					$changed = true;
+				}
 			}
 		}
 		unset($xpc);
@@ -3215,6 +3220,10 @@ abstract class ilPageObject
 
 				case "WikiPage":
 					$t_type = "wpage";
+					break;
+
+				case "PortfolioPage":
+					$t_type = "ppage";
 					break;
 
 				case "User":
@@ -5156,13 +5165,10 @@ abstract class ilPageObject
 	function getEditLock()
 	{
 		$db = $this->db;
-
-		//return false;
-		$aset = new ilSetting("adve");
 		$user = $this->user;
 		
-		$min = (int) $aset->get("block_mode_minutes") ;
-		if ($min > 0)
+		$min = (int)$this->getEffectiveEditLockTime();
+		if($min > 0)
 		{
 			// try to set the lock for the user
 			$ts = time();
@@ -5435,6 +5441,19 @@ abstract class ilPageObject
 		$rec = $db->fetchAssoc($set);
 
 		return $rec["last_change"];
+	}
+
+	public function getEffectiveEditLockTime()
+	{
+		if($this->getPageConfig()->getEditLockSupport() == false)
+		{
+			return 0;
+		}
+		
+		$aset = new ilSetting("adve");
+		$min = (int)$aset->get("block_mode_minutes") ;
+
+		return $min;
 	}
 
 }

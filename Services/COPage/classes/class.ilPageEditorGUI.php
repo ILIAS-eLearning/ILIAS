@@ -199,6 +199,7 @@ class ilPageEditorGUI
 		$this->page->buildDom();
 		$this->page->addHierIDs();
 
+
 		// determine command and content object
 		if ($cmdClass != "ilfilesystemgui")
 		{
@@ -210,7 +211,14 @@ class ilPageEditorGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->log->debug("next class: ".$next_class);
 
-		// determine content type
+		// special case: placeholders from preview mode come without hier_id
+		if ($next_class == "ilpcplaceholdergui" && $hier_id == "" && $_GET["pl_pc_id"] != "")
+		{
+			$hid = $this->page->getHierIdsForPCIds(array($_GET["pl_pc_id"]));
+			$hier_id = $hid[$_GET["pl_pc_id"]];
+		}
+
+			// determine content type
 		if ($com[0] == "insert" || $com[0] == "create")
 		{
 			$cmd = $com[0];
@@ -335,21 +343,15 @@ exit;
 			case "ilinternallinkgui":
 				$link_gui = new ilInternalLinkGUI(
 					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultType(),
-					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultId());
-				$link_gui->setMode("normal");
+					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultId(),
+					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultIdIsRef());
 				$link_gui->setFilterWhiteList(
 					$this->page_gui->getPageConfig()->getIntLinkFilterWhiteList());
 				foreach ($this->page_gui->getPageConfig()->getIntLinkFilters() as $filter)
 				{
 					$link_gui->filterLinkType($filter);
 				}
-//				$link_gui->setSetLinkTargetScript(
-//					$this->ctrl->getLinkTarget($this, "setInternalLink"));
 				$link_gui->setReturn($this->int_link_return);
-				if ($ilCtrl->isAsynch())
-				{
-					$link_gui->setMode("asynch");
-				}
 
 				$ret = $this->ctrl->forwardCommand($link_gui);
 				break;

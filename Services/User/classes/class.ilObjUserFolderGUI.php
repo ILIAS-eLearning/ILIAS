@@ -13,6 +13,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 * 
 * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilUserTableGUI
 * @ilCtrl_Calls ilObjUserFolderGUI: ilAccountCodesGUI, ilCustomUserFieldsGUI, ilRepositorySearchGUI, ilUserStartingPointGUI
+* @ilCtrl_Calls ilObjUserFolderGUI: ilUserProfileInfoSettingsGUI
 *
 * @ingroup ServicesUser
 */
@@ -118,6 +119,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				include_once("./Services/User/classes/class.ilUserStartingPointGUI.php");
 				$cf = new ilUserStartingPointGUI($this->ref_id);
 				$this->ctrl->forwardCommand($cf);
+
+			case 'iluserprofileinfosettingsgui':
+				$this->tabs_gui->setTabActive('settings');
+				$this->setSubTabs("settings");
+				$ilTabs->activateSubTab("user_profile_settings");
+				include_once("./Services/User/classes/class.ilUserProfileInfoSettingsGUI.php");
+				$ps = new ilUserProfileInfoSettingsGUI();
+				$this->ctrl->forwardCommand($ps);
 				break;
 
 			default:
@@ -2520,6 +2529,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->tabs_gui->addSubTabTarget("starting_points",
 												$this->ctrl->getLinkTargetByClass("iluserstartingpointgui", "startingPoints"),
 												"startingPoints", get_class($this));
+
+
+				$this->tabs_gui->addSubTabTarget("user_profile_info",
+					$this->ctrl->getLinkTargetByClass("ilUserProfileInfoSettingsGUI",''),
+					"","ilUserProfileInfoSettingsGUI");
 
 				#$this->tabs_gui->addSubTab("account_codes", $this->lng->txt("user_account_codes"),
 				#							 $this->ctrl->getLinkTargetByClass("ilaccountcodesgui"));												 

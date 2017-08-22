@@ -3952,7 +3952,7 @@
 				</xsl:if>	
 			</xsl:attribute>
 			<xsl:if test = "$enable_placeholder != 'y'">
-				<xsl:value-of select="//LVs/LV[@name='media_placeh']/@value"/>
+				{{{{{PlaceHolder#<xsl:value-of select="../@PCID"/>#<xsl:value-of select="../@HierId"/>#<xsl:value-of select="@ContentClass"/>}}}}}
 			</xsl:if>
 			<xsl:if test = "$enable_placeholder = 'y'">
 				<xsl:value-of select="//LVs/LV[@name='media_placehl']/@value"/>
@@ -3971,7 +3971,7 @@
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:if test = "$enable_placeholder != 'y'">
-				<xsl:value-of select="//LVs/LV[@name='text_placeh']/@value"/>
+				{{{{{PlaceHolder#<xsl:value-of select="../@PCID"/>#<xsl:value-of select="../@HierId"/>#<xsl:value-of select="@ContentClass"/>}}}}}
 			</xsl:if>
 			<xsl:if test = "$enable_placeholder = 'y'">
 				<xsl:value-of select="//LVs/LV[@name='text_placehl']/@value"/>
@@ -3990,7 +3990,7 @@
 				</xsl:if>
 				</xsl:attribute>
 			<xsl:if test = "$enable_placeholder != 'y'">
-				<xsl:value-of select="//LVs/LV[@name='question_placeh']/@value"/>
+				{{{{{PlaceHolder#<xsl:value-of select="../@PCID"/>#<xsl:value-of select="../@HierId"/>#<xsl:value-of select="@ContentClass"/>}}}}}
 			</xsl:if>
 			<xsl:if test = "$enable_placeholder = 'y'">
 				<xsl:value-of select="//LVs/LV[@name='question_placehl']/@value"/>
@@ -4010,7 +4010,7 @@
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:if test = "$enable_placeholder != 'y'">
-				<xsl:value-of select="//LVs/LV[@name='verification_placeh']/@value"/>
+				{{{{{PlaceHolder#<xsl:value-of select="../@PCID"/>#<xsl:value-of select="../@HierId"/>#<xsl:value-of select="@ContentClass"/>}}}}}
 			</xsl:if>
 			<xsl:if test = "$enable_placeholder = 'y'">
 				<xsl:value-of select="//LVs/LV[@name='verification_placehl']/@value"/>
