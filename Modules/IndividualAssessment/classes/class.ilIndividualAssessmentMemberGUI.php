@@ -362,7 +362,7 @@ class ilIndividualAssessmentMemberGUI {
 	 * @return bool
 	 */
 	protected function mayBeEdited() {
-		if (!$this->isFinalized() && $this->userCanGrade()) {
+		if (!$this->isFinalized() && $this->userMayGrade()) {
 			return true;
 		}
 
@@ -376,7 +376,7 @@ class ilIndividualAssessmentMemberGUI {
 	 */
 	protected function mayBeViewed()
 	{
-		if ($this->isFinalized() && ($this->userCanGrade() || $this->userCanView())) {
+		if ($this->isFinalized() && ($this->userMayGrade() || $this->userMayView())) {
 			return true;
 		}
 
@@ -390,7 +390,7 @@ class ilIndividualAssessmentMemberGUI {
 	 */
 	protected function mayBeAmended()
 	{
-		if ($this->isFinalized() && $this->userCanAmend()) {
+		if ($this->isFinalized() && $this->userMayAmend()) {
 			return true;
 		}
 
@@ -402,7 +402,7 @@ class ilIndividualAssessmentMemberGUI {
 	 *
 	 * @return bool
 	 */
-	protected function userCanGrade()
+	protected function userMayGrade()
 	{
 		return !$this->targetWasEditedByOtherUser($this->member) && $this->access->mayGradeUser();
 	}
@@ -412,7 +412,7 @@ class ilIndividualAssessmentMemberGUI {
 	 *
 	 * @return bool
 	 */
-	protected function userCanView()
+	protected function userMayView()
 	{
 		return $this->access->mayViewUser();
 	}
@@ -422,7 +422,7 @@ class ilIndividualAssessmentMemberGUI {
 	 *
 	 * @return bool
 	 */
-	protected function userCanAmend()
+	protected function userMayAmend()
 	{
 		return $this->access->mayAmendGradeUser();
 	}
