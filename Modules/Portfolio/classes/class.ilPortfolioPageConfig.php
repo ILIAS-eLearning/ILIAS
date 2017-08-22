@@ -30,6 +30,7 @@ class ilPortfolioPageConfig extends ilPageConfig
 		$this->setIntLinkHelpDefaultId($_GET["prt_id"], false);
 		$this->setIntLinkHelpDefaultType("PortfolioPage");
 		$this->setEnablePCType("Profile", true);
+		$this->setEditLockSupport(false);
 		
 		if(!$ilSetting->get('disable_wsp_certificates'))
 		{
