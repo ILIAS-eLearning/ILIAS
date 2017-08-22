@@ -86,8 +86,8 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ilias = $ilias;
 		$this->lng = $lng;
 		$this->user = $ilUser;
-		$this->progress_object = array();
-		
+		$this->progress_objects = array();
+
 		$this->object = null;
 
 		$lng->loadLanguageModule("prg");
@@ -96,14 +96,12 @@ class ilObjStudyProgrammeMembersGUI {
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
-		
-		
+
 		if ($cmd == "") {
 			$cmd = "view";
 		}
-		
+
 		# TODO: Check permission of user!!
-		
 		switch ($next_class) {
 			case "ilstudyprogrammerepositorysearchgui":		
 				require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeRepositorySearchGUI.php");
@@ -141,7 +139,7 @@ class ilObjStudyProgrammeMembersGUI {
 			default:
 				throw new ilException("ilObjStudyProgrammeMembersGUI: Can't forward to next class $next_class");
 		}
-		
+
 		$this->tpl->setContent($cont);
 	}
 
@@ -573,7 +571,7 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function getLinkTargetForAction($a_action, $a_prgrs_id, $a_ass_id) {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
-		
+
 		switch ($a_action) {
 			case ilStudyProgrammeUserProgress::ACTION_MARK_ACCREDITED:
 				$target_name = "markAccredited";
@@ -590,7 +588,7 @@ class ilObjStudyProgrammeMembersGUI {
 			default:
 				throw new ilException("Unknown action: $action");
 		}
-		
+
 		$this->ctrl->setParameter($this, "prgrs_id", $a_prgrs_id);
 		$link = $this->ctrl->getLinkTarget($this, $target_name);
 		$this->ctrl->setParameter($this, "prgrs_id", null);
