@@ -439,7 +439,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	/**
 	 * Install a plugin
 	 *
-	 * @return null
+	 * @return void
 	 */
 	protected function installPlugin() {
 		include_once("./Services/Component/classes/class.ilPlugin.php");
@@ -510,7 +510,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	 *
 	 * @param ilPlugin 	$plugin
 	 *
-	 * @return null
+	 * @return void
 	 */
 	protected function update(ilPlugin $plugin) {
 		$result = $plugin->update();

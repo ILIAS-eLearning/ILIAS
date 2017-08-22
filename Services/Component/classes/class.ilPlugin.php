@@ -735,7 +735,7 @@ abstract class ilPlugin
 	/**
 	 * Install
 	 *
-	 * @return null
+	 * @return void
 	 */
 	public function install() {
 		global $ilDB;
@@ -796,7 +796,7 @@ abstract class ilPlugin
 	/**
 	 * After install processing
 	 *
-	 * @return null
+	 * @return void
 	 */
 	protected function afterInstall()
 	{

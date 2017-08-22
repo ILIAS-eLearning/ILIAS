@@ -135,7 +135,7 @@ class ilPluginAdmin
 	 * @param string[] 	&$plugin_data
 	 * @param string 	$last_update_version
 	 *
-	 * @return null
+	 * @return void
 	 */
 	protected function updateRequired(array &$plugin_data, $last_update_version) {
 		if ($last_update_version == "")
@@ -189,7 +189,7 @@ class ilPluginAdmin
 	 *
 	 * @param string[] 	&$plugin_data
 	 *
-	 * @return null
+	 * @return void
 	 */
 	protected function setMustInstall(array &$plugin_data) {
 		$plugin_data["must_install"] = true;
@@ -216,7 +216,7 @@ class ilPluginAdmin
 	 * @param string[] &$plugin_data
 	 * @param bool 	$active
 	 *
-	 * @return null
+	 * @return void
 	 */
 	protected function setCurrentState(array &$plugin_data, $active) {
 		$plugin_data["is_active"] = $active;

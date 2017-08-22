@@ -247,7 +247,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 	 *
 	 * @param string[] 	$a_set
 	 *
-	 * @return null
+	 * @return void
 	 */
 	protected function setParameter(array $a_set) {
 		$this->ctrl->setParameter($this->parent_obj, "ctype", $a_set["component_type"]);
@@ -259,7 +259,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 	/**
 	 * Clear parameter
 	 *
-	 * @return null
+	 * @return void
 	 */
 	protected function clearParameter() {
 		$this->ctrl->setParameter($this->parent_obj, "ctype", null);
@@ -275,7 +275,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 	 * @param string 	$caption 	not translated lang var
 	 * @param string 	$command
 	 *
-	 * @return null
+	 * @return void
 	 */
 	protected function addCommandToActions(array &$actions, $caption, $command) {
 		$actions[$this->lng->txt($caption)] =
