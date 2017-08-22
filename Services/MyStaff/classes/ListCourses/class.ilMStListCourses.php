@@ -7,8 +7,13 @@
 class ilMStListCourses {
     
 
-    public static function getData(array $options = array()) {
+    public static function getData(array $arr_usr_ids = array(),array $options = array()) {
         global $ilDB;
+
+        //Permissions
+        if(count($arr_usr_ids) == 0) {
+            return false;
+        }
 
         $_options = array(
             'filters' => array(),
@@ -20,16 +25,15 @@ class ilMStListCourses {
 
         $udf = ilUserDefinedFields::_getInstance();
 
-        $select = 'SELECT crs.title as crs_title, reg_status, lp_status, usr.login as usr_login, usr.lastname as usr_lastname, usr.firstname as usr_firstname, usr.email as usr_email  from (
+        $select = 'SELECT crs.title as crs_title, reg_status, lp_status, usr_data.login as usr_login, usr_data.lastname as usr_lastname, usr_data.firstname as usr_firstname, usr_data.email as usr_email  from (
 	                    select reg.obj_id, reg.usr_id, 2 as reg_status, lp.status as lp_status from obj_members as reg
                         left join ut_lp_marks as lp on lp.obj_id = reg.obj_id and lp.usr_id = reg.usr_id
 		                UNION
 	                    select obj_id, usr_id, 1 as reg_status, 0 as lp_status from crs_waiting_list as waiting) as memb
                     inner join object_data as crs on crs.obj_id = memb.obj_id and crs.type = "crs"
-	                inner join usr_data as usr on usr.usr_id = memb.usr_id and usr.active = 1';
+	                inner join usr_data on usr_data.usr_id = memb.usr_id and usr_data.active = 1';
 
-        $select .= static::createWhereStatement($options['filters']);
-
+        $select .= static::createWhereStatement($arr_usr_ids,$options['filters']);
 
         if ($options['count']) {
             $result = $ilDB->query($select);
@@ -43,8 +47,6 @@ class ilMStListCourses {
         if (isset($options['limit']['start']) && isset($options['limit']['end'])) {
             $select .= " LIMIT ".$options['limit']['start'].",".$options['limit']['end'];
         }
-
-
 
         $result = $ilDB->query($select);
         $crs_data = array();
@@ -69,13 +71,16 @@ class ilMStListCourses {
     /**
      * Returns the WHERE Part for the Queries using parameter $user_ids and local variable $filters
      *
+     * @param array $arr_usr_ids
      * @param array $arr_filter
      * @return bool|string
      */
-    public static function createWhereStatement($arr_filter){
+    public static function createWhereStatement($arr_usr_ids,$arr_filter){
         global $ilDB;
 
         $where = array();
+
+        $where[] = $ilDB->in('usr_data.usr_id',$arr_usr_ids,false,'integer');
 
         if((!empty($arr_filter['time_limit_owner']) && $arr_filter['time_limit_owner'] != 0)) {
             $where[] = '(usr_data.time_limit_owner = ' . $ilDB->quote($arr_filter['time_limit_owner'],'integer') . ')';
@@ -87,11 +92,8 @@ class ilMStListCourses {
             if(empty($user_ids_orgs)) {
                 $user_ids_orgs = array(0 => -1);
             }
-
             $where[] = '(usr_data.usr_id = ' . implode(' OR usr_data.usr_id = ', $user_ids_orgs) . ')';
         }
-
-
 
         if(!empty($arr_filter['lastname'])){
             $where[] = '(lastname LIKE ' . $ilDB->quote('%'
@@ -124,7 +126,7 @@ class ilMStListCourses {
         }
 
         if(!empty($where)){
-            return 'WHERE ' . implode(' AND ', $where) . ' ';
+            return ' WHERE ' . implode(' AND ', $where) . ' ';
         }else{
             return '';
         }

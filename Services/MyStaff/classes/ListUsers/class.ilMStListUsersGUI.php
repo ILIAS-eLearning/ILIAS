@@ -58,6 +58,7 @@ class ilMStListUsersGUI {
 					case 'resetFilter':
 					case 'applyFilter':
                     case 'index':
+                    case 'addUserAutoComplete':
 						$this->$cmd();
 						break;
 					default:
@@ -96,4 +97,25 @@ class ilMStListUsersGUI {
 	public function cancel() {
 		$this->ctrl->redirect($this);
 	}
+
+    /**
+     * Show auto complete results
+     */
+    /*
+    protected function addUserAutoComplete()
+    {
+        include_once './Services/User/classes/class.ilUserAutoComplete.php';
+        $auto = new ilUserAutoComplete();
+        $auto->setSearchFields(array('login','firstname','lastname','email'));
+        $auto->enableFieldSearchableCheck(false);
+        $auto->setMoreLinkAvailable(true);
+
+        if(($_REQUEST['fetchall']))
+        {
+            $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
+        }
+
+        echo $auto->getList($_REQUEST['term']);
+        exit();
+    }*/
 }

@@ -7,8 +7,13 @@
 class ilMStListUsers {
     
 
-    public static function getData(array $options = array()) {
+    public static function getData(array $arr_usr_ids = array(), array $options = array()) {
         global $ilDB;
+
+        //Permissions
+        if(count($arr_usr_ids) == 0) {
+            return false;
+        }
 
         $_options = array(
             'filters' => array(),
@@ -35,7 +40,7 @@ class ilMStListUsers {
 	               active
 	               FROM `usr_data`'.
 
-            self::createWhereStatement($options['filters']);
+            self::createWhereStatement($arr_usr_ids,$options['filters']);
 
 
         if ($options['count']) {
@@ -50,7 +55,6 @@ class ilMStListUsers {
         if (isset($options['limit']['start']) && isset($options['limit']['end'])) {
             $select .= " LIMIT ".$options['limit']['start'].",".$options['limit']['end'];
         }
-
 
         $result = $ilDB->query($select);
         $user_data = array();
@@ -77,26 +81,31 @@ class ilMStListUsers {
     /**
      * Returns the WHERE Part for the Queries using parameter $user_ids and local variable $filters
      *
+     * @param array $arr_usr_ids
      * @param array $arr_filter
      * @return bool|string
      */
-    private static function createWhereStatement($arr_filter){
+    private static function createWhereStatement($arr_usr_ids,$arr_filter){
         global $ilDB;
 
         $where = array();
 
-        if((!empty($arr_filter['time_limit_owner']) && $arr_filter['time_limit_owner'] != 0)) {
-            $where[] = '(usr_data.time_limit_owner = ' . $ilDB->quote($arr_filter['time_limit_owner'],'integer') . ')';
+        $where[] = $ilDB->in('usr_data.usr_id',$arr_usr_ids,false,'integer');
+
+        if(!empty($arr_filter['user'])){
+
+            $where[] = "(".$ilDB->like("usr_data.login", "text", "%".$arr_filter['user']."%")." ".
+                "OR ".$ilDB->like("usr_data.firstname", "text", "%".$arr_filter['user']."%")." ".
+                "OR ".$ilDB->like("usr_data.lastname", "text", "%".$arr_filter['user']."%")." ".
+                "OR ".$ilDB->like("usr_data.email", "text", "%".$arr_filter['user']."%").") ";
+
+
         }
 
+
         if(!empty($arr_filter['org_unit'])) {
-
-            $user_ids_orgs = array_merge(ilObjOrgUnitTree::_getInstance()->getEmployees($arr_filter['org_unit'], $arr_filter['org_unit_recursive']), ilObjOrgUnitTree::_getInstance()->getSuperiors($arr_filter['org_unit'], $arr_filter['org_unit_recursive']));
-            if(empty($user_ids_orgs)) {
-                $user_ids_orgs = array(0 => -1);
-            }
-
-            $where[] = '(usr_data.usr_id = ' . implode(' OR usr_data.usr_id = ', $user_ids_orgs) . ')';
+            ilObjOrgUnitTree::_getInstance()->buildTempTableWithUsrAssignements('orgu_usr_assignements');
+            $where[] = 'usr_data.usr_id in (SELECT user_id from orgu_usr_assignements where ref_id = '.$ilDB->quote($arr_filter['org_unit'],'integer').')';
         }
 
 
@@ -132,7 +141,7 @@ class ilMStListUsers {
         }
 
         if(!empty($where)){
-            return 'WHERE ' . implode(' AND ', $where) . ' ';
+            return ' WHERE ' . implode(' AND ', $where) . ' ';
         }else{
             return '';
         }

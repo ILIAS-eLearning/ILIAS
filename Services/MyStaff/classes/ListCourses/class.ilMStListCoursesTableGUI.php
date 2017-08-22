@@ -43,8 +43,8 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		global $ilCtrl, $ilToolbar, $tpl, $lng, $ilUser;
 
 		$this->ctrl = $ilCtrl;
+        $this->access = ilMyStaffAcess::getInstance();
 
-		//$this->access = $this->pl->getAccessManager();
 		$this->lng = $lng;
 		$this->toolbar = $ilToolbar;
         
@@ -66,7 +66,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		$this->setDisableFilterHiding(true);
 		$this->setEnableNumInfo(true);
 
-		//$this->setIgnoredCols(array('action', 'skills'));
+		$this->setIgnoredCols(array());
 		$this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_CSV));
 
 		$this->setFilterCols(4);
@@ -81,23 +81,24 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		global $ilUser;
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
-		$this->setDefaultOrderField($this->columns[0]);
+		$this->setDefaultOrderField('crs_title');
 
 		$this->determineLimit();
 		$this->determineOffsetAndOrder();
 
-		$permission_filters = array();
+        //Permission Filter
+        $arr_usr_id = $this->access->getOrguUsersOfCurrentUserWithShowStaffPermission();
 
 		$options = array(
 			'filters' => $this->filter,
 			'limit' => array(),
 			'count' => true,
-			'sort' => array('field' => 'lastname', 'direction' => 'ASC')
+			'sort' =>  array('field' => $this->getOrderField(),'direction' => $this->getOrderDirection()),
 		);
-		$count = ilMStListCourses::getData($options);
+		$count = ilMStListCourses::getData($arr_usr_id,$options);
 		$options['limit'] = array('start' => (int)$this->getOffset(), 'end' => (int)$this->getLimit());
 		$options['count'] = false;
-		$data = ilMStListCourses::getData($options);
+		$data = ilMStListCourses::getData($arr_usr_id,$options);
 
 		$this->setMaxCount($count);
 		$this->setData($data);
@@ -138,13 +139,13 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 	public function getSelectableColumns() {
 		$cols = array();
 
-		$cols['crs_title'] = array('txt' => $this->lng->txt('crs_title'), 'default' => true, 'width' => 'auto');
-		$cols['usr_reg_status'] = array('txt' => $this->lng->txt('usr_reg_status'), 'default' => true, 'width' => 'auto');
-		$cols['usr_lp_status'] = array('txt' => $this->lng->txt('usr_lp_status'), 'default' => true, 'width' => 'auto');
-        $cols['usr_login'] = array('txt' => $this->lng->txt('usr_login'), 'default' => true, 'width' => 'auto');
-        $cols['usr_firstname'] = array('txt' => $this->lng->txt('usr_firstname'), 'default' => true, 'width' => 'auto');
-        $cols['usr_lastname'] = array('txt' => $this->lng->txt('usr_lastname'), 'default' => true, 'width' => 'auto');
-        $cols['usr_email'] = array('txt' => $this->lng->txt('usr_email'), 'default' => true, 'width' => 'auto');
+		$cols['crs_title'] = array('txt' => $this->lng->txt('crs_title'), 'default' => true, 'width' => 'auto','sort_field' => 'crs_title');
+		$cols['usr_reg_status'] = array('txt' => $this->lng->txt('usr_reg_status'), 'default' => true, 'width' => 'auto','sort_field' => 'reg_status');
+		$cols['usr_lp_status'] = array('txt' => $this->lng->txt('usr_lp_status'), 'default' => true, 'width' => 'auto','sort_field' => 'lp_status');
+        $cols['usr_login'] = array('txt' => $this->lng->txt('usr_login'), 'default' => true, 'width' => 'auto','sort_field' => 'usr_login');
+        $cols['usr_firstname'] = array('txt' => $this->lng->txt('usr_firstname'), 'default' => true, 'width' => 'auto','sort_field' => 'usr_firstname');
+        $cols['usr_lastname'] = array('txt' => $this->lng->txt('usr_lastname'), 'default' => true, 'width' => 'auto','sort_field' => 'usr_lastname');
+        $cols['usr_email'] = array('txt' => $this->lng->txt('usr_email'), 'default' => true, 'width' => 'auto','sort_field' => 'usr_email');
         $cols['usr_assinged_orgus'] = array('txt' => $this->lng->txt('usr_assinged_orgus'), 'default' => true, 'width' => 'auto');
 
 		return $cols;
@@ -168,39 +169,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
         if(!$this->getExportMode()) {
             $this->addColumn($this->lng->txt('actions'));
         }
-	}
-
-
-	/**
-	 * @param array $formats
-	 */
-	public function setExportFormats(array $formats) {
-
-		parent::setExportFormats($formats);
-
-		$custom_fields = array_diff($formats, $this->export_formats);
-
-		foreach ($custom_fields as $format_key) {
-			if (isset($this->custom_export_formats[$format_key])) {
-				$this->export_formats[$format_key] = $this->pl->getPrefix() . "_" . $this->custom_export_formats[$format_key];
-			}
-		}
-	}
-
-
-	public function exportData($format, $send = false) {
-		if (array_key_exists($format, $this->custom_export_formats)) {
-			if ($this->dataExists()) {
-
-				foreach ($this->custom_export_generators as $export_format => $generator_config) {
-					if ($this->getExportMode() == $export_format) {
-						$generator_config['generator']->generate();
-					}
-				}
-			}
-		} else {
-			parent::exportData($format, $send);
-		}
 	}
 
 
@@ -263,42 +231,38 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 
 
     /**
-     * @param object $a_worksheet
+     * @param ilExcel $a_excel	excel wrapper
      * @param int    $a_row
-     * @param array  $a_set
+     * @param ilMyStaffUser $my_staff_user
      */
-    /*
-    protected function fillRowExcel($a_worksheet, &$a_row, $a_set) {
+    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $my_staff_user) {
         $col = 0;
 
-        foreach ($this->getSelectableColumns() as $k => $v) {
-            if (is_array($a_set[$k])) {
-                $value = implode(', ', $a_set[$k]);
-            }
+        $propGetter = Closure::bind(  function($prop){return $this->$prop;}, $my_staff_user, $my_staff_user);
 
+        foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                $a_worksheet->writeString($a_row, $col, strip_tags($a_set[$k]));
+                $a_excel->setCell($a_row, $col, strip_tags($propGetter($k)));
                 $col ++;
             }
         }
-    }*/
+    }
 
     /**
      * @param object $a_csv
-     * @param array  $a_set
+     * @param ilMyStaffUser $my_staff_user
      */
-    /*
-    protected function fillRowCSV($a_csv, $a_set) {
+    protected function fillRowCSV($a_csv, $my_staff_user) {
+
+        $propGetter = Closure::bind(  function($prop){return $this->$prop;}, $my_staff_user, $my_staff_user);
+
         foreach ($this->getSelectableColumns() as $k => $v) {
-            if (is_array($a_set[$k])) {
-                $value = implode(', ', $a_set[$k]);
-            }
             if (!in_array($k, $this->getIgnoredCols()) && $this->isColumnSelected($k)) {
-                $a_csv->addColumn(strip_tags($a_set[$k]));
+                $a_csv->addColumn(strip_tags($propGetter($k)));
             }
         }
         $a_csv->addRow();
-    }*/
+    }
 
 	/**
 	 * @return bool

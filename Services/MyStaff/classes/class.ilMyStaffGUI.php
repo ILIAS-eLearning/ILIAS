@@ -60,13 +60,6 @@ class ilMyStaffGUI
                 $list_course_gui = new ilMStShowUserGUI();
                 $ilCtrl->forwardCommand($list_course_gui);
                 break;
-            // this would be the way to call a sub-GUI class
-            /*                        case "ilbargui":
-                                            $bar_gui = new ilBarGUI(...);
-                                            $ret = $ilCtrl->forwardCommand($bar_gui);
-                                            break;*/
-
-            // process command, if current class is responsible to do so
             default:
                 $this->addTabs('list_users');
                 $list_user_gui = new ilMStListUsersGUI();
@@ -78,7 +71,7 @@ class ilMyStaffGUI
     }
 
     /**
-     * View hello world...
+     * View
      *
      */
     function view()
