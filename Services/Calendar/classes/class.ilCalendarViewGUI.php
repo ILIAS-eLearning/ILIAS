@@ -40,6 +40,11 @@ class ilCalendarViewGUI
 	protected $toolbar;
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $logger;
+
+	/**
 	 * View initialization
 	 * @param integer $a_calendar_presentation_type
 	 */
@@ -55,6 +60,7 @@ class ilCalendarViewGUI
 		$this->tpl = $DIC["tpl"];
 		$this->toolbar = $DIC->toolbar();
 		$this->presentation_type = $a_calendar_presentation_type;
+		$this->logger = $GLOBALS['DIC']->logger()->cal();
 	}
 
 	/**
@@ -92,6 +98,9 @@ class ilCalendarViewGUI
 		switch ($this->presentation_type)
 		{
 			case self::CAL_PRESENTATION_AGENDA_LIST:
+				$this->logger->debug("-This->Seed ===> ".$this->seed);
+				$this->logger->debug("-This->period_end_day ==> ".$this->period_end_day);
+
 				$schedule->setPeriod(new ilDate($this->seed, IL_CAL_DATE),
 					new ilDate($this->period_end_day, IL_CAL_DATE));
 				break;
@@ -111,6 +120,7 @@ class ilCalendarViewGUI
 		$schedule->addSubitemCalendars(true);
 		$schedule->calculate();
 		$ev = $schedule->getScheduledEvents();
+		//$this->logger->debug("count events = >>>".count($ev));
 		return $ev;
 	}
 
@@ -302,6 +312,9 @@ class ilCalendarViewGUI
 	{
 		include_once './Services/Calendar/classes/BackgroundTasks/class.ilDownloadFilesBackgroundTask.php';
 		$download_job = new ilDownloadFilesBackgroundTask($GLOBALS['DIC']->user()->getId());
+
+		$this->logger->debug("count events = ".count($this->getEvents()));
+
 		$download_job->setEvents($this->getEvents());
 		$download_job->run();
 		

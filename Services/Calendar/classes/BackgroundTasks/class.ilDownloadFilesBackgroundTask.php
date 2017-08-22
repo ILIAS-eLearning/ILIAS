@@ -108,7 +108,9 @@ class ilDownloadFilesBackgroundTask
 		{
 			$folder_date = $event['event']->getStart()->get(IL_CAL_FKT_DATE,'Y-m-d');
 			$folder_app = $event['event']->getPresentationTitle();
-			
+
+			$this->logger->debug("collecting files...event title = ".$folder_app);
+
 			$file_handler = ilAppointmentFileHandlerFactory::getInstance($event);
 			foreach($file_handler->getFiles() as $file_with_absolut_path)
 			{
