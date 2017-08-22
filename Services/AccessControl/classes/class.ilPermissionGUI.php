@@ -151,12 +151,21 @@ class ilPermissionGUI extends ilPermission2GUI
 		$table->parse();
 		$this->tpl->setContent($table->getHTML());
 	}
+
+	/**
+	 * show position permission table
+	 * @return 
+	 */
+	public function perm_positions(ilTable2GUI $table = NULL )
+	{
+		$this->__initSubTabs("perm_positions");
+	}
 	
 	
 	
 	/**
 	 * Check of current location is administration (main) role folder
-	 * @return 
+	 * @return
 	 */
 	protected function isAdminRoleFolder()
 	{

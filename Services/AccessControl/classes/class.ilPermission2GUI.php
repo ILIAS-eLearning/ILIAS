@@ -119,15 +119,18 @@ class ilPermission2GUI
 		global $ilTabs;
 
 		$perm = ($a_cmd == 'perm') ? true : false;
+		$perm_positions = ($a_cmd == 'perm_positions') ? true : false;
 		$info = ($a_cmd == 'perminfo') ? true : false;
 		$owner = ($a_cmd == 'owner') ? true : false;
 		$log = ($a_cmd == 'log') ? true : false;
 
 		$ilTabs->addSubTabTarget("permission_settings", $this->ctrl->getLinkTarget($this, "perm"),
 								 "", "", "", $perm);
-								 
+
 		#$ilTabs->addSubTabTarget("permission_settings", $this->ctrl->getLinkTarget($this, "perm2"),
 		#							 "", "", "", $perm);
+
+		$ilTabs->addSubTabTarget("position_permission_settings", $this->ctrl->getLinkTarget($this, "perm_positions"), "", "", "", $perm_positions);
 								 
 		$ilTabs->addSubTabTarget("info_status_info", $this->ctrl->getLinkTargetByClass(array(get_class($this),"ilobjectpermissionstatusgui"), "perminfo"),
 								 "", "", "", $info);
