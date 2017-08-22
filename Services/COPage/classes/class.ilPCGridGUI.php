@@ -24,13 +24,13 @@ class ilPCGridGUI extends ilPageContentGUI
 	 * @param $a_hier_id
 	 * @param string $a_pc_id
 	 */
-	function ilPCGridGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
+	function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
 		global $ilToolbar, $ilTabs;
 
 		$this->toolbar = $ilToolbar;
 		$this->tabs = $ilTabs;
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 	
 	/**
