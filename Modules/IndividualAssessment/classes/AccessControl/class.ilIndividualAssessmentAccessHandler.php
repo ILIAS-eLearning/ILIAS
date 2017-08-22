@@ -91,13 +91,13 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 	}
 
 	/**
-	 * User view iass
+	 * User view iass object
 	 *
 	 * @param bool 	$use_cache
 	 *
 	 * @return bool
 	 */
-	public function mayViewIass($use_cache = true)
+	public function mayViewObject($use_cache = true)
 	{
 		if ($use_cache) {
 			return $this->cacheCheckAccessToObj('read');
@@ -113,7 +113,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 	 *
 	 * @return bool
 	 */
-	public function mayEditIass($use_cache = true)
+	public function mayEditObject($use_cache = true)
 	{
 		if ($use_cache) {
 			return $this->cacheCheckAccessToObj('write');
@@ -129,7 +129,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 	 *
 	 * @return bool
 	 */
-	public function mayEditPermissionsIass($use_cache = true)
+	public function mayEditPermissions($use_cache = true)
 	{
 		if ($use_cache) {
 			return $this->cacheCheckAccessToObj('edit_permission');

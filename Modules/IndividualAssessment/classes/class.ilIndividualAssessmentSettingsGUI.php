@@ -46,7 +46,7 @@ class ilIndividualAssessmentSettingsGUI {
 			case 'cancel':
 			case 'editInfo':
 			case 'updateInfo':
-				if(!$this->iass_access->mayEditIass()) {
+				if(!$this->iass_access->mayEditObject()) {
 					$this->parent_gui->handleAccessViolation();
 				}
 				$this->$cmd();

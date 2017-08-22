@@ -86,7 +86,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 				$this->ctrl->forwardCommand($info);
 				break;
 			case 'illearningprogressgui':
-				if(!$this->iass_access->mayViewIass()) {
+				if(!$this->iass_access->mayViewObject()) {
 					$this->handleAccessViolation();
 				}
 				require_once 'Services/Tracking/classes/class.ilLearningProgressGUI.php';
@@ -214,13 +214,13 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 	}
 
 	public function getTabs() {
-		if($this->iass_access->mayViewIass()) {
+		if($this->iass_access->mayViewObject()) {
 			$this->tabs_gui->addTab( self::TAB_INFO
 									, $this->lng->txt('info_short')
 									, $this->getLinkTarget('info')
 									);
 		}
-		if($this->iass_access->mayEditIass()) {
+		if($this->iass_access->mayEditObject()) {
 			$this->tabs_gui->addTab( self::TAB_SETTINGS
 									, $this->lng->txt('settings')
 									, $this->getLinkTarget('settings')
@@ -245,7 +245,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 									);
 		}
 
-		if($this->iass_access->mayEditIass())
+		if($this->iass_access->mayEditObject())
 		{
 			$this->tabs_gui->addTarget(
 				self::TAB_EXPORT,
@@ -255,7 +255,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 			);
 		}
 
-		if($this->iass_access->mayEditPermissionsIass()) {
+		if($this->iass_access->mayEditPermissions()) {
 			$this->tabs_gui->addTarget(self::TAB_PERMISSION
 									, $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm')
 									, array()
@@ -316,7 +316,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 
 	public function addToNavigationHistory() {
 		if(!$this->getCreationMode()) {
-			if($this->iass_access->mayViewIass()) {
+			if($this->iass_access->mayViewObject()) {
 				$link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");
 				$this->ilNavigationHistory->addItem($_GET['ref_id'], $link, 'iass');
 			}
