@@ -423,10 +423,11 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @return bool
 	 */
 	public function tableColumnExists($table_name, $column_name) {
-		$statement = $this->pdo->query("SHOW COLUMNS FROM $table_name WHERE Field = '$column_name'");
-		$statement != null ? $statement->closeCursor() : "";
+		$fields = $this->loadModule(ilDBConstants::MODULE_MANAGER)->listTableFields($table_name);
 
-		return $statement != null && $statement->rowCount() != 0;
+		$in_array = in_array($column_name, $fields);
+
+		return $in_array;
 	}
 
 
