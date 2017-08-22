@@ -19209,3 +19209,52 @@ if (!$ilDB->tableColumnExists('iass_members', 'event_time')) {
 	));
 }
 ?>
+<#5110>
+<?php
+
+if(!$ilDB->tableColumnExists("il_object_def", "orgunit_permissions"))
+{
+	$def = array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		);
+	$ilDB->addTableColumn("il_object_def", "orgunit_permissions", $def);
+})(\
+
+$ilCtrlStructureReader->getStructure();
+?>
+<#5112>
+<?php
+if(!$ilDB->tableExists('orgu_obj_type_settings') )
+{
+	$ilDB->createTable('orgu_obj_type_settings', array(
+		'obj_type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true
+		),
+		'active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'activation_default' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'changeable' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		)
+		)
+	);
+	$ilDB->addPrimaryKey('orgu_obj_type_settings', array('obj_type'));
+}
+?>
