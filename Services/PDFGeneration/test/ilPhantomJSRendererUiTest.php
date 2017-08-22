@@ -59,14 +59,6 @@ class ilPhantomJSRendererUiTest  extends PHPUnit_Framework_TestCase
 		$this->assertSame('javascript_delay', $transformer->invokeArgs($this->form, array())->getPostVar());
 	}
 
-	public function testBuildZoomForm()
-	{
-		$transformer = self::getMethod('buildZoomForm');
-		$this->assertInstanceOf('ilTextInputGUI', $transformer->invokeArgs($this->form, array()));
-		$this->assertSame('zoom', $transformer->invokeArgs($this->form, array())->getTitle());
-		$this->assertSame('zoom', $transformer->invokeArgs($this->form, array())->getPostVar());
-	}
-
 	public function testBuildMarginForm()
 	{
 		$transformer = self::getMethod('buildMarginForm');

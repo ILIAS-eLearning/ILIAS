@@ -1,77 +1,11 @@
-var ilPhantomJsWrapper =  (function () {
-	'use strict';
-
-	var pub = {},
-		pro = {
-			phantom_page	: {},
-			status			: '',
-			out_file		: '',
-			delay			: 500
-		};
-
-	pub.exitPhantom = function(exit_code)
-	{
-		phantom.exit(exit_code);
-	};
-
-	pub.callbackPhantomAndReturnValue = function(callback_function)
-	{
-		return phantom.callback(callback_function);
-	};
-
-	pub.initWebPageObject = function()
-	{
-		pro.phantom_page = require('webpage').create();
-	};
-
-	pub.configurePageObject = function(object)
-	{
-		pro.phantom_page.paperSize = object;
-	};
-
-	pub.configureViewport = function(viewport)
-	{
-		pro.phantom_page.viewportSize =
-			{
-				width:  viewport[0],
-				height: viewport[1]
-			};
-		pro.phantom_page.clipRect = {top: 0, left: 0, width: viewport[0], height: viewport[1]};
-	};
-
-	pub.renderPageObject = function(src_file, out_file, delay)
-	{
-		pro.out_file	= out_file;
-		pro.delay		= delay;
-
-		pro.phantom_page.open(src_file, function (status)
-		{
-			if (status !== 'success')
-			{
-				console.log('Unable to load the address!');
-				pub.exitPhantom(1);
-			}
-			else
-			{
-				window.setTimeout(function () {
-					pro.phantom_page.render(pro.out_file);
-					pub.exitPhantom(0);
-				}, pro.delay);
-			}
-		});
-
-	};
-	pub.protect = pro;
-	return pub;
-}());
-
-var ilPhantomJsHelper =  (function () {
+var PhantomJsHelper =  (function () {
 	'use strict';
 
 	var pub = {
-		version 			: '0.0.2'
+		version 			: '0.0.1'
 	}, pro = {
 		json							: {},
+		phantom_page					: {},
 		src_file						: '',
 		out_file						: '',
 		element_type					: 'h4',
@@ -89,7 +23,7 @@ var ilPhantomJsHelper =  (function () {
 	};
 
 	pro.addHeaderCallbackFunction = function () {
-		return ilPhantomJsWrapper.callbackPhantomAndReturnValue(function (pageNum, numPages) {
+		return	phantom.callback(function (pageNum, numPages) {
 			var element = document.createElement(pro.element_type);
 			if(pro.shouldHeaderAndFooterBePrintedForFirstPage(pageNum))
 			{
@@ -115,7 +49,7 @@ var ilPhantomJsHelper =  (function () {
 	};
 
 	pro.addFooterCallbackFunction = function () {
-		return ilPhantomJsWrapper.callbackPhantomAndReturnValue(function (pageNum, numPages) {
+		return	phantom.callback(function (pageNum, numPages) {
 			var element = document.createElement(pro.element_type);
 			if(pro.shouldHeaderAndFooterBePrintedForFirstPage(pageNum))
 			{
@@ -140,46 +74,76 @@ var ilPhantomJsHelper =  (function () {
 		var viewport;
 		if (pro.json.viewport !== null)
 		{
-			viewport = pro.json.viewport.split('*');
-			if(viewport.length === 2)
+			viewport = json.viewport.split('*');
+			if(size.length === 2)
 			{
-				ilPhantomJsWrapper.configureViewport(viewport);
+				pro.phantom_page.viewportSize =
+					{
+						width:  viewport[0],
+						height: viewport[1]
+					};
+				pro.phantom_page.clipRect = {top: 0, left: 0, width: viewport[0], height: viewport[1]};
 				return true;
 			}
 		}
 		return false;
 	};
 
-	pro.configurePage = function() {
+	pro.initPhantomWebPageObject = function()
+	{
+		pro.phantom_page = require('webpage').create();
+	};
+
+	pro.configurePhantomWebPage = function()
+	{
 		var size = pro.json.page_size.split('*');
-		var page_object = {};
-		if (!pro.checkForViewportSetting()) {
-			if (size.length === 2) {
-				page_object = {
-					width:  size[0],
-					height: size[1],
-					margin: pro.json.margin,
-					header: pro.appendHeaderCallback(),
-					footer: pro.appendFooterCallback()
+		if( ! pro.checkForViewportSetting())
+		{
+			if(size.length === 2)
+			{
+				pro.phantom_page.paperSize = {
+					width	:	size[0],
+					height	:	size[1],
+					margin	:	pro.json.margin,
+					header	:	pro.appendHeaderCallback(),
+					footer	:	pro.appendFooterCallback()
 				};
 			}
-			else {
-				page_object = {
-					format:      size,
-					orientation: pro.json.orientation,
-					margin:      pro.json.margin,
-					header:      pro.appendHeaderCallback(),
-					footer:      pro.appendFooterCallback()
+			else
+			{
+				pro.phantom_page.paperSize = {
+					format		:	size,
+					orientation	:	pro.json.orientation,
+					margin		:	pro.json.margin,
+					header		:	pro.appendHeaderCallback(),
+					footer		:	pro.appendFooterCallback()
 				};
 			}
-			ilPhantomJsWrapper.configurePageObject(page_object);
-			return page_object;
 		}
 	};
 
-	pro.renderPage = function()
+	pro.renderPhantomPage = function()
 	{
-		ilPhantomJsWrapper.renderPageObject(pro.src_file, pro.out_file, pro.json.delay);
+		pro.phantom_page.open(pro.src_file, function (status)
+		{
+			if (status !== 'success')
+			{
+				console.log('Unable to load the address!');
+				pub.exitPhantom(1);
+			}
+			else
+			{
+				window.setTimeout(function () {
+					pro.phantom_page.render(pro.out_file);
+					pub.exitPhantom(0);
+				}, pro.json.delay);
+			}
+		});
+	};
+
+	pub.exitPhantom = function(exit_code)
+	{
+		phantom.exit(exit_code);
 	};
 
 	pub.Init = function(src_file, out_file, json)
@@ -189,39 +153,32 @@ var ilPhantomJsHelper =  (function () {
 		}
 		catch(error){
 			console.log('Config error no valid JSON given: ' + error);
-			ilPhantomJsWrapper.exitPhantom(1);
+			pub.exitPhantom(1);
 		}
 		pro.src_file = src_file;
 		pro.out_file = out_file;
-		ilPhantomJsWrapper.initWebPageObject();
-		pro.configurePage();
-		pro.renderPage();
+		pro.initPhantomWebPageObject();
+		pro.configurePhantomWebPage();
+		pro.renderPhantomPage();
 	};
 
 	pub.protect = pro;
 	return pub;
 }());
 
-var ilPhantomJsRun =  (function () {
-	'use strict';
+system = require('system');
 
-	if (typeof window.__karma__ === 'undefined' && typeof window.jasmine === 'undefined') {
-
-		var system = require('system');
-
-		if(system.args.length === 4)
-		{
-			ilPhantomJsHelper.Init(system.args[1], system.args[2], system.args[3]);
-		}
-		else if(system.args.length === 2 && system.args[1] === 'version')
-		{
-			console.log(ilPhantomJsHelper.version);
-			ilPhantomJsWrapper.exitPhantom(0);
-		}
-		else
-		{
-			console.log('Wrong number of arguments!');
-			ilPhantomJsWrapper.exitPhantom(1);
-		}
-	}
-}());
+if(system.args.length === 4)
+{
+	PhantomJsHelper.Init(system.args[1], system.args[2], system.args[3]);
+}
+else if(system.args.length === 2 && system.args[1] === 'version')
+{
+	console.log(PhantomJsHelper.version)
+	PhantomJsHelper.exitPhantom(0);
+}
+else
+{
+	console.log('Wrong number of arguments!');
+	PhantomJsHelper.exitPhantom(1);
+}

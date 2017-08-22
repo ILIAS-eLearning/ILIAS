@@ -40,11 +40,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	protected $page_size;
 
 	/**
-	 * @var float
-	 */
-	protected $zoom;
-
-	/**
 	 * @var string
 	 */
 	protected $orientation;
@@ -123,6 +118,11 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	}
 
 	/**
+	 * @var string
+	 */
+	protected $do_not_validate_ssl = ' --ssl-protocol=any --ignore-ssl-errors=true ';
+
+	/**
 	 * from ilRendererConfig
 	 *
 	 * @param \ilPropertyFormGUI $form
@@ -139,7 +139,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 
 		$form->addItem($this->buildJavascriptDelayForm());
 		$form->addItem($this->buildPageSettingsHeader());
-		$form->addItem($this->buildZoomForm());
 		$form->addItem($this->buildMarginForm());
 		$form->addItem($this->buildPrintMediaTypeForm());
 		$form->addItem($this->buildOrientationForm());
@@ -180,7 +179,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	{
 		$form->getItemByPostVar('path')->setValue($config['path']);
 		$form->getItemByPostVar('page_size')->setValue($config['page_size']);
-		$form->getItemByPostVar('zoom')->setValue($config['zoom']);
 		$form->getItemByPostVar('margin')->setValue($config['margin']);
 		$form->getItemByPostVar('print_media_type')->setValue(1);
 		$form->getItemByPostVar('print_media_type')->setChecked($config['print_media_type']);
@@ -231,7 +229,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$config = array();
 		$config['path'] =$form->getItemByPostVar('path')->getValue();
 		$config['page_size'] = $form->getItemByPostVar('page_size')->getValue();
-		$config['zoom'] = $form->getItemByPostVar('zoom')->getValue();
 		$config['margin'] =$form->getItemByPostVar('margin')->getValue();
 		$config['print_media_type'] = $form->getItemByPostVar('print_media_type')->getChecked();
 		$config['javascript_delay'] = $form->getItemByPostVar('javascript_delay')->getValue();
@@ -261,7 +258,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$config = array();
 		$config['path'] = '/usr/local/bin/phantomjs';
 		$config['page_size'] = 'A4';
-		$config['zoom'] = 1;
 		$config['margin'] = '1cm';
 		$config['print_media_type'] = 1;
 		$config['javascript_delay'] = 200;
@@ -314,7 +310,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 			$temp_file = $this->getPdfTempName();
 
 			$args = ' ' . $a_path_to_file .' ' . $temp_file . ' ' . $this->getCommandLineConfig($config);
-			$return_value = ilUtil::execQuoted( $config['path'] , ' ' . $this->path_to_rasterize . ' ' . $args);
+			$return_value = ilUtil::execQuoted( $config['path'] , $this->do_not_validate_ssl . ' ' . $this->path_to_rasterize . ' ' . $args);
 
 			$ilLog->write('ilPhantomJsHtmlToPdfTransformer command line config: ' . $args);
 			foreach($return_value as $key => $value)
@@ -442,16 +438,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	}
 
 	/**
-	 * @return ilTextInputGUI
-	 */
-	protected function buildZoomForm()
-	{
-		$zoom = new ilTextInputGUI($this->lng->txt('zoom'), 'zoom');
-		$zoom->setValue($this->zoom);
-		return $zoom;
-	}
-
-	/**
 	 * @return ilFormSectionHeaderGUI
 	 */
 	protected function buildPageSettingsHeader()
@@ -537,7 +523,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		}
 
 		$r_config['page_size']		= $config['page_size'];
-		$r_config['zoom']			= $config['zoom'];
 		$r_config['orientation']	= $config['orientation'];
 		$r_config['margin']			= $config['margin'];
 		$r_config['delay']			= $config['javascript_delay'];
