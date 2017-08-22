@@ -155,7 +155,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	 * @param
 	 * @return
 	 */
-	function listPlugins()
+	protected function listPlugins()
 	{
 		global $tpl, $ilTabs;
 
@@ -168,7 +168,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	/**
 	 * Show information about a plugin slot.
 	 */
-	function showPluginSlotInfo()
+	protected function showPluginSlotInfo()
 	{
 		global $tpl,$lng, $ilTabs, $ilCtrl;
 
@@ -240,7 +240,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		$tpl->setDescription("");
 	}
 
-	function showPlugin()
+	protected function showPlugin()
 	{
 		global $ilCtrl, $ilTabs, $lng, $tpl, $ilDB, $ilToolbar;
 
@@ -453,7 +453,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	/**
 	* Activate a plugin.
 	*/
-	function activatePlugin()
+	protected function activatePlugin()
 	{
 		global $ilCtrl, $lng;
 
@@ -496,7 +496,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	/**
 	* Update a plugin.
 	*/
-	function updatePlugin()
+	protected function updatePlugin()
 	{
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
@@ -541,7 +541,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	/**
 	* Deactivate a plugin.
 	*/
-	function deactivatePlugin()
+	protected function deactivatePlugin()
 	{
 		global $ilCtrl, $lng;
 
@@ -578,7 +578,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	/**
 	* Refresh Languages
 	*/
-	function refreshLanguages()
+	protected function refreshLanguages()
 	{
 		global $ilCtrl;
 
@@ -608,7 +608,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		}
 	}
 
-	function confirmUninstallPlugin()
+	protected function confirmUninstallPlugin()
 	{
 		global $ilCtrl, $tpl, $ilPluginAdmin;
 
@@ -641,7 +641,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		$tpl->setContent($confirmation_gui->getHTML());
 	}
 
-	function uninstallPlugin()
+	protected function uninstallPlugin()
 	{
 		global $ilCtrl;
 
