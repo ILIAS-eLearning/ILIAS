@@ -14,6 +14,14 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+orgu#:#orgu_global_set_form#:#Global Organisational Unit Settings
+orgu#:#orgu_global_set_positions#:#Show User Data according to Organisational Unit Positions
+orgu#:#orgu_global_set_positions_type_active#:#Active for:
+orgu#:#orgu_global_set_type_changeable#:#Changeable
+orgu#:#orgu_global_set_type_changeable_object#:#Setting is changeable on object level
+orgu#:#orgu_global_set_type_changeable_no#:#Setting is not changeable
+orgu#:#orgu_global_set_type_default#:#Default Setting
+orgu#:#orgu_global_set_type_default_info#:#Define the default for unconfigured objects
 rbac#:#il_sess_participant#:#Session Participant
 rbac#:#il_sess_status_closed#:#Non-Participant Closed Session
 meta#:#udf_type_externallink#:#External Link
@@ -1829,6 +1837,7 @@ common#:#condition_finished#:#Finished
 common#:#condition_not_finished#:#Not finished
 common#:#condition_passed#:#Passed
 common#:#condition_select_object#:#Please select one object.
+common#:#condition_accredited_or_passed#:#Accredited or Passed
 common#:#condition#:#Condition
 common#:#conditions_updated#:#Conditions saved
 common#:#confirm_delete_parameter#:#Do you really want to delete the parameter?

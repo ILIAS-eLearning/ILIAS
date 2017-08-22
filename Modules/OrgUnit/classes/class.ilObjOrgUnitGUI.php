@@ -23,6 +23,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	const TAB_ORGU_TYPES = 'orgu_types';
 	const TAB_SETTINGS = "settings";
 	const TAB_STAFF = 'orgu_staff';
+	const TAB_GLOBAL_SETTINGS = 'global_settings';
+	const TAB_EXPORT = 'export';
 	/**
 	 * @var ilCtrl
 	 */
@@ -104,6 +106,11 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}
 
 		switch ($next_class) {
+			case 'ilorgunitglobalsettingsgui':
+				$this->tabs_gui->activateTab(self::TAB_GLOBAL_SETTINGS);
+				$global_settings = new ilOrgUnitGlobalSettingsGUI();
+				$this->ctrl->forwardCommand($global_settings);
+				break;
 			case "illocalusergui":
 				if (!ilObjOrgUnitAccess::_checkAccessAdministrateUsers((int)$_GET['ref_id'])) {
 					ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
@@ -207,7 +214,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 			case 'ilorgunitexportgui':
-				$this->tabs_gui->setTabActive('export');;
+				$this->tabs_gui->setTabActive(self::TAB_EXPORT);;
 				$ilOrgUnitExportGUI = new ilOrgUnitExportGUI($this);
 				$ilOrgUnitExportGUI->addFormat('xml');
 				$this->ctrl->forwardCommand($ilOrgUnitExportGUI);
@@ -454,7 +461,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}
 
 		if ($write_access_ref_id) {
-			$this->tabs_gui->addTarget('export', $this->ctrl->getLinkTargetByClass('ilorgunitexportgui', ''), 'export', 'ilorgunitexportgui');
+			$this->tabs_gui->addTab(self::TAB_GLOBAL_SETTINGS, $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass(ilOrgUnitGlobalSettingsGUI::class));
+			$this->tabs_gui->addTab(self::TAB_EXPORT, $this->lng->txt(self::TAB_EXPORT), $this->ctrl->getLinkTargetByClass(ilOrgUnitExportGUI::class));
 
 			// Add OrgUnit types and positions tabs
 			if ($this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {

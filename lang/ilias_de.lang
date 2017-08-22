@@ -14,6 +14,14 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+orgu#:#orgu_global_set_form#:#Globale Einstellungen 
+orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
+orgu#:#orgu_global_set_positions_type_active#:#Aktiv für:
+orgu#:#orgu_global_set_type_changeable#:#Aktivierung
+orgu#:#orgu_global_set_type_changeable_object#:#De/Aktivierung auf Objektebene
+orgu#:#orgu_global_set_type_changeable_no#:#Nicht deaktivierbar
+orgu#:#orgu_global_set_type_default#:#Standardwert
+orgu#:#orgu_global_set_type_default_info#:#Legen Sie den Standardwert für neue Objekte fest.
 rbac#:#il_sess_participant#:#Sitzungsteilnehmer
 rbac#:#il_sess_status_closed#:#Nicht-Teilnehmer geschlossene Sitzung
 meta#:#md_adv_scope#:#Gültigkeitsbereich
@@ -2762,6 +2770,7 @@ common#:#condition_passed#:#Bestanden
 common#:#condition_precondition#:#Vorbedingungen:
 common#:#condition_select_object#:#Bitte wählen Sie das Objekt aus, das für die Vorbedingung genutzt werden soll.
 common#:#condition_select_one#:#-Bitte wählen Sie eine Bedingung aus-
+common#:#condition_accredited_or_passed#:#Akkreditiert oder Bestanden
 common#:#condition_update#:#Speichern
 common#:#conditions_updated#:#Die Bedingungen wurden gespeichert.
 common#:#confirm#:#Bestätigen
