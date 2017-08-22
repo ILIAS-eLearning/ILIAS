@@ -101,6 +101,11 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}
 
 		switch ($next_class) {
+			case 'ilorgunitglobalsettingsgui':
+				$this->tabs_gui->activateTab('global_settings');
+				$global_settings = new ilOrgUnitGlobalSettingsGUI();
+				$this->ctrl->forwardCommand($global_settings);
+				break;
 			case "illocalusergui":
 				if (!ilObjOrgUnitAccess::_checkAccessAdministrateUsers((int)$_GET['ref_id'])) {
 					ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
@@ -441,6 +446,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}
 
 		if ($this->ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+			
+			$this->tabs_gui->addTab('global_settings', $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass('ilOrgUnitGlobalSettingsGUI'));
 			$this->tabs_gui->addTarget('export', $this->ctrl->getLinkTargetByClass('ilorgunitexportgui', ''), 'export', 'ilorgunitexportgui');
 
 			// Add OrgUnit types tab
