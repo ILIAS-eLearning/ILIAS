@@ -607,11 +607,6 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 			false, false, true, false, $ctrl_path);
 	}
 
-	function getAppointment()
-	{
-		return $this->appointment;
-	}
-
 	/**
 	 * Download files from an appointment
 	 */
@@ -623,7 +618,7 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 		$download_job->setEvents(array($this->appointment));
 		$download_job->run();
 
-		$GLOBALS['DIC']->ctrl()->returnToParent($this);
+		$this->ctrl->returnToParent($this);
 	}
 
 }
