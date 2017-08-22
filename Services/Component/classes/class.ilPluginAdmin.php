@@ -209,7 +209,9 @@ class ilPluginAdmin
 	}
 
 	/**
-	 * Set plugin data according current db state
+	 * Set current state to static values,
+	 * excluding active and activatoin possible. There will be set from
+	 * db value $active
 	 *
 	 * @param string[] &$plugin_data
 	 * @param bool 	$active
