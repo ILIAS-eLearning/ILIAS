@@ -247,7 +247,7 @@ class ilPluginSlot
 					$plugin = array_merge($plugin, $pdata);
 
 					$plugin["name"] = $file;
-					$plugin["plugin_php_file_status"] = true;
+					$plugin["plugin_php_file_status"] = $this->checkPluginPhpFileAvailability($file);
 					$plugin["class_file_status"] = $this->checkClassFileAvailability($file);
 					$plugin["class_file"] = $this->getPluginClassFileName($file);
 					
