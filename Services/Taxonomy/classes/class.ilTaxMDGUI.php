@@ -23,7 +23,7 @@ class ilTaxMDGUI
 	 * @param int $a_md_obj_type
 	 * @return self
 	 */
-	public function __construct($a_md_rbac_id, $a_md_obj_id, $a_md_obj_type)
+	public function __construct($a_md_rbac_id, $a_md_obj_id, $a_md_obj_type, $a_ref_id)
 	{
 		global $DIC;
 
@@ -34,7 +34,8 @@ class ilTaxMDGUI
 
 		$this->md_rbac_id = $a_md_rbac_id;
 		$this->md_obj_id = $a_md_obj_id;
-		$this->md_obj_type = $a_md_obj_type;				
+		$this->md_obj_type = $a_md_obj_type;
+		$this->ref_id = $a_ref_id;
 	}
 
 	/**
@@ -127,16 +128,16 @@ class ilTaxMDGUI
 	{
 		global $objDefinition, $tree;
 		
-		if($objDefinition->isRBACObject($this->md_obj_type))
+		if($this->ref_id > 0 && $objDefinition->isRBACObject($this->md_obj_type))
 		{
 			$res = array();
 			
 			// see ilTaxonomyBlockGUI::getActiveTaxonomies()
 						
 			// get all active taxonomies of parent objects
-			foreach($tree->getPathFull((int)$_REQUEST["ref_id"]) as $node)
+			foreach($tree->getPathFull((int)$this->ref_id) as $node)
 			{
-				if ($node["ref_id"] != (int)$_REQUEST["ref_id"])
+				if ($node["ref_id"] != (int)$this->ref_id)
 				{
 					// currently only active for categories
 					if ($node["type"] == "cat")

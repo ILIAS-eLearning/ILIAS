@@ -403,7 +403,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 					$this->lng->txt("meta_data"),
 					$mdtab);
 			}
-			
+
+			/*
 			include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
 			if(ilContainer::_lookupContainerSetting(
 						$this->object->getId(),
@@ -413,7 +414,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			{
 				$this->tabs_gui->addTarget("obj_tool_setting_taxonomies",
 					$this->ctrl->getLinkTarget($this, "editTaxonomySettings"), "editTaxonomySettings", get_class($this));
-			}
+			}*/
 		}				
 
 		include_once './Services/User/classes/class.ilUserAccountSettings.php';

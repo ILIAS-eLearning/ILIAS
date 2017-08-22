@@ -80,7 +80,7 @@ class ilObjectMetaDataGUI
 			{
 				// (parent) container taxonomies?
 				include_once "Services/Taxonomy/classes/class.ilTaxMDGUI.php";
-				$this->tax_md_gui = new ilTaxMDGUI($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType());
+				$this->tax_md_gui = new ilTaxMDGUI($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType(),$this->ref_id);
 				$tax_ids = $this->tax_md_gui->getSelectableTaxonomies();
 				if(!is_array($tax_ids) || count($tax_ids) == 0)
 				{
