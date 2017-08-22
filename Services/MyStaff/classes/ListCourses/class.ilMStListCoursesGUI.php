@@ -1,5 +1,6 @@
 <?php
 require_once("class.ilMStListCoursesTableGUI.php");
+require_once("Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
 
 /**
  * GUI-Class Table ilMStListCoursesGUI
@@ -7,6 +8,7 @@ require_once("class.ilMStListCoursesTableGUI.php");
  * @author Martin Studer <ms@studer-raimann.ch>
  *
  * @ilCtrl_IsCalledBy ilMStListCoursesGUI: ilMyStaffGUI
+ * @ilCtrl_Calls ilMStListCoursesGUI:ilFormPropertyDispatchGUI
  */
 class ilMStListCoursesGUI {
 
@@ -52,18 +54,25 @@ class ilMStListCoursesGUI {
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass();
 
+
+
 		switch($next_class) {
+            case 'ilformpropertydispatchgui':
+                $table = new ilMStListCoursesTableGUI($this, 'index');
+                $table->executeCommand();
+                break;
 			default:
 				switch ($cmd) {
 					case 'resetFilter':
 					case 'applyFilter':
                     case 'index':
-						$this->$cmd();
+                        $this->$cmd();
 						break;
 					default:
 						$this->index();
 						break;
 				}
+                break;
 		}
 	}
 
@@ -92,6 +101,11 @@ class ilMStListCoursesGUI {
 		$this->table->resetFilter();
 		$this->index();
 	}
+
+    public function getId() {
+        $this->table = new ilMStListCoursesTableGUI($this, 'resetFilter');
+        return $this->table->getId();
+    }
 
 	public function cancel() {
 		$this->ctrl->redirect($this);

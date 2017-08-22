@@ -122,14 +122,13 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 
 
         // User name, login, email filter
-        $item = new ilTextInputGUI($this->lng->txt("login")."/".$this->lng->txt("email")."/".$this->lng->txt("name"), "query");
+        $item = new ilTextInputGUI($this->lng->txt("login")."/".$this->lng->txt("email")."/".$this->lng->txt("name"), "user");
         //$item->setDataSource($this->ctrl->getLinkTarget($this->getParentObject(),"addUserAutoComplete", "", true));
         //$item->setSize(20);
         //$item->setSubmitFormOnEnter(true);
         $this->addFilterItem($item);
         $item->readFromSession();
         $this->filter['user'] = $item->getValue();
-
 
 
 

@@ -49,6 +49,7 @@ class ilMyStaffGUI
         // determine next class in the call structure
         $next_class = $ilCtrl->getNextClass($this);
 
+
         switch($next_class)
         {
             case 'ilmstlistcoursesgui':

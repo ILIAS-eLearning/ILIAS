@@ -12,6 +12,7 @@ require_once "class.ilMStListCourse.php";
  *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @version 1.0.0
+ *
  */
 class ilMStListCoursesTableGUI extends ilTable2GUI {
 
@@ -34,7 +35,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @param ilMStListUsersGUI $parent_obj
+	 * @param ilMStListCoursesGUI $parent_obj
 	 * @param string $parent_cmd
 	 */
 	public function __construct($parent_obj, $parent_cmd = "index") {
@@ -54,6 +55,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		$this->setId('myst_lc');
 
 		parent::__construct($parent_obj, $parent_cmd, '');
+
 		//$this->addMultiCommand('multiUserAccreditation', $this->pl->txt('accr_create_courses'));
 		$this->setRowTemplate('tpl.default_row.html',"Services/MyStaff");
 		//$this->setFormAction($this->ctrl->getFormAction($parent_obj));
@@ -71,6 +73,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 
 		$this->setFilterCols(4);
 		$this->initFilter();
+
 		$this->addColumns();
 
 		$this->parseData();
@@ -107,11 +110,32 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 
 	public function initFilter() {
 
-		//User
-		$item = new ilTextInputGUI($this->lng->txt('usr'), 'user');
-		$this->addFilterItem($item);
-		$item->readFromSession();
-		$this->filter['usr_lastname'] = $item->getValue();
+        $item = new ilTextInputGUI($this->lng->txt("crs_title"), "crs_title");
+        $this->addFilterItem($item);
+        $item->readFromSession();
+        $this->filter['crs_title'] = $item->getValue();
+
+        // course members
+        include_once("./Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
+        $item = new ilRepositorySelectorInputGUI($this->lng->txt("user_member_of_course_group"), "course");
+        $item->setParent($this->getParentObject());
+        $item->setSelectText($this->lng->txt("user_select_course_group"));
+        $item->setHeaderMessage($this->lng->txt("user_please_select_course_group"));
+        $item->setClickableTypes(array("crs"));
+        $this->addFilterItem($item);
+        $item->readFromSession();
+        $item->setParent($this->getParentObject());
+        $this->filter["course"] = $item->getValue();
+
+        $item = new ilTextInputGUI($this->lng->txt("login")."/".$this->lng->txt("email")."/".$this->lng->txt("name"), "user");
+        //$item->setDataSource($this->ctrl->getLinkTarget($this->getParentObject(),"addUserAutoComplete", "", true));
+        //$item->setSize(20);
+        //$item->setSubmitFormOnEnter(true);
+        $this->addFilterItem($item);
+        $item->readFromSession();
+        $this->filter['user'] = $item->getValue();
+
+
 
 		//OrganisationalUnit
         /*
