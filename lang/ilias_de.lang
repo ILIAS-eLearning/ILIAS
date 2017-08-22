@@ -16017,6 +16017,8 @@ pdfgen#:#margin_top#:#Margin Oben
 pdfgen#:#margin_right#:#Margin Rechts
 pdfgen#:#margin_bottom#:#Margin Unten
 pdfgen#:#zoom#:#Zoom
+pdfgen#:#javascript_delay#:#Javascript Verzögerung
+pdfgen#:#page_size#:#Seitengröße
 pdfgen#:#reset_to_default#:#Default Einstellungen laden
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Loginversuche deaktiviert. 
