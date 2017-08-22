@@ -66,6 +66,11 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	protected $sp_user_progress_db;
 
+	/**
+	 * @var ilStudyProgrammeUserProgress[]
+	 */
+	protected $progress_objects;
+
 	public function __construct($a_parent_gui, $a_ref_id, ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
 		global $DIC;
 		$tpl = $DIC['tpl'];
@@ -508,11 +513,11 @@ class ilObjStudyProgrammeMembersGUI {
 	protected function getProgressObject($prgrs_id)
 	{
 		assert('is_int($prgrs_id)');
-		if (!array_key_exists($prgrs_id, $this->progress_object)) {
+		if (!array_key_exists($prgrs_id, $this->progress_objects)) {
 			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
-			$this->progress_object[$prgrs_id] = $this->sp_user_progress_db->getInstanceById($id);
+			$this->progress_objects[$prgrs_id] = $this->sp_user_progress_db->getInstanceById($id);
 		}
-		return $this->progress_object[$prgrs_id];
+		return $this->progress_objects[$prgrs_id];
 	}
 
 	/**
