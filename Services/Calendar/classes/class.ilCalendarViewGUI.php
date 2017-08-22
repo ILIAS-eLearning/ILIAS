@@ -296,7 +296,7 @@ class ilCalendarViewGUI
 	}
 
 	/**
-	 * Download files
+	 * Download files related to the appointments showed in the current calendar view (day,week,month,list). Not modals
 	 */
 	function downloadFiles()
 	{

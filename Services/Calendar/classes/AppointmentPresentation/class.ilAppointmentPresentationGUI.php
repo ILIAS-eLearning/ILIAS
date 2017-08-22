@@ -242,9 +242,10 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 			if($settings->isBatchFileDownloadsEnabled())
 			{
 				// file download
+				$this->ctrl->setParameter($this, "app_id", $this->appointment['event']->getEntryId());
 				$add_button = $this->ui->factory()->button()->standard($this->lng->txt("cal_download_files"),
 					$this->ctrl->getLinkTarget($this, "downloadFiles"));
-
+				$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
 				$toolbar->addComponent($add_button);
 				$toolbar->addSeparator();
 			}
@@ -604,6 +605,25 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 
 		return ilUserUtil::getNamePresentation($a_user_id, false, true, $this->ctrl->getParentReturn($this),
 			false, false, true, false, $ctrl_path);
+	}
+
+	function getAppointment()
+	{
+		return $this->appointment;
+	}
+
+	/**
+	 * Download files from an appointment
+	 */
+	function downloadFiles()
+	{
+		include_once './Services/Calendar/classes/BackgroundTasks/class.ilDownloadFilesBackgroundTask.php';
+		$download_job = new ilDownloadFilesBackgroundTask($this->user->getId());
+
+		$download_job->setEvents(array($this->appointment));
+		$download_job->run();
+
+		$GLOBALS['DIC']->ctrl()->returnToParent($this);
 	}
 
 }
