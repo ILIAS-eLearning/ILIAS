@@ -28,7 +28,6 @@ class ilAppointmentCourseFileHandler extends ilAppointmentBaseFileHandler implem
 		$files = array();
 		foreach ($course_files as $course_file)
 		{
-			$course_file['ref_id']
 			//TODO check user access permission
 			//if ($this->access->checkAccessOfUser($this->user->getId(), "read", "", $obj['ref_id']))
 			//{
