@@ -289,7 +289,7 @@ class ilObjStudyProgrammeMembersGUI {
 	{
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 		$prgrs_id = $this->getPrgrsId();
-		$this->accredit($prgrs_id);
+		$this->markAccreditedById($prgrs_id);
 		$this->showSuccessMessage("mark_accredited_success");
 		$this->ctrl->redirect($this, "view");
 	}
@@ -303,7 +303,7 @@ class ilObjStudyProgrammeMembersGUI {
 	{
 		$prgrs_ids = $_POST["prgs_ids"];
 		foreach ($prgrs_ids as $key => $prgrs_id) {
-			$this->accredit((int)$prgrs_id);
+			$this->markAccreditedById((int)$prgrs_id);
 		}
 		$this->showSuccessMessage("mark_accredited_multi_success");
 		$this->ctrl->redirect($this, "view");
@@ -316,7 +316,7 @@ class ilObjStudyProgrammeMembersGUI {
 	 *
 	 * @return null
 	 */
-	protected function accredit($prgrs_id)
+	protected function markAccreditedById($prgrs_id)
 	{
 		$prgrs = $this->getProgressObject($prgrs_id);
 		$prgrs->markAccredited($this->user->getId());
@@ -331,7 +331,7 @@ class ilObjStudyProgrammeMembersGUI {
 	{
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 		$prgrs_id = $this->getPrgrsId();
-		$this->deaccredit($prgrs_id);
+		$this->unmarkAccreditedByProressId($prgrs_id);
 		$this->showSuccessMessage("unmark_accredited_success");
 		$this->ctrl->redirect($this, "view");
 	}
@@ -343,7 +343,7 @@ class ilObjStudyProgrammeMembersGUI {
 	 *
 	 * @return null
 	 */
-	protected function deaccredit($prgrs_id)
+	protected function unmarkAccreditedByProressId($prgrs_id)
 	{
 		$prgrs = $this->getProgressObject($prgrs_id);
 		$prgrs->unmarkAccredited();
@@ -358,7 +358,7 @@ class ilObjStudyProgrammeMembersGUI {
 	{
 		$prgrs_ids = $_POST["prgs_ids"];
 		foreach ($prgrs_ids as $key => $prgrs_id) {
-			$this->deaccredit((int)$prgrs_id);
+			$this->unmarkAccreditedByProressId((int)$prgrs_id);
 		}
 		$this->showSuccessMessage("unmark_accredited_success");
 		$this->ctrl->redirect($this, "view");
@@ -560,7 +560,7 @@ class ilObjStudyProgrammeMembersGUI {
 		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 		return ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
 	}
-	
+
 	/**
 	 * Get the link target for an action on user progress.
 	 * 
