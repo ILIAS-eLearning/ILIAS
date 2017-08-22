@@ -151,12 +151,25 @@ class ilPermissionGUI extends ilPermission2GUI
 		$table->parse();
 		$this->tpl->setContent($table->getHTML());
 	}
+
+	/**
+	 * show position permission table
+	 * @return 
+	 */
+	public function perm_positions()
+	{
+		$this->__initSubTabs("perm_positions");
+
+		$table = new ilObjectPositionPermissionTableGUI($this,'perm',$this->getCurrentObject()->getRefId());
+		$table->collectData();
+		$this->tpl->setContent($table->getHTML());
+	}
 	
 	
 	
 	/**
 	 * Check of current location is administration (main) role folder
-	 * @return 
+	 * @return
 	 */
 	protected function isAdminRoleFolder()
 	{
@@ -864,4 +877,3 @@ class ilPermissionGUI extends ilPermission2GUI
 		return $blocked_info;
 	}
 }
-?>

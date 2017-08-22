@@ -4588,6 +4588,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilObjectPluginAccess' => __DIR__ . '/../..' . '/../../Services/Repository/classes/class.ilObjectPluginAccess.php',
         'ilObjectPluginGUI' => __DIR__ . '/../..' . '/../../Services/Repository/classes/class.ilObjectPluginGUI.php',
         'ilObjectPluginListGUI' => __DIR__ . '/../..' . '/../../Services/Repository/classes/class.ilObjectPluginListGUI.php',
+        'ilObjectPositionPermissionTableGUI' => __DIR__ . '/../..' . '/../../Services/AccessControl/classes/class.ilObjectPositionPermissionTableGUI.php',
         'ilObjectRolePermissionTableGUI' => __DIR__ . '/../..' . '/../../Services/AccessControl/classes/class.ilObjectRolePermissionTableGUI.php',
         'ilObjectRoleTemplateOptionsTableGUI' => __DIR__ . '/../..' . '/../../Services/AccessControl/classes/class.ilObjectRoleTemplateOptionsTableGUI.php',
         'ilObjectRoleTemplatePermissionTableGUI' => __DIR__ . '/../..' . '/../../Services/AccessControl/classes/class.ilObjectRoleTemplatePermissionTableGUI.php',

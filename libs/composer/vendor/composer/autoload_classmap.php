@@ -4444,6 +4444,7 @@ return array(
     'ilObjectPluginAccess' => $baseDir . '/../../Services/Repository/classes/class.ilObjectPluginAccess.php',
     'ilObjectPluginGUI' => $baseDir . '/../../Services/Repository/classes/class.ilObjectPluginGUI.php',
     'ilObjectPluginListGUI' => $baseDir . '/../../Services/Repository/classes/class.ilObjectPluginListGUI.php',
+    'ilObjectPositionPermissionTableGUI' => $baseDir . '/../../Services/AccessControl/classes/class.ilObjectPositionPermissionTableGUI.php',
     'ilObjectRolePermissionTableGUI' => $baseDir . '/../../Services/AccessControl/classes/class.ilObjectRolePermissionTableGUI.php',
     'ilObjectRoleTemplateOptionsTableGUI' => $baseDir . '/../../Services/AccessControl/classes/class.ilObjectRoleTemplateOptionsTableGUI.php',
     'ilObjectRoleTemplatePermissionTableGUI' => $baseDir . '/../../Services/AccessControl/classes/class.ilObjectRoleTemplatePermissionTableGUI.php',
