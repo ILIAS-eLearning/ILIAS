@@ -30,9 +30,21 @@ class ilOrgUnitPosition extends \ActiveRecord {
 
 
 	/**
+	 * @throws \ilException whenever you try to delete a core-position like employee or superior
+	 */
+	public function delete() {
+		if ($this->isCorePosition()) {
+			throw new ilException('Cannot delete Core-Position');
+		}
+		parent::delete();
+	}
+
+
+	/**
 	 * @param int $orgu_ref_id
 	 *
-	 * @return \ilOrgUnitPosition[]
+	 * @return \ilOrgUnitPosition[] array of Positions (all core-positions and all positions which
+	 *                              have already UserAssignements at this place
 	 */
 	public static function getActiveForPosition($orgu_ref_id) {
 		arObjectCache::flush(self::class);
