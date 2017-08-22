@@ -2475,7 +2475,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once 'Services/Mail/classes/class.ilMail.php';
 				$mail = new ilMail($ilUser->getId());
 
-				if(!($this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
+				if(
+					!($this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
 					$ilAccess->checkAccess('manage_members',"",$this->object->getRefId())) &&
 					$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
 				{
@@ -2488,7 +2489,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once './Services/Contact/classes/class.ilMailMemberCourseRoles.php';
 				
 				$mail_search = new ilMailMemberSearchGUI($this, $this->object->getRefId(), new ilMailMemberCourseRoles());
-				$mail_search->setObjParticipants(ilCourseParticipants::_getInstanceByObjId($this->object->getId()));
+				$mail_search->setObjParticipants(
+					ilCourseParticipants::_getInstanceByObjId($this->object->getId()));
 				$this->ctrl->forwardCommand($mail_search);
 				break;
 

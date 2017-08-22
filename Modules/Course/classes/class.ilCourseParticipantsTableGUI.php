@@ -384,7 +384,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		unset($additional_fields['org_units']);
 		
 		$part = $this->participants->getParticipants();
-		// begin-patch ouf
+		
 		$part = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'manage_members', 
 			'manage_members', 
