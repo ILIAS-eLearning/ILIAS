@@ -16,6 +16,8 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 	private $staff = "employee";
 
 	public function __construct($parent_obj, $parent_cmd, $staff = "employee", $recursive = false, $template_context = ""){
+
+
 		global $DIC;
 		$lng = $DIC['lng'];
 		$ilCtrl = $DIC['ilCtrl'];

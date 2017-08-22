@@ -103,7 +103,7 @@ class ilOrgUnitPositionFormGUI extends BaseForm {
 			'id'          => $sent_ids,
 			'position_id' => $this->object->getId(),
 		), array( 'id' => 'NOT IN', 'position_id' => '=' ))->get() as $ilOrgUnitAuthority) {
-			$ilOrgUnitAuthority->delete();
+			// $ilOrgUnitAuthority->delete();
 		}
 
 		return true;

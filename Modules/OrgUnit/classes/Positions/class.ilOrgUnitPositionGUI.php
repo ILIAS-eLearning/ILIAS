@@ -10,8 +10,10 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 class ilOrgUnitPositionGUI extends BaseCommands {
 
 	protected function index() {
-		//		ilOrgUnitPosition::updateDB();
-		//		ilOrgUnitAuthority::updateDB();
+		ilOrgUnitPosition::updateDB();
+		ilOrgUnitAuthority::updateDB();
+		ilOrgUnitUserAssignment::updateDB();
+
 		self::initAuthoritiesRenderer();
 		$b = ilLinkButton::getInstance();
 		$b->setUrl($this->ctrl()->getLinkTarget($this, self::CMD_ADD));
@@ -20,7 +22,7 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 
 		$b = ilLinkButton::getInstance();
 		$b->setUrl($this->ctrl()->getLinkTarget($this, 'rebuildFromLocalRoles'));
-		$b->setCaption('rebuildFromLocalRoles');
+		$b->setCaption('rebuildFromLocalRoles (development)');
 		$this->dic()->toolbar()->addButtonInstance($b);
 
 		$table = new ilOrgUnitPositionTableGUI($this, self::CMD_INDEX);
@@ -29,18 +31,20 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 
 
 	protected function rebuildFromLocalRoles() {
-//		ilOrgUnitPosition::resetDB();
-//		ilOrgUnitAuthority::resetDB();
-//		ilOrgUnitUserAssignment::installDB();
+		ilOrgUnitPosition::resetDB();
+		ilOrgUnitAuthority::resetDB();
+		ilOrgUnitUserAssignment::resetDB();
 		$ilOrgUnitPositionEmployee = new ilOrgUnitPosition();
 		$ilOrgUnitPositionEmployee->setTitle("Employees");
 		$ilOrgUnitPositionEmployee->setDescription("Employees of a OrgUnit");
+		$ilOrgUnitPositionEmployee->setCorePosition(true);
 		$ilOrgUnitPositionEmployee->create();
 		$employee_position_id = $ilOrgUnitPositionEmployee->getId();
 
 		$ilOrgUnitPositionSuperior = new ilOrgUnitPosition();
 		$ilOrgUnitPositionSuperior->setTitle("Superiors");
 		$ilOrgUnitPositionSuperior->setDescription("Superiors of a OrgUnit");
+		$ilOrgUnitPositionSuperior->setCorePosition(true);
 		$ilOrgUnitPositionSuperior->create();
 		$superiors_position_id = $ilOrgUnitPositionSuperior->getId();
 
@@ -55,6 +59,8 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 				ilOrgUnitUserAssignment::findOrCreateAssignment($superior_user_id, $superiors_position_id, $orgu_ref_id);
 			}
 		}
+
+		$this->cancel();
 	}
 
 

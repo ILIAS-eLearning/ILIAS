@@ -53,8 +53,7 @@ abstract class BaseCommands {
 		/**
 		 * @var $ilAccess \ilAccessHandler
 		 */
-		$http = $this->dic()->http();
-		$ref_id = $http->request()->getQueryParams()["ref_id"];
+		$ref_id = $this->getParentRefId();
 		if ($ref_id) {
 			return $this->dic()->access()->checkAccess("read", "", $ref_id);
 		}
@@ -94,5 +93,16 @@ abstract class BaseCommands {
 	 */
 	protected function ctrl() {
 		return $this->dic()->ctrl();
+	}
+
+
+	/**
+	 * @return int|null
+	 */
+	protected function getParentRefId() {
+		$http = $this->dic()->http();
+		$ref_id = $http->request()->getQueryParams()["ref_id"];
+
+		return $ref_id;
 	}
 }
