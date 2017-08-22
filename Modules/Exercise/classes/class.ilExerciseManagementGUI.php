@@ -103,7 +103,18 @@ class ilExerciseManagementGUI
 				
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search = new ilRepositorySearchGUI();			
+				$rep_search = new ilRepositorySearchGUI();
+				$ref_id = $this->exercise->getRefId();
+				$rep_search->addUserAccessFilterCallable(function ($a_user_ids) use ($ref_id)
+				{
+					
+					return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+						'write',
+						'write',
+						$ref_id,
+						$a_user_ids
+					);
+				});
 				$rep_search->setTitle($this->lng->txt("exc_add_participant"));
 				$rep_search->setCallback($this,'addMembersObject');
 
@@ -507,6 +518,14 @@ class ilExerciseManagementGUI
 		$ass = ilExAssignment::getAssignmentDataOfExercise($this->exercise->getId());
 		$members = $this->exercise->members_obj->getMembers();
 		
+		$members = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'write',
+			'write',
+			$this->exercise->getRefId(),
+			$members
+		);
+		
+		
 		if (count($members) == 0)
 		{
 			ilUtil::sendInfo($lng->txt("exc_no_participants"));
@@ -618,7 +637,13 @@ class ilExerciseManagementGUI
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$mem_obj = new ilExerciseMembers($this->exercise);
 		$mems = $mem_obj->getMembers();
-
+		
+		$mems = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'write',
+			'write',
+			$this->exercise->getRefId(),
+			$mems
+		);
 		if (count($mems) > 0)
 		{
 			$ilToolbar->addButton($lng->txt("exc_export_excel"),
@@ -908,9 +933,17 @@ class ilExerciseManagementGUI
 	}
 	
 	function saveStatusAllObject(array $a_selected = null)
-	{		
+	{
+		$user_ids = (array) array_keys((array) $_POST['id']);
+		$filtered_user_ids = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'write',
+			'write',
+			$this->exercise->getRefId(),
+			$user_ids
+		);
+		
 		$data = array();
-		foreach(array_keys($_POST["id"]) as $user_id)
+		foreach($filtered_user_ids as $user_id)
 		{
 			if(is_array($a_selected) &&
 				!in_array($user_id, $a_selected))

@@ -37,7 +37,22 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 	{
 		$this->addCommandButton("saveStatusAll", $this->lng->txt("exc_save_all"));													
 		
-		$data = $this->ass->getMemberListData();
+		$tmp_data = $this->ass->getMemberListData();
+		
+		// filter user access
+		$usr_ids = array_keys($tmp_data);
+		$filtered_usr_ids = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'write',
+			'manage_members',
+			$this->exc->getRefId(),
+			$usr_ids
+		);
+		$data = [];
+		foreach($filtered_usr_ids as $usr_id)
+		{
+			$data[$usr_id] = $tmp_data[$usr_id]; 
+		}
+		
 		
 		$idl = $this->ass->getIndividualDeadlines();			
 		
