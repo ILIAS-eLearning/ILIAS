@@ -139,6 +139,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 
 		$form->addItem($this->buildJavascriptDelayForm());
 		$form->addItem($this->buildPageSettingsHeader());
+		$form->addItem($this->buildViewPortForm());
 		$form->addItem($this->buildMarginForm());
 		$form->addItem($this->buildPrintMediaTypeForm());
 		$form->addItem($this->buildOrientationForm());
@@ -183,6 +184,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$form->getItemByPostVar('print_media_type')->setValue(1);
 		$form->getItemByPostVar('print_media_type')->setChecked($config['print_media_type']);
 		$form->getItemByPostVar('javascript_delay')->setValue($config['javascript_delay']);
+		$form->getItemByPostVar('viewport')->setValue($config['viewport']);
 		$form->getItemByPostVar('orientation')->setValue($config['orientation']);
 		$form->getItemByPostVar('header_select')->setValue($config['header_type']);
 		$form->getItemByPostVar('header_text')->setValue($config['header_text']);
@@ -232,6 +234,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$config['margin'] =$form->getItemByPostVar('margin')->getValue();
 		$config['print_media_type'] = $form->getItemByPostVar('print_media_type')->getChecked();
 		$config['javascript_delay'] = $form->getItemByPostVar('javascript_delay')->getValue();
+		$config['viewport'] = $form->getItemByPostVar('viewport')->getValue();
 		$config['orientation'] = $form->getItemByPostVar('orientation')->getValue();
 		$config['header_type'] = $form->getItemByPostVar('header_select')->getValue();
 		$config['header_text'] = $form->getItemByPostVar('header_text')->getValue();
@@ -261,6 +264,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$config['margin'] = '1cm';
 		$config['print_media_type'] = 1;
 		$config['javascript_delay'] = 200;
+		$config['viewport'] = '';
 		$config['orientation'] = 'Portrait';
 		$config['header_type'] = 0;
 		$config['header_text'] = '';
@@ -348,6 +352,17 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$header_height = new ilTextInputGUI($this->lng->txt('header_height'), 'header_height');
 		$header_height->setValue($this->header_height);
 		return $header_height;
+	}
+
+	/**
+	 * @return ilTextInputGUI
+	 */
+	protected function buildViewPortForm()
+	{
+		$viewport = new ilTextInputGUI($this->lng->txt('viewport'), 'viewport');
+		$viewport->setValue($this->viewport);
+		$viewport->setInfo($this->lng->txt('viewport_info'));
+		return $viewport;
 	}
 
 	/**

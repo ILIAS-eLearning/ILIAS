@@ -13564,6 +13564,8 @@ pdfgen#:#javascript_delay#:#Javascript delay
 pdfgen#:#margin_left#:#Margin left
 pdfgen#:#margin_top#:#Margin top
 pdfgen#:#margin_right#:#Margin right
+pdfgen#:#viewport#:#Viewport
+pdfgen#:#viewport_info#:#Viewport in pixels e.g. "1920*1080"
 pdfgen#:#margin_bottom#:#Margin bottom
 pdfgen#:#zoom#:#Zoom
 pdfgen#:#image_scale#:#Image scale

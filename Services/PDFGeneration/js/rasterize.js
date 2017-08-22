@@ -74,8 +74,8 @@ var PhantomJsHelper =  (function () {
 		var viewport;
 		if (pro.json.viewport !== null)
 		{
-			viewport = json.viewport.split('*');
-			if(size.length === 2)
+			viewport = pro.json.viewport.split('*');
+			if(viewport.length === 2)
 			{
 				pro.phantom_page.viewportSize =
 					{

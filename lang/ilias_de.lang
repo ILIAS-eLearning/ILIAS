@@ -16016,6 +16016,8 @@ pdfgen#:#margin_left#:#Margin Links
 pdfgen#:#margin_top#:#Margin Oben
 pdfgen#:#margin_right#:#Margin Rechts
 pdfgen#:#margin_bottom#:#Margin Unten
+pdfgen#:#viewport#:#Viewport
+pdfgen#:#viewport_info#:#Viewport in Pixeln z.B "1920*1080"
 pdfgen#:#zoom#:#Zoom
 pdfgen#:#javascript_delay#:#Javascript Verzögerung
 pdfgen#:#page_size#:#Seitengröße
