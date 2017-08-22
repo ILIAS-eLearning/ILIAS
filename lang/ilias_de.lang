@@ -16016,7 +16016,6 @@ pdfgen#:#margin_left#:#Margin Links
 pdfgen#:#margin_top#:#Margin Oben
 pdfgen#:#margin_right#:#Margin Rechts
 pdfgen#:#margin_bottom#:#Margin Unten
-pdfgen#:#image_scale#:#Bildskalierung
 pdfgen#:#zoom#:#Zoom
 pdfgen#:#reset_to_default#:#Default Einstellungen laden
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
