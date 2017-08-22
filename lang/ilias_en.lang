@@ -13547,6 +13547,7 @@ pdfgen#:#header_type#:#Header
 pdfgen#:#text#:#Text
 pdfgen#:#footer_type#:#Footer
 pdfgen#:#head_text#:#Text
+pdfgen#:#orientation#:#Orientation
 pdfgen#:#header_height#:#Header Height
 pdfgen#:#header_show_pages#:#Show Pagenumbers
 pdfgen#:#footer_text#:#Text
