@@ -117,7 +117,6 @@ class ilAppEventHandler
 				{
 					$name = substr($listener,$last_slash + 1);
 
-					include_once("./Services/Component/classes/class.ilPluginAdmin.php");
 					foreach (ilPluginAdmin::getActivePlugins() as $pdata)
 					{
 						if ($pdata['name'] == $name)
@@ -136,11 +135,6 @@ class ilAppEventHandler
 				{
 					$class = 'il'.substr($listener,$last_slash + 1).'AppEventListener';
 					$file = "./".$listener."/classes/class.".$class.".php";
-
-					// detemine class and file
-					#$comp = explode("/", $listener);
-					#$class = "il".$comp[1]."AppEventListener";
-					#$file = "./".$listener."/classes/class.".$class.".php";
 
 					// if file exists, call listener
 					if (is_file($file))
