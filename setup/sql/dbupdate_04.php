@@ -19221,11 +19221,11 @@ if(!$ilDB->tableColumnExists("il_object_def", "orgunit_permissions"))
 			'default' => 0
 		);
 	$ilDB->addTableColumn("il_object_def", "orgunit_permissions", $def);
-})(\
+}
 
 $ilCtrlStructureReader->getStructure();
 ?>
-<#5112>
+<#5111>
 <?php
 if(!$ilDB->tableExists('orgu_obj_type_settings') )
 {
