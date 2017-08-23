@@ -629,8 +629,6 @@ class ilObject
 
 		$ilDB->manipulate($q);
 
-		//$this->id = $ilDB->getLastInsertId();
-
 		
 		// Save long form of description if is rbac object
 		if($objDefinition->isRBACObject($this->getType()))
@@ -638,11 +636,14 @@ class ilObject
 			$values = array(
 				'obj_id'		=> array('integer',$this->id),
 				'description'	=> array('clob', $this->getLongDescription()));
-//var_dump($values);
 			$ilDB->insert('object_description',$values);
 		}
 		
-
+		if($GLOBALS['DIC']['objDefinition']->isOrgUnitPermissionType($this->type))
+		{
+			ilOrgUnitGlobalSettings::getInstance()->saveDefaultPositionActivationStatus($this->id);
+		}
+		
 		// the line ($this->read();) messes up meta data handling: meta data,
 		// that is not saved at this time, gets lost, so we query for the dates alone
 		//$this->read();

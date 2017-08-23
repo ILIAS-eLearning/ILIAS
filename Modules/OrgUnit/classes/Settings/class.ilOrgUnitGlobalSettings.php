@@ -103,6 +103,28 @@ class ilOrgUnitGlobalSettings
 	}
 	
 	/**
+	 * Set and save the default activation status according to settings.
+	 * @param int obj_id
+	 */
+	public function saveDefaultPositionActivationStatus($a_obj_id)
+	{
+		$type = ilObject::_lookupType($a_obj_id);
+		try {
+			$type_settings = $this->getObjectPositionSettingsByType($type);
+		} 
+		catch (\InvalidArgumentException $ex) {
+			return;
+		}
+		if($type_settings->isActive())
+		{
+			$object_setting = new ilOrgUnitObjectPositionSetting($a_obj_id);
+			$object_setting->setActive($type_settings->getActivationDefault());
+			$object_setting->update();
+		}
+		return;
+	}
+	
+	/**
 	 * read settings
 	 */
 	protected function readSettings()

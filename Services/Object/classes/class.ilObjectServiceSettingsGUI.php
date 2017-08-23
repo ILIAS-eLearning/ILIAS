@@ -27,7 +27,7 @@ class ilObjectServiceSettingsGUI
 	const TAG_CLOUD = 'cont_tag_cloud';
 	const CUSTOM_METADATA = 'cont_custom_md';
 	const BADGES = 'cont_badges';
-	const EXTENDED_USER_ACCESS = 'obj_orgunit_positions';
+	const ORGU_POSITION_ACCESS = 'obj_orgunit_positions';
 	
 	
 	private $gui = null;
@@ -234,7 +234,7 @@ class ilObjectServiceSettingsGUI
 				$form->addItem($bdg);		
 			}
 		}	
-		if(in_array(self::EXTENDED_USER_ACCESS, $services))
+		if(in_array(self::ORGU_POSITION_ACCESS, $services))
 		{
 			$position_settings = ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
 				ilObject::_lookupType($a_obj_id)
@@ -244,15 +244,15 @@ class ilObjectServiceSettingsGUI
 				$position_settings->isChangeableForObject()
 			)
 			{
-				$lia = new ilCheckboxInputGUI($GLOBALS['DIC']->language()->txt('obj_orgunit_positions'), self::EXTENDED_USER_ACCESS);
+				$lia = new ilCheckboxInputGUI(
+					$GLOBALS['DIC']->language()->txt('obj_orgunit_positions'), 
+					self::ORGU_POSITION_ACCESS
+				);
 				$lia->setInfo($GLOBALS['DIC']->language()->txt('obj_orgunit_positions_info'));
 				$lia->setValue(1);
 				$lia->setChecked(
-					ilContainer::_lookupContainerSetting(
-						$a_obj_id,
-						self::EXTENDED_USER_ACCESS,
-						false
-				));
+					(bool) ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($a_obj_id)
+				);
 				$form->addItem($lia);
 			}
 		}
@@ -345,11 +345,14 @@ class ilObjectServiceSettingsGUI
 			}
 		}
 		// extended user access
-		if(in_array(self::EXTENDED_USER_ACCESS, $services))
+		if(in_array(self::ORGU_POSITION_ACCESS, $services))
 		{
-			ilContainer::_writeContainerSetting($a_obj_id,self::EXTENDED_USER_ACCESS,(int) $form->getInput(self::EXTENDED_USER_ACCESS));
+			$orgu_object_settings = new ilOrgUnitObjectPositionSetting($a_obj_id);
+			$orgu_object_settings->setActive(
+				(int) $form->getInput(self::ORGU_POSITION_ACCESS)	
+			);
+			$orgu_object_settings->update();
 		}
-		
 		
 		return true;
 	}

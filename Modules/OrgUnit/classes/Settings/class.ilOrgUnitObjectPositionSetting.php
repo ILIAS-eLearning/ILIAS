@@ -63,6 +63,15 @@ class ilOrgUnitObjectPositionSetting
 	}
 	
 	/**
+	 * Set active for object
+	 * @param bool $a_status
+	 */
+	public function setActive($a_status)
+	{
+		$this->active = $a_status;
+	}
+	
+	/**
 	 * Update object entry
 	 */
 	public function update()

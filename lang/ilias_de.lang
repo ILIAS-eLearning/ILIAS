@@ -14,6 +14,8 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
+obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
 orgu#:#orgu_global_set_form#:#Globale Einstellungen 
 orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
 orgu#:#orgu_global_set_positions_type_active#:#Aktiv für:
