@@ -19463,3 +19463,25 @@ if(!$ilDB->tableColumnExists('itgr_data','behaviour'))
 	);
 }
 ?>
+<#5126>
+<?php
+if(!$ilDB->tableExists('orgu_obj_pos_settings'))
+{
+	$ilDB->createTable('orgu_obj_pos_settings', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		)
+		)
+	);
+	$ilDB->addPrimaryKey('orgu_obj_pos_settings', array('obj_id'));
+}
+?>
+

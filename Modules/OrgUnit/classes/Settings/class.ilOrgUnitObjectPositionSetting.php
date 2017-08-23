@@ -45,7 +45,7 @@ class ilOrgUnitObjectPositionSetting
 	{
 		$db = $GLOBALS['DIC']->database();
 		
-		$query = 'select *  from orgu_obj_position_settings '.
+		$query = 'select *  from orgu_obj_pos_settings '.
 			'where obj_id = '.$db->quote($a_obj_id,'integer');
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -68,7 +68,7 @@ class ilOrgUnitObjectPositionSetting
 	public function update()
 	{
 		$this->db->replace(
-			'orgu_obj_position_settings',
+			'orgu_obj_pos_settings',
 			[
 				'obj_id' => ['integer', $this->obj_id]
 			],
@@ -83,7 +83,7 @@ class ilOrgUnitObjectPositionSetting
 	 */
 	public function delete()
 	{
-		$query = 'DELETE from orgu_obj_position_settings '.
+		$query = 'DELETE from orgu_obj_pos_settings '.
 			'WHERE obj_id = '.$this->db->quote($this->obj_id, 'integer');
 		$this->db->manipulate($query);
 	}
@@ -97,7 +97,7 @@ class ilOrgUnitObjectPositionSetting
 		{
 			return;
 		}
-		$query = 'select * from orgu_obj_position_settings '.
+		$query = 'select * from orgu_obj_pos_settings '.
 			'where obj_id = '. $this->db->quote($this->obj_id, 'integer');
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
