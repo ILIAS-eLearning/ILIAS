@@ -13738,8 +13738,6 @@ user#:#usr_letter_avatars#:#Letter Avatars
 user#:#usr_letter_avatars_info#:#Shows initial of user name or login as profile picture, if no public picture is being provided.
 content#:#cont_master_language_only_no_media#:#Master Language without Media
 mep#:#mep_master_language_only_no_media#:#Master Language without Media
-content#:#cont_master_language_only_no_media#:#Master Language without Media
-mep#:#mep_master_language_only_no_media#:#Master Language without Media
 mep#:#mep_content#:#Content
 mep#:#mep_media_subtitles#:#Media Subtitles
 content#:#cont_last_visited_page#:#Last Visited Page
