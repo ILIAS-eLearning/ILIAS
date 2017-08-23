@@ -177,4 +177,9 @@ abstract class BaseCommands {
 
 		return $ref_id;
 	}
+
+
+	public function addSubTabs() {
+
+	}
 }

@@ -8,14 +8,16 @@
 class ilOrgUnitPermissionQueries {
 
 	/**
-	 * @param $context_name
+	 * @param      $context_name
 	 *
-	 * @param $position_id
+	 * @param      $position_id
+	 *
+	 * @param bool $editable
 	 *
 	 * @return \ilOrgUnitPermission
 	 * @throws \ilException
 	 */
-	public static function getTemplateSetForContextName($context_name, $position_id) {
+	public static function getTemplateSetForContextName($context_name, $position_id, $editable = false) {
 		// TODO write performant query
 		$context = ilOrgUnitOperationContextQueries::findByName($context_name);
 		if (!$context) {
@@ -40,7 +42,7 @@ class ilOrgUnitPermissionQueries {
 			$template_set->afterObjectLoad();
 		}
 
-		$template_set->setProtected(true);
+		$template_set->setProtected(!$editable);
 
 		return $template_set;
 	}
@@ -148,11 +150,13 @@ class ilOrgUnitPermissionQueries {
 
 
 	/**
-	 * @param $position_id
+	 * @param      $position_id
+	 *
+	 * @param bool $editable
 	 *
 	 * @return \ilOrgUnitPermission[]
 	 */
-	public static function getAllTemplateSetsForAllActivedContexts($position_id) {
+	public static function getAllTemplateSetsForAllActivedContexts($position_id, $editable = false) {
 		$activated_components = [];
 		foreach (ilOrgUnitGlobalSettings::getInstance()
 		                                ->getPositionSettings() as $ilOrgUnitObjectPositionSetting) {
@@ -162,7 +166,7 @@ class ilOrgUnitPermissionQueries {
 		}
 		$sets = [];
 		foreach ($activated_components as $context) {
-			$sets[] = ilOrgUnitPermissionQueries::getTemplateSetForContextName($context, $position_id);
+			$sets[] = ilOrgUnitPermissionQueries::getTemplateSetForContextName($context, $position_id, $editable);
 		}
 
 		return $sets;
