@@ -16193,10 +16193,8 @@ prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
 blog#:#blog_draft_text#:#Unveröffentlichter Beitrag
 user#:#usr_letter_avatars#:#Letter-Avatare
 user#:#usr_letter_avatars_info#:#Zeigt die Initialen des Benutzernamens oder Logins an, wenn kein öffentliches Profilbild vorliegt.
-content#:#cont_master_language_only_no_media#:#Master Language without Media
 mep#:#mep_master_language_only_no_media#:#Master Language without Media
 content#:#cont_master_language_only_no_media#:#Master Language without Media
-mep#:#mep_master_language_only_no_media#:#Master Language without Media
 mep#:#mep_content#:#Content
 mep#:#mep_media_subtitles#:#Media Subtitles
 content#:#cont_last_visited_page#:#Zuletzt besuchte Seite
