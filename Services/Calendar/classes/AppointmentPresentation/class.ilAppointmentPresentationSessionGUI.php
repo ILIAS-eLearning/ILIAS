@@ -82,6 +82,7 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 		$eventItems = ilObjectActivation::getItemsByEvent($cat_info['obj_id']);
 		if(count($eventItems))
 		{
+			$this->has_files = true;
 			include_once('./Services/Link/classes/class.ilLink.php');
 			$str = array();
 			foreach ($eventItems as $file)

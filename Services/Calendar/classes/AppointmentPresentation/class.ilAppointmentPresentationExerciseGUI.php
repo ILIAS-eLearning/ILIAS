@@ -54,6 +54,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		$files = $assignment->getFiles();
 		if(count($files) > 0)
 		{
+			$this->has_files = true;
 			$str_files = "";
 			foreach($files as $file)
 			{

@@ -81,6 +81,11 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 	protected $readable_ref_ids;
 
 	/**
+	 * @var bool if the appointment contains files.
+	 */
+	protected $has_files = false;
+
+	/**
 	 * 
 	 *
 	 * @param
@@ -239,7 +244,7 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 		{
 			//todo: duplicated from ilcalendarviewgui.
 			$settings = ilCalendarSettings::_getInstance();
-			if($settings->isBatchFileDownloadsEnabled())
+			if($settings->isBatchFileDownloadsEnabled() && $this->has_files)
 			{
 				// file download
 				$this->ctrl->setParameter($this, "app_id", $this->appointment['event']->getEntryId());

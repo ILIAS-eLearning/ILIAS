@@ -15,6 +15,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 {
 	protected $ctrl;
 
+
 	public function collectPropertiesAndActions()
 	{
 		global $DIC;
@@ -58,6 +59,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 		}
 
 		if (count($files)) {
+			$this->has_files = true;
 			$links = array();
 			foreach ($files as $file) {
 				$this->ctrl->setParameter($this, 'file_id', $file->getFileId());
