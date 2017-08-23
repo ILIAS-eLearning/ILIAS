@@ -330,7 +330,7 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
 
-		$this->handleConfigurationStateMessages(self::CMD_SHOW_GENERAL_CONFIG_FORM);
+		$this->configStateMessageHandler->handle();
 	}
 
 	private function saveGeneralConfigFormCmd()
@@ -403,7 +403,7 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		$this->tpl->setContent($content);
 
-		$this->handleConfigurationStateMessages(self::CMD_SHOW_SRC_POOL_DEF_LIST);
+		$this->configStateMessageHandler->handle();
 	}
 
 	private function saveSourcePoolDefinitionListCmd()
