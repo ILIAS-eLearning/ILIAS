@@ -18,9 +18,45 @@ abstract class BaseCommands {
 	const CMD_DELETE = "delete";
 	const CMD_CANCEL = "cancel";
 	const AR_ID = "arid";
+	/**
+	 * @var \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands
+	 */
+	protected $parent_gui = null;
+
+
+	/**
+	 * @return \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands
+	 */
+	public function getParentGui() {
+		return $this->parent_gui;
+	}
+
+
+	/**
+	 * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_gui
+	 */
+	public function setParentGui($parent_gui) {
+		$this->parent_gui = $parent_gui;
+	}
 
 
 	abstract protected function index();
+
+
+	/**
+	 * @return array of GUI_Class-Names
+	 */
+	protected function getPossibleNextClasses() {
+		return array();
+	}
+
+
+	/**
+	 * @return null|string of active Tab
+	 */
+	protected function getActiveTabId() {
+		return null;
+	}
 
 
 	protected function cancel() {
@@ -39,6 +75,25 @@ abstract class BaseCommands {
 	public function executeCommand() {
 		$this->dic()->language()->loadLanguageModule("orgu");
 		$cmd = $this->dic()->ctrl()->getCmd(self::CMD_INDEX);
+		$next_class = $this->dic()->ctrl()->getNextClass();
+		if ($next_class) {
+			foreach ($this->getPossibleNextClasses() as $class) {
+				if (strtolower($class) === $next_class) {
+					$instance = new $class();
+					if ($instance instanceof BaseCommands) {
+						$instance->setParentGui($this);
+						$this->ctrl()->forwardCommand($instance);
+					}
+
+					return;
+				}
+			}
+		}
+
+		if ($this->getActiveTabId()) {
+			$this->dic()->tabs()->activateTab($this->getActiveTabId());
+		}
+
 		switch ($cmd) {
 			default:
 				if ($this->checkRequestReferenceId()) {
@@ -46,6 +101,23 @@ abstract class BaseCommands {
 				}
 				break;
 		}
+	}
+
+
+	/**
+	 * @param $subtab_id
+	 * @param $url
+	 */
+	protected function pushSubTab($subtab_id, $url) {
+		$this->dic()->tabs()->addSubTab($subtab_id, $this->txt($subtab_id), $url);
+	}
+
+
+	/**
+	 * @param $subtab_id
+	 */
+	protected function activeSubTab($subtab_id) {
+		$this->dic()->tabs()->activateSubTab($subtab_id);
 	}
 
 

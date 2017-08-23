@@ -9,11 +9,30 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitPositionGUI extends BaseCommands {
 
-	protected function index() {
-		ilOrgUnitPosition::updateDB();
-		ilOrgUnitAuthority::updateDB();
-		ilOrgUnitUserAssignment::updateDB();
+	const SUBTAB_SETTINGS = 'settings';
+	const SUBTAB_PERMISSIONS = 'permissions';
 
+
+	/**
+	 * @return array
+	 */
+	protected function getPossibleNextClasses() {
+		return array(
+			ilOrgUnitDefaultPermissionGUI::class,
+			ilOrgUnitUserAssignmentGUI::class,
+		);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	protected function getActiveTabId() {
+		return ilObjOrgUnitGUI::TAB_POSITIONS;
+	}
+
+
+	protected function index() {
 		self::initAuthoritiesRenderer();
 		$b = ilLinkButton::getInstance();
 		$b->setUrl($this->ctrl()->getLinkTarget($this, self::CMD_ADD));
@@ -82,6 +101,8 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 
 
 	protected function edit() {
+		$this->addSubTabs();
+		$this->activeSubTab(self::SUBTAB_SETTINGS);
 		$position = $this->getPositionFromRequest();
 		$form = new ilOrgUnitPositionFormGUI($this, $position);
 		$form->fillForm();
@@ -198,5 +219,15 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 
 			return " " . $t["over"] . " " . $over_txt . " " . $t["in"] . " " . $in_txt;
 		});
+	}
+
+
+	public function addSubTabs() {
+		$this->ctrl()->saveParameter($this, 'arid');
+		$this->ctrl()->saveParameterByClass(ilOrgUnitDefaultPermissionGUI::class, 'arid');
+		$this->pushSubTab(self::SUBTAB_SETTINGS, $this->ctrl()
+		                                              ->getLinkTarget($this, self::CMD_INDEX));
+		$this->pushSubTab(self::SUBTAB_PERMISSIONS, $this->ctrl()
+		                                                 ->getLinkTargetByClass(ilOrgUnitDefaultPermissionGUI::class, self::CMD_INDEX));
 	}
 }

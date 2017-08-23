@@ -14,9 +14,11 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * Constructor
+	 * ilOrgUnitPermissionTableGUI constructor.
 	 *
-	 * @return
+	 * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $a_parent_obj
+	 * @param string                                       $a_parent_cmd
+	 * @param string                                       $a_ref_id
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id) {
 		global $ilCtrl, $tpl;
@@ -37,7 +39,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->disable('numinfo');
 		$this->setRowTemplate("tpl.obj_position_perm_row.html", "Services/AccessControl");
-		$this->setLimit(100);
+		//$this->setLimit(100);
 		$this->setShowRowsSelector(false);
 		$this->setDisableFilterHiding(true);
 		$this->setNoEntriesText($this->lng->txt('msg_no_roles_of_type'));
@@ -163,7 +165,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 	/**
 	 * @return \ILIAS\DI\Container
 	 */
-	private function dic(){
+	private function dic() {
 		return $GLOBALS['DIC'];
 	}
 }
