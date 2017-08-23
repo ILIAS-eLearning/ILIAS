@@ -1467,6 +1467,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				'login_max_attempts' => $security->getLoginMaxAttempts(),				
 				'ps_prevent_simultaneous_logins' => (int)$security->isPreventionOfSimultaneousLoginsEnabled(),
 				'password_assistance' => (bool)$ilSetting->get("password_assistance")
+				,'letter_avatars' => (int)$ilSetting->get('letter_avatars')
 			)
 		);
 						
@@ -1569,7 +1570,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					}	
 				}		
 				// END SESSION SETTINGS												
-				
+				$ilSetting->set('letter_avatars', (int)$this->form->getInput('letter_avatars'));
 				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 			}
 			else
@@ -1832,7 +1833,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$chbChangeBlockingTime->setSize(10);
 		$chbChangeBlockingTime->setMaxLength(10);
 		$chbChangeLogin->addSubItem($chbChangeBlockingTime);		
-		
+
+		$la = new ilCheckboxInputGUI($this->lng->txt('usr_letter_avatars'), 'letter_avatars');
+		$la->setValue(1);
+		$la->setInfo($this->lng->txt('usr_letter_avatars_info'));
+		$this->form->addItem($la);
+
 		$this->form->addCommandButton('saveGeneralSettings', $this->lng->txt('save'));
 	}
 

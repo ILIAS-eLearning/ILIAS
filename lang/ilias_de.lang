@@ -16149,3 +16149,5 @@ prtf#:#prtf_add_new_blog#:#Neues Blog hinzufügen
 prtf#:#prtf_add_new_blog_info#:#Das neue Blog wird Ihrem persönlichen Arbeitsraum hinzugefügt.
 prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
 blog#:#blog_draft_text#:#Unveröffentlichter Beitrag
+user#:#usr_letter_avatars#:#Letter-Avatare
+user#:#usr_letter_avatars_info#:#Zeigt die Initialen des Benutzernamens oder Logins an, wenn kein öffentliches Profilbild vorliegt.

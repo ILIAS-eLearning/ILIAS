@@ -19463,3 +19463,8 @@ if(!$ilDB->tableColumnExists('itgr_data','behaviour'))
 	);
 }
 ?>
+<#5126>
+<?php
+	$ilSetting = new ilSetting();
+	$ilSetting->set('letter_avatars', 1);
+?>
