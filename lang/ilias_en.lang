@@ -13547,6 +13547,7 @@ mst#:#mst_list_courses#:#Courses of My Staff
 mst#:#mst_select_course#:#Select Course
 mst#:#mst_please_select_course#:#Please select a course.
 mst#:#mst_opt_all#:#All
+mst#:#mst_memb_status_requested#:#Requested
 mst#:#mst_memb_status_waitinglist#:#Waiting List
 mst#:#mst_memb_status_registered#:#Registered
 mst#:#mst_show_courses#:#Show Courses

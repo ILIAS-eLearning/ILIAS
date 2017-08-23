@@ -29,7 +29,9 @@ class ilMStListCourses {
 	                    select reg.obj_id, reg.usr_id, '.ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED.' as reg_status, lp.status as lp_status from obj_members as reg
                         left join ut_lp_marks as lp on lp.obj_id = reg.obj_id and lp.usr_id = reg.usr_id
 		            UNION
-	                    select obj_id, usr_id, '.ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST.' as reg_status, 0 as lp_status from crs_waiting_list as waiting) as memb
+	                    select obj_id, usr_id, '.ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST.' as reg_status, 0 as lp_status from crs_waiting_list as waiting
+                    UNION
+	                    select obj_id, usr_id, '.ilMStListCourse::MEMBERSHIP_STATUS_REQUESTED.' as reg_status, 0 as lp_status from il_subscribers as requested) as memb
                     inner join object_data as crs on crs.obj_id = memb.obj_id and crs.type = "crs"
                     inner join object_reference as crs_ref on crs_ref.obj_id = crs.obj_id
 	                inner join usr_data on usr_data.usr_id = memb.usr_id and usr_data.active = 1';

@@ -308,14 +308,9 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
      */
     protected function fillRowExcel(ilExcel $a_excel, &$a_row, $my_staff_user) {
         $col = 0;
-
-        $propGetter = Closure::bind(  function($prop){return $this->$prop;}, $my_staff_user, $my_staff_user);
-
-        foreach ($this->getSelectableColumns() as $k => $v) {
-            if ($this->isColumnSelected($k)) {
-                $a_excel->setCell($a_row, $col, strip_tags($propGetter($k)));
+        foreach ($this->getFieldValuesForExport($my_staff_user) as $k => $v) {
+                $a_excel->setCell($a_row, $col, $v);
                 $col ++;
-            }
         }
     }
 
@@ -324,15 +319,45 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
      * @param ilMyStaffUser $my_staff_user
      */
     protected function fillRowCSV($a_csv, $my_staff_user) {
+        foreach ($this->getFieldValuesForExport($my_staff_user) as $k => $v) {
+                $a_csv->addColumn($v);
+        }
+        $a_csv->addRow();
+    }
+
+    /**
+     * @param ilMyStaffUser $my_staff_user
+     */
+    protected function getFieldValuesForExport($my_staff_user) {
 
         $propGetter = Closure::bind(  function($prop){return $this->$prop;}, $my_staff_user, $my_staff_user);
 
+        $field_values = array();
+
         foreach ($this->getSelectableColumns() as $k => $v) {
-            if (!in_array($k, $this->getIgnoredCols()) && $this->isColumnSelected($k)) {
-                $a_csv->addColumn(strip_tags($propGetter($k)));
+            switch($k) {
+                case 'org_units':
+                    $field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_user->getUsrId());
+                    break;
+                case 'gender':
+                    $field_values[$k] = $this->lng->txt('gender_' . $my_staff_user->getGender());
+                    break;
+                case 'interests_general':
+                    $field_values[$k] = $my_staff_user->returnIlUserObj()->getGeneralInterestsAsText();
+                    break;
+                case 'interests_help_offered':
+                    $field_values[$k] = $my_staff_user->returnIlUserObj()->getOfferingHelpAsText();
+                    break;
+                case 'interests_help_looking':
+                    $field_values[$k] = $my_staff_user->returnIlUserObj()->getLookingForHelpAsText();
+                    break;
+                default:
+                    $field_values[$k] = strip_tags($propGetter($k));
+                    break;
             }
         }
-        $a_csv->addRow();
+
+        return $field_values;
     }
 
 	/**

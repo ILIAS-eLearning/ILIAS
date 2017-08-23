@@ -62,6 +62,7 @@ class ilMStListCoursesGUI {
 
 		switch($next_class) {
             case 'ilformpropertydispatchgui':
+                $this->ctrl->setReturn($this,'index');
                 $table = new ilMStListCoursesTableGUI($this, 'index');
                 $table->executeCommand();
                 break;

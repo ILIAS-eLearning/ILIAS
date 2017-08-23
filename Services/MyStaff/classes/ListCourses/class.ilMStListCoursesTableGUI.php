@@ -134,8 +134,9 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
         //membership status
         $item = new ilSelectInputGUI($this->lng->txt('member_status'),'memb_status');
         $item->setOptions(array("" => $this->lng->txt("mst_opt_all"),
+            ilMStListCourse::MEMBERSHIP_STATUS_REQUESTED => $this->lng->txt('mst_memb_status_requested'),
             ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST => $this->lng->txt('mst_memb_status_waitinglist'),
-            ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED => $this->lng->txt('mst_memb_status_registered'),));
+            ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED => $this->lng->txt('mst_memb_status_registered')));
         $this->addFilterItem($item);
         $item->readFromSession();
         $this->filter["memb_status"] = $item->getValue();
@@ -298,35 +299,54 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
     /**
      * @param ilExcel $a_excel	excel wrapper
      * @param int    $a_row
-     * @param ilMyStaffUser $my_staff_user
+     * @param ilMStListCourse $my_staff_course
      */
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $my_staff_user) {
+    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $my_staff_course) {
         $col = 0;
-
-        $propGetter = Closure::bind(  function($prop){return $this->$prop;}, $my_staff_user, $my_staff_user);
-
-        foreach ($this->getSelectableColumns() as $k => $v) {
-            if ($this->isColumnSelected($k)) {
-                $a_excel->setCell($a_row, $col, strip_tags($propGetter($k)));
-                $col ++;
-            }
+        foreach ($this->getFieldValuesForExport($my_staff_course) as $k => $v) {
+            $a_excel->setCell($a_row, $col, $v);
+            $col ++;
         }
     }
 
     /**
      * @param object $a_csv
-     * @param ilMyStaffUser $my_staff_user
+     * @param ilMStListCourse $my_staff_course
      */
-    protected function fillRowCSV($a_csv, $my_staff_user) {
-
-        $propGetter = Closure::bind(  function($prop){return $this->$prop;}, $my_staff_user, $my_staff_user);
-
-        foreach ($this->getSelectableColumns() as $k => $v) {
-            if (!in_array($k, $this->getIgnoredCols()) && $this->isColumnSelected($k)) {
-                $a_csv->addColumn(strip_tags($propGetter($k)));
-            }
+    protected function fillRowCSV($a_csv, $my_staff_course) {
+        foreach ($this->getFieldValuesForExport($my_staff_course) as $k => $v) {
+            $a_csv->addColumn($v);
         }
         $a_csv->addRow();
+    }
+
+    /**
+     * @param ilMStListCourse $my_staff_course
+     */
+    protected function getFieldValuesForExport($my_staff_course) {
+
+        $propGetter = Closure::bind(  function($prop){return $this->$prop;}, $my_staff_course, $my_staff_course);
+
+        $field_values = array();
+
+        foreach ($this->getSelectableColumns() as $k => $v) {
+            switch($k) {
+                case 'usr_assinged_orgus':
+                    $field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_course->getUsrId());
+                    break;
+                case 'usr_reg_status':
+                    $field_values[$k] = ilMStListCourse::getMembershipStatusText($my_staff_course->getUsrRegStatus());
+                    break;
+                case 'usr_lp_status':
+                    $field_values[$k] = ilLearningProgressBaseGUI::_getStatusText((int)$my_staff_course->getUsrLpStatus());
+                    break;
+                default:
+                    $field_values[$k] = strip_tags($propGetter($k));
+                    break;
+            }
+        }
+
+        return $field_values;
     }
 
 	/**

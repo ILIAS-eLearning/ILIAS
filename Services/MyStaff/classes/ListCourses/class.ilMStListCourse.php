@@ -6,8 +6,9 @@
  */
 class ilMStListCourse {
 
-    const MEMBERSHIP_STATUS_WAITINGLIST = 1;
-    const MEMBERSHIP_STATUS_REGISTERED = 2;
+    const MEMBERSHIP_STATUS_REQUESTED = 1;
+    const MEMBERSHIP_STATUS_WAITINGLIST = 2;
+    const MEMBERSHIP_STATUS_REGISTERED = 3;
 
     /**
      *
@@ -228,6 +229,10 @@ class ilMStListCourse {
 
             case self::MEMBERSHIP_STATUS_REGISTERED:
                 return $lng->txt('mst_memb_status_registered');
+                break;
+
+            case self::MEMBERSHIP_STATUS_REQUESTED:
+                return $lng->txt('mst_memb_status_requested');
                 break;
         }
     }

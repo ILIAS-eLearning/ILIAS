@@ -15991,6 +15991,7 @@ mst#:#mst_list_courses#:#Kurse meiner Mitarbeiter
 mst#:#mst_select_course#:#Kurs auswählen
 mst#:#mst_please_select_course#:#Bitte wählen Sie einen Kurs aus.
 mst#:#mst_opt_all#:#Alle
+mst#:#mst_memb_status_requested#:#Beantragt
 mst#:#mst_memb_status_waitinglist#:#Warteliste
 mst#:#mst_memb_status_registered#:#Angemeldet
 mst#:#mst_show_courses#:#Kurse anzeigen
