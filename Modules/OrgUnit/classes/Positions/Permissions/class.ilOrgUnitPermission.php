@@ -66,12 +66,12 @@ class ilOrgUnitPermission extends ActiveRecord {
 
 
 	public function afterObjectLoad() {
-		$this->possible_operations = ilOrgUnitOperation::getOperationsForContextId($this->getContextId());
+		$this->possible_operations = ilOrgUnitOperationQueries::getOperationsForContextId($this->getContextId());
 		$this->operations = is_array($this->operations) ? $this->operations : array();
 		foreach ($this->operations as $operation) {
 			$this->selected_operation_ids[] = $operation->getOperationId();
 		}
-		$this->context = ilOrgUnitOperationContext::find($this->getContextId());
+		$this->context = ilOrgUnitOperationContextQueries::findById($this->getContextId());
 	}
 
 
@@ -190,101 +190,6 @@ class ilOrgUnitPermission extends ActiveRecord {
 
 
 	/**
-	 * @param $context_name
-	 *
-	 * @param $position_id
-	 *
-	 * @return \ilOrgUnitPermission
-	 * @throws \ilException
-	 */
-	public static function getTemplateSetForContextName($context_name, $position_id) {
-		// TODO write performant query
-		$context = ilOrgUnitOperationContext::findByName($context_name);
-		if (!$context) {
-			throw new ilException('No context found');
-		}
-		if (!$position_id) {
-			throw new ilException('$position_id cannot be null');
-		}
-
-		$template_set = self::where([
-			'parent_id'   => self::PARENT_TEMPLATE,
-			'context_id'  => $context->getId(),
-			'position_id' => $position_id,
-		])->first();
-
-		if (!$template_set) {
-			$template_set = new self();
-			$template_set->setParentId(self::PARENT_TEMPLATE);
-			$template_set->setContextId($context->getId());
-			$template_set->setPositionId($position_id);
-			$template_set->create();
-			$template_set->afterObjectLoad();
-		}
-
-		return $template_set;
-	}
-
-
-	/**
-	 * @param $ref_id
-	 *
-	 * @param $position_id
-	 *
-	 * @return \ilOrgUnitPermission
-	 * @throws \ilException
-	 *
-	 */
-	public static function getSetForRefId($ref_id, $position_id) {
-		// TODO write performant query
-		$type_context = ilObject2::_lookupType($ref_id, true);
-		$context = ilOrgUnitOperationContext::findByName($ref_id);
-		if (!$context) {
-			throw new ilException('Context not found');
-		}
-
-		if (!$position_id) {
-			throw new ilException('$position_id cannot be null');
-		}
-		/**
-		 * @var $dedicated_set ilOrgUnitPermission
-		 */
-		$dedicated_set = self::where([
-			'parent_id'   => $ref_id,
-			'context_id'  => $context->getId(),
-			'position_id' => $position_id,
-		])->first();
-		if ($dedicated_set) {
-			return $dedicated_set;
-		}
-
-		return self::getTemplateSetForContextName($type_context, $position_id);
-	}
-
-
-	/**
-	 * @param $position_id
-	 *
-	 * @return \ilOrgUnitPermission[]
-	 */
-	public static function getAllTemplateSetsForAllActivedContexts($position_id) {
-		$activated_components = [];
-		foreach (ilOrgUnitGlobalSettings::getInstance()
-		                                ->getPositionSettings() as $ilOrgUnitObjectPositionSetting) {
-			if ($ilOrgUnitObjectPositionSetting->isActive()) {
-				$activated_components[] = $ilOrgUnitObjectPositionSetting->getType();
-			}
-		}
-		$sets = [];
-		foreach ($activated_components as $context) {
-			$sets[] = self::getTemplateSetForContextName($context, $position_id);
-		}
-
-		return $sets;
-	}
-
-
-	/**
 	 * @return int
 	 */
 	public function getPositionId() {
@@ -297,6 +202,22 @@ class ilOrgUnitPermission extends ActiveRecord {
 	 */
 	public function setPositionId($position_id) {
 		$this->position_id = $position_id;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isTemplate() {
+		return ($this->getParentId() == self::PARENT_TEMPLATE);
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isDedicated() {
+		return ($this->getParentId() != self::PARENT_TEMPLATE);
 	}
 
 

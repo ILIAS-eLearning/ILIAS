@@ -82,6 +82,12 @@ class ilOrgUnitAuthority extends \ActiveRecord {
 	protected static $name_render;
 
 
+	/**
+	 * ilOrgUnitAuthority constructor.
+	 *
+	 * @param int               $primary_key
+	 * @param \arConnector|null $connector
+	 */
 	public function __construct($primary_key = 0, \arConnector $connector = null) {
 		parent::__construct($primary_key, $connector);
 		if (!self::$name_render) {

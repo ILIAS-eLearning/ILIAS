@@ -884,33 +884,9 @@ class ilAccess implements ilAccessHandler {
 	public function checkPositionAccess($pos_perm, $ref_id) {
 		// If context is not activated, return same array of $user_ids
 		$context = ilObject2::_lookupType($ref_id);
-		if(!ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType($context) ){
+		if (!ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType($context)) {
 			return false;
 		}
-		global $DIC;
-		$db = $DIC->database();
-
-//		$q = 'SELECT @CONTEXT_TYPE:= object_data.type
-//			FROM object_reference
-//			JOIN object_data ON object_data.obj_id = object_reference.obj_id
-//			WHERE object_reference.ref_id = %s;';
-//		$db->queryF($q, ['integer'], [$ref_id]);
-
-		$q = 'SELECT @OP_ID:= CONCAT("%\"", il_orgu_operations.operation_id, "%\"")
-					FROM il_orgu_operations 
-					JOIN il_orgu_op_contexts ON il_orgu_op_contexts.context = %s AND il_orgu_op_contexts.id = il_orgu_operations.context_id
-				WHERE il_orgu_operations.operation_string = %s';
-		$db->queryF($q, []);
-		$q = 'SELECT * FROM il_orgu_permissions WHERE operations LIKE @OP_ID AND position_id = %s;';
-		$values = [$context, $pos_perm, 5];
-
-		/* SELECT *
-FROM il_orgu_operations
-JOIN il_orgu_op_contexts ON il_orgu_op_contexts.context = "crs" AND il_orgu_op_contexts.id = il_orgu_operations.context_id
-WHERE il_orgu_operations.operation_string = "viewlp";
-		 */
-
-		return false;
 	}
 
 	/**

@@ -156,11 +156,12 @@ class ilPermissionGUI extends ilPermission2GUI
 	 * show position permission table
 	 * @return 
 	 */
-	public function perm_positions()
+	public function permPositions()
 	{
-		$this->__initSubTabs("perm_positions");
+		$this->__initSubTabs(ilPermission2GUI::CMD_PERM_POSITIONS);
 
-		$table = new ilOrgUnitPermissionTableGUI($this,'perm',$this->getCurrentObject()->getRefId());
+		$table = new ilOrgUnitPermissionTableGUI($this, ilPermission2GUI::CMD_PERM_POSITIONS, $this->getCurrentObject()
+		                                                                                           ->getRefId());
 		$table->collectData();
 		$this->tpl->setContent($table->getHTML());
 	}

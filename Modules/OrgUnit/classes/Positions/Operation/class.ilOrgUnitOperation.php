@@ -57,57 +57,6 @@ class ilOrgUnitOperation extends ActiveRecord {
 	protected $context_id = 0;
 
 
-	/**
-	 * @param        $operation_name
-	 * @param        $description
-	 * @param string $context ilOrgUnitOperationContext::CONTEXT_OBJECT will provide this new
-	 *                        operation to all contexts such as
-	 *                        ilOrgUnitOperationContext::CONTEXT_GRP or
-	 *                        ilOrgUnitOperationContext::CONTEXT_CRS
-	 *                        use a more specific for your object type but the related context must
-	 *                        exist. Register a new context using
-	 *                        ilOrgUnitOperationContext::registerNewContext() for plugins
-	 *
-	 * @throws \ilException
-	 */
-	public static function registerNewOperation($operation_name, $description, $context = ilOrgUnitOperationContext::CONTEXT_OBJECT) {
-		$contextList = ilOrgUnitOperationContext::where(array( 'context' => $context ));
-		if (!$contextList->hasSets()) {
-			throw new ilException('Context does not exist! register context first using ilOrgUnitOperationContext::registerNewContext()');
-		}
-		/**
-		 * @var $ilOrgUnitOperationContext \ilOrgUnitOperationContext
-		 */
-		$ilOrgUnitOperationContext = $contextList->first();
-
-		if (self::where(array(
-			'context_id'       => $ilOrgUnitOperationContext->getId(),
-			'operation_string' => $operation_name,
-		))->hasSets()) {
-			throw new ilException('This operation in this context has already been registered.');
-		}
-		$operation = new self();
-		$operation->setOperationString($operation_name);
-		$operation->setContextId($ilOrgUnitOperationContext->getId());
-		$operation->setDescription($description);
-		$operation->create();
-	}
-
-
-	/**
-	 * @param       $operation_name
-	 * @param       $description
-	 * @param array $contexts
-	 *
-	 * @see registerNewOperation
-	 */
-	public static function registerNewOperationForMultipleContexts($operation_name, $description, array $contexts) {
-		foreach ($contexts as $context) {
-			self::registerNewOperation($operation_name, $description, $context);
-		}
-	}
-
-
 	public function create() {
 		if (self::where(array(
 			'context_id'       => $this->getContextId(),
@@ -116,33 +65,6 @@ class ilOrgUnitOperation extends ActiveRecord {
 			throw new ilException('This operation in this context has already been registered.');
 		}
 		parent::create();
-	}
-
-
-	/**
-	 * @param $context_name
-	 *
-	 * @return ilOrgUnitOperation[]
-	 */
-	public static function getOperationsForContextName($context_name) {
-		$context = ilOrgUnitOperationContext::findByName($context_name);
-
-		return self::where(array( 'context_id' => $context->getPopulatedContextIds() ))->get();
-	}
-
-
-	/**
-	 * @param $context_id
-	 *
-	 * @return \ilOrgUnitOperation[]
-	 */
-	public static function getOperationsForContextId($context_id) {
-		/**
-		 * @var $context ilOrgUnitOperationContext
-		 */
-		$context = ilOrgUnitOperationContext::find($context_id);
-
-		return self::where(array( 'context_id' => $context->getPopulatedContextIds() ))->get();
 	}
 
 

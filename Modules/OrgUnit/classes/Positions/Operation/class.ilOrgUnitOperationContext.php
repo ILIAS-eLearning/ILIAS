@@ -65,25 +65,6 @@ class ilOrgUnitOperationContext extends ActiveRecord {
 	 * @con_length     8
 	 */
 	protected $parent_context_id = 0;
-	/**
-	 * @var array
-	 */
-	protected static $instance_by_name = array();
-
-
-	/**
-	 * @param $context_name
-	 *
-	 * @return self
-	 */
-	public static function findByName($context_name) {
-		if (!isset(self::$instance_by_name[$context_name])) {
-			self::$instance_by_name[$context_name] = self::where(array( 'context' => $context_name ))
-			                                             ->first();
-		}
-
-		return self::$instance_by_name[$context_name];
-	}
 
 
 	/**
@@ -147,35 +128,6 @@ class ilOrgUnitOperationContext extends ActiveRecord {
 			throw new ilException('Context already registered');
 		}
 		parent::create();
-	}
-
-
-	/**
-	 * @param      $context_name
-	 *
-	 * @param null $parent_context
-	 *
-	 * @throws \ilException
-	 */
-	public static function registerNewContext($context_name, $parent_context = null) {
-		if (self::where(array( 'context' => $context_name ))->hasSets()) {
-			throw new ilException('Context already registered');
-		}
-
-		$parentList = self::where(array( 'context' => $parent_context ));
-		$parent_id = 0;
-		if ($parent_context !== null && $parentList->hasSets()) {
-			/**
-			 * @var $parent self
-			 */
-			$parent = $parentList->first();
-			$parent_id = $parent->getId();
-		}
-
-		$context = new self();
-		$context->setContext($context_name);
-		$context->setParentContextId($parent_id);
-		$context->create();
 	}
 
 

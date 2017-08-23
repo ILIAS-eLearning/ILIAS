@@ -289,12 +289,13 @@ class ilOrgUnitPosition extends \ActiveRecord {
 			}
 			$ids[] = $authority->getId();
 		}
-
-		foreach (ilOrgUnitAuthority::where(array(
-			'id'          => $ids,
-			'position_id' => $this->getId(),
-		), array( 'id' => 'NOT IN', 'position_id' => '=' ))->get() as $authority) {
-			$authority->delete();
+		if (count($ids) > 0) {
+			foreach (ilOrgUnitAuthority::where(array(
+				'id'          => $ids,
+				'position_id' => $this->getId(),
+			), array( 'id' => 'NOT IN', 'position_id' => '=' ))->get() as $authority) {
+				$authority->delete();
+			}
 		}
 	}
 }
