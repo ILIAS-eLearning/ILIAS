@@ -85,8 +85,17 @@ class ilMStShowUserGUI {
 
         $pub_profile = new ilPublicUserProfileGUI($this->usr_id);
 
-		//TODO
-		$this->tpl->setContent('<div style="float:left; width: 60%">'.$this->table->getHTML().'</div><div style="float:left; width: 40%">'.$pub_profile->getEmbeddable().'</div>');
+        $tpl = new ilTemplate('./Services/MyStaff/templates/default/tpl.show_user_container.html', true, true);
+
+        $tpl->setCurrentBlock('courses');
+        $tpl->setVariable('COURSES',$this->table->getHTML());
+        $tpl->parseCurrentBlock();
+
+        $tpl->setCurrentBlock('profile');
+        $tpl->setVariable('PROFILE',$pub_profile->getEmbeddable());
+        $tpl->parseCurrentBlock();
+
+        $this->tpl->setContent($tpl->get());
 	}
 
 
