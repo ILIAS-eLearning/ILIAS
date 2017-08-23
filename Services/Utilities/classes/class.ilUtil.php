@@ -3593,9 +3593,6 @@ class ilUtil
 	*/
 	public static function redirect($a_script)
 	{
-		global $log, $PHP_SELF;
-		
-//echo "<br>".$a_script;
 		if (!is_int(strpos($a_script, "://")))
 		{
 			if (substr($a_script, 0, 1) != "/" && defined("ILIAS_HTTP_PATH"))
@@ -3607,7 +3604,6 @@ class ilUtil
 				$a_script = ILIAS_HTTP_PATH."/".$a_script;
 			}
 		}
-//echo "<br>".$a_script; exit;
 
   		// include the user interface hook
 		global $ilPluginAdmin;
@@ -3632,8 +3628,25 @@ class ilUtil
         // is never written, which is a nightmare to develop with.
         session_write_close();
 
-		header("Location: ".$a_script);
-		exit();
+		global $DIC;
+		$http = $DIC->http();
+		switch (true) {
+			case ($http->request()->getQueryParams()[ilFileStandardDropzoneInputGUI::ASYNC_FILEUPLOAD]):
+				$body = new ILIAS\Filesystem\Stream\Stream(fopen('data://text/plain,' . json_encode([
+						'success'      => true,
+						'message'      => 'Called redirect after async fileupload request',
+						"redirect_url" => $a_script,
+					]), 'r'));
+
+				$http->saveResponse($http->response()->withBody($body));
+				break;
+			case ($http->request()->getQueryParams()["async"]):
+			default:
+				$http->saveResponse($http->response()->withAddedHeader("Location", $a_script));
+				break;
+		}
+		$http->sendResponse();
+		exit;
 	}
 
 	/**
@@ -4857,7 +4870,12 @@ class ilUtil
 	*/
 	public static function sendFailure($a_info = "",$a_keep = false)
 	{
-		global $tpl;
+		global $tpl, $DIC;
+
+		if ($DIC->http()->request()->getQueryParams()["async"] && !$a_keep) {
+			echo json_encode([ 'success' => false, 'message' => $a_info ]);
+			exit;
+		}
 
 		if(is_object($tpl))
 		{

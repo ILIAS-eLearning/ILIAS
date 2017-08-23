@@ -58,7 +58,8 @@ class ilPropertyFormGUI extends ilFormGUI
 	protected $show_top_buttons = true;
 	protected $reloaded_files;
 	protected $hide_labels = false;
-	
+
+
 	/**
 	* Constructor
 	*
@@ -486,6 +487,13 @@ class ilPropertyFormGUI extends ilFormGUI
 		if (!$ok && !$this->getDisableStandardMessage())
 		{
 			ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+		}
+		global $DIC;
+		if(!$ok && $DIC->http()->request()->getQueryParams()[ilFileStandardDropzoneInputGUI::ASYNC_FILEUPLOAD] ) {
+			echo json_encode([
+				'success'      => false,
+				'message'      => 'There was an error checking your form',
+			]);
 		}
 		return $ok;
 	}

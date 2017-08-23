@@ -335,11 +335,19 @@ class ilTemplate extends HTML_Template_ITX
 	* Set message. Please use ilUtil::sendInfo(), ilUtil::sendSuccess()
 	* and ilUtil::sendFailure()
 	*/
-	function setMessage($a_type, $a_txt, $a_keep = false)
+	public function setMessage($a_type, $a_txt, $a_keep = false)
 	{
 		if (!in_array($a_type, array("info", "success", "failure", "question")) || $a_txt == "")
 		{
 			return;
+		}
+		global $DIC;
+		if ($DIC->http()
+		        ->request()
+		        ->getQueryParams()[ilFileStandardDropzoneInputGUI::ASYNC_FILEUPLOAD]
+		    && !$a_keep) {
+			echo json_encode([ 'success' => ($a_type !== 'failure'), 'message' => $a_txt ]);
+			exit;
 		}
 		if ($a_type == "question")
 		{
@@ -362,7 +370,7 @@ class ilTemplate extends HTML_Template_ITX
 	
 	function fillMessage()
 	{
-		global $lng;
+		global $DIC;
 
 		$ms = array("info", "success", "failure", "question");
 		$out = "";
@@ -399,7 +407,7 @@ class ilTemplate extends HTML_Template_ITX
 				$m = "mess_question";
 			}
 
-			if (isset($_SESSION[$m]) && $_SESSION[$m])
+			if (isset($_SESSION[$m]) && $_SESSION[$m] && !$DIC->http()->request()->getQueryParams()[ilFileStandardDropzoneInputGUI::ASYNC_FILEUPLOAD])
 			{
 				unset($_SESSION[$m]);
 			}
