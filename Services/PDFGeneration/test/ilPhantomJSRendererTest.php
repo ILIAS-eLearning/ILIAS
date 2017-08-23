@@ -3,7 +3,7 @@
 
 require_once __DIR__ .'/../classes/renderer/phantomjs/class.ilPhantomJSRenderer.php';
 /**
- * Class ilPhantomJsHtmlToPdfTransformerTest
+ * Class ilPhantomJSRendererTest
  * @package ilPdfGenerator
  */
 class ilPhantomJSRendererTest  extends PHPUnit_Framework_TestCase

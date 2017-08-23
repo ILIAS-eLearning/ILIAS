@@ -316,20 +316,20 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 			$args = ' ' . $a_path_to_file .' ' . $temp_file . ' ' . $this->getCommandLineConfig($config);
 			$return_value = ilUtil::execQuoted( $config['path'] , $this->do_not_validate_ssl . ' ' . $this->path_to_rasterize . ' ' . $args);
 
-			$ilLog->write('ilPhantomJsHtmlToPdfTransformer command line config: ' . $args);
+			$ilLog->write('ilPhantomJSRenderer command line config: ' . $args);
 			foreach($return_value as $key => $value)
 			{
-				$ilLog->write('ilPhantomJsHtmlToPdfTransformer return value line ' . $key . ' : ' . $value );
+				$ilLog->write('ilPhantomJSRenderer return value line ' . $key . ' : ' . $value );
 			}
 
 			if(file_exists($temp_file))
 			{
-				$ilLog->write('ilWebkitHtmlToPdfTransformer file exists: ' . $temp_file . ' file size is :' . filesize($temp_file) . ' bytes, will be renamed to '. $job->getFilename());
+				$ilLog->write('ilPhantomJSRenderer file exists: ' . $temp_file . ' file size is :' . filesize($temp_file) . ' bytes, will be renamed to '. $job->getFilename());
 				rename($temp_file, $job->getFilename());
 			}
 			else
 			{
-				$ilLog->write('ilPhantomJsHtmlToPdfTransformer error: ' . print_r($return_value, true) );
+				$ilLog->write('ilPhantomJSRenderer error: ' . print_r($return_value, true) );
 			}
 		}
 	}

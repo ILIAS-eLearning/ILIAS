@@ -4,7 +4,6 @@
 require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
 require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 require_once 'Services/Object/classes/class.ilObject2GUI.php';
-require_once 'Services/PDFGeneration/classes/factory/class.ilHtmlToPdfTransformerFactory.php';
 require_once 'Services/PDFGeneration/classes/class.ilPDFGeneratorUtils.php';
 require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 
