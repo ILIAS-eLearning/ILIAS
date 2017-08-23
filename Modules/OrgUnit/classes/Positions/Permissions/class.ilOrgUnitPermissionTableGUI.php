@@ -81,15 +81,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 
 		// Select all
 		if (isset($row['show_select_all'])) {
-			foreach ($row["positions"] as $position) {
-				$this->tpl->setCurrentBlock('position_select_all');
-				$this->tpl->setVariable('JS_ROLE_ID', $position->getId());
-				$this->tpl->setVariable('JS_SUBID', 0);
-				$this->tpl->setVariable('JS_ALL_PERMS',"['".implode("','",$row['ops'])."']");
-				$this->tpl->setVariable('JS_FORM_NAME', $this->getFormName());
-				$this->tpl->setVariable('TXT_SEL_ALL', $this->lng->txt('select_all'));
-				$this->tpl->parseCurrentBlock();
-			}
+			$this->fillSelectAllRow($row);
 
 			return true;
 		}
@@ -130,8 +122,9 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 		$perms = [];
 
 		$operations = ilOrgUnitOperationQueries::getOperationsForContextName($this->getObjType());
-
+		$ops_ids = [];
 		foreach ($operations as $op) {
+			$ops_ids[] = $op->getOperationId();
 			$ops = [];
 			foreach ($positions as $position) {
 				$ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId($this->getRefId(), $position->getId());
@@ -148,7 +141,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 			$perms[] = $ops;
 		}
 
-		$perms[] = [ "show_select_all" => true, "positions" => $positions ];
+		$perms[] = [ "show_select_all" => true, "positions" => $positions, "ops"=> $ops_ids];
 
 		$this->setData($perms);
 
@@ -175,5 +168,24 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 	 */
 	private function dic() {
 		return $GLOBALS['DIC'];
+	}
+
+
+	/**
+	 * @param $row
+	 */
+	protected function fillSelectAllRow($row) {
+		/**
+		 * @var $position \ilOrgUnitPosition
+		 */
+		foreach ($row["positions"] as $position) {
+			$this->tpl->setCurrentBlock('position_select_all');
+			$this->tpl->setVariable('JS_ROLE_ID', $position->getId());
+			$this->tpl->setVariable('JS_SUBID', 0);
+			$this->tpl->setVariable('JS_ALL_PERMS', "['" . implode("','", $row['ops']) . "']");
+			$this->tpl->setVariable('JS_FORM_NAME', $this->getFormName());
+			$this->tpl->setVariable('TXT_SEL_ALL', $this->lng->txt('select_all'));
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 }
