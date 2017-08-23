@@ -249,17 +249,6 @@ class ilIndividualAssessmentMemberGUI {
 		$this->redirect("amend");
 	}
 
-	protected function updateDataInMemberByArray(ilIndividualAssessmentMember $member, $data) {
-		$member = $member->withRecord($data['record'])
-					->withInternalNote($data['internal_note'])
-					->withPlace($data['place'])
-					->withEventTime($this->createDatetime($data['event_time']))
-					->withLPStatus($data['learning_progress'])
-					->withExaminerId($this->examiner->getId())
-					->withNotify(($data['notify']  == 1 ? true : false));
-		return $member;
-	}
-
 	/**
 	 * Inint form for gradings
 	 *
@@ -505,6 +494,8 @@ class ilIndividualAssessmentMemberGUI {
 	{
 		$member = $member->withRecord($data['record'])
 					->withInternalNote($data['internal_note'])
+					->withPlace($data['place'])
+					->withEventTime($this->createDatetime($data['event_time']))
 					->withLPStatus($data['learning_progress']);
 
 		if (!$keep_examiner) {
