@@ -19626,3 +19626,35 @@ $ilDB->insert('pdfgen_renderer_avail',
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5140>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5141>
+<?php
+if(!$ilDB->tableColumnExists('lm_data','short_title'))
+{
+	$ilDB->addTableColumn(
+		'lm_data',
+		'short_title',
+		array(
+			'type' => 'text',
+			'length' => 200,
+			'default' => ''
+		));
+}
+?>
+<#5142>
+<?php
+if(!$ilDB->tableColumnExists('lm_data_transl','short_title'))
+{
+	$ilDB->addTableColumn(
+		'lm_data_transl',
+		'short_title',
+		array(
+			'type' => 'text',
+			'length' => 200,
+			'default' => ''
+		));
+}
+?>

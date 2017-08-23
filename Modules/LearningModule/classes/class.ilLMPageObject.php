@@ -112,6 +112,7 @@ class ilLMPageObject extends ilLMObject
 		// copy page 
 		$lm_page = new ilLMPageObject($a_target_lm);
 		$lm_page->setTitle($this->getTitle());
+		$lm_page->setShortTitle($this->getShortTitle());
 		$lm_page->setLayout($this->getLayout());
 		$lm_page->setLMId($a_target_lm->getId());
 		$lm_page->setType($this->getType());
@@ -172,6 +173,7 @@ class ilLMPageObject extends ilLMObject
 		// copy page
 		$lm_page = new ilLMPageObject($a_cont_obj);
 		$lm_page->setTitle($this->getTitle());
+		$lm_page->setShortTitle($this->getShortTitle());
 		$lm_page->setLMId($a_cont_obj->getId());
 		$lm_page->setImportId("il__pg_".$this->getId());
 		$lm_page->setType($this->getType());
@@ -398,7 +400,7 @@ class ilLMPageObject extends ilLMObject
 	*/
 	static function _getPresentationTitle($a_pg_id, $a_mode = IL_CHAPTER_TITLE,
 		$a_include_numbers = false, $a_time_scheduled_activation = false,
-		$a_force_content = false, $a_lm_id = 0, $a_lang = "-")
+		$a_force_content = false, $a_lm_id = 0, $a_lang = "-", $a_include_short = false)
 	{
 		if($a_mode == IL_NO_HEADER && !$a_force_content)
 		{
@@ -416,7 +418,15 @@ class ilLMPageObject extends ilLMObject
 		}
 
 		// this is optimized when ilLMObject::preloadDataByLM is invoked (e.g. done in ilLMExplorerGUI)
-		$title = ilLMObject::_lookupTitle($a_pg_id);
+		$title = "";
+		if ($a_include_short)
+		{
+			$title = trim(ilLMObject::_lookupShortTitle($a_pg_id));
+		}
+		if ($title == "")
+		{
+			$title = ilLMObject::_lookupTitle($a_pg_id);
+		}
 
 		// this is also optimized since ilObjectTranslation re-uses instances for one lm
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
@@ -427,9 +437,18 @@ class ilLMPageObject extends ilLMObject
 		{
 			include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 			$lmobjtrans = new ilLMObjTranslation($a_pg_id, $a_lang);
-			if ($lmobjtrans->getTitle() != "")
+			$trans_title = "";
+			if ($a_include_short)
 			{
-				$title = $lmobjtrans->getTitle();
+				$trans_title = trim($lmobjtrans->getShortTitle());
+			}
+			if ($trans_title == "")
+			{
+				$trans_title = $lmobjtrans->getTitle();
+			}
+			if ($trans_title != "")
+			{
+				$title = $trans_title;
 			}
 		}
 
@@ -483,7 +502,7 @@ class ilLMPageObject extends ilLMObject
 			//$struct_obj = new ilStructureObject($pred_node["obj_id"]);
 			//return $struct_obj->getTitle();
 			return ilStructureObject::_getPresentationTitle($pred_node["obj_id"], IL_CHAPTER_TITLE,
-				$a_include_numbers, false, false, 0, $a_lang).$cnt_str;
+				$a_include_numbers, false, false, 0, $a_lang, true).$cnt_str;
 
 			//return $pred_node["title"].$cnt_str;
 		}

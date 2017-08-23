@@ -2461,7 +2461,7 @@ class ilLMPresentationGUI
 			// get presentation title
 			$prev_title = ilLMPageObject::_getPresentationTitle($pre_node["obj_id"],
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
+				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang, true);
 			$prev_title = ilUtil::shortenText($prev_title, 50, true);
 			$prev_img = 
 				ilUtil::getImagePath("nav_arr_L.png", false, "output", $this->offlineMode());
@@ -2519,7 +2519,7 @@ class ilLMPresentationGUI
 			// get presentation title
 			$succ_title = ilLMPageObject::_getPresentationTitle($succ_node["obj_id"],
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
+				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang, true);
 			$succ_title = ilUtil::shortenText($succ_title, 50, true);
 			$succ_img =
 				ilUtil::getImagePath("nav_arr_R.png", false, "output", $this->offlineMode());

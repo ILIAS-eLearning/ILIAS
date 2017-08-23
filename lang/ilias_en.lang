@@ -13733,3 +13733,6 @@ content#:#cont_last_visited_page#:#Last Visited Page
 content#:#cont_first_page#:#First Page
 content#:#cont_lm_starting_point#:#Starting Point for ILIAS Learning Modules
 content#:#cont_lm_starting_point_info#:#Page being opened when clicking a learning modules title.
+content#:#cont_short_titles#:#Short Titles
+content#:#cont_short_title#:#Short Title
+content#:#cont_short_title_info#:#Short titles are used in the left-hand tree presentation and for labels in the previous/next navigation.

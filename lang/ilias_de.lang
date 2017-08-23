@@ -16201,3 +16201,6 @@ content#:#cont_last_visited_page#:#Zuletzt besuchte Seite
 content#:#cont_first_page#:#Erste Seite
 content#:#cont_lm_starting_point#:#Startseite für ILIAS-Lernmodule
 content#:#cont_lm_starting_point_info#:#Seite, die beim Anklicken des Lernmodultitels geöffnet wird.
+content#:#cont_short_titles#:#Kurztitel
+content#:#cont_short_title#:#Kurztitel
+content#:#cont_short_title_info#:#Kurztitel werden in der Präsentationsansicht in der Baumdarstellung auf der linken Seite und für die Vor- und Zurück-Navigation genutzt.
