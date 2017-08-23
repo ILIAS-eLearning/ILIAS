@@ -7,7 +7,7 @@
  * @author Stefan Meyer <smeyer.ilias@gmx.de> 
  *
  */
-class ilOrgUnitObjectPositionSetting
+class ilOrgUnitObjectTypePositionSetting
 {
 	const DEFAULT_OFF = 0;
 	const DEFAULT_ON = 1;

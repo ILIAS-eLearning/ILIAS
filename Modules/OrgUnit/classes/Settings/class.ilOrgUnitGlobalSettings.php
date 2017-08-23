@@ -22,7 +22,7 @@ class ilOrgUnitGlobalSettings
 	
 	
 	/**
-	 * @var ilOrgUnitObjectPositionSetting[]
+	 * @var ilOrgUnitObjectTypePositionSetting[]
 	 */
 	private $position_settings = [];
 	
@@ -32,7 +32,7 @@ class ilOrgUnitGlobalSettings
 	protected function __construct()
 	{
 		$this->object_definition = $GLOBALS['DIC']['objDefinition'];
-		$this->read();
+		$this->readSettings();
 	}
 	
 	/**
@@ -51,7 +51,7 @@ class ilOrgUnitGlobalSettings
 	/**
 	 * Get object position settings by type
 	 * @param string $a_obj_type
-	 * @return ilOrgUnitObjectPositionSetting
+	 * @return ilOrgUnitObjectTypePositionSetting
 	 * @throws \InvalidArgumentException
 	 */
 	public function getObjectPositionSettingsByType($a_obj_type)
@@ -70,7 +70,7 @@ class ilOrgUnitGlobalSettings
 	{
 		foreach($this->object_definition->getOrgUnitPermissionTypes() as $type)
 		{
-			$this->position_settings[$type] = new ilOrgUnitObjectPositionSetting($type);
+			$this->position_settings[$type] = new ilOrgUnitObjectTypePositionSetting($type);
 		}
 	}
 }
