@@ -1,0 +1,6 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$" id="noti">
+	<events>
+		<event type="listen" id="Service/Object" />
+	</events>
+</service>

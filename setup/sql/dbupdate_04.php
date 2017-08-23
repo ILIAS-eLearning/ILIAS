@@ -19279,8 +19279,385 @@ if(!$ilDB->tableColumnExists('grp_settings', 'grp_end'))
 			"length" => 4
 		));
 }
-?>
+?>	
 <#5114>
+<?php
+if (!$ilDB->tableExists("usr_starting_point"))
+{
+	$ilDB->createTable("usr_starting_point", array(
+		"id" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		),
+		"position" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false,
+			"default" => 0
+		),
+		"starting_point" => array (
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false,
+			"default" => 0
+		),
+		"starting_object" => array (
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false,
+			"default" => 0
+		),
+		"rule_type" => array (
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false,
+			"default" => 0
+		),
+		"rule_options" => array (
+			"type" => "text",
+			"length" => 4000,
+			"notnull" => false,
+		)
+	));
+
+	$ilDB->addPrimaryKey('usr_starting_point', array('id'));
+	$ilDB->createSequence('usr_starting_point');
+}
+?>
+<#5115>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5116>
+<?php
+if($ilDB->tableExists("exc_assignment"))
+{
+	if(!$ilDB->tableColumnExists('exc_assignment','portfolio_template'))
+	{
+		$ilDB->addTableColumn("exc_assignment", "portfolio_template", array("type" => "integer", "length" => 4));
+	}
+	if(!$ilDB->tableColumnExists('exc_assignment','min_char_limit'))
+	{
+		$ilDB->addTableColumn("exc_assignment", "min_char_limit", array("type" => "integer", "length" => 4));
+	}
+	if(!$ilDB->tableColumnExists('exc_assignment','max_char_limit'))
+	{
+		$ilDB->addTableColumn("exc_assignment", "max_char_limit", array("type" => "integer", "length" => 4));
+	}
+}
+?>
+<#5117>
+<?php
+if(!$ilDB->tableExists("exc_ass_file_order"))
+{
+	$fields = array(
+		"id" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		),
+		"assignment_id" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		),
+		"filename" => array(
+			"type" => "text",
+			"length" => 150,
+			"notnull" => true,
+		),
+		"order_nr" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		),
+	);
+
+	$ilDB->createTable("exc_ass_file_order", $fields);
+	$ilDB->addPrimaryKey('exc_ass_file_order', array('id'));
+
+	$ilDB->createSequence("exc_ass_file_order");
+}
+?>
+<#5118>
+<?php
+	//
+?>
+<#5119>
+<?php
+	if(!$ilDB->tableExists("obj_noti_settings"))
+	{
+		$fields = array(
+			"obj_id" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true,
+				"default" => 0
+			),
+			"noti_mode" => array(
+				"type" => "integer",
+				"length" => 1,
+				"notnull" => true,
+				"default" => 0
+			)
+		);
+
+		$ilDB->createTable("obj_noti_settings", $fields);
+		$ilDB->addPrimaryKey('obj_noti_settings', array('obj_id'));
+	}
+?>
+<#5120>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5121>
+<?php
+
+if(!$ilDB->tableColumnExists('notification','activated'))
+{
+	$ilDB->addTableColumn(
+		'notification',
+		'activated',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		));
+
+	$ilDB->manipulate("UPDATE notification SET ".
+		" activated = ".$this->db->quote(1, "integer"));
+}
+?>
+<#5122>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5123>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5124>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5125>
+<?php
+if(!$ilDB->tableColumnExists('itgr_data','behaviour'))
+{
+	$ilDB->addTableColumn(
+		'itgr_data',
+		'behaviour',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		)
+	);
+}
+?>
+<#5126>
+<?php
+	$ilSetting = new ilSetting();
+	$ilSetting->set('letter_avatars', 1);
+?>
+<#5127>
+<?php
+
+	if (!$ilDB->tableExists('pdfgen_conf'))
+	{
+		$fields = array (
+			'conf_id'			=> array('type' => 'integer', 	'length' => 4,		'notnull' => true),
+			'renderer'			=> array('type' => 'text', 		'length' => 255,	'notnull' => true),
+			'service'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+			'purpose'			=> array('type' => 'text',		'length' => 255,	'notnull' => true),
+			'config'			=> array('type' => 'clob')
+		);
+
+		$ilDB->createTable('pdfgen_conf', $fields);
+		$ilDB->addPrimaryKey('pdfgen_conf', array('conf_id'));
+		$ilDB->createSequence('pdfgen_conf');
+	}
+
+	if (!$ilDB->tableExists('pdfgen_map'))
+	{
+		$fields = array (
+			'map_id'			=> array('type' => 'integer', 	'length' => 4,		'notnull' => true),
+			'service'			=> array('type' => 'text', 		'length' => 255,	'notnull' => true),
+			'purpose'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+			'preferred'			=> array('type' => 'text',		'length' => 255,	'notnull' => true),
+			'selected'			=> array('type' => 'text',		'length' => 255,	'notnull' => true)
+	);
+
+	$ilDB->createTable('pdfgen_map', $fields);
+	$ilDB->addPrimaryKey('pdfgen_map', array('map_id'));
+	$ilDB->createSequence('pdfgen_map');
+}
+?>
+<#5128>
+	<?php
+		if (!$ilDB->tableExists('pdfgen_purposes'))
+		{
+			$fields = array (
+				'purpose_id'		=> array('type' => 'integer', 	'length' => 4,		'notnull' => true),
+				'service'			=> array('type' => 'text', 		'length' => 255,	'notnull' => true),
+				'purpose'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+			);
+
+			$ilDB->createTable('pdfgen_purposes', $fields);
+			$ilDB->addPrimaryKey('pdfgen_purposes', array('purpose_id'));
+			$ilDB->createSequence('pdfgen_purposes');
+		}
+	?>
+<#5129>
+<?php
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	ilDBUpdateNewObjectType::addAdminNode('pdfg', 'PDFGeneration');
+?>
+<#5130>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5131>
+<?php
+	if (!$ilDB->tableExists('pdfgen_renderer'))
+	{
+		$fields = array (
+		'renderer_id'	=> array('type' => 'integer', 	'length' => 4,		'notnull' => true),
+		'renderer'		=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+		'path'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+		);
+
+		$ilDB->createTable('pdfgen_renderer', $fields);
+		$ilDB->addPrimaryKey('pdfgen_renderer', array('renderer_id'));
+		$ilDB->createSequence('pdfgen_renderer');
+	}
+
+	if (!$ilDB->tableExists('pdfgen_renderer_avail'))
+	{
+		$fields = array (
+		'availability_id'	=> array('type' => 'integer', 	'length' => 4,		'notnull' => true),
+		'service'			=> array('type' => 'text', 		'length' => 255,	'notnull' => true),
+		'purpose'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+		'renderer'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+	);
+
+	$ilDB->createTable('pdfgen_renderer_avail', $fields);
+	$ilDB->addPrimaryKey('pdfgen_renderer_avail', array('availability_id'));
+	$ilDB->createSequence('pdfgen_renderer_avail');
+}
+?>
+<#5132>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5133>
+<?php
+	$ilDB->insert('pdfgen_renderer',
+		array(
+		'renderer_id' => array('integer', $ilDB->nextId('pdfgen_renderer')),
+		'renderer'	=> array('text', 'TCPDF'),
+		'path'		=> array('text', 'Services/PDFGeneration/classes/renderer/tcpdf/class.ilTCPDFRenderer.php')
+		)
+	);
+?>
+<#5134>
+<?php
+	$ilDB->insert('pdfgen_renderer',
+		array(
+		'renderer_id' => array('integer',$ilDB->nextId('pdfgen_renderer')),
+		'renderer'	=> array('text','PhantomJS'),
+		'path'		=> array('text','Services/PDFGeneration/classes/renderer/phantomjs/class.ilPhantomJSRenderer.php')
+		)
+	);
+?>
+<#5135>
+<?php
+	$ilDB->insert('pdfgen_renderer_avail',
+		array(
+		'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
+		'service' 	=> array('text', 'Test'),
+		'purpose' 	=> array('text', 'PrintViewOfQuestions'),
+		'renderer'	=> array('text', 'PhantomJS')
+		)
+	);
+?>
+<#5136>
+<?php
+	$ilDB->insert('pdfgen_renderer_avail',
+		array(
+			'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
+			'service' 	=> array('text', 'Test'),
+			'purpose' 	=> array('text', 'UserResult'),
+			'renderer'	=> array('text', 'PhantomJS')
+		)
+	);
+?>
+<#5137>
+<?php
+	$ilDB->insert('pdfgen_renderer_avail',
+		array(
+			'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
+			'service' 	=> array('text', 'Test'),
+			'purpose' 	=> array('text', 'PrintViewOfQuestions'),
+			'renderer'	=> array('text', 'TCPDF')
+		)
+	);
+?>
+<#5138>
+<?php
+$ilDB->insert('pdfgen_renderer_avail',
+	array(
+		'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
+		'service' 	=> array('text', 'Test'),
+		'purpose' 	=> array('text', 'UserResult'),
+		'renderer'	=> array('text', 'TCPDF')
+	)
+);
+?>
+<#5139>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5140>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5141>
+<?php
+if(!$ilDB->tableColumnExists('lm_data','short_title'))
+{
+	$ilDB->addTableColumn(
+		'lm_data',
+		'short_title',
+		array(
+			'type' => 'text',
+			'length' => 200,
+			'default' => ''
+		));
+}
+?>
+<#5142>
+<?php
+if(!$ilDB->tableColumnExists('lm_data_transl','short_title'))
+{
+	$ilDB->addTableColumn(
+		'lm_data_transl',
+		'short_title',
+		array(
+			'type' => 'text',
+			'length' => 200,
+			'default' => ''
+		));
+}
+?>
+<#5143>
 <?php
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 $iass_type_id = ilDBUpdateNewObjectType::getObjectTypeId('iass');

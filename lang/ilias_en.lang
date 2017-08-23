@@ -63,6 +63,22 @@ forum#:#adm_save_drafts_desc#:#If enabled, registered users are able to save for
 forum#:#adm_autosave_drafts#:#Automatically save drafts
 forum#:#adm_autosave_ival#:#Interval
 forum#:#adm_autosave_drafts_desc#:#If activated, drafts are saved automatically during editing.
+common#:#pwsp_recalculate_disk_quota#:#Personal Workspace: Recalculation of Disk Quota
+common#:#pwsp_recalculate_disk_quota_desc#:#Recalculates all disk quota values for the personal workspace.
+itgr#:#itgr_show_title#:#Show Title
+itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.
+itgr#:#itgr_behaviour#:#Block Behaviour
+itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.
+itgr#:#itgr_always_open#:#Always Open
+itgr#:#itgr_expandable_closed#:#Expandable (initially closed)
+itgr#:#itgr_expandable_open#:#Expandable (initially opened)
+exc#:#exc_submission_and_grades_notification_link#:#Link to Exercise (Submissions and Grades): %s
+exc#:#exc_submission_downloads_notification_link#:#Download New Submissions: %s
+exc#:#exc_submission_no_new_files#:#No new submissions available.
+exc#:#exc_wait_for_files#:#Your download should start automatically. If the download doesn't start in 5 secs, please click here
+exc#:#exc_target_not_valid#:#Target requested is not valid or incomplete.
+exc#:#exc_no_get_target#:#A valid target has not been sent.
+exc#:#exc_all_new_files_offered_already#:#All new files have already been offered for download. For another download, please click on the action links below.
 acc#:#acc_access_key#:#Access Key
 acc#:#acc_access_keys#:#Access Keys
 acc#:#acc_comp_frm#:#Forum
@@ -6299,8 +6315,8 @@ notes#:#notes_show_comments#:#Show Comments
 pd#:#pd_enable_block_moving_info#:#Allow users to reorganize the content blocks on the personal desktop.
 pd#:#pd_enable_block_moving#:#Enable Block Moving
 pd#:#pd_enable_bookmarks#:#Enable Bookmarks
-pd#:#pd_enable_my_memberships_info#:#‘My Courses and Groups’ contains all courses and groups the user is assigned to as a member.
-pd#:#pd_enable_my_memberships#:#Enable ‘My Courses and Groups’
+pd#:#pd_enable_my_memberships_info#:#‘Courses and Groups’ contains all courses and groups the user is assigned to as a member.
+pd#:#pd_enable_my_memberships#:#Enable ‘Courses and Groups’
 pd#:#pd_enable_my_offers_info#:#The view ‘Selected Items’ contains all objects which are placed on the user's Personal Desktop.
 pd#:#pd_enable_my_offers#:#Enable ‘Selected Items’
 pd#:#pd_enable_notes#:#Enable Notes
@@ -8158,8 +8174,8 @@ content#:#cont_layout_template#:#Layout Template
 content#:#cont_special_page#:#Special Content Page
 wiki#:#wiki_public_comments#:#Public Comments
 trac#:#trac_learning_progress_of#:#Learning Progress of %s
-common#:#personal_workspace#:#My Workspace
-wsp#:#wsp_personal_workspace#:#My Workspace
+common#:#personal_workspace#:#Workspace
+wsp#:#wsp_personal_workspace#:#Workspace
 wsp#:#wsp_personal_workspace_description#:#Here you can manage your private files, blogs and artifacts.
 wsp#:#wsp_type_file#:#File
 wsp#:#wsp_type_wfld#:#Folder
@@ -8654,7 +8670,7 @@ blog#:#blog_preview#:#Preview
 ecs#:#ecs_field_community#:#Community
 skmg#:#skmg_new_sktr#:#New Competence Template Reference
 skmg#:#skmg_edit_sktr#:#Edit Competence Template Reference
-common#:#skills#:#My Competences
+common#:#skills#:#Competences
 skmg#:#skmg_list_skills#:#List Competences
 skmg#:#skmg_assign_materials#:#Assign Materials
 skmg#:#skmg_add_skill#:#Add Competence
@@ -9035,7 +9051,7 @@ scormdebug#:#debugwindow_download#:#Download
 scormdebug#:#debugwindow_open#:#Open
 common#:#password_multiple_errors#:#Multiple criteria are not satisfied:
 common#:#password_contains_invalid_chars#:#The password contains invalid characters
-content#:#cont_file_from_workspace#:#File From My Workspace
+content#:#cont_file_from_workspace#:#File From Workspace
 skmg#:#skmg_create_skill_template#:#Create Competence Template
 skmg#:#skmg_create_skill_template_category#:#Create Competence Template Category
 skmg#:#skmg_save_order#:#Save Order
@@ -9050,7 +9066,7 @@ chatroom#:#server_further_information#:#You can find further information about t
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
 blog#:#blog_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s
-prtf#:#prtf_exercise_submitted_info#:#You submitted your portfolio %s.  Additionally you might want to save a copy for your own files: %s
+prtf#:#prtf_exercise_submitted_info#:#You submitted your portfolio on %s, Additionally you might want to save a copy for your own files: %s
 exc#:#exc_select_blog#:#Use Existing Blog
 exc#:#exc_select_portfolio#:#Use Existing Portfolio
 exc#:#exc_select_blog_info#:#Please select one of your blogs to use it with this assignment.
@@ -9059,7 +9075,7 @@ exc#:#exc_select_blog_change#:#Use different blog
 exc#:#exc_select_portfolio_change#:#Use different portfolio
 exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
-common#:#my_courses_groups#:#My Courses and Groups
+common#:#my_courses_groups#:#Courses and Groups
 content#:#cont_sc_auto_continue#:#Redirect Users
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
 blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.
@@ -9275,7 +9291,7 @@ blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Perso
 prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?
 prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.
 survey#:#svy_participation#:#Participation
-blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list.
+blog#:#blog_new_posting_info#:#The posting is published.
 survey#:#svy_page_add_question#:#Add new %s
 skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.
 common#:#spl_import#:#Import Question Pool Survey
@@ -9300,7 +9316,7 @@ common#:#server_disabled#:#The Chat is Disabled
 rbac#:#rbac_create_chtr#:#Create Chat Room
 search#:#search_err_user_not_exist#:#A user with that login name does not exist.
 blog#:#blog_draft#:#Draft
-blog#:#blog_draft_info#:#This posting draft is only visible for the author.
+blog#:#blog_draft_info#:#The posting is withdrawn and no longer published.
 blog#:#blog_toggle_draft#:#Withdraw Publication
 blog#:#blog_toggle_final#:#Publish Posting
 dateplaner#:#cal_cal_deleted#:#The calendars have been deleted
@@ -12541,7 +12557,7 @@ mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory,
 mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.
 mob#:#mob_multi_srt_files#:#SRT Files
 content#:#cont_subtitle_files#:#Media Subtitles
-content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects of the learning module. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" -> "my_video_en.srt".
+content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" -> "my_video_en.srt".
 content#:#cont_moved_srt_files#:#Moved subtitles files to media objects.
 content#:#cont_subtitle_file#:#SRT ZIP File
 content#:#cont_multi_srt_files#:#SRT Files
@@ -13518,6 +13534,7 @@ chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository c
 chatroom#:#chat_deletion_interval_unit#:#Unit
 chatroom#:#chat_deletion_interval_value#:#Value
 chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s
+chatroom#:#chat_deletion_interval_run_at#:#Time
 chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
@@ -13544,6 +13561,40 @@ wsp#:#element_already_shared#:#This object is already shared with this user.
 wsp#:#search_no_match#:#Your search did not match any results.
 wsp#:#element_shared#:#Object shared.
 wsp#:#share#:#Share
+common#:#obj_pdfg#:#PDF Generation
+common#:#obj_pdfg_desc#:#Options for generation PDF documents
+common#:#building_export_file#:#Building Export File...
+pdfgen#:#phantomjs#:#PhantomJS
+pdfgen#:#page_settings#:#Page Settings
+pdfgen#:#page_size#:#Pagesize
+pdfgen#:#margin#:#Margin
+pdfgen#:#header_type#:#Header
+pdfgen#:#text#:#Text
+pdfgen#:#footer_type#:#Footer
+pdfgen#:#head_text#:#Text
+pdfgen#:#orientation#:#Orientation
+pdfgen#:#header_height#:#Header Height
+pdfgen#:#header_show_pages#:#Show Pagenumbers
+pdfgen#:#footer_text#:#Text
+pdfgen#:#footer_height#:#Height Footer
+pdfgen#:#footer_show_pages#:#Show Pagenumbers
+pdfgen#:#preferred_renderer#:#Preferred Renderer
+pdfgen#:#selected_renderer#:#Selected Renderer
+pdfgen#:#configure#:#Configure Renderer
+pdfgen#:#config_saved#:#Saved successfully
+pdfgen#:#config_not_saved#:#Saving failed
+prtf#:#pdf_export#:#PDF Export
+pdfgen#:#print_media_type#:#Use print media type instead of screen
+pdfgen#:#javascript_delay#:#Javascript delay
+pdfgen#:#margin_left#:#Margin left
+pdfgen#:#margin_top#:#Margin top
+pdfgen#:#margin_right#:#Margin right
+pdfgen#:#viewport#:#Viewport
+pdfgen#:#viewport_info#:#Viewport in pixels e.g. "1920*1080"
+pdfgen#:#margin_bottom#:#Margin bottom
+pdfgen#:#zoom#:#Zoom
+pdfgen#:#image_scale#:#Image scale
+pdfgen#:#reset_to_default#:#Reset settings to default
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.
 crs#:#crs_edit_lo_introduction#:#Edit Introduction
@@ -13590,3 +13641,98 @@ skmg#:#skmg_hide_profile_self_eval_info#:#Profile target values will not be show
 skmg#:#skmg_suggested#:#Suggested Resource
 skmg#:#skmg_lp_triggers_level#:#Triggered by Completion
 skmg#:#skmg_save_settings#:#Save Settings
+content#:#cont_pc_grid#:#Column Layout
+content#:#cont_grid_nr_cells#:#Number of Columns
+content#:#cont_ed_insert_grid#:#Insert Column Layout
+content#:#cont_grid_width_s#:#Small
+content#:#cont_grid_width_s_info#:#E.g. smartphone
+content#:#cont_grid_width_m#:#Medium
+content#:#cont_grid_width_m_info#:#E.g. tablet
+content#:#cont_grid_width_l#:#Large
+content#:#cont_grid_width_l_info#:#E.g. desktop
+content#:#cont_grid_width_xl#:#Extra Large
+content#:#cont_grid_width_xl_info#:#E.g. wide desktop
+content#:#cont_add_cell#:#Add Column
+content#:#cont_ed_delete_cell#:#Delete Column
+content#:#cont_ed_cell_left#:#Move Left
+content#:#cont_ed_cell_right#:#Move Right
+content#:#cont_ed_insert_grid_info#:#Adds a responsive column layout based on a grid with 12 units per row.
+content#:#cont_ed_grid_col_width#:#Column Width
+content#:#cont_ed_grid_col_width_info#:#Column width can span multiple 1/12 units of the row and depend on the overall screen size. Devices are given as examples. Their screen size determines the concrete behaviour. 12/12 equals to 100% width.
+content#:#cont_ed_grid_col_widths#:#Column Widths
+content#:#cont_grid_cell_confirm_deletion#:#Do you really want to delete the column(s)?
+content#:#cont_grid_cell#:#Column
+user#:#has_role#:#Role
+user#:#criteria#:#Criteria
+user#:#starting_point#:#Starting Point
+user#:#user_role_starting_point#:#User - Starting Point
+user#:#roles_without_starting_point#:#Roles without defined starting point:
+user#:#all_roles_has_starting_point#:#All the roles have starting points
+user#:#starting_page#:#Starting Point
+user#:#starting_points#:#Starting Points
+user#:#user_chooses_starting_page#:#User Chooses Starting Point
+user#:#save_order#:#Save Order
+user#:#editing_this_role#:#Role
+user#:#create_starting_point#:#Create Rule
+user#:#starting_point_settings#:#Starting Point Settings
+user#:#confirm_delete_starting_point#:#Are you sure you want to delete this rule?
+user#:#back_to_starting_points_list#:#Back to Starting Points
+exc#:#exc_work_instructions#:#Work instructions
+exc#:#exc_after_submission#:#After submission
+exc#:#exc_schedule#:#Schedule
+exc#:#exc_submit_convenience_no_deadline#:#Submit your at your convenience. There is no  specific  deadline.
+exc#:#exc_select_portfolio_unlink#:#Remove Portfolio
+exc#:#exc_sure_unlink_portfolio#:#Are you sure to remove this portfolio form this assignment?
+exc#:#exc_portfolio_unlinked_from_assignment#:#Portfolio removed from this assignment
+exc#:#exc_template#:#Template
+exc#:#exc_portfolio_template#:#Portfolio Template
+exc#:#exc_without_template#:#Without Portfolio - Template
+exc#:#exc_with_template#:#With Portfolio - Template
+exc#:#exc_without_template_info#:#Participants will create their Portfolio from scratch
+exc#:#exc_with_template_info#:#An empty Portfolio will be automatically derived from a specific Portfolio Template.
+exc#:#exc_no_portfolio_templates#:#There are no Portfolio Templates available.
+exc#:#exc_go_to_exercise#:#Go to Exercise
+exc#:#exc_limit_characters#:#Limit of characters
+exc#:#exc_min_char_limit#:#Minimum number of characters
+exc#:#exc_max_char_limit#:#Maximum number of characters
+exc#:#exc_chars_remaining#:#Characters remaining:
+exc#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
+exc#:#msg_input_char_limit_max#:#You have entered more characters than allowed.
+exc#:#exc_direct_no_submit#:#Do not submit
+obj#:#obj_activation#:#Activation
+obj#:#obj_user_decides_notification#:#Members have to manually activate notifications
+obj#:#obj_settings_for_all_members#:#Members will be notified automatically
+obj#:#obj_user_not_disable_not#:#Member are not allowed to deactivate notifications
+skmg#:#skmg_eval_type_1#:#Appraisal
+skmg#:#skmg_eval_type_2#:#Measurement
+skmg#:#skmg_eval_type_3#:#Self-Evaluation
+user#:#user_profile_info#:#User Profile Info
+user#:#user_profile_info_text_info#:#This text is presented on top of the form for entering personal data.
+user#:#user_make_profile_public#:#Publish Profile
+content#:#cont_prtf_page#:#Portfolio Page
+content#:#cont_prtt_page#:#Portfolio Tempalte Page
+svy#:#svy_user_added_360_appraisee#:#360° Survey '%1'
+svy#:#svy_user_added_360_appraisee_mail#:#You have been added to the survey as an appraisee.
+svy#:#svy_user_added_360_rater#:#360° Survey '%1'
+svy#:#svy_user_added_360_rater_mail#:#You have been added as a rater to the survey.
+svy#:#svy_user_added_360_appraisee_close_mail#:#The 360° survey has been closed for your raters.
+svy#:#survey_360_appraisees_remind_info#:#If self evaluation is activated, appraisees that have not yet finished the survey will be reminded.
+svy#:#survey_360_raters_remind_info#:#Raters that have not yet finished the survey will be reminded.
+svy#:#svy_user_added_360_rater_reminder_mail#:#Please finish to rate the following appraisees:
+prtf#:#prtf_add_new_blog#:#Add New Blog
+prtf#:#prtf_add_new_blog_info#:#The new blog will be added to your personal workspace.
+prtf#:#prtf_add_existing_blog#:#Use Existing Blog
+blog#:#blog_draft_text#:#Unpublished Post
+user#:#usr_letter_avatars#:#Letter Avatars
+user#:#usr_letter_avatars_info#:#Shows initial of user name or login as profile picture, if no public picture is being provided.
+mep#:#mep_master_language_only_no_media#:#Master Language without Media
+content#:#cont_master_language_only_no_media#:#Master Language without Media
+mep#:#mep_content#:#Content
+mep#:#mep_media_subtitles#:#Media Subtitles
+content#:#cont_last_visited_page#:#Last Visited Page
+content#:#cont_first_page#:#First Page
+content#:#cont_lm_starting_point#:#Starting Point for ILIAS Learning Modules
+content#:#cont_lm_starting_point_info#:#Page being opened when clicking a learning modules title.
+content#:#cont_short_titles#:#Short Titles
+content#:#cont_short_title#:#Short Title
+content#:#cont_short_title_info#:#Short titles are used in the left-hand tree presentation and for labels in the previous/next navigation.

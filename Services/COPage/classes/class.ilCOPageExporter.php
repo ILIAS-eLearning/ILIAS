@@ -13,6 +13,9 @@ include_once("./Services/Export/classes/class.ilXmlExporter.php");
 class ilCOPageExporter extends ilXmlExporter
 {
 	private $ds;
+	/**
+	 * @var ilCOPageExportConfig
+	 */
 	protected $config;
 
 	/**
@@ -58,12 +61,15 @@ class ilCOPageExporter extends ilXmlExporter
 					: "";
 	
 				// get media objects
-				$mids = ilObjMediaObject::_getMobsOfObject($pg_id[0].":pg", $pg_id[1], 0, $lang);
-				foreach ($mids as $mid)
+				if ($this->config->getIncludeMedia())
 				{
-					if (ilObject::_lookupType($mid) == "mob")
+					$mids = ilObjMediaObject::_getMobsOfObject($pg_id[0] . ":pg", $pg_id[1], 0, $lang);
+					foreach ($mids as $mid)
 					{
-						$mob_ids[] = $mid;
+						if (ilObject::_lookupType($mid) == "mob")
+						{
+							$mob_ids[] = $mid;
+						}
 					}
 				}
 	
@@ -161,8 +167,11 @@ class ilCOPageExporter extends ilXmlExporter
 				$page_object->insertInstIntoIDs(IL_INST_ID);
 				$pxml = $page_object->getXMLFromDom(false, false, false, "", true);
 				$pxml = str_replace("&","&amp;", $pxml);
+				$a_media = ($this->config->getIncludeMedia())
+					? ""
+					: 'WithoutMedia="1"';
 				$xml.= '<PageObject Language="'.$l.'" Active="'.$page_object->getActive().'" ActivationStart="'.$page_object->getActivationStart().'" ActivationEnd="'.
-					$page_object->getActivationEnd().'" ShowActivationInfo="'.$page_object->getShowActivationInfo().'">';
+					$page_object->getActivationEnd().'" ShowActivationInfo="'.$page_object->getShowActivationInfo().'" '.$a_media.'>';
 				$xml.= $pxml;
 				$xml.= "</PageObject>";
 				$page_object->freeDom();

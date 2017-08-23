@@ -47,6 +47,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
 		// needed for notification
 		$this->getBlogPosting()->setBlogNodeId($this->node_id, $this->isInWorkspace());
+		$this->getBlogPosting()->getPageConfig()->setEditLockSupport(!$this->isInWorkspace());
 		
 		// #11151
 		$this->may_contribute = (bool)$a_may_contribute;
@@ -108,6 +109,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			default:
 				if($posting)
 				{
+					if($_REQUEST["cmd"] == "deactivatePageToList")
+					{
+						ilUtil::sendSuccess($this->lng->txt("blog_draft_info"), true);
+					}
+					else if($_REQUEST["cmd"] == "activatePageToList")
+					{
+						ilUtil::sendSuccess($this->lng->txt("blog_new_posting_info"), true);
+					}
 					$this->setPresentationTitle($posting->getTitle());
 					
 					$tpl->setTitle(ilObject::_lookupTitle($this->getBlogPosting()->getBlogId()).": ". // #15017
@@ -857,7 +866,19 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			(int)round($src_width*$shrink_ratio), 
 			(int)round($src_height*$shrink_ratio)
 		);
-	}	
+	}
+
+	/**
+	 * Get disabled text
+	 *
+	 * @param
+	 * @return
+	 */
+	function getDisabledText()
+	{
+		return $this->lng->txt("blog_draft_text");
+	}
+
 }
 
 ?>

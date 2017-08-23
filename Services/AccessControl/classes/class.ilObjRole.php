@@ -35,7 +35,6 @@ class ilObjRole extends ilObject
 	/** The disk quota in bytes */
 	var $disk_quota;
 	var $wsp_disk_quota;
-
 	/**
 	* Constructor
 	* @access	public
@@ -1050,6 +1049,5 @@ class ilObjRole extends ilObject
 			}
 			return true;
 	}
-	
 } // END class.ilObjRole
 ?>
