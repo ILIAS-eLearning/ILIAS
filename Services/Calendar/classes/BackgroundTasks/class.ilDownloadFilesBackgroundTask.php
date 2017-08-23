@@ -108,9 +108,7 @@ class ilDownloadFilesBackgroundTask
 		$zip_job = $this->task_factory->createTask(ilCalendarZipJob::class, [$copy_job]);
 		
 		$download_name = new StringValue();
-		//todo: rename the zip with a proper name.
-		//CalendarFiles_YY-MM-DD  but what to do if it's a range like a week or month?
-		$download_name->setValue('CalendarFiles_20170821.zip');
+		$download_name->setValue($this->getBucketTitle().'.zip');
 		
 		
 		$download_interaction = $this->task_factory->createTask(
