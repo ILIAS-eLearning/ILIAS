@@ -1,6 +1,4 @@
 <?php
-require_once("class.ilMStShowUserCoursesTableGUI.php");
-
 /**
  * GUI-Class Table ilMStShowUserGUI
  *
@@ -11,34 +9,23 @@ require_once("class.ilMStShowUserCoursesTableGUI.php");
  */
 class ilMStShowUserGUI {
 
-	/**
-	 * @var  ilTable2GUI
-	 */
-	protected $table;
-	protected $tpl;
-	protected $ctrl;
-	protected $toolbar;
-	/**
-	 * @var ilTabsGUI
-	 */
-	protected $tabs;
-	protected $access;
-
-    protected $usr_id;
+    /**
+     * @var  ilTable2GUI
+     */
+    protected $table;
+    /**
+     * @var ilTabsGUI
+     */
+    protected $tabs;
 
 
 	function __construct() {
-		global $tpl, $ilCtrl, $ilAccess, $lng, $ilToolbar, $ilTabs;
-		/**
-		 * @var ilTemplate      $tpl
-		 * @var ilCtrl          $ilCtrl
-		 * @var ilAccessHandler $ilAccess
-		 */
+		global $tpl, $ilCtrl, $lng, $ilTabs;
+
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
-		$this->toolbar = $ilToolbar;
-		$this->tabs = $ilTabs;
 		$this->lng = $lng;
+		$this->tabs = $ilTabs;
 
 		$this->usr_id = $_GET['usr_id'];
         $this->ctrl->setParameter($this, 'usr_id', $this->usr_id);

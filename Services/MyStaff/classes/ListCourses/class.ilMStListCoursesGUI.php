@@ -1,7 +1,4 @@
 <?php
-require_once("class.ilMStListCoursesTableGUI.php");
-require_once("Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
-
 /**
  * GUI-Class Table ilMStListCoursesGUI
  *
@@ -12,32 +9,11 @@ require_once("Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
  */
 class ilMStListCoursesGUI {
 
-	/**
-	 * @var  ilTable2GUI
-	 */
-	protected $table;
-	protected $tpl;
-	protected $ctrl;
-	protected $pl;
-	protected $toolbar;
-	/**
-	 * @var ilTabsGUI
-	 */
-	protected $tabs;
-	protected $access;
-
-
 	function __construct() {
-		global $tpl, $ilCtrl, $ilAccess, $lng, $ilToolbar, $ilTabs;
-		/**
-		 * @var ilTemplate      $tpl
-		 * @var ilCtrl          $ilCtrl
-		 * @var ilAccessHandler $ilAccess
-		 */
+		global $tpl, $ilCtrl, $lng;
+
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
-		$this->toolbar = $ilToolbar;
-		$this->tabs = $ilTabs;
 		$this->lng = $lng;
 	}
 

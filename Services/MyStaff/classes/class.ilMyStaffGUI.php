@@ -1,18 +1,16 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once './Services/MyStaff/classes/ListUsers/class.ilMStListUsersGUI.php';
-require_once './Services/MyStaff/classes/ListCourses/class.ilMStListCoursesGUI.php';
-require_once './Services/MyStaff/classes/ShowUser/class.ilMStShowUserGUI.php';
-
 /**
  * My Staff GUI class
  *
  * @author Martin Studer <ms@studer-raimann.ch>
- * @version $Id$
- *
  */
 class ilMyStaffGUI
 {
+    /**
+     * @var ilTabsGUI
+     */
+    protected $tabs;
+
     /**
      * Constructor
      *
@@ -22,13 +20,6 @@ class ilMyStaffGUI
     function __construct()
     {
         global $tpl, $ilCtrl, $ilTabs, $lng;
-        /**
-         * @var $tpl ilTemplate
-         * @var $ilCtrl ilCtrl
-         * @var $ilTabs ilTabsGUI
-         * @var $lng ilLanguage
-         */
-
         $this->ctrl = $ilCtrl;
         $this->tabs = $ilTabs;
         $this->lng = $lng;

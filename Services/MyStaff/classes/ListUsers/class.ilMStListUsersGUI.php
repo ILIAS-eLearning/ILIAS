@@ -1,6 +1,4 @@
 <?php
-require_once("class.ilMStListUsersTableGUI.php");
-
 /**
  * GUI-Class Table ilMStListUsersGUI
  *
@@ -26,16 +24,9 @@ class ilMStListUsersGUI {
 
 
 	function __construct() {
-		global $tpl, $ilCtrl, $ilAccess, $lng, $ilToolbar, $ilTabs;
-		/**
-		 * @var ilTemplate      $tpl
-		 * @var ilCtrl          $ilCtrl
-		 * @var ilAccessHandler $ilAccess
-		 */
+		global $tpl, $ilCtrl, $lng;
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
-		$this->toolbar = $ilToolbar;
-		$this->tabs = $ilTabs;
 		$this->lng = $lng;
 	}
 

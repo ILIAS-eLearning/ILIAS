@@ -1,58 +1,36 @@
 <?php
-require_once "./Services/Table/classes/class.ilTable2GUI.php";
-require_once "./Services/Form/classes/class.ilTextInputGUI.php";
-require_once "./Services/Form/classes/class.ilSelectInputGUI.php";
-require_once "class.ilMStListCourses.php";
-require_once "class.ilMStListCourse.php";
-require_once "./Services/Tracking/classes/class.ilLPStatus.php";
-require_once "./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php";
-
-//require_once("./Services/Container/classes/class.ilContainerObjectiveGUI.php");
-
 /**
  * Class ilMStListCoursesTableGUI
  *
  * @author  Martin Studer <ms@studer-raimann.ch>
- * @version 1.0.0
  *
  */
 class ilMStListCoursesTableGUI extends ilTable2GUI {
 
-	/**
-	 * @var ilCtrl $ctrl
-	 */
-	protected $ctrl;
-	/** @var  array $filter */
-	protected $filter = array();
-	protected $access;
-
-	protected $ignored_cols;
-
-	protected $custom_export_formats = array();
-	protected $custom_export_generators = array();
-
-	/** @var array */
-	protected $numeric_fields = array("course_id");
-
-
+    /**
+     * @var array
+     */
+    protected $filter = array();
+    /**
+     * @var ilMyStaffAcess
+     */
+    protected $access;
 
 	/**
 	 * @param ilMStListCoursesGUI $parent_obj
 	 * @param string $parent_cmd
 	 */
 	public function __construct($parent_obj, $parent_cmd = "index") {
-		/** @var $ilCtrl ilCtrl */
-		/** @var ilToolbarGUI $ilToolbar */
-        /** @var $DIC ILIAS\DI\Container */
-		global $ilCtrl, $ilToolbar, $DIC, $tpl, $lng, $ilUser;
+		global $ilCtrl, $DIC, $lng;
 
 		$this->ctrl = $ilCtrl;
+        $this->dic = $DIC;
+		$this->lng = $lng;
+
         $this->access = ilMyStaffAcess::getInstance();
 
-		$this->lng = $lng;
-		$this->toolbar = $ilToolbar;
 
-        $this->dic = $DIC;
+
 
 		$this->setPrefix('myst_lc');
 		$this->setFormName('myst_lc');
@@ -60,10 +38,8 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 
 		parent::__construct($parent_obj, $parent_cmd, '');
 
-		//$this->addMultiCommand('multiUserAccreditation', $this->pl->txt('accr_create_courses'));
 		$this->setRowTemplate('tpl.list_courses_row.html',"Services/MyStaff");
 		$this->setFormAction($this->ctrl->getFormAction($parent_obj));
-		//$this->setDefaultOrderField('Datetime');
 		$this->setDefaultOrderDirection('desc');
 
 		$this->setShowRowsSelector(true);
@@ -72,7 +48,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		$this->setDisableFilterHiding(true);
 		$this->setEnableNumInfo(true);
 
-		$this->setIgnoredCols(array());
 		$this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_CSV));
 
 		$this->setFilterCols(5);
@@ -141,21 +116,24 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
         $item->readFromSession();
         $this->filter["memb_status"] = $item->getValue();
 
-        //learning progress status
-        $item = new ilSelectInputGUI($this->lng->txt('learning_progress'),'lp_status');
-        //+1 because LP_STATUS_NOT_ATTEMPTED_NUM is 0.
-        $item->setOptions(array("" => $this->lng->txt("mst_opt_all"),
-            ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
-            ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
-            ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_COMPLETED),
-            ilLPStatus::LP_STATUS_FAILED_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_FAILED)));
-        $this->addFilterItem($item);
-        $item->readFromSession();
-        $this->filter["lp_status"] = $item->getValue();
-        if($this->filter["lp_status"])
-        {
-            $this->filter["lp_status"] = $this->filter["lp_status"] - 1;
+        if(ilObjUserTracking::_enabledLearningProgress()) {
+            //learning progress status
+            $item = new ilSelectInputGUI($this->lng->txt('learning_progress'),'lp_status');
+            //+1 because LP_STATUS_NOT_ATTEMPTED_NUM is 0.
+            $item->setOptions(array("" => $this->lng->txt("mst_opt_all"),
+                ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
+                ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
+                ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_COMPLETED),
+                ilLPStatus::LP_STATUS_FAILED_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_FAILED)));
+            $this->addFilterItem($item);
+            $item->readFromSession();
+            $this->filter["lp_status"] = $item->getValue();
+            if($this->filter["lp_status"])
+            {
+                $this->filter["lp_status"] = $this->filter["lp_status"] - 1;
+            }
         }
+
 
         //user
         $item = new ilTextInputGUI($this->lng->txt("login")."/".$this->lng->txt("email")."/".$this->lng->txt("name"), "user");
@@ -195,8 +173,9 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 
 		$cols['crs_title'] = array('txt' => $this->lng->txt('crs_title'), 'default' => true, 'width' => 'auto','sort_field' => 'crs_title');
 		$cols['usr_reg_status'] = array('txt' => $this->lng->txt('member_status'), 'default' => true, 'width' => 'auto','sort_field' => 'reg_status');
-		$cols['usr_lp_status'] = array('txt' => $this->lng->txt('learning_progress'), 'default' => true, 'width' => 'auto','sort_field' => 'lp_status');
-
+        if(ilObjUserTracking::_enabledLearningProgress()) {
+            $cols['usr_lp_status'] = array('txt' => $this->lng->txt('learning_progress'), 'default' => true, 'width' => 'auto', 'sort_field' => 'lp_status');
+        }
 
         if($arr_searchable_user_columns['login']) {
             $cols['usr_login'] = array('txt' => $this->lng->txt('login'), 'default' => true, 'width' => 'auto','sort_field' => 'usr_login');
@@ -218,8 +197,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 
 
 	private function addColumns() {
-		//$this->setSelectAllCheckbox("user_ids[]");
-		//$this->addColumn('', '', '1', true);
 		foreach ($this->getSelectableColumns() as $k => $v) {
 			if ($this->isColumnSelected($k)) {
 				if (isset($v['sort_field'])) {
@@ -230,11 +207,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 				$this->addColumn($v['txt'], $sort, $v['width']);
 			}
 		}
-        //Actions
-        /*
-        if(!$this->getExportMode()) {
-            $this->addColumn($this->lng->txt('actions'));
-        }*/
 	}
 
 
@@ -244,11 +216,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
     public function fillRow($my_staff_course) {
 
         $propGetter = Closure::bind(  function($prop){return $this->$prop;}, $my_staff_course, $my_staff_course );
-
-
-        /*$this->tpl->setCurrentBlock('record_id');
-        $this->tpl->setVariable('RECORD_ID',  '');
-        $this->tpl->parseCurrentBlock();*/
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
@@ -285,13 +252,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
                     }
             }
         }
-        /*
-                $selection = new ilAdvancedSelectionListGUI();
-                $selection->setListTitle($this->pl->txt('actions'));
-                $selection->setId('selection_list_' . $a_set['user_id']);
-                $this->ctrl->setParameterByClass('srLocalUserGUI', 'user_id', $a_set['user_id']);
-                $this->tpl->setVariable('ACTIONS', $selection->getHTML());
-        */
     }
 
 
@@ -328,7 +288,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
         $propGetter = Closure::bind(  function($prop){return $this->$prop;}, $my_staff_course, $my_staff_course);
 
         $field_values = array();
-
         foreach ($this->getSelectableColumns() as $k => $v) {
             switch($k) {
                 case 'usr_assinged_orgus':
@@ -345,31 +304,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
                     break;
             }
         }
-
         return $field_values;
     }
-
-	/**
-	 * @return bool
-	 */
-	public function numericOrdering($sort_field) {
-		return in_array($sort_field, array());
-	}
-
-
-	/**
-	 * @param array $ignored_cols
-	 */
-	public function setIgnoredCols($ignored_cols) {
-		$this->ignored_cols = $ignored_cols;
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public function getIgnoredCols() {
-		return $this->ignored_cols;
-	}
 }
 ?>

@@ -5,7 +5,6 @@
  * @author  Martin Studer <ms@studer-raimann.ch>
  */
 class ilMStListCourses {
-    
 
     public static function getData(array $arr_usr_ids = array(),array $options = array()) {
         global $ilDB;

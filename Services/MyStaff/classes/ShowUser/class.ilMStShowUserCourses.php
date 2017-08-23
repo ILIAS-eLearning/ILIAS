@@ -26,8 +26,6 @@ class ilMStShowUserCourses extends ilMStListCourses {
         }
 
         $where = parent::createWhereStatement($arr_usr_ids,$arr_filter);
-
-
         $usr_filter = "usr_data.usr_id = ".$ilDB->quote($arr_filter['usr_id'],'integer');
 
         if(empty($where)){

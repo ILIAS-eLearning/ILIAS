@@ -1,67 +1,33 @@
 <?php
-require_once "./Services/Table/classes/class.ilTable2GUI.php";
-require_once "./Services/Form/classes/class.ilTextInputGUI.php";
-require_once "./Services/Form/classes/class.ilSelectInputGUI.php";
-require_once "class.ilMStListUsers.php";
-require_once "class.ilMStListUser.php";
-require_once "./Services/MyStaff/classes/class.ilMyStaffAccess.php";
-
-require_once "./Services/Form/classes/class.ilTextInputGUI.php";
-require_once "./Modules/OrgUnit/classes/class.ilObjOrgUnit.php";
-require_once "./Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php";
-require_once "./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php";
-
-//require_once("./Services/Container/classes/class.ilContainerObjectiveGUI.php");
-
 /**
  * Class ilMStListUsersTableGUI
  *
  * @author  Martin Studer <ms@studer-raimann.ch>
- * @version 1.0.0
  */
 class ilMStListUsersTableGUI extends ilTable2GUI {
 
-	/**
-	 * @var ilCtrl $ctrl
-	 */
-	protected $ctrl;
-	/** @var  array $filter */
-	protected $filter = array();
-	protected $access;
-
-	protected $ignored_cols;
-
-	protected $custom_export_formats = array();
-	protected $custom_export_generators = array();
-
-	/** @var array */
-	protected $numeric_fields = array("course_id");
-
     /**
-     * @var \ILIAS\UI\Factory
+     * @var array
      */
-    protected $factory;
-
-
+    protected $filter = array();
+    /**
+     * @var ilMyStaffAcess
+     */
+    protected $access;
 
 	/**
 	 * @param ilMStListUsersGUI $parent_obj
 	 * @param string $parent_cmd
 	 */
 	public function __construct($parent_obj, $parent_cmd = "index") {
-		/** @var $ilCtrl ilCtrl */
-		/** @var ilToolbarGUI $ilToolbar */
-        /** @var $DIC ILIAS\DI\Container */
-		global $ilCtrl, $ilToolbar, $DIC, $tpl, $lng, $ilUser;
+		global $ilCtrl, $DIC, $tpl, $lng;
 
 		$this->ctrl = $ilCtrl;
+        $this->dic = $DIC;
+        $this->tpl = $tpl;
+		$this->lng = $lng;
 
         $this->access = ilMyStaffAcess::getInstance();
-
-		$this->lng = $lng;
-		$this->toolbar = $ilToolbar;
-
-        $this->dic = $DIC;
 
 		$this->setPrefix('myst_lu');
 		$this->setFormName('myst_lu');
@@ -79,7 +45,6 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 		$this->setDisableFilterHiding(true);
 		$this->setEnableNumInfo(true);
 
-		$this->setIgnoredCols(array());
 		$this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_CSV));
 
 		$this->setFilterCols(4);
@@ -131,7 +96,6 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
         $this->filter['user'] = $item->getValue();
 
 
-
         $root = ilObjOrgUnit::getRootOrgRefId();
         $tree = ilObjOrgUnitTree::_getInstance();
         $nodes = $tree->getAllChildren($root);
@@ -146,36 +110,6 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
         $this->addFilterItem($item);
         $item->readFromSession();
         $this->filter['org_unit'] = $item->getValue();
-
-
-
-        /*
-        $ul->readFromSession();
-        $this->filter["query"] = $ul->getValue();
-
-		//User
-		$item = new ilTextInputGUI($this->lng->txt('usr'), 'user');
-		$this->addFilterItem($item);
-		$item->readFromSession();
-		$this->filter['usr_lastname'] = $item->getValue();*/
-
-		//OrganisationalUnit
-        /*
-		$item = new ilSelectInputGUI($this->pl->txt('org_unit'), 'org_unit');
-		$opts = ilObjOrgUnit::get;
-		$opts[0] = '';
-		asort($opts);
-		$item->setOptions($opts);
-		$this->addFilterItem($item);
-		$item->readFromSession();
-		$this->filter['org_unit'] = $item->getValue();
-
-		// Rekursiv
-		$item = new ilCheckboxInputGUI($this->pl->txt('recursive'), 'org_unit_recursive');
-		$item->setValue(1);
-		$this->addFilterItem($item);
-		$item->readFromSession();
-		$this->filter['org_unit_recursive'] = $item->getChecked();*/
 	}
 
 
@@ -192,15 +126,11 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
                 $cols[$key]['sort_field'] = $key;
             }
         }
-
 		return $cols;
 	}
 
 
 	private function addColumns() {
-		//$this->setSelectAllCheckbox("user_ids[]");
-		//$this->addColumn('', '', '1', true);
-
         //User Profile Picture
         if(!$this->getExportMode()) {
             $this->addColumn('');
@@ -284,10 +214,9 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
         }
 
         $user_action_collector =  ilUserActionCollector::getInstance($ilUser->getId());
-        //TODO context, context_id
         $action_collection = $user_action_collector->getActionsForTargetUser($my_staff_user->getUsrId(),'awrn','toplist');
 
-        //TODO Async
+        //TODO Async?
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setListTitle($this->lng->txt('actions'));
         $selection->setId('selection_list_' . $my_staff_user->getUsrId());
@@ -359,28 +288,5 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 
         return $field_values;
     }
-
-	/**
-	 * @return bool
-	 */
-	public function numericOrdering($sort_field) {
-		return in_array($sort_field, array());
-	}
-
-
-	/**
-	 * @param array $ignored_cols
-	 */
-	public function setIgnoredCols($ignored_cols) {
-		$this->ignored_cols = $ignored_cols;
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public function getIgnoredCols() {
-		return $this->ignored_cols;
-	}
 }
 ?>
