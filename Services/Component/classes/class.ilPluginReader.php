@@ -19,16 +19,35 @@ class ilPluginReader extends ilSaxParser
 	{
 		parent::__construct($a_path);
 
-die("Deprecated. Plugin information is stored in plugin.php");
-		
 		$this->ctype = $a_ctype;
 		$this->cname = $a_cname;
 		$this->slot_id = $a_slot_id;
 		$this->pname = $a_pname;
 	}
+
+	/**
+	 * Delete the event listeneing information
+	 */
+	function clearEvents()
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		$component = "Plugins/" . $this->pname;
+		$ilDB->manipulate("DELETE FROM il_event_handling WHERE component = " .$ilDB->quote($component, 'text'));
+	}
+
 	
 	function startParsing()
 	{
+		if ($this->getInputType() == 'file')
+		{
+			if (!file_exists($this->xml_file))
+			{
+				// not every plugin has a plugin.xml yet
+				return;
+			}
+		}
 		parent::startParsing();
 	}
 	
@@ -49,11 +68,13 @@ die("Deprecated. Plugin information is stored in plugin.php");
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		switch ($a_name)
 		{
-			case 'plugin':
+			// base plugin info is still read from the plugin.php
+			case 'plugin_tag_analyzed_in_future':
 				
 				// check whether record exists
 				$q = "SELECT * FROM il_plugin WHERE ".
@@ -93,6 +114,15 @@ die("Deprecated. Plugin information is stored in plugin.php");
 						" AND name = ".$ilDB->quote($this->pname, "text");
 					$ilDB->manipulate($q);
 				}
+				break;
+
+			case "event":
+				$component = "Plugins/" . $this->pname;
+				$q = "INSERT INTO il_event_handling (component, type, id) VALUES (".
+					$ilDB->quote($component, "text").",".
+					$ilDB->quote($a_attribs["type"], "text").",".
+					$ilDB->quote($a_attribs["id"], "text").")";
+				$ilDB->manipulate($q);
 				break;
 		}
 	}
