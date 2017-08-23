@@ -16004,6 +16004,48 @@ wsp#:#element_already_shared#:#Die Ressource ist für diesen Benutzer bereits fr
 wsp#:#search_no_match#:#Es wurde kein Benutzer mit diesem Benutzernamen gefunden.
 wsp#:#element_shared#:#Die Ressource wurde freigegeben.
 wsp#:#share#:#Freigeben
+common#:#obj_pdfg#:#PDF-Erstellung
+common#:#obj_pdfg_desc#:#Administrationseinstellungen für die PDF-Erstellung
+common#:#building_export_file#:#Erstelle Export Datei...
+pdfgen#:#phantomjs#:#PhantomJS
+pdfgen#:#tcpdf#:#TCPDF
+pdfgen#:#path#:#Pfad zum Programm
+pdfgen#:#fop_config#:#Konfiguration für Fop
+pdfgen#:#phantomjs_config#:#Konfiguration für PhantomJs
+pdfgen#:#page_settings#:#Seiteneinstellungen
+pdfgen#:#orientation#:#Orientierung
+pdfgen#:#print_media_type#:#Benutze Druck Media Type anstatt Bildschirm
+pdfgen#:#output_options#:#Ausgabe Optionen
+pdfgen#:#margin#:#Rand
+pdfgen#:#show_info#:#Zeige Informationen
+pdfgen#:#header_type#:#Kopfzeile
+pdfgen#:#text#:#Text
+pdfgen#:#footer_type#:#Fußzeile
+pdfgen#:#spacing#:#Abstand
+pdfgen#:#head_text#:#Text
+pdfgen#:#header_height#:#Höhe Kopfzeile
+pdfgen#:#header_show_pages#:#Zeige Seitenzahlen
+pdfgen#:#footer_text#:#Text
+pdfgen#:#footer_height#:#Höhe Fußzeile
+pdfgen#:#footer_show_pages#:#Zeige Seitenzahlen
+prtf#:#pdf_export#:#PDF Export
+pdfgen#:#xsl#:#Pfad zur XSL Datei
+pdfgen#:#preferred_renderer#:#Bevorzugter Renderer
+pdfgen#:#selected_renderer#:#Gewählter Renderer
+pdfgen#:#configure#:#Konfiguriere Renderer
+pdfgen#:#image_scale#:#Bildskalierung
+pdfgen#:#config_saved#:#Speichern erfolgreich.
+pdfgen#:#config_not_saved#:#Speichern fehlgeschlagen.
+pdfgen#:#margin_left#:#Margin Links
+pdfgen#:#margin_top#:#Margin Oben
+pdfgen#:#margin_right#:#Margin Rechts
+pdfgen#:#margin_bottom#:#Margin Unten
+pdfgen#:#viewport#:#Viewport
+pdfgen#:#viewport_info#:#Viewport in Pixeln z.B "1920*1080"
+pdfgen#:#zoom#:#Zoom
+pdfgen#:#javascript_delay#:#Javascript Verzögerung
+pdfgen#:#page_size#:#Seitengröße
+pdfgen#:#reset_to_default#:#Default Einstellungen laden
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Loginversuche deaktiviert. 
 crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten
