@@ -79,6 +79,13 @@ class ilMailAddressTypesTest extends PHPUnit_Framework_TestCase
 				$database->expects($that->any())->method('query')->will($that->returnValue($result));
 				$that->setGlobalVariable('ilDB', $database);
 			}),
+			array(new ilMailAddress('#MyGroup', 'ilias'), 'ilMailGroupAddressType', function() use ($that) {
+				$database = $that->getMockBuilder('ilDBInterface')->getMock();
+				$result   = $that->getMockBuilder('ilDBStatement')->getMock();
+				$result->expects($that->any())->method('numRows')->will($that->returnValue(1));
+				$database->expects($that->any())->method('query')->will($that->returnValue($result));
+				$that->setGlobalVariable('ilDB', $database);
+			}),
 			array(new ilMailAddress('phpunit', ''), 'ilMailLoginOrEmailAddressAddressType'),
 			array(new ilMailAddress('phpunit', 'ilias'), 'ilMailLoginOrEmailAddressAddressType'),
 			array(new ilMailAddress('phpunit', 'ilias.de'), 'ilMailLoginOrEmailAddressAddressType'),
