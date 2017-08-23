@@ -392,9 +392,9 @@ var ilCOPage =
 		ed.execCommand('mcePasteWord');
 	},
 
-	cmdIntLink: function(b, e)
+	cmdIntLink: function(b, e, content)
 	{
-		this.addBBCode(b, e);
+		this.addBBCode(b, e, false, content);
 	},
 
 	getSelection: function() {
@@ -403,12 +403,16 @@ var ilCOPage =
 		return ed.selection.getContent();
 	},
 
-	addBBCode: function(stag, etag, clearselection)
+	addBBCode: function(stag, etag, clearselection, content)
 	{
 		var ed = tinyMCE.get('tinytarget'), r, rcopy;
 		ed.focus();
+		if (!content) {
+			content = "";
+		}
 		if (ed.selection.getContent() == "")
 		{
+			stag = stag + content;
 			rcopy = ed.selection.getRng(true).cloneRange();
 			var nc = stag + ed.selection.getContent() + etag;
 			ed.selection.setContent(nc);

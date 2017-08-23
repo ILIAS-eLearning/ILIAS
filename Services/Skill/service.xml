@@ -10,4 +10,7 @@
 		</object>
 	</objects>
 	<logging />
+	<events>
+		<event type="listen" id="Services/Tracking" />
+	</events>
 </service>

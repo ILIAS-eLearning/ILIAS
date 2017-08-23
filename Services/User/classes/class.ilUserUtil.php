@@ -322,12 +322,15 @@ class ilUserUtil
 	 */
 	public static function getStartingPointAsUrl()
 	{	
-		global $tree, $ilUser;
+		global $tree, $ilUser, $rbacreview;
 		
 		$ref_id = 1;
+		$by_default = true;
+
+		//configuration by user preference
 		if(self::hasPersonalStartingPoint())
 		{
-			$current = self::getPersonalStartingPoint();	
+			$current = self::getPersonalStartingPoint();
 			if($current == self::START_REPOSITORY_OBJ)
 			{
 				$ref_id = self::getPersonalStartingObject();
@@ -335,15 +338,56 @@ class ilUserUtil
 		}
 		else
 		{
-			$current = self::getStartingPoint();
-			if($current == self::START_REPOSITORY_OBJ)
+			include_once './Services/AccessControl/classes/class.ilStartingPoint.php';
+
+			if(ilStartingPoint::ROLE_BASED)
 			{
-				$ref_id = self::getStartingObject();
+				//getting all roles with starting points and store them in array
+				$roles = ilStartingPoint::getRolesWithStartingPoint();
+
+				$roles_ids = array_keys($roles);
+
+				$gr = array();
+				foreach($rbacreview->getGlobalRoles() as $role_id)
+				{
+					if($rbacreview->isAssigned($ilUser->getId(),$role_id))
+					{
+						if(in_array($role_id,$roles_ids))
+						{
+							$gr[$roles[$role_id]['position']] = array(
+								"point" => $roles[$role_id]['starting_point'],
+								"object" => $roles[$role_id]['starting_object']
+							);
+						}
+					}
+				}
+				if(!empty($gr))
+				{
+					krsort($gr);	// ak: if we use array_pop (last element) we need to reverse sort, since we want the one with the smallest number
+					$role_point = array_pop($gr);
+					$current = $role_point['point'];
+					$ref_id = $role_point['object'];
+					$by_default = false;
+
+				}
 			}
+			if($by_default)
+			{
+				$current = self::getStartingPoint();
+
+				if($current == self::START_REPOSITORY_OBJ)
+				{
+					$ref_id = self::getStartingObject();
+				}
+			}
+
 		}
+
 		switch($current)
-		{			
+		{
 			case self::START_REPOSITORY:
+				$ref_id = $tree->readRootId();
+
 			case self::START_REPOSITORY_OBJ:
 				if($ref_id &&
 					ilObject::_lookupObjId($ref_id) && 

@@ -19,9 +19,15 @@ class ilOrgUnitGlobalSettings {
 	 */
 	protected $object_definition = null;
 	/**
-	 * @var ilOrgUnitObjectPositionSetting[]
+	 * @var ilOrgUnitObjectTypePositionSetting[]
 	 */
 	private $position_settings = [];
+	/**
+	 * Array with key obj_id => active status
+	 *
+	 * @var array
+	 */
+	private $object_position_cache = [];
 
 
 	/**
@@ -52,7 +58,7 @@ class ilOrgUnitGlobalSettings {
 	 *
 	 * @param string $a_obj_type
 	 *
-	 * @return ilOrgUnitObjectPositionSetting
+	 * @return ilOrgUnitObjectTypePositionSetting
 	 * @throws \InvalidArgumentException
 	 */
 	public function getObjectPositionSettingsByType($a_obj_type) {
@@ -66,17 +72,76 @@ class ilOrgUnitGlobalSettings {
 
 
 	/**
+	 * Check of position access is activate for object
+	 *
+	 * @param int $a_obj_id
+	 *
+	 * @return bool
+	 */
+	public function isPositionAccessActiveForObject($a_obj_id) {
+		if (isset($this->object_position_cache[$a_obj_id])) {
+			return $a_obj_id;
+		}
+		$type = ilObject::_lookupType($a_obj_id);
+		try {
+			$type_settings = $this->getObjectPositionSettingsByType($type);
+		} catch (\InvalidArgumentException $invalid_type_exception) {
+			$this->object_position_cache[$a_obj_id] = false;
+
+			return false;
+		}
+
+		if (!$type_settings->isActive()) {
+			$this->object_position_cache[$a_obj_id] = false;
+
+			return false;
+		}
+		if (!$type_settings->isChangeableForObject()) {
+			$this->object_position_cache[$a_obj_id] = false;
+
+			return false;
+		}
+		$object_position = new ilOrgUnitObjectTypePositionSetting($a_obj_id);
+		$this->object_position_cache[$a_obj_id] = $object_position->isActive();
+
+		return $this->object_position_cache[$a_obj_id];
+	}
+
+
+	/**
+	 * Set and save the default activation status according to settings.
+	 *
+	 * @param int $a_obj_id
+	 */
+	public function saveDefaultPositionActivationStatus($a_obj_id) {
+		$type = ilObject::_lookupType($a_obj_id);
+		try {
+			$type_settings = $this->getObjectPositionSettingsByType($type);
+		} catch (\InvalidArgumentException $ex) {
+			return;
+		}
+		if ($type_settings->isActive()) {
+			$object_setting = new ilOrgUnitObjectTypePositionSetting($a_obj_id);
+			$object_setting->setActive($type_settings->getActivationDefault());
+			$object_setting->update();
+		}
+
+		return;
+	}
+
+
+	/**
 	 * read settings
 	 */
 	protected function readSettings() {
 		foreach ($this->object_definition->getOrgUnitPermissionTypes() as $type) {
-			$this->position_settings[$type] = new ilOrgUnitObjectPositionSetting($type);
+			$this->position_settings[$type] = new ilOrgUnitObjectTypePositionSetting($type);
 		}
 	}
 
 
 	/**
-	 * @return \ilOrgUnitObjectPositionSetting[]
+	 * @return \ilOrgUnitObjectTypePositionSetting[]
 	 */
 	public function getPositionSettings() {
 		return $this->position_settings;

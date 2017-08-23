@@ -461,6 +461,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			return;
 		}
 
+		$title_changes = array();
+
 		if (is_array($_POST["order"]))
 		{
 			foreach ($_POST["order"] as $k => $v)
@@ -468,14 +470,21 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 				$page = $this->getPageInstance(ilUtil::stripSlashes($k));				
 				if($_POST["title"][$k])
 				{
-					$page->setTitle(ilUtil::stripSlashes($_POST["title"][$k]));
+					$new_title = trim(ilUtil::stripSlashes($_POST["title"][$k]));
+					if ($page->getTitle() != $new_title)
+					{
+						$title_changes[$page->getId()] = array("old" => $page->getTitle(), "new" => $new_title);
+						$page->setTitle($new_title);
+					}
 				}
 				$page->setOrderNr(ilUtil::stripSlashes($v));
 				$page->update();
 			}
 			ilPortfolioPage::fixOrdering($this->object->getId());
 		}
-		
+
+		ilPortfolioPage::fixLinksOnTitleChange($this->object->getId(), $title_changes);
+
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "view");
 	}

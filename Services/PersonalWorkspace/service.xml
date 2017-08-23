@@ -4,4 +4,7 @@
 	<baseclasses>
 		<baseclass name="ilSharedResourceGUI" dir="classes" />
 	</baseclasses>
+	<crons>
+		<cron id="pwsp_recalc_quota" class="ilCronPersonalWorkspaceRecalculateQuota" />
+	</crons>
 </service>

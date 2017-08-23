@@ -81,7 +81,7 @@ class ilOrgUnitGlobalSettingsGUI
 		$available_types = $GLOBALS['DIC']['objDefinition']->getOrgUnitPermissionTypes();
 		foreach($available_types as $object_type) {
 			
-			$setting = new ilOrgUnitObjectPositionSetting($object_type);
+			$setting = new ilOrgUnitObjectTypePositionSetting($object_type);
 			
 			$type = new ilCheckboxInputGUI(
 				$this->lng->txt('orgu_global_set_positions_type_active').' '.$this->lng->txt('objs_'. $object_type),
@@ -99,7 +99,7 @@ class ilOrgUnitGlobalSettingsGUI
 			);
 			$default = new ilCheckboxInputGUI($this->lng->txt('orgu_global_set_type_default'), $object_type.'_default');
 			$default->setInfo($this->lng->txt('orgu_global_set_type_default_info'));
-			$default->setValue(ilOrgUnitObjectPositionSetting::DEFAULT_ON);
+			$default->setValue(ilOrgUnitObjectTypePositionSetting::DEFAULT_ON);
 			$default->setChecked($setting->getActivationDefault());
 			
 			$scope_object->addSubItem($default);
@@ -130,7 +130,7 @@ class ilOrgUnitGlobalSettingsGUI
 			$available_types = $GLOBALS['DIC']['objDefinition']->getOrgUnitPermissionTypes();
 			foreach($available_types as $object_type) {
 				
-				$obj_setting = new ilOrgUnitObjectPositionSetting($object_type);
+				$obj_setting = new ilOrgUnitObjectTypePositionSetting($object_type);
 				$obj_setting->setActive((bool) $form->getInput($object_type.'_active'));
 				$obj_setting->setActivationDefault((int) $form->getInput($object_type.'_default'));
 				$obj_setting->setChangeableForObject((bool) $form->getInput($object_type.'_changeable'));

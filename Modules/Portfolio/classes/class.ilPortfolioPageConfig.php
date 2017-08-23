@@ -23,8 +23,14 @@ class ilPortfolioPageConfig extends ilPageConfig
 		$prfa_set = new ilSetting("prfa");
 		$this->setPreventHTMLUnmasking(!(bool)$prfa_set->get("mask", false));
 				
-		$this->setEnableInternalLinks(false);
+		$this->setEnableInternalLinks(true);
+		$this->setIntLinkFilterWhiteList(true);
+		$this->addIntLinkFilter("PortfolioPage");
+		$this->removeIntLinkFilter("File");
+		$this->setIntLinkHelpDefaultId($_GET["prt_id"], false);
+		$this->setIntLinkHelpDefaultType("PortfolioPage");
 		$this->setEnablePCType("Profile", true);
+		$this->setEditLockSupport(false);
 		
 		if(!$ilSetting->get('disable_wsp_certificates'))
 		{
