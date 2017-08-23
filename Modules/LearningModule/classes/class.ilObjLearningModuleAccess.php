@@ -18,6 +18,8 @@ require_once('./Services/Object/classes/class.ilObject2.php');
  */
 class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilConditionHandling, ilWACCheckingClass {
 
+	static protected $lm_set = null;
+
 	/**
 	 * Get possible conditions operators
 	 */
@@ -44,6 +46,21 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
 
 
 	/**
+	 * @param $a_set
+	 * @return mixed
+	 */
+	static function _lookupSetting($a_set)
+	{
+		if (!is_array(self::$lm_set))
+		{
+			$lm_set = new ilSetting("lm");
+			self::$lm_set = $lm_set->getAll();
+		}
+
+		return self::$lm_set[$a_set];
+	}
+
+	/**
 	 * get commands
 	 *
 	 * this method returns an array of all possible commands/permission combinations
@@ -57,14 +74,24 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
 	 */
 	static function _getCommands()
 	{
-		$commands = array
-		(
-			/* array("permission" => "read", "cmd" => "view", "lang_var" => "show",
-				"default" => true), */
-			array("permission" => "read", "cmd" => "continue", "lang_var" => "continue_work", "default" => true),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit_content"),
-			array("permission" => "write", "cmd" => "properties", "lang_var" => "settings")
-		);
+		if (self::_lookupSetting("lm_starting_point") == "first")
+		{
+			$commands = array
+			(
+				array("permission" => "read", "cmd" => "view", "lang_var" => "show",
+					"default" => true),
+				array("permission" => "read", "cmd" => "continue", "lang_var" => "continue_work")
+			);
+		}
+		else
+		{
+			$commands = array
+			(
+				array("permission" => "read", "cmd" => "continue", "lang_var" => "continue_work", "default" => true)
+			);
+		}
+		$commands[] = array("permission" => "write", "cmd" => "edit", "lang_var" => "edit_content");
+		$commands[] = array("permission" => "write", "cmd" => "properties", "lang_var" => "settings");
 
 		return $commands;
 	}

@@ -143,6 +143,17 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked($lm_set->get("time_scheduled_page_activation"));
 		$form->addItem($cb_prop);
 
+		// lm starting point
+		$options = array(
+			"" => $this->lng->txt("cont_last_visited_page"),
+			"first" => $this->lng->txt("cont_first_page")
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("cont_lm_starting_point"), "lm_starting_point");
+		$si->setOptions($options);
+		$si->setValue($lm_set->get("lm_starting_point"));
+		$si->setInfo($this->lng->txt("cont_lm_starting_point_info"));
+		$form->addItem($si);
+
 		// Activate replace media object function
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("cont_replace_mob_feature"),
 			"replace_mob_feature");
@@ -242,6 +253,8 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$lm_set = new ilSetting("lm");
 		$lm_set->set("time_scheduled_page_activation",
 			ilUtil::stripSlashes($_POST["time_scheduled_page_activation"]));
+		$lm_set->set("lm_starting_point",
+			ilUtil::stripSlashes($_POST["lm_starting_point"]));
 		$lm_set->set("page_history",
 			(int) ilUtil::stripSlashes($_POST["page_history"]));
 		$lm_set->set("replace_mob_feature",

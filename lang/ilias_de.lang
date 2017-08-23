@@ -14,7 +14,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-orgu#:#orgu_global_set_form#:#Globale Einstellungen 
+orgu#:#orgu_global_set_form#:#Globale Einstellungen
 orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
 orgu#:#orgu_global_set_positions_type_active#:#Aktiv für:
 orgu#:#orgu_global_set_type_changeable#:#Aktivierung
@@ -16199,3 +16199,7 @@ content#:#cont_master_language_only_no_media#:#Master Language without Media
 mep#:#mep_master_language_only_no_media#:#Master Language without Media
 mep#:#mep_content#:#Content
 mep#:#mep_media_subtitles#:#Media Subtitles
+content#:#cont_last_visited_page#:#Zuletzt besuchte Seite
+content#:#cont_first_page#:#Erste Seite
+content#:#cont_lm_starting_point#:#Startseite für ILIAS-Lernmodule
+content#:#cont_lm_starting_point_info#:#Seite, die beim Anklicken des Lernmodultitels geöffnet wird.

@@ -13731,3 +13731,7 @@ content#:#cont_master_language_only_no_media#:#Master Language without Media
 mep#:#mep_master_language_only_no_media#:#Master Language without Media
 mep#:#mep_content#:#Content
 mep#:#mep_media_subtitles#:#Media Subtitles
+content#:#cont_last_visited_page#:#Last Visited Page
+content#:#cont_first_page#:#First Page
+content#:#cont_lm_starting_point#:#Starting Point for ILIAS Learning Modules
+content#:#cont_lm_starting_point_info#:#Page being opened when clicking a learning modules title.
