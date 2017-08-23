@@ -19,6 +19,10 @@
 class ilAccess implements ilAccessHandler {
 
 	/**
+	 * @var \ilOrgUnitPositionAccess
+	 */
+	protected $ilOrgUnitPositionAccess;
+	/**
 	 * @var array
 	 */
 	protected $obj_tree_cache;
@@ -89,6 +93,8 @@ class ilAccess implements ilAccessHandler {
 		$this->obj_id_cache = array();
 		$this->obj_type_cache = array();
 		$this->obj_tree_cache = array();
+
+		$this->ilOrgUnitPositionAccess = new ilOrgUnitPositionAccess();
 	}
 
 
@@ -834,109 +840,77 @@ class ilAccess implements ilAccessHandler {
 	 * @inheritdoc
 	 */
 	public function filterUserIdsForCurrentUsersPositionsAndAnyPermission(array $user_ids) {
-		// TODO: Implement filterUserIdsForCurrentUsersPositionsAndAnyPermission() method.
-		return $user_ids;
+		return $this->ilOrgUnitPositionAccess->filterUserIdsForCurrentUsersPositionsAndAnyPermission($user_ids);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function filterUserIdsForUsersPositionsAndAnyPermission(array $user_ids, $for_user_id) {
-		// TODO: Implement filterUserIdsForUsersPositionsAndAnyPermission() method.
-		return $user_ids;
+		return $this->ilOrgUnitPositionAccess->filterUserIdsForUsersPositionsAndAnyPermission($user_ids, $for_user_id);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, $permission) {
-		// TODO: Implement filterUserIdsForCurrentUsersPositionsAndPermission() method.
-		return $user_ids;
+		return $this->ilOrgUnitPositionAccess->filterUserIdsForCurrentUsersPositionsAndPermission($user_ids, $permission);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, $for_user_id, $permission) {
-		// TODO: Implement filterUserIdsForUsersPositionsAndPermission() method.
-		return $user_ids;
+		return $this->ilOrgUnitPositionAccess->filterUserIdsForUsersPositionsAndPermission($user_ids, $for_user_id, $permission);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function isCurrentUserBasedOnPositionsAllowedTo($permission, array $on_user_ids) {
-		// TODO: Implement isCurrentUserAllowedTo() method.
-		return false;
+		return $this->ilOrgUnitPositionAccess->isCurrentUserBasedOnPositionsAllowedTo($permission, $on_user_ids);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function isUserBasedOnPositionsAllowedTo($which_user_id, $permission, array $on_user_ids) {
-		// TODO: Implement isUserAllowedTo() method.
-		return false;
+		return $this->ilOrgUnitPositionAccess->isUserBasedOnPositionsAllowedTo($which_user_id, $permission, $on_user_ids);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function checkPositionAccess($pos_perm, $ref_id) {
-		// If context is not activated, return same array of $user_ids
-		$context = ilObject2::_lookupType($ref_id);
-		if (!ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType($context)) {
-			return false;
-		}
+		return $this->ilOrgUnitPositionAccess->checkPositionAccess($pos_perm, $ref_id);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function checkRbacOrPositionPermissionAccess($rbac_perm, $pos_perm, $ref_id) {
-		// If context is not activated, return false
-		if(!ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(ilObject2::_lookupType($ref_id)) ){
-			return false;
-		}
-		return false;
+		return $this->ilOrgUnitPositionAccess->checkRbacOrPositionPermissionAccess($rbac_perm, $pos_perm, $ref_id);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, array $user_ids) {
-		// If context is not activated, return same array of $user_ids
-		if(!ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(ilObject2::_lookupType($ref_id)) ){
-			return $user_ids;
-		}
-		return $user_ids;
+		return $this->ilOrgUnitPositionAccess->filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, $user_ids);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, array $user_ids) {
-		// If context is not activated, return same array of $user_ids
-		if(!ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(ilObject2::_lookupType($ref_id)) ){
-			return $user_ids;
-		}
-		global $DIC;
-		$db = $DIC->database();
-
-		// TODO: Implement filterUserIdsByPositionOfUser() method.
-
-		return $user_ids;
+		return $this->ilOrgUnitPositionAccess->filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, $user_ids);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id, array $user_ids) {
-		// If context is not activated, return same array of $user_ids
-		if(!ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(ilObject2::_lookupType($ref_id)) ){
-			return $user_ids;
-		}
-
-		return $user_ids;
+		return $this->ilOrgUnitPositionAccess->filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id,  $user_ids);
 	}
 
 

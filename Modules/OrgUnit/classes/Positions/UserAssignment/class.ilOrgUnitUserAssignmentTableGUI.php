@@ -108,8 +108,10 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI {
 		$ilAccess = $DIC['ilAccess'];
 		$this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
 		$this->tpl->setVariable("LAST_NAME", $set["last_name"]);
-		$this->ctrl->setParameterByClass(ilLearningProgressGUI::class, "obj_id", $set["user_id"]);
-		$this->ctrl->setParameterByClass(ilObjOrgUnitGUI::class, "obj_id", $set["user_id"]);
+//		$this->ctrl->setParameterByClass(ilLearningProgressGUI::class, "obj_id", $set["user_id"]);
+//		$this->ctrl->setParameterByClass(ilObjOrgUnitGUI::class, "obj_id", $set["user_id"]);
+		$this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'usr_id', $set["user_id"]);
+		$this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'position_id', $this->ilOrgUnitPosition->getId());
 		$selection = new ilAdvancedSelectionListGUI();
 		$selection->setListTitle($lng->txt("Actions"));
 		$selection->setId("selection_list_user_lp_" . $set["user_id"]);

@@ -91,11 +91,21 @@ class ilOrgUnitOperationQueries {
 
 
 	/**
-	 * @param $operation_id
+	 * @param int $operation_id
 	 *
 	 * @return \ilOrgUnitOperation
 	 */
 	public static function findById($operation_id) {
 		return ilOrgUnitOperation::findOrFail($operation_id);
+	}
+
+
+	/**
+	 * @param string $operation_string
+	 *
+	 * @return \ilOrgUnitOperation
+	 */
+	public static function findByOperationString($operation_string) {
+		return ilOrgUnitOperation::where([ 'operation_string' => $operation_string ])->first();
 	}
 }

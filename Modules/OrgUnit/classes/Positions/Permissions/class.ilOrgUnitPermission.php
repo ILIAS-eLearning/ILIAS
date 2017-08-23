@@ -298,7 +298,10 @@ class ilOrgUnitPermission extends ActiveRecord {
 				$ids = is_array($ids) ? $ids : array();
 				$operations = [];
 				foreach ($ids as $id) {
-					$operations[] = ilOrgUnitOperation::find($id);
+					$ilOrgUnitOperation = ilOrgUnitOperationQueries::findById($id);
+					if ($ilOrgUnitOperation) {
+						$operations[] = $ilOrgUnitOperation;
+					}
 				}
 
 				return $operations;
