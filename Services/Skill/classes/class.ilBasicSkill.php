@@ -738,6 +738,34 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	}
 
 	/**
+	 * Has use self evaluated a skill?
+	 *
+	 * @param int $a_user_id
+	 * @param int $a_skill_id
+	 * @param int $a_tref_id
+	 * @return bool
+	 */
+	static function hasSelfEvaluated($a_user_id, $a_skill_id, $a_tref_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$set = $db->query($q = "SELECT level_id FROM skl_user_has_level ".
+			" WHERE skill_id = ".$db->quote((int) $a_skill_id, "integer").
+			" AND tref_id = ".$db->quote((int) $a_tref_id, "integer").
+			" AND user_id = ".$db->quote($a_user_id, "integer").
+			" AND self_eval = ".$db->quote(1, "integer")
+		);
+		
+		if ($rec = $db->fetchAssoc($set))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Get last level set per object
 	 *
 	 * @param

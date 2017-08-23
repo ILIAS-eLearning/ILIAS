@@ -279,7 +279,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			if(ilNotification::hasNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $wiki_id))
 			{
 				$this->ctrl->setParameter($this, "ntf", 1);
-				$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "wiki_notification_deactivate_wiki");
+				if (ilNotification::hasOptOut($wiki_id))
+				{
+					$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "wiki_notification_deactivate_wiki");
+				}
 
 				$lg->addHeaderIcon("not_icon",
 					ilUtil::getImagePath("notification_on.svg"),

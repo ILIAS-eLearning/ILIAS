@@ -20,7 +20,7 @@ class ilExerciseDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.1.0", "4.4.0", "5.0.0", "5.1.0", "5.2.0");
+		return array("4.1.0", "4.4.0", "5.0.0", "5.1.0", "5.2.0", "5.3.0");
 	}
 	
 	/**
@@ -70,6 +70,7 @@ class ilExerciseDataSet extends ilDataSet
 					);
 					
 				case "5.2.0":
+				case "5.3.0":
 					return array(
 						"Id" => "integer",
 						"Title" => "text",
@@ -177,6 +178,40 @@ class ilExerciseDataSet extends ilDataSet
 						,"FeedbackDate" => "integer"
 						,"FeedbackDir" => "directory"
 					);
+				case "5.3.0":
+					return array(
+						"Id" => "integer",
+						"ExerciseId" => "integer",
+						"Type" => "integer",
+						"Deadline" => "integer",
+						"Deadline2" => "integer",
+						"Instruction" => "text",
+						"Title" => "text",
+						"Mandatory" => "integer",
+						"OrderNr" => "integer",
+						"TeamTutor" => "integer",
+						"MaxFile" => "integer",
+						"Dir" => "directory",
+						//web data directory
+						"WebDataDir" => "directory"
+						// peer
+						,"Peer" => "integer"
+						,"PeerMin" => "integer"
+						,"PeerDeadline" => "integer"
+						,"PeerFile" => "integer"
+						,"PeerPersonal" => "integer"
+						,"PeerChar" => "integer"
+						,"PeerUnlock" => "integer"
+						,"PeerValid" => "integer"
+						,"PeerText" => "integer"
+						,"PeerRating" => "integer"
+						,"PeerCritCat" => "integer"
+						// global feedback
+						,"FeedbackFile" => "integer"
+						,"FeedbackCron" => "integer"
+						,"FeedbackDate" => "integer"
+						,"FeedbackDir" => "directory"
+					);
 			}
 		}
 		
@@ -251,6 +286,7 @@ class ilExerciseDataSet extends ilDataSet
 					break;
 				
 				case "5.2.0":
+				case "5.3.0":
 					$this->getDirectDataFromQuery("SELECT exc_data.obj_id id, title, description,".
 						" pass_mode, pass_nr, show_submissions, compl_by_submission, tfeedback".
 						" FROM exc_data JOIN object_data ON (exc_data.obj_id = object_data.obj_id)".
@@ -288,6 +324,7 @@ class ilExerciseDataSet extends ilDataSet
 				
 				case "5.1.0":
 				case "5.2.0":
+				case "5.3.0":
 					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, type, time_stamp deadline, deadline2,".
 						" instruction, title, start_time, mandatory, order_nr, team_tutor, max_file, peer, peer_min,".
 						" peer_dl peer_deadline, peer_file, peer_prsl peer_personal, peer_char, peer_unlock, peer_valid,".
@@ -360,6 +397,11 @@ class ilExerciseDataSet extends ilDataSet
 			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
 			$a_set["FeedbackDir"] = $fstorage->getGlobalFeedbackPath();
+
+			//now the instruction files inside the root directory
+			include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
+			$fswebstorage = new ilFSWebStorageExercise($a_set['ExerciseId'], $a_set['Id']);
+			$a_set['WebDataDir'] = $fswebstorage->getPath();
 		}
 
 		return $a_set;
@@ -522,6 +564,18 @@ class ilExerciseDataSet extends ilDataSet
 					{
 						$source_dir = $this->getImportDirectory()."/".$dir;
 						$target_dir = $fstorage->getGlobalFeedbackPath();
+						ilUtil::rCopy($source_dir, $target_dir);
+					}
+
+					// (5.3) assignment files inside ILIAS
+					include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
+					$fwebstorage = new ilFSWebStorageExercise($exc_id, $ass->getId());
+					$fwebstorage->create();
+					$dir = str_replace("..", "", $a_rec["WebDataDir"]);
+					if ($dir != "" && $this->getImportDirectory() != "")
+					{
+						$source_dir = $this->getImportDirectory()."/".$dir;
+						$target_dir = $fwebstorage->getPath();
 						ilUtil::rCopy($source_dir, $target_dir);
 					}
 

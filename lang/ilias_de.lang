@@ -14,6 +14,14 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+orgu#:#orgu_global_set_form#:#Globale Einstellungen 
+orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
+orgu#:#orgu_global_set_positions_type_active#:#Aktiv für:
+orgu#:#orgu_global_set_type_changeable#:#Aktivierung
+orgu#:#orgu_global_set_type_changeable_object#:#De/Aktivierung auf Objektebene
+orgu#:#orgu_global_set_type_changeable_no#:#Nicht deaktivierbar
+orgu#:#orgu_global_set_type_default#:#Standardwert
+orgu#:#orgu_global_set_type_default_info#:#Legen Sie den Standardwert für neue Objekte fest.
 rbac#:#il_sess_participant#:#Sitzungsteilnehmer
 rbac#:#il_sess_status_closed#:#Nicht-Teilnehmer geschlossene Sitzung
 meta#:#md_adv_scope#:#Gültigkeitsbereich
@@ -56,6 +64,22 @@ forum#:#adm_save_drafts_desc#:#Wenn aktiviert, können angemeldete Benutzer Beit
 forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern   
 forum#:#adm_autosave_ival#:#Speicherintervall
 forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
+common#:#pwsp_recalculate_disk_quota#:#Persönlicher Arbeitsraum: Neuberechnung Disk-Quota
+common#:#pwsp_recalculate_disk_quota_desc#:#Berechnet die Disk-Quota-Werte für den persönlichen Arbeitsraum neu.
+itgr#:#itgr_show_title#:#Titel anzeigen
+itgr#:#itgr_show_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner angezeigt.
+itgr#:#itgr_behaviour#:#Verhalten
+itgr#:#itgr_behaviour_info#:#Das System merkt sich den Zustand (geöffnet/geschlossen) je Benutzer bis zur Abmeldung (Logout).
+itgr#:#itgr_always_open#:#Immer offen
+itgr#:#itgr_expandable_closed#:#Ausklappbar (zunächst geschlossen)
+itgr#:#itgr_expandable_open#:#Ausklappbar (zunächst geöffnet)
+exc#:#exc_submission_and_grades_notification_link#:#Link zur Übung (Abgaben und Noten): %s
+exc#:#exc_submission_downloads_notification_link#:#Neue Abgaben herunterladen: %s
+exc#:#exc_submission_no_new_files#:#Keine neuen Abgaben vorhanden.
+exc#:#exc_wait_for_files#:#Der Download sollte automatisch starten. Bei Problemen klicken Sie bitte hier.
+exc#:#exc_target_not_valid#:#Das Link-Ziel ist nicht mehr gültig.
+exc#:#exc_no_get_target#:#Kein gültiges Link-Ziel gefunden.
+exc#:#exc_all_new_files_offered_already#:#Alle neuen Dateien wurden bereits zum Download angeboten. Für einen erneuten Download klicken Sie bitte auf die entsprechenden Aktionslinks in der untenstehenden Liste.
 acc#:#acc_access_key#:#Access-Key
 acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_comp_frm#:#Forum
@@ -1873,7 +1897,7 @@ blog#:#blog_font_color#:#Schriftfarbe
 blog#:#blog_list_more#:#mehr
 blog#:#blog_navigation#:#Beiträge
 blog#:#blog_new#:#Neues Blog anlegen
-blog#:#blog_new_posting_info#:#Der erste Textblock wird als Auszug in der Liste der Einträge verwendet.
+blog#:#blog_new_posting_info#:#Der Beitrag wurde veröffentlicht. Der erste Textblock wird als Auszug in der Liste der Einträge verwendet.
 blog#:#blog_notification_activated#:#Änderungs-Benachrichtigung aktiviert
 blog#:#blog_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
 blog#:#blog_notification_toggle_off#:#Änderungs-Benachrichtigung deaktivieren
@@ -3097,7 +3121,7 @@ common#:#exc_edit#:#Eine neue Übung wurde angelegt
 common#:#exc_edit_exercise#:#Übung bearbeiten
 rbac#:#exc_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#exc_edit_permission#:#Rechteeinstellungen ändern
-common#:#exc_edit_until#:#Zu bearbeiten bis
+common#:#exc_edit_until#:#Abgabetermin
 common#:#exc_exercise_sent#:#Übung versandt
 common#:#exc_feedback_sent#:#Feedback versandt
 common#:#exc_files#:#Dateien
@@ -4081,7 +4105,7 @@ common#:#msg_wrong_format#:#Der Wert, den Sie eingegeben haben, erfüllt nicht d
 common#:#multimedia#:#Multimedia
 common#:#my_bms#:#Meine Bookmarks
 common#:#my_courses#:#Meine Kurse
-common#:#my_courses_groups#:#Meine Kurse und Gruppen
+common#:#my_courses_groups#:#Kurse und Gruppen
 common#:#my_frms#:#Meine Foren
 common#:#my_grps#:#Meine Gruppen
 common#:#my_los#:#Meine Lernobjekte
@@ -4477,7 +4501,7 @@ common#:#personal_desktop#:#Persönlicher Schreibtisch
 common#:#personal_picture#:#Profilbild
 common#:#personal_profile#:#Persönliche Daten und Profil
 common#:#personal_settings#:#Einstellungen
-common#:#personal_workspace#:#Mein Arbeitsraum
+common#:#personal_workspace#:#Arbeitsraum
 common#:#persons#:#Personen
 common#:#pg_a#:#eine Seite
 common#:#pg_add#:#Seite anlegen
@@ -4900,7 +4924,7 @@ common#:#side_frame#:#Rahmen Baumansicht
 common#:#signature#:#Signatur
 common#:#simultaneous_login_detected#:#Der Zugang zum System wird verweigert, da sich bereits ein Benutzer mit diesen Zugangsdaten in einer ILIAS-Sitzung befindet.
 common#:#size#:#Größe
-common#:#skills#:#Meine Kompetenzen
+common#:#skills#:#Kompetenzen
 common#:#skin_style#:#Standard-Skin / -Style
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Administration über SOAP
@@ -7491,7 +7515,7 @@ exc#:#exc_assignment_view#:#Je Übungseinheit
 exc#:#exc_assignments#:#Übungseinheiten
 exc#:#exc_assignments_deleted#:#Die Übungseinheiten wurden gelöscht.
 exc#:#exc_blog_created#:#Blog wurde erstellt.
-exc#:#exc_blog_returned#:#Zugeordnetes Blog
+exc#:#exc_blog_returned#:#Blog zur Übungseinheit
 exc#:#exc_blog_selected#:#Das Blog wurde verknüpft.
 exc#:#exc_completion_by_submission#:#Automatisch bei Abgabe
 exc#:#exc_completion_by_submission_info#:#Gibt ein Teilnehmer ein Arbeitsergebnis ab, wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben. Das Ändern dieser Einstellung hat keine Auswirkung auf bestehende Bewertungen.
@@ -7542,8 +7566,8 @@ exc#:#exc_pass_minimum_nr#:#Mindestanzahl an Übungseinheiten
 exc#:#exc_pass_minimum_nr_info#:#Teilnehmer müssen eine Mindestanzahl an Übungseinheiten bestehen, um die gesamte Übung zu bestehen.
 exc#:#exc_pass_mode#:#Anforderung
 exc#:#exc_portfolio_created#:#Portfolio wurde erstellt.
-exc#:#exc_portfolio_returned#:#Zugeordnetes Portfolio
-exc#:#exc_portfolio_selected#:#Das Portfolio wurde verknüpft.
+exc#:#exc_portfolio_returned#:#Portfolio zur Übungseinheit
+exc#:#exc_portfolio_selected#:#Das Portfolio wurde zugeordnet.
 exc#:#exc_presentation_order#:#Reihenfolge
 exc#:#exc_public_submission#:#Öffentliche Lösungsabgaben
 exc#:#exc_save_order#:#Reihenfolge speichern
@@ -7558,13 +7582,13 @@ exc#:#exc_select_portfolio#:#Vorhandenes Portfolio nutzen
 exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
 exc#:#exc_select_portfolio_info#:#Bitte wählen Sie eines Ihrer Portfolios, um es in dieser Übungseinheit zu benutzen.
 exc#:#exc_send_assignment#:#Übungseinheit per Mail verschicken
-exc#:#exc_show_submissions#:#Arbeitsergebnisse veröffentlichen
-exc#:#exc_show_submissions_info#:#Alle abgegebenen Arbeitsergebnisse einer Übungseinheit können nach dem Abgabetermin von allen Teilnehmern eingesehen werden.
+exc#:#exc_show_submissions#:#Lösungsabgaben veröffentlichen
+exc#:#exc_show_submissions_info#:#Alle Lösungsabgaben einer Übungseinheit können nach dem Abgabetermin von allen Teilnehmern eingesehen werden.
 exc#:#exc_start_time#:#Startzeit
 exc#:#exc_starting_on#:#Startet am
 exc#:#exc_submission_notification#:#Benachrichtigung bei Abgabe
 exc#:#exc_submission_notification_body#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
-exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Arbeitsergebnisse abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Tutoren der Übung sind davon nicht betroffen.
+exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Lösungen abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Tutoren der Übung sind davon nicht betroffen.
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
 exc#:#exc_submission_notification_subject#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
 exc#:#exc_submissions_and_grades#:#Abgaben und Noten
@@ -9064,12 +9088,12 @@ pd#:#pd_enable_bookmarks#:#Bookmarks aktivieren
 pd#:#pd_enable_comments#:#Kommentare aktivieren
 pd#:#pd_enable_global_profiles#:#Öffentliche Profile aktivieren
 pd#:#pd_enable_global_profiles_info#:#Die Option ermöglicht Benutzern, ihr Profil global (im Internet) zugänglich zu machen.
-pd#:#pd_enable_my_memberships#:#'Meine Kurse und Gruppen' aktivieren
+pd#:#pd_enable_my_memberships#:#'Kurse und Gruppen' aktivieren
 pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
 pd#:#pd_enable_my_offers#:#'Ausgewählte Angebote' aktivieren
 pd#:#pd_enable_my_offers_info#:#Die Sicht 'Ausgewählte Angebote' enthält alle Objekte, die sich auf dem Persönlichen Schreibtisch des Benutzers befinden.
 pd#:#pd_enable_notes#:#Notizen aktivieren
-pd#:#pd_enable_personal_workspace#:#Mein Arbeitsraum aktivieren
+pd#:#pd_enable_personal_workspace#:#Arbeitsraum aktivieren
 pd#:#pd_enable_prtf#:#Portfolios aktivieren
 pd#:#pd_enable_user_publish#:#Veröffentlichung Inhalte von Benutzern aktivieren
 pd#:#pd_enable_user_publish_info#:#Die Option ermöglicht Benutzern, ihr Profil, Arbeitsrauminhalte und Portfolios global (im Internet) zugänglich zu machen.
@@ -9086,7 +9110,7 @@ pd#:#pd_personal_items_default_view_info#:#Wählen Sie hier die Standard-Sicht f
 pd#:#pd_settings#:#Einstellungen
 pd#:#pd_time_before_removal#:#Maximaler Zeitraum für Inaktivität (in Minuten)
 pd#:#pd_time_before_removal_info#:#Nach Ablauf dieses Zeitraums, werden Benutzer aus der Liste der "Aktiven Benutzer" entfernt.
-pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Meine Kurse und Gruppen'.
+pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Kurse und Gruppen'.
 pdesk#:#bm_num_bookmark_folders#:#Ordner
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)
 pdesk#:#pdesk_feedback_request#:#Feedback-Anfrage
@@ -9107,7 +9131,7 @@ prtf#:#prtf_create_portfolio#:#Portfolio hinzufügen
 prtf#:#prtf_default_portfolio#:#Mein Profil
 prtf#:#prtf_edit_portfolio#:#Portfolio bearbeiten
 prtf#:#prtf_exercise_info#:#Dieses Portfolio ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
-prtf#:#prtf_exercise_submitted_info#:#Sie haben Ihr Portfolio am %s eingereicht. Sie können eine Kopie des eingereichten Portfolios für eigene Zwecke speichern: %s
+prtf#:#prtf_exercise_submitted_info#:#Sie haben Ihr Portfolio am %s eingereicht. Wenn Sie möchten, speichern Sie sich eine Kopie für Ihre persönliche Ablage %s
 prtf#:#prtf_existing_portfolio#:#Vorhandenes Portfolio
 prtf#:#prtf_finalize_portfolio#:#Portfolio abschließen und abgeben
 prtf#:#prtf_finalized#:#Das Portfolio wurde abgegeben.
@@ -11495,10 +11519,10 @@ wsp#:#wsp_permission_all_pw_info#:#Nach Eingabe des Passworts ist dieses Objekt 
 wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten Benutzer freigegeben.
 wsp#:#wsp_permission_removed#:#Der Eintrag wurde gelöscht.
 wsp#:#wsp_permissions#:#Freigabe
-wsp#:#wsp_personal_workspace#:#Mein Arbeitsraum
+wsp#:#wsp_personal_workspace#:#Arbeitsraum
 wsp#:#wsp_personal_workspace_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
 wsp#:#wsp_remove_permission#:#Freigabe entfernen
-wsp#:#wsp_root_folder#:#Mein Arbeitsraum
+wsp#:#wsp_root_folder#:#Arbeitsraum
 wsp#:#wsp_set_permission_all#:#Internet/WWW
 wsp#:#wsp_set_permission_all_password#:#Internet/WWW mit Passwort
 wsp#:#wsp_set_permission_course#:#Kursmitglieder
@@ -13073,7 +13097,7 @@ exc#:#exc_needs_deadline#:#Diese Option benötigt einen Abgabetermin.
 exc#:#exc_team_upload_not_supported#:#Diese Option ist für Team-Upload-Übungseinheiten nicht verfügbar.
 exc#:#exc_global_feedback_file#:#Musterlösung
 exc#:#exc_global_feedback_file_cron#:#Benachrichtigung bei Verfügbarkeit
-exc#:#exc_global_feedback_file_cron_info#:#Über einen Cron-Job werden die Lerner über die Verfügbarkeit der Musterlösung informiert.
+exc#:#exc_global_feedback_file_cron_info#:#Teilnehmer werden per Mail über die Verfügbarkeit der Musterlösung informiert.
 exc#:#exc_feedback_notification_subject#:#Feedback für Übungseinheit der Übung "%s" freigeschaltet
 exc#:#exc_feedback_notification_salutation#:#Hallo %s,
 exc#:#exc_feedback_notification_body#:#Das Feedback zur folgenden Übungseinheit wurde freigeschaltet.
@@ -13094,7 +13118,7 @@ rep#:#rep_object_lists#:#Objektlisten
 rep#:#rep_custom_icons#:#Angepasste Icons
 cmps#:#cmps_enable_creation#:#Erstellung einschalten
 cmps#:#cmps_slots#:#Slots
-pd#:#pd_personal_workspace#:#Mein Arbeitsraum
+pd#:#pd_personal_workspace#:#Arbeitsraum
 common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#Allgemeine Einstellungen für Weblinks
 common#:#obj_crss#:#Kurs
@@ -14613,7 +14637,7 @@ mob#:#mob_object#:#Objekt
 content#:#cont_qtries_info#:#Standardwert "Anzahl der Versuche" für neu angelegte Fragen.
 lm#:#lm_copy#:#ILIAS-Lernmodul kopieren
 content#:#cont_settings#:#Lernmoduleinstellungen
-exc#:#exc_no_team_yet_notice#:#Sie gehören noch keinem Team an!
+exc#:#exc_no_team_yet_notice#:#Sie gehören noch keinem Team an.
 prtf#:#prtf_edit_embedded_blog#:#Blog "%s" bearbeiten
 exc#:#exc_manage_team#:#Team verwalten
 assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
@@ -16067,3 +16091,103 @@ iass#:#iass_event_time_place_required#:#Verpflichtende Angabe von Datum und Ort
 iass#:#iass_event_time_place_required_info#:#In der Dokumentation zu einem Teilnehmer müssen Datum und Ort angegeben werden.
 iass#:#iass_place#:#Ort der Durchführung
 iass#:#iass_event_time#:#Datum der Durchführung
+prg#:#prg_multi_mark_accredited#:#Akkredieren
+prg#:#prg_multi_unmark_accredited#:#Akkreditierung entfernen
+prg#:#prg_multi_remove_user#:#Benutzer entfernen
+prg#:#prg_multi_mark_relevant#:#Als relevant markieren
+prg#:#prg_multi_unmark_relevant#:#Als unrelevant markieren
+prg#:#prg_multi_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren.
+prg#:#prg_remove_users_success#:#Die Benutzer wurden entfernt.
+prg#:#prg_remove_users_not_possible#:#Die Benutzer konnten nicht entfernt werden, da sie nicht an diesem Studienprogramm hinzugefügt wurden.
+prg#:#prg_remove_users_partitial_success#:#Die Benutzer wurden teilweise entfernt. Einige konnten nicht entfernt werden, da sie nicht an diesem Studienprogramm hinzugefügt wurden.
+prg#:#prg_mark_accredited_multi_success#:#Das Programm wurde für die Benutzer erfolgreich akkreditiert.
+prg#:#prg_mark_relevant_multi_success#:#Das Programm wurde für die Benutzer als relevant markiert.
+prg#:#prg_mark_not_relevant_multi_success#:#Das Programm wurde für die Benutzer als nicht relevant markiert.
+skmg#:#skmg_assigned_profiles#:#Zugewiesene Profile
+skmg#:#skmg_selected_skills#:#Ausgewählte Kompetenzen
+skmg#:#skmg_hide_profile_self_eval#:#Profilwerte nach Selbsteinschätzung anzeigen
+skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzwerte werden Profilwerte erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
+skmg#:#skmg_suggested#:#Vorgeschlagenes Magazinobjekt
+skmg#:#skmg_lp_triggers_level#:#Gesetzt durch 'Bearbeitet'-Status
+skmg#:#skmg_save_settings#:#Einstellungen speichern
+content#:#cont_pc_grid#:#Spaltenlayout
+content#:#cont_grid_nr_cells#:#Anzahl Spalten
+content#:#cont_ed_insert_grid#:#Spaltenlayout einfügen
+content#:#cont_grid_width_s#:#Klein (Small)
+content#:#cont_grid_width_s_info#:#z.B. Smartphone
+content#:#cont_grid_width_m_info#:#z.B. Tablet
+content#:#cont_grid_width_l#:#Groß (Large)
+content#:#cont_grid_width_l_info#:#z.B. Desktop
+content#:#cont_grid_width_xl#:#Sehr groß (Extra Large)
+content#:#cont_grid_width_xl_info#:#z.B. Wide Desktop
+content#:#cont_add_cell#:#Spalte hinzufügen
+content#:#cont_ed_delete_cell#:#Spalte löschen
+content#:#cont_ed_cell_left#:#Nach links verschieben
+content#:#cont_ed_cell_right#:#Nach rechts verschieben
+content#:#cont_ed_insert_grid_info#:#Fügt ein responsives Spaltenlayout basierend auf einem Raster mit 12 Einheiten je Zeile ein.
+content#:#cont_ed_grid_col_width#:#Spaltenbreite
+content#:#cont_ed_grid_col_width_info#:#Spalten können mehrere 1/12-Einheiten einer Zeile in Abhängigkeit von der Bildschirmgröße belegen. Die genannten Geräte sind Beispiele. Letztendlich entscheidet die Bildschirmgröße das Verhaltent. 12/12 entspricht einer Breite von 100%.
+content#:#cont_ed_grid_col_widths#:#Spaltenbreiten
+user#:#has_role#:#Rolle
+content#:#cont_grid_cell_confirm_deletion#:#Sollen die Spalten wirklich gelöscht werden?
+content#:#cont_grid_cell#:#Spalte
+user#:#criteria#:#Kriterium
+user#:#starting_point#:#Startseite
+user#:#user_role_starting_point#:#Benutzer - Startseite
+user#:#roles_without_starting_point#:#Rollen ohne definierte Startseite
+user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
+user#:#starting_page#:#Startseite
+user#:#starting_points#:#Startseiten
+user#:#user_chooses_starting_page#:#Benutzer setzt Startseite
+user#:#save_order#:#Reihenfolge speichern
+user#:#editing_this_role#:#Regel editieren
+user#:#create_starting_point#:#Regel erstellen
+user#:#starting_point_settings#:#Einstellungen Startseite
+user#:#confirm_delete_starting_point#:#Sind Sie sich sicher, dass diese Regel gelöscht werden soll?
+user#:#back_to_starting_points_list#:#Zurück zu Startseiten
+exc#:#exc_work_instructions#:#Arbeitsanweisung
+exc#:#exc_after_submission#:#Nach der Abgabe
+exc#:#exc_schedule#:#Terminplan
+exc#:#exc_submit_convenience_no_deadline#:#Geben Sie nach Bearbeitung der Übungseinheit ab. Es gibt keinen festen Abgabetermin.
+exc#:#exc_select_portfolio_unlink#:#Portfolio entfernen
+exc#:#exc_sure_unlink_portfolio#:#Möchten Sie das Portfolio aus dieser Übungseinheit entfernen?
+exc#:#exc_portfolio_unlinked_from_assignment#:#Das Portfolio wurde aus der Übungseinheit entfernt.
+exc#:#exc_template#:#Portfoliovorlage
+exc#:#exc_portfolio_template#:#Portfoliovorlage bestimmen
+exc#:#exc_without_template#:#Ohne Portfoliovorlage
+exc#:#exc_with_template#:#Mit Portfoliovorlage
+exc#:#exc_without_template_info#:#Teilnehmer erstellen ihre Portfolios selbständig ohne Vorlage.
+exc#:#exc_with_template_info#:#Ein leeres Portfolio wird automatisch aus einer bestimmten Portfoliovorlage abgeleitet.
+exc#:#exc_no_portfolio_templates#:#Es sind keine Portfoliovorlagen vorhanden.
+exc#:#exc_go_to_exercise#:#Zur Übung
+exc#:#exc_limit_characters#:#Anzahl der Zeichen beschränken
+exc#:#exc_min_char_limit#:#Mindestanzahl Zeichen
+exc#:#exc_max_char_limit#:#Höchstanzahl Zeichen
+exc#:#exc_chars_remaining#:#Verbleibende Zeichen
+exc#:#msg_input_char_limit_min#:#Sie müssen die festgelegte Mindestanzahl an Zeichen eingeben. Ihr Beitrag ist zu kurz.
+exc#:#msg_input_char_limit_max#:#Sie müssen die festgelegte Höchstzahl von Zeichen beachten. Ihr Beitrag ist zu lang.
+exc#:#exc_direct_no_submit#:#Nicht abgeben
+obj#:#obj_activation#:#Aktivierung
+obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren
+obj#:#obj_settings_for_all_members#:#Mitglieder werden automatisch benachrichtigt
+obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren
+skmg#:#skmg_eval_type_1#:#Fremdeinschätzung
+skmg#:#skmg_eval_type_2#:#Messung
+skmg#:#skmg_eval_type_3#:#Selbsteinschätzung
+user#:#user_profile_info#:#Infotext Benutzerprofil
+user#:#user_profile_info_text_info#:#Dieser Text erscheint über dem Eingabeformular der persönlichen Daten.
+user#:#user_make_profile_public#:#Profil veröffentlichen
+content#:#cont_prtf_page#:#Portfolioseite
+content#:#cont_prtt_page#:#Portfoliovorlagenseite
+svy#:#svy_user_added_360_appraisee#:#360°-Umfrage '%1'
+svy#:#svy_user_added_360_appraisee_mail#:#Sie wurden der Umfrage als Feedback-Nehmer hinzugefügt.
+svy#:#svy_user_added_360_rater#:#360°-Umfrage '%1'
+svy#:#svy_user_added_360_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
+svy#:#svy_user_added_360_appraisee_close_mail#:#Die 360°-Umfrage wurde für Ihre Feedback-Geber geschlossen.
+svy#:#survey_360_appraisees_remind_info#:#Falls die Selbsteinschätzung aktiviert ist, erhalten Feedback-Nehmer, die die Umfrage noch nicht abgeschlossen haben, eine Erinnerungsnachricht.
+svy#:#survey_360_raters_remind_info#:#Feedback-Geber, die die Umfrage noch nicht abgeschlossen haben, erhalten eine Erinnerungsnachricht.
+svy#:#svy_user_added_360_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
+prtf#:#prtf_add_new_blog#:#Neues Blog hinzufügen
+prtf#:#prtf_add_new_blog_info#:#Das neue Blog wird Ihrem persönlichen Arbeitsraum hinzugefügt.
+prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
+blog#:#blog_draft_text#:#Unveröffentlichter Beitrag

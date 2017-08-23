@@ -75,7 +75,7 @@ abstract class ilPageObject
 	var $xml;
 	var $encoding;
 	var $node;
-	var $cur_dtd = "ilias_pg_5_2.dtd";
+	var $cur_dtd = "ilias_pg_5_3.dtd";
 	var $contains_int_link;
 	var $needs_parsing;
 	var $parent_type;
@@ -153,7 +153,7 @@ abstract class ilPageObject
 		$this->encoding = "UTF-8";		
 		$this->id_elements =
 			array("PageContent", "TableRow", "TableData", "ListItem", "FileItem",
-				"Section", "Tab", "ContentPopup");
+				"Section", "Tab", "ContentPopup", "GridCell");
 		$this->setActive(true);
 		$this->show_page_act_info = false;
 		
@@ -2237,6 +2237,11 @@ abstract class ilPageObject
 					$res->nodeset[$i]->set_attribute("Target", "il__st_".$a_from_to[$obj_id]);
 					$changed = true;
 				}
+				if ($type == "PortfolioPage")
+				{
+					$res->nodeset[$i]->set_attribute("Target", "il__ppage_".$a_from_to[$obj_id]);
+					$changed = true;
+				}
 			}
 		}
 		unset($xpc);
@@ -2440,6 +2445,8 @@ abstract class ilPageObject
 	 */
 	function handleRepositoryLinksOnCopy($a_mapping, $a_source_ref_id)
 	{
+		global $tree, $objDefinition;
+
 		$this->buildDom();
 		$this->log->debug("Handle repository links...");
 
@@ -2488,6 +2495,100 @@ abstract class ilPageObject
 			}
 		}
 		unset($xpc);
+
+		// resolve normal external links
+		$ilias_url = parse_url(ILIAS_HTTP_PATH);
+		$xpc = xpath_new_context($this->dom);
+		$path = "//ExtLink";
+		$res = xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$href = $res->nodeset[$i]->get_attribute("Href");
+			$this->log->debug("Href: ".$href);
+
+			$url = parse_url($href);
+
+			// only handle links on same host
+			$this->log->debug("Host: ".$url["host"]);
+			if ($url["host"] != "" && $url["host"] != $ilias_url["host"])
+			{
+				continue;
+			}
+
+			// get parameters
+			$par = array();
+			foreach (explode("&", $url["query"]) as $p)
+			{
+				$p = explode("=", $p);
+				$par[$p[0]] = $p[1];
+			}
+
+			// get ref id
+			$ref_id = 0;
+			if (is_int(strpos($href, "goto.php")))
+			{
+				$t = explode("_", $par["target"]);
+				if ($objDefinition->isRBACObject($t[0]))
+				{
+					$ref_id = (int) $t[1];
+					$type = $t[0];
+				}
+			}
+			else if (is_int(strpos($href, "ilias.php")))
+			{
+				$ref_id = (int) $par["ref_id"];
+			}
+
+
+			if ($ref_id > 0)
+			{
+				if (isset($a_mapping[$ref_id]))
+				{
+					$new_ref_id = $a_mapping[$ref_id];
+					$new_href = "";
+					// we have a mapping -> replace the ID
+					if (is_int(strpos($href, "goto.php")))
+					{
+						$nt = str_replace($type."_".$ref_id, $type."_".$new_ref_id, $par["target"]);
+						$new_href = str_replace("target=".$par["target"], "target=".$nt, $href);
+					}
+					else if (is_int(strpos($href, "ilias.php")))
+					{
+						$new_href = str_replace("ref_id=".$par["ref_id"], "ref_id=".$new_ref_id, $href);
+					}
+					if ($new_href != "")
+					{
+						$this->log->debug("... ext link replace " . $href . " with " . $new_href . ".");
+						$res->nodeset[$i]->set_attribute("Href", $new_href);
+					}
+				}
+				else if ($tree->isGrandChild($a_source_ref_id, $ref_id))
+				{
+					// we have no mapping, but the linked object is child of the original node -> remove link
+					$this->log->debug("... remove ext links.");
+					if ($res->nodeset[$i]->parent_node()->node_name() == "MapArea")	// simply remove map areas
+					{
+						$parent = $res->nodeset[$i]->parent_node();
+						$parent->unlink_node($parent);
+					}
+					else	// replace link by content of the link for other internal links
+					{
+						$source_node = $res->nodeset[$i];
+						$new_node = $source_node->clone_node(true);
+						$new_node->unlink_node($new_node);
+						$childs = $new_node->child_nodes();
+						for ($j = 0; $j < count($childs); $j++)
+						{
+							$this->log->debug("... move node $j " . $childs[$j]->node_name() . " before " . $source_node->node_name());
+							$source_node->insert_before($childs[$j], $source_node);
+						}
+						$source_node->unlink_node($source_node);
+					}
+				}
+			}
+		}
+		unset($xpc);
+
 	}
 
 
@@ -3121,6 +3222,10 @@ abstract class ilPageObject
 					$t_type = "wpage";
 					break;
 
+				case "PortfolioPage":
+					$t_type = "ppage";
+					break;
+
 				case "User":
 					$t_type = "user";
 					break;
@@ -3517,7 +3622,8 @@ abstract class ilPageObject
 		// @todo: try to generalize this
 		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
 			($curr_name == "ListItem") || ($curr_name == "Section")
-			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup"))
+			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup")
+			|| ($curr_name == "GridCell"))
 		{
 			$a_mode = IL_INSERT_CHILD;
 		}
@@ -3622,7 +3728,8 @@ abstract class ilPageObject
 		// @todo: try to generalize
 		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
 			($curr_name == "ListItem") || ($curr_name == "Section")
-			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup"))
+			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup")
+			|| ($curr_name == "GridCell"))
 		{
 			$a_mode = IL_INSERT_CHILD;
 		}
@@ -5058,13 +5165,10 @@ abstract class ilPageObject
 	function getEditLock()
 	{
 		$db = $this->db;
-
-		//return false;
-		$aset = new ilSetting("adve");
 		$user = $this->user;
 		
-		$min = (int) $aset->get("block_mode_minutes") ;
-		if ($min > 0)
+		$min = (int)$this->getEffectiveEditLockTime();
+		if($min > 0)
 		{
 			// try to set the lock for the user
 			$ts = time();
@@ -5337,6 +5441,19 @@ abstract class ilPageObject
 		$rec = $db->fetchAssoc($set);
 
 		return $rec["last_change"];
+	}
+
+	public function getEffectiveEditLockTime()
+	{
+		if($this->getPageConfig()->getEditLockSupport() == false)
+		{
+			return 0;
+		}
+		
+		$aset = new ilSetting("adve");
+		$min = (int)$aset->get("block_mode_minutes") ;
+
+		return $min;
 	}
 
 }
