@@ -14,6 +14,8 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
+obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
 orgu#:#orgu_global_set_form#:#Globale Einstellungen 
 orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
 orgu#:#orgu_global_set_positions_type_active#:#Aktiv für:
@@ -15002,7 +15004,7 @@ mob#:#mob_upload_multi_srt_howto#:#Die .zip-Datei / .zip-Archiv darf keine Unter
 mob#:#mob_file_could_not_be_uploaded#:#Datei konnte nicht hochgeladen werden.
 mob#:#mob_multi_srt_files#:#SRT-Dateien
 content#:#cont_subtitle_files#:#Untertitel Medienobjekte
-content#:#cont_upload_multi_srt_howto#:#Erlaubt das Hochladen mehrerer Untertitel-Dateien (.srt) in einer .zip-Datei für alle Medienobjekte eines Lernmoduls. Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
+content#:#cont_upload_multi_srt_howto#:#Erlaubt das Hochladen mehrerer Untertitel-Dateien (.srt) in einer .zip-Datei für alle Medienobjekte. Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
 content#:#cont_moved_srt_files#:#Die Untertitel-Dateien wurden den Medienobjekten zugeordnet.
 content#:#cont_subtitle_file#:#SRT-ZIP-Datei
 content#:#cont_multi_srt_files#:#SRT-Dateien
@@ -16012,6 +16014,48 @@ wsp#:#element_already_shared#:#Die Ressource ist für diesen Benutzer bereits fr
 wsp#:#search_no_match#:#Es wurde kein Benutzer mit diesem Benutzernamen gefunden.
 wsp#:#element_shared#:#Die Ressource wurde freigegeben.
 wsp#:#share#:#Freigeben
+common#:#obj_pdfg#:#PDF-Erstellung
+common#:#obj_pdfg_desc#:#Administrationseinstellungen für die PDF-Erstellung
+common#:#building_export_file#:#Erstelle Export Datei...
+pdfgen#:#phantomjs#:#PhantomJS
+pdfgen#:#tcpdf#:#TCPDF
+pdfgen#:#path#:#Pfad zum Programm
+pdfgen#:#fop_config#:#Konfiguration für Fop
+pdfgen#:#phantomjs_config#:#Konfiguration für PhantomJs
+pdfgen#:#page_settings#:#Seiteneinstellungen
+pdfgen#:#orientation#:#Orientierung
+pdfgen#:#print_media_type#:#Benutze Druck Media Type anstatt Bildschirm
+pdfgen#:#output_options#:#Ausgabe Optionen
+pdfgen#:#margin#:#Rand
+pdfgen#:#show_info#:#Zeige Informationen
+pdfgen#:#header_type#:#Kopfzeile
+pdfgen#:#text#:#Text
+pdfgen#:#footer_type#:#Fußzeile
+pdfgen#:#spacing#:#Abstand
+pdfgen#:#head_text#:#Text
+pdfgen#:#header_height#:#Höhe Kopfzeile
+pdfgen#:#header_show_pages#:#Zeige Seitenzahlen
+pdfgen#:#footer_text#:#Text
+pdfgen#:#footer_height#:#Höhe Fußzeile
+pdfgen#:#footer_show_pages#:#Zeige Seitenzahlen
+prtf#:#pdf_export#:#PDF Export
+pdfgen#:#xsl#:#Pfad zur XSL Datei
+pdfgen#:#preferred_renderer#:#Bevorzugter Renderer
+pdfgen#:#selected_renderer#:#Gewählter Renderer
+pdfgen#:#configure#:#Konfiguriere Renderer
+pdfgen#:#image_scale#:#Bildskalierung
+pdfgen#:#config_saved#:#Speichern erfolgreich.
+pdfgen#:#config_not_saved#:#Speichern fehlgeschlagen.
+pdfgen#:#margin_left#:#Margin Links
+pdfgen#:#margin_top#:#Margin Oben
+pdfgen#:#margin_right#:#Margin Rechts
+pdfgen#:#margin_bottom#:#Margin Unten
+pdfgen#:#viewport#:#Viewport
+pdfgen#:#viewport_info#:#Viewport in Pixeln z.B "1920*1080"
+pdfgen#:#zoom#:#Zoom
+pdfgen#:#javascript_delay#:#Javascript Verzögerung
+pdfgen#:#page_size#:#Seitengröße
+pdfgen#:#reset_to_default#:#Default Einstellungen laden
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Loginversuche deaktiviert. 
 crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten
@@ -16157,3 +16201,13 @@ prtf#:#prtf_add_new_blog#:#Neues Blog hinzufügen
 prtf#:#prtf_add_new_blog_info#:#Das neue Blog wird Ihrem persönlichen Arbeitsraum hinzugefügt.
 prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
 blog#:#blog_draft_text#:#Unveröffentlichter Beitrag
+user#:#usr_letter_avatars#:#Letter-Avatare
+user#:#usr_letter_avatars_info#:#Zeigt die Initialen des Benutzernamens oder Logins an, wenn kein öffentliches Profilbild vorliegt.
+content#:#cont_master_language_only_no_media#:#Master Language without Media
+mep#:#mep_master_language_only_no_media#:#Master Language without Media
+mep#:#mep_content#:#Content
+mep#:#mep_media_subtitles#:#Media Subtitles
+content#:#cont_last_visited_page#:#Zuletzt besuchte Seite
+content#:#cont_first_page#:#Erste Seite
+content#:#cont_lm_starting_point#:#Startseite für ILIAS-Lernmodule
+content#:#cont_lm_starting_point_info#:#Seite, die beim Anklicken des Lernmodultitels geöffnet wird.

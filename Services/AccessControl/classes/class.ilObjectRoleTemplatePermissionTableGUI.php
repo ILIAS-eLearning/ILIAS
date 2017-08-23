@@ -44,7 +44,6 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 		$this->setFormName('role_template_permissions');
 		$this->setSelectAllCheckbox('template_perm['.$this->getTemplateType().']');
 		
-		
 		$this->lng->loadLanguageModule('rbac');
 		
 		$this->ref_id = $a_ref_id;

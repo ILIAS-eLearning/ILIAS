@@ -9,10 +9,6 @@
  */
 interface ilOrgUnitPositionAccessHandler {
 
-	const PERMISSION_VIEW_LEARNING_PROGRESS = 'viewlp';
-	const PERMISSION_VIEW_TEST_RESULTS = 'viewtstr';
-
-
 	/**
 	 * @param int[] $user_ids List of ILIAS-User-IDs which shall be filtered
 	 *
@@ -32,11 +28,11 @@ interface ilOrgUnitPositionAccessHandler {
 
 
 	/**
-	 * @param int[]  $user_ids           List of ILIAS-User-IDs which shall be filtered
+	 * @param int[]  $user_ids List of ILIAS-User-IDs which shall be filtered
 	 *
-	 * @param string $permission         See the list of
-	 *                                   available permissions in interface
-	 *                                   ilOrgUnitPositionAccessHandler
+	 * @param string $permission
+	 *
+	 * @see getAvailablePositionRelatedPermissions for available permissions
 	 *
 	 * @throws \ilOrgUnitAccessException when a unknown permission is used. See the list of
 	 *                                   available permissions in interface
@@ -49,11 +45,11 @@ interface ilOrgUnitPositionAccessHandler {
 
 
 	/**
-	 * @param int[]  $user_ids           List of ILIAS-User-IDs which shall be filtered
+	 * @param int[]  $user_ids List of ILIAS-User-IDs which shall be filtered
 	 * @param int    $for_user_id
-	 * @param string $permission         See the list of
-	 *                                   available permissions in interface
-	 *                                   ilOrgUnitPositionAccessHandler
+	 * @param string $permission
+	 *
+	 * @see getAvailablePositionRelatedPermissions for available permissions
 	 *
 	 * @throws \ilOrgUnitAccessException when a unknown permission is used. See the list of
 	 *                                   available permissions in interface
@@ -65,10 +61,10 @@ interface ilOrgUnitPositionAccessHandler {
 
 
 	/**
-	 * @param string $permission         See the list of
-	 *                                   available permissions in interface
-	 *                                   ilOrgUnitPositionAccessHandler
-	 * @param int[]  $on_user_ids        List of ILIAS-User-IDs
+	 * @param string $permission
+	 * @param int[]  $on_user_ids List of ILIAS-User-IDs
+	 *
+	 * @see getAvailablePositionRelatedPermissions for available permissions
 	 *
 	 * @return bool
 	 */
@@ -76,12 +72,11 @@ interface ilOrgUnitPositionAccessHandler {
 
 
 	/**
-	 * @param int    $which_user_id      Permission check for this ILIAS-User-ID
+	 * @param int    $which_user_id Permission check for this ILIAS-User-ID
+	 * @param string $permission
+	 * @param int[]  $on_user_ids   List of ILIAS-User-IDs
 	 *
-	 * @param string $permission         See the list of
-	 *                                   available permissions in interface
-	 *                                   ilOrgUnitPositionAccessHandler
-	 * @param int[]  $on_user_ids        List of ILIAS-User-IDs
+	 * @see getAvailablePositionRelatedPermissions for available permissions
 	 *
 	 * @return bool
 	 */
@@ -89,10 +84,10 @@ interface ilOrgUnitPositionAccessHandler {
 
 
 	/**
-	 * @param string $pos_perm           See the list of
-	 *                                   available permissions in interface
-	 *                                   ilOrgUnitPositionAccessHandler
-	 * @param int    $ref_id             Reference-ID of the desired Object in the tree
+	 * @param string $pos_perm
+	 * @param int    $ref_id Reference-ID of the desired Object in the tree
+	 *
+	 * @see getAvailablePositionRelatedPermissions for available permissions
 	 *
 	 * @return bool
 	 */
@@ -103,6 +98,8 @@ interface ilOrgUnitPositionAccessHandler {
 	 * @param string $pos_perm
 	 * @param int    $ref_id
 	 * @param int[]  $user_ids
+	 *
+	 * @see getAvailablePositionRelatedPermissions for available permissions
 	 *
 	 * @return int[]
 	 */
@@ -115,9 +112,15 @@ interface ilOrgUnitPositionAccessHandler {
 	 * @param int    $ref_id
 	 * @param int[]  $user_ids
 	 *
+	 * @see getAvailablePositionRelatedPermissions for available permissions
+	 *
 	 * @return int[]
 	 */
 	public function filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, array $user_ids);
 
 
+	/**
+	 * @return string[] array of available permissions used for position-related checks
+	 */
+	public function getAvailablePositionRelatedPermissions();
 }

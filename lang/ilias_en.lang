@@ -14,6 +14,8 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+obj#:#obj_orgunit_positions#:#Access Control by Organisation Unit Positions
+obj#:#obj_orgunit_positions_info#:#If enabled, additional access control rules can be defined by positions in organisational units.
 orgu#:#orgu_global_set_form#:#Global Organisational Unit Settings
 orgu#:#orgu_global_set_positions#:#Show User Data according to Organisational Unit Positions
 orgu#:#orgu_global_set_positions_type_active#:#Active for:
@@ -12566,7 +12568,7 @@ mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory,
 mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.
 mob#:#mob_multi_srt_files#:#SRT Files
 content#:#cont_subtitle_files#:#Media Subtitles
-content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects of the learning module. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" -> "my_video_en.srt".
+content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" -> "my_video_en.srt".
 content#:#cont_moved_srt_files#:#Moved subtitles files to media objects.
 content#:#cont_subtitle_file#:#SRT ZIP File
 content#:#cont_multi_srt_files#:#SRT Files
@@ -13543,6 +13545,7 @@ chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository c
 chatroom#:#chat_deletion_interval_unit#:#Unit
 chatroom#:#chat_deletion_interval_value#:#Value
 chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s
+chatroom#:#chat_deletion_interval_run_at#:#Time
 chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
@@ -13569,6 +13572,40 @@ wsp#:#element_already_shared#:#This object is already shared with this user.
 wsp#:#search_no_match#:#Your search did not match any results.
 wsp#:#element_shared#:#Object shared.
 wsp#:#share#:#Share
+common#:#obj_pdfg#:#PDF Generation
+common#:#obj_pdfg_desc#:#Options for generation PDF documents
+common#:#building_export_file#:#Building Export File...
+pdfgen#:#phantomjs#:#PhantomJS
+pdfgen#:#page_settings#:#Page Settings
+pdfgen#:#page_size#:#Pagesize
+pdfgen#:#margin#:#Margin
+pdfgen#:#header_type#:#Header
+pdfgen#:#text#:#Text
+pdfgen#:#footer_type#:#Footer
+pdfgen#:#head_text#:#Text
+pdfgen#:#orientation#:#Orientation
+pdfgen#:#header_height#:#Header Height
+pdfgen#:#header_show_pages#:#Show Pagenumbers
+pdfgen#:#footer_text#:#Text
+pdfgen#:#footer_height#:#Height Footer
+pdfgen#:#footer_show_pages#:#Show Pagenumbers
+pdfgen#:#preferred_renderer#:#Preferred Renderer
+pdfgen#:#selected_renderer#:#Selected Renderer
+pdfgen#:#configure#:#Configure Renderer
+pdfgen#:#config_saved#:#Saved successfully
+pdfgen#:#config_not_saved#:#Saving failed
+prtf#:#pdf_export#:#PDF Export
+pdfgen#:#print_media_type#:#Use print media type instead of screen
+pdfgen#:#javascript_delay#:#Javascript delay
+pdfgen#:#margin_left#:#Margin left
+pdfgen#:#margin_top#:#Margin top
+pdfgen#:#margin_right#:#Margin right
+pdfgen#:#viewport#:#Viewport
+pdfgen#:#viewport_info#:#Viewport in pixels e.g. "1920*1080"
+pdfgen#:#margin_bottom#:#Margin bottom
+pdfgen#:#zoom#:#Zoom
+pdfgen#:#image_scale#:#Image scale
+pdfgen#:#reset_to_default#:#Reset settings to default
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.
 crs#:#crs_edit_lo_introduction#:#Edit Introduction
@@ -13697,3 +13734,13 @@ prtf#:#prtf_add_new_blog#:#Add New Blog
 prtf#:#prtf_add_new_blog_info#:#The new blog will be added to your personal workspace.
 prtf#:#prtf_add_existing_blog#:#Use Existing Blog
 blog#:#blog_draft_text#:#Unpublished Post
+user#:#usr_letter_avatars#:#Letter Avatars
+user#:#usr_letter_avatars_info#:#Shows initial of user name or login as profile picture, if no public picture is being provided.
+content#:#cont_master_language_only_no_media#:#Master Language without Media
+mep#:#mep_master_language_only_no_media#:#Master Language without Media
+mep#:#mep_content#:#Content
+mep#:#mep_media_subtitles#:#Media Subtitles
+content#:#cont_last_visited_page#:#Last Visited Page
+content#:#cont_first_page#:#First Page
+content#:#cont_lm_starting_point#:#Starting Point for ILIAS Learning Modules
+content#:#cont_lm_starting_point_info#:#Page being opened when clicking a learning modules title.

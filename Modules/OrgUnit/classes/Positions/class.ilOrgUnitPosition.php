@@ -30,13 +30,51 @@ class ilOrgUnitPosition extends \ActiveRecord {
 
 
 	/**
+	 * @throws \ilException whenever you try to delete a core-position like employee or superior
+	 */
+	public function delete() {
+		if ($this->isCorePosition()) {
+			throw new ilException('Cannot delete Core-Position');
+		}
+		parent::delete();
+	}
+
+
+	/**
+	 * @return \ilOrgUnitPosition[] array of Positions (all core-positions and all positions which
+	 *                              have already UserAssignments)
+	 */
+	public static function getActive() {
+		arObjectCache::flush(self::class);
+		$q = "SELECT DISTINCT il_orgu_positions.id, il_orgu_positions.*
+ 				FROM il_orgu_positions 
+ 				 LEFT JOIN il_orgu_ua ON il_orgu_positions.id = il_orgu_ua.position_id  
+ 				WHERE il_orgu_ua.user_id IS NOT NULL 
+ 					OR il_orgu_positions.core_position = 1";
+		$database = $GLOBALS['DIC']->database();
+		$st = $database->query($q);
+
+		$positions = array();
+
+		while ($data = $database->fetchAssoc($st)) {
+			$position = new self();
+			$position->buildFromArray($data);
+			$positions[] = $position;
+		}
+
+		return $positions;
+	}
+
+
+	/**
 	 * @param int $orgu_ref_id
 	 *
-	 * @return \ilOrgUnitPosition[]
+	 * @return \ilOrgUnitPosition[] array of Positions (all core-positions and all positions which
+	 *                              have already UserAssignments at this place)
 	 */
 	public static function getActiveForPosition($orgu_ref_id) {
 		arObjectCache::flush(self::class);
-		$q = "SELECT il_orgu_positions.*
+		$q = "SELECT DISTINCT il_orgu_positions.id, il_orgu_positions.*
  				FROM il_orgu_positions 
  				LEFT JOIN il_orgu_ua ON il_orgu_positions.id = il_orgu_ua.position_id AND il_orgu_ua.orgu_id = %s 
  				WHERE il_orgu_ua.user_id IS NOT NULL 
@@ -100,6 +138,18 @@ class ilOrgUnitPosition extends \ActiveRecord {
 	public function afterObjectLoad() {
 		$this->authorities = ilOrgUnitAuthority::where(array( ilOrgUnitAuthority::POSITION_ID => $this->getId() ))
 		                                       ->get();
+	}
+
+
+	public function update() {
+		parent::update();
+		$this->storeAuthorities();
+	}
+
+
+	public function create() {
+		parent::create();
+		$this->storeAuthorities();
 	}
 
 
@@ -225,5 +275,27 @@ class ilOrgUnitPosition extends \ActiveRecord {
 	 */
 	public function setAuthorities($authorities) {
 		$this->authorities = $authorities;
+	}
+
+
+	private function storeAuthorities() {
+		$ids = [];
+		foreach ($this->getAuthorities() as $authority) {
+			$authority->setPositionId($this->getId());
+			if ($authority->getId()) {
+				$authority->update();
+			} else {
+				$authority->create();
+			}
+			$ids[] = $authority->getId();
+		}
+		if (count($ids) > 0) {
+			foreach (ilOrgUnitAuthority::where(array(
+				'id'          => $ids,
+				'position_id' => $this->getId(),
+			), array( 'id' => 'NOT IN', 'position_id' => '=' ))->get() as $authority) {
+				$authority->delete();
+			}
+		}
 	}
 }

@@ -10,7 +10,7 @@ namespace ILIAS\Modules\OrgUnit\ARHelper;
 abstract class BaseForm extends \ilPropertyFormGUI {
 
 	/**
-	 * @var
+	 * @var \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands
 	 */
 	protected $parent_gui;
 	/**
@@ -32,9 +32,8 @@ abstract class BaseForm extends \ilPropertyFormGUI {
 	public function __construct(BaseCommands $parent_gui, \ActiveRecord $object) {
 		$this->parent_gui = $parent_gui;
 		$this->object = $object;
-		$this->DIC = $this->parent_gui->dic();
-		$this->DIC->ctrl()->saveParameter($parent_gui, 'arid');
-		$this->setFormAction($this->DIC->ctrl()->getFormAction($this->parent_gui));
+		$this->dic()->ctrl()->saveParameter($parent_gui, 'arid');
+		$this->setFormAction($this->dic()->ctrl()->getFormAction($this->parent_gui));
 		$this->initFormElements();
 		$this->initButtons();
 		$this->setTarget('_top');
@@ -45,7 +44,7 @@ abstract class BaseForm extends \ilPropertyFormGUI {
 	abstract protected function initFormElements();
 
 
-	abstract protected function fillForm();
+	abstract public function fillForm();
 
 
 	abstract protected function fillObject();
@@ -98,5 +97,13 @@ abstract class BaseForm extends \ilPropertyFormGUI {
 	 */
 	protected function infoTxt($key) {
 		return $this->parent_gui->txt($key . '_info');
+	}
+
+
+	/**
+	 * @return \ILIAS\DI\Container
+	 */
+	protected function dic() {
+		return $this->parent_gui->dic();
 	}
 }

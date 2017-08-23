@@ -1275,6 +1275,8 @@ return;
 					include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
 					ilModalGUI::initJS();
 					$this->lng->toJS("cont_error");
+					$this->lng->toJS("cont_sel_el_cut_use_paste");
+					$this->lng->toJS("cont_sel_el_copied_use_paste");
 
 					include_once './Services/Style/Content/classes/class.ilObjStyleSheet.php';
 					$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
@@ -1803,7 +1805,7 @@ return;
 		{
 			$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
 
-			$this->log->debug("Calling XSLT, content: ".$content);
+			$this->log->debug("Calling XSLT, content: ".substr($content, 0, 100));
 			//echo $content; exit;
 
 
