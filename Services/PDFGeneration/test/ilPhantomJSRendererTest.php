@@ -9,20 +9,22 @@ require_once __DIR__ .'/../classes/renderer/phantomjs/class.ilPhantomJSRenderer.
 class ilPhantomJSRendererTest  extends PHPUnit_Framework_TestCase
 {
 
-	protected $default_config = array('path' => '/usr/local/bin/phantomjs', 
-									  'page_size' => 'A4', 
+	protected $default_config = array('path' => '/usr/local/bin/phantomjs',
+									  'page_size' => 'A4',
 									  'margin' => '1cm',
-									  'print_media_type' => 1, 
-									  'javascript_delay' => 200, 
-									  'orientation' => 'Portrait', 
-									  'header_type' => 0, 
+									  'print_media_type' => 1,
+									  'javascript_delay' => 200,
+									  'viewport' => '',
+									  'orientation' => 'Portrait',
+									  'header_type' => 0,
 									  'header_text' => '',
-									  'header_height' => '0cm', 
-									  'header_show_pages' => 0, 
-									  'footer_type' => 0, 
-									  'footer_text' => '', 
+									  'header_height' => '0cm',
+									  'header_show_pages' => 0,
+									  'footer_type' => 0,
+									  'footer_text' => '',
 									  'footer_height' => '0cm',
 									  'footer_show_pages' => 0);
+
 
 	protected $beckersche_config = array('path' => '/usr/local/bin/phantomjs',
 									  'page_size' => 'A4',
