@@ -63,6 +63,22 @@ forum#:#adm_save_drafts_desc#:#If enabled, registered users are able to save for
 forum#:#adm_autosave_drafts#:#Automatically save drafts
 forum#:#adm_autosave_ival#:#Interval
 forum#:#adm_autosave_drafts_desc#:#If activated, drafts are saved automatically during editing.
+common#:#pwsp_recalculate_disk_quota#:#Personal Workspace: Recalculation of Disk Quota
+common#:#pwsp_recalculate_disk_quota_desc#:#Recalculates all disk quota values for the personal workspace.
+itgr#:#itgr_show_title#:#Show Title
+itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.
+itgr#:#itgr_behaviour#:#Block Behaviour
+itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for the current user until logout.
+itgr#:#itgr_always_open#:#Always Open
+itgr#:#itgr_expandable_closed#:#Expandable (initially closed)
+itgr#:#itgr_expandable_open#:#Expandable (initially opened)
+exc#:#exc_submission_and_grades_notification_link#:#Link to Exercise (Submissions and Grades): %s
+exc#:#exc_submission_downloads_notification_link#:#Download New Submissions: %s
+exc#:#exc_submission_no_new_files#:#No new submissions available.
+exc#:#exc_wait_for_files#:#Your download should start automatically. If the download doesn't start in 5 secs, please click here
+exc#:#exc_target_not_valid#:#Target requested is not valid or incomplete.
+exc#:#exc_no_get_target#:#A valid target has not been sent.
+exc#:#exc_all_new_files_offered_already#:#All new files have already been offered for download. For another download, please click on the action links below.
 acc#:#acc_access_key#:#Access Key
 acc#:#acc_access_keys#:#Access Keys
 acc#:#acc_comp_frm#:#Forum

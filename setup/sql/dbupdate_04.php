@@ -19443,3 +19443,23 @@ if(!$ilDB->tableColumnExists('notification','activated'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5124>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5125>
+<?php
+if(!$ilDB->tableColumnExists('itgr_data','behaviour'))
+{
+	$ilDB->addTableColumn(
+		'itgr_data',
+		'behaviour',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		)
+	);
+}
+?>

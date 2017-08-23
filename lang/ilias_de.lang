@@ -64,6 +64,22 @@ forum#:#adm_save_drafts_desc#:#Wenn aktiviert, können angemeldete Benutzer Beit
 forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern   
 forum#:#adm_autosave_ival#:#Speicherintervall
 forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
+common#:#pwsp_recalculate_disk_quota#:#Persönlicher Arbeitsraum: Neuberechnung Disk-Quota
+common#:#pwsp_recalculate_disk_quota_desc#:#Berechnet die Disk-Quota-Werte für den persönlichen Arbeitsraum neu.
+itgr#:#itgr_show_title#:#Titel anzeigen
+itgr#:#itgr_show_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner angezeigt.
+itgr#:#itgr_behaviour#:#Verhalten
+itgr#:#itgr_behaviour_info#:#Das System merkt sich den Zustand (geöffnet/geschlossen) je Benutzer bis zur Abmeldung (Logout).
+itgr#:#itgr_always_open#:#Immer offen
+itgr#:#itgr_expandable_closed#:#Ausklappbar (zunächst geschlossen)
+itgr#:#itgr_expandable_open#:#Ausklappbar (zunächst geöffnet)
+exc#:#exc_submission_and_grades_notification_link#:#Link zur Übung (Abgaben und Noten): %s
+exc#:#exc_submission_downloads_notification_link#:#Neue Abgaben herunterladen: %s
+exc#:#exc_submission_no_new_files#:#Keine neuen Abgaben vorhanden.
+exc#:#exc_wait_for_files#:#Der Download sollte automatisch starten. Bei Problemen klicken Sie bitte hier.
+exc#:#exc_target_not_valid#:#Das Link-Ziel ist nicht mehr gültig.
+exc#:#exc_no_get_target#:#Kein gültiges Link-Ziel gefunden.
+exc#:#exc_all_new_files_offered_already#:#Alle neuen Dateien wurden bereits zum Download angeboten. Für einen erneuten Download klicken Sie bitte auf die entsprechenden Aktionslinks in der untenstehenden Liste.
 acc#:#acc_access_key#:#Access-Key
 acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_comp_frm#:#Forum
