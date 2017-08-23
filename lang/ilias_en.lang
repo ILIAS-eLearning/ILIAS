@@ -13722,3 +13722,5 @@ prtf#:#prtf_add_new_blog#:#Add New Blog
 prtf#:#prtf_add_new_blog_info#:#The new blog will be added to your personal workspace.
 prtf#:#prtf_add_existing_blog#:#Use Existing Blog
 blog#:#blog_draft_text#:#Unpublished Post
+user#:#usr_letter_avatars#:#Letter Avatars
+user#:#usr_letter_avatars_info#:#Shows initial of user name or login as profile picture, if no public picture is being provided.

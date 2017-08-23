@@ -678,7 +678,7 @@ exit;
 		global $ilCtrl;
 		$this->page->pasteContents($a_hier_id, $this->page_gui->getPageConfig()->getEnableSelfAssessment());
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
-		ilEditClipboard::setAction("");
+		//ilEditClipboard::setAction("");
 		$this->ctrl->returnToParent($this);
 	}
 
