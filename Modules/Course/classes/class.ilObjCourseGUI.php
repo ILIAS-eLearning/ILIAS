@@ -965,7 +965,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				ilObjectServiceSettingsGUI::TAG_CLOUD,
 				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
 				ilObjectServiceSettingsGUI::BADGES,
-				ilObjectServiceSettingsGUI::EXTENDED_USER_ACCESS
+				ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
 			)
 		);
 		
@@ -1404,7 +1404,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::TAG_CLOUD,
 					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
 					ilObjectServiceSettingsGUI::BADGES,
-					ilObjectServiceSettingsGUI::EXTENDED_USER_ACCESS
+					ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
 				)
 			);
 

@@ -36,12 +36,10 @@ class ilImageMapEditorGUI
 			case "ilinternallinkgui":
 				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 				$link_gui = new ilInternalLinkGUI("Media_Media", 0);
-				$link_gui->setMode("link");
 				$link_gui->setSetLinkTargetScript(
 					$ilCtrl->getLinkTarget($this,
 					"setInternalLink"));
 				$link_gui->filterLinkType("File");
-				$link_gui->setMode("asynch");
 				$ret = $ilCtrl->forwardCommand($link_gui);
 				break;
 

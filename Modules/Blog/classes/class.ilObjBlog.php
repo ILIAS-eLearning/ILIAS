@@ -705,7 +705,7 @@ class ilObjBlog extends ilObject2
 		{
 			return;
 		}						
-								
+
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification($a_in_wsp);		
 		$ntf->setLangModules(array("blog"));

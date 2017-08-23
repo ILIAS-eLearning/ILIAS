@@ -217,7 +217,18 @@ class ilExerciseManagementGUI
 		$ilCtrl->setParameter($this, "ass_id", $ass_id);
 		$ilCtrl->setParameter($this, "part_id", $part_id);		
 	}
-	
+
+	public function waitingDownloadObject()
+	{
+		global $lng, $ilCtrl;
+
+		$ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "member_id", (int) $_GET["member_id"]);
+		$url = $ilCtrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"),"downloadNewReturned");
+		$js_url = $ilCtrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"),"downloadNewReturned", "", "", false);
+		ilUtil::sendInfo($lng->txt("exc_wait_for_files")."<a href='$url'> ".$lng->txt('exc_download_files')."</a><script>window.location.href ='".$js_url."';</script>");
+		$this->membersObject();
+	}
+
 	/**
 	 * All participants and submission of one assignment
 	 */
