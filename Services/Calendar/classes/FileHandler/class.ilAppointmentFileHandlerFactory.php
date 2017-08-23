@@ -21,7 +21,7 @@ class ilAppointmentFileHandlerFactory extends ilCalendarAppointmentBaseFactory
 
 
 		// todo: provide more implementations
-		if (!in_array($class_base, array("Session", "Course", "ConsultationHours")))
+		if (!in_array($class_base, array("Session", "Course", "ConsultationHours", "Exercise")))
 		{
 			$class_base = "Dummy";
 		}
