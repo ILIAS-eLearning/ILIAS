@@ -264,11 +264,11 @@ il.IntLink =
 		return false;
 	},
 
-	addInternalLink: function (b, e, ev)
+	addInternalLink: function (b, e, ev, c)
 	{
 		if (typeof ilCOPage != "undefined" && ($("#ilEditTableDataCl").length == 0))
 		{
-			ilCOPage.cmdIntLink(b, e);
+			ilCOPage.cmdIntLink(b, e, c);
 		} else if (il.Form) {
 			il.Form.addInternalLink(b,e,this.id,ev);
 		} else if (addInternalLink) {

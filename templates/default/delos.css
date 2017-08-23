@@ -6218,6 +6218,18 @@ button.close {
 .il-panel-report > .panel-body > .panel {
   margin-bottom: 10px;
 }
+.panel-heading > h3 {
+  float: left;
+}
+.panel-heading > h4 {
+  float: left;
+}
+.panel-heading .dropdown {
+  float: right;
+}
+.panel-heading .dropdown > button.dropdown-toggle {
+  color: white;
+}
 .il-panel-listing-std-item-container {
   margin: 0 0 1px 0;
 }
@@ -6250,9 +6262,14 @@ button.close {
 }
 .il-card {
   padding: 0;
+  width: 100%;
+  background-color: white;
 }
 .il-card img {
   width: 100%;
+}
+.il-card .thumbnail {
+  margin-bottom: 0px;
 }
 .il-card .card-highlight {
   background-color: #fa8228;
@@ -6270,6 +6287,18 @@ button.close {
 .il-card .caption:nth-of-type(1n+3) {
   border-top: 1px solid #ddd;
 }
+.il-panel-report .il-card {
+  background-color: #f9f9f9;
+}
+@media (min-width: 992px) {
+  .row-eq-height .il-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .row-eq-height .il-card :nth-child(4) {
+    flex-grow: 2;
+  }
+}
 .il-deck .row {
   margin-left: 0;
   margin-right: 0;
@@ -6277,6 +6306,89 @@ button.close {
 .il-deck .row > div {
   padding-left: 5px;
   padding-right: 5px;
+  margin-bottom: 6px;
+}
+@media (min-width: 992px) {
+  .row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .row-eq-height > div {
+    display: flex;
+  }
+}
+.il-upload-file-item.row [class*="col-"].col-no-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
+.il-upload-file-item.standard {
+  background: white;
+  border: 1px solid #C0C0C0;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  margin-bottom: 4px;
+}
+.il-upload-file-item.standard .file-info {
+  padding: 3px 8px;
+  line-height: 1.42857143;
+  border-radius: 0;
+  font-size: 12px;
+  border: 1px solid transparent;
+  color: #333333;
+  display: inline-block;
+}
+.il-upload-file-item.standard .remove button {
+  margin: 2px 7px 0 0;
+}
+.il-dropzone.row [class*="col-"].col-no-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
+.il-dropzone.standard {
+  background: white;
+  border: 1px dashed #C0C0C0;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  margin-bottom: 4px;
+}
+.il-dropzone.standard .dz-message {
+  padding: 3px 8px;
+  line-height: 1.42857143;
+  border-radius: 0;
+  font-size: 12px;
+  border: 1px solid transparent;
+  color: #C0C0C0;
+  display: inline-block;
+}
+.il-dropzone.wrapper {
+  padding: 1px;
+}
+.il-dropzone.darkened-highlight {
+  z-index: 1100;
+  position: relative;
+  border: 1px dashed #C0C0C0;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  background: #FFFFD6;
+}
+.il-dropzone.default-highlight {
+  border: 1px dashed #C0C0C0;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  background: #FFFFD6;
+}
+.il-dropzone.drag-hover {
+  border: 1px dashed #606060;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  background-color: #FFF9BC;
 }
 .btn {
   font-size: 12px;
@@ -7460,6 +7572,10 @@ ul.breadcrumb li:hover {
 .il-popover .webui-popover-content > div:first-child {
   width: 100%;
 }
+.il-popover .il-popover-inner {
+  max-height: 500px;
+  overflow: scroll;
+}
 .il-popover i.icon-refresh {
   background: url("../../src/UI/templates/libs/node_modules/webui-popover/img/loading.gif") no-repeat;
   height: 30px;
@@ -7474,6 +7590,9 @@ ul.breadcrumb li:hover {
   background-color: transparent;
   text-transform: uppercase;
   color: #909090;
+}
+.il-popover.webui-popover-fixed {
+  position: fixed;
 }
 .extended-color-variant-1.il-extended-color-variant-standard {
   color: #7f7207;
@@ -7658,6 +7777,48 @@ ul.breadcrumb li:hover {
 .bg-primary {
   color: white;
 }
+/* flex grid support start, see http://www.bootply.com/126437 */
+/* deactivated flex grid, since grids in grids will not work correctly width:100%; and flex:1 1 auto; seem to be problems
+
+.row-flex, .row-flex > div[class*='col-'] {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	flex:1 1 auto;
+}
+
+
+.row-flex-wrap {
+	-webkit-flex-flow: row wrap;
+	align-content: flex-start;
+	flex:0;
+}
+
+.row-flex > div[class*='col-'], .container-flex > div[class*='col-'] {
+	margin:-.2px;
+}
+
+.container-flex > div[class*='col-'] div,.row-flex > div[class*='col-'] div {
+	 width:100%;
+ }
+
+.flex-col {
+	display: flex;
+	display: -webkit-flex;
+	flex: 1 100%;
+	flex-flow: column nowrap;
+}
+
+.flex-grow {
+	display: flex;
+	-webkit-flex: 2;
+	flex: 2;
+}
+
+*/
+/* flex grid support end */
 /* RTL review overwrite some specifics [bootstrap] styles
  *
  * use class "noMirror" to avoid image flip
@@ -9634,6 +9795,14 @@ div.il_editarea_disabled {
   border: 2px dotted #fa8228;
   min-height: 20px;
 }
+.ilCopgDisabledText {
+  color: #fa8228;
+  position: absolute;
+  font-size: 12px;
+  margin-top: -22px;
+  padding: 2px 5px;
+  background-color: white;
+}
 div.il_editarea_active {
   border: 1px solid #909090;
   min-height: 20px;
@@ -10874,7 +11043,7 @@ div.ilBlogListItem {
   margin-bottom: 35px;
 }
 div.ilBlogListItem.ilBlogListItemDraft {
-  padding: 3px;
+  padding: 8px;
 }
 div.ilBlogListItemTitle {
   border-bottom: 1px solid #e0e0e0;
@@ -10931,7 +11100,15 @@ div.ilBlogSideBlockNavigationSelection {
   margin-bottom: 5px;
 }
 .ilBlogListItemDraft {
-  border: 2px dotted red;
+  border: 2px dotted #fa8228;
+}
+.ilBlogDraftText {
+  color: #fa8228;
+  position: absolute;
+  font-size: 12px;
+  margin-top: -20px;
+  padding: 2px 5px;
+  background-color: white;
 }
 .ilBlogNavigationItemDraft {
   margin-right: 50px;
@@ -11018,6 +11195,54 @@ div.ilSkillSuggRes {
 }
 th.ilSkillEntryHead {
   width: 250px;
+}
+.ilSkillEvalItem {
+  border-left: 5px solid;
+  margin: 2px 0;
+  padding: 10px;
+}
+.ilSkillEvalItem > .row > div {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.ilSkillEvalItem.ilSkillEvalType1 {
+  border-color: #dcb496;
+}
+.ilSkillEvalItem.ilSkillEvalType2 {
+  border-color: #21c5d8;
+}
+.ilSkillDescription,
+.ilSkillMaterial,
+.ilSkillSuggResources {
+  padding: 5px 10px 5px 15px;
+}
+.ilSkillDescription > .row > div,
+.ilSkillMaterial > .row > div,
+.ilSkillSuggResources > .row > div {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.ilSkillResourceList > h5 {
+  margin-top: 25px;
+}
+.ilSkillResourceList > div {
+  padding: 5px 10px 5px 15px;
+}
+.ilSkillResourceList > div > .row > div {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.ilSkillEvalItem.ilSkillEvalType3 {
+  border-color: #6ea03c;
+}
+.ilSkillEvalItem > .row > .ilSkillEvalType1 {
+  color: #dcb496;
+}
+.ilSkillEvalItem > .row > .ilSkillEvalType2 {
+  color: #21c5d8;
+}
+.ilSkillEvalItem > .row > .ilSkillEvalType3 {
+  color: #6ea03c;
 }
 /* Modules/Poll */
 .ilPollDescription {
@@ -11759,6 +11984,27 @@ div.il_ContainerListItem {
   text-align: left;
   vertical-align: middle;
 }
+.ilContainerBlockHeaderExpanded,
+.ilContainerBlockHeaderCollapsed {
+  background-repeat: no-repeat;
+  background-position: 20px 8px;
+  padding-left: 50px;
+  /* padding-top: 6px; */
+  background-color: #f9f9f9;
+  cursor: pointer;
+  margin-bottom: 1px;
+}
+.ilContainerBlockHeaderExpanded {
+  background-image: url("images/tree_exp.svg");
+}
+.ilContainerBlockHeaderCollapsed {
+  background-image: url("images/tree_col.svg");
+  /* background-color: @il-secondary-container-bg; */
+}
+.ilContainerBlockHeaderExpanded:hover,
+.ilContainerBlockHeaderCollapsed:hover {
+  background-color: #ffffd0;
+}
 [dir="rtl"] .ilContainerBlockHeader {
   text-align: right;
 }
@@ -12381,6 +12627,11 @@ div.ilRatingOverlay {
 .ilExcAssignmentHead > div {
   margin: 4px 0 0 25px;
   font-size: 12px;
+}
+.ilExcOverview .ilExcAssImageContainer {
+  max-width: 300px;
+  display: inline-block;
+  cursor: pointer;
 }
 .progress {
   height: 15px;

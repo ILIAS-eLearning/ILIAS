@@ -289,7 +289,8 @@ interface Factory {
 	 *     Panels are used to group titled content.
 	 *   composition: >
 	 *      Panels consist of a header and content section. They form one Gestalt and so build a perceivable
-	 *      cluster of information.
+	 *      cluster of information. Additionally an optional Dropdown that offers actions on the entity being
+	 *      represented by the panel is shown at the top of the Panel.
 	 *   effect: The effect of interaction with panels heavily depends on their content.
 	 *
 	 * rules:
@@ -299,6 +300,7 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Panel\Factory
 	 */
 	public function panel();
+
 
 	/**
 	 * ---
@@ -461,6 +463,27 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Link\Factory
 	 */
 	public function link();
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Dropzones are containers used to drop either files or other HTML elements.
+	 *   composition: >
+	 *     A dropzone is a container on the page. Depending on the type of the dropzone,
+	 *     the container is visible by default or it gets highlighted once the user
+	 *     starts to drag the elements over the browser window.
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       Dropzones MUST be highlighted if the user is dragging compatible elements
+	 *       inside or over the browser window.
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Dropzone\Factory
+	 */
+	public function dropzone();
 
 	/**
 	 * ---
@@ -661,5 +684,6 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Chart\Factory
 	 */
 	public function chart();
+
 
 }
