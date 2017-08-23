@@ -65,4 +65,28 @@ class ilOrgUnitOperationContextQueries {
 	public static function findById($id) {
 		return ilOrgUnitOperationContext::find($id);
 	}
+
+
+	/**
+	 * @param int $ref_id
+	 *
+	 * @return \ilOrgUnitOperationContext
+	 */
+	public static function findByRefId($ref_id) {
+		$type_context = ilObject2::_lookupType($ref_id, true);
+
+		return self::findByName($type_context);
+	}
+
+
+	/**
+	 * @param int $obj_id
+	 *
+	 * @return \ilOrgUnitOperationContext
+	 */
+	public static function findByObjId($obj_id) {
+		$type_context = ilObject2::_lookupType($obj_id, false);
+
+		return self::findByName($type_context);
+	}
 }

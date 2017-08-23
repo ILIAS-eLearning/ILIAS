@@ -101,7 +101,7 @@ class ilOrgUnitGlobalSettings {
 
 			return false;
 		}
-		$object_position = new ilOrgUnitObjectTypePositionSetting($a_obj_id);
+		$object_position = new ilOrgUnitObjectTypePositionSetting($type);
 		$this->object_position_cache[$a_obj_id] = $object_position->isActive();
 
 		return $this->object_position_cache[$a_obj_id];

@@ -18,6 +18,10 @@ include_once './Services/AccessControl/classes/class.ilPermission2GUI.php';
 */
 class ilPermissionGUI extends ilPermission2GUI
 {
+
+	const CMD_PERM_POSITIONS = 'permPositions';
+	const CMD_SAVE_POSITIONS_PERMISSIONS = 'savePositionsPermissions';
+
 	protected $current_obj = null;
 
 	/**
@@ -152,20 +156,6 @@ class ilPermissionGUI extends ilPermission2GUI
 		$this->tpl->setContent($table->getHTML());
 	}
 
-	/**
-	 * show position permission table
-	 * @return 
-	 */
-	public function permPositions()
-	{
-		$this->__initSubTabs(ilPermission2GUI::CMD_PERM_POSITIONS);
-
-		$table = new ilOrgUnitPermissionTableGUI($this, ilPermission2GUI::CMD_PERM_POSITIONS, $this->getCurrentObject()
-		                                                                                           ->getRefId());
-		$table->collectData();
-		$this->tpl->setContent($table->getHTML());
-	}
-	
 	
 	
 	/**
@@ -877,4 +867,46 @@ class ilPermissionGUI extends ilPermission2GUI
 		}
 		return $blocked_info;
 	}
+
+	//
+	// OrgUnit Position Permissions
+	//
+
+
+	protected function permPositions() {
+		$perm = self::CMD_PERM_POSITIONS;
+		$this->__initSubTabs($perm);
+
+		$ref_id = $this->getCurrentObject()->getRefId();
+		$table = new ilOrgUnitPermissionTableGUI($this, $perm, $ref_id);
+		$table->collectData();
+		$this->tpl->setContent($table->getHTML());
+	}
+
+
+	protected function savePositionsPermissions() {
+		$this->__initSubTabs(self::CMD_PERM_POSITIONS);
+		$ref_id = $this->getCurrentObject()->getRefId();
+		if ($_POST['local']) {
+			foreach ($_POST['local'] as $position_id => $item) {
+				ilOrgUnitPermissionQueries::findOrCreateSetForRefId($ref_id, $position_id);
+			}
+		}
+		if ($_POST['position_perm']) {
+			foreach ($_POST['position_perm'] as $position_id => $ops) {
+				$ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId($ref_id, $position_id);
+				$new_ops = [];
+				foreach ($ops as $op_id => $op) {
+					$new_ops[] = ilOrgUnitOperationQueries::findById($op_id);
+				}
+				$ilOrgUnitPermission->setOperations($new_ops);
+				$ilOrgUnitPermission->save();
+			}
+		}
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+		$this->ctrl->redirect($this, self::CMD_PERM_POSITIONS);
+
+	}
+
+
 }

@@ -40,7 +40,22 @@ class ilOrgUnitPermissionQueries {
 			$template_set->afterObjectLoad();
 		}
 
+		$template_set->setProtected(true);
+
 		return $template_set;
+	}
+
+
+	/**
+	 * @param $ref_id
+	 * @param $position_id
+	 *
+	 * @return bool
+	 */
+	public static function hasLocalSet($ref_id, $position_id) {
+		return (ilOrgUnitPermission::where([ 'parent_id'   => $ref_id,
+		                                     'position_id' => $position_id,
+		])->hasSets());
 	}
 
 
@@ -55,27 +70,18 @@ class ilOrgUnitPermissionQueries {
 	 */
 	public static function getSetForRefId($ref_id, $position_id) {
 		// TODO write performant query
-		if (!$ref_id) {
-			throw new ilException('$ref_id cannot be null');
-		}
-		if (!$position_id) {
-			throw new ilException('$position_id cannot be null');
-		}
-		$type_context = ilObject2::_lookupType($ref_id, true);
-		$context = ilOrgUnitOperationContextQueries::findByName($type_context);
-		if (!$context) {
-			throw new ilException('Context not found');
-		}
+		self::checkRefIdAndPositionId($ref_id, $position_id);
+
+		$context = self::getContextByRefId($ref_id);
 
 		$ilOrgUnitGlobalSettings = ilOrgUnitGlobalSettings::getInstance();
-		$ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($type_context);
+		$ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
 		if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-			return null;
+			throw new ilException("Postion-related permissions not active in {$context->getContext()}");
 		}
-
 		if (!$ilOrgUnitObjectPositionSetting->isChangeableForObject()) {
-			return ilOrgUnitPermissionQueries::getTemplateSetForContextName($type_context, $position_id);
+			return ilOrgUnitPermissionQueries::getTemplateSetForContextName($context->getContext(), $position_id);
 		}
 
 		/**
@@ -90,7 +96,54 @@ class ilOrgUnitPermissionQueries {
 			return $dedicated_set;
 		}
 
-		return ilOrgUnitPermissionQueries::getTemplateSetForContextName($type_context, $position_id);
+		return ilOrgUnitPermissionQueries::getTemplateSetForContextName($context->getContext(), $position_id);
+	}
+
+
+	/**
+	 * @param $ref_id
+	 * @param $position_id
+	 *
+	 * @return \ilOrgUnitPermission
+	 * @throws \ilException
+	 */
+	public static function findOrCreateSetForRefId($ref_id, $position_id) {
+		/**
+		 * @var $dedicated_set ilOrgUnitPermission
+		 */
+		self::checkRefIdAndPositionId($ref_id, $position_id);
+
+		$context = self::getContextByRefId($ref_id);
+
+		$ilOrgUnitGlobalSettings = ilOrgUnitGlobalSettings::getInstance();
+		$ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
+
+		if (!$ilOrgUnitObjectPositionSetting->isActive()) {
+			throw new ilException("Position-related permissions not active in {$context->getContext()}");
+		}
+		if (!$ilOrgUnitObjectPositionSetting->isChangeableForObject()) {
+			throw new ilException("Position-related permissions not active in {$context->getContext()}");
+		}
+
+		$dedicated_set = ilOrgUnitPermission::where([
+			'parent_id'   => $ref_id,
+			'context_id'  => $context->getId(),
+			'position_id' => $position_id,
+		])->first();
+		if ($dedicated_set) {
+			return $dedicated_set;
+		}
+
+		$template = self::getTemplateSetForContextName($context->getContext(), $position_id);
+
+		$set = new ilOrgUnitPermission();
+		$set->setParentId($ref_id);
+		$set->setPositionId($position_id);
+		$set->setContextId($context->getId());
+		$set->setOperations($template->getOperations());
+		$set->create();
+
+		return $set;
 	}
 
 
@@ -116,7 +169,7 @@ class ilOrgUnitPermissionQueries {
 	}
 
 
-	public static function getAllowedOperationsOnRefIdAndPosition($ref_id, $position_id) {
+	private static function getAllowedOperationsOnRefIdAndPosition($ref_id, $position_id) {
 		global $DIC;
 		$db = $DIC->database();
 
@@ -135,5 +188,37 @@ class ilOrgUnitPermissionQueries {
 		$r = $db->queryF($q, [ 'integer' ], [ $position_id ]);
 
 		($r->numRows() > 0);
+	}
+
+
+	/**
+	 * @param $ref_id
+	 *
+	 * @return \ilOrgUnitOperationContext
+	 * @throws \ilException
+	 */
+	protected static function getContextByRefId($ref_id) {
+		$context = ilOrgUnitOperationContextQueries::findByRefId($ref_id);
+		if (!$context) {
+			throw new ilException('Context not found');
+		}
+
+		return $context;
+	}
+
+
+	/**
+	 * @param $ref_id
+	 * @param $position_id
+	 *
+	 * @throws \ilException
+	 */
+	protected static function checkRefIdAndPositionId($ref_id, $position_id) {
+		if (!$ref_id) {
+			throw new ilException('$ref_id cannot be null');
+		}
+		if (!$position_id) {
+			throw new ilException('$position_id cannot be null');
+		}
 	}
 }

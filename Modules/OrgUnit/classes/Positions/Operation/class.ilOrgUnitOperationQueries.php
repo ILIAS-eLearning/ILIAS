@@ -88,4 +88,14 @@ class ilOrgUnitOperationQueries {
 		return ilOrgUnitOperation::where(array( 'context_id' => $context->getPopulatedContextIds() ))
 		                         ->get();
 	}
+
+
+	/**
+	 * @param $operation_id
+	 *
+	 * @return \ilOrgUnitOperation
+	 */
+	public static function findById($operation_id) {
+		return ilOrgUnitOperation::findOrFail($operation_id);
+	}
 }

@@ -63,6 +63,34 @@ class ilOrgUnitPermission extends ActiveRecord {
 	 * @var \ilOrgUnitOperationContext
 	 */
 	protected $context;
+	/**
+	 * @var bool
+	 */
+	protected $protected = false;
+
+
+	public function update() {
+		if ($this->isProtected()) {
+			throw new ilException('Cannot modify a protected ilOrgUnitPermission');
+		}
+		parent::update();
+	}
+
+
+	public function create() {
+		if ($this->isProtected()) {
+			throw new ilException('Cannot modify a protected ilOrgUnitPermission');
+		}
+		parent::create();
+	}
+
+
+	public function delete() {
+		if ($this->isProtected()) {
+			throw new ilException('Cannot modify a protected ilOrgUnitPermission');
+		}
+		parent::delete();
+	}
 
 
 	public function afterObjectLoad() {
@@ -218,6 +246,22 @@ class ilOrgUnitPermission extends ActiveRecord {
 	 */
 	public function isDedicated() {
 		return ($this->getParentId() != self::PARENT_TEMPLATE);
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isProtected() {
+		return $this->protected;
+	}
+
+
+	/**
+	 * @param bool $protected
+	 */
+	public function setProtected($protected) {
+		$this->protected = $protected;
 	}
 
 

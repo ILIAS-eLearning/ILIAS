@@ -43,7 +43,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 		$this->setDisableFilterHiding(true);
 		$this->setNoEntriesText($this->lng->txt('msg_no_roles_of_type'));
 
-		$this->addCommandButton('savePermissions', $this->lng->txt('save'));
+		$this->addCommandButton(ilPermissionGUI::CMD_SAVE_POSITIONS_PERMISSIONS, $this->lng->txt('save'));
 	}
 
 
@@ -81,7 +81,12 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 
 		// Select all
 		if (isset($row['show_select_all'])) {
-			$this->fillSelectAllRow($row);
+			$this->fillSelectAll($row);
+
+			return true;
+		}
+		if (isset($row['header_command'])) {
+			$this->fillHeaderCommand($row);
 
 			return true;
 		}
@@ -123,12 +128,17 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 
 		$operations = ilOrgUnitOperationQueries::getOperationsForContextName($this->getObjType());
 		$ops_ids = [];
+		$from_templates = [];
 		foreach ($operations as $op) {
 			$ops_ids[] = $op->getOperationId();
+
 			$ops = [];
 			foreach ($positions as $position) {
 				$ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId($this->getRefId(), $position->getId());
+
 				$isTemplate = $ilOrgUnitPermission->isTemplate();
+				$from_templates[$position->getId()] = $isTemplate;
+
 				$ops[] = [
 					"op_id"          => $op->getOperationId(),
 					"operation"      => $op,
@@ -141,7 +151,20 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 			$perms[] = $ops;
 		}
 
-		$perms[] = [ "show_select_all" => true, "positions" => $positions, "ops"=> $ops_ids];
+		$perms[] = [
+			"show_select_all" => true,
+			"positions"       => $positions,
+			"ops"             => $ops_ids,
+			"template"        => $from_templates,
+		];
+		if (ilOrgUnitGlobalSettings::getInstance()
+		                           ->isPositionAccessActiveForObject($this->getObjId())) {
+			$perms[] = [
+				"header_command" => true,
+				"positions"      => $positions,
+				"template"       => $from_templates,
+			];
+		}
 
 		$this->setData($perms);
 
@@ -174,17 +197,44 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 	/**
 	 * @param $row
 	 */
-	protected function fillSelectAllRow($row) {
+	protected function fillSelectAll($row) {
 		/**
 		 * @var $position \ilOrgUnitPosition
 		 */
 		foreach ($row["positions"] as $position) {
 			$this->tpl->setCurrentBlock('position_select_all');
-			$this->tpl->setVariable('JS_ROLE_ID', $position->getId());
+			$id = $position->getId();
+			$this->tpl->setVariable('JS_ROLE_ID', $id);
 			$this->tpl->setVariable('JS_SUBID', 0);
 			$this->tpl->setVariable('JS_ALL_PERMS', "['" . implode("','", $row['ops']) . "']");
 			$this->tpl->setVariable('JS_FORM_NAME', $this->getFormName());
 			$this->tpl->setVariable('TXT_SEL_ALL', $this->lng->txt('select_all'));
+			if ($row["template"][$id]) {
+				$this->tpl->setVariable('ALL_DISABLED', "disabled='disabled'");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+
+	/**
+	 * @param $row
+	 */
+	protected function fillHeaderCommand($row) {
+		/**
+		 * @var $position \ilOrgUnitPosition
+		 */
+		foreach ($row["positions"] as $position) {
+			$this->tpl->setCurrentBlock('header_command');
+			$this->tpl->setVariable('POSITION_ID', $position->getId());
+			$this->tpl->setVariable('HEADER_COMMAND_TXT', $this->dic()
+			                                                   ->language()
+			                                                   ->txt('positions_override_operations'));
+			if (ilOrgUnitPermissionQueries::hasLocalSet($this->getRefId(), $position->getId())) {
+				$this->tpl->setVariable('HEADER_CHECKED', "checked='checked'");
+				$this->tpl->setVariable('HEADER_DISABLED', "disabled='disabled'");
+			}
+
 			$this->tpl->parseCurrentBlock();
 		}
 	}
