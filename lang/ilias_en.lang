@@ -266,6 +266,9 @@ assessment#:#qst_preview_reset_msg#:#The preview has been reset.
 assessment#:#tst_question_not_from_pool_info#:#No Pool
 assessment#:#action#:#Action
 assessment#:#add_circle#:#Add circle area
+assessment#:#add_gap#:#Add Gap Text
+assessment#:#tst_msg_rand_quest_set_not_sync#:#The rules for a random selection of questions were newly created or changed. The questions from the pools have to be synchronized in the test before it can be used. This checks also if a random test is possible with the given set of rules.
+assessment#:#tst_msg_rand_quest_set_sync_duration#:#The synchronization copies all questions matching the rules into the test. This may take several minutes for big pools.
 assessment#:#add_imagemap#:#Import Image Map
 assessment#:#add_poly#:#Add polygon area
 assessment#:#add_rect#:#Add rectangle area
@@ -293,6 +296,11 @@ assessment#:#applet_attributes#:#Applet Attributes
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet Parameters
 assessment#:#apply#:#Apply
+assessment#:#tst_msg_rand_quest_set_rule_label#:#Rule %s
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Rule %s requires %s questions, but there are only %s questions provided.
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_shared#:#Additionally from these questions there are %s questions also provided to the following other rules: %s
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved#:#Rule %s requires %s questions and there are %s questions provided.
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared#:#But there are only %s of the provided questions guaranteed available, because of intersections with the following other rules: %s
 assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives
 assessment#:#tst_res_lo_try_header#:#Attempt
 assessment#:#tst_res_lo_try_n#:#Attempt %s
@@ -309,6 +317,9 @@ assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl
 assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
 assessment#:#ass_question#:#Question
+assessment#:#ass_size#:#Size
+assessment#:#tst_filter_question_type#:#Question Type
+assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
 assessment#:#tst_objective_progress_header#:#Learning Objective Progress
 assessment#:#assClozeTest#:#Cloze Question
