@@ -908,7 +908,7 @@
 	<xsl:choose>
 		<xsl:when test="@Characteristic = 'Headline1'">
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
 		<a><xsl:attribute name="name">ilPageTocA1<xsl:number count="Paragraph" level="any"/></xsl:attribute><xsl:comment>ilPageTocH1<xsl:number count="Paragraph" level="any"/></xsl:comment></a><h1>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
@@ -916,7 +916,7 @@
 		</xsl:when>
 		<xsl:when test="@Characteristic = 'Headline2'">
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
 		<a><xsl:attribute name="name">ilPageTocA2<xsl:number count="Paragraph" level="any"/></xsl:attribute><xsl:comment>ilPageTocH2<xsl:number count="Paragraph" level="any"/></xsl:comment></a><h2>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
@@ -924,7 +924,7 @@
 		</xsl:when>
 		<xsl:when test="@Characteristic = 'Headline3'">
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
 		<a><xsl:attribute name="name">ilPageTocA3<xsl:number count="Paragraph" level="any"/></xsl:attribute><xsl:comment>ilPageTocH3<xsl:number count="Paragraph" level="any"/></xsl:comment></a><h3>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
@@ -932,7 +932,7 @@
 		</xsl:when>
 		<xsl:when test="not (@Characteristic) or @Characteristic != 'Code'">
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/>  (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
 		<div>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
@@ -1364,10 +1364,10 @@
 <xsl:template match="Table">
 	<!-- Label -->
 	<xsl:if test="@DataTable != 'y' or not(@DataTable)">
-	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_tab']/@value"/></xsl:with-param></xsl:call-template>
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_tab']/@value"/> <xsl:if test="@Template"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
 	</xsl:if>
 	<xsl:if test="@DataTable = 'y'">
-	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_dtab']/@value"/></xsl:with-param></xsl:call-template>
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_dtab']/@value"/> <xsl:if test="@Template"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
 	</xsl:if>	
 	
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -1772,7 +1772,7 @@
 <!-- Lists -->
 <xsl:template match="List">
 	<!-- Label -->
-	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_list']/@value"/></xsl:with-param></xsl:call-template>
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_list']/@value"/> <xsl:if test="@Class != 'NumberedList' and @Class != 'BulletedList'"> (<xsl:value-of select="@Class"/>)</xsl:if></xsl:with-param></xsl:call-template>
 
 	<!-- <xsl:value-of select="..@HierId"/> -->
 	<xsl:call-template name="EditReturnAnchors"/>
@@ -2984,7 +2984,7 @@
 <xsl:template match="MediaObject">
 	<!-- Label -->
 	<xsl:if test="./MediaAlias">
-	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_mob']/@value"/></xsl:with-param></xsl:call-template>
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_mob']/@value"/> <xsl:if test="./MediaAlias/@Class"> (<xsl:value-of select="./MediaAlias/@Class"/>)</xsl:if></xsl:with-param></xsl:call-template>
 	</xsl:if>
 	<xsl:apply-templates select="MediaAlias"/>
 </xsl:template>
@@ -3160,7 +3160,7 @@
 <!-- Section -->
 	<xsl:template match="Section">
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_sec']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_sec']/@value"/> <xsl:if test="@Characteristic"> (<xsl:value-of select="@Characteristic"/>)</xsl:if></xsl:with-param></xsl:call-template>
 		<xsl:if test="($mode = 'edit') or ((not(@ActiveFrom) or (@ActiveFrom &lt; $current_ts)) and (not(@ActiveTo) or (@ActiveTo &gt; $current_ts)))">
 			<xsl:if test="@PermissionRefId">
 				{{{{{Section;Access;PermissionRefId;<xsl:value-of select="@PermissionRefId"/>;Permission;<xsl:value-of select="@Permission"/>}}}}}
@@ -3375,13 +3375,13 @@
 <xsl:template match="Tabs">
 	<!-- Label -->
 	<xsl:if test="@Type = 'VerticalAccordion'">
-	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_vacc']/@value"/></xsl:with-param></xsl:call-template>
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_vacc']/@value"/> <xsl:if test="@Template != 'VerticalAccordion'"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
 	</xsl:if>
 	<xsl:if test="@Type = 'HorizontalAccordion'">
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_hacc']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_hacc']/@value"/><xsl:if test="@Template != 'HorizontalAccordion'"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
 	</xsl:if>
 	<xsl:if test="@Type = 'Carousel'">
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_carousel']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_carousel']/@value"/><xsl:if test="@Template != 'Carousel'"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
 	</xsl:if>
 	<xsl:variable name="ttemp" select="@Template"/>
 	<xsl:call-template name="EditReturnAnchors"/>

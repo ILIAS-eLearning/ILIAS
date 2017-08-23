@@ -19465,6 +19465,11 @@ if(!$ilDB->tableColumnExists('itgr_data','behaviour'))
 ?>
 <#5126>
 <?php
+	$ilSetting = new ilSetting();
+	$ilSetting->set('letter_avatars', 1);
+?>
+<#5127>
+<?php
 if(!$ilDB->tableExists('orgu_obj_pos_settings'))
 {
 	$ilDB->createTable('orgu_obj_pos_settings', array(

@@ -9622,8 +9622,9 @@ div.ilForumQuoteHead {
 }
 .ilFrmPostImage img {
   vertical-align: top;
-  margin: 5px 20px 5px 5px;
+  padding: 5px 20px 5px 5px;
   border: none;
+  max-width: 100%;
 }
 .ilFrmPostClear {
   clear: both;
