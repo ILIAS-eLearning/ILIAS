@@ -1,0 +1,26 @@
+<html>
+<head>
+</head>
+<body style="background-color:blue;color:orange;">
+<h1>Test Pdf</h1>
+<p>
+	Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Donec sollicitudin molestie malesuada. Curabitur aliquet quam id dui posuere blandit. Sed porttitor lectus nibh. Proin eget tortor risus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Sed porttitor lectus nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Proin eget tortor risus. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Sed porttitor lectus nibh. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Cras ultricies ligula sed magna dictum porta.
+</p>
+<div  style="page-break-after:always;">
+	<img style="height:400px;width:400px;" src="../images/5.png"/>
+</div>
+<pre>
+	page.open(address, function (status) {
+		if (status !== 'success') {
+			console.log('Unable to load the address!');
+			phantom.exit(1);
+		} else {
+			window.setTimeout(function () {
+				page.render(output);
+				phantom.exit();
+			}, 200);
+		}
+	});
+</pre>
+</body>
+</html>

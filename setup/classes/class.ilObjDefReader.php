@@ -297,6 +297,11 @@ class ilObjDefReader extends ilSaxParser
 					ilBadgeHandler::updateFromXML($this->getComponentId());
 					$this->has_badges[] = $this->getComponentId();
 					break;
+
+				case 'pdfpurpose':
+					require_once './Services/PDFGeneration/classes/class.ilPDFCompInstaller.php';
+					ilPDFCompInstaller::updateFromXML($this->current_component, $a_attribs['name'], $a_attribs['preferred']);
+					break;
 			}
 		}
 	}

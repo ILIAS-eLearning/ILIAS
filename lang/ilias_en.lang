@@ -13560,6 +13560,40 @@ wsp#:#element_already_shared#:#This object is already shared with this user.
 wsp#:#search_no_match#:#Your search did not match any results.
 wsp#:#element_shared#:#Object shared.
 wsp#:#share#:#Share
+common#:#obj_pdfg#:#PDF Generation
+common#:#obj_pdfg_desc#:#Options for generation PDF documents
+common#:#building_export_file#:#Building Export File...
+pdfgen#:#phantomjs#:#PhantomJS
+pdfgen#:#page_settings#:#Page Settings
+pdfgen#:#page_size#:#Pagesize
+pdfgen#:#margin#:#Margin
+pdfgen#:#header_type#:#Header
+pdfgen#:#text#:#Text
+pdfgen#:#footer_type#:#Footer
+pdfgen#:#head_text#:#Text
+pdfgen#:#orientation#:#Orientation
+pdfgen#:#header_height#:#Header Height
+pdfgen#:#header_show_pages#:#Show Pagenumbers
+pdfgen#:#footer_text#:#Text
+pdfgen#:#footer_height#:#Height Footer
+pdfgen#:#footer_show_pages#:#Show Pagenumbers
+pdfgen#:#preferred_renderer#:#Preferred Renderer
+pdfgen#:#selected_renderer#:#Selected Renderer
+pdfgen#:#configure#:#Configure Renderer
+pdfgen#:#config_saved#:#Saved successfully
+pdfgen#:#config_not_saved#:#Saving failed
+prtf#:#pdf_export#:#PDF Export
+pdfgen#:#print_media_type#:#Use print media type instead of screen
+pdfgen#:#javascript_delay#:#Javascript delay
+pdfgen#:#margin_left#:#Margin left
+pdfgen#:#margin_top#:#Margin top
+pdfgen#:#margin_right#:#Margin right
+pdfgen#:#viewport#:#Viewport
+pdfgen#:#viewport_info#:#Viewport in pixels e.g. "1920*1080"
+pdfgen#:#margin_bottom#:#Margin bottom
+pdfgen#:#zoom#:#Zoom
+pdfgen#:#image_scale#:#Image scale
+pdfgen#:#reset_to_default#:#Reset settings to default
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.
 crs#:#crs_edit_lo_introduction#:#Edit Introduction
