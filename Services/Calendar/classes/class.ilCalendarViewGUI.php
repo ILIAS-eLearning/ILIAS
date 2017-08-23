@@ -313,13 +313,40 @@ class ilCalendarViewGUI
 		include_once './Services/Calendar/classes/BackgroundTasks/class.ilDownloadFilesBackgroundTask.php';
 		$download_job = new ilDownloadFilesBackgroundTask($GLOBALS['DIC']->user()->getId());
 
-		$this->logger->debug("count events = ".count($this->getEvents()));
+		//$this->logger->debug("count events = ".count($this->getEvents()));
 
+		$download_job->setBucketTitle($this->getBucketTitle());
 		$download_job->setEvents($this->getEvents());
 		$download_job->run();
 		
 		$GLOBALS['DIC']->ctrl()->returnToParent($this);
 	}
 
+	public function getBucketTitle()
+	{
+		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
+		$bucket_title = "Calendar Download";
+		switch ($this->presentation_type)
+		{
+			case self::CAL_PRESENTATION_DAY:
+				//$start = ilCalendarUtil::_numericDayToString($this->seed->get(IL_CAL_FKT_DATE,'w'));
+				$bucket_title .= " ".$this->seed;
+				break;
+			case self::CAL_PRESENTATION_WEEK:
+				$weekday_list = ilCalendarUtil::_buildWeekDayList($this->seed,$user_settings->getWeekStart())->get();
+				$start = current($weekday_list);
+				$end = end($weekday_list);
+				$bucket_title .= " ".$start." to ".$end;
+				break;
+			case self::CAL_PRESENTATION_MONTH:
+				$bucket_title .= " ".$this->lng->txt('month_'.$this->seed->get(IL_CAL_FKT_DATE,'m').'_long').
+					' '.$this->seed->get(IL_CAL_FKT_DATE,'Y');
+				break;
+			case self::CAL_PRESENTATION_AGENDA_LIST:
+				$bucket_title .= " Agenda ".$this->seed;
+				break;
+		}
 
+		return $bucket_title;
+	}
 }

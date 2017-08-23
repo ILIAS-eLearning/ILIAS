@@ -32,6 +32,16 @@ class ilDownloadFilesBackgroundTask
 	 * Array of calendar event
 	 */
 	private $events = [];
+
+	/**
+	 * title of the task showed in the main menu.
+	 * @var string
+	 */
+	protected $bucket_title;
+
+	/**
+	 *
+	 */
 	
 	/**
 	 * Constructor
@@ -61,6 +71,24 @@ class ilDownloadFilesBackgroundTask
 	{
 		return $this->events;
 	}
+
+	/**
+	 * set bucket title.
+	 * @param $a_title
+	 */
+	public function setBucketTitle($a_title)
+	{
+		$this->bucket_title = $a_title;
+	}
+
+	/**
+	 * return bucket title.
+	 * @return string
+	 */
+	public function getBucketTitle()
+	{
+		return $this->bucket_title;
+	}
 	
 	/**
 	 * Run task
@@ -80,6 +108,8 @@ class ilDownloadFilesBackgroundTask
 		$zip_job = $this->task_factory->createTask(ilCalendarZipJob::class, [$copy_job]);
 		
 		$download_name = new StringValue();
+		//todo: rename the zip with a proper name.
+		//CalendarFiles_YY-MM-DD  but what to do if it's a range like a week or month?
 		$download_name->setValue('CalendarFiles_20170821.zip');
 		
 		
@@ -93,7 +123,8 @@ class ilDownloadFilesBackgroundTask
 
 		// last task to bucket
 		$bucket->setTask($download_interaction);
-		$bucket->setTitle('First background task');
+
+		$bucket->setTitle($this->getBucketTitle());
 		
 		$task_manager = $GLOBALS['DIC']->backgroundTasks()->taskManager();
 		$task_manager->run($bucket);
