@@ -25,7 +25,7 @@ class ilMailAddressTypeFactory
 				return new ilMailMailingListAddressType($a_address);
 				break;
 
-			case ilUtil::groupNameExists(substr($a_address->getMailbox(), 1)):
+			case ilUtil::groupNameExists(substr($a_address->getMailbox(), 1)) && $a_address->getHost() == ilMail::ILIAS_HOST:
 				require_once 'Services/Mail/classes/Address/Type/class.ilMailGroupAddressType.php';
 				return new ilMailGroupAddressType($a_address);
 				break;
