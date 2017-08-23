@@ -223,9 +223,6 @@ class ilForumAuthorInformation
 				$this->author_short_name = $this->author_name = $this->getAuthor()->getLogin();
 				$this->buildAuthorProfileLink(false);
 				$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
-				// douglas-patch: start
-				$this->profilePicture = $this->getAuthor()->getPersonalPicturePath('xsmall');
-				// douglas-patch: end
 			}
 		}
 		else if($this->display_id > 0 && !$this->doesAuthorAccountExists() && strlen($this->alias))

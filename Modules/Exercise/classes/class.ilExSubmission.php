@@ -262,12 +262,12 @@ class ilExSubmission
 	function uploadFile($a_http_post_files, $unzip = false)
 	{
 		global $ilDB;
-		
+
 		if(!$this->canAddFile())
 		{
 			return false;
 		}
-			
+
 		$deliver_result = $this->initStorage()->uploadFile($a_http_post_files, $this->getUserId(), $unzip);
 
 		if ($deliver_result)
@@ -328,7 +328,7 @@ class ilExSubmission
 				if($current_num + $zip_num > $max_num)
 				{
 					$success = false;
-					ilUtil::sendFailure($lng->txt("exc_upload_error"), true);
+					ilUtil::sendFailure($lng->txt("exc_upload_error")." [Zip1]", true);
 				}
 			}
 			
@@ -345,7 +345,7 @@ class ilExSubmission
 					if(!$this->uploadFile($a_http_post_files, true))
 					{
 						$success = false;
-						ilUtil::sendFailure($lng->txt("exc_upload_error"), true);
+						ilUtil::sendFailure($lng->txt("exc_upload_error")." [Zip2]", true);
 					}		
 				}			
 			}

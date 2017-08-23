@@ -263,7 +263,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 					);
 				if(!$this->submission->uploadFile($file))
 				{
-					ilUtil::sendFailure($this->lng->txt("exc_upload_error"), true);
+					ilUtil::sendFailure($this->lng->txt("exc_upload_error")." [Single File]", true);
 				}
 				else
 				{
