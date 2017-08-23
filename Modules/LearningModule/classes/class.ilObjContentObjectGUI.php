@@ -231,6 +231,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				if ($ot->getContentActivated())
 				{
 					$exp_gui->addFormat("xml_master", "XML (".$lng->txt("cont_master_language_only").")", $this, "export");
+					$exp_gui->addFormat("xml_masternomedia", "XML (".$lng->txt("cont_master_language_only_no_media").")", $this, "export");
 
 					$lng->loadLanguageModule("meta");
 					$langs = $ot->getLanguages();
@@ -293,13 +294,14 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$ret = $this->ctrl->forwardCommand($ml_gui);
 				break;*/
 
-			case "illmmultisrtuploadgui":
+			case "ilmobmultisrtuploadgui":
 				$this->addHeaderAction();
 				$this->addLocations(true);
 				$this->setTabs("content");
 				$this->setContentSubTabs("srt_files");
-				include_once("./Modules/LearningModule/classes/class.ilLMMultiSrtUploadGUI.php");
-				$gui = new ilLMMultiSrtUploadGUI($this->object);
+				include_once("./Services/MediaObjects/classes/class.ilMobMultiSrtUploadGUI.php");
+				include_once("./Modules/LearningModule/classes/class.ilLMMultiSrt.php");
+				$gui = new ilMobMultiSrtUploadGUI(new ilLMMultiSrt($this->object));
 				$this->ctrl->forwardCommand($gui);
 				break;
 
@@ -1845,7 +1847,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		require_once("./Modules/LearningModule/classes/class.ilContObjectExport.php");
 		$cont_exp = new ilContObjectExport($this->object);
-		$cont_exp->buildExportFile(($opt == "master"));
+		$cont_exp->buildExportFile($opt);
 //		$this->ctrl->redirect($this, "exportList");
 	}
 
@@ -2530,7 +2532,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		// srt files
 		$ilTabs->addSubtab("srt_files",
 			$lng->txt("cont_subtitle_files"),
-			$ilCtrl->getLinkTargetByClass("illmmultisrtuploadgui", ""));
+			$ilCtrl->getLinkTargetByClass("ilmobmultisrtuploadgui", ""));
 
 		// srt files
 		$ilTabs->addSubtab("import",

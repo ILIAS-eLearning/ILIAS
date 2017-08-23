@@ -10,9 +10,9 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ingroup Services
+ * @ingroup ServicesMediaObjects
  */
-class ilLMMultiSrtConfirmationTable2GUI extends ilTable2GUI
+class ilMobMultiSrtConfirmationTable2GUI extends ilTable2GUI
 {
 	protected $mob;
 
@@ -21,26 +21,29 @@ class ilLMMultiSrtConfirmationTable2GUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $ilUser;
+		global $ilCtrl, $lng;
+
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
 
 		$this->multi_srt = $a_parent_obj->multi_srt;
-		$lng->loadLanguageModule("meta");
+		$this->lng->loadLanguageModule("meta");
 
 		$this->setId("mob_msrt_upload");
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setLimit(9999);
 		$this->setData($this->multi_srt->getMultiSrtFiles());
-		$this->setTitle($lng->txt("cont_multi_srt_files"));
+		$this->setTitle($this->lng->txt("cont_multi_srt_files"));
 
 		$this->addColumn($this->lng->txt("filename"));
 		$this->addColumn($this->lng->txt("language"));
 		$this->addColumn($this->lng->txt("mob"));
 
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.multi_srt_confirmation_row.html", "Modules/LearningModule");
+		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
+		$this->setRowTemplate("tpl.mob_multi_srt_confirmation_row.html", "Services/MediaObjects");
 
-		$this->addCommandButton("saveMultiSrt", $lng->txt("save"));
-		$this->addCommandButton("cancelMultiSrt", $lng->txt("cancel"));
+		$this->addCommandButton("saveMultiSrt", $this->lng->txt("save"));
+		$this->addCommandButton("cancelMultiSrt", $this->lng->txt("cancel"));
 	}
 
 	/**

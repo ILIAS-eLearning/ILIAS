@@ -14,6 +14,10 @@
 // to the corresponding mode! 
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+content#:#cont_master_language_only_no_media#:#Master Language without Media
+mep#:#mep_master_language_only_no_media#:#Master Language without Media
+mep#:#mep_content#:#Content
+mep#:#mep_media_subtitles#:#Media Subtitles
 acc#:#acc_access_key#:#Chiave di accesso
 acc#:#acc_access_keys#:#Chiavi di accesso
 acc#:#acc_comp_frm#:#Forum

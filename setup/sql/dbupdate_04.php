@@ -19622,3 +19622,7 @@ $ilDB->insert('pdfgen_renderer_avail',
 	)
 );
 ?>
+<#5139>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

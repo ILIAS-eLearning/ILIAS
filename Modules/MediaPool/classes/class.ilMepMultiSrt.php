@@ -11,12 +11,12 @@ include_once("./Services/MediaObjects/interfaces/interface.ilMobMultiSrtInt.php"
  * @version $Id$
  * @ingroup ModulesLearningModule
  */
-class ilLMMultiSrt implements ilMobMultiSrtInt
+class ilMepMultiSrt implements ilMobMultiSrtInt
 {
 
-	function __construct($a_lm)
+	function __construct($a_mep)
 	{
-		$this->lm = $a_lm;
+		$this->mep = $a_mep;
 	}
 
 	/**
@@ -26,8 +26,8 @@ class ilLMMultiSrt implements ilMobMultiSrtInt
 	 */
 	function getUploadDir()
 	{
-		return ilUtil::getDataDir()."/lm_data".
-			"/lm_".$this->lm->getId()."/srt_tmp";
+		return ilUtil::getDataDir()."/mep_data".
+			"/mep_".$this->mep->getId()."/srt_tmp";
 	}
 
 	/**
@@ -38,21 +38,23 @@ class ilLMMultiSrt implements ilMobMultiSrtInt
 	 */
 	function getMobIds()
 	{
-		// add mob information to items
-		// all pages
-		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		$pages = ilLMPageObject::getPageList($this->lm->getId());
 		$mobs = array();
-		foreach ($pages as $page)
+
+		foreach (ilObjMediaPool::getAllMobIds($this->mep->getId()) as $id)
+		{
+			$mobs[$id] = $id;
+		}
+		$pages = ilMediaPoolItem::getIdsForType($this->mep->getId(), "pg");
+		foreach ($pages as $p)
 		{
 			// all media objects
-			$pg_mobs = ilObjMediaObject::_getMobsOfObject("lm:pg", $page["obj_id"], 0, "");
+			$pg_mobs = ilObjMediaObject::_getMobsOfObject("mep:pg", $p, 0, "");
 			foreach ($pg_mobs as $k => $pg_mob)
 			{
 				$mobs[$k] = $pg_mob;
 			}
 		}
+
 		return $mobs;
 	}
 }
