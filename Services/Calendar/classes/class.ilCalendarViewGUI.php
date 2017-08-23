@@ -325,7 +325,7 @@ class ilCalendarViewGUI
 	public function getBucketTitle()
 	{
 		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
-		$bucket_title = "Calendar Download";
+		$bucket_title = $this->lng->txt("cal_calendar_download");
 		switch ($this->presentation_type)
 		{
 			case self::CAL_PRESENTATION_DAY:

@@ -615,6 +615,7 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 		include_once './Services/Calendar/classes/BackgroundTasks/class.ilDownloadFilesBackgroundTask.php';
 		$download_job = new ilDownloadFilesBackgroundTask($this->user->getId());
 
+		$download_job->setBucketTitle($this->lng->txt("cal_calendar_download")." ".$this->appointment['event']->getTitle());
 		$download_job->setEvents(array($this->appointment));
 		$download_job->run();
 

@@ -13609,3 +13609,4 @@ survey#:#svy_print_hide_labels#:#Hide labels
 dateplaner#:#cal_batch_file_downloads#:#Batch file downloads in Calendar
 dateplaner#:#cal_batch_file_downloads_info#:#Activate button to download all files related to the current calendar/appointment view.
 dateplaner#:#cal_download_files#:#Download Files
+dateplaner#:#cal_calendar_download#:#Calendar Download
