@@ -19318,3 +19318,208 @@ if(!$ilDB->tableExists('orgu_obj_type_settings') )
 	$ilDB->addPrimaryKey('orgu_obj_type_settings', array('obj_type'));
 }
 ?>
+<#5112>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5113>
+<?php
+if(!$ilDB->tableColumnExists('grp_settings', 'grp_start'))
+{
+		$ilDB->addTableColumn('grp_settings', 'grp_start', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		));
+}
+if(!$ilDB->tableColumnExists('grp_settings', 'grp_end'))
+{
+		$ilDB->addTableColumn('grp_settings', 'grp_end', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		));
+}
+?>	
+<#5114>
+<?php
+if (!$ilDB->tableExists("usr_starting_point"))
+{
+	$ilDB->createTable("usr_starting_point", array(
+		"id" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		),
+		"position" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false,
+			"default" => 0
+		),
+		"starting_point" => array (
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false,
+			"default" => 0
+		),
+		"starting_object" => array (
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false,
+			"default" => 0
+		),
+		"rule_type" => array (
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false,
+			"default" => 0
+		),
+		"rule_options" => array (
+			"type" => "text",
+			"length" => 4000,
+			"notnull" => false,
+		)
+	));
+
+	$ilDB->addPrimaryKey('usr_starting_point', array('id'));
+	$ilDB->createSequence('usr_starting_point');
+}
+?>
+<#5115>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5116>
+<?php
+if($ilDB->tableExists("exc_assignment"))
+{
+	if(!$ilDB->tableColumnExists('exc_assignment','portfolio_template'))
+	{
+		$ilDB->addTableColumn("exc_assignment", "portfolio_template", array("type" => "integer", "length" => 4));
+	}
+	if(!$ilDB->tableColumnExists('exc_assignment','min_char_limit'))
+	{
+		$ilDB->addTableColumn("exc_assignment", "min_char_limit", array("type" => "integer", "length" => 4));
+	}
+	if(!$ilDB->tableColumnExists('exc_assignment','max_char_limit'))
+	{
+		$ilDB->addTableColumn("exc_assignment", "max_char_limit", array("type" => "integer", "length" => 4));
+	}
+}
+?>
+<#5117>
+<?php
+if(!$ilDB->tableExists("exc_ass_file_order"))
+{
+	$fields = array(
+		"id" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		),
+		"assignment_id" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		),
+		"filename" => array(
+			"type" => "text",
+			"length" => 150,
+			"notnull" => true,
+		),
+		"order_nr" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		),
+	);
+
+	$ilDB->createTable("exc_ass_file_order", $fields);
+	$ilDB->addPrimaryKey('exc_ass_file_order', array('id'));
+
+	$ilDB->createSequence("exc_ass_file_order");
+}
+?>
+<#5118>
+<?php
+	//
+?>
+<#5119>
+<?php
+	if(!$ilDB->tableExists("obj_noti_settings"))
+	{
+		$fields = array(
+			"obj_id" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true,
+				"default" => 0
+			),
+			"noti_mode" => array(
+				"type" => "integer",
+				"length" => 1,
+				"notnull" => true,
+				"default" => 0
+			)
+		);
+
+		$ilDB->createTable("obj_noti_settings", $fields);
+		$ilDB->addPrimaryKey('obj_noti_settings', array('obj_id'));
+	}
+?>
+<#5120>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5121>
+<?php
+
+if(!$ilDB->tableColumnExists('notification','activated'))
+{
+	$ilDB->addTableColumn(
+		'notification',
+		'activated',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		));
+
+	$ilDB->manipulate("UPDATE notification SET ".
+		" activated = ".$this->db->quote(1, "integer"));
+}
+?>
+<#5122>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5123>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5124>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5125>
+<?php
+if(!$ilDB->tableColumnExists('itgr_data','behaviour'))
+{
+	$ilDB->addTableColumn(
+		'itgr_data',
+		'behaviour',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		)
+	);
+}
+?>

@@ -157,7 +157,7 @@ il.Form = {
 	},
 	
 	// set internal link in form item
-	addInternalLink: function (link, title, input_id, ev) {
+	addInternalLink: function (link, title, input_id, ev, c) {
 		var type, id, part, target = "";
 
 		input_id = il.Form.escapeSelector(input_id);
@@ -401,6 +401,39 @@ il.Form = {
 			$("#" + subform_id).hide();
 		}		
 	},
+
+	//Tiny textarea char. counter
+	showCharCounterTinymce: function(ed) {
+		//var content_raw = ed.getContent({ format: 'raw' }); // whitespaces and br issues. (first whitespace creates br etc.)
+		var content_raw = ed.getContent({ format: 'raw' });
+		var content = content_raw.replace(/<\/?[^>]+(>|$)/g, "");
+		// #20630, #20674
+		content = content.replace(/&nbsp;/g, " ");
+		content = content.replace(/&lt;/g, "<");
+		content = content.replace(/&gt;/g, ">");
+		content = content.replace(/&amp;/g, "&");
+		console.log(content);
+		var text_length = content.length;
+
+		var max_limit = $('#textarea_feedback_'+ed.id).data("maxchars");
+		if(max_limit > 0) {
+			var text_remaining = max_limit - text_length;
+			$('#textarea_feedback_'+ed.id).html(il.Language.txt("exc_chars_remaining") + " " + text_remaining);
+		}
+
+	},
+	//normal textarea char. counter
+	showCharCounterTextarea: function(textarea_id, feedback_id, min_limit, max_limit) {
+		var text_length = $('#'+textarea_id).val().length;
+		if(max_limit > 0)
+		{
+			var text_remaining = max_limit - text_length;
+			$('#'+feedback_id).html(il.Language.txt("exc_chars_remaining") +" "+ text_remaining);
+			return true;
+		}
+
+	},
+
 };
 
 // init forms

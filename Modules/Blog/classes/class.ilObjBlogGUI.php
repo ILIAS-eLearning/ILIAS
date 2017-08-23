@@ -15,7 +15,7 @@ require_once "./Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
 * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
-* @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjStyleSheetGUI, ilBlogExerciseGUI
+* @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjStyleSheetGUI, ilBlogExerciseGUI, ilObjNotificationSettingsGUI
 *
 * @extends ilObject2GUI
 */
@@ -26,6 +26,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	protected $keyword; // [string]
 	protected $author; // [int]
 	protected $month_default; // [bool]
+
+	/**
+	 * @var bool		// note: this is currently set in ilPortfolioPageGUI, should use getter/setter
+	 */
+	public $prtf_embed = false;
 	
 	protected static $keyword_export_map; // [array]
 	
@@ -89,6 +94,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	
 	protected function setSettingsSubTabs($a_active)
 	{
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+		$access = $DIC->access();
+
 		// general properties
 		$this->tabs_gui->addSubTab("properties",
 			$this->lng->txt("blog_properties"),
@@ -97,7 +107,24 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$this->tabs_gui->addSubTab("style",
 			$this->lng->txt("obj_sty"),
 			$this->ctrl->getLinkTarget($this, 'editStyleProperties'));
-		
+
+		// notification settings for blogs in courses and groups
+		if($this->id_type == self::REPOSITORY_NODE_ID)
+		{
+			$grp_ref_id = $tree->checkForParentType($this->object->getRefId(), 'grp');
+			$crs_ref_id = $tree->checkForParentType($this->object->getRefId(), 'crs');
+
+			if ((int)$grp_ref_id > 0 || (int)$crs_ref_id > 0)
+			{
+				if ($access->checkAccess('write', '', $this->ref_id))
+				{
+					$this->tabs_gui->addSubTab('notifications',
+						$this->lng->txt("notifications"),
+						$this->ctrl->getLinkTargetByClass("ilobjnotificationsettingsgui", ''));
+				}
+			}
+		}
+
 		$this->tabs_gui->activateSubTab($a_active);
 	}
 
@@ -388,8 +415,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 		}
-		
-		if ($this->checkPermissionBool("read"))
+		if ($this->checkPermissionBool("read") && !$this->prtf_embed)
 		{
 			$this->tabs_gui->addTab("id_info",
 				$lng->txt("info_short"),
@@ -400,31 +426,35 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		{
 			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
-				$this->ctrl->getLinkTarget($this, "edit"));			
-			
-			if($this->id_type == self::REPOSITORY_NODE_ID)
-			{	
-				$this->tabs_gui->addTab("contributors",
-					$lng->txt("blog_contributors"),
-					$this->ctrl->getLinkTarget($this, "contributors"));	
-			}		
-			
-			if($this->id_type == self::REPOSITORY_NODE_ID)
+				$this->ctrl->getLinkTarget($this, "edit"));
+
+			if(!$this->prtf_embed)
 			{
-				$this->tabs_gui->addTab("export",
-					$lng->txt("export"),
-					$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+				if($this->id_type == self::REPOSITORY_NODE_ID)
+				{
+					$this->tabs_gui->addTab("contributors",
+						$lng->txt("blog_contributors"),
+						$this->ctrl->getLinkTarget($this, "contributors"));
+				}
+
+				if($this->id_type == self::REPOSITORY_NODE_ID)
+				{
+					$this->tabs_gui->addTab("export",
+						$lng->txt("export"),
+						$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+				}
 			}
 		}
-		
-		if($this->mayContribute())
-		{
-			$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"), 
-				$this->ctrl->getLinkTarget($this, "preview"));
-		}
 
-		// will add permissions if needed
-		parent::setTabs();
+		if(!$this->prtf_embed)
+		{
+			if($this->mayContribute())
+			{
+				$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"),
+					$this->ctrl->getLinkTarget($this, "preview"));
+			}
+			parent::setTabs();
+		}
 	}
 
 	function executeCommand()
@@ -513,10 +543,21 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					default:						
 						$this->setContentStyleSheet();	
 						
-						$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
-						$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"), 
-							$this->ctrl->getLinkTargetByClass("ilblogpostinggui", "previewFullscreen"));
-						$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", "");
+
+						if (!$this->prtf_embed)
+						{
+							$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
+							$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"),
+								$this->ctrl->getLinkTargetByClass("ilblogpostinggui", "previewFullscreen"));
+							$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", "");
+						}
+						else
+						{
+							$this->ctrl->setParameterByClass("ilobjportfoliogui", "user_page", $_GET["ppage"]);
+							$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"),
+								$this->ctrl->getLinkTargetByClass("ilobjportfoliogui", "preview"));
+							$this->ctrl->setParameterByClass("ilobjportfoliogui", "user_page", "");
+						}
 						break;
 				}
 				
@@ -572,9 +613,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 									$info[] = $lng->txt("blog_draft_info_contributors");
 								}
 							}
-							if($cmd != "history" && !$bpost_gui->getBlogPosting()->getFirstParagraphText())
+							if($cmd != "history" && $is_active && empty($info))
 							{
 								$info[] = $lng->txt("blog_new_posting_info");
+								$public_action = true;
 							}							
 							if($this->object->hasApproval() && !$bpost_gui->getBlogPosting()->isApproved())
 							{								
@@ -583,8 +625,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 							}
 							if(sizeof($info) && !$tpl->hasMessage("info")) // #15121
 							{
-								ilUtil::sendInfo(implode("<br />", $info));	
-							}					
+								if($public_action)
+								{
+									ilUtil::sendSuccess(implode("<br />", $info));
+								}
+								else
+								{
+									ilUtil::sendInfo(implode("<br />", $info));
+								}
+							}
 							// revert to edit cmd to avoid confusion
 							$this->addHeaderActionForCommand("render");	
 							$tpl->setContent($ret);
@@ -682,6 +731,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$this->ctrl->forwardCommand($gui);
 				break;
 
+			case 'ilobjnotificationsettingsgui':
+				$this->prepareOutput();
+				$ilTabs->activateTab("settings");
+				$this->setSettingsSubTabs("notifications");
+				include_once("./Services/Notification/classes/class.ilObjNotificationSettingsGUI.php");
+				$gui = new ilObjNotificationSettingsGUI($this->object->getRefId());
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			default:							
 				if($cmd != "gethtml")
 				{
@@ -707,6 +765,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				}
 				else
 				{
+					$this->setTabs();
+
 					if(!$cmd)
 					{
 						$cmd = "render";
@@ -1515,6 +1575,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			
 			if(!$is_active)
 			{
+				$wtpl->setCurrentBlock("draft_text");
+				$wtpl->setVariable("DRAFT_TEXT", $lng->txt("blog_draft_text"));
+				$wtpl->parseCurrentBlock();
 				$wtpl->setVariable("DRAFT_CLASS", " ilBlogListItemDraft");
 			}
 			
@@ -2495,8 +2558,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 				$ilCtrl->setParameter($this, "ntf", 1);
 				$link = $ilCtrl->getLinkTarget($this, "setNotification");
-				$ilCtrl->setParameter($this, "ntf", "");				
-				$lg->addCustomCommand($link, "blog_notification_toggle_off");
+				$ilCtrl->setParameter($this, "ntf", "");
+				if (ilNotification::hasOptOut($this->obj_id))
+				{
+					$lg->addCustomCommand($link, "blog_notification_toggle_off");
+				}
 				
 				$lg->addHeaderIcon("not_icon",
 					ilUtil::getImagePath("notification_on.svg"),
