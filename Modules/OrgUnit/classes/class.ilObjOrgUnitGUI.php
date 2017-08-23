@@ -17,6 +17,7 @@
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilTranslationGUI, ilLocalUserGUI, ilOrgUnitExportGUI, ilOrgUnitStaffGUI, ilExtIdGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitSimpleImportGUI, ilOrgUnitSimpleUserImportGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI
+ * @ilCtrl_Calls      ilObjOrgUnitGUI: ilObjOrgUnitGlobalSettingsGUI
  */
 class ilObjOrgUnitGUI extends ilContainerGUI {
 
@@ -223,6 +224,11 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$types_gui = new ilOrgUnitTypeGUI($this);
 				$this->ctrl->forwardCommand($types_gui);
 				break;
+            case 'ilobjorgunitglobalsettingsgui':
+                $this->tabs_gui->setTabActive('settings');
+                $settings_gui = new ilObjOrgUnitGlobalSettingsGUI($this);
+                $this->ctrl->forwardCommand($settings_gui);
+                break;
 			default:
 				switch ($cmd) {
 					case '':
@@ -447,6 +453,11 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 			if ($this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
 				$this->tabs_gui->addTab('orgu_types', $this->lng->txt('orgu_types'), $this->ctrl->getLinkTargetByClass('ilOrgUnitTypeGUI'));
 			}
+
+            // OrgUnit Admin Settings
+            if ($this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
+                $this->tabs_gui->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass(array('ilObjOrgUnitGUI','ilObjOrgUnitGlobalSettingsGUI'), 'showForm'));
+            }
 		}
 		parent::getTabs();
 	}

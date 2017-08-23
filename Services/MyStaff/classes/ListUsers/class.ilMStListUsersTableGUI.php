@@ -132,22 +132,20 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 
 
 
-
         $root = ilObjOrgUnit::getRootOrgRefId();
         $tree = ilObjOrgUnitTree::_getInstance();
         $nodes = $tree->getAllChildren($root);
         $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
-        $options[0] = $this->lng->txt('select_one');
+        $options[0] = $this->lng->txt('mst_opt_all');
         foreach($paths as $org_ref_id => $path)
         {
             $options[$org_ref_id] = $path;
         }
-        $item = new ilSelectInputGUI($this->lng->txt('org_unit'), 'org_unit');
+        $item = new ilSelectInputGUI($this->lng->txt('obj_orgu'), 'org_unit');
         $item->setOptions($options);
         $this->addFilterItem($item);
         $item->readFromSession();
         $this->filter['org_unit'] = $item->getValue();
-
 
 
 
@@ -185,11 +183,15 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 	 * @return array
 	 */
 	public function getSelectableColumns() {
-		$cols = array();
 
-		$cols['lastname'] = array('txt' => $this->lng->txt('lastname'), 'default' => true, 'width' => 'auto','sort_field' => 'lastname');
-		$cols['firstname'] = array('txt' => $this->lng->txt('firstname'), 'default' => true, 'width' => 'auto','sort_field' => 'firstname');
-		$cols['email'] = array('txt' => $this->lng->txt('email'), 'default' => true, 'width' => 'auto','sort_field' => 'email');
+	    $arr_fields_without_table_sort = array('org_units','interests_general','interests_help_offered','interests_help_looking');
+		$cols = array();
+        foreach(ilUserSearchOptions::getSelectableColumnInfo() as $key => $col) {
+            $cols[$key] = $col;
+            if(!in_array($key,$arr_fields_without_table_sort)) {
+                $cols[$key]['sort_field'] = $key;
+            }
+        }
 
 		return $cols;
 	}
@@ -222,7 +224,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 
 
     /**
-     * @param ilMyStaffUser $my_staff_user
+     * @param ilMStListUser $my_staff_user
      */
     public function fillRow($my_staff_user) {
         global $ilUser;
@@ -240,36 +242,43 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if ($propGetter($k) !== NULL) {
-                    switch($k) {
-                        case 'login':
-                            $this->ctrl->setParameterByClass('ilObjUserGUI','ref_id', $propGetter($k));
-                            $this->ctrl->setParameterByClass('ilObjUserGUI','obj_id', $propGetter($k));
-                            $this->ctrl->setParameterByClass('ilObjUserGUI','admin_mode','settings');
-                            $link = $this->ctrl->getLinkTargetByClass(array('ilUIPluginRouterGUI','ilLocalUserAdminGUI','srLocalUserGUI','ilObjUserGUI'),'view');
+                switch($k) {
+                    case 'org_units':
+                        $this->tpl->setCurrentBlock('td');
+                        $this->tpl->setVariable('VALUE', (string)ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_user->getUsrId()));
+                        $this->tpl->parseCurrentBlock();
+                        break;
+                    case 'gender':
+                        $this->tpl->setCurrentBlock('td');
+                        $this->tpl->setVariable('VALUE', $this->lng->txt('gender_'.$my_staff_user->getGender()));
+                        $this->tpl->parseCurrentBlock();
+                        break;
+                    case 'interests_general':
+                        $this->tpl->setCurrentBlock('td');
+                        $this->tpl->setVariable('VALUE', ($my_staff_user->returnIlUserObj()->getGeneralInterestsAsText() ? $my_staff_user->returnIlUserObj()->getGeneralInterestsAsText() : '&nbsp;'));
+                        $this->tpl->parseCurrentBlock();
+                        break;
+                    case 'interests_help_offered':
+                        $this->tpl->setCurrentBlock('td');
+                        $this->tpl->setVariable('VALUE', ($my_staff_user->returnIlUserObj()->getOfferingHelpAsText() ? $my_staff_user->returnIlUserObj()->getOfferingHelpAsText()  : '&nbsp;'));
+                        $this->tpl->parseCurrentBlock();
+                        break;
+                    case 'interests_help_looking':
+                        $this->tpl->setCurrentBlock('td');
+                        $this->tpl->setVariable('VALUE', ($my_staff_user->returnIlUserObj()->getLookingForHelpAsText() ? $my_staff_user->returnIlUserObj()->getLookingForHelpAsText() : '&nbsp;'));
+                        $this->tpl->parseCurrentBlock();
+                        break;
+                    default:
+                        if ($propGetter($k) !== NULL) {
                             $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', '<a href="'.$link.'">'. $propGetter($k).'</a>');
+                            $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
                             $this->tpl->parseCurrentBlock();
-                            break;
-                        case 'active_as_string':
+                        } else {
                             $this->tpl->setCurrentBlock('td');
-                            if( $propGetter('active')) {
-                                $this->tpl->setVariable('VALUE',  $propGetter($k));
-                            } else {
-                                $this->tpl->setVariable('VALUE', '<span class="warning">'.$propGetter($k).'</span>');
-                            }
+                            $this->tpl->setVariable('VALUE', '&nbsp;');
                             $this->tpl->parseCurrentBlock();
-                            break;
-                        default:
-                            $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) :$propGetter($k)));
-                            $this->tpl->parseCurrentBlock();
-                            break;
-                    }
-                } else {
-                    $this->tpl->setCurrentBlock('td');
-                    $this->tpl->setVariable('VALUE', '&nbsp;');
-                    $this->tpl->parseCurrentBlock();
+                        }
+                        break;
                 }
             }
         }
@@ -286,7 +295,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
             $selection->addItem($action->getText(), '', $action->getHref());
         }
         $this->ctrl->setParameterByClass('ilMStShowUserGUI','usr_id',$my_staff_user->getUsrId());
-        $selection->addItem($this->lng->txt('show_user'), '', $this->ctrl->getLinkTargetByClass(array('ilMyStaffGUI','ilMStShowUserGUI')));
+        $selection->addItem($this->lng->txt('mst_show_courses'), '', $this->ctrl->getLinkTargetByClass(array('ilPersonalDesktopGUI','ilMyStaffGUI','ilMStShowUserGUI')));
         $this->tpl->setVariable('ACTIONS', $selection->getHTML());
 
     }

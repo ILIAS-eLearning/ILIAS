@@ -40,32 +40,32 @@ class ilMStListUsersGUI {
 	}
 
 
-	protected function checkAccessOrFail() {
-        return true;
-		//todo
-	}
+    protected function checkAccessOrFail() {
+        if (ilMyStaffAcess::getInstance()->hasCurrentUserAccessToMyStaff()) {
+            return true;
+        } else {
+            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->ctrl->redirectByClass('ilPersonalDesktopGUI', "");
+        }
+    }
 
 
 	public function executeCommand() {
         $this->checkAccessOrFail();
 
 		$cmd = $this->ctrl->getCmd();
-		$next_class = $this->ctrl->getNextClass();
 
-		switch($next_class) {
-			default:
-				switch ($cmd) {
-					case 'resetFilter':
-					case 'applyFilter':
-                    case 'index':
-                    case 'addUserAutoComplete':
-						$this->$cmd();
-						break;
-					default:
-						$this->index();
-						break;
-				}
-		}
+        switch ($cmd) {
+            case 'resetFilter':
+            case 'applyFilter':
+            case 'index':
+            case 'addUserAutoComplete':
+                $this->$cmd();
+                break;
+            default:
+                $this->index();
+                break;
+        }
 	}
 
 	public function index() {
@@ -73,8 +73,8 @@ class ilMStListUsersGUI {
 	}
 
 	public function listUsers() {
-		$this->tpl->setTitle($this->lng->txt('listUsers'));
 		$this->table = new ilMStListUsersTableGUI($this, 'index');
+        $this->table->setTitle($this->lng->txt('mst_list_users'));
 		$this->tpl->setContent($this->table->getHTML());
 	}
 

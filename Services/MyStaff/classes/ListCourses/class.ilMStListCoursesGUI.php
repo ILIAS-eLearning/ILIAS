@@ -42,10 +42,14 @@ class ilMStListCoursesGUI {
 	}
 
 
-	protected function checkAccessOrFail() {
-        return true;
-		//todo
-	}
+    protected function checkAccessOrFail() {
+        if (ilMyStaffAcess::getInstance()->hasCurrentUserAccessToMyStaff()) {
+            return true;
+        } else {
+            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->ctrl->redirectByClass('ilPersonalDesktopGUI', "");
+        }
+    }
 
 
 	public function executeCommand() {
@@ -81,8 +85,8 @@ class ilMStListCoursesGUI {
 	}
 
 	public function listUsers() {
-		$this->tpl->setTitle($this->lng->txt('listUsers'));
 		$this->table = new ilMStListCoursesTableGUI($this, 'index');
+        $this->table->setTitle($this->lng->txt('mst_list_courses'));
 		$this->tpl->setContent($this->table->getHTML());
 	}
 
@@ -103,7 +107,7 @@ class ilMStListCoursesGUI {
 	}
 
     public function getId() {
-        $this->table = new ilMStListCoursesTableGUI($this, 'resetFilter');
+        $this->table = new ilMStListCoursesTableGUI($this, 'index');
         return $this->table->getId();
     }
 

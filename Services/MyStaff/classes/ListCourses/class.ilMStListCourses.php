@@ -25,12 +25,13 @@ class ilMStListCourses {
 
         $udf = ilUserDefinedFields::_getInstance();
 
-        $select = 'SELECT crs.title as crs_title, reg_status, lp_status, usr_data.login as usr_login, usr_data.lastname as usr_lastname, usr_data.firstname as usr_firstname, usr_data.email as usr_email  from (
-	                    select reg.obj_id, reg.usr_id, 2 as reg_status, lp.status as lp_status from obj_members as reg
+        $select = 'SELECT crs.title as crs_title, reg_status, lp_status, usr_data.usr_id as usr_id, usr_data.login as usr_login, usr_data.lastname as usr_lastname, usr_data.firstname as usr_firstname, usr_data.email as usr_email  from (
+	                    select reg.obj_id, reg.usr_id, '.ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED.' as reg_status, lp.status as lp_status from obj_members as reg
                         left join ut_lp_marks as lp on lp.obj_id = reg.obj_id and lp.usr_id = reg.usr_id
-		                UNION
-	                    select obj_id, usr_id, 1 as reg_status, 0 as lp_status from crs_waiting_list as waiting) as memb
+		            UNION
+	                    select obj_id, usr_id, '.ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST.' as reg_status, 0 as lp_status from crs_waiting_list as waiting) as memb
                     inner join object_data as crs on crs.obj_id = memb.obj_id and crs.type = "crs"
+                    inner join object_reference as crs_ref on crs_ref.obj_id = crs.obj_id
 	                inner join usr_data on usr_data.usr_id = memb.usr_id and usr_data.active = 1';
 
         $select .= static::createWhereStatement($arr_usr_ids,$options['filters']);
@@ -60,7 +61,7 @@ class ilMStListCourses {
             $list_course->setUsrLastname($crs['usr_lastname']);
             $list_course->setUsrFirstname($crs['usr_firstname']);
             $list_course->setUsrEmail($crs['usr_email']);
-            $list_course->setUsrAssingedOrgus('');
+            $list_course->setUsrId($crs['usr_id']);
 
             $crs_data[] = $list_course;
         }
@@ -82,47 +83,32 @@ class ilMStListCourses {
 
         $where[] = $ilDB->in('usr_data.usr_id',$arr_usr_ids,false,'integer');
 
-        if((!empty($arr_filter['time_limit_owner']) && $arr_filter['time_limit_owner'] != 0)) {
-            $where[] = '(usr_data.time_limit_owner = ' . $ilDB->quote($arr_filter['time_limit_owner'],'integer') . ')';
+        if(!empty($arr_filter['crs_title'])){
+            $where[] = '(crs.title LIKE ' . $ilDB->quote('%'. $arr_filter['crs_title'] . '%', 'text').')';
+        }
+
+        if($arr_filter['course'] > 0) {
+            $where[] = '(crs_ref.ref_id = ' . $ilDB->quote($arr_filter['course'], 'integer').')';
+        }
+
+        if(!empty($arr_filter['lp_status']) or $arr_filter['lp_status'] === 0) {
+            $where[] = '(lp_status = ' . $ilDB->quote($arr_filter['lp_status'], 'integer').')';
+        }
+
+        if(!empty($arr_filter['memb_status'])) {
+            $where[] = '(reg_status = ' . $ilDB->quote($arr_filter['memb_status'], 'integer').')';
+        }
+
+        if(!empty($arr_filter['user'])){
+            $where[] = "(".$ilDB->like("usr_data.login", "text", "%".$arr_filter['user']."%")." ".
+                "OR ".$ilDB->like("usr_data.firstname", "text", "%".$arr_filter['user']."%")." ".
+                "OR ".$ilDB->like("usr_data.lastname", "text", "%".$arr_filter['user']."%")." ".
+                "OR ".$ilDB->like("usr_data.email", "text", "%".$arr_filter['user']."%").") ";
         }
 
         if(!empty($arr_filter['org_unit'])) {
-
-            $user_ids_orgs = array_merge(ilObjOrgUnitTree::_getInstance()->getEmployees($arr_filter['org_unit'], $arr_filter['org_unit_recursive']), ilObjOrgUnitTree::_getInstance()->getSuperiors($arr_filter['org_unit'], $arr_filter['org_unit_recursive']));
-            if(empty($user_ids_orgs)) {
-                $user_ids_orgs = array(0 => -1);
-            }
-            $where[] = '(usr_data.usr_id = ' . implode(' OR usr_data.usr_id = ', $user_ids_orgs) . ')';
-        }
-
-        if(!empty($arr_filter['lastname'])){
-            $where[] = '(lastname LIKE ' . $ilDB->quote('%'
-                    . str_replace('*', '%', $arr_filter['lastname']) . '%', 'text').')';
-        }
-
-        if(!empty($arr_filter['firstname'])){
-            $where[] = '(firstname LIKE ' . $ilDB->quote('%'
-                    . str_replace('*', '%', $arr_filter['firstname']) . '%', 'text').')';
-        }
-
-        if(!empty($arr_filter['email'])){
-            $where[] = '(email LIKE ' . $ilDB->quote('%'
-                    . str_replace('*', '%', $arr_filter['email']) . '%', 'text').')';
-        }
-
-        if(!empty($arr_filter['title'])){
-            $where[] = '(title LIKE ' . $ilDB->quote('%'
-                    . str_replace('*', '%', $arr_filter['title']) . '%', 'text').')';
-        }
-
-        if($arr_filter['activation']) {
-            if($arr_filter['activation'] == 'active') {
-                $where[] = '(active = "1")';
-            }
-            if($arr_filter['activation'] == 'inactive') {
-                $where[] = '(active = "0")';
-            }
-
+            ilObjOrgUnitTree::_getInstance()->buildTempTableWithUsrAssignements('orgu_usr_assignements');
+            $where[] = 'usr_data.usr_id in (SELECT user_id from orgu_usr_assignements where ref_id = '.$ilDB->quote($arr_filter['org_unit'],'integer').')';
         }
 
         if(!empty($where)){

@@ -4,6 +4,8 @@ require_once "./Services/Form/classes/class.ilTextInputGUI.php";
 require_once "./Services/Form/classes/class.ilSelectInputGUI.php";
 require_once "class.ilMStListCourses.php";
 require_once "class.ilMStListCourse.php";
+require_once "./Services/Tracking/classes/class.ilLPStatus.php";
+require_once "./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php";
 
 //require_once("./Services/Container/classes/class.ilContainerObjectiveGUI.php");
 
@@ -41,14 +43,16 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 	public function __construct($parent_obj, $parent_cmd = "index") {
 		/** @var $ilCtrl ilCtrl */
 		/** @var ilToolbarGUI $ilToolbar */
-		global $ilCtrl, $ilToolbar, $tpl, $lng, $ilUser;
+        /** @var $DIC ILIAS\DI\Container */
+		global $ilCtrl, $ilToolbar, $DIC, $tpl, $lng, $ilUser;
 
 		$this->ctrl = $ilCtrl;
         $this->access = ilMyStaffAcess::getInstance();
 
 		$this->lng = $lng;
 		$this->toolbar = $ilToolbar;
-        
+
+        $this->dic = $DIC;
 
 		$this->setPrefix('myst_lc');
 		$this->setFormName('myst_lc');
@@ -57,8 +61,8 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		parent::__construct($parent_obj, $parent_cmd, '');
 
 		//$this->addMultiCommand('multiUserAccreditation', $this->pl->txt('accr_create_courses'));
-		$this->setRowTemplate('tpl.default_row.html',"Services/MyStaff");
-		//$this->setFormAction($this->ctrl->getFormAction($parent_obj));
+		$this->setRowTemplate('tpl.list_courses_row.html',"Services/MyStaff");
+		$this->setFormAction($this->ctrl->getFormAction($parent_obj));
 		//$this->setDefaultOrderField('Datetime');
 		$this->setDefaultOrderDirection('desc');
 
@@ -71,7 +75,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		$this->setIgnoredCols(array());
 		$this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_CSV));
 
-		$this->setFilterCols(4);
+		$this->setFilterCols(5);
 		$this->initFilter();
 
 		$this->addColumns();
@@ -117,16 +121,42 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 
         // course members
         include_once("./Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
-        $item = new ilRepositorySelectorInputGUI($this->lng->txt("user_member_of_course_group"), "course");
+        $item = new ilRepositorySelectorInputGUI($this->lng->txt("usr_filter_coursemember"), "course");
         $item->setParent($this->getParentObject());
-        $item->setSelectText($this->lng->txt("user_select_course_group"));
-        $item->setHeaderMessage($this->lng->txt("user_please_select_course_group"));
+        $item->setSelectText($this->lng->txt("mst_select_course"));
+        $item->setHeaderMessage($this->lng->txt("mst_please_select_course"));
         $item->setClickableTypes(array("crs"));
         $this->addFilterItem($item);
         $item->readFromSession();
         $item->setParent($this->getParentObject());
         $this->filter["course"] = $item->getValue();
 
+        //membership status
+        $item = new ilSelectInputGUI($this->lng->txt('member_status'),'memb_status');
+        $item->setOptions(array("" => $this->lng->txt("mst_opt_all"),
+            ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST => $this->lng->txt('mst_memb_status_waitinglist'),
+            ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED => $this->lng->txt('mst_memb_status_registered'),));
+        $this->addFilterItem($item);
+        $item->readFromSession();
+        $this->filter["memb_status"] = $item->getValue();
+
+        //learning progress status
+        $item = new ilSelectInputGUI($this->lng->txt('learning_progress'),'lp_status');
+        //+1 because LP_STATUS_NOT_ATTEMPTED_NUM is 0.
+        $item->setOptions(array("" => $this->lng->txt("mst_opt_all"),
+            ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
+            ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
+            ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_COMPLETED),
+            ilLPStatus::LP_STATUS_FAILED_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_FAILED)));
+        $this->addFilterItem($item);
+        $item->readFromSession();
+        $this->filter["lp_status"] = $item->getValue();
+        if($this->filter["lp_status"])
+        {
+            $this->filter["lp_status"] = $this->filter["lp_status"] - 1;
+        }
+
+        //user
         $item = new ilTextInputGUI($this->lng->txt("login")."/".$this->lng->txt("email")."/".$this->lng->txt("name"), "user");
         //$item->setDataSource($this->ctrl->getLinkTarget($this->getParentObject(),"addUserAutoComplete", "", true));
         //$item->setSize(20);
@@ -136,24 +166,21 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
         $this->filter['user'] = $item->getValue();
 
 
-
-		//OrganisationalUnit
-        /*
-		$item = new ilSelectInputGUI($this->pl->txt('org_unit'), 'org_unit');
-		$opts = ilObjOrgUnit::get;
-		$opts[0] = '';
-		asort($opts);
-		$item->setOptions($opts);
-		$this->addFilterItem($item);
-		$item->readFromSession();
-		$this->filter['org_unit'] = $item->getValue();
-
-		// Rekursiv
-		$item = new ilCheckboxInputGUI($this->pl->txt('recursive'), 'org_unit_recursive');
-		$item->setValue(1);
-		$this->addFilterItem($item);
-		$item->readFromSession();
-		$this->filter['org_unit_recursive'] = $item->getChecked();*/
+        //org unit
+        $root = ilObjOrgUnit::getRootOrgRefId();
+        $tree = ilObjOrgUnitTree::_getInstance();
+        $nodes = $tree->getAllChildren($root);
+        $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+        $options[0] = $this->lng->txt('mst_opt_all');
+        foreach($paths as $org_ref_id => $path)
+        {
+            $options[$org_ref_id] = $path;
+        }
+        $item = new ilSelectInputGUI($this->lng->txt('obj_orgu'), 'org_unit');
+        $item->setOptions($options);
+        $this->addFilterItem($item);
+        $item->readFromSession();
+        $this->filter['org_unit'] = $item->getValue();
 	}
 
 
@@ -163,22 +190,35 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 	public function getSelectableColumns() {
 		$cols = array();
 
+        $arr_searchable_user_columns = ilUserSearchOptions::getSelectableColumnInfo();
+
 		$cols['crs_title'] = array('txt' => $this->lng->txt('crs_title'), 'default' => true, 'width' => 'auto','sort_field' => 'crs_title');
-		$cols['usr_reg_status'] = array('txt' => $this->lng->txt('usr_reg_status'), 'default' => true, 'width' => 'auto','sort_field' => 'reg_status');
-		$cols['usr_lp_status'] = array('txt' => $this->lng->txt('usr_lp_status'), 'default' => true, 'width' => 'auto','sort_field' => 'lp_status');
-        $cols['usr_login'] = array('txt' => $this->lng->txt('usr_login'), 'default' => true, 'width' => 'auto','sort_field' => 'usr_login');
-        $cols['usr_firstname'] = array('txt' => $this->lng->txt('usr_firstname'), 'default' => true, 'width' => 'auto','sort_field' => 'usr_firstname');
-        $cols['usr_lastname'] = array('txt' => $this->lng->txt('usr_lastname'), 'default' => true, 'width' => 'auto','sort_field' => 'usr_lastname');
-        $cols['usr_email'] = array('txt' => $this->lng->txt('usr_email'), 'default' => true, 'width' => 'auto','sort_field' => 'usr_email');
-        $cols['usr_assinged_orgus'] = array('txt' => $this->lng->txt('usr_assinged_orgus'), 'default' => true, 'width' => 'auto');
+		$cols['usr_reg_status'] = array('txt' => $this->lng->txt('member_status'), 'default' => true, 'width' => 'auto','sort_field' => 'reg_status');
+		$cols['usr_lp_status'] = array('txt' => $this->lng->txt('learning_progress'), 'default' => true, 'width' => 'auto','sort_field' => 'lp_status');
+
+
+        if($arr_searchable_user_columns['login']) {
+            $cols['usr_login'] = array('txt' => $this->lng->txt('login'), 'default' => true, 'width' => 'auto','sort_field' => 'usr_login');
+        }
+        if($arr_searchable_user_columns['firstname']) {
+            $cols['usr_firstname'] = array('txt' => $this->lng->txt('firstname'), 'default' => true, 'width' => 'auto', 'sort_field' => 'usr_firstname');
+        }
+        if($arr_searchable_user_columns['lastname']) {
+            $cols['usr_lastname'] = array('txt' => $this->lng->txt('lastname'), 'default' => true, 'width' => 'auto', 'sort_field' => 'usr_lastname');
+        }
+
+        if($arr_searchable_user_columns['email']) {
+            $cols['usr_email'] = array('txt' => $this->lng->txt('email'), 'default' => true, 'width' => 'auto', 'sort_field' => 'usr_email');
+        }
+        $cols['usr_assinged_orgus'] = array('txt' => $this->lng->txt('objs_orgu'), 'default' => true, 'width' => 'auto');
 
 		return $cols;
 	}
 
 
 	private function addColumns() {
-		$this->setSelectAllCheckbox("user_ids[]");
-		$this->addColumn('', '', '1', true);
+		//$this->setSelectAllCheckbox("user_ids[]");
+		//$this->addColumn('', '', '1', true);
 		foreach ($this->getSelectableColumns() as $k => $v) {
 			if ($this->isColumnSelected($k)) {
 				if (isset($v['sort_field'])) {
@@ -190,57 +230,58 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 			}
 		}
         //Actions
+        /*
         if(!$this->getExportMode()) {
             $this->addColumn($this->lng->txt('actions'));
-        }
+        }*/
 	}
 
 
     /**
-     * @param ilMyStaffUser $my_staff_user
+     * @param ilMStListCourse $my_staff_course
      */
-    public function fillRow($my_staff_user) {
+    public function fillRow($my_staff_course) {
 
-        $propGetter = Closure::bind(  function($prop){return $this->$prop;}, $my_staff_user, $my_staff_user );
+        $propGetter = Closure::bind(  function($prop){return $this->$prop;}, $my_staff_course, $my_staff_course );
 
 
-        $this->tpl->setCurrentBlock('record_id');
+        /*$this->tpl->setCurrentBlock('record_id');
         $this->tpl->setVariable('RECORD_ID',  '');
-        $this->tpl->parseCurrentBlock();
+        $this->tpl->parseCurrentBlock();*/
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if ($propGetter($k) !== NULL) {
                     switch($k) {
-                        case 'login':
-                            $this->ctrl->setParameterByClass('ilObjUserGUI','ref_id', $propGetter($k));
-                            $this->ctrl->setParameterByClass('ilObjUserGUI','obj_id', $propGetter($k));
-                            $this->ctrl->setParameterByClass('ilObjUserGUI','admin_mode','settings');
-                            $link = $this->ctrl->getLinkTargetByClass(array('ilUIPluginRouterGUI','ilLocalUserAdminGUI','srLocalUserGUI','ilObjUserGUI'),'view');
+                        case 'usr_assinged_orgus':
                             $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', '<a href="'.$link.'">'. $propGetter($k).'</a>');
+                            $this->tpl->setVariable('VALUE', (string)ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_course->getUsrId()));
                             $this->tpl->parseCurrentBlock();
                             break;
-                        case 'active_as_string':
+                        case 'usr_reg_status':
                             $this->tpl->setCurrentBlock('td');
-                            if( $propGetter('active')) {
-                                $this->tpl->setVariable('VALUE',  $propGetter($k));
-                            } else {
-                                $this->tpl->setVariable('VALUE', '<span class="warning">'.$propGetter($k).'</span>');
-                            }
+                            $this->tpl->setVariable('VALUE', ilMStListCourse::getMembershipStatusText($my_staff_course->getUsrRegStatus()));
+                            $this->tpl->parseCurrentBlock();
+                            break;
+                        case 'usr_lp_status':
+                            $f = $this->dic->ui()->factory();
+                            $renderer = $this->dic->ui()->renderer();
+                            $lp_icon = $f->image()->standard(ilLearningProgressBaseGUI::_getImagePathForStatus($my_staff_course->getUsrLpStatus()),ilLearningProgressBaseGUI::_getStatusText((int)$my_staff_course->getUsrLpStatus()));
+                            $this->tpl->setCurrentBlock('td');
+                            $this->tpl->setVariable('VALUE', $renderer->render($lp_icon).' '.ilLearningProgressBaseGUI::_getStatusText((int)$my_staff_course->getUsrLpStatus()));
                             $this->tpl->parseCurrentBlock();
                             break;
                         default:
-                            $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) :$propGetter($k)));
-                            $this->tpl->parseCurrentBlock();
+                            if ($propGetter($k) !== NULL) {
+                                $this->tpl->setCurrentBlock('td');
+                                $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
+                                $this->tpl->parseCurrentBlock();
+                            } else {
+                                $this->tpl->setCurrentBlock('td');
+                                $this->tpl->setVariable('VALUE', '&nbsp;');
+                                $this->tpl->parseCurrentBlock();
+                            }
                             break;
                     }
-                } else {
-                    $this->tpl->setCurrentBlock('td');
-                    $this->tpl->setVariable('VALUE', '&nbsp;');
-                    $this->tpl->parseCurrentBlock();
-                }
             }
         }
         /*

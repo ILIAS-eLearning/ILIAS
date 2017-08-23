@@ -6,6 +6,9 @@
  */
 class ilMStListCourse {
 
+    const MEMBERSHIP_STATUS_WAITINGLIST = 1;
+    const MEMBERSHIP_STATUS_REGISTERED = 2;
+
     /**
      *
      * @var int
@@ -46,10 +49,7 @@ class ilMStListCourse {
      * @var string
      */
     protected $usr_email;
-    /**
-     * @var string
-     */
-    protected $usr_assinged_orgus;
+
 
     /**
      * @return int
@@ -195,22 +195,6 @@ class ilMStListCourse {
         $this->usr_email = $usr_email;
     }
 
-    /**
-     * @return string
-     */
-    public function getUsrAssingedOrgus()
-    {
-        return $this->usr_assinged_orgus;
-    }
-
-    /**
-     * @param string $usr_assinged_orgus
-     */
-    public function setUsrAssingedOrgus($usr_assinged_orgus)
-    {
-        $this->usr_assinged_orgus = $usr_assinged_orgus;
-    }
-
     //Other
     /**
      * @return ilObjUser
@@ -226,5 +210,25 @@ class ilMStListCourse {
     public function returnIlCourseObj() {
         $il_course_obj = new ilObjCourse($this->crs_ref_id);
         return $il_course_obj;
+    }
+
+
+    /**
+     * @param int $status
+     * @return string
+     */
+    static function getMembershipStatusText($status)
+    {
+        global $lng;
+
+        switch($status) {
+            case self::MEMBERSHIP_STATUS_WAITINGLIST:
+                return $lng->txt('mst_memb_status_waitinglist');
+                break;
+
+            case self::MEMBERSHIP_STATUS_REGISTERED:
+                return $lng->txt('mst_memb_status_registered');
+                break;
+        }
     }
 }

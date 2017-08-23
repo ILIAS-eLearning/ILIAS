@@ -18,6 +18,12 @@ class ilMyStaffAcess extends ilObjectAccess {
         return self::$instance;
     }
 
+    public function hasCurrentUserAccessToMyStaff() {
+        if(count($this->getOrguUsersOfCurrentUserWithShowStaffPermission()) > 0) {
+            return true;
+        }
+    }
+
     public function getOrguUsersOfCurrentUserWithShowStaffPermission() {
 
         if(is_null(self::$orgu_users_of_current_user_show_staff_permission)) {
@@ -28,12 +34,10 @@ class ilMyStaffAcess extends ilObjectAccess {
             $arr_orgus_perm_view_lp = array();
             $arr_orgus_perm_view_lp_rec = array();
 
-            $global_roles = $rbacreview->assignedGlobalRoles($ilUser->getId());
-
             $arr_orgus_perm_view_lp = ilObjOrgUnitTree::_getInstance()->getOrgusWhereUserHasPermissionForOperation('view_learning_progress');
             $arr_orgus_perm_view_lp_rec = ilObjOrgUnitTree::_getInstance()->getOrgusWhereUserHasPermissionForOperation('view_learning_progress_rec');
-            $arr_orgus_perm = array_merge($arr_orgus_perm_view_lp,$arr_orgus_perm_view_lp_rec);
 
+            $arr_orgus_perm = array_merge($arr_orgus_perm_view_lp,$arr_orgus_perm_view_lp_rec);
             $arr_users = self::getUsersByOrgus($arr_orgus_perm);
             self::$orgu_users_of_current_user_show_staff_permission = $arr_users;
             return $arr_users;

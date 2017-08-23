@@ -26,15 +26,23 @@ class ilMStListUsers {
         $udf = ilUserDefinedFields::_getInstance();
 
         $select = 'SELECT
-				   usr_data.usr_id,
-				   usr_data.time_limit_owner,
-				   usr_data.login,
+				   usr_id,
+				   time_limit_owner,
+				   login,
+				   gender,
 	               firstname,
 	               lastname,
 	               title,
 	               institution,
 	               department,
+	               street,
+	               zipcode,
+	               city,
+	               country,
+	               sel_country,
+	               hobby,
 	               email,
+	               matriculation,
 	               phone_office,
 	               phone_mobile,
 	               active
@@ -62,6 +70,17 @@ class ilMStListUsers {
         while($user = $ilDB->fetchAssoc($result)){
             $list_user = new ilMStListUser();
             $list_user->setUsrId($user['usr_id']);
+            $list_user->setGender($user['gender']);
+            $list_user->setTitle($user['title']);
+            $list_user->setInstitution($user['institution']);
+            $list_user->setDepartment($user['department']);
+            $list_user->setStreet($user['street']);
+            $list_user->setZipcode($user['zipcode']);
+            $list_user->setCity($user['city']);
+            $list_user->setCountry($user['country']);
+            $list_user->setSelCountry($user['sel_country']);
+            $list_user->setHobby($user['hobby']);
+            $list_user->setMatriculation($user['matriculation']);
             $list_user->setActive($user['active']);
             $list_user->setTimeLimitOwner($user['time_limit_owner']);
             $list_user->setLogin($user['login']);
@@ -70,7 +89,7 @@ class ilMStListUsers {
             $list_user->setEmail($user['email']);
             $list_user->setPhone($user['phone_office']);
             $list_user->setMobilePhone($user['phone_mobile']);
-            $list_user->setAssingedOrgus($user['department']);
+
 
             $user_data[] = $list_user;
         }

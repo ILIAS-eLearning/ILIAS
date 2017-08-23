@@ -15,6 +15,11 @@ class ilMStListUser {
      *
      * @var int
      */
+    protected $gender;
+    /**
+     *
+     * @var int
+     */
     protected $time_limit_owner;
     /**
      *
@@ -25,6 +30,48 @@ class ilMStListUser {
      * @var string
      */
     protected $login;
+    /**
+     * @var string
+     */
+    protected $title;
+    /**
+     * @var string
+     */
+    protected $hobby;
+    /**
+     * @var string
+     */
+    protected $institution;
+    /**
+     * @var string
+     */
+    protected $department;
+    /**
+     * @var string
+     */
+    protected $street;
+    /**
+     * @var string
+     */
+    protected $zipcode;
+    /**
+     * @var string
+     */
+    protected $city;
+    /**
+     * @var string
+     */
+    protected $country;
+    /**
+     * @var string
+     */
+    protected $sel_country;
+    /**
+     * @var string
+     */
+    protected $matriculation;
+
+
     /**
      * @var string
      */
@@ -45,10 +92,6 @@ class ilMStListUser {
      * @var string
      */
     protected $mobile_phone;
-    /**
-     * @var string
-     */
-    protected $assinged_orgus;
     /**
      * @var ilObjUser
      */
@@ -198,20 +241,180 @@ class ilMStListUser {
         $this->mobile_phone = $mobile_phone;
     }
 
+    /**
+     * @return int
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * @param int $gender
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+    }
 
     /**
      * @return string
      */
-    public function getAssingedOrgus() {
-        return $this->assinged_orgus;
+    public function getTitle()
+    {
+        return $this->title;
     }
 
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
     /**
-     * @param string $assinged_orgus
+     * @return string
      */
-    public function setAssingedOrgus($assinged_orgus) {
-        $this->assinged_orgus = $assinged_orgus;
+    public function getHobby()
+    {
+        return $this->hobby;
+    }
+
+    /**
+     * @param string $hobby
+     */
+    public function setHobby($hobby)
+    {
+        $this->hobby = $hobby;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInstitution()
+    {
+        return $this->institution;
+    }
+
+    /**
+     * @param string $institution
+     */
+    public function setInstitution($institution)
+    {
+        $this->institution = $institution;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDepartment()
+    {
+        return $this->department;
+    }
+
+    /**
+     * @param string $department
+     */
+    public function setDepartment($department)
+    {
+        $this->department = $department;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStreet()
+    {
+        return $this->street;
+    }
+
+    /**
+     * @param string $street
+     */
+    public function setStreet($street)
+    {
+        $this->street = $street;
+    }
+
+    /**
+     * @return string
+     */
+    public function getZipcode()
+    {
+        return $this->zipcode;
+    }
+
+    /**
+     * @param string $zipcode
+     */
+    public function setZipcode($zipcode)
+    {
+        $this->zipcode = $zipcode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param string $city
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param string $country
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSelCountry()
+    {
+        return $this->sel_country;
+    }
+
+    /**
+     * @param string $sel_country
+     */
+    public function setSelCountry($sel_country)
+    {
+        $this->sel_country = $sel_country;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMatriculation()
+    {
+        return $this->matriculation;
+    }
+
+    /**
+     * @param string $matriculation
+     */
+    public function setMatriculation($matriculation)
+    {
+        $this->matriculation = $matriculation;
     }
 
     /**

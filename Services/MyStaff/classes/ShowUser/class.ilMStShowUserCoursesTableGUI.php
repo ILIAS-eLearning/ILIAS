@@ -3,7 +3,6 @@ require_once "./Services/Table/classes/class.ilTable2GUI.php";
 require_once "./Services/Form/classes/class.ilTextInputGUI.php";
 require_once "./Services/Form/classes/class.ilSelectInputGUI.php";
 require_once "class.ilMStShowUserCourses.php";
-require_once "class.ilMStShowUser.php";
 
 //require_once("./Services/Container/classes/class.ilContainerObjectiveGUI.php");
 
@@ -40,7 +39,8 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
     public function __construct($parent_obj, $parent_cmd = "index") {
         /** @var $ilCtrl ilCtrl */
         /** @var ilToolbarGUI $ilToolbar */
-        global $ilCtrl, $ilToolbar, $tpl, $lng, $ilUser;
+        /** @var $DIC ILIAS\DI\Container */
+        global $ilCtrl, $ilToolbar, $DIC, $tpl, $lng, $ilUser;
 
         $this->ctrl = $ilCtrl;
         $this->access = ilMyStaffAcess::getInstance();
@@ -48,9 +48,9 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
         $this->lng = $lng;
         $this->toolbar = $ilToolbar;
 
-        $this->usr_id = $_GET['usr_id'];
-        $this->ctrl->setParameter($parent_obj, 'usr_id', $this->usr_id);
+        $this->dic = $DIC;
 
+        $this->usr_id = $_GET['usr_id'];
 
         $this->setPrefix('myst_su');
         $this->setFormName('myst_su');
@@ -58,8 +58,8 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
 
         parent::__construct($parent_obj, $parent_cmd, '');
         //$this->addMultiCommand('multiUserAccreditation', $this->pl->txt('accr_create_courses'));
-        $this->setRowTemplate('tpl.default_row.html',"Services/MyStaff");
-        //$this->setFormAction($this->ctrl->getFormAction($parent_obj));
+        $this->setRowTemplate('tpl.list_courses_row.html',"Services/MyStaff");
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj));
         //$this->setDefaultOrderField('Datetime');
         $this->setDefaultOrderDirection('desc');
 
@@ -72,7 +72,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
         $this->setIgnoredCols(array());
         $this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_CSV));
 
-        $this->setFilterCols(4);
+        $this->setFilterCols(5);
         $this->initFilter();
         $this->addColumns();
 
@@ -82,6 +82,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
 
     protected function parseData() {
         global $ilUser;
+
         $this->setExternalSorting(true);
         $this->setExternalSegmentation(true);
         $this->setDefaultOrderField('crs_title');
@@ -112,29 +113,47 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
 
     public function initFilter() {
 
-        //User
-        $item = new ilTextInputGUI($this->lng->txt('usr'), 'user');
+        $item = new ilTextInputGUI($this->lng->txt("crs_title"), "crs_title");
         $this->addFilterItem($item);
         $item->readFromSession();
-        $this->filter['usr_lastname'] = $item->getValue();
+        $this->filter['crs_title'] = $item->getValue();
 
-        //OrganisationalUnit
-        /*
-		$item = new ilSelectInputGUI($this->pl->txt('org_unit'), 'org_unit');
-		$opts = ilObjOrgUnit::get;
-		$opts[0] = '';
-		asort($opts);
-		$item->setOptions($opts);
-		$this->addFilterItem($item);
-		$item->readFromSession();
-		$this->filter['org_unit'] = $item->getValue();
+        // course members
+        include_once("./Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
+        $item = new ilRepositorySelectorInputGUI($this->lng->txt("usr_filter_coursemember"), "course");
+        $item->setParent($this->getParentObject());
+        $item->setSelectText($this->lng->txt("mst_select_course"));
+        $item->setHeaderMessage($this->lng->txt("mst_please_select_course"));
+        $item->setClickableTypes(array("crs"));
+        $this->addFilterItem($item);
+        $item->readFromSession();
+        $item->setParent($this->getParentObject());
+        $this->filter["course"] = $item->getValue();
 
-		// Rekursiv
-		$item = new ilCheckboxInputGUI($this->pl->txt('recursive'), 'org_unit_recursive');
-		$item->setValue(1);
-		$this->addFilterItem($item);
-		$item->readFromSession();
-		$this->filter['org_unit_recursive'] = $item->getChecked();*/
+        //membership status
+        $item = new ilSelectInputGUI($this->lng->txt('member_status'),'memb_status');
+        $item->setOptions(array("" => $this->lng->txt("mst_opt_all"),
+            ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST => $this->lng->txt('mst_memb_status_waitinglist'),
+            ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED => $this->lng->txt('mst_memb_status_registered'),));
+        $this->addFilterItem($item);
+        $item->readFromSession();
+        $this->filter["memb_status"] = $item->getValue();
+
+        //learning progress status
+        $item = new ilSelectInputGUI($this->lng->txt('learning_progress'),'lp_status');
+        //+1 because LP_STATUS_NOT_ATTEMPTED_NUM is 0.
+        $item->setOptions(array("" => $this->lng->txt("mst_opt_all"),
+            ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
+            ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
+            ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_COMPLETED),
+            ilLPStatus::LP_STATUS_FAILED_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_FAILED)));
+        $this->addFilterItem($item);
+        $item->readFromSession();
+        $this->filter["lp_status"] = $item->getValue();
+        if($this->filter["lp_status"])
+        {
+            $this->filter["lp_status"] = $this->filter["lp_status"] - 1;
+        }
     }
 
 
@@ -145,16 +164,15 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
         $cols = array();
 
         $cols['crs_title'] = array('txt' => $this->lng->txt('crs_title'), 'default' => true, 'width' => 'auto','sort_field' => 'crs_title');
-        $cols['usr_reg_status'] = array('txt' => $this->lng->txt('usr_reg_status'), 'default' => true, 'width' => 'auto','sort_field' => 'reg_status');
-        $cols['usr_lp_status'] = array('txt' => $this->lng->txt('usr_lp_status'), 'default' => true, 'width' => 'auto','sort_field' => 'lp_status');
+        $cols['usr_reg_status'] = array('txt' => $this->lng->txt('member_status'), 'default' => true, 'width' => 'auto','sort_field' => 'reg_status');
+        $cols['usr_lp_status'] = array('txt' => $this->lng->txt('learning_progress'), 'default' => true, 'width' => 'auto','sort_field' => 'lp_status');
 
         return $cols;
     }
 
 
     private function addColumns() {
-        $this->setSelectAllCheckbox("user_ids[]");
-        $this->addColumn('', '', '1', true);
+
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
                 if (isset($v['sort_field'])) {
@@ -170,59 +188,50 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
 
 
     /**
-     * @param ilMyStaffUser $my_staff_user
+     * @param ilMStListCourse $my_staff_course
      */
-    public function fillRow($my_staff_user) {
+    public function fillRow($my_staff_course)
+    {
 
-        $propGetter = Closure::bind(  function($prop){return $this->$prop;}, $my_staff_user, $my_staff_user );
+        $propGetter = Closure::bind(function ($prop) {
+            return $this->$prop;
+        }, $my_staff_course, $my_staff_course);
 
 
-        $this->tpl->setCurrentBlock('record_id');
+        /*$this->tpl->setCurrentBlock('record_id');
         $this->tpl->setVariable('RECORD_ID',  '');
-        $this->tpl->parseCurrentBlock();
+        $this->tpl->parseCurrentBlock();*/
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if ($propGetter($k) !== NULL) {
-                    switch($k) {
-                        case 'login':
-                            $this->ctrl->setParameterByClass('ilObjUserGUI','ref_id', $propGetter($k));
-                            $this->ctrl->setParameterByClass('ilObjUserGUI','obj_id', $propGetter($k));
-                            $this->ctrl->setParameterByClass('ilObjUserGUI','admin_mode','settings');
-                            $link = $this->ctrl->getLinkTargetByClass(array('ilUIPluginRouterGUI','ilLocalUserAdminGUI','srLocalUserGUI','ilObjUserGUI'),'view');
+                switch ($k) {
+                    case 'usr_reg_status':
+                        $this->tpl->setCurrentBlock('td');
+                        $this->tpl->setVariable('VALUE', ilMStListCourse::getMembershipStatusText($my_staff_course->getUsrRegStatus()));
+                        $this->tpl->parseCurrentBlock();
+                        break;
+                    case 'usr_lp_status':
+                        $f = $this->dic->ui()->factory();
+                        $renderer = $this->dic->ui()->renderer();
+                        $lp_icon = $f->image()->standard(ilLearningProgressBaseGUI::_getImagePathForStatus($my_staff_course->getUsrLpStatus()), ilLearningProgressBaseGUI::_getStatusText((int)$my_staff_course->getUsrLpStatus()));
+                        $this->tpl->setCurrentBlock('td');
+                        $this->tpl->setVariable('VALUE', $renderer->render($lp_icon) . ' ' . ilLearningProgressBaseGUI::_getStatusText((int)$my_staff_course->getUsrLpStatus()));
+                        $this->tpl->parseCurrentBlock();
+                        break;
+                    default:
+                        if ($propGetter($k) !== NULL) {
                             $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', '<a href="'.$link.'">'. $propGetter($k).'</a>');
+                            $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
                             $this->tpl->parseCurrentBlock();
-                            break;
-                        case 'active_as_string':
+                        } else {
                             $this->tpl->setCurrentBlock('td');
-                            if( $propGetter('active')) {
-                                $this->tpl->setVariable('VALUE',  $propGetter($k));
-                            } else {
-                                $this->tpl->setVariable('VALUE', '<span class="warning">'.$propGetter($k).'</span>');
-                            }
+                            $this->tpl->setVariable('VALUE', '&nbsp;');
                             $this->tpl->parseCurrentBlock();
-                            break;
-                        default:
-                            $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) :$propGetter($k)));
-                            $this->tpl->parseCurrentBlock();
-                            break;
-                    }
-                } else {
-                    $this->tpl->setCurrentBlock('td');
-                    $this->tpl->setVariable('VALUE', '&nbsp;');
-                    $this->tpl->parseCurrentBlock();
+                        }
+                        break;
                 }
             }
         }
-        /*
-                $selection = new ilAdvancedSelectionListGUI();
-                $selection->setListTitle($this->pl->txt('actions'));
-                $selection->setId('selection_list_' . $a_set['user_id']);
-                $this->ctrl->setParameterByClass('srLocalUserGUI', 'user_id', $a_set['user_id']);
-                $this->tpl->setVariable('ACTIONS', $selection->getHTML());
-        */
     }
 
 
