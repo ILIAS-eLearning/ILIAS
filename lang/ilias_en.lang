@@ -12568,7 +12568,7 @@ mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory,
 mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.
 mob#:#mob_multi_srt_files#:#SRT Files
 content#:#cont_subtitle_files#:#Media Subtitles
-content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects of the learning module. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" -> "my_video_en.srt".
+content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" -> "my_video_en.srt".
 content#:#cont_moved_srt_files#:#Moved subtitles files to media objects.
 content#:#cont_subtitle_file#:#SRT ZIP File
 content#:#cont_multi_srt_files#:#SRT Files
@@ -13545,6 +13545,7 @@ chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository c
 chatroom#:#chat_deletion_interval_unit#:#Unit
 chatroom#:#chat_deletion_interval_value#:#Value
 chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s
+chatroom#:#chat_deletion_interval_run_at#:#Time
 chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
@@ -13735,3 +13736,13 @@ prtf#:#prtf_add_existing_blog#:#Use Existing Blog
 blog#:#blog_draft_text#:#Unpublished Post
 user#:#usr_letter_avatars#:#Letter Avatars
 user#:#usr_letter_avatars_info#:#Shows initial of user name or login as profile picture, if no public picture is being provided.
+content#:#cont_master_language_only_no_media#:#Master Language without Media
+mep#:#mep_master_language_only_no_media#:#Master Language without Media
+content#:#cont_master_language_only_no_media#:#Master Language without Media
+mep#:#mep_master_language_only_no_media#:#Master Language without Media
+mep#:#mep_content#:#Content
+mep#:#mep_media_subtitles#:#Media Subtitles
+content#:#cont_last_visited_page#:#Last Visited Page
+content#:#cont_first_page#:#First Page
+content#:#cont_lm_starting_point#:#Starting Point for ILIAS Learning Modules
+content#:#cont_lm_starting_point_info#:#Page being opened when clicking a learning modules title.

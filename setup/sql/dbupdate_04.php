@@ -19702,3 +19702,8 @@ if(!$ilDB->tableExists('orgu_obj_pos_settings'))
 	$ilDB->addPrimaryKey('orgu_obj_pos_settings', array('obj_id'));
 }
 ?>
+<#5140>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
