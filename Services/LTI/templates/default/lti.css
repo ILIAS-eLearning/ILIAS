@@ -42,18 +42,28 @@ footer {
 	font-size: 14px;
 }
 
-.ilLtiExited {
-	margin-top: 116px;
-	text-align: center;
-	font-style: italic;
-	padding: 20px;
-}
-
-
 .ilHeadAction {
 	display: none;
 }
 
+a.ltiExit,  a.ltiExit > button,  a.ltiExit > button > a.ltiExit > button > span:first-child {
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	display: block !important;
+	width: 100% !important;
+	height: 100%;
+}
+
+a.ltiExit > button {
+	color: #fff;
+	text-shadow: 0 2px 0 black;
+	opacity: 0.5;
+}
+
+div.ltiExitContent {
+	margin-top: 50px;
+	padding: 50px;
+}
 /*
 #view_nav {
 	margin-right: 50px;

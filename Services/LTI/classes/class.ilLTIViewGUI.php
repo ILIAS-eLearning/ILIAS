@@ -43,6 +43,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 	 */
 	public function __construct()
 	{
+		
 		parent::__construct();
 		
 		$this->allow_desktop = false;
@@ -194,6 +195,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		$this->show_home_link = false;
 		$this->tree_root_id = ($this->fix_tree_id === '') ? $this->home_id : $this->fix_tree_id;
 		$_SESSION['lti_tree_root_id'] = $this->tree_root_id;
+		ilUtil::sendInfo("sdfsdfsdfsdf");
 	}
 	
 	/**
@@ -267,7 +269,9 @@ class ilLTIViewGUI extends ilBaseViewGUI
 	
 	public function render($tpl,$part) 
 	{
-		global $lng;
+		global $lng, $DIC;
+		$f = $DIC->ui()->factory();
+		$renderer = $DIC->ui()->renderer();
 		switch ($part) 
 		{
 			case 'top_bar_header' :
@@ -295,7 +299,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 				{
 					break;
 				}
-				$tpl->setVariable("TXT_VIEW_NAV", "LTI Magazin");
+				$tpl->setVariable("TXT_VIEW_NAV", "Navigation"); // ToDo: language files
 				$nav_entries = $this->getNavEntries();
 				$tpl->setVariable("VIEW_NAV_EN", $nav_entries);
 				
@@ -304,7 +308,12 @@ class ilLTIViewGUI extends ilBaseViewGUI
 				if (!$tpl->blockExists("userisloggedin"))
 				{
 					$tpl->addBlockFile("USERLOGGEDIN","userisloggedin","tpl.user_logged_in.html","Services/LTI");
-				} 
+				}
+				$tpl->setVariable("LINK_LTI_EXIT", $this->getCmdLink('exit'));
+				$btn = $f->button()->close();
+				$btnHtml = $renderer->render($btn);
+				$tpl->setVariable("EXIT_BUTTON",$btnHtml);
+				/*
 				$tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
 				$user_img_src = $this->ilias->account->getPersonalPicturePath("small", true);
 				$user_img_alt = $this->ilias->account->getFullname();
@@ -312,6 +321,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 				//$tpl->setVariable("TXT_LTI_EXIT",$lng->txt("lti_exit_session"));
 				$tpl->setVariable("TXT_LTI_EXIT","LTI Sitzung beenden");
 				$tpl->setVariable("LINK_LTI_EXIT", $this->getCmdLink('exit'));
+				*/ 
 				break;
 		}
 	}
@@ -402,8 +412,13 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		$this->log("exitLti");
 		if ($this->getSessionValue('lti_launch_presentation_return_url') === '') {
 			$tplExit = new ilTemplate("tpl.lti_exit.html", true, true, "Services/LTI");
-			$tplExit->setVariable('TXT_EXITED_TITLE',$lng->txt('exited_title'));
+			$tplExit->setVariable('TXT_LTI_EXIT',$lng->txt('lti_exited'));
+			//$tplExit->setVariable('TXT_LTI_EXIT',$lng->txt('lti_exited'));
+			$tplExit->setVariable('INFO_LTI_EXIT',$lng->txt('lti_exited_info'));
+			/*
 			$tplExit->setVariable('TXT_EXITED','LTI Sitzung beendet');
+			$tplExit->setVariable('INFO_EXIT','Sie haben die LTI Sitzung beendet');
+			*/ 
 			//$tplExit->setVariable('TXT_EXITED',$lng->txt('exited'));
 			$html = $tplExit->get();
 			$this->logout();
