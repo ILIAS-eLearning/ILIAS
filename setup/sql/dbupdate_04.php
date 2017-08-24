@@ -19775,3 +19775,47 @@ if (count($individual_assessment_context)  === 0) {
 }
 
 ?>
+<#5145>
+<?php
+
+include_once("Modules/OrgUnit/classes/Positions/Operation/class.ilOrgUnitOperationContext.php");
+
+$individual_assessment_context = ilOrgUnitOperationContext::where(["context" => ilOrgUnitOperationContext::CONTEXT_IASS])->get();
+
+if (count($individual_assessment_context)  === 0) {
+	die("Expected permission context for individual assessment to exist.");
+};
+
+$individual_assessment_context = array_shift($individual_assessment_context);
+
+include_once("Modules/OrgUnit/classes/Positions/Permissions/class.ilOrgUnitOperation.php");
+
+$set_lp_for_other_users = new ilOrgUnitOperation();
+$set_lp_for_other_users->setOperationString("set_lp_for_other_users");
+$set_lp_for_other_users->setContextId($individual_assessment_context->getId());
+
+$set_lp_for_other_users->create();
+
+?>
+<#5146>
+<?php
+
+include_once("Modules/OrgUnit/classes/Positions/Operation/class.ilOrgUnitOperationContext.php");
+
+$individual_assessment_context = ilOrgUnitOperationContext::where(["context" => ilOrgUnitOperationContext::CONTEXT_IASS])->get();
+
+if (count($individual_assessment_context)  === 0) {
+	die("Expected permission context for individual assessment to exist.");
+};
+
+$individual_assessment_context = array_shift($individual_assessment_context);
+
+include_once("Modules/OrgUnit/classes/Positions/Permissions/class.ilOrgUnitOperation.php");
+
+$view_lp_of_other_users = new ilOrgUnitOperation();
+$view_lp_of_other_users->setOperationString("view_lp");
+$view_lp_of_other_users->setContextId($individual_assessment_context->getId());
+
+$view_lp_of_other_users->create();
+
+?>
