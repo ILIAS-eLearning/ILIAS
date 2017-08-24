@@ -58,6 +58,11 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 						, "prg_changed_by"
 						, "prg_completion_by"
 						);
+
+		foreach ($this->getSelectedColumns() as $column) {
+			$columns[] = $column;
+		}
+
 		foreach ($columns as $lng_var) {
 			$this->addColumn($lng->txt($lng_var));
 		}
@@ -94,6 +99,30 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("POSSIBLE", $a_set["possible"] ? $this->possible_image : $this->not_possible_image);
 		$this->tpl->setVariable("CHANGED_BY", $a_set["changed_by"]);
 		$this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
+
+		foreach ($this->getSelectedColumns() as $column) {
+			switch($column) {
+				case "prg_deadline":
+					$this->tpl->setCurrentBlock("deadline");
+					$this->tpl->setVariable("DEADLINE", $this->getDeadlineInput($a_set["progress_id"], $a_set["deadline"]));
+					$this->tpl->parseCurrentBlock("deadline");
+					break;
+			}
+		}
+	}
+
+	/**
+	 * Get selectable columns
+	 *
+	 * @return array[] 	$cols
+	 */
+	public function getSelectableColumns() {
+		$cols = array();
+
+		$cols["prg_deadline"] = array(
+				"txt" => $this->lng->txt("prg_deadline"));
+
+		return $cols;
 	}
 
 	protected function fetchData() {
@@ -173,6 +202,16 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$input->setValue($a_points_required);
 		$input->setSize(5);
 		return $input->render();
+	}
+
+	protected function getDeadlineInput($a_progress_id, $deadline) {
+		require_once("Services/Form/classes/class.ilDateTimeInputGUI.php");
+
+		$deadline_title = $this->getParentObject()->getDeadlinePostVarTitle();
+		$gui = new ilDateTimeInputGUI("", $deadline_title."[$a_progress_id]");
+		$gui->setDate($deadline);
+
+		return $gui->render();
 	}
 }
 

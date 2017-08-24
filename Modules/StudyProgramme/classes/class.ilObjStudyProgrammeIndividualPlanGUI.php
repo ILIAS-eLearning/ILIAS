@@ -297,6 +297,10 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		return "required_points";
 	}
 
+	public function getDeadlinePostVarTitle() {
+		return "deadline";
+	}
+
 	public function getManualStatusNone() {
 		return self::MANUAL_STATUS_NONE;
 	}

@@ -16265,3 +16265,4 @@ obj#:#obj_tool_setting_skills_info#:#Die Funktion ermöglicht es Kompetenzen aus
 obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
 obj#:#cont_skll_published_some_not#:#Alle gegebenen Kompetenzzuweisungen wurden veröffentlicht. Zu einigen Benutzern konnten keine Kompetenzen veröffentlicht werden, da keine Zuweisungen vorlagen.
 grp#:#grp_user_already_in_group#:#Der ausgewählte Benutzter ist bereits Mitglieder der Gruppe.
+prg#:#prg_deadline#:#Stichtag

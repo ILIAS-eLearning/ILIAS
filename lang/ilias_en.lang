@@ -13796,3 +13796,4 @@ obj#:#obj_tool_setting_skills_info#:#Activates competence management and compete
 obj#:#cont_skll_published#:#All assignments have been published.
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
 grp#:#grp_user_already_in_group#:#The selected user is already member of the group.
+prg#:#prg_deadline#:#Deadline
