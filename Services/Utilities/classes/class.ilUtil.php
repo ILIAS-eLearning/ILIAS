@@ -4815,12 +4815,7 @@ class ilUtil
 	*/
 	public static function sendFailure($a_info = "",$a_keep = false)
 	{
-		global $tpl, $DIC;
-
-		if ($DIC->http()->request()->getQueryParams()["async"] && !$a_keep) {
-			echo json_encode([ 'success' => false, 'message' => $a_info ]);
-			exit;
-		}
+		global $tpl;
 
 		if(is_object($tpl))
 		{
