@@ -108,8 +108,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	/**
 	 * Init edit form, custom part
 	 *
-	 * @param
-	 * @return
+	 * @param ilPropertyFormGUI $a_form form object
 	 */
 	function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
@@ -121,10 +120,18 @@ class ilObjItemGroupGUI extends ilObject2GUI
 		$ta->setInfo($this->lng->txt("itgr_desc_info"));
 		$a_form->addItem($ta);
 
-		// hide title
-		$cb = new ilCheckboxInputGUI($this->lng->txt("itgr_hide_title"), "hide_title");
-		$cb->setInfo($this->lng->txt("itgr_hide_title_info"));
+		// show title
+		$cb = new ilCheckboxInputGUI($this->lng->txt("itgr_show_title"), "show_title");
+		$cb->setInfo($this->lng->txt("itgr_show_title_info"));
 		$a_form->addItem($cb);
+
+		// behaviour
+		include_once("./Modules/ItemGroup/classes/class.ilItemGroupBehaviour.php");
+		$options = ilItemGroupBehaviour::getAll();
+		$si = new ilSelectInputGUI($this->lng->txt("itgr_behaviour"), "behaviour");
+		$si->setInfo($this->lng->txt("itgr_behaviour_info"));
+		$si->setOptions($options);
+		$cb->addSubItem($si);
 
 	}
 
@@ -306,7 +313,8 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 */
 	function getEditFormCustomValues(array &$a_values)
 	{
-		$a_values["hide_title"] = $this->object->getHideTitle();
+		$a_values["show_title"] = !$this->object->getHideTitle();
+		$a_values["behaviour"] = $this->object->getBehaviour();
 	}
 
 	/**
@@ -316,7 +324,12 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 */
 	function updateCustom(ilPropertyFormGUI $a_form)
 	{
-		$this->object->setHideTitle($a_form->getInput("hide_title"));
+		$this->object->setHideTitle(!$a_form->getInput("show_title"));
+		include_once("./Modules/ItemGroup/classes/class.ilItemGroupBehaviour.php");
+		$behaviour = ($a_form->getInput("show_title"))
+			? $a_form->getInput("behaviour")
+			: ilItemGroupBehaviour::ALWAYS_OPEN;
+		$this->object->setBehaviour($behaviour);
 	}
 
 

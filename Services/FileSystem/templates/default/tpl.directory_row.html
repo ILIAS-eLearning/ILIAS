@@ -1,9 +1,14 @@
 <tr class="{CSS_ROW}">
 	<!-- BEGIN select_bl -->
 	<td class="std" valign="top">
-		<!-- BEGIN checkbox --><input type="checkbox" name="file[]" value="{CHECKBOX_ID}" {CHECKED}/><!-- END checkbox -->
+		<!-- BEGIN checkbox --><input type="checkbox" name="file[{CHECKBOX_ORDER_ID}]" value="{CHECKBOX_ID}" {CHECKED}/><!-- END checkbox -->
 	</td>
 	<!-- END select_bl -->
+	<!-- BEGIN Order -->
+	<td class="std small">
+		<input class="form-control" type="text" size="4" maxlength="4" name="order[{ID}]" value="{ORDER_VAL}" />
+	</td>
+	<!-- END Order -->
 	<td class="std" valign="top">
 		{ICON}
 	</td>

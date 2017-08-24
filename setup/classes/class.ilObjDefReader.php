@@ -68,8 +68,11 @@ class ilObjDefReader extends ilSaxParser
 		$ilDB->manipulate("DELETE FROM il_pluginslot");
 		
 		$ilDB->manipulate("DELETE FROM il_component");
-		
-		$ilDB->manipulate("DELETE FROM il_event_handling");
+
+		// Keep the plugin listeners in the table
+		// This avoids reading them in the setup
+		// ilPluginReader is called in the plugin administration
+		$ilDB->manipulate("DELETE FROM il_event_handling WHERE component NOT LIKE 'Plugins/%'");
 		
 		$ilDB->manipulate("DELETE FROM il_object_sub_type");
 		
@@ -293,6 +296,11 @@ class ilObjDefReader extends ilSaxParser
 					include_once "Services/Badge/classes/class.ilBadgeHandler.php";
 					ilBadgeHandler::updateFromXML($this->getComponentId());
 					$this->has_badges[] = $this->getComponentId();
+					break;
+
+				case 'pdfpurpose':
+					require_once './Services/PDFGeneration/classes/class.ilPDFCompInstaller.php';
+					ilPDFCompInstaller::updateFromXML($this->current_component, $a_attribs['name'], $a_attribs['preferred']);
 					break;
 			}
 		}

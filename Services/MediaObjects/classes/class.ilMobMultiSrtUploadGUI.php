@@ -1,17 +1,16 @@
 <?php
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Upload SRT files to all media objects of a learning module
+ * Upload SRT files to a set of media objects
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ModulesLearningModule
+ * @ingroup ServicesMediaObjects
  */
-class ilLMMultiSrtUploadGUI
+class ilMobMultiSrtUploadGUI
 {
-	protected $lm;
 	public $multi_srt;
 
 	/**
@@ -19,14 +18,16 @@ class ilLMMultiSrtUploadGUI
 	 *
 	 * @param ilObjLearningModule $a_lm learning module object
 	 */
-	public function __construct(ilObjLearningModule $a_lm)
+	public function __construct(ilMobMultiSrtInt $a_multi_srt)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng, $ilToolbar, $tpl;
 
+		$this->tpl = $tpl;
+		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
-		$this->lm = $a_lm;
-		include_once("./Modules/LearningModule/classes/class.ilLMMultiSrt.php");
-		$this->multi_srt = new ilLMMultiSrt($this->lm);
+		include_once("./Services/MediaObjects/classes/class.ilMobMultiSrtUpload.php");
+		$this->multi_srt = new ilMobMultiSrtUpload($a_multi_srt);
+		$this->toolbar = $ilToolbar;
 	}
 
 	/**
@@ -34,9 +35,7 @@ class ilLMMultiSrtUploadGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
-
-		$cmd = $ilCtrl->getCmd("uploadMultipleSubtitleFileForm");
+		$cmd = $this->ctrl->getCmd("uploadMultipleSubtitleFileForm");
 
 		if (in_array($cmd, array("uploadMultipleSubtitleFileForm", "uploadMultipleSubtitleFile", "showMultiSubtitleConfirmationTable", "cancelMultiSrt", "saveMultiSrt")))
 		{
@@ -49,18 +48,16 @@ class ilLMMultiSrtUploadGUI
 	 */
 	function uploadMultipleSubtitleFileForm()
 	{
-		global $ilToolbar, $lng, $ilCtrl;
-
-		ilUtil::sendInfo($lng->txt("cont_upload_multi_srt_howto"));
+		ilUtil::sendInfo($this->lng->txt("cont_upload_multi_srt_howto"));
 
 		// upload file
-		$ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
+		$this->toolbar->setFormAction($this->ctrl->getFormAction($this), true);
 		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
-		$fi = new ilFileInputGUI($lng->txt("cont_subtitle_file")." (.zip)", "subtitle_file");
+		$fi = new ilFileInputGUI($this->lng->txt("cont_subtitle_file")." (.zip)", "subtitle_file");
 		$fi->setSuffixes(array("zip"));
-		$ilToolbar->addInputItem($fi, true);
+		$this->toolbar->addInputItem($fi, true);
 
-		$ilToolbar->addFormButton($lng->txt("upload"), "uploadMultipleSubtitleFile");
+		$this->toolbar->addFormButton($this->lng->txt("upload"), "uploadMultipleSubtitleFile");
 	}
 
 	/**
@@ -86,11 +83,9 @@ class ilLMMultiSrtUploadGUI
 	 */
 	function showMultiSubtitleConfirmationTable()
 	{
-		global $tpl;
-
-		include_once("./Modules/LearningModule/classes/class.ilLMMultiSrtConfirmationTable2GUI.php");
-		$tab = new ilLMMultiSrtConfirmationTable2GUI($this, "showMultiSubtitleConfirmationTable");
-		$tpl->setContent($tab->getHTML());
+		include_once("./Services/MediaObjects/classes/class.ilMobMultiSrtConfirmationTable2GUI.php");
+		$tab = new ilMobMultiSrtConfirmationTable2GUI($this, "showMultiSubtitleConfirmationTable");
+		$this->tpl->setContent($tab->getHTML());
 	}
 
 	/**
@@ -107,17 +102,12 @@ class ilLMMultiSrtUploadGUI
 	 */
 	function saveMultiSrt()
 	{
-		global $ilCtrl, $lng;
-
 		$cnt = $this->multi_srt->moveMultiSrtFiles();
 		$this->multi_srt->clearMultiSrtDirectory();
 
-		ilUtil::sendSuccess($lng->txt("cont_moved_srt_files")." (".$cnt.")", true);
-		$ilCtrl->redirect($this, "uploadMultipleSubtitleFileForm");
+		ilUtil::sendSuccess($this->lng->txt("cont_moved_srt_files")." (".$cnt.")", true);
+		$this->ctrl->redirect($this, "uploadMultipleSubtitleFileForm");
 	}
-
-
-
 }
 
 ?>

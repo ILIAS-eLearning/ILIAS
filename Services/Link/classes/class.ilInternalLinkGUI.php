@@ -16,50 +16,143 @@ require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
  */
 class ilInternalLinkGUI
 {
-	var $default_type;
-	var $default_obj; 
+	/**
+	 * @var string
+	 */
+	protected $default_link_type;
+
+	/**
+	 * @var int
+	 */
+	protected $default_parent_ref_id;
+
+	/**
+	 * @var int
+	 */
+	protected $default_parent_obj_id;
+
+	/**
+	 * @var int
+	 */
+	protected $parent_ref_id;
+
+	/**
+	 * @var int
+	 */
+	protected $parent_obj_id;
+
 	var $link_type;
 	var $link_target;
-	var $lng;
-	var $mode;			// "text" | "link"
 	var $set_link_script;
+
+	/**
+	 * @var array link types
+	 */
+	protected $ltypes = array();
+
+	/**
+	 * @var array parent object types for link base types
+	 */
+	protected $parent_type = array();
+
+	/**
+	 * @var ilCtrl
+	 */
 	var $ctrl;
-	var $tree;
-	var $ltypes = array();
+
+	/**
+	 * @var bool
+	 */
+	protected $filter_white_list = false;
+
+	/**
+	 * @var array
+	 */
+	protected $filter_link_types = array();
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
 	
-	function __construct($a_default_type, $a_default_obj)
+	function __construct($a_default_link_type, $a_default_parent_id, $a_is_ref = true)
 	{
-		global $lng, $ilias, $ilCtrl, $tree;
+		global $DIC;
+		$this->tree = $DIC->repositoryTree();
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
 
-		$lng->loadLanguageModule("link");
+		$this->lng->loadLanguageModule("link");
+		$this->ctrl->saveParameter($this, array("linkmode", "target_type", "link_par_ref_id", "link_par_obj_id",
+			"link_par_fold_id", "link_type"));
 
-		$this->initLinkTypes();
-		if (($_SESSION["il_link_cont_obj"] != "" && !$tree->isInTree($_SESSION["il_link_cont_obj"])) ||
-			($_SESSION["il_link_glossary"] != "" && !$tree->isInTree($_SESSION["il_link_glossary"])) ||
-			($_SESSION["il_link_wiki"] != "" && !$tree->isInTree($_SESSION["il_link_wiki"])) ||
-			($_SESSION["il_link_mep"] != "" && !$tree->isInTree($_SESSION["il_link_mep"])))
+		// default type and parent
+		$this->default_link_type = $a_default_link_type;
+		if ($a_is_ref)
 		{
-			$this->resetSessionVars();
+			$this->default_parent_ref_id = $a_default_parent_id;
+			$this->default_parent_obj_id = ilObject::_lookupObjId($a_default_parent_id);
 		}
+		else
+		{
+			$this->default_parent_ref_id = 0;
+			$this->default_parent_obj_id = $a_default_parent_id;
+		}
+		$this->default_parent_obj_type = ($this->default_parent_obj_id > 0)
+			? ilObject::_lookupType($this->default_parent_obj_id)
+			: "";
 
-		$this->lng = $lng;
-		$this->tree = $tree;
-		$this->ctrl = $ilCtrl;
-		$this->ctrl->saveParameter($this, array("linkmode", "target_type"));
-		$this->default_type = $a_default_type;
-		$this->default_obj = $a_default_obj;
-		$this->filter_link_types = array();
-		$this->mode = "text";
-
+		// current parent object
+		$this->parent_ref_id = (int) $_GET["link_par_ref_id"];
+		$this->parent_fold_ud = (int) $_GET["link_par_fold_id"];		// e.g. media pool folder
+		if ($this->parent_ref_id > 0)
+		{
+			$this->parent_obj_id = ilObject::_lookupObjId($this->parent_ref_id);
+		}
+		else
+		{
+			$this->parent_obj_id = (int) $_GET["link_par_obj_id"];
+		}
 	}
 
 	/**
-	 * Initialize link types
+	 * Init (first in execute command)
 	 */
-	function initLinkTypes()
+	function init()
 	{
-		global $lng;
-		
+		$lng = $this->lng;
+		$tree = $this->tree;
+		$ctrl = $this->ctrl;
+
+		if ($this->parent_ref_id > 0 && !$tree->isInTree($this->parent_ref_id))
+		{
+			$this->resetLinkList();
+		}
+
+		$this->parent_type = array(
+			"StructureObject" => "lm",
+			"PageObject" => "lm",
+			"GlossaryItem" => "glo",
+			"Media" => "mep",
+			"WikiPage" => "wiki",
+			"PortfolioPage" => "prtf",
+			"PortfolioTemplatePage" => "prtt",
+			"File" => "",
+			"RepositoryItem" => ""
+		);
+
+		// filter link types
 		$this->ltypes = array(
 			"StructureObject" => $lng->txt("cont_lk_chapter"),
 			"StructureObject_New" => $lng->txt("cont_lk_chapter_new"),
@@ -73,42 +166,84 @@ class ilInternalLinkGUI
 			"Media_FAQ" => $lng->txt("cont_lk_media_faq"),
 			"Media_New" => $lng->txt("cont_lk_media_new"),
 			"WikiPage" => $lng->txt("cont_wiki_page"),
+			"PortfolioPage" => $lng->txt("cont_prtf_page"),
+			"PortfolioTemplatePage" => $lng->txt("cont_prtt_page"),
 			"File" => $lng->txt("cont_lk_file"),
 			"RepositoryItem" => $lng->txt("cont_repository_item")
-			);		
-	}
-	
-	/**
-	 * Determine current link type
-	 */
-	function determineLinkType()
-	{
+			);
+		if (!$this->filter_white_list)
+		{
+			foreach($this->filter_link_types as $link_type)
+			{
+				unset($this->ltypes[$link_type]);
+			}
+		}
+		else
+		{
+			$ltypes = array();
+			foreach($this->ltypes as $k => $l)
+			{
+				if (in_array($k, $this->filter_link_types))
+				{
+					$ltypes[$k] = $l;
+				}
+			}
+			$this->ltypes = $ltypes;
+		}
+
 		// determine link type and target
-		$ltype = ($_SESSION["il_link_type"] == "")
-			? $this->default_type
-			: $_SESSION["il_link_type"];
+		$ltype = ($_GET["link_type"] == "")
+			? $this->default_link_type
+			: $_GET["link_type"];
 		$ltype_arr = explode("_", $ltype);
-		
+
 		if (!isset($this->ltypes[$ltype_arr[0]]) &&
 			!isset($this->ltypes[$ltype]))
 		{
-			$this->link_type = $this->default_type;
+			$this->link_type = $this->default_link_type;
 		}
 		else
 		{
 			$this->link_type = ($ltype_arr[0] == "")
-				? $this->default_type
+				? $this->default_link_type
 				: $ltype_arr[0];
 			$this->link_target = $ltype_arr[1];
 		}
+
+
+		$def_type = ilObject::_lookupType($this->default_parent_obj_id);
+
+		// determine content object id
+		switch($this->link_type)
+		{
+			case "PageObject":
+			case "StructureObject":
+			case "GlossaryItem":
+			case "Media":
+			case "WikiPage":
+			case "PortfolioPage":
+			case "PortfolioTemplatePage":
+				if ($this->parent_ref_id == 0 && $this->parent_obj_id == 0
+					&& $def_type == $this->parent_type[$this->link_type])
+				{
+					$this->parent_ref_id = $this->default_parent_ref_id;
+					$this->parent_obj_id = $this->default_parent_obj_id;
+					$ctrl->setParameter($this, "link_par_obj_id", $this->parent_obj_id);
+					$ctrl->setParameter($this, "link_par_ref_id", $this->parent_ref_id);
+				}
+				break;
+		}
+
+
 	}
+	
 
 	/**
 	 * Set mode
+	 * @deprecated
 	 */
 	function setMode($a_mode = "text")
 	{
-		$this->mode = $a_mode;
 	}
 
 	function setSetLinkTargetScript($a_script)
@@ -144,31 +279,30 @@ class ilInternalLinkGUI
 
 	function executeCommand()
 	{
+		$this->init();
 		$next_class = $this->ctrl->getNextClass($this);
 
 		$cmd = $this->ctrl->getCmd("showLinkHelp");
 		switch($next_class)
 		{
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 
 		return $ret;
 	}
 
-	function resetSessionVars()
-	{
-		$_SESSION["il_link_mep"] = "";
-		$_SESSION["il_link_mep_obj"] = "";
-		$_SESSION["il_link_type"] = "";
-	}
-	
 	function resetLinkList()
 	{
-		$this->resetSessionVars();
-		$this->determineLinkType();
-		$this->showLinkHelp();
+		$ctrl = $this->ctrl;
+
+		$ctrl->setParameter($this, "link_par_ref_id", "");
+		$ctrl->setParameter($this, "link_par_obj_id", "");
+		$ctrl->setParameter($this, "link_par_fold_id", "");
+		$ctrl->setParameter($this, "link_type", "");
+
+		$ctrl->redirect($this, "showLinkHelp", "", true);
 	}
 
 	function closeLinkHelp()
@@ -188,14 +322,7 @@ class ilInternalLinkGUI
 	 */
 	function prepareJavascriptOutput($str)
 	{
-		global $ilUser;
-		
-		include_once("./Services/COPage/classes/class.ilPageEditorGUI.php");
-		if (self::_doJSEditing())
-		{
-			$str = htmlspecialchars($str, ENT_QUOTES);
-		}
-		return($str);
+		return htmlspecialchars($str, ENT_QUOTES);
 	}
 	
 	
@@ -204,104 +331,21 @@ class ilInternalLinkGUI
 	*/
 	function showLinkHelp()
 	{
-		global $ilUser, $ilCtrl;
-		
-		// filter link types
-		if (!$this->filter_white_list)
-		{
-			foreach($this->filter_link_types as $link_type)
-			{
-				unset($this->ltypes[$link_type]);
-			}
-		}
-		else
-		{
-			$ltypes = array();
-			foreach($this->ltypes as $k => $l)
-			{
-				if (in_array($k, $this->filter_link_types))
-				{
-					$ltypes[$k] = $l;
-				}
-			}
-			$this->ltypes = $ltypes;
-		}
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
 
-
-		// determine link type and target
-		$this->determineLinkType();
 
 		$ltype = ($this->link_target != "")
 			? $this->link_type."_".$this->link_target
 			: $this->link_type;
 
-		$def_type = ilObject::_lookupType($this->default_obj, true);
 
-		// determine content object id
-		switch($this->link_type)
+		$parent_type = $this->parent_type[$this->link_type];
+		if (in_array($this->link_type, array("GlossaryItem", "WikiPage", "PageObject", "StructureObject", "Media")) &&
+			($this->parent_ref_id == 0 ||
+			!in_array(ilObject::_lookupType($this->parent_ref_id, true), array($parent_type))))
 		{
-			case "PageObject":
-			case "StructureObject":
-				if  (empty($_SESSION["il_link_cont_obj"]) &&
-					($def_type != "mep" && $def_type != "glo"))
-				{
-					$_SESSION["il_link_cont_obj"] = $this->default_obj;
-				}
-				break;
-
-			case "GlossaryItem":
-				if  (empty($_SESSION["il_link_glossary"]) && $def_type == "glo")
-				{
-					$_SESSION["il_link_glossary"] = $this->default_obj;
-				}
-				break;
-
-			case "Media":
-				if  (empty($_SESSION["il_link_mep"]) && $def_type == "mep")
-				{
-					$_SESSION["il_link_mep"] = $this->default_obj;
-				}
-				break;
-
-			case "WikiPage":
-				if  (empty($_SESSION["il_link_wiki"]) && $def_type == "wiki")
-				{
-					$_SESSION["il_link_wiki"] = $this->default_obj;
-				}
-				break;
-		}
-
-		/*
-		$target_str = ($link_target == "")
-			? ""
-			: " target=\"".$link_target."\" ";*/
-
-		
-		
-		$target_str = ($this->link_target == "")
-			? ""
-			: " target=\"".$this->link_target."\"";
-//echo "-".$this->link_type."-";
-		if(($this->link_type == "GlossaryItem") &&
-			(empty($_SESSION["il_link_glossary"]) ||
-			!in_array(ilObject::_lookupType($_SESSION["il_link_glossary"], true),
-				array("glo"))))
-		{
-			$this->changeTargetObject("glo");
-		}
-		if(($this->link_type == "WikiPage") &&
-			(empty($_SESSION["il_link_wiki"]) ||
-			!in_array(ilObject::_lookupType($_SESSION["il_link_wiki"], true),
-				array("wiki"))))
-		{
-			$this->changeTargetObject("wiki");
-		}
-		if(($this->link_type == "PageObject" || $this->link_type == "StructureObject") &&
-			(empty($_SESSION["il_link_cont_obj"]) ||
-			!in_array(ilObject::_lookupType($_SESSION["il_link_cont_obj"], true),
-				array("lm"))))
-		{
-			$this->changeTargetObject("cont_obj");
+			$this->changeTargetObject($parent_type);
 		}
 		if ($ilCtrl->isAsynch())
 		{
@@ -321,7 +365,7 @@ class ilInternalLinkGUI
 
 			case "PageObject":
 			case "StructureObject":
-				$this->ctrl->setParameter($this, "target_type", "cont_obj");
+				$this->ctrl->setParameter($this, "target_type", "lm");
 				break;
 
 			case "Media":
@@ -332,20 +376,22 @@ class ilInternalLinkGUI
 				$this->ctrl->setParameter($this, "target_type", "wiki");
 				break;
 
+			case "PortfolioPage":
+				$this->ctrl->setParameter($this, "target_type", "prtf");
+				break;
+
+			case "PortfolioTemplatePage":
+				$this->ctrl->setParameter($this, "target_type", "prtt");
+				break;
+
 			default:
 				break;
 		}
-//echo "<br><br>:".$this->ctrl->getFormAction($this).":";
-//echo "<br>link_type:".$this->link_type;
-//echo "<br>cont_obj:".$_SESSION["il_link_cont_obj"];
-//echo "<br>link_mep".$_SESSION["il_link_mep"];
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "changeLinkType", "", true));
 		$tpl->setVariable("FORMACTION2", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_HELP_HEADER", $this->lng->txt("cont_link_select"));
 		$tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_link_type"));
 
-
-//echo "<br><br>".$ltype;
 
 		$select_ltype = ilUtil::formSelect ($ltype,
 			"ltype", $this->ltypes, false, true, "0", "", array("id" => "ilIntLinkTypeSelector"));
@@ -353,27 +399,14 @@ class ilInternalLinkGUI
 		$tpl->setVariable("CMD_CHANGETYPE", "changeLinkType");
 		$tpl->setVariable("BTN_CHANGETYPE", $this->lng->txt("cont_change_type"));
 		
-/*		if ($this->isEnabledJavaScript())
-		{
-			$tpl->setVariable("BTN_CLOSE_JS", $this->lng->txt("close"));
-		}
-		else 
-		{*/
-			$tpl->setVariable("CMD_CLOSE", "closeLinkHelp");
-			$tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
-//		}
+		$tpl->setVariable("CMD_CLOSE", "closeLinkHelp");
+		$tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
 
 		$chapterRowBlock = "chapter_row";
 		$anchor_row_block = "anchor_link";
-		if ($this->isEnabledJavaScript())
-		{
-			$chapterRowBlock .= "_js";
-			$anchor_row_block .= "_js";
-		}
 
-		$obj_id = ilObject::_lookupObjId($_SESSION["il_link_cont_obj"]);
-		$type = ilObject::_lookupType($obj_id);
-		
+		$chapterRowBlock .= "_js";
+
 		// switch link type
 		switch($this->link_type)
 		{
@@ -382,7 +415,7 @@ class ilInternalLinkGUI
 				require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 				
-				$cont_obj = new ilObjLearningModule($_SESSION["il_link_cont_obj"], true);
+				$cont_obj = new ilObjLearningModule($this->parent_ref_id, true);
 
 				// get all chapters
 				$ctree = $cont_obj->getLMTree();
@@ -405,8 +438,6 @@ class ilInternalLinkGUI
 						$tpl->setCurrentBlock("chapter_row");
 						$tpl->setVariable("TXT_CHAPTER", $node["title"]);
 						$tpl->setVariable("ROWCLASS", "tblrow1");
-						//$tpl->setVariable("LINK_CHAPTER",
-						//	"[iln chap=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
 						$tpl->parseCurrentBlock();
 						$tpl->setCurrentBlock("row");
 						$tpl->parseCurrentBlock();
@@ -417,7 +448,7 @@ class ilInternalLinkGUI
 						include_once("./Services/COPage/classes/class.ilPCParagraph.php");
 						$this->renderLink($tpl, $node["title"], $node["obj_id"],
 							"PageObject", "pg", "page",
-							ilPCParagraph::_readAnchors($type, $node["obj_id"], ""));	
+							ilPCParagraph::_readAnchors("lm", $node["obj_id"], ""));
 					}
 				}
 
@@ -443,7 +474,7 @@ class ilInternalLinkGUI
 						include_once("./Services/COPage/classes/class.ilPCParagraph.php");
 						$this->renderLink($tpl, $node["title"], $node["obj_id"],
 							"PageObject", "pg", "page",
-							ilPCParagraph::_readAnchors($type, $node["obj_id"], ""));	
+							ilPCParagraph::_readAnchors("lm", $node["obj_id"], ""));
 					}
 				}
 
@@ -456,17 +487,14 @@ class ilInternalLinkGUI
 			case "StructureObject":
 			
 				// check whether current object matchs to type
-				if (!in_array(ilObject::_lookupType($_SESSION["il_link_cont_obj"], true),
+				if (!in_array(ilObject::_lookupType($this->parent_ref_id, true),
 					array("lm")))
 				{
 					$this->changeTargetObject("lm");
 				}
 
-				if ($type == "lm")
-				{
-					require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-					$cont_obj = new ilObjLearningModule($_SESSION["il_link_cont_obj"], true);
-				}
+				require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
+				$cont_obj = new ilObjLearningModule($this->parent_ref_id, true);
 
 				// get all chapters
 				$ctree =& $cont_obj->getLMTree();
@@ -495,7 +523,7 @@ class ilInternalLinkGUI
 			// glossary item link
 			case "GlossaryItem":
 				require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
-				$glossary = new ilObjGlossary($_SESSION["il_link_glossary"], true);
+				$glossary = new ilObjGlossary($this->parent_ref_id, true);
 
 				// get all glossary items
 				$terms = $glossary->getTermList();
@@ -523,7 +551,7 @@ class ilInternalLinkGUI
 				include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
 				//$tpl->setVariable("TARGET2", " target=\"content\" ");
 				// content object id = 0 --> get clipboard objects
-				if ($_SESSION["il_link_mep"] == 0)
+				if ($this->parent_ref_id == 0)
 				{
 					$tpl->setCurrentBlock("change_cont_obj");
 					$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
@@ -554,9 +582,9 @@ class ilInternalLinkGUI
 				else
 				{
 					require_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
-					$med_pool = new ilObjMediaPool($_SESSION["il_link_mep"], true);
+					$med_pool = new ilObjMediaPool($this->parent_ref_id, true);
 					// get current folders
-					$fobjs = $med_pool->getChilds($_SESSION["il_link_mep_obj"], "fold");
+					$fobjs = $med_pool->getChilds($this->parent_fold_id, "fold");
 					$f2objs = array();
 					foreach ($fobjs as $obj)
 					{
@@ -564,7 +592,7 @@ class ilInternalLinkGUI
 					}
 					ksort($f2objs);
 					// get current media objects
-					$mobjs = $med_pool->getChilds($_SESSION["il_link_mep_obj"], "mob");
+					$mobjs = $med_pool->getChilds($this->parent_fold_id, "mob");
 					$m2objs = array();
 					foreach ($mobjs as $obj)
 					{
@@ -584,7 +612,7 @@ class ilInternalLinkGUI
 					$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
 					$tpl->setVariable("COLSPAN", "2");
 					$tpl->parseCurrentBlock();
-					if ($parent_id = $med_pool->getParentId($_SESSION["il_link_mep_obj"]))
+					if ($parent_id = $med_pool->getParentId($this->parent_fold_id))
 					{
 						$css_row = "tblrow1";
 						$tpl->setCurrentBlock("icon");
@@ -655,9 +683,9 @@ class ilInternalLinkGUI
 				}
 				break;
 
-			// glossary item link
+			// wiki page link
 			case "WikiPage":
-				$wiki_id = ilObject::_lookupObjId($_SESSION["il_link_wiki"]);
+				$wiki_id = ilObject::_lookupObjId($this->parent_ref_id);
 				require_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 				$wpages = ilWikiPage::getAllWikiPages($wiki_id);
 
@@ -677,6 +705,29 @@ class ilInternalLinkGUI
 						"WikiPage", "wpage", "wpage");
 				}
 				
+				$tpl->setCurrentBlock("chapter_list");
+				$tpl->parseCurrentBlock();
+				break;
+
+			// Portfolio page link
+			case "PortfolioPage":
+			case "PortfolioTemplatePage":
+				$prtf_id = $this->parent_obj_id;
+				require_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
+				$ppages = ilPortfolioPage::getAllPortfolioPages($prtf_id);
+
+				// get all glossary items
+				$tpl->setCurrentBlock("chapter_list");
+				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("obj_".ilObject::_lookupType($prtf_id)));
+				$tpl->setVariable("TXT_CONT_TITLE", ilObject::_lookupTitle($prtf_id));
+				$tpl->setVariable("THEAD", $this->lng->txt("pages"));
+
+				foreach($ppages as $ppage)
+				{
+					$this->renderLink($tpl, $ppage["title"], $ppage["id"],
+						"PortfolioPage", "ppage", "ppage", array(), $ppage["title"]);
+				}
+
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->parseCurrentBlock();
 				break;
@@ -716,7 +767,8 @@ class ilInternalLinkGUI
 	 */
 	function getFileLinkHTML()
 	{
-		global $ilCtrl, $lng;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		if (!is_object($this->uploaded_file))
 		{
@@ -795,14 +847,10 @@ class ilInternalLinkGUI
 			$tpl->setCurrentBlock("thumbnail_link");
 			$suff = "_link";
 		}
-		else if ($this->isEnabledJavaScript())
+		else
 		{
 			$tpl->setCurrentBlock("thumbnail_js");
 			$suff = "_js";
-		}
-		else
-		{
-			$tpl->setCurrentBlock("thumbnail");
 		}
 
 		if ($target != "")
@@ -820,14 +868,9 @@ class ilInternalLinkGUI
 		{
 			$tpl->setCurrentBlock("thumbnail_link");
 		}
-		else if ($this->isEnabledJavaScript())
-
-		{
-			$tpl->setCurrentBlock("thumbnail_js");
-		}
 		else
 		{
-			$tpl->setCurrentBlock("thumbnail");
+			$tpl->setCurrentBlock("thumbnail_js");
 		}
 		$tpl->parseCurrentBlock();
 	}
@@ -838,9 +881,12 @@ class ilInternalLinkGUI
 	*/
 	function changeLinkType()
 	{
-		$_SESSION["il_link_type"] = $_POST["ltype"];
-		$this->determineLinkType();
-		$this->showLinkHelp();
+		$ctrl = $this->ctrl;
+
+		$ctrl->setParameter($this, "link_type", $_POST["ltype"]);
+		$ctrl->redirect($this, "showLinkHelp", "", true);
+		//$_SESSION["il_link_type"] = $_POST["ltype"];
+		//$this->showLinkHelp();
 	}
 
 	/**
@@ -848,8 +894,9 @@ class ilInternalLinkGUI
 	*/
 	function setMedPoolFolder()
 	{
-		$_SESSION["il_link_mep_obj"] = $_GET["mep_fold"];
-		$this->showLinkHelp();
+		$ctrl = $this->ctrl;
+		$ctrl->setParameter($this, "link_par_fold_id", $_GET["mep_fold"]);
+		$ctrl->redirect($this, "showLinkHelp", "", true);
 	}
 
 	/**
@@ -857,7 +904,7 @@ class ilInternalLinkGUI
 	 */
 	function getTargetExplorer($a_type = "")
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameter($this, "target_type", $a_type);
 		include_once("./Services/Link/classes/class.ilLinkTargetObjectExplorerGUI.php");
@@ -870,27 +917,12 @@ class ilInternalLinkGUI
 
 		$white = array("root", "cat", "crs", "fold", "grp");
 
-		switch ($a_type)
+		$white[] = $a_type;
+		$exp->setClickableType($a_type);
+		if ($a_type == "prtf")
 		{
-			case "glo":
-				$white[] = "glo";
-				$exp->setClickableType("glo");
-				break;
-
-			case "wiki":
-				$white[] = "wiki";
-				$exp->setClickableType("wiki");
-				break;
-
-			case "mep":
-				$white[] = "mep";
-				$exp->setClickableType("mep");
-				break;
-
-			default:
-				$white[] = "lm";
-				$exp->setClickableType("lm");
-				break;
+			$white[] = "prtt";
+			$exp->setClickableType("prtt");
 		}
 
 		$exp->setTypeWhiteList($white);
@@ -907,30 +939,13 @@ class ilInternalLinkGUI
 	 */
 	function changeTargetObject($a_type = "")
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
-		$_SESSION["il_link_mep_obj"] = "";
+		$ilCtrl->setParameter($this, "link_par_fold_id", "");
 		if($_GET["do"] == "set")
 		{
-			switch ($_GET["target_type"])
-			{
-				case "glo":
-					$_SESSION["il_link_glossary"] = $_GET["sel_id"];
-					break;
-
-				case "mep":
-					$_SESSION["il_link_mep"] = $_GET["sel_id"];
-					break;
-
-				case "wiki":
-					$_SESSION["il_link_wiki"] = $_GET["sel_id"];
-					break;
-
-				default:
-					$_SESSION["il_link_cont_obj"] = $_GET["sel_id"];
-					break;
-			}
-			$this->showLinkHelp();
+			$ilCtrl->setParameter($this, "link_par_ref_id", $_GET["sel_id"]);
+			$ilCtrl->redirect($this, "showLinkHelp", "", true);
 			return;
 		}
 
@@ -942,20 +957,7 @@ class ilInternalLinkGUI
 			}
 			else
 			{
-				$this->determineLinkType();
-				$a_type = "lm";
-				if ($this->link_type == "GlossaryItem")
-				{
-					$a_type = "glo";
-				}
-				if ($this->link_type == "Media")
-				{
-					$a_type = "mep";
-				}
-				if ($this->link_type == "WikiPage")
-				{
-					$a_type = "wiki";
-				}
+				$a_type = $this->parent_type[$this->link_type];
 			}
 		}
 
@@ -963,22 +965,8 @@ class ilInternalLinkGUI
 
 		$output = $this->getTargetExplorer($a_type);
 
-		if ($a_type == "glo")
-		{
-			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_glossary"));
-		}
-		else if ($a_type == "wiki")
-		{
-			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_wiki"));
-		}
-		else if ($a_type == "mep")
-		{
-			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_media_source"));
-		}
-		else
-		{
-			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_cont_obj"));
-		}
+		$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_".$a_type));
+
 		$tpl->setVariable("EXPLORER",$output);
 		$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this, "resetLinkList", "", true));
 		$tpl->setVariable("BTN_RESET", "resetLinkList");
@@ -1015,9 +1003,9 @@ class ilInternalLinkGUI
 	*/
 	function selectRepositoryItem()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
-		$_SESSION["il_link_mep_obj"] = "";
+		$ilCtrl->setParameter($this, "link_par_fold_id", "");
 
 		$ilCtrl->setParameter($this, "target_type", $a_type);
 		include_once("./Services/Link/classes/class.ilIntLinkRepItemExplorerGUI.php");
@@ -1040,43 +1028,16 @@ class ilInternalLinkGUI
 		exit;
 	}
 
-	/**
-	 * 
-	 *
-	 * @param
-	 * @return
-	 */
-	static function _doJSEditing()
-	{
-		return true;
-		return ilPageEditorGUI::_doJSEditing();
-	}
-	
-
-	/**
-	* determine, wether js is used
-	*/
-	function isEnabledJavaScript()
-	{
-		global $ilias;
-		
-		include_once("./Services/COPage/classes/class.ilPageEditorGUI.php");
-
-		if (self::_doJSEditing())
-		{
-			return true;
-		}
-
-		return false;
-	}
-
 
 	/**
 	 * Get initialisation HTML to use interna link editing
 	 */
 	static function getInitHTML($a_url)
 	{
-		global $tpl, $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 
 		$lng->loadLanguageModule("link");
 
@@ -1110,16 +1071,12 @@ class ilInternalLinkGUI
 	 * Render internal link item
 	 */
 	function renderLink($tpl, $a_title, $a_obj_id, $a_type, $a_type_short, $a_bb_type,
-		$a_anchors = array())
+		$a_anchors = array(), $a_link_content = "")
 	{
 		$chapterRowBlock = "chapter_row";
 		$anchor_row_block = "anchor_link";
-		if ($this->isEnabledJavaScript())
-		{
-
-			$chapterRowBlock .= "_js";
-			$anchor_row_block .= "_js";
-		}
+		$chapterRowBlock .= "_js";
+		$anchor_row_block .= "_js";
 
 		$target_str = ($this->link_target == "")
 			? ""
@@ -1172,10 +1129,6 @@ class ilInternalLinkGUI
 			}
 			$tpl->setVariable("ROWCLASS", $this->css_row);
 			$tpl->setVariable("TXT_CHAPTER", $a_title);
-			if ($this->isEnabledJavaScript())
-			{
-//				$tpl->setVariable("TXT_CHAPTER_JS", htmlspecialchars(str_replace("'", "\'", $a_title)));
-			}
 			if ($a_type == "MediaObject" && empty($target_str))
 			{
 				$tpl->setVariable("LINK_BEGIN",
@@ -1186,6 +1139,7 @@ class ilInternalLinkGUI
 			{
 				$tpl->setVariable("LINK_BEGIN",
 					$this->prepareJavascriptOutput("[iln ".$a_bb_type."=\"".$a_obj_id."\"".$target_str."]"));
+				$tpl->setVariable("LINK_CONTENT", $a_link_content);
 				$tpl->setVariable("LINK_END", "[/iln]");
 			}
 			$tpl->parseCurrentBlock();
