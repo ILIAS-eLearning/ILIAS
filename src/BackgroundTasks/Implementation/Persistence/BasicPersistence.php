@@ -387,7 +387,7 @@ class BasicPersistence implements Persistence {
 		$task = $factory->createTask($taskContainer->getClassName());
 
 		/** @var ValueToTaskContainer $valueToTask */
-		$valueToTasks = ValueToTaskContainer::where([ 'task_id' => $taskContainerId ])->get();
+		$valueToTasks = ValueToTaskContainer::where([ 'task_id' => $taskContainerId ])->orderBy('task_id')->get();
 		$inputs = [];
 		foreach ($valueToTasks as $valueToTask) {
 			$inputs[] = $this->loadValue($valueToTask->getValueId(), $bucket, $bucketContainer);
