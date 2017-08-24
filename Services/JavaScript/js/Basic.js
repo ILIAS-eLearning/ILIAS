@@ -146,6 +146,10 @@ il.Util = {
 		}
 		var request = YAHOO.util.Connect.asyncRequest('GET', url, cb);
 	},
+
+	sendAjaxPostRequestToUrl: function(url, data, succ_cb) {
+		$.post(url, data, succ_cb);
+	},
 	
 	// FailureHandler
 	handleAjaxFailure: function(o)

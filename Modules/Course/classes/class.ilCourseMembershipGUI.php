@@ -107,8 +107,11 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 		
 		foreach($visible_members as $member_id)
 		{
-			$this->getMembersObject()->updatePassed($member_id,in_array($member_id,$passed),true);
-			$this->updateLPFromStatus($member_id, in_array($member_id, $passed));
+			if ($ilAccess->checkAccess("grade", "", $this->getParentObject()->getRefId()))
+			{
+				$this->getMembersObject()->updatePassed($member_id, in_array($member_id, $passed), true);
+				$this->updateLPFromStatus($member_id, in_array($member_id, $passed));
+			}
 			
 			if($this->getMembersObject()->isAdmin($member_id) or $this->getMembersObject()->isTutor($member_id))
 			{
