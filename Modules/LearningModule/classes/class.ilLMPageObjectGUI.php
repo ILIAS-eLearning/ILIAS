@@ -303,13 +303,35 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 						$t_frame = ilFrameTargetInfo::_getFrame("MainContent", $obj_type);
 						$ltarget = $t_frame;
 						break;
+
+					case "User":
+						$obj_type = ilObject::_lookupType($target_id);
+						if ($obj_type == "usr")
+						{
+							include_once("./Services/User/classes/class.ilUserUtil.php");
+							$back = $this->ctrl->getLinkTarget($this, "edit");
+							//var_dump($back); exit;
+							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
+							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
+								rawurlencode($back));
+							$href = "";
+							include_once("./Services/User/classes/class.ilUserUtil.php");
+							if (ilUserUtil::hasPublicProfile($target_id))
+							{
+								$href = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML");
+							}
+							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
+							$lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
+						}
+						break;
+
 				}
 
 				if ($href != "")
 				{
 					$anc_par = 'Anchor="' . $anc . '"';
 					$link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " .
-						"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" $anc_par/>";
+						"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" LinkContent=\"$lcontent\" $anc_par/>";
 				}
 			}
 		}

@@ -6732,7 +6732,7 @@ search#:#search_like_info#:#Choose this option to get best results.
 search#:#search_limit_reached#:#Your search produced more than %s hits. You can restrict the search terms to receive more detailed results.
 search#:#search_lom#:#LOM Metadata
 search#:#search_lucene#:#Lucene search
-search#:#search_minimum_three#:#Your search must be at least three characters long
+search#:#search_minimum_three#:#Your search must be at least three characters long.
 search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.
 search#:#search_no_match_hint#:#Your search for <b>%s</b> did not match any documents.<br /><br />Suggestions:<br />• Make sure all words are spelled correctly.<br />• Try different keywords.<br />• Try more general keywords.<br />• Try fewer keywords.
 search#:#search_no_match#:#Your search did not match any results
@@ -13796,3 +13796,8 @@ obj#:#obj_tool_setting_skills_info#:#Activates competence management and compete
 obj#:#cont_skll_published#:#All assignments have been published.
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
 grp#:#grp_user_already_in_group#:#The selected user is already member of the group.
+common#:#edit_page_meta#:#Edit Page Metadata
+rbac#:#wiki_edit_page_meta#:#Edit Wiki Page Metadata
+content#:#cont_user#:#User
+content#:#cont_user_search_did_not_match#:#Your search did not match any users.
+blog#:#blog_latest_posting#:#Latest Posting

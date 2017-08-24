@@ -9942,7 +9942,7 @@ search#:#search_lucene_info#:#Wenn aktiviert, kann auch in HTML-Lernmodulen sowi
 search#:#search_lucene_port#:#Lucene-Port
 search#:#search_lucene_readme#:#Zur Installationsanleitung
 search#:#search_meta#:#Metadaten
-search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein
+search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein.
 search#:#search_move_folder_not_allowed#:#Ordner können nicht verschoben werden.
 search#:#search_move_to#:#Verschieben nach:
 search#:#search_my_search_results#:#Meine Suchergebnisse
@@ -16265,3 +16265,8 @@ obj#:#obj_tool_setting_skills_info#:#Die Funktion ermöglicht es Kompetenzen aus
 obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
 obj#:#cont_skll_published_some_not#:#Alle gegebenen Kompetenzzuweisungen wurden veröffentlicht. Zu einigen Benutzern konnten keine Kompetenzen veröffentlicht werden, da keine Zuweisungen vorlagen.
 grp#:#grp_user_already_in_group#:#Der ausgewählte Benutzter ist bereits Mitglieder der Gruppe.
+common#:#edit_page_meta#:#Seitenmetadaten bearbeiten
+rbac#:#wiki_edit_page_meta#:#Wikiseitenmetadaten bearbeiten
+content#:#cont_user#:#Benutzer
+content#:#cont_user_search_did_not_match#:#Es wurde kein Benutzer gefunden.
+blog#:#blog_latest_posting#:#Neuester Beitrag
