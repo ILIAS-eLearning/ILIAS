@@ -35,4 +35,8 @@
 		<pluginslot id="texp" name="Export" />
 		<pluginslot id="tsig" name="Signature" />
 	</pluginslots>
+	<pdfpurposes>
+		<pdfpurpose name="PrintViewOfQuestions" preferred="PhantomJS" />
+		<pdfpurpose name="UserResult" preferred="PhantomJS" />
+	</pdfpurposes>
 </module>

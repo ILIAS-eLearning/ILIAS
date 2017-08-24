@@ -606,7 +606,7 @@ abstract class ilPlugin
 	 * @param $a_slot_id
 	 * @param $a_pname
 	 *
-	 * @description Create plugin record, if not existing
+	 * @description Create plugin record
 	 */
 	static public function createPluginRecord($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
@@ -614,22 +614,13 @@ abstract class ilPlugin
 
 		ilCachedComponentData::flush();
 
-		// check record existence record
-		$q = "SELECT * FROM il_plugin".
-			" WHERE component_type = ".$ilDB->quote($a_ctype, "text").
-			" AND component_name = ".$ilDB->quote($a_cname, "text").
-			" AND slot_id = ".$ilDB->quote($a_slot_id, "text").
-			" AND name = ".$ilDB->quote($a_pname, "text");
-		$set = $ilDB->query($q);
-		if (!$rec = $ilDB->fetchAssoc($set))
-		{
-			$q = "INSERT INTO il_plugin (component_type, component_name, slot_id, name)".
-				" VALUES (".$ilDB->quote($a_ctype, "text").",".
-				$ilDB->quote($a_cname, "text").",".
-				$ilDB->quote($a_slot_id, "text").",".
-				$ilDB->quote($a_pname, "text").")";
-			$ilDB->manipulate($q);
-		}
+		$q = "INSERT INTO il_plugin (component_type, component_name, slot_id, name)".
+			" VALUES (".$ilDB->quote($a_ctype, "text").",".
+			$ilDB->quote($a_cname, "text").",".
+			$ilDB->quote($a_slot_id, "text").",".
+			$ilDB->quote($a_pname, "text").")";
+
+		$ilDB->manipulate($q);
 	}
 
 
@@ -742,6 +733,25 @@ abstract class ilPlugin
 	}
 
 	/**
+	 * Install
+	 *
+	 * @return void
+	 */
+	public function install() {
+		global $ilDB;
+
+		ilCachedComponentData::flush();
+		$q = "UPDATE il_plugin SET plugin_id = ".$ilDB->quote($this->getId(), "text").
+					" WHERE component_type = ".$ilDB->quote($this->getComponentType(), "text").
+					" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
+					" AND slot_id = ".$ilDB->quote($this->getSlotId(), "text").
+					" AND name = ".$ilDB->quote($this->getPluginName(), "text");
+
+		$ilDB->manipulate($q);
+		$this->afterInstall();
+	}
+
+	/**
 	 * Activate
 	 */
 	function activate()
@@ -769,8 +779,7 @@ abstract class ilPlugin
 			// activate plugin
 			if ($result === true)
 			{
-				$q = "UPDATE il_plugin SET active = ".$ilDB->quote(1, "integer").",".
-					" plugin_id = ".$ilDB->quote($this->getId(), "text").
+				$q = "UPDATE il_plugin SET active = ".$ilDB->quote(1, "integer").
 					" WHERE component_type = ".$ilDB->quote($this->getComponentType(), "text").
 					" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
 					" AND slot_id = ".$ilDB->quote($this->getSlotId(), "text").
@@ -782,6 +791,15 @@ abstract class ilPlugin
 		}
 		ilCachedComponentData::flush();
 		return $result;
+	}
+
+	/**
+	 * After install processing
+	 *
+	 * @return void
+	 */
+	protected function afterInstall()
+	{
 	}
 
 	/**
@@ -1012,22 +1030,31 @@ abstract class ilPlugin
 
 	/**
 	 * Lookup information data in il_plugin
+	 *
+	 * @param string 	$a_ctype
+	 * @param string 	$a_cname
+	 * @param string 	$a_slot_id
+	 * @param string 	$a_pname
+	 *
+	 * @return string[]
 	 */
 	static function lookupStoredData($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM il_plugin WHERE ".
-			" component_type = ".$ilDB->quote($a_ctype, "text")." AND ".
-			" component_name = ".$ilDB->quote($a_cname, "text")." AND ".
-			" slot_id = ".$ilDB->quote($a_slot_id, "text")." AND ".
+		$q = "SELECT * FROM il_plugin WHERE".
+			" component_type = ".$ilDB->quote($a_ctype, "text")." AND".
+			" component_name = ".$ilDB->quote($a_cname, "text")." AND".
+			" slot_id = ".$ilDB->quote($a_slot_id, "text")." AND".
 			" name = ".$ilDB->quote($a_pname, "text");
 
 		$set = $ilDB->query($q);
 
-		$rec = $ilDB->fetchAssoc($set);
+		if($ilDB->numRows($set) == 0) {
+			return array();
+		}
 
-		return $rec;
+		return $ilDB->fetchAssoc($set);
 	}
 
 	/**

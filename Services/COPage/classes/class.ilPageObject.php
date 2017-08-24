@@ -2079,6 +2079,8 @@ abstract class ilPageObject
 			$old_id = $res->nodeset[$i]->get_attribute("OriginId");
 			$old_id = explode("_", $old_id);
 			$old_id = $old_id[count($old_id) - 1];
+			$new_id = "";
+			$import_id = "";
 			// get the new id from the current mapping
 			if ($a_mapping[$old_id] > 0)
 			{
@@ -2092,28 +2094,28 @@ abstract class ilPageObject
 					{
 						$new_id = $imp[3];
 					}
-
-					// now check, if the translation has been done just by changing text in the exported
-					// translation file
-					if ($import_id == "")
-					{
-						// if the old_id is also referred by the page content of the default language
-						// we assume that this media object is unchanged
-						include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-						$med_of_def_lang = ilObjMediaObject::_getMobsOfObject("lm:pg", $this->getId(), 0, "-");
-						if (in_array($old_id, $med_of_def_lang))
-						{
-							$new_id = $old_id;
-						}
-					}
 				}
-
+			}
+			// now check, if the translation has been done just by changing text in the exported
+			// translation file
+			if ($import_id == "" && $a_reuse_existing_by_import)
+			{
+				// if the old_id is also referred by the page content of the default language
+				// we assume that this media object is unchanged
+				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+				$med_of_def_lang = ilObjMediaObject::_getMobsOfObject($this->getParentType().":pg", $this->getId(), 0, "-");
+				if (in_array($old_id, $med_of_def_lang))
+				{
+					$new_id = $old_id;
+				}
+			}
+			if ($new_id != "")
+			{
 				$res->nodeset[$i]->set_attribute("OriginId", "il__mob_".$new_id);
 				$changed = true;
 			}
 		}
 		unset($xpc);
-
 		return $changed;
 	}
 

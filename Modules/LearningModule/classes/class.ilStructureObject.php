@@ -171,7 +171,7 @@ class ilStructureObject extends ilLMObject
 	*
 	*/
 	static function _getPresentationTitle($a_st_id, $a_mode = IL_CHAPTER_TITLE, $a_include_numbers = false,
-		$a_time_scheduled_activation = false, $a_force_content = false, $a_lm_id = 0, $a_lang = "-")
+		$a_time_scheduled_activation = false, $a_force_content = false, $a_lm_id = 0, $a_lang = "-", $a_include_short = false)
 	{
 		global $ilDB;
 
@@ -186,7 +186,15 @@ class ilStructureObject extends ilLMObject
 		}
 
 		// this is optimized when ilLMObject::preloadDataByLM is invoked (e.g. done in ilLMExplorerGUI)
-		$title = ilLMObject::_lookupTitle($a_st_id);
+		$title = "";
+		if ($a_include_short)
+		{
+			$title = trim(ilLMObject::_lookupShortTitle($a_st_id));
+		}
+		if ($title == "")
+		{
+			$title = ilLMObject::_lookupTitle($a_st_id);
+		}
 
 		// this is also optimized since ilObjectTranslation re-uses instances for one lm
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
@@ -197,9 +205,18 @@ class ilStructureObject extends ilLMObject
 		{
 			include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 			$lmobjtrans = new ilLMObjTranslation($a_st_id, $a_lang);
-			if ($lmobjtrans->getTitle() != "")
+			$trans_title = "";
+			if ($a_include_short)
 			{
-				$title = $lmobjtrans->getTitle();
+				$trans_title = trim($lmobjtrans->getShortTitle());
+			}
+			if ($trans_title == "")
+			{
+				$trans_title = $lmobjtrans->getTitle();
+			}
+			if ($trans_title != "")
+			{
+				$title = $trans_title;
 			}
 		}
 
