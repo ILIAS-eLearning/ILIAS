@@ -184,6 +184,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		foreach ($status_updates as $prgrs_id => $status) {
 			$prgrs = $this->sp_user_progress_db->getInstanceById($prgrs_id);
 			$cur_status = $prgrs->getStatus();
+
 			if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
 				$prgrs->unmarkAccredited($this->user->getId());
 				$changed = true;
@@ -201,8 +202,24 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 				$changed = true;
 			}
 
-			if($cur_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+			$deadline = $this->getDeadlineFromForm($prgrs_id);
+			$cur_deadline = $prgrs->getDeadline();
+			$today = new ilDateTime(date("Y-m-d"), IL_CAL_DATE);
+			if($deadline != $cur_deadline) {
+				$prgrs->setDeadline($deadline);
+				$cur_deadline = $deadline;
+			}
+
+			if ($cur_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
 				$changed = $this->updateRequiredPoints($prgrs_id) || $changed;
+
+				if($cur_deadline !== null && $cur_deadline > $today) {
+					$prgrs->markFailed($this->user->getId());
+				}
+			} else if($cur_status == ilStudyProgrammeProgress::STATUS_FAILED) {
+				if($cur_deadline === null && $cur_deadline < $today) {
+					$prgrs->markNotFailed($this->user->getId());
+				}
 			}
 		}
 		return $changed;
@@ -229,6 +246,29 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		$prgrs->setRequiredAmountOfPoints($required_points, $this->user->getId());
 		return true;
 
+	}
+
+	/**
+	 * Get the deadline from form
+	 *
+	 * @param int 	$prgrs_id
+	 *
+	 * @return ilDateTime
+	 */
+	protected function getDeadlineFromForm($prgrs_id) {
+		$post_var = $this->getDeadlinePostVarTitle();
+		if (!array_key_exists($post_var, $_POST)) {
+			throw new ilException("Expected array $post_var in POST");
+		}
+
+		$post_value = $_POST[$post_var];
+		$deadline = $post_value[$prgrs_id];
+
+		if($deadline == "") {
+			return null;
+		}
+
+		return new ilDateTime($post_value[$prgrs_id], IL_CAL_DATE);
 	}
 
 	protected function showSuccessMessage($a_lng_var) {
