@@ -55,6 +55,28 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 	}
 
 
+	protected function confirm() {
+		// TODO implement
+		$this->ctrl()->saveParameter($this, 'position_id');
+		$confirmation = new ilConfirmationGUI();
+		$confirmation->setFormAction($this->ctrl()->getFormAction($this));
+		$confirmation->setCancel($this->txt(self::CMD_CANCEL), self::CMD_CANCEL);
+		$confirmation->setConfirm($this->txt(self::CMD_DELETE), self::CMD_DELETE);
+		$confirmation->setHeaderText($this->txt('msg_confirm_deletion'));
+		$confirmation->addItem('usr_id', $_GET['usr_id'], $_GET['usr_id']);
+
+		$this->setContent($confirmation->getHTML());
+	}
+
+
+	protected function delete() {
+		$ua = ilOrgUnitUserAssignmentQueries::getInstance()
+		                                    ->getAssignmentOrFail($_POST['usr_id'], $_GET['position_id']);
+		$ua->delete();
+		$this->cancel();
+	}
+
+
 	protected function cancel() {
 		$this->ctrl()->redirect($this, self::CMD_INDEX);
 	}
@@ -82,7 +104,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 
 		$position_id = isset($_POST['user_type']) ? $_POST['user_type'] : 0;
 
-		if(!$position_id && !$position = ilOrgUnitPosition::find($position_id)) {
+		if (!$position_id && !$position = ilOrgUnitPosition::find($position_id)) {
 			ilUtil::sendFailure($this->txt("user_not_found"), true);
 			$this->ctrl()->redirect($this, "showStaff");
 		}

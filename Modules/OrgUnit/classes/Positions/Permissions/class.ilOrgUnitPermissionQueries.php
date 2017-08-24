@@ -173,6 +173,18 @@ class ilOrgUnitPermissionQueries {
 	}
 
 
+	/**
+	 * @param $user_id
+	 * @param $ref_id
+	 * @param $operation_string
+	 */
+	public static function getRelevantPermissionSetsForUserIdAndRefIdAndOperation($user_id, $ref_id, $operation_string) {
+		$q = 'SELECT @OP_ID:= CONCAT("%\"",operation_id, "\"%") FROM il_orgu_op_contexts
+JOIN il_orgu_operations ON il_orgu_operations.context_id = il_orgu_op_contexts.id
+WHERE il_orgu_op_contexts.context IN(\'crs\', \'object\') AND operation_string = \'viewmembers\';';
+	}
+
+
 	private static function getAllowedOperationsOnRefIdAndPosition($ref_id, $position_id) {
 		global $DIC;
 		$db = $DIC->database();

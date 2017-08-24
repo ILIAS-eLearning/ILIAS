@@ -102,6 +102,7 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 		$authority_string = $this->dic()->language()->txt("authority") . ": ";
 
 		$position = $this->getPositionFromRequest();
+
 		$confirmation = new ilConfirmationGUI();
 		$confirmation->setFormAction($this->ctrl()->getFormAction($this));
 		$confirmation->setCancel($this->txt(self::CMD_CANCEL), self::CMD_CANCEL);
