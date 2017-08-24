@@ -104,7 +104,7 @@ class ilDownloadFilesBackgroundTask
 		
 		
 		// move files from source dir to target directory
-		$copy_job = $this->task_factory->createTask(ilCalendarCopyFilesToTempDirectoryJob::class, [$definition]);
+		$copy_job = $this->task_factory->createTask(ilCalendarCopyFilesToTempDirectoryJob::class, [$definition, $this->normalizeFileName($this->getBucketTitle())]);
 		$zip_job = $this->task_factory->createTask(ilCalendarZipJob::class, [$copy_job]);
 		
 		$download_name = new StringValue();
@@ -199,7 +199,7 @@ class ilDownloadFilesBackgroundTask
 		// remove all non-ASCii characters
 		$s    = preg_replace( '@[^\0-\x80]@u'    , "",    $s );
 		$s = preg_replace('/\s+/', '_', $s);
-		$s = preg_replace("/[^a-zA-Z0-9\_\-]/", "", $s);
+		$s = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $s);
 		// possible errors in UTF8-regular-expressions
 		if (empty($s)) {
 			$this->logger->debug("Error when normalize filename.");

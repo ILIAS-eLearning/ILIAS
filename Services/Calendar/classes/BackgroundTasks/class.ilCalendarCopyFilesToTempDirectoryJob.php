@@ -22,7 +22,12 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 	 * @var ilLogger
 	 */
 	private $logger = null;
-	
+
+	/**
+	 * @var string
+	 */
+	protected $target_directory;
+
 	/**
 	 * Constructor
 	 */
@@ -30,11 +35,6 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 	{
 		$this->logger = $GLOBALS['DIC']->logger()->cal();
 	}
-
-
-
-
-
 
 	/**
 	 */
@@ -70,20 +70,23 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 	public function run(array $input, Observer $observer)
 	{
 		$this->logger->info('Called copy files job');
-		
+
+		$this->target_directory = $input[1]->getValue();
+
 		// create temp directory 
 		$tmpdir = $this->createUniqueTempDirectory();
+		$targetdir = $this->createTargetDirectory($tmpdir);
 		
 		// copy files from source to temp directory
-		$this->copyFiles($tmpdir, $input[0]);
+		$this->copyFiles($targetdir, $input[0]);
 		
 		// zip 
 		
 		// return zip file name
-		$this->logger->debug('Returning new tempdirectory: ' . $tmpdir);
+		$this->logger->debug('Returning new tempdirectory: ' . $targetdir);
 		
 		$out = new StringValue();
-		$out->setValue($tmpdir);
+		$out->setValue($targetdir);
 		return $out;
 	}
 	
@@ -98,6 +101,14 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 		ilUtil::makeDirParents($tmpdir);
 		$this->logger->info('New temp directory: ' . $tmpdir);
 		return $tmpdir;
+	}
+
+	protected function createTargetDirectory($a_tmpdir)
+	{
+		$final_dir = $a_tmpdir."/".$this->target_directory;
+		ilUtil::makeDirParents($final_dir);
+		$this->logger->info('New final directory: ' . $final_dir);
+		return $final_dir;
 	}
 	
 	/**
@@ -135,4 +146,3 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 	}
 
 }
-?>
