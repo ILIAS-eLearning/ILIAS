@@ -127,7 +127,7 @@ class ilContSkillPresentationGUI
 	function show()
 	{
 		$gui = $this->getPersonalSkillsGUI();
-		$gui->listProfiles();
+		$gui->listProfilesForGap();
 	}
 
 

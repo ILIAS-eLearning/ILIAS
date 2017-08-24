@@ -19835,7 +19835,6 @@ while ($row = $ilDB->fetchObject($result))
 	$ilDB->manipulate($update);
 }
 ?>
-
 <#5152>
 <?php
 if( !$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'type_filter'))
@@ -19862,4 +19861,8 @@ if( !$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'type_filter'))
 	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
 	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_page_meta');
 	ilDBUpdateNewObjectType::cloneOperation('wiki', $src_ops_id, $tgt_ops_id);
+?>
+<#5155>
+<?php
+	$ilCtrlStructureReader->getStructure();
 ?>
