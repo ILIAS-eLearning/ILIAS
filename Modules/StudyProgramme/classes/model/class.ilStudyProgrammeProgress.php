@@ -459,11 +459,11 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	/**
 	 * Set the deadline of this progress
 	 *
-	 * @param ilDateTime 	$deadline
+	 * @param ilDateTime | null	$deadline
 	 *
 	 * @return $this
 	 */
-	public function setDeadline(ilDateTime $deadline) {
+	public function setDeadline(ilDateTime $deadline = null) {
 		$this->deadline = $deadline;
 		return $this;
 	}
