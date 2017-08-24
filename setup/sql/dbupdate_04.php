@@ -18893,7 +18893,6 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#5098>
 <?php
-
 include_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
 ilDBUpdateNewObjectType::addRBACTemplate(
 	'sess', 
@@ -19707,4 +19706,47 @@ if(!$ilDB->tableExists('orgu_obj_pos_settings'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
+<#5141>
+<?php
+if(!$ilDB->tableColumnExists('lm_data','short_title'))
+{
+	$ilDB->addTableColumn(
+		'lm_data',
+		'short_title',
+		array(
+			'type' => 'text',
+			'length' => 200,
+			'default' => ''
+		));
+}
+?>
+<#5142>
+<?php
+if(!$ilDB->tableColumnExists('lm_data_transl','short_title'))
+{
+	$ilDB->addTableColumn(
+		'lm_data_transl',
+		'short_title',
+		array(
+			'type' => 'text',
+			'length' => 200,
+			'default' => ''
+		));
+}
+?>
+<#5143>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$iass_type_id = ilDBUpdateNewObjectType::getObjectTypeId('iass');
+if ($iass_type_id) {
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation(
+		'amend_grading',
+		'Amend grading',
+		'object',
+		8200
+	);
+	if ($new_ops_id) {
+		ilDBUpdateNewObjectType::addRBACOperation($iass_type_id, $new_ops_id);
+	}
+}
+?>

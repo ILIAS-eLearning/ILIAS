@@ -23,7 +23,7 @@ class ilObjIndividualAssessment extends ilObject {
 		parent::__construct($a_id, $a_call_by_reference);
 		$this->settings_storage = new ilIndividualAssessmentSettingsStorageDB($DIC['ilDB']);
 		$this->members_storage =  new ilIndividualAssessmentMembersStorageDB($DIC['ilDB']);
-		$this->access_handler = new ilIndividualAssessmentAccessHandler(
+		$this->access_handler = new ilIndividualAssessmentAccessHandler($this,
 				 $DIC['ilAccess']
 				,$DIC['rbacadmin']
 				,$DIC['rbacreview']
