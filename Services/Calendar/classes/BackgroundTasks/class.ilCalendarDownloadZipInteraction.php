@@ -66,12 +66,11 @@ class ilCalendarDownloadZipInteraction extends \ILIAS\BackgroundTasks\Implementa
 	 */
 	public function interaction(array $input, Option $user_selected_option, Bucket $bucket)
 	{
-		$zip_name = $input[1];
-		$download_name = $input[0];
+		$zip_name = $input[0];
+		$download_name = $input[1];
 
-		$this->logger->debug('Download '. $input[0]->getValue().' as '. $input[1]->getValue());
-		
-		$this->logger->info('Download canceled');
+		$this->logger->debug('User interaction download zip '. $input[0]->getValue().' as '. $input[1]->getValue());
+
 		if($user_selected_option->getValue() != self::OPTION_DOWNLOAD)
 		{
 			$this->logger->info('Download canceled');
@@ -82,7 +81,8 @@ class ilCalendarDownloadZipInteraction extends \ILIAS\BackgroundTasks\Implementa
 			}
 			return $zip_name->getValue();
 		}
-		
+
+		$this->logger->info("Delivering File.");
 		ilUtil::deliverFile(
 			$zip_name->getValue(),
 			$download_name->getValue()

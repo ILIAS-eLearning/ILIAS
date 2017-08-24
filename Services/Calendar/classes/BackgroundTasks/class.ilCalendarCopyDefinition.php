@@ -81,7 +81,7 @@ class ilCalendarCopyDefinition extends AbstractValue
 	 */
 	public function serialize()
 	{
-		serialize($this->getCopyDefinitions());
+		return serialize($this->getCopyDefinitions());
 	}
 
 	/**
