@@ -31,18 +31,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
 
 	/**
-	 * @param int[]  $user_ids List of ILIAS-User-IDs which shall be filtered
-	 *
-	 * @param string $permission
-	 *
-	 * @see getAvailablePositionRelatedPermissions for available permissions
-	 *
-	 * @throws \ilOrgUnitAccessException when a unknown permission is used. See the list of
-	 *                                   available permissions in interface
-	 *                                   ilOrgUnitPositionAccessHandler
-	 *
-	 *
-	 * @return int[] Filtered List of ILIAS-User-IDs
+	 * @inheritdoc
 	 */
 	public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, $permission) {
 		$current_user_id = $this->getCurrentUsersId();
@@ -52,17 +41,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
 
 	/**
-	 * @param int[]  $user_ids List of ILIAS-User-IDs which shall be filtered
-	 * @param int    $for_user_id
-	 * @param string $permission
-	 *
-	 * @see getAvailablePositionRelatedPermissions for available permissions
-	 *
-	 * @throws \ilOrgUnitAccessException when a unknown permission is used. See the list of
-	 *                                   available permissions in interface
-	 *                                   ilOrgUnitPositionAccessHandler
-	 *
-	 * @return int[] Filtered List of ILIAS-User-IDs
+	 * @inheritdoc
 	 */
 	public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, $for_user_id, $permission) {
 		// FSX TODO no permission is checked or existing
@@ -78,12 +57,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
 
 	/**
-	 * @param string $permission
-	 * @param int[]  $on_user_ids List of ILIAS-User-IDs
-	 *
-	 * @see getAvailablePositionRelatedPermissions for available permissions
-	 *
-	 * @return bool
+	 * @inheritdoc
 	 */
 	public function isCurrentUserBasedOnPositionsAllowedTo($permission, array $on_user_ids) {
 		$current_user_id = $this->getCurrentUsersId();
@@ -93,13 +67,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
 
 	/**
-	 * @param int    $which_user_id Permission check for this ILIAS-User-ID
-	 * @param string $permission
-	 * @param int[]  $on_user_ids   List of ILIAS-User-IDs
-	 *
-	 * @see getAvailablePositionRelatedPermissions for available permissions
-	 *
-	 * @return bool
+	 * @inheritdoc
 	 */
 	public function isUserBasedOnPositionsAllowedTo($which_user_id, $permission, array $on_user_ids) {
 		$filtered_user_ids = $this->filterUserIdsForUsersPositionsAndPermission($on_user_ids, $which_user_id, $permission);
@@ -110,13 +78,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
 
 	/**
-	 * @param string $pos_perm
-	 * @param int    $ref_id
-	 * @param int[]  $user_ids
-	 *
-	 * @see getAvailablePositionRelatedPermissions for available permissions
-	 *
-	 * @return int[]
+	 * @inheritdoc
 	 */
 	public function filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, array $user_ids) {
 		// If context is not activated, return same array of $user_ids
@@ -132,14 +94,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
 
 	/**
-	 * @param int    $user_id
-	 * @param string $pos_perm
-	 * @param int    $ref_id
-	 * @param int[]  $user_ids
-	 *
-	 * @see getAvailablePositionRelatedPermissions for available permissions
-	 *
-	 * @return int[]
+	 * @inheritdoc
 	 */
 	public function filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, array $user_ids) {
 		// If context is not activated, return same array of $user_ids
@@ -193,12 +148,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
 
 	/**
-	 * @param string $pos_perm
-	 * @param int    $ref_id Reference-ID of the desired Object in the tree
-	 *
-	 * @see getAvailablePositionRelatedPermissions for available permissions
-	 *
-	 * @return bool
+	 * @inheritdoc
 	 */
 	public function checkPositionAccess($pos_perm, $ref_id) {
 		// If context is not activated, return same array of $user_ids
@@ -221,13 +171,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
 
 	/**
-	 * @param string $rbac_perm
-	 * @param string $pos_perm           See the list of
-	 *                                   available permissions in interface
-	 *                                   ilOrgUnitPositionAccessHandler
-	 * @param int    $ref_id             Reference-ID of the desired Object in the tree
-	 *
-	 * @return bool
+	 * @inheritdoc
 	 */
 	public function checkRbacOrPositionPermissionAccess($rbac_perm, $pos_perm, $ref_id) {
 		global $DIC;
@@ -246,14 +190,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
 
 	/**
-	 * @param string $rbac_perm
-	 * @param string $pos_perm           See the list of
-	 *                                   available permissions in interface
-	 *                                   ilOrgUnitPositionAccessHandler
-	 * @param int    $ref_id             Reference-ID of the desired Object in the tree
-	 * @param int[]  $user_ids
-	 *
-	 * @return int[]
+	 * @inheritdoc
 	 */
 	public function filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id, array $user_ids) {
 		global $DIC;
