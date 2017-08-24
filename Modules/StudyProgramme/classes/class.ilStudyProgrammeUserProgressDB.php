@@ -139,6 +139,9 @@ class ilStudyProgrammeUserProgressDB {
 		if ($a_status == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
 			return $lng->txt("prg_status_not_relevant");
 		}
+		if ($a_status == ilStudyProgrammeProgress::STATUS_FAILED) {
+			return $lng->txt("prg_status_failed");
+		}
 		throw new ilException("Unknown status: '$a_status'");
 	}
 
