@@ -108,7 +108,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 	 * @inheritdoc
 	 */
 	public function insertMembersRecord(ilObjIndividualAssessment $iass, array $record) {
-		$values = array("obj_id" => array("integer", $mass->getId())
+		$values = array("obj_id" => array("integer", $iass->getId())
 			, "usr_id" => array("integer", $record[ilIndividualAssessmentMembers::FIELD_USR_ID])
 			, ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS => array("text", $record[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS])
 			, ilIndividualAssessmentMembers::FIELD_EXAMINER_ID => array("integer", $record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID])

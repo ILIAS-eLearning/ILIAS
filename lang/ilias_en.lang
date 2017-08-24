@@ -13758,6 +13758,8 @@ content#:#cont_lm_starting_point_info#:#Page being opened when clicking a learni
 content#:#cont_short_titles#:#Short Titles
 content#:#cont_short_title#:#Short Title
 content#:#cont_short_title_info#:#Short titles are used in the left-hand tree presentation and for labels in the previous/next navigation.
+orgu#:#org_op_set_lp_for_other#:#Set learning progress of other users
+orgu#:#org_op_view_lp#:#View learning progress of other users
 common#:#my_staff#:#My Staff
 mst#:#mst_my_staff#:#My Staff
 mst#:#mst_list_users#:#Staff List

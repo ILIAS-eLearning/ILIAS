@@ -52,6 +52,9 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 	 * @inheritdoc
 	 */
 	public function checkAccessToObj($operation) {
+		if ($operation == "read_learning_progress") {
+			return $this->handler->checkRbacOrPositionPermissionAccess("read_learning_progress", "view_lp", $this->iass->getRefId());
+		}
 
 		return $this->handler->checkAccessOfUser($this->usr->getId(), $operation, '', $this->iass->getRefId(), 'iass');
 	}

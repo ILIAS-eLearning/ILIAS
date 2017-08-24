@@ -19752,6 +19752,7 @@ if ($iass_type_id) {
 ?>
 <#5144>
 <?php
+
 if (!$ilDB->tableExists('cont_skills'))
 {
 	$ilDB->createTable('cont_skills', array(
