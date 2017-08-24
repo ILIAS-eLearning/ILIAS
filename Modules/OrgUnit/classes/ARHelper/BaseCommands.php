@@ -9,6 +9,7 @@ namespace ILIAS\Modules\OrgUnit\ARHelper;
  */
 abstract class BaseCommands {
 
+	use DIC;
 	const CMD_INDEX = "index";
 	const CMD_ADD = "add";
 	const CMD_CREATE = "create";
@@ -131,40 +132,6 @@ abstract class BaseCommands {
 		}
 
 		return true;
-	}
-
-
-	/**
-	 * @param $variable
-	 *
-	 * @return mixed
-	 */
-	public function txt($variable) {
-		return $this->dic()->language()->txt($variable);
-	}
-
-
-	/**
-	 * @return \ILIAS\DI\Container
-	 */
-	public function dic() {
-		return $GLOBALS["DIC"];
-	}
-
-
-	/**
-	 * @return \ilTemplate
-	 */
-	protected function tpl() {
-		return $this->dic()->ui()->mainTemplate();
-	}
-
-
-	/**
-	 * @return \ilCtrl
-	 */
-	protected function ctrl() {
-		return $this->dic()->ctrl();
 	}
 
 

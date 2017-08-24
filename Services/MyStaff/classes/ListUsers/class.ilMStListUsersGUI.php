@@ -1,112 +1,88 @@
 <?php
+
 /**
  * GUI-Class Table ilMStListUsersGUI
  *
- * @author Martin Studer <ms@studer-raimann.ch>
+ * @author            Martin Studer <ms@studer-raimann.ch>
  *
  * @ilCtrl_IsCalledBy ilMStListUsersGUI: ilMyStaffGUI
  */
 class ilMStListUsersGUI {
 
+	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
+
+	const CMD_RESET_FILTER = 'resetFilter';
+	const CMD_APPLY_FILTER = 'applyFilter';
+	const CMD_INDEX = 'index';
+	const CMD_ADD_USER_AUTO_COMPLETE = 'addUserAutoComplete';
 	/**
 	 * @var  ilTable2GUI
 	 */
 	protected $table;
-	protected $tpl;
-	protected $ctrl;
-	protected $pl;
-	protected $toolbar;
 	/**
-	 * @var ilTabsGUI
+	 * @var ilMyStaffAccess
 	 */
-	protected $tabs;
 	protected $access;
 
 
-	function __construct() {
-		global $tpl, $ilCtrl, $lng;
-		$this->tpl = $tpl;
-		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
+	protected function checkAccessOrFail() {
+		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
+			return true;
+		} else {
+			ilUtil::sendFailure($this->lng()->txt("permission_denied"), true);
+			$this->ctrl()->redirectByClass('ilPersonalDesktopGUI', "");
+		}
 	}
-
-
-    protected function checkAccessOrFail() {
-        if (ilMyStaffAcess::getInstance()->hasCurrentUserAccessToMyStaff()) {
-            return true;
-        } else {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
-            $this->ctrl->redirectByClass('ilPersonalDesktopGUI', "");
-        }
-    }
 
 
 	public function executeCommand() {
-        $this->checkAccessOrFail();
+		$this->checkAccessOrFail();
 
-		$cmd = $this->ctrl->getCmd();
+		$cmd = $this->ctrl()->getCmd();
 
-        switch ($cmd) {
-            case 'resetFilter':
-            case 'applyFilter':
-            case 'index':
-            case 'addUserAutoComplete':
-                $this->$cmd();
-                break;
-            default:
-                $this->index();
-                break;
-        }
+		switch ($cmd) {
+			case self::CMD_RESET_FILTER:
+			case self::CMD_APPLY_FILTER:
+			case self::CMD_INDEX:
+			case self::CMD_ADD_USER_AUTO_COMPLETE:
+				$this->$cmd();
+				break;
+			default:
+				$this->index();
+				break;
+		}
 	}
+
 
 	public function index() {
 		$this->listUsers();
 	}
 
+
 	public function listUsers() {
-		$this->table = new ilMStListUsersTableGUI($this, 'index');
-        $this->table->setTitle($this->lng->txt('mst_list_users'));
-		$this->tpl->setContent($this->table->getHTML());
+		$this->table = new ilMStListUsersTableGUI($this, self::CMD_INDEX);
+		$this->table->setTitle($this->lng()->txt('mst_list_users'));
+		$this->tpl()->setContent($this->table->getHTML());
 	}
 
 
 	public function applyFilter() {
-        $this->table = new ilMStListUsersTableGUI($this, 'applyFilter');
-        $this->table->writeFilterToSession();
+		$this->table = new ilMStListUsersTableGUI($this, self::CMD_APPLY_FILTER);
+		$this->table->writeFilterToSession();
 		$this->table->resetOffset();
 		$this->index();
 	}
 
 
 	public function resetFilter() {
-        $this->table = new ilMStListUsersTableGUI($this, 'resetFilter');
+		$this->table = new ilMStListUsersTableGUI($this, self::CMD_RESET_FILTER);
 		$this->table->resetOffset();
 		$this->table->resetFilter();
 		$this->index();
 	}
 
+
 	public function cancel() {
-		$this->ctrl->redirect($this);
+		$this->ctrl()->redirect($this);
 	}
-
-    /**
-     * Show auto complete results
-     */
-    /*
-    protected function addUserAutoComplete()
-    {
-        include_once './Services/User/classes/class.ilUserAutoComplete.php';
-        $auto = new ilUserAutoComplete();
-        $auto->setSearchFields(array('login','firstname','lastname','email'));
-        $auto->enableFieldSearchableCheck(false);
-        $auto->setMoreLinkAvailable(true);
-
-        if(($_REQUEST['fetchall']))
-        {
-            $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
-        }
-
-        echo $auto->getList($_REQUEST['term']);
-        exit();
-    }*/
 }

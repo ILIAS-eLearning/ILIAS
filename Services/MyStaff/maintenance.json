@@ -1,11 +1,11 @@
 {
-    "maintenance_model": "",
-    "first_maintainer": "",
+    "maintenance_model": "classic",
+    "first_maintainer": "fschmid",
     "second_maintainer": "",
-    "implicit_maintainers": [],
+    "implicit_maintainers": ["mstuder"],
     "coordinator": "",
     "tester": "",
-    "testcase_writer": ",
+    "testcase_writer": "",
     "path": "Services/MyStaff",
     "belong_to_component": "MyStaff",
     "used_in_components": []

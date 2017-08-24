@@ -70,10 +70,24 @@ class ilOrgUnitGlobalSettingsGUI
 	 * Init settings form
 	 */
 	protected function initSettingsForm() {
+		global $DIC;
+
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
 		$form->setTitle($this->lng->txt('orgu_global_set_form'));
 
+		// My Staff
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('orgu_enable_my_staff'));
+		$form->addItem($section);
+
+		$item = new ilCheckboxInputGUI($this->lng->txt("orgu_enable_my_staff"), "enable_my_staff");
+		$item->setInfo($this->lng->txt("orgu_enable_my_staff_info"));
+		$item->setValue("1");
+		$item->setChecked(($DIC->settings()->get("enable_my_staff") ? true : false));
+		$form->addItem($item);
+
+		// Positions in Modules
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('orgu_global_set_positions'));
 		$form->addItem($section);
@@ -118,33 +132,38 @@ class ilOrgUnitGlobalSettingsGUI
 		
 		return $form;
 	}
-	
-	/**
-	 * Save settings
-	 * @return 
-	 */
+
+
 	protected function saveSettings() {
+		/**
+		 * @var $objDefinition \ilObjectDefinition
+		 */
+		global $DIC;
+		$objDefinition = $DIC['objDefinition'];
 		$form = $this->initSettingsForm();
-		if($form->checkInput())
-		{
-			$available_types = $GLOBALS['DIC']['objDefinition']->getOrgUnitPermissionTypes();
-			foreach($available_types as $object_type) {
-				
+		if ($form->checkInput()) {
+			// Orgu Permissions / Positions in Modules
+			$available_types = $objDefinition->getOrgUnitPermissionTypes();
+			foreach ($available_types as $object_type) {
+
 				$obj_setting = new ilOrgUnitObjectTypePositionSetting($object_type);
-				$obj_setting->setActive((bool) $form->getInput($object_type.'_active'));
-				$obj_setting->setActivationDefault((int) $form->getInput($object_type.'_default'));
-				$obj_setting->setChangeableForObject((bool) $form->getInput($object_type.'_changeable'));
+				$obj_setting->setActive((bool)$form->getInput($object_type . '_active'));
+				$obj_setting->setActivationDefault((int)$form->getInput($object_type . '_default'));
+				$obj_setting->setChangeableForObject((bool)$form->getInput($object_type
+				                                                           . '_changeable'));
 				$obj_setting->update();
 			}
-			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
-			$this->ctrl->redirect($this,'settings');
-		}
-		else
-		{
+
+
+			// MyStaff
+			$DIC->settings()->set("enable_my_staff", (int) ($_POST["enable_my_staff"] ? 1 : 0));
+
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+			$this->ctrl->redirect($this, 'settings');
+		} else {
 			$form->setValuesByPost();
 			ilUtil::sendFailure($this->lng->txt('err_check_input'), false);
 			$this->settings($form);
 		}
 	}
 }
-?>

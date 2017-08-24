@@ -1,93 +1,87 @@
 <?php
+
 /**
  * My Staff GUI class
  *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
-class ilMyStaffGUI
-{
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+class ilMyStaffGUI {
 
-    /**
-     * Constructor
-     *
-     * @param
-     * @return
-     */
-    function __construct()
-    {
-        global $tpl, $ilCtrl, $ilTabs, $lng;
-        $this->ctrl = $ilCtrl;
-        $this->tabs = $ilTabs;
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule('mst');
-        $this->lng->loadLanguageModule('trac');
+	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 
-        // get the standard template
-        $tpl->getStandardTemplate();
-
-        $tpl->setTitle($this->lng->txt('mst_my_staff'));
-    }
-
-    protected function checkAccessOrFail() {
-        if (ilMyStaffAcess::getInstance()->hasCurrentUserAccessToMyStaff()) {
-            return true;
-        } else {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
-            $this->ctrl->redirectByClass('ilPersonalDesktopGUI', "");
-        }
-    }
+	const CMD_INDEX = 'index';
+	const TAB_LIST_USERS = 'list_users';
+	const TAB_LIST_COURSES = 'list_courses';
 
 
-    /**
-     * Execute command
-     *
-     * @param
-     * @return
-     */
-    function executeCommand()
-    {
-        global $ilCtrl, $tpl;
+	/**
+	 * ilMyStaffGUI constructor.
+	 */
+	public function __construct() {
+		$this->lng()->loadLanguageModule('mst');
+		$this->lng()->loadLanguageModule('trac');
 
-        $this->checkAccessOrFail();
-
-        // determine next class in the call structure
-        $next_class = $ilCtrl->getNextClass($this);
+		// get the standard template
+		$this->tpl()->getStandardTemplate();
+		$this->tpl()->setTitle($this->lng()->txt('mst_my_staff'));
+	}
 
 
-        switch($next_class)
-        {
-            case 'ilmstlistcoursesgui':
-                $this->addTabs('list_courses');
-                $list_course_gui = new ilMStListCoursesGUI();
-                $ilCtrl->forwardCommand($list_course_gui);
-                break;
-            case 'ilmstshowusergui':
-                $list_course_gui = new ilMStShowUserGUI();
-                $ilCtrl->forwardCommand($list_course_gui);
-                break;
-            default:
-                $this->addTabs('list_users');
-                $list_user_gui = new ilMStListUsersGUI();
-                $ilCtrl->forwardCommand($list_user_gui);
-                break;
-        }
+	protected function checkAccessOrFail() {
+		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
+			return true;
+		} else {
+			ilUtil::sendFailure($this->lng()->txt("permission_denied"), true);
+			$this->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "");
+		}
+	}
 
-        $tpl->show();
-    }
 
-    public function addTabs($active_tab_id) {
-        $this->tabs->addTab('list_users', $this->lng->txt('mst_list_users'), $this->ctrl->getLinkTargetByClass(array("ilMyStaffGUI","ilMStListUsersGUI"), 'index'));
-        $this->tabs->addTab('list_courses', $this->lng->txt('mst_list_courses'), $this->ctrl->getLinkTargetByClass(array("ilMyStaffGUI","ilMStListCoursesGUI"), 'index'));
+	public function executeCommand() {
+		$this->checkAccessOrFail();
 
-        if($active_tab_id) {
-            $this->tabs->activateTab($active_tab_id);
-        }
-    }
+		// determine next class in the call structure
+		$next_class = $this->ctrl()->getNextClass($this);
 
+		switch ($next_class) {
+			case strtolower(ilMStListCoursesGUI::class):
+				$this->addTabs(self::TAB_LIST_COURSES);
+				$list_course_gui = new ilMStListCoursesGUI();
+				$this->ctrl()->forwardCommand($list_course_gui);
+				break;
+			case strtolower(ilMStShowUserGUI::class):
+				$list_course_gui = new ilMStShowUserGUI();
+				$this->ctrl()->forwardCommand($list_course_gui);
+				break;
+			default:
+				$this->addTabs(self::TAB_LIST_USERS);
+				$list_user_gui = new ilMStListUsersGUI();
+				$this->ctrl()->forwardCommand($list_user_gui);
+				break;
+		}
+
+		$this->tpl()->show();
+	}
+
+
+	/**
+	 * @param string $active_tab_id
+	 */
+	protected function addTabs($active_tab_id) {
+		$lng = $this->lng();
+		$ctrl = $this->ctrl();
+		$tabs = $this->tabs();
+		$tabs->addTab(self::TAB_LIST_USERS, $lng->txt('mst_list_users'), $ctrl->getLinkTargetByClass(array(
+			ilMyStaffGUI::class,
+			ilMStListUsersGUI::class,
+		), self::CMD_INDEX));
+		$tabs->addTab(self::TAB_LIST_COURSES, $lng->txt('mst_list_courses'), $ctrl->getLinkTargetByClass(array(
+			ilMyStaffGUI::class,
+			ilMStListCoursesGUI::class,
+		), self::CMD_INDEX));
+
+		if ($active_tab_id) {
+			$tabs->activateTab($active_tab_id);
+		}
+	}
 }
-
-?>
