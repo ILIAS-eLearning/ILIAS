@@ -167,6 +167,24 @@ class ilStudyProgrammeUserProgress {
 	}
 
 	/**
+	 * Get the deadline of this node.
+	 *
+	 * @return ilDateTime | null
+	 */
+	public function getDeadline() {
+		return $this->progress->getDeadline();
+	}
+
+	/**
+	 * Set the deadline of this node.
+	 *
+	 * @param ilDateTime | null 	$deadline
+	 */
+	public function setDeadline() {
+		return $this->progress->setDeadline($deadline);
+	}
+
+	/**
 	 * Delete the assignment from database.
 	 */
 	public function delete() {
@@ -224,6 +242,66 @@ class ilStudyProgrammeUserProgress {
 		$this->refreshLPStatus();
 
 		$this->updateParentStatus();
+		return $this;
+	}
+
+	/**
+	 * Mark this progress as failed.
+	 *
+	 * Throws when status is not STATUS_COMPLETED, STATUS_ACCREDITED, STATUS_NOT_RELEVANT.
+	 *
+	 * @throws ilException
+	 * @param int $a_user_id The user who performed the operation.
+	 * @return $this
+	 */
+	public function markFailed($a_user_id) {
+		$status = array(ilStudyProgrammeProgress::STATUS_COMPLETED
+			, ilStudyProgrammeProgress::STATUS_ACCREDITED
+			, ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
+		);
+
+		if (in_array($this->getStatus(), $status)) {
+			throw new ilException(__METHOD__
+				."Can't mark as failed since program is passed.");
+		}
+
+		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
+			->setLastChangeBy($a_user_id)
+			->update();
+
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
+		ilStudyProgrammeEvents::userFailed($this);
+
+		$this->refreshLPStatus();
+		$this->updateStatus();
+		$this->updateParentStatus();
+
+		return $this;
+	}
+
+
+	/**
+	 * Set the node to in progress.
+	 *
+	 * Throws when status is not FAILED.
+	 *
+	 * @throws ilException
+	 * @return $this
+	 */
+	public function markNotFailed() {
+		if ($this->progress->getStatus() != ilStudyProgrammeProgress::STATUS_FAILED) {
+			throw new ilException("Expected status ACCREDITED.");
+		}
+
+		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
+					   ->setCompletionBy(null)
+					   ->setLastChangeBy($a_user_id)
+					   ->update();
+
+		$this->refreshLPStatus();
+		$this->updateStatus();
+		$this->updateParentStatus();
+
 		return $this;
 	}
 
