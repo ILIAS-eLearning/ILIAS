@@ -269,16 +269,10 @@ class ilStudyProgrammeUserProgress {
 			->setLastChangeBy($a_user_id)
 			->update();
 
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
-		ilStudyProgrammeEvents::userFailed($this);
-
 		$this->refreshLPStatus();
-		$this->updateStatus();
-		$this->updateParentStatus();
 
 		return $this;
 	}
-
 
 	/**
 	 * Set the node to in progress.
@@ -299,8 +293,6 @@ class ilStudyProgrammeUserProgress {
 					   ->update();
 
 		$this->refreshLPStatus();
-		$this->updateStatus();
-		$this->updateParentStatus();
 
 		return $this;
 	}
