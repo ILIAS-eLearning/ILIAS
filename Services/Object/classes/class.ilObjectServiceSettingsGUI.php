@@ -27,6 +27,7 @@ class ilObjectServiceSettingsGUI
 	const TAG_CLOUD = 'cont_tag_cloud';
 	const CUSTOM_METADATA = 'cont_custom_md';
 	const BADGES = 'cont_badges';
+	const SKILLS = 'cont_skills';
 	
 	private $gui = null;
 	private $modes = array();
@@ -182,8 +183,8 @@ class ilObjectServiceSettingsGUI
 					));
 				$form->addItem($tag);						
 			}			
-		}		
-		
+		}
+
 		// taxonomies
 		if(in_array(self::TAXONOMIES, $services))
 		{	
@@ -231,8 +232,22 @@ class ilObjectServiceSettingsGUI
 					));
 				$form->addItem($bdg);		
 			}
-		}		
-		
+		}
+
+		// skills
+		if(in_array(self::SKILLS, $services))
+		{
+			$skill = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_skills'), self::SKILLS);
+			$skill->setInfo($GLOBALS['lng']->txt('obj_tool_setting_skills_info'));
+			$skill->setValue(1);
+			$skill->setChecked(ilContainer::_lookupContainerSetting(
+				$a_obj_id,
+				self::SKILLS,
+				false
+			));
+			$form->addItem($skill);
+		}
+
 		return $form;
 	}
 	
@@ -288,14 +303,14 @@ class ilObjectServiceSettingsGUI
 			include_once './Services/Container/classes/class.ilContainer.php';
 			ilContainer::_writeContainerSetting($a_obj_id,self::AUTO_RATING_NEW_OBJECTS,(int) $form->getInput(self::AUTO_RATING_NEW_OBJECTS));
 		}
-		
+
 		// taxonomies
 		if(in_array(self::TAXONOMIES, $services))
 		{
 			include_once './Services/Container/classes/class.ilContainer.php';
 			ilContainer::_writeContainerSetting($a_obj_id,self::TAXONOMIES,(int) $form->getInput(self::TAXONOMIES));
 		}
-		
+
 		// tag cloud
 		if(in_array(self::TAG_CLOUD, $services))
 		{
@@ -320,7 +335,15 @@ class ilObjectServiceSettingsGUI
 				ilContainer::_writeContainerSetting($a_obj_id,self::BADGES,(int) $form->getInput(self::BADGES));
 			}
 		}
-		
+
+		// skills
+		if(in_array(self::SKILLS, $services))
+		{
+			include_once './Services/Container/classes/class.ilContainer.php';
+			ilContainer::_writeContainerSetting($a_obj_id,self::SKILLS,(int) $form->getInput(self::SKILLS));
+		}
+
+
 		return true;
 	}
 
