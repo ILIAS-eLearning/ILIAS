@@ -77,8 +77,6 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 	 * @return bool
 	 */
 	public function fillRow($row) {
-		global $objDefinition;
-
 		// Select all
 		if (isset($row['show_select_all'])) {
 			$this->fillSelectAll($row);
@@ -120,7 +118,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 
 
 	public function collectData() {
-		$positions = ilOrgUnitPosition::getActive();
+		$positions = ilOrgUnitPosition::get();
 
 		$this->initColumns($positions);
 
