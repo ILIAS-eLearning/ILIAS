@@ -87,8 +87,10 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 			$str = array();
 			foreach ($eventItems as $file)
 			{
-				$href = ilLink::_getStaticLink($file['ref_id'], "file", true,"download");
-				$str[] = $r->render($f->button()->shy($file['title'], $href));
+				if($file['type'] == "file") {
+					$href = ilLink::_getStaticLink($file['ref_id'], "file", true,"download");
+					$str[] = $r->render($f->button()->shy($file['title'], $href));
+				}
 			}
 			$this->addInfoProperty($this->lng->txt("files"), implode("<br>", $str));
 			$this->addListItemProperty($this->lng->txt("files"), implode(", ", $str));
