@@ -19753,69 +19753,173 @@ if ($iass_type_id) {
 <#5144>
 <?php
 
-include_once("Modules/OrgUnit/classes/Positions/Operation/class.ilOrgUnitOperationContext.php");
+if (!$ilDB->tableExists('cont_skills'))
+{
+	$ilDB->createTable('cont_skills', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'skill_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'tref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
 
-$individual_assessment_context = ilOrgUnitOperationContext::where(["context" => ilOrgUnitOperationContext::CONTEXT_IASS])->get();
-
-if (count($individual_assessment_context)  === 0) {
-	$individual_assessment_context = new ilOrgUnitOperationContext();
-	$individual_assessment_context->setContext(ilOrgUnitOperationContext::CONTEXT_IASS);
-
-	$object_context = ilOrgUnitOperationContext::where(["context" => ilOrgUnitOperationContext::CONTEXT_OBJECT])->get();
-
-	if (count($object_context) === 0) {
-		die("Expected permission context for object to exist.");
-	}
-
-	$object_context = array_shift($object_context);
-
-	$individual_assessment_context->setParentContextId($object_context->getId());
-
-	$individual_assessment_context->create();
+	$ilDB->addPrimaryKey('cont_skills',array('id','skill_id','tref_id'));
 }
-
 ?>
 <#5145>
 <?php
+if (!$ilDB->tableExists('cont_member_skills'))
+{
+	$ilDB->createTable('cont_member_skills', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'tref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'skill_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'level_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'published' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
 
-include_once("Modules/OrgUnit/classes/Positions/Operation/class.ilOrgUnitOperationContext.php");
-
-$individual_assessment_context = ilOrgUnitOperationContext::where(["context" => ilOrgUnitOperationContext::CONTEXT_IASS])->get();
-
-if (count($individual_assessment_context)  === 0) {
-	die("Expected permission context for individual assessment to exist.");
-};
-
-$individual_assessment_context = array_shift($individual_assessment_context);
-
-include_once("Modules/OrgUnit/classes/Positions/Permissions/class.ilOrgUnitOperation.php");
-
-$set_lp_for_other_users = new ilOrgUnitOperation();
-$set_lp_for_other_users->setOperationString("set_lp_for_other_users");
-$set_lp_for_other_users->setContextId($individual_assessment_context->getId());
-
-$set_lp_for_other_users->create();
-
+	$ilDB->addPrimaryKey('cont_member_skills',array('obj_id','user_id','skill_id', 'tref_id'));
+}
 ?>
 <#5146>
 <?php
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('grade', 'Grade', 'object', 2410);
+	$type_id = ilDBUpdateNewObjectType::getObjectTypeId('crs');
+	if($type_id && $new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
+	}
+	$type_id2 = ilDBUpdateNewObjectType::getObjectTypeId('grp');
+	if($type_id2 && $new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($type_id2, $new_ops_id);
+	}
+?>
+<#5147>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 
-include_once("Modules/OrgUnit/classes/Positions/Operation/class.ilOrgUnitOperationContext.php");
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_members');
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('grade');
+	ilDBUpdateNewObjectType::cloneOperation('crs', $src_ops_id, $tgt_ops_id);
+	ilDBUpdateNewObjectType::cloneOperation('grp', $src_ops_id, $tgt_ops_id);
+?>
 
-$individual_assessment_context = ilOrgUnitOperationContext::where(["context" => ilOrgUnitOperationContext::CONTEXT_IASS])->get();
+<#5148>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 
-if (count($individual_assessment_context)  === 0) {
-	die("Expected permission context for individual assessment to exist.");
-};
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_members');
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('grade');
+	ilDBUpdateNewObjectType::cloneOperation('crs', $src_ops_id, $tgt_ops_id);
+	ilDBUpdateNewObjectType::cloneOperation('grp', $src_ops_id, $tgt_ops_id);
+?>
 
-$individual_assessment_context = array_shift($individual_assessment_context);
+<#5149>
+<?php
+if( !$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'origin_tax_filter'))
+{
+	$ilDB->addTableColumn('tst_rnd_quest_set_qpls', 'origin_tax_filter',
+		array('type' => 'text', 'length' => 4000, 'notnull'	=> false, 'default'	=> null)
+	);
+}
+?>
 
-include_once("Modules/OrgUnit/classes/Positions/Permissions/class.ilOrgUnitOperation.php");
+<#5150>
+<?php
+if( !$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'mapped_tax_filter'))
+{
+	$ilDB->addTableColumn('tst_rnd_quest_set_qpls', 'mapped_tax_filter',
+		array('type' => 'text', 'length' => 4000, 'notnull'	=> false, 'default'	=> null)
+	);
+}
+?>
 
-$view_lp_of_other_users = new ilOrgUnitOperation();
-$view_lp_of_other_users->setOperationString("view_lp");
-$view_lp_of_other_users->setContextId($individual_assessment_context->getId());
+<#5151>
+<?php
+$query = "SELECT * FROM tst_rnd_quest_set_qpls WHERE origin_tax_fi IS NOT NULL OR mapped_tax_fi IS NOT NULL";
+$result = $ilDB->query($query);
+while ($row = $ilDB->fetchObject($result))
+{
+	if (!empty($row->origin_tax_fi))
+	{
+		$origin_tax_filter = serialize(array((int) $row->origin_tax_fi => array((int) $row->origin_node_fi)));
+	}
+	else
+	{
+		$origin_tax_filter = null;
+	}
 
-$view_lp_of_other_users->create();
+	if (!empty($row->mapped_tax_fi))
+	{
+		$mapped_tax_filter = serialize(array((int) $row->mapped_tax_fi => array((int) $row->mapped_node_fi)));
+	}
+	else
+	{
+		$mapped_tax_filter = null;
+	}
 
+	$update = "UPDATE tst_rnd_quest_set_qpls SET "
+		. " origin_tax_fi = NULL, origin_node_fi = NULL, mapped_tax_fi = NULL, mapped_node_fi = NULL, "
+		. " origin_tax_filter = " . $ilDB->quote($origin_tax_filter, 'text'). ", "
+		. " mapped_tax_filter = " . $ilDB->quote($mapped_tax_filter, 'text')
+		. " WHERE def_id = " . $ilDB->quote($row->def_id);
+
+	$ilDB->manipulate($update);
+}
+?>
+
+<#5152>
+<?php
+if( !$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'type_filter'))
+{
+	$ilDB->addTableColumn('tst_rnd_quest_set_qpls', 'type_filter',
+		array('type' => 'text', 'length' => 250, 'notnull'	=> false, 'default'	=> null)
+	);
+}
 ?>
