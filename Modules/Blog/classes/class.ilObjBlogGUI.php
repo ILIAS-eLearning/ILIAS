@@ -465,39 +465,38 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		switch($next_class)
 		{
-			case 'ilblogpostinggui':	
-				if(!$this->prtf_embed)
+			case 'ilblogpostinggui':
+				if (!$this->prtf_embed)
 				{
 					$tpl->getStandardTemplate();
 				}
-				
+
 				// #9680
-				if($this->id_type == self::REPOSITORY_NODE_ID)
-				{								
-					$this->setLocator();						
-				}				
-				else
+				if ($this->id_type == self::REPOSITORY_NODE_ID)
+				{
+					$this->setLocator();
+				} else
 				{
 					include_once "Services/Form/classes/class.ilFileInputGUI.php";
 					ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
-				}				
+				}
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, ""));
-					
+
 				$style_sheet_id = ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->object->getStyleSheetId(), "blog");
-				
+
 				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
-				$bpost_gui = new ilBlogPostingGUI($this->node_id, 
+				$bpost_gui = new ilBlogPostingGUI($this->node_id,
 					$this->getAccessHandler(),
-					$_GET["blpg"], 
-					$_GET["old_nr"], 
+					$_GET["blpg"],
+					$_GET["old_nr"],
 					($this->object->getNotesStatus() && !$this->disable_notes),
 					$this->mayEditPosting($_GET["blpg"]),
 					$style_sheet_id);
-				
+
 				// keep preview mode through notes gui (has its own commands)
-				switch($cmd)
+				switch ($cmd)
 				{
 					// blog preview
 					case "previewFullscreen":
@@ -507,28 +506,32 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					// blog in portfolio
 					case "previewEmbedded":
 						$ilCtrl->setParameter($this, "prvm", "emb");
-						break;			
-					
+						break;
+
 					// edit
-					default:						
-						$this->setContentStyleSheet();	
-						
+					default:
+						$this->setContentStyleSheet();
+
 						$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
-						$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"), 
+						$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"),
 							$this->ctrl->getLinkTargetByClass("ilblogpostinggui", "previewFullscreen"));
 						$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", "");
 						break;
 				}
-				
+
+				// keep preview mode through notes gui
+				if($_REQUEST["prvm"])
+				{
+					$cmd = "preview".(($_REQUEST["prvm"] == "fsc") ? "Fullscreen" : "Embedded");
+				}
+				if (in_array($cmd, array("previewFullscreen", "previewEmbedded")))
+				{
+					$this->renderToolbarNavigation($this->items, true);
+				}
 				$ret = $ilCtrl->forwardCommand($bpost_gui);
 				if ($ret != "")
-				{	
-					// keep preview mode through notes gui
-					if($_REQUEST["prvm"])
-					{
-						$cmd = "preview".(($_REQUEST["prvm"] == "fsc") ? "Fullscreen" : "Embedded");						
-					}
-					
+				{
+
 					// $is_owner = $this->object->getOwner() == $ilUser->getId();
 					$is_owner = $this->mayContribute();
 					$is_active = $bpost_gui->getBlogPosting()->getActive();
@@ -547,7 +550,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 							$this->addHeaderActionForCommand($cmd);	
 							$this->filterInactivePostings();
 							$nav = $this->renderNavigation($this->items, "preview", $cmd);
-							$this->renderToolbarNavigation($this->items, true);
 							$this->renderFullScreen($ret, $nav);
 							break;
 							
@@ -1003,8 +1005,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 * Render fullscreen presentation
 	 */
 	function preview()
-	{		
-		global $lng;
+	{
+		global $DIC;
+		
+		$lng = $DIC->language();
+		$toolbar = $DIC->toolbar();
 		
 		if(!$this->checkPermissionBool("read"))
 		{
@@ -1022,6 +1027,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$list = $this->renderList($list_items, "previewFullscreen");
 			$nav = $this->renderNavigation($this->items, "preview", "previewFullscreen");
 			$this->renderToolbarNavigation($this->items);
+			$list.= $toolbar->getHTML();
 		}
 						
 		$this->renderFullScreen($list, $nav);
@@ -1063,8 +1069,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 */	
 	function renderFullScreen($a_content, $a_navigation)
 	{
-		global $tpl, $ilUser, $ilTabs, $ilLocator;
-		
+		global $tpl, $ilUser, $ilTabs, $ilLocator, $DIC;
+
+		$toolbar = $DIC->toolbar();
 		$owner = $this->object->getOwner();
 		
 		$ilTabs->clearTargets();
@@ -1946,8 +1953,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		if ($single_posting)	// single posting view
 		{
 			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-			$title = ilBlogPosting::lookupTitle((int) $_GET["blpg"]);
-			$mb = $f->button()->standard($title, "#")->withUnavailableAction();
+
+			$latest_posting = $this->getLatestPosting($a_items);
+			if ($latest_posting != "" && $_GET["blpg"] != $latest_posting)
+			{
+				$ctrl->setParameterByClass("ilblogpostinggui", "blpg", $latest_posting);
+				$mb = $f->button()->standard($lng->txt("blog_latest_posting"),
+					$ctrl->getLinkTargetByClass("ilblogpostinggui", "previewFullscreen"));
+			}
+			else
+			{
+				$mb = $f->button()->standard($lng->txt("blog_latest_posting"), "#")->withUnavailableAction();
+			}
+
 			$prev_posting = $this->getPreviousPosting($a_items);
 			if ($prev_posting != "")
 			{
@@ -1958,6 +1976,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 				$pb = $f->button()->standard($lng->txt("previous"), "#")->withUnavailableAction();
 			}
+
 			$next_posting = $this->getNextPosting($a_items);
 			if ($next_posting != "")
 			{
@@ -1975,9 +1994,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		else		// month view
 		{
 			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-			$title = ilCalendarUtil::_numericMonthToString((int)substr($this->month, 5)) .
-				" " . substr($this->month, 0, 4);
-			$mb = $f->button()->standard($title, "#")->withUnavailableAction();
+
+			$latest_month = $this->getLatestMonth($a_items);
+			if ($latest_month != "" && $_GET["bmn"] != $latest_month)
+			{
+				$ctrl->setParameter($this, "bmn", $latest_month);
+				$mb = $f->button()->standard($lng->txt("blog_latest_posting"),
+					$ctrl->getLinkTarget($this, "preview"));
+			}
+			else
+			{
+				$mb = $f->button()->standard($lng->txt("blog_latest_posting"), "#")->withUnavailableAction();
+			}
+
 			$prev_month = $this->getPreviousMonth($a_items);
 			if ($prev_month != "")
 			{
@@ -1987,6 +2016,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 				$pb = $f->button()->standard($lng->txt("previous"), "#")->withUnavailableAction();
 			}
+
 			$next_month = $this->getNextMonth($a_items);
 			if ($next_month != "")
 			{
@@ -2043,6 +2073,18 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	}
 
 	/**
+	 * Get next month
+	 *
+	 * @param array $a_items item array
+	 * @return string
+	 */
+	function getLatestMonth($a_items)
+	{
+		reset($a_items);
+		return key($a_items);
+	}
+
+	/**
 	 * Get next posting
 	 *
 	 * @param array $a_items item array
@@ -2096,6 +2138,23 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			}
 		}
 		return $prev_blpg;
+	}
+
+	/**
+	 * Get previous posting
+	 *
+	 * @param array $a_items item array
+	 * @return int page id
+	 */
+	function getLatestPosting($a_items)
+	{
+		reset($a_items);
+		$month = current($a_items);
+		if (is_array($month))
+		{
+			return current($month)["id"];
+		}
+		return false;
 	}
 
 	/**

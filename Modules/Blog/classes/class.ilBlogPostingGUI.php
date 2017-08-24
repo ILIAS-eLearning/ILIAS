@@ -162,8 +162,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function preview($a_mode = null)
 	{
-		global $ilCtrl, $tpl, $ilSetting;
-		
+		global $ilCtrl, $tpl, $ilSetting, $DIC;
+
+		$toolbar = $DIC->toolbar();
+
 		$this->getBlogPosting()->increaseViewCnt();
 		
 		$wtpl = new ilTemplate("tpl.blog_page_view_main_column.html",
@@ -198,7 +200,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			
 			$may_delete_comments = ($this->checkAccess("contribute") &&
 				$ilSetting->get("comments_del_tutor", 1));
-			
+
+			$wtpl->setVariable("TOOLBAR", $toolbar->getHTML());
+
 			$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getBlogPosting(),
 				false, $this->enable_public_notes, $may_delete_comments, $callback));
 		}
