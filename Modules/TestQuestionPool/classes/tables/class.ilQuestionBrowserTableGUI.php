@@ -361,6 +361,12 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				$editHref = $this->ctrl->getLinkTargetByClass($data['type_tag'].'GUI', 'editQuestion');
 				$actions->addItem($this->lng->txt('edit'), '', $editHref);
 
+				$editPageHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit');
+				$actions->addItem($this->lng->txt('edit_page'), '', $editPageHref);
+			}
+
+			if($this->getWriteAccess())
+			{
 				$this->ctrl->setParameter($this->parent_obj, 'q_id', $data['question_id']);
 				$moveHref = $this->ctrl->getLinkTarget($this->parent_obj, 'move');
 				$this->ctrl->setParameter($this->parent_obj, 'q_id', null);
@@ -372,13 +378,13 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				$actions->addItem($this->lng->txt('copy'), '', $copyHref);
 
 				$this->ctrl->setParameter($this->parent_obj, 'q_id', $data['question_id']);
-				$deleteHref = $this->ctrl->getLinkTarget($this->parent_obj, 'deleteQuestion');
+				$deleteHref = $this->ctrl->getLinkTarget($this->parent_obj, 'deleteQuestions');
 				$this->ctrl->setParameter($this->parent_obj, 'q_id', null);
 				$actions->addItem($this->lng->txt('delete'), '', $deleteHref);
+			}
 
-				$editPageHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit');
-				$actions->addItem($this->lng->txt('edit_page'), '', $editPageHref);
-
+			if($this->getEditable())
+			{
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
 				$this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', $data['question_id']);
 				$feedbackHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);

@@ -878,15 +878,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function deleteQuestionsObject()
 	{
 		global $rbacsystem;
-		
-		if (count($_POST["q_id"]) < 1)
+
+		$questionIdsToDelete = isset($_POST['q_id']) ? (array)$_POST['q_id'] : array();
+		if(0 === count($questionIdsToDelete) && isset($_GET['q_id']))
+		{
+			$questionIdsToDelete = array($_GET['q_id']);
+		}
+
+		$questionIdsToDelete = array_filter(array_map('intval', $questionIdsToDelete));
+		if(0 === count($questionIdsToDelete))
 		{
 			ilUtil::sendInfo($this->lng->txt("qpl_delete_select_none"), true);
 			$this->ctrl->redirect($this, "questions");
 		}
 		
 		ilUtil::sendQuestion($this->lng->txt("qpl_confirm_delete_questions"));
-		$deleteable_questions =& $this->object->getDeleteableQuestionDetails($_POST["q_id"]);
+		$deleteable_questions =& $this->object->getDeleteableQuestionDetails($questionIdsToDelete);
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
 		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)), true);
 		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
