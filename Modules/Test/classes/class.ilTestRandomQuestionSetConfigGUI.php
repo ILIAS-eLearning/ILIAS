@@ -32,6 +32,7 @@ class ilTestRandomQuestionSetConfigGUI
 	const CMD_SAVE_SRC_POOL_DEF_LIST                = 'saveSourcePoolDefinitionList';
 	const CMD_DELETE_SINGLE_SRC_POOL_DEF            = 'deleteSingleSourcePoolDefinition';
 	const CMD_DELETE_MULTI_SRC_POOL_DEFS            = 'deleteMultipleSourcePoolDefinitions';
+	const CMD_SHOW_POOL_SELECTOR_EXPLORER			= 'showPoolSelectorExplorer';
 	const CMD_SHOW_CREATE_SRC_POOL_DEF_FORM         = 'showCreateSourcePoolDefinitionForm';
 	const CMD_SAVE_CREATE_SRC_POOL_DEF_FORM         = 'saveCreateSourcePoolDefinitionForm';
 	const CMD_SAVE_AND_NEW_CREATE_SRC_POOL_DEF_FORM = 'saveCreateAndNewSourcePoolDefinitionForm';
@@ -329,14 +330,6 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
 
-		$this->configStateMessageHandler->setContext(
-			ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_GENERAL_CONFIG
-		);
-		
-		$this->configStateMessageHandler->setLostPools(
-			$this->sourcePoolDefinitionList->getLostPools()
-		);
-		
 		$this->configStateMessageHandler->handle();
 	}
 
@@ -410,14 +403,6 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		$this->tpl->setContent($content);
 
-		$this->configStateMessageHandler->setContext(
-			ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_POOL_SELECTION
-		);
-
-		$this->configStateMessageHandler->setLostPools(
-			$this->sourcePoolDefinitionList->getLostPools()
-		);
-
 		$this->configStateMessageHandler->handle();
 	}
 
@@ -433,11 +418,13 @@ class ilTestRandomQuestionSetConfigGUI
 
 		$this->sourcePoolDefinitionList->reindexPositions();
 		$this->sourcePoolDefinitionList->saveDefinitions();
-
-		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
-		$this->sourcePoolDefinitionList->saveDefinitions();
-
-		$this->questionSetConfig->setLastQuestionSyncTimestamp(time());
+		
+		// fau: delayCopyRandomQuestions - don't rebuild the staging pool, just clear the sycn timestamp
+		#$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
+		#$this->sourcePoolDefinitionList->saveDefinitions();
+		#$this->questionSetConfig->setLastQuestionSyncTimestamp(time());
+		$this->questionSetConfig->setLastQuestionSyncTimestamp(0);
+		// fau.
 		$this->questionSetConfig->saveToDb();
 
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
@@ -475,6 +462,12 @@ class ilTestRandomQuestionSetConfigGUI
 		$table->setQuestionAmountColumnEnabled(
 			$this->questionSetConfig->isQuestionAmountConfigurationModePerPool()
 		);
+		
+		// fau: taxFilter/typeFilter - show the mapped taxonomy filters if pools are synced
+		$table->setShowMappedTaxonomyFilter(
+			$this->questionSetConfig->getLastQuestionSyncTimestamp() != 0
+		);
+		// fau.
 
 		require_once 'Modules/Test/classes/class.ilTestTaxonomyFilterLabelTranslater.php';
 		$translater = new ilTestTaxonomyFilterLabelTranslater($this->db);
@@ -529,18 +522,46 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->sourcePoolDefinitionList->reindexPositions();
 		$this->sourcePoolDefinitionList->saveDefinitions();
 
-		$this->sourcePoolDefinitionList->loadDefinitions();
-		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
-		$this->sourcePoolDefinitionList->saveDefinitions();
+		// fau: delayCopyRandomQuestions - don't rebuild the staging pool, just clear the sycn timestamp
+		#$this->sourcePoolDefinitionList->loadDefinitions();
+		#$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
+		#$this->sourcePoolDefinitionList->saveDefinitions();
+		// fau.
 		
 		// Bugfix for mantis: 0015082
 		$this->questionSetConfig->loadFromDb();
-		$this->questionSetConfig->setLastQuestionSyncTimestamp(time());
+		// fau: delayCopyRandomQuestions - don't rebuild the staging pool, just clear the sycn timestamp
+		#$this->questionSetConfig->setLastQuestionSyncTimestamp(time());
+		$this->questionSetConfig->setLastQuestionSyncTimestamp(0);
+		// fau.
 		$this->questionSetConfig->saveToDb();
 
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 	}
 
+	// hey: randomPoolSelector - new pool selector explorer command
+	protected function showPoolSelectorExplorerCmd()
+	{
+		$this->questionSetConfig->loadFromDb();
+		
+		require_once 'Services/Repository/classes/class.ilTestQuestionPoolSelectorExplorer.php';
+		$selector = new ilTestQuestionPoolSelectorExplorer(
+			$this, self::CMD_SHOW_POOL_SELECTOR_EXPLORER, self::CMD_SHOW_CREATE_SRC_POOL_DEF_FORM
+		);
+		
+		$selector->setAvailableQuestionPools(
+			array_keys( $this->questionSetConfig->getSelectableQuestionPools() )
+		);
+		
+		if( $selector->handleCommand() )
+		{
+			return;
+		}
+		
+		$this->tpl->setContent( $selector->getHTML() );
+	}
+	// hey.
+		
 	private function showCreateSourcePoolDefinitionFormCmd(ilTestRandomQuestionSetPoolDefinitionFormGUI $form = null)
 	{
 		$this->questionSetConfig->loadFromDb();
@@ -592,11 +613,16 @@ class ilTestRandomQuestionSetConfigGUI
 		$sourcePoolDefinition->setSequencePosition( $this->sourcePoolDefinitionList->getNextPosition() );
 		$sourcePoolDefinition->saveToDb();
 		$this->sourcePoolDefinitionList->addDefinition($sourcePoolDefinition);
-
-		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
+		
+		// fau: delayCopyRandomQuestions - don't rebuild the staging pool, just clear the sycn timestamp
+		#$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
+		// fau.
 		$this->sourcePoolDefinitionList->saveDefinitions();
-
-		$this->questionSetConfig->setLastQuestionSyncTimestamp(time());
+		
+		// fau: delayCopyRandomQuestions - don't rebuild the staging pool, just clear the sycn timestamp
+		#$this->questionSetConfig->setLastQuestionSyncTimestamp(time());
+		$this->questionSetConfig->setLastQuestionSyncTimestamp(0);
+		// fau.
 		$this->questionSetConfig->saveToDb();
 
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
@@ -670,9 +696,12 @@ class ilTestRandomQuestionSetConfigGUI
 		$sourcePoolDefinition->saveToDb();
 
 		$this->sourcePoolDefinitionList->loadDefinitions();
-		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
+		// fau: delayCopyRandomQuestions - don't rebuild the staging pool, just clear the sycn timestamp
+		#$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
 
-		$this->questionSetConfig->setLastQuestionSyncTimestamp(time());
+		#$this->questionSetConfig->setLastQuestionSyncTimestamp(time());
+		$this->questionSetConfig->setLastQuestionSyncTimestamp(0);
+		// fau.
 		$this->questionSetConfig->saveToDb();
 
 		$this->sourcePoolDefinitionList->saveDefinitions();
@@ -706,6 +735,14 @@ class ilTestRandomQuestionSetConfigGUI
 		if( isset($_GET['quest_pool_id']) && (int)$_GET['quest_pool_id'] )
 		{
 			return (int)$_GET['quest_pool_id'];
+		}
+
+		if( isset($_GET['quest_pool_ref']) && (int)$_GET['quest_pool_ref'] )
+		{
+			/* @var ilObjectDataCache $objCache */
+			$objCache = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilObjDataCache'] : $GLOBALS['ilObjDataCache'];
+			
+			return $objCache->lookupObjId( (int)$_GET['quest_pool_ref'] );
 		}
 
 		require_once 'Modules/Test/exceptions/class.ilTestMissingQuestionPoolIdParameterException.php';
