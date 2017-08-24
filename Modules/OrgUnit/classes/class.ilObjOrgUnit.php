@@ -472,10 +472,13 @@ class ilObjOrgUnit extends ilContainer {
 		global $DIC;
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 
-		$role_emp = ilObjRole::createDefaultRole('il_orgu_employee_'
-		                                         . $this->getRefId(), "Emplyee of org unit obj_no."
-		                                                              . $this->getId(), 'il_orgu_superior', $this->getRefId());
 
+        $role_emp = new ilObjRole();
+        $role_emp->setTitle("il_orgu_employee_" . $this->getRefId());
+        $role_emp->setDescription("Emplyee of org unit obj_no." . $this->getId());
+        $role_emp->create();
+        $GLOBALS['rbacadmin']->assignRoleToFolder($role_emp->getId(),$this->getRefId(),'y');
+        
 		$role_sup = ilObjRole::createDefaultRole('il_orgu_superior_'
 		                                         . $this->getRefId(), "Superior of org unit obj_no."
 		                                                              . $this->getId(), 'il_orgu_superior', $this->getRefId());

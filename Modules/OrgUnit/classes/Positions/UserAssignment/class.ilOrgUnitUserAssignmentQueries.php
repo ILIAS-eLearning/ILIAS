@@ -101,15 +101,16 @@ class ilOrgUnitUserAssignmentQueries {
 
 
 	/**
-	 * @param $position_id
-	 * @param $user_id
+	 * @param      $position_id
+	 * @param      $user_id
+	 *
+	 * @param bool $recursive
 	 *
 	 * @return \ilOrgUnitUserAssignment[]
 	 * @internal param $orgunit_ref_id
-	 *
 	 */
-	public function getUserIdsOfOrgUnitsOfUsersPosition($position_id, $user_id) {
-		return ilOrgUnitUserAssignment::where([ 'orgu_id' => $this->getOrgUnitIdsOfUsersPosition($position_id, $user_id) ])
+	public function getUserIdsOfOrgUnitsOfUsersPosition($position_id, $user_id, $recursive = false) {
+		return ilOrgUnitUserAssignment::where([ 'orgu_id' => $this->getOrgUnitIdsOfUsersPosition($position_id, $user_id, $recursive) ])
 		                              ->getArray(null, 'user_id');
 	}
 
@@ -133,27 +134,43 @@ class ilOrgUnitUserAssignmentQueries {
 	 * @param       $users_position_id
 	 * @param       $position_id
 	 *
+	 * @param bool  $recursive
+	 *
 	 * @return int[]
 	 */
-	public function getUserIdsOfUsersOrgUnitsInPosition($user_id, $users_position_id, $position_id) {
+	public function getUserIdsOfUsersOrgUnitsInPosition($user_id, $users_position_id, $position_id, $recursive = false) {
 		return ilOrgUnitUserAssignment::where([
-			'orgu_ids'    => $this->getOrgUnitIdsOfUsersPosition($users_position_id, $user_id),
+			'orgu_id'     => $this->getOrgUnitIdsOfUsersPosition($users_position_id, $user_id, $recursive),
 			'position_id' => $position_id,
 		])->getArray(null, 'user_id');
 	}
 
 
 	/**
-	 * @param $position_id
-	 * @param $user_id
+	 * @param      $position_id
+	 * @param      $user_id
+	 *
+	 * @param bool $recursive
 	 *
 	 * @return int[]
 	 */
-	public function getOrgUnitIdsOfUsersPosition($position_id, $user_id) {
-		return ilOrgUnitUserAssignment::where([
+	public function getOrgUnitIdsOfUsersPosition($position_id, $user_id, $recursive = false) {
+		$orgu_ids = ilOrgUnitUserAssignment::where([
 			'position_id' => $position_id,
 			'user_id'     => $user_id,
 		])->getArray(null, 'orgu_id');
+
+		if (!$recursive) {
+			return $orgu_ids;
+		}
+
+		$recursive_orgu_ids = [];
+		$tree = ilObjOrgUnitTree::_getInstance();
+		foreach ($orgu_ids as $orgu_id) {
+			$recursive_orgu_ids = $recursive_orgu_ids + $tree->getAllChildren($orgu_id);
+		}
+
+		return $recursive_orgu_ids;
 	}
 
 

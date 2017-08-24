@@ -10,24 +10,6 @@
 interface ilOrgUnitPositionAccessHandler {
 
 	/**
-	 * @param int[] $user_ids List of ILIAS-User-IDs which shall be filtered
-	 *
-	 * @return int[] Filtered List of ILIAS-User-IDs
-	 */
-	public function filterUserIdsForCurrentUsersPositionsAndAnyPermission(array $user_ids);
-
-
-	/**
-	 * @param int[] $user_ids    List of ILIAS-User-IDs which shall be filtered
-	 *
-	 * @param int   $for_user_id ID od the user, for which
-	 *
-	 * @return int[] Filtered List of ILIAS-User-IDs
-	 */
-	public function filterUserIdsForUsersPositionsAndAnyPermission(array $user_ids, $for_user_id);
-
-
-	/**
 	 * @param int[]  $user_ids List of ILIAS-User-IDs which shall be filtered
 	 *
 	 * @param string $permission
@@ -117,10 +99,4 @@ interface ilOrgUnitPositionAccessHandler {
 	 * @return int[]
 	 */
 	public function filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, array $user_ids);
-
-
-	/**
-	 * @return string[] array of available permissions used for position-related checks
-	 */
-	public function getAvailablePositionRelatedPermissions();
 }
