@@ -343,7 +343,7 @@ class ilCalendarViewGUI
 					' '.$this->seed->get(IL_CAL_FKT_DATE,'Y');
 				break;
 			case self::CAL_PRESENTATION_AGENDA_LIST:
-				$bucket_title .= " Agenda ".$this->seed;
+				$bucket_title .= " Agenda ".$this->cleanSeed($this->seed);
 				break;
 		}
 
