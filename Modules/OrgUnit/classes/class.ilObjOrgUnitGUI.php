@@ -14,13 +14,10 @@
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, illearningprogressgui
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilTranslationGUI, ilLocalUserGUI, ilOrgUnitExportGUI, ilOrgUnitStaffGUI, ilExtIdGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitSimpleImportGUI, ilOrgUnitSimpleUserImportGUI
-<<<<<<< HEAD
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI, ilOrgUnitPositionGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitUserAssignmentGUI
-=======
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilObjOrgUnitGlobalSettingsGUI
->>>>>>> feature/5-3/myStaff
  */
 class ilObjOrgUnitGUI extends ilContainerGUI {
 

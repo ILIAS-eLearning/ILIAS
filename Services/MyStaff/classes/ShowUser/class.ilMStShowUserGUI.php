@@ -1,71 +1,69 @@
 <?php
+
 /**
  * GUI-Class Table ilMStShowUserGUI
  *
- * @author Martin Studer <ms@studer-raimann.ch>
+ * @author            Martin Studer <ms@studer-raimann.ch>
  *
  * @ilCtrl_IsCalledBy ilMStShowUserGUI: ilMyStaffGUI
- * @ilCtrl_Calls ilMStShowUserGUI:ilFormPropertyDispatchGUI
+ * @ilCtrl_Calls      ilMStShowUserGUI:ilFormPropertyDispatchGUI
  */
 class ilMStShowUserGUI {
 
-    /**
-     * @var  ilTable2GUI
-     */
-    protected $table;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
+	const CMD_INDEX = 'index';
+	const CMD_RESET_FILTER = 'resetFilter';
+	const CMD_APPLY_FILTER = 'applyFilter';
+	/**
+	 * @var int
+	 */
+	protected $usr_id;
+	/**
+	 * @var  ilTable2GUI
+	 */
+	protected $table;
 
 
-	function __construct() {
-		global $tpl, $ilCtrl, $lng, $ilTabs;
-
-		$this->tpl = $tpl;
-		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
-		$this->tabs = $ilTabs;
-
-		$this->usr_id = $_GET['usr_id'];
-        $this->ctrl->setParameter($this, 'usr_id', $this->usr_id);
+	public function __construct() {
+		$this->usr_id = $this->dic()->http()->request()->getQueryParams()['usr_id'];
+		$this->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
 	}
 
 
-    protected function checkAccessOrFail() {
+	protected function checkAccessOrFail() {
+		if (!$this->usr_id) {
+			ilUtil::sendFailure($this->lng()->txt("permission_denied"), true);
+			$this->ctrl()->redirectByClass('ilPersonalDesktopGUI', "");
+		}
 
-        if(!$this->usr_id) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
-            $this->ctrl->redirectByClass('ilPersonalDesktopGUI', "");
-        }
+		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
+			return true;
+		} else {
+			ilUtil::sendFailure($this->lng()->txt("permission_denied"), true);
+			$this->ctrl()->redirectByClass('ilPersonalDesktopGUI', "");
+		}
+	}
 
-        if (ilMyStaffAcess::getInstance()->hasCurrentUserAccessToMyStaff()) {
-            return true;
-        } else {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
-            $this->ctrl->redirectByClass('ilPersonalDesktopGUI', "");
-        }
-    }
 
 	public function executeCommand() {
-        $this->checkAccessOrFail();
+		$this->checkAccessOrFail();
 
-        $this->addTabs('show_user');
+		$this->addTabs('show_user');
 
-		$cmd = $this->ctrl->getCmd();
-		$next_class = $this->ctrl->getNextClass();
+		$cmd = $this->ctrl()->getCmd();
+		$next_class = $this->ctrl()->getNextClass();
 
-		switch($next_class) {
-            case 'ilformpropertydispatchgui':
-                $this->ctrl->setReturn($this,'index');
-                $table = new ilMStShowUserCoursesTableGUI($this, 'index');
-                $table->executeCommand();
-                break;
+		switch ($next_class) {
+			case strtolower(ilFormPropertyDispatchGUI::class):
+				$this->ctrl()->setReturn($this, self::CMD_INDEX);
+				$table = new ilMStShowUserCoursesTableGUI($this, self::CMD_INDEX);
+				$table->executeCommand();
+				break;
 			default:
 				switch ($cmd) {
-					case 'resetFilter':
-					case 'applyFilter':
-                    case 'index':
+					case self::CMD_RESET_FILTER:
+					case self::CMD_APPLY_FILTER:
+					case self::CMD_INDEX:
 						$this->$cmd();
 						break;
 					default:
@@ -75,60 +73,82 @@ class ilMStShowUserGUI {
 		}
 	}
 
-	public function index() {
+
+	protected function index() {
 		$this->listUsers();
 	}
 
-	public function listUsers() {
-		$this->table = new ilMStShowUserCoursesTableGUI($this, 'index');
-        $this->table->setTitle(sprintf($this->lng->txt('mst_courses_of'),ilObjCourse::_lookupTitle($this->usr_id)));
 
-        $pub_profile = new ilPublicUserProfileGUI($this->usr_id);
+	protected function listUsers() {
+		$this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_INDEX);
+		$this->table->setTitle(sprintf($this->lng()
+		                                    ->txt('mst_courses_of'), ilObjCourse::_lookupTitle($this->usr_id)));
 
-        $tpl = new ilTemplate('./Services/MyStaff/templates/default/tpl.show_user_container.html', true, true);
+		$pub_profile = new ilPublicUserProfileGUI($this->usr_id);
 
-        $tpl->setCurrentBlock('courses');
-        $tpl->setVariable('COURSES',$this->table->getHTML());
-        $tpl->parseCurrentBlock();
+		$tpl = new ilTemplate('./Services/MyStaff/templates/default/tpl.show_user_container.html', true, true);
 
-        $tpl->setCurrentBlock('profile');
-        $tpl->setVariable('PROFILE',$pub_profile->getEmbeddable());
-        $tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock('courses');
+		$tpl->setVariable('COURSES', $this->table->getHTML());
+		$tpl->parseCurrentBlock();
 
-        $this->tpl->setContent($tpl->get());
+		$tpl->setCurrentBlock('profile');
+		$tpl->setVariable('PROFILE', $pub_profile->getEmbeddable());
+		$tpl->parseCurrentBlock();
+
+		$this->tpl()->setContent($tpl->get());
 	}
 
 
-	public function applyFilter() {
-        $this->table = new ilMStShowUserCoursesTableGUI($this, 'applyFilter');
-        $this->table->writeFilterToSession();
+	protected function applyFilter() {
+		$this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_APPLY_FILTER);
+		$this->table->writeFilterToSession();
 		$this->table->resetOffset();
 		$this->index();
 	}
 
 
-	public function resetFilter() {
-        $this->table = new ilMStShowUserCoursesTableGUI($this, 'resetFilter');
+	protected function resetFilter() {
+		$this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_RESET_FILTER);
 		$this->table->resetOffset();
 		$this->table->resetFilter();
 		$this->index();
 	}
 
-    public function getId() {
-        $this->table = new ilMStShowUserCoursesTableGUI($this, 'index');
-        return $this->table->getId();
-    }
 
-	public function cancel() {
-		$this->ctrl->redirect($this);
+	/**
+	 * @return string
+	 */
+	public function getId() {
+		$this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_INDEX);
+
+		return $this->table->getId();
 	}
 
-    public function addTabs($active_tab_id) {
-	    $this->tabs->setBackTarget($this->lng->txt('mst_list_users'), $this->ctrl->getLinkTargetByClass(array("ilMyStaffGUI","ilMStListUsersGUI")));
-        $this->tabs->addTab('show_user', $this->lng->txt('mst_show_courses'), $this->ctrl->getLinkTargetByClass(array("ilMyStaffGUI","ilMStShowUserGUI"), 'index'));
 
-        if($active_tab_id) {
-            $this->tabs->activateTab($active_tab_id);
-        }
-    }
+	public function cancel() {
+		$this->ctrl()->redirect($this);
+	}
+
+
+	/**
+	 * @param string $active_tab_id
+	 */
+	protected function addTabs($active_tab_id) {
+		$lng = $this->lng();
+		$tabs = $this->tabs();
+		$ctrl = $this->ctrl();
+		$tabs->setBackTarget($lng->txt('mst_list_users'), $ctrl->getLinkTargetByClass(array(
+			ilMyStaffGUI::class,
+			ilMStListUsersGUI::class,
+		)));
+		$tabs->addTab('show_user', $lng->txt('mst_show_courses'), $ctrl->getLinkTargetByClass(array(
+			ilMyStaffGUI::class,
+			ilMStShowUserGUI::class,
+		), self::CMD_INDEX));
+
+		if ($active_tab_id) {
+			$tabs->activateTab($active_tab_id);
+		}
+	}
 }

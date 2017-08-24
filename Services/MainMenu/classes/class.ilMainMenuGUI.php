@@ -599,7 +599,7 @@ class ilMainMenuGUI
 			
 			$separator = false;
 
-            if($ilSetting->get("enable_my_staff") and ilMyStaffAcess::getInstance()->hasCurrentUserAccessToMyStaff() == true)
+            if($ilSetting->get("enable_my_staff") and ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff() == true)
             {
                 // my staff
                 $gl->addEntry($lng->txt("my_staff"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToMyStaff",
