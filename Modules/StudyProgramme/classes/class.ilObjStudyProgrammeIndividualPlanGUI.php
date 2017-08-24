@@ -203,21 +203,24 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 			}
 
 			$deadline = $this->getDeadlineFromForm($prgrs_id);
+			$deadline_str = $deadline->get(IL_CAL_DATE);
 			$cur_deadline = $prgrs->getDeadline();
-			$today = new ilDateTime(date("Y-m-d"), IL_CAL_DATE);
-			if($deadline != $cur_deadline) {
+			$cur_deadline_str = $cur_deadline->get(IL_CAL_DATE);
+			$today = date("Y-m-d");
+			if($deadline_str != $cur_deadline_str) {
 				$prgrs->setDeadline($deadline);
 				$cur_deadline = $deadline;
+				$cur_deadline_str = $cur_deadline->get(IL_CAL_DATE);
 			}
 
 			if ($cur_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
 				$changed = $this->updateRequiredPoints($prgrs_id) || $changed;
 
-				if($cur_deadline !== null && $cur_deadline > $today) {
+				if($cur_deadline !== null && $cur_deadline_str > $today) {
 					$prgrs->markFailed($this->user->getId());
 				}
 			} else if($cur_status == ilStudyProgrammeProgress::STATUS_FAILED) {
-				if($cur_deadline === null && $cur_deadline < $today) {
+				if($cur_deadline === null && $cur_deadline_str < $today) {
 					$prgrs->markNotFailed($this->user->getId());
 				}
 			}
