@@ -10,7 +10,7 @@ https://www.ilias.de/docu/goto_docu_wiki_wpage_3341_1357.html
     the mark assigned to the median participant is to be displayd
     next to the mark granted to an individual participant
 
-- ranking gui auf ein-subtab-betrieb umstellen (tables placed underneath each other)
+x- ranking gui auf ein-subtab-betrieb umstellen (tables placed underneath each other)
 
 - neuer subtab scored pass details (qst overview / detailed list / linked single qst)
 - participant results table links zu pass overview ersetzen mit links zu scored pass details ??
@@ -20,7 +20,7 @@ https://www.ilias.de/docu/goto_docu_wiki_wpage_3341_1357.html
 - neue permission access to test results -> assign alle die read oder write
 - statistics permission abschaffen (wenn extra permission -> alle raus und reuse für tst res)
 
-- ALLE Sprachvariablen mit FW Seite als LEitfaden gegenprüfen
+- ALLE Sprachvariablen mit FW Seite als Leitfaden gegenprüfen
 
 
 
@@ -28,5 +28,5 @@ Fragen an Alexa:
 
 - Particpant Results Table verlinkung zur pass overview ersetzen mit pass details scored pass?
     Oder bleibt für Admins/Tutoren die Sicht auf unscored passes bestehen?
-- Der Screenshot mit Participants im Results Reiter zeigt falschen aktiven SUbtab, richtig?
+- Der Screenshot mit Participants im Results Reiter zeigt falschen aktiven Subtab, richtig?
 
