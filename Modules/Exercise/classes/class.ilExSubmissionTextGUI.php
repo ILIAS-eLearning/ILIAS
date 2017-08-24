@@ -62,9 +62,9 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	// 
 	
 	protected function initAssignmentTextForm($a_read_only = false)
-	{		
-		global $ilCtrl;
-		
+	{
+		global $ilCtrl, $lng;
+
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();		
 		$form->setTitle($this->lng->txt("exc_assignment")." \"".$this->assignment->getTitle()."\"");
@@ -74,6 +74,23 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			$text = new ilTextAreaInputGUI($this->lng->txt("exc_your_text"), "atxt");
 			$text->setRequired((bool)$this->submission->getAssignment()->getMandatory());				
 			$text->setRows(40);
+			$text->setMaxNumOfChars($this->assignment->getMaxCharLimit());
+			$text->setMinNumOfChars($this->assignment->getMinCharLimit());
+
+			if ($text->isCharLimited())
+			{
+				$char_msg = "";
+				if($this->assignment->getMinCharLimit())
+				{
+					$char_msg .= $lng->txt("exc_min_char_limit").": ".$this->assignment->getMinCharLimit();
+				}
+				if($this->assignment->getMaxCharLimit())
+				{
+					$char_msg .= " ".$lng->txt("exc_max_char_limit").": ".$this->assignment->getMaxCharLimit();
+				}
+				$text->setInfo($char_msg);
+			}
+
 			$form->addItem($text);
 			
 			// custom rte tags
@@ -95,12 +112,14 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 				'copy',
 				'paste',
 				'pastetext',
+				'code',
 				// 'formatselect' #13234
 			));
 			
 			$form->setFormAction($ilCtrl->getFormAction($this, "updateAssignmentText"));
 			$form->addCommandButton("updateAssignmentTextAndReturn", $this->lng->txt("save_return"));		
-			$form->addCommandButton("updateAssignmentText", $this->lng->txt("save"));							
+			$form->addCommandButton("updateAssignmentText", $this->lng->txt("save"));
+			$form->addCommandButton("returnToParent", $this->lng->txt("cancel"));
 		}
 		else
 		{
@@ -108,7 +127,6 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			$text = new ilNonEditableValueGUI($this->lng->txt("exc_files_returned_text"), "atxt", true);	
 			$form->addItem($text);					
 		}
-		$form->addCommandButton("returnToParent", $this->lng->txt("cancel"));
 		
 		return $form;
 	}

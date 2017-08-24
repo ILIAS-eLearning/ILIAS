@@ -22,35 +22,47 @@ class ilDiskQuotaHandler
 	public static function handleUpdatedSourceObject($a_src_obj_type, $a_src_obj_id, $a_src_filesize, $a_owner_obj_ids = null, $a_is_prtf = false)
 	{
 		global $ilDB;		
-		
 		$done = array();
 		
 		if(is_array($a_owner_obj_ids) && sizeof($a_owner_obj_ids) && (int)$a_src_filesize > 0)
 		{
 			// we are (currently) only interested in personal workspace objects
-		
-			if(!$a_is_prtf)
-			{
-				$set = $ilDB->query("SELECT DISTINCT(od.owner)".
-					" FROM object_data od".
-					" JOIN object_reference_ws ref ON (ref.obj_id = od.obj_id)".
-					" JOIN tree_workspace t ON (t.child = ref.wsp_id)".
-					" WHERE ".$ilDB->in("od.obj_id", $a_owner_obj_ids, "", "integer").
-					" AND t.tree = od.owner");
-			}
-			else
-			{
-				$set = $ilDB->query("SELECT DISTINCT(od.owner)".
-					" FROM object_data od".
-					" JOIN usr_portfolio prtf ON (prtf.id = od.obj_id)".
-					" WHERE ".$ilDB->in("od.obj_id", $a_owner_obj_ids, "", "integer"));
-			}
+
+			// problem: file in portfolio comes in with file and portfolio id, however $a_is_prtf is set to false
+			// so we do both for now
+
+			// get all owners
+			$set = $ilDB->query("SELECT DISTINCT(od.owner)".
+				" FROM object_data od".
+				" JOIN object_reference_ws ref ON (ref.obj_id = od.obj_id)".
+				" JOIN tree_workspace t ON (t.child = ref.wsp_id)".
+				" WHERE ".$ilDB->in("od.obj_id", $a_owner_obj_ids, "", "integer").
+				" AND t.tree = od.owner");
+			$owners = array();
 			while($row = $ilDB->fetchAssoc($set))
+			{
+				if (!in_array($row["owner"], $owners))
+				{
+					$owners[] = $row["owner"];
+				}
+			}
+			$set = $ilDB->query("SELECT DISTINCT(od.owner)".
+				" FROM object_data od".
+				" JOIN usr_portfolio prtf ON (prtf.id = od.obj_id)".
+				" WHERE ".$ilDB->in("od.obj_id", $a_owner_obj_ids, "", "integer"));
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				if (!in_array($row["owner"], $owners))
+				{
+					$owners[] = $row["owner"];
+				}
+			}
+			foreach ($owners as $owner)
 			{					
-				$done[] = $row["owner"];
+				$done[] = $owner;
 
 				self::handleEntry(
-					$row["owner"], 
+					$owner,
 					$a_src_obj_type,
 					$a_src_obj_id,
 					(int)$a_src_filesize

@@ -78,6 +78,12 @@ class ilExerciseExporter extends ilXmlExporter
 				"xsd_file" => "ilias_exc_5_2.xsd",
 				"uses_dataset" => true,
 				"min" => "5.2.0",
+				"max" => "5.2.99"),
+			"5.3.0" => array(
+				"namespace" => "http://www.ilias.de/Modules/Exercise/exc/5_3",
+				"xsd_file" => "ilias_exc_5_3.xsd",
+				"uses_dataset" => true,
+				"min" => "5.3.0",
 				"max" => "")
 		);
 	}

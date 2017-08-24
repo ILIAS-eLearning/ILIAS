@@ -40,7 +40,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		{
 			$titles[] = $file["filetitle"];
 		}
-		$files_str = implode($titles, ", ");
+		$files_str = implode($titles, "<br>");
 		if ($files_str == "")
 		{
 			$files_str = $lng->txt("message_no_delivered_files");
@@ -59,7 +59,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 				$button->setPrimary(true);
 				$button->setCaption($title, false);
 				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "submissionScreen"));							
-				$files_str.= " ".$button->render();								
+				$files_str.= "<br><br>".$button->render();
 			}
 			else
 			{
@@ -68,14 +68,14 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 					$button = ilLinkButton::getInstance();								
 					$button->setCaption("already_delivered_files");
 					$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "submissionScreen"));											
-					$files_str.= " ".$button->render();
+					$files_str.= "<br>".$button->render();
 				}
 			}
 		}
 
 		$a_info->addProperty($lng->txt("exc_files_returned"), $files_str);	
 	}
-	
+
 	/**
 	* Displays a form which allows members to deliver their solutions
 	*
@@ -263,7 +263,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 					);
 				if(!$this->submission->uploadFile($file))
 				{
-					ilUtil::sendFailure($this->lng->txt("exc_upload_error"), true);
+					ilUtil::sendFailure($this->lng->txt("exc_upload_error")." [Single File]", true);
 				}
 				else
 				{
@@ -397,7 +397,9 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 * Download submitted files of user.
 	 */
 	function downloadReturnedObject($a_only_new = false)
-	{		
+	{
+		global $lng;
+
 		$peer_review_mask_filename = false;
 		
 		if($this->submission->canView())
@@ -410,7 +412,12 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 			return;
 		}		
 		
-		$this->submission->downloadFiles(null, $a_only_new, $peer_review_mask_filename);			
+		$this->submission->downloadFiles(null, $a_only_new, $peer_review_mask_filename);
+		// we only get here, if no files have been found for download
+		if ($a_only_new)
+		{
+			ilUtil::sendInfo($lng->txt("exc_all_new_files_offered_already"), true);
+		}
 		$this->returnToParentObject();
 	}
 

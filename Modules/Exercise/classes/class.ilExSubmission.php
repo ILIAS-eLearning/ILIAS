@@ -262,12 +262,12 @@ class ilExSubmission
 	function uploadFile($a_http_post_files, $unzip = false)
 	{
 		global $ilDB;
-		
+
 		if(!$this->canAddFile())
 		{
 			return false;
 		}
-			
+
 		$deliver_result = $this->initStorage()->uploadFile($a_http_post_files, $this->getUserId(), $unzip);
 
 		if ($deliver_result)
@@ -328,7 +328,7 @@ class ilExSubmission
 				if($current_num + $zip_num > $max_num)
 				{
 					$success = false;
-					ilUtil::sendFailure($lng->txt("exc_upload_error"), true);
+					ilUtil::sendFailure($lng->txt("exc_upload_error")." [Zip1]", true);
 				}
 			}
 			
@@ -345,7 +345,7 @@ class ilExSubmission
 					if(!$this->uploadFile($a_http_post_files, true))
 					{
 						$success = false;
-						ilUtil::sendFailure($lng->txt("exc_upload_error"), true);
+						ilUtil::sendFailure($lng->txt("exc_upload_error")." [Zip2]", true);
 					}		
 				}			
 			}
@@ -447,18 +447,24 @@ class ilExSubmission
 	/**
 	 * Check how much files have been uploaded by the learner
 	 * after the last download of the tutor.
+	 * @param tutor integer
+	 * @return array
 	 */
-	function lookupNewFiles()
+	function lookupNewFiles($a_tutor = null)
 	{
   		global $ilDB, $ilUser;
-		
+
+  		$tutor = ($a_tutor)
+			? $a_tutor
+			: $ilUser->getId();
+
   		$q = "SELECT exc_returned.returned_id AS id ".
 			"FROM exc_usr_tutor, exc_returned ".
 			"WHERE exc_returned.ass_id = exc_usr_tutor.ass_id ".
 			" AND exc_returned.user_id = exc_usr_tutor.usr_id ".
 			" AND exc_returned.ass_id = ".$ilDB->quote($this->getAssignment()->getId(), "integer").
 			" AND ".$ilDB->in("exc_returned.user_id", $this->getUserIds(), "", "integer").
-			" AND exc_usr_tutor.tutor_id = ".$ilDB->quote($ilUser->getId(), "integer").
+			" AND exc_usr_tutor.tutor_id = ".$ilDB->quote($tutor, "integer").
 			" AND exc_usr_tutor.download_time < exc_returned.ts ";
 
   		$new_up_set = $ilDB->query($q);
@@ -471,7 +477,7 @@ class ilExSubmission
 
 		return $new_up;
 	}
-	
+
 	/**
 	 * Get exercise from submission id (used in ilObjMediaObject)
 	 * 

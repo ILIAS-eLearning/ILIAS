@@ -611,6 +611,16 @@ class ilPageObjectGUI
 		return $this->view_page_target;
 	}
 
+	/**
+	 * get view page text
+	 *
+	 * @return string
+	 */
+	function getViewPageText()
+	{
+		return $this->lng->txt("cont_presentation_view");
+	}
+
 	function setActivationListener(&$a_obj, $a_meth)
 	{
 		$this->act_obj = $a_obj;
@@ -859,7 +869,19 @@ return;
 	{
 		return $this->render_page_container;
 	}
-	
+
+	/**
+	 * Get disabled text
+	 *
+	 * @param
+	 * @return
+	 */
+	function getDisabledText()
+	{
+		return $this->lng->txt("inactive");
+	}
+
+
 	/**
 	* Activate meda data editor
 	*
@@ -1043,15 +1065,13 @@ return;
 				$this->lng->loadLanguageModule("content");
 				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 				$link_gui = new ilInternalLinkGUI("Media_Media", 0);
-				//$link_gui->filterLinkType("RepositoryItem");
-				
+
 				$link_gui->filterLinkType("PageObject_FAQ");
 				$link_gui->filterLinkType("GlossaryItem");
 				$link_gui->filterLinkType("Media_Media");
 				$link_gui->filterLinkType("Media_FAQ");
 				
 				$link_gui->setFilterWhiteList(true);
-				$link_gui->setMode("asynch");
 				$this->ctrl->forwardCommand($link_gui);
 				break;
 
@@ -1234,7 +1254,7 @@ return;
 				// presentation view
 				if ($this->getViewPageLink() != "")
 				{
-					$this->tabs_gui->addNonTabbedLink("pres_view", $this->lng->txt("cont_presentation_view"),
+					$this->tabs_gui->addNonTabbedLink("pres_view", $this->getViewPageText(),
 						$this->getViewPageLink(), $this->getViewPageTarget());
 				}
 
@@ -1255,6 +1275,8 @@ return;
 					include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
 					ilModalGUI::initJS();
 					$this->lng->toJS("cont_error");
+					$this->lng->toJS("cont_sel_el_cut_use_paste");
+					$this->lng->toJS("cont_sel_el_copied_use_paste");
 
 					include_once './Services/Style/Content/classes/class.ilObjStyleSheet.php';
 					$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
@@ -1583,7 +1605,7 @@ return;
 		//$content = $this->obj->getXMLFromDom(false, true, true,
 		//	$this->getLinkXML().$this->getQuestionXML().$this->getComponentPluginsXML());
 		$link_xml = $this->getLinkXML();
-
+//echo "<br>-".htmlentities($link_xml)."-"; exit;
 		// disable/enable auto margins
 		if ($this->getStyleId() > 0)
 		{
@@ -1629,6 +1651,7 @@ return;
 		$col_path = ilUtil::getImagePath("col.svg");
 		$row_path = ilUtil::getImagePath("row.svg");
 		$item_path = ilUtil::getImagePath("item.svg");
+		$cell_path = ilUtil::getImagePath("cell.svg");
 
 		if ($this->getOutputMode() != "offline")
 		{
@@ -1708,6 +1731,7 @@ return;
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path,
 						 'img_col' => $col_path,
 						 'img_row' => $row_path,
+						 'img_cell' => $cell_path,
 						 'img_item' => $item_path,
 						 'enable_split_new' => $enable_split_new,
 						 'enable_split_next' => $enable_split_next,
@@ -1781,7 +1805,7 @@ return;
 		{
 			$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
 
-			$this->log->debug("Calling XSLT, content: ".$content);
+			$this->log->debug("Calling XSLT, content: ".substr($content, 0, 100));
 			//echo $content; exit;
 
 
@@ -1848,7 +1872,7 @@ return;
 		if($this->getOutputMode() == "edit" &&
 			!$this->getPageObject()->getActive($this->getPageConfig()->getEnableScheduledActivation()))
 		{
-			$output = '<div class="il_editarea_disabled">'.$output.'</div>';
+			$output = '<div class="il_editarea_disabled"><div class="ilCopgDisabledText">'.$this->getDisabledText().'</div>'.$output.'</div>';
 		}
 		
 		// for all page components...
@@ -1964,6 +1988,10 @@ return;
 	 */
 	function addActionsMenu($a_tpl, $sel_media_mode, $sel_html_mode, $sel_js_mode)
 	{
+		global $DIC;
+		
+		$ui = $DIC->ui();
+		
 		// actions
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
@@ -1974,8 +2002,10 @@ return;
 		$entries = false;
 		if ($this->getPageConfig()->getEnableActivation())
 		{
+			
 			$entries = true;
-			$captions = $this->getActivationCaptions();			
+			$captions = $this->getActivationCaptions();
+
 			if ($this->getPageObject()->getActive())
 			{
 				$list->addItem($captions["deactivatePage"], "",
@@ -2006,7 +2036,16 @@ return;
 		
 		if ($entries)
 		{
-			$a_tpl->setVariable("PAGE_ACTIONS", $list->getHTML());
+			$items = $list->getItems();
+			if (count($items) > 1)
+			{
+				$a_tpl->setVariable("PAGE_ACTIONS", $list->getHTML());
+			}
+			else if (count($items) == 1)
+			{
+				$b = $ui->factory()->button()->standard($items[0]["title"], $items[0]["link"]);
+				$a_tpl->setVariable("PAGE_ACTIONS", $ui->renderer()->render($b));
+			}
 		}
 
 		$this->lng->loadLanguageModule("content");
@@ -2479,6 +2518,11 @@ return;
 						$href = ilWikiPage::getGotoForWikiPageTarget($target_id);
 						break;
 
+					case "PortfolioPage":
+						include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
+						$href = ilPortfolioPage::getGotoForPortfolioPageTarget($target_id, ($this->getOutputMode() == "offline"));
+						break;
+
 					case "RepositoryItem":
 						$obj_type = ilObject::_lookupType($target_id, true);
 						$obj_id = ilObject::_lookupObjId($target_id);
@@ -2902,10 +2946,7 @@ return;
 		}
 		else
 		{
-			$aset = new ilSetting("adve");
-
-			$min = (int) $aset->get("block_mode_minutes") ;
-			if ($min > 0)
+			if($this->getPageObject()->getEffectiveEditLockTime() > 0)
 			{
 				include_once("./Services/User/classes/class.ilUserUtil.php");
 				$lock = $this->getPageObject()->getEditLockInfo();
@@ -2945,6 +2986,14 @@ return;
 	function insertJSAtPlaceholder()
 	{
 		global $tpl;
+		
+		if ($_GET["pl_hier_id"] == "")
+		{
+			$this->obj->buildDom();
+			$this->obj->addHierIDs();
+			$hid = $this->obj->getHierIdsForPCIds(array($_GET["pl_pc_id"]));
+			$_GET["pl_hier_id"] = $hid[$_GET["pl_pc_id"]];
+		}
 		
 //		  'pl_hier_id' => string '2_1_1_1' (length=7)
 //  'pl_pc_id' => string '1f77eb1d8a478497d69b99d938fda8f' (length=31)

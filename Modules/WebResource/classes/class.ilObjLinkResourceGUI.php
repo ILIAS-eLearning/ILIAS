@@ -113,7 +113,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				$link_gui->filterLinkType("GlossaryItem");
 				$link_gui->filterLinkType("RepositoryItem");
 				$link_gui->setFilterWhiteList(true);
-				$link_gui->setMode("asynch");			
 				$ilCtrl->forwardCommand($link_gui);
 				break;
 			

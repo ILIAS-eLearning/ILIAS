@@ -695,7 +695,7 @@ echo htmlentities($a_text);*/
 		// internal links
 		//$any = "[^\]]*";	// this doesn't work :-(
 		$ws= "[ \t\r\f\v\n]*";
-		$ltypes = "page|chap|term|media|obj|dfile|sess|wpage|".implode($rtypes, "|");
+		$ltypes = "page|chap|term|media|obj|dfile|sess|wpage|ppage|".implode($rtypes, "|");
 		// empty internal links
 		while (preg_match('~\[(iln'.$ws.'((inst'.$ws.'='.$ws.'([\"0-9])*)?'.$ws.
 			"((".$ltypes.")$ws=$ws([\"0-9])*)$ws".
@@ -759,18 +759,15 @@ echo htmlentities($a_text);*/
 			else if (isset($attribs["wpage"]))
 			{
 				$tframestr = "";
-/*				switch ($found[10])
-				{
-					case "New":
-						$tframestr = " TargetFrame=\"New\" ";
-						break;
-
-					default:
-						$tframestr = " TargetFrame=\"Glossary\" ";
-						break;
-				}*/
 				$a_text = preg_replace('/\['.$found[1].'\]/i',
 					"<IntLink Target=\"il_".$inst_str."_wpage_".$attribs[wpage]."\" Type=\"WikiPage\" $tframestr>", $a_text);
+			}
+			// portfolio pages
+			else if (isset($attribs["ppage"]))
+			{
+				$tframestr = "";
+				$a_text = preg_replace('/\['.$found[1].'\]/i',
+					"<IntLink Target=\"il_".$inst_str."_ppage_".$attribs[ppage]."\" Type=\"PortfolioPage\" $tframestr>", $a_text);
 			}
 			// media object
 			else if (isset($attribs["media"]))
@@ -1149,10 +1146,12 @@ echo htmlentities($a_text);*/
 
 				case "WikiPage":
 					$tframestr = "";
-					/*$tframestr = (empty($attribs["TargetFrame"]) || $attribs["TargetFrame"] == "Glossary")
-						? ""
-						: " target=\"".$attribs["TargetFrame"]."\"";*/
 					$a_text = preg_replace('~<IntLink'.$found[1].'>~i',"[iln ".$inst_str."wpage=\"".$target_id."\"".$tframestr."]",$a_text);
+					break;
+
+				case "PortfolioPage":
+					$tframestr = "";
+					$a_text = preg_replace('~<IntLink'.$found[1].'>~i',"[iln ".$inst_str."ppage=\"".$target_id."\"".$tframestr."]",$a_text);
 					break;
 
 				case "MediaObject":

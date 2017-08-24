@@ -211,7 +211,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
 	}
 	
 	protected function handleQuotaUpdate()
-	{										
+	{
 		include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
 		ilDiskQuotaHandler::handleUpdatedSourceObject($this->getType(), 
 			$this->getId(),

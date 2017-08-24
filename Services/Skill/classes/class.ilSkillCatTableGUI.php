@@ -17,7 +17,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
 	const MODE_SCAT = 0;
 	const MODE_SCTP = 1;
 	protected $tref_id = 0;
-	
+
 	/**
 	 * Constructor
 	 */
