@@ -13747,3 +13747,17 @@ content#:#cont_lm_starting_point_info#:#Page being opened when clicking a learni
 content#:#cont_short_titles#:#Short Titles
 content#:#cont_short_title#:#Short Title
 content#:#cont_short_title_info#:#Short titles are used in the left-hand tree presentation and for labels in the previous/next navigation.
+common#:#my_staff#:#My Staff
+mst#:#mst_my_staff#:#My Staff
+mst#:#mst_list_users#:#Staff List
+mst#:#mst_list_courses#:#Courses of My Staff
+mst#:#mst_select_course#:#Select Course
+mst#:#mst_please_select_course#:#Please select a course.
+mst#:#mst_opt_all#:#All
+mst#:#mst_memb_status_requested#:#Requested
+mst#:#mst_memb_status_waitinglist#:#Waiting List
+mst#:#mst_memb_status_registered#:#Registered
+mst#:#mst_show_courses#:#Show Courses
+mst#:#mst_courses_of#:#Courses of %s
+orgu#:#orgu_enable_my_staff#:#Enable ‘My Staff’
+orgu#:#orgu_enable_my_staff_info#:#The View ‘My Staff’ shows the Learning Progress of the own Employees.

@@ -16217,3 +16217,17 @@ content#:#cont_lm_starting_point_info#:#Seite, die beim Anklicken des Lernmodult
 content#:#cont_short_titles#:#Kurztitel
 content#:#cont_short_title#:#Kurztitel
 content#:#cont_short_title_info#:#Kurztitel werden in der Präsentationsansicht in der Baumdarstellung auf der linken Seite und für die Vor- und Zurück-Navigation genutzt.
+common#:#my_staff#:#Meine Mitarbeiter
+mst#:#mst_my_staff#:#Meine Mitarbeiter
+mst#:#mst_list_users#:#Mitarbeiterliste
+mst#:#mst_list_courses#:#Kurse meiner Mitarbeiter
+mst#:#mst_select_course#:#Kurs auswählen
+mst#:#mst_please_select_course#:#Bitte wählen Sie einen Kurs aus.
+mst#:#mst_opt_all#:#Alle
+mst#:#mst_memb_status_requested#:#Beantragt
+mst#:#mst_memb_status_waitinglist#:#Warteliste
+mst#:#mst_memb_status_registered#:#Angemeldet
+mst#:#mst_show_courses#:#Kurse anzeigen
+mst#:#mst_courses_of#:#Kurse von %s
+orgu#:#orgu_enable_my_staff#:#‘Meine Mitarbeiter’ aktivieren
+orgu#:#orgu_enable_my_staff_info#:#The Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
