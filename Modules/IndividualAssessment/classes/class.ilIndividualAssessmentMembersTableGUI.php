@@ -199,7 +199,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 	}
 
 	/**
-	 * User may edit member
+	 * User may amend members records.
 	 *
 	 * @return bool
 	 */
