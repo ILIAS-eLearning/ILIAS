@@ -180,7 +180,7 @@ class ilStudyProgrammeUserProgress {
 	 *
 	 * @param ilDateTime | null 	$deadline
 	 */
-	public function setDeadline() {
+	public function setDeadline($deadline) {
 		return $this->progress->setDeadline($deadline);
 	}
 
