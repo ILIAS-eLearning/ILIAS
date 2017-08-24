@@ -144,12 +144,12 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		$edited_by_viewer = $this->setWasEditedByViewer((int)$a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID]);
 		$finalized = (bool)$a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED];
 
-		if ($finalized && (($this->userMayEditGrades() && $edited_by_viewer) || $this->userMayViewGrades())) {
+		if ($finalized && (($this->userMayEditGradesOf($a_set["usr_id"]) && $edited_by_viewer) || $this->userMayViewGrades())) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','view');
 			$l->addItem($this->lng->txt('iass_usr_view'), 'view', $target);
 		}
 
-		if(!$finalized && $this->userMayEditGrades() && $edited_by_viewer) {
+		if(!$finalized && $this->userMayEditGradesOf($a_set["usr_id"]) && $edited_by_viewer) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','edit');
 			$l->addItem($this->lng->txt('iass_usr_edit'), 'edit', $target);
 		}
@@ -187,6 +187,16 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 	 */
 	protected function userMayEditGrades() {
 		return $this->iass_access->mayGradeUser();
+	}
+
+	/**
+	 * User may edit grades of a specific user.
+	 *
+	 * @param  int	$a_user_id
+	 * @return bool
+	 */
+	protected function userMayEditGradesOf($a_user_id) {
+		return $this->iass_access->mayGradeUserById($a_user_id);
 	}
 
 	/**
