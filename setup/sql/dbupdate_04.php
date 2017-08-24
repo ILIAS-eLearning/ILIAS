@@ -19845,3 +19845,17 @@ if( !$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'type_filter'))
 	);
 }
 ?>
+
+<#5153>
+<?php
+if( !$ilDB->tableColumnExists('prg_usr_progress', 'deadline'))
+{
+	$ilDB->addTableColumn('prg_usr_progress', 'deadline',
+		array('type' => 'text',
+			'length' => 15,
+			'notnull'=> false
+		)
+	);
+}
+?>
+
