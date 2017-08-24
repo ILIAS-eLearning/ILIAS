@@ -836,19 +836,6 @@ class ilAccess implements ilAccessHandler {
 	//
 	// OrgUnit Positions
 	//
-	/**
-	 * @inheritdoc
-	 */
-	public function filterUserIdsForCurrentUsersPositionsAndAnyPermission(array $user_ids) {
-		return $this->ilOrgUnitPositionAccess->filterUserIdsForCurrentUsersPositionsAndAnyPermission($user_ids);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function filterUserIdsForUsersPositionsAndAnyPermission(array $user_ids, $for_user_id) {
-		return $this->ilOrgUnitPositionAccess->filterUserIdsForUsersPositionsAndAnyPermission($user_ids, $for_user_id);
-	}
 
 	/**
 	 * @inheritdoc
@@ -911,13 +898,5 @@ class ilAccess implements ilAccessHandler {
 	 */
 	public function filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id, array $user_ids) {
 		return $this->ilOrgUnitPositionAccess->filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id,  $user_ids);
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getAvailablePositionRelatedPermissions() {
-		return ilOrgUnitOperation::getArray('id', 'operation_string');
 	}
 }
