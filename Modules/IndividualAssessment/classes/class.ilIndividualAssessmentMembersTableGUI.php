@@ -34,7 +34,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		foreach ($this->visibleColumns() as $lng_var => $params) {
 			$this->addColumn($this->lng->txt($lng_var), $params[0]);
 		}
-		$this->setData(iterator_to_array($a_parent_obj->object->loadMembers()));
+		$this->setData(iterator_to_array($a_parent_obj->object->loadVisibleMembers()));
 	}
 
 	/**
