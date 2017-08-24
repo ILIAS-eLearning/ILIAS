@@ -180,8 +180,19 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 * @con_is_notnull  false 
 	 */
 	protected $last_change_by;
-	
-	
+
+	/**
+	 * Date until user has to finish
+	 *
+	 * @var ilDateTime
+	 *
+	 * @con_has_field   true
+	 * @con_fieldtype   text
+	 * @con_length      15
+	 * @con_is_notnull  false
+	 */
+	protected $deadline;
+
 	/**
 	 * Create a new progress object for a given program node and assignment.
 	 *
@@ -199,6 +210,7 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 			->setCurrentAmountOfPoints(0)
 			->setCompletionBy(null)
 			->setLastChangeBy(null)
+			->setDeadline(null)
 			->updateLastChange()
 			->create();
 		return $prg;
@@ -429,6 +441,27 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 		}
 		
 		$this->last_change = $a_timestamp->get(IL_CAL_DATETIME);
+		return $this;
+	}
+
+	/**
+	 * Get the deadline of this progress.
+	 *
+	 * @return ilDateTime
+	 */
+	public function getDeadline() {
+		return $this->deadline;
+	}
+
+	/**
+	 * Set the deadline of this progress
+	 *
+	 * @param ilDateTime 	$deadline
+	 *
+	 * @return $this
+	 */
+	public function setDeadline(ilDateTime $deadline) {
+		$this->deadline = $deadline;
 		return $this;
 	}
 }
