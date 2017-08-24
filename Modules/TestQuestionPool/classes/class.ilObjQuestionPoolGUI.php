@@ -1233,6 +1233,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			}
 			ilUtil::sendInfo($this->lng->txt("qpl_copy_insert_clipboard"), true);
 		}
+		else if(isset($_GET['q_id']) && $_GET['q_id'] > 0)
+		{
+			$this->object->copyToClipboard(array((int)$_GET['q_id']));
+			ilUtil::sendInfo($this->lng->txt("qpl_copy_insert_clipboard"), true);
+		}
 		else
 		{
 			ilUtil::sendInfo($this->lng->txt("qpl_copy_select_none"), true);
@@ -1252,6 +1257,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->object->moveToClipboard($value);
 			}
 			ilUtil::sendInfo($this->lng->txt("qpl_move_insert_clipboard"), true);
+		}
+		else if(isset($_GET['q_id']) && $_GET['q_id'] > 0)
+		{
+			$this->object->moveToClipboard(array((int)$_GET['q_id']));
+			ilUtil::sendInfo($this->lng->txt("qpl_copy_insert_clipboard"), true);
 		}
 		else
 		{

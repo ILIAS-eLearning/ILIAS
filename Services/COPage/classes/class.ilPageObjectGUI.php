@@ -77,7 +77,7 @@ class ilPageObjectGUI
 	/**
 	 * @var ilPageObject
 	 */
-	protected $obj;
+	public $obj;
 
 	/**
 	 * @var string
