@@ -187,11 +187,10 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	/**
 	 * Date until user has to finish
 	 *
-	 * @var ilDateTime
+	 * @var int
 	 *
 	 * @con_has_field   true
-	 * @con_fieldtype   text
-	 * @con_length      15
+	 * @con_fieldtype   timestamp
 	 * @con_is_notnull  false
 	 */
 	protected $deadline;
@@ -213,7 +212,6 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 			->setCurrentAmountOfPoints(0)
 			->setCompletionBy(null)
 			->setLastChangeBy(null)
-			->setDeadline(null)
 			->updateLastChange()
 			->create();
 		return $prg;
@@ -453,6 +451,9 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 * @return ilDateTime
 	 */
 	public function getDeadline() {
+		if($this->deadline !== null) {
+			return new ilDateTime($this->deadline, IL_CAL_DATETIME);
+		}
 		return $this->deadline;
 	}
 
@@ -464,7 +465,12 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 * @return $this
 	 */
 	public function setDeadline(ilDateTime $deadline = null) {
-		$this->deadline = $deadline;
+		if($deadline === null) {
+			$this->deadline = $deadline;
+		} else {
+			$this->deadline = $deadline->get(IL_CAL_DATE);
+		}
+
 		return $this;
 	}
 }
