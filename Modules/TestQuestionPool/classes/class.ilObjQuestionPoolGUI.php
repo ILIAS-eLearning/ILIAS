@@ -1235,7 +1235,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		else if(isset($_GET['q_id']) && $_GET['q_id'] > 0)
 		{
-			$this->object->copyToClipboard(array((int)$_GET['q_id']));
+			$this->object->copyToClipboard((int)$_GET['q_id']);
 			ilUtil::sendInfo($this->lng->txt("qpl_copy_insert_clipboard"), true);
 		}
 		else
@@ -1260,7 +1260,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		else if(isset($_GET['q_id']) && $_GET['q_id'] > 0)
 		{
-			$this->object->moveToClipboard(array((int)$_GET['q_id']));
+			$this->object->moveToClipboard((int)$_GET['q_id']);
 			ilUtil::sendInfo($this->lng->txt("qpl_copy_insert_clipboard"), true);
 		}
 		else
