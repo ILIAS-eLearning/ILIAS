@@ -683,6 +683,18 @@ class ilStudyProgrammeUserProgress {
 		require_once("Services/Tracking/classes/class.ilLPStatusWrapper.php");
 		ilLPStatusWrapper::_refreshStatus($this->getStudyProgramme()->getId(), array($this->getUserId()));
 	}
+
+	/**
+	 * Updates current progress
+	 *
+	 * @param int 	$user_id
+	 *
+	 * @return void
+	 */
+	public function updateProgress($user_id) {
+		$this->progress->setLastChangeBy($user_id)
+			->update();
+	}
 }
 
 ?>
