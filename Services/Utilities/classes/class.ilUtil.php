@@ -3585,68 +3585,13 @@ class ilUtil
 
 
 	/**
-	* http redirect to other script
-	*
-	* @param	string		$a_script		target script
-	* @static
-	* 
-	*/
+	 * @param $a_script
+	 *
+	 * @deprecated User $DIC->ctrl()->redirectToURL() instead
+	 */
 	public static function redirect($a_script)
 	{
-		if (!is_int(strpos($a_script, "://")))
-		{
-			if (substr($a_script, 0, 1) != "/" && defined("ILIAS_HTTP_PATH"))
-			{
-				if (is_int(strpos($_SERVER["PHP_SELF"], "/setup/")))
-				{
-					$a_script = "setup/".$a_script;
-				}
-				$a_script = ILIAS_HTTP_PATH."/".$a_script;
-			}
-		}
-
-  		// include the user interface hook
-		global $ilPluginAdmin;
-		if (is_object($ilPluginAdmin))
-		{
-			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-			foreach ($pl_names as $pl)
-			{
-				$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-				$gui_class = $ui_plugin->getUIClassInstance();
-				$resp = $gui_class->getHTML("Services/Utilities", "redirect", array("html" => $a_script));
-				if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
-				{
-					$a_script = $gui_class->modifyHTML($a_script, $resp);
-				}
-			}
-		}
-
-        // Manually trigger to write and close the session. This has the advantage that if an exception is thrown
-        // during the writing of the session (ILIAS writes the session into the database by default) we get an exception
-        // if the session_write_close() is triggered by exit() then the exception will be dismissed but the session
-        // is never written, which is a nightmare to develop with.
-        session_write_close();
-
-		global $DIC;
-		$http = $DIC->http();
-		switch (true) {
-			case ($http->request()->getQueryParams()[ilFileStandardDropzoneInputGUI::ASYNC_FILEUPLOAD]):
-				$body = new ILIAS\Filesystem\Stream\Stream(fopen('data://text/plain,' . json_encode([
-						'success'      => true,
-						'message'      => 'Called redirect after async fileupload request',
-						"redirect_url" => $a_script,
-					]), 'r'));
-
-				$http->saveResponse($http->response()->withBody($body));
-				break;
-			case ($http->request()->getQueryParams()["async"]):
-			default:
-				$http->saveResponse($http->response()->withAddedHeader("Location", $a_script));
-				break;
-		}
-		$http->sendResponse();
-		exit;
+		$GLOBALS['DIC']->ctrl()->redirectToURL($a_script);
 	}
 
 	/**

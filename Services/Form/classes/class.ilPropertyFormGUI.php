@@ -417,7 +417,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	*/
 	function checkInput()
 	{
-		global $lng;
+		global $DIC;
 		
 		if ($this->check_input_called)
 		{
@@ -482,20 +482,28 @@ class ilPropertyFormGUI extends ilFormGUI
 				}
 			}
 		}
-		
-		
-		if (!$ok && !$this->getDisableStandardMessage())
-		{
-			ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+		$http = $DIC->http();
+		$txt = $DIC->language()->txt("form_input_not_valid");
+		switch ($http->request()->getHeaderLine('Accept')) {
+			// When JS asks for a valid JSON-Response, we send the success and message as JSON
+			case 'application/json':
+				$stream = \ILIAS\Filesystem\Stream\Streams::ofString(json_encode([
+					'success' => $ok,
+					'message' => $txt,
+				]));
+				$http->saveResponse($http->response()->withBody($stream));
+
+				return $ok;
+
+			// Otherwise we send it using ilUtil and it will be rendered in the Template
+			default:
+
+				if (!$ok && !$this->getDisableStandardMessage()) {
+					ilUtil::sendFailure($txt);
+				}
+
+				return $ok;
 		}
-		global $DIC;
-		if(!$ok && $DIC->http()->request()->getQueryParams()[ilFileStandardDropzoneInputGUI::ASYNC_FILEUPLOAD] ) {
-			echo json_encode([
-				'success'      => false,
-				'message'      => 'There was an error checking your form',
-			]);
-		}
-		return $ok;
 	}
 	
 	/**
