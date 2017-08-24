@@ -319,7 +319,7 @@ class ilCalendarViewGUI
 		$download_job->setEvents($this->getEvents());
 		$download_job->run();
 		
-		$GLOBALS['DIC']->ctrl()->returnToParent($this);
+		$GLOBALS['DIC']->ctrl()->redirect($this);
 	}
 
 	public function getBucketTitle()
