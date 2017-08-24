@@ -129,6 +129,24 @@ class ilContainerMemberSkills
 	}
 
 	/**
+	 * Get ordered skill levels
+	 *
+	 * @return array[] each item comes with keys "level_id", "skill_id", "tref_id"
+	 */
+	function getOrderedSkillLevels()
+	{
+		$skill_levels = array_map(function ($a, $k) {
+			$s = explode(":", $k);
+			return array("level_id" => $a, "skill_id" => $s[0], "tref_id" => $s[1]);
+		}, $this->getSkillLevels(), array_keys($this->getSkillLevels()));
+
+		include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
+		$vtree = new ilVirtualSkillTree();
+		return $vtree->getOrderedNodeset($skill_levels, "skill_id", "tref_id");
+	}
+
+
+	/**
 	 * Get published
 	 *
 	 * @return bool
@@ -186,7 +204,9 @@ class ilContainerMemberSkills
 	{
 		$db = $this->db;
 
-		$changed = false;
+		$changed = ilBasicSkill::removeAllUserSkillLevelStatusOfObject($this->getUserId(), $this->getObjId(), false,
+			$this->getObjId());
+
 		foreach ($this->skill_levels as $sk => $l)
 		{
 			$changed = true;

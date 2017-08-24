@@ -165,7 +165,7 @@ class ilContSkillAdminGUI
 		$ne->setValue($name["lastname"].", ".$name["firstname"]." [".$name["login"]."]");
 		$form->addItem($ne);
 
-		foreach ($this->container_skills->getSkills() as $sk)
+		foreach ($this->container_skills->getOrderedSkills() as $sk)
 		{
 			$skill = new ilBasicSkill($sk["skill_id"]);
 

@@ -148,6 +148,12 @@ class ilSkillNotifications extends ilCronJob
 		$tmp = array();
 		$txt = "";
 		$last_obj_id = 0;
+
+		// order skill achievements per virtual skill tree
+		include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
+		$vtree = new ilVirtualSkillTree();
+		$a_achievements = $vtree->getOrderedNodeset($a_achievements, "skill_id", "tref_id");
+
 		foreach($a_achievements as $skill_level)
 		{
 			$parent = array();

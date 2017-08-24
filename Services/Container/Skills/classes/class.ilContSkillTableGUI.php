@@ -59,6 +59,7 @@ class ilContSkillTableGUI extends ilTable2GUI
 		
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.cont_skill_row.html", "Services/Container/Skills");
+		$this->setSelectAllCheckbox("id");
 
 		$this->addMultiCommand("confirmRemoveSelectedSkill", $this->lng->txt("remove"));
 		//$this->addCommandButton("", $lng->txt(""));
@@ -81,6 +82,12 @@ class ilContSkillTableGUI extends ilTable2GUI
 				"title" => ilBasicSkill::_lookupTitle($sk["skill_id"], $sk["tref_id"])
 			);
 		}
+
+		// order skills per virtual skill tree
+		include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
+		$vtree = new ilVirtualSkillTree();
+		$skills = $vtree->getOrderedNodeset($skills, "skill_id", "tref_id");
+
 		return $skills;
 	}
 

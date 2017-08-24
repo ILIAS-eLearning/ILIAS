@@ -121,13 +121,12 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
 		// levels
 		include_once("./Services/Container/Skills/classes/class.ilContainerMemberSkills.php");
 		$mskills = new ilContainerMemberSkills($this->container_skills->getId(), $a_set["id"]);
-		foreach ($mskills->getSkillLevels() as $sk => $l)
+		foreach ($mskills->getOrderedSkillLevels() as $sk)
 		{
-			$sk = explode(":", $sk);
 			$tpl->setCurrentBlock("level");
-			$tpl->setVariable("TXT_SKILL", ilBasicSkill::_lookupTitle($sk[0], $sk[1]));
-			$tpl->setVariable("TXT_LEVEL", ilBasicSkill::lookupLevelTitle($l));
-			$tpl->setVariable("PATH", $this->getParentObject()->getPathString($sk[0], $sk[1]));
+			$tpl->setVariable("TXT_SKILL", ilBasicSkill::_lookupTitle($sk["skill_id"], $sk["tref_id"]));
+			$tpl->setVariable("TXT_LEVEL", ilBasicSkill::lookupLevelTitle($sk["level_id"]));
+			$tpl->setVariable("PATH", $this->getParentObject()->getPathString($sk["skill_id"], $sk["tref_id"]));
 			$tpl->parseCurrentBlock();
 		}
 
