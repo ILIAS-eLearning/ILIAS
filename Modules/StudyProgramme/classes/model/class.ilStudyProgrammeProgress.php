@@ -33,11 +33,14 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	const STATUS_ACCREDITED = 3;
 	// The user does not need to be successful in this node.
 	const STATUS_NOT_RELEVANT = 4;
+	// The user does not need to be successful in this node.
+	const STATUS_FAILED = 5;
 
 	static $STATUS = array( ilStudyProgrammeProgress::STATUS_IN_PROGRESS
 						  , ilStudyProgrammeProgress::STATUS_COMPLETED
 						  , ilStudyProgrammeProgress::STATUS_ACCREDITED
 						  , ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
+						  , ilStudyProgrammeProgress::STATUS_FAILED
 						  );  
 
 	/**
