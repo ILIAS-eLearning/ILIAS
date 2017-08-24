@@ -81,7 +81,9 @@ class ilPersonalSkillsGUI
 	 * @var \ILIAS\UI\Renderer
 	 */
 	protected $ui_ren;
-	
+	protected $obj_id = 0;
+	protected $obj_skills = array();
+
 	/**
 	 * Contructor
 	 *
@@ -250,6 +252,18 @@ class ilPersonalSkillsGUI
 		}
 		$ilCtrl->setParameter($this, "profile_id", $current_prof_id);
 		$this->setProfileId($current_prof_id);
+	}
+
+	/**
+	 * Set object skills
+	 *
+	 * @param int $a_obj_id object id
+	 * @param array $a_skills skills array
+	 */
+	function setObjectSkills($a_obj_id, $a_skills = null)
+	{
+		$this->obj_id = $a_obj_id;
+		$this->obj_skills = $a_skills;
 	}
 
 	/**
@@ -1055,7 +1069,11 @@ class ilPersonalSkillsGUI
 	{
 		$tpl = $this->tpl;
 
-		if (count($this->user_profiles) == 0)
+		//$a_user_id = $ilUser->getId();
+
+		//$profiles = ilSkillProfile::getProfilesOfUser($a_user_id);
+		
+		if (count($this->user_profiles) == 0 && $this->obj_skills == null)
 		{
 			return;
 		}
@@ -1074,9 +1092,14 @@ class ilPersonalSkillsGUI
 		global $ilToolbar, $lng, $ilCtrl;
 
 		$options = array();
+		if (is_array($this->obj_skills) && $this->obj_id > 0)
+		{
+			$options[0] = $lng->txt("obj_".ilObject::_lookupType($this->obj_id)).": ".ilObject::_lookupTitle($this->obj_id);
+		}
+
 		foreach ($this->user_profiles as $p)
 		{
-			$options[$p["id"]] = $p["title"];
+			$options[$p["id"]] = $lng->txt("skmg_profile").": ".$p["title"];
 		}
 
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
@@ -1121,12 +1144,19 @@ class ilPersonalSkillsGUI
 	 * Get gap analysis html
 	 *
 	 * @param
+	 * @param array $a_skills deprecated, use setObjectSkills and listProfiles instead
 	 * @return
 	 */
 	function getGapAnalysisHTML($a_user_id = 0, $a_skills = null)
 	{
 		$ilUser = $this->user;
 		$lng = $this->lng;
+
+
+		if ($a_skills == null)
+		{
+			$a_skills = $this->obj_skills;
+		}
 
 		include_once("./Services/UIComponent/Panel/classes/class.ilPanelGUI.php");
 
@@ -1355,6 +1385,11 @@ class ilPersonalSkillsGUI
 
 		$stree = new ilSkillTree();
 		$html = "";
+
+		// order skills per virtual skill tree
+		include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
+		$vtree = new ilVirtualSkillTree();
+		$skills = $vtree->getOrderedNodeset($skills, "base_skill_id", "tref_id");
 		foreach ($skills as $s)
 		{
 			$path = $stree->getSkillTreePath($s["base_skill_id"]);

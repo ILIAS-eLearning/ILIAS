@@ -23,6 +23,9 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 
 	public function __construct($a_parent_obj, ilStudyProgrammeUserAssignment $a_ass, \ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
 		$this->setId("manage_indiv");
+
+		$this->sp_user_progress_db = $sp_user_progress_db;
+
 		parent::__construct($a_parent_obj, 'manage');
 
 		global $DIC;
@@ -69,8 +72,6 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 
 		$this->possible_image = "<img src='".ilUtil::getImagePath("icon_ok.svg")."' alt='ok'>";
 		$this->not_possible_image = "<img src='".ilUtil::getImagePath("icon_not_ok.svg")."' alt='not ok'>";
-
-		$this->sp_user_progress_db = $sp_user_progress_db;
 	}
 
 	protected function fillRow($a_set) {

@@ -476,7 +476,34 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 
 		return $recent;
 	}
-	
+
+	/**
+	 * Get new achievements
+	 *
+	 * @param string $a_timestamp
+	 * @return array
+	 */
+	static function getNewAchievementsPerUser($a_timestamp)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$set = $db->query("SELECT * FROM skl_user_skill_level ".
+			" WHERE status_date >= ".$db->quote($a_timestamp, "timestamp").
+			" AND valid = ".$db->quote(1, "integer").
+			" AND status = ".$db->quote(ilBasicSkill::ACHIEVED, "integer").
+			" AND self_eval = ".$db->quote(0, "integer").
+			" ORDER BY user_id, status_date ASC ");
+		$achievments = array();
+		while ($rec = $db->fetchAssoc($set))
+		{
+			$achievments[$rec["user_id"]][] = $rec;
+		}
+
+		return $achievments;
+	}
+
 
 	/**
 	 * Write skill level status
@@ -592,6 +619,52 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 			")");
 		}
 	}
+
+	/**
+	 * Remove a user skill completely
+	 *
+	 * @param int $a_user_id user id
+	 * @param int $a_trigger_obj_id triggering repository object obj id
+	 * @param bool $a_self_eval currently needs to be set to true
+	 * @param string $a_unique_identifier unique identifier string
+	 * @return bool true, if entries have been deleted, otherwise false
+	 */
+	static function removeAllUserSkillLevelStatusOfObject($a_user_id, $a_trigger_obj_id, $a_self_eval = false, $a_unique_identifier = "")
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		if ($a_trigger_obj_id == 0)
+		{
+			return false;
+		}
+
+		$changed = false;
+
+		$aff_rows = $db->manipulate("DELETE FROM skl_user_skill_level WHERE "
+			." user_id = ".$db->quote($a_user_id, "integer")
+			." AND trigger_obj_id = ".$db->quote($a_trigger_obj_id, "integer")
+			." AND self_eval = ".$db->quote($a_self_eval, "integer")
+			." AND unique_identifier = ".$db->quote($a_unique_identifier, "text")
+		);
+		if ($aff_rows > 0)
+		{
+			$changed = true;
+		}
+
+		$aff_rows = $db->manipulate("DELETE FROM skl_user_has_level WHERE "
+			." user_id = ".$db->quote($a_user_id, "integer")
+			." AND trigger_obj_id = ".$db->quote($a_trigger_obj_id, "integer")
+			." AND self_eval = ".$db->quote($a_self_eval, "integer")
+		);
+		if ($aff_rows > 0)
+		{
+			$changed = true;
+		}
+		return $changed;
+	}
+
 
 	/**
 	 * Get max levels per type

@@ -266,6 +266,9 @@ assessment#:#qst_preview_reset_msg#:#The preview has been reset.
 assessment#:#tst_question_not_from_pool_info#:#No Pool
 assessment#:#action#:#Action
 assessment#:#add_circle#:#Add circle area
+assessment#:#add_gap#:#Add Gap Text
+assessment#:#tst_msg_rand_quest_set_not_sync#:#The rules for a random selection of questions were newly created or changed. The questions from the pools have to be synchronized in the test before it can be used. This checks also if a random test is possible with the given set of rules.
+assessment#:#tst_msg_rand_quest_set_sync_duration#:#The synchronization copies all questions matching the rules into the test. This may take several minutes for big pools.
 assessment#:#add_imagemap#:#Import Image Map
 assessment#:#add_poly#:#Add polygon area
 assessment#:#add_rect#:#Add rectangle area
@@ -293,6 +296,11 @@ assessment#:#applet_attributes#:#Applet Attributes
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet Parameters
 assessment#:#apply#:#Apply
+assessment#:#tst_msg_rand_quest_set_rule_label#:#Rule %s
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Rule %s requires %s questions, but there are only %s questions provided.
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_shared#:#Additionally from these questions there are %s questions also provided to the following other rules: %s
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved#:#Rule %s requires %s questions and there are %s questions provided.
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared#:#But there are only %s of the provided questions guaranteed available, because of intersections with the following other rules: %s
 assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives
 assessment#:#tst_res_lo_try_header#:#Attempt
 assessment#:#tst_res_lo_try_n#:#Attempt %s
@@ -309,6 +317,9 @@ assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl
 assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
 assessment#:#ass_question#:#Question
+assessment#:#ass_size#:#Size
+assessment#:#tst_filter_question_type#:#Question Type
+assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
 assessment#:#tst_objective_progress_header#:#Learning Objective Progress
 assessment#:#assClozeTest#:#Cloze Question
@@ -13095,7 +13106,7 @@ badge#:#badge_manual#:#Manual Awarding
 badge#:#badge_user_profile#:#User Profil
 badge#:#badge_badge#:#Badge
 obj#:#obj_tool_setting_badges#:#Badges
-obj#:#obj_tool_setting_badges_info#:#If activated badges can be managed.
+obj#:#obj_tool_setting_badges_info#:#Activates badge management and badge assignments to members.
 badge#:#badge_add_template#:#Add Template
 badge#:#badge_image_template_form#:#Image Template
 badge#:#badge_image_from_upload#:#Upload Image
@@ -13725,9 +13736,63 @@ prtf#:#prtf_add_existing_blog#:#Use Existing Blog
 blog#:#blog_draft_text#:#Unpublished Post
 user#:#usr_letter_avatars#:#Letter Avatars
 user#:#usr_letter_avatars_info#:#Shows initial of user name or login as profile picture, if no public picture is being provided.
-content#:#cont_master_language_only_no_media#:#Master Language without Media
 mep#:#mep_master_language_only_no_media#:#Master Language without Media
 content#:#cont_master_language_only_no_media#:#Master Language without Media
-mep#:#mep_master_language_only_no_media#:#Master Language without Media
 mep#:#mep_content#:#Content
 mep#:#mep_media_subtitles#:#Media Subtitles
+content#:#cont_last_visited_page#:#Last Visited Page
+content#:#cont_first_page#:#First Page
+content#:#cont_lm_starting_point#:#Starting Point for ILIAS Learning Modules
+content#:#cont_lm_starting_point_info#:#Page being opened when clicking a learning modules title.
+content#:#cont_short_titles#:#Short Titles
+content#:#cont_short_title#:#Short Title
+content#:#cont_short_title_info#:#Short titles are used in the left-hand tree presentation and for labels in the previous/next navigation.
+grp#:#grp_add_to_group#:#Add to Group
+grp#:#grp_add_user_to_group#:#Add user to group
+grp#:#grp_create_or_use_existing#:#Do you want to add the user to an existing group or create a new group?
+grp#:#grp_use_existing#:#Use Existing Group
+grp#:#grp_create_new#:#Create New Group
+grp#:#grp_sure_add_user_to_group#:#Do you really want to add this user to the group?
+grp#:#grp_add_user#:#Add User
+grp#:#grp_user_been_added#:#The user has been added to the group.
+grp#:#grp_sure_create_group_add_user#:#Do you really want to create the group and add the user?
+grp#:#grp_create_and_add_user#:#Create and Add User
+grp#:#grp_next#:#Next
+grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.
+obj#:#obj_tool_setting_skills#:#Competences
+cont#:#cont_skill_assigned_comp#:#Competence Selection
+cont#:#cont_skill_members#:#Members
+cont#:#cont_skill_show#:#Show
+cont#:#cont_skill_publish#:#Publish
+cont#:#cont_skill_publish_manual#:#Manual
+cont#:#cont_skill_publish_manual_info#:#Competence assignments for members must be published before they become visible for members.
+cont#:#cont_skill_publish_auto_info#:#Competence assignments for members are immediately visible for members.
+cont#:#cont_skill_publish_auto#:#Automatic
+cont#:#cont_add_skill#:#Add Competence
+cont#:#cont_cont_skills#:#Assigned Competences of Members
+cont#:#cont_skill#:#Competence
+cont#:#cont_path#:#Path
+cont#:#cont_really_remove_skill_from_course#:#Do you really want to remove these competences from the list?
+cont#:#cont_assign_skills#:#Assign Competences
+cont#:#cont_skill_do_not_set#:#Do not set
+cont#:#cont_skill_no_skill#:#No value (Reset)
+cont#:#cont_mem_skills#:#Competences
+cont#:#cont_published#:#Published
+cont#:#cont_assign_competence#:#Assign Competences to Members
+cont#:#cont_deassign_competence#:#Deassign Competences
+cont#:#cont_publish_assignment#:#Publish Assignments
+cont#:#cont_really_deassign_skills#:#Do you really want to deassign all competences from the users?
+skll#:#skll_new_skill_achievements#:#You achieved new competence levels in the period of %1$s to %2$s:
+skll#:#skll_intro_skill_notification_for#:#this is an overview of your latest competence achievements.
+skll#:#skll_skill_notification#:#Competence Notification
+skll#:#skll_skill_notification_desc#:#Informs user on newly set competence levels.
+skll#:#skll_competence_achievements#:#New competence achievements and appraisals
+common#:#grade#:#Grade
+rbac#:#grp_grade#:#Grade Members of Group
+rbac#:#crs_grade#:#Grade Members of Course
+grp#:#grp_no_perm_to_add_create_first#:#You need to create a group first. Please select where to create a new group.
+grp#:#grp_create_new_grp_in#:#Create new group in '%1'.
+obj#:#obj_tool_setting_skills_info#:#Activates competence management and competences assignments to members.
+obj#:#cont_skll_published#:#All assignments have been published.
+obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
+grp#:#grp_user_already_in_group#:#The selected user is already member of the group.

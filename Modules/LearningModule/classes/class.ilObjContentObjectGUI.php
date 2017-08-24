@@ -315,6 +315,16 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$this->ctrl->forwardCommand($gui);
 				break;
 
+			case "illmeditshorttitlesgui":
+				$this->addHeaderAction();
+				$this->addLocations(true);
+				$this->setTabs("content");
+				$this->setContentSubTabs("short_titles");
+				include_once("./Modules/LearningModule/classes/class.ilLMEditShortTitlesGUI.php");
+				$gui = new ilLMEditShortTitlesGUI($this);
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			default:
 				$new_type = $_POST["new_type"]
 					? $_POST["new_type"]
@@ -1270,7 +1280,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	 * @param
 	 * @return
 	 */
-	static function getMultiLangHeader($a_lm_id, $a_gui_class)
+	static function getMultiLangHeader($a_lm_id, $a_gui_class, $a_mode = "")
 	{
 		global $lng, $ilCtrl;
 		
@@ -1281,6 +1291,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		//$ml = new ilPageMultiLang("lm", $a_lm_id);
 		if ($ot->getContentActivated())
 		{
+			$ilCtrl->setParameter($a_gui_class, "lang_switch_mode", $a_mode);
 			$lng->loadLanguageModule("meta");
 			
 			// info
@@ -1321,7 +1332,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			{
 				$ml_head = '<div class="ilFloatLeft">'.$ml_head.'</div><div style="margin: 5px 0;" class="small ilRight">'.$list->getHTML()."</div>";
 			}
-
+			$ilCtrl->setParameter($a_gui_class, "lang_switch_mode", "");
 		}
 
 		return $ml_head;
@@ -2482,11 +2493,16 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$ilTabs->addSubtab("chapters",
 			$lng->txt("cont_chapters"),
 			$ilCtrl->getLinkTarget($this, "chapters"));
-		
+
 		// all pages
 		$ilTabs->addSubtab("pages",
 			$lng->txt("cont_all_pages"),
 			$ilCtrl->getLinkTarget($this, "pages"));
+
+		// all pages
+		$ilTabs->addSubtab("short_titles",
+			$lng->txt("cont_short_titles"),
+			$ilCtrl->getLinkTargetByClass("illmeditshorttitlesgui", ""));
 
 		// export ids
 		if ($lm_set->get("html_export_ids"))
@@ -4012,6 +4028,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		global $ilCtrl;
 		
 		$ilCtrl->setParameter($this, "transl", "");
+		if ($_GET["lang_switch_mode"] == "short_titles")
+		{
+			$ilCtrl->redirectByClass("illmeditshorttitlesgui", "");
+		}
 		$ilCtrl->redirect($this, "chapters");
 	}
 
@@ -4025,7 +4045,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	{
 		global $ilCtrl;
 		
-		$ilCtrl->setParameter($this, "transl", $_GET["totransl"]); 
+		$ilCtrl->setParameter($this, "transl", $_GET["totransl"]);
+		if ($_GET["lang_switch_mode"] == "short_titles")
+		{
+			$ilCtrl->redirectByClass("illmeditshorttitlesgui", "");
+		}
 		$ilCtrl->redirect($this, "chapters");
 	}
 	
