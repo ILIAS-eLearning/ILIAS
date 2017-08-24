@@ -330,12 +330,12 @@ class ilCalendarViewGUI
 		{
 			case self::CAL_PRESENTATION_DAY:
 				//$start = ilCalendarUtil::_numericDayToString($this->seed->get(IL_CAL_FKT_DATE,'w'));
-				$bucket_title .= " ".$this->seed;
+				$bucket_title .= " ".$this->cleanSeed($this->seed);
 				break;
 			case self::CAL_PRESENTATION_WEEK:
 				$weekday_list = ilCalendarUtil::_buildWeekDayList($this->seed,$user_settings->getWeekStart())->get();
-				$start = current($weekday_list);
-				$end = end($weekday_list);
+				$start = $this->cleanSeed(current($weekday_list));
+				$end = $this->cleanSeed(end($weekday_list));
 				$bucket_title .= " ".$start." to ".$end;
 				break;
 			case self::CAL_PRESENTATION_MONTH:
@@ -348,5 +348,15 @@ class ilCalendarViewGUI
 		}
 
 		return $bucket_title;
+	}
+
+	/**
+	 * Remove the <br> at the end of the seed. This is important for bucket and zip titles.
+	 * @param string $a_seed
+	 * @return string
+	 */
+	private function cleanSeed($a_seed)
+	{
+		return preg_replace("/[^0-9\-]/", "", $a_seed);
 	}
 }
