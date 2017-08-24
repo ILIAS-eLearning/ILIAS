@@ -1054,7 +1054,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$btn->setUrl($this->ctrl->getLinkTarget($this, 'createQuestionForm'));
 			$btn->setPrimary(true);
 			$toolbar->addButtonInstance($btn);
-			
+
+
+			$btnImport = ilLinkButton::getInstance();
+			$btnImport->setCaption('import');
+			$btnImport->setUrl($this->ctrl->getLinkTarget($this, 'importQuestions'));
+			$toolbar->addButtonInstance($btnImport);
+
+			if(array_key_exists("qpl_clipboard", $_SESSION) && count($_SESSION['qpl_clipboard']))
+			{
+				$btnPaste = ilLinkButton::getInstance();
+				$btnPaste->setCaption('paste');
+				$btnPaste->setUrl($this->ctrl->getLinkTarget($this, 'paste'));
+				$toolbar->addButtonInstance($btnPaste);
+			}
+
 			$this->tpl->setContent(
 					$this->ctrl->getHTML($toolbar) . $this->ctrl->getHTML($table_gui)
 			);
