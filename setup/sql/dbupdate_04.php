@@ -19750,3 +19750,28 @@ if ($iass_type_id) {
 	}
 }
 ?>
+<#5144>
+<?php
+
+include_once("Modules/OrgUnit/classes/Positions/Operation/class.ilOrgUnitOperationContext.php");
+
+$individual_assessment_context = ilOrgUnitOperationContext::where(["context" => ilOrgUnitOperationContext::CONTEXT_IASS])->get();
+
+if (count($individual_assessment_context)  === 0) {
+	$individual_assessment_context = new ilOrgUnitOperationContext();
+	$individual_assessment_context->setContext(ilOrgUnitOperationContext::CONTEXT_IASS);
+
+	$object_context = ilOrgUnitOperationContext::where(["context" => ilOrgUnitOperationContext::CONTEXT_OBJECT])->get();
+
+	if (count($object_context) === 0) {
+		die("Expected permission context for object to exist.");
+	}
+
+	$object_context = array_shift($object_context);
+
+	$individual_assessment_context->setParentContextId($object_context->getId());
+
+	$individual_assessment_context->create();
+}
+
+?>
