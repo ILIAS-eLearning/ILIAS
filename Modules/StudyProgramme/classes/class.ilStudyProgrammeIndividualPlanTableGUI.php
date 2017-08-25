@@ -15,6 +15,8 @@ require_once("Services/Utilities/classes/class.ilUtil.php");
  */
 
 class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
+	const SEL_COLUMN_DEADLINE = "prg_deadline";
+
 	protected $assignment;
 	/**
 	 * @var ilStudyProgrammeUserProgressDB
@@ -102,7 +104,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 
 		foreach ($this->getSelectedColumns() as $column) {
 			switch($column) {
-				case "prg_deadline":
+				case self::SEL_COLUMN_DEADLINE:
 					$this->tpl->setCurrentBlock("deadline");
 					$this->tpl->setVariable("DEADLINE", $this->getDeadlineInput($a_set["progress_id"], $a_set["deadline"]));
 					$this->tpl->parseCurrentBlock("deadline");
@@ -119,7 +121,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 	public function getSelectableColumns() {
 		$cols = array();
 
-		$cols["prg_deadline"] = array(
+		$cols[self::SEL_COLUMN_DEADLINE] = array(
 				"txt" => $this->lng->txt("prg_deadline"));
 
 		return $cols;
