@@ -10953,7 +10953,7 @@ common#:#il_orgu_superior#:#Superior
 common#:#il_orgu_employee#:#Employee
 common#:#view_learning_progress#:#View Learning Progress
 common#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits
-orgu#:#authorities#:#Permissions
+orgu#:#authorities#:#Authorities
 orgu#:#positions#:#Positions
 orgu#:#scope_1#:#Same Organisational Unit
 orgu#:#scope_2#:#Subsequent Organisational Units

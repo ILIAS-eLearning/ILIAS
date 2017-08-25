@@ -13211,14 +13211,14 @@ common#:#il_orgu_employee#:#Mitarbeiter
 common#:#il_orgu_superior#:#Vorgesetzte
 common#:#view_learning_progress#:#Zeige Lernfortschritt
 common#:#view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
-orgu#:#authorities#:#Permissions
-orgu#:#positions#:#Positions
-orgu#:#scope_1#:#Same Organisational Unit
-orgu#:#scope_2#:#Subsequent Organisational Units
-orgu#:#scope_3#:#All Organisational Units
-orgu#:#over_-1#:#Everyone
-orgu#:#over#:#Over
-orgu#:#scope#:#In
+orgu#:#authorities#:#Authoritäten
+orgu#:#positions#:#Positionen
+orgu#:#scope_1#:#gleiche Organisationseinheit
+orgu#:#scope_2#:#Folgende Organisationseinheiten
+orgu#:#scope_3#:#Alle Organisationseinheiten
+orgu#:#over_-1#:#Alle
+orgu#:#over#:#über
+orgu#:#scope#:#in
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
 orgu#:#orgu_staff_deassign#:#Diese Benutzer aus der Rolle wirklich entfernen?
 orgu#:#orgu_msg_info_paste#:#Wählen Sie nun den gewünschten Ort, an dem die ausgewählten Objekte eingefügt werden sollen.
