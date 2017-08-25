@@ -452,7 +452,7 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 */
 	public function getDeadline() {
 		if($this->deadline !== null) {
-			return new ilDateTime($this->deadline, IL_CAL_DATETIME);
+			return new ilDateTime($this->deadline, IL_CAL_DATE);
 		}
 		return $this->deadline;
 	}
