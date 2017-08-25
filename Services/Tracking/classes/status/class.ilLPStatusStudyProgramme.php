@@ -43,11 +43,6 @@ class ilLPStatusStudyProgramme extends ilLPStatus
 		return $prg->getIdsOfUsersWithFailedProgress();
 	}
 
-	static function _getCountFailed()
-	{
-		return 0;
-	}
-
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
 		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
