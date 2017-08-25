@@ -95,13 +95,55 @@ class ilCalendarViewGUI
 //		initialize($a_mode,$a_source_ref_id = 0,$a_use_cache = false)
 		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_PD_UPCOMING);
 
+		//$this->logger->debug("*seed = ".$this->seed);
+		$seed_string = $this->getCleanSeedString($this->seed);
+
 		switch ($this->presentation_type)
 		{
 			case self::CAL_PRESENTATION_AGENDA_LIST:
-				$this->logger->debug("-This->Seed ===> ".$this->seed);
-				$this->logger->debug("-This->period_end_day ==> ".$this->period_end_day);
+				//$this->logger->debug("- This->Seed ===> ".$this->seed);
+				//$this->logger->debug("- clean seed ===> ".$seed_string);
+				//$this->logger->debug("- This->period_end_day ==> ".$this->period_end_day);
 
-				$schedule->setPeriod(new ilDate($this->seed, IL_CAL_DATE),
+				if($this->period_end_day == "")
+				{
+					$qp = $_GET;
+					if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4)
+					{
+						$this->period = $qp["cal_agenda_per"];
+					}
+
+					$end_date = new ilDate($seed_string." 00:00:00", IL_CAL_DATETIME);
+
+					switch ($this->period)
+					{
+						case ilCalendarAgendaListGUI::PERIOD_DAY:
+							$end_date->increment(IL_CAL_DAY, 1);
+							break;
+
+						case ilCalendarAgendaListGUI::PERIOD_WEEK:
+							$end_date->increment(IL_CAL_WEEK, 1);
+							break;
+
+						case ilCalendarAgendaListGUI::PERIOD_MONTH:
+							$end_date->increment(IL_CAL_MONTH, 1);
+							break;
+
+						case ilCalendarAgendaListGUI::PERIOD_HALF_YEAR:
+							$end_date->increment(IL_CAL_MONTH, 6);
+							break;
+						default:
+							$end_date->increment(IL_CAL_WEEK, 1);
+							break;
+					}
+
+					$this->period_end_day = $end_date->get(IL_CAL_DATE);
+				}
+
+				$this->logger->debug("- set period with this current seed ===> ".$this->seed);
+				$this->logger->debug("- set period with this current end day ==> ".$this->period_end_day);
+
+				$schedule->setPeriod(new ilDate($seed_string, IL_CAL_DATE),
 					new ilDate($this->period_end_day, IL_CAL_DATE));
 				break;
 			case self::CAL_PRESENTATION_DAY:
@@ -324,18 +366,21 @@ class ilCalendarViewGUI
 
 	public function getBucketTitle()
 	{
+		//string from ilDate
+		$seed_string = $this->getCleanSeedString($this->seed);
+
 		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 		$bucket_title = $this->lng->txt("cal_calendar_download");
 		switch ($this->presentation_type)
 		{
 			case self::CAL_PRESENTATION_DAY:
 				//$start = ilCalendarUtil::_numericDayToString($this->seed->get(IL_CAL_FKT_DATE,'w'));
-				$bucket_title .= " ".$this->cleanSeed($this->seed);
+				$bucket_title .= " ".$seed_string;
 				break;
 			case self::CAL_PRESENTATION_WEEK:
 				$weekday_list = ilCalendarUtil::_buildWeekDayList($this->seed,$user_settings->getWeekStart())->get();
-				$start = $this->cleanSeed(current($weekday_list));
-				$end = $this->cleanSeed(end($weekday_list));
+				$start = $this->getCleanSeedString(current($weekday_list));
+				$end = $this->getCleanSeedString(end($weekday_list));
 				$bucket_title .= " ".$start." to ".$end;
 				break;
 			case self::CAL_PRESENTATION_MONTH:
@@ -343,7 +388,7 @@ class ilCalendarViewGUI
 					' '.$this->seed->get(IL_CAL_FKT_DATE,'Y');
 				break;
 			case self::CAL_PRESENTATION_AGENDA_LIST:
-				$bucket_title .= " Agenda ".$this->cleanSeed($this->seed);
+				$bucket_title .= " Agenda ".$seed_string;
 				break;
 		}
 
@@ -351,11 +396,12 @@ class ilCalendarViewGUI
 	}
 
 	/**
-	 * Remove the <br> at the end of the seed. This is important for bucket and zip titles.
+	 * TODO: Temporary solution. We should find in ilDate this <br> and delete it if possible.
+	 * Remove the <br> at the end of the seed.
 	 * @param string $a_seed
 	 * @return string
 	 */
-	private function cleanSeed($a_seed)
+	private function getCleanSeedString($a_seed)
 	{
 		return preg_replace("/[^0-9\-]/", "", $a_seed);
 	}
