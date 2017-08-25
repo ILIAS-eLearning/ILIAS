@@ -6732,7 +6732,7 @@ search#:#search_like_info#:#Choose this option to get best results.
 search#:#search_limit_reached#:#Your search produced more than %s hits. You can restrict the search terms to receive more detailed results.
 search#:#search_lom#:#LOM Metadata
 search#:#search_lucene#:#Lucene search
-search#:#search_minimum_three#:#Your search must be at least three characters long
+search#:#search_minimum_three#:#Your search must be at least three characters long.
 search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.
 search#:#search_no_match_hint#:#Your search for <b>%s</b> did not match any documents.<br /><br />Suggestions:<br />• Make sure all words are spelled correctly.<br />• Try different keywords.<br />• Try more general keywords.<br />• Try fewer keywords.
 search#:#search_no_match#:#Your search did not match any results
@@ -13636,6 +13636,45 @@ rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#stys_sty_write_content#:#Edit Content Styles
 style#:#manage_system_styles#:#Manage System Styles
 style#:#scope#:#Scope
+auth#:#auth_saml#:#SAML
+common#:#auth_saml#:#SAML
+common#:#saml_log_in#:#Direct login
+common#:#saml_login_form_txt#:#Login to ILIAS via SAML
+common#:#saml_login_form_info_txt#:#You can log in using the “Direct Login” button without having to enter your username or password.
+common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification
+auth#:#auth_saml_configure#:#Configure SAML Authentication
+auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider
+auth#:#auth_saml_sure_delete_idp#:#Are you sure you want to delete the selected Identity Provider? This cannot be undone. The affected user accounts will be switched to the default authentication.
+auth#:#auth_saml_deleted_idp#:#The Identity Provider has been deleted.
+auth#:#auth_saml_unknow_idp#:#The passed Identity Provider does not exist.
+auth#:#auth_saml_add_idp_md_label#:#Identity Provider SAML Metadata
+auth#:#auth_saml_idp_selection_table_title#:#Identity Provider Selection
+auth#:#auth_saml_idp_selection_table_desc#:#Bitte wählen Sie den Identity Provider mit dem Sie sich anmelden möchten.
+auth#:#auth_saml_add_idp_md_info#:#Please enter the XML formatted metadata for the Identity Provider.
+auth#:#auth_saml_add_idp_md_error#:#The given value was not a valid XML document. Ensure the XML contains a valid Identity Provider.
+auth#:#auth_saml_enable#:#Enable SAML Support
+auth#:#auth_saml_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to SAML authentication.
+auth#:#auth_saml_migration#:#Account Migration:
+auth#:#auth_saml_role_select#:#Role:
+auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.
+auth#:#auth_saml_sync_info#:#If enabled new user accounts will be created automatically after successful authentication.  Furthermore existing user accounts will be modified according to the defined user profile mapping rules.
+auth#:#auth_saml_sync#:#User Synchronization
+auth#:#auth_saml_uid_claim#:#Unique Attribute for User Account Matching
+auth#:#auth_saml_uid_claim_info#:#Define the attribute ILIAS uses to detect whether or not an incoming authentication request matches an existing ILIAS user account.
+auth#:#auth_saml_username_claim#:#Arrtibue for Username
+auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.
+auth#:#auth_saml_user_mapping#:#User Profile Mapping
+auth#:#auth_saml_update_field_info#:#Update automatically
+auth#:#err_auth_saml_failed#:#Authentication failed. Please contact your system administrator.
+auth#:#err_auth_saml_no_ilias_user#:#Authentication failed. Please contact your system administrator.
+auth#:#auth_saml_login_form#:#Button on Login Page
+auth#:#auth_saml_login_form_info#:#If activated and there is at least one active IDP, a button appears on the login page. A click on this button initiates a SAML request.
+auth#:#auth_saml_idps#:#SAML IDP List
+auth#:#auth_saml_idps_info#:#Please check and edit the SimpleSAMLphp configuration in '<strong>%s</strong>' and '<strong>%s</strong>' (external data directory). Please read the manual for further explanations %s. 
+auth#:#auth_saml_idp#:#IDP
+auth#:#auth_saml_configure_idp#:#Configure SAML IDP: %s
+auth#:#saml_tab_head_idp#:#IDP
+auth#:#auth_saml_idp_settings#:#IDP Settings
 survey#:#sub_tab_dashboard#:#Dashboard
 mail#:#first_email_missing_info#:#Selection not possible because no email address has been entered
 mail#:#second_email_missing_info#:#Selection not possible because no second email address has been entered
@@ -13796,3 +13835,8 @@ obj#:#obj_tool_setting_skills_info#:#Activates competence management and compete
 obj#:#cont_skll_published#:#All assignments have been published.
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
 grp#:#grp_user_already_in_group#:#The selected user is already member of the group.
+common#:#edit_page_meta#:#Edit Page Metadata
+rbac#:#wiki_edit_page_meta#:#Edit Wiki Page Metadata
+content#:#cont_user#:#User
+content#:#cont_user_search_did_not_match#:#Your search did not match any users.
+blog#:#blog_latest_posting#:#Latest Posting

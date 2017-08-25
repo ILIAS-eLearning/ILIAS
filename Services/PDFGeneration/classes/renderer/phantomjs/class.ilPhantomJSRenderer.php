@@ -60,11 +60,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	protected $viewport;
 
 	/**
-	 * @var bool
-	 */
-	protected $print_media_type;
-
-	/**
 	 * @var int
 	 */
 	protected $header_type;
@@ -141,7 +136,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$form->addItem($this->buildPageSettingsHeader());
 		$form->addItem($this->buildViewPortForm());
 		$form->addItem($this->buildMarginForm());
-		$form->addItem($this->buildPrintMediaTypeForm());
 		$form->addItem($this->buildOrientationForm());
 		$form->addItem($this->buildPageSizesForm());
 
@@ -181,8 +175,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$form->getItemByPostVar('path')->setValue($config['path']);
 		$form->getItemByPostVar('page_size')->setValue($config['page_size']);
 		$form->getItemByPostVar('margin')->setValue($config['margin']);
-		$form->getItemByPostVar('print_media_type')->setValue(1);
-		$form->getItemByPostVar('print_media_type')->setChecked($config['print_media_type']);
 		$form->getItemByPostVar('javascript_delay')->setValue($config['javascript_delay']);
 		$form->getItemByPostVar('viewport')->setValue($config['viewport']);
 		$form->getItemByPostVar('orientation')->setValue($config['orientation']);
@@ -232,7 +224,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$config['path'] =$form->getItemByPostVar('path')->getValue();
 		$config['page_size'] = $form->getItemByPostVar('page_size')->getValue();
 		$config['margin'] =$form->getItemByPostVar('margin')->getValue();
-		$config['print_media_type'] = $form->getItemByPostVar('print_media_type')->getChecked();
 		$config['javascript_delay'] = $form->getItemByPostVar('javascript_delay')->getValue();
 		$config['viewport'] = $form->getItemByPostVar('viewport')->getValue();
 		$config['orientation'] = $form->getItemByPostVar('orientation')->getValue();
@@ -262,7 +253,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$config['path'] = '/usr/local/bin/phantomjs';
 		$config['page_size'] = 'A4';
 		$config['margin'] = '1cm';
-		$config['print_media_type'] = 1;
 		$config['javascript_delay'] = 200;
 		$config['viewport'] = '';
 		$config['orientation'] = 'Portrait';
@@ -307,10 +297,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 
 		if(file_exists($a_path_to_file))
 		{
-			if( $config['print_media_type'] != 1)
-			{
-				ilPDFGeneratorUtils::removePrintMediaDefinitionsFromStyleFile(dirname($a_path_to_file) . '/style/');
-			}
 			$temp_file = $this->getPdfTempName();
 
 			$args = ' ' . $a_path_to_file .' ' . $temp_file . ' ' . $this->getCommandLineConfig($config);
@@ -431,15 +417,6 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$orientation->setOptions(ilPDFGenerationConstants::getOrientations());
 		$orientation->setValue($this->orientation);
 		return $orientation;
-	}
-
-	/**
-	 * @return ilCheckboxInputGUI
-	 */
-	protected function buildPrintMediaTypeForm()
-	{
-		$print_media = new ilCheckboxInputGUI($this->lng->txt('print_media_type'), 'print_media_type');
-		return $print_media;
 	}
 
 	/**

@@ -154,23 +154,26 @@ abstract class ilPageConfig
 	}
 
 	/**
-	 * Set enable user links
-	 *
-	 * @param boolean $a_val enable user links	
-	 */
-	function setEnableUserLinks($a_val)
-	{
-		$this->enable_user_links = $a_val;
-	}
-	
-	/**
 	 * Get enable user links
 	 *
 	 * @return boolean enable user links
 	 */
 	function getEnableUserLinks()
 	{
-		return $this->enable_user_links;
+		if (!$this->getEnableInternalLinks())
+		{
+			return false;
+		}
+		if ($this->getIntLinkFilterWhiteList() && in_array("User", $this->int_link_filter))
+		{
+			return true;
+		}
+		if (!$this->getIntLinkFilterWhiteList() && !in_array("User", $this->int_link_filter))
+		{
+			return true;
+		}
+
+		return false;
 	}
 	
 	/**

@@ -62,6 +62,6 @@ interface Factory {
 	 *
 	 * @return \ILIAS\UI\Component\ViewControl\Section
 	 */
-	public function section(Button $previous_action, Button $button, Button $next_action);
+	public function section(Button $previous_action, \ILIAS\UI\Component\Component $button, Button $next_action);
 
 }
