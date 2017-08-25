@@ -20410,4 +20410,22 @@ if( !$ilDB->tableColumnExists('prg_usr_progress', 'deadline'))
 		)
 	);
 }
+
+?>
+<#5185>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','id_setting'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'id_setting',
+			array(
+				'type' 		=> 'integer',
+				'length' 	=> 1,
+				'notnull'	=> true,
+				'default'	=> 0
+			)
+		);
+		$ilDB->query("UPDATE sahs_lm SET id_setting = 0");
+	}
 ?>
