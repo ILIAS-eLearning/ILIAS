@@ -138,10 +138,10 @@ class ilMStListUsers {
 		}
 
 		if (!empty($arr_filter['org_unit'])) {
-			ilObjOrgUnitTree::_getInstance()
-			                ->buildTempTableWithUsrAssignements('orgu_usr_assignements');
-			$where[] = 'usr_data.usr_id in (SELECT user_id from orgu_usr_assignements where ref_id = '
+			$where[] = 'usr_data.usr_id in (SELECT user_id from il_orgu_ua where orgu_id = '
 			           . $ilDB->quote($arr_filter['org_unit'], 'integer') . ')';
+
+
 		}
 
 		if (!empty($arr_filter['lastname'])) {
