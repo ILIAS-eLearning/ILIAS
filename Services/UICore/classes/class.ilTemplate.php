@@ -496,9 +496,6 @@ class ilTemplate extends HTML_Template_ITX
 				include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 				ilYuiUtil::initDom();
 
-				//echo "-".ilUtil::getP3PLocation()."-";
-				//header('P3P: policyref="'.ilUtil::getP3PLocation().
-				//	'", CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
 				header('P3P: CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
 				header("Content-type: " . $this->getContentType() . "; charset=UTF-8");
 
@@ -565,8 +562,7 @@ class ilTemplate extends HTML_Template_ITX
 					// late loading of javascipr files, since operations above may add files
 					$this->fillJavaScriptFiles();
 					$this->fillOnLoadCode();
-
-					// these fill just plain placeholder variables in tpl.adm_content.html
+					
 					// these fill just plain placeholder variables in tpl.adm_content.html
 					if ($this->blockExists("content"))
 					{
