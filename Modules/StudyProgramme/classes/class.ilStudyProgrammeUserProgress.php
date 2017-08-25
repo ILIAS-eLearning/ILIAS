@@ -443,6 +443,24 @@ class ilStudyProgrammeUserProgress {
 	}
 
 	/**
+	 * Check wether user as failed on this node
+	 *
+	 * @return bool
+	 */
+	public function isFailed() {
+		$deadline = $this->getDeadline();
+		$today = date("Y-m-d");
+
+		if($deadline && $deadline->get(IL_CAL_DATE) < $today) {
+			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
+				->update();
+		}
+		$status = $this->getStatus();
+
+		return $status == ilStudyProgrammeProgress::STATUS_FAILED;
+	}
+
+	/**
 	 * Check whether the user was accredited on this node.
 	 *
 	 * @return bool
