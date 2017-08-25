@@ -1,8 +1,21 @@
 <?php
 
+$b = new arBuilder(new ilOrgUnitPosition());
+$b = new arBuilder(new ilOrgUnitAuthority());
+$b = new arBuilder(new ilOrgUnitUserAssignment());
+$b = new arBuilder(new ilOrgUnitOperation());
+$b = new arBuilder(new ilOrgUnitOperationContext());
+$b = new arBuilder(new ilOrgUnitPermission());
+//$b->generateDBUpdateForInstallation();
+
+
 ilOrgUnitPosition::resetDB();
 ilOrgUnitAuthority::resetDB();
 ilOrgUnitUserAssignment::resetDB();
+ilOrgUnitOperation::resetDB();
+ilOrgUnitOperationContext::resetDB();
+ilOrgUnitPermission::resetDB();
+
 
 $ilOrgUnitPositionEmployee = new ilOrgUnitPosition();
 $ilOrgUnitPositionEmployee->setTitle("Employees");
@@ -15,11 +28,17 @@ $ilOrgUnitPositionSuperior = new ilOrgUnitPosition();
 $ilOrgUnitPositionSuperior->setTitle("Superiors");
 $ilOrgUnitPositionSuperior->setDescription("Superiors of a OrgUnit");
 $ilOrgUnitPositionSuperior->setCorePosition(true);
+
+// Authority
+$Sup = new ilOrgUnitAuthority();
+$Sup->setOver(ilOrgUnitAuthority::SCOPE_SAME_ORGU);
+$Sup->setScope($ilOrgUnitPositionEmployee->getId());
+$ilOrgUnitPositionSuperior->setAuthorities([ $Sup ]);
 $ilOrgUnitPositionSuperior->create();
 $superiors_position_id = $ilOrgUnitPositionSuperior->getId();
 
 $ilOrgUnitPositionSuperior = new ilOrgUnitPosition();
-$ilOrgUnitPositionSuperior->setTitle("Handlanger");
+$ilOrgUnitPositionSuperior->setTitle("Abteilungsleiter");
 $ilOrgUnitPositionSuperior->setDescription("");
 $ilOrgUnitPositionSuperior->setCorePosition(false);
 $ilOrgUnitPositionSuperior->create();
@@ -36,24 +55,28 @@ foreach ($ilObjOrgUnitTree->getAllChildren(56) as $orgu_ref_id) {
 	}
 }
 
-ilOrgUnitOperation::resetDB();
-ilOrgUnitOperationContext::resetDB();
-ilOrgUnitPermission::resetDB();
 
 ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_OBJECT);
 ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_IASS, ilOrgUnitOperationContext::CONTEXT_OBJECT);
 ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_CRS, ilOrgUnitOperationContext::CONTEXT_OBJECT);
 ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_GRP, ilOrgUnitOperationContext::CONTEXT_OBJECT);
 ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_TST, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_EXC, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_SVY, ilOrgUnitOperationContext::CONTEXT_OBJECT);
 
-ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOperation::OPERATION_VIEW_LEARNING_PROGRESS, '', array(
+ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, 'Read the learning Progress of a User', array(
 	ilOrgUnitOperationContext::CONTEXT_CRS,
 	ilOrgUnitOperationContext::CONTEXT_GRP,
 	ilOrgUnitOperationContext::CONTEXT_IASS,
+	ilOrgUnitOperationContext::CONTEXT_EXC,
+	ilOrgUnitOperationContext::CONTEXT_SVY,
 ));
 
-ilOrgUnitOperationQueries::registerNewOperation('viewmembers', '', 'crs');
-ilOrgUnitOperationQueries::registerNewOperation('viewlastaccess', '', 'crs');
+ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_MANAGE_MEMBERS, 'Edit Members in a course', ilOrgUnitOperationContext::CONTEXT_CRS);
+ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_MANAGE_MEMBERS, 'Edit Members in a group', ilOrgUnitOperationContext::CONTEXT_GRP);
+ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_EDIT_SUBMISSION_GRADES, '', ilOrgUnitOperationContext::CONTEXT_EXC);
+ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_ACCESS_RESULTS, '', ilOrgUnitOperationContext::CONTEXT_SVY);
 
-ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OPERATION_VIEW_TEST_RESULTS, '', ilOrgUnitOperationContext::CONTEXT_TST);
+
+
 

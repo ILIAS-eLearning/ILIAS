@@ -133,7 +133,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 				break;
 			
 			case "ilexercisemanagementgui":
-				$this->checkPermission("write");
+				// rbac or position access
+				$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
+					'edit_submissions_grades',
+					'edit_submissions_grades',
+					$this->object->getRefId()
+				);
 				$ilTabs->activateTab("grades");				
 				include_once("./Modules/Exercise/classes/class.ilExerciseManagementGUI.php");
 				$mgmt_gui = new ilExerciseManagementGUI($this->object, $this->ass);
@@ -399,6 +404,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, 'edit'));
 			
+		}
+		if($GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
+			'edit_submissions_grades',
+			'edit_submissions_grades', 
+			$this->object->getRefId()))
+		{
 			$this->tabs_gui->addTab("grades",
 				$lng->txt("exc_submissions_and_grades"),
 				$this->ctrl->getLinkTargetByClass("ilexercisemanagementgui", "members"));

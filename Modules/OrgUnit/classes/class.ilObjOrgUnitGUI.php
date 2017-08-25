@@ -241,7 +241,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$ilOrgUnitUserAssignmentGUI = new ilOrgUnitUserAssignmentGUI();
 				$this->ctrl->forwardCommand($ilOrgUnitUserAssignmentGUI);
 				break;
-
 			default:
 				switch ($cmd) {
 					case '':
@@ -451,7 +450,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$write_access_ref_id = $this->ilAccess->checkAccess('write', '', $this->object->getRefId());
 		if ($this->object->getRefId() != ilObjOrgUnit::getRootOrgRefId()) {
 			if (ilObjOrgUnitAccess::_checkAccessStaff($this->object->getRefId())) {
-				$this->tabs_gui->addTab('legacy_staff', 'legacy_staff', $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "showStaff"));
+				// $this->tabs_gui->addTab('legacy_staff', 'legacy_staff', $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "showStaff"));
 				$this->tabs_gui->addTab(self::TAB_STAFF, $this->lng->txt(self::TAB_STAFF), $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class, ilOrgUnitUserAssignmentGUI::CMD_INDEX));
 			}
 			if ($write_access_ref_id) {
@@ -471,8 +470,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->tabs_gui->addTab(self::TAB_ORGU_TYPES, $this->lng->txt(self::TAB_ORGU_TYPES), $this->ctrl->getLinkTargetByClass(ilOrgUnitTypeGUI::class));
 				$this->tabs_gui->addTab(self::TAB_POSITIONS, $this->lng->txt(self::TAB_POSITIONS), $this->ctrl->getLinkTargetByClass(ilOrgUnitPositionGUI::class));
 			}
-
-
 		}
 		parent::getTabs();
 	}
