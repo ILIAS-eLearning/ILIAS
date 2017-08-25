@@ -479,7 +479,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
             // OrgUnit Admin Settings
             if ($this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
-                $this->tabs_gui->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass(array('ilObjOrgUnitGUI','ilOrgUnitGlobalSettingsGUI'), 'showForm'));
+                $this->tabs_gui->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass(array('ilObjOrgUnitGUI','ilOrgUnitGlobalSettingsGUI'), 'settings'));
             }
 		}
 		parent::getTabs();
