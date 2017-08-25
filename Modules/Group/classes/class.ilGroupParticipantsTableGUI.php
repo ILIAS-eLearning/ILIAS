@@ -274,6 +274,13 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		
 		$part = ilGroupParticipants::_getInstanceByObjId($this->getRepositoryObject()->getId())->getParticipants();
 		
+		$part = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members', 
+			'manage_members', 
+			$this->getRepositoryObject()->getRefId(),
+			$part
+		);			
+		
 		if(!$part)
 		{
 			$this->setData(array());

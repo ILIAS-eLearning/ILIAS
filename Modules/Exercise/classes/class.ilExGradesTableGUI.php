@@ -32,6 +32,13 @@ class ilExGradesTableGUI extends ilTable2GUI
 		$this->mem_obj = $a_mem_obj;
 		
 		$mems = $this->mem_obj->getMembers();
+		$mems = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'edit_submissions_grades',
+			'edit_submissions_grades',
+			$this->exc,
+			$mems
+		);
+		
 		$data = array();
 		foreach ($mems as $d)
 		{

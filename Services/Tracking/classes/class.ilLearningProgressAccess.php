@@ -42,6 +42,15 @@ class ilLearningProgressAccess
 			$a_user_id = $GLOBALS['ilUser']->getId();
 		}
 		
+		// position access
+		if($a_permission == 'read_learning_progress')
+		{
+			return $GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
+				'read_learning_progress',
+				ilAccess::PERMISSION_VIEW_LEARNING_PROGRESS,
+				$a_ref_id
+			);
+		}
 		return $GLOBALS['ilAccess']->checkAccessOfUser($a_user_id, $a_permission,'', $a_ref_id);
 	}
 	

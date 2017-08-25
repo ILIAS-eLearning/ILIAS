@@ -1396,9 +1396,9 @@ class ilExAssignment
 	/**
 	 * Create member status record for a new assignment for all participants
 	 */
-	function sendMultiFeedbackStructureFile()
+	function sendMultiFeedbackStructureFile(ilObjExercise $exercise)
 	{
-		global $ilDB;
+		global $DIC;
 		
 		
 		// send and delete the zip file
@@ -1420,7 +1420,13 @@ class ilExAssignment
 		include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 		$exmem = new ilExerciseMembers($exc);
 		$mems = $exmem->getMembers();
-
+		
+		$mems = $DIC->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'edit_submissions_grades',
+			'edit_submissions_grades',
+			$exercise->getRefId(),
+			$mems
+		);
 		foreach ($mems as $mem)
 		{
 			$name = ilObjUser::_lookupName($mem);

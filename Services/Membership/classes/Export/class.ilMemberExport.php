@@ -92,6 +92,17 @@ class ilMemberExport
 	 	$this->privacy = ilPrivacySettings::_getInstance();
 	}
 	
+	
+	public function filterUsers($a_usr_ids)
+	{
+		return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members',
+			'manage_members',
+			$this->ref_id,
+			$a_usr_ids
+		);
+	}
+	
 	/**
 	 * set filename
 	 * @param object $a_file
@@ -567,6 +578,8 @@ class ilMemberExport
 			$this->user_ids = array_merge($waiting_list->getUserIds(),$this->user_ids);
 			
 		}
+		$this->user_ids = $this->filterUsers($this->user_ids);
+
 		// Sort by lastname
 		$this->user_ids = ilUtil::_sortIds($this->user_ids,'usr_data','lastname','usr_id');
 		

@@ -19,6 +19,23 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 {
 	
 	/**
+	 * Filter user ids by access 
+	 * @param int[] $a_user_ids
+	 * @return int[]
+	 */
+	public function filterUserIdsByRbacOrPositionOfCurrentUser($a_user_ids)
+	{
+		return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members',
+			'manage_members',
+			$this->getParentObject()->getRefId(),
+			$a_user_ids
+		);
+	}
+
+	
+	
+	/**
 	 * callback from repository search gui
 	 * @global ilRbacSystem $rbacsystem
 	 * @param array $a_usr_ids
@@ -401,7 +418,11 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	 */
 	public function getAttendanceListUserData($a_user_id)
 	{
-		return $this->member_data[$a_user_id];
+		if($this->filterUserIdsByRbacOrPositionOfCurrentUser([$a_user_id]))
+		{
+			return $this->member_data[$a_user_id];
+		}
+		return [];
 	}
 	
 }
