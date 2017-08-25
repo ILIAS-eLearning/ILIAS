@@ -18825,67 +18825,7 @@ if(!$ilDB->tableColumnExists('mail_options', 'mail_address_option'))
 ?>
 <#5096>
 <?php
-$fields = array(
-	'id' => array(
-		'type' => 'integer',
-		'length' => '8',
-		
-	),
-	'title' => array(
-		'type' => 'text',
-		'length' => '512',
-		
-	),
-	'description' => array(
-		'type' => 'text',
-		'length' => '4000',
-		
-	),
-	
-);
-if (! $ilDB->tableExists('il_orgu_positions')) {
-	$ilDB->createTable('il_orgu_positions', $fields);
-	$ilDB->addPrimaryKey('il_orgu_positions', array( 'id' ));
-	
-	if (! $ilDB->sequenceExists('il_orgu_positions')) {
-		$ilDB->createSequence('il_orgu_positions');
-	}
-	
-}
-
-$fields = array(
-	'id' => array(
-		'type' => 'integer',
-		'length' => '8',
-		
-	),
-	'over' => array(
-		'type' => 'integer',
-		'length' => '1',
-		
-	),
-	'depth' => array(
-		'type' => 'integer',
-		'length' => '1',
-		
-	),
-	'position' => array(
-		'type' => 'integer',
-		'length' => '1',
-		
-	),
-	
-);
-if (! $ilDB->tableExists('il_orgu_authority')) {
-	$ilDB->createTable('il_orgu_authority', $fields);
-	$ilDB->addPrimaryKey('il_orgu_authority', array( 'id' ));
-	
-	if (! $ilDB->sequenceExists('il_orgu_authority')) {
-		$ilDB->createSequence('il_orgu_authority');
-	}
-	
-}
-
+// removed, follows later
 ?>
 <#5097>
 <?php
