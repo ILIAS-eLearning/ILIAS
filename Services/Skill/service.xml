@@ -10,4 +10,10 @@
 		</object>
 	</objects>
 	<logging />
+	<events>
+		<event type="listen" id="Services/Tracking" />
+	</events>
+	<crons>
+		<cron id="skll_notification" class="ilSkillNotifications" />
+	</crons>
 </service>

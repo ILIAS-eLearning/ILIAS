@@ -134,24 +134,17 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 		if ($a_node["type"] == "st")
 		{
 			return ilStructureObject::_getPresentationTitle($a_node["child"], IL_CHAPTER_TITLE,
-				$this->lm->isActiveNumbering(), false, false, $this->lm->getId(), $this->lang);
+				$this->lm->isActiveNumbering(), false, false, $this->lm->getId(), $this->lang, true);
 		}
 		else if ($a_node["type"] == "pg")
 		{
 			return ilLMPageObject::_getPresentationTitle($a_node["child"],
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation"), true, $this->lm->getId(), $this->lang);
+				$this->lm_set->get("time_scheduled_page_activation"), true, $this->lm->getId(), $this->lang, true);
 		}
 		else if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
 			return $this->lm->getTitle();
-		}
-
-		if ($a_node["type"] == "pg")
-		{
-			return ilLMPageObject::_getPresentationTitle($a_node["child"],
-				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation"), true, $this->lm->getId(), $this->lang);
 		}
 
 		return $a_node["title"];

@@ -99,13 +99,14 @@ class ilContainerRenderer
 	 * @param string $a_actions html snippet
 	 * @return boolean
 	 */
-	public function addCustomBlock($a_id, $a_caption, $a_actions = null)
+	public function addCustomBlock($a_id, $a_caption, $a_actions = null, $a_data = array())
 	{
 		if(!$this->hasCustomBlock($a_id))
 		{
 			$this->custom_blocks[$a_id] = array(
 				"caption" => $a_caption
 				,"actions" => $a_actions
+				,"data" => $a_data
 			);
 			return true;
 		}
@@ -494,7 +495,7 @@ class ilContainerRenderer
 				$order_id = (!$a_is_single && $this->active_block_ordering) 
 					? $a_block_id
 					: null;			
-				$this->addHeaderRow($a_block_tpl, $a_block["type"], $a_block["caption"], array_unique($block_types), $a_block["actions"], $order_id);
+				$this->addHeaderRow($a_block_tpl, $a_block["type"], $a_block["caption"], array_unique($block_types), $a_block["actions"], $order_id, $a_block["data"]);
 
 				if($a_block["prefix"])
 				{
@@ -545,12 +546,12 @@ class ilContainerRenderer
 	 * @param string $a_commands_html
 	 * @param int $a_order_id
 	 */
-	protected function addHeaderRow(ilTemplate $a_tpl, $a_type = "", $a_text = "", array $a_types_in_block = null, $a_commands_html = null, $a_order_id = null)
+	protected function addHeaderRow(ilTemplate $a_tpl, $a_type = "", $a_text = "", array $a_types_in_block = null, $a_commands_html = null, $a_order_id = null, $a_data = array())
 	{
 		global $lng, $ilSetting, $objDefinition;
-		
+
 		$a_tpl->setVariable("CB_ID", ' id="bl_cntr_'.(++$this->bl_cnt).'"');
-			
+
 		if ($this->enable_manage_select_all)
 		{
 			$this->renderSelectAllBlock($a_tpl);
@@ -588,7 +589,24 @@ class ilContainerRenderer
 		{
 			$title = $a_text;
 		}
-	
+
+		include_once("./Modules/ItemGroup/classes/class.ilItemGroupBehaviour.php");
+		if (is_array($a_data))
+		{
+			foreach ($a_data as $k => $v)
+			{
+				$a_tpl->setCurrentBlock("cb_data");
+				$a_tpl->setVariable("DATA_KEY", $k);
+				$a_tpl->setVariable("DATA_VALUE", $v);
+				$a_tpl->parseCurrentBlock();
+
+				if ($k == "behaviour" && $v == ilItemGroupBehaviour::EXPANDABLE_CLOSED)
+				{
+					$a_tpl->touchBlock("container_items_hide");
+				}
+			}
+		}
+
 		if ($ilSetting->get("icon_position_in_lists") != "item_rows" &&
 			$a_type != "")
 		{
@@ -613,7 +631,7 @@ class ilContainerRenderer
 		$a_tpl->setVariable("CHR_COMMANDS", $a_commands_html);			
 		$a_tpl->parseCurrentBlock();
 		
-		$a_tpl->touchBlock("container_row");
+		//$a_tpl->touchBlock("container_row");
 		
 		$this->resetRowType();
 	}

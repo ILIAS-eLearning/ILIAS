@@ -1070,7 +1070,7 @@ class ilObjectGUI
 	 * @param string $a_type
 	 * @return string
 	 */
-	protected function getDidacticTemplateVar($a_type)
+	public function getDidacticTemplateVar($a_type)
 	{
 		$tpl = $_POST["didactic_type"];
 		if($tpl && substr($tpl, 0, strlen($a_type)+1) == $a_type."_")
@@ -1086,7 +1086,7 @@ class ilObjectGUI
 	 * @param ilObject $a_obj
 	 * @param int $a_parent_node_id
 	 */
-	protected function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
+	public function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
 	{
 		global $rbacreview, $ilUser, $objDefinition;
 

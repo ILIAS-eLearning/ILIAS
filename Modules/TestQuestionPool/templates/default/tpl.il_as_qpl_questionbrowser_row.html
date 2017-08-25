@@ -8,19 +8,16 @@
 <!-- BEGIN qpl_warning -->	
 	<img src="{IMAGE_WARNING}" border="0" alt="{ALT_WARNING}" title="{TITLE_WARNING}" />
 <!-- END qpl_warning -->
-	<label for="cb_{QUESTION_ID}"><strong>{QUESTION_TITLE}</strong></label>
+	<!-- BEGIN title_unlinked -->
+	<label for="cb_{QUESTION_ID_UNLINKED}"><strong>{QUESTION_TITLE_UNLINKED}</strong></label>
+	<!-- END title_unlinked -->
+	<!-- BEGIN title_linked -->
+	<a href="{QUESTION_HREF_LINKED}" title="{QUESTION_TITLE_LINKED}"><strong>{QUESTION_TITLE_LINKED}</strong></a>
+	<!-- END title_linked -->
 <!-- BEGIN hidden -->
 		<input type="hidden" name="q_id[]" value="{HIDDEN_QUESTION_ID}" />
 <!-- END hidden -->
 	</td>
-	<td class="std" style="vertical-align: top">
-<!-- BEGIN edit_link -->
-	<a class="il_ContainerItemCommand" href="{LINK_EDIT}">{TXT_EDIT}</a>
-<!-- END edit_link -->
-	</td>
-<!-- BEGIN preview -->
-	<td class="std" style="vertical-align: top"><a class="il_ContainerItemCommand" href="{LINK_PREVIEW}">{TXT_PREVIEW}</a></td>
-<!-- END preview -->
 <!-- BEGIN description -->
 	<td class="std" style="vertical-align: top">{QUESTION_COMMENT}</td>
 <!-- END description -->
@@ -45,4 +42,7 @@
 <!-- BEGIN working_time -->
     <td class="std" style="vertical-align: top">{WORKING_TIME}</td>
 <!-- END working_time -->
+<!-- BEGIN actions -->
+	<td class="std" style="vertical-align: top">{ACTIONS}</td>
+<!-- END actions -->
 </tr>
