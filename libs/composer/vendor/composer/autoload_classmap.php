@@ -5953,7 +5953,7 @@ return array(
     'ilUserAvatarBase' => $baseDir . '/../../Services/User/Avatar/classes/class.ilUserAvatarBase.php',
     'ilUserAvatarFactory' => $baseDir . '/../../Services/User/Avatar/classes/class.ilUserAvatarFactory.php',
     'ilUserAvatarFile' => $baseDir . '/../../Services/User/Avatar/classes/class.ilUserAvatarFile.php',
-    'ilUserAvatarLetter' => $baseDir . '/../../Services/User/Avatar/classes/class.ilUserAvatarLetterSvg.php',
+    'ilUserAvatarLetter' => $baseDir . '/../../Services/User/Avatar/classes/class.ilUserAvatarLetter.php',
     'ilUserBadgeProvider' => $baseDir . '/../../Services/User/classes/class.ilUserBadgeProvider.php',
     'ilUserClipboard' => $baseDir . '/../../Services/User/classes/class.ilUserClipboard.php',
     'ilUserClipboardTableGUI' => $baseDir . '/../../Services/User/classes/class.ilUserClipboardTableGUI.php',

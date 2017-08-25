@@ -6114,7 +6114,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilUserAvatarBase' => __DIR__ . '/../..' . '/../../Services/User/Avatar/classes/class.ilUserAvatarBase.php',
         'ilUserAvatarFactory' => __DIR__ . '/../..' . '/../../Services/User/Avatar/classes/class.ilUserAvatarFactory.php',
         'ilUserAvatarFile' => __DIR__ . '/../..' . '/../../Services/User/Avatar/classes/class.ilUserAvatarFile.php',
-        'ilUserAvatarLetter' => __DIR__ . '/../..' . '/../../Services/User/Avatar/classes/class.ilUserAvatarLetterSvg.php',
+        'ilUserAvatarLetter' => __DIR__ . '/../..' . '/../../Services/User/Avatar/classes/class.ilUserAvatarLetter.php',
         'ilUserBadgeProvider' => __DIR__ . '/../..' . '/../../Services/User/classes/class.ilUserBadgeProvider.php',
         'ilUserClipboard' => __DIR__ . '/../..' . '/../../Services/User/classes/class.ilUserClipboard.php',
         'ilUserClipboardTableGUI' => __DIR__ . '/../..' . '/../../Services/User/classes/class.ilUserClipboardTableGUI.php',
