@@ -3587,7 +3587,7 @@ class ilUtil
 	/**
 	 * @param $a_script
 	 *
-	 * @deprecated User $DIC->ctrl()->redirectToURL() instead
+	 * @deprecated Use $DIC->ctrl()->redirectToURL() instead
 	 */
 	public static function redirect($a_script)
 	{
