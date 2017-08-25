@@ -26,29 +26,47 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 	 */
 	public function __construct($authSourceName, $configurationPath)
 	{
-		global $DIC;
-
-		$fs = $DIC->filesystem()->storage();
-		if(!$fs->has('auth/saml/config/config.php'))
-		{
-			$fs->put('auth/saml/config/config.php', file_get_contents('./Services/Saml/lib/config.php.dist'));
-		}
-		if(!$fs->has('auth/saml/config/authsources.php'))
-		{
-			$fs->put('auth/saml/config/authsources.php', file_get_contents('./Services/Saml/lib/authsources.php.dist'));
-		}
+		$this->initConfigFiles($configurationPath);
 
 		SimpleSAML_Configuration::setConfigDir($configurationPath);
-
 		$this->config   = SimpleSAML_Configuration::getInstance();
+
 		$sessionHandler = $this->config->getString('session.handler', false);
 		$storageType    = $this->config->getString('store.type', false);
-		if($storageType == 'phpsession' || $sessionHandler == 'phpsession' || (empty($storageType) && empty($sessionHandler)))
+
+		if(
+			$storageType == 'phpsession' || $sessionHandler == 'phpsession' ||
+			(empty($storageType) && empty($sessionHandler))
+		)
 		{
 			throw new RuntimeException('Invalid SimpleSAMLphp session handler: Must not be phpsession');
 		}
 
 		$this->authSource = new SimpleSAML_Auth_Simple($authSourceName);
+	}
+
+	/**
+	 * @param string $configurationPath
+	 */
+	protected function initConfigFiles($configurationPath)
+	{
+		global $DIC;
+
+		require_once 'Services/Saml/classes/class.ilSimpleSAMLphpConfigTemplateHandler.php';
+		$templateHandler = new ilSimpleSAMLphpConfigTemplateHandler($DIC->filesystem()->storage());
+		$templateHandler->copy('./Services/Saml/lib/config.php.dist', 'auth/saml/config/config.php', [
+			'DB_PATH'             => rtrim($configurationPath, '/') . '/ssphp.sq3',
+			'SQL_INITIAL_PASSWORD'=> function() {
+				require_once 'Services/Password/classes/class.ilPasswordUtils.php';
+				return substr(str_replace('+', '.', base64_encode(ilPasswordUtils::getBytes(20))), 0, 10); 
+			},
+			'COOKIE_PATH'         => IL_COOKIE_PATH,
+			'LOG_DIRECTORY'       => ilLoggingDBSettings::getInstance()->getLogDir()
+		]);
+		$templateHandler->copy('./Services/Saml/lib/authsources.php.dist', 'auth/saml/config/authsources.php', [
+			'RELAY_STATE'  => rtrim(ILIAS_HTTP_PATH, '/') . '/saml.php',
+			'SP_ENTITY_ID' => rtrim(ILIAS_HTTP_PATH, '/') . '/Services/Saml/lib/metadata.php'
+		]);
 	}
 
 	/**

@@ -121,6 +121,11 @@ class ilSamlSettingsGUI
 
 		$this->lng->loadLanguageModule('auth');
 		$this->ref_id = $ref_id;
+
+
+		require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
+		$factory = new ilSamlAuthFactory();
+		$auth = $factory->auth();
 	}
 
 	/**
