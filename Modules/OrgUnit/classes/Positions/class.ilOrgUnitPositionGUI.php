@@ -39,20 +39,8 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 		$b->setCaption(self::CMD_ADD);
 		$this->dic()->toolbar()->addButtonInstance($b);
 
-		$b = ilLinkButton::getInstance();
-		$b->setUrl($this->ctrl()->getLinkTarget($this, 'rebuildFromLocalRoles'));
-		$b->setCaption('rebuildFromLocalRoles (development)');
-		$this->dic()->toolbar()->addButtonInstance($b);
-
 		$table = new ilOrgUnitPositionTableGUI($this, self::CMD_INDEX);
 		$this->setContent($table->getHTML());
-	}
-
-
-	protected function rebuildFromLocalRoles() {
-		include_once "./Modules/OrgUnit/classes/db.php";
-
-		$this->cancel();
 	}
 
 

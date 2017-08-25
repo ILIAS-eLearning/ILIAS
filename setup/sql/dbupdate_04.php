@@ -20163,3 +20163,300 @@ if(!$ilDB->tableColumnExists('saml_idp_settings', 'entity_id'))
 	);
 }
 ?>
+<#5173>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'title' => array(
+		'type' => 'text',
+		'length' => '512',
+
+	),
+	'description' => array(
+		'type' => 'text',
+		'length' => '4000',
+
+	),
+	'core_position' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_orgu_positions')) {
+	$ilDB->createTable('il_orgu_positions', $fields);
+	$ilDB->addPrimaryKey('il_orgu_positions', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_orgu_positions')) {
+		$ilDB->createSequence('il_orgu_positions');
+	}
+
+}
+?>
+<#5174>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'over' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+	'scope' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+	'position_id' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_orgu_authority')) {
+	$ilDB->createTable('il_orgu_authority', $fields);
+	$ilDB->addPrimaryKey('il_orgu_authority', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_orgu_authority')) {
+		$ilDB->createSequence('il_orgu_authority');
+	}
+
+}
+?>
+<#5175>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'user_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'position_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'orgu_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_orgu_ua')) {
+	$ilDB->createTable('il_orgu_ua', $fields);
+	$ilDB->addPrimaryKey('il_orgu_ua', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_orgu_ua')) {
+		$ilDB->createSequence('il_orgu_ua');
+	}
+
+}
+?>
+<#5176>
+<?php
+$fields = array(
+	'operation_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'operation_string' => array(
+		'type' => 'text',
+		'length' => '16',
+
+	),
+	'description' => array(
+		'type' => 'text',
+		'length' => '512',
+
+	),
+	'list_order' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'context_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_orgu_operations')) {
+	$ilDB->createTable('il_orgu_operations', $fields);
+	$ilDB->addPrimaryKey('il_orgu_operations', array( 'operation_id' ));
+
+	if (! $ilDB->sequenceExists('il_orgu_operations')) {
+		$ilDB->createSequence('il_orgu_operations');
+	}
+
+}
+?>
+<#5177>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'context' => array(
+		'type' => 'text',
+		'length' => '16',
+
+	),
+	'parent_context_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_orgu_op_contexts')) {
+	$ilDB->createTable('il_orgu_op_contexts', $fields);
+	$ilDB->addPrimaryKey('il_orgu_op_contexts', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_orgu_op_contexts')) {
+		$ilDB->createSequence('il_orgu_op_contexts');
+	}
+
+}
+?>
+<#5178>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'context_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'operations' => array(
+		'type' => 'text',
+		'length' => '2048',
+
+	),
+	'parent_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'position_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_orgu_permissions')) {
+	$ilDB->createTable('il_orgu_permissions', $fields);
+	$ilDB->addPrimaryKey('il_orgu_permissions', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_orgu_permissions')) {
+		$ilDB->createSequence('il_orgu_permissions');
+	}
+
+}
+?>
+<#5179>
+<?php
+$ilOrgUnitPositionEmployee = new ilOrgUnitPosition();
+$ilOrgUnitPositionEmployee->setTitle("Employees");
+$ilOrgUnitPositionEmployee->setDescription("Employees of a OrgUnit");
+$ilOrgUnitPositionEmployee->setCorePosition(true);
+$ilOrgUnitPositionEmployee->create();
+$employee_position_id = $ilOrgUnitPositionEmployee->getId();
+
+$ilOrgUnitPositionSuperior = new ilOrgUnitPosition();
+$ilOrgUnitPositionSuperior->setTitle("Superiors");
+$ilOrgUnitPositionSuperior->setDescription("Superiors of a OrgUnit");
+$ilOrgUnitPositionSuperior->setCorePosition(true);
+
+// Authority
+$Sup = new ilOrgUnitAuthority();
+$Sup->setScope(ilOrgUnitAuthority::SCOPE_SAME_ORGU);
+$Sup->setOver($ilOrgUnitPositionEmployee->getId());
+$ilOrgUnitPositionSuperior->setAuthorities([ $Sup ]);
+$ilOrgUnitPositionSuperior->create();
+$superiors_position_id = $ilOrgUnitPositionSuperior->getId();
+
+$ilOrgUnitPositionSuperior = new ilOrgUnitPosition();
+$ilOrgUnitPositionSuperior->setTitle("Abteilungsleiter");
+$ilOrgUnitPositionSuperior->setDescription("");
+$ilOrgUnitPositionSuperior->setCorePosition(false);
+$ilOrgUnitPositionSuperior->create();
+
+// $ilObjOrgUnitTree = ilObjOrgUnitTree::_getInstance();
+// foreach ($ilObjOrgUnitTree->getAllChildren(56) as $orgu_ref_id) {
+// 	$employees = $ilObjOrgUnitTree->getEmployees($orgu_ref_id);
+// 	foreach ($employees as $employee_user_id) {
+// 		ilOrgUnitUserAssignment::findOrCreateAssignment($employee_user_id, $employee_position_id, $orgu_ref_id);
+// 	}
+// 	$superiors = $ilObjOrgUnitTree->getSuperiors($orgu_ref_id);
+// 	foreach ($superiors as $superior_user_id) {
+// 		ilOrgUnitUserAssignment::findOrCreateAssignment($superior_user_id, $superiors_position_id, $orgu_ref_id);
+// 	}
+// }
+?>
+<#5180>
+<?php
+
+try{
+	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_OBJECT);
+	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_IASS, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_CRS, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_GRP, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_TST, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_EXC, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_SVY, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+
+	ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, 'Read the learning Progress of a User', array(
+		ilOrgUnitOperationContext::CONTEXT_CRS,
+		ilOrgUnitOperationContext::CONTEXT_GRP,
+		ilOrgUnitOperationContext::CONTEXT_IASS,
+		ilOrgUnitOperationContext::CONTEXT_EXC,
+		ilOrgUnitOperationContext::CONTEXT_SVY,
+	));
+
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_MANAGE_MEMBERS, 'Edit Members in a course', ilOrgUnitOperationContext::CONTEXT_CRS);
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_MANAGE_MEMBERS, 'Edit Members in a group', ilOrgUnitOperationContext::CONTEXT_GRP);
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_EDIT_SUBMISSION_GRADES, '', ilOrgUnitOperationContext::CONTEXT_EXC);
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_ACCESS_RESULTS, '', ilOrgUnitOperationContext::CONTEXT_SVY);
+}catch(ilException $e){
+}
+
+
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
