@@ -33,16 +33,34 @@ class ilMyStaffAccess extends ilObjectAccess {
 	 * @return bool
 	 */
 	public function hasCurrentUserAccessToMyStaff() {
-
-		//todo WIRD BEIM MENU-Builden aufgerufen! Performance!!
-
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 
-		if (count($this->getUsersForUserOperationAndContext($ilUser->getId(),1,'crs')))
+		if ($this->countOrgusOfUserWithOperationAndContext($ilUser->getId(),1,'crs') > 0)
 		{
 			return true;
 		}
+	}
+
+	public function countOrgusOfUserWithOperationAndContext($user_id, $operation_id = 1,$context = 'crs') {
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		/**
+		 * @var $ilDB \ilDBInterface
+		 */
+		$ilDB = $GLOBALS['DIC']->database();
+
+		$q = "select count(orgu_ua.orgu_id) as cnt from il_orgu_permissions AS perm
+				INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id
+				INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '".$context."'
+				and orgu_ua.user_id = $user_id and perm.operations LIKE  '%\"$operation_id\"%'
+				where perm.parent_id = -1";
+
+
+		$set = $ilDB->query($q);
+		$rec = $ilDB->fetchAssoc($set);
+
+		return $rec['cnt'];
 	}
 
 	public function getUsersForUserOperationAndContext($user_id, $operation_id = 1,$context = 'crs') {
@@ -123,9 +141,21 @@ class ilMyStaffAccess extends ilObjectAccess {
 				UNION
 					select tmp_ilorgu_default_permissions.*, tmp_orgu_members.orgu_id as ref_id, tmp_orgu_members.user_id from tmp_ilorgu_default_permissions
 					inner join tmp_orgu_members on tmp_orgu_members.orgu_id = tmp_ilorgu_default_permissions.perm_for_ref_id
+					and (
+							(
+							tmp_orgu_members.orgu_id = tmp_ilorgu_default_permissions.perm_for_orgu_id and tmp_orgu_members.user_position_id = tmp_ilorgu_default_permissions.perm_over_user_with_position and perm_orgu_scope = 1
+							)
+							or perm_orgu_scope = 2
+						)
+					
 				) as user_perm_matrix  
 				INNER JOIN tmp_orgu_members_path as path on path.user_id = user_perm_matrix.usr_id
+				
 				INNER JOIN il_orgu_ua as orgu_ua_current_user on orgu_ua_current_user.user_id = $user_id
+				INNER JOIN il_orgu_permissions AS perm on perm.position_id = orgu_ua_current_user.position_id and perm.parent_id = -1
+				INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context =  '$context'
+				and perm.operations  LIKE '%\"$operation_id\"%'
+				
 				AND
 				( 
 					/* Identische OrgUnit wie Current User; Nicht Rekursiv; Fixe Position */
@@ -164,6 +194,7 @@ class ilMyStaffAccess extends ilObjectAccess {
 					)
 				)	
 			);";
+
 
 		$ilDB->manipulate($q);
 
@@ -339,11 +370,10 @@ class ilMyStaffAccess extends ilObjectAccess {
 
 
 
-
-
 	/**
 	 * @return array
 	 */
+	/*
 	public function getOrguUsersOfCurrentUserWithShowStaffPermission() {
 		if (is_null(self::$orgu_users_of_current_user_show_staff_permission)) {
 
@@ -365,7 +395,7 @@ class ilMyStaffAccess extends ilObjectAccess {
 		}
 
 		return self::$orgu_users_of_current_user_show_staff_permission;
-	}
+	}*/
 
 
 	/**
@@ -373,10 +403,9 @@ class ilMyStaffAccess extends ilObjectAccess {
 	 *
 	 * @return array
 	 */
+	/*
 	public static function getUsersByOrgus($arr_orgu_ref_id) {
-		/**
-		 * @var $ilDB \ilDBInterface
-		 */
+
 		$ilDB = $GLOBALS['DIC']->database();
 
 		$users = array();
@@ -397,7 +426,7 @@ class ilMyStaffAccess extends ilObjectAccess {
 		}
 
 		return $users;
-	}
+	}*/
 
 	/**
 	 * @param $temporary_table_name

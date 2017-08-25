@@ -468,10 +468,9 @@ class ilObjOrgUnitTree {
 		}
 
 		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
-				SELECT DISTINCT object_reference.ref_id AS ref_id, rbac_ua.usr_id AS user_id, orgu_path_storage.path AS path
-					FROM rbac_ua
-					JOIN  rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
-					JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
+				SELECT DISTINCT object_reference.ref_id AS ref_id, il_orgu_ua.user_id AS user_id, orgu_path_storage.path AS path
+					FROM il_orgu_ua
+                    JOIN object_reference ON object_reference.ref_id = il_orgu_ua.orgu_id
 					JOIN object_data ON object_data.obj_id = object_reference.obj_id
 					JOIN orgu_path_storage ON orgu_path_storage.ref_id = object_reference.ref_id
 				WHERE object_data.type = 'orgu' AND object_reference.deleted IS NULL
