@@ -1845,7 +1845,7 @@ class ilLMPresentationGUI
 					$anc = $int_link["Anchor"];
 					$anc_add = "_".rawurlencode($int_link["Anchor"]);
 				}
-
+				$lcontent = "";
 				switch($type)
 				{
 					case "PageObject":
@@ -1968,6 +1968,28 @@ class ilLMPresentationGUI
 							$ilCtrl->setParameter($this, "file_id", "");
 						}
 						break;
+
+					case "User":
+						$obj_type = ilObject::_lookupType($target_id);
+						if ($obj_type == "usr")
+						{
+							include_once("./Services/User/classes/class.ilUserUtil.php");
+							$back = $this->ctrl->getLinkTarget($this, "layout");
+							//var_dump($back); exit;
+							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
+							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
+								rawurlencode($back));
+							$href = "";
+							include_once("./Services/User/classes/class.ilUserUtil.php");
+							if (ilUserUtil::hasPublicProfile($target_id))
+							{
+								$href = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML");
+							}
+							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
+							$lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
+						}
+						break;
+
 				}
 				
 				$anc_par = 'Anchor="'.$anc.'"';
@@ -1975,7 +1997,7 @@ class ilLMPresentationGUI
 				if ($href != "")
 				{
 					$link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " .
-						"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" $anc_par/>";
+						"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" LinkContent=\"$lcontent\" $anc_par/>";
 				}
 
 				// set equal link info for glossary links of target "None" and "Glossary"

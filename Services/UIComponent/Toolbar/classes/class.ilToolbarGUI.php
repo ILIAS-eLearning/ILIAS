@@ -317,7 +317,6 @@ class ilToolbarGUI
 		$this->items[] = array("type" => "component", "component" => $a_comp);
 	}
 
-
 	/**
 	 * Add link
 	 *
