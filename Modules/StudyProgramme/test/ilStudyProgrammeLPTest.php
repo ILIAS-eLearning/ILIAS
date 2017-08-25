@@ -210,7 +210,58 @@ class ilStudyProgrammeLPTest extends PHPUnit_Framework_TestCase {
 						   , ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
 						   );
 	}
-	
+
+	public function testMarkFailed() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+
+		$user2 = $this->newUser();
+		$USER_ID = $user2->getId();
+
+		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
+		$node2_progress->markFailed($USER_ID);
+
+		$this->assertEquals( ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
+						   );
+		$this->assertEquals( ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->node1->getId(), $user->getId())
+						   );
+		$this->assertEquals( ilLPStatus::LP_STATUS_FAILED_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
+						   );
+	}
+
+	public function testMarkNotFailed() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+
+		$user2 = $this->newUser();
+		$USER_ID = $user2->getId();
+
+		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
+		$node2_progress->markFailed($USER_ID);
+
+		$this->assertEquals( ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
+						   );
+		$this->assertEquals( ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->node1->getId(), $user->getId())
+						   );
+		$this->assertEquals( ilLPStatus::LP_STATUS_FAILED_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
+						   );
+
+		$node2_progress->markNotFailed($USER_ID);
+		$this->assertEquals( ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
+						   );
+	}
+
 	// Neues Moduls: Wird dem Studierenden-Studierenden inkl. Kurse, Punkte als "Nicht relevant" hinzugefügt.
 	public function testNewNodesAreNotRelevant() {
 		$this->setAllNodesActive();

@@ -19893,6 +19893,7 @@ if(!$ilDB->tableExists('saml_attribute_mapping'))
 	);
 }
 ?>
+
 <#5157>
 <?php
 $ilDB->addPrimaryKey('saml_attribute_mapping', array('idp_id', 'attribute'));
@@ -20085,6 +20086,7 @@ if(!$ilDB->tableColumnExists('saml_idp_settings', 'entity_id'))
 	);
 }
 ?>
+
 <#5173>
 <?php
 if($ilDB->tableExists('cal_categories_hidden') )
@@ -20397,4 +20399,15 @@ try{
 
 ?>
 
-
+<#5184>
+<?php
+if( !$ilDB->tableColumnExists('prg_usr_progress', 'deadline'))
+{
+	$ilDB->addTableColumn('prg_usr_progress', 'deadline',
+		array('type' => 'text',
+			'length' => 15,
+			'notnull'=> false
+		)
+	);
+}
+?>
