@@ -14120,7 +14120,7 @@ content#:#cont_no_page_access_unansw_q#:#Sie müssen alle bisherigen Fragen korr
 classification#:#clsfct_block_title#:#Auswahl nach Themen
 classification#:#clsfct_block_info#:#Ihre Auswahl filtert die Objekte.
 classification#:#clsfct_content_title#:#Zu Ihrer Auswahl passende Objekte.
-classification#:#clsfct_content_no_match#:#Keine Treffer
+classification#:#clsfct_content_no_match#:#Es wurden keine Objekte für die ausgewählten Kriterien gefunden.
 cntr#:#sorting_new_items_position#:#Position neuer Objekte
 cntr#:#sorting_new_items_at_top#:#Oben
 cntr#:#sorting_new_items_at_bottom#:#Unten
@@ -16341,3 +16341,7 @@ content#:#cont_user#:#Benutzer
 content#:#cont_user_search_did_not_match#:#Es wurde kein Benutzer gefunden.
 blog#:#blog_latest_posting#:#Neuester Beitrag
 common#:#second_email#:#Zweite E-Mail
+classification#:#clsfct_selected_objects#:#Ausgewählte Objekte
+classification#:#clsfct_back_to_cat#:#Zurück zur Kategorie
+tax#:#tax_tax_assignment#:#Taxonomiezuordnung
+tax#:#tax_tax_settings#:#Taxonomieeinstellungen
