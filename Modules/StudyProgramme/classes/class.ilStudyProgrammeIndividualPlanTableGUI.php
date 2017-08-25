@@ -21,7 +21,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 	 */
 	protected $sp_user_progress_db;
 
-	public function __construct($a_parent_obj, ilStudyProgrammeUserAssignment $a_ass, \ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
+	public function __construct(ilObjStudyProgrammeIndividualPlanGUI $a_parent_obj, ilStudyProgrammeUserAssignment $a_ass, \ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
 		$this->setId("manage_indiv");
 
 		$this->sp_user_progress_db = $sp_user_progress_db;
