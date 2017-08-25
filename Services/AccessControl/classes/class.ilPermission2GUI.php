@@ -19,6 +19,7 @@ class ilPermission2GUI
 	protected $ilErr = null;
 	protected $ctrl = null;
 	protected $lng = null;
+	const TAB_POSITION_PERMISSION_SETTINGS = "position_permission_settings";
 
 
 	public function __construct($a_gui_obj)
@@ -128,10 +129,8 @@ class ilPermission2GUI
 		$ilTabs->addSubTabTarget("permission_settings", $this->ctrl->getLinkTarget($this, "perm"),
 								 "", "", "", $perm);
 
-		#$ilTabs->addSubTabTarget("permission_settings", $this->ctrl->getLinkTarget($this, "perm2"),
-		#							 "", "", "", $perm);
-
-		$ilTabs->addSubTabTarget("position_permission_settings", $this->ctrl->getLinkTarget($this, ilPermissionGUI::CMD_PERM_POSITIONS), "", "", "", $perm_positions);
+		if(ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($this->gui_obj->object->getId()))
+		$ilTabs->addSubTabTarget(self::TAB_POSITION_PERMISSION_SETTINGS, $this->ctrl->getLinkTarget($this, ilPermissionGUI::CMD_PERM_POSITIONS), "", "", "", $perm_positions);
 								 
 		$ilTabs->addSubTabTarget("info_status_info", $this->ctrl->getLinkTargetByClass(array(get_class($this),"ilobjectpermissionstatusgui"), "perminfo"),
 								 "", "", "", $info);

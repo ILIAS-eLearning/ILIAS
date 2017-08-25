@@ -475,7 +475,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		 * @var $ilAccess \ilAccessHandler
 		 */
 		global $ilAccess;
-		$usr_ids = $ilAccess->filterUserIdsByPositionOfCurrentUser('viewmembers', $this->rep_object->getRefId(), $usr_ids);
+		$usr_ids = $ilAccess->filterUserIdsByPositionOfCurrentUser(ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, $this->rep_object->getRefId(), $usr_ids);
 		
 		// merge course data
 		$course_user_data = $this->getParentObject()->readMemberData(

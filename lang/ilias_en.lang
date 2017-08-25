@@ -10950,6 +10950,37 @@ common#:#il_orgu_superior#:#Superior
 common#:#il_orgu_employee#:#Employee
 common#:#view_learning_progress#:#View Learning Progress
 common#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits
+rbac#:#rbac_info_only_position_access#:#You are presented only with those members with a Position within your organisational unit. Members with other organisational Positions are not shown to you but may reside in this coures without being shown to you.
+obj#:#obj_orgunit_positions#:#Access Control by Organisation Unit Positions
+obj#:#obj_orgunit_positions_info#:#If enabled, additional access control rules can be defined by positions in organisational units.
+orgu#:#authorities#:#Authorities
+orgu#:#positions#:#Positions
+orgu#:#scope_1#:#Same Organisational Unit
+orgu#:#scope_2#:#Subsequent Organisational Units
+orgu#:#scope_3#:#All Organisational Units
+orgu#:#over_-1#:#Everyone
+orgu#:#over#:#Over
+orgu#:#scope#:#In
+orgu#:#org_op_set_lp#:#Set learning progress of other users
+orgu#:#org_op_view_lp#:#View learning progress of other users
+common#:#my_staff#:#My Staff
+mst#:#mst_my_staff#:#My Staff
+mst#:#mst_list_users#:#Staff List
+mst#:#mst_list_courses#:#Courses of My Staff
+mst#:#mst_select_course#:#Select Course
+mst#:#mst_please_select_course#:#Please select a course.
+mst#:#mst_opt_all#:#All
+mst#:#mst_memb_status_requested#:#Requested
+mst#:#mst_memb_status_waitinglist#:#Waiting List
+mst#:#mst_memb_status_registered#:#Registered
+mst#:#mst_show_courses#:#Show Courses
+mst#:#mst_courses_of#:#Courses of %s
+orgu#:#orgu_enable_my_staff#:#Enable ‘My Staff’
+orgu#:#orgu_enable_my_staff_info#:#The View ‘My Staff’ shows the Learning Progress of the own Employees.
+orgu#:#org_op_manage_members#:#Manage Members
+orgu#:#org_op_read_learning_pr#:#Read Learning Progress
+orgu#:#form_title_org_default_permissions_update#:#Default Permissions
+orgu#:#msg_confirm_deletion#:#Deleted
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
 orgu#:#orgu_staff_deassign#:#Are you sure you want to deassign these users from this role?
