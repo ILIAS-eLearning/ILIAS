@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilUserAvatarBase
+ * Class ilUserAvatarFactory
  * @author Alexander Killing <killing@leifos.de>
  * @author Michael Jansen <mjansen@databay.de>
  */
