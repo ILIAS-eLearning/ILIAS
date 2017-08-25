@@ -941,9 +941,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		// link portfolio to exercise assignment
 		$this->linkPortfolioToAssignment($target_id);
 		
-		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
+		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created_from_template"), true);
 		$this->ctrl->setParameter($this, "prt_id", $target_id);
-		$this->ctrl->redirect($this, "view");
+		$this->ctrl->redirect($this, "preview");
 	}
 
 	public static function _goto($a_target)
@@ -1046,9 +1046,17 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		// link portfolio to exercise assignment
 		$this->linkPortfolioToAssignment($target_id);
 
-		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
 		$this->ctrl->setParameter($this, "prt_id", $target_id);
-		$this->ctrl->redirect($this, "view");
+		if($prtt_id)
+		{
+			ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created_from_template"), true);
+			$this->ctrl->redirect($this, "preview");
+		}
+		else
+		{
+			ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
+			$this->ctrl->redirect($this, "view");
+		}
 	}
 
 	function linkPortfolioToAssignment($a_target_id)
