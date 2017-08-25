@@ -1,8 +1,6 @@
 <!-- BEGIN mini_month -->
-<div class="calmini" style="text-align:center;">
-	<a href="{PREV_MONTH}" <!-- BEGIN PREV_ASYNC_BL -->onclick="return ilBlockJSHandler('block_{BL_TYPE}_{BL_ID}','{PREV_MONTH_ASYNC}')"<!-- END PREV_ASYNC_BL -->>&lt;</a>
-	<a href="{OPEN_MONTH_VIEW}">{TXT_MONTH}</a>
-	<a href="{NEXT_MONTH}" <!-- BEGIN NEXT_ASYNC_BL -->onclick="return ilBlockJSHandler('block_{BL_TYPE}_{BL_ID}','{NEXT_MONTH_ASYNC}')"<!-- END NEXT_ASYNC_BL -->>&gt;</a>
+<div style="text-align:center;">
+	{VIEW_CTRL_SECTION}
 </div>
 <table class="calmini" width="100%" summary="{TXT_MONTH_OVERVIEW}">
 	<tr class="calminiheader">
@@ -12,16 +10,13 @@
 	</tr>
 	<!-- BEGIN month_row -->
 	<tr class="calmini">
-		<th class="{TD_CLASS}" width="12.5%">
+		<!-- BEGIN week -->
+		<th class="calminiweek" width="12.5%">
 			<div class="il_calmini_monthday">
-			<!-- BEGIN month_row_link -->
-			<a href="{OPEN_WEEK_VIEW}">{WEEK}</a></div>
-			<!-- END month_row_link -->
-			<!-- BEGIN month_row_no_link -->
-			<span class="{WEEK_CLASS}">{WEEK}</span>
-			<!-- END month_row_no_link -->
+			<span>{WEEK}</span>
 			</div>
 		</th>
+		<!-- END week -->
 		<!-- BEGIN month_col -->
 		<td class="{TD_CLASS}" width="12.5%">
 			<div class="il_calmini_monthday">

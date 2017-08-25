@@ -1,136 +1,114 @@
 <?php
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Object settings regarding position permissions
+ * Stores object activation status of orgunit position settings.
  *
- * @author Stefan Meyer <smeyer.ilias@gmx.de> 
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilOrgUnitObjectPositionSetting
-{
-	const DEFAULT_OFF = 0;
-	const DEFAULT_ON = 1;
-	
+class ilOrgUnitObjectPositionSetting {
+
 	/**
 	 * @var ilDBInterface
 	 */
 	protected $db;
-	
 	/**
-	 * @var string
+	 * @var int
 	 */
-	private $type = '';
-	
+	private $obj_id;
 	/**
 	 * @var bool
 	 */
 	private $active = false;
-	
+
+
 	/**
-	 * @var bool
+	 * Constructor
+	 *
+	 * @param int $a_obj_id
 	 */
-	private $changeable = false;
-	
-	/**
-	 * @var int
-	 */
-	private $default = self::DEFAULT_OFF;
-	
-	/**
-	 * Constructor 
-	 * @param string $a_obj_type
-	 */
-	public function __construct($a_obj_type)
-	{
+	public function __construct($a_obj_id) {
 		$this->db = $GLOBALS['DIC']->database();
-		$this->type = $a_obj_type;
-		$this->read();
+		$this->obj_id = $a_obj_id;
+		$this->readSettings();
 	}
-	
+
+
 	/**
-	 * set active for object type
+	 * Lookup activation status
+	 *
+	 * @param int $a_obj_id
+	 *
+	 * @return bool active status
 	 */
-	public function setActive($a_active)
-	{
-		$this->active = $a_active;
+	public function lookupActive($a_obj_id) {
+		$db = $GLOBALS['DIC']->database();
+
+		$query = 'select *  from orgu_obj_pos_settings ' . 'where obj_id = '
+		         . $db->quote($a_obj_id, 'integer');
+		$res = $this->db->query($query);
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+			return (bool)$row->active;
+		}
 	}
-	
+
+
 	/**
-	 * @param int $a_default
+	 * Check if position access is active
 	 */
-	public function setActivationDefault($a_default)
-	{
-		$this->default = $a_default;
-	}
-	
-	/**
-	 * @param bool $a_status
-	 */
-	public function setChangeableForObject($a_status)
-	{
-		$this->changeable = $a_status;
-	}
-	
-	/**
-	 * Check if active
-	 * @return bool
-	 */
-	public function isActive()
-	{
+	public function isActive() {
 		return $this->active;
 	}
-	
+
+
 	/**
-	 * Get activation default
-	 * @return int
+	 * Set active for object
+	 *
+	 * @param bool $a_status
 	 */
-	public function getActivationDefault()
-	{
-		return $this->default;
+	public function setActive($a_status) {
+		$this->active = $a_status;
 	}
-	
+
+
 	/**
-	 * return bool
+	 * Update object entry
 	 */
-	public function isChangeableForObject()
-	{
-		return $this->changeable;
+	public function update() {
+		$this->db->replace('orgu_obj_pos_settings', [
+				'obj_id' => [ 'integer', $this->obj_id ],
+			], [
+				'active' => [ 'integer', (int)$this->isActive() ],
+			]);
 	}
-	
+
+
 	/**
-	 * Update type entry
+	 * Delete record
 	 */
-	public function update()
-	{
-		$this->db->replace(
-			'orgu_obj_type_settings',
-			[
-				'obj_type' => ['text', $this->type]
-			],
-			[
-				'active' => ['integer', (int) $this->isActive()],
-				'activation_default' => ['integer', (int) $this->getActivationDefault()],
-				'changeable' => ['integer', (int) $this->isChangeableForObject()]
-			]
-		);
+	public function delete() {
+		$query = 'DELETE from orgu_obj_pos_settings ' . 'WHERE obj_id = '
+		         . $this->db->quote($this->obj_id, 'integer');
+		$this->db->manipulate($query);
 	}
-	
+
+
 	/**
 	 * Read from db
 	 */
-	protected function read()
-	{
-		$query = 'SELECT * FROM orgu_obj_type_settings '.
-			'WHERE obj_type = '.$this->db->quote($this->type, 'text');
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			$this->entry_exists = true;
-			$this->setActive((bool) $row->active);
-			$this->setActivationDefault((int) $row->activation_default);
-			$this->setChangeableForObject((bool) $row->changeable);
+	protected function readSettings() {
+		if (!$this->obj_id) {
+			return;
 		}
+		$query = 'select * from orgu_obj_pos_settings ' . 'where obj_id = '
+		         . $this->db->quote($this->obj_id, 'integer');
+		$res = $this->db->query($query);
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+			$this->active = (bool)$row->active;
+		}
+
+		return;
 	}
 }
-?>

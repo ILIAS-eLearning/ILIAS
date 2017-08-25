@@ -4752,7 +4752,7 @@ dateplaner#:#cal_share_decline#:#Decline Invitation
 dateplaner#:#cal_share_search_header#:#Share Calendar
 dateplaner#:#cal_share_search_role_header#:#Role Selection
 dateplaner#:#cal_share_search_usr_header#:#User Selection
-dateplaner#:#cal_share#:#Share Calendar
+dateplaner#:#cal_share#:#Share
 dateplaner#:#cal_shared_calendars#:#Shared Calendars (Invitations)
 dateplaner#:#cal_shared_header#:#Shared Calendars
 dateplaner#:#cal_shared_selected_usr#:#The calendar has been shared with the selected users/roles.
@@ -7723,7 +7723,7 @@ exc#:#exc_import#:#Import Exercise
 dateplaner#:#cal_back_to_list#:#Back to List
 dateplaner#:#cal_back_to_search#:#Back to Search
 dateplaner#:#cal_unshare#:#Cancel Sharing
-dateplaner#:#cal_manage#:#Calendars
+dateplaner#:#cal_manage#:#Manage Calendars
 dateplaner#:#cal_delete_single#:#Delete only this appointment
 dateplaner#:#cal_delete_recurrences#:#Delete all recurrences
 dateplaner#:#cal_back_to_cal#:#Back to Calendar
@@ -11785,7 +11785,7 @@ content#:#cont_no_page_access_unansw_q#:#You need to answer all questions of pre
 classification#:#clsfct_block_title#:#Selection by Topics
 classification#:#clsfct_block_info#:#Your Selection filters the objects.
 classification#:#clsfct_content_title#:#Objects matching your selection
-classification#:#clsfct_content_no_match#:#No hits
+classification#:#clsfct_content_no_match#:#No objects match your selected criteria.
 cntr#:#sorting_new_items_position#:#Position for New Objects
 cntr#:#sorting_new_items_at_top#:#Top
 cntr#:#sorting_new_items_at_bottom#:#Bottom
@@ -13675,6 +13675,39 @@ auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#Configure SAML IDP: %s
 auth#:#saml_tab_head_idp#:#IDP
 auth#:#auth_saml_idp_settings#:#IDP Settings
+dateplaner#:#cal_download_all_files#:#Download all Files
+dateplaner#:#cal_owner#:#Owner
+dateplaner#:#cal_contained_in#:#Contained in
+dateplaner#:#cal_app_info#:#Appointment Information
+dateplaner#:#cal_crs_info#:#Course Information
+crs#:#crs_open#:#Open Course
+grp#:#grp_grp_open#:#Open Group
+dateplaner#:#cal_grp_info#:#Group Information
+dateplaner#:#cal_exc_info#:#Assignment Information
+dateplaner#:#cal_sess_info#:#Session Information
+dateplaner#:#cal_agenda#:#Agenda
+dateplaner#:#cal_origin#:#Origin
+dateplaner#:#cal_list#:#List
+dateplaner#:#cal_grp_curr_crs_cons#:#Consultation Hours
+dateplaner#:#cal_grp_curr_crs#:#Current Course
+dateplaner#:#cal_grp_personal#:#Personal
+dateplaner#:#cal_grp_others#:#Others
+dateplaner#:#cal_exc_inst_files#:#Instruction Files
+dateplaner#:#cal_exc_open#:#Open Assignment
+book#:#book_open#:#Open Booking Pool
+book#:#book_booking_information#:#Information
+sess#:#sess_open#:#Open Session
+dateplaner#:#cal_show_weeks#:#Show Weeks
+dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block. Users can deactivate the column in their settings.
+dateplaner#:#cal_usr_show_weeks#:#Show Week Column
+dateplaner#:#cal_usr_show_weeks_info#:#Activates weeks column in calendar side block.
+dateplaner#:#cal_repo_obj#:#Repository Objects
+dateplaner#:#cal_grp_curr_grp#:#Current Group
+dateplaner#:#cal_subscription#:#Subscription
+dateplaner#:#cal_cal_shared_with#:#Users calendar is shared with
+dateplaner#:#cal_consultation_hours_for_user#:#Consultation Hours for %1
+dateplaner#:#cal_open_calendar#:#Open Calendar
+dateplaner#:#cal_delete_cal#:#Delete Calendar
 survey#:#sub_tab_dashboard#:#Dashboard
 mail#:#first_email_missing_info#:#Selection not possible because no email address has been entered
 mail#:#second_email_missing_info#:#Selection not possible because no second email address has been entered
@@ -13840,3 +13873,11 @@ rbac#:#wiki_edit_page_meta#:#Edit Wiki Page Metadata
 content#:#cont_user#:#User
 content#:#cont_user_search_did_not_match#:#Your search did not match any users.
 blog#:#blog_latest_posting#:#Latest Posting
+dateplaner#:#cal_batch_file_downloads#:#Batch file downloads in Calendar
+dateplaner#:#cal_batch_file_downloads_info#:#Activate button to download all files related to the current calendar/appointment view.
+dateplaner#:#cal_download_files#:#Download Files
+dateplaner#:#cal_calendar_download#:#Calendar Download
+classification#:#clsfct_selected_objects#:#Selected Objects
+classification#:#clsfct_back_to_cat#:#Back to Category
+tax#:#tax_tax_assignment#:#Taxonomy Assignment
+tax#:#tax_tax_settings#:#Taxonomy Settings

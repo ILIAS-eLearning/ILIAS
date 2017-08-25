@@ -100,7 +100,7 @@ class Renderer extends AbstractComponentRenderer
 		} else {
 			$tpl->touchBlock($type."_disabled");
 		}
-		$this->maybeRenderId($component, $tpl, $type."_with_id", $uptype."_PREV_ID");
+		$this->maybeRenderId($component, $tpl, $type."_with_id", $uptype."_ID");
 	}
 
 	protected function maybeRenderId(Component\Component $component, $tpl, $block, $template_var) {

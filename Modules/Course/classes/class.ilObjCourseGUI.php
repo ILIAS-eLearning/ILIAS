@@ -22,7 +22,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMailMemberSearchGUI, ilBadgeManagementGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
  *
  * @extends ilContainerGUI
  */
@@ -965,6 +965,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				ilObjectServiceSettingsGUI::TAG_CLOUD,
 				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
 				ilObjectServiceSettingsGUI::BADGES,
+				ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
 				ilObjectServiceSettingsGUI::SKILLS
 			)
 		);
@@ -1404,6 +1405,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::TAG_CLOUD,
 					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
 					ilObjectServiceSettingsGUI::BADGES,
+					ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
 					ilObjectServiceSettingsGUI::SKILLS
 				)
 			);
@@ -1992,7 +1994,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function getTabs()
 	{
-		global $rbacsystem,$ilAccess,$ilUser, $lng, $ilHelp;
+		global $ilAccess,$ilUser, $lng, $ilHelp;
 
 		$ilHelp->setScreenIdComponent("crs");
 		
@@ -2216,6 +2218,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				ilLink::_getLink($_GET["ref_id"], "crs"), "crs");
 		}
 
+		$header_action = true;
+
 		switch($next_class)
 		{
 			case 'ilcoursemembershipgui':
@@ -2322,6 +2326,12 @@ class ilObjCourseGUI extends ilContainerGUI
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
+			case 'ilcalendarpresentationgui':
+				include_once('./Services/Calendar/classes/class.ilCalendarPresentationGUI.php');
+				$cal = new ilCalendarPresentationGUI($this->object->getRefId());
+				$ret = $this->ctrl->forwardCommand($cal);
+				$header_action = false;
+				break;
 
 			case 'ilcoursecontentinterface':
 
@@ -2485,7 +2495,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once 'Services/Mail/classes/class.ilMail.php';
 				$mail = new ilMail($ilUser->getId());
 
-				if(!($this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
+				if(
+					!($this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
 					$ilAccess->checkAccess('manage_members',"",$this->object->getRefId())) &&
 					$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
 				{
@@ -2498,7 +2509,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once './Services/Contact/classes/class.ilMailMemberCourseRoles.php';
 				
 				$mail_search = new ilMailMemberSearchGUI($this, $this->object->getRefId(), new ilMailMemberCourseRoles());
-				$mail_search->setObjParticipants(ilCourseParticipants::_getInstanceByObjId($this->object->getId()));
+				$mail_search->setObjParticipants(
+					ilCourseParticipants::_getInstanceByObjId($this->object->getId()));
 				$this->ctrl->forwardCommand($mail_search);
 				break;
 
@@ -2625,8 +2637,11 @@ class ilObjCourseGUI extends ilContainerGUI
 
                 break;
 		}
-		
-		$this->addHeaderAction();
+
+		if ($header_action)
+		{
+			$this->addHeaderAction();
+		}
 
 		return true;
 	}

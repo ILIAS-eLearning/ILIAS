@@ -190,6 +190,41 @@ class ilIndividualAssessmentMembers implements Iterator, Countable {
 		throw new ilIndividualAssessmentException('User not member or allready finished');
 	}
 
+	/**
+	 * Remove all users that do no exist in list of given ids.
+	 *
+	 * @param	int[]	$keep_users_ids
+	 * @return  self
+	 */
+	public function withOnlyUsersByIds($keep_users_ids) {
+		$clone = clone $this;
+
+		$remove = array_diff($this->membersIds(), $keep_users_ids);
+		foreach($remove as $id) {
+			unset($clone->member_records[$id]);
+		}
+
+		return $clone;
+	}
+
+	/**
+	 * Get a collection like this, but only including users that are visible according
+	 * to the supplied access handler.
+	 *
+	 * @param	ilOrgUnitPositionAndRBACAccessHandler $access_handler
+	 * @return	self
+	 */
+	public function withAccessHandling(ilOrgUnitPositionAndRBACAccessHandler $access_handler) {
+		return $this->withOnlyUsersByIds
+			( $access_handler->filterUserIdsByRbacOrPositionOfCurrentUser
+				( "read_learning_progress"
+				, "view_lp"
+				, $this->referencedObject()->getRefId()
+				, $this->membersIds()
+				)
+			);
+	}
+
 
 	/**
 	 * Get the ids of all the users being member in this iass
