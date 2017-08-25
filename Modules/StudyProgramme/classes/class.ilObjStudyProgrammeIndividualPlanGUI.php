@@ -346,20 +346,23 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		$a_table->addCommandButton("updateFromInput", $this->lng->txt("save"));
 	}
 
+	const POST_VAR_STATUS = "status";
+	const POST_VAR_REQUIRED_POINTS = "required_points";
+	const POST_VAR_DEADLINE = "deadline";
 	const MANUAL_STATUS_NONE = 0;
 	const MANUAL_STATUS_NOT_RELEVANT = 1;
 	const MANUAL_STATUS_ACCREDITED = 2;
 
 	public function getManualStatusPostVarTitle() {
-		return "status";
+		return self::POST_VAR_STATUS;
 	}
 
 	public function getRequiredPointsPostVarTitle() {
-		return "required_points";
+		return self::POST_VAR_REQUIRED_POINTS;
 	}
 
 	public function getDeadlinePostVarTitle() {
-		return "deadline";
+		return self::POST_VAR_DEADLINE;
 	}
 
 	public function getManualStatusNone() {
