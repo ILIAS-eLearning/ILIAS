@@ -42,7 +42,7 @@ div.ilCalSelSelAll {
 }
 
 div.ilCalSelList {
-	max-height: 250px;
+	max-height: 300px;
 	overflow: auto;
 }
 
@@ -59,25 +59,34 @@ ul.ilCalSel {
 
 ul.ilCalSel li {
 	margin: 0;
-	padding: 0 0 0 48px;
+	/* padding: 0 0 0 48px; */
+	margin: 0;
 	border-bottom: 1px solid #f0f0f0;
-	min-height: 25px;
+	/* min-height: 25px; */
 }
 
-span.ilCalColSpan {
-	padding: 2px 0;
-	display: block;
-	margin-left: -48px;
-	width: 24px;
-	height: 25px;
-	float: left;
+ul.ilCalSel li > div {
+	display:table-row;
+}
+
+ul.ilCalSel li > div > div {
+	display:table-cell;
+	padding: 2px;
+}
+
+ul.ilCalSel li > div > div.ilCalColSpan {
+	border-left: 5px solid;
+	padding: 2px 5px;
 }
 
 ul.ilCalSel li img {
-	margin-top: 6px;
-	display: block;
-	float: left;
-	margin-left: -20px;
+}
+
+div.ilCalSelList h6 {
+	padding-left: 5px;
+	font-size: @font-size-small;
+	margin-top: 16px;
+	margin-bottom: 8px;
 }
 
 div.ilCalSelTitle {
@@ -102,19 +111,20 @@ table.calmini {
 		color: lighten(@mid-gray, 45%);
 		background-color: transparent;
 	}
+	tr:nth-child(odd) {
+		background-color: @il-secondary-container-bg;
+	}
 	tr:nth-child(even) {
-		background-color: lighten(@mid-gray, 65%);
+		background-color: @il-primary-container-bg;
 	}
 	th.calmini, th.calminiweek {
 		font-weight: 600;
-		color: @brand-primary;
 		font-size: 90%;
 	}
 	td.calministd > .il_calmini_monthday > a {
-		color: lighten(@mid-gray, 15%);
 	}
 	td.calminitoday {
-		background-color: lighten(@brand-primary, 15%);
+		background-color: @brand-warning;
 		> .il_calmini_monthday > a {
 			color: white;
 		}
@@ -122,6 +132,7 @@ table.calmini {
 	td.calminiprev > .il_calmini_monthday > a,
 	td.calmininext > .il_calmini_monthday > a {
 		color: lighten(@mid-gray, 40%);
+		display:none;
 	}
 }
 
@@ -138,4 +149,7 @@ a.callink:hover {
 
 .callink .glyphicon:hover {
 	color: @link-color;
+}
+.calevent .btn.btn-link, .il_calevent .btn.btn-link {
+	color:inherit;
 }

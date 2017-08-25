@@ -46,7 +46,11 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	public function __construct($a_parent_obj, ilDateTime $seed = null)
 	{
 	 	global $lng,$ilCtrl,$ilUser;
-	 	
+
+	 	// this should be deprecated
+	 	die("ilCalendarCategoryTableGUI::_construct");
+
+
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('dateplaner');
 	 	$this->ctrl = $ilCtrl;
@@ -133,8 +137,9 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		// Subscription link
 		$this->tpl->setVariable('SUB_SRC',ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_ICAL));
 		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','seed',$this->seed->get(IL_CAL_DATE));
-		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','cal_id',$a_set['id']);
+		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','category_id',$a_set['id']);
 		$this->tpl->setVariable('SUB_LINK',$this->ctrl->getLinkTargetByClass(array('ilcalendarpresentationgui','ilcalendarsubscriptiongui')));
+		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','category_id',"");
 		$this->tpl->setVariable('SUB_ALT',$this->lng->txt('ical_export'));
 
 	}
@@ -150,9 +155,9 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		global $ilUser,$tree;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarVisibility.php');
 		
-		$hidden_obj = ilCalendarHidden::_getInstanceByUserId($ilUser->getId());
+		$hidden_obj = ilCalendarVisibility::_getInstanceByUserId($ilUser->getId());
 		$hidden = $hidden_obj->getHidden();
 		
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());

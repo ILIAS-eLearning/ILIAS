@@ -16,6 +16,10 @@ class Section implements C\ViewControl\Section {
 
 	public function __construct(C\Button\Button $previous_action, \ILIAS\UI\Component\Component $button, C\Button\Button $next_action)
 	{
+		if (! $button instanceof \ILIAS\UI\Component\Button\Month)
+		{
+			$this->checkArgInstanceOf("button", $button, \ILIAS\UI\Component\Button\Button::class);
+		}
 		$this->previous_action = $previous_action;
 		$this->button = $button;
 		$this->next_action = $next_action;

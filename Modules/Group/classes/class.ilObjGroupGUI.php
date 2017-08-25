@@ -19,8 +19,8 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI
-* 
+* @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
+*
 *
 * @extends ilObjectGUI
 */
@@ -267,6 +267,11 @@ class ilObjGroupGUI extends ilContainerGUI
 				include_once("./Services/Container/Skills/classes/class.ilContainerSkillGUI.php");
 				$gui = new ilContainerSkillGUI($this);
 				$this->ctrl->forwardCommand($gui);
+
+			case 'ilcalendarpresentationgui':
+				include_once('./Services/Calendar/classes/class.ilCalendarPresentationGUI.php');
+				$cal = new ilCalendarPresentationGUI($this->object->getRefId());
+				$ret = $this->ctrl->forwardCommand($cal);
 				break;
 
 			default:

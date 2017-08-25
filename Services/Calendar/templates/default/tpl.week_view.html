@@ -1,72 +1,4 @@
 {NAVIGATION}
-<script type="text/javascript"> 
-	function redirectTo(link)
-	{
-		window.location = link;
-	}
-	
-		
-    function init() 
-    { 
-
-		<!-- BEGIN panel_code -->
-		myPanel = new YAHOO.widget.Panel("panel_{NUM}", { width:"40em", visible:false, draggable:true, close:true, constraintoviewport:true} );
-		myPanel.render();
-		myPanel.hideEvent.subscribe(hideEvent);
-	
-		YAHOO.util.Event.addListener("show_{NUM}","click",onAppointmentClick,myPanel,true);
-		YAHOO.util.Event.addListener("link_{NUM}","click",onEditLinkClick,myPanel,true);
-		<!-- END panel_code -->
-		
-		var ignoreClickEvent = false;
-		
-		<!-- END panel_code -->
-		
-		function onEditLinkClick(event,panel) 
-		{
-			document.getElementById(panel.id).style.display = '';
-			panel.show();
-			YAHOO.util.Event.stopEvent(event);
-			return true;
-		}
-		
-		function onAppointmentClick(event,panel)
-		{
-			if(ignoreClickEvent == false)
-			{
-				document.getElementById(panel.id).style.display = 'block';
-				panel.show();
-			}
-			ignoreClickEvent = false;				
-		}
-		
-		function hideEvent()
-		{
-			ignoreClickEvent = true;
-			this.hide();
-		}			
-	}
-	
-	var current_id = null;
-	function showNewAppLink(num_link)
-	{
-		hideNewAppLink();
-		
-		document.getElementById('new_link_' + num_link).style.visibility = 'visible';
-		current_id = num_link;
-	}
-	
-	function hideNewAppLink()
-	{
-		if(current_id)
-		{
-			document.getElementById('new_link_' + current_id).style.visibility = 'hidden';
-		}
-	}
-	
-	YAHOO.util.Event.onDOMReady(init);
-</script> 
-
 <table class="calstd">
 	<thead>
 		<tr class="calheader">
@@ -113,10 +45,9 @@
 			<!-- BEGIN f_day_row -->
 			<td class="calstd" colspan="{COLSPAN}">
 				<!-- BEGIN fullday_app -->
-				{PANEL_F_DAY_DATA}
 				<p id="show_{F_DAY_ID}" class="il_calevent" 
 					style="background-color:{F_APP_BGCOLOR}; color:{F_APP_FONTCOLOR}">
-					<!-- BEGIN fullday_ms_icon --><img alt="{ALT_FD_MS}" title="{ALT_FD_MS}" src="{SRC_FD_MS}" /><!-- END fullday_ms_icon --><a id="link_{F_DAY_ID}" class="callink" href="{F_APP_EDIT_LINK}"><font class="small">{F_APP_TITLE}</font></a>
+					<!-- BEGIN fullday_ms_icon --><img alt="{ALT_FD_MS}" title="{ALT_FD_MS}" src="{SRC_FD_MS}" /><!-- END fullday_ms_icon -->{F_APP_TITLE}
 				</p>
 				<!-- END fullday_app -->
 			</td>
@@ -135,10 +66,7 @@
 				onmouseover="showNewAppLink({DAY_ID})">
 				<!-- BEGIN scrd_not_empty -->
 				<div class="calevent" style="{DIV_STYLE}">
-				{PANEL_DATA}
-				<a id="link_{LINK_NUM}" class="callink" href="{APP_EDIT_LINK}">
-					<font class="small">{APP_TITLE}</font>
-				</a>
+					{APP_TITLE}
 				</div>
 				<!-- END scrd_not_empty -->
 			</td>
@@ -152,10 +80,7 @@
 				</div>
 				<!-- END new_app_link -->
 				<!-- BEGIN not_empty -->
-				{PANEL_DATA}
-				<a id="link_{LINK_NUM}" class="callink" href="{APP_EDIT_LINK}" style="{LINK_STYLE}">
-					<font class="small">{APP_TITLE}</font>
-				</a>
+					{APP_TITLE}
 				<!-- END not_empty -->
 			</td>
 			<!-- END day_cell -->
