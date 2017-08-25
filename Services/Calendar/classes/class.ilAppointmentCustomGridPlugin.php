@@ -122,11 +122,8 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
 
 	//List view.
 	/**
-	 * @param $shy
-	 * @param $properties
-	 * @param $color
-	 * @return mixed
+	 * @param $item
 	 */
-	abstract function editAgendaItem($shy, $properties, $color);
+	abstract function editAgendaItem(\ILIAS\UI\Component\Item\Item $item);
 
 }

@@ -183,8 +183,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 				->withProperties($properties)
 				->withColor($df->color('#'.$cat_info["color"]));
 
-			//ui elements are unmutable
-			if($li_edited_by_plugin = $this->getPluginAgendaItem($shy, $e['event'], $properties, $cat_info['color']))
+			if($li_edited_by_plugin = $this->getPluginAgendaItem($li, $e['event']))
 			{
 				$li = $li_edited_by_plugin;
 			}
@@ -234,26 +233,20 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 	}
 
 	/**
-	 * @param $shy
+	 * @param $a_item  ILIAS\UI\Component\Item\Item
 	 * @param $appointment
-	 * @param $properties
-	 * @param $color
-	 * @return ILIAS\UI\Component\Item\Item
+	 * @return $li ILIAS\UI\Component\Item\Item
 	 */
-	function getPluginAgendaItem($shy, $appointment, $properties, $color)
+	function getPluginAgendaItem($a_item, $appointment)
 	{
-		//ui elements are no mutable
-		$li = false;
 		//"capg" is the plugin slot id for AppointmentCustomGrid
 		foreach($this->getActivePlugins("capg") as $plugin)
 		{
 			$plugin->setAppointment($appointment,$appointment->getStart());
-			$li = $plugin->editAgendaItem($shy, $properties, $color);
+			$li = $plugin->editAgendaItem($a_item);
 		}
-
 		return $li;
 	}
-
 }
 
 ?>
