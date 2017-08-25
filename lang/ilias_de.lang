@@ -7146,7 +7146,7 @@ dateplaner#:#cal_grp_notification_body#:#es erfolgte eine Terminänderung in der
 dateplaner#:#cal_grp_notification_sub#:#Terminänderung in Gruppe "%s"
 dateplaner#:#cal_in#:#im
 dateplaner#:#cal_last#:#Letzten
-dateplaner#:#cal_manage#:#Kalender
+dateplaner#:#cal_manage#:#Kalender verwalten
 dateplaner#:#cal_milestone_settings#:#Meilensteine
 dateplaner#:#cal_month_overview#:#Monatsübersicht
 dateplaner#:#cal_month_s#:#Monat(e)
@@ -7178,7 +7178,7 @@ dateplaner#:#cal_search#:#Suchbegriff
 dateplaner#:#cal_search_info_share#:#Bitte geben Sie den Namen der Person/Rolle ein, für die Sie diesen Kalender freigeben möchten.
 dateplaner#:#cal_second#:#Zweiten
 dateplaner#:#cal_server_tz#:#Server-Zeitzone
-dateplaner#:#cal_share#:#Kalender freigeben
+dateplaner#:#cal_share#:#Freigabe
 dateplaner#:#cal_share_accept#:#Einladung annehmen
 dateplaner#:#cal_share_cal#:#Kalender freigeben (Lesezugriff)
 dateplaner#:#cal_share_cal_editable#:#Kalender freigeben (Lese- und Schreibzugriff)
@@ -13209,6 +13209,40 @@ common#:#il_orgu_employee#:#Mitarbeiter
 common#:#il_orgu_superior#:#Vorgesetzte
 common#:#view_learning_progress#:#Zeige Lernfortschritt
 common#:#view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
+rbac#:#rbac_info_only_position_access#:#Ihnen werden nur die Mitglieder angezeigt, auf die Sie aufgrund Ihrer Mitgliedschaften in Organisationseinheiten Zugriff haben.
+obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
+obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
+orgu#:#orgu_global_set_form#:#Globale Einstellungen
+orgu#:#authorities#:#Authoritäten
+orgu#:#positions#:#Positionen
+orgu#:#scope_1#:#gleiche Organisationseinheit
+orgu#:#scope_2#:#Folgende Organisationseinheiten
+orgu#:#scope_3#:#Alle Organisationseinheiten
+orgu#:#over_-1#:#Alle
+orgu#:#over#:#über
+orgu#:#scope#:#in
+orgu#:#org_op_set_lp#:#Lernfortschritt von anderen Benutzern setzen.
+orgu#:#org_op_view_lp#:#Lernfortschritt von anderen Benutzern einsehen.
+common#:#my_staff#:#Meine Mitarbeiter
+mst#:#mst_my_staff#:#Meine Mitarbeiter
+mst#:#mst_list_users#:#Mitarbeiterliste
+mst#:#mst_list_courses#:#Kurse meiner Mitarbeiter
+mst#:#mst_select_course#:#Kurs auswählen
+mst#:#mst_please_select_course#:#Bitte wählen Sie einen Kurs aus.
+mst#:#mst_opt_all#:#Alle
+mst#:#mst_memb_status_requested#:#Beantragt
+mst#:#mst_memb_status_waitinglist#:#Warteliste
+mst#:#mst_memb_status_registered#:#Angemeldet
+mst#:#mst_show_courses#:#Kurse anzeigen
+mst#:#mst_courses_of#:#Kurse von %s
+orgu#:#orgu_enable_my_staff#:#‘Meine Mitarbeiter’ aktivieren
+orgu#:#orgu_enable_my_staff_info#:#Die Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
+orgu#:#orgu_enable_my_staff_info#:#The Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
+orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
+orgu#:#org_op_read_learning_pr#:#Lernfortschritt einsehen
+orgu#:#form_title_org_default_permissions_update#:#Standardrechte
+orgu#:#msg_confirm_deletion#:#Gelöscht
+
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
 orgu#:#orgu_staff_deassign#:#Diese Benutzer aus der Rolle wirklich entfernen?
 orgu#:#orgu_msg_info_paste#:#Wählen Sie nun den gewünschten Ort, an dem die ausgewählten Objekte eingefügt werden sollen.
@@ -14120,7 +14154,7 @@ content#:#cont_no_page_access_unansw_q#:#Sie müssen alle bisherigen Fragen korr
 classification#:#clsfct_block_title#:#Auswahl nach Themen
 classification#:#clsfct_block_info#:#Ihre Auswahl filtert die Objekte.
 classification#:#clsfct_content_title#:#Zu Ihrer Auswahl passende Objekte.
-classification#:#clsfct_content_no_match#:#Keine Treffer
+classification#:#clsfct_content_no_match#:#Es wurden keine Objekte für die ausgewählten Kriterien gefunden.
 cntr#:#sorting_new_items_position#:#Position neuer Objekte
 cntr#:#sorting_new_items_at_top#:#Oben
 cntr#:#sorting_new_items_at_bottom#:#Unten
@@ -16128,6 +16162,37 @@ auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#SAML-IDP konfigurieren: %s
 auth#:#saml_tab_head_idp#:#IDP
 auth#:#auth_saml_idp_settings#:#IDP Einstellungen
+dateplaner#:#cal_origin#:#Herkunft
+dateplaner#:#cal_list#:#Liste
+dateplaner#:#cal_grp_curr_crs_cons#:#Sprechstunden
+dateplaner#:#cal_grp_curr_crs#:#Aktueller Kurs
+dateplaner#:#cal_grp_personal#:#Persönlich
+dateplaner#:#cal_grp_others#:#Andere
+dateplaner#:#cal_download_all_files#:#Alle Dateien herunterladen
+dateplaner#:#cal_owner#:#Eigentümer
+dateplaner#:#cal_contained_in#:#Contained in
+dateplaner#:#cal_app_info#:#Information zur Übungseinheit
+dateplaner#:#cal_crs_info#:#Course Information
+crs#:#crs_open#:#Kurs öffnen
+grp#:#grp_grp_open#:#Gruppe öffnen
+dateplaner#:#cal_grp_info#:#Information zur Gruppe
+dateplaner#:#cal_exc_info#:#Information zur Übungseinheit
+dateplaner#:#cal_sess_info#:#Session Information
+dateplaner#:#cal_agenda#:#Agenda
+dateplaner#:#cal_exc_open#:#Übungseinheit öffnen
+book#:#book_open#:#Buchungspool öffnen
+book#:#book_booking_information#:#Information
+sess#:#sess_open#:#Sitzung öffnen
+dateplaner#:#cal_show_weeks#:#Anzeige Wochenspalte
+dateplaner#:#cal_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an. Benutzer können die Anzeige deaktivieren.
+dateplaner#:#cal_usr_show_weeks#:#Anzeige Wochenspalte
+dateplaner#:#cal_usr_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an.
+dateplaner#:#cal_grp_curr_grp#:#Aktuelle Gruppe
+dateplaner#:#cal_subscription#:#Abonnieren
+dateplaner#:#cal_cal_shared_with#:#Benutzer mit denen der Kalender geteilt wird
+dateplaner#:#cal_consultation_hours_for_user#:#Sprechstunden für %1
+dateplaner#:#cal_open_calendar#:#Kalender öffnen
+dateplaner#:#cal_delete_cal#:#Kalender löschen
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
 mail#:#second_email_missing_info#:#Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde
 mail#:#mail_first_email#:#Erste E-Mail-Adresse
@@ -16311,3 +16376,7 @@ rbac#:#wiki_edit_page_meta#:#Wikiseitenmetadaten bearbeiten
 content#:#cont_user#:#Benutzer
 content#:#cont_user_search_did_not_match#:#Es wurde kein Benutzer gefunden.
 blog#:#blog_latest_posting#:#Neuester Beitrag
+classification#:#clsfct_selected_objects#:#Ausgewählte Objekte
+classification#:#clsfct_back_to_cat#:#Zurück zur Kategorie
+tax#:#tax_tax_assignment#:#Taxonomiezuordnung
+tax#:#tax_tax_settings#:#Taxonomieeinstellungen

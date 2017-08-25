@@ -396,6 +396,15 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		unset($additional_fields['org_units']);
 		
 		$part = $this->participants->getParticipants();
+		
+		$part = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members', 
+			'manage_members', 
+			$this->getRepositoryObject()->getRefId(), 
+			$part
+		);			
+		
+		
 		if(!$part)
 		{
 			$this->setData(array());
@@ -462,6 +471,11 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			
 			$usr_ids[] = $user['usr_id'];
 		}
+		/**
+		 * @var $ilAccess \ilAccessHandler
+		 */
+		global $ilAccess;
+		$usr_ids = $ilAccess->filterUserIdsByPositionOfCurrentUser(ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, $this->rep_object->getRefId(), $usr_ids);
 		
 		// merge course data
 		$course_user_data = $this->getParentObject()->readMemberData(

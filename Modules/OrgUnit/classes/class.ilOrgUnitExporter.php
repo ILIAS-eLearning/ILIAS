@@ -107,7 +107,6 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 		ilUtil::delDir($export_run_dir );
 
 		// Store info about export
-		include_once './Services/Export/classes/class.ilExportFileInfo.php';
 		$exp = new ilExportFileInfo($orgu_id);
 		$exp->setVersion(ILIAS_VERSION_NUMERIC);
 		$exp->setCreationDate(new ilDateTime($ts,IL_CAL_UNIX));
@@ -160,4 +159,3 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 		return $attr;
 	}
 }
-?>

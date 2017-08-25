@@ -156,6 +156,14 @@ class ilCourseFile
 		return false;
 	}
 
+	function getInfoDirectory()
+	{
+		if(is_object($this->fss_storage))
+		{
+			return $this->fss_storage->getInfoDirectory();
+		}
+	}
+
 	function validate()
 	{
 		switch($this->getErrorCode())

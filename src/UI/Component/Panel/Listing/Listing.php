@@ -22,4 +22,18 @@ interface Listing extends \ILIAS\UI\Component\Component {
 	 * @return \ILIAS\UI\Component\Item\Group[]
 	 */
 	public function getItemGroups();
+
+	/**
+	 * Sets the action drop down to be displayed on the right of the title
+	 * @param \ILIAS\UI\Component\Dropdown\Standard $actions
+	 * @return Listing
+	 */
+	public function withActions(\ILIAS\UI\Component\Dropdown\Standard $actions);
+
+	/**
+	 * Gets the action drop down to be displayed on the right of the title
+	 * @return \ILIAS\UI\Component\Dropdown\Standard|null
+	 */
+	public function getActions();
+
 }

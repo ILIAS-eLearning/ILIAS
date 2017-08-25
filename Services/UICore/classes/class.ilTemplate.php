@@ -87,7 +87,6 @@ class ilTemplate extends HTML_Template_ITX
 
 		$this->tplName = basename($fname);
 		$this->tplPath = dirname($fname);
-		// template identifier e.g. "Services/Calendar/tpl.minical.html"
 		$this->tplIdentifier = $this->getTemplateIdentifier($file, $in_module);
 		
 		// set default content-type to text/html
@@ -1549,7 +1548,7 @@ class ilTemplate extends HTML_Template_ITX
 	 * @param	string				$in_module		Component, e.g. "Modules/Forum"
 	 * 			boolean				$in_module		or true, if component should be determined by ilCtrl
 	 *
-	 * @return	string				template identifier, e.g. "Services/Calendar/tpl.minical.html", "tpl.confirm.html"
+	 * @return	string				template identifier, e.g. "tpl.confirm.html"
 	 */
 	function getTemplateIdentifier($a_tplname, $a_in_module = false)
 	{

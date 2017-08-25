@@ -598,6 +598,15 @@ class ilMainMenuGUI
 			$gl->addSeparator();
 			
 			$separator = false;
+
+            if($ilSetting->get("enable_my_staff") and ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff() == true)
+            {
+                // my staff
+                $gl->addEntry($lng->txt("my_staff"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToMyStaff",
+                    "_top", "", "", "mm_pd_mst", ilHelp::getMainMenuTooltip("mm_pd_mst"),
+                    "left center", "right center", false);
+                $separator = true;
+            }
 			
 			if(!$ilSetting->get("disable_personal_workspace"))
 			{
@@ -608,7 +617,8 @@ class ilMainMenuGUI
 				
 				$separator = true;
 			}
-			
+
+
 			// portfolio
 			if ($ilSetting->get('user_portfolios'))
 			{

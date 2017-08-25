@@ -283,21 +283,19 @@ class ilSubscriberTableGUI extends ilTable2GUI
 	 * read data
 	 *
 	 * @access protected
-	 * @param
+	 * @param int[] subscriber ids
 	 * @return
 	 */
-	public function readSubscriberData()
+	public function readSubscriberData(array $a_subscriber_ids)
 	{
-		include_once './Services/Membership/classes/class.ilParticipants.php';
-		
-		$sub_data = ilParticipants::lookupSubscribersData($this->getRepositoryObject()->getId());
-		
-		$sub_ids = array();
-		foreach($sub_data as $usr_id => $usr_data)
+		$subscriber_data = ilParticipants::lookupSubscribersData($this->getRepositoryObject()->getId());
+		$sub_ids = [];
+		foreach($a_subscriber_ids as $usr_id)
 		{
 			$sub_ids[] = $usr_id;
+			$sub_data[$usr_id] = $subscriber_data[$usr_id];
 		}
-		
+
 		$this->determineOffsetAndOrder();
 
 		include_once './Services/User/classes/class.ilUserQuery.php';

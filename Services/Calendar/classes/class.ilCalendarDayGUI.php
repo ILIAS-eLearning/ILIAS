@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Presentation day view
@@ -27,7 +7,8 @@
 * @version $Id$
 * 
 * @ilCtrl_Calls ilCalendarDayGUI: ilCalendarAppointmentGUI
-* @ingroup ServicesCalendar 
+* @ilCtrl_Calls ilCalendarDayGUI: ilCalendarAppointmentPresentationGUI
+* @ingroup ServicesCalendar
 */
 
 include_once('./Services/Calendar/classes/class.ilDate.php');
@@ -35,22 +16,53 @@ include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
 include_once('./Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php');
 include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
 include_once('./Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
+include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
 
 
-class ilCalendarDayGUI
+class ilCalendarDayGUI extends ilCalendarViewGUI
 {
 	protected $seed = null;
 	protected $seed_info = array();
 	protected $user_settings = null;
 
+	/**
+	 * @var ilLanguage
+	 */
 	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
 	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
 	protected $tabs_gui;
+
+	/**
+	 * @var ilTemplate
+	 */
 	protected $tpl;
 	
 	protected $num_appointments = 1; 
 	
 	protected $timezone = 'UTC';
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
 
 	/**
 	 * Constructor
@@ -61,20 +73,16 @@ class ilCalendarDayGUI
 	 */
 	public function __construct(ilDate $seed_date)
 	{
-		global $ilCtrl, $lng, $ilUser,$ilTabs,$tpl;
-		
+		//$DIC elements initialization
+		$this->initialize(ilCalendarViewGUI::CAL_PRESENTATION_DAY);
+
 		$this->seed = $seed_date;
 		$this->seed_info = $this->seed->get(IL_CAL_FKT_GETDATE);
 
-		$this->tpl = $tpl;
-		$this->lng = $lng;
-		$this->ctrl = $ilCtrl;
-		$this->tabs_gui = $ilTabs;
+		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
+		$this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
 		
-		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
-		$this->app_colors = new ilCalendarAppointmentColors($ilUser->getId());
-		
-		$this->timezone = $ilUser->getTimeZone();
+		$this->timezone = $this->user->getTimeZone();
 	}
 	
 	/**
@@ -85,11 +93,18 @@ class ilCalendarDayGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl,$tpl;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 
 		$next_class = $ilCtrl->getNextClass();
 		switch($next_class)
 		{
+			case "ilcalendarappointmentpresentationgui":
+				$this->ctrl->setReturn($this, "");
+				include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
+				$gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed, IL_CAL_DATE), $this->getCurrentApp());
+				$this->ctrl->forwardCommand($gui);
+				break;
 			case 'ilcalendarappointmentgui':
 				$this->ctrl->setReturn($this,'');
 				$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
@@ -119,8 +134,10 @@ class ilCalendarDayGUI
 	 */
 	protected function show()
 	{
-		global $lng, $ilUser;
-				
+		$lng = $this->lng;
+		$ilUser = $this->user;
+
+
 		// config
 		$raster = 15;	
 		if($this->user_settings->getDayStart())
@@ -139,7 +156,6 @@ class ilCalendarDayGUI
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
 		ilYuiUtil::initDragDrop();
-		ilYuiUtil::initPanel();
 
 		if(isset($_GET["bkid"]))
 		{
@@ -306,9 +322,8 @@ class ilCalendarDayGUI
 	 */
 	protected function showFulldayAppointment($a_app)
 	{
-		$this->tpl->setCurrentBlock('panel_code');
-		$this->tpl->setVariable('NUM',$this->num_appointments);
-		$this->tpl->parseCurrentBlock();
+		$f = $this->ui_factory;
+		$r = $this->ui_renderer;
 
 		// milestone icon
 		if ($a_app['event']->isMilestone())
@@ -320,14 +335,18 @@ class ilCalendarDayGUI
 		}
 
 		$this->tpl->setCurrentBlock('fullday_app');
-		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-		$this->tpl->setVariable('PANEL_F_DAY_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
-		$this->tpl->setVariable('F_DAY_ID',$this->num_appointments);
 		
 		$compl = ($a_app['event']->isMilestone() && $a_app['event']->getCompletion() > 0)
 			? " (".$a_app['event']->getCompletion()."%)"
 			: "";
-		$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getPresentationTitle(false).$compl);
+		//plugins can change the modal title.
+		$modal_title = $this->getModalTitleByPlugins();
+		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'], "", $modal_title);
+
+		$title = ($new_title = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $shy))? $new_title : $shy;
+
+		$this->tpl->setVariable('F_APP_TITLE',$title.$compl);
+
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$this->tpl->setVariable('F_APP_BGCOLOR',$color);
 		$this->tpl->setVariable('F_APP_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
@@ -339,10 +358,9 @@ class ilCalendarDayGUI
 		
 		$this->tpl->parseCurrentBlock();
 		
-		
 		$this->num_appointments++;
 	}
-	
+
 	/**
 	 * show appointment
 	 *
@@ -351,11 +369,7 @@ class ilCalendarDayGUI
 	 */
 	protected function showAppointment($a_app)
 	{
-		global $ilUser;
-		
-		$this->tpl->setCurrentBlock('panel_code');
-		$this->tpl->setVariable('NUM',$this->num_appointments);
-		$this->tpl->parseCurrentBlock();
+		$ilUser = $this->user;
 		
 		if (!$ilUser->prefs["screen_reader_optimization"])
 		{
@@ -366,21 +380,17 @@ class ilCalendarDayGUI
 			$this->tpl->setCurrentBlock('scrd_app');
 		}
 
-		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-		$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
-		$this->tpl->setVariable('PANEL_NUM',$this->num_appointments);
-
 		$this->tpl->setVariable('APP_ROWSPAN',$a_app['rowspan']);
 		$this->tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle(false));
 
 		switch($this->user_settings->getTimeFormat())
 		{
 			case ilCalendarSettings::TIME_FORMAT_24:
-				$title = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+				$time = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
 				break;
 				
 			case ilCalendarSettings::TIME_FORMAT_12:
-				$title = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+				$time = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
 				break;
 		}
 		
@@ -390,17 +400,23 @@ class ilCalendarDayGUI
 			switch($this->user_settings->getTimeFormat())
 			{
 				case ilCalendarSettings::TIME_FORMAT_24:
-					$title.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+					$time.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
 					break;
 					
 				case ilCalendarSettings::TIME_FORMAT_12:
-					$title.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+					$time.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
 					break;
 			}
 		}
+		//plugins can change the modal title.
+		$modal_title = $this->getModalTitleByPlugins();
+		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'],"", $modal_title);
 
-		$title .= (' '.$a_app['event']->getPresentationTitle(false));
-		
+		$title = $shy;
+		$title = ($time != "")? $time." ".$title : $title;
+
+		$title = ($new_title = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $shy))? $new_title : $title;
+
 		$this->tpl->setVariable('APP_TITLE',$title);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
@@ -426,7 +442,9 @@ class ilCalendarDayGUI
 	 * @return array hours
 	 */
 	protected function parseInfoIntoRaster($daily_apps, $morning_aggr, $evening_aggr, $raster)
-	{		
+	{
+		$ilUser = $this->user;
+
 		$hours = array();
 		for($i = $morning_aggr;$i <= $evening_aggr;$i+=$raster)
 		{
@@ -468,8 +486,6 @@ class ilCalendarDayGUI
 		
 		foreach($daily_apps as $app)
 		{
-			global $ilUser;
-			
 			// fullday appointment are not relavant
 			if($app['fullday'])
 			{
@@ -561,8 +577,9 @@ class ilCalendarDayGUI
 	 */
 	protected function calculateColspan($hours)
 	{
-		global $ilUser;
-		
+		$ilUser = $this->user;
+
+
 		$colspan = 1;
 		foreach($hours as $hour)
 		{

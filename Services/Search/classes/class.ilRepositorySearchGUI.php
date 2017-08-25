@@ -50,7 +50,12 @@ class ilRepositorySearchGUI
 	
 	var $search_type = 'usr';
 	protected $user_limitations = true;
-
+	
+	/**
+	 * @var callable
+	 */
+	protected $user_filter = null;
+	
 	/**
 	* Constructor
 	* @access public
@@ -74,6 +79,20 @@ class ilRepositorySearchGUI
 		$this->result_obj->setMaxHits(1000000);
 		$this->settings = new ilSearchSettings();
 
+	}
+	
+	/**
+	 * Closure for filtering users
+	 * e.g
+	 * $rep_search_gui->addUserAccessFilterCallable(function($user_ids) use($ref_id,$rbac_perm,$pos_perm)) {
+	 * // filter users 
+	 * return $filtered_users
+	 * }
+	 * @param callable $user_filter
+	 */
+	public function addUserAccessFilterCallable(callable $user_filter)
+	{
+		$this->user_filter = $user_filter;
 	}
 
 	/**
@@ -526,6 +545,14 @@ class ilRepositorySearchGUI
 		$this->add_options = $a_add_options ? $a_add_options : array();
 	}
 	
+	/**
+	 * Set callback method for user permission access queries
+	 */
+	public function setPermissionQueryCallback($class, $method)
+	{
+		
+	}
+	
 	public function showSearch()
 	{
 		$this->initFormSearch();
@@ -729,8 +756,6 @@ class ilRepositorySearchGUI
 				echo 'not defined';
 		}
 		
-		$GLOBALS['DIC']->logger()->src()->dump($this->result_obj->getEntries());
-		
 		$this->result_obj->setRequiredPermission('read');
 		$this->result_obj->addObserver($this, 'searchResultFilterListener');
 		$this->result_obj->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
@@ -738,10 +763,20 @@ class ilRepositorySearchGUI
 		// User access filter
 		if($this->search_type == 'usr')
 		{
+			$callable_name = '';
+			if(is_callable($this->user_filter,true, $callable_name))
+			{
+				$result_ids = call_user_func_array($this->user_filter,[$this->result_obj->getResultIds()]);
+			}
+			else
+			{
+				$result_ids = $this->result_obj->getResultIds();
+			}
+			
 			include_once './Services/User/classes/class.ilUserFilter.php';
 			$this->search_results = array_intersect(
-				$this->result_obj->getResultIds(),
-				ilUserFilter::getInstance()->filter($this->result_obj->getResultIds())
+				$result_ids,
+				ilUserFilter::getInstance()->filter($result_ids)
 			);
 		}
 		else
@@ -1176,15 +1211,44 @@ class ilRepositorySearchGUI
 					include_once './Services/Membership/classes/class.ilParticipants.php';
 					if(ilParticipants::hasParticipantListAccess($obj_id))
 					{
-						$members = array_merge((array) $members, ilParticipants::getInstanceByObjId($obj_id)->getParticipants());
+						$part = [];
+						if(is_callable($this->user_filter))
+						{
+							$part = call_user_func_array(
+								$this->user_filter,
+								[
+									ilParticipants::getInstanceByObjId($obj_id)->getParticipants()
+								]
+							);
+						}
+						else
+						{
+							$part = ilParticipants::getInstanceByObjId($obj_id)->getParticipants();
+						}
+						
+						$members = array_merge((array) $members,$part);
 					}
 					break;
 					
 				case 'role':
 					global $rbacreview;
 					
-					include_once './Services/User/classes/class.ilUserFilter.php';
-					$members = array_merge($members,  ilUserFilter::getInstance()->filter($rbacreview->assignedUsers($obj_id)));
+					$assigned = [];
+					if(is_callable($this->user_filter))
+					{
+						$assigned = call_user_func_array(
+							$this->user_filter,
+							[
+								$rbacreview->assignedUsers($obj_id)
+							]
+						);
+					}
+					else
+					{
+						$assigned = $rbacreview->assignedUsers($obj_id);
+					}
+					
+					$members = array_merge($members,  ilUserFilter::getInstance()->filter($assigned));
 					break;
 			}
 		}

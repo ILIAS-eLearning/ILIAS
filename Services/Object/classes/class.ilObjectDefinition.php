@@ -1056,6 +1056,16 @@ class ilObjectDefinition// extends ilSaxParser
 		}
 		return $types;
 	}
+	
+	/**
+	 * Check if object type offers orgunit position support
+	 * @param string $obj_type
+	 * @return bool
+	 */
+	public function isOrgUnitPermissionType($a_obj_type)
+	{
+		return in_array($a_obj_type, $this->getOrgUnitPermissionTypes());
+	}
 
 	/**
 	 * Get Position By Object Type

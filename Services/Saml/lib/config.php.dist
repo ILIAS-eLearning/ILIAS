@@ -33,7 +33,7 @@ $config = array(
      */
     'baseurlpath'           => 'simplesaml/',
     'certdir' => 'cert/',
-    'loggingdir'            => '/tmp/',
+    'loggingdir'            => '[[LOG_DIRECTORY]]',
     'datadir' => 'data/',
 
     /*
@@ -281,7 +281,7 @@ $config = array(
      * Example:
      *  'session.cookie.path' => '/simplesaml/',
      */
-    'session.cookie.path' => '',
+    'session.cookie.path' => '[[COOKIE_PATH]]',
 
     /*
      * Cookie domain.
@@ -623,13 +623,13 @@ $config = array(
      * See http://www.php.net/manual/en/pdo.drivers.php for the various
      * syntaxes.
      */
-    'store.sql.dsn'                 => 'sqlite:/tmp/path/to/db/ssphp.sq3',
+    'store.sql.dsn'                 => 'sqlite:[[DB_PATH]]',
 
     /*
      * The username and password to use when connecting to the database.
      */
     'store.sql.username' => "root",
-    'store.sql.password' => "homer",
+    'store.sql.password' => "[[SQL_INITIAL_PASSWORD]]",
 
     /*
      * The prefix we should use on our tables.
