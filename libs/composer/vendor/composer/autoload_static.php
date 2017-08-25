@@ -4387,8 +4387,6 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilObjOrgUnitAccess' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/class.ilObjOrgUnitAccess.php',
         'ilObjOrgUnitException' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/exceptions/class.ilObjOrgUnitException.php',
         'ilObjOrgUnitGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/class.ilObjOrgUnitGUI.php',
-        'ilObjOrgUnitGlobalSettingsFormGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/GlobalSettings/class.ilObjOrgUnitGlobalSettingsFormGUI.php',
-        'ilObjOrgUnitGlobalSettingsGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/GlobalSettings/class.ilObjOrgUnitGlobalSettingsGUI.php',
         'ilObjOrgUnitListGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/class.ilObjOrgUnitListGUI.php',
         'ilObjOrgUnitSettingsFormGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Settings/class.ilObjOrgUnitSettingsFormGUI.php',
         'ilObjOrgUnitTree' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php',

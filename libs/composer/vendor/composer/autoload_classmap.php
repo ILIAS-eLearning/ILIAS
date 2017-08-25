@@ -4243,8 +4243,6 @@ return array(
     'ilObjOrgUnitAccess' => $baseDir . '/../../Modules/OrgUnit/classes/class.ilObjOrgUnitAccess.php',
     'ilObjOrgUnitException' => $baseDir . '/../../Modules/OrgUnit/exceptions/class.ilObjOrgUnitException.php',
     'ilObjOrgUnitGUI' => $baseDir . '/../../Modules/OrgUnit/classes/class.ilObjOrgUnitGUI.php',
-    'ilObjOrgUnitGlobalSettingsFormGUI' => $baseDir . '/../../Modules/OrgUnit/classes/GlobalSettings/class.ilObjOrgUnitGlobalSettingsFormGUI.php',
-    'ilObjOrgUnitGlobalSettingsGUI' => $baseDir . '/../../Modules/OrgUnit/classes/GlobalSettings/class.ilObjOrgUnitGlobalSettingsGUI.php',
     'ilObjOrgUnitListGUI' => $baseDir . '/../../Modules/OrgUnit/classes/class.ilObjOrgUnitListGUI.php',
     'ilObjOrgUnitSettingsFormGUI' => $baseDir . '/../../Modules/OrgUnit/classes/Settings/class.ilObjOrgUnitSettingsFormGUI.php',
     'ilObjOrgUnitTree' => $baseDir . '/../../Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php',
