@@ -1884,6 +1884,10 @@ class ilStartUpGUI
 			$type = "lm";
 		}
 
+		if($type = "ks"){
+			return true;
+		}
+
 		$class = $objDefinition->getClassName($type);
 		if ($class == "")
 		{

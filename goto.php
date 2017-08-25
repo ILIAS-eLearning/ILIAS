@@ -232,6 +232,11 @@ switch($target_type)
 		ilCertificate::_goto($target_id);
 		break;
 
+	case 'stys':
+		require_once('./Services/Style/System/classes/class.ilSystemStyleMainGUI.php');
+		ilSystemStyleMainGUI::_goto($target_id,$additional);
+		break;
+
 	//
 	// default implementation (should be used by all new object types)
 	//

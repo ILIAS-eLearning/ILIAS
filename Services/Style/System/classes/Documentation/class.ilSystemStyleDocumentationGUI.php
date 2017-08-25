@@ -61,7 +61,10 @@ class ilSystemStyleDocumentationGUI
 				$this->$cmd();
 				$this->show();
 				break;
+			case 'showDefaultEntries':
+
 			default:
+			$this->addGotoLink();
 				$this->show();
 				break;
 		}
@@ -90,6 +93,10 @@ class ilSystemStyleDocumentationGUI
 		$content .= $entry_gui->renderEntry();
 
 		$this->tpl->setContent($content);
+	}
+
+	protected function addGotoLink(){
+		$this->tpl->setPermanentLink("stys", $_GET["ref_id"], "_".$_GET["node_id"]);
 	}
 
 	/**

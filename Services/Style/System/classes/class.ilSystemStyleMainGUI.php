@@ -61,6 +61,9 @@ class ilSystemStyleMainGUI
 	 */
 	function __construct()
 	{
+		/**
+		 * @var ILIAS\DI\Container $DIC
+		 */
 		global $DIC;
 
 		$this->ctrl = $DIC->ctrl();
@@ -159,6 +162,38 @@ class ilSystemStyleMainGUI
 			$system_styles_overview = new ilSystemStyleOverviewGUI(!$this->checkPermission("sty_write_system",false),$this->checkPermission("sty_management",false));
 			$this->ctrl->forwardCommand($system_styles_overview);
 		}
+	}
+
+	/**
+	 * @param $id
+	 */
+	public static function _goto($ref_id,$node_id){
+		/**
+		 * @var ILIAS\DI\Container $DIC
+		 */
+		global $DIC;
+
+		$config = new ilSystemStyleConfig();
+
+		$DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI','style_id', $config->getDefaultStyleId());
+		$DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI','skin_id', $config->getDefaultSkinId());
+
+		$DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI','node_id',$node_id);
+
+
+		$DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI','ref_id', $ref_id);
+		$_GET['baseClass']= 'ilAdministrationGUI';
+
+		$cmd = "entries";
+		$cmd_classes = [
+				"ilAdministrationGUI",
+				"ilObjStyleSettingsGUI",
+				"ilSystemStyleMainGUI",
+				'ilSystemStyleDocumentationGUI'
+		];
+
+		$DIC->ctrl()->setTargetScript("ilias.php");
+		$DIC->ctrl()->redirectByClass($cmd_classes,$cmd);
 	}
 
 	/**
