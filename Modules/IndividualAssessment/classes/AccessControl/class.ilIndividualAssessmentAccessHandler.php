@@ -56,7 +56,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 			return $this->handler->checkRbacOrPositionPermissionAccess("read_learning_progress", "view_lp", $this->iass->getRefId());
 		}
 		if ($operation == "edit_learning_progress") {
-			return $this->handler->checkRbacOrPositionPermissionAccess("edit_learning_progress", "set_lp_for_other", $this->iass->getRefId());
+			return $this->handler->checkRbacOrPositionPermissionAccess("edit_learning_progress", "set_lp", $this->iass->getRefId());
 		}
 
 		return $this->handler->checkAccessOfUser($this->usr->getId(), $operation, '', $this->iass->getRefId(), 'iass');
@@ -201,7 +201,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 	 */
 	public function mayGradeUserById($a_user_id)
 	{
-		return count($this->handler->filterUserIdsByRbacOrPositionOfCurrentUser("edit_learning_progress", "set_lp_for_other", $this->iass->getRefId(), [$a_user_id])) > 0;
+		return count($this->handler->filterUserIdsByRbacOrPositionOfCurrentUser("edit_learning_progress", "set_lp", $this->iass->getRefId(), [$a_user_id])) > 0;
 	}
 
 	/**
