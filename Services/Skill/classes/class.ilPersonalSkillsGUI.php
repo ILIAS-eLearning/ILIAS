@@ -1072,17 +1072,19 @@ class ilPersonalSkillsGUI
 		//$a_user_id = $ilUser->getId();
 
 		//$profiles = ilSkillProfile::getProfilesOfUser($a_user_id);
-		
+
 		if (count($this->user_profiles) == 0 && $this->obj_skills == null)
 		{
 			return;
 		}
-		
+
 		$this->determineCurrentProfile();
 		$this->showProfileSelectorToolbar();
 		
 		$tpl->setContent($this->getGapAnalysisHTML());
 	}
+
+
 
 	/**
 	 * Show profile selector toolbar

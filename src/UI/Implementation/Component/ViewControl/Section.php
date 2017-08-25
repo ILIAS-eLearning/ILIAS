@@ -14,7 +14,7 @@ class Section implements C\ViewControl\Section {
 	protected $button;
 	protected $next_action;
 
-	public function __construct(C\Button\Button $previous_action, C\Button\Button $button, C\Button\Button $next_action)
+	public function __construct(C\Button\Button $previous_action, \ILIAS\UI\Component\Component $button, C\Button\Button $next_action)
 	{
 		$this->previous_action = $previous_action;
 		$this->button = $button;

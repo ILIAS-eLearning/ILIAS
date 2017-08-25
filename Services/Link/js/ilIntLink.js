@@ -175,7 +175,26 @@ il.IntLink =
 			//{
 			//}
 			il.IntLink.insertPanelHTML(o.responseText);
+//console.log("search search form");
+//console.log($("#form_link_user_search_form").length);
+			il.IntLink.initEvents();
 		}
+	},
+
+	initEvents: function () {
+		$("#form_link_user_search_form").on("submit", function(e) {
+			e.preventDefault();
+			var sUrl = il.IntLink.getInternalLinkUrl() + "&cmd=showLinkHelp";
+			$.ajax({type: "POST",
+				url: sUrl,
+				data: $(this).serializeArray(),
+				success: function(o) {
+					il.IntLink.insertPanelHTML(o);
+					il.IntLink.initEvents();
+				}
+			});
+			console.log("search user");
+		});
 	},
 
 	handleAjaxUpload: function(o)
