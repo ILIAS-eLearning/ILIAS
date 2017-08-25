@@ -82,22 +82,22 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 		$eventItems = ilObjectActivation::getItemsByEvent($cat_info['obj_id']);
 		if(count($eventItems))
 		{
-			$this->has_files = true;
 			include_once('./Services/Link/classes/class.ilLink.php');
 			$str = array();
 			foreach ($eventItems as $file)
 			{
 				if($file['type'] == "file") {
+					$this->has_files = true;
 					$href = ilLink::_getStaticLink($file['ref_id'], "file", true,"download");
 					$str[] = $r->render($f->button()->shy($file['title'], $href));
 				}
 			}
-			$this->addInfoProperty($this->lng->txt("files"), implode("<br>", $str));
-			$this->addListItemProperty($this->lng->txt("files"), implode(", ", $str));
+			if($this->has_files)
+			{
+				$this->addInfoProperty($this->lng->txt("files"), implode("<br>", $str));
+				$this->addListItemProperty($this->lng->txt("files"), implode(", ", $str));
+			}
 		}
-
-		//example download all files
-		//$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
 
 		$this->addAction($this->lng->txt("sess_open"), ilLink::_getStaticLink($ref_id));
 

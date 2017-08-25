@@ -224,7 +224,13 @@ class ilCalendarViewGUI
 		exit();
 	}
 
-	//$a_title_forced used in plugins for rename the shy button title.
+	/**
+	 * @param $a_calendar_entry
+	 * @param $a_dstart
+	 * @param string $a_title_forced  //used in plugins to rename the shy button title.
+	 * @param string $a_new_modal_title
+	 * @return string  shy button html
+	 */
 	function getAppointmentShyButton($a_calendar_entry, $a_dstart, $a_title_forced = "", $a_new_modal_title = "")
 	{
 		$f = $this->ui_factory;
@@ -250,11 +256,6 @@ class ilCalendarViewGUI
 		$comps = [$f->button()->shy($title, "")->withOnClick($modal->getShowSignal()), $modal];
 
 		return $r->render($comps);
-	}
-
-	public function getAgendaShyButton()
-	{
-
 	}
 
 	//get active plugins.
@@ -364,6 +365,10 @@ class ilCalendarViewGUI
 		$GLOBALS['DIC']->ctrl()->redirect($this);
 	}
 
+	/**
+	 * get proper label to add in the background task popover
+	 * @return string
+	 */
 	public function getBucketTitle()
 	{
 		//string from ilDate
