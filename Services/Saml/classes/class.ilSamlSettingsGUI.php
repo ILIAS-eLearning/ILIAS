@@ -102,6 +102,11 @@ class ilSamlSettingsGUI
 	protected $idp;
 
 	/**
+	 * @var ilSamlAuth
+	 */
+	protected $samlAuth;
+
+	/**
 	 * ilSamlSettingsGUI constructor.
 	 * @param int $ref_id
 	 */
@@ -122,10 +127,9 @@ class ilSamlSettingsGUI
 		$this->lng->loadLanguageModule('auth');
 		$this->ref_id = $ref_id;
 
-
 		require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
 		$factory = new ilSamlAuthFactory();
-		$auth = $factory->auth();
+		$this->samlAuth = $factory->auth();
 	}
 
 	/**
@@ -745,11 +749,7 @@ class ilSamlSettingsGUI
 
 	protected function populateWithMetadata(\ilSamlIdp $idp, &$data)
 	{
-		require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
-		$factory = new ilSamlAuthFactory();
-		$as = $factory->auth();
-
-		$idpDisco = $as->getIdpDiscovery();
+		$idpDisco = $this->samlAuth->getIdpDiscovery();
 
 		$data['metadata'] = $idpDisco->fetchIdpMetadata($idp->getIdpId());
 	}
@@ -760,11 +760,7 @@ class ilSamlSettingsGUI
 	 */
 	protected function storeMetadata(\ilSamlIdp $idp, $metadata)
 	{
-		require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
-		$factory = new ilSamlAuthFactory();
-		$as = $factory->auth();
-
-		$idpDisco = $as->getIdpDiscovery();
+		$idpDisco = $this->samlAuth->getIdpDiscovery();
 		$idpDisco->storeIdpMetadata($idp->getIdpId(), $metadata);
 	}
 
@@ -792,12 +788,8 @@ class ilSamlSettingsGUI
 	protected function deleteIdp()
 	{
 		$this->ensureWriteAccess();
-		
-		require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
-		$factory = new ilSamlAuthFactory();
-		$as = $factory->auth();
 
-		$idpDisco = $as->getIdpDiscovery();
+		$idpDisco = $this->samlAuth->getIdpDiscovery();
 		$idpDisco->deleteIdpMetadata($this->idp->getIdpId());
 
 		$this->idp->delete();
