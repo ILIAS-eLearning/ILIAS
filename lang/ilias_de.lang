@@ -13212,7 +13212,6 @@ common#:#view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
 rbac#:#rbac_info_only_position_access#:#Ihnen werden nur die Mitglieder angezeigt, auf die Sie aufgrund Ihrer Mitgliedschaften in Organisationseinheiten Zugriff haben.
 obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
 obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
-orgu#:#orgu_global_set_form#:#Globale Einstellungen
 orgu#:#authorities#:#Authoritäten
 orgu#:#positions#:#Positionen
 orgu#:#scope_1#:#gleiche Organisationseinheit
