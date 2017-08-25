@@ -12,7 +12,7 @@ trait DIC {
 	/**
 	 * @return \ILIAS\DI\Container
 	 */
-	protected function dic() {
+	public function dic() {
 		return $GLOBALS['DIC'];
 	}
 

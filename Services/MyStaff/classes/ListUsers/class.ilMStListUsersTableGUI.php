@@ -52,6 +52,8 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 
 
 	protected function parseData() {
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
@@ -61,7 +63,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 		$this->determineOffsetAndOrder();
 
 		//Permission Filter
-		$arr_usr_id = $this->access->getOrguUsersOfCurrentUserWithShowStaffPermission();
+		$arr_usr_id = $this->access->getUsersForUserOperationAndContext($ilUser->getId(),1,'crs');
 
 		$options = array(
 			'filters' => $this->filter,

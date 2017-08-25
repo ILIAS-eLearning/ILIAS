@@ -55,6 +55,9 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 
 
 	protected function parseData() {
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setDefaultOrderField('crs_title');
@@ -63,7 +66,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		$this->determineOffsetAndOrder();
 
 		//Permission Filter
-		$arr_usr_id = $this->access->getOrguUsersOfCurrentUserWithShowStaffPermission();
+		$this->access->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($ilUser->getId(),1,'crs');
 
 		$options = array(
 			'filters' => $this->filter,
@@ -74,13 +77,13 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 				'direction' => $this->getOrderDirection(),
 			),
 		);
-		$count = ilMStListCourses::getData($arr_usr_id, $options);
+		$count = ilMStListCourses::getData(array(), $options);
 		$options['limit'] = array(
 			'start' => (int)$this->getOffset(),
 			'end'   => (int)$this->getLimit(),
 		);
 		$options['count'] = false;
-		$data = ilMStListCourses::getData($arr_usr_id, $options);
+		$data = ilMStListCourses::getData(array(), $options);
 
 		$this->setMaxCount($count);
 		$this->setData($data);

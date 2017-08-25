@@ -20,9 +20,9 @@ class ilMStListCourses {
 		$ilDB = $GLOBALS['DIC']->database();
 
 		//Permissions
-		if (count($arr_usr_ids) == 0) {
+		/*if (count($arr_usr_ids) == 0) {
 			return false;
-		}
+		}*/
 
 		$_options = array(
 			'filters' => array(),
@@ -46,7 +46,7 @@ class ilMStListCourses {
                     inner join object_reference as crs_ref on crs_ref.obj_id = crs.obj_id
 	                inner join usr_data on usr_data.usr_id = memb.usr_id and usr_data.active = 1';
 
-		$select .= static::createWhereStatement($arr_usr_ids, $options['filters']);
+		$select .= static::createWhereStatement(array(), $options['filters']);
 
 		if ($options['count']) {
 			$result = $ilDB->query($select);
@@ -100,7 +100,9 @@ class ilMStListCourses {
 
 		$where = array();
 
-		$where[] = $ilDB->in('usr_data.usr_id', $arr_usr_ids, false, 'integer');
+		$where[] =  '(crs_ref.ref_id, usr_data.usr_id) IN (SELECT * from tmp_ilobj_user_matrix)';
+
+		//$where[] = $ilDB->in('usr_data.usr_id', $arr_usr_ids, false, 'integer');
 
 		if (!empty($arr_filter['crs_title'])) {
 			$where[] = '(crs.title LIKE ' . $ilDB->quote('%' . $arr_filter['crs_title']
