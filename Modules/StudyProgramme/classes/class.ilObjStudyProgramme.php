@@ -1138,6 +1138,7 @@ class ilObjStudyProgramme extends ilContainer {
 	public function getIdsOfUsersWithFailedProgress() {
 		$returns = array();
 		foreach ($this->getProgresses() as $progress) {
+			$progress->recalculateFailedToDeadline();
 			if ($progress->isFailed()) {
 				$returns[] = $progress->getUserId();
 			}

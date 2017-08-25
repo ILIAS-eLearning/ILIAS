@@ -447,6 +447,17 @@ class ilStudyProgrammeUserProgress {
 	 * @return bool
 	 */
 	public function isFailed() {
+		$status = $this->getStatus();
+
+		return $status == ilStudyProgrammeProgress::STATUS_FAILED;
+	}
+
+	/**
+	 * Recalculates the status according to deadline
+	 *
+	 * @return viod
+	 */
+	public function recalculateFailedToDeadline() {
 		$deadline = $this->getDeadline();
 		$today = date("Y-m-d");
 
@@ -454,9 +465,6 @@ class ilStudyProgrammeUserProgress {
 			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
 				->update();
 		}
-		$status = $this->getStatus();
-
-		return $status == ilStudyProgrammeProgress::STATUS_FAILED;
 	}
 
 	/**
