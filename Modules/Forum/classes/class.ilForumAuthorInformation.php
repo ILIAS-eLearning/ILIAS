@@ -276,7 +276,7 @@ class ilForumAuthorInformation
 		$avatar->setUsrId($usrId);
 		$avatar->setName($name);
 
-		return $avatar->getUri();
+		return $avatar->getUrl();
 	}
 
 	/**

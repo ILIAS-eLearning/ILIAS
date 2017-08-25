@@ -4006,7 +4006,7 @@ class ilObjUser extends ilObject
 				$avatar->setName($short);
 				$avatar->setUsrId($a_usr_id);
 
-				return $avatar->getUri();
+				return $avatar->getUrl();
 			}
 		}
 

@@ -11,7 +11,7 @@ interface ilUserAvatar
 	/**
 	 * @return string
 	 */
-	public function getUri();
+	public function getUrl();
 
 	/**
 	 * @param int $usrId

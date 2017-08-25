@@ -26,7 +26,7 @@ class ilUserAvatarLetter extends ilUserAvatarBase
 	/**
 	 * @return string
 	 */
-	public function getUri()
+	public function getUrl()
 	{
 		// general idea, see https://gist.github.com/vctrfrnndz/fab6f839aaed0de566b0
 		$color = self::$colors[$this->usrId % count(self::$colors)];

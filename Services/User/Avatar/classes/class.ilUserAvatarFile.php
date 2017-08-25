@@ -25,7 +25,7 @@ class ilUserAvatarFile extends ilUserAvatarBase
 	/**
 	 * @inheritdoc
 	 */
-	public function getUri()
+	public function getUrl()
 	{
 		return \ilWACSignedPath::signFile(\ilUtil::getImagePath('no_photo_' . $this->size . '.jpg'));
 	}
