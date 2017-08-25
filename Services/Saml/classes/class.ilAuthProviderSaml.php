@@ -52,7 +52,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 
 		require_once 'Services/User/classes/class.ilUserDefinedFields.php';
 		require_once 'Services/Saml/classes/class.ilSamlSettings.php';
-		require_once 'Services/Saml/classes/class.ilExternalAuthUserAttributeMapping.php';
+		require_once 'Services/Authentication/classes/External/UserAttributeMapping/class.ilExternalAuthUserAttributeMapping.php';
 		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
 
 		if(null === $a_idp_id)
@@ -303,7 +303,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 			$xml_writer->xmlElement('AuthMode', array('type' => $this->getUserAuthModeName()), $this->getUserAuthModeName());
 			$xml_writer->xmlElement('ExternalAccount', array(), $a_external_account);
 
-			require_once 'Services/Saml/classes/class.ilExternalAuthUserCreationAttributeMappingFilter.php';
+			require_once 'Services/Authentication/classes/External/UserAttributeMapping/class.ilExternalAuthUserCreationAttributeMappingFilter.php';
 			$mapping = new ilExternalAuthUserCreationAttributeMappingFilter($mapping);
 		}
 		else
@@ -320,7 +320,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 				$xml_writer->xmlElement('Login', array(), $login);
 			}
 
-			require_once 'Services/Saml/classes/class.ilExternalAuthUserUpdateAttributeMappingFilter.php';
+			require_once 'Services/Authentication/classes/External/UserAttributeMapping/class.ilExternalAuthUserUpdateAttributeMappingFilter.php';
 			$mapping = new ilExternalAuthUserUpdateAttributeMappingFilter($mapping);
 		}
 

@@ -160,7 +160,7 @@ class ilSamlIdp
 	 */
 	public function delete()
 	{
-		require_once 'Services/Saml/classes/class.ilExternalAuthUserAttributeMapping.php';
+		require_once 'Services/Authentication/classes/External/UserAttributeMapping/class.ilExternalAuthUserAttributeMapping.php';
 		$mapping = new ilExternalAuthUserAttributeMapping('saml', $this->getIdpId());
 		$mapping->delete();
 
