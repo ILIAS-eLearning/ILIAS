@@ -30,7 +30,7 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI {
 	 * @param string                                       $parent_cmd
 	 */
 	public function __construct(BaseCommands $parent_obj, $parent_cmd) {
-		$this->DIC = $parent_obj->dic();
+		$this->DIC = $GLOBALS["DIC"];
 		$this->setPrefix('orgu_types_table');
 		$this->setId('orgu_types_table');
 		parent::__construct($parent_obj, $parent_cmd);

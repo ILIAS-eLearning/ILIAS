@@ -5377,6 +5377,7 @@ return array(
     'ilShm' => $baseDir . '/../../Services/GlobalCache/classes/Shm/class.ilShm.php',
     'ilSimpleDetector' => $baseDir . '/../../Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php',
     'ilSimpleEmitter' => $baseDir . '/../../Services/WorkflowEngine/classes/emitters/class.ilSimpleEmitter.php',
+    'ilSimpleSAMLphpConfigTemplateHandler' => $baseDir . '/../../Services/Saml/classes/class.ilSimpleSAMLphpConfigTemplateHandler.php',
     'ilSimpleSAMLphpWrapper' => $baseDir . '/../../Services/Saml/classes/class.ilSimpleSAMLphpWrapper.php',
     'ilSimpleSAMLphplIdpDiscovery' => $baseDir . '/../../Services/Saml/classes/class.ilSimpleSAMLphplIdpDiscovery.php',
     'ilSimpleXMLTableDataParser' => $baseDir . '/../../Services/Database/classes/class.ilSimpleXMLTableDataParser.php',

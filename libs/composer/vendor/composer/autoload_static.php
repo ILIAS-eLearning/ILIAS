@@ -5538,6 +5538,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilShm' => __DIR__ . '/../..' . '/../../Services/GlobalCache/classes/Shm/class.ilShm.php',
         'ilSimpleDetector' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php',
         'ilSimpleEmitter' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/emitters/class.ilSimpleEmitter.php',
+        'ilSimpleSAMLphpConfigTemplateHandler' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilSimpleSAMLphpConfigTemplateHandler.php',
         'ilSimpleSAMLphpWrapper' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilSimpleSAMLphpWrapper.php',
         'ilSimpleSAMLphplIdpDiscovery' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilSimpleSAMLphplIdpDiscovery.php',
         'ilSimpleXMLTableDataParser' => __DIR__ . '/../..' . '/../../Services/Database/classes/class.ilSimpleXMLTableDataParser.php',

@@ -32,14 +32,14 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI {
 	public function __construct(BaseCommands $parent_obj, $parent_cmd, ilOrgUnitPosition $position) {
 		$this->parent_obj = $parent_obj;
 		$this->ilOrgUnitPosition = $position;
-		$this->ctrl = $parent_obj->dic()->ctrl();
+		$this->ctrl = $GLOBALS["DIC"]->ctrl();
 		$this->setPrefix("il_orgu_" . $position->getId());
 		$this->setFormName('il_orgu_' . $position->getId());
 		$this->setId("il_orgu_" . $position->getId());
 
 		parent::__construct($parent_obj, $parent_cmd);
 
-		$this->setFormAction($this->parent_obj->dic()->ctrl()->getFormAction($parent_obj));
+		$this->setFormAction($this->ctrl->getFormAction($parent_obj));
 		$this->setTableHeaders();
 		$this->setTopCommands(true);
 		$this->setEnableHeader(true);

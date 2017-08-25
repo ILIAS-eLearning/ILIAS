@@ -104,6 +104,6 @@ abstract class BaseForm extends \ilPropertyFormGUI {
 	 * @return \ILIAS\DI\Container
 	 */
 	protected function dic() {
-		return $this->parent_gui->dic();
+		return $GLOBALS["DIC"];
 	}
 }
