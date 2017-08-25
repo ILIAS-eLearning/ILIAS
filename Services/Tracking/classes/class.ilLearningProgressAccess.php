@@ -47,7 +47,7 @@ class ilLearningProgressAccess
 		{
 			return $GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
 				'read_learning_progress',
-				ilAccess::PERMISSION_VIEW_LEARNING_PROGRESS,
+				'read_learning_progress',
 				$a_ref_id
 			);
 		}

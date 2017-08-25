@@ -284,7 +284,7 @@ class ilTrQuery
 		// begin-patch ouf
 		$a_users = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'read_learning_progress',
-			ilOrgUnitPositionAccessHandler::PERMISSION_VIEW_LEARNING_PROGRESS,
+			'read_learning_progress',
 			$a_ref_id,
 			$a_users
 		);
@@ -758,7 +758,7 @@ class ilTrQuery
 		// begin-patch ouf
 		$a_users = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'read_learning_progress',
-			ilOrgUnitPositionAccessHandler::PERMISSION_VIEW_LEARNING_PROGRESS,
+			'read_learning_progress',
 			$a_ref_id,
 			$a_users
 		);
@@ -924,7 +924,7 @@ class ilTrQuery
 		// begin-patch ouf
 		return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'read_learning_progress',
-			ilOrgUnitPositionAccessHandler::PERMISSION_VIEW_LEARNING_PROGRESS,
+			'read_learning_progress',
 			$a_ref_id,
 			$members
 		);
@@ -992,7 +992,7 @@ class ilTrQuery
 		// begin-patch ouf
 		return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'read_learning_progress',
-			ilOrgUnitPositionAccessHandler::PERMISSION_VIEW_LEARNING_PROGRESS,
+			'read_learning_progress',
 			$a_ref_id,
 			$a_users
 		);
