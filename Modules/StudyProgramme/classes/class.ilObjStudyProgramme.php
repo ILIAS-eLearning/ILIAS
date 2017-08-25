@@ -1131,6 +1131,21 @@ class ilObjStudyProgramme extends ilContainer {
 	}
 
 	/**
+	 * Get the ids of all users that have failed this programme.
+	 *
+	 * @return int[]
+	 */
+	public function getIdsOfUsersWithFailedProgress() {
+		$returns = array();
+		foreach ($this->getProgresses() as $progress) {
+			if ($progress->isFailed()) {
+				$returns[] = $progress->getUserId();
+			}
+		}
+		return array_unique($returns);
+	}
+
+	/**
 	 * Get the ids of all users that have not completed this programme but
 	 * have a relevant progress on it.
 	 *
