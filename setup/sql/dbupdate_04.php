@@ -20353,11 +20353,7 @@ $ilOrgUnitPositionSuperior->setAuthorities([ $Sup ]);
 $ilOrgUnitPositionSuperior->create();
 $superiors_position_id = $ilOrgUnitPositionSuperior->getId();
 
-$ilOrgUnitPositionSuperior = new ilOrgUnitPosition();
-$ilOrgUnitPositionSuperior->setTitle("Abteilungsleiter");
-$ilOrgUnitPositionSuperior->setDescription("");
-$ilOrgUnitPositionSuperior->setCorePosition(false);
-$ilOrgUnitPositionSuperior->create();
+
 
 // $ilObjOrgUnitTree = ilObjOrgUnitTree::_getInstance();
 // foreach ($ilObjOrgUnitTree->getAllChildren(56) as $orgu_ref_id) {
