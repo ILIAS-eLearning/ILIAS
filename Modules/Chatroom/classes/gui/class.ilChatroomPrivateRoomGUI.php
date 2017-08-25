@@ -120,7 +120,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
 	{
 		global $ilUser;
 
-		ilChatroom::checkUserPermissions('read', $this->gui->ref_id);
+		$this->redirectIfNoPermission('read');
 
 		$room      = ilChatroom::byObjectId($this->gui->object->getId());
 		$subRoom   = $_REQUEST['sub'];

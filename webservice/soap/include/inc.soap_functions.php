@@ -1,4 +1,8 @@
 <?php
+
+require_once('./Services/Init/classes/class.ilInitialisation.php');
+require_once('./Services/WebServices/SOAP/classes/class.ilSoapHook.php');
+
 /*
  +-----------------------------------------------------------------------------+
  | ILIAS open source                                                           |
@@ -20,7 +24,7 @@
  | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
  +-----------------------------------------------------------------------------+
  */
-
+use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 
 /**
  * soap server
@@ -762,6 +766,19 @@ class ilSoapFunctions {
 		return $soa->copyObject($sid, $copy_settings_xml);
 
 	}
+
+
+	/**
+	 * @param $sid
+	 *
+	 * @return bool
+	 */
+	public static function startBackgroundTaskWorker($sid) {
+		require_once("./Services/BackgroundTasks/classes/class.ilSoapBackgroundTasksAdministration.php");
+		$soa = new ilSoapBackgroundTasksAdministration();
+
+		return $soa->runAsync($sid);
+	}
 	
  	/** move object in repository
 	 * @param $sid	session id
@@ -1063,6 +1080,36 @@ class ilSoapFunctions {
 		return $bg->processBackgroundTask($sid, $task_id);
 	}
 
+	/**
+	 * @param string $name
+	 * @param array $arguments
+	 * @return mixed
+	 * @throws SoapFault
+	 */
+	public function __call($name, $arguments) {
+		// SoapHookPlugins need the client-ID submitted
+		if (!isset($_GET['client_id'])) {
+			throw new SoapFault('SOAP-ENV:Server', "Function '{$name}' does not exist");
+		}
+		// Note: We need to bootstrap ILIAS in order to get $ilPluginAdmin and load the soap plugins.
+		// We MUST use a context that does not handle authentication at this point (session is checked by SOAP).
+		ilContext::init(ilContext::CONTEXT_SOAP_NO_AUTH);
+		ilInitialisation::initILIAS();
+		ilContext::init(ilContext::CONTEXT_SOAP);
+		global $DIC;
+		$soapHook = new ilSoapHook($DIC['ilPluginAdmin']);
+		// Method name may be invoked with namespace e.g. 'myMethod' vs 'ns:myMethod'
+		if (strpos($name, ':') !== false) {
+			list($_, $name) = explode(':', $name);
+		}
+		$method = $soapHook->getMethodByName($name);
+		if ($method) {
+			try {
+				return $method->execute($arguments);
+			} catch (ilSoapPluginException $e) {
+				throw new SoapFault('SOAP-ENV:Server', $e->getMessage());
+			}
+		}
+		throw new SoapFault('SOAP-ENV:Server', "Function '{$name}' does not exist");
+	}
 }
-
-?>

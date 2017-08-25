@@ -73,17 +73,20 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
 
 	private function populateNewQuestionSelectionRuleInputs()
 	{
-		$availablePools = $this->questionSetConfig->getSelectableQuestionPools();
+		// hey: randomPoolSelector - remove dropdown from toolbar
+		#$availablePools = $this->questionSetConfig->getSelectableQuestionPools();
 
-		require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-		$poolSelection = new ilSelectInputGUI(null, 'quest_pool_id');
-		$poolSelection->setOptions($this->buildSourcePoolSelectOptionsArray($availablePools));
+		#require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
+		#$poolSelection = new ilSelectInputGUI(null, 'quest_pool_id');
+		#$poolSelection->setOptions($this->buildSourcePoolSelectOptionsArray($availablePools));
 
-		$this->addInputItem($poolSelection, true);
-
+		#$this->addInputItem($poolSelection, true);
+		
 		$this->addFormButton(
 			$this->lng->txt('tst_rnd_quest_set_tb_add_pool_btn'),
-			ilTestRandomQuestionSetConfigGUI::CMD_SHOW_CREATE_SRC_POOL_DEF_FORM
+			#ilTestRandomQuestionSetConfigGUI::CMD_SHOW_CREATE_SRC_POOL_DEF_FORM
+			ilTestRandomQuestionSetConfigGUI::CMD_SHOW_POOL_SELECTOR_EXPLORER
 		);
+		// hey.
 	}
 }

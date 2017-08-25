@@ -454,30 +454,20 @@ class ilDiskQuotaChecker
 	 */
 	private static function __updateDiskUsageReportOfTypeHelper($a_access_obj, $a_objects, &$a_result)
 	{
-		$count = null;
-		$size = null;
-		$owner = null;
 		while ($row = $a_objects->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-			if ($row->owner != $owner) {
-				if ($owner != null) {					
-					$a_result[$owner]["size"] += $size;
-					$a_result[$owner]["count"] += $count;					
+			if ($row->owner != null) {
+
+				if(!array_key_exists($row->owner, $a_result)){
+					// initialize values
+					$a_result[$row->owner] = array("size" => 0, "count" => 0);
 				}
-				$owner = $row->owner;
-				$size = 0;
-				$count = 0;
+
+				$a_result[$row->owner]["size"] += $a_access_obj->_lookupDiskUsage($row->obj_id);
+				$a_result[$row->owner]["count"] ++;
 			}
-			$size += $a_access_obj->_lookupDiskUsage($row->obj_id);
-			$count++;
-		}
-		
-		// add last set data
-		if ($owner != null) {
-			$a_result[$owner]["size"] += $size;
-			$a_result[$owner]["count"] += $count;	
 		}
 	}
-	
+
 	/**
 	 * get all objects of the desired type which are in the repository
      * ordered by owner

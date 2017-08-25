@@ -16,9 +16,16 @@ require_once("Services/Utilities/classes/class.ilUtil.php");
 
 class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 	protected $assignment;
-	
-	public function __construct($a_parent_obj, ilStudyProgrammeUserAssignment $a_ass) {
+	/**
+	 * @var ilStudyProgrammeUserProgressDB
+	 */
+	protected $sp_user_progress_db;
+
+	public function __construct($a_parent_obj, ilStudyProgrammeUserAssignment $a_ass, \ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
 		$this->setId("manage_indiv");
+
+		$this->sp_user_progress_db = $sp_user_progress_db;
+
 		parent::__construct($a_parent_obj, 'manage');
 
 		global $DIC;
@@ -41,7 +48,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$this->setDefaultOrderDirection("asc");
 
 		$this->getParentObject()->appendIndividualPlanActions($this);
-		
+
 		$columns = array( "status"
 						, "title"
 						, "prg_points_current"
@@ -54,7 +61,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		foreach ($columns as $lng_var) {
 			$this->addColumn($lng->txt($lng_var));
 		}
-		
+
 		$plan = $this->fetchData();
 
 		$this->setMaxCount(count($plan));
@@ -66,10 +73,11 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$this->possible_image = "<img src='".ilUtil::getImagePath("icon_ok.svg")."' alt='ok'>";
 		$this->not_possible_image = "<img src='".ilUtil::getImagePath("icon_not_ok.svg")."' alt='not ok'>";
 	}
-	
+
 	protected function fillRow($a_set) {
-		$this->tpl->setVariable("STATUS", ilStudyProgrammeUserProgress::statusToRepr($a_set["status"]));
-		
+		$status = $this->sp_user_progress_db->statusToRepr($a_set["status"]);
+		$this->tpl->setVariable("STATUS", $status);
+
 		$title = $a_set["title"];
 		if($a_set["program_status"] == ilStudyProgramme::STATUS_DRAFT) {
 			$title .= " (".$this->lng->txt("prg_status_draft").")";
@@ -87,16 +95,16 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("CHANGED_BY", $a_set["changed_by"]);
 		$this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
 	}
-	
+
 	protected function fetchData() {
 		$prg = $this->assignment->getStudyProgramme();
 		$prg_id = $prg->getId();
 		$ass_id = $this->assignment->getId();
 		$usr_id = $this->assignment->getUserId();
 		$plan = array();
-		
+
 		$prg->applyToSubTreeNodes(function($node) use ($prg_id, $ass_id, $usr_id, &$plan) {
-			$progress = ilStudyProgrammeUserProgress::getInstance($ass_id, $node->getId(), $usr_id);
+			$progress = $this->sp_user_progress_db->getInstance($ass_id, $node->getId(), $usr_id);
 			$completion_by_id = $progress->getCompletionBy();
 			if ($completion_by_id) {
 				$completion_by = ilObjUser::_lookupLogin($completion_by_id);
@@ -124,18 +132,18 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		});
 		return $plan;
 	}
-	
+
 	protected function getManualStatusSelect($a_progress_id, $a_status) {
 		if ($a_status == ilStudyProgrammeProgress::STATUS_COMPLETED) {
 			return "";
 		}
-		
+
 		$parent = $this->getParentObject();
 		$status_title = $parent->getManualStatusPostVarTitle();
 		$manual_status_none = $parent->getManualStatusNone();
 		$manual_status_not_relevant = $parent->getManualStatusNotRelevant();
 		$manual_status_accredited = $parent->getManualStatusAccredited();
-		
+
 		require_once("Services/Form/classes/class.ilSelectInputGUI.php");
 		$select = new ilSelectInputGUI("", $status_title."[$a_progress_id]");
 		$select->setOptions(array
@@ -149,17 +157,17 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		else if ($a_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
 			$select->setValue($manual_status_accredited);
 		}
-		
+
 		return $select->render();
 	}
-	
+
 	protected function getRequiredPointsInput($a_progress_id, $a_status, $a_points_required) {
 		if ( $a_status != ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
 			return $a_points_required;
 		}
-		
+
 		$required_points_title = $this->getParentObject()->getRequiredPointsPostVarTitle();
-		
+
 		require_once("Services/Form/classes/class.ilNumberInputGUI.php");
 		$input = new ilNumberInputGUI("", $required_points_title."[$a_progress_id]");
 		$input->setValue($a_points_required);

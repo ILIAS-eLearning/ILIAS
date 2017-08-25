@@ -43,6 +43,21 @@
 		</DataSource>
 		<DataSource type="JDBC" action="append">
 			<Query>
+				SELECT second_email FROM usr_data u
+				JOIN usr_pref p ON u.usr_id = p.usr_id
+				JOIN usr_pref q ON u.usr_id = q.usr_id
+				WHERE u.usr_id IN (?) AND
+				p.keyword = 'public_second_email' AND
+				p.value = 'y' AND
+				q.keyword = 'public_profile' AND
+				(q.value = 'y' OR q.value = 'g')
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="second_email" type="text" name="uSecondEmail" />
+			<Field store="YES" index="ANALYZED" column="second_email" type="text" name="uPropertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
 				SELECT institution FROM usr_data u 
 				JOIN usr_pref p ON u.usr_id = p.usr_id
 				JOIN usr_pref q ON u.usr_id = q.usr_id

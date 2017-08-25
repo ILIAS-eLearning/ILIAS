@@ -4,12 +4,12 @@
 include_once './Services/Exceptions/classes/class.ilException.php';
 
 /**
- * Description of ilLDAPAccountMigrationRequiredException
+ * Description of ilLDAPConnectTimeOutException
  *
  * @author Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesLDAP
  */
-class ilLDAPAccountMigrationRequiredException extends ilException
+class ilLDAPConnectTimeOutException extends ilException
 {
 }
 ?>

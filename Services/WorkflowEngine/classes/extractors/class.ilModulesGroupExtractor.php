@@ -25,6 +25,8 @@ class ilModulesGroupExtractor extends ilBaseExtractor
 
 		switch($event)
 		{
+			case 'addParticipant':
+			case 'deleteParticipant':
 			case 'addSubscriber':
 			case 'addToWaitingList':
 				$this->extractWithUser($parameters);

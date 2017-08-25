@@ -6,6 +6,7 @@ class ilIndividualAssessmentSettingsGUI {
 	const PROP_RECORD_TEMPLATE = "record_template";
 	const PROP_TITLE = "title";
 	const PROP_DESCRIPTION = "description";
+	const PROP_EVENT_TIME_PLACE_REQUIRED = "event_time_place_required";
 
 	const PROP_INFO_CONTACT = "contact";
 	const PROP_INFO_RESPONSIBILITY = "responsibility";
@@ -26,6 +27,7 @@ class ilIndividualAssessmentSettingsGUI {
 		$this->lng = $DIC['lng'];
 		$this->tabs_gui = $a_parent_gui->tabsGUI();
 		$this->getSubTabs($this->tabs_gui);
+		$this->iass_access = $this->object->accessHandler();
 	}
 	
 	protected function getSubTabs(ilTabsGUI $tabs) {
@@ -45,7 +47,7 @@ class ilIndividualAssessmentSettingsGUI {
 			case 'cancel':
 			case 'editInfo':
 			case 'updateInfo':
-				if(!$this->object->accessHandler()->checkAccessToObj($this->object,'write')) {
+				if(!$this->iass_access->mayEditObject()) {
 					$this->parent_gui->handleAccessViolation();
 				}
 				$this->$cmd();
@@ -102,7 +104,8 @@ class ilIndividualAssessmentSettingsGUI {
 			$this->object->setTitle($_POST[self::PROP_TITLE]);
 			$this->object->setDescription($_POST[self::PROP_DESCRIPTION]);
 			$this->object->getSettings()->setContent($_POST[self::PROP_CONTENT])
-								->setRecordTemplate($_POST[self::PROP_RECORD_TEMPLATE]);
+								->setRecordTemplate($_POST[self::PROP_RECORD_TEMPLATE])
+								->setEventTimePlaceRequired((bool)$_POST[self::PROP_EVENT_TIME_PLACE_REQUIRED]);
 			$this->object->update();
 			ilUtil::sendSuccess($this->lng->txt('iass_settings_saved'));
 		}
@@ -136,6 +139,10 @@ class ilIndividualAssessmentSettingsGUI {
 		$item = new ilTextAreaInputGUI($this->lng->txt('iass_record_template'), self::PROP_RECORD_TEMPLATE);
 		$item->setInfo($this->lng->txt('iass_record_template_explanation'));
 		$form->addItem($item);
+
+		$option = new ilCheckboxInputGUI($this->lng->txt('iass_event_time_place_required'), self::PROP_EVENT_TIME_PLACE_REQUIRED);
+		$option->setInfo($this->lng->txt('iass_event_time_place_required_info'));
+		$form->addItem($option);
 
 		$form->addCommandButton('update', $this->lng->txt('save'));
 		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
@@ -190,6 +197,7 @@ class ilIndividualAssessmentSettingsGUI {
 			, self::PROP_DESCRIPTION => $iass->getDescription()
 			, self::PROP_CONTENT => $settings->content()
 			, self::PROP_RECORD_TEMPLATE => $settings->recordTemplate()
+			, self::PROP_EVENT_TIME_PLACE_REQUIRED => $settings->eventTimePlaceRequired()
 			));
 		return $a_form;
 	}

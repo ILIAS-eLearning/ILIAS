@@ -99,7 +99,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		{
 			$this->addColumn($this->lng->txt("actions"), "");
 		}
-
+		$this->setSelectAllCheckbox('uid');
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);

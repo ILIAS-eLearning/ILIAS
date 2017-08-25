@@ -46,23 +46,29 @@ interface Bucket extends BucketMeta {
 	 *
 	 */
 	public function setOverallPercentage($percentage);
-	
+
+
 	/**
 	 * @param Task $task
+	 *
 	 * @return mixed
 	 */
 	public function setCurrentTask($task);
+
 
 	/**
 	 * @return Task
 	 */
 	public function getCurrentTask();
 
+
 	/**
 	 * @param Task $task
+	 *
 	 * @return void
 	 */
 	public function setTask(Task $task);
+
 
 	/**
 	 *
@@ -70,8 +76,10 @@ interface Bucket extends BucketMeta {
 	 */
 	public function getTask();
 
+
 	/**
 	 * @param $state int From Observer\State
+	 *
 	 * @return void
 	 */
 	public function setState($state);
@@ -85,7 +93,7 @@ interface Bucket extends BucketMeta {
 
 	/**
 	 * @return boolean      Returns true if everything's alright. Throws an exception otherwise.
- 	 * @throws Exception
+	 * @throws Exception
 	 */
 	public function checkIntegrity();
 

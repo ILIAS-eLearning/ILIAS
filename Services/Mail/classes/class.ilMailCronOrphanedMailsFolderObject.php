@@ -18,7 +18,7 @@ class ilMailCronOrphanedMailsFolderObject
 	protected $folder_title = '';
 
 	/**
-	 * @var array
+	 * @var ilMailCronOrphanedMailsFolderMailObject[]
 	 */
 	protected $orphaned_mail_objects = array();
 
@@ -71,7 +71,7 @@ class ilMailCronOrphanedMailsFolderObject
 	}
 
 	/**
-	 * @return array ilMailCronOrphanedMailsFolderMailObject
+	 * @return ilMailCronOrphanedMailsFolderMailObject[]
 	 */
 	public function getOrphanedMailObjects()
 	{

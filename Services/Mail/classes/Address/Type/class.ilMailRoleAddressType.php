@@ -43,9 +43,6 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 	 */
 	protected function maySendToGlobalRole($a_sender_id)
 	{
-		/** @var $rbacsystem ilRbacSystem */
-		global $rbacsystem;
-
 		if(!isset(self::$may_send_to_global_roles[$a_sender_id]))
 		{
 			if($a_sender_id == ANONYMOUS_USER_ID)
@@ -55,13 +52,13 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 			else
 			{
 				require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
-				self::$may_send_to_global_roles[$a_sender_id] = $rbacsystem->checkAccessOfUser(
+				self::$may_send_to_global_roles[$a_sender_id] = $this->rbacsystem->checkAccessOfUser(
 					$a_sender_id, 'mail_to_global_roles', ilMailGlobalServices::getMailObjectRefId()
 				);
 			}
 		}
 
-		return self::$role_ids_by_address[$a_sender_id];
+		return self::$may_send_to_global_roles[$a_sender_id];
 	}
 
 	/**
@@ -69,15 +66,12 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 	 */
 	public function isValid($a_sender_id)
 	{
-		/** @var $rbacreview ilRbacReview */
-		global $rbacreview;
-
 		$role_ids = self::getRoleIdsByAddress($this->address);
 		if(!self::maySendToGlobalRole($a_sender_id))
 		{
 			foreach($role_ids as $role_id)
 			{
-				if($rbacreview->isGlobalRole($role_id))
+				if($this->rbacreview->isGlobalRole($role_id))
 				{
 					$this->errors[] = array('mail_to_global_roles_not_allowed', $this->address->getMailbox());
 					return false;
@@ -104,9 +98,6 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 	 */
 	public function resolve()
 	{
-		/** @var $rbacreview ilRbacReview */
-		global $rbacreview;
-
 		$usr_ids = array();
 
 		$role_ids = self::getRoleIdsByAddress($this->address);
@@ -119,7 +110,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 
 			foreach($role_ids as $role_id)
 			{
-				foreach($rbacreview->assignedUsers($role_id) as $usr_id)
+				foreach($this->rbacreview->assignedUsers($role_id) as $usr_id)
 				{
 					$usr_ids[] = $usr_id;
 				}
@@ -193,8 +184,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 	 */
 	public static function searchRolesByMailboxAddressList($a_address_list)
 	{
-		/** @var $ilDB ilDBInterface */
-		global $ilDB;
+		global $DIC;
 
 		$role_ids = array();
 
@@ -226,11 +216,11 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 				$query = "SELECT t.tree ".
 					"FROM rbac_fa fa ".
 					"JOIN tree t ON t.child = fa.parent ".
-					"WHERE fa.rol_id = ". $ilDB->quote($role_id,'integer')." ".
+					"WHERE fa.rol_id = ". $DIC->database()->quote($role_id,'integer')." ".
 					"AND fa.assign = 'y' ".
 					"AND t.tree = 1";
-				$res = $ilDB->query($query);
-				if($ilDB->numRows($res) > 0)
+				$res = $DIC->database()->query($query);
+				if($DIC->database()->numRows($res) > 0)
 				{
 					$role_ids[] = $role_id;
 				}
@@ -256,7 +246,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 					"FROM object_data dat ".
 					"JOIN rbac_fa fa ON fa.rol_id = dat.obj_id ".
 					"JOIN tree t ON t.child = fa.parent ".
-					"WHERE dat.title =".$ilDB->quote($local_part,'text')." ".
+					"WHERE dat.title =".$DIC->database()->quote($local_part,'text')." ".
 					"AND dat.type = 'role' ".
 					"AND fa.assign = 'y' ".
 					"AND t.tree = 1";
@@ -270,16 +260,16 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 					"JOIN tree otree ON otree.child = oref.ref_id ".
 					"JOIN rbac_fa rfa ON rfa.parent = otree.child ".
 					"JOIN object_data rdat ON rdat.obj_id = rfa.rol_id ".
-					"WHERE odat.title = ".$ilDB->quote($domain,'text')." ".
+					"WHERE odat.title = ".$DIC->database()->quote($domain,'text')." ".
 					"AND otree.tree = 1 ".
 					"AND rfa.assign = 'y' ".
 					"AND rdat.title LIKE ".
-					$ilDB->quote('%'.preg_replace('/([_%])/','\\\\$1',$local_part).'%','text');
+					$DIC->database()->quote('%'.preg_replace('/([_%])/','\\\\$1',$local_part).'%','text');
 			}
-			$res = $ilDB->query($query);
+			$res = $DIC->database()->query($query);
 
 			$count = 0;
-			while($row = $ilDB->fetchAssoc($res))
+			while($row = $DIC->database()->fetchAssoc($res))
 			{
 				$role_ids[] = $row['obj_id'];
 				$count++;
@@ -293,12 +283,12 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 					"FROM object_data dat ".
 					"JOIN object_reference ref ON ref.obj_id = dat.obj_id ".
 					"JOIN tree t ON t.child = ref.ref_id ".
-					"WHERE dat.title = ".$ilDB->quote($domain ,'text')." ".
+					"WHERE dat.title = ".$DIC->database()->quote($domain ,'text')." ".
 					"AND dat.type = 'role' ".
 					"AND t.tree = 1 ";
-				$res = $ilDB->query($q);
+				$res = $DIC->database()->query($q);
 
-				while($row = $ilDB->fetchAssoc($res))
+				while($row = $DIC->database()->fetchAssoc($res))
 				{
 					$role_ids[] = $row['obj_id'];
 				}
@@ -373,11 +363,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 	 */
 	public static function getRoleMailboxAddress($a_role_id, $is_localize = true)
 	{
-		/**
-		 * @var $lng  ilLanguage
-		 * @var $ilDB ilDBInterface
-		 */
-		global $lng, $ilDB;
+		global $DIC;
 
 		// Retrieve the role title and the object title.
 		$query = "SELECT rdat.title role_title,odat.title object_title, ".
@@ -387,10 +373,10 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 			"JOIN tree rtree ON rtree.child = fa.parent ".
 			"JOIN object_reference oref ON oref.ref_id = rtree.child ".
 			"JOIN object_data odat ON odat.obj_id = oref.obj_id ".
-			"WHERE rdat.obj_id = ".$ilDB->quote($a_role_id,'integer')." ".
+			"WHERE rdat.obj_id = ".$DIC->database()->quote($a_role_id,'integer')." ".
 			"AND fa.assign = 'y' ";
-		$res = $ilDB->query($query);
-		if(!$row = $ilDB->fetchObject($res))
+		$res = $DIC->database()->query($query);
+		if(!$row = $DIC->database()->fetchObject($res))
 		{
 			return null;
 		}
@@ -411,10 +397,10 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 			"FROM object_data dat ".
 			"JOIN object_reference ref ON ref.obj_id = dat.obj_id ".
 			"JOIN tree ON tree.child = ref.ref_id ".
-			"WHERE title = ".$ilDB->quote($object_title,'text')." ".
+			"WHERE title = ".$DIC->database()->quote($object_title,'text')." ".
 			"AND tree.tree = 1 ";
-		$res = $ilDB->query($q);
-		$row = $ilDB->fetchObject($res);
+		$res = $DIC->database()->query($q);
+		$row = $DIC->database()->fetchObject($res);
 
 		// If the object title is not unique, we get rid of the domain.
 		if ($row->count > 1)
@@ -470,7 +456,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 				"FROM object_data dat ".
 				"JOIN object_reference ref ON ref.obj_id = dat.obj_id ".
 				"JOIN tree ON tree.child = ref.ref_id ".
-				"WHERE title = ".$ilDB->quote($local_part,'text')." ".
+				"WHERE title = ".$DIC->database()->quote($local_part,'text')." ".
 				"AND tree.tree = 1 ";
 		}
 		else
@@ -480,13 +466,13 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 				"JOIN rbac_fa fa ON rd.obj_id = fa.rol_id ".
 				"JOIN tree t ON t.child = fa.parent ".
 				"WHERE fa.assign = 'y' ".
-				"AND t.child = ".$ilDB->quote($object_ref,'integer')." ".
-				"AND rd.title LIKE ".$ilDB->quote(
+				"AND t.child = ".$DIC->database()->quote($object_ref,'integer')." ".
+				"AND rd.title LIKE ".$DIC->database()->quote(
 					'%'.preg_replace('/([_%])/','\\\\$1', $local_part).'%','text')." ";
 		}
 
-		$res = $ilDB->query($q);
-		$row = $ilDB->fetchObject($res);
+		$res = $DIC->database()->query($q);
+		$row = $DIC->database()->fetchObject($res);
 
 		// if the local_part is not unique, we use the unambiguous role title 
 		//   instead for the local part of the mailbox address
@@ -527,7 +513,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 		{
 			if (substr($role_title,0,3) == 'il_')
 			{
-				$phrase = $lng->txt(substr($role_title, 0, strrpos($role_title,'_')));
+				$phrase = $DIC->language()->txt(substr($role_title, 0, strrpos($role_title,'_')));
 			}
 			else
 			{
@@ -556,8 +542,8 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 		}
 		catch(ilException $e)
 		{
-			$res = $ilDB->query("SELECT title FROM object_data WHERE obj_id = " . $ilDB->quote($a_role_id ,'integer'));
-			if($row = $ilDB->fetchObject($res))
+			$res = $DIC->database()->query("SELECT title FROM object_data WHERE obj_id = " . $DIC->database()->quote($a_role_id ,'integer'));
+			if($row = $DIC->database()->fetchObject($res))
 			{
 				return '#' . $row->title;
 			}

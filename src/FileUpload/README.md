@@ -49,9 +49,9 @@ dependence on those Processors in the system.**
 <?php
 use ILIAS\FileUpload\Processor\PreProcessor;
 use ILIAS\FileUpload\DTO\Metadata;
-use ILIAS\FileUpload\DTO\UploadStatus;
 use ILIAS\DI\LoggingServices;
-use Psr\Http\Message\StreamInterface;
+use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\FileUpload\DTO\ProcessingStatus;
 
 class UploadLogger implements PreProcessor {
 	
@@ -61,9 +61,9 @@ class UploadLogger implements PreProcessor {
 		$this->logger = $logger->root();
 	}
 
-	public function process(StreamInterface $stream, Metadata $metadata) {
+	public function process(FileStream $stream, Metadata $metadata) {
 		$this->logger->info("File Uploaded: " . $metadata->getFilename());
-		return new UploadStatus(UploadStatus::OK, 'logging successful');
+		return new ProcessingStatus(ProcessingStatus::OK, 'logging successful');
 	}
 }
 ```

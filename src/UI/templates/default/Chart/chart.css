@@ -1,0 +1,29 @@
+.il-chart-scale-bar {
+  min-width: 100px;
+  overflow: hidden;
+}
+.il-chart-scale-bar > div {
+  float: left;
+  padding: 0 2px;
+}
+.il-chart-scale-bar > div:last-child {
+  padding-right: 0px;
+}
+.il-chart-scale-bar > div:first-child {
+  padding-left: 0px;
+}
+.il-chart-scale-bar-item {
+  font-size: 11px;
+  line-height: 15px;
+  padding: 2px 5px;
+  color: #909090;
+  text-align: center;
+  background-color: #e0e0e0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.il-chart-scale-bar-active {
+  color: white;
+  background-color: #4c6586;
+}

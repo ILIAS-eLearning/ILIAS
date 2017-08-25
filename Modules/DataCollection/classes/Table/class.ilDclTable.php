@@ -190,13 +190,13 @@ class ilDclTable {
 	 *
 	 * @param boolean $delete_main_table true to delete table anyway
 	 */
-	public function doDelete($delete_only_content = false) {
+	public function doDelete($delete_only_content = false, $omit_notification = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
 		/** @var $ilDB ilDB */
 		foreach ($this->getRecords() as $record) {
-			$record->doDelete();
+			$record->doDelete($omit_notification);
 		}
 
 		foreach ($this->getRecordFields() as $field) {

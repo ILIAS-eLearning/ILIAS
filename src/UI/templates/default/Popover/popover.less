@@ -8,13 +8,38 @@
 @popover-arrow-width: @il-popover-arrow-width;
 @popover-arrow-color: @il-popover-arrow-background-color;
 @popover-z-index: @il-popover-z-index;
+@popover-max-height: @il-popover-max-height;
+@popover-border-radius-base: 0px;
+@popover-border-radius-large: 0px;
+@popover-border-radius-small: 0px;
 
 .il-popover {
   max-width: @il-popover-max-width;
   .webui-popover-content > div:first-child {
-    width: 100%;
+	width: 100%;
+  }
+  .il-popover-inner {
+	max-height: @popover-max-height;
+	overflow:   scroll;
   }
   i.icon-refresh {
-    background:url("@{uibase}/../../libs/node_modules/webui-popover/img/loading.gif") no-repeat;
+	background: url("@{uibase}/../../libs/node_modules/webui-popover/img/loading.gif") no-repeat;
+	height:     30px;
+  }
+
+  .il-popover-title-container {
+	background-color: #F0F0F0;
+	h4.il-popover-title {
+	  font-size:        @font-size-h4;
+	  font-weight:      normal;
+	  padding:          8px 14px;
+	  background-color: transparent;
+	  text-transform:   @il-panel-listing-std-container-h4-text-transform;
+	  color:            @il-panel-listing-std-container-h4-color;
+	}
+
+  }
+  &.webui-popover-fixed {
+	position: fixed;
   }
 }

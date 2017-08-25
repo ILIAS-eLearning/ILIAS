@@ -58,7 +58,7 @@
 </script>
 <!-- END multiplechoice -->
 <!-- BEGIN kprimchoice -->
-<div id="container{VAL_ID}" class="ilc_question_MultipleChoice">
+<div id="container{VAL_ID}" class="ilc_question_KprimChoice">
 	<div class="question_head">
 		<div class="ilc_qtitle_Title question id@id">qtitle</div>
 		<p class="ilAssKprimInstruction instruction">qinstruction</p>
@@ -69,7 +69,6 @@
 			<th class="optionLabel">{OPTION_LABEL_FALSE}</th>
 			<th></th>
 		</tr>
-		<!-- pure js tpl for answers begin -->
 		<tr class="answers">
 			<td class="kprimInput">
 				<input class="" type="radio" name="qtrueinputname" value="{VALUE_TRUE}" />
@@ -77,9 +76,8 @@
 			<td class="kprimInput" width="15">
 				<input type="radio" name="qfalseinputname" value="{VALUE_FALSE}" />
 			</td>
-			<td class="answertext">qanswertext</td>
+			<td><span class="answertext">qanswertext</span></td>
 		</tr>
-		<!-- pure js tpl for answers end -->
 	</table>
 <div id="feedback{VAL_ID}" style="display:none"></div>
 <input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
@@ -96,7 +94,7 @@
 		{
 			'answer <- answers':
 			{
-				'td.answertext': 'answer.answertext',
+				'span.answertext': 'answer.answertext',
 				'td.kprimInput input@name': function(arg)
 				{
 					return 'kprim_choice_'+questionData.id+'_result_'+arg.context.answers[arg.pos].order;
@@ -105,6 +103,7 @@
 		}
 	});
 
+	{HANDLE_IMAGES}
 })(questions[{VAL_ID}]);
 </script>
 <!-- END kprimchoice -->

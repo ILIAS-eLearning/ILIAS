@@ -2,6 +2,8 @@
 
 namespace ILIAS\BackgroundTasks;
 
+use ILIAS\BackgroundTasks\Types\Type;
+
 /**
  * Interface Value
  *
@@ -22,15 +24,17 @@ interface Value extends \Serializable {
 
 	/**
 	 * @param \ILIAS\BackgroundTasks\Value $other
+	 *
 	 * @return bool
 	 */
 	public function equals(Value $other);
 
 
 	/**
-	 * @var string get the Type of the
+	 * @return Type get the Type of the
 	 */
 	public function getType();
+
 
 	/**
 	 * @param Task $parentTask
@@ -39,10 +43,12 @@ interface Value extends \Serializable {
 	 */
 	public function setParentTask(Task $parentTask);
 
+
 	/**
 	 * @return Task
 	 */
 	public function getParentTask();
+
 
 	/**
 	 * @return boolean

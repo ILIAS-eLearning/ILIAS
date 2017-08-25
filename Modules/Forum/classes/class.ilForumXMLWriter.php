@@ -58,7 +58,8 @@ class ilForumXMLWriter extends ilXmlWriter
 
 	function start()
 	{
-		global $ilDB;
+		global $DIC; 
+		$ilDB = $DIC->database();
 
 		ilUtil::makeDir($this->target_dir_absolute."/objects");
 

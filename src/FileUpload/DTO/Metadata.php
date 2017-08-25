@@ -4,7 +4,6 @@ namespace ILIAS\FileUpload\DTO;
 
 use ILIAS\FileUpload\Collection\EntryLockingStringMap;
 use ILIAS\FileUpload\Collection\StringMap;
-use ILIAS\FileUpload\Exception\IllegalArgumentException;
 use ILIAS\FileUpload\ScalarTypeCheckAware;
 
 /**
@@ -47,8 +46,8 @@ final class Metadata {
 	 * @param int    $size     The original size of the uploaded file.
 	 * @param string $mimeType The mime type of the uploaded file.
 	 *
-	 * @throws IllegalArgumentException Thrown if the arguments are not matching with the expected
-	 *                                  types.
+	 * @throws \InvalidArgumentException Thrown if the arguments are not matching with the expected
+	 *                                   types.
 	 * @since 5.3
 	 */
 	public function __construct($filename, $size, $mimeType) {
@@ -94,7 +93,7 @@ final class Metadata {
 
 
 	/**
-	 * This is always the original file size which was determinated by the http service.
+	 * This is always the original file size which was determined by the http service.
 	 * The current size is provided by the size method of the Stream passed to the processor.
 	 * Please use the filesystem service to get the file size outside of the processors.
 	 *

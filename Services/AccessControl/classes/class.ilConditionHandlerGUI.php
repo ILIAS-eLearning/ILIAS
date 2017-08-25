@@ -611,7 +611,7 @@ class ilConditionHandlerGUI
 
 		$exp = new ilConditionSelector($this, "selector");
 		$exp->setTypeWhiteList(array_merge($this->getConditionHandler()->getTriggerTypes(),
-								array("root", "cat", "grp", "fold", "crs")
+								array("root", "cat", "grp", "fold", "crs", "prg")
 		));
 		//setRefId have to be after setTypeWhiteList!
 		$exp->setRefId($this->getTargetRefId());

@@ -111,19 +111,37 @@ class ilAppEventHandler
 				// Allow listeners like Services/WebServices/ECS
 				$last_slash = strripos($listener,'/');
 				$comp = substr($listener,0,$last_slash);
-				$class = 'il'.substr($listener,$last_slash + 1).'AppEventListener';
-				$file = "./".$listener."/classes/class.".$class.".php";
-				
-				// detemine class and file
-				#$comp = explode("/", $listener);
-				#$class = "il".$comp[1]."AppEventListener";
-				#$file = "./".$listener."/classes/class.".$class.".php";
-				
-				// if file exists, call listener
-				if (is_file($file))
+
+				// any kind of plugins with events in their plugin.xml
+				if ($comp == 'Plugins')
 				{
-					include_once($file);
-					call_user_func(array($class, 'handleEvent'), $a_component, $a_event, $a_parameter);
+					$name = substr($listener,$last_slash + 1);
+
+					foreach (ilPluginAdmin::getActivePlugins() as $pdata)
+					{
+						if ($pdata['name'] == $name)
+						{
+							$plugin = ilPluginAdmin::getPluginObject(
+								$pdata['component_type'],
+								$pdata['component_name'],
+								$pdata['slot_id'],
+								$pdata['name']);
+
+							$plugin->handleEvent($a_component, $a_event, $a_parameter);
+						}
+					}
+				}
+				else
+				{
+					$class = 'il'.substr($listener,$last_slash + 1).'AppEventListener';
+					$file = "./".$listener."/classes/class.".$class.".php";
+
+					// if file exists, call listener
+					if (is_file($file))
+					{
+						include_once($file);
+						call_user_func(array($class, 'handleEvent'), $a_component, $a_event, $a_parameter);
+					}
 				}
 			}
 		}

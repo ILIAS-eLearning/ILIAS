@@ -2,7 +2,6 @@
 
 namespace ILIAS\FileUpload\DTO;
 
-use ILIAS\FileUpload\Exception\IllegalArgumentException;
 use ILIAS\FileUpload\ScalarTypeCheckAware;
 
 /**
@@ -46,9 +45,9 @@ final class ProcessingStatus {
 	 * @param string $reason The message which should be set to make the rejection more
 	 *                       understandable for other developers.
 	 *
-	 * @throws IllegalArgumentException Thrown if the given code is not OK or REJECTED. The
-	 *                                  exception can also be thrown if the given arguments are not
-	 *                                  of the correct type.
+	 * @throws \InvalidArgumentException Thrown if the given code is not OK or REJECTED. The
+	 *                                   exception can also be thrown if the given arguments are not
+	 *                                   of the correct type.
 	 * @since 5.3
 	 */
 	public function __construct($code, $reason) {
@@ -57,7 +56,7 @@ final class ProcessingStatus {
 		$this->stringTypeCheck($reason, 'reason');
 
 		if ($code !== self::OK && $code !== self::REJECTED) {
-			throw new IllegalArgumentException('Invalid upload status code received. The code must be OK or REJECTED.');
+			throw new \InvalidArgumentException('Invalid upload status code received. The code must be OK or REJECTED.');
 		}
 
 		$this->code = $code;

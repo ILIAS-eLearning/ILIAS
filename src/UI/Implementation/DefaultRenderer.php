@@ -116,7 +116,7 @@ class DefaultRenderer implements Renderer {
 	public function instantiateRendererFor($class) {
 		$renderer_class = $this->getRendererNameFor($class);
 		if (!class_exists($renderer_class)) {
-			throw new \LogicException("No rendered for '".$class."' found.");
+			throw new \LogicException("No renderer for '".$class."' found. (Renderer class $renderer_class)");
 		}
 		return new $renderer_class($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
 	}

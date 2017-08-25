@@ -47,8 +47,9 @@ class ilGroupParticipants extends ilParticipants
 	 */
 	public function __construct($a_obj_id)
 	{
-		$this->type = 'grp';
-		parent::__construct(self::COMPONENT_NAME,$a_obj_id);
+		// ref based constructor
+		$refs = ilObject::_getAllReferences($a_obj_id);
+		parent::__construct(self::COMPONENT_NAME,  array_pop($refs));
 	}
 	
 	/**
@@ -94,6 +95,22 @@ class ilGroupParticipants extends ilParticipants
 			}
 		}
 		return $roles;
+	}
+	
+	/**
+	 * Add user to role 
+	 * @param int $a_usr_id
+	 * @param int $a_role
+	 * @return boolean
+	 */
+	public function add($a_usr_id, $a_role)
+	{
+		if(parent::add($a_usr_id, $a_role))
+		{
+			$this->addDesktopItem($a_usr_id);
+			return true;
+		}
+		return false;
 	}
 	
 	public function addSubscriber($a_usr_id)

@@ -4,7 +4,6 @@ namespace ILIAS\FileUpload\Collection;
 
 use ILIAS\FileUpload\Collection\Exception\ElementAlreadyExistsException;
 use ILIAS\FileUpload\Collection\Exception\NoSuchElementException;
-use ILIAS\FileUpload\Exception\IllegalArgumentException;
 use ILIAS\FileUpload\ScalarTypeCheckAware;
 
 /**
@@ -43,8 +42,8 @@ final class EntryLockingStringMap implements StringMap {
 	 *
 	 * @return string
 	 *
-	 * @throws NoSuchElementException   Thrown if the entry is not found with the given key.
-	 * @throws IllegalArgumentException Thrown if the key type is not of the type string.
+	 * @throws NoSuchElementException    Thrown if the entry is not found with the given key.
+	 * @throws \InvalidArgumentException Thrown if the key type is not of the type string.
 	 *
 	 * @since 5.3
 	 */
@@ -78,7 +77,7 @@ final class EntryLockingStringMap implements StringMap {
 	 *
 	 * @return bool
 	 *
-	 * @throws IllegalArgumentException Thrown if the key type is not of the type string.
+	 * @throws \InvalidArgumentException Thrown if the key type is not of the type string.
 	 *
 	 * @since 5.3
 	 */
@@ -99,8 +98,8 @@ final class EntryLockingStringMap implements StringMap {
 	 * @return void
 	 *
 	 * @throws ElementAlreadyExistsException    Thrown if the key already exists in the map.
-	 * @throws IllegalArgumentException         Thrown if the key or value is not of the type
-	 *                                          string.
+	 * @throws \InvalidArgumentException         Thrown if the key or value is not of the type
+	 *                                           string.
 	 *
 	 * @since 5.3
 	 */

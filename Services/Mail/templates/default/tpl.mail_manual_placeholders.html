@@ -1,10 +1,10 @@
 <!-- BEGIN placeholder_box -->
 <div class="option_value" id="placeholders_box">
 	<div class="il_Description">
-		<b>{TXT_USE_PLACEHOLDERS}</b>:<br />
-		{TXT_PLACEHOLDERS_ADVISE}<br />
+		<b>{TXT_USE_PLACEHOLDERS}</b>:<br /><!-- BEGIN placeholder_advise -->
+		{TXT_PLACEHOLDERS_ADVISE}<br /><!-- END placeholder_advise -->
 		<!-- BEGIN man_placeholder -->
-		<b><a href="#" onclick="insertTextIntoTextField(this.innerHTML, 'm_message'); return false;">[{MANUAL_PLACEHOLDER}]</a></b>: {TXT_MANUAL_PLACEHOLDER}<br />
+		<b><a href="#" onclick="insertTextIntoTextField(this.innerHTML, '{DEPENDENCY_ELM_ID}'); return false;">[{MANUAL_PLACEHOLDER}]</a></b>: {TXT_MANUAL_PLACEHOLDER}<br />
 		<!-- END man_placeholder -->
 	</div>
 </div>
@@ -12,15 +12,34 @@
 <!-- BEGIN js_block -->
 <script>
 	(function($) {
-		var $ctx = $("input[name=context]:radio");
-		if ($ctx.size() > 0) {
+		var $triggerElm = $('[name="{RERENDER_TRIGGER_ELM_NAME}"]');
+
+		$triggerElm["serializeObject"] = function () {
+			var obj = {};
+			$.each(this.serializeArray(), function (i, o) {
+				var n = o.name,
+					v = o.value;
+				obj[n] = obj[n] === undefined ? v : $.isArray(obj[n]) ? obj[n].concat(v) : [obj[n], v];
+			});
+			return obj;
+		};
+
+		$triggerElm["getValue"] = function () {
+			var obj = $triggerElm.serializeObject()[$(this).attr('name')];
+			if (obj === undefined) {
+				return "";
+			} else {
+				return obj;
+			}
+		};
+
+		if ($triggerElm.size() > 0) {
 			var onCtxChange = function () {
-				var value = $ctx.filter(function() {
-					return $(this).prop("checked");
-				}).val();
+				var value = $triggerElm.getValue();
+
 				if (value) {
 					$.ajax({
-						url: "{URL}" + "&context_id=" + value,
+						url: "{RERENDER_URL}" + "&triggerValue=" + value,
 						type: 'GET'
 					}).done(function(placeholders) {
 						$('#placeholders_box').html(placeholders);
@@ -28,7 +47,7 @@
 				}
 			};
 
-			$ctx.off('change').on('change', onCtxChange);
+			$triggerElm.off('change').on('change', onCtxChange);
 
 			$(document).ready(onCtxChange);
 		}

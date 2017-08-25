@@ -1859,7 +1859,7 @@ class ilLMPresentationGUI
 					$anc = $int_link["Anchor"];
 					$anc_add = "_".rawurlencode($int_link["Anchor"]);
 				}
-
+				$lcontent = "";
 				switch($type)
 				{
 					case "PageObject":
@@ -1982,6 +1982,28 @@ class ilLMPresentationGUI
 							$ilCtrl->setParameter($this, "file_id", "");
 						}
 						break;
+
+					case "User":
+						$obj_type = ilObject::_lookupType($target_id);
+						if ($obj_type == "usr")
+						{
+							include_once("./Services/User/classes/class.ilUserUtil.php");
+							$back = $this->ctrl->getLinkTarget($this, "layout");
+							//var_dump($back); exit;
+							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
+							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
+								rawurlencode($back));
+							$href = "";
+							include_once("./Services/User/classes/class.ilUserUtil.php");
+							if (ilUserUtil::hasPublicProfile($target_id))
+							{
+								$href = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML");
+							}
+							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
+							$lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
+						}
+						break;
+
 				}
 				
 				$anc_par = 'Anchor="'.$anc.'"';
@@ -1989,7 +2011,7 @@ class ilLMPresentationGUI
 				if ($href != "")
 				{
 					$link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " .
-						"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" $anc_par/>";
+						"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" LinkContent=\"$lcontent\" $anc_par/>";
 				}
 
 				// set equal link info for glossary links of target "None" and "Glossary"
@@ -2475,7 +2497,7 @@ class ilLMPresentationGUI
 			// get presentation title
 			$prev_title = ilLMPageObject::_getPresentationTitle($pre_node["obj_id"],
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
+				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang, true);
 			$prev_title = ilUtil::shortenText($prev_title, 50, true);
 			$prev_img = 
 				ilUtil::getImagePath("nav_arr_L.png", false, "output", $this->offlineMode());
@@ -2533,7 +2555,7 @@ class ilLMPresentationGUI
 			// get presentation title
 			$succ_title = ilLMPageObject::_getPresentationTitle($succ_node["obj_id"],
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
+				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang, true);
 			$succ_title = ilUtil::shortenText($succ_title, 50, true);
 			$succ_img =
 				ilUtil::getImagePath("nav_arr_R.png", false, "output", $this->offlineMode());

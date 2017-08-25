@@ -410,12 +410,8 @@ class ilAuthContainerECS extends Auth_Container
 	{
 		include_once './Services/Mail/classes/class.ilMailOptions.php';
 		$options = new ilMailOptions($a_usr_id);
-		$options->updateOptions(
-				$options->getSignature(),
-				$options->getLinebreak(),
-				IL_MAIL_LOCAL,
-				$options->getCronjobNotification()
-		);
+		$options->setIncomingType(ilMailOptions::INCOMING_LOCAL);
+		$options->updateOptions();
 	}
 	
 

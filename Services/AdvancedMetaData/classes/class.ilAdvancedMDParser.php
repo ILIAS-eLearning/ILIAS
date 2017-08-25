@@ -159,11 +159,15 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 				
 		// get parent objects		
 		$new_parent_id = $this->mapping->getMapping("Services/AdvancedMetaData", "parent", $this->obj_id);		
+		$this->log->notice('Found new parent id:' . $new_parent_id);
 		if(!$new_parent_id)
 		{
 			return;
 		}
-		if($a_sub_type)
+		if(
+			$a_sub_type && 
+			strcmp($a_sub_type, '-') !== 0
+		)
 		{								
 			$new_sub_id = $this->mapping->getMapping("Services/AdvancedMetaData", "advmd_sub_item", "advmd:".$a_sub_type.":".$a_sub_id);						
 			if(!$new_sub_id)

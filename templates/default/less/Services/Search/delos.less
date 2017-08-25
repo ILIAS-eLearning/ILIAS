@@ -1,4 +1,27 @@
-/* Services/Search */
+#ilMMSearch ul li {
+	padding: 5px;
+	label {
+		font-weight: normal;
+	}
+}
+
+#ilMMSearchMenu p {
+	white-space: nowrap;
+}
+
+#main_menu_search {
+	width: 200px;
+}
+
+#ilTopBarNav .dropdown-menu #ilMMSearchMenu a {
+	&,
+	&:hover,
+	&:active,
+	&:focus {
+		background-color: @il-top-bar-dropdown-link-bg;
+		color: @il-top-bar-dropdown-link-color;
+	}
+}
 
 div.ilMainMenuSearch {
 	padding: 0 10px 3px;
@@ -23,23 +46,22 @@ input.ilMainMenuSearch {
 	background-color: #f8f8f8;
 	padding: 5px;
 	font-size: 85%;
+	p {
+		margin: 0;
+	}
+	input {
+		margin: 0;
+		padding: 0;
+	}
 }
 
-#mm_search_menu_head p {
-	margin: 0;
-}
-
-#mm_search_menu_head input {
-	margin: 0;
-	padding: 0;
-}
-
-#il_search_toolbar div.ilFormOption {
-	width: auto;
-}
-
-#il_search_toolbar div.ilFormFooter {
-	display: none;
+#il_search_toolbar {
+	div.ilFormOption {
+		width: auto;
+	}
+	div.ilFormFooter {
+		display: none;
+	}
 }
 
 #mm_search_menu_ac .ui-menu {

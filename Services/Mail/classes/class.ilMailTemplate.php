@@ -12,36 +12,45 @@ class ilMailTemplate
 	 */
 	protected $tpl_id = 0;
 
-	/*
+	/**
 	 * @var string
 	 */
 	protected $title = '';
 
-	/*
- 	* @var string
- 	*/
+	/**
+ 	 * @var string
+ 	 */
 	protected $context = '';
 
-	/*
- 	* @var string
- 	*/
+	/**
+ 	 * @var string
+ 	 */
 	protected $lang = '';
 
-	/*
- 	* @var string
- 	*/
+	/**
+ 	 * @var string
+ 	 */
 	protected $m_subject = '';
 
-	/*
- 	* @var string
- 	*/
+	/**
+ 	 * @var string
+ 	 */
 	protected $m_message = '';
+
+	/**
+	 * @var \ilDBInterface
+	 */
+	protected $db;
 
 	/**
 	 * @param array $data
 	 */
 	public function __construct($data = NULL)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+
 		if($data)
 		{
 			$this->setTplId($data['tpl_id']);
@@ -151,10 +160,8 @@ class ilMailTemplate
 
 	public function insert()
 	{
-		global $ilDB;
-
-		$next_id = $ilDB->nextId('mail_man_tpl');
-		$ilDB->insert('mail_man_tpl', array(
+		$next_id = $this->db->nextId('mail_man_tpl');
+		$this->db->insert('mail_man_tpl', array(
 			'tpl_id'    => array('integer', $next_id),
 			'title'     => array('text', $this->getTitle()),
 			'context'   => array('text', $this->getContext()),
@@ -166,9 +173,7 @@ class ilMailTemplate
 
 	public function update()
 	{
-		global $ilDB;
-
-		$ilDB->update('mail_man_tpl',
+		$this->db->update('mail_man_tpl',
 			array(
 				'title'     => array('text', $this->getTitle()),
 				'context'   => array('text', $this->getContext()),

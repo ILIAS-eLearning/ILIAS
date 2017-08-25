@@ -74,6 +74,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
 			{
 				$plugin = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE,
 					"COPage", "pgcp", $pl_name);
+				$plugin->setPageObj($this->getPage());
 				$this->current_plugin = $plugin;
 				$this->setPluginName($pl_name);
 				$gui_obj = $plugin->getUIClassInstance();
@@ -123,6 +124,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
         {
 			$plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage",
 				"pgcp", $plugin_name);
+			$plugin_obj->setPageObj($this->getPage());
 			$gui_obj = $plugin_obj->getUIClassInstance();
 			$gui_obj->setPCGUI($this);
 			if ($a_insert)

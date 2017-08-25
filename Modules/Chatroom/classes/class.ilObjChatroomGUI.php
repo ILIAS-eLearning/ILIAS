@@ -13,7 +13,7 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomObjectGUI.php';
  * @author            Jan Posselt <jposselt at databay.de>
  * @version           $Id$
  * @ilCtrl_Calls      ilObjChatroomGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI
+ * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI, ilExportGUI
  * @ingroup           ModulesChatroom
  */
 class ilObjChatroomGUI extends ilChatroomObjectGUI
@@ -64,7 +64,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 		$ref_id = $parts[0];
 		$sub    = $parts[1];
 
-		if($rbacsystem->checkAccess('read', $ref_id))
+		if(ilChatroom::checkUserPermissions('read', $ref_id, false))
 		{
 			if($sub)
 			{
@@ -100,7 +100,6 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 	{
 		$forms = parent::initCreationForms($a_new_type);
 
-		unset($forms[self::CFORM_IMPORT]);
 		$forms[self::CFORM_NEW]->clearCommandButtons();
 		$forms[self::CFORM_NEW]->addCommandButton('create-save', $this->lng->txt($a_new_type . '_add'));
 		$forms[self::CFORM_NEW]->addCommandButton('cancel', $this->lng->txt('cancel'));
@@ -210,6 +209,18 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 				$perm_gui = new ilPermissionGUI($this);
 				$ilCtrl->forwardCommand($perm_gui);
 				break;
+
+			case 'ilexportgui':
+				$this->prepareOutput();
+
+				$GLOBALS['DIC']->tabs()->setTabActive('export');
+
+				require_once 'Services/Export/classes/class.ilExportGUI.php';
+				$exp = new ilExportGUI($this);
+				$exp->addFormat('xml');
+				$this->ctrl->forwardCommand($exp);
+				break;
+
 			case 'ilobjectcopygui':
 				$this->prepareOutput();
 				include_once 'Services/Object/classes/class.ilObjectCopyGUI.php';
@@ -227,8 +238,13 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 			default:
 				try
 				{
-					$res = explode('-', $ilCtrl->getCmd(), 2);
-					$this->dispatchCall($res[0], $res[1] ? $res[1] : '');
+					$res    = explode('-', $ilCtrl->getCmd(), 2);
+					$result = $this->dispatchCall($res[0], isset($res[1]) ? $res[1] : '');
+					if(!$result && method_exists($this, $ilCtrl->getCmd() . 'Object'))
+					{
+						$this->prepareOutput();
+						$this->{$ilCtrl->getCmd() . 'Object'}();
+					}
 				}
 				catch(Exception $e)
 				{
@@ -239,6 +255,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 					echo json_encode($error);
 					exit;
 				}
+				break;
 		}
 	}
 

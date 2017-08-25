@@ -30,9 +30,13 @@
 *
 * @package ilias
 */
+include_once './libs/composer/vendor/autoload.php';
+use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 
 include_once './webservice/soap/lib/nusoap.php';
 include_once './webservice/soap/include/inc.soap_functions.php';
+require_once('./Services/WebServices/SOAP/classes/class.ilSoapHook.php');
+require_once('./Services/Init/classes/class.ilInitialisation.php');
 
 class ilNusoapUserAdministrationAdapter 
 {
@@ -182,6 +186,7 @@ class ilNusoapUserAdministrationAdapter
 												  'title' => array('name' => 'title', 'type' => 'xsd:string'),
 												  'gender' => array('name' => 'gender', 'type' => 'xsd:string'),
 												  'email' => array('name' => 'email', 'type' => 'xsd:string'),
+												  'second_email' => array('name' => 'second_email', 'type' => 'xsd:string'),
 												  'institution' => array('name' => 'institution', 'type' => 'xsd:string'),
 												  'street' => array('name' => 'street', 'type' => 'xsd:string'),
 												  'city' => array('name' => 'city', 'type' => 'xsd:string'),
@@ -270,6 +275,16 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS deleteCourse(). Deletes a course. Delete courses are stored in "Trash" and can be undeleted in '.
 								' the ILIAS administration. ');
+		// startBackgroundTaskWorker()
+		$this->server->register(AsyncTaskManager::CMD_START_WORKER,
+			array('sid' => 'xsd:string'),
+			array('success' => 'xsd:boolean'),
+			SERVICE_NAMESPACE,
+			SERVICE_NAMESPACE . '#' . AsyncTaskManager::CMD_START_WORKER,
+			SERVICE_STYLE,
+			SERVICE_USE,
+			'ILIAS ' . AsyncTaskManager::CMD_START_WORKER . '().');
+
 		// assignCourseMember()
 		$this->server->register('assignCourseMember',
 								array('sid' => 'xsd:string',
@@ -1338,10 +1353,50 @@ class ilNusoapUserAdministrationAdapter
 			'Process task in background'
 		);
 
+		// If a client ID is submitted, there might be some SOAP plugins registering methods/types
+		if (isset($_GET['client_id'])) {
+			$this->handleSoapPlugins();
+		}
 
 		return true;
 
 	}
 
+	/**
+	 * Register any methods and types of SOAP plugins to the SOAP server
+	 */
+	protected function handleSoapPlugins() {
+		// Note: We need a context that does not handle authentication at this point, because this is
+		// handled by an actual SOAP request which always contains the session ID and client
+		ilContext::init(ilContext::CONTEXT_SOAP_NO_AUTH);
+		ilInitialisation::initILIAS();
+		ilContext::init(ilContext::CONTEXT_SOAP);
+
+		global $ilPluginAdmin;
+		$soapHook = new ilSoapHook($ilPluginAdmin);
+		foreach ($soapHook->getWsdlTypes() as $type) {
+			$this->server->wsdl->addComplexType(
+				$type->getName(),
+				$type->getTypeClass(),
+				$type->getPhpType(),
+				$type->getCompositor(),
+				$type->getRestrictionBase(),
+				$type->getElements(),
+				$type->getAttributes(),
+				$type->getArrayType()
+			);
+		}
+		foreach ($soapHook->getSoapMethods() as $method) {
+			$this->server->register(
+				$method->getName(),
+				$method->getInputParams(),
+				$method->getOutputParams(),
+				$method->getServiceNamespace(),
+				$method->getServiceNamespace() . '#' . $method->getName(),
+				$method->getServiceStyle(),
+				$method->getServiceUse(),
+				$method->getDocumentation()
+			);
+		}
+	}
 }
-?>

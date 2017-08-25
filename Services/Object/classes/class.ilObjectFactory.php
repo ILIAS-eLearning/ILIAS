@@ -206,12 +206,14 @@ class ilObjectFactory
 	}
 
 	/**
-	* get object type by reference id
-	*
-	* @param	int		$obj_id		object id
-	* @return	string	object type
-	*/
-	function getTypeByRefId($a_ref_id,$stop_on_error = true)
+	 * get object type by reference id
+	 *
+	 * @param	int		$obj_id		object id
+	 * @return	string	object type
+	 * @deprecated since version 5.3
+	 * 
+	 */
+	public static function getTypeByRefId($a_ref_id, $stop_on_error = true)
 	{
 		global $ilias, $objDefinition, $ilDB;
 

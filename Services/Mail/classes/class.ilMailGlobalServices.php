@@ -51,7 +51,7 @@ class ilMailGlobalServices
 	 */
 	public static function getMailObjectRefId()
 	{
-		global $ilDB;
+		global $DIC;
 		
 		if(isset(self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID]) &&
 		   null !== self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID])
@@ -62,7 +62,7 @@ class ilMailGlobalServices
 		// mail settings id is set by a constant in ilias.ini. Keep the select for some time until everyone has updated his ilias.ini
 		if(!MAIL_SETTINGS_ID)
 		{
-			$res = $ilDB->queryf('
+			$res = $DIC->database()->queryF('
 				SELECT object_reference.ref_id FROM object_reference, tree, object_data
 				WHERE tree.parent = %s
 				AND object_data.type = %s
@@ -71,7 +71,7 @@ class ilMailGlobalServices
 				array('integer', 'text'),
 				array(SYSTEM_FOLDER_ID, 'mail'));
 
-			while($row = $ilDB->fetchAssoc($res))
+			while($row = $DIC->database()->fetchAssoc($res))
 			{
 				self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID] = $row['ref_id'];
 			}
@@ -96,31 +96,31 @@ class ilMailGlobalServices
 	 */
 	public static function getNumberOfNewMailsByUserId($usr_id)
 	{
-		global $ilDB;
+		global $DIC;
 
 		if(!$usr_id)
 		{
 			return 0;
 		}
-		
-		if(isset(self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id]) &&
-		   null !== self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id])
+
+		if(
+			isset(self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id]) &&
+			null !== self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id])
 		{
 			return self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id];
 		}
 
-		// Read system mails
-		$res = $ilDB->queryf('
+		$res = $DIC->database()->queryF('
 			SELECT COUNT(mail_id) cnt FROM mail 
 			WHERE folder_id = %s 
 			AND user_id = %s
 			AND m_status = %s',
 			array('integer', 'integer', 'text'),
 			array('0', $usr_id, 'unread'));
-		
-		$row = $ilDB->fetchAssoc($res);
-					
-		$res = $ilDB->queryf('
+
+		$row = $DIC->database()->fetchAssoc($res);
+
+		$res = $DIC->database()->queryF('
 			SELECT COUNT(mail_id) cnt FROM mail m,mail_obj_data mo 
 		 	WHERE m.user_id = mo.user_id 
 		 	AND m.folder_id = mo.obj_id 
@@ -129,12 +129,10 @@ class ilMailGlobalServices
 	 		AND m.m_status = %s',
 			array('text', 'integer', 'text'),
 			array('inbox', $usr_id, 'unread'));
-			
-		
-		$row2 = $ilDB->fetchAssoc($res);
-		
+
+		$row2 = $DIC->database()->fetchAssoc($res);
+
 		self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id] = $row['cnt'] + $row2['cnt'];
-		
 		return self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id];
 	}
 }

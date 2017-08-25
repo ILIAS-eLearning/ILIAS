@@ -215,8 +215,11 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	public function generateDSN() {
-		$this->dsn = 'mysql:host=' . $this->getHost() . ($this->getDbname() ? ';dbname=' . $this->getDbname() : '') . ';charset='
-			. $this->getCharset();
+		$port = $this->getPort() ? ";port=" . $this->getPort() : "";
+		$dbname = $this->getDbname() ? ';dbname=' . $this->getDbname() : '';
+		$host = $this->getHost();
+		$charset = ';charset=' . $this->getCharset();
+		$this->dsn = 'mysql:host=' . $host . $port . $dbname . $charset;
 	}
 
 
@@ -271,12 +274,12 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	public function createTable($table_name, $fields, $drop_table = false, $ignore_erros = false) {
 		// check table name
 		if (!$this->checkTableName($table_name) && !$ignore_erros) {
-			throw new ilDatabaseException(" Error: createTable(" . $table_name . ")");
+			throw new ilDatabaseException("ilDB Error: createTable(" . $table_name . ")");
 		}
 
 		// check definition array
 		if (!$this->checkTableColumns($fields) && !$ignore_erros) {
-			throw new ilDatabaseException(" Error: createTable(" . $table_name . ")");
+			throw new ilDatabaseException("ilDB Error: createTable(" . $table_name . ")");
 		}
 
 		if ($drop_table) {

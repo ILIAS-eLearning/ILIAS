@@ -3,7 +3,6 @@
 namespace ILIAS\FileUpload;
 
 use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\FileUpload\Exception\IllegalArgumentException;
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\FileUpload\Processor\PreProcessor;
 
@@ -36,7 +35,7 @@ interface FileUpload {
 	 *
 	 * @throws IllegalStateException        Thrown if the files are not processed before invoking
 	 *                                      the moveFilesTo method.
-	 * @throws IllegalArgumentException     Thrown if the location is invalid.
+	 * @throws \InvalidArgumentException    Thrown if the location is invalid.
 	 * @since 5.3
 	 *
 	 * @see   Location
@@ -45,9 +44,23 @@ interface FileUpload {
 
 
 	/**
+	 * Moves a single UploadResult to the given destination.
+	 *
+	 * @param UploadResult $UploadResult    Which upload result do you want to move?
+	 * @param string       $destination     Where do you want to move the file?
+	 * @param int          $location        Location::[STORAGE|WEB|CUSTOMIZING]
+	 * @param string       $file_name       Do you want to rename the file?
+	 *
+	 * @return void
+	 */
+	public function moveOneFileTo(UploadResult $UploadResult, $destination, $location = Location::STORAGE, $file_name = '');
+
+
+	/**
 	 * Returns the current upload size limit in bytes.
 	 *
 	 * @return int
+	 * @since 5.3
 	 */
 	public function uploadSizeLimit();
 
@@ -90,4 +103,23 @@ interface FileUpload {
 	 * @since 5.3
 	 */
 	public function getResults();
+
+
+	/**
+	 * Return (bool)true if one ore more file-uploads are in the current request, (bool)false if not
+	 *
+	 * @return bool
+	 *
+	 * @since 5.3
+	 */
+	public function hasUploads();
+
+	/**
+	 * Return (bool)true if the current upload has already been processed
+	 *
+	 * @return bool
+	 *
+	 * @since 5.3
+	 */
+	public function hasBeenProcessed();
 }

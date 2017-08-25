@@ -51,4 +51,33 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable {
 	 * @return Button
 	 */
 	public function withUnavailableAction();
+
+	/**
+	 * Get a button like this, but with an additional/replaced aria-label.
+	 *
+	 * @param	string	$aria_label
+	 * @return	Button
+	 */
+	public function withAriaLabel($aria_label);
+
+	/**
+	 * Get the aria-label on the button.
+	 *
+	 * @return	string
+	 */
+	public function getAriaLabel();
+
+	/**
+	 * Get a button like this, but setting the aria-checked value as true
+	 *
+	 * @return Button
+	 */
+	public function withAriaChecked();
+
+	/**
+	 * Get to know if the button has the aria-checked attribute
+	 *
+	 * @return 	bool
+	 */
+	public function isAriaChecked();
 }

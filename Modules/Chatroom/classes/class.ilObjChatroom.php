@@ -1,7 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject.php";
+require_once 'Services/Object/classes/class.ilObject.php';
+require_once 'Services/Object/classes/class.ilObjectActivation.php';
 
 /**
  * Class ilObjChatroom
@@ -12,12 +13,136 @@ require_once "./Services/Object/classes/class.ilObject.php";
 class ilObjChatroom extends ilObject
 {
 	/**
+	 * @var int
+	 */
+	protected $access_type;
+
+	/**
+	 * @var int
+	 */
+	protected $access_begin;
+
+	/**
+	 * @var int
+	 */
+	protected $access_end;
+
+	/**
+	 * @var int
+	 */
+	protected $access_visibility;
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function __construct($a_id = 0, $a_call_by_reference = true)
 	{
+		$this->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
+
 		$this->type = 'chtr';
 		parent::__construct($a_id, $a_call_by_reference);
+	}
+
+	/**
+	 * @param int $a_value
+	 */
+	public function setAccessVisibility($a_value)
+	{
+		$this->access_visibility = (bool)$a_value;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getAccessVisibility()
+	{
+		return $this->access_visibility;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getAccessType()
+	{
+		return $this->access_type;
+	}
+
+	/**
+	 * @param int $access_type
+	 */
+	public function setAccessType($access_type)
+	{
+		$this->access_type = $access_type;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getAccessBegin()
+	{
+		return $this->access_begin;
+	}
+
+	/**
+	 * @param int $access_begin
+	 */
+	public function setAccessBegin($access_begin)
+	{
+		$this->access_begin = $access_begin;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getAccessEnd()
+	{
+		return $this->access_end;
+	}
+
+	/**
+	 * @param int $access_end
+	 */
+	public function setAccessEnd($access_end)
+	{
+		$this->access_end = $access_end;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function update()
+	{
+		if($this->ref_id)
+		{
+			$activation = new ilObjectActivation();
+			$activation->setTimingType($this->getAccessType());
+			$activation->setTimingStart($this->getAccessBegin());
+			$activation->setTimingEnd($this->getAccessEnd());
+			$activation->toggleVisible($this->getAccessVisibility());
+			$activation->update($this->ref_id);
+		}
+
+		return parent::update();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function read()
+	{
+		if($this->ref_id)
+		{
+			$activation = ilObjectActivation::getItem($this->ref_id);
+			$this->setAccessType($activation['timing_type']);
+			if($this->getAccessType() == ilObjectActivation::TIMINGS_ACTIVATION)
+			{
+				$this->setAccessBegin($activation['timing_start']);
+				$this->setAccessEnd($activation['timing_end']);
+				$this->setAccessVisibility($activation['visible']);
+			}
+		}
+
+		parent::read();
 	}
 
 	public static function _getPublicRefId()
@@ -184,6 +309,14 @@ class ilObjChatroom extends ilObject
 			array('integer'),
 			array($this->getId())
 		);
+
+		if($this->getId())
+		{
+			if($this->ref_id)
+			{
+				ilObjectActivation::deleteAllEntries($this->ref_id);
+			}
+		}
 
 		return parent::delete();
 	}

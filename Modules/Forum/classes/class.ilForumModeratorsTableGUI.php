@@ -16,15 +16,12 @@ class ilForumModeratorsTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "", $ref_id = 0)
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $ilCtrl;
+		global $DIC;
 
 		$this->setId('frm_show_mods_tbl_' . $ref_id);
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
+		$this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setTitle($this->lng->txt('frm_moderators'));
 		$this->setRowTemplate('tpl.forum_moderators_table_row.html', 'Modules/Forum');
 		$this->setDefaultOrderField('login');

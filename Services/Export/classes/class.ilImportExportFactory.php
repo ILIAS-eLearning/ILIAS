@@ -33,6 +33,13 @@ class ilImportExportFactory
 			$comp = $objDefinition->getComponentForType($a_type);
 			$class = array_pop(explode("/", $comp));
 			$class = "il".$class."Exporter";
+
+			// page component plugin exporter classes are already included
+			// the component is not registered by ilObjDefinition
+			if (class_exists($class))
+			{
+				return $class;
+			}
 			
 			// the next line had a "@" in front of the include_once
 			// I removed this because it tages ages to track down errors
@@ -44,7 +51,7 @@ class ilImportExportFactory
 			}
 		}
 			
-		throw InvalidArgumentException('Invalid exporter type given');
+		throw new InvalidArgumentException('Invalid exporter type given');
 	}
 	
 	public static function getComponentForExport($a_type)
@@ -87,14 +94,22 @@ class ilImportExportFactory
 		}
 		else
 		{							
-			$class = "il".$component."Importer";			
+			$class = "il".$component."Importer";
+
+			// page component plugin importer classes are already included
+			// the component is not registered by ilObjDefinition
+			if (class_exists($class))
+			{
+				return $class;
+			}
+
 			if(include_once "./".$a_component."/classes/class.".$class.".php")
 			{
 				return $class;
 			}
 		}
 			
-		throw InvalidArgumentException('Invalid importer type given');
+		throw new InvalidArgumentException('Invalid importer type given');
 	}
 }
 ?>
