@@ -20112,3 +20112,7 @@ if($ilDB->tableExists('cal_cat_visibility'))
 		$ilDB->addPrimaryKey('cal_cat_visibility', array('user_id','cat_id','obj_id'));
 }
 ?>
+<#5175>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
