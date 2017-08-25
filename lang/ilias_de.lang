@@ -13209,6 +13209,40 @@ common#:#il_orgu_employee#:#Mitarbeiter
 common#:#il_orgu_superior#:#Vorgesetzte
 common#:#view_learning_progress#:#Zeige Lernfortschritt
 common#:#view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
+rbac#:#rbac_info_only_position_access#:#Ihnen werden nur die Mitglieder angezeigt, auf die Sie aufgrund Ihrer Mitgliedschaften in Organisationseinheiten Zugriff haben.
+obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
+obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
+orgu#:#orgu_global_set_form#:#Globale Einstellungen
+orgu#:#authorities#:#Authoritäten
+orgu#:#positions#:#Positionen
+orgu#:#scope_1#:#gleiche Organisationseinheit
+orgu#:#scope_2#:#Folgende Organisationseinheiten
+orgu#:#scope_3#:#Alle Organisationseinheiten
+orgu#:#over_-1#:#Alle
+orgu#:#over#:#über
+orgu#:#scope#:#in
+orgu#:#org_op_set_lp#:#Lernfortschritt von anderen Benutzern setzen.
+orgu#:#org_op_view_lp#:#Lernfortschritt von anderen Benutzern einsehen.
+common#:#my_staff#:#Meine Mitarbeiter
+mst#:#mst_my_staff#:#Meine Mitarbeiter
+mst#:#mst_list_users#:#Mitarbeiterliste
+mst#:#mst_list_courses#:#Kurse meiner Mitarbeiter
+mst#:#mst_select_course#:#Kurs auswählen
+mst#:#mst_please_select_course#:#Bitte wählen Sie einen Kurs aus.
+mst#:#mst_opt_all#:#Alle
+mst#:#mst_memb_status_requested#:#Beantragt
+mst#:#mst_memb_status_waitinglist#:#Warteliste
+mst#:#mst_memb_status_registered#:#Angemeldet
+mst#:#mst_show_courses#:#Kurse anzeigen
+mst#:#mst_courses_of#:#Kurse von %s
+orgu#:#orgu_enable_my_staff#:#‘Meine Mitarbeiter’ aktivieren
+orgu#:#orgu_enable_my_staff_info#:#Die Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
+orgu#:#orgu_enable_my_staff_info#:#The Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
+orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
+orgu#:#org_op_read_learning_pr#:#Lernfortschritt einsehen
+orgu#:#form_title_org_default_permissions_update#:#Standardrechte
+orgu#:#msg_confirm_deletion#:#Gelöscht
+
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
 orgu#:#orgu_staff_deassign#:#Diese Benutzer aus der Rolle wirklich entfernen?
 orgu#:#orgu_msg_info_paste#:#Wählen Sie nun den gewünschten Ort, an dem die ausgewählten Objekte eingefügt werden sollen.
