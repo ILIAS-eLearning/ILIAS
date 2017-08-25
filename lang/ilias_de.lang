@@ -7146,7 +7146,7 @@ dateplaner#:#cal_grp_notification_body#:#es erfolgte eine Terminänderung in der
 dateplaner#:#cal_grp_notification_sub#:#Terminänderung in Gruppe "%s"
 dateplaner#:#cal_in#:#im
 dateplaner#:#cal_last#:#Letzten
-dateplaner#:#cal_manage#:#Kalender
+dateplaner#:#cal_manage#:#Kalender verwalten
 dateplaner#:#cal_milestone_settings#:#Meilensteine
 dateplaner#:#cal_month_overview#:#Monatsübersicht
 dateplaner#:#cal_month_s#:#Monat(e)
@@ -7178,7 +7178,7 @@ dateplaner#:#cal_search#:#Suchbegriff
 dateplaner#:#cal_search_info_share#:#Bitte geben Sie den Namen der Person/Rolle ein, für die Sie diesen Kalender freigeben möchten.
 dateplaner#:#cal_second#:#Zweiten
 dateplaner#:#cal_server_tz#:#Server-Zeitzone
-dateplaner#:#cal_share#:#Kalender freigeben
+dateplaner#:#cal_share#:#Freigabe
 dateplaner#:#cal_share_accept#:#Einladung annehmen
 dateplaner#:#cal_share_cal#:#Kalender freigeben (Lesezugriff)
 dateplaner#:#cal_share_cal_editable#:#Kalender freigeben (Lese- und Schreibzugriff)
@@ -16128,6 +16128,37 @@ auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#SAML-IDP konfigurieren: %s
 auth#:#saml_tab_head_idp#:#IDP
 auth#:#auth_saml_idp_settings#:#IDP Einstellungen
+dateplaner#:#cal_origin#:#Herkunft
+dateplaner#:#cal_list#:#Liste
+dateplaner#:#cal_grp_curr_crs_cons#:#Sprechstunden
+dateplaner#:#cal_grp_curr_crs#:#Aktueller Kurs
+dateplaner#:#cal_grp_personal#:#Persönlich
+dateplaner#:#cal_grp_others#:#Andere
+dateplaner#:#cal_download_all_files#:#Alle Dateien herunterladen
+dateplaner#:#cal_owner#:#Eigentümer
+dateplaner#:#cal_contained_in#:#Contained in
+dateplaner#:#cal_app_info#:#Information zur Übungseinheit
+dateplaner#:#cal_crs_info#:#Course Information
+crs#:#crs_open#:#Kurs öffnen
+grp#:#grp_grp_open#:#Gruppe öffnen
+dateplaner#:#cal_grp_info#:#Information zur Gruppe
+dateplaner#:#cal_exc_info#:#Information zur Übungseinheit
+dateplaner#:#cal_sess_info#:#Session Information
+dateplaner#:#cal_agenda#:#Agenda
+dateplaner#:#cal_exc_open#:#Übungseinheit öffnen
+book#:#book_open#:#Buchungspool öffnen
+book#:#book_booking_information#:#Information
+sess#:#sess_open#:#Sitzung öffnen
+dateplaner#:#cal_show_weeks#:#Anzeige Wochenspalte
+dateplaner#:#cal_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an. Benutzer können die Anzeige deaktivieren.
+dateplaner#:#cal_usr_show_weeks#:#Anzeige Wochenspalte
+dateplaner#:#cal_usr_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an.
+dateplaner#:#cal_grp_curr_grp#:#Aktuelle Gruppe
+dateplaner#:#cal_subscription#:#Abonnieren
+dateplaner#:#cal_cal_shared_with#:#Benutzer mit denen der Kalender geteilt wird
+dateplaner#:#cal_consultation_hours_for_user#:#Sprechstunden für %1
+dateplaner#:#cal_open_calendar#:#Kalender öffnen
+dateplaner#:#cal_delete_cal#:#Kalender löschen
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
 mail#:#second_email_missing_info#:#Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde
 mail#:#mail_first_email#:#Erste E-Mail-Adresse
@@ -16309,3 +16340,4 @@ rbac#:#wiki_edit_page_meta#:#Wikiseitenmetadaten bearbeiten
 content#:#cont_user#:#Benutzer
 content#:#cont_user_search_did_not_match#:#Es wurde kein Benutzer gefunden.
 blog#:#blog_latest_posting#:#Neuester Beitrag
+common#:#second_email#:#Zweite E-Mail

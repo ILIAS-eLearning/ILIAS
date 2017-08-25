@@ -41,10 +41,16 @@ class ilUserUtil
 	 */
 	static function getNamePresentation($a_user_id, 
 		$a_user_image = false, $a_profile_link = false, $a_profile_back_link = "",
-		$a_force_first_lastname = false, $a_omit_login = false, $a_sortable = true, $a_return_data_array = false)
+		$a_force_first_lastname = false, $a_omit_login = false, $a_sortable = true, $a_return_data_array = false,
+		$a_ctrl_path = "ilpublicuserprofilegui")
 	{
 		global $lng, $ilCtrl, $ilDB;
-		
+
+		if (!is_array($a_ctrl_path))
+		{
+			$a_ctrl_path = array($a_ctrl_path);
+		}
+
 		if (!($return_as_array = is_array($a_user_id)))
 			$a_user_id = array($a_user_id);
 		
@@ -118,13 +124,13 @@ class ilUserUtil
 
 			if ($a_profile_link && $has_public_profile)
 			{
-				$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $row->usr_id);
+				$ilCtrl->setParameterByClass(end($a_ctrl_path), "user_id", $row->usr_id);
 				if ($a_profile_back_link != "")
 				{
-					$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
+					$ilCtrl->setParameterByClass(end($a_ctrl_path), "back_url",
 						rawurlencode($a_profile_back_link));
 				}
-				$link = $ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML");
+				$link = $ilCtrl->getLinkTargetByClass($a_ctrl_path, "getHTML");
 				$pres = '<a href="'.$link.'">'.$pres.'</a>';
 				$d["link"] = $link;
 			}
