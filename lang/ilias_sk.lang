@@ -15935,3 +15935,5 @@ chatroom#:#chat_deletion_interval_unit#:#Unit###13 07 2017 new variable
 chatroom#:#chat_deletion_interval_value#:#Value###13 07 2017 new variable
 chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s###13 07 2017 new variable
 chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.###13 07 2017 new variable
+forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.###25 08 2017 new variable
+chatroom#:#chat_deletion_interval_run_at#:#Time###25 08 2017 new variable
