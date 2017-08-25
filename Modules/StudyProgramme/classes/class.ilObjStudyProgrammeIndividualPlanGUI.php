@@ -289,7 +289,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 			return null;
 		}
 
-		return new ilDateTime($post_value[$prgrs_id], IL_CAL_DATE);
+		return new ilDateTime($deadline, IL_CAL_DATE);
 	}
 
 	protected function showSuccessMessage($a_lng_var) {
