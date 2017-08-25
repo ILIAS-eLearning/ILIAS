@@ -202,18 +202,16 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 				$changed = true;
 			}
 
-			$deadline = $this->getDeadlineFromForm($prgrs_id);
-			$cur_deadline = $prgrs->getDeadline();
-			$cur_deadline = $this->updateDeadline($cur_deadline, $deadline, $prgrs);
+			$deadline = $this->updateDeadline($prgrs);
 
 			if ($cur_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
 				$changed = $this->updateRequiredPoints($prgrs_id) || $changed;
 
-				if($cur_deadline !== null && $cur_deadline->get(IL_CAL_DATE) < date("Y-m-d")) {
+				if($deadline !== null && $deadline->get(IL_CAL_DATE) < date("Y-m-d")) {
 					$prgrs->markFailed($this->user->getId());
 				}
 			} else if($cur_status == ilStudyProgrammeProgress::STATUS_FAILED) {
-				if($cur_deadline === null || $cur_deadline->get(IL_CAL_DATE) > date("Y-m-d")) {
+				if($deadline === null || $deadline->get(IL_CAL_DATE) > date("Y-m-d")) {
 					$prgrs->markNotFailed($this->user->getId());
 				}
 			}
@@ -224,26 +222,16 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	/**
 	 * Updates current deadline
 	 *
-	 * @param ilDateTime 	$cur_deadline
-	 * @param ilDateTime 	$deadline
 	 * @param ilStudyProgrammeUserProgress 	$prgrs
 	 *
 	 * @return ilDateTime
 	 */
-	protected function updateDeadline($cur_deadline, $deadline, ilStudyProgrammeUserProgress $prgrs) {
-		if (($cur_deadline !== null && $deadline !== null)
-				&& ($deadline->get(IL_CAL_DATE) != $cur_deadline_str->get(IL_CAL_DATE))
-		) {
-			$prgrs->setDeadline($deadline);
-			$prgrs->updateProgress($this->user->getId());
-			$cur_deadline = $deadline;
-		} else {
-			$prgrs->setDeadline($deadline);
-			$prgrs->updateProgress($this->user->getId());
-			$cur_deadline = $deadline;
-		}
+	protected function updateDeadline(ilStudyProgrammeUserProgress $prgrs) {
+		$deadline = $this->getDeadlineFromForm($prgrs->getId());
+		$prgrs->setDeadline($deadline);
+		$prgrs->updateProgress($this->user->getId());
 
-		return $cur_deadline;
+		return $deadline;
 	}
 
 	protected function updateRequiredPoints($prgrs_id) {
