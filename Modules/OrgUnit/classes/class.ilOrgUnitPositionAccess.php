@@ -105,6 +105,9 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
 		// $all_available_users = $this->ua->getUserIdsOfOrgUnit()
 		$operation = ilOrgUnitOperationQueries::findByOperationString($pos_perm);
+		if(!$operation) {
+			return $user_ids;
+		}
 
 		$allowed_user_ids = [];
 		foreach ($this->ua->getPositionsOfUserId($user_id) as $position) {
