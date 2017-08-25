@@ -23,7 +23,7 @@ class ilSimpleSAMLphpConfigTemplateHandler
 	/**
 	 * @param string $sourcePath
 	 * @param string $destinationPath
-	 * @param array $placeholders A key value map where the key should be the name of a placeholder, and the value is a primitive type of a callable
+	 * @param array $placeholders A key value map where the key should be the name of a placeholder, and the value is a primitive type or a callable
 	 */
 	public function copy($sourcePath, $destinationPath, array $placeholders = [])
 	{
