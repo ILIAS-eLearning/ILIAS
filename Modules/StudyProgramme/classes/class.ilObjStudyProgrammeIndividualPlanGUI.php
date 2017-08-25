@@ -231,22 +231,16 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	 * @return ilDateTime
 	 */
 	protected function updateDeadline($cur_deadline, $deadline, ilStudyProgrammeUserProgress $prgrs) {
-		if($cur_deadline === null && $deadline !== null) {
+		if (($cur_deadline !== null && $deadline !== null)
+				&& ($deadline->get(IL_CAL_DATE) != $cur_deadline_str->get(IL_CAL_DATE))
+		) {
 			$prgrs->setDeadline($deadline);
 			$prgrs->updateProgress($this->user->getId());
 			$cur_deadline = $deadline;
-		} else if($cur_deadline !== null && $deadline === null) {
+		} else {
 			$prgrs->setDeadline($deadline);
 			$prgrs->updateProgress($this->user->getId());
 			$cur_deadline = $deadline;
-		} else if ($cur_deadline !== null && $deadline !== null) {
-			$deadline_str = $deadline->get(IL_CAL_DATE);
-
-			if($deadline_str != $cur_deadline_str) {
-				$prgrs->setDeadline($deadline);
-				$prgrs->updateProgress($this->user->getId());
-				$cur_deadline = $deadline;
-			}
 		}
 
 		return $cur_deadline;
