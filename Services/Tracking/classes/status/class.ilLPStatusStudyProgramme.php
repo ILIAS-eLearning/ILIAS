@@ -15,7 +15,7 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
 class ilLPStatusStudyProgramme extends ilLPStatus
 {
 	static function _getCountInProgress($a_obj_id) {
-		return count($this->_getInProgress($a_obj_id));
+		return count(self::_getInProgress($a_obj_id));
 	}
 	
 	static function _getInProgress($a_obj_id)
