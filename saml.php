@@ -12,7 +12,7 @@ if(!file_exists(getcwd() . '/ilias.ini.php'))
 	exit();
 }
 
-require_once './Services/Context/classes/class.ilContext.php';
+require_once 'Services/Context/classes/class.ilContext.php';
 ilContext::init(ilContext::CONTEXT_SAML);
 
 require_once 'Services/Init/classes/class.ilInitialisation.php';

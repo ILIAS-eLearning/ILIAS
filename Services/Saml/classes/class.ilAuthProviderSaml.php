@@ -52,7 +52,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 
 		require_once 'Services/User/classes/class.ilUserDefinedFields.php';
 		require_once 'Services/Saml/classes/class.ilSamlSettings.php';
-		require_once 'Services/Saml/classes/class.ilExternalAuthAttributeMapping.php';
+		require_once 'Services/Saml/classes/class.ilExternalAuthUserAttributeMapping.php';
 		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
 
 		if(null === $a_idp_id)
@@ -277,7 +277,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 	{
 		require_once 'Services/Xml/classes/class.ilXmlWriter.php';
 
-		$mapping = new ilExternalAuthAttributeMapping('saml', $this->idp->getIdpId());
+		$mapping = new ilExternalAuthUserAttributeMapping('saml', $this->idp->getIdpId());
 
 		$xml_writer = new ilXmlWriter();
 		$xml_writer->xmlStartTag('Users');

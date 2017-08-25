@@ -39,7 +39,7 @@ if(isset($_GET["client_id"]))
 }
 define('IL_COOKIE_PATH', $cookie_path);
 
-require_once './Services/Context/classes/class.ilContext.php';
+require_once 'Services/Context/classes/class.ilContext.php';
 ilContext::init(ilContext::CONTEXT_SAML);
 
 require_once 'Services/Init/classes/class.ilInitialisation.php';

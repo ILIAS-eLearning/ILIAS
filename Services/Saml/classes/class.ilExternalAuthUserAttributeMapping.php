@@ -4,10 +4,10 @@
 require_once 'Services/Saml/classes/class.ilExternalAuthUserAttributeMappingRule.php';
 
 /**
- * Class ilExternalAuthAttributeMapping
+ * Class ilExternalAuthUserAttributeMapping
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilExternalAuthAttributeMapping implements ArrayAccess, Countable, Iterator
+class ilExternalAuthUserAttributeMapping implements ArrayAccess, Countable, Iterator
 {
 	/**
 	 * @var ilDB
@@ -30,7 +30,7 @@ class ilExternalAuthAttributeMapping implements ArrayAccess, Countable, Iterator
 	protected $mapping = array();
 
 	/**
-	 * ilExternalAuthAttributeMapping constructor.
+	 * ilExternalAuthUserAttributeMapping constructor.
 	 * @param string $authMode
 	 * @param int    $authSourceId
 	 */
