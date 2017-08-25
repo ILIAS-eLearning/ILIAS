@@ -574,6 +574,40 @@ class ilBlogPosting extends ilPageObject
 			$news_item->update(true);
 		}		
 	}
+
+	/**
+	 * Lookup posting property
+	 *
+	 * @param string $a_field field
+	 * @param int $a_posting_id posting id
+	 * @return mixed
+	 */
+	static protected function lookup($a_field, $a_posting_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$set = $db->query("SELECT $a_field FROM il_blog_posting ".
+			" WHERE id = ".$db->quote($a_posting_id, "integer"));
+		$rec = $db->fetchAssoc($set);
+
+		return $rec[$a_field];
+	}
+
+	/**
+	 * Lookup title
+	 *
+	 * @param int $a_posting_id posting id
+	 * @return string
+	 */
+	static function lookupTitle($a_posting_id)
+	{
+		$t = self::lookup("title", $a_posting_id);
+		return $t;
+	}
+
+
 }
 
 ?>

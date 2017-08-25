@@ -2534,7 +2534,8 @@ return;
 						if ($obj_type == "usr")
 						{
 							include_once("./Services/User/classes/class.ilUserUtil.php");
-							$back = $this->ctrl->getLinkTargetByClass(strtolower(get_class($this)), "preview");
+							$back = $this->getProfileBackUrl();
+							//var_dump($back); exit;
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
 								rawurlencode($back));
@@ -2561,6 +2562,15 @@ return;
 		$link_info.= "</IntLinkInfos>";
 		$this->setLinkXML($link_info);
 	}
+
+	/**
+	 * Get profile back url
+	 */
+	function getProfileBackUrl()
+	{
+		return $this->ctrl->getLinkTargetByClass(strtolower(get_class($this)), "preview");
+	}
+
 	
 	/**
 	 * Download file of file lists

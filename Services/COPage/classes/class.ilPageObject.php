@@ -1134,11 +1134,56 @@ abstract class ilPageObject
 		{
 			ilCOPagePCDef::requirePCClassByName($def["name"]);
 			$cl = $def["pc_class"];
-			$cl::handleCopiedContent($a_dom, $a_self_ass, $a_clone_mobs);
+			if ($cl == 'ilPCPlugged')
+			{
+				// the page object is provided for ilPageComponentPlugin
+				ilPCPlugged::handleCopiedPluggedContent($this, $a_dom);
+			}
+			else
+			{
+				$cl::handleCopiedContent($a_dom, $a_self_ass, $a_clone_mobs);
+			}
 		}
 		
 	}
-	
+
+	/**
+	 * Handle content before deletion
+	 * This currently treats only plugged content
+	 * If no node is given, then the whole dom will be scanned
+	 *
+	 * @param php4DOMNode|DOMNode|null	$a_node
+	 */
+	function handleDeleteContent($a_node = null)
+	{
+		if (!isset($a_node))
+		{
+			$xpc = xpath_new_context($this->dom);
+			$path = "//PageContent";
+			$res = xpath_eval($xpc, $path);
+			$nodes = $res->nodeset;
+		}
+		else
+		{
+			$nodes = array($a_node);
+		}
+
+		require_once('Services/COPage/classes/class.ilPCPlugged.php');
+		foreach ($nodes as $node)
+		{
+			if ($node instanceof php4DOMNode)
+			{
+				$node = $node->myDOMNode;
+			}
+
+			/** @var DOMElement $node */
+			if ($node->firstChild->nodeName == 'Plugged')
+			{
+				ilPCPlugged::handleDeletedPluggedNode($this, $node->firstChild);
+			}
+		}
+	}
+
 	/**
 	 * Replaces media objects in interactive images
 	 * with copies of the interactive images
@@ -2922,6 +2967,9 @@ abstract class ilPageObject
 
 		$this->__beforeDelete();
 
+		// treat plugged content
+		$this->handleDeleteContent();
+
 		// delete style usages
 		$this->deleteStyleUsages(false);
 
@@ -3273,6 +3321,7 @@ abstract class ilPageObject
 	function deleteContent($a_hid, $a_update = true, $a_pcid = "")
 	{
 		$curr_node = $this->getContentNode($a_hid, $a_pcid);
+		$this->handleDeleteContent($curr_node);
 		$curr_node->unlink_node($curr_node);
 		if ($a_update)
 		{
@@ -3309,6 +3358,7 @@ abstract class ilPageObject
 					$parent_node = $curr_node->parent_node();
 					if ($parent_node->node_name() != "TableRow")
 					{
+						$this->handleDeleteContent($curr_node);
 						$curr_node->unlink_node($curr_node);
 					}
 				}
@@ -3509,6 +3559,7 @@ abstract class ilPageObject
 				if ($hier_id != "pg" && $hier_id >= $a_hid)
 				{
 					$curr_node = $this->getContentNode($hier_id);
+					$this->handleDeleteContent($curr_node);
 					$curr_node->unlink_node($curr_node);
 				}
 			}
@@ -3539,6 +3590,7 @@ abstract class ilPageObject
 				if ($hier_id != "pg" && $hier_id < $a_hid)
 				{
 					$curr_node = $this->getContentNode($hier_id);
+					$this->handleDeleteContent($curr_node);
 					$curr_node->unlink_node($curr_node);
 				}
 			}

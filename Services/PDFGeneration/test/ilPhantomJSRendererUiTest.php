@@ -99,14 +99,6 @@ class ilPhantomJSRendererUiTest  extends PHPUnit_Framework_TestCase
 		$this->assertSame('header_text', $transformer->invokeArgs($this->form, array())->getPostVar());
 	}
 
-	public function testBuildPrintMediaTypeForm()
-	{
-		$transformer = self::getMethod('buildPrintMediaTypeForm');
-		$this->assertInstanceOf('ilCheckboxInputGUI', $transformer->invokeArgs($this->form, array()));
-		$this->assertSame('print_media_type', $transformer->invokeArgs($this->form, array())->getTitle());
-		$this->assertSame('print_media_type', $transformer->invokeArgs($this->form, array())->getPostVar());
-	}
-
 	public function testBuildHeaderPageNumbersForm()
 	{
 		$transformer = self::getMethod('buildHeaderPageNumbersForm');
@@ -121,6 +113,14 @@ class ilPhantomJSRendererUiTest  extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('ilCheckboxInputGUI', $transformer->invokeArgs($this->form, array()));
 		$this->assertSame('footer_show_pages', $transformer->invokeArgs($this->form, array())->getTitle());
 		$this->assertSame('footer_show_pages', $transformer->invokeArgs($this->form, array())->getPostVar());
+	}
+
+	public function testBuildViewPortForm()
+	{
+		$transformer = self::getMethod('buildViewPortForm');
+		$this->assertInstanceOf('ilTextInputGUI', $transformer->invokeArgs($this->form, array()));
+		$this->assertSame('viewport', $transformer->invokeArgs($this->form, array())->getTitle());
+		$this->assertSame('viewport', $transformer->invokeArgs($this->form, array())->getPostVar());
 	}
 
 	public function testBuildPageSizesForm()
