@@ -145,12 +145,9 @@ class ilIndividualAssessmentMember {
 	 */
 	public function withRecord($record) {
 		assert('is_string($record) || $record === null');
-		if(!$this->finalized()) {
-			$clone = clone $this;
-			$clone->record = $record;
-			return $clone;
-		}
-		throw new ilIndividualAssessmentException('user allready finalized');
+		$clone = clone $this;
+		$clone->record = $record;
+		return $clone;
 	}
 
 	/**
@@ -161,12 +158,9 @@ class ilIndividualAssessmentMember {
 	 */
 	public function withInternalNote($internal_note) {
 		assert('is_string($internal_note) || $internal_note === null');
-		if(!$this->finalized()) {
-			$clone = clone $this;
-			$clone->internal_note = $internal_note;
-			return $clone;
-		}
-		throw new ilIndividualAssessmentException('user allready finalized');
+		$clone = clone $this;
+		$clone->internal_note = $internal_note;
+		return $clone;
 	}
 
 	/**
@@ -205,13 +199,10 @@ class ilIndividualAssessmentMember {
 	 */
 	public function withExaminerId($examiner_id) {
 		assert('is_numeric($examiner_id)');
-		if(!$this->finalized()) {
-			assert('ilObjUser::_exists($examiner_id)');
-			$clone = clone $this;
-			$clone->examiner_id = $examiner_id;
-			return $clone;
-		}
-		throw new ilIndividualAssessmentException('user allready finalized');
+		assert('ilObjUser::_exists($examiner_id)');
+		$clone = clone $this;
+		$clone->examiner_id = $examiner_id;
+		return $clone;
 	}
 
 	/**
@@ -222,12 +213,9 @@ class ilIndividualAssessmentMember {
 	 */
 	public function withNotify($notify) {
 		assert('is_bool($notify)');
-		if(!$this->finalized()) {
-			$clone = clone $this;
-			$clone->notify = (bool)$notify;
-			return $clone;
-		}
-		throw new ilIndividualAssessmentException('user allready finalized');
+		$clone = clone $this;
+		$clone->notify = (bool)$notify;
+		return $clone;
 	}
 
 	protected function LPStatusValid($lp_status) {
@@ -244,7 +232,7 @@ class ilIndividualAssessmentMember {
 	 * @return	ilIndividualAssessmentMember
 	 */
 	public function withLPStatus($lp_status) {
-		if(!$this->finalized() && $this->LPStatusValid($lp_status)) {
+		if($this->LPStatusValid($lp_status)) {
 			$clone = clone $this;
 			$clone->lp_status = $lp_status;
 			return $clone;

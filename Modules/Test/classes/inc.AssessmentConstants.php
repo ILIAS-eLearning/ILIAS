@@ -123,3 +123,9 @@ define ("REDIRECT_NONE", 0);
 define ("REDIRECT_ALWAYS", 1);
 define ("REDIRECT_KIOSK", 2);
 define ("REDIRECT_SEB", 3);
+
+/**
+ * PDF Purposes
+ */
+define('PDF_USER_RESULT', 'UserResult');
+define('PDF_PRINT_VIEW_QUESTIONS', 'PrintViewOfQuestions');

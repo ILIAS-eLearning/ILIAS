@@ -28,13 +28,14 @@ class ilIndividualAssessmentMembersGUI {
 		$this->tpl =  $DIC['tpl'];
 		$this->lng = $DIC['lng'];
 		$this->toolbar = $DIC['ilToolbar'];
-		$this->access_handler = $this->object->accessHandler();
+		$this->iass_access = $this->object->accessHandler();
 	}
 
 	public function executeCommand() {
-		if(!$this->access_handler->checkAccessToObj($this->object,'edit_members')
-			&& !$this->access_handler->checkAccessToObj($this->object,'edit_learning_progress')
-			&& !$this->access_handler->checkAccessToObj($this->object,'read_learning_progress') ) {
+		if(!$this->iass_access->mayEditMembers()
+			&& !$this->iass_access->mayGradeUser()
+			&& !$this->iass_access->mayViewUser()
+		) {
 			$this->parent_gui->handleAccessViolation();
 		}
 		$cmd = $this->ctrl->getCmd();
@@ -70,7 +71,7 @@ class ilIndividualAssessmentMembersGUI {
 	}
 
 	protected function view() {
-		if($this->access_handler->checkAccessToObj($this->object,'edit_members')) {
+		if($this->iass_access->mayEditMembers()) {
 			require_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 
 			$search_params = ['crs', 'grp'];
@@ -118,8 +119,8 @@ class ilIndividualAssessmentMembersGUI {
 	 */
 	public function addUsers(array $user_ids) {
 
-		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
-			$a_parent_gui->handleAccessViolation();
+		if(!$this->iass_access->mayEditMembers()) {
+			$this->parent_gui->handleAccessViolation();
 		}
 		$iass = $this->object;
 		$members = $iass->loadMembers();
@@ -142,8 +143,8 @@ class ilIndividualAssessmentMembersGUI {
 	}
 
 	protected function removeUserConfirmation() {
-		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
-			$a_parent_gui->handleAccessViolation();
+		if(!$this->iass_access->mayEditMembers()) {
+			$this->parent_gui->handleAccessViolation();
 		}
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
@@ -161,8 +162,8 @@ class ilIndividualAssessmentMembersGUI {
 	 * @param	int|string[]	$user_ids
 	 */
 	public function removeUser() {
-		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
-			$a_parent_gui->handleAccessViolation();
+		if(!$this->iass_access->mayEditMembers()) {
+			$this->parent_gui->handleAccessViolation();
 		}
 		$usr_id = $_POST['usr_id'];
 		$iass = $this->object;
