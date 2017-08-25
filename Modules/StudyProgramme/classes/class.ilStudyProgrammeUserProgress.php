@@ -261,8 +261,7 @@ class ilStudyProgrammeUserProgress {
 		);
 
 		if (in_array($this->getStatus(), $status)) {
-			throw new ilException(__METHOD__
-				."Can't mark as failed since program is passed.");
+			throw new ilException("Can't mark as failed since program is passed.");
 		}
 
 		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
@@ -284,7 +283,7 @@ class ilStudyProgrammeUserProgress {
 	 */
 	public function markNotFailed() {
 		if ($this->progress->getStatus() != ilStudyProgrammeProgress::STATUS_FAILED) {
-			throw new ilException("Expected status ACCREDITED.");
+			throw new ilException("Expected status FAILED.");
 		}
 
 		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
