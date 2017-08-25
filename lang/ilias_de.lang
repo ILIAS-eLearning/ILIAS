@@ -16309,3 +16309,8 @@ rbac#:#wiki_edit_page_meta#:#Wikiseitenmetadaten bearbeiten
 content#:#cont_user#:#Benutzer
 content#:#cont_user_search_did_not_match#:#Es wurde kein Benutzer gefunden.
 blog#:#blog_latest_posting#:#Neuester Beitrag
+lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI Bereich umgeleitet.
+lti#:#lti_navigation#:#Navigation
+lti#:#lti_exit#:#LTI Sitzung beenden
+lti#:#lti_exited#:#LTI Sitzung beendet
+lti#:#lti_exited_info#:#Die LTI Sitzung wurde erfolgreich beendet

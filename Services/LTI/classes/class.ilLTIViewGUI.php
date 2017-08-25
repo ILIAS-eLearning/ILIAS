@@ -102,7 +102,9 @@ class ilLTIViewGUI extends ilBaseViewGUI
 	 */ 
 	public function initGUI() 
 	{
+		global $lng;
 		$this->log("initGUI");
+		$lng->loadLanguageModule("lti");
 		$baseclass = strtolower($_GET['baseClass']);
 		$cmdclass = strtolower($_GET['cmdClass']);
 		$this->log("baseClass=".$baseclass);
@@ -154,7 +156,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 				{
 					$this->log("desktop is not allowed");
 					//$_SESSION['failure'] = "lti_not_allowed";
-					$this->redirectToHome(self::MSG_ERROR,"lti_not_allowed");
+					$this->redirectToHome(self::MSG_ERROR,$lng->txt("lti_not_allowed"));
 					$this->redirectToHome();
 					return;
 				} 
@@ -197,7 +199,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		$_SESSION['lti_tree_root_id'] = $this->tree_root_id;
 		ilUtil::sendInfo("sdfsdfsdfsdf");
 	}
-	
+	 
 	/**
 	 * view out of the home context with link back to home
 	 */
@@ -270,6 +272,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 	public function render($tpl,$part) 
 	{
 		global $lng, $DIC;
+		$lng->loadLanguageModule("lti");
 		$f = $DIC->ui()->factory();
 		$renderer = $DIC->ui()->renderer();
 		switch ($part) 
@@ -299,7 +302,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 				{
 					break;
 				}
-				$tpl->setVariable("TXT_VIEW_NAV", "Navigation"); // ToDo: language files
+				$tpl->setVariable("TXT_VIEW_NAV", $lng->txt("lti_navigation")); // ToDo: language files
 				$nav_entries = $this->getNavEntries();
 				$tpl->setVariable("VIEW_NAV_EN", $nav_entries);
 				
@@ -310,18 +313,10 @@ class ilLTIViewGUI extends ilBaseViewGUI
 					$tpl->addBlockFile("USERLOGGEDIN","userisloggedin","tpl.user_logged_in.html","Services/LTI");
 				}
 				$tpl->setVariable("LINK_LTI_EXIT", $this->getCmdLink('exit'));
+				$tpl->setVariable("TXT_LTI_EXIT",$lng->txt("lti_exit"));
 				$btn = $f->button()->close();
 				$btnHtml = $renderer->render($btn);
 				$tpl->setVariable("EXIT_BUTTON",$btnHtml);
-				/*
-				$tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
-				$user_img_src = $this->ilias->account->getPersonalPicturePath("small", true);
-				$user_img_alt = $this->ilias->account->getFullname();
-				$tpl->setVariable("USER_IMG", ilUtil::img($user_img_src, $user_img_alt));
-				//$tpl->setVariable("TXT_LTI_EXIT",$lng->txt("lti_exit_session"));
-				$tpl->setVariable("TXT_LTI_EXIT","LTI Sitzung beenden");
-				$tpl->setVariable("LINK_LTI_EXIT", $this->getCmdLink('exit'));
-				*/ 
 				break;
 		}
 	}
@@ -409,17 +404,12 @@ class ilLTIViewGUI extends ilBaseViewGUI
 	public function exitLti() 
 	{
 		global $lng;
+		$lng->loadLanguageModule("lti");
 		$this->log("exitLti");
 		if ($this->getSessionValue('lti_launch_presentation_return_url') === '') {
 			$tplExit = new ilTemplate("tpl.lti_exit.html", true, true, "Services/LTI");
-			$tplExit->setVariable('TXT_LTI_EXIT',$lng->txt('lti_exited'));
-			//$tplExit->setVariable('TXT_LTI_EXIT',$lng->txt('lti_exited'));
-			$tplExit->setVariable('INFO_LTI_EXIT',$lng->txt('lti_exited_info'));
-			/*
-			$tplExit->setVariable('TXT_EXITED','LTI Sitzung beendet');
-			$tplExit->setVariable('INFO_EXIT','Sie haben die LTI Sitzung beendet');
-			*/ 
-			//$tplExit->setVariable('TXT_EXITED',$lng->txt('exited'));
+			$tplExit->setVariable('TXT_LTI_EXITED',$lng->txt('lti_exited'));
+			$tplExit->setVariable('LTI_EXITED_INFO',$lng->txt('lti_exited_info'));
 			$html = $tplExit->get();
 			$this->logout();
 			print $html;

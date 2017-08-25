@@ -1,8 +1,9 @@
-body {
-	visibility: visible;
-}
 body.ltiExit {
 	background-color: #f0f0f0;
+}
+
+ol.breadcrumb {
+	margin-left: 10px;
 }
 
 a.ilTreeView {

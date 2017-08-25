@@ -13840,3 +13840,8 @@ rbac#:#wiki_edit_page_meta#:#Edit Wiki Page Metadata
 content#:#cont_user#:#User
 content#:#cont_user_search_did_not_match#:#Your search did not match any users.
 blog#:#blog_latest_posting#:#Latest Posting
+lti#:#lti_not_allowed#:#Access denied. Your request was redirected to the root LTI object.
+lti#:#lti_navigation#:#Navigation
+lti#:#lti_exit#:#Close LTI Session
+lti#:#lti_exited#:#LTI Session closed
+lti#:#lti_exited_info#:#LTI Session successfully closed
