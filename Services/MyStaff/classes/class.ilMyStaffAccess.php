@@ -103,16 +103,23 @@ class ilMyStaffAccess extends ilObjectAccess {
 		$this->buildTempTableOrguMembers('tmp_orgu_members_path');
 
 		$this->dropTempTable($temporary_table_name);
+
 		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
 				SELECT DISTINCT user_perm_matrix.perm_for_ref_id, user_perm_matrix.usr_id FROM
 				(
-				 SELECT * FROM
+				 SELECT crs.*,tmp_crs_members.ref_id,tmp_crs_members.usr_id FROM
 					(
 						select * from tmp_ilobj_spec_permissions
 							UNION
 						select * from tmp_ilobj_default_permissions
 					) as crs
-					inner join tmp_crs_members on tmp_crs_members.ref_id = crs.perm_for_ref_id
+					inner join tmp_crs_members on tmp_crs_members.ref_id = crs.perm_for_ref_id 
+					and (
+							(
+							tmp_crs_members.orgu_id = crs.perm_for_orgu_id and tmp_crs_members.position_id = crs.perm_over_user_with_position and perm_orgu_scope = 1
+							)
+							or perm_orgu_scope = 2
+						)
 				UNION
 					select tmp_ilorgu_default_permissions.*, tmp_orgu_members.orgu_id as ref_id, tmp_orgu_members.user_id from tmp_ilorgu_default_permissions
 					inner join tmp_orgu_members on tmp_orgu_members.orgu_id = tmp_ilorgu_default_permissions.perm_for_ref_id
@@ -120,11 +127,11 @@ class ilMyStaffAccess extends ilObjectAccess {
 				INNER JOIN tmp_orgu_members_path as path on path.user_id = user_perm_matrix.usr_id
 				INNER JOIN il_orgu_ua as orgu_ua_current_user on orgu_ua_current_user.user_id = $user_id
 				AND
-				(
+				( 
 					/* Identische OrgUnit wie Current User; Nicht Rekursiv; Fixe Position */
 					(orgu_ua_current_user.orgu_id = user_perm_matrix.perm_for_orgu_id and user_perm_matrix.perm_orgu_scope = 1
 					AND orgu_ua_current_user.position_id = user_perm_matrix.perm_for_position_id AND user_perm_matrix.perm_over_user_with_position <> -1
-				)
+					)
 				OR
 					/* Identische OrgUnit wie Current User; Nicht Rekursiv; Position egal */
 					(orgu_ua_current_user.orgu_id = user_perm_matrix.perm_for_orgu_id and user_perm_matrix.perm_orgu_scope = 1 and user_perm_matrix.perm_over_user_with_position = -1)
@@ -158,7 +165,6 @@ class ilMyStaffAccess extends ilObjectAccess {
 				)	
 			);";
 
-
 		$ilDB->manipulate($q);
 
 		return true;
@@ -184,13 +190,12 @@ class ilMyStaffAccess extends ilObjectAccess {
 					INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id
 					INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua.position_id
 					INNER JOIN object_reference AS obj_ref ON obj_ref.ref_id =  perm.parent_id
-					INNER JOIN object_data AS obj ON obj.obj_id = obj_ref.obj_id and obj.type = '".$context."'
-					INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '".$context."'
+					INNER JOIN object_data AS obj ON obj.obj_id = obj_ref.obj_id and obj.type = '$context'
+					INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '$context'
 					WHERE
-				    perm.operations LIKE '%\"".$operation_id."\"%'
+				    perm.operations LIKE '%\"$operation_id\"%'
 			);";
-
-		//echo $q;
+;
 
 		$ilDB->manipulate($q);
 
@@ -232,6 +237,7 @@ class ilMyStaffAccess extends ilObjectAccess {
 				            INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '".$context."'
 				            WHERE perm.parent_id <> -1)
 							);";
+
 		$ilDB->manipulate($q);
 
 		//echo $q;
@@ -263,6 +269,7 @@ class ilMyStaffAccess extends ilObjectAccess {
 				    WHERE
 				    perm.operations LIKE '%\"".$operation_id."\"%'
 							);";
+
 		$ilDB->manipulate($q);
 
 		//echo $q;
@@ -280,7 +287,7 @@ class ilMyStaffAccess extends ilObjectAccess {
 		$this->dropTempTable($temporary_table_name);
 
 		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
-					SELECT crs_members_crs_ref.ref_id, crs_members.usr_id
+					SELECT crs_members_crs_ref.ref_id, crs_members.usr_id, orgu_ua.position_id, orgu_ua.orgu_id
 						FROM (
 							select obj_id, usr_id from obj_members where member = 1
 						UNION
@@ -289,7 +296,9 @@ class ilMyStaffAccess extends ilObjectAccess {
 							select obj_id, usr_id from il_subscribers
 						) as crs_members
 						INNER JOIN object_reference as crs_members_crs_ref on crs_members_crs_ref.obj_id = crs_members.obj_id
+						INNER JOIN il_orgu_ua as orgu_ua on orgu_ua.user_id = crs_members.usr_id
 			  );";
+
 		$ilDB->manipulate($q);
 
 		//echo $q;
@@ -320,7 +329,6 @@ class ilMyStaffAccess extends ilObjectAccess {
 							LEFT JOIN tree AS tree_orgu ON tree_orgu.child = orgu_ua.orgu_id
 			  );";
 
-		//echo $q;
 
 		$ilDB->manipulate($q);
 
