@@ -20,6 +20,12 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI {
 	protected $ilOrgUnitPermissions = [];
 
 
+	/**
+	 * ilOrgUnitDefaultPermissionFormGUI constructor.
+	 *
+	 * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_gui
+	 * @param ilOrgUnitPermission[]                        $ilOrgUnitPermissions
+	 */
 	public function __construct(BaseCommands $parent_gui, array $ilOrgUnitPermissions) {
 		$this->parent_gui = $parent_gui;
 		$this->ilOrgUnitPermissions = $ilOrgUnitPermissions;
@@ -48,8 +54,9 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI {
 
 
 	protected function initButtons() {
-		$this->setTitle($this->txt('update'));
-		$this->addCommandButton(BaseCommands::CMD_UPDATE, $this->txt(BaseCommands::CMD_UPDATE));
+		$this->setTitle($this->txt("form_title_org_default_permissions_"
+		                           . BaseCommands::CMD_UPDATE));
+		$this->addCommandButton(BaseCommands::CMD_UPDATE, $this->txt('save', true));
 		$this->addCommandButton(BaseCommands::CMD_CANCEL, $this->txt(BaseCommands::CMD_CANCEL));
 	}
 
@@ -58,12 +65,12 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI {
 		foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
 			$header = new ilFormSectionHeaderGUI();
 			$context = $ilOrgUnitPermission->getContext()->getContext();
-			$header->setTitle($this->txt('org_perm_set_' . $context));
+			$header->setTitle($this->txt("obj_{$context}", false));
 			$this->addItem($header);
 
 			// Checkboxes
 			foreach ($ilOrgUnitPermission->getPossibleOperations() as $operation) {
-				$title = $this->txt('org_op_' . $operation->getOperationString());
+				$title = $this->txt("org_op_{$operation->getOperationString()}", false);
 				$id = $operation->getOperationId();
 				$cb = new ilCheckboxInputGUI($title, "operations[{$context}][{$id}]");
 				$this->addItem($cb);
