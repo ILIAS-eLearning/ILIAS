@@ -12,6 +12,16 @@ use IMSGlobal\LTI\ToolProvider\ToolConsumer;
  */
 class ilLTIToolConsumer extends ToolConsumer
 {
+	/**
+	 * @var int ref_id
+	 */
+	protected $ref_id;
+
+
+	/**
+	 * @var int ext consumer id
+	 */
+	protected $ext_consumer_id = 0;
 
 	/**
 	 * @var string
@@ -38,6 +48,26 @@ class ilLTIToolConsumer extends ToolConsumer
 	 */
 	protected $role = 0;
 
+	
+	public function setExtConsumerId($a_id)
+	{
+		$this->ext_consumer_id = $a_id;
+	}
+	
+	public function getExtConsumerId()
+	{
+		return $this->ext_consumer_id;
+	}
+	
+	public function setRefId($a_ref_id)
+	{
+		$this->ref_id = $a_ref_id;
+	}
+	
+	public function getRefId()
+	{
+		return $this->ref_id;
+	}
 
 	/**
 	 * @return integer
@@ -132,7 +162,7 @@ class ilLTIToolConsumer extends ToolConsumer
 	 */
 	public function setActive($value)
 	{
-		$this->enabled = $value;
+		$this->active = $value;
 	}
 
 	/**
@@ -140,7 +170,7 @@ class ilLTIToolConsumer extends ToolConsumer
 	 */
 	public function getActive()
 	{
-		return $this->enabled;
+		return $this->active;
 	}
 
 	/**
@@ -161,73 +191,73 @@ class ilLTIToolConsumer extends ToolConsumer
 
 // local_role_always_member, default_skin
 
+	/**
+	 * Load the tool consumer from the database by its record ID.
+	 *
+	 * @param int             $id                The consumer key record ID
+	 * @param DataConnector   $dataConnector    Database connection object
+	 *
+	 * @return object ToolConsumer       The tool consumer object
+	 */
+	public static function fromRecordId($id, $dataConnector)
+	{
+		$toolConsumer = new ilLTIToolConsumer(null, $dataConnector);
 
+		$toolConsumer->initialize();
+		$toolConsumer->setRecordId($id);
+		if(!$dataConnector->loadToolConsumerILIAS($toolConsumer))
+		{
+			$toolConsumer->initialize();
+		}
+		return $toolConsumer;
+	}
 	
-/**
- * Load the tool consumer from the database by its record ID.
- *
- * @param int             $id                The consumer key record ID
- * @param DataConnector   $dataConnector    Database connection object
- *
- * @return object ToolConsumer       The tool consumer object
- */
-    public static function fromRecordId($id, $dataConnector)
-    {
+	/**
+	 * 
+	 * @param type $id
+	 * @param type $dataConnector
+	 */
+	public static function fromExternalConsumerId($id, $dataConnector)
+	{
+		$toolConsumer = new ilLTIToolConsumer(null, $dataConnector);
+		$toolConsumer->initialize();
+		$toolConsumer->setExtConsumerId($id);
+		if(!$dataConnector->loadGlobalToolConsumerSettings($toolConsumer))
+		{
+			$toolConsumer->initialize();
+		}
+		return $toolConsumer;
+	}
 
-        $toolConsumer = new ilLTIToolConsumer(null, $dataConnector);
 
-        $toolConsumer->initialize();
-        $toolConsumer->setRecordId($id);
-        if (!$dataConnector->loadToolConsumerILIAS($toolConsumer)) {
-            $toolConsumer->initialize();
-        }
-        return $toolConsumer;
-
-    }
-
-/**
- * Save the tool consumer to the database with ILIAS extension.
- *
- * @return boolean True if the object was successfully saved
- */
-    public function saveLTI($dataConnector)
-    {
-        $ok = $dataConnector->saveToolConsumerILIAS($this);
-        return $ok;
-    }
-
-//AB HIER WEG	
-	// /**
-	 // * @param integer $id
-	 // */
-	// public function setId($id)
-	// {
-		// $this->id = $id;
-	// }	
-
-	 // public function __construct($key = null, $dataConnector = null, $autoEnable = false)
-    // {
-
-        // $this->initialize();
-        // // if (empty($dataConnector)) {
-            // // $dataConnector = DataConnector::getDataConnector();
-            // // $dataConnector = DataConnector::getDataConnector(,"ilias");
-        // // }
-        // $this->dataConnector = $dataConnector;
-		// // require_once 'Services/LTI/classes/class.ilLTIDataConnector.php';
-		// // $this->dataConnector = new ilLTIDataConnector();
-        // if (!empty($key)) {
-            // $this->load($key, $autoEnable);
-        // } else {
-            // // $this->secret = DataConnector::getRandomString(32);
-        // }
-
-    // }
-
+	/**
+	 * Save global consumer settings.
+	 * @param ilLTIDataConnector $dataConnector
+	 */
+	public function saveGlobalToolConsumerSettings(ilLTIDataConnector $dataConnector)
+	{
+		$dataConnector->saveGlobalToolConsumerSettings($this);
+	}
 	
-	// public static function getAllConsumers() {
-		// return self::get();
-	// }
+	/**
+	 * Delete global tool consumer settings
+	 * @param ilLTIDataConnector $dataConnector
+	 */
+	public function deleteGlobalToolConsumerSettings(ilLTIDataConnector $dataConnector)
+	{
+		$dataConnector->deleteGlobalToolConsumerSettings($this);
+	}
 
+
+	/**
+	 * Save the tool consumer to the database with ILIAS extension.
+	 *
+	 * @return boolean True if the object was successfully saved
+	 */
+	public function saveLTI($dataConnector)
+	{
+		$ok = $dataConnector->saveToolConsumerILIASExtensions($this);
+		return $ok;
+	}
 
 }

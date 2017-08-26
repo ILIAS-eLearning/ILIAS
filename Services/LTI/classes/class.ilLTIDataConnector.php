@@ -128,7 +128,31 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         return $ok;
 
     }
+	
+	/**
+	 * Load global tool consumer settings in consumer
+	 * @param ilLTIToolConsumer $consumer
+	 */
+	public function loadGlobalToolConsumerSettings(ilLTIToolConsumer $consumer)
+	{
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
+		$query = 'SELECT * from lti_ext_consumer where id = '. $ilDB->quote($consumer->getExtConsumerId(),'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$consumer->setTitle($row->title);
+			$consumer->setDescription($row->description);
+			$consumer->setPrefix($row->prefix);
+			$consumer->setLanguage($row->user_language);
+			$consumer->setRole($row->role);
+			$consumer->setActive($row->active);
+			return true;
+		}
+		return false;
+	}
+	
 /**
  * Load extended tool consumer object with ILIAS extension.
  *
@@ -295,14 +319,62 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 		return $true;
     }
 
-/**
- * Save extended tool consumer object with ILIAS extensions.
- *
- * @param ToolConsumer $consumer Consumer object
- *
- * @return boolean True if the tool consumer object was successfully saved
- */
-    public function saveToolConsumerILIAS($consumer)
+	/**
+	 * Save lti_ext_consumer
+	 * @global type $DIC
+	 */
+	public function saveGlobalToolConsumerSettings(ilLTIToolConsumer $consumer)
+	{
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		
+		if(!$consumer->getExtConsumerId())
+		{
+			// create
+			$new_id = $ilDB->nextId('lti_ext_consumer');
+			$query = 'INSERT INTO lti_ext_consumer (title, description, prefix, user_language, role, id, active) ' .
+				'VALUES (%s, %s, %s, %s, %s, %s)';
+			$types = ["text", "text", "text", "text", "integer", "integer", 'integer'];
+			$values = [
+				$consumer->getTitle(),
+				$consumer->getDescription(),
+				$consumer->getPrefix(),
+				$consumer->getLanguage(),
+				$consumer->getRole(),
+				$new_id,
+				(int) $consumer->getActive()
+			];
+			$ilDB->manipulateF($query,$types,$values);
+			$consumer->setExtConsumerId($new_id);
+			return true;
+		}
+		else
+		{
+			// update
+			$query = 'update lti_ext_consumer set '.
+				'title  = '. $ilDB->quote($consumer->getTitle(),'text').', '.
+				'description = '.$ilDB->quote($consumer->getDescription(),'text').', '.
+				'prefix = '.$ilDB->quote($consumer->getPrefix(),'text').', '.
+				'user_language = '.$ilDB->quote($consumer->getLanguage(),'text').', '.
+				'role = ' . $ilDB->quote($consumer->getRole(),'integer').', '.
+				'active = '.$ilDB->quote((int) $consumer->getActive(),'integer').' '.
+				'where id = '.$ilDB->quote($consumer->getExtConsumerId(),'integer');
+			$ilDB->manipulate($query);
+			return true;
+		}
+		
+		
+	}
+	
+
+	/**
+	 * Save extended tool consumer object with ILIAS extensions.
+	 *
+	 * @param ToolConsumer $consumer Consumer object
+	 *
+	 * @return boolean True if the tool consumer object was successfully saved
+	 */
+	public function saveToolConsumerILIAS($consumer)
     {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
@@ -386,6 +458,30 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 		
 		return $true;
     }
+	
+	/**
+	 *  Delete global tool consumer settings
+	 */
+	public function deleteGlobalToolConsumerSettings(ilLTIToolConsumer $consumer)
+	{
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+
+        $query = 'DELETE FROM lti_ext_consumer WHERE id = %s';
+		$types = array("integer");
+		$values = array($consumer->getExtConsumerId());
+		$ilDB->manipulateF($query,$types,$values);
+
+        $query = 'DELETE FROM lti_ext_consumer_otype WHERE consumer_id = %s';
+		$types = array("integer");
+		$values = array($consumer->getExtConsumerId());
+		$ilDB->manipulateF($query,$types,$values);
+		
+		
+		// delete all assigned lti consumers
+		$consumer->initialize();
+		return true;
+	}
 
 /**
  * Delete tool consumer object.
@@ -512,6 +608,34 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         return $ok;
 
     }
+	
+	/**
+	 * Get global consumer settings
+	 * @global type $DIC
+	 * @return \ilLTIToolConsumer[]
+	 */
+	public function getGlobalToolConsumerSettings()
+	{
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+
+		$consumers = array();
+		$query = 'SELECT * from lti_ext_consumer ';
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$consumer = new ilLTIToolConsumer(null, $this);
+			$consumer->setExtConsumerId($row->id);
+			$consumer->setTitle($row->title);
+			$consumer->setDescription($row->description);
+			$consumer->setPrefix($row->prefix);
+			$consumer->setLanguage($row->user_language);
+			$consumer->setRole($row->role);
+			$consumer->setActive($row->active);
+			$consumers[] = $consumer;
+		}
+		return $consumers;
+	}
 
 	
 

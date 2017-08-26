@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-20016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
-//require_once 'Services/LTI/classes/ActiveRecord/class.ilLTIExternalConsumer.php';
-
 /**
  * TableGUI class for LTI consumer listing
  *
@@ -14,27 +11,25 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilObjectConsumerTableGUI extends ilTable2GUI
 {
-	function __construct($a_parent_obj, $a_parent_cmd, $a_template_context)
+	function __construct($a_parent_obj, $a_parent_cmd)
 	{
 		global $ilCtrl, $lng;
 
 		$this->setId("ltioconsumer");
 
-		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->setLimit(9999);
 
 		$this->setTitle($lng->txt("lti_object_consumer"));
 
+		$this->addColumn($lng->txt("active"), "active");
 		$this->addColumn($lng->txt("title"), "title");
 		$this->addColumn($lng->txt("description"), "description");
 		$this->addColumn($lng->txt("prefix"), "prefix");
-		$this->addColumn($lng->txt("lti_consumer_key"), "key");
-		$this->addColumn($lng->txt("lti_consumer_secret"), "secret");
 		$this->addColumn($lng->txt("in_use"), "language");
 		$this->addColumn($lng->txt("objects"), "objects");
 		$this->addColumn($lng->txt("role"), "role");
-		$this->addColumn($lng->txt("active"), "active");
 		$this->addColumn($lng->txt("actions"), "");
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -49,19 +44,16 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 	 */
 	function getItems()
 	{
-		// $consumer_data = ilLTIExternalConsumer::getAll();
-		require_once 'Services/LTI/classes/class.ilLTIDataConnector.php';
 		$dataConnector = new ilLTIDataConnector();
-		$consumer_data = $dataConnector->getToolConsumers();
+		
+		$consumer_data = $dataConnector->getGlobalToolConsumerSettings();
 		$result = array();
 		foreach ($consumer_data as $cons) {
 			$result[] = array(
-				"id" => $cons->getId(),
+				"id" => $cons->getExtConsumerId(),
 				"title" => $cons->getTitle(),
 				"description" => $cons->getDescription(),
 				"prefix" => $cons->getPrefix(),
-				"key" => $cons->getKey(),
-				"secret" => $cons->getSecret(),
 				"language" => $cons->getLanguage(),
 				"role" => $cons->getRole(),
 				"active" => $cons->getActive()
@@ -89,10 +81,10 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 		$obj_types = $this->parent_obj->object->getActiveObjectTypes($a_set["id"]);
 		if($obj_types)
 		{
-			foreach($obj_types as $line)
+			foreach($obj_types as $obj_type)
 			{
 				$this->tpl->setCurrentBlock("objects");
-				$this->tpl->setVariable("OBJECTS", $line);
+				$this->tpl->setVariable("OBJECTS", $GLOBALS['DIC']->language()->txt('objs_'.$obj_type));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -100,7 +92,6 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable("NO_OBJECTS", "-");
 		}
-		require_once ("Services/AccessControl/classes/class.ilObjRole.php");
 
 		$obj_role = new ilObjRole($a_set["role"]);
 		$this->tpl->setVariable("TXT_ROLE", $obj_role->getTitle());
@@ -115,8 +106,6 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_ACTIVE", $lng->txt('inactive'));
 			$label_status = $lng->txt("activate");
 		}
-
-		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
 
 		$list = new ilAdvancedSelectionListGUI();
 		$list->setId($a_set["id"]);

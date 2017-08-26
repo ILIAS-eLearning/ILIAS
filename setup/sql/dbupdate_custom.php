@@ -524,3 +524,47 @@ if(!$ilDB->tableColumnExists("il_object_def", "lti_provider"))
 	$ilDB->addTableColumn("il_object_def", "lti_provider", $def);
 }
 ?>
+<#16>
+<?php
+if(!$ilDB->tableColumnExists('lti2_consumer','ext_consumer_id'))
+{
+	$ilDB->addTableColumn('lti2_consumer', 'ext_consumer_id', 
+		array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 4
+		)
+	);
+}
+?>
+
+<#17>
+<?php
+if(!$ilDB->tableColumnExists('lti2_consumer','ref_id'))
+{
+	$ilDB->addTableColumn('lti2_consumer', 'ref_id', 
+		array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 4
+		)
+	);
+}
+?>
+<#18>
+<?php
+if(!$ilDB->tableColumnExists('lti_ext_consumer', 'active'))
+{
+
+	$ilDB->addTableColumn(
+		'lti_ext_consumer',
+		'active',
+		[
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		]
+	);
+}
+?>
