@@ -234,7 +234,7 @@ switch($target_type)
 
 	case 'stys':
 		require_once('./Services/Style/System/classes/class.ilSystemStyleMainGUI.php');
-		ilSystemStyleMainGUI::_goto($target_id,$additional);
+		ilSystemStyleMainGUI::_goto($target_id,$target_arr);
 		break;
 
 	//

@@ -13736,3 +13736,6 @@ content#:#cont_lm_starting_point_info#:#Page being opened when clicking a learni
 content#:#cont_short_titles#:#Short Titles
 content#:#cont_short_title#:#Short Title
 content#:#cont_short_title_info#:#Short titles are used in the left-hand tree presentation and for labels in the previous/next navigation.
+style#:#open_documentation#:#Open Documentation
+style#:#ks_documentation_of_style#:#Kitchen Sink documentation of style:
+style#:#ks_documentation_of_substyle#:#Kitchen Sink documentation of sub style:
