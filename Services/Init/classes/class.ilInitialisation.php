@@ -1457,9 +1457,9 @@ class ilInitialisation
 	protected static function initLTI()
 	{
 		global $ilUser, $DIC;
-		
+		$DIC->logger()->root()->write("auth_mode: " . $ilUser->auth_mode);
 		// production
-		if ($ilUser->auth_mode == 'lti') {
+		if (strpos($ilUser->auth_mode, 'lti') !== false) {
 			$DIC->logger()->root()->write("LTI Mode!");
 			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
 			ilLTIViewGUI::getInstance()->activate(); 
