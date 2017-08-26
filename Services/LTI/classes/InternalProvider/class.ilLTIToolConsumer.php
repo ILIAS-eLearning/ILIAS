@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use IMSGlobal\LTI\ToolProvider;
+use IMSGlobal\LTI\ToolProvider\ToolConsumer;
 
 /**
  * LTI provider for LTI launch 
@@ -10,7 +10,7 @@ use IMSGlobal\LTI\ToolProvider;
  * @author Stefan Meyer <smeyer.ilias@gmx.de> 
  *
  */
-class ilLTIToolConsumer extends ToolProvider\ToolConsumer
+class ilLTIToolConsumer extends ToolConsumer
 {
 
 	/**
