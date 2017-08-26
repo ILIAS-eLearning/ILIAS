@@ -20453,4 +20453,21 @@ $ilDB->modifyTableColumn(
 	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_EDIT_SUBMISSION_GRADES, '', ilOrgUnitOperationContext::CONTEXT_EXC);
 	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_ACCESS_RESULTS, '', ilOrgUnitOperationContext::CONTEXT_SVY);
 ?>
+<#5187>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','name_setting'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'name_setting',
+			array(
+				'type' 		=> 'integer',
+				'length' 	=> 1,
+				'notnull'	=> true,
+				'default'	=> 0
+			)
+		);
+		$ilDB->query("UPDATE sahs_lm SET name_setting = 0");
+	}
+?>
 
