@@ -197,13 +197,6 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked($lm_set->get("scormdebug_global_activate"));
 		$form->addItem($cb_prop);
 
-		// scorm2004 login instead of userId for cmi.learner_id
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("scorm_login_as_learner_id"),
-			"scorm_login_as_learner_id");
-		$cb_prop->setInfo($lng->txt("scorm_login_as_learner_id_info"));
-		$cb_prop->setChecked($lm_set->get("scorm_login_as_learner_id"));
-		$form->addItem($cb_prop);
-
 		// scorm2004 disableRTECaching
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("scormdebug_disable_cache"),
 			"scormdebug_disable_cache");

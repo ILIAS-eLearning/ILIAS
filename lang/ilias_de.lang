@@ -13625,8 +13625,6 @@ adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
 adve#:#char_selector_custom_items_info6b#:#Auch Zeichenbereiche können in Unicode-Notation angegeben werden 
 adve#:#char_selector_unicode_all#:#Alle Unicode-Blöcke
 adve#:#adve_char_selector_settings#:#Zeichenauswahl
-common#:#scorm_login_as_learner_id#:#SCORM 2004: verwende ILIAS-Benutzername als cmi.learner_id
-common#:#scorm_login_as_learner_id_info#:#Lernmodule erhalten den ILIAS-Benutzernamen statt der UserId bei Abfrage von cmi.learner_id.
 content#:#cont_sc_auto_review_2004#:#Daten speichern
 content#:#cont_sc_auto_review_info_2004#:#Wenn Benutzer für ein Kapitel / SCO einen auszuwählenden Status in einer Bearbeitungssitzung erreicht haben, wird dieser festgeschrieben. Benutzer können den Status auch in späteren Bearbeitungssitzungen nicht mehr ändern. <br />Im seltenen Fall, dass das Lernmodul 'Sequencing & Navigation' gemäß SCORM 2004 nutzt, sollte die Option 'immer (empfohlen)' gewählt werden.
 content#:#cont_sc_auto_review_no#:#immer (empfohlen)
@@ -16376,3 +16374,21 @@ classification#:#clsfct_selected_objects#:#Ausgewählte Objekte
 classification#:#clsfct_back_to_cat#:#Zurück zur Kategorie
 tax#:#tax_tax_assignment#:#Taxonomiezuordnung
 tax#:#tax_tax_settings#:#Taxonomieeinstellungen
+content#:#cont_sc_id_setting#:#cmi.core.student_id entspricht
+content#:#cont_sc_id_setting_2004#:#learner_id entspricht
+content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische Id für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option 'ILIAS-Benutzername'. Der Zusatz RefId bzw. ObjId kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
+content#:#cont_sc_id_setting_user_id#:#ILIAS-UserId (Standard)
+content#:#cont_sc_id_setting_user_login#:#ILIAS-Benutzername
+content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS-UserId zuzüglich RefId des Lernmoduls
+content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS-Benutzername zuzüglich RefId des Lernmoduls
+content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS-UserId zuzüglich ObjId des Lernmoduls
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Benutzername zuzüglich ObjId des Lernmoduls
+content#:#cont_sc_name_setting#:#cmi.core.student_name entspricht
+content#:#cont_sc_name_setting_2004#:#cmi.learner_name entspricht
+content#:#cont_sc_name_setting_info#:#Name für die Anzeige im Lernmodul. Bei Lernmodulen, die sich mit einem externen Server verbinden, kann dieser Name übertragen werden.
+content#:#cont_sc_name_setting_last_firstname#:#Nachname, Vorname (Standard)
+content#:#cont_sc_name_setting_first_lastname#:#Vorname Nachname
+content#:#cont_sc_name_setting_fullname#:#(ggf. Titel) Vorname Nachname
+content#:#cont_sc_name_setting_salutation_lastname#:#Anrede Nachname
+content#:#cont_sc_name_setting_first_name#:#Vorname
+content#:#cont_sc_name_setting_no_name#:#Leerzeichen
