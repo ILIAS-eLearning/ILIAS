@@ -74,7 +74,6 @@ class ilOrgUnitGlobalSettingsGUI
 
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
-		$form->setTitle($this->lng->txt('orgu_global_set_form'));
 
 		// My Staff
 		$section = new ilFormSectionHeaderGUI();

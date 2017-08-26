@@ -14,7 +14,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-orgu#:#orgu_global_set_form#:#Global Organisational Unit Settings
 orgu#:#orgu_global_set_positions#:#Show User Data according to Organisational Unit Positions
 orgu#:#orgu_global_set_positions_type_active#:#Active for:
 orgu#:#orgu_global_set_type_changeable#:#Changeable
